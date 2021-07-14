@@ -118,7 +118,7 @@ class SendContainerV2 extends Component {
         });
     }
 
-    continueIsAllowed = () => {
+    enterAmountIsComplete = () => {
         const { selectedToken, amount } = this.state;
         const { availableNearToSend } = this.props;
         
@@ -149,7 +149,7 @@ class SendContainerV2 extends Component {
 
         // TODO: Add NEAR token data to selectedToken object instead
         const availableToSend = selectedToken.symbol === 'NEAR' ? nearTokenData.balance : selectedToken.balance;
-        const amountError = amount && amount !== '0' && !this.continueIsAllowed();
+        const enterAmountError = amount && amount !== '0' && !this.enterAmountIsComplete();
 
         return (
             <StyledContainer className='small-centered'>
@@ -161,12 +161,12 @@ class SendContainerV2 extends Component {
                         availableToSend={availableToSend}
                         availableBalance={availableNearBalance}
                         reservedForFees={reservedNearForFees}
-                        continueAllowed={this.continueIsAllowed()}
+                        continueAllowed={this.enterAmountIsComplete()}
                         onContinue={this.handleContinueToEnterRecipient}
                         onGoBack={() => redirectTo('/')}
                         selectedToken={selectedToken}
                         onClickSelectToken={() => this.setState({ view: 'selectToken' })}
-                        error={amountError}
+                        error={enterAmountError}
                     />
                 }
                 {view === 'selectToken' &&
