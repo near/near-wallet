@@ -650,7 +650,7 @@
     "linkdropLanding": {
         "title": "你收到了 NEAR 空投！",
         "desc": "你可以登录已有的账户领取，或创建新的账户领取。",
-        "ctaAccount": "登录已有账户并领取",
+        "ctaAccount": "用已登录的账户领取",
         "ctaLogin": "登录并领取",
         "ctaNew": "注册新账户并领取",
         "or": "或",
