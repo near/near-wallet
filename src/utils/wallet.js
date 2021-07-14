@@ -144,6 +144,11 @@ class Wallet {
         accountId = accountId || this.accountId;
         // TODO: Refactor so that every account just stores a flag if it's on Ledger?
 
+        // special handing for fixing issue #1919
+        if (accountId === ACCOUNT_ID_SUFFIX) {
+            return null;
+        }
+
         const accessKeys = await this.getAccessKeys(accountId);
         if (accessKeys) {
             const localKey = await this.getLocalAccessKey(accountId, accessKeys);
