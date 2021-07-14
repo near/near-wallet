@@ -40,7 +40,7 @@
     "update:static": "cp src/wasm/multisig.wasm dist/multisig.wasm && cp src/wasm/main.wasm dist/main.wasm",
     "start": "yarn update:static; parcel src/index.html --https --cert devServerCertificates/primary.crt --key devServerCertificates/private.pem",
     "prebuild": "rm -rf dist/",
-    "build": "NODE_ENV=production node ci/runBundler.js && node ci/sentry-send-release.js",
+    "build": "parcel build src/index.html && node scripts/sentry-send-release.js && yarn update:static",
     "test": "jest",
     "lint": "eslint --ext .js --ext .jsx .",
     "fix": "eslint --ext .js --ext .jsx . --fix",
