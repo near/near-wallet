@@ -1142,7 +1142,13 @@
             "balanceDetails": "Balance details",
             "transactionDetails": "Transaction Details"
         },
-        "selectTokenButtonTitle": "Select Asset"
+        "selectTokenButtonTitle": "Select Asset",
+        "selectAsset": {
+            "title": "Select Asset",
+            "assetInputPlaceholder": "Seaerch asset name",
+            "assetListNameTitle": "Name",
+            "asssetListBalanceTitle": "Available to send"
+        }
     },
 
     "sign": {

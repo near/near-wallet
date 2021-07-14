@@ -1,10 +1,8 @@
 import React from 'react';
 
-import { formatTokenAmount } from '../../utils/amounts';
+import { formatTokenAmount, removeTrailingZeros } from '../../utils/amounts';
 
 const FRAC_DIGITS = 5;
-
-const removeTrailingZeros = (amount) => amount.replace(/\.?0*$/, '');
 
 const formatToken = (amount, decimals) => {
     if (amount === '0') {

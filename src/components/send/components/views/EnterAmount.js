@@ -39,7 +39,8 @@ const EnterAmount = ({
     continueAllowed,
     onContinue,
     onGoBack,
-    selectedToken
+    selectedToken,
+    onClickSelectToken
 }) => {
 
     return (
@@ -57,12 +58,14 @@ const EnterAmount = ({
                 <Translate id='button.useMax'/>
             </FormButton>
             <SelectTokenButton
-                symbol={selectedToken.symbol}
+                token={selectedToken}
+                onClick={onClickSelectToken}
             />
             <BalanceDetails
                 availableToSend={availableToSend}
                 availableBalance={availableBalance}
                 reservedForFees={reservedForFees}
+                selectedToken={selectedToken}
             />
             <div className='main-buttons-container'>
                 <FormButton

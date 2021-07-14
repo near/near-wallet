@@ -55,6 +55,8 @@ const TabSelector = () => {
     const sendMoneyRoute = '/send-money';
     const receiveMoneyRoute = '/receive-money';
 
+    //TODO: Replace tab selector in Wallet.js with this component
+
     return (
         <StyledContainer>
             <div 

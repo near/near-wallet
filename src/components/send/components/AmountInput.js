@@ -40,7 +40,7 @@ const AmountInput = ({ value, onChange, error, autoFocus = true }) => {
             placeholder='0'
             value={value}
             onChange={e => onChange(e.target.value)}
-            autoFocus={autoFocus}
+            autoFocus={!value ? autoFocus : false}
         />
     );
 };
