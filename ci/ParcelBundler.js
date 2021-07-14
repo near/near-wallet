@@ -111,7 +111,8 @@ class ParcelBundler {
 
         return {
             ...this.getBaseConfig(),
-            publicUrl: this.buildCloudflarePath('/rnd/testnet/')
+            // FIXME: Re-enable once we have figured out render.com SSL problems with `wallet.testnet.near.org`?
+            // publicUrl: this.buildCloudflarePath('/rnd/testnet/')
         };
     }
 
