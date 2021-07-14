@@ -7,7 +7,7 @@ import { KEY_ACTIVE_ACCOUNT_ID } from '../../utils/wallet';
 const PrivateRouteLimited = ({component: Component, render, account, refreshAccountOwnerEnded, ...rest}) => (
     <Route 
         {...rest} 
-        render={ render || ((props) => (
+        render={(props) => (
             !localStorage.getItem(KEY_ACTIVE_ACCOUNT_ID)
                 ? (
                     <Redirect
@@ -16,8 +16,11 @@ const PrivateRouteLimited = ({component: Component, render, account, refreshAcco
                         }}
                     />
                 )
-                : <Component {...props} />
-        ))}
+                : ( Component // <Route component> takes precedence over <Route render></Route>
+                    ? <Component {...props} />
+                    : (render ? render(props) : <></>)
+                )
+        )}
     />
 );
 
