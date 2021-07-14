@@ -225,7 +225,6 @@ class Routing extends Component {
                 this.props.history.push(pathname + query);
             }
         };
-
         const { isInactiveAccount } = this.state;
 
         reportUiActiveMixpanelThrottled();

@@ -251,7 +251,7 @@ const StyledContainer = styled(Container)`
     }
 `;
 
-export function Wallet(props) {
+export function Wallet({ tab, setTab } ) {
     const [exploreApps, setExploreApps] = useState(null);
     const [showLinkdropModal, setShowLinkdropModal] = useState(null);
     const accountId = useSelector(state => selectAccountId(state));
@@ -264,7 +264,6 @@ export function Wallet(props) {
     const tokens = useSelector(state => selectTokensDetails(state));
     const nft = useSelector(selectNFT);
     const tokensLoader = actionsPendingByPrefix('TOKENS/') || !balance?.total;
-    const { tab, setTab } = props;
 
     useEffect(() => {
         if (accountId) {
