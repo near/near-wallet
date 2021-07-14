@@ -60,14 +60,18 @@ const SelectToken = ({ onClickGoBack, fungibleTokens, onSelectToken }) => {
                 <BackArrowButton onClick={onClickGoBack}/>
                 <Translate id='sendV2.selectAsset.title'/>
             </div>
-            <input
-                placeholder='Search asset name'
-                value={searchValue}
-                onChange={(e) => setSearchValue(e.target.value)}
-            />
+            <Translate>
+                {({ translate }) => (
+                    <input
+                        placeholder={translate('sendV2.selectAsset.assetInputPlaceholder')}
+                        value={searchValue}
+                        onChange={(e) => setSearchValue(e.target.value)}
+                    />
+                )}
+            </Translate>
             <div className='list-header'>
-                <span>Name</span>
-                <span>Available to send</span>
+                <span><Translate id='sendV2.selectAsset.assetListNameTitle'/></span>
+                <span><Translate id='sendV2.selectAsset.asssetListBalanceTitle'/></span>
             </div>
             <Tokens tokens={fungibleTokens} showTokenContract={false} onClick={onSelectToken}/>
         </StyledContainer>
