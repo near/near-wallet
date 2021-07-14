@@ -212,17 +212,20 @@ class Routing extends Component {
     // }
 
     render() {
-        const { search, pathname, query: { tab } } = this.props.router.location;
+        const { search, query: { tab }, hash } = this.props.router.location;
         const { account } = this.props;
         const setTab = (nextTab) => {
             if (tab !== nextTab) {
-                let query = "";
+                const destinationSearch = new URLSearchParams(search);
+
                 if (nextTab) {
-                    const params = new URLSearchParams(search);
-                    params.set("tab", nextTab);
-                    query = "?" + params.toString();
+                    destinationSearch.set('tab', nextTab);
+                } else {
+                    destinationSearch.delete('tab');
                 }
-                this.props.history.push(pathname + query);
+
+                // Ensure any `hash` value remains in the URL when we toggle tab
+                this.props.history.push({ search: destinationSearch.toString(), hash });
             }
         };
         const { isInactiveAccount } = this.state;
@@ -268,7 +271,7 @@ class Routing extends Component {
                             }} />
                             <GuestLandingRoute
                                 exact
-                                path='/' 
+                                path='/'
                                 render={(props) => isInactiveAccount ? <ActivateAccountWithRouter {...props}/> : <Wallet tab={tab} setTab={setTab} {...props} />}
                                 accountFound={this.props.account.localStorage?.accountFound}
                             />
