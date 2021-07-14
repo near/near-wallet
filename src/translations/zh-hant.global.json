@@ -650,7 +650,7 @@
     "linkdropLanding": {
         "title": "你收到了 NEAR 空投！",
         "desc": "你可以登錄已有的賬戶領取，或創建新的賬戶領取。",
-        "ctaAccount": "登錄已有賬戶並領取",
+        "ctaAccount": "用已登錄的賬戶領取",
         "ctaLogin": "登錄並領取",
         "ctaNew": "註冊新賬戶並領取",
         "or": "或",
