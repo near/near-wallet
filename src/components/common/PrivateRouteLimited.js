@@ -4,7 +4,7 @@ import { Route, withRouter, Redirect } from 'react-router-dom';
 
 import { KEY_ACTIVE_ACCOUNT_ID } from '../../utils/wallet';
 
-const PrivateRouteLimited = ({component: Component, account, refreshAccountOwnerEnded, ...rest}) => (
+const PrivateRouteLimited = ({component: Component, render, account, refreshAccountOwnerEnded, ...rest}) => (
     <Route 
         {...rest} 
         render={(props) => (
@@ -16,7 +16,10 @@ const PrivateRouteLimited = ({component: Component, account, refreshAccountOwner
                         }}
                     />
                 )
-                : <Component {...props} />
+                : ( Component // <Route component> takes precedence over <Route render></Route>
+                    ? <Component {...props} />
+                    : (render ? render(props) : <></>)
+                )
         )}
     />
 );

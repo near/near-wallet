@@ -251,7 +251,7 @@ const StyledContainer = styled(Container)`
     }
 `;
 
-export function Wallet() {
+export function Wallet({ tab, setTab } ) {
     const [exploreApps, setExploreApps] = useState(null);
     const [showLinkdropModal, setShowLinkdropModal] = useState(null);
     const accountId = useSelector(state => selectAccountId(state));
@@ -264,7 +264,6 @@ export function Wallet() {
     const tokens = useSelector(state => selectTokensDetails(state));
     const nft = useSelector(selectNFT);
     const tokensLoader = actionsPendingByPrefix('TOKENS/') || !balance?.total;
-    const [tokenView, setTokenView] = useState('fungibleTokens');
 
     useEffect(() => {
         if (accountId) {
@@ -306,27 +305,26 @@ export function Wallet() {
                 <div className='left'>
                     <div className='tab-selector'>
                         <div
-                            className={classNames(['tab-balances', tokenView !== 'fungibleTokens' ? 'inactive' : ''])}
-                            onClick={() => setTokenView('fungibleTokens')}
+                            className={classNames(['tab-balances', tab === 'collectibles' ? 'inactive' : ''])}
+                            onClick={() => setTab('')}
                         >
                             <Translate id='wallet.balances' />
                         </div>
                         <div
-                            className={classNames(['tab-collectibles', tokenView !== 'nonFungibleTokens' ? 'inactive' : ''])}
-                            onClick={() => setTokenView('nonFungibleTokens')}
+                            className={classNames(['tab-collectibles', tab !== 'collectibles' ? 'inactive' : ''])}
+                            onClick={() => setTab('collectibles')}
                         >
                             <Translate id='wallet.collectibles' />
                         </div>
                     </div>
-                    {tokenView === 'fungibleTokens' &&
-                        <FungibleTokens
+                    {tab === 'collectibles'
+                        ? <NFTs tokens={sortedNFTs} />
+                        : <FungibleTokens
                             balance={balance}
                             tokensLoader={tokensLoader}
                             sortedTokens={sortedTokens}
                         />
-                    }
-                    {tokenView === 'nonFungibleTokens' &&
-                        <NFTs tokens={sortedNFTs} />
+
                     }
                 </div>
                 <div className='right'>
