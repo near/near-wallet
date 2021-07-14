@@ -1114,7 +1114,6 @@
             "insufficient": "You are attempting to send your entire available balance. At least <b>${data} NEAR</b> must be reserved to cover transaction fees."
         }
     },
-
     "sendV2": {
         "TXEntry": {
             "title": {
@@ -1127,8 +1126,10 @@
                 "receiverId": "Sent to",
                 "timeStamp": "Date & time",
                 "reservedForFees": "Reserved for fees",
-                "availableBalane": "Available balance",
-                "availableToSend": "Available to Send"
+                "availableBalance": "Available balance",
+                "availableToSend": "Available to Send",
+                "from": "From",
+                "to": "To"
             },
             "status": {
                 "SuccessValue": "Successful",
@@ -1136,12 +1137,11 @@
                 "notAvailable": "Status not available"
             }
         },
-        "availableToSend": {
-            "availableToSend": "Available to Send",
-            "availableBalance": "Available balance",
-            "reservedForFees": "Reserved for fees",
-            "balanceDetails": "Balance details"
-        }
+        "accordionTriggerTitle": {
+            "balanceDetails": "Balance details",
+            "transactionDetails": "Transaction Details"
+        },
+        "selectTokenButtonTitle": "Select Asset"
     },
 
     "sign": {

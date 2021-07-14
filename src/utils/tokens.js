@@ -10,7 +10,7 @@ export const getLikelyTokenContracts = (accountId) => (
 );
 
 export const getMetadata = async (contractName, accountId) => {
-    const account = await wallet.getAccountBasic(accountId);
+    const account = wallet.getAccountBasic(accountId);
     
     // FungibleTokenMetadata interface
     // https://github.com/near/NEPs/blob/master/specs/Standards/FungibleToken/Metadata.md
@@ -23,7 +23,7 @@ export const getMetadata = async (contractName, accountId) => {
 };
 
 export const getBalanceOf = async (contractName, accountId) => {
-    const account = await wallet.getAccountBasic(accountId);
+    const account = wallet.getAccountBasic(accountId);
     const balance = await account.viewFunction(contractName, 'ft_balance_of', { account_id: accountId }).catch(logError);
     return {
         contractName,

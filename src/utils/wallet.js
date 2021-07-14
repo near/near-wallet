@@ -15,6 +15,7 @@ import {
     finishAccountSetup,
     selectAccount
 } from '../actions/account';
+import FungibleTokens from '../services/FungibleTokens';
 import sendJson from '../tmp_fetch_send_json';
 import { decorateWithLockup } from './account-with-lockup';
 import { getAccountIds } from './helper-api';
@@ -126,6 +127,11 @@ class Wallet {
             localStorage.getItem(KEY_WALLET_ACCOUNTS) || '{}'
         );
         this.accountId = localStorage.getItem(KEY_ACTIVE_ACCOUNT_ID) || '';
+        this.createFungibleTokensInstance();
+    }
+
+    createFungibleTokensInstance() {
+        this.fungibleTokens = this.accountId && new FungibleTokens(this.getAccountBasic(this.accountId));
     }
 
     async getLocalAccessKey(accountId, accessKeys) {
@@ -450,6 +456,7 @@ class Wallet {
             return false;
         }
         this.accountId = accountId;
+        this.createFungibleTokensInstance();
         this.save();
     }
 
@@ -636,7 +643,7 @@ class Wallet {
         return availableKeys;
     }
 
-    async getAccountBasic(accountId) {
+    getAccountBasic(accountId) {
         return new nearApiJs.Account(this.connection, accountId);
     }
 
@@ -858,6 +865,7 @@ class Wallet {
             // temp account
             this.connection = connection;
             this.accountId = accountId;
+            this.createFungibleTokensInstance();
             let account = await this.getAccount(accountId);
             let recoveryKeyIsFAK = false;
             // check if recover access key is FAK and if so add key without 2FA

@@ -19,10 +19,10 @@ const RawAmount = ({ symbol, amount, decimals }) => {
     }
 };
 
-const Amount = ({ symbol, amount, decimals, translateIdTitle, translateIdInfoTooltip }) => {
+const Amount = ({ className, symbol, amount, decimals, translateIdTitle, translateIdInfoTooltip }) => {
     /* TODO: Handle long amounts */
     return (
-        <StyledContainer>
+        <StyledContainer className={className}>
             <Translate id={translateIdTitle} />
             {translateIdInfoTooltip &&
                 <Tooltip translate={translateIdInfoTooltip}/>
