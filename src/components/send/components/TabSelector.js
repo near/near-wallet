@@ -27,6 +27,7 @@ const StyledContainer = styled.div`
         cursor: pointer;
         font-size: 16px;
         transition: color 100ms;
+        min-height: 56px;
 
         &:not(.active) {
             :hover {

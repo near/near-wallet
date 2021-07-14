@@ -18,6 +18,7 @@ const BalanceDetails = ({
 
     const showBreakDown = selectedToken.symbol === 'NEAR';
 
+    /* TODO: Add error state */
     return (
         <Breakdown className={classNames(['available-to-send-breakdown' , open ? 'open' : ''])}>
             <Amount

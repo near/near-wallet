@@ -40,7 +40,8 @@ const EnterAmount = ({
     onContinue,
     onGoBack,
     selectedToken,
-    onClickSelectToken
+    onClickSelectToken,
+    error
 }) => {
 
     return (
@@ -49,6 +50,7 @@ const EnterAmount = ({
             <AmountInput
                 value={amount}
                 onChange={onChangeAmount}
+                error={error}
             />
             <FormButton
                 onClick={onSetMaxAmaount}
@@ -68,6 +70,7 @@ const EnterAmount = ({
                 selectedToken={selectedToken}
             />
             <div className='main-buttons-container'>
+                {/* TODO: Add error state */}
                 <FormButton
                     color='dark-gray'
                     onClick={onContinue}
