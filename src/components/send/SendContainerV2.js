@@ -58,6 +58,7 @@ class SendContainerV2 extends Component {
     }
 
     handleChangeAmount = (amount) => {
+        // FIX: Add block when entering more than max decimals allowed
         this.setState({ amount, maxAmount: false });
     }
 
