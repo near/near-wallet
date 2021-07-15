@@ -230,7 +230,7 @@ class Wallet {
 
             return {
                 ...state,
-                has2fa: await TwoFactor.has2faEnabled(account),
+                has2fa: account.has2fa,
                 balance: {
                     available: ''
                 },
@@ -654,9 +654,11 @@ class Wallet {
 
     async getAccount(accountId, limitedAccountData = false) {
         let account = new nearApiJs.Account(this.connection, accountId);
-        if (await TwoFactor.has2faEnabled(account)) {
+        has2fa = await TwoFactor.has2faEnabled(account)
+        if (has2fa) {
             account = new TwoFactor(this, accountId);
         }
+        account.has2fa = has2fa
 
         // TODO: Check if lockup needed somehow? Should be changed to async? Should just check in wrapper?
         if (limitedAccountData) {
