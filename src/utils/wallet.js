@@ -225,7 +225,7 @@ class Wallet {
                 ? []
                 : await this.getAccessKeys() || [];
             const ledgerKey = accessKeys.find(key => key.meta.type === 'ledger');
-            const account = await this.getAccount(this.accountId);
+            const account = await this.getAccount(this.accountId, limitedAccountData);
             const state = await account.state();
 
             return {
@@ -652,12 +652,16 @@ class Wallet {
         return new nearApiJs.Account(this.connection, accountId);
     }
 
-    async getAccount(accountId) {
+    async getAccount(accountId, limitedAccountData = false) {
         let account = new nearApiJs.Account(this.connection, accountId);
         if (await TwoFactor.has2faEnabled(account)) {
             account = new TwoFactor(this, accountId);
         }
+
         // TODO: Check if lockup needed somehow? Should be changed to async? Should just check in wrapper?
+        if (limitedAccountData) {
+            return account
+        }
         return decorateWithLockup(account);
     }
 
