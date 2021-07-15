@@ -650,7 +650,7 @@
     "linkdropLanding": {
         "title": "你收到了 NEAR 空投！",
         "desc": "你可以登录已有的账户领取，或创建新的账户领取。",
-        "ctaAccount": "登录已有账户并领取",
+        "ctaAccount": "用已登录的账户领取",
         "ctaLogin": "登录并领取",
         "ctaNew": "注册新账户并领取",
         "or": "或",
@@ -1267,8 +1267,8 @@
         "desc": "注意：这是预发布版本 NEAR 钱包，可能有 Bugs，这些 Bugs 可能会导致丢失通证。继续使用此版本则表示你理解并接受此风险，并知晓 NEAR 钱包团队将无法帮助你。"
     },
     "landing": {
-        "title": "NEAR 已来临。",
-        "desc": "使用 <span>NEAR 钱包</span>安全地存储并质押你的 NEAR 和其他通证。",
+        "title": "NEAR 数字钱包",
+        "desc": "使用 <span>NEAR 钱包</span>安全地存储、使用您的资产。",
         "or": "或",
         "banner": "NEAR 钱包已经在内测"
     },

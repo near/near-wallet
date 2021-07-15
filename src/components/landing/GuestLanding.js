@@ -5,7 +5,6 @@ import styled from 'styled-components';
 import iPhoneMockup from '../../images/iphone-mockup.png';
 import FormButton from '../common/FormButton';
 import Container from '../common/styled/Container.css';
-import EmailSubscribe from './EmailSubscribe';
 import LandingBackground from './LandingBackground';
 
 const StyledContainer = styled.div`
@@ -154,7 +153,6 @@ export function GuestLanding() {
                 </div>
                 <div className='img-wrapper'><img src={iPhoneMockup} alt='Sign up'/></div>
             </Container>
-            <EmailSubscribe/>
         </StyledContainer>
     );
 }

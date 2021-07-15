@@ -212,8 +212,22 @@ class Routing extends Component {
     // }
 
     render() {
-        const { search } = this.props.router.location;
+        const { search, query: { tab }, hash } = this.props.router.location;
         const { account } = this.props;
+        const setTab = (nextTab) => {
+            if (tab !== nextTab) {
+                const destinationSearch = new URLSearchParams(search);
+
+                if (nextTab) {
+                    destinationSearch.set('tab', nextTab);
+                } else {
+                    destinationSearch.delete('tab');
+                }
+
+                // Ensure any `hash` value remains in the URL when we toggle tab
+                this.props.history.push({ search: destinationSearch.toString(), hash });
+            }
+        };
         const { isInactiveAccount } = this.state;
 
         reportUiActiveMixpanelThrottled();
@@ -257,8 +271,8 @@ class Routing extends Component {
                             }} />
                             <GuestLandingRoute
                                 exact
-                                path='/' 
-                                component={isInactiveAccount ? ActivateAccountWithRouter : Wallet}
+                                path='/'
+                                render={(props) => isInactiveAccount ? <ActivateAccountWithRouter {...props}/> : <Wallet tab={tab} setTab={setTab} {...props} />}
                                 accountFound={this.props.account.localStorage?.accountFound}
                             />
                             <Route
