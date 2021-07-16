@@ -1,6 +1,6 @@
 import { createActions } from 'redux-actions';
-import { selectTokenDetails } from '../reducers/tokens';
 
+import { selectTokenDetails } from '../reducers/tokens';
 import { showAlert } from '../utils/alerts';
 import { wallet } from '../utils/wallet';
 import { WalletError } from '../utils/walletError';
@@ -20,41 +20,47 @@ export const transfer = ({
         memo
     }
 }) => async (dispatch, getState) => {
-    if (type === TOKEN_TYPES.NEAR) {
-        const { transaction, status } = await dispatch(send.transfer.near(receiverId, amount));
 
-        if (status?.SuccessValue) {
-            dispatch(send.setTxStatus({
-                hash: transaction.hash,
-                newStatus: 'success'
+    switch (type) {
+        case TOKEN_TYPES.NEAR: {
+            const { transaction, status } = await dispatch(send.transfer.near(receiverId, amount));
+
+            if (status?.SuccessValue) {
+                dispatch(send.setTxStatus({
+                    hash: transaction.hash,
+                    newStatus: 'success'
+                }));
+            }
+            break;
+        }
+        case TOKEN_TYPES.NEP141: {
+            if (isStorageBalanceAvailable === false) {
+                await dispatch(send.payStorageDeposit(contractName, receiverId));
+            }
+
+            const { transaction: { hash }, status } = await dispatch(send.transfer.nep141({
+                token: { 
+                    contractName,
+                    metadata: selectTokenDetails(getState(), contractName)
+                },
+                amount,
+                receiverId,
+                memo
             }));
-        }
-    } else if(type === TOKEN_TYPES.NEP141) {
-        if (isStorageBalanceAvailable === false) {
-            await dispatch(send.payStorageDeposit(contractName, receiverId));
-        }
 
-        const { transaction: { hash }, status } = await dispatch(send.transfer.nep141({
-            token: { 
-                contractName,
-                metadata: selectTokenDetails(getState(), contractName)
-            },
-            amount,
-            receiverId,
-            memo
-        }));
-
-        if (!status.SuccessValue || typeof status.SuccessValue !== 'string') {
-            dispatch(send.setTxStatus({
-                hash,
-                newStatus: 'success'
-            }));
-        } else {
-            const { error_message, error_type} = status.Failure
-            throw new WalletError(error_message, error_type)
+            if (!status.SuccessValue || typeof status.SuccessValue !== 'string') {
+                dispatch(send.setTxStatus({
+                    hash,
+                    newStatus: 'success'
+                }));
+            } else {
+                const { error_message, error_type} = status.Failure;
+                throw new WalletError(error_message, error_type);
+            }
+            break;
         }
-    } else {
-        throw new WalletError(`Could not transfer unsupported token: ${type}`, 'send.unsupportedToken', { type });
+        default:
+            throw new WalletError(`Could not transfer unsupported token: ${type}`, 'send.unsupportedToken', { type });
     }
 };
 
