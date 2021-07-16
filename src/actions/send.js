@@ -45,6 +45,9 @@ export const transfer = ({
                 hash,
                 newStatus: 'success'
             }));
+        } else {
+            const { error_message, error_type} = status.Failure
+            throw new WalletError(error_message, error_type)
         }
     } else {
         throw new WalletError(`Could not transfer unsupported token: ${type}`, 'send.unsupportedToken', { type });
