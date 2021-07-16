@@ -35,7 +35,12 @@ export const transfer = ({
         }
         case TOKEN_TYPES.NEP141: {
             if (isStorageBalanceAvailable === false) {
-                await dispatch(send.payStorageDeposit(contractName, receiverId));
+                const { status } = await dispatch(send.payStorageDeposit(contractName, receiverId));
+
+                if (!status.SuccessValue || typeof status.SuccessValue !== 'string') {
+                    const { error_message, error_type} = status.Failure;
+                    throw new WalletError(error_message, error_type);
+                }
             }
 
             const { transaction: { hash }, status } = await dispatch(send.transfer.nep141({
@@ -49,13 +54,13 @@ export const transfer = ({
             }));
 
             if (!status.SuccessValue || typeof status.SuccessValue !== 'string') {
+                const { error_message, error_type} = status.Failure;
+                throw new WalletError(error_message, error_type);
+            } else {
                 dispatch(send.setTxStatus({
                     hash,
                     newStatus: 'success'
                 }));
-            } else {
-                const { error_message, error_type} = status.Failure;
-                throw new WalletError(error_message, error_type);
             }
             break;
         }
