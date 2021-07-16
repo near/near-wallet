@@ -28,7 +28,7 @@ export const transfer = ({
             if (status?.SuccessValue) {
                 dispatch(send.setTxStatus({
                     hash: transaction.hash,
-                    newStatus: 'success'
+                    status: 'success'
                 }));
             }
             break;
@@ -59,7 +59,7 @@ export const transfer = ({
             } else {
                 dispatch(send.setTxStatus({
                     hash,
-                    newStatus: 'success'
+                    status: 'success'
                 }));
             }
             break;
