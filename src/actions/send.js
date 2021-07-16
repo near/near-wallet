@@ -1,4 +1,5 @@
 import { createActions } from 'redux-actions';
+import { selectTokenDetails } from '../reducers/tokens';
 
 import { showAlert } from '../utils/alerts';
 import { wallet } from '../utils/wallet';
@@ -58,7 +59,7 @@ export const { send } = createActions({
     SEND: {
         TRANSFER: {
             NEAR: [
-                wallet.sendMoney.bind(wallet),
+                (...args) => wallet.sendMoney(...args),
                 (receiverId, amount) => ({
                     ...showAlert({ onlyError: true }),
                     receiverId,
@@ -66,7 +67,7 @@ export const { send } = createActions({
                 })
             ],
             NEP141: [
-                wallet.fungibleTokens.transfer?.bind(wallet.fungibleTokens),
+                (...args) => wallet.fungibleTokens.transfer(...args),
                 ({
                     amount,
                     receiverId
@@ -78,11 +79,11 @@ export const { send } = createActions({
             ],
         },
         PAY_STORAGE_DEPOSIT: [
-            wallet.fungibleTokens.transferStorageDeposit?.bind(wallet.fungibleTokens),
+            (...args) => wallet.fungibleTokens.transferStorageDeposit(...args),
             () => showAlert({ onlyError: true })
         ],
         IS_STORAGE_BALANCE_AVAILABLE: [
-            wallet.fungibleTokens.isStorageBalanceAvailable?.bind(wallet.fungibleTokens),
+            (...args) => wallet.fungibleTokens.isStorageBalanceAvailable(...args),
             () => showAlert({ onlyError: true })
         ],
         SET_TX_STATUS: null,
