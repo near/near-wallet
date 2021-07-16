@@ -105,7 +105,7 @@ class SendContainerV2 extends Component {
 
     }
 
-    getFormattedTokenAmount = (amount) => {
+    getFormattedTokenAmount = () => {
         const {
             selectedToken
         } = this.state;

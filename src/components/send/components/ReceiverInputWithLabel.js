@@ -17,6 +17,7 @@ const StyledContainer = styled.div`
     align-items: center;
     padding-left: 15px;
     margin-top: 50px;
+    overflow-x: hidden;
 
     &.focus {
         background-color: white;

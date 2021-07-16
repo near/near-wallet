@@ -13,7 +13,6 @@ const StyledContainer = styled.div`
     border: 1px solid #F0F0F1;
     border-radius: 8px;
     overflow: hidden;
-    margin-top: 50px;
 
     > div {
         flex: 1;

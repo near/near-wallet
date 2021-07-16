@@ -47,6 +47,8 @@ const Review = ({
     sendingToken
 }) => {
 
+    // TODO: Make amount, receiver, token clickable
+
     return (
         <StyledContainer className='buttons-bottom enter-amount'>
             <div className='header'>
