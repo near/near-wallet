@@ -6,12 +6,29 @@ import { parseTokenAmount, formatTokenAmount, removeTrailingZeros } from '../../
 import isDecimalString from '../../utils/isDecimalString';
 import Container from '../common/styled/Container.css';
 import EnterAmount from './components/views/EnterAmount';
+import EnterReceiver from './components/views/EnterReceiver';
+import Review from './components/views/Review';
 import SelectToken from './components/views/SelectToken';
 
 //TODO: Handle min-height when showing top banner
 const StyledContainer = styled(Container)`
     &&& {
-        .main-buttons-container {
+        .header {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #272729;
+            font-weight: 600;
+            font-size: 20px;
+    
+            .back-arrow-button {
+                position: absolute;
+                left: 0;
+            }
+        }
+
+        .buttons-bottom-buttons {
             margin-top: 55px;
     
             > button {
@@ -30,7 +47,7 @@ const StyledContainer = styled(Container)`
                 display: flex;
                 flex-direction: column;
         
-                .main-buttons-container {
+                .buttons-bottom-buttons {
                     margin-top: auto;
                 }
         
@@ -49,8 +66,11 @@ class SendContainerV2 extends Component {
 
         this.state = {
             amount: '',
+            parsedAmount: '',
+            receiverId: '',
             view: 'enterAmount',
             maxAmount: null,
+            sendingToken: false,
             selectedToken: {
                 symbol: 'NEAR'
             }
@@ -59,10 +79,33 @@ class SendContainerV2 extends Component {
 
     handleChangeAmount = (amount) => {
         // FIX: Add block when entering more than max decimals allowed
-        this.setState({ amount, maxAmount: false });
+        this.setState({ 
+            amount,
+            parsedAmount: this.getParsedTokenAmount(amount),
+            maxAmount: false
+        });
     }
 
-    handleSetMaxAmount = () => {
+    getParsedTokenAmount = (amount) => {
+
+        const {
+            selectedToken,
+        } = this.state;
+
+        const {
+            parseNearAmount
+        } = this.props;
+
+        const parsedTokenAmount = selectedToken.symbol === 'NEAR' ? 
+            parseNearAmount(amount) 
+            : 
+            parseTokenAmount(amount, selectedToken.decimals);
+
+        return parsedTokenAmount;
+
+    }
+
+    getFormattedTokenAmount = (amount) => {
         const {
             selectedToken
         } = this.state;
@@ -72,39 +115,55 @@ class SendContainerV2 extends Component {
             formatNearAmount
         } = this.props;
 
-        const availableToSend = selectedToken.symbol === 'NEAR' ? 
+        const formattedTokenAmount = selectedToken.symbol === 'NEAR' ? 
             formatNearAmount(availableNearToSend, 5) 
             : 
             removeTrailingZeros(formatTokenAmount(selectedToken.balance, selectedToken.decimals, 5));
 
-        if (!new BN(availableToSend).isZero()) {
+        return formattedTokenAmount;
+    }
+
+
+
+    handleSetMaxAmount = () => {
+        const {
+            selectedToken
+        } = this.state;
+
+        const {
+            availableNearToSend
+        } = this.props;
+
+        const maxAvailableToSend = selectedToken.symbol === 'NEAR' ? 
+            availableNearToSend
+            : 
+            selectedToken.balance;
+
+        if (!new BN(this.getFormattedTokenAmount(maxAvailableToSend)).isZero()) {
             this.setState({
                 maxAmount: true,
-                amount: availableToSend.replace(/,/g, '')
+                amount: this.getFormattedTokenAmount(maxAvailableToSend).replace(/,/g, ''),
+                parsedAmount: maxAvailableToSend
             });
         }
     }
 
     isValidAmount = () => {
         const { amount, selectedToken, maxAmount } = this.state;
-        const { availableNearToSend, parseNearAmount } = this.props;
+        const { availableNearToSend } = this.props;
+        const parsedTokenAmount = this.getParsedTokenAmount(amount);
+        const availableToSendBalance = selectedToken.symbol === 'NEAR' ? availableNearToSend : selectedToken.balance;
 
         if (maxAmount) {
             return true;
         }
 
-        if (selectedToken.symbol === 'NEAR') {
-            const parsedNearAmount = parseNearAmount(amount);
-            return !new BN(parsedNearAmount).isZero() && new BN(parsedNearAmount).lte(new BN(availableNearToSend)) && isDecimalString(amount);
-        } else {
-            const parsedTokenAmount = parseTokenAmount(amount, selectedToken.decimals);
-            return !new BN(parsedTokenAmount).isZero() && new BN(parsedTokenAmount).lte(new BN(selectedToken.balance)) && isDecimalString(amount);
-            // TODO: Handle rounding issue that can occur entering exact available amount
-        }
+        return !new BN(parsedTokenAmount).isZero() && new BN(parsedTokenAmount).lte(new BN(availableToSendBalance)) && isDecimalString(amount);
+        // TODO: Handle rounding issue that can occur entering exact available amount
     }
 
-    handleContinueToEnterRecipient = () => {
-        console.log('TODO: continue to Recipient');
+    handleContinueToEnterReceiver = () => {
+        this.setState({ view: 'enterReceiver' });
         //TODO: Add amount to URL?
     }
 
@@ -114,6 +173,7 @@ class SendContainerV2 extends Component {
             selectedToken: token,
             view: 'enterAmount',
             amount: '',
+            parsedAmount: '',
             maxAmount: false
         });
     }
@@ -130,12 +190,23 @@ class SendContainerV2 extends Component {
         return amount && !new BN(availableAmount).isZero() && this.isValidAmount();
     }
 
+    handleChangeReciverId = (receiverId) => {
+        this.setState({ receiverId });
+    }
+
+    handleSendToken = () => {
+        console.log('TODO: Send token!');
+    }
+
     render() {
 
         const {
             amount,
+            parsedAmount,
             view,
-            selectedToken
+            selectedToken,
+            receiverId,
+            sendingToken
         } = this.state;
 
         const {
@@ -144,12 +215,19 @@ class SendContainerV2 extends Component {
             availableNearToSend,
             redirectTo,
             fungibleTokens,
-            nearTokenData
+            nearTokenData,
+            checkAccountAvailable,
+            localAlert,
+            clearLocalAlert,
+            accountId,
+            sendTokenTxFeeAmount,
+            parseNearAmount
         } = this.props;
 
         // TODO: Add NEAR token data to selectedToken object instead
         const availableToSend = selectedToken.symbol === 'NEAR' ? nearTokenData.balance : selectedToken.balance;
-        const enterAmountError = amount && amount !== '0' && !this.enterAmountIsComplete();
+        const estimatedFeesInNear = parseNearAmount(sendTokenTxFeeAmount);
+        const estimatedTotalInNear = selectedToken.symbol === 'NEAR' ? new BN(parsedAmount).add(new BN(estimatedFeesInNear)).toString() : null;
 
         return (
             <StyledContainer className='small-centered'>
@@ -162,11 +240,11 @@ class SendContainerV2 extends Component {
                         availableBalance={availableNearBalance}
                         reservedForFees={reservedNearForFees}
                         continueAllowed={this.enterAmountIsComplete()}
-                        onContinue={this.handleContinueToEnterRecipient}
-                        onGoBack={() => redirectTo('/')}
+                        onContinue={this.handleContinueToEnterReceiver}
+                        onClickCancel={() => redirectTo('/')}
                         selectedToken={selectedToken}
                         onClickSelectToken={() => this.setState({ view: 'selectToken' })}
-                        error={enterAmountError}
+                        error={amount && amount !== '0' && !this.enterAmountIsComplete()}
                     />
                 }
                 {view === 'selectToken' &&
@@ -175,6 +253,33 @@ class SendContainerV2 extends Component {
                         onSelectToken={this.handleSelectToken}
                         fungibleTokens={fungibleTokens}
                         availableNearToSend={availableNearToSend}
+                    />
+                }
+                {view === 'enterReceiver' &&
+                    <EnterReceiver
+                        onClickGoBack={() => this.setState({ view: 'enterAmount' })}
+                        onClickCancel={() => redirectTo('/')}
+                        amount={parsedAmount}
+                        selectedToken={selectedToken}
+                        handleChangeReciverId={this.handleChangeReciverId}
+                        receiverId={receiverId}
+                        checkAccountAvailable={checkAccountAvailable}
+                        localAlert={localAlert}
+                        clearLocalAlert={clearLocalAlert}
+                        onClickContinue={() => this.setState({ view: 'review' })}
+                    />
+                }
+                {view === 'review' &&
+                    <Review
+                        onClickCancel={() => redirectTo('/')}
+                        amount={parsedAmount}
+                        selectedToken={selectedToken}
+                        onClickContinue={this.handleSendToken}
+                        senderId={accountId}
+                        receiverId={receiverId}
+                        estimatedFeesInNear={estimatedFeesInNear}
+                        estimatedTotalInNear={estimatedTotalInNear}
+                        sendingToken={sendingToken}
                     />
                 }
             </StyledContainer>

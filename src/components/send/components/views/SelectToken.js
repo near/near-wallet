@@ -7,21 +7,6 @@ import BackArrowButton from '../BackArrowButton';
 
 
 const StyledContainer = styled.div`
-    .header {
-        position: relative;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: #272729;
-        font-weight: 600;
-        font-size: 20px;
-
-        > div {
-            position: absolute;
-            left: 0;
-        }
-    }
-
     .token-box {
         cursor: pointer;
 

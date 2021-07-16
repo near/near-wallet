@@ -28,7 +28,7 @@ const TokenAmount = ({ token: { balance, decimals, symbol }, withSymbol = false,
             ? formatToken(balance, decimals)
             : <span className='dots' />
         }
-        {withSymbol ? ` ${symbol}` : null}
+        <span className='currency'>{withSymbol ? ` ${symbol}` : null}</span>
     </div>
 );
 

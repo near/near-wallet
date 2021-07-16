@@ -46,6 +46,7 @@ const AmountInput = ({ value, onChange, error, autoFocus = true }) => {
             className={error ? 'error' : ''}
             style={{ fontSize: `${value.length ? getFontSize(value.length) : 70}px` }}
             type='number'
+            step='any'
             placeholder='0'
             value={value}
             onChange={e => onChange(e.target.value)}

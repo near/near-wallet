@@ -9,29 +9,49 @@ import Token from './entry_types/Token';
 
 const prefixTXEntryTitledId = (key) => `sendV2.TXEntry.title.${key}`;
 
-const TransactionDetails = () => {
+const TransactionDetails = ({ selectedToken, estimatedFeesInNear, estimatedTotalInNear, amount }) => {
+
     const [open, setOpen] = useState(false);
-    //TODO: Update tooltip info copy
+
+    /* TODO: Update all translateIdInfoTooltip */
+
     return (
         <Breakdown className={classNames(['transaction-details-breakdown' , open ? 'open' : ''])}>
             <Token
                 translateIdTitle={prefixTXEntryTitledId('token')}
-                symbol='NEAR'
+                symbol={selectedToken.symbol}
+                icon={selectedToken.icon}
             />
             <Accordion
                 trigger='transaction-details-breakdown'
                 className='breakdown'
             >
                 <Amount
+                    /* Always show fees in NEAR */
                     translateIdTitle={prefixTXEntryTitledId('estimatedFees')}
-                    amount='500000000000000000000'
+                    amount={estimatedFeesInNear}
+                    symbol='NEAR'
                     translateIdInfoTooltip='profile.security.mostSecureDesc'
                 />
-                <Amount
-                    translateIdTitle={prefixTXEntryTitledId('estimatedTotal')}
-                    amount='9900000000000000000000'
-                    translateIdInfoTooltip='profile.security.mostSecureDesc'
-                />
+                {estimatedTotalInNear &&
+                    /* Show 'Estimated total' (amount + fees) when sending NEAR only */
+                    <Amount
+                        translateIdTitle={prefixTXEntryTitledId('estimatedTotal')}
+                        amount={estimatedTotalInNear}
+                        symbol='NEAR'
+                        translateIdInfoTooltip='profile.security.mostSecureDesc'
+                    />
+                }
+                {!estimatedTotalInNear &&
+                    /* Show 'Amount' when sending non-NEAR token only */
+                    <Amount
+                        translateIdTitle={prefixTXEntryTitledId('amount')}
+                        amount={amount}
+                        symbol={selectedToken.symbol}
+                        decimals={selectedToken.decimals}
+                        translateIdInfoTooltip='profile.security.mostSecureDesc'
+                    />
+                }
             </Accordion>
             <AccordionTrigger
                 id='transaction-details-breakdown'

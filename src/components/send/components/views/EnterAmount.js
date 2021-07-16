@@ -8,7 +8,7 @@ import BalanceDetails from '../BalanceDetails';
 import SelectTokenButton from '../SelectTokenButton';
 import TabSelector from '../TabSelector';
 
-const StyledContainer = styled.div`
+const StyledContainer = styled.form`
     &&& {
         > button {
             &.light-blue {
@@ -38,14 +38,18 @@ const EnterAmount = ({
     reservedForFees,
     continueAllowed,
     onContinue,
-    onGoBack,
+    onClickCancel,
     selectedToken,
     onClickSelectToken,
     error
 }) => {
 
     return (
-        <StyledContainer className='buttons-bottom enter-amount'>
+        <StyledContainer 
+            className='buttons-bottom enter-amount'
+            onSubmit={(e) => {onContinue(e); e.preventDefault();}}
+            novalidate
+        >
             <TabSelector/>
             <AmountInput
                 value={amount}
@@ -54,6 +58,7 @@ const EnterAmount = ({
             />
             <FormButton
                 onClick={onSetMaxAmaount}
+                type='button'
                 color='light-blue'
                 className='small rounded'
             >
@@ -69,17 +74,18 @@ const EnterAmount = ({
                 reservedForFees={reservedForFees}
                 selectedToken={selectedToken}
             />
-            <div className='main-buttons-container'>
+            <div className='buttons-bottom-buttons'>
                 {/* TODO: Add error state */}
                 <FormButton
+                    type='submit'
                     color='dark-gray'
-                    onClick={onContinue}
                     disabled={!continueAllowed}
                 >
                     <Translate id='button.continue'/>
                 </FormButton>
                 <FormButton
-                    onClick={onGoBack}
+                    type='button'
+                    onClick={onClickCancel}
                     className='link'
                     color='gray'
                 >

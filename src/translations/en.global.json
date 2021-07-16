@@ -567,6 +567,7 @@
         "accountId": {
             "title": "Account ID",
             "placeholder": "e.g. johndoe.near",
+            "placeHolderAlt": "Account ID",
             "subLabel": "The account ID must include a Top Level Account such as <b>.near</b> or contain exactly 64 characters."
         }
     },
@@ -1148,6 +1149,12 @@
             "assetInputPlaceholder": "Seaerch asset name",
             "assetListNameTitle": "Name",
             "asssetListBalanceTitle": "Available to send"
+        },
+        "selectReceiver": {
+            "receiverInputLabel": "Send to"
+        },
+        "review": {
+            "title": "You are sending"
         }
     },
 
