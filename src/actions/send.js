@@ -24,7 +24,10 @@ export const transfer = ({
         const { transaction, status } = await dispatch(send.transfer.near(receiverId, amount));
 
         if (status?.SuccessValue) {
-            dispatch(send.setTxStatus(transaction.hash, 'success'));
+            dispatch(send.setTxStatus({
+                hash: transaction.hash,
+                newStatus: 'success'
+            }));
         }
     } else if(type === TOKEN_TYPES.NEP141) {
         if (isStorageBalanceAvailable === false) {
