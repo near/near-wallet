@@ -33,9 +33,7 @@ export const transfer = ({
         const { transaction: { hash }, status } = await dispatch(send.transfer.nep141({
             token: { 
                 contractName,
-                metadata: { 
-                    decimals: getState().tokens.tokens[contractName].decimals
-                }
+                metadata: getState().tokens.tokens[contractName]
             },
             amount,
             receiverId,
