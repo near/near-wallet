@@ -33,7 +33,7 @@ const TransactionDetails = ({ selectedToken, estimatedFeesInNear, estimatedTotal
                     symbol='NEAR'
                     translateIdInfoTooltip='profile.security.mostSecureDesc'
                 />
-                {estimatedTotalInNear &&
+                {selectedToken.symbol === 'NEAR' ?
                     /* Show 'Estimated total' (amount + fees) when sending NEAR only */
                     <Amount
                         translateIdTitle={prefixTXEntryTitledId('estimatedTotal')}
@@ -41,8 +41,7 @@ const TransactionDetails = ({ selectedToken, estimatedFeesInNear, estimatedTotal
                         symbol='NEAR'
                         translateIdInfoTooltip='profile.security.mostSecureDesc'
                     />
-                }
-                {!estimatedTotalInNear &&
+                    :
                     /* Show 'Amount' when sending non-NEAR token only */
                     <Amount
                         translateIdTitle={prefixTXEntryTitledId('amount')}

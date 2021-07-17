@@ -2,7 +2,11 @@ import BN from 'bn.js';
 import * as nearApiJs from 'near-api-js';
 
 import sendJson from '../tmp_fetch_send_json';
-import { parseTokenAmount } from '../utils/amounts';
+import { 
+    parseTokenAmount,
+    formatTokenAmount,
+    removeTrailingZeros
+} from '../utils/amounts';
 import { ACCOUNT_HELPER_URL } from '../utils/wallet';
 
 const {
@@ -11,7 +15,8 @@ const {
     },
     utils: {
         format: { 
-            parseNearAmount
+            parseNearAmount,
+            formatNearAmount
         }
     }
 } = nearApiJs;
@@ -34,6 +39,34 @@ const FT_TRANSFER_DEPOSIT = '1';
 export default class FungibleTokens {
     constructor(account) {
         this.account = account;
+    }
+
+    getParsedTokenAmount(amount, symbol, decimals) {
+        const parsedTokenAmount = symbol === 'NEAR'
+        ? parseNearAmount(amount) 
+        : parseTokenAmount(amount, decimals);
+
+        return parsedTokenAmount;
+    }
+
+    getFormattedTokenAmount(amount, symbol, decimals) {
+        const formattedTokenAmount = symbol === 'NEAR'
+        ? formatNearAmount(amount, 5) 
+        : removeTrailingZeros(formatTokenAmount(amount, decimals, 5));
+
+        return formattedTokenAmount;
+    }
+
+    async getEstimatedTotalFees(contractName, accountId) {
+        if (contractName && accountId && !await this.isStorageBalanceAvailable(contractName, accountId)) {
+            return new BN(FT_TRANSFER_GAS).add(new BN(FT_MINIMUM_STORAGE_BALANCE)).add(new BN(FT_STORAGE_DEPOSIT_GAS)).toString();
+        } else {
+            return FT_TRANSFER_GAS;
+        }
+    }
+
+    async getEstimatedTotalNearAmount(amount) {
+        return new BN(amount).add(new BN(await this.getEstimatedTotalFees())).toString();
     }
 
     async isStorageBalanceAvailable(contractName, accountId) {
