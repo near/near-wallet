@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
+
 import classNames from '../../../utils/classNames';
 import AccountIdInput from './AccountIdInput';
 
