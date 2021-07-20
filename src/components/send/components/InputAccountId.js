@@ -86,7 +86,7 @@ const InputWrapper = styled.div`
         }
     }
 `;
-class AccountIdInput extends Component {
+class InputAccountId extends Component {
     state = {
         wrongChar: false
     }
@@ -218,6 +218,6 @@ class AccountIdInput extends Component {
     }
 }
 
-export default AccountIdInput;
+export default InputAccountId;
 
 // TODO: Add required props for: accountId, onChange, localAlert, clearLocalAlert, checkAvailability

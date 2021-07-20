@@ -3,7 +3,7 @@ import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
 import classNames from '../../../utils/classNames';
-import AccountIdInput from './AccountIdInput';
+import InputAccountId from './InputAccountId';
 
 const StyledContainer = styled.div`
     background-color: #FAFAFA;
@@ -63,7 +63,7 @@ const ReceiverInputWithLabel = ({
     return (
         <StyledContainer className={classNames([{ 'success': success }, { 'problem': problem }, { 'focus': inputHasFocus }])}>
             <Translate id='sendV2.selectReceiver.receiverInputLabel' />
-            <AccountIdInput
+            <InputAccountId
                 accountId={receiverId}
                 handleChange={handleChangeReciverId}
                 ReceiverInputWithLabel={ReceiverInputWithLabel}
