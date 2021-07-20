@@ -5,6 +5,7 @@ import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { redirectTo } from '../../../actions/account';
+import { SHOW_NETWORK_BANNER } from '../../../utils/wallet';
 
 const StyledContainer = styled.div`
     display: flex;
@@ -45,6 +46,10 @@ const StyledContainer = styled.div`
         margin: -26px -14px 0 -14px;
         border-radius: 0;
         border-bottom: 0;
+
+        &.showing-banner {
+            margin: -35px -14px 0 -14px;
+        }
     }
 `;
 
@@ -52,13 +57,13 @@ const TabSelector = () => {
     const dispatch = useDispatch();
     const location = useLocation();
     const pathname = location.pathname;
-    const sendMoneyRoute = '/send-money';
-    const receiveMoneyRoute = '/receive-money';
+    const sendMoneyRoute = '/send-money/new';
+    const receiveMoneyRoute = '/receive-money/new';
 
     //TODO: Replace tab selector in Wallet.js with this component
 
     return (
-        <StyledContainer>
+        <StyledContainer className={SHOW_NETWORK_BANNER ? 'showing-banner' : ''}>
             <div 
                 role='button'
                 className={pathname === sendMoneyRoute ? 'active' : ''}

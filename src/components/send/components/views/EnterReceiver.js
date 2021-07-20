@@ -37,15 +37,18 @@ const EnterReceiver = ({
     checkAccountAvailable,
     localAlert,
     clearLocalAlert,
-    onClickContinue
+    onClickContinue,
+    isMobile
 }) => {
 
     const inputError = !localAlert?.success && localAlert?.show;
     const continueAllowed = localAlert?.success && localAlert?.show;
 
+    //TODO: Add support for receiver in URL
+
     return (
         <StyledContainer 
-            className='buttons-bottom enter-amount'
+            className='buttons-bottom'
             onSubmit={(e) => {onClickContinue(e); e.preventDefault();}}
         >
             <div className='header'>
@@ -65,6 +68,7 @@ const EnterReceiver = ({
                 localAlert={localAlert}
                 clearLocalAlert={clearLocalAlert}
                 inputError={inputError}
+                autoFocus={!isMobile}
             />
             <div className='input-sub-label'>
                 <Translate id='input.accountId.subLabel'/>
@@ -72,7 +76,6 @@ const EnterReceiver = ({
             <div className='buttons-bottom-buttons'>
                 {/* TODO: Add error state */}
                 <FormButton
-                    color='dark-gray'
                     type='submit'
                     disabled={!continueAllowed}
                 >

@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
-
-import isMobile from '../../../utils/isMobile';
+import classNames from '../../../utils/classNames';
 import AccountIdInput from './AccountIdInput';
 
 const StyledContainer = styled.div`
@@ -20,12 +19,29 @@ const StyledContainer = styled.div`
     overflow-x: hidden;
 
     &.focus {
+        border-color: #0072ce;
         background-color: white;
-        border-color: #E5E5E6;
+        box-shadow: 0 0 0 2pt #C8E3FC;
+    }
+
+    &.problem {
+        border: 2px solid #ff585d;
+        background-color: white;
+
+        &.focus {
+            box-shadow: 0px 0px 0px 2pt #FFBDBE;
+        }
+    }
+
+    &.success {
+        border: 2px solid #00C08B;
+        background-color: white;
+
+        &.focus {
+            box-shadow: 0px 0px 0px 2pt #c5ffef;
+        }
     }
 `;
-
-const isMobileDevice = isMobile();
 
 const ReceiverInputWithLabel = ({
     receiverId,
@@ -33,15 +49,18 @@ const ReceiverInputWithLabel = ({
     checkAccountAvailable,
     localAlert,
     clearLocalAlert,
-    inputError
+    inputError,
+    autoFocus
 }) => {
 
     const [inputHasFocus, setInputHasFocus] = useState(null);
+    const success = localAlert?.success;
+    const problem = !localAlert?.success && localAlert?.show;
 
-    // TODO: Add error style
+    // TODO: Add remaining error style text
 
     return (
-        <StyledContainer className={inputHasFocus ? 'focus' : ''}>
+        <StyledContainer className={classNames([{ 'success': success }, { 'problem': problem }, { 'focus': inputHasFocus }])}>
             <Translate id='sendV2.selectReceiver.receiverInputLabel' />
             <AccountIdInput
                 accountId={receiverId}
@@ -52,7 +71,9 @@ const ReceiverInputWithLabel = ({
                 clearLocalAlert={clearLocalAlert}
                 onFocus={() => setInputHasFocus(true)}
                 onBlur={() => setInputHasFocus(false)}
-                autoFocus={!receiverId && !isMobileDevice}
+                autoFocus={!receiverId && autoFocus}
+                success={success}
+                problem={problem}
             />  
         </StyledContainer>
     );

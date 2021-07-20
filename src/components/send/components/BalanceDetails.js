@@ -40,7 +40,7 @@ const BalanceDetails = ({
                         <Amount
                             translateIdTitle={prefixTXEntryTitledId('reservedForFees')}
                             amount={reservedForFees}
-                            translateIdInfoTooltip='profile.security.mostSecureDesc'
+                            translateIdInfoTooltip='sendV2.translateIdInfoTooltip.reservedForFees'
                         />
                     </Accordion>
                     <AccordionTrigger

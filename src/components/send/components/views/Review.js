@@ -14,6 +14,10 @@ const StyledContainer = styled.div`
         margin-bottom: 5px;
     }
 
+    .clickable {
+        cursor: pointer;
+    }
+
     .token-amount {
         font-size: 48px;
         font-weight: 600;
@@ -44,17 +48,16 @@ const Review = ({
     receiverId,
     estimatedFeesInNear,
     estimatedTotalInNear,
-    sendingToken
+    sendingToken,
+    setView
 }) => {
 
-    // TODO: Make amount, receiver, token clickable
-
     return (
-        <StyledContainer className='buttons-bottom enter-amount'>
+        <StyledContainer className='buttons-bottom'>
             <div className='header'>
                 <Translate id='sendV2.review.title'/>
             </div>
-            <div className='token-amount'>
+            <div className='token-amount' onClick={() => setView('enterAmount')}>
                 <RawTokenAmount
                     amount={amount}
                     symbol={selectedToken.symbol}
@@ -69,24 +72,25 @@ const Review = ({
             <Information
                 translateIdTitle={prefixTXEntryTitleId('to')}
                 informationValue={receiverId}
+                onClick={() => setView('enterReceiver')}
             />
             <TransactionDetails
                 selectedToken={selectedToken}
                 estimatedFeesInNear={estimatedFeesInNear}
                 estimatedTotalInNear={estimatedTotalInNear}
                 amount={amount}
+                onTokenClick={() => setView('selectToken')}
             />
             <div className='buttons-bottom-buttons'>
                 <FormButton
-                    color='dark-gray'
                     onClick={onClickContinue}
-                    disabled={sendingToken}
-                    sending={sendingToken}
+                    disabled={sendingToken === true}
+                    sending={sendingToken === true}
                 >
-                    <Translate id='button.confirmAndSend'/>
+                    <Translate id={`button.${sendingToken === 'failed' ? 'retry' : 'confirmAndSend'}`}/>
                 </FormButton>
                 <FormButton
-                    disabled={sendingToken}
+                    disabled={sendingToken === true}
                     onClick={onClickCancel}
                     className='link'
                     color='gray'

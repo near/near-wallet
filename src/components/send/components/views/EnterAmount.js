@@ -41,12 +41,13 @@ const EnterAmount = ({
     onClickCancel,
     selectedToken,
     onClickSelectToken,
-    error
+    error,
+    isMobile
 }) => {
 
     return (
         <StyledContainer 
-            className='buttons-bottom enter-amount'
+            className='buttons-bottom'
             onSubmit={(e) => {onContinue(e); e.preventDefault();}}
             novalidate
         >
@@ -55,6 +56,7 @@ const EnterAmount = ({
                 value={amount}
                 onChange={onChangeAmount}
                 error={error}
+                autoFocus={!isMobile}
             />
             <FormButton
                 onClick={onSetMaxAmaount}
@@ -78,7 +80,6 @@ const EnterAmount = ({
                 {/* TODO: Add error state */}
                 <FormButton
                     type='submit'
-                    color='dark-gray'
                     disabled={!continueAllowed}
                 >
                     <Translate id='button.continue'/>

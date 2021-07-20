@@ -2,12 +2,14 @@ import BN from 'bn.js';
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
+import classNames from '../../utils/classNames';
 import isDecimalString from '../../utils/isDecimalString';
 import Container from '../common/styled/Container.css';
 import EnterAmount from './components/views/EnterAmount';
 import EnterReceiver from './components/views/EnterReceiver';
 import Review from './components/views/Review';
 import SelectToken from './components/views/SelectToken';
+import Success from './components/views/Success';
 
 //TODO: Handle min-height when showing top banner
 const StyledContainer = styled(Container)`
@@ -20,6 +22,7 @@ const StyledContainer = styled(Container)`
             color: #272729;
             font-weight: 600;
             font-size: 20px;
+            line-break: anywhere;
     
             .back-arrow-button {
                 position: absolute;
@@ -45,13 +48,16 @@ const StyledContainer = styled(Container)`
             .buttons-bottom {
                 display: flex;
                 flex-direction: column;
+                min-height: calc(100vh - 160px);
         
                 .buttons-bottom-buttons {
                     margin-top: auto;
                 }
-        
-                &.enter-amount {
-                    min-height: calc(100vh - 110px);
+            }
+
+            &.showing-banner {
+                .buttons-bottom {
+                    min-height: calc(100vh - 218px);
                 }
             }
         }
@@ -68,7 +74,11 @@ const SendContainerV2 = ({
     checkAccountAvailable,
     localAlert,
     clearLocalAlert,
-    accountId
+    accountId,
+    showCustomAlert,
+    isMobile,
+    explorerUrl,
+    showNetworkBanner
 }) => {
 
     const [amount, setAmount] = useState('');
@@ -76,6 +86,7 @@ const SendContainerV2 = ({
     const [estimatedTotalInNear, setEstimatedTotalInNear] = useState('0');
     const [parsedAmount, setParsedAmount] = useState('');
     const [receiverId, setReceiverId] = useState('');
+    const [transactionHash, setTransactionHash] = useState(null);
     const [view, setView] = useState('enterAmount');
     const [maxAmount, setMaxAmount] = useState(null);
     const [sendingToken, setSendingToken] = useState(false);
@@ -84,6 +95,9 @@ const SendContainerV2 = ({
     useEffect(() => {
         selectedToken.symbol === 'NEAR' && setSelectedToken(fungibleTokens[0]);
     }, [availableNearToSend]);
+
+    useEffect(() => window.scrollTo(0, 0), [view]);
+    useEffect(() => setView('enterAmount'), [accountId]);
 
     const handleChangeAmount = (userInputAmount) => {
         // FIX: Add block when entering more than max decimals allowed
@@ -138,19 +152,39 @@ const SendContainerV2 = ({
             setEstimatedTotalFees(await FTMethods.getEstimatedTotalFees());
             setEstimatedTotalInNear(await FTMethods.getEstimatedTotalNearAmount(parsedAmount));
         } else {
-            // FIX: Currently returns 'Cannot read property 'viewFunction' of undefined'
-            //setEstimatedTotalFees(await FTMethods.getEstimatedTotalFees(selectedToken.contractName, receiverId));
+            const totalFees = await FTMethods.getEstimatedTotalFees(selectedToken.contractName, receiverId);
+            setEstimatedTotalFees(totalFees);
         }
 
     };
 
-    const handleSendToken = () => {
-        console.log('TODO: Send token!');
+    const handleSendToken = async () => {
         setSendingToken(true);
+        let result;
+
+        try {
+            result = await FTMethods.transfer({ 
+                contractName: selectedToken.contractName,
+                parsedAmount: parsedAmount,
+                receiverId
+            });
+        } catch(e) {
+            showCustomAlert({
+                success: false,
+                messageCodeHeader: 'error',
+                messageCode: 'walletErrorCodes.sendFungibleToken.error',
+                errorMessage: e.message,
+            });
+            setSendingToken('failed');
+            throw e;
+        }
+
+        setView('success');
+        setTransactionHash(result.transaction.hash);
     };
 
     return (
-        <StyledContainer className='small-centered'>
+        <StyledContainer className={classNames(['small-centered', {'showing-banner' : showNetworkBanner }])}>
             {view === 'enterAmount' &&
                 <EnterAmount
                     amount={amount}
@@ -165,6 +199,7 @@ const SendContainerV2 = ({
                     selectedToken={selectedToken}
                     onClickSelectToken={() => setView('selectToken')}
                     error={amount && amount !== '0' && !enterAmountIsComplete()}
+                    isMobile={isMobile}
                 />
             }
             {view === 'selectToken' &&
@@ -187,6 +222,7 @@ const SendContainerV2 = ({
                     localAlert={localAlert}
                     clearLocalAlert={clearLocalAlert}
                     onClickContinue={handleContinueToReview}
+                    isMobile={isMobile}
                 />
             }
             {view === 'review' &&
@@ -200,6 +236,16 @@ const SendContainerV2 = ({
                     estimatedFeesInNear={estimatedTotalFees}
                     sendingToken={sendingToken}
                     estimatedTotalInNear={estimatedTotalInNear}
+                    setView={view => setView(view)}
+                />
+            }
+            {view === 'success' &&
+                <Success
+                    selectedToken={selectedToken}
+                    amount={amount}
+                    receiverId={receiverId}
+                    onClickContinue={() => redirectTo('/')}
+                    onClickGoToExplorer={() => window.open(`${explorerUrl}/transactions/${transactionHash}`, '_blank')}
                 />
             }
         </StyledContainer>

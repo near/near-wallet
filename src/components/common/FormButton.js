@@ -63,6 +63,21 @@ const CustomButton = styled(Button)`
             }
         }
 
+        &.gray-gray {
+            background-color: #F0F0F1;
+            border-color: #F0F0F1;
+            color: #3F4045;
+            transition: 100ms;
+
+            :hover {
+                background-color: #ececec;
+            }
+
+            :disabled {
+                opacity: 0.8;
+            }
+        }
+
         &.light-blue {
             background-color: #D6EDFF !important;
             border: 0;

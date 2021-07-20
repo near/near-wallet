@@ -7,7 +7,10 @@ import {
     formatTokenAmount,
     removeTrailingZeros
 } from '../utils/amounts';
-import { ACCOUNT_HELPER_URL } from '../utils/wallet';
+import {
+    ACCOUNT_HELPER_URL,
+    wallet
+} from '../utils/wallet';
 
 const {
     transactions: {
@@ -23,7 +26,8 @@ const {
 
 // account creation costs 0.00125 NEAR for storage, 0.00000000003 NEAR for gas
 // https://docs.near.org/docs/api/naj-cookbook#wrap-and-unwrap-near
-const FT_MINIMUM_STORAGE_BALANCE = parseNearAmount('0.00125');
+// FT_MINIMUM_STORAGE_BALANCE: nUSDC, nUSDT require minimum 0.0125 NEAR. Came to this conclusion using trial and error.
+const FT_MINIMUM_STORAGE_BALANCE = parseNearAmount('0.0125');
 const FT_STORAGE_DEPOSIT_GAS = parseNearAmount('0.00000000003');
 
 // set this to the same value as we use for creating an account and the remainder is refunded
@@ -70,21 +74,33 @@ export default class FungibleTokens {
     }
 
     async isStorageBalanceAvailable(contractName, accountId) {
-        return new BN((await this.getStorageBalance(contractName, accountId)).total).gte(new BN(FT_MINIMUM_STORAGE_BALANCE));
+        return new BN((await this.getStorageBalance(contractName, accountId))?.total).gte(new BN(FT_MINIMUM_STORAGE_BALANCE));
     }
 
     async getStorageBalance(contractName, accountId) {
         return await this.account.viewFunction(contractName, 'storage_balance_of', { account_id: accountId });
     }
 
-    async transfer({ token: { contractName, metadata: { decimals } }, amount, receiverId, memo }) {
-        return await this.signAndSendTransaction(contractName, [
-            functionCall('ft_transfer', {
-                receiver_id: receiverId,
-                amount: parseTokenAmount(amount, decimals),
-                memo: memo
-            }, FT_TRANSFER_GAS, FT_TRANSFER_DEPOSIT)
-        ]);
+    async transfer({ contractName, parsedAmount, receiverId, memo }) {
+        if (contractName) {
+            const storageAvailable = await this.isStorageBalanceAvailable(contractName, receiverId);
+
+            if (!storageAvailable) {
+                const transferStorageDeposit = await this.transferStorageDeposit(contractName, receiverId);
+                console.log('transferStorageDeposit:', transferStorageDeposit);
+            }
+
+            return await this.signAndSendTransaction(contractName, [
+                functionCall('ft_transfer', {
+                    receiver_id: receiverId,
+                    amount: parsedAmount,
+                    memo: memo
+                }, FT_TRANSFER_GAS, FT_TRANSFER_DEPOSIT)
+            ]);
+
+        } else {
+            return await wallet.sendMoney(receiverId, parsedAmount);
+        }
     }
 
     async transferStorageDeposit(contractName, accountId) {

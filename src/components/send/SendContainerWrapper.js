@@ -7,14 +7,18 @@ import {
     redirectTo,
     checkAccountAvailable
 } from '../../actions/account';
-import { clearLocalAlert } from '../../actions/status';
+import { clearLocalAlert, showCustomAlert } from '../../actions/status';
 import { handleGetTokens } from '../../actions/tokens';
 import { selectTokensDetails } from '../../reducers/tokens';
-import FungibleTokens from '../../services/FungibleTokens';
-import { WALLET_APP_MIN_AMOUNT } from '../../utils/wallet';
+import { 
+    WALLET_APP_MIN_AMOUNT,
+    EXPLORER_URL,
+    wallet,
+    SHOW_NETWORK_BANNER
+} from '../../utils/wallet';
 import SendContainerV2 from './SendContainerV2';
 
-const FTMethods = new FungibleTokens();
+const FTMethods = wallet.fungibleTokens;
 
 const { parseNearAmount, formatNearAmount } = utils.format;
 
@@ -26,7 +30,7 @@ const getAvailableNearToSend = (availableBalance, reservedForFees) => {
 export function SendContainerWrapper() {
     const dispatch = useDispatch();
     const { accountId, balance } = useSelector(({ account }) => account);
-    const { localAlert } = useSelector(({ status }) => status);
+    const { localAlert, isMobile } = useSelector(({ status }) => status);
     const tokens = useSelector(state => selectTokensDetails(state));
     let fungibleTokens = Object.keys(tokens).map(key => tokens[key]).sort((a, b) => (a.symbol || '').localeCompare(b.symbol || ''));
 
@@ -63,6 +67,10 @@ export function SendContainerWrapper() {
             fungibleTokens={fungibleTokens}
             localAlert={localAlert}
             clearLocalAlert={() => dispatch(clearLocalAlert())}
+            showCustomAlert={alert => dispatch(showCustomAlert(alert))}
+            isMobile={isMobile}
+            explorerUrl={EXPLORER_URL}
+            showNetworkBanner={SHOW_NETWORK_BANNER}
         />
     );
 
