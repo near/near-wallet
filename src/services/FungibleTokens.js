@@ -26,8 +26,9 @@ const {
 
 // account creation costs 0.00125 NEAR for storage, 0.00000000003 NEAR for gas
 // https://docs.near.org/docs/api/naj-cookbook#wrap-and-unwrap-near
+const FT_MINIMUM_STORAGE_BALANCE = parseNearAmount('0.00125');
 // FT_MINIMUM_STORAGE_BALANCE: nUSDC, nUSDT require minimum 0.0125 NEAR. Came to this conclusion using trial and error.
-const FT_MINIMUM_STORAGE_BALANCE = parseNearAmount('0.0125');
+const FT_MINIMUM_STORAGE_BALANCE_LARGE = parseNearAmount('0.0125');
 const FT_STORAGE_DEPOSIT_GAS = parseNearAmount('0.00000000003');
 
 // set this to the same value as we use for creating an account and the remainder is refunded
@@ -62,7 +63,8 @@ export default class FungibleTokens {
     }
 
     async getEstimatedTotalFees(contractName, accountId) {
-        if (contractName && accountId && !await this.isStorageBalanceAvailable(contractName, accountId)) {
+        const storageBalanceAvailable = await this.isStorageBalanceAvailable(contractName, accountId);
+        if (contractName && accountId && !storageBalanceAvailable) {
             return new BN(FT_TRANSFER_GAS).add(new BN(FT_MINIMUM_STORAGE_BALANCE)).add(new BN(FT_STORAGE_DEPOSIT_GAS)).toString();
         } else {
             return FT_TRANSFER_GAS;
@@ -74,7 +76,8 @@ export default class FungibleTokens {
     }
 
     async isStorageBalanceAvailable(contractName, accountId) {
-        return new BN((await this.getStorageBalance(contractName, accountId))?.total).gte(new BN(FT_MINIMUM_STORAGE_BALANCE));
+        const storageBalance = await this.getStorageBalance(contractName, accountId);
+        return storageBalance?.total !== undefined;
     }
 
     async getStorageBalance(contractName, accountId) {
@@ -86,8 +89,13 @@ export default class FungibleTokens {
             const storageAvailable = await this.isStorageBalanceAvailable(contractName, receiverId);
 
             if (!storageAvailable) {
-                const transferStorageDeposit = await this.transferStorageDeposit(contractName, receiverId);
-                console.log('transferStorageDeposit:', transferStorageDeposit);
+                try {
+                    await this.transferStorageDeposit(contractName, receiverId, FT_MINIMUM_STORAGE_BALANCE);
+                } catch(e) {
+                    if (e.message.includes('attached deposit is less than the mimimum storage balance')) {
+                        await this.transferStorageDeposit(contractName, receiverId, FT_MINIMUM_STORAGE_BALANCE_LARGE);
+                    }
+                }
             }
 
             return await this.signAndSendTransaction(contractName, [
@@ -103,12 +111,12 @@ export default class FungibleTokens {
         }
     }
 
-    async transferStorageDeposit(contractName, accountId) {
+    async transferStorageDeposit(contractName, accountId, storageDepositAmount) {
         return this.signAndSendTransaction(contractName, [
             functionCall('storage_deposit', {
                 account_id: accountId,
                 registration_only: true,
-            }, FT_STORAGE_DEPOSIT_GAS, FT_MINIMUM_STORAGE_BALANCE)
+            }, FT_STORAGE_DEPOSIT_GAS, storageDepositAmount)
         ]);
     }
 
