@@ -63,8 +63,7 @@ export default class FungibleTokens {
     }
 
     async getEstimatedTotalFees(contractName, accountId) {
-        const storageBalanceAvailable = await this.isStorageBalanceAvailable(contractName, accountId);
-        if (contractName && accountId && !storageBalanceAvailable) {
+        if (contractName && accountId && !await this.isStorageBalanceAvailable(contractName, accountId)) {
             return new BN(FT_TRANSFER_GAS).add(new BN(FT_MINIMUM_STORAGE_BALANCE)).add(new BN(FT_STORAGE_DEPOSIT_GAS)).toString();
         } else {
             return FT_TRANSFER_GAS;
