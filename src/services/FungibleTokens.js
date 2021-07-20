@@ -91,7 +91,7 @@ export default class FungibleTokens {
                 try {
                     await this.transferStorageDeposit(contractName, receiverId, FT_MINIMUM_STORAGE_BALANCE);
                 } catch(e) {
-                    if (e.message.includes('attached deposit is less than the mimimum storage balance')) {
+                    if (e.message.includes('attached deposit is less than the minimum storage balance')) {
                         await this.transferStorageDeposit(contractName, receiverId, FT_MINIMUM_STORAGE_BALANCE_LARGE);
                     }
                 }
