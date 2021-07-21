@@ -1,6 +1,6 @@
 import BN from 'bn.js';
 import { utils } from 'near-api-js';
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import {
@@ -17,6 +17,14 @@ import {
     SHOW_NETWORK_BANNER
 } from '../../utils/wallet';
 import SendContainerV2 from './SendContainerV2';
+
+const VIEWS = {
+    ENTER_AMOUNT: 'enterAmount',
+    SELECT_TOKEN: 'selectToken',
+    ENTER_RECEIVER: 'enterReceiver',
+    REVIEW: 'review',
+    SUCCESS: 'success'
+};
 
 const FTMethods = wallet.fungibleTokens;
 
@@ -38,6 +46,12 @@ export function SendContainerWrapper({ match }) {
     const reservedNearForFees = parseNearAmount(WALLET_APP_MIN_AMOUNT);
     const availableNearToSend = getAvailableNearToSend(availableNearBalance, parseNearAmount(WALLET_APP_MIN_AMOUNT));
 
+    const [activeView, setActiveView] = useState(VIEWS.ENTER_AMOUNT);
+    const [estimatedTotalFees, setEstimatedTotalFees] = useState('0');
+    const [estimatedTotalInNear, setEstimatedTotalInNear] = useState('0');
+    const [sendingToken, setSendingToken] = useState(false);
+    const [transactionHash, setTransactionHash] = useState(null);
+
     const fungibleTokens = [
         {
             balance: availableNearToSend,
@@ -53,6 +67,31 @@ export function SendContainerWrapper({ match }) {
 
         dispatch(handleGetTokens());
     }, [accountId]);
+
+    const handleSendToken = async (parsedAmount, receiverId, contractName) => {
+        setSendingToken(true);
+        let result;
+
+        try {
+            result = await FTMethods.transfer({ 
+                parsedAmount,
+                receiverId,
+                contractName
+            });
+        } catch(e) {
+            showCustomAlert({
+                success: false,
+                messageCodeHeader: 'error',
+                messageCode: 'walletErrorCodes.sendFungibleToken.error',
+                errorMessage: e.message,
+            });
+            setSendingToken('failed');
+            return;
+        }
+
+        setActiveView(VIEWS.SUCCESS);
+        setTransactionHash(result.transaction.hash);
+    };
 
     return (
         <SendContainerV2
@@ -72,6 +111,16 @@ export function SendContainerWrapper({ match }) {
             explorerUrl={EXPLORER_URL}
             showNetworkBanner={SHOW_NETWORK_BANNER}
             accountIdFromUrl={accountIdFromUrl}
+            VIEWS={VIEWS}
+            activeView={activeView}
+            setActiveView={view => setActiveView(view)}
+            estimatedTotalFees={estimatedTotalFees}
+            setEstimatedTotalFees={fees => setEstimatedTotalFees(fees)}
+            estimatedTotalInNear={estimatedTotalInNear}
+            setEstimatedTotalInNear={amount => setEstimatedTotalInNear(amount)}
+            handleSendToken={handleSendToken}
+            sendingToken={sendingToken}
+            transactionHash={transactionHash}
         />
     );
 

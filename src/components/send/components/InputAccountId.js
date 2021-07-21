@@ -10,6 +10,7 @@ const InputWrapper = styled.div`
     position: relative;
     font: 16px 'Inter';
     width: 100%;
+    overflow: hidden;
 
     input {
         margin-top: 0px;

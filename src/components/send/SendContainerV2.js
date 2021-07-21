@@ -86,7 +86,17 @@ const SendContainerV2 = ({
     isMobile,
     explorerUrl,
     showNetworkBanner,
-    accountIdFromUrl
+    accountIdFromUrl,
+    VIEWS,
+    activeView,
+    setActiveView,
+    estimatedTotalFees,
+    setEstimatedTotalFees,
+    estimatedTotalInNear,
+    setEstimatedTotalInNear,
+    handleSendToken,
+    sendingToken,
+    transactionHash
 }) => {
 
     const [amount, setAmount] = useState(
@@ -96,12 +106,7 @@ const SendContainerV2 = ({
             maxAmount: false
         }
     );
-    const [estimatedTotalFees, setEstimatedTotalFees] = useState('0');
-    const [estimatedTotalInNear, setEstimatedTotalInNear] = useState('0');
     const [receiverId, setReceiverId] = useState(accountIdFromUrl);
-    const [transactionHash, setTransactionHash] = useState(null);
-    const [activeView, setActiveView] = useState(VIEWS.ENTER_AMOUNT);
-    const [sendingToken, setSendingToken] = useState(false);
     const [selectedToken, setSelectedToken] = useState(fungibleTokens[0]);
 
     useEffect(() => {
@@ -179,29 +184,8 @@ const SendContainerV2 = ({
         setActiveView(VIEWS.REVIEW);
     };
 
-    const handleSendToken = async () => {
-        setSendingToken(true);
-        let result;
-
-        try {
-            result = await FTMethods.transfer({ 
-                contractName: selectedToken.contractName,
-                parsedAmount: amount.parsedAmount,
-                receiverId
-            });
-        } catch(e) {
-            showCustomAlert({
-                success: false,
-                messageCodeHeader: 'error',
-                messageCode: 'walletErrorCodes.sendFungibleToken.error',
-                errorMessage: e.message,
-            });
-            setSendingToken('failed');
-            return;
-        }
-
-        setActiveView(VIEWS.SUCCESS);
-        setTransactionHash(result.transaction.hash);
+    const onClickSendToken = () => {
+        handleSendToken(amount.parsedAmount, receiverId, selectedToken.contractName);
     };
 
     const getCurrentViewComponent = (view) => {
@@ -255,7 +239,7 @@ const SendContainerV2 = ({
                         onClickCancel={() => redirectTo('/')}
                         amount={amount.parsedAmount}
                         selectedToken={selectedToken}
-                        onClickContinue={handleSendToken}
+                        onClickContinue={onClickSendToken}
                         senderId={accountId}
                         receiverId={receiverId}
                         estimatedFeesInNear={estimatedTotalFees}
