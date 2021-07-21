@@ -89,10 +89,6 @@ const SendContainerV2 = ({
     accountIdFromUrl
 }) => {
 
-    // const [amount, setAmount] = useState('');
-    // const [parsedAmount, setParsedAmount] = useState('');
-    // const [maxAmount, setMaxAmount] = useState(false);
-
     const [amount, setAmount] = useState(
         {
             amount: '',
@@ -100,7 +96,6 @@ const SendContainerV2 = ({
             maxAmount: false
         }
     );
-
     const [estimatedTotalFees, setEstimatedTotalFees] = useState('0');
     const [estimatedTotalInNear, setEstimatedTotalInNear] = useState('0');
     const [receiverId, setReceiverId] = useState(accountIdFromUrl);
