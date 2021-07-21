@@ -28,7 +28,7 @@ const getAvailableNearToSend = (availableBalance, reservedForFees) => {
 };
 
 export function SendContainerWrapper({ match }) {
-    const accountIdFromUrl = match.params.accountId;
+    const accountIdFromUrl = match.params.accountId || '';
     const dispatch = useDispatch();
     const { accountId, balance } = useSelector(({ account }) => account);
     const { localAlert, isMobile } = useSelector(({ status }) => status);
