@@ -129,7 +129,7 @@ const SendContainerV2 = ({
     const handleSetMaxAmount = () => {
         const formattedTokenAmount = FTMethods.getFormattedTokenAmount(selectedToken.balance, selectedToken.symbol, selectedToken.decimals);
 
-        if (!new BN(formattedTokenAmount).isZero()) {
+        if (!new BN(selectedToken.balance).isZero()) {
             setAmount({
                 amount: formattedTokenAmount.replace(/,/g, ''),
                 parsedAmount: selectedToken.balance,
