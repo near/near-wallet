@@ -369,7 +369,7 @@ class Routing extends Component {
                             {!isInactiveAccount &&
                                 <PrivateRouteLimited
                                     exact
-                                    path='/send-money/new'
+                                    path='/send-money/new/:accountId?'
                                     component={SendContainerWrapper}
                                 />
                             }

@@ -19,7 +19,6 @@ export const VIEWS = {
     SUCCESS: 'success'
 };
 
-//TODO: Handle min-height when showing top banner
 const StyledContainer = styled(Container)`
     &&& {
         .header {
@@ -86,14 +85,15 @@ const SendContainerV2 = ({
     showCustomAlert,
     isMobile,
     explorerUrl,
-    showNetworkBanner
+    showNetworkBanner,
+    accountIdFromUrl
 }) => {
 
     const [amount, setAmount] = useState('');
     const [estimatedTotalFees, setEstimatedTotalFees] = useState('0');
     const [estimatedTotalInNear, setEstimatedTotalInNear] = useState('0');
     const [parsedAmount, setParsedAmount] = useState('');
-    const [receiverId, setReceiverId] = useState('');
+    const [receiverId, setReceiverId] = useState(accountIdFromUrl);
     const [transactionHash, setTransactionHash] = useState(null);
     const [activeView, setActiveView] = useState(VIEWS.ENTER_AMOUNT);
     const [maxAmount, setMaxAmount] = useState(null);
@@ -140,12 +140,10 @@ const SendContainerV2 = ({
     };
 
     const handleContinueToEnterReceiver = () => {
-        //TODO: Add amount to URL?
         setActiveView(VIEWS.ENTER_RECEIVER);
     };
 
     const handleSelectToken = (token) => {
-        //TODO: Add token to URL?
         setSelectedToken(token);
         setActiveView(VIEWS.ENTER_AMOUNT);
         setAmount('');
