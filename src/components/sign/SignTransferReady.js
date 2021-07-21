@@ -228,7 +228,7 @@ class SignTransferReady extends Component {
                         </Button>
                         <FormButton
                             onClick={handleAllow}
-                            disabled={insufficientFunds || !availableBalance}
+                            disabled={insufficientFunds}
                             sending={sending}
                             sendingString='button.authorizing'
                         >
