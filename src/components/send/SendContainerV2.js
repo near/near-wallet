@@ -89,14 +89,23 @@ const SendContainerV2 = ({
     accountIdFromUrl
 }) => {
 
-    const [amount, setAmount] = useState('');
+    // const [amount, setAmount] = useState('');
+    // const [parsedAmount, setParsedAmount] = useState('');
+    // const [maxAmount, setMaxAmount] = useState(false);
+
+    const [amount, setAmount] = useState(
+        {
+            amount: '',
+            parsedAmount: '',
+            maxAmount: false
+        }
+    );
+
     const [estimatedTotalFees, setEstimatedTotalFees] = useState('0');
     const [estimatedTotalInNear, setEstimatedTotalInNear] = useState('0');
-    const [parsedAmount, setParsedAmount] = useState('');
     const [receiverId, setReceiverId] = useState(accountIdFromUrl);
     const [transactionHash, setTransactionHash] = useState(null);
     const [activeView, setActiveView] = useState(VIEWS.ENTER_AMOUNT);
-    const [maxAmount, setMaxAmount] = useState(null);
     const [sendingToken, setSendingToken] = useState(false);
     const [selectedToken, setSelectedToken] = useState(fungibleTokens[0]);
 
@@ -115,29 +124,32 @@ const SendContainerV2 = ({
         const { value, maxLength } = event.target;
         const userInputAmount = value.slice(0, maxLength);
 
-        setAmount(userInputAmount);
-        setParsedAmount(FTMethods.getParsedTokenAmount(userInputAmount, selectedToken.symbol, selectedToken.decimals));
-        setMaxAmount(false);
+        setAmount({
+            amount: userInputAmount,
+            parsedAmount: FTMethods.getParsedTokenAmount(userInputAmount, selectedToken.symbol, selectedToken.decimals),
+            maxAmount: false
+        });
     };
 
     const handleSetMaxAmount = () => {
         const formattedTokenAmount = FTMethods.getFormattedTokenAmount(selectedToken.balance, selectedToken.symbol, selectedToken.decimals);
 
         if (!new BN(formattedTokenAmount).isZero()) {
-            setMaxAmount(true);
-            setAmount(formattedTokenAmount.replace(/,/g, ''));
-            setParsedAmount(selectedToken.balance);
+            setAmount({
+                amount: formattedTokenAmount.replace(/,/g, ''),
+                parsedAmount: selectedToken.balance,
+                maxAmount: true
+            });
         }
     };
 
     const isValidAmount = () => {
-        const parsedTokenAmount = FTMethods.getParsedTokenAmount(amount, selectedToken.symbol, selectedToken.decimals);
 
-        if (maxAmount) {
+        if (amount.maxAmount) {
             return true;
         }
 
-        return !new BN(parsedTokenAmount).isZero() && new BN(parsedTokenAmount).lte(new BN(selectedToken.balance)) && isDecimalString(amount);
+        return !new BN(amount.parsedAmount).isZero() && new BN(amount.parsedAmount).lte(new BN(selectedToken.balance)) && isDecimalString(amount.amount);
         // TODO: Handle rounding issue that can occur entering exact available amount
     };
 
@@ -148,20 +160,22 @@ const SendContainerV2 = ({
     const handleSelectToken = (token) => {
         setSelectedToken(token);
         setActiveView(VIEWS.ENTER_AMOUNT);
-        setAmount('');
-        setParsedAmount('');
-        setMaxAmount(false);
+        setAmount({
+            amount: '',
+            parsedAmount: '',
+            maxAmount: false
+        });
     };
 
     const enterAmountIsComplete = () => {     
-        return amount && !new BN(selectedToken.balance).isZero() && isValidAmount();
+        return amount.amount && !new BN(selectedToken.balance).isZero() && isValidAmount();
     };
 
     const handleContinueToReview = async () => {
 
         if (selectedToken.symbol === 'NEAR') {
             setEstimatedTotalFees(await FTMethods.getEstimatedTotalFees());
-            setEstimatedTotalInNear(await FTMethods.getEstimatedTotalNearAmount(parsedAmount));
+            setEstimatedTotalInNear(await FTMethods.getEstimatedTotalNearAmount(amount.parsedAmount));
         } else {
             const totalFees = await FTMethods.getEstimatedTotalFees(selectedToken.contractName, receiverId);
             setEstimatedTotalFees(totalFees);
@@ -177,7 +191,7 @@ const SendContainerV2 = ({
         try {
             result = await FTMethods.transfer({ 
                 contractName: selectedToken.contractName,
-                parsedAmount: parsedAmount,
+                parsedAmount: amount.parsedAmount,
                 receiverId
             });
         } catch(e) {
@@ -200,7 +214,7 @@ const SendContainerV2 = ({
             case 'enterAmount':
                 return (
                     <EnterAmount
-                        amount={amount}
+                        amount={amount.amount}
                         onChangeAmount={handleChangeAmount}
                         onSetMaxAmaount={handleSetMaxAmount}
                         availableToSend={selectedToken.balance}
@@ -211,7 +225,7 @@ const SendContainerV2 = ({
                         onClickCancel={() => redirectTo('/')}
                         selectedToken={selectedToken}
                         onClickSelectToken={() => setActiveView(VIEWS.SELECT_TOKEN)}
-                        error={amount && amount !== '0' && !enterAmountIsComplete()}
+                        error={amount.amount && amount.amount !== '0' && !enterAmountIsComplete()}
                         isMobile={isMobile}
                     />
                 );
@@ -229,7 +243,7 @@ const SendContainerV2 = ({
                     <EnterReceiver
                         onClickGoBack={() => setActiveView(VIEWS.ENTER_AMOUNT)}
                         onClickCancel={() => redirectTo('/')}
-                        amount={parsedAmount}
+                        amount={amount.parsedAmount}
                         selectedToken={selectedToken}
                         handleChangeReceiverId={(receiverId) => setReceiverId(receiverId)}
                         receiverId={receiverId}
@@ -244,7 +258,7 @@ const SendContainerV2 = ({
                 return (
                     <Review
                         onClickCancel={() => redirectTo('/')}
-                        amount={parsedAmount}
+                        amount={amount.parsedAmount}
                         selectedToken={selectedToken}
                         onClickContinue={handleSendToken}
                         senderId={accountId}
@@ -261,7 +275,7 @@ const SendContainerV2 = ({
                 return (
                     <Success
                         tokenSymbol={selectedToken.symbol}
-                        amount={amount}
+                        amount={amount.amount}
                         receiverId={receiverId}
                         onClickContinue={() => redirectTo('/')}
                         onClickGoToExplorer={() => window.open(`${explorerUrl}/transactions/${transactionHash}`, '_blank')}
