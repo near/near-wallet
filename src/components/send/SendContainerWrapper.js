@@ -61,12 +61,12 @@ export function SendContainerWrapper({ match }) {
                 contractName
             });
         } catch (e) {
-            showCustomAlert({
+            dispatch(showCustomAlert({
                 success: false,
                 messageCodeHeader: 'error',
                 messageCode: 'walletErrorCodes.sendFungibleToken.error',
                 errorMessage: e.message,
-            });
+            }));
             setSendingToken('failed');
             return;
         }
@@ -104,7 +104,6 @@ export function SendContainerWrapper({ match }) {
             fungibleTokens={fungibleTokens}
             localAlert={localAlert}
             clearLocalAlert={() => dispatch(clearLocalAlert())}
-            showCustomAlert={alert => dispatch(showCustomAlert(alert))}
             isMobile={isMobile}
             explorerUrl={EXPLORER_URL}
             showNetworkBanner={SHOW_NETWORK_BANNER}
