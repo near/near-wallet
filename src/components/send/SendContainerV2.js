@@ -2,6 +2,7 @@ import BN from 'bn.js';
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
+import FungibleTokens from '../../services/FungibleTokens';
 import classNames from '../../utils/classNames';
 import isDecimalString from '../../utils/isDecimalString';
 import Container from '../common/styled/Container.css';
@@ -10,6 +11,8 @@ import EnterReceiver from './components/views/EnterReceiver';
 import Review from './components/views/Review';
 import SelectToken from './components/views/SelectToken';
 import Success from './components/views/Success';
+
+const { getFormattedTokenAmount, getParsedTokenAmount } = FungibleTokens;
 
 export const VIEWS = {
     ENTER_AMOUNT: 'enterAmount',
@@ -30,7 +33,7 @@ const StyledContainer = styled(Container)`
             font-weight: 600;
             font-size: 20px;
             line-break: anywhere;
-    
+
             .back-arrow-button {
                 position: absolute;
                 left: 0;
@@ -39,24 +42,24 @@ const StyledContainer = styled(Container)`
 
         .buttons-bottom-buttons {
             margin-top: 55px;
-    
+
             > button {
                 display: block;
                 width: 100%;
             }
-    
+
             .link {
                 display: block;
                 margin: 20px auto;
             }
         }
-    
+
         @media (max-width: 500px) {
             .buttons-bottom {
                 display: flex;
                 flex-direction: column;
                 min-height: calc(100vh - 160px);
-        
+
                 .buttons-bottom-buttons {
                     margin-top: auto;
                 }
@@ -82,7 +85,6 @@ const SendContainerV2 = ({
     localAlert,
     clearLocalAlert,
     accountId,
-    showCustomAlert,
     isMobile,
     explorerUrl,
     showNetworkBanner,
@@ -126,13 +128,13 @@ const SendContainerV2 = ({
 
         setAmount({
             amount: userInputAmount,
-            parsedAmount: FTMethods.getParsedTokenAmount(userInputAmount, selectedToken.symbol, selectedToken.decimals),
+            parsedAmount: getParsedTokenAmount(userInputAmount, selectedToken.symbol, selectedToken.decimals),
             maxAmount: false
         });
     };
 
     const handleSetMaxAmount = () => {
-        const formattedTokenAmount = FTMethods.getFormattedTokenAmount(selectedToken.balance, selectedToken.symbol, selectedToken.decimals);
+        const formattedTokenAmount = getFormattedTokenAmount(selectedToken.balance, selectedToken.symbol, selectedToken.decimals);
 
         if (!new BN(selectedToken.balance).isZero()) {
             setAmount({
@@ -167,7 +169,7 @@ const SendContainerV2 = ({
         });
     };
 
-    const enterAmountIsComplete = () => {     
+    const enterAmountIsComplete = () => {
         return amount.amount && !new BN(selectedToken.balance).isZero() && isValidAmount();
     };
 
@@ -189,85 +191,85 @@ const SendContainerV2 = ({
     };
 
     const getCurrentViewComponent = (view) => {
-        switch(view) {
-            case 'enterAmount':
-                return (
-                    <EnterAmount
-                        amount={amount.amount}
-                        onChangeAmount={handleChangeAmount}
-                        onSetMaxAmaount={handleSetMaxAmount}
-                        availableToSend={selectedToken.balance}
-                        availableBalance={availableNearBalance}
-                        reservedForFees={reservedNearForFees}
-                        continueAllowed={enterAmountIsComplete()}
-                        onContinue={handleContinueToEnterReceiver}
-                        onClickCancel={() => redirectTo('/')}
-                        selectedToken={selectedToken}
-                        onClickSelectToken={() => setActiveView(VIEWS.SELECT_TOKEN)}
-                        error={amount.amount && amount.amount !== '0' && !enterAmountIsComplete()}
-                        isMobile={isMobile}
-                    />
-                );
-            case 'selectToken':
-                return (
-                    <SelectToken
-                        onClickGoBack={() => setActiveView(VIEWS.ENTER_AMOUNT)}
-                        onSelectToken={handleSelectToken}
-                        fungibleTokens={fungibleTokens}
-                        availableNearToSend={availableNearToSend}
-                    />
-                );
-            case 'enterReceiver':
-                return (
-                    <EnterReceiver
-                        onClickGoBack={() => setActiveView(VIEWS.ENTER_AMOUNT)}
-                        onClickCancel={() => redirectTo('/')}
-                        amount={amount.parsedAmount}
-                        selectedToken={selectedToken}
-                        handleChangeReceiverId={(receiverId) => setReceiverId(receiverId)}
-                        receiverId={receiverId}
-                        checkAccountAvailable={checkAccountAvailable}
-                        localAlert={localAlert}
-                        clearLocalAlert={clearLocalAlert}
-                        onClickContinue={handleContinueToReview}
-                        isMobile={isMobile}
-                    />
-                );
-            case 'review':
-                return (
-                    <Review
-                        onClickCancel={() => redirectTo('/')}
-                        amount={amount.parsedAmount}
-                        selectedToken={selectedToken}
-                        onClickContinue={onClickSendToken}
-                        senderId={accountId}
-                        receiverId={receiverId}
-                        estimatedFeesInNear={estimatedTotalFees}
-                        sendingToken={sendingToken}
-                        estimatedTotalInNear={estimatedTotalInNear}
-                        onClickAmount={() => setActiveView(VIEWS.ENTER_AMOUNT)}
-                        onClickReceiver={() => setActiveView(VIEWS.ENTER_RECEIVER)}
-                        onClickSelectedToken={() => setActiveView(VIEWS.SELECT_TOKEN)}
-                    />
-                );
-            case 'success':
-                return (
-                    <Success
-                        tokenSymbol={selectedToken.symbol}
-                        amount={amount.amount}
-                        receiverId={receiverId}
-                        onClickContinue={() => redirectTo('/')}
-                        onClickGoToExplorer={() => window.open(`${explorerUrl}/transactions/${transactionHash}`, '_blank')}
-                    />
-                );
+        switch (view) {
+        case 'enterAmount':
+            return (
+                <EnterAmount
+                    amount={amount.amount}
+                    onChangeAmount={handleChangeAmount}
+                    onSetMaxAmaount={handleSetMaxAmount}
+                    availableToSend={selectedToken.balance}
+                    availableBalance={availableNearBalance}
+                    reservedForFees={reservedNearForFees}
+                    continueAllowed={enterAmountIsComplete()}
+                    onContinue={handleContinueToEnterReceiver}
+                    onClickCancel={() => redirectTo('/')}
+                    selectedToken={selectedToken}
+                    onClickSelectToken={() => setActiveView(VIEWS.SELECT_TOKEN)}
+                    error={amount.amount && amount.amount !== '0' && !enterAmountIsComplete()}
+                    isMobile={isMobile}
+                />
+            );
+        case 'selectToken':
+            return (
+                <SelectToken
+                    onClickGoBack={() => setActiveView(VIEWS.ENTER_AMOUNT)}
+                    onSelectToken={handleSelectToken}
+                    fungibleTokens={fungibleTokens}
+                    availableNearToSend={availableNearToSend}
+                />
+            );
+        case 'enterReceiver':
+            return (
+                <EnterReceiver
+                    onClickGoBack={() => setActiveView(VIEWS.ENTER_AMOUNT)}
+                    onClickCancel={() => redirectTo('/')}
+                    amount={amount.parsedAmount}
+                    selectedToken={selectedToken}
+                    handleChangeReceiverId={(receiverId) => setReceiverId(receiverId)}
+                    receiverId={receiverId}
+                    checkAccountAvailable={checkAccountAvailable}
+                    localAlert={localAlert}
+                    clearLocalAlert={clearLocalAlert}
+                    onClickContinue={handleContinueToReview}
+                    isMobile={isMobile}
+                />
+            );
+        case 'review':
+            return (
+                <Review
+                    onClickCancel={() => redirectTo('/')}
+                    amount={amount.parsedAmount}
+                    selectedToken={selectedToken}
+                    onClickContinue={onClickSendToken}
+                    senderId={accountId}
+                    receiverId={receiverId}
+                    estimatedFeesInNear={estimatedTotalFees}
+                    sendingToken={sendingToken}
+                    estimatedTotalInNear={estimatedTotalInNear}
+                    onClickAmount={() => setActiveView(VIEWS.ENTER_AMOUNT)}
+                    onClickReceiver={() => setActiveView(VIEWS.ENTER_RECEIVER)}
+                    onClickSelectedToken={() => setActiveView(VIEWS.SELECT_TOKEN)}
+                />
+            );
+        case 'success':
+            return (
+                <Success
+                    tokenSymbol={selectedToken.symbol}
+                    amount={amount.amount}
+                    receiverId={receiverId}
+                    onClickContinue={() => redirectTo('/')}
+                    onClickGoToExplorer={() => window.open(`${explorerUrl}/transactions/${transactionHash}`, '_blank')}
+                />
+            );
         default:
             return null;
         }
     };
 
     return (
-        <StyledContainer className={classNames(['small-centered', {'showing-banner' : showNetworkBanner }])}>
-            { getCurrentViewComponent(activeView) }
+        <StyledContainer className={classNames(['small-centered', { 'showing-banner': showNetworkBanner }])}>
+            {getCurrentViewComponent(activeView)}
         </StyledContainer>
     );
 };

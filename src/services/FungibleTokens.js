@@ -2,7 +2,7 @@ import BN from 'bn.js';
 import * as nearApiJs from 'near-api-js';
 
 import sendJson from '../tmp_fetch_send_json';
-import { 
+import {
     parseTokenAmount,
     formatTokenAmount,
     removeTrailingZeros
@@ -17,7 +17,7 @@ const {
         functionCall
     },
     utils: {
-        format: { 
+        format: {
             parseNearAmount,
             formatNearAmount
         }
@@ -42,24 +42,24 @@ const FT_TRANSFER_DEPOSIT = '1';
 // Fungible Token Standard
 // https://github.com/near/NEPs/tree/master/specs/Standards/FungibleToken
 export default class FungibleTokens {
-    constructor(account) {
-        this.account = account;
-    }
-
-    getParsedTokenAmount(amount, symbol, decimals) {
+    static getParsedTokenAmount(amount, symbol, decimals) {
         const parsedTokenAmount = symbol === 'NEAR'
-        ? parseNearAmount(amount) 
-        : parseTokenAmount(amount, decimals);
+            ? parseNearAmount(amount)
+            : parseTokenAmount(amount, decimals);
 
         return parsedTokenAmount;
     }
 
-    getFormattedTokenAmount(amount, symbol, decimals) {
+    static getFormattedTokenAmount(amount, symbol, decimals) {
         const formattedTokenAmount = symbol === 'NEAR'
-        ? formatNearAmount(amount, 5) 
-        : removeTrailingZeros(formatTokenAmount(amount, decimals, 5));
+            ? formatNearAmount(amount, 5)
+            : removeTrailingZeros(formatTokenAmount(amount, decimals, 5));
 
         return formattedTokenAmount;
+    }
+
+    constructor(account) {
+        this.account = account;
     }
 
     async getEstimatedTotalFees(contractName, accountId) {
@@ -95,7 +95,7 @@ export default class FungibleTokens {
             if (!storageAvailable) {
                 try {
                     await this.transferStorageDeposit(contractName, receiverId, FT_MINIMUM_STORAGE_BALANCE);
-                } catch(e) {
+                } catch (e) {
                     if (e.message.includes('attached deposit is less than the mimimum storage balance')) {
                         await this.transferStorageDeposit(contractName, receiverId, FT_MINIMUM_STORAGE_BALANCE_LARGE);
                     }
