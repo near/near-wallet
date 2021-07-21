@@ -114,7 +114,7 @@ const TokenBox = ({ token, onClick }) => {
     const explorerContractLink = `${EXPLORER_URL}/accounts/${token.contractName}`;
 
     return (
-        <StyledContainer className='token-box' onClick={() => onClick(token)}>
+        <StyledContainer className='token-box' onClick={onClick ? () => onClick(token) : null}>
             <div className='icon'>
                 <TokenIcon symbol={token.symbol} icon={token.icon}/>
             </div>

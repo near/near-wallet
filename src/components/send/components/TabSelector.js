@@ -66,15 +66,15 @@ const TabSelector = () => {
         <StyledContainer className={SHOW_NETWORK_BANNER ? 'showing-banner' : ''}>
             <div 
                 role='button'
-                className={pathname === sendMoneyRoute ? 'active' : ''}
-                onClick={pathname !== sendMoneyRoute ? () => dispatch(redirectTo(sendMoneyRoute)) : null}
+                className={pathname.includes(sendMoneyRoute) ? 'active' : ''}
+                onClick={!pathname.includes(sendMoneyRoute) ? () => dispatch(redirectTo(sendMoneyRoute)) : null}
             >
                 <Translate id='button.send'/>
             </div>
             <div
                 role='button'
-                className={pathname === receiveMoneyRoute ? 'active' : ''}
-                onClick={pathname !== receiveMoneyRoute ? () => dispatch(redirectTo(receiveMoneyRoute)) : null}
+                className={pathname.includes(receiveMoneyRoute) ? 'active' : ''}
+                onClick={!pathname.includes(receiveMoneyRoute) ? () => dispatch(redirectTo(receiveMoneyRoute)) : null}
             >
                 <Translate id='button.receive'/>
             </div>

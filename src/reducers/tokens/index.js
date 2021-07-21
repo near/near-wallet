@@ -1,3 +1,4 @@
+import BN from 'bn.js';
 import reduceReducers from 'reduce-reducers';
 import { handleActions } from 'redux-actions';
 import { createSelector } from 'reselect';
@@ -54,5 +55,8 @@ export default reduceReducers(
 const selectTokens = (state) => state.tokens.tokens;
 export const selectTokensDetails = createSelector(
   selectTokens,
-  (tokens) => Object.keys(tokens).map(key => tokens[key]).sort((a, b) => (a.symbol || '').localeCompare(b.symbol || ''))
+  (tokens) => Object.keys(tokens)
+  .map(key => tokens[key])
+  .filter(token => !new BN(token.balance).isZero())
+  .sort((a, b) => (a.symbol || '').localeCompare(b.symbol || ''))
 );

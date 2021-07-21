@@ -100,6 +100,7 @@ class InputAccountId extends Component {
 
         if (accountId) {
             this.handleChangeAccountId({ userValue: accountId });
+            this.updatePrefix(accountId);
         }
     }
 

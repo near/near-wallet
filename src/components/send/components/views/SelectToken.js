@@ -38,7 +38,6 @@ const StyledContainer = styled.div`
 
 function filterTokens(tokens, searchSubstring) {
     return tokens.filter((token) => {
-        if (new BN(token.balance).isZero()) { return false; }
         if (!searchSubstring) { return true; }
 
         return token.symbol

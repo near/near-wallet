@@ -24,6 +24,7 @@ const StyledContainer = styled.div`
         color: #272729;
         text-align: center;
         margin: 40px 0;
+        cursor: pointer;
 
         @media (max-width: 767px) {
             font-size: 38px;
