@@ -111,8 +111,10 @@ const SendContainerV2 = ({
     useEffect(() => window.scrollTo(0, 0), [activeView]);
     useEffect(() => setActiveView(VIEWS.ENTER_AMOUNT), [accountId]);
 
-    const handleChangeAmount = (userInputAmount) => {
-        // FIX: Add block when entering more than max decimals allowed
+    const handleChangeAmount = (event) => {
+        const { value, maxLength } = event.target;
+        const userInputAmount = value.slice(0, maxLength);
+
         setAmount(userInputAmount);
         setParsedAmount(FTMethods.getParsedTokenAmount(userInputAmount, selectedToken.symbol, selectedToken.decimals));
         setMaxAmount(false);

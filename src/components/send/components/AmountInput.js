@@ -50,8 +50,9 @@ const AmountInput = ({ value, onChange, error, autoFocus = true }) => {
             step='any'
             placeholder='0'
             value={value}
-            onChange={e => onChange(e.target.value)}
+            onChange={onChange}
             autoFocus={!value ? autoFocus : false}
+            maxLength='18'
         />
     );
 };
