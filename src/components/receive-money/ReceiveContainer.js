@@ -1,6 +1,4 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import React from 'react';
 import styled from 'styled-components';
 
 import Container from '../common/styled/Container.css';
@@ -22,34 +20,24 @@ const StyledContainer = styled(Container)`
 `;
 
 
-class ReceiveContainer extends Component {
-    render() {
+const ReceiveContainer = ({
+    accountId,
+    availableBalance
+}) => {
+    return (
+        <StyledContainer className='small-centered'>
+            <TabSelector/>
+            <AccountIdQRCode
+                accountId={accountId}
+            />
+            <AccountId
+                accountId={accountId}
+            />
+            <AvailableBalance
+                availableBalance={availableBalance}
+            />
+        </StyledContainer>
+    );
+};
 
-        const { accountId, availableBalance } = this.props;
-
-        return (
-            <StyledContainer className='small-centered'>
-                <TabSelector/>
-                <AccountIdQRCode
-                    accountId={accountId}
-                />
-                <AccountId
-                    accountId={accountId}
-                />
-                <AvailableBalance
-                    availableBalance={availableBalance}
-                />
-            </StyledContainer>
-        );
-    }
-}
-
-const mapStateToProps = ({ account }) => ({
-   account,
-   accountId: account.accountId,
-   availableBalance: account.balance?.available
-});
-
-export const ReceiveContainerWithRouter = connect(
-   mapStateToProps
-)(withRouter(ReceiveContainer));
+export default ReceiveContainer;

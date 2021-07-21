@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import ArrowIcon from '../../svg/ArrowIcon';
+import ArrowIcon from '../svg/ArrowIcon';
 
 const StyledContainer = styled.div`
     transition: 100ms;

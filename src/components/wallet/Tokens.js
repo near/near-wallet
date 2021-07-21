@@ -23,11 +23,11 @@ const StyledContainer = styled.div`
     }
 `;
 
-const Tokens = ({ tokens, showTokenContract, onClick }) => {
+const Tokens = ({ tokens, onClick }) => {
     return (
         <StyledContainer>
             {tokens.map((token, i) => (
-                <TokenBox key={i} token={token} showTokenContract={showTokenContract} onClick={onClick}/>
+                <TokenBox key={i} token={token} onClick={onClick}/>
             ))}
         </StyledContainer>
     );

@@ -46,7 +46,7 @@ const StyledContainer = styled.div`
 
 const ReceiverInputWithLabel = ({
     receiverId,
-    handleChangeReciverId,
+    handleChangeReceiverId,
     checkAccountAvailable,
     localAlert,
     clearLocalAlert,
@@ -54,7 +54,7 @@ const ReceiverInputWithLabel = ({
     autoFocus
 }) => {
 
-    const [inputHasFocus, setInputHasFocus] = useState(null);
+    const [inputHasFocus, setInputHasFocus] = useState(false);
     const success = localAlert?.success;
     const problem = !localAlert?.success && localAlert?.show;
 
@@ -65,7 +65,7 @@ const ReceiverInputWithLabel = ({
             <Translate id='sendV2.selectReceiver.receiverInputLabel' />
             <InputAccountId
                 accountId={receiverId}
-                handleChange={handleChangeReciverId}
+                handleChange={handleChangeReceiverId}
                 ReceiverInputWithLabel={ReceiverInputWithLabel}
                 checkAvailability={checkAccountAvailable}
                 localAlert={localAlert}

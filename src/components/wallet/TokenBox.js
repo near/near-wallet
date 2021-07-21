@@ -50,13 +50,9 @@ const StyledContainer = styled.div`
         .contract-link {
             font-size: 12px;
             color: #72727A;
-            max-width: 350px;
+            max-width: 200px;
             overflow: hidden;
             text-overflow: ellipsis;
-
-            @media (max-width: 991px) {
-                max-width: 250px;
-            }
 
             @media (max-width: 500px) {
                 max-width: 180px;
@@ -114,7 +110,7 @@ const StyledContainer = styled.div`
     }
 `;
 
-const TokenBox = ({ token, showTokenContract = true, onClick }) => {
+const TokenBox = ({ token, onClick }) => {
     const explorerContractLink = `${EXPLORER_URL}/accounts/${token.contractName}`;
 
     return (
@@ -122,20 +118,14 @@ const TokenBox = ({ token, showTokenContract = true, onClick }) => {
             <div className='icon'>
                 <TokenIcon symbol={token.symbol} icon={token.icon}/>
             </div>
-            {showTokenContract ?
-                <div className='desc'>
-                    <span className='symbol'>{token.symbol}</span>
-                    <span className='contract-link' title={token.contractName}>
-                        <a href={explorerContractLink} target='_blank' rel='noopener noreferrer'>
-                            {token.contractName}
-                        </a>
-                    </span>
-                </div>
-                :
-                <div className='desc'>
-                    <span className='symbol' title={explorerContractLink}>{token.symbol}</span>
-                </div>
-            }
+            <div className='desc'>
+                <span className='symbol'>{token.symbol}</span>
+                <span className='contract-link' title={token.contractName}>
+                    <a href={explorerContractLink} target='_blank' rel='noopener noreferrer'>
+                        {token.contractName}
+                    </a>
+                </span>
+            </div>
             {token.symbol === 'NEAR' && !token.contractName ?
                 <div className='balance'>
                     <Balance amount={token.balance} symbol={false}/>

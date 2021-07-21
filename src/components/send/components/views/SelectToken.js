@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
+import BackArrowButton from '../../../common/BackArrowButton';
 import Tokens from '../../../wallet/Tokens';
-import BackArrowButton from '../BackArrowButton';
 
 
 const StyledContainer = styled.div`

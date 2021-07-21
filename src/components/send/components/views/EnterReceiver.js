@@ -2,8 +2,8 @@ import React from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
+import BackArrowButton from '../../../common/BackArrowButton';
 import FormButton from '../../../common/FormButton';
-import BackArrowButton from '../BackArrowButton';
 import RawTokenAmount from '../RawTokenAmount';
 import ReceiverInputWithLabel from '../ReceiverInputWithLabel';
 
@@ -33,7 +33,7 @@ const EnterReceiver = ({
     amount,
     selectedToken,
     receiverId,
-    handleChangeReciverId,
+    handleChangeReceiverId,
     checkAccountAvailable,
     localAlert,
     clearLocalAlert,
@@ -43,8 +43,6 @@ const EnterReceiver = ({
 
     const inputError = !localAlert?.success && localAlert?.show;
     const continueAllowed = localAlert?.success && localAlert?.show;
-
-    //TODO: Add support for receiver in URL
 
     return (
         <StyledContainer 
@@ -63,7 +61,7 @@ const EnterReceiver = ({
             </div>
             <ReceiverInputWithLabel
                 receiverId={receiverId}
-                handleChangeReciverId={handleChangeReciverId}
+                handleChangeReceiverId={handleChangeReceiverId}
                 checkAccountAvailable={checkAccountAvailable}
                 localAlert={localAlert}
                 clearLocalAlert={clearLocalAlert}

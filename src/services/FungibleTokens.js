@@ -64,14 +64,19 @@ export default class FungibleTokens {
 
     async getEstimatedTotalFees(contractName, accountId) {
         if (contractName && accountId && !await this.isStorageBalanceAvailable(contractName, accountId)) {
-            return new BN(FT_TRANSFER_GAS).add(new BN(FT_MINIMUM_STORAGE_BALANCE)).add(new BN(FT_STORAGE_DEPOSIT_GAS)).toString();
+            return new BN(FT_TRANSFER_GAS)
+                .add(new BN(FT_MINIMUM_STORAGE_BALANCE))
+                .add(new BN(FT_STORAGE_DEPOSIT_GAS))
+                .toString();
         } else {
             return FT_TRANSFER_GAS;
         }
     }
 
     async getEstimatedTotalNearAmount(amount) {
-        return new BN(amount).add(new BN(await this.getEstimatedTotalFees())).toString();
+        return new BN(amount)
+            .add(new BN(await this.getEstimatedTotalFees()))
+            .toString();
     }
 
     async isStorageBalanceAvailable(contractName, accountId) {

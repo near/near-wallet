@@ -10,7 +10,7 @@ import {
 import { clearLocalAlert, showCustomAlert } from '../../actions/status';
 import { handleGetTokens } from '../../actions/tokens';
 import { selectTokensDetails } from '../../reducers/tokens';
-import { 
+import {
     WALLET_APP_MIN_AMOUNT,
     EXPLORER_URL,
     wallet,
@@ -32,18 +32,18 @@ export function SendContainerWrapper() {
     const { accountId, balance } = useSelector(({ account }) => account);
     const { localAlert, isMobile } = useSelector(({ status }) => status);
     const tokens = useSelector(state => selectTokensDetails(state));
-    let fungibleTokens = Object.keys(tokens).map(key => tokens[key]).sort((a, b) => (a.symbol || '').localeCompare(b.symbol || ''));
 
     const availableNearBalance = balance?.available;
     const reservedNearForFees = parseNearAmount(WALLET_APP_MIN_AMOUNT);
     const availableNearToSend = getAvailableNearToSend(availableNearBalance, parseNearAmount(WALLET_APP_MIN_AMOUNT));
 
-    const nearTokenData = {
-        balance: availableNearToSend,
-        symbol: 'NEAR'
-    };
-    
-    fungibleTokens.unshift(nearTokenData);
+    const fungibleTokens = [
+        {
+            balance: availableNearToSend,
+            symbol: 'NEAR'
+        },
+        ...Object.values(tokens)
+    ];
 
     useEffect(() => {
         if (!accountId) {
@@ -59,7 +59,6 @@ export function SendContainerWrapper() {
             FTMethods={FTMethods}
             availableNearBalance={availableNearBalance}
             reservedNearForFees={reservedNearForFees}
-            availableNearToSend={availableNearToSend}
             redirectTo={path => dispatch(redirectTo(path))}
             checkAccountAvailable={accountId => dispatch(checkAccountAvailable(accountId))}
             parseNearAmount={parseNearAmount}

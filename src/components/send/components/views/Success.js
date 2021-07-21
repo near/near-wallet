@@ -19,7 +19,7 @@ const StyledContainer = styled.div`
 
 const Success = ({
     amount,
-    selectedToken,
+    tokenSymbol,
     receiverId,
     onClickContinue,
     onClickGoToExplorer
@@ -31,7 +31,7 @@ const Success = ({
             <div className='header'>
                 <Translate id='sendV2.success.title'
                     data={{ 
-                        amount: `${amount} ${selectedToken.symbol}`,
+                        amount: `${amount} ${tokenSymbol}`,
                         receiverId: receiverId
                     }}
                 />

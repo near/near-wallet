@@ -49,7 +49,9 @@ const Review = ({
     estimatedFeesInNear,
     estimatedTotalInNear,
     sendingToken,
-    setView
+    onClickAmount,
+    onClickReceiver,
+    onClickSelectedToken
 }) => {
 
     return (
@@ -57,7 +59,7 @@ const Review = ({
             <div className='header'>
                 <Translate id='sendV2.review.title'/>
             </div>
-            <div className='token-amount' onClick={() => setView('enterAmount')}>
+            <div className='token-amount' onClick={onClickAmount}>
                 <RawTokenAmount
                     amount={amount}
                     symbol={selectedToken.symbol}
@@ -72,14 +74,14 @@ const Review = ({
             <Information
                 translateIdTitle={prefixTXEntryTitleId('to')}
                 informationValue={receiverId}
-                onClick={() => setView('enterReceiver')}
+                onClick={onClickReceiver}
             />
             <TransactionDetails
                 selectedToken={selectedToken}
                 estimatedFeesInNear={estimatedFeesInNear}
                 estimatedTotalInNear={estimatedTotalInNear}
                 amount={amount}
-                onTokenClick={() => setView('selectToken')}
+                onTokenClick={onClickSelectedToken}
             />
             <div className='buttons-bottom-buttons'>
                 <FormButton

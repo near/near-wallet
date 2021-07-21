@@ -11,6 +11,14 @@ import Review from './components/views/Review';
 import SelectToken from './components/views/SelectToken';
 import Success from './components/views/Success';
 
+export const VIEWS = {
+    ENTER_AMOUNT: 'enterAmount',
+    SELECT_TOKEN: 'selectToken',
+    ENTER_RECEIVER: 'enterReceiver',
+    REVIEW: 'review',
+    SUCCESS: 'success'
+};
+
 //TODO: Handle min-height when showing top banner
 const StyledContainer = styled(Container)`
     &&& {
@@ -65,8 +73,8 @@ const StyledContainer = styled(Container)`
 `;
 
 const SendContainerV2 = ({
-    FTMethods,
     availableNearBalance,
+    FTMethods,
     reservedNearForFees,
     availableNearToSend,
     redirectTo,
@@ -87,17 +95,21 @@ const SendContainerV2 = ({
     const [parsedAmount, setParsedAmount] = useState('');
     const [receiverId, setReceiverId] = useState('');
     const [transactionHash, setTransactionHash] = useState(null);
-    const [view, setView] = useState('enterAmount');
+    const [activeView, setActiveView] = useState(VIEWS.ENTER_AMOUNT);
     const [maxAmount, setMaxAmount] = useState(null);
     const [sendingToken, setSendingToken] = useState(false);
     const [selectedToken, setSelectedToken] = useState(fungibleTokens[0]);
 
     useEffect(() => {
-        selectedToken.symbol === 'NEAR' && setSelectedToken(fungibleTokens[0]);
-    }, [availableNearToSend]);
+        // Initial render may not have NEAR available balance loaded yet
+        // Anytime NEAR available balance changes, we update the state
+        if (selectedToken.symbol === 'NEAR') {
+            setSelectedToken(fungibleTokens[0]);
+        }
+    }, [availableNearBalance]);
 
-    useEffect(() => window.scrollTo(0, 0), [view]);
-    useEffect(() => setView('enterAmount'), [accountId]);
+    useEffect(() => window.scrollTo(0, 0), [activeView]);
+    useEffect(() => setActiveView(VIEWS.ENTER_AMOUNT), [accountId]);
 
     const handleChangeAmount = (userInputAmount) => {
         // FIX: Add block when entering more than max decimals allowed
@@ -129,13 +141,13 @@ const SendContainerV2 = ({
 
     const handleContinueToEnterReceiver = () => {
         //TODO: Add amount to URL?
-        setView('enterReceiver');
+        setActiveView(VIEWS.ENTER_RECEIVER);
     };
 
     const handleSelectToken = (token) => {
         //TODO: Add token to URL?
         setSelectedToken(token);
-        setView('enterAmount');
+        setActiveView(VIEWS.ENTER_AMOUNT);
         setAmount('');
         setParsedAmount('');
         setMaxAmount(false);
@@ -146,7 +158,6 @@ const SendContainerV2 = ({
     };
 
     const handleContinueToReview = async () => {
-        setView('review');
 
         if (selectedToken.symbol === 'NEAR') {
             setEstimatedTotalFees(await FTMethods.getEstimatedTotalFees());
@@ -156,6 +167,7 @@ const SendContainerV2 = ({
             setEstimatedTotalFees(totalFees);
         }
 
+        setActiveView(VIEWS.REVIEW);
     };
 
     const handleSendToken = async () => {
@@ -176,78 +188,93 @@ const SendContainerV2 = ({
                 errorMessage: e.message,
             });
             setSendingToken('failed');
-            throw e;
+            return;
         }
 
-        setView('success');
+        setActiveView(VIEWS.SUCCESS);
         setTransactionHash(result.transaction.hash);
+    };
+
+    const getCurrentViewComponent = (view) => {
+        switch(view) {
+            case 'enterAmount':
+                return (
+                    <EnterAmount
+                        amount={amount}
+                        onChangeAmount={handleChangeAmount}
+                        onSetMaxAmaount={handleSetMaxAmount}
+                        availableToSend={selectedToken.balance}
+                        availableBalance={availableNearBalance}
+                        reservedForFees={reservedNearForFees}
+                        continueAllowed={enterAmountIsComplete()}
+                        onContinue={handleContinueToEnterReceiver}
+                        onClickCancel={() => redirectTo('/')}
+                        selectedToken={selectedToken}
+                        onClickSelectToken={() => setActiveView(VIEWS.SELECT_TOKEN)}
+                        error={amount && amount !== '0' && !enterAmountIsComplete()}
+                        isMobile={isMobile}
+                    />
+                );
+            case 'selectToken':
+                return (
+                    <SelectToken
+                        onClickGoBack={() => setActiveView(VIEWS.ENTER_AMOUNT)}
+                        onSelectToken={handleSelectToken}
+                        fungibleTokens={fungibleTokens}
+                        availableNearToSend={availableNearToSend}
+                    />
+                );
+            case 'enterReceiver':
+                return (
+                    <EnterReceiver
+                        onClickGoBack={() => setActiveView(VIEWS.ENTER_AMOUNT)}
+                        onClickCancel={() => redirectTo('/')}
+                        amount={parsedAmount}
+                        selectedToken={selectedToken}
+                        handleChangeReceiverId={(receiverId) => setReceiverId(receiverId)}
+                        receiverId={receiverId}
+                        checkAccountAvailable={checkAccountAvailable}
+                        localAlert={localAlert}
+                        clearLocalAlert={clearLocalAlert}
+                        onClickContinue={handleContinueToReview}
+                        isMobile={isMobile}
+                    />
+                );
+            case 'review':
+                return (
+                    <Review
+                        onClickCancel={() => redirectTo('/')}
+                        amount={parsedAmount}
+                        selectedToken={selectedToken}
+                        onClickContinue={handleSendToken}
+                        senderId={accountId}
+                        receiverId={receiverId}
+                        estimatedFeesInNear={estimatedTotalFees}
+                        sendingToken={sendingToken}
+                        estimatedTotalInNear={estimatedTotalInNear}
+                        onClickAmount={() => setActiveView(VIEWS.ENTER_AMOUNT)}
+                        onClickReceiver={() => setActiveView(VIEWS.ENTER_RECEIVER)}
+                        onClickSelectedToken={() => setActiveView(VIEWS.SELECT_TOKEN)}
+                    />
+                );
+            case 'success':
+                return (
+                    <Success
+                        tokenSymbol={selectedToken.symbol}
+                        amount={amount}
+                        receiverId={receiverId}
+                        onClickContinue={() => redirectTo('/')}
+                        onClickGoToExplorer={() => window.open(`${explorerUrl}/transactions/${transactionHash}`, '_blank')}
+                    />
+                );
+        default:
+            return null;
+        }
     };
 
     return (
         <StyledContainer className={classNames(['small-centered', {'showing-banner' : showNetworkBanner }])}>
-            {view === 'enterAmount' &&
-                <EnterAmount
-                    amount={amount}
-                    onChangeAmount={handleChangeAmount}
-                    onSetMaxAmaount={handleSetMaxAmount}
-                    availableToSend={selectedToken.balance}
-                    availableBalance={availableNearBalance}
-                    reservedForFees={reservedNearForFees}
-                    continueAllowed={enterAmountIsComplete()}
-                    onContinue={handleContinueToEnterReceiver}
-                    onClickCancel={() => redirectTo('/')}
-                    selectedToken={selectedToken}
-                    onClickSelectToken={() => setView('selectToken')}
-                    error={amount && amount !== '0' && !enterAmountIsComplete()}
-                    isMobile={isMobile}
-                />
-            }
-            {view === 'selectToken' &&
-                <SelectToken
-                    onClickGoBack={() => setView('enterAmount')}
-                    onSelectToken={handleSelectToken}
-                    fungibleTokens={fungibleTokens}
-                    availableNearToSend={availableNearToSend}
-                />
-            }
-            {view === 'enterReceiver' &&
-                <EnterReceiver
-                    onClickGoBack={() => setView('enterAmount')}
-                    onClickCancel={() => redirectTo('/')}
-                    amount={parsedAmount}
-                    selectedToken={selectedToken}
-                    handleChangeReciverId={(receiverId) => setReceiverId(receiverId)}
-                    receiverId={receiverId}
-                    checkAccountAvailable={checkAccountAvailable}
-                    localAlert={localAlert}
-                    clearLocalAlert={clearLocalAlert}
-                    onClickContinue={handleContinueToReview}
-                    isMobile={isMobile}
-                />
-            }
-            {view === 'review' &&
-                <Review
-                    onClickCancel={() => redirectTo('/')}
-                    amount={parsedAmount}
-                    selectedToken={selectedToken}
-                    onClickContinue={handleSendToken}
-                    senderId={accountId}
-                    receiverId={receiverId}
-                    estimatedFeesInNear={estimatedTotalFees}
-                    sendingToken={sendingToken}
-                    estimatedTotalInNear={estimatedTotalInNear}
-                    setView={view => setView(view)}
-                />
-            }
-            {view === 'success' &&
-                <Success
-                    selectedToken={selectedToken}
-                    amount={amount}
-                    receiverId={receiverId}
-                    onClickContinue={() => redirectTo('/')}
-                    onClickGoToExplorer={() => window.open(`${explorerUrl}/transactions/${transactionHash}`, '_blank')}
-                />
-            }
+            { getCurrentViewComponent(activeView) }
         </StyledContainer>
     );
 };
