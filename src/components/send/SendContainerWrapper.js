@@ -1,32 +1,14 @@
 import BN from 'bn.js';
 import { utils } from 'near-api-js';
-import React, { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
-import {
-    redirectTo,
-    checkAccountAvailable
-} from '../../actions/account';
+import { checkAccountAvailable, redirectTo } from '../../actions/account';
 import { clearLocalAlert, showCustomAlert } from '../../actions/status';
 import { handleGetTokens } from '../../actions/tokens';
 import { selectTokensDetails } from '../../reducers/tokens';
-import {
-    WALLET_APP_MIN_AMOUNT,
-    EXPLORER_URL,
-    wallet,
-    SHOW_NETWORK_BANNER
-} from '../../utils/wallet';
-import SendContainerV2 from './SendContainerV2';
-
-const VIEWS = {
-    ENTER_AMOUNT: 'enterAmount',
-    SELECT_TOKEN: 'selectToken',
-    ENTER_RECEIVER: 'enterReceiver',
-    REVIEW: 'review',
-    SUCCESS: 'success'
-};
-
-const FTMethods = wallet.fungibleTokens;
+import { EXPLORER_URL, SHOW_NETWORK_BANNER, wallet, WALLET_APP_MIN_AMOUNT } from '../../utils/wallet';
+import SendContainerV2, { VIEWS } from './SendContainerV2';
 
 const { parseNearAmount, formatNearAmount } = utils.format;
 
@@ -68,17 +50,17 @@ export function SendContainerWrapper({ match }) {
         dispatch(handleGetTokens());
     }, [accountId]);
 
-    const handleSendToken = async (parsedAmount, receiverId, contractName) => {
+    const handleSendToken = async (rawAmount, receiverId, contractName) => {
         setSendingToken(true);
         let result;
 
         try {
-            result = await FTMethods.transfer({ 
-                parsedAmount,
+            result = await wallet.fungibleTokens.transfer({
+                amount: rawAmount,
                 receiverId,
                 contractName
             });
-        } catch(e) {
+        } catch (e) {
             showCustomAlert({
                 success: false,
                 messageCodeHeader: 'error',
@@ -93,10 +75,26 @@ export function SendContainerWrapper({ match }) {
         setTransactionHash(result.transaction.hash);
     };
 
+    const handleContinueToReview = async ({ token, receiverId, rawAmount }) => {
+        if (token.symbol === 'NEAR') {
+            const [totalFees, totalNear] = await Promise.all([
+                wallet.fungibleTokens.getEstimatedTotalFees(),
+                wallet.fungibleTokens.getEstimatedTotalNearAmount(rawAmount)
+            ]);
+
+            setEstimatedTotalFees(totalFees);
+            setEstimatedTotalInNear(totalNear);
+        } else {
+            const totalFees = await wallet.fungibleTokens.getEstimatedTotalFees(token.contractName, receiverId);
+            setEstimatedTotalFees(totalFees);
+        }
+
+        setActiveView(VIEWS.REVIEW);
+    };
+
     return (
         <SendContainerV2
             accountId={accountId}
-            FTMethods={FTMethods}
             availableNearBalance={availableNearBalance}
             reservedNearForFees={reservedNearForFees}
             redirectTo={path => dispatch(redirectTo(path))}
@@ -111,14 +109,12 @@ export function SendContainerWrapper({ match }) {
             explorerUrl={EXPLORER_URL}
             showNetworkBanner={SHOW_NETWORK_BANNER}
             accountIdFromUrl={accountIdFromUrl}
-            VIEWS={VIEWS}
             activeView={activeView}
             setActiveView={view => setActiveView(view)}
             estimatedTotalFees={estimatedTotalFees}
-            setEstimatedTotalFees={fees => setEstimatedTotalFees(fees)}
             estimatedTotalInNear={estimatedTotalInNear}
-            setEstimatedTotalInNear={amount => setEstimatedTotalInNear(amount)}
             handleSendToken={handleSendToken}
+            handleContinueToReview={handleContinueToReview}
             sendingToken={sendingToken}
             transactionHash={transactionHash}
         />

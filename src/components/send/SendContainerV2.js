@@ -76,7 +76,6 @@ const StyledContainer = styled(Container)`
 
 const SendContainerV2 = ({
     availableNearBalance,
-    FTMethods,
     reservedNearForFees,
     availableNearToSend,
     redirectTo,
@@ -89,14 +88,12 @@ const SendContainerV2 = ({
     explorerUrl,
     showNetworkBanner,
     accountIdFromUrl,
-    VIEWS,
     activeView,
     setActiveView,
     estimatedTotalFees,
-    setEstimatedTotalFees,
     estimatedTotalInNear,
-    setEstimatedTotalInNear,
     handleSendToken,
+    handleContinueToReview,
     sendingToken,
     transactionHash
 }) => {
@@ -104,7 +101,7 @@ const SendContainerV2 = ({
     const [amount, setAmount] = useState(
         {
             amount: '',
-            parsedAmount: '',
+            rawAmount: '',
             maxAmount: false
         }
     );
@@ -128,7 +125,7 @@ const SendContainerV2 = ({
 
         setAmount({
             amount: userInputAmount,
-            parsedAmount: getParsedTokenAmount(userInputAmount, selectedToken.symbol, selectedToken.decimals),
+            rawAmount: getParsedTokenAmount(userInputAmount, selectedToken.symbol, selectedToken.decimals),
             maxAmount: false
         });
     };
@@ -139,7 +136,7 @@ const SendContainerV2 = ({
         if (!new BN(selectedToken.balance).isZero()) {
             setAmount({
                 amount: formattedTokenAmount.replace(/,/g, ''),
-                parsedAmount: selectedToken.balance,
+                rawAmount: selectedToken.balance,
                 maxAmount: true
             });
         }
@@ -151,7 +148,7 @@ const SendContainerV2 = ({
             return true;
         }
 
-        return !new BN(amount.parsedAmount).isZero() && new BN(amount.parsedAmount).lte(new BN(selectedToken.balance)) && isDecimalString(amount.amount);
+        return !new BN(amount.rawAmount).isZero() && new BN(amount.rawAmount).lte(new BN(selectedToken.balance)) && isDecimalString(amount.amount);
         // TODO: Handle rounding issue that can occur entering exact available amount
     };
 
@@ -164,7 +161,7 @@ const SendContainerV2 = ({
         setActiveView(VIEWS.ENTER_AMOUNT);
         setAmount({
             amount: '',
-            parsedAmount: '',
+            rawAmount: '',
             maxAmount: false
         });
     };
@@ -173,21 +170,8 @@ const SendContainerV2 = ({
         return amount.amount && !new BN(selectedToken.balance).isZero() && isValidAmount();
     };
 
-    const handleContinueToReview = async () => {
-
-        if (selectedToken.symbol === 'NEAR') {
-            setEstimatedTotalFees(await FTMethods.getEstimatedTotalFees());
-            setEstimatedTotalInNear(await FTMethods.getEstimatedTotalNearAmount(amount.parsedAmount));
-        } else {
-            const totalFees = await FTMethods.getEstimatedTotalFees(selectedToken.contractName, receiverId);
-            setEstimatedTotalFees(totalFees);
-        }
-
-        setActiveView(VIEWS.REVIEW);
-    };
-
     const onClickSendToken = () => {
-        handleSendToken(amount.parsedAmount, receiverId, selectedToken.contractName);
+        handleSendToken(amount.rawAmount, receiverId, selectedToken.contractName);
     };
 
     const getCurrentViewComponent = (view) => {
@@ -224,14 +208,18 @@ const SendContainerV2 = ({
                 <EnterReceiver
                     onClickGoBack={() => setActiveView(VIEWS.ENTER_AMOUNT)}
                     onClickCancel={() => redirectTo('/')}
-                    amount={amount.parsedAmount}
+                    amount={amount.rawAmount}
                     selectedToken={selectedToken}
                     handleChangeReceiverId={(receiverId) => setReceiverId(receiverId)}
                     receiverId={receiverId}
                     checkAccountAvailable={checkAccountAvailable}
                     localAlert={localAlert}
                     clearLocalAlert={clearLocalAlert}
-                    onClickContinue={handleContinueToReview}
+                    onClickContinue={() => handleContinueToReview({
+                        token: selectedToken,
+                        rawAmount: amount.rawAmount,
+                        receiverId
+                    })}
                     isMobile={isMobile}
                 />
             );
@@ -239,7 +227,7 @@ const SendContainerV2 = ({
             return (
                 <Review
                     onClickCancel={() => redirectTo('/')}
-                    amount={amount.parsedAmount}
+                    amount={amount.rawAmount}
                     selectedToken={selectedToken}
                     onClickContinue={onClickSendToken}
                     senderId={accountId}

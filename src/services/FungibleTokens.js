@@ -88,7 +88,7 @@ export default class FungibleTokens {
         return await this.account.viewFunction(contractName, 'storage_balance_of', { account_id: accountId });
     }
 
-    async transfer({ contractName, parsedAmount, receiverId, memo }) {
+    async transfer({ contractName, amount, receiverId, memo }) {
         if (contractName) {
             const storageAvailable = await this.isStorageBalanceAvailable(contractName, receiverId);
 
@@ -96,7 +96,9 @@ export default class FungibleTokens {
                 try {
                     await this.transferStorageDeposit(contractName, receiverId, FT_MINIMUM_STORAGE_BALANCE);
                 } catch (e) {
-                    if (e.message.includes('attached deposit is less than the mimimum storage balance')) {
+                    // sic.typo in `mimimum` wording of responses, so we check substring
+                    // Original string was: 'attached deposit is less than the mimimum storage balance'
+                    if (e.message.includes('attached deposit is less than')) {
                         await this.transferStorageDeposit(contractName, receiverId, FT_MINIMUM_STORAGE_BALANCE_LARGE);
                     }
                 }
@@ -104,14 +106,14 @@ export default class FungibleTokens {
 
             return await this.signAndSendTransaction(contractName, [
                 functionCall('ft_transfer', {
+                    amount,
+                    memo: memo,
                     receiver_id: receiverId,
-                    amount: parsedAmount,
-                    memo: memo
                 }, FT_TRANSFER_GAS, FT_TRANSFER_DEPOSIT)
             ]);
 
         } else {
-            return await wallet.sendMoney(receiverId, parsedAmount);
+            return await wallet.sendMoney(receiverId, amount);
         }
     }
 
