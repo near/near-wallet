@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import BN from 'bn.js';
+import throttle from 'lodash.throttle';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
 import BackArrowButton from '../../../common/BackArrowButton';
 import Tokens from '../../../wallet/Tokens';
-
 
 const StyledContainer = styled.div`
     .token-box {
@@ -35,9 +36,33 @@ const StyledContainer = styled.div`
     }
 `;
 
+function filterTokens(tokens, searchSubstring) {
+    return tokens.filter((token) => {
+        if (new BN(token.balance).isZero()) { return false; }
+        if (!searchSubstring) { return true; }
+
+        return token.symbol
+            .toLowerCase()
+            .includes(searchSubstring.toLowerCase());
+    });
+}
+
 const SelectToken = ({ onClickGoBack, fungibleTokens, onSelectToken }) => {
     const [searchValue, setSearchValue] = useState('');
-    fungibleTokens = fungibleTokens.filter(v => v.symbol.toLowerCase().includes(searchValue.toLowerCase()) && v.balance !== '0');
+    const [filteredFungibleTokens, setFilteredFungibleTokens] = useState(() => filterTokens(fungibleTokens));
+
+    const throttledSetFilteredTokens = useCallback(throttle(
+        (tokens, searchSubstring) => {
+            const filteredTokens = filterTokens(tokens, searchSubstring);
+            setFilteredFungibleTokens(filteredTokens);
+        },
+        500,
+        { leading: false, trailing: true }
+    ), []);
+
+    useEffect(() => {
+        throttledSetFilteredTokens(fungibleTokens, searchValue);
+    }, [fungibleTokens, searchValue]);
 
     return (
         <StyledContainer>
@@ -51,6 +76,7 @@ const SelectToken = ({ onClickGoBack, fungibleTokens, onSelectToken }) => {
                         placeholder={translate('sendV2.selectAsset.assetInputPlaceholder')}
                         value={searchValue}
                         onChange={(e) => setSearchValue(e.target.value)}
+                        autoFocus={true}
                     />
                 )}
             </Translate>
@@ -58,7 +84,7 @@ const SelectToken = ({ onClickGoBack, fungibleTokens, onSelectToken }) => {
                 <span><Translate id='sendV2.selectAsset.assetListNameTitle'/></span>
                 <span><Translate id='sendV2.selectAsset.asssetListBalanceTitle'/></span>
             </div>
-            <Tokens tokens={fungibleTokens} showTokenContract={false} onClick={onSelectToken}/>
+            <Tokens tokens={filteredFungibleTokens} showTokenContract={false} onClick={onSelectToken}/>
         </StyledContainer>
     );
 };
