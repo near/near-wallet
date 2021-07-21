@@ -25,5 +25,3 @@ yarn-error.log*
 
 # parcel
 /.cache
-
-.vscode/settings.json
