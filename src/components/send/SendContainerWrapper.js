@@ -17,7 +17,7 @@ const getAvailableNearToSend = (availableBalance, reservedForFees) => {
     return availableToSendBN.isNeg() ? '0' : availableToSendBN.toString();
 };
 
-const buildFungibleTokensArr = (tokens, availableNearToSend) => {
+const fungibleTokensIncludingNEAR = (tokens, availableNearToSend) => {
     return [
         {
             balance: availableNearToSend,
@@ -43,10 +43,10 @@ export function SendContainerWrapper({ match }) {
     const [estimatedTotalInNear, setEstimatedTotalInNear] = useState('0');
     const [sendingToken, setSendingToken] = useState(false);
     const [transactionHash, setTransactionHash] = useState(null);
-    const [fungibleTokens, setFungibleTokens] = useState(() => buildFungibleTokensArr(tokens, availableNearToSend));
+    const [fungibleTokens, setFungibleTokens] = useState(() => fungibleTokensIncludingNEAR(tokens, availableNearToSend));
 
     useEffect(() => {
-        setFungibleTokens(buildFungibleTokensArr(tokens, availableNearToSend));
+        setFungibleTokens(fungibleTokensIncludingNEAR(tokens, availableNearToSend));
     }, [tokens, availableNearToSend]);
 
     useEffect(() => {
