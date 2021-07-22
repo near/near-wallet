@@ -169,8 +169,8 @@ class Wallet {
         return ACCOUNT_ID_REGEX.test(accountId);
     }
 
-    async sendMoney(receiverId, amount) {
-        await (await this.getAccount(this.accountId)).sendMoney(receiverId, amount);
+    sendMoney(receiverId, amount) {
+        return this.getAccountBasic(this.accountId).sendMoney(receiverId, amount);
     }
 
     isEmpty() {

@@ -25,6 +25,7 @@
     "react-phone-number-input": "2.3.11",
     "react-redux": "^7.2.4",
     "react-router-dom": "^5.2.0",
+    "react-textfit": "^1.1.1",
     "reduce-reducers": "^1.0.4",
     "redux": "^4.1.0",
     "redux-actions": "^2.6.5",
