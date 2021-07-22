@@ -63,12 +63,14 @@ export class TwoFactor extends Account2FA {
     async deployMultisig() {
         const contractBytes = new Uint8Array(await (await fetch('/multisig.wasm')).arrayBuffer());
         await super.deployMultisig(contractBytes);
+        this.has2fa = true
     }
 
     async disableMultisig() {
         const contractBytes = new Uint8Array(await (await fetch('/main.wasm')).arrayBuffer());
         const result = await this.disable(contractBytes);
         await store.dispatch(refreshAccount());
+        this.has2fa = false
         return result;
     }
 }
