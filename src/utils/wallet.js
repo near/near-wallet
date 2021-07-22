@@ -230,7 +230,7 @@ class Wallet {
 
             return {
                 ...state,
-                has2fa: account.has2fa,
+                has2fa: !!account.has2fa,
                 balance: {
                     available: ''
                 },
