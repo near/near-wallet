@@ -177,6 +177,7 @@ const SendContainerV2 = ({
                         });
                     }}
                     fungibleTokens={fungibleTokens}
+                    isMobile={isMobile}
                 />
             );
         case VIEWS.ENTER_RECEIVER:

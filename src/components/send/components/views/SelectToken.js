@@ -1,4 +1,3 @@
-import BN from 'bn.js';
 import throttle from 'lodash.throttle';
 import React, { useCallback, useEffect, useState } from 'react';
 import { Translate } from 'react-localize-redux';
@@ -46,7 +45,7 @@ function filterTokens(tokens, searchSubstring) {
     });
 }
 
-const SelectToken = ({ onClickGoBack, fungibleTokens, onSelectToken }) => {
+const SelectToken = ({ onClickGoBack, fungibleTokens, onSelectToken, isMobile }) => {
     const [searchValue, setSearchValue] = useState('');
     const [filteredFungibleTokens, setFilteredFungibleTokens] = useState(() => filterTokens(fungibleTokens));
 
@@ -75,7 +74,7 @@ const SelectToken = ({ onClickGoBack, fungibleTokens, onSelectToken }) => {
                         placeholder={translate('sendV2.selectAsset.assetInputPlaceholder')}
                         value={searchValue}
                         onChange={(e) => setSearchValue(e.target.value)}
-                        autoFocus={true}
+                        autoFocus={isMobile ? false : true}
                     />
                 )}
             </Translate>
