@@ -140,7 +140,7 @@ const SendContainerV2 = ({
                             rawAmount: getParsedTokenAmount(userInputAmount, selectedToken.symbol, selectedToken.decimals),
                         });
                     }}
-                    onSetMaxAmaount={() => {
+                    onSetMaxAmount={() => {
                         const formattedTokenAmount = getFormattedTokenAmount(selectedToken.balance, selectedToken.symbol, selectedToken.decimals);
 
                         if (!new BN(selectedToken.balance).isZero()) {

@@ -643,7 +643,7 @@
         "inputHeader": "Введите код подтверждения",
         "inputPlaceholder": "Код подтверждения",
         "invalidCode": "Некорректный код",
-        "didNotRecive": "Не получили код?",
+        "didNotReceive": "Не получили код?",
         "resendCode": "Отправить код еще раз",
         "or": "или",
         "sendToDifferent": "Отправить на другой",

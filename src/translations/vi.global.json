@@ -678,7 +678,7 @@
         "pageText": "Chúng tôi đã gửi mã xác minh gồm 6 chữ số tới ",
         "inputHeader": "Nhập mã xác nhận",
         "inputPlaceholder": "Mã xác nhận",
-        "didNotRecive": "Bạn chưa nhận được mã?",
+        "didNotReceive": "Bạn chưa nhận được mã?",
         "resendCode": "Gửi lại mã của bạn",
         "or": "hoặc",
         "sendToDifferent": "Gửi cho một người khác",

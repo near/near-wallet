@@ -714,7 +714,7 @@
         "inputHeader": "輸入 6 位驗證碼",
         "inputError": "請輸入驗證碼。", 
         "inputPlaceholder": "驗證碼",
-        "didNotRecive": "未收到驗證碼？",
+        "didNotReceive": "未收到驗證碼？",
         "resendCode": "重新發送",
         "resending": "正在重新發送...", 
         "or": "或",

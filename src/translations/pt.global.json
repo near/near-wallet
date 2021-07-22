@@ -679,7 +679,7 @@
         "pageText": "Enviamos um código de verificação de 6 dígitos para ",
         "inputHeader": "Digitar Código de Verificação",
         "inputPlaceholder": "Código de Verificação",
-        "didNotRecive": "Não recebeu o seu código?",
+        "didNotReceive": "Não recebeu o seu código?",
         "resendCode": "Reenviar seu código",
         "or": "ou",
         "sendToDifferent": "Enviar para outro",

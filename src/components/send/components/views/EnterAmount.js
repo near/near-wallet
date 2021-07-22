@@ -32,7 +32,7 @@ const StyledContainer = styled.form`
 const EnterAmount = ({ 
     amount,
     onChangeAmount,
-    onSetMaxAmaount,
+    onSetMaxAmount,
     availableToSend,
     availableBalance,
     reservedForFees,
@@ -59,7 +59,7 @@ const EnterAmount = ({
                 autoFocus={!isMobile}
             />
             <FormButton
-                onClick={onSetMaxAmaount}
+                onClick={onSetMaxAmount}
                 type='button'
                 color='light-blue'
                 className='small rounded'
