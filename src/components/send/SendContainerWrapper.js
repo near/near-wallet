@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { checkAccountAvailable, redirectTo } from '../../actions/account';
 import { clearLocalAlert, showCustomAlert } from '../../actions/status';
 import { handleGetTokens } from '../../actions/tokens';
+import { Mixpanel } from '../../mixpanel/index';
 import { selectTokensDetails } from '../../reducers/tokens';
 import { EXPLORER_URL, SHOW_NETWORK_BANNER, wallet, WALLET_APP_MIN_AMOUNT } from '../../utils/wallet';
 import SendContainerV2, { VIEWS } from './SendContainerV2';
@@ -27,7 +28,7 @@ const fungibleTokensIncludingNEAR = (tokens, availableNearToSend) => {
     ];
 };
 
-export function SendContainerWrapper({ match }) {
+export function SendContainerWrapper({ match, location }) {
     const accountIdFromUrl = match.params.accountId || '';
     const dispatch = useDispatch();
     const { accountId, balance } = useSelector(({ account }) => account);
@@ -44,6 +45,14 @@ export function SendContainerWrapper({ match }) {
     const [sendingToken, setSendingToken] = useState(false);
     const [transactionHash, setTransactionHash] = useState(null);
     const [fungibleTokens, setFungibleTokens] = useState(() => fungibleTokensIncludingNEAR(tokens, availableNearToSend));
+
+    useEffect(() => {
+        if (activeView === VIEWS.SUCCESS) {
+            let id = Mixpanel.get_distinct_id();
+            Mixpanel.identify(id);
+            Mixpanel.people.set({last_send_token: new Date().toString()});
+        }
+    }, [location.key]);
 
     useEffect(() => {
         setFungibleTokens(fungibleTokensIncludingNEAR(tokens, availableNearToSend));
@@ -98,6 +107,7 @@ export function SendContainerWrapper({ match }) {
                     return;
                 }
 
+                Mixpanel.track("SEND token");
                 setActiveView(VIEWS.SUCCESS);
                 setTransactionHash(result.transaction.hash);
             }}

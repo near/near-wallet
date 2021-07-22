@@ -2,6 +2,7 @@ import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
+import { Mixpanel } from '../../mixpanel/index';
 import FungibleTokens from '../../services/FungibleTokens';
 import classNames from '../../utils/classNames';
 import isDecimalString from '../../utils/isDecimalString';
@@ -144,6 +145,7 @@ const SendContainerV2 = ({
                         const formattedTokenAmount = getFormattedTokenAmount(selectedToken.balance, selectedToken.symbol, selectedToken.decimals);
 
                         if (!new BN(selectedToken.balance).isZero()) {
+                            Mixpanel.track("SEND Use max amount");
                             setAmounts({
                                 userInputAmount: formattedTokenAmount.replace(/,/g, ''),
                                 rawAmount: selectedToken.balance,
@@ -188,18 +190,24 @@ const SendContainerV2 = ({
                     checkAccountAvailable={checkAccountAvailable}
                     localAlert={localAlert}
                     clearLocalAlert={clearLocalAlert}
-                    onClickContinue={() => handleContinueToReview({
-                        token: selectedToken,
-                        rawAmount: amounts.rawAmount,
-                        receiverId
-                    })}
+                    onClickContinue={() => {
+                        Mixpanel.track("SEND Click continue to review button");
+                        handleContinueToReview({
+                            token: selectedToken,
+                            rawAmount: amounts.rawAmount,
+                            receiverId
+                        });
+                    }}
                     isMobile={isMobile}
                 />
             );
         case VIEWS.REVIEW:
             return (
                 <Review
-                    onClickCancel={() => redirectTo('/')}
+                    onClickCancel={() => {
+                        redirectTo('/');
+                        Mixpanel.track("SEND Click cancel button");
+                    }}
                     amount={amounts.rawAmount}
                     selectedToken={selectedToken}
                     onClickContinue={() => handleSendToken(amounts.rawAmount, receiverId, selectedToken.contractName)}
