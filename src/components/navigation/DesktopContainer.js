@@ -93,7 +93,7 @@ class DesktopContainer extends Component {
             menuOpen,
             toggleMenu,
             availableAccounts,
-            selectAccount,
+            handleSelectAccount,
             showNavLinks,
             flowLimitation,
             refreshBalance,
@@ -125,7 +125,7 @@ class DesktopContainer extends Component {
                             accountId={account.accountId}
                             accountIdLocalStorage={account.localStorage?.accountId}
                             accounts={availableAccounts}
-                            selectAccount={selectAccount}
+                            handleSelectAccount={handleSelectAccount}
                             accountsBalance={account.accountsBalance}
                             balance={account.balance}
                             refreshBalance={refreshBalance}

@@ -13,7 +13,7 @@ import {
     get2faMethod,
     getLedgerKey,
     getBalance,
-    selectAccount,
+    makeAccountActive,
     setLocalStorage,
     getAccountBalance,
     setAccountBalance,
@@ -166,7 +166,7 @@ const account = handleActions({
                     ...payload
                 }
             }),
-    [selectAccount]: () => {
+    [makeAccountActive]: () => {
         return initialState;
     },
     [setLocalStorage]: (state, { payload }) => ({
