@@ -171,10 +171,6 @@ const SendContainerV2 = ({
                     onSelectToken={(token) => {
                         setSelectedToken(token);
                         setActiveView(VIEWS.ENTER_AMOUNT);
-                        setAmounts({
-                            userInputAmount: '',
-                            rawAmount: '',
-                        });
                     }}
                     fungibleTokens={fungibleTokens}
                     isMobile={isMobile}
