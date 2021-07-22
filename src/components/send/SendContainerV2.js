@@ -1,5 +1,5 @@
 import BN from 'bn.js';
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import FungibleTokens from '../../services/FungibleTokens';
@@ -97,12 +97,10 @@ const SendContainerV2 = ({
     sendingToken,
     transactionHash
 }) => {
-
-    const [amount, setAmount] = useState(
+    const [amounts, setAmounts] = useState(
         {
-            amount: '',
+            userInputAmount: '',
             rawAmount: '',
-            maxAmount: false
         }
     );
     const [receiverId, setReceiverId] = useState(accountIdFromUrl);
@@ -119,59 +117,14 @@ const SendContainerV2 = ({
     useEffect(() => window.scrollTo(0, 0), [activeView]);
     useEffect(() => setActiveView(VIEWS.ENTER_AMOUNT), [accountId]);
 
-    const handleChangeAmount = (event) => {
-        const { value, maxLength } = event.target;
-        const userInputAmount = value.slice(0, maxLength);
-
-        setAmount({
-            amount: userInputAmount,
-            rawAmount: getParsedTokenAmount(userInputAmount, selectedToken.symbol, selectedToken.decimals),
-            maxAmount: false
-        });
-    };
-
-    const handleSetMaxAmount = () => {
-        const formattedTokenAmount = getFormattedTokenAmount(selectedToken.balance, selectedToken.symbol, selectedToken.decimals);
-
-        if (!new BN(selectedToken.balance).isZero()) {
-            setAmount({
-                amount: formattedTokenAmount.replace(/,/g, ''),
-                rawAmount: selectedToken.balance,
-                maxAmount: true
-            });
-        }
-    };
-
     const isValidAmount = () => {
 
-        if (amount.maxAmount) {
-            return true;
-        }
-
-        return !new BN(amount.rawAmount).isZero() && new BN(amount.rawAmount).lte(new BN(selectedToken.balance)) && isDecimalString(amount.amount);
+        return !new BN(amounts.rawAmount).isZero() && new BN(amounts.rawAmount).lte(new BN(selectedToken.balance)) && isDecimalString(amounts.userInputAmount);
         // TODO: Handle rounding issue that can occur entering exact available amount
     };
 
-    const handleContinueToEnterReceiver = () => {
-        setActiveView(VIEWS.ENTER_RECEIVER);
-    };
-
-    const handleSelectToken = (token) => {
-        setSelectedToken(token);
-        setActiveView(VIEWS.ENTER_AMOUNT);
-        setAmount({
-            amount: '',
-            rawAmount: '',
-            maxAmount: false
-        });
-    };
-
     const enterAmountIsComplete = () => {
-        return amount.amount && !new BN(selectedToken.balance).isZero() && isValidAmount();
-    };
-
-    const onClickSendToken = () => {
-        handleSendToken(amount.rawAmount, receiverId, selectedToken.contractName);
+        return amounts.userInputAmount && !new BN(selectedToken.balance).isZero() && isValidAmount();
     };
 
     const getCurrentViewComponent = (view) => {
@@ -179,18 +132,37 @@ const SendContainerV2 = ({
         case 'enterAmount':
             return (
                 <EnterAmount
-                    amount={amount.amount}
-                    onChangeAmount={handleChangeAmount}
-                    onSetMaxAmaount={handleSetMaxAmount}
+                    amount={amounts.userInputAmount}
+                    onChangeAmount={(event) => {
+                        const { value, maxLength } = event.target;
+                        const userInputAmount = value.slice(0, maxLength);
+
+                        setAmounts({
+                            userInputAmount,
+                            rawAmount: getParsedTokenAmount(userInputAmount, selectedToken.symbol, selectedToken.decimals),
+                        });
+                    }}
+                    onSetMaxAmaount={() => {
+                        const formattedTokenAmount = getFormattedTokenAmount(selectedToken.balance, selectedToken.symbol, selectedToken.decimals);
+
+                        if (!new BN(selectedToken.balance).isZero()) {
+                            setAmounts({
+                                userInputAmount: formattedTokenAmount.replace(/,/g, ''),
+                                rawAmount: selectedToken.balance,
+                            });
+                        }
+                    }}
                     availableToSend={selectedToken.balance}
                     availableBalance={availableNearBalance}
                     reservedForFees={reservedNearForFees}
                     continueAllowed={enterAmountIsComplete()}
-                    onContinue={handleContinueToEnterReceiver}
+                    onContinue={() => {
+                        setActiveView(VIEWS.ENTER_RECEIVER);
+                    }}
                     onClickCancel={() => redirectTo('/')}
                     selectedToken={selectedToken}
                     onClickSelectToken={() => setActiveView(VIEWS.SELECT_TOKEN)}
-                    error={amount.amount && amount.amount !== '0' && !enterAmountIsComplete()}
+                    error={amounts.userInputAmount && amounts.userInputAmount !== '0' && !enterAmountIsComplete()}
                     isMobile={isMobile}
                 />
             );
@@ -198,7 +170,14 @@ const SendContainerV2 = ({
             return (
                 <SelectToken
                     onClickGoBack={() => setActiveView(VIEWS.ENTER_AMOUNT)}
-                    onSelectToken={handleSelectToken}
+                    onSelectToken={(token) => {
+                        setSelectedToken(token);
+                        setActiveView(VIEWS.ENTER_AMOUNT);
+                        setAmounts({
+                            userInputAmount: '',
+                            rawAmount: '',
+                        });
+                    }}
                     fungibleTokens={fungibleTokens}
                     availableNearToSend={availableNearToSend}
                 />
@@ -208,7 +187,7 @@ const SendContainerV2 = ({
                 <EnterReceiver
                     onClickGoBack={() => setActiveView(VIEWS.ENTER_AMOUNT)}
                     onClickCancel={() => redirectTo('/')}
-                    amount={amount.rawAmount}
+                    amount={amounts.rawAmount}
                     selectedToken={selectedToken}
                     handleChangeReceiverId={(receiverId) => setReceiverId(receiverId)}
                     receiverId={receiverId}
@@ -217,7 +196,7 @@ const SendContainerV2 = ({
                     clearLocalAlert={clearLocalAlert}
                     onClickContinue={() => handleContinueToReview({
                         token: selectedToken,
-                        rawAmount: amount.rawAmount,
+                        rawAmount: amounts.rawAmount,
                         receiverId
                     })}
                     isMobile={isMobile}
@@ -227,9 +206,9 @@ const SendContainerV2 = ({
             return (
                 <Review
                     onClickCancel={() => redirectTo('/')}
-                    amount={amount.rawAmount}
+                    amount={amounts.rawAmount}
                     selectedToken={selectedToken}
-                    onClickContinue={onClickSendToken}
+                    onClickContinue={() => handleSendToken(amounts.rawAmount, receiverId, selectedToken.contractName)}
                     senderId={accountId}
                     receiverId={receiverId}
                     estimatedFeesInNear={estimatedTotalFees}
@@ -244,7 +223,7 @@ const SendContainerV2 = ({
             return (
                 <Success
                     tokenSymbol={selectedToken.symbol}
-                    amount={amount.amount}
+                    amount={amounts.userInputAmount}
                     receiverId={receiverId}
                     onClickContinue={() => redirectTo('/')}
                     onClickGoToExplorer={() => window.open(`${explorerUrl}/transactions/${transactionHash}`, '_blank')}
