@@ -50,48 +50,6 @@ export function SendContainerWrapper({ match }) {
         dispatch(handleGetTokens());
     }, [accountId]);
 
-    const handleSendToken = async (rawAmount, receiverId, contractName) => {
-        setSendingToken(true);
-        let result;
-
-        try {
-            result = await wallet.fungibleTokens.transfer({
-                amount: rawAmount,
-                receiverId,
-                contractName
-            });
-        } catch (e) {
-            dispatch(showCustomAlert({
-                success: false,
-                messageCodeHeader: 'error',
-                messageCode: 'walletErrorCodes.sendFungibleToken.error',
-                errorMessage: e.message,
-            }));
-            setSendingToken('failed');
-            return;
-        }
-
-        setActiveView(VIEWS.SUCCESS);
-        setTransactionHash(result.transaction.hash);
-    };
-
-    const handleContinueToReview = async ({ token, receiverId, rawAmount }) => {
-        if (token.symbol === 'NEAR') {
-            const [totalFees, totalNear] = await Promise.all([
-                wallet.fungibleTokens.getEstimatedTotalFees(),
-                wallet.fungibleTokens.getEstimatedTotalNearAmount(rawAmount)
-            ]);
-
-            setEstimatedTotalFees(totalFees);
-            setEstimatedTotalInNear(totalNear);
-        } else {
-            const totalFees = await wallet.fungibleTokens.getEstimatedTotalFees(token.contractName, receiverId);
-            setEstimatedTotalFees(totalFees);
-        }
-
-        setActiveView(VIEWS.REVIEW);
-    };
-
     return (
         <SendContainerV2
             accountId={accountId}
@@ -112,11 +70,58 @@ export function SendContainerWrapper({ match }) {
             setActiveView={view => setActiveView(view)}
             estimatedTotalFees={estimatedTotalFees}
             estimatedTotalInNear={estimatedTotalInNear}
-            handleSendToken={handleSendToken}
-            handleContinueToReview={handleContinueToReview}
+            handleSendToken={async (rawAmount, receiverId, contractName) => {
+                setSendingToken(true);
+                let result;
+
+                try {
+                    result = await wallet.fungibleTokens.transfer({
+                        amount: rawAmount,
+                        receiverId,
+                        contractName
+                    });
+                } catch (e) {
+                    dispatch(showCustomAlert({
+                        success: false,
+                        messageCodeHeader: 'error',
+                        messageCode: 'walletErrorCodes.sendFungibleToken.error',
+                        errorMessage: e.message,
+                    }));
+                    setSendingToken('failed');
+                    return;
+                }
+
+                setActiveView(VIEWS.SUCCESS);
+                setTransactionHash(result.transaction.hash);
+            }}
+            handleContinueToReview={async ({ token, receiverId, rawAmount }) => {
+                // We can't estimate fees until we know which token is being sent, and to whom
+                try {
+                    if (token.symbol === 'NEAR') {
+                        const [totalFees, totalNear] = await Promise.all([
+                            wallet.fungibleTokens.getEstimatedTotalFees(),
+                            wallet.fungibleTokens.getEstimatedTotalNearAmount(rawAmount)
+                        ]);
+
+                        setEstimatedTotalFees(totalFees);
+                        setEstimatedTotalInNear(totalNear);
+                    } else {
+                        const totalFees = await wallet.fungibleTokens.getEstimatedTotalFees(token.contractName, receiverId);
+                        setEstimatedTotalFees(totalFees);
+                    }
+
+                    setActiveView(VIEWS.REVIEW);
+                } catch (e) {
+                    dispatch(showCustomAlert({
+                        errorMessage: e.message,
+                        success: false,
+                        messageCodeHeader: 'error',
+                    }));
+                }
+            }}
             sendingToken={sendingToken}
             transactionHash={transactionHash}
         />
     );
 
-};
+}
