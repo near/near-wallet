@@ -75,14 +75,14 @@ const Review = ({
             <Information
                 translateIdTitle={prefixTXEntryTitleId('to')}
                 informationValue={receiverId}
-                onClick={() => !sendingToken && onClickReceiver}
+                onClick={() => !sendingToken && onClickReceiver()}
             />
             <TransactionDetails
                 selectedToken={selectedToken}
                 estimatedFeesInNear={estimatedFeesInNear}
                 estimatedTotalInNear={estimatedTotalInNear}
                 amount={amount}
-                onTokenClick={() => !sendingToken && onClickSelectedToken}
+                onTokenClick={() => !sendingToken && onClickSelectedToken()}
             />
             <div className='buttons-bottom-buttons'>
                 <FormButton
