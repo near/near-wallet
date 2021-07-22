@@ -22,13 +22,14 @@ const {
 } = nearApiJs;
 
 export class TwoFactor extends Account2FA {
-    constructor(wallet, accountId) {
+    constructor(wallet, accountId, has2fa = false) {
         super(wallet.connection, accountId, {
             storage: localStorage,
             helperUrl: ACCOUNT_HELPER_URL,
             getCode: () => store.dispatch(promptTwoFactor(true)).payload.promise
         });
         this.wallet = wallet;
+        this.has2fa = has2fa;
     }
 
     static async has2faEnabled(account) {
