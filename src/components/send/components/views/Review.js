@@ -60,7 +60,7 @@ const Review = ({
             <div className='header'>
                 <Translate id='sendV2.review.title'/>
             </div>
-            <div className='token-amount' onClick={onClickAmount}>
+            <div className='token-amount' onClick={() => !sendingToken && onClickAmount()}>
                 <RawTokenAmount
                     amount={amount}
                     symbol={selectedToken.symbol}
@@ -75,14 +75,14 @@ const Review = ({
             <Information
                 translateIdTitle={prefixTXEntryTitleId('to')}
                 informationValue={receiverId}
-                onClick={onClickReceiver}
+                onClick={() => !sendingToken && onClickReceiver}
             />
             <TransactionDetails
                 selectedToken={selectedToken}
                 estimatedFeesInNear={estimatedFeesInNear}
                 estimatedTotalInNear={estimatedTotalInNear}
                 amount={amount}
-                onTokenClick={onClickSelectedToken}
+                onTokenClick={() => !sendingToken && onClickSelectedToken}
             />
             <div className='buttons-bottom-buttons'>
                 <FormButton
