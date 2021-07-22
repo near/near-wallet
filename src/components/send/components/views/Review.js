@@ -1,5 +1,6 @@
 import React from 'react';
 import { Translate } from 'react-localize-redux';
+import { Textfit } from 'react-textfit';
 import styled from 'styled-components';
 
 import FormButton from '../../../common/FormButton';
@@ -61,12 +62,13 @@ const Review = ({
                 <Translate id='sendV2.review.title'/>
             </div>
             <div className='token-amount' onClick={() => !sendingToken && onClickAmount()}>
-                <RawTokenAmount
-                    amount={amount}
-                    symbol={selectedToken.symbol}
-                    decimals={selectedToken.decimals}
-                    withSymbol={false}
-                />
+                <Textfit mode='single' max={38}>
+                    <RawTokenAmount
+                        amount={amount}
+                        symbol={selectedToken.symbol}
+                        decimals={selectedToken.decimals}
+                    />
+                </Textfit>
             </div>
             <Information
                 translateIdTitle={prefixTXEntryTitleId('from')}
