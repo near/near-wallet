@@ -140,12 +140,12 @@ const StyledContainer = styled(Container)`
                     color: #3F4045;
 
                     > div {
-                        background-color: #1f1f1f;
+                        background-color: black;
                     }
                 }
 
                 > div {
-                    background-color: #111618;
+                    background-color: #272729;
                     display: flex;
                     align-items: center;
                     justify-content: center;
@@ -155,6 +155,7 @@ const StyledContainer = styled(Container)`
                     width: 56px;
                     border-radius: 20px;
                     margin-bottom: 10px;
+                    transition: 100ms;
                 }
                 svg {
                     width: 22px !important;
@@ -356,6 +357,7 @@ const FungibleTokens = ({ balance, tokensLoader, fungibleTokens }) => {
             <div className='sub-title'><Translate id='wallet.balanceTitle' /></div>
             <div className='buttons'>
                 <FormButton
+                    color='dark-gray'
                     linkTo='/send-money'
                     trackingId='Click Send on Wallet page'
                 >
@@ -365,6 +367,7 @@ const FungibleTokens = ({ balance, tokensLoader, fungibleTokens }) => {
                     <Translate id='button.send'/>
                 </FormButton>
                 <FormButton
+                    color='dark-gray'
                     linkTo='/receive-money'
                     trackingId='Click Receive on Wallet page'
                 >
@@ -374,6 +377,7 @@ const FungibleTokens = ({ balance, tokensLoader, fungibleTokens }) => {
                     <Translate id='button.receive'/>
                 </FormButton>
                 <FormButton
+                    color='dark-gray'
                     linkTo='/buy'
                     trackingId='Click Receive on Wallet page'
                 >
