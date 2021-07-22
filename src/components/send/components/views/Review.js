@@ -3,6 +3,7 @@ import { Translate } from 'react-localize-redux';
 import { Textfit } from 'react-textfit';
 import styled from 'styled-components';
 
+import classNames from '../../../../utils/classNames';
 import FormButton from '../../../common/FormButton';
 import Information from '../entry_types/Information';
 import RawTokenAmount from '../RawTokenAmount';
@@ -15,8 +16,10 @@ const StyledContainer = styled.div`
         margin-bottom: 5px;
     }
 
-    .clickable {
-        cursor: pointer;
+    &:not(.sending-token) {
+        .clickable {
+            cursor: pointer;
+        }
     }
 
     .token-amount {
@@ -25,7 +28,6 @@ const StyledContainer = styled.div`
         color: #272729;
         text-align: center;
         margin: 40px 0;
-        cursor: pointer;
 
         @media (max-width: 767px) {
             font-size: 38px;
@@ -57,11 +59,11 @@ const Review = ({
 }) => {
 
     return (
-        <StyledContainer className='buttons-bottom'>
+        <StyledContainer className={classNames(['buttons-bottom', {'sending-token' : sendingToken}])}>
             <div className='header'>
                 <Translate id='sendV2.review.title'/>
             </div>
-            <div className='token-amount' onClick={() => !sendingToken && onClickAmount()}>
+            <div className='token-amount clickable' onClick={() => !sendingToken && onClickAmount()}>
                 <Textfit mode='single' max={38}>
                     <RawTokenAmount
                         amount={amount}
