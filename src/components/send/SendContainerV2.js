@@ -129,7 +129,7 @@ const SendContainerV2 = ({
 
     const getCurrentViewComponent = (view) => {
         switch (view) {
-        case 'enterAmount':
+        case VIEWS.ENTER_AMOUNT:
             return (
                 <EnterAmount
                     amount={amounts.userInputAmount}
@@ -166,7 +166,7 @@ const SendContainerV2 = ({
                     isMobile={isMobile}
                 />
             );
-        case 'selectToken':
+        case VIEWS.SELECT_TOKEN:
             return (
                 <SelectToken
                     onClickGoBack={() => setActiveView(VIEWS.ENTER_AMOUNT)}
@@ -182,7 +182,7 @@ const SendContainerV2 = ({
                     availableNearToSend={availableNearToSend}
                 />
             );
-        case 'enterReceiver':
+        case VIEWS.ENTER_RECEIVER:
             return (
                 <EnterReceiver
                     onClickGoBack={() => setActiveView(VIEWS.ENTER_AMOUNT)}
@@ -202,7 +202,7 @@ const SendContainerV2 = ({
                     isMobile={isMobile}
                 />
             );
-        case 'review':
+        case VIEWS.REVIEW:
             return (
                 <Review
                     onClickCancel={() => redirectTo('/')}
@@ -219,7 +219,7 @@ const SendContainerV2 = ({
                     onClickSelectedToken={() => setActiveView(VIEWS.SELECT_TOKEN)}
                 />
             );
-        case 'success':
+        case VIEWS.SUCCESS:
             return (
                 <Success
                     tokenSymbol={selectedToken.symbol}
