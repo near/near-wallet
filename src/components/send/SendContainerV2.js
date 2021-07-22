@@ -77,7 +77,6 @@ const StyledContainer = styled(Container)`
 const SendContainerV2 = ({
     availableNearBalance,
     reservedNearForFees,
-    availableNearToSend,
     redirectTo,
     fungibleTokens,
     checkAccountAvailable,
@@ -112,7 +111,7 @@ const SendContainerV2 = ({
         if (selectedToken.symbol === 'NEAR') {
             setSelectedToken(fungibleTokens[0]);
         }
-    }, [availableNearBalance]);
+    }, [fungibleTokens[0]]);
 
     useEffect(() => window.scrollTo(0, 0), [activeView]);
     useEffect(() => setActiveView(VIEWS.ENTER_AMOUNT), [accountId]);
@@ -179,7 +178,6 @@ const SendContainerV2 = ({
                         });
                     }}
                     fungibleTokens={fungibleTokens}
-                    availableNearToSend={availableNearToSend}
                 />
             );
         case VIEWS.ENTER_RECEIVER:
