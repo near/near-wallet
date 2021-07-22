@@ -25,7 +25,7 @@ const StyledInput = styled.input`
 
 const getFontSize = (charLength) => {
     let baseSize = 70;
-    
+
     if (charLength > 5) {
         baseSize = 60;
     }
@@ -41,7 +41,7 @@ const getFontSize = (charLength) => {
     return fontSize;
 };
 
-const AmountInput = ({ value, onChange, error, autoFocus = true }) => {
+const AmountInput = ({ value, onChange, error, autoFocus = true, maxLength = 18}) => {
     return (
         <StyledInput
             className={error ? 'error' : ''}
@@ -50,9 +50,15 @@ const AmountInput = ({ value, onChange, error, autoFocus = true }) => {
             step='any'
             placeholder='0'
             value={value}
-            onChange={onChange}
+            onChange={(event) => {
+                const { value, maxLength } = event.target;
+
+                if(maxLength && value.length > maxLength) { return false; }
+
+                onChange(event);
+            }}
             autoFocus={!value ? autoFocus : false}
-            maxLength='18'
+            maxLength={maxLength}
         />
     );
 };

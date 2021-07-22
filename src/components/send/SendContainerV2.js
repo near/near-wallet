@@ -133,8 +133,7 @@ const SendContainerV2 = ({
                 <EnterAmount
                     amount={amounts.userInputAmount}
                     onChangeAmount={(event) => {
-                        const { value, maxLength } = event.target;
-                        const userInputAmount = value.slice(0, maxLength);
+                        const { value: userInputAmount } = event.target;
 
                         setAmounts({
                             userInputAmount,
