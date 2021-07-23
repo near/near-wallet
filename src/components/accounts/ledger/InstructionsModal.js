@@ -14,7 +14,7 @@ const InstructionsModal = ({ open, onClose }) => {
             closeButton='desktop'
         >
             <ModalTheme/>
-            <h2><Translate id='setupLedgerSteps.header'/></h2>
+            <h2 className='title'><Translate id='setupLedgerSteps.header'/></h2>
             <ol>
                 <li><Translate id='setupLedgerSteps.one'/></li>
                 <li><Translate id='setupLedgerSteps.two'/></li>

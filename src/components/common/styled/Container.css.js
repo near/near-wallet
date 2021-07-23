@@ -106,7 +106,7 @@ const Container = styled.div`
             }
 
             &.remove-all-keys {
-                min-height: 48px;
+                min-height: 56px;
                 height: auto;
                 line-height: 140%;
             }
