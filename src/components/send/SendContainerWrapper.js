@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { checkAccountAvailable, redirectTo } from '../../actions/account';
 import { clearLocalAlert, showCustomAlert } from '../../actions/status';
 import { handleGetTokens } from '../../actions/tokens';
+import { Mixpanel } from '../../mixpanel/index';
 import { selectTokensDetails } from '../../reducers/tokens';
 import { EXPLORER_URL, SHOW_NETWORK_BANNER, wallet, WALLET_APP_MIN_AMOUNT } from '../../utils/wallet';
 import SendContainerV2, { VIEWS } from './SendContainerV2';
@@ -79,27 +80,33 @@ export function SendContainerWrapper({ match }) {
             estimatedTotalInNear={estimatedTotalInNear}
             handleSendToken={async (rawAmount, receiverId, contractName) => {
                 setSendingToken(true);
-                let result;
 
-                try {
-                    result = await wallet.fungibleTokens.transfer({
-                        amount: rawAmount,
-                        receiverId,
-                        contractName
-                    });
-                } catch (e) {
-                    dispatch(showCustomAlert({
-                        success: false,
-                        messageCodeHeader: 'error',
-                        messageCode: 'walletErrorCodes.sendFungibleToken.error',
-                        errorMessage: e.message,
-                    }));
-                    setSendingToken('failed');
-                    return;
-                }
+                await Mixpanel.withTracking("SEND token",
+                    async () => {
+                        const result = await wallet.fungibleTokens.transfer({
+                            amount: rawAmount,
+                            receiverId,
+                            contractName
+                        });
+                        
+                        setTransactionHash(result.transaction.hash);
+                        setActiveView(VIEWS.SUCCESS);
 
-                setActiveView(VIEWS.SUCCESS);
-                setTransactionHash(result.transaction.hash);
+                        const id = Mixpanel.get_distinct_id();
+                        Mixpanel.identify(id);
+                        Mixpanel.people.set({ last_send_token: new Date().toString() });
+                    },
+                    (e) => {
+                        dispatch(showCustomAlert({
+                            success: false,
+                            messageCodeHeader: 'error',
+                            messageCode: 'walletErrorCodes.sendFungibleToken.error',
+                            errorMessage: e.message,
+                        }));
+                        setSendingToken('failed');
+                        return;
+                    }
+                );
             }}
             handleContinueToReview={async ({ token, receiverId, rawAmount }) => {
                 // We can't estimate fees until we know which token is being sent, and to whom
