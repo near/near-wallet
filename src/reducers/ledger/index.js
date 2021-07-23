@@ -8,7 +8,8 @@ import {
     refreshAccountOwner,
     setLedgerTxSigned,
     clearSignInWithLedgerModalState,
-    showLedgerModal
+    showLedgerModal,
+    hideLedgerModal
 } from '../../actions/account';
 import { HIDE_SIGN_IN_WITH_LEDGER_ENTER_ACCOUNT_ID_MODAL } from '../../utils/wallet';
 
@@ -127,6 +128,13 @@ const ledgerActions = handleActions({
                 action: payload.action,
                 textId: `ledgerSignTxModal.${payload.action}`
             },
+            txSigned: undefined
+        };
+    },
+    [hideLedgerModal]: (state) => {
+        return {
+            ...state,
+            modal: {},
             txSigned: undefined
         };
     },
