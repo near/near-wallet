@@ -59,11 +59,11 @@ const Review = ({
 }) => {
 
     return (
-        <StyledContainer className={classNames(['buttons-bottom', {'sending-token' : sendingToken}])}>
+        <StyledContainer className={classNames(['buttons-bottom', {'sending-token' : sendingToken === true}])}>
             <div className='header'>
                 <Translate id='sendV2.review.title'/>
             </div>
-            <div className='token-amount clickable' onClick={() => !sendingToken && onClickAmount()}>
+            <div className='token-amount clickable' onClick={() => sendingToken !== true && onClickAmount()}>
                 <Textfit mode='single' max={38}>
                     <RawTokenAmount
                         amount={amount}
@@ -79,14 +79,14 @@ const Review = ({
             <Information
                 translateIdTitle={prefixTXEntryTitleId('to')}
                 informationValue={receiverId}
-                onClick={() => !sendingToken && onClickReceiver()}
+                onClick={() => sendingToken !== true && onClickReceiver()}
             />
             <TransactionDetails
                 selectedToken={selectedToken}
                 estimatedFeesInNear={estimatedFeesInNear}
                 estimatedTotalInNear={estimatedTotalInNear}
                 amount={amount}
-                onTokenClick={() => !sendingToken && onClickSelectedToken()}
+                onTokenClick={() => sendingToken !== true && onClickSelectedToken()}
             />
             <div className='buttons-bottom-buttons'>
                 <FormButton
