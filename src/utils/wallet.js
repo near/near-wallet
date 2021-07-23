@@ -129,8 +129,8 @@ class Wallet {
         this.accountId = localStorage.getItem(KEY_ACTIVE_ACCOUNT_ID) || '';
     }
 
-    async createFungibleTokensInstance(account) {
-        this.fungibleTokens = this.accountId && new FungibleTokens(account || await this.getAccount(this.accountId));
+    createFungibleTokensInstance(account) {
+        this.fungibleTokens = new FungibleTokens(account);
     }
 
     async getLocalAccessKey(accountId, accessKeys) {
@@ -461,7 +461,6 @@ class Wallet {
             return false;
         }
         this.accountId = accountId;
-        this.createFungibleTokensInstance();
         this.save();
     }
 
@@ -875,7 +874,6 @@ class Wallet {
             // temp account
             this.connection = connection;
             this.accountId = accountId;
-            this.createFungibleTokensInstance();
             let account = await this.getAccount(accountId);
             let recoveryKeyIsFAK = false;
             // check if recover access key is FAK and if so add key without 2FA
