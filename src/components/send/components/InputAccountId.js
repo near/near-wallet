@@ -137,10 +137,11 @@ class InputAccountId extends Component {
                 el.style.animation = 'none';
                 void el.offsetHeight;
                 el.style.animation = null;
+                setAccountIdIsValid(true);
             } else {
+                setAccountIdIsValid(false);
                 this.setState({ wrongChar: true });
             }
-            setAccountIdIsValid(false);
             return;
         } else {
             this.setState({ wrongChar: false });
@@ -162,6 +163,7 @@ class InputAccountId extends Component {
         const { checkAvailability, clearLocalAlert, setAccountIdIsValid } = this.props;
 
         if (!accountId) {
+            setAccountIdIsValid(false);
             return false;
         }
 
@@ -176,7 +178,6 @@ class InputAccountId extends Component {
                 return;
             }
             setAccountIdIsValid(false);
-
         }
     }
 
