@@ -163,7 +163,7 @@ class Wallet {
         return ACCOUNT_ID_REGEX.test(accountId);
     }
 
-    async sendMoney({ account, receiverId, amount }) {
+    async sendMoney(receiverId, amount) {
         return (await this.getAccount(this.accountId)).sendMoney(receiverId, amount);
     }
 
