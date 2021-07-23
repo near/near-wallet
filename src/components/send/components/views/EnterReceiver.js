@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
@@ -27,7 +27,7 @@ const StyledContainer = styled.form`
     }
 `;
 
-const EnterReceiver = ({ 
+const EnterReceiver = ({
     onClickGoBack,
     onClickCancel,
     amount,
@@ -40,12 +40,10 @@ const EnterReceiver = ({
     onClickContinue,
     isMobile
 }) => {
-
-    const inputError = !localAlert?.success && localAlert?.show;
-    const continueAllowed = localAlert?.success && localAlert?.show;
+    const [ accountIdIsValid, setAccountIdIsValid] = useState(false);
 
     return (
-        <StyledContainer 
+        <StyledContainer
             className='buttons-bottom'
             onSubmit={(e) => {onClickContinue(e); e.preventDefault();}}
         >
@@ -65,8 +63,8 @@ const EnterReceiver = ({
                 checkAccountAvailable={checkAccountAvailable}
                 localAlert={localAlert}
                 clearLocalAlert={clearLocalAlert}
-                inputError={inputError}
                 autoFocus={!isMobile}
+                setAccountIdIsValid={setAccountIdIsValid}
             />
             <div className='input-sub-label'>
                 <Translate id='input.accountId.subLabel'/>
@@ -75,7 +73,7 @@ const EnterReceiver = ({
                 {/* TODO: Add error state */}
                 <FormButton
                     type='submit'
-                    disabled={!continueAllowed}
+                    disabled={!accountIdIsValid}
                 >
                     <Translate id='button.continue'/>
                 </FormButton>
