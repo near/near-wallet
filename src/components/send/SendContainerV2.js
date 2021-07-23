@@ -222,7 +222,7 @@ const SendContainerV2 = ({
                     }}
                     amount={getRawAmount()}
                     selectedToken={selectedToken}
-                    onClickContinue={() => handleSendToken(getRawAmount(), receiverId, selectedToken.contractName)}
+                    onClickContinue={() => handleSendToken(isMaxAmount ? selectedToken.balance : getRawAmount(), receiverId, selectedToken.contractName)}
                     senderId={accountId}
                     receiverId={receiverId}
                     estimatedFeesInNear={estimatedTotalFees}
