@@ -123,7 +123,12 @@ const TokenBox = ({ token, onClick }) => {
             <div className='desc'>
                 <span className='symbol'>{token.symbol}</span>
                 <span className='contract-link' title={token.contractName}>
-                    <a href={explorerContractLink} target='_blank' rel='noopener noreferrer'>
+                    <a 
+                        href={explorerContractLink}
+                        onClick={e => e.stopPropagation()}
+                        target='_blank'
+                        rel='noopener noreferrer'
+                    >
                         {token.contractName}
                     </a>
                 </span>
