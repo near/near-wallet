@@ -126,7 +126,7 @@ class InputAccountId extends Component {
     }
 
     handleChangeAccountId = ({ userValue, el }) => {
-        const { handleChange, localAlert, clearLocalAlert } = this.props;
+        const { handleChange, localAlert, clearLocalAlert, setAccountIdIsValid } = this.props;
         const { wrongChar } = this.state;
         const pattern = /[^a-zA-Z0-9._-]/;
 
@@ -140,6 +140,7 @@ class InputAccountId extends Component {
             } else {
                 this.setState({ wrongChar: true });
             }
+            setAccountIdIsValid(false);
             return;
         } else {
             this.setState({ wrongChar: false });
@@ -158,7 +159,7 @@ class InputAccountId extends Component {
     isImplicitAccount = (accountId) => accountId.length === 64 && !accountId.includes('.')
 
     handleCheckAvailability = async (accountId) => {
-        const { checkAvailability, clearLocalAlert } = this.props;
+        const { checkAvailability, clearLocalAlert, setAccountIdIsValid } = this.props;
 
         if (!accountId) {
             return false;
@@ -166,12 +167,16 @@ class InputAccountId extends Component {
 
         try {
             await checkAvailability(accountId);
+            setAccountIdIsValid(true);
         } catch(e) {
             if (this.isImplicitAccount(accountId) && e.toString().includes('does not exist while viewing')) {
                 console.warn(`${accountId} does not exist. Assuming this is an implicit Account ID.`);
                 clearLocalAlert();
+                setAccountIdIsValid(true);
                 return;
             }
+            setAccountIdIsValid(false);
+
         }
     }
 
