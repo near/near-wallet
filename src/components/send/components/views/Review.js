@@ -59,7 +59,7 @@ const Review = ({
 }) => {
 
     return (
-        <StyledContainer className={classNames(['buttons-bottom', {'sending-token' : sendingToken}])}>
+        <StyledContainer className={classNames(['buttons-bottom', {'sending-token' : sendingToken === true}])}>
             <div className='header'>
                 <Translate id='sendV2.review.title'/>
             </div>
