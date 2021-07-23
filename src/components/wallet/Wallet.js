@@ -353,7 +353,7 @@ const FungibleTokens = ({ balance, tokensLoader, fungibleTokens }) => {
         <>
             <NearWithBackgroundIcon/>
             <h1 className='total-balance'><Balance amount={balance?.total} symbol={false}/></h1>
-            <div className='sub-title'><Translate id='wallet.balanceTitle' /></div>
+            <div className='sub-title'><Translate id='wallet.totalBalanceTitle' /></div>
             <div className='buttons'>
                 <FormButton
                     color='dark-gray'
@@ -388,7 +388,7 @@ const FungibleTokens = ({ balance, tokensLoader, fungibleTokens }) => {
             </div>
             <div className='sub-title tokens'>
                 <span className={classNames({ dots: tokensLoader })}><Translate id='wallet.tokens' /></span>
-                <span><Translate id='wallet.balance' /></span>
+                <span><Translate id='wallet.totalBalance' /></span>
             </div>
             <Tokens tokens={fungibleTokens} />
         </>

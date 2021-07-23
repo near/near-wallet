@@ -766,8 +766,10 @@
 
     "wallet": {
         "balanceTitle": "NEAR Balance",
+        "totalBalanceTitle": "Total NEAR Balance",
         "tokens": "Tokens",
         "balance": "Balance",
+        "totalBalance": "Total Balance",
         "dateAndTime": "Date & Time",
         "status": "Status",
         "balances": "Balances",
