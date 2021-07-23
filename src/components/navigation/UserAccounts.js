@@ -140,7 +140,7 @@ const SyncButton = styled.span`
     }
 `;
 
-const UserAccounts = ({ accounts, accountId, accountIdLocalStorage, selectAccount, accountsBalance, balance, refreshBalance, getBalance }) => (
+const UserAccounts = ({ accounts, accountId, accountIdLocalStorage, handleSelectAccount, accountsBalance, balance, refreshBalance, getBalance }) => (
     <Wrapper>
         <UserAccount
             accountId={accountId || accountIdLocalStorage}
@@ -161,7 +161,7 @@ const UserAccounts = ({ accounts, accountId, accountIdLocalStorage, selectAccoun
                     balanceLoading={accountsBalance && accountsBalance[account]?.loading}
                     refreshBalance={() => refreshBalance(account)}
                     active={false}
-                    onClick={() => selectAccount(account)}
+                    onClick={() => handleSelectAccount(account)}
                 />
             )) : <SkeletonLoading
                 height='55px'

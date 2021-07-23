@@ -6,10 +6,10 @@ import styled from 'styled-components';
 import { handleGetNFTs } from '../../actions/nft';
 import { handleGetTokens } from '../../actions/tokens';
 import { getTransactions, getTransactionStatus } from '../../actions/transactions';
+import { useFungibleTokensIncludingNEAR } from '../../hooks/fungibleTokensIncludingNEAR';
 import { Mixpanel } from "../../mixpanel/index";
 import { selectAccountId, selectBalance } from '../../reducers/account';
 import { selectNFT } from '../../reducers/nft';
-import { selectTokensDetails } from '../../reducers/tokens';
 import { selectTransactions } from '../../reducers/transactions';
 import { actionsPendingByPrefix } from '../../utils/alerts';
 import classNames from '../../utils/classNames';
@@ -178,7 +178,6 @@ const StyledContainer = styled(Container)`
 
             > div {
                 flex: 1;
-                flex: 1;
                 display: flex;
                 align-items: center;
                 justify-content: center;
@@ -262,7 +261,7 @@ export function Wallet({ tab, setTab } ) {
     const hideExploreApps = localStorage.getItem('hideExploreApps');
     const linkdropAmount = localStorage.getItem('linkdropAmount');
     const linkdropModal = linkdropAmount && showLinkdropModal !== false;
-    const fungibleTokens = useSelector(state => selectTokensDetails(state));
+    const fungibleTokensList = useFungibleTokensIncludingNEAR({ fullBalance: true });
     const nft = useSelector(selectNFT);
     const tokensLoader = actionsPendingByPrefix('TOKENS/') || !balance?.total;
 
@@ -321,7 +320,7 @@ export function Wallet({ tab, setTab } ) {
                         : <FungibleTokens
                             balance={balance}
                             tokensLoader={tokensLoader}
-                            fungibleTokens={fungibleTokens}
+                            fungibleTokens={fungibleTokensList}
                         />
 
                     }
@@ -354,7 +353,7 @@ const FungibleTokens = ({ balance, tokensLoader, fungibleTokens }) => {
         <>
             <NearWithBackgroundIcon/>
             <h1 className='total-balance'><Balance amount={balance?.total} symbol={false}/></h1>
-            <div className='sub-title'><Translate id='wallet.balanceTitle' /></div>
+            <div className='sub-title'><Translate id='wallet.totalBalanceTitle' /></div>
             <div className='buttons'>
                 <FormButton
                     color='dark-gray'
@@ -389,7 +388,7 @@ const FungibleTokens = ({ balance, tokensLoader, fungibleTokens }) => {
             </div>
             <div className='sub-title tokens'>
                 <span className={classNames({ dots: tokensLoader })}><Translate id='wallet.tokens' /></span>
-                <span><Translate id='wallet.balance' /></span>
+                <span><Translate id='wallet.totalBalance' /></span>
             </div>
             <Tokens tokens={fungibleTokens} />
         </>

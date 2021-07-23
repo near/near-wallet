@@ -2,7 +2,7 @@ import BN from 'bn.js';
 import { utils, transactions as transaction } from 'near-api-js';
 import { handleActions } from 'redux-actions';
 
-import { parseTransactionsToSign, signAndSendTransactions, setSignTransactionStatus, selectAccount } from '../actions/account';
+import { parseTransactionsToSign, signAndSendTransactions, setSignTransactionStatus, makeAccountActive } from '../actions/account';
 
 const initialState = {
     status: 'needs-confirmation'
@@ -64,7 +64,7 @@ const sign = handleActions({
             status: payload.status
         };
     },
-    [selectAccount]: () => {
+    [makeAccountActive]: () => {
         return initialState;
     }
 }, initialState);

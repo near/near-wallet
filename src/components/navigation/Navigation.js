@@ -93,7 +93,7 @@ class Navigation extends Component {
                 <DesktopContainer
                     menuOpen={menuOpen}
                     toggleMenu={this.toggleMenu}
-                    selectAccount={this.handleSelectAccount}
+                    handleSelectAccount={this.handleSelectAccount}
                     showNavLinks={this.showNavLinks}
                     flowLimitation={flowLimitation}
                     refreshBalance={this.props.getAccountBalance}
@@ -104,7 +104,7 @@ class Navigation extends Component {
                 <MobileContainer
                     menuOpen={menuOpen}
                     toggleMenu={this.toggleMenu}
-                    selectAccount={this.handleSelectAccount}
+                    handleSelectAccount={this.handleSelectAccount}
                     showNavLinks={this.showNavLinks}
                     flowLimitation={flowLimitation}
                     refreshBalance={this.props.getAccountBalance}

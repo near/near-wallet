@@ -50,7 +50,6 @@ const ReceiverInputWithLabel = ({
     checkAccountAvailable,
     localAlert,
     clearLocalAlert,
-    inputError,
     autoFocus
 }) => {
 

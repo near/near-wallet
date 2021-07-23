@@ -13,7 +13,7 @@ import {
     showLedgerModal,
     redirectTo,
     finishAccountSetup,
-    selectAccount
+    makeAccountActive
 } from '../actions/account';
 import FungibleTokens from '../services/FungibleTokens';
 import sendJson from '../tmp_fetch_send_json';
@@ -197,7 +197,7 @@ class Wallet {
                         break;
                     }
                 }
-                store.dispatch(selectAccount(nextAccountId));
+                store.dispatch(makeAccountActive(nextAccountId));
 
                 // TODO: Make sure "problem creating" only shows for actual creation
                 return {
@@ -370,7 +370,7 @@ class Wallet {
             });
         }
 
-        await this.saveAndSelectAccount(accountId);
+        await this.saveAndMakeAccountActive(accountId);
         await this.addLocalKeyAndFinishSetup(accountId, recoveryMethod, publicKey, previousAccountId);
     }
 
@@ -456,7 +456,7 @@ class Wallet {
         this.accounts[accountId] = true;
     }
 
-    selectAccount(accountId) {
+    makeAccountActive(accountId) {
         if (!(accountId in this.accounts)) {
             return false;
         }
@@ -465,9 +465,9 @@ class Wallet {
         this.save();
     }
 
-    async saveAndSelectAccount(accountId, keyPair) {
+    async saveAndMakeAccountActive(accountId, keyPair) {
         await this.saveAccount(accountId, keyPair);
-        this.selectAccount(accountId);
+        this.makeAccountActive(accountId);
         // TODO: What does setAccountConfirmed do?
         setAccountConfirmed(this.accountId, false);
     }
@@ -624,7 +624,7 @@ class Wallet {
             await this.saveAccount(accountId);
         }));
 
-        store.dispatch(selectAccount(accountIds[accountIds.length - 1]));
+        store.dispatch(makeAccountActive(accountIds[accountIds.length - 1]));
 
         return {
             numberOfAccounts: accountIds.length
@@ -772,7 +772,7 @@ class Wallet {
                     await this.saveAccount(accountId, newKeyPair);
                 } catch (error) {
                     if (previousAccountId) {
-                        await wallet.saveAndSelectAccount(previousAccountId);
+                        await wallet.saveAndMakeAccountActive(previousAccountId);
                     }
                     throw new WalletError(error, 'addAccessKey.error');
                 }
@@ -920,7 +920,7 @@ class Wallet {
                 await this.saveAccount(accountId, newKeyPair);
             }));
 
-            store.dispatch(selectAccount(accountIdsSuccess[accountIdsSuccess.length - 1].accountId));
+            store.dispatch(makeAccountActive(accountIdsSuccess[accountIdsSuccess.length - 1].accountId));
 
             return {
                 numberOfAccounts: accountIdsSuccess.length,
