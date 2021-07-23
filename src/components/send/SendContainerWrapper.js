@@ -42,7 +42,7 @@ export function SendContainerWrapper({ match }) {
             availableNearBalance={availableNearBalance}
             reservedNearForFees={reservedNearForFees}
             redirectTo={path => dispatch(redirectTo(path))}
-            checkAccountAvailable={accountId => dispatch(checkAccountAvailable(accountId))}
+            checkAccountAvailable={accountId => dispatch(checkAccountAvailable(accountId)).catch(() => null)}
             parseNearAmount={parseNearAmount}
             formatNearAmount={formatNearAmount}
             fungibleTokens={fungibleTokensList}
