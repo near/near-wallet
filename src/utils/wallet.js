@@ -46,7 +46,7 @@ export const ACCESS_KEY_FUNDING_AMOUNT = process.env.REACT_APP_ACCESS_KEY_FUNDIN
 export const LINKDROP_GAS = process.env.LINKDROP_GAS || '100000000000000';
 export const ENABLE_FULL_ACCESS_KEYS = process.env.ENABLE_FULL_ACCESS_KEYS === 'yes';
 export const HIDE_SIGN_IN_WITH_LEDGER_ENTER_ACCOUNT_ID_MODAL = process.env.HIDE_SIGN_IN_WITH_LEDGER_ENTER_ACCOUNT_ID_MODAL;
-export const SMS_BLACKLIST = process.env.SMS_BLACKLIST || 'CN';
+export const SMS_BLACKLIST = process.env.SMS_BLACKLIST || 'CN,VN';
 export const EXPLORE_APPS_URL = process.env.EXPLORE_APPS_URL || 'https://awesomenear.com/trending/';
 export const MIN_BALANCE_TO_CREATE = process.env.MIN_BALANCE_TO_CREATE || nearApiJs.utils.format.parseNearAmount('0.2');
 export const NETWORK_ID = process.env.REACT_APP_NETWORK_ID || 'default';
