@@ -399,6 +399,13 @@ export const {
     HIDE_LEDGER_MODAL: null
 });
 
+export const checkAndHideLedgerModal = () => async (dispatch, getState) => {
+    const { modal } = getState().ledger;
+    if (modal.show) {
+        dispatch(hideLedgerModal());
+    }
+};
+
 export const handleAddAccessKeySeedPhrase = (accountId, recoveryKeyPair) => async (dispatch) => {
     try {
         await dispatch(addAccessKeySeedPhrase(accountId, recoveryKeyPair));
