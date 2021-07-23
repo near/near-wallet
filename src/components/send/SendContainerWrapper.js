@@ -28,7 +28,7 @@ const fungibleTokensIncludingNEAR = (tokens, availableNearToSend) => {
     ];
 };
 
-export function SendContainerWrapper({ match, location }) {
+export function SendContainerWrapper({ match }) {
     const accountIdFromUrl = match.params.accountId || '';
     const dispatch = useDispatch();
     const { accountId, balance } = useSelector(({ account }) => account);
@@ -45,14 +45,6 @@ export function SendContainerWrapper({ match, location }) {
     const [sendingToken, setSendingToken] = useState(false);
     const [transactionHash, setTransactionHash] = useState(null);
     const [fungibleTokens, setFungibleTokens] = useState(() => fungibleTokensIncludingNEAR(tokens, availableNearToSend));
-
-    useEffect(() => {
-        if (activeView === VIEWS.SUCCESS) {
-            let id = Mixpanel.get_distinct_id();
-            Mixpanel.identify(id);
-            Mixpanel.people.set({last_send_token: new Date().toString()});
-        }
-    }, [location.key]);
 
     useEffect(() => {
         setFungibleTokens(fungibleTokensIncludingNEAR(tokens, availableNearToSend));
@@ -88,28 +80,33 @@ export function SendContainerWrapper({ match, location }) {
             estimatedTotalInNear={estimatedTotalInNear}
             handleSendToken={async (rawAmount, receiverId, contractName) => {
                 setSendingToken(true);
-                let result;
 
-                try {
-                    result = await wallet.fungibleTokens.transfer({
-                        amount: rawAmount,
-                        receiverId,
-                        contractName
-                    });
-                } catch (e) {
-                    dispatch(showCustomAlert({
-                        success: false,
-                        messageCodeHeader: 'error',
-                        messageCode: 'walletErrorCodes.sendFungibleToken.error',
-                        errorMessage: e.message,
-                    }));
-                    setSendingToken('failed');
-                    return;
-                }
+                await Mixpanel.withTracking("SEND token",
+                    async () => {
+                        const result = await wallet.fungibleTokens.transfer({
+                            amount: rawAmount,
+                            receiverId,
+                            contractName
+                        });
+                        
+                        setTransactionHash(result.transaction.hash);
+                        setActiveView(VIEWS.SUCCESS);
 
-                Mixpanel.track("SEND token");
-                setActiveView(VIEWS.SUCCESS);
-                setTransactionHash(result.transaction.hash);
+                        const id = Mixpanel.get_distinct_id();
+                        Mixpanel.identify(id);
+                        Mixpanel.people.set({ last_send_token: new Date().toString() });
+                    },
+                    (e) => {
+                        dispatch(showCustomAlert({
+                            success: false,
+                            messageCodeHeader: 'error',
+                            messageCode: 'walletErrorCodes.sendFungibleToken.error',
+                            errorMessage: e.message,
+                        }));
+                        setSendingToken('failed');
+                        return;
+                    }
+                );
             }}
             handleContinueToReview={async ({ token, receiverId, rawAmount }) => {
                 // We can't estimate fees until we know which token is being sent, and to whom
