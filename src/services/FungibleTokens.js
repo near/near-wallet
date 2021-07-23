@@ -95,7 +95,7 @@ export default class FungibleTokens {
     }
 
     async isStorageBalanceAvailable({ contractName, accountId }) {
-        const storageBalance = await FungibleTokens.getStorageBalance({ contractName, accountId });
+        const storageBalance = await this.constructor.getStorageBalance({ contractName, accountId });
         return storageBalance?.total !== undefined;
     }
 
