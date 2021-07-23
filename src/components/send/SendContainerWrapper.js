@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { checkAccountAvailable, redirectTo } from '../../actions/account';
+import { checkAndHideLedgerModal } from '../../actions/account';
 import { clearLocalAlert, showCustomAlert } from '../../actions/status';
 import { handleGetTokens } from '../../actions/tokens';
 import { useFungibleTokensIncludingNEAR } from '../../hooks/fungibleTokensIncludingNEAR';
@@ -87,6 +88,8 @@ export function SendContainerWrapper({ match }) {
                         return;
                     }
                 );
+
+                dispatch(checkAndHideLedgerModal());
             }}
             handleContinueToReview={async ({ token, receiverId, rawAmount }) => {
                 try {
