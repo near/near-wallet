@@ -172,7 +172,6 @@ class InputAccountId extends Component {
                 clearLocalAlert();
                 return;
             }
-            throw e;
         }
     }
 
