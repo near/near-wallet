@@ -53,8 +53,8 @@ import { LoginWithRouter } from './login/Login';
 import { LoginCliLoginSuccess } from './login/LoginCliLoginSuccess';
 import Navigation from './navigation/Navigation';
 import { Profile } from './profile/Profile';
-import { ReceiveMoneyWithRouter } from './receive-money/ReceiveMoney';
-import { SendContainer } from './send/SendContainer';
+import { ReceiveContainerWrapper } from './receive-money/ReceiveContainerWrapper';
+import { SendContainerWrapper } from './send/SendContainerWrapper';
 import { SignWithRouter } from './sign/Sign';
 import { StakingContainer } from './staking/StakingContainer';
 import Terms from './terms/Terms';
@@ -367,14 +367,14 @@ class Routing extends Component {
                             {!isInactiveAccount &&
                                 <PrivateRouteLimited
                                     exact
-                                    path='/send-money/:id?'
-                                    component={SendContainer}
+                                    path='/send-money/:accountId?'
+                                    component={SendContainerWrapper}
                                 />
                             }
                             <PrivateRouteLimited
                                 exact
                                 path='/receive-money'
-                                component={ReceiveMoneyWithRouter}
+                                component={ReceiveContainerWrapper}
                             />
                             <PrivateRouteLimited
                                 exact

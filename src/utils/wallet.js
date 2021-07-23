@@ -13,7 +13,7 @@ import {
     showLedgerModal,
     redirectTo,
     finishAccountSetup,
-    selectAccount
+    makeAccountActive
 } from '../actions/account';
 import FungibleTokens from '../services/FungibleTokens';
 import sendJson from '../tmp_fetch_send_json';
@@ -169,8 +169,8 @@ class Wallet {
         return ACCOUNT_ID_REGEX.test(accountId);
     }
 
-    async sendMoney(receiverId, amount) {
-        await (await this.getAccount(this.accountId)).sendMoney(receiverId, amount);
+    sendMoney(receiverId, amount) {
+        return this.getAccountBasic(this.accountId).sendMoney(receiverId, amount);
     }
 
     isEmpty() {
@@ -197,7 +197,7 @@ class Wallet {
                         break;
                     }
                 }
-                store.dispatch(selectAccount(nextAccountId));
+                store.dispatch(makeAccountActive(nextAccountId));
 
                 // TODO: Make sure "problem creating" only shows for actual creation
                 return {
@@ -225,12 +225,12 @@ class Wallet {
                 ? []
                 : await this.getAccessKeys() || [];
             const ledgerKey = accessKeys.find(key => key.meta.type === 'ledger');
-            const account = await this.getAccount(this.accountId);
+            const account = await this.getAccount(this.accountId, limitedAccountData);
             const state = await account.state();
 
             return {
                 ...state,
-                has2fa: await TwoFactor.has2faEnabled(account),
+                has2fa: !!account.has2fa,
                 balance: {
                     available: ''
                 },
@@ -370,7 +370,7 @@ class Wallet {
             });
         }
 
-        await this.saveAndSelectAccount(accountId);
+        await this.saveAndMakeAccountActive(accountId);
         await this.addLocalKeyAndFinishSetup(accountId, recoveryMethod, publicKey, previousAccountId);
     }
 
@@ -456,7 +456,7 @@ class Wallet {
         this.accounts[accountId] = true;
     }
 
-    selectAccount(accountId) {
+    makeAccountActive(accountId) {
         if (!(accountId in this.accounts)) {
             return false;
         }
@@ -465,9 +465,9 @@ class Wallet {
         this.save();
     }
 
-    async saveAndSelectAccount(accountId, keyPair) {
+    async saveAndMakeAccountActive(accountId, keyPair) {
         await this.saveAccount(accountId, keyPair);
-        this.selectAccount(accountId);
+        this.makeAccountActive(accountId);
         // TODO: What does setAccountConfirmed do?
         setAccountConfirmed(this.accountId, false);
     }
@@ -624,7 +624,7 @@ class Wallet {
             await this.saveAccount(accountId);
         }));
 
-        store.dispatch(selectAccount(accountIds[accountIds.length - 1]));
+        store.dispatch(makeAccountActive(accountIds[accountIds.length - 1]));
 
         return {
             numberOfAccounts: accountIds.length
@@ -652,12 +652,17 @@ class Wallet {
         return new nearApiJs.Account(this.connection, accountId);
     }
 
-    async getAccount(accountId) {
+    async getAccount(accountId, limitedAccountData = false) {
         let account = new nearApiJs.Account(this.connection, accountId);
-        if (await TwoFactor.has2faEnabled(account)) {
-            account = new TwoFactor(this, accountId);
+        const has2fa = await TwoFactor.has2faEnabled(account);
+        if (has2fa) {
+            account = new TwoFactor(this, accountId, has2fa);
         }
+
         // TODO: Check if lockup needed somehow? Should be changed to async? Should just check in wrapper?
+        if (limitedAccountData) {
+            return account;
+        }
         return decorateWithLockup(account);
     }
 
@@ -767,7 +772,7 @@ class Wallet {
                     await this.saveAccount(accountId, newKeyPair);
                 } catch (error) {
                     if (previousAccountId) {
-                        await wallet.saveAndSelectAccount(previousAccountId);
+                        await wallet.saveAndMakeAccountActive(previousAccountId);
                     }
                     throw new WalletError(error, 'addAccessKey.error');
                 }
@@ -915,7 +920,7 @@ class Wallet {
                 await this.saveAccount(accountId, newKeyPair);
             }));
 
-            store.dispatch(selectAccount(accountIdsSuccess[accountIdsSuccess.length - 1].accountId));
+            store.dispatch(makeAccountActive(accountIdsSuccess[accountIdsSuccess.length - 1].accountId));
 
             return {
                 numberOfAccounts: accountIdsSuccess.length,
@@ -932,7 +937,7 @@ class Wallet {
         }
     }
 
-    async signAndSendTransactions(transactions, accountId) {
+    async signAndSendTransactions(transactions, accountId = this.accountId) {
         const account = await this.getAccount(accountId);
 
         store.dispatch(setSignTransactionStatus('in-progress'));

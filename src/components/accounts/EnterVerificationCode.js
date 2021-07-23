@@ -173,7 +173,7 @@ const EnterVerificationCode = ({
             </form>
 
             <div className='resend'>
-                <div><Translate id='setRecoveryConfirm.didNotRecive'/></div>
+                <div><Translate id='setRecoveryConfirm.didNotReceive'/></div>
                 <div>
                     <span onClick={!reSending ? onResend : () => {}} className='link'><Translate id={`setRecoveryConfirm.${!reSending ? 'resendCode' : 'resending'}`}/></span>
                     &nbsp;<Translate id='setRecoveryConfirm.or'/>&nbsp;<span onClick={onGoBack} className='link'>

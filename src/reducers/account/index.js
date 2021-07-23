@@ -1,5 +1,6 @@
 import reduceReducers from 'reduce-reducers';
 import { handleActions } from 'redux-actions';
+import { createSelector } from 'reselect';
 
 import {
     requestCode,
@@ -13,13 +14,13 @@ import {
     get2faMethod,
     getLedgerKey,
     getBalance,
-    selectAccount,
+    makeAccountActive,
     setLocalStorage,
     getAccountBalance,
     setAccountBalance,
     getAccountHelperWalletState
 } from '../../actions/account';
-import { 
+import {
     staking
 } from '../../actions/staking';
 
@@ -136,7 +137,7 @@ const account = handleActions({
         ...state,
         loginResetAccounts: true
     }),
-    [staking.updateAccount]: (state, { ready, error, payload }) => 
+    [staking.updateAccount]: (state, { ready, error, payload }) =>
         (!ready || error)
             ? state
             : ({
@@ -146,7 +147,7 @@ const account = handleActions({
                     account: payload
                 }
             }),
-    [staking.updateLockup]: (state, { ready, error, payload }) => 
+    [staking.updateLockup]: (state, { ready, error, payload }) =>
         (!ready || error)
             ? state
             : ({
@@ -156,7 +157,7 @@ const account = handleActions({
                     lockupAccount: payload
                 }
             }),
-    [getBalance]: (state, { error, payload, ready}) => 
+    [getBalance]: (state, { error, payload, ready }) =>
         (!ready || error)
             ? state
             : ({
@@ -166,7 +167,7 @@ const account = handleActions({
                     ...payload
                 }
             }),
-    [selectAccount]: () => {
+    [makeAccountActive]: () => {
         return initialState;
     },
     [setLocalStorage]: (state, { payload }) => ({
@@ -176,7 +177,7 @@ const account = handleActions({
             accountId: payload
         }
     }),
-    [getAccountBalance]: (state, { error, payload, ready, meta }) => 
+    [getAccountBalance]: (state, { error, payload, ready, meta }) =>
         (!ready || error)
             ? {
                 ...state,
@@ -221,6 +222,6 @@ export default reduceReducers(
     ledgerKey
 );
 
-export const selectAccountId = state => state.account.accountId;
-
-export const selectBalance = state => state.account.balance;
+export const selectAccount = (state) => state.account;
+export const selectAccountId = createSelector(selectAccount, (account) => account.accountId);
+export const selectBalance = createSelector(selectAccount, (account) => account.balance);

@@ -30,7 +30,7 @@ const DesktopMenu = ({
     show,
     accountId,
     accounts,
-    selectAccount,
+    handleSelectAccount,
     accountIdLocalStorage,
     accountsBalance,
     balance,
@@ -46,7 +46,7 @@ const DesktopMenu = ({
                     accounts={accounts}
                     accountId={accountId}
                     accountIdLocalStorage={accountIdLocalStorage}
-                    selectAccount={selectAccount}
+                    handleSelectAccount={handleSelectAccount}
                     accountsBalance={accountsBalance}
                     balance={balance}
                     refreshBalance={refreshBalance}

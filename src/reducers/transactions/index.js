@@ -1,6 +1,6 @@
 import { handleActions } from 'redux-actions';
 
-import { selectAccount } from '../../actions/account';
+import { makeAccountActive } from '../../actions/account';
 import {
     getTransactions,
     getTransactionStatus
@@ -51,7 +51,7 @@ const transactions = handleActions({
                 : t
         ))
     }),
-    [selectAccount]: () => {
+    [makeAccountActive]: () => {
         return initialState;
     }
 }, initialState);

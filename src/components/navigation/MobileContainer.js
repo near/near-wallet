@@ -167,7 +167,7 @@ class MobileContainer extends Component {
 
         const {
             account,
-            selectAccount,
+            handleSelectAccount,
             availableAccounts,
             menuOpen,
             toggleMenu,
@@ -213,7 +213,7 @@ class MobileContainer extends Component {
                                 accounts={availableAccounts}
                                 accountId={account.accountId}
                                 accountIdLocalStorage={account.localStorage?.accountId}
-                                selectAccount={selectAccount}
+                                handleSelectAccount={handleSelectAccount}
                                 accountsBalance={account.accountsBalance}
                                 balance={account.balance}
                                 refreshBalance={refreshBalance}

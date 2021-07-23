@@ -1,7 +1,7 @@
 import reduceReducers from 'reduce-reducers';
 import { handleActions } from 'redux-actions';
 
-import { selectAccount } from '../../actions/account';
+import { makeAccountActive } from '../../actions/account';
 import {
     clearLocalAlert,
     clearGlobalAlert,
@@ -104,7 +104,7 @@ const clearReducer = handleActions({
                     : undefined)
             }), {})
     }),
-    [selectAccount]: () => {
+    [makeAccountActive]: () => {
         return initialState;
     }
 }, initialState);

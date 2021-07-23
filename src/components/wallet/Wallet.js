@@ -6,10 +6,10 @@ import styled from 'styled-components';
 import { handleGetNFTs } from '../../actions/nft';
 import { handleGetTokens } from '../../actions/tokens';
 import { getTransactions, getTransactionStatus } from '../../actions/transactions';
+import { useFungibleTokensIncludingNEAR } from '../../hooks/fungibleTokensIncludingNEAR';
 import { Mixpanel } from "../../mixpanel/index";
 import { selectAccountId, selectBalance } from '../../reducers/account';
 import { selectNFT } from '../../reducers/nft';
-import { selectTokensDetails } from '../../reducers/tokens';
 import { selectTransactions } from '../../reducers/transactions';
 import { actionsPendingByPrefix } from '../../utils/alerts';
 import classNames from '../../utils/classNames';
@@ -140,12 +140,12 @@ const StyledContainer = styled(Container)`
                     color: #3F4045;
 
                     > div {
-                        background-color: #1f1f1f;
+                        background-color: black;
                     }
                 }
 
                 > div {
-                    background-color: #111618;
+                    background-color: #272729;
                     display: flex;
                     align-items: center;
                     justify-content: center;
@@ -155,6 +155,7 @@ const StyledContainer = styled(Container)`
                     width: 56px;
                     border-radius: 20px;
                     margin-bottom: 10px;
+                    transition: 100ms;
                 }
                 svg {
                     width: 22px !important;
@@ -176,7 +177,6 @@ const StyledContainer = styled(Container)`
             justify-content: space-around;
 
             > div {
-                flex: 1;
                 flex: 1;
                 display: flex;
                 align-items: center;
@@ -261,7 +261,7 @@ export function Wallet({ tab, setTab } ) {
     const hideExploreApps = localStorage.getItem('hideExploreApps');
     const linkdropAmount = localStorage.getItem('linkdropAmount');
     const linkdropModal = linkdropAmount && showLinkdropModal !== false;
-    const tokens = useSelector(state => selectTokensDetails(state));
+    const fungibleTokensList = useFungibleTokensIncludingNEAR({ fullBalance: true });
     const nft = useSelector(selectNFT);
     const tokensLoader = actionsPendingByPrefix('TOKENS/') || !balance?.total;
 
@@ -274,8 +274,6 @@ export function Wallet({ tab, setTab } ) {
         }
     }, [accountId]);
 
-    const sortedTokens = Object.keys(tokens).map(key => tokens[key]).sort((a, b) => (a.symbol || '').localeCompare(b.symbol || ''));
-    // TODO: Sort NFTS
     const sortedNFTs = Object.values(nft).sort((a, b) => a.name.localeCompare(b.name));
 
     useEffect(() => {
@@ -322,7 +320,7 @@ export function Wallet({ tab, setTab } ) {
                         : <FungibleTokens
                             balance={balance}
                             tokensLoader={tokensLoader}
-                            sortedTokens={sortedTokens}
+                            fungibleTokens={fungibleTokensList}
                         />
 
                     }
@@ -350,14 +348,15 @@ export function Wallet({ tab, setTab } ) {
     );
 }
 
-const FungibleTokens = ({ balance, tokensLoader, sortedTokens, }) => {
+const FungibleTokens = ({ balance, tokensLoader, fungibleTokens }) => {
     return (
         <>
             <NearWithBackgroundIcon/>
             <h1 className='total-balance'><Balance amount={balance?.total} symbol={false}/></h1>
-            <div className='sub-title'><Translate id='wallet.balanceTitle' /></div>
+            <div className='sub-title'><Translate id='wallet.totalBalanceTitle' /></div>
             <div className='buttons'>
                 <FormButton
+                    color='dark-gray'
                     linkTo='/send-money'
                     trackingId='Click Send on Wallet page'
                 >
@@ -367,6 +366,7 @@ const FungibleTokens = ({ balance, tokensLoader, sortedTokens, }) => {
                     <Translate id='button.send'/>
                 </FormButton>
                 <FormButton
+                    color='dark-gray'
                     linkTo='/receive-money'
                     trackingId='Click Receive on Wallet page'
                 >
@@ -376,6 +376,7 @@ const FungibleTokens = ({ balance, tokensLoader, sortedTokens, }) => {
                     <Translate id='button.receive'/>
                 </FormButton>
                 <FormButton
+                    color='dark-gray'
                     linkTo='/buy'
                     trackingId='Click Receive on Wallet page'
                 >
@@ -387,9 +388,9 @@ const FungibleTokens = ({ balance, tokensLoader, sortedTokens, }) => {
             </div>
             <div className='sub-title tokens'>
                 <span className={classNames({ dots: tokensLoader })}><Translate id='wallet.tokens' /></span>
-                <span><Translate id='wallet.balance' /></span>
+                <span><Translate id='wallet.totalBalance' /></span>
             </div>
-            <Tokens tokens={sortedTokens} />
+            <Tokens tokens={fungibleTokens} />
         </>
     );
 };
