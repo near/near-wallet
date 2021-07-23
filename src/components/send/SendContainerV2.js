@@ -107,12 +107,13 @@ const SendContainerV2 = ({
     const [selectedToken, setSelectedToken] = useState(fungibleTokens[0]);
 
     useEffect(() => {
-        // Initial render may not have NEAR available balance loaded yet
-        // Anytime NEAR available balance changes, we update the state
-        if (selectedToken.symbol === 'NEAR') {
-            setSelectedToken(fungibleTokens[0]);
-        }
-    }, [fungibleTokens[0]]);
+        // fungibleTokens contains balance data for each token -- we need to update local state every time it changes
+        // TODO: Add a `byIdentity` reducer for faster lookups than .find()
+        const targetToken = fungibleTokens.find(({ contractName, symbol }) => {
+            return (contractName && contractName === selectedToken.contractName) || symbol === selectedToken.symbol;
+        });
+                setSelectedToken(targetToken);
+    }, [fungibleTokens]);
 
     useEffect(() => window.scrollTo(0, 0), [activeView]);
 
