@@ -98,6 +98,7 @@ const SendContainerV2 = ({
     transactionHash
 }) => {
     const [userInputAmount, setUserInputAmount] = useState('');
+    const [isMaxAmount, setIsMaxAmount] = useState(false);
 
     const [receiverId, setReceiverId] = useState(accountIdFromUrl);
     const [selectedToken, setSelectedToken] = useState(fungibleTokens[0]);
@@ -108,8 +109,16 @@ const SendContainerV2 = ({
         const targetToken = fungibleTokens.find(({ contractName, symbol }) => {
             return (contractName && contractName === selectedToken.contractName) || symbol === selectedToken.symbol;
         });
-                setSelectedToken(targetToken);
+
+        setSelectedToken(targetToken);
     }, [fungibleTokens]);
+
+    useEffect(() => {
+        if(isMaxAmount === true) {
+            setIsMaxAmount(false);
+            setUserInputAmount('');
+        }
+    }, [selectedToken]);
 
     useEffect(() => window.scrollTo(0, 0), [activeView]);
 
@@ -117,12 +126,17 @@ const SendContainerV2 = ({
         setActiveView(VIEWS.ENTER_AMOUNT);
         setSelectedToken(fungibleTokens[0]);
         setUserInputAmount('');
+        setIsMaxAmount(false);
     }, [accountId]);
 
     const getRawAmount = () => getParsedTokenAmount(userInputAmount, selectedToken.symbol, selectedToken.decimals);
     const isValidAmount = () => {
-        return !new BN(getRawAmount()).isZero() && new BN(getRawAmount()).lte(new BN(selectedToken.balance)) && isDecimalString(userInputAmount);
         // TODO: Handle rounding issue that can occur entering exact available amount
+        if (isMaxAmount === true) {
+            return true;
+        }
+
+        return !new BN(getRawAmount()).isZero() && new BN(getRawAmount()).lte(new BN(selectedToken.balance)) && isDecimalString(userInputAmount);
     };
 
     const enterAmountIsComplete = () => {
@@ -138,6 +152,7 @@ const SendContainerV2 = ({
                     onChangeAmount={(event) => {
                         const { value: userInputAmount } = event.target;
 
+                        setIsMaxAmount(false);
                         setUserInputAmount(userInputAmount);
                     }}
                     onSetMaxAmount={() => {
@@ -145,6 +160,7 @@ const SendContainerV2 = ({
 
                         if (!new BN(selectedToken.balance).isZero()) {
                             Mixpanel.track("SEND Use max amount");
+                            setIsMaxAmount(true);
                             setUserInputAmount(formattedTokenAmount.replace(/,/g, ''));
                         }
                     }}
