@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Translate } from 'react-localize-redux';
+import { Textfit } from 'react-textfit';
 import styled from 'styled-components';
 
 import BackArrowButton from '../../../common/BackArrowButton';
@@ -9,17 +10,8 @@ import ReceiverInputWithLabel from '../ReceiverInputWithLabel';
 
 const StyledContainer = styled.form`
     .token-amount {
-        > div {
-            white-space: normal;
-            line-break: anywhere;
-            line-height: normal;
-            text-align: center;
-            margin: 0 auto;
-
-            .currency {
-                line-break: normal;
-            }
-        }
+        max-width: 85%;
+        overflow: hidden;
     }
 
     .input-sub-label {
@@ -50,11 +42,13 @@ const EnterReceiver = ({
             <div className='header'>
                 <BackArrowButton onClick={onClickGoBack}/>
                 <div className='token-amount'>
-                    <RawTokenAmount
-                        amount={amount}
-                        symbol={selectedToken.symbol}
-                        decimals={selectedToken.decimals}
-                    />
+                    <Textfit mode='single' max={20}>
+                        <RawTokenAmount
+                            amount={amount}
+                            symbol={selectedToken.symbol}
+                            decimals={selectedToken.decimals}
+                        />
+                    </Textfit>
                 </div>
             </div>
             <ReceiverInputWithLabel

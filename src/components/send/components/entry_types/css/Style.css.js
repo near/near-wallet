@@ -36,10 +36,18 @@ const Style = styled.div`
         display: flex;
         align-items: center;
 
+        span {
+            margin-right: 10px;
+            border-radius: 50%;
+            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+            height: 32px;
+            width: 32px;
+        }
+
         img, svg {
             height: 32px;
             width: 32px;
-            margin-right: 10px;
         }
     }
 

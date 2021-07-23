@@ -24,8 +24,8 @@ const StyledContainer = styled.div`
         font-weight: 600;
     }
 
-    svg {
-        margin-left: 15px;
+    .icon {
+        margin-right: 15px;
     }
 `;
 

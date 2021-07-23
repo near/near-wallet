@@ -12,7 +12,7 @@ const Token = ({ symbol, icon, translateIdTitle, onClick }) => {
                 <Translate id={translateIdTitle} />
             }
             <div className='icon'>
-                <TokenIcon symbol={symbol} icon={icon}/>
+                <span><TokenIcon symbol={symbol} icon={icon}/></span>
                 {symbol}
             </div>
         </StyledContainer>

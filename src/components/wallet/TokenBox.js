@@ -21,14 +21,16 @@ const StyledContainer = styled.div`
     }
 
     .icon {
-        width: 33px;
-        height: 33px;
-        min-width: 33px;
-        min-height: 33px;
+        width: 32px;
+        height: 32px;
+        min-width: 32px;
+        min-height: 32px;
         display: flex;
         align-items: center;
         justify-content: center;
         overflow: hidden;
+        border-radius: 50%;
+        box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.15);
 
         img, svg {
             height: 32px;
@@ -121,7 +123,12 @@ const TokenBox = ({ token, onClick }) => {
             <div className='desc'>
                 <span className='symbol'>{token.symbol}</span>
                 <span className='contract-link' title={token.contractName}>
-                    <a href={explorerContractLink} target='_blank' rel='noopener noreferrer'>
+                    <a 
+                        href={explorerContractLink}
+                        onClick={e => e.stopPropagation()}
+                        target='_blank'
+                        rel='noopener noreferrer'
+                    >
                         {token.contractName}
                     </a>
                 </span>
