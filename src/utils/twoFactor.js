@@ -22,13 +22,14 @@ const {
 } = nearApiJs;
 
 export class TwoFactor extends Account2FA {
-    constructor(wallet, accountId) {
+    constructor(wallet, accountId, has2fa = false) {
         super(wallet.connection, accountId, {
             storage: localStorage,
             helperUrl: ACCOUNT_HELPER_URL,
             getCode: () => store.dispatch(promptTwoFactor(true)).payload.promise
         });
         this.wallet = wallet;
+        this.has2fa = has2fa;
     }
 
     static async has2faEnabled(account) {
@@ -62,12 +63,14 @@ export class TwoFactor extends Account2FA {
     async deployMultisig() {
         const contractBytes = new Uint8Array(await (await fetch('/multisig.wasm')).arrayBuffer());
         await super.deployMultisig(contractBytes);
+        this.has2fa = true;
     }
 
     async disableMultisig() {
         const contractBytes = new Uint8Array(await (await fetch('/main.wasm')).arrayBuffer());
         const result = await this.disable(contractBytes);
         await store.dispatch(refreshAccount());
+        this.has2fa = false;
         return result;
     }
 }
