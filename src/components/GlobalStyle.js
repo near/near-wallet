@@ -82,13 +82,13 @@ export default createGlobalStyle`
         }
     }
     h2, .h2 {
-        font-size: 24px !important;
-        font-weight: 900 !important;
-        color: #72727A !important;
+        font-size: 24px;
+        font-weight: 900;
+        color: #72727A;
         margin: 0px;
 
         @media (max-width: 767px) {
-            font-size: 18px !important;
+            font-size: 18px;
         }
 
         b {
