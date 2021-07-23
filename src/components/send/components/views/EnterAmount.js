@@ -17,12 +17,15 @@ const StyledContainer = styled.form`
             }
         }
 
-        > input {
+        .amount-input-wrapper {
             margin: 55px 0px 15px;
+            height: 74px;
+            display: flex;
+            align-items: center;
         }
 
         > div {
-            :nth-of-type(2) {
+            :nth-of-type(3) {
                 margin: 55px 0 5px 0;
             }
         }
@@ -52,12 +55,14 @@ const EnterAmount = ({
             novalidate
         >
             <TabSelector/>
-            <AmountInput
-                value={amount}
-                onChange={onChangeAmount}
-                error={error}
-                autoFocus={!isMobile}
-            />
+            <div className='amount-input-wrapper'>
+                <AmountInput
+                    value={amount}
+                    onChange={onChangeAmount}
+                    error={error}
+                    autoFocus={!isMobile}
+                />
+            </div>
             <FormButton
                 onClick={onSetMaxAmount}
                 type='button'

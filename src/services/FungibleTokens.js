@@ -42,6 +42,9 @@ const FT_TRANSFER_DEPOSIT = '1';
 // Fungible Token Standard
 // https://github.com/near/NEPs/tree/master/specs/Standards/FungibleToken
 export default class FungibleTokens {
+    // View functions are not signed, so do not require a real account!
+    static viewFunctionAccount = wallet.getAccountBasic('dontcare')
+
     static getParsedTokenAmount(amount, symbol, decimals) {
         const parsedTokenAmount = symbol === 'NEAR'
             ? parseNearAmount(amount)
@@ -58,12 +61,24 @@ export default class FungibleTokens {
         return formattedTokenAmount;
     }
 
-    constructor(account) {
-        this.account = account;
+    static async getLikelyTokenContracts({ accountId }) {
+        return sendJson('GET', `${ACCOUNT_HELPER_URL}/account/${accountId}/likelyTokens`);
     }
 
-    async getEstimatedTotalFees(contractName, accountId) {
-        if (contractName && accountId && !await this.isStorageBalanceAvailable(contractName, accountId)) {
+    static async getStorageBalance({ contractName, accountId }) {
+        return await this.viewFunctionAccount.viewFunction(contractName, 'storage_balance_of', { account_id: accountId });
+    }
+
+    static async getMetadata({ contractName }) {
+        return this.viewFunctionAccount.viewFunction(contractName, 'ft_metadata');
+    }
+
+    static async getBalanceOf({ contractName, accountId }) {
+        return this.viewFunctionAccount.viewFunction(contractName, 'ft_balance_of', { account_id: accountId });
+    }
+
+    async getEstimatedTotalFees({ accountId, contractName } = {}) {
+        if (contractName && accountId && !await this.isStorageBalanceAvailable({ contractName, accountId })) {
             return new BN(FT_TRANSFER_GAS)
                 .add(new BN(FT_MINIMUM_STORAGE_BALANCE))
                 .add(new BN(FT_STORAGE_DEPOSIT_GAS))
@@ -73,72 +88,69 @@ export default class FungibleTokens {
         }
     }
 
-    async getEstimatedTotalNearAmount(amount) {
+    async getEstimatedTotalNearAmount({ amount }) {
         return new BN(amount)
             .add(new BN(await this.getEstimatedTotalFees()))
             .toString();
     }
 
-    async isStorageBalanceAvailable(contractName, accountId) {
-        const storageBalance = await this.getStorageBalance(contractName, accountId);
+    async isStorageBalanceAvailable({ contractName, accountId }) {
+        const storageBalance = await this.constructor.getStorageBalance({ contractName, accountId });
         return storageBalance?.total !== undefined;
     }
 
-    async getStorageBalance(contractName, accountId) {
-        return await this.account.viewFunction(contractName, 'storage_balance_of', { account_id: accountId });
-    }
+    async transfer({ accountId, contractName, amount, receiverId, memo }) {
+        // Ensure our awareness of 2FA being enabled is accurate before we submit any transaction(s)
+        const account = await wallet.getAccount(accountId);
 
-    async transfer({ contractName, amount, receiverId, memo }) {
         if (contractName) {
-            const storageAvailable = await this.isStorageBalanceAvailable(contractName, receiverId);
+            const storageAvailable = await this.isStorageBalanceAvailable({ contractName, accountId: receiverId });
 
             if (!storageAvailable) {
                 try {
-                    await this.transferStorageDeposit(contractName, receiverId, FT_MINIMUM_STORAGE_BALANCE);
+                    await this.transferStorageDeposit({
+                        account,
+                        contractName,
+                        receiverId,
+                        storageDepositAmount: FT_MINIMUM_STORAGE_BALANCE
+                    });
                 } catch (e) {
                     // sic.typo in `mimimum` wording of responses, so we check substring
                     // Original string was: 'attached deposit is less than the mimimum storage balance'
                     if (e.message.includes('attached deposit is less than')) {
-                        await this.transferStorageDeposit(contractName, receiverId, FT_MINIMUM_STORAGE_BALANCE_LARGE);
+                        await this.transferStorageDeposit({
+                            account,
+                            contractName,
+                            receiverId,
+                            storageDepositAmount: FT_MINIMUM_STORAGE_BALANCE_LARGE
+                        });
                     }
                 }
             }
 
-            return await this.signAndSendTransaction(contractName, [
+            return await account.signAndSendTransaction(contractName, [
                 functionCall('ft_transfer', {
                     amount,
                     memo: memo,
                     receiver_id: receiverId,
                 }, FT_TRANSFER_GAS, FT_TRANSFER_DEPOSIT)
             ]);
-
         } else {
-            return await wallet.sendMoney(receiverId, amount);
+            return await account.sendMoney(receiverId, amount);
         }
     }
 
-    async transferStorageDeposit(contractName, accountId, storageDepositAmount) {
-        return this.signAndSendTransaction(contractName, [
-            functionCall('storage_deposit', {
-                account_id: accountId,
-                registration_only: true,
-            }, FT_STORAGE_DEPOSIT_GAS, storageDepositAmount)
-        ]);
-    }
-
-    async signAndSendTransaction(receiverId, actions) {
-        return await this.account.signAndSendTransaction(receiverId, actions);
-    }
-
-    getLikelyTokenContracts() {
-        return sendJson('GET', `${ACCOUNT_HELPER_URL}/account/${this.account.accountId}/likelyTokens`);
-    }
-
-    async getMetadata(contractName) {
-        return await this.account.viewFunction(contractName, 'ft_metadata');
-    }
-
-    async getBalanceOf(contractName) {
-        return await this.account.viewFunction(contractName, 'ft_balance_of', { account_id: this.account.accountId });
+    async transferStorageDeposit({ account, contractName, receiverId, storageDepositAmount }) {
+        return account.signAndSendTransaction(
+            contractName,
+            [
+                functionCall('storage_deposit', {
+                    account_id: receiverId,
+                    registration_only: true,
+                }, FT_STORAGE_DEPOSIT_GAS, storageDepositAmount)
+            ]
+        );
     }
 }
+
+export const fungibleTokensService = new FungibleTokens();

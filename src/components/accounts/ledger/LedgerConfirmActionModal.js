@@ -21,7 +21,7 @@ const LedgerConfirmActionModal = () => {
                 {!txSigned
                     ? (
                         <>
-                            <h2>
+                            <h2 className='title'>
                                 <Translate id={'confirmLedgerModal.header.confirm'}/>
                             </h2>
                             <LedgerImage animate={true}/>

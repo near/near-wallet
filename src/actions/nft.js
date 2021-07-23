@@ -34,7 +34,6 @@ async function getLikelyContracts(accountId) {
 async function getMetadata(contractName, accountId) {
     const account = new Account(wallet.connection, accountId);
     const metadata = await account.viewFunction(contractName, 'nft_metadata');
-    console.log('metadata', metadata);
     return { metadata, contractName };
 }
 
@@ -43,7 +42,6 @@ async function getTokens(contractName, accountId, { base_uri }) {
     let tokens;
     try {
         const tokenIds = await account.viewFunction(contractName, 'nft_tokens_for_owner_set', { account_id: accountId });
-        console.log('tokenIds', tokenIds);
         tokens = await Promise.all(tokenIds.map(async token_id => {
             let metadata = await account.viewFunction(contractName, 'nft_token_metadata', { token_id: token_id.toString() });
             let { media, reference } = metadata;
@@ -64,7 +62,6 @@ async function getTokens(contractName, accountId, { base_uri }) {
         // TODO: Pagination
         tokens = await account.viewFunction(contractName, 'nft_tokens_for_owner', { account_id: accountId, from_index: "0", limit: 50 });
     }
-    console.log('tokens', tokens);
     // TODO: Separate Redux action for loading image
     tokens = await Promise.all(tokens.filter(({ metadata }) => !!metadata).map(async ({ metadata, ...token }) => {
         const { media } = metadata;
@@ -87,7 +84,6 @@ async function getTokens(contractName, accountId, { base_uri }) {
             }
         };
     }));
-    console.log('tokens map', tokens);
 
     return { contractName, tokens };
 }

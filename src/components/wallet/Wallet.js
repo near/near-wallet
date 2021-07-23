@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Translate } from 'react-localize-redux';
 import { useSelector, useDispatch } from 'react-redux';
+import { Textfit } from 'react-textfit';
 import styled from 'styled-components';
 
 import { handleGetNFTs } from '../../actions/nft';
@@ -19,7 +20,6 @@ import FormButton from '../common/FormButton';
 import Container from '../common/styled/Container.css';
 import BuyIcon from '../svg/BuyIcon';
 import DownArrowIcon from '../svg/DownArrowIcon';
-import NearWithBackgroundIcon from '../svg/NearWithBackgroundIcon';
 import SendIcon from '../svg/SendIcon';
 import Activities from './Activities';
 import ExploreApps from './ExploreApps';
@@ -36,7 +36,7 @@ const StyledContainer = styled(Container)`
         }
     }
     .sub-title {
-        margin: -10px 0 0 0;
+        margin: 0;
         font-size: 14px !important;
         color: #72727A !important;
 
@@ -97,14 +97,12 @@ const StyledContainer = styled(Container)`
             margin-top: 25px;
         }
 
-        h1 {
-            &.total-balance {
-                font-size: 36px !important;
-
-                @media (max-width: 767px) {
-                    font-size: 30px !important;
-                }
-            }
+        .total-balance {
+            margin: 40px 0 5px 0;
+            width: 100%;
+            font-weight: 900;
+            text-align: center;
+            color: #24272a;
         }
 
         @media (min-width: 992px) {
@@ -351,8 +349,11 @@ export function Wallet({ tab, setTab } ) {
 const FungibleTokens = ({ balance, tokensLoader, fungibleTokens }) => {
     return (
         <>
-            <NearWithBackgroundIcon/>
-            <h1 className='total-balance'><Balance amount={balance?.total} symbol={false}/></h1>
+            <div className='total-balance'>
+                <Textfit mode='single' max={40}>
+                    <Balance amount={balance?.total} symbol={false}/>
+                </Textfit>
+            </div>
             <div className='sub-title'><Translate id='wallet.totalBalanceTitle' /></div>
             <div className='buttons'>
                 <FormButton

@@ -15,7 +15,6 @@ import {
     finishAccountSetup,
     makeAccountActive
 } from '../actions/account';
-import FungibleTokens from '../services/FungibleTokens';
 import sendJson from '../tmp_fetch_send_json';
 import { decorateWithLockup } from './account-with-lockup';
 import { getAccountIds } from './helper-api';
@@ -46,7 +45,7 @@ export const ACCESS_KEY_FUNDING_AMOUNT = process.env.REACT_APP_ACCESS_KEY_FUNDIN
 export const LINKDROP_GAS = process.env.LINKDROP_GAS || '100000000000000';
 export const ENABLE_FULL_ACCESS_KEYS = process.env.ENABLE_FULL_ACCESS_KEYS === 'yes';
 export const HIDE_SIGN_IN_WITH_LEDGER_ENTER_ACCOUNT_ID_MODAL = process.env.HIDE_SIGN_IN_WITH_LEDGER_ENTER_ACCOUNT_ID_MODAL;
-export const SMS_BLACKLIST = process.env.SMS_BLACKLIST || 'CN';
+export const SMS_BLACKLIST = process.env.SMS_BLACKLIST || 'CN,VN';
 export const EXPLORE_APPS_URL = process.env.EXPLORE_APPS_URL || 'https://awesomenear.com/trending/';
 export const MIN_BALANCE_TO_CREATE = process.env.MIN_BALANCE_TO_CREATE || nearApiJs.utils.format.parseNearAmount('0.2');
 export const NETWORK_ID = process.env.REACT_APP_NETWORK_ID || 'default';
@@ -127,11 +126,6 @@ class Wallet {
             localStorage.getItem(KEY_WALLET_ACCOUNTS) || '{}'
         );
         this.accountId = localStorage.getItem(KEY_ACTIVE_ACCOUNT_ID) || '';
-        this.createFungibleTokensInstance();
-    }
-
-    createFungibleTokensInstance() {
-        this.fungibleTokens = this.accountId && new FungibleTokens(this.getAccountBasic(this.accountId));
     }
 
     async getLocalAccessKey(accountId, accessKeys) {
@@ -169,8 +163,8 @@ class Wallet {
         return ACCOUNT_ID_REGEX.test(accountId);
     }
 
-    sendMoney(receiverId, amount) {
-        return this.getAccountBasic(this.accountId).sendMoney(receiverId, amount);
+    async sendMoney(receiverId, amount) {
+        return (await this.getAccount(this.accountId)).sendMoney(receiverId, amount);
     }
 
     isEmpty() {
@@ -461,7 +455,6 @@ class Wallet {
             return false;
         }
         this.accountId = accountId;
-        this.createFungibleTokensInstance();
         this.save();
     }
 
@@ -875,7 +868,6 @@ class Wallet {
             // temp account
             this.connection = connection;
             this.accountId = accountId;
-            this.createFungibleTokensInstance();
             let account = await this.getAccount(accountId);
             let recoveryKeyIsFAK = false;
             // check if recover access key is FAK and if so add key without 2FA

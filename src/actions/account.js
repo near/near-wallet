@@ -356,7 +356,8 @@ export const {
     saveAndSelectLedgerAccounts,
     setLedgerTxSigned,
     clearSignInWithLedgerModalState,
-    showLedgerModal
+    showLedgerModal,
+    hideLedgerModal
 } = createActions({
     GET_ACCESS_KEYS: [wallet.getAccessKeys.bind(wallet), () => ({})],
     REMOVE_ACCESS_KEY: [
@@ -394,8 +395,16 @@ export const {
         })
     ],
     CLEAR_SIGN_IN_WITH_LEDGER_MODAL_STATE: null,
-    SHOW_LEDGER_MODAL: null
+    SHOW_LEDGER_MODAL: null,
+    HIDE_LEDGER_MODAL: null
 });
+
+export const checkAndHideLedgerModal = () => async (dispatch, getState) => {
+    const { modal } = getState().ledger;
+    if (modal.show) {
+        dispatch(hideLedgerModal());
+    }
+};
 
 export const handleAddAccessKeySeedPhrase = (accountId, recoveryKeyPair) => async (dispatch) => {
     try {

@@ -3,11 +3,13 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { checkAccountAvailable, redirectTo } from '../../actions/account';
+import { checkAndHideLedgerModal } from '../../actions/account';
 import { clearLocalAlert, showCustomAlert } from '../../actions/status';
 import { handleGetTokens } from '../../actions/tokens';
 import { useFungibleTokensIncludingNEAR } from '../../hooks/fungibleTokensIncludingNEAR';
 import { Mixpanel } from '../../mixpanel/index';
-import { EXPLORER_URL, SHOW_NETWORK_BANNER, wallet, WALLET_APP_MIN_AMOUNT } from '../../utils/wallet';
+import { fungibleTokensService } from '../../services/FungibleTokens';
+import { EXPLORER_URL, SHOW_NETWORK_BANNER, WALLET_APP_MIN_AMOUNT } from '../../utils/wallet';
 import SendContainerV2, { VIEWS } from './SendContainerV2';
 
 const { parseNearAmount, formatNearAmount } = utils.format;
@@ -61,7 +63,8 @@ export function SendContainerWrapper({ match }) {
 
                 await Mixpanel.withTracking("SEND token",
                     async () => {
-                        const result = await wallet.fungibleTokens.transfer({
+                        const result = await fungibleTokensService.transfer({
+                            accountId,
                             amount: rawAmount,
                             receiverId,
                             contractName
@@ -85,20 +88,24 @@ export function SendContainerWrapper({ match }) {
                         return;
                     }
                 );
+
+                dispatch(checkAndHideLedgerModal());
             }}
             handleContinueToReview={async ({ token, receiverId, rawAmount }) => {
-                // We can't estimate fees until we know which token is being sent, and to whom
                 try {
                     if (token.symbol === 'NEAR') {
                         const [totalFees, totalNear] = await Promise.all([
-                            wallet.fungibleTokens.getEstimatedTotalFees(),
-                            wallet.fungibleTokens.getEstimatedTotalNearAmount(rawAmount)
+                            fungibleTokensService.getEstimatedTotalFees(),
+                            fungibleTokensService.getEstimatedTotalNearAmount({ amount: rawAmount })
                         ]);
 
                         setEstimatedTotalFees(totalFees);
                         setEstimatedTotalInNear(totalNear);
                     } else {
-                        const totalFees = await wallet.fungibleTokens.getEstimatedTotalFees(token.contractName, receiverId);
+                        const totalFees = await fungibleTokensService.getEstimatedTotalFees({
+                            accountId: receiverId,
+                            contractName: token.contractName,
+                        });
                         setEstimatedTotalFees(totalFees);
                     }
 

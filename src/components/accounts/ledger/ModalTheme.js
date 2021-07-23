@@ -1,11 +1,7 @@
 import { createGlobalStyle } from 'styled-components';
 
 export default createGlobalStyle`
-    #instructions-modal {
-        h2 {
-            color: #24272a !important;
-        }
-    }
+
     .modal {
         display: flex;
         flex-direction: column;
@@ -54,6 +50,10 @@ export default createGlobalStyle`
         }
 
         h2 {
+            &.title {
+                color: #24272a;
+            }
+
             text-align: center;
 
             @media (max-width: 500px) {

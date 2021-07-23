@@ -101,18 +101,22 @@ class DesktopContainer extends Component {
             isInactiveAccount
         } = this.props;
 
+        const showAllNavigationLinks = showNavLinks && !isInactiveAccount && !flowLimitation.mainMenu;
+
         return (
             <Container>
                 <Logo link={!flowLimitation.mainMenu} />
-                {showNavLinks && !isInactiveAccount && !flowLimitation.mainMenu &&
+                {showAllNavigationLinks &&
                     <NavLinks />
                 }
                 <Lang>
                     <LanguageToggle />
                 </Lang>
+                {showAllNavigationLinks &&
+                    <SendReceiveButtons/>
+                }
                 {showNavLinks &&
                     <>
-                        <SendReceiveButtons/>
                         <div className='divider'/>
                         <UserAccount
                             accountId={account.accountId || account.localStorage?.accountId}
