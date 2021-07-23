@@ -26,6 +26,7 @@ const Style = styled.div`
         color: #272729;
         font-weight: 600;
         font-size: 16px;
+        text-align: right;
     }
 
     .icon {

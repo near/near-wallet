@@ -97,42 +97,36 @@ const SendContainerV2 = ({
     sendingToken,
     transactionHash
 }) => {
-    const [amounts, setAmounts] = useState(
-        {
-            userInputAmount: '',
-            rawAmount: '',
-        }
-    );
+    const [userInputAmount, setUserInputAmount] = useState('');
+
     const [receiverId, setReceiverId] = useState(accountIdFromUrl);
     const [selectedToken, setSelectedToken] = useState(fungibleTokens[0]);
 
     useEffect(() => {
-        // Initial render may not have NEAR available balance loaded yet
-        // Anytime NEAR available balance changes, we update the state
-        if (selectedToken.symbol === 'NEAR') {
-            setSelectedToken(fungibleTokens[0]);
-        }
-    }, [fungibleTokens[0]]);
+        // fungibleTokens contains balance data for each token -- we need to update local state every time it changes
+        // TODO: Add a `byIdentity` reducer for faster lookups than .find()
+        const targetToken = fungibleTokens.find(({ contractName, symbol }) => {
+            return (contractName && contractName === selectedToken.contractName) || symbol === selectedToken.symbol;
+        });
+                setSelectedToken(targetToken);
+    }, [fungibleTokens]);
 
     useEffect(() => window.scrollTo(0, 0), [activeView]);
 
-    useEffect(() => {        
+    useEffect(() => {
         setActiveView(VIEWS.ENTER_AMOUNT);
         setSelectedToken(fungibleTokens[0]);
-        setAmounts({
-            userInputAmount: '',
-            rawAmount: '',
-        });
+        setUserInputAmount('');
     }, [accountId]);
 
+    const getRawAmount = () => getParsedTokenAmount(userInputAmount, selectedToken.symbol, selectedToken.decimals);
     const isValidAmount = () => {
-
-        return !new BN(amounts.rawAmount).isZero() && new BN(amounts.rawAmount).lte(new BN(selectedToken.balance)) && isDecimalString(amounts.userInputAmount);
+        return !new BN(getRawAmount()).isZero() && new BN(getRawAmount()).lte(new BN(selectedToken.balance)) && isDecimalString(userInputAmount);
         // TODO: Handle rounding issue that can occur entering exact available amount
     };
 
     const enterAmountIsComplete = () => {
-        return amounts.userInputAmount && !new BN(selectedToken.balance).isZero() && isValidAmount();
+        return userInputAmount && !new BN(selectedToken.balance).isZero() && isValidAmount();
     };
 
     const getCurrentViewComponent = (view) => {
@@ -140,24 +134,18 @@ const SendContainerV2 = ({
         case VIEWS.ENTER_AMOUNT:
             return (
                 <EnterAmount
-                    amount={amounts.userInputAmount}
+                    amount={userInputAmount}
                     onChangeAmount={(event) => {
                         const { value: userInputAmount } = event.target;
 
-                        setAmounts({
-                            userInputAmount,
-                            rawAmount: getParsedTokenAmount(userInputAmount, selectedToken.symbol, selectedToken.decimals),
-                        });
+                        setUserInputAmount(userInputAmount);
                     }}
                     onSetMaxAmount={() => {
                         const formattedTokenAmount = getFormattedTokenAmount(selectedToken.balance, selectedToken.symbol, selectedToken.decimals);
 
                         if (!new BN(selectedToken.balance).isZero()) {
                             Mixpanel.track("SEND Use max amount");
-                            setAmounts({
-                                userInputAmount: formattedTokenAmount.replace(/,/g, ''),
-                                rawAmount: selectedToken.balance,
-                            });
+                            setUserInputAmount(formattedTokenAmount.replace(/,/g, ''));
                         }
                     }}
                     availableToSend={selectedToken.balance}
@@ -170,7 +158,7 @@ const SendContainerV2 = ({
                     onClickCancel={() => redirectTo('/')}
                     selectedToken={selectedToken}
                     onClickSelectToken={() => setActiveView(VIEWS.SELECT_TOKEN)}
-                    error={amounts.userInputAmount && amounts.userInputAmount !== '0' && !enterAmountIsComplete()}
+                    error={userInputAmount && userInputAmount !== '0' && !enterAmountIsComplete()}
                     isMobile={isMobile}
                 />
             );
@@ -191,7 +179,7 @@ const SendContainerV2 = ({
                 <EnterReceiver
                     onClickGoBack={() => setActiveView(VIEWS.ENTER_AMOUNT)}
                     onClickCancel={() => redirectTo('/')}
-                    amount={amounts.rawAmount}
+                    amount={getRawAmount()}
                     selectedToken={selectedToken}
                     handleChangeReceiverId={(receiverId) => setReceiverId(receiverId)}
                     receiverId={receiverId}
@@ -202,7 +190,7 @@ const SendContainerV2 = ({
                         Mixpanel.track("SEND Click continue to review button");
                         handleContinueToReview({
                             token: selectedToken,
-                            rawAmount: amounts.rawAmount,
+                            rawAmount: getRawAmount(),
                             receiverId
                         });
                     }}
@@ -216,9 +204,9 @@ const SendContainerV2 = ({
                         redirectTo('/');
                         Mixpanel.track("SEND Click cancel button");
                     }}
-                    amount={amounts.rawAmount}
+                    amount={getRawAmount()}
                     selectedToken={selectedToken}
-                    onClickContinue={() => handleSendToken(amounts.rawAmount, receiverId, selectedToken.contractName)}
+                    onClickContinue={() => handleSendToken(getRawAmount(), receiverId, selectedToken.contractName)}
                     senderId={accountId}
                     receiverId={receiverId}
                     estimatedFeesInNear={estimatedTotalFees}
@@ -233,7 +221,7 @@ const SendContainerV2 = ({
             return (
                 <Success
                     tokenSymbol={selectedToken.symbol}
-                    amount={amounts.userInputAmount}
+                    amount={userInputAmount}
                     receiverId={receiverId}
                     onClickContinue={() => redirectTo('/')}
                     onClickGoToExplorer={() => window.open(`${explorerUrl}/transactions/${transactionHash}`, '_blank')}
