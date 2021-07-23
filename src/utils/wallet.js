@@ -127,11 +127,10 @@ class Wallet {
             localStorage.getItem(KEY_WALLET_ACCOUNTS) || '{}'
         );
         this.accountId = localStorage.getItem(KEY_ACTIVE_ACCOUNT_ID) || '';
-        this.createFungibleTokensInstance();
     }
 
-    createFungibleTokensInstance() {
-        this.fungibleTokens = this.accountId && new FungibleTokens(this.getAccountBasic(this.accountId));
+    async createFungibleTokensInstance(account) {
+        this.fungibleTokens = this.accountId && new FungibleTokens(account || await this.getAccount(this.accountId));
     }
 
     async getLocalAccessKey(accountId, accessKeys) {
@@ -227,6 +226,7 @@ class Wallet {
             const ledgerKey = accessKeys.find(key => key.meta.type === 'ledger');
             const account = await this.getAccount(this.accountId, limitedAccountData);
             const state = await account.state();
+            this.createFungibleTokensInstance(account);
 
             return {
                 ...state,
