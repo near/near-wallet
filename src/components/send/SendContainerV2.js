@@ -115,7 +115,15 @@ const SendContainerV2 = ({
     }, [fungibleTokens[0]]);
 
     useEffect(() => window.scrollTo(0, 0), [activeView]);
-    useEffect(() => setActiveView(VIEWS.ENTER_AMOUNT), [accountId]);
+
+    useEffect(() => {        
+        setActiveView(VIEWS.ENTER_AMOUNT);
+        setSelectedToken(fungibleTokens[0]);
+        setAmounts({
+            userInputAmount: '',
+            rawAmount: '',
+        });
+    }, [accountId]);
 
     const isValidAmount = () => {
 
