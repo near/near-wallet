@@ -15,7 +15,6 @@ import {
     finishAccountSetup,
     makeAccountActive
 } from '../actions/account';
-import FungibleTokens from '../services/FungibleTokens';
 import sendJson from '../tmp_fetch_send_json';
 import { decorateWithLockup } from './account-with-lockup';
 import { getAccountIds } from './helper-api';
@@ -129,10 +128,6 @@ class Wallet {
         this.accountId = localStorage.getItem(KEY_ACTIVE_ACCOUNT_ID) || '';
     }
 
-    createFungibleTokensInstance(account) {
-        this.fungibleTokens = new FungibleTokens(account);
-    }
-
     async getLocalAccessKey(accountId, accessKeys) {
         const localPublicKey = await this.inMemorySigner.getPublicKey(accountId, NETWORK_ID);
         return localPublicKey && accessKeys.find(({ public_key }) => public_key === localPublicKey.toString());
@@ -226,7 +221,6 @@ class Wallet {
             const ledgerKey = accessKeys.find(key => key.meta.type === 'ledger');
             const account = await this.getAccount(this.accountId, limitedAccountData);
             const state = await account.state();
-            this.createFungibleTokensInstance(account);
 
             return {
                 ...state,
