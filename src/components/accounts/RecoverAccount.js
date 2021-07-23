@@ -100,7 +100,7 @@ const Button = styled(Link)`
     color: white;
     outline: none;
     cursor: pointer;
-    height: 48px;
+    height: 56px;
     width: 100%;
     margin-top: 20px;
     transition: 100ms;
