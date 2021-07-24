@@ -700,7 +700,7 @@
         "phoneTitle": "手機短信方式",
         "phoneDesc": "請輸入你的手機號以接收恢復鏈接。",
         "phonePlaceholder": "+1 415 797 8554",
-        "notSupportedPhone": "抱歉，目前我們還為你所在的地區開放短信恢復方式。請選擇 Email 方式。",
+        "notSupportedPhone": "抱歉，目前我們暫未對你所在的地區開放短信恢復方式。請選擇 Email 方式。",
         "advancedSecurity": "高級安全",
         "advancedSecurityDesc": "記錄 12 個單詞組成的助記詞，並安全保存。",
         "ledgerTitle": "Ledger 硬件錢包",
