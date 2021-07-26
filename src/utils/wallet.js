@@ -128,6 +128,12 @@ class Wallet {
         this.accountId = localStorage.getItem(KEY_ACTIVE_ACCOUNT_ID) || '';
     }
 
+    getAccountsLocalStorage() {
+        this.accounts = JSON.parse(
+            localStorage.getItem(KEY_WALLET_ACCOUNTS) || '{}'
+        )
+    }
+
     async getLocalAccessKey(accountId, accessKeys) {
         const localPublicKey = await this.inMemorySigner.getPublicKey(accountId, NETWORK_ID);
         return localPublicKey && accessKeys.find(({ public_key }) => public_key === localPublicKey.toString());
