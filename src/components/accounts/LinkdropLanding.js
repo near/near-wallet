@@ -115,7 +115,7 @@ class LinkdropLanding extends Component {
                     <NearGiftIcons/>
                     <h3><Translate id='linkdropLanding.title'/></h3>
                     <div className='near-balance'>
-                        <Balance amount={balance} symbol='near'/>
+                        <Balance amount={balance}/>
                     </div>
                     <div className='desc'>
                         <Translate id='linkdropLanding.desc'/>

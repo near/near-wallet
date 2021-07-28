@@ -72,7 +72,7 @@ const SendConfirmModal = ({ open, onClose, onConfirm, amount, receiver, loading 
                 <div className='breakdown'>
                     <div>
                         Amount to send
-                        <Balance amount={utils.format.parseNearAmount(amount)} symbol='near'/>
+                        <Balance amount={utils.format.parseNearAmount(amount)}/>
                     </div>
                     <div>
                         Recipient

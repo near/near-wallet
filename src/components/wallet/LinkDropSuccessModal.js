@@ -46,7 +46,7 @@ const LinkDropSuccessModal = ({ open, onClose, linkdropAmount }) => {
                 <NearGiftIcons/>
                 <h3><Translate id='linkdropLanding.modal.title'/></h3>
                 <div className='near-balance'>
-                    <Balance amount={linkdropAmount} symbol='near'/>
+                    <Balance amount={linkdropAmount}/>
                 </div>
                 <div className='desc'>
                     <Translate id='linkdropLanding.modal.desc'/>

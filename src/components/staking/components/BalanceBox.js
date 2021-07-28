@@ -84,7 +84,7 @@ export default function BalanceBox({
                     <Translate id={title} />
                     <Tooltip translate={info}/>
                 </div>
-                <Balance amount={amount} symbol='near'/>
+                <Balance amount={amount}/>
                 {disclaimer &&
                     <div className='withdrawal-disclaimer'>
                         <Translate id={disclaimer} />

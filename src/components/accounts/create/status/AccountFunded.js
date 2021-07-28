@@ -30,7 +30,6 @@ const AccountFunded = ({
                 <span>
                     <Balance
                         amount={initialDeposit}
-                        symbol='near'
                     />
                 </span>
             </div>

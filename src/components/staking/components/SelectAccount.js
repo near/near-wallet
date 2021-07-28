@@ -54,11 +54,11 @@ export default function SelectAccount({ accounts, onChange, selectedAccount }) {
                         <div>
                             <div>
                                 <Translate id='staking.staking.available' />
-                                <Balance amount={account.totalUnstaked} symbol='near'/>
+                                <Balance amount={account.totalUnstaked}/>
                             </div>
                             <div>
                                 <Translate id='staking.staking.totalStaked' />
-                                <Balance amount={account.totalStaked} symbol='near'/>
+                                <Balance amount={account.totalStaked}/>
                             </div>
                         </div>
                     </Container>

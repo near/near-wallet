@@ -1,57 +1,47 @@
-import { BN } from 'bn.js';
-import { utils } from 'near-api-js';
 import React from 'react';
 import { Translate } from 'react-localize-redux';
-import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
-import { selectNearTokenFiatValueUSD } from '../../reducers/tokenFiatValue';
+import { 
+    formatNearAmount,
+    showInYocto
+} from '../../utils/balance';
+import NEARBalanceInUSD from './NEARBalanceInUSD';
 
-const CustomDiv = styled.div`
-    .near-amount {
-        position: relative;
-        white-space: nowrap;
-        display: inline-flex !important;
-        align-items: center;
-        margin: 0 !important;
-        line-height: normal;
+const StyledContainer = styled.div`
+    white-space: nowrap;
+    line-height: normal;
 
-        .symbol {
-            transform: scale(0.65);
-            font-weight: 700;
-            margin-left: -2%;
-        }
-        .dots {
-            color: #4a4f54;
-            margin: 0 12px 0 0;
+    .dots {
+        color: #4a4f54;
+        margin: 0 12px 0 0;
 
-            :after {
-                content: '.';
-                animation: link 1s steps(5, end) infinite;
+        :after {
+            content: '.';
+            animation: link 1s steps(5, end) infinite;
 
-                @keyframes link {
-                    0%, 20% {
-                        color: rgba(0,0,0,0);
-                        text-shadow:
-                            .3em 0 0 rgba(0,0,0,0),
-                            .6em 0 0 rgba(0,0,0,0);
-                    }
-                    40% {
-                        color: #4a4f54;
-                        text-shadow:
-                            .3em 0 0 rgba(0,0,0,0),
-                            .6em 0 0 rgba(0,0,0,0);
-                    }
-                    60% {
-                        text-shadow:
-                            .3em 0 0 #4a4f54,
-                            .6em 0 0 rgba(0,0,0,0);
-                    }
-                    80%, 100% {
-                        text-shadow:
-                            .3em 0 0 #4a4f54,
-                            .6em 0 0 #4a4f54;
-                    }
+            @keyframes link {
+                0%, 20% {
+                    color: rgba(0,0,0,0);
+                    text-shadow:
+                        .3em 0 0 rgba(0,0,0,0),
+                        .6em 0 0 rgba(0,0,0,0);
+                }
+                40% {
+                    color: #4a4f54;
+                    text-shadow:
+                        .3em 0 0 rgba(0,0,0,0),
+                        .6em 0 0 rgba(0,0,0,0);
+                }
+                60% {
+                    text-shadow:
+                        .3em 0 0 #4a4f54,
+                        .6em 0 0 rgba(0,0,0,0);
+                }
+                80%, 100% {
+                    text-shadow:
+                        .3em 0 0 #4a4f54,
+                        .6em 0 0 #4a4f54;
                 }
             }
         }
@@ -62,62 +52,31 @@ const CustomDiv = styled.div`
     }
 `;
 
-const FRAC_DIGITS = 5;
-const YOCTO_NEAR_THRESHOLD = new BN('10', 10).pow(new BN(utils.format.NEAR_NOMINATION_EXP - FRAC_DIGITS + 1, 10));
+const Balance = ({
+    amount,
+    symbol = true,
+    className,
+    includeBalanceInUSD = true
+}) => {
 
-const Balance = ({ amount, symbol, className, showBalanceInUSD = true }) => {
-    let amountoShow = amount && formatNEAR(amount);
-    const nearTokenFiatValueUSD = useSelector(state => selectNearTokenFiatValueUSD(state));
-    const balanceInUSD = amountoShow && Number(amountoShow) * nearTokenFiatValueUSD;
+    const amountoShow = amount && formatNearAmount(amount);
+    const NEARSymbol = 'NEAR';
 
     return (
-        <CustomDiv title={showInYocto(amount)} className={className}>
-            <div className='near-amount'>
-                {amount
-                    ? amountoShow
-                    : <div className="dots"><Translate id='loadingNoDots'/></div>
-                }
-                {amount && symbol !== false && 
-                    <span className='currency'>&nbsp;NEAR</span>
-                }
-            </div>
-            {showBalanceInUSD &&
+        <StyledContainer title={showInYocto(amount)} className={className}>
+            {amount
+                ? `${amountoShow}${symbol !== false ? ` ${NEARSymbol}` : ``}`
+                : <div className="dots"><Translate id='loadingNoDots'/></div>
+            }
+            {includeBalanceInUSD &&
                 <div className='usd-amount'>
-                    {balanceInUSD && balanceInUSD !== 0
-                        ? <>&asymp; {`${balanceInUSD.toFixed(2)} USD`}</>
-                        : <>&mdash; USD</>
-                    }
+                    <NEARBalanceInUSD
+                        amount={amount}
+                    />
                 </div>
             }
-        </CustomDiv>
+        </StyledContainer>
     );
-};
-
-export const formatNEAR = (amount) => {
-    amount = amount.toString();
-    if (amount === '0') {
-        return amount;
-    }
-    let formattedAmount = utils.format.formatNearAmount(amount, FRAC_DIGITS);
-    if (formattedAmount === '0') {
-        return `<${!FRAC_DIGITS ? `0` : `0.${'0'.repeat((FRAC_DIGITS || 1) - 1)}1`}`;
-    }
-    return formattedAmount;
-};
-
-const showInYocto = (amountStr) => {
-    const amount = new BN(amountStr);
-    if (amount.lte(YOCTO_NEAR_THRESHOLD)) {
-        return formatWithCommas(amountStr) + ' yoctoⓃ';
-    }
-};
-
-const formatWithCommas = (value) => {
-    const pattern = /(-?\d+)(\d{3})/;
-    while (pattern.test(value)) {
-        value = value.toString().replace(pattern, '$1,$2');
-    }
-    return value;
 };
 
 export default Balance;

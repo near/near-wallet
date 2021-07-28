@@ -252,8 +252,8 @@ const ActionTimeStamp = ({ timeStamp }) => {
 
 export const ActionValue = ({ transaction, actionArgs, actionKind, accountId }) => (
     <div className={`value ${actionKind === 'Transfer' ? transaction.signer_id === accountId ? 'transferred' : 'received' : ''}`}>
-        {actionKind === "Transfer" && <Balance amount={actionArgs.deposit} symbol='near' />}
-        {actionKind === "Stake" && <Balance amount={actionArgs.stake} symbol='near' />}
+        {actionKind === "Transfer" && <Balance amount={actionArgs.deposit}/>}
+        {actionKind === "Stake" && <Balance amount={actionArgs.stake}/>}
     </div>
 );
 

@@ -16,6 +16,7 @@ import classNames from '../../utils/classNames';
 import { SHOW_NETWORK_BANNER } from '../../utils/wallet';
 import Balance from '../common/Balance';
 import FormButton from '../common/FormButton';
+import NEARBalanceInUSD from '../common/NEARBalanceInUSD';
 import Container from '../common/styled/Container.css';
 import BuyIcon from '../svg/BuyIcon';
 import DownArrowIcon from '../svg/DownArrowIcon';
@@ -350,7 +351,12 @@ const FungibleTokens = ({ balance, tokensLoader, fungibleTokens }) => {
         <>
             <div className='total-balance'>
                 <Textfit mode='single' max={40}>
-                    <Balance amount={balance?.total} symbol={false}/>
+                    <NEARBalanceInUSD
+                        amount={balance?.total}
+                        showAlmostEqualSign={false}
+                        showUSDSymbol={false}
+                        showUSDSign={true}
+                    />
                 </Textfit>
             </div>
             <div className='sub-title'><Translate id='wallet.totalBalanceTitle'/></div>

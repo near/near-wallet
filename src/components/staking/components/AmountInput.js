@@ -43,7 +43,7 @@ export default function AmountInput({
             />
             {(action === 'unstake' || !stakeFromAccount) ? (
                 <div className='available-balance' onClick={availableClick}>
-                    <Translate id={`staking.${action}.input.availableBalance`} /><Balance amount={availableBalance} symbol='near'/>
+                    <Translate id={`staking.${action}.input.availableBalance`} /><Balance amount={availableBalance}/>
                 </div>
             ) : (
                 <BalanceBreakdown

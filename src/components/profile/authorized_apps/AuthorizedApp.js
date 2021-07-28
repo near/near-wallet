@@ -54,7 +54,7 @@ const AuthorizedApp = ({ app }) => {
             <hr/>
             <div className='fee'>
                 <span><Translate id='authorizedApps.feeAllowance' /></span>
-                <span><Balance amount={app.access_key.permission.FunctionCall.allowance} symbol='near'/></span>
+                <span><Balance amount={app.access_key.permission.FunctionCall.allowance}/></span>
             </div>
         </Container>
     );

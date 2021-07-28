@@ -96,14 +96,14 @@ function BalanceBreakdown({ total, onClickAvailable, availableType, error, trans
                         <div className='item'>
                             <Translate id='balanceBreakdown.available'/>
                             <div className='right'>
-                                <Balance amount={total} symbol='near'/>
+                                <Balance amount={total}/>
                             </div>
                         </div>
                         <div className='item'>
                             <Translate id='balanceBreakdown.reserved' />
                             <Tooltip translate='reservedForFeesInfo'/>
                             <div className='right'>
-                                - <Balance amount={subtractAmount} symbol='near'/>
+                                - <Balance amount={subtractAmount}/>
                             </div>
                         </div>
                     </Accordion>
@@ -116,7 +116,7 @@ function BalanceBreakdown({ total, onClickAvailable, availableType, error, trans
                             <Translate id={availableType}/><ChevronIcon color='#0072ce'/>
                         </div>
                         <div className='right' onClick={onClickAvailable}>
-                            <Balance amount={available} symbol='near'/>
+                            <Balance amount={available}/>
                         </div>
                     </div>
                 </Container>

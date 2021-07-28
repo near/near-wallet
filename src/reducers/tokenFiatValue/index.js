@@ -4,7 +4,9 @@ import { createSelector } from 'reselect';
 
 import { getTokenFiatValue } from '../../actions/tokenFiatValue';
 
-const initialState = { };
+const initialState = { 
+    tokens: {}
+};
 
 const tokenFiatValue = handleActions({
     [getTokenFiatValue]: (state, { payload }) => ({
