@@ -65,7 +65,7 @@ const CustomDiv = styled.div`
 const FRAC_DIGITS = 5;
 const YOCTO_NEAR_THRESHOLD = new BN('10', 10).pow(new BN(utils.format.NEAR_NOMINATION_EXP - FRAC_DIGITS + 1, 10));
 
-const Balance = ({ amount, symbol = 'near', className }) => {
+const Balance = ({ amount, symbol, className, showBalanceInUSD = true }) => {
     let amountoShow = amount && formatNEAR(amount);
     const nearTokenFiatValueUSD = useSelector(state => selectNearTokenFiatValueUSD(state));
     const balanceInUSD = amountoShow && Number(amountoShow) * nearTokenFiatValueUSD;
@@ -77,16 +77,18 @@ const Balance = ({ amount, symbol = 'near', className }) => {
                     ? amountoShow
                     : <div className="dots"><Translate id='loadingNoDots'/></div>
                 }
-                {amount && symbol === 'near' && 
+                {amount && symbol !== false && 
                     <span className='currency'>&nbsp;NEAR</span>
                 }
             </div>
-            <div className='usd-amount'>
-                {balanceInUSD && balanceInUSD !== 0
-                    ? <>&asymp; {`${balanceInUSD.toFixed(2)} USD`}</>
-                    : <>&mdash; USD</>
-                }
-            </div>
+            {showBalanceInUSD &&
+                <div className='usd-amount'>
+                    {balanceInUSD && balanceInUSD !== 0
+                        ? <>&asymp; {`${balanceInUSD.toFixed(2)} USD`}</>
+                        : <>&mdash; USD</>
+                    }
+                </div>
+            }
         </CustomDiv>
     );
 };
