@@ -179,7 +179,7 @@ const GlobalAlertNew = ({ globalAlert, actionStatus, clearGlobalAlert, closeIcon
 
     const [closing, setClosing] = useState(false);
     const [alerts, setAlerts] = useState([]);
-    const zendeskBaseURL = 'https://nearhelp.zendesk.com/hc/en-us/';
+    const zendeskBaseURL = 'https://nearhelp.zendesk.com/hc/';
 
     const handleClose = (type) => {
         setClosing(type);
