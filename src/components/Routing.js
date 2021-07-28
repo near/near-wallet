@@ -8,6 +8,7 @@ import styled, { ThemeProvider } from 'styled-components';
 
 import * as accountActions from '../actions/account';
 import { setIsMobile } from '../actions/status';
+import { getTokenFiatValue } from '../actions/tokenFiatValue';
 import TwoFactorVerifyModal from '../components/accounts/two_factor/TwoFactorVerifyModal';
 import { Mixpanel } from "../mixpanel/index";
 import translations_en from '../translations/en.global.json';
@@ -108,6 +109,8 @@ class Routing extends Component {
             isInactiveAccount: null
         };
 
+        this.pollTokenFiatValue = null;
+
         const languages = [
             { name: "English", code: "en" },
             { name: "Português", code: "pt" },
@@ -150,9 +153,12 @@ class Routing extends Component {
             handleRedirectUrl,
             handleClearUrl,
             router,
-            setIsMobile
+            setIsMobile,
+            getTokenFiatValue
         } = this.props;
-
+        
+        getTokenFiatValue();
+        this.startPollingTokenFiatValue();
         handleRefreshUrl(router);
         refreshAccount();
         setIsMobile(isMobile());
@@ -202,14 +208,27 @@ class Routing extends Component {
         }
     }
 
-    // addTranslationsForActiveLanguage(activeLang) {
-    //     import(`../translations/${activeLang}.global.json`).then(
-    //         translations => {
-    //             console.log(translations)
-    //             this.props.addTranslationForLanguage(translations, activeLang);
-    //         }
-    //     );
-    // }
+    componentWillUnmount = () => {
+        this.stopPollingAccountBalance();
+    }
+
+    startPollingTokenFiatValue = () => {
+        const { getTokenFiatValue  } = this.props;
+
+        const handlePollTokenFiatValue = async () => {
+            //FIX: Pending redux action causes mainLoader to be true. This could result in a button being disabled. Need to remove usage of mainLoader.
+            await getTokenFiatValue().catch(() => {});
+            if (this.pollTokenFiatValue) {
+                this.pollTokenFiatValue = setTimeout(() => handlePollTokenFiatValue(), 30000);
+            }
+        };
+        this.pollTokenFiatValue = setTimeout(() => handlePollTokenFiatValue(), 30000);
+    }
+
+    stopPollingTokenFiatValue = () => {
+        clearTimeout(this.pollTokenFiatValue);
+        this.pollTokenFiatValue = null;
+    }
 
     render() {
         const { search, query: { tab }, hash } = this.props.router.location;
@@ -443,7 +462,8 @@ const mapDispatchToProps = {
     promptTwoFactor,
     redirectTo,
     getAccountHelperWalletState,
-    setIsMobile
+    setIsMobile,
+    getTokenFiatValue
 };
 
 const mapStateToProps = ({ account, router }) => ({
