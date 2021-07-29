@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import set from 'lodash.set';
-import get from 'lodash.get';
+import update from 'lodash.update';
 import { createSelector } from 'reselect';
 
 import NonFungibleTokens from '../../services/NonFungibleTokens';
@@ -33,10 +33,10 @@ const nftSlice = createSlice({
             },
             addTokensMetadata(state, { payload }) {
                 const { contractName, tokens, accountId } = payload;
-                set(state, ['ownedTokens', 'byAccountId', accountId, 'byContractName', contractName], [
-                    ...(get(state, ['ownedTokens', 'byAccountId', accountId, 'byContractName', contractName]) || []),
+                update(state, ['ownedTokens', 'byAccountId', accountId, 'byContractName', contractName], (n) => ([
+                    ...n,
                     ...tokens
-                ]);
+                ]))
             },
             clearState(state) {
                 state.ownedTokens = initialState.ownedTokens;
