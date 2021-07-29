@@ -89,6 +89,7 @@ const StyledContainer = styled.div`
             height: 20px;
             white-space: nowrap;
             display: flex;
+            align-items: center;
 
             &.transferred {
                 &::before {
