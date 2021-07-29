@@ -96,9 +96,9 @@ const fetchNFTs = createAsyncThunk(
                 await dispatch(setContractMetadata({ contractName, metadata: contractMetadata }));
 
                 const tokenMetadata = await getTokens({
+                    contractName,
                     accountId,
                     base_uri: contractMetadata.base_uri,
-                    contractName
                 });
                 debugLog({ tokenMetadata });
                 await dispatch(setTokensMetadata({ accountId, contractName, tokens: tokenMetadata }));
@@ -114,6 +114,7 @@ export default nftSlice;
 
 export const actions = {
     fetchNFTs,
+    fetchNFTsByContractName,
     ...nftSlice.actions
 };
 export const reducer = nftSlice.reducer;
