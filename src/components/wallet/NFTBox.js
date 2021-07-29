@@ -102,31 +102,42 @@ const StyledContainer = styled.div`
     }
 `;
 
-const NFTBox = ({ token }) => {
+const NFTBox = ({ tokenDetails }) => {
+    const {
+        contractName,
+        contractMetadata: { icon, name },
+        ownedTokensMetadata
+    } = tokenDetails;
     return (
         <StyledContainer className='nft-box'>
             <div className='nft-header'>
                 <div className='symbol'>
-                    {token.icon && isDataURL(token.icon) ?
-                        <img src={token.icon} alt={token.name}/>
+                    {icon && isDataURL(icon) ?
+                        <img src={icon} alt={name}/>
                         :
                         <DefaultTokenIcon/>
                     }
                 </div>
                 <div className='desc'>
-                    <a href={`${EXPLORER_URL}/accounts/${token.contractName}`} title={token.name} target='_blank' rel='noopener noreferrer'>
-                        {token.name}
+                    <a href={`${EXPLORER_URL}/accounts/${contractName}`} title={name} target='_blank'
+                       rel='noopener noreferrer'>
+                        {name}
                     </a>
-                    <span>{token.tokens?.length}</span>
+                    <span>{ownedTokensMetadata?.length}</span>
                 </div>
             </div>
             {
-                token.tokens &&
+                ownedTokensMetadata &&
                 <div className='tokens'>
-                    {token.tokens.map(token => <div className='nft' key={token.token_id}>
-                        <img src={token.metadata.mediaUrl} alt='NFT' onError={(e)=>{e.target.onerror = null; e.target.src = FailedToLoad;}}/>
-                        <b>{token.metadata.title}</b>
-                    </div>)}
+                    {ownedTokensMetadata.map(({ token_id, metadata: { mediaUrl, title } }) => {
+                        return <div className='nft' key={token_id}>
+                            <img src={mediaUrl} alt='NFT' onError={(e) => {
+                                e.target.onerror = null;
+                                e.target.src = FailedToLoad;
+                            }}/>
+                            <b>{title}</b>
+                        </div>;
+                    })}
                 </div>
             }
         </StyledContainer>

@@ -61,8 +61,8 @@ const NFTs = ({ tokens }) => {
     if (tokens.length) {
         return (
             <StyledContainer>
-                {tokens.map((token, i) => (
-                    <NFTBox key={i} token={token}/>
+                {tokens.map((tokenDetails) => (
+                    <NFTBox key={tokenDetails.contractName} tokenDetails={tokenDetails}/>
                 ))}
             </StyledContainer>
         );
