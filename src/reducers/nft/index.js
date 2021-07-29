@@ -127,6 +127,11 @@ const selectOwnedTokensForAccount = createSelector(
     (ownedTokensByAccountId, accountId) => (ownedTokensByAccountId.byAccountId[accountId] || {}).byContractName || {}
 );
 
+const selectOwnedTokensForAccountForContract = createSelector(
+    [selectOwnedTokensForAccount, getContractNameParam],
+    (ownedTokensByContractName, contractName) => ownedTokensByContractName[contractName]
+)
+
 // Returns owned tokens metadata for all tokens owned by the passed accountId, sorted by their `name` property
 export const selectTokensWithMetadataForAccountId = createSelector(
     [selectAllContractMetadata, selectOwnedTokensForAccount],
