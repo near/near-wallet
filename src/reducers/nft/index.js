@@ -9,16 +9,18 @@ const { getLikelyTokenContracts, getMetadata, getTokens } = NonFungibleTokens;
 const ENABLE_DEBUG = false;
 const debugLog = (...args) => ENABLE_DEBUG && console.log('NFTSlice', ...args);
 
+const initialState = {
+    ownedTokens: {
+        byAccountId: {}
+    },
+    metadata: {
+        byContractName: {}
+    }
+};
+
 const nftSlice = createSlice({
         name: 'NFT',
-        initialState: {
-            ownedTokens: {
-                byAccountId: {}
-            },
-            metadata: {
-                byContractName: {}
-            }
-        },
+        initialState,
         reducers: {
             setContractMetadata(state, { payload }) {
                 const { metadata, contractName } = payload;
@@ -27,13 +29,16 @@ const nftSlice = createSlice({
             setTokensMetadata(state, { payload }) {
                 const { contractName, tokens, accountId } = payload;
                 set(state, ['ownedTokens', 'byAccountId', accountId, 'byContractName', contractName], tokens);
+            },
+            clearState(state) {
+                state.ownedTokens = initialState.ownedTokens;
             }
         }
     }
 );
 
 async function getCachedContractMetadataOrFetch(contractName, state) {
-    let contractMetadata = selectOneContractMetadata(contractName)(state);
+    let contractMetadata = selectOneContractMetadata(state, { contractName });
     if (contractMetadata) {
         debugLog('Returning cached contract metadata', { contractName });
         return contractMetadata;
@@ -85,22 +90,13 @@ export const reducer = nftSlice.reducer;
 function createParameterSelector(selector) {
     return (_, params) => selector(params);
 }
+
 const getAccountIdParam = createParameterSelector((params) => params.accountId);
 
 // Top level selectors
-const selectNftSlice = (state) => state.nft;
-const selectMetadataSlice = createSelector(
-    selectNftSlice,
-    (nftSlice) => nftSlice.metadata
-);
-const selectOwnedTokensSlice = createSelector(
-    selectNftSlice,
-    (nftSlice) => nftSlice.ownedTokens
-);
-const selectOwnedTokensForAccount = createSelector(
-    [selectOwnedTokensSlice, getAccountIdParam],
-    (ownedTokensByAccountId, accountId) => (ownedTokensByAccountId.byAccountId[accountId] || {}).byContractName || {}
-);
+const selectNftSlice = (state) => state[nftSlice.name];
+const selectMetadataSlice = createSelector(selectNftSlice, ({ metadata }) => metadata);
+const selectOwnedTokensSlice = createSelector(selectNftSlice, ({ ownedTokens }) => ownedTokens);
 
 // Contract metadata selectors
 // Returns contract metadata for every contract in the store, in an object keyed by contractName
@@ -109,10 +105,18 @@ export const selectAllContractMetadata = createSelector(
     (metadata) => metadata.byContractName
 );
 
+const getContractNameParam = createParameterSelector((params) => params.contractName);
+
 // Returns contract metadata for only the contractName provided
-export const selectOneContractMetadata = (contractName) => createSelector(
-    selectAllContractMetadata,
-    (metadataByContractName) => metadataByContractName[contractName]
+export const selectOneContractMetadata = createSelector(
+    [selectAllContractMetadata, getContractNameParam],
+    (metadataByContractName, contractName) => metadataByContractName[contractName]
+);
+
+// Owned tokens selectors
+const selectOwnedTokensForAccount = createSelector(
+    [selectOwnedTokensSlice, getAccountIdParam],
+    (ownedTokensByAccountId, accountId) => (ownedTokensByAccountId.byAccountId[accountId] || {}).byContractName || {}
 );
 
 // Returns owned tokens metadata for all tokens owned by the passed accountId, sorted by their `name` property
