@@ -36,7 +36,7 @@ const nftSlice = createSlice({
                 update(state, ['ownedTokens', 'byAccountId', accountId, 'byContractName', contractName], (n) => ([
                     ...n,
                     ...tokens
-                ]))
+                ]));
             },
             clearState(state) {
                 state.ownedTokens = initialState.ownedTokens;
@@ -156,7 +156,7 @@ const selectOwnedTokensForAccount = createSelector(
 const selectOwnedTokensForAccountForContract = createSelector(
     [selectOwnedTokensForAccount, getContractNameParam],
     (ownedTokensByContractName, contractName) => ownedTokensByContractName[contractName]
-)
+);
 
 // Returns owned tokens metadata for all tokens owned by the passed accountId, sorted by their `name` property
 export const selectTokensWithMetadataForAccountId = createSelector(
