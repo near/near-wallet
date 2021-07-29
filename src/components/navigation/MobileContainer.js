@@ -145,6 +145,7 @@ const Lang = styled.div`
         position: relative;
         width: 100%;
         z-index: 1;
+        text-indent: 54px;
     }
 
     &.mobile-lang .lang-selector  {
