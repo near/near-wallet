@@ -55,6 +55,31 @@ async function getCachedContractMetadataOrFetch(contractName, state) {
     return getMetadata(contractName);
 }
 
+const fetchNFTsByContractName = createAsyncThunk(
+    'NFT/fetchMoreNFTs',
+    async ({ accountId, contractName }, thunkAPI) => {
+        const { actions: { addTokensMetadata } } = nftSlice;
+        const { dispatch, getState } = thunkAPI;
+
+        try {
+            const contractMetadata = await getCachedContractMetadataOrFetch(contractName, getState());
+            debugLog({ contractMetadata });
+
+            const tokenMetadata = await getTokens({
+                contractName,
+                accountId,
+                base_uri: contractMetadata.base_uri,
+                numberOfTokensFetched: selectOwnedTokensForAccountForContract(getState(), { accountId, contractName }).length
+            });
+            debugLog({ tokenMetadata });
+            await dispatch(addTokensMetadata({ accountId, contractName, tokens: tokenMetadata }));
+        } catch (e) {
+            // Continue loading other likely contracts on failures
+            console.warn(`Failed to load NFT for ${contractName}`, e);
+        }
+    }
+);
+
 const fetchNFTs = createAsyncThunk(
     'NFT/fetchNFTs',
     async ({ accountId }, thunkAPI) => {
