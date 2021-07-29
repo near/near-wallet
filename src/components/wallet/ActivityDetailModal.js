@@ -80,6 +80,7 @@ const StyledContainer = styled.div`
                 color: #24272a;
                 height: 20px;
                 white-space: nowrap;
+                display: flex;
 
                 &.transferred {
                     &::before {
