@@ -8,7 +8,7 @@ import account from './account';
 import availableAccounts from './available-accounts';
 import flowLimitation from './flowLimitation';
 import ledger from './ledger';
-import nft from './nft';
+import { reducer as nftReducer } from './nft';
 import sign from './sign';
 import staking from './staking';
 import status from './status';
@@ -28,6 +28,6 @@ export default (history) => combineReducers({
     status,
     flowLimitation,
     tokens,
-    nft,
+    nft: nftReducer,
     router: connectRouter(history)
 });
