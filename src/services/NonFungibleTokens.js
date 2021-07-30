@@ -1,7 +1,7 @@
 import sendJson from '../tmp_fetch_send_json';
 import { ACCOUNT_HELPER_URL, wallet } from '../utils/wallet';
 
-const TOKENS_PER_PAGE = 4;
+const TOKENS_PER_PAGE = 50;
 
 // Methods for interacting witn NEP171 tokens (https://nomicon.io/Standards/NonFungibleToken/README.html)
 export default class NonFungibleTokens {
