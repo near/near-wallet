@@ -80,7 +80,7 @@ const fetchNFTs = createAsyncThunk(
 
         await Promise.all(likelyContracts.map(async contractName => {
             try {
-                await dispatch(fetchNFTsByContractName({ accountId, contractName }))
+                await dispatch(fetchNFTsByContractName({ accountId, contractName }));
             } catch (e) {
                 // Continue loading other likely contracts on failures
                 console.warn(`Failed to load NFT for ${contractName}`, e);
