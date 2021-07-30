@@ -27,10 +27,6 @@ const nftSlice = createSlice({
                 const { metadata, contractName } = payload;
                 set(state, ['metadata', 'byContractName', contractName], metadata);
             },
-            setTokensMetadata(state, { payload }) {
-                const { contractName, tokens, accountId } = payload;
-                set(state, ['ownedTokens', 'byAccountId', accountId, 'byContractName', contractName], tokens);
-            },
             addTokensMetadata(state, { payload }) {
                 const { contractName, tokens, accountId } = payload;
                 update(state, ['ownedTokens', 'byAccountId', accountId, 'byContractName', contractName], (n) => (n || []).concat(tokens));
