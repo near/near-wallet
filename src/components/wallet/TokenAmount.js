@@ -22,7 +22,7 @@ const showFullAmount = (amount, decimals, symbol) =>
         ? `${formatTokenAmount(amount, decimals, decimals)} ${symbol}`
         : '';
 
-const TokenAmount = ({ token: { balance, decimals, symbol }, withSymbol = false, className }) => (
+const TokenAmount = ({ token: { balance, decimals, symbol }, withSymbol = false, className, showFiatAmount = true }) => (
     <div className={className} title={showFullAmount(balance, decimals, symbol)}>
         <div>
             {balance
@@ -31,9 +31,11 @@ const TokenAmount = ({ token: { balance, decimals, symbol }, withSymbol = false,
             }
             <span className='currency'>{withSymbol ? ` ${symbol}` : null}</span>
         </div>
-        <div className='fiat-amount'>
-            &mdash; USD
-        </div>
+        {showFiatAmount &&
+            <div className='fiat-amount'>
+                &mdash; USD
+            </div>
+        }
     </div>
 );
 

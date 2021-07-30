@@ -69,6 +69,7 @@ const Review = ({
                         amount={amount}
                         symbol={selectedToken.symbol}
                         decimals={selectedToken.decimals}
+                        showFiatAmountForNonNearToken={false}
                     />
                 </Textfit>
             </div>

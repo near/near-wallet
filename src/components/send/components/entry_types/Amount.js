@@ -19,6 +19,7 @@ const Amount = ({ className, symbol, amount, decimals, translateIdTitle, transla
                     symbol={symbol}
                     amount={amount}
                     decimals={decimals}
+                    showFiatAmountForNonNearToken={false}
                 />
             </div>
         </StyledContainer>
