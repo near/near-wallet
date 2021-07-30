@@ -16,11 +16,11 @@ export default class NonFungibleTokens {
         return this.viewFunctionAccount.viewFunction(contractName, 'nft_metadata');
     }
 
-    static getTokens = async ({ contractName, accountId, base_uri, numberOfTokensFetched = 0 }) => {
+    static getTokens = async ({ contractName, accountId, base_uri, fromIndex = 0 }) => {
         let tokens;
         try {
             const tokenIds = await this.viewFunctionAccount.viewFunction(contractName, 'nft_tokens_for_owner_set', { account_id: accountId });
-            tokens = await Promise.all(tokenIds.slice(numberOfTokensFetched, TOKENS_PER_PAGE + numberOfTokensFetched).map(async token_id => {
+            tokens = await Promise.all(tokenIds.slice(fromIndex, TOKENS_PER_PAGE + fromIndex).map(async token_id => {
                 let metadata = await this.viewFunctionAccount.viewFunction(contractName, 'nft_token_metadata', { token_id: token_id.toString() });
                 let { media, reference } = metadata;
                 if (!media && reference) {
@@ -40,7 +40,7 @@ export default class NonFungibleTokens {
             // TODO: Pagination
             tokens = await this.viewFunctionAccount.viewFunction(contractName, 'nft_tokens_for_owner', {
                 account_id: accountId,
-                from_index: numberOfTokensFetched.toString(),
+                from_index: fromIndex.toString(),
                 limit: TOKENS_PER_PAGE
             });
         }
