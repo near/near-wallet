@@ -80,7 +80,7 @@ const fetchNFTsByContractName = createAsyncThunk(
 const fetchNFTs = createAsyncThunk(
     'NFT/fetchNFTs',
     async ({ accountId }, thunkAPI) => {
-        const { actions: { setContractMetadata, setTokensMetadata } } = nftSlice;
+        const { actions: { setContractMetadata, addTokensMetadata } } = nftSlice;
         const { dispatch, getState } = thunkAPI;
 
         const likelyContracts = await getLikelyTokenContracts(accountId);
@@ -98,7 +98,7 @@ const fetchNFTs = createAsyncThunk(
                     base_uri: contractMetadata.base_uri,
                 });
                 debugLog({ tokenMetadata });
-                await dispatch(setTokensMetadata({ accountId, contractName, tokens: tokenMetadata }));
+                await dispatch(addTokensMetadata({ accountId, contractName, tokens: tokenMetadata }));
             } catch (e) {
                 // Continue loading other likely contracts on failures
                 console.warn(`Failed to load NFT for ${contractName}`, e);
