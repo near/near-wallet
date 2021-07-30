@@ -12,7 +12,6 @@ import nftSlice from './nft';
 import sign from './sign';
 import staking from './staking';
 import status from './status';
-import tokenFiatValue from './tokenFiatValue';
 import tokens from './tokens';
 import transactions from './transactions';
 
