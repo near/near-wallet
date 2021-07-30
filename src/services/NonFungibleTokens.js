@@ -37,7 +37,6 @@ export default class NonFungibleTokens {
                 throw e;
             }
 
-            // TODO: Pagination
             tokens = await this.viewFunctionAccount.viewFunction(contractName, 'nft_tokens_for_owner', {
                 account_id: accountId,
                 from_index: fromIndex.toString(),
