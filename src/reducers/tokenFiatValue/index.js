@@ -5,7 +5,6 @@ import { createSelector } from 'reselect';
 import { getTokenFiatValue } from '../../actions/tokenFiatValue';
 
 const initialState = { 
-    tokens: {}
 };
 
 const tokenFiatValue = handleActions({
@@ -21,4 +20,4 @@ export default reduceReducers(
 );
 
 export const allTokenFiatValues = (state) => state.tokenFiatValue;
-export const selectNearTokenFiatValueUSD = createSelector(allTokenFiatValues, (tokens) => tokens.near?.usd);
+export const selectNearTokenFiatValueUSD = createSelector(allTokenFiatValues, (tokenFiatValue) => tokenFiatValue.near?.usd);

@@ -25,17 +25,21 @@ const Container = styled.div`
         :last-of-type {
             > div {
                 display: flex;
-                align-items: center;
+                align-items: flex-start;
                 justify-content: space-between;
-                font-size: 13px;
+                font-size: 14px;
+
+                .balance {
+                    text-align: right;
+                }
 
                 :first-of-type {
                     color: #00C08B;
                 }
 
                 :last-of-type {
-                    margin-top: 3px;
-                    color: #6E7073;
+                    margin-top: 5px;
+                    color: #24272a;
                 }
             }
         }

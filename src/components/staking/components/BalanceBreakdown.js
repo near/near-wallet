@@ -43,14 +43,16 @@ const Container = styled.div`
 
         .right {
             margin-left: auto;
+            text-align: right;
         }
     }
 
     .title {
         padding: 15px 0;
         display: flex;
+        align-items: flex-start;
 
-        div {
+        > div {
             :first-of-type {
                 display: flex;
                 align-items: center;
@@ -69,6 +71,7 @@ const Container = styled.div`
 
         .right {
             margin-left: auto;
+            text-align: right;
         }
     }
 
@@ -103,7 +106,7 @@ function BalanceBreakdown({ total, onClickAvailable, availableType, error, trans
                             <Translate id='balanceBreakdown.reserved' />
                             <Tooltip translate='reservedForFeesInfo'/>
                             <div className='right'>
-                                - <Balance amount={subtractAmount}/>
+                                <Balance amount={subtractAmount} subtract={true}/>
                             </div>
                         </div>
                     </Accordion>

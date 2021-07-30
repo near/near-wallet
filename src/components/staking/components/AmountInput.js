@@ -16,6 +16,10 @@ const Container = styled.div`
         display: flex;
         justify-content: space-between;
         color: ${props => props.status === '#ff585d' ? props.status : ''};
+
+        .balance {
+            text-align: right;
+        }
     }
 `;
 

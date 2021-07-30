@@ -86,7 +86,6 @@ const StyledContainer = styled.div`
         .value {
             font-weight: 700;
             color: #24272a;
-            height: 20px;
             white-space: nowrap;
             display: flex;
             align-items: center;
@@ -158,7 +157,7 @@ const ActivityBox = ({ transaction, actionArgs, actionKind, accountId, setTransa
                         actionArgs={actionArgs}
                         actionKind={actionKind}
                         accountId={accountId}
-                        includeBalanceInUSD={false}
+                        includeBalanceinFiat={false}
                     />
                 }
                 <ActionTimeStamp
@@ -253,10 +252,10 @@ const ActionTimeStamp = ({ timeStamp }) => {
     );
 };
 
-export const ActionValue = ({ transaction, actionArgs, actionKind, accountId, includeBalanceInUSD }) => (
+export const ActionValue = ({ transaction, actionArgs, actionKind, accountId, includeBalanceinFiat }) => (
     <div className={`value ${actionKind === 'Transfer' ? transaction.signer_id === accountId ? 'transferred' : 'received' : ''}`}>
-        {actionKind === "Transfer" && <Balance amount={actionArgs.deposit} includeBalanceInUSD={includeBalanceInUSD}/>}
-        {actionKind === "Stake" && <Balance amount={actionArgs.stake} includeBalanceInUSD={includeBalanceInUSD}/>}
+        {actionKind === "Transfer" && <Balance amount={actionArgs.deposit} includeBalanceinFiat={includeBalanceinFiat}/>}
+        {actionKind === "Stake" && <Balance amount={actionArgs.stake} includeBalanceinFiat={includeBalanceinFiat}/>}
     </div>
 );
 

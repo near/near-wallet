@@ -482,7 +482,7 @@ export default createGlobalStyle`
             color: #24272a;
         }
         h2, .h2 {
-            font-size: 18px !important;
+            font-size: 18px;
             font-weight: 600;
             margin: 0px;
         }

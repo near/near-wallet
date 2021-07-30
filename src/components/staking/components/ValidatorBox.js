@@ -69,15 +69,15 @@ const Container = styled.div`
         margin-left: auto;
         text-align: right;
 
-        div {
-            &:first-of-type {
+        > div {
+            :first-of-type {
                 color: #00C08B;
             }
-            
-            &:last-of-type {
-                color: #24272a;
-                white-space: nowrap;
-            }
+        }
+
+        .amount {
+            color: #24272a;
+            white-space: nowrap;
         }
     }
 
@@ -170,7 +170,7 @@ export default function ValidatorBox({
             {amount &&
                 <div className='right'>
                     {staking && <div><Translate id='staking.validatorBox.staking' /></div>}
-                    <div>
+                    <div className='amount'>
                         <Balance amount={amount}/>
                     </div>
                 </div>

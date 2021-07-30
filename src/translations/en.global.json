@@ -776,6 +776,10 @@
         "collectibles": "Collectibles"
     },
 
+    "tokenBox": {
+        "priceUnavailable": "Price Unavailable"
+    },
+
     "buyNear": {
         "title": "Purchase NEAR",
         "moonPay": "MoonPay",

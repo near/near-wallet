@@ -41,6 +41,7 @@ const Container = styled.div`
             :last-of-type {
                 color: #272729;
                 font-weight: 600;
+                text-align: right;
             }
         }
     }

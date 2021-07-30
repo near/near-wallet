@@ -24,12 +24,19 @@ const showFullAmount = (amount, decimals, symbol) =>
 
 const TokenAmount = ({ token: { balance, decimals, symbol }, withSymbol = false, className }) => (
     <div className={className} title={showFullAmount(balance, decimals, symbol)}>
-        {balance
-            ? formatToken(balance, decimals)
-            : <span className='dots' />
-        }
-        <span className='currency'>{withSymbol ? ` ${symbol}` : null}</span>
+        <div>
+            {balance
+                ? formatToken(balance, decimals)
+                : <span className='dots' />
+            }
+            <span className='currency'>{withSymbol ? ` ${symbol}` : null}</span>
+        </div>
+        <div className='fiat-amount'>
+            &mdash; USD
+        </div>
     </div>
 );
+
+/* TODO: Create 'USD' variable to export */
 
 export default TokenAmount;

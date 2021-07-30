@@ -6,6 +6,7 @@ import {
     formatNearAmount,
     showInYocto
 } from '../../utils/balance';
+import classNames from '../../utils/classNames';
 import NEARBalanceInUSD from './NEARBalanceInUSD';
 
 const StyledContainer = styled.div`
@@ -47,8 +48,19 @@ const StyledContainer = styled.div`
         }
     }
 
-    .usd-amount {
+    &.subtract {
+        .near-amount {
+            :before {
+                content: '-'
+            }
+        }
+    }
+
+    .fiat-amount {
         color: #A2A2A8;
+        font-weight: 400;
+        margin-top: 2px;
+        font-size: 13px;
     }
 `;
 
@@ -56,20 +68,21 @@ const Balance = ({
     amount,
     symbol = true,
     className,
-    includeBalanceInUSD = true
+    includeBalanceinFiat = true,
+    subtract
 }) => {
 
     const amountoShow = amount && formatNearAmount(amount);
     const NEARSymbol = 'NEAR';
 
     return (
-        <StyledContainer title={showInYocto(amount)} className={className}>
+        <StyledContainer title={showInYocto(amount)} className={classNames(['balance', className, {'subtract' : subtract}])}>
             {amount
-                ? `${amountoShow}${symbol !== false ? ` ${NEARSymbol}` : ``}`
+                ? <div className='near-amount'>{amountoShow}{symbol !== false ? ` ${NEARSymbol}` : ``}</div>
                 : <div className="dots"><Translate id='loadingNoDots'/></div>
             }
-            {includeBalanceInUSD &&
-                <div className='usd-amount'>
+            {includeBalanceinFiat &&
+                <div className='fiat-amount'>
                     <NEARBalanceInUSD
                         amount={amount}
                     />

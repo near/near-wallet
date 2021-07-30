@@ -1,5 +1,6 @@
 import React from 'react';
 import { Translate } from 'react-localize-redux';
+import { Textfit } from 'react-textfit';
 import styled from 'styled-components';
 
 import Balance from '../../common/Balance';
@@ -24,7 +25,7 @@ const Container = styled.div`
 
     .validator-box {
         width: 100%;
-        max-width: 350px;
+        max-width: 400px;
 
         div {
             :first-of-type {
@@ -40,17 +41,25 @@ const Container = styled.div`
         }
     }
 
+    .amount {
+        width: 100%;
+        max-width: 400px;
+    }
+
     .stake-amount {
-        font-size: 40px;
         color: #24272a;
         font-weight: 500;
         margin: 40px 0 !important;
+
+        .fiat-amount {
+            font-size: 14px;
+        }
     }
 
     .green {
         margin-top: 50px !important;
-        width: 100% !important;
-        max-width: 350px !important;
+        width: 100%;
+        max-width: 400px;
     }
 
     .link {
@@ -60,7 +69,7 @@ const Container = styled.div`
     .ledger-disclaimer {
         font-style: italic;
         margin-top: 50px;
-        max-width: 350px;
+        max-width: 400px;
     }
 
     .divider {
@@ -68,7 +77,7 @@ const Container = styled.div`
         border-top: 1px solid #F2F2F2;
         position: relative;
         margin-bottom: 40px;
-        max-width: 350px;
+        max-width: 400px;
 
         div {
             background-color: white;
@@ -93,7 +102,9 @@ const StakeConfirmModal = ({ open, onClose, onConfirm, validator, amount, loadin
         >
             <Container>
                 <h2><Translate id={title}/></h2>
-                <Balance amount={amount || '0'} className='stake-amount'/>
+                <Textfit mode='single' max={40} className='amount'>
+                    <Balance amount={amount} className='stake-amount'/>
+                </Textfit>
                 {label && <div className='divider'><div><Translate id={label}/></div></div>}
                 <ValidatorBox 
                     validator={validator}

@@ -11,7 +11,7 @@ const NEARBalanceInUSD = ({
     showUSDSymbol = true
 }) => {
     const formattedNearAmount = amount && formatNearAmount(amount);
-    const nearTokenFiatValueUSD = useSelector(state => selectNearTokenFiatValueUSD(state));
+    const nearTokenFiatValueUSD = useSelector(selectNearTokenFiatValueUSD);
     const balanceInUSD = Number(formattedNearAmount) * nearTokenFiatValueUSD;
     const roundedBalanceInUSD = balanceInUSD && balanceInUSD.toFixed(2);
 
@@ -19,7 +19,7 @@ const NEARBalanceInUSD = ({
     
     // TODO: Show 'Loading...' for USD amount too?
 
-    if (formattedNearAmount && formattedNearAmount !== 0) {
+    if (roundedBalanceInUSD && roundedBalanceInUSD !== 0 && roundedBalanceInUSD !== isNaN) {
         return (
             <>
                 {showAlmostEqualSign && <>&asymp; </>}

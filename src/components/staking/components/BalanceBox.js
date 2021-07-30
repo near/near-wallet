@@ -17,7 +17,7 @@ const Container = styled.div`
         padding: 15px 14px;
     }
 
-    .list {
+    .balance {
         display: block;
         margin-top: 10px !important;
         color: #24272a;
