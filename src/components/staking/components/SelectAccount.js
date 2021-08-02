@@ -39,7 +39,7 @@ const Container = styled.div`
 
                 :last-of-type {
                     margin-top: 5px;
-                    color: #24272a;
+                    color: #6E7073;
                 }
             }
         }

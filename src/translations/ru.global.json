@@ -907,7 +907,7 @@
     },
     "profile": {
         "lockupBanner": {
-            "title": "<b>${amount}</b> NEAR доступны для вывода из вашего lockup-контракта!",
+            "title": "<b>${amount} NEAR (≈ ${fiatAmount} USD)</b> доступны для вывода из вашего lockup-контракта!",
             "cta": "Перевести в кошелек"
         },
         "pageTitle": {

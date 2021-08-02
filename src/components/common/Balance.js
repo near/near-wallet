@@ -69,14 +69,14 @@ const Balance = ({
     symbol = true,
     className,
     includeBalanceinFiat = true,
-    subtract
+    showAsSubtract
 }) => {
 
     const amountoShow = amount && formatNearAmount(amount);
     const NEARSymbol = 'NEAR';
 
     return (
-        <StyledContainer title={showInYocto(amount)} className={classNames(['balance', className, {'subtract' : subtract}])}>
+        <StyledContainer title={showInYocto(amount)} className={classNames(['balance', className, {'subtract' : showAsSubtract}])}>
             {amount
                 ? <div className='near-amount'>{amountoShow}{symbol !== false ? ` ${NEARSymbol}` : ``}</div>
                 : <div className="dots"><Translate id='loadingNoDots'/></div>

@@ -70,7 +70,7 @@ const Container = styled.div`
         color: #72727A;
         border-bottom: 1px solid #f3f3f3;
         background-color: #FAFAFA;
-        padding-left: 28px;
+        padding-left: 30px;
 
         &.button {
             cursor: pointer;
@@ -98,7 +98,7 @@ const Container = styled.div`
         &.detail {
             background-color: #F0F0F0;
             border-color: #e6e6e6;
-            padding-left: 42px;
+            padding-left: 40px;
 
             &:first-of-type {
                 box-shadow: inset 0 5px 6px -5px #dedede;
@@ -109,12 +109,12 @@ const Container = styled.div`
             }
 
             &.locked {
-                padding-left: 56px;
+                padding-left: 40px;
             }
         }
 
         &.locked {
-            padding-left: 42px;
+            padding-left: 30px;
 
             @media (min-width: 768px) {
                 &.last {

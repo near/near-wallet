@@ -8,9 +8,9 @@ import styled, { ThemeProvider } from 'styled-components';
 
 import * as accountActions from '../actions/account';
 import { setIsMobile } from '../actions/status';
-import { getTokenFiatValue } from '../actions/tokenFiatValue';
 import TwoFactorVerifyModal from '../components/accounts/two_factor/TwoFactorVerifyModal';
 import { Mixpanel } from "../mixpanel/index";
+import { actions as tokenFiatValueActions } from '../slices/tokenFiatValues';
 import translations_en from '../translations/en.global.json';
 import translations_pt from '../translations/pt.global.json';
 import translations_ru from '../translations/ru.global.json';
@@ -62,6 +62,10 @@ import Terms from './terms/Terms';
 import { Wallet } from './wallet/Wallet';
 
 import '../index.css';
+
+const { 
+    fetchTokenFiatValues
+} = tokenFiatValueActions;
 
 const  {
     getAccountHelperWalletState,
@@ -154,10 +158,10 @@ class Routing extends Component {
             handleClearUrl,
             router,
             setIsMobile,
-            getTokenFiatValue
+            fetchTokenFiatValues
         } = this.props;
         
-        getTokenFiatValue();
+        fetchTokenFiatValues();
         this.startPollingTokenFiatValue();
         handleRefreshUrl(router);
         refreshAccount();
@@ -213,11 +217,11 @@ class Routing extends Component {
     }
 
     startPollingTokenFiatValue = () => {
-        const { getTokenFiatValue  } = this.props;
+        const { fetchTokenFiatValues  } = this.props;
 
         const handlePollTokenFiatValue = async () => {
             //FIX: Pending redux action causes mainLoader to be true. This could result in a button being disabled. Need to remove usage of mainLoader.
-            await getTokenFiatValue().catch(() => {});
+            await fetchTokenFiatValues().catch(() => {});
             if (this.pollTokenFiatValue) {
                 this.pollTokenFiatValue = setTimeout(() => handlePollTokenFiatValue(), 30000);
             }
@@ -463,7 +467,7 @@ const mapDispatchToProps = {
     redirectTo,
     getAccountHelperWalletState,
     setIsMobile,
-    getTokenFiatValue
+    fetchTokenFiatValues
 };
 
 const mapStateToProps = ({ account, router }) => ({

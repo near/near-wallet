@@ -1027,7 +1027,7 @@
     },
     "profile": {
         "lockupBanner": {
-            "title": "You have <b>${amount}</b> NEAR available to withdraw from your lockup!",
+            "title": "You have <b>${amount} NEAR (≈ ${fiatAmount} USD)</b> available to withdraw from your lockup!",
             "cta": "Transfer to Wallet"
         },
         "pageTitle": {

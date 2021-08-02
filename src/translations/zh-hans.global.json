@@ -1020,7 +1020,7 @@
     },
     "profile": {
         "lockupBanner": {
-            "title": "你有 <b>${amount}</b> NEAR 可从你的锁定账户提现。",
+            "title": "你有 <b>${amount} NEAR (≈ ${fiatAmount} USD)</b> 可从你的锁定账户提现。",
             "cta": "转账至钱包"
         },
         "pageTitle": {

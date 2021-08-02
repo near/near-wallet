@@ -12,6 +12,7 @@ const StyledContainer = styled.form`
     .token-amount {
         max-width: 85%;
         overflow: hidden;
+        text-align: center;
     }
 
     .input-sub-label {

@@ -4,8 +4,8 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import { selectBalance } from '../reducers/account';
-import { selectNearTokenFiatValueUSD } from '../reducers/tokenFiatValue';
 import { selectTokensDetails } from '../reducers/tokens';
+import { selectNearTokenFiatValueUSD } from '../slices/tokenFiatValues';
 import { WALLET_APP_MIN_AMOUNT } from '../utils/wallet';
 
 const getAvailableNearToSend = (availableBalance, reservedForFees) => {

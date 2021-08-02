@@ -106,7 +106,7 @@ function BalanceBreakdown({ total, onClickAvailable, availableType, error, trans
                             <Translate id='balanceBreakdown.reserved' />
                             <Tooltip translate='reservedForFeesInfo'/>
                             <div className='right'>
-                                <Balance amount={subtractAmount} subtract={true}/>
+                                <Balance amount={subtractAmount} showAsSubtract={true}/>
                             </div>
                         </div>
                     </Accordion>

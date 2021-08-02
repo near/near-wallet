@@ -970,7 +970,7 @@
     },
     "profile": {
         "lockupBanner": {
-            "title": "Você tem <b>${amount}</b> NEAR disponível para retirada do seu bloqueio!",
+            "title": "Você tem <b>${amount} NEAR (≈ ${fiatAmount} USD)</b> disponível para retirada do seu bloqueio!",
             "cta": "Transferir para Carteira"
         },
         "pageTitle": {

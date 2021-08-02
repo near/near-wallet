@@ -970,7 +970,7 @@
     },
     "profile": {
         "lockupBanner": {
-            "title": "Bạn có <b>${amount}</b> NEAR khả dụng để rút!",
+            "title": "Bạn có <b>${amount} NEAR (≈ ${fiatAmount} USD)</b> khả dụng để rút!",
             "cta": "Chuyển đến Ví"
         },
         "pageTitle": {

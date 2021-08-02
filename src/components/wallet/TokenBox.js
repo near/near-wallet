@@ -80,7 +80,7 @@ const StyledContainer = styled.div`
         .fiat-amount {
             font-size: 14px;
             font-weight: 400;
-            margin-top: 7px;
+            margin-top: 6px;
             color: #72727A;
             line-height: normal;
         }

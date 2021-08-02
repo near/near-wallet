@@ -4,6 +4,7 @@ import { combineReducers } from 'redux';
 
 import allAccounts from '../reducers/allAccounts';
 import recoveryMethods from '../reducers/recoveryMethods';
+import tokenFiatValuesSlice from '../slices/tokenFiatValues';
 import account from './account';
 import availableAccounts from './available-accounts';
 import flowLimitation from './flowLimitation';
@@ -29,5 +30,6 @@ export default (history) => combineReducers({
     flowLimitation,
     tokens,
     [nftSlice.name]: nftSlice.reducer,
+    [tokenFiatValuesSlice.name]: tokenFiatValuesSlice.reducer,
     router: connectRouter(history)
 });
