@@ -10,17 +10,17 @@ export const getRoundedBalanceInUSD = (amount) => {
     const balanceInUSD = Number(formattedNearAmount) * nearTokenFiatValueUSD;
     const roundedBalanceInUSD = balanceInUSD && balanceInUSD.toFixed(2);
     return roundedBalanceInUSD;
-}
+};
 
 const getAmountPrefix = (amount) => {
     if (amount === '0.00') {
         // Less than sign
-        return <>&lt;</>
+        return <>&lt;</>;
     } else {
         // Almost equal to sign
         return <>&asymp; </>;
     }
-}
+};
 
 const NEARBalanceInUSD = ({
     amount,

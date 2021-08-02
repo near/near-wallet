@@ -1,4 +1,3 @@
-import { utils } from 'near-api-js';
 import React from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
