@@ -23,7 +23,7 @@ test('formatNearAmount when given new BN(0)', () => {
 });
 
 test('formatNearAmount when given tiny raw amount', () => {
-    expect(formatNearAmount(contextTiny)).toBe('<0.00001');
+    expect(formatNearAmount(contextTiny)).toBe('< 0.00001');
 });
 
 test('formatNearAmount when given small raw amount', () => {

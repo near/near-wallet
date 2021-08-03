@@ -51,7 +51,8 @@ const Container = styled.div`
         padding: 15px 0;
         display: flex;
         align-items: flex-start;
-
+        align-items: center;
+        
         > div {
             :first-of-type {
                 display: flex;

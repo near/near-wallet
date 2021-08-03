@@ -53,7 +53,7 @@ const TransferAmount = styled.div`
     text-align: center;
 
     div {
-        font-size: 26px !important;
+        font-size: 26px;
         font-weight: 600;
     }
 `;

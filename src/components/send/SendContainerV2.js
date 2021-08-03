@@ -149,6 +149,7 @@ const SendContainerV2 = ({
             return (
                 <EnterAmount
                     amount={userInputAmount}
+                    rawAmount={getRawAmount()}
                     onChangeAmount={(event) => {
                         const { value: userInputAmount } = event.target;
 
