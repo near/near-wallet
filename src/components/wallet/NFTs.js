@@ -57,7 +57,7 @@ const StyledContainer = styled.div`
     }
 `;
 
-const NFTs = ({ tokens, fetchMoreNFTs }) => {
+const NFTs = ({ tokens, fetchMoreNFTs, fetchingNFTs }) => {
     if (tokens.length) {
         return (
             <StyledContainer>
@@ -66,6 +66,7 @@ const NFTs = ({ tokens, fetchMoreNFTs }) => {
                         key={tokenDetails.contractName}
                         tokenDetails={tokenDetails}
                         fetchMoreNFTs={fetchMoreNFTs}
+                        fetchingNFTs={!!fetchingNFTs[tokenDetails.contractName]}
                     />
                 ))}
             </StyledContainer>

@@ -103,7 +103,7 @@ const StyledContainer = styled.div`
     }
 `;
 
-const NFTBox = ({ tokenDetails, fetchMoreNFTs }) => {
+const NFTBox = ({ tokenDetails, fetchMoreNFTs, fetchingNFTs }) => {
     const {
         contractName,
         contractMetadata: { icon, name },
@@ -143,6 +143,7 @@ const NFTBox = ({ tokenDetails, fetchMoreNFTs }) => {
             }
                 <FormButton 
                     onClick={() => fetchMoreNFTs(tokenDetails.contractName)}
+                    sending={fetchingNFTs === true}
                     color='gray-gray'
                 >
                     Load more
