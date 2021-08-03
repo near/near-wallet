@@ -18,7 +18,7 @@ const fungibleTokensIncludingNEAR = (tokens, balance, nearTokenFiatValueUSD) => 
         {
             balance,
             symbol: 'NEAR',
-            USD: nearTokenFiatValueUSD
+            usd: nearTokenFiatValueUSD
         },
         ...Object.values(tokens)
     ];
