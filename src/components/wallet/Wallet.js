@@ -15,7 +15,7 @@ import { actionsPendingByPrefix } from '../../utils/alerts';
 import classNames from '../../utils/classNames';
 import { SHOW_NETWORK_BANNER } from '../../utils/wallet';
 import FormButton from '../common/FormButton';
-import NEARBalanceInUSD from '../common/NEARBalanceInUSD';
+import NEARBalanceInUSDWrapper from '../common/near_usd/NEARBalanceInUSDWrapper';
 import Container from '../common/styled/Container.css';
 import BuyIcon from '../svg/BuyIcon';
 import DownArrowIcon from '../svg/DownArrowIcon';
@@ -368,7 +368,7 @@ const FungibleTokens = ({ balance, tokensLoader, fungibleTokens }) => {
             <div className='sub-title balance'><Translate id='wallet.totalBalanceTitle' /></div>
             <div className='total-balance'>
                 <Textfit mode='single' max={44}>
-                    <NEARBalanceInUSD
+                    <NEARBalanceInUSDWrapper
                         amount={balance?.total}
                         showAlmostEqualSign={false}
                         showUSDSymbol={false}
@@ -378,7 +378,7 @@ const FungibleTokens = ({ balance, tokensLoader, fungibleTokens }) => {
             </div>
             <div className='available-balance'>
                 <div><Translate id='balanceBreakdown.available' />:</div>
-                <NEARBalanceInUSD
+                <NEARBalanceInUSDWrapper
                     amount={balance?.available}
                     showAlmostEqualSign={false}
                     showUSDSymbol={false}

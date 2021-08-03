@@ -166,7 +166,7 @@
         "activateAccount": {
             "pre": {
                 "title": "即将完成注册！请为账户进行首次充值。",
-                "desc": "开始使用 NEAR 钱包前，请先充值<b>至少 ${amount} NEAR</b> 至你的账户（或称地址）。"
+                "desc": "开始使用 NEAR 钱包前，请先充值<b>至少 ${amount}</b> 至你的账户（或称地址）。"
             },
             "post": {
                 "title": "你的账户已经激活。",
@@ -177,7 +177,7 @@
         "createImplicit": {
             "pre": {
                 "title": "充值至账户",
-                "descOne": "为初始化账户，请向临时充值地址转账至少 <b>${amount} NEAR</b>。",
+                "descOne": "为初始化账户，请向临时充值地址转账至少 <b>${amount}</b>。",
                 "descTwo": "充值完成后，请返回本页继续完成账户创建。",
                 "addressHeader": "临时充值地址",
                 "whereToBuy": {
@@ -397,7 +397,7 @@
         "email": "Email 地址",
         "phone": "手机号",
         "notEnabled": "双重认证未开启",
-        "notEnoughBalance": "为开启双重认证，你的账户需要最少余额 ",
+        "notEnoughBalance": "为开启双重认证，你的账户需要最少余额 ${amount}",
         "active": "已开启",
         "since": "自",
         "promptDesc": "我们强烈建议你开启双重认证的方式来增强你的账户和资产安全性。",
@@ -418,10 +418,10 @@
             "keep": "不，保留双重认证"
         },
         "alertBanner": {
-            "title": "开启双重认证后，<b>${data} NEAR</b> 将会被锁定，以涵盖存储的消耗。",
+            "title": "开启两步验证后，<b>${data}</b> 将会被锁定，以涵盖存储的消耗。",
             "button": "了解更多"
         },
-        "checkBox": "我已知晓：开启双重认证后，${amount} NEAR 将会被锁定，以涵盖合约的存储。"
+        "checkBox": "我已知晓：开启双重认证后，${amount} 将会被锁定，以涵盖合约的存储。"
     },
 
     "fullAccessKeys": {
@@ -611,7 +611,7 @@
     "createAccount": {
         "termsPage": {
             "title": "在开始之前...",
-            "descOne": "NEAR 账户要求进行一笔一次性<b>至少 ${data} NEAR</b> 的充值来涵盖<a href='https://docs.near.org/docs/concepts/account' rel='noopener noreferrer' target='_blank'>你的账户存储成本</a>。",
+            "descOne": "NEAR 账户要求进行一笔一次性<b>至少 ${amount}</b> 的充值来涵盖<a href='https://docs.near.org/docs/concepts/account' rel='noopener noreferrer' target='_blank'>你的账户存储成本</a>。",
             "descTwo": "在保留你的个性化账户 ID 之后，你需要进行一笔初始充值来激活的账户。",
             "disclaimer": "通过注册 NEAR 账户，意味着你同意 NEAR 钱包的<a href='/terms' rel='noopener noreferrer' target='_blank'>服务条款</a>和<a href='https://near.org/privacy' rel='noopener noreferrer' target='_blank'>隐私策略</a>。"
         },
@@ -972,7 +972,7 @@
         },
         "unstakeSuccess": {
             "title": "成功！",
-            "desc": "你质押的 <b>${amount} NEAR</b> 已经成功从验证节点的质押池释放：",
+            "desc": "你质押的 <b>${amount}</b> 已经成功从验证节点的质押池释放：",
             "descTwo": "你的通证请求释放将会在 36 - 48 小时释放。",
             "button": "返回质押页"
         },
@@ -1020,7 +1020,7 @@
     },
     "profile": {
         "lockupBanner": {
-            "title": "你有 <b>${amount} NEAR (≈ ${fiatAmount} USD)</b> 可从你的锁定账户提现。",
+            "title": "你有 <b>${amount}</b> 可从你的锁定账户提现。",
             "cta": "转账至钱包"
         },
         "pageTitle": {

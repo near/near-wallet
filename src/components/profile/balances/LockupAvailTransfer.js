@@ -2,9 +2,8 @@ import React from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
-import { formatNearAmount } from '../../../utils/balance';
+import { getNearAndFiatValue } from '../../../utils/amounts';
 import FormButton from '../../common/FormButton';
-import { getRoundedBalanceInUSD } from '../../common/NEARBalanceInUSD';
 import GiftIcon from '../../svg/GiftIcon';
 
 const Container = styled.div`
@@ -42,17 +41,14 @@ const Container = styled.div`
     }
 `;
 
-const LockupAvailTransfer = ({ onTransfer, available, sending }) => {
+const LockupAvailTransfer = ({ onTransfer, available, sending, tokenFiatValue }) => {
     return (
         <Container className='lockup-avail-transfer'> 
             <GiftIcon/>
             <div>
                 <Translate
                     id='profile.lockupBanner.title'
-                    data={{
-                        amount: formatNearAmount(available),
-                        fiatAmount: getRoundedBalanceInUSD(available)
-                    }}
+                    data={{ amount: getNearAndFiatValue(available, tokenFiatValue) }}
                 />
             </div>
             <FormButton color='green-dark border'

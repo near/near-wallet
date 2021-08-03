@@ -162,7 +162,7 @@
         "activateAccount": {
             "pre": {
                 "title": "Almost there! Make your initial deposit.",
-                "desc": "To begin using NEAR Wallet, make a minimum initial deposit by sending <b>at least ${amount} NEAR</b> to your Account ID (sometimes called an “address”)."
+                "desc": "To begin using NEAR Wallet, make a minimum initial deposit by sending <b>at least ${amount}</b> to your Account ID (sometimes called an “address”)."
             },
             "post": {
                 "title": "Your account has been activated.",
@@ -173,7 +173,7 @@
         "createImplicit": {
             "pre": {
                 "title": "Coloque fundos em sua Conta",
-                "descOne": "Inicialize sua conta enviando ao menos <b>${amount} NEAR</b> para o endereço de fundação único abaixo.",
+                "descOne": "Inicialize sua conta enviando ao menos <b>${amount}</b> para o endereço de fundação único abaixo.",
                 "descTwo": "Retorne a esta tela assim que seus fundos forem depositados para terminar de criar sua conta.",
                 "addressHeader": "Endereço de fundação único",
                 "whereToBuy": {
@@ -384,7 +384,7 @@
         "email": "Endereço de e-mail",
         "phone": "Número de Telefone",
         "notEnabled": "2FA Inativo",
-        "notEnoughBalance": "Para ativar o 2FA, sua conta requer um saldo mínimo disponível de",
+        "notEnoughBalance": "Para ativar o 2FA, sua conta requer um saldo mínimo disponível de ${amount}",
         "active": "Ativo",
         "since": "desde",
         "promptDesc": "Recomendamos que você configure um método de Autenticação de Dois Fatores para aumentar a segurança de sua conta",
@@ -405,10 +405,10 @@
             "keep": "Não, manter 2FA"
         },
         "alertBanner": {
-            "title": "Quando ativado, <b>${data} NEAR</b> será bloqueado para cobrir os custos de armazenamento do contrato de autenticação de dois fatores.",
+            "title": "Quando ativado, <b>${data}</b> será bloqueado para cobrir os custos de armazenamento do contrato de autenticação de dois fatores.",
             "button": "Saber mais"
         },
-        "checkBox": "Eu concordo que, ao habilitar a autenticação de dois fatores, será feita a reserva de ${amount} NEAR para cobrir o custo de armazenamento do contrato."
+        "checkBox": "Eu concordo que, ao habilitar a autenticação de dois fatores, será feita a reserva de ${amount} para cobrir o custo de armazenamento do contrato."
     },
 
     "fullAccessKeys": {
@@ -582,7 +582,7 @@
     "createAccount": {
         "termsPage": {
             "title": "Before you begin...",
-            "descOne": "NEAR accounts require a minimum balance of <b>at least ${data} NEAR</b> to <a href='https://docs.near.org/docs/concepts/account' rel='noopener noreferrer' target='_blank'>hold a place on the network.</a>",
+            "descOne": "NEAR accounts require a minimum balance of <b>at least ${amount}</b> to <a href='https://docs.near.org/docs/concepts/account' rel='noopener noreferrer' target='_blank'>hold a place on the network.</a>",
             "descTwo": "After reserving a unique account address, you’ll be asked to make a small initial deposit to activate your account.",
             "disclaimer": "By creating a NEAR account, you agree to the NEAR Wallet <a href='/terms' rel='noopener noreferrer' target='_blank'>Terms of Service</a> and <a href='https://near.org/privacy' rel='noopener noreferrer' target='_blank'>Privacy Policy</a>."
         },
@@ -922,7 +922,7 @@
         },
         "unstakeSuccess": {
             "title": "Sucesso!",
-            "desc": "<b>${amount} NEAR</b> foi retirado com sucesso deste validador:",
+            "desc": "<b>${amount}</b> foi retirado com sucesso deste validador:",
             "descTwo": "Seus tokens aguardam liberação e serão disponibilizados em aproximadamente 52-65 horas (4 períodos).",
             "button": "Voltar ao Painel"
         },
@@ -970,7 +970,7 @@
     },
     "profile": {
         "lockupBanner": {
-            "title": "Você tem <b>${amount} NEAR (≈ ${fiatAmount} USD)</b> disponível para retirada do seu bloqueio!",
+            "title": "Você tem <b>${amount}</b> disponível para retirada do seu bloqueio!",
             "cta": "Transferir para Carteira"
         },
         "pageTitle": {

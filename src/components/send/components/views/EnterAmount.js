@@ -3,7 +3,7 @@ import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
 import FormButton from '../../../common/FormButton';
-import NEARBalanceInUSD from '../../../common/NEARBalanceInUSD';
+import NEARBalanceInUSDWrapper from '../../../common/near_usd/NEARBalanceInUSDWrapper';
 import AmountInput from '../AmountInput';
 import BalanceDetails from '../BalanceDetails';
 import SelectTokenButton from '../SelectTokenButton';
@@ -72,7 +72,7 @@ const EnterAmount = ({
             </div>
             {selectedToken.symbol === 'NEAR' &&
                 <div className='usd-amount'>
-                    <NEARBalanceInUSD amount={rawAmount}/>
+                    <NEARBalanceInUSDWrapper amount={rawAmount}/>
                 </div>
             }
             <FormButton

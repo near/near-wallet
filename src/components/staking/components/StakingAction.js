@@ -5,7 +5,7 @@ import { Translate } from 'react-localize-redux';
 
 import { onKeyDown } from '../../../hooks/eventListeners';
 import { Mixpanel } from '../../../mixpanel/index';
-import { toNear } from '../../../utils/amounts';
+import { toNear, getNearAndFiatValue } from '../../../utils/amounts';
 import isDecimalString from '../../../utils/isDecimalString';
 import { STAKING_AMOUNT_DEVIATION } from '../../../utils/staking';
 import { WALLET_APP_MIN_AMOUNT } from '../../../utils/wallet';
@@ -32,7 +32,8 @@ export default function StakingAction({
     handleStakingAction,
     stakeFromAccount,
     selectedValidator,
-    currentValidators
+    currentValidators,
+    nearTokenFiatValueUSD
 }) {
     const [confirm, setConfirm] = useState();
     const [amount, setAmount] = useState('');
@@ -192,7 +193,12 @@ export default function StakingAction({
             <>
                 <TransferMoneyIcon/>
                 <h1><Translate id={`staking.${action}Success.title`} /></h1>
-                <div className='desc'><Translate id={`staking.${action}Success.desc`} data={{ amount: displayAmount }}/></div>
+                <div className='desc'>
+                    <Translate 
+                        id={`staking.${action}Success.desc`}
+                        data={{ amount: getNearAndFiatValue(parseNearAmount(displayAmount), nearTokenFiatValueUSD) }}
+                    />
+                </div>
                 {validator && 
                     <ValidatorBox
                         validator={validator}

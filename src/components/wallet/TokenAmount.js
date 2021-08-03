@@ -39,6 +39,4 @@ const TokenAmount = ({ token: { balance, decimals, symbol }, withSymbol = false,
     </div>
 );
 
-/* TODO: Create 'USD' variable to export */
-
 export default TokenAmount;

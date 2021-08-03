@@ -11,6 +11,7 @@ import {
     handleStakingAction
 } from '../../actions/staking';
 import { Mixpanel } from '../../mixpanel/index';
+import { selectNearTokenFiatValueUSD } from '../../slices/tokenFiatValues';
 import { setStakingAccountSelected, getStakingAccountSelected } from '../../utils/localStorage';
 import Container from '../common/styled/Container.css';
 import Staking from './components/Staking';
@@ -165,6 +166,7 @@ export function StakingContainer({ history, match }) {
     const { hasLedger } = useSelector(({ ledger }) => ledger);
     
     const staking = useSelector(({ staking }) => staking);
+    const nearTokenFiatValueUSD = useSelector(selectNearTokenFiatValueUSD);
     const hasLockup = !!staking.lockupId;
     const { currentAccount } = staking;
     const stakingAccounts = staking.accounts;
@@ -292,6 +294,7 @@ export function StakingContainer({ history, match }) {
                                 stakeFromAccount={stakeFromAccount}
                                 selectedValidator={selectedValidator}
                                 currentValidators={currentValidators}
+                                nearTokenFiatValueUSD={nearTokenFiatValueUSD}
                             />
                         )}
                     />
@@ -308,6 +311,7 @@ export function StakingContainer({ history, match }) {
                                 loading={status.mainLoader}
                                 hasLedger={hasLedger}
                                 has2fa={has2fa}
+                                nearTokenFiatValueUSD={nearTokenFiatValueUSD}
                             />
                         )}
                     />

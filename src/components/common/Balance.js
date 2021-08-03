@@ -7,7 +7,7 @@ import {
     showInYocto
 } from '../../utils/balance';
 import classNames from '../../utils/classNames';
-import NEARBalanceInUSD from './NEARBalanceInUSD';
+import NEARBalanceInUSDWrapper from './near_usd/NEARBalanceInUSDWrapper';
 
 const StyledContainer = styled.div`
     white-space: nowrap;
@@ -83,7 +83,7 @@ const Balance = ({
             }
             {includeBalanceinFiat &&
                 <div className='fiat-amount'>
-                    <NEARBalanceInUSD
+                    <NEARBalanceInUSDWrapper
                         amount={amount}
                     />
                 </div>

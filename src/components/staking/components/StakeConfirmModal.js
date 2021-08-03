@@ -27,15 +27,13 @@ const Container = styled.div`
         width: 100%;
         max-width: 400px;
 
-        div {
-            :first-of-type {
-                div {
-                    :first-of-type {
-                        max-width: 150px;
-                        overflow: hidden;
-                        text-overflow: ellipsis;
-                        text-align: left;
-                    }
+        .left {
+            > div {
+                :first-of-type {
+                    max-width: 150px;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    text-align: left;
                 }
             }
         }
