@@ -6,7 +6,7 @@ import RawTokenAmount from '../RawTokenAmount';
 import StyledContainer from './css/Style.css';
 
 
-const Amount = ({ className, symbol, amount, decimals, translateIdTitle, translateIdInfoTooltip }) => {
+const Amount = ({ className, symbol, amount, decimals, translateIdTitle, translateIdInfoTooltip, showAmountAsSubtracted }) => {
     /* TODO: Handle long amounts */
     return (
         <StyledContainer className={className}>
@@ -20,6 +20,7 @@ const Amount = ({ className, symbol, amount, decimals, translateIdTitle, transla
                     amount={amount}
                     decimals={decimals}
                     showFiatAmountForNonNearToken={false}
+                    showAmountAsSubtracted={showAmountAsSubtracted}
                 />
             </div>
         </StyledContainer>

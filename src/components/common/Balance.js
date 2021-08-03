@@ -1,10 +1,12 @@
+import BN from 'bn.js';
 import React from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
 import { 
     formatNearAmount,
-    showInYocto
+    showInYocto,
+    YOCTO_NEAR_THRESHOLD
 } from '../../utils/balance';
 import classNames from '../../utils/classNames';
 import NEARBalanceInUSDWrapper from './near_usd/NEARBalanceInUSDWrapper';
@@ -69,14 +71,22 @@ const Balance = ({
     symbol = true,
     className,
     includeBalanceinFiat = true,
-    showAsSubtract // See comment below
+    showAmountAsSubtracted // See comment below
 }) => {
 
     const amountoShow = amount && formatNearAmount(amount);
     const NEARSymbol = 'NEAR';
 
+    const handleShowInYocto = (amount) => {
+        if (new BN(amount).lte(YOCTO_NEAR_THRESHOLD)) {
+            return showInYocto(amount);
+        } else {
+            return '';
+        }
+    };
+
     return (
-        <StyledContainer title={showInYocto(amount)} className={classNames(['balance', className, {'subtract' : showAsSubtract}])}>
+        <StyledContainer title={handleShowInYocto(amount)} className={classNames(['balance', className, {'subtract' : showAmountAsSubtracted}])}>
             {amount
                 ? <div className='near-amount'>{amountoShow}{symbol !== false ? ` ${NEARSymbol}` : ``}</div>
                 : <div className="dots"><Translate id='loadingNoDots'/></div>
@@ -94,5 +104,5 @@ const Balance = ({
 
 export default Balance;
 
-// showAsSubtract adds a minus sign in front of the formatted NEAR amount (amountoShow)
+// showAmountAsSubtracted adds a minus sign in front of the formatted NEAR amount (amountoShow)
 // to indicate that the amount is being deducted, e.g. 0.2 NEAR -> -0.2 NEAR

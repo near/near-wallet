@@ -52,8 +52,8 @@ test('showInYocto when given small raw amount', () => {
     expect(showInYocto(contextSmall)).toBe('10,000,000,000,000,000,000 yoctoNEAR');
 });
 
-test('showInYocto when given large raw amount above threshold', () => {
-    expect(showInYocto(contextBig)).toBe('');
+test('showInYocto when given large raw amount', () => {
+    expect(showInYocto(contextBig)).toBe('1,234,567,000,000,000,000,000,000,000 yoctoNEAR');
 });
 
 /* formatWithCommas */

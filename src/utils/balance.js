@@ -2,7 +2,7 @@ import BN from 'bn.js';
 import { utils } from 'near-api-js';
 
 const FRAC_DIGITS = 5;
-const YOCTO_NEAR_THRESHOLD = new BN('10', 10).pow(new BN(utils.format.NEAR_NOMINATION_EXP - FRAC_DIGITS + 1, 10));
+export const YOCTO_NEAR_THRESHOLD = new BN('10', 10).pow(new BN(utils.format.NEAR_NOMINATION_EXP - FRAC_DIGITS + 1, 10));
 
 export const formatNearAmount = (amount) => {
     amount = amount.toString();
@@ -17,12 +17,7 @@ export const formatNearAmount = (amount) => {
 };
 
 export const showInYocto = (amountStr) => {
-    const amount = new BN(amountStr);
-    if (amount.lte(YOCTO_NEAR_THRESHOLD)) {
-        return formatWithCommas(amountStr) + ' yoctoNEAR';
-    } else {
-        return '';
-    }
+    return formatWithCommas(amountStr) + ' yoctoNEAR';
 };
 
 export const formatWithCommas = (value) => {
