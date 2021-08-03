@@ -69,7 +69,7 @@ const Balance = ({
     symbol = true,
     className,
     includeBalanceinFiat = true,
-    showAsSubtract
+    showAsSubtract // See comment below
 }) => {
 
     const amountoShow = amount && formatNearAmount(amount);
@@ -93,3 +93,6 @@ const Balance = ({
 };
 
 export default Balance;
+
+// showAsSubtract adds a minus sign in front of the formatted NEAR amount (amountoShow)
+// to indicate that the amount is being deducted, e.g. 0.2 NEAR -> -0.2 NEAR
