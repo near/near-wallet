@@ -26,7 +26,10 @@ import LinkDropSuccessModal from './LinkDropSuccessModal';
 import NFTs from './NFTs';
 import Tokens from './Tokens';
 
-const { fetchNFTs } = nftActions;
+const { 
+    fetchNFTs, 
+    fetchNFTsByContractName 
+} = nftActions;
 
 const StyledContainer = styled(Container)`
     @media (max-width: 991px) {
@@ -281,6 +284,10 @@ export function Wallet({ tab, setTab }) {
         dispatch(handleGetTokens());
         dispatch(fetchNFTs({ accountId }));
     }, [accountId]);
+
+    const loadMoreNFTs = async (contractName) => {
+        const { payload } = await dispatch(fetchNFTsByContractName({ accountId, contractName }));
+    };
 
     const handleHideExploreApps = () => {
         localStorage.setItem('hideExploreApps', true);
