@@ -1,8 +1,8 @@
 import React from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
-import { TOKENS_PER_PAGE } from '../../services/NonFungibleTokens';
 
+import { TOKENS_PER_PAGE } from '../../services/NonFungibleTokens';
 import FormButton from '../common/FormButton';
 import NearCircleIcon from '../svg/NearCircleIcon.js';
 import NFTBox from './NFTBox';
