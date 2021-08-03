@@ -1,6 +1,8 @@
 import sendJson from '../tmp_fetch_send_json';
 import { ACCOUNT_HELPER_URL, wallet } from '../utils/wallet';
 
+const TOKENS_PER_PAGE = 50;
+
 // Methods for interacting witn NEP171 tokens (https://nomicon.io/Standards/NonFungibleToken/README.html)
 export default class NonFungibleTokens {
     // View functions are not signed, so do not require a real account!
@@ -14,11 +16,11 @@ export default class NonFungibleTokens {
         return this.viewFunctionAccount.viewFunction(contractName, 'nft_metadata');
     }
 
-    static getTokens = async ({ contractName, accountId, base_uri }) => {
+    static getTokens = async ({ contractName, accountId, base_uri, fromIndex = 0 }) => {
         let tokens;
         try {
             const tokenIds = await this.viewFunctionAccount.viewFunction(contractName, 'nft_tokens_for_owner_set', { account_id: accountId });
-            tokens = await Promise.all(tokenIds.map(async token_id => {
+            tokens = await Promise.all(tokenIds.slice(fromIndex, TOKENS_PER_PAGE + fromIndex).map(async token_id => {
                 let metadata = await this.viewFunctionAccount.viewFunction(contractName, 'nft_token_metadata', { token_id: token_id.toString() });
                 let { media, reference } = metadata;
                 if (!media && reference) {
@@ -35,11 +37,10 @@ export default class NonFungibleTokens {
                 throw e;
             }
 
-            // TODO: Pagination
             tokens = await this.viewFunctionAccount.viewFunction(contractName, 'nft_tokens_for_owner', {
                 account_id: accountId,
-                from_index: "0",
-                limit: 50
+                from_index: fromIndex.toString(),
+                limit: TOKENS_PER_PAGE
             });
         }
         // TODO: Separate Redux action for loading image
