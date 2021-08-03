@@ -12,7 +12,7 @@ const formatToken = (amount, decimals) => {
     let formattedAmount = formatTokenAmount(amount, decimals, FRAC_DIGITS);
 
     if (formattedAmount === `0.${'0'.repeat(FRAC_DIGITS)}`) {
-        return `<${!FRAC_DIGITS ? `0` : `0.${'0'.repeat((FRAC_DIGITS || 1) - 1)}1`}`;
+        return `< ${!FRAC_DIGITS ? `0` : `0.${'0'.repeat((FRAC_DIGITS || 1) - 1)}1`}`;
     }
     return removeTrailingZeros(formattedAmount);
 };
@@ -33,7 +33,7 @@ const TokenAmount = ({ token: { balance, decimals, symbol }, withSymbol = false,
         </div>
         {showFiatAmount &&
             <div className='fiat-amount'>
-                &mdash; USD
+                — USD
             </div>
         }
     </div>
