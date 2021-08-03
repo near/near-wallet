@@ -1,6 +1,7 @@
 import React from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
+import { TOKENS_PER_PAGE } from '../../services/NonFungibleTokens';
 
 import FormButton from '../common/FormButton';
 import NearCircleIcon from '../svg/NearCircleIcon.js';
@@ -67,7 +68,7 @@ const NFTs = ({ tokens, fetchMoreNFTs, fetchingNFTs, hideLoadMoreNFTs }) => {
                         tokenDetails={tokenDetails}
                         fetchMoreNFTs={fetchMoreNFTs}
                         fetchingNFTs={!!fetchingNFTs[tokenDetails.contractName]}
-                        hideLoadMoreNFTs={!!hideLoadMoreNFTs[tokenDetails.contractName]}
+                        hideLoadMoreNFTs={tokenDetails.ownedTokensMetadata.length < TOKENS_PER_PAGE || !!hideLoadMoreNFTs[tokenDetails.contractName]}
                     />
                 ))}
             </StyledContainer>
