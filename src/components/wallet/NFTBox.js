@@ -103,7 +103,7 @@ const StyledContainer = styled.div`
     }
 `;
 
-const NFTBox = ({ tokenDetails, fetchMoreNFTs, fetchingNFTs }) => {
+const NFTBox = ({ tokenDetails, fetchMoreNFTs, fetchingNFTs, hideLoadMoreNFTs }) => {
     const {
         contractName,
         contractMetadata: { icon, name },
@@ -141,6 +141,7 @@ const NFTBox = ({ tokenDetails, fetchMoreNFTs, fetchingNFTs }) => {
                     })}
                 </div>
             }
+            {!hideLoadMoreNFTs &&
                 <FormButton 
                     onClick={() => fetchMoreNFTs(tokenDetails.contractName)}
                     sending={fetchingNFTs === true}
@@ -148,6 +149,7 @@ const NFTBox = ({ tokenDetails, fetchMoreNFTs, fetchingNFTs }) => {
                 >
                     Load more
                 </FormButton>
+            }
         </StyledContainer>
     );
 };

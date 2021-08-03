@@ -264,6 +264,7 @@ export function Wallet({ tab, setTab }) {
     const fungibleTokensList = useFungibleTokensIncludingNEAR({ fullBalance: true });
     const tokensLoader = actionsPendingByPrefix('TOKENS/') || !balance?.total;
     const [fetchingNFTs, setFetchingNFTs] = useState(false);
+    const [hideLoadMoreNFTs, setHideLoadMoreNFTs] = useState(false);
 
     useEffect(() => {
         if (accountId) {
@@ -290,6 +291,7 @@ export function Wallet({ tab, setTab }) {
         setFetchingNFTs((state) => ({ ...state, [contractName]: true }));
         const { payload } = await dispatch(fetchNFTsByContractName({ accountId, contractName }));
         setFetchingNFTs((state) => ({ ...state, [contractName]: false }));
+        setHideLoadMoreNFTs((state) => ({ ...state, [contractName]: !payload?.tokens.length }));
     };
 
     const handleHideExploreApps = () => {
@@ -327,6 +329,7 @@ export function Wallet({ tab, setTab }) {
                             tokens={sortedNFTs}
                             fetchMoreNFTs={loadMoreNFTs}
                             fetchingNFTs={fetchingNFTs}
+                            hideLoadMoreNFTs={hideLoadMoreNFTs}
                         />
                         : <FungibleTokens
                             balance={balance}

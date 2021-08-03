@@ -66,7 +66,8 @@ const fetchNFTsByContractName = createAsyncThunk(
             base_uri: contractMetadata.base_uri,
             fromIndex: selectOwnedTokensForAccountForContract(getState(), { accountId, contractName }).length
         });
-        await dispatch(addTokensMetadata({ accountId, contractName, tokens: tokenMetadata }));
+        const { payload } = await dispatch(addTokensMetadata({ accountId, contractName, tokens: tokenMetadata }));
+        return payload;
     }
 );
 
