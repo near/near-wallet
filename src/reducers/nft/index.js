@@ -24,7 +24,7 @@ const initialOwnedTokenState = {
     loading: false,
     tokens: [],
     hasFetchedAllTokensForContract: false
-}
+};
 
 async function getCachedContractMetadataOrFetch(contractName, state) {
     let contractMetadata = selectOneContractMetadata(state, { contractName });
@@ -60,7 +60,7 @@ const fetchNFTsByContractName = createAsyncThunk(
         condition: ({ accountId, contractName }, thunkAPI) => {
             const { getState } = thunkAPI;
             if (selectLoadingTokensForAccountForContract(getState(), { accountId, contractName })) {
-                return false
+                return false;
             }
         }
     }
