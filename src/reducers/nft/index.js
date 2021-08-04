@@ -46,7 +46,7 @@ const fetchNFTsByContractName = createAsyncThunk(
             contractName,
             accountId,
             base_uri: contractMetadata.base_uri,
-            fromIndex: selectOwnedTokensForAccountForContract(getState(), { accountId, contractName }).length
+            fromIndex: selectTokensListForAccountForContract(getState(), { accountId, contractName }).length
         });
         const { payload } = await dispatch(addTokensMetadata({ accountId, contractName, tokens: tokenMetadata }));
         return payload;
@@ -151,7 +151,18 @@ const selectOwnedTokensForAccount = createSelector(
 
 const selectOwnedTokensForAccountForContract = createSelector(
     [selectOwnedTokensForAccount, getContractNameParam],
-    (ownedTokensByContractName, contractName) => ownedTokensByContractName[contractName] || []
+    (ownedTokensByContractName, contractName) => ownedTokensByContractName[contractName] || {}
+);
+
+export const selectTokensListForAccountForContract = createSelector(
+    selectOwnedTokensForAccountForContract,
+    (ownedTokensByAccountByContract) => ownedTokensByAccountByContract.tokens || []
+);
+
+export const selectLoadingTokensForAccountForContract = createSelector(
+    selectOwnedTokensForAccountForContract,
+    (ownedTokensByAccountByContract) => ownedTokensByAccountByContract.loading || false
+);
 );
 
 // Returns owned tokens metadata for all tokens owned by the passed accountId, sorted by their `name` property
