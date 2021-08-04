@@ -176,6 +176,19 @@ const selectTokensListForAccountForContract = createSelector(
     (ownedTokensByAccountByContract) => ownedTokensByAccountByContract.tokens
 );
 
+// returns owned tokens for an account containing token array, only if tokens exist
+const selectOwnedTokensForAccountTokenList = createSelector(
+    selectOwnedTokensForAccount,
+    (ownedTokensByContractName) => Object.entries(ownedTokensByContractName)
+        .reduce((x, [contractName, { tokens }]) => !!tokens?.length
+            ? {
+                ...x,
+                [contractName]: tokens
+            }
+            : x
+        , {})
+)
+
 export const selectLoadingTokensForAccountForContract = createSelector(
     selectOwnedTokensForAccountForContract,
     (ownedTokensByAccountByContract) => ownedTokensByAccountByContract.loading
@@ -188,20 +201,20 @@ export const selectHasFetchedAllTokensForAccountForContract = createSelector(
 
 // Returns owned tokens metadata for all tokens owned by the passed accountId, sorted by their `name` property
 export const selectTokensWithMetadataForAccountId = createSelector(
-    [selectAllContractMetadata, selectOwnedTokensForAccount],
-    (metadataByContractName, ownedTokensByContractName) => {
+    [selectAllContractMetadata, selectOwnedTokensForAccountTokenList],
+    (metadataByContractName, ownedTokensByContractNameTokenList) => {
         debugLog('selectTokensWithMetadataForAccountId()');
-        const sortedOwnedTokensWithContractMetadata = Object.entries(ownedTokensByContractName || {})
+        const sortedOwnedTokensWithContractMetadata = Object.entries(ownedTokensByContractNameTokenList)
             // First, sort the tokens this account owns by their `name` metadata
             .sort(([contractNameA], [contractNameB]) => {
-                const contractMetadataNameA = metadataByContractName[contractNameA]?.name || '';
-                const contractMetadataNameB = metadataByContractName[contractNameB]?.name || '';
+                const contractMetadataNameA = metadataByContractName[contractNameA].name;
+                const contractMetadataNameB = metadataByContractName[contractNameB].name;
                 return contractMetadataNameA.localeCompare(contractMetadataNameB);
             })
             .map(([contractName, ownedTokensMetadata]) => ({
                 contractName,
                 contractMetadata: metadataByContractName[contractName] || {},
-                ownedTokensMetadata: ownedTokensMetadata?.tokens || []
+                ownedTokensMetadata: ownedTokensMetadata
             }));
 
         return sortedOwnedTokensWithContractMetadata;
