@@ -5,7 +5,7 @@ import { getRoundedBalanceInFiat } from './helpers';
 const BalanceDisplayUSD = ({
     amount,
     showAlmostEqualSignUSD = true,
-    showSignUSD = false,
+    showSignUSD = true,
     showSymbolUSD = true,
     nearTokenFiatValueUSD
 }) => {

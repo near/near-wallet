@@ -38,7 +38,7 @@ const AccessKeysDeauthorize = ({
                                 </h2>
                                 <h5 className='color-blue'>
                                     <span className='color-black'><Translate id='amount' />: </span>
-                                    <Balance amount={showSubData.access_key.permission.FunctionCall.allowance} />
+                                    <Balance amount={showSubData.access_key.permission.FunctionCall.allowance} showBalanceInUSD={false}/>
                                 </h5>
                             </>
                             : null

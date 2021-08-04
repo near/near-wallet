@@ -17,6 +17,7 @@ export default function Withdraw({ currentValidators }) {
                         key={i}
                         validator={validator}
                         amount={validator.available}
+                        showBalanceInUSD={false}
                     />
                 )}
             </ListWrapper>

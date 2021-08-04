@@ -109,7 +109,7 @@ const KeyListItem = ({
                             <span className='font-small'>
                                 <br/>
                                 <Translate id='authorizedApps.feeAllowance' />:{' '}
-                                <span className='color-black'>{allowance ? <Balance amount={allowance} /> : 'N/A'}</span>
+                                <span className='color-black'>{allowance ? <Balance amount={allowance} showBalanceInUSD={false} /> : 'N/A'}</span>
                                 <br/>
                                 <Translate id='authorizedApps.publicKey' />:{' '}
                                 <span className='color-black'>{publicKey}</span>

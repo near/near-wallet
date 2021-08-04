@@ -127,7 +127,8 @@ export default function ValidatorBox({
     clickable = true,
     style,
     label = false,
-    stakeAction
+    stakeAction,
+    showBalanceInUSD
 }) {
     const dispatch = useDispatch();
     const { accountId: validatorId, active } = validator;
@@ -171,7 +172,7 @@ export default function ValidatorBox({
                 <div className='right'>
                     {staking && <div><Translate id='staking.validatorBox.staking' /></div>}
                     <div className='amount'>
-                        <Balance amount={amount}/>
+                        <Balance amount={amount} showBalanceInUSD={showBalanceInUSD}/>
                     </div>
                 </div>
             }

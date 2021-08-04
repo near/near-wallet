@@ -17,6 +17,7 @@ import { SHOW_NETWORK_BANNER } from '../../utils/wallet';
 import Balance from '../common/balance/Balance';
 import FormButton from '../common/FormButton';
 import Container from '../common/styled/Container.css';
+import Tooltip from '../common/Tooltip';
 import BuyIcon from '../svg/BuyIcon';
 import DownArrowIcon from '../svg/DownArrowIcon';
 import SendIcon from '../svg/SendIcon';
@@ -387,6 +388,7 @@ const FungibleTokens = ({ balance, tokensLoader, fungibleTokens }) => {
                     showSymbolUSD={false}
                     showSignUSD={true}
                 />
+                <Tooltip translate='availableBalanceInfo'/>
             </div>
             <div className='buttons'>
                 <FormButton

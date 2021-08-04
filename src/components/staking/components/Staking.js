@@ -104,6 +104,7 @@ export default function Staking({
                                 key={i}
                                 validator={validator}
                                 amount={validator.staked}
+                                showBalanceInUSD={false}
                             />
                         )}
                     </ListWrapper>

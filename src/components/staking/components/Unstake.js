@@ -19,6 +19,7 @@ export default function Unstake({ currentValidators }) {
                         validator={validator}
                         amount={validator.staked}
                         stakeAction='unstake'
+                        showBalanceInUSD={false}
                     />
                 )}
             </ListWrapper>

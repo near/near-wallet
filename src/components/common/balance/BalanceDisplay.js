@@ -60,7 +60,7 @@ const StyledContainer = styled.div`
 
     &:not(.fiat-only) {
         .fiat-amount {
-            color: #A2A2A8;
+            color: #72727A;
             font-weight: 400;
             margin-top: 2px;
             font-size: 13px;
