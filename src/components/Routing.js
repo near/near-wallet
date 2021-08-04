@@ -220,7 +220,6 @@ class Routing extends Component {
         const { fetchTokenFiatValues  } = this.props;
 
         const handlePollTokenFiatValue = async () => {
-            //FIX: Pending redux action causes mainLoader to be true. This could result in a button being disabled. Need to remove usage of mainLoader.
             await fetchTokenFiatValues().catch(() => {});
             if (this.pollTokenFiatValue) {
                 this.pollTokenFiatValue = setTimeout(() => handlePollTokenFiatValue(), 30000);
