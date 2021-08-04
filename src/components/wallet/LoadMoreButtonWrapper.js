@@ -8,10 +8,7 @@ import FormButton from '../common/FormButton';
 
 const { fetchNFTsByContractName } = nftActions;
 
-const LoadMoreButtonWrapper = ({ 
-    fetchMoreNFTs,
-    contractName
-}) => {
+const LoadMoreButtonWrapper = ({ contractName }) => {
     const dispatch = useDispatch();
     const accountId = useSelector(state => selectAccountId(state));
     const fetchingNFTs = useSelector(state => selectLoadingTokensForAccountForContract(state, { accountId, contractName }));
