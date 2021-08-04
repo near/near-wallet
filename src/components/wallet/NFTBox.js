@@ -4,8 +4,8 @@ import styled from 'styled-components';
 import FailedToLoad from '../../images/failed_to_load.svg';
 import isDataURL from '../../utils/isDataURL';
 import { EXPLORER_URL } from '../../utils/wallet';
-import FormButton from '../common/FormButton';
 import DefaultTokenIcon from '../svg/DefaultTokenIcon';
+import LoadMoreButtonWrapper from './LoadMoreButtonWrapper';
 
 const StyledContainer = styled.div`
     display: flex;
@@ -103,7 +103,7 @@ const StyledContainer = styled.div`
     }
 `;
 
-const NFTBox = ({ tokenDetails, fetchMoreNFTs, fetchingNFTs, hideLoadMoreNFTs }) => {
+const NFTBox = ({ tokenDetails, fetchMoreNFTs }) => {
     const {
         contractName,
         contractMetadata: { icon, name },
@@ -141,15 +141,10 @@ const NFTBox = ({ tokenDetails, fetchMoreNFTs, fetchingNFTs, hideLoadMoreNFTs })
                     })}
                 </div>
             }
-            {!hideLoadMoreNFTs &&
-                <FormButton 
-                    onClick={() => fetchMoreNFTs(tokenDetails.contractName)}
-                    sending={fetchingNFTs === true}
-                    color='gray-gray'
-                >
-                    Load more
-                </FormButton>
-            }
+            <LoadMoreButtonWrapper
+                fetchMoreNFTs={fetchMoreNFTs}
+                contractName={contractName}
+            />
         </StyledContainer>
     );
 };
