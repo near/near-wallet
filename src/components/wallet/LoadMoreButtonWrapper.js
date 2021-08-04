@@ -1,4 +1,5 @@
 import React from 'react';
+import { Translate } from 'react-localize-redux';
 import { useSelector } from 'react-redux';
 
 import { selectAccountId } from '../../reducers/account';
@@ -23,7 +24,7 @@ const LoadMoreButtonWrapper = ({
             sending={fetchingNFTs === true}
             color='gray-gray'
         >
-            Load more
+            <Translate id='NFTs.loadMore'/>
         </FormButton>;
 };
 

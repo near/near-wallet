@@ -788,7 +788,8 @@
     },
 
     "NFTs": {
-        "emptyState": "Looks like you don't have any collectibles yet."
+        "emptyState": "Looks like you don't have any collectibles yet.",
+        "loadMore": "Load more"
     },
     
     "exploreApps": {
