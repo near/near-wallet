@@ -19,24 +19,6 @@ const initialState = {
     }
 };
 
-const nftSlice = createSlice({
-        name: 'NFT',
-        initialState,
-        reducers: {
-            setContractMetadata(state, { payload }) {
-                const { metadata, contractName } = payload;
-                set(state, ['metadata', 'byContractName', contractName], metadata);
-            },
-            addTokensMetadata(state, { payload }) {
-                const { contractName, tokens, accountId } = payload;
-                update(state, ['ownedTokens', 'byAccountId', accountId, 'byContractName', contractName], (n) => (n || []).concat(tokens));
-            },
-            clearState(state) {
-                state.ownedTokens = initialState.ownedTokens;
-            }
-        }
-    }
-);
 
 async function getCachedContractMetadataOrFetch(contractName, state) {
     let contractMetadata = selectOneContractMetadata(state, { contractName });
@@ -87,6 +69,40 @@ const fetchNFTs = createAsyncThunk(
                 console.warn(`Failed to load NFT for ${contractName}`, e);
             }
         }));
+    }
+);
+
+const nftSlice = createSlice({
+        name: 'NFT',
+        initialState,
+        reducers: {
+            setContractMetadata(state, { payload }) {
+                const { metadata, contractName } = payload;
+                set(state, ['metadata', 'byContractName', contractName], metadata);
+            },
+            addTokensMetadata(state, { payload }) {
+                const { contractName, tokens, accountId } = payload;
+                update(state, ['ownedTokens', 'byAccountId', accountId, 'byContractName', contractName, 'tokens'], (n) => (n || []).concat(tokens));
+            },
+            clearState(state) {
+                state.ownedTokens = initialState.ownedTokens;
+            }
+        },
+        extraReducers: ((builder) => {
+            builder.addCase(fetchNFTsByContractName.pending, (state, { meta }) => {
+                const { accountId, contractName } = meta.arg;
+                set(state, ['ownedTokens', 'byAccountId', accountId, 'byContractName', contractName, 'loading'], true);
+            });
+            builder.addCase(fetchNFTsByContractName.fulfilled, (state, { meta }) => {
+                const { accountId, contractName } = meta.arg;
+                set(state, ['ownedTokens', 'byAccountId', accountId, 'byContractName', contractName, 'loading'], false);
+            });
+            builder.addCase(fetchNFTsByContractName.rejected, (state, { meta, error }) => {
+                const { accountId, contractName } = meta.arg;
+                set(state, ['ownedTokens', 'byAccountId', accountId, 'byContractName', contractName, 'loading'], false);
+                set(state, ['ownedTokens', 'byAccountId', accountId, 'byContractName', contractName, 'error'], error?.message || 'An error was encountered.');
+            });
+        })
     }
 );
 
