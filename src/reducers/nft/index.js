@@ -188,7 +188,7 @@ const selectOwnedTokensForAccountTokenList = createSelector(
             }
             : x
         , {})
-)
+);
 
 export const selectLoadingTokensForAccountForContract = createSelector(
     selectOwnedTokensForAccountForContract,
