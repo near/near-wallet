@@ -185,7 +185,7 @@ export const selectTokensWithMetadataForAccountId = createSelector(
             .map(([contractName, ownedTokensMetadata]) => ({
                 contractName,
                 contractMetadata: metadataByContractName[contractName] || {},
-                ownedTokensMetadata
+                ownedTokensMetadata: ownedTokensMetadata?.tokens || []
             }));
 
         return sortedOwnedTokensWithContractMetadata;
