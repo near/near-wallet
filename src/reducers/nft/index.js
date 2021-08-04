@@ -19,6 +19,12 @@ const initialState = {
     }
 };
 
+const initialOwnedTokenState = {
+    error: null,
+    loading: false,
+    tokens: [],
+    hasFetchedAllTokensForContract: false
+}
 
 async function getCachedContractMetadataOrFetch(contractName, state) {
     let contractMetadata = selectOneContractMetadata(state, { contractName });
@@ -159,22 +165,25 @@ const selectOwnedTokensForAccount = createSelector(
 
 const selectOwnedTokensForAccountForContract = createSelector(
     [selectOwnedTokensForAccount, getContractNameParam],
-    (ownedTokensByContractName, contractName) => ownedTokensByContractName[contractName] || {}
+    (ownedTokensByContractName, contractName) => ({
+        ...initialOwnedTokenState,
+        ...ownedTokensByContractName[contractName]
+    })
 );
 
 const selectTokensListForAccountForContract = createSelector(
     selectOwnedTokensForAccountForContract,
-    (ownedTokensByAccountByContract) => ownedTokensByAccountByContract.tokens || []
+    (ownedTokensByAccountByContract) => ownedTokensByAccountByContract.tokens
 );
 
 export const selectLoadingTokensForAccountForContract = createSelector(
     selectOwnedTokensForAccountForContract,
-    (ownedTokensByAccountByContract) => ownedTokensByAccountByContract.loading || false
+    (ownedTokensByAccountByContract) => ownedTokensByAccountByContract.loading
 );
 
 export const selectHasFetchedAllTokensForAccountForContract = createSelector(
     selectOwnedTokensForAccountForContract,
-    (ownedTokensByAccountByContract) => ownedTokensByAccountByContract.hasFetchedAllTokensForContract || false
+    (ownedTokensByAccountByContract) => ownedTokensByAccountByContract.hasFetchedAllTokensForContract
 );
 
 // Returns owned tokens metadata for all tokens owned by the passed accountId, sorted by their `name` property
