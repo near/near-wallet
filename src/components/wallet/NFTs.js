@@ -1,7 +1,6 @@
 import React from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
-import { TOKENS_PER_PAGE } from '../../services/NonFungibleTokens';
 
 import FormButton from '../common/FormButton';
 import NearCircleIcon from '../svg/NearCircleIcon.js';
@@ -58,7 +57,7 @@ const StyledContainer = styled.div`
     }
 `;
 
-const NFTs = ({ tokens, fetchMoreNFTs, fetchingNFTs, hideLoadMoreNFTs }) => {
+const NFTs = ({ tokens, fetchMoreNFTs }) => {
     if (tokens.length) {
         return (
             <StyledContainer>
@@ -67,8 +66,6 @@ const NFTs = ({ tokens, fetchMoreNFTs, fetchingNFTs, hideLoadMoreNFTs }) => {
                         key={tokenDetails.contractName}
                         tokenDetails={tokenDetails}
                         fetchMoreNFTs={fetchMoreNFTs}
-                        fetchingNFTs={!!fetchingNFTs[tokenDetails.contractName]}
-                        hideLoadMoreNFTs={tokenDetails.ownedTokensMetadata.length < TOKENS_PER_PAGE || !!hideLoadMoreNFTs[tokenDetails.contractName]}
                     />
                 ))}
             </StyledContainer>
