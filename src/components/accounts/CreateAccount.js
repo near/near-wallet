@@ -181,7 +181,18 @@ class CreateAccount extends Component {
             whereToBuy
         } = this.state;
 
-        const { localAlert, mainLoader, checkNewAccount, resetAccount, clearLocalAlert, fundingContract, fundingKey, isMobile, nearTokenFiatValueUSD } = this.props;
+        const {
+            localAlert,
+            mainLoader,
+            checkNewAccount,
+            resetAccount,
+            clearLocalAlert,
+            fundingContract,
+            fundingKey,
+            isMobile,
+            nearTokenFiatValueUSD
+        } = this.props;
+        
         const isLinkDrop = fundingContract && fundingKey;
         const useLocalAlert = accountId.length > 0 ? localAlert : undefined;
         const showTermsPage = IS_MAINNET && !isLinkDrop && !termsAccepted;
