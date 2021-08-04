@@ -26,10 +26,7 @@ import LinkDropSuccessModal from './LinkDropSuccessModal';
 import NFTs from './NFTs';
 import Tokens from './Tokens';
 
-const { 
-    fetchNFTs, 
-    fetchNFTsByContractName 
-} = nftActions;
+const { fetchNFTs } = nftActions;
 
 const StyledContainer = styled(Container)`
     @media (max-width: 991px) {
@@ -285,10 +282,6 @@ export function Wallet({ tab, setTab }) {
         dispatch(fetchNFTs({ accountId }));
     }, [accountId]);
 
-    const loadMoreNFTs = (contractName) => {
-        dispatch(fetchNFTsByContractName({ accountId, contractName }));
-    };
-
     const handleHideExploreApps = () => {
         localStorage.setItem('hideExploreApps', true);
         setExploreApps(false);
@@ -320,10 +313,7 @@ export function Wallet({ tab, setTab }) {
                         </div>
                     </div>
                     {tab === 'collectibles'
-                        ? <NFTs 
-                            tokens={sortedNFTs}
-                            fetchMoreNFTs={loadMoreNFTs}
-                        />
+                        ? <NFTs tokens={sortedNFTs}/>
                         : <FungibleTokens
                             balance={balance}
                             tokensLoader={tokensLoader}

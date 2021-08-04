@@ -103,7 +103,7 @@ const StyledContainer = styled.div`
     }
 `;
 
-const NFTBox = ({ tokenDetails, fetchMoreNFTs }) => {
+const NFTBox = ({ tokenDetails }) => {
     const {
         contractName,
         contractMetadata: { icon, name },
@@ -141,10 +141,7 @@ const NFTBox = ({ tokenDetails, fetchMoreNFTs }) => {
                     })}
                 </div>
             }
-            <LoadMoreButtonWrapper
-                fetchMoreNFTs={fetchMoreNFTs}
-                contractName={contractName}
-            />
+            <LoadMoreButtonWrapper contractName={contractName}/>
         </StyledContainer>
     );
 };
