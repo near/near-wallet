@@ -49,6 +49,14 @@ const fetchNFTsByContractName = createAsyncThunk(
             fromIndex: selectTokensListForAccountForContract(getState(), { accountId, contractName }).length
         });
         await dispatch(addTokensMetadata({ accountId, contractName, tokens: tokenMetadata }));
+    },
+    {
+        condition: ({ accountId, contractName }, thunkAPI) => {
+            const { getState } = thunkAPI;
+            if (selectLoadingTokensForAccountForContract(getState(), { accountId, contractName })) {
+                return false
+            }
+        }
     }
 );
 
