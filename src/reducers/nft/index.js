@@ -177,8 +177,8 @@ export const selectTokensWithMetadataForAccountId = createSelector(
         const sortedOwnedTokensWithContractMetadata = Object.entries(ownedTokensByContractName || {})
             // First, sort the tokens this account owns by their `name` metadata
             .sort(([contractNameA], [contractNameB]) => {
-                const contractMetadataNameA = metadataByContractName[contractNameA].name;
-                const contractMetadataNameB = metadataByContractName[contractNameB].name;
+                const contractMetadataNameA = metadataByContractName[contractNameA]?.name || '';
+                const contractMetadataNameB = metadataByContractName[contractNameB]?.name || '';
                 return contractMetadataNameA.localeCompare(contractMetadataNameB);
             })
             .map(([contractName, ownedTokensMetadata]) => ({
