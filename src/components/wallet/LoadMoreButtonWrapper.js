@@ -19,6 +19,7 @@ const LoadMoreButtonWrapper = ({ contractName }) => {
             onClick={() => dispatch(fetchNFTsByContractName({ accountId, contractName }))}
             sending={fetchingNFTs === true}
             color='gray-gray'
+            sendingString='button.loading'
         >
             <Translate id='NFTs.loadMore'/>
         </FormButton>;

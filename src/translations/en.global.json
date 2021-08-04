@@ -542,7 +542,8 @@
         "learnMore": "Learn More",
         "viewFAQ": "View FAQ",
         "acceptAndContinue": "Accept & Continue",
-        "useMax": "Use Max"
+        "useMax": "Use Max",
+        "loading": "Loading"
     },
 
     "link": {
