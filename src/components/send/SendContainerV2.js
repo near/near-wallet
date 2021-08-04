@@ -4,9 +4,9 @@ import styled from 'styled-components';
 
 import { Mixpanel } from '../../mixpanel/index';
 import FungibleTokens from '../../services/FungibleTokens';
-import { getNearAndFiatValue } from '../../utils/amounts';
 import classNames from '../../utils/classNames';
 import isDecimalString from '../../utils/isDecimalString';
+import { getNearAndFiatValue } from '../common/balance/helpers';
 import Container from '../common/styled/Container.css';
 import EnterAmount from './components/views/EnterAmount';
 import EnterReceiver from './components/views/EnterReceiver';

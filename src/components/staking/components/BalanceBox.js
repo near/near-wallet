@@ -4,7 +4,7 @@ import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
 import classNames from '../../../utils/classNames';
-import Balance from '../../common/Balance';
+import Balance from '../../common/balance/Balance';
 import FormButton from '../../common/FormButton';
 import Tooltip from '../../common/Tooltip';
 

@@ -3,7 +3,7 @@ import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
 import { EXPLORER_URL } from '../../utils/wallet';
-import Balance from '../common/Balance';
+import Balance from '../common/balance/Balance';
 import TokenIcon from '../send/components/TokenIcon';
 import TokenAmount from './TokenAmount';
 

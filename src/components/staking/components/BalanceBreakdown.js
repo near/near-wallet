@@ -8,7 +8,7 @@ import { Mixpanel } from '../../../mixpanel/index';
 import classNames from '../../../utils/classNames';
 import { WALLET_APP_MIN_AMOUNT } from '../../../utils/wallet';
 import Accordion from '../../common/Accordion';
-import Balance from '../../common/Balance';
+import Balance from '../../common/balance/Balance';
 import Tooltip from '../../common/Tooltip';
 import ChevronIcon from '../../svg/ChevronIcon';
 

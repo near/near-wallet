@@ -4,7 +4,7 @@ import {
     formatNearAmount,
     showInYocto,
     formatWithCommas
-} from './balance';
+} from './helpers';
 
 const contextZero = '0';
 const contextZeroBN = new BN(0);

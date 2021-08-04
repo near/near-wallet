@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Balance from '../../common/Balance';
+import Balance from '../../common/balance/Balance';
 import TokenAmount from '../../wallet/TokenAmount';
 
 const RawTokenAmount = ({

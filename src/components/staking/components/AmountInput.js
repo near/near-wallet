@@ -2,7 +2,7 @@ import React from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
-import Balance from '../../common/Balance';
+import Balance from '../../common/balance/Balance';
 import BalanceBreakdown from './BalanceBreakdown';
 
 const Container = styled.div`

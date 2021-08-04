@@ -5,10 +5,11 @@ import { Translate } from 'react-localize-redux';
 
 import { onKeyDown } from '../../../hooks/eventListeners';
 import { Mixpanel } from '../../../mixpanel/index';
-import { toNear, getNearAndFiatValue } from '../../../utils/amounts';
+import { toNear } from '../../../utils/amounts';
 import isDecimalString from '../../../utils/isDecimalString';
 import { STAKING_AMOUNT_DEVIATION } from '../../../utils/staking';
 import { WALLET_APP_MIN_AMOUNT } from '../../../utils/wallet';
+import { getNearAndFiatValue } from '../../common/balance/helpers';
 import FormButton from '../../common/FormButton';
 import ArrowCircleIcon from '../../svg/ArrowCircleIcon';
 import TransferMoneyIcon from '../../svg/TransferMoneyIcon';

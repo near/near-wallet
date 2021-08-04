@@ -1,12 +1,12 @@
 import React from 'react';
 
-import { getRoundedBalanceInFiat } from '../../../utils/amounts';
+import { getRoundedBalanceInFiat } from './helpers';
 
-const NEARBalanceInUSD = ({
+const BalanceDisplayUSD = ({
     amount,
-    showAlmostEqualSign = true,
-    showUSDSign = false,
-    showUSDSymbol = true,
+    showAlmostEqualSignUSD = true,
+    showSignUSD = false,
+    showSymbolUSD = true,
     nearTokenFiatValueUSD
 }) => {
 
@@ -17,10 +17,10 @@ const NEARBalanceInUSD = ({
     if (roundedBalanceInUSD && roundedBalanceInUSD !== isNaN) {
         return (
             <>
-                {showAlmostEqualSign && amountPrefix}
-                {showUSDSign && <>$</>}
+                {showAlmostEqualSignUSD && amountPrefix}
+                {showSignUSD && <>$</>}
                 {roundedBalanceInUSD}
-                {showUSDSymbol && ` ${USDSymbol}`}
+                {showSymbolUSD && ` ${USDSymbol}`}
             </>
         );
     } else {
@@ -32,4 +32,4 @@ const NEARBalanceInUSD = ({
     }
 };
 
-export default NEARBalanceInUSD;
+export default BalanceDisplayUSD;

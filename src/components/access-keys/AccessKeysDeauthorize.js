@@ -1,7 +1,7 @@
 import React from 'react';
 import { Translate } from 'react-localize-redux';
 
-import Balance from '../common/Balance';
+import Balance from '../common/balance/Balance';
 import FormButton from '../common/FormButton';
 import MainImage from '../common/MainImage';
 import AccessKeysDeauthorizeConfirm from './AccessKeysDeauthorizeConfirm';

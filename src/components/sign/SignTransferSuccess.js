@@ -3,7 +3,7 @@ import { Translate } from 'react-localize-redux';
 import { Image, Grid } from 'semantic-ui-react';
 
 import CheckImage from '../../images/icon-check.svg';
-import Balance from '../common/Balance';
+import Balance from '../common/balance/Balance';
 import FormButton from '../common/FormButton';
 import MobileContainer from './MobileContainer';
 

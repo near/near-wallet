@@ -27,3 +27,21 @@ export const formatWithCommas = (value) => {
     }
     return value;
 };
+
+export const getRoundedBalanceInFiat = (rawNearAmount, tokenFiatValue) => {
+    const formattedNearAmount = rawNearAmount && formatNearAmount(rawNearAmount);
+    const balanceInFiat = Number(formattedNearAmount) * tokenFiatValue;
+    const roundedBalanceInFiat = balanceInFiat && balanceInFiat.toFixed(2);
+    if (roundedBalanceInFiat === '0.00' || formattedNearAmount === '< 0.00001') {
+        return '< 0.01';
+    }
+    return roundedBalanceInFiat;
+};
+
+export const getNearAndFiatValue = (rawNearAmount, tokenFiatValue, fiat = 'usd') => {
+    const nearAmount = formatNearAmount(rawNearAmount);
+    const fiatAmount = getRoundedBalanceInFiat(rawNearAmount, tokenFiatValue);
+    const fiatSymbol = fiat.toUpperCase();
+    const fiatPrefix = fiatAmount !== '< 0.01' ? '≈ ' : '';
+    return `${nearAmount} NEAR (${fiatPrefix}${fiatAmount || '—'} ${fiatSymbol})`;
+};

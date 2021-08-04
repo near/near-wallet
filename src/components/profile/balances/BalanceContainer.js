@@ -3,7 +3,7 @@ import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
 import Accordion from '../../common/Accordion';
-import Balance from '../../common/Balance';
+import Balance from '../../common/balance/Balance';
 import ClickToCopy from '../../common/ClickToCopy';
 import Tooltip from '../../common/Tooltip';
 import ChevronIcon from '../../svg/ChevronIcon';

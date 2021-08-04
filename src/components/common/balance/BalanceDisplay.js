@@ -3,13 +3,13 @@ import React from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
+import classNames from '../../../utils/classNames';
+import BalanceDisplayUSD from './BalanceDisplayUSD';
 import { 
     formatNearAmount,
     showInYocto,
     YOCTO_NEAR_THRESHOLD
-} from '../../utils/balance';
-import classNames from '../../utils/classNames';
-import NEARBalanceInUSDWrapper from './near_usd/NEARBalanceInUSDWrapper';
+} from './helpers';
 
 const StyledContainer = styled.div`
     white-space: nowrap;
@@ -58,20 +58,29 @@ const StyledContainer = styled.div`
         }
     }
 
-    .fiat-amount {
-        color: #A2A2A8;
-        font-weight: 400;
-        margin-top: 2px;
-        font-size: 13px;
+    &:not(.fiat-only) {
+        .fiat-amount {
+            color: #A2A2A8;
+            font-weight: 400;
+            margin-top: 2px;
+            font-size: 13px;
+        }
     }
 `;
 
-const Balance = ({
+const BalanceDisplay = ({
     amount,
-    symbol = true,
+    showSymbolNEAR = true,
     className,
-    includeBalanceinFiat = true,
-    showAmountAsSubtracted // See comment below
+    showBalanceInNEAR = true,
+    showBalanceInUSD = true,
+    showAmountAsSubtracted,
+    // showAmountAsSubtracted adds a minus sign in front of the formatted NEAR amount (amountoShow)
+    // to indicate that the amount is being deducted, e.g. 0.2 NEAR -> -0.2 NEAR
+    nearTokenFiatValueUSD,
+    showAlmostEqualSignUSD,
+    showSignUSD,
+    showSymbolUSD
 }) => {
 
     const amountoShow = amount && formatNearAmount(amount);
@@ -86,15 +95,23 @@ const Balance = ({
     };
 
     return (
-        <StyledContainer title={handleShowInYocto(amount)} className={classNames(['balance', className, {'subtract' : showAmountAsSubtracted}])}>
-            {amount
-                ? <div className='near-amount'>{amountoShow}{symbol !== false ? ` ${NEARSymbol}` : ``}</div>
-                : <div className="dots"><Translate id='loadingNoDots'/></div>
+        <StyledContainer title={handleShowInYocto(amount)} className={classNames(['balance', className, {'subtract' : showAmountAsSubtracted, 'fiat-only' : !showBalanceInNEAR}])}>
+            {showBalanceInNEAR &&
+                <>
+                    {amount
+                        ? <div className='near-amount'>{amountoShow}{showSymbolNEAR !== false ? ` ${NEARSymbol}` : ``}</div>
+                        : <div className="dots"><Translate id='loadingNoDots'/></div>
+                    }
+                </>
             }
-            {includeBalanceinFiat &&
+            {showBalanceInUSD &&
                 <div className='fiat-amount'>
-                    <NEARBalanceInUSDWrapper
+                    <BalanceDisplayUSD
                         amount={amount}
+                        nearTokenFiatValueUSD={nearTokenFiatValueUSD}
+                        showAlmostEqualSignUSD={showAlmostEqualSignUSD}
+                        showSignUSD={showSignUSD}
+                        showSymbolUSD={showSymbolUSD}
                     />
                 </div>
             }
@@ -102,7 +119,4 @@ const Balance = ({
     );
 };
 
-export default Balance;
-
-// showAmountAsSubtracted adds a minus sign in front of the formatted NEAR amount (amountoShow)
-// to indicate that the amount is being deducted, e.g. 0.2 NEAR -> -0.2 NEAR
+export default BalanceDisplay;

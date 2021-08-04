@@ -5,7 +5,7 @@ import styled from 'styled-components';
 
 import { redirectTo } from '../../../actions/account';
 import { Mixpanel } from '../../../mixpanel/index';
-import Balance from '../../common/Balance';
+import Balance from '../../common/balance/Balance';
 import FormButton from '../../common/FormButton';
 import ChevronIcon from '../../svg/ChevronIcon';
 import UserIcon from '../../svg/UserIcon';

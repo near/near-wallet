@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 import { actionsPending } from '../../utils/alerts';
 import classNames from '../../utils/classNames';
-import Balance from '../common/Balance';
+import Balance from '../common/balance/Balance';
 import SkeletonLoading from '../common/SkeletonLoading';
 
 const Wrapper = styled.div`

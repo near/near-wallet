@@ -2,7 +2,7 @@ import React from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
-import Balance from '../../common/Balance';
+import Balance from '../../common/balance/Balance';
 import RadioButton from '../../common/radio_button/RadioButton';
 import RadioGroup from '../../common/radio_button/RadioGroup';
 

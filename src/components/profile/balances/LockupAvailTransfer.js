@@ -2,7 +2,7 @@ import React from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
-import { getNearAndFiatValue } from '../../../utils/amounts';
+import { getNearAndFiatValue } from '../../common/balance/helpers';
 import FormButton from '../../common/FormButton';
 import GiftIcon from '../../svg/GiftIcon';
 

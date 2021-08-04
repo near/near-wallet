@@ -14,8 +14,8 @@ import { selectTransactions } from '../../reducers/transactions';
 import { actionsPendingByPrefix } from '../../utils/alerts';
 import classNames from '../../utils/classNames';
 import { SHOW_NETWORK_BANNER } from '../../utils/wallet';
+import Balance from '../common/balance/Balance';
 import FormButton from '../common/FormButton';
-import NEARBalanceInUSDWrapper from '../common/near_usd/NEARBalanceInUSDWrapper';
 import Container from '../common/styled/Container.css';
 import BuyIcon from '../svg/BuyIcon';
 import DownArrowIcon from '../svg/DownArrowIcon';
@@ -39,6 +39,7 @@ const StyledContainer = styled(Container)`
 
     .sub-title {
         font-size: 14px;
+        margin-bottom: 10px;
 
         &.balance {
             font-weight: 600;
@@ -100,7 +101,7 @@ const StyledContainer = styled(Container)`
         }
 
         .total-balance {
-            margin: 0px 0 25px 0;
+            margin: 0px 0 10px 0;
             width: 100%;
             font-weight: 600;
             text-align: center;
@@ -368,21 +369,23 @@ const FungibleTokens = ({ balance, tokensLoader, fungibleTokens }) => {
             <div className='sub-title balance'><Translate id='wallet.totalBalanceTitle' /></div>
             <div className='total-balance'>
                 <Textfit mode='single' max={44}>
-                    <NEARBalanceInUSDWrapper
+                    <Balance
+                        showBalanceInNEAR={false}
                         amount={balance?.total}
-                        showAlmostEqualSign={false}
-                        showUSDSymbol={false}
-                        showUSDSign={true}
+                        showAlmostEqualSignUSD={false}
+                        showSymbolUSD={false}
+                        showSignUSD={true}
                     />
                 </Textfit>
             </div>
             <div className='available-balance'>
                 <div><Translate id='balanceBreakdown.available' />:</div>
-                <NEARBalanceInUSDWrapper
+                <Balance
+                    showBalanceInNEAR={false}
                     amount={balance?.available}
-                    showAlmostEqualSign={false}
-                    showUSDSymbol={false}
-                    showUSDSign={true}
+                    showAlmostEqualSignUSD={false}
+                    showSymbolUSD={false}
+                    showSignUSD={true}
                 />
             </div>
             <div className='buttons'>

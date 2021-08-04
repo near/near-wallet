@@ -8,9 +8,9 @@ import { checkNewAccount, createNewAccount, refreshAccount, checkNearDropBalance
 import { clearLocalAlert } from '../../actions/status';
 import { Mixpanel } from '../../mixpanel/index';
 import { selectNearTokenFiatValueUSD } from '../../slices/tokenFiatValues';
-import { getNearAndFiatValue } from '../../utils/amounts';
 import { ACCOUNT_ID_SUFFIX, MIN_BALANCE_TO_CREATE, IS_MAINNET } from '../../utils/wallet';
 import AccountNote from '../common/AccountNote';
+import { getNearAndFiatValue } from '../common/balance/helpers';
 import FormButton from '../common/FormButton';
 import Container from '../common/styled/Container.css';
 import WhereToBuyNearModal from '../common/WhereToBuyNearModal';

@@ -5,7 +5,7 @@ import { format } from 'timeago.js';
 
 import IconTStake from '../../images/IconTStake';
 import classNames from '../../utils/classNames';
-import Balance from '../common/Balance';
+import Balance from '../common/balance/Balance';
 import CodeIcon from '../svg/CodeIcon';
 import DownArrowIcon from '../svg/DownArrowIcon';
 import KeyIcon from '../svg/KeyIcon';
@@ -157,7 +157,7 @@ const ActivityBox = ({ transaction, actionArgs, actionKind, accountId, setTransa
                         actionArgs={actionArgs}
                         actionKind={actionKind}
                         accountId={accountId}
-                        includeBalanceinFiat={false}
+                        showBalanceInUSD={false}
                     />
                 }
                 <ActionTimeStamp
@@ -252,10 +252,10 @@ const ActionTimeStamp = ({ timeStamp }) => {
     );
 };
 
-export const ActionValue = ({ transaction, actionArgs, actionKind, accountId, includeBalanceinFiat }) => (
+export const ActionValue = ({ transaction, actionArgs, actionKind, accountId, showBalanceInUSD }) => (
     <div className={`value ${actionKind === 'Transfer' ? transaction.signer_id === accountId ? 'transferred' : 'received' : ''}`}>
-        {actionKind === "Transfer" && <Balance amount={actionArgs.deposit} includeBalanceinFiat={includeBalanceinFiat}/>}
-        {actionKind === "Stake" && <Balance amount={actionArgs.stake} includeBalanceinFiat={includeBalanceinFiat}/>}
+        {actionKind === "Transfer" && <Balance amount={actionArgs.deposit} showBalanceInUSD={showBalanceInUSD}/>}
+        {actionKind === "Stake" && <Balance amount={actionArgs.stake} showBalanceInUSD={showBalanceInUSD}/>}
     </div>
 );
 

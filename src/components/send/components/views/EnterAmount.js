@@ -2,8 +2,8 @@ import React from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
+import Balance from '../../../common/balance/Balance';
 import FormButton from '../../../common/FormButton';
-import NEARBalanceInUSDWrapper from '../../../common/near_usd/NEARBalanceInUSDWrapper';
 import AmountInput from '../AmountInput';
 import BalanceDetails from '../BalanceDetails';
 import SelectTokenButton from '../SelectTokenButton';
@@ -28,7 +28,6 @@ const StyledContainer = styled.form`
         .usd-amount {
             text-align: center;
             margin-bottom: 20px;
-            margin-top: -5px;
             color: #A2A2A8;
         }
 
@@ -72,7 +71,7 @@ const EnterAmount = ({
             </div>
             {selectedToken.symbol === 'NEAR' &&
                 <div className='usd-amount'>
-                    <NEARBalanceInUSDWrapper amount={rawAmount}/>
+                    <Balance amount={rawAmount} showBalanceInNEAR={false}/>
                 </div>
             }
             <FormButton

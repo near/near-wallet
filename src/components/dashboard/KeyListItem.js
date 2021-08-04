@@ -5,7 +5,7 @@ import styled from 'styled-components';
 
 import ArrowBlkImage from '../../images/icon-arrow-blk.svg';
 import ArrowRight from '../../images/icon-arrow-right.svg';
-import Balance from '../common/Balance';
+import Balance from '../common/balance/Balance';
 
 // TODO: Refactor common code with KeyListItem
 const CustomGridRow = styled(Grid.Row)`
