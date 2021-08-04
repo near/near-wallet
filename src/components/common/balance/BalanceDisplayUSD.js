@@ -11,14 +11,18 @@ const BalanceDisplayUSD = ({
 }) => {
 
     const roundedBalanceInUSD = getRoundedBalanceInFiat(amount, nearTokenFiatValueUSD);
-    const amountPrefix = roundedBalanceInUSD !== '< 0.01' ? '≈ ' : '';
     const USDSymbol = 'USD';
+    const roundedBalanceInUSDIsBelowThreshold = roundedBalanceInUSD === '< $0.01';
 
     if (roundedBalanceInUSD && roundedBalanceInUSD !== isNaN) {
         return (
             <>
-                {showAlmostEqualSignUSD && amountPrefix}
-                {showSignUSD && <>$</>}
+                {!roundedBalanceInUSDIsBelowThreshold &&
+                    <>
+                        {showAlmostEqualSignUSD && '≈ '}
+                        {showSignUSD && <>$</>}
+                    </>
+                }
                 {roundedBalanceInUSD}
                 {showSymbolUSD && ` ${USDSymbol}`}
             </>

@@ -33,7 +33,7 @@ export const getRoundedBalanceInFiat = (rawNearAmount, tokenFiatValue) => {
     const balanceInFiat = Number(formattedNearAmount) * tokenFiatValue;
     const roundedBalanceInFiat = balanceInFiat && balanceInFiat.toFixed(2);
     if (roundedBalanceInFiat === '0.00' || formattedNearAmount === '< 0.00001') {
-        return '< 0.01';
+        return '< $0.01';
     }
     return roundedBalanceInFiat;
 };
