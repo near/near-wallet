@@ -52,7 +52,7 @@
             "error": "賬戶的訪問被拒絕，恢復賬戶失敗。<br/>若要繼續，需要在 Ledger 設備上授權每個賬戶的只讀訪問，請再重試。"
         },
         "PROMPT_TWO_FACTOR": {
-            "invalidCode": "無效的兩步驗證碼，請重試。"
+            "invalidCode": "無效的雙重認證驗證碼，請重試。"
         },
         "CHECK_ACCOUNT_AVAILABLE": {
             "success": "用戶已找到。",
@@ -63,8 +63,8 @@
             "error": "公鑰訪問被拒絕，恢復賬戶失敗。<br/>若要繼續，需要允許 NEAR 錢包訪問你的公鑰，請再重試。"
         },
         "VERIFY_TWO_FACTOR": {
-            "success": "兩步驗證設置成功！",
-            "error": "兩步驗證設置失敗，請重試。"
+            "success": "雙重認證設置成功！",
+            "error": "雙重認證設置失敗，請重試。"
         },
         "CHECK_IS_NEW": {
             "success": "恭喜! ${accountId} 可被註冊。",
@@ -389,20 +389,20 @@
     },
 
     "twoFactor": {
-        "enable": "開啟兩步驗證",
-        "subHeader": "兩步驗證將為你的賬戶提供額外的安全保護。開啟兩步驗證後，所有交易操作必須通過短信或 Email 確認。",
+        "enable": "開啟雙重認證",
+        "subHeader": "雙重認證將為你的賬戶提供額外的安全保護。開啟雙重認證後，所有交易操作必須通過短信或 Email 確認。",
         "select": "選擇驗證方式",
-        "title": "兩步驗證",
-        "desc": "通過兩步驗證保護你的賬戶，在授權交易時必須通過短信或 Email 確認。",
+        "title": "雙重認證",
+        "desc": "通過雙重認證保護你的賬戶，在授權交易時必須通過短信或 Email 確認。",
         "email": "Email 地址",
         "phone": "手機號",
-        "notEnabled": "兩步驗證未開啟",
-        "notEnoughBalance": "為開啟兩步驗證，你的賬戶需要最少餘額 ",
+        "notEnabled": "雙重認證未開啟",
+        "notEnoughBalance": "為開啟雙重認證，你的賬戶需要最少餘額 ",
         "active": "已開啟",
         "since": "自",
-        "promptDesc": "我們強烈建議你開啟兩步驗證的方式來增強你的賬戶和資產安全性。",
+        "promptDesc": "我們強烈建議你開啟雙重認證的方式來增強你的賬戶和資產安全性。",
         "verify": {
-            "title": "輸入兩步驗證碼",
+            "title": "輸入雙重認證驗證碼",
             "desc": "一組 6 位驗證代碼已經發送至：",
             "inputLabel": "輸入你的 6 位驗證碼",
             "placeholder": "驗證碼",
@@ -412,16 +412,16 @@
             "resent": "驗證碼已發送！"
         },
         "disable": {
-            "title": "是否確認禁用兩步驗證？",
-            "desc": "禁用兩步驗證後，交易將不再要求兩步驗證確認。",
-            "disable": "禁用兩步驗證",
-            "keep": "不，保留兩步驗證"
+            "title": "是否確認禁用雙重認證？",
+            "desc": "禁用雙重認證後，交易將不再要求雙重認證確認。",
+            "disable": "禁用雙重認證",
+            "keep": "不，保留雙重認證"
         },
         "alertBanner": {
-            "title": "開啟兩步驗證後，<b>${data} NEAR</b> 將會被鎖定，以涵蓋存儲的消耗。",
+            "title": "開啟雙重認證後，<b>${data} NEAR</b> 將會被鎖定，以涵蓋存儲的消耗。",
             "button": "了解更多"
         },
-        "checkBox": "我已知曉：開啟兩步驗證後，${amount} NEAR 將會被鎖定，以涵蓋合約的存儲。" 
+        "checkBox": "我已知曉：開啟雙重認證後，${amount} NEAR 將會被鎖定，以涵蓋合約的存儲。"
     },
 
     "fullAccessKeys": {
@@ -906,7 +906,7 @@
                     "title": "無法顯示獎勵金額。",
                     "cta": "了解更多",
                     "modalTitle": "無法顯示質押獎勵的金額",
-                    "modalDescOne": "當兩步驗證開啟時，我們當前無法計算獎勵。我們預計會在將來支持此功能。",
+                    "modalDescOne": "當雙重認證開啟時，我們當前無法計算獎勵。我們預計會在將來支持此功能。",
                     "modalDescTwo": "此時，你可以在「總質押數」中看到你的獎勵累計，這個總數包括了獎勵，並會隨著質押而逐步增加。"
                 }
             },
@@ -1056,7 +1056,7 @@
             "lessSecure": "備選方式",
             "lessSecureDesc": "推薦餘額較小的賬戶使用這些恢復方式，非常方便。但如果手機或郵箱被盜，你的資產將會有風險。"
         },
-        "twoFactor": "兩步驗證方式",
+        "twoFactor": "雙重認證方式",
         "twoFactorDesc": "登錄或轉賬時，將通過短信或 Email 方式授權。",
         "details": {
             "profile": "資料",
