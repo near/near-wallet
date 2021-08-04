@@ -7,8 +7,9 @@ import NonFungibleTokens, { TOKENS_PER_PAGE } from '../../services/NonFungibleTo
 
 const { getLikelyTokenContracts, getMetadata, getTokens } = NonFungibleTokens;
 
+const SLICE_NAME = 'NFT';
 const ENABLE_DEBUG = false;
-const debugLog = (...args) => ENABLE_DEBUG && console.log('NFTSlice', ...args);
+const debugLog = (...args) => ENABLE_DEBUG && console.log(`${SLICE_NAME}Slice`, ...args);
 
 const initialState = {
     ownedTokens: {
@@ -37,7 +38,7 @@ async function getCachedContractMetadataOrFetch(contractName, state) {
 }
 
 const fetchNFTsByContractName = createAsyncThunk(
-    'NFT/fetchNFTsByContractName',
+    `${SLICE_NAME}/fetchNFTsByContractName`,
     async ({ accountId, contractName }, thunkAPI) => {
         const { actions: { addTokensMetadata, setContractMetadata } } = nftSlice;
         const { dispatch, getState } = thunkAPI;
@@ -67,7 +68,7 @@ const fetchNFTsByContractName = createAsyncThunk(
 );
 
 const fetchNFTs = createAsyncThunk(
-    'NFT/fetchNFTs',
+    `${SLICE_NAME}/fetchNFTs`,
     async ({ accountId }, thunkAPI) => {
         const { dispatch } = thunkAPI;
 
@@ -86,7 +87,7 @@ const fetchNFTs = createAsyncThunk(
 );
 
 const nftSlice = createSlice({
-        name: 'NFT',
+        name: SLICE_NAME,
         initialState,
         reducers: {
             setContractMetadata(state, { payload }) {
