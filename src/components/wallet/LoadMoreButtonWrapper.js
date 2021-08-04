@@ -16,9 +16,9 @@ const LoadMoreButtonWrapper = ({
     const fetchingNFTs = useSelector(state => selectLoadingTokensForAccountForContract(state, { accountId, contractName }));
     const numberOfFetchedTokens = useSelector(state => selectNumberOfFetchedTokensForAccountForContract(state, { accountId, contractName }));
 
-    const hideLoadMoreNFTs = NFTs.length % TOKENS_PER_PAGE !== 0 || numberOfFetchedTokens < TOKENS_PER_PAGE;
+    const showLoadMoreNFTs = NFTs.length % TOKENS_PER_PAGE === 0 && numberOfFetchedTokens >= TOKENS_PER_PAGE;
 
-    return !hideLoadMoreNFTs &&
+    return showLoadMoreNFTs &&
         <FormButton 
             onClick={() => fetchMoreNFTs(contractName)}
             sending={fetchingNFTs === true}
