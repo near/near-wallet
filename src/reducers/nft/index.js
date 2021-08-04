@@ -164,6 +164,10 @@ export const selectLoadingTokensForAccountForContract = createSelector(
     selectOwnedTokensForAccountForContract,
     (ownedTokensByAccountByContract) => ownedTokensByAccountByContract.loading || false
 );
+
+export const selectNumberOfFetchedTokensForAccountForContract = createSelector(
+    selectOwnedTokensForAccountForContract,
+    (ownedTokensByAccountByContract) => ownedTokensByAccountByContract.numberOfFetchedTokens || 0
 );
 
 // Returns owned tokens metadata for all tokens owned by the passed accountId, sorted by their `name` property
