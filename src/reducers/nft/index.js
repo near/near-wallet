@@ -3,7 +3,7 @@ import set from 'lodash.set';
 import update from 'lodash.update';
 import { createSelector } from 'reselect';
 
-import NonFungibleTokens from '../../services/NonFungibleTokens';
+import NonFungibleTokens, { TOKENS_PER_PAGE } from '../../services/NonFungibleTokens';
 
 const { getLikelyTokenContracts, getMetadata, getTokens } = NonFungibleTokens;
 
@@ -81,7 +81,7 @@ const nftSlice = createSlice({
             },
             addTokensMetadata(state, { payload }) {
                 const { contractName, tokens, accountId } = payload;
-                set(state, ['ownedTokens', 'byAccountId', accountId, 'byContractName', contractName, 'numberOfFetchedTokens'], tokens.length);
+                set(state, ['ownedTokens', 'byAccountId', accountId, 'byContractName', contractName, 'hasFetchedAllTokensForContract'], tokens.length < TOKENS_PER_PAGE);
                 update(state, ['ownedTokens', 'byAccountId', accountId, 'byContractName', contractName, 'tokens'], (n) => (n || []).concat(tokens));
             },
             clearState(state) {
@@ -154,7 +154,7 @@ const selectOwnedTokensForAccountForContract = createSelector(
     (ownedTokensByContractName, contractName) => ownedTokensByContractName[contractName] || {}
 );
 
-export const selectTokensListForAccountForContract = createSelector(
+const selectTokensListForAccountForContract = createSelector(
     selectOwnedTokensForAccountForContract,
     (ownedTokensByAccountByContract) => ownedTokensByAccountByContract.tokens || []
 );
@@ -164,9 +164,9 @@ export const selectLoadingTokensForAccountForContract = createSelector(
     (ownedTokensByAccountByContract) => ownedTokensByAccountByContract.loading || false
 );
 
-export const selectNumberOfFetchedTokensForAccountForContract = createSelector(
+export const selectHasFetchedAllTokensForAccountForContract = createSelector(
     selectOwnedTokensForAccountForContract,
-    (ownedTokensByAccountByContract) => ownedTokensByAccountByContract.numberOfFetchedTokens || 0
+    (ownedTokensByAccountByContract) => ownedTokensByAccountByContract.hasFetchedAllTokensForContract || false
 );
 
 // Returns owned tokens metadata for all tokens owned by the passed accountId, sorted by their `name` property
