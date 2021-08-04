@@ -82,6 +82,7 @@ const nftSlice = createSlice({
             },
             addTokensMetadata(state, { payload }) {
                 const { contractName, tokens, accountId } = payload;
+                set(state, ['ownedTokens', 'byAccountId', accountId, 'byContractName', contractName, 'numberOfFetchedTokens'], tokens.length);
                 update(state, ['ownedTokens', 'byAccountId', accountId, 'byContractName', contractName, 'tokens'], (n) => (n || []).concat(tokens));
             },
             clearState(state) {
