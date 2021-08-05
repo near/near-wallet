@@ -83,8 +83,10 @@ const Account = styled.div`
         padding: 0 16px 0 0;
     }
 
-    .balance {
+    .balance-wrapper {
       font-weight: 400;
+      line-height: normal;
+      margin-top: 2px;
     }
 `;
 
@@ -177,10 +179,10 @@ const UserAccount = ({ accountId, balance, balanceLoading, refreshBalance, activ
             <div className='accountId'>
                 {accountId}
             </div>
-            <div className='balance'>
+            <div className='balance-wrapper'>
                 {!balance && !balanceLoading
-                    ? <div className='symbol'>Ⓝ</div>
-                    : <Balance amount={balance} />
+                    ? <div>— USD</div>
+                    : <Balance amount={balance} showBalanceInNEAR={false}/>
                 }
             </div>
         </div>
