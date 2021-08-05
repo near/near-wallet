@@ -542,7 +542,8 @@
         "learnMore": "Learn More",
         "viewFAQ": "View FAQ",
         "acceptAndContinue": "Accept & Continue",
-        "useMax": "Use Max"
+        "useMax": "Use Max",
+        "loading": "Loading"
     },
 
     "link": {
@@ -792,7 +793,8 @@
     },
 
     "NFTs": {
-        "emptyState": "Looks like you don't have any collectibles yet."
+        "emptyState": "Looks like you don't have any collectibles yet.",
+        "loadMore": "Load more"
     },
     
     "exploreApps": {

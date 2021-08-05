@@ -5,6 +5,7 @@ import FailedToLoad from '../../images/failed_to_load.svg';
 import isDataURL from '../../utils/isDataURL';
 import { EXPLORER_URL } from '../../utils/wallet';
 import DefaultTokenIcon from '../svg/DefaultTokenIcon';
+import LoadMoreButtonWrapper from './LoadMoreButtonWrapper';
 
 const StyledContainer = styled.div`
     display: flex;
@@ -140,6 +141,7 @@ const NFTBox = ({ tokenDetails }) => {
                     })}
                 </div>
             }
+            <LoadMoreButtonWrapper contractName={contractName}/>
         </StyledContainer>
     );
 };

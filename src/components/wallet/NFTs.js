@@ -62,7 +62,10 @@ const NFTs = ({ tokens }) => {
         return (
             <StyledContainer>
                 {tokens.map((tokenDetails) => (
-                    <NFTBox key={tokenDetails.contractName} tokenDetails={tokenDetails}/>
+                    <NFTBox
+                        key={tokenDetails.contractName}
+                        tokenDetails={tokenDetails}
+                    />
                 ))}
             </StyledContainer>
         );
