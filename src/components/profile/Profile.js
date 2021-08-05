@@ -8,6 +8,7 @@ import { getLedgerKey, checkCanEnableTwoFactor, redirectTo, refreshAccount, tran
 import { useAccount } from '../../hooks/allAccounts';
 import { Mixpanel } from "../../mixpanel/index";
 import { selectProfileBalance } from '../../reducers/selectors/balance';
+import { selectNearTokenFiatValueUSD } from '../../slices/tokenFiatValues';
 import FormButton from '../common/FormButton';
 import SkeletonLoading from '../common/SkeletonLoading';
 import Container from '../common/styled/Container.css';
@@ -129,6 +130,7 @@ export function Profile({ match }) {
     const { has2fa, authorizedApps, ledgerKey } = useSelector(({ account }) => account);
     const loginAccountId = useSelector(state => state.account.accountId);
     const recoveryMethods = useSelector(({ recoveryMethods }) => recoveryMethods);
+    const nearTokenFiatValueUSD = useSelector(selectNearTokenFiatValueUSD);
     const accountIdFromUrl = match.params.accountId;
     const accountId = accountIdFromUrl || loginAccountId;
     const isOwner = accountId === loginAccountId;
@@ -205,6 +207,7 @@ export function Profile({ match }) {
                     available={profileBalance.lockupBalance.unlocked.availableToTransfer || '0'}
                     onTransfer={handleTransferFromLockup}
                     sending={transferring}
+                    tokenFiatValue={nearTokenFiatValueUSD}
                 />
             }
             <div className='split'>

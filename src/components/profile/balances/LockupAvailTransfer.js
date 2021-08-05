@@ -1,8 +1,8 @@
-import { utils } from 'near-api-js';
 import React from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
+import { getNearAndFiatValue } from '../../common/balance/helpers';
 import FormButton from '../../common/FormButton';
 import GiftIcon from '../../svg/GiftIcon';
 
@@ -41,11 +41,16 @@ const Container = styled.div`
     }
 `;
 
-const LockupAvailTransfer = ({ onTransfer, available, sending }) => {
+const LockupAvailTransfer = ({ onTransfer, available, sending, tokenFiatValue }) => {
     return (
         <Container className='lockup-avail-transfer'> 
             <GiftIcon/>
-            <div><Translate id='profile.lockupBanner.title' data={{ amount: utils.format.formatNearAmount(available, 5) }}/></div>
+            <div>
+                <Translate
+                    id='profile.lockupBanner.title'
+                    data={{ amount: getNearAndFiatValue(available, tokenFiatValue) }}
+                />
+            </div>
             <FormButton color='green-dark border'
                 disabled={sending}
                 sending={sending}

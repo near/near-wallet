@@ -1,7 +1,7 @@
 import React from 'react';
 import { Translate } from 'react-localize-redux';
 
-import Balance from '../common/Balance';
+import Balance from '../common/balance/Balance';
 import FormButton from '../common/FormButton';
 import MainImage from '../common/MainImage';
 import AccessKeysDeauthorizeConfirm from './AccessKeysDeauthorizeConfirm';
@@ -38,7 +38,7 @@ const AccessKeysDeauthorize = ({
                                 </h2>
                                 <h5 className='color-blue'>
                                     <span className='color-black'><Translate id='amount' />: </span>
-                                    <Balance amount={showSubData.access_key.permission.FunctionCall.allowance} />
+                                    <Balance amount={showSubData.access_key.permission.FunctionCall.allowance} showBalanceInUSD={false}/>
                                 </h5>
                             </>
                             : null

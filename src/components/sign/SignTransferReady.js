@@ -5,7 +5,7 @@ import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { switchAccount } from '../../actions/account';
-import Balance from '../common/Balance';
+import Balance from '../common/balance/Balance';
 import Button from '../common/Button';
 import FormButton from '../common/FormButton';
 import InlineNotification from '../common/InlineNotification';
@@ -53,7 +53,7 @@ const TransferAmount = styled.div`
     text-align: center;
 
     div {
-        font-size: 26px !important;
+        font-size: 26px;
         font-weight: 600;
     }
 `;

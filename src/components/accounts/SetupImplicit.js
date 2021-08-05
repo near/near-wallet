@@ -1,5 +1,4 @@
 import BN from 'bn.js';
-import { formatNearAmount } from 'near-api-js/lib/utils/format';
 import React, { Component } from 'react';
 import { Translate } from 'react-localize-redux';
 import { connect } from 'react-redux';
@@ -8,9 +7,11 @@ import styled from 'styled-components';
 
 import { createAccountFromImplicit, redirectTo } from '../../actions/account';
 import { Mixpanel } from '../../mixpanel';
+import { selectNearTokenFiatValueUSD } from '../../slices/tokenFiatValues';
 import { isMoonpayAvailable, getSignedUrl } from '../../utils/moonpay';
 import { MIN_BALANCE_TO_CREATE } from '../../utils/wallet';
 import { wallet } from '../../utils/wallet';
+import { getNearAndFiatValue } from '../common/balance/helpers';
 import Divider from '../common/Divider';
 import FormButton from '../common/FormButton';
 import Container from '../common/styled/Container.css';
@@ -193,7 +194,7 @@ class SetupImplicit extends Component {
             creatingAccount
         } = this.state;
 
-        const { implicitAccountId, newAccountId, mainLoader } = this.props;
+        const { implicitAccountId, newAccountId, mainLoader, nearTokenFiatValueUSD } = this.props;
 
         if (accountFunded) {
             return (
@@ -232,7 +233,12 @@ class SetupImplicit extends Component {
         return (
             <StyledContainer className='small-centered funded'>
                 <h1><Translate id='account.createImplicit.pre.title' /></h1>
-                <h2><Translate id='account.createImplicit.pre.descOne' data={{ amount: formatNearAmount(MIN_BALANCE_TO_CREATE) }}/></h2>
+                <h2>
+                    <Translate
+                        id='account.createImplicit.pre.descOne'
+                        data={{ amount: getNearAndFiatValue(MIN_BALANCE_TO_CREATE, nearTokenFiatValueUSD) }}
+                    />
+                </h2>
                 <FormButton
                     onClick={() => this.setState({ whereToBuy: true })}
                     color='link'
@@ -264,13 +270,21 @@ class SetupImplicit extends Component {
     }
 }
 
-const mapStateToProps = ({ account, status }, { match: { params: { accountId, implicitAccountId, recoveryMethod } } }) => ({
-    ...account,
-    activeAccountId: account.accountId,
-    newAccountId: accountId,
-    implicitAccountId,
-    recoveryMethod,
-    mainLoader: status.mainLoader
-});
+const mapStateToProps = (state, ownProps) => {
+    const { account, status } = state;
+    const { match } = ownProps;
+    const { params } = match;
+    const { accountId, implicitAccountId, recoveryMethod } = params;
+
+    return {
+        ...account,
+        activeAccountId: account.accountId,
+        newAccountId: accountId,
+        implicitAccountId,
+        recoveryMethod,
+        mainLoader: status.mainLoader,
+        nearTokenFiatValueUSD: selectNearTokenFiatValueUSD(state)
+    };
+};
 
 export const SetupImplicitWithRouter = connect(mapStateToProps)(withRouter(SetupImplicit));

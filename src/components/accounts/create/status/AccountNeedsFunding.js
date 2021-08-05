@@ -1,7 +1,7 @@
 import React from 'react';
 import { Translate } from 'react-localize-redux';
 
-import Balance from '../../../common/Balance';
+import Balance from '../../../common/balance/Balance';
 import ClickToCopy from '../../../common/ClickToCopy';
 import CopyIcon from '../../../svg/CopyIcon';
 import StyledContainer from './Style.css';
@@ -39,7 +39,6 @@ const AccountNeedsFunding = ({
                 <span>
                     <Balance
                         amount={minDeposit}
-                        symbol='near'
                     />
                 </span>
             </div>

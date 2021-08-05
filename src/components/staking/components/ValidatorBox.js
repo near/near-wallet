@@ -5,7 +5,7 @@ import styled from 'styled-components';
 
 import { redirectTo } from '../../../actions/account';
 import { Mixpanel } from '../../../mixpanel/index';
-import Balance from '../../common/Balance';
+import Balance from '../../common/balance/Balance';
 import FormButton from '../../common/FormButton';
 import ChevronIcon from '../../svg/ChevronIcon';
 import UserIcon from '../../svg/UserIcon';
@@ -69,15 +69,15 @@ const Container = styled.div`
         margin-left: auto;
         text-align: right;
 
-        div {
-            &:first-of-type {
+        > div {
+            :first-of-type {
                 color: #00C08B;
             }
-            
-            &:last-of-type {
-                color: #24272a;
-                white-space: nowrap;
-            }
+        }
+
+        .amount {
+            color: #24272a;
+            white-space: nowrap;
         }
     }
 
@@ -127,7 +127,8 @@ export default function ValidatorBox({
     clickable = true,
     style,
     label = false,
-    stakeAction
+    stakeAction,
+    showBalanceInUSD
 }) {
     const dispatch = useDispatch();
     const { accountId: validatorId, active } = validator;
@@ -170,8 +171,8 @@ export default function ValidatorBox({
             {amount &&
                 <div className='right'>
                     {staking && <div><Translate id='staking.validatorBox.staking' /></div>}
-                    <div>
-                        <Balance amount={amount} symbol='near'/>
+                    <div className='amount'>
+                        <Balance amount={amount} showBalanceInUSD={showBalanceInUSD}/>
                     </div>
                 </div>
             }

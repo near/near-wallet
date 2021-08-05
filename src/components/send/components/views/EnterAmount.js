@@ -2,6 +2,7 @@ import React from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
+import Balance from '../../../common/balance/Balance';
 import FormButton from '../../../common/FormButton';
 import AmountInput from '../AmountInput';
 import BalanceDetails from '../BalanceDetails';
@@ -24,16 +25,21 @@ const StyledContainer = styled.form`
             align-items: center;
         }
 
-        > div {
-            :nth-of-type(3) {
-                margin: 55px 0 5px 0;
-            }
+        .usd-amount {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #A2A2A8;
+        }
+
+        .select-token-btn {
+            margin: 55px 0 5px 0;
         }
     }
 `;
 
 const EnterAmount = ({ 
     amount,
+    rawAmount,
     onChangeAmount,
     onSetMaxAmount,
     availableToSend,
@@ -63,6 +69,11 @@ const EnterAmount = ({
                     autoFocus={!isMobile}
                 />
             </div>
+            {selectedToken.symbol === 'NEAR' &&
+                <div className='usd-amount'>
+                    <Balance amount={rawAmount} showBalanceInNEAR={false}/>
+                </div>
+            }
             <FormButton
                 onClick={onSetMaxAmount}
                 type='button'

@@ -166,7 +166,7 @@
         "activateAccount": {
             "pre": {
                 "title": "即將完成註冊！請為賬戶進行首次充值。",
-                "desc": "開始使用 NEAR 錢包前，請先充值<b>至少 ${amount} NEAR</b> 至你的賬戶（或稱地址）。"
+                "desc": "開始使用 NEAR 錢包前，請先充值<b>至少 ${amount}</b> 至你的賬戶（或稱地址）。"
             },
             "post": {
                 "title": "你的賬戶已經激活。",
@@ -177,7 +177,7 @@
         "createImplicit": {
             "pre": {
                 "title": "充值至賬戶",
-                "descOne": "為初始化賬戶，請向臨時充值地址轉賬至少 <b>${amount} NEAR</b>。",
+                "descOne": "為初始化賬戶，請向臨時充值地址轉賬至少 <b>${amount}</b>。",
                 "descTwo": "充值完成後，請返回本頁繼續完成賬戶創建。",
                 "addressHeader": "臨時充值地址",
                 "whereToBuy": {
@@ -397,7 +397,7 @@
         "email": "Email 地址",
         "phone": "手機號",
         "notEnabled": "雙重認證未開啟",
-        "notEnoughBalance": "為開啟雙重認證，你的賬戶需要最少餘額 ",
+        "notEnoughBalance": "為開啟雙重認證，你的賬戶需要最少餘額 ${amount}",
         "active": "已開啟",
         "since": "自",
         "promptDesc": "我們強烈建議你開啟雙重認證的方式來增強你的賬戶和資產安全性。",
@@ -418,10 +418,10 @@
             "keep": "不，保留雙重認證"
         },
         "alertBanner": {
-            "title": "開啟雙重認證後，<b>${data} NEAR</b> 將會被鎖定，以涵蓋存儲的消耗。",
+            "title": "開啟雙重認證後，<b>${data}</b> 將會被鎖定，以涵蓋存儲的消耗。",
             "button": "了解更多"
         },
-        "checkBox": "我已知曉：開啟雙重認證後，${amount} NEAR 將會被鎖定，以涵蓋合約的存儲。"
+        "checkBox": "我已知曉：開啟雙重認證後，${amount} 將會被鎖定，以涵蓋合約的存儲。"
     },
 
     "fullAccessKeys": {
@@ -611,7 +611,7 @@
     "createAccount": {
         "termsPage": {
             "title": "在開始之前...",
-            "descOne": "NEAR 賬戶要求進行一筆一次性<b>至少 ${data} NEAR</b> 的充值來涵蓋<a href='https://docs.near.org/docs/concepts/account' rel='noopener noreferrer' target='_blank'>你的賬戶存儲成本</a>。",
+            "descOne": "NEAR 賬戶要求進行一筆一次性<b>至少 ${amount}</b> 的充值來涵蓋<a href='https://docs.near.org/docs/concepts/account' rel='noopener noreferrer' target='_blank'>你的賬戶存儲成本</a>。",
             "descTwo": "在保留你的個性化賬戶 ID 之後，你需要進行一筆初始充值來激活的賬戶。",
             "disclaimer": "通過註冊NEAR 賬戶，意味著你同意NEAR 錢包的<a href='/terms' rel='noopener noreferrer' target='_blank'>服務條款</a>和<a href='https://near.org/privacy' rel='noopener noreferrer' target='_blank'>隱私策略</a>。"
         },
@@ -972,7 +972,7 @@
         },
         "unstakeSuccess": {
             "title": "成功！",
-            "desc": "你質押的 <b>${amount} NEAR</b> 已經成功從驗證節點的質押池釋放：",
+            "desc": "你質押的 <b>${amount}</b> 已經成功從驗證節點的質押池釋放：",
             "descTwo": "你的通證請求釋放將會在 36 - 48 小時釋放。",
             "button": "返回質押頁"
         },
@@ -1020,7 +1020,7 @@
     },
     "profile": {
         "lockupBanner": {
-            "title": "你有 <b>${amount}</b> NEAR 可從你的鎖定賬戶提現。",
+            "title": "你有 <b>${amount}</b> 可從你的鎖定賬戶提現。",
             "cta": "轉賬至錢包"
         },
         "pageTitle": {

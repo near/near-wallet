@@ -8,7 +8,7 @@ import { Mixpanel } from '../../../mixpanel/index';
 import classNames from '../../../utils/classNames';
 import { WALLET_APP_MIN_AMOUNT } from '../../../utils/wallet';
 import Accordion from '../../common/Accordion';
-import Balance from '../../common/Balance';
+import Balance from '../../common/balance/Balance';
 import Tooltip from '../../common/Tooltip';
 import ChevronIcon from '../../svg/ChevronIcon';
 
@@ -43,14 +43,17 @@ const Container = styled.div`
 
         .right {
             margin-left: auto;
+            text-align: right;
         }
     }
 
     .title {
         padding: 15px 0;
         display: flex;
-
-        div {
+        align-items: flex-start;
+        align-items: center;
+        
+        > div {
             :first-of-type {
                 display: flex;
                 align-items: center;
@@ -69,6 +72,7 @@ const Container = styled.div`
 
         .right {
             margin-left: auto;
+            text-align: right;
         }
     }
 
@@ -96,14 +100,14 @@ function BalanceBreakdown({ total, onClickAvailable, availableType, error, trans
                         <div className='item'>
                             <Translate id='balanceBreakdown.available'/>
                             <div className='right'>
-                                <Balance amount={total} symbol='near'/>
+                                <Balance amount={total}/>
                             </div>
                         </div>
                         <div className='item'>
                             <Translate id='balanceBreakdown.reserved' />
                             <Tooltip translate='reservedForFeesInfo'/>
                             <div className='right'>
-                                - <Balance amount={subtractAmount} symbol='near'/>
+                                <Balance amount={subtractAmount} showAmountAsSubtracted={true}/>
                             </div>
                         </div>
                     </Accordion>
@@ -116,7 +120,7 @@ function BalanceBreakdown({ total, onClickAvailable, availableType, error, trans
                             <Translate id={availableType}/><ChevronIcon color='#0072ce'/>
                         </div>
                         <div className='right' onClick={onClickAvailable}>
-                            <Balance amount={available} symbol='near'/>
+                            <Balance amount={available}/>
                         </div>
                     </div>
                 </Container>

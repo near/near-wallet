@@ -41,6 +41,7 @@ const BalanceDetails = ({
                             translateIdTitle={prefixTXEntryTitledId('reservedForFees')}
                             amount={reservedForFees}
                             translateIdInfoTooltip='sendV2.translateIdInfoTooltip.reservedForFees'
+                            showAmountAsSubtracted={true}
                         />
                     </Accordion>
                     <AccordionTrigger

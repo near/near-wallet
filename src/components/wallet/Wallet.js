@@ -14,9 +14,10 @@ import { selectTransactions } from '../../reducers/transactions';
 import { actionsPendingByPrefix } from '../../utils/alerts';
 import classNames from '../../utils/classNames';
 import { SHOW_NETWORK_BANNER } from '../../utils/wallet';
-import Balance from '../common/Balance';
+import Balance from '../common/balance/Balance';
 import FormButton from '../common/FormButton';
 import Container from '../common/styled/Container.css';
+import Tooltip from '../common/Tooltip';
 import BuyIcon from '../svg/BuyIcon';
 import DownArrowIcon from '../svg/DownArrowIcon';
 import SendIcon from '../svg/SendIcon';
@@ -38,11 +39,16 @@ const StyledContainer = styled(Container)`
     }
 
     .sub-title {
-        margin: 0;
-        font-size: 14px !important;
-        color: #72727A !important;
+        font-size: 14px;
+        margin-bottom: 10px;
+
+        &.balance {
+            font-weight: 600;
+            color: #272729;
+        }
 
         &.tokens {
+            color: #72727A;
             margin-top: 40px;
             margin-bottom: 15px;
             display: flex;
@@ -96,11 +102,24 @@ const StyledContainer = styled(Container)`
         }
 
         .total-balance {
-            margin: 40px 0 5px 0;
+            margin: 0px 0 10px 0;
             width: 100%;
-            font-weight: 900;
+            font-weight: 600;
             text-align: center;
             color: #24272a;
+        }
+
+        .available-balance {
+            display: flex;
+            align-items: center;
+            color: #72727A;
+            text-transform: capitalize;
+
+            > div {
+                :first-of-type {
+                    margin-right: 5px;
+                }
+            }
         }
 
         @media (min-width: 992px) {
@@ -348,12 +367,29 @@ export function Wallet({ tab, setTab }) {
 const FungibleTokens = ({ balance, tokensLoader, fungibleTokens }) => {
     return (
         <>
+            <div className='sub-title balance'><Translate id='wallet.totalBalanceTitle' /></div>
             <div className='total-balance'>
-                <Textfit mode='single' max={40}>
-                    <Balance amount={balance?.total} symbol={false}/>
+                <Textfit mode='single' max={44}>
+                    <Balance
+                        showBalanceInNEAR={false}
+                        amount={balance?.total}
+                        showAlmostEqualSignUSD={false}
+                        showSymbolUSD={false}
+                        showSignUSD={true}
+                    />
                 </Textfit>
             </div>
-            <div className='sub-title'><Translate id='wallet.totalBalanceTitle'/></div>
+            <div className='available-balance'>
+                <div><Translate id='balanceBreakdown.available' />:</div>
+                <Balance
+                    showBalanceInNEAR={false}
+                    amount={balance?.available}
+                    showAlmostEqualSignUSD={false}
+                    showSymbolUSD={false}
+                    showSignUSD={true}
+                />
+                <Tooltip translate='availableBalanceInfo'/>
+            </div>
             <div className='buttons'>
                 <FormButton
                     color='dark-gray'
