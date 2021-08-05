@@ -60,6 +60,8 @@ const Style = styled.div`
         position: relative;
         box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
         margin: 14px;
+        max-height: 90vh;
+        overflow-y: auto;
     }
 
     &.mobile-action-sheet {
@@ -83,6 +85,7 @@ const Style = styled.div`
             overflow-y: auto;
             overflow-x: hidden;
             position: fixed;
+            max-height: initial;
 
             ::-webkit-scrollbar {
                 display: none;
