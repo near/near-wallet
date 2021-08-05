@@ -9,11 +9,10 @@ import {
     refreshAccount, 
     signInWithLedgerAddAndSaveAccounts, 
     checkAccountAvailable, 
-    clearSignInWithLedgerModalState
+    clearSignInWithLedgerModalState,
+    clearAccountState
 } from '../../../actions/account';
-import { staking } from '../../../actions/staking';
 import { clearLocalAlert } from '../../../actions/status';
-import { tokens } from '../../../actions/tokens';
 import { Mixpanel } from '../../../mixpanel/index';
 import { controller as controllerHelperApi } from '../../../utils/helper-api';
 import parseFundingOptions from '../../../utils/parseFundingOptions';
@@ -84,8 +83,7 @@ export function SignInLedger(props) {
         } else {
             dispatch(redirectToApp());
         }
-        dispatch(staking.clearState());
-        dispatch(tokens.clearState());
+        dispatch(clearAccountState());
     };
 
     const onClose = () => {
