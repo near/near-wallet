@@ -14,12 +14,6 @@ import FormButton from '../common/FormButton';
 const { fetchOwnedNFTsForContract } = nftActions;
 
 const LoadMoreButtonWrapper = ({ contractName }) => {
-    const hasFetchedAllTokensForContract = useSelector(state => selectHasFetchedAllTokensForAccountForContract(state, {
-        accountId,
-        contractName
-    }));
-    if (hasFetchedAllTokensForContract) { return null; }
-
     const dispatch = useDispatch();
     const accountId = useSelector(state => selectAccountId(state));
     const contractMetadata = useSelector((state) => selectOneContractMetadata(state, { contractName }));
@@ -29,14 +23,20 @@ const LoadMoreButtonWrapper = ({ contractName }) => {
         contractName
     }));
 
-    return <FormButton
-        onClick={() => dispatch(fetchOwnedNFTsForContract({ accountId, contractName, contractMetadata }))}
-        sending={fetchingNFTs === true}
-        color='gray-gray'
-        sendingString='button.loading'
-    >
-        <Translate id='NFTs.loadMore'/>
-    </FormButton>;
+    const hasFetchedAllTokensForContract = useSelector(state => selectHasFetchedAllTokensForAccountForContract(state, {
+        accountId,
+        contractName
+    }));
+
+    return !hasFetchedAllTokensForContract &&
+        <FormButton
+            onClick={() => dispatch(fetchOwnedNFTsForContract({ accountId, contractName, contractMetadata }))}
+            sending={fetchingNFTs === true}
+            color='gray-gray'
+            sendingString='button.loading'
+        >
+            <Translate id='NFTs.loadMore'/>
+        </FormButton>;
 };
 
 export default LoadMoreButtonWrapper;
