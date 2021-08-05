@@ -138,7 +138,7 @@ class LinkdropLanding extends Component {
                         </FormButton>
                     }
                     <div className='or'><Translate id='linkdropLanding.or'/></div>
-                    <FormButton color='gray-blue' disabled={claimingDrop} linkTo={`/create/${fundingContract}/${fundingKey}?redirect=false`}>
+                    <FormButton color='gray-blue' disabled={claimingDrop} linkTo={`/create/${fundingContract}/${fundingKey}`}>
                         <Translate id='linkdropLanding.ctaNew'/>
                     </FormButton>
                 </StyledContainer>
