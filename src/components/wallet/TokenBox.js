@@ -122,24 +122,28 @@ const StyledContainer = styled.div`
 `;
 
 const TokenBox = ({ token, onClick }) => {
-    const explorerContractLink = `${EXPLORER_URL}/accounts/${token.contractName}`;
-
     return (
         <StyledContainer className='token-box' onClick={onClick ? () => onClick(token) : null}>
             <div className='icon'>
                 <TokenIcon symbol={token.symbol} icon={token.icon}/>
             </div>
             <div className='desc'>
-                <span className='symbol' title={token.contractName}>
-                    <a 
-                        href={explorerContractLink}
-                        onClick={e => e.stopPropagation()}
-                        target='_blank'
-                        rel='noopener noreferrer'
-                    >
+                {token.contractName ?
+                    <span className='symbol' title={token.contractName}>
+                        <a 
+                            href={`${EXPLORER_URL}/accounts/${token.contractName}`}
+                            onClick={e => e.stopPropagation()}
+                            target='_blank'
+                            rel='noopener noreferrer'
+                        >
+                            {token.symbol}
+                        </a>
+                    </span>
+                    :
+                    <span className='symbol'>
                         {token.symbol}
-                    </a>
-                </span>
+                    </span>
+                }
                 <span className='fiat-rate'>
                     {token.usd
                         ? <>${token.usd}</>
