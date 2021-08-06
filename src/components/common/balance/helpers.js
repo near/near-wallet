@@ -29,7 +29,7 @@ export const formatWithCommas = (value) => {
 };
 
 export const getRoundedBalanceInFiat = (rawNearAmount, tokenFiatValue) => {
-    const formattedNearAmount = rawNearAmount && formatNearAmount(rawNearAmount);
+    const formattedNearAmount = rawNearAmount && formatNearAmount(rawNearAmount).replace(/,/g, '');
     const balanceInFiat = Number(formattedNearAmount) * tokenFiatValue;
     const roundedBalanceInFiat = balanceInFiat && balanceInFiat.toFixed(2);
     if (roundedBalanceInFiat === '0.00' || formattedNearAmount === '< 0.00001') {
@@ -43,5 +43,5 @@ export const getNearAndFiatValue = (rawNearAmount, tokenFiatValue, fiat = 'usd')
     const fiatAmount = getRoundedBalanceInFiat(rawNearAmount, tokenFiatValue);
     const fiatSymbol = fiat.toUpperCase();
     const fiatPrefix = fiatAmount !== '< 0.01' ? '≈ ' : '';
-    return `${nearAmount} NEAR (${fiatPrefix}${fiatAmount || '—'} ${fiatSymbol})`;
+    return `${nearAmount} NEAR (${fiatPrefix}${formatWithCommas(fiatAmount) || '—'} ${fiatSymbol})`;
 };
