@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { getRoundedBalanceInFiat } from './helpers';
+import { getRoundedBalanceInFiat, formatWithCommas } from './helpers';
 
 const BalanceDisplayUSD = ({
     amount,
@@ -23,7 +23,7 @@ const BalanceDisplayUSD = ({
                         {showSignUSD && <>$</>}
                     </>
                 }
-                {roundedBalanceInUSD}
+                {formatWithCommas(roundedBalanceInUSD)}
                 {showSymbolUSD && ` ${USDSymbol}`}
             </>
         );
