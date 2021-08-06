@@ -52,7 +52,7 @@
             "error": "账户的访问被拒绝，恢复账户失败。<br/>若要继续，需要在 Ledger 设备上授权每个账户的只读访问，请再重试。"
         },
         "PROMPT_TWO_FACTOR": {
-            "invalidCode": "无效的两步验证码，请重试。"
+            "invalidCode": "无效的双重认证验证码，请重试。"
         },
         "CHECK_ACCOUNT_AVAILABLE": {
             "success": "用户已找到。",
@@ -63,8 +63,8 @@
             "error": "公钥访问被拒绝，恢复账户失败。<br/>若要继续，需要允许 NEAR 钱包访问你的公钥，请再重试。"
         },
         "VERIFY_TWO_FACTOR": {
-            "success": "两步验证设置成功！",
-            "error": "两步验证设置失败，请重试。"
+            "success": "双重认证设置成功！",
+            "error": "双重认证设置失败，请重试。"
         },
         "CHECK_IS_NEW": {
             "success": "恭喜! ${accountId} 可被注册。",
@@ -166,7 +166,7 @@
         "activateAccount": {
             "pre": {
                 "title": "即将完成注册！请为账户进行首次充值。",
-                "desc": "开始使用 NEAR 钱包前，请先充值<b>至少 ${amount} NEAR</b> 至你的账户（或称地址）。"
+                "desc": "开始使用 NEAR 钱包前，请先充值<b>至少 ${amount}</b> 至你的账户（或称地址）。"
             },
             "post": {
                 "title": "你的账户已经激活。",
@@ -177,7 +177,7 @@
         "createImplicit": {
             "pre": {
                 "title": "充值至账户",
-                "descOne": "为初始化账户，请向临时充值地址转账至少 <b>${amount} NEAR</b>。",
+                "descOne": "为初始化账户，请向临时充值地址转账至少 <b>${amount}</b>。",
                 "descTwo": "充值完成后，请返回本页继续完成账户创建。",
                 "addressHeader": "临时充值地址",
                 "whereToBuy": {
@@ -389,20 +389,20 @@
     },
 
     "twoFactor": {
-        "enable": "开启两步验证",
-        "subHeader": "两步验证将为你的账户提供额外的安全保护。开启两步验证后，所有交易操作必须通过短信或 Email 确认。",
+        "enable": "开启双重认证",
+        "subHeader": "双重认证将为你的账户提供额外的安全保护。开启双重认证后，所有交易操作必须通过短信或 Email 确认。",
         "select": "选择验证方式",
-        "title": "两步验证",
-        "desc": "通过两步验证保护你的账户，在授权交易时必须通过短信或 Email 确认。",
+        "title": "双重认证",
+        "desc": "通过双重认证保护你的账户，在授权交易时必须通过短信或 Email 确认。",
         "email": "Email 地址",
         "phone": "手机号",
-        "notEnabled": "两步验证未开启",
-        "notEnoughBalance": "为开启两步验证，你的账户需要最少余额 ",
+        "notEnabled": "双重认证未开启",
+        "notEnoughBalance": "为开启双重认证，你的账户需要最少余额 ${amount}",
         "active": "已开启",
         "since": "自",
-        "promptDesc": "我们强烈建议你开启两步验证的方式来增强你的账户和资产安全性。",
+        "promptDesc": "我们强烈建议你开启双重认证的方式来增强你的账户和资产安全性。",
         "verify": {
-            "title": "输入两步验证码",
+            "title": "输入双重认证验证码",
             "desc": "一组 6 位验证代码已经发送至：",
             "inputLabel": "输入你的 6 位验证码",
             "placeholder": "验证码",
@@ -412,16 +412,16 @@
             "resent": "验证码已发送！"
         },
         "disable": {
-            "title": "是否确认禁用两步验证？",
-            "desc": "禁用两步验证后，交易将不再要求两步验证确认。",
-            "disable": "禁用两步验证",
-            "keep": "不，保留两步验证"
+            "title": "是否确认禁用双重认证？",
+            "desc": "禁用双重认证后，交易将不再要求双重认证确认。",
+            "disable": "禁用双重认证",
+            "keep": "不，保留双重认证"
         },
         "alertBanner": {
-            "title": "开启两步验证后，<b>${data} NEAR</b> 将会被锁定，以涵盖存储的消耗。",
+            "title": "开启双重认证后，<b>${data}</b> 将会被锁定，以涵盖存储的消耗。",
             "button": "了解更多"
         },
-        "checkBox": "我已知晓：开启两步验证后，${amount} NEAR 将会被锁定，以涵盖合约的存储。"
+        "checkBox": "我已知晓：开启双重认证后，${amount} 将会被锁定，以涵盖合约的存储。"
     },
 
     "fullAccessKeys": {
@@ -611,7 +611,7 @@
     "createAccount": {
         "termsPage": {
             "title": "在开始之前...",
-            "descOne": "NEAR 账户要求进行一笔一次性<b>至少 ${data} NEAR</b> 的充值来涵盖<a href='https://docs.near.org/docs/concepts/account' rel='noopener noreferrer' target='_blank'>你的账户存储成本</a>。",
+            "descOne": "NEAR 账户要求进行一笔一次性<b>至少 ${amount}</b> 的充值来涵盖<a href='https://docs.near.org/docs/concepts/account' rel='noopener noreferrer' target='_blank'>你的账户存储成本</a>。",
             "descTwo": "在保留你的个性化账户 ID 之后，你需要进行一笔初始充值来激活的账户。",
             "disclaimer": "通过注册 NEAR 账户，意味着你同意 NEAR 钱包的<a href='/terms' rel='noopener noreferrer' target='_blank'>服务条款</a>和<a href='https://near.org/privacy' rel='noopener noreferrer' target='_blank'>隐私策略</a>。"
         },
@@ -700,7 +700,7 @@
         "phoneTitle": "手机短信方式",
         "phoneDesc": "请输入你的手机号以接收恢复链接。",
         "phonePlaceholder": "+1 415 797 8554",
-        "notSupportedPhone": "抱歉，目前我们还为你所在的地区开放短信恢复方式。请选择 Email 方式。",
+        "notSupportedPhone": "抱歉，目前我们暂未对你所在的地区开放短信恢复方式。请选择 Email 方式。",
         "advancedSecurity": "高级安全",
         "advancedSecurityDesc": "记录 12 个单词组成的助记词，并安全保存。",
         "ledgerTitle": "Ledger 硬件钱包",
@@ -764,7 +764,8 @@
     },
 
     "wallet": {
-        "balanceTitle": "总资产",
+        "balanceTitle": "NEAR余额",
+        "totalBalanceTitle": "NEAR总余额",
         "tokens": "通证",
         "balance": "余额",
         "dateAndTime": "日期和时间",
@@ -906,7 +907,7 @@
                     "title": "无法显示奖励金额。",
                     "cta": "了解更多",
                     "modalTitle": "无法显示质押奖励的金额",
-                    "modalDescOne": "当两步验证开启时，我们当前无法计算奖励。我们预计会在将来支持此功能。",
+                    "modalDescOne": "当双重认证开启时，我们当前无法计算奖励。我们预计会在将来支持此功能。",
                     "modalDescTwo": "此时，你可以在「总质押数」中看到你的奖励累计，这个总数包括了奖励，并会随着质押而逐步增加。"
                 }
             },
@@ -972,7 +973,7 @@
         },
         "unstakeSuccess": {
             "title": "成功！",
-            "desc": "你质押的 <b>${amount} NEAR</b> 已经成功从验证节点的质押池释放：",
+            "desc": "你质押的 <b>${amount}</b> 已经成功从验证节点的质押池释放：",
             "descTwo": "你的通证请求释放将会在 36 - 48 小时释放。",
             "button": "返回质押页"
         },
@@ -1020,7 +1021,7 @@
     },
     "profile": {
         "lockupBanner": {
-            "title": "你有 <b>${amount}</b> NEAR 可从你的锁定账户提现。",
+            "title": "你有 <b>${amount}</b> 可从你的锁定账户提现。",
             "cta": "转账至钱包"
         },
         "pageTitle": {
@@ -1056,7 +1057,7 @@
             "lessSecure": "备选方式",
             "lessSecureDesc": "推荐余额较小的账户使用这些恢复方式，非常方便。但如果手机或邮箱被盗，你的资产将会有风险。"
         },
-        "twoFactor": "两步验证方式",
+        "twoFactor": "双重认证方式",
         "twoFactorDesc": "登录或转账时，将通过短信或 Email 方式授权。",
         "details": {
             "profile": "资料",

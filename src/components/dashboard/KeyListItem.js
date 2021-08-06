@@ -5,7 +5,7 @@ import styled from 'styled-components';
 
 import ArrowBlkImage from '../../images/icon-arrow-blk.svg';
 import ArrowRight from '../../images/icon-arrow-right.svg';
-import Balance from '../common/Balance';
+import Balance from '../common/balance/Balance';
 
 // TODO: Refactor common code with KeyListItem
 const CustomGridRow = styled(Grid.Row)`
@@ -109,7 +109,7 @@ const KeyListItem = ({
                             <span className='font-small'>
                                 <br/>
                                 <Translate id='authorizedApps.feeAllowance' />:{' '}
-                                <span className='color-black'>{allowance ? <Balance amount={allowance} /> : 'N/A'}</span>
+                                <span className='color-black'>{allowance ? <Balance amount={allowance} showBalanceInUSD={false} /> : 'N/A'}</span>
                                 <br/>
                                 <Translate id='authorizedApps.publicKey' />:{' '}
                                 <span className='color-black'>{publicKey}</span>

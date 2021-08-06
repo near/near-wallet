@@ -1,8 +1,9 @@
 import React from 'react';
+import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
 import { EXPLORER_URL } from '../../utils/wallet';
-import Balance from '../common/Balance';
+import Balance from '../common/balance/Balance';
 import TokenIcon from '../send/components/TokenIcon';
 import TokenAmount from './TokenAmount';
 
@@ -11,6 +12,7 @@ const StyledContainer = styled.div`
     align-items: center;
     justify-content: space-between;
     padding: 15px 14px;
+    min-height: 80px;
 
     @media (max-width: 767px) {
         margin: 0 -14px;
@@ -47,25 +49,22 @@ const StyledContainer = styled.div`
             font-weight: 700;
             font-size: 16px;
             color: #24272a;
-        }
-
-        .contract-link {
-            font-size: 12px;
-            color: #72727A;
-            max-width: 200px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-
-            @media (max-width: 500px) {
-                max-width: 180px;
-            }
-
-            @media (max-width: 330px) {
-                max-width: 150px;
-            }
 
             a {
                 color: inherit;
+            }
+        }
+
+        .fiat-rate {
+            color: #72727A;
+            margin-top: 5px;
+
+            > span {
+                background-color: #F0F0F1;
+                padding: 2px 10px;
+                border-radius: 40px;
+                font-size: 12px;
+                display: block;
             }
         }
     }
@@ -73,8 +72,18 @@ const StyledContainer = styled.div`
     .balance {
         margin-left: auto;
         font-size: 16px;
-        font-weight: 700;
+        font-weight: 600;
         color: #24272a;
+        text-align: right;
+        min-height: 47px;
+
+        .fiat-amount {
+            font-size: 14px;
+            font-weight: 400;
+            margin-top: 6px;
+            color: #72727A;
+            line-height: normal;
+        }
 
         .dots {
             :after {
@@ -113,24 +122,33 @@ const StyledContainer = styled.div`
 `;
 
 const TokenBox = ({ token, onClick }) => {
-    const explorerContractLink = `${EXPLORER_URL}/accounts/${token.contractName}`;
-
     return (
         <StyledContainer className='token-box' onClick={onClick ? () => onClick(token) : null}>
             <div className='icon'>
                 <TokenIcon symbol={token.symbol} icon={token.icon}/>
             </div>
             <div className='desc'>
-                <span className='symbol'>{token.symbol}</span>
-                <span className='contract-link' title={token.contractName}>
-                    <a 
-                        href={explorerContractLink}
-                        onClick={e => e.stopPropagation()}
-                        target='_blank'
-                        rel='noopener noreferrer'
-                    >
-                        {token.contractName}
-                    </a>
+                {token.contractName ?
+                    <span className='symbol' title={token.contractName}>
+                        <a 
+                            href={`${EXPLORER_URL}/accounts/${token.contractName}`}
+                            onClick={e => e.stopPropagation()}
+                            target='_blank'
+                            rel='noopener noreferrer'
+                        >
+                            {token.symbol}
+                        </a>
+                    </span>
+                    :
+                    <span className='symbol'>
+                        {token.symbol}
+                    </span>
+                }
+                <span className='fiat-rate'>
+                    {token.usd
+                        ? <>${token.usd}</>
+                        : <span><Translate id='tokenBox.priceUnavailable' /></span>
+                    }
                 </span>
             </div>
             {token.symbol === 'NEAR' && !token.contractName ?

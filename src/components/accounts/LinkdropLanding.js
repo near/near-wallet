@@ -8,7 +8,7 @@ import { clearLocalAlert } from '../../actions/status';
 import { Mixpanel } from '../../mixpanel/index';
 import { actionsPending } from '../../utils/alerts';
 import AccountDropdown from '../common/AccountDropdown';
-import Balance from '../common/Balance';
+import Balance from '../common/balance/Balance';
 import FormButton from '../common/FormButton';
 import Container from '../common/styled/Container.css';
 import BrokenLinkIcon from '../svg/BrokenLinkIcon';
@@ -115,7 +115,7 @@ class LinkdropLanding extends Component {
                     <NearGiftIcons/>
                     <h3><Translate id='linkdropLanding.title'/></h3>
                     <div className='near-balance'>
-                        <Balance amount={balance} symbol='near'/>
+                        <Balance amount={balance}/>
                     </div>
                     <div className='desc'>
                         <Translate id='linkdropLanding.desc'/>
@@ -138,7 +138,7 @@ class LinkdropLanding extends Component {
                         </FormButton>
                     }
                     <div className='or'><Translate id='linkdropLanding.or'/></div>
-                    <FormButton color='gray-blue' disabled={claimingDrop} linkTo={`/create/${fundingContract}/${fundingKey}?redirect=false`}>
+                    <FormButton color='gray-blue' disabled={claimingDrop} linkTo={`/create/${fundingContract}/${fundingKey}`}>
                         <Translate id='linkdropLanding.ctaNew'/>
                     </FormButton>
                 </StyledContainer>

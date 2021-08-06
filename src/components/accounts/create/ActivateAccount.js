@@ -1,5 +1,5 @@
 import BN from 'bn.js';
-import { formatNearAmount, parseNearAmount } from 'near-api-js/lib/utils/format';
+import { parseNearAmount } from 'near-api-js/lib/utils/format';
 import React, { Component } from 'react';
 import { Translate } from 'react-localize-redux';
 import { connect } from 'react-redux';
@@ -8,9 +8,11 @@ import styled from 'styled-components';
 
 import { redirectTo, clearFundedAccountNeedsDeposit, getBalance, getAccountHelperWalletState } from '../../../actions/account';
 import { Mixpanel } from '../../../mixpanel';
+import { selectNearTokenFiatValueUSD } from '../../../slices/tokenFiatValues';
 import { removeAccountIsInactive } from '../../../utils/localStorage';
 import { isMoonpayAvailable, getSignedUrl } from '../../../utils/moonpay';
 import { WALLET_APP_MIN_AMOUNT } from '../../../utils/wallet';
+import { getNearAndFiatValue } from '../../common/balance/helpers';
 import Divider from '../../common/Divider';
 import FormButton from '../../common/FormButton';
 import Container from '../../common/styled/Container.css';
@@ -183,7 +185,7 @@ class ActivateAccount extends Component {
             activatingAccount
         } = this.state;
 
-        const { accountId, balance, minBalanceToUnlock } = this.props;
+        const { accountId, balance, minBalanceToUnlock, nearTokenFiatValueUSD } = this.props;
         const accountFunded = this.accountHasMinimumBalanceToUnlock();
 
         if (accountFunded) {
@@ -211,7 +213,12 @@ class ActivateAccount extends Component {
         return (
             <StyledContainer className='small-centered border'>
                 <h1><Translate id='account.activateAccount.pre.title' /></h1>
-                <h2><Translate id='account.activateAccount.pre.desc' data={{ amount: formatNearAmount(minBalanceToUnlock) }}/></h2>
+                <h2>
+                    <Translate
+                        id='account.activateAccount.pre.desc'
+                        data={{ amount: getNearAndFiatValue(minBalanceToUnlock, nearTokenFiatValueUSD) }}
+                    />
+                </h2>
                 <FormButton
                     onClick={() => this.setState({ whereToBuy: true })}
                     color='link'
@@ -243,11 +250,15 @@ class ActivateAccount extends Component {
     }
 }
 
-const mapStateToProps = ({ account, status }) => ({
-    ...account,
-    mainLoader: status.mainLoader,
-    minBalanceToUnlock: account.accountHelperWalletState?.requiredUnlockBalance || parseNearAmount(WALLET_APP_MIN_AMOUNT),
-    needsDeposit: account.accountHelperWalletState?.fundedAccountNeedsDeposit
-});
+const mapStateToProps = (state) => {
+    const { account, status } = state;
+    return {
+        ...account,
+        mainLoader: status.mainLoader,
+        minBalanceToUnlock: account.accountHelperWalletState?.requiredUnlockBalance || parseNearAmount(WALLET_APP_MIN_AMOUNT),
+        needsDeposit: account.accountHelperWalletState?.fundedAccountNeedsDeposit,
+        nearTokenFiatValueUSD: selectNearTokenFiatValueUSD(state)
+    };
+};
 
 export const ActivateAccountWithRouter = connect(mapStateToProps)(withRouter(ActivateAccount));

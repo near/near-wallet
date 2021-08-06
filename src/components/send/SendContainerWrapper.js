@@ -9,6 +9,7 @@ import { handleGetTokens } from '../../actions/tokens';
 import { useFungibleTokensIncludingNEAR } from '../../hooks/fungibleTokensIncludingNEAR';
 import { Mixpanel } from '../../mixpanel/index';
 import { fungibleTokensService } from '../../services/FungibleTokens';
+import { selectNearTokenFiatValueUSD } from '../../slices/tokenFiatValues';
 import { EXPLORER_URL, SHOW_NETWORK_BANNER, WALLET_APP_MIN_AMOUNT } from '../../utils/wallet';
 import SendContainerV2, { VIEWS } from './SendContainerV2';
 
@@ -19,6 +20,7 @@ export function SendContainerWrapper({ match }) {
     const dispatch = useDispatch();
     const { accountId, balance } = useSelector(({ account }) => account);
     const { localAlert, isMobile } = useSelector(({ status }) => status);
+    const nearTokenFiatValueUSD = useSelector(selectNearTokenFiatValueUSD);
 
     const availableNearBalance = balance?.available;
     const reservedNearForFees = parseNearAmount(WALLET_APP_MIN_AMOUNT);
@@ -58,6 +60,7 @@ export function SendContainerWrapper({ match }) {
             setActiveView={view => setActiveView(view)}
             estimatedTotalFees={estimatedTotalFees}
             estimatedTotalInNear={estimatedTotalInNear}
+            nearTokenFiatValueUSD={nearTokenFiatValueUSD}
             handleSendToken={async (rawAmount, receiverId, contractName) => {
                 setSendingToken(true);
 

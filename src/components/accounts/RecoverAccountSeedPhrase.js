@@ -5,8 +5,13 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { recoverAccountSeedPhrase, redirectToApp, redirectTo, refreshAccount } from '../../actions/account';
-import { staking } from '../../actions/staking';
+import {
+    recoverAccountSeedPhrase,
+    redirectToApp,
+    redirectTo,
+    refreshAccount,
+    clearAccountState
+} from '../../actions/account';
 import { clearLocalAlert } from '../../actions/status';
 import { Mixpanel } from '../../mixpanel/index';
 import parseFundingOptions from '../../utils/parseFundingOptions';
@@ -80,7 +85,7 @@ class RecoverAccountSeedPhrase extends Component {
         } else {
             this.props.redirectToApp('/');
         }
-        this.props.clearState();
+        this.props.clearAccountState();
     }
 
     render() {
@@ -111,7 +116,7 @@ const mapDispatchToProps = {
     redirectToApp,
     refreshAccount,
     clearLocalAlert,
-    clearState: staking.clearState
+    clearAccountState
 };
 
 const mapStateToProps = ({ account, status, router }, { match }) => ({

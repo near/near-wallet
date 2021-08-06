@@ -1,4 +1,3 @@
-
 import Big from 'big.js';
 
 export const BOATLOAD_OF_GAS = Big(1).times(10 ** 14).toFixed();

@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import BinanceLogo from '../../images/binance-logo.svg';
 import HuobiLogo from '../../images/huobi-logo.svg';
 import LiqualityLogo from '../../images/liquality-logo.svg';
+import OkCoinLogo from '../../images/ok-coin-logo.svg';
 import OkexLogo from '../../images/okex-logo.svg';
 import Modal from '../common/modal/Modal';
 
@@ -38,6 +39,10 @@ const Container = styled.div`
             border-color: #8FCDFF;
             background-color: #F0F9FF;
         }
+
+        img {
+            max-height: 35px;
+        }
     }
 `;
 
@@ -64,6 +69,9 @@ const WhereToBuyNearModal = ({ open, onClose }) => {
                 </a>
                 <a href='https://liquality.io/' target='_blank' rel='noreferrer'>
                     <img src={LiqualityLogo} alt='LIQUALITY'/>
+                </a>
+                <a href='https://www.okcoin.com/' target='_blank' rel='noreferrer'>
+                    <img src={OkCoinLogo} alt='OKCOIN'/>
                 </a>
             </Container>
         </Modal>

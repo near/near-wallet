@@ -1,3 +1,4 @@
+import { utils } from 'near-api-js';
 import React, { useState, useEffect } from 'react';
 import { Translate } from 'react-localize-redux';
 import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input';
@@ -13,16 +14,22 @@ import {
 import { clearGlobalAlert } from '../../../actions/status';
 import { useRecoveryMethods } from '../../../hooks/recoveryMethods';
 import { Mixpanel } from '../../../mixpanel/index';
+import { selectNearTokenFiatValueUSD } from '../../../slices/tokenFiatValues';
 import { validateEmail } from '../../../utils/account';
 import { actionsPending } from '../../../utils/alerts';
 import isApprovedCountryCode from '../../../utils/isApprovedCountryCode';
 import { MULTISIG_MIN_AMOUNT } from '../../../utils/wallet';
 import AlertBanner from '../../common/AlertBanner';
+import { getNearAndFiatValue } from '../../common/balance/helpers';
 import Checkbox from '../../common/Checkbox';
 import FormButton from '../../common/FormButton';
 import Container from '../../common/styled/Container.css';
 import EnterVerificationCode from '../EnterVerificationCode';
 import TwoFactorOption from './TwoFactorOption';
+
+const {
+    parseNearAmount
+} = utils.format;
 
 const StyledContainer = styled(Container)`
 
@@ -75,6 +82,7 @@ export function EnableTwoFactor(props) {
     const dispatch = useDispatch();
     const { accountId, has2fa } = useSelector(({ account }) => account);
     const status = useSelector(({ status }) => status);
+    const nearTokenFiatValueUSD = useSelector(selectNearTokenFiatValueUSD);
 
     const [initiated, setInitiated] = useState(false);
     const [option, setOption] = useState('email');
@@ -85,6 +93,8 @@ export function EnableTwoFactor(props) {
     const recoveryMethods = useRecoveryMethods(accountId);
     const loading = status.mainLoader;
     const pendingTwoFactorAction = actionsPending('INIT_TWO_FACTOR', 'DEPLOY_MULTISIG');
+
+    const multiSigMinAmountRaw = parseNearAmount(MULTISIG_MIN_AMOUNT);
 
     const method = {
         kind: `2fa-${option}`,
@@ -169,7 +179,7 @@ export function EnableTwoFactor(props) {
             <StyledContainer className='small-centered border'>
                 <AlertBanner
                     title='twoFactor.alertBanner.title'
-                    data={MULTISIG_MIN_AMOUNT}
+                    data={getNearAndFiatValue(multiSigMinAmountRaw, nearTokenFiatValueUSD)}
                     button='twoFactor.alertBanner.button'
                     theme='alert'
                     linkTo='https://docs.near.org/docs/concepts/storage-staking'
@@ -224,7 +234,7 @@ export function EnableTwoFactor(props) {
                             checked={twoFactorAmountApproved}
                             onChange={e => setTwoFactorAmountApproved(e.target.checked)}
                         />
-                        <span><Translate id='twoFactor.checkBox' data={{ amount: MULTISIG_MIN_AMOUNT }}/></span>
+                        <span><Translate id='twoFactor.checkBox' data={{ amount: getNearAndFiatValue(multiSigMinAmountRaw, nearTokenFiatValueUSD) }}/></span>
                     </label>
                     <FormButton
                         color='blue'

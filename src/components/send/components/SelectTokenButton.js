@@ -31,7 +31,7 @@ const StyledContainer = styled.div`
 
 const SelectTokenButton = ({ token, onClick }) => {
     return (
-        <StyledContainer onClick={onClick}>
+        <StyledContainer onClick={onClick} className='select-token-btn'>
             <Token
                 translateIdTitle='sendV2.selectTokenButtonTitle'
                 symbol={token.symbol}

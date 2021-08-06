@@ -6,6 +6,7 @@ import { Mixpanel } from '../../mixpanel/index';
 import FungibleTokens from '../../services/FungibleTokens';
 import classNames from '../../utils/classNames';
 import isDecimalString from '../../utils/isDecimalString';
+import { getNearAndFiatValue } from '../common/balance/helpers';
 import Container from '../common/styled/Container.css';
 import EnterAmount from './components/views/EnterAmount';
 import EnterReceiver from './components/views/EnterReceiver';
@@ -95,7 +96,8 @@ const SendContainerV2 = ({
     handleSendToken,
     handleContinueToReview,
     sendingToken,
-    transactionHash
+    transactionHash,
+    nearTokenFiatValueUSD
 }) => {
     const [userInputAmount, setUserInputAmount] = useState('');
     const [isMaxAmount, setIsMaxAmount] = useState(false);
@@ -149,6 +151,7 @@ const SendContainerV2 = ({
             return (
                 <EnterAmount
                     amount={userInputAmount}
+                    rawAmount={getRawAmount()}
                     onChangeAmount={(event) => {
                         const { value: userInputAmount } = event.target;
 
@@ -236,8 +239,11 @@ const SendContainerV2 = ({
         case VIEWS.SUCCESS:
             return (
                 <Success
-                    tokenSymbol={selectedToken.symbol}
-                    amount={userInputAmount}
+                    amount={
+                        selectedToken.symbol === 'NEAR'
+                        ? getNearAndFiatValue(getRawAmount(), nearTokenFiatValueUSD)
+                        : `${userInputAmount} ${selectedToken.symbol}`
+                    }
                     receiverId={receiverId}
                     onClickContinue={() => redirectTo('/')}
                     onClickGoToExplorer={() => window.open(`${explorerUrl}/transactions/${transactionHash}`, '_blank')}

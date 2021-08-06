@@ -7,6 +7,7 @@ import BinanceLogo from '../../images/binance-logo.svg';
 import GateLogo from '../../images/gate-io-logo.svg';
 import HuobiLogo from '../../images/huobi-logo.svg';
 import LiqualityLogo from '../../images/liquality-logo.svg';
+import OkCoinLogo from '../../images/ok-coin-logo.svg';
 import OkexLogo from '../../images/okex-logo.svg';
 import { Mixpanel } from '../../mixpanel';
 import { isMoonpayAvailable, getSignedUrl } from '../../utils/moonpay';
@@ -117,6 +118,10 @@ const StyledContainer = styled(Container)`
                 background-color: #F0F9FF;
             }
         }
+
+        .ok-coin-img {
+            max-width: 130px;
+        }
     }
 
     .see-more {
@@ -194,6 +199,9 @@ export function BuyNear({ match, location, history }) {
                 </a>
                 <a href='https://liquality.io/' target='_blank' rel='noreferrer'>
                     <img src={LiqualityLogo} alt='LIQUALITY'/>
+                </a>
+                <a href='https://www.okcoin.com/' target='_blank' rel='noreferrer'>
+                    <img src={OkCoinLogo} alt='OKCOIN' className='ok-coin-img'/>
                 </a>
             </div>
             <div className='see-more'>

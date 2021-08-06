@@ -3,7 +3,7 @@ import React from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
-import Balance from '../common/Balance';
+import Balance from '../common/balance/Balance';
 import FormButton from '../common/FormButton';
 import Modal from '../common/modal/Modal';
 
@@ -72,7 +72,7 @@ const SendConfirmModal = ({ open, onClose, onConfirm, amount, receiver, loading 
                 <div className='breakdown'>
                     <div>
                         Amount to send
-                        <Balance amount={utils.format.parseNearAmount(amount)} symbol='near'/>
+                        <Balance amount={utils.format.parseNearAmount(amount)}/>
                     </div>
                     <div>
                         Recipient

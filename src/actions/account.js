@@ -5,6 +5,7 @@ import { PublicKey, KeyType } from 'near-api-js/lib/utils/key_pair';
 import { parse, stringify } from 'query-string';
 import { createActions, createAction } from 'redux-actions';
 
+import nftSlice from '../reducers/nft';
 import { showAlert, dispatchWithAlert } from '../utils/alerts';
 import { loadState, saveState, clearState } from '../utils/sessionStorage';
 import { TwoFactor } from '../utils/twoFactor';
@@ -21,7 +22,6 @@ import {
 } from '../utils/wallet';
 import { WalletError } from '../utils/walletError';
 import { handleFlowLimitation, handleClearflowLimitation } from './flowLimitation';
-import { nft } from './nft';
 import {
     handleStakingUpdateAccount,
     handleStakingUpdateLockup,
@@ -566,10 +566,14 @@ export const refreshAccount = (basicData = false) => async (dispatch, getState) 
 export const switchAccount = (accountId) => async (dispatch, getState) => {
     dispatch(makeAccountActive(accountId));
     dispatch(handleRefreshUrl());
-    dispatch(staking.clearState());
     dispatch(refreshAccount());
+    dispatch(clearAccountState());
+};
+
+export const clearAccountState = () => async (dispatch, getState) => {
+    dispatch(staking.clearState());
     dispatch(tokens.clearState());
-    dispatch(nft.clearState());
+    dispatch(nftSlice.actions.clearState());
 };
 
 export const getAvailableAccountsBalance = () => async (dispatch, getState) => {
@@ -634,7 +638,7 @@ export const { makeAccountActive, refreshAccountOwner, refreshAccountExternal, r
     SET_LOCAL_STORAGE: null,
     GET_ACCOUNT_BALANCE: [
         wallet.getBalance.bind(wallet),
-        (accountId) => ({ 
+        (accountId) => ({
             accountId,
             alert: {
                 ignoreMainLoader: true

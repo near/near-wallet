@@ -73,11 +73,11 @@ const Container = styled.div`
 
 
     .sub-title, h2 {
-        line-height: 150% !important;
+        line-height: 150%;
         margin: 25px 0;
-        font-size: 16px !important;
-        color: #72727A !important;
-        font-weight: 400 !important;
+        font-size: 16px;
+        color: #72727A;
+        font-weight: 400;
     }
 
     &.ledger-theme {

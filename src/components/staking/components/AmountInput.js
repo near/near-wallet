@@ -2,7 +2,7 @@ import React from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
-import Balance from '../../common/Balance';
+import Balance from '../../common/balance/Balance';
 import BalanceBreakdown from './BalanceBreakdown';
 
 const Container = styled.div`
@@ -16,6 +16,10 @@ const Container = styled.div`
         display: flex;
         justify-content: space-between;
         color: ${props => props.status === '#ff585d' ? props.status : ''};
+
+        .balance {
+            text-align: right;
+        }
     }
 `;
 
@@ -43,7 +47,7 @@ export default function AmountInput({
             />
             {(action === 'unstake' || !stakeFromAccount) ? (
                 <div className='available-balance' onClick={availableClick}>
-                    <Translate id={`staking.${action}.input.availableBalance`} /><Balance amount={availableBalance} symbol='near'/>
+                    <Translate id={`staking.${action}.input.availableBalance`} /><Balance amount={availableBalance}/>
                 </div>
             ) : (
                 <BalanceBreakdown

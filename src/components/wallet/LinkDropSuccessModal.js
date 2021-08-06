@@ -2,7 +2,7 @@ import React from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
-import Balance from '../common/Balance';
+import Balance from '../common/balance/Balance';
 import Modal from '../common/modal/Modal';
 import NearGiftIcons from '../svg/NearGiftIcons';
 
@@ -46,7 +46,7 @@ const LinkDropSuccessModal = ({ open, onClose, linkdropAmount }) => {
                 <NearGiftIcons/>
                 <h3><Translate id='linkdropLanding.modal.title'/></h3>
                 <div className='near-balance'>
-                    <Balance amount={linkdropAmount} symbol='near'/>
+                    <Balance amount={linkdropAmount}/>
                 </div>
                 <div className='desc'>
                     <Translate id='linkdropLanding.modal.desc'/>

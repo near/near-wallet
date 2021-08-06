@@ -4,20 +4,20 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Textfit } from 'react-textfit';
 import styled from 'styled-components';
 
-import { handleGetNFTs } from '../../actions/nft';
 import { handleGetTokens } from '../../actions/tokens';
 import { getTransactions, getTransactionStatus } from '../../actions/transactions';
 import { useFungibleTokensIncludingNEAR } from '../../hooks/fungibleTokensIncludingNEAR';
 import { Mixpanel } from "../../mixpanel/index";
 import { selectAccountId, selectBalance } from '../../reducers/account';
-import { selectNFT } from '../../reducers/nft';
+import { selectTokensWithMetadataForAccountId, actions as nftActions } from '../../reducers/nft';
 import { selectTransactions } from '../../reducers/transactions';
 import { actionsPendingByPrefix } from '../../utils/alerts';
 import classNames from '../../utils/classNames';
 import { SHOW_NETWORK_BANNER } from '../../utils/wallet';
-import Balance from '../common/Balance';
+import Balance from '../common/balance/Balance';
 import FormButton from '../common/FormButton';
 import Container from '../common/styled/Container.css';
+import Tooltip from '../common/Tooltip';
 import BuyIcon from '../svg/BuyIcon';
 import DownArrowIcon from '../svg/DownArrowIcon';
 import SendIcon from '../svg/SendIcon';
@@ -27,6 +27,8 @@ import LinkDropSuccessModal from './LinkDropSuccessModal';
 import NFTs from './NFTs';
 import Tokens from './Tokens';
 
+const { fetchNFTs } = nftActions;
+
 const StyledContainer = styled(Container)`
     @media (max-width: 991px) {
         margin: -5px auto 0 auto;
@@ -35,12 +37,18 @@ const StyledContainer = styled(Container)`
             margin-top: -15px;
         }
     }
+
     .sub-title {
-        margin: 0;
-        font-size: 14px !important;
-        color: #72727A !important;
+        font-size: 14px;
+        margin-bottom: 10px;
+
+        &.balance {
+            font-weight: 600;
+            color: #272729;
+        }
 
         &.tokens {
+            color: #72727A;
             margin-top: 40px;
             margin-bottom: 15px;
             display: flex;
@@ -58,29 +66,25 @@ const StyledContainer = styled(Container)`
                     position: absolute;
                     content: '.';
                     animation: link 1s steps(5, end) infinite;
-                
+
                     @keyframes link {
                         0%, 20% {
-                            color: rgba(0,0,0,0);
-                            text-shadow:
-                                .3em 0 0 rgba(0,0,0,0),
-                                .6em 0 0 rgba(0,0,0,0);
+                            color: rgba(0, 0, 0, 0);
+                            text-shadow: .3em 0 0 rgba(0, 0, 0, 0),
+                            .6em 0 0 rgba(0, 0, 0, 0);
                         }
                         40% {
                             color: #24272a;
-                            text-shadow:
-                                .3em 0 0 rgba(0,0,0,0),
-                                .6em 0 0 rgba(0,0,0,0);
+                            text-shadow: .3em 0 0 rgba(0, 0, 0, 0),
+                            .6em 0 0 rgba(0, 0, 0, 0);
                         }
                         60% {
-                            text-shadow:
-                                .3em 0 0 #24272a,
-                                .6em 0 0 rgba(0,0,0,0);
+                            text-shadow: .3em 0 0 #24272a,
+                            .6em 0 0 rgba(0, 0, 0, 0);
                         }
                         80%, 100% {
-                            text-shadow:
-                                .3em 0 0 #24272a,
-                                .6em 0 0 #24272a;
+                            text-shadow: .3em 0 0 #24272a,
+                            .6em 0 0 #24272a;
                         }
                     }
                 }
@@ -98,11 +102,24 @@ const StyledContainer = styled(Container)`
         }
 
         .total-balance {
-            margin: 40px 0 5px 0;
+            margin: 0px 0 10px 0;
             width: 100%;
-            font-weight: 900;
+            font-weight: 600;
             text-align: center;
             color: #24272a;
+        }
+
+        .available-balance {
+            display: flex;
+            align-items: center;
+            color: #72727A;
+            text-transform: capitalize;
+
+            > div {
+                :first-of-type {
+                    margin-right: 5px;
+                }
+            }
         }
 
         @media (min-width: 992px) {
@@ -117,7 +134,7 @@ const StyledContainer = styled(Container)`
             align-items: center;
             margin: 30px 0;
             width: 100%;
-    
+
             button {
                 display: flex;
                 flex-direction: column;
@@ -155,6 +172,7 @@ const StyledContainer = styled(Container)`
                     margin-bottom: 10px;
                     transition: 100ms;
                 }
+
                 svg {
                     width: 22px !important;
                     height: 22px !important;
@@ -249,7 +267,7 @@ const StyledContainer = styled(Container)`
     }
 `;
 
-export function Wallet({ tab, setTab } ) {
+export function Wallet({ tab, setTab }) {
     const [exploreApps, setExploreApps] = useState(null);
     const [showLinkdropModal, setShowLinkdropModal] = useState(null);
     const accountId = useSelector(state => selectAccountId(state));
@@ -260,19 +278,19 @@ export function Wallet({ tab, setTab } ) {
     const linkdropAmount = localStorage.getItem('linkdropAmount');
     const linkdropModal = linkdropAmount && showLinkdropModal !== false;
     const fungibleTokensList = useFungibleTokensIncludingNEAR({ fullBalance: true });
-    const nft = useSelector(selectNFT);
     const tokensLoader = actionsPendingByPrefix('TOKENS/') || !balance?.total;
 
     useEffect(() => {
         if (accountId) {
             let id = Mixpanel.get_distinct_id();
             Mixpanel.identify(id);
-            Mixpanel.people.set({relogin_date: new Date().toString()});
+            Mixpanel.people.set({ relogin_date: new Date().toString() });
             dispatch(getTransactions(accountId));
         }
     }, [accountId]);
 
-    const sortedNFTs = Object.values(nft).sort((a, b) => a.name.localeCompare(b.name));
+
+    const sortedNFTs = useSelector((state) => selectTokensWithMetadataForAccountId(state, { accountId }));
 
     useEffect(() => {
         if (!accountId) {
@@ -280,7 +298,7 @@ export function Wallet({ tab, setTab } ) {
         }
 
         dispatch(handleGetTokens());
-        dispatch(handleGetNFTs());
+        dispatch(fetchNFTs({ accountId }));
     }, [accountId]);
 
     const handleHideExploreApps = () => {
@@ -304,17 +322,17 @@ export function Wallet({ tab, setTab } ) {
                             className={classNames(['tab-balances', tab === 'collectibles' ? 'inactive' : ''])}
                             onClick={() => setTab('')}
                         >
-                            <Translate id='wallet.balances' />
+                            <Translate id='wallet.balances'/>
                         </div>
                         <div
                             className={classNames(['tab-collectibles', tab !== 'collectibles' ? 'inactive' : ''])}
                             onClick={() => setTab('collectibles')}
                         >
-                            <Translate id='wallet.collectibles' />
+                            <Translate id='wallet.collectibles'/>
                         </div>
                     </div>
                     {tab === 'collectibles'
-                        ? <NFTs tokens={sortedNFTs} />
+                        ? <NFTs tokens={sortedNFTs}/>
                         : <FungibleTokens
                             balance={balance}
                             tokensLoader={tokensLoader}
@@ -325,7 +343,7 @@ export function Wallet({ tab, setTab } ) {
                 </div>
                 <div className='right'>
                     {!hideExploreApps && exploreApps !== false &&
-                        <ExploreApps onClick={handleHideExploreApps}/>
+                    <ExploreApps onClick={handleHideExploreApps}/>
                     }
                     <Activities
                         transactions={transactions[accountId] || []}
@@ -336,11 +354,11 @@ export function Wallet({ tab, setTab } ) {
                 </div>
             </div>
             {linkdropModal &&
-                <LinkDropSuccessModal
-                    onClose={handleCloseLinkdropModal}
-                    open={linkdropModal}
-                    linkdropAmount={linkdropAmount}
-                />
+            <LinkDropSuccessModal
+                onClose={handleCloseLinkdropModal}
+                open={linkdropModal}
+                linkdropAmount={linkdropAmount}
+            />
             }
         </StyledContainer>
     );
@@ -349,12 +367,29 @@ export function Wallet({ tab, setTab } ) {
 const FungibleTokens = ({ balance, tokensLoader, fungibleTokens }) => {
     return (
         <>
+            <div className='sub-title balance'><Translate id='wallet.totalBalanceTitle' /></div>
             <div className='total-balance'>
-                <Textfit mode='single' max={40}>
-                    <Balance amount={balance?.total} symbol={false}/>
+                <Textfit mode='single' max={44}>
+                    <Balance
+                        showBalanceInNEAR={false}
+                        amount={balance?.total}
+                        showAlmostEqualSignUSD={false}
+                        showSymbolUSD={false}
+                        showSignUSD={true}
+                    />
                 </Textfit>
             </div>
-            <div className='sub-title'><Translate id='wallet.totalBalanceTitle' /></div>
+            <div className='available-balance'>
+                <div><Translate id='balanceBreakdown.available' />:</div>
+                <Balance
+                    showBalanceInNEAR={false}
+                    amount={balance?.available}
+                    showAlmostEqualSignUSD={false}
+                    showSymbolUSD={false}
+                    showSignUSD={true}
+                />
+                <Tooltip translate='availableBalanceInfo'/>
+            </div>
             <div className='buttons'>
                 <FormButton
                     color='dark-gray'
@@ -388,10 +423,10 @@ const FungibleTokens = ({ balance, tokensLoader, fungibleTokens }) => {
                 </FormButton>
             </div>
             <div className='sub-title tokens'>
-                <span className={classNames({ dots: tokensLoader })}><Translate id='wallet.tokens' /></span>
-                <span><Translate id='wallet.totalBalance' /></span>
+                <span className={classNames({ dots: tokensLoader })}><Translate id='wallet.tokens'/></span>
+                <span><Translate id='wallet.totalBalance'/></span>
             </div>
-            <Tokens tokens={fungibleTokens} />
+            <Tokens tokens={fungibleTokens}/>
         </>
     );
 };

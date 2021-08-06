@@ -49,6 +49,7 @@ const Style = styled.div`
     }
 
     .amount {
+        text-align: right;
         span {
             color: white;
             font-weight: 700;

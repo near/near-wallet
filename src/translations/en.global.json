@@ -167,7 +167,7 @@
         "activateAccount": {
             "pre": {
                 "title": "Almost there! Make your initial deposit.",
-                "desc": "To begin using NEAR Wallet, make a minimum initial deposit by sending <b>at least ${amount} NEAR</b> to your Account ID (sometimes called an “address”)."
+                "desc": "To begin using NEAR Wallet, make a minimum initial deposit by sending <b>at least ${amount}</b> to your Account ID (sometimes called an “address”)."
             },
             "post": {
                 "title": "Your account has been activated.",
@@ -178,7 +178,7 @@
         "createImplicit": {
             "pre": {
                 "title": "Almost there! Activate your account with an initial deposit.",
-                "descOne": "To begin using NEAR Wallet, meet the minimum initial deposit by sending <b>at least ${amount} NEAR</b> to your single-use funding address below.",
+                "descOne": "To begin using NEAR Wallet, meet the minimum initial deposit by sending <b>at least ${amount}</b> to your single-use funding address below.",
                 "descTwo": "Return to this screen once your funds have been deposited to finish creating your account.",
                 "addressHeader": "One-time funding address",
                 "whereToBuy": {
@@ -398,7 +398,7 @@
         "email": "Email",
         "phone": "Phone",
         "notEnabled": "2FA Not Enabled",
-        "notEnoughBalance": "To enable 2FA, your account requires a minimum available balance of",
+        "notEnoughBalance": "To enable 2FA, your account requires a minimum available balance of ${amount}",
         "active": "Active",
         "since": "since",
         "promptDesc": "We highly recommend that you set up a two-factor authentication method to increase the security of your account and assests",
@@ -419,10 +419,10 @@
             "keep": "No, keep 2FA"
         },
         "alertBanner": {
-            "title": "When enabled, <b>${data} NEAR</b> will be locked to cover the contract storage costs of two-factor authentication.",
+            "title": "When enabled, <b>${data}</b> will be locked to cover the contract storage costs of two-factor authentication.",
             "button": "Learn More"
         },
-        "checkBox": "I acknowledge that by enabling two-factor authentication, ${amount} NEAR will be reserved to cover contract storage."
+        "checkBox": "I acknowledge that by enabling two-factor authentication, ${amount} will be reserved to cover contract storage."
     },
 
     "fullAccessKeys": {
@@ -542,7 +542,8 @@
         "learnMore": "Learn More",
         "viewFAQ": "View FAQ",
         "acceptAndContinue": "Accept & Continue",
-        "useMax": "Use Max"
+        "useMax": "Use Max",
+        "loading": "Loading"
     },
 
     "link": {
@@ -612,7 +613,7 @@
     "createAccount": {
         "termsPage": {
             "title": "Before you begin...",
-            "descOne": "NEAR accounts require a minimum balance of <b>at least ${data} NEAR</b> to <a href='https://docs.near.org/docs/concepts/account' rel='noopener noreferrer' target='_blank'>hold a place on the network.</a>",
+            "descOne": "NEAR accounts require a minimum balance of <b>at least ${amount}</b> to <a href='https://docs.near.org/docs/concepts/account' rel='noopener noreferrer' target='_blank'>hold a place on the network.</a>",
             "descTwo": "After reserving a unique account address, you’ll be asked to make a small initial deposit to activate your account.",
             "disclaimer": "By creating a NEAR account, you agree to the NEAR Wallet <a href='/terms' rel='noopener noreferrer' target='_blank'>Terms of Service</a> and <a href='https://near.org/privacy' rel='noopener noreferrer' target='_blank'>Privacy Policy</a>."
         },
@@ -776,6 +777,10 @@
         "collectibles": "Collectibles"
     },
 
+    "tokenBox": {
+        "priceUnavailable": "Price Unavailable"
+    },
+
     "buyNear": {
         "title": "Purchase NEAR",
         "moonPay": "MoonPay",
@@ -788,7 +793,8 @@
     },
 
     "NFTs": {
-        "emptyState": "Looks like you don't have any collectibles yet."
+        "emptyState": "Looks like you don't have any collectibles yet.",
+        "loadMore": "Load more"
     },
     
     "exploreApps": {
@@ -975,7 +981,7 @@
         },
         "unstakeSuccess": {
             "title": "Success!",
-            "desc": "<b>${amount} NEAR</b> has successfully been unstaked from this validator:",
+            "desc": "<b>${amount}</b> has successfully been unstaked from this validator:",
             "descTwo": "Your tokens are pending release and will be made available within ~52-65hrs (4 epochs).",
             "button": "Return to Dashboard"
         },
@@ -1023,7 +1029,7 @@
     },
     "profile": {
         "lockupBanner": {
-            "title": "You have <b>${amount}</b> NEAR available to withdraw from your lockup!",
+            "title": "You have <b>${amount}</b> available to withdraw from your lockup!",
             "cta": "Transfer to Wallet"
         },
         "pageTitle": {

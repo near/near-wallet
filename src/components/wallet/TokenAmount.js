@@ -12,7 +12,7 @@ const formatToken = (amount, decimals) => {
     let formattedAmount = formatTokenAmount(amount, decimals, FRAC_DIGITS);
 
     if (formattedAmount === `0.${'0'.repeat(FRAC_DIGITS)}`) {
-        return `<${!FRAC_DIGITS ? `0` : `0.${'0'.repeat((FRAC_DIGITS || 1) - 1)}1`}`;
+        return `< ${!FRAC_DIGITS ? `0` : `0.${'0'.repeat((FRAC_DIGITS || 1) - 1)}1`}`;
     }
     return removeTrailingZeros(formattedAmount);
 };
@@ -22,13 +22,20 @@ const showFullAmount = (amount, decimals, symbol) =>
         ? `${formatTokenAmount(amount, decimals, decimals)} ${symbol}`
         : '';
 
-const TokenAmount = ({ token: { balance, decimals, symbol }, withSymbol = false, className }) => (
+const TokenAmount = ({ token: { balance, decimals, symbol }, withSymbol = false, className, showFiatAmount = true }) => (
     <div className={className} title={showFullAmount(balance, decimals, symbol)}>
-        {balance
-            ? formatToken(balance, decimals)
-            : <span className='dots' />
+        <div>
+            {balance
+                ? formatToken(balance, decimals)
+                : <span className='dots' />
+            }
+            <span className='currency'>{withSymbol ? ` ${symbol}` : null}</span>
+        </div>
+        {showFiatAmount &&
+            <div className='fiat-amount'>
+                — USD
+            </div>
         }
-        <span className='currency'>{withSymbol ? ` ${symbol}` : null}</span>
     </div>
 );
 

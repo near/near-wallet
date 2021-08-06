@@ -8,6 +8,7 @@ import {
     recoverAccountSeedPhrase,
     refreshAccount,
     redirectTo,
+    clearAccountState
 } from '../../actions/account';
 import { Mixpanel } from '../../mixpanel/index';
 import { actionsPending } from '../../utils/alerts';
@@ -166,6 +167,7 @@ class RecoverWithLink extends Component {
                 await this.props.recoverAccountSeedPhrase(this.state.seedPhrase, this.props.match.params.accountId, false);
                 this.props.refreshAccount();
                 this.props.redirectTo('/');
+                this.props.clearAccountState();
             },
             () => {
                 this.setState({ successView: false });
@@ -236,7 +238,8 @@ class RecoverWithLink extends Component {
 const mapDispatchToProps = {
     recoverAccountSeedPhrase, 
     refreshAccount,
-    redirectTo
+    redirectTo,
+    clearAccountState
 };
 
 const mapStateToProps = ({ account, status }, { match }) => ({

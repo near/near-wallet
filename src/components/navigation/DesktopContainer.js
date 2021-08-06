@@ -78,6 +78,7 @@ const Lang = styled.div`
         user-select: none;
         width: 54px;
         z-index: 1;
+        text-indent: 54px;
 
         &::-ms-expand {
             display: none;

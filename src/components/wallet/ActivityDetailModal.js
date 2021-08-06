@@ -78,20 +78,28 @@ const StyledContainer = styled.div`
             .value {
                 font-weight: 700;
                 color: #24272a;
-                height: 20px;
                 white-space: nowrap;
+                display: flex;
+                align-items: center;
+                text-align: right;
 
                 &.transferred {
-                    &::before {
-                        content: '-'
+                    .near-amount {
+                        &::before {
+                            content: '-'
+                        }
                     }
                 }
                 &.received {
                     color: #00C08B;
-
-                    &::before {
-                        content: '+'
+                    .near-amount {
+                        &::before {
+                            content: '+'
+                        }
                     }
+                }
+                .fiat-amount {
+                    font-weight: 400;
                 }
             }
         }

@@ -10,6 +10,7 @@ import * as accountActions from '../actions/account';
 import { setIsMobile } from '../actions/status';
 import TwoFactorVerifyModal from '../components/accounts/two_factor/TwoFactorVerifyModal';
 import { Mixpanel } from "../mixpanel/index";
+import { actions as tokenFiatValueActions } from '../slices/tokenFiatValues';
 import translations_en from '../translations/en.global.json';
 import translations_pt from '../translations/pt.global.json';
 import translations_ru from '../translations/ru.global.json';
@@ -62,6 +63,10 @@ import { Wallet } from './wallet/Wallet';
 
 import '../index.css';
 
+const { 
+    fetchTokenFiatValues
+} = tokenFiatValueActions;
+
 const  {
     getAccountHelperWalletState,
     handleClearUrl,
@@ -108,6 +113,8 @@ class Routing extends Component {
             isInactiveAccount: null
         };
 
+        this.pollTokenFiatValue = null;
+
         const languages = [
             { name: "English", code: "en" },
             { name: "Português", code: "pt" },
@@ -150,9 +157,12 @@ class Routing extends Component {
             handleRedirectUrl,
             handleClearUrl,
             router,
-            setIsMobile
+            setIsMobile,
+            fetchTokenFiatValues
         } = this.props;
-
+        
+        fetchTokenFiatValues();
+        this.startPollingTokenFiatValue();
         handleRefreshUrl(router);
         refreshAccount();
         setIsMobile(isMobile());
@@ -202,14 +212,26 @@ class Routing extends Component {
         }
     }
 
-    // addTranslationsForActiveLanguage(activeLang) {
-    //     import(`../translations/${activeLang}.global.json`).then(
-    //         translations => {
-    //             console.log(translations)
-    //             this.props.addTranslationForLanguage(translations, activeLang);
-    //         }
-    //     );
-    // }
+    componentWillUnmount = () => {
+        this.stopPollingTokenFiatValue();
+    }
+
+    startPollingTokenFiatValue = () => {
+        const { fetchTokenFiatValues  } = this.props;
+
+        const handlePollTokenFiatValue = async () => {
+            await fetchTokenFiatValues().catch(() => {});
+            if (this.pollTokenFiatValue) {
+                this.pollTokenFiatValue = setTimeout(() => handlePollTokenFiatValue(), 30000);
+            }
+        };
+        this.pollTokenFiatValue = setTimeout(() => handlePollTokenFiatValue(), 30000);
+    }
+
+    stopPollingTokenFiatValue = () => {
+        clearTimeout(this.pollTokenFiatValue);
+        this.pollTokenFiatValue = null;
+    }
 
     render() {
         const { search, query: { tab }, hash } = this.props.router.location;
@@ -443,7 +465,8 @@ const mapDispatchToProps = {
     promptTwoFactor,
     redirectTo,
     getAccountHelperWalletState,
-    setIsMobile
+    setIsMobile,
+    fetchTokenFiatValues
 };
 
 const mapStateToProps = ({ account, router }) => ({

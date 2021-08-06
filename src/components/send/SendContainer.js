@@ -13,7 +13,7 @@ import classNames from '../../utils/classNames';
 import isDecimalString from '../../utils/isDecimalString';
 import { WALLET_APP_MIN_AMOUNT } from '../../utils/wallet';
 import AccountFormAccountId from '../accounts/AccountFormAccountId';
-import Balance from '../common/Balance';
+import Balance from '../common/balance/Balance';
 import FormButton from '../common/FormButton';
 import Container from '../common/styled/Container.css';
 import BalanceBreakdown from '../staking/components/BalanceBreakdown';
@@ -188,7 +188,7 @@ export function SendContainer({ match, location }) {
             <StyledContainer className='small-centered send-theme success'>
                 <TransferMoneyIcon/>
                 <h1><Translate id='sendMoney.title.success' /></h1>
-                <div className='sub-title success'><Translate id='sendMoney.subtitle.success' /> <span><Balance amount={utils.format.parseNearAmount(amount) || '0'} symbol='near'/></span> <Translate id='sendMoney.subtitle.to' /> <br/><span className='receiver'>{id}</span></div>
+                <div className='sub-title success'><Translate id='sendMoney.subtitle.success' /> <span><Balance amount={utils.format.parseNearAmount(amount) || '0'}/></span> <Translate id='sendMoney.subtitle.to' /> <br/><span className='receiver'>{id}</span></div>
                 <FormButton linkTo='/' trackingId="SEND Click go to dashboard button">
                     <Translate id='button.goToDashboard' />
                 </FormButton>
