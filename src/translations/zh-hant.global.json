@@ -764,7 +764,8 @@
     },
 
     "wallet": {
-        "balanceTitle": "總資產",
+        "balanceTitle": "總餘額",
+        "totalBalanceTitle": "NEAR總餘額",
         "tokens": "通證",
         "balance": "餘額",
         "dateAndTime": "日期和時間",
