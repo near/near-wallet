@@ -115,16 +115,10 @@ class CreateAccount extends Component {
     }
 
     componentDidMount() {
-        const { fundingContract, fundingKey, history, redirectTo } = this.props;
-        const params = new URLSearchParams(history.location.search);
+        const { fundingContract, fundingKey } = this.props;
 
         if (fundingContract && fundingKey) {
-            if (params.get('redirect') === 'false') {
-                this.handleCheckNearDropBalance();
-            } else {
-                const redirectUrl = params.has('redirectUrl') ? `?redirectUrl=${encodeURIComponent(params.get('redirectUrl'))}` : '';
-                redirectTo(`/linkdrop/${fundingContract}/${fundingKey}${redirectUrl}`);
-            }
+            this.handleCheckNearDropBalance();
         }
     }
 
