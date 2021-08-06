@@ -43,5 +43,5 @@ export const getNearAndFiatValue = (rawNearAmount, tokenFiatValue, fiat = 'usd')
     const fiatAmount = getRoundedBalanceInFiat(rawNearAmount, tokenFiatValue);
     const fiatSymbol = fiat.toUpperCase();
     const fiatPrefix = fiatAmount !== '< 0.01' ? '≈ ' : '';
-    return `${nearAmount} NEAR (${fiatPrefix}${fiatAmount || '—'} ${fiatSymbol})`;
+    return `${nearAmount} NEAR (${fiatPrefix}${formatWithCommas(fiatAmount) || '—'} ${fiatSymbol})`;
 };
