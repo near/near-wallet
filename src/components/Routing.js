@@ -213,7 +213,7 @@ class Routing extends Component {
     }
 
     componentWillUnmount = () => {
-        this.stopPollingAccountBalance();
+        this.stopPollingTokenFiatValue();
     }
 
     startPollingTokenFiatValue = () => {
