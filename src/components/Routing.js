@@ -26,7 +26,8 @@ import { reportUiActiveMixpanelThrottled } from '../utils/reportUiActiveMixpanel
 import ScrollToTop from '../utils/ScrollToTop';
 import { IS_MAINNET, SHOW_PRERELEASE_WARNING, WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS } from '../utils/wallet';
 import { AuthorizedAppsWithRouter, FullAccessKeysWithRouter } from './access-keys/AccessKeys';
-import { AutoImport } from './accounts/auto_import/AutoImport';
+import { AutoImportWithSecretKey } from './accounts/auto_import/AutoImportWithSecretKey';
+import { AutoImportWithSeedPhrase } from './accounts/auto_import/AutoImportWithSeedPhrase';
 import { ActivateAccountWithRouter } from './accounts/create/ActivateAccount';
 import { CreateAccountWithRouter } from './accounts/CreateAccount';
 import LedgerConfirmActionModal from './accounts/ledger/LedgerConfirmActionModal';
@@ -365,7 +366,12 @@ class Routing extends Component {
                             <Route
                                 exact
                                 path='/auto-import-seed-phrase'
-                                component={AutoImport}
+                                component={AutoImportWithSeedPhrase}
+                            />
+                            <Route
+                                exact
+                                path='/auto-import-secret-key'
+                                component={AutoImportWithSecretKey}
                             />
                             <Route
                                 exact

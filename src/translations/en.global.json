@@ -1087,6 +1087,12 @@
                 "createAnotherAccount": "create another account"
             },
             "qrDesc": "Use your phone's camera app to send to this address"
+        },
+        "importOnMobileDevice": {
+            "button": "Import on mobile device",
+            "modal": {
+                "title": "Scan the QR code to import on your mobile device."
+            }
         }
     },
 

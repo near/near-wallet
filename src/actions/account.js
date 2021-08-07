@@ -524,6 +524,20 @@ export const { recoverAccountSeedPhrase } = createActions({
     ],
 });
 
+export const { recoverAccountSecretKey } = createActions({
+    RECOVER_ACCOUNT_SECRET_KEY: [
+        wallet.recoverAccountSecretKey.bind(wallet),
+        () => showAlert()
+    ]
+});
+
+export const { getLocalSecretKey } = createActions({
+    GET_LOCAL_SECRET_KEY: [
+        wallet.getLocalSecretKey.bind(wallet),
+        () => showAlert({ onlyError: true })
+    ]
+});
+
 export const { signAndSendTransactions, setSignTransactionStatus, sendMoney, transferAllFromLockup } = createActions({
     SET_SIGN_TRANSACTION_STATUS: [
         (status) => ({ status }),

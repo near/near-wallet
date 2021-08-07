@@ -4,7 +4,17 @@ import { Translate } from 'react-localize-redux';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 
-import { getLedgerKey, checkCanEnableTwoFactor, redirectTo, refreshAccount, transferAllFromLockup, loadRecoveryMethods, getProfileStakingDetails, getBalance } from '../../actions/account';
+import {
+    getLedgerKey,
+    checkCanEnableTwoFactor,
+    redirectTo,
+    refreshAccount,
+    transferAllFromLockup,
+    loadRecoveryMethods,
+    getProfileStakingDetails,
+    getBalance,
+    getLocalSecretKey
+} from '../../actions/account';
 import { useAccount } from '../../hooks/allAccounts';
 import { Mixpanel } from "../../mixpanel/index";
 import { selectProfileBalance } from '../../reducers/selectors/balance';
@@ -21,6 +31,7 @@ import AuthorizedApp from './authorized_apps/AuthorizedApp';
 import BalanceContainer from './balances/BalanceContainer';
 import LockupAvailTransfer from './balances/LockupAvailTransfer';
 import HardwareDevices from './hardware_devices/HardwareDevices';
+import ImportOnMobileDeviceModal from './ImportOnMobileDeviceModal';
 import RecoveryContainer from './Recovery/RecoveryContainer';
 import TwoFactorAuth from './two_factor/TwoFactorAuth';
 
@@ -127,6 +138,8 @@ const StyledContainer = styled(Container)`
 
 export function Profile({ match }) {
     const [transferring, setTransferring] = useState(false);
+    const [showImportOnMobileDeviceModal, setShowImportOnMobileDeviceModal] = useState(false);
+    const [importOnMobileDeviceLink, setImportOnMobileDeviceLink] = useState('');
     const { has2fa, authorizedApps, ledgerKey } = useSelector(({ account }) => account);
     const loginAccountId = useSelector(state => state.account.accountId);
     const recoveryMethods = useSelector(({ recoveryMethods }) => recoveryMethods);
@@ -198,6 +211,13 @@ export function Profile({ match }) {
         }
     };
 
+    const handleShowImportOnMobileDeviceModal = async () => {
+        const localSecretKey = await dispatch(getLocalSecretKey(accountId));
+        const importOnMobileDeviceLink = `${window.location.protocol}//${window.location.host}/auto-import-secret-key#${accountId}/${localSecretKey}`;
+        setImportOnMobileDeviceLink(importOnMobileDeviceLink);
+        setShowImportOnMobileDeviceModal(true);
+    };
+
     const MINIMUM_AVAILABLE_TO_TRANSFER = new BN('10000000000000000000000');
 
     return (
@@ -266,9 +286,24 @@ export function Profile({ match }) {
                                 )}
                             </>
                         }
+                        <FormButton
+                            onClick={handleShowImportOnMobileDeviceModal}
+                        >
+                            <Translate id='profile.importOnMobileDevice.button'/>
+                        </FormButton>
                     </div>
                 }
             </div>
+            {showImportOnMobileDeviceModal &&
+                <ImportOnMobileDeviceModal
+                    open={showImportOnMobileDeviceModal}
+                    onClose={() => {
+                        setShowImportOnMobileDeviceModal(false);
+                        setImportOnMobileDeviceLink('');
+                    }}
+                    secretKeyImportLink={importOnMobileDeviceLink}
+                />
+            }
         </StyledContainer>
     );
 }
