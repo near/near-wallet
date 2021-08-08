@@ -85,6 +85,7 @@
         "Deserialization": "",
         "RetriesExceeded": "此交易超出最大重试次数。",
         "U2F_4": "无法通过硬件钱包登录：U2F DEVICE_INELIGIBLE。请确保 Ledger 设备已连接并解锁。",
+        "NotEnoughBalance": "你的账户没有足够余额进行此操作。",
 
         "default": {
             "success": "",
@@ -541,7 +542,8 @@
         "learnMore": "了解更多",
         "viewFAQ": "查看常见问题",
         "acceptAndContinue": "接受并继续",
-        "useMax": "最多"
+        "useMax": "最多",
+        "loading": "正在加载"
     },
 
     "link": {
@@ -764,14 +766,19 @@
     },
 
     "wallet": {
-        "balanceTitle": "NEAR余额",
-        "totalBalanceTitle": "NEAR总余额",
+        "balanceTitle": "NEAR 余额",
+        "totalBalanceTitle": "NEAR 总余额",
         "tokens": "通证",
         "balance": "余额",
+        "totalBalance": "余额",
         "dateAndTime": "日期和时间",
         "status": "状态",
         "balances": "余额",
         "collectibles": "收藏品"
+    },
+
+    "tokenBox": {
+        "priceUnavailable": "无法获取价格"
     },
 
     "buyNear": {
@@ -786,7 +793,8 @@
     },
     
     "NFTs": {
-        "emptyState": "似乎你还没有收藏品。"
+        "emptyState": "似乎你还没有收藏品。",
+        "loadMore": "加载更多"
     },
 
     "exploreApps": {
