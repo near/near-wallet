@@ -5,7 +5,7 @@ import { withLocalize } from 'react-localize-redux';
 import { connect } from 'react-redux';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import styled, { ThemeProvider } from 'styled-components';
-import theme from '../theme';
+import { theme } from '../theme';
 
 import * as accountActions from '../actions/account';
 import { setIsMobile } from '../actions/status';
