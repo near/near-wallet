@@ -5,6 +5,7 @@ import { withLocalize } from 'react-localize-redux';
 import { connect } from 'react-redux';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import styled, { ThemeProvider } from 'styled-components';
+import theme from '../theme';
 
 import * as accountActions from '../actions/account';
 import { setIsMobile } from '../actions/status';
@@ -63,7 +64,7 @@ import { Wallet } from './wallet/Wallet';
 
 import '../index.css';
 
-const { 
+const {
     fetchTokenFiatValues
 } = tokenFiatValueActions;
 
@@ -76,8 +77,6 @@ const  {
     redirectTo,
     refreshAccount
 } = accountActions;
-
-const theme = {};
 
 const PATH_PREFIX = process.env.PUBLIC_URL;
 
@@ -160,7 +159,7 @@ class Routing extends Component {
             setIsMobile,
             fetchTokenFiatValues
         } = this.props;
-        
+
         fetchTokenFiatValues();
         this.startPollingTokenFiatValue();
         handleRefreshUrl(router);
