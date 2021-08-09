@@ -85,10 +85,9 @@ const Account = styled.div`
     }
 `;
 
-const SyncButton = styled.button`
+const SyncButton = styled.span`
     background-color: #f8f8f8;
     border-radius: 50px;
-    border: 2px solid #f8f8f8;
     color: #0072ce;
     font-size: 12px;
     font-weight: 500;
