@@ -113,9 +113,6 @@ class DesktopContainer extends Component {
                 <Lang>
                     <LanguageToggle />
                 </Lang>
-                {showAllNavigationLinks &&
-                    <SendReceiveButtons/>
-                }
                 {showNavLinks &&
                     <>
                         <div className='divider'/>
