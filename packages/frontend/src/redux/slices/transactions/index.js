@@ -1,3 +1,5 @@
+import { createSelector } from 'reselect';
+
 const SLICE_NAME = 'transactions';
 
 // A helper function to create the parameter selectors
@@ -7,3 +9,6 @@ function createParameterSelector(selector) {
 }
 
 const getAccountIdParam = createParameterSelector((params) => params.accountId);
+
+// Top level selectors
+const selectTransactionsSlice = (state) => state[SLICE_NAME] || {};
