@@ -176,7 +176,7 @@ const UserAccount = ({ accountId, balance, balanceLoading, refreshBalance, activ
             <div className='balance-wrapper'>
                 {!balance && !balanceLoading
                     ? <div>— USD</div>
-                    : <Balance amount={balance} showBalanceInNEAR={false}/>
+                    : <Balance amount={balance} showBalanceInNEAR={false} showAlmostEqualSignUSD={false}/>
                 }
             </div>
         </div>
