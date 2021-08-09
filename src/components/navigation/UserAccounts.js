@@ -13,8 +13,6 @@ const Wrapper = styled.div`
     }
 
     @media (min-width: 992px) {
-        display: flex;
-        flex-direction: column;
         max-height: 260px;
         overflow-y: auto;
 
@@ -29,13 +27,13 @@ const Account = styled.div`
     border-radius: 8px;
     display: flex;
     justify-content: space-between;
-    text-overflow: ellipsis;
     color: #72727A;
     margin-bottom: 4px;
+    padding: 16px;
     cursor: pointer;
     font-weight: 500;
     position: relative;
-    
+
     .symbol {
         transform: scale(0.65);
         font-weight: 700;
@@ -66,21 +64,16 @@ const Account = styled.div`
     }
 
     .account-data {
-        display: flex;
-        flex: 1;
-        flex-direction: column;
-        padding: 16px 0 16px 16px;
-        overflow: hidden;
-        margin-right: 5px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-right: 8px;
 
-        .accountId {
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-    }
-    .sync {
-        padding: 0 16px 0 0;
+      .accountId {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
     }
 
     .balance-wrapper {
@@ -93,12 +86,13 @@ const Account = styled.div`
 const SyncButton = styled.span`
     background-color: #f8f8f8;
     border-radius: 50px;
-    border: 2px solid #f8f8f8;
     color: #0072ce;
     font-size: 12px;
     font-weight: 500;
     padding: 4px 8px;
     cursor: pointer;
+    flex-basis: content;
+    flex-shrink: 0;
 
     :hover, :active {
         background-color: #F0F0F1;
@@ -186,20 +180,18 @@ const UserAccount = ({ accountId, balance, balanceLoading, refreshBalance, activ
                 }
             </div>
         </div>
-        <div className='sync'>
-            <SyncButton 
-                className={classNames([{'dots': balanceLoading}])}
-                onClick={refreshBalance}
-                title='Sync balance'
-            >
-                {balance
-                    ? <Translate id='sync'/>
-                    : !balanceLoading
-                        ? <Translate id='getBalance'/>
-                        : ''
-                }
-            </SyncButton>
-        </div>
+        <SyncButton
+            className={classNames([{'dots': balanceLoading}])}
+            onClick={refreshBalance}
+            title='Sync balance'
+        >
+            {balance
+                ? <Translate id='sync'/>
+                : !balanceLoading
+                    ? <Translate id='getBalance'/>
+                    : ''
+            }
+        </SyncButton>
     </Account>
 );
 
