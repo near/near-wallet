@@ -9,9 +9,9 @@ import { getTransactions, getTransactionStatus } from '../../actions/transaction
 import { useFungibleTokensIncludingNEAR } from '../../hooks/fungibleTokensIncludingNEAR';
 import { Mixpanel } from "../../mixpanel/index";
 import { selectAccountId, selectBalance } from '../../reducers/account';
-import { selectTransactions } from '../../reducers/transactions';
 import { selectTokensWithMetadataForAccountId, actions as nftActions } from '../../redux/slices/nft';
 import { selectLinkdropAmount, actions as linkdropActions } from '../../slices/linkdrop';
+import { selectTransactionsByAccountId } from '../../redux/slices/transactions';
 import { actionsPendingByPrefix } from '../../utils/alerts';
 import classNames from '../../utils/classNames';
 import { SHOW_NETWORK_BANNER } from '../../utils/wallet';
@@ -262,7 +262,7 @@ export function Wallet({ tab, setTab }) {
     const [exploreApps, setExploreApps] = useState(null);
     const accountId = useSelector(state => selectAccountId(state));
     const balance = useSelector(state => selectBalance(state));
-    const transactions = useSelector(state => selectTransactions(state));
+    const transactions = useSelector(state => selectTransactionsByAccountId(state, { accountId }));
     const dispatch = useDispatch();
     const hideExploreApps = localStorage.getItem('hideExploreApps');
     const linkdropAmount = useSelector(selectLinkdropAmount);
@@ -333,7 +333,7 @@ export function Wallet({ tab, setTab }) {
                         <ExploreApps onClick={handleHideExploreApps} />
                     }
                     <Activities
-                        transactions={transactions[accountId] || []}
+                        transactions={transactions}
                         accountId={accountId}
                         getTransactionStatus={getTransactionStatus}
 
