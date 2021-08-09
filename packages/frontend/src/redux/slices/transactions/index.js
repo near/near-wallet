@@ -5,3 +5,5 @@ const SLICE_NAME = 'transactions';
 function createParameterSelector(selector) {
     return (_, params) => selector(params);
 }
+
+const getAccountIdParam = createParameterSelector((params) => params.accountId);
