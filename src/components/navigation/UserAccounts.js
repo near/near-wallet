@@ -13,8 +13,6 @@ const Wrapper = styled.div`
     }
 
     @media (min-width: 992px) {
-        display: flex;
-        flex-direction: column;
         max-height: 260px;
         overflow-y: auto;
 
