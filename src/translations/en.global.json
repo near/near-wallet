@@ -767,10 +767,12 @@
 
     "wallet": {
         "balanceTitle": "NEAR Balance",
-        "totalBalanceTitle": "Total NEAR Balance",
+        "totalBalanceTitle": "Total Balance",
         "tokens": "Tokens",
+        "yourPortfolio": "Your Portfolio",
         "balance": "Balance",
         "totalBalance": "Total Balance",
+        "tokenBalance": "Token Balance",
         "dateAndTime": "Date & Time",
         "status": "Status",
         "balances": "Balances",
@@ -1213,7 +1215,7 @@
         "authorizing": "Authorizing"
     },
 
-    "availableBalanceInfo": "”Available Balance” is your spendable NEAR balance.",
+    "availableBalanceInfo": "Your total account balance minus locked funds or funds being staked.",
     "reservedForFeesInfo": "A minimum amount of NEAR is reserved to cover the cost of transactions.",
     "availableBalanceProfile": "This is your spendable NEAR balance, and can be used or transferred immediately. This will be lower than your Total Balance.",
     "minimumBalance": "This is the minimum NEAR balance your account must maintain to remain active. This balance represents the storage space your account is using on the NEAR blockchain (with a small buffer), and will go up or down as you use more or less space.",
