@@ -768,6 +768,7 @@
         "totalBalanceTitle": "NEAR总余额",
         "tokens": "通证",
         "balance": "余额",
+        "totalBalance": "总余额",
         "dateAndTime": "日期和时间",
         "status": "状态",
         "balances": "余额",
