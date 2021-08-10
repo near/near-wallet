@@ -1,4 +1,5 @@
 import { ConnectedRouter } from 'connected-react-router';
+import { parseSeedPhrase } from 'near-seed-phrase';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { withLocalize } from 'react-localize-redux';
@@ -26,8 +27,7 @@ import { reportUiActiveMixpanelThrottled } from '../utils/reportUiActiveMixpanel
 import ScrollToTop from '../utils/ScrollToTop';
 import { IS_MAINNET, SHOW_PRERELEASE_WARNING, WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS } from '../utils/wallet';
 import { AuthorizedAppsWithRouter, FullAccessKeysWithRouter } from './access-keys/AccessKeys';
-import { AutoImportWithSecretKey } from './accounts/auto_import/AutoImportWithSecretKey';
-import { AutoImportWithSeedPhrase } from './accounts/auto_import/AutoImportWithSeedPhrase';
+import { AutoImport } from './accounts/auto_import/AutoImport';
 import { ActivateAccountWithRouter } from './accounts/create/ActivateAccount';
 import { CreateAccountWithRouter } from './accounts/CreateAccount';
 import LedgerConfirmActionModal from './accounts/ledger/LedgerConfirmActionModal';
@@ -366,12 +366,34 @@ class Routing extends Component {
                             <Route
                                 exact
                                 path='/auto-import-seed-phrase'
-                                component={AutoImportWithSeedPhrase}
+                                render={() => {
+                                    const importString = decodeURI(window.location.hash.substring(1));
+                                    const hasAccountId = importString.includes('/');
+                                    const seedPhrase = hasAccountId ? importString.split('/')[1] : importString;
+                                    const { secretKey } = parseSeedPhrase(seedPhrase);
+                                    return (
+                                        <AutoImport
+                                            secretKey={secretKey}
+                                            accountId={hasAccountId ? importString.split('/')[0] : null}
+                                            mixpanelImportType='seed phrase'
+                                        />
+                                    );
+                                }}
                             />
                             <Route
                                 exact
                                 path='/auto-import-secret-key'
-                                component={AutoImportWithSecretKey}
+                                render={() => {
+                                    const importString = decodeURI(window.location.hash.substring(1));
+                                    const hasAccountId = importString.includes('/');
+                                    return (
+                                        <AutoImport
+                                            secretKey={hasAccountId ? importString.split('/')[1] : importString}
+                                            accountId={hasAccountId ? importString.split('/')[0] : null}
+                                            mixpanelImportType='secret key'
+                                        />
+                                    );
+                                }}
                             />
                             <Route
                                 exact
@@ -429,7 +451,6 @@ class Routing extends Component {
                             {!isInactiveAccount &&
                                 <PrivateRouteLimited
                                     path='/staking'
-                                    component={StakingContainer}
                                     render={() => (
                                         <StakingContainer
                                             history={this.props.history}

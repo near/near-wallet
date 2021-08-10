@@ -28,14 +28,10 @@ const StyledContainer = styled(Container)`
     }
 `;
 
-export function AutoImportWithSecretKey() {
+export function AutoImport({ secretKey, accountId, importType }) {
     const dispatch = useDispatch();
     const { location } = useSelector(({ router }) => router);
     const [recovering, setRecovering] = useState(false);
-    const string = decodeURI(window.location.hash.substring(1));
-    const hasAccountId = string.includes('/');
-    const accountId = hasAccountId ? string.split('/')[0] : null;
-    const secretKey = hasAccountId ? string.split('/')[1] : string;
     const successUrl = location.query.success_url;
     const failureUrl = location.query.failure_url;
     
@@ -44,10 +40,10 @@ export function AutoImportWithSecretKey() {
     }, []);
 
     const recoverWithSecretKey = async () => {
-        await Mixpanel.withTracking("IE-SP Recovery with secret key auto",
+        await Mixpanel.withTracking(`IE-SP Recovery with ${importType} auto`,
             async () => {
                 setRecovering(true);
-                await dispatch(recoverAccountSecretKey(secretKey, accountId));
+                await dispatch(recoverAccountSecretKey(secretKey, accountId, false));
                 await dispatch(refreshAccount());
                 dispatch(clearAccountState());
 

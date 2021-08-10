@@ -137,10 +137,9 @@ class Wallet {
         return localPublicKey && accessKeys.find(({ public_key }) => public_key === localPublicKey.toString());
     }
 
-    async getLocalSecretKey(accountId, withPrefix = true) {
-        const localKey = await this.keyStore.getKey(NETWORK_ID, accountId);
-        const localSecretKey = withPrefix ? `ed25519:${localKey.secretKey}` : localKey.secretKey;
-        return localSecretKey;
+    async getLocalSecretKey(accountId) {
+        const localKeyPair = await this.keyStore.getKey(NETWORK_ID, accountId);
+        return localKeyPair.toString();
     }
 
     async getLedgerKey(accountId) {
@@ -839,7 +838,13 @@ class Wallet {
     }
 
     async recoverAccountSeedPhrase(seedPhrase, accountId, fromSeedPhraseRecovery = true) {
-        const { publicKey, secretKey } = parseSeedPhrase(seedPhrase);
+        const { secretKey } = parseSeedPhrase(seedPhrase);
+        return await this.recoverAccountSecretKey(secretKey, accountId, fromSeedPhraseRecovery);
+    }
+
+    async recoverAccountSecretKey(secretKey, accountId, fromSeedPhraseRecovery) {
+        const keyPair = KeyPair.fromString(secretKey);
+        const publicKey = keyPair.publicKey.toString();
 
         const tempKeyStore = new nearApiJs.keyStores.InMemoryKeyStore();
         const implicitAccountId = Buffer.from(PublicKey.fromString(publicKey).data).toString('hex');
@@ -925,111 +930,7 @@ class Wallet {
 
             store.dispatch(makeAccountActive(accountIdsSuccess[accountIdsSuccess.length - 1].accountId));
 
-            return {
-                numberOfAccounts: accountIdsSuccess.length,
-                accountList: accountIdsSuccess.flatMap((accountId) => accountId.account_id).join(', '),
-            };
-        } else {
-            const lastAccount = accountIdsError.reverse().find((account) => account.error.type === 'LackBalanceForState');
-            if (lastAccount) {
-                store.dispatch(redirectTo(`/`, { globalAlertPreventClear: true }));
-                throw lastAccount.error;
-            } else {
-                throw accountIdsError[accountIdsError.length - 1].error;
-            }
-        }
-    }
-
-    async recoverAccountSecretKey(secretKey, accountId) {
-        let giveFullAccess = false; // Let 2FA check decide?
-        const keyPair = KeyPair.fromString(secretKey);
-        const publicKey = keyPair.publicKey.toString();
-        const tempKeyStore = new nearApiJs.keyStores.InMemoryKeyStore();
-    
-        let accountIds = [accountId];
-
-        if (!accountId) {
-            accountIds = await getAccountIds(publicKey);
-        }
-
-        // Add implicit account ID to array to check if it has balance
-        const implicitAccountId = Buffer.from(PublicKey.fromString(publicKey).data).toString('hex');
-        accountIds.push(implicitAccountId);
-
-        // Check that accountIds exist & remove from array otherwise
-        const accountsSet = new Set(accountIds);
-        for (const accountId of accountsSet) {
-            if (!(await this.accountExists(accountId))) {
-                accountsSet.delete(accountId);
-            }
-        }
-
-        accountIds = [...accountsSet];
-
-        if (!accountIds.length) {
-            throw new WalletError('Cannot find matching public key', 'recoverAccountSeedPhrase.errorInvalidSeedPhrase', { publicKey });
-        }
-
-        console.log('here are account ids:', accountIds);
-
-        const connection = nearApiJs.Connection.fromConfig({
-            networkId: NETWORK_ID,
-            provider: { type: 'JsonRpcProvider', args: { url: NODE_URL + '/' } },
-            signer: new nearApiJs.InMemorySigner(tempKeyStore)
-        });
-
-        const connectionConstructor = this.connection;
-
-        const accountIdsSuccess = [];
-        const accountIdsError = [];
-        await Promise.all(accountIds.map(async (accountId, i) => {
-            if (!accountId || !accountId.length) {
-                return;
-            }
-            // temp account
-            this.connection = connection;
-            this.accountId = accountId;
-            let account = await this.getAccount(accountId);
-            let recoveryKeyIsFAK = false;
-
-            // check if recover access key is FAK and if so add key without 2FA
-            if (await TwoFactor.has2faEnabled(account)) {
-                const accessKeys = await account.getAccessKeys();
-                recoveryKeyIsFAK = accessKeys.find(({ public_key, access_key }) =>
-                    public_key === publicKey &&
-                    access_key.permission &&
-                    access_key.permission === 'FullAccess'
-                );
-                if (recoveryKeyIsFAK) {
-                    console.log('using FAK and regular Account instance to recover');
-                    giveFullAccess = false;
-                }
-            }
-
-            const keyPair = KeyPair.fromString(secretKey);
-            await tempKeyStore.setKey(NETWORK_ID, accountId, keyPair);
-            account.keyStore = tempKeyStore;
-            account.inMemorySigner = account.connection.signer = new nearApiJs.InMemorySigner(tempKeyStore);
-            const newKeyPair = KeyPair.fromRandom('ed25519');
-
-            try {
-                await this.addAccessKey(accountId, accountId, newKeyPair.publicKey, giveFullAccess, '', recoveryKeyIsFAK);
-                accountIdsSuccess.push({ accountId, newKeyPair });
-            } catch (error) {
-                console.error(error);
-                accountIdsError.push({ accountId, error });
-            }
-        }));
-
-        this.connection = connectionConstructor;
-
-        if (!!accountIdsSuccess.length) {
-            await Promise.all(accountIdsSuccess.map(async ({ accountId, newKeyPair }) => {
-                await this.saveAccount(accountId, newKeyPair);
-            }));
-
-            store.dispatch(makeAccountActive(accountIdsSuccess[accountIdsSuccess.length - 1].accountId));
-
+            console.log('accountIdsSuccess', accountIdsSuccess);
             return {
                 numberOfAccounts: accountIdsSuccess.length,
                 accountList: accountIdsSuccess.flatMap((accountId) => accountId.account_id).join(', '),
