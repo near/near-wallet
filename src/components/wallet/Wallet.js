@@ -113,11 +113,11 @@ const StyledContainer = styled(Container)`
             display: flex;
             align-items: center;
             color: #72727A;
-            text-transform: capitalize;
 
             > div {
                 :first-of-type {
                     margin-right: 5px;
+                    text-transform: capitalize;
                 }
             }
         }
@@ -367,7 +367,7 @@ export function Wallet({ tab, setTab }) {
 const FungibleTokens = ({ balance, tokensLoader, fungibleTokens }) => {
     return (
         <>
-            <div className='sub-title balance'><Translate id='wallet.totalBalanceTitle' /></div>
+            <div className='sub-title balance'><Translate id='wallet.totalBalance' /></div>
             <div className='total-balance'>
                 <Textfit mode='single' max={44}>
                     <Balance
@@ -423,8 +423,8 @@ const FungibleTokens = ({ balance, tokensLoader, fungibleTokens }) => {
                 </FormButton>
             </div>
             <div className='sub-title tokens'>
-                <span className={classNames({ dots: tokensLoader })}><Translate id='wallet.tokens'/></span>
-                <span><Translate id='wallet.totalBalance'/></span>
+                <span className={classNames({ dots: tokensLoader })}><Translate id='wallet.yourPortfolio'/></span>
+                <span><Translate id='wallet.tokenBalance'/></span>
             </div>
             <Tokens tokens={fungibleTokens}/>
         </>
