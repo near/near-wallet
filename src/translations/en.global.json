@@ -1088,10 +1088,13 @@
             },
             "qrDesc": "Use your phone's camera app to send to this address"
         },
-        "importOnMobileDevice": {
-            "button": "Import on mobile device",
+        "mobileSharing": {
+            "title": "Mobile Sharing",
+            "desc": "Scan your mobile access code for easy access to your account from your mobile device.",
+            "button": "View Mobile Code",
             "modal": {
-                "title": "Scan the QR code to import on your mobile device."
+                "title": "Mobile Access Code",
+                "desc": "Scan the QR code below with your mobile device for easy access to your account."
             }
         }
     },

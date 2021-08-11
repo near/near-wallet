@@ -168,8 +168,8 @@ const UserAccounts = ({ accounts, accountId, accountIdLocalStorage, handleSelect
 );
 
 const UserAccount = ({ accountId, balance, balanceLoading, refreshBalance, active, onClick }) => (
-    <Account className={active ? 'active-account' : 'additional-account'}>
-        <div className='account-data' onClick={onClick}>
+    <Account className={active ? 'active-account' : 'additional-account'} onClick={onClick}>
+        <div className='account-data'>
             <div className='accountId'>
                 {accountId}
             </div>
@@ -180,9 +180,12 @@ const UserAccount = ({ accountId, balance, balanceLoading, refreshBalance, activ
                 }
             </div>
         </div>
-        <SyncButton
+        <SyncButton 
             className={classNames([{'dots': balanceLoading}])}
-            onClick={refreshBalance}
+            onClick={e => {
+                refreshBalance();
+                e.stopPropagation();
+            }}
             title='Sync balance'
         >
             {balance

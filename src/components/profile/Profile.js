@@ -31,7 +31,7 @@ import AuthorizedApp from './authorized_apps/AuthorizedApp';
 import BalanceContainer from './balances/BalanceContainer';
 import LockupAvailTransfer from './balances/LockupAvailTransfer';
 import HardwareDevices from './hardware_devices/HardwareDevices';
-import ImportOnMobileDeviceModal from './ImportOnMobileDeviceModal';
+import MobileSharing from './mobile_sharing/MobileSharing';
 import RecoveryContainer from './Recovery/RecoveryContainer';
 import TwoFactorAuth from './two_factor/TwoFactorAuth';
 
@@ -103,7 +103,14 @@ const StyledContainer = styled(Container)`
 
         .recovery-option,
         .animation-wrapper {
-            margin-top: 15px;
+            margin-top: 10px;
+        }
+
+        > button {
+            &.gray-blue {
+                width: 100%;
+                margin-top: 15px;
+            }
         }
     }
 
@@ -138,12 +145,12 @@ const StyledContainer = styled(Container)`
 
 export function Profile({ match }) {
     const [transferring, setTransferring] = useState(false);
-    const [showImportOnMobileDeviceModal, setShowImportOnMobileDeviceModal] = useState(false);
-    const [importOnMobileDeviceLink, setImportOnMobileDeviceLink] = useState('');
+    const [mobileSharingLink, setMobileSharingLink] = useState('');
     const { has2fa, authorizedApps, ledgerKey } = useSelector(({ account }) => account);
     const loginAccountId = useSelector(state => state.account.accountId);
     const recoveryMethods = useSelector(({ recoveryMethods }) => recoveryMethods);
     const nearTokenFiatValueUSD = useSelector(selectNearTokenFiatValueUSD);
+    const { isMobile } = useSelector(({ status }) => status);
     const accountIdFromUrl = match.params.accountId;
     const accountId = accountIdFromUrl || loginAccountId;
     const isOwner = accountId === loginAccountId;
@@ -209,13 +216,6 @@ export function Profile({ match }) {
         } finally {
             setTransferring(false);
         }
-    };
-
-    const handleShowImportOnMobileDeviceModal = async () => {
-        const localSecretKey = await dispatch(getLocalSecretKey(accountId));
-        const importOnMobileDeviceLink = `${window.location.protocol}//${window.location.host}/auto-import-secret-key#${accountId}/${localSecretKey}`;
-        setImportOnMobileDeviceLink(importOnMobileDeviceLink);
-        setShowImportOnMobileDeviceModal(true);
     };
 
     const MINIMUM_AVAILABLE_TO_TRANSFER = new BN('10000000000000000000000');
@@ -286,24 +286,21 @@ export function Profile({ match }) {
                                 )}
                             </>
                         }
-                        <FormButton
-                            onClick={handleShowImportOnMobileDeviceModal}
-                        >
-                            <Translate id='profile.importOnMobileDevice.button'/>
-                        </FormButton>
+                        {!account.ledgerKey && !isMobile &&
+                            <MobileSharing
+                                onSetMobileSharingLink={ async (option) => {
+                                    if (option === 'clear') {
+                                        return setMobileSharingLink('');
+                                    };
+                                    const localSecretKey = await dispatch(getLocalSecretKey(accountId));
+                                    setMobileSharingLink(`${window.location.protocol}//${window.location.host}/auto-import-secret-key#${accountId}/${localSecretKey}`);
+                                }}
+                                mobileSharingLink={mobileSharingLink}
+                            />
+                        }
                     </div>
                 }
             </div>
-            {showImportOnMobileDeviceModal &&
-                <ImportOnMobileDeviceModal
-                    open={showImportOnMobileDeviceModal}
-                    onClose={() => {
-                        setShowImportOnMobileDeviceModal(false);
-                        setImportOnMobileDeviceLink('');
-                    }}
-                    secretKeyImportLink={importOnMobileDeviceLink}
-                />
-            }
         </StyledContainer>
     );
 }

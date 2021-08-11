@@ -929,8 +929,7 @@ class Wallet {
             }));
 
             store.dispatch(makeAccountActive(accountIdsSuccess[accountIdsSuccess.length - 1].accountId));
-
-            console.log('accountIdsSuccess', accountIdsSuccess);
+            
             return {
                 numberOfAccounts: accountIdsSuccess.length,
                 accountList: accountIdsSuccess.flatMap((accountId) => accountId.account_id).join(', '),
