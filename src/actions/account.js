@@ -531,13 +531,6 @@ export const { recoverAccountSecretKey } = createActions({
     ]
 });
 
-export const { getLocalSecretKey } = createActions({
-    GET_LOCAL_SECRET_KEY: [
-        wallet.getLocalSecretKey.bind(wallet),
-        () => showAlert({ onlyError: true })
-    ]
-});
-
 export const { signAndSendTransactions, setSignTransactionStatus, sendMoney, transferAllFromLockup } = createActions({
     SET_SIGN_TRANSACTION_STATUS: [
         (status) => ({ status }),

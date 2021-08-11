@@ -52,14 +52,13 @@ const LoginForm = ({
                     {!accountConfirmationForm && (
                         <Fragment>
                             <div>{appTitle || <Translate id='sign.unknownApp' />}</div>
-                            {requestAccountIdOnly ?
-                                <Translate id='login.form.accountIdOnly' />
-                            :
-                                <>
+                            {requestAccountIdOnly
+                                ? <Translate id='login.form.accountIdOnly' />
+                                : <>
                                     <Translate id='login.form.isRequestingTo' />
                                     <br/>
                                     <Translate id='login.form.accessYourAccount' />
-                                </>
+                                  </>
                             }
                         </Fragment>
                     )}

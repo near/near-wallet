@@ -27,7 +27,7 @@ import { reportUiActiveMixpanelThrottled } from '../utils/reportUiActiveMixpanel
 import ScrollToTop from '../utils/ScrollToTop';
 import { IS_MAINNET, SHOW_PRERELEASE_WARNING, WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS } from '../utils/wallet';
 import { AuthorizedAppsWithRouter, FullAccessKeysWithRouter } from './access-keys/AccessKeys';
-import { AutoImport } from './accounts/auto_import/AutoImport';
+import { AutoImportWrapper } from './accounts/auto_import/AutoImportWrapper';
 import { ActivateAccountWithRouter } from './accounts/create/ActivateAccount';
 import { CreateAccountWithRouter } from './accounts/CreateAccount';
 import LedgerConfirmActionModal from './accounts/ledger/LedgerConfirmActionModal';
@@ -35,8 +35,8 @@ import { SetupLedgerWithRouter } from './accounts/ledger/SetupLedger';
 import { SetupLedgerSuccessWithRouter } from './accounts/ledger/SetupLedgerSuccess';
 import { SignInLedger } from './accounts/ledger/SignInLedger';
 import { LinkdropLandingWithRouter } from './accounts/LinkdropLanding';
-import { RecoverAccountWithRouter } from './accounts/RecoverAccount';
 import { RecoverAccountSeedPhraseWithRouter } from './accounts/RecoverAccountSeedPhrase';
+import { RecoverAccountWrapper } from './accounts/RecoverAccountWrapper';
 import { RecoverWithLinkWithRouter } from './accounts/RecoverWithLink';
 import { SetupRecoveryMethodWithRouter } from './accounts/recovery_setup/SetupRecoveryMethod';
 import { SetupImplicitWithRouter } from './accounts/SetupImplicit';
@@ -351,7 +351,7 @@ class Routing extends Component {
                             <Route
                                 exact
                                 path='/recover-account'
-                                component={RecoverAccountWithRouter}
+                                component={RecoverAccountWrapper}
                             />
                             <Route
                                 exact
@@ -366,13 +366,13 @@ class Routing extends Component {
                             <Route
                                 exact
                                 path='/auto-import-seed-phrase'
-                                render={() => {
-                                    const importString = decodeURI(window.location.hash.substring(1));
+                                render={({ location }) => {
+                                    const importString = decodeURI(location.hash.substring(1));
                                     const hasAccountId = importString.includes('/');
                                     const seedPhrase = hasAccountId ? importString.split('/')[1] : importString;
                                     const { secretKey } = parseSeedPhrase(seedPhrase);
                                     return (
-                                        <AutoImport
+                                        <AutoImportWrapper
                                             secretKey={secretKey}
                                             accountId={hasAccountId ? importString.split('/')[0] : null}
                                             mixpanelImportType='seed phrase'
@@ -383,11 +383,11 @@ class Routing extends Component {
                             <Route
                                 exact
                                 path='/auto-import-secret-key'
-                                render={() => {
-                                    const importString = decodeURI(window.location.hash.substring(1));
+                                render={({ location }) => {
+                                    const importString = decodeURI(location.hash.substring(1));
                                     const hasAccountId = importString.includes('/');
                                     return (
-                                        <AutoImport
+                                        <AutoImportWrapper
                                             secretKey={hasAccountId ? importString.split('/')[1] : importString}
                                             accountId={hasAccountId ? importString.split('/')[0] : null}
                                             mixpanelImportType='secret key'

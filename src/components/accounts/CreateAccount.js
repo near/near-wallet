@@ -184,7 +184,8 @@ class CreateAccount extends Component {
             fundingContract,
             fundingKey,
             isMobile,
-            nearTokenFiatValueUSD
+            nearTokenFiatValueUSD,
+            locationSearch
         } = this.props;
         
         const isLinkDrop = fundingContract && fundingKey;
@@ -273,7 +274,7 @@ class CreateAccount extends Component {
                         }
                         <div className='alternatives-title'><Translate id='createAccount.alreadyHaveAnAccount' /></div>
                         <div className='alternatives' onClick={() => { Mixpanel.track("IE Click import existing account button"); }}>
-                            <Link to={process.env.DISABLE_PHONE_RECOVERY === 'yes' ? '/recover-seed-phrase' : '/recover-account'}><Translate id='createAccount.recoverItHere' /></Link>
+                            <Link to={`/recover-account${locationSearch}`}><Translate id='createAccount.recoverItHere' /></Link>
                         </div>
                     </form>
                 </StyledContainer>
@@ -302,7 +303,7 @@ const mapDispatchToProps = {
 };
 
 const mapStateToProps = (state, ownProps) => {
-    const { account, status } = state;
+    const { account, status, router } = state;
     const { match } = ownProps;
 
     return {
@@ -313,7 +314,8 @@ const mapStateToProps = (state, ownProps) => {
         fundingContract: match.params.fundingContract,
         fundingKey: match.params.fundingKey,
         fundingAccountId: match.params.fundingAccountId,
-        nearTokenFiatValueUSD: selectNearTokenFiatValueUSD(state)
+        nearTokenFiatValueUSD: selectNearTokenFiatValueUSD(state),
+        locationSearch: router.location.search
     };
 };
 

@@ -1,15 +1,16 @@
 import React from 'react';
 import { Translate } from 'react-localize-redux';
-import { withRouter, Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-// Images
 import HardwareDeviceIcon from '../../images/icon-hardware-device.svg';
 import EmailIcon from '../../images/icon-recover-email.svg';
 import PhoneIcon from '../../images/icon-recover-phone.svg';
 import PhraseIcon from '../../images/icon-recover-seedphrase.svg';
 import { Mixpanel } from '../../mixpanel/index';
+import FormButton from '../common/FormButton';
 import Container from '../common/styled/Container.css';
+import SmartPhoneIcon from '../svg/SmartPhoneIcon';
+
 
 const StyledContainer = styled(Container)`
 
@@ -49,13 +50,24 @@ const Option = styled.div`
     flex: 1;
     border: 3px solid #f5f5f5;
     border-radius: 6px;
-    padding: 15px;
+    padding: 25px;
     margin-bottom: 25px;
-    min-height: 236px;
     min-width: 30%;
 
     @media (min-width: 992px) {
         margin: 20px;
+    }
+
+    @media (min-width: 992px) {
+        max-width: 420px;
+    }
+
+    @media (min-width: 1200px) {
+        max-width: 460px;
+    }
+
+    > button {
+        width: 100%;
     }
 `;
 
@@ -66,15 +78,28 @@ const Header = styled.div`
     font-weight: 500;
     font-size: 16px;
 
-    &:before {
-        content: '';
-        background: url(${props => props.icon});
-        background-repeat: no-repeat;
-        display: block;
+    :not(.no-background) {
+        :before {
+            content: '';
+            background: url(${props => props.icon});
+            background-repeat: no-repeat;
+            display: block;
+            width: 40px;
+            height: 40px;
+            margin-right: 15px;
+            margin-top: -5px;
+        }
+    }
+
+    .smart-phone-icon {
         width: 40px;
         height: 40px;
-        margin-right: 15px;
-        margin-top: -5px;
+        margin-left: -5px;
+        margin-right: 10px;
+        path {
+            stroke: #8dd4bd;
+            stroke-width: 1.5;
+        }
     }
 `;
 
@@ -90,66 +115,58 @@ const P = styled.p`
     }
 `;
 
-const Button = styled(Link)`
-    background-color: #6AD1E3;
-    font-weight: 600;
-    font-size: 15px;
-    display: inline-block;
-    border: 0;
-    border-radius: 40px;
-    color: white;
-    outline: none;
-    cursor: pointer;
-    height: 56px;
-    width: 100%;
-    margin-top: 20px;
-    transition: 100ms;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    &:hover {
-        background-color: #72dff2;
-        color: white;
-        text-decoration: none;
-    }
-
-    &::selection {
-        color: white;
-    }
-`;
-
-const RecoverAccount = (props) => {
+const RecoverAccount = ({
+    locationSearch,
+    isMobile
+}) => {
     return (
         <StyledContainer>
             <h1><Translate id='recoverAccount.pageTitle'/></h1>
             <h2><Translate id='recoverAccount.pageText'/></h2>
             <Options>
                 <Option>
-                    <Header icon={EmailIcon}><Translate id='recoverAccount.email.title'/><br/><Translate id='recoverAccount.actionType'/></Header>
+                    <Header icon={EmailIcon}><Translate id='recoverAccount.email.title'/></Header>
                     <P><Translate id='recoverAccount.email.desc'/> <span><Translate id='recoverAccount.email.subject'/></span></P>
                     <P><Translate id='recoverAccount.actionRequired'/></P>
                     <P><Translate id='recoverAccount.cannotResend'/></P>
                 </Option>
                 <Option>
-                    <Header icon={PhoneIcon}><Translate id='recoverAccount.phone.title'/><br/><Translate id='recoverAccount.actionType'/></Header>
+                    <Header icon={PhoneIcon}><Translate id='recoverAccount.phone.title'/></Header>
                     <P><Translate id='recoverAccount.phone.desc'/> <span><Translate id='recoverAccount.phone.number'/></span></P>
                     <P><Translate id='recoverAccount.actionRequired'/></P>
                     <P><Translate id='recoverAccount.cannotResend'/></P>
                 </Option>
                 <Option>
-                    <Header icon={PhraseIcon}><Translate id='recoverAccount.phrase.title'/><br/><Translate id='recoverAccount.actionType'/></Header>
+                    <Header icon={PhraseIcon}><Translate id='recoverAccount.phrase.title'/></Header>
                     <P><Translate id='recoverAccount.phrase.desc'/></P>
-                    <Button to={`/recover-seed-phrase${props.history.location.search}`} onClick={()=> Mixpanel.track("IE Click seed phrase recovery button")}><Translate id='button.recoverAccount' /></Button>
+                    <FormButton
+                        color='seafoam-blue'
+                        linkTo={`/recover-seed-phrase${locationSearch}`}
+                        onClick={()=> Mixpanel.track("IE Click seed phrase recovery button")}
+                    >
+                            <Translate id='button.recoverAccount' />
+                    </FormButton>
                 </Option>
                 <Option>
-                    <Header icon={HardwareDeviceIcon}><Translate id='recoverAccount.ledger.title'/><br/><Translate id='recoverAccount.actionType'/></Header>
+                    <Header icon={HardwareDeviceIcon}><Translate id='recoverAccount.ledger.title'/></Header>
                     <P><Translate id='recoverAccount.ledger.desc'/></P>
-                    <Button to={`/sign-in-ledger${props.history.location.search}`} onClick={()=> Mixpanel.track("IE Click ledger recovery button")}><Translate id='button.signInLedger' /></Button>
+                    <FormButton
+                        color='seafoam-blue'
+                        linkTo={`/sign-in-ledger${locationSearch}`}
+                        onClick={()=> Mixpanel.track("IE Click ledger recovery button")}
+                    >
+                            <Translate id='button.signInLedger' />
+                    </FormButton>
                 </Option>
+                {isMobile &&
+                    <Option>
+                        <Header className='no-background'><SmartPhoneIcon/><Translate id='recoverAccount.qrCode.title'/></Header>
+                        <P><Translate id='recoverAccount.qrCode.desc'/></P>
+                    </Option>
+                }
             </Options>
         </StyledContainer>
     );
 };
 
-export const RecoverAccountWithRouter = withRouter(RecoverAccount);
+export default RecoverAccount;

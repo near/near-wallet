@@ -837,12 +837,12 @@ class Wallet {
         }
     }
 
-    async recoverAccountSeedPhrase(seedPhrase, accountId, fromSeedPhraseRecovery = true) {
+    async recoverAccountSeedPhrase(seedPhrase, accountId, shouldCreateFullAccessKey = true) {
         const { secretKey } = parseSeedPhrase(seedPhrase);
-        return await this.recoverAccountSecretKey(secretKey, accountId, fromSeedPhraseRecovery);
+        return await this.recoverAccountSecretKey(secretKey, accountId, shouldCreateFullAccessKey);
     }
 
-    async recoverAccountSecretKey(secretKey, accountId, fromSeedPhraseRecovery) {
+    async recoverAccountSecretKey(secretKey, accountId, shouldCreateFullAccessKey) {
         const keyPair = KeyPair.fromString(secretKey);
         const publicKey = keyPair.publicKey.toString();
 
@@ -896,7 +896,7 @@ class Wallet {
                 );
                 if (recoveryKeyIsFAK) {
                     console.log('using FAK and regular Account instance to recover');
-                    fromSeedPhraseRecovery = false;
+                    shouldCreateFullAccessKey = false;
                 }
             }
 
@@ -907,7 +907,7 @@ class Wallet {
             const newKeyPair = KeyPair.fromRandom('ed25519');
 
             try {
-                await this.addAccessKey(accountId, accountId, newKeyPair.publicKey, fromSeedPhraseRecovery, '', recoveryKeyIsFAK);
+                await this.addAccessKey(accountId, accountId, newKeyPair.publicKey, shouldCreateFullAccessKey, '', recoveryKeyIsFAK);
                 accountIdsSuccess.push({
                     accountId,
                     newKeyPair

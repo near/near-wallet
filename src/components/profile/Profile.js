@@ -4,6 +4,7 @@ import { Translate } from 'react-localize-redux';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 
+
 import {
     getLedgerKey,
     checkCanEnableTwoFactor,
@@ -12,8 +13,7 @@ import {
     transferAllFromLockup,
     loadRecoveryMethods,
     getProfileStakingDetails,
-    getBalance,
-    getLocalSecretKey
+    getBalance
 } from '../../actions/account';
 import { useAccount } from '../../hooks/allAccounts';
 import { Mixpanel } from "../../mixpanel/index";
@@ -31,7 +31,7 @@ import AuthorizedApp from './authorized_apps/AuthorizedApp';
 import BalanceContainer from './balances/BalanceContainer';
 import LockupAvailTransfer from './balances/LockupAvailTransfer';
 import HardwareDevices from './hardware_devices/HardwareDevices';
-import MobileSharing from './mobile_sharing/MobileSharing';
+import MobileSharingWrapper from './mobile_sharing/MobileSharingWrapper';
 import RecoveryContainer from './Recovery/RecoveryContainer';
 import TwoFactorAuth from './two_factor/TwoFactorAuth';
 
@@ -109,7 +109,7 @@ const StyledContainer = styled(Container)`
         > button {
             &.gray-blue {
                 width: 100%;
-                margin-top: 15px;
+                margin-top: 30px;
             }
         }
     }
@@ -145,7 +145,6 @@ const StyledContainer = styled(Container)`
 
 export function Profile({ match }) {
     const [transferring, setTransferring] = useState(false);
-    const [mobileSharingLink, setMobileSharingLink] = useState('');
     const { has2fa, authorizedApps, ledgerKey } = useSelector(({ account }) => account);
     const loginAccountId = useSelector(state => state.account.accountId);
     const recoveryMethods = useSelector(({ recoveryMethods }) => recoveryMethods);
@@ -287,16 +286,7 @@ export function Profile({ match }) {
                             </>
                         }
                         {!account.ledgerKey && !isMobile &&
-                            <MobileSharing
-                                onSetMobileSharingLink={ async (option) => {
-                                    if (option === 'clear') {
-                                        return setMobileSharingLink('');
-                                    };
-                                    const localSecretKey = await dispatch(getLocalSecretKey(accountId));
-                                    setMobileSharingLink(`${window.location.protocol}//${window.location.host}/auto-import-secret-key#${accountId}/${localSecretKey}`);
-                                }}
-                                mobileSharingLink={mobileSharingLink}
-                            />
+                            <MobileSharingWrapper/>
                         }
                     </div>
                 }
