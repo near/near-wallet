@@ -35,7 +35,6 @@ const StyledContainer = styled.div`
 const MobileSharingModal = ({ open, onClose, mobileSharingLink }) => {
     return (
         <Modal
-            id='import-on-mobile-device-modal'
             isOpen={open}
             onClose={onClose}
             closeButton='desktop'
