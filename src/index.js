@@ -1,28 +1,35 @@
 import "regenerator-runtime/runtime";
 
-import { createBrowserHistory } from 'history';
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { LocalizeProvider } from 'react-localize-redux';
-import { Provider } from 'react-redux';
-import { createStore } from 'redux';
+import { createBrowserHistory } from "history";
+import React from "react";
+import ReactDOM from "react-dom";
+import { LocalizeProvider } from "react-localize-redux";
+import { Provider } from "react-redux";
+import { createStore } from "redux";
 
-import Routing from './components/Routing';
-import createMiddleware from './middleware';
-import createRootReducer from './reducers';
-import { initSentry } from './utils/sentry';
+import Routing from "./components/Routing";
+import createMiddleware from "./middleware";
+import createRootReducer from "./reducers";
+import { initSentry } from "./utils/sentry";
+import { ThemeProvider } from "styled-components";
+import { theme } from "./theme";
 
 initSentry();
 
 const history = createBrowserHistory();
 
-export const store = createStore(createRootReducer(history), createMiddleware(history));
+export const store = createStore(
+    createRootReducer(history),
+    createMiddleware(history)
+);
 
 ReactDOM.render(
     <Provider store={store}>
         <LocalizeProvider store={store}>
-            <Routing history={history} />
+            <ThemeProvider theme={theme}>
+                <Routing history={history} />
+            </ThemeProvider>
         </LocalizeProvider>
     </Provider>,
-    document.getElementById('root')
+    document.getElementById("root")
 );
