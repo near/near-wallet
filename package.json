@@ -2,6 +2,33 @@
   "name": "root",
   "private": true,
   "devDependencies": {
-    "lerna": "^4.0.0"
+    "@babel/core": "^7.14.3",
+    "@babel/preset-env": "^7.14.1",
+    "@babel/preset-react": "^7.13.13",
+    "@sentry/cli": "^1.65.0",
+    "@storybook/addon-actions": "^6.1.21",
+    "@storybook/addon-essentials": "^6.1.21",
+    "@storybook/addon-links": "^6.1.21",
+    "@storybook/react": "^6.1.21",
+    "babel-eslint": "^10.1.0",
+    "babel-jest": "^27.0.1",
+    "babel-loader": "^8.1.0",
+    "enzyme": "^3.10.0",
+    "enzyme-adapter-react-16": "^1.15.6",
+    "eslint": "5.16.0",
+    "eslint-config-react-app": "^3.0.8",
+    "eslint-plugin-flowtype": "^5.7.2",
+    "eslint-plugin-import": "^2.23.4",
+    "eslint-plugin-jsx-a11y": "^6.4.1",
+    "eslint-plugin-react": "^7.23.2",
+    "jest": "^27.0.1",
+    "lerna": "^4.0.0",
+    "parcel-bundler": "^1.12.4",
+    "parcel-plugin-bundle-visualiser": "^1.2.0",
+    "react-is": "^17.0.2"
+  },
+  "dependencies": {
+    "e2e-tests": "file:packages/e2e-tests",
+    "wallet": "file:packages/frontend"
   }
 }
