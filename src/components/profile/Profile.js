@@ -18,6 +18,7 @@ import {
 import { useAccount } from '../../hooks/allAccounts';
 import { Mixpanel } from "../../mixpanel/index";
 import { selectProfileBalance } from '../../reducers/selectors/balance';
+import { selectIsMobile } from '../../reducers/status';
 import { selectNearTokenFiatValueUSD } from '../../slices/tokenFiatValues';
 import FormButton from '../common/FormButton';
 import SkeletonLoading from '../common/SkeletonLoading';
@@ -149,7 +150,7 @@ export function Profile({ match }) {
     const loginAccountId = useSelector(state => state.account.accountId);
     const recoveryMethods = useSelector(({ recoveryMethods }) => recoveryMethods);
     const nearTokenFiatValueUSD = useSelector(selectNearTokenFiatValueUSD);
-    const { isMobile } = useSelector(({ status }) => status);
+    const isMobile = useSelector(selectIsMobile);
     const accountIdFromUrl = match.params.accountId;
     const accountId = accountIdFromUrl || loginAccountId;
     const isOwner = accountId === loginAccountId;

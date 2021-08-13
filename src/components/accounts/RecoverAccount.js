@@ -160,8 +160,8 @@ const RecoverAccount = ({
                 </Option>
                 {isMobile &&
                     <Option>
-                        <Header className='no-background'><SmartPhoneIcon/><Translate id='recoverAccount.qrCode.title'/></Header>
-                        <P><Translate id='recoverAccount.qrCode.desc'/></P>
+                        <Header className='no-background'><SmartPhoneIcon/><Translate id='mobileDeviceAccess.title'/></Header>
+                        <P><Translate id='mobileDeviceAccess.importCode.desc'/></P>
                     </Option>
                 }
             </Options>

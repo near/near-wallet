@@ -598,10 +598,6 @@
             "title": "Ledger",
             "desc": "Make sure your ledger is connected securely, and that the NEAR app is open on the device."
         },
-        "qrCode": {
-            "title": "Mobile Sharing",
-            "desc": "If you are already logged in on a desktop device, scan your mobile access code to import your account."
-        },
         "actionType": "Recovery",
         "actionRequired": "This message contains a magic link. Click the link to begin recovery!",
         "cannotResend": "This message was sent when you enabled email/phone recovery. We only send this message once, and cannot resend it."
@@ -1091,15 +1087,23 @@
                 "createAnotherAccount": "create another account"
             },
             "qrDesc": "Use your phone's camera app to send to this address"
-        },
-        "mobileSharing": {
-            "title": "Mobile Sharing",
-            "desc": "Scan your mobile access code for easy access to your account from your mobile device.",
+        }
+    },
+
+    "mobileDeviceAccess": {
+        "title": "Mobile Device Access",
+        "showCode": {
+            "desc": "Scan your mobile access code to grant full account access to your mobile device.",
             "button": "View Mobile Code",
             "modal": {
                 "title": "Mobile Access Code",
-                "desc": "Scan the QR code below with your mobile device for easy access to your account."
+                "desc": "Reveal and scan the QR code below to import your account on your mobile device.",
+                "disclaimer": "<b>This code contains highly sensitive data and grants full account access to your mobile device.</b> Take care not to share or expose it, and only import your account to a secure device that you own.",
+                "reveal": "Reveal"
             }
+        },
+        "importCode": {
+            "desc": "If you are already logged in on a desktop device, scan your mobile access code to import your account."
         }
     },
 

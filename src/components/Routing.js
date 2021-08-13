@@ -367,7 +367,7 @@ class Routing extends Component {
                                 exact
                                 path='/auto-import-seed-phrase'
                                 render={({ location }) => {
-                                    const importString = decodeURI(location.hash.substring(1));
+                                    const importString = decodeURIComponent(location.hash.substring(1));
                                     const hasAccountId = importString.includes('/');
                                     const seedPhrase = hasAccountId ? importString.split('/')[1] : importString;
                                     const { secretKey } = parseSeedPhrase(seedPhrase);
@@ -384,7 +384,7 @@ class Routing extends Component {
                                 exact
                                 path='/auto-import-secret-key'
                                 render={({ location }) => {
-                                    const importString = decodeURI(location.hash.substring(1));
+                                    const importString = decodeURIComponent(location.hash.substring(1));
                                     const hasAccountId = importString.includes('/');
                                     return (
                                         <AutoImportWrapper

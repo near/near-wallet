@@ -1,21 +1,22 @@
+import { getLocation } from 'connected-react-router';
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { useLocation } from 'react-router-dom';
 
+import { selectAccountId } from '../../../reducers/account';
 import { wallet } from '../../../utils/wallet';
 import MobileSharing from './MobileSharing';
 
 const MobileSharingWrapper = () => {
-    const location = useLocation();
-    const { accountId } = useSelector(({ account }) => account);
+    const accountId = useSelector(selectAccountId);
     const [mobileSharingLink, setMobileSharingLink] = useState('');
+    const location = useSelector(getLocation);
 
     useEffect(() => {
-        async function getLocalSecretKey() {
+        async function updateMobileSharingLink() {
             const localSecretKey = accountId && await wallet.getLocalSecretKey(accountId);
-            setMobileSharingLink(`${window.location.protocol}//${window.location.host}/auto-import-secret-key#${accountId}/${localSecretKey}`);
+            setMobileSharingLink(`${window.location.protocol}//${window.location.host}/auto-import-secret-key#${accountId}/${encodeURIComponent(localSecretKey)}`);
         }
-        getLocalSecretKey();
+        updateMobileSharingLink();
     }, [accountId, location]);
 
     return (

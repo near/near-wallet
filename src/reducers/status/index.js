@@ -132,3 +132,4 @@ export default reduceReducers(
 );
 
 export const selectActionStatus = state => state.status.actionStatus;
+export const selectIsMobile = state => state.status.isMobile;
