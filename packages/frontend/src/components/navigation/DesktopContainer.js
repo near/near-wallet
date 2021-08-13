@@ -6,7 +6,6 @@ import LanguageToggle from '../common/LangSwitcher';
 import DesktopMenu from './DesktopMenu';
 import Logo from './Logo';
 import NavLinks from './NavLinks';
-import SendReceiveButtons from './SendReceiveButtons';
 import UserAccount from './UserAccount';
 
 const Container = styled.div`
