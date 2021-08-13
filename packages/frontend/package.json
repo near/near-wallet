@@ -1,6 +1,6 @@
 {
-  "homepage": "https://wallet.nearprotocol.com",
-  "name": "wallet",
+  "homepage": "https://wallet.near.org",
+  "name": "near-wallet-frontend",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
