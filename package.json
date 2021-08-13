@@ -1,6 +1,11 @@
 {
   "name": "near-wallet",
   "private": true,
+  "scripts": {
+    "lint": "cd packages/frontend && yarn && yarn lint",
+    "build": "cd packages/frontend && yarn && yarn build",
+    "test": "cd packages/frontend && yarn && yarn test"
+  },
   "devDependencies": {
     "lerna": "^4.0.0"
   }
