@@ -9,6 +9,7 @@ import styled from 'styled-components';
 import * as accountActions from '../../../actions/account';
 import { showCustomAlert } from '../../../actions/status';
 import { Mixpanel } from '../../../mixpanel/index';
+import { actions as linkdropActions } from '../../../slices/linkdrop';
 import { validateEmail } from '../../../utils/account';
 import { actionsPending } from '../../../utils/alerts';
 import isApprovedCountryCode from '../../../utils/isApprovedCountryCode';
@@ -22,6 +23,8 @@ import EnterVerificationCode from '../EnterVerificationCode';
 import RecoveryOption from './RecoveryOption';
 
 import 'react-phone-number-input/style.css';
+
+const { setLinkdropAmount } = linkdropActions;
 
 const {
     initializeRecoveryMethod,
@@ -179,7 +182,8 @@ class SetupRecoveryMethod extends Component {
             createNewAccount,
             validateSecurityCode,
             saveAccount,
-            location
+            location,
+            setLinkdropAmount
         } = this.props;
       
         const fundingOptions = parseFundingOptions(location.search);
@@ -200,6 +204,9 @@ class SetupRecoveryMethod extends Component {
             try {
                 // NOT IMPLICIT ACCOUNT (testnet, linkdrop, funded to delegated account via contract helper)
                 await createNewAccount(accountId, fundingOptions, method, recoveryKeyPair.publicKey, undefined, recaptchaToken);
+                if (fundingOptions) {
+                    setLinkdropAmount(fundingOptions.fundingAmount);
+                }
             } catch (e) {
                 if (e.code === 'NotEnoughBalance') {
                     Mixpanel.track('SR NotEnoughBalance creating funded account');
@@ -451,7 +458,8 @@ const mapDispatchToProps = {
     fundCreateAccount,
     createNewAccount,
     saveAccount,
-    validateSecurityCode
+    validateSecurityCode,
+    setLinkdropAmount
 };
 
 const mapStateToProps = ({ account, router, recoveryMethods, status }, { match }) => ({

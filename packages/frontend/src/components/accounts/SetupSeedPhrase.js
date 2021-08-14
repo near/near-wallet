@@ -15,6 +15,7 @@ import {
 } from '../../actions/account';
 import { clearGlobalAlert, showCustomAlert } from '../../actions/status';
 import { Mixpanel } from '../../mixpanel/index';
+import { actions as linkdropActions } from '../../slices/linkdrop';
 import copyText from '../../utils/copyText';
 import parseFundingOptions from '../../utils/parseFundingOptions';
 import { Snackbar, snackbarDuration } from '../common/Snackbar';
@@ -22,6 +23,8 @@ import Container from '../common/styled/Container.css';
 import { isRetryableRecaptchaError } from '../Recaptcha';
 import SetupSeedPhraseForm from './SetupSeedPhraseForm';
 import SetupSeedPhraseVerify from './SetupSeedPhraseVerify';
+
+const { setLinkdropAmount } = linkdropActions;
 
 // FIXME: Use `debug` npm package so we can keep some debug logging around but not spam the console everywhere
 const ENABLE_DEBUG_LOGGING = false;
@@ -122,7 +125,8 @@ class SetupSeedPhrase extends Component {
             handleCreateAccountWithSeedPhrase,
             fundCreateAccount,
             showCustomAlert,
-            location
+            location,
+            setLinkdropAmount
         } = this.props;
         const { recoveryKeyPair, recaptchaToken } = this.state;
 
@@ -138,7 +142,12 @@ class SetupSeedPhrase extends Component {
         const fundingOptions = parseFundingOptions(location.search);
 
         await Mixpanel.withTracking("SR-SP Setup for new account",
-            async () => await handleCreateAccountWithSeedPhrase(accountId, recoveryKeyPair, fundingOptions, recaptchaToken),
+            async () => {
+                await handleCreateAccountWithSeedPhrase(accountId, recoveryKeyPair, fundingOptions, recaptchaToken);
+                if (fundingOptions) {
+                    setLinkdropAmount(fundingOptions.fundingAmount);
+                }
+            },
             async (err) => {
                 debugLog('failed to create account!', err);
 
@@ -272,7 +281,8 @@ const mapDispatchToProps = {
     handleCreateAccountWithSeedPhrase,
     fundCreateAccount,
     loadRecoveryMethods,
-    showCustomAlert
+    showCustomAlert,
+    setLinkdropAmount
 };
 
 const mapStateToProps = ({ account, recoveryMethods, status }, { match }) => ({

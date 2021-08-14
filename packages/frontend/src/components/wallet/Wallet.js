@@ -11,6 +11,7 @@ import { Mixpanel } from "../../mixpanel/index";
 import { selectAccountId, selectBalance } from '../../reducers/account';
 import { selectTokensWithMetadataForAccountId, actions as nftActions } from '../../reducers/nft';
 import { selectTransactions } from '../../reducers/transactions';
+import { selectLinkdropAmount, actions as linkdropActions } from '../../slices/linkdrop';
 import { actionsPendingByPrefix } from '../../utils/alerts';
 import classNames from '../../utils/classNames';
 import { SHOW_NETWORK_BANNER } from '../../utils/wallet';
@@ -28,6 +29,7 @@ import NFTs from './NFTs';
 import Tokens from './Tokens';
 
 const { fetchNFTs } = nftActions;
+const { setLinkdropAmount } = linkdropActions;
 
 const StyledContainer = styled(Container)`
     @media (max-width: 991px) {
@@ -269,14 +271,12 @@ const StyledContainer = styled(Container)`
 
 export function Wallet({ tab, setTab }) {
     const [exploreApps, setExploreApps] = useState(null);
-    const [showLinkdropModal, setShowLinkdropModal] = useState(null);
     const accountId = useSelector(state => selectAccountId(state));
     const balance = useSelector(state => selectBalance(state));
     const transactions = useSelector(state => selectTransactions(state));
     const dispatch = useDispatch();
     const hideExploreApps = localStorage.getItem('hideExploreApps');
-    const linkdropAmount = localStorage.getItem('linkdropAmount');
-    const linkdropModal = linkdropAmount && showLinkdropModal !== false;
+    const linkdropAmount = useSelector(selectLinkdropAmount);
     const fungibleTokensList = useFungibleTokensIncludingNEAR({ fullBalance: true });
     const tokensLoader = actionsPendingByPrefix('TOKENS/') || !balance?.total;
 
@@ -288,7 +288,6 @@ export function Wallet({ tab, setTab }) {
             dispatch(getTransactions(accountId));
         }
     }, [accountId]);
-
 
     const sortedNFTs = useSelector((state) => selectTokensWithMetadataForAccountId(state, { accountId }));
 
@@ -308,8 +307,7 @@ export function Wallet({ tab, setTab }) {
     };
 
     const handleCloseLinkdropModal = () => {
-        localStorage.removeItem('linkdropAmount');
-        setShowLinkdropModal(false);
+        dispatch(setLinkdropAmount('0'));
         Mixpanel.track("Click dismiss NEAR drop success modal");
     };
 
@@ -322,17 +320,17 @@ export function Wallet({ tab, setTab }) {
                             className={classNames(['tab-balances', tab === 'collectibles' ? 'inactive' : ''])}
                             onClick={() => setTab('')}
                         >
-                            <Translate id='wallet.balances'/>
+                            <Translate id='wallet.balances' />
                         </div>
                         <div
                             className={classNames(['tab-collectibles', tab !== 'collectibles' ? 'inactive' : ''])}
                             onClick={() => setTab('collectibles')}
                         >
-                            <Translate id='wallet.collectibles'/>
+                            <Translate id='wallet.collectibles' />
                         </div>
                     </div>
                     {tab === 'collectibles'
-                        ? <NFTs tokens={sortedNFTs}/>
+                        ? <NFTs tokens={sortedNFTs} />
                         : <FungibleTokens
                             balance={balance}
                             tokensLoader={tokensLoader}
@@ -343,7 +341,7 @@ export function Wallet({ tab, setTab }) {
                 </div>
                 <div className='right'>
                     {!hideExploreApps && exploreApps !== false &&
-                    <ExploreApps onClick={handleHideExploreApps}/>
+                        <ExploreApps onClick={handleHideExploreApps} />
                     }
                     <Activities
                         transactions={transactions[accountId] || []}
@@ -353,12 +351,11 @@ export function Wallet({ tab, setTab }) {
                     />
                 </div>
             </div>
-            {linkdropModal &&
-            <LinkDropSuccessModal
-                onClose={handleCloseLinkdropModal}
-                open={linkdropModal}
-                linkdropAmount={linkdropAmount}
-            />
+            {linkdropAmount !== '0' &&
+                <LinkDropSuccessModal
+                    onClose={handleCloseLinkdropModal}
+                    linkdropAmount={linkdropAmount}
+                />
             }
         </StyledContainer>
     );
@@ -388,7 +385,7 @@ const FungibleTokens = ({ balance, tokensLoader, fungibleTokens }) => {
                     showSymbolUSD={false}
                     showSignUSD={true}
                 />
-                <Tooltip translate='availableBalanceInfo'/>
+                <Tooltip translate='availableBalanceInfo' />
             </div>
             <div className='buttons'>
                 <FormButton
@@ -397,9 +394,9 @@ const FungibleTokens = ({ balance, tokensLoader, fungibleTokens }) => {
                     trackingId='Click Send on Wallet page'
                 >
                     <div>
-                        <SendIcon/>
+                        <SendIcon />
                     </div>
-                    <Translate id='button.send'/>
+                    <Translate id='button.send' />
                 </FormButton>
                 <FormButton
                     color='dark-gray'
@@ -407,9 +404,9 @@ const FungibleTokens = ({ balance, tokensLoader, fungibleTokens }) => {
                     trackingId='Click Receive on Wallet page'
                 >
                     <div>
-                        <DownArrowIcon/>
+                        <DownArrowIcon />
                     </div>
-                    <Translate id='button.receive'/>
+                    <Translate id='button.receive' />
                 </FormButton>
                 <FormButton
                     color='dark-gray'
@@ -417,16 +414,16 @@ const FungibleTokens = ({ balance, tokensLoader, fungibleTokens }) => {
                     trackingId='Click Receive on Wallet page'
                 >
                     <div>
-                        <BuyIcon/>
+                        <BuyIcon />
                     </div>
-                    <Translate id='button.buy'/>
+                    <Translate id='button.buy' />
                 </FormButton>
             </div>
             <div className='sub-title tokens'>
-                <span className={classNames({ dots: tokensLoader })}><Translate id='wallet.yourPortfolio'/></span>
-                <span><Translate id='wallet.tokenBalance'/></span>
+                <span className={classNames({ dots: tokensLoader })}><Translate id='wallet.yourPortfolio' /></span>
+                <span><Translate id='wallet.tokenBalance' /></span>
             </div>
-            <Tokens tokens={fungibleTokens}/>
+            <Tokens tokens={fungibleTokens} />
         </>
     );
 };

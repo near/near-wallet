@@ -14,6 +14,7 @@ import {
 } from '../../../actions/account';
 import { showCustomAlert } from '../../../actions/status';
 import { Mixpanel } from '../../../mixpanel/index';
+import { actions as linkdropActions } from '../../../slices/linkdrop';
 import parseFundingOptions from '../../../utils/parseFundingOptions';
 import { DISABLE_CREATE_ACCOUNT, setKeyMeta } from '../../../utils/wallet';
 import FormButton from '../../common/FormButton';
@@ -22,6 +23,8 @@ import Container from '../../common/styled/Container.css';
 import { isRetryableRecaptchaError, Recaptcha } from '../../Recaptcha';
 import LedgerIcon from '../../svg/LedgerIcon';
 import InstructionsModal from './InstructionsModal';
+
+const { setLinkdropAmount } = linkdropActions;
 
 // FIXME: Use `debug` npm package so we can keep some debug logging around but not spam the console everywhere
 const ENABLE_DEBUG_LOGGING = false;
@@ -80,6 +83,9 @@ const SetupLedger = (props) => {
                         }
 
                         await dispatch(createNewAccount(accountId, fundingOptions, 'ledger', publicKey, undefined, recaptchaToken));
+                        if (fundingOptions) {
+                            setLinkdropAmount(fundingOptions.fundingAmount);
+                        }
                         Mixpanel.track("SR-Ledger Create new account ledger");
                     } catch(err) {
                         if (isRetryableRecaptchaError(err)) {
