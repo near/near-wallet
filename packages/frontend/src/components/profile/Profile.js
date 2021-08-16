@@ -4,10 +4,21 @@ import { Translate } from 'react-localize-redux';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 
-import { getLedgerKey, checkCanEnableTwoFactor, redirectTo, refreshAccount, transferAllFromLockup, loadRecoveryMethods, getProfileStakingDetails, getBalance } from '../../actions/account';
+
+import {
+    getLedgerKey,
+    checkCanEnableTwoFactor,
+    redirectTo,
+    refreshAccount,
+    transferAllFromLockup,
+    loadRecoveryMethods,
+    getProfileStakingDetails,
+    getBalance
+} from '../../actions/account';
 import { useAccount } from '../../hooks/allAccounts';
 import { Mixpanel } from "../../mixpanel/index";
 import { selectProfileBalance } from '../../reducers/selectors/balance';
+import { selectIsMobile } from '../../reducers/status';
 import { selectNearTokenFiatValueUSD } from '../../slices/tokenFiatValues';
 import FormButton from '../common/FormButton';
 import SkeletonLoading from '../common/SkeletonLoading';
@@ -21,17 +32,16 @@ import AuthorizedApp from './authorized_apps/AuthorizedApp';
 import BalanceContainer from './balances/BalanceContainer';
 import LockupAvailTransfer from './balances/LockupAvailTransfer';
 import HardwareDevices from './hardware_devices/HardwareDevices';
+import MobileSharingWrapper from './mobile_sharing/MobileSharingWrapper';
 import RecoveryContainer from './Recovery/RecoveryContainer';
 import TwoFactorAuth from './two_factor/TwoFactorAuth';
 
 const StyledContainer = styled(Container)`
-
     @media (max-width: 991px) {
         .right {
             margin-top: 50px;
         }
     }
-
     h2 {
         font-weight: 900 !important;
         font-size: 22px !important;
@@ -41,77 +51,68 @@ const StyledContainer = styled(Container)`
         display: flex;
         align-items: center;
         color: #24272a !important;
-
         svg {
             margin-right: 15px;
-
             &.user-icon {
                 margin-right: 10px;
             }
-
             .background {
                 display: none;
             }
         }
     }
-
     .left, .right {
         .animation-wrapper {
             border-radius: 8px;
             overflow: hidden;
         }
     }
-
     .left {
         @media (min-width: 992px) {
-
             > hr {
                 margin: 50px 0px 30px 0px;
             }
         }
-
         .animation-wrapper {
             margin-top: 50px;
-
             :last-of-type {
                 margin-top: 30px;
             }
         }
-
         .tooltip {
             margin-bottom: -1px;
         }
     }
-
     .right {
         > h4 {
             margin: 50px 0 20px 0;
             display: flex;
             align-items: center;
         }
-
         .recovery-option,
         .animation-wrapper {
-            margin-top: 15px;
+            margin-top: 10px;
+        }
+        > button {
+            &.gray-blue {
+                width: 100%;
+                margin-top: 30px;
+            }
         }
     }
-
     hr {
         border: 1px solid #F0F0F0;
         margin: 50px 0 40px 0;
     }
-
     .sub-heading {
         margin: 20px 0;
         color: #72727A;
     }
-
     .auth-apps {
         display: flex;
         align-items: center;
         justify-content: space-between;
         margin-bottom: 35px;
-
         button {
             &.link {
                 text-decoration: none !important;
@@ -119,7 +120,6 @@ const StyledContainer = styled(Container)`
             }
         }
     }
-
     .authorized-app-box {
         margin-top: 20px !important;
     }
@@ -131,6 +131,7 @@ export function Profile({ match }) {
     const loginAccountId = useSelector(state => state.account.accountId);
     const recoveryMethods = useSelector(({ recoveryMethods }) => recoveryMethods);
     const nearTokenFiatValueUSD = useSelector(selectNearTokenFiatValueUSD);
+    const isMobile = useSelector(selectIsMobile);
     const accountIdFromUrl = match.params.accountId;
     const accountId = accountIdFromUrl || loginAccountId;
     const isOwner = accountId === loginAccountId;
@@ -265,6 +266,9 @@ export function Profile({ match }) {
                                     />
                                 )}
                             </>
+                        }
+                        {!account.ledgerKey && !isMobile &&
+                            <MobileSharingWrapper/>
                         }
                     </div>
                 }

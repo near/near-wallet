@@ -1,4 +1,5 @@
 import { ConnectedRouter } from 'connected-react-router';
+import { parseSeedPhrase } from 'near-seed-phrase';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { withLocalize } from 'react-localize-redux';
@@ -26,7 +27,7 @@ import { reportUiActiveMixpanelThrottled } from '../utils/reportUiActiveMixpanel
 import ScrollToTop from '../utils/ScrollToTop';
 import { IS_MAINNET, SHOW_PRERELEASE_WARNING, WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS } from '../utils/wallet';
 import { AuthorizedAppsWithRouter, FullAccessKeysWithRouter } from './access-keys/AccessKeys';
-import { AutoImport } from './accounts/auto_import/AutoImport';
+import { AutoImportWrapper } from './accounts/auto_import/AutoImportWrapper';
 import { ActivateAccountWithRouter } from './accounts/create/ActivateAccount';
 import { CreateAccountWithRouter } from './accounts/CreateAccount';
 import LedgerConfirmActionModal from './accounts/ledger/LedgerConfirmActionModal';
@@ -34,8 +35,8 @@ import { SetupLedgerWithRouter } from './accounts/ledger/SetupLedger';
 import { SetupLedgerSuccessWithRouter } from './accounts/ledger/SetupLedgerSuccess';
 import { SignInLedger } from './accounts/ledger/SignInLedger';
 import { LinkdropLandingWithRouter } from './accounts/LinkdropLanding';
-import { RecoverAccountWithRouter } from './accounts/RecoverAccount';
 import { RecoverAccountSeedPhraseWithRouter } from './accounts/RecoverAccountSeedPhrase';
+import { RecoverAccountWrapper } from './accounts/RecoverAccountWrapper';
 import { RecoverWithLinkWithRouter } from './accounts/RecoverWithLink';
 import { SetupRecoveryMethodWithRouter } from './accounts/recovery_setup/SetupRecoveryMethod';
 import { SetupImplicitWithRouter } from './accounts/SetupImplicit';
@@ -88,7 +89,6 @@ const Container = styled.div`
     .main {
         padding-bottom: 200px;
     }
-
     @media (max-width: 991px) {
         .App {
             .main {
@@ -96,7 +96,6 @@ const Container = styled.div`
             }
         }
     }
-
     &.network-banner {
         @media (max-width: 450px) {
             .alert-banner, .lockup-avail-transfer {
@@ -350,7 +349,7 @@ class Routing extends Component {
                             <Route
                                 exact
                                 path='/recover-account'
-                                component={RecoverAccountWithRouter}
+                                component={RecoverAccountWrapper}
                             />
                             <Route
                                 exact
@@ -365,7 +364,34 @@ class Routing extends Component {
                             <Route
                                 exact
                                 path='/auto-import-seed-phrase'
-                                component={AutoImport}
+                                render={({ location }) => {
+                                    const importString = decodeURIComponent(location.hash.substring(1));
+                                    const hasAccountId = importString.includes('/');
+                                    const seedPhrase = hasAccountId ? importString.split('/')[1] : importString;
+                                    const { secretKey } = parseSeedPhrase(seedPhrase);
+                                    return (
+                                        <AutoImportWrapper
+                                            secretKey={secretKey}
+                                            accountId={hasAccountId ? importString.split('/')[0] : null}
+                                            mixpanelImportType='seed phrase'
+                                        />
+                                    );
+                                }}
+                            />
+                            <Route
+                                exact
+                                path='/auto-import-secret-key'
+                                render={({ location }) => {
+                                    const importString = decodeURIComponent(location.hash.substring(1));
+                                    const hasAccountId = importString.includes('/');
+                                    return (
+                                        <AutoImportWrapper
+                                            secretKey={hasAccountId ? importString.split('/')[1] : importString}
+                                            accountId={hasAccountId ? importString.split('/')[0] : null}
+                                            mixpanelImportType='secret key'
+                                        />
+                                    );
+                                }}
                             />
                             <Route
                                 exact
@@ -423,7 +449,6 @@ class Routing extends Component {
                             {!isInactiveAccount &&
                                 <PrivateRouteLimited
                                     path='/staking'
-                                    component={StakingContainer}
                                     render={() => (
                                         <StakingContainer
                                             history={this.props.history}
