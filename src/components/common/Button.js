@@ -1,70 +1,147 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { Translate } from 'react-localize-redux';
 import { styled } from '../../stitches.config';
 
 const StyledButton = styled('button', {
-  color: '$red500',
-  fontSize: '14px',
+  alignItems: 'center',
+  appearance: 'none',
+  border: 'none',
+  borderRadius: '$round',
+  color: 'white',
+  display: 'flex',
+  fontWeight: '$semibold',
+  justifyContent: 'center',
+  outline: 'none',
 
   '&:hover': {
-    color: 'black',
-    fontSize: '14px',
+    cursor: 'pointer',
+  },
+
+  '&:active, &:focus': {
+    border: '2px solid $red5',
+  },
+
+  '&:disabled': {
+    backgroundColor: '$gray6',
+    color: '$gray9',
+    cursor: 'not-allowed',
+  },
+
+  variants: {
+    style: {
+      primary: {
+        backgroundColor: '$blue9',
+
+        '&:hover': {
+          backgroundColor: '$blue10',
+        },
+      },
+
+      secondary: {
+        backgroundColor: '$gray5',
+        color: '$blue11',
+
+        '&:hover': {
+          backgroundColor: '$gray6',
+        },
+      },
+
+      destructive: {
+        backgroundColor: '$gray4',
+        color: '$red9',
+
+        '&:hover': {
+          backgroundColor: '$gray5',
+        },
+      },
+
+      danger: {
+        backgroundColor: '$red9',
+
+        '&:hover': {
+          backgroundColor: '$red10',
+        },
+      },
+
+      link: {
+        backgroundColor: 'transparent',
+        color: '$blue10',
+
+        '&:hover': {
+          textDecoration: 'underline',
+        },
+      },
+    },
+
+    size: {
+      small: {
+        height: '$2',
+        fontSize: '$small',
+        padding: '0 $5',
+      },
+
+      regular: {
+        height: '$3',
+        fontSize: '$body',
+        padding: '0 $6',
+        minWidth: '140px',
+      },
+    },
+
+    fullWidth: {
+      true: {
+        width: '100%',
+      },
+    },
+  },
+
+  defaultVariants: {
+    style: 'primary',
+    size: 'regular',
+    fullWidth: 'true',
   },
 });
 
-// const StyledButton = styled.button`
-//   border-radius: 40px;
-//   padding: 5px 32px;
-//   outline: none;
-//   font-size: 15px;
-//   height: 56px;
-//   font-weight: 600;
-//   width: ${(props) => (props.fullWidth === true ? '100%' : 'auto')};
-//   cursor: pointer;
-//   display: flex;
-//   align-items: center;
-//   justify-content: center;
-//   transition: all 150ms ease;
-//   background-color: ${(props) =>
-//     props.theme === 'secondary' ? '#ffffff' : '#0072CE'};
-//   border: 2px solid
-//     ${(props) => (props.theme === 'secondary' ? '#cccccc' : '#0072CE')};
-//   color: ${(props) => (props.theme === 'secondary' ? '#888888' : 'white')};
-
-//   @media (min-width: 768px) {
-//     &:enabled {
-//       &:hover {
-//         background-color: ${(props) =>
-//           props.theme === 'secondary' ? '#cccccc' : '#007fe6'};
-//         color: white;
-//       }
-//     }
-//   }
-
-//   &:disabled {
-//     opacity: 0.3;
-//     cursor: not-allowed;
-//   }
-// `;
-
-const Button = (props) => (
+const Button = ({
+  label = 'Button',
+  disabled = false,
+  fullWidth,
+  id,
+  isLoading,
+  onClick,
+  size,
+  style,
+  title,
+  type,
+  icon,
+}) => (
   <StyledButton
-    {...props}
-    onClick={props.onClick}
-    title={props.title}
-    fullWidth={props.fullWidth}
+    icon={icon}
+    label={label}
+    disabled={disabled}
+    fullWidth={fullWidth}
+    id={id}
+    isLoading={isLoading}
+    onClick={onClick}
+    size={size}
+    style={style}
+    tabIndex='3'
+    title={title}
+    type={type}
   >
-    {props.children}
+    {icon}
+    {/* {isLoading ? <ButtonLoader /> : label} */}
+    {label}
   </StyledButton>
 );
 
-// Button.propTypes = {
-//   disabled: PropTypes.bool,
-//   theme: PropTypes.oneOf(['primary', 'secondary']),
-//   fullWidth: PropTypes.bool,
-// };
+Button.propTypes = {
+  sending: PropTypes.bool,
+};
 
 Button.defaultProps = {
-  fullWidth: true,
+  sending: false,
 };
 
 export default Button;

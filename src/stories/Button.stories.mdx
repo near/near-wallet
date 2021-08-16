@@ -21,10 +21,30 @@ import Spacer from './docsSpacer';
       description: 'Disabled buttons cannot be pressed.',
       control: 'boolean',
     },
+    isLoading: {
+      name: 'isLoading',
+      description: 'Loading state',
+      control: 'boolean',
+    },
+    style: {
+      name: 'style',
+      description: 'The style variant of the button.',
+      options: ['primary', 'secondary', 'link'],
+      control: {
+        type: 'radio',
+      },
+    },
+    size: {
+      name: 'size',
+      description: 'The size of the button.',
+      options: ['regular', 'small'],
+      control: {
+        type: 'select',
+      },
+    },
   }}
   args={{
     label: 'Button',
-    theme: 'primary',
   }}
 />
 
@@ -39,12 +59,7 @@ Buttons are used primarily for actions, such as “Add”, “Close”, “Cance
 ### Example
 
 <Canvas>
-  <Story
-    name='Button'
-    args={{
-      theme: 'primary',
-    }}
-  >
+  <Story name='Button' args={{}}>
     {Template.bind({})}
   </Story>
 </Canvas>
