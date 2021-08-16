@@ -224,15 +224,15 @@ const ActionTimeStamp = ({ timeStamp }) => {
         'ago': '',
         'years': 'y',
         'year': 'y',
-        'months': 'mos',
+        'months': 'mo',
         'month': 'mo',
         'weeks': 'w',
         'week': 'w',
         'days': 'd',
         'day': 'd',
-        'hours': 'hrs',
+        'hours': 'hr',
         'hour': 'hr',
-        'minutes': 'mins',
+        'minutes': 'min',
         'minute': 'min',
         'seconds': 's'
     };
