@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Translate } from 'react-localize-redux';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 
-import { selectOneTransactionByHash } from '../../redux/slices/transactions';
+import { getTransactions, getTransactionStatus } from '../../actions/transactions';
+import { selectAccountId } from '../../reducers/account';
+import { selectOneTransactionByHash, selectTransactionsByAccountId } from '../../redux/slices/transactions';
 import { actionsPending } from '../../utils/alerts';
 import classNames from '../../utils/classNames';
 import { EXPLORER_URL } from '../../utils/wallet';
@@ -84,28 +86,36 @@ const StyledContainer = styled.div`
     }
 `;
 
-const ActivitiesWrapper = ({ transactions, accountId, getTransactionStatus }) => {
+const ActivitiesWrapper = () => {
+    const dispatch = useDispatch();
+
     const [transactionHash, setTransactionHash] = useState();
     const activityLoader = actionsPending(['GET_TRANSACTIONS', 'REFRESH_ACCOUNT_OWNER']);
-    const transaction = useSelector((state) => selectOneTransactionByHash(state, { accountId, hash: transactionHash }));
+
+    const accountId = useSelector(state => selectAccountId(state));
+    const transactions = useSelector(state => selectTransactionsByAccountId(state, { accountId }));
+    const transaction = useSelector(state => selectOneTransactionByHash(state, { accountId, hash: transactionHash }));
+
+    useEffect(() => {
+        if (accountId) {
+            dispatch(getTransactions(accountId));
+        }
+    }, [accountId]);
 
     return (
         <StyledContainer>
             <h2 className={classNames({'dots': activityLoader})}><Translate id='dashboard.activity' /></h2>
-            {transactions
-                ? transactions.map((transaction, i) => (
-                    <ActivityBox
-                        key={i}
-                        transaction={transaction}
-                        actionArgs={transaction.args}
-                        actionKind={transaction.kind}
-                        receiverId={transaction.receiver_id}
-                        accountId={accountId}
-                        setTransactionHash={setTransactionHash}
-                    />
-                ))
-                : null
-            }
+            {transactions.map((transaction, i) => (
+                <ActivityBox
+                    key={i}
+                    transaction={transaction}
+                    actionArgs={transaction.args}
+                    actionKind={transaction.kind}
+                    receiverId={transaction.receiver_id}
+                    accountId={accountId}
+                    setTransactionHash={setTransactionHash}
+                />
+            ))}
             {transactionHash && 
                 <ActivityDetailModal 
                     open={transactionHash}

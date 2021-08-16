@@ -5,12 +5,10 @@ import { Textfit } from 'react-textfit';
 import styled from 'styled-components';
 
 import { handleGetTokens } from '../../actions/tokens';
-import { getTransactions, getTransactionStatus } from '../../actions/transactions';
 import { useFungibleTokensIncludingNEAR } from '../../hooks/fungibleTokensIncludingNEAR';
 import { Mixpanel } from "../../mixpanel/index";
 import { selectAccountId, selectBalance } from '../../reducers/account';
 import { selectTokensWithMetadataForAccountId, actions as nftActions } from '../../redux/slices/nft';
-import { selectTransactionsByAccountId } from '../../redux/slices/transactions';
 import { selectLinkdropAmount, actions as linkdropActions } from '../../slices/linkdrop';
 import { actionsPendingByPrefix } from '../../utils/alerts';
 import classNames from '../../utils/classNames';
@@ -262,7 +260,6 @@ export function Wallet({ tab, setTab }) {
     const [exploreApps, setExploreApps] = useState(null);
     const accountId = useSelector(state => selectAccountId(state));
     const balance = useSelector(state => selectBalance(state));
-    const transactions = useSelector(state => selectTransactionsByAccountId(state, { accountId }));
     const dispatch = useDispatch();
     const hideExploreApps = localStorage.getItem('hideExploreApps');
     const linkdropAmount = useSelector(selectLinkdropAmount);
@@ -274,7 +271,6 @@ export function Wallet({ tab, setTab }) {
             let id = Mixpanel.get_distinct_id();
             Mixpanel.identify(id);
             Mixpanel.people.set({ relogin_date: new Date().toString() });
-            dispatch(getTransactions(accountId));
         }
     }, [accountId]);
 
@@ -332,12 +328,7 @@ export function Wallet({ tab, setTab }) {
                     {!hideExploreApps && exploreApps !== false &&
                         <ExploreApps onClick={handleHideExploreApps} />
                     }
-                    <ActivitiesWrapper
-                        transactions={transactions}
-                        accountId={accountId}
-                        getTransactionStatus={getTransactionStatus}
-
-                    />
+                    <ActivitiesWrapper/>
                 </div>
             </div>
             {linkdropAmount !== '0' &&
