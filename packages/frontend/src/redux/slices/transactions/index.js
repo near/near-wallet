@@ -1,12 +1,8 @@
 import { createSelector } from 'reselect';
 
-const SLICE_NAME = 'transactions';
+import createParameterSelector from '../../createParameterSelector';
 
-// A helper function to create the parameter selectors
-// Ref: https://flufd.github.io/reselect-with-multiple-parameters/
-function createParameterSelector(selector) {
-    return (_, params) => selector(params);
-}
+const SLICE_NAME = 'transactions';
 
 const getAccountIdParam = createParameterSelector((params) => params.accountId);
 
