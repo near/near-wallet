@@ -18,5 +18,5 @@ export const selectTransactionsByAccountId = createSelector(
 
 export const selectOneTransactionByHash = createSelector(
     [selectTransactionsByAccountId, getHashParam],
-    (transactionsByAccountId, hash) => transactionsByAccountId.find((transaction) => `${transaction.hash}-${transaction.kind}` === hash)
+    (transactions, hash) => transactions.find((transaction) => `${transaction.hash}-${transaction.kind}` === hash)
 );
