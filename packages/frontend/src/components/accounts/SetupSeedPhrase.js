@@ -144,7 +144,7 @@ class SetupSeedPhrase extends Component {
         await Mixpanel.withTracking("SR-SP Setup for new account",
             async () => {
                 await handleCreateAccountWithSeedPhrase(accountId, recoveryKeyPair, fundingOptions, recaptchaToken);
-                if (fundingOptions) {
+                if (fundingOptions.fundingAmount) {
                     setLinkdropAmount(fundingOptions.fundingAmount);
                 }
             },
