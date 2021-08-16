@@ -22,7 +22,7 @@ import Tooltip from '../common/Tooltip';
 import BuyIcon from '../svg/BuyIcon';
 import DownArrowIcon from '../svg/DownArrowIcon';
 import SendIcon from '../svg/SendIcon';
-import Activities from './Activities';
+import ActivitiesWrapper from './ActivitiesWrapper';
 import ExploreApps from './ExploreApps';
 import LinkDropSuccessModal from './LinkDropSuccessModal';
 import NFTs from './NFTs';
@@ -332,7 +332,7 @@ export function Wallet({ tab, setTab }) {
                     {!hideExploreApps && exploreApps !== false &&
                         <ExploreApps onClick={handleHideExploreApps} />
                     }
-                    <Activities
+                    <ActivitiesWrapper
                         transactions={transactions}
                         accountId={accountId}
                         getTransactionStatus={getTransactionStatus}
