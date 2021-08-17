@@ -10,10 +10,6 @@ const SLICE_NAME = 'transactions';
 const initialState = {
     transactions: {
         byAccountId: {}
-    },
-    status: {
-        loading: false,
-        error: null
     }
 };
 
@@ -49,7 +45,6 @@ const fetchTransactionStatus = createAsyncThunk(
             status = 'notAvailable';
         }
         const checkStatus = ['SuccessValue', 'Failure'].includes(status);
-
         const { actions: { updateTransactionStatus } } = transactionsSlice;
         dispatch(updateTransactionStatus({ status, checkStatus, accountId, hash }));
     }
@@ -66,7 +61,7 @@ const transactionsSlice = createSlice({
         updateTransactions(state, { payload }) {
             const { transactions, accountId } = payload;
 
-            const transactionsState = state.transactions.byAccountId[accountId];
+            const transactionsState = state.transactions.byAccountId[accountId].items;
             const hash = transactionsState.map((t) => t.hash_with_index);
 
             // when updating the transaction, we do not want to replace the entire array, because for some entries the tx status may already be fetched
@@ -82,7 +77,7 @@ const transactionsSlice = createSlice({
         updateTransactionStatus(state, { payload }) {
             const { status, checkStatus, accountId, hash } = payload;
 
-            const transactionsState = state.transactions.byAccountId[accountId];
+            const transactionsState = state.transactions.byAccountId[accountId].items;
 
             const transactionEntry = transactionsState.find((t) => t.hash === hash);
             if (transactionEntry) {
@@ -91,15 +86,21 @@ const transactionsSlice = createSlice({
         }
     },
     extraReducers: ((builder) => {
-        builder.addCase(fetchTransactions.pending, (state) => {
-            set(state, ['status', 'loading'], true);
+        builder.addCase(fetchTransactions.pending, (state, { meta }) => {
+            const { accountId } = meta.arg;
+
+            set(state, ['transactions', 'byAccountId', accountId, 'status', 'loading'], true);
         });
-        builder.addCase(fetchTransactions.fulfilled, (state) => {
-            set(state, ['status', 'loading'], false);
+        builder.addCase(fetchTransactions.fulfilled, (state,  { meta }) => {
+            const { accountId } = meta.arg;
+
+            set(state, ['transactions', 'byAccountId', accountId, 'status', 'loading'], false);
         });
-        builder.addCase(fetchTransactions.rejected, (state, { error }) => {
-            set(state, ['status', 'loading'], false);
-            set(state, ['status', 'error'], error?.message || 'An error was encountered.');
+        builder.addCase(fetchTransactions.rejected, (state, { meta, error }) => {
+            const { accountId } = meta.arg;
+            
+            set(state, ['transactions', 'byAccountId', accountId, 'status', 'loading'], false);
+            set(state, ['transactions', 'byAccountId', accountId, 'status', 'error'], error?.message || 'An error was encountered.');
         });
     })
 });
@@ -143,6 +144,6 @@ export const selectOneTransactionByHash = createSelector(
 );
 
 export const selectTransactionsLoading = createSelector(
-    [selectTransactionsSlice],
+    [selectTransactionsObjectByAccountId],
     (transactions) => transactions.status.loading || false
 );
