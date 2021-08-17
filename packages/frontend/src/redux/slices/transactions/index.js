@@ -119,3 +119,8 @@ export const selectOneTransactionByHash = createSelector(
     [selectTransactionsByAccountId, getHashParam],
     (transactionsByAccountId, hash) => transactionsByAccountId.find((transaction) => `${transaction.hash}-${transaction.kind}` === hash)
 );
+
+export const selectTransactionsLoading = createSelector(
+    [selectTransactionsSlice],
+    (transactions) => transactions.status.loading || false
+);
