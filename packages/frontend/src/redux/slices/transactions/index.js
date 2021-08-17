@@ -61,7 +61,7 @@ const transactionsSlice = createSlice({
     reducers: {
         setTransactions(state, { payload }) {
             const { transactions, accountId } = payload;
-            set(state, ['transactions', 'byAccountId', accountId], transactions);
+            set(state, ['transactions', 'byAccountId', accountId, 'items'], transactions);
         },
         updateTransactions(state, { payload }) {
             const { transactions, accountId } = payload;
@@ -133,13 +133,13 @@ export const selectTransactionsObjectByAccountId = createSelector(
 );
 
 export const selectTransactionsByAccountId = createSelector(
-    [selectTransactions, getAccountIdParam],
-    (transactions, accountId) => transactions.byAccountId[accountId] || []
+    [selectTransactionsObjectByAccountId],
+    (transactions) => transactions.items
 );
 
 export const selectOneTransactionByHash = createSelector(
     [selectTransactionsByAccountId, getHashParam],
-    (transactionsByAccountId, hash) => transactionsByAccountId.find((transaction) => `${transaction.hash}-${transaction.kind}` === hash)
+    (transactions, hash) => transactions.find((transaction) => `${transaction.hash}-${transaction.kind}` === hash)
 );
 
 export const selectTransactionsLoading = createSelector(
