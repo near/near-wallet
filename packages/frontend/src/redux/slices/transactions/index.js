@@ -56,6 +56,16 @@ const transactionsSlice = createSlice({
                 }
             });
         },
+        updateTransactionStatus(state, { payload }) {
+            const { status, checkStatus, accountId, hash } = payload;
+
+            const transactionsState = state.transactions.byAccountId[accountId];
+            const index = transactionsState.findIndex((t) => t.hash === hash);
+            if (index !== -1) {
+                transactionsState[index].status = status;
+                transactionsState[index].checkStatus = checkStatus;
+            }
+        }
     },
     extraReducers: ((builder) => {
         
