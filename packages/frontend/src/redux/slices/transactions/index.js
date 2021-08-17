@@ -4,6 +4,15 @@ import createParameterSelector from '../../createParameterSelector';
 
 const SLICE_NAME = 'transactions';
 
+const initialState = {
+    transactions: {
+        byAccountId: {}
+    },
+    status: {
+        
+    }
+};
+
 const getAccountIdParam = createParameterSelector((params) => params.accountId);
 
 const getHashParam = createParameterSelector((params) => params.hash);
