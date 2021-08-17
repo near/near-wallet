@@ -20,6 +20,12 @@ const fetchTransactions = createAsyncThunk(
     }
 );
 
+const fetchTransactionStatus = createAsyncThunk(
+    `${SLICE_NAME}/fetchTransactionStatus`,
+    async ({ hash, signer_id, accountId }, { dispatch, getState }) => {
+    }
+);
+
 const transactionsSlice = createSlice({
     name: SLICE_NAME,
     initialState,
