@@ -74,10 +74,10 @@ const transactionsSlice = createSlice({
             const { status, checkStatus, accountId, hash } = payload;
 
             const transactionsState = state.transactions.byAccountId[accountId];
-            const index = transactionsState.findIndex((t) => t.hash === hash);
-            if (index !== -1) {
-                transactionsState[index].status = status;
-                transactionsState[index].checkStatus = checkStatus;
+
+            const transactionEntry = transactionsState.find((t) => t.hash === hash);
+            if (transactionEntry) {
+                Object.assign(transactionEntry, { status, checkStatus});
             }
         }
     },
