@@ -12,7 +12,8 @@ const initialState = {
         byAccountId: {}
     },
     status: {
-        
+        loading: false,
+        error: null
     }
 };
 
@@ -88,8 +89,9 @@ const transactionsSlice = createSlice({
         builder.addCase(fetchTransactions.fulfilled, (state) => {
             set(state, ['status', 'loading'], false);
         });
-        builder.addCase(fetchTransactions.rejected, (state) => {
+        builder.addCase(fetchTransactions.rejected, (state, { error }) => {
             set(state, ['status', 'loading'], false);
+            set(state, ['status', 'error'], error?.message || 'An error was encountered.');
         });
     })
 });
