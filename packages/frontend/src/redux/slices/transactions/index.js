@@ -34,6 +34,21 @@ const transactionsSlice = createSlice({
             const { transactions, accountId } = payload;
             set(state, ['transactions', 'byAccountId', accountId], transactions);
         },
+        updateTransactions(state, { payload }) {
+            const { transactions, accountId } = payload;
+
+            const transactionsState = state.transactions.byAccountId[accountId];
+            const hash = transactionsState.map((t) => t.hash_with_index);
+
+            transactions.forEach((t) => {
+                if (!hash.includes(t.hash_with_index)) {
+                    transactionsState.unshift(t);
+                    if (transactionsState.length > 10) {
+                        transactionsState.pop();
+                    }
+                }
+            });
+        },
     },
     extraReducers: ((builder) => {
         
