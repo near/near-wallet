@@ -18,7 +18,16 @@ const transactionsSlice = createSlice({
     initialState,
     reducers: {
     },
+    extraReducers: ((builder) => {
+        
+    })
 });
+
+export default transactionsSlice;
+
+export const actions = {
+    ...transactionsSlice.actions
+};
 
 const getAccountIdParam = createParameterSelector((params) => params.accountId);
 
