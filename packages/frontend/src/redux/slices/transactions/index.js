@@ -124,6 +124,14 @@ const selectTransactions = createSelector(
     (transactions) => transactions.transactions || {}
 );
 
+export const selectTransactionsObjectByAccountId = createSelector(
+    [selectTransactions, getAccountIdParam],
+    (transactions, accountId) => ({
+        ...initialAccountIdState,
+        ...transactions.byAccountId[accountId]
+    })
+);
+
 export const selectTransactionsByAccountId = createSelector(
     [selectTransactions, getAccountIdParam],
     (transactions, accountId) => transactions.byAccountId[accountId] || []
