@@ -30,6 +30,17 @@ const fetchTransactions = createAsyncThunk(
 const fetchTransactionStatus = createAsyncThunk(
     `${SLICE_NAME}/fetchTransactionStatus`,
     async ({ hash, signer_id, accountId }, { dispatch, getState }) => {
+        let status;
+        try {
+            const transactionDetails = await transactionExtraInfo({ hash, signer_id });
+            status = Object.keys(transactionDetails.status)[0];
+        } catch (error) {
+            status = 'notAvailable';
+        }
+        const checkStatus = ['SuccessValue', 'Failure'].includes(status);
+
+        const { actions: { updateTransactionStatus } } = transactionsSlice;
+        dispatch(updateTransactionStatus({ status, checkStatus, accountId, hash }));
     }
 );
 
