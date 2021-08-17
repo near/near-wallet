@@ -30,6 +30,10 @@ const transactionsSlice = createSlice({
     name: SLICE_NAME,
     initialState,
     reducers: {
+        addTransactions(state, { payload }) {
+            const { transactions, accountId } = payload;
+            set(state, ['transactions', 'byAccountId', accountId], transactions);
+        },
     },
     extraReducers: ((builder) => {
         
