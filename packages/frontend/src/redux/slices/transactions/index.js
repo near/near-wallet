@@ -13,6 +13,13 @@ const initialState = {
     }
 };
 
+const transactionsSlice = createSlice({
+    name: SLICE_NAME,
+    initialState,
+    reducers: {
+    },
+});
+
 const getAccountIdParam = createParameterSelector((params) => params.accountId);
 
 const getHashParam = createParameterSelector((params) => params.hash);
