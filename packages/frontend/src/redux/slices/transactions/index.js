@@ -1,3 +1,4 @@
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { createSelector } from 'reselect';
 
 import createParameterSelector from '../../createParameterSelector';
@@ -12,6 +13,12 @@ const initialState = {
         
     }
 };
+
+const fetchTransactions = createAsyncThunk(
+    `${SLICE_NAME}/fetchTransactions`,
+    async ({ accountId }, { dispatch, getState }) => {
+    }
+);
 
 const transactionsSlice = createSlice({
     name: SLICE_NAME,
