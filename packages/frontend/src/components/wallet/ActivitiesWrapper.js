@@ -3,10 +3,8 @@ import { Translate } from 'react-localize-redux';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 
-import { getTransactions, getTransactionStatus } from '../../actions/transactions';
 import { selectAccountId } from '../../reducers/account';
-import { selectOneTransactionByHash, selectTransactionsByAccountId } from '../../redux/slices/transactions';
-import { actionsPending } from '../../utils/alerts';
+import { actions as transactionsActions } from '../../redux/slices/transactions';
 import classNames from '../../utils/classNames';
 import { EXPLORER_URL } from '../../utils/wallet';
 import FormButton from '../common/FormButton';
@@ -98,7 +96,7 @@ const ActivitiesWrapper = () => {
 
     useEffect(() => {
         if (accountId) {
-            dispatch(getTransactions(accountId));
+            dispatch(transactionsActions.fetchTransactions({ accountId }));
         }
     }, [accountId]);
 
