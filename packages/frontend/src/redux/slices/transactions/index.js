@@ -93,6 +93,8 @@ const transactionsSlice = createSlice({
 export default transactionsSlice;
 
 export const actions = {
+    fetchTransactions,
+    fetchTransactionStatus,
     ...transactionsSlice.actions
 };
 
@@ -103,12 +105,17 @@ const getHashParam = createParameterSelector((params) => params.hash);
 // Top level selectors
 const selectTransactionsSlice = (state) => state[SLICE_NAME] || {};
 
+const selectTransactions = createSelector(
+    [selectTransactionsSlice],
+    (transactions) => transactions.transactions || {}
+);
+
 export const selectTransactionsByAccountId = createSelector(
-    [selectTransactionsSlice, getAccountIdParam],
-    (transactions, accountId) => transactions[accountId] || []
+    [selectTransactions, getAccountIdParam],
+    (transactions, accountId) => transactions.byAccountId[accountId] || []
 );
 
 export const selectOneTransactionByHash = createSelector(
     [selectTransactionsByAccountId, getHashParam],
-    (transactions, hash) => transactions.find((transaction) => `${transaction.hash}-${transaction.kind}` === hash)
+    (transactionsByAccountId, hash) => transactionsByAccountId.find((transaction) => `${transaction.hash}-${transaction.kind}` === hash)
 );
