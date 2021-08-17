@@ -121,7 +121,6 @@ const ActivitiesWrapper = () => {
                     onClose={() => setTransactionHash()}
                     accountId={accountId}
                     transaction={transaction}
-                    getTransactionStatus={getTransactionStatus}
                 />
             }
             <FormButton
