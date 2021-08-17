@@ -226,6 +226,7 @@ class AccountFormAccountId extends Component {
                         <InputWrapper className={classNames([type, {'success': success}, {'problem': problem}, {'wrong-char': wrongChar}])}>
                             <input
                                 name='accountId'
+                                data-test-id="createAccount.accountIdInput"
                                 value={accountId}
                                 onInput={e => type === 'create' && this.updateSuffix(e.target.value)}
                                 onChange={e => this.handleChangeAccountId({ userValue: e.target.value, el: e.target })}

@@ -77,10 +77,16 @@ const SetupSeedPhraseVerify = (
 
     return (
         <CustomDiv>
-            <h4><Translate id='input.enterWord.title' data={{ wordId: wordId + 1 }}/></h4>
+            <h4 data-test-id="seedPhraseVerificationWordNumber">
+                <Translate
+                    id="input.enterWord.title"
+                    data={{ wordId: wordId + 1 }}
+                />
+            </h4>
             <Translate>
                 {({ translate }) => (
                     <input
+                        data-test-id="seedPhraseVerificationWordInput"
                         name='enterWord'
                         value={enterWord}
                         onChange={e => handleChangeWord(e.target.value)}

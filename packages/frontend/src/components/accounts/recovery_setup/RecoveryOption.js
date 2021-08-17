@@ -212,6 +212,7 @@ const RecoveryOption = ({
         <Container 
             onClick={!disabled ? onClick : undefined} 
             className={classNames([{active: active && !disabled, disabled, inputProblem: problem}])}
+            data-test-id={`recoveryOption.${option}`}
         >
             <Header>
                 <div>
