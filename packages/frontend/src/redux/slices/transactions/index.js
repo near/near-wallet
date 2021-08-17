@@ -17,6 +17,14 @@ const initialState = {
     }
 };
 
+const initialAccountIdState = {
+    items: [],
+    status: {
+        loading: false,
+        error: null
+    }
+};
+
 const fetchTransactions = createAsyncThunk(
     `${SLICE_NAME}/fetchTransactions`,
     async ({ accountId }, { dispatch, getState }) => {
