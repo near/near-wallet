@@ -1,6 +1,8 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import set from 'lodash-es/set';
 import { createSelector } from 'reselect';
 
+import { getTransactions, transactionExtraInfo } from '../../../utils/explorer-api';
 import createParameterSelector from '../../createParameterSelector';
 
 const SLICE_NAME = 'transactions';
@@ -79,7 +81,12 @@ const transactionsSlice = createSlice({
         }
     },
     extraReducers: ((builder) => {
-        
+        builder.addCase(fetchTransactions.pending, (state) => {
+            set(state, ['status', 'loading'], true);
+        });
+        builder.addCase(fetchTransactions.fulfilled, (state) => {
+            set(state, ['status', 'loading'], false);
+        });
     })
 });
 
