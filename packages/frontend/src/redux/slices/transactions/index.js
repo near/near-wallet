@@ -88,6 +88,9 @@ const transactionsSlice = createSlice({
         builder.addCase(fetchTransactions.fulfilled, (state) => {
             set(state, ['status', 'loading'], false);
         });
+        builder.addCase(fetchTransactions.rejected, (state) => {
+            set(state, ['status', 'loading'], false);
+        });
     })
 });
 
