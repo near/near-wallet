@@ -370,6 +370,7 @@ const FungibleTokens = ({ balance, tokensLoader, fungibleTokens }) => {
                     color='dark-gray'
                     linkTo='/send-money'
                     trackingId='Click Send on Wallet page'
+                    data-test-id="balancesTab.send"
                 >
                     <div>
                         <SendIcon />
@@ -380,6 +381,7 @@ const FungibleTokens = ({ balance, tokensLoader, fungibleTokens }) => {
                     color='dark-gray'
                     linkTo='/receive-money'
                     trackingId='Click Receive on Wallet page'
+                    data-test-id="balancesTab.receive"
                 >
                     <div>
                         <DownArrowIcon />
@@ -390,6 +392,7 @@ const FungibleTokens = ({ balance, tokensLoader, fungibleTokens }) => {
                     color='dark-gray'
                     linkTo='/buy'
                     trackingId='Click Receive on Wallet page'
+                    data-test-id="balancesTab.buy"
                 >
                     <div>
                         <BuyIcon />

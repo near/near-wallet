@@ -49,6 +49,7 @@ const AmountInput = ({ value, onChange, error, autoFocus = true, maxLength = 18}
             type='number'
             step='any'
             placeholder='0'
+            data-test-id="sendMoneyAmountInput"
             value={value}
             onChange={(event) => {
                 const { value, maxLength } = event.target;

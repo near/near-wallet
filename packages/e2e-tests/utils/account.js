@@ -87,11 +87,13 @@ async function createBankSubAccount(accountId) {
         seedPhrase: testAccountSeedphrase,
         delete: async () =>
             await testAccount.deleteAccount(parentAccount.accountId),
+        getAccountInstance: () => near.account(testAccount.accountId),
     };
 }
 
 module.exports = {
     createRandomBankSubAccount,
     generateTestAccountId,
-    connectToAccountWithSeedphrase
+    connectToAccountWithSeedphrase,
+    getKeyPairFromSeedPhrase,
 };
