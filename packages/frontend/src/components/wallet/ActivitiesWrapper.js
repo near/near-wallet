@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 
 import { selectAccountId } from '../../reducers/account';
+import { selectOneTransactionByHash, selectTransactionsByAccountId, selectTransactionsLoading } from '../../redux/slices/transactions';
 import { actions as transactionsActions } from '../../redux/slices/transactions';
 import classNames from '../../utils/classNames';
 import { EXPLORER_URL } from '../../utils/wallet';
@@ -88,11 +89,11 @@ const ActivitiesWrapper = () => {
     const dispatch = useDispatch();
 
     const [transactionHash, setTransactionHash] = useState();
-    const activityLoader = actionsPending(['GET_TRANSACTIONS', 'REFRESH_ACCOUNT_OWNER']);
 
     const accountId = useSelector(state => selectAccountId(state));
     const transactions = useSelector(state => selectTransactionsByAccountId(state, { accountId }));
     const transaction = useSelector(state => selectOneTransactionByHash(state, { accountId, hash: transactionHash }));
+    const activityLoader = useSelector(state => selectTransactionsLoading(state));
 
     useEffect(() => {
         if (accountId) {
