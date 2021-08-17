@@ -17,6 +17,13 @@ const initialState = {
 const fetchTransactions = createAsyncThunk(
     `${SLICE_NAME}/fetchTransactions`,
     async ({ accountId }, { dispatch, getState }) => {
+        const transactions = await getTransactions({ accountId });
+
+        const { actions: { addTransactions, updateTransactions } } = transactionsSlice;
+
+        !selectTransactionsByAccountId(getState(), { accountId }).length
+            ? dispatch(addTransactions({ transactions, accountId }))
+            : dispatch(updateTransactions({ transactions, accountId }));
     }
 );
 
