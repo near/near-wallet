@@ -7,6 +7,7 @@ import styled from 'styled-components';
 import iconShare from '../../images/icon-share-blue.svg';
 import { Mixpanel } from '../../mixpanel/index';
 import copyText from '../../utils/copyText';
+import isMobile from '../../utils/isMobile';
 import Divider from '../common/Divider';
 import {Snackbar, snackbarDuration } from '../common/Snackbar';
 import ProfileQRCode from '../profile/ProfileQRCode';
@@ -146,8 +147,7 @@ class ReceiveMoney extends Component {
         } = this.state;
 
         const {
-            account,
-            isMobile
+            account
         } = this.props;
 
         const accountId = account?.accountId || account.localStorage?.accountId;
@@ -163,7 +163,7 @@ class ReceiveMoney extends Component {
                                 <UrlAddress ref={this.urlRef}>
                                     {accountId}
                                 </UrlAddress>
-                                {navigator.share && isMobile ? (
+                                {navigator.share && isMobile() ? (
                                     <MobileShare/>
                                 ) : (
                                     <CopyAddress title={translate('receivePage.copyAddressLinkLong')}>
@@ -190,9 +190,8 @@ class ReceiveMoney extends Component {
     }
 }
 
-const mapStateToProps = ({ account, status }) => ({
-   account,
-   isMobile: status.isMobile
+const mapStateToProps = ({ account }) => ({
+   account
 });
 
 export const ReceiveMoneyWithRouter = connect(

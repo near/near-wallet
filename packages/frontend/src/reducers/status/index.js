@@ -5,8 +5,7 @@ import { makeAccountActive } from '../../actions/account';
 import {
     clearLocalAlert,
     clearGlobalAlert,
-    setMainLoader,
-    setIsMobile
+    setMainLoader
 } from '../../actions/status';
 
 
@@ -14,8 +13,7 @@ const initialState = {
     mainLoader: false,
     actionStatus: {},
     globalAlert: {},
-    localAlert: {},
-    isMobile: null
+    localAlert: {}
 };
 
 const alertReducer = (state, { error, ready, payload, meta, type }) => {
@@ -116,20 +114,11 @@ const mainLoader = handleActions({
     })
 }, initialState);
 
-const isMobile = handleActions({
-    [setIsMobile]: (state, { payload }) => ({
-        ...state,
-        isMobile: payload
-    })
-}, initialState);
-
 export default reduceReducers(
     initialState,
     alertReducer,
     clearReducer,
-    mainLoader,
-    isMobile
+    mainLoader
 );
 
 export const selectActionStatus = state => state.status.actionStatus;
-export const selectIsMobile = state => state.status.isMobile;

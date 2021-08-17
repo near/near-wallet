@@ -8,6 +8,7 @@ import { checkNewAccount, createNewAccount, refreshAccount, checkNearDropBalance
 import { clearLocalAlert } from '../../actions/status';
 import { Mixpanel } from '../../mixpanel/index';
 import { selectNearTokenFiatValueUSD } from '../../slices/tokenFiatValues';
+import isMobile from '../../utils/isMobile';
 import { ACCOUNT_ID_SUFFIX, MIN_BALANCE_TO_CREATE, IS_MAINNET } from '../../utils/wallet';
 import AccountNote from '../common/AccountNote';
 import { getNearAndFiatValue } from '../common/balance/helpers';
@@ -170,7 +171,6 @@ class CreateAccount extends Component {
             clearLocalAlert,
             fundingContract,
             fundingKey,
-            isMobile,
             nearTokenFiatValueUSD,
             locationSearch
         } = this.props;
@@ -244,7 +244,7 @@ class CreateAccount extends Component {
                             accountId={accountId}
                             clearLocalAlert={clearLocalAlert}
                             defaultAccountId={resetAccount && resetAccount.accountIdNotConfirmed.split('.')[0]}
-                            autoFocus={isMobile ? false : true}
+                            autoFocus={isMobile() ? false : true}
                         />
                         <AccountNote />
                         <FormButton
@@ -297,7 +297,6 @@ const mapStateToProps = (state, ownProps) => {
         ...account,
         localAlert: status.localAlert,
         mainLoader: status.mainLoader,
-        isMobile: status.isMobile,
         fundingContract: match.params.fundingContract,
         fundingKey: match.params.fundingKey,
         fundingAccountId: match.params.fundingAccountId,

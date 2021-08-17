@@ -8,7 +8,6 @@ import { Redirect, Route, Switch } from 'react-router-dom';
 import styled, { ThemeProvider } from 'styled-components';
 
 import * as accountActions from '../actions/account';
-import { setIsMobile } from '../actions/status';
 import TwoFactorVerifyModal from '../components/accounts/two_factor/TwoFactorVerifyModal';
 import { Mixpanel } from "../mixpanel/index";
 import { actions as tokenFiatValueActions } from '../slices/tokenFiatValues';
@@ -21,7 +20,6 @@ import translations_zh_hant from '../translations/zh-hant.global.json';
 import { handleClearAlert } from '../utils/alerts';
 import classNames from '../utils/classNames';
 import getBrowserLocale from '../utils/getBrowserLocale';
-import isMobile from '../utils/isMobile';
 import { getAccountIsInactive, removeAccountIsInactive, setAccountIsInactive } from '../utils/localStorage';
 import { reportUiActiveMixpanelThrottled } from '../utils/reportUiActiveMixpanelThrottled';
 import ScrollToTop from '../utils/ScrollToTop';
@@ -156,7 +154,6 @@ class Routing extends Component {
             handleRedirectUrl,
             handleClearUrl,
             router,
-            setIsMobile,
             fetchTokenFiatValues
         } = this.props;
         
@@ -164,7 +161,6 @@ class Routing extends Component {
         this.startPollingTokenFiatValue();
         handleRefreshUrl(router);
         refreshAccount();
-        setIsMobile(isMobile());
 
         history.listen(async () => {
             handleRedirectUrl(this.props.router.location);
@@ -490,7 +486,6 @@ const mapDispatchToProps = {
     promptTwoFactor,
     redirectTo,
     getAccountHelperWalletState,
-    setIsMobile,
     fetchTokenFiatValues
 };
 

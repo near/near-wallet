@@ -18,8 +18,8 @@ import {
 import { useAccount } from '../../hooks/allAccounts';
 import { Mixpanel } from "../../mixpanel/index";
 import { selectProfileBalance } from '../../reducers/selectors/balance';
-import { selectIsMobile } from '../../reducers/status';
 import { selectNearTokenFiatValueUSD } from '../../slices/tokenFiatValues';
+import isMobile from '../../utils/isMobile';
 import FormButton from '../common/FormButton';
 import SkeletonLoading from '../common/SkeletonLoading';
 import Container from '../common/styled/Container.css';
@@ -131,7 +131,6 @@ export function Profile({ match }) {
     const loginAccountId = useSelector(state => state.account.accountId);
     const recoveryMethods = useSelector(({ recoveryMethods }) => recoveryMethods);
     const nearTokenFiatValueUSD = useSelector(selectNearTokenFiatValueUSD);
-    const isMobile = useSelector(selectIsMobile);
     const accountIdFromUrl = match.params.accountId;
     const accountId = accountIdFromUrl || loginAccountId;
     const isOwner = accountId === loginAccountId;
@@ -267,7 +266,7 @@ export function Profile({ match }) {
                                 )}
                             </>
                         }
-                        {!account.ledgerKey && !isMobile &&
+                        {!account.ledgerKey && !isMobile() &&
                             <MobileSharingWrapper/>
                         }
                     </div>
