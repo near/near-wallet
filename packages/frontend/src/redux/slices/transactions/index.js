@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import set from 'lodash-es/set';
+import set from 'lodash.set';
 import { createSelector } from 'reselect';
 
 import { getTransactions, transactionExtraInfo } from '../../../utils/explorer-api';
