@@ -21,10 +21,10 @@ const fetchTransactions = createAsyncThunk(
     async ({ accountId }, { dispatch, getState }) => {
         const transactions = await getTransactions({ accountId });
 
-        const { actions: { addTransactions, updateTransactions } } = transactionsSlice;
+        const { actions: { setTransactions, updateTransactions } } = transactionsSlice;
 
         !selectTransactionsByAccountId(getState(), { accountId }).length
-            ? dispatch(addTransactions({ transactions, accountId }))
+            ? dispatch(setTransactions({ transactions, accountId }))
             : dispatch(updateTransactions({ transactions, accountId }));
     }
 );
@@ -50,7 +50,7 @@ const transactionsSlice = createSlice({
     name: SLICE_NAME,
     initialState,
     reducers: {
-        addTransactions(state, { payload }) {
+        setTransactions(state, { payload }) {
             const { transactions, accountId } = payload;
             set(state, ['transactions', 'byAccountId', accountId], transactions);
         },
