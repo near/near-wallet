@@ -3,6 +3,7 @@ import set from 'lodash.set';
 import update from 'lodash.update';
 import { createSelector } from 'reselect';
 
+import { switchAccount } from '../../redux/slices/account';
 import NonFungibleTokens, { TOKENS_PER_PAGE } from '../../services/NonFungibleTokens';
 
 const { getLikelyTokenContracts, getMetadata, getTokens } = NonFungibleTokens;
@@ -131,6 +132,9 @@ const nftSlice = createSlice({
                 const { accountId, contractName } = meta.arg;
                 set(state, ['ownedTokens', 'byAccountId', accountId, 'byContractName', contractName, 'loading'], false);
                 set(state, ['ownedTokens', 'byAccountId', accountId, 'byContractName', contractName, 'error'], error?.message || 'An error was encountered.');
+            });
+            builder.addCase(switchAccount.fulfilled, (state) => {
+                state.ownedTokens = initialState.ownedTokens;
             });
         })
     }
