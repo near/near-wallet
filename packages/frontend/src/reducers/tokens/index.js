@@ -3,6 +3,7 @@ import reduceReducers from 'reduce-reducers';
 import { handleActions } from 'redux-actions';
 import { createSelector } from 'reselect';
 
+import { clearAccountState } from '../../actions/account';
 import { tokens } from '../../actions/tokens';
 
 const initialState = {
@@ -41,9 +42,7 @@ const tokensReducer = handleActions({
 }, initialState);
 
 const clearReducer = handleActions({
-    [tokens.clearState]: () => ({
-        ...initialState
-    }),
+    [clearAccountState]: () => initialState
 }, initialState);
 
 export default reduceReducers(
