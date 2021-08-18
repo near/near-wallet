@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { switchAccount } from '../../actions/account';
+import { switchAccount } from '../../redux/slices/account';
 import Balance from '../common/balance/Balance';
 import Button from '../common/Button';
 import FormButton from '../common/FormButton';
