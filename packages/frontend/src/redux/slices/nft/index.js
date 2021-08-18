@@ -4,7 +4,6 @@ import update from 'lodash.update';
 import { createSelector } from 'reselect';
 
 import NonFungibleTokens, { TOKENS_PER_PAGE } from '../../../services/NonFungibleTokens';
-import { switchAccount } from '../account';
 
 const { getLikelyTokenContracts, getMetadata, getTokens } = NonFungibleTokens;
 
@@ -127,9 +126,6 @@ const nftSlice = createSlice({
                 const { accountId, contractName } = meta.arg;
                 set(state, ['ownedTokens', 'byAccountId', accountId, 'byContractName', contractName, 'loading'], false);
                 set(state, ['ownedTokens', 'byAccountId', accountId, 'byContractName', contractName, 'error'], error?.message || 'An error was encountered.');
-            });
-            builder.addCase(switchAccount.fulfilled, (state) => {
-                state.ownedTokens = initialState.ownedTokens;
             });
         })
     }
