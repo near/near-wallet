@@ -15,6 +15,5 @@ export const switchAccount = createAsyncThunk(
         dispatch(staking.clearState());
         dispatch(refreshAccount());
         dispatch(tokens.clearState());
-        dispatch(nftSlice.actions.clearState());
     }
 );
