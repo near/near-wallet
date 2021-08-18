@@ -81,7 +81,7 @@ class Navigation extends Component {
     }
 
     handleSelectAccount = accountId => {
-        this.props.switchAccount(accountId);
+        this.props.switchAccount({ accountId });
         this.setState({ menuOpen: false });
     }
 

@@ -75,7 +75,7 @@ export default function AccountDropdown({ disabled }) {
                     availAccounts.filter(a => a !== accountId).map((account, i) =>
                         <div
                             key={i}
-                            onClick={() => dispatch(switchAccount(account))}
+                            onClick={() => dispatch(switchAccount({ accountId: account }))}
                             className='account-dropdown-toggle'
                         >
                             {account}

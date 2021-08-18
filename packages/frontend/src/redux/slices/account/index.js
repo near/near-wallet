@@ -9,7 +9,7 @@ const SLICE_NAME = 'account';
 
 export const switchAccount = createAsyncThunk(
     `${SLICE_NAME}/switchAccount`,
-    async (accountId, { dispatch }) => {
+    async ({ accountId }, { dispatch }) => {
         dispatch(makeAccountActive(accountId));
         dispatch(handleRefreshUrl());
         dispatch(staking.clearState());
