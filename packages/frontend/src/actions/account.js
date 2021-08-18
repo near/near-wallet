@@ -569,6 +569,13 @@ export const refreshAccount = (basicData = false) => async (dispatch, getState) 
     }
 };
 
+export const switchAccount = (accountId) => async (dispatch, getState) => {
+    dispatch(makeAccountActive(accountId));
+    dispatch(handleRefreshUrl());
+    dispatch(refreshAccount());
+    dispatch(clearAccountState());
+};
+
 export const clearAccountState = () => async (dispatch, getState) => {
     dispatch(staking.clearState());
     dispatch(tokens.clearState());
