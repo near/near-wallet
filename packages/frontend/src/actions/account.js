@@ -569,7 +569,7 @@ export const refreshAccount = (basicData = false) => async (dispatch, getState) 
     }
 };
 
-export const switchAccount = (accountId) => async (dispatch, getState) => {
+export const switchAccount = ({ accountId }) => async (dispatch, getState) => {
     dispatch(makeAccountActive(accountId));
     dispatch(handleRefreshUrl());
     dispatch(refreshAccount());
