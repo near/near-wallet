@@ -3,8 +3,8 @@ import set from 'lodash.set';
 import update from 'lodash.update';
 import { createSelector } from 'reselect';
 
-import { switchAccount } from '../../redux/slices/account';
-import NonFungibleTokens, { TOKENS_PER_PAGE } from '../../services/NonFungibleTokens';
+import NonFungibleTokens, { TOKENS_PER_PAGE } from '../../../services/NonFungibleTokens';
+import { switchAccount } from '../account';
 
 const { getLikelyTokenContracts, getMetadata, getTokens } = NonFungibleTokens;
 
