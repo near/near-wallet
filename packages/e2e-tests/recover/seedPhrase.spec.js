@@ -15,7 +15,7 @@ describe("Account Recovery Using Seed Phrase", () => {
      * https://github.com/microsoft/playwright/pull/8008
      */
     afterAll(async () => {
-        await testAccount.delete();
+        testAccount && (await testAccount.delete());
     });
 
     test("navigates to seed phrase page successfully", async ({ page }) => {
