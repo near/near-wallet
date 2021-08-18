@@ -576,12 +576,6 @@ export const switchAccount = ({ accountId }) => async (dispatch, getState) => {
     dispatch(clearAccountState());
 };
 
-export const clearAccountState = () => async (dispatch, getState) => {
-    dispatch(staking.clearState());
-    dispatch(tokens.clearState());
-    dispatch(nftSlice.actions.clearState());
-};
-
 export const getAvailableAccountsBalance = () => async (dispatch, getState) => {
     let { accountsBalance } = getState().account;
     let { availableAccounts, flowLimitation } = getState();
