@@ -1,3 +1,4 @@
+import { createAsyncThunk } from '@reduxjs/toolkit';
 import { BN } from 'bn.js';
 import { push } from 'connected-react-router';
 import { utils } from 'near-api-js';
@@ -570,12 +571,15 @@ export const refreshAccount = (basicData = false) => async (dispatch, getState) 
     }
 };
 
-export const switchAccount = (accountId) => async (dispatch, getState) => {
-    dispatch(makeAccountActive(accountId));
-    dispatch(handleRefreshUrl());
-    dispatch(refreshAccount());
-    dispatch(clearAccountState());
-};
+export const switchAccount = createAsyncThunk(
+    'switchAccount',
+    async (accountId, { dispatch }) => {
+        dispatch(makeAccountActive(accountId));
+        dispatch(handleRefreshUrl());
+        dispatch(refreshAccount());
+        dispatch(clearAccountState());
+    }
+);
 
 export const clearAccountState = () => async (dispatch, getState) => {
     dispatch(staking.clearState());
