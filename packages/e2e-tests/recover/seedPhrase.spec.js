@@ -1,6 +1,6 @@
 const { test, expect } = require("@playwright/test");
 
-const { createTestSubaccount } = require("../utils/account");
+const { createRandomBankSubAccount } = require("../utils/account");
 
 const { describe, beforeAll, afterAll } = test;
 
@@ -8,7 +8,7 @@ describe("Account Recovery Using Seed Phrase", () => {
     let testAccount;
 
     beforeAll(async () => {
-        testAccount = await createTestSubaccount();
+        testAccount = await createRandomBankSubAccount();
     });
 
     /** Note: afterAll hook does not currently run if tests timeout / fail:
@@ -24,7 +24,7 @@ describe("Account Recovery Using Seed Phrase", () => {
         await page.click(
             `button:text-matches("Import Existing Account", "i")`
         );
-        await page.click(`a:text-matches("Recover Account", "i")`);
+        await page.click(`data-test-id=recoverAccountWithPassphraseButton`);
 
         expect(page).toMatchURL(/\/recover-seed-phrase$/);
     });

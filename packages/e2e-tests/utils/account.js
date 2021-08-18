@@ -19,27 +19,31 @@ function getKeyPairFromSeedPhrase(seedPhrase) {
     return KeyPair.fromString(parseSeedPhrase(seedPhrase).secretKey)
 }
 
-function generateTestSubaccountId(parentAccountId) {
+function generateTestAccountId() {
     return `test-account-${Date.now()}-${
         Math.floor(Math.random() * 1000) % 1000
-    }.${parentAccountId}`;
+    }`;
 }
 
-async function createTestSubaccount(accountId) {
+async function createRandomBankSubAccount() {
+    return await createBankSubAccount(generateTestAccountId());
+}
+
+async function createBankSubAccount(accountId) {
     const {
         BANK_ACCOUNT: parentAccountId,
         BANK_SEED_PHRASE: parentAccountSeedphrase,
         TEST_ACCOUNT_SEED_PHRASE,
     } = process.env;
-    const testAccountId =
-        accountId || generateTestSubaccountId(parentAccountId);
+
+    const testAccountId = `${accountId}.${parentAccountId}`;
     const testAccountSeedphrase = `${testAccountId} ${TEST_ACCOUNT_SEED_PHRASE}`;
     const config = getDefaultConfig(parentAccountId);
 
     const parentAccountKeyPair = getKeyPairFromSeedPhrase(
         parentAccountSeedphrase
     );
-    config.keyStore.setKey(
+    await config.keyStore.setKey(
         config.networkId,
         parentAccountId,
         parentAccountKeyPair
@@ -48,7 +52,7 @@ async function createTestSubaccount(accountId) {
     const testAccountKeyPair = getKeyPairFromSeedPhrase(
         testAccountSeedphrase
     );
-    config.keyStore.setKey(config.networkId, testAccountId, testAccountKeyPair);
+    await config.keyStore.setKey(config.networkId, testAccountId, testAccountKeyPair);
 
     const near = await connect(config);
     const parentAccount = await near.account(parentAccountId);
@@ -69,5 +73,5 @@ async function createTestSubaccount(accountId) {
 }
 
 module.exports = {
-    createTestSubaccount,
+    createRandomBankSubAccount
 };
