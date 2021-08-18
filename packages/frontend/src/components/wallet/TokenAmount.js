@@ -4,12 +4,6 @@ import { formatTokenAmount, removeTrailingZeros } from '../../utils/amounts';
 
 const FRAC_DIGITS = 5;
 
-const amountWithCommas = (amount) => {
-    var parts = amount.split('.');
-    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-    return parts.join('.');
-};
-
 const formatToken = (amount, decimals) => {
     if (amount === '0') {
         return amount;
@@ -20,7 +14,7 @@ const formatToken = (amount, decimals) => {
     if (formattedAmount === `0.${'0'.repeat(FRAC_DIGITS)}`) {
         return `< ${!FRAC_DIGITS ? `0` : `0.${'0'.repeat((FRAC_DIGITS || 1) - 1)}1`}`;
     }
-    return amountWithCommas(removeTrailingZeros(formattedAmount));
+    return removeTrailingZeros(formattedAmount).replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
 };
 
 const showFullAmount = (amount, decimals, symbol) =>
