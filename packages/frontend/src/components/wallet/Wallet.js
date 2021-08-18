@@ -11,6 +11,7 @@ import { Mixpanel } from "../../mixpanel/index";
 import { selectAccountId, selectBalance } from '../../reducers/account';
 import { selectTransactions } from '../../reducers/transactions';
 import { selectTokensWithMetadataForAccountId, actions as nftActions } from '../../redux/slices/nft';
+import { selectLinkdropAmount, actions as linkdropActions } from '../../slices/linkdrop';
 import { actionsPendingByPrefix } from '../../utils/alerts';
 import classNames from '../../utils/classNames';
 import { SHOW_NETWORK_BANNER } from '../../utils/wallet';
