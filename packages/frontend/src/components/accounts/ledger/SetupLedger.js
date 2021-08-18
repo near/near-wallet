@@ -83,7 +83,7 @@ const SetupLedger = (props) => {
                         }
 
                         await dispatch(createNewAccount(accountId, fundingOptions, 'ledger', publicKey, undefined, recaptchaToken));
-                        if (fundingOptions.fundingAmount) {
+                        if (fundingOptions?.fundingAmount) {
                             setLinkdropAmount(fundingOptions.fundingAmount);
                         }
                         Mixpanel.track("SR-Ledger Create new account ledger");

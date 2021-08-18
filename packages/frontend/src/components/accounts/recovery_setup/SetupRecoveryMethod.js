@@ -204,7 +204,7 @@ class SetupRecoveryMethod extends Component {
             try {
                 // NOT IMPLICIT ACCOUNT (testnet, linkdrop, funded to delegated account via contract helper)
                 await createNewAccount(accountId, fundingOptions, method, recoveryKeyPair.publicKey, undefined, recaptchaToken);
-                if (fundingOptions.fundingAmount) {
+                if (fundingOptions?.fundingAmount) {
                     setLinkdropAmount(fundingOptions.fundingAmount);
                 }
             } catch (e) {
