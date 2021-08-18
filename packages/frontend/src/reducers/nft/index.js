@@ -107,11 +107,6 @@ const nftSlice = createSlice({
                 const { contractName, tokens, accountId } = payload;
                 set(state, ['ownedTokens', 'byAccountId', accountId, 'byContractName', contractName, 'hasFetchedAllTokensForContract'], tokens.length < TOKENS_PER_PAGE);
                 update(state, ['ownedTokens', 'byAccountId', accountId, 'byContractName', contractName, 'tokens'], (n) => (n || []).concat(tokens));
-            },
-            clearState(state) {
-                debugLog('REDUCER/clearState');
-
-                state.ownedTokens = initialState.ownedTokens;
             }
         },
         extraReducers: ((builder) => {
