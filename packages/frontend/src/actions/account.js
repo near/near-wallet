@@ -5,7 +5,6 @@ import { PublicKey, KeyType } from 'near-api-js/lib/utils/key_pair';
 import { parse, stringify } from 'query-string';
 import { createActions, createAction } from 'redux-actions';
 
-import nftSlice from '../reducers/nft';
 import { showAlert, dispatchWithAlert } from '../utils/alerts';
 import { loadState, saveState, clearState } from '../utils/sessionStorage';
 import { TwoFactor } from '../utils/twoFactor';
