@@ -1090,6 +1090,23 @@
         }
     },
 
+    "mobileDeviceAccess": {
+        "title": "Mobile Device Access",
+        "showCode": {
+            "desc": "Scan your mobile access code to grant full account access to your mobile device.",
+            "button": "View Mobile Code",
+            "modal": {
+                "title": "Mobile Access Code",
+                "desc": "Reveal and scan the QR code below to import your account on your mobile device.",
+                "disclaimer": "<b>This code contains highly sensitive data and grants full account access to your mobile device.</b> Take care not to share or expose it, and only import your account to a secure device that you own.",
+                "reveal": "Reveal"
+            }
+        },
+        "importCode": {
+            "desc": "If you are already logged in on a desktop device, scan your mobile access code to import your account."
+        }
+    },
+
     "sendMoney": {
         "title": {
             "default": "Send",

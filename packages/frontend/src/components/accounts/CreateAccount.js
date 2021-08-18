@@ -8,6 +8,7 @@ import { checkNewAccount, createNewAccount, refreshAccount, checkNearDropBalance
 import { clearLocalAlert } from '../../actions/status';
 import { Mixpanel } from '../../mixpanel/index';
 import { selectNearTokenFiatValueUSD } from '../../slices/tokenFiatValues';
+import isMobile from '../../utils/isMobile';
 import { ACCOUNT_ID_SUFFIX, MIN_BALANCE_TO_CREATE, IS_MAINNET } from '../../utils/wallet';
 import AccountNote from '../common/AccountNote';
 import { getNearAndFiatValue } from '../common/balance/helpers';
@@ -19,11 +20,9 @@ import FundNearIcon from '../svg/FundNearIcon';
 import AccountFormAccountId from './AccountFormAccountId';
 
 const StyledContainer = styled(Container)`
-
     .input {
         width: 100%;
     }
-
     button {
         &.blue {
             width: 100% !important;
@@ -33,12 +32,10 @@ const StyledContainer = styled(Container)`
                 text-decoration: underline;
                 font-weight: 400 !important;
                 margin-bottom: 60px !important;
-
                 :hover {
                     text-decoration: none !important;
                 }
             }
-
             &.gray {
                 color: #72727A !important;
                 margin: 35px auto !important;
@@ -46,17 +43,14 @@ const StyledContainer = styled(Container)`
             }
         }
     }
-
     h6 {
         margin: 30px 0 5px 0 !important;
         font-size: 15px !important;
         color: #24272a;
     }
-
     a {
         text-decoration: underline;
         color: #72727A;
-
         :hover {
             text-decoration: none;
             color: #72727A;
@@ -68,36 +62,30 @@ const StyledContainer = styled(Container)`
         text-align: center;
         margin-top: 30px;
     }
-
     .alternatives {
         display: flex;
         justify-content: center;
         margin-top: 5px;
     }
-
     &.invalid-link {
         svg {
             display: block;
             margin: 0 auto;
         }
-
         h2 {
             margin-top: 20px;
         }
     }
-
     .disclaimer {
         color: #72727A;
         text-align: center;
         font-size: 12px;
         max-width: 350px;
         margin: 0 auto;
-
         &.no-terms-page {
             margin-top: 35px;
         }
     }
-
     .fund-with-near-icon {
         margin: 0 auto 40px auto;
         display: block;
@@ -183,8 +171,8 @@ class CreateAccount extends Component {
             clearLocalAlert,
             fundingContract,
             fundingKey,
-            isMobile,
-            nearTokenFiatValueUSD
+            nearTokenFiatValueUSD,
+            locationSearch
         } = this.props;
         
         const isLinkDrop = fundingContract && fundingKey;
@@ -256,7 +244,7 @@ class CreateAccount extends Component {
                             accountId={accountId}
                             clearLocalAlert={clearLocalAlert}
                             defaultAccountId={resetAccount && resetAccount.accountIdNotConfirmed.split('.')[0]}
-                            autoFocus={isMobile ? false : true}
+                            autoFocus={isMobile() ? false : true}
                         />
                         <AccountNote />
                         <FormButton
@@ -273,7 +261,7 @@ class CreateAccount extends Component {
                         }
                         <div className='alternatives-title'><Translate id='createAccount.alreadyHaveAnAccount' /></div>
                         <div className='alternatives' onClick={() => { Mixpanel.track("IE Click import existing account button"); }}>
-                            <Link to={process.env.DISABLE_PHONE_RECOVERY === 'yes' ? '/recover-seed-phrase' : '/recover-account'}><Translate id='createAccount.recoverItHere' /></Link>
+                            <Link to={`/recover-account${locationSearch}`}><Translate id='createAccount.recoverItHere' /></Link>
                         </div>
                     </form>
                 </StyledContainer>
@@ -302,18 +290,18 @@ const mapDispatchToProps = {
 };
 
 const mapStateToProps = (state, ownProps) => {
-    const { account, status } = state;
+    const { account, status, router } = state;
     const { match } = ownProps;
 
     return {
         ...account,
         localAlert: status.localAlert,
         mainLoader: status.mainLoader,
-        isMobile: status.isMobile,
         fundingContract: match.params.fundingContract,
         fundingKey: match.params.fundingKey,
         fundingAccountId: match.params.fundingAccountId,
-        nearTokenFiatValueUSD: selectNearTokenFiatValueUSD(state)
+        nearTokenFiatValueUSD: selectNearTokenFiatValueUSD(state),
+        locationSearch: router.location.search
     };
 };
 

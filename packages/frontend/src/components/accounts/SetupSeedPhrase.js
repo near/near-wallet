@@ -16,6 +16,7 @@ import {
 import { clearGlobalAlert, showCustomAlert } from '../../actions/status';
 import { Mixpanel } from '../../mixpanel/index';
 import copyText from '../../utils/copyText';
+import isMobile from '../../utils/isMobile';
 import parseFundingOptions from '../../utils/parseFundingOptions';
 import { Snackbar, snackbarDuration } from '../common/Snackbar';
 import Container from '../common/styled/Container.css';
@@ -168,7 +169,7 @@ class SetupSeedPhrase extends Component {
 
     handleCopyPhrase = () => {
         Mixpanel.track("SR-SP Copy seed phrase");
-        if (navigator.share && this.props.isMobile) {
+        if (navigator.share && isMobile()) {
             navigator.share({
                 text: this.state.seedPhrase
             }).catch(err => {
@@ -281,8 +282,7 @@ const mapStateToProps = ({ account, recoveryMethods, status }, { match }) => ({
     accountId: match.params.accountId,
     activeAccountId: account.accountId,
     recoveryMethods,
-    mainLoader: status.mainLoader,
-    isMobile: status.isMobile
+    mainLoader: status.mainLoader
 });
 
 export const SetupSeedPhraseWithRouter = connect(mapStateToProps, mapDispatchToProps)(withRouter(SetupSeedPhrase));

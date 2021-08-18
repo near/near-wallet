@@ -137,6 +137,11 @@ class Wallet {
         return localPublicKey && accessKeys.find(({ public_key }) => public_key === localPublicKey.toString());
     }
 
+    async getLocalSecretKey(accountId) {
+        const localKeyPair = await this.keyStore.getKey(NETWORK_ID, accountId);
+        return localKeyPair.toString();
+    }
+
     async getLedgerKey(accountId) {
         // TODO: All callers should specify accountId explicitly
         accountId = accountId || this.accountId;
@@ -832,8 +837,14 @@ class Wallet {
         }
     }
 
-    async recoverAccountSeedPhrase(seedPhrase, accountId, fromSeedPhraseRecovery = true) {
-        const { publicKey, secretKey } = parseSeedPhrase(seedPhrase);
+    async recoverAccountSeedPhrase(seedPhrase, accountId, shouldCreateFullAccessKey = true) {
+        const { secretKey } = parseSeedPhrase(seedPhrase);
+        return await this.recoverAccountSecretKey(secretKey, accountId, shouldCreateFullAccessKey);
+    }
+
+    async recoverAccountSecretKey(secretKey, accountId, shouldCreateFullAccessKey) {
+        const keyPair = KeyPair.fromString(secretKey);
+        const publicKey = keyPair.publicKey.toString();
 
         const tempKeyStore = new nearApiJs.keyStores.InMemoryKeyStore();
         const implicitAccountId = Buffer.from(PublicKey.fromString(publicKey).data).toString('hex');
@@ -885,7 +896,7 @@ class Wallet {
                 );
                 if (recoveryKeyIsFAK) {
                     console.log('using FAK and regular Account instance to recover');
-                    fromSeedPhraseRecovery = false;
+                    shouldCreateFullAccessKey = false;
                 }
             }
 
@@ -896,7 +907,7 @@ class Wallet {
             const newKeyPair = KeyPair.fromRandom('ed25519');
 
             try {
-                await this.addAccessKey(accountId, accountId, newKeyPair.publicKey, fromSeedPhraseRecovery, '', recoveryKeyIsFAK);
+                await this.addAccessKey(accountId, accountId, newKeyPair.publicKey, shouldCreateFullAccessKey, '', recoveryKeyIsFAK);
                 accountIdsSuccess.push({
                     accountId,
                     newKeyPair
@@ -918,7 +929,7 @@ class Wallet {
             }));
 
             store.dispatch(makeAccountActive(accountIdsSuccess[accountIdsSuccess.length - 1].accountId));
-
+            
             return {
                 numberOfAccounts: accountIdsSuccess.length,
                 accountList: accountIdsSuccess.flatMap((accountId) => accountId.account_id).join(', '),

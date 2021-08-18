@@ -11,11 +11,9 @@ const Wrapper = styled.div`
     .animation-wrapper > .animation {
         border-radius: 8px;
     }
-
     @media (min-width: 992px) {
         max-height: 260px;
         overflow-y: auto;
-
         ::-webkit-scrollbar {
             display: none;
         }
@@ -33,49 +31,41 @@ const Account = styled.div`
     cursor: pointer;
     font-weight: 500;
     position: relative;
-
     .symbol {
         transform: scale(0.65);
         font-weight: 700;
         margin-left: -2%;
         float: left;
     }
-
     @media (min-width: 992px) {
         :hover {
             background-color: #f8f8f8;
-
             .accountId {
                 color: black;
             }
         }
     }
-
     &.active-account {
         color: white;
         background-color: #ECFDF5;
         border-radius: 8px;
         cursor: default;
         color: black;
-
         .balance {
             color: #008D6A;
         }
     }
-
     .account-data {
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
       margin-right: 8px;
-
       .accountId {
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
       }
     }
-
     .balance-wrapper {
       font-weight: 400;
       line-height: normal;
@@ -93,21 +83,17 @@ const SyncButton = styled.span`
     cursor: pointer;
     flex-basis: content;
     flex-shrink: 0;
-
     :hover, :active {
         background-color: #F0F0F1;
         border-color: #F0F0F1;
     }
-
     &.dots {
         color: #0072ce;
         margin: 0 12px 0 0;
         padding: 0 12px 0 6px;
-
         :after {
             content: '.';
             animation: link 1s steps(5, end) infinite;
-
             @keyframes link {
                 0%, 20% {
                     color: rgba(0,0,0,0);
@@ -168,8 +154,8 @@ const UserAccounts = ({ accounts, accountId, accountIdLocalStorage, handleSelect
 );
 
 const UserAccount = ({ accountId, balance, balanceLoading, refreshBalance, active, onClick }) => (
-    <Account className={active ? 'active-account' : 'additional-account'}>
-        <div className='account-data' onClick={onClick}>
+    <Account className={active ? 'active-account' : 'additional-account'} onClick={onClick}>
+        <div className='account-data'>
             <div className='accountId'>
                 {accountId}
             </div>
@@ -180,9 +166,12 @@ const UserAccount = ({ accountId, balance, balanceLoading, refreshBalance, activ
                 }
             </div>
         </div>
-        <SyncButton
+        <SyncButton 
             className={classNames([{'dots': balanceLoading}])}
-            onClick={refreshBalance}
+            onClick={e => {
+                refreshBalance();
+                e.stopPropagation();
+            }}
             title='Sync balance'
         >
             {balance
