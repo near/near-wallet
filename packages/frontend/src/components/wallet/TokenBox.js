@@ -43,6 +43,7 @@ const StyledContainer = styled.div`
     .desc {
         display: flex;
         flex-direction: column;
+        align-items: flex-start;
         margin-left: 14px;
 
         .symbol {
@@ -136,7 +137,7 @@ const TokenBox = ({ token, onClick }) => {
                             target='_blank'
                             rel='noopener noreferrer'
                         >
-                            {token.symbol}
+                            {token.name || token.symbol}
                         </a>
                     </span>
                     :
@@ -159,6 +160,7 @@ const TokenBox = ({ token, onClick }) => {
                 <TokenAmount 
                     token={token} 
                     className='balance'
+                    withSymbol={true}
                 />
             }
         </StyledContainer>
