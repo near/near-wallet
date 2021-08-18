@@ -10,10 +10,7 @@ describe("Account Recovery Using Seed Phrase", () => {
     beforeAll(async () => {
         testAccount = await createRandomBankSubAccount();
     });
-
-    /** Note: afterAll hook does not currently run if tests timeout / fail:
-     * https://github.com/microsoft/playwright/pull/8008
-     */
+    
     afterAll(async () => {
         testAccount && (await testAccount.delete());
     });
