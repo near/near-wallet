@@ -6,7 +6,7 @@ class HomePage {
         await this.page.goto(`/`);
     }
     async clickCreateAccount() {
-        await this.page.click(`button:text-matches("create account","i")`);
+        await this.page.click(`data-test-id=landingPageCreateAccount`);
     }
 }
 module.exports = { HomePage };

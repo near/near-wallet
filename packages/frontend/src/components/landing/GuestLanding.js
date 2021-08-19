@@ -147,7 +147,13 @@ export function GuestLanding() {
                 <h1><Translate id='landing.title' /></h1>
                 <h3><Translate id='landing.desc' /></h3>
                 <div className='buttons'>
-                    <FormButton linkTo='/create' trackingId='Click create account button'><Translate id='button.createAccount' /></FormButton>
+                    <FormButton
+                        linkTo="/create"
+                        trackingId="Click create account button"
+                        data-test-id="landingPageCreateAccount"
+                    >
+                        <Translate id="button.createAccount" />
+                    </FormButton>
                     <span><Translate id='landing.or' /></span>
                     <FormButton
                         data-test-id="homePageImportAccountButton"
