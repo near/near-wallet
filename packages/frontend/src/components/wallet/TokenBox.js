@@ -9,10 +9,9 @@ import TokenAmount from './TokenAmount';
 
 const StyledContainer = styled.div`
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: space-between;
     padding: 15px 14px;
-    min-height: 80px;
 
     @media (max-width: 767px) {
         margin: 0 -14px;
@@ -33,6 +32,7 @@ const StyledContainer = styled.div`
         overflow: hidden;
         border-radius: 50%;
         box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.15);
+        align-self: center;
 
         img, svg {
             height: 32px;
@@ -45,11 +45,19 @@ const StyledContainer = styled.div`
         flex-direction: column;
         align-items: flex-start;
         margin-left: 14px;
+        display: block;
+        min-width: 0;
 
         .symbol {
             font-weight: 700;
             font-size: 16px;
             color: #24272a;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: block;
+            margin-right: 10px;
+
 
             a {
                 color: inherit;
@@ -58,7 +66,10 @@ const StyledContainer = styled.div`
 
         .fiat-rate {
             color: #72727A;
-            margin-top: 5px;
+            margin-top: 6px;
+            white-space: nowrap;
+            display: block;
+            width: fit-content;
 
             > span {
                 background-color: #F0F0F1;
@@ -76,7 +87,7 @@ const StyledContainer = styled.div`
         font-weight: 600;
         color: #24272a;
         text-align: right;
-        min-height: 47px;
+        white-space: nowrap;
 
         .fiat-amount {
             font-size: 14px;
