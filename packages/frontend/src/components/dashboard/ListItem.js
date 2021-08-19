@@ -4,7 +4,6 @@ import styled from 'styled-components';
 
 import ArrowBlkImage from '../../images/icon-arrow-blk.svg';
 import ArrowRight from '../../images/icon-arrow-right.svg';
-import MainImage from '../common/MainImage';
 
 
 
@@ -129,14 +128,6 @@ const ListItem = ({
             mobile={wide ? 14 : 16}
         >
             <Grid verticalAlign='middle'>
-                {false &&
-                    <Grid.Column className='col-image'>
-                        <MainImage 
-                            src={row[0]} 
-                            size={wide ? `medium` : `tiny`}
-                        />
-                    </Grid.Column>
-                }
                 <Grid.Column className='main-row-title'>
                     contractId: <span className='color-black'>{row[1]}</span>
                     {row[2] != null && (

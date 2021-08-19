@@ -1,10 +1,8 @@
 import React, { useRef, useImperativeHandle, forwardRef, useState } from 'react';
 import { Translate } from 'react-localize-redux';
-import { Responsive } from 'semantic-ui-react';
 import styled from 'styled-components';
 
 import FormButton from '../common/FormButton';
-import LocalAlertBox from '../common/LocalAlertBox';
 import { Recaptcha } from '../Recaptcha';
 
 // FIXME: Use `debug` npm package so we can keep some debug logging around but not spam the console everywhere
@@ -93,7 +91,6 @@ const SetupSeedPhraseVerify = (
                     />
                 )}
             </Translate>
-            <Responsive as={LocalAlertBox} localAlert={localAlert}/>
             {
                 shouldRenderRecaptcha && <Recaptcha
                     ref={recaptchaRef}
