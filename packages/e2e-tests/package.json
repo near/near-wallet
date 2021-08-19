@@ -15,6 +15,6 @@
   "scripts": {
     "test": "node -r dotenv/config index.js",
     "e2e": "npx playwright test",
-    "e2e:dev": "PWDEBUG=1 npx playwright test"
+    "e2e:debug": "PWDEBUG=1 npx playwright test"
   }
 }

@@ -1,4 +1,4 @@
-## NEAR Wallet E2E Tests
+# NEAR Wallet E2E Tests
 
 An end to end test suite for NEAR Wallet flows. Intended to verify and assert that all major flows are functional.
 
@@ -14,7 +14,7 @@ Setup
     * **`WALLET_URL`** (optional): The wallet URL to use in the test suite. defaults to https://wallet.testnet.near.org
 2. Run 
     * `yarn && yarn run e2e` or 
-    * `yarn && yarn run e2e:dev` to run in development
+    * `yarn && yarn run e2e:debug` to run in [debug mode](https://playwright.dev/docs/debug#run-in-debug-mode)
 
 Tooling
 ---
