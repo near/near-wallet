@@ -204,6 +204,7 @@ class CreateAccount extends Component {
                             this.setState({ termsAccepted: true });
                             window.scrollTo(0, 0);
                         }}
+                        data-test-id="acceptTermsButton"
                     >
                         <Translate id='createAccount.terms.agreeBtn' />
                     </FormButton>
@@ -251,6 +252,7 @@ class CreateAccount extends Component {
                             type='submit'
                             disabled={!(localAlert && localAlert.success)}
                             sending={loader}
+                            data-test-id="reserveAccountIdButton"
                         >
                             <Translate id='button.reserveMyAccountId' />
                         </FormButton>

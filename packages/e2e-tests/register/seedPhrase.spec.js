@@ -39,32 +39,38 @@ describe("Account Registration Using Seed Phrase", () => {
         const setRecoveryOptionPage = new SetRecoveryOptionPage(page);
         await setRecoveryOptionPage.navigate(testAccountId);
 
-        const recoveryOptions = [
-            { name: "ledger", searchText: "hardware wallet" },
-            { name: "email", searchText: "email" },
-            { name: "phone", searchText: "phone" },
-            { name: "phrase", searchText: "passphrase" },
-        ];
-
-        const clickRecoveryOptionAndAssertActive = ({ name, searchText }) =>
-            setRecoveryOptionPage
-                .selectRecoveryOption(searchText)
-                .then(() =>
-                    setRecoveryOptionPage.getRecoveryOptionElementHandle(name)
-                )
-                .then((optionHandle) =>
-                    expect(optionHandle).toMatchAttribute("class", /active/)
-                );
-
-        await recoveryOptions.reduce(
-            (prev, curr) =>
-                prev.then(() => clickRecoveryOptionAndAssertActive(curr)),
-            Promise.resolve()
+        await setRecoveryOptionPage.clickLedgerRecoveryOption();
+        await expect(page).toMatchAttribute(
+            setRecoveryOptionPage.getLedgerSelector(),
+            "class",
+            /active/
         );
 
-        await setRecoveryOptionPage.submitRecoveryOption("passphrase");
+        await setRecoveryOptionPage.clickEmailRecoveryOption();
+        await expect(page).toMatchAttribute(
+            setRecoveryOptionPage.getEmailSelector(),
+            "class",
+            /active/
+        );
 
-        expect(page).toMatchURL(
+        await setRecoveryOptionPage.clickPhoneRecoveryOption();
+        await expect(page).toMatchAttribute(
+            setRecoveryOptionPage.getPhoneSelector(),
+            "class",
+            /active/
+        );
+
+        await setRecoveryOptionPage.clickSeedPhraseRecoveryOption();
+        await expect(page).toMatchAttribute(
+            setRecoveryOptionPage.getSeedPhraseSelector(),
+            "class",
+            /active/
+        );
+
+        await setRecoveryOptionPage.clickSeedPhraseRecoveryOption();
+        await setRecoveryOptionPage.submitRecoveryOption()
+
+        await expect(page).toMatchURL(
             new RegExp(`/setup-seed-phrase/${testAccountId}/phrase`)
         );
     });
@@ -88,7 +94,7 @@ describe("Account Registration Using Seed Phrase", () => {
         const copiedSeedPhrase = await page.evaluate(() =>
             navigator.clipboard.readText()
         );
-        await page.waitForSelector(
+        await expect(page).toHaveSelector(
             'div :text-matches("Passphrase copied", "i")'
         );
         await page.click(`button:text-matches("Continue", "i")`);
@@ -106,7 +112,8 @@ describe("Account Registration Using Seed Phrase", () => {
         await page.click('[type="submit"]');
         await page.waitForNavigation();
         expect(page).toMatchURL(/\/$/);
-        expect(await page.textContent("data-test-id=currentUser")).toBe(
+        await expect(page).toMatchText(
+            "data-test-id=currentUser >> visible=true",
             testAccountId
         );
         testAccountInstance = await connectToAccountWithSeedphrase(

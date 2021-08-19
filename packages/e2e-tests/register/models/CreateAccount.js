@@ -6,10 +6,9 @@ class CreateAccountPage {
         await this.page.goto(`/create`);
     }
     async acceptTerms() {
-        if (await this.page.$('button:text-matches("Agree & Continue", "i")')) {
-            await this.page.click(
-                'button:text-matches("Agree & Continue", "i")'
-            );
+        const acceptTermsButtonSelector = "data-test-id=acceptTermsButton";
+        if (await this.page.$(acceptTermsButtonSelector)) {
+            await this.page.click(acceptTermsButtonSelector);
         }
     }
     async submitAccountId(accountId) {
@@ -17,7 +16,7 @@ class CreateAccountPage {
             "data-test-id=createAccount.accountIdInput",
             accountId
         );
-        await this.page.click(`[type="submit"]`);
+        await this.page.click(`data-test-id=reserveAccountIdButton`);
     }
 }
 
