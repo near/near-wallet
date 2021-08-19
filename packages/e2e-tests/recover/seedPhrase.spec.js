@@ -10,7 +10,7 @@ describe("Account Recovery Using Seed Phrase", () => {
     beforeAll(async () => {
         testAccount = await createRandomBankSubAccount();
     });
-    
+
     afterAll(async () => {
         testAccount && (await testAccount.delete());
     });
@@ -18,15 +18,13 @@ describe("Account Recovery Using Seed Phrase", () => {
     test("navigates to seed phrase page successfully", async ({ page }) => {
         await page.goto("/");
 
-        await page.click(
-            `button:text-matches("Import Existing Account", "i")`
-        );
+        await page.click(`button:text-matches("Import Existing Account", "i")`);
         await page.click(`data-test-id=recoverAccountWithPassphraseButton`);
 
-        expect(page).toMatchURL(/\/recover-seed-phrase$/);
+        await expect(page).toMatchURL(/\/recover-seed-phrase$/);
     });
 
-    test("Account Recovery Using Seed Phrase", async ({ page }) => {
+    test("recovers account using seed phrase", async ({ page }) => {
         await page.goto("/recover-seed-phrase");
 
         await page.fill(
@@ -37,8 +35,9 @@ describe("Account Recovery Using Seed Phrase", () => {
 
         await page.waitForNavigation();
 
-        expect(page).toMatchURL(/\/$/);
-        expect(await page.textContent("data-test-id=currentUser")).toBe(
+        await expect(page).toMatchURL(/\/$/);
+        await expect(page).toMatchText(
+            "data-test-id=currentUser >> visible=true",
             testAccount.account.accountId
         );
     });
