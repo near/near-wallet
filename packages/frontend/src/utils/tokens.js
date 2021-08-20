@@ -5,7 +5,7 @@ import sendJson from '../tmp_fetch_send_json';
 import { ACCOUNT_HELPER_URL } from './wallet';
 import { wallet } from './wallet';
 
-export const getLikelyTokenContracts = (accountId) => (
+export const getLikelyTokenContracts = ({ accountId }) => (
     sendJson('GET', `${ACCOUNT_HELPER_URL}/account/${accountId}/likelyTokens`).catch(logError)
 );
 
