@@ -88,7 +88,20 @@ const tokensSlice = createSlice({
         },
     },
     extraReducers: ((builder) => {
-    }
+        builder.addCase(fetchOwnedTokensForContract.pending, (state, { meta }) => {
+            const { accountId, contractName } = meta.arg;
+            set(state, ['ownedTokens', 'byAccountId', accountId, contractName, 'loading'], true);
+        });
+        builder.addCase(fetchOwnedTokensForContract.fulfilled, (state, { meta }) => {
+            const { accountId, contractName } = meta.arg;
+            set(state, ['ownedTokens', 'byAccountId', accountId, contractName, 'loading'], false);
+        });
+        builder.addCase(fetchOwnedTokensForContract.rejected, (state, { meta,  error }) => {
+            const { accountId, contractName } = meta.arg;
+            set(state, ['ownedTokens', 'byAccountId', accountId, contractName, 'loading'], false);
+            set(state, ['ownedTokens', 'byAccountId', accountId, contractName, 'error'], error?.message || 'An error was encountered.');
+        });
+    })
 });
 
 export default tokensSlice;
