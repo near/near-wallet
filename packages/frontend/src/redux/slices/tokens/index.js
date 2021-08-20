@@ -14,3 +14,11 @@ const initialOwnedTokenState = {
     loading: false,
     error: null
 };
+
+const tokensSlice = createSlice({
+    name: SLICE_NAME,
+    initialState,
+    reducers: {
+    extraReducers: ((builder) => {
+});
+});
