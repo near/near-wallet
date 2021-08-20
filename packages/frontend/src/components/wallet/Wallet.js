@@ -266,7 +266,7 @@ export function Wallet({ tab, setTab }) {
     const hideExploreApps = localStorage.getItem('hideExploreApps');
     const linkdropAmount = useSelector(selectLinkdropAmount);
     const fungibleTokensList = useFungibleTokensIncludingNEAR();
-    const tokensLoader = actionsPendingByPrefix('TOKENS/') || !balance?.total;
+    const tokensLoader = useSelector((state) => selectTokensLoading(state, { accountId })) || !balance?.total;
 
     useEffect(() => {
         if (accountId) {
