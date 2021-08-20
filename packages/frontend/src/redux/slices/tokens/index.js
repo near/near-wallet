@@ -125,3 +125,8 @@ export const selectOneContractMetadata = createSelector(
     [selectAllContractMetadata, getContractNameParam],
     (metadataByContractName, contractName) => metadataByContractName[contractName]
 );
+
+const selectOwnedTokensForAccount = createSelector(
+    [selectOwnedTokensSlice, getAccountIdParam],
+    (ownedTokens, accountId) => ownedTokens.byAccountId[accountId] || {}
+);
