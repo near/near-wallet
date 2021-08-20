@@ -24,6 +24,23 @@ const fetchOwnedTokensForContract = createAsyncThunk(
 const fetchTokens = createAsyncThunk(
     `${SLICE_NAME}/fetchTokens`,
     async ({ accountId }, thunkAPI) => {
+        const { dispatch, getState } = thunkAPI;
+
+        const likelyContracts = [...new Set([...(await getLikelyTokenContracts({ accountId })), ...WHITELISTED_CONTRACTS])];
+
+        await Promise.all(likelyContracts.map(async contractName => {
+            const { actions: { setContractMetadata } } = tokensSlice;
+            try {
+                const contractMetadata = await getCachedContractMetadataOrFetch(contractName, accountId, getState());
+                if (!selectOneContractMetadata(getState(), { contractName })) {
+                    dispatch(setContractMetadata({ contractName, metadata: contractMetadata }));
+                }
+                await dispatch(fetchOwnedTokensForContract({ accountId, contractName, contractMetadata }));
+            } catch (e) {
+                // Continue loading other likely contracts on failures
+                console.warn(`Failed to load FT for ${contractName}`, e);
+            }
+        }));
     }
 );
 
