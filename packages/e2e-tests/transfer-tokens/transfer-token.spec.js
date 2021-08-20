@@ -34,7 +34,7 @@ describe("Transferring NEAR tokens between two accounts", () => {
 
         await firstAccountHomePage.clickSendButton();
 
-        expect(firstAccountHomePage.page).toMatchURL(/send-money$/);
+        await expect(firstAccountHomePage.page).toMatchURL(/send-money$/);
     });
     test("is able to send NEAR tokens", async ({ page }) => {
         const firstAccountHomePage = new HomePage(page);
