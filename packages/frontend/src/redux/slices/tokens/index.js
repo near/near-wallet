@@ -98,3 +98,17 @@ export const actions = {
     ...tokensSlice.actions
 };
 export const reducer = tokensSlice.reducer; 
+
+// A helper function to create the parameter selectors
+// Ref: https://flufd.github.io/reselect-with-multiple-parameters/
+function createParameterSelector(selector) {
+    return (_, params) => selector(params);
+}
+
+const getAccountIdParam = createParameterSelector((params) => params.accountId);
+
+// Top level selectors
+const selectTokensSlice = (state) => state[tokensSlice.name];
+const selectMetadataSlice = createSelector(selectTokensSlice, ({ metadata }) => metadata || {});
+const selectOwnedTokensSlice = createSelector(selectTokensSlice, ({ ownedTokens }) => ownedTokens);
+
