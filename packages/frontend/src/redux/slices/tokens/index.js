@@ -34,6 +34,20 @@ async function getCachedContractMetadataOrFetch(contractName, accountId, state) 
 const fetchOwnedTokensForContract = createAsyncThunk(
     `${SLICE_NAME}/fetchOwnedTokensForContract`,
     async ({ accountId, contractName }, thunkAPI) => {
+        const { actions: { addTokensMetadata } } = tokensSlice;
+        const { dispatch } = thunkAPI;
+
+        const balance = await getBalanceOf({ contractName, accountId });
+
+        dispatch(addTokensMetadata({ accountId, contractName, balance }));
+    },
+    {
+        condition: ({ accountId, contractName }, thunkAPI) => {
+            const { getState } = thunkAPI;
+            if (selectOneTokenLoading(getState(), { accountId, contractName })) {
+                return false;
+            }
+        }
     }
 );
 
