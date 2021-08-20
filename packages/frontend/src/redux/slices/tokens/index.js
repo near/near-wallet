@@ -118,3 +118,10 @@ export const selectAllContractMetadata = createSelector(
     selectMetadataSlice,
     (metadata) => metadata.byContractName || {}
 );
+
+const getContractNameParam = createParameterSelector((params) => params.contractName);
+
+export const selectOneContractMetadata = createSelector(
+    [selectAllContractMetadata, getContractNameParam],
+    (metadataByContractName, contractName) => metadataByContractName[contractName]
+);
