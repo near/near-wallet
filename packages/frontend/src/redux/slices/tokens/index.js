@@ -15,6 +15,12 @@ const initialOwnedTokenState = {
     error: null
 };
 
+const fetchTokens = createAsyncThunk(
+    `${SLICE_NAME}/fetchTokens`,
+    async ({ accountId }, thunkAPI) => {
+    }
+);
+
 const tokensSlice = createSlice({
     name: SLICE_NAME,
     initialState,
