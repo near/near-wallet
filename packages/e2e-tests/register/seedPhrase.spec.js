@@ -7,6 +7,8 @@ const {
 const { HomePage } = require("./models/Home");
 const { CreateAccountPage } = require("./models/CreateAccount");
 const { SetRecoveryOptionPage } = require("./models/SetRecoveryOption");
+const { SetupSeedPhrasePage } = require("./models/SetupSeedPhrase");
+const { VerifySeedPhrasePage } = require("./models/VerifySeedPhrase");
 
 const { describe, afterAll } = test;
 
@@ -26,12 +28,14 @@ describe("Account Registration Using Seed Phrase", () => {
         await homePage.navigate();
 
         await homePage.clickCreateAccount();
-        expect(page).toMatchURL(/\/create$/);
+        await expect(page).toMatchURL(/\/create$/);
 
         const createAccountPage = new CreateAccountPage(page);
         await createAccountPage.acceptTerms();
         await createAccountPage.submitAccountId(testAccountId);
-        expect(page).toMatchURL(new RegExp(`/set-recovery/${testAccountId}`));
+        await expect(page).toMatchURL(
+            new RegExp(`/set-recovery/${testAccountId}`)
+        );
     });
     test("is able to select other recovery methods and navigate to phrase setup", async ({
         page,
@@ -68,7 +72,7 @@ describe("Account Registration Using Seed Phrase", () => {
         );
 
         await setRecoveryOptionPage.clickSeedPhraseRecoveryOption();
-        await setRecoveryOptionPage.submitRecoveryOption()
+        await setRecoveryOptionPage.submitRecoveryOption();
 
         await expect(page).toMatchURL(
             new RegExp(`/setup-seed-phrase/${testAccountId}/phrase`)
@@ -82,36 +86,33 @@ describe("Account Registration Using Seed Phrase", () => {
         await context
             .grantPermissions(["clipboard-read", "clipboard-write"])
             .catch(test.skip);
-        await page.goto(`/setup-seed-phrase/${testAccountId}/phrase`);
         // skip test on mainnet
-        const isTestWallet = await page.$(
-            'div:text-matches("Test-only Wallet", "i")'
-        );
-        if (!isTestWallet) {
+        if (process.env.WALLET_NETWORK === "mainnet") {
             test.skip();
         }
-        await page.click(`button:text-matches("Copy Phrase", "i")`);
-        const copiedSeedPhrase = await page.evaluate(() =>
-            navigator.clipboard.readText()
-        );
+
+        const setupSeedPhrasePage = new SetupSeedPhrasePage(page);
+        await setupSeedPhrasePage.navigate(testAccountId);
+
+        const copiedSeedPhrase = await setupSeedPhrasePage.copySeedPhrase();
         await expect(page).toHaveSelector(
             'div :text-matches("Passphrase copied", "i")'
         );
-        await page.click(`button:text-matches("Continue", "i")`);
-        expect(page).toMatchURL(
+
+        await setupSeedPhrasePage.continueToSeedPhraseVerification();
+        await expect(page).toMatchURL(
             new RegExp(`/setup-seed-phrase/${testAccountId}/verify`)
         );
-        const wordNumberTextContent = await page.textContent(
-            "data-test-id=seedPhraseVerificationWordNumber"
+
+        const verifySeedPhrasePage = new VerifySeedPhrasePage(page);
+
+        const requestedVerificationWordNumber =
+            await verifySeedPhrasePage.getRequestedVerificationWordNumber();
+        await verifySeedPhrasePage.verifyWithWord(
+            copiedSeedPhrase.split(" ")[requestedVerificationWordNumber - 1]
         );
-        const wordNumber = parseInt(wordNumberTextContent.slice(6));
-        await page.fill(
-            "data-test-id=seedPhraseVerificationWordInput",
-            copiedSeedPhrase.split(" ")[wordNumber - 1]
-        );
-        await page.click('[type="submit"]');
-        await page.waitForNavigation();
-        expect(page).toMatchURL(/\/$/);
+
+        await expect(page).toMatchURL(/\/$/);
         await expect(page).toMatchText(
             "data-test-id=currentUser >> visible=true",
             testAccountId
