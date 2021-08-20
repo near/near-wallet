@@ -27,7 +27,6 @@ import {
     handleGetLockup,
     staking
 } from './staking';
-import { tokens } from './tokens';
 
 export const loadRecoveryMethods = createAction('LOAD_RECOVERY_METHODS',
     wallet.getRecoveryMethods.bind(wallet),
