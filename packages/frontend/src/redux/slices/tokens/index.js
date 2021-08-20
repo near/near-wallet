@@ -35,8 +35,13 @@ const tokensSlice = createSlice({
             const { metadata, contractName } = payload;
             set(state, ['metadata', 'byContractName', contractName], metadata);
         },
+        addTokensMetadata(state, { payload }) {
+            const { contractName, balance, accountId } = payload;
+            set(state, ['ownedTokens', 'byAccountId', accountId, contractName, 'balance'], balance);
+        },
+    },
     extraReducers: ((builder) => {
-});
+    }
 });
 
 export default tokensSlice;
