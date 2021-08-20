@@ -1,3 +1,11 @@
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import BN from 'bn.js';
+import set from 'lodash.set';
+import { createSelector } from 'reselect';
+
+import { getLikelyTokenContracts, getMetadata, getBalanceOf } from '../../../utils/tokens';
+
+const WHITELISTED_CONTRACTS = (process.env.TOKEN_CONTRACTS || 'berryclub.ek.near,farm.berryclub.ek.near,wrap.near').split(',');
 const SLICE_NAME = 'tokens';
 
 const initialState = {
@@ -14,6 +22,14 @@ const initialOwnedTokenState = {
     loading: false,
     error: null
 };
+
+async function getCachedContractMetadataOrFetch(contractName, accountId, state) {
+    let contractMetadata = selectOneContractMetadata(state, { contractName });
+    if (contractMetadata) {
+        return contractMetadata;
+    }
+    return getMetadata({ contractName, accountId });
+}
 
 const fetchOwnedTokensForContract = createAsyncThunk(
     `${SLICE_NAME}/fetchOwnedTokensForContract`,
