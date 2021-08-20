@@ -135,3 +135,15 @@ export const selectOneTokenFromOwnedTokens = createSelector(
     [selectOwnedTokensForAccount, getContractNameParam],
     (ownedTokensForAccount, contractName) => ownedTokensForAccount[contractName] || initialOwnedTokenState
 );
+
+export const selectTokensWithMetadataForAccountId = createSelector(
+    [selectAllContractMetadata, selectOwnedTokensForAccount],
+    (allContractMetadata, ownedTokensForAccount) => Object.entries(ownedTokensForAccount)
+        .filter(([_, { balance }]) => !new BN(balance).isZero())
+        .map(([contractName, { balance }]) => ({
+            ...initialOwnedTokenState,
+            contractName,
+            balance,
+            ...(allContractMetadata[contractName] || {})
+        }))
+);
