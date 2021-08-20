@@ -245,8 +245,8 @@ const mapDispatchToProps = {
 
 const mapStateToProps = ({ account, status }, { match }) => ({
     ...account,
-    accountId: match.params.accountId || '',
-    seedPhrase: match.params.seedPhrase || '',
+    accountId: match.params.accountId,
+    seedPhrase: match.params.seedPhrase,
     mainLoader: status.mainLoader
 });
 

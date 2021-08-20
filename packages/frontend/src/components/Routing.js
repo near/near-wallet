@@ -354,7 +354,7 @@ class Routing extends Component {
                             />
                             <Route
                                 exact
-                                path='/recover-with-link/:accountId?/:seedPhrase?'
+                                path='/recover-with-link/:accountId/:seedPhrase'
                                 component={RecoverWithLinkWithRouter}
                             />
                             <Route
