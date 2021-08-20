@@ -130,3 +130,8 @@ const selectOwnedTokensForAccount = createSelector(
     [selectOwnedTokensSlice, getAccountIdParam],
     (ownedTokens, accountId) => ownedTokens.byAccountId[accountId] || {}
 );
+
+export const selectOneTokenFromOwnedTokens = createSelector(
+    [selectOwnedTokensForAccount, getContractNameParam],
+    (ownedTokensForAccount, contractName) => ownedTokensForAccount[contractName] || initialOwnedTokenState
+);
