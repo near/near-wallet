@@ -22,3 +22,11 @@ const tokensSlice = createSlice({
     extraReducers: ((builder) => {
 });
 });
+
+export default tokensSlice;
+
+export const actions = {
+    fetchTokens,
+    ...tokensSlice.actions
+};
+export const reducer = tokensSlice.reducer; 
