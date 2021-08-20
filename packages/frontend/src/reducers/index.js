@@ -6,6 +6,7 @@ import allAccounts from '../reducers/allAccounts';
 import recoveryMethods from '../reducers/recoveryMethods';
 import nftSlice from '../redux/slices/nft';
 import transactionsSlice from '../redux/slices/transactions';
+import tokensSlice from '../redux/slices/tokens';
 import linkdropSlice from '../slices/linkdrop';
 import tokenFiatValuesSlice from '../slices/tokenFiatValues';
 import account from './account';
@@ -15,7 +16,6 @@ import ledger from './ledger';
 import sign from './sign';
 import staking from './staking';
 import status from './status';
-import tokens from './tokens';
 
 export default (history) => combineReducers({
     localize: localizeReducer,
@@ -28,10 +28,10 @@ export default (history) => combineReducers({
     staking,
     status,
     flowLimitation,
-    tokens,
     [nftSlice.name]: nftSlice.reducer,
     [tokenFiatValuesSlice.name]: tokenFiatValuesSlice.reducer,
     [linkdropSlice.name]: linkdropSlice.reducer,
     [transactionsSlice.name]: transactionsSlice.reducer,
+    [tokensSlice.name]: tokensSlice.reducer,
     router: connectRouter(history)
 });
