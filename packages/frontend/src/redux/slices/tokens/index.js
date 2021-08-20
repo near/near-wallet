@@ -147,3 +147,14 @@ export const selectTokensWithMetadataForAccountId = createSelector(
             ...(allContractMetadata[contractName] || {})
         }))
 );
+
+export const selectTokensLoading = createSelector(
+    [selectOwnedTokensSlice, getAccountIdParam],
+    (ownedTokens, accountId) => Object.entries(ownedTokens.byAccountId[accountId] || {})
+        .some(([_, { loading }]) => loading)
+);
+
+const selectOneTokenLoading = createSelector(
+    [selectOneTokenFromOwnedTokens],
+    (token) => token.loading
+);
