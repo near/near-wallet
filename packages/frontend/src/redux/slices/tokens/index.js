@@ -31,6 +31,10 @@ const tokensSlice = createSlice({
     name: SLICE_NAME,
     initialState,
     reducers: {
+        setContractMetadata(state, { payload }) {
+            const { metadata, contractName } = payload;
+            set(state, ['metadata', 'byContractName', contractName], metadata);
+        },
     extraReducers: ((builder) => {
 });
 });
