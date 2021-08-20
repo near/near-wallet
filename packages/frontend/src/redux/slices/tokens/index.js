@@ -15,6 +15,12 @@ const initialOwnedTokenState = {
     error: null
 };
 
+const fetchOwnedTokensForContract = createAsyncThunk(
+    `${SLICE_NAME}/fetchOwnedTokensForContract`,
+    async ({ accountId, contractName }, thunkAPI) => {
+    }
+);
+
 const fetchTokens = createAsyncThunk(
     `${SLICE_NAME}/fetchTokens`,
     async ({ accountId }, thunkAPI) => {
