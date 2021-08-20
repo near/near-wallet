@@ -112,3 +112,9 @@ const selectTokensSlice = (state) => state[tokensSlice.name];
 const selectMetadataSlice = createSelector(selectTokensSlice, ({ metadata }) => metadata || {});
 const selectOwnedTokensSlice = createSelector(selectTokensSlice, ({ ownedTokens }) => ownedTokens);
 
+// Contract metadata selectors
+// Returns contract metadata for every contract in the store, in an object keyed by contractName
+export const selectAllContractMetadata = createSelector(
+    selectMetadataSlice,
+    (metadata) => metadata.byContractName || {}
+);
