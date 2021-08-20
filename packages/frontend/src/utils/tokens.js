@@ -17,13 +17,9 @@ export const getMetadata = ({ contractName, accountId }) => {
     return account.viewFunction(contractName, 'ft_metadata').catch(logError);
 };
 
-export const getBalanceOf = async (contractName, accountId) => {
+export const getBalanceOf = ({ contractName, accountId }) => {
     const account = wallet.getAccountBasic(accountId);
-    const balance = await account.viewFunction(contractName, 'ft_balance_of', { account_id: accountId }).catch(logError);
-    return {
-        contractName,
-        balance
-    };
+    return account.viewFunction(contractName, 'ft_balance_of', { account_id: accountId }).catch(logError);
 };
 
 const logError = (error) => {
