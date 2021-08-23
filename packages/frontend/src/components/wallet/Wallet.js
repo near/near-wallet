@@ -51,7 +51,7 @@ const StyledContainer = styled(Container)`
 
         &.tokens {
             color: #72727A;
-            margin-top: 40px;
+            margin-top: 20px;
             margin-bottom: 15px;
             display: flex;
             align-items: center;
