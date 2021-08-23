@@ -2,7 +2,7 @@ import { createActions } from 'redux-actions';
 
 import { getLikelyTokenContracts, getMetadata, getBalanceOf } from '../utils/tokens';
 
-const WHITELISTED_CONTRACTS = (process.env.TOKEN_CONTRACTS || 'berryclub.ek.near,farm.berryclub.ek.near,wrap.near,token.cheddar.testnet').split(',');
+const WHITELISTED_CONTRACTS = (process.env.TOKEN_CONTRACTS || 'berryclub.ek.near,farm.berryclub.ek.near,wrap.near,token.cheddar.testnet,meta-pool.near,meta-token.near').split(',');
 
 export const handleGetTokens = () => async (dispatch, getState) => {
     const { accountId } = getState().account;
