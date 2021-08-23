@@ -51,20 +51,32 @@ const LoginForm = ({
                 >
                     {!accountConfirmationForm && (
                         <Fragment>
-                            <div>{appTitle || <Translate id='sign.unknownApp' />}</div>
-                            {requestAccountIdOnly
-                                ? <Translate id='login.form.accountIdOnly' />
-                                : <>
-                                    <Translate id='login.form.isRequestingTo' />
-                                    <br/>
-                                    <Translate id='login.form.accessYourAccount' />
-                                  </>
+                            <div data-test-id="requestingAppTitleDisplay">
+                                <b>
+                                    {appTitle || (
+                                        <Translate id="sign.unknownApp" />
+                                    )}
+                                </b>
+                            </div>
+                            {requestAccountIdOnly ?
+                                <div className='h2'><Translate id='login.form.accountIdOnly' /></div>
+                            :
+                                <>
+                                    <div className='h2'><Translate id='login.form.isRequestingTo' /> </div>
+                                    <div className='h2'><Translate id='login.form.accessYourAccount' /></div>
+                                </>
                             }
                         </Fragment>
                     )}
                     {accountConfirmationForm && (
                         <Fragment>
-                            <div><b>{appTitle || <Translate id='sign.unknownApp' />}</b></div>
+                            <div data-test-id="requestingAppTitleDisplay">
+                                <b>
+                                    {appTitle || (
+                                        <Translate id="sign.unknownApp" />
+                                    )}
+                                </b>
+                            </div>
                             <div className='h2'><Translate id='login.form.isRequestingFullAccess' /></div>
                             <div className='h2'><Translate id='login.form.toYourAccount' /></div>
                         </Fragment>

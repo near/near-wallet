@@ -159,7 +159,18 @@ const SelectAccountDropdown = ({
             >
                 <Segment basic>
                     <div className='item list-title'>
-                        {dropdown ? translate('button.close') : <div className={classNames({dots: !account.accountId})}>{account.accountId}</div>}
+                        {dropdown ? (
+                            translate("button.close")
+                        ) : (
+                            <div
+                                data-test-id="dropdownCurrentlySelectedAccount"
+                                className={classNames({
+                                    dots: !account.accountId,
+                                })}
+                            >
+                                {account.accountId}
+                            </div>
+                        )}
                         <div className='arrow' />
                     </div>
                     <div className={`${dropdown ? '' : 'hide'}`}>

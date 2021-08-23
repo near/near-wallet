@@ -95,5 +95,6 @@ module.exports = {
     generateTestAccountId,
     connectToAccountWithSeedphrase,
     getKeyPairFromSeedPhrase,
-    getWalletNetwork
+    getWalletNetwork,
+    getDefaultConfig,
 };
