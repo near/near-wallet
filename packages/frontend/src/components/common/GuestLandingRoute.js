@@ -1,13 +1,23 @@
 import React from 'react';
 
 import { GuestLanding } from '../landing/GuestLanding';
-import PrivateRouteLimited from './PrivateRouteLimited';
+import PrivateRoute from './PrivateRoute';
+import PublicRoute from './PublicRoute';
 
-const GuestLandingRoute = ({component: Component, render, accountFound, ...rest}) => (
+const GuestLandingRoute = ({
+    component: Component,
+    render,
+    accountFound,
+    indexBySearchEngines,
+    ...rest
+}) => (
     !accountFound
-        ? <GuestLanding />
-        : <PrivateRouteLimited
-            {...rest} 
+        ? <PublicRoute
+            component={GuestLanding}
+            indexBySearchEngines={indexBySearchEngines}
+        />
+        : <PrivateRoute
+            {...rest}
             component={Component}
             render={render}
         />

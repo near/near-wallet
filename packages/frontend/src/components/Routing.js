@@ -54,7 +54,7 @@ import GlobalAlert from './common/GlobalAlert';
 import GuestLandingRoute from './common/GuestLandingRoute';
 import NetworkBanner from './common/NetworkBanner';
 import PrivateRoute from './common/PrivateRoute';
-import PrivateRouteLimited from './common/PrivateRouteLimited';
+import PublicRoute from './common/PublicRoute';
 import GlobalStyle from './GlobalStyle';
 import { LoginWithRouter } from './login/Login';
 import { LoginCliLoginSuccess } from './login/LoginCliLoginSuccess';
@@ -258,11 +258,15 @@ class Routing extends Component {
             }
         };
         const { isInactiveAccount } = this.state;
+        
         const hideFooterOnMobile = [
             WALLET_LOGIN_URL,
             WALLET_SEND_MONEY_URL,
             WALLET_SIGN_URL
         ].includes(pathname.replace(/\//g,''));
+
+        const accountFound = this.props.account.localStorage?.accountFound;
+
 
         reportUiActiveMixpanelThrottled();
 
@@ -314,44 +318,45 @@ class Routing extends Component {
                                 exact
                                 path='/'
                                 render={(props) => isInactiveAccount ? <ActivateAccountWithRouter {...props}/> : <Wallet tab={tab} setTab={setTab} {...props} />}
-                                accountFound={this.props.account.localStorage?.accountFound}
+                                accountFound={accountFound}
+                                indexBySearchEngines={!accountFound}
                             />
-                            <Route
+                            <PublicRoute
                                 exact
-                                path='/linkdrop/:fundingContract?/:fundingKey?'
+                                path='/linkdrop/:fundingContract/:fundingKey'
                                 component={LinkdropLandingWithRouter}
                             />
-                            <Route
+                            <PublicRoute
                                 exact
                                 path='/create/:fundingContract?/:fundingKey?'
                                 component={CreateAccountWithRouter}
                             />
-                            <Route
+                            <PublicRoute
                                 exact
                                 path={'/create-from/:fundingAccountId'}
                                 component={CreateAccountWithRouter}
                             />
-                            <Route
+                            <PublicRoute
                                 exact
                                 path='/set-recovery/:accountId/:fundingContract?/:fundingKey?'
                                 component={SetupRecoveryMethodWithRouter}
                             />
-                            <Route
+                            <PublicRoute
                                 exact
                                 path='/setup-seed-phrase/:accountId/:step'
                                 component={SetupSeedPhraseWithRouter}
                             />
-                            <Route
+                            <PublicRoute
                                 exact
                                 path='/fund-create-account/:accountId/:implicitAccountId/:recoveryMethod'
                                 component={SetupImplicitWithRouter}
                             />
-                            <Route
+                            <PublicRoute
                                 exact
                                 path='/fund-create-account/success'
                                 component={SetupImplicitSuccess}
                             />
-                            <Route
+                            <PublicRoute
                                 exact
                                 path='/setup-ledger/:accountId'
                                 component={SetupLedgerWithRouter}
@@ -366,22 +371,22 @@ class Routing extends Component {
                                 path='/enable-two-factor'
                                 component={EnableTwoFactor}
                             />
-                            <Route
-                                exact
+                            <PublicRoute
                                 path='/recover-account'
                                 component={RecoverAccountWrapper}
+                                indexBySearchEngines={true}
                             />
-                            <Route
+                            <PublicRoute
                                 exact
                                 path='/recover-seed-phrase/:accountId?/:seedPhrase?'
                                 component={RecoverAccountSeedPhraseWithRouter}
                             />
-                            <Route
+                            <PublicRoute
                                 exact
                                 path='/recover-with-link/:accountId/:seedPhrase'
                                 component={RecoverWithLinkWithRouter}
                             />
-                            <Route
+                            <PublicRoute
                                 exact
                                 path='/auto-import-seed-phrase'
                                 render={({ location }) => {
@@ -398,7 +403,7 @@ class Routing extends Component {
                                     );
                                 }}
                             />
-                            <Route
+                            <PublicRoute
                                 exact
                                 path='/auto-import-secret-key'
                                 render={({ location }) => {
@@ -413,61 +418,61 @@ class Routing extends Component {
                                     );
                                 }}
                             />
-                            <Route
+                            <PublicRoute
                                 exact
                                 path='/sign-in-ledger'
                                 component={SignInLedger}
                             />
-                            <PrivateRouteLimited
+                            <PrivateRoute
                                 path='/login'
                                 component={LoginWithRouter}
                             />
-                            <PrivateRouteLimited
+                            <PrivateRoute
                                 exact
                                 path='/authorized-apps'
                                 component={AuthorizedAppsWithRouter}
                             />
-                            <PrivateRouteLimited
+                            <PrivateRoute
                                 exact
                                 path='/full-access-keys'
                                 component={FullAccessKeysWithRouter}
                             />
                             {!isInactiveAccount &&
-                                <PrivateRouteLimited
+                                <PrivateRoute
                                     exact
                                     path='/send-money/:accountId?'
                                     component={SendContainerWrapper}
                                 />
                             }
-                            <PrivateRouteLimited
+                            <PrivateRoute
                                 exact
                                 path='/receive-money'
                                 component={ReceiveContainerWrapper}
                             />
-                            <PrivateRouteLimited
+                            <PrivateRoute
                                 exact
                                 path='/buy'
                                 component={BuyNear}
                             />
-                            <Route
+                            <PublicRoute
                                 exact
                                 path='/profile/:accountId'
                                 component={Profile}
                             />
                             {!isInactiveAccount &&
-                                <PrivateRouteLimited
+                                <PrivateRoute
                                     exact
                                     path='/profile/:accountId?'
                                     component={Profile}
                                 />
                             }
-                            <PrivateRouteLimited
+                            <PrivateRoute
                                 exact
                                 path='/sign'
                                 component={SignWithRouter}
                             />
                             {!isInactiveAccount &&
-                                <PrivateRouteLimited
+                                <PrivateRoute
                                     path='/staking'
                                     render={() => (
                                         <StakingContainer
@@ -476,17 +481,18 @@ class Routing extends Component {
                                     )}
                                 />
                             }
-                            <Route
+                            <PublicRoute
                                 exact
                                 path='/cli-login-success'
                                 component={LoginCliLoginSuccess}
                             />
-                            <Route
+                            <PublicRoute
                                 exact
                                 path='/terms'
                                 component={Terms}
+                                indexBySearchEngines={true}
                             />
-                            <PrivateRouteLimited
+                            <PrivateRoute
                                 component={isInactiveAccount ? ActivateAccountWithRouter : Wallet}
                             />
                         </Switch>
