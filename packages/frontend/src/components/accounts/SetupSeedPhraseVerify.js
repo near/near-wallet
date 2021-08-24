@@ -3,6 +3,7 @@ import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
 import FormButton from '../common/FormButton';
+import LocalAlertBox from '../common/LocalAlertBox';
 import { Recaptcha } from '../Recaptcha';
 
 // FIXME: Use `debug` npm package so we can keep some debug logging around but not spam the console everywhere
@@ -91,6 +92,7 @@ const SetupSeedPhraseVerify = (
                     />
                 )}
             </Translate>
+            <LocalAlertBox localAlert={localAlert}/>
             {
                 shouldRenderRecaptcha && <Recaptcha
                     ref={recaptchaRef}
