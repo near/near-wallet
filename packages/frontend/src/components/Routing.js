@@ -262,7 +262,7 @@ class Routing extends Component {
             WALLET_LOGIN_URL,
             WALLET_SEND_MONEY_URL,
             WALLET_SIGN_URL
-        ].includes(pathname.replace(/^\/([^/]*).*$/, '$1'));
+        ].includes(pathname.replace(/\//g,''));
 
         reportUiActiveMixpanelThrottled();
 
