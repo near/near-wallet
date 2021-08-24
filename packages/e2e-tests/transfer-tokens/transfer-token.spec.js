@@ -1,7 +1,8 @@
 const { test, expect } = require("@playwright/test");
 const { parseNearAmount } = require("near-api-js/lib/utils/format");
-const { HomePage } = require("../register/models/Home");
+const BN = require("bn.js");
 
+const { HomePage } = require("../register/models/Home");
 const { createRandomBankSubAccount } = require("../utils/account");
 const { SendMoneyPage } = require("./models/SendMoney");
 
@@ -11,16 +12,22 @@ describe("Transferring NEAR tokens between two accounts", () => {
     let firstAccount, secondAccount;
 
     beforeAll(async () => {
-        firstAccount = await createRandomBankSubAccount();
-        secondAccount = await createRandomBankSubAccount();
+        [{ value: firstAccount }, { value: secondAccount }] =
+            await Promise.allSettled([
+                createRandomBankSubAccount(),
+                createRandomBankSubAccount(),
+            ]);
     });
 
     afterAll(async () => {
-        firstAccount && (await firstAccount.delete());
-        secondAccount && (await secondAccount.delete());
+        await Promise.allSettled([
+            firstAccount && firstAccount.delete(),
+            secondAccount && secondAccount.delete(),
+        ]);
     });
 
     test("navigates to send money page", async ({ page }) => {
+        test.fail(!firstAccount, "first account not successfully created");
         const firstAccountHomePage = new HomePage(page);
 
         await firstAccountHomePage.navigate();
@@ -37,6 +44,12 @@ describe("Transferring NEAR tokens between two accounts", () => {
         await expect(firstAccountHomePage.page).toMatchURL(/send-money$/);
     });
     test("is able to send NEAR tokens", async ({ page }) => {
+        test.fail(
+            !firstAccount || !secondAccount,
+            !firstAccount
+                ? "first account not successfully created"
+                : "second account not successfully created"
+        );
         const firstAccountHomePage = new HomePage(page);
 
         await firstAccountHomePage.navigate();
@@ -61,7 +74,7 @@ describe("Transferring NEAR tokens between two accounts", () => {
             secondAccount.account.accountId
         );
         await firstAccountSendMoneyPage.confirmTransaction();
-        
+
         await expect(page).toMatchText(
             'span:text-matches("Transaction complete!", "i")',
             new RegExp(`${transferAmount} NEAR`)
@@ -74,9 +87,10 @@ describe("Transferring NEAR tokens between two accounts", () => {
         const balanceAfter = await (
             await secondAccount.getAccountInstance()
         ).getAccountBalance();
-        expect(parseInt(balanceAfter.total)).toEqual(
-            parseInt(balanceBefore.total) +
-                parseInt(parseNearAmount(transferAmount + ""))
-        );
+        const totalAfter = new BN(balanceAfter.total);
+        const totalBefore = new BN(balanceBefore.total);
+        const transferedAmount = new BN(parseNearAmount(transferAmount + ""));
+
+        expect(totalAfter.eq(totalBefore.add(transferedAmount))).toBe(true);
     });
 });
