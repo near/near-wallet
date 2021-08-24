@@ -471,6 +471,7 @@ const FormButton = ({
     className,
     id,
     trackingId,
+    "data-test-id": testId
 }) => (
     <CustomButton
         type={type}
@@ -483,6 +484,7 @@ const FormButton = ({
             trackingId && Mixpanel.track(trackingId);
         }}
         tabIndex='3'
+        data-test-id={testId}
     >
         {sending
             ? <Translate id={sendingString ? sendingString : 'sending'} />

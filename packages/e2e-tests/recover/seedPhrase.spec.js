@@ -18,7 +18,7 @@ describe("Account Recovery Using Seed Phrase", () => {
     test("navigates to seed phrase page successfully", async ({ page }) => {
         await page.goto("/");
 
-        await page.click(`button:text-matches("Import Existing Account", "i")`);
+        await page.click(`data-test-id=homePageImportAccountButton`);
         await page.click(`data-test-id=recoverAccountWithPassphraseButton`);
 
         await expect(page).toMatchURL(/\/recover-seed-phrase$/);
