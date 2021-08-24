@@ -28,19 +28,10 @@ function generateTestAccountId() {
 async function connectToAccountWithSeedphrase(accountId, seedPhrase) {
     const config = getDefaultConfig();
     const testAccountKeyPair = getKeyPairFromSeedPhrase(seedPhrase);
-    config.keyStore.setKey(config.networkId, accountId, testAccountKeyPair);
-
-    const near = await connect(config);
-    return await near.account(accountId);
-}
-
-async function connectToAccountWithSeedphrase(accountId, seedPhrase) {
-    const config = getDefaultConfig();
-    const testAccountKeyPair = getKeyPairFromSeedPhrase(seedPhrase);
     await config.keyStore.setKey(config.networkId, accountId, testAccountKeyPair);
 
     const near = await connect(config);
-    return await near.account(accountId);
+    return near.account(accountId);
 }
 
 async function createRandomBankSubAccount() {
