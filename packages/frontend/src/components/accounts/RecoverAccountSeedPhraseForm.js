@@ -22,6 +22,7 @@ const RecoverAccountSeedPhraseForm = ({
                         className={classNames([{'success': localAlert && localAlert.success}, {'problem': localAlert && localAlert.success === false}])}
                         placeholder={translate('recoverSeedPhrase.seedPhraseInput.placeholder')}
                         disabled={mainLoader}
+                        data-test-id="seedPhraseRecoveryInput"
                         required
                         tabIndex='2'
                     />
