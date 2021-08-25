@@ -16,7 +16,7 @@ class VerifySeedPhrasePage {
             "data-test-id=seedPhraseVerificationWordInput",
             word
         );
-        await this.page.click('[type="submit"]');
+        await this.page.click("data-test-id=seedPhraseVerificationWordSubmit");
         await this.page.waitForNavigation();
     }
 }

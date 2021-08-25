@@ -49,7 +49,7 @@ class SetRecoveryOptionPage {
         return await this.page.$(this.getSeedPhraseSelector());
     }
     async submitRecoveryOption() {
-        await this.page.click(`[type="submit"]`);
+        await this.page.click(`data-test-id=submitSelectedRecoveryOption`);
     }
 }
 module.exports = { SetRecoveryOptionPage };

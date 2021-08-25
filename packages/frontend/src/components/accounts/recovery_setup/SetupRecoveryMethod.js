@@ -418,6 +418,7 @@ class SetupRecoveryMethod extends Component {
                             disabled={!this.isValidInput || mainLoader}
                             sending={actionsPending('INITIALIZE_RECOVERY_METHOD', 'SETUP_RECOVERY_MESSAGE')}
                             trackingId='SR Click submit button'
+                            data-test-id="submitSelectedRecoveryOption"
                         >
                             <Translate id='button.continue' />
                         </FormButton>

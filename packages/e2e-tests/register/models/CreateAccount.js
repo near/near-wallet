@@ -6,9 +6,8 @@ class CreateAccountPage {
         await this.page.goto(`/create`);
     }
     async acceptTerms() {
-        const acceptTermsButtonSelector = "data-test-id=acceptTermsButton";
-        if (await this.page.$(acceptTermsButtonSelector)) {
-            await this.page.click(acceptTermsButtonSelector);
+        if (process.env.WALLET_NETWORK === "mainnet") {
+            await this.page.click("data-test-id=acceptTermsButton");
         }
     }
     async submitAccountId(accountId) {

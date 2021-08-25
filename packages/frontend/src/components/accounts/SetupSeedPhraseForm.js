@@ -63,6 +63,7 @@ const SetupSeedPhraseForm = ({
                 <FormButton
                     onClick={handleCopyPhrase}
                     color='seafoam-blue-white'
+                    data-test-id="copySeedPhraseButton"
                 >
                     <Translate id='button.copyPhrase' />
                     <IconMCopy color='#6ad1e3' />
@@ -71,6 +72,7 @@ const SetupSeedPhraseForm = ({
                     disabled={hasSeedPhraseRecovery}
                     linkTo={linkTo ? linkTo : `/setup-seed-phrase/${accountId}/verify${location.search}`}
                     color='blue'
+                    data-test-id="continueToSeedPhraseVerificationButton"
                 >
                     <Translate id='button.continue' />
                 </FormButton>

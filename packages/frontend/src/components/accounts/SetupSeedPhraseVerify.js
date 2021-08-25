@@ -117,6 +117,7 @@ const SetupSeedPhraseVerify = (
                 disabled={!enterWord || mainLoader || (!recaptchaToken && shouldRenderRecaptcha)}
                 sending={mainLoader}
                 sendingString={isNewAccount ? 'button.creatingAccount' : 'button.verifying'}
+                data-test-id="seedPhraseVerificationWordSubmit"
             >
                 <Translate id='button.verify'/>
             </FormButton>
