@@ -3,7 +3,6 @@ import { Translate } from 'react-localize-redux';
 
 import Balance from '../common/balance/Balance';
 import FormButton from '../common/FormButton';
-import MainImage from '../common/MainImage';
 import AccessKeysDeauthorizeConfirm from './AccessKeysDeauthorizeConfirm';
 
 const AccessKeysDeauthorize = ({
@@ -22,14 +21,6 @@ const AccessKeysDeauthorize = ({
         <div className='top'>
             <div>
                 <div className='title'>
-                    {false &&
-                        <div className='image'>
-                            <MainImage
-                                src={showSubData.image}
-                                size='big'
-                            />
-                        </div>
-                    }
                     <div className='details'>
                         {showSubData.access_key.permission.FunctionCall
                             ? <>

@@ -1,12 +1,9 @@
 import React, { Component } from 'react';
-import { Grid, List } from 'semantic-ui-react';
+import { Grid } from 'semantic-ui-react';
 import styled from 'styled-components';
 
 import TransactionFilter from '../../images/icon-m-filter.svg';
-import PaginationPaging from './PaginationPaging';
 import PaginationShowSubBox from './PaginationSubBox';
-import PaginationSummary from './PaginationSummary';
-import { PaginationTab } from './PaginationTab';
 
 
 const PaginationBlockGrid = styled(Grid)`
@@ -106,7 +103,6 @@ class PaginationBlock extends Component {
 
     render() {
         const {
-            pageNumber = 0,
             showSub = false,
             subPage,
             showSubData,
@@ -120,19 +116,6 @@ class PaginationBlock extends Component {
             confirm,
             confirmStatus,
             mainLoader
-        } = this.props;
-
-        const {
-            pagingValue,
-            pagingDropdown
-        } = this.state;
-
-        const {
-            totalRecords = 1100,
-            pageLimit = 10,
-            initialPage = 0,
-            onPageChanged = () => {},
-            pageNeighbors = 1
         } = this.props;
 
         return (
@@ -168,52 +151,6 @@ class PaginationBlock extends Component {
                         />
                     </Grid.Column>
                 </Grid.Row>
-                {false && (
-                    <Grid.Row className='border-top-light'>
-                        <Grid.Column
-                            width={8}
-                            verticalAlign='middle'
-                            className='pagination-block-top-paging'
-                        >
-                            <List horizontal verticalAlign='middle'>
-                                <List.Item width={6}>
-                                    <PaginationPaging
-                                        handleOnClickPaging={this.handleOnClickPaging}
-                                        pagingValue={pagingValue}
-                                        pagingDropdown={pagingDropdown}
-                                        handlePagingDropdownClick={
-                                            this.handlePagingDropdownClick
-                                        }
-                                    />
-                                </List.Item>
-                                <List.Item
-                                    width={6}
-                                    as='h6'
-                                    className='pagination-block-top-paging-summary'
-                                >
-                                    <PaginationSummary
-                                        pageNumber={pageNumber}
-                                        pageLimit={pageLimit}
-                                        totalRecords={totalRecords}
-                                    />
-                                </List.Item>
-                            </List>
-                        </Grid.Column>
-                        <Grid.Column
-                            width={8}
-                            className='pagination-block-paging'
-                            textAlign='right'
-                        >
-                            <PaginationTab
-                                totalRecords={totalRecords}
-                                pageLimit={pageLimit}
-                                initialPage={initialPage}
-                                onPageChanged={onPageChanged}
-                                pageNeighbors={pageNeighbors}
-                            />
-                        </Grid.Column>
-                    </Grid.Row>
-                )}
             </PaginationBlockGrid>
         );
     }

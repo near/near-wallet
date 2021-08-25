@@ -1,6 +1,5 @@
 import React, { useRef, useImperativeHandle, forwardRef, useState } from 'react';
 import { Translate } from 'react-localize-redux';
-import { Responsive } from 'semantic-ui-react';
 import styled from 'styled-components';
 
 import FormButton from '../common/FormButton';
@@ -93,7 +92,7 @@ const SetupSeedPhraseVerify = (
                     />
                 )}
             </Translate>
-            <Responsive as={LocalAlertBox} localAlert={localAlert}/>
+            <LocalAlertBox localAlert={localAlert}/>
             {
                 shouldRenderRecaptcha && <Recaptcha
                     ref={recaptchaRef}

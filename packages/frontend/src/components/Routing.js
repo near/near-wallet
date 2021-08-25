@@ -23,7 +23,14 @@ import getBrowserLocale from '../utils/getBrowserLocale';
 import { getAccountIsInactive, removeAccountIsInactive, setAccountIsInactive } from '../utils/localStorage';
 import { reportUiActiveMixpanelThrottled } from '../utils/reportUiActiveMixpanelThrottled';
 import ScrollToTop from '../utils/ScrollToTop';
-import { IS_MAINNET, SHOW_PRERELEASE_WARNING, WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS } from '../utils/wallet';
+import { 
+    IS_MAINNET, 
+    SHOW_PRERELEASE_WARNING, 
+    WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS,
+    WALLET_LOGIN_URL,
+    WALLET_SIGN_URL,
+    WALLET_SEND_MONEY_URL
+} from '../utils/wallet';
 import { AuthorizedAppsWithRouter, FullAccessKeysWithRouter } from './access-keys/AccessKeys';
 import { AutoImportWrapper } from './accounts/auto_import/AutoImportWrapper';
 import { ActivateAccountWithRouter } from './accounts/create/ActivateAccount';
@@ -82,11 +89,8 @@ const PATH_PREFIX = process.env.PUBLIC_URL;
 
 const Container = styled.div`
     min-height: 100vh;
-    padding-bottom: 200px;
+    padding-bottom: 230px;
     padding-top: 75px;
-    .main {
-        padding-bottom: 200px;
-    }
     @media (max-width: 991px) {
         .App {
             .main {
@@ -98,6 +102,14 @@ const Container = styled.div`
         @media (max-width: 450px) {
             .alert-banner, .lockup-avail-transfer {
                 margin-top: -35px;
+            }
+        }
+    }
+
+    @media (max-width: 767px) {
+        &.hide-footer-mobile { 
+            .wallet-footer {
+                display: none;
             }
         }
     }
@@ -229,7 +241,7 @@ class Routing extends Component {
     }
 
     render() {
-        const { search, query: { tab }, hash } = this.props.router.location;
+        const { search, query: { tab }, hash, pathname } = this.props.router.location;
         const { account } = this.props;
         const setTab = (nextTab) => {
             if (tab !== nextTab) {
@@ -246,11 +258,23 @@ class Routing extends Component {
             }
         };
         const { isInactiveAccount } = this.state;
+        const hideFooterOnMobile = [
+            WALLET_LOGIN_URL,
+            WALLET_SEND_MONEY_URL,
+            WALLET_SIGN_URL
+        ].includes(pathname.replace(/\//g,''));
 
         reportUiActiveMixpanelThrottled();
 
         return (
-            <Container className={classNames(['App', {'network-banner': (!IS_MAINNET || SHOW_PRERELEASE_WARNING)}])} id='app-container'>
+            <Container
+                className={classNames([
+                    'App',
+                    {'network-banner': (!IS_MAINNET || SHOW_PRERELEASE_WARNING)},
+                    {'hide-footer-mobile' : hideFooterOnMobile}
+                ])}
+                id='app-container'
+            >
                 <GlobalStyle />
                 <ConnectedRouter basename={PATH_PREFIX} history={this.props.history}>
                     <ThemeProvider theme={theme}>
@@ -466,7 +490,7 @@ class Routing extends Component {
                                 component={isInactiveAccount ? ActivateAccountWithRouter : Wallet}
                             />
                         </Switch>
-                        <Footer />
+                        <Footer/>
                     </ThemeProvider>
                 </ConnectedRouter>
             </Container>
