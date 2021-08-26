@@ -416,7 +416,7 @@ class SetupRecoveryMethod extends Component {
                             color='blue'
                             type='submit'
                             disabled={!this.isValidInput || mainLoader}
-                            sending={actionsPending('INITIALIZE_RECOVERY_METHOD', 'SETUP_RECOVERY_MESSAGE')}
+                            sending={actionsPending(['INITIALIZE_RECOVERY_METHOD', 'SETUP_RECOVERY_MESSAGE'])}
                             trackingId='SR Click submit button'
                         >
                             <Translate id='button.continue' />
