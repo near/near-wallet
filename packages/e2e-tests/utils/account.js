@@ -16,13 +16,22 @@ const getDefaultConfig = () => ({
 });
 
 function getKeyPairFromSeedPhrase(seedPhrase) {
-    return KeyPair.fromString(parseSeedPhrase(seedPhrase).secretKey)
+    return KeyPair.fromString(parseSeedPhrase(seedPhrase).secretKey);
 }
 
 function generateTestAccountId() {
-    return `test-account-${Date.now()}-${
+    return `test-playwright-account-${Date.now()}-${
         Math.floor(Math.random() * 1000) % 1000
     }`;
+}
+
+async function connectToAccountWithSeedphrase(accountId, seedPhrase) {
+    const config = getDefaultConfig();
+    const testAccountKeyPair = getKeyPairFromSeedPhrase(seedPhrase);
+    await config.keyStore.setKey(config.networkId, accountId, testAccountKeyPair);
+
+    const near = await connect(config);
+    return await near.account(accountId);
 }
 
 async function createRandomBankSubAccount() {
@@ -38,7 +47,7 @@ async function createBankSubAccount(accountId) {
 
     const testAccountId = `${accountId}.${parentAccountId}`;
     const testAccountSeedphrase = `${testAccountId} ${TEST_ACCOUNT_SEED_PHRASE}`;
-    const config = getDefaultConfig(parentAccountId);
+    const config = getDefaultConfig();
 
     const parentAccountKeyPair = getKeyPairFromSeedPhrase(
         parentAccountSeedphrase
@@ -73,5 +82,7 @@ async function createBankSubAccount(accountId) {
 }
 
 module.exports = {
-    createRandomBankSubAccount
+    createRandomBankSubAccount,
+    generateTestAccountId,
+    connectToAccountWithSeedphrase
 };
