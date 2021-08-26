@@ -9,36 +9,40 @@ const PrivateRoute = ({
     component: Component,
     render,
     account,
-    refreshAccountOwnerEnded,
     indexBySearchEngines,
     ...rest
 }) => (
     <>
         {!indexBySearchEngines && <NoIndexMetaTag />}
-        <Route 
-            {...rest} 
-            render={(props) => (
-                !localStorage.getItem(KEY_ACTIVE_ACCOUNT_ID)
-                    ? (
-                        <Redirect
-                            to={{
-                                pathname: '/',
-                            }}
-                        />
-                    )
-                    : ( Component // <Route component> takes precedence over <Route render></Route>
-                        ? <Component {...props} />
-                        : (render ? render(props) : <></>)
-                    )
-            )}
+        <Route
+            {...rest}
+            render={(props) => {
+                if (!localStorage.getItem(KEY_ACTIVE_ACCOUNT_ID)) {
+                    return <Redirect
+                        to={{
+                            pathname: '/',
+                        }}
+                    />;
+                }
+
+                // <Route component> takes precedence over <Route render></Route>
+                if (Component) {
+                    return <Component {...props} />;
+                }
+
+                if (render) {
+                    return render(props);
+                }
+
+                return (<></>);
+            }}
         />
     </>
 );
 
 const mapStateToProps = ({ account, status }) => ({
     account,
-    localAlert: status.localAlert,
-    refreshAccountOwnerEnded: status.actionStatus.REFRESH_ACCOUNT_OWNER?.success === true
+    localAlert: status.localAlert
 });
 
 export default withRouter(connect(mapStateToProps)(PrivateRoute));
