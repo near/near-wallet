@@ -8,8 +8,10 @@ const {
 } = require("near-api-js");
 const { parseSeedPhrase } = require("near-seed-phrase");
 
+const getWalletNetwork = () => process.env.WALLET_NETWORK || "testnet";
+
 const getDefaultConfig = () => ({
-    networkId: "default",
+    networkId: getWalletNetwork(),
     nodeUrl: process.env.NODE_URL || "https://rpc.testnet.near.org",
     walletUrl: process.env.WALLET_URL || "https://wallet.testnet.near.org",
     keyStore: new InMemoryKeyStore(),
@@ -28,7 +30,11 @@ function generateTestAccountId() {
 async function connectToAccountWithSeedphrase(accountId, seedPhrase) {
     const config = getDefaultConfig();
     const testAccountKeyPair = getKeyPairFromSeedPhrase(seedPhrase);
-    await config.keyStore.setKey(config.networkId, accountId, testAccountKeyPair);
+    await config.keyStore.setKey(
+        config.networkId,
+        accountId,
+        testAccountKeyPair
+    );
 
     const near = await connect(config);
     return near.account(accountId);
@@ -58,10 +64,12 @@ async function createBankSubAccount(accountId) {
         parentAccountKeyPair
     );
 
-    const testAccountKeyPair = getKeyPairFromSeedPhrase(
-        testAccountSeedphrase
+    const testAccountKeyPair = getKeyPairFromSeedPhrase(testAccountSeedphrase);
+    await config.keyStore.setKey(
+        config.networkId,
+        testAccountId,
+        testAccountKeyPair
     );
-    await config.keyStore.setKey(config.networkId, testAccountId, testAccountKeyPair);
 
     const near = await connect(config);
     const parentAccount = await near.account(parentAccountId);
@@ -87,4 +95,5 @@ module.exports = {
     generateTestAccountId,
     connectToAccountWithSeedphrase,
     getKeyPairFromSeedPhrase,
+    getWalletNetwork
 };

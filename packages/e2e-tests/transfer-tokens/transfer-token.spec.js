@@ -76,11 +76,11 @@ describe("Transferring NEAR tokens between two accounts", () => {
         await firstAccountSendMoneyPage.confirmTransaction();
 
         await expect(page).toMatchText(
-            'span:text-matches("Transaction complete!", "i")',
+            "data-test-id=sendTransactionSuccessMessage",
             new RegExp(`${transferAmount} NEAR`)
         );
         await expect(page).toMatchText(
-            'span:text-matches("Transaction complete!", "i")',
+            "data-test-id=sendTransactionSuccessMessage",
             new RegExp(secondAccount.account.accountId)
         );
 

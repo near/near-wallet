@@ -8,7 +8,7 @@ class SendMoneyPage {
     async typeAmount(amount) {
         await this.page.fill(
             `data-test-id=sendMoneyAmountInput`,
-            (amount && amount.toString()) || ""
+            amount.toString()
         );
     }
     async typeAndSubmitAmount(amount) {
@@ -17,7 +17,9 @@ class SendMoneyPage {
     }
     async selectAsset(assetContractName) {
         await this.page.click(`data-test-id=sendMoneyPageSelectTokenButton`);
-        await this.page.click(`data-test-id=token-selection-${assetContractName}`);
+        await this.page.click(
+            `data-test-id=token-selection-${assetContractName}`
+        );
     }
     async typeAccountId(accountId) {
         await this.page.fill(
