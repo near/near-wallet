@@ -2,6 +2,7 @@ const { test, expect } = require("@playwright/test");
 const { HomePage } = require("../register/models/Home");
 
 const { createRandomBankSubAccount } = require("../utils/account");
+const { testDappURL } = require("../utils/config");
 const { LoginPage } = require("./models/Login");
 
 const { describe, beforeAll, afterAll, beforeEach } = test;
@@ -28,15 +29,10 @@ describe("Login with Dapp", () => {
 
     test("navigates to login with dapp page", async ({ page }) => {
         const loginPage = new LoginPage(page);
-        const testDappUrl = `https://near.org`;
-        await loginPage.navigate(testDappUrl);
+        await loginPage.navigate();
 
         await expect(page).toMatchURL(/\/login/);
-        const { hostname: testDappHostname } = new URL(testDappUrl);
-        await expect(page).toMatchText(
-            `data-test-id=requestingAppTitleDisplay`,
-            testDappHostname
-        );
+
         const currentlyLoggedInUser = await page.textContent(
             "data-test-id=currentUser"
         );
@@ -50,47 +46,46 @@ describe("Login with Dapp", () => {
         page,
     }) => {
         const loginPage = new LoginPage(page);
-        const testDappUrl = `https://near.org`;
-        await loginPage.navigate(testDappUrl);
+        await loginPage.navigate();
 
         await loginPage.allowAccess();
         await page.waitForNavigation();
 
-        await expect(page).toMatchURL(new RegExp(testDappUrl));
+        await expect(page).toMatchURL(new RegExp(testDappURL));
 
-        await loginPage.initializeNearWalletConnection();
-        const localStorageKeys = await page.evaluate(() =>
-            Object.keys(window.localStorage)
-        );
-        const pendingkeyLocalStorageKey = localStorageKeys.find((k) =>
-            /pending_key/.test(k)
-        );
-        const accesskeyLocalStorageKey = localStorageKeys.find((k) =>
-            new RegExp(testAccount.account.accountId).test(k)
-        );
-        await expect(pendingkeyLocalStorageKey).toBeFalsy();
+        const pendingkeyLocalStorageKeys =
+            await loginPage.getPendingAccessKeys();
+        await expect(pendingkeyLocalStorageKeys).toHaveLength(0);
+
+        const accesskeyLocalStorageKey =
+            await loginPage.getAccessKeyForAccountId(
+                testAccount.account.accountId
+            );
         await expect(accesskeyLocalStorageKey).toBeTruthy();
+
+        await expect(page).toMatchText(
+            "data-test-id=testDapp-currentUser",
+            new RegExp(testAccount.account.accountId)
+        );
     });
     test("navigates back to dapp when access is denied", async ({ page }) => {
         const loginPage = new LoginPage(page);
-        const testDappUrl = `https://near.org`;
-        await loginPage.navigate(testDappUrl);
+        await loginPage.navigate();
 
         await loginPage.denyAccess();
 
-        await expect(page).toMatchURL(new RegExp(testDappUrl));
+        await expect(page).toMatchURL(new RegExp(testDappURL));
 
-        await loginPage.initializeNearWalletConnection();
-        const localStorageKeys = await page.evaluate(() =>
-            Object.keys(window.localStorage)
-        );
-        const pendingkeyLocalStorageKey = localStorageKeys.find((k) =>
-            /pending_key/.test(k)
-        );
-        const accesskeyLocalStorageKey = localStorageKeys.find((k) =>
-            new RegExp(testAccount.account.accountId).test(k)
-        );
-        await expect(pendingkeyLocalStorageKey).toBeTruthy();
+        const pendingkeyLocalStorageKeys =
+            await loginPage.getPendingAccessKeys();
+        await expect(pendingkeyLocalStorageKeys).not.toHaveLength(0);
+
+        const accesskeyLocalStorageKey =
+            await loginPage.getAccessKeyForAccountId(
+                testAccount.account.accountId
+            );
         await expect(accesskeyLocalStorageKey).toBeFalsy();
+
+        await expect(page).toHaveSelector("data-test-id=testDapp-signInBtn");
     });
 });
