@@ -137,6 +137,7 @@ const LoginForm = ({
                     <FormButton
                         color='gray-white'
                         onClick={handleDeny}
+                        data-test-id="denyAccessButton"
                     >
                         <Translate id='button.deny' />
                     </FormButton>
@@ -148,6 +149,7 @@ const LoginForm = ({
                             onClick={handleAllow}
                             sendingString='button.authorizing'
                             disabled={!account.accountId}
+                            data-test-id="allowNonFullAccessButton"
                         >
                             <Translate id='button.allow' />
                         </FormButton>

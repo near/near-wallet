@@ -46,7 +46,7 @@ describe("Login with Dapp", () => {
         page,
     }) => {
         const loginPage = new LoginPage(page);
-        await loginPage.navigate();
+        const testDappPage = await loginPage.navigate();
 
         await loginPage.allowAccess();
         await page.waitForNavigation();
@@ -54,11 +54,11 @@ describe("Login with Dapp", () => {
         await expect(page).toMatchURL(new RegExp(testDappURL));
 
         const pendingkeyLocalStorageKeys =
-            await loginPage.getPendingAccessKeys();
+            await testDappPage.getPendingAccessKeys();
         await expect(pendingkeyLocalStorageKeys).toHaveLength(0);
 
         const accesskeyLocalStorageKey =
-            await loginPage.getAccessKeyForAccountId(
+            await testDappPage.getAccessKeyForAccountId(
                 testAccount.account.accountId
             );
         await expect(accesskeyLocalStorageKey).toBeTruthy();
@@ -70,18 +70,18 @@ describe("Login with Dapp", () => {
     });
     test("navigates back to dapp when access is denied", async ({ page }) => {
         const loginPage = new LoginPage(page);
-        await loginPage.navigate();
+        const testDappPage = await loginPage.navigate();
 
         await loginPage.denyAccess();
 
         await expect(page).toMatchURL(new RegExp(testDappURL));
 
         const pendingkeyLocalStorageKeys =
-            await loginPage.getPendingAccessKeys();
+            await testDappPage.getPendingAccessKeys();
         await expect(pendingkeyLocalStorageKeys).not.toHaveLength(0);
 
         const accesskeyLocalStorageKey =
-            await loginPage.getAccessKeyForAccountId(
+            await testDappPage.getAccessKeyForAccountId(
                 testAccount.account.accountId
             );
         await expect(accesskeyLocalStorageKey).toBeFalsy();

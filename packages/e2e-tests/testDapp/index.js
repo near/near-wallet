@@ -21,11 +21,14 @@ const { connect, keyStores, WalletConnection } = nearApi;
             Currently Logged in as: ${walletAccountId}
           </span>
           <button id="signOutBtn" data-test-id="testDapp-signOutBtn">
-            Sign in
+            Sign out
           </button>`;
         document
             .getElementById("signOutBtn")
-            .addEventListener("click", () => wallet.signOut());
+            .addEventListener("click", async () => {
+                wallet.signOut();
+                location.reload();
+            });
     } else {
         document.getElementById(
             "content"
