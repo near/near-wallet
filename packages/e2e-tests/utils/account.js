@@ -8,10 +8,10 @@ const {
 } = require("near-api-js");
 const { parseSeedPhrase } = require("near-seed-phrase");
 
-const getWalletNetwork = () => process.env.WALLET_NETWORK || "testnet";
+const { walletNetwork } = require("./config");
 
 const getDefaultConfig = () => ({
-    networkId: getWalletNetwork(),
+    networkId: walletNetwork,
     nodeUrl: process.env.NODE_URL || "https://rpc.testnet.near.org",
     walletUrl: process.env.WALLET_URL || "https://wallet.testnet.near.org",
     keyStore: new InMemoryKeyStore(),
@@ -95,6 +95,5 @@ module.exports = {
     generateTestAccountId,
     connectToAccountWithSeedphrase,
     getKeyPairFromSeedPhrase,
-    getWalletNetwork,
     getDefaultConfig,
 };
