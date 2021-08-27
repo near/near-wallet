@@ -159,9 +159,9 @@ const SelectAccountDropdown = ({
             >
                 <Segment basic>
                     <div className='item list-title'>
-                        {dropdown ? (
-                            translate("button.close")
-                        ) : (
+                        {dropdown 
+                          ? ( translate("button.close") )
+                          : (
                             <div
                                 data-test-id="dropdownCurrentlySelectedAccount"
                                 className={classNames({
