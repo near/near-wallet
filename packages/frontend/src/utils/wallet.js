@@ -29,6 +29,7 @@ export const WALLET_LOGIN_URL = 'login';
 export const WALLET_SIGN_URL = 'sign';
 export const WALLET_LINKDROP_URL = 'linkdrop';
 export const WALLET_RECOVER_ACCOUNT_URL = 'recover-account';
+export const WALLET_SEND_MONEY_URL = 'send-money';
 export const ACCOUNT_HELPER_URL = process.env.REACT_APP_ACCOUNT_HELPER_URL || 'https://near-contract-helper.onrender.com';
 export const EXPLORER_URL = process.env.EXPLORER_URL || 'https://explorer.testnet.near.org';
 export const IS_MAINNET = process.env.REACT_APP_IS_MAINNET === 'true' || process.env.REACT_APP_IS_MAINNET === 'yes';
@@ -135,6 +136,11 @@ class Wallet {
     async getLocalAccessKey(accountId, accessKeys) {
         const localPublicKey = await this.inMemorySigner.getPublicKey(accountId, NETWORK_ID);
         return localPublicKey && accessKeys.find(({ public_key }) => public_key === localPublicKey.toString());
+    }
+
+    async getLocalSecretKey(accountId) {
+        const localKeyPair = await this.keyStore.getKey(NETWORK_ID, accountId);
+        return localKeyPair.toString();
     }
 
     async getLedgerKey(accountId) {
@@ -346,13 +352,10 @@ class Wallet {
     async createNewAccount(accountId, fundingOptions, recoveryMethod, publicKey, previousAccountId, recaptchaToken) {
         await this.checkNewAccount(accountId);
 
-        const { fundingContract, fundingKey, fundingAccountId, fundingAmount } = fundingOptions || {};
+        const { fundingContract, fundingKey, fundingAccountId } = fundingOptions || {};
         if (fundingContract && fundingKey) {
             await this.createNewAccountLinkdrop(accountId, fundingContract, fundingKey, publicKey);
             await this.keyStore.removeKey(NETWORK_ID, fundingContract);
-            if (fundingAmount) {
-                await localStorage.setItem('linkdropAmount', fundingAmount);
-            }
         } else if (fundingAccountId) {
             await this.createNewAccountFromAnother(accountId, fundingAccountId, publicKey);
         } else if (process.env.RECAPTCHA_CHALLENGE_API_KEY && recaptchaToken) {
@@ -832,8 +835,14 @@ class Wallet {
         }
     }
 
-    async recoverAccountSeedPhrase(seedPhrase, accountId, fromSeedPhraseRecovery = true) {
-        const { publicKey, secretKey } = parseSeedPhrase(seedPhrase);
+    async recoverAccountSeedPhrase(seedPhrase, accountId, shouldCreateFullAccessKey = true) {
+        const { secretKey } = parseSeedPhrase(seedPhrase);
+        return await this.recoverAccountSecretKey(secretKey, accountId, shouldCreateFullAccessKey);
+    }
+
+    async recoverAccountSecretKey(secretKey, accountId, shouldCreateFullAccessKey) {
+        const keyPair = KeyPair.fromString(secretKey);
+        const publicKey = keyPair.publicKey.toString();
 
         const tempKeyStore = new nearApiJs.keyStores.InMemoryKeyStore();
         const implicitAccountId = Buffer.from(PublicKey.fromString(publicKey).data).toString('hex');
@@ -885,7 +894,7 @@ class Wallet {
                 );
                 if (recoveryKeyIsFAK) {
                     console.log('using FAK and regular Account instance to recover');
-                    fromSeedPhraseRecovery = false;
+                    shouldCreateFullAccessKey = false;
                 }
             }
 
@@ -896,7 +905,7 @@ class Wallet {
             const newKeyPair = KeyPair.fromRandom('ed25519');
 
             try {
-                await this.addAccessKey(accountId, accountId, newKeyPair.publicKey, fromSeedPhraseRecovery, '', recoveryKeyIsFAK);
+                await this.addAccessKey(accountId, accountId, newKeyPair.publicKey, shouldCreateFullAccessKey, '', recoveryKeyIsFAK);
                 accountIdsSuccess.push({
                     accountId,
                     newKeyPair
@@ -918,7 +927,7 @@ class Wallet {
             }));
 
             store.dispatch(makeAccountActive(accountIdsSuccess[accountIdsSuccess.length - 1].accountId));
-
+            
             return {
                 numberOfAccounts: accountIdsSuccess.length,
                 accountList: accountIdsSuccess.flatMap((accountId) => accountId.account_id).join(', '),

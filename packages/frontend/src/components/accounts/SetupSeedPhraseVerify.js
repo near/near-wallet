@@ -1,6 +1,5 @@
 import React, { useRef, useImperativeHandle, forwardRef, useState } from 'react';
 import { Translate } from 'react-localize-redux';
-import { Responsive } from 'semantic-ui-react';
 import styled from 'styled-components';
 
 import FormButton from '../common/FormButton';
@@ -77,10 +76,16 @@ const SetupSeedPhraseVerify = (
 
     return (
         <CustomDiv>
-            <h4><Translate id='input.enterWord.title' data={{ wordId: wordId + 1 }}/></h4>
+            <h4 data-test-id="seedPhraseVerificationWordNumber">
+                <Translate
+                    id="input.enterWord.title"
+                    data={{ wordId: wordId + 1 }}
+                />
+            </h4>
             <Translate>
                 {({ translate }) => (
                     <input
+                        data-test-id="seedPhraseVerificationWordInput"
                         name='enterWord'
                         value={enterWord}
                         onChange={e => handleChangeWord(e.target.value)}
@@ -93,7 +98,7 @@ const SetupSeedPhraseVerify = (
                     />
                 )}
             </Translate>
-            <Responsive as={LocalAlertBox} localAlert={localAlert}/>
+            <LocalAlertBox localAlert={localAlert}/>
             {
                 shouldRenderRecaptcha && <Recaptcha
                     ref={recaptchaRef}
@@ -111,6 +116,7 @@ const SetupSeedPhraseVerify = (
                 disabled={!enterWord || mainLoader || (!recaptchaToken && shouldRenderRecaptcha)}
                 sending={mainLoader}
                 sendingString={isNewAccount ? 'button.creatingAccount' : 'button.verifying'}
+                data-test-id="seedPhraseVerificationWordSubmit"
             >
                 <Translate id='button.verify'/>
             </FormButton>

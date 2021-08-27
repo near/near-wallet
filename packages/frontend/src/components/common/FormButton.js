@@ -2,7 +2,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { Translate } from 'react-localize-redux';
 import { withRouter } from 'react-router';
-import { Button } from 'semantic-ui-react';
 import styled from 'styled-components';
 
 import ArrowGrnImage from '../../images/icon-arrow-grn.svg';
@@ -10,7 +9,7 @@ import ArrowWhiteImage from '../../images/icon-arrow-white.svg';
 import { Mixpanel } from '../../mixpanel/index';
 import classNames from '../../utils/classNames';
 
-const CustomButton = styled(Button)`
+const CustomButton = styled.button`
     &&& {
         color: #fff;
         margin: 24px 0 0 0;
@@ -18,6 +17,7 @@ const CustomButton = styled(Button)`
         font-weight: 600;
         height: 56px;
         border-radius: 30px;
+        transition: 100ms;
         
         font-size: 15px;
         word-break: keep-all;
@@ -39,7 +39,6 @@ const CustomButton = styled(Button)`
 
         &.black {
             background-color: black;
-            transition: 100ms;
 
             :hover {
                 background-color: #1f1f1f;
@@ -49,7 +48,6 @@ const CustomButton = styled(Button)`
         &.dark-gray {
             background-color: #272729;
             border-color: #272729;
-            transition: 100ms;
 
             :hover {
                 background-color: black;
@@ -67,7 +65,6 @@ const CustomButton = styled(Button)`
             background-color: #F0F0F1;
             border-color: #F0F0F1;
             color: #3F4045;
-            transition: 100ms;
 
             :hover {
                 background-color: #ececec;
@@ -227,7 +224,6 @@ const CustomButton = styled(Button)`
             background-color: #4DD5A6;
             color: #00261C;
             border: 0;
-            transition: 200ms;
 
             :hover {
                 background-color: #49cc9f;
@@ -289,8 +285,6 @@ const CustomButton = styled(Button)`
             &.border {
                 background: none;
                 border-color: #E6E5E3;
-                transition: 100ms;
-
                 :hover {
                     border-color: #0072ce;
                 }
@@ -471,6 +465,7 @@ const FormButton = ({
     className,
     id,
     trackingId,
+    "data-test-id": testId
 }) => (
     <CustomButton
         type={type}
@@ -483,6 +478,7 @@ const FormButton = ({
             trackingId && Mixpanel.track(trackingId);
         }}
         tabIndex='3'
+        data-test-id={testId}
     >
         {sending
             ? <Translate id={sendingString ? sendingString : 'sending'} />

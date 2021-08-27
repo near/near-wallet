@@ -104,7 +104,7 @@ class LoginDetails extends Component {
     }
 
     render() {
-        const { contractId, transactions, fees, appTitle, accountConfirmationForm } = this.props;
+        const { contractId, transactions, appTitle, accountConfirmationForm } = this.props;
 
         return (
             <CustomGrid padded>
@@ -140,29 +140,6 @@ class LoginDetails extends Component {
                             <div className='details'>
                                 <div className='details-item title h3'><Translate id='login.details.detailedDescription' /></div>
                                 <TransactionsList transactions={transactions} />
-
-                                {false && <div className='details-item'>
-                                    <div className='title h3'>
-                                        Transaction Allowance
-                                    </div>
-                                    <div className='details-subitem color-charcoal-grey'>
-                                        <div className='desc font-small'>
-                                            This app can use your NEAR for transaction fees
-                                        </div>
-                                        <div>
-                                            <b>Total Allowance: .001Ⓝ</b>
-                                        </div>
-                                    </div>
-                                </div>}
-                                {false && <div className='details-item'>
-                                    <div className='title h3'>
-                                        Transaction Fees
-                                    </div>
-                                    <div className='details-subitem color-charcoal-grey'>
-                                        <div><b>Gas Limit: {fees.gasLimit}</b></div>
-                                        <div><b>Gas price estimate is unavailable</b></div>
-                                    </div>
-                                </div>}
                             </div>
                         ))}
                         {!contractId && (
@@ -199,58 +176,8 @@ const TransactionsList = ({ transactions }) =>
             <div className='title h3'>
                 <Translate id='login.details.forContract' />: <a href={`${EXPLORER_URL}/accounts/${t.signerId}`} target='_blank' rel="noopener noreferrer" className='color-blue'>{t.signerId}</a>
             </div>
-            {false &&  <ActionsList 
-                transaction={t} 
-                actions={t.actions}
-            />}
         </div>
 ));
-
-const ActionsList = ({ transaction, actions }) => 
-    actions
-        .sort((a,b) => Object.keys(b)[0] === 'functionCall' ? 1 : -1)
-        .map((a, i) => (
-            <ActionRow 
-                key={`action-${i}`} 
-                transaction={transaction} 
-                action={a} 
-                actionKind={Object.keys(a)[0]}  
-            />
-));
-
-const ActionRow = ({ transaction, action, actionKind }) => (
-    <div key={`subitem-`} className='details-subitem color-charcoal-grey'>
-        <ActionMessage 
-            transaction={transaction} 
-            action={action} 
-            actionKind={actionKind} 
-        />
-        <div className='desc font-small'>
-            <ActionWarrning 
-                actionKind={actionKind} 
-            />
-        </div>
-    </div>
-);
-
-const ActionMessage = ({ transaction, action, actionKind }) => (
-    <Translate>
-        <b>
-            {({ translate }) => actionKind === 'functionCall' && `${translate('login.details.function')}: ${action.functionCall.methodName}`}
-        </b>
-    </Translate>
-);
-
-const ActionWarrning = ({ actionKind }) => (
-    <Fragment>
-        {actionKind === 'functionCall' && (
-            <Fragment>
-                <div className='icon'><IconProblems color='#999' /></div>
-                <Translate id='login.details.noDescription' />
-            </Fragment>
-        )}
-    </Fragment>
-);
 
 const mapDispatchToProps = {
     showCustomAlert

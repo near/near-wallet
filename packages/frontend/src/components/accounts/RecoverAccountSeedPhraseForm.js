@@ -22,6 +22,7 @@ const RecoverAccountSeedPhraseForm = ({
                         className={classNames([{'success': localAlert && localAlert.success}, {'problem': localAlert && localAlert.success === false}])}
                         placeholder={translate('recoverSeedPhrase.seedPhraseInput.placeholder')}
                         disabled={mainLoader}
+                        data-test-id="seedPhraseRecoveryInput"
                         required
                         tabIndex='2'
                     />
@@ -31,7 +32,7 @@ const RecoverAccountSeedPhraseForm = ({
                 type='submit'
                 color='blue'
                 disabled={!isLegit || mainLoader}
-                sending={actionsPending('RECOVER_ACCOUNT_SEED_PHRASE', 'REFRESH_ACCOUNT_OWNER')}
+                sending={actionsPending(['RECOVER_ACCOUNT_SEED_PHRASE', 'REFRESH_ACCOUNT_OWNER'])}
                 sendingString='button.recovering'
             >
                 <Translate id='button.findMyAccount' />

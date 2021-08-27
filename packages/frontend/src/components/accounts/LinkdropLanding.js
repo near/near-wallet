@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import { checkNearDropBalance, claimLinkdropToAccount, redirectTo, handleRefreshUrl } from '../../actions/account';
 import { clearLocalAlert } from '../../actions/status';
 import { Mixpanel } from '../../mixpanel/index';
+import { actions as linkdropActions } from '../../slices/linkdrop';
 import { actionsPending } from '../../utils/alerts';
 import AccountDropdown from '../common/AccountDropdown';
 import Balance from '../common/balance/Balance';
@@ -13,6 +14,8 @@ import FormButton from '../common/FormButton';
 import Container from '../common/styled/Container.css';
 import BrokenLinkIcon from '../svg/BrokenLinkIcon';
 import NearGiftIcons from '../svg/NearGiftIcons';
+
+const { setLinkdropAmount } = linkdropActions;
 
 const StyledContainer = styled(Container)`
     display: flex;
@@ -90,12 +93,12 @@ class LinkdropLanding extends Component {
     }
 
     handleClaimNearDrop = async () => {
-        const { fundingContract, fundingKey, redirectTo, claimLinkdropToAccount, accountId, url } = this.props;
+        const { fundingContract, fundingKey, redirectTo, claimLinkdropToAccount, accountId, url, setLinkdropAmount } = this.props;
         await claimLinkdropToAccount(fundingContract, fundingKey);
-        localStorage.setItem('linkdropAmount', this.state.balance);
         if (url?.redirectUrl) {
             window.location = `${url.redirectUrl}?accountId=${accountId}`;
         } else {
+            setLinkdropAmount(this.state.balance);
             redirectTo('/');
         }
     }
@@ -161,7 +164,8 @@ const mapDispatchToProps = {
     checkNearDropBalance,
     claimLinkdropToAccount,
     redirectTo,
-    handleRefreshUrl
+    handleRefreshUrl,
+    setLinkdropAmount
 };
 
 const mapStateToProps = ({ account, status }, { match }) => ({

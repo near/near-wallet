@@ -15,13 +15,17 @@ import {
 } from '../../actions/account';
 import { clearGlobalAlert, showCustomAlert } from '../../actions/status';
 import { Mixpanel } from '../../mixpanel/index';
+import { actions as linkdropActions } from '../../slices/linkdrop';
 import copyText from '../../utils/copyText';
+import isMobile from '../../utils/isMobile';
 import parseFundingOptions from '../../utils/parseFundingOptions';
 import { Snackbar, snackbarDuration } from '../common/Snackbar';
 import Container from '../common/styled/Container.css';
 import { isRetryableRecaptchaError } from '../Recaptcha';
 import SetupSeedPhraseForm from './SetupSeedPhraseForm';
 import SetupSeedPhraseVerify from './SetupSeedPhraseVerify';
+
+const { setLinkdropAmount } = linkdropActions;
 
 // FIXME: Use `debug` npm package so we can keep some debug logging around but not spam the console everywhere
 const ENABLE_DEBUG_LOGGING = false;
@@ -122,7 +126,8 @@ class SetupSeedPhrase extends Component {
             handleCreateAccountWithSeedPhrase,
             fundCreateAccount,
             showCustomAlert,
-            location
+            location,
+            setLinkdropAmount
         } = this.props;
         const { recoveryKeyPair, recaptchaToken } = this.state;
 
@@ -138,7 +143,12 @@ class SetupSeedPhrase extends Component {
         const fundingOptions = parseFundingOptions(location.search);
 
         await Mixpanel.withTracking("SR-SP Setup for new account",
-            async () => await handleCreateAccountWithSeedPhrase(accountId, recoveryKeyPair, fundingOptions, recaptchaToken),
+            async () => {
+                await handleCreateAccountWithSeedPhrase(accountId, recoveryKeyPair, fundingOptions, recaptchaToken);
+                if (fundingOptions?.fundingAmount) {
+                    setLinkdropAmount(fundingOptions.fundingAmount);
+                }
+            },
             async (err) => {
                 debugLog('failed to create account!', err);
 
@@ -168,7 +178,7 @@ class SetupSeedPhrase extends Component {
 
     handleCopyPhrase = () => {
         Mixpanel.track("SR-SP Copy seed phrase");
-        if (navigator.share && this.props.isMobile) {
+        if (navigator.share && isMobile()) {
             navigator.share({
                 text: this.state.seedPhrase
             }).catch(err => {
@@ -272,7 +282,8 @@ const mapDispatchToProps = {
     handleCreateAccountWithSeedPhrase,
     fundCreateAccount,
     loadRecoveryMethods,
-    showCustomAlert
+    showCustomAlert,
+    setLinkdropAmount
 };
 
 const mapStateToProps = ({ account, recoveryMethods, status }, { match }) => ({
@@ -281,8 +292,7 @@ const mapStateToProps = ({ account, recoveryMethods, status }, { match }) => ({
     accountId: match.params.accountId,
     activeAccountId: account.accountId,
     recoveryMethods,
-    mainLoader: status.mainLoader,
-    isMobile: status.isMobile
+    mainLoader: status.mainLoader
 });
 
 export const SetupSeedPhraseWithRouter = connect(mapStateToProps, mapDispatchToProps)(withRouter(SetupSeedPhrase));

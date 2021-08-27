@@ -10,6 +10,7 @@ import { useFungibleTokensIncludingNEAR } from '../../hooks/fungibleTokensInclud
 import { Mixpanel } from '../../mixpanel/index';
 import { fungibleTokensService } from '../../services/FungibleTokens';
 import { selectNearTokenFiatValueUSD } from '../../slices/tokenFiatValues';
+import isMobile from '../../utils/isMobile';
 import { EXPLORER_URL, SHOW_NETWORK_BANNER, WALLET_APP_MIN_AMOUNT } from '../../utils/wallet';
 import SendContainerV2, { VIEWS } from './SendContainerV2';
 
@@ -19,7 +20,7 @@ export function SendContainerWrapper({ match }) {
     const accountIdFromUrl = match.params.accountId || '';
     const dispatch = useDispatch();
     const { accountId, balance } = useSelector(({ account }) => account);
-    const { localAlert, isMobile } = useSelector(({ status }) => status);
+    const { localAlert } = useSelector(({ status }) => status);
     const nearTokenFiatValueUSD = useSelector(selectNearTokenFiatValueUSD);
 
     const availableNearBalance = balance?.available;
@@ -52,7 +53,7 @@ export function SendContainerWrapper({ match }) {
             fungibleTokens={fungibleTokensList}
             localAlert={localAlert}
             clearLocalAlert={() => dispatch(clearLocalAlert())}
-            isMobile={isMobile}
+            isMobile={isMobile()}
             explorerUrl={EXPLORER_URL}
             showNetworkBanner={SHOW_NETWORK_BANNER}
             accountIdFromUrl={accountIdFromUrl}

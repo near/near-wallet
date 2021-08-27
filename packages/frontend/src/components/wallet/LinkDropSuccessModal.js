@@ -33,11 +33,12 @@ const Container = styled.div`
 
 `;
 
-const LinkDropSuccessModal = ({ open, onClose, linkdropAmount }) => {
+const LinkDropSuccessModal = ({ onClose, linkdropAmount }) => {
+    const isOpen = linkdropAmount !== '0';
     return (
         <Modal
             id='near-drop-success-modal'
-            isOpen={open}
+            isOpen={isOpen}
             onClose={onClose}
             modalSize='sm'
             closeButton={true}

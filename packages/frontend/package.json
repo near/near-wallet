@@ -25,6 +25,7 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-google-recaptcha": "^2.1.0",
+    "react-helmet": "^6.1.0",
     "react-localize-redux": "^3.5.3",
     "react-phone-number-input": "2.3.11",
     "react-redux": "^7.2.4",

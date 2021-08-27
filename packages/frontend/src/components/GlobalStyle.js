@@ -66,9 +66,9 @@ export default createGlobalStyle`
     }
 
     h1, .h1 {
-        font-weight: 900 !important;
+        font-weight: 900;
         color: #24272a;
-        font-size: calc(22px + (30 - 22) * ((100vw - 300px) / (1600 - 300))) !important;
+        font-size: calc(22px + (30 - 22) * ((100vw - 300px) / (1600 - 300)));
         word-wrap: break-word;
 
         @media (max-width: 300px) {
@@ -476,11 +476,6 @@ export default createGlobalStyle`
     }
 
     @media screen and (max-width: 767px) {
-        h1, .h1 {
-            font-size: 22px !important;
-            font-weight: 500;
-            color: #24272a;
-        }
         h2, .h2 {
             font-size: 18px;
             font-weight: 600;

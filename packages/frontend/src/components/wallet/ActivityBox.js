@@ -44,27 +44,16 @@ const StyledContainer = styled.div`
         overflow: hidden;
         font-weight: 700;
         color: #24272a;
+        min-width: 0;
 
         > span {
             font-weight: normal;
             color: #A2A2A8;
-            max-width: 220px;
             overflow: hidden;
             display: block;
             text-overflow: ellipsis;
             white-space: nowrap;
-
-            @media (max-width: 991px) {
-                max-width: 350px;
-            }
-
-            @media (max-width: 500px) {
-                max-width: 220px;
-            }
-
-            @media (max-width: 355px) {
-                max-width: 150px;
-            }
+            margin-right: 20px;
 
             > span {
                 color: #3F4045;
@@ -224,16 +213,16 @@ const ActionTimeStamp = ({ timeStamp }) => {
         'ago': '',
         'years': 'y',
         'year': 'y',
-        'months': 'm',
-        'month': 'm',
+        'months': 'mo',
+        'month': 'mo',
         'weeks': 'w',
         'week': 'w',
         'days': 'd',
         'day': 'd',
-        'hours': 'h',
-        'hour': 'h',
-        'minutes': 'm',
-        'minute': 'm',
+        'hours': 'hr',
+        'hour': 'hr',
+        'minutes': 'min',
+        'minute': 'min',
         'seconds': 's'
     };
 
