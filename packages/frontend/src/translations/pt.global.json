@@ -377,7 +377,7 @@
 
     "twoFactor": {
         "enable": "Habilitar Autenticação de Dois Fatores (2FA)",
-        "subHeader": "A Autenticação de Dois Fatores adiciona uma camada extra de segurança à sua conta. Com 2FA habilitado, todas as transações devem ser confirmadas usando SMS ou e-mail.",
+        "subHeader": "Two factor authentication adds an extra layer of security to your account. <b>Passphrase and Ledger keys continue to allow full access to your account.</b>",
         "select": "Selecione o Método de Autenticação",
         "title": "Autenticação de Dois Fatores",
         "desc": "Proteja sua conta exigindo confirmação via SMS ou e-mail ao autorizar transações.",
