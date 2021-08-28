@@ -20,6 +20,7 @@ import { Mixpanel } from "../../mixpanel/index";
 import { selectProfileBalance } from '../../reducers/selectors/balance';
 import { selectNearTokenFiatValueUSD } from '../../slices/tokenFiatValues';
 import isMobile from '../../utils/isMobile';
+import { IS_MAINNET } from '../../utils/wallet';
 import FormButton from '../common/FormButton';
 import SkeletonLoading from '../common/SkeletonLoading';
 import Container from '../common/styled/Container.css';
@@ -266,7 +267,7 @@ export function Profile({ match }) {
                                 )}
                             </>
                         }
-                        {!account.ledgerKey && !isMobile() &&
+                        {!IS_MAINNET && !account.ledgerKey && !isMobile() &&
                             <MobileSharingWrapper/>
                         }
                     </div>
