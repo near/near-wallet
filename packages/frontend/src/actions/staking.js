@@ -19,11 +19,9 @@ import {
     stakingMethods,
     shuffle
 } from '../utils/staking';
-import { wallet } from '../utils/wallet';
+import { ACCOUNT_HELPER_URL, wallet } from '../utils/wallet';
 import { WalletError } from '../utils/walletError';
 import { getBalance } from './account';
-
-let ghValidators;
 
 const {
     transactions: {
@@ -311,14 +309,10 @@ export const { staking } = createActions({
             if (!accountIds) {
                 const rpcValidators = [...current_validators, ...next_validators, ...current_proposals].map(({ account_id }) => account_id);
 
-                // TODO use indexer - getting all historic validators from raw GH script .json
                 const networkId = wallet.connection.provider.connection.url.indexOf('mainnet') > -1 ? 'mainnet' : 'testnet';
-                if (!ghValidators) {
-                    ghValidators = (await fetch(`https://raw.githubusercontent.com/frol/near-validators-scoreboard/scoreboard-${networkId}/validators_scoreboard.json`).then((r) => r.json()))
-                    .map(({ account_id }) => account_id);
-                }
+                const allStakingPools = (await fetch(`${ACCOUNT_HELPER_URL}/stakingPools`).then((r) => r.json()));
 
-                accountIds = [...new Set([...rpcValidators, ...ghValidators])]
+                accountIds = [...new Set([...rpcValidators, ...allStakingPools])]
                     .filter((v) => v.indexOf('nfvalidator') === -1 && v.indexOf(networkId === 'mainnet' ? '.near' : '.m0') > -1);
             }
 
