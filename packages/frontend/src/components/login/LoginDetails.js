@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { Translate } from 'react-localize-redux';
 import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
@@ -7,7 +7,6 @@ import styled from 'styled-components';
 
 import { showCustomAlert } from '../../actions/status';
 import IconArrowLeft from '../../images/IconArrowLeft';
-import IconProblems from '../../images/IconProblems';
 import { EXPLORER_URL } from '../../utils/wallet';
 
 const CustomGrid = styled(Grid)`
