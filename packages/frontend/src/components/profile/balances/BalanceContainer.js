@@ -64,6 +64,24 @@ const Container = styled.div`
     .total {
         border-top: 1px solid #f3f3f3;
         font-weight: 600;
+
+        @media (max-width: 767px) {
+            &.button {
+                &.last {
+                    border-bottom: 1px solid #f3f3f3;
+                }
+            }
+        }
+    }
+
+    .button {
+        cursor: pointer;
+
+        &.open {
+            .chevron-icon {
+                transform: rotate(-90deg);
+            }
+        }
     }
 
     .item {
@@ -71,17 +89,6 @@ const Container = styled.div`
         border-bottom: 1px solid #f3f3f3;
         background-color: #FAFAFA;
         padding-left: 30px;
-
-        &.button {
-            cursor: pointer;
-            font-weight: 400 !important;
-
-            &.open {
-                .chevron-icon {
-                    transform: rotate(-90deg) !important;
-                }
-            }
-        }
 
         span {
             display: flex;
@@ -135,7 +142,7 @@ const Container = styled.div`
     }
 `;
 
-const BalanceContainer = ({ account, profileBalance }) => {
+const BalanceContainer = ({ account, profileBalance, WALLET_APP_MIN_AMOUNT }) => {
     return (
         <Container>
             {profileBalance && 
@@ -155,9 +162,17 @@ const BalanceContainer = ({ account, profileBalance }) => {
                             <span><Translate id='profile.account.reservedForStorage'/><Tooltip translate='minimumBalance'/></span>
                             <span><Balance amount={profileBalance.walletBalance.reservedForStorage}/></span>
                         </div>
-                        <div className='item button' id='balance-1'>
-                            <span><Translate id='profile.account.inStakingPools'/> <ChevronIcon color='#0072ce'/></span>
-                            <span><Balance amount={profileBalance.walletBalance.inStakingPools.sum}/></span>
+                        <div className='item'>
+                            <span><Translate id='profile.account.reservedForTransactions'/><Tooltip translate='reservedForFeesInfo' data={WALLET_APP_MIN_AMOUNT}/></span>
+                            <span><Balance amount={profileBalance.walletBalance.reservedForTransactions}/></span>
+                        </div>
+                        <div className='item'>
+                            <span><Translate id='profile.account.available'/><Tooltip translate='availableBalanceProfile'/></span>
+                            <span><Balance amount={profileBalance.walletBalance.available}/></span>
+                        </div>
+                        <div className='total button last' id='balance-1'>
+                            <span><Translate id='profile.account.staking'/><ChevronIcon color='#0072ce'/></span>
+                            <Balance amount={profileBalance.walletBalance.inStakingPools.sum}/>
                         </div>
                         <Accordion trigger='balance-1'>
                             <div className='item detail'>
@@ -173,10 +188,6 @@ const BalanceContainer = ({ account, profileBalance }) => {
                                 <span><Balance amount={profileBalance.walletBalance.inStakingPools.availableForWithdraw}/></span>
                             </div>
                         </Accordion>
-                        <div className='item'>
-                            <span><Translate id='profile.account.available'/><Tooltip translate='availableBalanceInfo'/></span>
-                            <span><Balance amount={profileBalance.walletBalance.available}/></span>
-                        </div>
                     </div>
                     {profileBalance.lockupIdExists &&
                         <div className='border-box'>
@@ -194,9 +205,21 @@ const BalanceContainer = ({ account, profileBalance }) => {
                                 <span><Translate id='profile.account.reservedForStorage'/><Tooltip translate='minimumBalance'/></span>
                                 <span><Balance amount={profileBalance.lockupBalance.reservedForStorage}/></span>
                             </div>
-                            <div className='item button' id='balance-2'>
-                                <span><Translate id='profile.account.inStakingPools'/> <ChevronIcon color='#0072ce'/></span>
-                                <span><Balance amount={profileBalance.lockupBalance.inStakingPools.sum}/></span>
+                            <div className='item'>
+                                <span><Translate id='profile.lockup.locked'/><Tooltip translate='lockedBalance'/></span>
+                                <span><Balance amount={profileBalance.lockupBalance.locked}/></span>
+                            </div>
+                            <div className='item'>
+                                <span><Translate id='profile.lockup.unlocked'/><Tooltip translate='unlockedBalance'/></span>
+                                <span><Balance amount={profileBalance.lockupBalance.unlocked.sum}/></span>
+                            </div>
+                            <div className='item locked'>
+                                <span><Translate id='profile.account.availableToTransfer'/><Tooltip translate='unlockedAvailTransfer'/></span>
+                                <span><Balance amount={profileBalance.lockupBalance.unlocked.availableToTransfer}/></span>
+                            </div>
+                            <div className='total button last' id='balance-2'>
+                                <span><Translate id='profile.account.staking'/><ChevronIcon color='#0072ce'/></span>
+                                <Balance amount={profileBalance.lockupBalance.inStakingPools.sum}/>
                             </div>
                             <Accordion trigger='balance-2'>
                                 <div className='item detail locked'>
@@ -212,18 +235,6 @@ const BalanceContainer = ({ account, profileBalance }) => {
                                     <span><Balance amount={profileBalance.lockupBalance.inStakingPools.availableForWithdraw}/></span>
                                 </div>
                             </Accordion>
-                            <div className='item'>
-                                <span><Translate id='profile.lockup.locked'/><Tooltip translate='lockedBalance'/></span>
-                                <span><Balance amount={profileBalance.lockupBalance.locked}/></span>
-                            </div>
-                            <div className='item'>
-                                <span><Translate id='profile.lockup.unlocked'/><Tooltip translate='unlockedBalance'/></span>
-                                <span><Balance amount={profileBalance.lockupBalance.unlocked.sum}/></span>
-                            </div>
-                            <div className='item locked'>
-                                <span><Translate id='profile.account.availableToTransfer'/><Tooltip translate='unlockedAvailTransfer'/></span>
-                                <span><Balance amount={profileBalance.lockupBalance.unlocked.availableToTransfer}/></span>
-                            </div>
                         </div>
                     }
                 </>

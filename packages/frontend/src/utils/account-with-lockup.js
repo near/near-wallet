@@ -2,11 +2,15 @@ import BN from 'bn.js';
 import sha256 from 'js-sha256';
 import { Account, Connection, InMemorySigner, KeyPair } from 'near-api-js';
 import { InMemoryKeyStore } from 'near-api-js/lib/key_stores';
-import { parseNearAmount } from 'near-api-js/lib/utils/format';
+import { parseNearAmount, formatNearAmount } from 'near-api-js/lib/utils/format';
 import { BinaryReader } from 'near-api-js/lib/utils/serialize';
 
-import { LOCKUP_ACCOUNT_ID_SUFFIX, MIN_BALANCE_FOR_GAS } from './wallet';
-import { ACCOUNT_HELPER_URL } from './wallet';
+import {
+    LOCKUP_ACCOUNT_ID_SUFFIX,
+    MIN_BALANCE_FOR_GAS,
+    ACCOUNT_HELPER_URL,
+    WALLET_APP_MIN_AMOUNT
+} from './wallet';
 import { WalletError } from './walletError';
 
 // TODO: Should gas allowance be dynamically calculated
@@ -115,13 +119,18 @@ export function getLockupAccountId(accountId) {
     return sha256(Buffer.from(accountId)).substring(0, 40) + '.' + LOCKUP_ACCOUNT_ID_SUFFIX;
 }
 
+function subtractReservedForGas(balance) {
+    const availableBalance = new BN(balance).sub(new BN(parseNearAmount(WALLET_APP_MIN_AMOUNT)));
+    return availableBalance.isNeg() ? '0' : availableBalance.toString();
+}
+
 async function getAccountBalance(limitedAccountData = false) {
     const balance = await this.wrappedAccount.getAccountBalance();
 
     if (limitedAccountData) {
         return {
             ...balance,
-            balanceAvailable: balance.available,
+            balanceAvailable: subtractReservedForGas(balance.available),
         };
     }
 
@@ -197,7 +206,7 @@ async function getAccountBalance(limitedAccountData = false) {
 
         return {
             ...balance,
-            balanceAvailable: balance.available,
+            balanceAvailable: subtractReservedForGas(balance.available),
             available,
             ownersBalance,
             liquidOwnersBalance,
@@ -212,7 +221,7 @@ async function getAccountBalance(limitedAccountData = false) {
         if (error.message.match(/ccount ".+" doesn't exist/) || error.message.includes('does not exist while viewing') || error.message.includes('cannot find contract code for account')) {
             return {
                 ...balance,
-                balanceAvailable: balance.available,
+                balanceAvailable: subtractReservedForGas(balance.available),
                 total: new BN(balance.total).add(stakedBalanceMainAccount).toString(),
                 stakedBalanceMainAccount,
 

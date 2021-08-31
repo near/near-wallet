@@ -5,7 +5,7 @@ import ReceiveContainer from './ReceiveContainer';
 
 export function ReceiveContainerWrapper() {
     const { accountId, balance } = useSelector(({ account }) => account);
-    const availableBalance = balance?.available;
+    const availableBalance = balance?.balanceAvailable;
 
     //TODO: Add support for receiver in URL
 

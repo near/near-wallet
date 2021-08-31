@@ -20,7 +20,7 @@ import { Mixpanel } from "../../mixpanel/index";
 import { selectProfileBalance } from '../../reducers/selectors/balance';
 import { selectNearTokenFiatValueUSD } from '../../slices/tokenFiatValues';
 import isMobile from '../../utils/isMobile';
-import { IS_MAINNET } from '../../utils/wallet';
+import { IS_MAINNET, WALLET_APP_MIN_AMOUNT } from '../../utils/wallet';
 import FormButton from '../common/FormButton';
 import SkeletonLoading from '../common/SkeletonLoading';
 import Container from '../common/styled/Container.css';
@@ -139,7 +139,7 @@ export function Profile({ match }) {
     const dispatch = useDispatch();
     const userRecoveryMethods = recoveryMethods[account.accountId];
     const twoFactor = has2fa && userRecoveryMethods && userRecoveryMethods.filter(m => m.kind.includes('2fa'))[0];
-    const profileBalance = selectProfileBalance(account.balance);
+    const profileBalance = selectProfileBalance(account);
 
     useEffect(() => {
         if (!loginAccountId) {
@@ -218,6 +218,7 @@ export function Profile({ match }) {
                         <BalanceContainer
                             account={account}
                             profileBalance={profileBalance}
+                            WALLET_APP_MIN_AMOUNT={WALLET_APP_MIN_AMOUNT}
                         />
                     ) : (
                         <SkeletonLoading

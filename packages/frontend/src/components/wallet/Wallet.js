@@ -18,7 +18,6 @@ import { SHOW_NETWORK_BANNER } from '../../utils/wallet';
 import Balance from '../common/balance/Balance';
 import FormButton from '../common/FormButton';
 import Container from '../common/styled/Container.css';
-import Tooltip from '../common/Tooltip';
 import BuyIcon from '../svg/BuyIcon';
 import DownArrowIcon from '../svg/DownArrowIcon';
 import SendIcon from '../svg/SendIcon';
@@ -45,8 +44,8 @@ const StyledContainer = styled(Container)`
         margin-bottom: 10px;
 
         &.balance {
-            font-weight: 600;
-            color: #272729;
+            color: #A2A2A8;
+            margin-top: 0;
         }
 
         &.tokens {
@@ -104,24 +103,11 @@ const StyledContainer = styled(Container)`
         }
 
         .total-balance {
-            margin: 0px 0 10px 0;
+            margin: 40px 0 10px 0;
             width: 100%;
             font-weight: 600;
             text-align: center;
             color: #24272a;
-        }
-
-        .available-balance {
-            display: flex;
-            align-items: center;
-            color: #72727A;
-
-            > div {
-                :first-of-type {
-                    margin-right: 5px;
-                    text-transform: capitalize;
-                }
-            }
         }
 
         @media (min-width: 992px) {
@@ -277,7 +263,7 @@ export function Wallet({ tab, setTab }) {
     const dispatch = useDispatch();
     const hideExploreApps = localStorage.getItem('hideExploreApps');
     const linkdropAmount = useSelector(selectLinkdropAmount);
-    const fungibleTokensList = useFungibleTokensIncludingNEAR({ fullBalance: true });
+    const fungibleTokensList = useFungibleTokensIncludingNEAR();
     const tokensLoader = actionsPendingByPrefix('TOKENS/') || !balance?.total;
 
     useEffect(() => {
@@ -364,29 +350,18 @@ export function Wallet({ tab, setTab }) {
 const FungibleTokens = ({ balance, tokensLoader, fungibleTokens }) => {
     return (
         <>
-            <div className='sub-title balance'><Translate id='wallet.totalBalance' /></div>
             <div className='total-balance'>
-                <Textfit mode='single' max={44}>
+                <Textfit mode='single' max={48}>
                     <Balance
                         showBalanceInNEAR={false}
-                        amount={balance?.total}
+                        amount={balance?.balanceAvailable}
                         showAlmostEqualSignUSD={false}
                         showSymbolUSD={false}
                         showSignUSD={true}
                     />
                 </Textfit>
             </div>
-            <div className='available-balance'>
-                <div><Translate id='balanceBreakdown.available' />:</div>
-                <Balance
-                    showBalanceInNEAR={false}
-                    amount={balance?.available}
-                    showAlmostEqualSignUSD={false}
-                    showSymbolUSD={false}
-                    showSignUSD={true}
-                />
-                <Tooltip translate='availableBalanceInfo' />
-            </div>
+            <div className='sub-title balance'><Translate id='wallet.availableBalance' /></div>
             <div className='buttons'>
                 <FormButton
                     color='dark-gray'

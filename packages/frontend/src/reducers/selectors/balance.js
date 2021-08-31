@@ -1,8 +1,16 @@
 import BN from 'bn.js';
+import { utils } from 'near-api-js';
 
 import { LOCKUP_MIN_BALANCE } from '../../utils/account-with-lockup';
+import { WALLET_APP_MIN_AMOUNT } from '../../utils/wallet';
 
-export const selectProfileBalance = (balance) => {
+const {
+    parseNearAmount
+} = utils.format;
+
+export const selectProfileBalance = (walletAccount) => {
+    const balance = walletAccount?.balance;
+
     if (!balance || !balance.available) {
         return false;
     }
@@ -17,14 +25,18 @@ export const selectProfileBalance = (balance) => {
         stakedBalanceMainAccount,
         balanceAvailable,
         stakedBalanceLockup,
-        account
+        account,
+        available
     } = balance;
 
     const lockupIdExists = !!lockedAmount;
 
     const walletBalance = {
-        walletBalance: stakedBalanceMainAccount.add(new BN(balanceAvailable)).add(new BN(stateStaked)).toString(),
+        walletBalance: walletAccount?.amount,
         reservedForStorage: stateStaked.toString(),
+        reservedForTransactions: new BN(available).sub(new BN(parseNearAmount(WALLET_APP_MIN_AMOUNT))).isNeg()
+            ? available
+            : parseNearAmount(WALLET_APP_MIN_AMOUNT),
         inStakingPools: {
             sum: stakedBalanceMainAccount.toString(),
             staked: account?.totalStaked,

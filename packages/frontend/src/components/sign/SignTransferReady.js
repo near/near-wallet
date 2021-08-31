@@ -10,7 +10,6 @@ import Button from '../common/Button';
 import FormButton from '../common/FormButton';
 import InlineNotification from '../common/InlineNotification';
 import SelectAccountDropdown from '../login/SelectAccountDropdown';
-import BalanceBreakdown from '../staking/components/BalanceBreakdown';
 import SignAnimatedArrow from './SignAnimatedArrow';
 import SignTransferDetails from './SignTransferDetails';
 
@@ -23,16 +22,15 @@ const Container = styled.div`
     align-items: center;
     color: #25282A;
 
-    .balance-breakdown {
+    .available-balance {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
         width: 100%;
         border: 1px solid #F0F0F1;
-        padding: 0px 15px;
+        padding: 15px;
         border-radius: 8px;
         margin-top: 30px;
-
-        #balance-breakdown-1 {
-            cursor: pointer;
-        }
     }
 `;
 
@@ -184,14 +182,12 @@ class SignTransferReady extends Component {
                 {isMonetaryTransaction &&
                     <>
                         <TransferAmount>
-                            <Balance amount={txTotalAmount}/>
+                            <Balance amount={txTotalAmount} showBalanceInUSD={false}/>
                         </TransferAmount>
-                        <BalanceBreakdown
-                            total={availableBalance}
-                            availableType='sign.availableToTransfer'
-                            error={insufficientFunds}
-                            transfer={true}
-                        />
+                        <div className='available-balance'>
+                            <Translate id='balanceBreakdown.available' />
+                            <Balance amount={availableBalance} showBalanceInUSD={false}/>
+                        </div>
                         <InlineNotification
                             show={insufficientFunds}
                             onClick={handleDeny}
