@@ -1171,7 +1171,7 @@
     },
 
     "availableBalanceInfo": "\"Saldo disponível\" é seu saldo disponível de NEAR.",
-    "reservedForFeesInfo": "An amount of up to ${data} NEAR is reserved to cover the cost of transactions.",
+    "reservedForFeesInfo": "Up to ${data} NEAR is reserved to cover the cost of transactions.",
     "availableBalanceProfile": "Este é o seu saldo NEAR gastável e pode ser usado ou transferido imediatamente. Isso será inferior ao seu saldo total.",
     "minimumBalance": "Este é o saldo mínimo NEAR que sua conta deve manter para permanecer ativa. Este saldo representa o espaço de armazenamento que sua conta está usando no blockchain NEAR (com um pequeno buffer) e aumentará ou diminuirá conforme você usar mais ou menos espaço.",
     "totalBalance": "Seu saldo total representa todos os tokens NEAR sob seu controle. Em muitos casos, você não terá acesso imediato a todo o saldo (por exemplo, se estiver bloqueado, delegado ou em stake). Verifique seu saldo disponível para o NEAR que você pode usar, transferir, delegar e fazer stake ativamente.",
