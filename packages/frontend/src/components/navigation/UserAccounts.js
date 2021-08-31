@@ -14,9 +14,6 @@ const Wrapper = styled.div`
     @media (min-width: 992px) {
         max-height: 260px;
         overflow-y: auto;
-        ::-webkit-scrollbar {
-            display: none;
-        }
     }
 `;
 
