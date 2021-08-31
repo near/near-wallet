@@ -73,7 +73,12 @@ const LoginForm = ({
                                     )}
                                 </b>
                             </div>
-                            <div className='h2'><Translate id='login.form.isRequestingFullAccess' /></div>
+                            <div
+                                className="h2"
+                                data-test-id="fullAccessKeyRequestLabel"
+                            >
+                                <Translate id="login.form.isRequestingFullAccess" />
+                            </div>
                             <div className='h2'><Translate id='login.form.toYourAccount' /></div>
                         </Fragment>
                     )}
@@ -156,6 +161,7 @@ const LoginForm = ({
                             color='blue'
                             sending={buttonLoader}
                             disabled={!account.accountId}
+                            data-test-id="allowFullAccessButton"
                         >
                             <Translate id='button.allow' />
                         </FormButton>

@@ -27,9 +27,9 @@ describe("Login with Dapp", () => {
         testAccount && (await testAccount.delete());
     });
 
-    test("navigates to login with dapp page", async ({ page }) => {
+    test("navigates to login with dapp page requesting a full access key", async ({ page }) => {
         const loginPage = new LoginPage(page);
-        await loginPage.navigate();
+        await loginPage.navigateToFAKFlow();
 
         await expect(page).toMatchURL(/\/login/);
 
@@ -37,6 +37,7 @@ describe("Login with Dapp", () => {
             "data-test-id=currentUser"
         );
         await expect(page).not.toHaveSelector(".dots");
+        await expect(page).toHaveSelector("data-test-id=fullAccessKeyRequestLabel");
         await expect(page).toMatchText(
             "data-test-id=dropdownCurrentlySelectedAccount",
             currentlyLoggedInUser
@@ -46,9 +47,12 @@ describe("Login with Dapp", () => {
         page,
     }) => {
         const loginPage = new LoginPage(page);
-        const testDappPage = await loginPage.navigate();
+        const testDappPage = await loginPage.navigateToFAKFlow();
 
-        await loginPage.allowAccess();
+        await loginPage.allowFullAccess();
+        await expect(page).toMatchURL(/\/confirm$/);
+
+        await loginPage.confirmAccountId(testAccount.account.accountId)
 
         await expect(page).toMatchURL(new RegExp(testDappURL));
 
@@ -69,7 +73,7 @@ describe("Login with Dapp", () => {
     });
     test("navigates back to dapp when access is denied", async ({ page }) => {
         const loginPage = new LoginPage(page);
-        const testDappPage = await loginPage.navigate();
+        const testDappPage = await loginPage.navigateToFAKFlow();
 
         await loginPage.denyAccess();
 

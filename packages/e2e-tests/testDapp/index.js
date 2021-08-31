@@ -32,11 +32,21 @@ const { connect, keyStores, WalletConnection } = nearApi;
     } else {
         document.getElementById(
             "content"
-        ).innerHTML = `<button id="signInBtn" data-test-id="testDapp-signInBtn">Sign in</button>`;
+        ).innerHTML = `
+        <button id="signInBtn" data-test-id="testDapp-signInBtn">
+            Sign in
+        </button>
+        <button id="signInWithFAKBtn" data-test-id="testDapp-signInWithFAKBtn">
+            Sign in with a full access key
+        </button>
+        `;
         document
             .getElementById("signInBtn")
             .addEventListener("click", () =>
                 wallet.requestSignIn(BANK_ACCOUNT)
             );
+        document
+            .getElementById("signInWithFAKBtn")
+            .addEventListener("click", () => wallet.requestSignIn(""));
     }
 })();

@@ -10,6 +10,9 @@ class TestDappPage {
     async clickSignIn() {
         await this.page.click("data-test-id=testDapp-signInBtn");
     }
+    async clickSignInWithFAK() {
+        await this.page.click("data-test-id=testDapp-signInWithFAKBtn");
+    }
     async getAccessKeyForAccountId(accountId) {
         return this.page.evaluate(
             (accountId) =>
