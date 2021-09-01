@@ -1236,7 +1236,7 @@
         "authorizing": "Authorizing"
     },
 
-    "availableBalanceInfo": "Your total account balance minus locked funds or funds being staked.",
+    "availableBalanceInfo": "Your spendable NEAR balance excluding funds locked or staked. <a href='/profile'>View Balance Breakdown →</a>",
     "reservedForFeesInfo": "Up to ${data} NEAR is reserved to cover the cost of transactions.",
     "availableBalanceProfile": "This is your spendable NEAR balance, and can be used or transferred immediately.",
     "minimumBalance": "This is the minimum NEAR balance your account must maintain to remain active. This balance represents the storage space your account is using on the NEAR blockchain (with a small buffer), and will go up or down as you use more or less space.",

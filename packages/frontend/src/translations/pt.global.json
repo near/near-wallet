@@ -1170,7 +1170,7 @@
         "authorizing": "Autorizando"
     },
 
-    "availableBalanceInfo": "\"Saldo disponível\" é seu saldo disponível de NEAR.",
+    "availableBalanceInfo": "Your spendable NEAR balance excluding funds locked or staked. <a href='/profile'>View Balance Breakdown →</a>",
     "reservedForFeesInfo": "Up to ${data} NEAR is reserved to cover the cost of transactions.",
     "availableBalanceProfile": "Este é o seu saldo NEAR gastável e pode ser usado ou transferido imediatamente. Isso será inferior ao seu saldo total.",
     "minimumBalance": "Este é o saldo mínimo NEAR que sua conta deve manter para permanecer ativa. Este saldo representa o espaço de armazenamento que sua conta está usando no blockchain NEAR (com um pequeno buffer) e aumentará ou diminuirá conforme você usar mais ou menos espaço.",

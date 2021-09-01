@@ -103,21 +103,11 @@ const Container = styled.div`
         }
 
         &.detail {
-            background-color: #F0F0F0;
-            border-color: #e6e6e6;
-            padding-left: 40px;
 
             &:first-of-type {
                 box-shadow: inset 0 5px 6px -5px #dedede;
             }
 
-            &:last-of-type {
-                border-color: #f3f3f3;
-            }
-
-            &.locked {
-                padding-left: 40px;
-            }
         }
 
         &.locked {

@@ -1230,7 +1230,7 @@
         "authorizing": "正在授权"
     },
 
-    "availableBalanceInfo": "「可用余额」是指你当前账号内可消耗 NEAR 通证，可用余额少于你的「总余额」。查看你 NEAR 余额的详细构成，请访问你的资料。",
+    "availableBalanceInfo": "Your spendable NEAR balance excluding funds locked or staked. <a href='/profile'>View Balance Breakdown →</a>",
     "reservedForFeesInfo": "Up to ${data} NEAR is reserved to cover the cost of transactions.",
     "availableBalanceProfile": "「可用余额」是指你当前账号内可消耗 NEAR 通证，可用余额少于你的总共余额。",
     "minimumBalance": "这是维持你账号活跃状态的 NEAR 通证「保留余额」，该余额代表你正在使用的 NEAR 区块链存储空间，会在使用量变化后产生对应变化。",
