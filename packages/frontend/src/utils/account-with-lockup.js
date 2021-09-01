@@ -2,14 +2,13 @@ import BN from 'bn.js';
 import sha256 from 'js-sha256';
 import { Account, Connection, InMemorySigner, KeyPair } from 'near-api-js';
 import { InMemoryKeyStore } from 'near-api-js/lib/key_stores';
-import { parseNearAmount, formatNearAmount } from 'near-api-js/lib/utils/format';
+import { parseNearAmount } from 'near-api-js/lib/utils/format';
 import { BinaryReader } from 'near-api-js/lib/utils/serialize';
 
 import {
     LOCKUP_ACCOUNT_ID_SUFFIX,
     MIN_BALANCE_FOR_GAS,
-    ACCOUNT_HELPER_URL,
-    WALLET_APP_MIN_AMOUNT
+    ACCOUNT_HELPER_URL
 } from './wallet';
 import { WalletError } from './walletError';
 
@@ -120,7 +119,7 @@ export function getLockupAccountId(accountId) {
 }
 
 function subtractReservedForGas(balance) {
-    const availableBalance = new BN(balance).sub(new BN(parseNearAmount(WALLET_APP_MIN_AMOUNT)));
+    const availableBalance = new BN(balance).sub(new BN(MIN_BALANCE_FOR_GAS));
     return availableBalance.isNeg() ? '0' : availableBalance.toString();
 }
 

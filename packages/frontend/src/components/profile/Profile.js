@@ -1,9 +1,9 @@
 import BN from 'bn.js';
+import { formatNearAmount } from 'near-api-js/lib/utils/format';
 import React, { useEffect, useState } from 'react';
 import { Translate } from 'react-localize-redux';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
-
 
 import {
     getLedgerKey,
@@ -20,7 +20,7 @@ import { Mixpanel } from "../../mixpanel/index";
 import { selectProfileBalance } from '../../reducers/selectors/balance';
 import { selectNearTokenFiatValueUSD } from '../../slices/tokenFiatValues';
 import isMobile from '../../utils/isMobile';
-import { IS_MAINNET, WALLET_APP_MIN_AMOUNT } from '../../utils/wallet';
+import { IS_MAINNET, MIN_BALANCE_FOR_GAS } from '../../utils/wallet';
 import FormButton from '../common/FormButton';
 import SkeletonLoading from '../common/SkeletonLoading';
 import Container from '../common/styled/Container.css';
@@ -218,7 +218,7 @@ export function Profile({ match }) {
                         <BalanceContainer
                             account={account}
                             profileBalance={profileBalance}
-                            WALLET_APP_MIN_AMOUNT={WALLET_APP_MIN_AMOUNT}
+                            MIN_BALANCE_FOR_GAS_FORMATTED={formatNearAmount(MIN_BALANCE_FOR_GAS)}
                         />
                     ) : (
                         <SkeletonLoading

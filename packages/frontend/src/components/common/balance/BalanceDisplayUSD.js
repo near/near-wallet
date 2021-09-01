@@ -30,7 +30,7 @@ const BalanceDisplayUSD = ({
     } else if (roundedBalanceInUSD === 0) {
         return (
             <>
-                $0
+                {showSignUSD && <>$</>}0
             </>
         );
     } else {

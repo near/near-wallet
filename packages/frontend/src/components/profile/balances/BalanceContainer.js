@@ -142,7 +142,7 @@ const Container = styled.div`
     }
 `;
 
-const BalanceContainer = ({ account, profileBalance, WALLET_APP_MIN_AMOUNT }) => {
+const BalanceContainer = ({ account, profileBalance, MIN_BALANCE_FOR_GAS_FORMATTED }) => {
     return (
         <Container>
             {profileBalance && 
@@ -163,7 +163,7 @@ const BalanceContainer = ({ account, profileBalance, WALLET_APP_MIN_AMOUNT }) =>
                             <span><Balance amount={profileBalance.walletBalance.reservedForStorage}/></span>
                         </div>
                         <div className='item'>
-                            <span><Translate id='profile.account.reservedForTransactions'/><Tooltip translate='reservedForFeesInfo' data={WALLET_APP_MIN_AMOUNT}/></span>
+                            <span><Translate id='profile.account.reservedForTransactions'/><Tooltip translate='reservedForFeesInfo' data={MIN_BALANCE_FOR_GAS_FORMATTED}/></span>
                             <span><Balance amount={profileBalance.walletBalance.reservedForTransactions}/></span>
                         </div>
                         <div className='item'>
