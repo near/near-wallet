@@ -746,7 +746,7 @@
         "copyrights": "NEAR Inc. All Rights Reserved.",
         "termsOfService": "Terms of Service",
         "privacyPolicy": "Privacy Policy",
-        "desc": "NEAR is a scalable computing and storage platform that changes how the web works for better.",
+        "desc": "NEAR is a scalable computing and storage platform that changes how the web works for the better.",
         "learnMore": "Learn More",
         "needHelp": "Questions?",
         "contactSupport": "Join Community"
@@ -799,7 +799,7 @@
         "emptyState": "Looks like you don't have any collectibles yet.",
         "loadMore": "Load more"
     },
-    
+
     "exploreApps": {
         "title": "What's on NEAR?",
         "desc": "Earn, mint, and play! Discover the ecosystem of NEAR applications.",
@@ -1361,7 +1361,7 @@
         "desc": "Warning: This is a pre-release version of the NEAR Wallet. There may be bugs, and these bugs may lead to loss of funds. By continuing to use this version, you agree that you understand and accept these risks, and understand that the NEAR Wallet team will be unable to help you."
     },
     "landing": {
-        "title":"NEAR is here.",
+        "title": "NEAR is here.",
         "desc": "Securely store and stake your NEAR tokens and compatible assets with <span>NEAR Wallet</span>.",
         "or": "or",
         "banner": "NEAR Wallet is in Private Beta"
