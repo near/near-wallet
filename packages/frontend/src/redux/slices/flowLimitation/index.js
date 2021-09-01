@@ -71,3 +71,12 @@ const flowLimitationSlice = createSlice({
         }
     }
 });
+
+export default flowLimitationSlice;
+
+export const actions = {
+    handleFlowLimitation,
+    handleClearflowLimitation,
+    ...flowLimitationSlice.actions
+};
+export const reducer = flowLimitationSlice.reducer; 
