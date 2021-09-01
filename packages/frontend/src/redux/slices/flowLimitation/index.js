@@ -1,3 +1,12 @@
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import assign from 'lodash.assign';
+
+import { getBalance } from '../../../actions/account';
+import { 
+    WALLET_LOGIN_URL,
+    WALLET_SIGN_URL
+} from '../../../utils/wallet';
+
 const SLICE_NAME = 'flowLimitation';
 
 const initialState = {
@@ -38,6 +47,18 @@ const handleFlowLimitation = createAsyncThunk(
         }
     }
 );
+
+const handleClearflowLimitation = createAsyncThunk(
+    `${SLICE_NAME}/handleClearflowLimitation`,
+    async (_, thunkAPI) => {
+        const { dispatch } = thunkAPI;
+        const { actions: { clearFlowLimitation } } = flowLimitationSlice;
+
+        dispatch(getBalance());
+        dispatch(clearFlowLimitation());
+    }
+);
+
 const flowLimitationSlice = createSlice({
     name: SLICE_NAME,
     initialState,
