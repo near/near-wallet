@@ -46,7 +46,7 @@ export const selectProfileBalance = (walletAccount) => {
         } = balance;
 
         lockupBalance = {
-            lockupBalance: totalBalance.toString(),
+            lockupBalance: new BN(totalBalance).sub(new BN(stakedBalanceLockup)).toString(),
             reservedForStorage: LOCKUP_MIN_BALANCE.toString(),
             inStakingPools: {
                 sum: stakedBalanceLockup.toString(),
