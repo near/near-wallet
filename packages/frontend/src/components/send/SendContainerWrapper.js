@@ -11,7 +11,7 @@ import { Mixpanel } from '../../mixpanel/index';
 import { fungibleTokensService } from '../../services/FungibleTokens';
 import { selectNearTokenFiatValueUSD } from '../../slices/tokenFiatValues';
 import isMobile from '../../utils/isMobile';
-import { EXPLORER_URL, SHOW_NETWORK_BANNER, WALLET_APP_MIN_AMOUNT } from '../../utils/wallet';
+import { EXPLORER_URL, SHOW_NETWORK_BANNER } from '../../utils/wallet';
 import SendContainerV2, { VIEWS } from './SendContainerV2';
 
 const { parseNearAmount, formatNearAmount } = utils.format;
@@ -19,19 +19,16 @@ const { parseNearAmount, formatNearAmount } = utils.format;
 export function SendContainerWrapper({ match }) {
     const accountIdFromUrl = match.params.accountId || '';
     const dispatch = useDispatch();
-    const { accountId, balance } = useSelector(({ account }) => account);
+    const { accountId } = useSelector(({ account }) => account);
     const { localAlert } = useSelector(({ status }) => status);
     const nearTokenFiatValueUSD = useSelector(selectNearTokenFiatValueUSD);
-
-    const availableNearBalance = balance?.available;
-    const reservedNearForFees = parseNearAmount(WALLET_APP_MIN_AMOUNT);
 
     const [activeView, setActiveView] = useState(VIEWS.ENTER_AMOUNT);
     const [estimatedTotalFees, setEstimatedTotalFees] = useState('0');
     const [estimatedTotalInNear, setEstimatedTotalInNear] = useState('0');
     const [sendingToken, setSendingToken] = useState(false);
     const [transactionHash, setTransactionHash] = useState(null);
-    const fungibleTokensList = useFungibleTokensIncludingNEAR({ fullBalance: false });
+    const fungibleTokensList = useFungibleTokensIncludingNEAR();
 
     useEffect(() => {
         if (!accountId) {
@@ -44,8 +41,6 @@ export function SendContainerWrapper({ match }) {
     return (
         <SendContainerV2
             accountId={accountId}
-            availableNearBalance={availableNearBalance}
-            reservedNearForFees={reservedNearForFees}
             redirectTo={path => dispatch(redirectTo(path))}
             checkAccountAvailable={accountId => dispatch(checkAccountAvailable(accountId))}
             parseNearAmount={parseNearAmount}

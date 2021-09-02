@@ -510,6 +510,18 @@ export default createGlobalStyle`
         }
     }
 
+    .tooltip {
+        a {
+            color: inherit;
+            font-style: italic;
+    
+            :hover {
+                color: inherit;
+                text-decoration: underline;
+            }
+        }
+    }
+
     .send-theme {
 
         > button {

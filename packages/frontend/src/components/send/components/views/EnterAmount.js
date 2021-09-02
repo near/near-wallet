@@ -43,8 +43,6 @@ const EnterAmount = ({
     onChangeAmount,
     onSetMaxAmount,
     availableToSend,
-    availableBalance,
-    reservedForFees,
     continueAllowed,
     onContinue,
     onClickCancel,
@@ -88,8 +86,6 @@ const EnterAmount = ({
             />
             <BalanceDetails
                 availableToSend={availableToSend}
-                availableBalance={availableBalance}
-                reservedForFees={reservedForFees}
                 selectedToken={selectedToken}
             />
             <div className='buttons-bottom-buttons'>
