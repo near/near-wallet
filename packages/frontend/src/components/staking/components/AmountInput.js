@@ -3,6 +3,7 @@ import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
 import Balance from '../../common/balance/Balance';
+import BalanceBreakdown from './BalanceBreakdown';
 
 const Container = styled.div`
     input {
@@ -44,9 +45,18 @@ export default function AmountInput({
                 onChange={e => onChange(e.target.value)}
                 className='stake-amount-input'
             />
-            <div className='available-balance' onClick={availableClick}>
-                <Translate id={`staking.${action}.input.availableBalance`} /><Balance amount={availableBalance} showBalanceInUSD={false}/>
-            </div>
+            {(action === 'unstake' || !stakeFromAccount) ? (
+                <div className='available-balance' onClick={availableClick}>
+                    <Translate id={`staking.${action}.input.availableBalance`} /><Balance amount={availableBalance}/>
+                </div>
+            ) : (
+                <BalanceBreakdown
+                    total={availableBalance}
+                    onClickAvailable={availableClick}
+                    availableType={`staking.${action}.input.availableBalance`}
+                    error={insufficientBalance}
+                />
+            )}
         </Container>
     );
 }

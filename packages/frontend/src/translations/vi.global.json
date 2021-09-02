@@ -1180,8 +1180,8 @@
         "authorizing": "Đang ủy quyền"
     },
 
-    "availableBalanceInfo": "Your spendable NEAR balance excluding funds locked or staked. <a href='/profile'>View Balance Breakdown →</a>",
-    "reservedForFeesInfo": "Up to ${data} NEAR is reserved to cover the cost of transactions.",
+    "availableBalanceInfo": "”Số dư khả dụng” là số dư NEAR có thể sử dụng của bạn.",
+    "reservedForFeesInfo": "Một số lượng tối thiểu NEAR cần được trữ trên ví của bạn để trả phí giao dịch.",
     "availableBalanceProfile": "Đây là số dư NEAR có thể sử dụng của bạn hoặc chuyển ngay lập tức. Số tiền này sẽ thấp hơn tổng số dư của bạn.",
     "minimumBalance": "Đây là số dư NEAR tối thiểu mà tài khoản của bạn cần có để duy trì hoạt động. Số dư này là không gian lưu trữ mà tài khoản của bạn đang sử dụng trên NEAR Blockchain (với một bộ đệm nhỏ), và sẽ tăng hoặc giảm phụ thuộc vào việc bạn sử dụng nhiều hay ít.",
     "totalBalance": "Tổng số dư của bạn sẽ hiển thị là NEAR dưới sự quản lý của bạn. Trong nhiều trường hợp, bạn sẽ không có quyền truy cập ngay lập tức vào toàn bộ số dư này (ví dụ: bị khóa, ủy quyền hoặc đã stake). Kiểm tra số dư khả dụng của bạn để biết NEAR mà bạn có thể sử dụng, chuyển tiền, ủy quyền và stake.",

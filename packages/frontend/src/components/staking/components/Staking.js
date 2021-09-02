@@ -24,20 +24,17 @@ export default function Staking({
     hasLockup,
     loadingDetails,
     stakeFromAccount,
-    selectedValidator,
-    multipleAccounts
+    selectedValidator
 }) {
 
     return (
         <>
             <h1><Translate id='staking.staking.title' /></h1>
             <h2><Translate id='staking.staking.desc' /></h2>
-            {multipleAccounts &&
-                <div className='select-account-title'>
-                    <Translate id='staking.staking.selectAccount' />
-                    <Tooltip translate='staking.stake.accounts' position='bottom'/>
-                </div>
-            }
+            <div className='select-account-title'>
+                <Translate id='staking.staking.selectAccount' />
+                <Tooltip translate='staking.stake.accounts' position='bottom'/>
+            </div>
             {!loading && !loadingDetails &&
                 <SelectAccount
                     accounts={accounts}

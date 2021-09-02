@@ -11,7 +11,7 @@ import { Mixpanel } from '../../../mixpanel';
 import { selectNearTokenFiatValueUSD } from '../../../slices/tokenFiatValues';
 import { removeAccountIsInactive } from '../../../utils/localStorage';
 import { isMoonpayAvailable, getSignedUrl } from '../../../utils/moonpay';
-import { MIN_BALANCE_FOR_GAS } from '../../../utils/wallet';
+import { WALLET_APP_MIN_AMOUNT } from '../../../utils/wallet';
 import { getNearAndFiatValue } from '../../common/balance/helpers';
 import Divider from '../../common/Divider';
 import FormButton from '../../common/FormButton';
@@ -255,7 +255,7 @@ const mapStateToProps = (state) => {
     return {
         ...account,
         mainLoader: status.mainLoader,
-        minBalanceToUnlock: account.accountHelperWalletState?.requiredUnlockBalance || MIN_BALANCE_FOR_GAS,
+        minBalanceToUnlock: account.accountHelperWalletState?.requiredUnlockBalance || parseNearAmount(WALLET_APP_MIN_AMOUNT),
         needsDeposit: account.accountHelperWalletState?.fundedAccountNeedsDeposit,
         nearTokenFiatValueUSD: selectNearTokenFiatValueUSD(state)
     };

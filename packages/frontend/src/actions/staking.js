@@ -150,7 +150,7 @@ export const { staking } = createActions({
             ],
         },
         UPDATE_ACCOUNT: async (balance, validators, accountId, validatorDepositMap) => {
-            let totalUnstaked = new BN(balance.balanceAvailable);
+            let totalUnstaked = new BN(balance.available);
             if (totalUnstaked.lt(new BN(STAKING_AMOUNT_DEVIATION))) {
                 totalUnstaked = ZERO.clone();
             }

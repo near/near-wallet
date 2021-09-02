@@ -126,7 +126,7 @@ const UserAccounts = ({ accounts, accountId, accountIdLocalStorage, handleSelect
     <Wrapper>
         <UserAccount
             accountId={accountId || accountIdLocalStorage}
-            balance={actionsPending('GET_BALANCE') ? '' : balance?.balanceAvailable}
+            balance={actionsPending('GET_BALANCE') ? '' : balance?.total}
             balanceLoading={actionsPending('GET_BALANCE')}
             refreshBalance={() => {
                 getBalance();

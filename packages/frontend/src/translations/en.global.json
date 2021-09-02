@@ -769,7 +769,6 @@
     "wallet": {
         "balanceTitle": "NEAR Balance",
         "totalBalanceTitle": "Total Balance",
-        "availableBalance": "Available Balance",
         "tokens": "Tokens",
         "yourPortfolio": "Your Portfolio",
         "balance": "Balance",
@@ -903,7 +902,7 @@
             "currentValidators": "Your Current Validators",
             "noValidators": "You haven't staked with a validator yet.",
             "selectAccount": "Staking from",
-            "available": "Available balance",
+            "available": "Available",
             "totalStaked": "Staked"
         },
         "balanceBox": {
@@ -952,7 +951,7 @@
             "button": "Submit Stake",
             "confirm": "You are staking",
             "input": {
-                "availableBalance": "Available balance",
+                "availableBalance": "Available to stake",
                 "near": "NEAR"
             },
             "ledgerDisclaimer": "Note: Since this is your first time staking with this validator, you will need to confirm two transactions.",
@@ -1048,12 +1047,10 @@
             "inStakingPools": "In staking pools",
             "staked": "Staked",
             "unstaked": "Unstaked",
-            "available": "Available balance",
-            "reservedForTransactions": "Reserved for transactions",
+            "available": "Available",
             "pendingRelease": "Pending release",
             "availableToWithdraw": "Available for withdrawal",
-            "availableToTransfer": "Available to transfer",
-            "staking": "Staking"
+            "availableToTransfer": "Available to transfer"
         },
         "authorizedApps": {
             "title": "Authorized Apps"
@@ -1236,9 +1233,9 @@
         "authorizing": "Authorizing"
     },
 
-    "availableBalanceInfo": "Your spendable NEAR balance excluding funds locked or staked. <a href='/profile'>View Balance Breakdown →</a>",
-    "reservedForFeesInfo": "Up to ${data} NEAR is reserved to cover the cost of transactions.",
-    "availableBalanceProfile": "This is your spendable NEAR balance, and can be used or transferred immediately.",
+    "availableBalanceInfo": "Your total account balance minus locked funds or funds being staked.",
+    "reservedForFeesInfo": "A minimum amount of NEAR is reserved to cover the cost of transactions.",
+    "availableBalanceProfile": "This is your spendable NEAR balance, and can be used or transferred immediately. This will be lower than your Total Balance.",
     "minimumBalance": "This is the minimum NEAR balance your account must maintain to remain active. This balance represents the storage space your account is using on the NEAR blockchain (with a small buffer), and will go up or down as you use more or less space.",
     "totalBalance": "Your total balance represents all NEAR tokens under your control. In many cases, you will not have immediate access to this entire balance (e.g. if it is locked, delegated, or staked). Check your Available Balance for the NEAR you can actively use, transfer, delegate, and stake.",
     "stakedBalance": "This NEAR is actively being used to back a validator and secure the network. When you decide to unstake this NEAR, it will take some time to be shown in your Available Balance, as NEAR takes 4 epochs (~52-65 hours) to unstake.",

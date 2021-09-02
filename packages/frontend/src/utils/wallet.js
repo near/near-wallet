@@ -53,6 +53,7 @@ export const NETWORK_ID = process.env.REACT_APP_NETWORK_ID || 'default';
 const CONTRACT_CREATE_ACCOUNT_URL = `${ACCOUNT_HELPER_URL}/account`;
 const FUNDED_ACCOUNT_CREATE_URL = `${ACCOUNT_HELPER_URL}/fundedAccount`;
 export const NODE_URL = process.env.REACT_APP_NODE_URL || 'https://rpc.nearprotocol.com';
+export const WALLET_APP_MIN_AMOUNT = process.env.WALLET_APP_MIN_AMOUNT || '0.2';
 
 const KEY_UNIQUE_PREFIX = '_4:';
 const KEY_WALLET_ACCOUNTS = KEY_UNIQUE_PREFIX + 'wallet:accounts_v2';
