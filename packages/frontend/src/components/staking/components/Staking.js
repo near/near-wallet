@@ -55,6 +55,7 @@ export default function Staking({
                 disabled={loadingDetails} 
                 linkTo='/staking/validators'
                 trackingId="STAKE Click stake my tokens button"
+                data-test-id="stakeMyTokensButton"
             >
                 <Translate id='staking.staking.button' />
             </FormButton>

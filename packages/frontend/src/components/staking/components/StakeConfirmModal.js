@@ -116,6 +116,7 @@ const StakeConfirmModal = ({ open, onClose, onConfirm, validator, amount, loadin
                     color='green'
                     onClick={onConfirm}
                     sendingString={`button.${sendingString}`}
+                    data-test-id="confirmStakeOnModalButton"
                 >
                     <Translate id='button.confirm'/>
                 </FormButton>
