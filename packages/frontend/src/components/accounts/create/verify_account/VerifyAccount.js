@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import FormButton from '../../../common/FormButton';
 import Container from '../../../common/styled/Container.css';
 import WhereToBuyNearModal from '../../../common/WhereToBuyNearModal';
-import MethodAlreadyUsedModal from './MethodAlreadyUsedModal';
+import OptionAlreadyUsedModal from './OptionAlreadyUsedModal';
 import VerifyOption from './VerifyOption';
 import VerifyWithEmailOption from './VerifyWithEmailOption';
 import VerifyWithPhoneOption from './VerifyWithPhoneOption';
@@ -36,7 +36,7 @@ export default ({
 }) => {
     const [activeVerificationOption, setActiveVerificationOption] = useState('email');
     const [whereToBuyModal, setWhereToBuyModal] = useState(false);
-    const [methodAlreadyUsedModal, setMethodAlreadyUsedModal] = useState(false);
+    const [optionAlreadyUsedModal, setOptionAlreadyUsedModal] = useState(false);
 
     return (
         <>
@@ -97,10 +97,10 @@ export default ({
                     open={whereToBuyModal}
                 />
             }
-            {methodAlreadyUsedModal &&
-                <MethodAlreadyUsedModal
-                    onClose={() => setMethodAlreadyUsedModal(false)}
-                    open={methodAlreadyUsedModal}
+            {optionAlreadyUsedModal &&
+                <OptionAlreadyUsedModal
+                    onClose={() => setOptionAlreadyUsedModal(false)}
+                    open={optionAlreadyUsedModal}
                 />
             }
         </>
