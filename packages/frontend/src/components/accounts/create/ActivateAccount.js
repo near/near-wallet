@@ -1,5 +1,4 @@
 import BN from 'bn.js';
-import { parseNearAmount } from 'near-api-js/lib/utils/format';
 import React, { Component } from 'react';
 import { Translate } from 'react-localize-redux';
 import { connect } from 'react-redux';

@@ -182,7 +182,7 @@
                 "descTwo": "Return to this screen once your funds have been deposited to finish creating your account.",
                 "addressHeader": "One-time funding address",
                 "whereToBuy": {
-                    "button": "Where can I purchase $NEAR tokens?",
+                    "button": "Where can I purchase NEAR?",
                     "title": "Purchase NEAR tokens",
                     "desc": "NEAR tokens are available to purchase through the following exchanges"
                 },
@@ -238,6 +238,56 @@
         "nameDoesntMatch": "Account name doesn't match",
         "sendMoney": {
             "error": "Sorry an error has occurred. You may want to try again."
+        }
+    },
+
+    "verifyAccount": {
+        "title": "Almost there! Verify your new account.",
+        "desc": "To prevent spamming of new accounts, we’ll need to verify you as the owner. You may verify using a one-time passcode or by making a small initial deposit.",
+        "options": {
+            "passCode": "One-time passcode",
+            "initialDeposit": "Initial Deposit"
+        },
+        "option": {
+            "email": {
+                "title": "Email",
+                "desc": "Receive a one-time verification code via email."
+            },
+            "phone": {
+                "title": "Phone",
+                "desc": "Receive a one-time verification code via SMS."
+            },
+            "creditCard": {
+                "title": "Fund with a Credit Card",
+                "desc": "Purchase NEAR through MoonPay to be used as your initial deposit."
+            },
+            "manualDeposit": {
+                "title": "Manual deposit",
+                "desc": "Submit a manual deposit via a single-use funding address."
+            }
+        },
+        "modal": {
+            "title": "This email address has already been used to verify a different account.",
+            "desc": "You’ll need to use a different email address or select an alternate method to verify this account. You may still use this address as a recovery method."
+        }
+    },
+
+    "initialDeposit": {
+        "creditCard": {
+            "title": "Fund your new account using a credit card.",
+            "desc": "Complete your purchase of <b>at least ${amount} NEAR</b> through MoonPay. MoonPay will automatically deposit your funds into your new account."
+        },
+        "manualDeposit": {
+            "title": "Submit a manual deposit.",
+            "desc": "Meet the minimum initial deposit by sending <b>at least ${amount} NEAR</b> to the single-use funding address below."
+        },
+        "claimAccount": {
+            "title": "Claim Your Account",
+            "desc": "Your deposit was received! Once claimed, your deposit will be transferred to your new account.",
+            "disclaimer": {
+                "desc": "Important: The old single-use funding address will no longer be valid. Make sure to replace it with your new address on any exchanges or other devices where it may have been saved.",
+                "checkBox": "Agree & Continue"
+            }
         }
     },
 
@@ -544,7 +594,9 @@
         "viewFAQ": "View FAQ",
         "acceptAndContinue": "Accept & Continue",
         "useMax": "Use Max",
-        "loading": "Loading"
+        "loading": "Loading",
+        "gotIt": "Got it",
+        "fundWith": "Fund with"
     },
 
     "link": {
@@ -778,7 +830,11 @@
         "dateAndTime": "Date & Time",
         "status": "Status",
         "balances": "Balances",
-        "collectibles": "Collectibles"
+        "collectibles": "Collectibles",
+        "depositNear": {
+            "title": "Deposit NEAR",
+            "desc": "You’ll need NEAR tokens to perform transactions with your wallet."
+        }
     },
 
     "tokenBox": {
