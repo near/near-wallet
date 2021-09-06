@@ -1,14 +1,14 @@
 const { test, expect } = require("@playwright/test");
 const BN = require("bn.js");
 const { parseNearAmount } = require("near-api-js/lib/utils/format");
-const { HomePage } = require("../register/models/Home");
 
+const { HomePage } = require("../register/models/Home");
 const { createRandomBankSubAccount } = require("../utils/account");
 const { StakeUnstakePage } = require("./models/StakeUnstake");
 
 const { describe, beforeAll, afterAll, beforeEach } = test;
 
-describe("Login with Dapp", () => {
+describe("Staking flow", () => {
     let testAccount;
 
     beforeAll(async () => {
@@ -37,7 +37,7 @@ describe("Login with Dapp", () => {
         const stakeUnstakePage = new StakeUnstakePage(page);
         await stakeUnstakePage.navigate();
         await stakeUnstakePage.clickStakeButton();
-        const firstValidatorName = await stakeUnstakePage.getFirstValidatorName();
+        const firstValidatorName = await stakeUnstakePage.getValidatorName();
         await stakeUnstakePage.searhForValidator(firstValidatorName);
 
         await expect(page).toHaveSelector("data-test-id=stakingPageValidatorFoundLabel");
@@ -45,15 +45,17 @@ describe("Login with Dapp", () => {
     });
     test("correctly selects and stakes with validator", async ({ page }) => {
         const testStakeAmount = 0.1;
+        const validatorIndex = 0;
+
         const stakeUnstakePage = new StakeUnstakePage(page);
         await stakeUnstakePage.navigate();
         let currentlyDisplayedWalletBalance = await stakeUnstakePage.getCurrentlyDisplayedBalance();
         await stakeUnstakePage.clickStakeButton();
-        const firstValidatorName = await stakeUnstakePage.getFirstValidatorName();
-        await stakeUnstakePage.selectFirstValidator();
+        const validatorName = await stakeUnstakePage.getValidatorName(validatorIndex);
+        await stakeUnstakePage.stakeWithValidator(validatorIndex);
 
-        await expect(page).toMatchURL(new RegExp(`/${firstValidatorName}$`));
-        await expect(page).toMatchText("data-test-id=validatorNamePageTitle", new RegExp(`${firstValidatorName}`));
+        await expect(page).toMatchURL(new RegExp(`/${validatorName}$`));
+        await expect(page).toMatchText("data-test-id=validatorNamePageTitle", new RegExp(`${validatorName}`));
 
         await stakeUnstakePage.clickStakeWithValidator();
         await stakeUnstakePage.submitStakeWithAmount(testStakeAmount);
@@ -74,8 +76,13 @@ describe("Login with Dapp", () => {
             "data-test-id=accountSelectStakedBalance",
             new RegExp(testStakeAmount.toString())
         );
-        const { staked: stakedBalance } = await testAccount.account.getAccountBalance();
+        await expect(page).toMatchText(
+            "data-test-id=stakingPageTotalStakedAmount",
+            new RegExp(testStakeAmount.toString())
+        );
 
-        expect(stakedBalance).toEqual(parseNearAmount(stakedBalance));
+        // const { staked } = await testAccount.account.getAccountBalance();
+
+        // expect(new BN(staked).eq(new BN(parseNearAmount(testStakeAmount.toString())))).toBe(true);
     });
 });
