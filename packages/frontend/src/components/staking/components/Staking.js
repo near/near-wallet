@@ -74,6 +74,8 @@ export default function Staking({
                         button={new BN(totalStaked).isZero() ? null : 'staking.balanceBox.staked.button'}
                         linkTo={stakeFromAccount ? `/staking/unstake` : `/staking/${selectedValidator}/unstake`}
                         buttonColor='gray-blue'
+                        buttonTestId="stakingPageUnstakingButton"
+                        balanceTestId="stakingPageTotalStakedAmount"
                     />
                     <BalanceBox
                         title='staking.balanceBox.unclaimed.title'
@@ -88,6 +90,7 @@ export default function Staking({
                         title='staking.balanceBox.pending.title'
                         info='staking.balanceBox.pending.info'
                         amount={totalPending}
+                        balanceTestId="stakingPagePendingReleaseAmount"
                     />
                     <BalanceBox
                         title='staking.balanceBox.available.title'
