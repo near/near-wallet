@@ -8,9 +8,7 @@ import createParameterSelector from '../../createParameterSelector';
 const SLICE_NAME = 'transactions';
 
 const initialState = {
-    transactions: {
-        byAccountId: {}
-    }
+    byAccountId: {}
 };
 
 const initialAccountIdState = {
@@ -56,7 +54,7 @@ const transactionsSlice = createSlice({
     reducers: {
         setTransactions(state, { payload }) {
             const { transactions, accountId } = payload;
-            set(state, ['transactions', 'byAccountId', accountId, 'items'], transactions);
+            set(state, ['byAccountId', accountId, 'items'], transactions);
         },
         updateTransactions(state, { payload }) {
             const { transactions, accountId } = payload;
@@ -89,18 +87,18 @@ const transactionsSlice = createSlice({
         builder.addCase(fetchTransactions.pending, (state, { meta }) => {
             const { accountId } = meta.arg;
 
-            set(state, ['transactions', 'byAccountId', accountId, 'status', 'loading'], true);
+            set(state, ['byAccountId', accountId, 'status', 'loading'], true);
         });
         builder.addCase(fetchTransactions.fulfilled, (state,  { meta }) => {
             const { accountId } = meta.arg;
 
-            set(state, ['transactions', 'byAccountId', accountId, 'status', 'loading'], false);
+            set(state, ['byAccountId', accountId, 'status', 'loading'], false);
         });
         builder.addCase(fetchTransactions.rejected, (state, { meta, error }) => {
             const { accountId } = meta.arg;
             
-            set(state, ['transactions', 'byAccountId', accountId, 'status', 'loading'], false);
-            set(state, ['transactions', 'byAccountId', accountId, 'status', 'error'], error?.message || 'An error was encountered.');
+            set(state, ['byAccountId', accountId, 'status', 'loading'], false);
+            set(state, ['byAccountId', accountId, 'status', 'error'], error?.message || 'An error was encountered.');
         });
     })
 });
@@ -120,13 +118,8 @@ const getHashParam = createParameterSelector((params) => params.hash);
 // Top level selectors
 const selectTransactionsSlice = (state) => state[SLICE_NAME] || {};
 
-const selectTransactions = createSelector(
-    [selectTransactionsSlice],
-    (transactions) => transactions.transactions || {}
-);
-
 export const selectTransactionsObjectByAccountId = createSelector(
-    [selectTransactions, getAccountIdParam],
+    [selectTransactionsSlice, getAccountIdParam],
     (transactions, accountId) => ({
         ...initialAccountIdState,
         ...transactions.byAccountId[accountId]
