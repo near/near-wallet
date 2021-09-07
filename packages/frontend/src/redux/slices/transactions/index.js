@@ -59,7 +59,7 @@ const transactionsSlice = createSlice({
         updateTransactions(state, { payload }) {
             const { transactions, accountId } = payload;
 
-            const transactionsState = state.transactions.byAccountId[accountId].items;
+            const transactionsState = state.byAccountId[accountId].items;
             const hash = transactionsState.map((t) => t.hash_with_index);
 
             // when updating the transaction, we do not want to replace the entire array, because for some entries the tx status may already be fetched
@@ -75,7 +75,7 @@ const transactionsSlice = createSlice({
         updateTransactionStatus(state, { payload }) {
             const { status, checkStatus, accountId, hash } = payload;
 
-            const transactionsState = state.transactions.byAccountId[accountId].items;
+            const transactionsState = state.byAccountId[accountId].items;
 
             const transactionEntry = transactionsState.find((t) => t.hash === hash);
             if (transactionEntry) {
