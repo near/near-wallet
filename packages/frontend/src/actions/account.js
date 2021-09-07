@@ -5,7 +5,6 @@ import { PublicKey, KeyType } from 'near-api-js/lib/utils/key_pair';
 import { parse, stringify } from 'query-string';
 import { createActions, createAction } from 'redux-actions';
 
-import nftSlice from '../reducers/nft';
 import { showAlert, dispatchWithAlert } from '../utils/alerts';
 import { loadState, saveState, clearState } from '../utils/sessionStorage';
 import { TwoFactor } from '../utils/twoFactor';
@@ -570,17 +569,11 @@ export const refreshAccount = (basicData = false) => async (dispatch, getState) 
     }
 };
 
-export const switchAccount = (accountId) => async (dispatch, getState) => {
+export const switchAccount = ({ accountId }) => async (dispatch, getState) => {
     dispatch(makeAccountActive(accountId));
     dispatch(handleRefreshUrl());
     dispatch(refreshAccount());
     dispatch(clearAccountState());
-};
-
-export const clearAccountState = () => async (dispatch, getState) => {
-    dispatch(staking.clearState());
-    dispatch(tokens.clearState());
-    dispatch(nftSlice.actions.clearState());
 };
 
 export const getAvailableAccountsBalance = () => async (dispatch, getState) => {
@@ -608,7 +601,7 @@ export const getAvailableAccountsBalance = () => async (dispatch, getState) => {
     }
 };
 
-export const { makeAccountActive, refreshAccountOwner, refreshAccountExternal, refreshUrl, updateStakingAccount, updateStakingLockup, getBalance, setLocalStorage, getAccountBalance, setAccountBalance } = createActions({
+export const { makeAccountActive, refreshAccountOwner, refreshAccountExternal, refreshUrl, updateStakingAccount, updateStakingLockup, getBalance, setLocalStorage, getAccountBalance, setAccountBalance, clearAccountState } = createActions({
     MAKE_ACCOUNT_ACTIVE: wallet.makeAccountActive.bind(wallet),
     REFRESH_ACCOUNT_OWNER: [
         wallet.refreshAccount.bind(wallet),
@@ -652,5 +645,6 @@ export const { makeAccountActive, refreshAccountOwner, refreshAccountExternal, r
             }
         })
     ],
-    SET_ACCOUNT_BALANCE: null
+    SET_ACCOUNT_BALANCE: null,
+    CLEAR_ACCOUNT_STATE: null
 });
