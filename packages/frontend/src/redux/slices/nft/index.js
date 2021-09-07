@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import set from 'lodash.set';
 import update from 'lodash.update';
 import { createSelector } from 'reselect';
+
 import NonFungibleTokens, { TOKENS_PER_PAGE } from '../../../services/NonFungibleTokens';
 import createParameterSelector from '../../createParameterSelector';
 
