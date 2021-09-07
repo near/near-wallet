@@ -27,6 +27,12 @@ const BalanceDisplayUSD = ({
                 {showSymbolUSD && ` ${USDSymbol}`}
             </>
         );
+    } else if (roundedBalanceInUSD === 0) {
+        return (
+            <>
+                {showSignUSD && <>$</>}0
+            </>
+        );
     } else {
         return (
             <>

@@ -77,8 +77,6 @@ const StyledContainer = styled(Container)`
 `;
 
 const SendContainerV2 = ({
-    availableNearBalance,
-    reservedNearForFees,
     redirectTo,
     fungibleTokens,
     checkAccountAvailable,
@@ -168,8 +166,6 @@ const SendContainerV2 = ({
                         }
                     }}
                     availableToSend={selectedToken.balance}
-                    availableBalance={availableNearBalance}
-                    reservedForFees={reservedNearForFees}
                     continueAllowed={enterAmountIsComplete()}
                     onContinue={() => {
                         setActiveView(VIEWS.ENTER_RECEIVER);

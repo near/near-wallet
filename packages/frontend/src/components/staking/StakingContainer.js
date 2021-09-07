@@ -130,9 +130,9 @@ const StyledContainer = styled(Container)`
     }
 
     .radio-label {
-        cursor: ${props => props.numAccounts ? 'pointer' : 'default'};
+        cursor: ${props => props.multipleAccounts ? 'pointer' : 'default'};
         .input-wrapper {
-            display: ${props => props.numAccounts > 1 ? 'block' : 'none'};
+            display: ${props => props.multipleAccounts ? 'block' : 'none'};
         }
     }
 
@@ -210,8 +210,10 @@ export function StakingContainer({ history, match }) {
         );
     };
 
+    const multipleAccounts = stakingAccounts.length > 1;
+
     return (
-        <StyledContainer className='small-centered' numAccounts={stakingAccounts.length}>
+        <StyledContainer className='small-centered' multipleAccounts={multipleAccounts}>
             <ConnectedRouter history={history}>
                 <Switch>
                     <Route
@@ -230,6 +232,7 @@ export function StakingContainer({ history, match }) {
                                 hasLockup={hasLockup}
                                 stakeFromAccount={stakeFromAccount}
                                 selectedValidator={selectedValidator}
+                                multipleAccounts={multipleAccounts}
                             />
                         )}
                     />

@@ -74,9 +74,6 @@ const BalanceDisplay = ({
     className,
     showBalanceInNEAR = true,
     showBalanceInUSD = true,
-    showAmountAsSubtracted,
-    // showAmountAsSubtracted adds a minus sign in front of the formatted NEAR amount (amountoShow)
-    // to indicate that the amount is being deducted, e.g. 0.2 NEAR -> -0.2 NEAR
     nearTokenFiatValueUSD,
     showAlmostEqualSignUSD,
     showSignUSD,
@@ -95,7 +92,7 @@ const BalanceDisplay = ({
     };
 
     return (
-        <StyledContainer title={handleShowInYocto(amount)} className={classNames(['balance', className, {'subtract' : showAmountAsSubtracted, 'fiat-only' : !showBalanceInNEAR}])}>
+        <StyledContainer title={handleShowInYocto(amount)} className={classNames(['balance', className, {'fiat-only' : !showBalanceInNEAR}])}>
             {showBalanceInNEAR &&
                 <>
                     {amount

@@ -10,7 +10,6 @@ const Balance = ({
     className,
     showBalanceInNEAR,
     showBalanceInUSD,
-    showAmountAsSubtracted,
     showAlmostEqualSignUSD,
     showSignUSD,
     showSymbolUSD
@@ -25,7 +24,6 @@ const Balance = ({
             className={className}
             showBalanceInNEAR={showBalanceInNEAR}
             showBalanceInUSD={showBalanceInUSD}
-            showAmountAsSubtracted={showAmountAsSubtracted}
             nearTokenFiatValueUSD={nearTokenFiatValueUSD}
             showAlmostEqualSignUSD={showAlmostEqualSignUSD}
             showSignUSD={showSignUSD}

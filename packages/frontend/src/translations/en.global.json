@@ -746,7 +746,7 @@
         "copyrights": "NEAR Inc. All Rights Reserved.",
         "termsOfService": "Terms of Service",
         "privacyPolicy": "Privacy Policy",
-        "desc": "NEAR is a scalable computing and storage platform that changes how the web works for better.",
+        "desc": "NEAR is a scalable computing and storage platform that changes how the web works for the better.",
         "learnMore": "Learn More",
         "needHelp": "Questions?",
         "contactSupport": "Join Community"
@@ -769,6 +769,7 @@
     "wallet": {
         "balanceTitle": "NEAR Balance",
         "totalBalanceTitle": "Total Balance",
+        "availableBalance": "Available Balance",
         "tokens": "Tokens",
         "yourPortfolio": "Your Portfolio",
         "balance": "Balance",
@@ -799,7 +800,7 @@
         "emptyState": "Looks like you don't have any collectibles yet.",
         "loadMore": "Load more"
     },
-    
+
     "exploreApps": {
         "title": "What's on NEAR?",
         "desc": "Earn, mint, and play! Discover the ecosystem of NEAR applications.",
@@ -902,7 +903,7 @@
             "currentValidators": "Your Current Validators",
             "noValidators": "You haven't staked with a validator yet.",
             "selectAccount": "Staking from",
-            "available": "Available",
+            "available": "Available balance",
             "totalStaked": "Staked"
         },
         "balanceBox": {
@@ -951,7 +952,7 @@
             "button": "Submit Stake",
             "confirm": "You are staking",
             "input": {
-                "availableBalance": "Available to stake",
+                "availableBalance": "Available balance",
                 "near": "NEAR"
             },
             "ledgerDisclaimer": "Note: Since this is your first time staking with this validator, you will need to confirm two transactions.",
@@ -1047,10 +1048,12 @@
             "inStakingPools": "In staking pools",
             "staked": "Staked",
             "unstaked": "Unstaked",
-            "available": "Available",
+            "available": "Available balance",
+            "reservedForTransactions": "Reserved for transactions",
             "pendingRelease": "Pending release",
             "availableToWithdraw": "Available for withdrawal",
-            "availableToTransfer": "Available to transfer"
+            "availableToTransfer": "Available to transfer",
+            "staking": "Staking"
         },
         "authorizedApps": {
             "title": "Authorized Apps"
@@ -1233,9 +1236,9 @@
         "authorizing": "Authorizing"
     },
 
-    "availableBalanceInfo": "Your total account balance minus locked funds or funds being staked.",
-    "reservedForFeesInfo": "A minimum amount of NEAR is reserved to cover the cost of transactions.",
-    "availableBalanceProfile": "This is your spendable NEAR balance, and can be used or transferred immediately. This will be lower than your Total Balance.",
+    "availableBalanceInfo": "Your spendable NEAR balance excluding funds locked or staked. <a href='/profile'>View Balance Breakdown →</a>",
+    "reservedForFeesInfo": "Up to ${data} NEAR is reserved to cover the cost of transactions.",
+    "availableBalanceProfile": "This is your spendable NEAR balance, and can be used or transferred immediately.",
     "minimumBalance": "This is the minimum NEAR balance your account must maintain to remain active. This balance represents the storage space your account is using on the NEAR blockchain (with a small buffer), and will go up or down as you use more or less space.",
     "totalBalance": "Your total balance represents all NEAR tokens under your control. In many cases, you will not have immediate access to this entire balance (e.g. if it is locked, delegated, or staked). Check your Available Balance for the NEAR you can actively use, transfer, delegate, and stake.",
     "stakedBalance": "This NEAR is actively being used to back a validator and secure the network. When you decide to unstake this NEAR, it will take some time to be shown in your Available Balance, as NEAR takes 4 epochs (~52-65 hours) to unstake.",
@@ -1361,7 +1364,7 @@
         "desc": "Warning: This is a pre-release version of the NEAR Wallet. There may be bugs, and these bugs may lead to loss of funds. By continuing to use this version, you agree that you understand and accept these risks, and understand that the NEAR Wallet team will be unable to help you."
     },
     "landing": {
-        "title":"NEAR is here.",
+        "title": "NEAR is here.",
         "desc": "Securely store and stake your NEAR tokens and compatible assets with <span>NEAR Wallet</span>.",
         "or": "or",
         "banner": "NEAR Wallet is in Private Beta"

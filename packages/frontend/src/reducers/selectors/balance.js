@@ -1,8 +1,11 @@
 import BN from 'bn.js';
 
 import { LOCKUP_MIN_BALANCE } from '../../utils/account-with-lockup';
+import { MIN_BALANCE_FOR_GAS } from '../../utils/wallet';
 
-export const selectProfileBalance = (balance) => {
+export const selectProfileBalance = (walletAccount) => {
+    const balance = walletAccount?.balance;
+
     if (!balance || !balance.available) {
         return false;
     }
@@ -17,14 +20,16 @@ export const selectProfileBalance = (balance) => {
         stakedBalanceMainAccount,
         balanceAvailable,
         stakedBalanceLockup,
-        account
+        account,
+        available
     } = balance;
 
     const lockupIdExists = !!lockedAmount;
 
     const walletBalance = {
-        walletBalance: stakedBalanceMainAccount.add(new BN(balanceAvailable)).add(new BN(stateStaked)).toString(),
+        walletBalance: walletAccount?.amount,
         reservedForStorage: stateStaked.toString(),
+        reservedForTransactions: BN.min(new BN(available), new BN(MIN_BALANCE_FOR_GAS)).toString(),
         inStakingPools: {
             sum: stakedBalanceMainAccount.toString(),
             staked: account?.totalStaked,
@@ -41,7 +46,7 @@ export const selectProfileBalance = (balance) => {
         } = balance;
 
         lockupBalance = {
-            lockupBalance: totalBalance.toString(),
+            lockupBalance: new BN(totalBalance).sub(new BN(stakedBalanceLockup)).toString(),
             reservedForStorage: LOCKUP_MIN_BALANCE.toString(),
             inStakingPools: {
                 sum: stakedBalanceLockup.toString(),
