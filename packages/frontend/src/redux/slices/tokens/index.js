@@ -91,10 +91,12 @@ const tokensSlice = createSlice({
         builder.addCase(fetchOwnedTokensForContract.pending, (state, { meta }) => {
             const { accountId, contractName } = meta.arg;
             set(state, ['ownedTokens', 'byAccountId', accountId, contractName, 'loading'], true);
+            set(state, ['ownedTokens', 'byAccountId', accountId, contractName, 'error'], '');
         });
         builder.addCase(fetchOwnedTokensForContract.fulfilled, (state, { meta }) => {
             const { accountId, contractName } = meta.arg;
             set(state, ['ownedTokens', 'byAccountId', accountId, contractName, 'loading'], false);
+            set(state, ['ownedTokens', 'byAccountId', accountId, contractName, 'error'], '');
         });
         builder.addCase(fetchOwnedTokensForContract.rejected, (state, { meta,  error }) => {
             const { accountId, contractName } = meta.arg;
