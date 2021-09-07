@@ -8,7 +8,7 @@ import {
     selectLoadingTokensForAccountForContract,
     actions as nftActions,
     selectOneContractMetadata
-} from '../../reducers/nft';
+} from '../../redux/slices/nft';
 import FormButton from '../common/FormButton';
 
 const { fetchOwnedNFTsForContract } = nftActions;

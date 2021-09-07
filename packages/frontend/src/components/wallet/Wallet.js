@@ -9,8 +9,8 @@ import { getTransactions, getTransactionStatus } from '../../actions/transaction
 import { useFungibleTokensIncludingNEAR } from '../../hooks/fungibleTokensIncludingNEAR';
 import { Mixpanel } from "../../mixpanel/index";
 import { selectAccountId, selectBalance } from '../../reducers/account';
-import { selectTokensWithMetadataForAccountId, actions as nftActions } from '../../reducers/nft';
 import { selectTransactions } from '../../reducers/transactions';
+import { selectTokensWithMetadataForAccountId, actions as nftActions } from '../../redux/slices/nft';
 import { selectLinkdropAmount, actions as linkdropActions } from '../../slices/linkdrop';
 import { actionsPendingByPrefix } from '../../utils/alerts';
 import classNames from '../../utils/classNames';

@@ -1,6 +1,7 @@
 import reduceReducers from 'reduce-reducers';
 import { handleActions } from 'redux-actions';
 
+import { clearAccountState } from '../../actions/account';
 import { staking } from '../../actions/staking';
 import { ACCOUNT_DEFAULTS } from '../../utils/staking';
 
@@ -75,8 +76,7 @@ const stakingHandlers = handleActions({
                 ...state,
                 allValidators: payload
             }),
-    [staking.clearState]: () => 
-        initialState,
+    [clearAccountState]: () => initialState
 }, initialState);
 
 export default reduceReducers(
