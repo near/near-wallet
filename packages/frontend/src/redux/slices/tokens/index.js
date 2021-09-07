@@ -3,7 +3,7 @@ import BN from 'bn.js';
 import set from 'lodash.set';
 import { createSelector } from 'reselect';
 
-import { getLikelyTokenContracts, getMetadata, getBalanceOf } from '../../../utils/tokens';
+import FungibleTokens from '../../../services/FungibleTokens';
 
 const WHITELISTED_CONTRACTS = (process.env.TOKEN_CONTRACTS || 'berryclub.ek.near,farm.berryclub.ek.near,wrap.near').split(',');
 const SLICE_NAME = 'tokens';
@@ -28,7 +28,7 @@ async function getCachedContractMetadataOrFetch(contractName, accountId, state) 
     if (contractMetadata) {
         return contractMetadata;
     }
-    return getMetadata({ contractName, accountId });
+    return FungibleTokens.getMetadata({ contractName, accountId });
 }
 
 const fetchOwnedTokensForContract = createAsyncThunk(
@@ -37,7 +37,7 @@ const fetchOwnedTokensForContract = createAsyncThunk(
         const { actions: { addTokensMetadata } } = tokensSlice;
         const { dispatch } = thunkAPI;
 
-        const balance = await getBalanceOf({ contractName, accountId });
+        const balance = await FungibleTokens.getBalanceOf({ contractName, accountId });
 
         dispatch(addTokensMetadata({ accountId, contractName, balance }));
     },
@@ -56,7 +56,7 @@ const fetchTokens = createAsyncThunk(
     async ({ accountId }, thunkAPI) => {
         const { dispatch, getState } = thunkAPI;
 
-        const likelyContracts = [...new Set([...(await getLikelyTokenContracts({ accountId })), ...WHITELISTED_CONTRACTS])];
+        const likelyContracts = [...new Set([...(await FungibleTokens.getLikelyTokenContracts({ accountId })), ...WHITELISTED_CONTRACTS])];
 
         await Promise.all(likelyContracts.map(async contractName => {
             const { actions: { setContractMetadata } } = tokensSlice;
