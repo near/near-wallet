@@ -3,10 +3,9 @@ import { Translate } from 'react-localize-redux';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 
-import { getTransactions, getTransactionStatus } from '../../actions/transactions';
 import { selectAccountId } from '../../reducers/account';
-import { selectOneTransactionByHash, selectTransactionsByAccountId } from '../../redux/slices/transactions';
-import { actionsPending } from '../../utils/alerts';
+import { selectOneTransactionByIdentity, selectTransactionsByAccountId, selectTransactionsLoading } from '../../redux/slices/transactions';
+import { actions as transactionsActions } from '../../redux/slices/transactions';
 import classNames from '../../utils/classNames';
 import { EXPLORER_URL } from '../../utils/wallet';
 import FormButton from '../common/FormButton';
@@ -90,15 +89,15 @@ const ActivitiesWrapper = () => {
     const dispatch = useDispatch();
 
     const [transactionHash, setTransactionHash] = useState();
-    const activityLoader = actionsPending(['GET_TRANSACTIONS', 'REFRESH_ACCOUNT_OWNER']);
 
     const accountId = useSelector(state => selectAccountId(state));
     const transactions = useSelector(state => selectTransactionsByAccountId(state, { accountId }));
-    const transaction = useSelector(state => selectOneTransactionByHash(state, { accountId, hash: transactionHash }));
+    const transaction = useSelector(state => selectOneTransactionByIdentity(state, { accountId, hash: transactionHash }));
+    const activityLoader = useSelector(state => selectTransactionsLoading(state, { accountId }));
 
     useEffect(() => {
         if (accountId) {
-            dispatch(getTransactions(accountId));
+            dispatch(transactionsActions.fetchTransactions({ accountId }));
         }
     }, [accountId]);
 
@@ -107,7 +106,7 @@ const ActivitiesWrapper = () => {
             <h2 className={classNames({'dots': activityLoader})}><Translate id='dashboard.activity' /></h2>
             {transactions.map((transaction, i) => (
                 <ActivityBox
-                    key={transaction.hash}
+                    key={transaction.hash_with_index}
                     transaction={transaction}
                     actionArgs={transaction.args}
                     actionKind={transaction.kind}
@@ -118,11 +117,10 @@ const ActivitiesWrapper = () => {
             ))}
             {transactionHash && 
                 <ActivityDetailModal 
-                    open={transactionHash}
+                    open={!!transactionHash}
                     onClose={() => setTransactionHash()}
                     accountId={accountId}
                     transaction={transaction}
-                    getTransactionStatus={getTransactionStatus}
                 />
             }
             <FormButton
