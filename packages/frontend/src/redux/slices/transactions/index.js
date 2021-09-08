@@ -133,7 +133,7 @@ export const selectTransactionsByAccountId = createSelector(
 
 export const selectOneTransactionByIdentity = createSelector(
     [selectTransactionsByAccountId, getHashParam],
-    (transactions, hash) => transactions.find((transaction) => `${transaction.hash}-${transaction.kind}` === hash)
+    (transactions, hash) => transactions.find((transaction) => transaction.hash_with_index === hash)
 );
 
 export const selectTransactionsLoading = createSelector(

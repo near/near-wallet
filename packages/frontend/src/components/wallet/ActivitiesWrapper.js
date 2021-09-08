@@ -117,7 +117,7 @@ const ActivitiesWrapper = () => {
             ))}
             {transactionHash && 
                 <ActivityDetailModal 
-                    open={transactionHash}
+                    open={!!transactionHash}
                     onClose={() => setTransactionHash()}
                     accountId={accountId}
                     transaction={transaction}
