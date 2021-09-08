@@ -11,11 +11,16 @@ const initialState = {
     byAccountId: {}
 };
 
+const initialErrorState = {
+    code: null,
+    message: null
+};
+
 const initialAccountIdState = {
     items: [],
     status: {
         loading: false,
-        error: null
+        error: initialErrorState
     }
 };
 
@@ -88,19 +93,22 @@ const transactionsSlice = createSlice({
             const { accountId } = meta.arg;
 
             set(state, ['byAccountId', accountId, 'status', 'loading'], true);
-            set(state, ['byAccountId', accountId, 'status', 'error'], '');
+            set(state, ['byAccountId', accountId, 'status', 'error'], initialErrorState);
         });
         builder.addCase(fetchTransactions.fulfilled, (state,  { meta }) => {
             const { accountId } = meta.arg;
 
             set(state, ['byAccountId', accountId, 'status', 'loading'], false);
-            set(state, ['byAccountId', accountId, 'status', 'error'], '');
+            set(state, ['byAccountId', accountId, 'status', 'error'], initialErrorState);
         });
         builder.addCase(fetchTransactions.rejected, (state, { meta, error }) => {
             const { accountId } = meta.arg;
             
             set(state, ['byAccountId', accountId, 'status', 'loading'], false);
-            set(state, ['byAccountId', accountId, 'status', 'error'], error?.message || 'An error was encountered.');
+            set(state, ['byAccountId', accountId, 'status', 'error'], {
+                message: error?.message || 'An error was encountered.',
+                code: error?.code
+            });
         });
     })
 });
