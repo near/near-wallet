@@ -25,14 +25,14 @@ export default ({
     fundingAddress,
     minDeposit
 }) => {
-    const [whereToBuyModal, setWhereToBuyModal] = useState(false);
+    const [showWhereToBuyModal, setShowWhereToBuyModal] = useState(false);
     return (
         <>
             <StyledContainer className='small-centered border'>
                 <h1><Translate id='initialDeposit.manualDeposit.title' /></h1>
                 <h2><Translate id='initialDeposit.manualDeposit.desc' /></h2>
                 <FormButton
-                    onClick={() => setWhereToBuyModal(true)}
+                    onClick={() => setShowWhereToBuyModal(true)}
                     color='blue'
                     className='link underline'
                 >
@@ -43,10 +43,10 @@ export default ({
                     minDeposit={minDeposit}
                 />
             </StyledContainer>
-            {whereToBuyModal &&
+            {showWhereToBuyModal &&
                 <WhereToBuyNearModal
-                    onClose={() => setWhereToBuyModal(false)}
-                    open={whereToBuyModal}
+                    onClose={() => setShowWhereToBuyModal(false)}
+                    open={showWhereToBuyModal}
                 />
             }
         </>

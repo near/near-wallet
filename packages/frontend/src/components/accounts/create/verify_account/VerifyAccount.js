@@ -35,8 +35,8 @@ export default ({
     handleContinue
 }) => {
     const [activeVerificationOption, setActiveVerificationOption] = useState('email');
-    const [whereToBuyModal, setWhereToBuyModal] = useState(false);
-    const [optionAlreadyUsedModal, setOptionAlreadyUsedModal] = useState(false);
+    const [showWhereToBuyModal, setShowWhereToBuyModal] = useState(false);
+    const [showOptionAlreadyUsedModal, setShowOptionAlreadyUsedModal] = useState(false);
 
     return (
         <>
@@ -44,7 +44,7 @@ export default ({
                 <h1><Translate id='verifyAccount.title' /></h1>
                 <h2><Translate id='verifyAccount.desc' /></h2>
                 <FormButton
-                    onClick={() => setWhereToBuyModal(true)}
+                    onClick={() => setShowWhereToBuyModal(true)}
                     color='blue'
                     className='link underline'
                     trackingId="CA Click where to buy button"
@@ -56,14 +56,14 @@ export default ({
                 </h4>
                 <VerifyWithEmailOption
                     onClick={() => setActiveVerificationOption('email')}
-                    active={activeVerificationOption}
+                    activeVerificationOption={activeVerificationOption}
                     translateIdTitle={optionTranslateId('email', 'title')}
                     translateIdDesc={optionTranslateId('email', 'desc')}
                 />
                 <VerifyWithPhoneOption
                     onClick={() => setActiveVerificationOption('phone')}
                     onChange={() => {}}
-                    active={activeVerificationOption}
+                    activeVerificationOption={activeVerificationOption}
                     translateIdTitle={optionTranslateId('phone', 'title')}
                     translateIdDesc={optionTranslateId('phone', 'desc')}
                 />
@@ -73,14 +73,14 @@ export default ({
                 <VerifyOption
                     onClick={() => setActiveVerificationOption('creditCard')}
                     option='creditCard'
-                    active={activeVerificationOption}
+                    isActive={activeVerificationOption === 'creditCard'}
                     translateIdTitle={optionTranslateId('creditCard', 'title')}
                     translateIdDesc={optionTranslateId('creditCard', 'desc')}
                 />
                 <VerifyOption
                     onClick={() => setActiveVerificationOption('manualDeposit')}
                     option='manualDeposit'
-                    active={activeVerificationOption}
+                    isActive={activeVerificationOption === 'manualDeposit'}
                     translateIdTitle={optionTranslateId('manualDeposit', 'title')}
                     translateIdDesc={optionTranslateId('manualDeposit', 'desc')}
                 />
@@ -91,16 +91,16 @@ export default ({
                     <Translate id='button.continue' />
                 </FormButton>
             </StyledContainer>
-            {whereToBuyModal &&
+            {showWhereToBuyModal &&
                 <WhereToBuyNearModal
-                    onClose={() => setWhereToBuyModal(false)}
-                    open={whereToBuyModal}
+                    onClose={() => setShowWhereToBuyModal(false)}
+                    open={showWhereToBuyModal}
                 />
             }
-            {optionAlreadyUsedModal &&
+            {showOptionAlreadyUsedModal &&
                 <OptionAlreadyUsedModal
-                    onClose={() => setOptionAlreadyUsedModal(false)}
-                    open={optionAlreadyUsedModal}
+                    onClose={() => setShowOptionAlreadyUsedModal(false)}
+                    isOpen={showOptionAlreadyUsedModal}
                 />
             }
         </>

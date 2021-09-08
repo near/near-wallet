@@ -45,11 +45,11 @@ const Container = styled.div`
     }
 `;
 
-export default ({ open, onClose }) => {
+export default ({ isOpen, onClose }) => {
     return (
         <Modal
             id='method-already-used-modal'
-            isOpen={open}
+            isOpen={isOpen}
             onClose={onClose}
             modalSize='md'
         >

@@ -7,7 +7,7 @@ export default ({
     translateIdTitle,
     translateIdDesc,
     onClick,
-    active,
+    activeVerificationOption,
     value,
     disabled,
     onChange,
@@ -17,7 +17,7 @@ export default ({
         <VerifyOption
             onClick={onClick}
             option='email'
-            active={active}
+            isActive={activeVerificationOption === 'email'}
             disabled={disabled}
             translateIdTitle={translateIdTitle}
             translateIdDesc={translateIdDesc}

@@ -2,41 +2,38 @@ import React from 'react';
 import { Translate } from 'react-localize-redux';
 import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input';
 
+import PhoneNumberInput from './PhoneNumberInput';
 import VerifyOption from './VerifyOption';
 
 export default ({
     translateIdTitle,
     translateIdDesc,
     onClick,
-    active,
+    activeVerificationOption,
     disabled,
     error,
     onChange,
-    onBlur
+    onBlur,
+    value
 }) => {
 
     return (
         <VerifyOption
             onClick={onClick}
             option='phone'
-            active={active}
+            isActive={activeVerificationOption === 'phone'}
             disabled={disabled}
             error={error}
             translateIdTitle={translateIdTitle}
             translateIdDesc={translateIdDesc}
         >
-            <Translate>
-                {({ translate }) => (
-                    <PhoneInput
-                        placeholder={translate('setupRecovery.phonePlaceholder')}
-                        type='phone'
-                        value=''
-                        disabled={false}
-                        onChange={onChange}
-                        onBlur={onBlur}
-                    />
-                )}
-            </Translate>
+            <PhoneNumberInput
+                translateIdPlaceholder='setupRecovery.phonePlaceholder'
+                onChange={onChange}
+                onBlur={onBlur}
+                value={value}
+                disabled={disabled}
+            />
         </VerifyOption>
     );
 };

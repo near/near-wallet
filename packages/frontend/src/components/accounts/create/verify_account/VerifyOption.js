@@ -3,7 +3,6 @@ import React from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
-import IntFlagIcon from '../../../../images/int-flag-small.svg';
 import classNames from '../../../../utils/classNames';
 import CoinDepositIcon from '../../../svg/CoinDepositIcon';
 import CreditCardIcon from '../../../svg/CreditCardIcon';
@@ -117,52 +116,6 @@ const Container = styled.div`
         margin-top: 20px;
     }
 
-    .react-phone-number-input {
-        position: relative;
-
-        .react-phone-number-input__country {
-            position: absolute;
-            right: 0;
-            z-index: 1;
-            top: 50%;
-            transform: translateY(calc(-50% + 10px));
-        }
-
-        .react-phone-number-input__icon { 
-            &:not(.react-phone-number-input__icon--international) {
-                margin-right: 5px;
-            }
-        }
-
-        .react-phone-number-input__icon--international {
-            svg {
-                display: none;
-            }
-            
-            background-image: url(${IntFlagIcon});
-            background-repeat: no-repeat;
-        }
-
-        .react-phone-number-input__icon {
-            border: 0;
-        }
-
-        .react-phone-number-input__country-select-arrow {
-            width: 8px;
-            height: 8px;
-            border-color: black;
-            border-width: 0 1px 1px 0;
-            transform: rotate(45deg);
-            margin-top: -1px;
-            margin-left: 5px;
-            margin-right: 5px;
-        }
-
-        select {
-            font-size: 16px;
-        }
-    }
-
     &.disabled {
         opacity: 0.3;
         cursor: not-allowed;
@@ -201,19 +154,17 @@ const VerifyOption = ({
     children,
     option,
     onClick,
-    active,
+    isActive,
     disabled,
     error,
     translateIdTitle,
     translateIdDesc
 }) => {
 
-    active = active === option;
-
     return (
         <Container
             onClick={!disabled && onClick}
-            className={classNames([{ active: active && !disabled, disabled, error: error }])}
+            className={classNames([{ active: isActive && !disabled, disabled, error: error }])}
         >
             <Header>
                 <div>
@@ -224,10 +175,10 @@ const VerifyOption = ({
                         <Translate id={translateIdDesc} />
                     </div>
                 </div>
-                <Icon option={option} color={active} />
+                <Icon option={option} color={isActive} />
             </Header>
-            {active && children && <hr />}
-            {!disabled && active && children}
+            {isActive && children && <hr />}
+            {!disabled && isActive && children}
         </Container>
     );
 };
@@ -239,7 +190,7 @@ VerifyOption.propTypes = {
     ]),
     option: PropTypes.string.isRequired,
     onClick: PropTypes.func.isRequired,
-    active: PropTypes.string.isRequired,
+    isActive: PropTypes.bool.isRequired,
     problem: PropTypes.bool
 };
 

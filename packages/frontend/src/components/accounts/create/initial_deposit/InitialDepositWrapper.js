@@ -14,22 +14,23 @@ export function InitialDepositWrapper() {
     const URLParams = new URLSearchParams(location.search);
     const fundingMethod = URLParams.get('fundingMethod');
 
-    if (fundingNeeded) {
+    if (!fundingNeeded) {
         return (
-            <>
-                {fundingMethod === 'creditCard'
-                    ? <FundWithCreditCard
-                        minDeposit={MIN_BALANCE_TO_CREATE}
-                    />
-                    : <FundWithManualDeposit
-                        minDeposit={MIN_BALANCE_TO_CREATE}
-                    />
-                }
-            </>
-        );
-    } else {
-        return (
-            <FundingReceived/>
+            <FundingReceived />
         );
     }
+
+    if (fundingMethod === 'creditCard') {
+        return (
+            <FundWithCreditCard
+                minDeposit={MIN_BALANCE_TO_CREATE}
+            />
+        );
+    }
+
+    return (
+        <FundWithManualDeposit
+            minDeposit={MIN_BALANCE_TO_CREATE}
+        />
+    );
 }

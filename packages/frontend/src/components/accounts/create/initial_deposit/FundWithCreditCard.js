@@ -41,7 +41,7 @@ export default ({
     fundingAddress,
     minDeposit,
     moonpaySignedURL,
-    onClickGoback
+    onClickCancel
 }) => {
     return (
         <>
@@ -60,7 +60,7 @@ export default ({
                     <MoonPayIcon />
                 </FormButton>
                 <FormButton
-                    onClick={onClickGoback}
+                    onClick={onClickCancel}
                     className='link'
                     color='gray'
                 >
