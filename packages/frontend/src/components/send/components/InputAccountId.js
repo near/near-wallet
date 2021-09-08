@@ -214,6 +214,7 @@ class InputAccountId extends Component {
                             autoFocus={autoFocus}
                             onBlur={onBlur}
                             onFocus={onFocus}
+                            data-test-id="sendMoneyPageAccountIdInput"
                         />
                         <span className='success-prefix' ref={this.prefix}>
                             <CheckCircleIcon color='#00C08B' />

@@ -135,7 +135,11 @@ const StyledContainer = styled.div`
 
 const TokenBox = ({ token, onClick }) => {
     return (
-        <StyledContainer className='token-box' onClick={onClick ? () => onClick(token) : null}>
+        <StyledContainer
+            className="token-box"
+            onClick={onClick ? () => onClick(token) : null}
+            data-test-id={`token-selection-${token.contractName || "NEAR"}`}
+        >
             <div className='icon'>
                 <TokenIcon symbol={token.symbol} icon={token.icon}/>
             </div>

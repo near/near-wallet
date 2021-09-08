@@ -70,6 +70,7 @@ const EnterReceiver = ({
                 <FormButton
                     type='submit'
                     disabled={!accountIdIsValid}
+                    data-test-id="sendMoneyPageSubmitAccountIdButton"
                 >
                     <Translate id='button.continue'/>
                 </FormButton>
