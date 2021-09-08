@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { Translate } from 'react-localize-redux';
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
+import { selectOneTransactionByHash } from '../../redux/slices/transactions';
 import { actionsPending } from '../../utils/alerts';
 import classNames from '../../utils/classNames';
 import { EXPLORER_URL } from '../../utils/wallet';
@@ -85,6 +87,7 @@ const StyledContainer = styled.div`
 const Activities = ({ transactions, accountId, getTransactionStatus }) => {
     const [transactionHash, setTransactionHash] = useState();
     const activityLoader = actionsPending(['GET_TRANSACTIONS', 'REFRESH_ACCOUNT_OWNER']);
+    const transaction = useSelector((state) => selectOneTransactionByHash(state, { accountId, hash: transactionHash }));
 
     return (
         <StyledContainer>
@@ -108,7 +111,7 @@ const Activities = ({ transactions, accountId, getTransactionStatus }) => {
                     open={transactionHash}
                     onClose={() => setTransactionHash()}
                     accountId={accountId}
-                    transaction={transactions.find((transaction) => `${transaction.hash}-${transaction.kind}` === transactionHash)}
+                    transaction={transaction}
                     getTransactionStatus={getTransactionStatus}
                 />
             }
