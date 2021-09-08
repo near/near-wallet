@@ -88,11 +88,13 @@ const transactionsSlice = createSlice({
             const { accountId } = meta.arg;
 
             set(state, ['byAccountId', accountId, 'status', 'loading'], true);
+            set(state, ['byAccountId', accountId, 'status', 'error'], '');
         });
         builder.addCase(fetchTransactions.fulfilled, (state,  { meta }) => {
             const { accountId } = meta.arg;
 
             set(state, ['byAccountId', accountId, 'status', 'loading'], false);
+            set(state, ['byAccountId', accountId, 'status', 'error'], '');
         });
         builder.addCase(fetchTransactions.rejected, (state, { meta, error }) => {
             const { accountId } = meta.arg;
