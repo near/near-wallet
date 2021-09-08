@@ -188,7 +188,7 @@ class Wallet {
         } catch (error) {
             console.log('Error loading account:', error.message);
 
-            if (error.toString().indexOf(`ccount ${this.accountId} does not exist while viewing`) !== -1) {
+            if (error.toString().indexOf(`account ${this.accountId} does not exist while viewing`) !== -1) {
                 const accountId = this.accountId;
                 const accountIdNotConfirmed = !getAccountConfirmed(accountId);
 
