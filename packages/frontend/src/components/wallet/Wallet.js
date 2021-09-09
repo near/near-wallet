@@ -4,13 +4,11 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Textfit } from 'react-textfit';
 import styled from 'styled-components';
 
-import { getTransactions, getTransactionStatus } from '../../actions/transactions';
 import { useFungibleTokensIncludingNEAR } from '../../hooks/fungibleTokensIncludingNEAR';
 import { Mixpanel } from "../../mixpanel/index";
 import { selectAccountId, selectBalance } from '../../reducers/account';
 import { selectTokensWithMetadataForAccountId, actions as nftActions } from '../../redux/slices/nft';
 import { actions as tokensActions, selectTokensLoading } from '../../redux/slices/tokens';
-import { selectTransactionsByAccountId } from '../../redux/slices/transactions';
 import { selectLinkdropAmount, actions as linkdropActions } from '../../slices/linkdrop';
 import classNames from '../../utils/classNames';
 import { SHOW_NETWORK_BANNER } from '../../utils/wallet';

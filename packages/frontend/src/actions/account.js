@@ -24,8 +24,7 @@ import { handleFlowLimitation, handleClearflowLimitation } from './flowLimitatio
 import {
     handleStakingUpdateAccount,
     handleStakingUpdateLockup,
-    handleGetLockup,
-    staking
+    handleGetLockup
 } from './staking';
 
 export const loadRecoveryMethods = createAction('LOAD_RECOVERY_METHODS',
