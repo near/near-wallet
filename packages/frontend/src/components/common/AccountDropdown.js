@@ -61,7 +61,6 @@ export default function AccountDropdown({ disabled }) {
     const { accountId } = useSelector(({ account }) => account);
     const availAccounts = useSelector(({ availableAccounts }) => availableAccounts);
     const singleAccount = availAccounts.length < 2;
-    
     return (
         <Container className={classNames(['account-dropdown-container'])}>
             <div className='account-dropdown-title'>

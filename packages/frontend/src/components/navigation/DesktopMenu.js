@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from "react";
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
@@ -38,12 +38,30 @@ const DesktopMenu = ({
     getBalance,
     isInactiveAccount
 }) => {
+    const [filteredAvailableAccounts, setFilteredAvailableAccounts] = useState(
+        accounts
+    );
+    const [currentFilter, setCurrentFilter] = useState("");
+
+    useEffect(() => {
+        if (accounts.length > 0) {
+            setFilteredAvailableAccounts(accounts);
+        }
+    }, [accounts]);
+
+    useEffect(() => {
+        setFilteredAvailableAccounts(
+            accounts.filter(
+                (f) => f.includes(currentFilter) || currentFilter === ""
+            )
+        );
+    }, [currentFilter]);
     if (show) {
         return (
             <Menu id='desktop-menu'>
                 <h6><Translate id='link.switchAccount'/></h6>
                 <UserAccounts
-                    accounts={accounts}
+                    accounts={filteredAvailableAccounts}
                     accountId={accountId}
                     accountIdLocalStorage={accountIdLocalStorage}
                     handleSelectAccount={handleSelectAccount}
@@ -51,6 +69,16 @@ const DesktopMenu = ({
                     balance={balance}
                     refreshBalance={refreshBalance}
                     getBalance={getBalance}
+                />
+                <input
+                    id="filter"
+                    name="filter"
+                    type="text"
+                    placeholder={'Search For Accounts'}
+                    value={currentFilter}
+                    onChange={(event) =>
+                        setCurrentFilter(event.target.value)
+                    }
                 />
                 <AccessAccountBtn/>
                 {!isInactiveAccount &&
