@@ -5,6 +5,7 @@ import { PublicKey, KeyType } from 'near-api-js/lib/utils/key_pair';
 import { parse, stringify } from 'query-string';
 import { createActions, createAction } from 'redux-actions';
 
+import { actions as flowLimitationActions } from '../redux/slices/flowLimitation';
 import { showAlert, dispatchWithAlert } from '../utils/alerts';
 import { loadState, saveState, clearState } from '../utils/sessionStorage';
 import { TwoFactor } from '../utils/twoFactor';
@@ -20,12 +21,13 @@ import {
     MULTISIG_MIN_PROMPT_AMOUNT
 } from '../utils/wallet';
 import { WalletError } from '../utils/walletError';
-import { handleFlowLimitation, handleClearflowLimitation } from './flowLimitation';
 import {
     handleStakingUpdateAccount,
     handleStakingUpdateLockup,
     handleGetLockup
 } from './staking';
+
+const { handleFlowLimitation, handleClearflowLimitation } = flowLimitationActions;
 
 export const loadRecoveryMethods = createAction('LOAD_RECOVERY_METHODS',
     wallet.getRecoveryMethods.bind(wallet),
