@@ -15,7 +15,7 @@ import {
     loadRecoveryMethods
 } from '../../redux/actions/account';
 import { clearGlobalAlert, showCustomAlert } from '../../redux/actions/status';
-import { actions as linkdropActions } from '../../slices/linkdrop';
+import { actions as linkdropActions } from '../../redux/slices/linkdrop';
 import copyText from '../../utils/copyText';
 import isMobile from '../../utils/isMobile';
 import parseFundingOptions from '../../utils/parseFundingOptions';

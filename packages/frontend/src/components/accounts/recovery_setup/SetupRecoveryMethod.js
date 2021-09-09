@@ -9,7 +9,7 @@ import styled from 'styled-components';
 import { Mixpanel } from '../../../mixpanel/index';
 import * as accountActions from '../../../redux/actions/account';
 import { showCustomAlert } from '../../../redux/actions/status';
-import { actions as linkdropActions } from '../../../slices/linkdrop';
+import { actions as linkdropActions } from '../../../redux/slices/linkdrop';
 import { validateEmail } from '../../../utils/account';
 import { actionsPending } from '../../../utils/alerts';
 import isApprovedCountryCode from '../../../utils/isApprovedCountryCode';

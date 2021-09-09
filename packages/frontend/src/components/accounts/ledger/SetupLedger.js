@@ -14,7 +14,7 @@ import {
     getLedgerPublicKey
 } from '../../../redux/actions/account';
 import { showCustomAlert } from '../../../redux/actions/status';
-import { actions as linkdropActions } from '../../../slices/linkdrop';
+import { actions as linkdropActions } from '../../../redux/slices/linkdrop';
 import parseFundingOptions from '../../../utils/parseFundingOptions';
 import { DISABLE_CREATE_ACCOUNT, setKeyMeta } from '../../../utils/wallet';
 import FormButton from '../../common/FormButton';
