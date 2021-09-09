@@ -19,10 +19,10 @@ import {
     getAccountBalance,
     setAccountBalance,
     getAccountHelperWalletState
-} from '../../redux/actions/account';
+} from '../../actions/account';
 import {
     staking
-} from '../../redux/actions/staking';
+} from '../../actions/staking';
 
 const initialState = {
     formLoader: false,

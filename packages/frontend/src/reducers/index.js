@@ -2,6 +2,7 @@ import { connectRouter } from 'connected-react-router';
 import { localizeReducer } from 'react-localize-redux';
 import { combineReducers } from 'redux';
 
+import account from '../redux/reducers/account';
 import allAccounts from '../redux/reducers/allAccounts';
 import availableAccounts from '../redux/reducers/available-accounts';
 import ledger from '../redux/reducers/ledger';
@@ -15,7 +16,6 @@ import tokensSlice from '../redux/slices/tokens';
 import transactionsSlice from '../redux/slices/transactions';
 import linkdropSlice from '../slices/linkdrop';
 import tokenFiatValuesSlice from '../slices/tokenFiatValues';
-import account from './account';
 
 export default (history) => combineReducers({
     localize: localizeReducer,
