@@ -4,6 +4,7 @@ import { combineReducers } from 'redux';
 
 import allAccounts from '../redux/reducers/allAccounts';
 import availableAccounts from '../redux/reducers/available-accounts';
+import ledger from '../redux/reducers/ledger';
 import recoveryMethods from '../redux/reducers/recoveryMethods';
 import sign from '../redux/reducers/sign';
 import staking from '../redux/reducers/staking';
@@ -15,7 +16,6 @@ import transactionsSlice from '../redux/slices/transactions';
 import linkdropSlice from '../slices/linkdrop';
 import tokenFiatValuesSlice from '../slices/tokenFiatValues';
 import account from './account';
-import ledger from './ledger';
 
 export default (history) => combineReducers({
     localize: localizeReducer,
