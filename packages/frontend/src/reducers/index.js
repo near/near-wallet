@@ -3,7 +3,8 @@ import { localizeReducer } from 'react-localize-redux';
 import { combineReducers } from 'redux';
 
 import allAccounts from '../reducers/allAccounts';
-import recoveryMethods from '../reducers/recoveryMethods';
+import availableAccounts from '../redux/reducers/available-accounts';
+import recoveryMethods from '../redux/reducers/recoveryMethods';
 import sign from '../redux/reducers/sign';
 import flowLimitationSlice from '../redux/slices/flowLimitation';
 import nftSlice from '../redux/slices/nft';
@@ -12,7 +13,6 @@ import transactionsSlice from '../redux/slices/transactions';
 import linkdropSlice from '../slices/linkdrop';
 import tokenFiatValuesSlice from '../slices/tokenFiatValues';
 import account from './account';
-import availableAccounts from './available-accounts';
 import ledger from './ledger';
 import staking from './staking';
 import status from './status';
