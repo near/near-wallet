@@ -6,7 +6,7 @@ import {
     clearLocalAlert,
     clearGlobalAlert,
     setMainLoader
-} from '../../actions/status';
+} from '../../redux/actions/status';
 
 
 const initialState = {

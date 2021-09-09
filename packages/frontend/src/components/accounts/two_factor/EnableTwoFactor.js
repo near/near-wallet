@@ -11,9 +11,9 @@ import {
     deployMultisig,
     redirectToApp
 } from '../../../actions/account';
-import { clearGlobalAlert } from '../../../actions/status';
 import { useRecoveryMethods } from '../../../hooks/recoveryMethods';
 import { Mixpanel } from '../../../mixpanel/index';
+import { clearGlobalAlert } from '../../../redux/actions/status';
 import { selectNearTokenFiatValueUSD } from '../../../slices/tokenFiatValues';
 import { validateEmail } from '../../../utils/account';
 import { actionsPending } from '../../../utils/alerts';

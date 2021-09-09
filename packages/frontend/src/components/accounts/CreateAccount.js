@@ -5,8 +5,8 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { checkNewAccount, createNewAccount, refreshAccount, checkNearDropBalance, redirectTo } from '../../actions/account';
-import { clearLocalAlert } from '../../actions/status';
 import { Mixpanel } from '../../mixpanel/index';
+import { clearLocalAlert } from '../../redux/actions/status';
 import { selectNearTokenFiatValueUSD } from '../../slices/tokenFiatValues';
 import isMobile from '../../utils/isMobile';
 import { ACCOUNT_ID_SUFFIX, MIN_BALANCE_TO_CREATE, IS_MAINNET } from '../../utils/wallet';

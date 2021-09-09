@@ -12,8 +12,8 @@ import {
     fundCreateAccountLedger,
     getLedgerPublicKey
 } from '../../../actions/account';
-import { showCustomAlert } from '../../../actions/status';
 import { Mixpanel } from '../../../mixpanel/index';
+import { showCustomAlert } from '../../../redux/actions/status';
 import { actions as linkdropActions } from '../../../slices/linkdrop';
 import parseFundingOptions from '../../../utils/parseFundingOptions';
 import { DISABLE_CREATE_ACCOUNT, setKeyMeta } from '../../../utils/wallet';

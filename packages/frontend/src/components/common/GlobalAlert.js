@@ -3,9 +3,9 @@ import { Translate } from 'react-localize-redux';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 
-import { clearGlobalAlert } from '../../actions/status';
 import IconCheckCircleImage from '../../images/icon-check-circle.svg';
 import IconsAlertCircleImage from '../../images/icon_alert-circle.svg';
+import { clearGlobalAlert } from '../../redux/actions/status';
 
 
 

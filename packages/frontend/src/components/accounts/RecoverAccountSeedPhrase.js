@@ -12,8 +12,8 @@ import {
     refreshAccount,
     clearAccountState
 } from '../../actions/account';
-import { clearLocalAlert } from '../../actions/status';
 import { Mixpanel } from '../../mixpanel/index';
+import { clearLocalAlert } from '../../redux/actions/status';
 import parseFundingOptions from '../../utils/parseFundingOptions';
 import Container from '../common/styled/Container.css';
 import RecoverAccountSeedPhraseForm from './RecoverAccountSeedPhraseForm';

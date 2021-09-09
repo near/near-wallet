@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import { withRouter, Route } from 'react-router-dom';
 
 import { handleRefreshUrl, switchAccount, allowLogin, redirectToApp } from '../../actions/account';
-import { clearLocalAlert } from '../../actions/status';
 import { Mixpanel } from '../../mixpanel/index';
+import { clearLocalAlert } from '../../redux/actions/status';
 import { LOCKUP_ACCOUNT_ID_SUFFIX } from '../../utils/wallet';
 import LoginConfirm from './LoginConfirm';
 import LoginContainer from './LoginContainer';

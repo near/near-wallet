@@ -7,8 +7,8 @@ import { connect } from 'react-redux';
 import styled from 'styled-components';
 
 import * as accountActions from '../../../actions/account';
-import { showCustomAlert } from '../../../actions/status';
 import { Mixpanel } from '../../../mixpanel/index';
+import { showCustomAlert } from '../../../redux/actions/status';
 import { actions as linkdropActions } from '../../../slices/linkdrop';
 import { validateEmail } from '../../../utils/account';
 import { actionsPending } from '../../../utils/alerts';

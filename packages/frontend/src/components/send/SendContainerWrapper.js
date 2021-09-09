@@ -4,9 +4,9 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { checkAccountAvailable, redirectTo } from '../../actions/account';
 import { checkAndHideLedgerModal } from '../../actions/account';
-import { clearLocalAlert, showCustomAlert } from '../../actions/status';
 import { useFungibleTokensIncludingNEAR } from '../../hooks/fungibleTokensIncludingNEAR';
 import { Mixpanel } from '../../mixpanel/index';
+import { clearLocalAlert, showCustomAlert } from '../../redux/actions/status';
 import { actions as tokensActions } from '../../redux/slices/tokens';
 import { fungibleTokensService } from '../../services/FungibleTokens';
 import { selectNearTokenFiatValueUSD } from '../../slices/tokenFiatValues';

@@ -12,8 +12,8 @@ import {
     clearSignInWithLedgerModalState,
     clearAccountState
 } from '../../../actions/account';
-import { clearLocalAlert } from '../../../actions/status';
 import { Mixpanel } from '../../../mixpanel/index';
+import { clearLocalAlert } from '../../../redux/actions/status';
 import { controller as controllerHelperApi } from '../../../utils/helper-api';
 import parseFundingOptions from '../../../utils/parseFundingOptions';
 import FormButton from '../../common/FormButton';

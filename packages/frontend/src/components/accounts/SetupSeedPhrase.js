@@ -13,8 +13,8 @@ import {
     fundCreateAccount,
     loadRecoveryMethods
 } from '../../actions/account';
-import { clearGlobalAlert, showCustomAlert } from '../../actions/status';
 import { Mixpanel } from '../../mixpanel/index';
+import { clearGlobalAlert, showCustomAlert } from '../../redux/actions/status';
 import { actions as linkdropActions } from '../../slices/linkdrop';
 import copyText from '../../utils/copyText';
 import isMobile from '../../utils/isMobile';

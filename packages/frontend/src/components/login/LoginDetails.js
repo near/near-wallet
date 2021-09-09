@@ -5,8 +5,8 @@ import { withRouter, Link } from 'react-router-dom';
 import { Grid } from 'semantic-ui-react';
 import styled from 'styled-components';
 
-import { showCustomAlert } from '../../actions/status';
 import IconArrowLeft from '../../images/IconArrowLeft';
+import { showCustomAlert } from '../../redux/actions/status';
 import { EXPLORER_URL } from '../../utils/wallet';
 
 const CustomGrid = styled(Grid)`
