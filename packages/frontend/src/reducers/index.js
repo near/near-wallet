@@ -4,10 +4,10 @@ import { combineReducers } from 'redux';
 
 import allAccounts from '../reducers/allAccounts';
 import recoveryMethods from '../reducers/recoveryMethods';
+import flowLimitationSlice from '../redux/slices/flowLimitation';
 import nftSlice from '../redux/slices/nft';
 import tokensSlice from '../redux/slices/tokens';
 import transactionsSlice from '../redux/slices/transactions';
-import flowLimitationSlice from '../redux/slices/flowLimitation';
 import linkdropSlice from '../slices/linkdrop';
 import tokenFiatValuesSlice from '../slices/tokenFiatValues';
 import account from './account';
