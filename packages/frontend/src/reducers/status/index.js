@@ -1,7 +1,7 @@
 import reduceReducers from 'reduce-reducers';
 import { handleActions } from 'redux-actions';
 
-import { makeAccountActive } from '../../actions/account';
+import { makeAccountActive } from '../../redux/actions/account';
 import {
     clearLocalAlert,
     clearGlobalAlert,

@@ -4,13 +4,13 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 
+import { Mixpanel } from '../../mixpanel/index';
 import { 
     recoverAccountSeedPhrase,
     refreshAccount,
     redirectTo,
     clearAccountState
-} from '../../actions/account';
-import { Mixpanel } from '../../mixpanel/index';
+} from '../../redux/actions/account';
 import { actionsPending } from '../../utils/alerts';
 import copyText from '../../utils/copyText';
 import isMobile from '../../utils/isMobile';

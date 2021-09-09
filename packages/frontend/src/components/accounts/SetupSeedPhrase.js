@@ -5,6 +5,7 @@ import { Translate } from 'react-localize-redux';
 import { connect } from 'react-redux';
 import { withRouter, Route } from 'react-router-dom';
 
+import { Mixpanel } from '../../mixpanel/index';
 import {
     handleAddAccessKeySeedPhrase,
     refreshAccount,
@@ -12,8 +13,7 @@ import {
     handleCreateAccountWithSeedPhrase,
     fundCreateAccount,
     loadRecoveryMethods
-} from '../../actions/account';
-import { Mixpanel } from '../../mixpanel/index';
+} from '../../redux/actions/account';
 import { clearGlobalAlert, showCustomAlert } from '../../redux/actions/status';
 import { actions as linkdropActions } from '../../slices/linkdrop';
 import copyText from '../../utils/copyText';

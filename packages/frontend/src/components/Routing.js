@@ -7,9 +7,9 @@ import { connect } from 'react-redux';
 import { Redirect, Switch } from 'react-router-dom';
 import styled, { ThemeProvider } from 'styled-components';
 
-import * as accountActions from '../actions/account';
 import TwoFactorVerifyModal from '../components/accounts/two_factor/TwoFactorVerifyModal';
 import { Mixpanel } from "../mixpanel/index";
+import * as accountActions from '../redux/actions/account';
 import { actions as tokenFiatValueActions } from '../slices/tokenFiatValues';
 import translations_en from '../translations/en.global.json';
 import translations_pt from '../translations/pt.global.json';

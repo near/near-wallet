@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { redirectTo } from '../../../actions/account';
+import { redirectTo } from '../../../redux/actions/account';
 import { SHOW_NETWORK_BANNER } from '../../../utils/wallet';
 
 const StyledContainer = styled.div`

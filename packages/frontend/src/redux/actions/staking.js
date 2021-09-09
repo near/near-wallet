@@ -2,8 +2,8 @@ import BN from 'bn.js';
 import * as nearApiJs from 'near-api-js';
 import { createActions } from 'redux-actions';
 
-import { getLockupAccountId } from '../utils/account-with-lockup';
-import { showAlert } from '../utils/alerts';
+import { getLockupAccountId } from '../../utils/account-with-lockup';
+import { showAlert } from '../../utils/alerts';
 import { 
     STAKING_AMOUNT_DEVIATION,
     MIN_DISPLAY_YOCTO,
@@ -18,9 +18,9 @@ import {
     signAndSendTransaction,
     stakingMethods,
     shuffle
-} from '../utils/staking';
-import { ACCOUNT_HELPER_URL, wallet } from '../utils/wallet';
-import { WalletError } from '../utils/walletError';
+} from '../../utils/staking';
+import { ACCOUNT_HELPER_URL, wallet } from '../../utils/wallet';
+import { WalletError } from '../../utils/walletError';
 import { getBalance } from './account';
 
 const {

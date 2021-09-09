@@ -2,10 +2,10 @@ import { utils } from 'near-api-js';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { checkAccountAvailable, redirectTo } from '../../actions/account';
-import { checkAndHideLedgerModal } from '../../actions/account';
 import { useFungibleTokensIncludingNEAR } from '../../hooks/fungibleTokensIncludingNEAR';
 import { Mixpanel } from '../../mixpanel/index';
+import { checkAccountAvailable, redirectTo } from '../../redux/actions/account';
+import { checkAndHideLedgerModal } from '../../redux/actions/account';
 import { clearLocalAlert, showCustomAlert } from '../../redux/actions/status';
 import { actions as tokensActions } from '../../redux/slices/tokens';
 import { fungibleTokensService } from '../../services/FungibleTokens';

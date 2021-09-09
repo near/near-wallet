@@ -3,7 +3,7 @@ import { Translate } from 'react-localize-redux';
 import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
-import { redirectToApp } from '../../actions/account';
+import { redirectToApp } from '../../redux/actions/account';
 import FormButton from '../common/FormButton';
 import Container from '../common/styled/Container.css';
 import StarIcon from '../svg/StarIcon.js';

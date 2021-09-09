@@ -3,7 +3,7 @@ import { Translate } from 'react-localize-redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
-import { getAccessKeys, removeAccessKey } from '../../actions/account';
+import { getAccessKeys, removeAccessKey } from '../../redux/actions/account';
 import PageContainer from '../common/PageContainer';
 import KeyListItem from '../dashboard/KeyListItem';
 import PaginationBlock from '../pagination/PaginationBlock';

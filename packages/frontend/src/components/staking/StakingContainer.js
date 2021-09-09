@@ -4,13 +4,13 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Switch, Route } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { getBalance } from '../../actions/account';
+import { Mixpanel } from '../../mixpanel/index';
+import { getBalance } from '../../redux/actions/account';
 import {
     updateStaking,
     staking as stakingActions,
     handleStakingAction
-} from '../../actions/staking';
-import { Mixpanel } from '../../mixpanel/index';
+} from '../../redux/actions/staking';
 import { selectNearTokenFiatValueUSD } from '../../slices/tokenFiatValues';
 import { setStakingAccountSelected, getStakingAccountSelected } from '../../utils/localStorage';
 import Container from '../common/styled/Container.css';

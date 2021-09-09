@@ -5,14 +5,14 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 
+import { Mixpanel } from '../../mixpanel/index';
 import {
     recoverAccountSeedPhrase,
     redirectToApp,
     redirectTo,
     refreshAccount,
     clearAccountState
-} from '../../actions/account';
-import { Mixpanel } from '../../mixpanel/index';
+} from '../../redux/actions/account';
 import { clearLocalAlert } from '../../redux/actions/status';
 import parseFundingOptions from '../../utils/parseFundingOptions';
 import Container from '../common/styled/Container.css';

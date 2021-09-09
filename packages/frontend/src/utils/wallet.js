@@ -14,7 +14,7 @@ import {
     redirectTo,
     finishAccountSetup,
     makeAccountActive
-} from '../actions/account';
+} from '../redux/actions/account';
 import sendJson from '../tmp_fetch_send_json';
 import { decorateWithLockup } from './account-with-lockup';
 import { getAccountIds } from './helper-api';

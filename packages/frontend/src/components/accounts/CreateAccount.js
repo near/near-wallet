@@ -4,8 +4,8 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { checkNewAccount, createNewAccount, refreshAccount, checkNearDropBalance, redirectTo } from '../../actions/account';
 import { Mixpanel } from '../../mixpanel/index';
+import { checkNewAccount, createNewAccount, refreshAccount, checkNearDropBalance, redirectTo } from '../../redux/actions/account';
 import { clearLocalAlert } from '../../redux/actions/status';
 import { selectNearTokenFiatValueUSD } from '../../slices/tokenFiatValues';
 import isMobile from '../../utils/isMobile';

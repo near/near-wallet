@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { disableMultisig, loadRecoveryMethods } from '../../../actions/account';
+import { disableMultisig, loadRecoveryMethods } from '../../../redux/actions/account';
 import { selectNearTokenFiatValueUSD } from '../../../slices/tokenFiatValues';
 import { actionsPending } from '../../../utils/alerts';
 import { MULTISIG_MIN_AMOUNT } from '../../../utils/wallet';

@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { Translate } from 'react-localize-redux';
 import { useDispatch } from 'react-redux';
 
-import { redirectTo } from '../../../actions/account';
 import { Mixpanel } from '../../../mixpanel';
+import { redirectTo } from '../../../redux/actions/account';
 import { actionsPending } from '../../../utils/alerts';
 import FormButton from '../../common/FormButton';
 import AlertBanner from './AlertBanner';

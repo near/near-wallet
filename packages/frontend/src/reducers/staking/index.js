@@ -1,8 +1,8 @@
 import reduceReducers from 'reduce-reducers';
 import { handleActions } from 'redux-actions';
 
-import { clearAccountState } from '../../actions/account';
-import { staking } from '../../actions/staking';
+import { clearAccountState } from '../../redux/actions/account';
+import { staking } from '../../redux/actions/staking';
 import { ACCOUNT_DEFAULTS } from '../../utils/staking';
 
 // sample validator entry

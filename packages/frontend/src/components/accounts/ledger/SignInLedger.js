@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Translate } from 'react-localize-redux';
 import { useSelector, useDispatch } from 'react-redux';
 
+import { Mixpanel } from '../../../mixpanel/index';
 import { 
     signInWithLedger, 
     redirectToApp,
@@ -11,8 +12,7 @@ import {
     checkAccountAvailable, 
     clearSignInWithLedgerModalState,
     clearAccountState
-} from '../../../actions/account';
-import { Mixpanel } from '../../../mixpanel/index';
+} from '../../../redux/actions/account';
 import { clearLocalAlert } from '../../../redux/actions/status';
 import { controller as controllerHelperApi } from '../../../utils/helper-api';
 import parseFundingOptions from '../../../utils/parseFundingOptions';

@@ -5,14 +5,14 @@ import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input';
 import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
+import { useRecoveryMethods } from '../../../hooks/recoveryMethods';
+import { Mixpanel } from '../../../mixpanel/index';
 import {
     initTwoFactor,
     verifyTwoFactor,
     deployMultisig,
     redirectToApp
-} from '../../../actions/account';
-import { useRecoveryMethods } from '../../../hooks/recoveryMethods';
-import { Mixpanel } from '../../../mixpanel/index';
+} from '../../../redux/actions/account';
 import { clearGlobalAlert } from '../../../redux/actions/status';
 import { selectNearTokenFiatValueUSD } from '../../../slices/tokenFiatValues';
 import { validateEmail } from '../../../utils/account';

@@ -5,6 +5,9 @@ import { Translate } from 'react-localize-redux';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 
+import { useAccount } from '../../hooks/allAccounts';
+import { Mixpanel } from "../../mixpanel/index";
+import { selectProfileBalance } from '../../reducers/selectors/balance';
 import {
     getLedgerKey,
     checkCanEnableTwoFactor,
@@ -14,10 +17,7 @@ import {
     loadRecoveryMethods,
     getProfileStakingDetails,
     getBalance
-} from '../../actions/account';
-import { useAccount } from '../../hooks/allAccounts';
-import { Mixpanel } from "../../mixpanel/index";
-import { selectProfileBalance } from '../../reducers/selectors/balance';
+} from '../../redux/actions/account';
 import { selectNearTokenFiatValueUSD } from '../../slices/tokenFiatValues';
 import isMobile from '../../utils/isMobile';
 import { IS_MAINNET, MIN_BALANCE_FOR_GAS } from '../../utils/wallet';

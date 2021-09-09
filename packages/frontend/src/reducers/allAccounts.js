@@ -1,8 +1,8 @@
 import reduceReducers from 'reduce-reducers';
 import { handleActions } from 'redux-actions';
 
-import { refreshAccountExternal } from '../actions/account';
-import { staking } from '../actions/staking';
+import { refreshAccountExternal } from '../redux/actions/account';
+import { staking } from '../redux/actions/staking';
 
 const initialState = {};
 

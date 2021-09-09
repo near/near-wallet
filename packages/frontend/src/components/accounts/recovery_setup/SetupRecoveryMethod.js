@@ -6,8 +6,8 @@ import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 
-import * as accountActions from '../../../actions/account';
 import { Mixpanel } from '../../../mixpanel/index';
+import * as accountActions from '../../../redux/actions/account';
 import { showCustomAlert } from '../../../redux/actions/status';
 import { actions as linkdropActions } from '../../../slices/linkdrop';
 import { validateEmail } from '../../../utils/account';

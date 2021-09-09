@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Translate } from 'react-localize-redux';
 import { connect } from 'react-redux';
 
+import { Mixpanel } from '../../../mixpanel/index';
 import {
     addLedgerAccessKey,
     createNewAccount,
@@ -11,8 +12,7 @@ import {
     checkIsNew,
     fundCreateAccountLedger,
     getLedgerPublicKey
-} from '../../../actions/account';
-import { Mixpanel } from '../../../mixpanel/index';
+} from '../../../redux/actions/account';
 import { showCustomAlert } from '../../../redux/actions/status';
 import { actions as linkdropActions } from '../../../slices/linkdrop';
 import parseFundingOptions from '../../../utils/parseFundingOptions';

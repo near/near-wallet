@@ -3,8 +3,8 @@ import { Translate } from 'react-localize-redux';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
-import { redirectTo } from '../../../actions/account';
 import { Mixpanel } from '../../../mixpanel/index';
+import { redirectTo } from '../../../redux/actions/account';
 import Balance from '../../common/balance/Balance';
 import FormButton from '../../common/FormButton';
 import ChevronIcon from '../../svg/ChevronIcon';

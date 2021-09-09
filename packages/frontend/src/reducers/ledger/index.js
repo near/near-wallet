@@ -10,7 +10,7 @@ import {
     clearSignInWithLedgerModalState,
     showLedgerModal,
     hideLedgerModal
-} from '../../actions/account';
+} from '../../redux/actions/account';
 import { HIDE_SIGN_IN_WITH_LEDGER_ENTER_ACCOUNT_ID_MODAL } from '../../utils/wallet';
 
 const initialState = {

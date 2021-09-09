@@ -3,11 +3,11 @@ import { useSelector, useDispatch } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 
+import { Mixpanel } from '../../../mixpanel/index';
 import {
     deleteRecoveryMethod,
     loadRecoveryMethods
-} from '../../../actions/account';
-import { Mixpanel } from '../../../mixpanel/index';
+} from '../../../redux/actions/account';
 import { actionsPending } from '../../../utils/alerts';
 import SkeletonLoading from '../../common/SkeletonLoading';
 import RecoveryMethod from './RecoveryMethod';
