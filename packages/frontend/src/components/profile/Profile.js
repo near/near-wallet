@@ -7,7 +7,6 @@ import styled from 'styled-components';
 
 import { useAccount } from '../../hooks/allAccounts';
 import { Mixpanel } from "../../mixpanel/index";
-import { selectProfileBalance } from '../../reducers/selectors/balance';
 import {
     getLedgerKey,
     checkCanEnableTwoFactor,
@@ -18,6 +17,7 @@ import {
     getProfileStakingDetails,
     getBalance
 } from '../../redux/actions/account';
+import { selectProfileBalance } from '../../redux/reducers/selectors/balance';
 import { selectNearTokenFiatValueUSD } from '../../slices/tokenFiatValues';
 import isMobile from '../../utils/isMobile';
 import { IS_MAINNET, MIN_BALANCE_FOR_GAS } from '../../utils/wallet';
