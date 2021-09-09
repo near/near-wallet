@@ -4,13 +4,12 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Textfit } from 'react-textfit';
 import styled from 'styled-components';
 
-import { handleGetTokens } from '../../actions/tokens';
 import { useFungibleTokensIncludingNEAR } from '../../hooks/fungibleTokensIncludingNEAR';
 import { Mixpanel } from "../../mixpanel/index";
 import { selectAccountId, selectBalance } from '../../reducers/account';
 import { selectTokensWithMetadataForAccountId, actions as nftActions } from '../../redux/slices/nft';
+import { actions as tokensActions, selectTokensLoading } from '../../redux/slices/tokens';
 import { selectLinkdropAmount, actions as linkdropActions } from '../../slices/linkdrop';
-import { actionsPendingByPrefix } from '../../utils/alerts';
 import classNames from '../../utils/classNames';
 import { SHOW_NETWORK_BANNER } from '../../utils/wallet';
 import Balance from '../common/balance/Balance';
@@ -27,6 +26,7 @@ import NFTs from './NFTs';
 import Tokens from './Tokens';
 
 const { fetchNFTs } = nftActions;
+const { fetchTokens } = tokensActions;
 const { setLinkdropAmount } = linkdropActions;
 
 const StyledContainer = styled(Container)`
@@ -264,7 +264,7 @@ export function Wallet({ tab, setTab }) {
     const hideExploreApps = localStorage.getItem('hideExploreApps');
     const linkdropAmount = useSelector(selectLinkdropAmount);
     const fungibleTokensList = useFungibleTokensIncludingNEAR();
-    const tokensLoader = actionsPendingByPrefix('TOKENS/') || !balance?.total;
+    const tokensLoader = useSelector((state) => selectTokensLoading(state, { accountId })) || !balance?.total;
 
     useEffect(() => {
         if (accountId) {
@@ -281,8 +281,8 @@ export function Wallet({ tab, setTab }) {
             return;
         }
 
-        dispatch(handleGetTokens());
         dispatch(fetchNFTs({ accountId }));
+        dispatch(fetchTokens({ accountId }));
     }, [accountId]);
 
     const handleHideExploreApps = () => {

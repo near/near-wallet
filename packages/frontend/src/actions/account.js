@@ -24,10 +24,8 @@ import { handleFlowLimitation, handleClearflowLimitation } from './flowLimitatio
 import {
     handleStakingUpdateAccount,
     handleStakingUpdateLockup,
-    handleGetLockup,
-    staking
+    handleGetLockup
 } from './staking';
-import { tokens } from './tokens';
 
 export const loadRecoveryMethods = createAction('LOAD_RECOVERY_METHODS',
     wallet.getRecoveryMethods.bind(wallet),
