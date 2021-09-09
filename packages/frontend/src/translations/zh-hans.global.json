@@ -241,6 +241,25 @@
         }
     },
 
+    "initialDeposit": {
+        "creditCard": {
+            "title": "Fund your new account using a credit card.",
+            "desc": "Complete your purchase of <b>at least ${amount} NEAR</b> through MoonPay. MoonPay will automatically deposit your funds into your new account."
+        },
+        "manualDeposit": {
+            "title": "Submit a manual deposit.",
+            "desc": "Meet the minimum initial deposit by sending <b>at least ${amount} NEAR</b> to the single-use funding address below."
+        },
+        "claimAccount": {
+            "title": "Claim Your Account",
+            "desc": "Your deposit was received! Once claimed, your deposit will be transferred to your new account.",
+            "disclaimer": {
+                "desc": "Important: The old single-use funding address will no longer be valid. Make sure to replace it with your new address on any exchanges or other devices where it may have been saved.",
+                "checkBox": "Agree & Continue"
+            }
+        }
+    },
+
     "dashboardActivity": {
         "title": {
             "CreateAccount": "新账户已创建",
@@ -769,8 +788,10 @@
         "balanceTitle": "NEAR 余额",
         "totalBalanceTitle": "NEAR 总余额",
         "tokens": "通证",
+        "yourPortfolio": "你的通证组合",
         "balance": "余额",
-        "totalBalance": "余额",
+        "totalBalance": "总余额",
+        "tokenBalance": "通证余额",
         "dateAndTime": "日期和时间",
         "status": "状态",
         "balances": "余额",

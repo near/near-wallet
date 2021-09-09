@@ -4,6 +4,7 @@ import update from 'lodash.update';
 import { createSelector } from 'reselect';
 
 import NonFungibleTokens, { TOKENS_PER_PAGE } from '../../../services/NonFungibleTokens';
+import createParameterSelector from '../../createParameterSelector';
 
 const { getLikelyTokenContracts, getMetadata, getTokens } = NonFungibleTokens;
 
@@ -139,12 +140,6 @@ export const actions = {
     ...nftSlice.actions
 };
 export const reducer = nftSlice.reducer;
-
-// A helper function to create the parameter selectors
-// Ref: https://flufd.github.io/reselect-with-multiple-parameters/
-function createParameterSelector(selector) {
-    return (_, params) => selector(params);
-}
 
 const getAccountIdParam = createParameterSelector((params) => params.accountId);
 

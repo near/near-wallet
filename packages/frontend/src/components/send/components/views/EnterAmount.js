@@ -93,6 +93,7 @@ const EnterAmount = ({
                 <FormButton
                     type='submit'
                     disabled={!continueAllowed}
+                    data-test-id="sendMoneyPageSubmitAmountButton"
                 >
                     <Translate id='button.continue'/>
                 </FormButton>

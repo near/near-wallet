@@ -27,7 +27,10 @@ const Success = ({
     return (
         <StyledContainer className='buttons-bottom'>
             <AvatarSuccessIcon/>
-            <div className='header'>
+            <div
+                className="header"
+                data-test-id="sendTransactionSuccessMessage"
+            >
                 <Translate id='sendV2.success.title'
                     data={{ 
                         amount: amount,

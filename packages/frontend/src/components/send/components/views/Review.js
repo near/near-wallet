@@ -94,6 +94,7 @@ const Review = ({
                     onClick={onClickContinue}
                     disabled={sendingToken === true}
                     sending={sendingToken === true}
+                    data-test-id="sendMoneyPageConfirmButton"
                 >
                     <Translate id={`button.${sendingToken === 'failed' ? 'retry' : 'confirmAndSend'}`}/>
                 </FormButton>

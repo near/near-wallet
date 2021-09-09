@@ -12,11 +12,12 @@ const Amount = ({
     amount,
     decimals,
     translateIdTitle,
-    translateIdInfoTooltip
+    translateIdInfoTooltip,
+    "data-test-id": testId
 }) => {
     /* TODO: Handle long amounts */
     return (
-        <StyledContainer className={className}>
+        <StyledContainer className={className} data-test-id={testId}>
             <Translate id={translateIdTitle} />
             {translateIdInfoTooltip &&
                 <Tooltip translate={translateIdInfoTooltip} />

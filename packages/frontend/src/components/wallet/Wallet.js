@@ -4,15 +4,12 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Textfit } from 'react-textfit';
 import styled from 'styled-components';
 
-import { handleGetTokens } from '../../actions/tokens';
-import { getTransactions, getTransactionStatus } from '../../actions/transactions';
 import { useFungibleTokensIncludingNEAR } from '../../hooks/fungibleTokensIncludingNEAR';
 import { Mixpanel } from "../../mixpanel/index";
 import { selectAccountId, selectBalance } from '../../reducers/account';
-import { selectTransactions } from '../../reducers/transactions';
 import { selectTokensWithMetadataForAccountId, actions as nftActions } from '../../redux/slices/nft';
+import { actions as tokensActions, selectTokensLoading } from '../../redux/slices/tokens';
 import { selectLinkdropAmount, actions as linkdropActions } from '../../slices/linkdrop';
-import { actionsPendingByPrefix } from '../../utils/alerts';
 import classNames from '../../utils/classNames';
 import { SHOW_NETWORK_BANNER } from '../../utils/wallet';
 import Balance from '../common/balance/Balance';
@@ -22,13 +19,14 @@ import Tooltip from '../common/Tooltip';
 import BuyIcon from '../svg/BuyIcon';
 import DownArrowIcon from '../svg/DownArrowIcon';
 import SendIcon from '../svg/SendIcon';
-import Activities from './Activities';
+import ActivitiesWrapper from './ActivitiesWrapper';
 import ExploreApps from './ExploreApps';
 import LinkDropSuccessModal from './LinkDropSuccessModal';
 import NFTs from './NFTs';
 import Tokens from './Tokens';
 
 const { fetchNFTs } = nftActions;
+const { fetchTokens } = tokensActions;
 const { setLinkdropAmount } = linkdropActions;
 
 const StyledContainer = styled(Container)`
@@ -262,19 +260,17 @@ export function Wallet({ tab, setTab }) {
     const [exploreApps, setExploreApps] = useState(null);
     const accountId = useSelector(state => selectAccountId(state));
     const balance = useSelector(state => selectBalance(state));
-    const transactions = useSelector(state => selectTransactions(state));
     const dispatch = useDispatch();
     const hideExploreApps = localStorage.getItem('hideExploreApps');
     const linkdropAmount = useSelector(selectLinkdropAmount);
     const fungibleTokensList = useFungibleTokensIncludingNEAR();
-    const tokensLoader = actionsPendingByPrefix('TOKENS/') || !balance?.total;
+    const tokensLoader = useSelector((state) => selectTokensLoading(state, { accountId })) || !balance?.total;
 
     useEffect(() => {
         if (accountId) {
             let id = Mixpanel.get_distinct_id();
             Mixpanel.identify(id);
             Mixpanel.people.set({ relogin_date: new Date().toString() });
-            dispatch(getTransactions(accountId));
         }
     }, [accountId]);
 
@@ -285,8 +281,8 @@ export function Wallet({ tab, setTab }) {
             return;
         }
 
-        dispatch(handleGetTokens());
         dispatch(fetchNFTs({ accountId }));
+        dispatch(fetchTokens({ accountId }));
     }, [accountId]);
 
     const handleHideExploreApps = () => {
@@ -332,12 +328,7 @@ export function Wallet({ tab, setTab }) {
                     {!hideExploreApps && exploreApps !== false &&
                         <ExploreApps onClick={handleHideExploreApps} />
                     }
-                    <Activities
-                        transactions={transactions[accountId] || []}
-                        accountId={accountId}
-                        getTransactionStatus={getTransactionStatus}
-
-                    />
+                    <ActivitiesWrapper/>
                 </div>
             </div>
             {linkdropAmount !== '0' &&
@@ -370,6 +361,7 @@ const FungibleTokens = ({ balance, tokensLoader, fungibleTokens }) => {
                     color='dark-gray'
                     linkTo='/send-money'
                     trackingId='Click Send on Wallet page'
+                    data-test-id="balancesTab.send"
                 >
                     <div>
                         <SendIcon />
@@ -380,6 +372,7 @@ const FungibleTokens = ({ balance, tokensLoader, fungibleTokens }) => {
                     color='dark-gray'
                     linkTo='/receive-money'
                     trackingId='Click Receive on Wallet page'
+                    data-test-id="balancesTab.receive"
                 >
                     <div>
                         <DownArrowIcon />
@@ -390,6 +383,7 @@ const FungibleTokens = ({ balance, tokensLoader, fungibleTokens }) => {
                     color='dark-gray'
                     linkTo='/buy'
                     trackingId='Click Receive on Wallet page'
+                    data-test-id="balancesTab.buy"
                 >
                     <div>
                         <BuyIcon />

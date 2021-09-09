@@ -3,6 +3,7 @@ const { test, expect } = require("@playwright/test");
 const {
     generateTestAccountId,
     connectToAccountWithSeedphrase,
+    getWalletNetwork,
 } = require("../utils/account");
 const { HomePage } = require("./models/Home");
 const { CreateAccountPage } = require("./models/CreateAccount");
@@ -87,7 +88,7 @@ describe("Account Registration Using Seed Phrase", () => {
             .grantPermissions(["clipboard-read", "clipboard-write"])
             .catch(test.skip);
         // skip test on mainnet
-        if (process.env.WALLET_NETWORK === "mainnet") {
+        if (getWalletNetwork() === "mainnet") {
             test.skip();
         }
 
