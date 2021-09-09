@@ -11,7 +11,7 @@ import {
     staking as stakingActions,
     handleStakingAction
 } from '../../redux/actions/staking';
-import { selectNearTokenFiatValueUSD } from '../../slices/tokenFiatValues';
+import { selectNearTokenFiatValueUSD } from '../../redux/slices/tokenFiatValues';
 import { setStakingAccountSelected, getStakingAccountSelected } from '../../utils/localStorage';
 import Container from '../common/styled/Container.css';
 import Staking from './components/Staking';

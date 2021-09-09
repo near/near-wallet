@@ -10,7 +10,7 @@ import styled, { ThemeProvider } from 'styled-components';
 import TwoFactorVerifyModal from '../components/accounts/two_factor/TwoFactorVerifyModal';
 import { Mixpanel } from "../mixpanel/index";
 import * as accountActions from '../redux/actions/account';
-import { actions as tokenFiatValueActions } from '../slices/tokenFiatValues';
+import { actions as tokenFiatValueActions } from '../redux/slices/tokenFiatValues';
 import translations_en from '../translations/en.global.json';
 import translations_pt from '../translations/pt.global.json';
 import translations_ru from '../translations/ru.global.json';

@@ -7,7 +7,7 @@ import styled from 'styled-components';
 import { Mixpanel } from '../../mixpanel/index';
 import { checkNewAccount, createNewAccount, refreshAccount, checkNearDropBalance, redirectTo } from '../../redux/actions/account';
 import { clearLocalAlert } from '../../redux/actions/status';
-import { selectNearTokenFiatValueUSD } from '../../slices/tokenFiatValues';
+import { selectNearTokenFiatValueUSD } from '../../redux/slices/tokenFiatValues';
 import isMobile from '../../utils/isMobile';
 import { ACCOUNT_ID_SUFFIX, MIN_BALANCE_TO_CREATE, IS_MAINNET } from '../../utils/wallet';
 import AccountNote from '../common/AccountNote';

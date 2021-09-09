@@ -7,7 +7,7 @@ import styled from 'styled-components';
 
 import { Mixpanel } from '../../mixpanel';
 import { createAccountFromImplicit, redirectTo } from '../../redux/actions/account';
-import { selectNearTokenFiatValueUSD } from '../../slices/tokenFiatValues';
+import { selectNearTokenFiatValueUSD } from '../../redux/slices/tokenFiatValues';
 import { isMoonpayAvailable, getSignedUrl } from '../../utils/moonpay';
 import { MIN_BALANCE_TO_CREATE } from '../../utils/wallet';
 import { wallet } from '../../utils/wallet';

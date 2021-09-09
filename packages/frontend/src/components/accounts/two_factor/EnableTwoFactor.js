@@ -14,7 +14,7 @@ import {
     redirectToApp
 } from '../../../redux/actions/account';
 import { clearGlobalAlert } from '../../../redux/actions/status';
-import { selectNearTokenFiatValueUSD } from '../../../slices/tokenFiatValues';
+import { selectNearTokenFiatValueUSD } from '../../../redux/slices/tokenFiatValues';
 import { validateEmail } from '../../../utils/account';
 import { actionsPending } from '../../../utils/alerts';
 import isApprovedCountryCode from '../../../utils/isApprovedCountryCode';

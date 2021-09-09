@@ -2,8 +2,8 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import merge from 'lodash.merge';
 import { createSelector } from 'reselect';
 
-import sendJson from '../tmp_fetch_send_json';
-import { ACCOUNT_HELPER_URL } from '../utils/wallet';
+import sendJson from '../../../tmp_fetch_send_json';
+import { ACCOUNT_HELPER_URL } from '../../../utils/wallet';
 
 const SLICE_NAME = 'tokenFiatValues';
 

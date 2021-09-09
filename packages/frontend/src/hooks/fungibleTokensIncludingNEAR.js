@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import { selectAccountId, selectBalance } from '../redux/reducers/account';
+import { selectNearTokenFiatValueUSD } from '../redux/slices/tokenFiatValues';
 import { selectTokensWithMetadataForAccountId } from '../redux/slices/tokens';
-import { selectNearTokenFiatValueUSD } from '../slices/tokenFiatValues';
 
 const fungibleTokensIncludingNEAR = (tokens, balance, nearTokenFiatValueUSD) => {
     return [

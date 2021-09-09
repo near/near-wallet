@@ -18,7 +18,7 @@ import {
     getBalance
 } from '../../redux/actions/account';
 import { selectProfileBalance } from '../../redux/reducers/selectors/balance';
-import { selectNearTokenFiatValueUSD } from '../../slices/tokenFiatValues';
+import { selectNearTokenFiatValueUSD } from '../../redux/slices/tokenFiatValues';
 import isMobile from '../../utils/isMobile';
 import { IS_MAINNET, MIN_BALANCE_FOR_GAS } from '../../utils/wallet';
 import FormButton from '../common/FormButton';

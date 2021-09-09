@@ -2,7 +2,6 @@ import { connectRouter } from 'connected-react-router';
 import { localizeReducer } from 'react-localize-redux';
 import { combineReducers } from 'redux';
 
-import tokenFiatValuesSlice from '../slices/tokenFiatValues';
 import account from './reducers/account';
 import allAccounts from './reducers/allAccounts';
 import availableAccounts from './reducers/available-accounts';
@@ -14,6 +13,7 @@ import status from './reducers/status';
 import flowLimitationSlice from './slices/flowLimitation';
 import linkdropSlice from './slices/linkdrop';
 import nftSlice from './slices/nft';
+import tokenFiatValuesSlice from './slices/tokenFiatValues';
 import tokensSlice from './slices/tokens';
 import transactionsSlice from './slices/transactions';
 
