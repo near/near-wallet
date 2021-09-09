@@ -1,11 +1,11 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import assign from 'lodash.assign';
 
-import { getBalance } from '../../../actions/account';
 import { 
     WALLET_LOGIN_URL,
     WALLET_SIGN_URL
 } from '../../../utils/wallet';
+import { getBalance } from '../../actions/account';
 
 const SLICE_NAME = 'flowLimitation';
 

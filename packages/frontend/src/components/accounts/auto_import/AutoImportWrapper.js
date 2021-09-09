@@ -2,13 +2,13 @@ import { getLocation } from 'connected-react-router';
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
+import { Mixpanel } from '../../../mixpanel/index';
 import {
     recoverAccountSecretKey,
     refreshAccount,
     redirectTo,
     clearAccountState
-} from '../../../actions/account';
-import { Mixpanel } from '../../../mixpanel/index';
+} from '../../../redux/actions/account';
 import AutoImport from './AutoImport';
 
 export function AutoImportWrapper({

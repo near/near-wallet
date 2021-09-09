@@ -1,6 +1,6 @@
 import { createActions } from 'redux-actions';
 
-import { showAlert } from '../utils/alerts';
+import { showAlert } from '../../utils/alerts';
 
 export const { clearLocalAlert, clearGlobalAlert, showCustomAlert, setMainLoader } = createActions({
     CLEAR_LOCAL_ALERT: null,

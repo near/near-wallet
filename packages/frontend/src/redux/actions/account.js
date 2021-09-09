@@ -5,11 +5,10 @@ import { PublicKey, KeyType } from 'near-api-js/lib/utils/key_pair';
 import { parse, stringify } from 'query-string';
 import { createActions, createAction } from 'redux-actions';
 
-import { actions as flowLimitationActions } from '../redux/slices/flowLimitation';
-import { showAlert, dispatchWithAlert } from '../utils/alerts';
-import { loadState, saveState, clearState } from '../utils/sessionStorage';
-import { TwoFactor } from '../utils/twoFactor';
-import { DISABLE_CREATE_ACCOUNT, wallet } from '../utils/wallet';
+import { showAlert, dispatchWithAlert } from '../../utils/alerts';
+import { loadState, saveState, clearState } from '../../utils/sessionStorage';
+import { TwoFactor } from '../../utils/twoFactor';
+import { DISABLE_CREATE_ACCOUNT, wallet } from '../../utils/wallet';
 import {
     WALLET_CREATE_NEW_ACCOUNT_URL,
     WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS,
@@ -19,8 +18,9 @@ import {
     WALLET_LINKDROP_URL,
     setKeyMeta,
     MULTISIG_MIN_PROMPT_AMOUNT
-} from '../utils/wallet';
-import { WalletError } from '../utils/walletError';
+} from '../../utils/wallet';
+import { WalletError } from '../../utils/walletError';
+import { actions as flowLimitationActions } from '../slices/flowLimitation';
 import {
     handleStakingUpdateAccount,
     handleStakingUpdateLockup,

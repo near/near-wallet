@@ -2,14 +2,14 @@ import { utils } from 'near-api-js';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { checkAccountAvailable, redirectTo } from '../../actions/account';
-import { checkAndHideLedgerModal } from '../../actions/account';
-import { clearLocalAlert, showCustomAlert } from '../../actions/status';
 import { useFungibleTokensIncludingNEAR } from '../../hooks/fungibleTokensIncludingNEAR';
 import { Mixpanel } from '../../mixpanel/index';
+import { checkAccountAvailable, redirectTo } from '../../redux/actions/account';
+import { checkAndHideLedgerModal } from '../../redux/actions/account';
+import { clearLocalAlert, showCustomAlert } from '../../redux/actions/status';
+import { selectNearTokenFiatValueUSD } from '../../redux/slices/tokenFiatValues';
 import { actions as tokensActions } from '../../redux/slices/tokens';
 import { fungibleTokensService } from '../../services/FungibleTokens';
-import { selectNearTokenFiatValueUSD } from '../../slices/tokenFiatValues';
 import isMobile from '../../utils/isMobile';
 import { EXPLORER_URL, SHOW_NETWORK_BANNER } from '../../utils/wallet';
 import SendContainerV2, { VIEWS } from './SendContainerV2';

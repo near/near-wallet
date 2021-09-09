@@ -5,16 +5,16 @@ import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input';
 import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
+import { useRecoveryMethods } from '../../../hooks/recoveryMethods';
+import { Mixpanel } from '../../../mixpanel/index';
 import {
     initTwoFactor,
     verifyTwoFactor,
     deployMultisig,
     redirectToApp
-} from '../../../actions/account';
-import { clearGlobalAlert } from '../../../actions/status';
-import { useRecoveryMethods } from '../../../hooks/recoveryMethods';
-import { Mixpanel } from '../../../mixpanel/index';
-import { selectNearTokenFiatValueUSD } from '../../../slices/tokenFiatValues';
+} from '../../../redux/actions/account';
+import { clearGlobalAlert } from '../../../redux/actions/status';
+import { selectNearTokenFiatValueUSD } from '../../../redux/slices/tokenFiatValues';
 import { validateEmail } from '../../../utils/account';
 import { actionsPending } from '../../../utils/alerts';
 import isApprovedCountryCode from '../../../utils/isApprovedCountryCode';

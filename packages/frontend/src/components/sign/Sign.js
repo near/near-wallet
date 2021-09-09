@@ -4,8 +4,8 @@ import { Translate } from 'react-localize-redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
-import { signAndSendTransactions, redirectTo } from '../../actions/account';
 import { Mixpanel } from '../../mixpanel';
+import { signAndSendTransactions, redirectTo } from '../../redux/actions/account';
 import SignContainer from './SignContainer';
 import SignTransferCancelled from './SignTransferCancelled';
 import SignTransferReady from './SignTransferReady';

@@ -1,6 +1,7 @@
 import reduceReducers from 'reduce-reducers';
 import { handleActions } from 'redux-actions';
 
+import { HIDE_SIGN_IN_WITH_LEDGER_ENTER_ACCOUNT_ID_MODAL } from '../../../utils/wallet';
 import {
     getLedgerAccountIds,
     addLedgerAccountId,
@@ -11,7 +12,6 @@ import {
     showLedgerModal,
     hideLedgerModal
 } from '../../actions/account';
-import { HIDE_SIGN_IN_WITH_LEDGER_ENTER_ACCOUNT_ID_MODAL } from '../../utils/wallet';
 
 const initialState = {
     modal: {}

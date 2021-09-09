@@ -3,7 +3,7 @@ import { Translate } from 'react-localize-redux';
 import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
-import { switchAccount } from '../../actions/account';
+import { switchAccount } from '../../redux/actions/account';
 import classNames from '../../utils/classNames';
 import DropDown from '../common/DropDown';
 
