@@ -2,7 +2,7 @@ import { connectRouter } from 'connected-react-router';
 import { localizeReducer } from 'react-localize-redux';
 import { combineReducers } from 'redux';
 
-import allAccounts from '../reducers/allAccounts';
+import allAccounts from '../redux/reducers/allAccounts';
 import availableAccounts from '../redux/reducers/available-accounts';
 import recoveryMethods from '../redux/reducers/recoveryMethods';
 import sign from '../redux/reducers/sign';
