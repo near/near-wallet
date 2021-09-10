@@ -83,7 +83,8 @@ const EnterVerificationCode = ({
     verifyingCode,
     isNewAccount,
     onRecaptchaChange,
-    isLinkDrop
+    isLinkDrop,
+    skipRecaptcha
 }) => {
     debugLog('Rendering', { isNewAccount });
 
@@ -115,7 +116,7 @@ const EnterVerificationCode = ({
         }
     };
 
-    const shouldRenderRecaptcha = !isLinkDrop && process.env.RECAPTCHA_CHALLENGE_API_KEY && isNewAccount;
+    const shouldRenderRecaptcha = !skipRecaptcha && !isLinkDrop && process.env.RECAPTCHA_CHALLENGE_API_KEY && isNewAccount;
 
     return (
         <StyledContainer className='small-centered border'>

@@ -46,7 +46,8 @@ const StyledContainer = styled(Container)`
 export default ({
     initialDeposit,
     accountId,
-    onClick
+    onClaimAccount,
+    claimingAccount
 }) => {
     const [newAddressApproved, setNewAddressApproved] = useState(false);
     return (
@@ -70,8 +71,9 @@ export default ({
                 </label>
             </div>
             <FormButton
-                disabled={!newAddressApproved}
-                onClick={onClick}
+                disabled={!newAddressApproved || claimingAccount}
+                sending={claimingAccount}
+                onClick={onClaimAccount}
             >
                 <Translate id='button.claimMyAccount' />
             </FormButton>

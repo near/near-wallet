@@ -17,7 +17,8 @@ import {
     WALLET_RECOVER_ACCOUNT_URL,
     WALLET_LINKDROP_URL,
     setKeyMeta,
-    MULTISIG_MIN_PROMPT_AMOUNT
+    MULTISIG_MIN_PROMPT_AMOUNT,
+    COIN_OP_VERIFY_ACCOUNT
 } from '../../utils/wallet';
 import { WalletError } from '../../utils/walletError';
 import { actions as flowLimitationActions } from '../slices/flowLimitation';
@@ -44,7 +45,7 @@ export const getProfileStakingDetails = (accountId) => async (dispatch, getState
         : !!getState().account.balance.lockedAmount;
 
     lockupIdExists
-    && dispatch(handleStakingUpdateLockup(accountId));
+        && dispatch(handleStakingUpdateLockup(accountId));
 };
 
 export const handleRedirectUrl = (previousLocation) => (dispatch, getState) => {
@@ -420,7 +421,14 @@ export const fundCreateAccount = (accountId, recoveryKeyPair, recoveryMethod) =>
     await wallet.keyStore.setKey(wallet.connection.networkId, accountId, recoveryKeyPair);
     const implicitAccountId = Buffer.from(recoveryKeyPair.publicKey.data).toString('hex');
     await wallet.keyStore.setKey(wallet.connection.networkId, implicitAccountId, recoveryKeyPair);
-    dispatch(redirectTo(`/fund-create-account/${accountId}/${implicitAccountId}/${recoveryMethod}`));
+
+    if (COIN_OP_VERIFY_ACCOUNT) {
+        dispatch(redirectTo(`/verify-account?accountId=${accountId}&implicitAccountId=${implicitAccountId}&recoveryMethod=seed`));
+        //Uncaught (in promise) Error: [-32700] Parse error: []: the value is too short for account ID
+        //window.location.href = `/verify-account?accountId=${accountId}&implicitAccountId=${implicitAccountId}&recoveryMethod=seed`;
+    } else {
+        dispatch(redirectTo(`/fund-create-account/${accountId}/${implicitAccountId}/${recoveryMethod}`));
+    }
 };
 
 export const fundCreateAccountLedger = (accountId, ledgerPublicKey) => async (dispatch) => {
@@ -432,6 +440,13 @@ export const fundCreateAccountLedger = (accountId, ledgerPublicKey) => async (di
 
 // TODO: Refactor common code with setupRecoveryMessageNewAccount
 export const handleCreateAccountWithSeedPhrase = (accountId, recoveryKeyPair, fundingOptions, recaptchaToken) => async (dispatch) => {
+
+    // Coin-op verify account flow
+    if (DISABLE_CREATE_ACCOUNT && COIN_OP_VERIFY_ACCOUNT && !fundingOptions) {
+        await dispatch(fundCreateAccount(accountId, recoveryKeyPair, 'seed'));
+        return;
+    }
+
     // Implicit account flow
     if (DISABLE_CREATE_ACCOUNT && !fundingOptions && !recaptchaToken) {
         await dispatch(fundCreateAccount(accountId, recoveryKeyPair, 'seed'));
@@ -620,7 +635,7 @@ export const { makeAccountActive, refreshAccountOwner, refreshAccountExternal, r
     ],
     REFRESH_URL: null,
     UPDATE_STAKING_ACCOUNT: [
-        async (accountId) => await wallet.staking.updateStakingAccount([], [] , accountId),
+        async (accountId) => await wallet.staking.updateStakingAccount([], [], accountId),
         (accountId) => ({
             accountId,
             ...showAlert({ onlyError: true })

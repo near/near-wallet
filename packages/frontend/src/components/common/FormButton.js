@@ -18,9 +18,12 @@ const CustomButton = styled.button`
         height: 56px;
         border-radius: 30px;
         transition: 100ms;
-        
         font-size: 15px;
         word-break: keep-all;
+
+        :disabled {
+            cursor: not-allowed;
+        }
 
         svg {
             width: 16px;

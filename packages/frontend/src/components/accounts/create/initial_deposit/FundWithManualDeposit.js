@@ -17,20 +17,27 @@ const StyledContainer = styled(Container)`
             &.link {
                 margin-bottom: 50px;
             }
+
+            &.gray-blue {
+                width: 100%;
+                margin-top: 50px;
+            }
         }
     }
 `;
 
 export default ({
     fundingAddress,
-    minDeposit
+    minDeposit,
+    formattedMinDeposit,
+    onClickCancel
 }) => {
     const [showWhereToBuyModal, setShowWhereToBuyModal] = useState(false);
     return (
         <>
             <StyledContainer className='small-centered border'>
                 <h1><Translate id='initialDeposit.manualDeposit.title' /></h1>
-                <h2><Translate id='initialDeposit.manualDeposit.desc' /></h2>
+                <h2><Translate id='initialDeposit.manualDeposit.desc' data={{ amount: formattedMinDeposit }}/></h2>
                 <FormButton
                     onClick={() => setShowWhereToBuyModal(true)}
                     color='blue'
@@ -42,6 +49,12 @@ export default ({
                     fundingAddress={fundingAddress}
                     minDeposit={minDeposit}
                 />
+                <FormButton
+                    onClick={onClickCancel}
+                    color='gray-blue'
+                >
+                    <Translate id='button.cancel' />
+                </FormButton>
             </StyledContainer>
             {showWhereToBuyModal &&
                 <WhereToBuyNearModal

@@ -34,6 +34,8 @@ import {
 import { AuthorizedAppsWithRouter, FullAccessKeysWithRouter } from './access-keys/AccessKeys';
 import { AutoImportWrapper } from './accounts/auto_import/AutoImportWrapper';
 import { ActivateAccountWithRouter } from './accounts/create/ActivateAccount';
+import { InitialDepositWrapper } from './accounts/create/initial_deposit/InitialDepositWrapper';
+import { VerifyAccountWrapper } from './accounts/create/verify_account/VerifyAccountWrapper';
 import { CreateAccountWithRouter } from './accounts/CreateAccount';
 import LedgerConfirmActionModal from './accounts/ledger/LedgerConfirmActionModal';
 import { SetupLedgerWithRouter } from './accounts/ledger/SetupLedger';
@@ -345,6 +347,16 @@ class Routing extends Component {
                                 exact
                                 path='/setup-seed-phrase/:accountId/:step'
                                 component={SetupSeedPhraseWithRouter}
+                            />
+                            <PublicRoute
+                                exact
+                                path='/verify-account'
+                                component={VerifyAccountWrapper}
+                            />
+                            <PublicRoute
+                                exact
+                                path='/initial-deposit'
+                                component={InitialDepositWrapper}
                             />
                             <PublicRoute
                                 exact

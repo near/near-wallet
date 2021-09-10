@@ -40,20 +40,21 @@ const StyledContainer = styled(Container)`
 export default ({
     fundingAddress,
     minDeposit,
-    moonpaySignedURL,
+    formattedMinDeposit,
+    moonpaySignedUrl,
     onClickCancel
 }) => {
     return (
         <>
             <StyledContainer className='small-centered border'>
                 <h1><Translate id='initialDeposit.creditCard.title' /></h1>
-                <h2><Translate id='initialDeposit.creditCard.desc' /></h2>
+                <h2><Translate id='initialDeposit.creditCard.desc' data={{ amount: formattedMinDeposit }}/></h2>
                 <AccountNeedsFunding
                     fundingAddress={fundingAddress}
                     minDeposit={minDeposit}
                 />
                 <FormButton
-                    linkTo={moonpaySignedURL}
+                    linkTo={moonpaySignedUrl}
                     color='black'
                 >
                     <Translate id='button.fundWith' />

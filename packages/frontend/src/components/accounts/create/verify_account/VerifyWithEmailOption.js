@@ -8,9 +8,9 @@ export default ({
     translateIdDesc,
     onClick,
     activeVerificationOption,
-    value,
+    verificationEmail,
     disabled,
-    onChange,
+    onChangeVerificationEmail,
     onBlur
 }) => {
     return (
@@ -27,9 +27,9 @@ export default ({
                     <input
                         type='email'
                         placeholder={translate('setupRecovery.emailPlaceholder')}
-                        value={value}
+                        value={verificationEmail}
                         disabled={disabled}
-                        onChange={onChange}
+                        onChange={onChangeVerificationEmail}
                         onBlur={onBlur}
                     />
                 )}
