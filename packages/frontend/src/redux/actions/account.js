@@ -423,9 +423,7 @@ export const fundCreateAccount = (accountId, recoveryKeyPair, recoveryMethod) =>
     await wallet.keyStore.setKey(wallet.connection.networkId, implicitAccountId, recoveryKeyPair);
 
     if (COIN_OP_VERIFY_ACCOUNT) {
-        dispatch(redirectTo(`/verify-account?accountId=${accountId}&implicitAccountId=${implicitAccountId}&recoveryMethod=seed`));
-        //Uncaught (in promise) Error: [-32700] Parse error: []: the value is too short for account ID
-        //window.location.href = `/verify-account?accountId=${accountId}&implicitAccountId=${implicitAccountId}&recoveryMethod=seed`;
+        dispatch(redirectTo(`/verify-account?accountId=${accountId}&implicitAccountId=${implicitAccountId}&recoveryMethod=${recoveryMethod}`));
     } else {
         dispatch(redirectTo(`/fund-create-account/${accountId}/${implicitAccountId}/${recoveryMethod}`));
     }
@@ -435,7 +433,12 @@ export const fundCreateAccountLedger = (accountId, ledgerPublicKey) => async (di
     await setKeyMeta(ledgerPublicKey, { type: 'ledger' });
     const implicitAccountId = Buffer.from(ledgerPublicKey.data).toString('hex');
     const recoveryMethod = 'ledger';
-    dispatch(redirectTo(`/fund-create-account/${accountId}/${implicitAccountId}/${recoveryMethod}`));
+
+    if (COIN_OP_VERIFY_ACCOUNT) {
+        dispatch(redirectTo(`/verify-account?accountId=${accountId}&implicitAccountId=${implicitAccountId}&recoveryMethod=${recoveryMethod}`));
+    } else {
+        dispatch(redirectTo(`/fund-create-account/${accountId}/${implicitAccountId}/${recoveryMethod}`));
+    }
 };
 
 // TODO: Refactor common code with setupRecoveryMessageNewAccount

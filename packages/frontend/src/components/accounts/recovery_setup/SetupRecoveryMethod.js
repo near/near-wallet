@@ -14,7 +14,7 @@ import { validateEmail } from '../../../utils/account';
 import { actionsPending } from '../../../utils/alerts';
 import isApprovedCountryCode from '../../../utils/isApprovedCountryCode';
 import parseFundingOptions from '../../../utils/parseFundingOptions';
-import { DISABLE_CREATE_ACCOUNT } from '../../../utils/wallet';
+import { DISABLE_CREATE_ACCOUNT, COIN_OP_VERIFY_ACCOUNT } from '../../../utils/wallet';
 import FormButton from '../../common/FormButton';
 import Container from '../../common/styled/Container.css';
 import Tooltip from '../../common/Tooltip';
@@ -195,9 +195,15 @@ class SetupRecoveryMethod extends Component {
             await validateSecurityCode(accountId, method, securityCode);
             await saveAccount(accountId, recoveryKeyPair);
 
+            // COIN-OP VERIFY ACCOUNT
+            if (DISABLE_CREATE_ACCOUNT && COIN_OP_VERIFY_ACCOUNT && !fundingOptions) {
+                await fundCreateAccount(accountId, recoveryKeyPair, method.kind);
+                return;
+            }
+
             // IMPLICIT ACCOUNT
             if (DISABLE_CREATE_ACCOUNT && !fundingOptions && !recaptchaToken) {
-                await fundCreateAccount(accountId, recoveryKeyPair, fundingOptions, method);
+                await fundCreateAccount(accountId, recoveryKeyPair, method.kind);
                 return;
             }
 
@@ -210,7 +216,7 @@ class SetupRecoveryMethod extends Component {
             } catch (e) {
                 if (e.code === 'NotEnoughBalance') {
                     Mixpanel.track('SR NotEnoughBalance creating funded account');
-                    return fundCreateAccount(accountId, recoveryKeyPair, fundingOptions, method);
+                    return fundCreateAccount(accountId, recoveryKeyPair, method.kind);
                 }
 
                 throw e;

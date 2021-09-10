@@ -24,7 +24,17 @@ import { WalletError } from './walletError';
 
 
 export const WALLET_CREATE_NEW_ACCOUNT_URL = 'create';
-export const WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS = ['create', 'set-recovery', 'setup-seed-phrase', 'recover-account', 'recover-seed-phrase', 'sign-in-ledger', 'fund-create-account'];
+export const WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS = [
+    'create',
+    'set-recovery',
+    'setup-seed-phrase',
+    'recover-account',
+    'recover-seed-phrase',
+    'sign-in-ledger',
+    'fund-create-account',
+    '/verify-account',
+    '/initial-deposit'
+];
 export const WALLET_LOGIN_URL = 'login';
 export const WALLET_SIGN_URL = 'sign';
 export const WALLET_LINKDROP_URL = 'linkdrop';

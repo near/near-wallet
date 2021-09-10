@@ -16,7 +16,7 @@ import {
 import { showCustomAlert } from '../../../redux/actions/status';
 import { actions as linkdropActions } from '../../../redux/slices/linkdrop';
 import parseFundingOptions from '../../../utils/parseFundingOptions';
-import { DISABLE_CREATE_ACCOUNT, setKeyMeta } from '../../../utils/wallet';
+import { DISABLE_CREATE_ACCOUNT, setKeyMeta, COIN_OP_VERIFY_ACCOUNT } from '../../../utils/wallet';
 import FormButton from '../../common/FormButton';
 import GlobalAlert from '../../common/GlobalAlert';
 import Container from '../../common/styled/Container.css';
@@ -39,7 +39,7 @@ const SetupLedger = (props) => {
     const [recaptchaToken, setRecaptchaToken] = useState(null);
     const recaptchaRef = useRef(null);
     const fundingOptions = parseFundingOptions(props.location.search);
-    const shouldRenderRecaptcha = !fundingOptions && process.env.RECAPTCHA_CHALLENGE_API_KEY && isNewAccount;
+    const shouldRenderRecaptcha = !fundingOptions && process.env.RECAPTCHA_CHALLENGE_API_KEY && isNewAccount && !COIN_OP_VERIFY_ACCOUNT;
 
     useEffect(() => {
         const performNewAccountCheck = async () => {
@@ -76,6 +76,14 @@ const SetupLedger = (props) => {
                         await setKeyMeta(publicKey, { type: 'ledger' });
                         Mixpanel.track("SR-Ledger Set key meta");
 
+                        // COIN-OP VERIFY ACCOUNT
+                        if (DISABLE_CREATE_ACCOUNT && COIN_OP_VERIFY_ACCOUNT && !fundingOptions) {
+                            await dispatch(fundCreateAccountLedger(accountId, publicKey));
+                            Mixpanel.track("SR-Ledger Fund create account ledger");
+                            return;
+                        }
+
+                        // IMPLICIT ACCOUNT
                         if (DISABLE_CREATE_ACCOUNT && !fundingOptions && !recaptchaToken) {
                             await dispatch(fundCreateAccountLedger(accountId, publicKey));
                             Mixpanel.track("SR-Ledger Fund create account ledger");
@@ -87,7 +95,7 @@ const SetupLedger = (props) => {
                             setLinkdropAmount(fundingOptions.fundingAmount);
                         }
                         Mixpanel.track("SR-Ledger Create new account ledger");
-                    } catch(err) {
+                    } catch (err) {
                         if (isRetryableRecaptchaError(err)) {
                             Mixpanel.track('Funded account creation failed due to invalid / expired reCaptcha response from user');
                             recaptchaRef.current.reset();
@@ -97,7 +105,7 @@ const SetupLedger = (props) => {
                                 messageCodeHeader: 'error',
                                 messageCode: 'walletErrorCodes.invalidRecaptchaCode'
                             }));
-                        } else if(err.code === 'NotEnoughBalance') {
+                        } else if (err.code === 'NotEnoughBalance') {
                             Mixpanel.track('SR-Ledger NotEnoughBalance creating funded account');
                             dispatch(fundCreateAccountLedger(accountId, publicKey));
                         } else {
@@ -142,11 +150,11 @@ const SetupLedger = (props) => {
                     closeIcon={false}
                 />
             }
-            <h1><Translate id='setupLedger.header'/></h1>
-            <LedgerIcon/>
+            <h1><Translate id='setupLedger.header' /></h1>
+            <LedgerIcon />
             <h2>
-                <Translate id='setupLedger.one'/>
-                &nbsp;<Translate id='setupLedger.two'/> <span className='link underline' onClick={openShowInstructions}><Translate id='setupLedger.twoLink'/></span>.
+                <Translate id='setupLedger.one' />
+                &nbsp;<Translate id='setupLedger.two' /> <span className='link underline' onClick={openShowInstructions}><Translate id='setupLedger.twoLink' /></span>.
             </h2>
             {
                 shouldRenderRecaptcha && <Recaptcha
@@ -164,17 +172,17 @@ const SetupLedger = (props) => {
                 sendingString='button.connecting'
                 disabled={(!recaptchaToken && shouldRenderRecaptcha) || isNewAccount === null}
             >
-                <Translate id={`button.${connect !== 'fail' ? 'continue' : 'retry'}`}/>
+                <Translate id={`button.${connect !== 'fail' ? 'continue' : 'retry'}`} />
             </FormButton>
             <FormButton
                 className='link red'
                 onClick={() => props.history.goBack()}
                 trackingId='SR-Ledger Click cancel button'
             >
-                <Translate id='button.cancel'/>
+                <Translate id='button.cancel' />
             </FormButton>
             {showInstructions &&
-                <InstructionsModal open={showInstructions} onClose={closeShowInstructions}/>
+                <InstructionsModal open={showInstructions} onClose={closeShowInstructions} />
             }
         </Container>
     );
