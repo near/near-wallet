@@ -83,6 +83,7 @@ class LoginForm extends Component {
                                             onChange={e => this.handleChange(e.target.value)}
                                             className={`${confirmStatus ? (confirmStatus === 'success' ? 'success' : 'problem') : ''}`}
                                             placeholder={translate('login.confirm.username')}
+                                            data-test-id="FAKRequestAccountIdConfirmationInput"
                                             maxLength='64'
                                             required
                                             autoComplete='off'
@@ -111,6 +112,7 @@ class LoginForm extends Component {
                                 <FormButton
                                     color='blue'
                                     disabled={confirmStatus !== 'problem' && accountId ? false : true}
+                                    data-test-id="FAKRequestConfirmAccountIdButton"
                                     sending={buttonLoader}
                                     type='submit'
                                 >

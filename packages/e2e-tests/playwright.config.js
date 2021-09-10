@@ -6,6 +6,7 @@ const { matchers } = require("expect-playwright");
 expect.extend(matchers);
 
 const config = {
+    globalSetup: require.resolve("./global-setup.js"),
     use: {
         baseURL: process.env.WALLET_URL || "https://wallet.testnet.near.org",
         headless: false,

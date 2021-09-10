@@ -51,7 +51,9 @@ const LoginForm = ({
                 >
                     {!accountConfirmationForm && (
                         <Fragment>
-                            <div>{appTitle || <Translate id='sign.unknownApp' />}</div>
+                            <div data-test-id="requestingAppTitleDisplay">
+                                {appTitle || <Translate id="sign.unknownApp" />}
+                            </div>
                             {requestAccountIdOnly
                                 ? <Translate id='login.form.accountIdOnly' />
                                 : <>
@@ -64,8 +66,19 @@ const LoginForm = ({
                     )}
                     {accountConfirmationForm && (
                         <Fragment>
-                            <div><b>{appTitle || <Translate id='sign.unknownApp' />}</b></div>
-                            <div className='h2'><Translate id='login.form.isRequestingFullAccess' /></div>
+                            <div data-test-id="requestingAppTitleDisplay">
+                                <b>
+                                    {appTitle || (
+                                        <Translate id="sign.unknownApp" />
+                                    )}
+                                </b>
+                            </div>
+                            <div
+                                className="h2"
+                                data-test-id="fullAccessKeyRequestLabel"
+                            >
+                                <Translate id="login.form.isRequestingFullAccess" />
+                            </div>
                             <div className='h2'><Translate id='login.form.toYourAccount' /></div>
                         </Fragment>
                     )}
@@ -125,6 +138,7 @@ const LoginForm = ({
                     <FormButton
                         color='gray-white'
                         onClick={handleDeny}
+                        data-test-id="denyAccessButton"
                     >
                         <Translate id='button.deny' />
                     </FormButton>
@@ -136,6 +150,7 @@ const LoginForm = ({
                             onClick={handleAllow}
                             sendingString='button.authorizing'
                             disabled={!account.accountId}
+                            data-test-id="allowNonFullAccessButton"
                         >
                             <Translate id='button.allow' />
                         </FormButton>
@@ -146,6 +161,7 @@ const LoginForm = ({
                             color='blue'
                             sending={buttonLoader}
                             disabled={!account.accountId}
+                            data-test-id="allowFullAccessButton"
                         >
                             <Translate id='button.allow' />
                         </FormButton>
