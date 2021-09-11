@@ -5,7 +5,6 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { createAccountFromImplicit, redirectTo } from '../../../../redux/actions/account';
-import { showCustomAlert } from '../../../../redux/actions/status';
 import { getSignedUrl } from '../../../../utils/moonpay';
 import { MIN_BALANCE_TO_CREATE, wallet } from '../../../../utils/wallet';
 import FundingReceived from './FundingReceived';
@@ -83,11 +82,6 @@ export function InitialDepositWrapper({ history }) {
             await dispatch(createAccountFromImplicit(accountId, implicitAccountId, recoveryMethod));
         } catch(e) {
             setClaimingAccount(false);
-            showCustomAlert({
-                success: false,
-                messageCodeHeader: 'error',
-                errorMessage: e.message
-            });
             throw e;
         }
         dispatch(redirectTo('/'));

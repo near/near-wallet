@@ -1,11 +1,14 @@
 import { getLocation } from 'connected-react-router';
+import { PublicKey, KeyType } from 'near-api-js/lib/utils/key_pair';
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import {
     redirectTo
 } from '../../../../redux/actions/account';
+import { showCustomAlert } from '../../../../redux/actions/status';
 import { isMoonpayAvailable } from '../../../../utils/moonpay';
+import { wallet } from '../../../../utils/wallet';
 import EnterVerificationCode from '../../EnterVerificationCode';
 import VerifyAccount from './VerifyAccount';
 
@@ -19,12 +22,14 @@ export function VerifyAccountWrapper() {
     const recoveryMethod = URLParams.get('recoveryMethod');
 
     const [activeVerificationOption, setActiveVerificationOption] = useState('email');
-    const [showEnterVerificatinCode, setShowEnterVerificatinCode] = useState(false);
+    const [showEnterVerificationCode, setshowEnterVerificationCode] = useState(false);
     const [showOptionAlreadyUsedModal, setShowOptionAlreadyUsedModal] = useState(false);
-    const [showFundWithCreditCardOption, setShowFundWithCreditCardOption] = useState(true);
+    const [showFundWithCreditCardOption, setShowFundWithCreditCardOption] = useState(false);
 
     const [verificationEmail, setVerificationEmail] = useState('');
     const [verificationNumber, setVerificationNumber] = useState('');
+
+    const identityKey = activeVerificationOption === 'email' ? verificationEmail : verificationNumber;
 
     useEffect(() => {
         const checkIfMoonPayIsAvailable = async () => {
@@ -33,43 +38,46 @@ export function VerifyAccountWrapper() {
                 setShowFundWithCreditCardOption(true);
             }
         };
-        //checkIfMoonPayIsAvailable();
+        checkIfMoonPayIsAvailable();
     }, []);
 
-    const handleContinue = () => {
-
-        if (activeVerificationOption === 'email') {
-            return console.log('FIX: Send verification code to email');
-        }
-
-        if (activeVerificationOption === 'phone') {
-            return console.log('FIX: Send verification code to phone');
-        }
-
-        if (activeVerificationOption === 'creditCard') {
-            return dispatch(redirectTo(`/initial-deposit${location.search}&fundingMethod=creditCard`));
-        }
-
-        if (activeVerificationOption === 'manualDeposit') {
-            return dispatch(redirectTo(`/initial-deposit${location.search}`));
-        }
+    const handleSendIdentityVerificationMethodCode = async () => {
+        await wallet.sendIdentityVerificationMethodCode({
+            kind: activeVerificationOption,
+            identityKey
+        });
     };
 
-    if (showEnterVerificatinCode) {
+    if (showEnterVerificationCode) {
         return (
             <EnterVerificationCode
                 isNewAccount={true}
                 option={activeVerificationOption}
                 phoneNumber={verificationNumber}
                 email={verificationEmail}
-                onConfirm={(code) => {
-                    console.log('confirm the code:', code);
-                    console.log('create the account');
+                onConfirm={async (verificationCode) => {
+                    const publicKey = new PublicKey({ 
+                        keyType: KeyType.ED25519,
+                        data: Buffer.from(implicitAccountId, 'hex')
+                    });
+                    try {
+                        await wallet.createIdentifyFundedAccount({
+                            accountId,
+                            recoveryMethod,
+                            publicKey,
+                            identityKey,
+                            verificationCode,
+                            previousAccountId: undefined
+                        });
+                    } catch(e) {
+                        console.log(e.code);
+                    }
+                    // FIX: Dispatch action to get error handling
                 }}
-                onResend={() => {
-                    console.log('send new verification code');
+                onResend={async () => {
+                   await handleSendIdentityVerificationMethodCode();
                 }}
-                onGoBack={() => setShowEnterVerificatinCode(false)}
+                onGoBack={() => setshowEnterVerificationCode(false)}
                 skipRecaptcha={true}
             />
         );
@@ -83,7 +91,34 @@ export function VerifyAccountWrapper() {
             onChangeVerificationEmail={e => setVerificationEmail(e.target.value)}
             verificationNumber={verificationNumber}
             onChangeVerificationNumber={number => setVerificationNumber(number)}
-            handleContinue={handleContinue}
+            handleContinue={async () => {
+                if (activeVerificationOption === 'email' || activeVerificationOption === 'phone') {
+                    try {
+                        await handleSendIdentityVerificationMethodCode();
+                        setshowEnterVerificationCode(true);
+                    } catch(e) {
+                        if (e.code === 'identityVerificationAlreadyClaimed') {
+                            setShowOptionAlreadyUsedModal(true);
+                        } else {
+                            showCustomAlert({
+                                success: false,
+                                messageCodeHeader: 'error',
+                                errorMessage: e.code
+                            });
+                            throw e;
+                        }
+                    }
+                    return;
+                }
+        
+                if (activeVerificationOption === 'creditCard') {
+                    return dispatch(redirectTo(`/initial-deposit${location.search}&fundingMethod=creditCard`));
+                }
+        
+                if (activeVerificationOption === 'manualDeposit') {
+                    return dispatch(redirectTo(`/initial-deposit${location.search}`));
+                }
+            }}
             showOptionAlreadyUsedModal={showOptionAlreadyUsedModal}
             onCloseOptionAlreadyUsedModal={() => setShowOptionAlreadyUsedModal(false)}
             showFundWithCreditCardOption={showFundWithCreditCardOption}

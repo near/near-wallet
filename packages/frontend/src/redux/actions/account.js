@@ -18,7 +18,7 @@ import {
     WALLET_LINKDROP_URL,
     setKeyMeta,
     MULTISIG_MIN_PROMPT_AMOUNT,
-    COIN_OP_VERIFY_ACCOUNT
+    ENABLE_IDENTITY_VERIFIED_ACCOUNT
 } from '../../utils/wallet';
 import { WalletError } from '../../utils/walletError';
 import { actions as flowLimitationActions } from '../slices/flowLimitation';
@@ -422,7 +422,7 @@ export const fundCreateAccount = (accountId, recoveryKeyPair, recoveryMethod) =>
     const implicitAccountId = Buffer.from(recoveryKeyPair.publicKey.data).toString('hex');
     await wallet.keyStore.setKey(wallet.connection.networkId, implicitAccountId, recoveryKeyPair);
 
-    if (COIN_OP_VERIFY_ACCOUNT) {
+    if (ENABLE_IDENTITY_VERIFIED_ACCOUNT) {
         dispatch(redirectTo(`/verify-account?accountId=${accountId}&implicitAccountId=${implicitAccountId}&recoveryMethod=${recoveryMethod}`));
     } else {
         dispatch(redirectTo(`/fund-create-account/${accountId}/${implicitAccountId}/${recoveryMethod}`));
@@ -434,7 +434,7 @@ export const fundCreateAccountLedger = (accountId, ledgerPublicKey) => async (di
     const implicitAccountId = Buffer.from(ledgerPublicKey.data).toString('hex');
     const recoveryMethod = 'ledger';
 
-    if (COIN_OP_VERIFY_ACCOUNT) {
+    if (ENABLE_IDENTITY_VERIFIED_ACCOUNT) {
         dispatch(redirectTo(`/verify-account?accountId=${accountId}&implicitAccountId=${implicitAccountId}&recoveryMethod=${recoveryMethod}`));
     } else {
         dispatch(redirectTo(`/fund-create-account/${accountId}/${implicitAccountId}/${recoveryMethod}`));
@@ -445,14 +445,14 @@ export const fundCreateAccountLedger = (accountId, ledgerPublicKey) => async (di
 export const handleCreateAccountWithSeedPhrase = (accountId, recoveryKeyPair, fundingOptions, recaptchaToken) => async (dispatch) => {
 
     // Coin-op verify account flow
-    if (DISABLE_CREATE_ACCOUNT && COIN_OP_VERIFY_ACCOUNT && !fundingOptions) {
-        await dispatch(fundCreateAccount(accountId, recoveryKeyPair, 'seed'));
+    if (DISABLE_CREATE_ACCOUNT && ENABLE_IDENTITY_VERIFIED_ACCOUNT && !fundingOptions) {
+        await dispatch(fundCreateAccount(accountId, recoveryKeyPair, 'phrase'));
         return;
     }
 
     // Implicit account flow
     if (DISABLE_CREATE_ACCOUNT && !fundingOptions && !recaptchaToken) {
-        await dispatch(fundCreateAccount(accountId, recoveryKeyPair, 'seed'));
+        await dispatch(fundCreateAccount(accountId, recoveryKeyPair, 'phrase'));
         return;
     }
 
@@ -511,7 +511,7 @@ export const { addAccessKey, createAccountWithSeedPhrase, addAccessKeySeedPhrase
         (title) => showAlert({ title })
     ],
     CREATE_ACCOUNT_WITH_SEED_PHRASE: async (accountId, recoveryKeyPair, fundingOptions = {}, recaptchaToken) => {
-        const recoveryMethod = 'seed';
+        const recoveryMethod = 'phrase';
         const previousAccountId = wallet.accountId;
         await wallet.saveAccount(accountId, recoveryKeyPair);
         await wallet.createNewAccount(accountId, fundingOptions, recoveryMethod, recoveryKeyPair.publicKey, previousAccountId, recaptchaToken);

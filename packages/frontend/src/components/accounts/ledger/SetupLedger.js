@@ -16,7 +16,7 @@ import {
 import { showCustomAlert } from '../../../redux/actions/status';
 import { actions as linkdropActions } from '../../../redux/slices/linkdrop';
 import parseFundingOptions from '../../../utils/parseFundingOptions';
-import { DISABLE_CREATE_ACCOUNT, setKeyMeta, COIN_OP_VERIFY_ACCOUNT } from '../../../utils/wallet';
+import { DISABLE_CREATE_ACCOUNT, setKeyMeta, ENABLE_IDENTITY_VERIFIED_ACCOUNT } from '../../../utils/wallet';
 import FormButton from '../../common/FormButton';
 import GlobalAlert from '../../common/GlobalAlert';
 import Container from '../../common/styled/Container.css';
@@ -39,7 +39,7 @@ const SetupLedger = (props) => {
     const [recaptchaToken, setRecaptchaToken] = useState(null);
     const recaptchaRef = useRef(null);
     const fundingOptions = parseFundingOptions(props.location.search);
-    const shouldRenderRecaptcha = !fundingOptions && process.env.RECAPTCHA_CHALLENGE_API_KEY && isNewAccount && !COIN_OP_VERIFY_ACCOUNT;
+    const shouldRenderRecaptcha = !fundingOptions && process.env.RECAPTCHA_CHALLENGE_API_KEY && isNewAccount && !ENABLE_IDENTITY_VERIFIED_ACCOUNT;
 
     useEffect(() => {
         const performNewAccountCheck = async () => {
@@ -77,7 +77,7 @@ const SetupLedger = (props) => {
                         Mixpanel.track("SR-Ledger Set key meta");
 
                         // COIN-OP VERIFY ACCOUNT
-                        if (DISABLE_CREATE_ACCOUNT && COIN_OP_VERIFY_ACCOUNT && !fundingOptions) {
+                        if (DISABLE_CREATE_ACCOUNT && ENABLE_IDENTITY_VERIFIED_ACCOUNT && !fundingOptions) {
                             await dispatch(fundCreateAccountLedger(accountId, publicKey));
                             Mixpanel.track("SR-Ledger Fund create account ledger");
                             return;

@@ -14,7 +14,11 @@ import { validateEmail } from '../../../utils/account';
 import { actionsPending } from '../../../utils/alerts';
 import isApprovedCountryCode from '../../../utils/isApprovedCountryCode';
 import parseFundingOptions from '../../../utils/parseFundingOptions';
-import { DISABLE_CREATE_ACCOUNT, COIN_OP_VERIFY_ACCOUNT } from '../../../utils/wallet';
+import {
+    DISABLE_CREATE_ACCOUNT,
+    ENABLE_IDENTITY_VERIFIED_ACCOUNT,
+    wallet
+} from '../../../utils/wallet';
 import FormButton from '../../common/FormButton';
 import Container from '../../common/styled/Container.css';
 import Tooltip from '../../common/Tooltip';
@@ -195,9 +199,22 @@ class SetupRecoveryMethod extends Component {
             await validateSecurityCode(accountId, method, securityCode);
             await saveAccount(accountId, recoveryKeyPair);
 
-            // COIN-OP VERIFY ACCOUNT
-            if (DISABLE_CREATE_ACCOUNT && COIN_OP_VERIFY_ACCOUNT && !fundingOptions) {
-                await fundCreateAccount(accountId, recoveryKeyPair, method.kind);
+            // IDENTITY VERIFIED FUNDED ACCOUNT
+            if (DISABLE_CREATE_ACCOUNT && !fundingOptions && ENABLE_IDENTITY_VERIFIED_ACCOUNT) {
+                try {
+                    await wallet.createIdentifyFundedAccount({
+                        accountId,
+                        recoveryMethod: method.kind,
+                        publicKey: recoveryKeyPair.publicKey,
+                        identityKey: method.detail,
+                        verificationCode: securityCode,
+                        previousAccountId: undefined
+                    });
+                    // Fix: Dispatch action
+                } catch(e) {
+                    console.log(e.code);
+                    await fundCreateAccount(accountId, recoveryKeyPair, method.kind);
+                }
                 return;
             }
 

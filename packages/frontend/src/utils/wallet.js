@@ -62,9 +62,11 @@ export const MIN_BALANCE_TO_CREATE = process.env.MIN_BALANCE_TO_CREATE || nearAp
 export const NETWORK_ID = process.env.REACT_APP_NETWORK_ID || 'default';
 const CONTRACT_CREATE_ACCOUNT_URL = `${ACCOUNT_HELPER_URL}/account`;
 const FUNDED_ACCOUNT_CREATE_URL = `${ACCOUNT_HELPER_URL}/fundedAccount`;
+const IDENTITY_FUNDED_ACCOUNT_CREATE_URL = `${ACCOUNT_HELPER_URL}/identityFundedAccount`;
+const IDENTITY_VERIFICATION_METHOD_SEND_CODE_URL = `${ACCOUNT_HELPER_URL}/identityVerificationMethod`;
 export const NODE_URL = process.env.REACT_APP_NODE_URL || 'https://rpc.nearprotocol.com';
 
-export const COIN_OP_VERIFY_ACCOUNT = process.env.COIN_OP_VERIFY_ACCOUNT === 'true' || 'true';
+export const ENABLE_IDENTITY_VERIFIED_ACCOUNT = process.env.ENABLE_IDENTITY_VERIFIED_ACCOUNT === 'true' || 'true';
 
 const KEY_UNIQUE_PREFIX = '_4:';
 const KEY_WALLET_ACCOUNTS = KEY_UNIQUE_PREFIX + 'wallet:accounts_v2';
@@ -360,6 +362,33 @@ class Wallet {
         return !(await this.accountExists(accountId));
     }
 
+    async sendIdentityVerificationMethodCode({ kind, identityKey }) {
+        return await sendJson('POST', IDENTITY_VERIFICATION_METHOD_SEND_CODE_URL, {
+            kind,
+            identityKey
+        });
+    }
+
+    async createIdentifyFundedAccount({
+        accountId,
+        recoveryMethod,
+        publicKey,
+        identityKey,
+        verificationCode,
+        previousAccountId
+    }) {
+        await this.checkNewAccount(accountId);
+        await sendJson('POST', IDENTITY_FUNDED_ACCOUNT_CREATE_URL, {
+            kind: recoveryMethod,
+            newAccountId: accountId,
+            newAccountPublicKey: publicKey.toString(),
+            identityKey,
+            verificationCode
+        });
+        await this.saveAndMakeAccountActive(accountId);
+        await this.addLocalKeyAndFinishSetup(accountId, recoveryMethod, publicKey, previousAccountId);
+    }
+
     async createNewAccount(accountId, fundingOptions, recoveryMethod, publicKey, previousAccountId, recaptchaToken) {
         await this.checkNewAccount(accountId);
 
@@ -587,19 +616,19 @@ class Wallet {
         }
 
         const checkedAccountIds = (await Promise.all(
-                accountIds
-                    .map(async (accountId) => {
-                        try {
-                            const accountKeys = await (await this.getAccount(accountId)).getAccessKeys();
-                            return accountKeys.find(({ public_key }) => public_key === publicKey.toString()) ? accountId : null;
-                        } catch (error) {
-                            if (error.toString().indexOf('does not exist while viewing') !== -1) {
-                                return null;
-                            }
-                            throw error;
+            accountIds
+                .map(async (accountId) => {
+                    try {
+                        const accountKeys = await (await this.getAccount(accountId)).getAccessKeys();
+                        return accountKeys.find(({ public_key }) => public_key === publicKey.toString()) ? accountId : null;
+                    } catch (error) {
+                        if (error.toString().indexOf('does not exist while viewing') !== -1) {
+                            return null;
                         }
-                    })
-            )
+                        throw error;
+                    }
+                })
+        )
         )
             .filter(accountId => accountId);
 
@@ -772,7 +801,7 @@ class Wallet {
         } else {
             const newKeyPair = KeyPair.fromRandom('ed25519');
             const newPublicKey = newKeyPair.publicKey;
-            if (recoveryMethod !== 'seed') {
+            if (recoveryMethod !== 'phrase') {
                 await this.addNewAccessKeyToAccount(accountId, newPublicKey);
                 await this.saveAccount(accountId, newKeyPair);
             } else {
@@ -938,7 +967,7 @@ class Wallet {
             }));
 
             store.dispatch(makeAccountActive(accountIdsSuccess[accountIdsSuccess.length - 1].accountId));
-            
+
             return {
                 numberOfAccounts: accountIdsSuccess.length,
                 accountList: accountIdsSuccess.flatMap((accountId) => accountId.account_id).join(', '),
