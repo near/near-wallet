@@ -32,8 +32,8 @@ export const WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS = [
     'recover-seed-phrase',
     'sign-in-ledger',
     'fund-create-account',
-    '/verify-account',
-    '/initial-deposit'
+    'verify-account',
+    'initial-deposit'
 ];
 export const WALLET_LOGIN_URL = 'login';
 export const WALLET_SIGN_URL = 'sign';
@@ -45,7 +45,7 @@ export const EXPLORER_URL = process.env.EXPLORER_URL || 'https://explorer.testne
 export const IS_MAINNET = process.env.REACT_APP_IS_MAINNET === 'true' || process.env.REACT_APP_IS_MAINNET === 'yes';
 export const SHOW_PRERELEASE_WARNING = process.env.SHOW_PRERELEASE_WARNING === 'true' || process.env.SHOW_PRERELEASE_WARNING === 'yes';
 export const SHOW_NETWORK_BANNER = !IS_MAINNET || SHOW_PRERELEASE_WARNING;
-export const DISABLE_CREATE_ACCOUNT = true; //process.env.DISABLE_CREATE_ACCOUNT === 'true' || process.env.DISABLE_CREATE_ACCOUNT === 'yes';
+export const DISABLE_CREATE_ACCOUNT = process.env.DISABLE_CREATE_ACCOUNT === 'true' || process.env.DISABLE_CREATE_ACCOUNT === 'yes';
 export const DISABLE_SEND_MONEY = process.env.DISABLE_SEND_MONEY === 'true' || process.env.DISABLE_SEND_MONEY === 'yes';
 export const ACCOUNT_ID_SUFFIX = process.env.REACT_APP_ACCOUNT_ID_SUFFIX || 'testnet';
 export const MULTISIG_MIN_AMOUNT = process.env.REACT_APP_MULTISIG_MIN_AMOUNT || '4';
