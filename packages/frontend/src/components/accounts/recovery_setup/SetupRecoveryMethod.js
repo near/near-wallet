@@ -207,10 +207,8 @@ class SetupRecoveryMethod extends Component {
                         recoveryMethod: method.kind,
                         publicKey: recoveryKeyPair.publicKey,
                         identityKey: method.detail,
-                        verificationCode: securityCode,
-                        previousAccountId: undefined
+                        verificationCode: securityCode
                     });
-                    // Fix: Dispatch action
                 } catch(e) {
                     console.log(e.code);
                     await fundCreateAccount(accountId, recoveryKeyPair, method.kind);

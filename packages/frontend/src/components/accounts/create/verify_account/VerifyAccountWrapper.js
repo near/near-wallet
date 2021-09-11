@@ -23,6 +23,7 @@ export function VerifyAccountWrapper() {
 
     const [activeVerificationOption, setActiveVerificationOption] = useState('email');
     const [showEnterVerificationCode, setshowEnterVerificationCode] = useState(false);
+    const [verifyingAndCreatingAccount, setVerifyingAndCreatingAccount] = useState(false);
     const [showOptionAlreadyUsedModal, setShowOptionAlreadyUsedModal] = useState(false);
     const [showFundWithCreditCardOption, setShowFundWithCreditCardOption] = useState(false);
 
@@ -61,24 +62,25 @@ export function VerifyAccountWrapper() {
                         data: Buffer.from(implicitAccountId, 'hex')
                     });
                     try {
+                        setVerifyingAndCreatingAccount(true);
                         await wallet.createIdentifyFundedAccount({
                             accountId,
                             recoveryMethod,
                             publicKey,
                             identityKey,
-                            verificationCode,
-                            previousAccountId: undefined
+                            verificationCode
                         });
                     } catch(e) {
                         console.log(e.code);
+                        setVerifyingAndCreatingAccount(false);
                     }
-                    // FIX: Dispatch action to get error handling
                 }}
                 onResend={async () => {
                    await handleSendIdentityVerificationMethodCode();
                 }}
                 onGoBack={() => setshowEnterVerificationCode(false)}
                 skipRecaptcha={true}
+                verifyingCode={verifyingAndCreatingAccount}
             />
         );
     }

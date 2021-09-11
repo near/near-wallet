@@ -374,8 +374,7 @@ class Wallet {
         recoveryMethod,
         publicKey,
         identityKey,
-        verificationCode,
-        previousAccountId
+        verificationCode
     }) {
         await this.checkNewAccount(accountId);
         await sendJson('POST', IDENTITY_FUNDED_ACCOUNT_CREATE_URL, {
@@ -386,7 +385,7 @@ class Wallet {
             verificationCode
         });
         await this.saveAndMakeAccountActive(accountId);
-        await this.addLocalKeyAndFinishSetup(accountId, recoveryMethod, publicKey, previousAccountId);
+        await this.addLocalKeyAndFinishSetup(accountId, recoveryMethod, publicKey);
     }
 
     async createNewAccount(accountId, fundingOptions, recoveryMethod, publicKey, previousAccountId, recaptchaToken) {
