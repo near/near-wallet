@@ -5,11 +5,14 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { createAccountFromImplicit, redirectTo } from '../../../../redux/actions/account';
+import { actions as createFromImplicitActions } from '../../../../redux/slices/createFromImplicit';
 import { getSignedUrl } from '../../../../utils/moonpay';
 import { MIN_BALANCE_TO_CREATE, wallet } from '../../../../utils/wallet';
 import FundingReceived from './FundingReceived';
 import FundWithCreditCard from './FundWithCreditCard';
 import FundWithManualDeposit from './FundWithManualDeposit';
+
+const { setCreateFromImplicitSuccess } = createFromImplicitActions;
 
 export function InitialDepositWrapper({ history }) {
     const dispatch = useDispatch();
@@ -84,7 +87,8 @@ export function InitialDepositWrapper({ history }) {
             setClaimingAccount(false);
             throw e;
         }
-        dispatch(redirectTo('/fund-create-account/success'));
+        dispatch(setCreateFromImplicitSuccess(true));
+        dispatch(redirectTo('/'));
     };
 
     if (!fundingNeeded) {

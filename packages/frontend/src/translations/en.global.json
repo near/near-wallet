@@ -207,7 +207,11 @@
                 "descOne": "Congratulations <b>${accountId}</b>! Your account has been successfully created.",
                 "descTwo": "You must now use this Account ID as your address for all NEAR operations.",
                 "descThree": "Please update your address on any exchanges or other devices.",
-                "button": "Continue to Account"
+                "button": "Continue to Account",
+                "modal": {
+                    "title": "Welcome to NEAR Wallet!",
+                    "desc": "Congratulations! Your account has been successfully created."
+                }
             }
         },
         "fundedStatus": {

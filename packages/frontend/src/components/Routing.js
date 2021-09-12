@@ -47,7 +47,6 @@ import { RecoverAccountWrapper } from './accounts/RecoverAccountWrapper';
 import { RecoverWithLinkWithRouter } from './accounts/RecoverWithLink';
 import { SetupRecoveryMethodWithRouter } from './accounts/recovery_setup/SetupRecoveryMethod';
 import { SetupImplicitWithRouter } from './accounts/SetupImplicit';
-import { SetupImplicitSuccess } from './accounts/SetupImplicitSuccess';
 import { SetupSeedPhraseWithRouter } from './accounts/SetupSeedPhrase';
 import { EnableTwoFactor } from './accounts/two_factor/EnableTwoFactor';
 import { BuyNear } from './buy/BuyNear';
@@ -362,11 +361,6 @@ class Routing extends Component {
                                 exact
                                 path='/fund-create-account/:accountId/:implicitAccountId/:recoveryMethod'
                                 component={SetupImplicitWithRouter}
-                            />
-                            <PublicRoute
-                                exact
-                                path='/fund-create-account/success'
-                                component={SetupImplicitSuccess}
                             />
                             <PublicRoute
                                 exact

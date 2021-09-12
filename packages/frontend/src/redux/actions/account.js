@@ -513,7 +513,9 @@ export const createAccountFromImplicit = createAction('CREATE_ACCOUNT_FROM_IMPLI
     }
     const publicKey = new PublicKey({ keyType: KeyType.ED25519, data: Buffer.from(implicitAccountId, 'hex') });
     await wallet.createNewAccount(accountId, { fundingAccountId: implicitAccountId }, recoveryMethod, publicKey);
-});
+},
+    () => showAlert({ onlyError: true })
+);
 
 export const { addAccessKey, createAccountWithSeedPhrase, addAccessKeySeedPhrase } = createActions({
     ADD_ACCESS_KEY: [
