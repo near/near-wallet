@@ -30,7 +30,9 @@ export function VerifyAccountWrapper() {
     const [verificationEmail, setVerificationEmail] = useState('');
     const [verificationNumber, setVerificationNumber] = useState('');
 
-    const identityKey = activeVerificationOption === 'email' ? verificationEmail : verificationNumber;
+    const identityKey = activeVerificationOption === 'email'
+    ? verificationEmail
+    : verificationNumber;
 
     useEffect(() => {
         const checkIfMoonPayIsAvailable = async () => {
@@ -65,14 +67,16 @@ export function VerifyAccountWrapper() {
                         setVerifyingAndCreatingAccount(true);
                         await wallet.createIdentifyFundedAccount({
                             accountId,
-                            recoveryMethod,
+                            kind: activeVerificationOption,
                             publicKey,
                             identityKey,
-                            verificationCode
+                            verificationCode,
+                            recoveryMethod
                         });
                     } catch(e) {
-                        console.log(e.code);
                         setVerifyingAndCreatingAccount(false);
+                        console.error(e.code);
+                        throw e;
                     }
                 }}
                 onResend={async () => {

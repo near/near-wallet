@@ -117,7 +117,7 @@ export default ({
                         translateIdDesc={optionTranslateId('manualDeposit', 'desc')}
                     />
                     <FormButton
-                        disabled={!isValidOpotionInput()}
+                        disabled={!isValidOpotionInput() || showOptionAlreadyUsedModal}
                         type='submit'
                         className='continue'
                     >

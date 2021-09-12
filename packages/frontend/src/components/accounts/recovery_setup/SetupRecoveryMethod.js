@@ -204,10 +204,11 @@ class SetupRecoveryMethod extends Component {
                 try {
                     await wallet.createIdentifyFundedAccount({
                         accountId,
-                        recoveryMethod: method.kind,
+                        kind: method.kind,
                         publicKey: recoveryKeyPair.publicKey,
                         identityKey: method.detail,
-                        verificationCode: securityCode
+                        verificationCode: securityCode,
+                        recoveryMethod: method.kind
                     });
                 } catch(e) {
                     console.log(e.code);

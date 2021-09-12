@@ -371,14 +371,15 @@ class Wallet {
 
     async createIdentifyFundedAccount({
         accountId,
-        recoveryMethod,
+        kind,
         publicKey,
         identityKey,
-        verificationCode
+        verificationCode,
+        recoveryMethod
     }) {
         await this.checkNewAccount(accountId);
         await sendJson('POST', IDENTITY_FUNDED_ACCOUNT_CREATE_URL, {
-            kind: recoveryMethod,
+            kind,
             newAccountId: accountId,
             newAccountPublicKey: publicKey.toString(),
             identityKey,
