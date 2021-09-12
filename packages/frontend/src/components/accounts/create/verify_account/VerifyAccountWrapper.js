@@ -4,7 +4,9 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import {
-    redirectTo
+    redirectTo,
+    createIdentityFundedAccount,
+    sendIdentityVerificationMethodCode
 } from '../../../../redux/actions/account';
 import { showCustomAlert } from '../../../../redux/actions/status';
 import { isMoonpayAvailable } from '../../../../utils/moonpay';
@@ -45,10 +47,10 @@ export function VerifyAccountWrapper() {
     }, []);
 
     const handleSendIdentityVerificationMethodCode = async () => {
-        await wallet.sendIdentityVerificationMethodCode({
+        await dispatch(sendIdentityVerificationMethodCode({
             kind: activeVerificationOption,
             identityKey
-        });
+        }));
     };
 
     if (showEnterVerificationCode) {
@@ -65,18 +67,18 @@ export function VerifyAccountWrapper() {
                     });
                     try {
                         setVerifyingAndCreatingAccount(true);
-                        await wallet.createIdentifyFundedAccount({
+                        await dispatch(createIdentityFundedAccount({
                             accountId,
                             kind: activeVerificationOption,
                             publicKey,
                             identityKey,
                             verificationCode,
                             recoveryMethod
-                        });
+                        }));
                     } catch(e) {
                         setVerifyingAndCreatingAccount(false);
                         console.error(e.code);
-                        throw e;
+                        return;
                     }
                 }}
                 onResend={async () => {

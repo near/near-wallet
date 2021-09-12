@@ -349,6 +349,8 @@ export const {
     getAccessKeys,
     removeAccessKey,
     addLedgerAccessKey,
+    sendIdentityVerificationMethodCode,
+    createIdentityFundedAccount,
     disableLedger,
     removeNonLedgerAccessKeys,
     getLedgerAccountIds,
@@ -366,6 +368,14 @@ export const {
     ],
     ADD_LEDGER_ACCESS_KEY: [
         wallet.addLedgerAccessKey.bind(wallet),
+        () => showAlert({ onlyError: true })
+    ],
+    SEND_IDENTITY_VERIFICATION_METHOD_CODE: [
+        wallet.sendIdentityVerificationMethodCode.bind(wallet),
+        () => showAlert({ localAlert: true })
+    ],
+    CREATE_IDENTITY_FUNDED_ACCOUNT: [
+        wallet.createIdentityFundedAccount.bind(wallet),
         () => showAlert({ onlyError: true })
     ],
     DISABLE_LEDGER: [

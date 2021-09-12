@@ -369,7 +369,7 @@ class Wallet {
         });
     }
 
-    async createIdentifyFundedAccount({
+    async createIdentityFundedAccount({
         accountId,
         kind,
         publicKey,

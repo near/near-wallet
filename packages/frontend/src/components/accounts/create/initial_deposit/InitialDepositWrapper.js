@@ -84,7 +84,7 @@ export function InitialDepositWrapper({ history }) {
             setClaimingAccount(false);
             throw e;
         }
-        dispatch(redirectTo('/'));
+        dispatch(redirectTo('/fund-create-account/success'));
     };
 
     if (!fundingNeeded) {

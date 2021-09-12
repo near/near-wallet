@@ -202,7 +202,8 @@ class SetupRecoveryMethod extends Component {
             // IDENTITY VERIFIED FUNDED ACCOUNT
             if (DISABLE_CREATE_ACCOUNT && !fundingOptions && ENABLE_IDENTITY_VERIFIED_ACCOUNT) {
                 try {
-                    await wallet.createIdentifyFundedAccount({
+                    // Call function directly to handle error silently
+                    await wallet.createIdentityFundedAccount({
                         accountId,
                         kind: method.kind,
                         publicKey: recoveryKeyPair.publicKey,
@@ -211,7 +212,6 @@ class SetupRecoveryMethod extends Component {
                         recoveryMethod: method.kind
                     });
                 } catch(e) {
-                    console.log(e.code);
                     await fundCreateAccount(accountId, recoveryKeyPair, method.kind);
                 }
                 return;
