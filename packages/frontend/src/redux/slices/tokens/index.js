@@ -17,10 +17,15 @@ const initialState = {
     }
 };
 
+const initialErrorState = {
+    code: null,
+    message: null
+};
+
 const initialOwnedTokenState = {
     balance: '',
     loading: false,
-    error: null
+    error: initialErrorState
 };
 
 async function getCachedContractMetadataOrFetch(contractName, accountId, state) {
@@ -90,18 +95,24 @@ const tokensSlice = createSlice({
     extraReducers: ((builder) => {
         builder.addCase(fetchOwnedTokensForContract.pending, (state, { meta }) => {
             const { accountId, contractName } = meta.arg;
+
             set(state, ['ownedTokens', 'byAccountId', accountId, contractName, 'loading'], true);
-            set(state, ['ownedTokens', 'byAccountId', accountId, contractName, 'error'], '');
+            set(state, ['ownedTokens', 'byAccountId', accountId, contractName, 'error'], initialErrorState);
         });
         builder.addCase(fetchOwnedTokensForContract.fulfilled, (state, { meta }) => {
             const { accountId, contractName } = meta.arg;
+
             set(state, ['ownedTokens', 'byAccountId', accountId, contractName, 'loading'], false);
-            set(state, ['ownedTokens', 'byAccountId', accountId, contractName, 'error'], '');
+            set(state, ['ownedTokens', 'byAccountId', accountId, contractName, 'error'], initialErrorState);
         });
         builder.addCase(fetchOwnedTokensForContract.rejected, (state, { meta,  error }) => {
             const { accountId, contractName } = meta.arg;
+            
             set(state, ['ownedTokens', 'byAccountId', accountId, contractName, 'loading'], false);
-            set(state, ['ownedTokens', 'byAccountId', accountId, contractName, 'error'], error?.message || 'An error was encountered.');
+            set(state, ['ownedTokens', 'byAccountId', accountId, contractName, 'error'], {
+                message: error?.message || 'An error was encountered.',
+                code: error?.code
+            });
         });
     })
 });
