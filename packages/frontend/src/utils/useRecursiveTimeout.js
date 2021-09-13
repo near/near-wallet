@@ -1,26 +1,51 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef } from 'react';
 
 export default (callback, delay = 1000) => {
-    const ref = useRef();
+    const callbackFunc = useRef(callback);
+    const timerHandle = useRef(null);
+    const shouldPoll = useRef(true);
+
+    // Without this, we could have overlapping executions of  async`callback` running if `delay` changes
+    // while there is an existing pending promise
+    const isPending = useRef(false);
 
     useEffect(() => {
-        ref.current = callback;
-    });
+        callbackFunc.current = callback;
+    }, [callback]);
 
     useEffect(() => {
-        const tick = () => {
-            const ret = ref.current();
-
-            const nextDelay = Math.floor(Math.random() * (delay * 2)) + 1;
-            if (!ret) {
-                setTimeout(tick, nextDelay);
-            } else if (ret.constructor === Promise) {
-                ret.then(() => setTimeout(tick, nextDelay));
+        const handleTick = async () => {
+            if (
+                // async CB is still pending, don't do anything here because it will re-schedule itself when it resolves
+                isPending.current === true ||
+                // If component was un-mounted, don't run this iteration
+                shouldPoll.current !== true
+            ) {
+                return;
             }
+
+            try {
+                isPending.current = true;
+                await callbackFunc.current();
+            } finally {
+                isPending.current = false;
+            }
+
+            // Component was unmounted while we were resolving CB; don't re-schedule anything
+            if (shouldPoll.current !== true) {
+                return;
+            }
+
+            timerHandle.current = setTimeout(handleTick, delay);
         };
 
-        const timer = setTimeout(tick, delay);
+        setTimeout(handleTick, delay);
 
-        return () => clearTimeout(timer);
+        return () => {
+            // Ensure that future scheduled iteration is cancelled
+            clearTimeout(timerHandle.current);
+            // If a promise is pending, ensure that we don't't re-schedule a new timer when it finishes
+            shouldPoll.current = false;
+        };
     }, [delay]);
 };
