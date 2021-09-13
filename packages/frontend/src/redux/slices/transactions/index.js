@@ -3,7 +3,7 @@ import set from 'lodash.set';
 import { createSelector } from 'reselect';
 
 import { getTransactions, transactionExtraInfo } from '../../../utils/explorer-api';
-import createParameterSelector from '../../createParameterSelector';
+import createParameterSelector from '../createParameterSelector';
 
 const SLICE_NAME = 'transactions';
 

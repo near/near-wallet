@@ -4,7 +4,7 @@ import update from 'lodash.update';
 import { createSelector } from 'reselect';
 
 import NonFungibleTokens, { TOKENS_PER_PAGE } from '../../../services/NonFungibleTokens';
-import createParameterSelector from '../../createParameterSelector';
+import createParameterSelector from '../createParameterSelector';
 
 const { getLikelyTokenContracts, getMetadata, getTokens } = NonFungibleTokens;
 
