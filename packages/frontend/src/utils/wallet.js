@@ -65,7 +65,7 @@ const FUNDED_ACCOUNT_CREATE_URL = `${ACCOUNT_HELPER_URL}/fundedAccount`;
 const IDENTITY_FUNDED_ACCOUNT_CREATE_URL = `${ACCOUNT_HELPER_URL}/identityFundedAccount`;
 const IDENTITY_VERIFICATION_METHOD_SEND_CODE_URL = `${ACCOUNT_HELPER_URL}/identityVerificationMethod`;
 export const NODE_URL = process.env.REACT_APP_NODE_URL || 'https://rpc.nearprotocol.com';
-export const ENABLE_IDENTITY_VERIFIED_ACCOUNT = process.env.ENABLE_IDENTITY_VERIFIED_ACCOUNT === 'true' || 'true';
+export const ENABLE_IDENTITY_VERIFIED_ACCOUNT = process.env.ENABLE_IDENTITY_VERIFIED_ACCOUNT === 'true';
 
 const KEY_UNIQUE_PREFIX = '_4:';
 const KEY_WALLET_ACCOUNTS = KEY_UNIQUE_PREFIX + 'wallet:accounts_v2';

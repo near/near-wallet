@@ -29,7 +29,8 @@ import {
     WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS,
     WALLET_LOGIN_URL,
     WALLET_SIGN_URL,
-    WALLET_SEND_MONEY_URL
+    WALLET_SEND_MONEY_URL,
+    ENABLE_IDENTITY_VERIFIED_ACCOUNT
 } from '../utils/wallet';
 import { AuthorizedAppsWithRouter, FullAccessKeysWithRouter } from './access-keys/AccessKeys';
 import { AutoImportWrapper } from './accounts/auto_import/AutoImportWrapper';

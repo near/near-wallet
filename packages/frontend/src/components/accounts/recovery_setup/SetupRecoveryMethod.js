@@ -212,6 +212,7 @@ class SetupRecoveryMethod extends Component {
                         recoveryMethod: method.kind
                     });
                 } catch(e) {
+                    console.warn(e.code);
                     await fundCreateAccount(accountId, recoveryKeyPair, method.kind);
                 }
                 return;
@@ -461,6 +462,7 @@ class SetupRecoveryMethod extends Component {
                     verifyingCode={actionsPending('SETUP_RECOVERY_MESSAGE') || settingUpNewAccount}
                     onRecaptchaChange={this.handleRecaptchaChange}
                     isLinkDrop={parseFundingOptions(location.search) !== null}
+                    skipRecaptcha={ENABLE_IDENTITY_VERIFIED_ACCOUNT}
                 />
             );
         }

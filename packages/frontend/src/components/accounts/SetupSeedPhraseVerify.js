@@ -2,6 +2,7 @@ import React, { useRef, useImperativeHandle, forwardRef, useState } from 'react'
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
+import { ENABLE_IDENTITY_VERIFIED_ACCOUNT } from '../../utils/wallet';
 import FormButton from '../common/FormButton';
 import LocalAlertBox from '../common/LocalAlertBox';
 import { Recaptcha } from '../Recaptcha';
@@ -72,7 +73,7 @@ const SetupSeedPhraseVerify = (
         }
     }));
 
-    const shouldRenderRecaptcha = !isLinkDrop && process.env.RECAPTCHA_CHALLENGE_API_KEY && isNewAccount;
+    const shouldRenderRecaptcha = !ENABLE_IDENTITY_VERIFIED_ACCOUNT && !isLinkDrop && process.env.RECAPTCHA_CHALLENGE_API_KEY && isNewAccount;
 
     return (
         <CustomDiv>
