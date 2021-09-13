@@ -6,6 +6,7 @@ import { createSelector } from 'reselect';
 import NonFungibleTokens, { TOKENS_PER_PAGE } from '../../../services/NonFungibleTokens';
 import createParameterSelector from '../createParameterSelector';
 import initialErrorState from '../initialErrorState';
+import selectSlice from '../selectSlice';
 
 const { getLikelyTokenContracts, getMetadata, getTokens } = NonFungibleTokens;
 
@@ -154,7 +155,7 @@ export const reducer = nftSlice.reducer;
 const getAccountIdParam = createParameterSelector((params) => params.accountId);
 
 // Top level selectors
-const selectNftSlice = (state) => state[nftSlice.name];
+const selectNftSlice = selectSlice(SLICE_NAME);
 const selectMetadataSlice = createSelector(selectNftSlice, ({ metadata }) => metadata);
 const selectOwnedTokensSlice = createSelector(selectNftSlice, ({ ownedTokens }) => ownedTokens);
 
