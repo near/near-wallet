@@ -82,7 +82,6 @@ export function VerifyAccountWrapper() {
                                 messageCodeHeader: 'error',
                                 messageCode: 'walletErrorCodes.setupRecoveryMessageNewAccount.invalidCode'
                             }));
-                            setVerifyingAndCreatingAccount(false);
                         } else if (e.code === 'NotEnoughBalance') {
                             dispatch(redirectTo(`/initial-deposit${location.search}`));
                         } else {
@@ -92,6 +91,7 @@ export function VerifyAccountWrapper() {
                                 errorMessage: e.code
                             }));
                         }
+                        setVerifyingAndCreatingAccount(false);
                         console.warn(e.code);
                         return;
                     }
