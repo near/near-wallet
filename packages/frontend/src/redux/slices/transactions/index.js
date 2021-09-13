@@ -5,6 +5,7 @@ import { createSelector } from 'reselect';
 import { getTransactions, transactionExtraInfo } from '../../../utils/explorer-api';
 import createParameterSelector from '../createParameterSelector';
 import initialErrorState from '../initialErrorState';
+import selectSlice from '../selectSlice';
 
 const SLICE_NAME = 'transactions';
 
@@ -122,7 +123,7 @@ const getAccountIdParam = createParameterSelector((params) => params.accountId);
 const getHashParam = createParameterSelector((params) => params.hash);
 
 // Top level selectors
-const selectTransactionsSlice = (state) => state[SLICE_NAME] || {};
+const selectTransactionsSlice = selectSlice(SLICE_NAME);
 
 export const selectTransactionsObjectByAccountId = createSelector(
     [selectTransactionsSlice, getAccountIdParam],
