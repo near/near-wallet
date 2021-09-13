@@ -58,15 +58,6 @@ describe("Linkdrop flow", () => {
         );
     });
 
-    beforeEach(async ({ page }) => {
-        const homePage = new HomePage(page);
-        await homePage.navigate();
-        await homePage.loginWithSeedPhraseLocalStorage(
-            linkdropReceiverAccount.account.accountId,
-            linkdropReceiverAccount.seedPhrase
-        );
-    });
-
     afterAll(async () => {
         await Promise.allSettled([
             linkdropSenderAccount && linkdropSenderAccount.delete(),
@@ -75,41 +66,25 @@ describe("Linkdrop flow", () => {
         ]);
     });
 
-    test("navigates to linkdrop page with correct balance and accounts", async ({ page }) => {
-        const homePage = new HomePage(page);
-        await homePage.navigate();
-        await homePage.loginWithSeedPhraseLocalStorage(process.env.BANK_ACCOUNT, process.env.BANK_SEED_PHRASE);
+    test("logs in and claims linkdrop", async ({ page }) => {
         const linkdropPage = new LinkDropPage(page);
-        const contractAccountId = linkdropContractAccount.account.accountId;
-        const linkdropSecretKey = linkdropKeyPair.secretKey;
-        await linkdropPage.navigate(linkdropContractAccount.account.accountId, linkdropKeyPair.secretKey);
 
-        await expect(page).not.toHaveSelector(".dots");
-        await expect(page).toMatchURL(new RegExp(`/linkdrop/${contractAccountId}/${linkdropSecretKey}`));
-        await expect(page).toMatchText(
-            "data-test-id=linkdropBalanceAmount",
-            new RegExp(`${formatNearAmount(linkdropClaimableAmount.toString())} NEAR`)
-        );
-        await expect(page).toMatchText("data-test-id=linkdropAccountDropdown", new RegExp(process.env.BANK_ACCOUNT));
-        await expect(page).toMatchText(
-            "data-test-id=linkdropAccountDropdown",
-            new RegExp(linkdropReceiverAccount.account.accountId)
-        );
-    });
-    test("adds to current account balance", async ({ page }) => {
-        const homePage = new HomePage(page);
-        await homePage.navigate();
-        await page.waitForSelector(".dots", { state: "detached" });
-        const startBalance = new BN(parseNearAmount(await homePage.getNearBalanceInNear()));
-        const linkdropPage = new LinkDropPage(page);
-        const endBalance = formatNearAmount(startBalance.add(linkdropClaimableAmount).toString());
         await linkdropPage.navigate(linkdropContractAccount.account.accountId, linkdropKeyPair.secretKey);
         await expect(page).not.toHaveSelector(".dots");
+        await linkdropPage.loginAndClaim();
+
+        await page.click(`data-test-id=recoverAccountWithPassphraseButton`);
+        await page.fill("data-test-id=seedPhraseRecoveryInput", linkdropReceiverAccount.seedPhrase);
+        await page.click(`[type="submit"]`);
+        await page.waitForNavigation();
         await linkdropPage.claimToExistingAccount();
         await page.waitForNavigation();
+
+        await expect(page).toMatchURL(/\/$/);
         await page.reload();
         await expect(page).not.toHaveSelector(".dots");
-        await expect(page).toMatchText("data-test-id=walletHomeNearBalance", new RegExp(endBalance));
+        const nearBalance = await new HomePage(page).getNearBalanceInNear();
+        await expect(new BN(parseNearAmount(nearBalance)).gte(linkdropClaimableAmount)).toBe(true);
     });
     test("claims linkdrop to new account", async ({ page, context }) => {
         await context.grantPermissions(["clipboard-read", "clipboard-write"]).catch(test.skip);
