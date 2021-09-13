@@ -12,10 +12,15 @@ const fetchTokenFiatValues = createAsyncThunk(
     () => sendJson('GET', ACCOUNT_HELPER_URL + `/fiat`)
 );
 
+const initialErrorState = {
+    code: null,
+    message: null
+};
+
 
 const initialState = {
     loading: false,
-    error: null,
+    error: initialErrorState,
     tokens: {}
 };
 
@@ -25,6 +30,7 @@ const tokenFiatValuesSlice = createSlice({
         extraReducers: ((builder) => {
             builder.addCase(fetchTokenFiatValues.pending, (state, action) => {
                 state.loading = true;
+                state.error = initialErrorState;
             });
 
             builder.addCase(fetchTokenFiatValues.fulfilled, (state, action) => {
@@ -32,18 +38,21 @@ const tokenFiatValuesSlice = createSlice({
                 // { near: { usd: x, lastUpdatedTimestamp: 1212312321, ... }
 
                 state.loading = false;
-                state.error = null;
+                state.error = initialErrorState;
 
                 // Using merge instead of `assign()` so in the future we don't blow away previously loaded token
                 // prices when we load new ones with different token names
                 merge(state.tokens, action.payload);
             });
 
-            builder.addCase(fetchTokenFiatValues.rejected, (state, action) => {
+            builder.addCase(fetchTokenFiatValues.rejected, (state, { error }) => {
                 state.loading = false;
 
                 // TODO: Localize this?
-                state.error = action.error?.message || 'An error was encountered.';
+                state.error = {
+                    message: error?.message || 'An error was encountered.',
+                    code: error?.code
+                };
             });
         })
     }
