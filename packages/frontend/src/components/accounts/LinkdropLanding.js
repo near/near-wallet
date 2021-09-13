@@ -147,6 +147,7 @@ class LinkdropLanding extends Component {
                         :
                         <FormButton
                             linkTo={`/recover-account?fundingOptions=${encodeURIComponent(JSON.stringify({ fundingContract, fundingKey, fundingAmount }))}${redirectUrl}`}
+                            data-test-id="linkdropLoginAndClaim"
                         >
                             <Translate id='linkdropLanding.ctaLogin'/>
                         </FormButton>

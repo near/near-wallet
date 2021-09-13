@@ -8,7 +8,7 @@ import StyledModal from './Style.css';
 
 const modalRoot = document.getElementById('modal-root');
 
-function Modal({ isOpen, onClose, id, modalSize, modalClass, children, closeButton, disableClose, mobileActionSheet = true }) {
+function Modal({ isOpen, onClose, id, modalSize, modalClass, children, closeButton, disableClose, mobileActionSheet = true, "data-test-id": testId }) {
     const background = React.createRef();
     const [fadeType, setFadeType] = useState(null);
     const [fullScreen, setFullScreen] = useState(null);
@@ -72,6 +72,7 @@ function Modal({ isOpen, onClose, id, modalSize, modalClass, children, closeButt
             role='dialog'
             modalSize={modalSize}
             onTransitionEnd={transitionEnd}
+            data-test-id={testId}
         >
             <div id='modal-container' className='modal'>
                 {closeButton && 
