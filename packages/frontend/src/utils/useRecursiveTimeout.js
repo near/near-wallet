@@ -44,7 +44,7 @@ export default (callback, delay = 1000) => {
         return () => {
             // Ensure that future scheduled iteration is cancelled
             clearTimeout(timerHandle.current);
-            // If a promise is pending, ensure that we don't't re-schedule a new timer when it finishes
+            // If a promise is pending, ensure that we don't re-schedule a new timer when it finishes
             shouldPoll.current = false;
         };
     }, [delay]);
