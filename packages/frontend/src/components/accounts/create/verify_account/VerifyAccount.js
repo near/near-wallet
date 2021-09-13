@@ -45,7 +45,7 @@ export default ({
 }) => {
     const [showWhereToBuyModal, setShowWhereToBuyModal] = useState(false);
 
-    const isValidOpotionInput = () => {
+    const isValidOptionInput = () => {
         switch (activeVerificationOption) {
             case 'email':
                 return validateEmail(verificationEmail);
@@ -117,7 +117,7 @@ export default ({
                         translateIdDesc={optionTranslateId('manualDeposit', 'desc')}
                     />
                     <FormButton
-                        disabled={!isValidOpotionInput() || showOptionAlreadyUsedModal}
+                        disabled={!isValidOptionInput() || showOptionAlreadyUsedModal}
                         type='submit'
                         className='continue'
                     >

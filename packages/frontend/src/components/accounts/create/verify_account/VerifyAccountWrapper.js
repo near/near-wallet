@@ -24,7 +24,7 @@ export function VerifyAccountWrapper() {
     const recoveryMethod = URLParams.get('recoveryMethod');
 
     const [activeVerificationOption, setActiveVerificationOption] = useState('email');
-    const [showEnterVerificationCode, setshowEnterVerificationCode] = useState(false);
+    const [showEnterVerificationCode, setShowEnterVerificationCode] = useState(false);
     const [verifyingAndCreatingAccount, setVerifyingAndCreatingAccount] = useState(false);
     const [showOptionAlreadyUsedModal, setShowOptionAlreadyUsedModal] = useState(false);
     const [showFundWithCreditCardOption, setShowFundWithCreditCardOption] = useState(false);
@@ -67,24 +67,39 @@ export function VerifyAccountWrapper() {
                     });
                     try {
                         setVerifyingAndCreatingAccount(true);
-                        await dispatch(createIdentityFundedAccount({
+                        await wallet.createIdentityFundedAccount({
                             accountId,
                             kind: activeVerificationOption,
                             publicKey,
                             identityKey,
                             verificationCode,
                             recoveryMethod
-                        }));
+                        });
                     } catch(e) {
-                        setVerifyingAndCreatingAccount(false);
-                        console.error(e.code);
+                        if (e.code === 'identityVerificationCodeInvalid') {
+                            dispatch(showCustomAlert({
+                                success: false,
+                                messageCodeHeader: 'error',
+                                messageCode: 'walletErrorCodes.setupRecoveryMessageNewAccount.invalidCode'
+                            }));
+                            setVerifyingAndCreatingAccount(false);
+                        } else if (e.code === 'NotEnoughBalance') {
+                            dispatch(redirectTo(`/initial-deposit${location.search}`));
+                        } else {
+                            dispatch(showCustomAlert({
+                                success: false,
+                                messageCodeHeader: 'error',
+                                errorMessage: e.code
+                            }));
+                        }
+                        console.warn(e.code);
                         return;
                     }
                 }}
                 onResend={async () => {
                    await handleSendIdentityVerificationMethodCode();
                 }}
-                onGoBack={() => setshowEnterVerificationCode(false)}
+                onGoBack={() => setShowEnterVerificationCode(false)}
                 skipRecaptcha={true}
                 verifyingCode={verifyingAndCreatingAccount}
             />
@@ -103,18 +118,18 @@ export function VerifyAccountWrapper() {
                 if (activeVerificationOption === 'email' || activeVerificationOption === 'phone') {
                     try {
                         await handleSendIdentityVerificationMethodCode();
-                        setshowEnterVerificationCode(true);
+                        setShowEnterVerificationCode(true);
                     } catch(e) {
                         if (e.code === 'identityVerificationAlreadyClaimed') {
                             setShowOptionAlreadyUsedModal(true);
                         } else {
-                            showCustomAlert({
+                            dispatch(showCustomAlert({
                                 success: false,
                                 messageCodeHeader: 'error',
                                 errorMessage: e.code
-                            });
-                            throw e;
+                            }));
                         }
+                        console.warn(e.code);
                     }
                     return;
                 }

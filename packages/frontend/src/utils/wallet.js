@@ -65,7 +65,7 @@ const FUNDED_ACCOUNT_CREATE_URL = `${ACCOUNT_HELPER_URL}/fundedAccount`;
 const IDENTITY_FUNDED_ACCOUNT_CREATE_URL = `${ACCOUNT_HELPER_URL}/identityFundedAccount`;
 const IDENTITY_VERIFICATION_METHOD_SEND_CODE_URL = `${ACCOUNT_HELPER_URL}/identityVerificationMethod`;
 export const NODE_URL = process.env.REACT_APP_NODE_URL || 'https://rpc.nearprotocol.com';
-export const ENABLE_IDENTITY_VERIFIED_ACCOUNT = DISABLE_CREATE_ACCOUNT;
+export const ENABLE_IDENTITY_VERIFIED_ACCOUNT = true;
 // To disable coin-op 1.5: Set ENABLE_IDENTITY_VERIFIED_ACCOUNT to 'false'
 // TODO: Clean up all Coin-op 1.5 related code after test period
 

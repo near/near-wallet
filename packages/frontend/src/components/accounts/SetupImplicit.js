@@ -109,7 +109,7 @@ class SetupImplicit extends Component {
             async () => {
                 const moonpayAvailable = await isMoonpayAvailable();
                 if (moonpayAvailable) {
-                    const moonpaySignedURL = await getSignedUrl(implicitAccountId, window.location.origin);
+                    const moonpaySignedURL = await getSignedUrl(implicitAccountId, window.location.href);
                     this.setState({ moonpayAvailable, moonpaySignedURL });
                 }
             },

@@ -35,13 +35,17 @@ export function InitialDepositWrapper({ history }) {
 
     useEffect(() => {
         const handleSetMoonpayURL = async () => {
-            const moonpaySignedUrl = await getSignedUrl(implicitAccountId, window.location.origin);
+            const moonpaySignedUrl = await getSignedUrl(implicitAccountId, window.location.href);
             setMoonpaySignedUrl(moonpaySignedUrl);
         };
         if (fundingMethod === 'creditCard') {
             handleSetMoonpayURL();
         }
-    }, []);
+    }, [
+        fundingMethod,
+        implicitAccountId,
+        window.location.href
+    ]);
 
     useEffect(() => {
         startPollingAccountBalance();
