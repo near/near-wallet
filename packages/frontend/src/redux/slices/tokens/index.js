@@ -6,6 +6,7 @@ import { createSelector } from 'reselect';
 import FungibleTokens from '../../../services/FungibleTokens';
 import createParameterSelector from '../createParameterSelector';
 import initialErrorState from '../initialErrorState';
+import selectSlice from '../selectSlice';
 
 const WHITELISTED_CONTRACTS = (process.env.TOKEN_CONTRACTS || 'berryclub.ek.near,farm.berryclub.ek.near,wrap.near').split(',');
 const SLICE_NAME = 'tokens';
@@ -125,7 +126,7 @@ export const reducer = tokensSlice.reducer;
 const getAccountIdParam = createParameterSelector((params) => params.accountId);
 
 // Top level selectors
-const selectTokensSlice = (state) => state[tokensSlice.name];
+const selectTokensSlice = selectSlice(SLICE_NAME);
 const selectMetadataSlice = createSelector(selectTokensSlice, ({ metadata }) => metadata || {});
 const selectOwnedTokensSlice = createSelector(selectTokensSlice, ({ ownedTokens }) => ownedTokens);
 
