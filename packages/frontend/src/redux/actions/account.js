@@ -427,11 +427,11 @@ export const handleAddAccessKeySeedPhrase = (accountId, recoveryKeyPair) => asyn
     }));
 };
 
-export const fundCreateAccount = (accountId, recoveryKeyPair, recoveryMethod) => async (dispatch) => {
-    await wallet.keyStore.setKey(wallet.connection.networkId, accountId, recoveryKeyPair);
-    const implicitAccountId = Buffer.from(recoveryKeyPair.publicKey.data).toString('hex');
-    await wallet.keyStore.setKey(wallet.connection.networkId, implicitAccountId, recoveryKeyPair);
-
+const handleFundCreateAccountRedirect = ({
+    accountId,
+    implicitAccountId,
+    recoveryMethod
+}) => (dispatch) => {
     if (ENABLE_IDENTITY_VERIFIED_ACCOUNT) {
         dispatch(redirectTo(`/verify-account?accountId=${accountId}&implicitAccountId=${implicitAccountId}&recoveryMethod=${recoveryMethod}`));
     } else {
@@ -439,16 +439,28 @@ export const fundCreateAccount = (accountId, recoveryKeyPair, recoveryMethod) =>
     }
 };
 
+export const fundCreateAccount = (accountId, recoveryKeyPair, recoveryMethod) => async (dispatch) => {
+    await wallet.keyStore.setKey(wallet.connection.networkId, accountId, recoveryKeyPair);
+    const implicitAccountId = Buffer.from(recoveryKeyPair.publicKey.data).toString('hex');
+    await wallet.keyStore.setKey(wallet.connection.networkId, implicitAccountId, recoveryKeyPair);
+
+    dispatch(handleFundCreateAccountRedirect({
+        accountId,
+        implicitAccountId,
+        recoveryMethod
+    }));
+};
+
 export const fundCreateAccountLedger = (accountId, ledgerPublicKey) => async (dispatch) => {
     await setKeyMeta(ledgerPublicKey, { type: 'ledger' });
     const implicitAccountId = Buffer.from(ledgerPublicKey.data).toString('hex');
     const recoveryMethod = 'ledger';
 
-    if (ENABLE_IDENTITY_VERIFIED_ACCOUNT) {
-        dispatch(redirectTo(`/verify-account?accountId=${accountId}&implicitAccountId=${implicitAccountId}&recoveryMethod=${recoveryMethod}`));
-    } else {
-        dispatch(redirectTo(`/fund-create-account/${accountId}/${implicitAccountId}/${recoveryMethod}`));
-    }
+    dispatch(handleFundCreateAccountRedirect({
+        accountId,
+        implicitAccountId,
+        recoveryMethod
+    }));
 };
 
 // TODO: Refactor common code with setupRecoveryMessageNewAccount
