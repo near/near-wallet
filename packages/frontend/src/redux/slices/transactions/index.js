@@ -4,16 +4,12 @@ import { createSelector } from 'reselect';
 
 import { getTransactions, transactionExtraInfo } from '../../../utils/explorer-api';
 import createParameterSelector from '../createParameterSelector';
+import initialErrorState from '../initialErrorState';
 
 const SLICE_NAME = 'transactions';
 
 const initialState = {
     byAccountId: {}
-};
-
-const initialErrorState = {
-    code: null,
-    message: null
 };
 
 const initialAccountIdState = {

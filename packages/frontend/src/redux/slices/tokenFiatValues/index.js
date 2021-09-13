@@ -4,6 +4,7 @@ import { createSelector } from 'reselect';
 
 import sendJson from '../../../tmp_fetch_send_json';
 import { ACCOUNT_HELPER_URL } from '../../../utils/wallet';
+import initialErrorState from '../initialErrorState';
 
 const SLICE_NAME = 'tokenFiatValues';
 
@@ -11,12 +12,6 @@ const fetchTokenFiatValues = createAsyncThunk(
     `${SLICE_NAME}/fetchTokenFiatValues`,
     () => sendJson('GET', ACCOUNT_HELPER_URL + `/fiat`)
 );
-
-const initialErrorState = {
-    code: null,
-    message: null
-};
-
 
 const initialState = {
     loading: false,

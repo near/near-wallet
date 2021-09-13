@@ -4,6 +4,7 @@ import set from 'lodash.set';
 import { createSelector } from 'reselect';
 
 import FungibleTokens from '../../../services/FungibleTokens';
+import initialErrorState from '../initialErrorState';
 
 const WHITELISTED_CONTRACTS = (process.env.TOKEN_CONTRACTS || 'berryclub.ek.near,farm.berryclub.ek.near,wrap.near').split(',');
 const SLICE_NAME = 'tokens';
@@ -15,11 +16,6 @@ const initialState = {
     metadata: {
         byContractName: {}
     }
-};
-
-const initialErrorState = {
-    code: null,
-    message: null
 };
 
 const initialOwnedTokenState = {

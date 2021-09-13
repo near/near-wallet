@@ -5,6 +5,7 @@ import { createSelector } from 'reselect';
 
 import NonFungibleTokens, { TOKENS_PER_PAGE } from '../../../services/NonFungibleTokens';
 import createParameterSelector from '../createParameterSelector';
+import initialErrorState from '../initialErrorState';
 
 const { getLikelyTokenContracts, getMetadata, getTokens } = NonFungibleTokens;
 
@@ -19,11 +20,6 @@ const initialState = {
     metadata: {
         byContractName: {}
     }
-};
-
-const initialErrorState = {
-    code: null,
-    message: null
 };
 
 const initialOwnedTokenState = {
