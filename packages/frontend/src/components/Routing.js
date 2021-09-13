@@ -29,11 +29,14 @@ import {
     WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS,
     WALLET_LOGIN_URL,
     WALLET_SIGN_URL,
-    WALLET_SEND_MONEY_URL
+    WALLET_SEND_MONEY_URL,
+    ENABLE_IDENTITY_VERIFIED_ACCOUNT
 } from '../utils/wallet';
 import { AuthorizedAppsWithRouter, FullAccessKeysWithRouter } from './access-keys/AccessKeys';
 import { AutoImportWrapper } from './accounts/auto_import/AutoImportWrapper';
 import { ActivateAccountWithRouter } from './accounts/create/ActivateAccount';
+import { InitialDepositWrapper } from './accounts/create/initial_deposit/InitialDepositWrapper';
+import { VerifyAccountWrapper } from './accounts/create/verify_account/VerifyAccountWrapper';
 import { CreateAccountWithRouter } from './accounts/CreateAccount';
 import LedgerConfirmActionModal from './accounts/ledger/LedgerConfirmActionModal';
 import { SetupLedgerWithRouter } from './accounts/ledger/SetupLedger';
@@ -45,7 +48,6 @@ import { RecoverAccountWrapper } from './accounts/RecoverAccountWrapper';
 import { RecoverWithLinkWithRouter } from './accounts/RecoverWithLink';
 import { SetupRecoveryMethodWithRouter } from './accounts/recovery_setup/SetupRecoveryMethod';
 import { SetupImplicitWithRouter } from './accounts/SetupImplicit';
-import { SetupImplicitSuccess } from './accounts/SetupImplicitSuccess';
 import { SetupSeedPhraseWithRouter } from './accounts/SetupSeedPhrase';
 import { EnableTwoFactor } from './accounts/two_factor/EnableTwoFactor';
 import { BuyNear } from './buy/BuyNear';
@@ -348,13 +350,18 @@ class Routing extends Component {
                             />
                             <PublicRoute
                                 exact
-                                path='/fund-create-account/:accountId/:implicitAccountId/:recoveryMethod'
-                                component={SetupImplicitWithRouter}
+                                path='/verify-account'
+                                component={VerifyAccountWrapper}
                             />
                             <PublicRoute
                                 exact
-                                path='/fund-create-account/success'
-                                component={SetupImplicitSuccess}
+                                path='/initial-deposit'
+                                component={InitialDepositWrapper}
+                            />
+                            <PublicRoute
+                                exact
+                                path='/fund-create-account/:accountId/:implicitAccountId/:recoveryMethod'
+                                component={SetupImplicitWithRouter}
                             />
                             <PublicRoute
                                 exact

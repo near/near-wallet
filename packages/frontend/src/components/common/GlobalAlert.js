@@ -173,6 +173,7 @@ const Console = styled.div`
     margin-top: 14px;
     background: #f2f2f2;
     padding: 8px;
+    word-break: break-word;
 `;
 
 const GlobalAlertNew = ({ globalAlert, actionStatus, clearGlobalAlert, closeIcon = true }) => {

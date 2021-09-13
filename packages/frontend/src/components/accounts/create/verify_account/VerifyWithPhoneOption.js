@@ -1,6 +1,6 @@
 import React from 'react';
 import { Translate } from 'react-localize-redux';
-import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input';
+import PhoneInput from 'react-phone-number-input';
 
 import PhoneNumberInput from './PhoneNumberInput';
 import VerifyOption from './VerifyOption';
@@ -12,9 +12,9 @@ export default ({
     activeVerificationOption,
     disabled,
     error,
-    onChange,
+    onChangeVerificationNumber,
     onBlur,
-    value
+    verificationNumber
 }) => {
 
     return (
@@ -29,9 +29,9 @@ export default ({
         >
             <PhoneNumberInput
                 translateIdPlaceholder='setupRecovery.phonePlaceholder'
-                onChange={onChange}
+                onChange={onChangeVerificationNumber}
                 onBlur={onBlur}
-                value={value}
+                value={verificationNumber}
                 disabled={disabled}
             />
         </VerifyOption>

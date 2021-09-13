@@ -98,7 +98,7 @@ class ActivateAccount extends Component {
             async () => {
                 const moonpayAvailable = await isMoonpayAvailable();
                 if (moonpayAvailable) {
-                    const moonpaySignedURL = await getSignedUrl(accountId, window.location.origin);
+                    const moonpaySignedURL = await getSignedUrl(accountId, window.location.href);
                     this.setState({ moonpayAvailable, moonpaySignedURL });
                 }
             },

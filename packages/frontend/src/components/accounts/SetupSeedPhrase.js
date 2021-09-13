@@ -164,7 +164,7 @@ class SetupSeedPhrase extends Component {
                     });
                 } else if(err.code === 'NotEnoughBalance') {
                     Mixpanel.track('SR-SP NotEnoughBalance creating funded account');
-                    await fundCreateAccount(accountId, recoveryKeyPair, 'seed');
+                    await fundCreateAccount(accountId, recoveryKeyPair, 'phrase');
                 } else {
                     showCustomAlert({
                         errorMessage: err.message,

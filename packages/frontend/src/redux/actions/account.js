@@ -17,7 +17,8 @@ import {
     WALLET_RECOVER_ACCOUNT_URL,
     WALLET_LINKDROP_URL,
     setKeyMeta,
-    MULTISIG_MIN_PROMPT_AMOUNT
+    MULTISIG_MIN_PROMPT_AMOUNT,
+    ENABLE_IDENTITY_VERIFIED_ACCOUNT
 } from '../../utils/wallet';
 import { WalletError } from '../../utils/walletError';
 import { actions as flowLimitationActions } from '../slices/flowLimitation';
@@ -44,7 +45,7 @@ export const getProfileStakingDetails = (accountId) => async (dispatch, getState
         : !!getState().account.balance.lockedAmount;
 
     lockupIdExists
-    && dispatch(handleStakingUpdateLockup(accountId));
+        && dispatch(handleStakingUpdateLockup(accountId));
 };
 
 export const handleRedirectUrl = (previousLocation) => (dispatch, getState) => {
@@ -348,6 +349,8 @@ export const {
     getAccessKeys,
     removeAccessKey,
     addLedgerAccessKey,
+    sendIdentityVerificationMethodCode,
+    createIdentityFundedAccount,
     disableLedger,
     removeNonLedgerAccessKeys,
     getLedgerAccountIds,
@@ -365,6 +368,14 @@ export const {
     ],
     ADD_LEDGER_ACCESS_KEY: [
         wallet.addLedgerAccessKey.bind(wallet),
+        () => showAlert({ onlyError: true })
+    ],
+    SEND_IDENTITY_VERIFICATION_METHOD_CODE: [
+        wallet.sendIdentityVerificationMethodCode.bind(wallet),
+        () => showAlert({ localAlert: true })
+    ],
+    CREATE_IDENTITY_FUNDED_ACCOUNT: [
+        wallet.createIdentityFundedAccount.bind(wallet),
         () => showAlert({ onlyError: true })
     ],
     DISABLE_LEDGER: [
@@ -416,25 +427,54 @@ export const handleAddAccessKeySeedPhrase = (accountId, recoveryKeyPair) => asyn
     }));
 };
 
+const handleFundCreateAccountRedirect = ({
+    accountId,
+    implicitAccountId,
+    recoveryMethod
+}) => (dispatch) => {
+    if (ENABLE_IDENTITY_VERIFIED_ACCOUNT) {
+        dispatch(redirectTo(`/verify-account?accountId=${accountId}&implicitAccountId=${implicitAccountId}&recoveryMethod=${recoveryMethod}`));
+    } else {
+        dispatch(redirectTo(`/fund-create-account/${accountId}/${implicitAccountId}/${recoveryMethod}`));
+    }
+};
+
 export const fundCreateAccount = (accountId, recoveryKeyPair, recoveryMethod) => async (dispatch) => {
     await wallet.keyStore.setKey(wallet.connection.networkId, accountId, recoveryKeyPair);
     const implicitAccountId = Buffer.from(recoveryKeyPair.publicKey.data).toString('hex');
     await wallet.keyStore.setKey(wallet.connection.networkId, implicitAccountId, recoveryKeyPair);
-    dispatch(redirectTo(`/fund-create-account/${accountId}/${implicitAccountId}/${recoveryMethod}`));
+
+    dispatch(handleFundCreateAccountRedirect({
+        accountId,
+        implicitAccountId,
+        recoveryMethod
+    }));
 };
 
 export const fundCreateAccountLedger = (accountId, ledgerPublicKey) => async (dispatch) => {
     await setKeyMeta(ledgerPublicKey, { type: 'ledger' });
     const implicitAccountId = Buffer.from(ledgerPublicKey.data).toString('hex');
     const recoveryMethod = 'ledger';
-    dispatch(redirectTo(`/fund-create-account/${accountId}/${implicitAccountId}/${recoveryMethod}`));
+
+    dispatch(handleFundCreateAccountRedirect({
+        accountId,
+        implicitAccountId,
+        recoveryMethod
+    }));
 };
 
 // TODO: Refactor common code with setupRecoveryMessageNewAccount
 export const handleCreateAccountWithSeedPhrase = (accountId, recoveryKeyPair, fundingOptions, recaptchaToken) => async (dispatch) => {
+
+    // Coin-op verify account flow
+    if (DISABLE_CREATE_ACCOUNT && ENABLE_IDENTITY_VERIFIED_ACCOUNT && !fundingOptions) {
+        await dispatch(fundCreateAccount(accountId, recoveryKeyPair, 'phrase'));
+        return;
+    }
+
     // Implicit account flow
     if (DISABLE_CREATE_ACCOUNT && !fundingOptions && !recaptchaToken) {
-        await dispatch(fundCreateAccount(accountId, recoveryKeyPair, 'seed'));
+        await dispatch(fundCreateAccount(accountId, recoveryKeyPair, 'phrase'));
         return;
     }
 
@@ -485,7 +525,9 @@ export const createAccountFromImplicit = createAction('CREATE_ACCOUNT_FROM_IMPLI
     }
     const publicKey = new PublicKey({ keyType: KeyType.ED25519, data: Buffer.from(implicitAccountId, 'hex') });
     await wallet.createNewAccount(accountId, { fundingAccountId: implicitAccountId }, recoveryMethod, publicKey);
-});
+},
+    () => showAlert({ onlyError: true })
+);
 
 export const { addAccessKey, createAccountWithSeedPhrase, addAccessKeySeedPhrase } = createActions({
     ADD_ACCESS_KEY: [
@@ -493,7 +535,7 @@ export const { addAccessKey, createAccountWithSeedPhrase, addAccessKeySeedPhrase
         (title) => showAlert({ title })
     ],
     CREATE_ACCOUNT_WITH_SEED_PHRASE: async (accountId, recoveryKeyPair, fundingOptions = {}, recaptchaToken) => {
-        const recoveryMethod = 'seed';
+        const recoveryMethod = 'phrase';
         const previousAccountId = wallet.accountId;
         await wallet.saveAccount(accountId, recoveryKeyPair);
         await wallet.createNewAccount(accountId, fundingOptions, recoveryMethod, recoveryKeyPair.publicKey, previousAccountId, recaptchaToken);
@@ -620,7 +662,7 @@ export const { makeAccountActive, refreshAccountOwner, refreshAccountExternal, r
     ],
     REFRESH_URL: null,
     UPDATE_STAKING_ACCOUNT: [
-        async (accountId) => await wallet.staking.updateStakingAccount([], [] , accountId),
+        async (accountId) => await wallet.staking.updateStakingAccount([], [], accountId),
         (accountId) => ({
             accountId,
             ...showAlert({ onlyError: true })

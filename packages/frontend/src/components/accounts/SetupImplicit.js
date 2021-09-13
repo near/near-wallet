@@ -7,6 +7,7 @@ import styled from 'styled-components';
 
 import { Mixpanel } from '../../mixpanel';
 import { createAccountFromImplicit, redirectTo } from '../../redux/actions/account';
+import { actions as createFromImplicitActions } from '../../redux/slices/createFromImplicit';
 import { selectNearTokenFiatValueUSD } from '../../redux/slices/tokenFiatValues';
 import { isMoonpayAvailable, getSignedUrl } from '../../utils/moonpay';
 import { MIN_BALANCE_TO_CREATE } from '../../utils/wallet';
@@ -20,6 +21,8 @@ import AccountFundedModal from './AccountFundedModal';
 import FundWithMoonpay from './create/FundWithMoonpay';
 import AccountFunded from './create/status/AccountFunded';
 import AccountNeedsFunding from './create/status/AccountNeedsFunding';
+
+const { setCreateFromImplicitSuccess } = createFromImplicitActions;
 
 const StyledContainer = styled(Container)`
     h2 {
@@ -96,7 +99,8 @@ class SetupImplicit extends Component {
                 this.setState({ creatingAccount: false });
             }
         );
-        dispatch(redirectTo('/fund-create-account/success'));
+        dispatch(setCreateFromImplicitSuccess(true));
+        dispatch(redirectTo('/'));
     }
 
     checkMoonPay = async () => {
@@ -105,7 +109,7 @@ class SetupImplicit extends Component {
             async () => {
                 const moonpayAvailable = await isMoonpayAvailable();
                 if (moonpayAvailable) {
-                    const moonpaySignedURL = await getSignedUrl(implicitAccountId, window.location.origin);
+                    const moonpaySignedURL = await getSignedUrl(implicitAccountId, window.location.href);
                     this.setState({ moonpayAvailable, moonpaySignedURL });
                 }
             },

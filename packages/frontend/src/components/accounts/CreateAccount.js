@@ -9,7 +9,12 @@ import { checkNewAccount, createNewAccount, refreshAccount, checkNearDropBalance
 import { clearLocalAlert } from '../../redux/actions/status';
 import { selectNearTokenFiatValueUSD } from '../../redux/slices/tokenFiatValues';
 import isMobile from '../../utils/isMobile';
-import { ACCOUNT_ID_SUFFIX, MIN_BALANCE_TO_CREATE, IS_MAINNET } from '../../utils/wallet';
+import {
+    ACCOUNT_ID_SUFFIX,
+    MIN_BALANCE_TO_CREATE,
+    IS_MAINNET,
+    ENABLE_IDENTITY_VERIFIED_ACCOUNT
+} from '../../utils/wallet';
 import AccountNote from '../common/AccountNote';
 import { getNearAndFiatValue } from '../common/balance/helpers';
 import FormButton from '../common/FormButton';
@@ -177,7 +182,7 @@ class CreateAccount extends Component {
         
         const isLinkDrop = fundingContract && fundingKey;
         const useLocalAlert = accountId.length > 0 ? localAlert : undefined;
-        const showTermsPage = IS_MAINNET && !isLinkDrop && !termsAccepted;
+        const showTermsPage = IS_MAINNET && !isLinkDrop && !termsAccepted && !ENABLE_IDENTITY_VERIFIED_ACCOUNT;
 
         if (showTermsPage) {
             return (

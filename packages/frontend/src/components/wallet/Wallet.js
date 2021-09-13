@@ -7,6 +7,7 @@ import styled from 'styled-components';
 import { useFungibleTokensIncludingNEAR } from '../../hooks/fungibleTokensIncludingNEAR';
 import { Mixpanel } from "../../mixpanel/index";
 import { selectAccountId, selectBalance } from '../../redux/reducers/account';
+import { selectCreateFromImplicitSuccess, actions as createFromImplicitActions } from '../../redux/slices/createFromImplicit';
 import { selectLinkdropAmount, actions as linkdropActions } from '../../redux/slices/linkdrop';
 import { selectTokensWithMetadataForAccountId, actions as nftActions } from '../../redux/slices/nft';
 import { actions as tokensActions, selectTokensLoading } from '../../redux/slices/tokens';
@@ -20,6 +21,8 @@ import BuyIcon from '../svg/BuyIcon';
 import DownArrowIcon from '../svg/DownArrowIcon';
 import SendIcon from '../svg/SendIcon';
 import ActivitiesWrapper from './ActivitiesWrapper';
+import CreateFromImplicitSuccessModal from './CreateFromImplicitSuccessModal';
+import DepositNearBanner from './DepositNearBanner';
 import ExploreApps from './ExploreApps';
 import LinkDropSuccessModal from './LinkDropSuccessModal';
 import NFTs from './NFTs';
@@ -28,6 +31,7 @@ import Tokens from './Tokens';
 const { fetchNFTs } = nftActions;
 const { fetchTokens } = tokensActions;
 const { setLinkdropAmount } = linkdropActions;
+const { setCreateFromImplicitSuccess } = createFromImplicitActions;
 
 const StyledContainer = styled(Container)`
     @media (max-width: 991px) {
@@ -263,6 +267,7 @@ export function Wallet({ tab, setTab }) {
     const dispatch = useDispatch();
     const hideExploreApps = localStorage.getItem('hideExploreApps');
     const linkdropAmount = useSelector(selectLinkdropAmount);
+    const createFromImplicitSuccess = useSelector(selectCreateFromImplicitSuccess);
     const fungibleTokensList = useFungibleTokensIncludingNEAR();
     const tokensLoader = useSelector((state) => selectTokensLoading(state, { accountId })) || !balance?.total;
 
@@ -328,7 +333,7 @@ export function Wallet({ tab, setTab }) {
                     {!hideExploreApps && exploreApps !== false &&
                         <ExploreApps onClick={handleHideExploreApps} />
                     }
-                    <ActivitiesWrapper/>
+                    <ActivitiesWrapper />
                 </div>
             </div>
             {linkdropAmount !== '0' &&
@@ -337,11 +342,20 @@ export function Wallet({ tab, setTab }) {
                     linkdropAmount={linkdropAmount}
                 />
             }
+            {createFromImplicitSuccess &&
+                <CreateFromImplicitSuccessModal
+                    onClose={() => dispatch(setCreateFromImplicitSuccess(false))}
+                    isOpen={createFromImplicitSuccess}
+                    accountId={accountId}
+                />
+            }
         </StyledContainer>
     );
 }
 
 const FungibleTokens = ({ balance, tokensLoader, fungibleTokens }) => {
+    const availableBalanceIsZero = balance?.balanceAvailable === '0';
+    const hideFungibleTokenSection = availableBalanceIsZero && fungibleTokens?.length === 1 && fungibleTokens[0].symbol === 'NEAR';
     return (
         <>
             <div className='total-balance'>
@@ -391,11 +405,18 @@ const FungibleTokens = ({ balance, tokensLoader, fungibleTokens }) => {
                     <Translate id='button.buy' />
                 </FormButton>
             </div>
-            <div className='sub-title tokens'>
-                <span className={classNames({ dots: tokensLoader })}><Translate id='wallet.yourPortfolio' /></span>
-                <span><Translate id='wallet.tokenBalance' /></span>
-            </div>
-            <Tokens tokens={fungibleTokens} />
+            {availableBalanceIsZero &&
+                <DepositNearBanner />
+            }
+            {!hideFungibleTokenSection &&
+                <>
+                    <div className='sub-title tokens'>
+                        <span className={classNames({ dots: tokensLoader })}><Translate id='wallet.yourPortfolio' /></span>
+                        <span><Translate id='wallet.tokenBalance' /></span>
+                    </div>
+                    <Tokens tokens={fungibleTokens} />
+                </>
+            }
         </>
     );
 };
