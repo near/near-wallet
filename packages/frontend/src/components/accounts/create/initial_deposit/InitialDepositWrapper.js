@@ -7,6 +7,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { createAccountFromImplicit, redirectTo } from '../../../../redux/actions/account';
 import { actions as createFromImplicitActions } from '../../../../redux/slices/createFromImplicit';
 import { getSignedUrl } from '../../../../utils/moonpay';
+import useRecursiveTimeout from '../../../../utils/useRecursiveTimeout';
 import { MIN_BALANCE_TO_CREATE, wallet } from '../../../../utils/wallet';
 import FundingReceived from './FundingReceived';
 import FundWithCreditCard from './FundWithCreditCard';
@@ -16,8 +17,6 @@ const { setCreateFromImplicitSuccess } = createFromImplicitActions;
 
 export function InitialDepositWrapper({ history }) {
     const dispatch = useDispatch();
-
-    let pollAccountBalanceHandle = null;
 
     const [fundingNeeded, setFundingNeeded] = useState(true);
     const [initialDeposit, setInitialDeposit] = useState('');
@@ -47,28 +46,12 @@ export function InitialDepositWrapper({ history }) {
         window.location.href
     ]);
 
-    useEffect(() => {
-        startPollingAccountBalance();
-        return () => { stopPollingAccountBalance(); };
-    }, []);
+    useRecursiveTimeout(async () => {
+        await checkFundingAddressBalance().catch(() => { });
+    }, 3000);
 
     const onClickCancel = () => {
         history.goBack();
-    };
-
-    const startPollingAccountBalance = () => {
-        const handleCheckBalance = async () => {
-            await checkFundingAddressBalance().catch(() => { });
-            if (pollAccountBalanceHandle) {
-                pollAccountBalanceHandle = setTimeout(() => handleCheckBalance(), 3000);
-            }
-        };
-        pollAccountBalanceHandle = setTimeout(() => handleCheckBalance(), 3000);
-    };
-
-    const stopPollingAccountBalance = () => {
-        clearTimeout(pollAccountBalanceHandle);
-        pollAccountBalanceHandle = null;
     };
 
     const checkFundingAddressBalance = async () => {
