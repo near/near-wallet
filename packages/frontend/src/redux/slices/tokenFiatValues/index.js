@@ -5,6 +5,7 @@ import { createSelector } from 'reselect';
 import sendJson from '../../../tmp_fetch_send_json';
 import { ACCOUNT_HELPER_URL } from '../../../utils/wallet';
 import initialErrorState from '../initialErrorState';
+import selectSlice from '../selectSlice';
 
 const SLICE_NAME = 'tokenFiatValues';
 
@@ -64,6 +65,6 @@ export const actions = {
 export const selectFiatValueLoadingState = (state) => state.loading;
 export const selectFiatValueErrorState = (state) => state.error;
 
-export const selectAllTokenFiatValues = (state) => state[SLICE_NAME];
+export const selectAllTokenFiatValues = selectSlice(SLICE_NAME);
 export const selectNearTokenFiatData = createSelector(selectAllTokenFiatValues, ({ tokens }) => tokens.near || {});
 export const selectNearTokenFiatValueUSD = createSelector(selectNearTokenFiatData, (near) => near.usd);
