@@ -1,3 +1,4 @@
+const { WALLET_NETWORK } = require("../../constants");
 const { walletNetwork } = require("../../utils/config");
 
 class CreateAccountPage {
@@ -8,7 +9,7 @@ class CreateAccountPage {
         await this.page.goto(`/create`);
     }
     async acceptTerms() {
-        if (walletNetwork === "mainnet") {
+        if (walletNetwork === WALLET_NETWORK.mainnet) {
             await this.page.click("data-test-id=acceptTermsButton");
         }
     }

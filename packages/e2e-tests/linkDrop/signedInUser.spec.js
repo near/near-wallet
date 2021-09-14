@@ -12,6 +12,7 @@ const { createRandomBankSubAccount, generateTestAccountId, getAccountFromSeedPhr
 const { LinkDropPage } = require("./models/LinkDrop");
 const { SetupSeedPhrasePage } = require("../register/models/SetupSeedPhrase");
 const { fetchLinkdropContract } = require("../contracts");
+const { WALLET_NETWORK } = require("../constants");
 
 const { describe, beforeAll, afterAll, beforeEach } = test;
 
@@ -110,7 +111,7 @@ describe("Linkdrop flow", () => {
     test("claims linkdrop to new account", async ({ page, context }) => {
         await context.grantPermissions(["clipboard-read", "clipboard-write"]).catch(test.skip);
         // skip test on mainnet
-        if (walletNetwork === "mainnet") {
+        if (walletNetwork === WALLET_NETWORK.mainnet) {
             test.skip();
         }
 
