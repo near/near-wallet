@@ -80,7 +80,8 @@ export function VerifyAccountWrapper() {
                             dispatch(showCustomAlert({
                                 success: false,
                                 messageCodeHeader: 'error',
-                                messageCode: 'walletErrorCodes.setupRecoveryMessageNewAccount.invalidCode'
+                                messageCode: 'walletErrorCodes.setupRecoveryMessageNewAccount.invalidCode',
+                                errorMessage: e.message
                             }));
                         } else if (e.code === 'NotEnoughBalance') {
                             dispatch(redirectTo(`/initial-deposit${location.search}`));
@@ -88,11 +89,12 @@ export function VerifyAccountWrapper() {
                             dispatch(showCustomAlert({
                                 success: false,
                                 messageCodeHeader: 'error',
-                                errorMessage: e.code
+                                messageCode: e.code,
+                                errorMessage: e.message
                             }));
                         }
                         setVerifyingAndCreatingAccount(false);
-                        console.warn(e.code);
+                        console.warn(e.code, e.message);
                         return;
                     }
                 }}
@@ -126,10 +128,11 @@ export function VerifyAccountWrapper() {
                             dispatch(showCustomAlert({
                                 success: false,
                                 messageCodeHeader: 'error',
-                                errorMessage: e.code
+                                messageCode: e.code,
+                                errorMessage: e.message
                             }));
                         }
-                        console.warn(e.code);
+                        console.warn(e.code, e.message);
                     }
                     return;
                 }

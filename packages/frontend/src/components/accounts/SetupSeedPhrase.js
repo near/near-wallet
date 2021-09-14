@@ -160,7 +160,8 @@ class SetupSeedPhrase extends Component {
                     showCustomAlert({
                         success: false,
                         messageCodeHeader: 'error',
-                        messageCode: 'walletErrorCodes.invalidRecaptchaCode'
+                        messageCode: 'walletErrorCodes.invalidRecaptchaCode',
+                        errorMessage: err.message
                     });
                 } else if(err.code === 'NotEnoughBalance') {
                     Mixpanel.track('SR-SP NotEnoughBalance creating funded account');
@@ -169,7 +170,7 @@ class SetupSeedPhrase extends Component {
                     showCustomAlert({
                         errorMessage: err.message,
                         success: false,
-                        messageCodeHeader: 'error',
+                        messageCodeHeader: 'error'
                     });
                 }
             }

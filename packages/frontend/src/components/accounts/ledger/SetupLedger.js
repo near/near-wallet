@@ -103,7 +103,8 @@ const SetupLedger = (props) => {
                             dispatch(showCustomAlert({
                                 success: false,
                                 messageCodeHeader: 'error',
-                                messageCode: 'walletErrorCodes.invalidRecaptchaCode'
+                                messageCode: 'walletErrorCodes.invalidRecaptchaCode',
+                                errorMessage: err.message
                             }));
                         } else if (err.code === 'NotEnoughBalance') {
                             Mixpanel.track('SR-Ledger NotEnoughBalance creating funded account');
