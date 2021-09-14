@@ -11,6 +11,7 @@ const { SetRecoveryOptionPage } = require("./models/SetRecoveryOption");
 const { SetupSeedPhrasePage } = require("./models/SetupSeedPhrase");
 const { VerifySeedPhrasePage } = require("./models/VerifySeedPhrase");
 const nearApiJsConnection = require("../utils/connectionSingleton");
+const { WALLET_NETWORK } = require("../constants");
 
 const { describe, afterAll } = test;
 
@@ -90,7 +91,7 @@ describe("Account Registration Using Seed Phrase", () => {
             .grantPermissions(["clipboard-read", "clipboard-write"])
             .catch(test.skip);
         // skip test on mainnet
-        if (walletNetwork === "mainnet") {
+        if (walletNetwork === WALLET_NETWORK.mainnet) {
             test.skip();
         }
 
