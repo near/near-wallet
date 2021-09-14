@@ -5,8 +5,8 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import {
     redirectTo,
-    createIdentityFundedAccount,
-    sendIdentityVerificationMethodCode
+    sendIdentityVerificationMethodCode,
+    checkAndHideLedgerModal
 } from '../../../../redux/actions/account';
 import { showCustomAlert } from '../../../../redux/actions/status';
 import { isMoonpayAvailable } from '../../../../utils/moonpay';
@@ -96,6 +96,12 @@ export function VerifyAccountWrapper() {
                         setVerifyingAndCreatingAccount(false);
                         console.warn(e.code, e.message);
                         return;
+                    } finally {
+                        if (recoveryMethod === 'ledger') {
+                            // Needed since 'wallet.createIdentityFundedAccount'
+                            // is called directly without a redux action
+                            dispatch(checkAndHideLedgerModal());
+                        }
                     }
                 }}
                 onResend={async () => {

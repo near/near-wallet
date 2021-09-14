@@ -350,7 +350,6 @@ export const {
     removeAccessKey,
     addLedgerAccessKey,
     sendIdentityVerificationMethodCode,
-    createIdentityFundedAccount,
     disableLedger,
     removeNonLedgerAccessKeys,
     getLedgerAccountIds,
@@ -373,10 +372,6 @@ export const {
     SEND_IDENTITY_VERIFICATION_METHOD_CODE: [
         wallet.sendIdentityVerificationMethodCode.bind(wallet),
         () => showAlert({ localAlert: true })
-    ],
-    CREATE_IDENTITY_FUNDED_ACCOUNT: [
-        wallet.createIdentityFundedAccount.bind(wallet),
-        () => showAlert({ onlyError: true })
     ],
     DISABLE_LEDGER: [
         wallet.disableLedger.bind(wallet),
@@ -411,7 +406,7 @@ export const {
 
 export const checkAndHideLedgerModal = () => async (dispatch, getState) => {
     const { modal } = getState().ledger;
-    if (modal.show) {
+    if (modal?.show) {
         dispatch(hideLedgerModal());
     }
 };
