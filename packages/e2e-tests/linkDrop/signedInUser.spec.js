@@ -28,24 +28,23 @@ describe("Linkdrop flow", () => {
     );
 
     beforeAll(async () => {
-        [
-            { value: linkdropSenderAccount, reason: linkdropSenderAccountCreationError },
-            { value: linkdropContractAccount, reason: linkdropContractAccountCreationError },
-            { value: linkdropReceiverAccount },
-        ] = await Promise.allSettled([
+        // Create random accounts for linkdrop sender, receiver and contract account and deploy linkdrop contract to the contract account
+        // The random accounts are created as subaccounts of BANK_ACCOUNT
+        // fail the test suite at this point if one of the accounts fails to create
+        [linkdropSenderAccount, linkdropContractAccount, linkdropReceiverAccount] = await Promise.all([
             createRandomBankSubAccount("7.0"),
             fetchLinkdropContract().then((wasm) => createRandomBankSubAccount("5.0", wasm)),
             createRandomBankSubAccount(),
-        ]);
-        if (!linkdropContractAccount || !linkdropSenderAccount || !linkdropReceiverAccount) {
+        ]).catch((e) => {
             throw new Error(
                 "Cannot run test suite, linkdrop sender, receiver and contract accounts not successfully created",
                 {
-                    cause: linkdropContractAccountCreationError || linkdropSenderAccountCreationError,
+                    cause: e,
                 }
             );
-        }
+        });
         linkdropKeyPair = KeyPairEd25519.fromRandom();
+        // send linkdropTransferNEARAmount Ⓝ to contract
         await linkdropSenderAccount.account.functionCall(
             linkdropContractAccount.account.accountId,
             "send",
