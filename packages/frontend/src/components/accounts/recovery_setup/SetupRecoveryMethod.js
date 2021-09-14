@@ -269,14 +269,16 @@ class SetupRecoveryMethod extends Component {
                             showCustomAlert({
                                 success: false,
                                 messageCodeHeader: 'error',
-                                messageCode: 'walletErrorCodes.setupRecoveryMessageNewAccount.invalidCode'
+                                messageCode: 'walletErrorCodes.setupRecoveryMessageNewAccount.invalidCode',
+                                errorMessage: e.message
                             });
                         } else if (isRetryableRecaptchaError(e)) {
                             Mixpanel.track('Funded account creation failed due to invalid / expired reCaptcha response from user');
                             showCustomAlert({
                                 success: false,
                                 messageCodeHeader: 'error',
-                                messageCode: 'walletErrorCodes.invalidRecaptchaCode'
+                                messageCode: 'walletErrorCodes.invalidRecaptchaCode',
+                                errorMessage: e.message
                             });
                         } else {
                             showCustomAlert({
