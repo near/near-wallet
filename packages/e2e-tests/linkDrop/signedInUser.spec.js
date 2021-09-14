@@ -1,9 +1,7 @@
 const { test, expect } = require("@playwright/test");
 const { BN } = require("bn.js");
-const { readFile } = require("fs/promises");
 const { parseNearAmount, formatNearAmount } = require("near-api-js/lib/utils/format");
 const { KeyPairEd25519 } = require("near-api-js/lib/utils/key_pair");
-const path = require("path");
 
 const { CreateAccountPage } = require("../register/models/CreateAccount");
 const { HomePage } = require("../register/models/Home");
@@ -13,6 +11,7 @@ const { walletNetwork } = require("../utils/config");
 const { createRandomBankSubAccount, generateTestAccountId, getAccountFromSeedPhrase } = require("../utils/account");
 const { LinkDropPage } = require("./models/LinkDrop");
 const { SetupSeedPhrasePage } = require("../register/models/SetupSeedPhrase");
+const { fetchLinkdropContract } = require("../contracts");
 
 const { describe, beforeAll, afterAll, beforeEach } = test;
 
@@ -35,9 +34,7 @@ describe("Linkdrop flow", () => {
             { value: linkdropReceiverAccount },
         ] = await Promise.allSettled([
             createRandomBankSubAccount("7.0"),
-            readFile(path.resolve(__dirname, "../contracts/linkdrop.wasm")).then((wasm) =>
-                createRandomBankSubAccount("5.0", wasm)
-            ),
+            fetchLinkdropContract().then((wasm) => createRandomBankSubAccount("5.0", wasm)),
             createRandomBankSubAccount(),
         ]);
         if (!linkdropContractAccount || !linkdropSenderAccount || !linkdropReceiverAccount) {
@@ -48,7 +45,7 @@ describe("Linkdrop flow", () => {
                 }
             );
         }
-        linkdropKeyPair = await KeyPairEd25519.fromRandom();
+        linkdropKeyPair = KeyPairEd25519.fromRandom();
         await linkdropSenderAccount.account.functionCall(
             linkdropContractAccount.account.accountId,
             "send",
@@ -118,7 +115,7 @@ describe("Linkdrop flow", () => {
             test.skip();
         }
 
-        linkdropKeyPair = await KeyPairEd25519.fromRandom();
+        linkdropKeyPair = KeyPairEd25519.fromRandom();
         const linkdropContractTLAAccountId = "testnet";
 
         await linkdropSenderAccount.account.functionCall(
