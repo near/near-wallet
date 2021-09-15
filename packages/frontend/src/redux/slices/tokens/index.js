@@ -4,6 +4,7 @@ import set from 'lodash.set';
 import { createSelector } from 'reselect';
 
 import FungibleTokens from '../../../services/FungibleTokens';
+import createParameterSelector from '../createParameterSelector';
 import initialErrorState from '../initialErrorState';
 
 const WHITELISTED_CONTRACTS = (process.env.TOKEN_CONTRACTS || 'berryclub.ek.near,farm.berryclub.ek.near,wrap.near').split(',');
@@ -120,12 +121,6 @@ export const actions = {
     ...tokensSlice.actions
 };
 export const reducer = tokensSlice.reducer; 
-
-// A helper function to create the parameter selectors
-// Ref: https://flufd.github.io/reselect-with-multiple-parameters/
-function createParameterSelector(selector) {
-    return (_, params) => selector(params);
-}
 
 const getAccountIdParam = createParameterSelector((params) => params.accountId);
 
