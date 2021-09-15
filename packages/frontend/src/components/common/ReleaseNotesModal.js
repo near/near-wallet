@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { Translate } from 'react-localize-redux';
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
 import GiftBoxLineIcon from '../../images/gift-box-line.svg';
 import GiftBoxIcon from '../../images/gift-box.svg';
 import StarsIcon from '../../images/star.svg';
+import { selectAccountId } from '../../redux/reducers/account';
 import { getReleaseNotesClosed, setReleaseNotesClosed } from '../../utils/localStorage';
 import FormButton from '../common/FormButton';
 import Modal from '../common/modal/Modal';
@@ -99,6 +101,7 @@ const Container = styled.div`
 const RELEASE_NOTES_MODAL_VERSION = 'v0.01.2';
 
 const ReleaseNotesModal = () => {
+    const accountId = useSelector(state => selectAccountId(state));
     const [open, setOpen] = useState(!getReleaseNotesClosed(RELEASE_NOTES_MODAL_VERSION));
     
     const onClose = () => {
@@ -106,7 +109,7 @@ const ReleaseNotesModal = () => {
         setOpen(false);
     };
     
-    return open
+    return (accountId && open)
         ? (
             <Modal
                 id='release-notes-modal'
