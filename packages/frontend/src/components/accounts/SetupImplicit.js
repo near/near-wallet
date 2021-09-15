@@ -17,6 +17,7 @@ import Divider from '../common/Divider';
 import FormButton from '../common/FormButton';
 import Container from '../common/styled/Container.css';
 import WhereToBuyNearModal from '../common/WhereToBuyNearModal';
+import SafeTranslate from '../SafeTranslate';
 import AccountFundedModal from './AccountFundedModal';
 import FundWithMoonpay from './create/FundWithMoonpay';
 import AccountFunded from './create/status/AccountFunded';
@@ -238,7 +239,7 @@ class SetupImplicit extends Component {
             <StyledContainer className='small-centered funded'>
                 <h1><Translate id='account.createImplicit.pre.title' /></h1>
                 <h2>
-                    <Translate
+                    <SafeTranslate
                         id='account.createImplicit.pre.descOne'
                         data={{ amount: getNearAndFiatValue(MIN_BALANCE_TO_CREATE, nearTokenFiatValueUSD) }}
                     />

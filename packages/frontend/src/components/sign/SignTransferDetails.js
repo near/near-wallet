@@ -7,6 +7,7 @@ import styled from 'styled-components';
 
 import IconArrowLeft from '../../images/IconArrowLeft';
 import IconProblems from '../../images/IconProblems';
+import SafeTranslate from '../SafeTranslate';
 
 
 
@@ -168,7 +169,7 @@ const ActionRow = ({ transaction, action, actionKind }) => (
 
 const ActionMessage = ({ transaction, action, actionKind }) => (
     <b>
-        <Translate 
+        <SafeTranslate
             id={`actionsSign.${actionKind}`}
             data={{
                 receiverId: transaction.receiver_id || '',

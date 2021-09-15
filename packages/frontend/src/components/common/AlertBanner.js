@@ -3,6 +3,7 @@ import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
 import classNames from '../../utils/classNames';
+import SafeTranslate from '../SafeTranslate';
 import AlertRoundedIcon from '../svg/AlertRoundedIcon.js';
 import FormButton from './FormButton';
 
@@ -82,7 +83,7 @@ export default function AlertBanner({ title, button, linkTo, data, theme }) {
         <Container className={classNames(['alert-banner', theme])}>
             <AlertRoundedIcon/>
             <div>
-                <Translate id={title} data={{ data: data }}/>
+                <SafeTranslate id={title} data={{ data: data }}/>
                 {linkTo ? 
                     <>
                         {linkTo.includes('http') ? (

@@ -7,6 +7,7 @@ import { actions as transactionsActions } from '../../redux/slices/transactions'
 import { EXPLORER_URL, TRANSACTIONS_REFRESH_INTERVAL } from '../../utils/wallet';
 import FormButton from '../common/FormButton';
 import Modal from "../common/modal/Modal";
+import SafeTranslate from '../SafeTranslate';
 import { ActionTitle, ActionValue, ActionMessage, ActionStatus, translateData } from './ActivityBox';
 
 const StyledContainer = styled.div`
@@ -183,13 +184,13 @@ const ActivityDetailModal = ({
                             ? (
                                 <>
                                     <div className='item sent-to'>
-                                        <Translate 
+                                        <SafeTranslate
                                             id={`dashboardActivity.message.FunctionCallDetails.first`}
                                             data={translateData(transaction, actionArgs, actionKind)}
                                         />
                                     </div>
                                     <div className='item sent-to'>
-                                        <Translate 
+                                        <SafeTranslate
                                             id={`dashboardActivity.message.FunctionCallDetails.second`}
                                             data={translateData(transaction, actionArgs, actionKind)}
                                         />

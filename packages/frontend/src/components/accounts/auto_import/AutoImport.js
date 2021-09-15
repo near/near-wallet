@@ -4,6 +4,7 @@ import styled from 'styled-components';
 
 import FormButton from '../../common/FormButton';
 import Container from '../../common/styled/Container.css';
+import SafeTranslate from '../../SafeTranslate';
 
 const StyledContainer = styled(Container)`
     &&& {
@@ -11,7 +12,7 @@ const StyledContainer = styled(Container)`
             margin-top: 50px;
             text-align: center;
         }
-    
+
         button {
             margin: 40px auto 0 auto;
             display: block;
@@ -30,19 +31,19 @@ const AutoImport = ({
         {recoveryFailed
             ? <>
                 <h1>
-                    <Translate
+                    <SafeTranslate
                         id={`importAccount.${accountId ? 'withIdFailed' : 'noIdFailed'}`}
                         data={{ accountId: accountId }}
                     />
                 </h1>
-                <FormButton onClick={onClickRecoverWithSecretKey}><Translate id='button.tryAgain' /></FormButton>
+                <FormButton onClick={onClickRecoverWithSecretKey}><Translate id='button.tryAgain'/></FormButton>
                 {onCancel
                     ? <FormButton color='gray-blue' onClick={onCancel}><Translate id='button.cancel' /></FormButton>
                     : <FormButton color='gray-blue' linkTo='/create'><Translate id='button.createNewAccount' /></FormButton>
                 }
             </>
             : <h1 className='animated-dots'>
-                <Translate
+                <SafeTranslate
                     id={`importAccount.${accountId ? 'withId' : 'noId'}`}
                     data={{ accountId: accountId }}
                 />

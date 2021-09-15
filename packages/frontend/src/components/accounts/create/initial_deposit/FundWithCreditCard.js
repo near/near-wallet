@@ -4,6 +4,7 @@ import styled from 'styled-components';
 
 import FormButton from '../../../common/FormButton';
 import Container from '../../../common/styled/Container.css';
+import SafeTranslate from '../../../SafeTranslate';
 import MoonPayIcon from '../../../svg/MoonPayIcon';
 import AccountNeedsFunding from '../status/AccountNeedsFunding';
 
@@ -48,7 +49,7 @@ export default ({
         <>
             <StyledContainer className='small-centered border'>
                 <h1><Translate id='initialDeposit.creditCard.title' /></h1>
-                <h2><Translate id='initialDeposit.creditCard.desc' data={{ amount: formattedMinDeposit }}/></h2>
+                <h2><SafeTranslate id='initialDeposit.creditCard.desc' data={{ amount: formattedMinDeposit }}/></h2>
                 <AccountNeedsFunding
                     fundingAddress={fundingAddress}
                     minDeposit={minDeposit}

@@ -12,6 +12,7 @@ import { MULTISIG_MIN_AMOUNT } from '../../../utils/wallet';
 import { getNearAndFiatValue } from '../../common/balance/helpers';
 import FormButton from '../../common/FormButton';
 import Card from '../../common/styled/Card.css';
+import SafeTranslate from '../../SafeTranslate';
 import ConfirmDisable from '../hardware_devices/ConfirmDisable';
 
 const {
@@ -114,7 +115,7 @@ const TwoFactorAuth = ({ twoFactor, history }) => {
                     </div>
                     {!account.canEnableTwoFactor && 
                         <div className='color-red'>
-                            <Translate
+                            <SafeTranslate
                                 id='twoFactor.notEnoughBalance'
                                 data={{
                                     amount: getNearAndFiatValue(parseNearAmount(MULTISIG_MIN_AMOUNT), nearTokenFiatValueUSD)

@@ -4,6 +4,7 @@ import styled from 'styled-components';
 
 import classNames from '../../../utils/classNames';
 import FormButton from '../../common/FormButton';
+import SafeTranslate from '../../SafeTranslate';
 import AlertTriangleIcon from '../../svg/AlertTriangleIcon.js';
 
 const Container = styled.div`
@@ -53,7 +54,7 @@ export default function AlertBanner({ title, button, linkTo, theme, titleData })
         <Container className={classNames(['alert-banner', theme])}>
             <AlertTriangleIcon/>
             <div>
-                <Translate id={title} data={{ data: titleData }}/>
+                <SafeTranslate id={title} data={{ data: titleData }}/>
                 {linkTo && button && <FormButton className='link' linkTo={linkTo} trackingId="Click alert banner"><Translate id={button} /></FormButton>}
             </div>
         </Container>

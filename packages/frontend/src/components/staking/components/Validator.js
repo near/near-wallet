@@ -6,6 +6,7 @@ import { Mixpanel } from '../../../mixpanel';
 import { redirectTo } from '../../../redux/actions/account';
 import { actionsPending } from '../../../utils/alerts';
 import FormButton from '../../common/FormButton';
+import SafeTranslate from '../../SafeTranslate';
 import AlertBanner from './AlertBanner';
 import BalanceBox from './BalanceBox';
 import StakeConfirmModal from './StakeConfirmModal';
@@ -41,8 +42,8 @@ export default function Validator({
                 />
                 : null
             }
-            <h1><Translate id='staking.validator.title' data={{ validator: match.params.validator }}/></h1>
-            <FormButton 
+            <h1><SafeTranslate id='staking.validator.title' data={{ validator: match.params.validator }}/></h1>
+            <FormButton
                 linkTo={`/staking/${match.params.validator}/stake`} 
                 disabled={(stakeNotAllowed || !validator) ? true : false}
                 trackingId="STAKE Click stake with validator button"

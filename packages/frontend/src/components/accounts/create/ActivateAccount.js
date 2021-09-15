@@ -16,6 +16,7 @@ import Divider from '../../common/Divider';
 import FormButton from '../../common/FormButton';
 import Container from '../../common/styled/Container.css';
 import WhereToBuyNearModal from '../../common/WhereToBuyNearModal';
+import SafeTranslate from '../../SafeTranslate';
 import FundWithMoonpay from './FundWithMoonpay';
 import AccountFunded from './status/AccountFunded';
 import AccountNeedsFunding from './status/AccountNeedsFunding';
@@ -213,7 +214,7 @@ class ActivateAccount extends Component {
             <StyledContainer className='small-centered border'>
                 <h1><Translate id='account.activateAccount.pre.title' /></h1>
                 <h2>
-                    <Translate
+                    <SafeTranslate
                         id='account.activateAccount.pre.desc'
                         data={{ amount: getNearAndFiatValue(minBalanceToUnlock, nearTokenFiatValueUSD) }}
                     />

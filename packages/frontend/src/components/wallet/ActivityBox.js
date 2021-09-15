@@ -6,6 +6,7 @@ import { format } from 'timeago.js';
 import IconTStake from '../../images/IconTStake';
 import classNames from '../../utils/classNames';
 import Balance from '../common/balance/Balance';
+import SafeTranslate from '../SafeTranslate';
 import CodeIcon from '../svg/CodeIcon';
 import DownArrowIcon from '../svg/DownArrowIcon';
 import KeyIcon from '../svg/KeyIcon';
@@ -126,13 +127,13 @@ const ActivityBox = ({ transaction, actionArgs, actionKind, accountId, setTransa
         <StyledContainer className='activity-box' onClick={() => setTransactionHash(hash_with_index)}>
             <ActionIcon actionKind={actionKind} receiverId={receiverId} accountId={accountId}/>
             <div className='desc'>
-                <ActionTitle 
+                <ActionTitle
                     transaction={transaction}
                     actionArgs={actionArgs}
                     actionKind={actionKind}
                     accountId={accountId}
                 />
-                <ActionMessage 
+                <ActionMessage
                     transaction={transaction}
                     actionArgs={actionArgs}
                     actionKind={actionKind}
@@ -158,13 +159,13 @@ const ActivityBox = ({ transaction, actionArgs, actionKind, accountId, setTransa
 };
 
 export const ActionTitle = ({ transaction, actionArgs, actionKind, accountId }) => (
-    <Translate 
+    <Translate
         id={`dashboardActivity.title.${translateId(transaction, actionArgs, actionKind, accountId)}`}
     />
 );
 
 export const ActionMessage = ({ transaction, actionArgs, actionKind, accountId }) => (
-    <Translate 
+    <SafeTranslate
         id={`dashboardActivity.message.${translateId(transaction, actionArgs, actionKind, accountId)}`}
         data={translateData(transaction, actionArgs, actionKind)}
     />
@@ -188,10 +189,10 @@ const translateId = (transaction, actionArgs, actionKind, accountId) => (
 export const translateData = (transaction, actionArgs, actionKind) => ({
     receiverId: transaction.receiver_id || '',
     signerId: transaction.signer_id || '',
-    methodName: actionKind === "FunctionCall" ? actionArgs.method_name : '', 
+    methodName: actionKind === "FunctionCall" ? actionArgs.method_name : '',
     deposit: actionKind === "Transfer" ? <Balance amount={actionArgs.deposit} /> : '',
     stake: actionKind === "Stake" ? <Balance amount={actionArgs.stake} />  : '',
-    permissionReceiverId: (actionKind === "AddKey" && actionArgs.access_key && actionArgs.access_key.permission.permission_kind === 'FUNCTION_CALL') ? actionArgs.access_key.permission.permission_details.receiver_id : ''
+    permissionReceiverId: (actionKind === "AddKey" && actionArgs.access_key && actionArgs.access_key.permission.permission_kind === 'FUNCTION_CALL') ? actionArgs.access_key.permission.permission_details.receiver_id : '',
 });
 
 const ActionIcon = ({ actionKind, receiverId, accountId }) => (
