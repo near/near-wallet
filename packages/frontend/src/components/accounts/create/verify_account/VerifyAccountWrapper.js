@@ -89,7 +89,7 @@ export function VerifyAccountWrapper() {
                             dispatch(showCustomAlert({
                                 success: false,
                                 messageCodeHeader: 'error',
-                                messageCode: e.code,
+                                messageCode: `reduxActions.${e.code}`,
                                 errorMessage: e.message
                             }));
                         }
