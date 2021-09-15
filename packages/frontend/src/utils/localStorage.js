@@ -1,4 +1,4 @@
-import { keyAccountConfirmed, keyStakingAccountSelected, keyAccountInactive } from './wallet';
+import { keyAccountConfirmed, keyStakingAccountSelected, keyAccountInactive, keyReleaseNotesModalClosed } from './wallet';
 
 export const setAccountConfirmed = (accountId, confirmed) => {
     localStorage.setItem(keyAccountConfirmed(accountId), confirmed);
@@ -29,4 +29,12 @@ export const getAccountIsInactive = (accountId) => {
 
 export const removeAccountIsInactive = (accountId) => {
     localStorage.removeItem(keyAccountInactive(accountId));
+};
+
+export const setReleaseNotesClosed = (version) => {
+    localStorage.setItem(keyReleaseNotesModalClosed(version), true);
+};
+
+export const getReleaseNotesClosed = (version) => {
+    return localStorage.getItem(keyReleaseNotesModalClosed(version));
 };
