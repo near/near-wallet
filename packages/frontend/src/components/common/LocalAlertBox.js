@@ -1,8 +1,8 @@
 import React from 'react';
-import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
 import classNames from '../../utils/classNames';
+import SafeTranslate from '../SafeTranslate';
 
 const LocalAlertBoxContainer = styled.div`
     font-weight: 500;
@@ -66,7 +66,7 @@ const LocalAlertBoxContainer = styled.div`
 const LocalAlertBox = ({ localAlert, accountId, dots }) => (
     localAlert?.show ?
         <LocalAlertBoxContainer className={classNames(['alert-info', {'success': localAlert.success}, {'problem': !localAlert.success}, {'dots': dots}])}>
-            <Translate id={localAlert.messageCode} data={{ accountId: accountId }}/>
+            <SafeTranslate id={localAlert.messageCode} data={{ accountId: accountId }}/>
         </LocalAlertBoxContainer>
         : null
 );

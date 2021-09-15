@@ -1,6 +1,6 @@
 import React from 'react';
 import { Translate } from 'react-localize-redux';
-import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input';
+import PhoneInput from 'react-phone-number-input';
 import styled from 'styled-components';
 
 import IntFlagIcon from '../../../../images/int-flag-small.svg';

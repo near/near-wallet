@@ -20,6 +20,7 @@ import { getNearAndFiatValue } from '../common/balance/helpers';
 import FormButton from '../common/FormButton';
 import Container from '../common/styled/Container.css';
 import WhereToBuyNearModal from '../common/WhereToBuyNearModal';
+import SafeTranslate from '../SafeTranslate';
 import BrokenLinkIcon from '../svg/BrokenLinkIcon';
 import FundNearIcon from '../svg/FundNearIcon';
 import AccountFormAccountId from './AccountFormAccountId';
@@ -190,7 +191,7 @@ class CreateAccount extends Component {
                     <FundNearIcon />
                     <h1><Translate id='createAccount.termsPage.title' /></h1>
                     <h2>
-                        <Translate
+                        <SafeTranslate
                             id='createAccount.termsPage.descOne'
                             data={{ amount: getNearAndFiatValue(MIN_BALANCE_TO_CREATE, nearTokenFiatValueUSD) }}
                         />

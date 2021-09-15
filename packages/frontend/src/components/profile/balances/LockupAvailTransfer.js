@@ -4,6 +4,7 @@ import styled from 'styled-components';
 
 import { getNearAndFiatValue } from '../../common/balance/helpers';
 import FormButton from '../../common/FormButton';
+import SafeTranslate from '../../SafeTranslate';
 import GiftIcon from '../../svg/GiftIcon';
 
 const Container = styled.div`
@@ -46,7 +47,7 @@ const LockupAvailTransfer = ({ onTransfer, available, sending, tokenFiatValue })
         <Container className='lockup-avail-transfer'> 
             <GiftIcon/>
             <div>
-                <Translate
+                <SafeTranslate
                     id='profile.lockupBanner.title'
                     data={{ amount: getNearAndFiatValue(available, tokenFiatValue) }}
                 />

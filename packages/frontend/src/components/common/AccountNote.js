@@ -3,6 +3,7 @@ import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
 import { ACCOUNT_ID_SUFFIX } from '../../utils/wallet';
+import SafeTranslate from '../SafeTranslate';
 
 const Container = styled.div`
     font-style: italic;
@@ -33,7 +34,7 @@ const AccountNote = () => (
         <ul>
             <li><Translate id='createAccount.note.characters'/></li>
             <li><Translate id='createAccount.note.minCharacters'/></li>
-            <li><Translate id='createAccount.note.maxCharacters' data={{ accountSuffix: ACCOUNT_ID_SUFFIX }}/></li>
+            <li><SafeTranslate id='createAccount.note.maxCharacters' data={{ accountSuffix: ACCOUNT_ID_SUFFIX }}/></li>
         </ul>
     </Container>
 );

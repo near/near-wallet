@@ -1,6 +1,4 @@
 import React from 'react';
-import { Translate } from 'react-localize-redux';
-import PhoneInput from 'react-phone-number-input';
 
 import PhoneNumberInput from './PhoneNumberInput';
 import VerifyOption from './VerifyOption';

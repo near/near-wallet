@@ -24,6 +24,7 @@ import { getNearAndFiatValue } from '../../common/balance/helpers';
 import Checkbox from '../../common/Checkbox';
 import FormButton from '../../common/FormButton';
 import Container from '../../common/styled/Container.css';
+import SafeTranslate from '../../SafeTranslate';
 import EnterVerificationCode from '../EnterVerificationCode';
 import TwoFactorOption from './TwoFactorOption';
 
@@ -233,7 +234,7 @@ export function EnableTwoFactor(props) {
                             checked={twoFactorAmountApproved}
                             onChange={e => setTwoFactorAmountApproved(e.target.checked)}
                         />
-                        <span><Translate id='twoFactor.checkBox' data={{ amount: getNearAndFiatValue(multiSigMinAmountRaw, nearTokenFiatValueUSD) }}/></span>
+                        <span><SafeTranslate id='twoFactor.checkBox' data={{ amount: getNearAndFiatValue(multiSigMinAmountRaw, nearTokenFiatValueUSD) }}/></span>
                     </label>
                     <FormButton
                         color='blue'

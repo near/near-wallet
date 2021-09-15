@@ -6,9 +6,7 @@ import styled from 'styled-components';
 import IconCheckCircleImage from '../../images/icon-check-circle.svg';
 import IconsAlertCircleImage from '../../images/icon_alert-circle.svg';
 import { clearGlobalAlert } from '../../redux/actions/status';
-
-
-
+import SafeTranslate from '../SafeTranslate';
 
 const AlertContainer = styled.div`
     position: fixed;
@@ -224,7 +222,8 @@ const GlobalAlertNew = ({ globalAlert, actionStatus, clearGlobalAlert, closeIcon
                                                 <div className='message-code'>
                                                     {noTranslationFound
                                                         ? <Translate id={`reduxActions.default.${alert.success ? 'success' : 'error'}`} />
-                                                        : <Translate id={alert.messageCode} data={alert.data} />
+                                                        : <SafeTranslate id={alert.messageCode} data={alert.data} />
+                                                        // : <Translate id={alert.messageCode} data={escapeHtml(alert.data)} />
                                                     }
                                                     {!alert.success &&
                                                         <a

@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
 import classNames from '../../utils/classNames';
 import isMobile from '../../utils/isMobile';
 import Modal from '../common/modal/Modal';
+import SafeTranslate from '../SafeTranslate';
 import InfoIconRounded from '../svg/InfoIconRounded';
 
 const Container = styled.div`
@@ -135,7 +135,7 @@ const Tooltip = ({ className, children, translate, data, position, icon, modalOn
         >
             {children ? children : <InfoIconRounded/>}
             {show && !mobile && !modalOnly &&
-                <div className={classNames(['hover-content', show ? 'show' : ''])}><Translate id={translate} data={{ data: data }}/></div>
+                <div className={classNames(['hover-content', show ? 'show' : ''])}><SafeTranslate id={translate} data={{ data: data }}/></div>
             }
             {show && (mobile || modalOnly) &&
                 <Modal
@@ -146,7 +146,7 @@ const Tooltip = ({ className, children, translate, data, position, icon, modalOn
                     mobileActionSheet={false}
                     modalClass='tooltip'
                 >
-                    <Translate id={translate} data={{ data: data }}/>
+                    <SafeTranslate id={translate} data={{ data: data }}/>
                 </Modal>
             }
         </Container>

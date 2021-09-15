@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import FormButton from '../../../common/FormButton';
 import Container from '../../../common/styled/Container.css';
 import WhereToBuyNearModal from '../../../common/WhereToBuyNearModal';
+import SafeTranslate from '../../../SafeTranslate';
 import AccountNeedsFunding from '../status/AccountNeedsFunding';
 
 const StyledContainer = styled(Container)`
@@ -37,7 +38,7 @@ export default ({
         <>
             <StyledContainer className='small-centered border'>
                 <h1><Translate id='initialDeposit.manualDeposit.title' /></h1>
-                <h2><Translate id='initialDeposit.manualDeposit.desc' data={{ amount: formattedMinDeposit }}/></h2>
+                <h2><SafeTranslate id='initialDeposit.manualDeposit.desc' data={{ amount: formattedMinDeposit }}/></h2>
                 <FormButton
                     onClick={() => setShowWhereToBuyModal(true)}
                     color='blue'

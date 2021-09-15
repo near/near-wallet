@@ -10,6 +10,7 @@ import isDecimalString from '../../../utils/isDecimalString';
 import { STAKING_AMOUNT_DEVIATION } from '../../../utils/staking';
 import { getNearAndFiatValue } from '../../common/balance/helpers';
 import FormButton from '../../common/FormButton';
+import SafeTranslate from '../../SafeTranslate';
 import ArrowCircleIcon from '../../svg/ArrowCircleIcon';
 import TransferMoneyIcon from '../../svg/TransferMoneyIcon';
 import AlertBanner from './AlertBanner';
@@ -194,7 +195,7 @@ export default function StakingAction({
                 <TransferMoneyIcon/>
                 <h1><Translate id={`staking.${action}Success.title`} /></h1>
                 <div className='desc'>
-                    <Translate 
+                    <SafeTranslate
                         id={`staking.${action}Success.desc`}
                         data={{ amount: getNearAndFiatValue(parseNearAmount(displayAmount), nearTokenFiatValueUSD) }}
                     />
