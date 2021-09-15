@@ -4,6 +4,8 @@ import set from 'lodash.set';
 import { createSelector } from 'reselect';
 
 import FungibleTokens from '../../../services/FungibleTokens';
+import createParameterSelector from '../createParameterSelector';
+import initialErrorState from '../initialErrorState';
 
 const WHITELISTED_CONTRACTS = (process.env.TOKEN_CONTRACTS || 'berryclub.ek.near,farm.berryclub.ek.near,wrap.near').split(',');
 const SLICE_NAME = 'tokens';
@@ -20,7 +22,7 @@ const initialState = {
 const initialOwnedTokenState = {
     balance: '',
     loading: false,
-    error: null
+    error: initialErrorState
 };
 
 async function getCachedContractMetadataOrFetch(contractName, accountId, state) {
@@ -90,18 +92,24 @@ const tokensSlice = createSlice({
     extraReducers: ((builder) => {
         builder.addCase(fetchOwnedTokensForContract.pending, (state, { meta }) => {
             const { accountId, contractName } = meta.arg;
+
             set(state, ['ownedTokens', 'byAccountId', accountId, contractName, 'loading'], true);
-            set(state, ['ownedTokens', 'byAccountId', accountId, contractName, 'error'], '');
+            set(state, ['ownedTokens', 'byAccountId', accountId, contractName, 'error'], initialErrorState);
         });
         builder.addCase(fetchOwnedTokensForContract.fulfilled, (state, { meta }) => {
             const { accountId, contractName } = meta.arg;
+
             set(state, ['ownedTokens', 'byAccountId', accountId, contractName, 'loading'], false);
-            set(state, ['ownedTokens', 'byAccountId', accountId, contractName, 'error'], '');
+            set(state, ['ownedTokens', 'byAccountId', accountId, contractName, 'error'], initialErrorState);
         });
         builder.addCase(fetchOwnedTokensForContract.rejected, (state, { meta,  error }) => {
             const { accountId, contractName } = meta.arg;
+            
             set(state, ['ownedTokens', 'byAccountId', accountId, contractName, 'loading'], false);
-            set(state, ['ownedTokens', 'byAccountId', accountId, contractName, 'error'], error?.message || 'An error was encountered.');
+            set(state, ['ownedTokens', 'byAccountId', accountId, contractName, 'error'], {
+                message: error?.message || 'An error was encountered.',
+                code: error?.code
+            });
         });
     })
 });
@@ -113,12 +121,6 @@ export const actions = {
     ...tokensSlice.actions
 };
 export const reducer = tokensSlice.reducer; 
-
-// A helper function to create the parameter selectors
-// Ref: https://flufd.github.io/reselect-with-multiple-parameters/
-function createParameterSelector(selector) {
-    return (_, params) => selector(params);
-}
 
 const getAccountIdParam = createParameterSelector((params) => params.accountId);
 

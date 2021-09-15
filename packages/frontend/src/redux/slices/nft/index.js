@@ -4,7 +4,8 @@ import update from 'lodash.update';
 import { createSelector } from 'reselect';
 
 import NonFungibleTokens, { TOKENS_PER_PAGE } from '../../../services/NonFungibleTokens';
-import createParameterSelector from '../../createParameterSelector';
+import createParameterSelector from '../createParameterSelector';
+import initialErrorState from '../initialErrorState';
 
 const { getLikelyTokenContracts, getMetadata, getTokens } = NonFungibleTokens;
 
@@ -22,7 +23,7 @@ const initialState = {
 };
 
 const initialOwnedTokenState = {
-    error: null,
+    error: initialErrorState,
     loading: false,
     tokens: [],
     hasFetchedAllTokensForContract: false
@@ -112,21 +113,30 @@ const nftSlice = createSlice({
         extraReducers: ((builder) => {
             builder.addCase(fetchOwnedNFTsForContract.pending, (state, { meta }) => {
                 debugLog('REDUCER/fetchOwnedNFTsForContract.pending');
+
                 const { accountId, contractName } = meta.arg;
+
                 set(state, ['ownedTokens', 'byAccountId', accountId, 'byContractName', contractName, 'loading'], true);
+                set(state, ['ownedTokens', 'byAccountId', accountId, 'byContractName', contractName, 'error'], initialErrorState);
             });
             builder.addCase(fetchOwnedNFTsForContract.fulfilled, (state, { meta }) => {
                 debugLog('REDUCER/fetchOwnedNFTsForContract.fulfilled');
 
                 const { accountId, contractName } = meta.arg;
+
                 set(state, ['ownedTokens', 'byAccountId', accountId, 'byContractName', contractName, 'loading'], false);
+                set(state, ['ownedTokens', 'byAccountId', accountId, 'byContractName', contractName, 'error'], initialErrorState);
             });
             builder.addCase(fetchOwnedNFTsForContract.rejected, (state, { meta, error }) => {
                 debugLog('REDUCER/fetchOwnedNFTsForContract.fulfilled');
-
+                
                 const { accountId, contractName } = meta.arg;
+
                 set(state, ['ownedTokens', 'byAccountId', accountId, 'byContractName', contractName, 'loading'], false);
-                set(state, ['ownedTokens', 'byAccountId', accountId, 'byContractName', contractName, 'error'], error?.message || 'An error was encountered.');
+                set(state, ['ownedTokens', 'byAccountId', accountId, 'byContractName', contractName, 'error'], {
+                    message: error?.message || 'An error was encountered.',
+                    code: error?.code
+                });
             });
         })
     }
