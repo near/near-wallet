@@ -1,5 +1,7 @@
+import { push } from 'connected-react-router';
 import React from 'react';
 import { Translate } from 'react-localize-redux';
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
 import NearLogoAndPlusIcon from '../svg/NearLogoAndPlusIcon';
@@ -31,6 +33,11 @@ const StyledContainer = styled.div`
             display: flex;
             align-items: center;
             padding: 15px;
+            cursor: pointer;
+
+            :hover {
+                background-color: #ECECEC;
+            }
     
             > div {
                 margin-left: 15px;
@@ -56,10 +63,12 @@ const StyledContainer = styled.div`
 `;
 
 export default () => {
+    const dispatch = useDispatch();
+
     return (
         <StyledContainer>
             <div>
-                <div>
+                <div onClick={() => dispatch(push({ pathname: '/receive-money' }))} >
                     <NearLogoAndPlusIcon />
                     <div>
                         <div className='title'><Translate id='wallet.depositNear.title' /></div>
