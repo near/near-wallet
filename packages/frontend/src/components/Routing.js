@@ -2,6 +2,7 @@ import { ConnectedRouter } from 'connected-react-router';
 import { parseSeedPhrase } from 'near-seed-phrase';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import ReactDOMServer from 'react-dom/server';
 import { withLocalize } from 'react-localize-redux';
 import { connect } from 'react-redux';
 import { Redirect, Switch } from 'react-router-dom';
@@ -30,7 +31,6 @@ import {
     WALLET_LOGIN_URL,
     WALLET_SIGN_URL,
     WALLET_SEND_MONEY_URL,
-    ENABLE_IDENTITY_VERIFIED_ACCOUNT
 } from '../utils/wallet';
 import { AuthorizedAppsWithRouter, FullAccessKeysWithRouter } from './access-keys/AccessKeys';
 import { AutoImportWrapper } from './accounts/auto_import/AutoImportWrapper';
@@ -143,7 +143,7 @@ class Routing extends Component {
             options: {
                 defaultLanguage: 'en',
                 onMissingTranslation: ({ defaultTranslation }) => defaultTranslation,
-                renderToStaticMarkup: false,
+                renderToStaticMarkup: ReactDOMServer.renderToStaticMarkup,
                 renderInnerHtml: true
             }
         });
