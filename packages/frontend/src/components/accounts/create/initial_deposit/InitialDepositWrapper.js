@@ -6,12 +6,15 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import { createAccountFromImplicit, redirectTo } from '../../../../redux/actions/account';
 import { actions as createFromImplicitActions } from '../../../../redux/slices/createFromImplicit';
+import { actions as flowLimitationActions } from '../../../../redux/slices/flowLimitation';
 import { getSignedUrl } from '../../../../utils/moonpay';
 import useRecursiveTimeout from '../../../../utils/useRecursiveTimeout';
 import { MIN_BALANCE_TO_CREATE, wallet } from '../../../../utils/wallet';
 import FundingReceived from './FundingReceived';
 import FundWithCreditCard from './FundWithCreditCard';
 import FundWithManualDeposit from './FundWithManualDeposit';
+
+const { handleFlowLimitation } = flowLimitationActions;
 
 const { setCreateFromImplicitSuccess } = createFromImplicitActions;
 
@@ -45,6 +48,10 @@ export function InitialDepositWrapper({ history }) {
         implicitAccountId,
         window.location.href
     ]);
+
+    useEffect(() => {
+        dispatch(handleFlowLimitation());
+    }, []);
 
     useRecursiveTimeout(async () => {
         await checkFundingAddressBalance().catch(() => { });
