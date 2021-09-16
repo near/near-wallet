@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import assign from 'lodash.assign';
 
 import { 
+    WALLET_INITIAL_DEPOSIT_URL,
     WALLET_LOGIN_URL,
     WALLET_SIGN_URL
 } from '../../../utils/wallet';
@@ -37,6 +38,15 @@ const handleFlowLimitation = createAsyncThunk(
             }));
         } 
         else if (redirectUrl.includes(WALLET_SIGN_URL)) {
+            dispatch(setFlowLimitation({
+                mainMenu: true,
+                subMenu: true,
+                accountPages: true,
+                accountData: true,
+                accountBalance: false
+            }));
+        }
+        else if (redirectUrl.includes(WALLET_INITIAL_DEPOSIT_URL)) {
             dispatch(setFlowLimitation({
                 mainMenu: true,
                 subMenu: true,
