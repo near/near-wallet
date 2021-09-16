@@ -8,7 +8,7 @@ import { createActions, createAction } from 'redux-actions';
 import { showAlert, dispatchWithAlert } from '../../utils/alerts';
 import { loadState, saveState, clearState } from '../../utils/sessionStorage';
 import { TwoFactor } from '../../utils/twoFactor';
-import { DISABLE_CREATE_ACCOUNT, wallet } from '../../utils/wallet';
+import { DISABLE_CREATE_ACCOUNT, wallet, WALLET_INITIAL_DEPOSIT_URL } from '../../utils/wallet';
 import {
     WALLET_CREATE_NEW_ACCOUNT_URL,
     WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS,
@@ -71,10 +71,14 @@ export const handleClearUrl = () => (dispatch, getState) => {
     const page = pathname.split('/')[1];
     const guestLandingPage = !page && !wallet.accountId;
     const saveUrlPages = [...WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS, WALLET_LOGIN_URL, WALLET_SIGN_URL, WALLET_LINKDROP_URL].includes(page);
+    const initialDepositPage = WALLET_INITIAL_DEPOSIT_URL.includes(page);
 
     if (!guestLandingPage && !saveUrlPages) {
         clearState();
         dispatch(refreshUrl({}));
+        dispatch(handleClearflowLimitation());
+    }
+    else if (!initialDepositPage) {
         dispatch(handleClearflowLimitation());
     }
 };

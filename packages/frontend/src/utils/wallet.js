@@ -38,6 +38,7 @@ export const WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS = [
 ];
 export const WALLET_LOGIN_URL = 'login';
 export const WALLET_SIGN_URL = 'sign';
+export const WALLET_INITIAL_DEPOSIT_URL = 'initial-deposit';
 export const WALLET_LINKDROP_URL = 'linkdrop';
 export const WALLET_RECOVER_ACCOUNT_URL = 'recover-account';
 export const WALLET_SEND_MONEY_URL = 'send-money';
