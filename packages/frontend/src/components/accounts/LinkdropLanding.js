@@ -3,10 +3,10 @@ import { Translate } from 'react-localize-redux';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 
-import { checkNearDropBalance, claimLinkdropToAccount, redirectTo, handleRefreshUrl } from '../../actions/account';
-import { clearLocalAlert } from '../../actions/status';
 import { Mixpanel } from '../../mixpanel/index';
-import { actions as linkdropActions } from '../../slices/linkdrop';
+import { checkNearDropBalance, claimLinkdropToAccount, redirectTo, handleRefreshUrl } from '../../redux/actions/account';
+import { clearLocalAlert } from '../../redux/actions/status';
+import { actions as linkdropActions } from '../../redux/slices/linkdrop';
 import { actionsPending } from '../../utils/alerts';
 import AccountDropdown from '../common/AccountDropdown';
 import Balance from '../common/balance/Balance';

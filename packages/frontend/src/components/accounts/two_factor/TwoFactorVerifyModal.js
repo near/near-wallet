@@ -3,8 +3,8 @@ import { Translate } from 'react-localize-redux';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 
-import { resendTwoFactor, get2faMethod } from '../../../actions/account';
 import { Mixpanel } from "../../../mixpanel/index";
+import { resendTwoFactor, get2faMethod } from '../../../redux/actions/account';
 import { actionsPending } from '../../../utils/alerts';
 import { WalletError } from '../../../utils/walletError';
 import FormButton from '../../common/FormButton';

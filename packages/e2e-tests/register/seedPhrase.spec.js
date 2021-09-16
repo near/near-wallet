@@ -4,6 +4,7 @@ const {
     generateTestAccountId,
     connectToAccountWithSeedphrase,
 } = require("../utils/account");
+const { walletNetwork } = require("../utils/config");
 const { HomePage } = require("./models/Home");
 const { CreateAccountPage } = require("./models/CreateAccount");
 const { SetRecoveryOptionPage } = require("./models/SetRecoveryOption");
@@ -87,7 +88,7 @@ describe("Account Registration Using Seed Phrase", () => {
             .grantPermissions(["clipboard-read", "clipboard-write"])
             .catch(test.skip);
         // skip test on mainnet
-        if (process.env.WALLET_NETWORK === "mainnet") {
+        if (walletNetwork === "mainnet") {
             test.skip();
         }
 

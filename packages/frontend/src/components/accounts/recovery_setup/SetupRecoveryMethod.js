@@ -6,15 +6,19 @@ import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 
-import * as accountActions from '../../../actions/account';
-import { showCustomAlert } from '../../../actions/status';
 import { Mixpanel } from '../../../mixpanel/index';
-import { actions as linkdropActions } from '../../../slices/linkdrop';
+import * as accountActions from '../../../redux/actions/account';
+import { showCustomAlert } from '../../../redux/actions/status';
+import { actions as linkdropActions } from '../../../redux/slices/linkdrop';
 import { validateEmail } from '../../../utils/account';
 import { actionsPending } from '../../../utils/alerts';
 import isApprovedCountryCode from '../../../utils/isApprovedCountryCode';
 import parseFundingOptions from '../../../utils/parseFundingOptions';
-import { DISABLE_CREATE_ACCOUNT } from '../../../utils/wallet';
+import {
+    DISABLE_CREATE_ACCOUNT,
+    ENABLE_IDENTITY_VERIFIED_ACCOUNT,
+    wallet
+} from '../../../utils/wallet';
 import FormButton from '../../common/FormButton';
 import Container from '../../common/styled/Container.css';
 import Tooltip from '../../common/Tooltip';
@@ -195,9 +199,28 @@ class SetupRecoveryMethod extends Component {
             await validateSecurityCode(accountId, method, securityCode);
             await saveAccount(accountId, recoveryKeyPair);
 
+            // IDENTITY VERIFIED FUNDED ACCOUNT
+            if (DISABLE_CREATE_ACCOUNT && !fundingOptions && ENABLE_IDENTITY_VERIFIED_ACCOUNT) {
+                try {
+                    // Call function directly to handle error silently
+                    await wallet.createIdentityFundedAccount({
+                        accountId,
+                        kind: method.kind,
+                        publicKey: recoveryKeyPair.publicKey,
+                        identityKey: method.detail,
+                        verificationCode: securityCode,
+                        recoveryMethod: method.kind
+                    });
+                } catch(e) {
+                    console.warn(e.code);
+                    await fundCreateAccount(accountId, recoveryKeyPair, method.kind);
+                }
+                return;
+            }
+
             // IMPLICIT ACCOUNT
             if (DISABLE_CREATE_ACCOUNT && !fundingOptions && !recaptchaToken) {
-                await fundCreateAccount(accountId, recoveryKeyPair, fundingOptions, method);
+                await fundCreateAccount(accountId, recoveryKeyPair, method.kind);
                 return;
             }
 
@@ -210,7 +233,7 @@ class SetupRecoveryMethod extends Component {
             } catch (e) {
                 if (e.code === 'NotEnoughBalance') {
                     Mixpanel.track('SR NotEnoughBalance creating funded account');
-                    return fundCreateAccount(accountId, recoveryKeyPair, fundingOptions, method);
+                    return fundCreateAccount(accountId, recoveryKeyPair, method.kind);
                 }
 
                 throw e;
@@ -246,14 +269,16 @@ class SetupRecoveryMethod extends Component {
                             showCustomAlert({
                                 success: false,
                                 messageCodeHeader: 'error',
-                                messageCode: 'walletErrorCodes.setupRecoveryMessageNewAccount.invalidCode'
+                                messageCode: 'walletErrorCodes.setupRecoveryMessageNewAccount.invalidCode',
+                                errorMessage: e.message
                             });
                         } else if (isRetryableRecaptchaError(e)) {
                             Mixpanel.track('Funded account creation failed due to invalid / expired reCaptcha response from user');
                             showCustomAlert({
                                 success: false,
                                 messageCodeHeader: 'error',
-                                messageCode: 'walletErrorCodes.invalidRecaptchaCode'
+                                messageCode: 'walletErrorCodes.invalidRecaptchaCode',
+                                errorMessage: e.message
                             });
                         } else {
                             showCustomAlert({
@@ -439,6 +464,7 @@ class SetupRecoveryMethod extends Component {
                     verifyingCode={actionsPending('SETUP_RECOVERY_MESSAGE') || settingUpNewAccount}
                     onRecaptchaChange={this.handleRecaptchaChange}
                     isLinkDrop={parseFundingOptions(location.search) !== null}
+                    skipRecaptcha={ENABLE_IDENTITY_VERIFIED_ACCOUNT}
                 />
             );
         }

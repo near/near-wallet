@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { switchAccount, getAvailableAccountsBalance, getAccountBalance, getBalance } from '../../actions/account';
+import { switchAccount, getAvailableAccountsBalance, getAccountBalance, getBalance } from '../../redux/actions/account';
 import DesktopContainer from './DesktopContainer';
 import MobileContainer from './MobileContainer';
 
@@ -80,7 +80,7 @@ class Navigation extends Component {
     }
 
     handleSelectAccount = accountId => {
-        this.props.switchAccount(accountId);
+        this.props.switchAccount({ accountId });
         this.setState({ menuOpen: false });
     }
 

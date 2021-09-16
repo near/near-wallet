@@ -31,13 +31,17 @@ const StyledContainer = styled.div`
 
 const SelectTokenButton = ({ token, onClick }) => {
     return (
-        <StyledContainer onClick={onClick} className='select-token-btn'>
+        <StyledContainer
+            onClick={onClick}
+            className="select-token-btn"
+            data-test-id="sendMoneyPageSelectTokenButton"
+        >
             <Token
                 translateIdTitle='sendV2.selectTokenButtonTitle'
                 symbol={token.symbol}
                 icon={token.icon}
             />
-            <ChevronIcon color='#0072ce'/>
+            <ChevronIcon color='#0072ce' />
         </StyledContainer>
     );
 };

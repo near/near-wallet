@@ -7,6 +7,7 @@ import { Grid } from 'semantic-ui-react';
 
 import IconHelp from '../../images/IconHelp';
 import FormButton from '../common/FormButton';
+import SafeTranslate from '../SafeTranslate';
 import MobileContainer from '../sign/MobileContainer';
 
 class LoginForm extends Component {
@@ -63,7 +64,7 @@ class LoginForm extends Component {
                             <div className='h2'>
                                 <Translate>
                                     {({ translate }) => (
-                                        <Translate id='login.confirm.pageText' data={{ appTitle: appTitle || translate('sign.unknownApp') }} />
+                                        <SafeTranslate id='login.confirm.pageText' data={{ appTitle: appTitle || translate('sign.unknownApp') }} />
                                     )}
                                 </Translate>
                             </div>
@@ -83,6 +84,7 @@ class LoginForm extends Component {
                                             onChange={e => this.handleChange(e.target.value)}
                                             className={`${confirmStatus ? (confirmStatus === 'success' ? 'success' : 'problem') : ''}`}
                                             placeholder={translate('login.confirm.username')}
+                                            data-test-id="FAKRequestAccountIdConfirmationInput"
                                             maxLength='64'
                                             required
                                             autoComplete='off'
@@ -111,6 +113,7 @@ class LoginForm extends Component {
                                 <FormButton
                                     color='blue'
                                     disabled={confirmStatus !== 'problem' && accountId ? false : true}
+                                    data-test-id="FAKRequestConfirmAccountIdButton"
                                     sending={buttonLoader}
                                     type='submit'
                                 >

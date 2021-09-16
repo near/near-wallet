@@ -3,12 +3,10 @@ import { Translate } from 'react-localize-redux';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 
-import { clearGlobalAlert } from '../../actions/status';
 import IconCheckCircleImage from '../../images/icon-check-circle.svg';
 import IconsAlertCircleImage from '../../images/icon_alert-circle.svg';
-
-
-
+import { clearGlobalAlert } from '../../redux/actions/status';
+import SafeTranslate from '../SafeTranslate';
 
 const AlertContainer = styled.div`
     position: fixed;
@@ -173,6 +171,7 @@ const Console = styled.div`
     margin-top: 14px;
     background: #f2f2f2;
     padding: 8px;
+    word-break: break-word;
 `;
 
 const GlobalAlertNew = ({ globalAlert, actionStatus, clearGlobalAlert, closeIcon = true }) => {
@@ -223,7 +222,8 @@ const GlobalAlertNew = ({ globalAlert, actionStatus, clearGlobalAlert, closeIcon
                                                 <div className='message-code'>
                                                     {noTranslationFound
                                                         ? <Translate id={`reduxActions.default.${alert.success ? 'success' : 'error'}`} />
-                                                        : <Translate id={alert.messageCode} data={alert.data} />
+                                                        : <SafeTranslate id={alert.messageCode} data={alert.data} />
+                                                        // : <Translate id={alert.messageCode} data={escapeHtml(alert.data)} />
                                                     }
                                                     {!alert.success &&
                                                         <a

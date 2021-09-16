@@ -8,9 +8,9 @@ import { Mixpanel } from '../../../mixpanel/index';
 import { toNear } from '../../../utils/amounts';
 import isDecimalString from '../../../utils/isDecimalString';
 import { STAKING_AMOUNT_DEVIATION } from '../../../utils/staking';
-import { WALLET_APP_MIN_AMOUNT } from '../../../utils/wallet';
 import { getNearAndFiatValue } from '../../common/balance/helpers';
 import FormButton from '../../common/FormButton';
+import SafeTranslate from '../../SafeTranslate';
 import ArrowCircleIcon from '../../svg/ArrowCircleIcon';
 import TransferMoneyIcon from '../../svg/TransferMoneyIcon';
 import AlertBanner from './AlertBanner';
@@ -45,7 +45,7 @@ export default function StakingAction({
     let staked = (validator && validator.staked) || '0';
     const stake = action === 'stake' ? true : false;
     const displayAmount = useMax ? formatNearAmount(amount, 5).replace(/,/g, '') : amount;
-    const availableToStake = stakeFromAccount ? new BN(availableBalance).sub(new BN(utils.format.parseNearAmount(WALLET_APP_MIN_AMOUNT))).toString() : availableBalance;
+    const availableToStake = availableBalance;
     const invalidStakeActionAmount = new BN(useMax ? amount : parseNearAmount(amount)).sub(new BN(stake ? availableToStake : staked)).gt(new BN(STAKING_AMOUNT_DEVIATION)) || !isDecimalString(amount);
     const stakeActionAllowed = hasStakeActionAmount && !invalidStakeActionAmount && !success;
     const stakeNotAllowed = !!selectedValidator && selectedValidator !== match.params.validator && !!currentValidators.length;
@@ -195,7 +195,7 @@ export default function StakingAction({
                 <TransferMoneyIcon/>
                 <h1><Translate id={`staking.${action}Success.title`} /></h1>
                 <div className='desc'>
-                    <Translate 
+                    <SafeTranslate
                         id={`staking.${action}Success.desc`}
                         data={{ amount: getNearAndFiatValue(parseNearAmount(displayAmount), nearTokenFiatValueUSD) }}
                     />

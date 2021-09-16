@@ -2,50 +2,46 @@ import { utils } from 'near-api-js';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { checkAccountAvailable, redirectTo } from '../../actions/account';
-import { checkAndHideLedgerModal } from '../../actions/account';
-import { clearLocalAlert, showCustomAlert } from '../../actions/status';
-import { handleGetTokens } from '../../actions/tokens';
 import { useFungibleTokensIncludingNEAR } from '../../hooks/fungibleTokensIncludingNEAR';
 import { Mixpanel } from '../../mixpanel/index';
+import { checkAccountAvailable, redirectTo } from '../../redux/actions/account';
+import { checkAndHideLedgerModal } from '../../redux/actions/account';
+import { clearLocalAlert, showCustomAlert } from '../../redux/actions/status';
+import { selectNearTokenFiatValueUSD } from '../../redux/slices/tokenFiatValues';
+import { actions as tokensActions } from '../../redux/slices/tokens';
 import { fungibleTokensService } from '../../services/FungibleTokens';
-import { selectNearTokenFiatValueUSD } from '../../slices/tokenFiatValues';
 import isMobile from '../../utils/isMobile';
-import { EXPLORER_URL, SHOW_NETWORK_BANNER, WALLET_APP_MIN_AMOUNT } from '../../utils/wallet';
+import { EXPLORER_URL, SHOW_NETWORK_BANNER } from '../../utils/wallet';
 import SendContainerV2, { VIEWS } from './SendContainerV2';
 
 const { parseNearAmount, formatNearAmount } = utils.format;
+const { fetchTokens } = tokensActions;
 
 export function SendContainerWrapper({ match }) {
     const accountIdFromUrl = match.params.accountId || '';
     const dispatch = useDispatch();
-    const { accountId, balance } = useSelector(({ account }) => account);
+    const { accountId } = useSelector(({ account }) => account);
     const { localAlert } = useSelector(({ status }) => status);
     const nearTokenFiatValueUSD = useSelector(selectNearTokenFiatValueUSD);
-
-    const availableNearBalance = balance?.available;
-    const reservedNearForFees = parseNearAmount(WALLET_APP_MIN_AMOUNT);
 
     const [activeView, setActiveView] = useState(VIEWS.ENTER_AMOUNT);
     const [estimatedTotalFees, setEstimatedTotalFees] = useState('0');
     const [estimatedTotalInNear, setEstimatedTotalInNear] = useState('0');
     const [sendingToken, setSendingToken] = useState(false);
     const [transactionHash, setTransactionHash] = useState(null);
-    const fungibleTokensList = useFungibleTokensIncludingNEAR({ fullBalance: false });
+    const fungibleTokensList = useFungibleTokensIncludingNEAR();
 
     useEffect(() => {
         if (!accountId) {
             return;
         }
 
-        dispatch(handleGetTokens());
+        dispatch(fetchTokens({ accountId }));
     }, [accountId]);
 
     return (
         <SendContainerV2
             accountId={accountId}
-            availableNearBalance={availableNearBalance}
-            reservedNearForFees={reservedNearForFees}
             redirectTo={path => dispatch(redirectTo(path))}
             checkAccountAvailable={accountId => dispatch(checkAccountAvailable(accountId))}
             parseNearAmount={parseNearAmount}

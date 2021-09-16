@@ -227,6 +227,25 @@
         }
     },
 
+    "initialDeposit": {
+        "creditCard": {
+            "title": "Fund your new account using a credit card.",
+            "desc": "Complete your purchase of <b>at least ${amount} NEAR</b> through MoonPay. MoonPay will automatically deposit your funds into your new account."
+        },
+        "manualDeposit": {
+            "title": "Submit a manual deposit.",
+            "desc": "Meet the minimum initial deposit by sending <b>at least ${amount} NEAR</b> to the single-use funding address below."
+        },
+        "claimAccount": {
+            "title": "Claim Your Account",
+            "desc": "Your deposit was received! Once claimed, your deposit will be transferred to your new account.",
+            "disclaimer": {
+                "desc": "Important: The old single-use funding address will no longer be valid. Make sure to replace it with your new address on any exchanges or other devices where it may have been saved.",
+                "checkBox": "Agree & Continue"
+            }
+        }
+    },
+
     "dashboardActivity": {
         "title": {
             "CreateAccount": "Nova conta criada",
@@ -1170,8 +1189,8 @@
         "authorizing": "Autorizando"
     },
 
-    "availableBalanceInfo": "\"Saldo disponível\" é seu saldo disponível de NEAR.",
-    "reservedForFeesInfo": "Um valor mínimo de NEAR é reservado para cobrir o custo das transações.",
+    "availableBalanceInfo": "Your spendable NEAR balance excluding funds locked or staked. <a href='/profile'>View Balance Breakdown →</a>",
+    "reservedForFeesInfo": "Up to ${data} NEAR is reserved to cover the cost of transactions.",
     "availableBalanceProfile": "Este é o seu saldo NEAR gastável e pode ser usado ou transferido imediatamente. Isso será inferior ao seu saldo total.",
     "minimumBalance": "Este é o saldo mínimo NEAR que sua conta deve manter para permanecer ativa. Este saldo representa o espaço de armazenamento que sua conta está usando no blockchain NEAR (com um pequeno buffer) e aumentará ou diminuirá conforme você usar mais ou menos espaço.",
     "totalBalance": "Seu saldo total representa todos os tokens NEAR sob seu controle. Em muitos casos, você não terá acesso imediato a todo o saldo (por exemplo, se estiver bloqueado, delegado ou em stake). Verifique seu saldo disponível para o NEAR que você pode usar, transferir, delegar e fazer stake ativamente.",

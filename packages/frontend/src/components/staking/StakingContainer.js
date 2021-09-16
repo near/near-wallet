@@ -4,14 +4,14 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Switch, Route } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { getBalance } from '../../actions/account';
+import { Mixpanel } from '../../mixpanel/index';
+import { getBalance } from '../../redux/actions/account';
 import {
     updateStaking,
     staking as stakingActions,
     handleStakingAction
-} from '../../actions/staking';
-import { Mixpanel } from '../../mixpanel/index';
-import { selectNearTokenFiatValueUSD } from '../../slices/tokenFiatValues';
+} from '../../redux/actions/staking';
+import { selectNearTokenFiatValueUSD } from '../../redux/slices/tokenFiatValues';
 import { setStakingAccountSelected, getStakingAccountSelected } from '../../utils/localStorage';
 import Container from '../common/styled/Container.css';
 import Staking from './components/Staking';
@@ -130,9 +130,9 @@ const StyledContainer = styled(Container)`
     }
 
     .radio-label {
-        cursor: ${props => props.numAccounts ? 'pointer' : 'default'};
+        cursor: ${props => props.multipleAccounts ? 'pointer' : 'default'};
         .input-wrapper {
-            display: ${props => props.numAccounts > 1 ? 'block' : 'none'};
+            display: ${props => props.multipleAccounts ? 'block' : 'none'};
         }
     }
 
@@ -210,8 +210,10 @@ export function StakingContainer({ history, match }) {
         );
     };
 
+    const multipleAccounts = stakingAccounts.length > 1;
+
     return (
-        <StyledContainer className='small-centered' numAccounts={stakingAccounts.length}>
+        <StyledContainer className='small-centered' multipleAccounts={multipleAccounts}>
             <ConnectedRouter history={history}>
                 <Switch>
                     <Route
@@ -230,6 +232,7 @@ export function StakingContainer({ history, match }) {
                                 hasLockup={hasLockup}
                                 stakeFromAccount={stakeFromAccount}
                                 selectedValidator={selectedValidator}
+                                multipleAccounts={multipleAccounts}
                             />
                         )}
                     />

@@ -8,8 +8,8 @@ import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 
 import Routing from './components/Routing';
-import createMiddleware from './middleware';
-import createRootReducer from './reducers';
+import createRootReducer from './redux/combineReducers';
+import createMiddleware from './redux/middleware';
 import { initSentry } from './utils/sentry';
 
 initSentry();

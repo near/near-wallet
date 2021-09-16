@@ -1,3 +1,5 @@
+const { walletNetwork } = require("../../utils/config");
+
 class CreateAccountPage {
     constructor(page) {
         this.page = page;
@@ -6,7 +8,7 @@ class CreateAccountPage {
         await this.page.goto(`/create`);
     }
     async acceptTerms() {
-        if (process.env.WALLET_NETWORK === "mainnet") {
+        if (walletNetwork === "mainnet") {
             await this.page.click("data-test-id=acceptTermsButton");
         }
     }

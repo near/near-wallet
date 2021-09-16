@@ -1,22 +1,22 @@
 import BN from 'bn.js';
-import { parseNearAmount } from 'near-api-js/lib/utils/format';
 import React, { Component } from 'react';
 import { Translate } from 'react-localize-redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { redirectTo, clearFundedAccountNeedsDeposit, getBalance, getAccountHelperWalletState } from '../../../actions/account';
 import { Mixpanel } from '../../../mixpanel';
-import { selectNearTokenFiatValueUSD } from '../../../slices/tokenFiatValues';
+import { redirectTo, clearFundedAccountNeedsDeposit, getBalance, getAccountHelperWalletState } from '../../../redux/actions/account';
+import { selectNearTokenFiatValueUSD } from '../../../redux/slices/tokenFiatValues';
 import { removeAccountIsInactive } from '../../../utils/localStorage';
 import { isMoonpayAvailable, getSignedUrl } from '../../../utils/moonpay';
-import { WALLET_APP_MIN_AMOUNT } from '../../../utils/wallet';
+import { MIN_BALANCE_FOR_GAS } from '../../../utils/wallet';
 import { getNearAndFiatValue } from '../../common/balance/helpers';
 import Divider from '../../common/Divider';
 import FormButton from '../../common/FormButton';
 import Container from '../../common/styled/Container.css';
 import WhereToBuyNearModal from '../../common/WhereToBuyNearModal';
+import SafeTranslate from '../../SafeTranslate';
 import FundWithMoonpay from './FundWithMoonpay';
 import AccountFunded from './status/AccountFunded';
 import AccountNeedsFunding from './status/AccountNeedsFunding';
@@ -99,7 +99,7 @@ class ActivateAccount extends Component {
             async () => {
                 const moonpayAvailable = await isMoonpayAvailable();
                 if (moonpayAvailable) {
-                    const moonpaySignedURL = await getSignedUrl(accountId, window.location.origin);
+                    const moonpaySignedURL = await getSignedUrl(accountId, window.location.href);
                     this.setState({ moonpayAvailable, moonpaySignedURL });
                 }
             },
@@ -214,7 +214,7 @@ class ActivateAccount extends Component {
             <StyledContainer className='small-centered border'>
                 <h1><Translate id='account.activateAccount.pre.title' /></h1>
                 <h2>
-                    <Translate
+                    <SafeTranslate
                         id='account.activateAccount.pre.desc'
                         data={{ amount: getNearAndFiatValue(minBalanceToUnlock, nearTokenFiatValueUSD) }}
                     />
@@ -255,7 +255,7 @@ const mapStateToProps = (state) => {
     return {
         ...account,
         mainLoader: status.mainLoader,
-        minBalanceToUnlock: account.accountHelperWalletState?.requiredUnlockBalance || parseNearAmount(WALLET_APP_MIN_AMOUNT),
+        minBalanceToUnlock: account.accountHelperWalletState?.requiredUnlockBalance || MIN_BALANCE_FOR_GAS,
         needsDeposit: account.accountHelperWalletState?.fundedAccountNeedsDeposit,
         nearTokenFiatValueUSD: selectNearTokenFiatValueUSD(state)
     };

@@ -87,10 +87,6 @@ export default createGlobalStyle`
         color: #72727A;
         margin: 0px;
 
-        @media (max-width: 767px) {
-            font-size: 18px;
-        }
-
         b {
             color: #3F4045;
         }
@@ -477,8 +473,8 @@ export default createGlobalStyle`
 
     @media screen and (max-width: 767px) {
         h2, .h2 {
-            font-size: 18px;
-            font-weight: 600;
+            font-size: 20px;
+            font-weight: 900;
             margin: 0px;
         }
         .box .column {
@@ -506,6 +502,18 @@ export default createGlobalStyle`
                         display: none;
                     }
                 }
+            }
+        }
+    }
+
+    .tooltip {
+        a {
+            color: inherit;
+            font-style: italic;
+    
+            :hover {
+                color: inherit;
+                text-decoration: underline;
             }
         }
     }

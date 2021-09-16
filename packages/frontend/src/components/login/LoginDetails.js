@@ -5,9 +5,10 @@ import { withRouter, Link } from 'react-router-dom';
 import { Grid } from 'semantic-ui-react';
 import styled from 'styled-components';
 
-import { showCustomAlert } from '../../actions/status';
 import IconArrowLeft from '../../images/IconArrowLeft';
+import { showCustomAlert } from '../../redux/actions/status';
 import { EXPLORER_URL } from '../../utils/wallet';
+import SafeTranslate from '../SafeTranslate';
 
 const CustomGrid = styled(Grid)`
     .top-back {
@@ -123,7 +124,7 @@ class LoginDetails extends Component {
                                     <div className='title h3'>
                                         <Translate>
                                             {({ translate }) => (
-                                                <Translate id='login.details.thisAllows' data={{ appTitle: appTitle || translate('sign.unknownApp') }} />
+                                                <SafeTranslate id='login.details.thisAllows' data={{ appTitle: appTitle || translate('sign.unknownApp') }} />
                                             )}
                                         </Translate>
                                     </div>
@@ -147,7 +148,7 @@ class LoginDetails extends Component {
                                     <div className='title h3'>
                                         <Translate>
                                             {({ translate }) => (
-                                                <Translate id='login.details.thisAllows' data={{ appTitle: appTitle || translate('sign.unknownApp') }} />
+                                                <SafeTranslate id='login.details.thisAllows' data={{ appTitle: appTitle || translate('sign.unknownApp') }} />
                                             )}
                                         </Translate>
                                     </div>
@@ -169,7 +170,7 @@ class LoginDetails extends Component {
     }
 }
 
-const TransactionsList = ({ transactions }) => 
+const TransactionsList = ({ transactions }) =>
     transactions.map((t, i) => (
         <div key={`item-${i}`} className='details-item'>
             <div className='title h3'>
@@ -205,13 +206,13 @@ const mapStateToProps = ({ transactions = [], account }) => {
             ]
         }
     ];
-    
+
     return {
         transactions,
         fees: {
             transactionFees: '',
-            gasLimit: transactions.reduce((c, t) => 
-                c + t.actions.reduce((ca, a) => 
+            gasLimit: transactions.reduce((c, t) =>
+                c + t.actions.reduce((ca, a) =>
                     Object.keys(a)[0] === 'functionCall'
                         ? ca + a.functionCall.gas
                         : ca
@@ -219,8 +220,8 @@ const mapStateToProps = ({ transactions = [], account }) => {
             , 0),
             gasPrice: ''
         },
-        sensitiveActionsCounter: transactions.reduce((c, t) => 
-            c + t.actions.reduce((ca, a) => 
+        sensitiveActionsCounter: transactions.reduce((c, t) =>
+            c + t.actions.reduce((ca, a) =>
                 ['deployContract', 'stake', 'deleteAccount'].indexOf(Object.keys(a)[0]) > -1
                     ? ca + 1
                     : ca

@@ -5,6 +5,7 @@ import { Translate } from 'react-localize-redux';
 import { connect } from 'react-redux';
 import { withRouter, Route } from 'react-router-dom';
 
+import { Mixpanel } from '../../mixpanel/index';
 import {
     handleAddAccessKeySeedPhrase,
     refreshAccount,
@@ -12,10 +13,9 @@ import {
     handleCreateAccountWithSeedPhrase,
     fundCreateAccount,
     loadRecoveryMethods
-} from '../../actions/account';
-import { clearGlobalAlert, showCustomAlert } from '../../actions/status';
-import { Mixpanel } from '../../mixpanel/index';
-import { actions as linkdropActions } from '../../slices/linkdrop';
+} from '../../redux/actions/account';
+import { clearGlobalAlert, showCustomAlert } from '../../redux/actions/status';
+import { actions as linkdropActions } from '../../redux/slices/linkdrop';
 import copyText from '../../utils/copyText';
 import isMobile from '../../utils/isMobile';
 import parseFundingOptions from '../../utils/parseFundingOptions';
@@ -160,16 +160,17 @@ class SetupSeedPhrase extends Component {
                     showCustomAlert({
                         success: false,
                         messageCodeHeader: 'error',
-                        messageCode: 'walletErrorCodes.invalidRecaptchaCode'
+                        messageCode: 'walletErrorCodes.invalidRecaptchaCode',
+                        errorMessage: err.message
                     });
                 } else if(err.code === 'NotEnoughBalance') {
                     Mixpanel.track('SR-SP NotEnoughBalance creating funded account');
-                    await fundCreateAccount(accountId, recoveryKeyPair, 'seed');
+                    await fundCreateAccount(accountId, recoveryKeyPair, 'phrase');
                 } else {
                     showCustomAlert({
                         errorMessage: err.message,
                         success: false,
-                        messageCodeHeader: 'error',
+                        messageCodeHeader: 'error'
                     });
                 }
             }

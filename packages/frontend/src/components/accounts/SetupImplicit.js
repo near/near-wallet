@@ -5,9 +5,10 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { createAccountFromImplicit, redirectTo } from '../../actions/account';
 import { Mixpanel } from '../../mixpanel';
-import { selectNearTokenFiatValueUSD } from '../../slices/tokenFiatValues';
+import { createAccountFromImplicit, redirectTo } from '../../redux/actions/account';
+import { actions as createFromImplicitActions } from '../../redux/slices/createFromImplicit';
+import { selectNearTokenFiatValueUSD } from '../../redux/slices/tokenFiatValues';
 import { isMoonpayAvailable, getSignedUrl } from '../../utils/moonpay';
 import { MIN_BALANCE_TO_CREATE } from '../../utils/wallet';
 import { wallet } from '../../utils/wallet';
@@ -16,10 +17,13 @@ import Divider from '../common/Divider';
 import FormButton from '../common/FormButton';
 import Container from '../common/styled/Container.css';
 import WhereToBuyNearModal from '../common/WhereToBuyNearModal';
+import SafeTranslate from '../SafeTranslate';
 import AccountFundedModal from './AccountFundedModal';
 import FundWithMoonpay from './create/FundWithMoonpay';
 import AccountFunded from './create/status/AccountFunded';
 import AccountNeedsFunding from './create/status/AccountNeedsFunding';
+
+const { setCreateFromImplicitSuccess } = createFromImplicitActions;
 
 const StyledContainer = styled(Container)`
     h2 {
@@ -96,7 +100,8 @@ class SetupImplicit extends Component {
                 this.setState({ creatingAccount: false });
             }
         );
-        dispatch(redirectTo('/fund-create-account/success'));
+        dispatch(setCreateFromImplicitSuccess(true));
+        dispatch(redirectTo('/'));
     }
 
     checkMoonPay = async () => {
@@ -105,7 +110,7 @@ class SetupImplicit extends Component {
             async () => {
                 const moonpayAvailable = await isMoonpayAvailable();
                 if (moonpayAvailable) {
-                    const moonpaySignedURL = await getSignedUrl(implicitAccountId, window.location.origin);
+                    const moonpaySignedURL = await getSignedUrl(implicitAccountId, window.location.href);
                     this.setState({ moonpayAvailable, moonpaySignedURL });
                 }
             },
@@ -234,7 +239,7 @@ class SetupImplicit extends Component {
             <StyledContainer className='small-centered funded'>
                 <h1><Translate id='account.createImplicit.pre.title' /></h1>
                 <h2>
-                    <Translate
+                    <SafeTranslate
                         id='account.createImplicit.pre.descOne'
                         data={{ amount: getNearAndFiatValue(MIN_BALANCE_TO_CREATE, nearTokenFiatValueUSD) }}
                     />

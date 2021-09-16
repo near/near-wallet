@@ -223,6 +223,25 @@
         }
     },
 
+    "initialDeposit": {
+        "creditCard": {
+            "title": "Fund your new account using a credit card.",
+            "desc": "Complete your purchase of <b>at least ${amount} NEAR</b> through MoonPay. MoonPay will automatically deposit your funds into your new account."
+        },
+        "manualDeposit": {
+            "title": "Submit a manual deposit.",
+            "desc": "Meet the minimum initial deposit by sending <b>at least ${amount} NEAR</b> to the single-use funding address below."
+        },
+        "claimAccount": {
+            "title": "Claim Your Account",
+            "desc": "Your deposit was received! Once claimed, your deposit will be transferred to your new account.",
+            "disclaimer": {
+                "desc": "Important: The old single-use funding address will no longer be valid. Make sure to replace it with your new address on any exchanges or other devices where it may have been saved.",
+                "checkBox": "Agree & Continue"
+            }
+        }
+    },
+
     "dashboardActivity": {
         "title": {
             "CreateAccount": "New account created",
@@ -1102,8 +1121,8 @@
         "authorizing": "Выполняется авторизация"
     },
 
-    "availableBalanceInfo": "«Доступный баланс» - это тот баланс в NEAR, который вы можете сейчас потратить.",
-    "reservedForFeesInfo": "Минимальное количество токенов NEAR, которые должны быть зарезервированы для покрытия комиссий на транзакции.",
+    "availableBalanceInfo": "Your spendable NEAR balance excluding funds locked or staked. <a href='/profile'>View Balance Breakdown →</a>",
+    "reservedForFeesInfo": "Up to ${data} NEAR is reserved to cover the cost of transactions.",
     "availableBalanceProfile": "Это ваш расходуемый баланс в NEAR, может быть незамедлительно потрачен или передан. Это значение ниже, чем ваш общий баланс.",
     "minimumBalance": "Минимальный баланс в NEAR, который должен храниться на учетной записи для того, чтобы она оставалась активной. Этот баланс представляет собой расходы на поддержание хранилища для вашей учетной записи в блокчейне NEAR (с небольшим запасом), и может расти или падать в завимости от того, требуется ли для учетной записи больше или меньше места.",
     "totalBalance": "Общий баланс показывает все токены NEAR, находящиеся под вашим контролем. Во многих случаях у вас не будет немедленного доступа ко всему содержимому общего баланса (например, если он заблокирован, делегирован или находится в стейкинге). Проверьте свой «Доступный баланс», чтобы узнать количество токенов NEAR, который вы можете активно использовать, передавать, делегировать и отправлять в стейкинг.",

@@ -2,15 +2,16 @@ import { ConnectedRouter } from 'connected-react-router';
 import { parseSeedPhrase } from 'near-seed-phrase';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import ReactDOMServer from 'react-dom/server';
 import { withLocalize } from 'react-localize-redux';
 import { connect } from 'react-redux';
 import { Redirect, Switch } from 'react-router-dom';
 import styled, { ThemeProvider } from 'styled-components';
 
-import * as accountActions from '../actions/account';
 import TwoFactorVerifyModal from '../components/accounts/two_factor/TwoFactorVerifyModal';
 import { Mixpanel } from "../mixpanel/index";
-import { actions as tokenFiatValueActions } from '../slices/tokenFiatValues';
+import * as accountActions from '../redux/actions/account';
+import { actions as tokenFiatValueActions } from '../redux/slices/tokenFiatValues';
 import translations_en from '../translations/en.global.json';
 import translations_pt from '../translations/pt.global.json';
 import translations_ru from '../translations/ru.global.json';
@@ -29,11 +30,13 @@ import {
     WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS,
     WALLET_LOGIN_URL,
     WALLET_SIGN_URL,
-    WALLET_SEND_MONEY_URL
+    WALLET_SEND_MONEY_URL,
 } from '../utils/wallet';
 import { AuthorizedAppsWithRouter, FullAccessKeysWithRouter } from './access-keys/AccessKeys';
 import { AutoImportWrapper } from './accounts/auto_import/AutoImportWrapper';
 import { ActivateAccountWithRouter } from './accounts/create/ActivateAccount';
+import { InitialDepositWrapper } from './accounts/create/initial_deposit/InitialDepositWrapper';
+import { VerifyAccountWrapper } from './accounts/create/verify_account/VerifyAccountWrapper';
 import { CreateAccountWithRouter } from './accounts/CreateAccount';
 import LedgerConfirmActionModal from './accounts/ledger/LedgerConfirmActionModal';
 import { SetupLedgerWithRouter } from './accounts/ledger/SetupLedger';
@@ -45,7 +48,6 @@ import { RecoverAccountWrapper } from './accounts/RecoverAccountWrapper';
 import { RecoverWithLinkWithRouter } from './accounts/RecoverWithLink';
 import { SetupRecoveryMethodWithRouter } from './accounts/recovery_setup/SetupRecoveryMethod';
 import { SetupImplicitWithRouter } from './accounts/SetupImplicit';
-import { SetupImplicitSuccess } from './accounts/SetupImplicitSuccess';
 import { SetupSeedPhraseWithRouter } from './accounts/SetupSeedPhrase';
 import { EnableTwoFactor } from './accounts/two_factor/EnableTwoFactor';
 import { BuyNear } from './buy/BuyNear';
@@ -55,6 +57,7 @@ import GuestLandingRoute from './common/GuestLandingRoute';
 import NetworkBanner from './common/NetworkBanner';
 import PrivateRoute from './common/PrivateRoute';
 import PublicRoute from './common/PublicRoute';
+import ReleaseNotesModal from './common/ReleaseNotesModal';
 import GlobalStyle from './GlobalStyle';
 import { LoginWithRouter } from './login/Login';
 import { LoginCliLoginSuccess } from './login/LoginCliLoginSuccess';
@@ -141,7 +144,7 @@ class Routing extends Component {
             options: {
                 defaultLanguage: 'en',
                 onMissingTranslation: ({ defaultTranslation }) => defaultTranslation,
-                renderToStaticMarkup: false,
+                renderToStaticMarkup: ReactDOMServer.renderToStaticMarkup,
                 renderInnerHtml: true
             }
         });
@@ -289,6 +292,7 @@ class Routing extends Component {
                         <Navigation isInactiveAccount={isInactiveAccount}/>
                         <GlobalAlert/>
                         <LedgerConfirmActionModal/>
+                        <ReleaseNotesModal />
                         {
                             account.requestPending !== null &&
                             <TwoFactorVerifyModal
@@ -348,13 +352,18 @@ class Routing extends Component {
                             />
                             <PublicRoute
                                 exact
-                                path='/fund-create-account/:accountId/:implicitAccountId/:recoveryMethod'
-                                component={SetupImplicitWithRouter}
+                                path='/verify-account'
+                                component={VerifyAccountWrapper}
                             />
                             <PublicRoute
                                 exact
-                                path='/fund-create-account/success'
-                                component={SetupImplicitSuccess}
+                                path='/initial-deposit'
+                                component={InitialDepositWrapper}
+                            />
+                            <PublicRoute
+                                exact
+                                path='/fund-create-account/:accountId/:implicitAccountId/:recoveryMethod'
+                                component={SetupImplicitWithRouter}
                             />
                             <PublicRoute
                                 exact

@@ -83,7 +83,7 @@
         },
 
         "Deserialization": "",
-        "RetriesExceeded": "Exceeded maximum attempts for this transaction.",
+        "RetriesExceeded": "We are experiencing a high load. Please try again.",
         "U2F_4": "Failed to sign with Ledger device: U2F DEVICE_INELIGIBLE. Please make sure that your Ledger device is connected and unlocked.",
         "NotEnoughBalance": "Your account does not have enough balance for this operation.",
 
@@ -182,7 +182,7 @@
                 "descTwo": "Return to this screen once your funds have been deposited to finish creating your account.",
                 "addressHeader": "One-time funding address",
                 "whereToBuy": {
-                    "button": "Where can I purchase $NEAR tokens?",
+                    "button": "Where can I purchase NEAR?",
                     "title": "Purchase NEAR tokens",
                     "desc": "NEAR tokens are available to purchase through the following exchanges"
                 },
@@ -207,7 +207,11 @@
                 "descOne": "Congratulations <b>${accountId}</b>! Your account has been successfully created.",
                 "descTwo": "You must now use this Account ID as your address for all NEAR operations.",
                 "descThree": "Please update your address on any exchanges or other devices.",
-                "button": "Continue to Account"
+                "button": "Continue to Account",
+                "modal": {
+                    "title": "Welcome to NEAR Wallet!",
+                    "desc": "Congratulations! Your account has been successfully created."
+                }
             }
         },
         "fundedStatus": {
@@ -238,6 +242,56 @@
         "nameDoesntMatch": "Account name doesn't match",
         "sendMoney": {
             "error": "Sorry an error has occurred. You may want to try again."
+        }
+    },
+
+    "verifyAccount": {
+        "title": "Almost there! Verify your new account.",
+        "desc": "To prevent spamming of new accounts, we’ll need to verify you as the owner. You may verify using a one-time passcode or by making a small initial deposit.",
+        "options": {
+            "passCode": "One-time passcode",
+            "initialDeposit": "Initial Deposit"
+        },
+        "option": {
+            "email": {
+                "title": "Email",
+                "desc": "Receive a one-time verification code via email."
+            },
+            "phone": {
+                "title": "Phone",
+                "desc": "Receive a one-time verification code via SMS."
+            },
+            "creditCard": {
+                "title": "Fund with a Credit Card",
+                "desc": "Purchase NEAR through MoonPay to be used as your initial deposit."
+            },
+            "manualDeposit": {
+                "title": "Manual deposit",
+                "desc": "Submit a manual deposit via a single-use funding address."
+            }
+        },
+        "modal": {
+            "title": "This email address has already been used to verify a different account.",
+            "desc": "You’ll need to use a different email address or select an alternate method to verify this account. You may still use this address as a recovery method."
+        }
+    },
+
+    "initialDeposit": {
+        "creditCard": {
+            "title": "Fund your new account using a credit card.",
+            "desc": "Complete your purchase of <b>at least ${amount} NEAR</b> through MoonPay. MoonPay will automatically deposit your funds into your new account."
+        },
+        "manualDeposit": {
+            "title": "Submit a manual deposit.",
+            "desc": "Meet the minimum initial deposit by sending <b>at least ${amount} NEAR</b> to the single-use funding address below."
+        },
+        "claimAccount": {
+            "title": "Claim Your Account",
+            "desc": "Your deposit was received! Once claimed, your deposit will be transferred to your new account.",
+            "disclaimer": {
+                "desc": "Important: The old single-use funding address will no longer be valid. Make sure to replace it with your new address on any exchanges or other devices where it may have been saved.",
+                "checkBox": "Agree & Continue"
+            }
         }
     },
 
@@ -544,7 +598,9 @@
         "viewFAQ": "View FAQ",
         "acceptAndContinue": "Accept & Continue",
         "useMax": "Use Max",
-        "loading": "Loading"
+        "loading": "Loading",
+        "gotIt": "Got it",
+        "fundWith": "Fund with"
     },
 
     "link": {
@@ -746,7 +802,7 @@
         "copyrights": "NEAR Inc. All Rights Reserved.",
         "termsOfService": "Terms of Service",
         "privacyPolicy": "Privacy Policy",
-        "desc": "NEAR is a scalable computing and storage platform that changes how the web works for better.",
+        "desc": "NEAR is a scalable computing and storage platform that changes how the web works for the better.",
         "learnMore": "Learn More",
         "needHelp": "Questions?",
         "contactSupport": "Join Community"
@@ -769,6 +825,7 @@
     "wallet": {
         "balanceTitle": "NEAR Balance",
         "totalBalanceTitle": "Total Balance",
+        "availableBalance": "Available Balance",
         "tokens": "Tokens",
         "yourPortfolio": "Your Portfolio",
         "balance": "Balance",
@@ -777,7 +834,11 @@
         "dateAndTime": "Date & Time",
         "status": "Status",
         "balances": "Balances",
-        "collectibles": "Collectibles"
+        "collectibles": "Collectibles",
+        "depositNear": {
+            "title": "Deposit NEAR",
+            "desc": "You’ll need NEAR tokens to perform transactions with your wallet."
+        }
     },
 
     "tokenBox": {
@@ -799,7 +860,7 @@
         "emptyState": "Looks like you don't have any collectibles yet.",
         "loadMore": "Load more"
     },
-    
+
     "exploreApps": {
         "title": "What's on NEAR?",
         "desc": "Earn, mint, and play! Discover the ecosystem of NEAR applications.",
@@ -902,7 +963,7 @@
             "currentValidators": "Your Current Validators",
             "noValidators": "You haven't staked with a validator yet.",
             "selectAccount": "Staking from",
-            "available": "Available",
+            "available": "Available balance",
             "totalStaked": "Staked"
         },
         "balanceBox": {
@@ -951,7 +1012,7 @@
             "button": "Submit Stake",
             "confirm": "You are staking",
             "input": {
-                "availableBalance": "Available to stake",
+                "availableBalance": "Available balance",
                 "near": "NEAR"
             },
             "ledgerDisclaimer": "Note: Since this is your first time staking with this validator, you will need to confirm two transactions.",
@@ -1047,10 +1108,12 @@
             "inStakingPools": "In staking pools",
             "staked": "Staked",
             "unstaked": "Unstaked",
-            "available": "Available",
+            "available": "Available balance",
+            "reservedForTransactions": "Reserved for transactions",
             "pendingRelease": "Pending release",
             "availableToWithdraw": "Available for withdrawal",
-            "availableToTransfer": "Available to transfer"
+            "availableToTransfer": "Available to transfer",
+            "staking": "Staking"
         },
         "authorizedApps": {
             "title": "Authorized Apps"
@@ -1233,9 +1296,9 @@
         "authorizing": "Authorizing"
     },
 
-    "availableBalanceInfo": "Your total account balance minus locked funds or funds being staked.",
-    "reservedForFeesInfo": "A minimum amount of NEAR is reserved to cover the cost of transactions.",
-    "availableBalanceProfile": "This is your spendable NEAR balance, and can be used or transferred immediately. This will be lower than your Total Balance.",
+    "availableBalanceInfo": "Your spendable NEAR balance excluding funds locked or staked. <a href='/profile'>View Balance Breakdown →</a>",
+    "reservedForFeesInfo": "Up to ${data} NEAR is reserved to cover the cost of transactions.",
+    "availableBalanceProfile": "This is your spendable NEAR balance, and can be used or transferred immediately.",
     "minimumBalance": "This is the minimum NEAR balance your account must maintain to remain active. This balance represents the storage space your account is using on the NEAR blockchain (with a small buffer), and will go up or down as you use more or less space.",
     "totalBalance": "Your total balance represents all NEAR tokens under your control. In many cases, you will not have immediate access to this entire balance (e.g. if it is locked, delegated, or staked). Check your Available Balance for the NEAR you can actively use, transfer, delegate, and stake.",
     "stakedBalance": "This NEAR is actively being used to back a validator and secure the network. When you decide to unstake this NEAR, it will take some time to be shown in your Available Balance, as NEAR takes 4 epochs (~52-65 hours) to unstake.",
@@ -1361,7 +1424,7 @@
         "desc": "Warning: This is a pre-release version of the NEAR Wallet. There may be bugs, and these bugs may lead to loss of funds. By continuing to use this version, you agree that you understand and accept these risks, and understand that the NEAR Wallet team will be unable to help you."
     },
     "landing": {
-        "title":"NEAR is here.",
+        "title": "NEAR is here.",
         "desc": "Securely store and stake your NEAR tokens and compatible assets with <span>NEAR Wallet</span>.",
         "or": "or",
         "banner": "NEAR Wallet is in Private Beta"
@@ -1369,5 +1432,14 @@
     "emailSubscribe": {
         "title": "Sign up below for early access",
         "placeholder": "Your email..."
+    },
+
+    "releaseNotesModal": {
+        "title": "Release Notes",
+        "desc": "You asked, we listened! The latest update brings adjustments to your balances in the wallet, and also introduces the ability to transfer your NFTs between wallets.",
+        "subTitle1": "New Features",
+        "subText1": "During on-boarding, you may now use an email or phone number to verify and initialize your new account. Users who don’t wish to provide this information may still initialize new accounts with an initial deposit.",
+        "subTitle2": "Enhancements",
+        "subText2": "The primary balance in the wallet is now your Available Balance, not the Total balance. The primary goal of NEAR Wallet is to make interacting with the many awesome dApps in the NEAR ecosystem a great experience. The available balance offers the most utility to users wanting to know at a glance what they have available to spend/stake/and interact with the ecosystem."
     }
 }

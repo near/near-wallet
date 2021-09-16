@@ -3,7 +3,7 @@ import { Translate } from 'react-localize-redux';
 import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
-import { switchAccount } from '../../actions/account';
+import { switchAccount } from '../../redux/actions/account';
 import classNames from '../../utils/classNames';
 import DropDown from '../common/DropDown';
 
@@ -75,7 +75,7 @@ export default function AccountDropdown({ disabled }) {
                     availAccounts.filter(a => a !== accountId).map((account, i) =>
                         <div
                             key={i}
-                            onClick={() => dispatch(switchAccount(account))}
+                            onClick={() => dispatch(switchAccount({ accountId: account }))}
                             className='account-dropdown-toggle'
                         >
                             {account}

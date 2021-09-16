@@ -2,13 +2,13 @@ import React from 'react';
 import { Translate } from 'react-localize-redux';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { selectAccountId } from '../../reducers/account';
+import { selectAccountId } from '../../redux/reducers/account';
 import {
     selectHasFetchedAllTokensForAccountForContract,
     selectLoadingTokensForAccountForContract,
     actions as nftActions,
     selectOneContractMetadata
-} from '../../reducers/nft';
+} from '../../redux/slices/nft';
 import FormButton from '../common/FormButton';
 
 const { fetchOwnedNFTsForContract } = nftActions;

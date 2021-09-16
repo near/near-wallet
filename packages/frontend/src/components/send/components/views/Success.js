@@ -3,6 +3,7 @@ import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
 import FormButton from '../../../common/FormButton';
+import SafeTranslate from '../../../SafeTranslate';
 import AvatarSuccessIcon from '../../../svg/AvatarSuccessIcon';
 
 const StyledContainer = styled.div`
@@ -27,8 +28,11 @@ const Success = ({
     return (
         <StyledContainer className='buttons-bottom'>
             <AvatarSuccessIcon/>
-            <div className='header'>
-                <Translate id='sendV2.success.title'
+            <div
+                className="header"
+                data-test-id="sendTransactionSuccessMessage"
+            >
+                <SafeTranslate id='sendV2.success.title'
                     data={{ 
                         amount: amount,
                         receiverId: receiverId

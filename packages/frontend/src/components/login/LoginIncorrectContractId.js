@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
-import { showCustomAlert } from '../../actions/status';
+import { showCustomAlert } from '../../redux/actions/status';
 import FormButton from '../common/FormButton';
 import MobileContainer from '../sign/MobileContainer';
 

@@ -5,16 +5,16 @@ import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input';
 import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
+import { useRecoveryMethods } from '../../../hooks/recoveryMethods';
+import { Mixpanel } from '../../../mixpanel/index';
 import {
     initTwoFactor,
     verifyTwoFactor,
     deployMultisig,
     redirectToApp
-} from '../../../actions/account';
-import { clearGlobalAlert } from '../../../actions/status';
-import { useRecoveryMethods } from '../../../hooks/recoveryMethods';
-import { Mixpanel } from '../../../mixpanel/index';
-import { selectNearTokenFiatValueUSD } from '../../../slices/tokenFiatValues';
+} from '../../../redux/actions/account';
+import { clearGlobalAlert } from '../../../redux/actions/status';
+import { selectNearTokenFiatValueUSD } from '../../../redux/slices/tokenFiatValues';
 import { validateEmail } from '../../../utils/account';
 import { actionsPending } from '../../../utils/alerts';
 import isApprovedCountryCode from '../../../utils/isApprovedCountryCode';
@@ -24,6 +24,7 @@ import { getNearAndFiatValue } from '../../common/balance/helpers';
 import Checkbox from '../../common/Checkbox';
 import FormButton from '../../common/FormButton';
 import Container from '../../common/styled/Container.css';
+import SafeTranslate from '../../SafeTranslate';
 import EnterVerificationCode from '../EnterVerificationCode';
 import TwoFactorOption from './TwoFactorOption';
 
@@ -233,7 +234,7 @@ export function EnableTwoFactor(props) {
                             checked={twoFactorAmountApproved}
                             onChange={e => setTwoFactorAmountApproved(e.target.checked)}
                         />
-                        <span><Translate id='twoFactor.checkBox' data={{ amount: getNearAndFiatValue(multiSigMinAmountRaw, nearTokenFiatValueUSD) }}/></span>
+                        <span><SafeTranslate id='twoFactor.checkBox' data={{ amount: getNearAndFiatValue(multiSigMinAmountRaw, nearTokenFiatValueUSD) }}/></span>
                     </label>
                     <FormButton
                         color='blue'

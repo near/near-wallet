@@ -2,9 +2,11 @@ import React, { useRef, useImperativeHandle, forwardRef, useState } from 'react'
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
+import { ENABLE_IDENTITY_VERIFIED_ACCOUNT } from '../../utils/wallet';
 import FormButton from '../common/FormButton';
 import LocalAlertBox from '../common/LocalAlertBox';
 import { Recaptcha } from '../Recaptcha';
+import SafeTranslate from '../SafeTranslate';
 
 // FIXME: Use `debug` npm package so we can keep some debug logging around but not spam the console everywhere
 const ENABLE_DEBUG_LOGGING = false;
@@ -72,12 +74,12 @@ const SetupSeedPhraseVerify = (
         }
     }));
 
-    const shouldRenderRecaptcha = !isLinkDrop && process.env.RECAPTCHA_CHALLENGE_API_KEY && isNewAccount;
+    const shouldRenderRecaptcha = !ENABLE_IDENTITY_VERIFIED_ACCOUNT && !isLinkDrop && process.env.RECAPTCHA_CHALLENGE_API_KEY && isNewAccount;
 
     return (
         <CustomDiv>
             <h4 data-test-id="seedPhraseVerificationWordNumber">
-                <Translate
+                <SafeTranslate
                     id="input.enterWord.title"
                     data={{ wordId: wordId + 1 }}
                 />

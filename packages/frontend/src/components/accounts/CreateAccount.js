@@ -4,17 +4,23 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { checkNewAccount, createNewAccount, refreshAccount, checkNearDropBalance, redirectTo } from '../../actions/account';
-import { clearLocalAlert } from '../../actions/status';
 import { Mixpanel } from '../../mixpanel/index';
-import { selectNearTokenFiatValueUSD } from '../../slices/tokenFiatValues';
+import { checkNewAccount, createNewAccount, refreshAccount, checkNearDropBalance, redirectTo } from '../../redux/actions/account';
+import { clearLocalAlert } from '../../redux/actions/status';
+import { selectNearTokenFiatValueUSD } from '../../redux/slices/tokenFiatValues';
 import isMobile from '../../utils/isMobile';
-import { ACCOUNT_ID_SUFFIX, MIN_BALANCE_TO_CREATE, IS_MAINNET } from '../../utils/wallet';
+import {
+    ACCOUNT_ID_SUFFIX,
+    MIN_BALANCE_TO_CREATE,
+    IS_MAINNET,
+    ENABLE_IDENTITY_VERIFIED_ACCOUNT
+} from '../../utils/wallet';
 import AccountNote from '../common/AccountNote';
 import { getNearAndFiatValue } from '../common/balance/helpers';
 import FormButton from '../common/FormButton';
 import Container from '../common/styled/Container.css';
 import WhereToBuyNearModal from '../common/WhereToBuyNearModal';
+import SafeTranslate from '../SafeTranslate';
 import BrokenLinkIcon from '../svg/BrokenLinkIcon';
 import FundNearIcon from '../svg/FundNearIcon';
 import AccountFormAccountId from './AccountFormAccountId';
@@ -177,7 +183,7 @@ class CreateAccount extends Component {
         
         const isLinkDrop = fundingContract && fundingKey;
         const useLocalAlert = accountId.length > 0 ? localAlert : undefined;
-        const showTermsPage = IS_MAINNET && !isLinkDrop && !termsAccepted;
+        const showTermsPage = IS_MAINNET && !isLinkDrop && !termsAccepted && !ENABLE_IDENTITY_VERIFIED_ACCOUNT;
 
         if (showTermsPage) {
             return (
@@ -185,7 +191,7 @@ class CreateAccount extends Component {
                     <FundNearIcon />
                     <h1><Translate id='createAccount.termsPage.title' /></h1>
                     <h2>
-                        <Translate
+                        <SafeTranslate
                             id='createAccount.termsPage.descOne'
                             data={{ amount: getNearAndFiatValue(MIN_BALANCE_TO_CREATE, nearTokenFiatValueUSD) }}
                         />

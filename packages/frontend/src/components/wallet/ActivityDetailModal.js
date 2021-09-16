@@ -3,9 +3,11 @@ import { Translate } from 'react-localize-redux';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
+import { actions as transactionsActions } from '../../redux/slices/transactions';
 import { EXPLORER_URL, TRANSACTIONS_REFRESH_INTERVAL } from '../../utils/wallet';
 import FormButton from '../common/FormButton';
 import Modal from "../common/modal/Modal";
+import SafeTranslate from '../SafeTranslate';
 import { ActionTitle, ActionValue, ActionMessage, ActionStatus, translateData } from './ActivityBox';
 
 const StyledContainer = styled.div`
@@ -121,8 +123,7 @@ const ActivityDetailModal = ({
     open,
     onClose,
     accountId,
-    transaction,
-    getTransactionStatus
+    transaction
 }) => {
     const { 
         args: actionArgs,
@@ -135,7 +136,7 @@ const ActivityDetailModal = ({
     } = transaction;
 
     const dispatch = useDispatch();
-    const getTransactionStatusConditions = () => checkStatus && !document.hidden && dispatch(getTransactionStatus(hash, signer_id, accountId));
+    const getTransactionStatusConditions = () => checkStatus && !document.hidden && dispatch(transactionsActions.fetchTransactionStatus({ hash, signer_id, accountId }));
 
     useEffect(() => {
         getTransactionStatusConditions();
@@ -183,13 +184,13 @@ const ActivityDetailModal = ({
                             ? (
                                 <>
                                     <div className='item sent-to'>
-                                        <Translate 
+                                        <SafeTranslate
                                             id={`dashboardActivity.message.FunctionCallDetails.first`}
                                             data={translateData(transaction, actionArgs, actionKind)}
                                         />
                                     </div>
                                     <div className='item sent-to'>
-                                        <Translate 
+                                        <SafeTranslate
                                             id={`dashboardActivity.message.FunctionCallDetails.second`}
                                             data={translateData(transaction, actionArgs, actionKind)}
                                         />

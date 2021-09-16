@@ -241,6 +241,25 @@
         }
     },
 
+    "initialDeposit": {
+        "creditCard": {
+            "title": "Fund your new account using a credit card.",
+            "desc": "Complete your purchase of <b>at least ${amount} NEAR</b> through MoonPay. MoonPay will automatically deposit your funds into your new account."
+        },
+        "manualDeposit": {
+            "title": "Submit a manual deposit.",
+            "desc": "Meet the minimum initial deposit by sending <b>at least ${amount} NEAR</b> to the single-use funding address below."
+        },
+        "claimAccount": {
+            "title": "Claim Your Account",
+            "desc": "Your deposit was received! Once claimed, your deposit will be transferred to your new account.",
+            "disclaimer": {
+                "desc": "Important: The old single-use funding address will no longer be valid. Make sure to replace it with your new address on any exchanges or other devices where it may have been saved.",
+                "checkBox": "Agree & Continue"
+            }
+        }
+    },
+
     "dashboardActivity": {
         "title": {
             "CreateAccount": "新账户已创建",
@@ -769,8 +788,10 @@
         "balanceTitle": "NEAR 余额",
         "totalBalanceTitle": "NEAR 总余额",
         "tokens": "通证",
+        "yourPortfolio": "你的通证组合",
         "balance": "余额",
-        "totalBalance": "余额",
+        "totalBalance": "总余额",
+        "tokenBalance": "通证余额",
         "dateAndTime": "日期和时间",
         "status": "状态",
         "balances": "余额",
@@ -1230,8 +1251,8 @@
         "authorizing": "正在授权"
     },
 
-    "availableBalanceInfo": "「可用余额」是指你当前账号内可消耗 NEAR 通证，可用余额少于你的「总余额」。查看你 NEAR 余额的详细构成，请访问你的资料。",
-    "reservedForFeesInfo": "少量 NEAR 被保留是为涵盖交易费。",
+    "availableBalanceInfo": "Your spendable NEAR balance excluding funds locked or staked. <a href='/profile'>View Balance Breakdown →</a>",
+    "reservedForFeesInfo": "Up to ${data} NEAR is reserved to cover the cost of transactions.",
     "availableBalanceProfile": "「可用余额」是指你当前账号内可消耗 NEAR 通证，可用余额少于你的总共余额。",
     "minimumBalance": "这是维持你账号活跃状态的 NEAR 通证「保留余额」，该余额代表你正在使用的 NEAR 区块链存储空间，会在使用量变化后产生对应变化。",
     "totalBalance": "所有余额包括所有你拥有的 NEAR 通证。许多情况，你将无法立刻使用所有余额（比如如果是锁定的、委托的或质押的）。想了解你可以立刻使用、转账、委托或质押的 NEAR 通证，请查看可用余额部分。",
