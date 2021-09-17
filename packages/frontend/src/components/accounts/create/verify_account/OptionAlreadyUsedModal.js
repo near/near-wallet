@@ -45,7 +45,7 @@ const Container = styled.div`
     }
 `;
 
-export default ({ isOpen, onClose }) => {
+export default ({ isOpen, onClose, kind }) => {
     return (
         <Modal
             id='method-already-used-modal'
@@ -55,9 +55,8 @@ export default ({ isOpen, onClose }) => {
         >
             <Container>
                 <div className='alert-triangle'><AlertTriangleIcon color='#DC1F25' /></div>
-                <h2><Translate id='verifyAccount.modal.title' /></h2>
-                <div className='desc'><Translate id='verifyAccount.modal.desc' /></div>
-                {/* FIX: Handle if it's phone or email */}
+                <h2><Translate id={`verifyAccount.modal.${kind}.title`} /></h2>
+                <div className='desc'><Translate id={`verifyAccount.modal.${kind}.desc`} /></div>
                 <FormButton
                     onClick={onClose}
                 >
