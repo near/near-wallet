@@ -22,6 +22,7 @@ import { setAccountConfirmed, getAccountConfirmed, setAccountIsInactive, getAcco
 import { TwoFactor } from './twoFactor';
 import { WalletError } from './walletError';
 
+export const RECAPTCHA_ENTERPRISE_SITE_KEY = process.env.RECAPTCHA_ENTERPRISE_SITE_KEY;
 
 export const WALLET_CREATE_NEW_ACCOUNT_URL = 'create';
 export const WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS = [
@@ -366,10 +367,13 @@ class Wallet {
         return !(await this.accountExists(accountId));
     }
 
-    async sendIdentityVerificationMethodCode({ kind, identityKey }) {
+    async sendIdentityVerificationMethodCode({ kind, identityKey, recaptchaToken, recaptchaAction }) {
         return await sendJson('POST', IDENTITY_VERIFICATION_METHOD_SEND_CODE_URL, {
             kind,
-            identityKey
+            identityKey,
+            recaptchaToken,
+            recaptchaAction,
+            recaptchaSiteKey: RECAPTCHA_ENTERPRISE_SITE_KEY
         });
     }
 
@@ -379,7 +383,9 @@ class Wallet {
         publicKey,
         identityKey,
         verificationCode,
-        recoveryMethod
+        recoveryMethod,
+        recaptchaToken,
+        recaptchaAction
     }) {
         await this.checkNewAccount(accountId);
         await sendJson('POST', IDENTITY_FUNDED_ACCOUNT_CREATE_URL, {
@@ -387,7 +393,10 @@ class Wallet {
             newAccountId: accountId,
             newAccountPublicKey: publicKey.toString(),
             identityKey,
-            verificationCode
+            verificationCode,
+            recaptchaToken,
+            recaptchaAction,
+            recaptchaSiteKey: RECAPTCHA_ENTERPRISE_SITE_KEY
         });
         await this.saveAndMakeAccountActive(accountId);
         await this.addLocalKeyAndFinishSetup(accountId, recoveryMethod, publicKey);
