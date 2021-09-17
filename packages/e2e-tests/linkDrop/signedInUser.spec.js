@@ -111,7 +111,7 @@ describe("Linkdrop flow", () => {
     test("claims linkdrop to new account", async ({ page, context }) => {
         await context.grantPermissions(["clipboard-read", "clipboard-write"]).catch(test.skip);
         // skip test on mainnet
-        if (walletNetwork === WALLET_NETWORK.mainnet) {
+        if (walletNetwork === WALLET_NETWORK.MAINNET) {
             test.skip();
         }
 

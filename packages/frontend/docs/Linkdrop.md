@@ -38,4 +38,4 @@ console.log(`https://wallet.near.org/${fundingContractAccountId}/${linkdropKeyPa
     
 * `fundingContractAccountId`: The contract accountId that was used to send the funds.
 * `linkdropKeyPairSecretKey`: The corresponding secret key to the public key sent to the contract.
-* `redirectUrl`: The url that wallet will redirect to after funds are successfully claimed to an existing account.
+* `redirectUrl`: The url that wallet will redirect to after funds are successfully claimed to an existing account. The URL is sent the accountId used to claim the funds as a query param.

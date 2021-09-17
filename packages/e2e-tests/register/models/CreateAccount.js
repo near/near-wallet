@@ -9,7 +9,7 @@ class CreateAccountPage {
         await this.page.goto(`/create`);
     }
     async acceptTerms() {
-        if (walletNetwork === WALLET_NETWORK.mainnet) {
+        if (walletNetwork === WALLET_NETWORK.MAINNET) {
             await this.page.click("data-test-id=acceptTermsButton");
         }
     }
