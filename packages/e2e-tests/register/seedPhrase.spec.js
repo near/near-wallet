@@ -2,9 +2,9 @@ const { test, expect } = require("@playwright/test");
 
 const {
     generateTestAccountId,
-} = require("../utils/helpers");
-const E2eTestAccount = require('../utils/E2eTestAccount');
-const { walletNetwork } = require("../utils/config");
+    E2eTestAccount,
+} = require("../utils/account");
+const nearApiJsConnection = require("../utils/connectionSingleton");
 const { HomePage } = require("./models/Home");
 const { CreateAccountPage } = require("./models/CreateAccount");
 const { SetRecoveryOptionPage } = require("./models/SetRecoveryOption");
@@ -91,7 +91,7 @@ describe("Account Registration Using Seed Phrase", () => {
             .grantPermissions(["clipboard-read", "clipboard-write"])
             .catch(test.skip);
         // skip test on mainnet
-        if (walletNetwork === WALLET_NETWORK.MAINNET) {
+        if (nearApiJsConnection.config.networkId === WALLET_NETWORK.MAINNET) {
             test.skip();
         }
 

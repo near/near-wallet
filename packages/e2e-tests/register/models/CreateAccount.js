@@ -1,5 +1,5 @@
 const { WALLET_NETWORK } = require("../../constants");
-const { walletNetwork } = require("../../utils/config");
+const nearApiJsConnection = require("../../utils/connectionSingleton");
 
 class CreateAccountPage {
     constructor(page) {
@@ -9,15 +9,12 @@ class CreateAccountPage {
         await this.page.goto(`/create`);
     }
     async acceptTerms() {
-        if (walletNetwork === WALLET_NETWORK.MAINNET) {
+        if (nearApiJsConnection.config.networkId === WALLET_NETWORK.MAINNET) {
             await this.page.click("data-test-id=acceptTermsButton");
         }
     }
     async submitAccountId(accountId) {
-        await this.page.fill(
-            "data-test-id=createAccount.accountIdInput",
-            accountId
-        );
+        await this.page.fill("data-test-id=createAccount.accountIdInput", accountId);
         await this.page.click(`data-test-id=reserveAccountIdButton`);
     }
 }
