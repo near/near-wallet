@@ -1,26 +1,28 @@
 const { test, expect } = require("@playwright/test");
 const { parseNearAmount } = require("near-api-js/lib/utils/format");
+const { BN } = require("bn.js");
 
 const { StakeUnstakePage } = require("./models/StakeUnstake");
 const { HomePage } = require("../register/models/Home");
-const { createRandomBankSubAccount } = require("../utils/account");
 const { generateNUniqueRandomNumbersInRange } = require("../utils/helpers");
-const { BN } = require("bn.js");
+const { getBankAccount } = require("../utils/account");
 
-const { describe, beforeAll, afterEach, beforeEach } = test;
+const { describe, afterEach, beforeEach } = test;
 
 describe("Unstaking flow", () => {
     let testAccount;
 
     beforeEach(async ({ page }) => {
-        testAccount = await createRandomBankSubAccount();
+        const bankAccount = await getBankAccount();
+        testAccount = bankAccount.spawnRandomSubAccountInstance();
+        await testAccount.create();
         const homePage = new HomePage(page);
         await homePage.navigate();
-        await homePage.loginWithSeedPhraseLocalStorage(testAccount.account.accountId, testAccount.seedPhrase);
+        await homePage.loginWithSeedPhraseLocalStorage(testAccount.accountId, testAccount.seedPhrase);
     });
 
     afterEach(async () => {
-        testAccount && (await testAccount.delete());
+        await testAccount.delete();
     });
 
     test("displays the correct number of validators with the correct amounts", async ({ page }) => {
@@ -74,7 +76,7 @@ describe("Unstaking flow", () => {
         await expect(page).toHaveSelectorCount("data-test-id=stakingPageValidatorItem", 1);
         await expect(page).toMatchText(new RegExp(`${amountStillStaked} NEAR`));
 
-        // const { staked } = await testAccount.account.getAccountBalance();
+        // const { staked } = await testAccount.getUpdatedBalance();
 
         // expect(new BN(staked).eq(new BN(parseNearAmount(amountStillStaked.toString())))).toBe(true);
     });

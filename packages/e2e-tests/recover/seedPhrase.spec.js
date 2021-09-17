@@ -1,6 +1,6 @@
 const { test, expect } = require("@playwright/test");
 
-const { createRandomBankSubAccount } = require("../utils/account");
+const { getBankAccount } = require("../utils/account");
 
 const { describe, beforeAll, afterAll } = test;
 
@@ -8,11 +8,13 @@ describe("Account Recovery Using Seed Phrase", () => {
     let testAccount;
 
     beforeAll(async () => {
-        testAccount = await createRandomBankSubAccount();
+        const bankAccount = await getBankAccount();
+        testAccount = bankAccount.spawnRandomSubAccountInstance();
+        await testAccount.create();
     });
 
     afterAll(async () => {
-        testAccount && (await testAccount.delete());
+        await testAccount.delete();
     });
 
     test("navigates to seed phrase page successfully", async ({ page }) => {
@@ -38,7 +40,7 @@ describe("Account Recovery Using Seed Phrase", () => {
         await expect(page).toMatchURL(/\/$/);
         await expect(page).toMatchText(
             "data-test-id=currentUser >> visible=true",
-            testAccount.account.accountId
+            testAccount.accountId
         );
     });
 });
