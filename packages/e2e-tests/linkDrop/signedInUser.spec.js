@@ -8,7 +8,10 @@ const { HomePage } = require("../register/models/Home");
 const { SetRecoveryOptionPage } = require("../register/models/SetRecoveryOption");
 const { VerifySeedPhrasePage } = require("../register/models/VerifySeedPhrase");
 const nearApiJsConnection = require("../utils/connectionSingleton");
-const { createRandomBankSubAccount, generateTestAccountId, getAccountFromSeedPhrase } = require("../utils/account");
+const {
+    generateTestAccountId,
+    getBankAccount,
+} = require("../utils/account");
 const { LinkDropPage } = require("./models/LinkDrop");
 const { SetupSeedPhrasePage } = require("../register/models/SetupSeedPhrase");
 const { fetchLinkdropContract } = require("../contracts");
@@ -24,30 +27,31 @@ describe("Linkdrop flow", () => {
         linkdropTransferNEARAmount = "2.5";
 
     const LINKDROP_ACCESS_KEY_ALLOWANCE = new BN(parseNearAmount("1.0"));
-    const linkdropClaimableAmount = new BN(parseNearAmount(linkdropTransferNEARAmount)).sub(
-        LINKDROP_ACCESS_KEY_ALLOWANCE
-    );
+    const linkdropClaimableAmount = new BN(parseNearAmount(linkdropTransferNEARAmount)).sub(LINKDROP_ACCESS_KEY_ALLOWANCE);
 
     beforeAll(async () => {
+        const bankAccount = await getBankAccount();
+        [linkdropSenderAccount, linkdropContractAccount, linkdropReceiverAccount] = [
+            bankAccount.spawnRandomSubAccountInstance(),
+            bankAccount.spawnRandomSubAccountInstance(),
+            bankAccount.spawnRandomSubAccountInstance(),
+        ];
         // Create random accounts for linkdrop sender, receiver and contract account and deploy linkdrop contract to the contract account
         // The random accounts are created as subaccounts of BANK_ACCOUNT
         // fail the test suite at this point if one of the accounts fails to create
         [linkdropSenderAccount, linkdropContractAccount, linkdropReceiverAccount] = await Promise.all([
-            createRandomBankSubAccount("7.0"),
-            fetchLinkdropContract().then((wasm) => createRandomBankSubAccount("5.0", wasm)),
-            createRandomBankSubAccount(),
+            linkdropSenderAccount.create({ amount: "7.0" }),
+            fetchLinkdropContract().then((contractWasm) => linkdropContractAccount.create({ amount: "5.0", contractWasm })),
+            linkdropReceiverAccount.create(),
         ]).catch((e) => {
-            throw new Error(
-                "Cannot run test suite, linkdrop sender, receiver and contract accounts not successfully created",
-                {
-                    cause: e,
-                }
-            );
+            throw new Error("Cannot run test suite, linkdrop sender, receiver and contract accounts not successfully created", {
+                cause: e,
+            });
         });
         linkdropKeyPair = KeyPairEd25519.fromRandom();
         // send linkdropTransferNEARAmount Ⓝ to contract
-        await linkdropSenderAccount.account.functionCall(
-            linkdropContractAccount.account.accountId,
+        await linkdropSenderAccount.nearApiJsAccount.functionCall(
+            linkdropContractAccount.accountId,
             "send",
             { public_key: linkdropKeyPair.publicKey.toString() },
             null,
@@ -58,17 +62,14 @@ describe("Linkdrop flow", () => {
     beforeEach(async ({ page }) => {
         const homePage = new HomePage(page);
         await homePage.navigate();
-        await homePage.loginWithSeedPhraseLocalStorage(
-            linkdropReceiverAccount.account.accountId,
-            linkdropReceiverAccount.seedPhrase
-        );
+        await homePage.loginWithSeedPhraseLocalStorage(linkdropReceiverAccount.accountId, linkdropReceiverAccount.seedPhrase);
     });
 
     afterAll(async () => {
         await Promise.allSettled([
-            linkdropSenderAccount && linkdropSenderAccount.delete(),
-            linkdropReceiverAccount && linkdropReceiverAccount.delete(),
-            linkdropContractAccount && linkdropContractAccount.delete(),
+            linkdropSenderAccount.delete(),
+            linkdropReceiverAccount.delete(),
+            linkdropContractAccount.delete(),
         ]);
     });
 
@@ -77,9 +78,9 @@ describe("Linkdrop flow", () => {
         await homePage.navigate();
         await homePage.loginWithSeedPhraseLocalStorage(process.env.BANK_ACCOUNT, process.env.BANK_SEED_PHRASE);
         const linkdropPage = new LinkDropPage(page);
-        const contractAccountId = linkdropContractAccount.account.accountId;
+        const contractAccountId = linkdropContractAccount.accountId;
         const linkdropSecretKey = linkdropKeyPair.secretKey;
-        await linkdropPage.navigate(linkdropContractAccount.account.accountId, linkdropKeyPair.secretKey);
+        await linkdropPage.navigate(linkdropContractAccount.accountId, linkdropKeyPair.secretKey);
 
         await expect(page).not.toHaveSelector(".dots");
         await expect(page).toMatchURL(new RegExp(`/linkdrop/${contractAccountId}/${linkdropSecretKey}`));
@@ -88,10 +89,7 @@ describe("Linkdrop flow", () => {
             new RegExp(`${formatNearAmount(linkdropClaimableAmount.toString())} NEAR`)
         );
         await expect(page).toMatchText("data-test-id=linkdropAccountDropdown", new RegExp(process.env.BANK_ACCOUNT));
-        await expect(page).toMatchText(
-            "data-test-id=linkdropAccountDropdown",
-            new RegExp(linkdropReceiverAccount.account.accountId)
-        );
+        await expect(page).toMatchText("data-test-id=linkdropAccountDropdown", new RegExp(linkdropReceiverAccount.accountId));
     });
     test("adds to current account balance", async ({ page }) => {
         const homePage = new HomePage(page);
@@ -100,7 +98,7 @@ describe("Linkdrop flow", () => {
         const startBalance = new BN(parseNearAmount(await homePage.getNearBalanceInNear()));
         const linkdropPage = new LinkDropPage(page);
         const endBalance = formatNearAmount(startBalance.add(linkdropClaimableAmount).toString());
-        await linkdropPage.navigate(linkdropContractAccount.account.accountId, linkdropKeyPair.secretKey);
+        await linkdropPage.navigate(linkdropContractAccount.accountId, linkdropKeyPair.secretKey);
         await expect(page).not.toHaveSelector(".dots");
         await linkdropPage.claimToExistingAccount();
         await page.waitForNavigation();
@@ -118,7 +116,7 @@ describe("Linkdrop flow", () => {
         linkdropKeyPair = KeyPairEd25519.fromRandom();
         const linkdropContractTLAAccountId = "testnet";
 
-        await linkdropSenderAccount.account.functionCall(
+        await linkdropSenderAccount.nearApiJsAccount.functionCall(
             linkdropContractTLAAccountId,
             "send",
             { public_key: linkdropKeyPair.publicKey.toString() },

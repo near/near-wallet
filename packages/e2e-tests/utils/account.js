@@ -8,6 +8,11 @@ const getBankAccount = async () => {
     return account;
 };
 
+function generateTestAccountId() {
+    return `test-playwright-account-${Date.now()}-${Math.floor(Math.random() * 1000) % 1000}`;
+}
+
 module.exports = {
-    getBankAccount
+    getBankAccount,
+    generateTestAccountId
 };
