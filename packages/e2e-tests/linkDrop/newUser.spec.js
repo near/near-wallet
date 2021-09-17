@@ -108,12 +108,15 @@ describe("Linkdrop flow", () => {
         const createAccountPage = new CreateAccountPage(page);
         await createAccountPage.acceptTerms();
         await createAccountPage.submitAccountId(generateTestAccountId());
+        
         const setRecoveryOptionPage = new SetRecoveryOptionPage(page);
         await setRecoveryOptionPage.clickSeedPhraseRecoveryOption();
         await setRecoveryOptionPage.submitRecoveryOption();
+        
         const setupSeedPhrasePage = new SetupSeedPhrasePage(page);
         const copiedSeedPhrase = await setupSeedPhrasePage.copySeedPhrase();
         await setupSeedPhrasePage.continueToSeedPhraseVerification();
+        
         const verifySeedPhrasePage = new VerifySeedPhrasePage(page);
         const requestedVerificationWordNumber = await verifySeedPhrasePage.getRequestedVerificationWordNumber();
         await verifySeedPhrasePage.verifyWithWord(copiedSeedPhrase.split(" ")[requestedVerificationWordNumber - 1]);
