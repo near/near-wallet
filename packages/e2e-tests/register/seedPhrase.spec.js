@@ -91,7 +91,7 @@ describe("Account Registration Using Seed Phrase", () => {
             .grantPermissions(["clipboard-read", "clipboard-write"])
             .catch(test.skip);
         // skip test on mainnet
-        if (walletNetwork === WALLET_NETWORK.mainnet) {
+        if (walletNetwork === WALLET_NETWORK.MAINNET) {
             test.skip();
         }
 
