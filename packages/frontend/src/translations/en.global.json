@@ -1436,7 +1436,7 @@
 
     "releaseNotesModal": {
         "title": "Release Notes",
-        "desc": "You asked, we listened! The latest update brings adjustments to your balances in the wallet, and also introduces the ability to transfer your NFTs between wallets.",
+        "desc": "You asked, we listened! The latest update brings adjustments to your balances in the wallet and an easier way to create new accounts.",
         "subTitle1": "New Features",
         "subText1": "During on-boarding, you may now use an email or phone number to verify and initialize your new account. Users who don’t wish to provide this information may still initialize new accounts with an initial deposit.",
         "subTitle2": "Enhancements",
