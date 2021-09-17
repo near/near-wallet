@@ -7,7 +7,7 @@ const { CreateAccountPage } = require("../register/models/CreateAccount");
 const { HomePage } = require("../register/models/Home");
 const { SetRecoveryOptionPage } = require("../register/models/SetRecoveryOption");
 const { VerifySeedPhrasePage } = require("../register/models/VerifySeedPhrase");
-const { walletNetwork } = require("../utils/config");
+const nearApiJsConnection = require("../utils/connectionSingleton");
 const { createRandomBankSubAccount, generateTestAccountId, getAccountFromSeedPhrase } = require("../utils/account");
 const { LinkDropPage } = require("./models/LinkDrop");
 const { SetupSeedPhrasePage } = require("../register/models/SetupSeedPhrase");
@@ -86,7 +86,7 @@ describe("Linkdrop flow", () => {
     test("claims linkdrop to new account", async ({ page, context }) => {
         await context.grantPermissions(["clipboard-read", "clipboard-write"]).catch(test.skip);
         // skip test on mainnet
-        if (walletNetwork === WALLET_NETWORK.MAINNET) {
+        if (nearApiJsConnection.config.networkId === WALLET_NETWORK.MAINNET) {
             test.skip();
         }
 
