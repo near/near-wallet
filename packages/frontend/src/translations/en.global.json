@@ -271,8 +271,14 @@
             }
         },
         "modal": {
-            "title": "This email address has already been used to verify a different account.",
-            "desc": "You’ll need to use a different email address or select an alternate method to verify this account. You may still use this address as a recovery method."
+            "email":{
+                "title": "This email address has already been used to verify a different account.",
+                "desc": "You’ll need to use a different email address or select an alternate method to verify this account. You may still use this address as a recovery method."
+            },
+            "phone": {
+                "title": "This phone number has already been used to verify a different account.",
+                "desc": "You’ll need to use a different phone number or select an alternate method to verify this account. You may still use this number as a recovery method."
+            }
         }
     },
 
