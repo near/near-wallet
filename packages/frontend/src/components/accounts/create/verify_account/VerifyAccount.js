@@ -135,6 +135,7 @@ export default ({
                 <OptionAlreadyUsedModal
                     onClose={onCloseOptionAlreadyUsedModal}
                     isOpen={showOptionAlreadyUsedModal}
+                    kind={activeVerificationOption}
                 />
             }
         </>
