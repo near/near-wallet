@@ -2,7 +2,7 @@ const { test, expect } = require("@playwright/test");
 
 const {
     generateTestAccountId,
-    connectToAccountWithSeedphrase,
+    E2eTestAccount,
 } = require("../utils/account");
 const { walletNetwork } = require("../utils/config");
 const { HomePage } = require("./models/Home");
@@ -10,16 +10,18 @@ const { CreateAccountPage } = require("./models/CreateAccount");
 const { SetRecoveryOptionPage } = require("./models/SetRecoveryOption");
 const { SetupSeedPhrasePage } = require("./models/SetupSeedPhrase");
 const { VerifySeedPhrasePage } = require("./models/VerifySeedPhrase");
+const nearApiJsConnection = require("../utils/connectionSingleton");
 
 const { describe, afterAll } = test;
 
 describe("Account Registration Using Seed Phrase", () => {
     const testAccountId = generateTestAccountId();
-    let testAccountInstance;
+    let testAccount;
 
     afterAll(async () => {
-        testAccountInstance &&
-            (await testAccountInstance.deleteAccount("testnet"));
+        if (testAccount) {
+            await testAccount.nearApiJsAccount.deleteAccount(nearApiJsConnection.config.networkId);
+        }
     });
 
     test("navigates to set account recovery page successfuly", async ({
@@ -118,9 +120,10 @@ describe("Account Registration Using Seed Phrase", () => {
             "data-test-id=currentUser >> visible=true",
             testAccountId
         );
-        testAccountInstance = await connectToAccountWithSeedphrase(
+        testAccount = await new E2eTestAccount(
             testAccountId,
-            copiedSeedPhrase
-        );
+            copiedSeedPhrase,
+            { accountId: nearApiJsConnection.config.networkId }
+        ).initialize();
     });
 });

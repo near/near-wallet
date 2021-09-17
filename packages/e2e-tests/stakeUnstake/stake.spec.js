@@ -3,7 +3,7 @@ const BN = require("bn.js");
 const { parseNearAmount } = require("near-api-js/lib/utils/format");
 
 const { HomePage } = require("../register/models/Home");
-const { createRandomBankSubAccount } = require("../utils/account");
+const { getBankAccount } = require("../utils/account");
 const { StakeUnstakePage } = require("./models/StakeUnstake");
 
 const { describe, beforeAll, afterAll, beforeEach } = test;
@@ -12,17 +12,19 @@ describe("Staking flow", () => {
     let testAccount;
 
     beforeAll(async () => {
-        testAccount = await createRandomBankSubAccount();
+        const bankAccount = await getBankAccount();
+        testAccount = bankAccount.spawnRandomSubAccountInstance();
+        await testAccount.create();
     });
 
     beforeEach(async ({ page }) => {
         const homePage = new HomePage(page);
         await homePage.navigate();
-        await homePage.loginWithSeedPhraseLocalStorage(testAccount.account.accountId, testAccount.seedPhrase);
+        await homePage.loginWithSeedPhraseLocalStorage(testAccount.accountId, testAccount.seedPhrase);
     });
 
     afterAll(async () => {
-        testAccount && (await testAccount.delete());
+        await testAccount.delete();
     });
 
     test("navigates to staking page with correct balance", async ({ page }) => {
@@ -81,7 +83,7 @@ describe("Staking flow", () => {
             new RegExp(testStakeAmount.toString())
         );
 
-        // const { staked } = await testAccount.account.getAccountBalance();
+        // const { staked } = await testAccount.getUpdatedBalance();
 
         // expect(new BN(staked).eq(new BN(parseNearAmount(testStakeAmount.toString())))).toBe(true);
     });
