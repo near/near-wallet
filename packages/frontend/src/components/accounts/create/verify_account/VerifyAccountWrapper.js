@@ -32,7 +32,7 @@ export function VerifyAccountWrapper() {
     const [verificationEmail, setVerificationEmail] = useState('');
     const [verificationNumber, setVerificationNumber] = useState('');
 
-    const identityKey = activeVerificationOption === 'phone'
+    const identityKey = activeVerificationOption === 'email'
     ? verificationEmail
     : verificationNumber;
 
