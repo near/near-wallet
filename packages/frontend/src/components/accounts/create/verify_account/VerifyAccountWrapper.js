@@ -23,7 +23,7 @@ export function VerifyAccountWrapper() {
     const implicitAccountId = URLParams.get('implicitAccountId');
     const recoveryMethod = URLParams.get('recoveryMethod');
 
-    const [activeVerificationOption, setActiveVerificationOption] = useState('email');
+    const [activeVerificationOption, setActiveVerificationOption] = useState('phone');
     const [showEnterVerificationCode, setShowEnterVerificationCode] = useState(false);
     const [verifyingAndCreatingAccount, setVerifyingAndCreatingAccount] = useState(false);
     const [showOptionAlreadyUsedModal, setShowOptionAlreadyUsedModal] = useState(false);
@@ -32,7 +32,7 @@ export function VerifyAccountWrapper() {
     const [verificationEmail, setVerificationEmail] = useState('');
     const [verificationNumber, setVerificationNumber] = useState('');
 
-    const identityKey = activeVerificationOption === 'email'
+    const identityKey = activeVerificationOption === 'phone'
     ? verificationEmail
     : verificationNumber;
 
@@ -123,7 +123,7 @@ export function VerifyAccountWrapper() {
             verificationNumber={verificationNumber}
             onChangeVerificationNumber={number => setVerificationNumber(number)}
             handleContinue={async () => {
-                if (activeVerificationOption === 'email' || activeVerificationOption === 'phone') {
+                if (activeVerificationOption === 'phone') {
                     try {
                         await handleSendIdentityVerificationMethodCode();
                         setShowEnterVerificationCode(true);
