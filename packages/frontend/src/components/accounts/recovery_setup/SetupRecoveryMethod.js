@@ -119,7 +119,7 @@ class SetupRecoveryMethod extends Component {
         }
     }
 
-    handleVerifyRecaptcha = async () => {
+    handleVerifyEnterpriseRecaptcha = async (action) => {
         const { executeRecaptcha } = this.props.googleReCaptchaProps;
 
         if (!executeRecaptcha) {
@@ -128,7 +128,7 @@ class SetupRecoveryMethod extends Component {
             return;
         }
 
-        return await executeRecaptcha(`setupRecoveryMethod${this.state.isNewAccount ? 'NewAccount' : ''}`);
+        return await executeRecaptcha(action);
     };
 
     get isValidInput() {
@@ -206,16 +206,27 @@ class SetupRecoveryMethod extends Component {
         const fundingOptions = parseFundingOptions(location.search);
         this.setState({ settingUpNewAccount: true });
 
+        let validateSecurityCodeEnterpriseRecaptchaToken, createIdentityFundedAccountEnterpriseRecaptchaToken;
+
+        try {
+            [validateSecurityCodeEnterpriseRecaptchaToken, createIdentityFundedAccountEnterpriseRecaptchaToken] = await Promise.all([
+                this.handleVerifyEnterpriseRecaptcha(`validateSecurityCodeNewAccount`).catch(() => null),
+                this.handleVerifyEnterpriseRecaptcha(`verifiedIdentityCreateFundedAccount`).catch(() => null)
+            ]);
+        } catch (e) {
+            // no-op; enterprise recaptcha is only necessary to validate implicit identity verification
+            console.error(e);
+        }
+
         try {
             const { secretKey } = parseSeedPhrase(recoverySeedPhrase);
             const recoveryKeyPair = KeyPair.fromString(secretKey);
-            await validateSecurityCode(accountId, method, securityCode);
+            await validateSecurityCode(accountId, method, securityCode, validateSecurityCodeEnterpriseRecaptchaToken, 'setupRecoveryMethodNewAccount');
             await saveAccount(accountId, recoveryKeyPair);
 
             // IDENTITY VERIFIED FUNDED ACCOUNT
             if (DISABLE_CREATE_ACCOUNT && !fundingOptions && ENABLE_IDENTITY_VERIFIED_ACCOUNT) {
                 try {
-                    const recaptchaToken = await this.handleVerifyRecaptcha();
 
                     // Call function directly to handle error silently
                     await wallet.createIdentityFundedAccount({
@@ -226,7 +237,7 @@ class SetupRecoveryMethod extends Component {
                         verificationCode: securityCode,
                         recoveryMethod: method.kind,
                         recaptchaAction: 'verifiedIdentityCreateFundedAccount',
-                        recaptchaToken,
+                        recaptchaToken: createIdentityFundedAccountEnterpriseRecaptchaToken,
                     });
                 } catch (e) {
                     console.warn(e.code);
@@ -278,7 +289,13 @@ class SetupRecoveryMethod extends Component {
                     }
 
                     try {
-                        await this.setupRecoveryMessageNewAccount(accountId, this.method, securityCode, recoverySeedPhrase, recaptchaToken);
+                        await this.setupRecoveryMessageNewAccount(
+                            accountId,
+                            this.method,
+                            securityCode,
+                            recoverySeedPhrase,
+                            recaptchaToken
+                        );
 
                     } catch (e) {
                         debugLog('setupRecoveryMessageNewAccount() failed', e.message);
