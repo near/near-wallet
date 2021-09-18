@@ -449,7 +449,7 @@
         "title": "双重认证",
         "desc": "通过双重认证保护你的账户，在授权交易时必须通过短信或 Email 确认。",
         "email": "Email 地址",
-        "phone": "手机号",
+        "phone": "手机号（中国大陆地区暂不支持）",
         "notEnabled": "双重认证未开启",
         "notEnoughBalance": "为开启双重认证，你的账户需要最少余额 ${amount}",
         "active": "已开启",
@@ -821,7 +821,7 @@
     "wallet": {
         "balanceTitle": "NEAR 余额",
         "totalBalanceTitle": "NEAR 总余额",
-        "availableBalance": "可以余额",
+        "availableBalance": "可用余额",
         "tokens": "通证",
         "yourPortfolio": "你的通证组合",
         "balance": "余额",
