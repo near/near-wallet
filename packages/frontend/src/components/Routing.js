@@ -1,5 +1,4 @@
 import { ConnectedRouter } from 'connected-react-router';
-import isString from 'lodash.isstring';
 import { parseSeedPhrase } from 'near-seed-phrase';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
@@ -144,15 +143,7 @@ class Routing extends Component {
             languages,
             options: {
                 defaultLanguage: 'en',
-                onMissingTranslation: ({ translationId, defaultTranslation }) => {
-                    if (isString(defaultTranslation)) {
-                        // do anything to change the defaultTranslation as you wish
-                        return defaultTranslation;
-                    } else {
-                        // that's the code that can fix the issue
-                        return ReactDOMServer.renderToStaticMarkup(defaultTranslation);
-                    }
-                },
+                onMissingTranslation: ({ defaultTranslation }) => defaultTranslation,
                 renderToStaticMarkup: ReactDOMServer.renderToStaticMarkup,
                 renderInnerHtml: true
             }
