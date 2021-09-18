@@ -180,7 +180,7 @@
                 "title": "充值至账户",
                 "descOne": "为初始化账户，请向临时充值地址转账至少 <b>${amount}</b>。",
                 "descTwo": "充值完成后，请返回本页继续完成账户创建。",
-                "addressHeader": "临时充值地址",
+                "addressHeader": "单次充值地址",
                 "whereToBuy": {
                     "button": "我可以在哪里购买 NEAR？",
                     "title": "购买 NEAR 通证",
@@ -241,21 +241,55 @@
         }
     },
 
+        "verifyAccount": {							
+        "title": "只差一步!验证你的新帐户。",							
+        "desc": "为避免发送垃圾信息，我们需要验证你是账户所有者，你可以通过一次性验证码或初始充值进行验证。",							
+        "options": {							
+            "passCode": "一次性验证码",							
+            "initialDeposit": "初始充值"							
+        },							
+        "option": {							
+            "email": {							
+                "title": "邮箱",							
+                "desc": "通过邮箱接收一次性验证码"							
+            },							
+            "phone": {							
+                "title": "手机（中国大陆地区暂不支持）",							
+                "desc": "通过手机短信接收一次性验证码"							
+            },												
+            "manualDeposit": {							
+                "title": "手动充值",							
+                "desc": "通过单次充值地址进行充值"							
+            }							
+        },							
+        "modal": {							
+            "email":{							
+                "title": "此邮箱地址已被用于验证其他帐户",							
+                "desc": "你需要使用其他邮箱地址或选择其他方式来验证此帐户，不过你可以使用此邮箱作为恢复方式。"							
+            },							
+            "phone": {							
+                "title": "此手机号码已被用于验证其他帐户",							
+                "desc": "你需要使用其他手机号码或选择其他方式来验证此帐户，不过你可以使用此号码作为恢复方式。"							
+            }							
+        }							
+    },							
+							
+
     "initialDeposit": {
         "creditCard": {
             "title": "Fund your new account using a credit card.",
             "desc": "Complete your purchase of <b>at least ${amount} NEAR</b> through MoonPay. MoonPay will automatically deposit your funds into your new account."
         },
         "manualDeposit": {
-            "title": "Submit a manual deposit.",
-            "desc": "Meet the minimum initial deposit by sending <b>at least ${amount} NEAR</b> to the single-use funding address below."
+            "title": "充值至账户",
+            "desc": "请向单次充值地址转账<b>至少${amount} NEAR</b>，以满足最低充值要求。"
         },
         "claimAccount": {
-            "title": "Claim Your Account",
-            "desc": "Your deposit was received! Once claimed, your deposit will be transferred to your new account.",
+            "title": "认领你的账户",
+            "desc": "你的初始充值已到账，一旦认领账户，你充值的代币会被转移到新认领的账户。",
             "disclaimer": {
-                "desc": "Important: The old single-use funding address will no longer be valid. Make sure to replace it with your new address on any exchanges or other devices where it may have been saved.",
-                "checkBox": "Agree & Continue"
+                "desc": "重要：你之前的单次充值地址将失效。若你在交易所和其他设备保存了单次充值地址，请将其替换为你的新账户ID(例：XXXX.near)",
+                "checkBox": "同意 & 继续"
             }
         }
     },
@@ -787,6 +821,7 @@
     "wallet": {
         "balanceTitle": "NEAR 余额",
         "totalBalanceTitle": "NEAR 总余额",
+        "availableBalance": "可以余额",
         "tokens": "通证",
         "yourPortfolio": "你的通证组合",
         "balance": "余额",
@@ -1251,8 +1286,8 @@
         "authorizing": "正在授权"
     },
 
-    "availableBalanceInfo": "Your spendable NEAR balance excluding funds locked or staked. <a href='/profile'>View Balance Breakdown →</a>",
-    "reservedForFeesInfo": "Up to ${data} NEAR is reserved to cover the cost of transactions.",
+    "availableBalanceInfo": "你可以使用的NEAR余额，不包括锁定或质押的资金。<a href="/profile">View Balance Breakdown→</a> . href='/profile. <a href='/profile'>View Balance Breakdown →</a>",
+    "reservedForFeesInfo": "保留${data}，以承担交易成本。",
     "availableBalanceProfile": "「可用余额」是指你当前账号内可消耗 NEAR 通证，可用余额少于你的总共余额。",
     "minimumBalance": "这是维持你账号活跃状态的 NEAR 通证「保留余额」，该余额代表你正在使用的 NEAR 区块链存储空间，会在使用量变化后产生对应变化。",
     "totalBalance": "所有余额包括所有你拥有的 NEAR 通证。许多情况，你将无法立刻使用所有余额（比如如果是锁定的、委托的或质押的）。想了解你可以立刻使用、转账、委托或质押的 NEAR 通证，请查看可用余额部分。",
