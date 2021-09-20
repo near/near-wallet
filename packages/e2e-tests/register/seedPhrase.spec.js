@@ -122,7 +122,7 @@ describe("Account Registration Using Seed Phrase", () => {
             testAccountId
         );
         testAccount = await new E2eTestAccount(
-            testAccountId,
+            `${testAccountId}.${nearApiJsConnection.config.networkId}`,
             copiedSeedPhrase,
             { accountId: nearApiJsConnection.config.networkId }
         ).initialize();
