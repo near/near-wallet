@@ -159,7 +159,7 @@ export function VerifyAccountWrapper() {
             verificationNumber={verificationNumber}
             onChangeVerificationNumber={number => setVerificationNumber(number)}
             handleContinue={async () => {
-                if (activeVerificationOption === 'phone') {
+                if (/*activeVerificationOption === 'email' ||*/ activeVerificationOption === 'phone') {
                     try {
                         const recaptchaToken = await handleReCaptchaVerify('verifiedIdentityCreateVerificationMethod');
 

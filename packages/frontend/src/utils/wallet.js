@@ -629,19 +629,19 @@ class Wallet {
         }
 
         const checkedAccountIds = (await Promise.all(
-            accountIds
-                .map(async (accountId) => {
-                    try {
-                        const accountKeys = await (await this.getAccount(accountId)).getAccessKeys();
-                        return accountKeys.find(({ public_key }) => public_key === publicKey.toString()) ? accountId : null;
-                    } catch (error) {
-                        if (error.toString().indexOf('does not exist while viewing') !== -1) {
-                            return null;
+                accountIds
+                    .map(async (accountId) => {
+                        try {
+                            const accountKeys = await (await this.getAccount(accountId)).getAccessKeys();
+                            return accountKeys.find(({ public_key }) => public_key === publicKey.toString()) ? accountId : null;
+                        } catch (error) {
+                            if (error.toString().indexOf('does not exist while viewing') !== -1) {
+                                return null;
+                            }
+                            throw error;
                         }
-                        throw error;
-                    }
-                })
-        )
+                    })
+            )
         )
             .filter(accountId => accountId);
 
@@ -773,17 +773,22 @@ class Wallet {
         return seedPhrase;
     }
 
-    async validateSecurityCode(accountId, method, securityCode) {
+    async validateSecurityCode(accountId, method, securityCode, enterpriseRecaptchaToken, recaptchaAction) {
         const isNew = await this.checkIsNew(accountId);
         const body = {
             accountId,
             method,
-            securityCode
+            securityCode,
         };
 
         try {
             if (isNew) {
-                await sendJson('POST', ACCOUNT_HELPER_URL + '/account/validateSecurityCodeForTempAccount', body);
+                await sendJson('POST', ACCOUNT_HELPER_URL + '/account/validateSecurityCodeForTempAccount', {
+                    ...body,
+                    enterpriseRecaptchaToken,
+                    recaptchaAction,
+                    recaptchaSiteKey: RECAPTCHA_ENTERPRISE_SITE_KEY
+                });
             } else {
                 await this.postSignedJson('/account/validateSecurityCode', body);
             }

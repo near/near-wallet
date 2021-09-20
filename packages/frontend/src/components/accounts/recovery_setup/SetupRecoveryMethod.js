@@ -1,6 +1,7 @@
 import { KeyPair } from 'near-api-js';
 import { parseSeedPhrase } from 'near-seed-phrase';
 import React, { Component, createRef } from 'react';
+import { withGoogleReCaptcha } from 'react-google-recaptcha-v3';
 import { Translate } from 'react-localize-redux';
 import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input';
 import { connect } from 'react-redux';
@@ -118,20 +119,32 @@ class SetupRecoveryMethod extends Component {
         }
     }
 
+    handleVerifyEnterpriseRecaptcha = async (action) => {
+        const { executeRecaptcha } = this.props.googleReCaptchaProps;
+
+        if (!executeRecaptcha) {
+            console.warn('Recaptcha has not been loaded');
+
+            return;
+        }
+
+        return await executeRecaptcha(action);
+    };
+
     get isValidInput() {
         const { option, phoneNumber, email, country } = this.state;
 
         switch (option) {
-            case 'email':
-                return validateEmail(email);
-            case 'phone':
-                return isApprovedCountryCode(country) && isValidPhoneNumber(phoneNumber);
-            case 'phrase':
-                return true;
-            case 'ledger':
-                return true;
-            default:
-                return false;
+        case 'email':
+            return validateEmail(email);
+        case 'phone':
+            return isApprovedCountryCode(country) && isValidPhoneNumber(phoneNumber);
+        case 'phrase':
+            return true;
+        case 'ledger':
+            return true;
+        default:
+            return false;
         }
     }
 
@@ -189,19 +202,32 @@ class SetupRecoveryMethod extends Component {
             location,
             setLinkdropAmount
         } = this.props;
-      
+
         const fundingOptions = parseFundingOptions(location.search);
         this.setState({ settingUpNewAccount: true });
+
+        let validateSecurityCodeEnterpriseRecaptchaToken, createIdentityFundedAccountEnterpriseRecaptchaToken;
+
+        try {
+            [validateSecurityCodeEnterpriseRecaptchaToken, createIdentityFundedAccountEnterpriseRecaptchaToken] = await Promise.all([
+                this.handleVerifyEnterpriseRecaptcha(`validateSecurityCodeNewAccount`).catch(() => null),
+                this.handleVerifyEnterpriseRecaptcha(`verifiedIdentityCreateFundedAccount`).catch(() => null)
+            ]);
+        } catch (e) {
+            // no-op; enterprise recaptcha is only necessary to validate implicit identity verification
+            console.error(e);
+        }
 
         try {
             const { secretKey } = parseSeedPhrase(recoverySeedPhrase);
             const recoveryKeyPair = KeyPair.fromString(secretKey);
-            await validateSecurityCode(accountId, method, securityCode);
+            await validateSecurityCode(accountId, method, securityCode, validateSecurityCodeEnterpriseRecaptchaToken, 'setupRecoveryMethodNewAccount');
             await saveAccount(accountId, recoveryKeyPair);
 
             // IDENTITY VERIFIED FUNDED ACCOUNT
             if (DISABLE_CREATE_ACCOUNT && !fundingOptions && ENABLE_IDENTITY_VERIFIED_ACCOUNT) {
                 try {
+
                     // Call function directly to handle error silently
                     await wallet.createIdentityFundedAccount({
                         accountId,
@@ -209,9 +235,11 @@ class SetupRecoveryMethod extends Component {
                         publicKey: recoveryKeyPair.publicKey,
                         identityKey: method.detail,
                         verificationCode: securityCode,
-                        recoveryMethod: method.kind
+                        recoveryMethod: method.kind,
+                        recaptchaAction: 'verifiedIdentityCreateFundedAccount',
+                        recaptchaToken: createIdentityFundedAccountEnterpriseRecaptchaToken,
                     });
-                } catch(e) {
+                } catch (e) {
                     console.warn(e.code);
                     await fundCreateAccount(accountId, recoveryKeyPair, method.kind);
                 }
@@ -238,7 +266,7 @@ class SetupRecoveryMethod extends Component {
 
                 throw e;
             }
-        } catch(e) {
+        } catch (e) {
             this.setState({ settingUpNewAccount: false });
         }
     }
@@ -261,7 +289,13 @@ class SetupRecoveryMethod extends Component {
                     }
 
                     try {
-                        await this.setupRecoveryMessageNewAccount(accountId, this.method, securityCode, recoverySeedPhrase, recaptchaToken);
+                        await this.setupRecoveryMessageNewAccount(
+                            accountId,
+                            this.method,
+                            securityCode,
+                            recoverySeedPhrase,
+                            recaptchaToken
+                        );
 
                     } catch (e) {
                         debugLog('setupRecoveryMessageNewAccount() failed', e.message);
@@ -336,7 +370,17 @@ class SetupRecoveryMethod extends Component {
 
     render() {
 
-        const { option, phoneNumber, email, success, emailInvalid, phoneInvalid, country, isNewAccount, settingUpNewAccount } = this.state;
+        const {
+            option,
+            phoneNumber,
+            email,
+            success,
+            emailInvalid,
+            phoneInvalid,
+            country,
+            isNewAccount,
+            settingUpNewAccount
+        } = this.state;
         const { mainLoader, accountId, activeAccountId, ledgerKey, twoFactor, location } = this.props;
 
         if (!success) {
@@ -346,10 +390,10 @@ class SetupRecoveryMethod extends Component {
                         this.handleNext();
                         e.preventDefault();
                     }}>
-                        <h1><Translate id='setupRecovery.header' /></h1>
-                        <h2><Translate id='setupRecovery.subHeader' /></h2>
+                        <h1><Translate id='setupRecovery.header'/></h1>
+                        <h2><Translate id='setupRecovery.subHeader'/></h2>
                         <h4>
-                            <Translate id='setupRecovery.advancedSecurity' />
+                            <Translate id='setupRecovery.advancedSecurity'/>
                             <Tooltip translate='profile.security.mostSecureDesc' icon='icon-lg'/>
                         </h4>
                         <RecoveryOption
@@ -359,15 +403,15 @@ class SetupRecoveryMethod extends Component {
                             disabled={this.checkDisabled('phrase')}
                         />
                         {(this.checkNewAccount() || !twoFactor) &&
-                            <RecoveryOption
-                                onClick={() => this.setState({ option: 'ledger' })}
-                                option='ledger'
-                                active={option}
-                                disabled={ledgerKey !== null && accountId === activeAccountId}
-                            />
+                        <RecoveryOption
+                            onClick={() => this.setState({ option: 'ledger' })}
+                            option='ledger'
+                            active={option}
+                            disabled={ledgerKey !== null && accountId === activeAccountId}
+                        />
                         }
                         <h4>
-                            <Translate id='setupRecovery.basicSecurity' />
+                            <Translate id='setupRecovery.basicSecurity'/>
                             <Tooltip translate='profile.security.lessSecureDesc' icon='icon-lg'/>
                         </h4>
                         <RecoveryOption
@@ -431,7 +475,7 @@ class SetupRecoveryMethod extends Component {
                                             ref={this.phoneInput}
                                         />
                                         {!isApprovedCountryCode(country) &&
-                                            <div className='color-red'>{translate('setupRecovery.notSupportedPhone')}</div>
+                                        <div className='color-red'>{translate('setupRecovery.notSupportedPhone')}</div>
                                         }
                                     </>
                                 )}
@@ -445,7 +489,7 @@ class SetupRecoveryMethod extends Component {
                             trackingId='SR Click submit button'
                             data-test-id="submitSelectedRecoveryOption"
                         >
-                            <Translate id='button.continue' />
+                            <Translate id='button.continue'/>
                         </FormButton>
                     </form>
                 </StyledContainer>
@@ -498,4 +542,4 @@ const mapStateToProps = ({ account, router, recoveryMethods, status }, { match }
     mainLoader: status.mainLoader
 });
 
-export const SetupRecoveryMethodWithRouter = connect(mapStateToProps, mapDispatchToProps)(SetupRecoveryMethod);
+export const SetupRecoveryMethodWithRouter = connect(mapStateToProps, mapDispatchToProps)(withGoogleReCaptcha(SetupRecoveryMethod));
