@@ -93,6 +93,7 @@
         }
     },
     "walletErrorCodes": {
+        "emailProviderInvalid": "The e-mail host you provided is not valid; please use a conventional (non-temporary) email provider.",
         "invalidRecaptchaCode": "Invalid reCAPTCHA code; try again!",
         "addAccessKeySeedPhrase": {
             "errorSecond": "An error has occurred.<br />The passphrases was not added to your account. Please try again."
