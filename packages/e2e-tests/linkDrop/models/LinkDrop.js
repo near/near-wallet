@@ -2,8 +2,12 @@ class LinkDropPage {
     constructor(page) {
         this.page = page;
     }
-    async navigate(contractAccountId, secretKey) {
-        await this.page.goto(`/linkdrop/${contractAccountId}/${secretKey}`);
+    async navigate(contractAccountId, secretKey, redirectUrl) {
+        if (redirectUrl) {
+            await this.page.goto(`/linkdrop/${contractAccountId}/${secretKey}?redirectUrl=${redirectUrl}`);
+        } else {
+            await this.page.goto(`/linkdrop/${contractAccountId}/${secretKey}`);
+        }
     }
     async claimToExistingAccount() {
         await this.page.click(`data-test-id=linkdropClaimToExistingAccount`);

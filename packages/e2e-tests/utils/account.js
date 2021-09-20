@@ -13,49 +13,63 @@ const E2eTestAccount = require("./E2eTestAccount");
 const getBankAccount = async () => {
     const { BANK_ACCOUNT: accountId, BANK_SEED_PHRASE: seedPhrase } = process.env;
     const account = new E2eTestAccount(accountId, seedPhrase, { accountId: nearApiJsConnection.config.networkId });
-    await account.initialize();
-    return account;
+    return account.initialize();
 };
+
+class LinkdropAccountManager {
+    // Create random accounts for linkdrop sender, receiver and contract account and deploy linkdrop contract to the contract account
+    // The random accounts are created as subaccounts of BANK_ACCOUNT
+    constructor(bankAccount) {
+        this.linkdropSenderAccount = bankAccount.spawnRandomSubAccountInstance();
+        this.linkdropContractAccount = bankAccount.spawnRandomSubAccountInstance();
+        this.linkdropReceiverAccount = bankAccount.spawnRandomSubAccountInstance();
+    }
+    async initialize(senderNearBalance) {
+        await Promise.all([
+            this.linkdropSenderAccount.create({ amount: senderNearBalance }),
+            fetchLinkdropContract().then((contractWasm) => this.linkdropContractAccount.create({ amount: "5.0", contractWasm })),
+            this.linkdropReceiverAccount.create(),
+        ]);
+        return this;
+    }
+    async send(nearAmount) {
+        const { publicKey, secretKey } = KeyPairEd25519.fromRandom();
+        await this.linkdropSenderAccount.nearApiJsAccount.functionCall(
+            this.linkdropContractAccount.accountId,
+            "send",
+            { public_key: publicKey.toString() },
+            null,
+            new BN(parseNearAmount(nearAmount))
+        );
+        this.lastSecretKey = secretKey;
+        return secretKey;
+    }
+    async sendToNetworkTLA(nearAmount) {
+        const { publicKey, secretKey } = KeyPairEd25519.fromRandom();
+        await this.linkdropSenderAccount.nearApiJsAccount.functionCall(
+            nearApiJsConnection.config.networkId,
+            "send",
+            { public_key: publicKey.toString() },
+            null,
+            new BN(parseNearAmount(nearAmount))
+        );
+        return secretKey;
+    }
+    deleteAccounts() {
+        return Promise.allSettled([
+            this.linkdropSenderAccount.delete(),
+            this.linkdropContractAccount.delete(),
+            this.linkdropReceiverAccount.delete(),
+        ]);
+    }
+}
 
 function generateTestAccountId() {
     return `test-playwright-account-${Date.now()}-${Math.floor(Math.random() * 1000) % 1000}`;
 }
 
-// Create random accounts for linkdrop sender, receiver and contract account and deploy linkdrop contract to the contract account
-// The random accounts are created as subaccounts of BANK_ACCOUNT
-// fail the test suite at this point if one of the accounts fails to create
-const setupLinkdropAccounts = (linkdropNEARAmount) =>
-    getBankAccount()
-        .then((bankAccount) =>
-            Promise.all([
-                bankAccount.spawnRandomSubAccountInstance().create({ amount: "7.0" }),
-                fetchLinkdropContract().then((contractWasm) =>
-                    bankAccount.spawnRandomSubAccountInstance().create({ amount: "5.0", contractWasm })
-                ),
-                bankAccount.spawnRandomSubAccountInstance().create(),
-                Promise.resolve(KeyPairEd25519.fromRandom()),
-            ])
-        )
-        .then(([linkdropSenderAccount, linkdropContractAccount, linkdropReceiverAccount, { publicKey, secretKey }]) =>
-            linkdropSenderAccount.nearApiJsAccount
-                .functionCall(
-                    linkdropContractAccount.accountId,
-                    "send",
-                    { public_key: publicKey.toString() },
-                    null,
-                    new BN(parseNearAmount(linkdropNEARAmount))
-                )
-                .then(() => ({
-                    linkdropSenderAccount,
-                    linkdropContractAccount,
-                    linkdropReceiverAccount,
-                    secretKey,
-                }))
-        );
-
 module.exports = {
     getBankAccount,
     generateTestAccountId,
-    E2eTestAccount,
-    setupLinkdropAccounts,
+    LinkdropAccountManager,
 };

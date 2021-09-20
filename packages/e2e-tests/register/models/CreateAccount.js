@@ -14,7 +14,7 @@ class CreateAccountPage {
         }
     }
     async submitAccountId(accountId) {
-        await this.page.fill("data-test-id=createAccount.accountIdInput", accountId);
+        await this.page.type("data-test-id=createAccount.accountIdInput", accountId);
         await this.page.click(`data-test-id=reserveAccountIdButton`);
     }
 }
