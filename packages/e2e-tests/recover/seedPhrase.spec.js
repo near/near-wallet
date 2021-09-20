@@ -33,7 +33,7 @@ describe("Account Recovery Using Seed Phrase", () => {
             "data-test-id=seedPhraseRecoveryInput",
             testAccount.seedPhrase
         );
-        await page.click(`[type="submit"]`);
+        await page.click(`data-test-id=seedPhraseRecoverySubmitButton`);
 
         await page.waitForNavigation();
 

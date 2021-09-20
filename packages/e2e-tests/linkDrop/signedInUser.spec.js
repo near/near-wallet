@@ -11,7 +11,7 @@ const nearApiJsConnection = require("../utils/connectionSingleton");
 const { generateTestAccountId, setupLinkdropAccounts } = require("../utils/account");
 const { LinkDropPage } = require("./models/LinkDrop");
 const { SetupSeedPhrasePage } = require("../register/models/SetupSeedPhrase");
-const { WALLET_NETWORK } = require("../constants");
+const { WALLET_NETWORK, LINKDROP_ACCESS_KEY_ALLOWANCE } = require("../constants");
 
 const { describe, beforeAll, afterAll, beforeEach } = test;
 
@@ -22,7 +22,6 @@ describe("Linkdrop flow", () => {
         linkdropSecretKey,
         linkdropNEARAmount = "2.5";
 
-    const LINKDROP_ACCESS_KEY_ALLOWANCE = new BN(parseNearAmount("1.0"));
     const linkdropClaimableAmount = new BN(parseNearAmount(linkdropNEARAmount)).sub(LINKDROP_ACCESS_KEY_ALLOWANCE);
 
     beforeAll(async () => {

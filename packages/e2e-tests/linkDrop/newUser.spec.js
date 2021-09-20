@@ -11,7 +11,7 @@ const nearApiJsConnection = require("../utils/connectionSingleton");
 const { generateTestAccountId, setupLinkdropAccounts } = require("../utils/account");
 const { LinkDropPage } = require("./models/LinkDrop");
 const { SetupSeedPhrasePage } = require("../register/models/SetupSeedPhrase");
-const { WALLET_NETWORK } = require("../constants");
+const { WALLET_NETWORK, LINKDROP_ACCESS_KEY_ALLOWANCE } = require("../constants");
 
 const { describe, beforeAll, afterAll } = test;
 
@@ -22,7 +22,6 @@ describe("Linkdrop flow", () => {
         linkdropSecretKey,
         linkdropNEARAmount = "2.5";
 
-    const LINKDROP_ACCESS_KEY_ALLOWANCE = new BN(parseNearAmount("1.0"));
     const linkdropClaimableAmount = new BN(parseNearAmount(linkdropNEARAmount)).sub(LINKDROP_ACCESS_KEY_ALLOWANCE);
 
     beforeAll(async () => {
@@ -51,7 +50,7 @@ describe("Linkdrop flow", () => {
 
         await page.click(`data-test-id=recoverAccountWithPassphraseButton`);
         await page.fill("data-test-id=seedPhraseRecoveryInput", linkdropReceiverAccount.seedPhrase);
-        await page.click(`[type="submit"]`);
+        await page.click(`data-test-id=seedPhraseRecoverySubmitButton`);
         await page.waitForNavigation();
         await linkdropPage.claimToExistingAccount();
         await page.waitForNavigation();
