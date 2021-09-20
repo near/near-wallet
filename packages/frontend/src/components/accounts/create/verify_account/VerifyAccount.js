@@ -124,6 +124,7 @@ export default ({
                         <Translate id='button.continue' />
                     </FormButton>
                 </form>
+                <div className='recaptcha-disclaimer'><Translate id='reCAPTCHA.disclaimer'/></div>
             </StyledContainer>
             {showWhereToBuyModal &&
                 <WhereToBuyNearModal

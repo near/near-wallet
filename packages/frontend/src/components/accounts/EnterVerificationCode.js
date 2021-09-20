@@ -70,6 +70,10 @@ const StyledContainer = styled(Container)`
     .recaptcha-failed-box, .recaptcha-widget {
         margin-top: 20px;
     }
+ 
+    .recaptcha-disclaimer {
+        margin-top: 30px;
+    }
 `;
 
 const EnterVerificationCode = ({
@@ -84,7 +88,8 @@ const EnterVerificationCode = ({
     isNewAccount,
     onRecaptchaChange,
     isLinkDrop,
-    skipRecaptcha
+    skipRecaptcha,
+    showRecaptchaDisclaimer
 }) => {
     debugLog('Rendering', { isNewAccount });
 
@@ -181,6 +186,10 @@ const EnterVerificationCode = ({
                         <Translate id='setRecoveryConfirm.sendToDifferent'/> <Translate id={`setRecoveryConfirm.${useEmail ? 'email' : 'phone'}`}/></span>
                 </div>
             </div>
+
+            {showRecaptchaDisclaimer &&
+                <div className='recaptcha-disclaimer'><Translate id='reCAPTCHA.disclaimer'/></div>
+            }
         </StyledContainer>
     );
 };

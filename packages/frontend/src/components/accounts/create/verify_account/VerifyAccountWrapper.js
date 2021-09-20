@@ -146,6 +146,7 @@ export function VerifyAccountWrapper() {
                 onGoBack={() => setShowEnterVerificationCode(false)}
                 skipRecaptcha={true}
                 verifyingCode={verifyingAndCreatingAccount}
+                showRecaptchaDisclaimer={true}
             />
         );
     }
