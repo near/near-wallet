@@ -492,6 +492,9 @@ class SetupRecoveryMethod extends Component {
                             <Translate id='button.continue'/>
                         </FormButton>
                     </form>
+                    {isNewAccount &&
+                        <div className='recaptcha-disclaimer'><Translate id='reCAPTCHA.disclaimer'/></div>
+                    }
                 </StyledContainer>
             );
         } else {
