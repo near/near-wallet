@@ -106,6 +106,20 @@ export function VerifyAccountWrapper() {
                                 messageCode: 'walletErrorCodes.setupRecoveryMessageNewAccount.invalidCode',
                                 errorMessage: e.message
                             }));
+                        } else if (e.code === 'identityVerificationRecaptchaInvalid') {
+                            dispatch(showCustomAlert({
+                                success: false,
+                                messageCodeHeader: 'error',
+                                messageCode: 'walletErrorCodes.invalidRecaptchaCode',
+                                errorMessage: e.message
+                            }));
+                        } else if (e.code === 'identityVerificationEmailProviderInvalid') {
+                            dispatch(showCustomAlert({
+                                success: false,
+                                messageCodeHeader: 'error',
+                                messageCode: 'walletErrorCodes.emailProviderInvalid',
+                                errorMessage: e.message
+                            }));
                         } else if (e.code === 'NotEnoughBalance') {
                             dispatch(redirectTo(`/initial-deposit${location.search}`));
                         } else {
