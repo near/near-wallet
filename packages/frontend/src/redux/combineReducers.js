@@ -6,7 +6,6 @@ import account from './reducers/account';
 import allAccounts from './reducers/allAccounts';
 import availableAccounts from './reducers/available-accounts';
 import ledger from './reducers/ledger';
-import recoveryMethods from './reducers/recoveryMethods';
 import sign from './reducers/sign';
 import staking from './reducers/staking';
 import status from './reducers/status';
@@ -14,6 +13,7 @@ import createFromImplicitSlice from './slices/createFromImplicit';
 import flowLimitationSlice from './slices/flowLimitation';
 import linkdropSlice from './slices/linkdrop';
 import nftSlice from './slices/nft';
+import recoveryMethodsSlice from './slices/recoveryMethods';
 import tokenFiatValuesSlice from './slices/tokenFiatValues';
 import tokensSlice from './slices/tokens';
 import transactionsSlice from './slices/transactions';
@@ -24,7 +24,6 @@ export default (history) => combineReducers({
     availableAccounts,
     account,
     sign,
-    recoveryMethods,
     ledger,
     staking,
     status,
@@ -35,5 +34,6 @@ export default (history) => combineReducers({
     [tokensSlice.name]: tokensSlice.reducer,
     [flowLimitationSlice.name]: flowLimitationSlice.reducer,
     [createFromImplicitSlice.name]: createFromImplicitSlice.reducer,
+    [recoveryMethodsSlice.name]: recoveryMethodsSlice.reducer,
     router: connectRouter(history)
 });
