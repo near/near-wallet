@@ -30,6 +30,14 @@ const fetchRecoveryMethods = createAsyncThunk(
         const { actions: { setRecoveryMethods } } = recoveryMethodsSlice;
         await dispatch(setRecoveryMethods({ recoveryMethods }));
     },
+    {
+        condition: ({ accountId }, thunkAPI) => {
+            const { getState } = thunkAPI;
+            if (selectRecoveryMethodsLoading(getState(), { accountId })) {
+                return false;
+            }
+        }
+    }
 );
 
 const recoveryMethodsSlice = createSlice({
