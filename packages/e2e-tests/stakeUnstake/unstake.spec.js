@@ -1,6 +1,5 @@
 const { test, expect } = require("@playwright/test");
-const { parseNearAmount } = require("near-api-js/lib/utils/format");
-const { BN } = require("bn.js");
+const { formatNearAmount } = require("near-api-js/lib/utils/format");
 
 const { StakeUnstakePage } = require("./models/StakeUnstake");
 const { HomePage } = require("../register/models/Home");
@@ -52,7 +51,8 @@ describe("Unstaking flow", () => {
         await stakeUnstakePage.clickStakeButton();
         await stakeUnstakePage.runStakingFlowWithAmount(0.2, randomValidatorIndexes[1]);
         await stakeUnstakePage.clickUnstakeButton();
-        await stakeUnstakePage.clickValidatorItem();
+        const stakedValidatorName = await stakeUnstakePage.getValidatorName(1)
+        await stakeUnstakePage.clickValidatorItem(0);
         const submittedUnstakeAmount = await stakeUnstakePage.submitStakeWithMaxAmount();
         const amountStillStaked = (0.3 - submittedUnstakeAmount).toFixed(1);
         await stakeUnstakePage.confirmStakeOnModal();
@@ -76,8 +76,8 @@ describe("Unstaking flow", () => {
         await expect(page).toHaveSelectorCount("data-test-id=stakingPageValidatorItem", 1);
         await expect(page).toMatchText(new RegExp(`${amountStillStaked} NEAR`));
 
-        // const { staked } = await testAccount.getUpdatedBalance();
+        const stakedAmount = await testAccount.getAmountStakedWithValidator(stakedValidatorName);
 
-        // expect(new BN(staked).eq(new BN(parseNearAmount(amountStillStaked.toString())))).toBe(true);
+        expect(formatNearAmount(stakedAmount.toString(), 5)).toBe(amountStillStaked.toString());
     });
 });

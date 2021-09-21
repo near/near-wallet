@@ -59,7 +59,7 @@ class StakeUnstakePage {
         await this.submitStake();
         return parseFloat(submittedAmount);
     }
-    async clickValidatorItem(validatorItemIndex = 0) {
+    async clickValidatorItem(validatorItemIndex) {
         await this.page.click(`data-test-id=stakingPageValidatorItem >> nth=${validatorItemIndex}`);
     }
 }
