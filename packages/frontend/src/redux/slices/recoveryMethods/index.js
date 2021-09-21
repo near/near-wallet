@@ -49,6 +49,28 @@ const recoveryMethodsSlice = createSlice({
                 set(state, ['byAccountId', accountId, 'items'], data);
             }
         },
+        extraReducers: ((builder) => {
+            builder.addCase(fetchRecoveryMethods.pending, (state, { meta }) => {
+                const { accountId } = meta.arg;
+    
+                set(state, ['byAccountId', accountId, 'status', 'loading'], true);
+                set(state, ['byAccountId', accountId, 'status', 'error'], initialErrorState);
+            });
+            builder.addCase(fetchRecoveryMethods.fulfilled, (state,  { meta }) => {
+                const { accountId } = meta.arg;
+    
+                set(state, ['byAccountId', accountId, 'status', 'loading'], false);
+                set(state, ['byAccountId', accountId, 'status', 'error'], initialErrorState);
+            });
+            builder.addCase(fetchRecoveryMethods.rejected, (state, { meta, error }) => {
+                const { accountId } = meta.arg;
+                
+                set(state, ['byAccountId', accountId, 'status', 'loading'], false);
+                set(state, ['byAccountId', accountId, 'status', 'error'], {
+                    message: error?.message || 'An error was encountered.',
+                    code: error?.code
+                });
+            });
         })
     }
 );
