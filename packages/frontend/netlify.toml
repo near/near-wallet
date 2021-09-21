@@ -38,15 +38,19 @@
         Content-Security-Policy = """
             frame-ancestors 'none'
         """
+[[headers]]
     for = "/auto-import-secret-key*"
     [headers.values]
         X-Robots-Tag = "noindex"
+[[headers]]
     for = "/auto-import-seed-phrase*"
     [headers.values]
         X-Robots-Tag = "noindex"
+[[headers]]
     for = "/recover-seed-phrase*"
     [headers.values]
         X-Robots-Tag = "noindex"
+[[headers]]
     for = "/recover-with-link*"
     [headers.values]
         X-Robots-Tag = "noindex"
