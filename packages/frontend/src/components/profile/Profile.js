@@ -132,16 +132,16 @@ export function Profile({ match }) {
     const [transferring, setTransferring] = useState(false);
     const { has2fa, authorizedApps, ledgerKey } = useSelector(({ account }) => account);
     const loginAccountId = useSelector(state => state.account.accountId);
-    const recoveryMethods = useSelector(({ recoveryMethods }) => recoveryMethods);
     const nearTokenFiatValueUSD = useSelector(selectNearTokenFiatValueUSD);
     const accountIdFromUrl = match.params.accountId;
     const accountId = accountIdFromUrl || loginAccountId;
     const isOwner = accountId === loginAccountId;
     const account = useAccount(accountId);
     const dispatch = useDispatch();
-    const userRecoveryMethods = recoveryMethods[account.accountId];
-    const twoFactor = has2fa && userRecoveryMethods && userRecoveryMethods.filter(m => m.kind.includes('2fa'))[0];
     const profileBalance = selectProfileBalance(account);
+
+    const userRecoveryMethods = useSelector((state) => selectRecoveryMethodsByAccountId(state, { accountId: account.accountId }));
+    const twoFactor = has2fa && userRecoveryMethods && userRecoveryMethods.filter(m => m.kind.includes('2fa'))[0];
 
     useEffect(() => {
         if (!loginAccountId) {
