@@ -807,19 +807,15 @@ class Wallet {
         }
     }
 
-    async getRecoveryMethods(account) {
-        const accountId = account ? account.accountId : this.accountId;
-        let recoveryMethods = await this.postSignedJson('/account/recoveryMethods', { accountId }, account);
+    async getRecoveryMethods() {
+        const { accountId } = this;
+        let recoveryMethods = await this.postSignedJson('/account/recoveryMethods', { accountId });
         const accessKeys = await this.getAccessKeys();
         const publicKeys = accessKeys.map(key => key.public_key);
         const publicKeyMethods = recoveryMethods.filter(({ publicKey }) => publicKeys.includes(publicKey));
         const twoFactorMethods = recoveryMethods.filter(({ kind }) => kind.indexOf('2fa-') === 0);
-        const allMethods = [...publicKeyMethods, ...twoFactorMethods];
 
-        return {
-            accountId,
-            data: allMethods
-        };
+        return [...publicKeyMethods, ...twoFactorMethods];
     }
 
     async addLocalKeyAndFinishSetup(accountId, recoveryMethod, publicKey, previousAccountId) {
