@@ -4,7 +4,6 @@ const {
     generateTestAccountId,
     E2eTestAccount,
 } = require("../utils/account");
-const nearApiJsConnection = require("../utils/connectionSingleton");
 const { HomePage } = require("./models/Home");
 const { CreateAccountPage } = require("./models/CreateAccount");
 const { SetRecoveryOptionPage } = require("./models/SetRecoveryOption");

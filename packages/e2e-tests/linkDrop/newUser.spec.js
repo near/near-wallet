@@ -7,12 +7,7 @@ const { HomePage } = require("../register/models/Home");
 const { SetRecoveryOptionPage } = require("../register/models/SetRecoveryOption");
 const { VerifySeedPhrasePage } = require("../register/models/VerifySeedPhrase");
 const nearApiJsConnection = require("../utils/connectionSingleton");
-const {
-    generateTestAccountId,
-    LinkdropAccountManager,
-    getBankAccount,
-    E2eTestAccount,
-} = require("../utils/account");
+const { generateTestAccountId, LinkdropAccountManager, getBankAccount, E2eTestAccount } = require("../utils/account");
 const { LinkDropPage } = require("./models/LinkDrop");
 const { SetupSeedPhrasePage } = require("../register/models/SetupSeedPhrase");
 const { WALLET_NETWORK, LINKDROP_ACCESS_KEY_ALLOWANCE } = require("../constants");
@@ -23,6 +18,7 @@ const { describe, beforeAll, afterAll } = test;
 describe("Linkdrop flow", () => {
     let linkdropAccountManager,
         linkdropNEARAmount = "2.5";
+    deleteAccountsAfter = [];
 
     const linkdropClaimableAmount = new BN(parseNearAmount(linkdropNEARAmount)).sub(LINKDROP_ACCESS_KEY_ALLOWANCE);
 
@@ -33,6 +29,9 @@ describe("Linkdrop flow", () => {
 
     afterAll(async () => {
         await linkdropAccountManager.deleteAccounts();
+        await Promise.allSettled(
+            deleteAccountsAfter.map((account) => account.nearApiJsAccount.deleteAccount(nearApiJsConnection.config.networkId))
+        );
     });
 
     test("logs in and claims linkdrop", async ({ page }) => {
@@ -104,10 +103,6 @@ describe("Linkdrop flow", () => {
         const verifySeedPhrasePage = new VerifySeedPhrasePage(page);
         const requestedVerificationWordNumber = await verifySeedPhrasePage.getRequestedVerificationWordNumber();
         await verifySeedPhrasePage.verifyWithWord(copiedSeedPhrase.split(" ")[requestedVerificationWordNumber - 1]);
-
-        await expect(page).toMatchURL(/\/$/);
-        await expect(page).toHaveSelector("data-test-id=linkDropSuccessModal");
-
         const testAccount = await new E2eTestAccount(
             `${testAccountId}.${nearApiJsConnection.config.networkId}`,
             copiedSeedPhrase,
@@ -115,8 +110,10 @@ describe("Linkdrop flow", () => {
                 accountId: nearApiJsConnection.config.networkId,
             }
         ).initialize();
+        deleteAccountsAfter.push(testAccount);
 
-        testAccount.delete();
+        await expect(page).toMatchURL(/\/$/);
+        await expect(page).toHaveSelector("data-test-id=linkDropSuccessModal");
     });
     test("redirects to redirectUrl after account creation when redirectUrl provided", async ({ page, context }) => {
         await context.grantPermissions(["clipboard-read", "clipboard-write"]).catch(test.skip);
@@ -146,10 +143,6 @@ describe("Linkdrop flow", () => {
         const verifySeedPhrasePage = new VerifySeedPhrasePage(page);
         const requestedVerificationWordNumber = await verifySeedPhrasePage.getRequestedVerificationWordNumber();
         await verifySeedPhrasePage.verifyWithWord(copiedSeedPhrase.split(" ")[requestedVerificationWordNumber - 1]);
-
-        await expect(page).toMatchURL(new RegExp(testDappURL));
-        await expect(page).toMatchURL(new RegExp(`accountId=${testAccountId}`));
-
         const testAccount = await new E2eTestAccount(
             `${testAccountId}.${nearApiJsConnection.config.networkId}`,
             copiedSeedPhrase,
@@ -157,7 +150,9 @@ describe("Linkdrop flow", () => {
                 accountId: nearApiJsConnection.config.networkId,
             }
         ).initialize();
+        deleteAccountsAfter.push(testAccount);
 
-        testAccount.delete();
+        await expect(page).toMatchURL(new RegExp(testDappURL));
+        await expect(page).toMatchURL(new RegExp(`accountId=${testAccountId}`));
     });
 });
