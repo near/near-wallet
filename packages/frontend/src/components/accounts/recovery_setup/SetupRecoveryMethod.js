@@ -12,6 +12,7 @@ import { Mixpanel } from '../../../mixpanel/index';
 import * as accountActions from '../../../redux/actions/account';
 import { showCustomAlert } from '../../../redux/actions/status';
 import { actions as linkdropActions } from '../../../redux/slices/linkdrop';
+import { actions as recoveryMethodsActions } from '../../../redux/slices/recoveryMethods';
 import { validateEmail } from '../../../utils/account';
 import { actionsPending } from '../../../utils/alerts';
 import isApprovedCountryCode from '../../../utils/isApprovedCountryCode';
@@ -32,13 +33,13 @@ import RecoveryOption from './RecoveryOption';
 import 'react-phone-number-input/style.css';
 
 const { setLinkdropAmount } = linkdropActions;
+const { fetchRecoveryMethods } = recoveryMethodsActions;
 
 const {
     initializeRecoveryMethod,
     setupRecoveryMessage,
     redirectToApp,
     redirectTo,
-    loadRecoveryMethods,
     getAccessKeys,
     getLedgerKey,
     get2faMethod,
@@ -115,7 +116,7 @@ class SetupRecoveryMethod extends Component {
 
     handleCheckMethodStatus = () => {
         if (!this.checkNewAccount()) {
-            this.props.loadRecoveryMethods();
+            this.props.fetchRecoveryMethods({ accountId: this.props.activeAccountId });
             this.props.getLedgerKey();
             this.props.get2faMethod();
         }
@@ -523,7 +524,7 @@ class SetupRecoveryMethod extends Component {
 const mapDispatchToProps = {
     setupRecoveryMessage,
     redirectToApp,
-    loadRecoveryMethods,
+    fetchRecoveryMethods,
     initializeRecoveryMethod,
     getAccessKeys,
     getLedgerKey,
