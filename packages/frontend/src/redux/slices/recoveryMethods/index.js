@@ -20,6 +20,17 @@ const initialAccountIdState = {
     }
 };
 
+const fetchRecoveryMethods = createAsyncThunk(
+    `${SLICE_NAME}/fetchRecoveryMethods`,
+    async (_, thunkAPI) => {
+        const { dispatch } = thunkAPI;
+
+        const recoveryMethods = await wallet.getRecoveryMethods();
+
+        const { actions: { setRecoveryMethods } } = recoveryMethodsSlice;
+        await dispatch(setRecoveryMethods({ recoveryMethods }));
+    },
+);
 
 const recoveryMethodsSlice = createSlice({
         name: SLICE_NAME,
@@ -30,5 +41,12 @@ const recoveryMethodsSlice = createSlice({
                 set(state, ['byAccountId', accountId, 'items'], data);
             }
         },
+        })
     }
 );
+
+export default recoveryMethodsSlice;
+export const actions = {
+    fetchRecoveryMethods,
+    ...recoveryMethodsSlice.actions
+};
