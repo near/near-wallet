@@ -13,11 +13,11 @@ import {
     redirectTo,
     refreshAccount,
     transferAllFromLockup,
-    loadRecoveryMethods,
     getProfileStakingDetails,
     getBalance
 } from '../../redux/actions/account';
 import { selectProfileBalance } from '../../redux/reducers/selectors/balance';
+import { actions as recoveryMethodsActions, selectRecoveryMethodsByAccountId } from '../../redux/slices/recoveryMethods';
 import { selectNearTokenFiatValueUSD } from '../../redux/slices/tokenFiatValues';
 import isMobile from '../../utils/isMobile';
 import { IS_MAINNET, MIN_BALANCE_FOR_GAS } from '../../utils/wallet';
@@ -36,6 +36,8 @@ import HardwareDevices from './hardware_devices/HardwareDevices';
 import MobileSharingWrapper from './mobile_sharing/MobileSharingWrapper';
 import RecoveryContainer from './Recovery/RecoveryContainer';
 import TwoFactorAuth from './two_factor/TwoFactorAuth';
+
+const { fetchRecoveryMethods } = recoveryMethodsActions;
 
 const StyledContainer = styled(Container)`
     @media (max-width: 991px) {
@@ -152,7 +154,7 @@ export function Profile({ match }) {
         
         (async () => {
             if (isOwner) {
-                await dispatch(loadRecoveryMethods());
+                await dispatch(fetchRecoveryMethods({ accountId }));
                 if (!ledgerKey) {
                     dispatch(getLedgerKey());
                 }
