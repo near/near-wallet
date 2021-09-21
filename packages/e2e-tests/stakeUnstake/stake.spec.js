@@ -1,6 +1,6 @@
 const { test, expect } = require("@playwright/test");
 const BN = require("bn.js");
-const { parseNearAmount } = require("near-api-js/lib/utils/format");
+const { parseNearAmount, formatNearAmount } = require("near-api-js/lib/utils/format");
 
 const { HomePage } = require("../register/models/Home");
 const { getBankAccount } = require("../utils/account");
@@ -83,8 +83,8 @@ describe("Staking flow", () => {
             new RegExp(testStakeAmount.toString())
         );
 
-        // const { staked } = await testAccount.getUpdatedBalance();
+        const stakedAmount = await testAccount.getAmountStakedWithValidator(validatorName);
 
-        // expect(new BN(staked).eq(new BN(parseNearAmount(testStakeAmount.toString())))).toBe(true);
+        expect(formatNearAmount(stakedAmount.toString(), 5)).toBe(testStakeAmount.toString());
     });
 });

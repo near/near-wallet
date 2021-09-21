@@ -1,9 +1,9 @@
 const {
-    connect,
     utils: {
         format: { parseNearAmount },
     },
 } = require("near-api-js");
+const BN = require("bn.js");
 
 const nearApiJsConnection = require("./connectionSingleton");
 const { getKeyPairFromSeedPhrase } = require("./helpers");
@@ -50,6 +50,12 @@ class E2eTestAccount {
     async getUpdatedBalance() {
         await this.connectToNearApiJs();
         return this.nearApiJsAccount.getAccountBalance();
+    }
+    async getAmountStakedWithValidator(validatorAccountId) {
+        const balanceString = await this.nearApiJsAccount.viewFunction(validatorAccountId, "get_account_staked_balance", {
+            account_id: this.accountId,
+        });
+        return new BN(balanceString);
     }
 }
 
