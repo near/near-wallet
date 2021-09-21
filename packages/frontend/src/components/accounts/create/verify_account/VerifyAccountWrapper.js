@@ -113,13 +113,6 @@ export function VerifyAccountWrapper() {
                                 messageCode: 'walletErrorCodes.invalidRecaptchaCode',
                                 errorMessage: e.message
                             }));
-                        } else if (e.code === 'identityVerificationEmailProviderInvalid') {
-                            dispatch(showCustomAlert({
-                                success: false,
-                                messageCodeHeader: 'error',
-                                messageCode: 'walletErrorCodes.emailProviderInvalid',
-                                errorMessage: e.message
-                            }));
                         } else if (e.code === 'NotEnoughBalance') {
                             dispatch(redirectTo(`/initial-deposit${location.search}`));
                         } else {
@@ -188,6 +181,13 @@ export function VerifyAccountWrapper() {
                     } catch (e) {
                         if (e.code === 'identityVerificationAlreadyClaimed') {
                             setShowOptionAlreadyUsedModal(true);
+                        } else if (e.code === 'identityVerificationEmailProviderInvalid') {
+                            dispatch(showCustomAlert({
+                                success: false,
+                                messageCodeHeader: 'error',
+                                messageCode: 'walletErrorCodes.emailProviderInvalid',
+                                domainName: e.domainName
+                            }));
                         } else {
                             dispatch(showCustomAlert({
                                 success: false,
