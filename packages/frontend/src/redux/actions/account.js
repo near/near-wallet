@@ -34,11 +34,6 @@ import {
 
 const { handleFlowLimitation, handleClearflowLimitation } = flowLimitationActions;
 
-export const loadRecoveryMethods = createAction('LOAD_RECOVERY_METHODS',
-    wallet.getRecoveryMethods.bind(wallet),
-    () => ({})
-);
-
 export const getProfileStakingDetails = (accountId) => async (dispatch, getState) => {
     await dispatch(handleGetLockup(accountId));
 
