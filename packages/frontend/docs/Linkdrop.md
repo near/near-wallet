@@ -1,8 +1,8 @@
 # Linkdrops
 
-[What is a linkdrop](#what-is-a-linkdrop)
-[Creating a linkdrop](#creating-a-linkdrop)
-[Wallet linkdrop page](#wallet-linkdrop-page)
+* [What is a linkdrop](#what-is-a-linkdrop)
+* [Creating a linkdrop](#creating-a-linkdrop)
+* [Wallet linkdrop page](#wallet-linkdrop-page)
 
 ## What is a linkdrop?
 
@@ -13,11 +13,11 @@ Linkdrops allow you to send funds to anyone via a link. The reciever of a linkdr
 
 ## Creating a linkdrop
 1. Generate a `KeyPair`.
-2. Call the `send` method of an account that has a [linkdrop contract](https://github.com/near/near-linkdrop) deployed with the `publicKey` an attached amount of NEAR you want to send*.
+2. Call the `send` method of an account that has a [linkdrop contract](https://github.com/near/near-linkdrop) deployed with the `publicKey` and an attached amount of NEAR you want to send*.
 3. Use the `secretKey` as the `fundingKey` in the link.
 
 Example:
-```javascript=
+```js
 const fundingContractAccountId = "near";
 const linkdropKeyPair = KeyPairEd25519.fromRandom();
 await linkdropSenderAccount.functionCall(
