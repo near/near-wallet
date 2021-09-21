@@ -4,14 +4,14 @@ import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { Mixpanel } from '../../../mixpanel/index';
-import {
-    deleteRecoveryMethod,
-    loadRecoveryMethods
-} from '../../../redux/actions/account';
+import { deleteRecoveryMethod } from '../../../redux/actions/account';
 import { selectRecoveryMethodsLoading } from '../../../redux/slices/recoveryMethods';
+import { actions as recoveryMethodsActions } from '../../../redux/slices/recoveryMethods';
 import { DISABLE_PHONE_RECOVERY } from '../../../utils/wallet';
 import SkeletonLoading from '../../common/SkeletonLoading';
 import RecoveryMethod from './RecoveryMethod';
+
+const { fetchRecoveryMethods } = recoveryMethodsActions;
 
 const Container = styled.div`
 
@@ -57,7 +57,7 @@ const RecoveryContainer = ({ type, recoveryMethods }) => {
         } finally {
             setDeletingMethod('');
         }
-        dispatch(loadRecoveryMethods());
+        dispatch(fetchRecoveryMethods({ accountId: account.accountId }));
     };
 
     if (!recoveryLoader) {
