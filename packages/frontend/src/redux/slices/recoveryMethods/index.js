@@ -25,6 +25,10 @@ const recoveryMethodsSlice = createSlice({
         name: SLICE_NAME,
         initialState,
         reducers: {
+            setRecoveryMethods(state, { payload }) {
+                const { recoveryMethods: { accountId, data } } = payload;
+                set(state, ['byAccountId', accountId, 'items'], data);
+            }
         },
     }
 );
