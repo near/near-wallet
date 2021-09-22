@@ -4,6 +4,7 @@ import { formatNearAmount } from 'near-api-js/lib/utils/format';
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
+import { Mixpanel } from '../../../../mixpanel';
 import { createAccountFromImplicit, redirectTo } from '../../../../redux/actions/account';
 import { actions as createFromImplicitActions } from '../../../../redux/slices/createFromImplicit';
 import { actions as flowLimitationActions } from '../../../../redux/slices/flowLimitation';
@@ -63,24 +64,40 @@ export function InitialDepositWrapper({ history }) {
 
     const checkFundingAddressBalance = async () => {
         if (fundingNeeded) {
-            const account = wallet.getAccountBasic(implicitAccountId);
-            const state = await account.state();
-
-            if (new BN(state.amount).gte(new BN(MIN_BALANCE_TO_CREATE))) {
-                setFundingNeeded(false);
-                setInitialDeposit(state.amount);
-            }
+            await Mixpanel.withTracking("CA Check balance from implicit",
+                async () => {
+                    const account = wallet.getAccountBasic(implicitAccountId);
+                    const state = await account.state();
+                    if (new BN(state.amount).gte(new BN(MIN_BALANCE_TO_CREATE))) {
+                        Mixpanel.track("CA Check balance from implicit: sufficient");
+                        setFundingNeeded(false);
+                        setInitialDeposit(state.amount);
+                        return;
+                    } else {
+                        console.log('Insufficient funding amount');
+                        Mixpanel.track("CA Check balance from implicit: insufficient");
+                    }
+                },
+                (e) => {
+                    if (e.message.indexOf('exist while viewing') === -1) {
+                        throw e;
+                    }
+                }
+            );
         }
     };
 
     const handleClaimAccount = async () => {
-        try {
-            setClaimingAccount(true);
-            await dispatch(createAccountFromImplicit(accountId, implicitAccountId, recoveryMethod));
-        } catch(e) {
-            setClaimingAccount(false);
-            throw e;
-        }
+        await Mixpanel.withTracking("CA Create account from implicit",
+            async () => {
+                setClaimingAccount(true);
+                await dispatch(createAccountFromImplicit(accountId, implicitAccountId, recoveryMethod));
+            },
+            (e) => {
+                setClaimingAccount(false);
+                throw e;
+            }
+        );
         dispatch(setCreateFromImplicitSuccess(true));
         dispatch(redirectTo('/'));
     };
