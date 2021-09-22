@@ -620,9 +620,9 @@ export const switchAccount = ({ accountId }) => async (dispatch, getState) => {
 
 export const getAvailableAccountsBalance = () => async (dispatch, getState) => {
     let { accountsBalance } = getState().account;
-    let { availableAccounts, flowLimitation } = getState();
+    let { availableAccounts } = getState();
 
-    if (flowLimitation.accountData) {
+    if (selectFlowLimitationAccountData(getState())) {
         return;
     }
 
