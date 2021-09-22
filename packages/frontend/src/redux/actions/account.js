@@ -21,7 +21,11 @@ import {
     ENABLE_IDENTITY_VERIFIED_ACCOUNT
 } from '../../utils/wallet';
 import { WalletError } from '../../utils/walletError';
-import { actions as flowLimitationActions } from '../slices/flowLimitation';
+import { 
+    actions as flowLimitationActions,
+    selectFlowLimitationAccountBalance,
+    selectFlowLimitationAccountData
+ } from '../slices/flowLimitation';
 import {
     handleStakingUpdateAccount,
     handleStakingUpdateLockup,
@@ -595,17 +599,15 @@ export const { signAndSendTransactions, setSignTransactionStatus, sendMoney, tra
 });
 
 export const refreshAccount = (basicData = false) => async (dispatch, getState) => {
-    const { flowLimitation } = getState();
-
     if (!wallet.accountId) {
         return;
     }
 
     dispatch(setLocalStorage(wallet.accountId));
-    await dispatch(refreshAccountOwner(flowLimitation.accountData));
+    await dispatch(refreshAccountOwner(selectFlowLimitationAccountData(getState())));
 
-    if (!basicData && !flowLimitation.accountBalance) {
-        dispatch(getBalance('', flowLimitation.accountData));
+    if (!basicData && !selectFlowLimitationAccountBalance(getState())) {
+        dispatch(getBalance('', selectFlowLimitationAccountData(getState())));
     }
 };
 
