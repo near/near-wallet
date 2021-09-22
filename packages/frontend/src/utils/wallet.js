@@ -720,8 +720,11 @@ class Wallet {
         return decorateWithLockup(account);
     }
 
-    async getBalance(accountId, limitedAccountData = false) {
-        accountId = accountId || this.accountId;
+    async getBalance(accountId = this.accountId, limitedAccountData = false) {
+        if (!accountId) {
+            return false;
+        }
+
         const account = await this.getAccount(accountId);
         return await account.getAccountBalance(limitedAccountData);
     }
