@@ -4,6 +4,7 @@ import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { switchAccount, getAvailableAccountsBalance, getAccountBalance, getBalance } from '../../redux/actions/account';
+import { selectFlowLimitationMainMenu, selectFlowLimitationSubMenu } from '../../redux/slices/flowLimitation';
 import DesktopContainer from './DesktopContainer';
 import MobileContainer from './MobileContainer';
 
@@ -86,7 +87,11 @@ class Navigation extends Component {
 
     render() {
         const { menuOpen } = this.state;
-        const { flowLimitation, isInactiveAccount } = this.props;
+        const { 
+            flowLimitationMainMenu,
+            flowLimitationSubMenu,
+            isInactiveAccount
+        } = this.props;
 
         return (
             <Container id='nav-container' open={menuOpen}>
@@ -95,7 +100,8 @@ class Navigation extends Component {
                     toggleMenu={this.toggleMenu}
                     handleSelectAccount={this.handleSelectAccount}
                     showNavLinks={this.showNavLinks}
-                    flowLimitation={flowLimitation}
+                    flowLimitationMainMenu={flowLimitationMainMenu}
+                    flowLimitationSubMenu={flowLimitationSubMenu}
                     refreshBalance={this.props.getAccountBalance}
                     getBalance={this.props.getBalance}
                     isInactiveAccount={isInactiveAccount}
@@ -106,7 +112,8 @@ class Navigation extends Component {
                     toggleMenu={this.toggleMenu}
                     handleSelectAccount={this.handleSelectAccount}
                     showNavLinks={this.showNavLinks}
-                    flowLimitation={flowLimitation}
+                    flowLimitationMainMenu={flowLimitationMainMenu}
+                    flowLimitationSubMenu={flowLimitationSubMenu}
                     refreshBalance={this.props.getAccountBalance}
                     getBalance={this.props.getBalance}
                     isInactiveAccount={isInactiveAccount}
@@ -117,11 +124,12 @@ class Navigation extends Component {
     }
 }
 
-const mapStateToProps = ({ account, availableAccounts, router, flowLimitation }) => ({
-    account,
-    availableAccounts,
-    router,
-    flowLimitation
+const mapStateToProps = (state) => ({
+    account: state.account,
+    availableAccounts: state.availableAccounts,
+    router: state.router,
+    flowLimitationMainMenu: selectFlowLimitationMainMenu(state),
+    flowLimitationSubMenu: selectFlowLimitationSubMenu(state)
 });
 
 const mapDispatchToProps = {
