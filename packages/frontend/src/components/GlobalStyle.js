@@ -560,4 +560,18 @@ export default createGlobalStyle`
         display: flex;
         justify-content: center;
     }
+
+    .grecaptcha-badge { 
+        visibility: hidden;
+    }
+
+    .recaptcha-disclaimer {
+        margin: 20px 0 0 0;
+        color: #72727A;
+        text-align: center;
+
+        a {
+            color: #3f4045;
+        }
+    }
 `;

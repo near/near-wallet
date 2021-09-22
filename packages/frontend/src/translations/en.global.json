@@ -93,6 +93,7 @@
         }
     },
     "walletErrorCodes": {
+        "emailProviderInvalid": "${domainName} cannot be used for account verification.  Please provide an e-mail address from a different email provider.",
         "invalidRecaptchaCode": "Invalid reCAPTCHA code; try again!",
         "addAccessKeySeedPhrase": {
             "errorSecond": "An error has occurred.<br />The passphrases was not added to your account. Please try again."

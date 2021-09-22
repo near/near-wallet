@@ -25,7 +25,7 @@ export function VerifyAccountWrapper() {
     const implicitAccountId = URLParams.get('implicitAccountId');
     const recoveryMethod = URLParams.get('recoveryMethod');
 
-    const [activeVerificationOption, setActiveVerificationOption] = useState('phone');
+    const [activeVerificationOption, setActiveVerificationOption] = useState('email');
     const [showEnterVerificationCode, setShowEnterVerificationCode] = useState(false);
     const [verifyingAndCreatingAccount, setVerifyingAndCreatingAccount] = useState(false);
     const [showOptionAlreadyUsedModal, setShowOptionAlreadyUsedModal] = useState(false);
@@ -106,6 +106,20 @@ export function VerifyAccountWrapper() {
                                 messageCode: 'walletErrorCodes.setupRecoveryMessageNewAccount.invalidCode',
                                 errorMessage: e.message
                             }));
+                        } else if (e.code === 'identityVerificationEmailProviderInvalid') {
+                            dispatch(showCustomAlert({
+                                success: false,
+                                messageCodeHeader: 'error',
+                                messageCode: 'walletErrorCodes.emailProviderInvalid',
+                                domainName: e.domainName
+                            }));
+                        } else if (e.code === 'identityVerificationRecaptchaInvalid') {
+                            dispatch(showCustomAlert({
+                                success: false,
+                                messageCodeHeader: 'error',
+                                messageCode: 'walletErrorCodes.invalidRecaptchaCode',
+                                errorMessage: e.message
+                            }));
                         } else if (e.code === 'NotEnoughBalance') {
                             dispatch(redirectTo(`/initial-deposit${location.search}`));
                         } else {
@@ -146,6 +160,7 @@ export function VerifyAccountWrapper() {
                 onGoBack={() => setShowEnterVerificationCode(false)}
                 skipRecaptcha={true}
                 verifyingCode={verifyingAndCreatingAccount}
+                showRecaptchaDisclaimer={true}
             />
         );
     }
@@ -159,7 +174,7 @@ export function VerifyAccountWrapper() {
             verificationNumber={verificationNumber}
             onChangeVerificationNumber={number => setVerificationNumber(number)}
             handleContinue={async () => {
-                if (/*activeVerificationOption === 'email' ||*/ activeVerificationOption === 'phone') {
+                if (activeVerificationOption === 'email' || activeVerificationOption === 'phone') {
                     try {
                         const recaptchaToken = await handleReCaptchaVerify('verifiedIdentityCreateVerificationMethod');
 
@@ -173,6 +188,20 @@ export function VerifyAccountWrapper() {
                     } catch (e) {
                         if (e.code === 'identityVerificationAlreadyClaimed') {
                             setShowOptionAlreadyUsedModal(true);
+                        } else if (e.code === 'identityVerificationEmailProviderInvalid') {
+                            dispatch(showCustomAlert({
+                                success: false,
+                                messageCodeHeader: 'error',
+                                messageCode: 'walletErrorCodes.emailProviderInvalid',
+                                domainName: e.domainName
+                            }));
+                        } else if (e.code === 'identityVerificationRecaptchaInvalid') {
+                            dispatch(showCustomAlert({
+                                success: false,
+                                messageCodeHeader: 'error',
+                                messageCode: 'walletErrorCodes.invalidRecaptchaCode',
+                                errorMessage: e.message
+                            }));
                         } else {
                             dispatch(showCustomAlert({
                                 success: false,
