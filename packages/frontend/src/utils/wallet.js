@@ -7,7 +7,6 @@ import { parseSeedPhrase } from 'near-seed-phrase';
 import { generateSeedPhrase } from 'near-seed-phrase';
 
 import { store } from '..';
-import { RELEASE_NOTES_MODAL_VERSION } from '../components/wallet/ReleaseNotesModal';
 import {
     setSignTransactionStatus,
     setLedgerTxSigned,
@@ -19,7 +18,7 @@ import {
 import sendJson from '../tmp_fetch_send_json';
 import { decorateWithLockup } from './account-with-lockup';
 import { getAccountIds } from './helper-api';
-import { setAccountConfirmed, getAccountConfirmed, setAccountIsInactive, getAccountIsInactive, setReleaseNotesClosed } from './localStorage';
+import { setAccountConfirmed, getAccountConfirmed, setAccountIsInactive, getAccountIsInactive } from './localStorage';
 import { TwoFactor } from './twoFactor';
 import { WalletError } from './walletError';
 
@@ -399,7 +398,6 @@ class Wallet {
             recaptchaAction,
             recaptchaSiteKey: RECAPTCHA_ENTERPRISE_SITE_KEY
         });
-        setReleaseNotesClosed(RELEASE_NOTES_MODAL_VERSION);
         await this.saveAndMakeAccountActive(accountId);
         await this.addLocalKeyAndFinishSetup(accountId, recoveryMethod, publicKey);
     }
