@@ -7,7 +7,7 @@ import { parseSeedPhrase } from 'near-seed-phrase';
 import { generateSeedPhrase } from 'near-seed-phrase';
 
 import { store } from '..';
-import { RELEASE_NOTES_MODAL_VERSION } from '../components/common/ReleaseNotesModal';
+import { RELEASE_NOTES_MODAL_VERSION } from '../components/wallet/ReleaseNotesModal';
 import {
     setSignTransactionStatus,
     setLedgerTxSigned,

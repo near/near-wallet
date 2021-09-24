@@ -15,7 +15,6 @@ import classNames from '../../utils/classNames';
 import { SHOW_NETWORK_BANNER } from '../../utils/wallet';
 import Balance from '../common/balance/Balance';
 import FormButton from '../common/FormButton';
-import ReleaseNotesModal from '../common/ReleaseNotesModal';
 import Container from '../common/styled/Container.css';
 import Tooltip from '../common/Tooltip';
 import BuyIcon from '../svg/BuyIcon';
@@ -27,6 +26,7 @@ import DepositNearBanner from './DepositNearBanner';
 import ExploreApps from './ExploreApps';
 import LinkDropSuccessModal from './LinkDropSuccessModal';
 import NFTs from './NFTs';
+import ReleaseNotesModal from './ReleaseNotesModal';
 import Tokens from './Tokens';
 
 const { fetchNFTs } = nftActions;
