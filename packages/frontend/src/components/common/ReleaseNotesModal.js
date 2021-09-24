@@ -98,7 +98,7 @@ const Container = styled.div`
     }
 `;
 
-const RELEASE_NOTES_MODAL_VERSION = 'v0.01.2';
+export const RELEASE_NOTES_MODAL_VERSION = 'v0.01.2';
 
 const ReleaseNotesModal = () => {
     const accountId = useSelector(state => selectAccountId(state));
