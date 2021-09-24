@@ -28,7 +28,7 @@ describe("Linkdrop flow", () => {
     });
 
     afterAll(async () => {
-        await linkdropAccountManager.deleteAccounts();
+        linkdropAccountManager && (await linkdropAccountManager.deleteAccounts());
         await Promise.allSettled(
             deleteAccountsAfter.map((account) => account.nearApiJsAccount.deleteAccount(nearApiJsConnection.config.networkId))
         );
