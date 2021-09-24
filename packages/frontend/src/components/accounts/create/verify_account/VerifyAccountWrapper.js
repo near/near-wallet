@@ -10,10 +10,8 @@ import {
     checkAndHideLedgerModal
 } from '../../../../redux/actions/account';
 import { showCustomAlert } from '../../../../redux/actions/status';
-import { setReleaseNotesClosed } from '../../../../utils/localStorage';
 import { isMoonpayAvailable } from '../../../../utils/moonpay';
 import { wallet } from '../../../../utils/wallet';
-import { RELEASE_NOTES_MODAL_VERSION } from '../../../wallet/ReleaseNotesModal';
 import EnterVerificationCode from '../../EnterVerificationCode';
 import VerifyAccount from './VerifyAccount';
 
@@ -100,7 +98,6 @@ export function VerifyAccountWrapper() {
                             recaptchaToken,
                             recaptchaAction: 'verifiedIdentityCreateFundedAccount'
                         });
-                        setReleaseNotesClosed(RELEASE_NOTES_MODAL_VERSION);
                     } catch (e) {
                         if (e.code === 'identityVerificationCodeInvalid') {
                             dispatch(showCustomAlert({

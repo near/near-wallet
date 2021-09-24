@@ -18,7 +18,7 @@ import {
 import sendJson from '../tmp_fetch_send_json';
 import { decorateWithLockup } from './account-with-lockup';
 import { getAccountIds } from './helper-api';
-import { setAccountConfirmed, getAccountConfirmed, setAccountIsInactive, getAccountIsInactive } from './localStorage';
+import { setAccountConfirmed, getAccountConfirmed, setAccountIsInactive, getAccountIsInactive, setReleaseNotesClosed } from './localStorage';
 import { TwoFactor } from './twoFactor';
 import { WalletError } from './walletError';
 
@@ -76,6 +76,7 @@ const KEY_UNIQUE_PREFIX = '_4:';
 const KEY_WALLET_ACCOUNTS = KEY_UNIQUE_PREFIX + 'wallet:accounts_v2';
 export const KEY_ACTIVE_ACCOUNT_ID = KEY_UNIQUE_PREFIX + 'wallet:active_account_id_v2';
 const ACCOUNT_ID_REGEX = /^(([a-z\d]+[-_])*[a-z\d]+\.)*([a-z\d]+[-_])*[a-z\d]+$/;
+export const RELEASE_NOTES_MODAL_VERSION = 'v0.01.2';
 
 export const keyAccountConfirmed = (accountId) => `wallet.account:${accountId}:${NETWORK_ID}:confirmed`;
 export const keyStakingAccountSelected = () => `wallet.account:${wallet.accountId}:${NETWORK_ID}:stakingAccount`;
@@ -838,6 +839,7 @@ class Wallet {
             }
         }
 
+        setReleaseNotesClosed(RELEASE_NOTES_MODAL_VERSION);
         await store.dispatch(finishAccountSetup());
     }
 
