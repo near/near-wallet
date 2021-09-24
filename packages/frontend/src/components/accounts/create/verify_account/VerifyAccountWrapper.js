@@ -1,7 +1,7 @@
 import { getLocation } from 'connected-react-router';
 import { PublicKey, KeyType } from 'near-api-js/lib/utils/key_pair';
 import React, { useState, useEffect, useCallback } from 'react';
-import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
+import { useGoogleReCaptcha } from 'react-google-recaptcha-v3-near';
 import { useDispatch, useSelector } from 'react-redux';
 
 import {
@@ -62,7 +62,7 @@ export function VerifyAccountWrapper() {
         }
 
         return executeRecaptcha(event);
-    }, []);
+    }, [executeRecaptcha]);
 
     if (showEnterVerificationCode) {
         return (

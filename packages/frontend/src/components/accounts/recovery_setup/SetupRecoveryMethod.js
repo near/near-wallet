@@ -1,7 +1,7 @@
 import { KeyPair } from 'near-api-js';
 import { parseSeedPhrase } from 'near-seed-phrase';
 import React, { Component, createRef } from 'react';
-import { withGoogleReCaptcha } from 'react-google-recaptcha-v3';
+import { withGoogleReCaptcha } from 'react-google-recaptcha-v3-near';
 import { Translate } from 'react-localize-redux';
 import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input';
 import { connect } from 'react-redux';
