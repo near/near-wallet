@@ -5,15 +5,21 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { Mixpanel } from '../../mixpanel/index';
-import { checkNewAccount, createNewAccount, refreshAccount, checkNearDropBalance, redirectTo } from '../../redux/actions/account';
+import {
+    checkNearDropBalance,
+    checkNewAccount,
+    createNewAccount,
+    redirectTo,
+    refreshAccount
+} from '../../redux/actions/account';
 import { clearLocalAlert } from '../../redux/actions/status';
 import { selectNearTokenFiatValueUSD } from '../../redux/slices/tokenFiatValues';
 import isMobile from '../../utils/isMobile';
 import {
     ACCOUNT_ID_SUFFIX,
-    MIN_BALANCE_TO_CREATE,
+    ENABLE_IDENTITY_VERIFIED_ACCOUNT,
     IS_MAINNET,
-    ENABLE_IDENTITY_VERIFIED_ACCOUNT
+    MIN_BALANCE_TO_CREATE
 } from '../../utils/wallet';
 import AccountNote from '../common/AccountNote';
 import { getNearAndFiatValue } from '../common/balance/helpers';
@@ -153,11 +159,8 @@ class CreateAccount extends Component {
             const fundingOptions = fundingAccountId ? { fundingAccountId } : { fundingContract, fundingKey, fundingAmount };
             queryString = `?fundingOptions=${encodeURIComponent(JSON.stringify(fundingOptions))}`;
         }
-        let nextUrl = process.env.DISABLE_PHONE_RECOVERY === 'yes' ?
-            `/setup-seed-phrase/${accountId}/phrase${queryString}` :
-            `/set-recovery/${accountId}${queryString}`;
         Mixpanel.track("CA Click create account button");
-        this.props.history.push(nextUrl);
+        this.props.history.push(`/set-recovery/${accountId}${queryString}`);
     }
 
     render() {
