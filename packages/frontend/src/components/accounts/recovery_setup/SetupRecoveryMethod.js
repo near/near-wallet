@@ -7,6 +7,7 @@ import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 
+
 import { Mixpanel } from '../../../mixpanel/index';
 import * as accountActions from '../../../redux/actions/account';
 import { showCustomAlert } from '../../../redux/actions/status';
@@ -15,6 +16,7 @@ import { validateEmail } from '../../../utils/account';
 import { actionsPending } from '../../../utils/alerts';
 import isApprovedCountryCode from '../../../utils/isApprovedCountryCode';
 import parseFundingOptions from '../../../utils/parseFundingOptions';
+import { DISABLE_PHONE_RECOVERY } from '../../../utils/wallet';
 import {
     DISABLE_CREATE_ACCOUNT,
     ENABLE_IDENTITY_VERIFIED_ACCOUNT,
@@ -443,7 +445,7 @@ class SetupRecoveryMethod extends Component {
                                 )}
                             </Translate>
                         </RecoveryOption>
-                        <RecoveryOption
+                        {!DISABLE_PHONE_RECOVERY && (<RecoveryOption
                             onClick={() => {
                                 this.setState({ option: 'phone' });
                                 if (option !== 'phone') {
@@ -480,7 +482,7 @@ class SetupRecoveryMethod extends Component {
                                     </>
                                 )}
                             </Translate>
-                        </RecoveryOption>
+                        </RecoveryOption>)}
                         <FormButton
                             color='blue'
                             type='submit'
@@ -493,7 +495,7 @@ class SetupRecoveryMethod extends Component {
                         </FormButton>
                     </form>
                     {isNewAccount &&
-                        <div className='recaptcha-disclaimer'><Translate id='reCAPTCHA.disclaimer'/></div>
+                    <div className='recaptcha-disclaimer'><Translate id='reCAPTCHA.disclaimer'/></div>
                     }
                 </StyledContainer>
             );
