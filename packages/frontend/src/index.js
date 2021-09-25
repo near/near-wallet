@@ -3,7 +3,7 @@ import "regenerator-runtime/runtime";
 import { createBrowserHistory } from 'history';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
+import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3-near';
 import { LocalizeProvider } from 'react-localize-redux';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
