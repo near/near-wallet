@@ -3,7 +3,7 @@
     command = "yarn build"
 
 [build.environment]
-    DISABLE_PHONE_RECOVERY = "no"
+    DISABLE_PHONE_RECOVERY = "yes"
     REACT_APP_NETWORK_ID = "default"
     REACT_APP_ACCOUNT_HELPER_URL = "https://helper.mainnet.near.org"
     REACT_APP_NODE_URL = "https://rpc.mainnet.near.org"

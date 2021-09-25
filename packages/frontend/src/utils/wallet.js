@@ -63,7 +63,7 @@ export const SMS_BLACKLIST = process.env.SMS_BLACKLIST || 'CN,VN';
 export const EXPLORE_APPS_URL = process.env.EXPLORE_APPS_URL || 'https://awesomenear.com/trending/';
 export const MIN_BALANCE_TO_CREATE = process.env.MIN_BALANCE_TO_CREATE || nearApiJs.utils.format.parseNearAmount('0.1');
 export const NETWORK_ID = process.env.REACT_APP_NETWORK_ID || 'default';
-export const DISABLE_PHONE_RECOVERY = process.env.DISABLE_PHONE_RECOVERY || true;
+export const DISABLE_PHONE_RECOVERY = process.env.DISABLE_PHONE_RECOVERY === 'yes';
 
 const CONTRACT_CREATE_ACCOUNT_URL = `${ACCOUNT_HELPER_URL}/account`;
 const FUNDED_ACCOUNT_CREATE_URL = `${ACCOUNT_HELPER_URL}/fundedAccount`;
