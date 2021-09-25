@@ -9,6 +9,7 @@ import {
     loadRecoveryMethods
 } from '../../../redux/actions/account';
 import { actionsPending } from '../../../utils/alerts';
+import { DISABLE_PHONE_RECOVERY } from '../../../utils/wallet';
 import SkeletonLoading from '../../common/SkeletonLoading';
 import RecoveryMethod from './RecoveryMethod';
 
@@ -45,14 +46,14 @@ const RecoveryContainer = ({ type, recoveryMethods }) => {
     const missingKinds = allKinds.filter(kind => !currentActiveKinds.has(kind));
     const deleteAllowed = [...currentActiveKinds].length > 1 || account.ledgerKey;
     const recoveryLoader = (actionsPending('LOAD_RECOVERY_METHODS') && !userRecoveryMethods.length) || !account.accountId;
-    missingKinds.forEach(kind => activeMethods.push({kind: kind}));
+    missingKinds.forEach(kind => activeMethods.push({ kind: kind }));
 
     const handleDeleteMethod = async (method) => {
         try {
             setDeletingMethod(method.publicKey);
-            await Mixpanel.withTracking(method.kind === 'phrase'? 'SR-SP Delete method': `SR ${method.kind} Delete method`,
+            await Mixpanel.withTracking(method.kind === 'phrase' ? 'SR-SP Delete method' : `SR ${method.kind} Delete method`,
                 async () => await dispatch(deleteRecoveryMethod(method, deleteAllowed))
-            );   
+            );
         } finally {
             setDeletingMethod('');
         }
@@ -60,19 +61,32 @@ const RecoveryContainer = ({ type, recoveryMethods }) => {
     };
 
     if (!recoveryLoader) {
+        const currentTypeEnabledMethods = activeMethods.filter(({ kind, publicKey }) => {
+            if (DISABLE_PHONE_RECOVERY && kind === 'phone' && !publicKey) {
+                return false;
+            }
+
+            return kind === type;
+        });
+
+        if (currentTypeEnabledMethods.length === 0) { return null; }
+
         return (
             <Container className='recovery-option'>
-                {activeMethods.filter(method => method.kind === type).map((method, i) =>
-                    <RecoveryMethod
-                        key={i}
-                        method={method}
-                        accountId={account.accountId}
-                        deletingMethod={deletingMethod === method.publicKey}
-                        onDelete={() => handleDeleteMethod(method)}
-                        deleteAllowed={deleteAllowed}
-                        mainLoader={mainLoader}
-                    />
-                )}
+                {currentTypeEnabledMethods
+                    .map((method, i) => {
+
+                            return <RecoveryMethod
+                                key={i}
+                                method={method}
+                                accountId={account.accountId}
+                                deletingMethod={deletingMethod === method.publicKey}
+                                onDelete={() => handleDeleteMethod(method)}
+                                deleteAllowed={deleteAllowed}
+                                mainLoader={mainLoader}
+                            />;
+                        }
+                    )}
             </Container>
         );
     } else {
