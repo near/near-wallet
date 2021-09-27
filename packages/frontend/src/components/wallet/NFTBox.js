@@ -132,7 +132,7 @@ const NFTBox = ({ tokenDetails }) => {
                 <div className='tokens'>
                     {ownedTokensMetadata.map(({ token_id, metadata: { mediaUrl, title } }) => {
                         return <div className='nft' key={token_id}>
-                            <img src={mediaUrl} alt='NFT' onError={(e) => {
+                            <img crossOrigin="*" src={mediaUrl} alt='NFT' onError={(e) => {
                                 e.target.onerror = null;
                                 e.target.src = FailedToLoad;
                             }}/>
