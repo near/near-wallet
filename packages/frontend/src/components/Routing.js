@@ -36,6 +36,7 @@ import {
 import { AuthorizedAppsWithRouter, FullAccessKeysWithRouter } from './access-keys/AccessKeys';
 import { AutoImportWrapper } from './accounts/auto_import/AutoImportWrapper';
 import { ActivateAccountWithRouter } from './accounts/create/ActivateAccount';
+import { ExistingAccountWrapper } from './accounts/create/existing_account/ExistingAccountWrapper';
 import { InitialDepositWrapper } from './accounts/create/initial_deposit/InitialDepositWrapper';
 import { VerifyAccountWrapper } from './accounts/create/verify_account/VerifyAccountWrapper';
 import { CreateAccountWithRouter } from './accounts/CreateAccount';
@@ -366,6 +367,11 @@ class Routing extends Component {
                                 exact
                                 path='/initial-deposit'
                                 component={InitialDepositWrapper}
+                            />
+                            <PublicRoute
+                                exact
+                                path='/fund-with-existing-account'
+                                component={ExistingAccountWrapper}
                             />
                             <PublicRoute
                                 exact

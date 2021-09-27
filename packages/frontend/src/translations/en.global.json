@@ -262,6 +262,10 @@
                 "title": "Phone",
                 "desc": "Receive a one-time verification code via SMS."
             },
+            "existingAccount": {
+                "title": "Fund with an existing account",
+                "desc": "Use an existing account to fund and initialize your new account."
+            },
             "creditCard": {
                 "title": "Fund with a Credit Card",
                 "desc": "Purchase NEAR through MoonPay to be used as your initial deposit."
@@ -299,6 +303,25 @@
                 "desc": "Important: The old single-use funding address will no longer be valid. Make sure to replace it with your new address on any exchanges or other devices where it may have been saved.",
                 "checkBox": "Agree & Continue"
             }
+        }
+    },
+
+    "accountSelector": {
+        "signInButton": "Sign In to a Different Account",
+        "noAccountDesc": "You’re not currently signed in to any alternate accounts."
+    },
+
+    "transfer": {
+        "from": "From",
+        "to": "To",
+        "estimatedFees": "Estimated fees"
+    },
+
+    "existingAccount": {
+        "selectAccount": {
+            "title": "Fund with an existing account.",
+            "desc": "If you have an alternate account containing a balance of <b>at least ${amount} NEAR</b>, you may use it to fund and initialize your new account!",
+            "descTwo": "Select or sign into the account you wish to use, then continue to approve a minimum deposit." 
         }
     },
 
@@ -608,7 +631,8 @@
         "useMax": "Use Max",
         "loading": "Loading",
         "gotIt": "Got it",
-        "fundWith": "Fund with"
+        "fundWith": "Fund with",
+        "next": "Next"
     },
 
     "link": {

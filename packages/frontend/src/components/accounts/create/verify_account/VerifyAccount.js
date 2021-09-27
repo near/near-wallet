@@ -55,6 +55,8 @@ export default ({
                 return true;
             case 'manualDeposit':
                 return true;
+            case 'existingAccount':
+                return true;
             default:
                 return false;
         }
@@ -100,6 +102,13 @@ export default ({
                     <h4>
                         <Translate id='verifyAccount.options.initialDeposit' />
                     </h4>
+                    <VerifyOption
+                        onClick={() => setActiveVerificationOption('existingAccount')}
+                        option='existingAccount'
+                        isActive={activeVerificationOption === 'existingAccount'}
+                        translateIdTitle={optionTranslateId('existingAccount', 'title')}
+                        translateIdDesc={optionTranslateId('existingAccount', 'desc')}
+                    />
                     {showFundWithCreditCardOption &&
                         <VerifyOption
                             onClick={() => setActiveVerificationOption('creditCard')}
@@ -124,7 +133,7 @@ export default ({
                         <Translate id='button.continue' />
                     </FormButton>
                 </form>
-                <div className='recaptcha-disclaimer'><Translate id='reCAPTCHA.disclaimer'/></div>
+                <div className='recaptcha-disclaimer'><Translate id='reCAPTCHA.disclaimer' /></div>
             </StyledContainer>
             {showWhereToBuyModal &&
                 <WhereToBuyNearModal

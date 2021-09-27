@@ -8,6 +8,7 @@ import CoinDepositIcon from '../../../svg/CoinDepositIcon';
 import CreditCardIcon from '../../../svg/CreditCardIcon';
 import EmailIconOne from '../../../svg/EmailIconOne';
 import PhoneIconOne from '../../../svg/PhoneIconOne';
+import UserIconColor from '../../../svg/UserIconColor';
 
 const Container = styled.div`
     background-color: #FAFAFA;
@@ -145,6 +146,8 @@ const Icon = ({ option, color }) => {
             return <CreditCardIcon color={color} />;
         case 'manualDeposit':
             return <CoinDepositIcon color={color} />;
+        case 'existingAccount':
+            return <UserIconColor color={color}/>;
         default:
             return;
     }
