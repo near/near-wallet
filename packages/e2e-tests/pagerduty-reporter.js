@@ -17,7 +17,7 @@ class PagerDutyReporter {
                         assignments: [
                             {
                                 assignee: {
-                                    id: "PM9MK7I", // vlad@near.org
+                                    id: "PB796BV", // osman@near.org
                                     type: "user_reference",
                                 },
                             },
@@ -28,7 +28,7 @@ class PagerDutyReporter {
 Wallet e2e-test ${test.title} has failed. See https://dashboard.render.com/cron/crn-bvrt6tblc6ct62bdjmig/logs for details.
 Make sure that account recovery works well on https://wallet.near.org.
 
-${result.error}
+${JSON.stringify(result.error, null, 2)}
                   `,
                         },
                     },
