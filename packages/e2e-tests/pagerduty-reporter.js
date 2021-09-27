@@ -25,7 +25,7 @@ class PagerDutyReporter {
                         body: {
                             type: "incident_body",
                             details: `
-Wallet e2e-test ${test.title} has failed. See https://dashboard.render.com/cron/crn-bvrt6tblc6ct62bdjmig/logs for details.
+Wallet e2e-test "${test.title}" has failed. See https://dashboard.render.com/cron/crn-bvrt6tblc6ct62bdjmig/logs for details.
 Make sure that account recovery works well on https://wallet.near.org.
 
 ${JSON.stringify(result.error, null, 2)}
