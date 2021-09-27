@@ -7,6 +7,7 @@ expect.extend(matchers);
 
 const config = {
     globalSetup: require.resolve("./global-setup.js"),
+    reporter: [["list"], ["./pagerduty-reporter.js"]],
     timeout: 60000,
     use: {
         baseURL: process.env.WALLET_URL || "https://wallet.testnet.near.org",

@@ -1,0 +1,41 @@
+const { api } = require("@pagerduty/pdjs");
+const pd = api({ token: process.env.PAGERDUTY_API_KEY });
+
+class PagerDutyReporter {
+    onTestEnd(test, result) {
+        if (result.status == "failed" && process.env.isCI) {
+            // Creating incident on PagerDuty
+            return pd.post("/incidents", {
+                data: {
+                    incident: {
+                        type: "incident",
+                        title: "wallet e2e-tests failure",
+                        service: {
+                            id: "PJ9TV6C", // wallet
+                            type: "service_reference",
+                        },
+                        assignments: [
+                            {
+                                assignee: {
+                                    id: "PM9MK7I", // vlad@near.org
+                                    type: "user_reference",
+                                },
+                            },
+                        ],
+                        body: {
+                            type: "incident_body",
+                            details: `
+Wallet e2e-test ${test.title} has failed. See https://dashboard.render.com/cron/crn-bvrt6tblc6ct62bdjmig/logs for details.
+Make sure that account recovery works well on https://wallet.near.org.
+
+${result.error}
+                  `,
+                        },
+                    },
+                },
+            });
+        }
+    }
+}
+
+module.exports = PagerDutyReporter;
