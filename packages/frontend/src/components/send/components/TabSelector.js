@@ -43,12 +43,12 @@ const StyledContainer = styled.div`
     }
 
     @media (max-width: 500px) {
-        margin: -26px -14px 0 -14px;
+        margin: -36px -14px 0 -14px;
         border-radius: 0;
         border-bottom: 0;
 
         &.showing-banner {
-            margin: -35px -14px 0 -14px;
+            margin: -45px -14px 0 -14px;
         }
     }
 `;

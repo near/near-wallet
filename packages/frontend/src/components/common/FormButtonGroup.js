@@ -23,14 +23,16 @@ export default ({
     onClick,
     color = '',
     disabled = false,
+    sending = false,
     translateId
 }) => {
     return (
-        <StyledContainer className='form-button-group'>
+        <StyledContainer className='button-group'>
             <FormButton 
                 onClick={onClick.secondary}
                 color={color.secondary}
                 disabled={disabled.secondary}
+                sending={sending.secondary}
             >
                     <Translate id={translateId.secondary} />
             </FormButton>
@@ -38,6 +40,7 @@ export default ({
                 onClick={onClick.primary}
                 color={color.primary}
                 disabled={disabled.primary}
+                sending={sending.primary}
             >
                     <Translate id={translateId.primary} />
             </FormButton>

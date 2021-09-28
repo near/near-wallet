@@ -1,7 +1,5 @@
-import BN from 'bn.js';
 import { getLocation } from 'connected-react-router';
-import { formatNearAmount } from 'near-api-js/lib/utils/format';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { 
@@ -9,6 +7,7 @@ import {
     getAccountBalance,
     redirectTo
 } from '../../../../redux/actions/account';
+import { showCustomAlert } from '../../../../redux/actions/status';
 import {
     selectAccountId,
     selectBalance,
@@ -34,6 +33,7 @@ export function ExistingAccountWrapper({ history }) {
     const accountId = URLParams.get('accountId');
     const implicitAccountId = URLParams.get('implicitAccountId');
     const recoveryMethod = URLParams.get('recoveryMethod');
+    const hasAllRequiredParams = !!accountId && !!implicitAccountId && !!recoveryMethod;
 
     if (fundingAccountId) {
         return (
@@ -48,7 +48,12 @@ export function ExistingAccountWrapper({ history }) {
                             recoveryMethod
                         });
                     } catch(e) {
-                        // TODO: Show error toast
+                        dispatch(showCustomAlert({
+                            success: false,
+                            messageCodeHeader: 'error',
+                            messageCode: 'walletErrorCodes.createNewAccount.error',
+                            errorMessage: e.message
+                        }));
                         setCreatingNewAccount(false);
                         throw e;
                     }
@@ -60,6 +65,7 @@ export function ExistingAccountWrapper({ history }) {
                 sender={signedInAccountId}
                 receiver={accountId}
                 creatingNewAccount={creatingNewAccount}
+                hasAllRequiredParams={hasAllRequiredParams}
             />
         );
     }
@@ -76,11 +82,11 @@ export function ExistingAccountWrapper({ history }) {
                 dispatch(redirectTo(`/recover-account?fundWithExistingAccount=${encodeURIComponent(JSON.stringify({ accountId, implicitAccountId, recoveryMethod }))}`))
             }
             onClickPrimary={() => {
-                // FIX: Make sure URL params are solid before allowing user to move forward
                 setFundingAccountId(signedInAccountId);
                 window.scrollTo(0, 0);
             }}
             onClickSecondary={() => history.goBack()}
+            hasAllRequiredParams={hasAllRequiredParams}
         />
     );
 }

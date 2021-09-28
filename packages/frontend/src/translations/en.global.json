@@ -138,6 +138,9 @@
         },
         "sendFungibleToken": {
             "error": "An error occured. Your send transaction was cancelled."
+        },
+        "createNewAccount": {
+            "error": "Account creation failed. You may want to try again."
         }
     },
     "account": {

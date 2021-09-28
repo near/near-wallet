@@ -105,7 +105,7 @@ const Container = styled.div`
     &.network-banner {
         @media (max-width: 450px) {
             .alert-banner, .lockup-avail-transfer {
-                margin-top: -35px;
+                margin-top: -45px;
             }
         }
     }

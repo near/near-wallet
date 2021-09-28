@@ -1,4 +1,3 @@
-import { formatNearAmount } from 'near-api-js/lib/utils/format';
 import React from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
@@ -18,7 +17,7 @@ const StyledContainer = styled(Container)`
         color: #272729;
         margin-top: 10px;
     }
-    .form-button-group {
+    .button-group {
         margin-top: 25px;
     }
     > .transfer-amount, .estimated-fees {
@@ -33,7 +32,8 @@ export default ({
     gasFeeAmount,
     sender,
     receiver,
-    creatingNewAccount
+    creatingNewAccount,
+    hasAllRequiredParams
 }) => {
     return (
         <StyledContainer className='small-centered border'>
@@ -48,15 +48,17 @@ export default ({
             <EstimatedFees
                 gasFeeAmount={gasFeeAmount}
             />
-            {/* FIX: Handle not enough balance */}
             <FormButtonGroup
                 onClick={{
                     primary: onClickPrimary,
                     secondary: onClickSecondary
                 }}
                 disabled={{
-                    primary: creatingNewAccount,
+                    primary: creatingNewAccount || !hasAllRequiredParams,
                     secondary: creatingNewAccount
+                }}
+                sending={{
+                    primary: creatingNewAccount
                 }}
                 color={{
                     secondary: 'gray-blue'

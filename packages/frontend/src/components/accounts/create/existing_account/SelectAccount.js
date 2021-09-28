@@ -1,3 +1,4 @@
+import BN from 'bn.js';
 import { formatNearAmount } from 'near-api-js/lib/utils/format';
 import React from 'react';
 import { Translate } from 'react-localize-redux';
@@ -9,7 +10,7 @@ import Container from '../../../common/styled/Container.css';
 import AccountSelector from '../../account_selector/AccountSelector';
 
 const StyledContainer = styled(Container)`
-    .form-button-group {
+    .button-group {
         margin-top: 25px;
     }
 `;
@@ -23,7 +24,8 @@ export default ({
     onSelectAccount,
     onSignInToDifferentAccount,
     onClickPrimary,
-    onClickSecondary
+    onClickSecondary,
+    hasAllRequiredParams
 }) => {
     return (
         <StyledContainer className='small-centered border'>
@@ -43,6 +45,9 @@ export default ({
                 onClick={{
                     primary: onClickPrimary,
                     secondary: onClickSecondary
+                }}
+                disabled={{
+                    primary: !hasAllRequiredParams || !new BN(signedInAccountAvailableBalance).gte(new BN(MIN_BALANCE_TO_CREATE))
                 }}
                 color={{
                     secondary: 'gray-blue'
