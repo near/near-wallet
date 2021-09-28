@@ -32,7 +32,7 @@ export default ({ gasFeeAmount }) => {
         <StyledContainer className='estimated-fees pg-20 brs-8 br-1-grey'>
             <div className='left'>
                 <Translate id='transfer.estimatedFees' />
-                <Tooltip translate='button.send' />
+                <Tooltip translate='sendV2.translateIdInfoTooltip.estimatedFees' />
             </div>
             <Balance
                 amount={gasFeeAmount}

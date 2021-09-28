@@ -57,7 +57,7 @@ export default ({
     transferAmount,
     sender,
     receiver,
-    receiverBalance = '0'
+    receiverBalance
 }) => {
     return (
         <StyledContainer className='transfer-amount brs-8 bsw-l'>

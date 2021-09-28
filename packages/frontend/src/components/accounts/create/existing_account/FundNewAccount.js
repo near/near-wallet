@@ -44,6 +44,7 @@ export default ({
                 gasFeeAmount={gasFeeAmount}
                 sender={sender}
                 receiver={receiver}
+                receiverBalance='0'
             />
             <EstimatedFees
                 gasFeeAmount={gasFeeAmount}

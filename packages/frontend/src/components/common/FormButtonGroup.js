@@ -21,26 +21,26 @@ const StyledContainer = styled.div`
 
 export default ({
     onClick,
-    color = '',
-    disabled = false,
-    sending = false,
+    color,
+    disabled,
+    sending,
     translateId
 }) => {
     return (
         <StyledContainer className='button-group'>
             <FormButton 
-                onClick={onClick.secondary}
-                color={color.secondary}
-                disabled={disabled.secondary}
-                sending={sending.secondary}
+                onClick={onClick?.secondary}
+                color={color?.secondary}
+                disabled={disabled?.secondary}
+                sending={sending?.secondary}
             >
                     <Translate id={translateId.secondary} />
             </FormButton>
             <FormButton 
-                onClick={onClick.primary}
-                color={color.primary}
-                disabled={disabled.primary}
-                sending={sending.primary}
+                onClick={onClick?.primary}
+                color={color?.primary}
+                disabled={disabled?.primary}
+                sending={sending?.primary}
             >
                     <Translate id={translateId.primary} />
             </FormButton>

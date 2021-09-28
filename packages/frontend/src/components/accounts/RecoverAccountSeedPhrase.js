@@ -53,8 +53,6 @@ class RecoverAccountSeedPhrase extends Component {
         return Object.keys(this.validators).every(field => this.validators[field](this.state[field]));
     }
 
-    componentDidMount = () => { }
-
     handleChange = (value) => {
         this.setState(() => ({
             seedPhrase: value
