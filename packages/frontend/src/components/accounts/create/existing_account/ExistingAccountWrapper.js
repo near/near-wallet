@@ -72,7 +72,9 @@ export function ExistingAccountWrapper({ history }) {
             accountsBalances={accountsBalances}
             getAccountBalance={(accountId) => dispatch(getAccountBalance(accountId))}
             onSelectAccount={(accountId => dispatch(switchAccount({ accountId })))}
-            onSignInToDifferentAccount={() => dispatch(redirectTo('/recover-account'))}
+            onSignInToDifferentAccount={() =>
+                dispatch(redirectTo(`/recover-account?fundWithExistingAccount=${encodeURIComponent(JSON.stringify({ accountId, implicitAccountId, recoveryMethod }))}`))
+            }
             onClickPrimary={() => {
                 // FIX: Make sure URL params are solid before allowing user to move forward
                 setFundingAccountId(signedInAccountId);

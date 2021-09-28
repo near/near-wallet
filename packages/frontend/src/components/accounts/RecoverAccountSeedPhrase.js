@@ -53,7 +53,7 @@ class RecoverAccountSeedPhrase extends Component {
         return Object.keys(this.validators).every(field => this.validators[field](this.state[field]));
     }
 
-    componentDidMount = () => {}
+    componentDidMount = () => { }
 
     handleChange = (value) => {
         this.setState(() => ({
@@ -68,24 +68,39 @@ class RecoverAccountSeedPhrase extends Component {
             Mixpanel.track("IE-SP Recover seed phrase link not valid");
             return false;
         }
+
         const { seedPhrase } = this.state;
+        const { 
+            location,
+            redirectTo,
+            redirectToApp,
+            clearAccountState,
+            recoverAccountSeedPhrase,
+            refreshAccount
+        } = this.props;
 
         await Mixpanel.withTracking("IE-SP Recovery with seed phrase",
             async () => {
-                await this.props.recoverAccountSeedPhrase(seedPhrase);
-                await this.props.refreshAccount();
+                await recoverAccountSeedPhrase(seedPhrase);
+                await refreshAccount();
             }
         );
 
-        const query = parseQuery(this.props.location.search);
-        const options = parseFundingOptions(this.props.location.search);
-        if (options) {
-            const redirectUrl = query.redirectUrl ? `?redirectUrl=${encodeURIComponent(query.redirectUrl)}` : '';
-            this.props.redirectTo(`/linkdrop/${options.fundingContract}/${options.fundingKey}${redirectUrl}`);
+        const fundWithExistingAccount = JSON.parse(parseQuery(location.search).fundWithExistingAccount);
+        if (fundWithExistingAccount) {
+            const createNewAccountParams = new URLSearchParams(fundWithExistingAccount).toString();
+            redirectTo(`/fund-with-existing-account?${createNewAccountParams}`);
         } else {
-            this.props.redirectToApp('/');
+            const options = parseFundingOptions(location.search);
+            if (options) {
+                const query = parseQuery(location.search);
+                const redirectUrl = query.redirectUrl ? `?redirectUrl=${encodeURIComponent(query.redirectUrl)}` : '';
+                redirectTo(`/linkdrop/${options.fundingContract}/${options.fundingKey}${redirectUrl}`);
+            } else {
+                redirectToApp('/');
+            }
         }
-        this.props.clearAccountState();
+        clearAccountState();
     }
 
     render() {
@@ -99,7 +114,7 @@ class RecoverAccountSeedPhrase extends Component {
             <StyledContainer className='small-centered border'>
                 <h1><Translate id='recoverSeedPhrase.pageTitle' /></h1>
                 <h2><Translate id='recoverSeedPhrase.pageText' /></h2>
-                <form onSubmit={e => {this.handleSubmit(); e.preventDefault();}} autoComplete='off'>
+                <form onSubmit={e => { this.handleSubmit(); e.preventDefault(); }} autoComplete='off'>
                     <RecoverAccountSeedPhraseForm
                         {...combinedState}
                         handleChange={this.handleChange}
@@ -128,6 +143,6 @@ const mapStateToProps = ({ account, status, router }, { match }) => ({
 });
 
 export const RecoverAccountSeedPhraseWithRouter = connect(
-    mapStateToProps, 
+    mapStateToProps,
     mapDispatchToProps
 )(withRouter(RecoverAccountSeedPhrase));

@@ -60,7 +60,7 @@ export default ({
                 <UserIconColor />
                 <div><Translate id='accountSelector.noAccountDesc' /></div>
                 <FormButton
-                    onClick={() => { }}
+                    onClick={onSignInToDifferentAccount}
                 >
                     <Translate id='button.signIn' />
                 </FormButton>
