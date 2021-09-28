@@ -44,12 +44,20 @@ const StyledContainer = styled.div`
     }
 `;
 
-export default () => {
+export default ({
+    signedInAccountId,
+    signedInAccountAvailableBalance,
+    availableAccounts,
+    accountsBalances,
+    getAccountBalance,
+    onSelectAccount,
+    onSignInToDifferentAccount
+}) => {
 
-    if (true) {
+    if (!signedInAccountId) {
         return (
             <StyledContainer className='no-account pg-20 brs-8'>
-                <UserIconColor/>
+                <UserIconColor />
                 <div><Translate id='accountSelector.noAccountDesc' /></div>
                 <FormButton
                     onClick={() => { }}
@@ -59,18 +67,28 @@ export default () => {
             </StyledContainer>
         );
     }
-
+    // TODO: Add loading animation while switching account
     return (
         <StyledContainer className='pg-20 brs-8 bsw-l'>
             <div className='accounts'>
-                <Account active={true} />
-                <Account />
-                <Account />
-                <Account />
-                <Account />
+                <Account
+                    accountId={signedInAccountId}
+                    balance={signedInAccountAvailableBalance}
+                    active={true}
+                    defaultShowBalance={true}
+                />
+                {availableAccounts.filter(a => a !== signedInAccountId).map((accountId) =>
+                    <Account
+                        key={accountId}
+                        accountId={accountId}
+                        balance={accountsBalances && accountsBalances[accountId]?.balanceAvailable}
+                        onSelectAccount={() => onSelectAccount(accountId)}
+                        onToggleShowBalance={() => getAccountBalance(accountId)}
+                    />
+                )}
             </div>
             <FormButton
-                onClick={() => { }}
+                onClick={onSignInToDifferentAccount}
                 color='gray-blue'
             >
                 <Translate id='accountSelector.signInButton' />

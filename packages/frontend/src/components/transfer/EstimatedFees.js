@@ -27,7 +27,7 @@ const StyledContainer = styled.div`
     }
 `;
 
-export default ({ transferAmount }) => {
+export default ({ gasFeeAmount }) => {
     return (
         <StyledContainer className='estimated-fees pg-20 brs-8 br-1-grey'>
             <div className='left'>
@@ -35,7 +35,7 @@ export default ({ transferAmount }) => {
                 <Tooltip translate='button.send' />
             </div>
             <Balance
-                amount={transferAmount}
+                amount={gasFeeAmount}
                 showSymbolUSD={false}
             />
         </StyledContainer>

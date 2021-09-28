@@ -434,6 +434,25 @@ class Wallet {
         await this.addLocalKeyAndFinishSetup(accountId, recoveryMethod, publicKey, previousAccountId);
     }
 
+    async createNewAccountWithCurrentAccount({
+        accountId,
+        implicitAccountId,
+        initialBalance,
+        recoveryMethod
+    }) {
+        await this.checkNewAccount(accountId);
+        const publicKey = new PublicKey({ keyType: KeyType.ED25519, data: Buffer.from(implicitAccountId, 'hex') });
+        const account = await this.getAccount(this.accountId);
+        // FIX: Only possible to create sub TLAs
+        await account.createAccount(
+            accountId, // new accountId
+            publicKey.toString().replace(/^ed25519:/, ''), // public key for new account
+            initialBalance // initial balance for new account in yoctoNEAR
+        );
+        await this.saveAndMakeAccountActive(accountId);
+        await this.addLocalKeyAndFinishSetup(accountId, recoveryMethod, publicKey);
+    }
+
     async createNewAccountFromAnother(accountId, fundingAccountId, publicKey) {
         const account = await this.getAccount(fundingAccountId);
         const { status: { SuccessValue: createResultBase64 }, transaction: { hash: transactionHash } } =
@@ -635,19 +654,19 @@ class Wallet {
         }
 
         const checkedAccountIds = (await Promise.all(
-                accountIds
-                    .map(async (accountId) => {
-                        try {
-                            const accountKeys = await (await this.getAccount(accountId)).getAccessKeys();
-                            return accountKeys.find(({ public_key }) => public_key === publicKey.toString()) ? accountId : null;
-                        } catch (error) {
-                            if (error.toString().indexOf('does not exist while viewing') !== -1) {
-                                return null;
-                            }
-                            throw error;
+            accountIds
+                .map(async (accountId) => {
+                    try {
+                        const accountKeys = await (await this.getAccount(accountId)).getAccessKeys();
+                        return accountKeys.find(({ public_key }) => public_key === publicKey.toString()) ? accountId : null;
+                    } catch (error) {
+                        if (error.toString().indexOf('does not exist while viewing') !== -1) {
+                            return null;
                         }
-                    })
-            )
+                        throw error;
+                    }
+                })
+        )
         )
             .filter(accountId => accountId);
 

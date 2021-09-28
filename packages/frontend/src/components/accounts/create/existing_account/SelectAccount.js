@@ -15,6 +15,13 @@ const StyledContainer = styled(Container)`
 `;
 
 export default ({
+    signedInAccountId,
+    signedInAccountAvailableBalance,
+    availableAccounts,
+    accountsBalances,
+    getAccountBalance,
+    onSelectAccount,
+    onSignInToDifferentAccount,
     onClickPrimary,
     onClickSecondary
 }) => {
@@ -23,7 +30,15 @@ export default ({
             <h1><Translate id='existingAccount.selectAccount.title' /></h1>
             <h2><Translate id='existingAccount.selectAccount.desc' data={{ amount: formatNearAmount(MIN_BALANCE_TO_CREATE) }}/></h2>
             <h2><Translate id='existingAccount.selectAccount.descTwo' /></h2>
-            <AccountSelector/>
+            <AccountSelector
+                signedInAccountId={signedInAccountId}
+                signedInAccountAvailableBalance={signedInAccountAvailableBalance}
+                availableAccounts={availableAccounts}
+                accountsBalances={accountsBalances}
+                getAccountBalance={getAccountBalance}
+                onSelectAccount={onSelectAccount}
+                onSignInToDifferentAccount={onSignInToDifferentAccount}
+            />
             <FormButtonGroup
                 onClick={{
                     primary: onClickPrimary,

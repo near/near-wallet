@@ -53,7 +53,12 @@ const StyledContainer = styled.div`
     }
 `;
 
-export default ({ transferAmount }) => {
+export default ({ 
+    transferAmount,
+    sender,
+    receiver,
+    receiverBalance = '0'
+}) => {
     return (
         <StyledContainer className='transfer-amount brs-8 bsw-l'>
             <ArrowTransferIcon />
@@ -65,7 +70,7 @@ export default ({ transferAmount }) => {
             <div className='account'>
                 <Translate id='transfer.from' />
                 <div>
-                    <div className='account-id'>corwin1.near</div>
+                    <div className='account-id'>{sender}</div>
                     <Balance
                         amount={transferAmount}
                         showBalanceInUSD={false}
@@ -75,9 +80,9 @@ export default ({ transferAmount }) => {
             <div className='account'>
                 <Translate id='transfer.to' />
                 <div>
-                    <div className='account-id'>corwin2.near</div>
+                    <div className='account-id'>{receiver}</div>
                     <Balance
-                        amount={transferAmount}
+                        amount={receiverBalance}
                         showBalanceInUSD={false}
                     />
                 </div>

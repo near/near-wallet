@@ -225,3 +225,4 @@ export default reduceReducers(
 export const selectAccount = (state) => state.account;
 export const selectAccountId = createSelector(selectAccount, (account) => account.accountId);
 export const selectBalance = createSelector(selectAccount, (account) => account.balance);
+export const selectAccountsBalances = createSelector(selectAccount, (account) => account.accountsBalance);

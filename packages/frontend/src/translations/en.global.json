@@ -322,6 +322,10 @@
             "title": "Fund with an existing account.",
             "desc": "If you have an alternate account containing a balance of <b>at least ${amount} NEAR</b>, you may use it to fund and initialize your new account!",
             "descTwo": "Select or sign into the account you wish to use, then continue to approve a minimum deposit." 
+        },
+        "fundNewAccount": {
+            "titleOne": "Approve Transaction",
+            "titleTwo": "Fund New Account"
         }
     },
 
@@ -632,7 +636,8 @@
         "loading": "Loading",
         "gotIt": "Got it",
         "fundWith": "Fund with",
-        "next": "Next"
+        "next": "Next",
+        "approve": "Approve"
     },
 
     "link": {

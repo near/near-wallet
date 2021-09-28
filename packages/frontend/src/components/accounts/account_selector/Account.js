@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
+import Balance from '../../common/balance/Balance';
 import EyeIcon from './EyeIcon';
 
 const StyledContainer = styled.div`
@@ -40,6 +41,10 @@ const StyledContainer = styled.div`
         text-overflow: ellipsis;
     }
 
+    .balance {
+        min-height: 19px;
+    }
+
     .account-id {
         font-weight: 600;
         line-height: 170%;
@@ -48,6 +53,7 @@ const StyledContainer = styled.div`
     &.active {
         border: 1px solid #8FCDFF;
         background-color: #F0F9FF;
+        cursor: default;
 
         .account-id {
             color: #001729;
@@ -65,20 +71,34 @@ const StyledContainer = styled.div`
     }
 `;
 
-export default ({ active }) => {
-    const [showBalance, setShowBalance] = useState(false);
+export default ({
+    active,
+    accountId,
+    balance,
+    defaultShowBalance,
+    onSelectAccount,
+    onToggleShowBalance = () => {}
+}) => {
+    const [showBalance, setShowBalance] = useState(defaultShowBalance);
     return (
-        <StyledContainer className={active ? 'active' : ''}>
+        <StyledContainer className={active ? 'active' : ''} onClick={onSelectAccount}>
             <div>
-                <div className='account-id'>corwin.near</div>
+                <div className='account-id'>{accountId}</div>
                 <div className='balance'>
-                    {showBalance ? '12.34 NEAR' : '••••••'}
+                    {showBalance
+                        ? <Balance
+                            amount={balance}
+                            showBalanceInUSD={false}
+                        />
+                        : '••••••'
+                    }
                 </div>
             </div>
             <EyeIcon
                 show={showBalance}
                 onClick={(e) => {
                     setShowBalance(!showBalance);
+                    onToggleShowBalance();
                     e.stopPropagation();
                 }}
             />

@@ -29,28 +29,40 @@ const StyledContainer = styled(Container)`
 export default ({
     onClickPrimary,
     onClickSecondary,
-    transferAmount
+    transferAmount,
+    gasFeeAmount,
+    sender,
+    receiver,
+    creatingNewAccount
 }) => {
     return (
         <StyledContainer className='small-centered border'>
-            <div>Approve Transaction</div>
-            <h3>Fund New Account</h3>
+            <div><Translate id='existingAccount.fundNewAccount.titleOne' /></div>
+            <h3><Translate id='existingAccount.fundNewAccount.titleTwo' /></h3>
             <TransferAmount
                 transferAmount={transferAmount}
+                gasFeeAmount={gasFeeAmount}
+                sender={sender}
+                receiver={receiver}
             />
             <EstimatedFees
-                transferAmount={transferAmount}
+                gasFeeAmount={gasFeeAmount}
             />
+            {/* FIX: Handle not enough balance */}
             <FormButtonGroup
                 onClick={{
                     primary: onClickPrimary,
                     secondary: onClickSecondary
                 }}
+                disabled={{
+                    primary: creatingNewAccount,
+                    secondary: creatingNewAccount
+                }}
                 color={{
                     secondary: 'gray-blue'
                 }}
                 translateId={{
-                    primary: 'button.next',
+                    primary: 'button.approve',
                     secondary: 'button.cancel'
                 }}
             />
