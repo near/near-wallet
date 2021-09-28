@@ -27,9 +27,7 @@ const config = {
         {
             name: "Desktop Chromium",
             use: {
-                browserName: "chromium",
-                // Test against Chrome Beta channel.
-                channel: "chrome-beta",
+                browserName: "chromium"
             },
         },
         {
