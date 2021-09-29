@@ -16,6 +16,10 @@ const initialState = {
 const availableAccounts = createReducer(
     initialState,
     (builder) => {
+        builder.addCase(refreshAccountOwner.pending, (state) => {
+            set(state, ['status', 'loading'], true);
+            set(state, ['status', 'error'], initialErrorState);
+        });
     }
 );
 
