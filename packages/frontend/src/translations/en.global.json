@@ -871,7 +871,8 @@
     "exploreApps": {
         "title": "What's on NEAR?",
         "desc": "Earn, mint, and play! Discover the ecosystem of NEAR applications.",
-        "button": "Explore Apps"
+        "exploreApps": "Explore Apps",
+        "exploreDeFi": "Explore DeFi"
     },
 
     "login": {
