@@ -20,6 +20,13 @@ const availableAccounts = createReducer(
             set(state, ['status', 'loading'], true);
             set(state, ['status', 'error'], initialErrorState);
         });
+        builder.addCase(refreshAccountOwner.rejected, (state, { error }) => {
+            set(state, ['status', 'loading'], false);
+            set(state, ['status', 'error'], {
+                message: error?.message || 'An error was encountered.',
+                code: error?.code
+            });
+        });
     }
 );
 
