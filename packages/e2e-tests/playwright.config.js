@@ -8,6 +8,11 @@ expect.extend(matchers);
 const config = {
     globalSetup: require.resolve("./global-setup.js"),
     reporter: [["list"], ["./pagerduty-reporter.js"]],
+    webServer: {
+        command: "cd ../frontend && yarn start",
+        port: 1234,
+        timeout: 120 * 1000
+    },
     timeout: 60000,
     use: {
         baseURL: process.env.WALLET_URL || "https://wallet.testnet.near.org",
@@ -27,7 +32,7 @@ const config = {
         {
             name: "Desktop Chromium",
             use: {
-                browserName: "chromium"
+                browserName: "chromium",
             },
         },
         {
