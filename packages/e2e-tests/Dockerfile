@@ -7,5 +7,7 @@ WORKDIR /packages
 COPY e2e-tests e2e-tests/
 COPY frontend frontend/
 
-RUN cd frontend && yarn
-# CMD cd e2e-tests && yarn && yarn run e2e
+RUN cd frontend && yarn && mkdir dist
+RUN cd e2e-tests && yarn
+
+# CMD cd e2e-tests && yarn run e2e

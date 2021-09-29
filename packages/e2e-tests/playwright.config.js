@@ -11,7 +11,8 @@ const config = {
     webServer: {
         command: "cd ../frontend && yarn start",
         port: 1234,
-        timeout: 120 * 1000
+        timeout: 120 * 1000,
+        reuseExistingServer: false,
     },
     timeout: 60000,
     use: {
