@@ -8,7 +8,6 @@ import {
     clearCode,
     promptTwoFactor,
     refreshUrl,
-    refreshAccountOwner,
     resetAccounts,
     checkCanEnableTwoFactor,
     get2faMethod,
@@ -23,6 +22,7 @@ import {
 import {
     staking
 } from '../../actions/staking';
+import refreshAccountOwner from '../../sharedThunks/refreshAccountOwner';
 
 const initialState = {
     formLoader: false,
@@ -104,21 +104,15 @@ const ledgerKey = handleActions({
 }, initialState);
 
 const account = handleActions({
-    [refreshAccountOwner]: (state, { payload, ready, meta }) => {
-
-        if (!ready) {
-            return {
-                ...state,
-                loader: meta.accountId !== state.accountId
-            };
-        }
-
+    [refreshAccountOwner.fulfilled]: (state, { payload }) => {
         const resetAccountState = {
             globalAlertPreventClear: payload && payload.globalAlertPreventClear,
-            resetAccount: (state.resetAccount && state.resetAccount.preventClear) ? {
-                ...state.resetAccount,
-                preventClear: false
-            } : payload && payload.resetAccount
+            resetAccount: (state.resetAccount && state.resetAccount.preventClear) 
+                ? {
+                    ...state.resetAccount,
+                    preventClear: false
+                }
+                : payload && payload.resetAccount
         };
 
         return {
