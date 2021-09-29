@@ -67,7 +67,6 @@ export default ({
             </StyledContainer>
         );
     }
-    // TODO: Add loading animation while switching account
     return (
         <StyledContainer className='pg-20 brs-8 bsw-l'>
             <div className='accounts'>

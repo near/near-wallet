@@ -2,14 +2,13 @@ import { getLocation } from 'connected-react-router';
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { 
+import {
     switchAccount,
     getAccountBalance,
     redirectTo
 } from '../../../../redux/actions/account';
 import { showCustomAlert } from '../../../../redux/actions/status';
 import {
-    selectAccountId,
     selectBalance,
     selectAccountsBalances
 } from '../../../../redux/reducers/account';
@@ -23,10 +22,11 @@ export function ExistingAccountWrapper({ history }) {
     const [fundingAccountId, setFundingAccountId] = useState('');
     const [creatingNewAccount, setCreatingNewAccount] = useState(false);
 
+    const account = useSelector(({ account }) => account);
+    const signedInAccountId = account.localStorage?.accountId;
     const availableAccounts = useSelector(({ availableAccounts }) => availableAccounts);
     const accountsBalances = useSelector(selectAccountsBalances);
     const signedInAccountBalance = useSelector(selectBalance);
-    const signedInAccountId = useSelector(selectAccountId);
 
     const location = useSelector(getLocation);
     const URLParams = new URLSearchParams(location.search);
@@ -47,7 +47,7 @@ export function ExistingAccountWrapper({ history }) {
                             initialBalance: MIN_BALANCE_TO_CREATE,
                             recoveryMethod
                         });
-                    } catch(e) {
+                    } catch (e) {
                         dispatch(showCustomAlert({
                             success: false,
                             messageCodeHeader: 'error',
@@ -77,7 +77,7 @@ export function ExistingAccountWrapper({ history }) {
             availableAccounts={availableAccounts}
             accountsBalances={accountsBalances}
             getAccountBalance={(accountId) => dispatch(getAccountBalance(accountId))}
-            onSelectAccount={(accountId => dispatch(switchAccount({ accountId })))}
+            onSelectAccount={(accountId) => dispatch(switchAccount({ accountId }))}
             onSignInToDifferentAccount={() =>
                 dispatch(redirectTo(`/recover-account?fundWithExistingAccount=${encodeURIComponent(JSON.stringify({ accountId, implicitAccountId, recoveryMethod }))}`))
             }
