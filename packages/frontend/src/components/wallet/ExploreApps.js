@@ -11,7 +11,7 @@ import MintbaseLogo from '../../images/mintbase-logo.svg';
 import FluxLogo from '../../images/flux-logo.svg';
 import BerryClubLogo from '../../images/berryclub-logo.svg';
 
-import { EXPLORE_APPS_URL } from '/utils/wallet';
+import { EXPLORE_APPS_URL, EXPLORE_DEFI_URL } from '/utils/wallet';
 
 const Container = styled.div`
     && {
@@ -34,18 +34,13 @@ const Container = styled.div`
             margin: -5px 0 15px 0 !important;
         }
 
-        button {
-            svg {
-                path {
-                    stroke: white;
-                }
-            }
-        }
-
         .buttons {
             width: 100%;
-            button {
-                width: 100% !important;
+            display: flex;
+            justify-content: space-evenly;
+
+            > button.dark-gray-light-blue {
+                width: 45%;
             }
         }
 
@@ -60,37 +55,37 @@ const Container = styled.div`
                 left: 50%;
                 top: 50%;
                 transform: translate(-50%, -50%);
-            }
-        }
 
-        img {
-            position: absolute;
-            transform: scale(1.2);
+                img {
+                    position: absolute;
+                    transform: scale(1.2);
 
-            :nth-of-type(1) {
-                top: -65px;
-                left: -50px;
-            }
-            :nth-of-type(2) {
-                top: -80px;
-                right: -85px;
-            }
-            :nth-of-type(3) {
-                top: -10px;
-                left: -110px;
-            }
-            :nth-of-type(4) {
-                top: -20px;
-                left: -20px;
-            }
-            :nth-of-type(5) {
-                top: -20px;
-                left: 80px;
-            }
-            :nth-of-type(6) {
-                top: 25px;
-                left: 30px;
-                opacity: 0.3;
+                    :nth-of-type(1) {
+                        top: -65px;
+                        left: -50px;
+                    }
+                    :nth-of-type(2) {
+                        top: -80px;
+                        right: -85px;
+                    }
+                    :nth-of-type(3) {
+                        top: -10px;
+                        left: -110px;
+                    }
+                    :nth-of-type(4) {
+                        top: -20px;
+                        left: -20px;
+                    }
+                    :nth-of-type(5) {
+                        top: -20px;
+                        left: 80px;
+                    }
+                    :nth-of-type(6) {
+                        top: 25px;
+                        left: 30px;
+                        opacity: 0.3;
+                    }
+                }
             }
         }
     }
