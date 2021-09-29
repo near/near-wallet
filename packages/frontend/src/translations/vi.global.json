@@ -774,7 +774,8 @@
     "exploreApps": {
         "title": "Có gì trên NEAR?",
         "desc": "Kiếm tiền, Mint và chơi game! Khám phá hệ sinh thái của các ứng dụng trên NEAR.",
-        "button": "Khám phá các ứng dụng"
+        "exploreApps": "Khám phá các ứng dụng",
+        "exploreDeFi": "Explore DeFi"
     },
 
     "login": {
