@@ -21,6 +21,7 @@ import {
     ENABLE_IDENTITY_VERIFIED_ACCOUNT
 } from '../../utils/wallet';
 import { WalletError } from '../../utils/walletError';
+import refreshAccountOwner from '../sharedThunks/refreshAccountOwner';
 import { 
     actions as flowLimitationActions,
     selectFlowLimitationAccountBalance,
@@ -638,12 +639,8 @@ export const getAvailableAccountsBalance = () => async (dispatch, getState) => {
     }
 };
 
-export const { makeAccountActive, refreshAccountOwner, refreshAccountExternal, refreshUrl, updateStakingAccount, updateStakingLockup, getBalance, setLocalStorage, getAccountBalance, setAccountBalance, clearAccountState } = createActions({
+export const { makeAccountActive, refreshAccountExternal, refreshUrl, updateStakingAccount, updateStakingLockup, getBalance, setLocalStorage, getAccountBalance, setAccountBalance, clearAccountState } = createActions({
     MAKE_ACCOUNT_ACTIVE: wallet.makeAccountActive.bind(wallet),
-    REFRESH_ACCOUNT_OWNER: [
-        wallet.refreshAccount.bind(wallet),
-        () => ({ accountId: wallet.accountId })
-    ],
     REFRESH_ACCOUNT_EXTERNAL: [
         async (accountId) => ({
             ...await (await wallet.getAccount(accountId)).state(),
