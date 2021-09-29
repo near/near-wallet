@@ -43,10 +43,10 @@ export function ExistingAccountWrapper({ history }) {
                     await Mixpanel.withTracking("CA Create account from existing account",
                         async () => {
                             setCreatingNewAccount(true);
-                            await wallet.createNewAccountWithCurrentAccount({
-                                accountId,
+                            await wallet.createNewAccountWithCurrentActiveAccount({
+                                newAccountId: accountId,
                                 implicitAccountId,
-                                initialBalance: MIN_BALANCE_TO_CREATE,
+                                newInitialBalance: MIN_BALANCE_TO_CREATE,
                                 recoveryMethod
                             });
                         },

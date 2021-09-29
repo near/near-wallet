@@ -434,42 +434,51 @@ class Wallet {
         await this.addLocalKeyAndFinishSetup(accountId, recoveryMethod, publicKey, previousAccountId);
     }
 
-    async createNewAccountWithCurrentAccount({
-        accountId,
-        implicitAccountId,
-        initialBalance,
-        recoveryMethod
+    async createNewAccountWithNearContract({
+        account,
+        newAccountId,
+        newPublicKey,
+        newInitialBalance
     }) {
-        await this.checkNewAccount(accountId);
-        const publicKey = new PublicKey({ keyType: KeyType.ED25519, data: Buffer.from(implicitAccountId, 'hex') });
-        const account = await this.getAccount(this.accountId);
-
         const { status: { SuccessValue: createResultBase64 }, transaction: { hash: transactionHash } } =
             await account.functionCall(ACCOUNT_ID_SUFFIX, 'create_account', {
-                new_account_id: accountId,
-                new_public_key: publicKey.toString().replace(/^ed25519:/, '')
-            }, LINKDROP_GAS, initialBalance);
+                new_account_id: newAccountId,
+                new_public_key: newPublicKey.toString().replace(/^ed25519:/, '')
+            }, LINKDROP_GAS, newInitialBalance);
         const createResult = JSON.parse(Buffer.from(createResultBase64, 'base64'));
         if (!createResult) {
             throw new WalletError('Creating account has failed', 'createAccount.returnedFalse', { transactionHash });
         }
+    }
 
-        await this.saveAndMakeAccountActive(accountId);
-        await this.addLocalKeyAndFinishSetup(accountId, recoveryMethod, publicKey);
+    async createNewAccountWithCurrentActiveAccount({
+        newAccountId,
+        implicitAccountId,
+        newInitialBalance,
+        recoveryMethod
+    }) {
+        await this.checkNewAccount(newAccountId);
+        const newPublicKey = new PublicKey({ keyType: KeyType.ED25519, data: Buffer.from(implicitAccountId, 'hex') });
+        const account = await this.getAccount(this.accountId);
+        await this.createNewAccountWithNearContract({
+            account,
+            newAccountId,
+            newPublicKey,
+            newInitialBalance
+        });
+        await this.saveAndMakeAccountActive(newAccountId);
+        await this.addLocalKeyAndFinishSetup(newAccountId, recoveryMethod, newPublicKey);
     }
 
     async createNewAccountFromAnother(accountId, fundingAccountId, publicKey) {
         const account = await this.getAccount(fundingAccountId);
-        const { status: { SuccessValue: createResultBase64 }, transaction: { hash: transactionHash } } =
-            await account.functionCall(ACCOUNT_ID_SUFFIX, 'create_account', {
-                new_account_id: accountId,
-                new_public_key: publicKey.toString().replace(/^ed25519:/, '')
-                // TODO: Adjust gas if necessary
-            }, LINKDROP_GAS, MIN_BALANCE_FOR_GAS);
-        const createResult = JSON.parse(Buffer.from(createResultBase64, 'base64'));
-        if (!createResult) {
-            throw new WalletError('Creating account has failed', 'createAccount.returnedFalse', { transactionHash });
-        }
+
+        await this.createNewAccountWithNearContract({
+            account,
+            newAccountId: accountId,
+            newPublicKey: publicKey,
+            newInitialBalance: MIN_BALANCE_FOR_GAS
+        });
 
         if (this.accounts[fundingAccountId] || fundingAccountId.length !== 64) {
             return;
