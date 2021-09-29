@@ -20,6 +20,12 @@ const availableAccounts = createReducer(
             set(state, ['status', 'loading'], true);
             set(state, ['status', 'error'], initialErrorState);
         });
+        builder.addCase(refreshAccountOwner.fulfilled, (state, action) => {
+            set(state, ['status', 'loading'], false);
+            set(state, ['status', 'error'], initialErrorState);
+
+            set(state, ['items'], Object.keys((action.payload && action.payload.accounts) || {}).sort());
+        });
         builder.addCase(refreshAccountOwner.rejected, (state, { error }) => {
             set(state, ['status', 'loading'], false);
             set(state, ['status', 'error'], {
