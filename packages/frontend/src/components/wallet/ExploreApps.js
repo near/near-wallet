@@ -113,7 +113,8 @@ const ExploreApps = ({ onClick }) => {
             <h2><Translate id='exploreApps.title' /></h2>
             <div className='desc'><Translate id='exploreApps.desc' /></div>
             <div className='buttons'>
-                <FormButton linkTo={EXPLORE_APPS_URL} color='white-blue' trackingId='Click explore apps button'><Translate id='exploreApps.button' /></FormButton>
+                <FormButton linkTo={EXPLORE_APPS_URL} color='dark-gray-light-blue' trackingId='Click explore apps button'><Translate id='exploreApps.exploreApps' /></FormButton>
+                <FormButton linkTo={EXPLORE_DEFI_URL} color='dark-gray-light-blue' trackingId='Click explore defi button'><Translate id='exploreApps.exploreDeFi' /></FormButton>
             </div>
         </Container>
     );
