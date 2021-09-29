@@ -249,10 +249,10 @@ const mapDispatchToProps = {
     switchAccount
 };
 
-const mapStateToProps = ({ account, sign, availableAccounts }) => ({
-    account,
-    availableAccounts,
-    ...sign
+const mapStateToProps = (state) => ({
+    account: state.account,
+    availableAccounts: state.availableAccounts,
+    ...state.sign
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(SignTransferReady));

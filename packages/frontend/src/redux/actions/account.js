@@ -22,6 +22,7 @@ import {
 } from '../../utils/wallet';
 import { WalletError } from '../../utils/walletError';
 import refreshAccountOwner from '../sharedThunks/refreshAccountOwner';
+import { selectAvailableAccounts } from '../slices/availableAccounts';
 import { 
     actions as flowLimitationActions,
     selectFlowLimitationAccountBalance,
@@ -616,7 +617,7 @@ export const switchAccount = ({ accountId }) => async (dispatch, getState) => {
 
 export const getAvailableAccountsBalance = () => async (dispatch, getState) => {
     let { accountsBalance } = getState().account;
-    let { availableAccounts } = getState();
+    const availableAccounts = selectAvailableAccounts(getState());
 
     if (selectFlowLimitationAccountData(getState())) {
         return;
