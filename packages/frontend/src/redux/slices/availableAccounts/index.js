@@ -38,3 +38,10 @@ const availableAccounts = createReducer(
 
 export default availableAccounts;
 
+// Top level selectors
+const selectAvailableAccountsSlice = (state) => state['availableAccounts'];
+
+export const selectAvailableAccounts = createSelector(
+    selectAvailableAccountsSlice,
+    (availableAccounts) => availableAccounts.items || []
+);
