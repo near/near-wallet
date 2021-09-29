@@ -2,6 +2,7 @@ import { getLocation } from 'connected-react-router';
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
+import { Mixpanel } from '../../../../mixpanel';
 import {
     switchAccount,
     getAccountBalance,
@@ -39,24 +40,27 @@ export function ExistingAccountWrapper({ history }) {
         return (
             <FundNewAccount
                 onClickPrimary={async () => {
-                    try {
-                        setCreatingNewAccount(true);
-                        await wallet.createNewAccountWithCurrentAccount({
-                            accountId,
-                            implicitAccountId,
-                            initialBalance: MIN_BALANCE_TO_CREATE,
-                            recoveryMethod
-                        });
-                    } catch (e) {
-                        dispatch(showCustomAlert({
-                            success: false,
-                            messageCodeHeader: 'error',
-                            messageCode: 'walletErrorCodes.createNewAccount.error',
-                            errorMessage: e.message
-                        }));
-                        setCreatingNewAccount(false);
-                        throw e;
-                    }
+                    await Mixpanel.withTracking("CA Create account from existing account",
+                        async () => {
+                            setCreatingNewAccount(true);
+                            await wallet.createNewAccountWithCurrentAccount({
+                                accountId,
+                                implicitAccountId,
+                                initialBalance: MIN_BALANCE_TO_CREATE,
+                                recoveryMethod
+                            });
+                        },
+                        (e) => {
+                            dispatch(showCustomAlert({
+                                success: false,
+                                messageCodeHeader: 'error',
+                                messageCode: 'walletErrorCodes.createNewAccount.error',
+                                errorMessage: e.message
+                            }));
+                            setCreatingNewAccount(false);
+                            throw e;
+                        }
+                    );
                     dispatch(redirectTo('/'));
                 }}
                 onClickSecondary={() => setFundingAccountId('')}
