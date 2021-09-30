@@ -34,7 +34,6 @@ export default ({
             <h2><Translate id='existingAccount.selectAccount.descTwo' /></h2>
             <AccountSelector
                 signedInAccountId={signedInAccountId}
-                signedInAccountAvailableBalance={signedInAccountAvailableBalance}
                 availableAccounts={availableAccounts}
                 accountsBalances={accountsBalances}
                 getAccountBalance={getAccountBalance}

@@ -117,10 +117,10 @@ export default createGlobalStyle`
     }
 
     h6, .h6 {
-        font-size: 12px !important;
+        font-size: 12px;
         font-weight: 500;
         color: #999999;
-        margin: 0px !important;
+        margin: 0px;
     }
 
     .font-small {

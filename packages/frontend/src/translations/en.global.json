@@ -310,7 +310,7 @@
     },
 
     "accountSelector": {
-        "signInButton": "Sign In to a Different Account",
+        "signInButton": "Import a Different Account",
         "noAccountDesc": "You’re not currently signed in to any alternate accounts."
     },
 

@@ -77,7 +77,8 @@ export default ({
     balance,
     defaultShowBalance,
     onSelectAccount,
-    onToggleShowBalance = () => {}
+    onToggleShowBalance = () => {},
+    showBalanceInUSD
 }) => {
     const [showBalance, setShowBalance] = useState(defaultShowBalance);
     return (
@@ -88,7 +89,9 @@ export default ({
                     {showBalance
                         ? <Balance
                             amount={balance}
-                            showBalanceInUSD={false}
+                            showBalanceInUSD={!!showBalanceInUSD}
+                            showBalanceInNEAR={!showBalanceInUSD}
+                            showAlmostEqualSignUSD={false}
                         />
                         : '••••••'
                     }

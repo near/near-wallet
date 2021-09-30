@@ -2,9 +2,9 @@ import React from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
+import AccountSelector from '../accounts/account_selector/AccountSelector';
 import AccessAccountBtn from './AccessAccountBtn';
 import CreateAccountBtn from './CreateAccountBtn';
-import UserAccounts from './UserAccounts';
 
 const Menu = styled.div`
     position: absolute;
@@ -28,33 +28,28 @@ const Menu = styled.div`
 
 const DesktopMenu = ({
     show,
-    accountId,
     accounts,
     handleSelectAccount,
     accountIdLocalStorage,
     accountsBalance,
-    balance,
     refreshBalance,
-    getBalance,
     isInactiveAccount
 }) => {
     if (show) {
         return (
             <Menu id='desktop-menu'>
-                <h6><Translate id='link.switchAccount'/></h6>
-                <UserAccounts
-                    accounts={accounts}
-                    accountId={accountId}
-                    accountIdLocalStorage={accountIdLocalStorage}
-                    handleSelectAccount={handleSelectAccount}
-                    accountsBalance={accountsBalance}
-                    balance={balance}
-                    refreshBalance={refreshBalance}
-                    getBalance={getBalance}
+                <h6><Translate id='link.switchAccount' /></h6>
+                <AccountSelector
+                    signedInAccountId={accountIdLocalStorage}
+                    availableAccounts={accounts}
+                    accountsBalances={accountsBalance}
+                    getAccountBalance={refreshBalance}
+                    onSelectAccount={handleSelectAccount}
+                    showBalanceInUSD={true}
                 />
-                <AccessAccountBtn/>
+                <AccessAccountBtn />
                 {!isInactiveAccount &&
-                    <CreateAccountBtn/>
+                    <CreateAccountBtn />
                 }
             </Menu>
         );
