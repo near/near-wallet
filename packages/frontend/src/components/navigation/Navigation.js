@@ -3,11 +3,10 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { switchAccount, getAvailableAccountsBalance, getAccountBalance, getBalance } from '../../redux/actions/account';
+import { switchAccount, getAvailableAccountsBalance, getAccountBalance } from '../../redux/actions/account';
 import { selectFlowLimitationMainMenu, selectFlowLimitationSubMenu } from '../../redux/slices/flowLimitation';
 import DesktopContainer from './DesktopContainer';
 import MobileContainer from './MobileContainer';
-
 
 const Container = styled.div`
     &&& {
@@ -111,7 +110,6 @@ class Navigation extends Component {
                     flowLimitationMainMenu={flowLimitationMainMenu}
                     flowLimitationSubMenu={flowLimitationSubMenu}
                     refreshBalance={this.props.getAccountBalance}
-                    getBalance={this.props.getBalance}
                     isInactiveAccount={isInactiveAccount}
                     {...this.props}
                 />
@@ -123,7 +121,6 @@ class Navigation extends Component {
                     flowLimitationMainMenu={flowLimitationMainMenu}
                     flowLimitationSubMenu={flowLimitationSubMenu}
                     refreshBalance={this.props.getAccountBalance}
-                    getBalance={this.props.getBalance}
                     isInactiveAccount={isInactiveAccount}
                     {...this.props}
                 />
@@ -143,8 +140,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = {
     switchAccount,
     getAvailableAccountsBalance,
-    getAccountBalance,
-    getBalance
+    getAccountBalance
 };
 
 export default connect(

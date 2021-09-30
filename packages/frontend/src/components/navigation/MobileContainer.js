@@ -177,7 +177,6 @@ class MobileContainer extends Component {
             flowLimitationMainMenu,
             flowLimitationSubMenu,
             refreshBalance,
-            getBalance,
             isInactiveAccount
         } = this.props;
 

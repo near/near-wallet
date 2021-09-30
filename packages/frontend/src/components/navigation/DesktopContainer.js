@@ -98,7 +98,6 @@ class DesktopContainer extends Component {
             flowLimitationMainMenu,
             flowLimitationSubMenu,
             refreshBalance,
-            getBalance,
             isInactiveAccount
         } = this.props;
 
@@ -131,7 +130,6 @@ class DesktopContainer extends Component {
                             accountsBalance={account.accountsBalance}
                             balance={account.balance}
                             refreshBalance={refreshBalance}
-                            getBalance={getBalance}
                             isInactiveAccount={isInactiveAccount}
                         />
                     </>
