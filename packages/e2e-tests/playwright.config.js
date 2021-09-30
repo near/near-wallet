@@ -9,7 +9,8 @@ const config = {
     globalSetup: require.resolve("./global-setup.js"),
     reporter: [["list"], ["./pagerduty-reporter.js"]],
     webServer: {
-        command: "cd ../frontend && yarn start",
+        command:
+            "cd ../frontend && npx serve dist -l 1234 -s --ssl-cert devServerCertificates/primary.crt --ssl-key devServerCertificates/private.pem",
         port: 1234,
         timeout: 120 * 1000,
         reuseExistingServer: false,
