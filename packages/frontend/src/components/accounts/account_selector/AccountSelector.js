@@ -89,7 +89,7 @@ export default ({
                     balance={accountsBalances && accountsBalances[signedInAccountId]?.balanceAvailable}
                     active={true}
                     showBalanceInUSD={showBalanceInUSD}
-                    onToggleShowBalance={() => getAccountBalance(signedInAccountId)}
+                    onToggleShowBalance={() => getAccountBalance(signedInAccountId, true)}
                 />
                 {availableAccounts.filter(a => a !== signedInAccountId).map((accountId) =>
                     <Account
@@ -98,9 +98,9 @@ export default ({
                         balance={accountsBalances && accountsBalances[accountId]?.balanceAvailable}
                         onSelectAccount={() => {
                             onSelectAccount(accountId);
-                            getAccountBalance(accountId);
+                            getAccountBalance(accountId, true);
                         }}
-                        onToggleShowBalance={() => getAccountBalance(accountId)}
+                        onToggleShowBalance={() => getAccountBalance(accountId, true)}
                         showBalanceInUSD={showBalanceInUSD}
                     />
                 )}
