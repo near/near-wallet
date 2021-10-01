@@ -9,3 +9,8 @@ export const selectAccountId = createSelector(selectAccountSlice, (account) => a
 
 export const selectBalance = createSelector(selectAccountSlice, (account) => account.balance);
 
+export const selectAccountHelperWalletState = createSelector(selectAccountSlice, (account) => account.accountHelperWalletState || {});
+
+export const selectAccountRequiredUnlockBalance = createSelector(selectAccountHelperWalletState, (accountHelperWalletState) => accountHelperWalletState.requiredUnlockBalance);
+
+export const selectAccountFundedAccountNeedsDeposit = createSelector(selectAccountHelperWalletState, (accountHelperWalletState) => accountHelperWalletState.fundedAccountNeedsDeposit);
