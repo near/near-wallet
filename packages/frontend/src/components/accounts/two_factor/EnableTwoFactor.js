@@ -14,6 +14,7 @@ import {
     redirectToApp
 } from '../../../redux/actions/account';
 import { clearGlobalAlert } from '../../../redux/actions/status';
+import { selectAccountId } from '../../../redux/slices/account';
 import { selectNearTokenFiatValueUSD } from '../../../redux/slices/tokenFiatValues';
 import { validateEmail } from '../../../utils/account';
 import { actionsPending } from '../../../utils/alerts';
@@ -81,7 +82,9 @@ const StyledContainer = styled(Container)`
 export function EnableTwoFactor(props) {
 
     const dispatch = useDispatch();
-    const { accountId, has2fa } = useSelector(({ account }) => account);
+    const { has2fa } = useSelector(({ account }) => account);
+    const accountId = useSelector((state) => selectAccountId(state));
+
     const status = useSelector(({ status }) => status);
     const nearTokenFiatValueUSD = useSelector(selectNearTokenFiatValueUSD);
 
