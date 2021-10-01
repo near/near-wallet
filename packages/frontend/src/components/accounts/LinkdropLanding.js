@@ -168,11 +168,11 @@ const mapDispatchToProps = {
     setLinkdropAmount
 };
 
-const mapStateToProps = ({ account, status }, { match }) => ({
-    ...account,
+const mapStateToProps = (state, { match }) => ({
+    ...selectAccountSlice(state),
     fundingContract: match.params.fundingContract,
     fundingKey: match.params.fundingKey,
-    mainLoader: status.mainLoader
+    mainLoader: state.status.mainLoader
 });
 
 export const LinkdropLandingWithRouter = connect(
