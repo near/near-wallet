@@ -14,6 +14,7 @@ import { showCustomAlert } from '../../../redux/actions/status';
 import { selectAccountId, selectAccountSlice } from '../../../redux/slices/account';
 import { actions as linkdropActions } from '../../../redux/slices/linkdrop';
 import { actions as recoveryMethodsActions, selectRecoveryMethodsByAccountId, selectRecoveryMethodsLoading } from '../../../redux/slices/recoveryMethods';
+import { selectRouterSlice } from '../../../redux/slices/router';
 import { selectStatusMainLoader } from '../../../redux/slices/status';
 import { validateEmail } from '../../../utils/account';
 import { actionsPending } from '../../../utils/alerts';
@@ -546,7 +547,7 @@ const mapStateToProps = (state, { match }) => {
 
     return {
         ...selectAccountSlice(state),
-        router,
+        router: selectRouterSlice(state),
         accountId: match.params.accountId,
         activeAccountId: selectAccountId(state),
         recoveryMethods: selectRecoveryMethodsByAccountId(state, { accountId: selectAccountId(state) }),
