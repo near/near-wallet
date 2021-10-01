@@ -4,6 +4,7 @@ import { connect, useSelector } from 'react-redux';
 
 import { Mixpanel } from '../../../mixpanel/index';
 import { removeNonLedgerAccessKeys, redirectTo } from '../../../redux/actions/account';
+import { selectAccountSlice } from '../../../redux/slices/account';
 import { selectLedgerHasLedger } from '../../../redux/slices/ledger';
 import { actionsPending } from '../../../utils/alerts';
 import FormButton from '../../common/FormButton';
@@ -67,8 +68,8 @@ const mapDispatchToProps = {
     redirectTo
 };
 
-const mapStateToProps = ({ account }) => ({
-    ...account
+const mapStateToProps = (state) => ({
+    ...selectAccountSlice(state)
 });
 
 export const SetupLedgerSuccessWithRouter = connect(mapStateToProps, mapDispatchToProps)(SetupLedgerSuccess);
