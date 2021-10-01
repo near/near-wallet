@@ -10,3 +10,6 @@ export const selectLedgerTxSigned = createSelector(selectLedgerSlice, (ledger) =
 export const selectLedgerModal = createSelector(selectLedgerSlice, (ledger) => ledger.modal || {});
 
 export const selectLedgerHasLedger = createSelector(selectLedgerSlice, (ledger) => ledger.hasLedger);
+
+export const selectLedgerSignInWithLedger = createSelector(selectLedgerSlice, (ledger) => ledger.signInWithLedger);
+
