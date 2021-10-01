@@ -727,6 +727,10 @@ class Wallet {
 
     async getBalance(accountId, limitedAccountData = false) {
         accountId = accountId || this.accountId;
+        if (!accountId) {
+            return false;
+        }
+        
         const account = await this.getAccount(accountId);
         return await account.getAccountBalance(limitedAccountData);
     }
