@@ -6,3 +6,5 @@ const SLICE_NAME = 'status';
 export const selectStatusSlice = (state) => state[SLICE_NAME];
 
 export const selectStatusMainLoader = createSelector(selectStatusSlice, (status) => status.mianLoader);
+
+export const selectStatusLocalAlert = createSelector(selectStatusSlice, (status) => status.localAlert);
