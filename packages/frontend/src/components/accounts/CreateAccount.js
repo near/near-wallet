@@ -14,6 +14,7 @@ import {
 } from '../../redux/actions/account';
 import { clearLocalAlert } from '../../redux/actions/status';
 import { selectAccountSlice } from '../../redux/slices/account';
+import { selectStatusMainLoader } from '../../redux/slices/status';
 import { selectNearTokenFiatValueUSD } from '../../redux/slices/tokenFiatValues';
 import isMobile from '../../utils/isMobile';
 import {
@@ -309,7 +310,7 @@ const mapStateToProps = (state, ownProps) => {
     return {
         ...selectAccountSlice(state),
         localAlert: status.localAlert,
-        mainLoader: status.mainLoader,
+        mainLoader: selectStatusMainLoader(state),
         fundingContract: match.params.fundingContract,
         fundingKey: match.params.fundingKey,
         fundingAccountId: match.params.fundingAccountId,
