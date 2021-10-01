@@ -13,3 +13,4 @@ export const selectLedgerHasLedger = createSelector(selectLedgerSlice, (ledger) 
 
 export const selectLedgerSignInWithLedger = createSelector(selectLedgerSlice, (ledger) => ledger.signInWithLedger);
 
+export const selectLedgerSignInWithLedgerStatus = createSelector(selectLedgerSlice, (ledger) => ledger.signInWithLedgerStatus);
