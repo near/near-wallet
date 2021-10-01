@@ -15,7 +15,7 @@ import {
 import { clearLocalAlert } from '../../redux/actions/status';
 import { selectAccountSlice } from '../../redux/slices/account';
 import { selectRouterLocationSearch } from '../../redux/slices/router';
-import { selectStatusMainLoader } from '../../redux/slices/status';
+import { selectStatusLocalAlert, selectStatusMainLoader } from '../../redux/slices/status';
 import { selectNearTokenFiatValueUSD } from '../../redux/slices/tokenFiatValues';
 import isMobile from '../../utils/isMobile';
 import {
@@ -304,21 +304,16 @@ const mapDispatchToProps = {
     redirectTo
 };
 
-const mapStateToProps = (state, ownProps) => {
-    const { status, router } = state;
-    const { match } = ownProps;
-
-    return {
-        ...selectAccountSlice(state),
-        localAlert: status.localAlert,
-        mainLoader: selectStatusMainLoader(state),
-        fundingContract: match.params.fundingContract,
-        fundingKey: match.params.fundingKey,
-        fundingAccountId: match.params.fundingAccountId,
-        nearTokenFiatValueUSD: selectNearTokenFiatValueUSD(state),
-        locationSearch: selectRouterLocationSearch(state)
-    };
-};
+const mapStateToProps = (state, { match }) => ({
+    ...selectAccountSlice(state),
+    localAlert: selectStatusLocalAlert(state),
+    mainLoader: selectStatusMainLoader(state),
+    fundingContract: match.params.fundingContract,
+    fundingKey: match.params.fundingKey,
+    fundingAccountId: match.params.fundingAccountId,
+    nearTokenFiatValueUSD: selectNearTokenFiatValueUSD(state),
+    locationSearch: selectRouterLocationSearch(state)
+});
 
 export const CreateAccountWithRouter = connect(
     mapStateToProps,
