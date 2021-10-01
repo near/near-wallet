@@ -13,6 +13,7 @@ import {
     refreshAccount
 } from '../../redux/actions/account';
 import { clearLocalAlert } from '../../redux/actions/status';
+import { selectAccountSlice } from '../../redux/slices/account';
 import { selectNearTokenFiatValueUSD } from '../../redux/slices/tokenFiatValues';
 import isMobile from '../../utils/isMobile';
 import {
@@ -302,11 +303,11 @@ const mapDispatchToProps = {
 };
 
 const mapStateToProps = (state, ownProps) => {
-    const { account, status, router } = state;
+    const { status, router } = state;
     const { match } = ownProps;
 
     return {
-        ...account,
+        ...selectAccountSlice(state),
         localAlert: status.localAlert,
         mainLoader: status.mainLoader,
         fundingContract: match.params.fundingContract,
