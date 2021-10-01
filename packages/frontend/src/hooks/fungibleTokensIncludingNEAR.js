@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
-import { selectAccountId, selectBalance } from '../redux/reducers/account';
+import { selectAccountId, selectBalance } from '../redux/slices/account';
 import { selectNearTokenFiatValueUSD } from '../redux/slices/tokenFiatValues';
 import { selectTokensWithMetadataForAccountId } from '../redux/slices/tokens';
 
