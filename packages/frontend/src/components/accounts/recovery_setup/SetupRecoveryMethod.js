@@ -12,6 +12,7 @@ import { Mixpanel } from '../../../mixpanel/index';
 import * as accountActions from '../../../redux/actions/account';
 import { showCustomAlert } from '../../../redux/actions/status';
 import { selectAccountId } from '../../../redux/reducers/account';
+import { selectAccountSlice } from '../../../redux/slices/account';
 import { actions as linkdropActions } from '../../../redux/slices/linkdrop';
 import { actions as recoveryMethodsActions, selectRecoveryMethodsByAccountId, selectRecoveryMethodsLoading } from '../../../redux/slices/recoveryMethods';
 import { validateEmail } from '../../../utils/account';
@@ -544,7 +545,7 @@ const mapStateToProps = (state, { match }) => {
     const { account, router, status } = state;
     
     return {
-        ...account,
+        ...selectAccountSlice(state),
         router,
         accountId: match.params.accountId,
         activeAccountId: account.accountId,
