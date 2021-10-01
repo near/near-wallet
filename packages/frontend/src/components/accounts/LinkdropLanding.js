@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import { Mixpanel } from '../../mixpanel/index';
 import { checkNearDropBalance, claimLinkdropToAccount, redirectTo, handleRefreshUrl } from '../../redux/actions/account';
 import { clearLocalAlert } from '../../redux/actions/status';
+import { selectAccountSlice } from '../../redux/slices/account';
 import { actions as linkdropActions } from '../../redux/slices/linkdrop';
 import { actionsPending } from '../../utils/alerts';
 import AccountDropdown from '../common/AccountDropdown';
