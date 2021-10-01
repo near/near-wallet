@@ -14,8 +14,10 @@ import {
     fundCreateAccount
 } from '../../redux/actions/account';
 import { clearGlobalAlert, showCustomAlert } from '../../redux/actions/status';
+import { selectAccountSlice } from '../../redux/slices/account';
 import { actions as linkdropActions } from '../../redux/slices/linkdrop';
 import { actions as recoveryMethodsActions, selectRecoveryMethodsByAccountId, selectRecoveryMethodsLoading } from '../../redux/slices/recoveryMethods';
+import { selectStatusMainLoader } from '../../redux/slices/status';
 import copyText from '../../utils/copyText';
 import isMobile from '../../utils/isMobile';
 import parseFundingOptions from '../../utils/parseFundingOptions';
@@ -292,15 +294,12 @@ const mapDispatchToProps = {
 };
 
 const mapStateToProps = (state, { match }) => {
-
-    const { account, status } = state;
-    
     return {
-        ...account,
+        ...selectAccountSlice(state),
         verify: match.params.verify,
         accountId: match.params.accountId,
         recoveryMethods: selectRecoveryMethodsByAccountId(state, { accountId: match.params.accountId }),
-        mainLoader: status.mainLoader,
+        mainLoader: selectStatusMainLoader(state),
         recoveryMethodsLoader: selectRecoveryMethodsLoading(state, { accountId: match.params.accountId })
     };
 };
