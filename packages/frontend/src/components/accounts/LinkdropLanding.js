@@ -8,6 +8,7 @@ import { checkNearDropBalance, claimLinkdropToAccount, redirectTo, handleRefresh
 import { clearLocalAlert } from '../../redux/actions/status';
 import { selectAccountSlice } from '../../redux/slices/account';
 import { actions as linkdropActions } from '../../redux/slices/linkdrop';
+import { selectStatusMainLoader } from '../../redux/slices/status';
 import { actionsPending } from '../../utils/alerts';
 import AccountDropdown from '../common/AccountDropdown';
 import Balance from '../common/balance/Balance';
@@ -173,7 +174,7 @@ const mapStateToProps = (state, { match }) => ({
     ...selectAccountSlice(state),
     fundingContract: match.params.fundingContract,
     fundingKey: match.params.fundingKey,
-    mainLoader: state.status.mainLoader
+    mainLoader: selectStatusMainLoader(state)
 });
 
 export const LinkdropLandingWithRouter = connect(
