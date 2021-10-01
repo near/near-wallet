@@ -14,6 +14,7 @@ import { showCustomAlert } from '../../../redux/actions/status';
 import { selectAccountId, selectAccountSlice } from '../../../redux/slices/account';
 import { actions as linkdropActions } from '../../../redux/slices/linkdrop';
 import { actions as recoveryMethodsActions, selectRecoveryMethodsByAccountId, selectRecoveryMethodsLoading } from '../../../redux/slices/recoveryMethods';
+import { selectStatusMainLoader } from '../../../redux/slices/status';
 import { validateEmail } from '../../../utils/account';
 import { actionsPending } from '../../../utils/alerts';
 import isApprovedCountryCode from '../../../utils/isApprovedCountryCode';
@@ -541,7 +542,7 @@ const mapDispatchToProps = {
 };
 
 const mapStateToProps = (state, { match }) => {
-    const { router, status } = state;
+    const { router } = state;
 
     return {
         ...selectAccountSlice(state),
@@ -549,7 +550,7 @@ const mapStateToProps = (state, { match }) => {
         accountId: match.params.accountId,
         activeAccountId: selectAccountId(state),
         recoveryMethods: selectRecoveryMethodsByAccountId(state, { accountId: selectAccountId(state) }),
-        mainLoader: status.mainLoader,
+        mainLoader: selectStatusMainLoader(state),
         recoveryMethodsLoader: selectRecoveryMethodsLoading(state, { accountId: match.params.accountId })
     };
 };
