@@ -14,3 +14,5 @@ export const selectAccountHelperWalletState = createSelector(selectAccountSlice,
 export const selectAccountRequiredUnlockBalance = createSelector(selectAccountHelperWalletState, (accountHelperWalletState) => accountHelperWalletState.requiredUnlockBalance);
 
 export const selectAccountFundedAccountNeedsDeposit = createSelector(selectAccountHelperWalletState, (accountHelperWalletState) => accountHelperWalletState.fundedAccountNeedsDeposit);
+
+export const selectAccountHas2fa = createSelector(selectAccountSlice, (account) => account.has2fa);
