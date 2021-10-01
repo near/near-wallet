@@ -86,7 +86,7 @@ export function EnableTwoFactor(props) {
     const has2fa = useSelector((state) => selectAccountHas2fa(state));
     const accountId = useSelector((state) => selectAccountId(state));
     const status = useSelector((state) => selectStatusSlice(state));
-    const nearTokenFiatValueUSD = useSelector(selectNearTokenFiatValueUSD);
+    const nearTokenFiatValueUSD = useSelector((state) => selectNearTokenFiatValueUSD(state));
 
     const [initiated, setInitiated] = useState(false);
     const [option, setOption] = useState('email');
