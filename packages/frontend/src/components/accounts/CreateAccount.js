@@ -14,6 +14,7 @@ import {
 } from '../../redux/actions/account';
 import { clearLocalAlert } from '../../redux/actions/status';
 import { selectAccountSlice } from '../../redux/slices/account';
+import { selectRouterLocationSearch } from '../../redux/slices/router';
 import { selectStatusMainLoader } from '../../redux/slices/status';
 import { selectNearTokenFiatValueUSD } from '../../redux/slices/tokenFiatValues';
 import isMobile from '../../utils/isMobile';
@@ -315,7 +316,7 @@ const mapStateToProps = (state, ownProps) => {
         fundingKey: match.params.fundingKey,
         fundingAccountId: match.params.fundingAccountId,
         nearTokenFiatValueUSD: selectNearTokenFiatValueUSD(state),
-        locationSearch: router.location.search
+        locationSearch: selectRouterLocationSearch(state)
     };
 };
 
