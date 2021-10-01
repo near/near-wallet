@@ -7,6 +7,7 @@ import styled from 'styled-components';
 
 import { Mixpanel } from '../../../mixpanel';
 import { redirectTo, clearFundedAccountNeedsDeposit, getBalance, getAccountHelperWalletState } from '../../../redux/actions/account';
+import { selectAccountSlice } from '../../../redux/slices/account';
 import { selectNearTokenFiatValueUSD } from '../../../redux/slices/tokenFiatValues';
 import { removeAccountIsInactive } from '../../../utils/localStorage';
 import { isMoonpayAvailable, getSignedUrl } from '../../../utils/moonpay';
@@ -253,7 +254,7 @@ class ActivateAccount extends Component {
 const mapStateToProps = (state) => {
     const { account, status } = state;
     return {
-        ...account,
+        ...selectAccountSlice(state),
         mainLoader: status.mainLoader,
         minBalanceToUnlock: account.accountHelperWalletState?.requiredUnlockBalance || MIN_BALANCE_FOR_GAS,
         needsDeposit: account.accountHelperWalletState?.fundedAccountNeedsDeposit,
