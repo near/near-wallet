@@ -14,6 +14,9 @@ import {
     clearAccountState
 } from '../../redux/actions/account';
 import { clearLocalAlert } from '../../redux/actions/status';
+import { selectAccountSlice } from '../../redux/slices/account';
+import { selectRouterSlice } from '../../redux/slices/router';
+import { selectStatusLocalAlert, selectStatusMainLoader } from '../../redux/slices/status';
 import parseFundingOptions from '../../utils/parseFundingOptions';
 import Container from '../common/styled/Container.css';
 import RecoverAccountSeedPhraseForm from './RecoverAccountSeedPhraseForm';
@@ -132,12 +135,12 @@ const mapDispatchToProps = {
     clearAccountState
 };
 
-const mapStateToProps = ({ account, status, router }, { match }) => ({
-    ...account,
-    router,
+const mapStateToProps = (state, { match }) => ({
+    ...selectAccountSlice(state),
+    router: selectRouterSlice(state),
     seedPhrase: match.params.seedPhrase || '',
-    localAlert: status.localAlert,
-    mainLoader: status.mainLoader
+    localAlert: selectStatusLocalAlert(state),
+    mainLoader: selectStatusMainLoader(state)
 });
 
 export const RecoverAccountSeedPhraseWithRouter = connect(
