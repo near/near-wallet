@@ -14,7 +14,9 @@ import {
     getLedgerPublicKey
 } from '../../../redux/actions/account';
 import { showCustomAlert } from '../../../redux/actions/status';
+import { selectAccountSlice } from '../../../redux/slices/account';
 import { actions as linkdropActions } from '../../../redux/slices/linkdrop';
+import { selectStatusMainLoader } from '../../../redux/slices/status';
 import parseFundingOptions from '../../../utils/parseFundingOptions';
 import { DISABLE_CREATE_ACCOUNT, setKeyMeta, ENABLE_IDENTITY_VERIFIED_ACCOUNT } from '../../../utils/wallet';
 import FormButton from '../../common/FormButton';
@@ -189,10 +191,10 @@ const SetupLedger = (props) => {
     );
 };
 
-const mapStateToProps = ({ account, status }, { match }) => ({
-    ...account,
+const mapStateToProps = (state, { match }) => ({
+    ...selectAccountSlice(state),
     accountId: match.params.accountId,
-    mainLoader: status.mainLoader
+    mainLoader: selectStatusMainLoader(state)
 });
 
 export const SetupLedgerWithRouter = connect(mapStateToProps)(SetupLedger);
