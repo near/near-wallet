@@ -4,6 +4,7 @@ import { connect, useSelector } from 'react-redux';
 
 import { Mixpanel } from '../../../mixpanel/index';
 import { removeNonLedgerAccessKeys, redirectTo } from '../../../redux/actions/account';
+import { selectLedgerHasLedger } from '../../../redux/slices/ledger';
 import { actionsPending } from '../../../utils/alerts';
 import FormButton from '../../common/FormButton';
 import Container from '../../common/styled/Container.css';
@@ -11,10 +12,9 @@ import HardwareDeviceIcon from '../../svg/HardwareDeviceIcon';
 import NextStepModal from './NextStepModal';
 
 const SetupLedgerSuccess = (props) => {
-
     const [nextStep, setNextStep] = useState('');
     const removingkeys = actionsPending('REMOVE_NON_LEDGER_ACCESS_KEYS');
-    const { hasLedger } = useSelector(({ ledger }) => ledger);
+    const hasLedger = useSelector((state) => selectLedgerHasLedger(state));
 
     const handleConfirm = async () => {
         if (nextStep === 'keep') {
