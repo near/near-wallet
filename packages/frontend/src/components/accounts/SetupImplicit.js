@@ -282,20 +282,14 @@ class SetupImplicit extends Component {
     }
 }
 
-const mapStateToProps = (state, ownProps) => {
-    const { match } = ownProps;
-    const { params } = match;
-    const { accountId, implicitAccountId, recoveryMethod } = params;
-
-    return {
-        ...selectAccountSlice(state),
-        activeAccountId: selectAccountId(state),
-        newAccountId: accountId,
-        implicitAccountId,
-        recoveryMethod,
-        mainLoader: selectStatusMainLoader(state),
-        nearTokenFiatValueUSD: selectNearTokenFiatValueUSD(state)
-    };
-};
+const mapStateToProps = (state, { match: { params: { accountId, implicitAccountId, recoveryMethod } } }) => ({
+    ...selectAccountSlice(state),
+    activeAccountId: selectAccountId(state),
+    newAccountId: accountId,
+    implicitAccountId,
+    recoveryMethod,
+    mainLoader: selectStatusMainLoader(state),
+    nearTokenFiatValueUSD: selectNearTokenFiatValueUSD(state)
+});
 
 export const SetupImplicitWithRouter = connect(mapStateToProps)(withRouter(SetupImplicit));
