@@ -15,6 +15,9 @@ import {
     clearAccountState
 } from '../../../redux/actions/account';
 import { clearLocalAlert } from '../../../redux/actions/status';
+import { selectAccountSlice } from '../../../redux/slices/account';
+import { selectLedgerSignInWithLedger, selectLedgerSignInWithLedgerStatus, selectLedgerTxSigned } from '../../../redux/slices/ledger';
+import { selectStatusSlice } from '../../../redux/slices/status';
 import { controller as controllerHelperApi } from '../../../utils/helper-api';
 import parseFundingOptions from '../../../utils/parseFundingOptions';
 import FormButton from '../../common/FormButton';
@@ -33,10 +36,12 @@ export function SignInLedger(props) {
     const [confirmedPath, setConfirmedPath] = useState(null);
     const ledgerHdPath = confirmedPath ? `44'/397'/0'/0'/${confirmedPath}'` : null;
 
-    const account = useSelector(({ account }) => account);
-    const status = useSelector(({ status }) => status);
-    const { signInWithLedger: signInWithLedgerState, txSigned, signInWithLedgerStatus } = useSelector(({ ledger }) => ledger);
-
+    const account = useSelector((state) => selectAccountSlice(state));
+    const status = useSelector((state) => selectStatusSlice(state));
+    const signInWithLedgerState = useSelector((state) => selectLedgerSignInWithLedger(state));
+    const txSigned = useSelector((state) => selectLedgerTxSigned(state));
+    const signInWithLedgerStatus = useSelector((state) => selectLedgerSignInWithLedgerStatus(state));
+    
     const signInWithLedgerKeys = Object.keys(signInWithLedgerState || {});
 
     const ledgerAccounts = signInWithLedgerKeys.map((accountId) => ({
