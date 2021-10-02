@@ -77,7 +77,7 @@ const StyledContainer = styled(Container)`
     }
 `;
 class SetupImplicit extends Component {
-    state = { 
+    state = {
         balance: null,
         whereToBuy: false,
         accountFunded: false,
@@ -92,7 +92,7 @@ class SetupImplicit extends Component {
     handleContinue = async () => {
         const { dispatch, newAccountId, implicitAccountId, recoveryMethod } = this.props;
         this.setState({ creatingAccount: true });
-        await Mixpanel.withTracking("CA Create account from implicit", 
+        await Mixpanel.withTracking("CA Create account from implicit",
             async () => {
                 await dispatch(createAccountFromImplicit(newAccountId, implicitAccountId, recoveryMethod));
             },
@@ -106,7 +106,7 @@ class SetupImplicit extends Component {
 
     checkMoonPay = async () => {
         const { implicitAccountId } = this.props;
-        await Mixpanel.withTracking("CA Check Moonpay available", 
+        await Mixpanel.withTracking("CA Check Moonpay available",
             async () => {
                 const moonpayAvailable = await isMoonpayAvailable();
                 if (moonpayAvailable) {
@@ -126,28 +126,33 @@ class SetupImplicit extends Component {
         const { accountFunded } = this.state;
 
         if (!accountFunded) {
-            const account = wallet.getAccountBasic(implicitAccountId);
             await Mixpanel.withTracking("CA Check balance from implicit",
                 async () => {
-                    const state = await account.state();
-                    if (new BN(state.amount).gte(new BN(MIN_BALANCE_TO_CREATE))) {
-                        Mixpanel.track("CA Check balance from implicit: sufficient");
-                        this.setState({ 
-                            balance: state.amount,
-                            whereToBuy: false,
-                            accountFunded: true
-                        });
-                        window.scrollTo(0, 0);
-                        return;
-                    } else {
-                        Mixpanel.track("CA Check balance from implicit: insufficient");
-                    }
-                },
-                (e) => { 
-                    if (e.message.indexOf('exist while viewing') === -1) {
+                    try {
+                        const account = wallet.getAccountBasic(implicitAccountId);
+                        const state = await account.state();
+                        if (new BN(state.amount).gte(new BN(MIN_BALANCE_TO_CREATE))) {
+                            Mixpanel.track("CA Check balance from implicit: sufficient");
+                            this.setState({
+                                balance: state.amount,
+                                whereToBuy: false,
+                                accountFunded: true
+                            });
+                            window.scrollTo(0, 0);
+                            return;
+                        } else {
+                            Mixpanel.track("CA Check balance from implicit: insufficient");
+                        }
+                    } catch(e) {
+                        if (e.message.includes('does not exist while viewing')) {
+                            return;
+                        }
                         throw e;
                     }
+                },
+                (e) => {
                     this.setState({ balance: 0 });
+                    throw e;
                 }
             );
         }
@@ -156,7 +161,7 @@ class SetupImplicit extends Component {
 
     startPollingAccountBalance = () => {
         const handleCheckBalance = async () => {
-            await this.checkBalance().catch(() => {});
+            await this.checkBalance().catch(() => { });
             if (this.pollAccountBalanceHandle) {
                 this.pollAccountBalanceHandle = setTimeout(() => handleCheckBalance(), 3000);
             }
@@ -168,7 +173,7 @@ class SetupImplicit extends Component {
         clearTimeout(this.pollAccountBalanceHandle);
         this.pollAccountBalanceHandle = null;
     }
- 
+
     componentDidMount = () => {
         // TODO: Check if account has already been created and if so, navigate to dashboard
         this.startPollingAccountBalance();
@@ -205,8 +210,8 @@ class SetupImplicit extends Component {
             return (
                 <StyledContainer className='small-centered funded' >
                     <h1><Translate id='account.createImplicit.post.title' /></h1>
-                    <h2><Translate id='account.createImplicit.post.descOne'/></h2>
-                    <h2><b><Translate id='account.createImplicit.post.descTwo'/></b></h2>
+                    <h2><Translate id='account.createImplicit.post.descOne' /></h2>
+                    <h2><b><Translate id='account.createImplicit.post.descTwo' /></b></h2>
                     {!creatingAccount &&
                         <AccountFunded
                             fundingAddress={implicitAccountId}
@@ -223,7 +228,7 @@ class SetupImplicit extends Component {
                     </FormButton>
                     {claimMyAccount &&
                         <AccountFundedModal
-                            onClose={() => {}}
+                            onClose={() => { }}
                             open={claimMyAccount}
                             implicitAccountId={implicitAccountId}
                             accountId={newAccountId}
@@ -258,7 +263,7 @@ class SetupImplicit extends Component {
                 />
                 {moonpayAvailable &&
                     <>
-                        <Divider/>
+                        <Divider />
                         <FundWithMoonpay
                             moonpaySignedURL={moonpaySignedURL}
                         />

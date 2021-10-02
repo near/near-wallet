@@ -66,22 +66,27 @@ export function InitialDepositWrapper({ history }) {
         if (fundingNeeded) {
             await Mixpanel.withTracking("CA Check balance from implicit",
                 async () => {
-                    const account = wallet.getAccountBasic(implicitAccountId);
-                    const state = await account.state();
-                    if (new BN(state.amount).gte(new BN(MIN_BALANCE_TO_CREATE))) {
-                        Mixpanel.track("CA Check balance from implicit: sufficient");
-                        setFundingNeeded(false);
-                        setInitialDeposit(state.amount);
-                        return;
-                    } else {
-                        console.log('Insufficient funding amount');
-                        Mixpanel.track("CA Check balance from implicit: insufficient");
+                    try {
+                        const account = wallet.getAccountBasic(implicitAccountId);
+                        const state = await account.state();
+                        if (new BN(state.amount).gte(new BN(MIN_BALANCE_TO_CREATE))) {
+                            Mixpanel.track("CA Check balance from implicit: sufficient");
+                            setFundingNeeded(false);
+                            setInitialDeposit(state.amount);
+                            return;
+                        } else {
+                            console.log('Insufficient funding amount');
+                            Mixpanel.track("CA Check balance from implicit: insufficient");
+                        }
+                    } catch(e) {
+                        if (e.message.includes('does not exist while viewing')) {
+                            return;
+                        }
+                        throw e;
                     }
                 },
                 (e) => {
-                    if (e.message.indexOf('exist while viewing') === -1) {
-                        throw e;
-                    }
+                    throw e;
                 }
             );
         }

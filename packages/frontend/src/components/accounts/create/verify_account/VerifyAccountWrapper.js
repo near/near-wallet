@@ -47,7 +47,7 @@ export function VerifyAccountWrapper() {
                     }
                 },
                 (e) => {
-                    console.warn('Error checking Moonpay', e);
+                    throw e;
                 }
             );
         };
