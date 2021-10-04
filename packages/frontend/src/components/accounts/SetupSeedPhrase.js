@@ -105,7 +105,8 @@ class SetupSeedPhrase extends Component {
             this.setState(() => ({
                 localAlert: {
                     success: false,
-                    messageCode: 'account.verifySeedPhrase.error'
+                    messageCode: 'account.verifySeedPhrase.error',
+                    show: true
                 }
             }));
             Mixpanel.track("SR-SP Verify fail", { error: 'word is not matched the phrase' });
