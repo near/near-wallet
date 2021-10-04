@@ -16,3 +16,7 @@ export const selectAccountRequiredUnlockBalance = createSelector(selectAccountHe
 export const selectAccountFundedAccountNeedsDeposit = createSelector(selectAccountHelperWalletState, (accountHelperWalletState) => accountHelperWalletState.fundedAccountNeedsDeposit);
 
 export const selectAccountHas2fa = createSelector(selectAccountSlice, (account) => account.has2fa);
+
+export const selectAccountUrl = createSelector(selectAccountSlice, (account) => account.url || {});
+
+export const selectAccountUrlReferrer = createSelector(selectAccountUrl, (url) => url.referrer);
