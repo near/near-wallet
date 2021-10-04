@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import IconCheckCircleImage from '../../images/icon-check-circle.svg';
 import IconsAlertCircleImage from '../../images/icon_alert-circle.svg';
 import { clearGlobalAlert } from '../../redux/actions/status';
+import { selectStatusSlice } from '../../redux/slices/status';
 import SafeTranslate from '../SafeTranslate';
 
 const AlertContainer = styled.div`
@@ -265,8 +266,8 @@ const mapDispatchToProps = {
     clearGlobalAlert
 };
 
-const mapStateToProps = ({ status }) => ({
-    ...status
+const mapStateToProps = (state) => ({
+    ...selectStatusSlice(state)
 });
 
 export default connect(
