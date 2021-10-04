@@ -601,6 +601,7 @@
         "transferring": "Transferring",
         "viewOnExplorer": "View on Explorer",
         "buy": "Buy",
+        "topUp": "Top Up",
         "learnMore": "Learn More",
         "viewFAQ": "View FAQ",
         "acceptAndContinue": "Accept & Continue",
@@ -853,14 +854,16 @@
     },
 
     "buyNear": {
-        "title": "Purchase NEAR",
+        "title": "Top Up",
         "moonPay": "MoonPay",
         "descOne": "Purchase NEAR through MoonPay using your preferred payment method.",
         "buyWith": "Buy with",
         "supportedExchanges": "Supported Exchanges",
         "descTwo": "NEAR is available to purchase through the following exchanges.",
         "seeMore": "See more on",
-        "coinMarketCap": "CoinMarketCap"
+        "coinMarketCap": "CoinMarketCap",
+        "bridgeTokens": "Bridge Tokens from Ethereum",
+        "descThree": "Transfer your tokens from Ethereum to NEAR Wallet using a bridge."
     },
 
     "NFTs": {

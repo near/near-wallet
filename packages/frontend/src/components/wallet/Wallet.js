@@ -404,7 +404,7 @@ const FungibleTokens = ({ balance, tokensLoader, fungibleTokens }) => {
                     <div>
                         <BuyIcon />
                     </div>
-                    <Translate id='button.buy' />
+                    <Translate id='button.topUp' />
                 </FormButton>
             </div>
             {availableBalanceIsZero &&
