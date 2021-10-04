@@ -7,6 +7,7 @@ import styled from 'styled-components';
 
 import IconArrowLeft from '../../images/IconArrowLeft';
 import { showCustomAlert } from '../../redux/actions/status';
+import { selectAccountUrlContractId } from '../../redux/slices/account';
 import { EXPLORER_URL } from '../../utils/wallet';
 import SafeTranslate from '../SafeTranslate';
 
@@ -183,10 +184,12 @@ const mapDispatchToProps = {
     showCustomAlert
 };
 
-const mapStateToProps = ({ transactions = [], account }) => {
+const mapStateToProps = (state) => {
+    let { transactions = [] } = state;
+
     transactions = [
         {
-            signerId: account.url.contract_id,
+            signerId: selectAccountUrlContractId(state),
             receiverId: 'account id',
             actions: [
                 {
