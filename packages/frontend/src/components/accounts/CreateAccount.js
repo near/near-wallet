@@ -80,6 +80,7 @@ const StyledContainer = styled(Container)`
         margin-top: 5px;
     }
     &.invalid-link {
+        text-align: center;
         svg {
             display: block;
             margin: 0 auto;
