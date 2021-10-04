@@ -20,3 +20,5 @@ export const selectAccountHas2fa = createSelector(selectAccountSlice, (account) 
 export const selectAccountUrl = createSelector(selectAccountSlice, (account) => account.url || {});
 
 export const selectAccountUrlReferrer = createSelector(selectAccountUrl, (url) => url.referrer);
+
+export const selectAccountUrlContractId = createSelector(selectAccountUrl, (url) => url.contract_id);
