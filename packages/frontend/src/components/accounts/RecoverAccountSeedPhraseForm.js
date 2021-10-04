@@ -25,6 +25,7 @@ const RecoverAccountSeedPhraseForm = ({
                         data-test-id="seedPhraseRecoveryInput"
                         required
                         tabIndex='2'
+                        autoCapitalize='off'
                     />
                 )}
             </Translate>
