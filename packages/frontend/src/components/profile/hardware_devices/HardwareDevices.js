@@ -9,14 +9,16 @@ import {
     getAccessKeys,
     disableLedger,
     getLedgerKey,
-    addLedgerAccessKey,
-    loadRecoveryMethods
+    addLedgerAccessKey
 } from '../../../redux/actions/account';
-import { actionsPending } from '../../../utils/alerts';
+import { selectRecoveryMethodsLoading } from '../../../redux/slices/recoveryMethods';
+import { actions as recoveryMethodsActions } from '../../../redux/slices/recoveryMethods';
 import FormButton from '../../common/FormButton';
 import SkeletonLoading from '../../common/SkeletonLoading';
 import Card from '../../common/styled/Card.css';
 import ConfirmDisable from './ConfirmDisable';
+
+const { fetchRecoveryMethods } = recoveryMethodsActions;
 
 const Container = styled(Card)`
 
@@ -72,7 +74,7 @@ const HardwareDevices = ({ recoveryMethods }) => {
     const hasLedger = userRecoveryMethods.filter(method => method.kind === 'ledger').map(key => key.publicKey).some(key => publicKeys.includes(key));
     const ledgerIsConnected = account.ledgerKey;
     const hasLedgerButNotConnected = hasLedger && !ledgerIsConnected;
-    const recoveryLoader = (actionsPending('LOAD_RECOVERY_METHODS') && !userRecoveryMethods.length) || !account.accountId;
+    const recoveryLoader = (useSelector((state) => selectRecoveryMethodsLoading(state, { accountId: account.accountId })) && !userRecoveryMethods.length) || !account.accountId;
 
     const handleConfirmDisable = async () => {
         await Mixpanel.withTracking("SR-Ledger Handle confirm disable",
@@ -84,7 +86,7 @@ const HardwareDevices = ({ recoveryMethods }) => {
             async () => {
                 await dispatch(getAccessKeys());
                 await dispatch(getLedgerKey());
-                await dispatch(loadRecoveryMethods());
+                await dispatch(fetchRecoveryMethods({ accountId: account.accountId }));
                 setDisabling(false);
                 setConfirmDisable(false);
             }
@@ -96,7 +98,7 @@ const HardwareDevices = ({ recoveryMethods }) => {
             async () => {
                 await dispatch(addLedgerAccessKey());
                 await dispatch(getLedgerKey());
-                await dispatch(loadRecoveryMethods());
+                await dispatch(fetchRecoveryMethods({ accountId: account.accountId }));
             }
         );
     };

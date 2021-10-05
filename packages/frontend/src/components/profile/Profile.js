@@ -13,11 +13,11 @@ import {
     redirectTo,
     refreshAccount,
     transferAllFromLockup,
-    loadRecoveryMethods,
     getProfileStakingDetails,
     getBalance
 } from '../../redux/actions/account';
 import { selectProfileBalance } from '../../redux/reducers/selectors/balance';
+import { actions as recoveryMethodsActions, selectRecoveryMethodsByAccountId } from '../../redux/slices/recoveryMethods';
 import { selectNearTokenFiatValueUSD } from '../../redux/slices/tokenFiatValues';
 import isMobile from '../../utils/isMobile';
 import { IS_MAINNET, MIN_BALANCE_FOR_GAS } from '../../utils/wallet';
@@ -36,6 +36,8 @@ import HardwareDevices from './hardware_devices/HardwareDevices';
 import MobileSharingWrapper from './mobile_sharing/MobileSharingWrapper';
 import RecoveryContainer from './Recovery/RecoveryContainer';
 import TwoFactorAuth from './two_factor/TwoFactorAuth';
+
+const { fetchRecoveryMethods } = recoveryMethodsActions;
 
 const StyledContainer = styled(Container)`
     @media (max-width: 991px) {
@@ -130,16 +132,16 @@ export function Profile({ match }) {
     const [transferring, setTransferring] = useState(false);
     const { has2fa, authorizedApps, ledgerKey } = useSelector(({ account }) => account);
     const loginAccountId = useSelector(state => state.account.accountId);
-    const recoveryMethods = useSelector(({ recoveryMethods }) => recoveryMethods);
     const nearTokenFiatValueUSD = useSelector(selectNearTokenFiatValueUSD);
     const accountIdFromUrl = match.params.accountId;
     const accountId = accountIdFromUrl || loginAccountId;
     const isOwner = accountId === loginAccountId;
     const account = useAccount(accountId);
     const dispatch = useDispatch();
-    const userRecoveryMethods = recoveryMethods[account.accountId];
-    const twoFactor = has2fa && userRecoveryMethods && userRecoveryMethods.filter(m => m.kind.includes('2fa'))[0];
     const profileBalance = selectProfileBalance(account);
+
+    const userRecoveryMethods = useSelector((state) => selectRecoveryMethodsByAccountId(state, { accountId: account.accountId }));
+    const twoFactor = has2fa && userRecoveryMethods && userRecoveryMethods.filter(m => m.kind.includes('2fa'))[0];
 
     useEffect(() => {
         if (!loginAccountId) {
@@ -152,7 +154,7 @@ export function Profile({ match }) {
         
         (async () => {
             if (isOwner) {
-                await dispatch(loadRecoveryMethods());
+                await dispatch(fetchRecoveryMethods({ accountId }));
                 if (!ledgerKey) {
                     dispatch(getLedgerKey());
                 }

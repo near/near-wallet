@@ -11,11 +11,11 @@ import {
     refreshAccount,
     checkIsNew,
     handleCreateAccountWithSeedPhrase,
-    fundCreateAccount,
-    loadRecoveryMethods
+    fundCreateAccount
 } from '../../redux/actions/account';
 import { clearGlobalAlert, showCustomAlert } from '../../redux/actions/status';
 import { actions as linkdropActions } from '../../redux/slices/linkdrop';
+import { actions as recoveryMethodsActions } from '../../redux/slices/recoveryMethods';
 import copyText from '../../utils/copyText';
 import isMobile from '../../utils/isMobile';
 import parseFundingOptions from '../../utils/parseFundingOptions';
@@ -26,6 +26,7 @@ import SetupSeedPhraseForm from './SetupSeedPhraseForm';
 import SetupSeedPhraseVerify from './SetupSeedPhraseVerify';
 
 const { setLinkdropAmount } = linkdropActions;
+const { fetchRecoveryMethods } = recoveryMethodsActions;
 
 // FIXME: Use `debug` npm package so we can keep some debug logging around but not spam the console everywhere
 const ENABLE_DEBUG_LOGGING = false;
@@ -47,11 +48,11 @@ class SetupSeedPhrase extends Component {
     }
 
     componentDidMount = async () => {
-
+        const { accountId, activeAccountId, fetchRecoveryMethods } = this.props;
         this.refreshData();
 
-        if (this.props.accountId === this.props.activeAccountId) {
-            this.props.loadRecoveryMethods();
+        if (accountId === activeAccountId) {
+            fetchRecoveryMethods({ accountId });
         }
 
         // We need to know if the account is new so when we render SetupSeedPhraseVerify, it doesn't load reCaptcha if its an existing account
@@ -282,7 +283,7 @@ const mapDispatchToProps = {
     checkIsNew,
     handleCreateAccountWithSeedPhrase,
     fundCreateAccount,
-    loadRecoveryMethods,
+    fetchRecoveryMethods,
     showCustomAlert,
     setLinkdropAmount
 };
