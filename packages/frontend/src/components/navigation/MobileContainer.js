@@ -173,7 +173,8 @@ class MobileContainer extends Component {
             menuOpen,
             toggleMenu,
             showNavLinks,
-            flowLimitation,
+            flowLimitationMainMenu,
+            flowLimitationSubMenu,
             refreshBalance,
             getBalance,
             isInactiveAccount
@@ -182,16 +183,16 @@ class MobileContainer extends Component {
         return (
             <Container className={menuOpen ? 'show' : ''} id='mobile-menu'>
                 <Collapsed>
-                    <Logo link={!flowLimitation.mainMenu}/>
+                    <Logo link={!flowLimitationMainMenu}/>
                     {showNavLinks &&
                         <>
                             <UserAccount
                                 accountId={account.accountId || account.localStorage?.accountId}
                                 onClick={toggleMenu}
                                 withIcon={false}
-                                flowLimitation={flowLimitation}
+                                flowLimitationSubMenu={flowLimitationSubMenu}
                             />
-                            <UserIcon background={true} color='#A2A2A8' onClick={!flowLimitation.subMenu ? toggleMenu : null}/>
+                            <UserIcon background={true} color='#A2A2A8' onClick={!flowLimitationSubMenu ? toggleMenu : null}/>
                         </>
                     }
                     {!showNavLinks &&

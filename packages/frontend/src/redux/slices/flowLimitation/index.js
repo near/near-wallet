@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSelector, createSlice } from '@reduxjs/toolkit';
 import assign from 'lodash.assign';
 
 import { 
@@ -90,3 +90,31 @@ export const actions = {
     ...flowLimitationSlice.actions
 };
 export const reducer = flowLimitationSlice.reducer; 
+
+// Top level selectors
+const selectFlowLimitationSlice = (state) => state[SLICE_NAME];
+
+export const selectFlowLimitationMainMenu = createSelector(
+    selectFlowLimitationSlice,
+    ({ mainMenu }) => mainMenu || false
+);
+
+export const selectFlowLimitationSubMenu = createSelector(
+    selectFlowLimitationSlice,
+    ({ subMenu }) => subMenu || false
+);
+
+export const selectFlowLimitationMAccountPages = createSelector(
+    selectFlowLimitationSlice,
+    ({ accountPages }) => accountPages || false
+);
+
+export const selectFlowLimitationAccountData = createSelector(
+    selectFlowLimitationSlice,
+    ({ accountData }) => accountData || false
+);
+
+export const selectFlowLimitationAccountBalance = createSelector(
+    selectFlowLimitationSlice,
+    ({ accountBalance }) => accountBalance || false
+);
