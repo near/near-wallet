@@ -1,17 +1,17 @@
-import React from "react";
-import styled from "styled-components";
-import { Translate } from "react-localize-redux";
+import React from 'react';
+import styled from 'styled-components';
+import { Translate } from 'react-localize-redux';
 
-import FormButton from "../common/FormButton";
-import CloseButton from "../common/modal/CloseButton";
-import HashRushLogo from "../../images/hash-rush-logo.svg";
-import ParasLogo from "../../images/paras-logo.svg";
-import ZedLogo from "../../images/zed-logo.svg";
-import MintbaseLogo from "../../images/mintbase-logo.svg";
-import FluxLogo from "../../images/flux-logo.svg";
-import BerryClubLogo from "../../images/berryclub-logo.svg";
+import FormButton from '../common/FormButton';
+import CloseButton from '../common/modal/CloseButton';
+import HashRushLogo from '../../images/hash-rush-logo.svg';
+import ParasLogo from '../../images/paras-logo.svg';
+import ZedLogo from '../../images/zed-logo.svg';
+import MintbaseLogo from '../../images/mintbase-logo.svg';
+import FluxLogo from '../../images/flux-logo.svg';
+import BerryClubLogo from '../../images/berryclub-logo.svg';
 
-import { EXPLORE_APPS_URL, EXPLORE_DEFI_URL } from "/utils/wallet";
+import { EXPLORE_APPS_URL, EXPLORE_DEFI_URL } from '/utils/wallet';
 
 const Container = styled.div`
     && {
@@ -73,22 +73,27 @@ const Container = styled.div`
                         top: -65px;
                         left: -50px;
                     }
+
                     :nth-of-type(2) {
                         top: -80px;
                         right: -85px;
                     }
+
                     :nth-of-type(3) {
                         top: -10px;
                         left: -110px;
                     }
+
                     :nth-of-type(4) {
                         top: -20px;
                         left: -20px;
                     }
+
                     :nth-of-type(5) {
                         top: -20px;
                         left: 80px;
                     }
+
                     :nth-of-type(6) {
                         top: 25px;
                         left: 30px;
@@ -103,37 +108,37 @@ const Container = styled.div`
 const ExploreApps = ({ onClick }) => {
     return (
         <Container>
-            <CloseButton onClick={onClick} />
-            <div className="apps-wrapper">
+            <CloseButton onClick={onClick}/>
+            <div className='apps-wrapper'>
                 <div>
-                    <img src={HashRushLogo} alt="Hash Rush" />
-                    <img src={FluxLogo} alt="Flux" />
-                    <img src={ParasLogo} alt="Paras" />
-                    <img src={ZedLogo} alt="Zed" />
-                    <img src={MintbaseLogo} alt="Mintbase" />
-                    <img src={BerryClubLogo} alt="Berryclub" />
+                    <img src={HashRushLogo} alt='Hash Rush'/>
+                    <img src={FluxLogo} alt='Flux'/>
+                    <img src={ParasLogo} alt='Paras'/>
+                    <img src={ZedLogo} alt='Zed'/>
+                    <img src={MintbaseLogo} alt='Mintbase'/>
+                    <img src={BerryClubLogo} alt='Berryclub'/>
                 </div>
             </div>
             <h2>
-                <Translate id="exploreApps.title" />
+                <Translate id='exploreApps.title'/>
             </h2>
-            <div className="desc">
-                <Translate id="exploreApps.desc" />
+            <div className='desc'>
+                <Translate id='exploreApps.desc'/>
             </div>
-            <div className="buttons">
+            <div className='buttons'>
                 <FormButton
                     linkTo={EXPLORE_APPS_URL}
-                    color="dark-gray-light-blue"
-                    trackingId="Click explore apps button"
+                    color='dark-gray-light-blue'
+                    trackingId='Click explore apps button'
                 >
-                    <Translate id="exploreApps.exploreApps" />
+                    <Translate id='exploreApps.exploreApps'/>
                 </FormButton>
                 <FormButton
                     linkTo={EXPLORE_DEFI_URL}
-                    color="dark-gray-light-blue"
-                    trackingId="Click explore defi button"
+                    color='dark-gray-light-blue'
+                    trackingId='Click explore defi button'
                 >
-                    <Translate id="exploreApps.exploreDeFi" />
+                    <Translate id='exploreApps.exploreDeFi'/>
                 </FormButton>
             </div>
         </Container>
