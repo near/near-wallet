@@ -6,6 +6,7 @@ import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { disableMultisig } from '../../../redux/actions/account';
+import { selectAccountSlice } from '../../../redux/slices/account';
 import { actions as recoveryMethodsActions } from '../../../redux/slices/recoveryMethods';
 import { selectNearTokenFiatValueUSD } from '../../../redux/slices/tokenFiatValues';
 import { actionsPending } from '../../../utils/alerts';
@@ -65,8 +66,8 @@ const Container = styled(Card)`
 
 const TwoFactorAuth = ({ twoFactor, history }) => {
     const [confirmDisable, setConfirmDisable] = useState(false);
-    const account = useSelector(({ account }) => account);
-    const nearTokenFiatValueUSD = useSelector(selectNearTokenFiatValueUSD);
+    const account = useSelector((state) => selectAccountSlice(state));
+    const nearTokenFiatValueUSD = useSelector((state) => selectNearTokenFiatValueUSD(state));
     const dispatch = useDispatch();
 
     const handleConfirmDisable = async () => {
