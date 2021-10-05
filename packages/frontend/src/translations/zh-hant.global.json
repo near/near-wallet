@@ -856,7 +856,8 @@
     "exploreApps": {
         "title": "尋找 NEAR 生態和應用？",
         "desc": "賺取、鑄幣和玩遊戲！發現 NEAR 生態的應用。",
-        "button": "瀏覽應用"
+        "exploreApps": "瀏覽應用",
+        "exploreDeFi": "Explore DeFi"
     },
 
     "login": {

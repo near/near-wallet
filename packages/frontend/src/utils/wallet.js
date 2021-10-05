@@ -61,6 +61,7 @@ export const ENABLE_FULL_ACCESS_KEYS = process.env.ENABLE_FULL_ACCESS_KEYS === '
 export const HIDE_SIGN_IN_WITH_LEDGER_ENTER_ACCOUNT_ID_MODAL = process.env.HIDE_SIGN_IN_WITH_LEDGER_ENTER_ACCOUNT_ID_MODAL;
 export const SMS_BLACKLIST = process.env.SMS_BLACKLIST || 'CN,VN';
 export const EXPLORE_APPS_URL = process.env.EXPLORE_APPS_URL || 'https://awesomenear.com/trending/';
+export const EXPLORE_DEFI_URL = process.env.EXPLORE_DEFI_URL || 'https://awesomenear.com/categories/defi/';
 export const MIN_BALANCE_TO_CREATE = process.env.MIN_BALANCE_TO_CREATE || nearApiJs.utils.format.parseNearAmount('0.1');
 export const NETWORK_ID = process.env.REACT_APP_NETWORK_ID || 'default';
 export const DISABLE_PHONE_RECOVERY = process.env.DISABLE_PHONE_RECOVERY === 'yes';

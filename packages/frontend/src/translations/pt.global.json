@@ -764,7 +764,8 @@
     "exploreApps": {
         "title": "O que está na NEAR?",
         "desc": "Ganhe, gere e jogue! Descubra o ecossistema de aplicativos NEAR.",
-        "button": "Explorar Apps"
+        "exploreApps": "Explorar Apps",
+        "exploreDeFi": "Explorar DeFi"
     },
 
     "login": {

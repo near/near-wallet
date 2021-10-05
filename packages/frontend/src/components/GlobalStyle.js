@@ -1,7 +1,7 @@
-import { createGlobalStyle } from 'styled-components';
+import { createGlobalStyle } from "styled-components";
 
-import 'semantic-ui-css/semantic.min.css';
-import CloseBtn from '../images/close-btn.svg';
+import "semantic-ui-css/semantic.min.css";
+import CloseBtn from "../images/close-btn.svg";
 
 export default createGlobalStyle`
 
@@ -58,7 +58,6 @@ export default createGlobalStyle`
 
     body, p, h1, h2, h3, h4, h5, h6, button, .button, input, select, textarea {
         font-family: "Inter", Lato, "Lucida Grande", Tahoma, Sans-Serif !important;
-        font-variant: slashed-zero;
     }
 
     .font-monospace {
