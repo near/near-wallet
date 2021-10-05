@@ -11,6 +11,7 @@ import {
     getLedgerKey,
     addLedgerAccessKey
 } from '../../../redux/actions/account';
+import { selectAccountSlice } from '../../../redux/slices/account';
 import { selectRecoveryMethodsLoading } from '../../../redux/slices/recoveryMethods';
 import { actions as recoveryMethodsActions } from '../../../redux/slices/recoveryMethods';
 import FormButton from '../../common/FormButton';
@@ -65,7 +66,8 @@ const HardwareDevices = ({ recoveryMethods }) => {
     const [disabling, setDisabling] = useState(false);
     const [confirmDisable, setConfirmDisable] = useState(false);
     const dispatch = useDispatch();
-    const account = useSelector(({ account }) => account);
+    const account = useSelector((state) => selectAccountSlice(state));
+
     let userRecoveryMethods = recoveryMethods || [];
     const keys = account.fullAccessKeys || [];
     const recoveryKeys = userRecoveryMethods.filter(method => method.kind !== 'ledger').map(key => key.publicKey);
