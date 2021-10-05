@@ -5,8 +5,10 @@ import styled from 'styled-components';
 
 import { Mixpanel } from '../../../mixpanel/index';
 import { deleteRecoveryMethod } from '../../../redux/actions/account';
+import { selectAccountSlice } from '../../../redux/slices/account';
 import { selectRecoveryMethodsLoading } from '../../../redux/slices/recoveryMethods';
 import { actions as recoveryMethodsActions } from '../../../redux/slices/recoveryMethods';
+import { selectStatusMainLoader } from '../../../redux/slices/status';
 import { DISABLE_PHONE_RECOVERY } from '../../../utils/wallet';
 import SkeletonLoading from '../../common/SkeletonLoading';
 import RecoveryMethod from './RecoveryMethod';
@@ -37,8 +39,8 @@ const Container = styled.div`
 const RecoveryContainer = ({ type, recoveryMethods }) => {
     const [deletingMethod, setDeletingMethod] = useState('');
     const dispatch = useDispatch();
-    const account = useSelector(({ account }) => account);
-    const { mainLoader } = useSelector(({ status }) => status);
+    const account = useSelector((state) => selectAccountSlice(state));
+    const mainLoader = useSelector((state) => selectStatusMainLoader(state));
     let userRecoveryMethods = recoveryMethods || [];
     const allKinds = ['email', 'phone', 'phrase'];
     const activeMethods = userRecoveryMethods.filter(({ kind }) => allKinds.includes(kind));
