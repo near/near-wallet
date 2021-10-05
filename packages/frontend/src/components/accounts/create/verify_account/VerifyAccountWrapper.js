@@ -4,6 +4,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { useGoogleReCaptcha } from 'react-google-recaptcha-v3-near';
 import { useDispatch, useSelector } from 'react-redux';
 
+import { Mixpanel } from '../../../../mixpanel';
 import {
     redirectTo,
     sendIdentityVerificationMethodCode,
@@ -38,10 +39,17 @@ export function VerifyAccountWrapper() {
 
     useEffect(() => {
         const checkIfMoonPayIsAvailable = async () => {
-            const moonpayAvailable = await isMoonpayAvailable();
-            if (moonpayAvailable) {
-                setShowFundWithCreditCardOption(true);
-            }
+            await Mixpanel.withTracking("CA Check Moonpay available",
+                async () => {
+                    const moonpayAvailable = await isMoonpayAvailable();
+                    if (moonpayAvailable) {
+                        setShowFundWithCreditCardOption(true);
+                    }
+                },
+                (e) => {
+                    throw e;
+                }
+            );
         };
         checkIfMoonPayIsAvailable();
     }, []);
