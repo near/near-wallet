@@ -46,7 +46,7 @@ class RecoverAccountSeedPhrase extends Component {
 
     // TODO: Use some validation framework?
     validators = {
-        seedPhrase: value => !!value.length && value.trim().split(' ').length === 12
+        seedPhrase: value => !!value.length
     }
 
     get isLegit() {
