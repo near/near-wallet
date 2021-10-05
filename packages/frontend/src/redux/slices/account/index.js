@@ -7,7 +7,12 @@ export const selectAccountSlice = (state) => state[SLICE_NAME];
 
 // Second level selectors 
 export const selectAccountId = createSelector(selectAccountSlice, (account) => account.accountId);
+
 export const selectAccountHas2fa = createSelector(selectAccountSlice, (account) => account.has2fa);
+
+export const selectAccountAuthorizedApps = createSelector(selectAccountSlice, (account) => account.authorizedApps || []);
+
+export const selectAccountLedgerKey = createSelector(selectAccountSlice, (account) => account.ledgerKey);
 
 // balance - state
 export const selectBalance = createSelector(selectAccountSlice, (account) => account.balance || {});
@@ -25,5 +30,3 @@ export const selectAccountUrl = createSelector(selectAccountSlice, (account) => 
 export const selectAccountUrlReferrer = createSelector(selectAccountUrl, (url) => url.referrer);
 
 export const selectAccountUrlContractId = createSelector(selectAccountUrl, (url) => url.contract_id);
-
-
