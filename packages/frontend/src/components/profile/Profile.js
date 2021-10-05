@@ -17,6 +17,7 @@ import {
     getBalance
 } from '../../redux/actions/account';
 import { selectProfileBalance } from '../../redux/reducers/selectors/balance';
+import { selectAccountAuthorizedApps, selectAccountHas2fa, selectAccountId, selectAccountLedgerKey } from '../../redux/slices/account';
 import { actions as recoveryMethodsActions, selectRecoveryMethodsByAccountId } from '../../redux/slices/recoveryMethods';
 import { selectNearTokenFiatValueUSD } from '../../redux/slices/tokenFiatValues';
 import isMobile from '../../utils/isMobile';
@@ -130,9 +131,11 @@ const StyledContainer = styled(Container)`
 
 export function Profile({ match }) {
     const [transferring, setTransferring] = useState(false);
-    const { has2fa, authorizedApps, ledgerKey } = useSelector(({ account }) => account);
-    const loginAccountId = useSelector(state => state.account.accountId);
-    const nearTokenFiatValueUSD = useSelector(selectNearTokenFiatValueUSD);
+    const has2fa = useSelector((state) => selectAccountHas2fa(state));
+    const authorizedApps = useSelector((state) => selectAccountAuthorizedApps(state));
+    const ledgerKey = useSelector((state) => selectAccountLedgerKey(state));
+    const loginAccountId = useSelector((state) => selectAccountId(state));
+    const nearTokenFiatValueUSD = useSelector((state) => selectNearTokenFiatValueUSD(state));
     const accountIdFromUrl = match.params.accountId;
     const accountId = accountIdFromUrl || loginAccountId;
     const isOwner = accountId === loginAccountId;
