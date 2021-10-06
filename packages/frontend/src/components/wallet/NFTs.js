@@ -77,7 +77,7 @@ const NFTs = ({ tokens }) => {
                 <NearCircleIcon/>
                 <div><Translate id='NFTs.emptyState' /></div>
                 <FormButton color='gray-blue' linkTo='https://awesomenear.com/categories/nft/'>
-                    <Translate id='exploreApps.button' />
+                    <Translate id='exploreApps.exploreApps' />
                 </FormButton>
             </div>
         </StyledContainer>
