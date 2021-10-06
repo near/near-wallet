@@ -11,7 +11,8 @@ import {
 import { showCustomAlert } from '../../../../redux/actions/status';
 import {
     selectBalance,
-    selectAccountsBalances
+    selectAccountsBalances,
+    signedInAccountIdLocalStorage
 } from '../../../../redux/reducers/account';
 import { MIN_BALANCE_TO_CREATE, LINKDROP_GAS, wallet } from '../../../../utils/wallet';
 import FundNewAccount from './FundNewAccount';
@@ -23,8 +24,7 @@ export function ExistingAccountWrapper({ history }) {
     const [fundingAccountId, setFundingAccountId] = useState('');
     const [creatingNewAccount, setCreatingNewAccount] = useState(false);
 
-    const account = useSelector(({ account }) => account);
-    const signedInAccountId = account.localStorage?.accountId;
+    const signedInAccountId = useSelector(signedInAccountIdLocalStorage);
     const availableAccounts = useSelector(({ availableAccounts }) => availableAccounts);
     const accountsBalances = useSelector(selectAccountsBalances);
     const signedInAccountBalance = useSelector(selectBalance);
@@ -39,7 +39,7 @@ export function ExistingAccountWrapper({ history }) {
     if (fundingAccountId) {
         return (
             <FundNewAccount
-                onClickPrimary={async () => {
+                onClickApprove={async () => {
                     await Mixpanel.withTracking("CA Create account from existing account",
                         async () => {
                             setCreatingNewAccount(true);
@@ -63,7 +63,7 @@ export function ExistingAccountWrapper({ history }) {
                     );
                     dispatch(redirectTo('/'));
                 }}
-                onClickSecondary={() => setFundingAccountId('')}
+                onClickCancel={() => setFundingAccountId('')}
                 transferAmount={MIN_BALANCE_TO_CREATE}
                 gasFeeAmount={LINKDROP_GAS}
                 sender={signedInAccountId}
@@ -85,11 +85,11 @@ export function ExistingAccountWrapper({ history }) {
             onSignInToDifferentAccount={() =>
                 dispatch(redirectTo(`/recover-account?fundWithExistingAccount=${encodeURIComponent(JSON.stringify({ accountId, implicitAccountId, recoveryMethod }))}`))
             }
-            onClickPrimary={() => {
+            onClickNext={() => {
                 setFundingAccountId(signedInAccountId);
                 window.scrollTo(0, 0);
             }}
-            onClickSecondary={() => history.goBack()}
+            onClickCancel={() => history.goBack()}
             hasAllRequiredParams={hasAllRequiredParams}
         />
     );

@@ -42,7 +42,7 @@ const StyledContainer = styled.div`
     }
 
     .balance {
-        min-height: 19px;
+        min-height: 20px;
     }
 
     .account-id {
@@ -89,7 +89,7 @@ export default ({
                     {showBalance
                         ? <Balance
                             amount={balance}
-                            showBalanceInUSD={!!showBalanceInUSD}
+                            showBalanceInUSD={showBalanceInUSD}
                             showBalanceInNEAR={!showBalanceInUSD}
                             showAlmostEqualSignUSD={false}
                         />

@@ -5,6 +5,7 @@ import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
 import { MIN_BALANCE_TO_CREATE } from '../../../../utils/wallet';
+import FormButton from '../../../common/FormButton';
 import FormButtonGroup from '../../../common/FormButtonGroup';
 import Container from '../../../common/styled/Container.css';
 import AccountSelector from '../../account_selector/AccountSelector';
@@ -23,14 +24,14 @@ export default ({
     getAccountBalance,
     onSelectAccount,
     onSignInToDifferentAccount,
-    onClickPrimary,
-    onClickSecondary,
+    onClickNext,
+    onClickCancel,
     hasAllRequiredParams
 }) => {
     return (
         <StyledContainer className='small-centered border'>
             <h1><Translate id='existingAccount.selectAccount.title' /></h1>
-            <h2><Translate id='existingAccount.selectAccount.desc' data={{ amount: formatNearAmount(MIN_BALANCE_TO_CREATE) }}/></h2>
+            <h2><Translate id='existingAccount.selectAccount.desc' data={{ amount: formatNearAmount(MIN_BALANCE_TO_CREATE) }} /></h2>
             <h2><Translate id='existingAccount.selectAccount.descTwo' /></h2>
             <AccountSelector
                 signedInAccountId={signedInAccountId}
@@ -39,23 +40,22 @@ export default ({
                 getAccountBalance={getAccountBalance}
                 onSelectAccount={onSelectAccount}
                 onSignInToDifferentAccount={onSignInToDifferentAccount}
+                showBalanceInUSD={false}
             />
-            <FormButtonGroup
-                onClick={{
-                    primary: onClickPrimary,
-                    secondary: onClickSecondary
-                }}
-                disabled={{
-                    primary: !hasAllRequiredParams || !new BN(signedInAccountAvailableBalance).gte(new BN(MIN_BALANCE_TO_CREATE))
-                }}
-                color={{
-                    secondary: 'gray-blue'
-                }}
-                translateId={{
-                    primary: 'button.next',
-                    secondary: 'button.cancel'
-                }}
-            />
+            <FormButtonGroup>
+                <FormButton
+                    onClick={onClickCancel}
+                    color='gray-blue'
+                >
+                    <Translate id='button.cancel' />
+                </FormButton>
+                <FormButton
+                    onClick={onClickNext}
+                    disabled={!hasAllRequiredParams || !new BN(signedInAccountAvailableBalance).gte(new BN(MIN_BALANCE_TO_CREATE))}
+                >
+                    <Translate id='button.next' />
+                </FormButton>
+            </FormButtonGroup>
         </StyledContainer>
     );
 };

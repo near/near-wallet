@@ -84,7 +84,7 @@ class RecoverAccountSeedPhrase extends Component {
             }
         );
 
-        const fundWithExistingAccount = JSON.parse(parseQuery(location.search).fundWithExistingAccount || 'null');
+        const fundWithExistingAccount = JSON.parse(parseQuery(location.search).fundWithExistingAccount, { parseBooleans: true });
         if (fundWithExistingAccount) {
             const createNewAccountParams = new URLSearchParams(fundWithExistingAccount).toString();
             redirectTo(`/fund-with-existing-account?${createNewAccountParams}`);

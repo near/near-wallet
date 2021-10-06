@@ -2,6 +2,7 @@ import React from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
+import FormButton from '../../../common/FormButton';
 import FormButtonGroup from '../../../common/FormButtonGroup';
 import Container from '../../../common/styled/Container.css';
 import EstimatedFees from '../../../transfer/EstimatedFees';
@@ -26,8 +27,8 @@ const StyledContainer = styled(Container)`
 `;
 
 export default ({
-    onClickPrimary,
-    onClickSecondary,
+    onClickApprove,
+    onClickCancel,
     transferAmount,
     gasFeeAmount,
     sender,
@@ -49,26 +50,22 @@ export default ({
             <EstimatedFees
                 gasFeeAmount={gasFeeAmount}
             />
-            <FormButtonGroup
-                onClick={{
-                    primary: onClickPrimary,
-                    secondary: onClickSecondary
-                }}
-                disabled={{
-                    primary: creatingNewAccount || !hasAllRequiredParams,
-                    secondary: creatingNewAccount
-                }}
-                sending={{
-                    primary: creatingNewAccount
-                }}
-                color={{
-                    secondary: 'gray-blue'
-                }}
-                translateId={{
-                    primary: 'button.approve',
-                    secondary: 'button.cancel'
-                }}
-            />
+            <FormButtonGroup>
+                <FormButton
+                    onClick={onClickCancel}
+                    color='gray-blue'
+                    disabled={creatingNewAccount}
+                >
+                    <Translate id='button.cancel' />
+                </FormButton>
+                <FormButton
+                    onClick={onClickApprove}
+                    disabled={creatingNewAccount || !hasAllRequiredParams}
+                    sending={creatingNewAccount}
+                >
+                    <Translate id='button.approve' />
+                </FormButton>
+            </FormButtonGroup>
         </StyledContainer>
     );
 };

@@ -1,8 +1,5 @@
 import React from 'react';
-import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
-
-import FormButton from './FormButton';
 
 const StyledContainer = styled.div`
     &&& {
@@ -20,30 +17,11 @@ const StyledContainer = styled.div`
 `;
 
 export default ({
-    onClick,
-    color,
-    disabled,
-    sending,
-    translateId
+    children
 }) => {
     return (
         <StyledContainer className='button-group'>
-            <FormButton 
-                onClick={onClick?.secondary}
-                color={color?.secondary}
-                disabled={disabled?.secondary}
-                sending={sending?.secondary}
-            >
-                    <Translate id={translateId.secondary} />
-            </FormButton>
-            <FormButton 
-                onClick={onClick?.primary}
-                color={color?.primary}
-                disabled={disabled?.primary}
-                sending={sending?.primary}
-            >
-                    <Translate id={translateId.primary} />
-            </FormButton>
+            {children}
         </StyledContainer>
     );
 };

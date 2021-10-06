@@ -66,8 +66,6 @@ export default ({
     showBalanceInUSD
 }) => {
 
-
-
     if (!signedInAccountId && onSignInToDifferentAccount) {
         return (
             <StyledContainer className='no-account pg-20 brs-8'>
@@ -106,7 +104,7 @@ export default ({
                 )}
             </div>
             {onSignInToDifferentAccount &&
-                < FormButton
+                <FormButton
                     onClick={onSignInToDifferentAccount}
                     color='gray-blue'
                 >
