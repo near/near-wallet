@@ -7,6 +7,8 @@ import { Mixpanel } from '../../mixpanel/index';
 import { checkAccountAvailable, redirectTo } from '../../redux/actions/account';
 import { checkAndHideLedgerModal } from '../../redux/actions/account';
 import { clearLocalAlert, showCustomAlert } from '../../redux/actions/status';
+import { selectAccountId } from '../../redux/slices/account';
+import { selectStatusLocalAlert } from '../../redux/slices/status';
 import { selectNearTokenFiatValueUSD } from '../../redux/slices/tokenFiatValues';
 import { actions as tokensActions } from '../../redux/slices/tokens';
 import { fungibleTokensService } from '../../services/FungibleTokens';
@@ -20,10 +22,10 @@ const { fetchTokens } = tokensActions;
 export function SendContainerWrapper({ match }) {
     const accountIdFromUrl = match.params.accountId || '';
     const dispatch = useDispatch();
-    const { accountId } = useSelector(({ account }) => account);
-    const { localAlert } = useSelector(({ status }) => status);
-    const nearTokenFiatValueUSD = useSelector(selectNearTokenFiatValueUSD);
 
+    const accountId = useSelector((state) => selectAccountId(state));
+    const localAlert = useSelector((state) => selectStatusLocalAlert(state));
+    const nearTokenFiatValueUSD = useSelector((state) => selectNearTokenFiatValueUSD(state));
     const [activeView, setActiveView] = useState(VIEWS.ENTER_AMOUNT);
     const [estimatedTotalFees, setEstimatedTotalFees] = useState('0');
     const [estimatedTotalInNear, setEstimatedTotalInNear] = useState('0');
