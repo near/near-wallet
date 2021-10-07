@@ -1,5 +1,3 @@
-import { createSelector } from "reselect";
-
 const SLICE_NAME = 'sign';
 
 // Top level selectors
