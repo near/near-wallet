@@ -8,3 +8,5 @@ export const selectStatusSlice = (state) => state[SLICE_NAME];
 export const selectStatusMainLoader = createSelector(selectStatusSlice, (status) => status.mianLoader || false);
 
 export const selectStatusLocalAlert = createSelector(selectStatusSlice, (status) => status.localAlert || {});
+
+export const selectStatusActionStatus = createSelector(selectStatusSlice, (status) => status.actionStatus || []);
