@@ -7,6 +7,8 @@ import { withRouter } from 'react-router-dom';
 import { Mixpanel } from '../../mixpanel';
 import { signAndSendTransactions, redirectTo } from '../../redux/actions/account';
 import { selectAccountSlice } from '../../redux/slices/account';
+import { selectSignSlice } from '../../redux/slices/sign';
+import { selectStatusActionStatus } from '../../redux/slices/status';
 import SignContainer from './SignContainer';
 import SignTransferCancelled from './SignTransferCancelled';
 import SignTransferReady from './SignTransferReady';
@@ -120,14 +122,11 @@ function addQueryParams(baseUrl, queryParams) {
     return url.toString();
 }
 
-const mapStateToProps = (state) => {
-    const { sign, status } = state;
-    return {
-        account: selectAccountSlice(state),
-        ...sign,
-        signTxStatus: status.actionStatus.SIGN_AND_SEND_TRANSACTIONS
-    };
-};
+const mapStateToProps = (state) => ({
+    account: selectAccountSlice(state),
+    ...selectSignSlice(state),
+    signTxStatus: selectStatusActionStatus(state).SIGN_AND_SEND_TRANSACTIONS
+});
 
 export const SignWithRouter = connect(
     mapStateToProps
