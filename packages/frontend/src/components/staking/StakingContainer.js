@@ -13,6 +13,7 @@ import {
 } from '../../redux/actions/staking';
 import { selectAccountHas2fa, selectAccountId, selectBalance } from '../../redux/slices/account';
 import { selectLedgerHasLedger } from '../../redux/slices/ledger';
+import { selectStakingSlice } from '../../redux/slices/staking';
 import { selectStatusSlice } from '../../redux/slices/status';
 import { selectNearTokenFiatValueUSD } from '../../redux/slices/tokenFiatValues';
 import { setStakingAccountSelected, getStakingAccountSelected } from '../../utils/localStorage';
@@ -169,7 +170,7 @@ export function StakingContainer({ history, match }) {
     const balance = useSelector((state) => selectBalance(state));
     const status = useSelector((state) => selectStatusSlice(state));
     const hasLedger = useSelector((state) => selectLedgerHasLedger(state));
-    const staking = useSelector(({ staking }) => staking);
+    const staking = useSelector((state) => selectStakingSlice(state));
     const nearTokenFiatValueUSD = useSelector((state) => selectNearTokenFiatValueUSD(state));
 
     const hasLockup = !!staking.lockupId;
