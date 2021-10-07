@@ -11,6 +11,9 @@ import {
     staking as stakingActions,
     handleStakingAction
 } from '../../redux/actions/staking';
+import { selectAccountHas2fa, selectAccountId, selectBalance } from '../../redux/slices/account';
+import { selectLedgerHasLedger } from '../../redux/slices/ledger';
+import { selectStatusSlice } from '../../redux/slices/status';
 import { selectNearTokenFiatValueUSD } from '../../redux/slices/tokenFiatValues';
 import { setStakingAccountSelected, getStakingAccountSelected } from '../../utils/localStorage';
 import Container from '../common/styled/Container.css';
@@ -161,12 +164,14 @@ const StyledContainer = styled(Container)`
 
 export function StakingContainer({ history, match }) {
     const dispatch = useDispatch();
-    const { accountId, has2fa, balance = {} } = useSelector(({ account }) => account);
-    const status = useSelector(({ status }) => status);
-    const { hasLedger } = useSelector(({ ledger }) => ledger);
-    
+    const accountId = useSelector((state) => selectAccountId(state));
+    const has2fa = useSelector((state) => selectAccountHas2fa(state));
+    const balance = useSelector((state) => selectBalance(state));
+    const status = useSelector((state) => selectStatusSlice(state));
+    const hasLedger = useSelector((state) => selectLedgerHasLedger(state));
     const staking = useSelector(({ staking }) => staking);
-    const nearTokenFiatValueUSD = useSelector(selectNearTokenFiatValueUSD);
+    const nearTokenFiatValueUSD = useSelector((state) => selectNearTokenFiatValueUSD(state));
+
     const hasLockup = !!staking.lockupId;
     const { currentAccount } = staking;
     const stakingAccounts = staking.accounts;
