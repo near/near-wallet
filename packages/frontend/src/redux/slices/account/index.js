@@ -12,6 +12,8 @@ export const selectAccountHas2fa = createSelector(selectAccountSlice, (account) 
 
 export const selectAccountAuthorizedApps = createSelector(selectAccountSlice, (account) => account.authorizedApps || []);
 
+export const selectAccountFullAccessKeys = createSelector(selectAccountSlice, (account) => account.fullAccessKeys || []);
+
 export const selectAccountLedgerKey = createSelector(selectAccountSlice, (account) => account.ledgerKey);
 
 // balance - state
