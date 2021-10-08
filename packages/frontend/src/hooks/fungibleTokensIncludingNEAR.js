@@ -17,10 +17,10 @@ const fungibleTokensIncludingNEAR = (tokens, balance, nearTokenFiatValueUSD) => 
 };
 
 export const useFungibleTokensIncludingNEAR = function () {
-    const balance = useSelector(selectBalance);
+    const balance = useSelector((state) => selectBalance(state));
     const accountId = useSelector(state => selectAccountId(state));
     const tokens = useSelector(state => selectTokensWithMetadataForAccountId(state, { accountId }));
-    const nearTokenFiatValueUSD = useSelector(selectNearTokenFiatValueUSD);
+    const nearTokenFiatValueUSD = useSelector((state) => selectNearTokenFiatValueUSD(state));
 
     const balanceToDisplay = balance?.balanceAvailable;
     const [fungibleTokensList, setFungibleTokensList] = useState(
