@@ -6,7 +6,7 @@ import ReceiveContainer from './ReceiveContainer';
 
 export function ReceiveContainerWrapper() {
     const accountId = useSelector((state) => selectAccountId(state));
-    const balance = useSelector ((state) => selectBalance(state));
+    const balance = useSelector((state) => selectBalance(state));
 
     const availableBalance = balance?.balanceAvailable;
 
