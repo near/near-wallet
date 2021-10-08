@@ -215,6 +215,3 @@ export default reduceReducers(
     twoFactorPrompt,
     ledgerKey
 );
-
-export const selectAccount = (state) => state.account;
-export const signedInAccountIdLocalStorage = createSelector(selectAccount, (account) => account.localStorage?.accountId);
