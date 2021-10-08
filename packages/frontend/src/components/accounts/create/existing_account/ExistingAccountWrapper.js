@@ -10,10 +10,7 @@ import {
     checkAndHideLedgerModal
 } from '../../../../redux/actions/account';
 import { showCustomAlert } from '../../../../redux/actions/status';
-import {
-    signedInAccountIdLocalStorage
-} from '../../../../redux/reducers/account';
-import { selectAccountAccountsBalances, selectBalance } from '../../../../redux/slices/account';
+import { selectAccountAccountsBalances, selectAccountLocalStorageAccountId, selectBalance } from '../../../../redux/slices/account';
 import { selectAvailableAccounts } from '../../../../redux/slices/availableAccounts';
 import { MIN_BALANCE_TO_CREATE, LINKDROP_GAS, wallet } from '../../../../utils/wallet';
 import FundNewAccount from './FundNewAccount';
@@ -25,7 +22,7 @@ export function ExistingAccountWrapper({ history }) {
     const [fundingAccountId, setFundingAccountId] = useState('');
     const [creatingNewAccount, setCreatingNewAccount] = useState(false);
 
-    const signedInAccountId = useSelector(signedInAccountIdLocalStorage);
+    const signedInAccountId = useSelector((state) => selectAccountLocalStorageAccountId(state));
     const availableAccounts = useSelector(selectAvailableAccounts);
     const accountsBalances = useSelector((state) => selectAccountAccountsBalances(state));
     const signedInAccountBalance = useSelector((state) => selectBalance(state));
