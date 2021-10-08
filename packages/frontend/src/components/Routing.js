@@ -33,7 +33,7 @@ import {
     WALLET_SIGN_URL,
     WALLET_SEND_MONEY_URL,
 } from '../utils/wallet';
-import { AuthorizedAppsWithRouter, FullAccessKeysWithRouter } from './access-keys/AccessKeys';
+import AccessKeysWrapper from './access-keys/v2/AccessKeysWrapper';
 import { AutoImportWrapper } from './accounts/auto_import/AutoImportWrapper';
 import { ActivateAccountWithRouter } from './accounts/create/ActivateAccount';
 import { ExistingAccountWrapper } from './accounts/create/existing_account/ExistingAccountWrapper';
@@ -452,12 +452,12 @@ class Routing extends Component {
                             <PrivateRoute
                                 exact
                                 path='/authorized-apps'
-                                component={AuthorizedAppsWithRouter}
+                                render={() => <AccessKeysWrapper type='authorized-apps'/>}
                             />
                             <PrivateRoute
                                 exact
                                 path='/full-access-keys'
-                                component={FullAccessKeysWithRouter}
+                                render={() => <AccessKeysWrapper type='full-access-keys'/>}
                             />
                             {!isInactiveAccount &&
                                 <PrivateRoute
