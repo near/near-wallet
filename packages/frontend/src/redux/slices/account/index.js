@@ -22,6 +22,11 @@ export const selectBalance = createSelector(selectAccountSlice, (account) => acc
 // accountsBalance - state
 export const selectAccountAccountsBalances = createSelector(selectAccountSlice, (account) => account.accountsBalance || {});
 
+// localStorage - state
+export const selectAccountLocalStorage = createSelector(selectAccountSlice, (account) => account.localStorage || {});
+
+export const selectAccountLocalStorageAccountId = createSelector(selectAccountLocalStorage, (localStorage) => localStorage.accountId);
+
 // helperWalletState - state
 export const selectAccountHelperWalletState = createSelector(selectAccountSlice, (account) => account.accountHelperWalletState || {});
 
