@@ -3,11 +3,12 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import { refreshAccountExternal, getProfileStakingDetails } from '../redux/actions/account';
 import { selectAccountId, selectAccountSlice } from '../redux/slices/account';
+import { selectAllAccountsSlice } from '../redux/slices/allAccounts';
 
 export function useAccount(accountId) {
     const ownerAccountId = useSelector((state) => selectAccountId(state));
     const account = useSelector((state) => selectAccountSlice(state));
-    const allAccounts = useSelector((state) => state.allAccounts);
+    const allAccounts = useSelector((state) => selectAllAccountsSlice(state));
 
     const isOwner = ownerAccountId === accountId;
 
