@@ -2,18 +2,22 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { getAccessKeys, removeAccessKey } from '../../../redux/actions/account';
-import { selectAccount } from '../../../redux/reducers/account';
+import { selectAccount, selectAccountId } from '../../../redux/reducers/account';
 import AuthorizedAppsKeys from './AuthorizedAppsKeys';
 import FullAccessKeys from './FullAccessKeys';
 
 export default ({ type }) => {
     const dispatch = useDispatch();
 
-    const [showManageKeyModal, setShowManageKeyModal] = useState(false);
-    const [accessKeyData, setAccessKeyData] = useState();
-    const [deAuthorizingKey, setDeAuthorizingKey] = useState();
+    const [userInputAccountId, setUserInputAccountId] = useState('');
+    const [deAuthorizingKey, setDeAuthorizingKey] = useState('');
+    const [confirmDeAuthorizeKey, setConfirmDeAuthorizeKey] = useState('');
 
     const account = useSelector(selectAccount);
+    const accountId = useSelector(selectAccountId);
+
+    // TODO: Use selectors once PR is merged to master:
+    // https://github.com/near/near-wallet/pull/2178
     const fullAccessKeys = account.fullAccessKeys;
     const authorizedAppsKeys = account.authorizedApps;
 
@@ -23,7 +27,7 @@ export default ({ type }) => {
             await dispatch(removeAccessKey(publicKey));
             await dispatch(getAccessKeys());
         } finally {
-            setDeAuthorizingKey(false);
+            setDeAuthorizingKey('');
         }
     };
 
@@ -31,7 +35,7 @@ export default ({ type }) => {
         return (
             <AuthorizedAppsKeys
                 authorizedAppsKeys={authorizedAppsKeys}
-                onClick={(appKeyData) => deAuthorizeKey(appKeyData.public_key)}
+                onClickDeAuthorizeKey={(publicKey) => deAuthorizeKey(publicKey)}
                 deAuthorizingKey={deAuthorizingKey}
             />
         );
@@ -41,10 +45,13 @@ export default ({ type }) => {
         return (
             <FullAccessKeys
                 fullAccessKeys={fullAccessKeys}
-                onClick={(accessKeyData) => {
-                    setShowManageKeyModal(true);
-                    setAccessKeyData(accessKeyData);
-                }}
+                onClickDeAuthorizeKey={(publicKey) => deAuthorizeKey(publicKey)}
+                userInputAccountId={userInputAccountId}
+                setUserInputAccountId={(userInputAccountId) => setUserInputAccountId(userInputAccountId)}
+                accountId={accountId}
+                confirmDeAuthorizeKey={confirmDeAuthorizeKey}
+                setConfirmDeAuthorizeKey={(publicKey) => setConfirmDeAuthorizeKey(publicKey)}
+                deAuthorizingKey={deAuthorizingKey}
             />
         );
     }

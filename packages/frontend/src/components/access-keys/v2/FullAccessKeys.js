@@ -2,9 +2,7 @@ import React from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
-import FormButton from '../../common/FormButton';
 import Container from '../../common/styled/Container.css';
-import CheckCircleIcon from '../../svg/CheckCircleIcon';
 import FullAccessKey from './FullAccessKey';
 
 const StyledContainer = styled(Container)`
@@ -25,21 +23,34 @@ const StyledContainer = styled(Container)`
 
 export default ({
     fullAccessKeys,
-    onClick,
-    deAuthorizingKey
+    onClickDeAuthorizeKey,
+    deAuthorizingKey,
+    userInputAccountId,
+    setUserInputAccountId,
+    accountId,
+    confirmDeAuthorizeKey,
+    setConfirmDeAuthorizeKey
 }) => {
     return (
         <StyledContainer className='medium centered'>
-            <h1><CheckCircleIcon /><Translate id='profile.authorizedApps.title' /> ({fullAccessKeys?.length})</h1>
+            <h1><Translate id='fullAccessKeys.pageTitle' /> ({fullAccessKeys?.length})</h1>
             <div className='access-keys'>
-                {fullAccessKeys?.map((appKeyData, i) => (
+                {fullAccessKeys?.map((accessKey, i) => (
                     <FullAccessKey
                         key={i}
-                        app={appKeyData}
-                        onClick={() => onClick(appKeyData)}
-                        deAuthorizing={deAuthorizingKey === appKeyData.public_key}
+                        accessKey={accessKey}
+                        onClickDeAuthorizeKey={onClickDeAuthorizeKey}
+                        deAuthorizing={deAuthorizingKey === accessKey.public_key}
+                        userInputAccountId={userInputAccountId}
+                        setUserInputAccountId={setUserInputAccountId}
+                        accountId={accountId}
+                        confirmDeAuthorizeKey={confirmDeAuthorizeKey}
+                        setConfirmDeAuthorizeKey={setConfirmDeAuthorizeKey}
                     />
                 ))}
+                {fullAccessKeys?.length === 0 &&
+                    <Translate id='fullAccessKeys.dashboardNoKeys' />
+                }
             </div>
         </StyledContainer>
     );
