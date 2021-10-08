@@ -3,27 +3,34 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { switchAccount, getAvailableAccountsBalance, getAccountBalance, getBalance } from '../../redux/actions/account';
+import { switchAccount, getAvailableAccountsBalance, getAccountBalance } from '../../redux/actions/account';
 import { selectFlowLimitationMainMenu, selectFlowLimitationSubMenu } from '../../redux/slices/flowLimitation';
 import DesktopContainer from './DesktopContainer';
 import MobileContainer from './MobileContainer';
 
-
 const Container = styled.div`
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 1000;
-    @media (max-width: 991px) {
-        bottom: ${props => props.open ? '0' : 'unset'};
-    }
+    &&& {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+        @media (max-width: 991px) {
+            bottom: ${props => props.open ? '0' : 'unset'};
+        }
 
-    h6 {
-        font-size: 13px !important;
-        margin-bottom: 10px !important;
-        color: #72727A;
-        font-weight: normal !important;
+        h6 {
+            font-size: 13px;
+            margin-bottom: 5px;
+            color: #72727A;
+            font-weight: normal;
+        }
+
+        .account-selector {
+            padding: 0;
+            box-shadow: none;
+            border-radius: 0;
+        }
     }
 `;
 class Navigation extends Component {
@@ -103,7 +110,6 @@ class Navigation extends Component {
                     flowLimitationMainMenu={flowLimitationMainMenu}
                     flowLimitationSubMenu={flowLimitationSubMenu}
                     refreshBalance={this.props.getAccountBalance}
-                    getBalance={this.props.getBalance}
                     isInactiveAccount={isInactiveAccount}
                     {...this.props}
                 />
@@ -115,7 +121,6 @@ class Navigation extends Component {
                     flowLimitationMainMenu={flowLimitationMainMenu}
                     flowLimitationSubMenu={flowLimitationSubMenu}
                     refreshBalance={this.props.getAccountBalance}
-                    getBalance={this.props.getBalance}
                     isInactiveAccount={isInactiveAccount}
                     {...this.props}
                 />
@@ -135,8 +140,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = {
     switchAccount,
     getAvailableAccountsBalance,
-    getAccountBalance,
-    getBalance
+    getAccountBalance
 };
 
 export default connect(

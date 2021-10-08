@@ -91,9 +91,9 @@ export default createGlobalStyle`
         }
     }
     h3, .h3 {
-        font-size: 18px !important;
-        font-weight: 900 !important;
-        color: #24272a !important;
+        font-size: 18px;
+        font-weight: 900;
+        color: #24272a;
         margin: 0px;
     }
     h4, .h4 {
@@ -117,10 +117,10 @@ export default createGlobalStyle`
     }
 
     h6, .h6 {
-        font-size: 12px !important;
+        font-size: 12px;
         font-weight: 500;
         color: #999999;
-        margin: 0px !important;
+        margin: 0px;
     }
 
     .font-small {
@@ -571,6 +571,30 @@ export default createGlobalStyle`
 
         a {
             color: #3f4045;
+        }
+    }
+
+    .pg {
+        &-20 {
+            padding: 20px;
+        }
+    }
+
+    .br {
+        &-1-grey {
+            border: 1px solid #F0F0F1;
+        }
+    }
+
+    .brs {
+        &-8 {
+            border-radius: 8px;
+        }
+    }
+
+    .bsw {
+        &-l {
+            box-shadow: 0px 45px 56px 0px rgba(0,0,0,0.07), 0px 10.05px 12.51px 0px rgba(0,0,0,0.0417), 0px 2.99px 3.72px 0px rgba(0,0,0,0.0283);
         }
     }
 `;

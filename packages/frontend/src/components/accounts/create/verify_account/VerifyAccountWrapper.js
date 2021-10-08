@@ -227,6 +227,10 @@ export function VerifyAccountWrapper() {
                     return dispatch(redirectTo(`/initial-deposit${location.search}&fundingMethod=creditCard`));
                 }
 
+                if (activeVerificationOption === 'existingAccount') {
+                    return dispatch(redirectTo(`/fund-with-existing-account${location.search}`));
+                }
+
                 if (activeVerificationOption === 'manualDeposit') {
                     return dispatch(redirectTo(`/initial-deposit${location.search}`));
                 }
