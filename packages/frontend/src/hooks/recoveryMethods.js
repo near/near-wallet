@@ -9,9 +9,7 @@ const { fetchRecoveryMethods } = recoveryMethodsActions;
 const empty = [];
 
 export function useRecoveryMethods(accountId) {
-    const recoveryMethods = useSelector(state =>
-        selectRecoveryMethodsByAccountId(state, { accountId })
-    );
+    const recoveryMethods = useSelector((state) => selectRecoveryMethodsByAccountId(state, { accountId }));
 
     const dispatch = useDispatch();
 
