@@ -33,7 +33,6 @@ import {
     WALLET_SIGN_URL,
     WALLET_SEND_MONEY_URL,
 } from '../utils/wallet';
-import { AuthorizedAppsWithRouter, FullAccessKeysWithRouter } from './access-keys/AccessKeys';
 import AccessKeysWrapper from './access-keys/v2/AccessKeysWrapper';
 import { AutoImportWrapper } from './accounts/auto_import/AutoImportWrapper';
 import { ActivateAccountWithRouter } from './accounts/create/ActivateAccount';

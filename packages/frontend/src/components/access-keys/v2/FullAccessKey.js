@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
-import Balance from '../../common/balance/Balance';
 import FormButton from '../../common/FormButton';
 import FormButtonGroup from '../../common/FormButtonGroup';
 
