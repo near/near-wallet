@@ -453,12 +453,12 @@ class Routing extends Component {
                             <PrivateRoute
                                 exact
                                 path='/authorized-apps'
-                                render={() => <AccessKeysWrapper type='authorized-apps-keys'/>}
+                                render={() => <AccessKeysWrapper type='authorized-apps'/>}
                             />
                             <PrivateRoute
                                 exact
                                 path='/full-access-keys'
-                                render={() => <AccessKeysWrapper type='/full-access-keys'/>}
+                                render={() => <AccessKeysWrapper type='full-access-keys'/>}
                             />
                             {!isInactiveAccount &&
                                 <PrivateRoute

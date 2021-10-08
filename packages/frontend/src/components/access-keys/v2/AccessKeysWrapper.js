@@ -27,7 +27,7 @@ export default ({ type }) => {
         }
     };
 
-    if (type === 'authorized-apps-keys') {
+    if (type === 'authorized-apps') {
         return (
             <AuthorizedAppsKeys
                 authorizedAppsKeys={authorizedAppsKeys}
