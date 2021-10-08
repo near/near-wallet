@@ -11,10 +11,10 @@ import {
 } from '../../../../redux/actions/account';
 import { showCustomAlert } from '../../../../redux/actions/status';
 import {
-    selectBalance,
     selectAccountsBalances,
     signedInAccountIdLocalStorage
 } from '../../../../redux/reducers/account';
+import { selectBalance } from '../../../../redux/slices/account';
 import { selectAvailableAccounts } from '../../../../redux/slices/availableAccounts';
 import { MIN_BALANCE_TO_CREATE, LINKDROP_GAS, wallet } from '../../../../utils/wallet';
 import FundNewAccount from './FundNewAccount';
@@ -29,7 +29,7 @@ export function ExistingAccountWrapper({ history }) {
     const signedInAccountId = useSelector(signedInAccountIdLocalStorage);
     const availableAccounts = useSelector(selectAvailableAccounts);
     const accountsBalances = useSelector(selectAccountsBalances);
-    const signedInAccountBalance = useSelector(selectBalance);
+    const signedInAccountBalance = useSelector((state) => selectBalance(state));
 
     const location = useSelector(getLocation);
     const URLParams = new URLSearchParams(location.search);
