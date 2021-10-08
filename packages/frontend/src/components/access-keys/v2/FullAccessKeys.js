@@ -37,7 +37,7 @@ export default ({
             <div className='access-keys'>
                 {fullAccessKeys?.map((accessKey, i) => (
                     <FullAccessKey
-                        key={i}
+                        key={accessKey.public_key}
                         accessKey={accessKey}
                         onClickDeAuthorizeKey={onClickDeAuthorizeKey}
                         deAuthorizing={deAuthorizingKey === accessKey.public_key}

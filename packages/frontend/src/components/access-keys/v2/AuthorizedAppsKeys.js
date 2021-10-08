@@ -39,7 +39,7 @@ export default ({
             <div className='access-keys'>
                 {authorizedAppsKeys?.map((appKeyData, i) => (
                     <AuthorizedApp
-                        key={i}
+                        key={appKeyData.public_key}
                         app={appKeyData}
                         onClick={() => onClickDeAuthorizeKey(appKeyData.public_key)}
                         deAuthorizing={deAuthorizingKey === appKeyData.public_key}
