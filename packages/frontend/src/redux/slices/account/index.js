@@ -19,6 +19,9 @@ export const selectAccountLedgerKey = createSelector(selectAccountSlice, (accoun
 // balance - state
 export const selectBalance = createSelector(selectAccountSlice, (account) => account.balance || {});
 
+// accountsBalance - state
+export const selectAccountAccountsBalances = createSelector(selectAccountSlice, (account) => account.accountsBalance || {});
+
 // helperWalletState - state
 export const selectAccountHelperWalletState = createSelector(selectAccountSlice, (account) => account.accountHelperWalletState || {});
 
