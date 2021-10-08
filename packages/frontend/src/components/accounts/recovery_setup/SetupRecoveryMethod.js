@@ -543,8 +543,6 @@ const mapDispatchToProps = {
 };
 
 const mapStateToProps = (state, { match }) => {
-    const { router } = state;
-
     return {
         ...selectAccountSlice(state),
         router: selectRouterSlice(state),
