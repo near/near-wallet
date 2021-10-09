@@ -52,7 +52,7 @@ export default class NonFungibleTokens {
         return tokens.filter(({ metadata }) => !!metadata).map(({ metadata, ...token }) => {
             const { media } = metadata;
             let mediaUrl;
-            if (!media.includes('://')) {
+            if (media && !media.includes('://')) {
                 if (base_uri) {
                     mediaUrl = `${base_uri}/${media}`;
                 } else {

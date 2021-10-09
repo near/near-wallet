@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
 import { EXPLORER_URL } from '../../config';
@@ -6,6 +6,7 @@ import FailedToLoad from '../../images/failed_to_load.svg';
 import isDataURL from '../../utils/isDataURL';
 import DefaultTokenIcon from '../svg/DefaultTokenIcon';
 import LoadMoreButtonWrapper from './LoadMoreButtonWrapper';
+import NFTDetailModal from './NFTDetailModal';
 
 const StyledContainer = styled.div`
     display: flex;
@@ -75,6 +76,10 @@ const StyledContainer = styled.div`
         }
     }
 
+    .title {
+        cursor: pointer;
+    }
+
     .tokens {
         display: flex;
         flex-wrap: wrap;
@@ -95,6 +100,26 @@ const StyledContainer = styled.div`
         :nth-child(even) {
             padding-left: 5px;
         }
+
+        a {
+            color: inherit; /* blue colors for links too */
+        }
+    }
+
+    .creator {
+        span {
+            font-family: Inter;
+            font-style: normal;
+            font-weight: 500;
+            font-size: 14px;
+            line-height: 150%;
+            /* identical to box height, or 21px */
+            
+            
+            /* gray/neutral/500 */
+            
+            color: #A2A2A8;
+        }
     }
 
     .nft img, .nft video {
@@ -110,6 +135,9 @@ const NFTBox = ({ tokenDetails }) => {
         ownedTokensMetadata,
         numberByContractName
     } = tokenDetails;
+
+    const [nftDetail, setNftDetail] = useState();
+
     return (
         <StyledContainer className='nft-box'>
             <div className='nft-header'>
@@ -147,7 +175,23 @@ const NFTBox = ({ tokenDetails }) => {
                                         e.target.src = FailedToLoad;
                                     }}/>
                             }
-                            <b>{title}</b>
+                            <b className='title' onClick={() => setNftDetail(true)}>{title}</b>
+                            { nftDetail &&
+                                <NFTDetailModal
+                                    open={!!nftDetail}
+                                    onClose={() => setNftDetail()}>
+
+                                </NFTDetailModal>
+                            }
+
+                            <div className='creator'>
+                              <span>Created by </span>
+                              <a href={`${EXPLORER_URL}/accounts/${contractName}`}
+                                target="_blank"
+                                rel="noopener noreferrer ">
+                                neariscool.testnet
+                              </a>
+                            </div>
                         </div>;
                     })}
                 </div>
