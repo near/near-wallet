@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 
 import { EXPLORER_URL } from '../../config';
@@ -6,7 +6,6 @@ import FailedToLoad from '../../images/failed_to_load.svg';
 import isDataURL from '../../utils/isDataURL';
 import DefaultTokenIcon from '../svg/DefaultTokenIcon';
 import LoadMoreButtonWrapper from './LoadMoreButtonWrapper';
-import NFTDetailModal from './NFTDetailModal';
 
 const StyledContainer = styled.div`
     display: flex;
@@ -128,15 +127,15 @@ const StyledContainer = styled.div`
     }
 `;
 
-const NFTBox = ({ tokenDetails }) => {
+const NFTBox = ({ tokenDetails, setNftDetail }) => {
     const {
         contractName,
+        ownerId,
         contractMetadata: { icon, name },
         ownedTokensMetadata,
         numberByContractName
     } = tokenDetails;
 
-    const [nftDetail, setNftDetail] = useState();
 
     return (
         <StyledContainer className='nft-box'>
@@ -159,20 +158,21 @@ const NFTBox = ({ tokenDetails }) => {
             {
                 ownedTokensMetadata &&
                 <div className='tokens'>
-                    {ownedTokensMetadata.map(({ token_id, metadata: { mediaUrl, title } }) => {
+                    {ownedTokensMetadata.map(({ token_id, metadata }) => {
+                        const { mediaUrl, title }= metadata;
+                        const nftDetail = {
+                          contractId: contractName,
+                          tokenId: token_id,
+                          ownerId,
+                          metadata
+                        };
+
                         return <div className='nft' key={token_id}>
                             <img src={mediaUrl} alt='NFT' onError={(e) => {
                                 e.target.onerror = null;
                                 e.target.src = FailedToLoad;
                             }}/>
-                            <b className='title' onClick={() => setNftDetail(true)}>{title}</b>
-                            { nftDetail &&
-                                <NFTDetailModal
-                                    open={!!nftDetail}
-                                    onClose={() => setNftDetail()}>
-
-                                </NFTDetailModal>
-                            }
+                            <b className='title' onClick={() => setNftDetail(nftDetail)}>{title}</b>
 
                             <div className='creator'>
                               <span>Created by </span>
