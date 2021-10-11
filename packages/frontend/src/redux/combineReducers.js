@@ -8,7 +8,7 @@ import ledger from './reducers/ledger';
 import sign from './reducers/sign';
 import staking from './reducers/staking';
 import status from './reducers/status';
-import availableAccounts from './slices/availableAccounts';
+import availableAccountsSlice from './slices/availableAccounts';
 import createFromImplicitSlice from './slices/createFromImplicit';
 import flowLimitationSlice from './slices/flowLimitation';
 import linkdropSlice from './slices/linkdrop';
@@ -34,6 +34,6 @@ export default (history) => combineReducers({
     [flowLimitationSlice.name]: flowLimitationSlice.reducer,
     [createFromImplicitSlice.name]: createFromImplicitSlice.reducer,
     [recoveryMethodsSlice.name]: recoveryMethodsSlice.reducer,
-    availableAccounts,
+    [availableAccountsSlice.name]: availableAccountsSlice.reducer,
     router: connectRouter(history)
 });

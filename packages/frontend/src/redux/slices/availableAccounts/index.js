@@ -1,9 +1,11 @@
-import { createReducer } from '@reduxjs/toolkit';
+import { createReducer, createSlice } from '@reduxjs/toolkit';
 import set from 'lodash.set';
 import { createSelector } from 'reselect';
 
 import refreshAccountOwner from '../../sharedThunks/refreshAccountOwner';
 import initialErrorState from '../initialErrorState';
+
+const SLICE_NAME = 'availableAccounts';
 
 const initialState = {
     items: [],
@@ -13,9 +15,10 @@ const initialState = {
     }
 };
 
-const availableAccounts = createReducer(
+const availableAccountsSlice = createSlice({
+    name: SLICE_NAME,
     initialState,
-    (builder) => {
+    extraReducers: ((builder) => {
         builder.addCase(refreshAccountOwner.pending, (state) => {
             set(state, ['status', 'loading'], true);
             set(state, ['status', 'error'], initialErrorState);
@@ -33,13 +36,15 @@ const availableAccounts = createReducer(
                 code: error?.code
             });
         });
-    }
-);
+    })
+});
 
-export default availableAccounts;
+export default availableAccountsSlice;
+
+export const actions = availableAccountsSlice.actions;
 
 // Top level selectors
-const selectAvailableAccountsSlice = (state) => state['availableAccounts'];
+const selectAvailableAccountsSlice = (state) => state[availableAccountsSlice.name];
 
 export const selectAvailableAccounts = createSelector(
     selectAvailableAccountsSlice,
