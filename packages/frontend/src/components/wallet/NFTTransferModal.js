@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+
 import NonFungibleTokens from '../../services/NonFungibleTokens';
 
 import FormButton from '../common/FormButton';
@@ -13,99 +14,58 @@ const StyledContainer = styled.div`
     align-items: center;
     padding: 40px 0 30px 0;
 
-    h2 {
-        color: #72727A !important;
-        font-size: 16px !important;
-        font-weight: 400 !important;
-        line-height: 150%;
-        text-align: center;
-        margin: 20px 0 30px 0;
+    img {
+        width: 100% !important;
+        max-width: 386px;
+        border-radius: 8px;
     }
 
-    a {
-        border: 2px solid #F5F5F3;
-        border-radius: 8px;
-        width: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        min-height: 110px;
-        margin: 10px 0;
-        transition: 100ms;
+    h3, p {
+        margin-top: 16px;
+    }
 
-        :hover {
-            border-color: #8FCDFF;
-            background-color: #F0F9FF;
-        }
-
-        img {
-            max-height: 35px;
-        }
-    } 
-
-    .title {
-        position: static;
-        width: 429px;
-        left: 0px;
-        top: 0px;
-        
-        /* heading/H1 */
-        
+    h3 {
         font-family: Inter;
         font-style: normal;
         font-weight: 900;
-        font-size: 31px;
+        font-size: 20px;
         line-height: 130%;
-        /* or 40px */
-        
-        display: flex;
-        align-items: center;
-        font-feature-settings: 'zero' on;
-        
-        /* gray/neutral/800 */
-        
-        color: #272729;
+        /* identical to box height, or 26px */
+
+        text-align: center;
+
+        color: #24272A;
     }
 
-    .desc {
-        position: static;
-        width: 429px;
-        left: 0px;
-        top: 128px;
-
-        /* paragraph/body/default */
-
+    p {
         font-family: Inter;
         font-style: normal;
         font-weight: 500;
-        font-size: 16px;
+        font-size: 14px;
         line-height: 150%;
-        /* or 24px */
+        /* or 21px */
 
-        display: flex;
-        align-items: center;
+        text-align: center;
         font-feature-settings: 'zero' on;
 
-        /* gray/neutral/800 */
+        /* gray/neutral/600 */
 
-        color: #272729;
+        color: #72727A;
     }
 
-    .btn {
-        &.gray-blue {
-            width: 100% !important;
-            max-width: 400px;
-        }
-
-        position: static;
-        width: 136px;
-        height: 56px;
-        left: 274px;
-        top: 24px;
-        margin-left: 44px;
+    .buttons {
+        margin-top: 24px;
+        margin-left: auto;
+        margin-right: 0px;
     }
 
-    .btn {
+    .next-btn {
+        margin-left: 44px !important;
+    }
+
+    button {
+        width: 136px !important;
+        height: 56px !important;
     }
 `;
 
@@ -139,14 +99,19 @@ export default function NFTTransferModal({ open, onClose, nft }) {
         >
             {!success &&
             <StyledContainer className='small-centered'>
+                <img src={nft.metadata.media} alt='NFT'/>
+
+                <h3>Transfer NFT</h3>
+                <p>Enter a recipient address, then proceed to confirm your transaction. </p>
+
                 <ReceiverInputWithLabel
                     receiverId={receiverId}
                     handleChangeReceiverId={receiverId => setReceiverId(receiverId)}
                 />
 
-                <div>
+                <div className='buttons'>
                     <FormButton
-                        className='btn link'
+                        className='link'
                         type='button'
                         onClick={onClose}
                         color='gray'
@@ -154,7 +119,7 @@ export default function NFTTransferModal({ open, onClose, nft }) {
                         Cancel 
                     </FormButton>
                     <FormButton
-                        className='btn'
+                        className='next-btn'
                         type='submit'
                         onClick={() => sendNFT(nft, receiverId, () => setSuccess(true))}
                     >
