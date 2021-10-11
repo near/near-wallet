@@ -1,4 +1,4 @@
-import { createReducer, createSlice } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 import set from 'lodash.set';
 import { createSelector } from 'reselect';
 
