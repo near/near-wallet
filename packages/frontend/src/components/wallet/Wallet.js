@@ -320,7 +320,7 @@ export function Wallet({ tab, setTab }) {
                         </div>
                     </div>
                     {tab === 'collectibles'
-                        ? <NFTs tokens={sortedNFTs} />
+                        ? <NFTs tokens={sortedNFTs} accountId={accountId} />
                         : <FungibleTokens
                             balance={balance}
                             tokensLoader={tokensLoader}

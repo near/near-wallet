@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import NonFungibleTokens from '../../services/NonFungibleTokens';
 
 import FormButton from '../common/FormButton';
 import Modal from '../common/modal/Modal';
-import ArrowIcon from '../svg/ArrowIcon';
-import NFTTransferModal from './NFTTransferModal';
+import ReceiverInputWithLabel from '../send/components/ReceiverInputWithLabel';
 
 
 const StyledContainer = styled.div`
@@ -66,7 +66,6 @@ const StyledContainer = styled.div`
         
         color: #272729;
     }
-    margin: 8px 0px;
 
     .desc {
         position: static;
@@ -92,55 +91,83 @@ const StyledContainer = styled.div`
         color: #272729;
     }
 
-    button {
+    .btn {
         &.gray-blue {
             width: 100% !important;
             max-width: 400px;
         }
+
+        position: static;
+        width: 136px;
+        height: 56px;
+        left: 274px;
+        top: 24px;
+        margin-left: 44px;
+    }
+
+    .btn {
     }
 `;
 
+async function sendNFT (nft, receiverId, onSuccess) {
+    console.log('sending nft', nft, receiverId);
+    const { contractId, tokenId, ownerId } = nft;
+    const res = await NonFungibleTokens.transfer({
+        accountId: ownerId,
+        contractId,
+        tokenId,
+        receiverId
+    });
 
-export default function NFTDetailModal({ open, onClose, nft }) {
-    console.log(nft);
-    const metadata = nft.metadata;
-    const [transferNftDetail, setTransferNftDetail] = useState();
+    console.log('sent nft');
+    console.log(res);
+    onSuccess();
+}
+
+
+export default function NFTTransferModal({ open, onClose, nft }) {
+    const [ receiverId, setReceiverId ] = useState();
+    const [ success, setSuccess ] = useState(false);
 
     return (
         <Modal
-            id='nft-detail-modal'
-            isOpen={open}
+            id='nft-transfer-modal'
+            isOpen={nft}
             onClose={onClose}
             closeButton='false'
-            modalSize='lg'
+            modalSize='md'
         >
+            {!success &&
             <StyledContainer className='small-centered'>
-                <FormButton
-                    color='link go-back'
-                    onClick={() => onClose()}
-                >
-                    <ArrowIcon />
-                </FormButton>
+                <ReceiverInputWithLabel
+                    receiverId={receiverId}
+                    handleChangeReceiverId={receiverId => setReceiverId(receiverId)}
+                />
 
-            <h1 className="title">{metadata.title}</h1>
-            <p className="desc">{metadata.description}</p>
-            {console.log('modal open')}
-
-            <FormButton 
-                color='gray-blue' 
-                onClick={() => setTransferNftDetail(nft)}
-            >
-                Transfer
-            </FormButton>
-            {transferNftDetail &&
-                <NFTTransferModal
-                    open={!!transferNftDetail}
-                    onClose={() => setTransferNftDetail()}
-                    nft={transferNftDetail}>
-                </NFTTransferModal>
-            }
-
+                <div>
+                    <FormButton
+                        className='btn link'
+                        type='button'
+                        onClick={onClose}
+                        color='gray'
+                    >
+                        Cancel 
+                    </FormButton>
+                    <FormButton
+                        className='btn'
+                        type='submit'
+                        onClick={() => sendNFT(nft, receiverId, () => setSuccess(true))}
+                    >
+                        Next
+                    </FormButton>
+                </div>
             </StyledContainer>
+            }
+            {success &&
+                <StyledContainer className='small-centered'>
+                    Success
+                </StyledContainer>
+            }
         </Modal>
     );
 }

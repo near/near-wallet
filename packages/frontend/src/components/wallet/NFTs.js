@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
 import FormButton from '../common/FormButton';
 import NearCircleIcon from '../svg/NearCircleIcon.js';
 import NFTBox from './NFTBox';
+import NFTDetailModal from './NFTDetailModal';
 
 const StyledContainer = styled.div`
     &&& {
@@ -57,16 +58,26 @@ const StyledContainer = styled.div`
     }
 `;
 
-const NFTs = ({ tokens }) => {
+const NFTs = ({ tokens, accountId }) => {
     if (tokens.length) {
+        const [nftDetail, setNftDetail] = useState();
         return (
             <StyledContainer>
                 {tokens.filter((tokenDetails) => tokenDetails.ownedTokensMetadata && tokenDetails.ownedTokensMetadata.length).map((tokenDetails) => (
                     <NFTBox
                         key={tokenDetails.contractName}
-                        tokenDetails={tokenDetails}
+                        tokenDetails={Object.assign({ ownerId: accountId }, tokenDetails)}
+                        setNftDetail={setNftDetail}
                     />
                 ))}
+                {nftDetail &&
+                  <NFTDetailModal
+                    open={!!nftDetail}
+                    onClose={() => setNftDetail()}
+                    nft={nftDetail}>
+
+                  </NFTDetailModal>
+                }
             </StyledContainer>
         );
     }
