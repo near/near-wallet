@@ -5,6 +5,7 @@ import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { switchAccount } from '../../redux/actions/account';
+import { selectAvailableAccounts } from '../../redux/slices/availableAccounts';
 import Balance from '../common/balance/Balance';
 import Button from '../common/Button';
 import FormButton from '../common/FormButton';
@@ -251,7 +252,7 @@ const mapDispatchToProps = {
 
 const mapStateToProps = (state) => ({
     account: state.account,
-    availableAccounts: state.availableAccounts,
+    availableAccounts: selectAvailableAccounts(state),
     ...state.sign
 });
 
