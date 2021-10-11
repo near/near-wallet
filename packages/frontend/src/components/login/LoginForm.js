@@ -7,6 +7,7 @@ import { Grid } from 'semantic-ui-react';
 
 import IconAuthorize from '../../images/IconAuthorize';
 import IconProblems from '../../images/IconProblems';
+import { selectAvailableAccounts } from '../../redux/slices/availableAccounts';
 import FormButton from '../common/FormButton';
 import MobileContainer from '../sign/MobileContainer';
 import SelectAccountDropdown from './SelectAccountDropdown';
@@ -180,9 +181,9 @@ LoginForm.propTypes = {
     redirectCreateAccount: PropTypes.func.isRequired
 };
 
-const mapStateToProps = ({ account, availableAccounts }) => ({
-    account,
-    availableAccounts
+const mapStateToProps = (state) => ({
+    account: state.account,
+    availableAccounts: selectAvailableAccounts(state)
 });
 
 export default connect(mapStateToProps)(withRouter(LoginForm));

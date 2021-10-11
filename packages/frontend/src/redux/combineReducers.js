@@ -4,11 +4,11 @@ import { combineReducers } from 'redux';
 
 import account from './reducers/account';
 import allAccounts from './reducers/allAccounts';
-import availableAccounts from './reducers/available-accounts';
 import ledger from './reducers/ledger';
 import sign from './reducers/sign';
 import staking from './reducers/staking';
 import status from './reducers/status';
+import availableAccountsSlice from './slices/availableAccounts';
 import createFromImplicitSlice from './slices/createFromImplicit';
 import flowLimitationSlice from './slices/flowLimitation';
 import linkdropSlice from './slices/linkdrop';
@@ -21,7 +21,6 @@ import transactionsSlice from './slices/transactions';
 export default (history) => combineReducers({
     localize: localizeReducer,
     allAccounts,
-    availableAccounts,
     account,
     sign,
     ledger,
@@ -35,5 +34,6 @@ export default (history) => combineReducers({
     [flowLimitationSlice.name]: flowLimitationSlice.reducer,
     [createFromImplicitSlice.name]: createFromImplicitSlice.reducer,
     [recoveryMethodsSlice.name]: recoveryMethodsSlice.reducer,
+    [availableAccountsSlice.name]: availableAccountsSlice.reducer,
     router: connectRouter(history)
 });

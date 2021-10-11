@@ -6,12 +6,12 @@ import {
     getLedgerAccountIds,
     addLedgerAccountId,
     saveAndSelectLedgerAccounts,
-    refreshAccountOwner,
     setLedgerTxSigned,
     clearSignInWithLedgerModalState,
     showLedgerModal,
     hideLedgerModal
 } from '../../actions/account';
+import refreshAccountOwner from '../../sharedThunks/refreshAccountOwner';
 
 const initialState = {
     modal: {}
@@ -86,7 +86,7 @@ const ledgerActions = handleActions({
             }
             : state;
     },
-    [refreshAccountOwner]: (state, { payload }) => {
+    [refreshAccountOwner.fulfilled]: (state, { payload }) => {
         return {
             ...state,
             ...(payload && payload.ledger)
