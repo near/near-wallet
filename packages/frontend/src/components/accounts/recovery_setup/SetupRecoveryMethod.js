@@ -1,3 +1,4 @@
+import { getRouter } from 'connected-react-router';
 import { KeyPair } from 'near-api-js';
 import { parseSeedPhrase } from 'near-seed-phrase';
 import React, { Component, createRef } from 'react';
@@ -14,7 +15,6 @@ import { showCustomAlert } from '../../../redux/actions/status';
 import { selectAccountId, selectAccountSlice } from '../../../redux/slices/account';
 import { actions as linkdropActions } from '../../../redux/slices/linkdrop';
 import { actions as recoveryMethodsActions, selectRecoveryMethodsByAccountId, selectRecoveryMethodsLoading } from '../../../redux/slices/recoveryMethods';
-import { selectRouterSlice } from '../../../redux/slices/router';
 import { selectStatusMainLoader } from '../../../redux/slices/status';
 import { validateEmail } from '../../../utils/account';
 import { actionsPending } from '../../../utils/alerts';
@@ -545,7 +545,7 @@ const mapDispatchToProps = {
 const mapStateToProps = (state, { match }) => {
     return {
         ...selectAccountSlice(state),
-        router: selectRouterSlice(state),
+        router: getRouter(state),
         accountId: match.params.accountId,
         activeAccountId: selectAccountId(state),
         recoveryMethods: selectRecoveryMethodsByAccountId(state, { accountId: selectAccountId(state) }),

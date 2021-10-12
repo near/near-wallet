@@ -1,3 +1,4 @@
+import { getRouter } from 'connected-react-router';
 import { parse as parseQuery } from 'query-string';
 import React, { Component } from 'react';
 import { Translate } from 'react-localize-redux';
@@ -15,7 +16,6 @@ import {
 } from '../../redux/actions/account';
 import { clearLocalAlert } from '../../redux/actions/status';
 import { selectAccountSlice } from '../../redux/slices/account';
-import { selectRouterSlice } from '../../redux/slices/router';
 import { selectStatusLocalAlert, selectStatusMainLoader } from '../../redux/slices/status';
 import parseFundingOptions from '../../utils/parseFundingOptions';
 import Container from '../common/styled/Container.css';
@@ -137,7 +137,7 @@ const mapDispatchToProps = {
 
 const mapStateToProps = (state, { match }) => ({
     ...selectAccountSlice(state),
-    router: selectRouterSlice(state),
+    router: getRouter(state),
     seedPhrase: match.params.seedPhrase || '',
     localAlert: selectStatusLocalAlert(state),
     mainLoader: selectStatusMainLoader(state)

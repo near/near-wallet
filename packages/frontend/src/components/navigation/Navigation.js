@@ -1,3 +1,4 @@
+import { getRouter } from 'connected-react-router';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
@@ -7,7 +8,6 @@ import { switchAccount, getAvailableAccountsBalance, getAccountBalance } from '.
 import { selectAccountSlice } from '../../redux/slices/account';
 import { selectAvailableAccounts } from '../../redux/slices/availableAccounts';
 import { selectFlowLimitationMainMenu, selectFlowLimitationSubMenu } from '../../redux/slices/flowLimitation';
-import { selectRouterSlice } from '../../redux/slices/router';
 import DesktopContainer from './DesktopContainer';
 import MobileContainer from './MobileContainer';
 
@@ -134,7 +134,7 @@ class Navigation extends Component {
 
 const mapStateToProps = (state) => ({
     account: selectAccountSlice(state),
-    router: selectRouterSlice(state),
+    router: getRouter(state),
     availableAccounts: selectAvailableAccounts(state),
     flowLimitationMainMenu: selectFlowLimitationMainMenu(state),
     flowLimitationSubMenu: selectFlowLimitationSubMenu(state)
