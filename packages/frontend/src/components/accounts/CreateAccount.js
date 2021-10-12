@@ -1,3 +1,4 @@
+import { getSearch } from 'connected-react-router';
 import React, { Component } from 'react';
 import { Translate } from 'react-localize-redux';
 import { connect } from 'react-redux';
@@ -14,7 +15,6 @@ import {
 } from '../../redux/actions/account';
 import { clearLocalAlert } from '../../redux/actions/status';
 import { selectAccountSlice } from '../../redux/slices/account';
-import { selectRouterLocationSearch } from '../../redux/slices/router';
 import { selectStatusLocalAlert, selectStatusMainLoader } from '../../redux/slices/status';
 import { selectNearTokenFiatValueUSD } from '../../redux/slices/tokenFiatValues';
 import isMobile from '../../utils/isMobile';
@@ -312,7 +312,7 @@ const mapStateToProps = (state, { match }) => ({
     fundingKey: match.params.fundingKey,
     fundingAccountId: match.params.fundingAccountId,
     nearTokenFiatValueUSD: selectNearTokenFiatValueUSD(state),
-    locationSearch: selectRouterLocationSearch(state)
+    locationSearch: getSearch(state)
 });
 
 export const CreateAccountWithRouter = connect(
