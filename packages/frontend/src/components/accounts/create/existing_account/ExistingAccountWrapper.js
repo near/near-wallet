@@ -14,6 +14,7 @@ import {
     selectAccountsBalances,
     signedInAccountIdLocalStorage
 } from '../../../../redux/reducers/account';
+import { selectAvailableAccounts } from '../../../../redux/slices/availableAccounts';
 import { MIN_BALANCE_TO_CREATE, LINKDROP_GAS, wallet } from '../../../../utils/wallet';
 import FundNewAccount from './FundNewAccount';
 import SelectAccount from './SelectAccount';
@@ -25,7 +26,7 @@ export function ExistingAccountWrapper({ history }) {
     const [creatingNewAccount, setCreatingNewAccount] = useState(false);
 
     const signedInAccountId = useSelector(signedInAccountIdLocalStorage);
-    const availableAccounts = useSelector(({ availableAccounts }) => availableAccounts);
+    const availableAccounts = useSelector(selectAvailableAccounts);
     const accountsBalances = useSelector(selectAccountsBalances);
     const signedInAccountBalance = useSelector(selectBalance);
 
