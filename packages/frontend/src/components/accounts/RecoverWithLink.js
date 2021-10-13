@@ -1,3 +1,4 @@
+import { createMatchSelector } from 'connected-react-router';
 import React, { Component } from 'react';
 import { Translate } from 'react-localize-redux';
 import { connect } from 'react-redux';
@@ -167,7 +168,7 @@ class RecoverWithLink extends Component {
     handleContinue = async () => {
         await Mixpanel.withTracking("IE Recover with link", 
             async () => {
-                await this.props.recoverAccountSeedPhrase(this.state.seedPhrase, this.props.match.params.accountId, false);
+                await this.props.recoverAccountSeedPhrase(this.state.seedPhrase, this.props.accountId, false);
                 this.props.refreshAccount();
                 this.props.redirectTo('/');
                 this.props.clearAccountState();
@@ -245,12 +246,16 @@ const mapDispatchToProps = {
     clearAccountState
 };
 
-const mapStateToProps = (state, { match }) => ({
-    ...selectAccountSlice(state),
-    accountId: match.params.accountId,
-    seedPhrase: match.params.seedPhrase,
-    mainLoader: selectStatusMainLoader(state)
-});
+const mapStateToProps = (state) => {
+    const matchSelector = createMatchSelector('/recover-with-link/:accountId/:seedPhrase');
+
+    return {
+        ...selectAccountSlice(state),
+        accountId: matchSelector(state)?.params.accountId,
+        seedPhrase: matchSelector(state)?.params.seedPhrase,
+        mainLoader: selectStatusMainLoader(state)
+    };
+};
 
 export const RecoverWithLinkWithRouter = connect(
     mapStateToProps, 
