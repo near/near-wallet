@@ -124,6 +124,7 @@ const StyledContainer = styled.div`
     .nft img {
         width: 100%;
         margin-bottom: 10px;
+        cursor: pointer;
     }
 `;
 
@@ -142,14 +143,14 @@ const NFTBox = ({ tokenDetails, setNftDetail }) => {
             <div className='nft-header'>
                 <div className='symbol'>
                     {icon && isDataURL(icon) ?
-                        <img src={icon} alt={name}/>
+                        <img src={icon} alt={name} />
                         :
-                        <DefaultTokenIcon/>
+                        <DefaultTokenIcon />
                     }
                 </div>
                 <div className='desc'>
                     <a href={`${EXPLORER_URL}/accounts/${contractName}`} title={name} target='_blank'
-                       rel='noopener noreferrer'>
+                        rel='noopener noreferrer'>
                         {name}
                     </a>
                     <span>{numberByContractName}</span>
@@ -159,34 +160,37 @@ const NFTBox = ({ tokenDetails, setNftDetail }) => {
                 ownedTokensMetadata &&
                 <div className='tokens'>
                     {ownedTokensMetadata.map(({ token_id, metadata }) => {
-                        const { mediaUrl, title }= metadata;
+                        const { mediaUrl, title } = metadata;
                         const nftDetail = {
-                          contractId: contractName,
-                          tokenId: token_id,
-                          ownerId,
-                          metadata
+                            contractId: contractName,
+                            tokenId: token_id,
+                            ownerId,
+                            metadata
                         };
 
                         return <div className='nft' key={token_id}>
-                            <img src={mediaUrl} alt='NFT' onError={(e) => {
-                                e.target.onerror = null;
-                                e.target.src = FailedToLoad;
-                            }}/>
+                            <img src={mediaUrl} 
+                                alt='NFT' 
+                                onError={(e) => {
+                                    e.target.onerror = null;
+                                    e.target.src = FailedToLoad;
+                                }} 
+                                onClick={() => setNftDetail(nftDetail)}/>
                             <b className='title' onClick={() => setNftDetail(nftDetail)}>{title}</b>
 
                             <div className='creator'>
-                              <span>Created by </span>
-                              <a href={`${EXPLORER_URL}/accounts/${contractName}`} 
-                                target="_blank"
-                                rel="noopener noreferrer ">
-                                neariscool.testnet
-                              </a>
+                                <span>Created by </span>
+                                <a href={`${EXPLORER_URL}/accounts/${contractName}`}
+                                    target="_blank"
+                                    rel="noopener noreferrer ">
+                                    neariscool.testnet
+                                </a>
                             </div>
                         </div>;
                     })}
                 </div>
             }
-            <LoadMoreButtonWrapper contractName={contractName}/>
+            <LoadMoreButtonWrapper contractName={contractName} />
         </StyledContainer>
     );
 };

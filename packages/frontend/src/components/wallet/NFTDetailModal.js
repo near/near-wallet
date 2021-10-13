@@ -17,12 +17,34 @@ const StyledContainer = styled.div`
         align-items: left;
         width: 100% !important;
         max-width: 400px;
+        position: relative;
 
         img {
             width: 100% !important;
-            margin-bottom: 83px;
+            margin-bottom: 63px;
             max-width: 400px;
             filter: drop-shadow(0px 100px 80px rgba(0, 0, 0, 0.07)) drop-shadow(0px 41.7776px 33.4221px rgba(0, 0, 0, 0.0503198)) drop-shadow(0px 22.3363px 17.869px rgba(0, 0, 0, 0.0417275)) drop-shadow(0px 12.5216px 10.0172px rgba(0, 0, 0, 0.035)) drop-shadow(0px 6.6501px 5.32008px rgba(0, 0, 0, 0.0282725)) drop-shadow(0px 2.76726px 2.21381px rgba(0, 0, 0, 0.0196802));
+        }
+
+        h1, p {
+            margin-bottom: 30px;
+        }
+    }
+
+    #back-btn {
+        position: absolute;
+        left: -98px;
+        width: 30px !important;
+        height: 30px !important;
+
+        @media screen and (max-width: 600px) {
+            top: -50px;
+            left: -14px;
+        }
+        
+        svg {
+            width: 100%;
+            height: 100%;
         }
     }
 
@@ -52,9 +74,25 @@ const StyledContainer = styled.div`
             width: 100% !important;
             max-width: 400px;
         }
+
+        font-weight: bold !important;
+        font-size: 16px !important;
+        line-height: 150%;
+    }
+
+    .transfer-svg {
+        margin-right: 12px !important;
     }
 `;
 
+function arrowSVG () {
+  return (
+    <svg className="transfer-svg" width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M21 1L14 21L10 12L1 8L21 1Z" stroke="#A2A2A8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M21 1L10 12" stroke="#A2A2A8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  );
+}
 
 export default function NFTDetailModal({ open, onClose, nft }) {
     console.log(nft);
@@ -72,9 +110,10 @@ export default function NFTDetailModal({ open, onClose, nft }) {
             <StyledContainer className='small-centered'>
                 <div className='container'>
                     <FormButton
-                        color='link go-back'
+                        id='back-btn'
+                        color='link'
                         onClick={() => onClose()}>
-                        <ArrowIcon />
+                        <ArrowIcon color='#A2A2A8'/>
                     </FormButton>
 
                     <img src={metadata.media} alt='NFT'/>
@@ -86,7 +125,8 @@ export default function NFTDetailModal({ open, onClose, nft }) {
                     color='gray-blue' 
                     onClick={() => setTransferNftDetail(nft)}
                 >
-                    Transfer
+                  {arrowSVG()}
+                  Transfer
                 </FormButton>
                 {transferNftDetail &&
                     <NFTTransferModal
