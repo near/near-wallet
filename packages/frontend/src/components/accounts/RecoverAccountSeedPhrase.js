@@ -1,4 +1,4 @@
-import { getRouter } from 'connected-react-router';
+import { createMatchSelector, getRouter } from 'connected-react-router';
 import { parse as parseQuery } from 'query-string';
 import React, { Component } from 'react';
 import { Translate } from 'react-localize-redux';
@@ -135,10 +135,10 @@ const mapDispatchToProps = {
     clearAccountState
 };
 
-const mapStateToProps = (state, { match }) => ({
+const mapStateToProps = (state) => ({
     ...selectAccountSlice(state),
     router: getRouter(state),
-    seedPhrase: match.params.seedPhrase || '',
+    seedPhrase: createMatchSelector('/recover-seed-phrase/:accountId?/:seedPhrase?')(state)?.params.seedPhrase || '',
     localAlert: selectStatusLocalAlert(state),
     mainLoader: selectStatusMainLoader(state)
 });
