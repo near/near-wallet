@@ -1,4 +1,9 @@
 **/.git
 **/node_modules
+.gitignore
 dist
 .cache
+
+# Docker will read these during run anyways, so no need to invalidate the cache if we change these
+Dockerfile
+.dockerignore
