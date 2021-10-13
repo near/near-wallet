@@ -1,4 +1,5 @@
 import BN from 'bn.js';
+import { createMatchSelector } from 'connected-react-router';
 import { formatNearAmount } from 'near-api-js/lib/utils/format';
 import React, { useEffect, useState } from 'react';
 import { Translate } from 'react-localize-redux';
@@ -136,7 +137,7 @@ export function Profile({ match }) {
     const ledgerKey = useSelector((state) => selectAccountLedgerKey(state));
     const loginAccountId = useSelector((state) => selectAccountId(state));
     const nearTokenFiatValueUSD = useSelector((state) => selectNearTokenFiatValueUSD(state));
-    const accountIdFromUrl = match.params.accountId;
+    const accountIdFromUrl = useSelector(createMatchSelector('/profile/:accountId'))?.params.accountId;
     const accountId = accountIdFromUrl || loginAccountId;
     const isOwner = accountId === loginAccountId;
     const account = useAccount(accountId);
