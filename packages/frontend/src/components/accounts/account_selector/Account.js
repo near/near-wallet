@@ -23,6 +23,8 @@ const StyledContainer = styled.div`
 
     > svg {
         cursor: pointer;
+        min-width: 32px;
+        min-height: 32px;
     }
 
     :hover {
