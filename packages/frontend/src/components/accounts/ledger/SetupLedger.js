@@ -1,3 +1,4 @@
+import { createMatchSelector } from 'connected-react-router';
 import React, { useEffect, useRef, useState } from 'react';
 import { Translate } from 'react-localize-redux';
 import { connect } from 'react-redux';
@@ -191,9 +192,9 @@ const SetupLedger = (props) => {
     );
 };
 
-const mapStateToProps = (state, { match }) => ({
+const mapStateToProps = (state) => ({
     ...selectAccountSlice(state),
-    accountId: match.params.accountId,
+    accountId: createMatchSelector('/setup-ledger/:accountId')(state)?.params.accountId,
     mainLoader: selectStatusMainLoader(state)
 });
 
