@@ -1,3 +1,4 @@
+import { createMatchSelector } from 'connected-react-router';
 import { KeyPair } from 'near-api-js';
 import { generateSeedPhrase } from 'near-seed-phrase';
 import React, { Component, Fragment } from 'react';
@@ -296,8 +297,7 @@ const mapDispatchToProps = {
 const mapStateToProps = (state, { match }) => {
     return {
         ...selectAccountSlice(state),
-        verify: match.params.verify,
-        accountId: match.params.accountId,
+        accountId: createMatchSelector('/setup-seed-phrase/:accountId/:step')(state).params.accountId,
         recoveryMethods: selectRecoveryMethodsByAccountId(state, { accountId: match.params.accountId }),
         mainLoader: selectStatusMainLoader(state),
         recoveryMethodsLoader: selectRecoveryMethodsLoading(state, { accountId: match.params.accountId })
