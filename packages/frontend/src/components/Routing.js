@@ -60,8 +60,9 @@ import NetworkBanner from './common/NetworkBanner';
 import PrivateRoute from './common/PrivateRoute';
 import PublicRoute from './common/PublicRoute';
 import GlobalStyle from './GlobalStyle';
-import { LoginWithRouter } from './login/Login';
+// import { LoginWithRouter } from './login/Login';
 import { LoginCliLoginSuccess } from './login/LoginCliLoginSuccess';
+import { LoginWrapper } from './login/v2/LoginWrapper';
 import Navigation from './navigation/Navigation';
 import { Profile } from './profile/Profile';
 import { ReceiveContainerWrapper } from './receive-money/ReceiveContainerWrapper';
@@ -447,7 +448,7 @@ class Routing extends Component {
                             />
                             <PrivateRoute
                                 path='/login'
-                                component={LoginWithRouter}
+                                component={LoginWrapper}
                             />
                             <PrivateRoute
                                 exact

@@ -946,6 +946,26 @@
         "cliLoginSuccess": {
             "pageTitle": "You've successfully authorized NEAR Shell!",
             "pageText": "Please close this window and follow the instructions in the terminal."
+        },
+        "v2": {
+            "connectWithNear": {
+                "title": "Connect with NEAR",
+                "desc": "<a href=${appReferrer} target='_blank' rel='noreferrer'>${appReferrer}</a> is requesting <b>${accessType}</b> to your NEAR account. Select the account you wish to connect.",
+                "limitedAccess": "limited access",
+                "fullAccess": "full access"
+            },
+            "connectConfirm": {
+                "title": "Connecting with ${accountId}",
+                "desc": "Only connect to sites that you trust. Once connected, <a href=${appReferrer} target='_blank' rel='noreferrer'>${appReferrer}</a> will have <b>${accessType}</b>:",
+                "limitedAccess": "limited permissions",
+                "fullAccess": "full permissions",
+                "permissions": {
+                    "viewAddress": "View the address of your permitted account",
+                    "viewBalance": "View the balance of your permitted account",
+                    "notTransferTokens": "This does not allow the app to transfer tokens",
+                    "transferTokens": "Transfer tokens from your account"
+                }
+            }
         }
     },
 
