@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 
+import { checkAccountAvailable } from '../../redux/actions/account';
+import { clearLocalAlert } from '../../redux/actions/status';
 import NonFungibleTokens from '../../services/NonFungibleTokens';
-
 import FormButton from '../common/FormButton';
 import Modal from '../common/modal/Modal';
 import ReceiverInputWithLabel from '../send/components/ReceiverInputWithLabel';
@@ -63,6 +65,10 @@ const StyledContainer = styled.div`
         margin-left: 44px !important;
     }
 
+    .receiver-input {
+      width: 100%;
+    }
+
     button {
         width: 136px !important;
         height: 56px !important;
@@ -84,10 +90,13 @@ async function sendNFT (nft, receiverId, onSuccess) {
     onSuccess();
 }
 
-
 export default function NFTTransferModal({ open, onClose, nft }) {
     const [ receiverId, setReceiverId ] = useState();
     const [ success, setSuccess ] = useState(false);
+    const [ accountIdIsValid, setAccountIdIsValid] = useState(false);
+
+    const dispatch = useDispatch();
+    const { localAlert } = useSelector(({ status }) => status);
 
     return (
         <Modal
@@ -104,10 +113,16 @@ export default function NFTTransferModal({ open, onClose, nft }) {
                 <h3>Transfer NFT</h3>
                 <p>Enter a recipient address, then proceed to confirm your transaction. </p>
 
-                <ReceiverInputWithLabel
-                    receiverId={receiverId}
-                    handleChangeReceiverId={receiverId => setReceiverId(receiverId)}
-                />
+                <div className='receiver-input'>
+                    <ReceiverInputWithLabel
+                        receiverId={receiverId}
+                        handleChangeReceiverId={receiverId => setReceiverId(receiverId)}
+                        checkAccountAvailable={accountId => dispatch(checkAccountAvailable(accountId))}
+                        localAlert={localAlert}
+                        clearLocalAlert={() => dispatch(clearLocalAlert())}
+                        setAccountIdIsValid={setAccountIdIsValid}
+                    />
+                </div>
 
                 <div className='buttons'>
                     <FormButton
@@ -121,6 +136,7 @@ export default function NFTTransferModal({ open, onClose, nft }) {
                     <FormButton
                         className='next-btn'
                         type='submit'
+                        disabled={!accountIdIsValid}
                         onClick={() => sendNFT(nft, receiverId, () => setSuccess(true))}
                     >
                         Next

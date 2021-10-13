@@ -124,6 +124,7 @@ const StyledContainer = styled.div`
     .nft img, .nft video {
         width: 100%;
         margin-bottom: 10px;
+        cursor: pointer;
     }
 `;
 
@@ -142,14 +143,14 @@ const NFTBox = ({ tokenDetails, setNftDetail }) => {
             <div className='nft-header'>
                 <div className='symbol'>
                     {icon && isDataURL(icon) ?
-                        <img src={icon} alt={name}/>
+                        <img src={icon} alt={name} />
                         :
-                        <DefaultTokenIcon/>
+                        <DefaultTokenIcon />
                     }
                 </div>
                 <div className='desc'>
                     <a href={`${EXPLORER_URL}/accounts/${contractName}`} title={name} target='_blank'
-                       rel='noopener noreferrer'>
+                        rel='noopener noreferrer'>
                         {name}
                     </a>
                     <span>{numberByContractName}</span>
@@ -166,6 +167,7 @@ const NFTBox = ({ tokenDetails, setNftDetail }) => {
                             ownerId,
                             metadata
                         };
+
                         return <div className='nft' key={token_id}>
                             {
                                 mediaUrl.match(/\.webm$/i)
@@ -175,26 +177,29 @@ const NFTBox = ({ tokenDetails, setNftDetail }) => {
                                             e.target.parentElement.setAttribute('poster', FailedToLoad);
                                         }}/>
                                     </video>
-                                    : <img src={mediaUrl} alt='NFT' onError={(e) => {
-                                        e.target.onerror = null;
-                                        e.target.src = FailedToLoad;
-                                    }}/>
+                                    : <img src={mediaUrl}
+                                        alt='NFT'
+                                        onError={(e) => {
+                                            e.target.onerror = null;
+                                            e.target.src = FailedToLoad;
+                                        }}
+                                        onClick={() => setNftDetail(nftDetail)}/>
                             }
                             <b className='title' onClick={() => setNftDetail(nftDetail)}>{title}</b>
 
                             <div className='creator'>
-                              <span>Created by </span>
-                              <a href={`${EXPLORER_URL}/accounts/${contractName}`}
-                                target="_blank"
-                                rel="noopener noreferrer ">
-                                neariscool.testnet
-                              </a>
+                                <span>Created by </span>
+                                <a href={`${EXPLORER_URL}/accounts/${contractName}`}
+                                    target="_blank"
+                                    rel="noopener noreferrer ">
+                                    neariscool.testnet
+                                </a>
                             </div>
                         </div>;
                     })}
                 </div>
             }
-            <LoadMoreButtonWrapper contractName={contractName}/>
+            <LoadMoreButtonWrapper contractName={contractName} />
         </StyledContainer>
     );
 };
