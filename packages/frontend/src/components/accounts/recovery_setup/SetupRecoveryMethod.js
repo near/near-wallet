@@ -1,4 +1,4 @@
-import { getRouter } from 'connected-react-router';
+import { createMatchSelector, getRouter } from 'connected-react-router';
 import { KeyPair } from 'near-api-js';
 import { parseSeedPhrase } from 'near-seed-phrase';
 import React, { Component, createRef } from 'react';
@@ -546,7 +546,7 @@ const mapStateToProps = (state, { match }) => {
     return {
         ...selectAccountSlice(state),
         router: getRouter(state),
-        accountId: match.params.accountId,
+        accountId: createMatchSelector('/set-recovery/:accountId/:fundingContract?/:fundingKey?')(state)?.params.accountId,
         activeAccountId: selectAccountId(state),
         recoveryMethods: selectRecoveryMethodsByAccountId(state, { accountId: selectAccountId(state) }),
         mainLoader: selectStatusMainLoader(state),
