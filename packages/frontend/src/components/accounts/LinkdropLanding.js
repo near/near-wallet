@@ -1,3 +1,4 @@
+import { createMatchSelector } from 'connected-react-router';
 import React, { Component } from 'react';
 import { Translate } from 'react-localize-redux';
 import { connect } from 'react-redux';
@@ -170,12 +171,16 @@ const mapDispatchToProps = {
     setLinkdropAmount
 };
 
-const mapStateToProps = (state, { match }) => ({
-    ...selectAccountSlice(state),
-    fundingContract: match.params.fundingContract,
-    fundingKey: match.params.fundingKey,
-    mainLoader: selectStatusMainLoader(state)
-});
+const mapStateToProps = (state) => {
+    const matchSelector = createMatchSelector('/linkdrop/:fundingContract?/:fundingKey?');
+    
+    return {
+        ...selectAccountSlice(state),
+        fundingContract: matchSelector(state)?.params.fundingContract,
+        fundingKey: matchSelector(state)?.params.fundingKey,
+        mainLoader: selectStatusMainLoader(state)
+    };
+};
 
 export const LinkdropLandingWithRouter = connect(
     mapStateToProps,
