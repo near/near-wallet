@@ -18,11 +18,17 @@ RUN mkdir /near-wallet
 COPY . /near-wallet/
 WORKDIR /near-wallet
 RUN npm install
-RUN npm run build
+# RUN npm run build
 RUN mkdir -p /var/www/html/wallet
-RUN rsync -ar /near-wallet/dist/ /var/www/html/wallet
+# RUN rsync -ar /near-wallet/dist/ /var/www/html/wallet
 
 # nginx
 RUN rm /etc/nginx/sites-enabled/default
 COPY /scripts/wallet.nginx /etc/nginx/sites-enabled/wallet
 COPY /scripts/init_nginx.sh /etc/my_init.d/
+
+# Because the Wallet uses Parcel for its build and environment variables in Parcel can only be set at build time, we run an 'npm build'
+#  as part of container startup so that the Wallet will respond to environment variables set on container startup
+CMD bash -c "./scripts/generate_env_file_for_build_inside_docker.sh && \
+    npm run build && \
+    rsync -ar /near-wallet/dist/ /var/www/html/wallet"
