@@ -2,8 +2,6 @@
 
 FROM phusion/baseimage:0.11
 
-ENTRYPOINT ["/sbin/my_init", "--"]
-
 RUN curl -o /tmp/node_setup.sh "https://deb.nodesource.com/setup_11.x"
 RUN bash /tmp/node_setup.sh
 RUN curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
@@ -13,17 +11,20 @@ RUN apt-get update -qq && apt-get install -y \
     nginx \
     rsync
 
-# near-wallet
+# Set up 
 RUN mkdir /near-wallet
-COPY . /near-wallet/
 WORKDIR /near-wallet
-RUN npm install
-# RUN npm run build
-RUN mkdir -p /var/www/html/wallet
-# RUN rsync -ar /near-wallet/dist/ /var/www/html/wallet
-
-# nginx
+# We'll replace the sites-enabled down below
 RUN rm /etc/nginx/sites-enabled/default
+
+# 'npm install' takes ~3 minutes, so copy just the package.json and do an install before we copy the rest of the code
+#   so that Docker will cache these instructions so long as package.json isn't changed
+COPY package.json .
+RUN npm install
+
+# Now, copy the rest of the code for the build
+COPY . .
+RUN mkdir -p /var/www/html/wallet
 COPY /scripts/wallet.nginx /etc/nginx/sites-enabled/wallet
 COPY /scripts/init_nginx.sh /etc/my_init.d/
 

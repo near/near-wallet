@@ -21,9 +21,9 @@ OUTPUT_FILENAME=".env"
 # Environment variables that will be set in the shell environment when the container is started, and which should be propagated
 #  to the .env file for Parcel to use
 ENVVARS_TO_STORE=(
-    "CONTRACT_HELPER_URL_ENVVAR"
-    "EXPLORER_URL_ENVVAR"
-    "NODE_URL_ENVVAR"
+    "REACT_APP_ACCOUNT_HELPER_URL"
+    "EXPLORER_URL"
+    "REACT_APP_NODE_URL"
     "REACT_APP_IS_MAINNET"
     "REACT_APP_NETWORK_ID"
     "REACT_APP_ACCOUNT_ID_SUFFIX"
@@ -36,7 +36,7 @@ ENVVARS_TO_STORE=(
 output_abs_filepath="${project_root_dirpath}/${OUTPUT_FILENAME}"
 
 for envvar in "${ENVVARS_TO_STORE[@]}"; do
-    value="${!envvar}"
+    value="${!envvar:-}"
     if [ -z "${value}" ]; then
         # Safety guard to make sure someone running from the Docker image sets all the expected envvars
         echo "Error: Expected environment variable '${envvar}' to have a value, but none was passed in" >&2
