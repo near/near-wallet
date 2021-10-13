@@ -36,11 +36,11 @@ export function SignInLedger(props) {
     const [confirmedPath, setConfirmedPath] = useState(null);
     const ledgerHdPath = confirmedPath ? `44'/397'/0'/0'/${confirmedPath}'` : null;
 
-    const account = useSelector((state) => selectAccountSlice(state));
-    const status = useSelector((state) => selectStatusSlice(state));
-    const signInWithLedgerState = useSelector((state) => selectLedgerSignInWithLedger(state));
-    const txSigned = useSelector((state) => selectLedgerTxSigned(state));
-    const signInWithLedgerStatus = useSelector((state) => selectLedgerSignInWithLedgerStatus(state));
+    const account = useSelector(selectAccountSlice);
+    const status = useSelector(selectStatusSlice);
+    const signInWithLedgerState = useSelector(selectLedgerSignInWithLedger);
+    const txSigned = useSelector(selectLedgerTxSigned);
+    const signInWithLedgerStatus = useSelector(selectLedgerSignInWithLedgerStatus);
     
     const signInWithLedgerKeys = Object.keys(signInWithLedgerState || {});
 

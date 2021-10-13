@@ -24,9 +24,9 @@ export function SendContainerWrapper({ match }) {
     const dispatch = useDispatch();
     
     const accountIdFromUrl = useSelector(createMatchSelector('/send-money/:accountId?'))?.params.accountId || '';
-    const accountId = useSelector((state) => selectAccountId(state));
-    const localAlert = useSelector((state) => selectStatusLocalAlert(state));
-    const nearTokenFiatValueUSD = useSelector((state) => selectNearTokenFiatValueUSD(state));
+    const accountId = useSelector(selectAccountId);
+    const localAlert = useSelector(selectStatusLocalAlert);
+    const nearTokenFiatValueUSD = useSelector(selectNearTokenFiatValueUSD);
     const [activeView, setActiveView] = useState(VIEWS.ENTER_AMOUNT);
     const [estimatedTotalFees, setEstimatedTotalFees] = useState('0');
     const [estimatedTotalInNear, setEstimatedTotalInNear] = useState('0');

@@ -22,11 +22,10 @@ export function ExistingAccountWrapper({ history }) {
     const [fundingAccountId, setFundingAccountId] = useState('');
     const [creatingNewAccount, setCreatingNewAccount] = useState(false);
 
-    const signedInAccountId = useSelector((state) => selectAccountLocalStorageAccountId(state));
+    const signedInAccountId = useSelector(selectAccountLocalStorageAccountId);
     const availableAccounts = useSelector(selectAvailableAccounts);
-    const accountsBalances = useSelector((state) => selectAccountAccountsBalances(state));
-    const signedInAccountBalance = useSelector((state) => selectBalance(state));
-
+    const accountsBalances = useSelector(selectAccountAccountsBalances);
+    const signedInAccountBalance = useSelector(selectBalance);
     const location = useSelector(getLocation);
     const URLParams = new URLSearchParams(location.search);
     const accountId = URLParams.get('accountId');

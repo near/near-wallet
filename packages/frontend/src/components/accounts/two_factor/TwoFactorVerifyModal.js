@@ -27,8 +27,8 @@ const TwoFactorVerifyModal = ({ open, onClose }) => {
     const [code, setCode] = useState('');
     const [resendCode, setResendCode] = useState();
     const dispatch = useDispatch();
-    const account = useSelector((state) => selectAccountSlice(state));
-    const status = useSelector((state) => selectStatusSlice(state));
+    const account = useSelector(selectAccountSlice);
+    const status = useSelector(selectStatusSlice);
     const loading = actionsPending('VERIFY_TWO_FACTOR');
 
     useEffect(() => {

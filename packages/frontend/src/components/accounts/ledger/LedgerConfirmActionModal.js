@@ -9,8 +9,8 @@ import ModalTheme from './ModalTheme';
 
 
 const LedgerConfirmActionModal = () => {
-    const txSigned = useSelector((state) => selectLedgerTxSigned(state));
-    const modal = useSelector((state) => selectLedgerModal(state));
+    const txSigned = useSelector(selectLedgerTxSigned);
+    const modal = useSelector(selectLedgerModal);
 
     return (modal && modal.show)
         ? (

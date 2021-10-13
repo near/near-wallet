@@ -60,8 +60,8 @@ const Container = styled.div`
 
 export default function AccountDropdown({ disabled }) {
     const dispatch = useDispatch();
-    const accountId = useSelector((state) => selectAccountSlice(state));
-    const availableAccounts = useSelector((state) => selectAvailableAccounts(state));
+    const accountId = useSelector(selectAccountSlice);
+    const availableAccounts = useSelector(selectAvailableAccounts);
     const singleAccount = availableAccounts.length < 2;
     
     return (

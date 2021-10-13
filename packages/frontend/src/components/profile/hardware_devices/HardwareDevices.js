@@ -66,7 +66,7 @@ const HardwareDevices = ({ recoveryMethods }) => {
     const [disabling, setDisabling] = useState(false);
     const [confirmDisable, setConfirmDisable] = useState(false);
     const dispatch = useDispatch();
-    const account = useSelector((state) => selectAccountSlice(state));
+    const account = useSelector(selectAccountSlice);
 
     let userRecoveryMethods = recoveryMethods || [];
     const keys = account.fullAccessKeys || [];

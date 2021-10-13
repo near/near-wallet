@@ -5,8 +5,8 @@ import { selectAccountId, selectBalance } from '../../redux/slices/account';
 import ReceiveContainer from './ReceiveContainer';
 
 export function ReceiveContainerWrapper() {
-    const accountId = useSelector((state) => selectAccountId(state));
-    const balance = useSelector((state) => selectBalance(state));
+    const accountId = useSelector(selectAccountId);
+    const balance = useSelector(selectBalance);
 
     const availableBalance = balance?.balanceAvailable;
 

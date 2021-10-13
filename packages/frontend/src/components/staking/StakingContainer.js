@@ -165,13 +165,13 @@ const StyledContainer = styled(Container)`
 
 export function StakingContainer({ history, match }) {
     const dispatch = useDispatch();
-    const accountId = useSelector((state) => selectAccountId(state));
-    const has2fa = useSelector((state) => selectAccountHas2fa(state));
-    const balance = useSelector((state) => selectBalance(state));
-    const status = useSelector((state) => selectStatusSlice(state));
-    const hasLedger = useSelector((state) => selectLedgerHasLedger(state));
-    const staking = useSelector((state) => selectStakingSlice(state));
-    const nearTokenFiatValueUSD = useSelector((state) => selectNearTokenFiatValueUSD(state));
+    const accountId = useSelector(selectAccountId);
+    const has2fa = useSelector(selectAccountHas2fa);
+    const balance = useSelector(selectBalance);
+    const status = useSelector(selectStatusSlice);
+    const hasLedger = useSelector(selectLedgerHasLedger);
+    const staking = useSelector(selectStakingSlice);
+    const nearTokenFiatValueUSD = useSelector(selectNearTokenFiatValueUSD);
 
     const hasLockup = !!staking.lockupId;
     const { currentAccount } = staking;

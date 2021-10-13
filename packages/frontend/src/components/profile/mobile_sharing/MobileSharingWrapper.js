@@ -6,7 +6,7 @@ import { wallet } from '../../../utils/wallet';
 import MobileSharing from './MobileSharing';
 
 const MobileSharingWrapper = () => {
-    const accountId = useSelector((state) => selectAccountId(state));
+    const accountId = useSelector(selectAccountId);
     const [mobileSharingLink, setMobileSharingLink] = useState('');
 
     useEffect(() => {

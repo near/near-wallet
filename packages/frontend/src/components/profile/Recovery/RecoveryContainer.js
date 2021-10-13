@@ -39,8 +39,8 @@ const Container = styled.div`
 const RecoveryContainer = ({ type, recoveryMethods }) => {
     const [deletingMethod, setDeletingMethod] = useState('');
     const dispatch = useDispatch();
-    const account = useSelector((state) => selectAccountSlice(state));
-    const mainLoader = useSelector((state) => selectStatusMainLoader(state));
+    const account = useSelector(selectAccountSlice);
+    const mainLoader = useSelector(selectStatusMainLoader);
     let userRecoveryMethods = recoveryMethods || [];
     const allKinds = ['email', 'phone', 'phrase'];
     const activeMethods = userRecoveryMethods.filter(({ kind }) => allKinds.includes(kind));

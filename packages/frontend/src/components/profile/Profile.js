@@ -132,11 +132,11 @@ const StyledContainer = styled(Container)`
 
 export function Profile({ match }) {
     const [transferring, setTransferring] = useState(false);
-    const has2fa = useSelector((state) => selectAccountHas2fa(state));
-    const authorizedApps = useSelector((state) => selectAccountAuthorizedApps(state));
-    const ledgerKey = useSelector((state) => selectAccountLedgerKey(state));
-    const loginAccountId = useSelector((state) => selectAccountId(state));
-    const nearTokenFiatValueUSD = useSelector((state) => selectNearTokenFiatValueUSD(state));
+    const has2fa = useSelector(selectAccountHas2fa);
+    const authorizedApps = useSelector(selectAccountAuthorizedApps);
+    const ledgerKey = useSelector(selectAccountLedgerKey);
+    const loginAccountId = useSelector(selectAccountId);
+    const nearTokenFiatValueUSD = useSelector(selectNearTokenFiatValueUSD);
     const accountIdFromUrl = useSelector(createMatchSelector('/profile/:accountId'))?.params.accountId;
     const accountId = accountIdFromUrl || loginAccountId;
     const isOwner = accountId === loginAccountId;

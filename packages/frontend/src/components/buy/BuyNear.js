@@ -144,7 +144,7 @@ const StyledContainer = styled(Container)`
 `;
 
 export function BuyNear({ match, location, history }) {
-    const { accountId } = useSelector((state) => selectAccountId(state));
+    const { accountId } = useSelector(selectAccountId);
     const [moonPayAvailable, setMoonPayAvailable] = useState(null);
     const [signedMoonPayUrl, setSignedMoonPayUrl] = useState(null);
 

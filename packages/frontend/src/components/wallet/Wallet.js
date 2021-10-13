@@ -267,8 +267,8 @@ export function Wallet({ tab, setTab }) {
     const balance = useSelector(state => selectBalance(state));
     const dispatch = useDispatch();
     const hideExploreApps = localStorage.getItem('hideExploreApps');
-    const linkdropAmount = useSelector((state) => selectLinkdropAmount(state));
-    const createFromImplicitSuccess = useSelector((state) => selectCreateFromImplicitSuccess(state));
+    const linkdropAmount = useSelector(selectLinkdropAmount);
+    const createFromImplicitSuccess = useSelector(selectCreateFromImplicitSuccess);
     const fungibleTokensList = useFungibleTokensIncludingNEAR();
     const tokensLoader = useSelector((state) => selectTokensLoading(state, { accountId })) || !balance?.total;
 

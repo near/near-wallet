@@ -66,8 +66,8 @@ const Container = styled(Card)`
 
 const TwoFactorAuth = ({ twoFactor, history }) => {
     const [confirmDisable, setConfirmDisable] = useState(false);
-    const account = useSelector((state) => selectAccountSlice(state));
-    const nearTokenFiatValueUSD = useSelector((state) => selectNearTokenFiatValueUSD(state));
+    const account = useSelector(selectAccountSlice);
+    const nearTokenFiatValueUSD = useSelector(selectNearTokenFiatValueUSD);
     const dispatch = useDispatch();
 
     const handleConfirmDisable = async () => {

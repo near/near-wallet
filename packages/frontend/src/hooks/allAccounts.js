@@ -6,9 +6,9 @@ import { selectAccountId, selectAccountSlice } from '../redux/slices/account';
 import { selectAllAccountsSlice } from '../redux/slices/allAccounts';
 
 export function useAccount(accountId) {
-    const ownerAccountId = useSelector((state) => selectAccountId(state));
-    const account = useSelector((state) => selectAccountSlice(state));
-    const allAccounts = useSelector((state) => selectAllAccountsSlice(state));
+    const ownerAccountId = useSelector(selectAccountId);
+    const account = useSelector(selectAccountSlice);
+    const allAccounts = useSelector(selectAllAccountsSlice);
 
     const isOwner = ownerAccountId === accountId;
 
