@@ -13,7 +13,7 @@ import * as accountActions from '../../../redux/actions/account';
 import { showCustomAlert } from '../../../redux/actions/status';
 import { selectAccountId } from '../../../redux/reducers/account';
 import { actions as linkdropActions } from '../../../redux/slices/linkdrop';
-import { actions as recoveryMethodsActions, selectRecoveryMethodsByAccountId } from '../../../redux/slices/recoveryMethods';
+import { actions as recoveryMethodsActions, selectRecoveryMethodsByAccountId, selectRecoveryMethodsLoading } from '../../../redux/slices/recoveryMethods';
 import { validateEmail } from '../../../utils/account';
 import { actionsPending } from '../../../utils/alerts';
 import isApprovedCountryCode from '../../../utils/isApprovedCountryCode';
@@ -385,7 +385,7 @@ class SetupRecoveryMethod extends Component {
             isNewAccount,
             settingUpNewAccount
         } = this.state;
-        const { mainLoader, accountId, activeAccountId, ledgerKey, twoFactor, location } = this.props;
+        const { mainLoader, accountId, activeAccountId, ledgerKey, twoFactor, location, recoveryMethodsLoader } = this.props;
 
         if (!success) {
             return (
@@ -488,7 +488,7 @@ class SetupRecoveryMethod extends Component {
                         <FormButton
                             color='blue'
                             type='submit'
-                            disabled={!this.isValidInput || mainLoader}
+                            disabled={!this.isValidInput || mainLoader || recoveryMethodsLoader}
                             sending={actionsPending(['INITIALIZE_RECOVERY_METHOD', 'SETUP_RECOVERY_MESSAGE'])}
                             trackingId='SR Click submit button'
                             data-test-id="submitSelectedRecoveryOption"
@@ -549,7 +549,8 @@ const mapStateToProps = (state, { match }) => {
         accountId: match.params.accountId,
         activeAccountId: account.accountId,
         recoveryMethods: selectRecoveryMethodsByAccountId(state, { accountId: selectAccountId(state) }),
-        mainLoader: status.mainLoader
+        mainLoader: status.mainLoader,
+        recoveryMethodsLoader: selectRecoveryMethodsLoading(state, { accountId: match.params.accountId })
     };
 };
 
