@@ -11,8 +11,9 @@ import styled from 'styled-components';
 import { Mixpanel } from '../../../mixpanel/index';
 import * as accountActions from '../../../redux/actions/account';
 import { showCustomAlert } from '../../../redux/actions/status';
+import { selectAccountId } from '../../../redux/reducers/account';
 import { actions as linkdropActions } from '../../../redux/slices/linkdrop';
-import { actions as recoveryMethodsActions } from '../../../redux/slices/recoveryMethods';
+import { actions as recoveryMethodsActions, selectRecoveryMethodsByAccountId } from '../../../redux/slices/recoveryMethods';
 import { validateEmail } from '../../../utils/account';
 import { actionsPending } from '../../../utils/alerts';
 import isApprovedCountryCode from '../../../utils/isApprovedCountryCode';
@@ -353,10 +354,10 @@ class SetupRecoveryMethod extends Component {
     }
 
     checkDisabled = (method) => {
-        const { recoveryMethods, activeAccountId } = this.props;
+        const { recoveryMethods } = this.props;
         let activeMethods = [];
-        if (recoveryMethods[activeAccountId]) {
-            activeMethods = recoveryMethods[activeAccountId].filter(method => method.confirmed).map(method => method.kind);
+        if (!!recoveryMethods.length) {
+            activeMethods = recoveryMethods.filter(method => method.confirmed).map(method => method.kind);
         }
 
         return !this.checkNewAccount() && activeMethods.includes(method);
@@ -539,13 +540,17 @@ const mapDispatchToProps = {
     setLinkdropAmount
 };
 
-const mapStateToProps = ({ account, router, recoveryMethods, status }, { match }) => ({
-    ...account,
-    router,
-    accountId: match.params.accountId,
-    activeAccountId: account.accountId,
-    recoveryMethods,
-    mainLoader: status.mainLoader
-});
+const mapStateToProps = (state, { match }) => {
+    const { account, router, status } = state;
+    
+    return {
+        ...account,
+        router,
+        accountId: match.params.accountId,
+        activeAccountId: account.accountId,
+        recoveryMethods: selectRecoveryMethodsByAccountId(state, { accountId: selectAccountId(state) }),
+        mainLoader: status.mainLoader
+    };
+};
 
 export const SetupRecoveryMethodWithRouter = connect(mapStateToProps, mapDispatchToProps)(withGoogleReCaptcha(SetupRecoveryMethod));
