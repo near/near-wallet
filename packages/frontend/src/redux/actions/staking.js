@@ -2,14 +2,18 @@ import BN from 'bn.js';
 import * as nearApiJs from 'near-api-js';
 import { createActions } from 'redux-actions';
 
+import {
+    ACCOUNT_HELPER_URL,
+    MIN_LOCKUP_AMOUNT,
+    REACT_APP_USE_TESTINGLOCKUP,
+    STAKING_GAS_BASE,
+} from '../../../config/settings';
 import { getLockupAccountId } from '../../utils/account-with-lockup';
 import { showAlert } from '../../utils/alerts';
 import { 
     STAKING_AMOUNT_DEVIATION,
     MIN_DISPLAY_YOCTO,
     ZERO,
-    MIN_LOCKUP_AMOUNT,
-    STAKING_GAS_BASE,
     EXPLORER_DELAY,
     ACCOUNT_DEFAULTS,
     getStakingDeposits, 
@@ -19,7 +23,7 @@ import {
     stakingMethods,
     shuffle
 } from '../../utils/staking';
-import { ACCOUNT_HELPER_URL, wallet } from '../../utils/wallet';
+import { wallet } from '../../utils/wallet';
 import { WalletError } from '../../utils/walletError';
 import { getBalance } from './account';
 
@@ -286,7 +290,7 @@ export const { staking } = createActions({
         UPDATE_CURRENT: null,
         GET_LOCKUP: async (accountId) => {
             let lockupId;
-            if (process.env.REACT_APP_USE_TESTINGLOCKUP && accountId.length < 64) {
+            if (REACT_APP_USE_TESTINGLOCKUP && accountId.length < 64) {
                 lockupId = `testinglockup.${accountId}`;
             } else {
                 lockupId = getLockupAccountId(accountId);

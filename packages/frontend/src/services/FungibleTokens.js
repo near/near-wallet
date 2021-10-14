@@ -1,6 +1,7 @@
 import BN from 'bn.js';
 import * as nearApiJs from 'near-api-js';
 
+import { ACCOUNT_HELPER_URL } from '../../config/settings';
 import sendJson from '../tmp_fetch_send_json';
 import {
     parseTokenAmount,
@@ -8,7 +9,6 @@ import {
     removeTrailingZeros
 } from '../utils/amounts';
 import {
-    ACCOUNT_HELPER_URL,
     wallet
 } from '../utils/wallet';
 

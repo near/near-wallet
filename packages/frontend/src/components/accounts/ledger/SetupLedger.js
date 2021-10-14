@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Translate } from 'react-localize-redux';
 import { connect } from 'react-redux';
 
+import { DISABLE_CREATE_ACCOUNT, RECAPTCHA_CHALLENGE_API_KEY } from '../../../../config/settings';
 import { Mixpanel } from '../../../mixpanel/index';
 import {
     addLedgerAccessKey,
@@ -18,7 +19,7 @@ import { selectAccountSlice } from '../../../redux/slices/account';
 import { actions as linkdropActions } from '../../../redux/slices/linkdrop';
 import { selectStatusMainLoader } from '../../../redux/slices/status';
 import parseFundingOptions from '../../../utils/parseFundingOptions';
-import { DISABLE_CREATE_ACCOUNT, setKeyMeta, ENABLE_IDENTITY_VERIFIED_ACCOUNT } from '../../../utils/wallet';
+import { setKeyMeta, ENABLE_IDENTITY_VERIFIED_ACCOUNT } from '../../../utils/wallet';
 import FormButton from '../../common/FormButton';
 import GlobalAlert from '../../common/GlobalAlert';
 import Container from '../../common/styled/Container.css';
@@ -41,7 +42,7 @@ const SetupLedger = (props) => {
     const [recaptchaToken, setRecaptchaToken] = useState(null);
     const recaptchaRef = useRef(null);
     const fundingOptions = parseFundingOptions(props.location.search);
-    const shouldRenderRecaptcha = !fundingOptions && process.env.RECAPTCHA_CHALLENGE_API_KEY && isNewAccount && !ENABLE_IDENTITY_VERIFIED_ACCOUNT;
+    const shouldRenderRecaptcha = !fundingOptions && RECAPTCHA_CHALLENGE_API_KEY && isNewAccount && !ENABLE_IDENTITY_VERIFIED_ACCOUNT;
 
     useEffect(() => {
         const performNewAccountCheck = async () => {

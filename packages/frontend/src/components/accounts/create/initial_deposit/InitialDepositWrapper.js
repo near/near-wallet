@@ -4,13 +4,14 @@ import { formatNearAmount } from 'near-api-js/lib/utils/format';
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
+import { MIN_BALANCE_TO_CREATE } from '../../../../../config/settings';
 import { Mixpanel } from '../../../../mixpanel';
 import { createAccountFromImplicit, redirectTo } from '../../../../redux/actions/account';
 import { actions as createFromImplicitActions } from '../../../../redux/slices/createFromImplicit';
 import { actions as flowLimitationActions } from '../../../../redux/slices/flowLimitation';
 import { getSignedUrl } from '../../../../utils/moonpay';
 import useRecursiveTimeout from '../../../../utils/useRecursiveTimeout';
-import { MIN_BALANCE_TO_CREATE, wallet } from '../../../../utils/wallet';
+import { wallet } from '../../../../utils/wallet';
 import FundingReceived from './FundingReceived';
 import FundWithCreditCard from './FundWithCreditCard';
 import FundWithManualDeposit from './FundWithManualDeposit';

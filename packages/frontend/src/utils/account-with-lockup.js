@@ -6,10 +6,11 @@ import { parseNearAmount } from 'near-api-js/lib/utils/format';
 import { BinaryReader } from 'near-api-js/lib/utils/serialize';
 
 import {
+    ACCOUNT_HELPER_URL,
     LOCKUP_ACCOUNT_ID_SUFFIX,
     MIN_BALANCE_FOR_GAS,
-    ACCOUNT_HELPER_URL
-} from './wallet';
+    REACT_APP_USE_TESTINGLOCKUP,
+} from '../../config/settings';
 import { WalletError } from './walletError';
 
 // TODO: Should gas allowance be dynamically calculated
@@ -112,7 +113,7 @@ async function accountExists(connection, accountId) {
 }
 
 export function getLockupAccountId(accountId) {
-    if (process.env.REACT_APP_USE_TESTINGLOCKUP && accountId.length < 64) {
+    if (REACT_APP_USE_TESTINGLOCKUP && accountId.length < 64) {
         return `testinglockup.${accountId}`;
     }
     return sha256(Buffer.from(accountId)).substring(0, 40) + '.' + LOCKUP_ACCOUNT_ID_SUFFIX;

@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 
+import { MIN_BALANCE_TO_CREATE } from '../../../config/settings';
 import { Mixpanel } from '../../mixpanel';
 import { createAccountFromImplicit, redirectTo } from '../../redux/actions/account';
 import { selectAccountId, selectAccountSlice } from '../../redux/slices/account';
@@ -12,7 +13,6 @@ import { actions as createFromImplicitActions } from '../../redux/slices/createF
 import { selectStatusMainLoader } from '../../redux/slices/status';
 import { selectNearTokenFiatValueUSD } from '../../redux/slices/tokenFiatValues';
 import { isMoonpayAvailable, getSignedUrl } from '../../utils/moonpay';
-import { MIN_BALANCE_TO_CREATE } from '../../utils/wallet';
 import { wallet } from '../../utils/wallet';
 import { getNearAndFiatValue } from '../common/balance/helpers';
 import Divider from '../common/Divider';

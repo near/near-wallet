@@ -2,12 +2,12 @@ import React from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
+import { IS_MAINNET } from '../../../config/settings';
 import HardwareDeviceIcon from '../../images/icon-hardware-device.svg';
 import EmailIcon from '../../images/icon-recover-email.svg';
 import PhoneIcon from '../../images/icon-recover-phone.svg';
 import PhraseIcon from '../../images/icon-recover-seedphrase.svg';
 import { Mixpanel } from '../../mixpanel/index';
-import { IS_MAINNET } from '../../utils/wallet';
 import FormButton from '../common/FormButton';
 import Container from '../common/styled/Container.css';
 import SmartPhoneIcon from '../svg/SmartPhoneIcon';

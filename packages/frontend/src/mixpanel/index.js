@@ -1,5 +1,7 @@
 import mixpanel from 'mixpanel-browser';
 
+import { BROWSER_MIXPANEL_TOKEN } from '../../config/settings';
+
 let Mixpanel = {
     get_distinct_id: () => {},
     identify: () => {},
@@ -27,8 +29,8 @@ let Mixpanel = {
     register: () => {}
 };
 
-if (process.env.BROWSER_MIXPANEL_TOKEN) {
-    mixpanel.init(process.env.BROWSER_MIXPANEL_TOKEN);
+if (BROWSER_MIXPANEL_TOKEN) {
+    mixpanel.init(BROWSER_MIXPANEL_TOKEN);
     mixpanel.register({'timestamp': new Date().toString(), '$referrer': document.referrer});
     Mixpanel = {
         get_distinct_id: () => {

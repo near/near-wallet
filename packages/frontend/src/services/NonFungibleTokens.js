@@ -1,5 +1,6 @@
+import { ACCOUNT_HELPER_URL } from '../../config/settings';
 import sendJson from '../tmp_fetch_send_json';
-import { ACCOUNT_HELPER_URL, wallet } from '../utils/wallet';
+import { wallet } from '../utils/wallet';
 
 export const TOKENS_PER_PAGE = 4;
 

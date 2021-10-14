@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 
+import { DISABLE_CREATE_ACCOUNT } from '../../../config/settings';
 import { Mixpanel } from '../../mixpanel/index';
 import { 
     recoverAccountSeedPhrase,
@@ -16,7 +17,6 @@ import { selectStatusMainLoader } from '../../redux/slices/status';
 import { actionsPending } from '../../utils/alerts';
 import copyText from '../../utils/copyText';
 import isMobile from '../../utils/isMobile';
-import { DISABLE_CREATE_ACCOUNT } from '../../utils/wallet';
 import Button from '../common/Button';
 import FormButton from '../common/FormButton';
 import { Snackbar, snackbarDuration } from '../common/Snackbar';

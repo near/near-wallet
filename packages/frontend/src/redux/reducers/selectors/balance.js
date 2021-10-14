@@ -1,7 +1,7 @@
 import BN from 'bn.js';
 
+import { MIN_BALANCE_FOR_GAS } from '../../../../config/settings';
 import { LOCKUP_MIN_BALANCE } from '../../../utils/account-with-lockup';
-import { MIN_BALANCE_FOR_GAS } from '../../../utils/wallet';
 
 export const selectProfileBalance = (walletAccount) => {
     const balance = walletAccount?.balance;

@@ -2,7 +2,7 @@ import React from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
-import { EXPLORE_APPS_URL } from '../../../utils/wallet';
+import { EXPLORE_APPS_URL } from '../../../../config/settings';
 import FormButton from '../../common/FormButton';
 import Container from '../../common/styled/Container.css';
 import AuthorizedApp from '../../profile/authorized_apps/AuthorizedApp';

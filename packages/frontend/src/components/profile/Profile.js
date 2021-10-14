@@ -5,6 +5,7 @@ import { Translate } from 'react-localize-redux';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 
+import { IS_MAINNET, MIN_BALANCE_FOR_GAS } from '../../../config/settings';
 import { useAccount } from '../../hooks/allAccounts';
 import { Mixpanel } from "../../mixpanel/index";
 import {
@@ -21,7 +22,6 @@ import { selectAccountAuthorizedApps, selectAccountHas2fa, selectAccountId, sele
 import { actions as recoveryMethodsActions, selectRecoveryMethodsByAccountId } from '../../redux/slices/recoveryMethods';
 import { selectNearTokenFiatValueUSD } from '../../redux/slices/tokenFiatValues';
 import isMobile from '../../utils/isMobile';
-import { IS_MAINNET, MIN_BALANCE_FOR_GAS } from '../../utils/wallet';
 import FormButton from '../common/FormButton';
 import SkeletonLoading from '../common/SkeletonLoading';
 import Container from '../common/styled/Container.css';

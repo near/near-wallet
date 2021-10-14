@@ -1,17 +1,17 @@
 import React from 'react';
-import styled from 'styled-components';
 import { Translate } from 'react-localize-redux';
+import styled from 'styled-components';
 
-import FormButton from '../common/FormButton';
-import CloseButton from '../common/modal/CloseButton';
+import { EXPLORE_APPS_URL, EXPLORE_DEFI_URL } from '../../../config/settings';
+import BerryClubLogo from '../../images/berryclub-logo.svg';
+import FluxLogo from '../../images/flux-logo.svg';
 import HashRushLogo from '../../images/hash-rush-logo.svg';
+import MintbaseLogo from '../../images/mintbase-logo.svg';
 import ParasLogo from '../../images/paras-logo.svg';
 import ZedLogo from '../../images/zed-logo.svg';
-import MintbaseLogo from '../../images/mintbase-logo.svg';
-import FluxLogo from '../../images/flux-logo.svg';
-import BerryClubLogo from '../../images/berryclub-logo.svg';
+import FormButton from '../common/FormButton';
+import CloseButton from '../common/modal/CloseButton';
 
-import { EXPLORE_APPS_URL, EXPLORE_DEFI_URL } from '/utils/wallet';
 
 const Container = styled.div`
     && {

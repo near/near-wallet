@@ -3,8 +3,9 @@ import { Translate } from 'react-localize-redux';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
+import { EXPLORER_URL } from '../../../config/settings';
 import { actions as transactionsActions } from '../../redux/slices/transactions';
-import { EXPLORER_URL, TRANSACTIONS_REFRESH_INTERVAL } from '../../utils/wallet';
+import { TRANSACTIONS_REFRESH_INTERVAL } from '../../utils/wallet';
 import FormButton from '../common/FormButton';
 import Modal from "../common/modal/Modal";
 import SafeTranslate from '../SafeTranslate';

@@ -5,12 +5,12 @@ import { useSelector, useDispatch } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 
+import { MULTISIG_MIN_AMOUNT } from '../../../../config/settings';
 import { disableMultisig } from '../../../redux/actions/account';
 import { selectAccountSlice } from '../../../redux/slices/account';
 import { actions as recoveryMethodsActions } from '../../../redux/slices/recoveryMethods';
 import { selectNearTokenFiatValueUSD } from '../../../redux/slices/tokenFiatValues';
 import { actionsPending } from '../../../utils/alerts';
-import { MULTISIG_MIN_AMOUNT } from '../../../utils/wallet';
 import { getNearAndFiatValue } from '../../common/balance/helpers';
 import FormButton from '../../common/FormButton';
 import Card from '../../common/styled/Card.css';

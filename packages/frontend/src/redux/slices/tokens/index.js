@@ -3,11 +3,11 @@ import BN from 'bn.js';
 import set from 'lodash.set';
 import { createSelector } from 'reselect';
 
+import { WHITELISTED_CONTRACTS } from '../../../../config/settings';
 import FungibleTokens from '../../../services/FungibleTokens';
 import createParameterSelector from '../createParameterSelector';
 import initialErrorState from '../initialErrorState';
 
-const WHITELISTED_CONTRACTS = (process.env.TOKEN_CONTRACTS || 'berryclub.ek.near,farm.berryclub.ek.near,wrap.near').split(',');
 const SLICE_NAME = 'tokens';
 
 const initialState = {
