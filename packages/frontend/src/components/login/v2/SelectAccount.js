@@ -5,7 +5,7 @@ import AccountSelector from '../../accounts/account_selector/AccountSelector';
 import FormButton from '../../common/FormButton';
 import FormButtonGroup from '../../common/FormButtonGroup';
 import Container from '../../common/styled/Container.css';
-import LoginStyle from './LoginStyle.css';
+import LoginStyle from './style/LoginStyle.css';
 
 export default ({
     signedInAccountId,

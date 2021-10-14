@@ -19,6 +19,7 @@ export function LoginWrapper() {
     const dispatch = useDispatch();
 
     const [loginView, setLoginView] = useState('confirmLogin');
+    const [showGrantFullAccessModal, setShowGrantFullAccessModal] = useState(true);
 
     const account = useSelector(selectAccount);
     const signedInAccountId = useSelector(signedInAccountIdLocalStorage);
@@ -29,7 +30,7 @@ export function LoginWrapper() {
     //TODO: Use selector
     const appReferrer = account.url?.referrer;
 
-    const loginAccessType = 'limitedAccess';
+    const loginAccessType = 'fullAccess';
 
     if (loginView === 'selectAccount') {
         return (
@@ -57,6 +58,16 @@ export function LoginWrapper() {
                 loginAccessType={loginAccessType}
                 appReferrer={appReferrer}
                 onClickCancel={() => setLoginView('selectAccount')}
+                onClickConnect={() => {
+                    if (loginAccessType !== 'limitedAccess') {
+                        setShowGrantFullAccessModal(true);
+                    }
+                }}
+                onClickConfirmFullAccess={() => {
+                    console.log('FIX: Grant full access');
+                }}
+                showGrantFullAccessModal={showGrantFullAccessModal}
+                onCloseGrantFullAccessModal={() => setShowGrantFullAccessModal(false)}
             />
         );
     }

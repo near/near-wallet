@@ -959,11 +959,16 @@
                 "desc": "Only connect to sites that you trust. Once connected, <a href=${appReferrer} target='_blank' rel='noreferrer'>${appReferrer}</a> will have <b>${accessType}</b>:",
                 "limitedAccess": "limited permissions",
                 "fullAccess": "full permissions",
+                "fullAccessWarning": "This site is requesting full access to your account. To enable full access, you’ll be asked to verify your account address.",
                 "permissions": {
                     "viewAddress": "View the address of your permitted account",
                     "viewBalance": "View the balance of your permitted account",
                     "notTransferTokens": "This does not allow the app to transfer tokens",
                     "transferTokens": "Transfer tokens from your account"
+                },
+                "fullAccessModal": {
+                    "title": "Grant full account access?",
+                    "desc": "Proceed with caution. Full access permissions allow contracts and applications to access your token balance. To confirm, enter your account address below."
                 }
             }
         }
