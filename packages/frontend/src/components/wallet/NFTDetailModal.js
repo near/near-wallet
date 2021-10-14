@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import UserIconGrey from '../../images/UserIconGrey';
 
 import FormButton from '../common/FormButton';
 import Modal from '../common/modal/Modal';
@@ -26,7 +27,7 @@ const StyledContainer = styled.div`
             filter: drop-shadow(0px 100px 80px rgba(0, 0, 0, 0.07)) drop-shadow(0px 41.7776px 33.4221px rgba(0, 0, 0, 0.0503198)) drop-shadow(0px 22.3363px 17.869px rgba(0, 0, 0, 0.0417275)) drop-shadow(0px 12.5216px 10.0172px rgba(0, 0, 0, 0.035)) drop-shadow(0px 6.6501px 5.32008px rgba(0, 0, 0, 0.0282725)) drop-shadow(0px 2.76726px 2.21381px rgba(0, 0, 0, 0.0196802));
         }
 
-        h1, p {
+        h1 {
             margin-bottom: 30px;
         }
     }
@@ -83,6 +84,55 @@ const StyledContainer = styled.div`
     .transfer-svg {
         margin-right: 12px !important;
     }
+
+    .owner {
+        margin-top: 30px;
+        margin-bottom: 10px;
+
+        p {
+            font-family: Inter;
+            font-style: normal;
+            font-weight: 500;
+            font-size: 12px;
+            line-height: 150%;
+            /* identical to box height, or 18px */
+
+            display: flex;
+            align-items: center;
+            letter-spacing: 0.115em;
+
+            /* gray/neutral/500 */
+
+            color: #A2A2A8;
+        }
+
+        .inner {
+            height: 30px;          
+            line-height: 30px; 
+            display: flex;         
+            align-items: center;
+        }
+    }
+`;
+
+const UserIcon = styled.div`
+    background-size: 21px;
+    flex: 0 0 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #f8f8f8;
+    text-align: center;
+    margin: 0 12px 0 0;
+    
+    svg {
+        width: 26px;
+        height: 26px;
+        margin: 7px;
+    }
+
+    @media (min-width: 940px) {
+        display: inline-block;
+    }
 `;
 
 function arrowSVG () {
@@ -119,6 +169,19 @@ export default function NFTDetailModal({ open, onClose, nft }) {
                     <img src={metadata.media} alt='NFT'/>
                     <h1 className="title">{metadata.title}</h1>
                     <p className="desc">{metadata.description}</p>
+
+                    <div className='owner'>
+                        <p>OWNER</p>
+
+                        <div className='inner'>
+                            <UserIcon>
+                                <UserIconGrey color='#9a9a9a' />
+                            </UserIcon>
+                            <span>
+                                { nft.ownerId }
+                            </span>
+                        </div>
+                    </div>
                 </div>
 
                 <FormButton 
