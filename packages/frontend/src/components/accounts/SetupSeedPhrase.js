@@ -298,7 +298,7 @@ const mapStateToProps = (state, { match }) => {
     return {
         ...selectAccountSlice(state),
         accountId: createMatchSelector('/setup-seed-phrase/:accountId/:step')(state).params.accountId,
-        recoveryMethods: selectRecoveryMethodsByAccountId(state, { accountId: match.params.accountId }),
+        recoveryMethods: selectRecoveryMethodsByAccountId(state, { accountId: wallet.accountId }),
         mainLoader: selectStatusMainLoader(state),
         recoveryMethodsLoader: selectRecoveryMethodsLoading(state, { accountId: match.params.accountId })
     };

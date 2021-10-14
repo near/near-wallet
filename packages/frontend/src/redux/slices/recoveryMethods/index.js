@@ -84,7 +84,7 @@ export const actions = {
 const getAccountIdParam = createParameterSelector((params) => params.accountId);
 
 // Top level selectors
-export const selectRecoveryMethodsSlice = (state) => state[SLICE_NAME] || {};
+const selectRecoveryMethodsSlice = (state) => state[SLICE_NAME] || {};
 
 export const selectRecoveryMethodsObjectByAccountId = createSelector(
     [selectRecoveryMethodsSlice, getAccountIdParam],

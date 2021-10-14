@@ -375,7 +375,6 @@ class SetupRecoveryMethod extends Component {
     }
 
     render() {
-
         const {
             option,
             phoneNumber,
