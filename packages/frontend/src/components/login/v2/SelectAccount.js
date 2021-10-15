@@ -4,7 +4,9 @@ import { Translate } from 'react-localize-redux';
 import AccountSelector from '../../accounts/account_selector/AccountSelector';
 import FormButton from '../../common/FormButton';
 import FormButtonGroup from '../../common/FormButtonGroup';
+import LoadingDots from '../../common/loader/LoadingDots';
 import Container from '../../common/styled/Container.css';
+import ConnectWithApplication from './ConnectWithApplication';
 import LoginStyle from './style/LoginStyle.css';
 
 export default ({
@@ -27,14 +29,13 @@ export default ({
                     {({ translate }) => (
                         <Translate
                             id='login.v2.connectWithNear.desc'
-                            data={{ 
-                                appReferrer: appReferrer || translate('sign.unknownApp'),
-                                accessType: translate(`login.v2.connectWithNear.${loginAccessType}`)
-                            }}
+                            data={{ accessType: translate(`login.v2.connectWithNear.${loginAccessType}`) }}
                         />
                     )}
                 </Translate>
             </div>
+            <ConnectWithApplication appReferrer={appReferrer} />
+            <LoadingDots />
             <AccountSelector
                 signedInAccountId={signedInAccountId}
                 availableAccounts={availableAccounts}

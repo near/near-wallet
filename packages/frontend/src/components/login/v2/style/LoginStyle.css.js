@@ -43,5 +43,14 @@ export default styled.div`
                 font-style: normal;
             }
         }
+
+        .connect-with-application {
+            margin: 0 auto;
+        }
+
+        .loading-dots {
+            transform: rotate(90deg);
+            margin: 30px 0;
+        }
     }
 `;

@@ -950,7 +950,7 @@
         "v2": {
             "connectWithNear": {
                 "title": "Connect with NEAR",
-                "desc": "<a href=${appReferrer} target='_blank' rel='noreferrer'>${appReferrer}</a> is requesting <b>${accessType}</b> to your NEAR account. Select the account you wish to connect.",
+                "desc": "An application is requesting <b>${accessType}</b> to your NEAR account. Select the account you wish to connect.",
                 "limitedAccess": "limited access",
                 "fullAccess": "full access"
             },
@@ -959,7 +959,7 @@
                 "desc": "Only connect to sites that you trust. Once connected, <a href=${appReferrer} target='_blank' rel='noreferrer'>${appReferrer}</a> will have <b>${accessType}</b>:",
                 "limitedAccess": "limited permissions",
                 "fullAccess": "full permissions",
-                "fullAccessWarning": "This site is requesting full access to your account. To enable full access, you’ll be asked to verify your account address.",
+                "fullAccessWarning": "This site is requesting full access to your account. To enable full access, you’ll be asked to verify your account ID.",
                 "permissions": {
                     "viewAddress": "View the address of your permitted account",
                     "viewBalance": "View the balance of your permitted account",
@@ -968,7 +968,7 @@
                 },
                 "fullAccessModal": {
                     "title": "Grant full account access?",
-                    "desc": "Proceed with caution. Full access permissions allow contracts and applications to access your token balance. To confirm, enter your account address below."
+                    "desc": "Proceed with caution. Full access permissions allow contracts and applications to access your token balance. To confirm, enter your account ID below."
                 }
             }
         }

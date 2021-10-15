@@ -18,8 +18,8 @@ import SelectAccount from './SelectAccount';
 export function LoginWrapper() {
     const dispatch = useDispatch();
 
-    const [loginView, setLoginView] = useState('confirmLogin');
-    const [showGrantFullAccessModal, setShowGrantFullAccessModal] = useState(true);
+    const [loginView, setLoginView] = useState('selectAccount');
+    const [showGrantFullAccessModal, setShowGrantFullAccessModal] = useState(false);
 
     const account = useSelector(selectAccount);
     const signedInAccountId = useSelector(signedInAccountIdLocalStorage);
@@ -30,7 +30,7 @@ export function LoginWrapper() {
     //TODO: Use selector
     const appReferrer = account.url?.referrer;
 
-    const loginAccessType = 'fullAccess';
+    const loginAccessType = 'limitedAccess';
 
     if (loginView === 'selectAccount') {
         return (

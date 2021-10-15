@@ -91,6 +91,7 @@ export default ({
                 {({ translate }) => (
                     <input
                         placeholder={translate('input.accountId.placeholder')}
+                        autoFocus={true}
                     />
                 )}
             </Translate>
