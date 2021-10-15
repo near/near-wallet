@@ -80,9 +80,9 @@ export function SignInLedger(props) {
         dispatch(refreshAccount());
 
         const { search } = props.history.location;
-        const fundWithExistingAccount = !!search && JSON.parse(parseQuery(search).fundWithExistingAccount);
+        const fundWithExistingAccount = parseQuery(search, { parseBooleans: true }).fundWithExistingAccount;
         if (fundWithExistingAccount) {
-            const createNewAccountParams = new URLSearchParams(fundWithExistingAccount).toString();
+            const createNewAccountParams = new URLSearchParams(JSON.parse(fundWithExistingAccount)).toString();
             dispatch(redirectTo(`/fund-with-existing-account?${createNewAccountParams}`));
         } else {
             const options = parseFundingOptions(search);
