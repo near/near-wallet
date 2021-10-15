@@ -5,6 +5,7 @@ import AlertBanner from '../../common/AlertBanner';
 import FormButton from '../../common/FormButton';
 import FormButtonGroup from '../../common/FormButtonGroup';
 import Container from '../../common/styled/Container.css';
+import SafeTranslate from '../../SafeTranslate';
 import SwapGraphic from '../../svg/SwapGraphic';
 import GrantFullAccessModal from './GrantFullAccessModal';
 import PermissionItem from './PermissionItem';
@@ -17,8 +18,13 @@ export default ({
     onClickConfirmFullAccess,
     loginAccessType,
     appReferrer,
+    contractId,
     showGrantFullAccessModal,
-    onCloseGrantFullAccessModal
+    onCloseGrantFullAccessModal,
+    EXPLORER_URL,
+    loggingIn,
+    onChangeUserInputValue,
+    userInputValue
 }) => (
     <>
         <Container className='small-centered border'>
@@ -28,9 +34,10 @@ export default ({
                 <div className='desc'>
                     <Translate>
                         {({ translate }) => (
-                            <Translate
+                            <SafeTranslate
                                 id='login.v2.connectConfirm.desc'
                                 data={{
+                                    contractIdUrl: `${EXPLORER_URL}/accounts/${contractId}`,
                                     appReferrer: appReferrer || translate('sign.unknownApp'),
                                     accessType: translate(`login.v2.connectConfirm.${loginAccessType}`)
                                 }}
@@ -38,28 +45,23 @@ export default ({
                         )}
                     </Translate>
                 </div>
-                <PermissionItem translateId='login.v2.connectConfirm.permissions.viewAddress' />
-                <PermissionItem translateId='login.v2.connectConfirm.permissions.viewBalance' />
-                {
-                    loginAccessType === 'limitedAccess'
-                        ? <PermissionItem permitted={false} translateId='login.v2.connectConfirm.permissions.notTransferTokens' />
-                        : <PermissionItem translateId='login.v2.connectConfirm.permissions.transferTokens' />
-                }
-                {loginAccessType !== 'limitedAccess' &&
-                    <AlertBanner
-                        title='login.v2.connectConfirm.fullAccessWarning'
-                        theme='warning'
-                    />
+                {loginAccessType === 'limitedAccess'
+                    ? <LimitedAccessUI/>
+                    : <FullAccessUI/>
                 }
                 <FormButtonGroup>
                     <FormButton
                         onClick={onClickCancel}
                         color='gray-blue'
+                        disabled={loggingIn}
                     >
                         <Translate id='button.cancel' />
                     </FormButton>
                     <FormButton
                         onClick={onClickConnect}
+                        disabled={loggingIn}
+                        sending={loggingIn}
+                        sendingString='button.connecting'
                     >
                         <Translate id='button.connect' />
                     </FormButton>
@@ -70,9 +72,38 @@ export default ({
             <GrantFullAccessModal
                 open={showGrantFullAccessModal}
                 onClose={onCloseGrantFullAccessModal}
+                onChangeUserInputValue={onChangeUserInputValue}
+                userInputValue={userInputValue}
                 onConfirm={onClickConfirmFullAccess}
+                signedInAccountId={signedInAccountId}
                 appReferrer={appReferrer}
+                loggingIn={loggingIn}
             />
         }
+    </>
+);
+
+const LimitedAccessUI = () => (
+    <>
+        <PermissionItem translateId='login.v2.connectConfirm.permissions.viewAddress' />
+        <PermissionItem translateId='login.v2.connectConfirm.permissions.viewBalance' />
+        <PermissionItem permitted={false} translateId='login.v2.connectConfirm.permissions.notTransferTokens' />
+    </>
+);
+
+const FullAccessUI = () => (
+    <>
+        <PermissionItem translateId='login.v2.connectConfirm.permissions.viewAddress' />
+        <PermissionItem translateId='login.v2.connectConfirm.permissions.viewBalance' />
+        <PermissionItem translateId='login.details.createNewAccounts' />
+        <PermissionItem translateId='login.details.transferTokens' />
+        <PermissionItem translateId='login.details.deploySmartContracts' />
+        <PermissionItem translateId='login.details.callFunctions' />
+        <PermissionItem translateId='login.details.stakeAndUnstake' />
+        <PermissionItem translateId='login.details.createAndDeleteAccessKeys' />
+        <AlertBanner
+            title='login.v2.connectConfirm.fullAccessWarning'
+            theme='warning'
+        />
     </>
 );

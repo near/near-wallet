@@ -20,6 +20,14 @@ export default styled.div`
                 color: #3F4045;
             }
         }
+
+        &.full-access {
+            .desc {
+                b {
+                    color: #FC5B5B;
+                }
+            }
+        }
     
         &.confirm-login {
             .desc {
@@ -51,6 +59,12 @@ export default styled.div`
         .loading-dots {
             transform: rotate(90deg);
             margin: 30px 0;
+        }
+
+        &.invalid-contract {
+            > button {
+                width: 100%;
+            }
         }
     }
 `;

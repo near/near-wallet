@@ -1,10 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import { getLocation } from 'connected-react-router';
+import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
+import { Mixpanel } from '../../../mixpanel/index';
 import {
     switchAccount,
-    getAccountBalance
+    getAccountBalance,
+    redirectToApp,
+    allowLogin
 } from '../../../redux/actions/account';
+import { showCustomAlert } from '../../../redux/actions/status';
 import {
     selectBalance,
     selectAccountsBalances,
@@ -12,7 +17,12 @@ import {
     selectAccount
 } from '../../../redux/reducers/account';
 import { selectAvailableAccounts } from '../../../redux/slices/availableAccounts';
+import {
+    LOCKUP_ACCOUNT_ID_SUFFIX,
+    EXPLORER_URL
+} from '../../../utils/wallet';
 import ConfirmLogin from './ConfirmLogin';
+import InvalidContractId from './InvalidContractId';
 import SelectAccount from './SelectAccount';
 
 export function LoginWrapper() {
@@ -20,6 +30,16 @@ export function LoginWrapper() {
 
     const [loginView, setLoginView] = useState('selectAccount');
     const [showGrantFullAccessModal, setShowGrantFullAccessModal] = useState(false);
+    const [userInputValue, setUserInputValue] = useState('');
+    const [loggingIn, setLoggingIn] = useState(false);
+
+    const location = useSelector(getLocation);
+    const URLParams = new URLSearchParams(location.search);
+    const contractId = URLParams.get('contract_id');
+    const publicKey = URLParams.get('public_key');
+    const failureUrl = URLParams.get('failure_url');
+
+    const invalidContractId = URLParams.get('invalidContractId');
 
     const account = useSelector(selectAccount);
     const signedInAccountId = useSelector(signedInAccountIdLocalStorage);
@@ -27,10 +47,38 @@ export function LoginWrapper() {
     const accountsBalances = useSelector(selectAccountsBalances);
     const signedInAccountBalance = useSelector(selectBalance);
 
-    //TODO: Use selector
+    // TODO: Replace with selector once PR is merged
+    // https://github.com/near/near-wallet/pull/2178
     const appReferrer = account.url?.referrer;
 
-    const loginAccessType = 'limitedAccess';
+    const requestingFullAccess = !contractId || (publicKey && contractId?.endsWith(`.${LOCKUP_ACCOUNT_ID_SUFFIX}`)) || contractId === signedInAccountId;
+    const loginAccessType = requestingFullAccess ? 'fullAccess' : 'limitedAccess';
+
+    const handleAllowLogin = async () => {
+        await Mixpanel.withTracking("LOGIN",
+            async () => {
+                setLoggingIn(true);
+                await dispatch(allowLogin());
+            },
+            (e) => {
+                dispatch(showCustomAlert({
+                    success: false,
+                    messageCodeHeader: 'error',
+                    errorMessage: e.message
+                }));
+                setLoggingIn(false);
+            }
+        );
+    };
+
+    if (invalidContractId) {
+        return (
+            <InvalidContractId
+                invalidContractId={invalidContractId}
+                onClickReturnToApp={() => window.location.href = failureUrl}
+            />
+        );
+    }
 
     if (loginView === 'selectAccount') {
         return (
@@ -44,8 +92,18 @@ export function LoginWrapper() {
                 onSignInToDifferentAccount={() => console.log('FIX: login to different account')}
                 loginAccessType={loginAccessType}
                 appReferrer={appReferrer}
-                onClickCancel={() => console.log('FIX: Return to app')}
-                onClickNext={() => setLoginView('confirmLogin')}
+                onClickCancel={() => {
+                    Mixpanel.track("LOGIN Click deny button");
+                    if (failureUrl) {
+                        window.location.href = failureUrl;
+                    } else {
+                        dispatch(redirectToApp());
+                    }
+                }}
+                onClickNext={() => {
+                    setLoginView('confirmLogin');
+                    window.scrollTo(0, 0);
+                }}
             />
         );
     }
@@ -57,19 +115,23 @@ export function LoginWrapper() {
                 onSignInToDifferentAccount={() => console.log('FIX: login to different account')}
                 loginAccessType={loginAccessType}
                 appReferrer={appReferrer}
+                contractId={contractId}
                 onClickCancel={() => setLoginView('selectAccount')}
-                onClickConnect={() => {
-                    if (loginAccessType !== 'limitedAccess') {
+                onClickConnect={async () => {
+                    if (loginAccessType === 'fullAccess') {
                         setShowGrantFullAccessModal(true);
+                        return;
                     }
+                    handleAllowLogin();
                 }}
-                onClickConfirmFullAccess={() => {
-                    console.log('FIX: Grant full access');
-                }}
+                onChangeUserInputValue={(e) => setUserInputValue(e.target.value)}
+                userInputValue={userInputValue}
+                onClickConfirmFullAccess={() => handleAllowLogin()}
+                loggingIn={loggingIn}
                 showGrantFullAccessModal={showGrantFullAccessModal}
                 onCloseGrantFullAccessModal={() => setShowGrantFullAccessModal(false)}
+                EXPLORER_URL={EXPLORER_URL}
             />
         );
     }
-
 }

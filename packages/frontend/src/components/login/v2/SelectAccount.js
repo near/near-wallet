@@ -22,7 +22,7 @@ export default ({
     appReferrer
 }) => (
     <Container className='small-centered border'>
-        <LoginStyle>
+        <LoginStyle className={loginAccessType === 'fullAccess' ? 'full-access' : ''}>
             <h3><Translate id='login.v2.connectWithNear.title' /></h3>
             <div className='desc'>
                 <Translate>
