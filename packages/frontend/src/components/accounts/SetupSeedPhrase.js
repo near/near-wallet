@@ -15,10 +15,11 @@ import {
 } from '../../redux/actions/account';
 import { clearGlobalAlert, showCustomAlert } from '../../redux/actions/status';
 import { actions as linkdropActions } from '../../redux/slices/linkdrop';
-import { actions as recoveryMethodsActions } from '../../redux/slices/recoveryMethods';
+import { actions as recoveryMethodsActions, selectRecoveryMethodsByAccountId, selectRecoveryMethodsLoading } from '../../redux/slices/recoveryMethods';
 import copyText from '../../utils/copyText';
 import isMobile from '../../utils/isMobile';
 import parseFundingOptions from '../../utils/parseFundingOptions';
+import { wallet } from '../../utils/wallet';
 import { Snackbar, snackbarDuration } from '../common/Snackbar';
 import Container from '../common/styled/Container.css';
 import { isRetryableRecaptchaError } from '../Recaptcha';
@@ -48,10 +49,10 @@ class SetupSeedPhrase extends Component {
     }
 
     componentDidMount = async () => {
-        const { accountId, activeAccountId, fetchRecoveryMethods } = this.props;
+        const { accountId, fetchRecoveryMethods } = this.props;
         this.refreshData();
 
-        if (accountId === activeAccountId) {
+        if (accountId === wallet.accountId) {
             fetchRecoveryMethods({ accountId });
         }
 
@@ -212,8 +213,8 @@ class SetupSeedPhrase extends Component {
     }
 
     render() {
-        const recoveryMethods = this.props.recoveryMethods[this.props.accountId];
-        const hasSeedPhraseRecovery = recoveryMethods && recoveryMethods.filter(m => m.kind === 'phrase').length > 0;
+        const { recoveryMethods, recoveryMethodsLoader } = this.props;
+        const hasSeedPhraseRecovery = recoveryMethodsLoader || recoveryMethods.filter(m => m.kind === 'phrase').length > 0;
         const { seedPhrase, enterWord, wordId, submitting, localAlert, isNewAccount, successSnackbar } = this.state;
 
         return (
@@ -289,13 +290,18 @@ const mapDispatchToProps = {
     setLinkdropAmount
 };
 
-const mapStateToProps = ({ account, recoveryMethods, status }, { match }) => ({
-    ...account,
-    verify: match.params.verify,
-    accountId: match.params.accountId,
-    activeAccountId: account.accountId,
-    recoveryMethods,
-    mainLoader: status.mainLoader
-});
+const mapStateToProps = (state, { match }) => {
+
+    const { account, status } = state;
+    
+    return {
+        ...account,
+        verify: match.params.verify,
+        accountId: match.params.accountId,
+        recoveryMethods: selectRecoveryMethodsByAccountId(state, { accountId: match.params.accountId }),
+        mainLoader: status.mainLoader,
+        recoveryMethodsLoader: selectRecoveryMethodsLoading(state, { accountId: match.params.accountId })
+    };
+};
 
 export const SetupSeedPhraseWithRouter = connect(mapStateToProps, mapDispatchToProps)(withRouter(SetupSeedPhrase));
