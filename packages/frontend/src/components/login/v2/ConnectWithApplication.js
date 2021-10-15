@@ -2,7 +2,7 @@ import React from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
-import GlobeIcon from '../../../images/globe-icon.svg';
+import GlobeIcon from '../../svg/GlobeIcon';
 
 const StyledContainer = styled.div`
     border: 1px solid #D6EDFF;
@@ -15,14 +15,14 @@ const StyledContainer = styled.div`
     justify-content: center;
     width: fit-content;
 
-    > img {
+    > svg {
         margin-right: 10px;
     }
 `;
 
 export default ({ appReferrer }) => (
     <StyledContainer className='connect-with-application'>
-        <img src={GlobeIcon} alt='globe-icon' />
+        <GlobeIcon/>
         {appReferrer || <Translate id='sign.unknownApp' />}
     </StyledContainer>
 );
