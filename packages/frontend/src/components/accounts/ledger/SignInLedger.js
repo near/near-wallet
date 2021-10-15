@@ -79,12 +79,13 @@ export function SignInLedger(props) {
     const refreshAndRedirect = () => {
         dispatch(refreshAccount());
 
-        const fundWithExistingAccount = JSON.parse(parseQuery(props.history.location.search).fundWithExistingAccount);
+        const { search } = props.history.location;
+        const fundWithExistingAccount = parseQuery(search, { parseBooleans: true }).fundWithExistingAccount;
         if (fundWithExistingAccount) {
-            const createNewAccountParams = new URLSearchParams(fundWithExistingAccount).toString();
+            const createNewAccountParams = new URLSearchParams(JSON.parse(fundWithExistingAccount)).toString();
             dispatch(redirectTo(`/fund-with-existing-account?${createNewAccountParams}`));
         } else {
-            const options = parseFundingOptions(props.history.location.search);
+            const options = parseFundingOptions(search);
             if (options) {
                 dispatch(redirectTo(`/linkdrop/${options.fundingContract}/${options.fundingKey}`));
             } else {
