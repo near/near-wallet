@@ -5,7 +5,7 @@ import styled from 'styled-components';
 
 import { useFungibleTokensIncludingNEAR } from '../../hooks/fungibleTokensIncludingNEAR';
 import { checkAccountAvailable } from '../../redux/actions/account';
-import { clearLocalAlert } from '../../redux/actions/status';
+import { clearLocalAlert, showCustomAlert } from '../../redux/actions/status';
 import NonFungibleTokens, { NFT_TRANSFER_GAS } from '../../services/NonFungibleTokens';
 import { EXPLORER_URL } from '../../utils/wallet';
 import { formatNearAmount } from '../common/balance/helpers';
@@ -214,36 +214,51 @@ function successSVG() {
     );
 }
 
-async function sendNFT (nft, receiverId, onSuccess) {
-    console.log('sending nft', nft, receiverId);
-    const { contractId, tokenId, ownerId } = nft;
-    const res = await NonFungibleTokens.transfer({
-        accountId: ownerId,
-        contractId,
-        tokenId,
-        receiverId
-    });
 
-    console.log('sent nft');
-    console.log(res);
-    onSuccess(res);
-}
 
 export default function NFTTransferModal({ open, onClose, nft, accountId }) {
     const [ receiverId, setReceiverId ] = useState();
     const [ result, setResult ] = useState();
+    const [ sending, setSending ] = useState(false);
     const [ viewType, setViewType ] = useState('transfer');
     const [ accountIdIsValid, setAccountIdIsValid] = useState(false);
     const nearBalance = useFungibleTokensIncludingNEAR()[0].balance;
     const balanceToShow = formatNearAmount(nearBalance);
-
     const dispatch = useDispatch();
+
     const { localAlert } = useSelector(({ status }) => status);
 
     function onTransferSuccess(result) {
         setResult(result);
         console.log(result.transaction.hash);
         setViewType('success');
+    }
+
+    async function sendNFT (nft, receiverId, onSuccess) {
+        console.log('sending nft', nft, receiverId);
+        setSending(true);
+        try {
+            const { contractId, tokenId, ownerId } = nft;
+            const res = await NonFungibleTokens.transfer({
+                accountId: ownerId,
+                contractId,
+                tokenId,
+                receiverId
+            });
+
+            console.log('sent nft');
+            console.log(res);
+            onSuccess(res);
+        } catch (err) {
+            dispatch(showCustomAlert({
+                success: false,
+                messageCodeHeader: 'error',
+                messageCode: 'walletErrorCodes.sendNonFungibleToken.error',
+                errorMessage: err.message,
+            }));
+        } finally {
+            setSending(false);
+        }
     }
 
     return (
@@ -334,7 +349,8 @@ export default function NFTTransferModal({ open, onClose, nft, accountId }) {
                         <FormButton
                             className='next-btn'
                             type='submit'
-                            onClick={() => sendNFT(nft, receiverId, onTransferSuccess)}
+                            sending={sending}
+                            onClick={() => sendNFT(nft, receiverId, onTransferSuccess, setSending)}
                         >
                             Confirm 
                         </FormButton>
