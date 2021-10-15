@@ -6,7 +6,7 @@ import { wallet } from '../utils/wallet';
 
 export const TOKENS_PER_PAGE = 4;
 
-const NFT_TRANSFER_GAS = nearAPI.utils.format.parseNearAmount('0.00000000003');
+export const NFT_TRANSFER_GAS = nearAPI.utils.format.parseNearAmount('0.00000000003');
 
 // Methods for interacting witn NEP171 tokens (https://nomicon.io/Standards/NonFungibleToken/README.html)
 export default class NonFungibleTokens {

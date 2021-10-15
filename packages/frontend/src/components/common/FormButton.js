@@ -289,6 +289,19 @@ const CustomButton = styled.button`
                 background-color: #FF585D;
             }
         }
+        &.gray-black {
+            color: #000000;
+            border: none;
+            background-color: #F0F0F1;
+
+            :hover,
+            :active,
+            :focus {
+                color: #fff;
+                border-color: #cccccc;
+                background: #cccccc;
+            }
+        }
         &.gray-blue {
             color: #0072ce;
             border-color: #F0F0F1;
