@@ -144,7 +144,7 @@ function arrowSVG () {
   );
 }
 
-export default function NFTDetailModal({ open, onClose, nft }) {
+export default function NFTDetailModal({ open, onClose, nft, accountId }) {
     console.log(nft);
     const metadata = nft.metadata;
     const [transferNftDetail, setTransferNftDetail] = useState();
@@ -195,7 +195,8 @@ export default function NFTDetailModal({ open, onClose, nft }) {
                     <NFTTransferModal
                         open={!!transferNftDetail}
                         onClose={() => setTransferNftDetail()}
-                        nft={transferNftDetail}>
+                        nft={transferNftDetail}
+                        accountId={accountId}>
                     </NFTTransferModal>
                 }
 

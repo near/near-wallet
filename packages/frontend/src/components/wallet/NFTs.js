@@ -74,7 +74,8 @@ const NFTs = ({ tokens, accountId }) => {
                   <NFTDetailModal
                     open={!!nftDetail}
                     onClose={() => setNftDetail()}
-                    nft={nftDetail}>
+                    nft={nftDetail}
+                    accountId={accountId}>
 
                   </NFTDetailModal>
                 }
