@@ -60,7 +60,6 @@ import NetworkBanner from './common/NetworkBanner';
 import PrivateRoute from './common/PrivateRoute';
 import PublicRoute from './common/PublicRoute';
 import GlobalStyle from './GlobalStyle';
-// import { LoginWithRouter } from './login/Login';
 import { LoginCliLoginSuccess } from './login/LoginCliLoginSuccess';
 import { LoginWrapper } from './login/v2/LoginWrapper';
 import Navigation from './navigation/Navigation';

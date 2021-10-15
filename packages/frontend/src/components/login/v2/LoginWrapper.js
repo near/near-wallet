@@ -6,6 +6,7 @@ import { Mixpanel } from '../../../mixpanel/index';
 import {
     switchAccount,
     getAccountBalance,
+    redirectTo,
     redirectToApp,
     allowLogin
 } from '../../../redux/actions/account';
@@ -89,7 +90,10 @@ export function LoginWrapper() {
                 onSelectAccount={(accountId) => dispatch(switchAccount({ accountId }))}
                 getAccountBalance={(accountId) => dispatch(getAccountBalance(accountId))}
                 signedInAccountBalance={signedInAccountBalance}
-                onSignInToDifferentAccount={() => console.log('FIX: login to different account')}
+                onSignInToDifferentAccount={() => {
+                    Mixpanel.track("LOGIN Click create new account button");
+                    dispatch(redirectTo('/create'));
+                }}
                 loginAccessType={loginAccessType}
                 appReferrer={appReferrer}
                 onClickCancel={() => {
@@ -112,7 +116,6 @@ export function LoginWrapper() {
         return (
             <ConfirmLogin
                 signedInAccountId={signedInAccountId}
-                onSignInToDifferentAccount={() => console.log('FIX: login to different account')}
                 loginAccessType={loginAccessType}
                 appReferrer={appReferrer}
                 contractId={contractId}
