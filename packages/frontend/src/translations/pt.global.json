@@ -603,7 +603,7 @@
             "title": "Before you begin...",
             "descOne": "NEAR accounts require a minimum balance of <b>at least ${amount}</b> to <a href='https://docs.near.org/docs/concepts/account' rel='noopener noreferrer' target='_blank'>hold a place on the network.</a>",
             "descTwo": "After reserving a unique account address, you’ll be asked to make a small initial deposit to activate your account.",
-            "disclaimer": "By creating a NEAR account, you agree to the NEAR Wallet <a href='/terms' rel='noopener noreferrer' target='_blank'>Terms of Service</a> and <a href='https://near.org/privacy' rel='noopener noreferrer' target='_blank'>Privacy Policy</a>."
+            "disclaimer": "Ao criar uma carteira NEAR, você concorda com os <a href='/terms' rel='noopener noreferrer' target='_blank'>Termos de Serviço</a> e <a href='https://near.org/privacy' rel='noopener noreferrer' target='_blank'>Política de Privacidade</a> da carteira NEAR."
         },
         "pageTitle": "Definir ID da conta",
         "pageText": "Digite um ID para usar com sua conta NEAR. O ID da conta será usado para todas as operações NEAR, incluindo o envio e o recebimento de ativos.",
@@ -648,7 +648,7 @@
         "loading": "Loading reCAPTCHA...",
         "disclaimer": "This site is protected by reCAPTCHA and the Google <a href='https://policies.google.com/privacy' target='_blank' rel='noopener noreferrer'>Privacy Policy</a> and <a href='https://policies.google.com/terms' target='_blank' rel='noopener noreferrer'>Terms of Service</a> apply."
     },
-    
+
     "linkdropLanding": {
         "title": "Você recebeu uma distribuição de NEAR!",
         "desc": "Você pode reivindicar a distribuição de NEAR com uma conta existente (precisar estar logado), ou criar uma nova conta para receber como depósito inicial.",
