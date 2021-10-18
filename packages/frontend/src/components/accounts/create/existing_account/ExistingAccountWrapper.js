@@ -6,7 +6,8 @@ import { Mixpanel } from '../../../../mixpanel';
 import {
     switchAccount,
     getAccountBalance,
-    redirectTo
+    redirectTo,
+    checkAndHideLedgerModal
 } from '../../../../redux/actions/account';
 import { showCustomAlert } from '../../../../redux/actions/status';
 import {
@@ -60,6 +61,9 @@ export function ExistingAccountWrapper({ history }) {
                             }));
                             setCreatingNewAccount(false);
                             throw e;
+                        },
+                        () => {
+                            dispatch(checkAndHideLedgerModal());
                         }
                     );
                     dispatch(redirectTo('/'));
