@@ -85,9 +85,9 @@ class FlagEditor {
     }
 
     async searchForFlags({ basePath }) {
-        const { dir, root } = basePath;
+        const { base, dir, root } = basePath;
         let fileFound = false;
-        let currPath = dir;
+        let currPath = path.join(dir, base);
 
         while (!fileFound && currPath && currPath !== root) {
             fileFound = await fsx.exists(path.join(currPath, FLAGS_FILENAME));
