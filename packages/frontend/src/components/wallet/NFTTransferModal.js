@@ -365,7 +365,7 @@ export default function NFTTransferModal({ open, onClose, nft, setNftOwner, acco
                         {successSVG()}
                     </div>
                     <h3>Transaction Complete!</h3>
-                    <h3>You sent <span>{nft.metadata.title}</span> to <span>{receiverId}</span></h3>
+                    <h3>You sent <span class='color-blue'>{nft.metadata.title}</span> to <span class='color-green'>{receiverId}</span></h3>
 
                     <div>
                         <FormButton
