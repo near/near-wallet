@@ -24,7 +24,7 @@ class FlagEditor {
         const userEditing = await getGitUsername();
         this.log({ userEditing });
 
-        await this.searchForFlags({ basePath: path.parse(__dirname) });
+        await this.searchForFlags({ basePath: path.parse(process.cwd()) });
         await this.loadFlags(this._flagsFilepath);
 
         const flagNames = Object.keys(this._flagsState)
