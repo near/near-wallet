@@ -92,7 +92,7 @@ export function LoginWrapper() {
                 signedInAccountBalance={signedInAccountBalance}
                 onSignInToDifferentAccount={() => {
                     Mixpanel.track("LOGIN Click create new account button");
-                    dispatch(redirectTo('/create'));
+                    dispatch(redirectTo('/recover-account'));
                 }}
                 loginAccessType={loginAccessType}
                 appReferrer={appReferrer}
