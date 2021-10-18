@@ -260,6 +260,7 @@ class SetupSeedPhrase extends Component {
                                             isNewAccount={isNewAccount}
                                             onSubmit={this.handleOnSubmit}
                                             isLinkDrop={parseFundingOptions(this.props.location.search) !== null}
+                                            hasSeedPhraseRecovery={hasSeedPhraseRecovery}
                                         />
                                     </form>
                                 </Container>
