@@ -186,15 +186,6 @@ const NFTBox = ({ tokenDetails, setNftDetail }) => {
                                         onClick={() => setNftDetail(nftDetail)}/>
                             }
                             <b className='title' onClick={() => setNftDetail(nftDetail)}>{title}</b>
-
-                            <div className='creator'>
-                                <span>Created by </span>
-                                <a href={`${EXPLORER_URL}/accounts/${contractName}`}
-                                    target="_blank"
-                                    rel="noopener noreferrer ">
-                                    neariscool.testnet
-                                </a>
-                            </div>
                         </div>;
                     })}
                 </div>
