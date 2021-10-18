@@ -216,7 +216,7 @@ function successSVG() {
 
 
 
-export default function NFTTransferModal({ open, onClose, nft, accountId }) {
+export default function NFTTransferModal({ open, onClose, nft, setNftOwner, accountId }) {
     const [ receiverId, setReceiverId ] = useState();
     const [ result, setResult ] = useState();
     const [ sending, setSending ] = useState(false);
@@ -228,8 +228,9 @@ export default function NFTTransferModal({ open, onClose, nft, accountId }) {
 
     const { localAlert } = useSelector(({ status }) => status);
 
-    function onTransferSuccess(result) {
+    function onTransferSuccess(result, nft) {
         setResult(result);
+        setNftOwner(nft.ownerId);
         console.log(result.transaction.hash);
         setViewType('success');
     }
@@ -248,7 +249,7 @@ export default function NFTTransferModal({ open, onClose, nft, accountId }) {
 
             console.log('sent nft');
             console.log(res);
-            onSuccess(res);
+            onSuccess(res, Object.assign({}, nft, { ownerId: receiverId }));
         } catch (err) {
             dispatch(showCustomAlert({
                 success: false,
@@ -350,7 +351,7 @@ export default function NFTTransferModal({ open, onClose, nft, accountId }) {
                             className='next-btn'
                             type='submit'
                             sending={sending}
-                            onClick={() => sendNFT(nft, receiverId, onTransferSuccess, setSending)}
+                            onClick={() => sendNFT(nft, receiverId, onTransferSuccess)}
                         >
                             Confirm 
                         </FormButton>
