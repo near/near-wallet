@@ -59,7 +59,8 @@ const SetupSeedPhraseVerify = (
         onRecaptchaChange,
         isNewAccount,
         onSubmit,
-        isLinkDrop
+        isLinkDrop,
+        hasSeedPhraseRecovery
     },
     ref
 ) => {
@@ -115,7 +116,7 @@ const SetupSeedPhraseVerify = (
             <FormButton
                 type='submit'
                 color='blue'
-                disabled={!enterWord || mainLoader || (!recaptchaToken && shouldRenderRecaptcha)}
+                disabled={hasSeedPhraseRecovery || !enterWord || mainLoader || (!recaptchaToken && shouldRenderRecaptcha)}
                 sending={mainLoader}
                 sendingString={isNewAccount ? 'button.creatingAccount' : 'button.verifying'}
                 data-test-id="seedPhraseVerificationWordSubmit"
