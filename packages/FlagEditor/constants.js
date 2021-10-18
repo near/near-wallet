@@ -7,10 +7,10 @@ const ACTIONS = {
 // TODO: Load from `near-api-js` config or similar?
 const ENVIRONMENTS = {
     DEVELOPMENT: 'development',
-    TESTNET_STAGING: 'testnet_STAGING',
     TESTNET: 'testnet',
-    MAINNET: 'mainnet_STAGING',
-    MAINNET_STAGING: 'mainnet'
+    TESTNET_STAGING: 'testnet_STAGING',
+    MAINNET: 'mainnet',
+    MAINNET_STAGING: 'mainnet_STAGING'
 }
 
 module.exports = {
