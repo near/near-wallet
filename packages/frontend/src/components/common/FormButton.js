@@ -294,12 +294,32 @@ const CustomButton = styled.button`
             border: none;
             background-color: #F0F0F1;
 
+            :disabled {
+                color: #FFFFFF;
+                border-color: #e6e6e6;
+                background: #e6e6e6;
+                opacity: 1 !important;
+            }
+
             :hover,
             :active,
             :focus {
                 color: #fff;
                 border-color: #cccccc;
                 background: #cccccc;
+            }
+
+            &.dark {
+                border-color: #EFEFEF;
+                background: #EFEFEF;
+            }
+
+            &.border {
+                background: none;
+                border-color: #E6E5E3;
+                :hover {
+                    border-color: #0072ce;
+                }
             }
         }
         &.gray-blue {

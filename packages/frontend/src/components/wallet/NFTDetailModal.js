@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import UserIconGrey from '../../images/UserIconGrey';
 
+import UserIconGrey from '../../images/UserIconGrey';
 import FormButton from '../common/FormButton';
 import Modal from '../common/modal/Modal';
 import ArrowIcon from '../svg/ArrowIcon';
@@ -71,7 +71,7 @@ const StyledContainer = styled.div`
     } 
 
     button {
-        &.gray-blue {
+        &.transfer-btn {
             width: 100% !important;
             max-width: 400px;
         }
@@ -148,6 +148,7 @@ export default function NFTDetailModal({ open, onClose, nft, accountId }) {
     console.log(nft);
     const metadata = nft.metadata;
     const [transferNftDetail, setTransferNftDetail] = useState();
+    const [nftOwner, setNftOwner] = useState(nft.ownerId);
 
     return (
         <Modal
@@ -178,14 +179,16 @@ export default function NFTDetailModal({ open, onClose, nft, accountId }) {
                                 <UserIconGrey color='#9a9a9a' />
                             </UserIcon>
                             <span>
-                                { nft.ownerId }
+                                { nftOwner }
                             </span>
                         </div>
                     </div>
                 </div>
 
                 <FormButton 
-                    color='gray-blue' 
+                    className='transfer-btn'
+                    color='gray-black' 
+                    disabled={nftOwner !== accountId}
                     onClick={() => setTransferNftDetail(nft)}
                 >
                   {arrowSVG()}
@@ -196,6 +199,7 @@ export default function NFTDetailModal({ open, onClose, nft, accountId }) {
                         open={!!transferNftDetail}
                         onClose={() => setTransferNftDetail()}
                         nft={transferNftDetail}
+                        setNftOwner={setNftOwner}
                         accountId={accountId}>
                     </NFTTransferModal>
                 }
