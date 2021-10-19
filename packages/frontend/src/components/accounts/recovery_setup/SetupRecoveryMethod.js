@@ -541,16 +541,14 @@ const mapDispatchToProps = {
     setLinkdropAmount
 };
 
-const mapStateToProps = (state, { match }) => {
-    return {
-        ...selectAccountSlice(state),
-        router: getRouter(state),
-        accountId: createMatchSelector('/set-recovery/:accountId/:fundingContract?/:fundingKey?')(state)?.params.accountId,
-        activeAccountId: selectAccountId(state),
-        recoveryMethods: selectRecoveryMethodsByAccountId(state, { accountId: selectAccountId(state) }),
-        mainLoader: selectStatusMainLoader(state),
-        recoveryMethodsLoader: selectRecoveryMethodsLoading(state, { accountId: match.params.accountId })
-    };
-};
+const mapStateToProps = (state, { match }) => ({
+    ...selectAccountSlice(state),
+    router: getRouter(state),
+    accountId: createMatchSelector('/set-recovery/:accountId/:fundingContract?/:fundingKey?')(state)?.params.accountId,
+    activeAccountId: selectAccountId(state),
+    recoveryMethods: selectRecoveryMethodsByAccountId(state, { accountId: selectAccountId(state) }),
+    mainLoader: selectStatusMainLoader(state),
+    recoveryMethodsLoader: selectRecoveryMethodsLoading(state, { accountId: match.params.accountId })
+});
 
 export const SetupRecoveryMethodWithRouter = connect(mapStateToProps, mapDispatchToProps)(withGoogleReCaptcha(SetupRecoveryMethod));

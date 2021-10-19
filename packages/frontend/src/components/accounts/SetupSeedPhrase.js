@@ -294,14 +294,12 @@ const mapDispatchToProps = {
     setLinkdropAmount
 };
 
-const mapStateToProps = (state, { match }) => {
-    return {
-        ...selectAccountSlice(state),
-        accountId: createMatchSelector('/setup-seed-phrase/:accountId/:step')(state).params.accountId,
-        recoveryMethods: selectRecoveryMethodsByAccountId(state, { accountId: wallet.accountId }),
-        mainLoader: selectStatusMainLoader(state),
-        recoveryMethodsLoader: selectRecoveryMethodsLoading(state, { accountId: match.params.accountId })
-    };
-};
+const mapStateToProps = (state, { match }) => ({
+    ...selectAccountSlice(state),
+    accountId: createMatchSelector('/setup-seed-phrase/:accountId/:step')(state).params.accountId,
+    recoveryMethods: selectRecoveryMethodsByAccountId(state, { accountId: wallet.accountId }),
+    mainLoader: selectStatusMainLoader(state),
+    recoveryMethodsLoader: selectRecoveryMethodsLoading(state, { accountId: match.params.accountId })
+});
 
 export const SetupSeedPhraseWithRouter = connect(mapStateToProps, mapDispatchToProps)(withRouter(SetupSeedPhrase));
