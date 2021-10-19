@@ -17,11 +17,12 @@ function processDataValue(value) {
         return mapValues(value, (v) => processDataValue(v));
     }
 
-    // Otherwise we're gonna leave it well enough alone
+    // Sometimes we may be provided an array of unknown values
     if (isArray(value)) {
-        return processDataValue(value);
+        return value.map((val) => processDataValue(val));
     }
 
+    // Otherwise we're gonna leave it well enough alone
     return value;
 }
 
