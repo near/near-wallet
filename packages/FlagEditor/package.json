@@ -10,7 +10,7 @@
     "inquirer": "^8.2.0"
   },
   "scripts": {
-    "build": "npx rollup -c && pkg -t node14-macos -C GZip -o /usr/local/bin/flag out/index.js"
+    "build": "yarn && npx rollup -c && pkg -t node14-macos -C GZip -o /usr/local/bin/flag out/edit.js"
   },
   "devDependencies": {
     "pkg": "^5.3.3",
