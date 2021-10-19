@@ -2,7 +2,6 @@ import BN from 'bn.js';
 import sha256 from 'js-sha256';
 import { Account, Connection, InMemorySigner, KeyPair } from 'near-api-js';
 import { InMemoryKeyStore } from 'near-api-js/lib/key_stores';
-import { parseNearAmount } from 'near-api-js/lib/utils/format';
 import { BinaryReader } from 'near-api-js/lib/utils/serialize';
 
 import {
@@ -14,7 +13,6 @@ import {
 import { WalletError } from './walletError';
 
 // TODO: Should gas allowance be dynamically calculated
-export const LOCKUP_MIN_BALANCE = new BN(parseNearAmount('35'));
 
 const BASE_GAS = new BN('25000000000000');
 
@@ -172,21 +170,28 @@ async function getAccountBalance(limitedAccountData = false) {
     try {
         const lockupAccount = new Account(this.connection, lockupAccountId);
         const lockupBalance = await lockupAccount.getAccountBalance();
+        const lockupStateStaked = new BN(lockupBalance.stateStaked)
         const {
             lockupAmount,
             releaseDuration,
             transferInformation,
             lockupTimestamp,
             lockupDuration,
-            terminationWithdrawnTokens
+            terminationWithdrawnTokens,
+            vestingInformation
         } = await viewLockupState(this.connection, lockupAccountId);
 
         const dateNowBN = new BN(Date.now()).mul(new BN('1000000'));
 
         const { transfer_poll_account_id, transfers_timestamp } = transferInformation;
-        const transfersTimestamp = transfer_poll_account_id ? await this.viewFunction(transfer_poll_account_id, 'get_result') : transfers_timestamp;
+        let transfersTimestamp = transfer_poll_account_id ? await this.viewFunction(transfer_poll_account_id, 'get_result') : transfers_timestamp;
+        transfersTimestamp = transfersTimestamp || (Date.now() * 1000000);
 
-        const hasBrokenTimestamp = (await lockupAccount.state()).code_hash === '3kVY9qcVRoW3B5498SMX6R3rtSLiCdmBzKs7zcnzDJ7Q';
+        const hasBrokenTimestamp = [
+            '3kVY9qcVRoW3B5498SMX6R3rtSLiCdmBzKs7zcnzDJ7Q',
+            'DiC9bKCqUHqoYqUXovAnqugiuntHWnM3cAc7KrgaHTu'
+        ].includes((await lockupAccount.state()).code_hash);
+
         const startTimestampBN = BN.max(
             new BN(transfersTimestamp).add(new BN(lockupDuration || 0)),
             new BN(lockupTimestamp || 0)
@@ -202,6 +207,28 @@ async function getAccountBalance(limitedAccountData = false) {
                 : new BN(lockupAmount)
             : new BN('0');
 
+        let unvestedAmount = new BN('0');
+
+        if(vestingInformation) {
+            if (vestingInformation.unvestedAmount) {
+                unvestedAmount = vestingInformation.unvestedAmount;
+            }else if(vestingInformation.vestingStart) {
+                if(dateNowBN.lt(vestingInformation.vestingCliff)){
+                    unvestedAmount = new BN(lockupAmount);
+                } else if(dateNowBN.gte(vestingInformation.vestingEnd)) {
+                    unvestedAmount = new BN(0)
+                } else {
+                    let timeLeft = vestingInformation.vestingEnd.sub(dateNowBN);
+                    let totalTime = vestingInformation.vestingEnd.sub(
+                        vestingInformation.vestingStart
+                    );
+                    unvestedAmount = lockupAmount.mul(timeLeft).div(totalTime);
+                }
+            }
+        }
+
+        const lockedAmount = BN.max(unreleasedAmount.sub(new BN(terminationWithdrawnTokens)), unvestedAmount);
+
         let totalBalance = new BN(lockupBalance.total);
         let stakedBalanceLockup = new BN(0);
         const stakingPoolLockupAccountId = await this.wrappedAccount.viewFunction(lockupAccountId, 'get_staking_pool_account_id');
@@ -210,20 +237,19 @@ async function getAccountBalance(limitedAccountData = false) {
                 'get_account_total_balance', { account_id: lockupAccountId }));
             totalBalance = totalBalance.add(stakedBalanceLockup);
         }
-        const isFullyUnlocked = timeLeft.eq(new BN(0));
-        const ownersBalance = isFullyUnlocked
-            ? totalBalance.sub(new BN(terminationWithdrawnTokens))
-            : totalBalance.sub(BN.max(unreleasedAmount.sub(new BN(terminationWithdrawnTokens)), LOCKUP_MIN_BALANCE));
+        
+        const ownersBalance = totalBalance.sub(lockedAmount)
 
-        const lockedAmount = totalBalance.sub(ownersBalance);
-        const liquidOwnersBalance = BN.min(
-            ownersBalance, 
-            isFullyUnlocked 
-                ? stakedBalanceLockup.isZero()
-                    ? new BN(lockupBalance.total)
-                    : new BN(lockupBalance.total).sub(LOCKUP_MIN_BALANCE)
-                : new BN(lockupBalance.total).sub(LOCKUP_MIN_BALANCE)
-        );
+        // if acc is deletable (nothing locked && nothing stake) you can transfer the whole amount ohterwise get_liquid_owners_balance
+        const isAccDeletable = lockedAmount.isZero() && stakedBalanceLockup.isZero();
+        const liquidOwnersBalance = isAccDeletable
+            ? new BN(lockupBalance.total)
+            : new BN(
+                  await this.wrappedAccount.viewFunction(
+                      lockupAccountId,
+                      "get_liquid_owners_balance"
+                  )
+              );
 
         const available = BN.max(new BN(0), new BN(balance.available).add(new BN(liquidOwnersBalance)).sub(new BN(MIN_BALANCE_FOR_GAS)));
 
@@ -238,7 +264,8 @@ async function getAccountBalance(limitedAccountData = false) {
             totalBalance,
             stakedBalanceLockup: stakedBalanceLockup,
             lockupAccountId,
-            stakedBalanceMainAccount
+            stakedBalanceMainAccount,
+            lockupStateStaked
         };
     } catch (error) {
         if (error.message.match(/ccount ".+" doesn't exist/) || error.message.includes('does not exist while viewing') || error.message.includes('cannot find contract code for account')) {
@@ -300,6 +327,10 @@ async function viewLockupState(connection, lockupAccountId) {
         let vestingEnd = reader.readU64();
         vestingInformation = { vestingStart, vestingCliff, vestingEnd };
     } else if (vestingType === 3) {
+        let unvestedAmount = reader.read_u128();
+        let terminationStatus = reader.read_u8();
+        vestingInformation = { unvestedAmount, terminationStatus };
+    } else {
         vestingInformation = 'TODO';
     }
     return {
