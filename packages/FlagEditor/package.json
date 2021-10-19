@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
+  "private": true,
   "dependencies": {
     "@rollup/plugin-commonjs": "^21.0.0",
     "fs-extra": "^10.0.0",
