@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
 import UserIconGrey from '../../images/UserIconGrey';
@@ -145,7 +146,6 @@ function arrowSVG () {
 }
 
 export default function NFTDetailModal({ open, onClose, nft, accountId }) {
-    console.log(nft);
     const metadata = nft.metadata;
     const [transferNftDetail, setTransferNftDetail] = useState();
     const [nftOwner, setNftOwner] = useState(nft.ownerId);
@@ -172,7 +172,7 @@ export default function NFTDetailModal({ open, onClose, nft, accountId }) {
                     <p className="desc">{metadata.description}</p>
 
                     <div className='owner'>
-                        <p>OWNER</p>
+                        <p><Translate id='NFTDetail.owner'/></p>
 
                         <div className='inner'>
                             <UserIcon>
@@ -192,7 +192,7 @@ export default function NFTDetailModal({ open, onClose, nft, accountId }) {
                     onClick={() => setTransferNftDetail(nft)}
                 >
                   {arrowSVG()}
-                  Transfer
+                  <Translate id='NFTDetail.transfer'/>
                 </FormButton>
                 {transferNftDetail &&
                     <NFTTransferModal
