@@ -11,6 +11,7 @@ import { EXPLORER_URL } from '../../utils/wallet';
 import { formatNearAmount } from '../common/balance/helpers';
 import FormButton from '../common/FormButton';
 import Modal from '../common/modal/Modal';
+import SafeTranslate from '../SafeTranslate';
 import ReceiverInputWithLabel from '../send/components/ReceiverInputWithLabel';
 import EstimatedFees from '../transfer/EstimatedFees';
 
@@ -274,8 +275,8 @@ export default function NFTTransferModal({ open, onClose, nft, setNftOwner, acco
             <StyledContainer className='small-centered'>
                 <img className='transfer-img' src={nft.metadata.media} alt='NFT'/>
 
-                <h3>Transfer NFT</h3>
-                <p className='transfer-txt'>Enter a recipient address, then proceed to confirm your transaction. </p>
+                <h3><Translate id='NFTTransfer.transfer-nft'/></h3>
+                <p className='transfer-txt'><Translate id='NFTTransfer.enter-receipt'/></p>
 
                 <div className='receiver-input'>
                     <ReceiverInputWithLabel
@@ -295,7 +296,7 @@ export default function NFTTransferModal({ open, onClose, nft, setNftOwner, acco
                         onClick={onClose}
                         color='gray'
                     >
-                        Cancel 
+                      <Translate id='NFTTransfer.cancel'/>
                     </FormButton>
                     <FormButton
                         className='next-btn'
@@ -303,7 +304,7 @@ export default function NFTTransferModal({ open, onClose, nft, setNftOwner, acco
                         disabled={!accountIdIsValid}
                         onClick={() => setViewType('confirm')}
                     >
-                        Next
+                      <Translate id='NFTTransfer.next'/>
                     </FormButton>
                 </div>
             </StyledContainer>
@@ -311,8 +312,8 @@ export default function NFTTransferModal({ open, onClose, nft, setNftOwner, acco
 
             {viewType === 'confirm' &&
                 <StyledContainer className='small-centered'>
-                    <p className='confirm-txt'>Confirm Transaction:</p>
-                    <h3>Transfer NFT</h3>
+                    <p className='confirm-txt'><Translate id='NFTTransfer.confirm-transaction'/></p>
+                    <h3><Translate id='NFTTransfer.transfer-nft'/></h3>
 
                     <div className='confirm-nft-card'>
                         <div className='confirm-img'>
@@ -321,7 +322,7 @@ export default function NFTTransferModal({ open, onClose, nft, setNftOwner, acco
 
                         <div className='line'></div>
                         <div className='from-box'>
-                            <span className='confirm-txt v-center'>From</span>
+                            <span className='confirm-txt v-center'><Translate id='transfer.from'/></span>
                             <span className='h-right v-center'>
                                 <span className='account-id'>{accountId}</span>
                                 <div className='amount-grey'>{balanceToShow} NEAR</div>
@@ -329,7 +330,7 @@ export default function NFTTransferModal({ open, onClose, nft, setNftOwner, acco
                         </div>
                         <div className='line'></div>
                         <div className='to-box'>
-                            <span className='confirm-txt v-center'>To</span>
+                            <span className='confirm-txt v-center'><Translate id='transfer.to' /></span>
                             <span className='h-right v-center account-id'>{receiverId}</span>
                         </div>
                     </div>
@@ -345,7 +346,7 @@ export default function NFTTransferModal({ open, onClose, nft, setNftOwner, acco
                             onClick={onClose}
                             color='gray'
                         >
-                            Cancel 
+                            <Translate id='NFTTransfer.cancel'/>
                         </FormButton>
                         <FormButton
                             className='next-btn'
@@ -353,7 +354,7 @@ export default function NFTTransferModal({ open, onClose, nft, setNftOwner, acco
                             sending={sending}
                             onClick={() => sendNFT(nft, receiverId, onTransferSuccess)}
                         >
-                            Confirm 
+                            <Translate id='NFTTransfer.confirm'/>
                         </FormButton>
                     </div>
                 </StyledContainer>
@@ -364,8 +365,15 @@ export default function NFTTransferModal({ open, onClose, nft, setNftOwner, acco
                     <div className='icon'>
                         {successSVG()}
                     </div>
-                    <h3>Transaction Complete!</h3>
-                    <h3>You sent <span class='color-blue'>{nft.metadata.title}</span> to <span class='color-green'>{receiverId}</span></h3>
+                    <h3><Translate id='NFTTransfer.transaction-complete' /></h3>
+                    <h3>
+                      <SafeTranslate id='NFTTransfer.you-sent' 
+                          data={{
+                              title: nft.metadata.title,
+                              receiverId
+                          }}
+                      />
+                    </h3>
 
                     <div>
                         <FormButton
@@ -373,14 +381,14 @@ export default function NFTTransferModal({ open, onClose, nft, setNftOwner, acco
                             linkTo={`${EXPLORER_URL}/transactions/${result.transaction.hash}`}
                             color='gray-black'
                         >
-                            View Receipt
+                            <Translate id='NFTTransfer.view-receipt' />
                         </FormButton>
                         <FormButton
                             className='next-btn'
                             type='submit'
                             onClick={onClose}
                         >
-                            Continue 
+                            <Translate id='NFTTransfer.continue' />
                         </FormButton>
                     </div>
                 </StyledContainer>
