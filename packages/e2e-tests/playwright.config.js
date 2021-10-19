@@ -14,6 +14,14 @@ const config = {
         viewport: { width: 1280, height: 720 },
         ignoreHTTPSErrors: true,
         video: "on-first-retry",
+        storageState: {
+            origins: [
+                {
+                    origin: process.env.WALLET_URL || "https://wallet.testnet.near.org",
+                    localStorage: [{ name: "wallet.releaseNotesModal:v0.01.2:closed", value: "true" }],
+                },
+            ],
+        },
     },
     projects: [
         {
