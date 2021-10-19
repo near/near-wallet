@@ -7,6 +7,7 @@ import { useFungibleTokensIncludingNEAR } from '../../hooks/fungibleTokensInclud
 import { checkAccountAvailable } from '../../redux/actions/account';
 import { clearLocalAlert, showCustomAlert } from '../../redux/actions/status';
 import NonFungibleTokens, { NFT_TRANSFER_GAS } from '../../services/NonFungibleTokens';
+import isMobile from '../../utils/isMobile';
 import { EXPLORER_URL } from '../../utils/wallet';
 import { formatNearAmount } from '../common/balance/helpers';
 import FormButton from '../common/FormButton';
@@ -284,6 +285,7 @@ export default function NFTTransferModal({ open, onClose, nft, setNftOwner, acco
                         handleChangeReceiverId={receiverId => setReceiverId(receiverId)}
                         checkAccountAvailable={accountId => dispatch(checkAccountAvailable(accountId))}
                         localAlert={localAlert}
+                        autoFocus={!isMobile()}
                         clearLocalAlert={() => dispatch(clearLocalAlert())}
                         setAccountIdIsValid={setAccountIdIsValid}
                     />
