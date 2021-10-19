@@ -1,16 +1,13 @@
 const { KeyPair } = require("near-api-js");
 const { parseSeedPhrase } = require("near-seed-phrase");
+const assert = require("assert");
+const { random } = require("lodash");
 
-const generateRandomNumberInRange = ({ from, to }) => {
-    const min = Math.ceil(from);
-    const max = Math.floor(to);
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-};
-
-const generateNUniqueRandomNumbersInRange = (range, n) => {
+const generateNUniqueRandomNumbersInRange = ({ from, to }, n) => {
+    assert(n <= Math.abs(from - to) + 1, "Range needs to have at least N unique numbers");
     const nums = new Set();
     while (nums.size !== n) {
-        nums.add(generateRandomNumberInRange(range));
+        nums.add(random(from, to));
     }
     return [...nums];
 };
@@ -20,7 +17,6 @@ function getKeyPairFromSeedPhrase(seedPhrase) {
 }
 
 module.exports = {
-    generateRandomNumberInRange,
     generateNUniqueRandomNumbersInRange,
     getKeyPairFromSeedPhrase,
 };
