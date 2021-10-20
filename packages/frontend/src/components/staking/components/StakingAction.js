@@ -1,9 +1,7 @@
 import BN from 'bn.js';
-import { createMatchSelector } from 'connected-react-router';
 import { utils } from 'near-api-js';
 import React, { useState } from 'react';
 import { Translate } from 'react-localize-redux';
-import { useSelector } from 'react-redux';
 
 import { onKeyDown } from '../../../hooks/eventListeners';
 import { Mixpanel } from '../../../mixpanel/index';
@@ -50,8 +48,7 @@ export default function StakingAction({
     const availableToStake = availableBalance;
     const invalidStakeActionAmount = new BN(useMax ? amount : parseNearAmount(amount)).sub(new BN(stake ? availableToStake : staked)).gt(new BN(STAKING_AMOUNT_DEVIATION)) || !isDecimalString(amount);
     const stakeActionAllowed = hasStakeActionAmount && !invalidStakeActionAmount && !success;
-    const validatorParam = useSelector(createMatchSelector('/staking/:validator/stake'))?.params.validator || useSelector(createMatchSelector('/staking/:validator/unstake'))?.params.validator;
-    const stakeNotAllowed = !!selectedValidator && selectedValidator !== validatorParam && !!currentValidators.length;
+    const stakeNotAllowed = !!selectedValidator && selectedValidator !== match.params.validator && !!currentValidators.length;
 
     onKeyDown(e => {
         if (e.keyCode === 13 && stakeActionAllowed) {
