@@ -1,4 +1,4 @@
-import { createMatchSelector, getSearch } from 'connected-react-router';
+import { getSearch } from 'connected-react-router';
 import React, { Component } from 'react';
 import { Translate } from 'react-localize-redux';
 import { connect } from 'react-redux';
@@ -304,20 +304,16 @@ const mapDispatchToProps = {
     redirectTo
 };
 
-const mapStateToProps = (state) => {
-    const matchSelector = createMatchSelector('/create/:fundingContract?/:fundingKey?');
-
-    return {
-        ...selectAccountSlice(state),
-        localAlert: selectStatusLocalAlert(state),
-        mainLoader: selectStatusMainLoader(state),
-        fundingContract: matchSelector(state)?.params.fundingContract,
-        fundingKey: matchSelector(state)?.params.fundingKey,
-        fundingAccountId: matchSelector(state)?.params.fundingAccountId,
-        nearTokenFiatValueUSD: selectNearTokenFiatValueUSD(state),
-        locationSearch: getSearch(state)
-    };
-};
+const mapStateToProps = (state, { match }) => ({
+    ...selectAccountSlice(state),
+    localAlert: selectStatusLocalAlert(state),
+    mainLoader: selectStatusMainLoader(state),
+    fundingContract: match.params.fundingContract,
+    fundingKey: match.params.fundingKey,
+    fundingAccountId: match.params.fundingAccountId,
+    nearTokenFiatValueUSD: selectNearTokenFiatValueUSD(state),
+    locationSearch: getSearch(state)
+});
 
 export const CreateAccountWithRouter = connect(
     mapStateToProps,
