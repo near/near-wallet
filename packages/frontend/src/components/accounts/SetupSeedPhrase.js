@@ -1,4 +1,3 @@
-import { createMatchSelector } from 'connected-react-router';
 import { KeyPair } from 'near-api-js';
 import { generateSeedPhrase } from 'near-seed-phrase';
 import React, { Component, Fragment } from 'react';
@@ -294,9 +293,8 @@ const mapDispatchToProps = {
     setLinkdropAmount
 };
 
-const mapStateToProps = (state) => {
-    const matchSelector = createMatchSelector('/setup-seed-phrase/:accountId/:step');
-    const accountId = matchSelector(state)?.params.accountId;
+const mapStateToProps = (state, { match }) => {
+    const { accountId } = match.params;
     
     return {
         ...selectAccountSlice(state),
