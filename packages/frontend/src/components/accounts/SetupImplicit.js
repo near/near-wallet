@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { MIN_BALANCE_TO_CREATE } from '../../../config/settings';
+import { MIN_BALANCE_TO_CREATE } from '../../config';
 import { Mixpanel } from '../../mixpanel';
 import { createAccountFromImplicit, redirectTo } from '../../redux/actions/account';
 import { selectAccountId, selectAccountSlice } from '../../redux/slices/account';

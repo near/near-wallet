@@ -1,7 +1,7 @@
 import BN from 'bn.js';
 import * as nearApiJs from 'near-api-js';
 
-import { ACCOUNT_HELPER_URL } from '../../config/settings';
+import { ACCOUNT_HELPER_URL } from '../config';
 import sendJson from '../tmp_fetch_send_json';
 import {
     parseTokenAmount,

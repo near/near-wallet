@@ -3,7 +3,7 @@ import React, { useState, useRef } from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
-import { RECAPTCHA_CHALLENGE_API_KEY } from '../../../config/settings';
+import { RECAPTCHA_CHALLENGE_API_KEY } from '../../config';
 import FormButton from '../common/FormButton';
 import Container from '../common/styled/Container.css';
 import { Recaptcha } from '../Recaptcha';

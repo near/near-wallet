@@ -3,7 +3,7 @@ import BN from 'bn.js';
 import set from 'lodash.set';
 import { createSelector } from 'reselect';
 
-import { WHITELISTED_CONTRACTS } from '../../../../config/settings';
+import { WHITELISTED_CONTRACTS } from '../../../config';
 import FungibleTokens from '../../../services/FungibleTokens';
 import createParameterSelector from '../createParameterSelector';
 import initialErrorState from '../initialErrorState';

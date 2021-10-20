@@ -8,8 +8,8 @@ import { LocalizeProvider } from 'react-localize-redux';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 
-import { RECAPTCHA_ENTERPRISE_SITE_KEY } from '../config/settings';
 import Routing from './components/Routing';
+import { RECAPTCHA_ENTERPRISE_SITE_KEY } from './config';
 import createRootReducer from './redux/combineReducers';
 import createMiddleware from './redux/middleware';
 import { initSentry } from './utils/sentry';

@@ -3,13 +3,14 @@ const path = require('path');
 
 const Bundler = require('parcel-bundler');
 
-const Settings = require('../config/settings');
+const Config = require('./config');
+
 const DIST_PATH = path.join(__dirname, '../dist');
 const ENTRY_FILE_PATH = path.join(__dirname, '../src/index.html');
 const WASM_PATH = path.join(__dirname, '../src/wasm/');
 const SSL_PATH = path.join(__dirname, '../devServerCertificates/');
 
-const enableDebugLogging = !Settings.DEBUG_BUILD ? true : Settings.DEBUG_BUILD === 'true';
+const enableDebugLogging = !Config.DEBUG_BUILD ? true : Config.DEBUG_BUILD === 'true';
 
 class ParcelBundler {
     constructor({
@@ -17,12 +18,12 @@ class ParcelBundler {
         entryPath = ENTRY_FILE_PATH,
         wasmSourcePath = WASM_PATH,
         sslPath = SSL_PATH,
-        cloudflareBaseUrl = Settings.CLOUDFLARE_BASE_URL,
-        shouldUseCloudflare = Settings.SHOULD_USE_CLOUDFLARE,
+        cloudflareBaseUrl = Config.CLOUDFLARE_BASE_URL,
+        shouldUseCloudflare = Config.SHOULD_USE_CLOUDFLARE,
         isDebug = enableDebugLogging,
-        isRender = Settings.IS_RENDER,
-        isNetlify = Settings.IS_NETLIFY,
-        isDevelopment = Settings.IS_DEVELOPMENT,
+        isRender = Config.IS_RENDER,
+        isNetlify = Config.IS_NETLIFY,
+        isDevelopment = Config.IS_DEVELOPMENT,
     } = {}) {
         this.entryPath = entryPath;
         this.outDir = outDir;
@@ -35,7 +36,7 @@ class ParcelBundler {
         this.cloudflareBaseUrl = cloudflareBaseUrl;
         this.shouldUseCloudflare = shouldUseCloudflare;
 
-        this.debugLog('Settings', {
+        this.debugLog('Environment', {
             isDevelopment,
             isRender,
             isNetlify
@@ -79,11 +80,11 @@ class ParcelBundler {
     }
 
     composeRenderBuildConfig() {
-        const isPullRequestPreview = Settings.IS_PULL_REQUEST;
+        const isPullRequestPreview = Config.IS_PULL_REQUEST;
         const isTestnet = !isPullRequestPreview;
-        const externalUrl = Settings.RENDER_EXTERNAL_URL;
+        const externalUrl = Config.RENDER_EXTERNAL_URL;
 
-        this.debugLog('Render Settings', {
+        this.debugLog('Render Environment', {
             isPullRequestPreview,
             isTestnet,
             externalUrl,
@@ -111,12 +112,12 @@ class ParcelBundler {
     }
 
     composeNetlifyBuildConfig() {
-        const buildContext = Settings.CONTEXT; // production | deploy-preview | branch-deploy
-        const primeUrl = Settings.DEPLOY_PRIME_URL;
-        const pullRequestId = Settings.REVIEW_ID;
-        const branchName = Settings.BRANCH;
+        const buildContext = Config.CONTEXT; // production | deploy-preview | branch-deploy
+        const primeUrl = Config.DEPLOY_PRIME_URL;
+        const pullRequestId = Config.REVIEW_ID;
+        const branchName = Config.BRANCH;
 
-        this.debugLog('Netlify Settings', {
+        this.debugLog('Netlify Environment', {
             buildContext,
             primeUrl,
             branchName,

@@ -9,8 +9,8 @@ import { connect } from 'react-redux';
 import { Redirect, Switch } from 'react-router-dom';
 import styled, { ThemeProvider } from 'styled-components';
 
-import { IS_MAINNET, PUBLIC_URL, SHOW_PRERELEASE_WARNING } from '../../config/settings';
 import TwoFactorVerifyModal from '../components/accounts/two_factor/TwoFactorVerifyModal';
+import { IS_MAINNET, PUBLIC_URL, SHOW_PRERELEASE_WARNING } from '../config';
 import { Mixpanel } from "../mixpanel/index";
 import * as accountActions from '../redux/actions/account';
 import { selectAccountSlice } from '../redux/slices/account';

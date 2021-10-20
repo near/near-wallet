@@ -7,7 +7,7 @@ import {
     MIN_LOCKUP_AMOUNT,
     REACT_APP_USE_TESTINGLOCKUP,
     STAKING_GAS_BASE,
-} from '../../../config/settings';
+} from '../../config';
 import { getLockupAccountId } from '../../utils/account-with-lockup';
 import { showAlert } from '../../utils/alerts';
 import { 

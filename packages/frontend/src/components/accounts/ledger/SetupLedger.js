@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Translate } from 'react-localize-redux';
 import { connect } from 'react-redux';
 
-import { DISABLE_CREATE_ACCOUNT, RECAPTCHA_CHALLENGE_API_KEY } from '../../../../config/settings';
+import { DISABLE_CREATE_ACCOUNT, RECAPTCHA_CHALLENGE_API_KEY } from '../../../config';
 import { Mixpanel } from '../../../mixpanel/index';
 import {
     addLedgerAccessKey,

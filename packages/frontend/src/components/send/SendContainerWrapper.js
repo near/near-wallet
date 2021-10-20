@@ -2,7 +2,7 @@ import { utils } from 'near-api-js';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { EXPLORER_URL } from '../../../config/settings';
+import { EXPLORER_URL } from '../../config';
 import { useFungibleTokensIncludingNEAR } from '../../hooks/fungibleTokensIncludingNEAR';
 import { Mixpanel } from '../../mixpanel/index';
 import { checkAccountAvailable, redirectTo } from '../../redux/actions/account';

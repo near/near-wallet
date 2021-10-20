@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { ACCOUNT_ID_SUFFIX, IS_MAINNET, MIN_BALANCE_TO_CREATE } from '../../../config/settings';
+import { ACCOUNT_ID_SUFFIX, IS_MAINNET, MIN_BALANCE_TO_CREATE } from '../../config';
 import { Mixpanel } from '../../mixpanel/index';
 import {
     checkNearDropBalance,

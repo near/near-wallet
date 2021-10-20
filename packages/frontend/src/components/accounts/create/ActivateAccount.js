@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { MIN_BALANCE_FOR_GAS } from '../../../../config/settings';
+import { MIN_BALANCE_FOR_GAS } from '../../../config';
 import { Mixpanel } from '../../../mixpanel';
 import { redirectTo, clearFundedAccountNeedsDeposit, getBalance, getAccountHelperWalletState } from '../../../redux/actions/account';
 import { selectAccountFundedAccountNeedsDeposit, selectAccountRequiredUnlockBalance, selectAccountSlice } from '../../../redux/slices/account';

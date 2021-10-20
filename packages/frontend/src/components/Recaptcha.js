@@ -3,7 +3,7 @@ import ReCAPTCHA from 'react-google-recaptcha';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
-import { RECAPTCHA_CHALLENGE_API_KEY } from '../../config/settings';
+import { RECAPTCHA_CHALLENGE_API_KEY } from '../config';
 import { Mixpanel } from '../mixpanel/index';
 import FormButton from './common/FormButton';
 import PuzzleIcon from './svg/PuzzleIcon';

@@ -4,7 +4,7 @@ import { formatNearAmount } from 'near-api-js/lib/utils/format';
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { MIN_BALANCE_TO_CREATE } from '../../../../../config/settings';
+import { MIN_BALANCE_TO_CREATE } from '../../../../config';
 import { Mixpanel } from '../../../../mixpanel';
 import { createAccountFromImplicit, redirectTo } from '../../../../redux/actions/account';
 import { actions as createFromImplicitActions } from '../../../../redux/slices/createFromImplicit';

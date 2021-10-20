@@ -1,6 +1,6 @@
 import mixpanel from 'mixpanel-browser';
 
-import { BROWSER_MIXPANEL_TOKEN } from '../../config/settings';
+import { BROWSER_MIXPANEL_TOKEN } from '../config';
 
 let Mixpanel = {
     get_distinct_id: () => {},

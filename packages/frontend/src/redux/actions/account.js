@@ -5,7 +5,7 @@ import { PublicKey, KeyType } from 'near-api-js/lib/utils/key_pair';
 import { parse, stringify } from 'query-string';
 import { createActions, createAction } from 'redux-actions';
 
-import { DISABLE_CREATE_ACCOUNT, MULTISIG_MIN_PROMPT_AMOUNT } from '../../../config/settings';
+import { DISABLE_CREATE_ACCOUNT, MULTISIG_MIN_PROMPT_AMOUNT } from '../../config';
 import { showAlert, dispatchWithAlert } from '../../utils/alerts';
 import { loadState, saveState, clearState } from '../../utils/sessionStorage';
 import { TwoFactor } from '../../utils/twoFactor';

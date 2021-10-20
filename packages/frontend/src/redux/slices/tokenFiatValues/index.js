@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import merge from 'lodash.merge';
 import { createSelector } from 'reselect';
 
-import { ACCOUNT_HELPER_URL } from '../../../../config/settings';
+import { ACCOUNT_HELPER_URL } from '../../../config';
 import sendJson from '../../../tmp_fetch_send_json';
 import initialErrorState from '../initialErrorState';
 

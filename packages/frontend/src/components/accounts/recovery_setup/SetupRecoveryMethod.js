@@ -9,7 +9,7 @@ import { connect } from 'react-redux';
 import styled from 'styled-components';
 
 
-import { DISABLE_CREATE_ACCOUNT, DISABLE_PHONE_RECOVERY } from '../../../../config/settings';
+import { DISABLE_CREATE_ACCOUNT, DISABLE_PHONE_RECOVERY } from '../../../config';
 import { Mixpanel } from '../../../mixpanel/index';
 import * as accountActions from '../../../redux/actions/account';
 import { showCustomAlert } from '../../../redux/actions/status';

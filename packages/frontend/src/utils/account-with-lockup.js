@@ -10,7 +10,7 @@ import {
     LOCKUP_ACCOUNT_ID_SUFFIX,
     MIN_BALANCE_FOR_GAS,
     REACT_APP_USE_TESTINGLOCKUP,
-} from '../../config/settings';
+} from '../config';
 import { WalletError } from './walletError';
 
 // TODO: Should gas allowance be dynamically calculated

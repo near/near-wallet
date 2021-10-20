@@ -3,7 +3,7 @@ import { Translate } from 'react-localize-redux';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
-import { EXPLORER_URL } from '../../../config/settings';
+import { EXPLORER_URL } from '../../config';
 import { actions as transactionsActions } from '../../redux/slices/transactions';
 import { TRANSACTIONS_REFRESH_INTERVAL } from '../../utils/wallet';
 import FormButton from '../common/FormButton';

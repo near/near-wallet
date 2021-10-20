@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { EXPLORER_URL } from '../../../config/settings';
+import { EXPLORER_URL } from '../../config';
 import FailedToLoad from '../../images/failed_to_load.svg';
 import isDataURL from '../../utils/isDataURL';
 import DefaultTokenIcon from '../svg/DefaultTokenIcon';

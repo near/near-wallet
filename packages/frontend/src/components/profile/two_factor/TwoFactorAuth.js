@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { MULTISIG_MIN_AMOUNT } from '../../../../config/settings';
+import { MULTISIG_MIN_AMOUNT } from '../../../config';
 import { disableMultisig } from '../../../redux/actions/account';
 import { selectAccountSlice } from '../../../redux/slices/account';
 import { actions as recoveryMethodsActions } from '../../../redux/slices/recoveryMethods';

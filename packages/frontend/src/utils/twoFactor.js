@@ -3,7 +3,7 @@ import * as nearApiJs from 'near-api-js';
 import { utils } from 'near-api-js';
 
 import { store } from '..';
-import { ACCOUNT_HELPER_URL, MULTISIG_CONTRACT_HASHES, MULTISIG_MIN_AMOUNT } from '../../config/settings';
+import { ACCOUNT_HELPER_URL, MULTISIG_CONTRACT_HASHES, MULTISIG_MIN_AMOUNT } from '../config';
 import { promptTwoFactor, refreshAccount } from '../redux/actions/account';
 
 const {

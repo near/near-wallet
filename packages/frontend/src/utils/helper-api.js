@@ -1,5 +1,5 @@
 
-import { ACCOUNT_HELPER_URL } from '../../config/settings';
+import { ACCOUNT_HELPER_URL } from '../config';
 
 export let controller;
 

@@ -2,7 +2,7 @@ import { getLocation } from 'connected-react-router';
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { LINKDROP_GAS, MIN_BALANCE_TO_CREATE } from '../../../../../config/settings';
+import { LINKDROP_GAS, MIN_BALANCE_TO_CREATE } from '../../../../config';
 import { Mixpanel } from '../../../../mixpanel';
 import {
     switchAccount,

@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { DISABLE_CREATE_ACCOUNT } from '../../../config/settings';
+import { DISABLE_CREATE_ACCOUNT } from '../../config';
 import { Mixpanel } from '../../mixpanel/index';
 import { 
     recoverAccountSeedPhrase,

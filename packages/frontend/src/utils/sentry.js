@@ -1,6 +1,6 @@
 const Sentry = require('@sentry/browser');
 
-const { SENTRY_DSN, SENTRY_RELEASE } = require('../../config/settings');
+const { SENTRY_DSN, SENTRY_RELEASE } = require('../config');
 
 const initSentry = () => {
     if (!SENTRY_DSN) {

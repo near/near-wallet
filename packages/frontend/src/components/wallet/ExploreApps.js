@@ -2,7 +2,7 @@ import React from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
-import { EXPLORE_APPS_URL, EXPLORE_DEFI_URL } from '../../../config/settings';
+import { EXPLORE_APPS_URL, EXPLORE_DEFI_URL } from '../../config';
 import BerryClubLogo from '../../images/berryclub-logo.svg';
 import FluxLogo from '../../images/flux-logo.svg';
 import HashRushLogo from '../../images/hash-rush-logo.svg';

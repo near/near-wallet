@@ -6,7 +6,7 @@ import { KeyType } from 'near-api-js/lib/utils/key_pair';
 import { generateSeedPhrase, parseSeedPhrase } from 'near-seed-phrase';
 
 import { store } from '..';
-import * as Settings from '../../config/settings';
+import * as Config from '../config';
 import {
     finishAccountSetup,
     makeAccountActive,
@@ -60,7 +60,7 @@ const {
     RECAPTCHA_CHALLENGE_API_KEY,
     RECAPTCHA_ENTERPRISE_SITE_KEY,
     SHOW_PRERELEASE_WARNING,
-} = Settings;
+} = Config;
 
 const CONTRACT_CREATE_ACCOUNT_URL = `${ACCOUNT_HELPER_URL}/account`;
 const FUNDED_ACCOUNT_CREATE_URL = `${ACCOUNT_HELPER_URL}/fundedAccount`;

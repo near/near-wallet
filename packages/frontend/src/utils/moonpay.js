@@ -5,7 +5,7 @@ import {
     MOONPAY_API_KEY,
     MOONPAY_API_URL,
     MOONPAY_BUY_URL,
-} from '../../config/settings';
+} from '../config';
 
 export const MOONPAY_BUY_URL_PREFIX = `${MOONPAY_BUY_URL}${MOONPAY_API_KEY}`;
 

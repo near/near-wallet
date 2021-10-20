@@ -5,7 +5,7 @@ import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input';
 import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
-import { MULTISIG_MIN_AMOUNT } from '../../../../config/settings';
+import { MULTISIG_MIN_AMOUNT } from '../../../config';
 import { useRecoveryMethods } from '../../../hooks/recoveryMethods';
 import { Mixpanel } from '../../../mixpanel/index';
 import {

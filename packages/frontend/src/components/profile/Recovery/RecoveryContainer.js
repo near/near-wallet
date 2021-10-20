@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { DISABLE_PHONE_RECOVERY } from '../../../../config/settings';
+import { DISABLE_PHONE_RECOVERY } from '../../../config';
 import { Mixpanel } from '../../../mixpanel/index';
 import { deleteRecoveryMethod } from '../../../redux/actions/account';
 import selectRecoveryLoader from '../../../redux/crossStateSelectors/selectRecoveryLoader';

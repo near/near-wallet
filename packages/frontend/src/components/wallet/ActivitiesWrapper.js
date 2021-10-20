@@ -3,7 +3,7 @@ import { Translate } from 'react-localize-redux';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 
-import { EXPLORER_URL } from '../../../config/settings';
+import { EXPLORER_URL } from '../../config';
 import { selectAccountId } from '../../redux/slices/account';
 import { selectOneTransactionByIdentity, selectTransactionsByAccountId, selectTransactionsLoading } from '../../redux/slices/transactions';
 import { actions as transactionsActions } from '../../redux/slices/transactions';

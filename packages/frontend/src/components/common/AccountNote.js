@@ -2,7 +2,7 @@ import React from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
-import { ACCOUNT_ID_SUFFIX } from '../../../config/settings';
+import { ACCOUNT_ID_SUFFIX } from '../../config';
 import SafeTranslate from '../SafeTranslate';
 
 const Container = styled.div`

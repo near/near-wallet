@@ -2,7 +2,7 @@ import React from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
-import { IS_MAINNET } from '../../../config/settings';
+import { IS_MAINNET } from '../../config';
 import HardwareDeviceIcon from '../../images/icon-hardware-device.svg';
 import EmailIcon from '../../images/icon-recover-email.svg';
 import PhoneIcon from '../../images/icon-recover-phone.svg';
