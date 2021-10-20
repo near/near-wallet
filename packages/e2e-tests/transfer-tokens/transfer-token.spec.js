@@ -9,35 +9,24 @@ const { getBankAccount } = require("../utils/account");
 const { describe, beforeAll, afterAll } = test;
 
 describe("Transferring NEAR tokens between two accounts", () => {
-    let firstAccount, secondAccount;
+    let firstAccount;
 
     beforeAll(async () => {
         const bankAccount = await getBankAccount();
         firstAccount = bankAccount.spawnRandomSubAccountInstance();
-        secondAccount = bankAccount.spawnRandomSubAccountInstance();
-        await Promise.allSettled([
-            firstAccount.create(),
-            secondAccount.create(),
-        ]);
+        await firstAccount.create();
     });
 
     afterAll(async () => {
-        await Promise.allSettled([
-            firstAccount.delete(),
-            secondAccount.delete(),
-        ]);
+        await firstAccount.delete();
     });
 
     test("navigates to send money page", async ({ page }) => {
-        test.fail(!firstAccount.isCreated, "first account not successfully created");
         const firstAccountHomePage = new HomePage(page);
 
         await firstAccountHomePage.navigate();
 
-        await firstAccountHomePage.loginWithSeedPhraseLocalStorage(
-            firstAccount.accountId,
-            firstAccount.seedPhrase
-        );
+        await firstAccountHomePage.loginWithSeedPhraseLocalStorage(firstAccount.accountId, firstAccount.seedPhrase);
 
         await firstAccountHomePage.navigate();
 
@@ -45,50 +34,47 @@ describe("Transferring NEAR tokens between two accounts", () => {
 
         await expect(firstAccountHomePage.page).toMatchURL(/send-money$/);
     });
-    test("is able to send NEAR tokens", async ({ page }) => {
-        test.fail(
-            !firstAccount.isCreated || !secondAccount.isCreated,
-            !firstAccount.isCreated
-                ? "first account not successfully created"
-                : "second account not successfully created"
-        );
-        const firstAccountHomePage = new HomePage(page);
+    describe("sending between accounts", () => {
+        let secondAccount;
 
-        await firstAccountHomePage.navigate();
+        beforeAll(async () => {
+            const bankAccount = await getBankAccount();
+            secondAccount = bankAccount.spawnRandomSubAccountInstance();
+            await secondAccount.create();
+        });
 
-        await firstAccountHomePage.loginWithSeedPhraseLocalStorage(
-            firstAccount.accountId,
-            firstAccount.seedPhrase
-        );
-        const firstAccountSendMoneyPage = new SendMoneyPage(page);
+        afterAll(async () => {
+            await secondAccount.delete();
+        });
 
-        const balanceBefore = await secondAccount.getUpdatedBalance();
-        const transferAmount = 0.1;
+        test("is able to send NEAR tokens", async ({ page }) => {
+            const firstAccountHomePage = new HomePage(page);
 
-        await firstAccountSendMoneyPage.navigate();
+            await firstAccountHomePage.navigate();
 
-        await firstAccountSendMoneyPage.selectAsset("NEAR");
-        await firstAccountSendMoneyPage.waitForTokenBalance();
-        await firstAccountSendMoneyPage.typeAndSubmitAmount(transferAmount);
-        await firstAccountSendMoneyPage.typeAndSubmitAccountId(
-            secondAccount.accountId
-        );
-        await firstAccountSendMoneyPage.confirmTransaction();
+            await firstAccountHomePage.loginWithSeedPhraseLocalStorage(firstAccount.accountId, firstAccount.seedPhrase);
+            const firstAccountSendMoneyPage = new SendMoneyPage(page);
 
-        await expect(page).toMatchText(
-            "data-test-id=sendTransactionSuccessMessage",
-            new RegExp(`${transferAmount} NEAR`)
-        );
-        await expect(page).toMatchText(
-            "data-test-id=sendTransactionSuccessMessage",
-            new RegExp(secondAccount.accountId)
-        );
-        
-        const balanceAfter = await secondAccount.getUpdatedBalance();
-        const totalAfter = new BN(balanceAfter.total);
-        const totalBefore = new BN(balanceBefore.total);
-        const transferedAmount = new BN(parseNearAmount(transferAmount.toString()));
+            const balanceBefore = await secondAccount.getUpdatedBalance();
+            const transferAmount = 0.1;
 
-        expect(totalAfter.eq(totalBefore.add(transferedAmount))).toBe(true);
+            await firstAccountSendMoneyPage.navigate();
+
+            await firstAccountSendMoneyPage.selectAsset("NEAR");
+            await firstAccountSendMoneyPage.waitForTokenBalance();
+            await firstAccountSendMoneyPage.typeAndSubmitAmount(transferAmount);
+            await firstAccountSendMoneyPage.typeAndSubmitAccountId(secondAccount.accountId);
+            await firstAccountSendMoneyPage.confirmTransaction();
+
+            await expect(page).toMatchText("data-test-id=sendTransactionSuccessMessage", new RegExp(`${transferAmount} NEAR`));
+            await expect(page).toMatchText("data-test-id=sendTransactionSuccessMessage", new RegExp(secondAccount.accountId));
+
+            const balanceAfter = await secondAccount.getUpdatedBalance();
+            const totalAfter = new BN(balanceAfter.total);
+            const totalBefore = new BN(balanceBefore.total);
+            const transferedAmount = new BN(parseNearAmount(transferAmount.toString()));
+
+            expect(totalAfter.eq(totalBefore.add(transferedAmount))).toBe(true);
+        });
     });
 });
