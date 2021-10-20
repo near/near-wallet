@@ -6,7 +6,7 @@ import styled from 'styled-components';
 
 import { useFungibleTokensIncludingNEAR } from '../../hooks/fungibleTokensIncludingNEAR';
 import { Mixpanel } from "../../mixpanel/index";
-import { selectAccountId, selectBalance } from '../../redux/reducers/account';
+import { selectAccountId, selectBalance } from '../../redux/slices/account';
 import { selectCreateFromImplicitSuccess, actions as createFromImplicitActions } from '../../redux/slices/createFromImplicit';
 import { selectLinkdropAmount, actions as linkdropActions } from '../../redux/slices/linkdrop';
 import { selectTokensWithMetadataForAccountId, actions as nftActions } from '../../redux/slices/nft';

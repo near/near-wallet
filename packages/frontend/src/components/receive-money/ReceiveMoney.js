@@ -6,6 +6,7 @@ import styled from 'styled-components';
 
 import iconShare from '../../images/icon-share-blue.svg';
 import { Mixpanel } from '../../mixpanel/index';
+import { selectAccountSlice } from '../../redux/slices/account';
 import copyText from '../../utils/copyText';
 import isMobile from '../../utils/isMobile';
 import Divider from '../common/Divider';
@@ -190,8 +191,8 @@ class ReceiveMoney extends Component {
     }
 }
 
-const mapStateToProps = ({ account }) => ({
-   account
+const mapStateToProps = (state) => ({
+   account: selectAccountSlice(state)
 });
 
 export const ReceiveMoneyWithRouter = connect(

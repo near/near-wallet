@@ -14,7 +14,6 @@ const Balance = ({
     showSignUSD,
     showSymbolUSD
 }) => {
-
     const nearTokenFiatValueUSD = useSelector(selectNearTokenFiatValueUSD);
 
     return (

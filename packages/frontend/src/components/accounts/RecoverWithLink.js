@@ -11,6 +11,8 @@ import {
     redirectTo,
     clearAccountState
 } from '../../redux/actions/account';
+import { selectAccountSlice } from '../../redux/slices/account';
+import { selectStatusMainLoader } from '../../redux/slices/status';
 import { actionsPending } from '../../utils/alerts';
 import copyText from '../../utils/copyText';
 import isMobile from '../../utils/isMobile';
@@ -243,11 +245,11 @@ const mapDispatchToProps = {
     clearAccountState
 };
 
-const mapStateToProps = ({ account, status }, { match }) => ({
-    ...account,
+const mapStateToProps = (state, { match }) => ({
+    ...selectAccountSlice(state),
     accountId: match.params.accountId,
     seedPhrase: match.params.seedPhrase,
-    mainLoader: status.mainLoader
+    mainLoader: selectStatusMainLoader(state)
 });
 
 export const RecoverWithLinkWithRouter = connect(

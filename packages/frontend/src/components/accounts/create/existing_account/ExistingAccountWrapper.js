@@ -10,11 +10,7 @@ import {
     checkAndHideLedgerModal
 } from '../../../../redux/actions/account';
 import { showCustomAlert } from '../../../../redux/actions/status';
-import {
-    selectBalance,
-    selectAccountsBalances,
-    signedInAccountIdLocalStorage
-} from '../../../../redux/reducers/account';
+import { selectAccountAccountsBalances, selectAccountLocalStorageAccountId, selectBalance } from '../../../../redux/slices/account';
 import { selectAvailableAccounts } from '../../../../redux/slices/availableAccounts';
 import { MIN_BALANCE_TO_CREATE, LINKDROP_GAS, wallet } from '../../../../utils/wallet';
 import FundNewAccount from './FundNewAccount';
@@ -26,11 +22,10 @@ export function ExistingAccountWrapper({ history }) {
     const [fundingAccountId, setFundingAccountId] = useState('');
     const [creatingNewAccount, setCreatingNewAccount] = useState(false);
 
-    const signedInAccountId = useSelector(signedInAccountIdLocalStorage);
+    const signedInAccountId = useSelector(selectAccountLocalStorageAccountId);
     const availableAccounts = useSelector(selectAvailableAccounts);
-    const accountsBalances = useSelector(selectAccountsBalances);
+    const accountsBalances = useSelector(selectAccountAccountsBalances);
     const signedInAccountBalance = useSelector(selectBalance);
-
     const location = useSelector(getLocation);
     const URLParams = new URLSearchParams(location.search);
     const accountId = URLParams.get('accountId');

@@ -1,3 +1,4 @@
+import { getRouter } from 'connected-react-router';
 import { KeyPair } from 'near-api-js';
 import { parseSeedPhrase } from 'near-seed-phrase';
 import React, { Component, createRef } from 'react';
@@ -11,9 +12,10 @@ import styled from 'styled-components';
 import { Mixpanel } from '../../../mixpanel/index';
 import * as accountActions from '../../../redux/actions/account';
 import { showCustomAlert } from '../../../redux/actions/status';
-import { selectAccountId } from '../../../redux/reducers/account';
+import { selectAccountId, selectAccountSlice } from '../../../redux/slices/account';
 import { actions as linkdropActions } from '../../../redux/slices/linkdrop';
 import { actions as recoveryMethodsActions, selectRecoveryMethodsByAccountId, selectRecoveryMethodsLoading } from '../../../redux/slices/recoveryMethods';
+import { selectStatusMainLoader } from '../../../redux/slices/status';
 import { validateEmail } from '../../../utils/account';
 import { actionsPending } from '../../../utils/alerts';
 import isApprovedCountryCode from '../../../utils/isApprovedCountryCode';
@@ -373,7 +375,6 @@ class SetupRecoveryMethod extends Component {
     }
 
     render() {
-
         const {
             option,
             phoneNumber,
@@ -541,16 +542,16 @@ const mapDispatchToProps = {
 };
 
 const mapStateToProps = (state, { match }) => {
-    const { account, router, status } = state;
+    const accountId = match.params.accountId;
     
     return {
-        ...account,
-        router,
-        accountId: match.params.accountId,
-        activeAccountId: account.accountId,
-        recoveryMethods: selectRecoveryMethodsByAccountId(state, { accountId: selectAccountId(state) }),
-        mainLoader: status.mainLoader,
-        recoveryMethodsLoader: selectRecoveryMethodsLoading(state, { accountId: match.params.accountId })
+        ...selectAccountSlice(state),
+        router: getRouter(state),
+        accountId,
+        activeAccountId: selectAccountId(state),
+        recoveryMethods: selectRecoveryMethodsByAccountId(state, { accountId }),
+        mainLoader: selectStatusMainLoader(state),
+        recoveryMethodsLoader: selectRecoveryMethodsLoading(state, { accountId })
     };
 };
 

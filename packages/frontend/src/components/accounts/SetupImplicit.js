@@ -7,7 +7,9 @@ import styled from 'styled-components';
 
 import { Mixpanel } from '../../mixpanel';
 import { createAccountFromImplicit, redirectTo } from '../../redux/actions/account';
+import { selectAccountId, selectAccountSlice } from '../../redux/slices/account';
 import { actions as createFromImplicitActions } from '../../redux/slices/createFromImplicit';
+import { selectStatusMainLoader } from '../../redux/slices/status';
 import { selectNearTokenFiatValueUSD } from '../../redux/slices/tokenFiatValues';
 import { isMoonpayAvailable, getSignedUrl } from '../../utils/moonpay';
 import { MIN_BALANCE_TO_CREATE } from '../../utils/wallet';
@@ -280,21 +282,14 @@ class SetupImplicit extends Component {
     }
 }
 
-const mapStateToProps = (state, ownProps) => {
-    const { account, status } = state;
-    const { match } = ownProps;
-    const { params } = match;
-    const { accountId, implicitAccountId, recoveryMethod } = params;
-
-    return {
-        ...account,
-        activeAccountId: account.accountId,
-        newAccountId: accountId,
-        implicitAccountId,
-        recoveryMethod,
-        mainLoader: status.mainLoader,
-        nearTokenFiatValueUSD: selectNearTokenFiatValueUSD(state)
-    };
-};
+const mapStateToProps = (state, { match: { params: { accountId, implicitAccountId, recoveryMethod } } }) => ({
+    ...selectAccountSlice(state),
+    activeAccountId: selectAccountId(state),
+    newAccountId: accountId,
+    implicitAccountId,
+    recoveryMethod,
+    mainLoader: selectStatusMainLoader(state),
+    nearTokenFiatValueUSD: selectNearTokenFiatValueUSD(state)
+});
 
 export const SetupImplicitWithRouter = connect(mapStateToProps)(withRouter(SetupImplicit));

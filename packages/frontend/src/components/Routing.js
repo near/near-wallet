@@ -1,4 +1,4 @@
-import { ConnectedRouter } from 'connected-react-router';
+import { ConnectedRouter, getRouter } from 'connected-react-router';
 import isString from 'lodash.isstring';
 import { parseSeedPhrase } from 'near-seed-phrase';
 import PropTypes from 'prop-types';
@@ -12,6 +12,7 @@ import styled, { ThemeProvider } from 'styled-components';
 import TwoFactorVerifyModal from '../components/accounts/two_factor/TwoFactorVerifyModal';
 import { Mixpanel } from "../mixpanel/index";
 import * as accountActions from '../redux/actions/account';
+import { selectAccountSlice } from '../redux/slices/account';
 import { actions as tokenFiatValueActions } from '../redux/slices/tokenFiatValues';
 import translations_en from '../translations/en.global.json';
 import translations_pt from '../translations/pt.global.json';
@@ -541,9 +542,9 @@ const mapDispatchToProps = {
     fetchTokenFiatValues
 };
 
-const mapStateToProps = ({ account, router }) => ({
-    account,
-    router
+const mapStateToProps = (state) => ({
+    account: selectAccountSlice(state),
+    router: getRouter(state)
 });
 
 export default connect(
