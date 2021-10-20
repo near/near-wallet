@@ -1,4 +1,3 @@
-import { createMatchSelector } from 'connected-react-router';
 import { utils } from 'near-api-js';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -21,9 +20,8 @@ const { parseNearAmount, formatNearAmount } = utils.format;
 const { fetchTokens } = tokensActions;
 
 export function SendContainerWrapper({ match }) {
+    const accountIdFromUrl = match.params.accountId || '';
     const dispatch = useDispatch();
-    
-    const accountIdFromUrl = useSelector(createMatchSelector('/send-money/:accountId?'))?.params.accountId || '';
     const accountId = useSelector(selectAccountId);
     const localAlert = useSelector(selectStatusLocalAlert);
     const nearTokenFiatValueUSD = useSelector(selectNearTokenFiatValueUSD);
