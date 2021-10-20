@@ -13,9 +13,10 @@ class E2eTestAccount {
         this.accountId = accountId;
         this.seedPhrase = seedPhrase;
         this.parentNearApiJsAccount = parentNearApiJsAccount;
+        this.isCreated = false;
     }
     async initialize() {
-        await nearApiJsConnection.setKeyPairFromSeedPhrase(this);
+        await nearApiJsConnection.setKeyPairFromSeedPhrase({ accountId: this.accountId, seedPhrase: this.seedPhrase });
         await this.connectToNearApiJs();
         return this;
     }
