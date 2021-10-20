@@ -38,7 +38,7 @@ class E2eTestAccount {
         if (!this.nearApiJsAccount) {
             throw new Error("Account needs to be initialized to spawn sub accounts");
         }
-        const randomSubaccountId = generateTestAccountId();
+        const randomSubaccountId = `${generateTestAccountId()}.${this.accountId}`;
         const randomSubaccountSeedphrase = `${randomSubaccountId} ${process.env.TEST_ACCOUNT_SEED_PHRASE}`;
         return new E2eTestAccount(randomSubaccountId, randomSubaccountSeedphrase, this.nearApiJsAccount);
     }
