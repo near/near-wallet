@@ -5,7 +5,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { disableMultisig, loadRecoveryMethods } from '../../../redux/actions/account';
+import { disableMultisig } from '../../../redux/actions/account';
+import { actions as recoveryMethodsActions } from '../../../redux/slices/recoveryMethods';
 import { selectNearTokenFiatValueUSD } from '../../../redux/slices/tokenFiatValues';
 import { actionsPending } from '../../../utils/alerts';
 import { MULTISIG_MIN_AMOUNT } from '../../../utils/wallet';
@@ -14,6 +15,8 @@ import FormButton from '../../common/FormButton';
 import Card from '../../common/styled/Card.css';
 import SafeTranslate from '../../SafeTranslate';
 import ConfirmDisable from '../hardware_devices/ConfirmDisable';
+
+const { fetchRecoveryMethods } = recoveryMethodsActions;
 
 const {
     parseNearAmount
@@ -68,7 +71,7 @@ const TwoFactorAuth = ({ twoFactor, history }) => {
 
     const handleConfirmDisable = async () => {
         await dispatch(disableMultisig());
-        await dispatch(loadRecoveryMethods());
+        await dispatch(fetchRecoveryMethods({ accountId: account.accountId }));
         setConfirmDisable(false);
     };
 

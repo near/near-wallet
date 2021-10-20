@@ -17,15 +17,16 @@ import Balance from '../common/balance/Balance';
 import FormButton from '../common/FormButton';
 import Container from '../common/styled/Container.css';
 import Tooltip from '../common/Tooltip';
-import BuyIcon from '../svg/BuyIcon';
 import DownArrowIcon from '../svg/DownArrowIcon';
 import SendIcon from '../svg/SendIcon';
+import TopUpIcon from '../svg/TopUpIcon';
 import ActivitiesWrapper from './ActivitiesWrapper';
 import CreateFromImplicitSuccessModal from './CreateFromImplicitSuccessModal';
 import DepositNearBanner from './DepositNearBanner';
 import ExploreApps from './ExploreApps';
 import LinkDropSuccessModal from './LinkDropSuccessModal';
 import NFTs from './NFTs';
+import ReleaseNotesModal from './ReleaseNotesModal';
 import Tokens from './Tokens';
 
 const { fetchNFTs } = nftActions;
@@ -303,6 +304,7 @@ export function Wallet({ tab, setTab }) {
 
     return (
         <StyledContainer className={SHOW_NETWORK_BANNER ? 'showing-banner' : ''}>
+            <ReleaseNotesModal />
             <div className='split'>
                 <div className='left'>
                     <div className='tab-selector'>
@@ -400,9 +402,9 @@ const FungibleTokens = ({ balance, tokensLoader, fungibleTokens }) => {
                     data-test-id="balancesTab.buy"
                 >
                     <div>
-                        <BuyIcon />
+                        <TopUpIcon />
                     </div>
-                    <Translate id='button.buy' />
+                    <Translate id='button.topUp' />
                 </FormButton>
             </div>
             {availableBalanceIsZero &&

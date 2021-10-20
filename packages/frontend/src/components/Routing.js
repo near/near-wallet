@@ -33,9 +33,10 @@ import {
     WALLET_SIGN_URL,
     WALLET_SEND_MONEY_URL,
 } from '../utils/wallet';
-import { AuthorizedAppsWithRouter, FullAccessKeysWithRouter } from './access-keys/AccessKeys';
+import AccessKeysWrapper from './access-keys/v2/AccessKeysWrapper';
 import { AutoImportWrapper } from './accounts/auto_import/AutoImportWrapper';
 import { ActivateAccountWithRouter } from './accounts/create/ActivateAccount';
+import { ExistingAccountWrapper } from './accounts/create/existing_account/ExistingAccountWrapper';
 import { InitialDepositWrapper } from './accounts/create/initial_deposit/InitialDepositWrapper';
 import { VerifyAccountWrapper } from './accounts/create/verify_account/VerifyAccountWrapper';
 import { CreateAccountWithRouter } from './accounts/CreateAccount';
@@ -58,7 +59,6 @@ import GuestLandingRoute from './common/GuestLandingRoute';
 import NetworkBanner from './common/NetworkBanner';
 import PrivateRoute from './common/PrivateRoute';
 import PublicRoute from './common/PublicRoute';
-import ReleaseNotesModal from './common/ReleaseNotesModal';
 import GlobalStyle from './GlobalStyle';
 import { LoginWithRouter } from './login/Login';
 import { LoginCliLoginSuccess } from './login/LoginCliLoginSuccess';
@@ -105,7 +105,7 @@ const Container = styled.div`
     &.network-banner {
         @media (max-width: 450px) {
             .alert-banner, .lockup-avail-transfer {
-                margin-top: -35px;
+                margin-top: -45px;
             }
         }
     }
@@ -301,7 +301,6 @@ class Routing extends Component {
                         <Navigation isInactiveAccount={isInactiveAccount}/>
                         <GlobalAlert/>
                         <LedgerConfirmActionModal/>
-                        <ReleaseNotesModal />
                         {
                             account.requestPending !== null &&
                             <TwoFactorVerifyModal
@@ -368,6 +367,11 @@ class Routing extends Component {
                                 exact
                                 path='/initial-deposit'
                                 component={InitialDepositWrapper}
+                            />
+                            <PublicRoute
+                                exact
+                                path='/fund-with-existing-account'
+                                component={ExistingAccountWrapper}
                             />
                             <PublicRoute
                                 exact
@@ -448,12 +452,12 @@ class Routing extends Component {
                             <PrivateRoute
                                 exact
                                 path='/authorized-apps'
-                                component={AuthorizedAppsWithRouter}
+                                render={() => <AccessKeysWrapper type='authorized-apps'/>}
                             />
                             <PrivateRoute
                                 exact
                                 path='/full-access-keys'
-                                component={FullAccessKeysWithRouter}
+                                render={() => <AccessKeysWrapper type='full-access-keys'/>}
                             />
                             {!isInactiveAccount &&
                                 <PrivateRoute

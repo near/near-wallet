@@ -3,6 +3,7 @@ import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
 import languagesIcon from '../../images/icon-languages.svg';
+import AccountSelector from '../accounts/account_selector/AccountSelector';
 import LanguageToggle from '../common/LangSwitcher';
 import UserIcon from '../svg/UserIcon';
 import AccessAccountBtn from './AccessAccountBtn';
@@ -173,25 +174,25 @@ class MobileContainer extends Component {
             menuOpen,
             toggleMenu,
             showNavLinks,
-            flowLimitation,
+            flowLimitationMainMenu,
+            flowLimitationSubMenu,
             refreshBalance,
-            getBalance,
             isInactiveAccount
         } = this.props;
 
         return (
             <Container className={menuOpen ? 'show' : ''} id='mobile-menu'>
                 <Collapsed>
-                    <Logo link={!flowLimitation.mainMenu}/>
+                    <Logo link={!flowLimitationMainMenu}/>
                     {showNavLinks &&
                         <>
                             <UserAccount
                                 accountId={account.accountId || account.localStorage?.accountId}
                                 onClick={toggleMenu}
                                 withIcon={false}
-                                flowLimitation={flowLimitation}
+                                flowLimitationSubMenu={flowLimitationSubMenu}
                             />
-                            <UserIcon background={true} color='#A2A2A8' onClick={!flowLimitation.subMenu ? toggleMenu : null}/>
+                            <UserIcon background={true} color='#A2A2A8' onClick={!flowLimitationSubMenu ? toggleMenu : null}/>
                         </>
                     }
                     {!showNavLinks &&
@@ -209,20 +210,18 @@ class MobileContainer extends Component {
                             <LanguageToggle />
                         </Lang>
                         <LowerSection>
-                            <h6><Translate id='link.switchAccount'/></h6>
-                            <UserAccounts
-                                accounts={availableAccounts}
-                                accountId={account.accountId}
-                                accountIdLocalStorage={account.localStorage?.accountId}
-                                handleSelectAccount={handleSelectAccount}
-                                accountsBalance={account.accountsBalance}
-                                balance={account.balance}
-                                refreshBalance={refreshBalance}
-                                getBalance={getBalance}
+                            <h6><Translate id='link.switchAccount' /></h6>
+                            <AccountSelector
+                                signedInAccountId={account.localStorage?.accountId}
+                                availableAccounts={availableAccounts}
+                                accountsBalances={account.accountsBalance}
+                                getAccountBalance={refreshBalance}
+                                onSelectAccount={handleSelectAccount}
+                                showBalanceInUSD={true}
                             />
-                            <AccessAccountBtn/>
+                            <AccessAccountBtn />
                             {!isInactiveAccount &&
-                                <CreateAccountBtn/>
+                                <CreateAccountBtn />
                             }
                         </LowerSection>
                     </>

@@ -32,7 +32,7 @@ const Container = styled.div`
     }
 
     @media (max-width: 450px) {
-        margin: -25px -14px 50px -14px;
+        margin: -35px -14px 50px -14px;
         border-radius: 0;
 
         button {

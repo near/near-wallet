@@ -18,7 +18,7 @@ const CustomButton = styled.button`
         height: 56px;
         border-radius: 30px;
         transition: 100ms;
-        font-size: 15px;
+        font-size: 14px;
         word-break: keep-all;
 
         :disabled {
@@ -51,6 +51,23 @@ const CustomButton = styled.button`
         &.dark-gray {
             background-color: #272729;
             border-color: #272729;
+
+            :hover {
+                background-color: black;
+            }
+
+            :disabled {
+                background: #e6e6e6;
+                border-color: #e6e6e6;
+                opacity: 1 !important;
+                color: #A2A2A8;
+            }
+        }
+        
+        &.dark-gray-light-blue {
+            background-color: #37383C;
+            border-color: #37383C;
+            color: #8EBAF0;
 
             :hover {
                 background-color: black;
@@ -253,7 +270,7 @@ const CustomButton = styled.button`
         &.gray-red {
             color: #FF585D;
             border: none;
-            background-color: #f8f8f8;
+            background-color: #F0F0F1;
 
             :hover,
             :active,
@@ -264,8 +281,8 @@ const CustomButton = styled.button`
         }
         &.gray-blue {
             color: #0072ce;
-            border-color: #f8f8f8;
-            background: #f8f8f8;
+            border-color: #F0F0F1;
+            background: #F0F0F1;
 
             :disabled {
                 border-color: #e6e6e6;
@@ -276,7 +293,7 @@ const CustomButton = styled.button`
             :hover,
             :focus {
                 color: #0072ce;
-                border-color: #f8f8f8;
+                border-color: #F0F0F1;
                 background: #fff;
             }
 

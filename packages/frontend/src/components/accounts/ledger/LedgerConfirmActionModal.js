@@ -29,7 +29,7 @@ const LedgerConfirmActionModal = () => {
                         </>
                     ) : (
                         <>
-                            <h2 className={'dots'}>
+                            <h2 className='title dots'>
                                 <Translate id={'confirmLedgerModal.header.processing'}/>
                             </h2>
                             <LedgerImage animate={false}/>

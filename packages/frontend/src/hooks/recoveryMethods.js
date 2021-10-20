@@ -1,21 +1,23 @@
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { loadRecoveryMethods } from '../redux/actions/account';
+import { actions as recoveryMethodsActions, selectRecoveryMethodsByAccountId } from '../redux/slices/recoveryMethods';
 import { wallet } from '../utils/wallet';
+
+const { fetchRecoveryMethods } = recoveryMethodsActions;
 
 const empty = [];
 
 export function useRecoveryMethods(accountId) {
     const recoveryMethods = useSelector(state =>
-        state.recoveryMethods[accountId]
+        selectRecoveryMethodsByAccountId(state, { accountId })
     );
 
     const dispatch = useDispatch();
 
     useEffect(() => {
         if (accountId === wallet.accountId) {
-            dispatch(loadRecoveryMethods());
+            dispatch(fetchRecoveryMethods({ accountId }));
         }
     }, [accountId]);
 

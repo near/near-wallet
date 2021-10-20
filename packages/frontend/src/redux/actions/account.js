@@ -21,7 +21,13 @@ import {
     ENABLE_IDENTITY_VERIFIED_ACCOUNT
 } from '../../utils/wallet';
 import { WalletError } from '../../utils/walletError';
-import { actions as flowLimitationActions } from '../slices/flowLimitation';
+import refreshAccountOwner from '../sharedThunks/refreshAccountOwner';
+import { selectAvailableAccounts } from '../slices/availableAccounts';
+import { 
+    actions as flowLimitationActions,
+    selectFlowLimitationAccountBalance,
+    selectFlowLimitationAccountData
+ } from '../slices/flowLimitation';
 import {
     handleStakingUpdateAccount,
     handleStakingUpdateLockup,
@@ -29,11 +35,6 @@ import {
 } from './staking';
 
 const { handleFlowLimitation, handleClearflowLimitation } = flowLimitationActions;
-
-export const loadRecoveryMethods = createAction('LOAD_RECOVERY_METHODS',
-    wallet.getRecoveryMethods.bind(wallet),
-    () => ({})
-);
 
 export const getProfileStakingDetails = (accountId) => async (dispatch, getState) => {
     await dispatch(handleGetLockup(accountId));
@@ -595,17 +596,15 @@ export const { signAndSendTransactions, setSignTransactionStatus, sendMoney, tra
 });
 
 export const refreshAccount = (basicData = false) => async (dispatch, getState) => {
-    const { flowLimitation } = getState();
-
     if (!wallet.accountId) {
         return;
     }
 
     dispatch(setLocalStorage(wallet.accountId));
-    await dispatch(refreshAccountOwner(flowLimitation.accountData));
+    await dispatch(refreshAccountOwner(selectFlowLimitationAccountData(getState())));
 
-    if (!basicData && !flowLimitation.accountBalance) {
-        dispatch(getBalance('', flowLimitation.accountData));
+    if (!basicData && !selectFlowLimitationAccountBalance(getState())) {
+        dispatch(getBalance('', selectFlowLimitationAccountData(getState())));
     }
 };
 
@@ -618,9 +617,9 @@ export const switchAccount = ({ accountId }) => async (dispatch, getState) => {
 
 export const getAvailableAccountsBalance = () => async (dispatch, getState) => {
     let { accountsBalance } = getState().account;
-    let { availableAccounts, flowLimitation } = getState();
+    const availableAccounts = selectAvailableAccounts(getState());
 
-    if (flowLimitation.accountData) {
+    if (selectFlowLimitationAccountData(getState())) {
         return;
     }
 
@@ -641,12 +640,8 @@ export const getAvailableAccountsBalance = () => async (dispatch, getState) => {
     }
 };
 
-export const { makeAccountActive, refreshAccountOwner, refreshAccountExternal, refreshUrl, updateStakingAccount, updateStakingLockup, getBalance, setLocalStorage, getAccountBalance, setAccountBalance, clearAccountState } = createActions({
+export const { makeAccountActive, refreshAccountExternal, refreshUrl, updateStakingAccount, updateStakingLockup, getBalance, setLocalStorage, getAccountBalance, setAccountBalance, clearAccountState } = createActions({
     MAKE_ACCOUNT_ACTIVE: wallet.makeAccountActive.bind(wallet),
-    REFRESH_ACCOUNT_OWNER: [
-        wallet.refreshAccount.bind(wallet),
-        () => ({ accountId: wallet.accountId })
-    ],
     REFRESH_ACCOUNT_EXTERNAL: [
         async (accountId) => ({
             ...await (await wallet.getAccount(accountId)).state(),

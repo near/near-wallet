@@ -95,17 +95,17 @@ class DesktopContainer extends Component {
             availableAccounts,
             handleSelectAccount,
             showNavLinks,
-            flowLimitation,
+            flowLimitationMainMenu,
+            flowLimitationSubMenu,
             refreshBalance,
-            getBalance,
             isInactiveAccount
         } = this.props;
 
-        const showAllNavigationLinks = showNavLinks && !isInactiveAccount && !flowLimitation.mainMenu;
+        const showAllNavigationLinks = showNavLinks && !isInactiveAccount && !flowLimitationMainMenu;
 
         return (
             <Container>
-                <Logo link={!flowLimitation.mainMenu} />
+                <Logo link={!flowLimitationMainMenu} />
                 {showAllNavigationLinks &&
                     <NavLinks />
                 }
@@ -118,7 +118,7 @@ class DesktopContainer extends Component {
                         <UserAccount
                             accountId={account.accountId || account.localStorage?.accountId}
                             onClick={toggleMenu}
-                            flowLimitation={flowLimitation}
+                            flowLimitationSubMenu={flowLimitationSubMenu}
                         />
                         <DesktopMenu
                             show={menuOpen}
@@ -130,7 +130,6 @@ class DesktopContainer extends Component {
                             accountsBalance={account.accountsBalance}
                             balance={account.balance}
                             refreshBalance={refreshBalance}
-                            getBalance={getBalance}
                             isInactiveAccount={isInactiveAccount}
                         />
                     </>

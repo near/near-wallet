@@ -9,6 +9,7 @@ import HuobiLogo from '../../images/huobi-logo.svg';
 import LiqualityLogo from '../../images/liquality-logo.svg';
 import OkCoinLogo from '../../images/ok-coin-logo.svg';
 import OkexLogo from '../../images/okex-logo.svg';
+import RainbowBridgeLogo from '../../images/rainbow-bridge-logo.svg';
 import { Mixpanel } from '../../mixpanel';
 import { isMoonpayAvailable, getSignedUrl } from '../../utils/moonpay';
 import FormButton from '../common/FormButton';
@@ -61,11 +62,9 @@ const StyledContainer = styled(Container)`
 
         &.black {
             width: 100% !important;
-            height: 54px !important;
             display: flex !important;
             align-items: center;
             justify-content: center;
-            border-radius: 8px !important;
             border: 0 !important;
 
             svg {
@@ -87,13 +86,8 @@ const StyledContainer = styled(Container)`
         margin-top: 15px;
     }
 
-    .exchanges {
-        grid-gap: 15px;
-        grid-template-columns: repeat(2,minmax(0, 1fr));
-        display: grid;
-        margin-top: 30px;
-
-        a {
+    a {
+        :not(.link) {
             border: 2px solid #F5F5F3;
             border-radius: 8px;
             display: flex;
@@ -101,6 +95,30 @@ const StyledContainer = styled(Container)`
             justify-content: center;
             transition: 100ms;
             min-height: 240px;
+
+            :hover {
+                border-color: #8FCDFF;
+                background-color: #F0F9FF;
+            }
+
+            &.bridge {
+                min-height: 200px;
+                margin-top: 30px;
+
+                @media (max-width: 380px) {
+                    min-height: 164px;
+                }
+            }
+        }
+    }
+
+    .exchanges {
+        grid-gap: 15px;
+        grid-template-columns: repeat(2,minmax(0, 1fr));
+        display: grid;
+        margin-top: 30px;
+
+        a {
 
             @media (max-width: 500px) {
                 min-height: 200px;
@@ -111,11 +129,6 @@ const StyledContainer = styled(Container)`
 
             @media (max-width: 380px) {
                 min-height: 164px;
-            }
-    
-            :hover {
-                border-color: #8FCDFF;
-                background-color: #F0F9FF;
             }
         }
 
@@ -139,7 +152,7 @@ export function BuyNear({ match, location, history }) {
     }, []);
 
     const checkMoonPay = async () => {
-        await Mixpanel.withTracking("Wallet Check Moonpay available", 
+        await Mixpanel.withTracking("Wallet Check Moonpay available",
             async () => {
                 const moonPay = await isMoonpayAvailable();
                 if (moonPay) {
@@ -158,7 +171,7 @@ export function BuyNear({ match, location, history }) {
                 color='link go-back'
                 onClick={() => history.goBack()}
             >
-                <ArrowIcon/>
+                <ArrowIcon />
             </FormButton>
             <h4><Translate id='buyNear.title' /></h4>
             {moonPayAvailable &&
@@ -178,35 +191,40 @@ export function BuyNear({ match, location, history }) {
                         onClick={() => Mixpanel.track("Wallet Click Buy with Moonpay")}
                     >
                         <Translate id='buyNear.buyWith' />
-                        <MoonPayIcon/>
+                        <MoonPayIcon />
                     </FormButton>
-                </>   
+                </>
             }
             <h3><Translate id='buyNear.supportedExchanges' /></h3>
             <div className='desc'><Translate id='buyNear.descTwo' /></div>
             <div className='exchanges'>
                 <a href='https://www.binance.com/' target='_blank' rel='noreferrer'>
-                    <img src={BinanceLogo} alt='BINANCE'/>
+                    <img src={BinanceLogo} alt='BINANCE' />
                 </a>
                 <a href='https://www.huobi.com/' target='_blank' rel='noreferrer'>
-                    <img src={HuobiLogo} alt='HUOBI'/>
+                    <img src={HuobiLogo} alt='HUOBI' />
                 </a>
                 <a href='https://www.okex.com/' target='_blank' rel='noreferrer'>
-                    <img src={OkexLogo} alt='OKEX'/>
+                    <img src={OkexLogo} alt='OKEX' />
                 </a>
                 <a href='https://www.gate.io/' target='_blank' rel='noreferrer'>
-                    <img src={GateLogo} alt='GATE'/>
+                    <img src={GateLogo} alt='GATE' />
                 </a>
                 <a href='https://liquality.io/' target='_blank' rel='noreferrer'>
-                    <img src={LiqualityLogo} alt='LIQUALITY'/>
+                    <img src={LiqualityLogo} alt='LIQUALITY' />
                 </a>
                 <a href='https://www.okcoin.com/' target='_blank' rel='noreferrer'>
-                    <img src={OkCoinLogo} alt='OKCOIN' className='ok-coin-img'/>
+                    <img src={OkCoinLogo} alt='OKCOIN' className='ok-coin-img' />
                 </a>
             </div>
             <div className='see-more'>
-                <Translate id='buyNear.seeMore' /> <a href='https://coinmarketcap.com/currencies/near-protocol/markets/' target='_blank' rel='noreferrer'><Translate id='buyNear.coinMarketCap' /></a>
+                <Translate id='buyNear.seeMore' /> <a href='https://coinmarketcap.com/currencies/near-protocol/markets/' target='_blank' rel='noreferrer' className='link'><Translate id='buyNear.coinMarketCap' /></a>
             </div>
+            <h3><Translate id='buyNear.bridgeTokens' /></h3>
+            <div className='desc'><Translate id='buyNear.descThree' /></div>
+            <a href='https://ethereum.bridgetonear.org/' target='_blank' rel='noreferrer' className='bridge'>
+                <img src={RainbowBridgeLogo} alt='Rainbow Bridge' className='rainbow-bridge-img' />
+            </a>
         </StyledContainer>
     );
 }

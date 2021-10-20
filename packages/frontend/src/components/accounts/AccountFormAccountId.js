@@ -70,6 +70,9 @@ class AccountFormAccountId extends Component {
     }
 
     updateSuffix = (userValue) => {
+        if (userValue.match(this.props.pattern)) {
+            return;
+        }
         const isSafari = /Safari/.test(navigator.userAgent) && /Apple Computer/.test(navigator.vendor);
         const width = this.getTextWidth(userValue, '16px Inter');
         const extraSpace = isSafari ? 21.5 : 22;
@@ -91,7 +94,11 @@ class AccountFormAccountId extends Component {
     handleChangeAccountId = ({ userValue, el }) => {
         const { pattern, handleChange, type } = this.props;
 
-        const accountId = userValue.trim().toLowerCase();
+        const accountId = userValue.toLowerCase();
+
+        if (accountId === this.state.accountId) {
+            return;
+        }
 
         if (accountId.match(pattern)) {
             if (this.state.wrongChar) {
@@ -228,8 +235,8 @@ class AccountFormAccountId extends Component {
                                 name='accountId'
                                 data-test-id="createAccount.accountIdInput"
                                 value={accountId}
-                                onInput={e => type === 'create' && this.updateSuffix(e.target.value)}
-                                onChange={e => this.handleChangeAccountId({ userValue: e.target.value, el: e.target })}
+                                onInput={e => type === 'create' && this.updateSuffix(e.target.value.trim())}
+                                onChange={e => this.handleChangeAccountId({ userValue: e.target.value.trim(), el: e.target })}
                                 placeholder={type === 'create' ? translate('createAccount.accountIdInput.placeholder', { data: ACCOUNT_ID_SUFFIX}) : translate('input.accountId.placeholder')}
                                 required
                                 autoComplete='off'

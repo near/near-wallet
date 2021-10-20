@@ -139,7 +139,7 @@ const UserAccounts = ({ accounts, accountId, accountIdLocalStorage, handleSelect
                 <UserAccount
                     key={i}
                     accountId={account}
-                    balance={accountsBalance && accountsBalance[account]?.total}
+                    balance={accountsBalance && accountsBalance[account]?.balanceAvailable}
                     balanceLoading={accountsBalance && accountsBalance[account]?.loading}
                     refreshBalance={() => refreshBalance(account)}
                     active={false}

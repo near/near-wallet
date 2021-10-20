@@ -11,7 +11,9 @@ import styled from 'styled-components';
 import { Mixpanel } from '../../../mixpanel/index';
 import * as accountActions from '../../../redux/actions/account';
 import { showCustomAlert } from '../../../redux/actions/status';
+import { selectAccountId } from '../../../redux/reducers/account';
 import { actions as linkdropActions } from '../../../redux/slices/linkdrop';
+import { actions as recoveryMethodsActions, selectRecoveryMethodsByAccountId, selectRecoveryMethodsLoading } from '../../../redux/slices/recoveryMethods';
 import { validateEmail } from '../../../utils/account';
 import { actionsPending } from '../../../utils/alerts';
 import isApprovedCountryCode from '../../../utils/isApprovedCountryCode';
@@ -32,13 +34,13 @@ import RecoveryOption from './RecoveryOption';
 import 'react-phone-number-input/style.css';
 
 const { setLinkdropAmount } = linkdropActions;
+const { fetchRecoveryMethods } = recoveryMethodsActions;
 
 const {
     initializeRecoveryMethod,
     setupRecoveryMessage,
     redirectToApp,
     redirectTo,
-    loadRecoveryMethods,
     getAccessKeys,
     getLedgerKey,
     get2faMethod,
@@ -115,7 +117,7 @@ class SetupRecoveryMethod extends Component {
 
     handleCheckMethodStatus = () => {
         if (!this.checkNewAccount()) {
-            this.props.loadRecoveryMethods();
+            this.props.fetchRecoveryMethods({ accountId: this.props.activeAccountId });
             this.props.getLedgerKey();
             this.props.get2faMethod();
         }
@@ -352,10 +354,10 @@ class SetupRecoveryMethod extends Component {
     }
 
     checkDisabled = (method) => {
-        const { recoveryMethods, activeAccountId } = this.props;
+        const { recoveryMethods } = this.props;
         let activeMethods = [];
-        if (recoveryMethods[activeAccountId]) {
-            activeMethods = recoveryMethods[activeAccountId].filter(method => method.confirmed).map(method => method.kind);
+        if (!!recoveryMethods.length) {
+            activeMethods = recoveryMethods.filter(method => method.confirmed).map(method => method.kind);
         }
 
         return !this.checkNewAccount() && activeMethods.includes(method);
@@ -383,7 +385,7 @@ class SetupRecoveryMethod extends Component {
             isNewAccount,
             settingUpNewAccount
         } = this.state;
-        const { mainLoader, accountId, activeAccountId, ledgerKey, twoFactor, location } = this.props;
+        const { mainLoader, accountId, activeAccountId, ledgerKey, twoFactor, location, recoveryMethodsLoader } = this.props;
 
         if (!success) {
             return (
@@ -486,7 +488,7 @@ class SetupRecoveryMethod extends Component {
                         <FormButton
                             color='blue'
                             type='submit'
-                            disabled={!this.isValidInput || mainLoader}
+                            disabled={!this.isValidInput || mainLoader || recoveryMethodsLoader}
                             sending={actionsPending(['INITIALIZE_RECOVERY_METHOD', 'SETUP_RECOVERY_MESSAGE'])}
                             trackingId='SR Click submit button'
                             data-test-id="submitSelectedRecoveryOption"
@@ -523,7 +525,7 @@ class SetupRecoveryMethod extends Component {
 const mapDispatchToProps = {
     setupRecoveryMessage,
     redirectToApp,
-    loadRecoveryMethods,
+    fetchRecoveryMethods,
     initializeRecoveryMethod,
     getAccessKeys,
     getLedgerKey,
@@ -538,13 +540,18 @@ const mapDispatchToProps = {
     setLinkdropAmount
 };
 
-const mapStateToProps = ({ account, router, recoveryMethods, status }, { match }) => ({
-    ...account,
-    router,
-    accountId: match.params.accountId,
-    activeAccountId: account.accountId,
-    recoveryMethods,
-    mainLoader: status.mainLoader
-});
+const mapStateToProps = (state, { match }) => {
+    const { account, router, status } = state;
+    
+    return {
+        ...account,
+        router,
+        accountId: match.params.accountId,
+        activeAccountId: account.accountId,
+        recoveryMethods: selectRecoveryMethodsByAccountId(state, { accountId: selectAccountId(state) }),
+        mainLoader: status.mainLoader,
+        recoveryMethodsLoader: selectRecoveryMethodsLoading(state, { accountId: match.params.accountId })
+    };
+};
 
 export const SetupRecoveryMethodWithRouter = connect(mapStateToProps, mapDispatchToProps)(withGoogleReCaptcha(SetupRecoveryMethod));

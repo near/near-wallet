@@ -11,14 +11,15 @@ import {
     refreshAccount,
     checkIsNew,
     handleCreateAccountWithSeedPhrase,
-    fundCreateAccount,
-    loadRecoveryMethods
+    fundCreateAccount
 } from '../../redux/actions/account';
 import { clearGlobalAlert, showCustomAlert } from '../../redux/actions/status';
 import { actions as linkdropActions } from '../../redux/slices/linkdrop';
+import { actions as recoveryMethodsActions, selectRecoveryMethodsByAccountId, selectRecoveryMethodsLoading } from '../../redux/slices/recoveryMethods';
 import copyText from '../../utils/copyText';
 import isMobile from '../../utils/isMobile';
 import parseFundingOptions from '../../utils/parseFundingOptions';
+import { wallet } from '../../utils/wallet';
 import { Snackbar, snackbarDuration } from '../common/Snackbar';
 import Container from '../common/styled/Container.css';
 import { isRetryableRecaptchaError } from '../Recaptcha';
@@ -26,6 +27,7 @@ import SetupSeedPhraseForm from './SetupSeedPhraseForm';
 import SetupSeedPhraseVerify from './SetupSeedPhraseVerify';
 
 const { setLinkdropAmount } = linkdropActions;
+const { fetchRecoveryMethods } = recoveryMethodsActions;
 
 // FIXME: Use `debug` npm package so we can keep some debug logging around but not spam the console everywhere
 const ENABLE_DEBUG_LOGGING = false;
@@ -47,11 +49,11 @@ class SetupSeedPhrase extends Component {
     }
 
     componentDidMount = async () => {
-
+        const { accountId, fetchRecoveryMethods } = this.props;
         this.refreshData();
 
-        if (this.props.accountId === this.props.activeAccountId) {
-            this.props.loadRecoveryMethods();
+        if (accountId === wallet.accountId) {
+            fetchRecoveryMethods({ accountId });
         }
 
         // We need to know if the account is new so when we render SetupSeedPhraseVerify, it doesn't load reCaptcha if its an existing account
@@ -105,7 +107,8 @@ class SetupSeedPhrase extends Component {
             this.setState(() => ({
                 localAlert: {
                     success: false,
-                    messageCode: 'account.verifySeedPhrase.error'
+                    messageCode: 'account.verifySeedPhrase.error',
+                    show: true
                 }
             }));
             Mixpanel.track("SR-SP Verify fail", { error: 'word is not matched the phrase' });
@@ -210,8 +213,8 @@ class SetupSeedPhrase extends Component {
     }
 
     render() {
-        const recoveryMethods = this.props.recoveryMethods[this.props.accountId];
-        const hasSeedPhraseRecovery = recoveryMethods && recoveryMethods.filter(m => m.kind === 'phrase').length > 0;
+        const { recoveryMethods, recoveryMethodsLoader } = this.props;
+        const hasSeedPhraseRecovery = recoveryMethodsLoader || recoveryMethods.filter(m => m.kind === 'phrase').length > 0;
         const { seedPhrase, enterWord, wordId, submitting, localAlert, isNewAccount, successSnackbar } = this.state;
 
         return (
@@ -257,6 +260,7 @@ class SetupSeedPhrase extends Component {
                                             isNewAccount={isNewAccount}
                                             onSubmit={this.handleOnSubmit}
                                             isLinkDrop={parseFundingOptions(this.props.location.search) !== null}
+                                            hasSeedPhraseRecovery={hasSeedPhraseRecovery}
                                         />
                                     </form>
                                 </Container>
@@ -282,18 +286,23 @@ const mapDispatchToProps = {
     checkIsNew,
     handleCreateAccountWithSeedPhrase,
     fundCreateAccount,
-    loadRecoveryMethods,
+    fetchRecoveryMethods,
     showCustomAlert,
     setLinkdropAmount
 };
 
-const mapStateToProps = ({ account, recoveryMethods, status }, { match }) => ({
-    ...account,
-    verify: match.params.verify,
-    accountId: match.params.accountId,
-    activeAccountId: account.accountId,
-    recoveryMethods,
-    mainLoader: status.mainLoader
-});
+const mapStateToProps = (state, { match }) => {
+
+    const { account, status } = state;
+    
+    return {
+        ...account,
+        verify: match.params.verify,
+        accountId: match.params.accountId,
+        recoveryMethods: selectRecoveryMethodsByAccountId(state, { accountId: match.params.accountId }),
+        mainLoader: status.mainLoader,
+        recoveryMethodsLoader: selectRecoveryMethodsLoading(state, { accountId: match.params.accountId })
+    };
+};
 
 export const SetupSeedPhraseWithRouter = connect(mapStateToProps, mapDispatchToProps)(withRouter(SetupSeedPhrase));

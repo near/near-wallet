@@ -1,15 +1,16 @@
+import { parse as parseQuery } from 'query-string';
 import React, { useState } from 'react';
 import { Translate } from 'react-localize-redux';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { Mixpanel } from '../../../mixpanel/index';
-import { 
-    signInWithLedger, 
+import {
+    signInWithLedger,
     redirectToApp,
     redirectTo,
-    refreshAccount, 
-    signInWithLedgerAddAndSaveAccounts, 
-    checkAccountAvailable, 
+    refreshAccount,
+    signInWithLedgerAddAndSaveAccounts,
+    checkAccountAvailable,
     clearSignInWithLedgerModalState,
     clearAccountState
 } from '../../../redux/actions/account';
@@ -34,20 +35,20 @@ export function SignInLedger(props) {
 
     const account = useSelector(({ account }) => account);
     const status = useSelector(({ status }) => status);
-    const { signInWithLedger: signInWithLedgerState, txSigned, signInWithLedgerStatus} = useSelector(({ ledger }) => ledger);
-    
+    const { signInWithLedger: signInWithLedgerState, txSigned, signInWithLedgerStatus } = useSelector(({ ledger }) => ledger);
+
     const signInWithLedgerKeys = Object.keys(signInWithLedgerState || {});
 
     const ledgerAccounts = signInWithLedgerKeys.map((accountId) => ({
         accountId,
         status: signInWithLedgerState[accountId].status
     }));
-    
+
     const accountsApproved = signInWithLedgerKeys.reduce((a, accountId) => signInWithLedgerState[accountId].status === 'success' ? a + 1 : a, 0);
     const accountsError = signInWithLedgerKeys.reduce((a, accountId) => signInWithLedgerState[accountId].status === 'error' ? a + 1 : a, 0);
     const accountsRejected = signInWithLedgerKeys.reduce((a, accountId) => signInWithLedgerState[accountId].status === 'rejected' ? a + 1 : a, 0);
     const totalAccounts = signInWithLedgerKeys.length;
-    
+
     const signingIn = !!signInWithLedgerStatus;
 
     const handleChange = (value) => {
@@ -57,7 +58,7 @@ export function SignInLedger(props) {
     const handleSignIn = async () => {
         setLoader(false);
         await Mixpanel.withTracking("IE-Ledger Sign in",
-            async () =>{
+            async () => {
                 await dispatch(signInWithLedger(ledgerHdPath));
                 refreshAndRedirect();
             }
@@ -67,7 +68,7 @@ export function SignInLedger(props) {
     const handleAdditionalAccountId = async () => {
         setLoader(true);
         await Mixpanel.withTracking("IE-Ledger Handle additional accountId",
-            async () =>{
+            async () => {
                 await dispatch(signInWithLedgerAddAndSaveAccounts([accountId], ledgerHdPath));
                 setLoader(false);
                 refreshAndRedirect();
@@ -76,13 +77,22 @@ export function SignInLedger(props) {
     };
 
     const refreshAndRedirect = () => {
-        const options = parseFundingOptions(props.history.location.search);
         dispatch(refreshAccount());
-        if (options) {
-            dispatch(redirectTo(`/linkdrop/${options.fundingContract}/${options.fundingKey}`));
+
+        const { search } = props.history.location;
+        const fundWithExistingAccount = parseQuery(search, { parseBooleans: true }).fundWithExistingAccount;
+        if (fundWithExistingAccount) {
+            const createNewAccountParams = new URLSearchParams(JSON.parse(fundWithExistingAccount)).toString();
+            dispatch(redirectTo(`/fund-with-existing-account?${createNewAccountParams}`));
         } else {
-            dispatch(redirectToApp());
+            const options = parseFundingOptions(search);
+            if (options) {
+                dispatch(redirectTo(`/linkdrop/${options.fundingContract}/${options.fundingKey}`));
+            } else {
+                dispatch(redirectToApp());
+            }
         }
+
         dispatch(clearAccountState());
     };
 
@@ -98,11 +108,11 @@ export function SignInLedger(props) {
 
     return (
         <Container className='small-centered border ledger-theme'>
-            <h1><Translate id='signInLedger.header'/></h1>
-            <LedgerImage/>
-            <h2><Translate id='signInLedger.one'/></h2>
-            <br/>
-            <LocalAlertBox localAlert={status.localAlert}/>
+            <h1><Translate id='signInLedger.header' /></h1>
+            <LedgerImage />
+            <h2><Translate id='signInLedger.one' /></h2>
+            <br />
+            <LocalAlertBox localAlert={status.localAlert} />
             <LedgerHdPaths
                 path={path}
                 onSetPath={path => setPath(path)}
@@ -116,21 +126,21 @@ export function SignInLedger(props) {
                 sending={signingIn}
                 sendingString='button.signingIn'
             >
-                <Translate id={`button.${status.localAlert && !status.localAlert.success ? 'retry' : 'signIn'}`}/>
+                <Translate id={`button.${status.localAlert && !status.localAlert.success ? 'retry' : 'signIn'}`} />
             </FormButton>
-            <FormButton 
-                className='link red' 
+            <FormButton
+                className='link red'
                 onClick={() => props.history.goBack()}
                 trackingId='IE-Ledger Click cancel button'
             >
-                <Translate id='button.cancel'/>
+                <Translate id='button.cancel' />
             </FormButton>
 
             {signingIn &&
-                <LedgerSignInModal 
-                    open={signingIn} 
+                <LedgerSignInModal
+                    open={signingIn}
                     onClose={onClose}
-                    ledgerAccounts={ledgerAccounts} 
+                    ledgerAccounts={ledgerAccounts}
                     accountsApproved={accountsApproved}
                     accountsError={accountsError}
                     accountsRejected={accountsRejected}

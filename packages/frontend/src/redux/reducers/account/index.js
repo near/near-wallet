@@ -8,7 +8,6 @@ import {
     clearCode,
     promptTwoFactor,
     refreshUrl,
-    refreshAccountOwner,
     resetAccounts,
     checkCanEnableTwoFactor,
     get2faMethod,
@@ -23,6 +22,7 @@ import {
 import {
     staking
 } from '../../actions/staking';
+import refreshAccountOwner from '../../sharedThunks/refreshAccountOwner';
 
 const initialState = {
     formLoader: false,
@@ -104,21 +104,15 @@ const ledgerKey = handleActions({
 }, initialState);
 
 const account = handleActions({
-    [refreshAccountOwner]: (state, { payload, ready, meta }) => {
-
-        if (!ready) {
-            return {
-                ...state,
-                loader: meta.accountId !== state.accountId
-            };
-        }
-
+    [refreshAccountOwner.fulfilled]: (state, { payload }) => {
         const resetAccountState = {
             globalAlertPreventClear: payload && payload.globalAlertPreventClear,
-            resetAccount: (state.resetAccount && state.resetAccount.preventClear) ? {
-                ...state.resetAccount,
-                preventClear: false
-            } : payload && payload.resetAccount
+            resetAccount: (state.resetAccount && state.resetAccount.preventClear) 
+                ? {
+                    ...state.resetAccount,
+                    preventClear: false
+                }
+                : payload && payload.resetAccount
         };
 
         return {
@@ -225,3 +219,5 @@ export default reduceReducers(
 export const selectAccount = (state) => state.account;
 export const selectAccountId = createSelector(selectAccount, (account) => account.accountId);
 export const selectBalance = createSelector(selectAccount, (account) => account.balance);
+export const selectAccountsBalances = createSelector(selectAccount, (account) => account.accountsBalance);
+export const signedInAccountIdLocalStorage = createSelector(selectAccount, (account) => account.localStorage?.accountId);

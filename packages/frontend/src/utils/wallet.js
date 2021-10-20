@@ -18,7 +18,7 @@ import {
 import sendJson from '../tmp_fetch_send_json';
 import { decorateWithLockup } from './account-with-lockup';
 import { getAccountIds } from './helper-api';
-import { setAccountConfirmed, getAccountConfirmed, setAccountIsInactive, getAccountIsInactive } from './localStorage';
+import { setAccountConfirmed, getAccountConfirmed, setAccountIsInactive, getAccountIsInactive, setReleaseNotesClosed } from './localStorage';
 import { TwoFactor } from './twoFactor';
 import { WalletError } from './walletError';
 
@@ -54,13 +54,14 @@ export const ACCOUNT_ID_SUFFIX = process.env.REACT_APP_ACCOUNT_ID_SUFFIX || 'tes
 export const MULTISIG_MIN_AMOUNT = process.env.REACT_APP_MULTISIG_MIN_AMOUNT || '4';
 export const MULTISIG_MIN_PROMPT_AMOUNT = process.env.REACT_APP_MULTISIG_MIN_PROMPT_AMOUNT || '200';
 export const LOCKUP_ACCOUNT_ID_SUFFIX = process.env.LOCKUP_ACCOUNT_ID_SUFFIX || 'lockup.near';
-export const MIN_BALANCE_FOR_GAS = process.env.REACT_APP_MIN_BALANCE_FOR_GAS || nearApiJs.utils.format.parseNearAmount('0.01');
+export const MIN_BALANCE_FOR_GAS = process.env.REACT_APP_MIN_BALANCE_FOR_GAS || nearApiJs.utils.format.parseNearAmount('0.05');
 export const ACCESS_KEY_FUNDING_AMOUNT = process.env.REACT_APP_ACCESS_KEY_FUNDING_AMOUNT || nearApiJs.utils.format.parseNearAmount('0.25');
 export const LINKDROP_GAS = process.env.LINKDROP_GAS || '100000000000000';
 export const ENABLE_FULL_ACCESS_KEYS = process.env.ENABLE_FULL_ACCESS_KEYS === 'yes';
 export const HIDE_SIGN_IN_WITH_LEDGER_ENTER_ACCOUNT_ID_MODAL = process.env.HIDE_SIGN_IN_WITH_LEDGER_ENTER_ACCOUNT_ID_MODAL;
 export const SMS_BLACKLIST = process.env.SMS_BLACKLIST || 'CN,VN';
 export const EXPLORE_APPS_URL = process.env.EXPLORE_APPS_URL || 'https://awesomenear.com/trending/';
+export const EXPLORE_DEFI_URL = process.env.EXPLORE_DEFI_URL || 'https://awesomenear.com/categories/defi/';
 export const MIN_BALANCE_TO_CREATE = process.env.MIN_BALANCE_TO_CREATE || nearApiJs.utils.format.parseNearAmount('0.1');
 export const NETWORK_ID = process.env.REACT_APP_NETWORK_ID || 'default';
 export const DISABLE_PHONE_RECOVERY = process.env.DISABLE_PHONE_RECOVERY === 'yes';
@@ -80,6 +81,7 @@ const KEY_UNIQUE_PREFIX = '_4:';
 const KEY_WALLET_ACCOUNTS = KEY_UNIQUE_PREFIX + 'wallet:accounts_v2';
 export const KEY_ACTIVE_ACCOUNT_ID = KEY_UNIQUE_PREFIX + 'wallet:active_account_id_v2';
 const ACCOUNT_ID_REGEX = /^(([a-z\d]+[-_])*[a-z\d]+\.)*([a-z\d]+[-_])*[a-z\d]+$/;
+export const RELEASE_NOTES_MODAL_VERSION = 'v0.01.2';
 
 export const keyAccountConfirmed = (accountId) => `wallet.account:${accountId}:${NETWORK_ID}:confirmed`;
 export const keyStakingAccountSelected = () => `wallet.account:${wallet.accountId}:${NETWORK_ID}:stakingAccount`;
@@ -211,7 +213,7 @@ class Wallet {
         } catch (error) {
             console.log('Error loading account:', error.message);
 
-            if (error.toString().indexOf(`ccount ${this.accountId} does not exist while viewing`) !== -1) {
+            if (error.toString().indexOf(`does not exist while viewing`) !== -1) {
                 const accountId = this.accountId;
                 const accountIdNotConfirmed = !getAccountConfirmed(accountId);
 
@@ -432,18 +434,51 @@ class Wallet {
         await this.addLocalKeyAndFinishSetup(accountId, recoveryMethod, publicKey, previousAccountId);
     }
 
-    async createNewAccountFromAnother(accountId, fundingAccountId, publicKey) {
-        const account = await this.getAccount(fundingAccountId);
+    async createNewAccountWithNearContract({
+        account,
+        newAccountId,
+        newPublicKey,
+        newInitialBalance
+    }) {
         const { status: { SuccessValue: createResultBase64 }, transaction: { hash: transactionHash } } =
             await account.functionCall(ACCOUNT_ID_SUFFIX, 'create_account', {
-                new_account_id: accountId,
-                new_public_key: publicKey.toString().replace(/^ed25519:/, '')
-                // TODO: Adjust gas if necessary
-            }, LINKDROP_GAS, MIN_BALANCE_FOR_GAS);
+                new_account_id: newAccountId,
+                new_public_key: newPublicKey.toString().replace(/^ed25519:/, '')
+            }, LINKDROP_GAS, newInitialBalance);
         const createResult = JSON.parse(Buffer.from(createResultBase64, 'base64'));
         if (!createResult) {
             throw new WalletError('Creating account has failed', 'createAccount.returnedFalse', { transactionHash });
         }
+    }
+
+    async createNewAccountWithCurrentActiveAccount({
+        newAccountId,
+        implicitAccountId,
+        newInitialBalance,
+        recoveryMethod
+    }) {
+        await this.checkNewAccount(newAccountId);
+        const newPublicKey = new PublicKey({ keyType: KeyType.ED25519, data: Buffer.from(implicitAccountId, 'hex') });
+        const account = await this.getAccount(this.accountId);
+        await this.createNewAccountWithNearContract({
+            account,
+            newAccountId,
+            newPublicKey,
+            newInitialBalance
+        });
+        await this.saveAndMakeAccountActive(newAccountId);
+        await this.addLocalKeyAndFinishSetup(newAccountId, recoveryMethod, newPublicKey);
+    }
+
+    async createNewAccountFromAnother(accountId, fundingAccountId, publicKey) {
+        const account = await this.getAccount(fundingAccountId);
+
+        await this.createNewAccountWithNearContract({
+            account,
+            newAccountId: accountId,
+            newPublicKey: publicKey,
+            newInitialBalance: MIN_BALANCE_FOR_GAS
+        });
 
         if (this.accounts[fundingAccountId] || fundingAccountId.length !== 64) {
             return;
@@ -633,19 +668,19 @@ class Wallet {
         }
 
         const checkedAccountIds = (await Promise.all(
-                accountIds
-                    .map(async (accountId) => {
-                        try {
-                            const accountKeys = await (await this.getAccount(accountId)).getAccessKeys();
-                            return accountKeys.find(({ public_key }) => public_key === publicKey.toString()) ? accountId : null;
-                        } catch (error) {
-                            if (error.toString().indexOf('does not exist while viewing') !== -1) {
-                                return null;
-                            }
-                            throw error;
+            accountIds
+                .map(async (accountId) => {
+                    try {
+                        const accountKeys = await (await this.getAccount(accountId)).getAccessKeys();
+                        return accountKeys.find(({ public_key }) => public_key === publicKey.toString()) ? accountId : null;
+                    } catch (error) {
+                        if (error.toString().indexOf('does not exist while viewing') !== -1) {
+                            return null;
                         }
-                    })
-            )
+                        throw error;
+                    }
+                })
+        )
         )
             .filter(accountId => accountId);
 
@@ -726,6 +761,10 @@ class Wallet {
 
     async getBalance(accountId, limitedAccountData = false) {
         accountId = accountId || this.accountId;
+        if (!accountId) {
+            return false;
+        }
+        
         const account = await this.getAccount(accountId);
         return await account.getAccountBalance(limitedAccountData);
     }
@@ -801,19 +840,15 @@ class Wallet {
         }
     }
 
-    async getRecoveryMethods(account) {
-        const accountId = account ? account.accountId : this.accountId;
-        let recoveryMethods = await this.postSignedJson('/account/recoveryMethods', { accountId }, account);
+    async getRecoveryMethods() {
+        const { accountId } = this;
+        let recoveryMethods = await this.postSignedJson('/account/recoveryMethods', { accountId });
         const accessKeys = await this.getAccessKeys();
         const publicKeys = accessKeys.map(key => key.public_key);
         const publicKeyMethods = recoveryMethods.filter(({ publicKey }) => publicKeys.includes(publicKey));
         const twoFactorMethods = recoveryMethods.filter(({ kind }) => kind.indexOf('2fa-') === 0);
-        const allMethods = [...publicKeyMethods, ...twoFactorMethods];
 
-        return {
-            accountId,
-            data: allMethods
-        };
+        return [...publicKeyMethods, ...twoFactorMethods];
     }
 
     async addLocalKeyAndFinishSetup(accountId, recoveryMethod, publicKey, previousAccountId) {
@@ -842,6 +877,7 @@ class Wallet {
             }
         }
 
+        setReleaseNotesClosed(RELEASE_NOTES_MODAL_VERSION);
         await store.dispatch(finishAccountSetup());
     }
 
