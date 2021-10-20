@@ -1,4 +1,4 @@
-import { createMatchSelector, getRouter } from 'connected-react-router';
+import { getRouter } from 'connected-react-router';
 import { KeyPair } from 'near-api-js';
 import { parseSeedPhrase } from 'near-seed-phrase';
 import React, { Component, createRef } from 'react';
@@ -541,9 +541,8 @@ const mapDispatchToProps = {
     setLinkdropAmount
 };
 
-const mapStateToProps = (state) => {
-    const matchSelector = createMatchSelector('/set-recovery/:accountId/:fundingContract?/:fundingKey?');
-    const accountId = matchSelector(state)?.params.accountId;
+const mapStateToProps = (state, { match }) => {
+    const accountId = match.params.accountId;
     
     return {
         ...selectAccountSlice(state),
