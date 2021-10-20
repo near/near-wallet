@@ -1,7 +1,6 @@
-import { createMatchSelector } from 'connected-react-router';
 import React, { useState } from 'react';
 import { Translate } from 'react-localize-redux';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import { Mixpanel } from '../../../mixpanel';
 import { redirectTo } from '../../../redux/actions/account';
@@ -23,8 +22,7 @@ export default function Validator({
 }) {
     const [confirm, setConfirm] = useState(null);
     const dispatch = useDispatch();
-    const validatorParam = useSelector(createMatchSelector('/staking/:validator'))?.params.validator;
-    const stakeNotAllowed = !!selectedValidator && selectedValidator !== validatorParam && !!currentValidators.length;
+    const stakeNotAllowed = !!selectedValidator && selectedValidator !== match.params.validator && !!currentValidators.length;
     const showConfirmModal = confirm === 'withdraw';
 
     const handleStakeAction = async () => {
@@ -44,9 +42,9 @@ export default function Validator({
                 />
                 : null
             }
-            <h1><SafeTranslate id='staking.validator.title' data={{ validator: validatorParam }}/></h1>
+            <h1><SafeTranslate id='staking.validator.title' data={{ validator: match.params.validator }}/></h1>
             <FormButton
-                linkTo={`/staking/${validatorParam}/stake`} 
+                linkTo={`/staking/${match.params.validator}/stake`} 
                 disabled={(stakeNotAllowed || !validator) ? true : false}
                 trackingId="STAKE Click stake with validator button"
             >
@@ -60,7 +58,7 @@ export default function Validator({
                         info='staking.balanceBox.staked.info'
                         amount={validator.staked || '0'}
                         onClick={() => {
-                            dispatch(redirectTo(`/staking/${validatorParam}/unstake`));
+                            dispatch(redirectTo(`/staking/${match.params.validator}/unstake`));
                             Mixpanel.track("UNSTAKE Click unstake button");
                         }}
                         button='staking.balanceBox.staked.button'
