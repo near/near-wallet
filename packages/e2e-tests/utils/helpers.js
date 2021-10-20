@@ -16,7 +16,12 @@ function getKeyPairFromSeedPhrase(seedPhrase) {
     return KeyPair.fromString(parseSeedPhrase(seedPhrase).secretKey);
 }
 
+function generateTestAccountId() {
+    return `twa-${Date.now()}-${Math.floor(Math.random() * 1000) % 1000}`;
+}
+
 module.exports = {
     generateNUniqueRandomNumbersInRange,
     getKeyPairFromSeedPhrase,
+    generateTestAccountId
 };

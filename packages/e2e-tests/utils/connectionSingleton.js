@@ -28,12 +28,10 @@ class NearAPIJsConnection {
 
     async setKeyPair({ accountId, keyPair }) {
         await this.config.keyStore.setKey(this.config.networkId, accountId, keyPair);
-        await this.getConnection();
     }
 
     async setKeyPairFromSeedPhrase({ accountId, seedPhrase }) {
         await this.config.keyStore.setKey(this.config.networkId, accountId, getKeyPairFromSeedPhrase(seedPhrase));
-        await this.getConnection();
     }
 }
 

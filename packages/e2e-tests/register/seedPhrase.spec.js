@@ -2,8 +2,8 @@ const { test, expect } = require("@playwright/test");
 
 const {
     generateTestAccountId,
-    E2eTestAccount,
-} = require("../utils/account");
+} = require("../utils/helpers");
+const E2eTestAccount = require('../utils/E2eTestAccount');
 const { walletNetwork } = require("../utils/config");
 const { HomePage } = require("./models/Home");
 const { CreateAccountPage } = require("./models/CreateAccount");
