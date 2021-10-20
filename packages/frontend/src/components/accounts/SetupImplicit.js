@@ -1,5 +1,4 @@
 import BN from 'bn.js';
-import { createMatchSelector } from 'connected-react-router';
 import React, { Component } from 'react';
 import { Translate } from 'react-localize-redux';
 import { connect } from 'react-redux';
@@ -283,18 +282,14 @@ class SetupImplicit extends Component {
     }
 }
 
-const mapStateToProps = (state) => {
-    const matchSelector = createMatchSelector('/recover-with-link/:accountId/:seedPhrase');
-    
-    return {
-        ...selectAccountSlice(state),
-        activeAccountId: selectAccountId(state),
-        newAccountId: matchSelector(state)?.params.accountId,
-        implicitAccountId: matchSelector(state)?.params.implicitAccountId,
-        recoveryMethod: matchSelector(state)?.params.recoveryMethod,
-        mainLoader: selectStatusMainLoader(state),
-        nearTokenFiatValueUSD: selectNearTokenFiatValueUSD(state)
-    };
-};
+const mapStateToProps = (state, { match: { params: { accountId, implicitAccountId, recoveryMethod } } }) => ({
+    ...selectAccountSlice(state),
+    activeAccountId: selectAccountId(state),
+    newAccountId: accountId,
+    implicitAccountId,
+    recoveryMethod,
+    mainLoader: selectStatusMainLoader(state),
+    nearTokenFiatValueUSD: selectNearTokenFiatValueUSD(state)
+});
 
 export const SetupImplicitWithRouter = connect(mapStateToProps)(withRouter(SetupImplicit));
