@@ -5,10 +5,10 @@ import { withRouter, Link } from 'react-router-dom';
 import { Grid } from 'semantic-ui-react';
 import styled from 'styled-components';
 
+import { EXPLORER_URL } from '../../config';
 import IconArrowLeft from '../../images/IconArrowLeft';
 import { showCustomAlert } from '../../redux/actions/status';
 import { selectAccountUrlContractId } from '../../redux/slices/account';
-import { EXPLORER_URL } from '../../utils/wallet';
 import SafeTranslate from '../SafeTranslate';
 
 const CustomGrid = styled(Grid)`

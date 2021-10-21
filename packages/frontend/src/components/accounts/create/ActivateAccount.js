@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 
+import { MIN_BALANCE_FOR_GAS } from '../../../config';
 import { Mixpanel } from '../../../mixpanel';
 import { redirectTo, clearFundedAccountNeedsDeposit, getBalance, getAccountHelperWalletState } from '../../../redux/actions/account';
 import { selectAccountFundedAccountNeedsDeposit, selectAccountRequiredUnlockBalance, selectAccountSlice } from '../../../redux/slices/account';
@@ -12,7 +13,6 @@ import { selectStatusMainLoader } from '../../../redux/slices/status';
 import { selectNearTokenFiatValueUSD } from '../../../redux/slices/tokenFiatValues';
 import { removeAccountIsInactive } from '../../../utils/localStorage';
 import { isMoonpayAvailable, getSignedUrl } from '../../../utils/moonpay';
-import { MIN_BALANCE_FOR_GAS } from '../../../utils/wallet';
 import { getNearAndFiatValue } from '../../common/balance/helpers';
 import Divider from '../../common/Divider';
 import FormButton from '../../common/FormButton';

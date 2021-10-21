@@ -1,4 +1,4 @@
-import { SMS_BLACKLIST } from './wallet';
+import { SMS_BLACKLIST } from '../config';
 
 const isApprovedCountryCode = (countryCode) => {
     const blackList = SMS_BLACKLIST.replace(/\s/g, "").split(",");

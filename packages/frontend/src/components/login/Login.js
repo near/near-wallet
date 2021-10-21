@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, Route } from 'react-router-dom';
 
+import { LOCKUP_ACCOUNT_ID_SUFFIX } from '../../config';
 import { Mixpanel } from '../../mixpanel/index';
 import { handleRefreshUrl, switchAccount, allowLogin, redirectToApp } from '../../redux/actions/account';
 import { clearLocalAlert } from '../../redux/actions/status';
 import { selectAccountSlice, selectAccountUrlReferrer } from '../../redux/slices/account';
-import { LOCKUP_ACCOUNT_ID_SUFFIX } from '../../utils/wallet';
 import LoginConfirm from './LoginConfirm';
 import LoginContainer from './LoginContainer';
 import LoginDetails from './LoginDetails';

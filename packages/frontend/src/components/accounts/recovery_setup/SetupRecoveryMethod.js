@@ -9,6 +9,7 @@ import { connect } from 'react-redux';
 import styled from 'styled-components';
 
 
+import { DISABLE_CREATE_ACCOUNT, DISABLE_PHONE_RECOVERY } from '../../../config';
 import { Mixpanel } from '../../../mixpanel/index';
 import * as accountActions from '../../../redux/actions/account';
 import { showCustomAlert } from '../../../redux/actions/status';
@@ -20,9 +21,7 @@ import { validateEmail } from '../../../utils/account';
 import { actionsPending } from '../../../utils/alerts';
 import isApprovedCountryCode from '../../../utils/isApprovedCountryCode';
 import parseFundingOptions from '../../../utils/parseFundingOptions';
-import { DISABLE_PHONE_RECOVERY } from '../../../utils/wallet';
 import {
-    DISABLE_CREATE_ACCOUNT,
     ENABLE_IDENTITY_VERIFIED_ACCOUNT,
     wallet
 } from '../../../utils/wallet';

@@ -2,6 +2,7 @@ import { getLocation } from 'connected-react-router';
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
+import { LINKDROP_GAS, MIN_BALANCE_TO_CREATE } from '../../../../config';
 import { Mixpanel } from '../../../../mixpanel';
 import {
     switchAccount,
@@ -12,7 +13,7 @@ import {
 import { showCustomAlert } from '../../../../redux/actions/status';
 import { selectAccountAccountsBalances, selectAccountLocalStorageAccountId, selectBalance } from '../../../../redux/slices/account';
 import { selectAvailableAccounts } from '../../../../redux/slices/availableAccounts';
-import { MIN_BALANCE_TO_CREATE, LINKDROP_GAS, wallet } from '../../../../utils/wallet';
+import { wallet } from '../../../../utils/wallet';
 import FundNewAccount from './FundNewAccount';
 import SelectAccount from './SelectAccount';
 

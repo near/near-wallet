@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
+import { ACCOUNT_ID_SUFFIX, IS_MAINNET, MIN_BALANCE_TO_CREATE } from '../../config';
 import { Mixpanel } from '../../mixpanel/index';
 import {
     checkNearDropBalance,
@@ -19,10 +20,7 @@ import { selectStatusLocalAlert, selectStatusMainLoader } from '../../redux/slic
 import { selectNearTokenFiatValueUSD } from '../../redux/slices/tokenFiatValues';
 import isMobile from '../../utils/isMobile';
 import {
-    ACCOUNT_ID_SUFFIX,
-    ENABLE_IDENTITY_VERIFIED_ACCOUNT,
-    IS_MAINNET,
-    MIN_BALANCE_TO_CREATE
+    ENABLE_IDENTITY_VERIFIED_ACCOUNT
 } from '../../utils/wallet';
 import AccountNote from '../common/AccountNote';
 import { getNearAndFiatValue } from '../common/balance/helpers';

@@ -10,6 +10,7 @@ import { Redirect, Switch } from 'react-router-dom';
 import styled, { ThemeProvider } from 'styled-components';
 
 import TwoFactorVerifyModal from '../components/accounts/two_factor/TwoFactorVerifyModal';
+import { IS_MAINNET, PUBLIC_URL, SHOW_PRERELEASE_WARNING } from '../config';
 import { Mixpanel } from "../mixpanel/index";
 import * as accountActions from '../redux/actions/account';
 import { selectAccountSlice } from '../redux/slices/account';
@@ -27,8 +28,6 @@ import { getAccountIsInactive, removeAccountIsInactive, setAccountIsInactive } f
 import { reportUiActiveMixpanelThrottled } from '../utils/reportUiActiveMixpanelThrottled';
 import ScrollToTop from '../utils/ScrollToTop';
 import { 
-    IS_MAINNET, 
-    SHOW_PRERELEASE_WARNING, 
     WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS,
     WALLET_LOGIN_URL,
     WALLET_SIGN_URL,
@@ -90,7 +89,7 @@ const  {
 
 const theme = {};
 
-const PATH_PREFIX = process.env.PUBLIC_URL;
+const PATH_PREFIX = PUBLIC_URL;
 
 const Container = styled.div`
     min-height: 100vh;

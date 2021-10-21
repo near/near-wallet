@@ -2,6 +2,7 @@ import { utils } from 'near-api-js';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
+import { EXPLORER_URL } from '../../config';
 import { useFungibleTokensIncludingNEAR } from '../../hooks/fungibleTokensIncludingNEAR';
 import { Mixpanel } from '../../mixpanel/index';
 import { checkAccountAvailable, redirectTo } from '../../redux/actions/account';
@@ -13,7 +14,7 @@ import { selectNearTokenFiatValueUSD } from '../../redux/slices/tokenFiatValues'
 import { actions as tokensActions } from '../../redux/slices/tokens';
 import { fungibleTokensService } from '../../services/FungibleTokens';
 import isMobile from '../../utils/isMobile';
-import { EXPLORER_URL, SHOW_NETWORK_BANNER } from '../../utils/wallet';
+import { SHOW_NETWORK_BANNER } from '../../utils/wallet';
 import SendContainerV2, { VIEWS } from './SendContainerV2';
 
 const { parseNearAmount, formatNearAmount } = utils.format;
