@@ -2,8 +2,8 @@ const { test, expect } = require("@playwright/test");
 
 const {
     generateTestAccountId,
-    E2eTestAccount,
 } = require("../utils/account");
+const E2eTestAccount = require('../utils/E2eTestAccount')
 const { HomePage } = require("./models/Home");
 const { CreateAccountPage } = require("./models/CreateAccount");
 const { SetRecoveryOptionPage } = require("./models/SetRecoveryOption");

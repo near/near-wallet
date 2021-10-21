@@ -24,15 +24,23 @@ class E2eTestAccount {
         const near = await nearApiJsConnection.getConnection();
         this.nearApiJsAccount = await near.account(this.accountId);
     }
-    async create({ amount } = { amount: "1.0" }) {
-        await this.parentNearApiJsAccount.createAccount(
-            this.accountId,
-            getKeyPairFromSeedPhrase(this.seedPhrase).publicKey,
-            parseNearAmount(amount)
-        );
+    async create({ amount, contractWasm } = { amount: "1.0" }) {
+        if (contractWasm) {
+            await this.parentNearApiJsAccount.createAndDeployContract(
+                this.accountId,
+                getKeyPairFromSeedPhrase(this.seedPhrase).publicKey,
+                contractWasm,
+                parseNearAmount(amount)
+            );
+        } else {
+            await this.parentNearApiJsAccount.createAccount(
+                this.accountId,
+                getKeyPairFromSeedPhrase(this.seedPhrase).publicKey,
+                parseNearAmount(amount)
+            );
+        }
         this.isCreated = true;
-        await this.initialize();
-        return this;
+        return this.initialize();
     }
     spawnRandomSubAccountInstance() {
         if (!this.nearApiJsAccount) {
