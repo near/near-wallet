@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { getAccessKeys, removeAccessKey } from '../../../redux/actions/account';
-import { selectAccount, selectAccountId } from '../../../redux/reducers/account';
+import { selectAccountSlice, selectAccountId } from '../../../redux/slices/account';
 import AuthorizedAppsKeys from './AuthorizedAppsKeys';
 import FullAccessKeys from './FullAccessKeys';
 
@@ -13,7 +13,7 @@ export default ({ type }) => {
     const [deAuthorizingKey, setDeAuthorizingKey] = useState('');
     const [confirmDeAuthorizeKey, setConfirmDeAuthorizeKey] = useState('');
 
-    const account = useSelector(selectAccount);
+    const account = useSelector(selectAccountSlice);
     const accountId = useSelector(selectAccountId);
 
     // TODO: Use selectors once PR is merged to master:
