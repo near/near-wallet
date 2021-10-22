@@ -14,8 +14,6 @@ const StyledContainer = styled(Container)`
         color: #A2A2A8;
     }
     h3 {
-        font-size: 20px;
-        color: #272729;
         margin-top: 10px;
     }
     .button-group {

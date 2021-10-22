@@ -66,7 +66,7 @@ import Navigation from './navigation/Navigation';
 import { Profile } from './profile/Profile';
 import { ReceiveContainerWrapper } from './receive-money/ReceiveContainerWrapper';
 import { SendContainerWrapper } from './send/SendContainerWrapper';
-import { SignWithRouter } from './sign/Sign';
+import { SignWrapper } from './sign/v2/SignWrapper';
 import { StakingContainer } from './staking/StakingContainer';
 import Terms from './terms/Terms';
 import { Wallet } from './wallet/Wallet';
@@ -491,7 +491,7 @@ class Routing extends Component {
                             <PrivateRoute
                                 exact
                                 path='/sign'
-                                component={SignWithRouter}
+                                component={SignWrapper}
                             />
                             {!isInactiveAccount &&
                                 <PrivateRoute

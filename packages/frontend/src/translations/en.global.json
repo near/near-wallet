@@ -1367,7 +1367,12 @@
         "wasTransferredSuccessfully": "was transferred successfully",
         "authorizationRequestSuccessful": "Authorization request successful",
         "transferring": "Transferring",
-        "authorizing": "Authorizing"
+        "authorizing": "Authorizing",
+        "v2": {
+            "approveTransaction": {
+                "title": "Approve Transaction"
+            }
+        }
     },
 
     "availableBalanceInfo": "Your spendable NEAR balance excluding funds locked or staked. <a href='/profile'>View Balance Breakdown →</a>",

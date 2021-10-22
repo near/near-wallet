@@ -93,7 +93,7 @@ export default createGlobalStyle`
     h3, .h3 {
         font-size: 20px;
         font-weight: 900;
-        color: #24272a;
+        color: #272729;
         margin: 0px;
     }
     h4, .h4 {
