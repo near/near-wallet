@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
@@ -68,64 +68,66 @@ const StyledContainer = styled.div`
 export default ({
     open,
     onClose,
-    userInputValue,
-    onChangeUserInputValue,
     onConfirm,
     appReferrer,
     signedInAccountId,
     loggingIn
-}) => (
-    <Modal
-        id='grant-full-access-modal'
-        isOpen={open}
-        onClose={onClose}
-        modalSize='md'
-    >
-        <form onSubmit={e => {
-            onConfirm();
-            e.preventDefault();
-        }}>
-            <StyledContainer>
-                <div className='upper-body'>
-                    <div className='alert-triangle'><AlertTriangleIcon color='#DC1F25' /></div>
-                    <h3><Translate id='login.v2.connectConfirm.fullAccessModal.title' /></h3>
-                    <ConnectWithApplication appReferrer={appReferrer} />
-                    <div className='desc'>
-                        <Translate id='login.v2.connectConfirm.fullAccessModal.desc' />
+}) => {
+    const [userInputValue, setUserInputValue] = useState('');
+    return (
+        <Modal
+            id='grant-full-access-modal'
+            isOpen={open}
+            onClose={onClose}
+            modalSize='md'
+        >
+            <form onSubmit={e => {
+                onConfirm();
+                e.preventDefault();
+            }}>
+                <StyledContainer>
+                    <div className='upper-body'>
+                        <div className='alert-triangle'><AlertTriangleIcon color='#DC1F25' /></div>
+                        <h3><Translate id='login.v2.connectConfirm.fullAccessModal.title' /></h3>
+                        <ConnectWithApplication appReferrer={appReferrer} />
+                        <div className='desc'>
+                            <Translate id='login.v2.connectConfirm.fullAccessModal.desc' />
+                        </div>
                     </div>
-                </div>
-                <div className='input-label'><Translate id='input.accountId.title' /></div>
-                <Translate>
-                    {({ translate }) => (
-                        <input
-                            placeholder={translate('input.accountId.placeholder')}
-                            autoFocus={true}
-                            onChange={onChangeUserInputValue}
-                            value={userInputValue}
-                        />
-                    )}
-                </Translate>
-                <ModalFooter>
-                    <FormButton
-                        onClick={onClose}
-                        color='light-gray'
-                        className='link'
-                        type='button'
-                        disabled={loggingIn}
-                    >
-                        <Translate id='button.cancel' />
-                    </FormButton>
-                    <FormButton
-                        disabled={signedInAccountId !== userInputValue || loggingIn}
-                        onClick={onConfirm}
-                        sending={loggingIn}
-                        sendingString='button.connecting'
-                        type='submit'
-                    >
-                        <Translate id='button.confirm' />
-                    </FormButton>
-                </ModalFooter>
-            </StyledContainer>
-        </form>
-    </Modal>
-);
+                    <div className='input-label'><Translate id='input.accountId.title' /></div>
+                    <Translate>
+                        {({ translate }) => (
+                            <input
+                                placeholder={translate('input.accountId.placeholder')}
+                                autoFocus={true}
+                                onChange={(e) => setUserInputValue(e.target.value)}
+                                value={userInputValue}
+                            />
+                        )}
+                    </Translate>
+                    <ModalFooter>
+                        <FormButton
+                            onClick={onClose}
+                            color='light-gray'
+                            className='link'
+                            type='button'
+                            disabled={loggingIn}
+                        >
+                            <Translate id='button.cancel' />
+                        </FormButton>
+                        <FormButton
+                            disabled={signedInAccountId !== userInputValue || loggingIn}
+                            onClick={onConfirm}
+                            sending={loggingIn}
+                            sendingString='button.connecting'
+                            type='submit'
+                        >
+                            <Translate id='button.confirm' />
+                        </FormButton>
+                    </ModalFooter>
+                </StyledContainer>
+            </form>
+        </Modal>
+    );
+
+};

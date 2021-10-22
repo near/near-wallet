@@ -7,6 +7,7 @@ import FormButtonGroup from '../../common/FormButtonGroup';
 import LoadingDots from '../../common/loader/LoadingDots';
 import Container from '../../common/styled/Container.css';
 import ConnectWithApplication from './ConnectWithApplication';
+import { LOGIN_ACCESS_TYPES } from './LoginWrapper';
 import LoginStyle from './style/LoginStyle.css';
 
 export default ({
@@ -22,7 +23,7 @@ export default ({
     appReferrer
 }) => (
     <Container className='small-centered border'>
-        <LoginStyle className={loginAccessType === 'fullAccess' ? 'full-access' : ''}>
+        <LoginStyle className={loginAccessType === LOGIN_ACCESS_TYPES.FULL_ACCESS ? 'full-access' : ''}>
             <h3><Translate id='login.v2.connectWithNear.title' /></h3>
             <div className='desc'>
                 <Translate>

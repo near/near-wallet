@@ -26,12 +26,16 @@ import ConfirmLogin from './ConfirmLogin';
 import InvalidContractId from './InvalidContractId';
 import SelectAccount from './SelectAccount';
 
+export const LOGIN_ACCESS_TYPES = {
+    FULL_ACCESS: 'fullAccess',
+    LIMITED_ACCESS: 'limitedAccess'
+};
+
 export function LoginWrapper() {
     const dispatch = useDispatch();
 
-    const [loginView, setLoginView] = useState('selectAccount');
+    const [confirmLogin, setConfirmLogin] = useState(false);
     const [showGrantFullAccessModal, setShowGrantFullAccessModal] = useState(false);
-    const [userInputValue, setUserInputValue] = useState('');
     const [loggingIn, setLoggingIn] = useState(false);
 
     const location = useSelector(getLocation);
@@ -53,7 +57,7 @@ export function LoginWrapper() {
     const appReferrer = account.url?.referrer;
 
     const requestingFullAccess = !contractId || (publicKey && contractId?.endsWith(`.${LOCKUP_ACCOUNT_ID_SUFFIX}`)) || contractId === signedInAccountId;
-    const loginAccessType = requestingFullAccess ? 'fullAccess' : 'limitedAccess';
+    const loginAccessType = requestingFullAccess ? LOGIN_ACCESS_TYPES.FULL_ACCESS : LOGIN_ACCESS_TYPES.LIMITED_ACCESS;
 
     const handleAllowLogin = async () => {
         await Mixpanel.withTracking("LOGIN",
@@ -81,54 +85,21 @@ export function LoginWrapper() {
         );
     }
 
-    if (loginView === 'selectAccount') {
-        return (
-            <SelectAccount
-                signedInAccountId={signedInAccountId}
-                availableAccounts={availableAccounts}
-                accountsBalances={accountsBalances}
-                onSelectAccount={(accountId) => dispatch(switchAccount({ accountId }))}
-                getAccountBalance={(accountId) => dispatch(getAccountBalance(accountId))}
-                signedInAccountBalance={signedInAccountBalance}
-                onSignInToDifferentAccount={() => {
-                    Mixpanel.track("LOGIN Click create new account button");
-                    dispatch(redirectTo('/recover-account'));
-                }}
-                loginAccessType={loginAccessType}
-                appReferrer={appReferrer}
-                onClickCancel={() => {
-                    Mixpanel.track("LOGIN Click deny button");
-                    if (failureUrl) {
-                        window.location.href = failureUrl;
-                    } else {
-                        dispatch(redirectToApp());
-                    }
-                }}
-                onClickNext={() => {
-                    setLoginView('confirmLogin');
-                    window.scrollTo(0, 0);
-                }}
-            />
-        );
-    }
-
-    if (loginView === 'confirmLogin') {
+    if (confirmLogin) {
         return (
             <ConfirmLogin
                 signedInAccountId={signedInAccountId}
                 loginAccessType={loginAccessType}
                 appReferrer={appReferrer}
                 contractId={contractId}
-                onClickCancel={() => setLoginView('selectAccount')}
+                onClickCancel={() => setConfirmLogin(false)}
                 onClickConnect={async () => {
-                    if (loginAccessType === 'fullAccess') {
+                    if (loginAccessType === LOGIN_ACCESS_TYPES.FULL_ACCESS) {
                         setShowGrantFullAccessModal(true);
                         return;
                     }
                     handleAllowLogin();
                 }}
-                onChangeUserInputValue={(e) => setUserInputValue(e.target.value)}
-                userInputValue={userInputValue}
                 onClickConfirmFullAccess={() => handleAllowLogin()}
                 loggingIn={loggingIn}
                 showGrantFullAccessModal={showGrantFullAccessModal}
@@ -137,4 +108,33 @@ export function LoginWrapper() {
             />
         );
     }
+
+    return (
+        <SelectAccount
+            signedInAccountId={signedInAccountId}
+            availableAccounts={availableAccounts}
+            accountsBalances={accountsBalances}
+            onSelectAccount={(accountId) => dispatch(switchAccount({ accountId }))}
+            getAccountBalance={(accountId) => dispatch(getAccountBalance(accountId))}
+            signedInAccountBalance={signedInAccountBalance}
+            onSignInToDifferentAccount={() => {
+                Mixpanel.track("LOGIN Click create new account button");
+                dispatch(redirectTo('/recover-account'));
+            }}
+            loginAccessType={loginAccessType}
+            appReferrer={appReferrer}
+            onClickCancel={() => {
+                Mixpanel.track("LOGIN Click deny button");
+                if (failureUrl) {
+                    window.location.href = failureUrl;
+                } else {
+                    dispatch(redirectToApp());
+                }
+            }}
+            onClickNext={() => {
+                setConfirmLogin(true);
+                window.scrollTo(0, 0);
+            }}
+        />
+    );
 }

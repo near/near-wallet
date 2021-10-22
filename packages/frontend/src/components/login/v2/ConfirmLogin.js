@@ -8,6 +8,7 @@ import Container from '../../common/styled/Container.css';
 import SafeTranslate from '../../SafeTranslate';
 import SwapGraphic from '../../svg/SwapGraphic';
 import GrantFullAccessModal from './GrantFullAccessModal';
+import { LOGIN_ACCESS_TYPES } from './LoginWrapper';
 import PermissionItem from './PermissionItem';
 import LoginStyle from './style/LoginStyle.css';
 
@@ -22,9 +23,7 @@ export default ({
     showGrantFullAccessModal,
     onCloseGrantFullAccessModal,
     EXPLORER_URL,
-    loggingIn,
-    onChangeUserInputValue,
-    userInputValue
+    loggingIn
 }) => (
     <>
         <Container className='small-centered border'>
@@ -45,7 +44,7 @@ export default ({
                         )}
                     </Translate>
                 </div>
-                {loginAccessType === 'limitedAccess'
+                {loginAccessType === LOGIN_ACCESS_TYPES.LIMITED_ACCESS
                     ? <LimitedAccessUI/>
                     : <FullAccessUI/>
                 }
@@ -72,8 +71,6 @@ export default ({
             <GrantFullAccessModal
                 open={showGrantFullAccessModal}
                 onClose={onCloseGrantFullAccessModal}
-                onChangeUserInputValue={onChangeUserInputValue}
-                userInputValue={userInputValue}
                 onConfirm={onClickConfirmFullAccess}
                 signedInAccountId={signedInAccountId}
                 appReferrer={appReferrer}
