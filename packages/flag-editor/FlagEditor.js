@@ -3,15 +3,17 @@ const path = require('path');
 
 const getGitUsername = require('./gitTools/git-user-name');
 
-const { ACTIONS, ENVIRONMENTS } = require('./constants');
+const { ACTIONS } = require('./constants');
 
+const CONFIG_DIRECTORY = 'features';
 const FLAGS_FILENAME = 'NEARFlags.json';
+const ENVIRONMENTS_FILENAME = 'environments.json';
 const DEBUG_LOGGING = false;
 
 class FlagEditor {
-    constructor({ prompts, environments }) {
+    constructor({ prompts }) {
         this.prompts = prompts;
-        this.environments = environments;
+        this._environments = null;
         this._flagsFilepath = null;
         this._flagsState = null;
     }
@@ -24,7 +26,7 @@ class FlagEditor {
         const userEditing = await getGitUsername();
         this.log({ userEditing });
 
-        await this.searchForFlags({ basePath: path.parse(process.cwd()) });
+        await this.loadContext({ basePath: path.parse(process.cwd()) });
         await this.loadFlags(this._flagsFilepath);
 
         const flagNames = Object.keys(this._flagsState)
@@ -48,7 +50,7 @@ class FlagEditor {
             this.log({ flagName });
 
             flagEntry = this._flagsState[flagName];
-            const environmentsEnabledIn = await this.prompts.getEnvironmentStates({ flagEntry });
+            const environmentsEnabledIn = await this.prompts.getEnvironmentStates({ environments: this._environments, flagEntry });
 
             this._flagsState = {
                 ...this._flagsState,
@@ -63,7 +65,7 @@ class FlagEditor {
         this.log({ userEditing });
 
         const perEnvEntries = {};
-        Object.values(ENVIRONMENTS).forEach((name) => {
+        Object.values(this._environments).forEach((name) => {
             const perEnvEntry = (flagEntry && flagEntry[name]) || {};
 
             const enabled = environmentsEnabledIn.includes(name);
@@ -84,13 +86,14 @@ class FlagEditor {
         }
     }
 
-    async searchForFlags({ basePath }) {
+    async loadContext({ basePath }) {
         const { base, dir, root } = basePath;
         let fileFound = false;
         let currPath = path.join(dir, base);
 
         while (!fileFound && currPath && currPath !== root) {
-            fileFound = await fsx.exists(path.join(currPath, FLAGS_FILENAME));
+            console.warn({ currPath });
+            fileFound = await fsx.exists(path.join(currPath, CONFIG_DIRECTORY, FLAGS_FILENAME));
 
             if (!fileFound) {
                 currPath = currPath
@@ -104,7 +107,9 @@ class FlagEditor {
             throw new Error(`Could not find a ${FLAGS_FILENAME} in CWD or any parent dir. Run this tool from a NEAR repo!`)
         }
 
+        currPath = path.join(currPath, CONFIG_DIRECTORY);
         this._flagsFilepath = path.join(currPath, FLAGS_FILENAME);
+        this._environments = await fsx.readJson(path.join(currPath, ENVIRONMENTS_FILENAME));
     }
 
     async loadFlags() {

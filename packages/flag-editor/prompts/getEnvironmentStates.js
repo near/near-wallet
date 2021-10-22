@@ -1,10 +1,9 @@
 const inquirer = require('inquirer');
-const { ENVIRONMENTS } = require('../constants');
 
-module.exports = async function getEnvironmentStates({ flagEntry }) {
+module.exports = async function getEnvironmentStates({ environments, flagEntry }) {
     let choices = [];
 
-    Object.values(ENVIRONMENTS)
+    Object.values(environments)
         .forEach((name) => {
             choices.push({
                 name,
