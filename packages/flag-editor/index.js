@@ -1,10 +1,10 @@
-function initFeatureFlags({ flagState, environment, environments }) {
+function initFeatureFlags({ flagState, currentEnvironment, environments }) {
     if (typeof flagState !== 'object') {
         throw Error('invalid flags');
     }
 
-    if (!Object.values(environments).includes(environment)) {
-        throw Error(`invalid environment: "${environment}"`);
+    if (!Object.values(environments).includes(currentEnvironment)) {
+        throw Error(`invalid environment: "${currentEnvironment}"`);
     }
 
     return new Proxy(flagState, {
@@ -14,11 +14,11 @@ function initFeatureFlags({ flagState, environment, environments }) {
                throw Error(`invalid feature: "${flag}"`);
            }
 
-           if (!feature[environment]) {
-               throw Error(`${flag} missing definition for environment: "${environment}"`);
+           if (!feature[currentEnvironment]) {
+               throw Error(`${flag} missing definition for environment: "${currentEnvironment}"`);
            }
 
-           return feature[environment].enabled;
+           return feature[currentEnvironment].enabled;
        },
     });
 }
