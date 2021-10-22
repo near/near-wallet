@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
 import { switchAccount } from '../../redux/actions/account';
-import { selectAccountSlice } from '../../redux/slices/account';
+import { selectAccountId } from '../../redux/slices/account';
 import { selectAvailableAccounts } from '../../redux/slices/availableAccounts';
 import classNames from '../../utils/classNames';
 import DropDown from '../common/DropDown';
@@ -60,7 +60,7 @@ const Container = styled.div`
 
 export default function AccountDropdown({ disabled }) {
     const dispatch = useDispatch();
-    const accountId = useSelector(selectAccountSlice);
+    const accountId = useSelector(selectAccountId);
     const availableAccounts = useSelector(selectAvailableAccounts);
     const singleAccount = availableAccounts.length < 2;
     
