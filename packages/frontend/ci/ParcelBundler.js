@@ -188,6 +188,19 @@ class ParcelBundler {
         this.debugLog('entryPath', this.entryPath);
         this.debugLog('bundlerConfig', bundlerConfig);
         this.bundler = new Bundler(this.entryPath, bundlerConfig);
+
+        this.bundler.on('buildStart', () => {
+            this.debugLog('starting build');
+        });
+
+        this.bundler.on('buildEnd', () => {
+            this.debugLog('build ended');
+        });
+
+        this.bundler.on('buildError', (error) => {
+            this.debugLog('build error', error);
+        });
+
         this.bundler.on('bundled', () => {
             fs.copyFileSync(this.buildWasmSourcePath('multisig.wasm'), this.buildOutputPath('multisig.wasm'));
             fs.copyFileSync(this.buildWasmSourcePath('main.wasm'), this.buildOutputPath('main.wasm'));
