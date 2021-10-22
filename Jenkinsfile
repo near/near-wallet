@@ -4,7 +4,6 @@ pipeline {
         stage('Init') {
             steps {
                 sh 'rm -rf near-wallet'
-                echo "${NVM_DIR}"
             }
         }
         stage('Build') {
