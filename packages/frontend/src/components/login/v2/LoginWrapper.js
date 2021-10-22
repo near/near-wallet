@@ -12,11 +12,11 @@ import {
 } from '../../../redux/actions/account';
 import { showCustomAlert } from '../../../redux/actions/status';
 import {
-    selectBalance,
-    selectAccountsBalances,
-    signedInAccountIdLocalStorage,
-    selectAccount
-} from '../../../redux/reducers/account';
+    selectAccountUrlReferrer,
+    selectAccountLocalStorageAccountId,
+    selectAccountAccountsBalances,
+    selectBalance
+} from '../../../redux/slices/account';
 import { selectAvailableAccounts } from '../../../redux/slices/availableAccounts';
 import {
     LOCKUP_ACCOUNT_ID_SUFFIX,
@@ -43,18 +43,13 @@ export function LoginWrapper() {
     const contractId = URLParams.get('contract_id');
     const publicKey = URLParams.get('public_key');
     const failureUrl = URLParams.get('failure_url');
-
     const invalidContractId = URLParams.get('invalidContractId');
 
-    const account = useSelector(selectAccount);
-    const signedInAccountId = useSelector(signedInAccountIdLocalStorage);
+    const signedInAccountId = useSelector(selectAccountLocalStorageAccountId);
     const availableAccounts = useSelector(selectAvailableAccounts);
-    const accountsBalances = useSelector(selectAccountsBalances);
+    const accountsBalances = useSelector(selectAccountAccountsBalances);
     const signedInAccountBalance = useSelector(selectBalance);
-
-    // TODO: Replace with selector once PR is merged
-    // https://github.com/near/near-wallet/pull/2178
-    const appReferrer = account.url?.referrer;
+    const appReferrer = useSelector(selectAccountUrlReferrer);
 
     const requestingFullAccess = !contractId || (publicKey && contractId?.endsWith(`.${LOCKUP_ACCOUNT_ID_SUFFIX}`)) || contractId === signedInAccountId;
     const loginAccessType = requestingFullAccess ? LOGIN_ACCESS_TYPES.FULL_ACCESS : LOGIN_ACCESS_TYPES.LIMITED_ACCESS;
