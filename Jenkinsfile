@@ -1,9 +1,10 @@
 pipeline {
     agent any
     stages {
-        stage('Cleanup') {
+        stage('Init') {
             steps {
                 sh 'rm -rf near-wallet'
+                sh 'npm i -g yarn'
             }
         }
         stage('Build') {
