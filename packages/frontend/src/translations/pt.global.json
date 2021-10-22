@@ -263,11 +263,11 @@
                 "desc": "Receba um código de verificação por SMS."
             },
             "existingAccount": {
-                "title": "Deposite com uma conta existente",
+                "title": "Depósito com uma conta existente",
                 "desc": "Use uma conta existente para depositar e inicializar sua nova conta."
             },
             "creditCard": {
-                "title": "Deposite com um cartão de crédito",
+                "title": "Depósito com um cartão de crédito",
                 "desc": "Compre NEAR através do MoonPay para ser usado como depósito inicial."
             },
             "manualDeposit": {
