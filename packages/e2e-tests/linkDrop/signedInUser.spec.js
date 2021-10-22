@@ -8,12 +8,13 @@ const { HomePage } = require("../register/models/Home");
 const { SetRecoveryOptionPage } = require("../register/models/SetRecoveryOption");
 const { VerifySeedPhrasePage } = require("../register/models/VerifySeedPhrase");
 const nearApiJsConnection = require("../utils/connectionSingleton");
-const { generateTestAccountId, LinkdropAccountManager, getBankAccount } = require("../utils/account");
+const { generateTestAccountId, getBankAccount } = require("../utils/account");
 const E2eTestAccount = require('../utils/E2eTestAccount');
 const { LinkDropPage } = require("./models/LinkDrop");
 const { SetupSeedPhrasePage } = require("../register/models/SetupSeedPhrase");
 const { WALLET_NETWORK, LINKDROP_ACCESS_KEY_ALLOWANCE } = require("../constants");
 const { testDappURL } = require("../utils/config");
+const LinkdropAccountManager = require("../utils/LinkdropAccountManager");
 
 const { describe, beforeAll, afterAll, beforeEach } = test;
 
