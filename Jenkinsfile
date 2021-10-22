@@ -7,7 +7,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                git clone https://github.com/andy-haynes/near-wallet.git
+                git clone "https://github.com/andy-haynes/near-wallet.git"
                 cd near-wallet/
                 yarn build
             }
