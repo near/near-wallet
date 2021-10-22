@@ -6,7 +6,7 @@ const getGitUsername = require('./gitTools/git-user-name');
 const { ACTIONS } = require('./constants');
 
 const CONFIG_DIRECTORY = 'features';
-const FLAGS_FILENAME = 'NEARFlags.json';
+const FLAGS_FILENAME = 'flags.json';
 const ENVIRONMENTS_FILENAME = 'environments.json';
 const DEBUG_LOGGING = false;
 
