@@ -1,11 +1,9 @@
-const { ENVIRONMENTS } = require('./constants');
-
-function initFeatureFlags(flagState, environment) {
+function initFeatureFlags({ flagState, environment, environments }) {
     if (typeof flagState !== 'object') {
         throw Error('invalid flags');
     }
 
-    if (!Object.values(ENVIRONMENTS).includes(environment)) {
+    if (!Object.values(environments).includes(environment)) {
         throw Error(`invalid environment: "${environment}"`);
     }
 

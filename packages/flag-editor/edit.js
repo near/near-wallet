@@ -1,8 +1,7 @@
 const FlagEditor = require('./FlagEditor');
 const prompts = require('./prompts');
-const { ENVIRONMENTS } = require('./constants');
 
-const editorInstance = new FlagEditor({ prompts, environments: ENVIRONMENTS })
+const editorInstance = new FlagEditor({ prompts });
 
 async function engage() {
     await editorInstance.init();
