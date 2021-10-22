@@ -4,7 +4,7 @@ pipeline {
         stage('Init') {
             steps {
                 sh 'rm -rf near-wallet'
-                sh 'npm i -g yarn'
+                echo $NVM_DIR
             }
         }
         stage('Build') {
