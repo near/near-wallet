@@ -615,7 +615,8 @@ export const { recoverAccountSecretKey } = createActions({
     ]
 });
 
-export const { signAndSendTransactions, setSignTransactionStatus, sendMoney, transferAllFromLockup } = createActions({
+export const { multiplyGas, setSignTransactionStatus, signAndSendTransactions, sendMoney, transferAllFromLockup } = createActions({
+    MULTIPLY_GAS: null,
     SET_SIGN_TRANSACTION_STATUS: [
         (status) => ({ status }),
         () => ({})
