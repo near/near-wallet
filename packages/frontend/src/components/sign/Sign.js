@@ -47,22 +47,10 @@ class Sign extends Component {
     }
 
     handleAllow = async () => {
+        // TODO: to be removed after refactoring sign reducer into redux toolkit version with status object
         this.setState({ sending: true });
-        await Mixpanel.withTracking("SIGN",
-            async () => {
-                // TODO: Maybe this needs Redux reducer to propagate result into state?
-                const { transactions, account: { accountId }, callbackUrl, meta, dispatch } = this.props;
 
-                const transactionHashes = await dispatch(signAndSendTransactions(transactions, accountId));
-                console.log('transactionHashes', transactionHashes);
-                if (this.props.callbackUrl) {
-                    window.location.href = addQueryParams(callbackUrl, {
-                        meta,
-                        transactionHashes: transactionHashes.join(',')
-                    });
-                }
-            }
-        );
+        this.props.dispatch(handleSignTransaction());
     }
 
     renderSubcomponent = () => {
