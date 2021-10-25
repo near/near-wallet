@@ -1,16 +1,25 @@
 const { JsonRpcProvider } = require("near-api-js/lib/providers");
 const { createAccountWithHelper } = require("../services/contractHelper");
 
-const { E2eTestAccount } = require("./account");
+const E2eTestAccount = require("./E2eTestAccount");
+const { generateTestAccountId } = require("./helpers");
+const nearApiJsConnection = require("./connectionSingleton");
 
 class SelfReloadingJSONRpcProvider extends JsonRpcProvider {
+    constructor(...args) {
+        super(...args);
+        this.isReloading = false;
+    }
     sendTransaction(signedTransaction) {
         return super.sendTransaction.call(this, signedTransaction).catch(async (e) => {
-            if (e.type === "NotEnoughBalance") {
+            if (e.type === "NotEnoughBalance" && !this.isReloading) {
+                this.isReloading = true;
                 await SelfReloadingJSONRpcProvider.reloadAccount(signedTransaction.transaction.signerId);
                 return super.sendTransaction.call(this, signedTransaction);
             }
-            throw e;
+            if(!this.isReloading) {
+                throw e;
+            }
         });
     }
     static async reloadAccount(accountId) {
