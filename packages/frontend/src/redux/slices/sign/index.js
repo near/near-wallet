@@ -2,11 +2,19 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { createSelector } from "reselect";
 
 import { Mixpanel } from "../../../mixpanel";
-import { setSignTransactionStatus, signAndSendTransactions } from "../../actions/account";
+import { multiplyGas, setSignTransactionStatus, signAndSendTransactions } from "../../actions/account";
 import { selectAccountId } from "../account";
 
 const SLICE_NAME = 'sign';
 
+export const handleSignTransactionMultiplyGas = createAsyncThunk(
+    `${SLICE_NAME}/handleSignTransactionRetry`,
+    async (_, thunkAPI) => {
+        const { dispatch, getState } = thunkAPI;
+        dispatch(multiplyGas(getState().account.url));
+        dispatch(handleSignTransaction());
+    }
+);
 
 export const handleSignTransaction = createAsyncThunk(
     `${SLICE_NAME}/handleSignTransaction`,
