@@ -2,7 +2,9 @@ import BN from 'bn.js';
 import { utils, transactions as transaction } from 'near-api-js';
 import { handleActions } from 'redux-actions';
 
-import { parseTransactionsToSign, signAndSendTransactions, setSignTransactionStatus, makeAccountActive } from '../../actions/account';
+import { parseTransactionsToSign, signAndSendTransactions, setSignTransactionStatus, makeAccountActive, multiplyGas, multiplyGasXXX } from '../../actions/account';
+
+const MULTIPLY_TX_GAS_BY = 2;
 
 const initialState = {
     status: 'needs-confirmation'
@@ -15,6 +17,7 @@ const sign = handleActions({
             .map(buffer => utils.serialize.deserialize(transaction.SCHEMA, transaction.Transaction, buffer));
 
         const allActions = transactions.flatMap(t => t.actions);
+        
         return {
             status: 'needs-confirmation',
             callbackUrl,
