@@ -1,9 +1,11 @@
 const { JsonRpcProvider } = require("near-api-js/lib/providers");
-const { createAccountWithHelper } = require("../services/contractHelper");
+const { BN } = require("bn.js");
 
+const { createAccountWithHelper } = require("../services/contractHelper");
 const E2eTestAccount = require("./E2eTestAccount");
 const { generateTestAccountId } = require("./helpers");
 const nearApiJsConnection = require("./connectionSingleton");
+const { getBankAccount } = require("./account");
 
 class SelfReloadingJSONRpcProvider extends JsonRpcProvider {
     constructor(...args) {
@@ -14,10 +16,16 @@ class SelfReloadingJSONRpcProvider extends JsonRpcProvider {
         return super.sendTransaction.call(this, signedTransaction).catch(async (e) => {
             if (e.type === "NotEnoughBalance" && !this.isReloading) {
                 this.isReloading = true;
+                const { total: bankBalanceBeforeReload } = await getBankAccount().then((acc) => acc.getUpdatedBalance());
                 await SelfReloadingJSONRpcProvider.reloadAccount(signedTransaction.transaction.signerId);
+                const { total: bankBalanceAfterReload } = await getBankAccount().then((acc) => acc.getUpdatedBalance());
+                const reloadedAmount = new BN(bankBalanceAfterReload).sub(new BN(bankBalanceBeforeReload));
+                if (signedTransaction.transaction.signerId === process.env.BANK_ACCOUNT) {
+                    process.env.bankStartBalance = new BN(process.env.bankStartBalance).add(reloadedAmount).toString();
+                }
                 return super.sendTransaction.call(this, signedTransaction);
             }
-            if(!this.isReloading) {
+            if (!this.isReloading) {
                 throw e;
             }
         });
@@ -29,7 +37,7 @@ class SelfReloadingJSONRpcProvider extends JsonRpcProvider {
         const randomAccount = await new E2eTestAccount(randomSubaccountId, randomSubaccountSeedphrase, {
             accountId: nearApiJsConnection.config.networkId,
         }).initialize();
-        await randomAccount.nearApiJsAccount.deleteAccount(accountId);
+        return randomAccount.nearApiJsAccount.deleteAccount(accountId);
     }
 }
 
