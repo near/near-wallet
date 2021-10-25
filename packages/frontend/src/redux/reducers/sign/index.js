@@ -64,6 +64,22 @@ const sign = handleActions({
             status: payload.status
         };
     },
+    [multiplyGas]: (state, { payload: { transactions: transactionsString } }) => {
+        let transactions = transactionsString.split(',')
+            .map(str => Buffer.from(str, 'base64'))
+            .map(buffer => utils.serialize.deserialize(transaction.SCHEMA, transaction.Transaction, buffer));
+
+        transactions.forEach((t) => {
+            t.actions.forEach((a) => {
+                a.functionCall.gas = a.functionCall.gas.mul(new BN(MULTIPLY_TX_GAS_BY));
+            });
+        });
+
+        return {
+            ...state,
+            transactions
+        };
+    },
     [makeAccountActive]: () => {
         return initialState;
     }
