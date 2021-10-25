@@ -5,7 +5,6 @@ const { createAccountWithHelper } = require("../services/contractHelper");
 const E2eTestAccount = require("./E2eTestAccount");
 const { generateTestAccountId } = require("./helpers");
 const nearApiJsConnection = require("./connectionSingleton");
-const { getBankAccount } = require("./account");
 
 class SelfReloadingJSONRpcProvider extends JsonRpcProvider {
     constructor(...args) {
@@ -16,12 +15,18 @@ class SelfReloadingJSONRpcProvider extends JsonRpcProvider {
         return super.sendTransaction.call(this, signedTransaction).catch(async (e) => {
             if (e.type === "NotEnoughBalance" && !this.isReloading) {
                 this.isReloading = true;
-                const { total: bankBalanceBeforeReload } = await getBankAccount().then((acc) => acc.getUpdatedBalance());
-                await SelfReloadingJSONRpcProvider.reloadAccount(signedTransaction.transaction.signerId);
-                const { total: bankBalanceAfterReload } = await getBankAccount().then((acc) => acc.getUpdatedBalance());
-                const reloadedAmount = new BN(bankBalanceAfterReload).sub(new BN(bankBalanceBeforeReload));
                 if (signedTransaction.transaction.signerId === process.env.BANK_ACCOUNT) {
+                    const bankAccount = await new E2eTestAccount(
+                        process.env.BANK_ACCOUNT,
+                        process.env.BANK_SEED_PHRASE
+                    ).initialize();
+                    const { total: bankBalanceBeforeReload } = await bankAccount.getUpdatedBalance();
+                    await SelfReloadingJSONRpcProvider.reloadAccount(signedTransaction.transaction.signerId);
+                    const { total: bankBalanceAfterReload } = await bankAccount.getUpdatedBalance();
+                    const reloadedAmount = new BN(bankBalanceAfterReload).sub(new BN(bankBalanceBeforeReload));
                     process.env.bankStartBalance = new BN(process.env.bankStartBalance).add(reloadedAmount).toString();
+                } else {
+                    await SelfReloadingJSONRpcProvider.reloadAccount(signedTransaction.transaction.signerId);
                 }
                 return super.sendTransaction.call(this, signedTransaction);
             }
