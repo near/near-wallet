@@ -5,9 +5,9 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
 import { Mixpanel } from '../../mixpanel';
-import { signAndSendTransactions, redirectTo } from '../../redux/actions/account';
+import { redirectTo } from '../../redux/actions/account';
 import { selectAccountSlice } from '../../redux/slices/account';
-import { addQueryParams, handleSignTransaction, handleSignTransactionMultiplyGas, handleSignTransactionRetry, selectSignSlice } from '../../redux/slices/sign';
+import { addQueryParams, handleSignTransaction, handleSignTransactionMultiplyGas, selectSignSlice } from '../../redux/slices/sign';
 import { selectStatusActionStatus } from '../../redux/slices/status';
 import SignContainer from './SignContainer';
 import SignTransferCancelled from './SignTransferCancelled';
@@ -104,15 +104,6 @@ class Sign extends Component {
     render() {
         return <SignContainer>{this.renderSubcomponent()}</SignContainer>;
     }
-}
-
-function addQueryParams(baseUrl, queryParams) {
-    const url = new URL(baseUrl);
-    for (let key in queryParams) {
-        const param = queryParams[key];
-        if(param) url.searchParams.set(key, param);
-    }
-    return url.toString();
 }
 
 const mapStateToProps = (state) => ({
