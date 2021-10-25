@@ -7,7 +7,7 @@ import { withRouter } from 'react-router-dom';
 import { Mixpanel } from '../../mixpanel';
 import { signAndSendTransactions, redirectTo } from '../../redux/actions/account';
 import { selectAccountSlice } from '../../redux/slices/account';
-import { selectSignSlice } from '../../redux/slices/sign';
+import { addQueryParams, handleSignTransaction, handleSignTransactionMultiplyGas, handleSignTransactionRetry, selectSignSlice } from '../../redux/slices/sign';
 import { selectStatusActionStatus } from '../../redux/slices/status';
 import SignContainer from './SignContainer';
 import SignTransferCancelled from './SignTransferCancelled';
@@ -51,6 +51,11 @@ class Sign extends Component {
         this.setState({ sending: true });
 
         this.props.dispatch(handleSignTransaction());
+    }
+
+    retryTransaction = () => {
+        this.setState({ sending: true });
+        this.props.dispatch(handleSignTransactionMultiplyGas());
     }
 
     renderSubcomponent = () => {
