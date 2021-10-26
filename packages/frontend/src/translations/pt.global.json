@@ -248,7 +248,7 @@
 
     "verifyAccount": {        
         "title": "Quase lá! Verifique sua nova conta.",
-        "desc": "Para prevenir spam de novas contas, nós precisamos verificar que você é o proprietário. Você pode verificar usando um código de verificação ou fazendo um pequeno depósito inicial.",
+        "desc": "Para prevenir spam de novas contas, nós precisamos validar sua operação. Você pode verificar através de um código de utilização única ou através de um pequeno depósito inicial.",
         "options": {
             "passCode": "Código de verificação",
             "initialDeposit": "Depósito inicial"
