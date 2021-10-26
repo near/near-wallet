@@ -15,6 +15,12 @@ const deserializeTransactionFromString = (transactionsString) => transactionsStr
     .map(str => Buffer.from(str, 'base64'))
     .map(buffer => utils.serialize.deserialize(transaction.SCHEMA, transaction.Transaction, buffer));
 
+const calculateGasLimit = (transactions) => transactions
+    .flatMap(t => t.actions)
+    .filter(a => Object.keys(a)[0] === 'functionCall')
+    .map(a => a.functionCall.gas)
+    .reduce((totalGas, gas) => totalGas.add(gas), new BN(0)).toString();
+
 const sign = handleActions({
     [parseTransactionsToSign]: (state, { payload: { transactions: transactionsString, callbackUrl, meta } }) => {
         const transactions = deserializeTransactionFromString(transactionsString);
