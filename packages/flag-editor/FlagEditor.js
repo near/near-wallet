@@ -7,6 +7,7 @@ const { ACTIONS } = require('./constants');
 
 const CONFIG_DIRECTORY = 'features';
 const FLAGS_FILENAME = 'flags.json';
+const FEATURES_TYPEDEF_FILENAME = 'features.d.ts';
 const ENVIRONMENTS_FILENAME = 'environments.json';
 const DEBUG_LOGGING = false;
 
@@ -59,6 +60,7 @@ class FlagEditor {
         }
 
         await this.saveFlags();
+        await this.writeTypeDefinitions();
     }
 
     flagEntry({ environmentsEnabledIn, flagEntry, userEditing }) {
@@ -92,7 +94,6 @@ class FlagEditor {
         let currPath = path.join(dir, base);
 
         while (!fileFound && currPath && currPath !== root) {
-            console.warn({ currPath });
             fileFound = await fsx.exists(path.join(currPath, CONFIG_DIRECTORY, FLAGS_FILENAME));
 
             if (!fileFound) {
@@ -124,6 +125,19 @@ class FlagEditor {
     async saveFlags() {
         this.log("writing file", { filepath: this._flagsFilepath, state: this._flagsState });
         return fsx.writeJson(this._flagsFilepath, this._flagsState, { spaces: 2 });
+    }
+
+    async writeTypeDefinitions() {
+        const typedefPath = this._flagsFilepath.replace(FLAGS_FILENAME, FEATURES_TYPEDEF_FILENAME);
+        const typedefs = `type Features = {
+    ${Object.keys(this._flagsState).map((flag) => `${flag}: boolean`).join(';\n\t')};
+};
+
+export default Features;
+`;
+
+        this.log("writing typedef file", { filepath: this._flagsFilepath, state: this._flagsState });
+        return fsx.writeFile(typedefPath, typedefs);
     }
 }
 
