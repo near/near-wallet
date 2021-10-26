@@ -246,6 +246,37 @@
         }
     },
 
+    "verifyAccount": {        
+        "title": "Quase lá! Verifique sua nova conta.",
+        "desc": "Para prevenir spam de novas contas, nós precisamos validar sua operação. Você pode verificar através de um código de utilização única ou através de um pequeno depósito inicial.",
+        "options": {
+            "passCode": "Código de verificação",
+            "initialDeposit": "Depósito inicial"
+        },
+        "option": {
+            "email": {
+                "title": "Email",
+                "desc": "Receba um código de verificação por email."
+            },
+            "phone": {
+                "title": "Telefone",
+                "desc": "Receba um código de verificação por SMS."
+            },
+            "existingAccount": {
+                "title": "Depósito com uma conta existente",
+                "desc": "Use uma conta existente para depositar e inicializar sua nova conta."
+            },
+            "creditCard": {
+                "title": "Depósito com um cartão de crédito",
+                "desc": "Compre NEAR através do MoonPay para ser usado como depósito inicial."
+            },
+            "manualDeposit": {
+                "title": "Depósito manual",
+                "desc": "Envie um depósito manualmente para um endereço de financiamento único."
+            }
+        }
+    },
+
     "dashboardActivity": {
         "title": {
             "CreateAccount": "Nova conta criada",
