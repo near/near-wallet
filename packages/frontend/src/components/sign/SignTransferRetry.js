@@ -20,13 +20,6 @@ const CustomContainer = styled.div`
     && .text {
         color: #72727A;
         margin-top: 24px;
-
-        button {
-            font-weight: 400;
-        }
-        span {
-            color: #0072ce;
-        }
     }
     .buttons {
         display: flex;
@@ -54,16 +47,14 @@ const SignTransferRetry = ({ handleRetry }) => (
             <img src={RetryImage} alt='Retry' />
         </div>
         <div className='title'>
-            <h2>Insufficient Network Fee</h2>
+            <h2><Translate id='sign.retry.title' /></h2>
         </div>
         <div className='text'>
-            The default network fee was not enough to cover the cost of your transaction.
+            <Translate id='sign.retry.text' />
             <br/><br/>
-            You may resubmit the transaction to have its fee limit automatically increased.
-            <br/><br/>
-            <span>
-                What is the fee limit?
-            </span>
+            <a href='https://'>
+                <Translate id='sign.retry.link' />
+            </a>
         </div>
         <div className='buttons'>
             <FormButton
