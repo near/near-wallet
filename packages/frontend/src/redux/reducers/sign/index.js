@@ -5,7 +5,7 @@ import { handleActions } from 'redux-actions';
 import { parseTransactionsToSign, setSignTransactionStatus, makeAccountActive, multiplyGas, multiplyGasXXX } from '../../actions/account';
 import { handleSignTransaction } from '../../slices/sign';
 
-const MULTIPLY_TX_GAS_BY = 2;
+export const MULTIPLY_TX_GAS_BY = 2;
 
 const initialState = {
     status: 'needs-confirmation'

@@ -2,10 +2,17 @@ import React from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
+import ArrowUpImage from '../../images/icon-arrow-up-green.svg';
 import RetryImage from '../../images/icon-retry-tx.svg';
 import FormButton from '../common/FormButton';
 
 const CustomContainer = styled.div`
+    max-width: 450px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #25282A;
     text-align: center;
 
     .title {
@@ -17,31 +24,68 @@ const CustomContainer = styled.div`
             color: #24272a;
         }
     }
+
     && .text {
         color: #72727A;
         margin-top: 24px;
     }
+
     .buttons {
         display: flex;
         width: 100%;
-        justify-content: center;
-        align-items: stretch;
-        margin-top: 24px;
+        margin-top: 40px;
 
         button {
-            width: 100%;
-        }
+            flex: 1;
 
-        button:first-child {
-            margin-right: 16px;
+            &:last-of-type {
+                margin-left: 30px !important;
+
+                @media (min-width: 768px) {
+                    margin-left: 50px !important;
+                }
+            }
         }
     }
 
+    .fees {
+        width: 100%;
+        border: 1px solid #F0F0F1;
+        padding: 15px;
+        border-radius: 8px;
+        margin-top: 30px;
+        color: #72727A;
 
+        b {
+            color: #25282A;
+        }
+
+        .fees-line {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 12px;
+
+            .tgas {
+                color: #00C08B;
+                position: relative;
+
+                :after {
+                    content: '';
+                    position: absolute;
+                    background: url(${ArrowUpImage}) center top no-repeat;
+                    width: 16px;
+                    height: 17px;
+                    left: -22px;
+                    top: 1px;
+                }
+            }
+        }
+    }
 `;
 
 // TODO: Why handleDeny? It's not an error.
-const SignTransferRetry = ({ handleRetry }) => (
+const SignTransferRetry = ({ handleRetry, handleDeny, gasLimit }) => (
     <CustomContainer>
         <div className='icon'>
             <img src={RetryImage} alt='Retry' />
@@ -56,8 +100,24 @@ const SignTransferRetry = ({ handleRetry }) => (
                 <Translate id='sign.retry.link' />
             </a>
         </div>
+        <div className='fees'>
+            <div className='fees-line'>
+                <b><Translate id='sign.retry.networkFees' /></b>
+            </div>
+            <div className='fees-line'>
+                <Translate id='sign.retry.estimatedFees' />
+                <div>NEAR</div>
+            </div>
+            <div className='fees-line'>
+                <Translate id='sign.retry.feeLimit' />
+                <div className='tgas'>
+                    {gasLimit} Tgas
+                </div>
+            </div>
+        </div>
         <div className='buttons'>
             <FormButton
+                onClick={handleDeny}
                 color='gray-blue'
             >
                 <Translate id='button.cancel' />

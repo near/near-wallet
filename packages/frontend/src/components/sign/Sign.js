@@ -6,6 +6,7 @@ import { withRouter } from 'react-router-dom';
 
 import { Mixpanel } from '../../mixpanel';
 import { redirectTo } from '../../redux/actions/account';
+import { MULTIPLY_TX_GAS_BY } from '../../redux/reducers/sign';
 import { selectAccountSlice } from '../../redux/slices/account';
 import { addQueryParams, handleSignTransaction, handleSignTransactionMultiplyGas, selectSignSlice } from '../../redux/slices/sign';
 import { selectStatusActionStatus } from '../../redux/slices/status';
@@ -60,7 +61,7 @@ class Sign extends Component {
     }
 
     renderSubcomponent = () => {
-        const { account: { url, balance }, totalAmount, sensitiveActionsCounter, status, dispatch } = this.props;
+        const { account: { url, balance }, totalAmount, sensitiveActionsCounter, status, dispatch, fees } = this.props;
 
         const txTotalAmount = new BN(totalAmount); // TODO: add gas cost, etc
         const availableBalance = balance?.available;
@@ -97,6 +98,8 @@ class Sign extends Component {
             case 'retry-tx':
                 return <SignTransferRetry
                             handleRetry={this.retryTransaction}
+                            handleDeny={this.handleDeny}
+                            gasLimit={new BN(fees?.gasLimit || '0').mul(new BN(MULTIPLY_TX_GAS_BY)).div(new BN('1000000000000')).toString()}
                         />;
             case 'error':
                 // TODO: Figure out how to handle different error types
