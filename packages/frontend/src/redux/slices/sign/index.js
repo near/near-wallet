@@ -53,8 +53,11 @@ export const handleSignTransaction = createAsyncThunk(
         );
     },
     {
-        condition: () => {
-            
+        condition: (_, thunkAPI) => {
+            const { getState } = thunkAPI;
+            if (selectSignStatus(getState()) === 'in-progress') {
+                return false;
+            }
         }
     }
 );
@@ -84,4 +87,9 @@ export const selectSignCallbackUrl = createSelector(
 export const selectSignMeta = createSelector(
     [selectSignSlice],
     (sign) => sign.meta
+);
+
+export const selectSignStatus = createSelector(
+    [selectSignSlice],
+    (sign) => sign.status
 );
