@@ -29,7 +29,7 @@ export const LOGIN_ACCESS_TYPES = {
 export function LoginWrapper() {
     const dispatch = useDispatch();
 
-    const [confirmLogin, setConfirmLogin] = useState(true);
+    const [confirmLogin, setConfirmLogin] = useState(false);
 
     const location = useSelector(getLocation);
     const URLParams = new URLSearchParams(location.search);
