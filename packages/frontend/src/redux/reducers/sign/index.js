@@ -37,10 +37,7 @@ const sign = handleActions({
                 .reduce((totalAmount, amount) => totalAmount.add(new BN(amount)), new BN(0)).toString(),
             fees: {
                 transactionFees: '', // TODO: Calculate total fees
-                gasLimit: allActions
-                    .filter(a => Object.keys(a)[0] === 'functionCall')
-                    .map(a => a.functionCall.gas)
-                    .reduce((totalGas, gas) => totalGas.add(gas), new BN(0)).toString(),
+                gasLimit: calculateGasLimit(transactions),
                 gasPrice: '' // TODO: Where to get gas price?
             },
             sensitiveActionsCounter: allActions
@@ -74,13 +71,21 @@ const sign = handleActions({
 
         transactions.forEach((t) => {
             t.actions.forEach((a) => {
-                a.functionCall.gas = a.functionCall.gas.mul(new BN(MULTIPLY_TX_GAS_BY));
+                if (!!a.functionCall) {
+                    a.functionCall.gas = a.functionCall.gas.mul(new BN(MULTIPLY_TX_GAS_BY));
+                }
             });
         });
 
+        console.log('calculateGasLimit(transactions)', calculateGasLimit(transactions));
+
         return {
             ...state,
-            transactions
+            transactions,
+            fees: {
+                ...state.transactions.fees,
+                gasLimit: calculateGasLimit(transactions)
+            }
         };
     },
     [makeAccountActive]: () => {
