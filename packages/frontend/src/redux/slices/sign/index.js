@@ -2,7 +2,9 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { createSelector } from "reselect";
 
 import { Mixpanel } from "../../../mixpanel";
-import { multiplyGas, setSignTransactionStatus, signAndSendTransactions } from "../../actions/account";
+import { wallet } from "../../../utils/wallet";
+import { multiplyGas } from "../../actions/account";
+import { showCustomAlert } from "../../actions/status";
 import { selectAccountId } from "../account";
 
 const SLICE_NAME = 'sign';
@@ -29,7 +31,7 @@ export const handleSignTransaction = createAsyncThunk(
                 const meta = selectSignMeta(getState());
 
                 try {
-                    const transactionHashes = await dispatch(signAndSendTransactions(transactions, accountId));
+                    const transactionHashes = await wallet.signAndSendTransactions(transactions, accountId);
 
                     if (callbackUrl) {
                         window.location.href = addQueryParams(callbackUrl, {
@@ -38,10 +40,12 @@ export const handleSignTransaction = createAsyncThunk(
                         });
                     }
                 } catch (error) {
-                    console.log(error);
-                    if (error.message.includes('Exceeded the prepaid gas')) {
-                        dispatch(setSignTransactionStatus('retry-tx'));
-                    }
+                    dispatch(showCustomAlert({
+                        success: false,
+                        messageCodeHeader: 'error',
+                        messageCode: `reduxActions.${error.code}`,
+                        errorMessage: error.message
+                    }));
                     throw error;
                 }
                 

@@ -52,7 +52,9 @@ const sign = handleActions({
     }),
     [handleSignTransaction.rejected]: (state, { error, payload, ready }) => ({
         ...state,
-        status: 'error',
+        status: error.message.includes('Exceeded the prepaid gas')
+            ? 'retry-tx'
+            : 'error',
         error: error
     }),
     [setSignTransactionStatus]: (state, { payload }) => {
