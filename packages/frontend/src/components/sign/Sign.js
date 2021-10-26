@@ -12,6 +12,7 @@ import { selectStatusActionStatus } from '../../redux/slices/status';
 import SignContainer from './SignContainer';
 import SignTransferCancelled from './SignTransferCancelled';
 import SignTransferReady from './SignTransferReady';
+import SignTransferRetry from './SignTransferRetry';
 import SignTransferSuccess from './SignTransferSuccess';
 import SignTransferTransferring from './SignTransferTransferring';
 
@@ -92,6 +93,10 @@ class Sign extends Component {
                             handleClose={() => dispatch(redirectTo('/'))}
                             isMonetaryTransaction={isMonetaryTransaction}
                             txTotalAmount={txTotalAmount}
+                        />;
+            case 'retry-tx':
+                return <SignTransferRetry
+                            handleRetry={this.retryTransaction}
                         />;
             case 'error':
                 // TODO: Figure out how to handle different error types
