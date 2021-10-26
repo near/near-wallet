@@ -272,7 +272,7 @@
             },
             "manualDeposit": {
                 "title": "Depósito manual",
-                "desc": "Envie um depósito manual através de um endereço de financiamento de uso único."
+                "desc": "Envie um depósito manualmente para um endereço de financiamento único."
             }
         }
     },
