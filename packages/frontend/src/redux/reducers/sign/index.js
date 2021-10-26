@@ -43,8 +43,7 @@ const sign = handleActions({
 
         if (!ready) {
             return {
-                ...state,
-                status: 'needs-confirmation'
+                ...state
             };
         }
 

@@ -29,6 +29,7 @@ export const handleSignTransaction = createAsyncThunk(
                 const meta = selectSignMeta(getState());
 
                 try {
+                    dispatch(setSignTransactionStatus('in-progress'));
                     const transactionHashes = await dispatch(signAndSendTransactions(transactions, accountId));
 
                     if (callbackUrl) {
