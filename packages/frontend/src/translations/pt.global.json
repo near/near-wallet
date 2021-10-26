@@ -571,7 +571,20 @@
         "viewOnExplorer": "Ver no Explorer",
         "buy": "Comprar",
         "learnMore": "Aprender mais",
-        "viewFAQ": "Ver FAQ"
+        "viewFAQ": "Ver FAQ",
+        "claimMyAccount": "Reinvindicar Minha Conta",
+        "continueToMyAccount": "Continuar para Minha Conta",
+        "reserveMyAccountId": "Reservar o ID da Minha Conta",
+        "tryAgain": "Tentar Novamente",
+        "creatingAccount": "Criando Conta",
+        "topUp": "Top Up",
+        "acceptAndContinue": "Aceitar & Continuar",
+        "useMax": "Usar Máximo",
+        "loading": "Carregando...",
+        "gotIt": "Entendi",
+        "fundWith": "Adicionar Fundos",
+        "next": "Próximo",
+        "approve": "Aprovar"
     },
 
     "link": {
@@ -588,7 +601,8 @@
     },
 
     "copy": {
-        "default": "Copiado!"
+        "default": "Copiado!",
+        "title": "Copiar"
     },
 
     "input": {
@@ -599,8 +613,16 @@
         "accountId": {
             "title": "ID da Conta",
             "placeholder": "p.ex. johndoe.near",
-            "subLabel": "A ID da conta deve fazer parte de uma conta Top Level como <b>.near</b> ou conter exatamente 64 caracteres."
+            "subLabel": "A ID da conta deve fazer parte de uma conta Top Level como <b>.near</b> ou conter exatamente 64 caracteres.",
+            "placeHolderAlt": "ID da conta"
         }
+    },
+
+    "importAccount": {
+        "withId": "Importando conta: ${accountId}",
+        "noId": "Importando conta",
+        "withIdFailed": "Falha ao importar conta: ${accountId}",
+        "noIdFailed": "Falha ao importar conta."
     },
 
     "recoverAccount": {
@@ -651,7 +673,9 @@
             "digits": "Dígitos (0-9)",
             "separators": "Caracteres (_-) podem ser usados como separadores",
             "cannotContain": "O ID da sua conta NÃO pode conter:",
-            "characters": "Caracteres \"@\" ou \".\""
+            "characters": "Caracteres \"@\" ou \".\"",
+            "minCharacters": "Menos que 2 caracteres",
+            "maxCharacters": "Mais que 64 caracteres (incluindo .${accountSuffix})"
         },
         "invalidLinkDrop": {
             "title": "Link inválido",
@@ -715,6 +739,7 @@
         "basicSecurityDesc": "Digite seu endereço de e-mail ou número de telefone e receba um link mágico",
         "emailTitle": "E-mail para recuperação",
         "emailPlaceholder": "exemplo@email.com",
+        "emailDesc": "Receba um código de verificação e o link de recuperação de conta por email.",
         "phoneTitle": "Telefone para recuperação",
         "phoneDesc": "Digite seu número de telefone abaixo e receba um link mágico de recuperação",
         "phonePlaceholder": "+1 415 797 8554",
@@ -722,7 +747,9 @@
         "advancedSecurity": "Mais seguro (recomendado)",
         "advancedSecurityDesc": "Escreva 12 palavras para sua frase-semente (de recuperação) ou proteja sua conta com um dispositivo Ledger.",
         "ledgerTitle": "Ledger Nano S ou X",
-        "phraseTitle": "Frase de Recuperação"
+        "ledgerDesc": "Faça a segurança de sua conta usando um dispositívo físico Ledger.",
+        "phraseTitle": "Frase de Recuperação",
+        "phraseDesc": "Gerar e guardar em segurança uma frase-semente única."
     },
     "setRecoveryConfirm": {
         "title": "Digitar Código de Verificação",
