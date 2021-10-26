@@ -7,10 +7,8 @@ import {
     switchAccount,
     getAccountBalance,
     redirectTo,
-    redirectToApp,
-    allowLogin
+    redirectToApp
 } from '../../../redux/actions/account';
-import { showCustomAlert } from '../../../redux/actions/status';
 import {
     selectAccountUrlReferrer,
     selectAccountLocalStorageAccountId,
@@ -18,13 +16,10 @@ import {
     selectBalance
 } from '../../../redux/slices/account';
 import { selectAvailableAccounts } from '../../../redux/slices/availableAccounts';
-import {
-    LOCKUP_ACCOUNT_ID_SUFFIX,
-    EXPLORER_URL
-} from '../../../utils/wallet';
-import ConfirmLogin from './ConfirmLogin';
+import { LOCKUP_ACCOUNT_ID_SUFFIX } from '../../../utils/wallet';
+import ConfirmLoginWrapper from './ConfirmLoginWrapper';
 import InvalidContractId from './InvalidContractId';
-import SelectAccount from './SelectAccount';
+import SelectAccountLogin from './SelectAccountLogin';
 
 export const LOGIN_ACCESS_TYPES = {
     FULL_ACCESS: 'fullAccess',
@@ -34,9 +29,7 @@ export const LOGIN_ACCESS_TYPES = {
 export function LoginWrapper() {
     const dispatch = useDispatch();
 
-    const [confirmLogin, setConfirmLogin] = useState(false);
-    const [showGrantFullAccessModal, setShowGrantFullAccessModal] = useState(false);
-    const [loggingIn, setLoggingIn] = useState(false);
+    const [confirmLogin, setConfirmLogin] = useState(true);
 
     const location = useSelector(getLocation);
     const URLParams = new URLSearchParams(location.search);
@@ -48,72 +41,44 @@ export function LoginWrapper() {
     const signedInAccountId = useSelector(selectAccountLocalStorageAccountId);
     const availableAccounts = useSelector(selectAvailableAccounts);
     const accountsBalances = useSelector(selectAccountAccountsBalances);
-    const signedInAccountBalance = useSelector(selectBalance);
     const appReferrer = useSelector(selectAccountUrlReferrer);
 
     const requestingFullAccess = !contractId || (publicKey && contractId?.endsWith(`.${LOCKUP_ACCOUNT_ID_SUFFIX}`)) || contractId === signedInAccountId;
     const loginAccessType = requestingFullAccess ? LOGIN_ACCESS_TYPES.FULL_ACCESS : LOGIN_ACCESS_TYPES.LIMITED_ACCESS;
 
-    const handleAllowLogin = async () => {
-        await Mixpanel.withTracking("LOGIN",
-            async () => {
-                setLoggingIn(true);
-                await dispatch(allowLogin());
-            },
-            (e) => {
-                dispatch(showCustomAlert({
-                    success: false,
-                    messageCodeHeader: 'error',
-                    errorMessage: e.message
-                }));
-                setLoggingIn(false);
-            }
-        );
-    };
-
     if (invalidContractId) {
         return (
             <InvalidContractId
                 invalidContractId={invalidContractId}
-                onClickReturnToApp={() => window.location.href = failureUrl}
+                onClickReturnToApp={() => {
+                    Mixpanel.track("LOGIN Invalid contract id Click return to app button", { contract_id: contractId });
+                    window.location.href = failureUrl;
+                }}
             />
         );
     }
 
     if (confirmLogin) {
         return (
-            <ConfirmLogin
+            <ConfirmLoginWrapper
                 signedInAccountId={signedInAccountId}
                 loginAccessType={loginAccessType}
                 appReferrer={appReferrer}
                 contractId={contractId}
                 onClickCancel={() => setConfirmLogin(false)}
-                onClickConnect={async () => {
-                    if (loginAccessType === LOGIN_ACCESS_TYPES.FULL_ACCESS) {
-                        setShowGrantFullAccessModal(true);
-                        return;
-                    }
-                    handleAllowLogin();
-                }}
-                onClickConfirmFullAccess={() => handleAllowLogin()}
-                loggingIn={loggingIn}
-                showGrantFullAccessModal={showGrantFullAccessModal}
-                onCloseGrantFullAccessModal={() => setShowGrantFullAccessModal(false)}
-                EXPLORER_URL={EXPLORER_URL}
             />
         );
     }
 
     return (
-        <SelectAccount
+        <SelectAccountLogin
             signedInAccountId={signedInAccountId}
             availableAccounts={availableAccounts}
             accountsBalances={accountsBalances}
             onSelectAccount={(accountId) => dispatch(switchAccount({ accountId }))}
             getAccountBalance={(accountId) => dispatch(getAccountBalance(accountId))}
-            signedInAccountBalance={signedInAccountBalance}
             onSignInToDifferentAccount={() => {
-                Mixpanel.track("LOGIN Click create new account button");
+                Mixpanel.track("LOGIN Click recover different account button");
                 dispatch(redirectTo('/recover-account'));
             }}
             loginAccessType={loginAccessType}
