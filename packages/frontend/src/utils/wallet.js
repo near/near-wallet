@@ -12,7 +12,6 @@ import {
     makeAccountActive,
     redirectTo,
     setLedgerTxSigned,
-    setSignTransactionStatus,
     showLedgerModal
 } from '../redux/actions/account';
 import sendJson from '../tmp_fetch_send_json';
