@@ -6,11 +6,11 @@ import classNames from '../../utils/classNames';
 import FormButton from '../common/FormButton';
 
 const RecoverAccountSeedPhraseForm = ({
-    mainLoader,
     isLegit,
     handleChange,
     seedPhrase,
-    localAlert
+    localAlert,
+    recoveringAccount
 }) => (
         <>
             <h4><Translate id='recoverSeedPhrase.seedPhraseInput.title' /></h4>
@@ -21,7 +21,7 @@ const RecoverAccountSeedPhraseForm = ({
                         onChange={e => handleChange(e.target.value)}
                         className={classNames([{'success': localAlert && localAlert.success}, {'problem': localAlert && localAlert.success === false}])}
                         placeholder={translate('recoverSeedPhrase.seedPhraseInput.placeholder')}
-                        disabled={mainLoader}
+                        disabled={recoveringAccount}
                         data-test-id="seedPhraseRecoveryInput"
                         required
                         tabIndex='2'
@@ -32,7 +32,7 @@ const RecoverAccountSeedPhraseForm = ({
             <FormButton
                 type='submit'
                 color='blue'
-                disabled={!isLegit || mainLoader}
+                disabled={!isLegit || recoveringAccount}
                 sending={actionsPending(['RECOVER_ACCOUNT_SEED_PHRASE', 'REFRESH_ACCOUNT_OWNER'])}
                 sendingString='button.recovering'
             >

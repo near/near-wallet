@@ -45,6 +45,7 @@ const StyledContainer = styled(Container)`
 class RecoverAccountSeedPhrase extends Component {
     state = {
         seedPhrase: this.props.seedPhrase,
+        recoveringAccount: false
     }
 
     // TODO: Use some validation framework?
@@ -82,8 +83,13 @@ class RecoverAccountSeedPhrase extends Component {
 
         await Mixpanel.withTracking("IE-SP Recovery with seed phrase",
             async () => {
+                this.setState({ recoveringAccount: true });
                 await recoverAccountSeedPhrase(seedPhrase);
                 await refreshAccount();
+            }, (e) => {
+                throw e;
+            }, () => {
+                this.setState({ recoveringAccount: false });
             }
         );
 
