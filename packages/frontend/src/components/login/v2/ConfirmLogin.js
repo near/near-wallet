@@ -28,7 +28,7 @@ export default ({
         try {
             setLoggingIn(true);
             await onClickConnect();
-        } finally {
+        } catch {
             setLoggingIn(false);
         }
     };
