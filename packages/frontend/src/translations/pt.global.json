@@ -1057,12 +1057,12 @@
             "modal": {
                 "title": "Código de acesso móvel",
                 "desc": "Revele e escaneie o código QR abaixo para importar sua conta em seu dispositivo móvel.",
-                "disclaimer": "<b>Este código contém informação sigilosa e garante acesso completo a sua conta em dispositivos móveis.</b> Cuidado para não compartilhar ou expô-lo, e apenas importe sua conta em dispositivos que lhe pertença.",
+                "disclaimer": "<b>Este código contém informação sigilosa e garante acesso completo a sua conta em dispositivos móveis.</b> Cuidado para não compartilhá-lo ou expô-lo, e apenas importe sua conta em dispositivos que lhe pertençam.",
                 "reveal": "Revelar"
             }
         },
         "importCode": {
-            "desc": "Caso esteja com seção ativa em um desktop, escaneia seu código de acesso móvel para importar sua conta."
+            "desc": "Caso esteja com sessão ativa em um desktop, escaneie seu código de acesso móvel para importar sua conta."
         }
     },
 
@@ -1189,8 +1189,8 @@
         "transferring": "Transferindo",
         "authorizing": "Autorizando"
     },
-    "availableBalanceInfo": "Saldo NEAR disponível excluindo valores em stake ou bloqueados. <a href='/profile'>Ver Saldo detalhado→</a>",
-    "reservedForFeesInfo": "Pelo menos ${data} NEAR são reservados para cobrir o custo das transações.",
+    "availableBalanceInfo": "Saldo NEAR disponível excluindo valores em stake ou bloqueados. <a href='/profile'>Ver saldo detalhado→</a>",
+    "reservedForFeesInfo": "Até ${data} NEAR são reservados para cobrir o custo das transações.",
     "availableBalanceProfile": "Este é o seu saldo NEAR gastável e pode ser usado ou transferido imediatamente. Isso será inferior ao seu saldo total.",
     "minimumBalance": "Este é o saldo mínimo NEAR que sua conta deve manter para permanecer ativa. Este saldo representa o espaço de armazenamento que sua conta está usando no blockchain NEAR (com um pequeno buffer) e aumentará ou diminuirá conforme você usar mais ou menos espaço.",
     "totalBalance": "Seu saldo total representa todos os tokens NEAR sob seu controle. Em muitos casos, você não terá acesso imediato a todo o saldo (por exemplo, se estiver bloqueado, delegado ou em stake). Verifique seu saldo disponível para o NEAR que você pode usar, transferir, delegar e fazer stake ativamente.",
