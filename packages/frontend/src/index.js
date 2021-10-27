@@ -16,6 +16,8 @@ import { initSentry } from './utils/sentry';
 
 initSentry();
 
+const history = createBrowserHistory();
+
 export const store = createStore(createRootReducer(history), createMiddleware(history));
 
 ReactDOM.render(
@@ -26,7 +28,7 @@ ReactDOM.render(
     >
         <Provider store={store}>
             <LocalizeProvider store={store}>
-                <Routing history={history.x}/>
+                <Routing history={history}/>
             </LocalizeProvider>
         </Provider>
     </GoogleReCaptchaProvider>,
