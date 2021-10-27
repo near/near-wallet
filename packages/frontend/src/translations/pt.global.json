@@ -161,13 +161,13 @@
         },
         "activateAccount": {
             "pre": {
-                "title": "Almost there! Make your initial deposit.",
-                "desc": "To begin using NEAR Wallet, make a minimum initial deposit by sending <b>at least ${amount}</b> to your Account ID (sometimes called an “address”)."
+                "title": "Quase lá! Faça seu depósito inicial.",
+                "desc": "Para utilizar sua NEAR Wallet, faça um depósito minímo inicial de <b>pelo menos ${amount}</b> para seu ID da conta (também conhecido por “endereço”)."
             },
             "post": {
-                "title": "Your account has been activated.",
-                "descOne": "Your initial deposit has been received and transferred to your new account. Your account is now active!",
-                "descTwo": "A portion of your deposit has been reserved to cover the <a href='https://docs.near.org/docs/concepts/account' rel='noopener noreferrer' target='_blank'>cost of hosting your account</a>."
+                "title": "Sua conta foi ativa.",
+                "descOne": "Seu depósito inicial foi recebido e encaminhado para sua nova conta. Agora, sua conta está ativa!",
+                "descTwo": "Uma porção do seu saldo foi reservado para cobrir os <a href='https://docs.near.org/docs/concepts/account' rel='noopener noreferrer' target='_blank'>custos de hospedagem da conta</a>."
             }
         },
         "createImplicit": {
@@ -182,20 +182,20 @@
                     "desc": "NEAR tokens estão disponíveis para compra nas seguintes exchanges"
                 },
                 "moonPay": {
-                    "title": "Fund with MoonPay",
-                    "desc": "Make your initial deposit with MoonPay using your preferred payment method.",
-                    "buyWith": "Buy with"
+                    "title": "Fundar via MoonPay",
+                    "desc": "Faça seu depósito inicial via MoonPay utilizado seu método de pagamento preferido.",
+                    "buyWith": "Comprar com"
                 },
                 "fundWith": "Adicionar fundos com"
             },
             "post": {
-                "title": "Claim your account",
-                "descOne": "Your initial deposit was received! Once claimed, your deposit will be transferred to your new account.",
-                "descTwo": "Important: Your single-use funding address will no longer be valid. Make sure to replace it with your Account ID on any exchanges or other devices where it may have been saved.",
+                "title": "Reivindique sua conta",
+                "descOne": "Seu depósito inicial foi recebido! Uma vez reivindicada, seu depósito será transferido para essa nova conta.",
+                "descTwo": "Importante: Seu endereço de fundação única deixará de existir. Se certifique de atualizar este endereço para o ID da conta criada em todos os dispositivos ou exchanges que utiliza.",
                 "modal": {
-                    "title": "Update your address",
-                    "descOne": "By continuing, you acknowledge that the single-use funding address will be replaced, and any additional funds sent to the old address will be lost.",
-                    "descTwo": "Remember to replace it with your Account ID on any exchanges or other devices where it may have been saved."
+                    "title": "Atualizar o endereço",
+                    "descOne": "Ao continuar, você está ciente que o endereço de fundação único será substituído e qualquer valor enviado ao endereço antigo será perdido.",
+                    "descTwo": "Se lembre de atualizar este endereço para o ID da conta em todos os dispositivos ou exchanges que utiliza."
                 }
             },
             "success": {
@@ -229,19 +229,19 @@
 
     "initialDeposit": {
         "creditCard": {
-            "title": "Fund your new account using a credit card.",
-            "desc": "Complete your purchase of <b>at least ${amount} NEAR</b> through MoonPay. MoonPay will automatically deposit your funds into your new account."
+            "title": "Fundar utilizando cartão de crédito.",
+            "desc": "Complete sua compra de <b>pelo menos ${amount} NEAR</b> via MoonPay. MoonPay automaticamente depositar esse valor em sua nova conta."
         },
         "manualDeposit": {
-            "title": "Submit a manual deposit.",
-            "desc": "Meet the minimum initial deposit by sending <b>at least ${amount} NEAR</b> to the single-use funding address below."
+            "title": "Depósito manual.",
+            "desc": "Realize um depósito inicial de <b>pelo menos ${amount} NEAR</b> para o seguinte endereço de fundação único."
         },
         "claimAccount": {
-            "title": "Claim Your Account",
-            "desc": "Your deposit was received! Once claimed, your deposit will be transferred to your new account.",
+            "title": "Reivindicar sua conta",
+            "desc": "Seu depósito inicial foi recebido! Uma vez reivindicada, seu depósito será transferido para essa nova conta.",
             "disclaimer": {
-                "desc": "Important: The old single-use funding address will no longer be valid. Make sure to replace it with your new address on any exchanges or other devices where it may have been saved.",
-                "checkBox": "Agree & Continue"
+                "desc": "Importante: Seu endereço de fundação única deixará de existir. Se certifique de atualizar este endereço para o ID da conta criada em todos os dispositivos ou exchanges que utiliza.",
+                "checkBox": "Concordar & Continuar"
             }
         }
     },
@@ -600,9 +600,9 @@
 
     "createAccount": {
         "termsPage": {
-            "title": "Before you begin...",
-            "descOne": "NEAR accounts require a minimum balance of <b>at least ${amount}</b> to <a href='https://docs.near.org/docs/concepts/account' rel='noopener noreferrer' target='_blank'>hold a place on the network.</a>",
-            "descTwo": "After reserving a unique account address, you’ll be asked to make a small initial deposit to activate your account.",
+            "title": "Antes de começar...",
+            "descOne": "Contas NEAR necessitam de um saldo de <b>pelo menos ${amount}</b> NEAR para <a href='https://docs.near.org/docs/concepts/account' rel='noopener noreferrer' target='_blank'>reservar seu espaço na rede.</a>",
+            "descTwo": "Antes de reservar um endereço único, será requisitado um pequeno depósito inicial para ativar sua conta.",
             "disclaimer": "Ao criar uma carteira NEAR, você concorda com os <a href='/terms' rel='noopener noreferrer' target='_blank'>Termos de Serviço</a> e <a href='https://near.org/privacy' rel='noopener noreferrer' target='_blank'>Política de Privacidade</a> da carteira NEAR."
         },
         "pageTitle": "Definir ID da conta",
@@ -641,19 +641,19 @@
 
     "reCAPTCHA": {
         "fail": {
-            "title": "Failed to load reCAPTCHA.",
-            "desc": "reCAPTCHA is required in order to authorize new accounts funded by NEAR.",
-            "link": "Fund your own account?"
+            "title": "Falha ao carregar reCAPTCHA.",
+            "desc": "Validar reCAPTCHA é necessário para autorizar a criação de nova conta NEAR.",
+            "link": "Fundar uma conta?"
         },
-        "loading": "Loading reCAPTCHA...",
-        "disclaimer": "This site is protected by reCAPTCHA and the Google <a href='https://policies.google.com/privacy' target='_blank' rel='noopener noreferrer'>Privacy Policy</a> and <a href='https://policies.google.com/terms' target='_blank' rel='noopener noreferrer'>Terms of Service</a> apply."
+        "loading": "Carregando reCAPTCHA...",
+        "disclaimer": "Este site é protegido com reCAPTCHA. A <a href='https://policies.google.com/privacy' target='_blank' rel='noopener noreferrer'>Política de Privacidade</a> e <a href='https://policies.google.com/terms' target='_blank' rel='noopener noreferrer'>Termos de Serviço</a> do Google se aplicam."
     },
 
     "linkdropLanding": {
         "title": "Você recebeu uma distribuição de NEAR!",
         "desc": "Você pode reivindicar a distribuição de NEAR com uma conta existente (precisar estar logado), ou criar uma nova conta para receber como depósito inicial.",
         "ctaAccount": "Reivindicar com uma Conta Existente",
-        "ctaLogin": "Logar e Reinvidicar",
+        "ctaLogin": "Logar e Reivindicar",
         "ctaNew": "Reivindicar com uma Nova Conta",
         "or": "ou",
         "claiming": "Reivindicar",
@@ -1050,19 +1050,19 @@
     },
 
     "mobileDeviceAccess": {
-        "title": "Mobile Device Access",
+        "title": "Acessar usando dispositivo móvel",
         "showCode": {
-            "desc": "Scan your mobile access code to grant full account access to your mobile device.",
-            "button": "View Mobile Code",
+            "desc": "Escaneie o código de acesso para garantir controle completo de sua conta ao seu dispositivo móvel.",
+            "button": "Ver código de acesso",
             "modal": {
-                "title": "Mobile Access Code",
-                "desc": "Reveal and scan the QR code below to import your account on your mobile device.",
-                "disclaimer": "<b>This code contains highly sensitive data and grants full account access to your mobile device.</b> Take care not to share or expose it, and only import your account to a secure device that you own.",
-                "reveal": "Reveal"
+                "title": "Código de acesso móvel",
+                "desc": "Revele e escaneie o código QR abaixo para importar sua conta em seu dispositivo móvel.",
+                "disclaimer": "<b>Este código contém informação sigilosa e garante acesso completo a sua conta em dispositivos móveis.</b> Cuidado para não compartilhar ou expô-lo, e apenas importe sua conta em dispositivos que lhe pertença.",
+                "reveal": "Revelar"
             }
         },
         "importCode": {
-            "desc": "If you are already logged in on a desktop device, scan your mobile access code to import your account."
+            "desc": "Caso esteja com seção ativa em um desktop, escaneia seu código de acesso móvel para importar sua conta."
         }
     },
 
@@ -1109,51 +1109,51 @@
     "sendV2": {
         "TXEntry": {
             "title": {
-                "token": "Asset",
-                "estimatedFees": "Estimated fees",
-                "estimatedTotal": "Estimated total",
-                "status": "TXN Status",
-                "amount": "Amount",
-                "networkFees": "Network fees",
-                "receiverId": "Sent to",
-                "timeStamp": "Date & time",
-                "reservedForFees": "Reserved for fees",
-                "availableBalance": "Available balance",
-                "availableToSend": "Available to Send",
-                "from": "From",
-                "to": "To"
+                "token": "Ativo",
+                "estimatedFees": "Taxas estimadas",
+                "estimatedTotal": "Total estimado",
+                "status": "Status da TXN",
+                "amount": "Quantidade",
+                "networkFees": "Taxas da rede",
+                "receiverId": "Enviar para",
+                "timeStamp": "Data & horário",
+                "reservedForFees": "Reservado para taxas",
+                "availableBalance": "Saldo disponível",
+                "availableToSend": "Disponível para envio",
+                "from": "De",
+                "to": "Para"
             },
             "status": {
-                "SuccessValue": "Successful",
-                "Failure": "Failed",
-                "notAvailable": "Status not available"
+                "SuccessValue": "Sucesso",
+                "Failure": "Falhou",
+                "notAvailable": "Status indisponível"
             }
         },
         "accordionTriggerTitle": {
-            "balanceDetails": "Balance details",
-            "transactionDetails": "Transaction Details"
+            "balanceDetails": "Detalhes do saldo",
+            "transactionDetails": "Detalhes da transação"
         },
-        "selectTokenButtonTitle": "Select Asset",
+        "selectTokenButtonTitle": "Selecionar ativo",
         "selectAsset": {
-            "title": "Select Asset",
-            "assetInputPlaceholder": "Search asset name",
-            "assetListNameTitle": "Name",
-            "asssetListBalanceTitle": "Available to send"
+            "title": "Selecionar ativo",
+            "assetInputPlaceholder": "Buscar nome do ativo",
+            "assetListNameTitle": "Nome",
+            "asssetListBalanceTitle": "Disponível para envio"
         },
         "selectReceiver": {
-            "receiverInputLabel": "Send to"
+            "receiverInputLabel": "Enviar para"
         },
         "review": {
-            "title": "You are sending"
+            "title": "Você está enviando"
         },
         "success": {
-            "title": "Transaction complete!</br>You sent <span class='color-blue'>${amount}</span></br>to <span class='color-green'>${receiverId}</span>"
+            "title": "Transação completa!</br>Você enviou <span class='color-blue'>${amount}</span></br>para <span class='color-green'>${receiverId}</span>"
         },
         "translateIdInfoTooltip": {
-            "estimatedFees": "The estimated cost of processing your transaction.",
-            "estimatedTotal": "The estimated total of your transaction including fees.",
-            "reservedForFees": "The portion of your account balance that cannot be spent. This amount is reserved to cover the storage costs of your account. For more information, visit our documentation.",
-            "networkFees": "The final amount paid to cover the costs of processing your transaction."
+            "estimatedFees": "Custo estimado de processamento da sua transação.",
+            "estimatedTotal": "Total estimado da sua transação incluindo taxas.",
+            "reservedForFees": "Uma porção do seu saldo não pode ser gasto. Esse valor é reservado para custear o armazenamento de sua conta. Para mais informações, visite nossa documentação.",
+            "networkFees": "Valor final pago para cobrir os custos de processamento da sua transação."
         }
     },
     "sign": {
@@ -1189,9 +1189,8 @@
         "transferring": "Transferindo",
         "authorizing": "Autorizando"
     },
-
-    "availableBalanceInfo": "Your spendable NEAR balance excluding funds locked or staked. <a href='/profile'>View Balance Breakdown →</a>",
-    "reservedForFeesInfo": "Up to ${data} NEAR is reserved to cover the cost of transactions.",
+    "availableBalanceInfo": "Saldo NEAR disponível excluindo valores em stake ou bloqueados. <a href='/profile'>Ver Saldo detalhado→</a>",
+    "reservedForFeesInfo": "Pelo menos ${data} NEAR são reservados para cobrir o custo das transações.",
     "availableBalanceProfile": "Este é o seu saldo NEAR gastável e pode ser usado ou transferido imediatamente. Isso será inferior ao seu saldo total.",
     "minimumBalance": "Este é o saldo mínimo NEAR que sua conta deve manter para permanecer ativa. Este saldo representa o espaço de armazenamento que sua conta está usando no blockchain NEAR (com um pequeno buffer) e aumentará ou diminuirá conforme você usar mais ou menos espaço.",
     "totalBalance": "Seu saldo total representa todos os tokens NEAR sob seu controle. Em muitos casos, você não terá acesso imediato a todo o saldo (por exemplo, se estiver bloqueado, delegado ou em stake). Verifique seu saldo disponível para o NEAR que você pode usar, transferir, delegar e fazer stake ativamente.",
