@@ -57,6 +57,7 @@ export function LoginWrapper() {
     return (
         <SelectAccountLoginWrapper
             loginAccessType={loginAccessType}
+            failureUrl={failureUrl}
             onClickNext={() => { setConfirmLogin(true); window.scrollTo(0, 0); }}
         />
     );
