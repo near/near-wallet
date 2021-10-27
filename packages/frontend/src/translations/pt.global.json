@@ -165,7 +165,7 @@
                 "desc": "Para utilizar sua NEAR Wallet, faça um depósito minímo inicial de <b>pelo menos ${amount}</b> para seu ID da conta (também conhecido por “endereço”)."
             },
             "post": {
-                "title": "Sua conta foi ativa.",
+                "title": "Sua conta foi ativada.",
                 "descOne": "Seu depósito inicial foi recebido e encaminhado para sua nova conta. Agora, sua conta está ativa!",
                 "descTwo": "Uma porção do seu saldo foi reservado para cobrir os <a href='https://docs.near.org/docs/concepts/account' rel='noopener noreferrer' target='_blank'>custos de hospedagem da conta</a>."
             }
@@ -182,7 +182,7 @@
                     "desc": "NEAR tokens estão disponíveis para compra nas seguintes exchanges"
                 },
                 "moonPay": {
-                    "title": "Fundar via MoonPay",
+                    "title": "Adicionar saldo com MoonPay",
                     "desc": "Faça seu depósito inicial via MoonPay utilizado seu método de pagamento preferido.",
                     "buyWith": "Comprar com"
                 },
@@ -191,10 +191,10 @@
             "post": {
                 "title": "Reivindique sua conta",
                 "descOne": "Seu depósito inicial foi recebido! Uma vez reivindicada, seu depósito será transferido para essa nova conta.",
-                "descTwo": "Importante: Seu endereço de fundação única deixará de existir. Se certifique de atualizar este endereço para o ID da conta criada em todos os dispositivos ou exchanges que utiliza.",
+                "descTwo": "Importante: Seu endereço de financiamento deixará de existir. Se certifique de atualizar este endereço para o ID da conta criada em todos os dispositivos ou exchanges que utiliza.",
                 "modal": {
                     "title": "Atualizar o endereço",
-                    "descOne": "Ao continuar, você está ciente que o endereço de fundação único será substituído e qualquer valor enviado ao endereço antigo será perdido.",
+                    "descOne": "Ao continuar, você está ciente que o endereço de financiamento será substituído e qualquer valor enviado ao endereço antigo será perdido.",
                     "descTwo": "Se lembre de atualizar este endereço para o ID da conta em todos os dispositivos ou exchanges que utiliza."
                 }
             },
@@ -229,18 +229,18 @@
 
     "initialDeposit": {
         "creditCard": {
-            "title": "Fundar utilizando cartão de crédito.",
+            "title": "Adcionar saldo utilizando cartão de crédito.",
             "desc": "Complete sua compra de <b>pelo menos ${amount} NEAR</b> via MoonPay. MoonPay automaticamente depositar esse valor em sua nova conta."
         },
         "manualDeposit": {
             "title": "Depósito manual.",
-            "desc": "Realize um depósito inicial de <b>pelo menos ${amount} NEAR</b> para o seguinte endereço de fundação único."
+            "desc": "Realize um depósito inicial de <b>pelo menos ${amount} NEAR</b> para o seguinte endereço de financiamento."
         },
         "claimAccount": {
             "title": "Reivindicar sua conta",
             "desc": "Seu depósito inicial foi recebido! Uma vez reivindicada, seu depósito será transferido para essa nova conta.",
             "disclaimer": {
-                "desc": "Importante: Seu endereço de fundação única deixará de existir. Se certifique de atualizar este endereço para o ID da conta criada em todos os dispositivos ou exchanges que utiliza.",
+                "desc": "Importante: Seu endereço de financiamento deixará de existir. Se certifique de atualizar este endereço para o ID da conta criada em todos os dispositivos ou exchanges que utiliza.",
                 "checkBox": "Concordar & Continuar"
             }
         }
