@@ -120,7 +120,7 @@ const checkContractId = () => async (dispatch, getState) => {
     if (contract_id) {
         const redirectIncorrectContractId = () => {
             console.error('Invalid contractId:', contract_id);
-            dispatch(redirectTo(`/${WALLET_LOGIN_URL}/?invalidContractId=${contract_id}&failure_url=${failure_url}`, { globalAlertPreventClear: true }));
+            dispatch(redirectTo(`/${WALLET_LOGIN_URL}/?invalidContractId=true&failure_url=${failure_url}`, { globalAlertPreventClear: true }));
         };
 
         if (!wallet.isLegitAccountId(contract_id)) {

@@ -1,25 +1,15 @@
 import { getLocation } from 'connected-react-router';
 import React, { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import { Mixpanel } from '../../../mixpanel/index';
 import {
-    switchAccount,
-    getAccountBalance,
-    redirectTo,
-    redirectToApp
-} from '../../../redux/actions/account';
-import {
-    selectAccountUrlReferrer,
-    selectAccountLocalStorageAccountId,
-    selectAccountAccountsBalances,
-    selectBalance
+    selectAccountLocalStorageAccountId
 } from '../../../redux/slices/account';
-import { selectAvailableAccounts } from '../../../redux/slices/availableAccounts';
 import { LOCKUP_ACCOUNT_ID_SUFFIX } from '../../../utils/wallet';
 import ConfirmLoginWrapper from './ConfirmLoginWrapper';
 import InvalidContractId from './InvalidContractId';
-import SelectAccountLogin from './SelectAccountLogin';
+import SelectAccountLoginWrapper from './SelectAccountLoginWrapper';
 
 export const LOGIN_ACCESS_TYPES = {
     FULL_ACCESS: 'fullAccess',
@@ -27,7 +17,6 @@ export const LOGIN_ACCESS_TYPES = {
 };
 
 export function LoginWrapper() {
-    const dispatch = useDispatch();
 
     const [confirmLogin, setConfirmLogin] = useState(false);
 
@@ -38,18 +27,15 @@ export function LoginWrapper() {
     const failureUrl = URLParams.get('failure_url');
     const invalidContractId = URLParams.get('invalidContractId');
 
-    const signedInAccountId = useSelector(selectAccountLocalStorageAccountId);
-    const availableAccounts = useSelector(selectAvailableAccounts);
-    const accountsBalances = useSelector(selectAccountAccountsBalances);
-    const appReferrer = useSelector(selectAccountUrlReferrer);
+    const accountLocalStorageAccountId = useSelector(selectAccountLocalStorageAccountId);
 
-    const requestingFullAccess = !contractId || (publicKey && contractId?.endsWith(`.${LOCKUP_ACCOUNT_ID_SUFFIX}`)) || contractId === signedInAccountId;
+    const requestingFullAccess = !contractId || (publicKey && contractId?.endsWith(`.${LOCKUP_ACCOUNT_ID_SUFFIX}`)) || contractId === accountLocalStorageAccountId;
     const loginAccessType = requestingFullAccess ? LOGIN_ACCESS_TYPES.FULL_ACCESS : LOGIN_ACCESS_TYPES.LIMITED_ACCESS;
 
     if (invalidContractId) {
         return (
             <InvalidContractId
-                invalidContractId={invalidContractId}
+                invalidContractId={contractId}
                 onClickReturnToApp={() => {
                     Mixpanel.track("LOGIN Invalid contract id Click return to app button", { contract_id: contractId });
                     window.location.href = failureUrl;
@@ -61,9 +47,7 @@ export function LoginWrapper() {
     if (confirmLogin) {
         return (
             <ConfirmLoginWrapper
-                signedInAccountId={signedInAccountId}
                 loginAccessType={loginAccessType}
-                appReferrer={appReferrer}
                 contractId={contractId}
                 onClickCancel={() => setConfirmLogin(false)}
             />
@@ -71,30 +55,9 @@ export function LoginWrapper() {
     }
 
     return (
-        <SelectAccountLogin
-            signedInAccountId={signedInAccountId}
-            availableAccounts={availableAccounts}
-            accountsBalances={accountsBalances}
-            onSelectAccount={(accountId) => dispatch(switchAccount({ accountId }))}
-            getAccountBalance={(accountId) => dispatch(getAccountBalance(accountId))}
-            onSignInToDifferentAccount={() => {
-                Mixpanel.track("LOGIN Click recover different account button");
-                dispatch(redirectTo('/recover-account'));
-            }}
+        <SelectAccountLoginWrapper
             loginAccessType={loginAccessType}
-            appReferrer={appReferrer}
-            onClickCancel={() => {
-                Mixpanel.track("LOGIN Click deny button");
-                if (failureUrl) {
-                    window.location.href = failureUrl;
-                } else {
-                    dispatch(redirectToApp());
-                }
-            }}
-            onClickNext={() => {
-                setConfirmLogin(true);
-                window.scrollTo(0, 0);
-            }}
+            onClickNext={() => { setConfirmLogin(true); window.scrollTo(0, 0); }}
         />
     );
 }

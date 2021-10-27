@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Translate } from 'react-localize-redux';
 
 import AlertBanner from '../../common/AlertBanner';
@@ -16,69 +16,85 @@ export default ({
     signedInAccountId,
     onClickCancel,
     onClickConnect,
-    onClickConfirmFullAccess,
     loginAccessType,
     appReferrer,
     contractId,
-    showGrantFullAccessModal,
-    onCloseGrantFullAccessModal,
-    EXPLORER_URL,
-    loggingIn
-}) => (
-    <>
-        <Container className='small-centered border'>
-            <LoginStyle className='confirm-login'>
-                <SwapGraphic className='swap-graphic' />
-                <h3><Translate id='login.v2.connectConfirm.title' data={{ accountId: signedInAccountId }} /></h3>
-                <div className='desc'>
-                    <Translate>
-                        {({ translate }) => (
-                            <SafeTranslate
-                                id='login.v2.connectConfirm.desc'
-                                data={{
-                                    contractIdUrl: `${EXPLORER_URL}/accounts/${contractId}`,
-                                    appReferrer: appReferrer || translate('sign.unknownApp'),
-                                    accessType: translate(`login.v2.connectConfirm.${loginAccessType}`)
-                                }}
-                            />
-                        )}
-                    </Translate>
-                </div>
-                {loginAccessType === LOGIN_ACCESS_TYPES.LIMITED_ACCESS
-                    ? <LimitedAccessUI/>
-                    : <FullAccessUI/>
-                }
-                <FormButtonGroup>
-                    <FormButton
-                        onClick={onClickCancel}
-                        color='gray-blue'
-                        disabled={loggingIn}
-                    >
-                        <Translate id='button.cancel' />
-                    </FormButton>
-                    <FormButton
-                        onClick={onClickConnect}
-                        disabled={loggingIn}
-                        sending={loggingIn}
-                        sendingString='button.connecting'
-                    >
-                        <Translate id='button.connect' />
-                    </FormButton>
-                </FormButtonGroup>
-            </LoginStyle>
-        </Container>
-        {showGrantFullAccessModal &&
-            <GrantFullAccessModal
-                open={showGrantFullAccessModal}
-                onClose={onCloseGrantFullAccessModal}
-                onConfirm={onClickConfirmFullAccess}
-                signedInAccountId={signedInAccountId}
-                appReferrer={appReferrer}
-                loggingIn={loggingIn}
-            />
+    EXPLORER_URL
+}) => {
+    const [loggingIn, setLoggingIn] = useState(false);
+    const [showGrantFullAccessModal, setShowGrantFullAccessModal] = useState(false);
+
+    const handleClickConnect = async () => {
+        try {
+            setLoggingIn(true);
+            await onClickConnect();
+        } finally {
+            setLoggingIn(false);
         }
-    </>
-);
+    };
+
+    return (
+        <>
+            <Container className='small-centered border'>
+                <LoginStyle className='confirm-login'>
+                    <SwapGraphic className='swap-graphic' />
+                    <h3><Translate id='login.v2.connectConfirm.title' data={{ accountId: signedInAccountId }} /></h3>
+                    <div className='desc'>
+                        <Translate>
+                            {({ translate }) => (
+                                <SafeTranslate
+                                    id='login.v2.connectConfirm.desc'
+                                    data={{
+                                        contractIdUrl: `${EXPLORER_URL}/accounts/${contractId}`,
+                                        appReferrer: appReferrer || translate('sign.unknownApp'),
+                                        accessType: translate(`login.v2.connectConfirm.${loginAccessType}`)
+                                    }}
+                                />
+                            )}
+                        </Translate>
+                    </div>
+                    {loginAccessType === LOGIN_ACCESS_TYPES.LIMITED_ACCESS
+                        ? <LimitedAccessUI />
+                        : <FullAccessUI />
+                    }
+                    <FormButtonGroup>
+                        <FormButton
+                            onClick={onClickCancel}
+                            color='gray-blue'
+                            disabled={loggingIn}
+                        >
+                            <Translate id='button.cancel' />
+                        </FormButton>
+                        <FormButton
+                            onClick={() => {
+                                if (loginAccessType === LOGIN_ACCESS_TYPES.FULL_ACCESS) {
+                                    setShowGrantFullAccessModal(true);
+                                } else {
+                                    handleClickConnect();
+                                }
+                            }}
+                            disabled={loggingIn}
+                            sending={loggingIn}
+                            sendingString='button.connecting'
+                        >
+                            <Translate id='button.connect' />
+                        </FormButton>
+                    </FormButtonGroup>
+                </LoginStyle>
+            </Container>
+            {showGrantFullAccessModal &&
+                <GrantFullAccessModal
+                    open={showGrantFullAccessModal}
+                    onClose={() => setShowGrantFullAccessModal(false)}
+                    onConfirm={handleClickConnect}
+                    signedInAccountId={signedInAccountId}
+                    appReferrer={appReferrer}
+                    loggingIn={loggingIn}
+                />
+            }
+        </>
+    );
+};
 
 const LimitedAccessUI = () => (
     <>
