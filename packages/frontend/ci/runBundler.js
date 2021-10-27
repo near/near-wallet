@@ -8,4 +8,4 @@ async function runBundler() {
     await bundler.bundle();
 }
 
-runBundler();
+runBundler().catch(() => process.exit(1));
