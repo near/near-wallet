@@ -194,7 +194,7 @@
                 "descTwo": "Importante: Seu endereço de financiamento deixará de existir. Se certifique de atualizar este endereço para o ID da conta criada em todos os dispositivos ou exchanges que utiliza.",
                 "modal": {
                     "title": "Atualizar o endereço",
-                    "descOne": "Ao continuar, você está ciente que o endereço de financiamento será substituído e qualquer valor enviado ao endereço antigo será perdido.",
+                    "descOne": "Ao continuar, você está ciente de que o endereço de financiamento será substituído e qualquer valor enviado ao endereço antigo será perdido.",
                     "descTwo": "Se lembre de atualizar este endereço para o ID da conta em todos os dispositivos ou exchanges que utiliza."
                 }
             },
@@ -229,8 +229,8 @@
 
     "initialDeposit": {
         "creditCard": {
-            "title": "Adcionar saldo utilizando cartão de crédito.",
-            "desc": "Complete sua compra de <b>pelo menos ${amount} NEAR</b> via MoonPay. MoonPay automaticamente depositar esse valor em sua nova conta."
+            "title": "Adicionar saldo utilizando cartão de crédito.",
+            "desc": "Complete sua compra de <b>pelo menos ${amount} NEAR</b> via MoonPay. MoonPay automaticamente depositará esse valor em sua nova conta."
         },
         "manualDeposit": {
             "title": "Depósito manual.",
