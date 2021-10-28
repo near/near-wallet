@@ -15,8 +15,7 @@ const deserializeTransactionsFromString = (transactionsString) => transactionsSt
     .map(str => Buffer.from(str, 'base64'))
     .map(buffer => utils.serialize.deserialize(transaction.SCHEMA, transaction.Transaction, buffer));
 
-const calculateGasLimit = (transactions) => transactions
-    .flatMap(t => t.actions)
+const calculateGasLimit = (actions) => actions
     .filter(a => Object.keys(a)[0] === 'functionCall')
     .map(a => a.functionCall.gas)
     .reduce((totalGas, gas) => totalGas.add(gas), new BN(0)).toString();
@@ -37,7 +36,7 @@ const sign = handleActions({
                 .reduce((totalAmount, amount) => totalAmount.add(new BN(amount)), new BN(0)).toString(),
             fees: {
                 transactionFees: '', // TODO: Calculate total fees
-                gasLimit: calculateGasLimit(transactions),
+                gasLimit: calculateGasLimit(allActions),
                 gasPrice: '' // TODO: Where to get gas price?
             },
             sensitiveActionsCounter: allActions
@@ -77,14 +76,12 @@ const sign = handleActions({
             });
         });
 
-        console.log('calculateGasLimit(transactions)', calculateGasLimit(transactions));
-
         return {
             ...state,
             transactions,
             fees: {
                 ...state.transactions.fees,
-                gasLimit: calculateGasLimit(transactions)
+                gasLimit: calculateGasLimit(transactions.flatMap(t => t.actions))
             }
         };
     },
