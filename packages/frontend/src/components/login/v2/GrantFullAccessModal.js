@@ -103,6 +103,8 @@ export default ({
                                 placeholder={translate('input.accountId.placeholder')}
                                 onChange={(e) => setUserInputValue(e.target.value)}
                                 value={userInputValue}
+                                autoCapitalize='off'
+                                spellCheck='false'
                             />
                         )}
                     </Translate>
