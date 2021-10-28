@@ -82,8 +82,10 @@ export default ({
             modalSize='md'
         >
             <form onSubmit={e => {
-                onConfirm();
-                e.preventDefault();
+                if (signedInAccountId === userInputValue && !loggingIn) {
+                    onConfirm();
+                    e.preventDefault();
+                }
             }}>
                 <StyledContainer>
                     <div className='upper-body'>
@@ -99,7 +101,6 @@ export default ({
                         {({ translate }) => (
                             <input
                                 placeholder={translate('input.accountId.placeholder')}
-                                autoFocus={true}
                                 onChange={(e) => setUserInputValue(e.target.value)}
                                 value={userInputValue}
                             />
