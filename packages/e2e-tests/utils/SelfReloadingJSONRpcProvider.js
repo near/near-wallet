@@ -3,8 +3,9 @@ const { BN } = require("bn.js");
 
 const { createAccountWithHelper } = require("../services/contractHelper");
 const E2eTestAccount = require("./E2eTestAccount");
-const { generateTestAccountId } = require("./helpers");
+const { generateTestAccountId, getWorkerAccountId } = require("./helpers");
 const nearApiJsConnection = require("./connectionSingleton");
+const { getTestAccountSeedPhrase } = require("./helpers");
 
 class SelfReloadingJSONRpcProvider extends JsonRpcProvider {
     constructor(...args) {
@@ -15,16 +16,18 @@ class SelfReloadingJSONRpcProvider extends JsonRpcProvider {
         return super.sendTransaction.call(this, signedTransaction).catch(async (e) => {
             if (e.type === "NotEnoughBalance" && !this.isReloading) {
                 this.isReloading = true;
-                if (signedTransaction.transaction.signerId === process.env.BANK_ACCOUNT) {
+                if (signedTransaction.transaction.signerId === getWorkerAccountId(process.env.TEST_WORKER_INDEX)) {
                     const bankAccount = await new E2eTestAccount(
-                        process.env.BANK_ACCOUNT,
-                        process.env.BANK_SEED_PHRASE
+                        signedTransaction.transaction.signerId,
+                        getTestAccountSeedPhrase(signedTransaction.transaction.signerId)
                     ).initialize();
                     const { total: bankBalanceBeforeReload } = await bankAccount.getUpdatedBalance();
                     await SelfReloadingJSONRpcProvider.reloadAccount(signedTransaction.transaction.signerId);
                     const { total: bankBalanceAfterReload } = await bankAccount.getUpdatedBalance();
                     const reloadedAmount = new BN(bankBalanceAfterReload).sub(new BN(bankBalanceBeforeReload));
-                    process.env.bankStartBalance = new BN(process.env.bankStartBalance).add(reloadedAmount).toString();
+                    process.env.workerBankStartBalance = new BN(process.env.workerBankStartBalance)
+                        .add(reloadedAmount)
+                        .toString();
                 } else {
                     await SelfReloadingJSONRpcProvider.reloadAccount(signedTransaction.transaction.signerId);
                 }
@@ -37,7 +40,7 @@ class SelfReloadingJSONRpcProvider extends JsonRpcProvider {
     }
     static async reloadAccount(accountId) {
         const randomSubaccountId = `${generateTestAccountId()}.${nearApiJsConnection.config.networkId}`;
-        const randomSubaccountSeedphrase = `${randomSubaccountId} ${process.env.TEST_ACCOUNT_SEED_PHRASE}`;
+        const randomSubaccountSeedphrase = getTestAccountSeedPhrase(randomSubaccountId);
         await createAccountWithHelper(randomSubaccountId, randomSubaccountSeedphrase);
         const randomAccount = await new E2eTestAccount(randomSubaccountId, randomSubaccountSeedphrase, {
             accountId: nearApiJsConnection.config.networkId,

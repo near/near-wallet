@@ -7,6 +7,7 @@ const BN = require("bn.js");
 
 const nearApiJsConnection = require("./connectionSingleton");
 const { getKeyPairFromSeedPhrase, generateTestAccountId } = require("./helpers");
+const { getTestAccountSeedPhrase } = require("./helpers");
 
 class E2eTestAccount {
     constructor(accountId, seedPhrase, parentNearApiJsAccount) {
@@ -42,12 +43,21 @@ class E2eTestAccount {
         this.isCreated = true;
         return this.initialize();
     }
+    connectOrCreate(...creationArgs) {
+        return this.initialize().catch((e) => {
+            if (new RegExp(`${this.accountId} does not exist while viewing`).test(e.message)) {
+                return this.create(...creationArgs);
+            } else {
+                throw e;
+            }
+        });
+    }
     spawnRandomSubAccountInstance() {
         if (!this.nearApiJsAccount) {
             throw new Error("Account needs to be initialized to spawn sub accounts");
         }
         const randomSubaccountId = `${generateTestAccountId()}.${this.accountId}`;
-        const randomSubaccountSeedphrase = `${randomSubaccountId} ${process.env.TEST_ACCOUNT_SEED_PHRASE}`;
+        const randomSubaccountSeedphrase = getTestAccountSeedPhrase(randomSubaccountId);
         return new E2eTestAccount(randomSubaccountId, randomSubaccountSeedphrase, this.nearApiJsAccount);
     }
     async delete() {

@@ -20,8 +20,18 @@ function generateTestAccountId() {
     return `twa-${Date.now()}-${Math.floor(Math.random() * 1000) % 1000}`;
 }
 
+function getTestAccountSeedPhrase(testAccountId) {
+    return `${testAccountId} ${process.env.TEST_ACCOUNT_SEED_PHRASE}`
+}
+
+function getWorkerAccountId(workerIndex) {
+    return `${workerIndex}.${process.env.BANK_ACCOUNT}`
+}
+
 module.exports = {
     generateNUniqueRandomNumbersInRange,
     getKeyPairFromSeedPhrase,
-    generateTestAccountId
+    generateTestAccountId,
+    getTestAccountSeedPhrase,
+    getWorkerAccountId
 };
