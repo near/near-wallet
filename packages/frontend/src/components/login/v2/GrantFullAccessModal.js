@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
+import isMobile from '../../../utils/isMobile';
 import FormButton from '../../common/FormButton';
 import Modal from '../../common/modal/Modal';
 import ModalFooter from '../../common/modal/ModalFooter';
@@ -105,6 +106,8 @@ export default ({
                                 value={userInputValue}
                                 autoCapitalize='off'
                                 spellCheck='false'
+                                disabled={loggingIn}
+                                autoFocus={!isMobile()}
                             />
                         )}
                     </Translate>
