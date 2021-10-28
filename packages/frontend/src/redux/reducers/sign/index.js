@@ -11,7 +11,7 @@ const initialState = {
     status: 'needs-confirmation'
 };
 
-const deserializeTransactionFromString = (transactionsString) => transactionsString.split(',')
+const deserializeTransactionsFromString = (transactionsString) => transactionsString.split(',')
     .map(str => Buffer.from(str, 'base64'))
     .map(buffer => utils.serialize.deserialize(transaction.SCHEMA, transaction.Transaction, buffer));
 
@@ -23,7 +23,7 @@ const calculateGasLimit = (transactions) => transactions
 
 const sign = handleActions({
     [parseTransactionsToSign]: (state, { payload: { transactions: transactionsString, callbackUrl, meta } }) => {
-        const transactions = deserializeTransactionFromString(transactionsString);
+        const transactions = deserializeTransactionsFromString(transactionsString);
 
         const allActions = transactions.flatMap(t => t.actions);
         
@@ -67,7 +67,7 @@ const sign = handleActions({
         };
     },
     [multiplyGas]: (state, { payload: { transactions: transactionsString } }) => {
-        const transactions = deserializeTransactionFromString(transactionsString);
+        const transactions = deserializeTransactionsFromString(transactionsString);
 
         transactions.forEach((t) => {
             t.actions.forEach((a) => {
