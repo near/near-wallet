@@ -21,21 +21,6 @@ export default ({
     const accountLocalStorageAccountId = useSelector(selectAccountLocalStorageAccountId);
     const accountUrlReferrer = useSelector(selectAccountUrlReferrer);
 
-    const handleAllowLogin = async () => {
-        await Mixpanel.withTracking("LOGIN",
-            async () => {
-                await dispatch(allowLogin());
-            },
-            (e) => {
-                dispatch(showCustomAlert({
-                    success: false,
-                    messageCodeHeader: 'error',
-                    errorMessage: e.message
-                }));
-            }
-        );
-    };
-
     return (
         <ConfirmLogin
             signedInAccountId={accountLocalStorageAccountId}
@@ -43,7 +28,20 @@ export default ({
             appReferrer={accountUrlReferrer}
             contractId={contractId}
             onClickCancel={onClickCancel}
-            onClickConnect={handleAllowLogin}
+            onClickConnect={async () => {
+                await Mixpanel.withTracking("LOGIN",
+                    async () => {
+                        await dispatch(allowLogin());
+                    },
+                    (e) => {
+                        dispatch(showCustomAlert({
+                            success: false,
+                            messageCodeHeader: 'error',
+                            errorMessage: e.message
+                        }));
+                    }
+                );
+            }}
             EXPLORER_URL={EXPLORER_URL}
         />
     );

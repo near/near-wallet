@@ -1,13 +1,13 @@
 import React from 'react';
 import { Translate } from 'react-localize-redux';
 
+import { LOGIN_ACCESS_TYPES } from '../../../routes/LoginWrapper';
 import AccountSelector from '../../accounts/account_selector/AccountSelector';
 import FormButton from '../../common/FormButton';
 import FormButtonGroup from '../../common/FormButtonGroup';
 import LoadingDots from '../../common/loader/LoadingDots';
 import Container from '../../common/styled/Container.css';
 import ConnectWithApplication from './ConnectWithApplication';
-import { LOGIN_ACCESS_TYPES } from './LoginWrapper';
 import LoginStyle from './style/LoginStyle.css';
 
 export default ({
