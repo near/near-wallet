@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import FormButton from '../../common/FormButton';
 import FormButtonGroup from '../../common/FormButtonGroup';
 import Container from '../../common/styled/Container.css';
+import ConnectWithApplication from '../../login/v2/ConnectWithApplication';
 import Transaction from './Transaction';
 
 const StyledContainer = styled(Container)`
@@ -29,6 +30,10 @@ const StyledContainer = styled(Container)`
         .button-group {
             margin-top: 25px;
         }
+
+        .connect-with-application {
+            margin: 20px auto 30px auto;
+        }
     }
 `;
 
@@ -38,11 +43,13 @@ export default ({
     estimatedFees,
     onClickCancel,
     onClickApprove,
-    onClickMoreInformation
+    onClickMoreInformation,
+    accountUrlReferrer
 }) => {
     return (
         <StyledContainer className='small-centered border'>
             <h3><Translate id='sign.v2.approveTransaction.title' /></h3>
+            <ConnectWithApplication appReferrer={accountUrlReferrer} />
             <Transaction
                 transferAmount={transferAmount}
                 sender={sender}

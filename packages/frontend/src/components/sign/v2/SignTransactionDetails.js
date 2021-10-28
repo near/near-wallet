@@ -7,7 +7,6 @@ import BackArrowButton from '../../common/BackArrowButton';
 import Balance from '../../common/balance/Balance';
 import DropdownButton from '../../common/buttons/DropdownButton';
 import Container from '../../common/styled/Container.css';
-import SafeTranslate from '../../SafeTranslate';
 import ArrowUpRight from '../../svg/ArrowUpRight';
 
 const StyledContainer = styled(Container)`
