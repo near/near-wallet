@@ -62,10 +62,11 @@ const sign = handleActions({
     [multiplyGas]: (state, { payload: { transactions: transactionsString } }) => {
         const transactions = deserializeTransactionsFromString(transactionsString);
 
-        transactions.forEach((t) => {
-            t.actions.forEach((a) => {
+        transactions.forEach((t, i) => {
+            t.actions.forEach((a, j) => {
                 if (!!a.functionCall) {
-                    a.functionCall.gas = a.functionCall.gas.mul(new BN(MULTIPLY_TX_GAS_BY));
+                    const currentGas = state.transactions[i].actions[j].functionCall.gas;
+                    a.functionCall.gas = currentGas.mul(new BN(MULTIPLY_TX_GAS_BY));
                 }
             });
         });
