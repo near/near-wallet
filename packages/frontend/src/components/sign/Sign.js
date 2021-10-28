@@ -8,7 +8,7 @@ import { Mixpanel } from '../../mixpanel';
 import { redirectTo } from '../../redux/actions/account';
 import { MULTIPLY_TX_GAS_BY } from '../../redux/reducers/sign';
 import { selectAccountSlice } from '../../redux/slices/account';
-import { addQueryParams, handleSignTransactions, handleSignTransactionMultiplyGas, selectSignSlice } from '../../redux/slices/sign';
+import { addQueryParams, handleSignTransactions, handleSignTransactionsMultiplyGas, selectSignSlice } from '../../redux/slices/sign';
 import { selectStatusActionStatus } from '../../redux/slices/status';
 import SignContainer from './SignContainer';
 import SignTransferCancelled from './SignTransferCancelled';
@@ -57,7 +57,7 @@ class Sign extends Component {
 
     retryTransaction = () => {
         this.setState({ sending: true });
-        this.props.dispatch(handleSignTransactionMultiplyGas());
+        this.props.dispatch(handleSignTransactionsMultiplyGas());
     }
 
     renderSubcomponent = () => {

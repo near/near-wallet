@@ -9,7 +9,7 @@ import { selectAccountId } from "../account";
 
 const SLICE_NAME = 'sign';
 
-export const handleSignTransactionMultiplyGas = createAsyncThunk(
+export const handleSignTransactionsMultiplyGas = createAsyncThunk(
     `${SLICE_NAME}/handleSignTransactionRetry`,
     async (_, thunkAPI) => {
         const { dispatch, getState } = thunkAPI;
