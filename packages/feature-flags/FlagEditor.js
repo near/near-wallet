@@ -32,7 +32,7 @@ class FlagEditor {
 
         const flagNames = Object.keys(this._flagsState)
 
-        const action = await this.prompts.action();
+        const action = await this.prompts.action(flagNames.length !== 0);
         this.log({ action })
 
         let flagName;
@@ -130,7 +130,7 @@ class FlagEditor {
     async writeTypeDefinitions() {
         const typedefPath = this._flagsFilepath.replace(FLAGS_FILENAME, FEATURES_TYPEDEF_FILENAME);
         const typedefs = `type Features = {
-    ${Object.keys(this._flagsState).map((flag) => `${flag}: boolean`).join(';\n\t')};
+    ${Object.keys(this._flagsState).map((flag) => `${flag}: boolean;`).join('\n\t')}
 };
 
 export default Features;
