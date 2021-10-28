@@ -91,7 +91,7 @@ export default createGlobalStyle`
         }
     }
     h3, .h3 {
-        font-size: 18px;
+        font-size: 20px;
         font-weight: 900;
         color: #24272a;
         margin: 0px;

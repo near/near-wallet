@@ -15,6 +15,7 @@ import { Mixpanel } from "../mixpanel/index";
 import * as accountActions from '../redux/actions/account';
 import { selectAccountSlice } from '../redux/slices/account';
 import { actions as tokenFiatValueActions } from '../redux/slices/tokenFiatValues';
+import { LoginWrapper } from '../routes/LoginWrapper';
 import translations_en from '../translations/en.global.json';
 import translations_pt from '../translations/pt.global.json';
 import translations_ru from '../translations/ru.global.json';
@@ -60,7 +61,6 @@ import NetworkBanner from './common/NetworkBanner';
 import PrivateRoute from './common/PrivateRoute';
 import PublicRoute from './common/PublicRoute';
 import GlobalStyle from './GlobalStyle';
-import { LoginWithRouter } from './login/Login';
 import { LoginCliLoginSuccess } from './login/LoginCliLoginSuccess';
 import Navigation from './navigation/Navigation';
 import { Profile } from './profile/Profile';
@@ -447,7 +447,7 @@ class Routing extends Component {
                             />
                             <PrivateRoute
                                 path='/login'
-                                component={LoginWithRouter}
+                                component={LoginWrapper}
                             />
                             <PrivateRoute
                                 exact
