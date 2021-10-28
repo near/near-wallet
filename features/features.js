@@ -1,4 +1,4 @@
-const { initFeatureFlags } = require('../packages/flag-editor');
+const { initFeatureFlags } = require('../packages/feature-flags');
 const Environments = require('./environments.json');
 const FeatureFlags = require('./flags.json');
 
