@@ -53,19 +53,23 @@ class Sign extends Component {
         this.setState({ sending: true });
 
         await this.props.dispatch(handleSignTransactions());
+        this.redirectToApp();
+    }
 
-        const { callbackUrl, meta, transactionHashes } = this.props;
-        if (callbackUrl) {
+    retryTransaction = async () => {
+        this.setState({ sending: true });
+
+        await this.props.dispatch(handleSignTransactionsMultiplyGas());
+        this.redirectToApp();
+    }
+    redirectToApp = () => {
+        const { callbackUrl, meta, transactionHashes = [] } = this.props;
+        if (callbackUrl && !!transactionHashes.length) {
             window.location.href = addQueryParams(callbackUrl, {
                 meta,
                 transactionHashes: transactionHashes.join(',')
             });
         }
-    }
-
-    retryTransaction = () => {
-        this.setState({ sending: true });
-        this.props.dispatch(handleSignTransactionsMultiplyGas());
     }
 
     renderSubcomponent = () => {

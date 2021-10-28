@@ -14,7 +14,7 @@ export const handleSignTransactionsMultiplyGas = createAsyncThunk(
     async (_, thunkAPI) => {
         const { dispatch, getState } = thunkAPI;
         dispatch(multiplyGas(selectAccountUrl(getState())));
-        dispatch(handleSignTransactions());
+        await dispatch(handleSignTransactions());
     }
 );
 
@@ -40,7 +40,6 @@ export const handleSignTransactions = createAsyncThunk(
                     }));
                     throw error;
                 }
-                
             }
         );
 
