@@ -12,6 +12,7 @@ const StyledButton = styled.button`
     border: none;
     border-radius: 4px;
     transition: 100ms;
+    color: #72727A;
 
     :hover {
         background-color: #E5E5E6;
@@ -55,8 +56,8 @@ const StyledButton = styled.button`
     }
 `;
 
-export default ({ children, id }) => (
-    <StyledButton id={id}>
+export default ({ children, id, className }) => (
+    <StyledButton id={id} className={className}>
         <div className='children'>{children}</div>
         <div className='chevron-wrapper'>
             <ChevronIcon color='#72727A'/>

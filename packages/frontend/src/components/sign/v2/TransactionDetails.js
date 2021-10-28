@@ -7,6 +7,7 @@ import BackArrowButton from '../../common/BackArrowButton';
 import Balance from '../../common/balance/Balance';
 import DropdownButton from '../../common/buttons/DropdownButton';
 import Container from '../../common/styled/Container.css';
+import SafeTranslate from '../../SafeTranslate';
 import ArrowUpRight from '../../svg/ArrowUpRight';
 
 const StyledContainer = styled(Container)`
@@ -70,16 +71,23 @@ const StyledContainer = styled(Container)`
             background-color: #272729;
             color: #D5D4D8;
             border-radius: 4px;
+            margin-left: 25px;
 
             > div {
                 padding: 20px;
+            }
+
+            pre {
+                margin: 0;
+                overflow: auto;
             }
         }
     }
 `;
 
 export default ({
-    onClickGoBack
+    onClickGoBack,
+    transactions
 }) => {
     return (
         <StyledContainer className='small-centered border'>
@@ -104,20 +112,74 @@ export default ({
 
             <div className='contract-details'>
                 <div className='title'>Contract Details</div>
-                <div className='entry'>
-                    Contract Address
-                    <a href='/' rel='noopener noreferrer' target='_blank'>v2.ref-finance.near <ArrowUpRight/></a>
-                </div>
-                <div className='entry function'>
-                    Function
-                    <DropdownButton id='balance-1'>
-                        storage_deposit
-                    </DropdownButton>
-                </div>
-                <Accordion trigger='balance-1' className='arguments-wrapper font-monospace'>
-                    helloooo
-                </Accordion>
+                {transactions.map((transaction, i) => (
+                    <div key={transaction.receiverId}>
+                        <div className='entry'>
+                            <Translate id='sign.details.forContract' />
+                            <a href='/' rel='noopener noreferrer' target='_blank'>{transaction.receiverId} <ArrowUpRight /></a>
+                        </div>
+                        {transaction.actions.sort((a, b) => Object.keys(b)[0] === 'functionCall' ? 1 : -1).map((action, i) => {
+                            const methodName = action.functionCall?.methodName || '';
+                            const uniqueMethodId = `${methodName}-${transaction.receiverId}`;
+                            return (
+                                <div key={methodName}>
+                                    <div className='entry function'>
+                                        Function
+                                        <DropdownButton id={uniqueMethodId} className='font-monospace'>
+                                            {methodName}
+                                        </DropdownButton>
+                                    </div>
+                                    <Accordion
+                                        trigger={uniqueMethodId}
+                                        className='arguments-wrapper font-monospace'
+                                    >
+                                        <ActionArguments
+                                            actionKind={Object.keys(action)[0]}
+                                            action={action[Object.keys(action)[0]]}
+                                        />
+                                    </Accordion>
+                                </div>
+                            );
+                        })}
+                    </div>
+                ))}
             </div>
         </StyledContainer>
     );
+};
+
+const ActionArguments = ({ actionKind, action }) => {
+    if (actionKind === 'functionCall' && Array.isArray(action.args)) {
+        try {
+            return (
+                <pre>
+                    <Translate id='arguments' />:&nbsp;
+                    {JSON.stringify(JSON.parse(Buffer.from(action.args).toString()), null, 2)}
+                </pre>
+            );
+        } catch {
+            return (
+                <Translate id='sign.ActionWarrning.binaryData' />
+            );
+        }
+    } else {
+        return (
+            <Translate id={`sign.ActionKind.${getActionKindTranslateId(actionKind)}`} />
+        );
+    }
+};
+
+const getActionKindTranslateId = (actionKind) => {
+    switch (actionKind) {
+        case 'functionCall':
+            return 'functionCall';
+        case 'deployContract':
+            return 'deployContract';
+        case 'stake':
+            return 'stake';
+        case 'deleteAccount':
+            return 'deleteAccount';
+        default:
+            return 'unknown';
+    }
 };
