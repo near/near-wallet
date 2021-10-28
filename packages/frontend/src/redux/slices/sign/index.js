@@ -9,6 +9,14 @@ import { selectAccountId, selectAccountUrl } from "../account";
 
 const SLICE_NAME = 'sign';
 
+export const SIGN_STATUS = {
+    IN_PROGRESS: 'in-progress',
+    NEEDS_CONFIRMATION: 'needs-confirmation',
+    RETRY_TRANSACTION: 'retry-tx',
+    SUCCESS: 'success',
+    ERROR: 'error'
+};
+
 export const handleSignTransactionsMultiplyGas = createAsyncThunk(
     `${SLICE_NAME}/handleSignTransactionsMultiplyGas`,
     async (_, thunkAPI) => {
@@ -48,7 +56,7 @@ export const handleSignTransactions = createAsyncThunk(
     {
         condition: (_, thunkAPI) => {
             const { getState } = thunkAPI;
-            if (selectSignStatus(getState()) === 'in-progress') {
+            if (selectSignStatus(getState()) === SIGN_STATUS.IN_PROGRESS) {
                 return false;
             }
         }

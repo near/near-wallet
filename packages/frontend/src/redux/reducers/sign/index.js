@@ -2,13 +2,12 @@ import BN from 'bn.js';
 import { utils, transactions as transaction } from 'near-api-js';
 import { handleActions } from 'redux-actions';
 
-import { parseTransactionsToSign, makeAccountActive, multiplyGas } from '../../actions/account';
-import { handleSignTransactions } from '../../slices/sign';
+import { handleSignTransactions, SIGN_STATUS } from '../../slices/sign';
 
 export const MULTIPLY_TX_GAS_BY = 2;
 
 const initialState = {
-    status: 'needs-confirmation'
+    status: SIGN_STATUS.NEEDS_CONFIRMATION
 };
 
 const deserializeTransactionsFromString = (transactionsString) => transactionsString.split(',')
@@ -27,7 +26,7 @@ const sign = handleActions({
         const allActions = transactions.flatMap(t => t.actions);
         
         return {
-            status: 'needs-confirmation',
+            status: SIGN_STATUS.NEEDS_CONFIRMATION,
             callbackUrl,
             meta,
             transactions,
@@ -44,21 +43,21 @@ const sign = handleActions({
                 .length
         };
     },
-    [handleSignTransactions.pending]: (state, { error, payload, ready }) => ({
+    [handleSignTransactions.pending]: (state) => ({
         ...state,
-        status: 'in-progress'
+        status: SIGN_STATUS.IN_PROGRESS
     }),
-    [handleSignTransactions.fulfilled]: (state, { error, meta, payload, ready }) => ({
+    [handleSignTransactions.fulfilled]: (state, { payload }) => ({
         ...state,
-        status: 'success',
+        status: SIGN_STATUS.SUCCESS,
         transactionHashes: payload
     }),
-    [handleSignTransactions.rejected]: (state, { error, payload, ready }) => ({
+    [handleSignTransactions.rejected]: (state, { error }) => ({
         ...state,
         status: error.message.includes('Exceeded the prepaid gas')
-            ? 'retry-tx'
-            : 'error',
-        error: error
+            ? SIGN_STATUS.RETRY_TRANSACTION
+            : SIGN_STATUS.ERROR,
+        error
     }),
     [multiplyGas]: (state, { payload: { transactions: transactionsString } }) => {
         const transactions = deserializeTransactionsFromString(transactionsString);

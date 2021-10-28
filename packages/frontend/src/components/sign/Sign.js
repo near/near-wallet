@@ -8,7 +8,7 @@ import { Mixpanel } from '../../mixpanel';
 import { redirectTo } from '../../redux/actions/account';
 import { MULTIPLY_TX_GAS_BY } from '../../redux/reducers/sign';
 import { selectAccountSlice } from '../../redux/slices/account';
-import { addQueryParams, handleSignTransactions, handleSignTransactionsMultiplyGas, selectSignSlice } from '../../redux/slices/sign';
+import { addQueryParams, handleSignTransactions, handleSignTransactionsMultiplyGas, selectSignSlice, SIGN_STATUS } from '../../redux/slices/sign';
 import { selectStatusActionStatus } from '../../redux/slices/status';
 import SignContainer from './SignContainer';
 import SignTransferCancelled from './SignTransferCancelled';
@@ -83,7 +83,7 @@ class Sign extends Component {
         const isMonetaryTransaction = txTotalAmount.gt(new BN(0));
 
         switch (status) {
-            case 'needs-confirmation':
+            case SIGN_STATUS.NEEDS_CONFIRMATION:
                 return <SignTransferReady
                             {...this.state}
                             appTitle={url && url.referrer}
@@ -96,24 +96,24 @@ class Sign extends Component {
                             insufficientFunds={insufficientFunds}
                             isMonetaryTransaction={isMonetaryTransaction}
                         />;
-            case 'in-progress':
+            case SIGN_STATUS.IN_PROGRESS:
                 return <SignTransferTransferring
                             {...this.state}
                             isMonetaryTransaction={isMonetaryTransaction}
                         />;
-            case 'success':
+            case SIGN_STATUS.SUCCESS:
                 return <SignTransferSuccess
                             handleClose={() => dispatch(redirectTo('/'))}
                             isMonetaryTransaction={isMonetaryTransaction}
                             txTotalAmount={txTotalAmount}
                         />;
-            case 'retry-tx':
+            case SIGN_STATUS.RETRY_TRANSACTION:
                 return <SignTransferRetry
                             handleRetry={this.retryTransaction}
                             handleDeny={this.handleDeny}
                             gasLimit={new BN(fees?.gasLimit || '0').mul(new BN(MULTIPLY_TX_GAS_BY)).div(new BN('1000000000000')).toString()}
                         />;
-            case 'error':
+            case SIGN_STATUS.ERROR:
                 // TODO: Figure out how to handle different error types
                 return <SignTransferCancelled handleDeny={this.handleDeny} />;
             default:
