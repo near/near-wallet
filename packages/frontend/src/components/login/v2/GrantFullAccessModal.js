@@ -84,8 +84,8 @@ export default ({
             <form onSubmit={e => {
                 if (signedInAccountId === userInputValue && !loggingIn) {
                     onConfirm();
-                    e.preventDefault();
                 }
+                e.preventDefault();
             }}>
                 <StyledContainer>
                     <div className='upper-body'>
