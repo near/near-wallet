@@ -8,7 +8,7 @@ import { Mixpanel } from '../../mixpanel';
 import { redirectTo } from '../../redux/actions/account';
 import { MULTIPLY_TX_GAS_BY } from '../../redux/reducers/sign';
 import { selectAccountSlice } from '../../redux/slices/account';
-import { addQueryParams, handleSignTransaction, handleSignTransactionMultiplyGas, selectSignSlice } from '../../redux/slices/sign';
+import { addQueryParams, handleSignTransactions, handleSignTransactionMultiplyGas, selectSignSlice } from '../../redux/slices/sign';
 import { selectStatusActionStatus } from '../../redux/slices/status';
 import SignContainer from './SignContainer';
 import SignTransferCancelled from './SignTransferCancelled';
@@ -52,7 +52,7 @@ class Sign extends Component {
         // TODO: to be removed after refactoring sign reducer into redux toolkit version with status object
         this.setState({ sending: true });
 
-        this.props.dispatch(handleSignTransaction());
+        this.props.dispatch(handleSignTransactions());
     }
 
     retryTransaction = () => {

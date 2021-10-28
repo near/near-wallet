@@ -3,7 +3,7 @@ import { utils, transactions as transaction } from 'near-api-js';
 import { handleActions } from 'redux-actions';
 
 import { parseTransactionsToSign, makeAccountActive, multiplyGas, multiplyGasXXX } from '../../actions/account';
-import { handleSignTransaction } from '../../slices/sign';
+import { handleSignTransactions } from '../../slices/sign';
 
 export const MULTIPLY_TX_GAS_BY = 2;
 
@@ -44,15 +44,15 @@ const sign = handleActions({
                 .length
         };
     },
-    [handleSignTransaction.pending]: (state, { error, payload, ready }) => ({
+    [handleSignTransactions.pending]: (state, { error, payload, ready }) => ({
         ...state,
         status: 'in-progress'
     }),
-    [handleSignTransaction.fulfilled]: (state, { error, payload, ready }) => ({
+    [handleSignTransactions.fulfilled]: (state, { error, payload, ready }) => ({
         ...state,
         status: 'success'
     }),
-    [handleSignTransaction.rejected]: (state, { error, payload, ready }) => ({
+    [handleSignTransactions.rejected]: (state, { error, payload, ready }) => ({
         ...state,
         status: error.message.includes('Exceeded the prepaid gas')
             ? 'retry-tx'

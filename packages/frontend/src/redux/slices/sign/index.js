@@ -14,12 +14,12 @@ export const handleSignTransactionMultiplyGas = createAsyncThunk(
     async (_, thunkAPI) => {
         const { dispatch, getState } = thunkAPI;
         dispatch(multiplyGas(getState().account.url));
-        dispatch(handleSignTransaction());
+        dispatch(handleSignTransactions());
     }
 );
 
-export const handleSignTransaction = createAsyncThunk(
-    `${SLICE_NAME}/handleSignTransaction`,
+export const handleSignTransactions = createAsyncThunk(
+    `${SLICE_NAME}/handleSignTransactions`,
     async (_, thunkAPI) => {
         const { dispatch, getState } = thunkAPI;
 
