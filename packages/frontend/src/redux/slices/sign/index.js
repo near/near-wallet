@@ -5,15 +5,15 @@ import { Mixpanel } from "../../../mixpanel";
 import { wallet } from "../../../utils/wallet";
 import { multiplyGas } from "../../actions/account";
 import { showCustomAlert } from "../../actions/status";
-import { selectAccountId } from "../account";
+import { selectAccountId, selectAccountUrl } from "../account";
 
 const SLICE_NAME = 'sign';
 
 export const handleSignTransactionsMultiplyGas = createAsyncThunk(
-    `${SLICE_NAME}/handleSignTransactionRetry`,
+    `${SLICE_NAME}/handleSignTransactionsMultiplyGas`,
     async (_, thunkAPI) => {
         const { dispatch, getState } = thunkAPI;
-        dispatch(multiplyGas(getState().account.url));
+        dispatch(multiplyGas(selectAccountUrl(getState())));
         dispatch(handleSignTransactions());
     }
 );
