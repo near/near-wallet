@@ -38,7 +38,10 @@ export default ({
             <Container className='small-centered border'>
                 <LoginStyle className='confirm-login'>
                     <SwapGraphic className='swap-graphic' />
-                    <h3><Translate id='login.v2.connectConfirm.title' data={{ accountId: signedInAccountId }} /></h3>
+                    <h3>
+                        <Translate id='login.v2.connectConfirm.title'/>
+                        <div>{signedInAccountId}</div>
+                    </h3>
                     <div className='desc'>
                         <Translate>
                             {({ translate }) => (

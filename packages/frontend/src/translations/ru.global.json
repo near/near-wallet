@@ -747,7 +747,7 @@
                 "fullAccess": "full access"
             },
             "connectConfirm": {
-                "title": "Connecting with ${accountId}",
+                "title": "Connecting with:",
                 "desc": "Only connect to sites that you trust. Once connected, <a href=${contractIdUrl} target='_blank' rel='noreferrer'>${appReferrer}</a> will have <b>${accessType}</b>:",
                 "limitedAccess": "limited permissions",
                 "fullAccess": "full permissions",

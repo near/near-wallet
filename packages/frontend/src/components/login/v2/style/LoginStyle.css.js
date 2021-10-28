@@ -9,6 +9,7 @@ export default styled.div`
         h3 {
             color: black;
             line-break: anywhere;
+            line-height: 150%;
         }
     
         .desc {
