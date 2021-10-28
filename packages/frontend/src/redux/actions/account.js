@@ -615,12 +615,8 @@ export const { recoverAccountSecretKey } = createActions({
     ]
 });
 
-export const { multiplyGas, setSignTransactionStatus, sendMoney, transferAllFromLockup } = createActions({
+export const { multiplyGas, sendMoney, transferAllFromLockup } = createActions({
     MULTIPLY_GAS: null,
-    SET_SIGN_TRANSACTION_STATUS: [
-        (status) => ({ status }),
-        () => ({})
-    ],
     SEND_MONEY: [
         wallet.sendMoney.bind(wallet),
         () => showAlert({ onlyError: true })

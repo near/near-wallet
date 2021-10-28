@@ -2,7 +2,7 @@ import BN from 'bn.js';
 import { utils, transactions as transaction } from 'near-api-js';
 import { handleActions } from 'redux-actions';
 
-import { parseTransactionsToSign, setSignTransactionStatus, makeAccountActive, multiplyGas, multiplyGasXXX } from '../../actions/account';
+import { parseTransactionsToSign, makeAccountActive, multiplyGas, multiplyGasXXX } from '../../actions/account';
 import { handleSignTransaction } from '../../slices/sign';
 
 export const MULTIPLY_TX_GAS_BY = 2;
@@ -59,12 +59,6 @@ const sign = handleActions({
             : 'error',
         error: error
     }),
-    [setSignTransactionStatus]: (state, { payload }) => {
-        return {
-            ...state,
-            status: payload.status
-        };
-    },
     [multiplyGas]: (state, { payload: { transactions: transactionsString } }) => {
         const transactions = deserializeTransactionsFromString(transactionsString);
 
