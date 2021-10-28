@@ -48,9 +48,10 @@ const sign = handleActions({
         ...state,
         status: 'in-progress'
     }),
-    [handleSignTransactions.fulfilled]: (state, { error, payload, ready }) => ({
+    [handleSignTransactions.fulfilled]: (state, { error, meta, payload, ready }) => ({
         ...state,
-        status: 'success'
+        status: 'success',
+        transactionHashes: payload
     }),
     [handleSignTransactions.rejected]: (state, { error, payload, ready }) => ({
         ...state,

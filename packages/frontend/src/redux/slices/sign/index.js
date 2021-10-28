@@ -22,23 +22,15 @@ export const handleSignTransactions = createAsyncThunk(
     `${SLICE_NAME}/handleSignTransactions`,
     async (_, thunkAPI) => {
         const { dispatch, getState } = thunkAPI;
+        let transactionsHashes;
 
         await Mixpanel.withTracking("SIGN",
             async () => {
-                let transactions = selectSignTransactions(getState());
+                const transactions = selectSignTransactions(getState());
                 const accountId = selectAccountId(getState());
-                const callbackUrl = selectSignCallbackUrl(getState());
-                const meta = selectSignMeta(getState());
 
                 try {
-                    const transactionHashes = await wallet.signAndSendTransactions(transactions, accountId);
-
-                    if (callbackUrl) {
-                        window.location.href = addQueryParams(callbackUrl, {
-                            meta,
-                            transactionHashes: transactionHashes.join(',')
-                        });
-                    }
+                    transactionsHashes = await wallet.signAndSendTransactions(transactions, accountId);
                 } catch (error) {
                     dispatch(showCustomAlert({
                         success: false,
@@ -51,6 +43,8 @@ export const handleSignTransactions = createAsyncThunk(
                 
             }
         );
+
+        return transactionsHashes;
     },
     {
         condition: (_, thunkAPI) => {

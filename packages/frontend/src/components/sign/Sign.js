@@ -52,7 +52,15 @@ class Sign extends Component {
         // TODO: to be removed after refactoring sign reducer into redux toolkit version with status object
         this.setState({ sending: true });
 
-        this.props.dispatch(handleSignTransactions());
+        await this.props.dispatch(handleSignTransactions());
+
+        const { callbackUrl, meta, transactionHashes } = this.props;
+        if (callbackUrl) {
+            window.location.href = addQueryParams(callbackUrl, {
+                meta,
+                transactionHashes: transactionHashes.join(',')
+            });
+        }
     }
 
     retryTransaction = () => {
