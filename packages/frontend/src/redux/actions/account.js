@@ -233,7 +233,7 @@ export const signInWithLedgerAddAndSaveAccounts = (accountIds, path) => async (d
         }
     }
 
-    return dispatch(saveAndSelectLedgerAccounts(getState().ledger.signInWithLedger));
+    return dispatch(saveAndSelectLedgerAccounts(selectLedgerSignInWithLedger(getState())));
 };
 
 const twoFactorMethod = async (method, wallet, args) => {
