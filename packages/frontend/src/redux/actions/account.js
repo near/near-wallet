@@ -40,8 +40,10 @@ import {
     selectAccountUrlContractId,
     selectAccountUrlMethodNames,
     selectAccountUrlPublicKey,
+    selectAccountUrlRedirectUrl,
     selectAccountUrlSuccessUrl,
     selectAccountUrlTitle,
+    selectBalance
 } from '../slices/account';
 import { selectAllAccountsBalanceLockedAmount } from '../slices/allAccounts';
 import { selectAvailableAccounts } from '../slices/availableAccounts';
@@ -528,7 +530,10 @@ export const finishAccountSetup = () => async (dispatch, getState) => {
     await dispatch(refreshAccount());
     await dispatch(getBalance());
     await dispatch(clearAccountState());
-    const { balance, url, accountId } = getState().account;
+
+    const balance = selectBalance(getState());
+    const redirectUrl = selectAccountUrlRedirectUrl(getState());
+    const accountId = selectAccountId(getState());
 
     let promptTwoFactor = await TwoFactor.checkCanEnableTwoFactor(balance);
 
@@ -539,8 +544,8 @@ export const finishAccountSetup = () => async (dispatch, getState) => {
     if (promptTwoFactor) {
         dispatch(redirectTo('/enable-two-factor', { globalAlertPreventClear: true }));
     } else {
-        if (url?.redirectUrl) {
-            window.location = `${url.redirectUrl}?accountId=${accountId}`;
+        if (!!redirectUrl) {
+            window.location = `${redirectUrl}?accountId=${accountId}`;
         } else {
             dispatch(redirectToApp('/'));
         }
