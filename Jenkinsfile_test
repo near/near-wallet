@@ -22,7 +22,7 @@ pipeline {
                     when {
                         expression {
                             Boolean frontend = sh(returnStdout: true, script: './is-package-affected.sh frontend')
-                            return frontend
+                            return frontend == true
                         }
                     }
                     stages {
