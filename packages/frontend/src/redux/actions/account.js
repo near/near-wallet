@@ -35,7 +35,13 @@ import refreshAccountOwner from '../sharedThunks/refreshAccountOwner';
 import { 
     selectAccountAccountsBalances,
     selectAccountBalanceLockedAmount,
+    selectAccountId,
     selectAccountUrl,
+    selectAccountUrlContractId,
+    selectAccountUrlMethodNames,
+    selectAccountUrlPublicKey,
+    selectAccountUrlSuccessUrl,
+    selectAccountUrlTitle,
 } from '../slices/account';
 import { selectAllAccountsBalanceLockedAmount } from '../slices/allAccounts';
 import { selectAvailableAccounts } from '../slices/availableAccounts';
@@ -177,27 +183,29 @@ export const redirectToApp = (fallback) => async (dispatch, getState) => {
     }));
 };
 
-
 export const allowLogin = () => async (dispatch, getState) => {
-    const { account } = getState();
-    const { url } = account;
-    const { success_url, public_key, title } = url;
+    const accountId = selectAccountId(getState());
+    const contract_id = selectAccountUrlContractId(getState());
+    const public_key = selectAccountUrlPublicKey(getState());
+    const methodNames = selectAccountUrlMethodNames(getState());
+    const title = selectAccountUrlTitle(getState());
+    const success_url = selectAccountUrlSuccessUrl(getState());
 
     if (success_url) {
         if (public_key) {
-            await dispatchWithAlert(addAccessKey(account.accountId, url.contract_id, url.public_key, false, url.methodNames), { onlyError: true });
+            await dispatchWithAlert(addAccessKey(accountId, contract_id, public_key, false, methodNames), { onlyError: true });
         }
         const availableKeys = await wallet.getAvailableKeys();
         const allKeys = availableKeys.map(key => key.toString());
         const parsedUrl = new URL(success_url);
-        parsedUrl.searchParams.set('account_id', account.accountId);
+        parsedUrl.searchParams.set('account_id', accountId);
         if (public_key) {
             parsedUrl.searchParams.set('public_key', public_key);
         }
         parsedUrl.searchParams.set('all_keys', allKeys.join(','));
         window.location = parsedUrl.href;
     } else {
-        await dispatchWithAlert(addAccessKey(account.accountId, url.contract_id, url.public_key, false, url.methodNames), { data: { title } });
+        await dispatchWithAlert(addAccessKey(accountId, contract_id, public_key, false, methodNames), { data: { title } });
         dispatch(redirectTo('/authorized-apps', { globalAlertPreventClear: true }));
     }
 };
