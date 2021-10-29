@@ -1,13 +1,23 @@
 import { BN } from 'bn.js';
-import { push } from 'connected-react-router';
+import { 
+    getLocation,
+    push
+} from 'connected-react-router';
 import { utils } from 'near-api-js';
 import { PublicKey, KeyType } from 'near-api-js/lib/utils/key_pair';
 import { parse, stringify } from 'query-string';
 import { createActions, createAction } from 'redux-actions';
 
 import { DISABLE_CREATE_ACCOUNT, MULTISIG_MIN_PROMPT_AMOUNT } from '../../config';
-import { showAlert, dispatchWithAlert } from '../../utils/alerts';
-import { loadState, saveState, clearState } from '../../utils/sessionStorage';
+import { 
+    showAlert,
+    dispatchWithAlert
+} from '../../utils/alerts';
+import { 
+    loadState,
+    saveState,
+    clearState
+} from '../../utils/sessionStorage';
 import { TwoFactor } from '../../utils/twoFactor';
 import { wallet, WALLET_INITIAL_DEPOSIT_URL } from '../../utils/wallet';
 import {
@@ -25,6 +35,7 @@ import refreshAccountOwner from '../sharedThunks/refreshAccountOwner';
 import { 
     selectAccountAccountsBalances,
     selectAccountBalanceLockedAmount,
+    selectAccountUrl,
 } from '../slices/account';
 import { selectAllAccountsBalanceLockedAmount } from '../slices/allAccounts';
 import { selectAvailableAccounts } from '../slices/availableAccounts';
@@ -39,7 +50,10 @@ import {
     handleGetLockup
 } from './staking';
 
-const { handleFlowLimitation, handleClearflowLimitation } = flowLimitationActions;
+const { 
+    handleFlowLimitation,
+    handleClearflowLimitation
+} = flowLimitationActions;
 
 export const getProfileStakingDetails = (accountId) => async (dispatch, getState) => {
     await dispatch(handleGetLockup(accountId));
@@ -54,7 +68,7 @@ export const getProfileStakingDetails = (accountId) => async (dispatch, getState
 };
 
 export const handleRedirectUrl = (previousLocation) => (dispatch, getState) => {
-    const { pathname } = getState().router.location;
+    const { pathname } = getLocation(getState());
     const isValidRedirectUrl = previousLocation.pathname.includes(WALLET_LOGIN_URL) || previousLocation.pathname.includes(WALLET_SIGN_URL);
     const page = pathname.split('/')[1];
     const guestLandingPage = !page && !wallet.accountId;
@@ -63,7 +77,7 @@ export const handleRedirectUrl = (previousLocation) => (dispatch, getState) => {
 
     if ((guestLandingPage || createAccountPage || recoverAccountPage) && isValidRedirectUrl) {
         let url = {
-            ...getState().account.url,
+            ...selectAccountUrl(getState()),
             redirect_url: previousLocation.pathname
         };
         saveState(url);
