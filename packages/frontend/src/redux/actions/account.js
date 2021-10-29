@@ -133,7 +133,7 @@ export const handleRefreshUrl = (prevRouter) => (dispatch, getState) => {
 };
 
 const checkContractId = () => async (dispatch, getState) => {
-    const { contract_id, failure_url } = getState().account.url;
+    const { contract_id, failure_url } = selectAccountUrl(getState());
 
     if (contract_id) {
         const redirectIncorrectContractId = () => {
