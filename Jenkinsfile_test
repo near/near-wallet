@@ -1,0 +1,37 @@
+pipeline {
+    agent any
+    stages {
+        stage('Package Builds') {
+            parallel {
+                stage('script string compare true') {
+                    when {
+                        expression {
+                            return sh(returnStdout: true, script: './is-package-affected.sh e2e-tests') == "true"
+                        }
+                    }
+                    stages {
+                        stage('script string compare true') {
+                            steps {
+                                echo "script string compare true"
+                            }
+                        }
+                    }
+                }
+                stage('script string compare false') {
+                    when {
+                        expression {
+                            return sh(returnStdout: true, script: './is-package-affected.sh frontend') == "true"
+                        }
+                    }
+                    stages {
+                        stage('script string compare false') {
+                            steps {
+                                echo "script string compare false"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
