@@ -56,6 +56,7 @@ import {
     selectLedgerModal,
     selectLedgerSignInWithLedger
 } from '../slices/ledger';
+import {
     handleStakingUpdateAccount,
     handleStakingUpdateLockup,
     handleGetLockup
@@ -642,7 +643,7 @@ export const refreshAccount = (basicData = false) => async (dispatch, getState) 
     }
 };
 
-export const switchAccount = ({ accountId }) => async (dispatch, getState) => {
+export const switchAccount = ({ accountId }) => async (dispatch) => {
     dispatch(makeAccountActive(accountId));
     dispatch(handleRefreshUrl());
     dispatch(refreshAccount());
@@ -650,7 +651,7 @@ export const switchAccount = ({ accountId }) => async (dispatch, getState) => {
 };
 
 export const getAvailableAccountsBalance = () => async (dispatch, getState) => {
-    let { accountsBalance } = getState().account;
+    let accountsBalance = selectAccountAccountsBalances(getState());
     const availableAccounts = selectAvailableAccounts(getState());
 
     if (selectFlowLimitationAccountData(getState())) {
@@ -659,12 +660,12 @@ export const getAvailableAccountsBalance = () => async (dispatch, getState) => {
 
     for (let i = 0; i < availableAccounts.length; i++) {
         const accountId = availableAccounts[i];
-        if (!accountsBalance || !accountsBalance[accountId]) {
+        if (!accountsBalance[accountId]) {
             i < 0 && await dispatch(setAccountBalance(accountId));
         }
     }
 
-    accountsBalance = getState().account.accountsBalance || {};
+    accountsBalance = selectAccountAccountsBalances(getState());
 
     for (let i = 0; i < Object.keys(accountsBalance).length; i++) {
         const accountId = Object.keys(accountsBalance)[i];
