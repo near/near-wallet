@@ -3,30 +3,30 @@ pipeline {
     stages {
         stage('Package Builds') {
             parallel {
-                stage('script string compare true') {
+                stage('script bool compare true') {
                     when {
                         expression {
-                            return sh(returnStdout: true, script: './is-package-affected.sh e2e-tests') == "true"
+                            return sh(returnStdout: true, script: './is-package-affected.sh e2e-tests') == true
                         }
                     }
                     stages {
-                        stage('script string compare true') {
+                        stage('script bool compare true') {
                             steps {
-                                echo "script string compare true"
+                                echo "script bool compare true"
                             }
                         }
                     }
                 }
-                stage('script string compare false') {
+                stage('script bool compare false') {
                     when {
                         expression {
-                            return sh(returnStdout: true, script: './is-package-affected.sh frontend') == "true"
+                            return sh(returnStdout: true, script: './is-package-affected.sh frontend') == true
                         }
                     }
                     stages {
-                        stage('script string compare false') {
+                        stage('script bool compare false') {
                             steps {
-                                echo "script string compare false"
+                                echo "script bool compare false"
                             }
                         }
                     }
