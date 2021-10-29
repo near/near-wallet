@@ -50,7 +50,9 @@ import {
     selectFlowLimitationAccountBalance,
     selectFlowLimitationAccountData
  } from '../slices/flowLimitation';
-import {
+import { 
+    selectLedgerSignInWithLedger
+} from '../slices/ledger';
     handleStakingUpdateAccount,
     handleStakingUpdateLockup,
     handleGetLockup
@@ -212,7 +214,7 @@ export const allowLogin = () => async (dispatch, getState) => {
 
 export const signInWithLedger = (path) => async (dispatch, getState) => {
     await dispatch(getLedgerAccountIds(path));
-    const accountIds = Object.keys(getState().ledger.signInWithLedger);
+    const accountIds = Object.keys(selectLedgerSignInWithLedger(getState()));
     await dispatch(signInWithLedgerAddAndSaveAccounts(accountIds, path));
     return;
 };
