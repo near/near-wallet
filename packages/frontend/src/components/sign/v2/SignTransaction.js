@@ -79,7 +79,8 @@ const StyledContainer = styled.div`
 export default ({
     transferAmount,
     sender,
-    estimatedFees
+    estimatedFees,
+    availableBalance
 }) => {
     return (
         <StyledContainer className='transfer-amount brs-8 bsw-l'>
@@ -93,7 +94,7 @@ export default ({
                 <div className='right'>
                     <div className='account-id'>{sender}</div>
                     <Balance
-                        amount={transferAmount}
+                        amount={availableBalance}
                         showBalanceInUSD={false}
                     />
                 </div>

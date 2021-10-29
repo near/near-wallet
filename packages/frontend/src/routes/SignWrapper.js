@@ -4,7 +4,7 @@ import SignTransactionDetailsWrapper from '../components/sign/v2/SignTransaction
 import SignTransactionSummaryWrapper from '../components/sign/v2/SignTransactionSummaryWrapper';
 
 export function SignWrapper() {
-    const [showTransactionDetails, setShowTransactionDetails] = useState(true);
+    const [showTransactionDetails, setShowTransactionDetails] = useState(false);
 
     if (showTransactionDetails) {
         return (
