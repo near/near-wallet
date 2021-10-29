@@ -8,7 +8,7 @@ pipeline {
                         expression {
                             String e2e = sh(returnStdout: true, script: './is-package-affected.sh e2e-tests')
                             echo "$e2e"
-                            return e2e == "true"
+                            return e2e.trim() == "true"
                         }
                     }
                     stages {
@@ -24,7 +24,7 @@ pipeline {
                         expression {
                             String frontend = sh(returnStdout: true, script: './is-package-affected.sh frontend')
                             echo "$frontend"
-                            return frontend == "true"
+                            return frontend.trim() == "true"
                         }
                     }
                     stages {
