@@ -7,7 +7,7 @@ pipeline {
                     when {
                         expression {
                             Boolean e2e = sh(returnStdout: true, script: './is-package-affected.sh e2e-tests')
-                            return e2e == true
+                            return e2e == "true"
                         }
                     }
                     stages {
@@ -22,7 +22,7 @@ pipeline {
                     when {
                         expression {
                             Boolean frontend = sh(returnStdout: true, script: './is-package-affected.sh frontend')
-                            return frontend == true
+                            return frontend == "true"
                         }
                     }
                     stages {
