@@ -105,7 +105,7 @@ export const handleClearUrl = () => (dispatch, getState) => {
 export const parseTransactionsToSign = createAction('PARSE_TRANSACTIONS_TO_SIGN');
 
 export const handleRefreshUrl = (prevRouter) => (dispatch, getState) => {
-    const { pathname, search } = prevRouter?.location || getState().router.location;
+    const { pathname, search } = prevRouter?.location || getLocation(getState());
     const currentPage = pathname.split('/')[pathname[1] === '/' ? 2 : 1];
 
     if ([...WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS, WALLET_LOGIN_URL, WALLET_SIGN_URL, WALLET_LINKDROP_URL].includes(currentPage)) {
@@ -125,7 +125,7 @@ export const handleRefreshUrl = (prevRouter) => (dispatch, getState) => {
             dispatch(refreshUrl(loadState()));
         }
         dispatch(handleFlowLimitation());
-        const { transactions, callbackUrl, meta } = getState().account.url;
+        const { transactions, callbackUrl, meta } = selectAccountUrl(getState());
         if (transactions) {
             dispatch(parseTransactionsToSign({ transactions, callbackUrl, meta }));
         }
