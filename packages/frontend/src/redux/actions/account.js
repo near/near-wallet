@@ -167,7 +167,7 @@ export const redirectTo = (location, state = {}) => (dispatch) => {
 
 export const redirectToApp = (fallback) => async (dispatch, getState) => {
     dispatch(handleRefreshUrl());
-    const { account: { url } } = getState();
+    const url = selectAccountUrl(getState());
     dispatch(push({
         pathname: (url && url.redirect_url !== '/' && url.redirect_url) || fallback || '/',
         search: (url && (url.success_url || url.public_key)) ? `?${stringify(url)}` : '',
