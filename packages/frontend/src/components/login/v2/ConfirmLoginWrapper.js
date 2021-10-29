@@ -1,7 +1,6 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { EXPLORER_URL } from '../../../config';
 import { Mixpanel } from '../../../mixpanel/index';
 import { allowLogin } from '../../../redux/actions/account';
 import { showCustomAlert } from '../../../redux/actions/status';
@@ -9,6 +8,7 @@ import {
     selectAccountLocalStorageAccountId,
     selectAccountUrlReferrer
 } from '../../../redux/slices/account';
+import { EXPLORER_URL } from '../../../utils/wallet';
 import ConfirmLogin from './ConfirmLogin';
 
 export default ({
