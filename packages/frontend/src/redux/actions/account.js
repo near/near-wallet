@@ -51,6 +51,7 @@ import {
     selectFlowLimitationAccountData
  } from '../slices/flowLimitation';
 import { 
+    selectLedgerModal,
     selectLedgerSignInWithLedger
 } from '../slices/ledger';
     handleStakingUpdateAccount,
@@ -438,7 +439,7 @@ export const {
 });
 
 export const checkAndHideLedgerModal = () => async (dispatch, getState) => {
-    const { modal } = getState().ledger;
+    const modal = selectLedgerModal(getState());
     if (modal?.show) {
         dispatch(hideLedgerModal());
     }
