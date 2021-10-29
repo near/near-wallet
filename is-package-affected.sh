@@ -3,7 +3,7 @@
 # TODO execute this instead when nx is implemented
 #   AFFECTED="$(npx nx affected:apps --plain)"
 
-AFFECTED="e2e-tests"
+AFFECTED="spaghetti"
 FOUND=false
 
 IFS=' ' read -ra PACKAGE <<< "$AFFECTED"
