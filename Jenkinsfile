@@ -7,8 +7,7 @@ pipeline {
                 stage('e2e-tests') {
                     when {
                         expression {
-                            String e2eAffected = sh(returnStdout: true, script: './is-package-affected.sh e2e-tests')
-                            return e2eAffected.trim() == "true"
+                            return sh(returnStdout: true, script: './is-package-affected.sh e2e-tests').trim() == "true"
                         }
                     }
                     stages {
@@ -28,8 +27,7 @@ pipeline {
                 stage('frontend') {
                     when {
                         expression {
-                            String frontendChanged = sh(returnStdout: true, script: './is-package-affected.sh frontend')
-                            return frontendChanged.trim() == "true"
+                            return sh(returnStdout: true, script: './is-package-affected.sh frontend').trim() == "true"
                         }
                     }
                     stages {
