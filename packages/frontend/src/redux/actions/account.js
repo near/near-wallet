@@ -22,6 +22,11 @@ import {
 } from '../../utils/wallet';
 import { WalletError } from '../../utils/walletError';
 import refreshAccountOwner from '../sharedThunks/refreshAccountOwner';
+import { 
+    selectAccountAccountsBalances,
+    selectAccountBalanceLockedAmount,
+} from '../slices/account';
+import { selectAllAccountsBalanceLockedAmount } from '../slices/allAccounts';
 import { selectAvailableAccounts } from '../slices/availableAccounts';
 import { 
     actions as flowLimitationActions,
@@ -38,12 +43,11 @@ const { handleFlowLimitation, handleClearflowLimitation } = flowLimitationAction
 
 export const getProfileStakingDetails = (accountId) => async (dispatch, getState) => {
     await dispatch(handleGetLockup(accountId));
-
     await dispatch(handleStakingUpdateAccount([], accountId));
 
     const lockupIdExists = accountId
-        ? !!getState().allAccounts[accountId].balance.lockedAmount
-        : !!getState().account.balance.lockedAmount;
+        ? !!selectAllAccountsBalanceLockedAmount(getState(), { accountId })
+        : !!selectAccountBalanceLockedAmount(getState());
 
     lockupIdExists
         && dispatch(handleStakingUpdateLockup(accountId));
