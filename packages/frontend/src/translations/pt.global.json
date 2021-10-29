@@ -214,7 +214,7 @@
                 "descThree": "Por favor, atualize seu endereço em quaisquer exchanges ou outros dispositivos.",
                 "button": "Continuar para a Conta",
                 "modal": {
-                    "title": "Bem-vindo a NEAR Wallet!",
+                    "title": "Bem-vindo à NEAR Wallet!",
                     "desc": "Parabéns! Sua conta foi criada com sucesso."
                 }
             }
@@ -223,11 +223,11 @@
             "singleUse": "Endereço de financiamento de uso único",
             "nearName": "ID da Conta",
             "status": "Status da Conta",
-            "minDeposit": "Deposito mínimo",
-            "initialDeposit": "Deposito inicial",
-            "awaitingDeposit": "Aguardadndo depósito",
+            "minDeposit": "Depósito mínimo",
+            "initialDeposit": "Depósito inicial",
+            "awaitingDeposit": "Aguardando depósito",
             "ready": "Pronto para reivindicação",
-            "active": "Ativar"
+            "active": "Ativo"
         },
         "verifySeedPhrase": {
             "error": "Você digitou a palavra incorreta"
