@@ -54,8 +54,8 @@ pipeline {
                                 withAWS(region: 'us-west-2') {
                                     s3Upload(
                                         bucket: 'andy-dev-build-artifacts',
-                                        includePathPattern: '**/*',
-                                        path: "$WORKSPACE/packages/frontend/dist"
+                                        includePathPattern: '*',
+                                        path: '$WORKSPACE/packages/frontend/dist/*',
                                     )
                                 }
                             }
