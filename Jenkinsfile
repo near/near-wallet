@@ -1,5 +1,10 @@
 pipeline {
     agent any
+    environment {
+        BANK_ACCOUNT = 'grumby.testnet'
+        BANK_SEED_PHRASE = 'canal pond draft confirm cabin hungry pistol light valley frost dress found'
+        TEST_ACCOUNT_SEED_PHRASE = 'grant confirm ritual chuckle control leader frame same ride trophy genuine journey'
+    }
     stages {
         // parallelize builds and tests for modified packages
         stage('packages:build') {
