@@ -1,9 +1,14 @@
 pipeline {
     agent any
     stages {
-        stage('Package Builds') {
+        // parallelize builds and tests for modified packages
+        stage('packages:build') {
+            // if any of the parallel stages for package builds fail, mark the entire pipeline as failed
             failFast true
+
+            // execute package-specific stages in parallel
             parallel {
+                // build end-to-end testing package
                 stage('e2e-tests') {
                     when {
                         expression {
@@ -11,11 +16,10 @@ pipeline {
                         }
                     }
                     stages {
-                        stage('Build') {
+                        stage('e2e-tests:build') {
                             steps {
                                 nodejs(nodeJSInstallationName: 'node14-lts') {
                                     dir("$WORKSPACE/packages/e2e-tests") {
-                                        sh 'pwd'
                                         sh 'yarn install'
                                         sh 'yarn test'
                                     }
@@ -24,6 +28,8 @@ pipeline {
                         }
                     }
                 }
+
+                // build frontend package
                 stage('frontend') {
                     when {
                         expression {
@@ -31,9 +37,8 @@ pipeline {
                         }
                     }
                     stages {
-                        stage('Build') {
+                        stage('frontend:build') {
                             steps {
-                                echo 'doing it anyway'
                                 nodejs(nodeJSInstallationName: 'node14-lts') {
                                     dir("$WORKSPACE/packages/frontend") {
                                         sh 'yarn install'
