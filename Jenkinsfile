@@ -17,6 +17,19 @@ pipeline {
         pollSCM('')
     }
     stages {
+        stage('pre-build') {
+            AFFECTED_PACKAGES = 'frontend e2e-testz'.split()
+            /* TODO enable once nx is implemented
+            AFFECTED_PACKAGES = """${sh(
+                returnStdout: true,
+                script: 'npx affected:apps --plain'
+            )}""".trim().split()
+            */
+
+            BUILD_E2E = AFFECTED_PACKAGES.contains('e2e-tests')
+            BUILD_FRONTEND = AFFECTED_PACKAGES.contains('frontend')
+        }
+
         // parallelize builds and tests for modified packages
         stage('packages:build') {
             // if any of the parallel stages for package builds fail, mark the entire pipeline as failed
@@ -28,7 +41,7 @@ pipeline {
                 stage('e2e-tests') {
                     when {
                         expression {
-                            return sh(returnStdout: true, script: './is-package-affected.sh e2e-tests').trim() == "true"
+                            return BUILD_E2E
                         }
                     }
                     stages {
@@ -49,7 +62,7 @@ pipeline {
                 stage('frontend') {
                     when {
                         expression {
-                            return sh(returnStdout: true, script: './is-package-affected.sh frontend').trim() == "true"
+                            return BUILD_FRONTEND
                         }
                     }
                     stages {
