@@ -12,24 +12,23 @@ pipeline {
         // s3 buckets
         BUILD_ARTIFACT_BUCKET = 'andy-dev-build-artifacts'
         STATIC_SITE_BUCKET = 'andy-dev-testnet-near-wallet'
+
+        // package building configuration
+        AFFECTED_PACKAGES = 'frontend e2e-testz'.split()
+        /* TODO enable once nx is implemented
+        AFFECTED_PACKAGES = """${sh(
+            returnStdout: true,
+            script: 'npx affected:apps --plain'
+        )}""".trim().split()
+        */
+
+        BUILD_E2E = AFFECTED_PACKAGES.contains('e2e-tests')
+        BUILD_FRONTEND = AFFECTED_PACKAGES.contains('frontend')
     }
     triggers {
         pollSCM('')
     }
     stages {
-        stage('pre-build') {
-            AFFECTED_PACKAGES = 'frontend e2e-testz'.split()
-            /* TODO enable once nx is implemented
-            AFFECTED_PACKAGES = """${sh(
-                returnStdout: true,
-                script: 'npx affected:apps --plain'
-            )}""".trim().split()
-            */
-
-            BUILD_E2E = AFFECTED_PACKAGES.contains('e2e-tests')
-            BUILD_FRONTEND = AFFECTED_PACKAGES.contains('frontend')
-        }
-
         // parallelize builds and tests for modified packages
         stage('packages:build') {
             // if any of the parallel stages for package builds fail, mark the entire pipeline as failed
