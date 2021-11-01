@@ -12,6 +12,8 @@ pipeline {
         // s3 buckets
         BUILD_ARTIFACT_BUCKET = 'andy-dev-build-artifacts'
         STATIC_SITE_BUCKET = 'andy-dev-testnet-near-wallet'
+
+        EXPRESSION = "$(echo expression)"
     }
     triggers {
         pollSCM('')
@@ -57,6 +59,7 @@ pipeline {
                             steps {
                                 nodejs(nodeJSInstallationName: 'node14-lts') {
                                     dir("$WORKSPACE/packages/frontend") {
+                                        echo "$EXPRESSION"
                                         sh 'yarn install'
                                         sh 'yarn build'
                                         sh 'yarn test'
