@@ -55,7 +55,7 @@ pipeline {
                                     s3Upload(
                                         bucket: 'andy-dev-build-artifacts',
                                         includePathPattern: "*",
-                                        path: "$BRANCH_NAME/$BUILD_NUMBER",
+                                        path: "frontend/$BRANCH_NAME/$BUILD_NUMBER",
                                         workingDir: "$WORKSPACE/packages/frontend/dist"
                                     )
                                 }
