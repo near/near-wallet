@@ -53,9 +53,20 @@ pipeline {
                                 }
                             }
                         }
-                        stage('frontend:deploy-artifact') {
+                        stage('frontend:upload-artifact') {
                                 withAWS(region: 'us-west-2') {
                                     s3Upload(
+                                        bucket: 'andy-dev-build-artifacts',
+                                        includePathPattern: "*",
+                                        path: "frontend/$BRANCH_NAME/$BUILD_NUMBER",
+                                        workingDir: "$WORKSPACE/packages/frontend/dist"
+                                    )
+                                }
+                            }
+                        }
+                        stage('frontend:deploy-artifact') {
+                                withAWS(region: 'us-west-2') {
+                                    s3Copy(
                                         bucket: 'andy-dev-build-artifacts',
                                         includePathPattern: "*",
                                         path: "frontend/$BRANCH_NAME/$BUILD_NUMBER",
