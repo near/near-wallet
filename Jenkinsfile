@@ -65,26 +65,30 @@ pipeline {
                             }
                         }
                         stage('frontend:upload-artifact') {
-                            withAWS(region: "$AWS_REGION") {
-                                s3Upload(
-                                    bucket: "$BUILD_ARTIFACT_BUCKET",
-                                    includePathPattern: "*",
-                                    path: "frontend/$BRANCH_NAME/$BUILD_NUMBER",
-                                    workingDir: "$WORKSPACE/packages/frontend/dist"
-                                )
+                            steps {
+                                withAWS(region: "$AWS_REGION") {
+                                    s3Upload(
+                                        bucket: "$BUILD_ARTIFACT_BUCKET",
+                                        includePathPattern: "*",
+                                        path: "frontend/$BRANCH_NAME/$BUILD_NUMBER",
+                                        workingDir: "$WORKSPACE/packages/frontend/dist"
+                                    )
+                                }
                             }
                         }
                         stage('frontend:deploy-artifact') {
                             when {
                                 branch 'master'
                             }
-                            withAWS(region: "$AWS_REGION") {
-                                s3Copy(
-                                    fromBucket: "$BUILD_ARTIFACT_BUCKET",
-                                    fromPath: "frontend/$BRANCH_NAME/$BUILD_NUMBER",
-                                    toBucket: "$STATIC_SITE_BUCKET",
-                                    toPath: ''
-                                )
+                            steps {
+                                withAWS(region: "$AWS_REGION") {
+                                    s3Copy(
+                                        fromBucket: "$BUILD_ARTIFACT_BUCKET",
+                                        fromPath: "frontend/$BRANCH_NAME/$BUILD_NUMBER",
+                                        toBucket: "$STATIC_SITE_BUCKET",
+                                        toPath: ''
+                                    )
+                                }
                             }
                         }
                     }
