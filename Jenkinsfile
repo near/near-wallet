@@ -40,13 +40,12 @@ pipeline {
                 stage('e2e-tests') {
                     when {
                         expression {
-                            return BUILD_E2E
+                            return BUILD_E2E == 'true'
                         }
                     }
                     stages {
                         stage('e2e-tests:build') {
                             steps {
-                                sh 'printenv'
                                 nodejs(nodeJSInstallationName: 'node14-lts') {
                                     dir("$WORKSPACE/packages/e2e-tests") {
                                         sh 'yarn install'
@@ -62,7 +61,7 @@ pipeline {
                 stage('frontend') {
                     when {
                         expression {
-                            return BUILD_FRONTEND
+                            return BUILD_FRONTEND == 'true'
                         }
                     }
                     stages {
