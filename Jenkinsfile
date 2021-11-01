@@ -1,6 +1,8 @@
 pipeline {
     agent any
     environment {
+        IS_DEPLOYMENT = env.BRANCH_NAME == 'master' || env.BRANCH_NAME == 'stable'
+
         // e2e variables
         BANK_ACCOUNT = 'grumby.testnet'
         BANK_SEED_PHRASE = 'canal pond draft confirm cabin hungry pistol light valley frost dress found'
@@ -12,7 +14,7 @@ pipeline {
         // s3 buckets
         BUILD_ARTIFACT_BUCKET = 'andy-dev-build-artifacts'
         STATIC_SITE_BUCKET = 'andy-dev-testnet-near-wallet'
-        BUILD_ARTIFACT_PATH = "frontend/$BRANCH_NAME/$BUILD_NUMBER"
+        BUILD_ARTIFACT_PATH = IS_DEPLOYMENT ? "frontend/$BRANCH_NAME/$BUILD_NUMBER" : "frontend/$BRANCH_NAME"
 
         // package building configuration
         AFFECTED_PACKAGES = 'frontend'.split()
