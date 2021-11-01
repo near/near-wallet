@@ -1,30 +1,60 @@
 pipeline {
     agent any
+    environment {
+        BANK_ACCOUNT = 'grumby.testnet'
+        BANK_SEED_PHRASE = 'canal pond draft confirm cabin hungry pistol light valley frost dress found'
+        TEST_ACCOUNT_SEED_PHRASE = 'grant confirm ritual chuckle control leader frame same ride trophy genuine journey'
+    }
     stages {
-        stage('Init') {
-            steps {
-                sh 'rm -rf near-wallet'
-            }
-        }
-        stage('Build') {
-            steps {
-                sh 'git clone https://github.com/andy-haynes/near-wallet.git'
-                sh 'cd near-wallet'
-                nodejs(nodeJSInstallationName: 'node14') {
-                    sh 'yarn build'
+        // parallelize builds and tests for modified packages
+        stage('packages:build') {
+            // if any of the parallel stages for package builds fail, mark the entire pipeline as failed
+            failFast true
+
+            // execute package-specific stages in parallel
+            parallel {
+                // build end-to-end testing package
+                stage('e2e-tests') {
+                    when {
+                        expression {
+                            return sh(returnStdout: true, script: './is-package-affected.sh e2e-tests').trim() == "true"
+                        }
+                    }
+                    stages {
+                        stage('e2e-tests:build') {
+                            steps {
+                                nodejs(nodeJSInstallationName: 'node14-lts') {
+                                    dir("$WORKSPACE/packages/e2e-tests") {
+                                        sh 'yarn install'
+                                        sh 'yarn test'
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
-            }
-        }
-        stage('Test') {
-            steps {
-                nodejs(nodeJSInstallationName: 'node14') {
-                    sh 'yarn test'
+
+                // build frontend package
+                stage('frontend') {
+                    when {
+                        expression {
+                            return sh(returnStdout: true, script: './is-package-affected.sh frontend').trim() == "true"
+                        }
+                    }
+                    stages {
+                        stage('frontend:build') {
+                            steps {
+                                nodejs(nodeJSInstallationName: 'node14-lts') {
+                                    dir("$WORKSPACE/packages/frontend") {
+                                        sh 'yarn install'
+                                        sh 'yarn build'
+                                        sh 'yarn test'
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
-            }
-        }
-        stage('Deploy') {
-            steps {
-                echo 'Deploying....'
             }
         }
     }
