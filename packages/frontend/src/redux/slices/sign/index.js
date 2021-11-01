@@ -5,7 +5,7 @@ import { Mixpanel } from "../../../mixpanel";
 import { wallet } from "../../../utils/wallet";
 import { multiplyGas } from "../../actions/account";
 import { showCustomAlert } from "../../actions/status";
-import { selectAccountId, selectAccountUrl } from "../account";
+import { selectAccountId } from "../account";
 
 const SLICE_NAME = 'sign';
 
@@ -20,8 +20,8 @@ export const SIGN_STATUS = {
 export const handleSignTransactionsMultiplyGas = createAsyncThunk(
     `${SLICE_NAME}/handleSignTransactionsMultiplyGas`,
     async (_, thunkAPI) => {
-        const { dispatch, getState } = thunkAPI;
-        dispatch(multiplyGas(selectAccountUrl(getState())));
+        const { dispatch } = thunkAPI;
+        dispatch(multiplyGas());
         await dispatch(handleSignTransactions());
     }
 );

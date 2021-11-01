@@ -1,4 +1,5 @@
 import BN from 'bn.js';
+import cloneDeep from 'lodash.cloneDeep';
 import { utils, transactions as transaction } from 'near-api-js';
 import { handleActions } from 'redux-actions';
 
@@ -60,17 +61,15 @@ const sign = handleActions({
             : SIGN_STATUS.ERROR,
         error
     }),
-    [multiplyGas]: (state, { payload: { transactions: transactionsString } }) => {
-        const transactions = deserializeTransactionsFromString(transactionsString);
-
-        transactions.forEach((t, i) => {
-            t.actions.forEach((a, j) => {
-                if (!!a.functionCall) {
-                    const currentGas = state.transactions[i].actions[j].functionCall.gas;
-                    a.functionCall.gas = currentGas.mul(new BN(MULTIPLY_TX_GAS_BY));
-                }
+    [multiplyGas]: (state) => {
+        const transactions = cloneDeep(state.transactions);
+        transactions.forEach((transaction) => {
+                transaction.actions && transaction.actions.forEach((a) => {
+                    if(a.functionCall && a.functionCall.gas) {
+                        a.functionCall.gas = a.functionCall.gas.mul(new BN(MULTIPLY_TX_GAS_BY));
+                    }
+                });
             });
-        });
 
         return {
             ...state,
