@@ -51,6 +51,9 @@ pipeline {
                                         sh 'yarn test'
                                     }
                                 }
+                            }
+                        }
+                        stage('frontend:deploy-artifact') {
                                 withAWS(region: 'us-west-2') {
                                     s3Upload(
                                         bucket: 'andy-dev-build-artifacts',
