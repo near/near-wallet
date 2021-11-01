@@ -14,7 +14,7 @@ pipeline {
         STATIC_SITE_BUCKET = 'andy-dev-testnet-near-wallet'
 
         // package building configuration
-        AFFECTED_PACKAGES = 'frontend e2e-testz'.split()
+        AFFECTED_PACKAGES = 'frontend'.split()
         /* TODO enable once nx is implemented
         AFFECTED_PACKAGES = """${sh(
             returnStdout: true,
