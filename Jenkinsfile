@@ -12,7 +12,7 @@ pipeline {
         // s3 buckets
         BUILD_ARTIFACT_BUCKET = 'andy-dev-build-artifacts'
         STATIC_SITE_BUCKET = 'andy-dev-testnet-near-wallet'
-        BUILD_ARTIFACT_PATH
+        BUILD_ARTIFACT_PATH = "frontend/$BRANCH_NAME/$BUILD_NUMBER"
 
         // package building configuration
         AFFECTED_PACKAGES = 'frontend'.split()
@@ -83,7 +83,7 @@ pipeline {
                                     s3Upload(
                                         bucket: env.BUILD_ARTIFACT_BUCKET,
                                         includePathPattern: "*",
-                                        path: "frontend/$BRANCH_NAME/$BUILD_NUMBER",
+                                        path: env.BUILD_ARTIFACT_PATH,
                                         workingDir: "$WORKSPACE/packages/frontend/dist"
                                     )
                                 }
@@ -97,7 +97,7 @@ pipeline {
                                 withAWS(region: env.AWS_REGION) {
                                     s3Copy(
                                         fromBucket: env.BUILD_ARTIFACT_BUCKET,
-                                        fromPath: "frontend/$BRANCH_NAME/$BUILD_NUMBER",
+                                        fromPath: env.BUILD_ARTIFACT_PATH,
                                         toBucket: env.STATIC_SITE_BUCKET,
                                         toPath: ''
                                     )
