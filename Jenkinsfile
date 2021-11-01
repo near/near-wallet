@@ -46,6 +46,7 @@ pipeline {
                     stages {
                         stage('e2e-tests:build') {
                             steps {
+                                sh 'printenv'
                                 nodejs(nodeJSInstallationName: 'node14-lts') {
                                     dir("$WORKSPACE/packages/e2e-tests") {
                                         sh 'yarn install'
