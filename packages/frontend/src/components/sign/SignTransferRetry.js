@@ -5,8 +5,9 @@ import styled from 'styled-components';
 import ArrowUpImage from '../../images/icon-arrow-up-green.svg';
 import RetryImage from '../../images/icon-retry-tx.svg';
 import FormButton from '../common/FormButton';
+import Container from '../common/styled/Container.css';
 
-const CustomContainer = styled.div`
+const CustomContainer = styled(Container)`
     max-width: 450px;
     margin: 0 auto;
     display: flex;
@@ -39,10 +40,10 @@ const CustomContainer = styled.div`
             flex: 1;
 
             &:last-of-type {
-                margin-left: 30px !important;
+                margin-left: 30px;
 
                 @media (min-width: 768px) {
-                    margin-left: 50px !important;
+                    margin-left: 50px;
                 }
             }
         }
@@ -84,7 +85,6 @@ const CustomContainer = styled.div`
     }
 `;
 
-// TODO: Why handleDeny? It's not an error.
 const SignTransferRetry = ({ handleRetry, handleDeny, gasLimit }) => (
     <CustomContainer>
         <div className='icon'>
