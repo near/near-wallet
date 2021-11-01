@@ -12,6 +12,7 @@ pipeline {
         // s3 buckets
         BUILD_ARTIFACT_BUCKET = 'andy-dev-build-artifacts'
         STATIC_SITE_BUCKET = 'andy-dev-testnet-near-wallet'
+        BUILD_ARTIFACT_PATH
 
         // package building configuration
         AFFECTED_PACKAGES = 'frontend'.split()
@@ -40,7 +41,7 @@ pipeline {
                 stage('e2e-tests') {
                     when {
                         expression {
-                            return BUILD_E2E == 'true'
+                            return env.BUILD_E2E == 'true'
                         }
                     }
                     stages {
@@ -61,7 +62,7 @@ pipeline {
                 stage('frontend') {
                     when {
                         expression {
-                            return BUILD_FRONTEND == 'true'
+                            return env.BUILD_FRONTEND == 'true'
                         }
                     }
                     stages {
@@ -78,9 +79,9 @@ pipeline {
                         }
                         stage('frontend:upload-artifact') {
                             steps {
-                                withAWS(region: "$AWS_REGION") {
+                                withAWS(region: env.AWS_REGION) {
                                     s3Upload(
-                                        bucket: "$BUILD_ARTIFACT_BUCKET",
+                                        bucket: env.BUILD_ARTIFACT_BUCKET,
                                         includePathPattern: "*",
                                         path: "frontend/$BRANCH_NAME/$BUILD_NUMBER",
                                         workingDir: "$WORKSPACE/packages/frontend/dist"
@@ -93,11 +94,11 @@ pipeline {
                                 branch 'master'
                             }
                             steps {
-                                withAWS(region: "$AWS_REGION") {
+                                withAWS(region: env.AWS_REGION) {
                                     s3Copy(
-                                        fromBucket: "$BUILD_ARTIFACT_BUCKET",
+                                        fromBucket: env.BUILD_ARTIFACT_BUCKET,
                                         fromPath: "frontend/$BRANCH_NAME/$BUILD_NUMBER",
-                                        toBucket: "$STATIC_SITE_BUCKET",
+                                        toBucket: env.STATIC_SITE_BUCKET,
                                         toPath: ''
                                     )
                                 }
