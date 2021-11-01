@@ -56,7 +56,7 @@ pipeline {
                                         bucket: 'andy-dev-build-artifacts',
                                         includePathPattern: "*",
                                         path: "$BUILD_NUMBER",
-                                        workingDir: "$WORKSPACE/packages/frontend/dist/*"
+                                        workingDir: "$WORKSPACE/packages/frontend/dist"
                                     )
                                 }
                             }
