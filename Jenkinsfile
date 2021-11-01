@@ -1,9 +1,17 @@
 pipeline {
     agent any
     environment {
+        // e2e variables
         BANK_ACCOUNT = 'grumby.testnet'
         BANK_SEED_PHRASE = 'canal pond draft confirm cabin hungry pistol light valley frost dress found'
         TEST_ACCOUNT_SEED_PHRASE = 'grant confirm ritual chuckle control leader frame same ride trophy genuine journey'
+
+        // aws configuration
+        AWS_REGION = 'us-west-2'
+
+        // s3 buckets
+        BUILD_ARTIFACT_BUCKET = 'andy-dev-build-artifacts'
+        STATIC_SITE_BUCKET = 'andy-dev-testnet-near-wallet'
     }
     triggers {
         pollSCM('')
@@ -57,25 +65,26 @@ pipeline {
                             }
                         }
                         stage('frontend:upload-artifact') {
-                                withAWS(region: 'us-west-2') {
-                                    s3Upload(
-                                        bucket: 'andy-dev-build-artifacts',
-                                        includePathPattern: "*",
-                                        path: "frontend/$BRANCH_NAME/$BUILD_NUMBER",
-                                        workingDir: "$WORKSPACE/packages/frontend/dist"
-                                    )
-                                }
+                            withAWS(region: "$AWS_REGION") {
+                                s3Upload(
+                                    bucket: "$BUILD_ARTIFACT_BUCKET",
+                                    includePathPattern: "*",
+                                    path: "frontend/$BRANCH_NAME/$BUILD_NUMBER",
+                                    workingDir: "$WORKSPACE/packages/frontend/dist"
+                                )
                             }
                         }
                         stage('frontend:deploy-artifact') {
-                                withAWS(region: 'us-west-2') {
-                                    s3Copy(
-                                        bucket: 'andy-dev-build-artifacts',
-                                        includePathPattern: "*",
-                                        path: "frontend/$BRANCH_NAME/$BUILD_NUMBER",
-                                        workingDir: "$WORKSPACE/packages/frontend/dist"
-                                    )
-                                }
+                            when {
+                                branch 'master'
+                            }
+                            withAWS(region: "$AWS_REGION") {
+                                s3Copy(
+                                    fromBucket: "$BUILD_ARTIFACT_BUCKET",
+                                    fromPath: "frontend/$BRANCH_NAME/$BUILD_NUMBER",
+                                    toBucket: "$STATIC_SITE_BUCKET",
+                                    toPath: ''
+                                )
                             }
                         }
                     }
