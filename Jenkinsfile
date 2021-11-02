@@ -85,8 +85,10 @@ pipeline {
                             stages {
                                 stage('frontend:upload-PR-artifact') {
                                     when {
-                                        not anyOf {
-                                            branch 'master'; branch 'stable'
+                                        not {
+                                            anyOf {
+                                                branch 'master'; branch 'stable'
+                                            }
                                         }
                                     }
                                     steps {
