@@ -85,7 +85,9 @@ pipeline {
                             stages {
                                 stage('frontend:upload-PR-artifact') {
                                     when {
-                                        branch comparator: 'REGEXP', pattern: '^(?!master|stable)$'
+                                        not anyOf {
+                                            branch 'master'; branch 'stable'
+                                        }
                                     }
                                     steps {
                                         withAWS(region: env.AWS_REGION) {
@@ -100,7 +102,9 @@ pipeline {
                                 }
                                 stage('frontend:upload-production-artifact') {
                                     when {
-                                        branch comparator: 'REGEXP', pattern: '^(master|stable)$'
+                                        anyOf {
+                                            branch 'master'; branch 'stable'
+                                        }
                                     }
                                     steps {
                                         withAWS(region: env.AWS_REGION) {
