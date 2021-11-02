@@ -30,9 +30,6 @@ pipeline {
         BUILD_E2E = AFFECTED_PACKAGES.contains('e2e-tests')
         BUILD_FRONTEND = AFFECTED_PACKAGES.contains('frontend')
     }
-    triggers {
-        pollSCM('')
-    }
     stages {
         // parallelize builds and tests for modified packages
         stage('packages:build') {
