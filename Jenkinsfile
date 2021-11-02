@@ -132,7 +132,7 @@ pipeline {
                                     s3Upload(
                                         bucket: env.STATIC_SITE_BUCKET,
                                         includePathPattern: "*",
-                                        path: '/',
+                                        path: '',
                                         workingDir: env.FRONTEND_BUNDLE_PATH
                                     )
                                 }
