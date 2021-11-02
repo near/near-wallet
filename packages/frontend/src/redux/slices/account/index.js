@@ -19,6 +19,8 @@ export const selectAccountLedgerKey = createSelector(selectAccountSlice, (accoun
 // balance - state
 export const selectBalance = createSelector(selectAccountSlice, (account) => account.balance || {});
 
+export const selectAccountBalanceLockedAmount = createSelector(selectBalance, (balance) => balance.lockedAmount || '');
+
 // accountsBalance - state
 export const selectAccountAccountsBalances = createSelector(selectAccountSlice, (account) => account.accountsBalance || {});
 
@@ -40,3 +42,13 @@ export const selectAccountUrl = createSelector(selectAccountSlice, (account) => 
 export const selectAccountUrlReferrer = createSelector(selectAccountUrl, (url) => url.referrer);
 
 export const selectAccountUrlContractId = createSelector(selectAccountUrl, (url) => url.contract_id);
+
+export const selectAccountUrlPublicKey = createSelector(selectAccountUrl, (url) => url.public_key);
+
+export const selectAccountUrlMethodNames = createSelector(selectAccountUrl, (url) => url.methodNames);
+
+export const selectAccountUrlTitle = createSelector(selectAccountUrl, (url) => url.title);
+
+export const selectAccountUrlSuccessUrl = createSelector(selectAccountUrl, (url) => url.success_url);
+
+export const selectAccountUrlRedirectUrl = createSelector(selectAccountUrl, (url) => url.redirectUrl);
