@@ -1,12 +1,13 @@
 pipeline {
     agent any
     environment {
-        IS_DEPLOYMENT = env.BRANCH_NAME == 'master' || env.BRANCH_NAME == 'stable'
-
         // e2e variables
         BANK_ACCOUNT = 'grumby.testnet'
         BANK_SEED_PHRASE = 'canal pond draft confirm cabin hungry pistol light valley frost dress found'
         TEST_ACCOUNT_SEED_PHRASE = 'grant confirm ritual chuckle control leader frame same ride trophy genuine journey'
+
+        // frontend variables
+        FRONTEND_BUNDLE_PATH = "$WORKSPACE/packages/frontend/dist"
 
         // aws configuration
         AWS_REGION = 'us-west-2'
@@ -14,7 +15,8 @@ pipeline {
         // s3 buckets
         BUILD_ARTIFACT_BUCKET = 'andy-dev-build-artifacts'
         STATIC_SITE_BUCKET = 'andy-dev-testnet-near-wallet'
-        BUILD_ARTIFACT_PATH = IS_DEPLOYMENT ? "frontend/$BRANCH_NAME/$BUILD_NUMBER" : "frontend/$BRANCH_NAME"
+        PRODUCTION_ARTIFACT_PATH = "frontend/$BRANCH_NAME/$BUILD_NUMBER"
+        PULL_REQUEST_ARTIFACT_PATH = "frontend/$BRANCH_NAME"
 
         // package building configuration
         AFFECTED_PACKAGES = 'frontend'.split()
@@ -80,14 +82,36 @@ pipeline {
                             }
                         }
                         stage('frontend:upload-artifact') {
-                            steps {
-                                withAWS(region: env.AWS_REGION) {
-                                    s3Upload(
-                                        bucket: env.BUILD_ARTIFACT_BUCKET,
-                                        includePathPattern: "*",
-                                        path: env.BUILD_ARTIFACT_PATH,
-                                        workingDir: "$WORKSPACE/packages/frontend/dist"
-                                    )
+                            stages {
+                                stage('frontend:upload-PR-artifact') {
+                                    when {
+                                        branch comparator: 'REGEXP', pattern: '^(?!master|stable)$'
+                                    }
+                                    steps {
+                                        withAWS(region: env.AWS_REGION) {
+                                            s3Upload(
+                                                bucket: env.BUILD_ARTIFACT_BUCKET,
+                                                includePathPattern: "*",
+                                                path: env.PULL_REQUEST_ARTIFACT_PATH,
+                                                workingDir: env.FRONTEND_BUNDLE_PATH
+                                            )
+                                        }
+                                    }
+                                }
+                                stage('frontend:upload-production-artifact') {
+                                    when {
+                                        branch comparator: 'REGEXP', pattern: '^(master|stable)$'
+                                    }
+                                    steps {
+                                        withAWS(region: env.AWS_REGION) {
+                                            s3Upload(
+                                                bucket: env.BUILD_ARTIFACT_BUCKET,
+                                                includePathPattern: "*",
+                                                path: env.PRODUCTION_ARTIFACT_PATH,
+                                                workingDir: env.FRONTEND_BUNDLE_PATH
+                                            )
+                                        }
+                                    }
                                 }
                             }
                         }
