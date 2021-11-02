@@ -1,5 +1,6 @@
 const { JsonRpcProvider } = require("near-api-js/lib/providers");
 const { BN } = require("bn.js");
+const { parseNearAmount } = require("near-api-js/lib/utils/format");
 
 const { createAccountWithHelper } = require("../services/contractHelper");
 const E2eTestAccount = require("./E2eTestAccount");
@@ -17,16 +18,9 @@ class SelfReloadingJSONRpcProvider extends JsonRpcProvider {
             if (e.type === "NotEnoughBalance" && !this.isReloading) {
                 this.isReloading = true;
                 if (signedTransaction.transaction.signerId === getWorkerAccountId(process.env.TEST_WORKER_INDEX)) {
-                    const bankAccount = await new E2eTestAccount(
-                        signedTransaction.transaction.signerId,
-                        getTestAccountSeedPhrase(signedTransaction.transaction.signerId)
-                    ).initialize();
-                    const { total: bankBalanceBeforeReload } = await bankAccount.getUpdatedBalance();
                     await SelfReloadingJSONRpcProvider.reloadAccount(signedTransaction.transaction.signerId);
-                    const { total: bankBalanceAfterReload } = await bankAccount.getUpdatedBalance();
-                    const reloadedAmount = new BN(bankBalanceAfterReload).sub(new BN(bankBalanceBeforeReload));
                     process.env.workerBankStartBalance = new BN(process.env.workerBankStartBalance)
-                        .add(reloadedAmount)
+                        .add(new BN(parseNearAmount("200")))
                         .toString();
                 } else {
                     await SelfReloadingJSONRpcProvider.reloadAccount(signedTransaction.transaction.signerId);

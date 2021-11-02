@@ -1,7 +1,6 @@
 const base = require("@playwright/test");
 const { BN } = require("bn.js");
 
-const { formatNearAmount } = require("near-api-js/lib/utils/format");
 const { WALLET_NETWORK } = require("./constants");
 const { getBankAccount } = require("./utils/account");
 const nearApiJsConnection = require("./utils/connectionSingleton");
@@ -29,7 +28,12 @@ module.exports.test = base.test.extend({
             await use(workerBankAccount);
             const { total: endBalance } = await workerBankAccount.getUpdatedBalance();
             const amountSpent = new BN(process.env.workerBankStartBalance).sub(new BN(endBalance)).toString();
-            console.log(`amount spent by worker acc ${workerBankAccount.accountId}: ${formatNearAmount(amountSpent)} Ⓝ`);
+            console.log(
+                JSON.stringify([
+                    "WorkerExpenseLog",
+                    { workerBankAccount: workerBankAccount.accountId, amountSpent, workerIndex: workerInfo.workerIndex },
+                ])
+            );
         },
         { scope: "worker", auto: true },
     ],

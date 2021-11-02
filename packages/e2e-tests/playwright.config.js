@@ -7,7 +7,7 @@ expect.extend(matchers);
 
 const config = {
     globalSetup: require.resolve("./global-setup.js"),
-    reporter: [["dot"], ["./pagerduty-reporter.js"]],
+    reporter: [["./WalletE2eLogsReporter.js", { logger: console }], ["./pagerduty-reporter.js"]],
     webServer: {
         command:
             "cd ../frontend && npx serve dist -l 1234 -s --ssl-cert devServerCertificates/primary.crt --ssl-key devServerCertificates/private.pem",
