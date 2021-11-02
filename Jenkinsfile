@@ -23,7 +23,7 @@ pipeline {
         /* TODO enable once nx is implemented
         AFFECTED_PACKAGES = """${sh(
             returnStdout: true,
-            script: 'npx affected:apps --plain'
+            script: 'npx nx affected:apps --plain'
         )}""".trim().split()
         */
 
