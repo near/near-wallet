@@ -19,7 +19,7 @@ pipeline {
         PULL_REQUEST_ARTIFACT_PATH = "frontend/$BRANCH_NAME"
 
         // package building configuration
-        AFFECTED_PACKAGES = 'frontend less junk'.split()
+        AFFECTED_PACKAGES = 'frontend'.split()
         /* TODO enable once nx is implemented
         AFFECTED_PACKAGES = """${sh(
             returnStdout: true,
