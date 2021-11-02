@@ -36,6 +36,7 @@ import LockupAvailTransfer from './balances/LockupAvailTransfer';
 import HardwareDevices from './hardware_devices/HardwareDevices';
 import MobileSharingWrapper from './mobile_sharing/MobileSharingWrapper';
 import RecoveryContainer from './Recovery/RecoveryContainer';
+import TorusRecoveryWrapper from './torus/TorusRecoveryWrapper';
 import TwoFactorAuth from './two_factor/TwoFactorAuth';
 
 const { fetchRecoveryMethods } = recoveryMethodsActions;
@@ -253,6 +254,7 @@ export function Profile({ match }) {
                         {!twoFactor && <HardwareDevices recoveryMethods={userRecoveryMethods}/>}
                         <RecoveryContainer type='phrase' recoveryMethods={userRecoveryMethods}/>
                         <h4><Translate id='profile.security.lessSecure'/><Tooltip translate='profile.security.lessSecureDesc' icon='icon-lg'/></h4>
+                        <TorusRecoveryWrapper/>
                         <RecoveryContainer type='email' recoveryMethods={userRecoveryMethods}/>
                         <RecoveryContainer type='phone' recoveryMethods={userRecoveryMethods}/>
                         {!account.ledgerKey &&

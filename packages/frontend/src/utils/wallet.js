@@ -1,3 +1,5 @@
+import { getED25519Key } from '@toruslabs/openlogin-ed25519';
+import bs58 from 'bs58';
 import * as nearApiJs from 'near-api-js';
 import { KeyPair } from 'near-api-js';
 import { MULTISIG_CHANGE_METHODS } from 'near-api-js/lib/account_multisig';
@@ -60,6 +62,7 @@ const {
     RECAPTCHA_CHALLENGE_API_KEY,
     RECAPTCHA_ENTERPRISE_SITE_KEY,
     SHOW_PRERELEASE_WARNING,
+    MIN_BALANCE_TO_CREATE
 } = Config;
 
 const CONTRACT_CREATE_ACCOUNT_URL = `${ACCOUNT_HELPER_URL}/account`;
@@ -447,6 +450,21 @@ class Wallet {
         }
     }
 
+    async createNewAccountWithTorus({
+        newAccountId,
+        newPublicKey,
+        newSecretKey
+    }) {
+        const account = await this.getAccount(this.accountId);
+        await this.createNewAccountWithNearContract({
+            account,
+            newAccountId,
+            newPublicKey,
+            newInitialBalance: MIN_BALANCE_TO_CREATE
+        });
+        await this.saveAndMakeAccountActive(newAccountId, `ed25519:${newSecretKey}`);
+    }
+
     async createNewAccountWithCurrentActiveAccount({
         newAccountId,
         implicitAccountId,
@@ -760,7 +778,7 @@ class Wallet {
         if (!accountId) {
             return false;
         }
-        
+
         const account = await this.getAccount(accountId);
         return await account.getAccountBalance(limitedAccountData);
     }
@@ -932,6 +950,38 @@ class Wallet {
     async recoverAccountSeedPhrase(seedPhrase, accountId, shouldCreateFullAccessKey = true) {
         const { secretKey } = parseSeedPhrase(seedPhrase);
         return await this.recoverAccountSecretKey(secretKey, accountId, shouldCreateFullAccessKey);
+    }
+
+    async recoverAllAccountsWithTorusSecretKey(secretKey) {
+        const nearKeyPair = getED25519Key(secretKey);
+        const nearSecKey = bs58.encode(nearKeyPair.sk);
+        const nearPubKey = bs58.encode(nearKeyPair.pk);
+        // TODO: handle implicit accounts
+        let accountIds = await getAccountIds(`ed25519:${nearPubKey}`);
+        console.log('here are accounts:', accountIds);
+
+        // Remove duplicate and non-existing accounts
+        const accountsSet = new Set(accountIds);
+        for (const accountId of accountsSet) {
+            if (!(await this.accountExists(accountId))) {
+                accountsSet.delete(accountId);
+            }
+        }
+        accountIds = [...accountsSet];
+
+        if (!accountIds.length) {
+            throw new WalletError('Cannot find matching public key', 'recoverAccountSeedPhrase.errorInvalidSeedPhrase', { nearPubKey });
+        }
+
+        console.log('here are accounts:', accountIds);
+
+        // await this.saveAccount(accountIds[1], `ed25519:${nearSecKey}`);
+
+        await Promise.all(accountIds.map(async (accountId) => {
+            await this.saveAccount(accountId, `ed25519:${nearSecKey}`);
+        }));
+
+        store.dispatch(makeAccountActive(accountIds[accountIds.length - 1]));
     }
 
     async recoverAccountSecretKey(secretKey, accountId, shouldCreateFullAccessKey) {

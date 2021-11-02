@@ -105,7 +105,8 @@ const P = styled.p`
 
 const RecoverAccount = ({
     locationSearch,
-    isMobile
+    isMobile,
+    onLoginWithTorus
 }) => {
     return (
         <StyledContainer>
@@ -145,6 +146,19 @@ const RecoverAccount = ({
                         onClick={()=> Mixpanel.track("IE Click ledger recovery button")}
                     >
                             <Translate id='button.signInLedger' />
+                    </FormButton>
+                </Option>
+                <Option>
+                    <Header icon={HardwareDeviceIcon}><Translate id='recoverAccount.torus.title'/></Header>
+                    <P><Translate id='recoverAccount.torus.desc'/></P>
+                    <FormButton
+                        color='seafoam-blue'
+                        onClick={()=> {
+                            Mixpanel.track("IE Click login with Torus button");
+                            onLoginWithTorus();
+                        }}
+                    >
+                            <Translate id='button.signInWithTorus' />
                     </FormButton>
                 </Option>
                 {!IS_MAINNET && isMobile &&

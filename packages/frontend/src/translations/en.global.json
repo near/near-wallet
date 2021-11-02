@@ -646,7 +646,8 @@
         "fundWith": "Fund with",
         "next": "Next",
         "approve": "Approve",
-        "returnToApp": "Return to App"
+        "returnToApp": "Return to App",
+        "signInWithTorus": "Sign in with TORUS"
     },
 
     "link": {
@@ -700,6 +701,10 @@
         "ledger": {
             "title": "Ledger",
             "desc": "Make sure your ledger is connected securely, and that the NEAR app is open on the device."
+        },
+        "torus": {
+            "title": "Torus",
+            "desc": "Import all your TORUS enabled accounts at once using social login options."
         },
         "actionType": "Recovery",
         "actionRequired": "This message contains a magic link. Click the link to begin recovery!",
@@ -811,7 +816,9 @@
         "ledgerTitle": "Ledger Hardware Wallet",
         "ledgerDesc": "Secure your account with a Ledger hardware device.",
         "phraseTitle": "Secure Passphrase",
-        "phraseDesc": "Generate and safely store a unique passphrase."
+        "phraseDesc": "Generate and safely store a unique passphrase.",
+        "torusTitle": "TORUS",
+        "torusDesc": "Secure your account using TORUS social login options."
     },
     "setRecoveryConfirm": {
         "title": "Enter Verification Code",

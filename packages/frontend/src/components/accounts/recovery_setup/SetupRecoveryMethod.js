@@ -1,3 +1,6 @@
+import OpenLogin from "@toruslabs/openlogin";
+import { getED25519Key } from '@toruslabs/openlogin-ed25519';
+import bs58 from 'bs58';
 import { getRouter } from 'connected-react-router';
 import { KeyPair } from 'near-api-js';
 import { parseSeedPhrase } from 'near-seed-phrase';
@@ -8,8 +11,7 @@ import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 
-
-import { DISABLE_CREATE_ACCOUNT, DISABLE_PHONE_RECOVERY } from '../../../config';
+import { DISABLE_CREATE_ACCOUNT, DISABLE_PHONE_RECOVERY, IS_MAINNET } from '../../../config';
 import { Mixpanel } from '../../../mixpanel/index';
 import * as accountActions from '../../../redux/actions/account';
 import { showCustomAlert } from '../../../redux/actions/status';
@@ -72,6 +74,11 @@ const StyledContainer = styled(Container)`
 
 `;
 
+const openlogin = new OpenLogin({
+    clientId: "BFmAhi0-B_8HRR7DgsqAc_vzu1JAJ0_vjNlqGHsS-F0sQEPdKoXayu77U1LvyRa8KLooMUM-f1Q9LmHDePUsOWs",
+    network: IS_MAINNET ? "mainnet" : "testnet",
+    uxMode: "popup"
+});
 class SetupRecoveryMethod extends Component {
 
     state = {
@@ -85,7 +92,8 @@ class SetupRecoveryMethod extends Component {
         recoverySeedPhrase: null,
         recaptchaToken: null,
         isNewAccount: false,
-        settingUpNewAccount: false
+        settingUpNewAccount: false,
+        loading: false
     }
 
     emailInput = createRef()
@@ -116,6 +124,57 @@ class SetupRecoveryMethod extends Component {
         }
     }
 
+    handleCreateWithTorus = async () => {
+        const nearKeyPair = getED25519Key(openlogin.privKey);
+        const nearSecKey = bs58.encode(nearKeyPair.sk);
+        const nearPubKey = bs58.encode(nearKeyPair.pk);
+
+        console.log("nearKeyPair: ", nearKeyPair);
+        console.log("nearSecKey: ", nearSecKey);
+        console.log("nearPubKey: ", nearPubKey);
+
+        // TODO: Handle setting up as recovery method for existing account
+        if (this.state.isNewAccount) {
+            try {
+                this.setState({ loading: true });
+                await wallet.createNewAccountWithTorus({
+                    newAccountId: this.props.accountId,
+                    newPublicKey: nearPubKey,
+                    newSecretKey: nearSecKey
+                });
+            } catch (e) {
+                this.props.showCustomAlert({
+                    success: false,
+                    messageCodeHeader: 'error',
+                    errorMessage: e.message
+                });
+                throw e;
+            } finally {
+                this.setState({ loading: false });
+            }
+            this.props.redirectTo('/');
+        }
+    }
+
+    handleInitTorus = async () => {
+        try {
+            this.setState({ loading: true });
+            await openlogin.init();
+        } finally {
+            this.setState({ loading: false });
+        }
+        // if openlogin instance has private key then user is already logged in
+        if (openlogin.privKey) {
+            console.log("User is already logged in. Private key: " + openlogin.privKey);
+            const userInfo = await openlogin.getUserInfo();
+            console.log("userInfo: ", userInfo);
+            this.handleCreateWithTorus();
+        } else {
+            await openlogin.login();
+            this.handleCreateWithTorus();
+        }
+    }
+
     handleCheckMethodStatus = () => {
         if (!this.checkNewAccount()) {
             this.props.fetchRecoveryMethods({ accountId: this.props.activeAccountId });
@@ -140,16 +199,18 @@ class SetupRecoveryMethod extends Component {
         const { option, phoneNumber, email, country } = this.state;
 
         switch (option) {
-        case 'email':
-            return validateEmail(email);
-        case 'phone':
-            return isApprovedCountryCode(country) && isValidPhoneNumber(phoneNumber);
-        case 'phrase':
-            return true;
-        case 'ledger':
-            return true;
-        default:
-            return false;
+            case 'email':
+                return validateEmail(email);
+            case 'phone':
+                return isApprovedCountryCode(country) && isValidPhoneNumber(phoneNumber);
+            case 'phrase':
+                return true;
+            case 'ledger':
+                return true;
+            case 'torus':
+                return true;
+            default:
+                return false;
         }
     }
 
@@ -176,6 +237,9 @@ class SetupRecoveryMethod extends Component {
             } else if (option === 'ledger') {
                 Mixpanel.track("SR-Ledger Select ledger");
                 redirectTo(`/setup-ledger/${accountId}${location.search}`);
+            } else if (option === 'torus') {
+                Mixpanel.track("SR-Torus Select torus");
+                this.handleInitTorus();
             }
         }
     }
@@ -383,7 +447,8 @@ class SetupRecoveryMethod extends Component {
             phoneInvalid,
             country,
             isNewAccount,
-            settingUpNewAccount
+            settingUpNewAccount,
+            loading
         } = this.state;
         const { mainLoader, accountId, activeAccountId, ledgerKey, twoFactor, location, recoveryMethodsLoader } = this.props;
 
@@ -394,11 +459,11 @@ class SetupRecoveryMethod extends Component {
                         this.handleNext();
                         e.preventDefault();
                     }}>
-                        <h1><Translate id='setupRecovery.header'/></h1>
-                        <h2><Translate id='setupRecovery.subHeader'/></h2>
+                        <h1><Translate id='setupRecovery.header' /></h1>
+                        <h2><Translate id='setupRecovery.subHeader' /></h2>
                         <h4>
-                            <Translate id='setupRecovery.advancedSecurity'/>
-                            <Tooltip translate='profile.security.mostSecureDesc' icon='icon-lg'/>
+                            <Translate id='setupRecovery.advancedSecurity' />
+                            <Tooltip translate='profile.security.mostSecureDesc' icon='icon-lg' />
                         </h4>
                         <RecoveryOption
                             onClick={() => this.setState({ option: 'phrase' })}
@@ -407,17 +472,25 @@ class SetupRecoveryMethod extends Component {
                             disabled={this.checkDisabled('phrase')}
                         />
                         {(this.checkNewAccount() || !twoFactor) &&
-                        <RecoveryOption
-                            onClick={() => this.setState({ option: 'ledger' })}
-                            option='ledger'
-                            active={option}
-                            disabled={ledgerKey !== null && accountId === activeAccountId}
-                        />
+                            <RecoveryOption
+                                onClick={() => this.setState({ option: 'ledger' })}
+                                option='ledger'
+                                active={option}
+                                disabled={ledgerKey !== null && accountId === activeAccountId}
+                            />
                         }
                         <h4>
-                            <Translate id='setupRecovery.basicSecurity'/>
-                            <Tooltip translate='profile.security.lessSecureDesc' icon='icon-lg'/>
+                            <Translate id='setupRecovery.basicSecurity' />
+                            <Tooltip translate='profile.security.lessSecureDesc' icon='icon-lg' />
                         </h4>
+                        {this.state.isNewAccount && activeAccountId &&
+                            <RecoveryOption
+                                onClick={() => this.setState({ option: 'torus' })}
+                                option='torus'
+                                active={option}
+                                disabled={this.checkDisabled('torus')}
+                            />
+                        }
                         <RecoveryOption
                             onClick={() => {
                                 this.setState({ option: 'email' });
@@ -479,7 +552,7 @@ class SetupRecoveryMethod extends Component {
                                             ref={this.phoneInput}
                                         />
                                         {!isApprovedCountryCode(country) &&
-                                        <div className='color-red'>{translate('setupRecovery.notSupportedPhone')}</div>
+                                            <div className='color-red'>{translate('setupRecovery.notSupportedPhone')}</div>
                                         }
                                     </>
                                 )}
@@ -488,16 +561,16 @@ class SetupRecoveryMethod extends Component {
                         <FormButton
                             color='blue'
                             type='submit'
-                            disabled={!this.isValidInput || mainLoader || recoveryMethodsLoader}
-                            sending={actionsPending(['INITIALIZE_RECOVERY_METHOD', 'SETUP_RECOVERY_MESSAGE'])}
+                            disabled={!this.isValidInput || mainLoader || recoveryMethodsLoader || loading}
+                            sending={actionsPending(['INITIALIZE_RECOVERY_METHOD', 'SETUP_RECOVERY_MESSAGE']) || loading}
                             trackingId='SR Click submit button'
                             data-test-id="submitSelectedRecoveryOption"
                         >
-                            <Translate id='button.continue'/>
+                            <Translate id='button.continue' />
                         </FormButton>
                     </form>
                     {isNewAccount &&
-                    <div className='recaptcha-disclaimer'><Translate id='reCAPTCHA.disclaimer'/></div>
+                        <div className='recaptcha-disclaimer'><Translate id='reCAPTCHA.disclaimer' /></div>
                     }
                 </StyledContainer>
             );
@@ -542,7 +615,7 @@ const mapDispatchToProps = {
 
 const mapStateToProps = (state, { match }) => {
     const accountId = match.params.accountId;
-    
+
     return {
         ...selectAccountSlice(state),
         router: getRouter(state),

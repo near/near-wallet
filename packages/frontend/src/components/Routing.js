@@ -204,9 +204,9 @@ class Routing extends Component {
             this.setState({ isInactiveAccount: getAccountIsInactive(`${account.accountId || account.localStorage?.accountId}`) });
         }
 
-        if (prevProps.account.accountId !== account.accountId && account.accountId !== undefined) {
-            getAccountHelperWalletState(account.accountId);
-        }
+        // if (prevProps.account.accountId !== account.accountId && account.accountId !== undefined) {
+        //     getAccountHelperWalletState(account.accountId);
+        // }
 
         if (prevProps.account.accountHelperWalletState.isLoaded !== account.accountHelperWalletState.isLoaded) {
             const needsDeposit = account.accountHelperWalletState.fundedAccountNeedsDeposit;

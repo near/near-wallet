@@ -192,6 +192,8 @@ const Icon = ({option, color}) => {
             return <PassPhraseIcon color={color}/>;
         case 'ledger':
             return <HardwareWalletIcon color={color}/>;
+        case 'torus':
+            return <EmailIconOne color={color}/>;
         default:
             return;
     }
