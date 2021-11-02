@@ -132,8 +132,7 @@ pipeline {
                                     s3Copy(
                                         fromBucket: env.BUILD_ARTIFACT_BUCKET,
                                         fromPath: env.BUILD_ARTIFACT_PATH,
-                                        toBucket: env.STATIC_SITE_BUCKET,
-                                        toPath: ''
+                                        toBucket: env.STATIC_SITE_BUCKET
                                     )
                                 }
                             }
