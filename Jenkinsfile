@@ -123,7 +123,9 @@ pipeline {
                         }
                         stage('frontend:deploy-artifact') {
                             when {
-                                branch 'master'
+                                anyOf {
+                                    branch 'master'; branch 'stable'
+                                }
                             }
                             steps {
                                 withAWS(region: env.AWS_REGION) {
