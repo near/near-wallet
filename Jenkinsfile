@@ -129,11 +129,11 @@ pipeline {
                             }
                             steps {
                                 withAWS(region: env.AWS_REGION) {
-                                    s3Copy(
-                                        fromBucket: env.BUILD_ARTIFACT_BUCKET,
-                                        fromPath: env.PRODUCTION_ARTIFACT_PATH,
-                                        toBucket: env.STATIC_SITE_BUCKET,
-                                        toPath: '/'
+                                    s3Upload(
+                                        bucket: env.STATIC_SITE_BUCKET,
+                                        includePathPattern: "*",
+                                        path: '/',
+                                        workingDir: env.FRONTEND_BUNDLE_PATH
                                     )
                                 }
                             }
