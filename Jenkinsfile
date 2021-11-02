@@ -129,6 +129,7 @@ pipeline {
                             }
                             steps {
                                 withAWS(region: env.AWS_REGION) {
+                                    // TODO why does s3Copy fail on permissions but s3Upload works?
                                     s3Upload(
                                         bucket: env.STATIC_SITE_BUCKET,
                                         includePathPattern: "*",
