@@ -27,6 +27,7 @@ pipeline {
         )}""".trim().split()
         */
 
+
         BUILD_E2E = AFFECTED_PACKAGES.contains('e2e-tests')
         BUILD_FRONTEND = AFFECTED_PACKAGES.contains('frontend')
     }
