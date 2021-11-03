@@ -152,7 +152,7 @@ pipeline {
                         expression { env.BUILD_FRONTEND == 'true' }
                     }
                     stages {
-                        stage('frontend:deploy:master') {
+                        stage('frontend:deploy:testnet') {
                             when {
                                 branch 'master'
                             }
@@ -168,7 +168,7 @@ pipeline {
                                 }
                             }
                         }
-                        stage('frontend:deploy:stable') {
+                        stage('frontend:deploy:mainnet') {
                             when {
                                 branch 'stable'
                             }
