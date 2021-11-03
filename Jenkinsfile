@@ -154,11 +154,20 @@ pipeline {
                             }
                             steps {
                                 withAWS(region: env.AWS_REGION) {
+<<<<<<< Updated upstream
                                     s3Copy(
                                         fromBucket: env.BUILD_ARTIFACT_BUCKET,
                                         fromPath: env.FRONTEND_PRODUCTION_ARTIFACT_PATH,
                                         toBucket: env.TESTNET_STATIC_SITE_BUCKET,
                                         toPath: '',
+=======
+                                    // TODO why does s3Copy fail on permissions but s3Upload works?
+                                    s3Upload(
+                                        bucket: env.TESTNET_STATIC_SITE_BUCKET,
+                                        includePathPattern: "*",
+                                        path: '/',
+                                        workingDir: env.FRONTEND_BUNDLE_PATH
+>>>>>>> Stashed changes
                                     )
                                 }
                             }
@@ -170,11 +179,20 @@ pipeline {
                             steps {
                                 input(message: 'Deploy to mainnet?')
                                 withAWS(region: env.AWS_REGION) {
+<<<<<<< Updated upstream
                                     s3Copy(
                                         fromBucket: env.BUILD_ARTIFACT_BUCKET,
                                         fromPath: env.FRONTEND_PRODUCTION_ARTIFACT_PATH,
                                         toBucket: env.TESTNET_STATIC_SITE_BUCKET,
                                         toPath: '',
+=======
+                                    // TODO why does s3Copy fail on permissions but s3Upload works?
+                                    s3Upload(
+                                        bucket: env.MAINNET_STATIC_SITE_BUCKET,
+                                        includePathPattern: "*",
+                                        path: '/',
+                                        workingDir: env.FRONTEND_BUNDLE_PATH
+>>>>>>> Stashed changes
                                     )
                                 }
                             }
