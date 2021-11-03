@@ -14,7 +14,8 @@ pipeline {
 
         // s3 buckets
         BUILD_ARTIFACT_BUCKET = 'andy-dev-build-artifacts'
-        STATIC_SITE_BUCKET = 'andy-dev-testnet-near-wallet'
+        TESTNET_STATIC_SITE_BUCKET = 'andy-dev-testnet-near-wallet'
+        MAINNET_STATIC_SITE_BUCKET = 'andy-dev-testnet-near-wallet'
         E2E_PRODUCTION_ARTIFACT_PATH = "e2e-tests/$BRANCH_NAME/$BUILD_NUMBER"
         E2E_PULL_REQUEST_ARTIFACT_PATH = "e2e-tests/$BRANCH_NAME"
         FRONTEND_PRODUCTION_ARTIFACT_PATH = "frontend/$BRANCH_NAME/$BUILD_NUMBER"
@@ -120,24 +121,6 @@ pipeline {
                                 }
                             }
                         }
-                        stage('frontend:deploy-artifact') {
-                            when {
-                                anyOf {
-                                    branch 'master'; branch 'stable'
-                                }
-                            }
-                            steps {
-                                withAWS(region: env.AWS_REGION) {
-                                    // TODO why does s3Copy fail on permissions but s3Upload works?
-                                    s3Upload(
-                                        bucket: env.STATIC_SITE_BUCKET,
-                                        includePathPattern: "*",
-                                        path: '',
-                                        workingDir: env.FRONTEND_BUNDLE_PATH
-                                    )
-                                }
-                            }
-                        }
                     }
                 }
             }
@@ -174,7 +157,15 @@ pipeline {
                                 branch 'master'
                             }
                             steps {
-                                echo 'TODO - deploy master branch'
+                                withAWS(region: env.AWS_REGION) {
+                                    // TODO why does s3Copy fail on permissions but s3Upload works?
+                                    s3Upload(
+                                        bucket: env.TESTNET_STATIC_SITE_BUCKET,
+                                        includePathPattern: "*",
+                                        path: '',
+                                        workingDir: env.FRONTEND_BUNDLE_PATH
+                                    )
+                                }
                             }
                         }
                         stage('frontend:deploy:stable') {
@@ -183,7 +174,15 @@ pipeline {
                             }
                             steps {
                                 input(message: 'Deploy to mainnet?')
-                                echo 'TODO - deploy stable branch'
+                                withAWS(region: env.AWS_REGION) {
+                                    // TODO why does s3Copy fail on permissions but s3Upload works?
+                                    s3Upload(
+                                        bucket: env.MAINNET_STATIC_SITE_BUCKET,
+                                        includePathPattern: "*",
+                                        path: '',
+                                        workingDir: env.FRONTEND_BUNDLE_PATH
+                                    )
+                                }
                             }
                         }
                     }
