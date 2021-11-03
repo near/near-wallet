@@ -14,9 +14,12 @@ pipeline {
 
         // s3 buckets
         BUILD_ARTIFACT_BUCKET = 'andy-dev-build-artifacts'
-        STATIC_SITE_BUCKET = 'andy-dev-testnet-near-wallet'
-        PRODUCTION_ARTIFACT_PATH = "frontend/$BRANCH_NAME/$BUILD_NUMBER"
-        PULL_REQUEST_ARTIFACT_PATH = "frontend/$BRANCH_NAME"
+        TESTNET_STATIC_SITE_BUCKET = 'andy-dev-testnet-near-wallet'
+        MAINNET_STATIC_SITE_BUCKET = 'andy-dev-testnet-near-wallet'
+        E2E_PRODUCTION_ARTIFACT_PATH = "e2e-tests/$BRANCH_NAME/$BUILD_NUMBER"
+        E2E_PULL_REQUEST_ARTIFACT_PATH = "e2e-tests/$BRANCH_NAME"
+        FRONTEND_PRODUCTION_ARTIFACT_PATH = "frontend/$BRANCH_NAME/$BUILD_NUMBER"
+        FRONTEND_PULL_REQUEST_ARTIFACT_PATH = "frontend/$BRANCH_NAME"
 
         // package building configuration
         AFFECTED_PACKAGES = 'frontend'.split()
@@ -80,7 +83,7 @@ pipeline {
                         }
                         stage('frontend:upload-artifact') {
                             stages {
-                                stage('frontend:upload-PR-artifact') {
+                                stage('frontend:upload-artifact:PR') {
                                     when {
                                         not {
                                             anyOf {
@@ -93,13 +96,13 @@ pipeline {
                                             s3Upload(
                                                 bucket: env.BUILD_ARTIFACT_BUCKET,
                                                 includePathPattern: "*",
-                                                path: env.PULL_REQUEST_ARTIFACT_PATH,
+                                                path: env.FRONTEND_PULL_REQUEST_ARTIFACT_PATH,
                                                 workingDir: env.FRONTEND_BUNDLE_PATH
                                             )
                                         }
                                     }
                                 }
-                                stage('frontend:upload-production-artifact') {
+                                stage('frontend:upload-artifact:production') {
                                     when {
                                         anyOf {
                                             branch 'master'; branch 'stable'
@@ -110,7 +113,7 @@ pipeline {
                                             s3Upload(
                                                 bucket: env.BUILD_ARTIFACT_BUCKET,
                                                 includePathPattern: "*",
-                                                path: env.PRODUCTION_ARTIFACT_PATH,
+                                                path: env.FRONTEND_PRODUCTION_ARTIFACT_PATH,
                                                 workingDir: env.FRONTEND_BUNDLE_PATH
                                             )
                                         }
@@ -118,17 +121,63 @@ pipeline {
                                 }
                             }
                         }
-                        stage('frontend:deploy-artifact') {
+                    }
+                }
+            }
+        }
+        stage('e2e-tests') {
+            stages {
+                stage('e2e-tests:deploy') {
+                    when {
+                        allOf {
+                            branch 'master'
+                            expression { env.BUILD_E2E == 'true' }
+                        }
+                    }
+                    steps {
+                        echo 'TODO - deploy e2e-tests'
+                    }
+                }
+                stage('e2e-tests:run') {
+                    steps {
+                        echo 'TODO - trigger e2e-tests'
+                    }
+                }
+            }
+        }
+        stage('packages:deploy') {
+            stages {
+                stage('frontend:deploy') {
+                    when {
+                        expression { env.BUILD_FRONTEND == 'true' }
+                    }
+                    stages {
+                        stage('frontend:deploy:testnet') {
                             when {
-                                anyOf {
-                                    branch 'master'; branch 'stable'
-                                }
+                                branch 'master'
                             }
                             steps {
                                 withAWS(region: env.AWS_REGION) {
                                     // TODO why does s3Copy fail on permissions but s3Upload works?
                                     s3Upload(
-                                        bucket: env.STATIC_SITE_BUCKET,
+                                        bucket: env.TESTNET_STATIC_SITE_BUCKET,
+                                        includePathPattern: "*",
+                                        path: '',
+                                        workingDir: env.FRONTEND_BUNDLE_PATH
+                                    )
+                                }
+                            }
+                        }
+                        stage('frontend:deploy:mainnet') {
+                            when {
+                                branch 'stable'
+                            }
+                            steps {
+                                input(message: 'Deploy to mainnet?')
+                                withAWS(region: env.AWS_REGION) {
+                                    // TODO why does s3Copy fail on permissions but s3Upload works?
+                                    s3Upload(
+                                        bucket: env.MAINNET_STATIC_SITE_BUCKET,
                                         includePathPattern: "*",
                                         path: '',
                                         workingDir: env.FRONTEND_BUNDLE_PATH
