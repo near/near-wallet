@@ -44,9 +44,7 @@ pipeline {
                 // build end-to-end testing package
                 stage('e2e-tests') {
                     when {
-                        expression {
-                            return env.BUILD_E2E == 'true'
-                        }
+                        expression { env.BUILD_E2E == 'true' }
                     }
                     stages {
                         stage('e2e-tests:build') {
@@ -65,9 +63,7 @@ pipeline {
                 // build frontend package
                 stage('frontend') {
                     when {
-                        expression {
-                            return env.BUILD_FRONTEND == 'true'
-                        }
+                        expression { env.BUILD_FRONTEND == 'true' }
                     }
                     stages {
                         stage('frontend:build') {
