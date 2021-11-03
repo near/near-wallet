@@ -83,7 +83,7 @@ pipeline {
                         }
                         stage('frontend:upload-artifact') {
                             stages {
-                                stage('frontend:upload-PR-artifact') {
+                                stage('frontend:upload-artifact:PR') {
                                     when {
                                         not {
                                             anyOf {
@@ -102,7 +102,7 @@ pipeline {
                                         }
                                     }
                                 }
-                                stage('frontend:upload-production-artifact') {
+                                stage('frontend:upload-artifact:production') {
                                     when {
                                         anyOf {
                                             branch 'master'; branch 'stable'
