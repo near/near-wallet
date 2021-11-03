@@ -7,7 +7,7 @@ const StyledContainer = styled.div`
     padding: 15px 20px;
 `;
 
-export default ({ onClick, userInfo }) => {
+export default ({ userInfo }) => {
     return (
         <StyledContainer>
             <h4>Torus Recovery</h4>
@@ -15,10 +15,6 @@ export default ({ onClick, userInfo }) => {
             <div>{userInfo?.email}</div>
             <div>{userInfo?.typeOfLogin}</div>
             <div><img src={userInfo?.profileImage} alt='profile'/></div>
-            <button onClick={onClick}>
-                {userInfo ? <>Deauthorize</> : <>Reauthorize</>}
-            </button>
-            <div>Note: Deauthorizing only removed TORUS from browser session storage.</div>
         </StyledContainer>
     );
 };

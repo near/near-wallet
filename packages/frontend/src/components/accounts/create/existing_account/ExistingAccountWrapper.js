@@ -1,8 +1,9 @@
+import OpenLogin from "@toruslabs/openlogin";
 import { getLocation } from 'connected-react-router';
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { LINKDROP_GAS, MIN_BALANCE_TO_CREATE } from '../../../../config';
+import { LINKDROP_GAS, MIN_BALANCE_TO_CREATE, IS_MAINNET, TORUS_CLIENT_ID } from '../../../../config';
 import { Mixpanel } from '../../../../mixpanel';
 import {
     switchAccount,
@@ -16,6 +17,12 @@ import { selectAvailableAccounts } from '../../../../redux/slices/availableAccou
 import { wallet } from '../../../../utils/wallet';
 import FundNewAccount from './FundNewAccount';
 import SelectAccount from './SelectAccount';
+
+const openlogin = new OpenLogin({
+    clientId: TORUS_CLIENT_ID,
+    network: IS_MAINNET ? "mainnet" : "testnet",
+    uxMode: "popup"
+});
 
 export function ExistingAccountWrapper({ history }) {
     const dispatch = useDispatch();
@@ -32,7 +39,7 @@ export function ExistingAccountWrapper({ history }) {
     const accountId = URLParams.get('accountId');
     const implicitAccountId = URLParams.get('implicitAccountId');
     const recoveryMethod = URLParams.get('recoveryMethod');
-    const hasAllRequiredParams = !!accountId && !!implicitAccountId && !!recoveryMethod;
+    const hasAllRequiredParams = !!accountId && (!!implicitAccountId || recoveryMethod === 'torus') && !!recoveryMethod;
 
     if (fundingAccountId) {
         return (
@@ -41,12 +48,27 @@ export function ExistingAccountWrapper({ history }) {
                     await Mixpanel.withTracking("CA Create account from existing account",
                         async () => {
                             setCreatingNewAccount(true);
-                            await wallet.createNewAccountWithCurrentActiveAccount({
-                                newAccountId: accountId,
-                                implicitAccountId,
-                                newInitialBalance: MIN_BALANCE_TO_CREATE,
-                                recoveryMethod
-                            });
+
+                            if (recoveryMethod === 'torus') {
+                                await openlogin.init();
+                                if (openlogin.privKey) {
+                                    console.log('User is already logged in with Torus.');
+                                } else {
+                                    console.log('User is not logged in with Torus anymore. Logging in with Torus.');
+                                    await openlogin.login();
+                                }
+                                await wallet.createNewAccountWithTorus({
+                                    newAccountId: accountId,
+                                    torusSecretKey: openlogin.privKey
+                                });
+                            } else {
+                                await wallet.createNewAccountWithCurrentActiveAccount({
+                                    newAccountId: accountId,
+                                    implicitAccountId,
+                                    newInitialBalance: MIN_BALANCE_TO_CREATE,
+                                    recoveryMethod
+                                });
+                            }
                         },
                         (e) => {
                             dispatch(showCustomAlert({

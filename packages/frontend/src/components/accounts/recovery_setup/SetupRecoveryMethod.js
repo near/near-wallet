@@ -1,6 +1,4 @@
 import OpenLogin from "@toruslabs/openlogin";
-import { getED25519Key } from '@toruslabs/openlogin-ed25519';
-import bs58 from 'bs58';
 import { getRouter } from 'connected-react-router';
 import { KeyPair } from 'near-api-js';
 import { parseSeedPhrase } from 'near-seed-phrase';
@@ -11,7 +9,7 @@ import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 
-import { DISABLE_CREATE_ACCOUNT, DISABLE_PHONE_RECOVERY, IS_MAINNET } from '../../../config';
+import { DISABLE_CREATE_ACCOUNT, DISABLE_PHONE_RECOVERY, IS_MAINNET, TORUS_CLIENT_ID } from '../../../config';
 import { Mixpanel } from '../../../mixpanel/index';
 import * as accountActions from '../../../redux/actions/account';
 import { showCustomAlert } from '../../../redux/actions/status';
@@ -75,7 +73,7 @@ const StyledContainer = styled(Container)`
 `;
 
 const openlogin = new OpenLogin({
-    clientId: "BFmAhi0-B_8HRR7DgsqAc_vzu1JAJ0_vjNlqGHsS-F0sQEPdKoXayu77U1LvyRa8KLooMUM-f1Q9LmHDePUsOWs",
+    clientId: TORUS_CLIENT_ID,
     network: IS_MAINNET ? "mainnet" : "testnet",
     uxMode: "popup"
 });
@@ -124,54 +122,22 @@ class SetupRecoveryMethod extends Component {
         }
     }
 
-    handleCreateWithTorus = async () => {
-        const nearKeyPair = getED25519Key(openlogin.privKey);
-        const nearSecKey = bs58.encode(nearKeyPair.sk);
-        const nearPubKey = bs58.encode(nearKeyPair.pk);
-
-        console.log("nearKeyPair: ", nearKeyPair);
-        console.log("nearSecKey: ", nearSecKey);
-        console.log("nearPubKey: ", nearPubKey);
-
-        // TODO: Handle setting up as recovery method for existing account
-        if (this.state.isNewAccount) {
-            try {
-                this.setState({ loading: true });
-                await wallet.createNewAccountWithTorus({
-                    newAccountId: this.props.accountId,
-                    newPublicKey: nearPubKey,
-                    newSecretKey: nearSecKey
-                });
-            } catch (e) {
-                this.props.showCustomAlert({
-                    success: false,
-                    messageCodeHeader: 'error',
-                    errorMessage: e.message
-                });
-                throw e;
-            } finally {
-                this.setState({ loading: false });
-            }
-            this.props.redirectTo('/');
-        }
-    }
-
     handleInitTorus = async () => {
+        const { accountId, redirectTo } = this.props;
+        const redirectUrl = `/verify-account?accountId=${accountId}&recoveryMethod=torus`;
         try {
             this.setState({ loading: true });
             await openlogin.init();
         } finally {
             this.setState({ loading: false });
         }
-        // if openlogin instance has private key then user is already logged in
         if (openlogin.privKey) {
-            console.log("User is already logged in. Private key: " + openlogin.privKey);
             const userInfo = await openlogin.getUserInfo();
-            console.log("userInfo: ", userInfo);
-            this.handleCreateWithTorus();
+            console.log('Torus user info: ', userInfo);
+            redirectTo(redirectUrl);
         } else {
             await openlogin.login();
-            this.handleCreateWithTorus();
+            redirectTo(redirectUrl);
         }
     }
 

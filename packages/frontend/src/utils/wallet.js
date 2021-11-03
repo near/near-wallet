@@ -452,10 +452,14 @@ class Wallet {
 
     async createNewAccountWithTorus({
         newAccountId,
-        newPublicKey,
-        newSecretKey
+        torusSecretKey
     }) {
         const account = await this.getAccount(this.accountId);
+
+        const nearKeyPair = getED25519Key(torusSecretKey);
+        const newSecretKey = bs58.encode(nearKeyPair.sk);
+        const newPublicKey = bs58.encode(nearKeyPair.pk);
+
         await this.createNewAccountWithNearContract({
             account,
             newAccountId,
