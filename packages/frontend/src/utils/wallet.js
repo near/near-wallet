@@ -956,13 +956,12 @@ class Wallet {
         return await this.recoverAccountSecretKey(secretKey, accountId, shouldCreateFullAccessKey);
     }
 
-    async recoverAllAccountsWithTorusSecretKey(secretKey) {
-        const nearKeyPair = getED25519Key(secretKey);
+    async recoverAllAccountsWithTorusSecretKey(torusSecretKey) {
+        const nearKeyPair = getED25519Key(torusSecretKey);
         const nearSecKey = bs58.encode(nearKeyPair.sk);
         const nearPubKey = bs58.encode(nearKeyPair.pk);
         // TODO: handle implicit accounts
         let accountIds = await getAccountIds(`ed25519:${nearPubKey}`);
-        console.log('here are accounts:', accountIds);
 
         // Remove duplicate and non-existing accounts
         const accountsSet = new Set(accountIds);
@@ -977,9 +976,7 @@ class Wallet {
             throw new WalletError('Cannot find matching public key', 'recoverAccountSeedPhrase.errorInvalidSeedPhrase', { nearPubKey });
         }
 
-        console.log('here are accounts:', accountIds);
-
-        // await this.saveAccount(accountIds[1], `ed25519:${nearSecKey}`);
+        console.log('Torus accounts:', accountIds);
 
         await Promise.all(accountIds.map(async (accountId) => {
             await this.saveAccount(accountId, `ed25519:${nearSecKey}`);

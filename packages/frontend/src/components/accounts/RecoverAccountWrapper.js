@@ -1,6 +1,6 @@
 import OpenLogin from "@toruslabs/openlogin";
 import { getLocation } from 'connected-react-router';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { IS_MAINNET, TORUS_CLIENT_ID } from '../../config';
