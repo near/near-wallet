@@ -8,6 +8,8 @@ pipeline {
 
         // frontend variables
         FRONTEND_BUNDLE_PATH = "$WORKSPACE/packages/frontend/dist"
+        FRONTEND_TESTNET_BUNDLE_PATH = "$WORKSPACE/packages/frontend/dist_testnet"
+        FRONTEND_MAINNET_BUNDLE_PATH = "$WORKSPACE/packages/frontend/dist_mainnet"
 
         // aws configuration
         AWS_REGION = 'us-west-2'
@@ -65,12 +67,38 @@ pipeline {
                     }
                     stages {
                         stage('frontend:build') {
-                            steps {
-                                nodejs(nodeJSInstallationName: 'node14-lts') {
-                                    dir("$WORKSPACE/packages/frontend") {
-                                        sh 'yarn install'
-                                        sh 'yarn build'
-                                        sh 'yarn test'
+                            stages {
+                                stage('frontend:build:testnet') {
+                                    when {
+                                        not { branch 'stable' }
+                                    }
+                                    environment {
+                                        TOKEN_CONTRACTS = 'meta.pool.testnet'
+                                    }
+                                    steps {
+                                        nodejs(nodeJSInstallationName: 'node14-lts') {
+                                            dir("$WORKSPACE/packages/frontend") {
+                                                sh 'yarn install'
+                                                sh 'yarn build'
+                                                sh 'yarn test'
+                                                sh "mv $FRONTEND_BUNDLE_PATH $FRONTEND_TESTNET_BUNDLE_PATH"
+                                            }
+                                        }
+                                    }
+                                }
+                                stage('frontend:build:mainnet') {
+                                    when {
+                                        branch 'stable'
+                                    }
+                                    steps {
+                                        nodejs(nodeJSInstallationName: 'node14-lts') {
+                                            dir("$WORKSPACE/packages/frontend") {
+                                                sh 'yarn install'
+                                                sh 'yarn build'
+                                                sh 'yarn test'
+                                                sh "mv $FRONTEND_BUNDLE_PATH $FRONTEND_TESTNET_BUNDLE_PATH"
+                                            }
+                                        }
                                     }
                                 }
                             }
@@ -128,7 +156,7 @@ pipeline {
                                         bucket: env.TESTNET_STATIC_SITE_BUCKET,
                                         includePathPattern: "*",
                                         path: '',
-                                        workingDir: env.FRONTEND_BUNDLE_PATH
+                                        workingDir: env.FRONTEND_TESTNET_BUNDLE_PATH
                                     )
                                 }
                             }
@@ -144,7 +172,7 @@ pipeline {
                                         bucket: env.MAINNET_STATIC_SITE_BUCKET,
                                         includePathPattern: "*",
                                         path: '',
-                                        workingDir: env.FRONTEND_BUNDLE_PATH
+                                        workingDir: env.FRONTEND_MAINNET_BUNDLE_PATH
                                     )
                                 }
                             }
