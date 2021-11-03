@@ -158,7 +158,6 @@ pipeline {
                                         fromBucket: env.BUILD_ARTIFACT_BUCKET,
                                         fromPath: env.FRONTEND_PRODUCTION_ARTIFACT_PATH,
                                         toBucket: env.TESTNET_STATIC_SITE_BUCKET,
-                                        toPath: '/',
                                     )
                                 }
                             }
@@ -174,7 +173,6 @@ pipeline {
                                         fromBucket: env.BUILD_ARTIFACT_BUCKET,
                                         fromPath: env.FRONTEND_PRODUCTION_ARTIFACT_PATH,
                                         toBucket: env.TESTNET_STATIC_SITE_BUCKET,
-                                        toPath: '/',
                                     )
                                 }
                             }
