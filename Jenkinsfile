@@ -44,9 +44,7 @@ pipeline {
                 // build end-to-end testing package
                 stage('e2e-tests') {
                     when {
-                        expression {
-                            return env.BUILD_E2E == 'true'
-                        }
+                        expression { env.BUILD_E2E == 'true' }
                     }
                     stages {
                         stage('e2e-tests:build') {
@@ -65,9 +63,7 @@ pipeline {
                 // build frontend package
                 stage('frontend') {
                     when {
-                        expression {
-                            return env.BUILD_FRONTEND == 'true'
-                        }
+                        expression { env.BUILD_FRONTEND == 'true' }
                     }
                     stages {
                         stage('frontend:build') {
@@ -158,12 +154,11 @@ pipeline {
                             }
                             steps {
                                 withAWS(region: env.AWS_REGION) {
-                                    // TODO why does s3Copy fail on permissions but s3Upload works?
-                                    s3Upload(
-                                        bucket: env.TESTNET_STATIC_SITE_BUCKET,
-                                        includePathPattern: "*",
-                                        path: '',
-                                        workingDir: env.FRONTEND_BUNDLE_PATH
+                                    s3Copy(
+                                        fromBucket: env.BUILD_ARTIFACT_BUCKET,
+                                        fromPath: env.FRONTEND_PRODUCTION_ARTIFACT_PATH,
+                                        toBucket: env.TESTNET_STATIC_SITE_BUCKET,
+                                        toPath: '',
                                     )
                                 }
                             }
@@ -175,12 +170,11 @@ pipeline {
                             steps {
                                 input(message: 'Deploy to mainnet?')
                                 withAWS(region: env.AWS_REGION) {
-                                    // TODO why does s3Copy fail on permissions but s3Upload works?
-                                    s3Upload(
-                                        bucket: env.MAINNET_STATIC_SITE_BUCKET,
-                                        includePathPattern: "*",
-                                        path: '',
-                                        workingDir: env.FRONTEND_BUNDLE_PATH
+                                    s3Copy(
+                                        fromBucket: env.BUILD_ARTIFACT_BUCKET,
+                                        fromPath: env.FRONTEND_PRODUCTION_ARTIFACT_PATH,
+                                        toBucket: env.TESTNET_STATIC_SITE_BUCKET,
+                                        toPath: '',
                                     )
                                 }
                             }
