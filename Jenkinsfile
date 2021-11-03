@@ -156,7 +156,7 @@ pipeline {
                                 withAWS(region: env.AWS_REGION) {
                                     s3Copy(
                                         fromBucket: env.BUILD_ARTIFACT_BUCKET,
-                                        fromPath: "$FRONTEND_PRODUCTION_ARTIFACT_PATH/",
+                                        fromPath: "$FRONTEND_PRODUCTION_ARTIFACT_PATH/*",
                                         toBucket: env.TESTNET_STATIC_SITE_BUCKET,
                                         toPath: '.',
                                     )
@@ -172,7 +172,7 @@ pipeline {
                                 withAWS(region: env.AWS_REGION) {
                                     s3Copy(
                                         fromBucket: env.BUILD_ARTIFACT_BUCKET,
-                                        fromPath: "$FRONTEND_PRODUCTION_ARTIFACT_PATH/",
+                                        fromPath: "$FRONTEND_PRODUCTION_ARTIFACT_PATH/*",
                                         toBucket: env.TESTNET_STATIC_SITE_BUCKET,
                                         toPath: '.',
                                     )
