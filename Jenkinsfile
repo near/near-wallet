@@ -15,11 +15,9 @@ pipeline {
         // s3 buckets
         BUILD_ARTIFACT_BUCKET = 'andy-dev-build-artifacts'
         TESTNET_STATIC_SITE_BUCKET = 'andy-dev-testnet-near-wallet'
-        MAINNET_STATIC_SITE_BUCKET = 'andy-dev-testnet-near-wallet'
-        E2E_PRODUCTION_ARTIFACT_PATH = "e2e-tests/$BRANCH_NAME/$BUILD_NUMBER"
-        E2E_PULL_REQUEST_ARTIFACT_PATH = "e2e-tests/$BRANCH_NAME"
-        FRONTEND_PRODUCTION_ARTIFACT_PATH = "frontend/$BRANCH_NAME/$BUILD_NUMBER"
-        FRONTEND_PULL_REQUEST_ARTIFACT_PATH = "frontend/$BRANCH_NAME"
+        MAINNET_STATIC_SITE_BUCKET = 'andy-dev-mainnet-near-wallet'
+        E2E_ARTIFACT_PATH = "$BRANCH_NAME/$CHANGE_ID/e2e-tests"
+        FRONTEND_ARTIFACT_PATH = "$BRANCH_NAME/$CHANGE_ID/frontend"
 
         // package building configuration
         AFFECTED_PACKAGES = 'frontend'.split()
@@ -77,43 +75,15 @@ pipeline {
                                 }
                             }
                         }
-                        stage('frontend:upload-artifact') {
-                            stages {
-                                stage('frontend:upload-artifact:PR') {
-                                    when {
-                                        not {
-                                            anyOf {
-                                                branch 'master'; branch 'stable'
-                                            }
-                                        }
-                                    }
-                                    steps {
-                                        withAWS(region: env.AWS_REGION) {
-                                            s3Upload(
-                                                bucket: env.BUILD_ARTIFACT_BUCKET,
-                                                includePathPattern: "*",
-                                                path: env.FRONTEND_PULL_REQUEST_ARTIFACT_PATH,
-                                                workingDir: env.FRONTEND_BUNDLE_PATH
-                                            )
-                                        }
-                                    }
-                                }
-                                stage('frontend:upload-artifact:production') {
-                                    when {
-                                        anyOf {
-                                            branch 'master'; branch 'stable'
-                                        }
-                                    }
-                                    steps {
-                                        withAWS(region: env.AWS_REGION) {
-                                            s3Upload(
-                                                bucket: env.BUILD_ARTIFACT_BUCKET,
-                                                includePathPattern: "*",
-                                                path: env.FRONTEND_PRODUCTION_ARTIFACT_PATH,
-                                                workingDir: env.FRONTEND_BUNDLE_PATH
-                                            )
-                                        }
-                                    }
+                        stage('frontend:artifact') {
+                            steps {
+                                withAWS(region: env.AWS_REGION) {
+                                    s3Upload(
+                                        bucket: env.BUILD_ARTIFACT_BUCKET,
+                                        includePathPattern: "*",
+                                        path: env.FRONTEND_ARTIFACT_PATH,
+                                        workingDir: env.FRONTEND_BUNDLE_PATH
+                                    )
                                 }
                             }
                         }
@@ -143,38 +113,38 @@ pipeline {
         }
         stage('packages:deploy') {
             stages {
-                stage('frontend:deploy') {
+                stage('packages:deploy:frontend') {
                     when {
                         expression { env.BUILD_FRONTEND == 'true' }
                     }
                     stages {
-                        stage('frontend:deploy:testnet') {
+                        stage('packages:deploy:frontend:testnet') {
                             when {
                                 branch 'master'
                             }
                             steps {
                                 withAWS(region: env.AWS_REGION) {
-                                    s3Copy(
-                                        fromBucket: env.BUILD_ARTIFACT_BUCKET,
-                                        fromPath: "$FRONTEND_PRODUCTION_ARTIFACT_PATH/*",
-                                        toBucket: env.TESTNET_STATIC_SITE_BUCKET,
-                                        toPath: '.',
+                                    s3Upload(
+                                        bucket: env.TESTNET_STATIC_SITE_BUCKET,
+                                        includePathPattern: "*",
+                                        path: '',
+                                        workingDir: env.FRONTEND_BUNDLE_PATH
                                     )
                                 }
                             }
                         }
-                        stage('frontend:deploy:mainnet') {
+                        stage('packages:deploy:frontend:mainnet') {
                             when {
                                 branch 'stable'
                             }
                             steps {
                                 input(message: 'Deploy to mainnet?')
                                 withAWS(region: env.AWS_REGION) {
-                                    s3Copy(
-                                        fromBucket: env.BUILD_ARTIFACT_BUCKET,
-                                        fromPath: "$FRONTEND_PRODUCTION_ARTIFACT_PATH/*",
-                                        toBucket: env.TESTNET_STATIC_SITE_BUCKET,
-                                        toPath: '.',
+                                    s3Upload(
+                                        bucket: env.MAINNET_STATIC_SITE_BUCKET,
+                                        includePathPattern: "*",
+                                        path: '',
+                                        workingDir: env.FRONTEND_BUNDLE_PATH
                                     )
                                 }
                             }
