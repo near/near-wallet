@@ -162,5 +162,33 @@ pipeline {
                 }
             }
         }
+        stage('packages:deploy') {
+            stages {
+                stage('frontend:deploy') {
+                    when {
+                        expression { env.BUILD_FRONTEND == 'true' }
+                    }
+                    stages {
+                        stage('frontend:deploy:master') {
+                            when {
+                                branch 'master'
+                            }
+                            steps {
+                                echo 'TODO - deploy master branch'
+                            }
+                        }
+                        stage('frontend:deploy:stable') {
+                            when {
+                                branch 'stable'
+                            }
+                            steps {
+                                input(message: 'Deploy to mainnet?')
+                                echo 'TODO - deploy stable branch'
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 }
