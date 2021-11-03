@@ -15,8 +15,10 @@ pipeline {
         // s3 buckets
         BUILD_ARTIFACT_BUCKET = 'andy-dev-build-artifacts'
         STATIC_SITE_BUCKET = 'andy-dev-testnet-near-wallet'
-        PRODUCTION_ARTIFACT_PATH = "frontend/$BRANCH_NAME/$BUILD_NUMBER"
-        PULL_REQUEST_ARTIFACT_PATH = "frontend/$BRANCH_NAME"
+        E2E_PRODUCTION_ARTIFACT_PATH = "e2e-tests/$BRANCH_NAME/$BUILD_NUMBER"
+        E2E_PULL_REQUEST_ARTIFACT_PATH = "e2e-tests/$BRANCH_NAME"
+        FRONTEND_PRODUCTION_ARTIFACT_PATH = "frontend/$BRANCH_NAME/$BUILD_NUMBER"
+        FRONTEND_PULL_REQUEST_ARTIFACT_PATH = "frontend/$BRANCH_NAME"
 
         // package building configuration
         AFFECTED_PACKAGES = 'frontend'.split()
@@ -93,7 +95,7 @@ pipeline {
                                             s3Upload(
                                                 bucket: env.BUILD_ARTIFACT_BUCKET,
                                                 includePathPattern: "*",
-                                                path: env.PULL_REQUEST_ARTIFACT_PATH,
+                                                path: env.FRONTEND_PULL_REQUEST_ARTIFACT_PATH,
                                                 workingDir: env.FRONTEND_BUNDLE_PATH
                                             )
                                         }
@@ -110,7 +112,7 @@ pipeline {
                                             s3Upload(
                                                 bucket: env.BUILD_ARTIFACT_BUCKET,
                                                 includePathPattern: "*",
-                                                path: env.PRODUCTION_ARTIFACT_PATH,
+                                                path: env.FRONTEND_PRODUCTION_ARTIFACT_PATH,
                                                 workingDir: env.FRONTEND_BUNDLE_PATH
                                             )
                                         }
