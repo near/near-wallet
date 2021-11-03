@@ -20,7 +20,7 @@ class WalletE2eLogsReporter {
     onStdOut(chunk) {
         this.collectWorkerExpenseLogs(chunk);
     }
-    onTestEnd(test, result) {
+    formatTestResult(test, result) {
         const duration = ` (${milliseconds(result.duration)})`;
         const title = formatTestTitle(this.config, test);
         let text = "";
@@ -28,9 +28,12 @@ class WalletE2eLogsReporter {
             text = "  -  " + title;
         } else {
             const statusMark = ("  " + (result.status === "passed" ? "✓" : "✘")).padEnd(5);
-            if (result.status === test.expectedStatus) text = "\u001b[2K\u001b[0G" + statusMark + title + duration;
-            else text = "\u001b[2K\u001b[0G" + statusMark + title + duration;
+            text = statusMark + title + duration;
         }
+        return text;
+    }
+    onTestEnd(test, result) {
+        const text = this.formatTestResult(test, result);
         result.status === "passed" ? this.logger.info(text) : this.logger.error(text);
     }
     collectWorkerExpenseLogs(chunk) {
@@ -64,7 +67,16 @@ class WalletE2eLogsReporter {
                 this.logger.info(`amount spent by worker acc ${workerBankAccount}: ${formatNearAmount(amountSpent)} Ⓝ`);
                 this.logger.info(
                     `tests:\n${this.getTestsForWorkerIndex(workerIndex)
-                        .map(({ title }, i) => `\t${i + 1}. ${title}`)
+                        .map((test, testIdx) =>
+                            test.results
+                                .map(
+                                    (result, resultIdx) =>
+                                        `\t${`${testIdx + 1}.`.replace(/./, (c) =>
+                                            resultIdx === 0 ? c : " "
+                                        )} ${this.formatTestResult(test, result)}`
+                                )
+                                .join("\n")
+                        )
                         .join("\n")}`
                 );
             });
