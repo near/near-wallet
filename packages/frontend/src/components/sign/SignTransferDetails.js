@@ -42,7 +42,7 @@ const CustomGrid = styled(Grid)`
                 padding: 6px 0 0 0;
 
                 .color-blue {
-                    line-break: anywhere;
+                    word-break: break-all;
                 }
             }
             .details-subitem {

@@ -31,7 +31,7 @@ const Container = styled.div`
             border-radius: 4px;
             padding: 8px;
             font-size: 12px;
-            line-break: anywhere;
+            word-break: break-all;
         }
 
         hr {

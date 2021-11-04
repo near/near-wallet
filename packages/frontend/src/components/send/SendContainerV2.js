@@ -34,7 +34,7 @@ const StyledContainer = styled(Container)`
             color: #272729;
             font-weight: 600;
             font-size: 20px;
-            line-break: anywhere;
+            word-break: break-all;
 
             .back-arrow-button {
                 position: absolute;
