@@ -103,14 +103,17 @@ pipeline {
                                 }
                             }
                         }
-                        stage('frontend:artifact') {
+                        stage('frontend:artifact:pull-request') {
+                            when {
+                                not { branch 'master' ; branch 'stable' }
+                            }
                             steps {
                                 withAWS(region: env.AWS_REGION) {
                                     s3Upload(
                                         bucket: env.BUILD_ARTIFACT_BUCKET,
                                         includePathPattern: "*",
                                         path: env.FRONTEND_ARTIFACT_PATH,
-                                        workingDir: env.FRONTEND_BUNDLE_PATH
+                                        workingDir: env.FRONTEND_TESTNET_BUNDLE_PATH
                                     )
                                 }
                             }
