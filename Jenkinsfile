@@ -105,7 +105,7 @@ pipeline {
                         }
                         stage('frontend:artifact:pull-request') {
                             when {
-                                not { branch 'master' ; branch 'stable' }
+                                not { anyOf { branch 'master' ; branch 'stable' } }
                             }
                             steps {
                                 withAWS(region: env.AWS_REGION) {
