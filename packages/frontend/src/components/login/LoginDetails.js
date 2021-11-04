@@ -35,7 +35,7 @@ const CustomGrid = styled(Grid)`
             border-bottom: 1px solid #e6e6e6;
 
             .color-blue {
-                line-break: anywhere;
+                word-break: break-all;
             }
 
             ul {
