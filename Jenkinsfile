@@ -8,6 +8,8 @@ pipeline {
 
         // frontend variables
         FRONTEND_BUNDLE_PATH = "$WORKSPACE/packages/frontend/dist"
+        FRONTEND_TESTNET_BUNDLE_PATH = "$WORKSPACE/packages/frontend/dist_testnet"
+        FRONTEND_MAINNET_BUNDLE_PATH = "$WORKSPACE/packages/frontend/dist_mainnet"
 
         // aws configuration
         AWS_REGION = 'us-west-2'
@@ -65,24 +67,53 @@ pipeline {
                     }
                     stages {
                         stage('frontend:build') {
-                            steps {
-                                nodejs(nodeJSInstallationName: 'node14-lts') {
-                                    dir("$WORKSPACE/packages/frontend") {
-                                        sh 'yarn install'
-                                        sh 'yarn build'
-                                        sh 'yarn test'
+                            stages {
+                                stage('frontend:build:testnet') {
+                                    when {
+                                        not { branch 'stable' }
+                                    }
+                                    environment {
+                                        TOKEN_CONTRACTS = 'meta.pool.testnet'
+                                    }
+                                    steps {
+                                        nodejs(nodeJSInstallationName: 'node14-lts') {
+                                            dir("$WORKSPACE/packages/frontend") {
+                                                sh 'yarn install'
+                                                sh 'yarn build'
+                                                sh 'yarn test'
+                                                sh "mv $FRONTEND_BUNDLE_PATH $FRONTEND_TESTNET_BUNDLE_PATH"
+                                            }
+                                        }
+                                    }
+                                }
+                                stage('frontend:build:mainnet') {
+                                    when {
+                                        branch 'stable'
+                                    }
+                                    steps {
+                                        nodejs(nodeJSInstallationName: 'node14-lts') {
+                                            dir("$WORKSPACE/packages/frontend") {
+                                                sh 'yarn install'
+                                                sh 'yarn build'
+                                                sh 'yarn test'
+                                                sh "mv $FRONTEND_BUNDLE_PATH $FRONTEND_TESTNET_BUNDLE_PATH"
+                                            }
+                                        }
                                     }
                                 }
                             }
                         }
-                        stage('frontend:artifact') {
+                        stage('frontend:artifact:pull-request') {
+                            when {
+                                not { anyOf { branch 'master' ; branch 'stable' } }
+                            }
                             steps {
                                 withAWS(region: env.AWS_REGION) {
                                     s3Upload(
                                         bucket: env.BUILD_ARTIFACT_BUCKET,
                                         includePathPattern: "*",
                                         path: env.FRONTEND_ARTIFACT_PATH,
-                                        workingDir: env.FRONTEND_BUNDLE_PATH
+                                        workingDir: env.FRONTEND_TESTNET_BUNDLE_PATH
                                     )
                                 }
                             }
@@ -113,12 +144,12 @@ pipeline {
         }
         stage('packages:deploy') {
             stages {
-                stage('packages:deploy:frontend') {
+                stage('frontend:deploy') {
                     when {
                         expression { env.BUILD_FRONTEND == 'true' }
                     }
                     stages {
-                        stage('packages:deploy:frontend:testnet') {
+                        stage('frontend:deploy:testnet') {
                             when {
                                 branch 'master'
                             }
@@ -128,12 +159,12 @@ pipeline {
                                         bucket: env.TESTNET_STATIC_SITE_BUCKET,
                                         includePathPattern: "*",
                                         path: '',
-                                        workingDir: env.FRONTEND_BUNDLE_PATH
+                                        workingDir: env.FRONTEND_TESTNET_BUNDLE_PATH
                                     )
                                 }
                             }
                         }
-                        stage('packages:deploy:frontend:mainnet') {
+                        stage('frontend:deploy:mainnet') {
                             when {
                                 branch 'stable'
                             }
@@ -144,7 +175,7 @@ pipeline {
                                         bucket: env.MAINNET_STATIC_SITE_BUCKET,
                                         includePathPattern: "*",
                                         path: '',
-                                        workingDir: env.FRONTEND_BUNDLE_PATH
+                                        workingDir: env.FRONTEND_MAINNET_BUNDLE_PATH
                                     )
                                 }
                             }
