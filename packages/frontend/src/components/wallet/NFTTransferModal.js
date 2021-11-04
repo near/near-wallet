@@ -24,6 +24,10 @@ const StyledContainer = styled.div`
     align-items: center;
     padding: 40px 0 30px 0;
 
+    #nft-transfer-modal {
+        width: 400px;
+    }
+
     img {
         width: 100% !important;
         max-width: 300px;
@@ -175,11 +179,6 @@ const StyledContainer = styled.div`
         color: #72727A;
     }
 
-    .buttons {
-        margin-left: auto;
-        margin-right: 0px;
-    }
-
     .next-btn {
         margin-left: 44px !important;
     }
@@ -223,9 +222,9 @@ const StyledContainer = styled.div`
         align-items: right;
         justify-content: flex-end;
 
-        > button {
-            width: 136px;
-            height: 56px;
+        button {
+            width: 136px !important;
+            height: 56px !important;
 
             margin-top: 0px !important;
 
@@ -395,24 +394,28 @@ export default function NFTTransferModal({ open, onClose, nft, setNftOwner, acco
                         <EstimatedFees gasFeeAmount={NFT_TRANSFER_GAS}/>
                     </div>
 
-                    <div className='buttons'>
-                        <FormButton
-                            className='link'
-                            type='button'
-                            onClick={onClose}
-                            color='gray'
-                        >
-                            <Translate id='NFTTransfer.cancel'/>
-                        </FormButton>
-                        <FormButton
-                            className='next-btn'
-                            type='submit'
-                            sending={sending}
-                            onClick={() => sendNFT(nft, receiverId, onTransferSuccess)}
-                        >
-                            <Translate id='NFTTransfer.confirm'/>
-                        </FormButton>
-                    </div>
+                    <form>
+                        <ModalFooter>
+                            <div className='buttons'>
+                                <FormButton
+                                    className='link'
+                                    type='button'
+                                    onClick={onClose}
+                                    color='gray'
+                                >
+                                    <Translate id='NFTTransfer.cancel'/>
+                                </FormButton>
+                                <FormButton
+                                    className='next-btn'
+                                    type='submit'
+                                    sending={sending}
+                                    onClick={() => sendNFT(nft, receiverId, onTransferSuccess)}
+                                >
+                                    <Translate id='NFTTransfer.confirm'/>
+                                </FormButton>
+                            </div>
+                        </ModalFooter>
+                    </form>
                 </StyledContainer>
             }
 
