@@ -12,6 +12,7 @@ import { EXPLORER_URL } from '../../utils/wallet';
 import { formatNearAmount } from '../common/balance/helpers';
 import FormButton from '../common/FormButton';
 import Modal from '../common/modal/Modal';
+import ModalFooter from '../common/modal/ModalFooter';
 import SafeTranslate from '../SafeTranslate';
 import ReceiverInputWithLabel from '../send/components/ReceiverInputWithLabel';
 import EstimatedFees from '../transfer/EstimatedFees';
@@ -138,6 +139,26 @@ const StyledContainer = styled.div`
         color: #24272A;
     }
 
+    .success {
+        > p {
+            font-family: Inter;
+            font-style: normal;
+            font-weight: 500;
+            font-size: 20px;
+            line-height: 150%;
+            /* or 30px */
+            
+            text-align: center;
+            font-feature-settings: 'zero' on;
+            
+            /* gray/neutral/700 */
+            
+            color: #3F4045;
+
+            margin-bottom: 0px;
+        }
+    }
+
     p {
         font-family: Inter;
         font-style: normal;
@@ -155,7 +176,6 @@ const StyledContainer = styled.div`
     }
 
     .buttons {
-        margin-top: 24px;
         margin-left: auto;
         margin-right: 0px;
     }
@@ -183,11 +203,6 @@ const StyledContainer = styled.div`
         color: #A2A2A8;
     }
 
-    button {
-        width: 136px !important;
-        height: 56px !important;
-    }
-
     .v-center {
         position: absolute;
         top: 50%;
@@ -196,6 +211,41 @@ const StyledContainer = styled.div`
 
     .icon {
         margin-bottom: 20px !important;
+    }
+
+    form {
+        width: 100%;
+    }
+
+
+    .modal-footer {
+        display: flex;
+        align-items: right;
+        justify-content: flex-end;
+
+        > button {
+            width: 136px;
+            height: 56px;
+
+            margin-top: 0px !important;
+
+            &.link {
+                margin: 20px 35px;
+            }
+            
+            &.blue {
+                padding: 0 35px;
+            }
+        }
+    }
+
+    .success-footer {
+        border-top: 1px solid #F0F0F1;
+        margin-top: 60px;
+
+        > button {
+            width: 185px;
+        }
     }
 `;
 
@@ -269,7 +319,7 @@ export default function NFTTransferModal({ open, onClose, nft, setNftOwner, acco
             id='nft-transfer-modal'
             isOpen={nft}
             onClose={onClose}
-            closeButton='false'
+            closeButton={false}
             modalSize='md'
         >
             {viewType === 'transfer' &&
@@ -279,36 +329,40 @@ export default function NFTTransferModal({ open, onClose, nft, setNftOwner, acco
                 <h3><Translate id='NFTTransfer.transfer-nft'/></h3>
                 <p className='transfer-txt'><Translate id='NFTTransfer.enter-receipt'/></p>
 
-                <div className='receiver-input'>
-                    <ReceiverInputWithLabel
-                        receiverId={receiverId}
-                        handleChangeReceiverId={receiverId => setReceiverId(receiverId)}
-                        checkAccountAvailable={accountId => dispatch(checkAccountAvailable(accountId))}
-                        localAlert={localAlert}
-                        autoFocus={!isMobile()}
-                        clearLocalAlert={() => dispatch(clearLocalAlert())}
-                        setAccountIdIsValid={setAccountIdIsValid}
-                    />
-                </div>
+                <form>
+                    <div className='receiver-input'>
+                        <ReceiverInputWithLabel
+                            receiverId={receiverId}
+                            handleChangeReceiverId={receiverId => setReceiverId(receiverId)}
+                            checkAccountAvailable={accountId => dispatch(checkAccountAvailable(accountId))}
+                            localAlert={localAlert}
+                            autoFocus={!isMobile()}
+                            clearLocalAlert={() => dispatch(clearLocalAlert())}
+                            setAccountIdIsValid={setAccountIdIsValid}
+                        />
+                    </div>
 
-                <div className='buttons'>
-                    <FormButton
-                        className='link'
-                        type='button'
-                        onClick={onClose}
-                        color='gray'
-                    >
-                      <Translate id='NFTTransfer.cancel'/>
-                    </FormButton>
-                    <FormButton
-                        className='next-btn'
-                        type='submit'
-                        disabled={!accountIdIsValid}
-                        onClick={() => setViewType('confirm')}
-                    >
-                      <Translate id='NFTTransfer.next'/>
-                    </FormButton>
-                </div>
+                    <ModalFooter>
+                        <div className='buttons'>
+                            <FormButton
+                                className='link'
+                                type='button'
+                                onClick={onClose}
+                                color='gray'
+                            >
+                            <Translate id='NFTTransfer.cancel'/>
+                            </FormButton>
+                            <FormButton
+                                className='next-btn'
+                                type='submit'
+                                disabled={!accountIdIsValid}
+                                onClick={() => setViewType('confirm')}
+                            >
+                            <Translate id='NFTTransfer.next'/>
+                            </FormButton>
+                        </div>
+                    </ModalFooter>
+                </form>
             </StyledContainer>
             }
 
@@ -363,35 +417,41 @@ export default function NFTTransferModal({ open, onClose, nft, setNftOwner, acco
             }
 
             {viewType === 'success' &&
-                <StyledContainer className='small-centered confirm'>
+                <StyledContainer className='small-centered'>
                     <div className='icon'>
                         {successSVG()}
                     </div>
-                    <h3><Translate id='NFTTransfer.transaction-complete' /></h3>
-                    <h3>
-                      <SafeTranslate id='NFTTransfer.you-sent' 
-                          data={{
-                              title: nft.metadata.title,
-                              receiverId
-                          }}
-                      />
-                    </h3>
+                    <div className='success'>
+                        <p><Translate id='NFTTransfer.transaction-complete' /></p>
+                        <p>
+                        <SafeTranslate id='NFTTransfer.you-sent' 
+                            //   data={{
+                            //       title: nft.metadata.title,
+                            //       receiverId
+                            //   }}
+                            data={{
+                                title: "some nft",
+                                receiverId: 'abc.testnet'
+                            }}
+                        />
+                        </p>
+                    </div>
 
-                    <div>
-                        <FormButton
-                            type='button'
-                            linkTo={`${EXPLORER_URL}/transactions/${result.transaction.hash}`}
-                            color='gray-black'
-                        >
-                            <Translate id='NFTTransfer.view-receipt' />
-                        </FormButton>
-                        <FormButton
-                            className='next-btn'
-                            type='submit'
-                            onClick={onClose}
-                        >
-                            <Translate id='NFTTransfer.continue' />
-                        </FormButton>
+                    <div className='success-footer'>
+                            <FormButton
+                                type='button'
+                                // linkTo={`${EXPLORER_URL}/transactions/${result.transaction.hash}`}
+                                color='gray-black'
+                            >
+                                <Translate id='NFTTransfer.view-receipt' />
+                            </FormButton>
+                            <FormButton
+                                className='next-btn'
+                                type='submit'
+                                onClick={onClose}
+                            >
+                                <Translate id='NFTTransfer.continue' />
+                            </FormButton>
                     </div>
                 </StyledContainer>
             }
