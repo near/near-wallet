@@ -170,7 +170,7 @@ async function getAccountBalance(limitedAccountData = false) {
     try {
         const lockupAccount = new Account(this.connection, lockupAccountId);
         const lockupBalance = await lockupAccount.getAccountBalance();
-        const lockupStateStaked = new BN(lockupBalance.stateStaked)
+        const lockupStateStaked = new BN(lockupBalance.stateStaked);
         const {
             lockupAmount,
             releaseDuration,
@@ -185,7 +185,7 @@ async function getAccountBalance(limitedAccountData = false) {
 
         const { transfer_poll_account_id, transfers_timestamp } = transferInformation;
         let transfersTimestamp = transfer_poll_account_id ? await this.viewFunction(transfer_poll_account_id, 'get_result') : transfers_timestamp;
-        transfersTimestamp = transfersTimestamp || (Date.now() * 1000000);
+        transfersTimestamp = transfersTimestamp || (Date.now() * 1000000).toString();
 
         const hasBrokenTimestamp = [
             '3kVY9qcVRoW3B5498SMX6R3rtSLiCdmBzKs7zcnzDJ7Q',
@@ -216,7 +216,7 @@ async function getAccountBalance(limitedAccountData = false) {
                 if(dateNowBN.lt(vestingInformation.vestingCliff)){
                     unvestedAmount = new BN(lockupAmount);
                 } else if(dateNowBN.gte(vestingInformation.vestingEnd)) {
-                    unvestedAmount = new BN(0)
+                    unvestedAmount = new BN(0);
                 } else {
                     let timeLeft = vestingInformation.vestingEnd.sub(dateNowBN);
                     let totalTime = vestingInformation.vestingEnd.sub(
@@ -238,7 +238,7 @@ async function getAccountBalance(limitedAccountData = false) {
             totalBalance = totalBalance.add(stakedBalanceLockup);
         }
         
-        const ownersBalance = totalBalance.sub(lockedAmount)
+        const ownersBalance = totalBalance.sub(lockedAmount);
 
         // if acc is deletable (nothing locked && nothing stake) you can transfer the whole amount ohterwise get_liquid_owners_balance
         const isAccDeletable = lockedAmount.isZero() && stakedBalanceLockup.isZero();
