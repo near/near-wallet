@@ -3,7 +3,6 @@ import { createSelector } from "reselect";
 
 import { Mixpanel } from "../../../mixpanel";
 import { wallet } from "../../../utils/wallet";
-import { multiplyGas } from "../../actions/account";
 import { showCustomAlert } from "../../actions/status";
 import { selectAccountId } from "../account";
 
@@ -16,15 +15,6 @@ export const SIGN_STATUS = {
     SUCCESS: 'success',
     ERROR: 'error'
 };
-
-export const handleSignTransactionsMultiplyGas = createAsyncThunk(
-    `${SLICE_NAME}/handleSignTransactionsMultiplyGas`,
-    async (_, thunkAPI) => {
-        const { dispatch } = thunkAPI;
-        dispatch(multiplyGas());
-        await dispatch(handleSignTransactions());
-    }
-);
 
 export const handleSignTransactions = createAsyncThunk(
     `${SLICE_NAME}/handleSignTransactions`,

@@ -6,9 +6,8 @@ import { withRouter } from 'react-router-dom';
 
 import { Mixpanel } from '../../mixpanel';
 import { redirectTo } from '../../redux/actions/account';
-import { MULTIPLY_TX_GAS_BY } from '../../redux/reducers/sign';
 import { selectAccountSlice } from '../../redux/slices/account';
-import { addQueryParams, handleSignTransactions, handleSignTransactionsMultiplyGas, selectSignSlice, SIGN_STATUS } from '../../redux/slices/sign';
+import { addQueryParams, handleSignTransactions, selectSignSlice, SIGN_STATUS } from '../../redux/slices/sign';
 import { selectStatusActionStatus } from '../../redux/slices/status';
 import SignContainer from './SignContainer';
 import SignTransferCancelled from './SignTransferCancelled';
@@ -56,12 +55,6 @@ class Sign extends Component {
         this.redirectToApp();
     }
 
-    retryTransaction = async () => {
-        this.setState({ sending: true });
-
-        await this.props.dispatch(handleSignTransactionsMultiplyGas());
-        this.redirectToApp();
-    }
     redirectToApp = () => {
         const { callbackUrl, meta, transactionHashes = [] } = this.props;
         if (callbackUrl && !!transactionHashes.length) {
@@ -109,9 +102,9 @@ class Sign extends Component {
                         />;
             case SIGN_STATUS.RETRY_TRANSACTION:
                 return <SignTransferRetry
-                            handleRetry={this.retryTransaction}
+                            handleRetry={this.handleAllow}
                             handleDeny={this.handleDeny}
-                            gasLimit={new BN(fees?.gasLimit || '0').mul(new BN(MULTIPLY_TX_GAS_BY)).div(new BN('1000000000000')).toString()}
+                            gasLimit={new BN(fees?.gasLimit || '0').div(new BN('1000000000000')).toString()}
                         />;
             case SIGN_STATUS.ERROR:
                 // TODO: Figure out how to handle different error types
