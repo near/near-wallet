@@ -65,6 +65,7 @@ import PublicRoute from './common/PublicRoute';
 import GlobalStyle from './GlobalStyle';
 import { LoginCliLoginSuccess } from './login/LoginCliLoginSuccess';
 import Navigation from './navigation/Navigation';
+import { NFTDetail } from './nft/NFTDetail';
 import {PageNotFound} from './page-not-found/PageNotFound';
 import { Profile } from './profile/Profile';
 import { ReceiveContainerWrapper } from './receive-money/ReceiveContainerWrapper';
@@ -335,7 +336,7 @@ class Routing extends Component {
                             <GuestLandingRoute
                                 exact
                                 path='/'
-                                render={(props) => isInactiveAccount ? <ActivateAccountWithRouter {...props}/> : <Wallet tab={tab} setTab={setTab} {...props} />}
+                                render={(props) => isInactiveAccount ? <ActivateAccountWithRouter {...props}/> : <Wallet tab={tab} setTab={setTab} history={this.props.history} {...props} />}
                                 accountFound={accountFound}
                                 indexBySearchEngines={!accountFound}
                             />
@@ -472,6 +473,11 @@ class Routing extends Component {
                                     component={SendContainerWrapper}
                                 />
                             }
+                            <PrivateRoute
+                                exact
+                                path='/nft-detail/:contractId/:tokenId'
+                                component={NFTDetail}
+                            />
                             <PrivateRoute
                                 exact
                                 path='/receive-money'
