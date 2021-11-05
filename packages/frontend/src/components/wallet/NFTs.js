@@ -58,7 +58,7 @@ const StyledContainer = styled.div`
     }
 `;
 
-const NFTs = ({ tokens, accountId }) => {
+const NFTs = ({ tokens, accountId, history }) => {
     if (tokens.length) {
         const [nftDetail, setNftDetail] = useState();
         return (
@@ -68,6 +68,7 @@ const NFTs = ({ tokens, accountId }) => {
                         key={tokenDetails.contractName}
                         tokenDetails={Object.assign({ ownerId: accountId }, tokenDetails)}
                         setNftDetail={setNftDetail}
+                        history={history}
                     />
                 ))}
                 {nftDetail &&

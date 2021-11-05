@@ -128,7 +128,7 @@ const StyledContainer = styled.div`
     }
 `;
 
-const NFTBox = ({ tokenDetails, setNftDetail }) => {
+const NFTBox = ({ tokenDetails, history }) => {
     const {
         contractName,
         ownerId,
@@ -161,12 +161,6 @@ const NFTBox = ({ tokenDetails, setNftDetail }) => {
                 <div className='tokens'>
                     {ownedTokensMetadata.map(({ token_id, metadata: { mediaUrl, title } }, index) => {
                         const videoProps = index === 0 ? { autoPlay: true } : {};
-                        const nftDetail = {
-                            contractId: contractName,
-                            tokenId: token_id,
-                            ownerId,
-                            metadata
-                        };
 
                         return <div className='nft' key={token_id}>
                             {
@@ -183,9 +177,9 @@ const NFTBox = ({ tokenDetails, setNftDetail }) => {
                                             e.target.onerror = null;
                                             e.target.src = FailedToLoad;
                                         }}
-                                        onClick={() => setNftDetail(nftDetail)}/>
+                                        onClick={() => history.push(`/nft-detail/${contractName}/${token_id}`)}/>
                             }
-                            <b className='title' onClick={() => setNftDetail(nftDetail)}>{title}</b>
+                            <b className='title' onClick={() => history.push(`/nft-detail/${contractName}/${token_id}`)}>{title}</b>
                         </div>;
                     })}
                 </div>
