@@ -197,37 +197,44 @@ async function getAccountBalance(limitedAccountData = false) {
             new BN(lockupTimestamp || 0)
         );
 
-        const releaseDurationBN = new BN(releaseDuration || '0');
-        const endTimestamp = (hasBrokenTimestamp ? new BN(transfersTimestamp) : startTimestampBN).add(releaseDurationBN);
-        const timeLeft = BN.max(new BN(0), endTimestamp.sub(dateNowBN));
+        let lockedAmount;
+        if (startTimestampBN.lte(dateNowBN)) {
+            const releaseDurationBN = new BN(releaseDuration || '0');
+            const endTimestamp = (hasBrokenTimestamp ? new BN(transfersTimestamp) : startTimestampBN).add(releaseDurationBN);
+            const timeLeft = BN.max(new BN(0), endTimestamp.sub(dateNowBN));
 
-        const unreleasedAmount = dateNowBN.lte(endTimestamp)
-            ? startTimestampBN.lte(dateNowBN)
-                ? new BN(lockupAmount).mul(timeLeft).div(releaseDurationBN)
-                : new BN(lockupAmount)
-            : new BN('0');
+            const unreleasedAmount = dateNowBN.lte(endTimestamp)
+                ? startTimestampBN.lte(dateNowBN)
+                    ? new BN(lockupAmount).mul(timeLeft).div(releaseDurationBN)
+                    : new BN(lockupAmount)
+                : new BN('0');
 
-        let unvestedAmount = new BN('0');
+            let unvestedAmount = new BN('0');
 
-        if(vestingInformation) {
-            if (vestingInformation.unvestedAmount) {
-                unvestedAmount = vestingInformation.unvestedAmount;
-            }else if(vestingInformation.vestingStart) {
-                if(dateNowBN.lt(vestingInformation.vestingCliff)){
-                    unvestedAmount = new BN(lockupAmount);
-                } else if(dateNowBN.gte(vestingInformation.vestingEnd)) {
-                    unvestedAmount = new BN(0);
-                } else {
-                    let timeLeft = vestingInformation.vestingEnd.sub(dateNowBN);
-                    let totalTime = vestingInformation.vestingEnd.sub(
-                        vestingInformation.vestingStart
-                    );
-                    unvestedAmount = lockupAmount.mul(timeLeft).div(totalTime);
+            if(vestingInformation) {
+                if (vestingInformation.unvestedAmount) {
+                    unvestedAmount = vestingInformation.unvestedAmount;
+                }else if(vestingInformation.vestingStart) {
+                    if(dateNowBN.lt(vestingInformation.vestingCliff)){
+                        unvestedAmount = new BN(lockupAmount);
+                    } else if(dateNowBN.gte(vestingInformation.vestingEnd)) {
+                        unvestedAmount = new BN(0);
+                    } else {
+                        let timeLeft = vestingInformation.vestingEnd.sub(dateNowBN);
+                        let totalTime = vestingInformation.vestingEnd.sub(
+                            vestingInformation.vestingStart
+                        );
+                        unvestedAmount = lockupAmount.mul(timeLeft).div(totalTime);
+                    }
                 }
             }
-        }
 
-        const lockedAmount = BN.max(unreleasedAmount.sub(new BN(terminationWithdrawnTokens)), unvestedAmount);
+            lockedAmount = BN.max(unreleasedAmount.sub(new BN(terminationWithdrawnTokens)), unvestedAmount);
+        } else {
+            lockedAmount = new BN(lockupAmount).sub(
+                new BN(terminationWithdrawnTokens)
+            );
+        }
 
         let totalBalance = new BN(lockupBalance.total);
         let stakedBalanceLockup = new BN(0);
