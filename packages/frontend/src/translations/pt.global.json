@@ -85,6 +85,7 @@
         "Deserialization": "",
         "RetriesExceeded": "Tentativas máximas excedidas para esta transação.",
         "U2F_4": "Falha ao fazer login com o dispositivo Ledger: U2F DEVICE_INELIGIBLE. Por favor, verifique se o seu dispositivo Ledger está conectado e desbloqueado.",
+        "NotEnoughBalance": "Sua conta não tem saldo o suficiente para essa operação.",
 
         "default": {
             "success": "",
@@ -92,6 +93,8 @@
         }
     },
     "walletErrorCodes": {
+        "emailProviderInvalid": "${domainName} não pode ser usado para verificação da conta. Por favor, informe um e-mail diferente.",
+        "invalidRecaptchaCode": "Código reCAPTCHA inválido; Tente novamente!",
         "addAccessKeySeedPhrase": {
             "errorSecond": "Ocorreu um erro.<br />A frase-semente não foi adicionada à sua conta. Por favor, tente novamente."
         },
@@ -132,6 +135,12 @@
         },
         "setupRecoveryMessageNewAccount": {
             "invalidCode": "Código inválido"
+        },
+        "sendFungibleToken": {
+            "error": "Um erro ocorreu. A transação enviada foi cancelada."
+        },
+        "createNewAccount": {
+            "error": "A criação da conta falhou. Tente novamente."
         }
     },
     "account": {
@@ -203,8 +212,22 @@
                 "descOne": "Parabéns <b>${accountId}</b>! Sua conta foi criada com sucesso.",
                 "descTwo": "Agora você deve usar este ID da Conta como seu endereço para todas as operações na NEAR.",
                 "descThree": "Por favor, atualize seu endereço em quaisquer exchanges ou outros dispositivos.",
-                "button": "Continuar para a Conta"
+                "button": "Continuar para a Conta",
+                "modal": {
+                    "title": "Bem-vindo à NEAR Wallet!",
+                    "desc": "Parabéns! Sua conta foi criada com sucesso."
+                }
             }
+        },
+        "fundedStatus": {
+            "singleUse": "Endereço de financiamento de uso único",
+            "nearName": "ID da Conta",
+            "status": "Status da Conta",
+            "minDeposit": "Depósito mínimo",
+            "initialDeposit": "Depósito inicial",
+            "awaitingDeposit": "Aguardando depósito",
+            "ready": "Pronto para reivindicação",
+            "active": "Ativo"
         },
         "verifySeedPhrase": {
             "error": "Você digitou a palavra incorreta"
@@ -703,7 +726,7 @@
         "loading": "Loading reCAPTCHA...",
         "disclaimer": "This site is protected by reCAPTCHA and the Google <a href='https://policies.google.com/privacy' target='_blank' rel='noopener noreferrer'>Privacy Policy</a> and <a href='https://policies.google.com/terms' target='_blank' rel='noopener noreferrer'>Terms of Service</a> apply."
     },
-    
+
     "linkdropLanding": {
         "title": "Você recebeu uma distribuição de NEAR!",
         "desc": "Você pode reivindicar a distribuição de NEAR com uma conta existente (precisar estar logado), ou criar uma nova conta para receber como depósito inicial.",
