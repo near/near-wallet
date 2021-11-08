@@ -5,4 +5,6 @@ const fetchAsBuffer = (url) => fetch(url).then((a) => a.buffer());
 
 const fetchLinkdropContract = () => fetchAsBuffer(CONTRACT_WASM_URLS.LINKDROP);
 
-module.exports = { fetchLinkdropContract };
+const fetchLockupContract = ({ old } = {}) => fetchAsBuffer(CONTRACT_WASM_URLS[old ? "LOCKUP_OLD" : "LOCkUP"]);
+
+module.exports = { fetchLinkdropContract, fetchLockupContract };
