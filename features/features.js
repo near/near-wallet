@@ -1,4 +1,4 @@
-const { initFeatureFlags } = require('../packages/feature-flags');
+const { initFeatureFlags } = require('@near-wallet/feature-flags');
 const Environments = require('./environments.json');
 const FeatureFlags = require('./flags.json');
 

@@ -1,6 +1,6 @@
 {
   "homepage": "https://wallet.near.org",
-  "name": "near-wallet-frontend",
+  "name": "@near-wallet/frontend",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -71,6 +71,7 @@
     "@babel/core": "^7.14.3",
     "@babel/preset-env": "^7.14.1",
     "@babel/preset-react": "^7.13.13",
+    "@near-wallet/feature-flags": "file:../feature-flags",
     "@sentry/cli": "^1.65.0",
     "@storybook/addon-actions": "^6.1.21",
     "@storybook/addon-essentials": "^6.1.21",
