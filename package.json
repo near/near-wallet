@@ -1,5 +1,5 @@
 {
-  "name": "near-wallet",
+  "name": "@near-wallet/monorepo",
   "private": true,
   "scripts": {
     "lint": "cd packages/frontend && yarn && yarn lint",
@@ -7,6 +7,7 @@
     "test": "cd packages/frontend && yarn && yarn test"
   },
   "devDependencies": {
+    "@near-wallet/feature-flags": "./packages/feature-flags",
     "lerna": "^4.0.0"
   }
 }

@@ -1,5 +1,5 @@
 {
-  "name": "feature-flags",
+  "name": "@near-wallet/feature-flags",
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
