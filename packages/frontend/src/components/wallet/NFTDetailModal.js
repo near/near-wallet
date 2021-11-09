@@ -6,7 +6,7 @@ import UserIconGrey from '../../images/UserIconGrey';
 import FormButton from '../common/FormButton';
 import Modal from '../common/modal/Modal';
 import ArrowIcon from '../svg/ArrowIcon';
-import NFTTransferModal from './NFTTransferModal';
+import NFTTransferModal from '../nft/NFTTransferModal';
 
 
 const StyledContainer = styled.div`
