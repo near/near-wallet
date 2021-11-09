@@ -8,18 +8,22 @@ function initFeatureFlags({ flagState, currentEnvironment, environments }) {
     }
 
     return new Proxy(flagState, {
-       get(flags, flag) {
-           const feature = flags[flag];
-           if (!feature) {
-               throw Error(`invalid feature: "${flag}"`);
-           }
+        get(flags, flag) {
+            if (flag === '__esModule') {
+                return { value: true };
+            }
 
-           if (!feature[currentEnvironment]) {
-               throw Error(`${flag} missing definition for environment: "${currentEnvironment}"`);
-           }
+            const feature = flags[flag];
+            if (!feature) {
+                throw Error(`invalid feature: "${flag}"`);
+            }
 
-           return feature[currentEnvironment].enabled;
-       },
+            if (!feature[currentEnvironment]) {
+                throw Error(`${flag} missing definition for environment: "${currentEnvironment}"`);
+            }
+
+            return feature[currentEnvironment].enabled;
+        },
     });
 }
 
