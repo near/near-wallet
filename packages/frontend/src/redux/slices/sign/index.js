@@ -22,7 +22,8 @@ export const handleSignTransactions = createAsyncThunk(
         const { dispatch, getState } = thunkAPI;
         let transactionsHashes;
 
-        await Mixpanel.withTracking("SIGN",
+        const mixpanelName = `SIGN${selectSignRetryTxDirection(getState()) ? ' - RETRY' : ''}`;
+        await Mixpanel.withTracking(mixpanelName,
             async () => {
                 const transactions = selectSignTransactions(getState());
                 const accountId = selectAccountId(getState());
@@ -83,4 +84,9 @@ export const selectSignMeta = createSelector(
 export const selectSignStatus = createSelector(
     [selectSignSlice],
     (sign) => sign.status
+);
+
+export const selectSignRetryTxDirection = createSelector(
+    [selectSignSlice],
+    (sign) => sign.retryTxDirection
 );
