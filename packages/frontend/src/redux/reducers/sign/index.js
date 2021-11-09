@@ -3,6 +3,7 @@ import cloneDeep from 'lodash.cloneDeep';
 import { utils, transactions as transaction } from 'near-api-js';
 import { handleActions } from 'redux-actions';
 
+import { Mixpanel } from "../../../mixpanel";
 import { parseTransactionsToSign, makeAccountActive } from '../../actions/account';
 import { handleSignTransactions, SIGN_STATUS } from '../../slices/sign';
 
@@ -80,6 +81,10 @@ const sign = handleActions({
                 )
             ))
         );
+
+        if (retryTxDirection && !tryRetryTx) {
+            Mixpanel.track('SIGN - RETRY - retry limit exceeded');
+        }
 
         const transactions = cloneDeep(state.transactions);
         if (tryRetryTx) {

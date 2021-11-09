@@ -21,8 +21,9 @@ export const handleSignTransactions = createAsyncThunk(
     async (_, thunkAPI) => {
         const { dispatch, getState } = thunkAPI;
         let transactionsHashes;
+        const retryTxDirection = selectSignRetryTxDirection(getState());
 
-        const mixpanelName = `SIGN${selectSignRetryTxDirection(getState()) ? ' - RETRY' : ''}`;
+        const mixpanelName = `SIGN${retryTxDirection ? ` - RETRY - ${retryTxDirection}` : ''}`;
         await Mixpanel.withTracking(mixpanelName,
             async () => {
                 const transactions = selectSignTransactions(getState());
