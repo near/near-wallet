@@ -91,9 +91,9 @@ const sign = handleActions({
             transactions.forEach((t, i) => {
                 t.actions && t.actions.forEach((a, j) => {
                     if(a.functionCall && a.functionCall.gas) {
-                        if (state.retryTxDirection === RETRY_TX.INCREASE) {
+                        if ((state.retryTxDirection || retryTxDirection) === RETRY_TX.INCREASE) {
                             a.functionCall.gas = a.functionCall.gas.add(new BN(RETRY_TX.GAS.DIFF));
-                        } else if (state.retryTxDirection === RETRY_TX.DECREASE) {
+                        } else if ((state.retryTxDirection || retryTxDirection) === RETRY_TX.DECREASE) {
                             a.functionCall.gas = a.functionCall.gas.sub(new BN(RETRY_TX.GAS.DIFF));
                         }
                     }
