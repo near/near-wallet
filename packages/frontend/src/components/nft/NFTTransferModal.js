@@ -267,7 +267,7 @@ function successSVG() {
 
 
 
-export default function NFTTransferModal({ open, onClose, nft, setNftOwner, accountId }) {
+export default function NFTTransferModal({ open, onClose, nft, accountId }) {
     const [ receiverId, setReceiverId ] = useState();
     const [ result, setResult ] = useState();
     const [ sending, setSending ] = useState(false);
@@ -281,7 +281,6 @@ export default function NFTTransferModal({ open, onClose, nft, setNftOwner, acco
 
     function onTransferSuccess(result, nft) {
         setResult(result);
-        setNftOwner(nft.ownerId);
         console.log(result.transaction.hash);
         setViewType('success');
     }
