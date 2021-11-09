@@ -8,14 +8,14 @@
       "lastEditedAt": "2021-05-24T09:33:27.489Z"
     },
     "testnet": {
-      "enabled": false,
-      "lastEditedBy": "Daryl Collins",
-      "lastEditedAt": "2021-05-24T09:33:27.489Z"
-    },
-    "testnet_STAGING": {
       "enabled": true,
       "lastEditedBy": "Daryl Collins",
-      "lastEditedAt": "2021-05-24T09:42:11.825Z"
+      "lastEditedAt": "2021-11-09T04:34:12.847Z"
+    },
+    "testnet_STAGING": {
+      "enabled": false,
+      "lastEditedBy": "Daryl Collins",
+      "lastEditedAt": "2021-11-09T04:34:33.102Z"
     },
     "mainnet": {
       "enabled": true,
