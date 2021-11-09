@@ -10,6 +10,7 @@ pipeline {
         FRONTEND_BUNDLE_PATH = "$WORKSPACE/packages/frontend/dist"
         FRONTEND_TESTNET_BUNDLE_PATH = "$WORKSPACE/packages/frontend/dist_testnet"
         FRONTEND_MAINNET_BUNDLE_PATH = "$WORKSPACE/packages/frontend/dist_mainnet"
+        REACT_APP_ACCOUNT_HELPER_URL = "http://ec2-54-218-235-222.us-west-2.compute.amazonaws.com:3000"
 
         // aws configuration
         AWS_REGION = 'us-west-2'
