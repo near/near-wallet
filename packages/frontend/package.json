@@ -7,7 +7,7 @@
   },
   "dependencies": {
     "@ledgerhq/hw-transport-u2f": "^5.34.0",
-    "@near-wallet/feature-flags": "^0.0.2",
+    "@near-wallet/feature-flags": "^0.0.4",
     "@reduxjs/toolkit": "1.6.2",
     "@sentry/browser": "^6.4.1",
     "connected-react-router": "^6.6.0",
