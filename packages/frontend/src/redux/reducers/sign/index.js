@@ -87,8 +87,9 @@ const sign = handleActions({
             Mixpanel.track('SIGN - RETRY - retry limit exceeded');
         }
 
-        const transactions = cloneDeep(state.transactions);
+        let transactions;
         if (tryRetryTx) {
+            transactions = cloneDeep(state.transactions);
             transactions.forEach((t, i) => {
                 t.actions && t.actions.forEach((a, j) => {
                     if(a.functionCall && a.functionCall.gas) {
@@ -100,6 +101,8 @@ const sign = handleActions({
                     }
                 });
             });
+        } else {
+            transactions = state.transactions;
         }
 
         return {
