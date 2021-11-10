@@ -90,10 +90,13 @@ export const handleRefreshUrl = (prevRouter) => (dispatch, getState) => {
     const { pathname, search } = prevRouter?.location || getState().router.location;
     const currentPage = pathname.split('/')[pathname[1] === '/' ? 2 : 1];
 
+    // Decode twice in case some URI components have been encoded twice
+    const decodedSearch = decodeURIComponent(decodeURIComponent(search));
+
     if ([...WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS, WALLET_LOGIN_URL, WALLET_SIGN_URL, WALLET_LINKDROP_URL].includes(currentPage)) {
         const parsedUrl = {
             referrer: document.referrer && new URL(document.referrer).hostname,
-            ...parse(search),
+            ...parse(decodedSearch),
             redirect_url: prevRouter ? prevRouter.location.pathname : undefined
         };
         if ([WALLET_CREATE_NEW_ACCOUNT_URL, WALLET_LINKDROP_URL].includes(currentPage) && search !== '') {
