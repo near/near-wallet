@@ -54,10 +54,37 @@ const sign = handleActions({
                 .length
         };
     },
-    [handleSignTransactions.pending]: (state) => ({
-        ...state,
-        status: SIGN_STATUS.IN_PROGRESS
-    }),
+    [handleSignTransactions.pending]: (state) => {
+        const { retryTxDirection, status } = state;
+
+        let transactions;
+        if (status === SIGN_STATUS.RETRY_TRANSACTION) {
+            transactions = cloneDeep(state.transactions);
+            transactions.forEach((t, i) => {
+                t.actions && t.actions.forEach((a, j) => {
+                    if(a.functionCall && a.functionCall.gas) {
+                        if ((state.retryTxDirection || retryTxDirection) === RETRY_TX.INCREASE) {
+                            a.functionCall.gas = a.functionCall.gas.add(new BN(RETRY_TX.GAS.DIFF));
+                        } else if ((state.retryTxDirection || retryTxDirection) === RETRY_TX.DECREASE) {
+                            a.functionCall.gas = a.functionCall.gas.sub(new BN(RETRY_TX.GAS.DIFF));
+                        }
+                    }
+                });
+            });
+        } else {
+            transactions = state.transactions;
+        }
+
+        return {
+            ...state,
+            status: SIGN_STATUS.IN_PROGRESS,
+            transactions,
+            fees: {
+                ...state.transactions.fees,
+                gasLimit: calculateGasLimit(transactions.flatMap(t => t.actions))
+            }
+        };
+    },
     [handleSignTransactions.fulfilled]: (state, { payload }) => ({
         ...state,
         status: SIGN_STATUS.SUCCESS,
@@ -82,41 +109,14 @@ const sign = handleActions({
                 )
             ))
         );
-
-        if (retryTxDirection && !tryRetryTx) {
-            Mixpanel.track('SIGN - RETRY - retry limit exceeded');
-        }
-
-        let transactions;
-        if (tryRetryTx) {
-            transactions = cloneDeep(state.transactions);
-            transactions.forEach((t, i) => {
-                t.actions && t.actions.forEach((a, j) => {
-                    if(a.functionCall && a.functionCall.gas) {
-                        if ((state.retryTxDirection || retryTxDirection) === RETRY_TX.INCREASE) {
-                            a.functionCall.gas = a.functionCall.gas.add(new BN(RETRY_TX.GAS.DIFF));
-                        } else if ((state.retryTxDirection || retryTxDirection) === RETRY_TX.DECREASE) {
-                            a.functionCall.gas = a.functionCall.gas.sub(new BN(RETRY_TX.GAS.DIFF));
-                        }
-                    }
-                });
-            });
-        } else {
-            transactions = state.transactions;
-        }
-
+        
         return {
             ...state,
             status: tryRetryTx
                 ? SIGN_STATUS.RETRY_TRANSACTION
                 : SIGN_STATUS.ERROR,
             error,
-            retryTxDirection: state.retryTxDirection || retryTxDirection,
-            transactions,
-            fees: {
-                ...state.transactions.fees,
-                gasLimit: calculateGasLimit(transactions.flatMap(t => t.actions))
-            }
+            retryTxDirection: state.retryTxDirection || retryTxDirection
         };
     },
     [makeAccountActive]: () => {
