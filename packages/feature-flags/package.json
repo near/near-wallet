@@ -12,7 +12,8 @@
     "inquirer": "^8.2.0"
   },
   "scripts": {
-    "installbinary": "yarn && npx rollup -c && pkg -C GZip -o /usr/local/bin/flag out/flag.js"
+    "installbinary": "yarn && npx rollup -c && pkg -C GZip -o /usr/local/bin/flag out/flag.js",
+    "edit": "node ./bin/flag.js"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^21.0.1",
