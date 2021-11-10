@@ -3,6 +3,9 @@
   "version": "0.0.1",
   "main": "index.js",
   "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
   "dependencies": {
     "@pagerduty/pdjs": "^2.2.0",
     "@playwright/test": "^1.14.0",

@@ -3,6 +3,9 @@
   "version": "0.0.3",
   "main": "src/index.js",
   "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
   "dependencies": {
     "fs-extra": "^10.0.0",
     "ini": "^2.0.0",
