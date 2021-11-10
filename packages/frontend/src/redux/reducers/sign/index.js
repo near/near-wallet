@@ -61,7 +61,8 @@ const sign = handleActions({
     [handleSignTransactions.fulfilled]: (state, { payload }) => ({
         ...state,
         status: SIGN_STATUS.SUCCESS,
-        transactionHashes: payload
+        transactionHashes: payload,
+        error: undefined
     }),
     [handleSignTransactions.rejected]: (state, { error }) => {
         const retryTxDirection = error.message.includes('Exceeded the prepaid gas')
