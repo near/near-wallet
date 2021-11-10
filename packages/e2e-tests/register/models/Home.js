@@ -1,4 +1,4 @@
-const { getKeyPairFromSeedPhrase } = require("../../utils/account");
+const { getKeyPairFromSeedPhrase } = require("../../utils/helpers");
 
 class HomePage {
     constructor(page) {

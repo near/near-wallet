@@ -58,11 +58,19 @@ export default function SelectAccount({ accounts, onChange, selectedAccount }) {
                         <div>
                             <div>
                                 <Translate id='staking.staking.available' />
-                                <Balance amount={account.totalUnstaked} showBalanceInUSD={false}/>
+                                <Balance
+                                    data-test-id="accountSelectAvailableBalance"
+                                    amount={account.totalUnstaked}
+                                    showBalanceInUSD={false}
+                                />
                             </div>
                             <div>
                                 <Translate id='staking.staking.totalStaked' />
-                                <Balance amount={account.totalStaked} showBalanceInUSD={false}/>
+                                <Balance
+                                    data-test-id="accountSelectStakedBalance"
+                                    amount={account.totalStaked}
+                                    showBalanceInUSD={false}
+                                />
                             </div>
                         </div>
                     </Container>
