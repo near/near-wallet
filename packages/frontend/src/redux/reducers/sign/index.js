@@ -74,10 +74,10 @@ const sign = handleActions({
             t.actions && t.actions.some((a) => a.functionCall && a.functionCall.gas && (
                 (
                     state.retryTxDirection === RETRY_TX.INCREASE 
-                    && a.functionCall.gas.gt(new BN(RETRY_TX.GAS.MAX))
+                    && (a.functionCall.gas.add(new BN(RETRY_TX.GAS.DIFF))).gt(new BN(RETRY_TX.GAS.MAX))
                 ) || (
                     state.retryTxDirection === RETRY_TX.DECREASE 
-                    && a.functionCall.gas.lte(new BN(RETRY_TX.GAS.MIN))
+                    && (a.functionCall.gas.sub(new BN(RETRY_TX.GAS.DIFF))).lte(new BN(RETRY_TX.GAS.MIN))
                 )
             ))
         );
