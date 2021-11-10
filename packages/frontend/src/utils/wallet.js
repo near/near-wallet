@@ -940,10 +940,15 @@ class Wallet {
 
         const tempKeyStore = new nearApiJs.keyStores.InMemoryKeyStore();
         const implicitAccountId = Buffer.from(PublicKey.fromString(publicKey).data).toString('hex');
-        let accountIds = [accountId];
+
+        let accountIds = [];
+        const accountIdsByPublickKey = await getAccountIds(publicKey);
         if (!accountId) {
-            accountIds = await getAccountIds(publicKey);
+            accountIds = accountIdsByPublickKey;
+        } else if (accountIdsByPublickKey.includes(accountId)) {
+            accountIds = [accountId];
         }
+
         accountIds.push(implicitAccountId);
 
         // remove duplicate and non-existing accounts
