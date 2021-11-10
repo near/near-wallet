@@ -13,7 +13,7 @@
   },
   "scripts": {
     "installbinary": "yarn && npx rollup -c && pkg -C GZip -o /usr/local/bin/flag out/flag.js",
-    "edit": "node ./bin/flag.js"
+    "edit": "node bin/flag-editor.js"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^21.0.1",

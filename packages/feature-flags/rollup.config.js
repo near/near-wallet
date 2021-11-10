@@ -1,7 +1,7 @@
 const commonjs = require('@rollup/plugin-commonjs');
 
 export default {
-    input: 'flag.js',
+    input: 'src/createEditorInstance.js',
     output: {
         compact: true,
         dir: 'out',
