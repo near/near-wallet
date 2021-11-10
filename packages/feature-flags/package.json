@@ -1,18 +1,18 @@
 {
   "name": "@near-wallet/feature-flags",
-  "version": "0.0.1",
-  "main": "index.js",
+  "version": "0.0.2",
+  "main": "src/index.js",
   "license": "MIT",
   "dependencies": {
-    "@rollup/plugin-commonjs": "^21.0.0",
     "fs-extra": "^10.0.0",
     "ini": "^2.0.0",
     "inquirer": "^8.2.0"
   },
   "scripts": {
-    "build": "yarn && npx rollup -c && pkg -t node14-macos -C GZip -o /usr/local/bin/flag out/edit.js"
+    "installbinary": "yarn && npx rollup -c && pkg -C GZip -o /usr/local/bin/flag out/flag.js"
   },
   "devDependencies": {
+    "@rollup/plugin-commonjs": "^21.0.1",
     "pkg": "^5.3.3",
     "rollup": "^2.58.0"
   }

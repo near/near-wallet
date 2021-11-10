@@ -9,7 +9,7 @@ const CONFIG_DIRECTORY = 'features';
 const FLAGS_FILENAME = 'flags.json';
 const FEATURES_TYPEDEF_FILENAME = 'features.d.ts';
 const ENVIRONMENTS_FILENAME = 'environments.json';
-const DEBUG_LOGGING = false;
+const ENABLE_DEBUG_LOGGING = process.env.NEAR_FLAG_DEBUG === 'true' || false;
 
 class FlagEditor {
     constructor({ prompts }) {
@@ -20,7 +20,7 @@ class FlagEditor {
     }
 
     log(...args) {
-        DEBUG_LOGGING && console.log(...args);
+        ENABLE_DEBUG_LOGGING && console.log(...args);
     }
 
     async init() {
