@@ -3,6 +3,7 @@ import { Translate } from 'react-localize-redux';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
+import { useFungibleTokensIncludingNEAR } from '../../hooks/fungibleTokensIncludingNEAR';
 import UserIconGrey from '../../images/UserIconGrey';
 import { selectAccountId } from '../../redux/slices/account';
 import NonFungibleTokens from '../../services/NonFungibleTokens';
@@ -13,10 +14,13 @@ import NFTTransferModal from './NFTTransferModal';
 
 const StyledContainer = styled(Container)`
     .container {
+        margin-left: auto;
+        margin-right: auto;
         max-width: 429px;
         position: relative;
 
         img {
+            width: 100%;
             max-width: 429px;
             margin-bottom: 83px;
 
@@ -136,15 +140,16 @@ const UserIcon = styled.div`
 function arrowSVG () {
   return (
     <svg className="transfer-svg" width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M21 1L14 21L10 12L1 8L21 1Z" stroke="#A2A2A8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-      <path d="M21 1L10 12" stroke="#A2A2A8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M21 1L14 21L10 12L1 8L21 1Z" stroke="#A2A2A8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+      <path d="M21 1L10 12" stroke="#A2A2A8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
     </svg>
   );
 }
 
 export function NFTDetail({ match, location, history }) {
     const accountId = useSelector(selectAccountId);
-
+    const fungibleTokens = useFungibleTokensIncludingNEAR();
+    const nearBalance = fungibleTokens[0].balance;
     const contractId = match.params.contractId;
     const tokenId = match.params.tokenId;
     const [ nft, setNft ] = useState();
@@ -154,10 +159,15 @@ export function NFTDetail({ match, location, history }) {
     useEffect(() => {
         NonFungibleTokens.getToken(contractId, tokenId)
             .then(token => {
+                token.contract_id = contractId;
                 console.log(token);
                 setNft(token);
             });
     }, []);
+
+    function getNEARBalance () {
+        return nearBalance;
+    }
 
     return (
         <StyledContainer className='medium centered'>
@@ -183,7 +193,7 @@ export function NFTDetail({ match, location, history }) {
                             <UserIconGrey color='#9a9a9a' />
                         </UserIcon>
                         <span>
-                            { 'owner.near' }
+                            { nft.owner_id }
                         </span>
                     </div>
                 </div>
@@ -191,7 +201,7 @@ export function NFTDetail({ match, location, history }) {
                 <FormButton 
                     className='transfer-btn'
                     color='gray-black' 
-                    disabled={nft.owner_id !== accountId}
+                    disabled={nft.owner_id !== accountId || !nearBalance}
                     onClick={() => setTransferNftDetail(nft)}
                 >
                     {arrowSVG()}
@@ -203,6 +213,7 @@ export function NFTDetail({ match, location, history }) {
                         onClose={() => setTransferNftDetail()}
                         nft={transferNftDetail}
                         accountId={accountId}>
+                        nearBalance={ getNEARBalance() }
                     </NFTTransferModal>
                 }
             </div>
