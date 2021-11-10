@@ -8,7 +8,7 @@
             "error": "請檢查你的設備已經連接並打開了 NEAR 應用。"
         },
         "CHECK_NEW_ACCOUNT": {
-            "success": "恭喜! ${accountId} 可被註冊。",
+            "success": "恭喜！${accountId} 可被註冊。",
             "error": "用戶名已被註冊，請嘗試其他。"
         },
         "ADD_ACCESS_KEY": {
@@ -67,11 +67,11 @@
             "error": "雙重認證設置失敗，請重試。"
         },
         "CHECK_IS_NEW": {
-            "success": "恭喜! ${accountId} 可被註冊。",
+            "success": "恭喜！${accountId} 可被註冊。",
             "error": "用戶名已被註冊，請嘗試其他。"
         },
         "CREATE_NEW_ACCOUNT": {
-            "success": "恭喜! ${accountId} 可被註冊。",
+            "success": "恭喜！${accountId} 可被註冊。",
             "error": "用戶名已被註冊，請嘗試其他。"
         },
         "TRANSFER_ALL_FROM_LOCKUP": {
@@ -251,7 +251,7 @@
     },
         
     "verifyAccount": {
-        "title": "只差一步!驗證你的新帳戶。",
+        "title": "只差一步！驗證你的新賬戶。",
         "desc": "為避免發送垃圾信息，我們需要驗證你是賬戶所有者，你可以通過一次性驗證碼或初始充值進行驗證。",
         "options": {
             "passCode": "一次性驗證碼",
@@ -263,7 +263,7 @@
                 "desc": "通過郵箱接收一次性驗證碼。"
             },
             "phone": {
-                "title": "手機（中國大陸地區暫不支持）",
+                "title": "手機（暫不支持中國大陸地區）",
                 "desc": "通過手機短信接收一次性驗證碼。"
             },
             "existingAccount": {
@@ -281,12 +281,12 @@
         },			
         "modal": {
             "email":{
-                "title": "此郵箱地址已被用於驗證其他帳戶",
-                "desc": "你需要使用其他郵箱地址或選擇其他方式來驗證此帳戶，不過你可以使用此郵箱作為恢復方式。"
+                "title": "此郵箱地址已被用於驗證其他賬戶",
+                "desc": "你需要使用其他郵箱地址或選擇其他方式來驗證此賬戶，不過你可以使用此郵箱作為恢復方式。"
             },
             "phone": {
-                "title": "此手機號碼已被用於驗證其他帳戶",
-                "desc": "你需要使用其他手機號碼或選擇其他方式來驗證此帳戶，不過你可以使用此號碼作為恢復方式。"
+                "title": "此手機號碼已被用於驗證其他賬戶",
+                "desc": "你需要使用其他手機號碼或選擇其他方式來驗證此賬戶，不過你可以使用此號碼作為恢復方式。"
             }
         }
     },
@@ -302,7 +302,7 @@
         },
         "claimAccount": {
             "title": "認領你的賬戶",
-            "desc": "你的初始充值已到賬，一旦認領賬戶，你充值的代幣會被轉移到新認領的賬戶。",
+            "desc": "你的初始充值已到賬，一旦認領賬戶，你充值的通證會被轉移到新認領的賬戶。",
             "disclaimer": {
                 "desc": "重要：你之前的單次充值地址將失效。若你在交易所和其他設備保存了單次充值地址，請將其替換為你的新賬戶ID(例：XXXX.near)",
                 "checkBox": "同意 & 繼續"
@@ -439,7 +439,7 @@
         "pTwo": "如果這不是你偏好的瀏覽器，請複製鏈接並在你偏好的瀏覽器中完成恢復流程。",
         "snackbarCopySuccess": "恢復鏈接已複製",
         "errorTitle": "鏈接已過期",
-        "errorP": "請檢查你的 Email 或手機最新消息，之前消息裏的鏈接已經無效。"
+        "errorP": "請檢查你的郵箱或手機最新消息，之前消息裏的鏈接已經無效。"
     },
 
     "recoveryMgmt": {
@@ -448,11 +448,11 @@
         "methodTitle": {
             "phrase": "助記詞",
             "phone": "手機號",
-            "email": "Email 地址"
+            "email": "郵箱地址"
         },
         "resend": {
             "phone": "重新發送短信",
-            "email": "重新發送 Email"
+            "email": "重新發送郵件"
         },
         "enabled": "已啟用",
         "disableTitle": "是否確定禁用該恢復賬戶方式？",
@@ -486,8 +486,8 @@
         "subHeader": "Two factor authentication adds an extra layer of security to your account. <b>Passphrase and Ledger keys continue to allow full access to your account.</b>",
         "select": "選擇驗證方式",
         "title": "雙重認證",
-        "desc": "通過雙重認證保護你的賬戶，在授權交易時必須通過短信或 Email 確認。",
-        "email": "Email 地址",
+        "desc": "通過雙重認證保護你的賬戶，在授權交易時必須通過短信或郵箱確認。",
+        "email": "郵箱地址",
         "phone": "手機號",
         "notEnabled": "雙重認證未開啟",
         "notEnoughBalance": "為開啟雙重認證，你的賬戶需要最少餘額 ${amount}",
@@ -684,7 +684,7 @@
         "pageTitle": "恢復你的賬戶",
         "pageText": "如果你已經設置賬戶恢復方式，請根據以下步驟開始恢復流程。",
         "email": {
-            "title": "Email",
+            "title": "郵箱",
             "desc": "請檢查來自 near.org 地址的郵件，標題是：",
             "subject": "「重要：NEAR 錢包恢復郵件」。"
         },
@@ -798,14 +798,14 @@
         "header": "保護你的賬戶",
         "subHeader": "請設置一種賬戶恢復方式：",
         "basicSecurity": "基礎安全",
-        "basicSecurityDesc": "請輸入你的 Email 地址或手機號以獲取恢復鏈接",
-        "emailTitle": "Email 方式",
-        "emailDesc": "通過 Email 方式接收驗證碼和賬戶恢復鏈接。",
+        "basicSecurityDesc": "請輸入你的郵箱地址或手機號以獲取恢復鏈接",
+        "emailTitle": "郵箱方式",
+        "emailDesc": "通過郵箱方式接收驗證碼和賬戶恢復鏈接。",
         "emailPlaceholder": "example@email.com",
         "phoneTitle": "手機短信方式",
         "phoneDesc": "請輸入你的手機號以接收恢復鏈接。",
         "phonePlaceholder": "+1 415 797 8554",
-        "notSupportedPhone": "抱歉，目前我們暫未對你所在的地區開放短信恢復方式。請選擇 Email 方式。",
+        "notSupportedPhone": "抱歉，目前我們暫未對你所在的地區開放短信恢復方式。請選擇郵箱方式。",
         "advancedSecurity": "高級安全",
         "advancedSecurityDesc": "記錄 12 個單詞組成的助記詞，並安全保存。",
         "ledgerTitle": "Ledger 硬件錢包",
@@ -824,16 +824,16 @@
         "resending": "正在重新發送...", 
         "or": "或",
         "sendToDifferent": "發送至其他",
-        "email": "Email",
+        "email": "郵箱",
         "phone": "手機號",
         "reenter": {
             "one": {
-                "email": "如果你沒有收到郵件，或者上面的 Email 地址輸入錯誤，",
+                "email": "如果你沒有收到郵件，或者上面的郵箱地址輸入錯誤，",
                 "phoneNumber": "如果你沒有收到短信，或上面的手機號輸入錯誤，"
             },
             "link": "點擊此處",
             "two": {
-                "email": "重新輸入 Email 地址並重新發送。",
+                "email": "重新輸入郵箱地址並重新發送。",
                 "phoneNumber": "重新輸入手機號並重新發送。"
             }
         }
@@ -1206,7 +1206,7 @@
             "lessSecureDesc": "推薦餘額較小的賬戶使用這些恢復方式，非常方便。但如果手機或郵箱被盜，你的資產將會有風險。"
         },
         "twoFactor": "雙重認證方式",
-        "twoFactorDesc": "登錄或轉賬時，將通過短信或 Email 方式授權。",
+        "twoFactorDesc": "登錄或轉賬時，將通過短信或郵箱方式授權。",
         "details": {
             "profile": "資料",
             "visibleTo": "是否公開",
@@ -1505,7 +1505,7 @@
     },
     "emailSubscribe": {
         "title": "早期測試註冊",
-        "placeholder": "你的 Email..."
+        "placeholder": "你的郵箱地址..."
     },
 
     "releaseNotesModal": {

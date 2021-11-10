@@ -8,7 +8,7 @@
             "error": "请检查你的设备已经连接并打开了 NEAR 应用。"
         },
         "CHECK_NEW_ACCOUNT": {
-            "success": "恭喜! ${accountId} 可被注册。",
+            "success": "恭喜！${accountId} 可被注册。",
             "error": "用户名已被注册，请尝试其他。"
         },
         "ADD_ACCESS_KEY": {
@@ -67,11 +67,11 @@
             "error": "双重认证设置失败，请重试。"
         },
         "CHECK_IS_NEW": {
-            "success": "恭喜! ${accountId} 可被注册。",
+            "success": "恭喜！${accountId} 可被注册。",
             "error": "用户名已被注册，请尝试其他。"
         },
         "CREATE_NEW_ACCOUNT": {
-            "success": "恭喜! ${accountId} 可被注册。",
+            "success": "恭喜！${accountId} 可被注册。",
             "error": "用户名已被注册，请尝试其他。"
         },
         "TRANSFER_ALL_FROM_LOCKUP": {
@@ -251,7 +251,7 @@
     },
 
     "verifyAccount": {
-        "title": "只差一步!验证你的新帐户。",
+        "title": "只差一步！验证你的新账户。",
         "desc": "为避免发送垃圾信息，我们需要验证你是账户所有者，你可以通过一次性验证码或初始充值进行验证。",
         "options": {
             "passCode": "一次性验证码",
@@ -263,7 +263,7 @@
                 "desc": "通过邮箱接收一次性验证码。"
             },
             "phone": {
-                "title": "手机（中国大陆地区暂不支持）",
+                "title": "手机（暂不支持中国大陆地区）",
                 "desc": "通过手机短信接收一次性验证码。"
             },
             "existingAccount": {
@@ -281,12 +281,12 @@
         },
         "modal": {
             "email":{
-                "title": "此邮箱地址已被用于验证其他帐户",
-                "desc": "你需要使用其他邮箱地址或选择其他方式来验证此帐户，不过你可以使用此邮箱作为恢复方式。"
+                "title": "此邮箱地址已被用于验证其他账户",
+                "desc": "你需要使用其他邮箱地址或选择其他方式来验证此账户，不过你可以使用此邮箱作为恢复方式。"
             },
             "phone": {
-                "title": "此手机号码已被用于验证其他帐户",
-                "desc": "你需要使用其他手机号码或选择其他方式来验证此帐户，不过你可以使用此号码作为恢复方式。"
+                "title": "此手机号码已被用于验证其他账户",
+                "desc": "你需要使用其他手机号码或选择其他方式来验证此账户，不过你可以使用此号码作为恢复方式。"
             }
         }
     },
@@ -302,7 +302,7 @@
         },
         "claimAccount": {
             "title": "认领你的账户",
-            "desc": "你的初始充值已到账，一旦认领账户，你充值的代币会被转移到新认领的账户。",
+            "desc": "你的初始充值已到账，一旦认领账户，你充值的通证会被转移到新认领的账户。",
             "disclaimer": {
                 "desc": "重要：你之前的单次充值地址将失效。若你在交易所和其他设备保存了单次充值地址，请将其替换为你的新账户 ID（例：XXXX.near）",
                 "checkBox": "同意 & 继续"
@@ -439,7 +439,7 @@
         "pTwo": "如果这不是你偏好的浏览器，请复制链接并在你偏好的浏览器中完成恢复流程。",
         "snackbarCopySuccess": "恢复链接已复制",
         "errorTitle": "链接已过期",
-        "errorP": "请检查你的 Email 或手机最新消息，之前消息里的链接已经无效。"
+        "errorP": "请检查你的邮箱或手机最新消息，之前消息里的链接已经无效。"
     },
 
     "recoveryMgmt": {
@@ -448,11 +448,11 @@
         "methodTitle": {
             "phrase": "助记词",
             "phone": "手机号",
-            "email": "Email 地址"
+            "email": "邮箱地址"
         },
         "resend": {
             "phone": "重新发送短信",
-            "email": "重新发送 Email"
+            "email": "重新发送邮件"
         },
         "enabled": "已启用",
         "disableTitle": "是否确定禁用该恢复账户方式？",
@@ -486,8 +486,8 @@
         "subHeader": "双重认证将为你的账户增加额外的安全保护。<b>助记词和 Ledger 密钥将继续用来授权完全账户访问。</b>",
         "select": "选择验证方式",
         "title": "双重认证",
-        "desc": "通过双重认证保护你的账户，在授权交易时必须通过短信或 Email 确认。",
-        "email": "Email 地址",
+        "desc": "通过双重认证保护你的账户，在授权交易时必须通过短信或邮箱确认。",
+        "email": "邮箱地址",
         "phone": "手机号（中国大陆地区暂不支持）",
         "notEnabled": "双重认证未开启",
         "notEnoughBalance": "为开启双重认证，你的账户需要最少余额 ${amount}",
@@ -798,14 +798,14 @@
         "header": "保护你的账户",
         "subHeader": "请设置一种账户恢复方式：",
         "basicSecurity": "基础安全",
-        "basicSecurityDesc": "请输入你的 Email 地址或手机号以获取恢复链接",
-        "emailTitle": "Email 方式",
-        "emailDesc": "通过 Email 方式接收验证码和账户恢复链接。",
+        "basicSecurityDesc": "请输入你的邮箱地址或手机号以获取恢复链接",
+        "emailTitle": "邮箱方式",
+        "emailDesc": "通过邮箱方式接收验证码和账户恢复链接。",
         "emailPlaceholder": "example@email.com",
         "phoneTitle": "手机短信方式",
         "phoneDesc": "请输入你的手机号以接收恢复链接。",
         "phonePlaceholder": "+1 415 797 8554",
-        "notSupportedPhone": "抱歉，目前我们暂未对你所在的地区开放短信恢复方式。请选择 Email 方式。",
+        "notSupportedPhone": "抱歉，目前我们暂未对你所在的地区开放短信恢复方式。请选择邮箱方式。",
         "advancedSecurity": "高级安全",
         "advancedSecurityDesc": "记录 12 个单词组成的助记词，并安全保存。",
         "ledgerTitle": "Ledger 硬件钱包",
@@ -828,12 +828,12 @@
         "phone": "手机号",
         "reenter": {
             "one": {
-                "email": "如果你没有收到邮件，或者上面的 Email 地址输入错误，",
+                "email": "如果你没有收到邮件，或者上面的邮箱地址输入错误，",
                 "phoneNumber": "如果你没有收到短信，或上面的手机号输入错误，"
             },
             "link": "点击此处",
             "two": {
-                "email": "重新输入 Email 地址并重新发送。",
+                "email": "重新输入邮箱地址并重新发送。",
                 "phoneNumber": "重新输入手机号并重新发送。"
             }
         }
@@ -1206,7 +1206,7 @@
             "lessSecureDesc": "推荐余额较小的账户使用这些恢复方式，非常方便。但如果手机或邮箱被盗，你的资产将会有风险。"
         },
         "twoFactor": "双重认证方式",
-        "twoFactorDesc": "登录或转账时，将通过短信或 Email 方式授权。",
+        "twoFactorDesc": "登录或转账时，将通过短信或邮箱方式授权。",
         "details": {
             "profile": "资料",
             "visibleTo": "是否公开",
