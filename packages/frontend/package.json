@@ -2,7 +2,6 @@
   "homepage": "https://wallet.near.org",
   "name": "@near-wallet/frontend",
   "version": "0.1.0",
-  "private": true,
   "dependencies": {
     "@ledgerhq/hw-transport-u2f": "^5.34.0",
     "@near-wallet/feature-flags": "^0.0.2",
