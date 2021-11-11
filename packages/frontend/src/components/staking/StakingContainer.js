@@ -8,10 +8,10 @@ import { Mixpanel } from '../../mixpanel/index';
 import { getBalance } from '../../redux/actions/account';
 import {
     updateStaking,
-    staking as stakingActions,
-    handleStakingAction
+    handleStakingAction,
+    handleUpdateCurrent
 } from '../../redux/actions/staking';
-import { selectAccountHas2fa, selectAccountId, selectBalance } from '../../redux/slices/account';
+import { selectAccountHas2fa, selectAccountHasLockup, selectAccountId, selectBalance } from '../../redux/slices/account';
 import { selectLedgerHasLedger } from '../../redux/slices/ledger';
 import { selectStakingSlice } from '../../redux/slices/staking';
 import { selectStatusSlice } from '../../redux/slices/status';
@@ -199,7 +199,7 @@ export function StakingContainer({ history, match }) {
 
     const handleSwitchAccount = (accountId) => {
         setStakingAccountSelected(accountId);
-        dispatch(stakingActions.updateCurrent(accountId));
+        dispatch(handleUpdateCurrent(accountId));
     };
 
     const handleAction = async (action, validator, amount) => {
