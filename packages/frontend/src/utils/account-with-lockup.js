@@ -224,7 +224,7 @@ async function getAccountBalance(limitedAccountData = false) {
                         let totalTime = vestingInformation.vestingEnd.sub(
                             vestingInformation.vestingStart
                         );
-                        unvestedAmount = lockupAmount.mul(timeLeft).div(totalTime);
+                        unvestedAmount = new BN(lockupAmount).mul(timeLeft).div(totalTime);
                     }
                 }
             }
