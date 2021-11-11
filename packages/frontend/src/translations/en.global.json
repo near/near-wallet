@@ -140,7 +140,10 @@
             "error": "An error occured. Your send transaction was cancelled."
         },
         "createNewAccount": {
-            "error": "Account creation failed. You may want to try again."
+            "error": "Account creation failed. You may want to try again.",
+            "accountExists": {
+                "error": "Account creation failed. Account already exists."
+            }
         }
     },
     "account": {
