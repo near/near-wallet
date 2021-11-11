@@ -2,6 +2,7 @@ const { KeyPair } = require("near-api-js");
 const { parseSeedPhrase } = require("near-seed-phrase");
 const assert = require("assert");
 const { random } = require("lodash");
+const { BN } = require("bn.js");
 
 const generateNUniqueRandomNumbersInRange = ({ from, to }, n) => {
     assert(n <= Math.abs(from - to) + 1, "Range needs to have at least N unique numbers");
@@ -32,11 +33,17 @@ function getWorkerAccountRegex(workerIndex) {
     return new RegExp(`w${workerIndex}-[0-9]+-[0-9]+.${process.env.BANK_ACCOUNT}`);
 }
 
+const bnSaturatingSub = (a, b) => {
+    let res = a.sub(b);
+    return res.gte(new BN(0)) ? res : new BN(0);
+};
+
 module.exports = {
     generateNUniqueRandomNumbersInRange,
     getKeyPairFromSeedPhrase,
     generateTestAccountId,
     getTestAccountSeedPhrase,
     getWorkerAccountId,
-    getWorkerAccountRegex
+    getWorkerAccountRegex,
+    bnSaturatingSub
 };

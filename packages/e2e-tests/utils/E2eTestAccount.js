@@ -60,18 +60,18 @@ class E2eTestAccount {
         return this.initialize();
     }
     // fully unlocked / vested by default
-    async createTestLockupSubAccountInstance({ release_duration, lockup_timestamp, vesting_schedule } = {}) {
+    async createTestLockupSubAccountInstance({ amount, release_duration, lockup_timestamp, vesting_schedule, v2Wasm } = {}) {
         if (!this.nearApiJsAccount) {
             throw new Error("Account needs to be initialized to spawn sub accounts");
         }
         // creates a testinglockup subaccount with a lockup_timestamp (locked until) in 1 minute with a release_duration (period to linearly unlock) of 1 minute
         const lockupSubaccountId = `testinglockup.${this.accountId}`;
         const lockupSubaccountSeedphrase = `${lockupSubaccountId} ${process.env.TEST_ACCOUNT_SEED_PHRASE}`;
-        const lockupWasm = await fetchLockupContract();
+        const lockupWasm = await fetchLockupContract({ v2Wasm });
         let minuteInNanosBN = new BN("1").mul(new BN("60000000000"));
 
         return new E2eTestAccount(lockupSubaccountId, lockupSubaccountSeedphrase, this.nearApiJsAccount).create({
-            amount: "5.0",
+            amount: amount || "5.0",
             contractWasm: lockupWasm,
             initFunction: "new",
             initArgs: {
@@ -86,7 +86,7 @@ class E2eTestAccount {
                 },
                 release_duration: release_duration || minuteInNanosBN.toString(),
                 staking_pool_whitelist_account_id: "whitelist.f863973.m0",
-                foundation_account_id: null,
+                foundation_account_id: vesting_schedule ? this.accountId : null,
             },
         });
     }
