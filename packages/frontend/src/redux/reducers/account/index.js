@@ -199,7 +199,16 @@ const account = handleActions({
                 loading: true
             }
         }
-    })
+    }),
+    [staking.getLockup]: (state, { error, payload, ready }) => 
+        (!ready || error)
+            ? {
+                ...state 
+            }
+            : {
+                ...state,
+                hasLockup: !!payload
+            },
 }, initialState);
 
 export default reduceReducers(
