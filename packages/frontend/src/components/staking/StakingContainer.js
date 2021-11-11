@@ -172,8 +172,8 @@ export function StakingContainer({ history, match }) {
     const hasLedger = useSelector(selectLedgerHasLedger);
     const staking = useSelector(selectStakingSlice);
     const nearTokenFiatValueUSD = useSelector(selectNearTokenFiatValueUSD);
+    const hasLockup = useSelector(selectAccountHasLockup);
 
-    const hasLockup = !!staking.lockupId;
     const { currentAccount } = staking;
     const stakingAccounts = staking.accounts;
     const validators = staking.allValidators;
