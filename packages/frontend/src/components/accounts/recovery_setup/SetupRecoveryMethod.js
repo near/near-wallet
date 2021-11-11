@@ -307,6 +307,7 @@ class SetupRecoveryMethod extends Component {
             }
         } catch (e) {
             this.setState({ settingUpNewAccount: false });
+            throw e;
         }
     }
 
