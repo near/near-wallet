@@ -1,6 +1,7 @@
 [build]
     publish = "./dist"
     command = "yarn build"
+    ignore = "/bin/false"
 
 [build.environment]
     DISABLE_PHONE_RECOVERY = "yes"
