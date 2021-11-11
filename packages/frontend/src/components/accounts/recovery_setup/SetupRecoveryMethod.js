@@ -245,34 +245,41 @@ class SetupRecoveryMethod extends Component {
                     });
                 } catch (e) {
                     console.warn(e.code);
-                    const isNewAccount = await checkIsNew(accountId);
-                    if (!isNewAccount) {
-                        const accessKeys = await wallet.getAccessKeys(accountId) || [];
-                        const publicKeys = accessKeys.map(key => key.public_key);
-                        const publicKeyExistsOnAccount = publicKeys.includes(recoveryKeyPair.publicKey.toString());
 
-                        if (publicKeyExistsOnAccount) {
-                            try {
-                                await wallet.saveAndMakeAccountActive(accountId);
-                                await wallet.addLocalKeyAndFinishSetup(accountId, method.kind, recoveryKeyPair.publicKey);
-                            } catch (e) {
-                                showCustomAlert({
-                                    success: false,
-                                    messageCodeHeader: 'error',
-                                    errorMessage: e.message
-                                });
-                                redirectTo('/recover-account');
-                            }
-                        } else {
-                            showCustomAlert({
-                                success: false,
-                                messageCodeHeader: 'error',
-                                messageCode: 'walletErrorCodes.createNewAccount.accountExists.error',
-                                errorMessage: e.message
-                            });
-                        }
-                    } else {
+                    const isNewAccount = await checkIsNew(accountId);
+                    if (isNewAccount) {
+                        // No on-chain account exists; fallback to implicit or verified account flow
                         await fundCreateAccount(accountId, recoveryKeyPair, method.kind);
+                        return;
+                    }
+
+                    // on-chain account exists; verify that it is owned by the current key
+                    const accessKeys = await wallet.getAccessKeys(accountId) || [];
+                    const publicKeys = accessKeys.map(key => key.public_key);
+                    const publicKeyExistsOnAccount = publicKeys.includes(recoveryKeyPair.publicKey.toString());
+
+                    if (!publicKeyExistsOnAccount) {
+                        // Someone else must've created the account (or a two-tabs-open situation)
+                        showCustomAlert({
+                            success: false,
+                            messageCodeHeader: 'error',
+                            messageCode: 'walletErrorCodes.createNewAccount.accountExists.error',
+                            errorMessage: e.message
+                        });
+                        throw e;
+                    }
+
+                    // Assume a transient error occurred, but that the account is on-chain and we can finish the creation process
+                    try {
+                        await wallet.saveAndMakeAccountActive(accountId);
+                        await wallet.addLocalKeyAndFinishSetup(accountId, method.kind, recoveryKeyPair.publicKey);
+                    } catch (e) {
+                        showCustomAlert({
+                            success: false,
+                            messageCodeHeader: 'error',
+                            errorMessage: e.message
+                        });
+                        redirectTo('/recover-account');
                     }
                 }
                 return;
