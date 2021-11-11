@@ -29,7 +29,11 @@ export function LoginWrapper() {
 
     const accountLocalStorageAccountId = useSelector(selectAccountLocalStorageAccountId);
 
-    const requestingFullAccess = !contractId || (publicKey && contractId?.endsWith(`.${LOCKUP_ACCOUNT_ID_SUFFIX}`)) || contractId === accountLocalStorageAccountId;
+    let requestingFullAccess = !contractId || (publicKey && contractId?.endsWith(`.${LOCKUP_ACCOUNT_ID_SUFFIX}`)) || contractId === accountLocalStorageAccountId;
+    const requestAccountIdOnly = !publicKey && !contractId;
+    if (requestAccountIdOnly) {
+        requestingFullAccess = false;
+    }
     const loginAccessType = requestingFullAccess ? LOGIN_ACCESS_TYPES.FULL_ACCESS : LOGIN_ACCESS_TYPES.LIMITED_ACCESS;
 
     if (invalidContractId) {
