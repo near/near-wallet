@@ -161,7 +161,6 @@ export function NFTDetail({ match, location, history }) {
         NonFungibleTokens.getToken(contractId, tokenId)
             .then(token => {
                 token.contract_id = contractId;
-                console.log(token);
                 setNft(token);
                 setOwnerId(token.owner_id);
             });
