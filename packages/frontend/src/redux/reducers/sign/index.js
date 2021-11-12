@@ -68,8 +68,8 @@ const sign = handleActions({
             ? RETRY_TX.INCREASE
             : undefined;
         
-        const tryRetryTx = retryTxDirection && !state.transactions.some((t) => 
-            t.actions && t.actions.some((a) => a.functionCall && a.functionCall.gas && (
+        const tryRetryTx = retryTxDirection && !state.transactions.every((t) => 
+            t.actions && t.actions.every((a) => a.functionCall && a.functionCall.gas && (
                 state.retryTxDirection === RETRY_TX.INCREASE 
                 && (
                     a.functionCall.gas.gt(new BN(RETRY_TX.GAS.MAX))
