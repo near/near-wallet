@@ -258,7 +258,7 @@ const StyledContainer = styled.div`
 `;
 
 export default function NFTTransferModal({ open, onClose, nft, accountId, setOwnerId }) {
-    const [ receiverId, setReceiverId ] = useState();
+    const [ receiverId, setReceiverId ] = useState('');
     const [ result, setResult ] = useState();
     const [ sending, setSending ] = useState(false);
     const [ viewType, setViewType ] = useState('transfer');
