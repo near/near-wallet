@@ -3,8 +3,7 @@ import cloneDeep from 'lodash.cloneDeep';
 import { utils, transactions as transaction } from 'near-api-js';
 import { handleActions } from 'redux-actions';
 
-import { parseTransactionsToSign, makeAccountActive } from '../../actions/account';
-import { calculateGasLimit, changeGasForTransactions, handleSignTransactions, RETRY_TX, SIGN_STATUS } from '../../slices/sign';
+import { calculateGasLimit, increaseGasForTransactions, handleSignTransactions, RETRY_TX, SIGN_STATUS } from '../../slices/sign';
 
 const initialState = {
     status: SIGN_STATUS.NEEDS_CONFIRMATION
@@ -42,7 +41,7 @@ const sign = handleActions({
         const { retryTxDirection, status } = state;
 
         const transactions = status === SIGN_STATUS.RETRY_TRANSACTION
-            ? changeGasForTransactions({ 
+            ? increaseGasForTransactions({ 
                 transactions: cloneDeep(state.transactions),
                 retryTxDirection: state.retryTxDirection || retryTxDirection }
             )
@@ -67,18 +66,13 @@ const sign = handleActions({
     [handleSignTransactions.rejected]: (state, { error }) => {
         const retryTxDirection = error.message.includes('Exceeded the prepaid gas')
             ? RETRY_TX.INCREASE
-            : error.message.includes('TotalPrepaidGasExceeded')
-                ? RETRY_TX.DECREASE
-                : undefined;
+            : undefined;
         
         const tryRetryTx = retryTxDirection && !state.transactions.some((t) => 
             t.actions && t.actions.some((a) => a.functionCall && a.functionCall.gas && (
                 (
                     state.retryTxDirection === RETRY_TX.INCREASE 
                     && (a.functionCall.gas.add(new BN(RETRY_TX.GAS.DIFF))).gt(new BN(RETRY_TX.GAS.MAX))
-                ) || (
-                    state.retryTxDirection === RETRY_TX.DECREASE 
-                    && (a.functionCall.gas.sub(new BN(RETRY_TX.GAS.DIFF))).lte(new BN(RETRY_TX.GAS.MIN))
                 )
             ))
         );

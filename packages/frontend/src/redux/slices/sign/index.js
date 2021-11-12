@@ -20,11 +20,9 @@ export const SIGN_STATUS = {
 
 export const RETRY_TX = {
     INCREASE: 'increase',
-    DECREASE: 'decrease',
     GAS: {
         DIFF: '25000000000000',
         MAX: '300000000000000',
-        MIN: '150000000000000'
     }
 };
 
@@ -76,14 +74,12 @@ export function addQueryParams(baseUrl, queryParams) {
     return url.toString();
 }
 
-export const changeGasForTransactions = ({ transactions, retryTxDirection }) => {
+export const increaseGasForTransactions = ({ transactions, retryTxDirection }) => {
     transactions.forEach((t, i) => {
         t.actions && t.actions.forEach((a, j) => {
             if(a.functionCall && a.functionCall.gas) {
                 if ((retryTxDirection) === RETRY_TX.INCREASE) {
                     a.functionCall.gas = a.functionCall.gas.add(new BN(RETRY_TX.GAS.DIFF));
-                } else if ((retryTxDirection) === RETRY_TX.DECREASE) {
-                    a.functionCall.gas = a.functionCall.gas.sub(new BN(RETRY_TX.GAS.DIFF));
                 }
             }
         });
@@ -127,7 +123,7 @@ export const selectSignRetryTxDirection = createSelector(
 export const selectSignFeesGasLimitIncludingGasChanges = createSelector(
     [selectSignTransactions, selectSignRetryTxDirection],
     (transactions, retryTxDirection) => {
-        const tx = changeGasForTransactions({ transactions: cloneDeep(transactions), retryTxDirection});
+        const tx = increaseGasForTransactions({ transactions: cloneDeep(transactions), retryTxDirection});
         return calculateGasLimit(tx.flatMap(t => t.actions));
     }
 );
