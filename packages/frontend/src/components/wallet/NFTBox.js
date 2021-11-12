@@ -131,7 +131,6 @@ const StyledContainer = styled.div`
 const NFTBox = ({ tokenDetails, history }) => {
     const {
         contractName,
-        ownerId,
         contractMetadata: { icon, name },
         ownedTokensMetadata,
         numberByContractName
