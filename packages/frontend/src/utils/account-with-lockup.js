@@ -33,7 +33,7 @@ async function signAndSendTransaction(...args) {
 }
 
 async function signAndSendTransactionV1(receiverId, actions) {
-    return signAndSendTransactionV2({ receiverId, actions })
+    return signAndSendTransactionV2.call(this, { receiverId, actions })
 }
 
 async function signAndSendTransactionV2({ receiverId, actions }) {
