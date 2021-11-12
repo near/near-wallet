@@ -33,11 +33,11 @@ async function signAndSendTransaction(...args) {
 }
 
 async function signAndSendTransactionV1(receiverId, actions) {
-    return signAndSendTransactionV2.call(this, { receiverId, actions })
+    return signAndSendTransactionV2.call(this, { receiverId, actions });
 }
 
 async function signAndSendTransactionV2({ receiverId, actions }) {
-    const { available: balance } = await this.wrappedAccount.getAccountBalance()
+    const { available: balance } = await this.wrappedAccount.getAccountBalance();
 
     // TODO: Extract code to compute total cost of transaction
     const total = actions.map(action => action?.transfer?.deposit || action?.functionCall?.deposit)
