@@ -257,7 +257,7 @@ const StyledContainer = styled.div`
     }
 `;
 
-export default function NFTTransferModal({ open, onClose, nft, accountId }) {
+export default function NFTTransferModal({ open, onClose, nft, accountId, setOwnerId }) {
     const [ receiverId, setReceiverId ] = useState();
     const [ result, setResult ] = useState();
     const [ sending, setSending ] = useState(false);
@@ -265,20 +265,18 @@ export default function NFTTransferModal({ open, onClose, nft, accountId }) {
     const [ accountIdIsValid, setAccountIdIsValid] = useState(false);
     const fungibleTokens = useFungibleTokensIncludingNEAR();
     const nearBalance = fungibleTokens[0].balance;
-    console.log('nearbalance', nearBalance);
     const balanceToShow = formatNearAmount(nearBalance);
     const dispatch = useDispatch();
 
     const { localAlert } = useSelector(({ status }) => status);
 
-    function onTransferSuccess(result, nft) {
+    function onTransferSuccess(result, newOwnerId) {
         setResult(result);
-        console.log(result.transaction.hash);
+        setOwnerId(newOwnerId);
         setViewType('success');
     }
 
-    async function sendNFT (nft, receiverId, onSuccess) {
-        console.log('sending nft', nft, receiverId);
+    async function sendNFT (nft, receiverId) {
         setSending(true);
         try {
             const { contract_id, token_id, owner_id } = nft;
@@ -289,11 +287,8 @@ export default function NFTTransferModal({ open, onClose, nft, accountId }) {
                 receiverId
             });
 
-            console.log('sent nft');
-            console.log(res);
-            onSuccess(res, Object.assign({}, nft, { ownerId: receiverId }));
+            onTransferSuccess(res, receiverId);
         } catch (err) {
-            console.error(err);
             dispatch(showCustomAlert({
                 success: false,
                 messageCodeHeader: 'error',
@@ -401,7 +396,7 @@ export default function NFTTransferModal({ open, onClose, nft, accountId }) {
                                     className='next-btn'
                                     type='submit'
                                     sending={sending}
-                                    onClick={() => sendNFT(nft, receiverId, onTransferSuccess)}
+                                    onClick={() => sendNFT(nft, receiverId)}
                                 >
                                     <Translate id='NFTTransfer.confirm'/>
                                 </FormButton>
@@ -441,7 +436,7 @@ export default function NFTTransferModal({ open, onClose, nft, accountId }) {
                                 <FormButton
                                     className='next-btn'
                                     type='submit'
-                                    onClick={() => window.location.reload()}
+                                    onClick={onClose}
                                 >
                                     <Translate id='NFTTransfer.continue' />
                                 </FormButton>

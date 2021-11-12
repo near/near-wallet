@@ -150,11 +150,12 @@ export function NFTDetail({ match, location, history }) {
     const accountId = useSelector(selectAccountId);
     const fungibleTokens = useFungibleTokensIncludingNEAR();
     const nearBalance = fungibleTokens[0].balance;
+
     const contractId = match.params.contractId;
     const tokenId = match.params.tokenId;
     const [ nft, setNft ] = useState();
+    const [ ownerId, setOwnerId ] = useState();
     const [transferNftDetail, setTransferNftDetail] = useState();
-    console.log('loading nft detail', contractId, tokenId);
 
     useEffect(() => {
         NonFungibleTokens.getToken(contractId, tokenId)
@@ -162,6 +163,7 @@ export function NFTDetail({ match, location, history }) {
                 token.contract_id = contractId;
                 console.log(token);
                 setNft(token);
+                setOwnerId(token.owner_id);
             });
     }, []);
 
@@ -193,7 +195,7 @@ export function NFTDetail({ match, location, history }) {
                             <UserIconGrey color='#9a9a9a' />
                         </UserIcon>
                         <span>
-                            { nft.owner_id }
+                            { ownerId }
                         </span>
                     </div>
                 </div>
@@ -201,7 +203,7 @@ export function NFTDetail({ match, location, history }) {
                 <FormButton 
                     className='transfer-btn'
                     color='gray-gray' 
-                    disabled={nft.owner_id !== accountId || !nearBalance}
+                    disabled={ownerId !== accountId || !nearBalance}
                     onClick={() => setTransferNftDetail(nft)}
                 >
                     {arrowSVG()}
@@ -212,6 +214,7 @@ export function NFTDetail({ match, location, history }) {
                         open={!!transferNftDetail}
                         onClose={() => setTransferNftDetail()}
                         nft={transferNftDetail}
+                        setOwnerId={setOwnerId}
                         accountId={accountId}>
                         nearBalance={ getNEARBalance() }
                     </NFTTransferModal>
