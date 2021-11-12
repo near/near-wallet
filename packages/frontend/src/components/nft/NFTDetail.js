@@ -200,7 +200,7 @@ export function NFTDetail({ match, location, history }) {
 
                 <FormButton 
                     className='transfer-btn'
-                    color='gray-black' 
+                    color='gray-gray' 
                     disabled={nft.owner_id !== accountId || !nearBalance}
                     onClick={() => setTransferNftDetail(nft)}
                 >
