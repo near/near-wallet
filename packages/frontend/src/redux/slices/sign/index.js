@@ -79,13 +79,17 @@ export function addQueryParams(baseUrl, queryParams) {
 }
 
 export const increaseGasForTransactions = ({ transactions, retryTxDirection }) => {
-    transactions.forEach((t, i) => {
-        t.actions && t.actions.forEach((a, j) => {
+    transactions.forEach((t) => {
+        const oneFunctionCallAction = t.actions && t.actions.filter((a) => !!a.functionCall).length === 1;
+
+        t.actions && t.actions.forEach((a) => {
             if(a.functionCall && a.functionCall.gas && retryTxDirection === RETRY_TX.INCREASE) {
-                a.functionCall.gas = BN.min(
-                    new BN(RETRY_TX.GAS.MAX),
-                    a.functionCall.gas.add(new BN(RETRY_TX.GAS.DIFF))
-                );
+                oneFunctionCallAction
+                    ? a.functionCall.gas = new BN(RETRY_TX.GAS.MAX)
+                    : a.functionCall.gas = BN.min(
+                        new BN(RETRY_TX.GAS.MAX),
+                        a.functionCall.gas.add(new BN(RETRY_TX.GAS.DIFF))
+                    );
             }
         });
     });
