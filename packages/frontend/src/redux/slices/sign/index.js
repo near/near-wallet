@@ -1,4 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
+import BN from 'bn.js';
+import { cloneDeep } from "lodash";
 import { createSelector } from "reselect";
 
 import { Mixpanel } from "../../../mixpanel";
@@ -14,6 +16,16 @@ export const SIGN_STATUS = {
     RETRY_TRANSACTION: 'retry-tx',
     SUCCESS: 'success',
     ERROR: 'error'
+};
+
+export const RETRY_TX = {
+    INCREASE: 'increase',
+    DECREASE: 'decrease',
+    GAS: {
+        DIFF: '25000000000000',
+        MAX: '300000000000000',
+        MIN: '150000000000000'
+    }
 };
 
 export const handleSignTransactions = createAsyncThunk(
@@ -63,6 +75,26 @@ export function addQueryParams(baseUrl, queryParams) {
     }
     return url.toString();
 }
+
+export const changeGasForTransactions = ({ transactions, retryTxDirection }) => {
+    transactions.forEach((t, i) => {
+        t.actions && t.actions.forEach((a, j) => {
+            if(a.functionCall && a.functionCall.gas) {
+                if ((retryTxDirection) === RETRY_TX.INCREASE) {
+                    a.functionCall.gas = a.functionCall.gas.add(new BN(RETRY_TX.GAS.DIFF));
+                } else if ((retryTxDirection) === RETRY_TX.DECREASE) {
+                    a.functionCall.gas = a.functionCall.gas.sub(new BN(RETRY_TX.GAS.DIFF));
+                }
+            }
+        });
+    });
+    return transactions;
+};
+
+export const calculateGasLimit = (actions) => actions
+    .filter(a => Object.keys(a)[0] === 'functionCall')
+    .map(a => a.functionCall.gas)
+    .reduce((totalGas, gas) => totalGas.add(gas), new BN(0)).toString();
 
 // Top level selectors
 export const selectSignSlice = (state) => state[SLICE_NAME];

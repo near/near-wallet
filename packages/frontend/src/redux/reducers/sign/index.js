@@ -3,19 +3,8 @@ import cloneDeep from 'lodash.cloneDeep';
 import { utils, transactions as transaction } from 'near-api-js';
 import { handleActions } from 'redux-actions';
 
-import { Mixpanel } from "../../../mixpanel";
 import { parseTransactionsToSign, makeAccountActive } from '../../actions/account';
-import { handleSignTransactions, SIGN_STATUS } from '../../slices/sign';
-
-const RETRY_TX = {
-    INCREASE: 'increase',
-    DECREASE: 'decrease',
-    GAS: {
-        DIFF: '25000000000000',
-        MAX: '300000000000000',
-        MIN: '150000000000000'
-    }
-};
+import { calculateGasLimit, changeGasForTransactions, handleSignTransactions, RETRY_TX, SIGN_STATUS } from '../../slices/sign';
 
 const initialState = {
     status: SIGN_STATUS.NEEDS_CONFIRMATION
@@ -24,11 +13,6 @@ const initialState = {
 const deserializeTransactionsFromString = (transactionsString) => transactionsString.split(',')
     .map(str => Buffer.from(str, 'base64'))
     .map(buffer => utils.serialize.deserialize(transaction.SCHEMA, transaction.Transaction, buffer));
-
-const calculateGasLimit = (actions) => actions
-    .filter(a => Object.keys(a)[0] === 'functionCall')
-    .map(a => a.functionCall.gas)
-    .reduce((totalGas, gas) => totalGas.add(gas), new BN(0)).toString();
 
 const sign = handleActions({
     [parseTransactionsToSign]: (state, { payload: { transactions: transactionsString, callbackUrl, meta } }) => {
@@ -57,23 +41,12 @@ const sign = handleActions({
     [handleSignTransactions.pending]: (state) => {
         const { retryTxDirection, status } = state;
 
-        let transactions;
-        if (status === SIGN_STATUS.RETRY_TRANSACTION) {
-            transactions = cloneDeep(state.transactions);
-            transactions.forEach((t, i) => {
-                t.actions && t.actions.forEach((a, j) => {
-                    if(a.functionCall && a.functionCall.gas) {
-                        if ((state.retryTxDirection || retryTxDirection) === RETRY_TX.INCREASE) {
-                            a.functionCall.gas = a.functionCall.gas.add(new BN(RETRY_TX.GAS.DIFF));
-                        } else if ((state.retryTxDirection || retryTxDirection) === RETRY_TX.DECREASE) {
-                            a.functionCall.gas = a.functionCall.gas.sub(new BN(RETRY_TX.GAS.DIFF));
-                        }
-                    }
-                });
-            });
-        } else {
-            transactions = state.transactions;
-        }
+        const transactions = status === SIGN_STATUS.RETRY_TRANSACTION
+            ? changeGasForTransactions({ 
+                transactions: cloneDeep(state.transactions),
+                retryTxDirection: state.retryTxDirection || retryTxDirection }
+            )
+            : state.transactions;
 
         return {
             ...state,
