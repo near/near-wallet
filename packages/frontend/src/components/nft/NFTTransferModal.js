@@ -54,7 +54,7 @@ const StyledContainer = styled.div`
         align-items: center;
         position: relative;
 
-        width: 375px;
+        width: 100%;
         margin-top: 16px;
 
         background: #FFFFFF;
@@ -63,15 +63,15 @@ const StyledContainer = styled.div`
 
         .from-box {
             position: relative;
-            width: 375px;
+            width: 100%;
             height: 74px;
             border-top: 1px solid #F0F0F1;
         }
 
         .to-box {
             position: relative;
-            width: 375px;
-            height: 53px;
+            width: 100%;
+            height: 74px;
             border-top: 1px solid #F0F0F1;
         }
 
@@ -106,7 +106,7 @@ const StyledContainer = styled.div`
         flex-direction: column;
         position: relative;
 
-        width: 375px;
+        width: 100%;
         height: 78px;
         margin-top: 16px;
 
@@ -246,15 +246,13 @@ const StyledContainer = styled.div`
         }
     }
 
-    .success-footer {
-        display: flex;
+    .success-bottons {
         align-items: center;
-        width: 100%;
-        border-top: 1px solid #F0F0F1;
-        margin-top: 60px;
+        margin-left: auto;
+        margin-right: auto;
 
-        button {
-            width: 185px;
+        > button {
+            width: 185px !important;
         }
     }
 `;
@@ -430,21 +428,25 @@ export default function NFTTransferModal({ open, onClose, nft, accountId }) {
                         </p>
                     </div>
 
-                    <div className='full-width success-footer'>
-                        <FormButton
-                            type='button'
-                            // linkTo={`${EXPLORER_URL}/transactions/${result.transaction.hash}`}
-                            color='gray-black'
-                        >
-                            <Translate id='NFTTransfer.view-receipt' />
-                        </FormButton>
-                        <FormButton
-                            className='next-btn'
-                            type='submit'
-                            onClick={onClose}
-                        >
-                            <Translate id='NFTTransfer.continue' />
-                        </FormButton>
+                    <div className='full-width'>
+                        <ModalFooter>
+                            <div className='success-bottons'>
+                                <FormButton
+                                    type='button'
+                                    linkTo={`${EXPLORER_URL}/transactions/${result.transaction.hash}`}
+                                    color='gray-gray'
+                                >
+                                    <Translate id='NFTTransfer.view-receipt' />
+                                </FormButton>
+                                <FormButton
+                                    className='next-btn'
+                                    type='submit'
+                                    onClick={() => window.location.reload()}
+                                >
+                                    <Translate id='NFTTransfer.continue' />
+                                </FormButton>
+                            </div>
+                        </ModalFooter>
                     </div>
                 </StyledContainer>
             }
