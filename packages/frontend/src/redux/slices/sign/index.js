@@ -42,6 +42,10 @@ export const handleSignTransactions = createAsyncThunk(
                 try {
                     transactionsHashes = await wallet.signAndSendTransactions(transactions, accountId);
                 } catch (error) {
+                    if (error.message.includes('TotalPrepaidGasExceeded')) {
+                        Mixpanel.track('SIGN - too much gas detected');
+                    }
+
                     dispatch(showCustomAlert({
                         success: false,
                         messageCodeHeader: 'error',
