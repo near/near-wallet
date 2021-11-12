@@ -70,9 +70,10 @@ const sign = handleActions({
         
         const tryRetryTx = retryTxDirection && !state.transactions.some((t) => 
             t.actions && t.actions.some((a) => a.functionCall && a.functionCall.gas && (
-                (
-                    state.retryTxDirection === RETRY_TX.INCREASE 
-                    && (a.functionCall.gas.add(new BN(RETRY_TX.GAS.DIFF))).gt(new BN(RETRY_TX.GAS.MAX))
+                state.retryTxDirection === RETRY_TX.INCREASE 
+                && (
+                    a.functionCall.gas.gt(new BN(RETRY_TX.GAS.MAX))
+                    || a.functionCall.gas.eq(new BN(RETRY_TX.GAS.MAX))
                 )
             ))
         );

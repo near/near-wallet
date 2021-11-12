@@ -79,7 +79,11 @@ export const increaseGasForTransactions = ({ transactions, retryTxDirection }) =
         t.actions && t.actions.forEach((a, j) => {
             if(a.functionCall && a.functionCall.gas) {
                 if ((retryTxDirection) === RETRY_TX.INCREASE) {
-                    a.functionCall.gas = a.functionCall.gas.add(new BN(RETRY_TX.GAS.DIFF));
+                    if (a.functionCall.gas.add(new BN(RETRY_TX.GAS.DIFF)).gt(new BN(RETRY_TX.GAS.MAX))) {
+                        a.functionCall.gas = new BN(RETRY_TX.GAS.MAX);
+                    } else {
+                        a.functionCall.gas = a.functionCall.gas.add(new BN(RETRY_TX.GAS.DIFF));
+                    }
                 }
             }
         });
