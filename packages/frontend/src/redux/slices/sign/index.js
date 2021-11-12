@@ -123,3 +123,11 @@ export const selectSignRetryTxDirection = createSelector(
     [selectSignSlice],
     (sign) => sign.retryTxDirection
 );
+
+export const selectSignFeesGasLimitIncludingGasChanges = createSelector(
+    [selectSignTransactions, selectSignRetryTxDirection],
+    (transactions, retryTxDirection) => {
+        const tx = changeGasForTransactions({ transactions: cloneDeep(transactions), retryTxDirection});
+        return calculateGasLimit(tx.flatMap(t => t.actions));
+    }
+);

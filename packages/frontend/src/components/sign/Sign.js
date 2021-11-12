@@ -7,7 +7,7 @@ import { withRouter } from 'react-router-dom';
 import { Mixpanel } from '../../mixpanel';
 import { redirectTo } from '../../redux/actions/account';
 import { selectAccountSlice } from '../../redux/slices/account';
-import { addQueryParams, handleSignTransactions, selectSignSlice, SIGN_STATUS } from '../../redux/slices/sign';
+import { addQueryParams, handleSignTransactions, selectSignFeesGasLimitIncludingGasChanges, selectSignSlice, SIGN_STATUS } from '../../redux/slices/sign';
 import { selectStatusActionStatus } from '../../redux/slices/status';
 import SignContainer from './SignContainer';
 import SignTransferCancelled from './SignTransferCancelled';
@@ -66,7 +66,7 @@ class Sign extends Component {
     }
 
     renderSubcomponent = () => {
-        const { account: { url, balance }, totalAmount, sensitiveActionsCounter, status, dispatch, fees } = this.props;
+        const { account: { url, balance }, totalAmount, sensitiveActionsCounter, status, dispatch, gasLimit } = this.props;
 
         const txTotalAmount = new BN(totalAmount); // TODO: add gas cost, etc
         const availableBalance = balance?.available;
@@ -104,7 +104,7 @@ class Sign extends Component {
                 return <SignTransferRetry
                             handleRetry={this.handleAllow}
                             handleDeny={this.handleDeny}
-                            gasLimit={new BN(fees?.gasLimit || '0').div(new BN('1000000000000')).toString()}
+                            gasLimit={new BN(gasLimit).div(new BN('1000000000000')).toString()}
                         />;
             case SIGN_STATUS.ERROR:
                 // TODO: Figure out how to handle different error types
@@ -122,7 +122,8 @@ class Sign extends Component {
 const mapStateToProps = (state) => ({
     account: selectAccountSlice(state),
     ...selectSignSlice(state),
-    signTxStatus: selectStatusActionStatus(state).SIGN_AND_SEND_TRANSACTIONS
+    signTxStatus: selectStatusActionStatus(state).SIGN_AND_SEND_TRANSACTIONS,
+    gasLimit: selectSignFeesGasLimitIncludingGasChanges(state)
 });
 
 export const SignWithRouter = connect(
