@@ -85,7 +85,7 @@ const CustomContainer = styled(Container)`
     }
 `;
 
-const SignTransferRetry = ({ handleRetry, handleDeny, gasLimit }) => (
+const SignTransferRetry = ({ handleRetry, handleCancel, gasLimit }) => (
     <CustomContainer>
         <div className='icon'>
             <img src={RetryImage} alt='Retry' />
@@ -117,7 +117,7 @@ const SignTransferRetry = ({ handleRetry, handleDeny, gasLimit }) => (
         </div>
         <div className='buttons'>
             <FormButton
-                onClick={handleDeny}
+                onClick={handleCancel}
                 color='gray-blue'
             >
                 <Translate id='button.cancel' />

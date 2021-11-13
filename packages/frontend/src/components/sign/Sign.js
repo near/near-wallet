@@ -22,7 +22,7 @@ class Sign extends Component {
         sending: false,
     }
 
-    handleDeny = e => {
+    handleCancel = e => {
         e.preventDefault();
         Mixpanel.track("SIGN Deny the transaction");
         const { callbackUrl, meta, signTxStatus } = this.props;
@@ -81,7 +81,7 @@ class Sign extends Component {
                             {...this.state}
                             appTitle={url && url.referrer}
                             handleAllow={this.handleAllow}
-                            handleDeny={this.handleDeny}
+                            handleCancel={this.handleCancel}
                             handleDetails={this.handleDetails}
                             sensitiveActionsCounter={sensitiveActionsCounter}
                             txTotalAmount={txTotalAmount}
@@ -103,12 +103,12 @@ class Sign extends Component {
             case SIGN_STATUS.RETRY_TRANSACTION:
                 return <SignTransferRetry
                             handleRetry={this.handleAllow}
-                            handleDeny={this.handleDeny}
+                            handleCancel={this.handleCancel}
                             gasLimit={new BN(gasLimit).div(new BN('1000000000000')).toString()}
                         />;
             case SIGN_STATUS.ERROR:
                 // TODO: Figure out how to handle different error types
-                return <SignTransferCancelled handleDeny={this.handleDeny} />;
+                return <SignTransferCancelled handleCancel={this.handleCancel} />;
             default:
                 return <b><Translate id='sign.unexpectedStatus' />: {status}</b>;
         }
