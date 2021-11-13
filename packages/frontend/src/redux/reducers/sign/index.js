@@ -3,6 +3,7 @@ import cloneDeep from 'lodash.clonedeep';
 import { utils, transactions as transaction } from 'near-api-js';
 import { handleActions } from 'redux-actions';
 
+import { parseTransactionsToSign, makeAccountActive } from '../../actions/account';
 import { calculateGasLimit, increaseGasForTransactions, handleSignTransactions, RETRY_TX, SIGN_STATUS } from '../../slices/sign';
 
 const initialState = {
