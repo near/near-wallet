@@ -202,9 +202,7 @@ const account = handleActions({
     }),
     [staking.getLockup]: (state, { error, payload, ready }) => 
         (!ready || error)
-            ? {
-                ...state 
-            }
+            ? state
             : {
                 ...state,
                 hasLockup: !!payload
