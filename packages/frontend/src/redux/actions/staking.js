@@ -42,6 +42,7 @@ import {
     selectStakingFindContractByValidatorId,
     selectStakingLockupId
 } from '../slices/staking';
+import { selectStakingCurrentAccountbyAccountId } from '../slices/staking';
 import { getBalance } from './account';
 
 const {
@@ -499,10 +500,10 @@ export const updateStaking = (currentAccountId, recentlyStakedValidators) => asy
         await dispatch(handleStakingUpdateLockup());
     }
 
-    let currentAccount = getState().staking.accounts.find((account) => account.accountId === currentAccountId);
+    let currentAccount = selectStakingCurrentAccountbyAccountId(getState(), { accountId: currentAccountId });
     
     if (!currentAccount) {
-        currentAccount = getState().staking.accounts.find((account) => account.accountId === accountId);
+        currentAccount = selectStakingCurrentAccountbyAccountId(getState(), { accountId });
         setStakingAccountSelected(accountId);
     }
 
@@ -510,6 +511,6 @@ export const updateStaking = (currentAccountId, recentlyStakedValidators) => asy
 };
 
 export const handleUpdateCurrent = (accountId) => async (dispatch, getState) => {
-    let currentAccount = getState().staking.accounts.find((account) => account.accountId === accountId);
+    let currentAccount = selectStakingCurrentAccountbyAccountId(getState(), { accountId });
     dispatch(staking.updateCurrent({ currentAccount }));
 };
