@@ -27,17 +27,9 @@ export function decorateWithLockup(account) {
     return decorated;
 }
 
-async function signAndSendTransaction(...args) {
-    if(args.length === 1) return signAndSendTransactionV2.apply(this, args);
-    else return signAndSendTransactionV1.apply(this, args);
-}
-
-async function signAndSendTransactionV1(receiverId, actions) {
-    return signAndSendTransactionV2.call(this, { receiverId, actions });
-}
-
-async function signAndSendTransactionV2({ receiverId, actions }) {
+async function signAndSendTransaction(signAndSendTransactionOptions) {
     const { available: balance } = await this.wrappedAccount.getAccountBalance();
+    const { actions } = signAndSendTransactionOptions;
 
     // TODO: Extract code to compute total cost of transaction
     const total = actions.map(action => action?.transfer?.deposit || action?.functionCall?.deposit)
@@ -52,7 +44,7 @@ async function signAndSendTransactionV2({ receiverId, actions }) {
         await this.transferAllFromLockup(missingAmount);
     }
 
-    return await this.wrappedAccount.signAndSendTransaction.call(this, { receiverId, actions });
+    return await this.wrappedAccount.signAndSendTransaction.call(this, signAndSendTransactionOptions);
 }
 
 async function deleteLockupAccount(lockupAccountId) {

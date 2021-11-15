@@ -1053,7 +1053,7 @@ class Wallet {
             // See https://github.com/near/near-wallet/issues/1856
             const recreateTransaction = account.deployMultisig || true;
             if (recreateTransaction) {
-                ({ status, transaction } = await account.signAndSendTransaction(receiverId, actions));
+                ({ status, transaction } = await account.signAndSendTransaction({ receiverId, actions }));
             } else {
                 // TODO: Maybe also only take receiverId and actions as with multisig path?
                 const [, signedTransaction] = await nearApiJs.transactions.signTransaction(receiverId, nonce, actions, blockHash, this.connection.signer, accountId, NETWORK_ID);
