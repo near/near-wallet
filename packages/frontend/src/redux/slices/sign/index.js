@@ -28,9 +28,9 @@ export const handleSignTransactions = createAsyncThunk(
     async (_, thunkAPI) => {
         const { dispatch, getState } = thunkAPI;
         let transactionsHashes;
-        const retryTx = selectSignRetryTx(getState());
+        const status = selectSignStatus(getState());
 
-        const mixpanelName = `SIGN${retryTx ? ` - RETRY` : ''}`;
+        const mixpanelName = `SIGN${status === SIGN_STATUS.RETRY_TRANSACTION ? ` - RETRYRETRY WITH INCREASED GAS` : ''}`;
         await Mixpanel.withTracking(mixpanelName,
             async () => {
                 const transactions = selectSignTransactions(getState());
@@ -119,11 +119,6 @@ export const selectSignMeta = createSelector(
 export const selectSignStatus = createSelector(
     [selectSignSlice],
     (sign) => sign.status
-);
-
-export const selectSignRetryTx = createSelector(
-    [selectSignSlice],
-    (sign) => sign.retryTx
 );
 
 export const selectSignFeesGasLimitIncludingGasChanges = createSelector(
