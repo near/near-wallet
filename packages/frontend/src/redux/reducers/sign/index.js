@@ -61,24 +61,30 @@ const sign = handleActions({
         error: undefined
     }),
     [handleSignTransactions.rejected]: (state, { error }) => {
-        const retryTx = error.message.includes('Exceeded the prepaid gas');
+        const notEnoughGasAttached = error.message.includes('Exceeded the prepaid gas');
+
+        const hasAtLeastOneFunctionCallAction = state.transactions.some((t) => {
+            return (t.actions || []).some((a) => a && a.functionCall);
+        });
         
-        const tryRetryTx = retryTx && !state.transactions.every((t) => 
-            t.actions && t.actions.every((a) => a.functionCall && a.functionCall.gas && (
-                (
-                    a.functionCall.gas.gt(new BN(RETRY_TX_GAS.MAX))
-                    || a.functionCall.gas.eq(new BN(RETRY_TX_GAS.MAX))
-                )
-            ))
-        );
+        const canRetryWithIncreasedGas = notEnoughGasAttached && hasAtLeastOneFunctionCallAction && state.transactions.some((t) => {
+            if (!t.actions) { return false; }
+    
+            return t.actions.some((a) => {
+                // We can only increase gas for actions that are function calls and still have < RETRY_TX.GAS.MAX gas allocated
+                if (!a || !a.functionCall) { return false; }
+    
+                return a.functionCall.gas.lt(new BN(RETRY_TX_GAS.MAX));
+            });
+        });
 
         return {
             ...state,
-            status: tryRetryTx
+            status: canRetryWithIncreasedGas
                 ? SIGN_STATUS.RETRY_TRANSACTION
                 : SIGN_STATUS.ERROR,
             error,
-            retryTx
+            retryTx: notEnoughGasAttached
         };
     },
     [makeAccountActive]: () => {
