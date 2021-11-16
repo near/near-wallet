@@ -10,10 +10,9 @@ const config = {
     timeout: 60000,
     use: {
         baseURL: process.env.WALLET_URL || "https://wallet.testnet.near.org",
-        headless: false,
+        headless: true,
         viewport: { width: 1280, height: 720 },
         ignoreHTTPSErrors: true,
-        video: "on-first-retry",
         storageState: {
             origins: [
                 {
