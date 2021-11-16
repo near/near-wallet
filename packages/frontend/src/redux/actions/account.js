@@ -34,7 +34,6 @@ import { WalletError } from '../../utils/walletError';
 import refreshAccountOwner from '../sharedThunks/refreshAccountOwner';
 import { 
     selectAccountAccountsBalances,
-    selectAccountBalanceLockedAmount,
     selectAccountId,
     selectAccountUrl,
     selectAccountUrlCallbackUrl,
@@ -49,6 +48,7 @@ import {
     selectAccountUrlTransactions,
     selectBalance
 } from '../slices/account';
+import { selectAccountHasLockup } from '../slices/account';
 import { selectAllAccountsBalanceLockedAmount } from '../slices/allAccounts';
 import { selectAvailableAccounts } from '../slices/availableAccounts';
 import { 
@@ -78,7 +78,7 @@ export const getProfileStakingDetails = (externalAccountId) => async (dispatch, 
 
     const lockupIdExists = externalAccountId
         ? !!selectAllAccountsBalanceLockedAmount(getState(), { externalAccountId })
-        : !!getState().account.hasLockup;
+        : selectAccountHasLockup(getState());
 
     lockupIdExists
         && dispatch(handleStakingUpdateLockup(externalAccountId));
