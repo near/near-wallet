@@ -83,8 +83,7 @@ const sign = handleActions({
             status: canRetryWithIncreasedGas
                 ? SIGN_STATUS.RETRY_TRANSACTION
                 : SIGN_STATUS.ERROR,
-            error,
-            retryTx: notEnoughGasAttached
+            error
         };
     },
     [makeAccountActive]: () => {
