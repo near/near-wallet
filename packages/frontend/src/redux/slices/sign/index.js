@@ -80,14 +80,23 @@ export const increaseGasForTransactions = ({ transactions }) => {
         const oneFunctionCallAction = t.actions && t.actions.filter((a) => !!a.functionCall).length === 1;
 
         t.actions && t.actions.forEach((a) => {
-            if(a.functionCall && a.functionCall.gas) {
-                oneFunctionCallAction
-                    ? a.functionCall.gas = new BN(RETRY_TX_GAS.MAX)
-                    : a.functionCall.gas = BN.min(
-                        new BN(RETRY_TX_GAS.MAX),
-                        a.functionCall.gas.add(new BN(RETRY_TX_GAS.DIFF))
-                    );
+            if (!(a.functionCall && a.functionCall.gas)) { 
+                return false;
             }
+
+            if (oneFunctionCallAction) {
+                // If we only have a single functionCall type action, it is probably safe to immediately try RETRY_TX_GAS.MAX for that one action
+                a.functionCall.gas = new BN(RETRY_TX_GAS.MAX);
+                return;
+            }
+
+            // If there are more than one functionCall type actions, we will try to incrementally increase
+            // gas allocated -- we don't increase straight to RETRY_TX_GAS.MAX because it is highly likely that we will
+            // attach too much gas and encounter a `TotalPrepaidGasExceeded` type of error
+            a.functionCall.gas = BN.min(
+                new BN(RETRY_TX_GAS.MAX),
+                a.functionCall.gas.add(new BN(RETRY_TX_GAS.DIFF))
+            );
         });
     });
     return transactions;
