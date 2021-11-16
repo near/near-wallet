@@ -49,11 +49,9 @@ pipeline {
                     stages {
                         stage('e2e-tests:build') {
                             steps {
-                                nodejs(nodeJSInstallationName: 'node14-lts') {
-                                    dir("$WORKSPACE/packages/e2e-tests") {
-                                        sh 'yarn install'
-                                        sh 'yarn test'
-                                    }
+                                dir("$WORKSPACE/packages/e2e-tests") {
+                                    sh 'yarn install'
+                                    sh 'yarn test'
                                 }
                             }
                         }
@@ -76,14 +74,12 @@ pipeline {
                                         TOKEN_CONTRACTS = 'meta.pool.testnet'
                                     }
                                     steps {
-                                        nodejs(nodeJSInstallationName: 'node14-lts') {
-                                            dir("$WORKSPACE/packages/frontend") {
-                                                sh 'yarn install'
-                                                sh 'yarn build'
-                                                sh 'yarn test'
-                                                sh "rm -rf $FRONTEND_TESTNET_BUNDLE_PATH"
-                                                sh "mv $FRONTEND_BUNDLE_PATH $FRONTEND_TESTNET_BUNDLE_PATH"
-                                            }
+                                        dir("$WORKSPACE/packages/frontend") {
+                                            sh 'yarn install'
+                                            sh 'yarn build'
+                                            sh 'yarn test'
+                                            sh "rm -rf $FRONTEND_TESTNET_BUNDLE_PATH"
+                                            sh "mv $FRONTEND_BUNDLE_PATH $FRONTEND_TESTNET_BUNDLE_PATH"
                                         }
                                     }
                                 }
@@ -92,13 +88,11 @@ pipeline {
                                         branch 'stable'
                                     }
                                     steps {
-                                        nodejs(nodeJSInstallationName: 'node14-lts') {
-                                            dir("$WORKSPACE/packages/frontend") {
-                                                sh 'yarn install'
-                                                sh 'yarn build'
-                                                sh 'yarn test'
-                                                sh "mv $FRONTEND_BUNDLE_PATH $FRONTEND_TESTNET_BUNDLE_PATH"
-                                            }
+                                        dir("$WORKSPACE/packages/frontend") {
+                                            sh 'yarn install'
+                                            sh 'yarn build'
+                                            sh 'yarn test'
+                                            sh "mv $FRONTEND_BUNDLE_PATH $FRONTEND_TESTNET_BUNDLE_PATH"
                                         }
                                     }
                                 }
