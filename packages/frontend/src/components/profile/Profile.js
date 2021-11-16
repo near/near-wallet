@@ -18,7 +18,7 @@ import {
     getBalance
 } from '../../redux/actions/account';
 import { selectProfileBalance } from '../../redux/reducers/selectors/balance';
-import { selectAccountAuthorizedApps, selectAccountHas2fa, selectAccountId, selectAccountLedgerKey } from '../../redux/slices/account';
+import { selectAccountAuthorizedApps, selectAccountHas2fa, selectAccountHasLockup, selectAccountId, selectAccountLedgerKey } from '../../redux/slices/account';
 import { actions as recoveryMethodsActions, selectRecoveryMethodsByAccountId } from '../../redux/slices/recoveryMethods';
 import { selectNearTokenFiatValueUSD } from '../../redux/slices/tokenFiatValues';
 import isMobile from '../../utils/isMobile';
@@ -142,6 +142,7 @@ export function Profile({ match }) {
     const account = useAccount(accountId);
     const dispatch = useDispatch();
     const profileBalance = selectProfileBalance(account);
+    const hasLockup = useSelector(selectAccountHasLockup);
 
     const userRecoveryMethods = useSelector((state) => selectRecoveryMethodsByAccountId(state, { accountId: account.accountId }));
     const twoFactor = has2fa && userRecoveryMethods && userRecoveryMethods.filter(m => m.kind.includes('2fa'))[0];
@@ -208,7 +209,7 @@ export function Profile({ match }) {
 
     return (
         <StyledContainer>
-            {isOwner && profileBalance?.lockupIdExists && new BN(profileBalance.lockupBalance.unlocked.availableToTransfer).gte(MINIMUM_AVAILABLE_TO_TRANSFER) &&
+            {isOwner && hasLockup && new BN(profileBalance.lockupBalance.unlocked.availableToTransfer).gte(MINIMUM_AVAILABLE_TO_TRANSFER) &&
                 <LockupAvailTransfer
                     available={profileBalance.lockupBalance.unlocked.availableToTransfer || '0'}
                     onTransfer={handleTransferFromLockup}
@@ -223,6 +224,7 @@ export function Profile({ match }) {
                         <BalanceContainer
                             account={account}
                             profileBalance={profileBalance}
+                            hasLockup={hasLockup}
                             MIN_BALANCE_FOR_GAS_FORMATTED={formatNearAmount(MIN_BALANCE_FOR_GAS)}
                         />
                     ) : (
