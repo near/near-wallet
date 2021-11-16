@@ -143,6 +143,9 @@
             "error": "Account creation failed. You may want to try again.",
             "accountExists": {
                 "error": "Account creation failed. Account already exists."
+            },
+            "accountCreated": {
+                "error": "Account creation succeded but an error occured. Please import your account."
             }
         }
     },
