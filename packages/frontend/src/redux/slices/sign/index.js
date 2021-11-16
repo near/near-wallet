@@ -18,12 +18,9 @@ export const SIGN_STATUS = {
     ERROR: 'error'
 };
 
-export const RETRY_TX = {
-    INCREASE: 'increase',
-    GAS: {
-        DIFF: '25000000000000',
-        MAX: '300000000000000',
-    }
+export const RETRY_TX_GAS = {
+    DIFF: '100000000000',
+    MAX: '300000000000000'
 };
 
 export const handleSignTransactions = createAsyncThunk(
@@ -31,9 +28,9 @@ export const handleSignTransactions = createAsyncThunk(
     async (_, thunkAPI) => {
         const { dispatch, getState } = thunkAPI;
         let transactionsHashes;
-        const retryTxDirection = selectSignRetryTxDirection(getState());
+        const retryTx = selectSignRetryTx(getState());
 
-        const mixpanelName = `SIGN${retryTxDirection ? ` - RETRY - ${retryTxDirection}` : ''}`;
+        const mixpanelName = `SIGN${retryTx ? ` - RETRY` : ''}`;
         await Mixpanel.withTracking(mixpanelName,
             async () => {
                 const transactions = selectSignTransactions(getState());
@@ -78,17 +75,17 @@ export function addQueryParams(baseUrl, queryParams) {
     return url.toString();
 }
 
-export const increaseGasForTransactions = ({ transactions, retryTxDirection }) => {
+export const increaseGasForTransactions = ({ transactions }) => {
     transactions.forEach((t) => {
         const oneFunctionCallAction = t.actions && t.actions.filter((a) => !!a.functionCall).length === 1;
 
         t.actions && t.actions.forEach((a) => {
-            if(a.functionCall && a.functionCall.gas && retryTxDirection === RETRY_TX.INCREASE) {
+            if(a.functionCall && a.functionCall.gas) {
                 oneFunctionCallAction
-                    ? a.functionCall.gas = new BN(RETRY_TX.GAS.MAX)
+                    ? a.functionCall.gas = new BN(RETRY_TX_GAS.MAX)
                     : a.functionCall.gas = BN.min(
-                        new BN(RETRY_TX.GAS.MAX),
-                        a.functionCall.gas.add(new BN(RETRY_TX.GAS.DIFF))
+                        new BN(RETRY_TX_GAS.MAX),
+                        a.functionCall.gas.add(new BN(RETRY_TX_GAS.DIFF))
                     );
             }
         });
@@ -124,15 +121,15 @@ export const selectSignStatus = createSelector(
     (sign) => sign.status
 );
 
-export const selectSignRetryTxDirection = createSelector(
+export const selectSignRetryTx = createSelector(
     [selectSignSlice],
-    (sign) => sign.retryTxDirection
+    (sign) => sign.retryTx
 );
 
 export const selectSignFeesGasLimitIncludingGasChanges = createSelector(
-    [selectSignTransactions, selectSignRetryTxDirection],
-    (transactions, retryTxDirection) => {
-        const tx = increaseGasForTransactions({ transactions: cloneDeep(transactions), retryTxDirection});
+    [selectSignTransactions],
+    (transactions) => {
+        const tx = increaseGasForTransactions({ transactions: cloneDeep(transactions)});
         return calculateGasLimit(tx.flatMap(t => t.actions));
     }
 );

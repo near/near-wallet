@@ -3,8 +3,7 @@ import cloneDeep from 'lodash.clonedeep';
 import { utils, transactions as transaction } from 'near-api-js';
 import { handleActions } from 'redux-actions';
 
-import { parseTransactionsToSign, makeAccountActive } from '../../actions/account';
-import { calculateGasLimit, increaseGasForTransactions, handleSignTransactions, RETRY_TX, SIGN_STATUS } from '../../slices/sign';
+import { calculateGasLimit, increaseGasForTransactions, handleSignTransactions, RETRY_TX_GAS, SIGN_STATUS } from '../../slices/sign';
 
 const initialState = {
     status: SIGN_STATUS.NEEDS_CONFIRMATION
@@ -39,13 +38,10 @@ const sign = handleActions({
         };
     },
     [handleSignTransactions.pending]: (state) => {
-        const { retryTxDirection, status } = state;
+        const { status } = state;
 
         const transactions = status === SIGN_STATUS.RETRY_TRANSACTION
-            ? increaseGasForTransactions({ 
-                transactions: cloneDeep(state.transactions),
-                retryTxDirection: state.retryTxDirection || retryTxDirection }
-            )
+            ? increaseGasForTransactions({ transactions: cloneDeep(state.transactions) })
             : state.transactions;
 
         return {
@@ -65,27 +61,24 @@ const sign = handleActions({
         error: undefined
     }),
     [handleSignTransactions.rejected]: (state, { error }) => {
-        const retryTxDirection = error.message.includes('Exceeded the prepaid gas')
-            ? RETRY_TX.INCREASE
-            : undefined;
+        const retryTx = error.message.includes('Exceeded the prepaid gas');
         
-        const tryRetryTx = retryTxDirection && !state.transactions.every((t) => 
+        const tryRetryTx = retryTx && !state.transactions.every((t) => 
             t.actions && t.actions.every((a) => a.functionCall && a.functionCall.gas && (
-                state.retryTxDirection === RETRY_TX.INCREASE 
-                && (
-                    a.functionCall.gas.gt(new BN(RETRY_TX.GAS.MAX))
-                    || a.functionCall.gas.eq(new BN(RETRY_TX.GAS.MAX))
+                (
+                    a.functionCall.gas.gt(new BN(RETRY_TX_GAS.MAX))
+                    || a.functionCall.gas.eq(new BN(RETRY_TX_GAS.MAX))
                 )
             ))
         );
-        
+
         return {
             ...state,
             status: tryRetryTx
                 ? SIGN_STATUS.RETRY_TRANSACTION
                 : SIGN_STATUS.ERROR,
             error,
-            retryTxDirection: state.retryTxDirection || retryTxDirection
+            retryTx
         };
     },
     [makeAccountActive]: () => {
