@@ -19,6 +19,7 @@ import {
 } from '../../redux/actions/account';
 import { selectProfileBalance } from '../../redux/reducers/selectors/balance';
 import { selectAccountAuthorizedApps, selectAccountHas2fa, selectAccountHasLockup, selectAccountId, selectAccountLedgerKey } from '../../redux/slices/account';
+import { selectAllAccountsHasLockup } from '../../redux/slices/allAccounts';
 import { actions as recoveryMethodsActions, selectRecoveryMethodsByAccountId } from '../../redux/slices/recoveryMethods';
 import { selectNearTokenFiatValueUSD } from '../../redux/slices/tokenFiatValues';
 import isMobile from '../../utils/isMobile';
@@ -142,7 +143,9 @@ export function Profile({ match }) {
     const account = useAccount(accountId);
     const dispatch = useDispatch();
     const profileBalance = selectProfileBalance(account);
-    const hasLockup = useSelector(selectAccountHasLockup);
+    const hasLockup = isOwner
+        ? useSelector(selectAccountHasLockup)
+        : useSelector((state) => selectAllAccountsHasLockup(state, { accountId }));
 
     const userRecoveryMethods = useSelector((state) => selectRecoveryMethodsByAccountId(state, { accountId: account.accountId }));
     const twoFactor = has2fa && userRecoveryMethods && userRecoveryMethods.filter(m => m.kind.includes('2fa'))[0];

@@ -353,24 +353,27 @@ export const { staking } = createActions({
             };
         },
         UPDATE_CURRENT: null,
-        GET_LOCKUP: async (accountId) => {
-            let lockupId;
-            if (REACT_APP_USE_TESTINGLOCKUP && accountId.length < 64) {
-                lockupId = `testinglockup.${accountId}`;
-            } else {
-                lockupId = getLockupAccountId(accountId);
-            }
+        GET_LOCKUP: [
+            async ({ accountId }) => {
+                let lockupId;
+                if (REACT_APP_USE_TESTINGLOCKUP && accountId.length < 64) {
+                    lockupId = `testinglockup.${accountId}`;
+                } else {
+                    lockupId = getLockupAccountId(accountId);
+                }
 
-            let contract;
-            try {
-                await (await new Account(wallet.connection, lockupId)).state();
-                contract = await new Contract(await wallet.getAccount(accountId), lockupId, { ...lockupMethods });
-            } catch (e) {
-                return;
-            }
+                let contract;
+                try {
+                    await (await new Account(wallet.connection, lockupId)).state();
+                    contract = await new Contract(await wallet.getAccount(accountId), lockupId, { ...lockupMethods });
+                } catch (e) {
+                    return;
+                }
 
-            return { contract, lockupId, accountId };
-        },
+                return { contract, lockupId, accountId };
+            },
+            ({ accountId, isOwner }) => ({ accountId, isOwner })
+        ],
         GET_VALIDATORS: async (accountIds, accountId) => {
             const { current_validators, next_validators, current_proposals } = await wallet.connection.provider.validators();
             const currentValidators = shuffle(current_validators).map(({ account_id }) => account_id);
@@ -426,9 +429,12 @@ const handleGetAccounts = () => async (dispatch, getState) => {
     return await dispatch(staking.getAccounts(accounts));
 };
 
-export const handleGetLockup = (accountId) => async (dispatch, getState) => {
+export const handleGetLockup = (externalAccountId) => async (dispatch, getState) => {
     try {
-        await dispatch(staking.getLockup(accountId || selectAccountId(getState())));
+        await dispatch(staking.getLockup({
+            accountId: externalAccountId || selectAccountId(getState()),
+            isOwner: !externalAccountId || externalAccountId === selectAccountId(getState())
+        }));
     } catch(e) {
         if (!/No contract for account/.test(e.message)) {
             throw e;

@@ -49,7 +49,7 @@ import {
     selectBalance
 } from '../slices/account';
 import { selectAccountHasLockup } from '../slices/account';
-import { selectAllAccountsBalanceLockedAmount } from '../slices/allAccounts';
+import { selectAllAccountsHasLockup } from '../slices/allAccounts';
 import { selectAvailableAccounts } from '../slices/availableAccounts';
 import { 
     actions as flowLimitationActions,
@@ -77,7 +77,7 @@ export const getProfileStakingDetails = (externalAccountId) => async (dispatch, 
     await dispatch(handleStakingUpdateAccount([], externalAccountId));
 
     const lockupIdExists = externalAccountId
-        ? !!selectAllAccountsBalanceLockedAmount(getState(), { externalAccountId })
+        ? selectAllAccountsHasLockup(getState(), { accountId: externalAccountId })
         : selectAccountHasLockup(getState());
 
     lockupIdExists
