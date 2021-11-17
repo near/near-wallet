@@ -103,7 +103,7 @@ pipeline {
                                 not { anyOf { branch 'master' ; branch 'stable' } }
                             }
                             steps {
-                                withAWS(region: env.AWS_REGION) {
+                                withAWS(region: env.AWS_REGION, credentials: 'wallet-deployment') {
                                     s3Upload(
                                         bucket: env.BUILD_ARTIFACT_BUCKET,
                                         includePathPattern: "*",
@@ -149,7 +149,7 @@ pipeline {
                                 branch 'master'
                             }
                             steps {
-                                withAWS(region: env.AWS_REGION) {
+                                withAWS(region: env.AWS_REGION, credentials: 'wallet-deployment') {
                                     s3Upload(
                                         bucket: env.TESTNET_STATIC_SITE_BUCKET,
                                         includePathPattern: "*",
@@ -165,7 +165,7 @@ pipeline {
                             }
                             steps {
                                 input(message: 'Deploy to mainnet?')
-                                withAWS(region: env.AWS_REGION) {
+                                withAWS(region: env.AWS_REGION, credentials: 'wallet-deployment') {
                                     s3Upload(
                                         bucket: env.MAINNET_STATIC_SITE_BUCKET,
                                         includePathPattern: "*",
