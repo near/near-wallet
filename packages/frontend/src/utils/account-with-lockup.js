@@ -13,6 +13,21 @@ import {
 import { WalletError } from './walletError';
 
 // TODO: Should gas allowance be dynamically calculated
+export const LOCKUP_MIN_BALANCE_OLD = new BN(parseNearAmount('35'));
+export const LOCKUP_MIN_BALANCE = new BN(parseNearAmount('3.5'));
+const LOCKUP_CONTRACT_CODE_HASH_PR_MAP = {
+    // Mapping of all PR #s that change lockup_contract.wasm on https://github.com/near/core-contracts to code_hashes
+    '9j5n82GyE1fkc4jm85V3uBHTYbn93DwPRGGkrsLQWUaW': 16,
+    'BadiRegnoDgvjDBMqnq7whiRHoKE46gtT27kbYsJVvMP': 52,
+    'G7t5rWNeRXpgvYcQoSQdPfvWL5pUdrZffsNanVTSedKQ': 60,
+    '7jdaTDyAWNuWSVtLNN3fH2sSCq12F8SLcvXcyEa6pxJA': 70,
+    'GCK4k18aUyAbQNLGGFpbDkJ726SSyi8HZb7CH4tDmwHm': 89,
+    '5FNwsNzPKw1jiPn8onmifVEypBKqT3SBbHTyPSnmToq1': 94,
+    '7286f6VhhjF6gKqZppQbf8ZeXCaXU7Mqu4ESA7JsuuAe': 96,
+    '3kVY9qcVRoW3B5498SMX6R3rtSLiCdmBzKs7zcnzDJ7Q': 106,
+    'Cw7bnyp4B6ypwvgZuMmJtY6rHsxP2D4PC8deqeJ3HP7D': 136,
+    '3kSoLAJpMjyHtG1s45YBbAM4vXwgGj5vFAJ4AQWcwCN9': 151
+}
 
 const BASE_GAS = new BN('25000000000000');
 
@@ -170,7 +185,6 @@ async function getAccountBalance(limitedAccountData = false) {
     try {
         const lockupAccount = new Account(this.connection, lockupAccountId);
         const lockupBalance = await lockupAccount.getAccountBalance();
-        const lockupStateStaked = new BN(lockupBalance.stateStaked);
         const {
             lockupAmount,
             releaseDuration,
@@ -186,11 +200,9 @@ async function getAccountBalance(limitedAccountData = false) {
         const { transfer_poll_account_id, transfers_timestamp } = transferInformation;
         let transfersTimestamp = transfer_poll_account_id ? await this.viewFunction(transfer_poll_account_id, 'get_result') : transfers_timestamp;
         transfersTimestamp = transfersTimestamp || (Date.now() * 1000000).toString();
+        const { code_hash: lockupContractCodeHash } = await lockupAccount.state()
 
-        const hasBrokenTimestamp = [
-            '3kVY9qcVRoW3B5498SMX6R3rtSLiCdmBzKs7zcnzDJ7Q',
-            'DiC9bKCqUHqoYqUXovAnqugiuntHWnM3cAc7KrgaHTu'
-        ].includes((await lockupAccount.state()).code_hash);
+        const hasBrokenTimestamp = LOCKUP_CONTRACT_CODE_HASH_PR_MAP[lockupContractCodeHash] < 136;
 
         const startTimestampBN = BN.max(
             new BN(transfersTimestamp).add(new BN(lockupDuration || 0)),
@@ -272,7 +284,7 @@ async function getAccountBalance(limitedAccountData = false) {
             stakedBalanceLockup: stakedBalanceLockup,
             lockupAccountId,
             stakedBalanceMainAccount,
-            lockupStateStaked
+            lockupReservedForStorage: LOCKUP_CONTRACT_CODE_HASH_PR_MAP[lockupContractCodeHash] <= 151 ? LOCKUP_MIN_BALANCE_OLD : LOCKUP_MIN_BALANCE
         };
     } catch (error) {
         if (error.message.match(/ccount ".+" doesn't exist/) || error.message.includes('does not exist while viewing') || error.message.includes('cannot find contract code for account')) {

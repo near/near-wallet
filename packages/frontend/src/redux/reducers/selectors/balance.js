@@ -21,7 +21,7 @@ export const selectProfileBalance = (walletAccount) => {
         stakedBalanceLockup,
         account,
         available,
-        lockupStateStaked
+        lockupReservedForStorage
     } = balance;
 
     const lockupIdExists = !!lockedAmount;
@@ -47,7 +47,7 @@ export const selectProfileBalance = (walletAccount) => {
 
         lockupBalance = {
             lockupBalance: new BN(totalBalance).sub(new BN(stakedBalanceLockup)).toString(),
-            reservedForStorage: lockupStateStaked.toString(),
+            reservedForStorage: lockupReservedForStorage.toString(),
             inStakingPools: {
                 sum: stakedBalanceLockup.toString(),
                 staked: lockupAccount?.totalStaked,
