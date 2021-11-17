@@ -17,7 +17,7 @@ pipeline {
 
         // s3 buckets
         BUILD_ARTIFACT_BUCKET = 'andy-dev-build-artifacts'
-        TESTNET_STATIC_SITE_BUCKET = 'andy-dev-testnet-near-wallet'
+        TESTNET_STATIC_SITE_BUCKET = 'andy-dev-test-deploy-bucket-0'
         MAINNET_STATIC_SITE_BUCKET = 'andy-dev-mainnet-near-wallet'
         E2E_ARTIFACT_PATH = "$BRANCH_NAME/$CHANGE_ID/e2e-tests"
         FRONTEND_ARTIFACT_PATH = "$BRANCH_NAME/$CHANGE_ID/frontend"
