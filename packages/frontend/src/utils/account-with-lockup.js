@@ -2,6 +2,7 @@ import BN from 'bn.js';
 import sha256 from 'js-sha256';
 import { Account, Connection, InMemorySigner, KeyPair } from 'near-api-js';
 import { InMemoryKeyStore } from 'near-api-js/lib/key_stores';
+import { parseNearAmount } from 'near-api-js/lib/utils/format';
 import { BinaryReader } from 'near-api-js/lib/utils/serialize';
 
 import {
@@ -27,7 +28,7 @@ const LOCKUP_CONTRACT_CODE_HASH_PR_MAP = {
     '3kVY9qcVRoW3B5498SMX6R3rtSLiCdmBzKs7zcnzDJ7Q': 106,
     'Cw7bnyp4B6ypwvgZuMmJtY6rHsxP2D4PC8deqeJ3HP7D': 136,
     '3kSoLAJpMjyHtG1s45YBbAM4vXwgGj5vFAJ4AQWcwCN9': 151
-}
+};
 
 const BASE_GAS = new BN('25000000000000');
 
@@ -200,7 +201,7 @@ async function getAccountBalance(limitedAccountData = false) {
         const { transfer_poll_account_id, transfers_timestamp } = transferInformation;
         let transfersTimestamp = transfer_poll_account_id ? await this.viewFunction(transfer_poll_account_id, 'get_result') : transfers_timestamp;
         transfersTimestamp = transfersTimestamp || (Date.now() * 1000000).toString();
-        const { code_hash: lockupContractCodeHash } = await lockupAccount.state()
+        const { code_hash: lockupContractCodeHash } = await lockupAccount.state();
 
         const hasBrokenTimestamp = LOCKUP_CONTRACT_CODE_HASH_PR_MAP[lockupContractCodeHash] < 136;
 
