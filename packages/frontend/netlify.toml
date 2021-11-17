@@ -6,7 +6,7 @@
     DISABLE_PHONE_RECOVERY = "yes"
     REACT_APP_NETWORK_ID = "default"
     REACT_APP_ACCOUNT_HELPER_URL = "https://helper.mainnet.near.org"
-    REACT_APP_NODE_URL = "https://rpc.mainnet.near.org"
+    REACT_APP_NODE_URL = "https://fastrpc.mainnet.near.org"
     REACT_APP_ACCESS_KEY_FUNDING_AMOUNT = "250000000000000000000000"
     NEW_ACCOUNT_AMOUNT = "500000001000000000000000000"
     REACT_APP_ACCOUNT_ID_SUFFIX = "near"
