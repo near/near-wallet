@@ -13,6 +13,7 @@ pipeline {
 
         // aws configuration
         AWS_REGION = 'us-west-2'
+        AWS_CREDENTIALS = 'aws-credentials-password'
 
         // s3 buckets
         BUILD_ARTIFACT_BUCKET = 'andy-dev-build-artifacts'
@@ -103,7 +104,7 @@ pipeline {
                                 not { anyOf { branch 'master' ; branch 'stable' } }
                             }
                             steps {
-                                withAWS(region: env.AWS_REGION, credentials: 'wallet-deployment') {
+                                withAWS(region: env.AWS_REGION, credentials: env.AWS_CREDENTIALS) {
                                     s3Upload(
                                         bucket: env.BUILD_ARTIFACT_BUCKET,
                                         includePathPattern: "*",
@@ -149,7 +150,7 @@ pipeline {
                                 branch 'master'
                             }
                             steps {
-                                withAWS(region: env.AWS_REGION, credentials: 'wallet-deployment') {
+                                withAWS(region: env.AWS_REGION, credentials: env.AWS_CREDENTIALS) {
                                     s3Upload(
                                         bucket: env.TESTNET_STATIC_SITE_BUCKET,
                                         includePathPattern: "*",
@@ -165,7 +166,7 @@ pipeline {
                             }
                             steps {
                                 input(message: 'Deploy to mainnet?')
-                                withAWS(region: env.AWS_REGION, credentials: 'wallet-deployment') {
+                                withAWS(region: env.AWS_REGION, credentials: env.AWS_CREDENTIALS) {
                                     s3Upload(
                                         bucket: env.MAINNET_STATIC_SITE_BUCKET,
                                         includePathPattern: "*",
