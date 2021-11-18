@@ -120,26 +120,6 @@ pipeline {
                 }
             }
         }
-        stage('e2e-tests') {
-            stages {
-                stage('e2e-tests:deploy') {
-                    when {
-                        allOf {
-                            branch 'master'
-                            expression { env.BUILD_E2E == 'true' }
-                        }
-                    }
-                    steps {
-                        echo 'TODO - deploy e2e-tests'
-                    }
-                }
-                stage('e2e-tests:run') {
-                    steps {
-                        echo 'TODO - trigger e2e-tests'
-                    }
-                }
-            }
-        }
         stage('packages:deploy') {
             stages {
                 stage('frontend:deploy') {
