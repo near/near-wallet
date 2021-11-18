@@ -14,7 +14,8 @@ pipeline {
         // aws configuration
         AWS_CREDENTIALS = 'aws-credentials-password'
         AWS_REGION = 'us-west-2'
-        AWS_TESTNET_ROLE = 'testnet-boulder'
+        AWS_TESTNET_ROLE = 'testnet-builder'
+        AWS_TESTNET_ROLE_ACCOUNT = '721768877541'
 
         // s3 buckets
         BUILD_ARTIFACT_BUCKET = 'andy-dev-build-artifacts'
@@ -151,7 +152,12 @@ pipeline {
                                 branch 'master'
                             }
                             steps {
-                                withAWS(region: env.AWS_REGION, credentials: env.AWS_CREDENTIALS, role: env.AWS_TESTNET_ROLE) {
+                                withAWS(
+                                    region: env.AWS_REGION,
+                                    credentials: env.AWS_CREDENTIALS,
+                                    role: env.AWS_TESTNET_ROLE,
+                                    roleAccount: env.AWS_TESTNET_ROLE_ACCOUNT
+                                ) {
                                     s3Upload(
                                         bucket: env.TESTNET_STATIC_SITE_BUCKET,
                                         includePathPattern: "*",
