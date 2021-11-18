@@ -44,7 +44,6 @@ describe("Fully vested lockup", () => {
         page,
     }) => {
         const { total: lockupTotalBalance } = await latestLockupContractAccount.getUpdatedBalance();
-        const { stateStaked: lockupStateStaked } = await latestLockupContractAccount.getUpdatedBalance();
         const homePage = new HomePage(page);
         await homePage.navigate();
         await homePage.loginWithSeedPhraseLocalStorage(latestLockupTestAccount.accountId, latestLockupTestAccount.seedPhrase);
@@ -52,7 +51,6 @@ describe("Fully vested lockup", () => {
         await profilePage.navigate();
         await expect(page).toMatchText("data-test-id=lockupAccount.total", new RegExp(formatNearAmount(lockupTotalBalance, 5)));
         await expect(page).toMatchText("data-test-id=lockupAccount.locked", /0 NEAR/);
-        await page.pause();
         await expect(page).toMatchText(
             "data-test-id=lockupAccount.unlocked",
             new RegExp(`${formatNearAmount(lockupTotalBalance, 5)} NEAR`)
@@ -63,7 +61,7 @@ describe("Fully vested lockup", () => {
         );
         await expect(page).toMatchText(
             "data-test-id=lockupAccount.reservedForStorage",
-            new RegExp(`${formatNearAmount(lockupStateStaked, 5)} NEAR`)
+            /3.5 NEAR/
         );
         await expect(page).toMatchText(
             "data-test-id=lockupAccount.accountId",
@@ -76,7 +74,6 @@ describe("Fully vested lockup", () => {
         page,
     }) => {
         const { total: lockupTotalBalance } = await v2LockupContractAccount.getUpdatedBalance();
-        const { stateStaked: lockupStateStaked } = await v2LockupContractAccount.getUpdatedBalance();
         const homePage = new HomePage(page);
         await homePage.navigate();
         await homePage.loginWithSeedPhraseLocalStorage(v2LockupTestAccount.accountId, v2LockupTestAccount.seedPhrase);
@@ -94,7 +91,7 @@ describe("Fully vested lockup", () => {
         );
         await expect(page).toMatchText(
             "data-test-id=lockupAccount.reservedForStorage",
-            new RegExp(`${formatNearAmount(lockupStateStaked, 5)} NEAR`)
+            /35 NEAR/
         );
         await expect(page).toMatchText(
             "data-test-id=lockupAccount.accountId",

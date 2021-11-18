@@ -51,7 +51,6 @@ describe("Fully unvested lockup", () => {
             latestLockupContractAccount.accountId,
             "get_liquid_owners_balance"
         );
-        const { stateStaked: lockupStateStaked } = await latestLockupContractAccount.getUpdatedBalance();
         const homePage = new HomePage(page);
         await homePage.navigate();
         await homePage.loginWithSeedPhraseLocalStorage(latestLockupTestAccount.accountId, latestLockupTestAccount.seedPhrase);
@@ -69,7 +68,7 @@ describe("Fully unvested lockup", () => {
         );
         await expect(page).toMatchText(
             "data-test-id=lockupAccount.reservedForStorage",
-            new RegExp(`${formatNearAmount(lockupStateStaked, 5)} NEAR`)
+            /3.5 NEAR/
         );
         await expect(page).toMatchText(
             "data-test-id=lockupAccount.accountId",
@@ -88,7 +87,6 @@ describe("Fully unvested lockup", () => {
             v2LockupContractAccount.accountId,
             "get_liquid_owners_balance"
         );
-        const { stateStaked: lockupStateStaked } = await v2LockupContractAccount.getUpdatedBalance();
         const homePage = new HomePage(page);
         await homePage.navigate();
         await homePage.loginWithSeedPhraseLocalStorage(v2LockupTestAccount.accountId, v2LockupTestAccount.seedPhrase);
@@ -106,7 +104,7 @@ describe("Fully unvested lockup", () => {
         );
         await expect(page).toMatchText(
             "data-test-id=lockupAccount.reservedForStorage",
-            new RegExp(`${formatNearAmount(lockupStateStaked, 5)} NEAR`)
+            /35 NEAR/
         );
         await expect(page).toMatchText(
             "data-test-id=lockupAccount.accountId",

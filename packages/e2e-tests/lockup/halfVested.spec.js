@@ -50,7 +50,6 @@ describe("haLf vested lockup", () => {
         const storageCost = new BN(parseNearAmount("3.5"));
         const lockupAvailableToTransfer = bnSaturatingSub(new BN(lockupTotalBalance), BN.max(storageCost, lockupLockedAmount));
 
-        const { stateStaked: lockupStateStaked } = await latestLockupContractAccount.getUpdatedBalance();
         const homePage = new HomePage(page);
         await homePage.navigate();
         await homePage.loginWithSeedPhraseLocalStorage(latestLockupTestAccount.accountId, latestLockupTestAccount.seedPhrase);
@@ -71,7 +70,7 @@ describe("haLf vested lockup", () => {
         );
         await expect(page).toMatchText(
             "data-test-id=lockupAccount.reservedForStorage",
-            new RegExp(`^${formatNearAmount(lockupStateStaked, 5)} NEAR`)
+            /3.5 NEAR/
         );
         await expect(page).toMatchText(
             "data-test-id=lockupAccount.accountId",
@@ -88,16 +87,15 @@ describe("haLf vested lockup", () => {
     test("v2 lockup contract displays zero as locked, correct unlocked, correct available to transfer and other info correctly", async ({
         page,
     }) => {
-        const { total: lockupTotalBalance } = await latestLockupContractAccount.getUpdatedBalance();
+        const { total: lockupTotalBalance } = await v2LockupContractAccount.getUpdatedBalance();
         const lockupLockedAmount = new BN(parseNearAmount(halfVestedLockupConfig.amount)).div(new BN("2"));
         const lockupUnlockedAmount = new BN(lockupTotalBalance).sub(lockupLockedAmount);
         const storageCost = new BN(parseNearAmount("35"));
         const lockupAvailableToTransfer = bnSaturatingSub(new BN(lockupTotalBalance), BN.max(storageCost, lockupLockedAmount));
 
-        const { stateStaked: lockupStateStaked } = await latestLockupContractAccount.getUpdatedBalance();
         const homePage = new HomePage(page);
         await homePage.navigate();
-        await homePage.loginWithSeedPhraseLocalStorage(latestLockupTestAccount.accountId, latestLockupTestAccount.seedPhrase);
+        await homePage.loginWithSeedPhraseLocalStorage(v2LockupTestAccount.accountId, v2LockupTestAccount.seedPhrase);
         const profilePage = new ProfilePage(page);
         await profilePage.navigate();
         await expect(page).toMatchText("data-test-id=lockupAccount.total", new RegExp(formatNearAmount(lockupTotalBalance, 5)));
@@ -115,11 +113,11 @@ describe("haLf vested lockup", () => {
         );
         await expect(page).toMatchText(
             "data-test-id=lockupAccount.reservedForStorage",
-            new RegExp(`^${formatNearAmount(lockupStateStaked, 5)} NEAR`)
+            /35 NEAR/
         );
         await expect(page).toMatchText(
             "data-test-id=lockupAccount.accountId",
-            new RegExp(`${latestLockupContractAccount.accountId}`)
+            new RegExp(`${v2LockupContractAccount.accountId}`)
         );
         if (lockupAvailableToTransfer.gt(new BN(0))) {
             await expect(page).toHaveSelector("data-test-id=lockupTransferToWalletButton");
