@@ -200,13 +200,16 @@ const account = handleActions({
             }
         }
     }),
-    [staking.getLockup]: (state, { error, payload, ready, meta }) => 
-        (!ready || error || !meta.isOwner)
-            ? state
-            : {
-                ...state,
-                hasLockup: !!payload
-            }
+    [staking.getLockup]: (state, { error, payload, ready, meta }) => {
+        if (!ready || error || !meta.isOwner) {
+            return state;
+        }
+
+        return {
+            ...state,
+            hasLockup: !!payload
+        };
+    }
 }, initialState);
 
 export default reduceReducers(
