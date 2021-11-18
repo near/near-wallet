@@ -4,11 +4,10 @@ import { createActions } from 'redux-actions';
 
 import {
     ACCOUNT_HELPER_URL,
-    MIN_LOCKUP_AMOUNT,
     REACT_APP_USE_TESTINGLOCKUP,
     STAKING_GAS_BASE,
 } from '../../config';
-import { getLockupAccountId } from '../../utils/account-with-lockup';
+import { getLockupAccountId, getLockupMinBalanceForStorage } from '../../utils/account-with-lockup';
 import { showAlert } from '../../utils/alerts';
 import { 
     STAKING_AMOUNT_DEVIATION,
@@ -262,9 +261,10 @@ export const { staking } = createActions({
         UPDATE_LOCKUP: async (contract, account_id, exAccountId, accountId, validators) => {
             // use MIN_LOCKUP_AMOUNT vs. actual storage amount
             const deposited = new BN(await contract.get_known_deposited_balance());
+            const { code_hash } = await contract.account.state();
             let totalUnstaked = new BN(await contract.get_owners_balance())
                 .add(new BN(await contract.get_locked_amount()))
-                .sub(MIN_LOCKUP_AMOUNT)
+                .sub(getLockupMinBalanceForStorage(code_hash))
                 .sub(deposited);
 
             // minimum displayable for totalUnstaked 

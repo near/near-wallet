@@ -161,6 +161,10 @@ function subtractReservedForGas(balance) {
     return availableBalance.isNeg() ? '0' : availableBalance.toString();
 }
 
+export function getLockupMinBalanceForStorage(code_hash) {
+    return LOCKUP_CONTRACT_CODE_HASH_PR_MAP[code_hash] <= 151 ? LOCKUP_MIN_BALANCE_OLD : LOCKUP_MIN_BALANCE;
+}
+
 async function getAccountBalance(limitedAccountData = false) {
     const balance = await this.wrappedAccount.getAccountBalance();
 
@@ -285,7 +289,7 @@ async function getAccountBalance(limitedAccountData = false) {
             stakedBalanceLockup: stakedBalanceLockup,
             lockupAccountId,
             stakedBalanceMainAccount,
-            lockupReservedForStorage: LOCKUP_CONTRACT_CODE_HASH_PR_MAP[lockupContractCodeHash] <= 151 ? LOCKUP_MIN_BALANCE_OLD : LOCKUP_MIN_BALANCE
+            lockupReservedForStorage: getLockupMinBalanceForStorage(lockupContractCodeHash)
         };
     } catch (error) {
         if (error.message.match(/ccount ".+" doesn't exist/) || error.message.includes('does not exist while viewing') || error.message.includes('cannot find contract code for account')) {
