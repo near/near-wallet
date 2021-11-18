@@ -212,7 +212,7 @@ export function Profile({ match }) {
 
     return (
         <StyledContainer>
-            {isOwner && (hasLockup || profileBalance?.lockupIdExists) && new BN(profileBalance.lockupBalance.unlocked.availableToTransfer).gte(MINIMUM_AVAILABLE_TO_TRANSFER) &&
+            {isOwner && hasLockup && new BN(profileBalance.lockupBalance.unlocked.availableToTransfer).gte(MINIMUM_AVAILABLE_TO_TRANSFER) &&
                 <LockupAvailTransfer
                     available={profileBalance.lockupBalance.unlocked.availableToTransfer || '0'}
                     onTransfer={handleTransferFromLockup}
@@ -237,6 +237,13 @@ export function Profile({ match }) {
                             number={2}
                         />
                     )}
+                    {profileBalance?.lockupIdExists &&
+                        <SkeletonLoading
+                            height='323px'
+                            show={!hasLockup}
+                            number={1}
+                        />
+                    }
                     {isOwner && authorizedApps?.length ?
                         <>
                             <hr/>

@@ -179,7 +179,7 @@ const BalanceContainer = ({ account, profileBalance, hasLockup, MIN_BALANCE_FOR_
                             </div>
                         </Accordion>
                     </div>
-                    {(hasLockup || profileBalance.lockupIdExists) &&
+                    {hasLockup &&
                         <div className='border-box'>
                             <div className='title last'>
                                 <h4><Translate id='profile.lockup.lockupId'/></h4>
