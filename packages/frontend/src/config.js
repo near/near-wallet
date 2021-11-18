@@ -1,4 +1,3 @@
-import BN from 'bn.js';
 import * as nearApiJs from 'near-api-js';
 
 export const ACCOUNT_HELPER_URL = process.env.REACT_APP_ACCOUNT_HELPER_URL || 'https://near-contract-helper.onrender.com';
