@@ -12,12 +12,13 @@ pipeline {
         FRONTEND_MAINNET_BUNDLE_PATH = "$WORKSPACE/packages/frontend/dist_mainnet"
 
         // aws configuration
-        AWS_REGION = 'us-west-2'
         AWS_CREDENTIALS = 'aws-credentials-password'
+        AWS_REGION = 'us-west-2'
+        AWS_TESTNET_ROLE = 'testnet-builder'
 
         // s3 buckets
         BUILD_ARTIFACT_BUCKET = 'andy-dev-build-artifacts'
-        TESTNET_STATIC_SITE_BUCKET = 'andy-dev-test-deploy-bucket-0'
+        TESTNET_STATIC_SITE_BUCKET = 'testnet-wallet-static-site'
         MAINNET_STATIC_SITE_BUCKET = 'andy-dev-mainnet-near-wallet'
         E2E_ARTIFACT_PATH = "$BRANCH_NAME/$CHANGE_ID/e2e-tests"
         FRONTEND_ARTIFACT_PATH = "$BRANCH_NAME/$CHANGE_ID/frontend"
@@ -150,7 +151,7 @@ pipeline {
                                 branch 'master'
                             }
                             steps {
-                                withAWS(region: env.AWS_REGION, credentials: env.AWS_CREDENTIALS) {
+                                withAWS(region: env.AWS_REGION, credentials: env.AWS_CREDENTIALS, role: env.AWS_TESTNET_ROLE) {
                                     s3Upload(
                                         bucket: env.TESTNET_STATIC_SITE_BUCKET,
                                         includePathPattern: "*",
