@@ -11,6 +11,10 @@ const { getKeyPairFromSeedPhrase, generateTestAccountId } = require("./helpers")
 const { getTestAccountSeedPhrase } = require("./helpers");
 const { fetchLockupContract } = require("../contracts");
 const { PublicKey } = require("near-api-js/lib/utils");
+const {
+    LOCKUP_CONFIGS: { FULLY_VESTED_CONFIG },
+    WALLET_NETWORK,
+} = require("../constants");
 const { createAccount, transfer, addKey, deployContract, functionCall, fullAccessKey } = transactions;
 
 class E2eTestAccount {
@@ -69,6 +73,7 @@ class E2eTestAccount {
         const lockupSubaccountSeedphrase = `${lockupSubaccountId} ${process.env.TEST_ACCOUNT_SEED_PHRASE}`;
         const lockupWasm = await fetchLockupContract({ v2Wasm });
         let minuteInNanosBN = new BN("1").mul(new BN("60000000000"));
+        const vesting_schedule_config = vesting_schedule || FULLY_VESTED_CONFIG.vesting_schedule;
 
         return new E2eTestAccount(lockupSubaccountId, lockupSubaccountSeedphrase, this.nearApiJsAccount).create({
             amount: amount || "5.0",
@@ -76,17 +81,18 @@ class E2eTestAccount {
             initFunction: "new",
             initArgs: {
                 owner_account_id: this.accountId,
-                vesting_schedule: vesting_schedule || null,
+                vesting_schedule: vesting_schedule_config,
                 lockup_duration: "0",
-                lockup_timestamp: lockup_timestamp || new BN(Date.now()).mul(new BN("1000000")).sub(minuteInNanosBN).toString(),
+                lockup_timestamp: lockup_timestamp || FULLY_VESTED_CONFIG.lockup_timestamp,
                 transfers_information: {
                     TransfersEnabled: {
-                        transfers_timestamp: new BN(Date.now()).mul(new BN("1000000")).sub(minuteInNanosBN).toString(),
+                        transfers_timestamp: new BN(Date.now()).mul(new BN("1000000")).sub(minuteInNanosBN).toString(), // 1 minute ago
                     },
                 },
-                release_duration: release_duration || minuteInNanosBN.toString(),
-                staking_pool_whitelist_account_id: "whitelist.f863973.m0",
-                foundation_account_id: vesting_schedule ? this.accountId : null,
+                release_duration: release_duration || FULLY_VESTED_CONFIG.release_duration,
+                staking_pool_whitelist_account_id:
+                    nearApiJsConnection.config.networkId === WALLET_NETWORK.MAINNET ? "system" : "whitelist.f863973.m0",
+                foundation_account_id: vesting_schedule_config ? this.accountId : null,
             },
         });
     }

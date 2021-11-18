@@ -5,33 +5,28 @@ const { test, expect } = require("../playwrightWithFixtures");
 const { HomePage } = require("../register/models/Home");
 const { bnSaturatingSub } = require("../utils/helpers");
 const { ProfilePage } = require("./models/ProfilePage");
+const {
+    LOCKUP_CONFIGS: { HALF_VESTED_CONFIG },
+} = require("../constants");
 
 const { describe, beforeAll, afterAll } = test;
 
 describe("haLf vested lockup", () => {
     let v2LockupTestAccount, latestLockupTestAccount, v2LockupContractAccount, latestLockupContractAccount;
-    const dateNowNanosBN = new BN(Date.now()).mul(new BN("1000000"));
-    const halfVestedLockupConfig = {
-        amount: "5.0",
-        release_duration: "0",
-        lockup_timestamp: dateNowNanosBN.sub(new BN("60").mul(new BN("60000000000"))).toString(), // 1 hour ago
-        vesting_schedule: {
-            VestingSchedule: {
-                start_timestamp: dateNowNanosBN.sub(new BN("525600").mul(new BN("60000000000"))).toString(), // 1 year ago
-                end_timestamp: dateNowNanosBN.add(new BN("525600").mul(new BN("60000000000"))).toString(), // 1 year from now
-                cliff_timestamp: dateNowNanosBN.toString(), // now
-            },
-        },
-    };
+    const lockupAmount = "5.0";
 
     beforeAll(async ({ bankAccount }) => {
         v2LockupTestAccount = await bankAccount.spawnRandomSubAccountInstance().create({ amount: "6.0" });
         v2LockupContractAccount = await v2LockupTestAccount.createTestLockupSubAccountInstance({
+            ...HALF_VESTED_CONFIG,
             v2Wasm: true,
-            ...halfVestedLockupConfig,
+            lockupAmount,
         });
         latestLockupTestAccount = await bankAccount.spawnRandomSubAccountInstance().create({ amount: "6.0" });
-        latestLockupContractAccount = await latestLockupTestAccount.createTestLockupSubAccountInstance(halfVestedLockupConfig);
+        latestLockupContractAccount = await latestLockupTestAccount.createTestLockupSubAccountInstance({
+            ...HALF_VESTED_CONFIG,
+            lockupAmount,
+        });
     });
 
     afterAll(async () => {
@@ -45,7 +40,7 @@ describe("haLf vested lockup", () => {
         page,
     }) => {
         const { total: lockupTotalBalance } = await latestLockupContractAccount.getUpdatedBalance();
-        const lockupLockedAmount = new BN(parseNearAmount(halfVestedLockupConfig.amount)).div(new BN("2"));
+        const lockupLockedAmount = new BN(parseNearAmount(lockupAmount)).div(new BN("2"));
         const lockupUnlockedAmount = new BN(lockupTotalBalance).sub(lockupLockedAmount);
         const storageCost = new BN(parseNearAmount("3.5"));
         const lockupAvailableToTransfer = bnSaturatingSub(new BN(lockupTotalBalance), BN.max(storageCost, lockupLockedAmount));
@@ -68,10 +63,7 @@ describe("haLf vested lockup", () => {
             "data-test-id=lockupAccount.availableToTransfer",
             new RegExp(`^${formatNearAmount(lockupAvailableToTransfer.toString(), 2)}`)
         );
-        await expect(page).toMatchText(
-            "data-test-id=lockupAccount.reservedForStorage",
-            /3.5 NEAR/
-        );
+        await expect(page).toMatchText("data-test-id=lockupAccount.reservedForStorage", /3.5 NEAR/);
         await expect(page).toMatchText(
             "data-test-id=lockupAccount.accountId",
             new RegExp(`${latestLockupContractAccount.accountId}`)
@@ -88,7 +80,7 @@ describe("haLf vested lockup", () => {
         page,
     }) => {
         const { total: lockupTotalBalance } = await v2LockupContractAccount.getUpdatedBalance();
-        const lockupLockedAmount = new BN(parseNearAmount(halfVestedLockupConfig.amount)).div(new BN("2"));
+        const lockupLockedAmount = new BN(parseNearAmount(lockupAmount)).div(new BN("2"));
         const lockupUnlockedAmount = new BN(lockupTotalBalance).sub(lockupLockedAmount);
         const storageCost = new BN(parseNearAmount("35"));
         const lockupAvailableToTransfer = bnSaturatingSub(new BN(lockupTotalBalance), BN.max(storageCost, lockupLockedAmount));
@@ -111,10 +103,7 @@ describe("haLf vested lockup", () => {
             "data-test-id=lockupAccount.availableToTransfer",
             new RegExp(`^${formatNearAmount(lockupAvailableToTransfer.toString(), 2)}`)
         );
-        await expect(page).toMatchText(
-            "data-test-id=lockupAccount.reservedForStorage",
-            /35 NEAR/
-        );
+        await expect(page).toMatchText("data-test-id=lockupAccount.reservedForStorage", /35 NEAR/);
         await expect(page).toMatchText(
             "data-test-id=lockupAccount.accountId",
             new RegExp(`${v2LockupContractAccount.accountId}`)

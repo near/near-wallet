@@ -4,33 +4,21 @@ const { formatNearAmount } = require("near-api-js/lib/utils/format");
 const { test, expect } = require("../playwrightWithFixtures");
 const { HomePage } = require("../register/models/Home");
 const { ProfilePage } = require("./models/ProfilePage");
+const { LOCKUP_CONFIGS: { FULLY_VESTED_CONFIG } } = require("../constants");
 
 const { describe, beforeAll, afterAll } = test;
 
 describe("Fully vested lockup", () => {
     let v2LockupTestAccount, latestLockupTestAccount, v2LockupContractAccount, latestLockupContractAccount;
-    const dateNowNanosBN = new BN(Date.now()).mul(new BN("1000000"));
-    const fullyVestedLockupConfig = {
-        amount: "5.0",
-        release_duration: "0",
-        lockup_timestamp: dateNowNanosBN.sub(new BN("60").mul(new BN("60000000000"))).toString(), // 1 hour ago
-        vesting_schedule: {
-            VestingSchedule: {
-                start_timestamp: dateNowNanosBN.sub(new BN("535600").mul(new BN("60000000000"))).toString(), // 1 year ago
-                end_timestamp: dateNowNanosBN.sub(new BN("60").mul(new BN("60000000000"))).toString(), // 1 hour ago
-                cliff_timestamp: dateNowNanosBN.sub(new BN("1051200").mul(new BN("60000000000"))).toString(), // 2 years ago
-            },
-        },
-    };
 
     beforeAll(async ({ bankAccount }) => {
         v2LockupTestAccount = await bankAccount.spawnRandomSubAccountInstance().create({ amount: "6.0" });
         v2LockupContractAccount = await v2LockupTestAccount.createTestLockupSubAccountInstance({
             v2Wasm: true,
-            ...fullyVestedLockupConfig,
+            ...FULLY_VESTED_CONFIG,
         });
         latestLockupTestAccount = await bankAccount.spawnRandomSubAccountInstance().create({ amount: "6.0" });
-        latestLockupContractAccount = await latestLockupTestAccount.createTestLockupSubAccountInstance(fullyVestedLockupConfig);
+        latestLockupContractAccount = await latestLockupTestAccount.createTestLockupSubAccountInstance(FULLY_VESTED_CONFIG);
     });
 
     afterAll(async () => {
