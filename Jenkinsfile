@@ -14,7 +14,7 @@ pipeline {
         // aws configuration
         AWS_CREDENTIALS = 'aws-credentials-password'
         AWS_REGION = 'us-west-2'
-        AWS_TESTNET_ROLE = 'testnet-builder'
+        AWS_TESTNET_ROLE = 'testnet-boulder'
 
         // s3 buckets
         BUILD_ARTIFACT_BUCKET = 'andy-dev-build-artifacts'
