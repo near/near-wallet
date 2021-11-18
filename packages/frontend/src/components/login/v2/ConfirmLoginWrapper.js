@@ -14,7 +14,8 @@ import ConfirmLogin from './ConfirmLogin';
 export default ({
     loginAccessType,
     contractId,
-    onClickCancel
+    onClickCancel,
+    publicKey
 }) => {
     const dispatch = useDispatch();
 
@@ -26,6 +27,7 @@ export default ({
             signedInAccountId={accountLocalStorageAccountId}
             loginAccessType={loginAccessType}
             appReferrer={accountUrlReferrer}
+            publicKey={publicKey}
             contractId={contractId}
             onClickCancel={onClickCancel}
             onClickConnect={async () => {

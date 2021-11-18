@@ -9,6 +9,7 @@ import Container from '../../common/styled/Container.css';
 import SafeTranslate from '../../SafeTranslate';
 import SwapGraphic from '../../svg/SwapGraphic';
 import GrantFullAccessModal from './GrantFullAccessModal';
+import NetworkFeeAllowance from './NetworkFeeAllowance';
 import PermissionItem from './PermissionItem';
 import LoginStyle from './style/LoginStyle.css';
 
@@ -19,6 +20,7 @@ export default ({
     loginAccessType,
     appReferrer,
     contractId,
+    publicKey,
     EXPLORER_URL
 }) => {
     const [loggingIn, setLoggingIn] = useState(false);
@@ -59,6 +61,9 @@ export default ({
                     {loginAccessType === LOGIN_ACCESS_TYPES.LIMITED_ACCESS
                         ? <LimitedAccessUI />
                         : <FullAccessUI />
+                    }
+                    {publicKey && loginAccessType === LOGIN_ACCESS_TYPES.LIMITED_ACCESS &&
+                        <NetworkFeeAllowance />
                     }
                     <FormButtonGroup>
                         <FormButton

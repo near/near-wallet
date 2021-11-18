@@ -971,6 +971,10 @@
                 "fullAccessModal": {
                     "title": "授權完整賬戶訪問？",
                     "desc": "請謹慎授權，完整訪問權限允許應用和合約操作你的賬戶。若確定繼續，請輸入你的賬戶 ID 確認繼續。"
+                },
+                "feeAllowance": {
+                    "title": "Network Fee Allowance",
+                    "desc": "The application is requesting permission to use up to ${amount} NEAR for network fees incurred during use."
                 }
             }
         }

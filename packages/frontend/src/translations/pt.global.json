@@ -823,6 +823,10 @@
                 "fullAccessModal": {
                     "title": "Grant full account access?",
                     "desc": "Proceed with caution. Full access permissions allow contracts and applications to access your token balance. To confirm, enter your account ID below."
+                },
+                "feeAllowance": {
+                    "title": "Network Fee Allowance",
+                    "desc": "The application is requesting permission to use up to ${amount} NEAR for network fees incurred during use."
                 }
             }
         }
