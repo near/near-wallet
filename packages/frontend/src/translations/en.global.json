@@ -977,7 +977,7 @@
                 },
                 "feeAllowance": {
                     "title": "Network Fee Allowance",
-                    "desc": "The application is requesting permission to use up to ${amount} NEAR for network fees incurred during use."
+                    "desc": "The application will be given permission to spend up to <b>${amount} NEAR</b> towards network fees incurred during use."
                 }
             }
         }
