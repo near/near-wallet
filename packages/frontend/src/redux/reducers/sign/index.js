@@ -1,9 +1,9 @@
 import BN from 'bn.js';
-import cloneDeep from 'lodash.clonedeep';
 import { utils, transactions as transaction } from 'near-api-js';
 import { handleActions } from 'redux-actions';
 
-import { calculateGasLimit, increaseGasForTransactions, handleSignTransactions, RETRY_TX_GAS, SIGN_STATUS } from '../../slices/sign';
+import { parseTransactionsToSign, makeAccountActive } from '../../actions/account';
+import { calculateGasLimit, increaseGasForFirstTransaction, handleSignTransactions, SIGN_STATUS, removeSuccessTransactions, updateSuccessHashes, checkAbleToIncreaseGas, getFirstTransactionWithFunctionCallAction, calculateGasForSuccessTransactions } from '../../slices/sign';
 
 const initialState = {
     status: SIGN_STATUS.NEEDS_CONFIRMATION
@@ -37,20 +37,32 @@ const sign = handleActions({
                 .length
         };
     },
+    [updateSuccessHashes]: (state, { payload }) => ({
+        ...state,
+        successHashes: [
+            ...(state.successHashes || []),
+            ...payload
+        ]
+    }),
     [handleSignTransactions.pending]: (state) => {
-        const { status } = state;
+        const { status, transactions } = state;
 
-        const transactions = status === SIGN_STATUS.RETRY_TRANSACTION
-            ? increaseGasForTransactions({ transactions: cloneDeep(state.transactions) })
-            : state.transactions;
+        let retryTransactions;
+        // prepare retryTransactions array that will be copy of the transactions - this object will be used for modifications
+        if (status === SIGN_STATUS.RETRY_TRANSACTION) {
+            // if this is the first attempt of retry, we want to use oryginal transactions array
+            retryTransactions = state.retryTransactions || state.transactions;
+            // increase gas for retryTransactions array
+            retryTransactions = increaseGasForFirstTransaction({ transactions: retryTransactions });
+        }
 
         return {
             ...state,
             status: SIGN_STATUS.IN_PROGRESS,
-            transactions,
+            retryTransactions,
             fees: {
                 ...state.transactions.fees,
-                gasLimit: calculateGasLimit(transactions.flatMap(t => t.actions))
+                gasLimit: calculateGasLimit((retryTransactions || transactions).flatMap(t => t.actions))
             }
         };
     },
@@ -63,23 +75,25 @@ const sign = handleActions({
     [handleSignTransactions.rejected]: (state, { error }) => {
         const notEnoughGasAttached = error.message.includes('Exceeded the prepaid gas');
 
-        const hasAtLeastOneFunctionCallAction = state.transactions.some((t) => {
+        // if this is the first error, we want to use oryginal transactions array because retryTransactions doesn't exists yet
+        const transactions = state.retryTransactions || state.transactions;
+        // we want to calculate the gas that was set for successfull transactions, so we will be able to show the prediction of the gas usage in the UI
+        const gasUsed = calculateGasForSuccessTransactions({ transactions: transactions, successHashes: state.successHashes });
+        // remove transactions that succedeed, so it will no be sign again
+        const retryTransactions = removeSuccessTransactions({ transactions, successHashes: state.successHashes });
+
+        const hasAtLeastOneFunctionCallAction = retryTransactions.some((t) => {
             return (t.actions || []).some((a) => a && a.functionCall);
         });
-        
-        const canRetryWithIncreasedGas = notEnoughGasAttached && hasAtLeastOneFunctionCallAction && state.transactions.some((t) => {
-            if (!t.actions) { return false; }
-    
-            return t.actions.some((a) => {
-                // We can only increase gas for actions that are function calls and still have < RETRY_TX.GAS.MAX gas allocated
-                if (!a || !a.functionCall) { return false; }
-    
-                return a.functionCall.gas.lt(new BN(RETRY_TX_GAS.MAX));
-            });
-        });
 
+        // If there are multiple tx, we want to check for the first tx with functionCall action, because it's possible that increasing gas for the other transactions will end with exceeded gas
+        const transaction = getFirstTransactionWithFunctionCallAction({ transactions: retryTransactions});
+        
+        const canRetryWithIncreasedGas = notEnoughGasAttached && hasAtLeastOneFunctionCallAction && transaction && checkAbleToIncreaseGas({ transaction });
         return {
             ...state,
+            retryTransactions,
+            gasUsed: new BN(state.gasUsed || '0').add(new BN(gasUsed || '0')),
             status: canRetryWithIncreasedGas
                 ? SIGN_STATUS.RETRY_TRANSACTION
                 : SIGN_STATUS.ERROR,
