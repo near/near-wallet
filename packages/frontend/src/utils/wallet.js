@@ -1042,6 +1042,16 @@ class Wallet {
         }
     }
 
+    async signMessage(message, accountId = this.accountId) {
+        const account = await this.getAccount(accountId);
+
+        store.dispatch(setSignTransactionStatus('in-progress'));
+        const signer = account.inMemorySigner || account.connection.signer;
+        const signed = await signer.signMessage(Buffer.from(message), accountId, NETWORK_ID);
+
+        return Buffer.from(signed.signature).toString('base64');
+    }
+
     async signAndSendTransactions(transactions, accountId = this.accountId) {
         const account = await this.getAccount(accountId);
 

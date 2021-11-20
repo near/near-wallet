@@ -2,13 +2,30 @@ import BN from 'bn.js';
 import { utils, transactions as transaction } from 'near-api-js';
 import { handleActions } from 'redux-actions';
 
-import { parseTransactionsToSign, signAndSendTransactions, setSignTransactionStatus, makeAccountActive } from '../../actions/account';
+import {
+    parseTransactionsToSign,
+    signAndSendTransactions,
+    signMessage,
+    setSignTransactionStatus,
+    makeAccountActive,
+    parseMessageToSign,
+    setSignMessageStatus,
+} from '../../actions/account';
 
 const initialState = {
     status: 'needs-confirmation'
 };
 
 const sign = handleActions({
+    [parseMessageToSign]: (state, { payload: { message: messageString, callbackUrl, meta } }) => {
+        const message = Buffer.from(messageString, 'base64');
+        return {
+            status: 'needs-confirmation',
+            callbackUrl,
+            meta,
+            message
+        };
+    },
     [parseTransactionsToSign]: (state, { payload: { transactions: transactionsString, callbackUrl, meta } }) => {
         const transactions = transactionsString.split(',')
             .map(str => Buffer.from(str, 'base64'))
@@ -59,6 +76,34 @@ const sign = handleActions({
         };
     },
     [setSignTransactionStatus]: (state, { payload }) => {
+        return {
+            ...state,
+            status: payload.status
+        };
+    },
+    [signMessage]: (state, { error, payload, ready }) => {
+
+        if (!ready) {
+            return {
+                ...state,
+                status: 'needs-confirmation'
+            };
+        }
+
+        if (error) {
+            return {
+                ...state,
+                status: 'error',
+                error: payload
+            };
+        }
+
+        return {
+            ...state,
+            status: 'success'
+        };
+    },
+    [setSignMessageStatus]: (state, { payload }) => {
         return {
             ...state,
             status: payload.status

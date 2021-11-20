@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
 import { Mixpanel } from '../../mixpanel';
-import { signAndSendTransactions, redirectTo } from '../../redux/actions/account';
+import { signAndSendTransactions, redirectTo, signMessage } from '../../redux/actions/account';
 import { selectAccountSlice } from '../../redux/slices/account';
 import { selectSignSlice } from '../../redux/slices/sign';
 import { selectStatusActionStatus } from '../../redux/slices/status';
@@ -24,7 +24,7 @@ class Sign extends Component {
     handleDeny = e => {
         e.preventDefault();
         Mixpanel.track("SIGN Deny the transaction");
-        const { callbackUrl, meta, signTxStatus } = this.props;
+        const { callbackUrl, meta, signTxStatus, signMsgStatus } = this.props;
         // TODO: Dispatch action for app redirect?
         if (this.props.callbackUrl) {
 
@@ -33,6 +33,15 @@ class Sign extends Component {
                     meta,
                     errorCode: encodeURIComponent('userRejected'),
                     errorMessage: encodeURIComponent('User rejected transaction')
+                });
+                return;
+            }
+
+            if (signMsgStatus?.success !== false) {
+                window.location.href = addQueryParams(callbackUrl, {
+                    meta,
+                    errorCode: encodeURIComponent('userRejected'),
+                    errorMessage: encodeURIComponent('User rejected signing message')
                 });
                 return;
             }
@@ -51,15 +60,24 @@ class Sign extends Component {
         await Mixpanel.withTracking("SIGN",
             async () => {
                 // TODO: Maybe this needs Redux reducer to propagate result into state?
-                const { transactions, account: { accountId }, callbackUrl, meta, dispatch } = this.props;
+                const { transactions, account: { accountId }, callbackUrl, meta, dispatch, message } = this.props;
 
-                const transactionHashes = await dispatch(signAndSendTransactions(transactions, accountId));
-                console.log('transactionHashes', transactionHashes);
-                if (this.props.callbackUrl) {
-                    window.location.href = addQueryParams(callbackUrl, {
-                        meta,
-                        transactionHashes: transactionHashes.join(',')
-                    });
+                if(transactions) {
+                    const transactionHashes = await dispatch(signAndSendTransactions(transactions, accountId));
+                    if (this.props.callbackUrl) {
+                        window.location.href = addQueryParams(callbackUrl, {
+                            meta,
+                            transactionHashes: transactionHashes.join(',')
+                        });
+                    }
+                } else if (message) {
+                    const signature = await dispatch(signMessage(message, accountId));
+                    if (this.props.callbackUrl) {
+                        window.location.href = addQueryParams(callbackUrl, {
+                            meta,
+                            signature
+                        });
+                    }
                 }
             }
         );
@@ -125,7 +143,8 @@ function addQueryParams(baseUrl, queryParams) {
 const mapStateToProps = (state) => ({
     account: selectAccountSlice(state),
     ...selectSignSlice(state),
-    signTxStatus: selectStatusActionStatus(state).SIGN_AND_SEND_TRANSACTIONS
+    signTxStatus: selectStatusActionStatus(state).SIGN_AND_SEND_TRANSACTIONS,
+    signMsgStatus: selectStatusActionStatus(state).SIGN_MESSAGE
 });
 
 export const SignWithRouter = connect(

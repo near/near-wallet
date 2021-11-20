@@ -84,6 +84,8 @@ export const handleClearUrl = () => (dispatch, getState) => {
     }
 };
 
+export const parseMessageToSign = createAction('PARSE_MESSAGE_TO_SIGN');
+
 export const parseTransactionsToSign = createAction('PARSE_TRANSACTIONS_TO_SIGN');
 
 export const handleRefreshUrl = (prevRouter) => (dispatch, getState) => {
@@ -107,9 +109,11 @@ export const handleRefreshUrl = (prevRouter) => (dispatch, getState) => {
             dispatch(refreshUrl(loadState()));
         }
         dispatch(handleFlowLimitation());
-        const { transactions, callbackUrl, meta } = getState().account.url;
+        const { transactions, callbackUrl, meta, message } = getState().account.url;
         if (transactions) {
             dispatch(parseTransactionsToSign({ transactions, callbackUrl, meta }));
+        } else if (message) {
+            dispatch(parseMessageToSign({ message, callbackUrl, meta }));
         }
     }
 };
@@ -569,6 +573,17 @@ export const { recoverAccountSecretKey } = createActions({
         wallet.recoverAccountSecretKey.bind(wallet),
         () => showAlert()
     ]
+});
+
+export const { signMessage, setSignMessageStatus } = createActions({
+    SET_SIGN_MESSAGE_STATUS: [
+        (status) => ({ status }),
+        () => ({})
+    ],
+    SIGN_MESSAGE: [
+        wallet.signMessage.bind(wallet),
+        () => showAlert({ onlyError: true })
+    ],
 });
 
 export const { signAndSendTransactions, setSignTransactionStatus, sendMoney, transferAllFromLockup } = createActions({
