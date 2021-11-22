@@ -136,15 +136,14 @@ export function NFTDetail({ match, location, history }) {
     const [ ownerId, setOwnerId ] = useState();
     const [transferNftDetail, setTransferNftDetail] = useState();
 
-    useEffect(async () => {
-        const contractMetadata = await NonFungibleTokens.getMetadata(contractId);
-
-        NonFungibleTokens.getToken(contractId, tokenId, contractMetadata.base_uri)
-            .then(token => {
+    useEffect(() => {
+        NonFungibleTokens.getMetadata(contractId).then(contractMetadata => {
+            NonFungibleTokens.getToken(contractId, tokenId, contractMetadata.base_uri).then(token => {
                 token.contract_id = contractId;
                 setNft(token);
                 setOwnerId(token.owner_id);
             });
+        });
     }, []);
 
     return (
