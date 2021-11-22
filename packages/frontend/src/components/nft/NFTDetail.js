@@ -157,18 +157,16 @@ export function NFTDetail({ match, location, history }) {
     const [ ownerId, setOwnerId ] = useState();
     const [transferNftDetail, setTransferNftDetail] = useState();
 
-    useEffect(() => {
-        NonFungibleTokens.getToken(contractId, tokenId)
+    useEffect(async () => {
+        const contractMetadata = await NonFungibleTokens.getMetadata(contractId);
+
+        NonFungibleTokens.getToken(contractId, tokenId, contractMetadata.base_uri)
             .then(token => {
                 token.contract_id = contractId;
                 setNft(token);
                 setOwnerId(token.owner_id);
             });
     }, []);
-
-    function getNEARBalance () {
-        return nearBalance;
-    }
 
     return (
         <StyledContainer className='medium centered'>
@@ -182,7 +180,7 @@ export function NFTDetail({ match, location, history }) {
                     <ArrowIcon color='#A2A2A8'/>
                 </FormButton>
 
-                <img src={nft.metadata.media} alt='NFT'/>
+                <img src={nft.metadata.mediaUrl} alt='NFT'/>
                 <h1 className="title">{nft.metadata.title}</h1>
                 <p className="desc">{nft.metadata.description}</p>
 
@@ -199,7 +197,8 @@ export function NFTDetail({ match, location, history }) {
                     </div>
                 </div>
 
-                <FormButton 
+                {(ownerId === accountId) &&
+                  <FormButton 
                     className='transfer-btn'
                     color='gray-gray' 
                     disabled={ownerId !== accountId || !nearBalance}
@@ -207,7 +206,7 @@ export function NFTDetail({ match, location, history }) {
                 >
                     {arrowSVG()}
                     <Translate id='NFTDetail.transfer'/>
-                </FormButton>
+                </FormButton>}
                 {transferNftDetail &&
                     <NFTTransferModal
                         open={!!transferNftDetail}
@@ -215,7 +214,7 @@ export function NFTDetail({ match, location, history }) {
                         nft={transferNftDetail}
                         setOwnerId={setOwnerId}
                         accountId={accountId}>
-                        nearBalance={ getNEARBalance() }
+                        nearBalance={ nearBalance }
                     </NFTTransferModal>
                 }
             </div>

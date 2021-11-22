@@ -25,8 +25,9 @@ export default class NonFungibleTokens {
         return this.viewFunctionAccount.viewFunction(contractName, 'nft_supply_for_owner', { account_id: accountId });
     }
 
-    static getToken = async (contractName, tokenId) => {
-        return this.viewFunctionAccount.viewFunction(contractName, 'nft_token', { token_id: tokenId });
+    static getToken = async (contractName, tokenId, base_uri) => {
+        const token = await this.viewFunctionAccount.viewFunction(contractName, 'nft_token', { token_id: tokenId });
+        return mapTokenMediaUrl(token, base_uri);
     }
 
     static getTokens = async ({ contractName, accountId, base_uri, fromIndex = 0 }) => {
