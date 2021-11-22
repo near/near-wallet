@@ -299,7 +299,6 @@ export default function NFTTransferModal({ open, onClose, nft, accountId, setOwn
 
             {viewType === 'confirm' &&
                 <StyledContainer className='small-centered'>
-                    <p className='confirm-txt'><Translate id='NFTTransfer.confirmTransaction'/></p>
                     <h3><Translate id='NFTTransfer.transferNft'/></h3>
 
                     <div className='confirm-nft-card'>
@@ -381,7 +380,7 @@ export default function NFTTransferModal({ open, onClose, nft, accountId, setOwn
                                 <FormButton
                                     className='next-btn'
                                     type='submit'
-                                    linkTo='/?tab=collectibles'
+                                    linkTo='/#?tab=collectibles'
                                 >
                                     <Translate id='NFTTransfer.continue' />
                                 </FormButton>
