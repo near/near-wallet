@@ -7,6 +7,7 @@ import { useFungibleTokensIncludingNEAR } from '../../hooks/fungibleTokensInclud
 import UserIconGrey from '../../images/UserIconGrey';
 import { selectAccountId } from '../../redux/slices/account';
 import NonFungibleTokens from '../../services/NonFungibleTokens';
+import BackArrowButton from '../common/BackArrowButton';
 import FormButton from '../common/FormButton';
 import Container from '../common/styled/Container.css';
 import ArrowIcon from '../svg/ArrowIcon';
@@ -82,7 +83,7 @@ const StyledContainer = styled(Container)`
         }
     }
 
-    .back-btn {
+    .back-arrow-button {
         position: absolute;
         left: -98px;
         width: 30px !important;
@@ -116,13 +117,13 @@ const UserIcon = styled.div`
     }
 `;
 
-function arrowSVG () {
-  return (
-    <svg className="transfer-svg" width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M21 1L14 21L10 12L1 8L21 1Z" stroke="#A2A2A8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-      <path d="M21 1L10 12" stroke="#A2A2A8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-    </svg>
-  );
+function transferSVG() {
+    return (
+        <svg className="transfer-svg" width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M21 1L14 21L10 12L1 8L21 1Z" stroke="#A2A2A8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          <path d="M21 1L10 12" stroke="#A2A2A8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+        </svg>
+    );
 }
 
 export function NFTDetail({ match, location, history }) {
@@ -151,12 +152,11 @@ export function NFTDetail({ match, location, history }) {
           {
             nft && 
             <div className='container'>
-                <FormButton
+                <BackArrowButton
+                    onClick={() => history.goBack()}
                     className='back-btn'
-                    color='link'
-                    onClick={() => history.goBack()}>
-                    <ArrowIcon color='#A2A2A8'/>
-                </FormButton>
+                >
+                </BackArrowButton>
 
                 <img src={nft.metadata.mediaUrl} alt='NFT'/>
                 <h1 className="title">{nft.metadata.title}</h1>
@@ -182,7 +182,7 @@ export function NFTDetail({ match, location, history }) {
                     disabled={ownerId !== accountId || !nearBalance}
                     onClick={() => setTransferNftDetail(nft)}
                 >
-                    {arrowSVG()}
+                    {transferSVG()}
                     <Translate id='NFTDetail.transfer'/>
                 </FormButton>}
                 {transferNftDetail &&

@@ -23,7 +23,7 @@ const StyledContainer = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 40px 0 0 0;
+    padding: 20px 0 0 0;
 
     img {
         width: 100% !important;
@@ -381,7 +381,7 @@ export default function NFTTransferModal({ open, onClose, nft, accountId, setOwn
                                 <FormButton
                                     className='next-btn'
                                     type='submit'
-                                    onClick={onClose}
+                                    linkTo='/?tab=collectibles'
                                 >
                                     <Translate id='NFTTransfer.continue' />
                                 </FormButton>
