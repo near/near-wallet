@@ -20,11 +20,17 @@ class StakeUnstakePage {
     async stakeWithValidator(validatorIndex = 0) {
         await this.page.click(`data-test-id=stakingPageSelectValidator >> nth=${validatorIndex}`);
     }
-    async getNumberOfSelectableValidators() {
+    getNumberOfSelectableValidators() {
         return this.page.locator(`data-test-id=stakingPageSelectValidator`).count();
     }
-    async getCurrentlyDisplayedBalance() {
-        const balanceString = await this.page.textContent("data-test-id=accountSelectAvailableBalance");
+    clickViewCurrentValidator() {
+        return this.page.click("data-test-id=viewCurrentValidatorButton")
+    }
+    selectNthAccount(n = 0) {
+        return this.page.click(`data-test-id=accountSelectAvailableBalance >> nth=${n}`);
+    }
+    async getCurrentlyDisplayedBalance(index = 0) {
+        const balanceString = await this.page.textContent(`data-test-id=accountSelectAvailableBalance >> nth=${index}`);
         return new BN(parseNearAmount(balanceString.split(" ")[0]));
     }
     async clickStakeWithValidator() {
@@ -50,8 +56,11 @@ class StakeUnstakePage {
         await this.confirmStakeOnModal();
         await this.returnToDashboard();
     }
-    async clickUnstakeButton() {
+    async clickStakingPageUnstakeButton() {
         await this.page.click("data-test-id=stakingPageUnstakingButton");
+    }
+    async clickValidatorPageUnstakeButton() {
+        await this.page.click("data-test-id=validatorPageUnstakeButton");
     }
     async submitStakeWithMaxAmount() {
         await this.page.click("data-test-id=stakingPageUseMaxButton");

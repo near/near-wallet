@@ -5,62 +5,82 @@ class ProfilePage {
     async navigate(accountId) {
         await this.page.goto(accountId ? `/profile/${accountId}` : "/profile");
     }
-    async getOwnerAccountId() {
+    getOwnerAccountId() {
         return this.page.textContent("data-test-id=ownerAccount.accountId");
     }
-    async getLockupAccountId() {
+    getLockupAccountId() {
         return this.page.textContent("data-test-id=lockupAccount.accountId");
     }
     async getOwnerAccountTotalBalance() {
-        return this.page.textContent("data-test-id=ownerAccount.total");
+        const balanceStr = await this.page.textContent("data-test-id=ownerAccount.total");
+        return balanceStr.split(' ')[0];
     }
     async getLockupAccountTotalBalance() {
-        return this.page.textContent("data-test-id=lockupAccount.total");
+        const balanceStr = await this.page.textContent("data-test-id=lockupAccount.total");
+        return balanceStr.split(' ')[0];
     }
     async getOwnerAccountReservedForStorage() {
-        return this.page.textContent("data-test-id=ownerAccount.reservedForStorage");
+        const balanceStr = await this.page.textContent("data-test-id=ownerAccount.reservedForStorage");
+        return balanceStr.split(' ')[0];
     }
     async getLockupAccountReservedForStorage() {
-        return this.page.textContent("data-test-id=lockupAccount.reservedForStorage");
+        const balanceStr = await this.page.textContent("data-test-id=lockupAccount.reservedForStorage");
+        return balanceStr.split(' ')[0];
     }
     async getOwnerAccountReservedForTransactions() {
-        return this.page.textContent("data-test-id=ownerAccount.reservedForTransactions");
+        const balanceStr = await this.page.textContent("data-test-id=ownerAccount.reservedForTransactions");
+        return balanceStr.split(' ')[0];
     }
     async getOwnerAccountAvailableBalance() {
-        return this.page.textContent("data-test-id=ownerAccount.available");
+        const balanceStr = await this.page.textContent("data-test-id=ownerAccount.available");
+        return balanceStr.split(' ')[0];
     }
     async getOwnerAccountStakingTotal() {
-        return this.page.textContent("data-test-id=ownerAccount.staking.total");
+        const balanceStr = await this.page.textContent("data-test-id=ownerAccount.staking.total");
+        return balanceStr.split(' ')[0];
     }
     async getLockupAccountStakingTotal() {
-        return this.page.textContent("data-test-id=lockupAccount.staking.total");
+        const balanceStr = await this.page.textContent("data-test-id=lockupAccount.staking.total");
+        return balanceStr.split(' ')[0];
     }
     async getOwnerAccountStaked() {
-        return this.page.textContent("data-test-id=ownerAccount.staking.staked");
+        const balanceStr = await this.page.textContent("data-test-id=ownerAccount.staking.staked");
+        return balanceStr.split(' ')[0];
     }
     async getLockupAccountStaked() {
-        return this.page.textContent("data-test-id=lockupAccount.staking.staked");
+        const balanceStr = await this.page.textContent("data-test-id=lockupAccount.staking.staked");
+        return balanceStr.split(' ')[0];
     }
     async getOwnerAccountPendingRelease() {
-        return this.page.textContent("data-test-id=ownerAccount.staking.pendingRelease");
+        const balanceStr = await this.page.textContent("data-test-id=ownerAccount.staking.pendingRelease");
+        return balanceStr.split(' ')[0];
     }
     async getLockupAccountPendingRelease() {
-        return this.page.textContent("data-test-id=lockupAccount.staking.pendingRelease");
+        const balanceStr = await this.page.textContent("data-test-id=lockupAccount.staking.pendingRelease");
+        return balanceStr.split(' ')[0];
     }
     async getOwnerAccountAvailableToWithdraw() {
-        return this.page.textContent("data-test-id=ownerAccount.staking.availableToWithdraw");
+        const balanceStr = await this.page.textContent("data-test-id=ownerAccount.staking.availableToWithdraw");
+        return balanceStr.split(' ')[0];
     }
     async getLockupAccountAvailableToWithdraw() {
-        return this.page.textContent("data-test-id=lockupAccount.staking.availableToWithdraw");
+        const balanceStr = await this.page.textContent("data-test-id=lockupAccount.staking.availableToWithdraw");
+        return balanceStr.split(' ')[0];
     }
     async getLockupAccountLocked() {
-        return this.page.textContent("data-test-id=lockupAccount.locked");
+        const balanceStr = await this.page.textContent("data-test-id=lockupAccount.locked");
+        return balanceStr.split(' ')[0];
     }
     async getLockupAccountUnlocked() {
-        return this.page.textContent("data-test-id=lockupAccount.unlocked");
+        const balanceStr = await this.page.textContent("data-test-id=lockupAccount.unlocked");
+        return balanceStr.split(' ')[0];
     }
     async getLockupAccountAvailableToTransfer() {
-        return this.page.textContent("data-test-id=lockupAccount.availableToTransfer");
+        const balanceStr = await this.page.textContent("data-test-id=lockupAccount.availableToTransfer");
+        return balanceStr.split(' ')[0];
+    }
+    transferToWallet() {
+        return this.page.click("data-test-id=lockupTransferToWalletButton");
     }
 }
 

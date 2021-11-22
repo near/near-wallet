@@ -27,8 +27,8 @@ describe("Fully unvested lockup", () => {
 
     afterAll(async () => {
         await Promise.allSettled([
-            v2LockupContractAccount.delete().then(v2LockupTestAccount.delete),
-            latestLockupContractAccount.delete().then(latestLockupTestAccount.delete),
+            v2LockupContractAccount && v2LockupContractAccount.delete().then(v2LockupTestAccount.delete),
+            latestLockupContractAccount && latestLockupContractAccount.delete().then(latestLockupTestAccount.delete),
         ]);
     });
 
