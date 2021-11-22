@@ -144,7 +144,7 @@ export function InitialDepositWrapper({ history }) {
                         messageCode: 'walletErrorCodes.createNewAccount.accountCreated.error',
                         errorMessage: e.message
                     }));
-                    redirectTo('/recover-account');
+                    dispatch(redirectTo('/recover-account'));
                     throw e;
                 }
             },
