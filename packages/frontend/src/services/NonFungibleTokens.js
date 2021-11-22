@@ -25,8 +25,9 @@ export default class NonFungibleTokens {
         return this.viewFunctionAccount.viewFunction(contractName, 'nft_supply_for_owner', { account_id: accountId });
     }
 
-    static getToken = async (contractName, tokenId) => {
-        return this.viewFunctionAccount.viewFunction(contractName, 'nft_token', { token_id: tokenId });
+    static getToken = async (contractName, tokenId, base_uri) => {
+        const token = await this.viewFunctionAccount.viewFunction(contractName, 'nft_token', { token_id: tokenId });
+        return mapTokenMediaUrl(token, base_uri);
     }
 
     static getTokens = async ({ contractName, accountId, base_uri, fromIndex = 0 }) => {
@@ -57,27 +58,9 @@ export default class NonFungibleTokens {
             });
         }
         // TODO: Separate Redux action for loading image
-        tokens = await Promise.all(tokens.filter(({ metadata }) => !!metadata).map(async ({ metadata, ...token }) => {
-            const { media } = metadata;
-            let mediaUrl;
-            if (media && !media.includes('://')) {
-                if (base_uri) {
-                    mediaUrl = `${base_uri}/${media}`;
-                } else {
-                    mediaUrl = media.startsWith('data:image') ? media : `https://cloudflare-ipfs.com/ipfs/${media}`;
-                }
-            } else {
-                mediaUrl = media;
-            }
-
-            return {
-                ...token,
-                metadata: {
-                    ...metadata,
-                    mediaUrl
-                }
-            };
-        }));
+        tokens = tokens
+          .filter(({ metadata }) => !!metadata)
+          .map(token => mapTokenMediaUrl(token, base_uri));
 
         return tokens;
     }
@@ -96,6 +79,28 @@ export default class NonFungibleTokens {
             1
         );
     }
+}
+
+function mapTokenMediaUrl ({metadata, ...token}, base_uri) {
+    const { media } = metadata;
+    let mediaUrl;
+    if (media && !media.includes('://')) {
+        if (base_uri) {
+            mediaUrl = `${base_uri}/${media}`;
+        } else {
+            mediaUrl = `https://cloudflare-ipfs.com/ipfs/${media}`;
+        }
+    } else {
+        mediaUrl = media;
+    }
+
+    return {
+        ...token,
+        metadata: {
+            ...metadata,
+            mediaUrl
+        }
+    };
 }
 
 export const nonFungibleTokensService = new NonFungibleTokens();

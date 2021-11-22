@@ -310,7 +310,7 @@ export default function NFTTransferModal({ open, onClose, nft, accountId, setOwn
         >
             {viewType === 'transfer' &&
             <StyledContainer className='small-centered'>
-                <img className='transfer-img' src={nft.metadata.media} alt='NFT'/>
+                <img className='transfer-img' src={nft.metadata.mediaUrl} alt='NFT'/>
 
                 <h3><Translate id='NFTTransfer.transfer-nft'/></h3>
                 <p className='transfer-txt'><Translate id='NFTTransfer.enter-receipt'/></p>
@@ -359,7 +359,7 @@ export default function NFTTransferModal({ open, onClose, nft, accountId, setOwn
 
                     <div className='confirm-nft-card'>
                         <div className='confirm-img'>
-                            <img src={nft.metadata.media} alt='NFT'/>
+                            <img src={nft.metadata.mediaUrl} alt='NFT'/>
                         </div>
 
                         <div className='line'></div>
