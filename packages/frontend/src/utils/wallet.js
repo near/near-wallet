@@ -436,11 +436,19 @@ class Wallet {
         newPublicKey,
         newInitialBalance
     }) {
-        const { status: { SuccessValue: createResultBase64 }, transaction: { hash: transactionHash } } =
-            await account.functionCall(ACCOUNT_ID_SUFFIX, 'create_account', {
+        const {
+            status: { SuccessValue: createResultBase64 },
+            transaction: { hash: transactionHash },
+        } = await account.functionCall({
+            contractId: ACCOUNT_ID_SUFFIX,
+            methodName: "create_account",
+            args: {
                 new_account_id: newAccountId,
-                new_public_key: newPublicKey.toString().replace(/^ed25519:/, '')
-            }, LINKDROP_GAS, newInitialBalance);
+                new_public_key: newPublicKey.toString().replace(/^ed25519:/, ""),
+            },
+            gas: LINKDROP_GAS,
+            attachedDeposit: newInitialBalance,
+        });
         const createResult = JSON.parse(Buffer.from(createResultBase64, 'base64'));
         if (!createResult) {
             throw new WalletError('Creating account has failed', 'createAccount.returnedFalse', { transactionHash });
@@ -1053,7 +1061,7 @@ class Wallet {
             // See https://github.com/near/near-wallet/issues/1856
             const recreateTransaction = account.deployMultisig || true;
             if (recreateTransaction) {
-                ({ status, transaction } = await account.signAndSendTransaction(receiverId, actions));
+                ({ status, transaction } = await account.signAndSendTransaction({ receiverId, actions }));
             } else {
                 // TODO: Maybe also only take receiverId and actions as with multisig path?
                 const [, signedTransaction] = await nearApiJs.transactions.signTransaction(receiverId, nonce, actions, blockHash, this.connection.signer, accountId, NETWORK_ID);
