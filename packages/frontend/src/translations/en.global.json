@@ -536,16 +536,16 @@
         "transfer": "Transfer"
     },
     "NFTTransfer": {
-      "transfer-nft": "Transfer NFT",
-      "enter-receipt": "Enter a recipient address, then proceed to confirm your transaction.",
+      "transferNft": "Transfer NFT",
+      "enterReceipt": "Enter a recipient address, then proceed to confirm your transaction.",
       "cancel": "Cancel",
       "next": "Next",
       "confirm": "Confirm",
-      "confirm-transaction": "Confirm Transaction:",
-      "transaction-complete": "Transaction Complete!",
-      "view-receipt": "View Receipt",
+      "confirmTransaction": "Confirm Transaction:",
+      "transactionComplete": "Transaction Complete!",
+      "viewReceipt": "View Receipt",
       "continue": "Continue",
-      "you-sent": "You sent <span class='color-blue'>${title}</span> to <span class='color-green'>${receiverId}</span>"
+      "youSent": "You sent <span class='color-blue'>${title}</span> to <span class='color-green'>${receiverId}</span>"
     },
     "loading": "Loading...",
     "loadingNoDots": "Loading",

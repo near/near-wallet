@@ -14,8 +14,6 @@ import NFTTransferModal from './NFTTransferModal';
 
 const StyledContainer = styled(Container)`
     .container {
-        margin-left: auto;
-        margin-right: auto;
         max-width: 429px;
         position: relative;
 
@@ -73,12 +71,14 @@ const StyledContainer = styled(Container)`
         }
     }
 
-    .transfer-btn {
-        width: 100%;
-        margin-top: 56px !important;
+    &&& {
+        .transfer-btn {
+            width: 100%;
+            margin-top: 56px;
 
-        svg {
-            margin-right: 10px !important;
+            svg {
+                margin-right: 10px;
+            }
         }
     }
 

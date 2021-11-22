@@ -25,10 +25,6 @@ const StyledContainer = styled.div`
     align-items: center;
     padding: 40px 0 0 0;
 
-    #nft-transfer-modal {
-        width: 400px;
-    }
-
     img {
         width: 100% !important;
         max-width: 300px;
@@ -78,7 +74,6 @@ const StyledContainer = styled.div`
     }
 
     .confirm-txt {
-        font-weight: 500;
         font-size: 14px;
         line-height: 150%;
         color: #72727A;
@@ -262,8 +257,8 @@ export default function NFTTransferModal({ open, onClose, nft, accountId, setOwn
             <StyledContainer className='small-centered'>
                 <img className='transfer-img' src={nft.metadata.mediaUrl} alt='NFT'/>
 
-                <h3><Translate id='NFTTransfer.transfer-nft'/></h3>
-                <p className='transfer-txt'><Translate id='NFTTransfer.enter-receipt'/></p>
+                <h3><Translate id='NFTTransfer.transferNft'/></h3>
+                <p className='transfer-txt'><Translate id='NFTTransfer.enterReceipt'/></p>
 
                 <form>
                     <div className='receiver-input'>
@@ -304,8 +299,8 @@ export default function NFTTransferModal({ open, onClose, nft, accountId, setOwn
 
             {viewType === 'confirm' &&
                 <StyledContainer className='small-centered'>
-                    <p className='confirm-txt'><Translate id='NFTTransfer.confirm-transaction'/></p>
-                    <h3><Translate id='NFTTransfer.transfer-nft'/></h3>
+                    <p className='confirm-txt'><Translate id='NFTTransfer.confirmTransaction'/></p>
+                    <h3><Translate id='NFTTransfer.transferNft'/></h3>
 
                     <div className='confirm-nft-card'>
                         <div className='confirm-img'>
@@ -362,9 +357,9 @@ export default function NFTTransferModal({ open, onClose, nft, accountId, setOwn
                         <AvatarSuccessIcon/>
                     </div>
                     <div className='success'>
-                        <p><Translate id='NFTTransfer.transaction-complete' /></p>
+                        <p><Translate id='NFTTransfer.transactionComplete' /></p>
                         <p>
-                        <SafeTranslate id='NFTTransfer.you-sent' 
+                        <SafeTranslate id='NFTTransfer.youSent' 
                             data={{
                                 title: nft.metadata.title,
                                 receiverId
@@ -381,7 +376,7 @@ export default function NFTTransferModal({ open, onClose, nft, accountId, setOwn
                                     linkTo={`${EXPLORER_URL}/transactions/${result.transaction.hash}`}
                                     color='gray-gray'
                                 >
-                                    <Translate id='NFTTransfer.view-receipt' />
+                                    <Translate id='NFTTransfer.viewReceipt' />
                                 </FormButton>
                                 <FormButton
                                     className='next-btn'
