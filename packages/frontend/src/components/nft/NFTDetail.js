@@ -36,37 +36,23 @@ const StyledContainer = styled(Container)`
             margin-top: 48px;
             margin-bottom: 56px;
 
-            font-family: Inter;
-            font-style: normal;
             font-weight: 500;
             font-size: 16px;
             line-height: 150%;
-            /* or 24px */
-
             display: flex;
             align-items: center;
-
-            /* gray/neutral/800 */
-
             color: #272729;
         }
     }
 
     .owner {
         p {
-            font-family: Inter;
-            font-style: normal;
             font-weight: 500;
             font-size: 12px;
             line-height: 150%;
-            /* identical to box height, or 18px */
-
             display: flex;
             align-items: center;
             letter-spacing: 0.115em;
-
-            /* gray/neutral/500 */
-
             color: #A2A2A8;
         }
 
@@ -77,18 +63,11 @@ const StyledContainer = styled(Container)`
             align-items: center;
 
             span {
-                font-family: Inter;
-                font-style: normal;
                 font-weight: 500;
                 font-size: 16px;
                 line-height: 150%;
-                /* identical to box height, or 24px */
-
                 display: flex;
                 align-items: center;
-
-                /* gray/neutral/800 */
-
                 color: #272729;
             }
         }
@@ -103,7 +82,7 @@ const StyledContainer = styled(Container)`
         }
     }
 
-    #back-btn {
+    .back-btn {
         position: absolute;
         left: -98px;
         width: 30px !important;
@@ -174,7 +153,7 @@ export function NFTDetail({ match, location, history }) {
             nft && 
             <div className='container'>
                 <FormButton
-                    id='back-btn'
+                    className='back-btn'
                     color='link'
                     onClick={() => history.goBack()}>
                     <ArrowIcon color='#A2A2A8'/>

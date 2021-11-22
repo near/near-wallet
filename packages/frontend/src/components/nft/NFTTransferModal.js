@@ -78,19 +78,10 @@ const StyledContainer = styled.div`
     }
 
     .confirm-txt {
-        font-family: Inter;
-        font-style: normal;
         font-weight: 500;
         font-size: 14px;
         line-height: 150%;
-        /* identical to box height, or 21px */
-        
-        font-feature-settings: 'zero' on;
-        
-        /* gray/neutral/600 */
-        
         color: #72727A;
-
         margin-left: 16px !important;
     }
 
@@ -116,48 +107,27 @@ const StyledContainer = styled.div`
     }
 
     .account-id {
-        font-family: Inter;
-        font-style: normal;
         font-weight: bold;
         font-size: 14px;
         line-height: 150%;
-        /* identical to box height, or 21px */
-        
         text-align: right;
-        font-feature-settings: 'zero' on;
-        
-        /* gray/neutral/800 */
-        
         color: #272729;
     }
 
     h3 {
-        font-family: Inter;
-        font-style: normal;
         font-weight: 900;
         font-size: 20px;
         line-height: 130%;
-        /* identical to box height, or 26px */
-
         text-align: center;
-
         color: #24272A;
     }
 
     .success {
         > p {
-            font-family: Inter;
-            font-style: normal;
             font-weight: 500;
             font-size: 20px;
             line-height: 150%;
-            /* or 30px */
-            
             text-align: center;
-            font-feature-settings: 'zero' on;
-            
-            /* gray/neutral/700 */
-            
             color: #3F4045;
 
             margin-bottom: 0px;
@@ -165,18 +135,10 @@ const StyledContainer = styled.div`
     }
 
     p {
-        font-family: Inter;
-        font-style: normal;
         font-weight: 500;
         font-size: 14px;
         line-height: 150%;
-        /* or 21px */
-
         text-align: center;
-        font-feature-settings: 'zero' on;
-
-        /* gray/neutral/600 */
-
         color: #72727A;
     }
 
@@ -189,17 +151,9 @@ const StyledContainer = styled.div`
     }
 
     .amount-grey {
-        font-family: Inter;
-        font-style: normal;
         font-weight: 500;
         font-size: 14px;
         line-height: 150%;
-        /* identical to box height, or 21px */
-
-        font-feature-settings: 'zero' on;
-
-        /* gray/neutral/500 */
-
         color: #A2A2A8;
     }
 
@@ -226,14 +180,10 @@ const StyledContainer = styled.div`
         display: flex;
         align-items: right;
         justify-content: flex-end;
-        // width: 100%;
-
-        // margin: 0 -25px 0 -25px !important;
 
         button {
             width: 136px !important;
             height: 56px !important;
-
             margin-top: 0px !important;
 
             &.link {
