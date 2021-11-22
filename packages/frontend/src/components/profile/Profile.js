@@ -240,7 +240,7 @@ export function Profile({ match }) {
                     {profileBalance?.lockupIdExists &&
                         <SkeletonLoading
                             height='323px'
-                            show={!hasLockup}
+                            show={hasLockup === undefined}
                             number={1}
                         />
                     }
