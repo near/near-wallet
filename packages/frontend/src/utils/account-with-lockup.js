@@ -106,16 +106,18 @@ export async function transferAllFromLockup(missingAmount) {
     }
 
     console.info('Attempting to transfer from lockup account ID:', lockupAccountId);
-    await this.wrappedAccount.functionCall({
-        contractId: lockupAccountId,
-        methodName: "transfer",
-        args: {
-            // NOTE: Move all the liquid tokens to minimize transactions in the long run
-            amount: liquidBalance.toString(),
-            receiver_id: this.wrappedAccount.accountId,
-        },
-        gas: BASE_GAS.mul(new BN(2)),
-    });
+    if(liquidBalance.gt(new BN(0))) {
+        await this.wrappedAccount.functionCall({
+            contractId: lockupAccountId,
+            methodName: "transfer",
+            args: {
+                // NOTE: Move all the liquid tokens to minimize transactions in the long run
+                amount: liquidBalance.toString(),
+                receiver_id: this.wrappedAccount.accountId,
+            },
+            gas: BASE_GAS.mul(new BN(2)),
+        });
+    }
 
     const lockedBalance = new BN(await this.wrappedAccount.viewFunction(lockupAccountId, 'get_locked_amount'));
     if (lockedBalance.eq(new BN(0))) {
