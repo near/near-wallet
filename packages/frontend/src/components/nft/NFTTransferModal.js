@@ -7,6 +7,7 @@ import { EXPLORER_URL } from '../../config';
 import { useFungibleTokensIncludingNEAR } from '../../hooks/fungibleTokensIncludingNEAR';
 import { checkAccountAvailable } from '../../redux/actions/account';
 import { clearLocalAlert, showCustomAlert } from '../../redux/actions/status';
+import { actions as nftActions } from '../../redux/slices/nft';
 import NonFungibleTokens, { NFT_TRANSFER_GAS } from '../../services/NonFungibleTokens';
 import isMobile from '../../utils/isMobile';
 import { formatNearAmount } from '../common/balance/helpers';
@@ -23,11 +24,11 @@ const StyledContainer = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 20px 0 0 0;
+    padding: 0 0 0 0;
 
     img {
         width: 100% !important;
-        max-width: 300px;
+        max-width: 472px;
         border-radius: 8px;
         margin-bottom: 16px;
     }
@@ -41,7 +42,7 @@ const StyledContainer = styled.div`
     }
 
     .confirm-img {
-        width: 172px;
+        width: 272px;
     }
 
     .confirm-nft-card {
@@ -212,12 +213,14 @@ export default function NFTTransferModal({ open, onClose, nft, accountId, setOwn
     const nearBalance = fungibleTokens[0].balance;
     const balanceToShow = formatNearAmount(nearBalance);
     const dispatch = useDispatch();
+    const { fetchNFTs } = nftActions;
 
     const { localAlert } = useSelector(({ status }) => status);
 
     function onTransferSuccess(result, newOwnerId) {
         setResult(result);
         setOwnerId(newOwnerId);
+        dispatch(fetchNFTs({ accountId }));
         setViewType('success');
     }
 
@@ -380,7 +383,7 @@ export default function NFTTransferModal({ open, onClose, nft, accountId, setOwn
                                 <FormButton
                                     className='next-btn'
                                     type='submit'
-                                    linkTo='/#?tab=collectibles'
+                                    linkTo='/?tab=collectibles'
                                 >
                                     <Translate id='NFTTransfer.continue' />
                                 </FormButton>

@@ -85,14 +85,8 @@ const StyledContainer = styled(Container)`
 
     .back-arrow-button {
         position: absolute;
-        left: -98px;
-        width: 30px !important;
-        height: 30px !important;
-        
-        svg {
-            width: 100%;
-            height: 100%;
-        }
+        top: -12px;
+        left: -78px;
     }
 
 `;
