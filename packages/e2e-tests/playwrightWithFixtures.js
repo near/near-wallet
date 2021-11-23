@@ -34,6 +34,7 @@ module.exports.test = base.test.extend({
                     { workerBankAccount: workerBankAccount.accountId, amountSpent, workerIndex: workerInfo.workerIndex },
                 ])
             );
+            await workerBankAccount.delete();
         },
         { scope: "worker", auto: true },
     ],
