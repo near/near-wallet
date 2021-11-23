@@ -43,6 +43,9 @@ const Container = styled.div`
                     color: #452500 !important;
                 }
             }
+            a {
+                color: inherit;
+            }
         }
 
         &.light-blue {
@@ -85,10 +88,6 @@ const Container = styled.div`
                 font-weight: 500 !important;
                 font-style: normal !important;
             }
-        }
-
-        a {
-            display: table !important;
         }
     }
 `;
