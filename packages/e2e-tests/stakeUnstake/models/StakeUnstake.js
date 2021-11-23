@@ -8,6 +8,9 @@ class StakeUnstakePage {
     async navigate() {
         await this.page.goto("/staking");
     }
+    async clickStakingTab() {
+        await this.page.click("data-test-id=staking_navlink")
+    }
     async clickStakeButton() {
         await this.page.click("data-test-id=stakeMyTokensButton");
     }

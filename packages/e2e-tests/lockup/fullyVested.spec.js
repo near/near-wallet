@@ -8,6 +8,7 @@ const {
     LOCKUP_CONFIGS: { FULLY_VESTED_CONFIG },
 } = require("../constants");
 const { bnIsWithinUncertainty } = require("../utils/helpers");
+const { StakeUnstakePage } = require("../stakeUnstake/models/StakeUnstake");
 
 const { describe, beforeAll, afterAll } = test;
 
@@ -86,6 +87,9 @@ describe("Fully vested lockup", () => {
             true
         );
         await expect(bnIsWithinUncertainty(uncertaintyForGas, new BN(lockupTotalBalance), ownersBalanceChange)).toBe(true);
+        
+        await new StakeUnstakePage(page).clickStakingTab();
+        await expect(page).toHaveSelectorCount("data-test-id=accountSelectAvailableBalance", 1);
     });
     test("v2 lockup contract displays zero as locked, correct unlocked, correct available to transfer and other info correctly", async ({
         page,
@@ -138,11 +142,12 @@ describe("Fully vested lockup", () => {
         const ownersBalanceChange = new BN(ownerAccountBalance).sub(new BN(initialOwnerAccountBalance));
         const uncertaintyForGas = new BN(parseNearAmount("0.1"));
 
-        console.log(`Change in displayed balance: ${formatNearAmount(displayedOwnersBalanceChange.toString())}`, `Lockup balance ${formatNearAmount(lockupTotalBalance)}`)
-
         await expect(bnIsWithinUncertainty(uncertaintyForGas, new BN(lockupTotalBalance), displayedOwnersBalanceChange)).toBe(
             true
         );
         await expect(bnIsWithinUncertainty(uncertaintyForGas, new BN(lockupTotalBalance), ownersBalanceChange)).toBe(true);
+
+        await new StakeUnstakePage(page).clickStakingTab();
+        await expect(page).toHaveSelectorCount("data-test-id=accountSelectAvailableBalance", 1);
     });
 });
