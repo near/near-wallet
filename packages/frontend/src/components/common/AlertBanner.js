@@ -89,6 +89,10 @@ const Container = styled.div`
                 font-style: normal !important;
             }
         }
+
+        a {
+            text-decoration: underline;
+        }
     }
 `;
 
