@@ -1520,13 +1520,16 @@
         "title": "Sign up below for early access",
         "placeholder": "Your email..."
     },
-
     "releaseNotesModal": {
         "title": "Release Notes",
         "desc": "You asked, we listened! The latest update brings adjustments to how balances are displayed in the wallet, and an easier way to create new accounts.",
-        "subTitle1": "New Features",
-        "subText1": "During on-boarding, you may now use an SMS capable phone number to verify and initialize your new account. Users who don’t wish to provide this information may still initialize new accounts with an initial deposit.",
-        "subTitle2": "Enhancements",
-        "subText2": "The primary balance displayed in the wallet is now your 'Available Balance', where it was previously your 'Total Balance'. The Available Balance offers the most utility to users wanting to know at a glance what they have available to spend/stake/and interact with the ecosystem; it does not include any tokens that are not readily spendable, such as tokens that are staked.  You can still see your staked tokens balance details on the 'Account' and 'Staking' screens."
+        "newFeatures": {
+            "title": "New Features",
+            "text": "<ul><li></li></ul>"
+        },
+        "enhancements": {
+            "title": "Enhancements",
+            "text": "<ul><li></li></ul>"
+        }
     }
 }

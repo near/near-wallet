@@ -125,18 +125,14 @@ const ReleaseNotesModal = () => {
                     <div className='text'><Translate id="releaseNotesModal.desc" /></div>
 
                     <SubHeader icon={GiftBoxLineIcon}>
-                        <Translate id="releaseNotesModal.subTitle1" />
+                        <Translate id="releaseNotesModal.newFeatures.title" />
                     </SubHeader>
-                    <ul>
-                        <li><Translate id="releaseNotesModal.subText1" /></li>
-                    </ul>
+                    <Translate id="releaseNotesModal.newFeatures.text" />
 
                     <SubHeader icon={StarsIcon}>
-                        <Translate id="releaseNotesModal.subTitle2" />
+                        <Translate id="releaseNotesModal.enhancements.title" />
                     </SubHeader>
-                    <ul>
-                        <li><Translate id="releaseNotesModal.subText2" /></li>
-                    </ul>
+                    <Translate id="releaseNotesModal.enhancements.text" />
 
                     <FormButton 
                         onClick={onClose}
