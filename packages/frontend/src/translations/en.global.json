@@ -1472,6 +1472,9 @@
             "subTitle": "HD Path",
             "desc": "Specify an HD path to import its linked accounts.",
             "setPath": "Set HD Path"
+        },
+        "firefoxBanner": {
+            "desc": "Ledger is currently only supported in <a href='https://www.mozilla.org/' rel='noopener noreferrer' target='_blank'><b>Mozilla Firefox</b></a>. Support for other browsers will soon be restored."
         }
     },
 

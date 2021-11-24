@@ -1466,6 +1466,9 @@
             "subTitle": "HD 路径",
             "desc": "指定 HD 路径来导入已链接的账户。",
             "setPath": "设置 HD 路径"
+        },
+        "firefoxBanner": {
+            "desc": "Ledger is currently only supported in <a href='https://www.mozilla.org/' rel='noopener noreferrer' target='_blank'><b>Mozilla Firefox</b></a>. Support for other browsers will soon be restored."
         }
     },
 
