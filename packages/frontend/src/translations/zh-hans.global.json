@@ -1516,7 +1516,7 @@
     },
     "releaseNotesModal": {
         "title": "更新说明",
-        "desc": "你的建议我们已采纳！最新版本带来了账户余额的显示改进，创建新的账户也变得更加容易。",
+        "desc": "",
         "newFeatures": {
             "title": "新功能",
             "text": "<ul><li></li></ul>"

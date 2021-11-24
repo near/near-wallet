@@ -1288,7 +1288,7 @@
     },
     "releaseNotesModal": {
         "title": "Release Notes",
-        "desc": "You asked, we listened! The latest update brings adjustments to how balances are displayed in the wallet, and an easier way to create new accounts.",
+        "desc": "",
         "newFeatures": {
             "title": "New Features",
             "text": "<ul><li></li></ul>"
