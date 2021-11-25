@@ -300,6 +300,72 @@
         }
     },
 
+    "verifyAccount": {        
+        "title": "Quase lá! Verifique sua nova conta.",
+        "desc": "Para prevenir spam de novas contas, nós precisamos validar sua operação. Você pode verificar através de um código de utilização única ou através de um pequeno depósito inicial.",
+        "options": {
+            "passCode": "Código de verificação",
+            "initialDeposit": "Depósito inicial"
+        },
+        "option": {
+            "email": {
+                "title": "Email",
+                "desc": "Receba um código de verificação por email."
+            },
+            "phone": {
+                "title": "Telefone",
+                "desc": "Receba um código de verificação por SMS."
+            },
+            "existingAccount": {
+                "title": "Depósito com uma conta existente",
+                "desc": "Use uma conta existente para depositar e inicializar sua nova conta."
+            },
+            "creditCard": {
+                "title": "Depósito com um cartão de crédito",
+                "desc": "Compre NEAR através do MoonPay para ser usado como depósito inicial."
+            },
+            "manualDeposit": {
+                "title": "Depósito manual",
+                "desc": "Envie um depósito manualmente para um endereço de financiamento único."
+            }
+        },
+
+        "modal": {
+            "email": {
+                "title": "Esse endereço de email já foi usado para verificar uma conta diferente.",
+                "desc": "Você precisará usar um email diferente ou selecionar um método alternativo para verificar esta conta. Você ainda pode usar esse endereço como método de recuperação."
+            },
+            "phone": {
+                "title": "Esse número de telefone já foi usado para verificar uma conta diferente..",
+                "desc": "Você precisará usar um número diferente ou selecionar um método alternativo para verificar esta conta. Você ainda pode usar esse número como um método de recuperação."
+            }
+        }
+
+    },
+
+    "accountSelector": {
+        "signInButton": "Importar uma Outra Conta",
+        "noAccountDesc": "Você não está conectado a nenhuma conta alternatíva."
+    },
+
+    "transfer": {
+        "from": "De",
+        "to": "Para",
+        "estimatedFees": "Taxas estimadas"
+    },
+    
+    "existingAccount": {
+        "selectAccount": {
+            "title": "Adicionar fundos usando uma carteira existente.",
+            "desc": "Se você tem uma outra conta contendo um saldo de <b>no mínimo ${amount} NEAR</b>, você pode usa-lá para adicionar fundos e iniciar sua nova conta!",
+            "descTwo": "Selecione ou entre na conta conta que você deseja usar, então continue para aprovar o depósito mínimo."
+        },
+        "fundNewAccount": {
+            "titleOne": "Aprovar Transação",
+            "titleTwo": "Adicionar Fundos à Nova Conta"
+        }
+    },
+
     "dashboardActivity": {
         "title": {
             "CreateAccount": "Nova conta criada",
@@ -491,7 +557,11 @@
         "submitAnyTransaction": "Envie qualquer transação em seu nome",
         "useContract": "Use o contrato <b>${receiverId}</b> em seu nome",
         "noKeys": "Você não conectou sua carteira NEAR a nenhuma aplicação. Quando fizer, você pode gerenciá-los aqui.<br /><br />Veja o que foi construído com a NEAR:",
-        "dashboardNoKeys": "Você não tem chaves de Acesso Completo"
+        "dashboardNoKeys": "Você não tem chaves de Acesso Completo",
+        "deAuthorizeConfirm": {
+            "title": "Você tem certeza que deseja desabilitar essa chave de acesso completo?",
+            "desc": "A chave de acesso completo será permanentemente desativada."
+        }
     },
 
     "authorizedApps": {
@@ -519,7 +589,8 @@
         "STAKE": "Você precisará confirmar o staking na sua Ledger",
         "UNSTAKE": "Você precisará confirmar o unstaking na sua Ledger",
         "WITHDRAW": "Você precisará confirmar o saque na sua Ledger",
-        "DISABLE_LEDGER": "Você precisará confirmar os detalhes da chave pública na sua Ledger."
+        "DISABLE_LEDGER": "Você precisará confirmar os detalhes da chave pública na sua Ledger.",
+        "DEFAULT": "Você precisará confirmar os detalhes da transação em sua Ledger."
     },
 
     "button": {
