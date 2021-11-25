@@ -5,7 +5,9 @@ import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { switchAccount } from '../../redux/actions/account';
+import { selectAccountSlice } from '../../redux/slices/account';
 import { selectAvailableAccounts } from '../../redux/slices/availableAccounts';
+import { selectSignSlice } from '../../redux/slices/sign';
 import Balance from '../common/balance/Balance';
 import Button from '../common/Button';
 import FormButton from '../common/FormButton';
@@ -13,7 +15,6 @@ import InlineNotification from '../common/InlineNotification';
 import SelectAccountDropdown from '../login/SelectAccountDropdown';
 import SignAnimatedArrow from './SignAnimatedArrow';
 import SignTransferDetails from './SignTransferDetails';
-
 
 const Container = styled.div`
     max-width: 450px;
@@ -251,9 +252,9 @@ const mapDispatchToProps = {
 };
 
 const mapStateToProps = (state) => ({
-    account: state.account,
+    account: selectAccountSlice(state),
     availableAccounts: selectAvailableAccounts(state),
-    ...state.sign
+    ...selectSignSlice(state)
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(SignTransferReady));

@@ -5,12 +5,14 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 
+import { MIN_BALANCE_FOR_GAS } from '../../../config';
 import { Mixpanel } from '../../../mixpanel';
 import { redirectTo, clearFundedAccountNeedsDeposit, getBalance, getAccountHelperWalletState } from '../../../redux/actions/account';
+import { selectAccountFundedAccountNeedsDeposit, selectAccountRequiredUnlockBalance, selectAccountSlice } from '../../../redux/slices/account';
+import { selectStatusMainLoader } from '../../../redux/slices/status';
 import { selectNearTokenFiatValueUSD } from '../../../redux/slices/tokenFiatValues';
 import { removeAccountIsInactive } from '../../../utils/localStorage';
 import { isMoonpayAvailable, getSignedUrl } from '../../../utils/moonpay';
-import { MIN_BALANCE_FOR_GAS } from '../../../utils/wallet';
 import { getNearAndFiatValue } from '../../common/balance/helpers';
 import Divider from '../../common/Divider';
 import FormButton from '../../common/FormButton';
@@ -250,15 +252,12 @@ class ActivateAccount extends Component {
     }
 }
 
-const mapStateToProps = (state) => {
-    const { account, status } = state;
-    return {
-        ...account,
-        mainLoader: status.mainLoader,
-        minBalanceToUnlock: account.accountHelperWalletState?.requiredUnlockBalance || MIN_BALANCE_FOR_GAS,
-        needsDeposit: account.accountHelperWalletState?.fundedAccountNeedsDeposit,
-        nearTokenFiatValueUSD: selectNearTokenFiatValueUSD(state)
-    };
-};
+const mapStateToProps = (state) => ({
+    ...selectAccountSlice(state),
+    mainLoader: selectStatusMainLoader(state),
+    minBalanceToUnlock: selectAccountRequiredUnlockBalance(state) || MIN_BALANCE_FOR_GAS,
+    needsDeposit: selectAccountFundedAccountNeedsDeposit(state),
+    nearTokenFiatValueUSD: selectNearTokenFiatValueUSD(state)
+});
 
 export const ActivateAccountWithRouter = connect(mapStateToProps)(withRouter(ActivateAccount));

@@ -7,6 +7,7 @@ import { Grid } from 'semantic-ui-react';
 
 import IconAuthorize from '../../images/IconAuthorize';
 import IconProblems from '../../images/IconProblems';
+import { selectAccountSlice } from '../../redux/slices/account';
 import { selectAvailableAccounts } from '../../redux/slices/availableAccounts';
 import FormButton from '../common/FormButton';
 import MobileContainer from '../sign/MobileContainer';
@@ -182,7 +183,7 @@ LoginForm.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-    account: state.account,
+    account: selectAccountSlice(state),
     availableAccounts: selectAvailableAccounts(state)
 });
 

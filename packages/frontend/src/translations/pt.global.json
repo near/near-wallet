@@ -800,6 +800,35 @@
         "cliLoginSuccess": {
             "pageTitle": "Você autorizou com sucesso o NEAR Shell!",
             "pageText": "Por favor, feche esta janela e siga as instruções no terminal."
+        },
+        "v2": {
+            "connectWithNear": {
+                "title": "Connect with NEAR",
+                "desc": "An application is requesting <b>${accessType}</b> to your NEAR account. Select the account you wish to connect.",
+                "limitedAccess": "limited access",
+                "fullAccess": "full access"
+            },
+            "connectConfirm": {
+                "title": "Connecting with:",
+                "desc": "Only connect to sites that you trust. Once connected, <a href=${contractIdUrl} target='_blank' rel='noreferrer'>${appReferrer}</a> will have <b>${accessType}</b>:",
+                "limitedAccess": "limited permissions",
+                "fullAccess": "full permissions",
+                "fullAccessWarning": "This site is requesting full access to your account. To enable full access, you’ll be asked to verify your account ID.",
+                "permissions": {
+                    "viewAddress": "View the address of your permitted account",
+                    "viewBalance": "View the balance of your permitted account",
+                    "notTransferTokens": "This does not allow the app to transfer tokens",
+                    "transferTokens": "Transfer tokens from your account"
+                },
+                "fullAccessModal": {
+                    "title": "Grant full account access?",
+                    "desc": "Proceed with caution. Full access permissions allow contracts and applications to access your token balance. To confirm, enter your account ID below."
+                },
+                "feeAllowance": {
+                    "title": "Network Fee Allowance",
+                    "desc": "The application will be given permission to spend up to <b>${amount} NEAR</b> towards network fees incurred during use."
+                }
+            }
         }
     },
 
@@ -1284,6 +1313,9 @@
             "subTitle": "Caminho no disco",
             "desc": "Especifique o caminho no disco para importar suas contas vinculadas.",
             "setPath": "Definir caminho no disco"
+        },
+        "firefoxBanner": {
+            "desc": "Ledger is currently only supported in <a href='https://www.mozilla.org/' rel='noopener noreferrer' target='_blank'><b>Mozilla Firefox</b></a>. Support for other browsers will soon be restored."
         }
     },
 

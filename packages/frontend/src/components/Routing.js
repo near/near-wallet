@@ -1,4 +1,4 @@
-import { ConnectedRouter } from 'connected-react-router';
+import { ConnectedRouter, getRouter } from 'connected-react-router';
 import isString from 'lodash.isstring';
 import { parseSeedPhrase } from 'near-seed-phrase';
 import PropTypes from 'prop-types';
@@ -10,9 +10,12 @@ import { Redirect, Switch } from 'react-router-dom';
 import styled, { ThemeProvider } from 'styled-components';
 
 import TwoFactorVerifyModal from '../components/accounts/two_factor/TwoFactorVerifyModal';
+import { IS_MAINNET, PUBLIC_URL, SHOW_PRERELEASE_WARNING } from '../config';
 import { Mixpanel } from "../mixpanel/index";
 import * as accountActions from '../redux/actions/account';
+import { selectAccountSlice } from '../redux/slices/account';
 import { actions as tokenFiatValueActions } from '../redux/slices/tokenFiatValues';
+import { LoginWrapper } from '../routes/LoginWrapper';
 import translations_en from '../translations/en.global.json';
 import translations_pt from '../translations/pt.global.json';
 import translations_ru from '../translations/ru.global.json';
@@ -26,8 +29,6 @@ import { getAccountIsInactive, removeAccountIsInactive, setAccountIsInactive } f
 import { reportUiActiveMixpanelThrottled } from '../utils/reportUiActiveMixpanelThrottled';
 import ScrollToTop from '../utils/ScrollToTop';
 import { 
-    IS_MAINNET, 
-    SHOW_PRERELEASE_WARNING, 
     WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS,
     WALLET_LOGIN_URL,
     WALLET_SIGN_URL,
@@ -60,7 +61,6 @@ import NetworkBanner from './common/NetworkBanner';
 import PrivateRoute from './common/PrivateRoute';
 import PublicRoute from './common/PublicRoute';
 import GlobalStyle from './GlobalStyle';
-import { LoginWithRouter } from './login/Login';
 import { LoginCliLoginSuccess } from './login/LoginCliLoginSuccess';
 import Navigation from './navigation/Navigation';
 import { Profile } from './profile/Profile';
@@ -89,7 +89,7 @@ const  {
 
 const theme = {};
 
-const PATH_PREFIX = process.env.PUBLIC_URL;
+const PATH_PREFIX = PUBLIC_URL;
 
 const Container = styled.div`
     min-height: 100vh;
@@ -447,7 +447,7 @@ class Routing extends Component {
                             />
                             <PrivateRoute
                                 path='/login'
-                                component={LoginWithRouter}
+                                component={LoginWrapper}
                             />
                             <PrivateRoute
                                 exact
@@ -541,9 +541,9 @@ const mapDispatchToProps = {
     fetchTokenFiatValues
 };
 
-const mapStateToProps = ({ account, router }) => ({
-    account,
-    router
+const mapStateToProps = (state) => ({
+    account: selectAccountSlice(state),
+    router: getRouter(state)
 });
 
 export default connect(

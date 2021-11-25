@@ -5,10 +5,11 @@ import { PublicKey, KeyType } from 'near-api-js/lib/utils/key_pair';
 import { parse, stringify } from 'query-string';
 import { createActions, createAction } from 'redux-actions';
 
+import { DISABLE_CREATE_ACCOUNT, MULTISIG_MIN_PROMPT_AMOUNT } from '../../config';
 import { showAlert, dispatchWithAlert } from '../../utils/alerts';
 import { loadState, saveState, clearState } from '../../utils/sessionStorage';
 import { TwoFactor } from '../../utils/twoFactor';
-import { DISABLE_CREATE_ACCOUNT, wallet, WALLET_INITIAL_DEPOSIT_URL } from '../../utils/wallet';
+import { wallet, WALLET_INITIAL_DEPOSIT_URL } from '../../utils/wallet';
 import {
     WALLET_CREATE_NEW_ACCOUNT_URL,
     WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS,
@@ -17,7 +18,6 @@ import {
     WALLET_RECOVER_ACCOUNT_URL,
     WALLET_LINKDROP_URL,
     setKeyMeta,
-    MULTISIG_MIN_PROMPT_AMOUNT,
     ENABLE_IDENTITY_VERIFIED_ACCOUNT
 } from '../../utils/wallet';
 import { WalletError } from '../../utils/walletError';
@@ -115,12 +115,12 @@ export const handleRefreshUrl = (prevRouter) => (dispatch, getState) => {
 };
 
 const checkContractId = () => async (dispatch, getState) => {
-    const { contract_id } = getState().account.url;
+    const { contract_id, failure_url } = getState().account.url;
 
     if (contract_id) {
         const redirectIncorrectContractId = () => {
             console.error('Invalid contractId:', contract_id);
-            dispatch(redirectTo(`/${WALLET_LOGIN_URL}/incorrect-contract-id`, { globalAlertPreventClear: true }));
+            dispatch(redirectTo(`/${WALLET_LOGIN_URL}/?invalidContractId=true&failure_url=${failure_url}`, { globalAlertPreventClear: true }));
         };
 
         if (!wallet.isLegitAccountId(contract_id)) {

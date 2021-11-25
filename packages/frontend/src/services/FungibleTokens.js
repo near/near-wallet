@@ -1,6 +1,7 @@
 import BN from 'bn.js';
 import * as nearApiJs from 'near-api-js';
 
+import { ACCOUNT_HELPER_URL } from '../config';
 import sendJson from '../tmp_fetch_send_json';
 import {
     parseTokenAmount,
@@ -8,7 +9,6 @@ import {
     removeTrailingZeros
 } from '../utils/amounts';
 import {
-    ACCOUNT_HELPER_URL,
     wallet
 } from '../utils/wallet';
 
@@ -128,28 +128,36 @@ export default class FungibleTokens {
                 }
             }
 
-            return await account.signAndSendTransaction(contractName, [
-                functionCall('ft_transfer', {
-                    amount,
-                    memo: memo,
-                    receiver_id: receiverId,
-                }, FT_TRANSFER_GAS, FT_TRANSFER_DEPOSIT)
-            ]);
+            return await account.signAndSendTransaction({
+                receiverId: contractName,
+                actions: [
+                    functionCall(
+                        "ft_transfer",
+                        {
+                            amount,
+                            memo: memo,
+                            receiver_id: receiverId,
+                        },
+                        FT_TRANSFER_GAS,
+                        FT_TRANSFER_DEPOSIT
+                    ),
+                ],
+            });
         } else {
             return await account.sendMoney(receiverId, amount);
         }
     }
 
     async transferStorageDeposit({ account, contractName, receiverId, storageDepositAmount }) {
-        return account.signAndSendTransaction(
-            contractName,
-            [
+        return account.signAndSendTransaction({
+            receiverId: contractName,
+            actions: [
                 functionCall('storage_deposit', {
                     account_id: receiverId,
                     registration_only: true,
                 }, FT_STORAGE_DEPOSIT_GAS, storageDepositAmount)
             ]
-        );
+        });
     }
 }
 

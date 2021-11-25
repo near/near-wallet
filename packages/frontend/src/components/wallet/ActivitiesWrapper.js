@@ -3,11 +3,11 @@ import { Translate } from 'react-localize-redux';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 
-import { selectAccountId } from '../../redux/reducers/account';
+import { EXPLORER_URL } from '../../config';
+import { selectAccountId } from '../../redux/slices/account';
 import { selectOneTransactionByIdentity, selectTransactionsByAccountId, selectTransactionsLoading } from '../../redux/slices/transactions';
 import { actions as transactionsActions } from '../../redux/slices/transactions';
 import classNames from '../../utils/classNames';
-import { EXPLORER_URL } from '../../utils/wallet';
 import FormButton from '../common/FormButton';
 import ActivityBox from './ActivityBox';
 import ActivityDetailModal from './ActivityDetailModal';

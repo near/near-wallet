@@ -3,9 +3,10 @@ import React, { Component, createRef } from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
+import { ACCOUNT_ID_SUFFIX } from '../../config';
 import { Mixpanel } from '../../mixpanel/index';
 import classNames from '../../utils/classNames';
-import { ACCOUNT_CHECK_TIMEOUT, ACCOUNT_ID_SUFFIX } from '../../utils/wallet';
+import { ACCOUNT_CHECK_TIMEOUT } from '../../utils/wallet';
 import LocalAlertBox from '../common/LocalAlertBox.js';
 
 const InputWrapper = styled.div`

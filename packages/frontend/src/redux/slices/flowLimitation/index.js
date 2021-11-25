@@ -37,7 +37,7 @@ const handleFlowLimitation = createAsyncThunk(
                 accountBalance: true
             }));
         } 
-        else if (redirectUrl.includes(WALLET_SIGN_URL)) {
+        else if (redirectUrl === `/${WALLET_SIGN_URL}`) {
             dispatch(setFlowLimitation({
                 mainMenu: true,
                 subMenu: true,

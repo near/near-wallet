@@ -1,9 +1,11 @@
+import { getSearch } from 'connected-react-router';
 import React, { Component } from 'react';
 import { Translate } from 'react-localize-redux';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
+import { ACCOUNT_ID_SUFFIX, IS_MAINNET, MIN_BALANCE_TO_CREATE } from '../../config';
 import { Mixpanel } from '../../mixpanel/index';
 import {
     checkNearDropBalance,
@@ -13,13 +15,12 @@ import {
     refreshAccount
 } from '../../redux/actions/account';
 import { clearLocalAlert } from '../../redux/actions/status';
+import { selectAccountSlice } from '../../redux/slices/account';
+import { selectStatusLocalAlert, selectStatusMainLoader } from '../../redux/slices/status';
 import { selectNearTokenFiatValueUSD } from '../../redux/slices/tokenFiatValues';
 import isMobile from '../../utils/isMobile';
 import {
-    ACCOUNT_ID_SUFFIX,
-    ENABLE_IDENTITY_VERIFIED_ACCOUNT,
-    IS_MAINNET,
-    MIN_BALANCE_TO_CREATE
+    ENABLE_IDENTITY_VERIFIED_ACCOUNT
 } from '../../utils/wallet';
 import AccountNote from '../common/AccountNote';
 import { getNearAndFiatValue } from '../common/balance/helpers';
@@ -301,21 +302,16 @@ const mapDispatchToProps = {
     redirectTo
 };
 
-const mapStateToProps = (state, ownProps) => {
-    const { account, status, router } = state;
-    const { match } = ownProps;
-
-    return {
-        ...account,
-        localAlert: status.localAlert,
-        mainLoader: status.mainLoader,
-        fundingContract: match.params.fundingContract,
-        fundingKey: match.params.fundingKey,
-        fundingAccountId: match.params.fundingAccountId,
-        nearTokenFiatValueUSD: selectNearTokenFiatValueUSD(state),
-        locationSearch: router.location.search
-    };
-};
+const mapStateToProps = (state, { match }) => ({
+    ...selectAccountSlice(state),
+    localAlert: selectStatusLocalAlert(state),
+    mainLoader: selectStatusMainLoader(state),
+    fundingContract: match.params.fundingContract,
+    fundingKey: match.params.fundingKey,
+    fundingAccountId: match.params.fundingAccountId,
+    nearTokenFiatValueUSD: selectNearTokenFiatValueUSD(state),
+    locationSearch: getSearch(state)
+});
 
 export const CreateAccountWithRouter = connect(
     mapStateToProps,

@@ -7,9 +7,9 @@ import styled from 'styled-components';
 
 import IconArrowLeft from '../../images/IconArrowLeft';
 import IconProblems from '../../images/IconProblems';
+import { selectAccountSlice } from '../../redux/slices/account';
+import { selectSignSlice } from '../../redux/slices/sign';
 import SafeTranslate from '../SafeTranslate';
-
-
 
 const CustomGrid = styled(Grid)`
     .top-back {
@@ -42,7 +42,7 @@ const CustomGrid = styled(Grid)`
                 padding: 6px 0 0 0;
 
                 .color-blue {
-                    line-break: anywhere;
+                    word-break: break-all;
                 }
             }
             .details-subitem {
@@ -237,9 +237,9 @@ const ActionWarrning = ({ actionKind, action }) => {
 
 const mapDispatchToProps = {};
 
-const mapStateToProps = ({ account, sign }) => ({
-    account,
-    ...sign,
+const mapStateToProps = (state) => ({
+    account: selectAccountSlice(state),
+    ...selectSignSlice(state)
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(SignTransferDetails));

@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import classNames from '../../utils/classNames';
 import SafeTranslate from '../SafeTranslate';
 import AlertRoundedIcon from '../svg/AlertRoundedIcon.js';
+import AlertTriangleIcon from '../svg/AlertTriangleIcon.js';
 import FormButton from './FormButton';
 
 const Container = styled.div`
@@ -13,10 +14,24 @@ const Container = styled.div`
         padding: 20px;
         border-radius: 4px;
         margin-bottom: 30px;
+        align-items: center;
 
         @media (max-width: 450px) {
             margin: -25px -14px 30px -14px;
             border-radius: 0;
+        }
+
+        &.warning {
+            background-color: #FEF2F2;
+            color: #DC1F25;
+            margin-bottom: 0;
+
+            svg {
+                transform: rotate(0deg);
+                path {
+                    stroke: #DC1F25;
+                }
+            }
         }
 
         &.alert {
@@ -27,6 +42,9 @@ const Container = styled.div`
                 &.link {
                     color: #452500 !important;
                 }
+            }
+            a {
+                color: inherit;
             }
         }
 
@@ -73,7 +91,7 @@ const Container = styled.div`
         }
 
         a {
-            display: table !important;
+            text-decoration: underline;
         }
     }
 `;
@@ -81,7 +99,10 @@ const Container = styled.div`
 export default function AlertBanner({ title, button, linkTo, data, theme }) {
     return (
         <Container className={classNames(['alert-banner', theme])}>
-            <AlertRoundedIcon/>
+            {theme !== 'warning'
+                ? <AlertRoundedIcon/>
+                : <AlertTriangleIcon/>
+            }      
             <div>
                 <SafeTranslate id={title} data={{ data: data }}/>
                 {linkTo ? 

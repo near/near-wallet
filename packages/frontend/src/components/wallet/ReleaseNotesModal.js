@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import GiftBoxLineIcon from '../../images/gift-box-line.svg';
 import GiftBoxIcon from '../../images/gift-box.svg';
 import StarsIcon from '../../images/star.svg';
-import { selectAccountId } from '../../redux/reducers/account';
+import { selectAccountId } from '../../redux/slices/account';
 import { getReleaseNotesClosed, setReleaseNotesClosed } from '../../utils/localStorage';
 import { RELEASE_NOTES_MODAL_VERSION } from '../../utils/wallet';
 import FormButton from '../common/FormButton';

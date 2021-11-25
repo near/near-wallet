@@ -5,6 +5,7 @@ import { Translate } from 'react-localize-redux';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 
+import { IS_MAINNET, MIN_BALANCE_FOR_GAS } from '../../config';
 import { useAccount } from '../../hooks/allAccounts';
 import { Mixpanel } from "../../mixpanel/index";
 import {
@@ -17,10 +18,10 @@ import {
     getBalance
 } from '../../redux/actions/account';
 import { selectProfileBalance } from '../../redux/reducers/selectors/balance';
+import { selectAccountAuthorizedApps, selectAccountHas2fa, selectAccountId, selectAccountLedgerKey } from '../../redux/slices/account';
 import { actions as recoveryMethodsActions, selectRecoveryMethodsByAccountId } from '../../redux/slices/recoveryMethods';
 import { selectNearTokenFiatValueUSD } from '../../redux/slices/tokenFiatValues';
 import isMobile from '../../utils/isMobile';
-import { IS_MAINNET, MIN_BALANCE_FOR_GAS } from '../../utils/wallet';
 import FormButton from '../common/FormButton';
 import SkeletonLoading from '../common/SkeletonLoading';
 import Container from '../common/styled/Container.css';
@@ -130,8 +131,10 @@ const StyledContainer = styled(Container)`
 
 export function Profile({ match }) {
     const [transferring, setTransferring] = useState(false);
-    const { has2fa, authorizedApps, ledgerKey } = useSelector(({ account }) => account);
-    const loginAccountId = useSelector(state => state.account.accountId);
+    const has2fa = useSelector(selectAccountHas2fa);
+    const authorizedApps = useSelector(selectAccountAuthorizedApps);
+    const ledgerKey = useSelector(selectAccountLedgerKey);
+    const loginAccountId = useSelector(selectAccountId);
     const nearTokenFiatValueUSD = useSelector(selectNearTokenFiatValueUSD);
     const accountIdFromUrl = match.params.accountId;
     const accountId = accountIdFromUrl || loginAccountId;

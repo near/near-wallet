@@ -42,6 +42,7 @@ const LinkDropSuccessModal = ({ onClose, linkdropAmount }) => {
             onClose={onClose}
             modalSize='sm'
             closeButton={true}
+            data-test-id="linkDropSuccessModal"
         >
             <Container>
                 <NearGiftIcons/>

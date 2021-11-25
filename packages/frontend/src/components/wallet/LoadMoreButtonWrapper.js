@@ -2,7 +2,7 @@ import React from 'react';
 import { Translate } from 'react-localize-redux';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { selectAccountId } from '../../redux/reducers/account';
+import { selectAccountId } from '../../redux/slices/account';
 import {
     selectHasFetchedAllTokensForAccountForContract,
     selectLoadingTokensForAccountForContract,

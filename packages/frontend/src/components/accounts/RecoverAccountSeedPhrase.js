@@ -1,3 +1,4 @@
+import { getRouter } from 'connected-react-router';
 import { parse as parseQuery } from 'query-string';
 import React, { Component } from 'react';
 import { Translate } from 'react-localize-redux';
@@ -14,6 +15,8 @@ import {
     clearAccountState
 } from '../../redux/actions/account';
 import { clearLocalAlert } from '../../redux/actions/status';
+import { selectAccountSlice } from '../../redux/slices/account';
+import { selectStatusLocalAlert, selectStatusMainLoader } from '../../redux/slices/status';
 import parseFundingOptions from '../../utils/parseFundingOptions';
 import Container from '../common/styled/Container.css';
 import RecoverAccountSeedPhraseForm from './RecoverAccountSeedPhraseForm';
@@ -42,6 +45,7 @@ const StyledContainer = styled(Container)`
 class RecoverAccountSeedPhrase extends Component {
     state = {
         seedPhrase: this.props.seedPhrase,
+        recoveringAccount: false
     }
 
     // TODO: Use some validation framework?
@@ -79,8 +83,13 @@ class RecoverAccountSeedPhrase extends Component {
 
         await Mixpanel.withTracking("IE-SP Recovery with seed phrase",
             async () => {
+                this.setState({ recoveringAccount: true });
                 await recoverAccountSeedPhrase(seedPhrase);
                 await refreshAccount();
+            }, (e) => {
+                throw e;
+            }, () => {
+                this.setState({ recoveringAccount: false });
             }
         );
 
@@ -132,12 +141,12 @@ const mapDispatchToProps = {
     clearAccountState
 };
 
-const mapStateToProps = ({ account, status, router }, { match }) => ({
-    ...account,
-    router,
+const mapStateToProps = (state, { match }) => ({
+    ...selectAccountSlice(state),
+    router: getRouter(state),
     seedPhrase: match.params.seedPhrase || '',
-    localAlert: status.localAlert,
-    mainLoader: status.mainLoader
+    localAlert: selectStatusLocalAlert(state),
+    mainLoader: selectStatusMainLoader(state)
 });
 
 export const RecoverAccountSeedPhraseWithRouter = connect(

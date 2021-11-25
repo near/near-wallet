@@ -1,6 +1,5 @@
 import reduceReducers from 'reduce-reducers';
 import { handleActions } from 'redux-actions';
-import { createSelector } from 'reselect';
 
 import {
     requestCode,
@@ -215,9 +214,3 @@ export default reduceReducers(
     twoFactorPrompt,
     ledgerKey
 );
-
-export const selectAccount = (state) => state.account;
-export const selectAccountId = createSelector(selectAccount, (account) => account.accountId);
-export const selectBalance = createSelector(selectAccount, (account) => account.balance);
-export const selectAccountsBalances = createSelector(selectAccount, (account) => account.accountsBalance);
-export const signedInAccountIdLocalStorage = createSelector(selectAccount, (account) => account.localStorage?.accountId);
