@@ -140,7 +140,13 @@
             "error": "Um erro ocorreu. A transação enviada foi cancelada."
         },
         "createNewAccount": {
-            "error": "A criação da conta falhou. Tente novamente."
+            "error": "A criação da conta falhou. Tente novamente.",
+            "accountExists": {
+                "error": "A criação da conta falhou. A conta já existe."
+            },
+            "accountCreated": {
+                "error": "A criação da conta foi bem sucedida mas houve um erro. Por favor importe sua conta."
+            }
         }
     },
     "account": {
@@ -194,8 +200,7 @@
                     "title": "Adicionar saldo com MoonPay",
                     "desc": "Faça seu depósito inicial via MoonPay utilizado seu método de pagamento preferido.",
                     "buyWith": "Comprar com"
-                },
-                "fundWith": "Adicionar fundos com"
+                }
             },
             "post": {
                 "title": "Reivindique sua conta",
@@ -241,6 +246,7 @@
                 "warning": "Isso permite acesso a todo o seu saldo. Prossiga com cuidado."
             },
             "incorrectContractId": {
+                "errorTitle": "ID de contrato inválido",
                 "error": "O contrato ${contractId} não existe. Isso pode ser um problema com o aplicativo que você está tentando usar ou este contrato pode ter sido excluído. Você será redirecionado de volta para a aplicação"
             }
         },
@@ -269,7 +275,7 @@
         }
     },
 
-    "verifyAccount": {        
+    "verifyAccount": {
         "title": "Quase lá! Verifique sua nova conta.",
         "desc": "Para prevenir spam de novas contas, nós precisamos validar sua operação. Você pode verificar através de um código de utilização única ou através de um pequeno depósito inicial.",
         "options": {
@@ -300,7 +306,7 @@
         }
     },
 
-    "verifyAccount": {        
+    "verifyAccount": {
         "title": "Quase lá! Verifique sua nova conta.",
         "desc": "Para prevenir spam de novas contas, nós precisamos validar sua operação. Você pode verificar através de um código de utilização única ou através de um pequeno depósito inicial.",
         "options": {
@@ -353,7 +359,7 @@
         "to": "Para",
         "estimatedFees": "Taxas estimadas"
     },
-    
+
     "existingAccount": {
         "selectAccount": {
             "title": "Adicionar fundos usando uma carteira existente.",
@@ -678,7 +684,8 @@
         "gotIt": "Entendi",
         "fundWith": "Adicionar Fundos",
         "next": "Próximo",
-        "approve": "Aprovar"
+        "approve": "Aprovar",
+        "returnToApp": "Retornar ao App"
     },
 
     "link": {
@@ -849,9 +856,11 @@
         "title": "Digitar Código de Verificação",
         "pageText": "Enviamos um código de verificação de 6 dígitos para ",
         "inputHeader": "Digitar Código de Verificação",
+        "inputError": "Por favor forneça o código de verificação!",
         "inputPlaceholder": "Código de Verificação",
         "didNotReceive": "Não recebeu o seu código?",
         "resendCode": "Reenviar seu código",
+        "resending": "Reenviando...",
         "or": "ou",
         "sendToDifferent": "Enviar para outro",
         "email": "endereço de e-mail",
@@ -889,6 +898,9 @@
     },
 
     "loading": "Carregando...",
+    "loadingNoDots": "Carregando",
+    "sync": "Sincronizar",
+    "getBalance": "Obter saldo",
 
     "balance": {
         "balance": "Saldo total",
@@ -897,11 +909,27 @@
 
     "wallet": {
         "balanceTitle": "Saldo da carteira",
+        "totalBalanceTitle": "Saldo total",
+        "availableBalance": "Saldo disponível",
         "tokens": "Tokens",
+        "yourPortfolio": "Seu portfólio",
         "balance": "Saldo",
+        "totalBalance": "Saldo total",
+        "tokenBalance": "Saldo de tokens",
         "dateAndTime": "Data & Hora",
-        "status": "Status"
+        "status": "Status",
+        "balances": "Saldos",
+        "collectibles": "Colecionáveis",
+        "depositNear": {
+            "title": "Deposite NEAR",
+            "desc": "Você precisará de tokens NEAR para realizar transações com sua carteira."
+        }
     },
+
+    "tokenBox": {
+        "priceUnavailable": "Preço indisponível"
+    },
+
     "buyNear": {
         "title": "Comprar NEAR",
         "moonPay": "MoonPay",
@@ -910,7 +938,14 @@
         "supportedExchanges": "Exchanges suportadas",
         "descTwo": "NEAR está disponível para compra nas seguintes exchanges.",
         "seeMore": "Ver mais em",
-        "coinMarketCap": "CoinMarketCap"
+        "coinMarketCap": "CoinMarketCap",
+        "bridgeTokens": "Fazer ponte de tokens do Ethereum",
+        "descThree": "Transfira seus tokens do Ethereum para a carteira NEAR usando uma ponte."
+    },
+
+    "NFTs": {
+        "emptyState": "Parece que você ainda não tem nenhum colecionável.",
+        "loadMore": "Carregar mais"
     },
 
     "exploreApps": {
@@ -952,6 +987,35 @@
         "cliLoginSuccess": {
             "pageTitle": "Você autorizou com sucesso o NEAR Shell!",
             "pageText": "Por favor, feche esta janela e siga as instruções no terminal."
+        },
+        "v2": {
+            "connectWithNear": {
+                "title": "Conectar com NEAR",
+                "desc": "Um aplicativo requisitou <b>${accessType}</b> à sua conta NEAR. Selecione a conta à qual deseja se conectar.",
+                "limitedAccess": "acesso limitado",
+                "fullAccess": "acesso completo"
+            },
+            "connectConfirm": {
+                "title": "Conectando-se com:",
+                "desc": "Só conecte-se a sites em que confia. Uma vez conectado, <a href=${contractIdUrl} target='_blank' rel='noreferrer'>${appReferrer}</a> terá <b>${accessType}</b>:",
+                "limitedAccess": "permissões limitadas",
+                "fullAccess": "permissões completas",
+                "fullAccessWarning": "Este site está requisitando acesos completo à sua conta. Para permitir acesso completo, será solicitado que verifique o ID de sua conta.",
+                "permissions": {
+                    "viewAddress": "Ver o endereço de sua conta autorizada",
+                    "viewBalance": "Ver o saldo de sua conta autorizada",
+                    "notTransferTokens": "Isso não permite que o app transfira tokens",
+                    "transferTokens": "Transferir tokens de sua conta"
+                },
+                "fullAccessModal": {
+                    "title": "Conceder acesso completo?",
+                    "desc": "Prossiga com cuidado. Permissões de acesso completo permitem que contratos e aplicativos acessem seu saldo de tokens. Para confirmar, forneça o ID de sua conta abaixo."
+                },
+                "feeAllowance": {
+                    "title": "Taxa de Allowance da Rede",
+                    "desc": "A aplicação será autorizada a gastar até <b>${amount} NEAR</b> em taxas de rede que incidam durante o uso."
+                }
+            }
         }
     },
 
@@ -1048,6 +1112,10 @@
         },
         "validatorBox": {
             "fee": "Taxa",
+            "state": {
+                "active": "ativo",
+                "inactive": "inativo"
+            },
             "staking": "Staking",
             "near": "NEAR",
             "cta": "Selecionar",
@@ -1154,13 +1222,15 @@
             "walletId": "ID da carteira",
             "walletBalance": "Saldo da carteira",
             "reservedForStorage": "Reservado para armazenamento",
-            "inStakingPools": "In staking pools",
+            "inStakingPools": "Em staking pools",
             "staked": "Em Stake",
             "unstaked": "Unstake",
             "available": "Disponível",
+            "reservedForTransactions": "Reservado para transações",
             "pendingRelease": "Aguardando liberação",
             "availableToWithdraw": "Disponível para saque",
-            "availableToTransfer": "Disponível para transferência"
+            "availableToTransfer": "Disponível para transferência",
+            "staking": "Staking"
         },
         "authorizedApps": {
             "title": "Apps Autorizados"
@@ -1388,9 +1458,7 @@
         "header": "Instale o NEAR no seu dispositivo Ledger",
         "one": "Abra <a href='https://www.ledger.com/ledger-live' target='_blank'>Ledger Live,</a> instale qualquer atualização de firmware disponível.",
         "two": "Navegue até as <span class='color-black'>Configurações</span>.",
-        "three": "Sob <span class='color-black'>Recursos Experimentais</span>, certifique-se de que o <span class='color-black'>Modo de Desenvolvedor</span> esteja ativado <span class='color-black'>em</span>.",
-        "four": "Volte à guia <span class='color-black'>Gerenciador</span> e procure por <span class='color-black'>NEAR</span>.",
-        "five": "Siga as instruções para instalar o <span class='color-black'>aplicativo NEAR</span> no seu dispositivo."
+        "three": "Sob <span class='color-black'>Recursos Experimentais</span>, certifique-se de que o <span class='color-black'>Modo de Desenvolvedor</span> esteja ativado <span class='color-black'>em</span>."
     },
 
     "setupLedgerSuccess": {
@@ -1435,6 +1503,9 @@
             "subTitle": "Caminho no disco",
             "desc": "Especifique o caminho no disco para importar suas contas vinculadas.",
             "setPath": "Definir caminho no disco"
+        },
+        "firefoxBanner": {
+            "desc": "No momento só há suporte para o Ledger no <a href='https://www.mozilla.org/' rel='noopener noreferrer' target='_blank'><b>Mozilla Firefox</b></a>. O suporte para outros navegadores será restaurado em breve."
         }
     },
 
@@ -1479,5 +1550,14 @@
     "emailSubscribe": {
         "title": "Cadastre-se abaixo para acesso antecipado",
         "placeholder": "Seu e-mail..."
+    },
+
+    "releaseNotesModal": {
+        "title": "Notas de lançamento",
+        "desc": "Você pediu, nós ouvimos! A última atualização traz ajustes na forma como os saldos são mostrados na carteira, e uma forma mais fácil de criar contas novas.",
+        "subTitle1": "Novos recursos",
+        "subText1": "Ao iniciar, agora você poderá usar um número de telefone compatível com SMS para verificar e inicializar sua conta nova. Usuários que não queiram fornecer essa informação ainda poderão inicializar contas novas com um depósito inicial.",
+        "subTitle2": "Aprimoramentos",
+        "subText2": "Agora o saldo principal mostrado na carteira é o seu 'Saldo disponível', onde antes era o seu 'Saldo Total'. O saldo disponível oferece a maior utilidade aos usuários que querem saber rapidamente o que eles têm disponível para gastar/fazer stake/interagir com o ecossistema; ele não inclui nenhum token que não possa ser gasto de imediato, tais como tokens que estejam em stake. Você ainda pode ver detalhes sobre o saldo de tokens que tem em stake nas telas de 'Conta' e 'Staking'."
     }
 }
