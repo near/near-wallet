@@ -2,6 +2,7 @@ const { formatTestTitle, formatFailure } = require("@playwright/test/lib/test/re
 const { BN } = require("bn.js");
 const milliseconds = require("ms");
 const { formatNearAmount } = require("near-api-js/lib/utils/format");
+const { getBankAccount } = require("./utils/account");
 
 const { bnComparator } = require("./utils/helpers");
 
@@ -10,12 +11,15 @@ class WalletE2eLogsReporter {
     constructor({ logger }) {
         this.workerExpenseLogs = [];
         this.logger = logger;
+        this.bankStartBalance = "0";
     }
-    onBegin(config, suite) {
+    async onBegin(config, suite) {
         const [seconds, nanoseconds] = process.hrtime();
         this.monotonicStartTime = seconds * 1000 + ((nanoseconds / 1000000) | 0);
         this.config = config;
         this.suite = suite;
+        const bankAccount = await getBankAccount();
+        this.bankStartBalance = (await bankAccount.getUpdatedBalance()).total;
     }
     onStdOut(chunk) {
         this.collectWorkerExpenseLogs(chunk);
@@ -57,7 +61,7 @@ class WalletE2eLogsReporter {
     getTestsForWorkerIndex(idx) {
         return this.suite.allTests().filter(({ results }) => results.some(({ workerIndex }) => workerIndex === idx));
     }
-    printWorkerExpenses() {
+    async printWorkerExpenses() {
         this.workerExpenseLogs
             .sort(
                 ({ amountSpent: amountSpentA }, { amountSpent: amountSpentB }) =>
@@ -85,20 +89,25 @@ class WalletE2eLogsReporter {
                 this.workerExpenseLogs.reduce((acc, { amountSpent }) => new BN(amountSpent).add(acc), new BN(0)).toString()
             )} Ⓝ`
         );
+        const bankAccount = await getBankAccount();
+        const { total: endBalance } = await bankAccount.getUpdatedBalance();
+        this.logger.info(
+            `Bank account difference: ${formatNearAmount(new BN(endBalance).sub(new BN(this.bankStartBalance)).toString())} Ⓝ`
+        );
     }
-    onEnd() {
+    async onEnd() {
         const failed = this.getFailedTests();
         const passed = this.getPassedTests();
         const skipped = this.getSkippedTests();
         this.logger.error(`${failed.length} failed`);
         this.logger.info(`${passed.length} passed`);
         this.logger.info(`${skipped.length} skipped`);
-        this.printWorkerExpenses();
+        await this.printWorkerExpenses();
         failed.forEach((test, index) => {
             const formattedFailure = formatFailure(this.config, test, index + 1);
             this.logger.error(formattedFailure);
         });
-        // TODO: replace with below when playwright is updated
+        // TODO: replace with below when playwright dependency version is updated
         // failed.forEach((test, index) => {
         //     const formattedFailure = formatFailure(this.config, test, {
         //         index: index + 1,

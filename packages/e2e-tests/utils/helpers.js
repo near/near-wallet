@@ -21,17 +21,21 @@ function generateTestAccountId() {
 }
 
 function getTestAccountSeedPhrase(testAccountId) {
-    return `${testAccountId} ${process.env.TEST_ACCOUNT_SEED_PHRASE}`
+    return `${testAccountId} ${process.env.TEST_ACCOUNT_SEED_PHRASE}`;
 }
 
 function getWorkerAccountId(workerIndex) {
-    return `${workerIndex}.${process.env.BANK_ACCOUNT}`
+    return `w${workerIndex}-${Date.now()}-${Math.floor(Math.random() * 1000) % 1000}.${process.env.BANK_ACCOUNT}`;
+}
+
+function getWorkerAccountRegex(workerIndex) {
+    return new RegExp(`w${workerIndex}-[0-9]+-[0-9]+.${process.env.BANK_ACCOUNT}`);
 }
 
 function bnComparator(a, b) {
-    if(a.lt(b)) {
-        return -1
-    } else if(a.eq(b)) {
+    if (a.lt(b)) {
+        return -1;
+    } else if (a.eq(b)) {
         return 0;
     } else {
         return 1;
@@ -44,5 +48,6 @@ module.exports = {
     generateTestAccountId,
     getTestAccountSeedPhrase,
     getWorkerAccountId,
-    bnComparator
+    bnComparator,
+    getWorkerAccountRegex
 };
