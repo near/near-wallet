@@ -5,7 +5,6 @@ import { Grid } from 'semantic-ui-react';
 import MobileContainer from './MobileContainer';
 import SignAnimatedArrow from './SignAnimatedArrow';
 
-
 const SignTransferReady = ({ status, isMonetaryTransaction }) => (
     <MobileContainer>
         <Grid padded>

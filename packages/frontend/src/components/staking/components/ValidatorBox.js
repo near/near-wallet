@@ -134,7 +134,17 @@ export default function ValidatorBox({
     const { accountId: validatorId, active } = validator;
 
     const fee = validator.fee && validator.fee.percentage;
-    const cta = amount ? <ChevronIcon/> : <FormButton className='gray-blue' linkTo={`/staking/${validatorId}`}><Translate id='staking.validatorBox.cta' /></FormButton>;
+    const cta = amount ? (
+        <ChevronIcon />
+    ) : (
+        <FormButton
+            className="gray-blue"
+            linkTo={`/staking/${validatorId}`}
+            data-test-id="stakingPageSelectValidator"
+        >
+            <Translate id="staking.validatorBox.cta" />
+        </FormButton>
+    );
 
     const handleClick = () => {
         Mixpanel.track("STAKE Go to staked account page");
@@ -146,6 +156,7 @@ export default function ValidatorBox({
     return (
         <Container 
             className='validator-box' 
+            data-test-id="stakingPageValidatorItem"
             clickable={clickable && amount ? 'true' : ''} 
             style={style} 
             onClick={handleClick}
@@ -153,7 +164,9 @@ export default function ValidatorBox({
             {label && <div className='with'><Translate id='staking.validatorBox.with' /></div>}
             <UserIcon background={true}/>
             <div className='left'>
-                <div>{validatorId}</div>
+                <div data-test-id="stakingPageValidatorItemName">
+                    {validatorId}
+                </div>
                 {typeof fee === 'number' &&
                     <div className="text-left"> 
                         <span>{fee}% <Translate id='staking.validatorBox.fee' /> - </span>

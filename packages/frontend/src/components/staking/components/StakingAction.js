@@ -132,7 +132,13 @@ export default function StakingAction({
                 <h2><Translate id={`staking.${action}.desc`} /></h2>
                 <div className='amount-header-wrapper'>
                     <h4><Translate id='staking.stake.amount' /></h4>
-                    <FormButton className='light-blue small' onClick={handleSetMax}><Translate id='staking.stake.useMax' /></FormButton>
+                    <FormButton
+                        className="light-blue small"
+                        onClick={handleSetMax}
+                        data-test-id="stakingPageUseMaxButton"
+                    >
+                        <Translate id="staking.stake.useMax" />
+                    </FormButton>
                 </div>
                 <AmountInput
                     action={action}
@@ -144,6 +150,7 @@ export default function StakingAction({
                     insufficientBalance={invalidStakeActionAmount} 
                     disabled={loading || confirm}
                     stakeFromAccount={stakeFromAccount}
+                    inputTestId="stakingAmountInput"
                 />
                 <ArrowCircleIcon color={stakeActionAllowed ? '#6AD1E3' : ''}/>
                 <div className='header-button'>
@@ -167,6 +174,7 @@ export default function StakingAction({
                     disabled={!stakeActionAllowed} 
                     onClick={() => setConfirm(true)}
                     trackingId="STAKE/UNSTAKE Click submit stake button"
+                    data-test-id="submitStakeButton"
                 >
                     <Translate id={`staking.${action}.button`} />
                 </FormButton>
@@ -194,7 +202,7 @@ export default function StakingAction({
             <>
                 <TransferMoneyIcon/>
                 <h1><Translate id={`staking.${action}Success.title`} /></h1>
-                <div className='desc'>
+                <div className='desc' data-test-id="stakingSuccessMessage">
                     <SafeTranslate
                         id={`staking.${action}Success.desc`}
                         data={{ amount: getNearAndFiatValue(parseNearAmount(displayAmount), nearTokenFiatValueUSD) }}
@@ -213,6 +221,7 @@ export default function StakingAction({
                     linkTo='/staking' 
                     className='gray-blue'
                     trackingId="STAKE/UNSTAKE Return to dashboard"
+                    data-test-id="returnToDashboardButton"
                 >
                     <Translate id={`staking.${action}Success.button`} />
                 </FormButton>

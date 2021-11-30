@@ -1,9 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import { EXPLORER_URL } from '../../config';
 import FailedToLoad from '../../images/failed_to_load.svg';
 import isDataURL from '../../utils/isDataURL';
-import { EXPLORER_URL } from '../../utils/wallet';
 import DefaultTokenIcon from '../svg/DefaultTokenIcon';
 import LoadMoreButtonWrapper from './LoadMoreButtonWrapper';
 

@@ -2,6 +2,7 @@ import React, { useRef, useImperativeHandle, forwardRef, useState } from 'react'
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
+import { RECAPTCHA_CHALLENGE_API_KEY } from '../../config';
 import { ENABLE_IDENTITY_VERIFIED_ACCOUNT } from '../../utils/wallet';
 import FormButton from '../common/FormButton';
 import LocalAlertBox from '../common/LocalAlertBox';
@@ -59,7 +60,8 @@ const SetupSeedPhraseVerify = (
         onRecaptchaChange,
         isNewAccount,
         onSubmit,
-        isLinkDrop
+        isLinkDrop,
+        hasSeedPhraseRecovery
     },
     ref
 ) => {
@@ -74,7 +76,7 @@ const SetupSeedPhraseVerify = (
         }
     }));
 
-    const shouldRenderRecaptcha = !ENABLE_IDENTITY_VERIFIED_ACCOUNT && !isLinkDrop && process.env.RECAPTCHA_CHALLENGE_API_KEY && isNewAccount;
+    const shouldRenderRecaptcha = !ENABLE_IDENTITY_VERIFIED_ACCOUNT && !isLinkDrop && RECAPTCHA_CHALLENGE_API_KEY && isNewAccount;
 
     return (
         <CustomDiv>
@@ -115,7 +117,7 @@ const SetupSeedPhraseVerify = (
             <FormButton
                 type='submit'
                 color='blue'
-                disabled={!enterWord || mainLoader || (!recaptchaToken && shouldRenderRecaptcha)}
+                disabled={hasSeedPhraseRecovery || !enterWord || mainLoader || (!recaptchaToken && shouldRenderRecaptcha)}
                 sending={mainLoader}
                 sendingString={isNewAccount ? 'button.creatingAccount' : 'button.verifying'}
                 data-test-id="seedPhraseVerificationWordSubmit"

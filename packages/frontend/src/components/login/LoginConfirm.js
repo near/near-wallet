@@ -6,6 +6,7 @@ import { Grid } from 'semantic-ui-react';
 
 
 import IconHelp from '../../images/IconHelp';
+import { selectAccountSlice } from '../../redux/slices/account';
 import FormButton from '../common/FormButton';
 import SafeTranslate from '../SafeTranslate';
 import MobileContainer from '../sign/MobileContainer';
@@ -132,8 +133,8 @@ LoginForm.propTypes = {
     handleAllow: PropTypes.func.isRequired
 };
 
-const mapStateToProps = ({ account }) => ({
-    account
+const mapStateToProps = (state) => ({
+    account: selectAccountSlice(state)
 });
 
 export default connect(mapStateToProps)(LoginForm);

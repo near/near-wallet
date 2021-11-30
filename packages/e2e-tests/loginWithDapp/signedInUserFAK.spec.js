@@ -1,7 +1,7 @@
 const { test, expect } = require("@playwright/test");
 const { HomePage } = require("../register/models/Home");
 
-const { createRandomBankSubAccount } = require("../utils/account");
+const { getBankAccount } = require("../utils/account");
 const { testDappURL } = require("../utils/config");
 const { LoginPage } = require("./models/Login");
 
@@ -11,20 +11,22 @@ describe("Login with Dapp", () => {
     let testAccount;
 
     beforeAll(async () => {
-        testAccount = await createRandomBankSubAccount();
+        const bankAccount = await getBankAccount();
+        testAccount = bankAccount.spawnRandomSubAccountInstance();
+        await testAccount.create();
     });
 
     beforeEach(async ({ page }) => {
         const homePage = new HomePage(page);
         await homePage.navigate();
         await homePage.loginWithSeedPhraseLocalStorage(
-            testAccount.account.accountId,
+            testAccount.accountId,
             testAccount.seedPhrase
         );
     });
 
     afterAll(async () => {
-        testAccount && (await testAccount.delete());
+        await testAccount.delete();
     });
 
     test("navigates to login with dapp page requesting a full access key", async ({ page }) => {
@@ -52,7 +54,7 @@ describe("Login with Dapp", () => {
         await loginPage.allowFullAccess();
         await expect(page).toMatchURL(/\/confirm$/);
 
-        await loginPage.confirmAccountId(testAccount.account.accountId)
+        await loginPage.confirmAccountId(testAccount.accountId)
 
         await expect(page).toMatchURL(new RegExp(testDappURL));
 
@@ -62,13 +64,13 @@ describe("Login with Dapp", () => {
 
         const accesskeyLocalStorageKey =
             await testDappPage.getAccessKeyForAccountId(
-                testAccount.account.accountId
+                testAccount.accountId
             );
         await expect(accesskeyLocalStorageKey).toBeTruthy();
 
         await expect(page).toMatchText(
             "data-test-id=testDapp-currentUser",
-            new RegExp(testAccount.account.accountId)
+            new RegExp(testAccount.accountId)
         );
     });
     test("navigates back to dapp when access is denied", async ({ page }) => {
@@ -85,7 +87,7 @@ describe("Login with Dapp", () => {
 
         const accesskeyLocalStorageKey =
             await testDappPage.getAccessKeyForAccountId(
-                testAccount.account.accountId
+                testAccount.accountId
             );
         await expect(accesskeyLocalStorageKey).toBeFalsy();
 

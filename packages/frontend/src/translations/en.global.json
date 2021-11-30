@@ -140,7 +140,13 @@
             "error": "An error occured. Your send transaction was cancelled."
         },
         "createNewAccount": {
-            "error": "Account creation failed. You may want to try again."
+            "error": "Account creation failed. You may want to try again.",
+            "accountExists": {
+                "error": "Account creation failed. Account already exists."
+            },
+            "accountCreated": {
+                "error": "Account creation succeded but an error occured. Please import your account."
+            }
         }
     },
     "account": {
@@ -240,6 +246,7 @@
                 "warning": "This allows access to your entire balance. Please proceed with caution."
             },
             "incorrectContractId": {
+                "errorTitle": "Invalid contract ID",
                 "error": "The contract ${contractId} does not exist. This may be an issue with the application you are trying to use, or this contract may have been deleted. You will be redirected back to the application"
             }
         },
@@ -644,7 +651,8 @@
         "gotIt": "Got it",
         "fundWith": "Fund with",
         "next": "Next",
-        "approve": "Approve"
+        "approve": "Approve",
+        "returnToApp": "Return to App"
     },
 
     "link": {
@@ -946,6 +954,35 @@
         "cliLoginSuccess": {
             "pageTitle": "You've successfully authorized NEAR Shell!",
             "pageText": "Please close this window and follow the instructions in the terminal."
+        },
+        "v2": {
+            "connectWithNear": {
+                "title": "Connect with NEAR",
+                "desc": "An application is requesting <b>${accessType}</b> to your NEAR account. Select the account you wish to connect.",
+                "limitedAccess": "limited access",
+                "fullAccess": "full access"
+            },
+            "connectConfirm": {
+                "title": "Connecting with:",
+                "desc": "Only connect to sites that you trust. Once connected, <a href=${contractIdUrl} target='_blank' rel='noreferrer'>${appReferrer}</a> will have <b>${accessType}</b>:",
+                "limitedAccess": "limited permissions",
+                "fullAccess": "full permissions",
+                "fullAccessWarning": "This site is requesting full access to your account. To enable full access, you’ll be asked to verify your account ID.",
+                "permissions": {
+                    "viewAddress": "View the address of your permitted account",
+                    "viewBalance": "View the balance of your permitted account",
+                    "notTransferTokens": "This does not allow the app to transfer tokens",
+                    "transferTokens": "Transfer tokens from your account"
+                },
+                "fullAccessModal": {
+                    "title": "Grant full account access?",
+                    "desc": "Proceed with caution. Full access permissions allow contracts and applications to access your token balance. To confirm, enter your account ID below."
+                },
+                "feeAllowance": {
+                    "title": "Network Fee Allowance",
+                    "desc": "The application will be given permission to spend up to <b>${amount} NEAR</b> towards network fees incurred during use."
+                }
+            }
         }
     },
 
@@ -1435,6 +1472,9 @@
             "subTitle": "HD Path",
             "desc": "Specify an HD path to import its linked accounts.",
             "setPath": "Set HD Path"
+        },
+        "firefoxBanner": {
+            "desc": "Ledger is currently only supported in <a href='https://www.mozilla.org/' rel='noopener noreferrer' target='_blank'><b>Mozilla Firefox</b></a>. Support for other browsers will soon be restored."
         }
     },
 

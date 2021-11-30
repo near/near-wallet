@@ -15,8 +15,12 @@ import {
     clearAccountState
 } from '../../../redux/actions/account';
 import { clearLocalAlert } from '../../../redux/actions/status';
+import { selectAccountSlice } from '../../../redux/slices/account';
+import { selectLedgerSignInWithLedger, selectLedgerSignInWithLedgerStatus, selectLedgerTxSigned } from '../../../redux/slices/ledger';
+import { selectStatusSlice } from '../../../redux/slices/status';
 import { controller as controllerHelperApi } from '../../../utils/helper-api';
 import parseFundingOptions from '../../../utils/parseFundingOptions';
+import AlertBanner from '../../common/AlertBanner';
 import FormButton from '../../common/FormButton';
 import LocalAlertBox from '../../common/LocalAlertBox';
 import Container from '../../common/styled/Container.css';
@@ -33,9 +37,11 @@ export function SignInLedger(props) {
     const [confirmedPath, setConfirmedPath] = useState(null);
     const ledgerHdPath = confirmedPath ? `44'/397'/0'/0'/${confirmedPath}'` : null;
 
-    const account = useSelector(({ account }) => account);
-    const status = useSelector(({ status }) => status);
-    const { signInWithLedger: signInWithLedgerState, txSigned, signInWithLedgerStatus } = useSelector(({ ledger }) => ledger);
+    const account = useSelector(selectAccountSlice);
+    const status = useSelector(selectStatusSlice);
+    const signInWithLedgerState = useSelector(selectLedgerSignInWithLedger);
+    const txSigned = useSelector(selectLedgerTxSigned);
+    const signInWithLedgerStatus = useSelector(selectLedgerSignInWithLedgerStatus);
 
     const signInWithLedgerKeys = Object.keys(signInWithLedgerState || {});
 
@@ -79,12 +85,13 @@ export function SignInLedger(props) {
     const refreshAndRedirect = () => {
         dispatch(refreshAccount());
 
-        const fundWithExistingAccount = JSON.parse(parseQuery(props.history.location.search).fundWithExistingAccount);
+        const { search } = props.history.location;
+        const fundWithExistingAccount = parseQuery(search, { parseBooleans: true }).fundWithExistingAccount;
         if (fundWithExistingAccount) {
-            const createNewAccountParams = new URLSearchParams(fundWithExistingAccount).toString();
+            const createNewAccountParams = new URLSearchParams(JSON.parse(fundWithExistingAccount)).toString();
             dispatch(redirectTo(`/fund-with-existing-account?${createNewAccountParams}`));
         } else {
-            const options = parseFundingOptions(props.history.location.search);
+            const options = parseFundingOptions(search);
             if (options) {
                 dispatch(redirectTo(`/linkdrop/${options.fundingContract}/${options.fundingKey}`));
             } else {
@@ -107,6 +114,10 @@ export function SignInLedger(props) {
 
     return (
         <Container className='small-centered border ledger-theme'>
+            <AlertBanner
+                title='signInLedger.firefoxBanner.desc'
+                theme='alert'
+            />
             <h1><Translate id='signInLedger.header' /></h1>
             <LedgerImage />
             <h2><Translate id='signInLedger.one' /></h2>

@@ -7,8 +7,6 @@ import ProblemsImage from '../../images/icon-problems.svg';
 import FormButton from '../common/FormButton';
 import MobileContainer from './MobileContainer';
 
-
-
 const SignTransferInsufficientFunds = ({ handleDeny, handleAddFunds }) => (
     <MobileContainer>
         <Grid padded>

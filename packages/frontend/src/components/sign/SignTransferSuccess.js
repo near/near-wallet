@@ -7,8 +7,6 @@ import Balance from '../common/balance/Balance';
 import FormButton from '../common/FormButton';
 import MobileContainer from './MobileContainer';
 
-
-
 // TODO: Why handleDeny? It's not an error.
 const SignTransferReady = ({ handleClose, txTotalAmount, isMonetaryTransaction }) => (
     <MobileContainer>

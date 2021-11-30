@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
-import { selectAccountId } from '../../../redux/reducers/account';
+import { selectAccountId } from '../../../redux/slices/account';
 import { wallet } from '../../../utils/wallet';
 import MobileSharing from './MobileSharing';
 

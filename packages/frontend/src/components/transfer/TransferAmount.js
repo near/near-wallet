@@ -39,10 +39,12 @@ const StyledContainer = styled.div`
 
         > div {
             text-align: right;
-
+            margin-left: 20px;
+            
             .account-id {
                 color: #272729;
                 font-weight: 600;
+                word-break: break-all;
             }
 
             .balance {

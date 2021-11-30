@@ -2,7 +2,7 @@ import React from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
-import { EXPLORER_URL } from '../../utils/wallet';
+import { EXPLORER_URL } from '../../config';
 import Balance from '../common/balance/Balance';
 import TokenIcon from '../send/components/TokenIcon';
 import TokenAmount from './TokenAmount';
@@ -169,7 +169,11 @@ const TokenBox = ({ token, onClick }) => {
             </div>
             {token.symbol === 'NEAR' && !token.contractName ?
                 <div className='balance'>
-                    <Balance amount={token.balance} symbol={false}/>
+                    <Balance
+                        amount={token.balance}
+                        data-test-id="walletHomeNearBalance"
+                        symbol={false}
+                    />
                 </div>
                 :
                 <TokenAmount 

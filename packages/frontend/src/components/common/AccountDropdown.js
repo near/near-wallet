@@ -4,6 +4,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
 import { switchAccount } from '../../redux/actions/account';
+import { selectAccountId } from '../../redux/slices/account';
+import { selectAvailableAccounts } from '../../redux/slices/availableAccounts';
 import classNames from '../../utils/classNames';
 import DropDown from '../common/DropDown';
 
@@ -56,14 +58,17 @@ const Container = styled.div`
     }
 `;
 
-export default function AccountDropdown({ disabled }) {
+export default function AccountDropdown({ disabled, "data-test-id": testId }) {
     const dispatch = useDispatch();
-    const { accountId } = useSelector(({ account }) => account);
-    const availAccounts = useSelector(({ availableAccounts }) => availableAccounts);
-    const singleAccount = availAccounts.length < 2;
+    const accountId = useSelector(selectAccountId);
+    const availableAccounts = useSelector(selectAvailableAccounts);
+    const singleAccount = availableAccounts.length < 2;
     
     return (
-        <Container className={classNames(['account-dropdown-container'])}>
+        <Container
+            className={classNames(["account-dropdown-container"])}
+            data-test-id={testId}
+        >
             <div className='account-dropdown-title'>
                 <Translate id={`selectAccountDropdown.${singleAccount ? 'account' : 'selectAccount'}`}/>
             </div>
@@ -72,7 +77,7 @@ export default function AccountDropdown({ disabled }) {
                 name='account-dropdown'
                 title={accountId || ''}
                 content={
-                    availAccounts.filter(a => a !== accountId).map((account, i) =>
+                    availableAccounts.filter(a => a !== accountId).map((account, i) =>
                         <div
                             key={i}
                             onClick={() => dispatch(switchAccount({ accountId: account }))}

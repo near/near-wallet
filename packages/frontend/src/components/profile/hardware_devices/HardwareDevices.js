@@ -11,7 +11,8 @@ import {
     getLedgerKey,
     addLedgerAccessKey
 } from '../../../redux/actions/account';
-import { selectRecoveryMethodsLoading } from '../../../redux/slices/recoveryMethods';
+import selectRecoveryLoader from '../../../redux/crossStateSelectors/selectRecoveryLoader';
+import { selectAccountSlice } from '../../../redux/slices/account';
 import { actions as recoveryMethodsActions } from '../../../redux/slices/recoveryMethods';
 import FormButton from '../../common/FormButton';
 import SkeletonLoading from '../../common/SkeletonLoading';
@@ -65,7 +66,8 @@ const HardwareDevices = ({ recoveryMethods }) => {
     const [disabling, setDisabling] = useState(false);
     const [confirmDisable, setConfirmDisable] = useState(false);
     const dispatch = useDispatch();
-    const account = useSelector(({ account }) => account);
+    const account = useSelector(selectAccountSlice);
+
     let userRecoveryMethods = recoveryMethods || [];
     const keys = account.fullAccessKeys || [];
     const recoveryKeys = userRecoveryMethods.filter(method => method.kind !== 'ledger').map(key => key.publicKey);
@@ -74,7 +76,7 @@ const HardwareDevices = ({ recoveryMethods }) => {
     const hasLedger = userRecoveryMethods.filter(method => method.kind === 'ledger').map(key => key.publicKey).some(key => publicKeys.includes(key));
     const ledgerIsConnected = account.ledgerKey;
     const hasLedgerButNotConnected = hasLedger && !ledgerIsConnected;
-    const recoveryLoader = (useSelector((state) => selectRecoveryMethodsLoading(state, { accountId: account.accountId })) && !userRecoveryMethods.length) || !account.accountId;
+    const recoveryLoader = useSelector((state) => selectRecoveryLoader(state, { accountId: account.accountId }));
 
     const handleConfirmDisable = async () => {
         await Mixpanel.withTracking("SR-Ledger Handle confirm disable",
