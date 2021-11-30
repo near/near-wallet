@@ -54,6 +54,7 @@ export function LoginWrapper() {
                 loginAccessType={loginAccessType}
                 contractId={contractId}
                 onClickCancel={() => setConfirmLogin(false)}
+                publicKey={publicKey}
             />
         );
     }

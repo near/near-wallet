@@ -52,7 +52,7 @@ export default class NonFungibleTokens {
                 if (base_uri) {
                     mediaUrl = `${base_uri}/${media}`;
                 } else {
-                    mediaUrl = `https://cloudflare-ipfs.com/ipfs/${media}`;
+                    mediaUrl = media.startsWith('data:image') ? media : `https://cloudflare-ipfs.com/ipfs/${media}`;
                 }
             } else {
                 mediaUrl = media;

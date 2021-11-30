@@ -143,6 +143,9 @@
             "error": "Account creation failed. You may want to try again.",
             "accountExists": {
                 "error": "Account creation failed. Account already exists."
+            },
+            "accountCreated": {
+                "error": "Account creation succeded but an error occured. Please import your account."
             }
         }
     },
@@ -974,6 +977,10 @@
                 "fullAccessModal": {
                     "title": "Grant full account access?",
                     "desc": "Proceed with caution. Full access permissions allow contracts and applications to access your token balance. To confirm, enter your account ID below."
+                },
+                "feeAllowance": {
+                    "title": "Network Fee Allowance",
+                    "desc": "The application will be given permission to spend up to <b>${amount} NEAR</b> towards network fees incurred during use."
                 }
             }
         }
@@ -1465,6 +1472,9 @@
             "subTitle": "HD Path",
             "desc": "Specify an HD path to import its linked accounts.",
             "setPath": "Set HD Path"
+        },
+        "firefoxBanner": {
+            "desc": "Ledger is currently only supported in <a href='https://www.mozilla.org/' rel='noopener noreferrer' target='_blank'><b>Mozilla Firefox</b></a>. Support for other browsers will soon be restored."
         }
     },
 

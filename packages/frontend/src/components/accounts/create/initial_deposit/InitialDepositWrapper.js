@@ -1,12 +1,14 @@
 import BN from 'bn.js';
 import { getLocation } from 'connected-react-router';
 import { formatNearAmount } from 'near-api-js/lib/utils/format';
+import { PublicKey, KeyType } from 'near-api-js/lib/utils/key_pair';
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { MIN_BALANCE_TO_CREATE } from '../../../../config';
 import { Mixpanel } from '../../../../mixpanel';
-import { createAccountFromImplicit, redirectTo } from '../../../../redux/actions/account';
+import { createAccountFromImplicit, redirectTo, checkIsNew } from '../../../../redux/actions/account';
+import { showCustomAlert } from '../../../../redux/actions/status';
 import { actions as createFromImplicitActions } from '../../../../redux/slices/createFromImplicit';
 import { actions as flowLimitationActions } from '../../../../redux/slices/flowLimitation';
 import { getSignedUrl } from '../../../../utils/moonpay';
@@ -79,7 +81,7 @@ export function InitialDepositWrapper({ history }) {
                             console.log('Insufficient funding amount');
                             Mixpanel.track("CA Check balance from implicit: insufficient");
                         }
-                    } catch(e) {
+                    } catch (e) {
                         if (e.message.includes('does not exist while viewing')) {
                             return;
                         }
@@ -99,9 +101,55 @@ export function InitialDepositWrapper({ history }) {
                 setClaimingAccount(true);
                 await dispatch(createAccountFromImplicit(accountId, implicitAccountId, recoveryMethod));
             },
-            (e) => {
+            async (e) => {
+                console.warn(e);
+
+                const isNewAccount = await checkIsNew(accountId);
+                if (isNewAccount) {
+                    // No on-chain account exists; throw error on UI so that user can try again
+                    dispatch(showCustomAlert({
+                        success: false,
+                        messageCodeHeader: 'error',
+                        messageCode: 'walletErrorCodes.createNewAccount.error',
+                        errorMessage: e.message
+                    }));
+                    throw e;
+                }
+
+                // On-chain account exists; verify that it is owned by the current key
+                const accessKeys = await wallet.getAccessKeys(accountId) || [];
+                const publicKeys = accessKeys.map(key => key.public_key);
+                const publicKey = new PublicKey({ keyType: KeyType.ED25519, data: Buffer.from(implicitAccountId, 'hex') });
+                const publicKeyExistsOnAccount = publicKeys.includes(publicKey.toString());
+
+                if (!publicKeyExistsOnAccount) {
+                    // Someone else must've created the account (or a two-tabs-open situation)
+                    dispatch(showCustomAlert({
+                        success: false,
+                        messageCodeHeader: 'error',
+                        messageCode: 'walletErrorCodes.createNewAccount.accountExists.error',
+                        errorMessage: e.message
+                    }));
+                    throw e;
+                }
+
+                // Assume a transient error occurred, but that the account is on-chain and we can finish the creation process
+                try {
+                    await wallet.saveAndMakeAccountActive(accountId);
+                    await wallet.addLocalKeyAndFinishSetup(accountId, recoveryMethod, publicKey);
+                } catch (e) {
+                    dispatch(showCustomAlert({
+                        success: false,
+                        messageCodeHeader: 'error',
+                        messageCode: 'walletErrorCodes.createNewAccount.accountCreated.error',
+                        errorMessage: e.message
+                    }));
+                    dispatch(redirectTo('/recover-account'));
+                    throw e;
+                }
+            },
+            () => {
                 setClaimingAccount(false);
-                throw e;
             }
         );
         dispatch(setCreateFromImplicitSuccess(true));

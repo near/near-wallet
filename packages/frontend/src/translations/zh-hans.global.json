@@ -971,6 +971,10 @@
                 "fullAccessModal": {
                     "title": "授权完整账户访问？",
                     "desc": "请谨慎授权，完整访问权限允许应用和合约操作你的账户。若确定继续，请输入你的账户 ID 确认继续。"
+                },
+                "feeAllowance": {
+                    "title": "Network Fee Allowance",
+                    "desc": "The application will be given permission to spend up to <b>${amount} NEAR</b> towards network fees incurred during use."
                 }
             }
         }
@@ -1462,6 +1466,9 @@
             "subTitle": "HD 路径",
             "desc": "指定 HD 路径来导入已链接的账户。",
             "setPath": "设置 HD 路径"
+        },
+        "firefoxBanner": {
+            "desc": "Ledger is currently only supported in <a href='https://www.mozilla.org/' rel='noopener noreferrer' target='_blank'><b>Mozilla Firefox</b></a>. Support for other browsers will soon be restored."
         }
     },
 

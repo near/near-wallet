@@ -833,6 +833,10 @@
                 "fullAccessModal": {
                     "title": "Grant full account access?",
                     "desc": "Proceed with caution. Full access permissions allow contracts and applications to access your token balance. To confirm, enter your account ID below."
+                },
+                "feeAllowance": {
+                    "title": "Network Fee Allowance",
+                    "desc": "The application will be given permission to spend up to <b>${amount} NEAR</b> towards network fees incurred during use."
                 }
             }
         }
@@ -1317,6 +1321,9 @@
             "subTitle": "Đường dẫn HD",
             "desc": "Chỉ định một đường dẫn HD để nhập các tài khoản được liên kết của nó.",
             "setPath": "Thiết lập đường dẫn HD"
+        },
+        "firefoxBanner": {
+            "desc": "Ledger is currently only supported in <a href='https://www.mozilla.org/' rel='noopener noreferrer' target='_blank'><b>Mozilla Firefox</b></a>. Support for other browsers will soon be restored."
         }
     },
 

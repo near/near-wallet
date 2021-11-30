@@ -971,6 +971,10 @@
                 "fullAccessModal": {
                     "title": "授權完整賬戶訪問？",
                     "desc": "請謹慎授權，完整訪問權限允許應用和合約操作你的賬戶。若確定繼續，請輸入你的賬戶 ID 確認繼續。"
+                },
+                "feeAllowance": {
+                    "title": "Network Fee Allowance",
+                    "desc": "The application will be given permission to spend up to <b>${amount} NEAR</b> towards network fees incurred during use."
                 }
             }
         }
@@ -1462,6 +1466,9 @@
             "subTitle": "HD 路徑",
             "desc": "指定 HD 路徑來導入已鏈接的賬戶。",
             "setPath": "設置 HD 路徑"
+        },
+        "firefoxBanner": {
+            "desc": "Ledger is currently only supported in <a href='https://www.mozilla.org/' rel='noopener noreferrer' target='_blank'><b>Mozilla Firefox</b></a>. Support for other browsers will soon be restored."
         }
     },
 

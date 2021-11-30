@@ -823,6 +823,10 @@
                 "fullAccessModal": {
                     "title": "Grant full account access?",
                     "desc": "Proceed with caution. Full access permissions allow contracts and applications to access your token balance. To confirm, enter your account ID below."
+                },
+                "feeAllowance": {
+                    "title": "Network Fee Allowance",
+                    "desc": "The application will be given permission to spend up to <b>${amount} NEAR</b> towards network fees incurred during use."
                 }
             }
         }
@@ -1309,6 +1313,9 @@
             "subTitle": "Caminho no disco",
             "desc": "Especifique o caminho no disco para importar suas contas vinculadas.",
             "setPath": "Definir caminho no disco"
+        },
+        "firefoxBanner": {
+            "desc": "Ledger is currently only supported in <a href='https://www.mozilla.org/' rel='noopener noreferrer' target='_blank'><b>Mozilla Firefox</b></a>. Support for other browsers will soon be restored."
         }
     },
 
