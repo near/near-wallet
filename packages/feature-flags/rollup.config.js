@@ -1,4 +1,5 @@
 const commonjs = require('@rollup/plugin-commonjs');
+const { preserveShebangs } = require('rollup-plugin-preserve-shebangs');
 
 export default {
     input: 'bin/flag-editor.js',
@@ -9,6 +10,7 @@ export default {
         format: 'cjs',
     },
     plugins: [
+        preserveShebangs(),
         commonjs(),
     ],
 };

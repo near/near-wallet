@@ -12,12 +12,13 @@
     "inquirer": "^8.2.0"
   },
   "scripts": {
-    "binstall": "yarn && npx rollup -c && pkg -C GZip -o /usr/local/bin/flag bin/flag-editor.js",
+    "binstall": "yarn && npx rollup -c && pkg -C GZip -o /usr/local/bin/flag out/flag-editor.js",
     "edit": "node bin/flag-editor.js"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^21.0.1",
     "pkg": "^5.3.3",
-    "rollup": "^2.58.0"
+    "rollup": "^2.58.0",
+    "rollup-plugin-preserve-shebangs": "^0.2.0"
   }
 }
