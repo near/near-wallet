@@ -96,7 +96,6 @@ export default ({
                         <h3><Translate id='login.v2.connectConfirm.fullAccessModal.title' /></h3>
                         <ConnectWithApplication
                             appReferrer={appReferrer}
-                            contractId={contractId}
                             contractIdUrl={contractIdUrl}
                         />
                         <div className='desc'>

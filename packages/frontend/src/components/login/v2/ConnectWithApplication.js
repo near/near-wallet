@@ -21,9 +21,9 @@ const StyledContainer = styled.a`
     }
 `;
 
-export default ({ appReferrer, contractId, contractIdUrl }) => (
+export default ({ appReferrer, contractIdUrl }) => (
     <StyledContainer className='connect-with-application' href={contractIdUrl} target='_blank' rel='noreferrer'>
         <GlobeIcon/>
-        {contractId || appReferrer || <Translate id='sign.unknownApp' />}
+        {appReferrer || <Translate id='sign.unknownApp' />}
     </StyledContainer>
 );

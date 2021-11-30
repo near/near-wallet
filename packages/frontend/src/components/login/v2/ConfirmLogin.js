@@ -51,7 +51,7 @@ export default ({
                                     id='login.v2.connectConfirm.desc'
                                     data={{
                                         contractIdUrl: contractIdUrl,
-                                        appReferrer: contractId || appReferrer || translate('sign.unknownApp'),
+                                        appReferrer: appReferrer || translate('sign.unknownApp'),
                                         accessType: translate(`login.v2.connectConfirm.${loginAccessType}`)
                                     }}
                                 />
@@ -63,7 +63,7 @@ export default ({
                         : <FullAccessUI />
                     }
                     {publicKey && loginAccessType === LOGIN_ACCESS_TYPES.LIMITED_ACCESS &&
-                        <NetworkFeeAllowance />
+                        <NetworkFeeAllowance contractId={contractId} contractIdUrl={contractIdUrl}/>
                     }
                     <FormButtonGroup>
                         <FormButton

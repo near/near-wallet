@@ -21,7 +21,6 @@ export default ({
     onClickNext,
     loginAccessType,
     appReferrer,
-    contractId,
     contractIdUrl
 }) => (
     <Container className='small-centered border'>
@@ -39,7 +38,6 @@ export default ({
             </div>
             <ConnectWithApplication
                 appReferrer={appReferrer}
-                contractId={contractId}
                 contractIdUrl={contractIdUrl}
             />
             <LoadingDots />
