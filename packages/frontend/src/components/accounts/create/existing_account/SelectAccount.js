@@ -4,7 +4,7 @@ import React from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
-import { MIN_BALANCE_TO_CREATE } from '../../../../utils/wallet';
+import { MIN_BALANCE_TO_CREATE } from '../../../../config';
 import FormButton from '../../../common/FormButton';
 import FormButtonGroup from '../../../common/FormButtonGroup';
 import Container from '../../../common/styled/Container.css';

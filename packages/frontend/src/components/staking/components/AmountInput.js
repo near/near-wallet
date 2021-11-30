@@ -24,7 +24,7 @@ const Container = styled.div`
 
 export default function AmountInput({
     value, onChange, valid, disabled, insufficientBalance,
-    availableBalance, availableClick = null, action, stakeFromAccount
+    availableBalance, availableClick = null, action, stakeFromAccount, inputTestId
 }) {
     let validationStatus;
     if (valid) {
@@ -43,6 +43,7 @@ export default function AmountInput({
                 value={value}
                 onChange={e => onChange(e.target.value)}
                 className='stake-amount-input'
+                data-test-id={inputTestId}
             />
             <div className='available-balance' onClick={availableClick}>
                 <Translate id={`staking.${action}.input.availableBalance`} /><Balance amount={availableBalance} showBalanceInUSD={false}/>

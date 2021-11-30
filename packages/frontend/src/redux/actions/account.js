@@ -5,10 +5,11 @@ import { PublicKey, KeyType } from 'near-api-js/lib/utils/key_pair';
 import { parse, stringify } from 'query-string';
 import { createActions, createAction } from 'redux-actions';
 
+import { DISABLE_CREATE_ACCOUNT, MULTISIG_MIN_PROMPT_AMOUNT } from '../../config';
 import { showAlert, dispatchWithAlert } from '../../utils/alerts';
 import { loadState, saveState, clearState } from '../../utils/sessionStorage';
 import { TwoFactor } from '../../utils/twoFactor';
-import { DISABLE_CREATE_ACCOUNT, wallet, WALLET_INITIAL_DEPOSIT_URL } from '../../utils/wallet';
+import { wallet, WALLET_INITIAL_DEPOSIT_URL } from '../../utils/wallet';
 import {
     WALLET_CREATE_NEW_ACCOUNT_URL,
     WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS,
@@ -17,10 +18,11 @@ import {
     WALLET_RECOVER_ACCOUNT_URL,
     WALLET_LINKDROP_URL,
     setKeyMeta,
-    MULTISIG_MIN_PROMPT_AMOUNT,
     ENABLE_IDENTITY_VERIFIED_ACCOUNT
 } from '../../utils/wallet';
 import { WalletError } from '../../utils/walletError';
+import refreshAccountOwner from '../sharedThunks/refreshAccountOwner';
+import { selectAvailableAccounts } from '../slices/availableAccounts';
 import { 
     actions as flowLimitationActions,
     selectFlowLimitationAccountBalance,
@@ -113,12 +115,12 @@ export const handleRefreshUrl = (prevRouter) => (dispatch, getState) => {
 };
 
 const checkContractId = () => async (dispatch, getState) => {
-    const { contract_id } = getState().account.url;
+    const { contract_id, failure_url } = getState().account.url;
 
     if (contract_id) {
         const redirectIncorrectContractId = () => {
             console.error('Invalid contractId:', contract_id);
-            dispatch(redirectTo(`/${WALLET_LOGIN_URL}/incorrect-contract-id`, { globalAlertPreventClear: true }));
+            dispatch(redirectTo(`/${WALLET_LOGIN_URL}/?invalidContractId=true&failure_url=${failure_url}`, { globalAlertPreventClear: true }));
         };
 
         if (!wallet.isLegitAccountId(contract_id)) {
@@ -615,7 +617,7 @@ export const switchAccount = ({ accountId }) => async (dispatch, getState) => {
 
 export const getAvailableAccountsBalance = () => async (dispatch, getState) => {
     let { accountsBalance } = getState().account;
-    let { availableAccounts } = getState();
+    const availableAccounts = selectAvailableAccounts(getState());
 
     if (selectFlowLimitationAccountData(getState())) {
         return;
@@ -638,12 +640,8 @@ export const getAvailableAccountsBalance = () => async (dispatch, getState) => {
     }
 };
 
-export const { makeAccountActive, refreshAccountOwner, refreshAccountExternal, refreshUrl, updateStakingAccount, updateStakingLockup, getBalance, setLocalStorage, getAccountBalance, setAccountBalance, clearAccountState } = createActions({
+export const { makeAccountActive, refreshAccountExternal, refreshUrl, updateStakingAccount, updateStakingLockup, getBalance, setLocalStorage, getAccountBalance, setAccountBalance, clearAccountState } = createActions({
     MAKE_ACCOUNT_ACTIVE: wallet.makeAccountActive.bind(wallet),
-    REFRESH_ACCOUNT_OWNER: [
-        wallet.refreshAccount.bind(wallet),
-        () => ({ accountId: wallet.accountId })
-    ],
     REFRESH_ACCOUNT_EXTERNAL: [
         async (accountId) => ({
             ...await (await wallet.getAccount(accountId)).state(),

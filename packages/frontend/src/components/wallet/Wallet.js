@@ -6,7 +6,7 @@ import styled from 'styled-components';
 
 import { useFungibleTokensIncludingNEAR } from '../../hooks/fungibleTokensIncludingNEAR';
 import { Mixpanel } from "../../mixpanel/index";
-import { selectAccountId, selectBalance } from '../../redux/reducers/account';
+import { selectAccountId, selectBalance } from '../../redux/slices/account';
 import { selectCreateFromImplicitSuccess, actions as createFromImplicitActions } from '../../redux/slices/createFromImplicit';
 import { selectLinkdropAmount, actions as linkdropActions } from '../../redux/slices/linkdrop';
 import { selectTokensWithMetadataForAccountId, actions as nftActions } from '../../redux/slices/nft';
@@ -17,9 +17,9 @@ import Balance from '../common/balance/Balance';
 import FormButton from '../common/FormButton';
 import Container from '../common/styled/Container.css';
 import Tooltip from '../common/Tooltip';
-import BuyIcon from '../svg/BuyIcon';
 import DownArrowIcon from '../svg/DownArrowIcon';
 import SendIcon from '../svg/SendIcon';
+import TopUpIcon from '../svg/TopUpIcon';
 import ActivitiesWrapper from './ActivitiesWrapper';
 import CreateFromImplicitSuccessModal from './CreateFromImplicitSuccessModal';
 import DepositNearBanner from './DepositNearBanner';
@@ -402,7 +402,7 @@ const FungibleTokens = ({ balance, tokensLoader, fungibleTokens }) => {
                     data-test-id="balancesTab.buy"
                 >
                     <div>
-                        <BuyIcon />
+                        <TopUpIcon />
                     </div>
                     <Translate id='button.topUp' />
                 </FormButton>

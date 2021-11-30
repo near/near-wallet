@@ -3,11 +3,13 @@ import { useSelector, useDispatch } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 
+import { DISABLE_PHONE_RECOVERY } from '../../../config';
 import { Mixpanel } from '../../../mixpanel/index';
 import { deleteRecoveryMethod } from '../../../redux/actions/account';
-import { selectRecoveryMethodsLoading } from '../../../redux/slices/recoveryMethods';
+import selectRecoveryLoader from '../../../redux/crossStateSelectors/selectRecoveryLoader';
+import { selectAccountSlice } from '../../../redux/slices/account';
 import { actions as recoveryMethodsActions } from '../../../redux/slices/recoveryMethods';
-import { DISABLE_PHONE_RECOVERY } from '../../../utils/wallet';
+import { selectStatusMainLoader } from '../../../redux/slices/status';
 import SkeletonLoading from '../../common/SkeletonLoading';
 import RecoveryMethod from './RecoveryMethod';
 
@@ -37,8 +39,8 @@ const Container = styled.div`
 const RecoveryContainer = ({ type, recoveryMethods }) => {
     const [deletingMethod, setDeletingMethod] = useState('');
     const dispatch = useDispatch();
-    const account = useSelector(({ account }) => account);
-    const { mainLoader } = useSelector(({ status }) => status);
+    const account = useSelector(selectAccountSlice);
+    const mainLoader = useSelector(selectStatusMainLoader);
     let userRecoveryMethods = recoveryMethods || [];
     const allKinds = ['email', 'phone', 'phrase'];
     const activeMethods = userRecoveryMethods.filter(({ kind }) => allKinds.includes(kind));
@@ -46,7 +48,7 @@ const RecoveryContainer = ({ type, recoveryMethods }) => {
     const missingKinds = allKinds.filter(kind => !currentActiveKinds.has(kind));
     const deleteAllowed = [...currentActiveKinds].length > 1 || account.ledgerKey;
     missingKinds.forEach(kind => activeMethods.push({ kind: kind }));
-    const recoveryLoader = (useSelector((state) => selectRecoveryMethodsLoading(state, { accountId: account.accountId })) && !userRecoveryMethods.length) || !account.accountId;
+    const recoveryLoader = useSelector((state) => selectRecoveryLoader(state, { accountId: account.accountId }));
 
     const handleDeleteMethod = async (method) => {
         try {

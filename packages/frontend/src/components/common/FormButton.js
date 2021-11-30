@@ -349,6 +349,15 @@ const CustomButton = styled.button`
                 }
             }
 
+            &.light-gray {
+                color: #A2A2A8;
+
+                :hover,
+                :focus {
+                    color: #A2A2A8;
+                }
+            }
+
             &.red {
                 color: #ff585d;
 

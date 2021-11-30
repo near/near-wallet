@@ -25,12 +25,18 @@ export default function Validators({ validators, stakeFromAccount }) {
                         autoFocus 
                         spellCheck='false'
                         autoCapitalize='off'
+                        data-test-id="stakingSearchForValidator"
                     />
                 )}
             </Translate>
-            {validValidator && 
-                <div className='input-validation-label success'><Translate id='staking.validators.search.success' /></div>
-            }
+            {validValidator && (
+                <div
+                    className="input-validation-label success"
+                    data-test-id="stakingPageValidatorFoundLabel"
+                >
+                    <Translate id="staking.validators.search.success" />
+                </div>
+            )}
             <ListWrapper>
                 {validators.filter(v => v.accountId.includes(validator)).map((validator, i) => 
                     <ValidatorBox

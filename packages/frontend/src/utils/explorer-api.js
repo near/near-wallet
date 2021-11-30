@@ -1,4 +1,5 @@
-import { wallet, ACCOUNT_HELPER_URL } from './wallet';
+import { ACCOUNT_HELPER_URL } from '../config';
+import { wallet } from './wallet';
 
 export async function getTransactions({ accountId }) {
     if (!accountId) return {};

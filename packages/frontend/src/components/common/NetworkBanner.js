@@ -2,8 +2,8 @@ import React, { useEffect } from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
+import { IS_MAINNET, NETWORK_ID, NODE_URL, SHOW_PRERELEASE_WARNING } from '../../config';
 import { Mixpanel } from "../../mixpanel/index";
-import { IS_MAINNET, SHOW_PRERELEASE_WARNING, NODE_URL, NETWORK_ID } from '../../utils/wallet';
 import AlertTriangleIcon from '../svg/AlertTriangleIcon.js';
 import Tooltip from './Tooltip';
 

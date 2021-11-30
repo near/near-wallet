@@ -1,5 +1,6 @@
+import { ACCOUNT_HELPER_URL } from '../config';
 import sendJson from '../tmp_fetch_send_json';
-import { ACCOUNT_HELPER_URL, wallet } from '../utils/wallet';
+import { wallet } from '../utils/wallet';
 
 export const TOKENS_PER_PAGE = 4;
 
@@ -51,7 +52,7 @@ export default class NonFungibleTokens {
                 if (base_uri) {
                     mediaUrl = `${base_uri}/${media}`;
                 } else {
-                    mediaUrl = `https://cloudflare-ipfs.com/ipfs/${media}`;
+                    mediaUrl = media.startsWith('data:image') ? media : `https://cloudflare-ipfs.com/ipfs/${media}`;
                 }
             } else {
                 mediaUrl = media;

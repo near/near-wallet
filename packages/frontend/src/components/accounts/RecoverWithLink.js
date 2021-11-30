@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 
+import { DISABLE_CREATE_ACCOUNT } from '../../config';
 import { Mixpanel } from '../../mixpanel/index';
 import { 
     recoverAccountSeedPhrase,
@@ -11,10 +12,11 @@ import {
     redirectTo,
     clearAccountState
 } from '../../redux/actions/account';
+import { selectAccountSlice } from '../../redux/slices/account';
+import { selectStatusMainLoader } from '../../redux/slices/status';
 import { actionsPending } from '../../utils/alerts';
 import copyText from '../../utils/copyText';
 import isMobile from '../../utils/isMobile';
-import { DISABLE_CREATE_ACCOUNT } from '../../utils/wallet';
 import Button from '../common/Button';
 import FormButton from '../common/FormButton';
 import { Snackbar, snackbarDuration } from '../common/Snackbar';
@@ -243,11 +245,11 @@ const mapDispatchToProps = {
     clearAccountState
 };
 
-const mapStateToProps = ({ account, status }, { match }) => ({
-    ...account,
+const mapStateToProps = (state, { match }) => ({
+    ...selectAccountSlice(state),
     accountId: match.params.accountId,
     seedPhrase: match.params.seedPhrase,
-    mainLoader: status.mainLoader
+    mainLoader: selectStatusMainLoader(state)
 });
 
 export const RecoverWithLinkWithRouter = connect(

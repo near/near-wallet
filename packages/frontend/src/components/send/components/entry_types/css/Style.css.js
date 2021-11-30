@@ -13,7 +13,7 @@ const Style = styled.div`
 
         > div {
             font-weight: 400;
-            line-break: anywhere;
+            word-break: break-all;
             text-align: right;
             margin-left: 20px;
         }

@@ -35,7 +35,7 @@ const StyledContainer = styled.div`
 
         > div {
             white-space: normal;
-            line-break: anywhere;
+            word-break: break-all;
             line-height: normal;
         }
     }

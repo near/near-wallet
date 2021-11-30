@@ -2,14 +2,18 @@ import BN from 'bn.js';
 import * as nearApiJs from 'near-api-js';
 import { createActions } from 'redux-actions';
 
+import {
+    ACCOUNT_HELPER_URL,
+    MIN_LOCKUP_AMOUNT,
+    REACT_APP_USE_TESTINGLOCKUP,
+    STAKING_GAS_BASE,
+} from '../../config';
 import { getLockupAccountId } from '../../utils/account-with-lockup';
 import { showAlert } from '../../utils/alerts';
 import { 
     STAKING_AMOUNT_DEVIATION,
     MIN_DISPLAY_YOCTO,
     ZERO,
-    MIN_LOCKUP_AMOUNT,
-    STAKING_GAS_BASE,
     EXPLORER_DELAY,
     ACCOUNT_DEFAULTS,
     getStakingDeposits, 
@@ -19,7 +23,7 @@ import {
     stakingMethods,
     shuffle
 } from '../../utils/staking';
-import { ACCOUNT_HELPER_URL, wallet } from '../../utils/wallet';
+import { wallet } from '../../utils/wallet';
 import { WalletError } from '../../utils/walletError';
 import { getBalance } from './account';
 
@@ -46,25 +50,47 @@ export const { staking } = createActions({
                     const selectedValidatorId = await contract.get_staking_pool_account_id();
                     if (validatorId !== selectedValidatorId) {
                         if (selectedValidatorId !== null) {
-                            await signAndSendTransaction(lockupId, [
-                                functionCall('unselect_staking_pool', {}, STAKING_GAS_BASE, '0')
-                            ]);
+                            await signAndSendTransaction({
+                                receiverId: lockupId,
+                                actions: [
+                                    functionCall('unselect_staking_pool', {}, STAKING_GAS_BASE, '0')
+                                ],
+                            });
                         }
-                        await signAndSendTransaction(lockupId, [
-                            functionCall('select_staking_pool', { staking_pool_account_id: validatorId }, STAKING_GAS_BASE * 3, '0')
-                        ]);
+                        await signAndSendTransaction({
+                            receiverId: lockupId,
+                            actions: [
+                                functionCall(
+                                    "select_staking_pool",
+                                    { staking_pool_account_id: validatorId },
+                                    STAKING_GAS_BASE * 3,
+                                    "0"
+                                ),
+                            ],
+                        });
                     }
-                    return await signAndSendTransaction(lockupId, [
-                        functionCall('deposit_and_stake', { amount }, STAKING_GAS_BASE * 5, '0')
-                    ]);
+                    return await signAndSendTransaction({
+                        receiverId: lockupId,
+                        actions: [
+                            functionCall(
+                                "deposit_and_stake",
+                                { amount },
+                                STAKING_GAS_BASE * 5,
+                                "0"
+                            ),
+                        ],
+                    });
                 },
                 () => showAlert({ onlyError: true })
             ],
             ACCOUNT: [
                 async (validatorId, amount, accountId, contract) => {
-                    const result = await signAndSendTransaction(validatorId, [
-                        functionCall('deposit_and_stake', {}, STAKING_GAS_BASE * 5, amount)
-                    ]);
+                    const result = await signAndSendTransaction({
+                        receiverId: validatorId,
+                        actions: [
+                            functionCall('deposit_and_stake', {}, STAKING_GAS_BASE * 5, amount)
+                        ],
+                    });
                     // wait for chain/explorer to index results
                     await new Promise((r) => setTimeout(r, EXPLORER_DELAY));
                     await updateStakedBalance(validatorId, accountId, contract);
@@ -77,13 +103,19 @@ export const { staking } = createActions({
             LOCKUP: [
                 async (lockupId, amount) => {
                     if (amount) {
-                        return await signAndSendTransaction(lockupId, [
-                            functionCall('unstake', { amount }, STAKING_GAS_BASE * 5, '0')
-                        ]);
+                        return await signAndSendTransaction({
+                            receiverId: lockupId,
+                            actions: [
+                                functionCall('unstake', { amount }, STAKING_GAS_BASE * 5, '0')
+                            ],
+                        });
                     }
-                    return await signAndSendTransaction(lockupId, [
-                        functionCall('unstake_all', {}, STAKING_GAS_BASE * 5, '0')
-                    ]);
+                    return await signAndSendTransaction({
+                        receiverId: lockupId,
+                        actions: [
+                            functionCall('unstake_all', {}, STAKING_GAS_BASE * 5, '0')
+                        ],
+                    });
                 },
                 () => showAlert({ onlyError: true })
             ],
@@ -91,13 +123,19 @@ export const { staking } = createActions({
                 async (validatorId, amount, accountId, contract) => {
                     let result;
                     if (amount) {
-                        result = await signAndSendTransaction(validatorId, [
-                            functionCall('unstake', { amount }, STAKING_GAS_BASE * 5, '0')
-                        ]);
+                        result = await signAndSendTransaction({
+                            receiverId: validatorId,
+                            actions: [
+                                functionCall('unstake', { amount }, STAKING_GAS_BASE * 5, '0')
+                            ],
+                        });
                     } else {
-                        result = await signAndSendTransaction(validatorId, [
-                            functionCall('unstake_all', {}, STAKING_GAS_BASE * 5, '0')
-                        ]);
+                        result = await signAndSendTransaction({
+                            receiverId: validatorId,
+                            actions: [
+                                functionCall('unstake_all', {}, STAKING_GAS_BASE * 5, '0')
+                            ],
+                        });
                     }
                     // wait for explorer to index results
                     await new Promise((r) => setTimeout(r, EXPLORER_DELAY));
@@ -112,13 +150,19 @@ export const { staking } = createActions({
                 async (lockupId, amount) => {
                     let result;
                     if (amount) {
-                        result = await signAndSendTransaction(lockupId, [
-                            functionCall('withdraw_from_staking_pool', { amount }, STAKING_GAS_BASE * 5, '0')
-                        ]);
+                        result = await signAndSendTransaction({
+                            receiverId: lockupId,
+                            actions: [
+                                functionCall('withdraw_from_staking_pool', { amount }, STAKING_GAS_BASE * 5, '0')
+                            ],
+                        });
                     } else {
-                        result = await signAndSendTransaction(lockupId, [
-                            functionCall('withdraw_all_from_staking_pool', {}, STAKING_GAS_BASE * 7, '0')
-                        ]);
+                        result = await signAndSendTransaction({
+                            receiverId: lockupId,
+                            actions: [
+                                functionCall('withdraw_all_from_staking_pool', {}, STAKING_GAS_BASE * 7, '0')
+                            ],
+                        });
                     }
                     if (result === false) {
                         throw new WalletError('Unable to withdraw pending balance from validator', 'staking.noWithdraw');
@@ -131,13 +175,19 @@ export const { staking } = createActions({
                 async (validatorId, amount) => {
                     let result;
                     if (amount) {
-                        result = await signAndSendTransaction(validatorId, [
-                            functionCall('withdraw', { amount }, STAKING_GAS_BASE * 5, '0')
-                        ]);
+                        result = await signAndSendTransaction({
+                            receiverId: validatorId,
+                            actions: [
+                                functionCall('withdraw', { amount }, STAKING_GAS_BASE * 5, '0')
+                            ],
+                        });
                     } else {
-                        result = await signAndSendTransaction(validatorId, [
-                            functionCall('withdraw_all', {}, STAKING_GAS_BASE * 7, '0')
-                        ]);
+                        result = await signAndSendTransaction({
+                            receiverId: validatorId,
+                            actions: [
+                                functionCall('withdraw_all', {}, STAKING_GAS_BASE * 7, '0')
+                            ],
+                        });
                     }
                     if (result === false) {
                         throw new WalletError('Unable to withdraw pending balance from validator', 'staking.noWithdraw');
@@ -286,7 +336,7 @@ export const { staking } = createActions({
         UPDATE_CURRENT: null,
         GET_LOCKUP: async (accountId) => {
             let lockupId;
-            if (process.env.REACT_APP_USE_TESTINGLOCKUP && accountId.length < 64) {
+            if (REACT_APP_USE_TESTINGLOCKUP && accountId.length < 64) {
                 lockupId = `testinglockup.${accountId}`;
             } else {
                 lockupId = getLockupAccountId(accountId);

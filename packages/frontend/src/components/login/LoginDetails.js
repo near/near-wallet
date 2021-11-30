@@ -5,9 +5,10 @@ import { withRouter, Link } from 'react-router-dom';
 import { Grid } from 'semantic-ui-react';
 import styled from 'styled-components';
 
+import { EXPLORER_URL } from '../../config';
 import IconArrowLeft from '../../images/IconArrowLeft';
 import { showCustomAlert } from '../../redux/actions/status';
-import { EXPLORER_URL } from '../../utils/wallet';
+import { selectAccountUrlContractId } from '../../redux/slices/account';
 import SafeTranslate from '../SafeTranslate';
 
 const CustomGrid = styled(Grid)`
@@ -34,7 +35,7 @@ const CustomGrid = styled(Grid)`
             border-bottom: 1px solid #e6e6e6;
 
             .color-blue {
-                line-break: anywhere;
+                word-break: break-all;
             }
 
             ul {
@@ -183,10 +184,12 @@ const mapDispatchToProps = {
     showCustomAlert
 };
 
-const mapStateToProps = ({ transactions = [], account }) => {
+const mapStateToProps = (state) => {
+    let { transactions = [] } = state;
+
     transactions = [
         {
-            signerId: account.url.contract_id,
+            signerId: selectAccountUrlContractId(state),
             receiverId: 'account id',
             actions: [
                 {

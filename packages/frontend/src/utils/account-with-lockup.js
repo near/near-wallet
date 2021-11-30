@@ -6,10 +6,11 @@ import { parseNearAmount } from 'near-api-js/lib/utils/format';
 import { BinaryReader } from 'near-api-js/lib/utils/serialize';
 
 import {
+    ACCOUNT_HELPER_URL,
     LOCKUP_ACCOUNT_ID_SUFFIX,
     MIN_BALANCE_FOR_GAS,
-    ACCOUNT_HELPER_URL
-} from './wallet';
+    REACT_APP_USE_TESTINGLOCKUP,
+} from '../config';
 import { WalletError } from './walletError';
 
 // TODO: Should gas allowance be dynamically calculated
@@ -26,8 +27,9 @@ export function decorateWithLockup(account) {
     return decorated;
 }
 
-async function signAndSendTransaction(receiverId, actions) {
+async function signAndSendTransaction(signAndSendTransactionOptions) {
     const { available: balance } = await this.wrappedAccount.getAccountBalance();
+    const { actions } = signAndSendTransactionOptions;
 
     // TODO: Extract code to compute total cost of transaction
     const total = actions.map(action => action?.transfer?.deposit || action?.functionCall?.deposit)
@@ -42,15 +44,20 @@ async function signAndSendTransaction(receiverId, actions) {
         await this.transferAllFromLockup(missingAmount);
     }
 
-    return await this.wrappedAccount.signAndSendTransaction.call(this, receiverId, actions);
+    return await this.wrappedAccount.signAndSendTransaction.call(this, signAndSendTransactionOptions);
 }
 
 async function deleteLockupAccount(lockupAccountId) {
     console.info('Destroying lockup account to claim remaining funds', lockupAccountId);
     const newKeyPair = KeyPair.fromRandom('ed25519');
-    await this.wrappedAccount.functionCall(lockupAccountId, 'add_full_access_key', {
-        new_public_key: newKeyPair.publicKey.toString()
-    }, BASE_GAS.mul(new BN(2)));
+    await this.wrappedAccount.functionCall({
+        contractId: lockupAccountId,
+        methodName: "add_full_access_key",
+        args: {
+            new_public_key: newKeyPair.publicKey.toString(),
+        },
+        gas: BASE_GAS.mul(new BN(2)),
+    });
 
     const tmpKeyStore = new InMemoryKeyStore();
     await tmpKeyStore.setKey(this.connection.networkId, lockupAccountId, newKeyPair);
@@ -62,12 +69,20 @@ async function deleteLockupAccount(lockupAccountId) {
 export async function transferAllFromLockup(missingAmount) {
     let lockupAccountId = getLockupAccountId(this.accountId);
     if (!(await this.wrappedAccount.viewFunction(lockupAccountId, 'are_transfers_enabled'))) {
-        await this.wrappedAccount.functionCall(lockupAccountId, 'check_transfers_vote', {}, BASE_GAS.mul(new BN(3)));
+        await this.wrappedAccount.functionCall({
+            contractId: lockupAccountId,
+            methodName: "check_transfers_vote",
+            gas: BASE_GAS.mul(new BN(3)),
+        });
     }
 
     const poolAccountId = await this.wrappedAccount.viewFunction(lockupAccountId, 'get_staking_pool_account_id');
     if (poolAccountId) {
-        await this.wrappedAccount.functionCall(lockupAccountId, 'refresh_staking_pool_balance', {}, BASE_GAS.mul(new BN(3)));
+        await this.wrappedAccount.functionCall({
+            contractId: lockupAccountId,
+            methodName: "refresh_staking_pool_balance",
+            gas: BASE_GAS.mul(new BN(3)),
+        });
     }
 
     let liquidBalance = new BN(await this.wrappedAccount.viewFunction(lockupAccountId, 'get_liquid_owners_balance'));
@@ -77,11 +92,16 @@ export async function transferAllFromLockup(missingAmount) {
     }
 
     console.info('Attempting to transfer from lockup account ID:', lockupAccountId);
-    await this.wrappedAccount.functionCall(lockupAccountId, 'transfer', {
-        // NOTE: Move all the liquid tokens to minimize transactions in the long run
-        amount: liquidBalance.toString(),
-        receiver_id: this.wrappedAccount.accountId
-    }, BASE_GAS.mul(new BN(2)));
+    await this.wrappedAccount.functionCall({
+        contractId: lockupAccountId,
+        methodName: "transfer",
+        args: {
+            // NOTE: Move all the liquid tokens to minimize transactions in the long run
+            amount: liquidBalance.toString(),
+            receiver_id: this.wrappedAccount.accountId,
+        },
+        gas: BASE_GAS.mul(new BN(2)),
+    });
 
     const lockedBalance = new BN(await this.wrappedAccount.viewFunction(lockupAccountId, 'get_locked_amount'));
     if (lockedBalance.eq(new BN(0))) {
@@ -91,7 +111,11 @@ export async function transferAllFromLockup(missingAmount) {
         }
 
         if (poolAccountId) {
-            await this.wrappedAccount.functionCall(lockupAccountId, 'unselect_staking_pool', {}, BASE_GAS.mul(new BN(2)));
+            await this.wrappedAccount.functionCall({
+                contractId: lockupAccountId,
+                methodName: "unselect_staking_pool",
+                gas: BASE_GAS.mul(new BN(2)),
+            });
         }
 
         await this.deleteLockupAccount(lockupAccountId);
@@ -112,7 +136,7 @@ async function accountExists(connection, accountId) {
 }
 
 export function getLockupAccountId(accountId) {
-    if (process.env.REACT_APP_USE_TESTINGLOCKUP && accountId.length < 64) {
+    if (REACT_APP_USE_TESTINGLOCKUP && accountId.length < 64) {
         return `testinglockup.${accountId}`;
     }
     return sha256(Buffer.from(accountId)).substring(0, 40) + '.' + LOCKUP_ACCOUNT_ID_SUFFIX;

@@ -1,7 +1,8 @@
 import BN from 'bn.js';
 import * as nearApiJs from 'near-api-js';
 
-import { ACCOUNT_HELPER_URL, wallet } from './wallet';
+import { ACCOUNT_HELPER_URL } from '../config';
+import { wallet } from './wallet';
 
 const {
     utils: {
@@ -17,8 +18,6 @@ const STAKE_VALIDATOR_PREFIX = '__SVPRE__';
 export const ZERO = new BN('0');
 export const MIN_DISPLAY_YOCTO = new BN('100');
 export const EXPLORER_DELAY = 2000;
-export const MIN_LOCKUP_AMOUNT = new BN(process.env.MIN_LOCKUP_AMOUNT || parseNearAmount('35.00001'));
-export const STAKING_GAS_BASE = process.env.REACT_APP_STAKING_GAS_BASE || '25000000000000'; // 25 Tgas
 
 export const ACCOUNT_DEFAULTS = {
     selectedValidator: '',
@@ -62,8 +61,8 @@ export const lockupMethods = {
     ]
 };
 
-export async function signAndSendTransaction(receiverId, actions) {
-    return (await wallet.getAccount(wallet.accountId)).signAndSendTransaction(receiverId, actions);
+export async function signAndSendTransaction(signAndSendTransactionOptions) {
+    return (await wallet.getAccount(wallet.accountId)).signAndSendTransaction(signAndSendTransactionOptions);
 }
 
 export async function updateStakedBalance(validatorId, account_id, contract) {
