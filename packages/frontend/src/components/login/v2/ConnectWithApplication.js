@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 import GlobeIcon from '../../svg/GlobeIcon';
 
-const StyledContainer = styled.div`
+const StyledContainer = styled.a`
     border: 1px solid #D6EDFF;
     background-color: #F0F9FF;
     color: #005497;
@@ -14,15 +14,16 @@ const StyledContainer = styled.div`
     align-items: center;
     justify-content: center;
     width: fit-content;
+    cursor: pointer;
 
     > svg {
         margin-right: 10px;
     }
 `;
 
-export default ({ appReferrer }) => (
-    <StyledContainer className='connect-with-application'>
+export default ({ appReferrer, contractId, contractIdUrl }) => (
+    <StyledContainer className='connect-with-application' href={contractIdUrl} target='_blank' rel='noreferrer'>
         <GlobeIcon/>
-        {appReferrer || <Translate id='sign.unknownApp' />}
+        {contractId || appReferrer || <Translate id='sign.unknownApp' />}
     </StyledContainer>
 );

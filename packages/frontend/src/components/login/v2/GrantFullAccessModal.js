@@ -71,6 +71,8 @@ export default ({
     onClose,
     onConfirm,
     appReferrer,
+    contractId,
+    contractIdUrl,
     signedInAccountId,
     loggingIn
 }) => {
@@ -92,7 +94,11 @@ export default ({
                     <div className='upper-body'>
                         <div className='alert-triangle'><AlertTriangleIcon color='#DC1F25' /></div>
                         <h3><Translate id='login.v2.connectConfirm.fullAccessModal.title' /></h3>
-                        <ConnectWithApplication appReferrer={appReferrer} />
+                        <ConnectWithApplication
+                            appReferrer={appReferrer}
+                            contractId={contractId}
+                            contractIdUrl={contractIdUrl}
+                        />
                         <div className='desc'>
                             <Translate id='login.v2.connectConfirm.fullAccessModal.desc' />
                         </div>
