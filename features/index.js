@@ -1,4 +1,4 @@
-const Features = require('./features');
+const { Features } = require('./features');
 
 module.exports = {
     Features,
