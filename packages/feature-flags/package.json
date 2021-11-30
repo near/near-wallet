@@ -12,7 +12,7 @@
     "inquirer": "^8.2.0"
   },
   "scripts": {
-    "installbinary": "yarn && npx rollup -c && pkg -C GZip -o /usr/local/bin/flag out/flag.js",
+    "binstall": "yarn && npx rollup -c && pkg -C GZip -o /usr/local/bin/flag bin/flag-editor.js",
     "edit": "node bin/flag-editor.js"
   },
   "devDependencies": {
