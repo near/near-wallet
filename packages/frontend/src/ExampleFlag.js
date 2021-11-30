@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Features } from '../../../features/features.js';
+import { Features } from '../../../features';
 
 // Note: Referencing the FF in module scope is recommended over referencing the flag state inside of function calls
 // This way if you typo a feature flag name the entire build will fail
