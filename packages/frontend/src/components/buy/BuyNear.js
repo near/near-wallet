@@ -144,13 +144,13 @@ const StyledContainer = styled(Container)`
 `;
 
 export function BuyNear({ match, location, history }) {
-    const { accountId } = useSelector(selectAccountId);
+    const accountId = useSelector(selectAccountId);
     const [moonPayAvailable, setMoonPayAvailable] = useState(null);
     const [signedMoonPayUrl, setSignedMoonPayUrl] = useState(null);
 
     useEffect(() => {
         checkMoonPay();
-    }, []);
+    }, [accountId]);
 
     const checkMoonPay = async () => {
         await Mixpanel.withTracking("Wallet Check Moonpay available",
