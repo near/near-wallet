@@ -25,6 +25,11 @@ import {
 } from '../../utils/staking';
 import { wallet } from '../../utils/wallet';
 import { WalletError } from '../../utils/walletError';
+import { 
+    selectStakingAccountsFirst,
+    selectStakingAccountsSecond,
+    selectStakingLockupId
+} from '../slices/staking';
 import { getBalance } from './account';
 
 const {
@@ -394,13 +399,13 @@ const handleGetAccounts = () => async (dispatch, getState) => {
 
     const accounts = [{
         accountId: wallet.accountId,
-        ...getState().staking.accounts[0]
+        ...selectStakingAccountsFirst(getState())
     }];
 
-    if (getState().staking?.lockup?.lockupId) {
+    if (!!selectStakingLockupId(getState())) {
         accounts.push({
-            accountId: getState().staking.lockup.lockupId,
-            ...getState().staking.accounts[1]
+            accountId: selectStakingLockupId(getState()),
+            ...selectStakingAccountsSecond(getState())
         });
     }
 
