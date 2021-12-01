@@ -973,8 +973,8 @@
                     "desc": "請謹慎授權，完整訪問權限允許應用和合約操作你的賬戶。若確定繼續，請輸入你的賬戶 ID 確認繼續。"
                 },
                 "feeAllowance": {
-                    "title": "Network Fee Allowance",
-                    "desc": "The application will be given permission to spend up to <b>${amount} NEAR</b> towards network fees incurred during use."
+                    "title": "網絡費津貼",
+                    "desc": "該應用將被允許最多花費<b>${amount} NEAR</b>來支付使用期間產生的網絡費用。"
                 }
             }
         }
