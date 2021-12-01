@@ -768,7 +768,7 @@ class Wallet {
         if (!accountId) {
             return false;
         }
-        
+
         const account = await this.getAccount(accountId);
         return await account.getAccountBalance(limitedAccountData);
     }
@@ -1057,7 +1057,12 @@ class Wallet {
         const signer = account.inMemorySigner || account.connection.signer;
         const signed = await signer.signMessage(Buffer.from(message), accountId, NETWORK_ID);
 
-        return Buffer.from(signed.signature).toString('base64');
+        const serialized  = {
+            signature: Buffer.from(signed.signature).toString("hex"),
+            publicKey: signed.publicKey.toString(),
+        }
+
+        return Buffer.from(JSON.stringify(serialized)).toString('base64');
     }
 
     async signAndSendTransactions(transactions, accountId = this.accountId) {
