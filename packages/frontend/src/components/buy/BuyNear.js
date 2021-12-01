@@ -61,7 +61,7 @@ const StyledContainer = styled(Container)`
             }
         }
 
-        &.black {
+        &.black, &.gray-gray {
             width: 100% !important;
             display: flex !important;
             align-items: center;
@@ -69,8 +69,12 @@ const StyledContainer = styled(Container)`
             border: 0 !important;
 
             svg {
-                margin-left: 10px !important;
+                margin: -3px 0 0 10px !important;
             }
+        }
+
+        &.gray-gray svg {
+            margin-right: 4px !important;
         }
     }
 
@@ -160,9 +164,9 @@ export function BuyNear({ match, location, history }) {
         await Mixpanel.withTracking("Wallet Check Moonpay available",
             async () => {
                 const moonPay = await isMoonpayAvailable();
+                setMoonPayAvailable(moonPay);
                 if (moonPay) {
                     const url = await getSignedUrl(accountId, window.location.origin);
-                    setMoonPayAvailable(moonPay);
                     setSignedMoonPayUrl(url);
                 }
             },
@@ -188,14 +192,22 @@ export function BuyNear({ match, location, history }) {
                 <Translate id='button.learnMore' />
             </FormButton>
             <FormButton
-                sending={!moonPayAvailable}
+                sending={!accountId || moonPayAvailable == null}
                 sendingString='button.loading'
-                color='black'
+                disabled={accountId && !moonPayAvailable}
+                color={moonPayAvailable ? 'black' : 'gray-gray'}
                 linkTo={signedMoonPayUrl}
                 onClick={() => Mixpanel.track("Wallet Click Buy with Moonpay")}
             >
-                <Translate id='buyNear.buyWith' />
-                <MoonPayIcon />
+                {moonPayAvailable
+                    ? <>
+                        <Translate id='buyNear.buyWith' />
+                        <MoonPayIcon />
+                    </> : <>
+                        <MoonPayIcon color='#3F4045' />
+                        <Translate id='buyNear.notSupported' />
+                    </>
+                }
             </FormButton>
             <h3><Translate id='buyNear.supportedExchanges' /></h3>
             <div className='desc'><Translate id='buyNear.descTwo' /></div>
