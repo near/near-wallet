@@ -26,11 +26,15 @@ import {
 import { wallet } from '../../utils/wallet';
 import { WalletError } from '../../utils/walletError';
 import { 
-    selectAccountId
+    selectAccountId,
+    selectAccountSlice
 } from '../slices/account';
+import { selectAllAccountsByAccountId } from '../slices/allAccounts';
 import { 
     selectStakingAccountsFirst,
     selectStakingAccountsSecond,
+    selectStakingAllValidators,
+    selectStakingAllValidatorsLength,
     selectStakingLockupId
 } from '../slices/staking';
 import { getBalance } from './account';
@@ -427,16 +431,16 @@ export const handleGetLockup = (accountId) => async (dispatch, getState) => {
 
 export const handleStakingUpdateAccount = (recentlyStakedValidators = [], exAccountId) => async (dispatch, getState) => {
     const { accountId, balance } = exAccountId
-        ? getState().allAccounts[exAccountId]
-        : getState().account;
+        ? selectAllAccountsByAccountId(getState(), { accountId: exAccountId })
+        : selectAccountSlice(getState());
 
     const validatorDepositMap = await getStakingDeposits(accountId);
 
-    if (!getState().staking.allValidators.length) {
+    if (!selectStakingAllValidatorsLength(getState())) {
         await dispatch(staking.getValidators(null, exAccountId));
     }
 
-    const validators = getState().staking.allValidators
+    const validators = selectStakingAllValidators(getState())
         .filter((validator) => Object.keys(validatorDepositMap).concat(recentlyStakedValidators).includes(validator.accountId))
         .map((validator) => ({ ...validator }));
 
