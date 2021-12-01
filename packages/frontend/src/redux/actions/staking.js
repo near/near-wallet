@@ -35,6 +35,7 @@ import {
     selectStakingAccountsSecond,
     selectStakingAllValidators,
     selectStakingAllValidatorsLength,
+    selectStakingLockup,
     selectStakingLockupId
 } from '../slices/staking';
 import { getBalance } from './account';
@@ -448,10 +449,10 @@ export const handleStakingUpdateAccount = (recentlyStakedValidators = [], exAcco
 };
 
 export const handleStakingUpdateLockup = (exAccountId) => async (dispatch, getState) => {
-    const { contract, lockupId: account_id } = getState().staking.lockup;
-    const { accountId } = getState().account;
+    const { contract, lockupId: account_id } = selectStakingLockup(getState());
+    const { accountId } = selectAccountSlice(getState());
 
-    const validators = getState().staking.allValidators.map((validator) => ({
+    const validators = selectStakingAllValidators(getState()).map((validator) => ({
         ...validator
     }));
 
