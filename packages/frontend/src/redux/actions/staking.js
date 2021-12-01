@@ -26,6 +26,9 @@ import {
 import { wallet } from '../../utils/wallet';
 import { WalletError } from '../../utils/walletError';
 import { 
+    selectAccountId
+} from '../slices/account';
+import { 
     selectStakingAccountsFirst,
     selectStakingAccountsSecond,
     selectStakingLockupId
@@ -414,7 +417,7 @@ const handleGetAccounts = () => async (dispatch, getState) => {
 
 export const handleGetLockup = (accountId) => async (dispatch, getState) => {
     try {
-        await dispatch(staking.getLockup(accountId || getState().account.accountId));
+        await dispatch(staking.getLockup(accountId || selectAccountId(getState())));
     } catch(e) {
         if (!/No contract for account/.test(e.message)) {
             throw e;
