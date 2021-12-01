@@ -28,7 +28,7 @@ export const useFungibleTokensIncludingNEAR = function () {
     );
 
     useEffect(() => {
-        setFungibleTokensList(fungibleTokensIncludingNEAR(tokens, balanceToDisplay, nearTokenFiatValueUSD));
+        setFungibleTokensList(fungibleTokensIncludingNEAR(tokens.sort((a, b) => a.name.localeCompare(b.name)), balanceToDisplay, nearTokenFiatValueUSD));
     }, [tokens, balanceToDisplay]);
 
     return fungibleTokensList;
