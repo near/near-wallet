@@ -179,27 +179,24 @@ export function BuyNear({ match, location, history }) {
                 <ArrowIcon />
             </FormButton>
             <h4><Translate id='buyNear.title' /></h4>
-            {moonPayAvailable &&
-                <>
-                    <h3><Translate id='buyNear.moonPay' /></h3>
-                    <div className='desc'><Translate id='buyNear.descOne' /></div>
-                    <FormButton
-                        color='link learn-more'
-                        linkTo='https://support.moonpay.com/'
-                    >
-                        <Translate id='button.learnMore' />
-                    </FormButton>
-                    <FormButton
-                        color='black'
-                        disabled={!moonPayAvailable}
-                        linkTo={signedMoonPayUrl}
-                        onClick={() => Mixpanel.track("Wallet Click Buy with Moonpay")}
-                    >
-                        <Translate id='buyNear.buyWith' />
-                        <MoonPayIcon />
-                    </FormButton>
-                </>
-            }
+            <h3><Translate id='buyNear.moonPay' /></h3>
+            <div className='desc'><Translate id='buyNear.descOne' /></div>
+            <FormButton
+                color='link learn-more'
+                linkTo='https://support.moonpay.com/'
+            >
+                <Translate id='button.learnMore' />
+            </FormButton>
+            <FormButton
+                sending={!moonPayAvailable}
+                sendingString='button.loading'
+                color='black'
+                linkTo={signedMoonPayUrl}
+                onClick={() => Mixpanel.track("Wallet Click Buy with Moonpay")}
+            >
+                <Translate id='buyNear.buyWith' />
+                <MoonPayIcon />
+            </FormButton>
             <h3><Translate id='buyNear.supportedExchanges' /></h3>
             <div className='desc'><Translate id='buyNear.descTwo' /></div>
             <div className='exchanges'>
