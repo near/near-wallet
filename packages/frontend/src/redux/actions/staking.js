@@ -33,6 +33,7 @@ import { selectAllAccountsByAccountId } from '../slices/allAccounts';
 import { 
     selectStakingAccountsFirst,
     selectStakingAccountsObjAccountId,
+    selectStakingAccountsObjLockupId,
     selectStakingAccountsSecond,
     selectStakingAllValidators,
     selectStakingAllValidatorsLength,
@@ -487,7 +488,8 @@ export const handleStakingAction = (action, validatorId, amount) => async (dispa
 
 export const updateStaking = (currentAccountId, recentlyStakedValidators) => async (dispatch, getState) => {
     await dispatch(handleGetAccounts());
-    const { accountId, lockupId } = getState().staking.accountsObj;
+    const accountId = selectStakingAccountsObjAccountId(getState());
+    const lockupId = selectStakingAccountsObjLockupId(getState());
 
     await dispatch(staking.getValidators(null, accountId));
 
