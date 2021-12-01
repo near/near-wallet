@@ -19,7 +19,7 @@ const fungibleTokensIncludingNEAR = (tokens, balance, nearTokenFiatValueUSD) => 
 export const useFungibleTokensIncludingNEAR = function () {
     const balance = useSelector(selectBalance);
     const accountId = useSelector(selectAccountId);
-    const tokens = useSelector((state) => selectTokensWithMetadataForAccountId(state, { accountId }));
+    const tokens = useSelector((state) => selectTokensWithMetadataForAccountId(state, { accountId })).sort((a, b) => a.name.localeCompare(b.name));
     const nearTokenFiatValueUSD = useSelector(selectNearTokenFiatValueUSD);
 
     const balanceToDisplay = balance?.balanceAvailable;
@@ -28,7 +28,7 @@ export const useFungibleTokensIncludingNEAR = function () {
     );
 
     useEffect(() => {
-        setFungibleTokensList(fungibleTokensIncludingNEAR(tokens.sort((a, b) => a.name.localeCompare(b.name)), balanceToDisplay, nearTokenFiatValueUSD));
+        setFungibleTokensList(fungibleTokensIncludingNEAR(tokens, balanceToDisplay, nearTokenFiatValueUSD));
     }, [tokens, balanceToDisplay]);
 
     return fungibleTokensList;
