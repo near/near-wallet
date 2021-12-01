@@ -149,6 +149,10 @@ export function BuyNear({ match, location, history }) {
     const [signedMoonPayUrl, setSignedMoonPayUrl] = useState(null);
 
     useEffect(() => {
+        if (!accountId) {
+            return;
+        }
+
         checkMoonPay();
     }, [accountId]);
 
