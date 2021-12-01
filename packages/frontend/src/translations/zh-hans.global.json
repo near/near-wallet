@@ -973,8 +973,8 @@
                     "desc": "请谨慎授权，完整访问权限允许应用和合约操作你的账户。若确定继续，请输入你的账户 ID 确认继续。"
                 },
                 "feeAllowance": {
-                    "title": "Network Fee Allowance",
-                    "desc": "The application will be given permission to spend up to <b>${amount} NEAR</b> towards network fees incurred during use."
+                    "title": "网络费津贴",
+                    "desc": "该应用将被允许最多花费<b>${amount} NEAR</b>来支付使用期间产生的网络费用。"
                 }
             }
         }
