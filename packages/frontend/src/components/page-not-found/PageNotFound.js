@@ -4,6 +4,7 @@ import styled from "styled-components";
 
 import FormButton from "../common/FormButton";
 import Container from "../common/styled/Container.css";
+import LandingBackground from "../landing/LandingBackground";
 
 const StyledContainer = styled.div`
   &&& {
@@ -13,8 +14,28 @@ const StyledContainer = styled.div`
 
     @media (max-width: 767px) {
       margin: 0;
+      padding: 0 20px;
       overflow: hidden;
       margin-top: -13px;
+    }
+
+    svg {
+        opacity: 0.4;
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        z-index: -1;
+
+        @media (max-width: 992px) {
+            top: -120px;
+        }
+
+        @media (max-width: 470px) {
+            top: -86px;
+            width: 900px;
+            left: unset;
+        }
     }
 
     .small-centered {
@@ -25,27 +46,38 @@ const StyledContainer = styled.div`
       align-items: center;
     }
 
-    h1 {
+    h1.title {
       font-weight: 600;
     }
 
-    h3 {
-      font-weight: 400 !important;
-      line-height: 150%;
+    h1.displayTitle{
+        font-size: 25vw;
+        // opacity: 0.1;
+        line-height: 1.2;
+        // text-shadow: .03em .03em 0 hsla(230,40%,50%,1);
+        background: url(https://near.org/wp-content/uploads/2021/10/CITY_02.jpg);
+        background-size: 100%;
+        background-position: 50% 50%;
+        -webkit-background-clip: text;
+        color: rgba(0,0,0,0.08);
+        animation: zoomout 10s ease 500ms forwards;
 
-      span {
-        span {
-          font-weight: 500;
+        @media (max-width: 767px) {
+            font-size: 45vw;
         }
-      }
+    }
 
-      @media (max-width: 767px) {
-        font-size: 16px !important;
-      }
+    @keyframes zoomout {
+        from {
+          background-size: 100%;
+        }
+        to {
+          background-size: 40%;
+        }
     }
 
     .buttons {
-      margin-top: 30px;
+      margin-top: 16px;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -89,13 +121,14 @@ const StyledContainer = styled.div`
 export function PageNotFound() {
   return (
     <StyledContainer>
+      <LandingBackground/>
       <Container className="small-centered">
-        <h1>
+        <h1 className="title">
           <Translate id="pageNotFound.title" />
         </h1>
-        <h3>
-          <Translate id="pageNotFound.desc" />
-        </h3>
+        <h1 className="displayTitle">
+            <Translate id="pageNotFound.displayTitle" />
+        </h1>
         <div className="buttons">
           <FormButton linkTo="/">
             <Translate id="pageNotFound.returnToWallet" />
