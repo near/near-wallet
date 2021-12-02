@@ -34,7 +34,7 @@ const StyledContainer = styled.div`
     }
 
     h1.displayTitle{
-        position:relative;
+        position: relative;
         font-size: 20vw;
         line-height: 1.2;
         background: url(${textBackgroundImage});
@@ -57,7 +57,7 @@ const StyledContainer = styled.div`
       z-index: 1;
 
       .blue {
-        font-weight: 500 !important;
+        font-weight: 500;
         margin: 0;
         text-transform: none;
 
