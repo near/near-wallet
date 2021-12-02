@@ -23,7 +23,7 @@ export const selectStakingAccountsMain = createSelector(selectStakingAccounts, (
 export const selectStakingAccountsLockup = createSelector(selectStakingAccounts, (accounts) => accounts[1] || {});
 
 // lockup - state
-export const selectStakingLockup = createSelector(selectStakingSlice, (staking) => staking.lockup || {});
+const selectStakingLockup = createSelector(selectStakingSlice, (staking) => staking.lockup || {});
 
 export const selectStakingLockupId = createSelector(selectStakingLockup, (lockup) => lockup.lockupId || '');
 
