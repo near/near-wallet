@@ -40,13 +40,13 @@ export const selectStakingFindContractByValidatorId = createSelector(
 );
 
 // accountsObj - state
-export const selectStakingAccountsObj = createSelector(selectStakingSlice, (staking) => staking.accountsObj || {});
+const selectStakingAccountsObj = createSelector(selectStakingSlice, (staking) => staking.accountsObj || {});
 
 export const selectStakingAccountsObjAccountId = createSelector(selectStakingAccountsObj, (accountsObj) => accountsObj.accountId || '');
 
 export const selectStakingAccountsObjLockupId = createSelector(selectStakingAccountsObj, (accountsObj) => accountsObj.lockupId || '');
 
 // currentAccount - state
-export const selectStakingCurrentAccount = createSelector(selectStakingSlice, (staking) => staking.currentAccount || {});
+const selectStakingCurrentAccount = createSelector(selectStakingSlice, (staking) => staking.currentAccount || {});
 
 export const selectStakingCurrentAccountAccountId = createSelector(selectStakingCurrentAccount, (currentAccount) => currentAccount.accountId || '');
