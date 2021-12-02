@@ -31,10 +31,10 @@ import {
 } from '../slices/account';
 import { selectAllAccountsByAccountId } from '../slices/allAccounts';
 import { 
-    selectStakingAccountsFirst,
-    selectStakingAccountsObjAccountId,
-    selectStakingAccountsObjLockupId,
-    selectStakingAccountsSecond,
+    selectStakingAccountsMain,
+    selectStakingMainAccountId,
+    selectStakingLockupAccountId,
+    selectStakingAccountsLockup,
     selectStakingAllValidators,
     selectStakingAllValidatorsLength,
     selectStakingContract,
@@ -412,13 +412,13 @@ const handleGetAccounts = () => async (dispatch, getState) => {
 
     const accounts = [{
         accountId: wallet.accountId,
-        ...selectStakingAccountsFirst(getState())
+        ...selectStakingAccountsMain(getState())
     }];
 
     if (!!selectStakingLockupId(getState())) {
         accounts.push({
             accountId: selectStakingLockupId(getState()),
-            ...selectStakingAccountsSecond(getState())
+            ...selectStakingAccountsLockup(getState())
         });
     }
 
@@ -465,7 +465,7 @@ export const handleStakingUpdateLockup = (exAccountId) => async (dispatch, getSt
 };
 
 export const handleStakingAction = (action, validatorId, amount) => async (dispatch, getState) => {
-    const accountId = selectStakingAccountsObjAccountId(getState());
+    const accountId = selectStakingMainAccountId(getState());
     const currentAccountId = selectStakingCurrentAccountAccountId(getState());
 
     const isLockup = currentAccountId !== accountId;
@@ -488,8 +488,8 @@ export const handleStakingAction = (action, validatorId, amount) => async (dispa
 
 export const updateStaking = (currentAccountId, recentlyStakedValidators) => async (dispatch, getState) => {
     await dispatch(handleGetAccounts());
-    const accountId = selectStakingAccountsObjAccountId(getState());
-    const lockupId = selectStakingAccountsObjLockupId(getState());
+    const accountId = selectStakingMainAccountId(getState());
+    const lockupId = selectStakingLockupAccountId(getState());
 
     await dispatch(staking.getValidators(null, accountId));
 
