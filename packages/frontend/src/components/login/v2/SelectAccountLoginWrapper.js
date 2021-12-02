@@ -18,6 +18,8 @@ import SelectAccountLogin from './SelectAccountLogin';
 
 export default ({
     loginAccessType,
+    contractId,
+    contractIdUrl,
     onClickNext,
     failureUrl
 }) => {
@@ -42,6 +44,8 @@ export default ({
             }}
             loginAccessType={loginAccessType}
             appReferrer={accountUrlReferrer}
+            contractId={contractId}
+            contractIdUrl={contractIdUrl}
             onClickCancel={() => {
                 Mixpanel.track("LOGIN Click deny button");
                 if (failureUrl) {

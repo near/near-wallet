@@ -907,7 +907,8 @@
         "seeMore": "See more on",
         "coinMarketCap": "CoinMarketCap",
         "bridgeTokens": "Bridge Tokens from Ethereum",
-        "descThree": "Transfer your tokens from Ethereum to NEAR Wallet using a bridge."
+        "descThree": "Transfer your tokens from Ethereum to NEAR Wallet using a bridge.",
+        "notSupported": "is not supported in your region"
     },
 
     "NFTs": {
