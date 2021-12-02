@@ -5,8 +5,9 @@ import sendJson from '../tmp_fetch_send_json';
 import { wallet } from '../utils/wallet';
 
 export const TOKENS_PER_PAGE = 4;
-
 export const NFT_TRANSFER_GAS = nearAPI.utils.format.parseNearAmount('0.00000000003');
+
+const functionCall = nearAPI.transactions.functionCall;
 
 // Methods for interacting witn NEP171 tokens (https://nomicon.io/Standards/NonFungibleToken/README.html)
 export default class NonFungibleTokens {
@@ -84,16 +85,21 @@ export default class NonFungibleTokens {
     static transfer = async ({ accountId, contractId, tokenId, receiverId }) => {
         console.log('transfer()', accountId, contractId, tokenId, receiverId);
         const account = await wallet.getAccount(accountId);
-        return account.functionCall(
-            contractId,
-            'nft_transfer',
-            {
-                receiver_id: receiverId,
-                token_id: tokenId
-            },
-            NFT_TRANSFER_GAS,
-            1
-        );
+
+        return account.signAndSendTransaction({
+            receiverId: contractId,
+            actions: [
+                functionCall(
+                    'nft_transfer', 
+                    {
+                        receiver_id: receiverId,
+                        token_id: tokenId
+                    },
+                    NFT_TRANSFER_GAS,
+                    1
+                )
+            ]
+        });
     }
 }
 
