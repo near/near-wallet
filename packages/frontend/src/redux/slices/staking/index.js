@@ -42,9 +42,9 @@ export const selectStakingFindContractByValidatorId = createSelector(
 // accountsObj - state
 const selectStakingAccountsObj = createSelector(selectStakingSlice, (staking) => staking.accountsObj || {});
 
-export const selectStakingAccountsObjAccountId = createSelector(selectStakingAccountsObj, (accountsObj) => accountsObj.accountId || '');
+export const selectStakingMainAccountId = createSelector(selectStakingAccountsObj, (accountsObj) => accountsObj.accountId || '');
 
-export const selectStakingAccountsObjLockupId = createSelector(selectStakingAccountsObj, (accountsObj) => accountsObj.lockupId || '');
+export const selectStakingLockupAccountId = createSelector(selectStakingAccountsObj, (accountsObj) => accountsObj.lockupId || '');
 
 // currentAccount - state
 const selectStakingCurrentAccount = createSelector(selectStakingSlice, (staking) => staking.currentAccount || {});
