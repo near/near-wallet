@@ -758,7 +758,10 @@
         "supportedExchanges": "Exchanges suportadas",
         "descTwo": "NEAR está disponível para compra nas seguintes exchanges.",
         "seeMore": "Ver mais em",
-        "coinMarketCap": "CoinMarketCap"
+        "coinMarketCap": "CoinMarketCap",
+        "bridgeTokens": "Bridge Tokens from Ethereum",
+        "descThree": "Transfer your tokens from Ethereum to NEAR Wallet using a bridge.",
+        "notSupported": "is not supported in your region"
     },
 
     "exploreApps": {

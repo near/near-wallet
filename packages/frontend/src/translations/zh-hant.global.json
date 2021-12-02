@@ -901,7 +901,8 @@
         "seeMore": "查看更多：",
         "coinMarketCap": "CoinMarketCap",
         "bridgeTokens": "通過以太坊跨鏈橋轉移通證",
-        "descThree": "通過跨鏈橋將以太坊鏈上通證轉至 NEAR 錢包。"
+        "descThree": "通過跨鏈橋將以太坊鏈上通證轉至 NEAR 錢包。",
+        "notSupported": "is not supported in your region"
     },
     
     "NFTs": {
