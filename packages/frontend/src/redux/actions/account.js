@@ -37,12 +37,16 @@ import {
     selectAccountBalanceLockedAmount,
     selectAccountId,
     selectAccountUrl,
+    selectAccountUrlCallbackUrl,
     selectAccountUrlContractId,
+    selectAccountUrlFailureUrl,
+    selectAccountUrlMeta,
     selectAccountUrlMethodNames,
     selectAccountUrlPublicKey,
     selectAccountUrlRedirectUrl,
     selectAccountUrlSuccessUrl,
     selectAccountUrlTitle,
+    selectAccountUrlTransactions,
     selectBalance
 } from '../slices/account';
 import { selectAllAccountsBalanceLockedAmount } from '../slices/allAccounts';
@@ -137,7 +141,11 @@ export const handleRefreshUrl = (prevRouter) => (dispatch, getState) => {
             dispatch(refreshUrl(loadState()));
         }
         dispatch(handleFlowLimitation());
-        const { transactions, callbackUrl, meta } = selectAccountUrl(getState());
+
+        const transactions = selectAccountUrlTransactions(getState());
+        const callbackUrl = selectAccountUrlCallbackUrl(getState());
+        const meta = selectAccountUrlMeta(getState());
+
         if (transactions) {
             dispatch(parseTransactionsToSign({ transactions, callbackUrl, meta }));
         }
@@ -145,7 +153,8 @@ export const handleRefreshUrl = (prevRouter) => (dispatch, getState) => {
 };
 
 const checkContractId = () => async (dispatch, getState) => {
-    const { contractId, failureUrl } = selectAccountUrl(getState());
+    const contractId = selectAccountUrlContractId(getState());
+    const failureUrl = selectAccountUrlFailureUrl(getState());
 
     if (contractId) {
         const redirectIncorrectContractId = () => {
