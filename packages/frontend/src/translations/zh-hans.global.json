@@ -264,6 +264,7 @@
         "descThree": "通过跨链桥将以太坊链上通证转至 NEAR 钱包。",
         "descTwo": "NEAR 已经在以下交易所流通，可交易。",
         "moonPay": "MoonPay",
+        "notSupported": "is not supported in your region",
         "seeMore": "查看更多：",
         "supportedExchanges": "交易所",
         "title": "充值 NEAR"
@@ -478,19 +479,11 @@
             "title": "请输入第 <b>${wordId}</b> 个助记词"
         }
     },
-
-    "buyNear": {
-        "title": "充值 NEAR",
-        "moonPay": "MoonPay",
-        "descOne": "可在 MoonPay 使用偏好的支付方式购买 NEAR。",
-        "buyWith": "打开",
-        "supportedExchanges": "交易所",
-        "descTwo": "NEAR 已经在以下交易所流通，可交易。",
-        "seeMore": "查看更多：",
-        "coinMarketCap": "CoinMarketCap",
-        "bridgeTokens": "通过以太坊跨链桥转移通证",
-        "descThree": "通过跨链桥将以太坊链上通证转至 NEAR 钱包。",
-        "notSupported": "is not supported in your region"
+    "landing": {
+        "banner": "NEAR 钱包已经在内测",
+        "desc": "使用 <span>NEAR 钱包</span>安全地存储、使用您的资产。",
+        "or": "或",
+        "title": "NEAR 数字钱包"
     },
     "ledgerSignTxModal": {
         "ADD_ACCESS_KEY": "请在 Ledger 设备上确认登录信息。",
@@ -576,6 +569,10 @@
         "v2": {
             "connectConfirm": {
                 "desc": "请连接你信任的应用。一旦连接，<a href=${contractIdUrl} target='_blank' rel='noreferrer'>${appReferrer}</a> 将拥有 <b>${accessType}</b> 权限：",
+                "feeAllowance": {
+                    "desc": "The application will be given permission to spend up to <b>${amount} NEAR</b> towards network fees incurred during use.",
+                    "title": "Network Fee Allowance"
+                },
                 "fullAccess": "完全访问",
                 "fullAccessModal": {
                     "desc": "请谨慎授权，完整访问权限允许应用和合约操作你的账户。若确定继续，请输入你的账户 ID 确认继续。",
@@ -589,14 +586,13 @@
                     "viewAddress": "查看你连接的账户地址",
                     "viewBalance": "查看你连接的账户余额"
                 },
-                "fullAccessModal": {
-                    "title": "授权完整账户访问？",
-                    "desc": "请谨慎授权，完整访问权限允许应用和合约操作你的账户。若确定继续，请输入你的账户 ID 确认继续。"
-                },
-                "feeAllowance": {
-                    "title": "Network Fee Allowance",
-                    "desc": "The application will be given permission to spend up to <b>${amount} NEAR</b> towards network fees incurred during use."
-                }
+                "title": "正在连接："
+            },
+            "connectWithNear": {
+                "desc": "应用正在请求你的账户的 <b>${accessType}</b> 权限，选择希望连接的账户。",
+                "fullAccess": "完全访问",
+                "limitedAccess": "受限访问",
+                "title": "连接 NEAR"
             }
         }
     },
@@ -1134,6 +1130,9 @@
             "subTitle": "HD 路径",
             "title": "高级选项"
         },
+        "firefoxBanner": {
+            "desc": "Ledger is currently only supported in <a href='https://www.mozilla.org/' rel='noopener noreferrer' target='_blank'><b>Mozilla Firefox</b></a>. Support for other browsers will soon be restored."
+        },
         "header": "通过 Ledger 硬件登录",
         "modal": {
             "accountsApproved": "账户已授权",
@@ -1148,15 +1147,7 @@
                 "waiting": "下一个"
             }
         },
-        "advanced": {
-            "title": "高级选项",
-            "subTitle": "HD 路径",
-            "desc": "指定 HD 路径来导入已链接的账户。",
-            "setPath": "设置 HD 路径"
-        },
-        "firefoxBanner": {
-            "desc": "Ledger is currently only supported in <a href='https://www.mozilla.org/' rel='noopener noreferrer' target='_blank'><b>Mozilla Firefox</b></a>. Support for other browsers will soon be restored."
-        }
+        "one": "请确认硬件钱包已经安全连接，并且 NEAR 应用已经打开。"
     },
     "stagingBanner": {
         "desc": "注意：这是预发布版本 NEAR 钱包，可能有 Bugs，这些 Bugs 可能会导致丢失通证。继续使用此版本则表示你理解并接受此风险，并知晓 NEAR 钱包团队将无法帮助你。",
