@@ -25,7 +25,7 @@ function getTestAccountSeedPhrase(testAccountId) {
 }
 
 function getWorkerAccountId(workerIndex) {
-    return `w${workerIndex}-${Date.now()}-${Math.floor(Math.random() * 1000) % 1000}.${process.env.BANK_ACCOUNT}`;
+    return `w${workerIndex}-${Math.floor(Math.random() * 1000) % 1000}.${process.env.BANK_ACCOUNT}`;
 }
 
 function getWorkerAccountRegex(workerIndex) {
