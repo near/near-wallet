@@ -1518,5 +1518,10 @@
         "subText1": "During on-boarding, you may now use an SMS capable phone number to verify and initialize your new account. Users who don’t wish to provide this information may still initialize new accounts with an initial deposit.",
         "subTitle2": "Enhancements",
         "subText2": "The primary balance displayed in the wallet is now your 'Available Balance', where it was previously your 'Total Balance'. The Available Balance offers the most utility to users wanting to know at a glance what they have available to spend/stake/and interact with the ecosystem; it does not include any tokens that are not readily spendable, such as tokens that are staked.  You can still see your staked tokens balance details on the 'Account' and 'Staking' screens."
+    },
+    "pageNotFound": {
+        "title": "Sorry, the page you are looking for is missing.",
+        "desc": "Kindly return to your <span>NEAR Wallet</span> to continue.",
+        "returnToWallet": "Return to Wallet"
     }
 }
