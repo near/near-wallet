@@ -1,1130 +1,1274 @@
 {
-    "reduxActions": {
-        "RECOVER_ACCOUNT_SEED_PHRASE": {
-            "success": "成功通过助记词恢复账户。<br/><b>${numberOfAccounts} 个账户</b>成功恢复，已切换至最新恢复的账户。",
-            "error": "恢复账户失败。"
-        },
-        "SEND_MONEY": {
-            "error": "请检查你的设备已经连接并打开了 NEAR 应用。"
-        },
-        "CHECK_NEW_ACCOUNT": {
-            "success": "恭喜！${accountId} 可被注册。",
-            "error": "用户名已被注册，请尝试其他。"
-        },
-        "ADD_ACCESS_KEY": {
-            "success": "${title} 现已授权使用你的账户。",
-            "error": "在授权此操作时发生了错误，请重试。"
-        },
-        "ADD_ACCESS_KEY_SEED_PHRASE": {
-            "success": "助记词恢复设置已经完成。",
-            "error": "在设置助记词恢复方式时发生了错误，请重试。"
-        },
-        "SETUP_RECOVERY_MESSAGE": {
-            "success": "账户恢复设置已完成。",
-            "error": "设置账户恢复方式时发生错误，请重试。"
-        },
-        "SAVE_AND_SELECT_LEDGER_ACCOUNTS": {
-            "success": "你已经成功登录。<br/><b>${numberOfAccounts} 个账户</b>已经成功恢复：<b>${accountList}</b>。<br/>最后一个账户设置为活跃账户。",
-            "error": "请检查硬件钱包已经安全连接，并且 NEAR 应用已经打开。"
-        },
-        "DELETE_RECOVERY_METHOD": {
-            "success": "",
-            "error": ""
-        },
-        "DEPLOY_MULTISIG": {
-            "success": "",
-            "error": ""
-        },
-        "REMOVE_ACCESS_KEY": {
-            "success": "",
-            "error": "请检查你的设备已经连接并打开了 NEAR 应用。"
-        },
-        "SIGN_AND_SEND_TRANSACTIONS": {
-            "success": "",
-            "error": ""
-        },
-        "CREATE_ACCOUNT_WITH_SEED_PHRASE": {
-            "success": "",
-            "error": ""
-        },
-        "ADD_LEDGER_ACCOUNT_ID": {
-            "success": "",
-            "error": "账户的访问被拒绝，恢复账户失败。<br/>若要继续，需要在 Ledger 设备上授权每个账户的只读访问，请再重试。"
-        },
-        "PROMPT_TWO_FACTOR": {
-            "invalidCode": "无效的双重认证验证码，请重试。"
-        },
-        "CHECK_ACCOUNT_AVAILABLE": {
-            "success": "用户已找到。",
-            "error": "用户未找到。"
-        },
-        "GET_LEDGER_ACCOUNT_IDS": {
-            "success": "",
-            "error": "公钥访问被拒绝，恢复账户失败。<br/>若要继续，需要允许 NEAR 钱包访问你的公钥，请再重试。"
-        },
-        "VERIFY_TWO_FACTOR": {
-            "success": "双重认证设置成功！",
-            "error": "双重认证设置失败，请重试。"
-        },
-        "CHECK_IS_NEW": {
-            "success": "恭喜！${accountId} 可被注册。",
-            "error": "用户名已被注册，请尝试其他。"
-        },
-        "CREATE_NEW_ACCOUNT": {
-            "success": "恭喜！${accountId} 可被注册。",
-            "error": "用户名已被注册，请尝试其他。"
-        },
-        "TRANSFER_ALL_FROM_LOCKUP": {
-            "success": "成功从锁定账户转移通证！",
-            "error": "出现问题，请重试。"
-        },
-        "REFRESH_ACCOUNT_EXTERNAL": {
-            "error": "账户 <b>${accountId}</b> 未找到"
-        },
-
-        "Deserialization": "",
-        "RetriesExceeded": "此交易超出最大重试次数。",
-        "U2F_4": "无法通过硬件钱包登录：U2F DEVICE_INELIGIBLE。请确保 Ledger 设备已连接并解锁。",
-        "NotEnoughBalance": "你的账户没有足够余额进行此操作。",
-
-        "default": {
-            "success": "",
-            "error": "出现问题，请重试。"
-        }
-    },
-    "walletErrorCodes": {
-        "emailProviderInvalid": "${domainName} 邮箱无法用于账户验证。请尝试其他域名的邮箱。",
-        "invalidRecaptchaCode": "reCAPTCHA 验证失败，请重试。",
-        "addAccessKeySeedPhrase": {
-            "errorSecond": "出现问题。<br />该助记词无法恢复你的账户，请检查后重试。"
-        },
-        "promptTwoFactor": {
-            "userCancelled": "此操作已被取消。"
-        },
-        "signAndSendTransactions": {
-            "notEnoughTokens": "没有足够通证。"
-        },
-        "getLedgerAccountIds": {
-            "U2FNotSupported": "需要浏览器支持 U2F，请使用 Chrome、Opera 或 Firefox 安装 U2F 扩展。",
-            "noAccounts": "该 Ledger 设备没有绑定任何账户，你需要先创建一个账户，并将此账户绑定至 Ledger 才能登录。",
-            "aborted": "操作被终止。",
-            "noAccountsAccepted": "无账户授权。"
-        },
-        "staking": {
-            "noWithdraw": "无法从验证节点提现余额",
-            "noLockup": "账户无锁定合约"
-        },
-        "addLedgerAccountId": {
-            "errorRpc": "恢复账户时发生错误。"
-        },
-        "setupRecoveryMessage": {
-            "error": "设置恢复方式时出现错误，请重试。"
-        },
-        "addAccessKey": {
-            "error": "发生错误。<br />为访问你的账户，请输入上一步的助记词。"
-        },
-        "recoveryMethods": {
-            "setupMethod": "发生错误。请检查你的账户恢复方式。",
-            "lastMethod": "无法删除最后一个恢复方式。除非你添加了 Ledger，你需要保留至少一种账户恢复方式。"
-        },
-        "recoverAccountSeedPhrase": {
-            "errorInvalidSeedPhrase": "助记词无效"
-        },
-        "lockup": {
-            "transferAllWithStakingPoolBalance": "为将你剩余锁定余额转账至钱包，请从质押池赎回并提现所有质押资产。"
-        },
-        "setupRecoveryMessageNewAccount": {
-            "invalidCode": "无效验证码"
-        },
-        "sendFungibleToken": {
-            "error": "发生错误，发送交易取消。"
-        },
-        "createNewAccount": {
-            "error": "账户创建失败，请重试。"
-        }
-    },
     "account": {
-        "requestCode": {
-            "success": "短信已成功发送。",
-            "error": "发送短信失败。"
-        },
-        "recoverAccount": {
-            "success": "成功。",
-            "error": "恢复账户失败。",
-            "errorInvalidSeedPhrase": "助记词无效"
-        },
-        "create": {
-            "errorInvalidAccountIdLength": "用户名的长度需为 2 至 64 个字符。",
-            "checkingAvailablity": {
-                "create": "正在检查可用性",
-                "check": "正在检查"
+        "activateAccount": {
+            "post": {
+                "descOne": "你的初始充值已经收到，并且转至新的账户，新账户已经激活！",
+                "descTwo": "一部分充值被保留用于涵盖<a href='https://docs.near.org/docs/concepts/account' rel='noopener noreferrer' target='_blank'>账户的存储成本</a>。",
+                "title": "你的账户已经激活。"
             },
-            "errorAccountNotExist": "创建账户出错，请重试！"
+            "pre": {
+                "desc": "开始使用 NEAR 钱包前，请先充值<b>至少 ${amount}</b> 至你的账户（或称地址）。",
+                "title": "即将完成注册！请为账户进行首次充值。"
+            }
         },
         "available": {
-            "success": "该用户已找到。",
             "error": "无法找到该用户。",
             "errorSameAccount": "无法向你自己发送。",
             "implicitAccount": "转账不可逆，请确保账户 ID 准确",
-            "implicitAccountModal": "请再确认账户 ID，如果账户输入错误，你的资产将永久无法找回。"
+            "implicitAccountModal": "请再确认账户 ID，如果账户输入错误，你的资产将永久无法找回。",
+            "success": "该用户已找到。"
         },
-        "activateAccount": {
-            "pre": {
-                "title": "即将完成注册！请为账户进行首次充值。",
-                "desc": "开始使用 NEAR 钱包前，请先充值<b>至少 ${amount}</b> 至你的账户（或称地址）。"
+        "create": {
+            "checkingAvailablity": {
+                "check": "正在检查",
+                "create": "正在检查可用性"
             },
-            "post": {
-                "title": "你的账户已经激活。",
-                "descOne": "你的初始充值已经收到，并且转至新的账户，新账户已经激活！",
-                "descTwo": "一部分充值被保留用于涵盖<a href='https://docs.near.org/docs/concepts/account' rel='noopener noreferrer' target='_blank'>账户的存储成本</a>。"
-            }
+            "errorAccountNotExist": "创建账户出错，请重试！",
+            "errorInvalidAccountIdLength": "用户名的长度需为 2 至 64 个字符。"
         },
         "createImplicit": {
-            "pre": {
-                "title": "充值至账户",
-                "descOne": "为初始化账户，请向临时充值地址转账至少 <b>${amount}</b>。",
-                "descTwo": "充值完成后，请返回本页继续完成账户创建。",
-                "addressHeader": "单次充值地址",
-                "whereToBuy": {
-                    "button": "我可以在哪里购买 NEAR？",
-                    "title": "购买 NEAR 通证",
-                    "desc": "NEAR 通证可以在以下交易所购买"
-                },
-                "moonPay": {
-                    "title": "通过 MoonPay 充值",
-                    "desc": "通过 MoonPay 支持的支付方式进行你的首次充值。",
-                    "buyWith": "打开"
-                }
-            },
             "post": {
-                "title": "认领你的账户",
                 "descOne": "你的初始充值已经收到，一旦认领，你的充值会转移到新认领的账户。",
                 "descTwo": "重要：你的单次充值地址将不再有效。请确认用新的账户 ID 替换旧地址，以防资产丢失。",
                 "modal": {
-                    "title": "更新你的地址",
                     "descOne": "点击确认，意味着你已经知晓单次充值地址将会无效，任何充值到旧地址的资产会丢失。",
-                    "descTwo": "请记得在各个交易所或钱包内用新的账户 ID 替换旧地址。"
+                    "descTwo": "请记得在各个交易所或钱包内用新的账户 ID 替换旧地址。",
+                    "title": "更新你的地址"
+                },
+                "title": "认领你的账户"
+            },
+            "pre": {
+                "addressHeader": "单次充值地址",
+                "descOne": "为初始化账户，请向临时充值地址转账至少 <b>${amount}</b>。",
+                "descTwo": "充值完成后，请返回本页继续完成账户创建。",
+                "moonPay": {
+                    "buyWith": "打开",
+                    "desc": "通过 MoonPay 支持的支付方式进行你的首次充值。",
+                    "title": "通过 MoonPay 充值"
+                },
+                "title": "充值至账户",
+                "whereToBuy": {
+                    "button": "我可以在哪里购买 NEAR？",
+                    "desc": "NEAR 通证可以在以下交易所购买",
+                    "title": "购买 NEAR 通证"
                 }
             },
             "success": {
-                "title": "欢迎使用 NEAR",
-                "descOne": "恭喜 <b>${accountId}</b>！你的账户已成功注册。",
-                "descTwo": "你现在可以使用账户 ID 作为你的 NEAR 主要地址。请在交易所或其他设备上更新你的地址。",
-                "descThree": "请在交易所或其他设备上更新你的地址。",
                 "button": "前往账户页",
+                "descOne": "恭喜 <b>${accountId}</b>！你的账户已成功注册。",
+                "descThree": "请在交易所或其他设备上更新你的地址。",
+                "descTwo": "你现在可以使用账户 ID 作为你的 NEAR 主要地址。请在交易所或其他设备上更新你的地址。",
                 "modal": {
-                    "title": "欢迎使用 NEAR 钱包。",
-                    "desc": "恭喜你！你的账户已经成功注册。"
-                }
+                    "desc": "恭喜你！你的账户已经成功注册。",
+                    "title": "欢迎使用 NEAR 钱包。"
+                },
+                "title": "欢迎使用 NEAR"
             }
         },
         "fundedStatus": {
-            "singleUse": "单次充值地址",
-            "nearName": "账户 ID",
-            "status": "账户状态",
-            "minDeposit": "最低充值",
-            "initialDeposit": "初始充值",
+            "active": "活跃",
             "awaitingDeposit": "等待充值",
+            "initialDeposit": "初始充值",
+            "minDeposit": "最低充值",
+            "nearName": "账户 ID",
             "ready": "可供领取",
-            "active": "活跃"
-        },
-        "verifySeedPhrase": {
-            "error": "你输入了错误的助记词"
-        },
-        "sendNewRecoveryLink": {
-            "success": "账户恢复链接已经发送！",
-            "error": "账户恢复链接发送失败，请重试。"
+            "singleUse": "单次充值地址",
+            "status": "账户状态"
         },
         "login": {
             "details": {
                 "warning": "这将可以访问你的所有余额，请谨慎操作。"
             },
             "incorrectContractId": {
-                "errorTitle": "无效的合约 ID",
-                "error": "合约 ${contractId} 不存在。这可能是你正在使用的应用的问题，或者可能是合约已经被删除。你将重新回到应用。"
+                "error": "合约 ${contractId} 不存在。这可能是你正在使用的应用的问题，或者可能是合约已经被删除。你将重新回到应用。",
+                "errorTitle": "无效的合约 ID"
             }
         },
         "nameDoesntMatch": "账户名称不匹配",
+        "recoverAccount": {
+            "error": "恢复账户失败。",
+            "errorInvalidSeedPhrase": "助记词无效",
+            "success": "成功。"
+        },
+        "requestCode": {
+            "error": "发送短信失败。",
+            "success": "短信已成功发送。"
+        },
         "sendMoney": {
             "error": "请检查你的设备已经连接并打开了 NEAR 应用。"
+        },
+        "sendNewRecoveryLink": {
+            "error": "账户恢复链接发送失败，请重试。",
+            "success": "账户恢复链接已经发送！"
+        },
+        "verifySeedPhrase": {
+            "error": "你输入了错误的助记词"
         }
     },
-
-    "verifyAccount": {
-        "title": "只差一步！验证你的新账户。",
-        "desc": "为避免发送垃圾信息，我们需要验证你是账户所有者，你可以通过一次性验证码或初始充值进行验证。",
-        "options": {
-            "passCode": "一次性验证码",
-            "initialDeposit": "初始充值"
-        },
-        "option": {
-            "email": {
-                "title": "邮箱",
-                "desc": "通过邮箱接收一次性验证码。"
-            },
-            "phone": {
-                "title": "手机（暂不支持中国大陆地区）",
-                "desc": "通过手机短信接收一次性验证码。"
-            },
-            "existingAccount": {
-                "title": "通过已有账户充值",
-                "desc": "从一个已有账户转账少量 NEAR 通证来激活新注册账户。"
-            },
-            "creditCard": {
-                "title": "通过信用卡充值",
-                "desc": "通过 MoonPay 购买 NEAR 通证来激活新注册账户。"
-            },
-            "manualDeposit": {
-                "title": "手动充值",
-                "desc": "通过单次充值地址进行充值"
-            }
-        },
-        "modal": {
-            "email":{
-                "title": "此邮箱地址已被用于验证其他账户",
-                "desc": "你需要使用其他邮箱地址或选择其他方式来验证此账户，不过你可以使用此邮箱作为恢复方式。"
-            },
-            "phone": {
-                "title": "此手机号码已被用于验证其他账户",
-                "desc": "你需要使用其他手机号码或选择其他方式来验证此账户，不过你可以使用此号码作为恢复方式。"
-            }
-        }
-    },
-
-    "initialDeposit": {
-        "creditCard": {
-            "title": "通过信用卡向你的账户充值。",
-            "desc": "通过 MoonPay 完成购买<b>至少 ${amount} NEAR</b>，MoonPay 将自动充值到你的新账户并激活。"
-        },
-        "manualDeposit": {
-            "title": "充值至账户",
-            "desc": "请向单次充值地址转账<b>至少${amount} NEAR</b>，以满足最低充值要求。"
-        },
-        "claimAccount": {
-            "title": "认领你的账户",
-            "desc": "你的初始充值已到账，一旦认领账户，你充值的通证会被转移到新认领的账户。",
-            "disclaimer": {
-                "desc": "重要：你之前的单次充值地址将失效。若你在交易所和其他设备保存了单次充值地址，请将其替换为你的新账户 ID（例：XXXX.near）",
-                "checkBox": "同意 & 继续"
-            }
-        }
-    },
-
     "accountSelector": {
-        "signInButton": "登录不同的账户",
-        "noAccountDesc": "目前你没有登录其他账户。"
+        "noAccountDesc": "目前你没有登录其他账户。",
+        "signInButton": "登录不同的账户"
     },
-
-    "transfer": {
-        "from": "来自",
-        "to": "至",
-        "estimatedFees": "预估费用"
-    },
-
-    "existingAccount": {
-        "selectAccount": {
-            "title": "通过已有账户充值激活。",
-            "desc": "如果你有其他账户（<b>包括至少 ${amount} NEAR</b>），你可以从这个账户转账来激活你的新账户。",
-            "descTwo": "切换或登录至你的已有账户，并转账通证至新账户完成新账户激活。" 
+    "actions": {
+        "AddKey": {
+            "forContract": "已为合约添加访问密钥：${permissionReceiverId}",
+            "forReceiver": "已为 ${receiverId} 新增密钥"
         },
-        "fundNewAccount": {
-            "titleOne": "批准交易",
-            "titleTwo": "充值激活新账户"
+        "CreateAccount": "新账户已创建：${receiverId}",
+        "DeleteAccount": "账户已删除：${receiverId}",
+        "DeleteKey": "密钥已删除",
+        "DeployContract": "合约已经部署：${receiverId}",
+        "FunctionCall": "函数已调用：合约 ${receiverId} 的 ${methodName}",
+        "Stake": "已质押 ${stake}",
+        "Transfer": {
+            "received": "收到来自 ${signerId} 的转账 ${deposit} ",
+            "transferred": "已转账 ${deposit} 至 ${receiverId}"
         }
     },
-
-    "dashboardActivity": {
-        "title": {
-            "CreateAccount": "新账户已创建",
-            "DeleteAccount": "账户已删除",
-            "DeployContract": "合约已部署",
-            "FunctionCall": "方法已调用",
-            "Transfer": {
-                "transferred": "已发送 NEAR",
-                "received": "已接收 NEAR"
-            },
-            "Stake": "已质押",
-            "AddKey": {
-                "forContract": "访问密钥已添加",
-                "forReceiver": "访问密钥已添加"
-            },
-            "DeleteKey": "密钥已删除"
+    "actionsSign": {
+        "addKey": "正在新增访问密钥",
+        "createAccount": "正在创建账户：${receiverId}",
+        "deleteAccount": "正在删除账户：${receiverId}",
+        "deleteKey": "正在删除访问密钥",
+        "deployContract": "正在部署合约：${receiverId}",
+        "functionCall": "正在调用函数：${methodName}",
+        "stake": "正在质押：${stake} &#9411; ${publicKey}...",
+        "transfer": "正在转账：${deposit} &#9411; 至 ${receiverId}"
+    },
+    "addNode": {
+        "desc": "在此添加前，请先通过命令行配置你的节点。",
+        "ipAddressInput": {
+            "placeholder": "例如：0.0.0.0",
+            "title": "请输入你的节点 IP 地址"
         },
+        "nicknameInput": {
+            "placeholder": "例如：AWS Instance",
+            "title": "请设置一个昵称（可选）"
+        },
+        "pageText": "通过命令行配置你的节点，并在这里添加。",
+        "pageTitle": "添加节点"
+    },
+    "amount": "数量",
+    "arguments": "参数",
+    "authorizedApps": {
+        "dashboardNoApps": "你还未授权任何应用",
+        "feeAllowance": "费用配额",
+        "ledger": "Ledger",
+        "pageTitle": "已授权应用",
+        "publicKey": "公钥"
+    },
+    "availableBalanceInfo": "你可以使用的 NEAR 余额，不包括锁定或质押的资金。<a href='/profile'>查看资产组合详情 →</a>",
+    "availableBalanceProfile": "「可用余额」是指你当前账号内可消耗 NEAR 通证，可用余额少于你的总共余额。",
+    "back": "返回",
+    "balance": {
+        "balance": "总余额",
+        "balanceLoading": "余额加载中"
+    },
+    "balanceBreakdown": {
+        "available": "可用余额",
+        "reserved": "费用预留"
+    },
+    "button": {
+        "acceptAndContinue": "接受并继续",
+        "addFunds": "充值",
+        "addNode": "添加节点",
+        "allow": "允许",
+        "approve": "允许",
+        "authorizing": "正在授权",
+        "browseApps": "浏览应用",
+        "buy": "购买",
+        "cancel": "取消",
+        "cancelOperation": "取消操作",
+        "cancelTransfer": "取消转账",
+        "claimAccount": "认领账户",
+        "claimMyAccount": "认领我的账户",
+        "close": "关闭",
+        "Close": "关闭",
+        "confirm": "确认",
+        "confirmAndSend": "确认并发送",
+        "connect": "连接",
+        "connecting": "正在连接",
+        "connectLedger": "绑定 Ledger",
+        "continue": "继续",
+        "continueSetup": "继续设置",
+        "continueToMyAccount": "前往我的账户",
+        "copyImplicitAddress": "复制账户 ID",
+        "copyPhrase": "复制助记词",
+        "copyUrl": "复制链接",
+        "createAccount": "创建账户",
+        "createAccountCapital": "创建账户",
+        "createNewAccount": "创建新的账户",
+        "creatingAccount": "创建账户",
+        "deauthorize": "取消授权",
+        "deAuthorizing": "正在取消授权",
+        "deny": "拒绝",
+        "disable": "禁用",
+        "disabling": "正在禁用",
+        "dismiss": "关闭",
+        "edit": "编辑",
+        "enable": "启用",
+        "enabling": "正在开启",
+        "findMyAccount": "查找我的账户",
+        "finish": "完成",
+        "fundWith": "充值",
+        "goBack": "返回",
+        "gotIt": "知晓",
+        "goToDashboard": "访问概览页",
+        "importAccount": "导入已有账户",
+        "importExistingAccount": "导入已有账户",
+        "learnMore": "了解更多",
+        "loading": "正在加载",
+        "moreInformation": "更多信息",
+        "needToEditGoBack": "需要修改？请返回",
+        "next": "下一步",
+        "protectAccount": "保护账户",
+        "receive": "接收",
+        "recoverAccount": "恢复账户",
+        "recovering": "正在恢复账户",
+        "recoverYourAccount": "恢复账户",
+        "removeNode": "删除模式",
+        "removingKeys": "删除密钥",
+        "reserveMyAccountId": "保留账户 ID",
+        "retry": "重试",
+        "returnToApp": "返回至应用",
+        "saveChanges": "保存更改",
+        "send": "发送",
+        "setupPhrase": "设置助记词",
+        "signIn": "登录",
+        "signingIn": "正在登录",
+        "signInLedger": "通过 Ledger 登录",
+        "skip": "跳过",
+        "stake": "质押",
+        "staking": "正在质押",
+        "startOver": "重新开始",
+        "subscribe": "订阅",
+        "topUp": "充值",
+        "transferring": "正在转账",
+        "tryAgain": "再次尝试",
+        "unstaking": "正在赎回质押",
+        "useMax": "最多",
+        "verify": "验证并完成",
+        "verifyCode": "验证代码",
+        "verifyCodeEnable": "验证代码并开启",
+        "verifying": "正在验证",
+        "viewAll": "查看全部",
+        "viewFAQ": "查看常见问题",
+        "viewOnExplorer": "通过浏览器查看",
+        "withdrawing": "正在提现"
+    },
+    "buyNear": {
+        "bridgeTokens": "通过以太坊跨链桥转移通证",
+        "buyWith": "打开",
+        "coinMarketCap": "CoinMarketCap",
+        "descOne": "可在 MoonPay 使用偏好的支付方式购买 NEAR。",
+        "descThree": "通过跨链桥将以太坊链上通证转至 NEAR 钱包。",
+        "descTwo": "NEAR 已经在以下交易所流通，可交易。",
+        "moonPay": "MoonPay",
+        "seeMore": "查看更多：",
+        "supportedExchanges": "交易所",
+        "title": "充值 NEAR"
+    },
+    "confirmLedgerModal": {
+        "header": {
+            "confirm": "请在设备上确认此操作...",
+            "processing": "正在处理"
+        },
+        "one": "请在 Ledger 硬件设备上确认登录细节。"
+    },
+    "connecting": "连接中",
+    "copy": {
+        "default": "已复制！",
+        "title": "复制"
+    },
+    "createAccount": {
+        "accountIdInput": {
+            "placeholder": "yourname.${data}",
+            "title": "输入用户名"
+        },
+        "alreadyHaveAnAccount": "已经拥有账户？",
+        "invalidLinkDrop": {
+            "one": "NEAR Drop 已经被领取。",
+            "title": "链接无效",
+            "two": "NEAR Drop 只能被领取一次，之后链接会无效。"
+        },
+        "note": {
+            "canContain": "你的用户名可以输入以下任何字符：",
+            "cannotContain": "你的用户名不可以包括：",
+            "characters": "符号 \"@\" 或 \".\"",
+            "digits": "数字 (0-9)",
+            "lowercase": "小写英文字母 (a-z)",
+            "maxCharacters": "超过 64 个字符（包括 .${accountSuffix}）",
+            "minCharacters": "少于 2 个字符",
+            "separators": "字符 (_-) 用于分割"
+        },
+        "pageText": "只需要输入用户名即完成注册。",
+        "pageTitle": "创建新的账户",
+        "recoverItHere": "恢复账户",
+        "step": "步骤 ${step}/${total}",
+        "terms": {
+            "agreeBtn": "同意并继续",
+            "declineBtn": "拒绝",
+            "desc": "注册 NEAR 账户意味着你同意 NEAR Wallet 服务条款和隐私政策。 我们建议你仔细阅读：",
+            "privacyCheck": "我同意隐私政策",
+            "privacyLink": "隐私政策",
+            "termsCheck": "我同意服务条款",
+            "termsLink": "服务条款",
+            "title": "服务条款"
+        },
+        "termsPage": {
+            "descOne": "NEAR 账户要求进行一笔一次性<b>至少 ${amount}</b> 的充值来涵盖<a href='https://docs.near.org/docs/concepts/account' rel='noopener noreferrer' target='_blank'>你的账户存储成本</a>。",
+            "descTwo": "在保留你的个性化账户 ID 之后，你需要进行一笔初始充值来激活的账户。",
+            "disclaimer": "通过注册 NEAR 账户，意味着你同意 NEAR 钱包的<a href='/terms' rel='noopener noreferrer' target='_blank'>服务条款</a>和<a href='https://near.org/privacy' rel='noopener noreferrer' target='_blank'>隐私策略</a>。",
+            "title": "在开始之前..."
+        }
+    },
+    "dashboard": {
+        "activity": "最近动态"
+    },
+    "dashboardActivity": {
         "message": {
+            "AddKey": {
+                "forContract": "<span>至</span> <span>${permissionReceiverId}</span>",
+                "forReceiver": "<span>至</span> <span>${receiverId}</span>"
+            },
             "CreateAccount": "<span>账户</span> <span>${receiverId}</span>",
             "DeleteAccount": "<span>账户</span> <span>${receiverId}<span>",
+            "DeleteKey": "密钥已删除",
             "DeployContract": "<span>合约</span> <span>${receiverId}</span>",
             "FunctionCall": "<span>合约 ${receiverId}</span> 的<span>方法 ${methodName}</span>",
             "FunctionCallDetails": {
                 "first": "<span>方法</span> <span>${methodName}</span>",
                 "second": "<span>合约</span> <span>${receiverId}</span>"
             },
-            "Transfer": {
-                "transferred": "<span>至</span> <span>${receiverId}</span>",
-                "received": "<span>来自</span> <span>${signerId}</span>"
-            },
             "Stake": "<span>质押</span> <span>${stake}</span>",
+            "Transfer": {
+                "received": "<span>来自</span> <span>${signerId}</span>",
+                "transferred": "<span>至</span> <span>${receiverId}</span>"
+            }
+        },
+        "title": {
             "AddKey": {
-                "forContract": "<span>至</span> <span>${permissionReceiverId}</span>",
-                "forReceiver": "<span>至</span> <span>${receiverId}</span>"
+                "forContract": "访问密钥已添加",
+                "forReceiver": "访问密钥已添加"
             },
-            "DeleteKey": "密钥已删除"
-        }
-    },
-    
-    "actions": {
-        "CreateAccount": "新账户已创建：${receiverId}",
-        "DeleteAccount": "账户已删除：${receiverId}",
-        "DeployContract": "合约已经部署：${receiverId}",
-        "FunctionCall": "函数已调用：合约 ${receiverId} 的 ${methodName}",
-        "Transfer": {
-            "transferred": "已转账 ${deposit} 至 ${receiverId}",
-            "received": "收到来自 ${signerId} 的转账 ${deposit} "
-        },
-        "Stake": "已质押 ${stake}",
-        "AddKey": {
-            "forContract": "已为合约添加访问密钥：${permissionReceiverId}",
-            "forReceiver": "已为 ${receiverId} 新增密钥"
-        },
-        "DeleteKey": "密钥已删除"
-    },
-    "actionsSign": {
-        "createAccount": "正在创建账户：${receiverId}",
-        "deployContract": "正在部署合约：${receiverId}",
-        "functionCall": "正在调用函数：${methodName}",
-        "transfer": "正在转账：${deposit} &#9411; 至 ${receiverId}",
-        "stake": "正在质押：${stake} &#9411; ${publicKey}...",
-        "addKey": "正在新增访问密钥",
-        "deleteKey": "正在删除访问密钥",
-        "deleteAccount": "正在删除账户：${receiverId}"
-    },
-
-    "setupSeedPhrase": {
-        "pageTitle": "设置恢复助记词",
-        "pageText": "请按顺序记录以下助记词，并安全保管它们。没有助记词你将无法恢复账户！",
-        "snackbarCopySuccess": "助记词已复制！",
-        "snackbarCopyImplicitAddress": "账户 ID 已复制！"
-    },
-    "setupSeedPhraseVerify": {
-        "pageTitle": "验证助记词",
-        "pageText": "请根据你的助记词输入以下单词完成设置。",
-        "startOverText": "没有记录下来？"
-    },
-    "setupSeedPhraseSuccess": {
-        "pageTitle": "恢复设置已完成",
-        "pageText": "使用助记词来恢复你的账户。",
-        "pageTextSecondLine": "任何能够查看你的助记词的人都可以访问你的账户，因此请离线安全地保存助记词。"
-    },
-
-    "receivePage": {
-        "addressTitle": "你的地址",
-        "qrCodeTitle": "扫描二维码",
-        "copyAddressLinkLong": "复制地址链接",
-        "copyAddressLinkShort": "复制",
-        "snackbarCopySuccess": "地址链接已复制！"
-    },
-
-    "selectAccountDropdown": {
-        "switchAccount": "切换账户",
-        "selectAccount": "选择账户",
-        "account": "账户",
-        "switchAccounthNotAllowed": "该应用不支持账户切换",
-        "createAccount": "创建新的账户",
-        "noOtherAccounts": "你没有其他账户"
-    },
-
-    "recoverWithLink": {
-        "title": "恢复账户",
-        "pOne": "点击 \"继续\" 恢复你的账户：",
-        "pTwo": "如果这不是你偏好的浏览器，请复制链接并在你偏好的浏览器中完成恢复流程。",
-        "snackbarCopySuccess": "恢复链接已复制",
-        "errorTitle": "链接已过期",
-        "errorP": "请检查你的邮箱或手机最新消息，之前消息里的链接已经无效。"
-    },
-
-    "recoveryMgmt": {
-        "title": "账户恢复方式",
-        "noRecoveryMethod": "你还不能恢复账户，请先添加以下至少一种方式。",
-        "methodTitle": {
-            "phrase": "助记词",
-            "phone": "手机号",
-            "email": "邮箱地址"
-        },
-        "resend": {
-            "phone": "重新发送短信",
-            "email": "重新发送邮件"
-        },
-        "enabled": "已启用",
-        "disableTitle": "是否确定禁用该恢复账户方式？",
-        "disableTextLink": "你收到的恢复链接将会被永久禁用。",
-        "disableTextPhrase": "当前助记词将会被永久禁用。",
-        "disableInputPlaceholder": "请输入用户名确认",
-        "disableNo": "不，保留。",
-        "recoveryLinkSent": "恢复链接已发送！",
-        "disableNotAllowed": "账户必须拥有至少一种恢复方式，请首先添加另外一种方式再继续删除此方式。"
-    },
-
-    "hardwareDevices": {
-        "title": "硬件钱包",
-        "desc": "通过硬件钱包加强账户安全性。",
-        "ledger": {
-            "title": "Ledger 硬件钱包",
-            "auth": "已授权",
-            "disclaimer": "在禁用硬件钱包前，必须开启其他账户恢复方式。",
-            "connect": "你的 Ledger 设备目前没有连接，我们建议你重新连接确保账户安全。"
-        },
-        "disable": {
-            "title": "你是否确定禁用硬件钱包？",
-            "desc": "禁用前请确保已经开启其他账户恢复方式。",
-            "disable": "禁用",
-            "keep": "取消"
-        }
-    },
-
-    "twoFactor": {
-        "enable": "开启双重认证",
-        "subHeader": "双重认证将为你的账户增加额外的安全保护。<b>助记词和 Ledger 密钥将继续用来授权完全账户访问。</b>",
-        "select": "选择验证方式",
-        "title": "双重认证",
-        "desc": "通过双重认证保护你的账户，在授权交易时必须通过短信或邮箱确认。",
-        "email": "邮箱地址",
-        "phone": "手机号（中国大陆地区暂不支持）",
-        "notEnabled": "双重认证未开启",
-        "notEnoughBalance": "为开启双重认证，你的账户需要最少余额 ${amount}",
-        "active": "已开启",
-        "since": "自",
-        "promptDesc": "我们强烈建议你开启双重认证的方式来增强你的账户和资产安全性。",
-        "verify": {
-            "title": "输入双重认证验证码",
-            "desc": "一组 6 位验证代码已经发送至：",
-            "inputLabel": "输入你的 6 位验证码",
-            "placeholder": "验证码",
-            "didntReceive": "未收到验证码？",
-            "resend": "重新发送",
-            "resending": "发送中...",
-            "resent": "验证码已发送！"
-        },
-        "disable": {
-            "title": "是否确认禁用双重认证？",
-            "desc": "禁用双重认证后，交易将不再要求双重认证确认。",
-            "disable": "禁用双重认证",
-            "keep": "不，保留双重认证"
-        },
-        "alertBanner": {
-            "title": "开启双重认证后，<b>${data}</b> 将会被锁定，以涵盖存储的消耗。",
-            "button": "了解更多"
-        },
-        "checkBox": "我已知晓：开启双重认证后，${amount} 将会被锁定，以涵盖合约的存储。"
-    },
-
-    "fullAccessKeys": {
-        "pageTitle": "完全访问密钥",
-        "authorizedTo": "已授权",
-        "viewYourAccountName": "查看你的账户名称",
-        "submitAnyTransaction": "代表你发起交易",
-        "useContract": "代表你使用 <b>${receiverId}</b> 合约",
-        "noKeys": "你没有将 NEAR 钱包连接至任何应用。当连接后，你可以在这里管理。<br /><br />查看基于 NEAR 开发的应用：",
-        "dashboardNoKeys": "你没有完全访问密钥",
-        "deAuthorizeConfirm": {
-            "title": "是否取消完全访问密钥？",
-            "desc": "完全访问密钥将会被永久取消。"
-        }
-    },
-
-    "authorizedApps": {
-        "pageTitle": "已授权应用",
-        "dashboardNoApps": "你还未授权任何应用",
-        "feeAllowance": "费用配额",
-        "publicKey": "公钥",
-        "ledger": "Ledger"
-    },
-
-    "ledgerSignTxModal": {
-        "SEND_MONEY": "请在 Ledger 设备上确认转账信息。",
-        "ADD_ACCESS_KEY": "请在 Ledger 设备上确认登录信息。",
-        "SET_SIGN_TRANSACTION_STATUS": "请在 Ledger 设备上确认存款细节信息。",
-        "REMOVE_ACCESS_KEY": "请在 Ledger 设备上确认删除密钥信息。",
-        "ADD_ACCESS_KEY_SEED_PHRASE": "请在 Ledger 设备上确认完全访问信息。",
-        "DELETE_RECOVERY_METHOD": "请在 Ledger 设备上确认删除恢复方式信息。",
-        "SETUP_RECOVERY_MESSAGE": "请在 Ledger 设备上确认完全访问细节信息。",
-        "ADD_LEDGER_ACCESS_KEY": "请在 Ledger 设备上确认公钥信息。",
-        "GET_LEDGER_PUBLIC_KEY": "请在 Ledger 设备上确认公钥访问信息。",
-        "CREATE_NEW_ACCOUNT": "请在 Ledger 设备上确认新账户密钥信息。",
-        "CREATE_ACCOUNT_FROM_IMPLICIT": "请在 Ledger 设备上确认账户创建，这包括必要的临时账户的转账。",
-        "SIGN_AND_SEND_TRANSACTIONS": "请在 Ledger 设备上确认存款信息。",
-        "REMOVE_NON_LEDGER_ACCESS_KEYS": "请在 Ledger 设备上确认信息。",
-        "STAKE": "请在 Ledger 上确认质押。",
-        "UNSTAKE": "请在 Ledger 上确认赎回质押。",
-        "WITHDRAW": "请在 Ledger 上确认提现。",
-        "DISABLE_LEDGER": "请在 Ledger 上确认公钥细节信息。",
-        "DEFAULT": "请在 Ledger 上确认细节信息。"
-    },
-
-    "button": {
-        "signIn": "登录",
-        "signingIn": "正在登录",
-        "copyPhrase": "复制助记词",
-        "copyImplicitAddress": "复制账户 ID",
-        "claimAccount": "认领账户",
-        "claimMyAccount": "认领我的账户",
-        "continueToMyAccount": "前往我的账户",
-        "continue": "继续",
-        "continueSetup": "继续设置",
-        "verify": "验证并完成",
-        "verifyCode": "验证代码",
-        "verifyCodeEnable": "验证代码并开启",
-        "startOver": "重新开始",
-        "copyUrl": "复制链接",
-        "createAccount": "创建账户",
-        "reserveMyAccountId": "保留账户 ID",
-        "recoverYourAccount": "恢复账户",
-        "importExistingAccount": "导入已有账户",
-        "enable": "启用",
-        "disable": "禁用",
-        "signInLedger": "通过 Ledger 登录",
-        "connectLedger": "绑定 Ledger",
-        "connect": "连接",
-        "retry": "重试",
-        "tryAgain": "再次尝试",
-        "browseApps": "浏览应用",
-        "createAccountCapital": "创建账户",
-        "findMyAccount": "查找我的账户",
-        "protectAccount": "保护账户",
-        "setupPhrase": "设置助记词",
-        "confirm": "确认",
-        "viewAll": "查看全部",
-        "send": "发送",
-        "receive": "接收",
-        "cancel": "取消",
-        "skip": "跳过",
-        "deny": "拒绝",
-        "allow": "允许",
-        "addNode": "添加节点",
-        "saveChanges": "保存更改",
-        "removeNode": "删除模式",
-        "stake": "质押",
-        "confirmAndSend": "确认并发送",
-        "needToEditGoBack": "需要修改？请返回",
-        "cancelTransfer": "取消转账",
-        "goToDashboard": "访问概览页",
-        "close": "关闭",
-        "addFunds": "充值",
-        "deauthorize": "取消授权",
-        "recoverAccount": "恢复账户",
-        "goBack": "返回",
-        "createNewAccount": "创建新的账户",
-        "importAccount": "导入已有账户",
-        "moreInformation": "更多信息",
-        "dismiss": "关闭",
-        "cancelOperation": "取消操作",
-        "subscribe": "订阅",
-        "Close": "关闭",
-        "edit": "编辑",
-        "connecting": "正在连接",
-        "removingKeys": "删除密钥",
-        "enabling": "正在开启",
-        "disabling": "正在禁用",
-        "verifying": "正在验证",
-        "creatingAccount": "创建账户",
-        "staking": "正在质押",
-        "unstaking": "正在赎回质押",
-        "withdrawing": "正在提现",
-        "recovering": "正在恢复账户",
-        "authorizing": "正在授权",
-        "deAuthorizing": "正在取消授权",
-        "finish": "完成",
-        "transferring": "正在转账",
-        "viewOnExplorer": "通过浏览器查看",
-        "buy": "购买",
-        "topUp": "充值",
-        "learnMore": "了解更多",
-        "viewFAQ": "查看常见问题",
-        "acceptAndContinue": "接受并继续",
-        "useMax": "最多",
-        "loading": "正在加载",
-        "gotIt": "知晓",
-        "fundWith": "充值",
-        "next": "下一步",
-        "approve": "允许",
-        "returnToApp": "返回至应用"
-    },
-
-    "link": {
-        "wallet": "钱包",
-        "send": "发送",
-        "receive": "接收",
-        "staking": "质押",
-        "help": "帮助",
-        "account": "账户",
-        "authorizedApps": "已授权应用",
-        "switchAccount": "切换账号",
-        "noAccount": "你未登录其他账号",
-        "fullAccessKeys": "完全访问密钥"
-    },
-
-    "copy": {
-        "title": "复制",
-        "default": "已复制！"
-    },
-
-    "input": {
-        "enterWord": {
-            "title": "请输入第 <b>${wordId}</b> 个助记词",
-            "placeholder": ""
-        },
-        "accountId": {
-            "title": "账户 ID",
-            "placeholder": "例如：johndoe.near",
-            "placeHolderAlt": "账户 ID",
-            "subLabel": "你的账户 ID 必须是顶级账户（如 <b>.near</b>）或 64 位字符的地址。"
-        }
-    },
-
-    "recoverAccount": {
-        "pageTitle": "恢复你的账户",
-        "pageText": "如果你已经设置账户恢复方式，请根据以下步骤开始恢复流程。",
-        "email": {
-            "title": "Email",
-            "desc": "请检查来自 near.org 地址的邮件，标题是：",
-            "subject": "「重要：NEAR 钱包恢复邮件」。"
-        },
-        "phone": {
-            "title": "手机",
-            "desc": "在你的手机上检查来自以下手机号的短信：",
-            "number": "+14086179592。"
-        },
-        "phrase": {
-            "title": "助记词",
-            "desc": "请确认已准备 12 个单词组成的助记词，然后点击下方开始恢复账户流程。"
-        },
-        "ledger": {
-            "title": "Ledger",
-            "desc": "请确认 Ledger 已安全连接，并在设备上打开 NEAR 应用。"
-        },
-        "actionType": "恢复",
-        "actionRequired": "此消息包含恢复链接，请点击链接开始恢复账户流程！",
-        "cannotResend": "此消息是在开启 Email/手机号恢复时发送。我们只发送一次，并且无法重新发送。"
-    },
-
-    "importAccount": {
-        "withId": "导入账户：${accountId}",
-        "noId": "正在导入账户",
-        "withIdFailed": "导入账户失败：${accountId}",
-        "noIdFailed": "导入账户失败。"
-    },
-
-    "createAccount": {
-        "termsPage": {
-            "title": "在开始之前...",
-            "descOne": "NEAR 账户要求进行一笔一次性<b>至少 ${amount}</b> 的充值来涵盖<a href='https://docs.near.org/docs/concepts/account' rel='noopener noreferrer' target='_blank'>你的账户存储成本</a>。",
-            "descTwo": "在保留你的个性化账户 ID 之后，你需要进行一笔初始充值来激活的账户。",
-            "disclaimer": "通过注册 NEAR 账户，意味着你同意 NEAR 钱包的<a href='/terms' rel='noopener noreferrer' target='_blank'>服务条款</a>和<a href='https://near.org/privacy' rel='noopener noreferrer' target='_blank'>隐私策略</a>。"
-        },
-        "pageTitle": "创建新的账户",
-        "pageText": "只需要输入用户名即完成注册。",
-        "step": "步骤 ${step}/${total}",
-        "accountIdInput": {
-            "title": "输入用户名",
-            "placeholder": "yourname.${data}"
-        },
-        "alreadyHaveAnAccount": "已经拥有账户？",
-        "recoverItHere": "恢复账户",
-        "note": {
-            "canContain": "你的用户名可以输入以下任何字符：",
-            "lowercase": "小写英文字母 (a-z)",
-            "digits": "数字 (0-9)",
-            "separators": "字符 (_-) 用于分割",
-            "cannotContain": "你的用户名不可以包括：",
-            "characters": "符号 \"@\" 或 \".\"",
-            "minCharacters": "少于 2 个字符",
-            "maxCharacters": "超过 64 个字符（包括 .${accountSuffix}）"
-        },
-        "invalidLinkDrop": {
-            "title": "链接无效",
-            "one": "NEAR Drop 已经被领取。",
-            "two": "NEAR Drop 只能被领取一次，之后链接会无效。"
-        },
-        "terms": {
-            "title": "服务条款",
-            "desc": "注册 NEAR 账户意味着你同意 NEAR Wallet 服务条款和隐私政策。 我们建议你仔细阅读：",
-            "termsLink": "服务条款",
-            "privacyLink": "隐私政策",
-            "termsCheck": "我同意服务条款",
-            "privacyCheck": "我同意隐私政策",
-            "agreeBtn": "同意并继续",
-            "declineBtn": "拒绝"
-        }
-    },
-
-    "reCAPTCHA": {
-        "fail": {
-            "title": "加载 reCAPTCHA 失败。",
-            "desc": "注册新账户时必须通过 reCAPTCHA 验证。",
-            "link": "充值你的账户？"
-        },
-        "loading": "正在加载 reCAPTCHA...",
-        "disclaimer": "此站点由 reCAPTCHA 保护，并遵循 Google <a href='https://policies.google.com/privacy' target='_blank' rel='noopener noreferrer'>隐私策略</a>和<a href='https://policies.google.com/terms' target='_blank' rel='noopener noreferrer'>服务条款</a>。"
-    },
-
-    "linkdropLanding": {
-        "title": "你收到了 NEAR 空投！",
-        "desc": "你可以登录已有的账户领取，或创建新的账户领取。",
-        "ctaAccount": "用已登录的账户领取",
-        "ctaLogin": "登录并领取",
-        "ctaNew": "注册新账户并领取",
-        "or": "或",
-        "claiming": "正在领取",
-        "modal": {
-            "title": "你的 NEAR 空投已领取",
-            "desc": "你的 NEAR 空投已自动领取至你的账户。"
-        }
-    },
-
-    "topLevelAccounts": {
-        "header": "顶级账户",
-        "body": "账户名称类似于域名，只有 ${data} 才能创建比如 yourname.${data} 的账户，并且只有 yourname.${data} 可以创建 app.yourname.${data}。所有在此钱包创建的账户都使用 .${data} 顶级账户（TLA）。了解更多关于账户名称和创建你的顶级账户（TLA），请访问 <a rel='noopener noreferrer' href='https://docs.nearprotocol.com/docs/concepts/account'>NEAR 文档</a>。"
-    },
-
-    "recoverSeedPhrase": {
-        "pageTitle": "通过助记词恢复账户",
-        "pageText": "请输入与此账户关联的助记词。",
-        "seedPhraseInput": {
-            "title": "助记词（12 个单词）",
-            "placeholder": "correct horse battery staple..."
-        }
-    },
-
-    "setupRecovery": {
-        "header": "保护你的账户",
-        "subHeader": "请设置一种账户恢复方式：",
-        "basicSecurity": "基础安全",
-        "basicSecurityDesc": "请输入你的邮箱地址或手机号以获取恢复链接",
-        "emailTitle": "邮箱方式",
-        "emailDesc": "通过邮箱方式接收验证码和账户恢复链接。",
-        "emailPlaceholder": "example@email.com",
-        "phoneTitle": "手机短信方式",
-        "phoneDesc": "请输入你的手机号以接收恢复链接。",
-        "phonePlaceholder": "+1 415 797 8554",
-        "notSupportedPhone": "抱歉，目前我们暂未对你所在的地区开放短信恢复方式。请选择邮箱方式。",
-        "advancedSecurity": "高级安全",
-        "advancedSecurityDesc": "记录 12 个单词组成的助记词，并安全保存。",
-        "ledgerTitle": "Ledger 硬件钱包",
-        "ledgerDesc": "通过 Ledger 硬件钱包保护你的账户安全。",
-        "phraseTitle": "安全助记词",
-        "phraseDesc": "生成并安全地存储唯一的助记词。"
-    },
-    "setRecoveryConfirm": {
-        "title": "输入验证码",
-        "pageText": "我们已经发送 6 位验证码至",
-        "inputHeader": "输入 6 位验证码",
-        "inputError": "请输入验证码。",
-        "inputPlaceholder": "验证码",
-        "didNotReceive": "未收到验证码？",
-        "resendCode": "重新发送",
-        "resending": "正在重新发送...",
-        "or": "或",
-        "sendToDifferent": "发送至其他",
-        "email": "Email",
-        "phone": "手机号",
-        "reenter": {
-            "one": {
-                "email": "如果你没有收到邮件，或者上面的邮箱地址输入错误，",
-                "phoneNumber": "如果你没有收到短信，或上面的手机号输入错误，"
-            },
-            "link": "点击此处",
-            "two": {
-                "email": "重新输入邮箱地址并重新发送。",
-                "phoneNumber": "重新输入手机号并重新发送。"
+            "CreateAccount": "新账户已创建",
+            "DeleteAccount": "账户已删除",
+            "DeleteKey": "密钥已删除",
+            "DeployContract": "合约已部署",
+            "FunctionCall": "方法已调用",
+            "Stake": "已质押",
+            "Transfer": {
+                "received": "已接收 NEAR",
+                "transferred": "已发送 NEAR"
             }
         }
     },
-
     "disclaimer": {
-        "title": "声明",
-        "text": "这是开发者的预览版钱包，仅限用于 NEAR 协议 DevNet。了解更多："
+        "text": "这是开发者的预览版钱包，仅限用于 NEAR 协议 DevNet。了解更多：",
+        "title": "声明"
     },
-
+    "emailSubscribe": {
+        "placeholder": "你的 Email...",
+        "title": "早期测试注册"
+    },
+    "enterAccountNameLedgerModal": {
+        "header": "输入账户名称",
+        "one": "请输入你尝试登录的账户名称"
+    },
+    "error": "失败",
+    "errors": {
+        "ledger": {
+            "U2F_4": "无法通过硬件钱包登录：U2F DEVICE_INELIGIBLE。请确保 Ledger 设备已连接并解锁。",
+            "U2FNotSupported": "Ledger 硬件钱包需要 U2F 浏览器支持。请使用 Chrome、Opera 或 Firefox 安装 U2F 扩展，并确保你是通过 HTTPS 加密连接。"
+        },
+        "type": {
+            "LackBalanceForState": "你的账户余额过低，无法执行任何操作。请向你的账户转账 NEAR，然后再重新导入账户。",
+            "RetriesExceeded": "此交易超出最大重试次数。"
+        }
+    },
+    "existingAccount": {
+        "fundNewAccount": {
+            "titleOne": "批准交易",
+            "titleTwo": "充值激活新账户"
+        },
+        "selectAccount": {
+            "desc": "如果你有其他账户（<b>包括至少 ${amount} NEAR</b>），你可以从这个账户转账来激活你的新账户。",
+            "descTwo": "切换或登录至你的已有账户，并转账通证至新账户完成新账户激活。",
+            "title": "通过已有账户充值激活。"
+        }
+    },
+    "exploreApps": {
+        "desc": "赚取、铸币和玩游戏！发现 NEAR 生态的应用。",
+        "exploreApps": "浏览应用",
+        "exploreDeFi": "浏览 DeFi 应用",
+        "title": "寻找 NEAR 生态和应用？"
+    },
     "footer": {
+        "contactSupport": "加入社区",
         "copyrights": "NEAR Inc. 版权所有。",
-        "termsOfService": "服务条款",
-        "privacyPolicy": "隐私策略",
         "desc": "NEAR 是开放性网络 (Open Web) 的基础架构, 提供了一个去中心化存储和计算平台。",
         "learnMore": "了解更多",
         "needHelp": "需要帮助？",
-        "contactSupport": "加入社区"
+        "privacyPolicy": "隐私策略",
+        "termsOfService": "服务条款"
     },
-
-    "dashboard": {
-        "activity": "最近动态"
+    "fullAccessKeys": {
+        "authorizedTo": "已授权",
+        "dashboardNoKeys": "你没有完全访问密钥",
+        "deAuthorizeConfirm": {
+            "desc": "完全访问密钥将会被永久取消。",
+            "title": "是否取消完全访问密钥？"
+        },
+        "noKeys": "你没有将 NEAR 钱包连接至任何应用。当连接后，你可以在这里管理。<br /><br />查看基于 NEAR 开发的应用：",
+        "pageTitle": "完全访问密钥",
+        "submitAnyTransaction": "代表你发起交易",
+        "useContract": "代表你使用 <b>${receiverId}</b> 合约",
+        "viewYourAccountName": "查看你的账户名称"
     },
-
-    "loading": "加载中...",
-    "loadingNoDots": "加载中",
-    "sync": "刷新",
     "getBalance": "查看余额",
-
-    "balance": {
-        "balance": "总余额",
-        "balanceLoading": "余额加载中"
+    "hardwareDevices": {
+        "desc": "通过硬件钱包加强账户安全性。",
+        "disable": {
+            "desc": "禁用前请确保已经开启其他账户恢复方式。",
+            "disable": "禁用",
+            "keep": "取消",
+            "title": "你是否确定禁用硬件钱包？"
+        },
+        "ledger": {
+            "auth": "已授权",
+            "connect": "你的 Ledger 设备目前没有连接，我们建议你重新连接确保账户安全。",
+            "disclaimer": "在禁用硬件钱包前，必须开启其他账户恢复方式。",
+            "title": "Ledger 硬件钱包"
+        },
+        "title": "硬件钱包"
     },
-
-    "wallet": {
-        "balanceTitle": "NEAR 余额",
-        "totalBalanceTitle": "总余额",
-        "availableBalance": "可用余额",
-        "tokens": "通证",
-        "yourPortfolio": "你的通证组合",
-        "balance": "余额",
-        "totalBalance": "总余额",
-        "tokenBalance": "通证余额",
-        "dateAndTime": "日期和时间",
-        "status": "状态",
-        "balances": "余额",
-        "collectibles": "收藏品",
-        "depositNear": {
-            "title": "充值 NEAR",
-            "desc": "请充值 NEAR 通证后才能使用 NEAR 钱包。"
+    "importAccount": {
+        "noId": "正在导入账户",
+        "noIdFailed": "导入账户失败。",
+        "withId": "导入账户：${accountId}",
+        "withIdFailed": "导入账户失败：${accountId}"
+    },
+    "initialDeposit": {
+        "claimAccount": {
+            "desc": "你的初始充值已到账，一旦认领账户，你充值的通证会被转移到新认领的账户。",
+            "disclaimer": {
+                "checkBox": "同意 & 继续",
+                "desc": "重要：你之前的单次充值地址将失效。若你在交易所和其他设备保存了单次充值地址，请将其替换为你的新账户 ID（例：XXXX.near）"
+            },
+            "title": "认领你的账户"
+        },
+        "creditCard": {
+            "desc": "通过 MoonPay 完成购买<b>至少 ${amount} NEAR</b>，MoonPay 将自动充值到你的新账户并激活。",
+            "title": "通过信用卡向你的账户充值。"
+        },
+        "manualDeposit": {
+            "desc": "请向单次充值地址转账<b>至少${amount} NEAR</b>，以满足最低充值要求。",
+            "title": "充值至账户"
         }
     },
-
-    "tokenBox": {
-        "priceUnavailable": "无法获取价格"
+    "input": {
+        "accountId": {
+            "placeholder": "例如：johndoe.near",
+            "placeHolderAlt": "账户 ID",
+            "subLabel": "你的账户 ID 必须是顶级账户（如 <b>.near</b>）或 64 位字符的地址。",
+            "title": "账户 ID"
+        },
+        "enterWord": {
+            "placeholder": "",
+            "title": "请输入第 <b>${wordId}</b> 个助记词"
+        }
     },
-
-    "buyNear": {
-        "title": "充值 NEAR",
-        "moonPay": "MoonPay",
-        "descOne": "可在 MoonPay 使用偏好的支付方式购买 NEAR。",
-        "buyWith": "打开",
-        "supportedExchanges": "交易所",
-        "descTwo": "NEAR 已经在以下交易所流通，可交易。",
-        "seeMore": "查看更多：",
-        "coinMarketCap": "CoinMarketCap",
-        "bridgeTokens": "通过以太坊跨链桥转移通证",
-        "descThree": "通过跨链桥将以太坊链上通证转至 NEAR 钱包。"
+    "landing": {
+        "banner": "NEAR 钱包已经在内测",
+        "desc": "使用 <span>NEAR 钱包</span>安全地存储、使用您的资产。",
+        "or": "或",
+        "title": "NEAR 数字钱包"
     },
-    
+    "ledgerSignTxModal": {
+        "ADD_ACCESS_KEY": "请在 Ledger 设备上确认登录信息。",
+        "ADD_ACCESS_KEY_SEED_PHRASE": "请在 Ledger 设备上确认完全访问信息。",
+        "ADD_LEDGER_ACCESS_KEY": "请在 Ledger 设备上确认公钥信息。",
+        "CREATE_ACCOUNT_FROM_IMPLICIT": "请在 Ledger 设备上确认账户创建，这包括必要的临时账户的转账。",
+        "CREATE_NEW_ACCOUNT": "请在 Ledger 设备上确认新账户密钥信息。",
+        "DEFAULT": "请在 Ledger 上确认细节信息。",
+        "DELETE_RECOVERY_METHOD": "请在 Ledger 设备上确认删除恢复方式信息。",
+        "DISABLE_LEDGER": "请在 Ledger 上确认公钥细节信息。",
+        "GET_LEDGER_PUBLIC_KEY": "请在 Ledger 设备上确认公钥访问信息。",
+        "REMOVE_ACCESS_KEY": "请在 Ledger 设备上确认删除密钥信息。",
+        "REMOVE_NON_LEDGER_ACCESS_KEYS": "请在 Ledger 设备上确认信息。",
+        "SEND_MONEY": "请在 Ledger 设备上确认转账信息。",
+        "SET_SIGN_TRANSACTION_STATUS": "请在 Ledger 设备上确认存款细节信息。",
+        "SETUP_RECOVERY_MESSAGE": "请在 Ledger 设备上确认完全访问细节信息。",
+        "SIGN_AND_SEND_TRANSACTIONS": "请在 Ledger 设备上确认存款信息。",
+        "STAKE": "请在 Ledger 上确认质押。",
+        "UNSTAKE": "请在 Ledger 上确认赎回质押。",
+        "WITHDRAW": "请在 Ledger 上确认提现。"
+    },
+    "link": {
+        "account": "账户",
+        "authorizedApps": "已授权应用",
+        "fullAccessKeys": "完全访问密钥",
+        "help": "帮助",
+        "noAccount": "你未登录其他账号",
+        "receive": "接收",
+        "send": "发送",
+        "staking": "质押",
+        "switchAccount": "切换账号",
+        "wallet": "钱包"
+    },
+    "linkdropLanding": {
+        "claiming": "正在领取",
+        "ctaAccount": "用已登录的账户领取",
+        "ctaLogin": "登录并领取",
+        "ctaNew": "注册新账户并领取",
+        "desc": "你可以登录已有的账户领取，或创建新的账户领取。",
+        "modal": {
+            "desc": "你的 NEAR 空投已自动领取至你的账户。",
+            "title": "你的 NEAR 空投已领取"
+        },
+        "or": "或",
+        "title": "你收到了 NEAR 空投！"
+    },
+    "loading": "加载中...",
+    "loadingNoDots": "加载中",
+    "lockedBalance": "NEAR 锁定在锁定合约中，但无法取出。你可能仍委托或质押着这些 NEAR。一旦 NEAR 解锁，你可以在未锁定余额中查看，并选择取出（转移到「可用余额」）。",
+    "login": {
+        "cliLoginSuccess": {
+            "pageText": "请关闭该窗口，并按照终端内的指导操作。",
+            "pageTitle": "你已经成功授权 NEAR Shell！"
+        },
+        "confirm": {
+            "pageText": "你正在向 ${appTitle} 授权<b>完全访问</b>！",
+            "pageTextSecondLine": "<b>为确认授权</b>，请输入你的用户名。",
+            "pageTitle": "是否确认？",
+            "username": "用户名"
+        },
+        "details": {
+            "callFunctions": "在任何智能合约上调用函数",
+            "createAndDeleteAccessKeys": "创建和删除访问密钥",
+            "createNewAccounts": "创建新的账户",
+            "deploySmartContracts": "部署智能合约",
+            "detailedDescription": "交易的详细描述",
+            "forContract": "合约",
+            "function": "函数",
+            "noDescription": "该方法没有详细描述",
+            "stakeAndUnstake": "质押和赎回质押 NEAR 通证",
+            "thisAllows": "这将允许 ${appTitle}：",
+            "transferTokens": "从你的账户向其他账户发送通证"
+        },
+        "form": {
+            "accessYourAccount": "访问你的账户。",
+            "accountIdOnly": "正在请求获取你的账户 ID。",
+            "isRequestingFullAccess": "正在请求<b>完全访问</b>",
+            "isRequestingTo": "正在请求",
+            "thisDoesNotAllow": "不允许该应用转账任何通证。",
+            "thisProvidesAccess": "提供<b>所有通证</b>操作权限。<br />请谨慎操作！",
+            "toYourAccount": "你的账户。"
+        },
+        "v2": {
+            "connectConfirm": {
+                "desc": "请连接你信任的应用。一旦连接，<a href=${contractIdUrl} target='_blank' rel='noreferrer'>${appReferrer}</a> 将拥有 <b>${accessType}</b> 权限：",
+                "fullAccess": "完全访问",
+                "fullAccessModal": {
+                    "desc": "请谨慎授权，完整访问权限允许应用和合约操作你的账户。若确定继续，请输入你的账户 ID 确认继续。",
+                    "title": "授权完整账户访问？"
+                },
+                "fullAccessWarning": "此应用正在请求你的账户的完全访问权限。为开启完全访问，你将会被要求确认即将连接的账户 ID。",
+                "limitedAccess": "受限访问",
+                "permissions": {
+                    "notTransferTokens": "该应用没有权限转账 NEAR 通证",
+                    "transferTokens": "从你的账户转账 NEAR 通证",
+                    "viewAddress": "查看你连接的账户地址",
+                    "viewBalance": "查看你连接的账户余额"
+                },
+                "title": "正在连接："
+            },
+            "connectWithNear": {
+                "desc": "应用正在请求你的账户的 <b>${accessType}</b> 权限，选择希望连接的账户。",
+                "fullAccess": "完全访问",
+                "limitedAccess": "受限访问",
+                "title": "连接 NEAR"
+            }
+        }
+    },
+    "minimumBalance": "这是维持你账号活跃状态的 NEAR 通证「保留余额」，该余额代表你正在使用的 NEAR 区块链存储空间，会在使用量变化后产生对应变化。",
+    "mobileDeviceAccess": {
+        "importCode": {
+            "desc": "如果你已经在电脑上登录，扫描手机访问二维码可以导入账户。"
+        },
+        "showCode": {
+            "button": "查看二维码",
+            "desc": "扫描手机导入二维码授权完全账户访问权限。",
+            "modal": {
+                "desc": "点击「显示」按钮并扫码可以在手机上导入你的账户。",
+                "disclaimer": "<b>此二维码包含高度敏感的数据，并会在手机上授权完全账户访问权限。</b> 请不要分享或曝光此二维码，并且只在信任的手机上导入账户。",
+                "reveal": "显示",
+                "title": "手机导入二维码"
+            }
+        },
+        "title": "手机导入"
+    },
+    "networkBanner": {
+        "desc": "当前钱包（和网络）仅供测试。测试网通证和其他资产均无价值。测试网账户不会迁移至主网。",
+        "header": "NEAR 测试钱包",
+        "title": "测试网钱包"
+    },
     "NFTs": {
         "emptyState": "似乎你还没有收藏品。",
         "loadMore": "加载更多"
     },
-
-    "exploreApps": {
-        "title": "寻找 NEAR 生态和应用？",
-        "desc": "赚取、铸币和玩游戏！发现 NEAR 生态的应用。",
-        "exploreApps": "浏览应用",
-        "exploreDeFi": "浏览 DeFi 应用"
-    },
-
-    "login": {
-        "form": {
-            "isRequestingTo": "正在请求",
-            "accessYourAccount": "访问你的账户。",
-            "isRequestingFullAccess": "正在请求<b>完全访问</b>",
-            "toYourAccount": "你的账户。",
-            "thisDoesNotAllow": "不允许该应用转账任何通证。",
-            "thisProvidesAccess": "提供<b>所有通证</b>操作权限。<br />请谨慎操作！",
-            "accountIdOnly": "正在请求获取你的账户 ID。"
-        },
-        "confirm": {
-            "pageTitle": "是否确认？",
-            "pageText": "你正在向 ${appTitle} 授权<b>完全访问</b>！",
-            "pageTextSecondLine": "<b>为确认授权</b>，请输入你的用户名。",
-            "username": "用户名"
-        },
-        "details": {
-            "detailedDescription": "交易的详细描述",
-            "thisAllows": "这将允许 ${appTitle}：",
-            "createNewAccounts": "创建新的账户",
-            "transferTokens": "从你的账户向其他账户发送通证",
-            "deploySmartContracts": "部署智能合约",
-            "callFunctions": "在任何智能合约上调用函数",
-            "stakeAndUnstake": "质押和赎回质押 NEAR 通证",
-            "createAndDeleteAccessKeys": "创建和删除访问密钥",
-            "forContract": "合约",
-            "function": "函数",
-            "noDescription": "该方法没有详细描述"
-        },
-        "cliLoginSuccess": {
-            "pageTitle": "你已经成功授权 NEAR Shell！",
-            "pageText": "请关闭该窗口，并按照终端内的指导操作。"
-        },
-        "v2": {
-            "connectWithNear": {
-                "title": "连接 NEAR",
-                "desc": "应用正在请求你的账户的 <b>${accessType}</b> 权限，选择希望连接的账户。",
-                "limitedAccess": "受限访问",
-                "fullAccess": "完全访问"
-            },
-            "connectConfirm": {
-                "title": "正在连接：",
-                "desc": "请连接你信任的应用。一旦连接，<a href=${contractIdUrl} target='_blank' rel='noreferrer'>${appReferrer}</a> 将拥有 <b>${accessType}</b> 权限：",
-                "limitedAccess": "受限访问",
-                "fullAccess": "完全访问",
-                "fullAccessWarning": "此应用正在请求你的账户的完全访问权限。为开启完全访问，你将会被要求确认即将连接的账户 ID。",
-                "permissions": {
-                    "viewAddress": "查看你连接的账户地址",
-                    "viewBalance": "查看你连接的账户余额",
-                    "notTransferTokens": "该应用没有权限转账 NEAR 通证",
-                    "transferTokens": "从你的账户转账 NEAR 通证"
-                },
-                "fullAccessModal": {
-                    "title": "授权完整账户访问？",
-                    "desc": "请谨慎授权，完整访问权限允许应用和合约操作你的账户。若确定继续，请输入你的账户 ID 确认继续。"
-                }
-            }
-        }
-    },
-
-    "addNode": {
-        "pageTitle": "添加节点",
-        "pageText": "通过命令行配置你的节点，并在这里添加。",
-        "ipAddressInput": {
-            "title": "请输入你的节点 IP 地址",
-            "placeholder": "例如：0.0.0.0"
-        },
-        "nicknameInput": {
-            "title": "请设置一个昵称（可选）",
-            "placeholder": "例如：AWS Instance"
-        },
-        "desc": "在此添加前，请先通过命令行配置你的节点。"
-    },
     "nodeDetails": {
-        "pageTitle": "节点详情",
-        "pageText": "更新节点的详细信息。"
+        "pageText": "更新节点的详细信息。",
+        "pageTitle": "节点详情"
     },
     "nodeStaking": {
-        "pageTitle": "节点和质押",
-        "pageText": "nodeandstaking.near",
-        "steps": {
-            "title": "为运行节点或质押，请执行以下步骤：",
-            "one": {
-                "title": "1. 通过命令行配置并运行节点",
-                "desc": "具体操作步骤可以查看文档"
-            },
-            "two": {
-                "title": "2. 等待节点同步",
-                "desc": "未同步节点无法产生或验证区块。"
-            },
-            "three": {
-                "title": "3. 开始质押",
-                "desc": "从这里或者命令行进行质押。可以查看文档寻找帮助。"
-            }
-        },
         "nodes": {
-            "title": "节点",
             "noNode": {
-                "title": "已经配置完节点？在这里添加。",
-                "text": "这将连接你的节点至你的钱包账户。"
-            }
+                "text": "这将连接你的节点至你的钱包账户。",
+                "title": "已经配置完节点？在这里添加。"
+            },
+            "title": "节点"
         },
+        "pageText": "nodeandstaking.near",
+        "pageTitle": "节点和质押",
         "staking": {
             "title": "质押",
             "youAreStaking": "正在进行质押"
+        },
+        "steps": {
+            "one": {
+                "desc": "具体操作步骤可以查看文档",
+                "title": "1. 通过命令行配置并运行节点"
+            },
+            "three": {
+                "desc": "从这里或者命令行进行质押。可以查看文档寻找帮助。",
+                "title": "3. 开始质押"
+            },
+            "title": "为运行节点或质押，请执行以下步骤：",
+            "two": {
+                "desc": "未同步节点无法产生或验证区块。",
+                "title": "2. 等待节点同步"
+            }
         }
     },
-    "staking": {
-        "pageTitle": "质押",
-        "pageText": "通过命令行配置你的节点，并在这里添加。",
-        "amountStakingInput": {
-            "title": "请输入质押数量",
-            "placeholder": "例如：15"
+    "of": "/",
+    "ofTotal": "占总数",
+    "or": "或",
+    "profile": {
+        "account": {
+            "available": "可用余额",
+            "availableToTransfer": "可转账",
+            "availableToWithdraw": "可提现",
+            "inStakingPools": "质押中",
+            "pendingRelease": "请求释放",
+            "reservedForStorage": "为存储预留",
+            "reservedForTransactions": "为交易预留",
+            "staked": "已质押",
+            "staking": "质押",
+            "unstaked": "未质押",
+            "walletBalance": "钱包余额",
+            "walletId": "钱包 ID"
         },
-        "staking": {
-            "title": "质押",
-            "desc": "选择验证节点质押 NEAR 通证",
-            "button": "质押 NEAR",
-            "currentValidators": "当前验证节点",
-            "noValidators": "你还没有委托验证节点质押。",
-            "selectAccount": "选择质押账户",
-            "available": "可用",
-            "totalStaked": "总质押"
+        "authorizedApps": {
+            "title": "已授权应用"
         },
-        "balanceBox": {
-            "staked": {
-                "title": "质押总数",
-                "info": "NEAR 通证目前已委托验证节点质押。这些通证将累积奖励。为使用这些通证，你需要首先赎回质押并提现。",
-                "button": "赎回质押"
+        "details": {
+            "availableBalance": "可用余额",
+            "locked": "锁定的",
+            "lockPopup": {
+                "createAnotherAccount": "创建其他账户",
+                "text": "用户名是你在系统中的唯一识别号，并且与数据和资产绑定，因此无法修改。但是你可以${link}以使用想要的名字，并在需要时转账资产。",
+                "title": "为何是锁定？"
             },
-            "unclaimed": {
-                "title": "未提现奖励",
-                "info": "已赚得的奖励并未提现。未提现奖励将自动质押，这意味着你的质押总数将不断增加，奖励是<a target='_blank' href='https://www.investopedia.com/terms/c/compoundinterest.asp'>复利</a>计算的。",
-                "unavailable": {
-                    "title": "无法显示奖励金额。",
-                    "cta": "了解更多",
-                    "modalTitle": "无法显示质押奖励的金额",
-                    "modalDescOne": "当双重认证开启时，我们当前无法计算奖励。我们预计会在将来支持此功能。",
-                    "modalDescTwo": "此时，你可以在「总质押数」中看到你的奖励累计，这个总数包括了奖励，并会随着质押而逐步增加。"
-                }
+            "minBalance": "保留余额",
+            "profile": "资料",
+            "public": "公开",
+            "qrDesc": "可以使用手机相机来扫描该二维码",
+            "staked": "已质押的",
+            "totalBalance": "余额",
+            "unlocked": "未锁的",
+            "unvested": "未兑现的",
+            "username": "用户名",
+            "visibleTo": "是否公开"
+        },
+        "lockup": {
+            "locked": "已锁定",
+            "lockupBalance": "锁定账户余额",
+            "lockupId": "锁定账户 ID",
+            "unlocked": "未锁定"
+        },
+        "lockupBanner": {
+            "cta": "转账至钱包",
+            "title": "你有 <b>${amount}</b> 可从你的锁定账户提现。"
+        },
+        "pageTitle": {
+            "default": "账户",
+            "loading": "加载中...",
+            "notFound": "账户 ${accountId} 未找到"
+        },
+        "security": {
+            "lessSecure": "备选方式",
+            "lessSecureDesc": "推荐余额较小的账户使用这些恢复方式，非常方便。但如果手机或邮箱被盗，你的资产将会有风险。",
+            "mostSecure": "最安全的方式（推荐）",
+            "mostSecureDesc": "Ledger 是最安全的选择之一。助记词也很安全，前提是安全记录并保存。",
+            "title": "安全与恢复账户"
+        },
+        "twoFactor": "双重认证方式",
+        "twoFactorDesc": "登录或转账时，将通过短信或邮箱方式授权。"
+    },
+    "reCAPTCHA": {
+        "disclaimer": "此站点由 reCAPTCHA 保护，并遵循 Google <a href='https://policies.google.com/privacy' target='_blank' rel='noopener noreferrer'>隐私策略</a>和<a href='https://policies.google.com/terms' target='_blank' rel='noopener noreferrer'>服务条款</a>。",
+        "fail": {
+            "desc": "注册新账户时必须通过 reCAPTCHA 验证。",
+            "link": "充值你的账户？",
+            "title": "加载 reCAPTCHA 失败。"
+        },
+        "loading": "正在加载 reCAPTCHA..."
+    },
+    "receivePage": {
+        "addressTitle": "你的地址",
+        "copyAddressLinkLong": "复制地址链接",
+        "copyAddressLinkShort": "复制",
+        "qrCodeTitle": "扫描二维码",
+        "snackbarCopySuccess": "地址链接已复制！"
+    },
+    "recoverAccount": {
+        "actionRequired": "此消息包含恢复链接，请点击链接开始恢复账户流程！",
+        "actionType": "恢复",
+        "cannotResend": "此消息是在开启 Email/手机号恢复时发送。我们只发送一次，并且无法重新发送。",
+        "email": {
+            "desc": "请检查来自 near.org 地址的邮件，标题是：",
+            "subject": "「重要：NEAR 钱包恢复邮件」。",
+            "title": "Email"
+        },
+        "ledger": {
+            "desc": "请确认 Ledger 已安全连接，并在设备上打开 NEAR 应用。",
+            "title": "Ledger"
+        },
+        "pageText": "如果你已经设置账户恢复方式，请根据以下步骤开始恢复流程。",
+        "pageTitle": "恢复你的账户",
+        "phone": {
+            "desc": "在你的手机上检查来自以下手机号的短信：",
+            "number": "+14086179592。",
+            "title": "手机"
+        },
+        "phrase": {
+            "desc": "请确认已准备 12 个单词组成的助记词，然后点击下方开始恢复账户流程。",
+            "title": "助记词"
+        }
+    },
+    "recoverSeedPhrase": {
+        "pageText": "请输入与此账户关联的助记词。",
+        "pageTitle": "通过助记词恢复账户",
+        "seedPhraseInput": {
+            "placeholder": "correct horse battery staple...",
+            "title": "助记词（12 个单词）"
+        }
+    },
+    "recoverWithLink": {
+        "errorP": "请检查你的邮箱或手机最新消息，之前消息里的链接已经无效。",
+        "errorTitle": "链接已过期",
+        "pOne": "点击 \"继续\" 恢复你的账户：",
+        "pTwo": "如果这不是你偏好的浏览器，请复制链接并在你偏好的浏览器中完成恢复流程。",
+        "snackbarCopySuccess": "恢复链接已复制",
+        "title": "恢复账户"
+    },
+    "recoveryMgmt": {
+        "disableInputPlaceholder": "请输入用户名确认",
+        "disableNo": "不，保留。",
+        "disableNotAllowed": "账户必须拥有至少一种恢复方式，请首先添加另外一种方式再继续删除此方式。",
+        "disableTextLink": "你收到的恢复链接将会被永久禁用。",
+        "disableTextPhrase": "当前助记词将会被永久禁用。",
+        "disableTitle": "是否确定禁用该恢复账户方式？",
+        "enabled": "已启用",
+        "methodTitle": {
+            "email": "邮箱地址",
+            "phone": "手机号",
+            "phrase": "助记词"
+        },
+        "noRecoveryMethod": "你还不能恢复账户，请先添加以下至少一种方式。",
+        "recoveryLinkSent": "恢复链接已发送！",
+        "resend": {
+            "email": "重新发送邮件",
+            "phone": "重新发送短信"
+        },
+        "title": "账户恢复方式"
+    },
+    "reduxActions": {
+        "ADD_ACCESS_KEY": {
+            "error": "在授权此操作时发生了错误，请重试。",
+            "success": "${title} 现已授权使用你的账户。"
+        },
+        "ADD_ACCESS_KEY_SEED_PHRASE": {
+            "error": "在设置助记词恢复方式时发生了错误，请重试。",
+            "success": "助记词恢复设置已经完成。"
+        },
+        "ADD_LEDGER_ACCOUNT_ID": {
+            "error": "账户的访问被拒绝，恢复账户失败。<br/>若要继续，需要在 Ledger 设备上授权每个账户的只读访问，请再重试。",
+            "success": ""
+        },
+        "CHECK_ACCOUNT_AVAILABLE": {
+            "error": "用户未找到。",
+            "success": "用户已找到。"
+        },
+        "CHECK_IS_NEW": {
+            "error": "用户名已被注册，请尝试其他。",
+            "success": "恭喜！${accountId} 可被注册。"
+        },
+        "CHECK_NEW_ACCOUNT": {
+            "error": "用户名已被注册，请尝试其他。",
+            "success": "恭喜！${accountId} 可被注册。"
+        },
+        "CREATE_ACCOUNT_WITH_SEED_PHRASE": {
+            "error": "",
+            "success": ""
+        },
+        "CREATE_NEW_ACCOUNT": {
+            "error": "用户名已被注册，请尝试其他。",
+            "success": "恭喜！${accountId} 可被注册。"
+        },
+        "default": {
+            "error": "出现问题，请重试。",
+            "success": ""
+        },
+        "DELETE_RECOVERY_METHOD": {
+            "error": "",
+            "success": ""
+        },
+        "DEPLOY_MULTISIG": {
+            "error": "",
+            "success": ""
+        },
+        "Deserialization": "",
+        "GET_LEDGER_ACCOUNT_IDS": {
+            "error": "公钥访问被拒绝，恢复账户失败。<br/>若要继续，需要允许 NEAR 钱包访问你的公钥，请再重试。",
+            "success": ""
+        },
+        "NotEnoughBalance": "你的账户没有足够余额进行此操作。",
+        "PROMPT_TWO_FACTOR": {
+            "invalidCode": "无效的双重认证验证码，请重试。"
+        },
+        "RECOVER_ACCOUNT_SEED_PHRASE": {
+            "error": "恢复账户失败。",
+            "success": "成功通过助记词恢复账户。<br/><b>${numberOfAccounts} 个账户</b>成功恢复，已切换至最新恢复的账户。"
+        },
+        "REFRESH_ACCOUNT_EXTERNAL": {
+            "error": "账户 <b>${accountId}</b> 未找到"
+        },
+        "REMOVE_ACCESS_KEY": {
+            "error": "请检查你的设备已经连接并打开了 NEAR 应用。",
+            "success": ""
+        },
+        "RetriesExceeded": "此交易超出最大重试次数。",
+        "SAVE_AND_SELECT_LEDGER_ACCOUNTS": {
+            "error": "请检查硬件钱包已经安全连接，并且 NEAR 应用已经打开。",
+            "success": "你已经成功登录。<br/><b>${numberOfAccounts} 个账户</b>已经成功恢复：<b>${accountList}</b>。<br/>最后一个账户设置为活跃账户。"
+        },
+        "SEND_MONEY": {
+            "error": "请检查你的设备已经连接并打开了 NEAR 应用。"
+        },
+        "SETUP_RECOVERY_MESSAGE": {
+            "error": "设置账户恢复方式时发生错误，请重试。",
+            "success": "账户恢复设置已完成。"
+        },
+        "SIGN_AND_SEND_TRANSACTIONS": {
+            "error": "",
+            "success": ""
+        },
+        "TRANSFER_ALL_FROM_LOCKUP": {
+            "error": "出现问题，请重试。",
+            "success": "成功从锁定账户转移通证！"
+        },
+        "U2F_4": "无法通过硬件钱包登录：U2F DEVICE_INELIGIBLE。请确保 Ledger 设备已连接并解锁。",
+        "VERIFY_TWO_FACTOR": {
+            "error": "双重认证设置失败，请重试。",
+            "success": "双重认证设置成功！"
+        }
+    },
+    "releaseNotesModal": {
+        "desc": "你的建议我们已采纳！最新版本带来了账户余额的显示改进，创建新的账户也变得更加容易。",
+        "subText1": "在初次使用时，你可以使用短信来验证并初始化你的账户。不希望提供手机信息的用户仍可以通过充值一些 NEAR 通证来初始化新账户。",
+        "subText2": "NEAR 钱包内的主要余额现在是「可用余额」，之前此处是显示「总余额」。可用余额意味着你可以第一眼就能看到可以使用的 NEAR 通证数量和对应价值。但不包括无法使用的通证价值。质押的通证数量可以在账户或质押页面查看。",
+        "subTitle1": "新功能",
+        "subTitle2": "功能增强",
+        "title": "更新说明"
+    },
+    "reservedForFeesInfo": "保留 ${data}，以承担交易成本。",
+    "selectAccountDropdown": {
+        "account": "账户",
+        "createAccount": "创建新的账户",
+        "noOtherAccounts": "你没有其他账户",
+        "selectAccount": "选择账户",
+        "switchAccount": "切换账户",
+        "switchAccounthNotAllowed": "该应用不支持账户切换"
+    },
+    "sending": "发送中",
+    "sendMoney": {
+        "account": {
+            "title": "转账至"
+        },
+        "amount": {
+            "available": "可转账余额"
+        },
+        "amountStatusId": {
+            "available": "可用余额：",
+            "howMuch": "你想要发送多少通证？",
+            "noMoreThan": "不可超过 5 位数",
+            "notEnoughTokens": "账户内至少保留 ${amount} NEAR",
+            "sending": "正在发送："
+        },
+        "banner": {
+            "insufficient": "你将转账所有的可用余额，请至少保留 <b>${data} NEAR</b> 来保证交易费。",
+            "useMax": "${data} NEAR 已经为交易费而预留。"
+        },
+        "button": {
+            "confirm": "确认并转账",
+            "dashboard": "访问概览页",
+            "send": "提交"
+        },
+        "confirmModal": {
+            "title": "确认交易"
+        },
+        "onceConfirmed": "一旦确认，这将不可撤销。",
+        "subtitle": {
+            "default": "请输入你将转账的金额，以及接收方账户 ID",
+            "success": "成功转账 NEAR",
+            "to": "发送至："
+        },
+        "title": {
+            "default": "发送",
+            "success": "成功！"
+        },
+        "to": "至",
+        "wasSentTo": "被发送至：",
+        "youAreSending": "你正在发送"
+    },
+    "sendV2": {
+        "accordionTriggerTitle": {
+            "balanceDetails": "余额详情",
+            "transactionDetails": "交易详情"
+        },
+        "review": {
+            "title": "你正在发送"
+        },
+        "selectAsset": {
+            "assetInputPlaceholder": "搜索资产名称",
+            "assetListNameTitle": "名称",
+            "asssetListBalanceTitle": "可转账余额",
+            "title": "选择资产"
+        },
+        "selectReceiver": {
+            "receiverInputLabel": "发送至"
+        },
+        "selectTokenButtonTitle": "选择资产",
+        "success": {
+            "title": "交易完成</br>你发送了 <span class='color-blue'>${amount}</span></br>至 <span class='color-green'>${receiverId}</span>"
+        },
+        "translateIdInfoTooltip": {
+            "estimatedFees": "处理这笔交易的预估费用。",
+            "estimatedTotal": "这笔交易的预估总数，包括费用。",
+            "networkFees": "涵盖了处理这笔交易的最终数额。",
+            "reservedForFees": "你账户余额中保留的部分，这部分涵盖了存储消耗成本。更多信息请访问 NEAR 文档。"
+        },
+        "TXEntry": {
+            "status": {
+                "Failure": "失败",
+                "notAvailable": "状态不可用",
+                "SuccessValue": "成功"
             },
-            "available": {
-                "title": "可提现",
-                "info": "这些通证已经赎回质押，并可以提现。",
-                "button": "提现"
+            "title": {
+                "amount": "数量",
+                "availableBalance": "可用余额",
+                "availableToSend": "可转账余额",
+                "estimatedFees": "预估费用",
+                "estimatedTotal": "预估总计",
+                "from": "来自",
+                "networkFees": "网络费用",
+                "receiverId": "发送至",
+                "reservedForFees": "保留费用",
+                "status": "状态",
+                "timeStamp": "日期和时间",
+                "to": "至",
+                "token": "资产"
+            }
+        }
+    },
+    "setRecoveryConfirm": {
+        "didNotReceive": "未收到验证码？",
+        "email": "Email",
+        "inputError": "请输入验证码。",
+        "inputHeader": "输入 6 位验证码",
+        "inputPlaceholder": "验证码",
+        "or": "或",
+        "pageText": "我们已经发送 6 位验证码至",
+        "phone": "手机号",
+        "reenter": {
+            "link": "点击此处",
+            "one": {
+                "email": "如果你没有收到邮件，或者上面的邮箱地址输入错误，",
+                "phoneNumber": "如果你没有收到短信，或上面的手机号输入错误，"
             },
-            "pending": {
-                "title": "请求释放",
-                "info": "这些通证并未质押，但还不可提现。通常在赎回质押后 36 - 48 小时变为可提现。"
+            "two": {
+                "email": "重新输入邮箱地址并重新发送。",
+                "phoneNumber": "重新输入手机号并重新发送。"
             }
         },
-        "validatorBox": {
-            "fee": "费用",
-            "state": {
-                "active": "活跃",
-                "inactive": "非活跃"
+        "resendCode": "重新发送",
+        "resending": "正在重新发送...",
+        "sendToDifferent": "发送至其他",
+        "title": "输入验证码"
+    },
+    "setupLedger": {
+        "header": "绑定至你的硬件钱包",
+        "one": "通过 USB 连接 Ledger Nano S/X 至你的电脑或手机，并<b>打开 NEAR 应用</b>。",
+        "two": "如果你还没有安装 NEAR 账本应用，请按照",
+        "twoLink": "步骤安装"
+    },
+    "setupLedgerSteps": {
+        "header": "在硬件钱包上安装 NEAR",
+        "one": "打开 <a href='https://www.ledger.com/ledger-live' target='_blank'>Ledger Live</a>，并安装固件更新。",
+        "three": "根据步骤在设备上安装 <span class='color-black'>NEAR 应用</span>。",
+        "two": "返回至<span class='color-black'>管理器</span> Tab 并搜索 <span class='color-black'>NEAR</span>。"
+    },
+    "setupLedgerSuccess": {
+        "header": "你的账户已通过 Ledger 硬件保护！",
+        "nextStep": {
+            "header": {
+                "keep": "保留密钥？",
+                "remove": "确认删除密钥"
             },
-            "staking": "质押",
-            "near": "NEAR",
-            "cta": "选择",
-            "with": "委托给"
+            "one": {
+                "keep": "<span class='color-red'>保留多个恢复方式和设备增加了账户被盗的风险。</span>",
+                "remove": "在删除现有密钥前，请确认已经安全记录和保存钱包的助记词。"
+            },
+            "two": {
+                "remove": "如果你丢失了助记词，NEAR 公司将无法帮你恢复账户和资产。"
+            }
         },
+        "one": "我们推荐你删除其他所有密钥（恢复方式和设备）。",
+        "primaryCta": "删除其他密钥",
+        "secondaryCta": "保留密钥",
+        "two": "保留多个密钥增加了账户被盗的风险。"
+    },
+    "setupRecovery": {
+        "advancedSecurity": "高级安全",
+        "advancedSecurityDesc": "记录 12 个单词组成的助记词，并安全保存。",
+        "basicSecurity": "基础安全",
+        "basicSecurityDesc": "请输入你的邮箱地址或手机号以获取恢复链接",
+        "emailDesc": "通过邮箱方式接收验证码和账户恢复链接。",
+        "emailPlaceholder": "example@email.com",
+        "emailTitle": "邮箱方式",
+        "header": "保护你的账户",
+        "ledgerDesc": "通过 Ledger 硬件钱包保护你的账户安全。",
+        "ledgerTitle": "Ledger 硬件钱包",
+        "notSupportedPhone": "抱歉，目前我们暂未对你所在的地区开放短信恢复方式。请选择邮箱方式。",
+        "phoneDesc": "请输入你的手机号以接收恢复链接。",
+        "phonePlaceholder": "+1 415 797 8554",
+        "phoneTitle": "手机短信方式",
+        "phraseDesc": "生成并安全地存储唯一的助记词。",
+        "phraseTitle": "安全助记词",
+        "subHeader": "请设置一种账户恢复方式："
+    },
+    "setupSeedPhrase": {
+        "pageText": "请按顺序记录以下助记词，并安全保管它们。没有助记词你将无法恢复账户！",
+        "pageTitle": "设置恢复助记词",
+        "snackbarCopyImplicitAddress": "账户 ID 已复制！",
+        "snackbarCopySuccess": "助记词已复制！"
+    },
+    "setupSeedPhraseSuccess": {
+        "pageText": "使用助记词来恢复你的账户。",
+        "pageTextSecondLine": "任何能够查看你的助记词的人都可以访问你的账户，因此请离线安全地保存助记词。",
+        "pageTitle": "恢复设置已完成"
+    },
+    "setupSeedPhraseVerify": {
+        "pageText": "请根据你的助记词输入以下单词完成设置。",
+        "pageTitle": "验证助记词",
+        "startOverText": "没有记录下来？"
+    },
+    "sign": {
+        "ActionWarrning": {
+            "binaryData": "参数中包含二进制数据",
+            "deleteAccount": "你将要删除你的账户！你的 NEAR 余额将被清空，并且你的账户数据都将被删除。",
+            "deployContract": "你正在向你的账户部署合约！该合约可以访问你的 NEAR 余额，并代表你和其他合约交互。",
+            "functionCall": "该函数没有描述。",
+            "stake": "你正在质押 NEAR 通证。这些通证将会被锁定，并且如果你的验证节点无法即时响应，这些通证有丢失风险。"
+        },
+        "authorizationRequestSuccessful": "授权请求成功",
+        "authorizing": "正在授权",
+        "availableBalance": "可用余额",
+        "availableToTransfer": "可转账",
+        "contract": "合约：",
+        "details": {
+            "detailedDescription": "交易的详细描述",
+            "forContract": "合约",
+            "gasLimit": "Gas 限制",
+            "gasPriceUnavailable": "Gas 价格估计不可用",
+            "transactionFees": "交易费"
+        },
+        "hereAreSomeDetails": "这里是能够帮助你的一些信息。",
+        "insufficientFunds": "资产不足",
+        "isRequesting": {
+            "authorization": "正在请求授权",
+            "transferOf": "正在请求转账"
+        },
+        "nothingHasBeenTransferred": "没有进行转账。",
+        "transactionCancelled": "交易取消",
+        "transferring": "正在转账",
+        "unexpectedStatus": "意外状态",
+        "unknownApp": "未知应用",
+        "wasTransferredSuccessfully": "被成功转账"
+    },
+    "signInLedger": {
+        "advanced": {
+            "desc": "指定 HD 路径来导入已链接的账户。",
+            "setPath": "设置 HD 路径",
+            "subTitle": "HD 路径",
+            "title": "高级选项"
+        },
+        "header": "通过 Ledger 硬件登录",
+        "modal": {
+            "accountsApproved": "账户已授权",
+            "confirmPublicKey": "确认公钥",
+            "ledgerMustAdd": "Ledger 必须为每个账户添加访问密钥：",
+            "status": {
+                "confirm": "确认",
+                "error": "错误",
+                "pending": "请求",
+                "rejected": "拒绝",
+                "success": "授权",
+                "waiting": "下一个"
+            }
+        },
+        "one": "请确认硬件钱包已经安全连接，并且 NEAR 应用已经打开。"
+    },
+    "stagingBanner": {
+        "desc": "注意：这是预发布版本 NEAR 钱包，可能有 Bugs，这些 Bugs 可能会导致丢失通证。继续使用此版本则表示你理解并接受此风险，并知晓 NEAR 钱包团队将无法帮助你。",
+        "title": "注意：这是预发布版本钱包，风险自担！"
+    },
+    "stakedBalance": "NEAR 被用于支持验证节点并加强网络。当你决定不质押 NEAR，则需要等待一些时间才能出现在「可用余额」，NEAR 需要花 3 epochs（约 36 小时）赎回质押。",
+    "staking": {
+        "alertBanner": {
+            "button": "查看当前验证节点",
+            "title": "你必须首先从验证节点中赎回质押，并提现你的通证，才能选择新的验证节点。"
+        },
+        "amountStakingInput": {
+            "placeholder": "例如：15",
+            "title": "请输入质押数量"
+        },
+        "balanceBanner": {
+            "currency": "NEAR",
+            "title": "可用锁定余额"
+        },
+        "balanceBox": {
+            "available": {
+                "button": "提现",
+                "info": "这些通证已经赎回质押，并可以提现。",
+                "title": "可提现"
+            },
+            "pending": {
+                "info": "这些通证并未质押，但还不可提现。通常在赎回质押后 36 - 48 小时变为可提现。",
+                "title": "请求释放"
+            },
+            "staked": {
+                "button": "赎回质押",
+                "info": "NEAR 通证目前已委托验证节点质押。这些通证将累积奖励。为使用这些通证，你需要首先赎回质押并提现。",
+                "title": "质押总数"
+            },
+            "unclaimed": {
+                "info": "已赚得的奖励并未提现。未提现奖励将自动质押，这意味着你的质押总数将不断增加，奖励是<a target='_blank' href='https://www.investopedia.com/terms/c/compoundinterest.asp'>复利</a>计算的。",
+                "title": "未提现奖励",
+                "unavailable": {
+                    "cta": "了解更多",
+                    "modalDescOne": "当双重认证开启时，我们当前无法计算奖励。我们预计会在将来支持此功能。",
+                    "modalDescTwo": "此时，你可以在「总质押数」中看到你的奖励累计，这个总数包括了奖励，并会随着质押而逐步增加。",
+                    "modalTitle": "无法显示质押奖励的金额",
+                    "title": "无法显示奖励金额。"
+                }
+            }
+        },
+        "noValidators": {
+            "title": "你目前没有委托任何验证节点质押。"
+        },
+        "pageText": "通过命令行配置你的节点，并在这里添加。",
+        "pageTitle": "质押",
         "stake": {
-            "title": "质押数量",
-            "desc": "请输入计划质押的 NEAR 通证数量。",
+            "accounts": "如果你拥有锁定的 NEAR，你可以选择质押锁定 NEAR（lockup.near），或解锁的 NEAR（你的账户名下）。你将看到指定账户名下的质押。如果你没有锁定的 NEAR，请忽略此区域。",
             "amount": "数量",
-            "stakeWith": "委托质押节点",
+            "banner": {
+                "insufficientBalance": "你将质押所有余额，请至少预留 <b>${data} NEAR</b> 来保证交易费。",
+                "stakeMax": "${data} NEAR 已经为交易费而预留。"
+            },
             "button": "提交质押",
             "confirm": "你将质押",
+            "desc": "请输入计划质押的 NEAR 通证数量。",
+            "from": "来自",
             "input": {
                 "availableBalance": "可用余额：",
                 "near": "NEAR"
             },
             "ledgerDisclaimer": "注意：如果你是首次委托该验证节点质押，你需要确认两笔交易。",
+            "stakeWith": "委托质押节点",
+            "title": "质押数量",
             "useMax": "全部",
-            "with": "委托",
-            "from": "来自",
-            "accounts": "如果你拥有锁定的 NEAR，你可以选择质押锁定 NEAR（lockup.near），或解锁的 NEAR（你的账户名下）。你将看到指定账户名下的质押。如果你没有锁定的 NEAR，请忽略此区域。",
-            "banner": {
-                "stakeMax": "${data} NEAR 已经为交易费而预留。",
-                "insufficientBalance": "你将质押所有余额，请至少预留 <b>${data} NEAR</b> 来保证交易费。"
-            }
+            "with": "委托"
+        },
+        "stakeSuccess": {
+            "button": "返回质押页",
+            "desc": "你的质押成功委托给已选择的验证节点：",
+            "descTwo": "你可以在质押页查看你的委托和质押奖励。",
+            "title": "成功！"
+        },
+        "staking": {
+            "available": "可用",
+            "button": "质押 NEAR",
+            "currentValidators": "当前验证节点",
+            "desc": "选择验证节点质押 NEAR 通证",
+            "noValidators": "你还没有委托验证节点质押。",
+            "selectAccount": "选择质押账户",
+            "title": "质押",
+            "totalStaked": "总质押"
         },
         "unstake": {
-            "title": "赎回质押通证",
-            "desc": "请输入计划赎回质押的 NEAR 通证数量。",
-            "stakeWith": "赎回质押以下节点的质押：",
+            "beforeUnstakeDisclaimer": "赎回质押通证通常在赎回质押后 36 - 48 小时释放。",
             "button": "赎回质押通证",
             "confirm": "你正在赎回质押",
+            "desc": "请输入计划赎回质押的 NEAR 通证数量。",
             "input": {
                 "availableBalance": "可赎回质押数量：",
                 "near": "NEAR"
             },
-            "beforeUnstakeDisclaimer": "赎回质押通证通常在赎回质押后 36 - 48 小时释放。"
-        },
-        "stakeSuccess": {
-            "title": "成功！",
-            "desc": "你的质押成功委托给已选择的验证节点：",
-            "descTwo": "你可以在质押页查看你的委托和质押奖励。",
-            "button": "返回质押页"
+            "stakeWith": "赎回质押以下节点的质押：",
+            "title": "赎回质押通证"
         },
         "unstakeSuccess": {
-            "title": "成功！",
+            "button": "返回质押页",
             "desc": "你质押的 <b>${amount}</b> 已经成功从验证节点的质押池释放：",
             "descTwo": "你的通证请求释放将会在 36 - 48 小时释放。",
-            "button": "返回质押页"
+            "title": "成功！"
+        },
+        "validator": {
+            "button": "委托节点质押",
+            "desc": "这是你将支付给验证节点委托质押的费用，仅从你的奖励中支付。",
+            "fee": "质押费",
+            "title": "验证节点：<br/> @${validator}",
+            "unstake": "你正在赎回质押",
+            "withdraw": "你正在提现",
+            "withdrawalDisclaimer": "请求释放的资金将会在 36 - 48 小时内释放。"
+        },
+        "validatorBox": {
+            "cta": "选择",
+            "fee": "费用",
+            "near": "NEAR",
+            "staking": "质押",
+            "state": {
+                "active": "活跃",
+                "inactive": "非活跃"
+            },
+            "with": "委托给"
         },
         "validators": {
-            "title": "选择验证节点",
+            "available": "可选验证节点",
+            "button": "查看验证节点",
             "desc": {
                 "account": "输入并选择一个验证节点来质押 NEAR 通证。",
                 "lockup": "请输入一个已知节点的名称或选择节点开始质押。同时间，你只能质押到一个节点。",
@@ -1133,387 +1277,186 @@
             },
             "inputLabel": "输入验证节点账户 ID",
             "inputPlaceholder": "validator-name.near",
-            "button": "查看验证节点",
-            "available": "可选验证节点",
             "search": {
-                "success": "已找到验证节点！",
-                "error": "无匹配验证节点。"
-            }
-        },
-        "validator": {
-            "title": "验证节点：<br/> @${validator}",
-            "button": "委托节点质押",
-            "fee": "质押费",
-            "desc": "这是你将支付给验证节点委托质押的费用，仅从你的奖励中支付。",
-            "withdrawalDisclaimer": "请求释放的资金将会在 36 - 48 小时内释放。",
-            "unstake": "你正在赎回质押",
-            "withdraw": "你正在提现"
-        },
-        "balanceBanner": {
-            "title": "可用锁定余额",
-            "currency": "NEAR"
-        },
-        "alertBanner": {
-            "title": "你必须首先从验证节点中赎回质押，并提现你的通证，才能选择新的验证节点。",
-            "button": "查看当前验证节点"
-        },
-        "noValidators": {
-            "title": "你目前没有委托任何验证节点质押。"
-        }
-    },
-    "balanceBreakdown": {
-        "available": "可用余额",
-        "reserved": "费用预留"
-    },
-    "profile": {
-        "lockupBanner": {
-            "title": "你有 <b>${amount}</b> 可从你的锁定账户提现。",
-            "cta": "转账至钱包"
-        },
-        "pageTitle": {
-            "loading": "加载中...",
-            "notFound": "账户 ${accountId} 未找到",
-            "default": "账户"
-        },
-        "account": {
-            "walletId": "钱包 ID",
-            "walletBalance": "钱包余额",
-            "reservedForStorage": "为存储预留",
-            "inStakingPools": "质押中",
-            "staked": "已质押",
-            "unstaked": "未质押",
-            "available": "可用余额",
-            "reservedForTransactions": "为交易预留",
-            "pendingRelease": "请求释放",
-            "availableToWithdraw": "可提现",
-            "availableToTransfer": "可转账",
-            "staking": "质押"
-        },
-        "authorizedApps": {
-            "title": "已授权应用"
-        },
-        "lockup": {
-            "lockupBalance": "锁定账户余额",
-            "lockupId": "锁定账户 ID",
-            "locked": "已锁定",
-            "unlocked": "未锁定"
-        },
-        "security": {
-            "title": "安全与恢复账户",
-            "mostSecure": "最安全的方式（推荐）",
-            "mostSecureDesc": "Ledger 是最安全的选择之一。助记词也很安全，前提是安全记录并保存。",
-            "lessSecure": "备选方式",
-            "lessSecureDesc": "推荐余额较小的账户使用这些恢复方式，非常方便。但如果手机或邮箱被盗，你的资产将会有风险。"
-        },
-        "twoFactor": "双重认证方式",
-        "twoFactorDesc": "登录或转账时，将通过短信或邮箱方式授权。",
-        "details": {
-            "profile": "资料",
-            "visibleTo": "是否公开",
-            "username": "用户名",
-            "public": "公开",
-            "totalBalance": "余额",
-            "minBalance": "保留余额",
-            "staked": "已质押的",
-            "locked": "锁定的",
-            "unvested": "未兑现的",
-            "unlocked": "未锁的",
-            "availableBalance": "可用余额",
-            "lockPopup": {
-                "title": "为何是锁定？",
-                "text": "用户名是你在系统中的唯一识别号，并且与数据和资产绑定，因此无法修改。但是你可以${link}以使用想要的名字，并在需要时转账资产。",
-                "createAnotherAccount": "创建其他账户"
+                "error": "无匹配验证节点。",
+                "success": "已找到验证节点！"
             },
-            "qrDesc": "可以使用手机相机来扫描该二维码"
+            "title": "选择验证节点"
         }
     },
-
-    "mobileDeviceAccess": {
-        "title": "手机导入",
-        "showCode": {
-            "desc": "扫描手机导入二维码授权完全账户访问权限。",
-            "button": "查看二维码",
-            "modal": {
-                "title": "手机导入二维码",
-                "desc": "点击「显示」按钮并扫码可以在手机上导入你的账户。",
-                "disclaimer": "<b>此二维码包含高度敏感的数据，并会在手机上授权完全账户访问权限。</b> 请不要分享或曝光此二维码，并且只在信任的手机上导入账户。",
-                "reveal": "显示"
-            }
-        },
-        "importCode": {
-            "desc": "如果你已经在电脑上登录，扫描手机访问二维码可以导入账户。"
-        }
-    },
-
-    "sendMoney": {
-        "title": {
-            "default": "发送",
-            "success": "成功！"
-        },
-        "subtitle": {
-            "default": "请输入你将转账的金额，以及接收方账户 ID",
-            "success": "成功转账 NEAR",
-            "to": "发送至："
-        },
-        "amount": {
-            "available": "可转账余额"
-        },
-        "confirmModal": {
-            "title": "确认交易"
-        },
-        "account": {
-            "title": "转账至"
-        },
-        "button": {
-            "send": "提交",
-            "confirm": "确认并转账",
-            "dashboard": "访问概览页"
-        },
-        "amountStatusId": {
-            "noMoreThan": "不可超过 5 位数",
-            "notEnoughTokens": "账户内至少保留 ${amount} NEAR",
-            "howMuch": "你想要发送多少通证？",
-            "available": "可用余额：",
-            "sending": "正在发送："
-        },
-        "youAreSending": "你正在发送",
-        "to": "至",
-        "onceConfirmed": "一旦确认，这将不可撤销。",
-        "wasSentTo": "被发送至：",
-        "banner": {
-            "useMax": "${data} NEAR 已经为交易费而预留。",
-            "insufficient": "你将转账所有的可用余额，请至少保留 <b>${data} NEAR</b> 来保证交易费。"
-        }
-    },
-    "sendV2": {
-        "TXEntry": {
-            "title": {
-                "token": "资产",
-                "estimatedFees": "预估费用",
-                "estimatedTotal": "预估总计",
-                "status": "状态",
-                "amount": "数量",
-                "networkFees": "网络费用",
-                "receiverId": "发送至",
-                "timeStamp": "日期和时间",
-                "reservedForFees": "保留费用",
-                "availableBalance": "可用余额",
-                "availableToSend": "可转账余额",
-                "from": "来自",
-                "to": "至"
-            },
-            "status": {
-                "SuccessValue": "成功",
-                "Failure": "失败",
-                "notAvailable": "状态不可用"
-            }
-        },
-        "accordionTriggerTitle": {
-            "balanceDetails": "余额详情",
-            "transactionDetails": "交易详情"
-        },
-        "selectTokenButtonTitle": "选择资产",
-        "selectAsset": {
-            "title": "选择资产",
-            "assetInputPlaceholder": "搜索资产名称",
-            "assetListNameTitle": "名称",
-            "asssetListBalanceTitle": "可转账余额"
-        },
-        "selectReceiver": {
-            "receiverInputLabel": "发送至"
-        },
-        "review": {
-            "title": "你正在发送"
-        },
-        "success": {
-            "title": "交易完成</br>你发送了 <span class='color-blue'>${amount}</span></br>至 <span class='color-green'>${receiverId}</span>"
-        },
-        "translateIdInfoTooltip": {
-            "estimatedFees": "处理这笔交易的预估费用。",
-            "estimatedTotal": "这笔交易的预估总数，包括费用。",
-            "reservedForFees": "你账户余额中保留的部分，这部分涵盖了存储消耗成本。更多信息请访问 NEAR 文档。",
-            "networkFees": "涵盖了处理这笔交易的最终数额。"
-        }
-    },
-
-    "sign": {
-        "unexpectedStatus": "意外状态",
-        "transactionCancelled": "交易取消",
-        "nothingHasBeenTransferred": "没有进行转账。",
-        "details": {
-            "detailedDescription": "交易的详细描述",
-            "transactionFees": "交易费",
-            "gasLimit": "Gas 限制",
-            "gasPriceUnavailable": "Gas 价格估计不可用",
-            "forContract": "合约"
-        },
-        "ActionWarrning": {
-            "functionCall": "该函数没有描述。",
-            "binaryData": "参数中包含二进制数据",
-            "deployContract": "你正在向你的账户部署合约！该合约可以访问你的 NEAR 余额，并代表你和其他合约交互。",
-            "stake": "你正在质押 NEAR 通证。这些通证将会被锁定，并且如果你的验证节点无法即时响应，这些通证有丢失风险。",
-            "deleteAccount": "你将要删除你的账户！你的 NEAR 余额将被清空，并且你的账户数据都将被删除。"
-        },
-        "insufficientFunds": "资产不足",
-        "availableToTransfer": "可转账",
-        "hereAreSomeDetails": "这里是能够帮助你的一些信息。",
-        "contract": "合约：",
-        "unknownApp": "未知应用",
-        "isRequesting": {
-            "transferOf": "正在请求转账",
-            "authorization": "正在请求授权"
-        },
-        "availableBalance": "可用余额",
-        "wasTransferredSuccessfully": "被成功转账",
-        "authorizationRequestSuccessful": "授权请求成功",
-        "transferring": "正在转账",
-        "authorizing": "正在授权"
-    },
-
-    "availableBalanceInfo": "你可以使用的 NEAR 余额，不包括锁定或质押的资金。<a href='/profile'>查看资产组合详情 →</a>",
-    "reservedForFeesInfo": "保留 ${data}，以承担交易成本。",
-    "availableBalanceProfile": "「可用余额」是指你当前账号内可消耗 NEAR 通证，可用余额少于你的总共余额。",
-    "minimumBalance": "这是维持你账号活跃状态的 NEAR 通证「保留余额」，该余额代表你正在使用的 NEAR 区块链存储空间，会在使用量变化后产生对应变化。",
-    "totalBalance": "所有余额包括所有你拥有的 NEAR 通证。许多情况，你将无法立刻使用所有余额（比如如果是锁定的、委托的或质押的）。想了解你可以立刻使用、转账、委托或质押的 NEAR 通证，请查看可用余额部分。",
-    "stakedBalance": "NEAR 被用于支持验证节点并加强网络。当你决定不质押 NEAR，则需要等待一些时间才能出现在「可用余额」，NEAR 需要花 3 epochs（约 36 小时）赎回质押。",
-    "unvestedBalance": "未兑现的 NEAR 属于你，但还未实际可使用。你可以委托或质押这些 NEAR，奖励也将归属于你。当 NEAR 兑现后，将出现在锁定的或未锁定的余额中。",
-    "lockedBalance": "NEAR 锁定在锁定合约中，但无法取出。你可能仍委托或质押着这些 NEAR。一旦 NEAR 解锁，你可以在未锁定余额中查看，并选择取出（转移到「可用余额」）。",
-    "unlockedBalance": "NEAR 仍在锁定合约中，并可以取出。如果你选择取出，它将出现于「可用余额」。",
-    "unlockedAvailTransfer": "这部分 NEAR 未锁定，可以从你的锁定账户中转账出来。",
     "stakingPoolUnstaked": "这部分 NEAR 目前在质押池中，但未赎回。可能仍在请求释放的阶段。",
-    
+    "success": "成功",
+    "sync": "刷新",
+    "tokenBox": {
+        "priceUnavailable": "无法获取价格"
+    },
+    "topLevelAccounts": {
+        "body": "账户名称类似于域名，只有 ${data} 才能创建比如 yourname.${data} 的账户，并且只有 yourname.${data} 可以创建 app.yourname.${data}。所有在此钱包创建的账户都使用 .${data} 顶级账户（TLA）。了解更多关于账户名称和创建你的顶级账户（TLA），请访问 <a rel='noopener noreferrer' href='https://docs.nearprotocol.com/docs/concepts/account'>NEAR 文档</a>。",
+        "header": "顶级账户"
+    },
+    "total": "总共",
+    "totalBalance": "所有余额包括所有你拥有的 NEAR 通证。许多情况，你将无法立刻使用所有余额（比如如果是锁定的、委托的或质押的）。想了解你可以立刻使用、转账、委托或质押的 NEAR 通证，请查看可用余额部分。",
     "transaction": {
         "status": {
+            "checkingStatus": "检查状态...",
+            "Failure": "失败",
+            "notAvailable": "状态不可用",
             "NotStarted": "未开始",
             "Started": "已开始",
-            "Failure": "失败",
-            "SuccessValue": "成功",
-            "checkingStatus": "检查状态...",
-            "notAvailable": "状态不可用"
+            "SuccessValue": "成功"
         }
     },
-
-    "success": "成功",
-    "error": "失败",
-    "warning": "警告",
-    "total": "总共",
-    "amount": "数量",
-    "or": "或",
-    "sending": "发送中",
-    "connecting": "连接中",
-    "back": "返回",
-    "of": "/",
-    "ofTotal": "占总数",
-    "arguments": "参数",
-
-    "setupLedger": {
-        "header": "绑定至你的硬件钱包",
-        "one": "通过 USB 连接 Ledger Nano S/X 至你的电脑或手机，并<b>打开 NEAR 应用</b>。",
-        "two": "如果你还没有安装 NEAR 账本应用，请按照",
-        "twoLink": "步骤安装"
+    "transfer": {
+        "estimatedFees": "预估费用",
+        "from": "来自",
+        "to": "至"
     },
-
-    "setupLedgerSteps": {
-        "header": "在硬件钱包上安装 NEAR",
-        "one": "打开 <a href='https://www.ledger.com/ledger-live' target='_blank'>Ledger Live</a>，并安装固件更新。",
-        "two": "返回至<span class='color-black'>管理器</span> Tab 并搜索 <span class='color-black'>NEAR</span>。",
-        "three": "根据步骤在设备上安装 <span class='color-black'>NEAR 应用</span>。"
-    },
-
-    "setupLedgerSuccess": {
-        "header": "你的账户已通过 Ledger 硬件保护！",
-        "one": "我们推荐你删除其他所有密钥（恢复方式和设备）。",
-        "two": "保留多个密钥增加了账户被盗的风险。",
-        "primaryCta": "删除其他密钥",
-        "secondaryCta": "保留密钥",
-        "nextStep": {
-            "header": {
-                "remove": "确认删除密钥",
-                "keep": "保留密钥？"
-            },
-            "one": {
-                "remove": "在删除现有密钥前，请确认已经安全记录和保存钱包的助记词。",
-                "keep": "<span class='color-red'>保留多个恢复方式和设备增加了账户被盗的风险。</span>"
-            },
-            "two": {
-                "remove": "如果你丢失了助记词，NEAR 公司将无法帮你恢复账户和资产。"
-            }
+    "twoFactor": {
+        "active": "已开启",
+        "alertBanner": {
+            "button": "了解更多",
+            "title": "开启双重认证后，<b>${data}</b> 将会被锁定，以涵盖存储的消耗。"
+        },
+        "checkBox": "我已知晓：开启双重认证后，${amount} 将会被锁定，以涵盖合约的存储。",
+        "desc": "通过双重认证保护你的账户，在授权交易时必须通过短信或邮箱确认。",
+        "disable": {
+            "desc": "禁用双重认证后，交易将不再要求双重认证确认。",
+            "disable": "禁用双重认证",
+            "keep": "不，保留双重认证",
+            "title": "是否确认禁用双重认证？"
+        },
+        "email": "邮箱地址",
+        "enable": "开启双重认证",
+        "notEnabled": "双重认证未开启",
+        "notEnoughBalance": "为开启双重认证，你的账户需要最少余额 ${amount}",
+        "phone": "手机号（中国大陆地区暂不支持）",
+        "promptDesc": "我们强烈建议你开启双重认证的方式来增强你的账户和资产安全性。",
+        "select": "选择验证方式",
+        "since": "自",
+        "subHeader": "双重认证将为你的账户增加额外的安全保护。<b>助记词和 Ledger 密钥将继续用来授权完全账户访问。</b>",
+        "title": "双重认证",
+        "verify": {
+            "desc": "一组 6 位验证代码已经发送至：",
+            "didntReceive": "未收到验证码？",
+            "inputLabel": "输入你的 6 位验证码",
+            "placeholder": "验证码",
+            "resend": "重新发送",
+            "resending": "发送中...",
+            "resent": "验证码已发送！",
+            "title": "输入双重认证验证码"
         }
     },
-
-    "signInLedger": {
-        "header": "通过 Ledger 硬件登录",
-        "one": "请确认硬件钱包已经安全连接，并且 NEAR 应用已经打开。",
+    "unlockedAvailTransfer": "这部分 NEAR 未锁定，可以从你的锁定账户中转账出来。",
+    "unlockedBalance": "NEAR 仍在锁定合约中，并可以取出。如果你选择取出，它将出现于「可用余额」。",
+    "unvestedBalance": "未兑现的 NEAR 属于你，但还未实际可使用。你可以委托或质押这些 NEAR，奖励也将归属于你。当 NEAR 兑现后，将出现在锁定的或未锁定的余额中。",
+    "verifyAccount": {
+        "desc": "为避免发送垃圾信息，我们需要验证你是账户所有者，你可以通过一次性验证码或初始充值进行验证。",
         "modal": {
-            "confirmPublicKey": "确认公钥",
-            "ledgerMustAdd": "Ledger 必须为每个账户添加访问密钥：",
-            "accountsApproved": "账户已授权",
-            "status": {
-                "success": "授权",
-                "error": "错误",
-                "rejected": "拒绝",
-                "pending": "请求",
-                "waiting": "下一个",
-                "confirm": "确认"
+            "email": {
+                "desc": "你需要使用其他邮箱地址或选择其他方式来验证此账户，不过你可以使用此邮箱作为恢复方式。",
+                "title": "此邮箱地址已被用于验证其他账户"
+            },
+            "phone": {
+                "desc": "你需要使用其他手机号码或选择其他方式来验证此账户，不过你可以使用此号码作为恢复方式。",
+                "title": "此手机号码已被用于验证其他账户"
             }
         },
-        "advanced": {
-            "title": "高级选项",
-            "subTitle": "HD 路径",
-            "desc": "指定 HD 路径来导入已链接的账户。",
-            "setPath": "设置 HD 路径"
+        "option": {
+            "creditCard": {
+                "desc": "通过 MoonPay 购买 NEAR 通证来激活新注册账户。",
+                "title": "通过信用卡充值"
+            },
+            "email": {
+                "desc": "通过邮箱接收一次性验证码。",
+                "title": "邮箱"
+            },
+            "existingAccount": {
+                "desc": "从一个已有账户转账少量 NEAR 通证来激活新注册账户。",
+                "title": "通过已有账户充值"
+            },
+            "manualDeposit": {
+                "desc": "通过单次充值地址进行充值",
+                "title": "手动充值"
+            },
+            "phone": {
+                "desc": "通过手机短信接收一次性验证码。",
+                "title": "手机（暂不支持中国大陆地区）"
+            }
+        },
+        "options": {
+            "initialDeposit": "初始充值",
+            "passCode": "一次性验证码"
+        },
+        "title": "只差一步！验证你的新账户。"
+    },
+    "wallet": {
+        "availableBalance": "可用余额",
+        "balance": "余额",
+        "balances": "余额",
+        "balanceTitle": "NEAR 余额",
+        "collectibles": "收藏品",
+        "dateAndTime": "日期和时间",
+        "depositNear": {
+            "desc": "请充值 NEAR 通证后才能使用 NEAR 钱包。",
+            "title": "充值 NEAR"
+        },
+        "status": "状态",
+        "tokenBalance": "通证余额",
+        "tokens": "通证",
+        "totalBalance": "总余额",
+        "totalBalanceTitle": "总余额",
+        "yourPortfolio": "你的通证组合"
+    },
+    "walletErrorCodes": {
+        "addAccessKey": {
+            "error": "发生错误。<br />为访问你的账户，请输入上一步的助记词。"
+        },
+        "addAccessKeySeedPhrase": {
+            "errorSecond": "出现问题。<br />该助记词无法恢复你的账户，请检查后重试。"
+        },
+        "addLedgerAccountId": {
+            "errorRpc": "恢复账户时发生错误。"
+        },
+        "createNewAccount": {
+            "error": "账户创建失败，请重试。"
+        },
+        "emailProviderInvalid": "${domainName} 邮箱无法用于账户验证。请尝试其他域名的邮箱。",
+        "getLedgerAccountIds": {
+            "aborted": "操作被终止。",
+            "noAccounts": "该 Ledger 设备没有绑定任何账户，你需要先创建一个账户，并将此账户绑定至 Ledger 才能登录。",
+            "noAccountsAccepted": "无账户授权。",
+            "U2FNotSupported": "需要浏览器支持 U2F，请使用 Chrome、Opera 或 Firefox 安装 U2F 扩展。"
+        },
+        "invalidRecaptchaCode": "reCAPTCHA 验证失败，请重试。",
+        "lockup": {
+            "transferAllWithStakingPoolBalance": "为将你剩余锁定余额转账至钱包，请从质押池赎回并提现所有质押资产。"
+        },
+        "promptTwoFactor": {
+            "userCancelled": "此操作已被取消。"
+        },
+        "recoverAccountSeedPhrase": {
+            "errorInvalidSeedPhrase": "助记词无效"
+        },
+        "recoveryMethods": {
+            "lastMethod": "无法删除最后一个恢复方式。除非你添加了 Ledger，你需要保留至少一种账户恢复方式。",
+            "setupMethod": "发生错误。请检查你的账户恢复方式。"
+        },
+        "sendFungibleToken": {
+            "error": "发生错误，发送交易取消。"
+        },
+        "setupRecoveryMessage": {
+            "error": "设置恢复方式时出现错误，请重试。"
+        },
+        "setupRecoveryMessageNewAccount": {
+            "invalidCode": "无效验证码"
+        },
+        "signAndSendTransactions": {
+            "notEnoughTokens": "没有足够通证。"
+        },
+        "staking": {
+            "noLockup": "账户无锁定合约",
+            "noWithdraw": "无法从验证节点提现余额"
         }
     },
-
-    "confirmLedgerModal": {
-        "header": {
-            "confirm": "请在设备上确认此操作...",
-            "processing": "正在处理"
-        },
-        "one": "请在 Ledger 硬件设备上确认登录细节。"
-    },
-    "enterAccountNameLedgerModal": {
-        "header": "输入账户名称",
-        "one": "请输入你尝试登录的账户名称"
-    },
-
-    "errors": {
-        "type": {
-            "RetriesExceeded": "此交易超出最大重试次数。",
-            "LackBalanceForState": "你的账户余额过低，无法执行任何操作。请向你的账户转账 NEAR，然后再重新导入账户。"
-        },
-        "ledger": {
-            "U2FNotSupported": "Ledger 硬件钱包需要 U2F 浏览器支持。请使用 Chrome、Opera 或 Firefox 安装 U2F 扩展，并确保你是通过 HTTPS 加密连接。",
-            "U2F_4": "无法通过硬件钱包登录：U2F DEVICE_INELIGIBLE。请确保 Ledger 设备已连接并解锁。"
-        }
-    },
-
-    "networkBanner": {
-        "title": "测试网钱包",
-        "header": "NEAR 测试钱包",
-        "desc": "当前钱包（和网络）仅供测试。测试网通证和其他资产均无价值。测试网账户不会迁移至主网。"
-    },
-    "stagingBanner": {
-        "title": "注意：这是预发布版本钱包，风险自担！",
-        "desc": "注意：这是预发布版本 NEAR 钱包，可能有 Bugs，这些 Bugs 可能会导致丢失通证。继续使用此版本则表示你理解并接受此风险，并知晓 NEAR 钱包团队将无法帮助你。"
-    },
-    "landing": {
-        "title": "NEAR 数字钱包",
-        "desc": "使用 <span>NEAR 钱包</span>安全地存储、使用您的资产。",
-        "or": "或",
-        "banner": "NEAR 钱包已经在内测"
-    },
-    "emailSubscribe": {
-        "title": "早期测试注册",
-        "placeholder": "你的 Email..."
-    },
-
-    "releaseNotesModal": {
-        "title": "更新说明",
-        "desc": "你的建议我们已采纳！最新版本带来了账户余额的显示改进，创建新的账户也变得更加容易。",
-        "subTitle1": "新功能",
-        "subText1": "在初次使用时，你可以使用短信来验证并初始化你的账户。不希望提供手机信息的用户仍可以通过充值一些 NEAR 通证来初始化新账户。",
-        "subTitle2": "功能增强",
-        "subText2": "NEAR 钱包内的主要余额现在是「可用余额」，之前此处是显示「总余额」。可用余额意味着你可以第一眼就能看到可以使用的 NEAR 通证数量和对应价值。但不包括无法使用的通证价值。质押的通证数量可以在账户或质押页面查看。"
-    }
+    "warning": "警告"
 }
