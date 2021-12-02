@@ -18,9 +18,9 @@ export const selectStakingCurrentAccountbyAccountId = createSelector(
     (accounts, accountId) => accounts.find((account) => account.accountId === accountId)
 );
 
-export const selectStakingAccountsFirst = createSelector(selectStakingAccounts, (accounts) => accounts[0] || {});
+export const selectStakingAccountsMain = createSelector(selectStakingAccounts, (accounts) => accounts[0] || {});
 
-export const selectStakingAccountsSecond = createSelector(selectStakingAccounts, (accounts) => accounts[1] || {});
+export const selectStakingAccountsLockup = createSelector(selectStakingAccounts, (accounts) => accounts[1] || {});
 
 // lockup - state
 export const selectStakingLockup = createSelector(selectStakingSlice, (staking) => staking.lockup || {});
