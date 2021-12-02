@@ -92,8 +92,8 @@ export const handleRefreshUrl = (prevRouter) => (dispatch, getState) => {
 
     if ([...WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS, WALLET_LOGIN_URL, WALLET_SIGN_URL, WALLET_LINKDROP_URL].includes(currentPage)) {
         const parsedUrl = {
-            referrer: document.referrer && new URL(document.referrer).hostname,
             ...parse(search),
+            referrer: document.referrer ? new URL(document.referrer).hostname : undefined,
             redirect_url: prevRouter ? prevRouter.location.pathname : undefined
         };
         if ([WALLET_CREATE_NEW_ACCOUNT_URL, WALLET_LINKDROP_URL].includes(currentPage) && search !== '') {

@@ -169,7 +169,11 @@ const TokenBox = ({ token, onClick }) => {
             </div>
             {token.symbol === 'NEAR' && !token.contractName ?
                 <div className='balance'>
-                    <Balance amount={token.balance} symbol={false}/>
+                    <Balance
+                        amount={token.balance}
+                        data-test-id="walletHomeNearBalance"
+                        symbol={false}
+                    />
                 </div>
                 :
                 <TokenAmount 

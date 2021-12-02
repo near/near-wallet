@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import ConfirmLoginWrapper from '../components/login/v2/ConfirmLoginWrapper';
 import InvalidContractId from '../components/login/v2/InvalidContractId';
 import SelectAccountLoginWrapper from '../components/login/v2/SelectAccountLoginWrapper';
+import { EXPLORER_URL } from '../config';
 import { Mixpanel } from '../mixpanel/index';
 import {
     selectAccountLocalStorageAccountId
@@ -26,6 +27,8 @@ export function LoginWrapper() {
     const publicKey = URLParams.get('public_key');
     const failureUrl = URLParams.get('failure_url');
     const invalidContractId = URLParams.get('invalidContractId');
+
+    const contractIdUrl = `${EXPLORER_URL}/accounts/${contractId}`;
 
     const accountLocalStorageAccountId = useSelector(selectAccountLocalStorageAccountId);
 
@@ -53,7 +56,9 @@ export function LoginWrapper() {
             <ConfirmLoginWrapper
                 loginAccessType={loginAccessType}
                 contractId={contractId}
+                contractIdUrl={contractIdUrl}
                 onClickCancel={() => setConfirmLogin(false)}
+                publicKey={publicKey}
             />
         );
     }
@@ -61,6 +66,8 @@ export function LoginWrapper() {
     return (
         <SelectAccountLoginWrapper
             loginAccessType={loginAccessType}
+            contractId={contractId}
+            contractIdUrl={contractIdUrl}
             failureUrl={failureUrl}
             onClickNext={() => { setConfirmLogin(true); window.scrollTo(0, 0); }}
         />

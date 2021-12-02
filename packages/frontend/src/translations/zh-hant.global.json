@@ -448,23 +448,19 @@
         "withId": "導入賬戶：${accountId}",
         "withIdFailed": "導入賬戶失敗：${accountId}"
     },
-    "initialDeposit": {
-        "claimAccount": {
-            "desc": "你的初始充值已到賬，一旦認領賬戶，你充值的通證會被轉移到新認領的賬戶。",
-            "disclaimer": {
-                "checkBox": "同意 & 繼續",
-                "desc": "重要：你之前的單次充值地址將失效。若你在交易所和其他設備保存了單次充值地址，請將其替換為你的新賬戶ID(例：XXXX.near)"
-            },
-            "title": "認領你的賬戶"
-        },
-        "creditCard": {
-            "desc": "Complete your purchase of <b>at least ${amount} NEAR</b> through MoonPay. MoonPay will automatically deposit your funds into your new account.",
-            "title": "Fund your new account using a credit card."
-        },
-        "manualDeposit": {
-            "desc": "請向單次充值地址轉賬<b>至少${amount} NEAR</b>，以滿足最低充值要求。",
-            "title": "充值至賬戶"
-        }
+
+    "buyNear": {
+        "title": "充值 NEAR",
+        "moonPay": "MoonPay",
+        "descOne": "可在 MoonPay 使用偏好的支付方式購買 NEAR。",
+        "buyWith": "打開",
+        "supportedExchanges": "交易所",
+        "descTwo": "NEAR 已經在以下交易所流通，可交易。",
+        "seeMore": "查看更多：",
+        "coinMarketCap": "CoinMarketCap",
+        "bridgeTokens": "通過以太坊跨鏈橋轉移通證",
+        "descThree": "通過跨鏈橋將以太坊鏈上通證轉至 NEAR 錢包。",
+        "notSupported": "is not supported in your region"
     },
     "input": {
         "accountId": {
@@ -581,13 +577,14 @@
                     "viewAddress": "查看你連接的賬戶地址",
                     "viewBalance": "查看你連接的賬戶餘額"
                 },
-                "title": "正在連接："
-            },
-            "connectWithNear": {
-                "desc": "應用正在請求你的賬戶的 <b>${accessType}</b> 權限，選擇希望連接的賬戶。",
-                "fullAccess": "完全訪問",
-                "limitedAccess": "受限訪問",
-                "title": "連接 NEAR"
+                "fullAccessModal": {
+                    "title": "授權完整賬戶訪問？",
+                    "desc": "請謹慎授權，完整訪問權限允許應用和合約操作你的賬戶。若確定繼續，請輸入你的賬戶 ID 確認繼續。"
+                },
+                "feeAllowance": {
+                    "title": "Network Fee Allowance",
+                    "desc": "The application will be given permission to spend up to <b>${amount} NEAR</b> towards network fees incurred during use."
+                }
             }
         }
     },
@@ -1139,7 +1136,15 @@
                 "waiting": "下一個"
             }
         },
-        "one": "請確認硬件錢包已經安全連接，並且 NEAR 應用已經打開。"
+        "advanced": {
+            "title": "高級選項",
+            "subTitle": "HD 路徑",
+            "desc": "指定 HD 路徑來導入已鏈接的賬戶。",
+            "setPath": "設置 HD 路徑"
+        },
+        "firefoxBanner": {
+            "desc": "Ledger is currently only supported in <a href='https://www.mozilla.org/' rel='noopener noreferrer' target='_blank'><b>Mozilla Firefox</b></a>. Support for other browsers will soon be restored."
+        }
     },
     "stagingBanner": {
         "desc": "註意：這是預發布版本 NEAR 錢包，可能有 Bugs，這些 Bugs 可能會導致丟失通證。繼續使用此版本則表示你理解並接受此風險，並知曉 NEAR 錢包團隊將無法幫助你。",

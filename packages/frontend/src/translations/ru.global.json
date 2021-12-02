@@ -471,13 +471,14 @@
                     "viewAddress": "View the address of your permitted account",
                     "viewBalance": "View the balance of your permitted account"
                 },
-                "title": "Connecting with:"
-            },
-            "connectWithNear": {
-                "desc": "An application is requesting <b>${accessType}</b> to your NEAR account. Select the account you wish to connect.",
-                "fullAccess": "full access",
-                "limitedAccess": "limited access",
-                "title": "Connect with NEAR"
+                "fullAccessModal": {
+                    "title": "Grant full account access?",
+                    "desc": "Proceed with caution. Full access permissions allow contracts and applications to access your token balance. To confirm, enter your account ID below."
+                },
+                "feeAllowance": {
+                    "title": "Network Fee Allowance",
+                    "desc": "The application will be given permission to spend up to <b>${amount} NEAR</b> towards network fees incurred during use."
+                }
             }
         }
     },
@@ -999,6 +1000,16 @@
                 "success": "Подтверждено",
                 "waiting": "На очереди"
             }
+        },
+        "firefoxBanner": {
+            "desc": "Ledger is currently only supported in <a href='https://www.mozilla.org/' rel='noopener noreferrer' target='_blank'><b>Mozilla Firefox</b></a>. Support for other browsers will soon be restored."
+        }
+    },
+
+    "confirmLedgerModal": {
+        "header": {
+            "confirm": "Пожалуйста, подтвердите операцию на вашем устройстве...",
+            "processing": "Обработка"
         },
         "one": "Убедитесь, что ваш Ledger надежно подключен, а приложение NEAR запущено на устройстве."
     },

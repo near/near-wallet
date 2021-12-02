@@ -1,7 +1,6 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { EXPLORER_URL } from '../../../config';
 import { Mixpanel } from '../../../mixpanel/index';
 import { allowLogin } from '../../../redux/actions/account';
 import { showCustomAlert } from '../../../redux/actions/status';
@@ -14,7 +13,9 @@ import ConfirmLogin from './ConfirmLogin';
 export default ({
     loginAccessType,
     contractId,
-    onClickCancel
+    contractIdUrl,
+    onClickCancel,
+    publicKey
 }) => {
     const dispatch = useDispatch();
 
@@ -26,6 +27,7 @@ export default ({
             signedInAccountId={accountLocalStorageAccountId}
             loginAccessType={loginAccessType}
             appReferrer={accountUrlReferrer}
+            publicKey={publicKey}
             contractId={contractId}
             onClickCancel={onClickCancel}
             onClickConnect={async () => {
@@ -42,7 +44,7 @@ export default ({
                     }
                 );
             }}
-            EXPLORER_URL={EXPLORER_URL}
+            contractIdUrl={contractIdUrl}
         />
     );
 };

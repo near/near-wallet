@@ -407,16 +407,18 @@
             "title": "Submit a manual deposit."
         }
     },
-    "input": {
-        "accountId": {
-            "placeholder": "p.ex. johndoe.near",
-            "subLabel": "A ID da conta deve fazer parte de uma conta Top Level como <b>.near</b> ou conter exatamente 64 caracteres.",
-            "title": "ID da Conta"
-        },
-        "enterWord": {
-            "placeholder": "",
-            "title": "Palavra <b>#${wordId}</b>"
-        }
+    "buyNear": {
+        "title": "Comprar NEAR",
+        "moonPay": "MoonPay",
+        "descOne": "Compre NEAR pela MoonPay usando seu método de pagamento preferido.",
+        "buyWith": "Comprar com",
+        "supportedExchanges": "Exchanges suportadas",
+        "descTwo": "NEAR está disponível para compra nas seguintes exchanges.",
+        "seeMore": "Ver mais em",
+        "coinMarketCap": "CoinMarketCap",
+        "bridgeTokens": "Bridge Tokens from Ethereum",
+        "descThree": "Transfer your tokens from Ethereum to NEAR Wallet using a bridge.",
+        "notSupported": "is not supported in your region"
     },
     "landing": {
         "banner": "Carteira Near está em Beta privado",
@@ -519,13 +521,14 @@
                     "viewAddress": "View the address of your permitted account",
                     "viewBalance": "View the balance of your permitted account"
                 },
-                "title": "Connecting with:"
-            },
-            "connectWithNear": {
-                "desc": "An application is requesting <b>${accessType}</b> to your NEAR account. Select the account you wish to connect.",
-                "fullAccess": "full access",
-                "limitedAccess": "limited access",
-                "title": "Connect with NEAR"
+                "fullAccessModal": {
+                    "title": "Grant full account access?",
+                    "desc": "Proceed with caution. Full access permissions allow contracts and applications to access your token balance. To confirm, enter your account ID below."
+                },
+                "feeAllowance": {
+                    "title": "Network Fee Allowance",
+                    "desc": "The application will be given permission to spend up to <b>${amount} NEAR</b> towards network fees incurred during use."
+                }
             }
         }
     },
@@ -1059,7 +1062,15 @@
                 "waiting": "A seguir"
             }
         },
-        "one": "Certifique-se de que seu Ledger esteja conectado de forma segura e que o aplicativo NEAR esteja aberto no dispositivo."
+        "advanced": {
+            "title": "Opções avançadas",
+            "subTitle": "Caminho no disco",
+            "desc": "Especifique o caminho no disco para importar suas contas vinculadas.",
+            "setPath": "Definir caminho no disco"
+        },
+        "firefoxBanner": {
+            "desc": "Ledger is currently only supported in <a href='https://www.mozilla.org/' rel='noopener noreferrer' target='_blank'><b>Mozilla Firefox</b></a>. Support for other browsers will soon be restored."
+        }
     },
     "stagingBanner": {
         "desc": "Aviso: Esta é uma versão de pré-lançamento da NEAR Wallet. Pode haver bugs, e esses bugs podem levar à perda de fundos. Ao continuar a usar esta versão, você concorda que entende e aceita esses riscos, e entende que a equipe da NEAR Wallet não poderá ajudá-lo.",

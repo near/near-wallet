@@ -20,7 +20,8 @@ export default ({
     onClickCancel,
     onClickNext,
     loginAccessType,
-    appReferrer
+    appReferrer,
+    contractIdUrl
 }) => (
     <Container className='small-centered border'>
         <LoginStyle className={loginAccessType === LOGIN_ACCESS_TYPES.FULL_ACCESS ? 'full-access' : ''}>
@@ -35,7 +36,10 @@ export default ({
                     )}
                 </Translate>
             </div>
-            <ConnectWithApplication appReferrer={appReferrer} />
+            <ConnectWithApplication
+                appReferrer={appReferrer}
+                contractIdUrl={contractIdUrl}
+            />
             <LoadingDots />
             <AccountSelector
                 signedInAccountId={signedInAccountId}

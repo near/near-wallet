@@ -1,4 +1,154 @@
 {
+    "reduxActions": {
+        "RECOVER_ACCOUNT_SEED_PHRASE": {
+            "success": "Recover using passphrase is complete.<br/><b>${numberOfAccounts} account(s)</b> have been successfully recovered.<br/>The last one is set as active.",
+            "error": "Failed to recover account. No accounts were found for this passphrase."
+        },
+        "SEND_MONEY": {
+            "error": "Sorry an error has occurred. You may want to try again."
+        },
+        "CHECK_NEW_ACCOUNT": {
+            "success": "Congrats! ${accountId} is available.",
+            "error": "Account ID is taken. Try something else."
+        },
+        "ADD_ACCESS_KEY": {
+            "success": "${title} is now authorized to use your account.",
+            "error": "An error occurred while approving this action. Please try again!"
+        },
+        "ADD_ACCESS_KEY_SEED_PHRASE": {
+            "success": "Passphrases recovery setup is complete.",
+            "error": "An error occurred while setting up passphrase recovery. Please try again!"
+        },
+        "SETUP_RECOVERY_MESSAGE": {
+            "success": "Recovery setup is complete.",
+            "error": "An error occurred while setting up your recovery method. Please try again!"
+        },
+        "SAVE_AND_SELECT_LEDGER_ACCOUNTS": {
+            "success": "You’ve successfully signed in.<br/><b>${numberOfAccounts} account(s) were recovered.</b> Your most recently created account has been set to active.",
+            "error": "Please check that your device is connected and the NEAR app is open."
+        },
+        "DELETE_RECOVERY_METHOD": {
+            "success": "",
+            "error": ""
+        },
+        "DEPLOY_MULTISIG": {
+            "success": "",
+            "error": ""
+        },
+        "REMOVE_ACCESS_KEY": {
+            "success": "",
+            "error": "Please check that your device is connected and the NEAR app is open."
+        },
+        "SIGN_AND_SEND_TRANSACTIONS": {
+            "success": "",
+            "error": ""
+        },
+        "CREATE_ACCOUNT_WITH_SEED_PHRASE": {
+            "success": "",
+            "error": ""
+        },
+        "ADD_LEDGER_ACCOUNT_ID": {
+            "success": "",
+            "error": "Access to one of the accounts was rejected. No accounts were recovered.<br>To continue, you must authorize read-only access to each account on your Ledger device. Please try again."
+        },
+        "PROMPT_TWO_FACTOR": {
+            "invalidCode": "Invalid 2FA code. Please try again."
+        },
+        "CHECK_ACCOUNT_AVAILABLE": {
+            "success": "User found.",
+            "error": "User not found."
+        },
+        "GET_LEDGER_ACCOUNT_IDS": {
+            "success": "",
+            "error": "Public key access was rejected. No accounts were recovered.<br/>To continue, you must allow NEAR Wallet to view your public key. Please try again."
+        },
+        "VERIFY_TWO_FACTOR": {
+            "success": "Two Factor Authentication successfully setup!",
+            "error": "Two Factor Authentication setup failed. Please try again."
+        },
+        "CHECK_IS_NEW": {
+            "success": "Congrats! ${accountId} is available.",
+            "error": "Account ID is taken. Try something else."
+        },
+        "CREATE_NEW_ACCOUNT": {
+            "success": "Congrats! ${accountId} is available.",
+            "error": "Account ID is taken. Try something else."
+        },
+        "TRANSFER_ALL_FROM_LOCKUP": {
+            "success": "You successfully transferred tokens from your lockup!",
+            "error": "Something went wrong. Please try again."
+        },
+        "REFRESH_ACCOUNT_EXTERNAL": {
+            "error": "Account <b>${accountId}</b> not found"
+        },
+
+        "Deserialization": "",
+        "RetriesExceeded": "We are experiencing a high load. Please try again.",
+        "U2F_4": "Failed to sign with Ledger device: U2F DEVICE_INELIGIBLE. Please make sure that your Ledger device is connected and unlocked.",
+        "NotEnoughBalance": "Your account does not have enough balance for this operation.",
+
+        "default": {
+            "success": "",
+            "error": "Sorry an error has occurred. You may want to try again."
+        }
+    },
+    "walletErrorCodes": {
+        "emailProviderInvalid": "${domainName} cannot be used for account verification.  Please provide an e-mail address from a different email provider.",
+        "invalidRecaptchaCode": "Invalid reCAPTCHA code; try again!",
+        "addAccessKeySeedPhrase": {
+            "errorSecond": "An error has occurred.<br />The passphrases was not added to your account. Please try again."
+        },
+        "promptTwoFactor": {
+            "userCancelled": "2FA code was not verified correctly."
+        },
+        "signAndSendTransactions": {
+            "notEnoughTokens": "Not enough tokens."
+        },
+        "getLedgerAccountIds": {
+            "U2FNotSupported": "U2F browser support is needed for Ledger. Please use Chrome, Opera or Firefox with U2F extension.",
+            "noAccounts": "No accounts were found for this Ledger device. Please confirm you have associated an account with this Ledger.",
+            "aborted": "Action was aborted.",
+            "noAccountsAccepted": "No accounts were accepted."
+        },
+        "staking": {
+            "noWithdraw": "Unable to withdraw pending balance from validator",
+            "noLockup": "No lockup contract for account"
+        },
+        "addLedgerAccountId": {
+            "errorRpc": "Error appears while recovering the account."
+        },
+        "setupRecoveryMessage": {
+            "error": "An error occurred while setting up your recovery method. Please try again!"
+        },
+        "addAccessKey": {
+            "error": "An error has occurred.<br />To access your account, please enter the passphrase from the previous step below."
+        },
+        "recoveryMethods": {
+            "setupMethod": "An error occured. Please check your recovery method.",
+            "lastMethod": "Cannot delete your last recovery method. Unless you have Ledger enabled, you need to keep at least one recovery method active to ensure recoverability of your account."
+        },
+        "recoverAccountSeedPhrase": {
+            "errorInvalidSeedPhrase": "No accounts were found for this passphrase."
+        },
+        "lockup": {
+            "transferAllWithStakingPoolBalance": "Unstake and withdraw all funds from the staking pool in order to transfer your remaining lockup balance to Wallet."
+        },
+        "setupRecoveryMessageNewAccount": {
+            "invalidCode": "Invalid code"
+        },
+        "sendFungibleToken": {
+            "error": "An error occured. Your send transaction was cancelled."
+        },
+        "createNewAccount": {
+            "error": "Account creation failed. You may want to try again.",
+            "accountExists": {
+                "error": "Account creation failed. Account already exists."
+            },
+            "accountCreated": {
+                "error": "Account creation succeded but an error occured. Please import your account."
+            }
+        }
+    },
     "account": {
         "activateAccount": {
             "post": {
@@ -478,11 +628,19 @@
             "title": "Word <b>#${wordId}</b>"
         }
     },
-    "landing": {
-        "banner": "NEAR Wallet is in Private Beta",
-        "desc": "Securely store and stake your NEAR tokens and compatible assets with <span>NEAR Wallet</span>.",
-        "or": "or",
-        "title": "NEAR is here."
+
+    "buyNear": {
+        "title": "Top Up",
+        "moonPay": "MoonPay",
+        "descOne": "Purchase NEAR through MoonPay using your preferred payment method.",
+        "buyWith": "Buy with",
+        "supportedExchanges": "Supported Exchanges",
+        "descTwo": "NEAR is available to purchase through the following exchanges.",
+        "seeMore": "See more on",
+        "coinMarketCap": "CoinMarketCap",
+        "bridgeTokens": "Bridge Tokens from Ethereum",
+        "descThree": "Transfer your tokens from Ethereum to NEAR Wallet using a bridge.",
+        "notSupported": "is not supported in your region"
     },
     "ledgerSignTxModal": {
         "ADD_ACCESS_KEY": "You will need to confirm login details on your Ledger.",
@@ -581,13 +739,14 @@
                     "viewAddress": "View the address of your permitted account",
                     "viewBalance": "View the balance of your permitted account"
                 },
-                "title": "Connecting with:"
-            },
-            "connectWithNear": {
-                "desc": "An application is requesting <b>${accessType}</b> to your NEAR account. Select the account you wish to connect.",
-                "fullAccess": "full access",
-                "limitedAccess": "limited access",
-                "title": "Connect with NEAR"
+                "fullAccessModal": {
+                    "title": "Grant full account access?",
+                    "desc": "Proceed with caution. Full access permissions allow contracts and applications to access your token balance. To confirm, enter your account ID below."
+                },
+                "feeAllowance": {
+                    "title": "Network Fee Allowance",
+                    "desc": "The application will be given permission to spend up to <b>${amount} NEAR</b> towards network fees incurred during use."
+                }
             }
         }
     },
@@ -1144,7 +1303,15 @@
                 "waiting": "Up next"
             }
         },
-        "one": "Make sure your ledger is connected securely, and that the NEAR app is open on the device."
+        "advanced": {
+            "title": "Advanced Options",
+            "subTitle": "HD Path",
+            "desc": "Specify an HD path to import its linked accounts.",
+            "setPath": "Set HD Path"
+        },
+        "firefoxBanner": {
+            "desc": "Ledger is currently only supported in <a href='https://www.mozilla.org/' rel='noopener noreferrer' target='_blank'><b>Mozilla Firefox</b></a>. Support for other browsers will soon be restored."
+        }
     },
     "stagingBanner": {
         "desc": "Warning: This is a pre-release version of the NEAR Wallet. There may be bugs, and these bugs may lead to loss of funds. By continuing to use this version, you agree that you understand and accept these risks, and understand that the NEAR Wallet team will be unable to help you.",

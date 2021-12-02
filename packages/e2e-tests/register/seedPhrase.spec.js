@@ -2,15 +2,15 @@ const { test, expect } = require("@playwright/test");
 
 const {
     generateTestAccountId,
-} = require("../utils/helpers");
-const E2eTestAccount = require('../utils/E2eTestAccount');
-const { walletNetwork } = require("../utils/config");
+} = require("../utils/account");
+const E2eTestAccount = require('../utils/E2eTestAccount')
 const { HomePage } = require("./models/Home");
 const { CreateAccountPage } = require("./models/CreateAccount");
 const { SetRecoveryOptionPage } = require("./models/SetRecoveryOption");
 const { SetupSeedPhrasePage } = require("./models/SetupSeedPhrase");
 const { VerifySeedPhrasePage } = require("./models/VerifySeedPhrase");
 const nearApiJsConnection = require("../utils/connectionSingleton");
+const { WALLET_NETWORK } = require("../constants");
 
 const { describe, afterAll } = test;
 
@@ -44,7 +44,7 @@ describe("Account Registration Using Seed Phrase", () => {
         page,
     }) => {
         const setRecoveryOptionPage = new SetRecoveryOptionPage(page);
-        await setRecoveryOptionPage.navigate(testAccountId);
+        await setRecoveryOptionPage.navigate(`${testAccountId}.${nearApiJsConnection.config.networkId}`);
 
         await setRecoveryOptionPage.clickLedgerRecoveryOption();
         await expect(page).toMatchAttribute(
@@ -78,7 +78,7 @@ describe("Account Registration Using Seed Phrase", () => {
         await setRecoveryOptionPage.submitRecoveryOption();
 
         await expect(page).toMatchURL(
-            new RegExp(`/setup-seed-phrase/${testAccountId}/phrase`)
+            new RegExp(`/setup-seed-phrase/${testAccountId}.${nearApiJsConnection.config.networkId}/phrase`)
         );
     });
     test("is able to verify seed phrase and access wallet", async ({
@@ -90,12 +90,12 @@ describe("Account Registration Using Seed Phrase", () => {
             .grantPermissions(["clipboard-read", "clipboard-write"])
             .catch(test.skip);
         // skip test on mainnet
-        if (walletNetwork === "mainnet") {
+        if (nearApiJsConnection.config.networkId === WALLET_NETWORK.MAINNET) {
             test.skip();
         }
 
         const setupSeedPhrasePage = new SetupSeedPhrasePage(page);
-        await setupSeedPhrasePage.navigate(testAccountId);
+        await setupSeedPhrasePage.navigate(`${testAccountId}.${nearApiJsConnection.config.networkId}`);
 
         const copiedSeedPhrase = await setupSeedPhrasePage.copySeedPhrase();
         await expect(page).toHaveSelector(
@@ -104,7 +104,7 @@ describe("Account Registration Using Seed Phrase", () => {
 
         await setupSeedPhrasePage.continueToSeedPhraseVerification();
         await expect(page).toMatchURL(
-            new RegExp(`/setup-seed-phrase/${testAccountId}/verify`)
+            new RegExp(`/setup-seed-phrase/${testAccountId}.${nearApiJsConnection.config.networkId}/verify`)
         );
 
         const verifySeedPhrasePage = new VerifySeedPhrasePage(page);
@@ -118,10 +118,10 @@ describe("Account Registration Using Seed Phrase", () => {
         await expect(page).toMatchURL(/\/$/);
         await expect(page).toMatchText(
             "data-test-id=currentUser >> visible=true",
-            testAccountId
+            `${testAccountId}.${nearApiJsConnection.config.networkId}`
         );
         testAccount = await new E2eTestAccount(
-            testAccountId,
+            `${testAccountId}.${nearApiJsConnection.config.networkId}`,
             copiedSeedPhrase,
             { accountId: nearApiJsConnection.config.networkId }
         ).initialize();

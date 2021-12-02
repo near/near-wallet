@@ -9,6 +9,7 @@ import Container from '../../common/styled/Container.css';
 import SafeTranslate from '../../SafeTranslate';
 import SwapGraphic from '../../svg/SwapGraphic';
 import GrantFullAccessModal from './GrantFullAccessModal';
+import NetworkFeeAllowance from './NetworkFeeAllowance';
 import PermissionItem from './PermissionItem';
 import LoginStyle from './style/LoginStyle.css';
 
@@ -19,7 +20,8 @@ export default ({
     loginAccessType,
     appReferrer,
     contractId,
-    EXPLORER_URL
+    publicKey,
+    contractIdUrl
 }) => {
     const [loggingIn, setLoggingIn] = useState(false);
     const [showGrantFullAccessModal, setShowGrantFullAccessModal] = useState(false);
@@ -48,7 +50,7 @@ export default ({
                                 <SafeTranslate
                                     id='login.v2.connectConfirm.desc'
                                     data={{
-                                        contractIdUrl: `${EXPLORER_URL}/accounts/${contractId}`,
+                                        contractIdUrl: contractIdUrl,
                                         appReferrer: appReferrer || translate('sign.unknownApp'),
                                         accessType: translate(`login.v2.connectConfirm.${loginAccessType}`)
                                     }}
@@ -59,6 +61,9 @@ export default ({
                     {loginAccessType === LOGIN_ACCESS_TYPES.LIMITED_ACCESS
                         ? <LimitedAccessUI />
                         : <FullAccessUI />
+                    }
+                    {publicKey && loginAccessType === LOGIN_ACCESS_TYPES.LIMITED_ACCESS &&
+                        <NetworkFeeAllowance contractId={contractId} contractIdUrl={contractIdUrl}/>
                     }
                     <FormButtonGroup>
                         <FormButton
@@ -92,6 +97,8 @@ export default ({
                     onConfirm={handleClickConnect}
                     signedInAccountId={signedInAccountId}
                     appReferrer={appReferrer}
+                    contractId={contractId}
+                    contractIdUrl={contractIdUrl}
                     loggingIn={loggingIn}
                 />
             }

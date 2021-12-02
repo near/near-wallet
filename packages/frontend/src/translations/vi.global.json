@@ -1002,10 +1002,19 @@
         "snackbarCopyImplicitAddress": "Đã sao chép địa chỉ gửi tiền!",
         "snackbarCopySuccess": "Đã sao chép cụm từ khôi phục!"
     },
-    "setupSeedPhraseSuccess": {
-        "pageText": "Sử dụng cụm từ khôi phục để khôi phục tài khoản của bạn.",
-        "pageTextSecondLine": "Bất kỳ ai có quyền truy cập vào cụm từ khôi phục của bạn đều có thể truy cập vào tài sản của bạn, vì vậy hãy giữ nó ở một nơi an toàn và bảo mật.",
-        "pageTitle": "Thiết lập khôi phục đã hoàn tất"
+
+    "buyNear": {
+        "title": "Mua NEAR",
+        "moonPay": "MoonPay",
+        "descOne": "Mua NEAR qua MoonPay bằng phương thức thanh toán ưa thích của bạn.",
+        "buyWith": "Mua với",
+        "supportedExchanges": "Các sàn giao dịch được hỗ trợ",
+        "descTwo": "NEAR có sẵn để mua thông qua các sàn giao dịch sau.",
+        "seeMore": "Xem thêm trên",
+        "coinMarketCap": "CoinMarketCap",
+        "bridgeTokens": "Bridge Tokens from Ethereum",
+        "descThree": "Transfer your tokens from Ethereum to NEAR Wallet using a bridge.",
+        "notSupported": "is not supported in your region"
     },
     "setupSeedPhraseVerify": {
         "pageText": "Nhập từ sau từ cụm từ khôi phục của bạn để hoàn tất quá trình thiết lập.",
@@ -1028,9 +1037,50 @@
         "details": {
             "detailedDescription": "Mô tả chi tiết về giao dịch",
             "forContract": "Cho hợp đồng",
-            "gasLimit": "Giới hạn gas",
-            "gasPriceUnavailable": "Giá gas ước tính không khả dụng",
-            "transactionFees": "Phí giao dịch"
+            "function": "Hàm",
+            "noDescription": "Không có mô tả nào được chỉ định cho phương thức này"
+        },
+        "cliLoginSuccess": {
+            "pageTitle": "Bạn đã ủy quyền thành công NEAR Shell!",
+            "pageText": "Vui lòng đóng cửa sổ này và làm theo hướng dẫn đến bước cuối cùng."
+        },
+        "v2": {
+            "connectWithNear": {
+                "title": "Connect with NEAR",
+                "desc": "An application is requesting <b>${accessType}</b> to your NEAR account. Select the account you wish to connect.",
+                "limitedAccess": "limited access",
+                "fullAccess": "full access"
+            },
+            "connectConfirm": {
+                "title": "Connecting with:",
+                "desc": "Only connect to sites that you trust. Once connected, <a href=${contractIdUrl} target='_blank' rel='noreferrer'>${appReferrer}</a> will have <b>${accessType}</b>:",
+                "limitedAccess": "limited permissions",
+                "fullAccess": "full permissions",
+                "fullAccessWarning": "This site is requesting full access to your account. To enable full access, you’ll be asked to verify your account ID.",
+                "permissions": {
+                    "viewAddress": "View the address of your permitted account",
+                    "viewBalance": "View the balance of your permitted account",
+                    "notTransferTokens": "This does not allow the app to transfer tokens",
+                    "transferTokens": "Transfer tokens from your account"
+                },
+                "fullAccessModal": {
+                    "title": "Grant full account access?",
+                    "desc": "Proceed with caution. Full access permissions allow contracts and applications to access your token balance. To confirm, enter your account ID below."
+                },
+                "feeAllowance": {
+                    "title": "Network Fee Allowance",
+                    "desc": "The application will be given permission to spend up to <b>${amount} NEAR</b> towards network fees incurred during use."
+                }
+            }
+        }
+    },
+
+    "addNode": {
+        "pageTitle": "Thêm một node",
+        "pageText": "Thiết lập node của bạn thông qua CLI, sau đó thêm nó vào đây.",
+        "ipAddressInput": {
+            "title": "Nhập địa chỉ IP node của bạn",
+            "placeholder": "ví dụ: 0.0.0.0"
         },
         "hereAreSomeDetails": "Dưới đây là một số chi tiết sẽ hỗ trợ bạn.",
         "insufficientFunds": "Không đủ tiền",
@@ -1231,13 +1281,21 @@
             "button": "Tìm hiểu thêm",
             "title": "Khi được bật, <b>${data}</b> sẽ bị khóa để duy trì chi phí lưu trữ hợp đồng của xác thực hai yếu tố."
         },
-        "checkBox": "Tôi xác nhận bằng cách bật xác thực hai yếu tố, ${amount} sẽ được dành để chi trả cho việc lưu trữ hợp đồng.",
-        "desc": "Bảo vệ tài khoản của bạn bằng cách yêu cầu xác nhận qua SMS hoặc email khi ủy quyền giao dịch.",
-        "disable": {
-            "desc": "Hãy nhớ rằng các giao dịch sẽ không cần xác nhận khi 2FA bị vô hiệu hóa.",
-            "disable": "Tắt 2FA",
-            "keep": "Không, giữ lại 2FA",
-            "title": "Bạn có chắc chắn muốn tắt 2FA không?"
+        "advanced": {
+            "title": "Cài đặt nâng cao",
+            "subTitle": "Đường dẫn HD",
+            "desc": "Chỉ định một đường dẫn HD để nhập các tài khoản được liên kết của nó.",
+            "setPath": "Thiết lập đường dẫn HD"
+        },
+        "firefoxBanner": {
+            "desc": "Ledger is currently only supported in <a href='https://www.mozilla.org/' rel='noopener noreferrer' target='_blank'><b>Mozilla Firefox</b></a>. Support for other browsers will soon be restored."
+        }
+    },
+
+    "confirmLedgerModal": {
+        "header": {
+            "confirm": "Vui lòng xác nhận hoạt động trên thiết bị của bạn...",
+            "processing": "Đang xử lý"
         },
         "email": "Địa chỉ email",
         "enable": "Bật xác thực hai yếu tố",
