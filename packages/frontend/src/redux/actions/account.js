@@ -145,21 +145,21 @@ export const handleRefreshUrl = (prevRouter) => (dispatch, getState) => {
 };
 
 const checkContractId = () => async (dispatch, getState) => {
-    const { contract_id, failure_url } = selectAccountUrl(getState());
+    const { contractId, failureUrl } = selectAccountUrl(getState());
 
-    if (contract_id) {
+    if (contractId) {
         const redirectIncorrectContractId = () => {
-            console.error('Invalid contractId:', contract_id);
-            dispatch(redirectTo(`/${WALLET_LOGIN_URL}/?invalidContractId=true&failure_url=${failure_url}`, { globalAlertPreventClear: true }));
+            console.error('Invalid contractId:', contractId);
+            dispatch(redirectTo(`/${WALLET_LOGIN_URL}/?invalidContractId=true&failure_url=${failureUrl}`, { globalAlertPreventClear: true }));
         };
 
-        if (!wallet.isLegitAccountId(contract_id)) {
+        if (!wallet.isLegitAccountId(contractId)) {
             redirectIncorrectContractId();
             return;
         }
 
         try {
-            await wallet.getAccountBasic(contract_id).state();
+            await wallet.getAccountBasic(contractId).state();
         } catch (error) {
             if (error.message.indexOf('does not exist while viewing') !== -1) {
                 redirectIncorrectContractId();
@@ -191,27 +191,27 @@ export const redirectToApp = (fallback) => async (dispatch, getState) => {
 
 export const allowLogin = () => async (dispatch, getState) => {
     const accountId = selectAccountId(getState());
-    const contract_id = selectAccountUrlContractId(getState());
-    const public_key = selectAccountUrlPublicKey(getState());
+    const contractId = selectAccountUrlContractId(getState());
+    const publicKey = selectAccountUrlPublicKey(getState());
     const methodNames = selectAccountUrlMethodNames(getState());
     const title = selectAccountUrlTitle(getState());
-    const success_url = selectAccountUrlSuccessUrl(getState());
+    const successUrl = selectAccountUrlSuccessUrl(getState());
 
-    if (success_url) {
-        if (public_key) {
-            await dispatchWithAlert(addAccessKey(accountId, contract_id, public_key, false, methodNames), { onlyError: true });
+    if (successUrl) {
+        if (publicKey) {
+            await dispatchWithAlert(addAccessKey(accountId, contractId, publicKey, false, methodNames), { onlyError: true });
         }
         const availableKeys = await wallet.getAvailableKeys();
         const allKeys = availableKeys.map(key => key.toString());
-        const parsedUrl = new URL(success_url);
+        const parsedUrl = new URL(successUrl);
         parsedUrl.searchParams.set('account_id', accountId);
-        if (public_key) {
-            parsedUrl.searchParams.set('public_key', public_key);
+        if (publicKey) {
+            parsedUrl.searchParams.set('public_key', publicKey);
         }
         parsedUrl.searchParams.set('all_keys', allKeys.join(','));
         window.location = parsedUrl.href;
     } else {
-        await dispatchWithAlert(addAccessKey(accountId, contract_id, public_key, false, methodNames), { data: { title } });
+        await dispatchWithAlert(addAccessKey(accountId, contractId, publicKey, false, methodNames), { data: { title } });
         dispatch(redirectTo('/authorized-apps', { globalAlertPreventClear: true }));
     }
 };
@@ -443,7 +443,7 @@ export const {
 
 export const checkAndHideLedgerModal = () => async (dispatch, getState) => {
     const modal = selectLedgerModal(getState());
-    if (modal?.show) {
+    if (modal.show) {
         dispatch(hideLedgerModal());
     }
 };
@@ -545,7 +545,7 @@ export const finishAccountSetup = () => async (dispatch, getState) => {
     if (promptTwoFactor) {
         dispatch(redirectTo('/enable-two-factor', { globalAlertPreventClear: true }));
     } else {
-        if (!!redirectUrl) {
+        if (redirectUrl) {
             window.location = `${redirectUrl}?accountId=${accountId}`;
         } else {
             dispatch(redirectToApp('/'));
