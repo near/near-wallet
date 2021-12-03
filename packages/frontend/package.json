@@ -60,7 +60,6 @@
     "fix": "eslint --ext .js --ext .jsx . --fix",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
-    "prepare": "cd ../.. && husky install packages/frontend/.husky",
     "precommit": "lint-staged"
   },
   "browserslist": [
