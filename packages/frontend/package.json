@@ -50,7 +50,6 @@
     "timeago.js": "^4.0.2"
   },
   "scripts": {
-    "prepare": "husky install",
     "predeploy": "yarn build",
     "update:static": "cp src/wasm/multisig.wasm dist/multisig.wasm && cp src/wasm/main.wasm dist/main.wasm",
     "start": "yarn update:static; parcel src/index.html --https --cert devServerCertificates/primary.crt --key devServerCertificates/private.pem",
@@ -60,7 +59,9 @@
     "lint": "eslint --ext .js --ext .jsx .",
     "fix": "eslint --ext .js --ext .jsx . --fix",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "build-storybook": "build-storybook",
+    "prepare": "cd ../.. && husky install packages/frontend/.husky",
+    "precommit": "lint-staged"
   },
   "browserslist": [
     ">0.2%",
@@ -88,22 +89,16 @@
     "eslint-plugin-import": "^2.23.4",
     "eslint-plugin-jsx-a11y": "^6.4.1",
     "eslint-plugin-react": "^7.23.2",
-    "husky": "^4.3.0",
     "jest": "^27.0.1",
     "lint-staged": "^10.5.1",
     "parcel-bundler": "^1.12.4",
     "parcel-plugin-bundle-visualiser": "^1.2.0",
-    "react-is": "^17.0.2"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged",
-      "pre-push": "yarn run lint"
-    }
+    "react-is": "^17.0.2",
+    "husky": "^7.0.0"
   },
   "lint-staged": {
     "+(src)/**/*.(js|jsx)": [
-      "eslint '*/**/*.{js,jsx}' --fix"
+      "eslint '*/**/*.{js,jsx}'"
     ]
   }
 }

@@ -4,9 +4,11 @@
   "scripts": {
     "lint": "cd packages/frontend && yarn && yarn lint",
     "build": "cd packages/frontend && yarn && yarn build",
-    "test": "cd packages/frontend && yarn && yarn test"
+    "test": "cd packages/frontend && yarn && yarn test",
+    "prepare": "husky install"
   },
   "devDependencies": {
-    "lerna": "^4.0.0"
+    "lerna": "^4.0.0",
+    "husky": "^7.0.0"
   }
 }
