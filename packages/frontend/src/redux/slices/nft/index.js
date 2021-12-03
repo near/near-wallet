@@ -64,6 +64,28 @@ const fetchOwnedNFTsForContract = createAsyncThunk(
     }
 );
 
+const updateNFTs = createAsyncThunk(
+    `${SLICE_NAME}/updateNFTs`,
+    async ({ accountId, contractName }, thunkAPI) => {
+        debugLog('THUNK/updateNFTs');
+
+        const { dispatch, getState } = thunkAPI;
+
+        if (!!contractName) {
+            const { actions: { clearTokenMetadata } } = nftSlice;
+            dispatch(clearTokenMetadata({ accountId, contractName }));
+
+            const contractMetadata = await getCachedContractMetadataOrFetch(contractName, getState());
+            await dispatch(fetchOwnedNFTsForContract({ accountId, contractName, contractMetadata }));
+        } else {
+            const { actions: { clearAllTokensMetadata } } = nftSlice;
+            dispatch(clearAllTokensMetadata({ accountId }));
+
+            await dispatch(fetchNFTs({ accountId }));        
+        }
+    }
+);
+
 const fetchNFTs = createAsyncThunk(
     `${SLICE_NAME}/fetchNFTs`,
     async ({ accountId }, thunkAPI) => {
@@ -108,6 +130,18 @@ const nftSlice = createSlice({
                 const { contractName, tokens, accountId } = payload;
                 set(state, ['ownedTokens', 'byAccountId', accountId, 'byContractName', contractName, 'hasFetchedAllTokensForContract'], tokens.length < TOKENS_PER_PAGE);
                 update(state, ['ownedTokens', 'byAccountId', accountId, 'byContractName', contractName, 'tokens'], (n) => (n || []).concat(tokens));
+            },
+            clearTokenMetadata(state, { payload }) {
+                debugLog('REDUCER/clearTokenMetadata');
+
+                const { contractName, accountId } = payload;
+                set(state, ['ownedTokens', 'byAccountId', accountId, 'byContractName', contractName, 'tokens'], []);
+            },
+            clearAllTokensMetadata(state, { payload }) {
+                debugLog('REDUCER/clearAllTokensMetadata');
+
+                const { accountId } = payload;
+                set(state, ['ownedTokens', 'byAccountId', accountId], {});
             }
         },
         extraReducers: ((builder) => {
@@ -146,6 +180,7 @@ export default nftSlice;
 
 export const actions = {
     fetchNFTs,
+    updateNFTs,
     fetchOwnedNFTsForContract,
     ...nftSlice.actions
 };
