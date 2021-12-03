@@ -5,6 +5,7 @@ import styled from "styled-components";
 import textBackgroundImage  from "../../images/bg-landing-patterned.svg";
 import FormButton from "../common/FormButton";
 import Container from "../common/styled/Container.css";
+import { LandingBackground } from '../landing/LandingBackground';
 
 const StyledContainer = styled(Container)`
   &&& {
