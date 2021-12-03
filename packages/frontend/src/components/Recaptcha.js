@@ -98,7 +98,7 @@ export class Recaptcha extends Component {
 
     setCaptchaRef(ref) {
         if (ref) { this.recaptchaRef = ref; }
-    };
+    }
 
     /** Do not refactor this to an in-line function!
      * Must be a stable function, or recaptcha will infinitely loop on reloading itself in the background

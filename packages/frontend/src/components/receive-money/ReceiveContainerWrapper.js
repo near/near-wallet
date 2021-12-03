@@ -18,4 +18,4 @@ export function ReceiveContainerWrapper() {
             availableBalance={availableBalance}
         />
     );
-};
+}

@@ -289,7 +289,7 @@ async function viewLockupState(connection, lockupAccountId) {
         transferInformation = {
             transfer_poll_account_id: reader.readString()
         };
-    };
+    }
     let vestingType = reader.readU8();
     let vestingInformation = null;
     if (vestingType === 1) {
