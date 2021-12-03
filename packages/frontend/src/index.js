@@ -26,7 +26,7 @@ ReactDOM.render(
         useRecaptchaNet={true}
         useEnterprise={true}
     >
-            <Provider store={store}>
+               <Provider store={store}>
             <LocalizeProvider store={store}>
                 <Routing history={history}/>
             </LocalizeProvider>
