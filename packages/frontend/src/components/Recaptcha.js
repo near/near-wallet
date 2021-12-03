@@ -14,12 +14,13 @@ const RECAPTCHA_LOADING_TIMEOUT = 15 * 1000;
 // FIXME: Use `debug` npm package so we can keep some debug logging around but not spam the console everywhere
 const ENABLE_DEBUG_LOGGING = false;
 
-const debugLog = (...args) => ENABLE_DEBUG_LOGGING && console.log('Recaptcha:', ...args);
+const debugLog = (...args) =>
+    ENABLE_DEBUG_LOGGING && console.log('Recaptcha:', ...args);
 
 const RecaptchaFailedBox = styled.div`
-    border: 1px dashed #FF8588;
+    border: 1px dashed #ff8588;
     border-radius: 2px;
-    background-color: #FEF2F2;
+    background-color: #fef2f2;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -28,12 +29,12 @@ const RecaptchaFailedBox = styled.div`
     margin-bottom: 30px;
 
     .title {
-        color: #A00005;
+        color: #a00005;
         font-weight: 600;
     }
 
     .desc {
-        color: #DC1F25;
+        color: #dc1f25;
     }
 
     button {
@@ -41,7 +42,9 @@ const RecaptchaFailedBox = styled.div`
         text-decoration: underline !important;
     }
 
-    .title, .desc, button {
+    .title,
+    .desc,
+    button {
         margin-top: 20px !important;
     }
 `;
@@ -49,7 +52,7 @@ const RecaptchaFailedBox = styled.div`
 const RecaptchaString = styled.div`
     font-size: 12px;
     font-weight: 300;
-    color: #72727A;
+    color: #72727a;
     margin: 10px auto 40px auto;
     text-align: center;
     max-width: 304px;
@@ -60,30 +63,26 @@ const RecaptchaString = styled.div`
     }
 `;
 
-
 export class Recaptcha extends Component {
-    recaptchaRef = null
+    recaptchaRef = null;
     loadingTimeoutHandle = null;
 
     state = {
         loaded: false,
-        loadFailed: false
-    }
+        loadFailed: false,
+    };
 
     resetLoadingTimeout() {
         debugLog('Setting script load timeout', { RECAPTCHA_LOADING_TIMEOUT });
         this.clearLoadingTimeout();
-        this.loadingTimeoutHandle = setTimeout(
-            () => {
-                this.setState({ loadFailed: true });
-            },
-            RECAPTCHA_LOADING_TIMEOUT
-        );
+        this.loadingTimeoutHandle = setTimeout(() => {
+            this.setState({ loadFailed: true });
+        }, RECAPTCHA_LOADING_TIMEOUT);
     }
 
     clearLoadingTimeout() {
         if (this.loadingTimeoutHandle) {
-            clearTimeout(this.loadingTimeoutHandle) ;
+            clearTimeout(this.loadingTimeoutHandle);
         }
         this.loadingTimeoutHandle = null;
     }
@@ -97,7 +96,9 @@ export class Recaptcha extends Component {
     }
 
     setCaptchaRef(ref) {
-        if (ref) { this.recaptchaRef = ref; }
+        if (ref) {
+            this.recaptchaRef = ref;
+        }
     }
 
     /** Do not refactor this to an in-line function!
@@ -105,7 +106,7 @@ export class Recaptcha extends Component {
      * If porting to Hooks, use useMemo() to get a stable reference to the function
      * @param token recaptchaToken returned by recaptcha API
      */
-    handleOnChange = (token) => {
+    handleOnChange = token => {
         debugLog('onchange()', token);
 
         if (token) {
@@ -113,9 +114,9 @@ export class Recaptcha extends Component {
         }
 
         this.props.onChange && this.props.onChange(token);
-    }
+    };
 
-    handleOnLoad = (scriptDetails) => {
+    handleOnLoad = scriptDetails => {
         debugLog('handleOnLoad()', scriptDetails);
 
         this.clearLoadingTimeout();
@@ -129,12 +130,13 @@ export class Recaptcha extends Component {
             Mixpanel.track('loaded reCaptcha script');
             this.setState({ loaded: true });
         }
-
-    }
+    };
 
     reset() {
         debugLog('reset()');
-        if (this.recaptchaRef) { this.recaptchaRef.reset(); }
+        if (this.recaptchaRef) {
+            this.recaptchaRef.reset();
+        }
         // Reset does not call onChange; manually notify subscribers that there is no longer a valid token on reset
         this.handleOnChange(null);
     }
@@ -145,9 +147,13 @@ export class Recaptcha extends Component {
         if (loadFailed) {
             return (
                 <RecaptchaFailedBox className='recaptcha-failed-box'>
-                    <PuzzleIcon/>
-                    <div className='title'><Translate id='reCAPTCHA.fail.title'/></div>
-                    <div className='desc'><Translate id='reCAPTCHA.fail.desc'/></div>
+                    <PuzzleIcon />
+                    <div className='title'>
+                        <Translate id='reCAPTCHA.fail.title' />
+                    </div>
+                    <div className='desc'>
+                        <Translate id='reCAPTCHA.fail.desc' />
+                    </div>
                     <FormButton
                         color='link'
                         onClick={() => {
@@ -155,7 +161,7 @@ export class Recaptcha extends Component {
                             this.props.onFundAccountCreation();
                         }}
                     >
-                        <Translate id='reCAPTCHA.fail.link'/>
+                        <Translate id='reCAPTCHA.fail.link' />
                     </FormButton>
                 </RecaptchaFailedBox>
             );
@@ -165,30 +171,38 @@ export class Recaptcha extends Component {
 
         return (
             <>
-                {!loaded &&
+                {!loaded && (
                     <span>
-                        <Translate id='reCAPTCHA.loading'/>
+                        <Translate id='reCAPTCHA.loading' />
                     </span>
-                }
-                {RECAPTCHA_CHALLENGE_API_KEY && <ReCAPTCHA
-                    sitekey={RECAPTCHA_CHALLENGE_API_KEY}
-                    ref={(ref) => this.setCaptchaRef(ref)}
-                    onChange={this.handleOnChange}
-                    asyncScriptOnLoad={this.handleOnLoad}
-                    className='recaptcha-widget'
-                />}
-                {loaded &&
+                )}
+                {RECAPTCHA_CHALLENGE_API_KEY && (
+                    <ReCAPTCHA
+                        sitekey={RECAPTCHA_CHALLENGE_API_KEY}
+                        ref={ref => this.setCaptchaRef(ref)}
+                        onChange={this.handleOnChange}
+                        asyncScriptOnLoad={this.handleOnLoad}
+                        className='recaptcha-widget'
+                    />
+                )}
+                {loaded && (
                     <RecaptchaString className='recaptcha-disclaimer'>
-                        <Translate id='reCAPTCHA.disclaimer'/>
+                        <Translate id='reCAPTCHA.disclaimer' />
                     </RecaptchaString>
-                }
+                )}
             </>
         );
     }
 }
 
-export const isRetryableRecaptchaError = (e) => {
-    if (!e.code) { return false; }
+export const isRetryableRecaptchaError = e => {
+    if (!e.code) {
+        return false;
+    }
 
-    return ['invalid-input-response','missing-input-response', 'timeout-or-duplicate'].includes(e.code);
+    return [
+        'invalid-input-response',
+        'missing-input-response',
+        'timeout-or-duplicate',
+    ].includes(e.code);
 };
