@@ -1,8 +1,9 @@
 module.exports = {
     extends: 'react-app',
     "extends": [
-        "react-app",
-        "eslint:recommended",
+        'react-app',
+        'eslint:recommended',
+        'plugin:prettier/recommended'
       ],
     rules: {
         'jsx-a11y/no-access-key': 'off',
