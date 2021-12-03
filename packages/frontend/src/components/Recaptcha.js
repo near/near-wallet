@@ -83,7 +83,7 @@ export class Recaptcha extends Component {
 
     clearLoadingTimeout() {
         if (this.loadingTimeoutHandle) {
-            clearTimeout(this.loadingTimeoutHandle);
+            clearTimeout(this.loadingTimeoutHandle) ;
         }
         this.loadingTimeoutHandle = null;
     }
