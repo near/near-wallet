@@ -8,7 +8,7 @@ import { selectAllAccountsSlice } from '../redux/slices/allAccounts';
 export function useAccount(accountId) {
     const ownerAccountId = useSelector(selectAccountId);
     const account = useSelector(selectAccountSlice);
-    
+
     const allAccounts = useSelector(selectAllAccountsSlice);
 
     const isOwner = ownerAccountId === accountId;
@@ -23,7 +23,5 @@ export function useAccount(accountId) {
         }
     }, [accountId]);
 
-    return isOwner
-        ? account
-        : allAccounts[accountId] || {};
+    return isOwner ? account : allAccounts[accountId] || {};
 }
