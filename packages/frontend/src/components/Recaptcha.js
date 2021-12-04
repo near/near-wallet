@@ -14,8 +14,7 @@ const RECAPTCHA_LOADING_TIMEOUT = 15 * 1000;
 // FIXME: Use `debug` npm package so we can keep some debug logging around but not spam the console everywhere
 const ENABLE_DEBUG_LOGGING = false;
 
-const debugLog = (...args) =>
-    ENABLE_DEBUG_LOGGING && console.log('Recaptcha:', ...args);
+const debugLog = (...args) => ENABLE_DEBUG_LOGGING && console.log('Recaptcha:', ...args);
 
 const RecaptchaFailedBox = styled.div`
     border: 1px dashed #ff8588;
@@ -200,9 +199,5 @@ export const isRetryableRecaptchaError = e => {
         return false;
     }
 
-    return [
-        'invalid-input-response',
-        'missing-input-response',
-        'timeout-or-duplicate',
-    ].includes(e.code);
+    return ['invalid-input-response', 'missing-input-response', 'timeout-or-duplicate'].includes(e.code);
 };
