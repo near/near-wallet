@@ -58,6 +58,7 @@
     "test": "jest",
     "lint": "eslint --ext .js --ext .jsx .",
     "fix": "eslint --ext .js --ext .jsx . --fix",
+    "format": "prettier --write",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
     "precommit": "lint-staged"
