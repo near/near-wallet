@@ -1,5 +1,4 @@
 module.exports = {
-    extends: 'react-app',
     extends: ['react-app', 'eslint:recommended'],
     rules: {
         'jsx-a11y/no-access-key': 'off',

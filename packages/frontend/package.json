@@ -58,7 +58,6 @@
     "test": "jest",
     "lint": "eslint --ext .js --ext .jsx .",
     "fix": "eslint --ext .js --ext .jsx . --fix",
-    "format": "prettier --write",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
     "precommit": "lint-staged"
@@ -84,12 +83,10 @@
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.15.6",
     "eslint": "5.16.0",
-    "eslint-config-prettier": "^8.3.0",
     "eslint-config-react-app": "^3.0.8",
     "eslint-plugin-flowtype": "^5.7.2",
     "eslint-plugin-import": "^2.23.4",
     "eslint-plugin-jsx-a11y": "^6.4.1",
-    "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-react": "^7.23.2",
     "jest": "^27.0.1",
     "lint-staged": "^12.1.2",
@@ -99,8 +96,7 @@
   },
   "lint-staged": {
     "*.{js,jsx}": [
-      "eslint --quiet --fix",
-      "prettier --write"
+      "eslint --quiet --fix"
     ],
     "src/translations/*.json": "sort-json --ignore-case true"
   }
