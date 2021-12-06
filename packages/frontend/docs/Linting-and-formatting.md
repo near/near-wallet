@@ -17,7 +17,7 @@ With `package.json`, there scripts that you can run to lint, autoFix and format 
 ```
 
 ##  Git Commit hooks
-Git commit hooks are a provision that allows us run custom scripts when specific events occur in the git workflow. See more here.
+Git commit hooks are a provision that allows us run custom scripts when specific events occur in the git workflow. [See more here](https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks).
 
 For this project, we are using the clientside commit hooks to automatically lint and alphabetize staged files before they get committed.
 
