@@ -211,12 +211,14 @@
         "findMyAccount": "Find My Account",
         "finish": "Finish",
         "fundWith": "Fund with",
+        "getStarted": "Get Started",
         "goBack": "Go back",
         "gotIt": "Got it",
         "goToDashboard": "Go To Dashboard",
         "importAccount": "Import Account",
         "importExistingAccount": "Import Existing Account",
         "learnMore": "Learn More",
+        "learnMoreAboutNear": "Learn more about NEAR",
         "loading": "Loading",
         "moreInformation": "More information",
         "needToEditGoBack": "Need to edit? Go Back",
@@ -292,6 +294,11 @@
             "one": "This NEAR Drop has been claimed.",
             "title": "Link Invalid",
             "two": "NEAR Drops can only be used to create a single account, after which the link will expire."
+        },
+        "landing": {
+            "descOne": "NEAR Wallet is a secure wallet and account manager for your accounts on the NEAR blockchain.",
+            "descTwo": "Once you create an account, you’ll need it to interact with applications on NEAR, and to securely store your various tokens and collectibles (NFTs).",
+            "title": "Create Your Account"
         },
         "note": {
             "canContain": "Your account ID can contain any of the following:",

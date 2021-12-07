@@ -41,6 +41,7 @@ import { AutoImportWrapper } from './accounts/auto_import/AutoImportWrapper';
 import { ActivateAccountWithRouter } from './accounts/create/ActivateAccount';
 import { ExistingAccountWrapper } from './accounts/create/existing_account/ExistingAccountWrapper';
 import { InitialDepositWrapper } from './accounts/create/initial_deposit/InitialDepositWrapper';
+import { CreateAccountLanding } from './accounts/create/landing/CreateAccountLanding';
 import { VerifyAccountWrapper } from './accounts/create/verify_account/VerifyAccountWrapper';
 import { CreateAccountWithRouter } from './accounts/CreateAccount';
 import LedgerConfirmActionModal from './accounts/ledger/LedgerConfirmActionModal';
@@ -347,7 +348,8 @@ class Routing extends Component {
                             <PublicRoute
                                 exact
                                 path='/create/:fundingContract?/:fundingKey?'
-                                component={CreateAccountWithRouter}
+                                component={CreateAccountLanding}
+                                // FIX: Show CreateAccountLanding || CreateAccountWithRouter if no account.accountId || no funding params
                             />
                             <PublicRoute
                                 exact
