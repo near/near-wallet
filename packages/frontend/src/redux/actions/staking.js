@@ -25,6 +25,23 @@ import {
 } from '../../utils/staking';
 import { wallet } from '../../utils/wallet';
 import { WalletError } from '../../utils/walletError';
+import { 
+    selectAccountId,
+    selectAccountSlice
+} from '../slices/account';
+import { selectAllAccountsByAccountId } from '../slices/allAccounts';
+import { 
+    selectStakingAccountsMain,
+    selectStakingMainAccountId,
+    selectStakingLockupAccountId,
+    selectStakingAccountsLockup,
+    selectStakingAllValidators,
+    selectStakingAllValidatorsLength,
+    selectStakingContract,
+    selectStakingCurrentAccountAccountId,
+    selectStakingFindContractByValidatorId,
+    selectStakingLockupId
+} from '../slices/staking';
 import { getBalance } from './account';
 
 const {
@@ -394,13 +411,13 @@ const handleGetAccounts = () => async (dispatch, getState) => {
 
     const accounts = [{
         accountId: wallet.accountId,
-        ...getState().staking.accounts[0]
+        ...selectStakingAccountsMain(getState())
     }];
 
-    if (getState().staking?.lockup?.lockupId) {
+    if (selectStakingLockupId(getState())) {
         accounts.push({
-            accountId: getState().staking.lockup.lockupId,
-            ...getState().staking.accounts[1]
+            accountId: selectStakingLockupId(getState()),
+            ...selectStakingAccountsLockup(getState())
         });
     }
 
@@ -409,7 +426,7 @@ const handleGetAccounts = () => async (dispatch, getState) => {
 
 export const handleGetLockup = (accountId) => async (dispatch, getState) => {
     try {
-        await dispatch(staking.getLockup(accountId || getState().account.accountId));
+        await dispatch(staking.getLockup(accountId || selectAccountId(getState())));
     } catch(e) {
         if (!/No contract for account/.test(e.message)) {
             throw e;
@@ -419,16 +436,16 @@ export const handleGetLockup = (accountId) => async (dispatch, getState) => {
 
 export const handleStakingUpdateAccount = (recentlyStakedValidators = [], exAccountId) => async (dispatch, getState) => {
     const { accountId, balance } = exAccountId
-        ? getState().allAccounts[exAccountId]
-        : getState().account;
+        ? selectAllAccountsByAccountId(getState(), { accountId: exAccountId })
+        : selectAccountSlice(getState());
 
     const validatorDepositMap = await getStakingDeposits(accountId);
 
-    if (!getState().staking.allValidators.length) {
+    if (!selectStakingAllValidatorsLength(getState())) {
         await dispatch(staking.getValidators(null, exAccountId));
     }
 
-    const validators = getState().staking.allValidators
+    const validators = selectStakingAllValidators(getState())
         .filter((validator) => Object.keys(validatorDepositMap).concat(recentlyStakedValidators).includes(validator.accountId))
         .map((validator) => ({ ...validator }));
 
@@ -436,19 +453,20 @@ export const handleStakingUpdateAccount = (recentlyStakedValidators = [], exAcco
 };
 
 export const handleStakingUpdateLockup = (exAccountId) => async (dispatch, getState) => {
-    const { contract, lockupId: account_id } = getState().staking.lockup;
-    const { accountId } = getState().account;
+    const contract = selectStakingContract(getState());
+    const lockupId = selectStakingLockupId(getState());
+    const accountId = selectAccountId(getState());
 
-    const validators = getState().staking.allValidators.map((validator) => ({
+    const validators = selectStakingAllValidators(getState()).map((validator) => ({
         ...validator
     }));
 
-    await dispatch(staking.updateLockup(contract, account_id, exAccountId, accountId, validators));
+    await dispatch(staking.updateLockup(contract, lockupId, exAccountId, accountId, validators));
 };
 
 export const handleStakingAction = (action, validatorId, amount) => async (dispatch, getState) => {
-    const { accountId } = getState().staking.accountsObj;
-    const { accountId: currentAccountId } = getState().staking.currentAccount;
+    const accountId = selectStakingMainAccountId(getState());
+    const currentAccountId = selectStakingCurrentAccountAccountId(getState());
 
     const isLockup = currentAccountId !== accountId;
 
@@ -456,10 +474,11 @@ export const handleStakingAction = (action, validatorId, amount) => async (dispa
         amount = parseNearAmount(amount);
     }
     if (isLockup) {
-        const { contract, lockupId } = getState().staking.lockup;
+        const contract = selectStakingContract(getState());
+        const lockupId = selectStakingLockupId(getState());
         await dispatch(staking[action].lockup(lockupId, amount, contract, validatorId));
     } else {
-        const { contract } = getState().staking.allValidators.find((validator) => validator.accountId === validatorId);
+        const contract = selectStakingFindContractByValidatorId(getState(), { validatorId });
         await dispatch(staking[action].account(validatorId, amount, accountId, contract));
     }
 
@@ -469,7 +488,8 @@ export const handleStakingAction = (action, validatorId, amount) => async (dispa
 
 export const updateStaking = (currentAccountId, recentlyStakedValidators) => async (dispatch, getState) => {
     await dispatch(handleGetAccounts());
-    const { accountId, lockupId } = getState().staking.accountsObj;
+    const accountId = selectStakingMainAccountId(getState());
+    const lockupId = selectStakingLockupAccountId(getState());
 
     await dispatch(staking.getValidators(null, accountId));
 

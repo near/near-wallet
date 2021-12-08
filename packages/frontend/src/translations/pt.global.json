@@ -177,7 +177,7 @@
         "activateAccount": {
             "pre": {
                 "title": "Quase lá! Faça seu depósito inicial.",
-                "desc": "Para utilizar sua NEAR Wallet, faça um depósito minímo inicial de <b>pelo menos ${amount}</b> para seu ID da conta (também conhecido por “endereço”)."
+                "desc": "Para utilizar sua NEAR Wallet, faça um depósito mínimo inicial de <b>pelo menos ${amount}</b> para seu ID da conta (também conhecido por “endereço”)."
             },
             "post": {
                 "title": "Sua conta foi ativada.",
