@@ -193,6 +193,7 @@
         "continueSetup": "Continue to Setup",
         "continueToMyAccount": "Continue to My Account",
         "copyImplicitAddress": "Copy Funding Address",
+        "copy": "Copy",
         "copyPhrase": "Copy Phrase",
         "copyUrl": "Copy URL",
         "createAccount": "Create Account",
@@ -211,6 +212,7 @@
         "findMyAccount": "Find My Account",
         "finish": "Finish",
         "fundWith": "Fund with",
+        "generateNew": "Generate New",
         "getStarted": "Get Started",
         "goBack": "Go back",
         "gotIt": "Got it",
@@ -1089,8 +1091,8 @@
         "subHeader": "Select a method to secure and recover your account. This will be used to verify important activity, recover your account and access your account from other devices."
     },
     "setupSeedPhrase": {
-        "pageText": "Write down the following words IN ORDER and keep them somewhere safe. You cannot recover your account without them!",
-        "pageTitle": "Setup Phrase",
+        "pageText": "Write down the following words in order and keep them somewhere safe. <b>Anyone with access to it will also have access to your account!</b> You’ll be asked to verify your passphrase next.",
+        "pageTitle": "Setup Your Secure Passphrase",
         "snackbarCopyImplicitAddress": "Funding Address Copied!",
         "snackbarCopySuccess": "Passphrase copied!"
     },

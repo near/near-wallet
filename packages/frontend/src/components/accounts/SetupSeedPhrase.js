@@ -234,6 +234,7 @@ class SetupSeedPhrase extends Component {
                                         seedPhrase={seedPhrase}
                                         handleCopyPhrase={this.handleCopyPhrase}
                                         hasSeedPhraseRecovery={hasSeedPhraseRecovery}
+                                        refreshData={this.refreshData}
                                     />
                                 </Container>
                             )}

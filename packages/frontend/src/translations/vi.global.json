@@ -1004,8 +1004,8 @@
         "subHeader": "Chọn một phương thức để bảo mật và khôi phục tài khoản của bạn. Sẽ được sử dụng để xác minh các hoạt động quan trọng, khôi phục tài khoản của bạn và truy cập tài khoản của bạn từ các thiết bị khác."
     },
     "setupSeedPhrase": {
-        "pageText": "Viết ra những từ sau TRONG LỆNH và cất chúng ở nơi an toàn. Bạn không thể khôi phục tài khoản của bạn mà không có chúng!",
-        "pageTitle": "Cài đặt cụm từ khôi phục",
+        "pageText": "Write down the following words in order and keep them somewhere safe. <b>Anyone with access to it will also have access to your account!</b> You’ll be asked to verify your passphrase next.",
+        "pageTitle": "Setup Your Secure Passphrase",
         "snackbarCopyImplicitAddress": "Đã sao chép địa chỉ gửi tiền!",
         "snackbarCopySuccess": "Đã sao chép cụm từ khôi phục!"
     },

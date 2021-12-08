@@ -942,8 +942,8 @@
         "subHeader": "Выберите метод восстановления:"
     },
     "setupSeedPhrase": {
-        "pageText": "Запишите следующие слова по порядку и храните их в надежном месте. Вы не сможете восстановить свою учетную запись без них!",
-        "pageTitle": "Установка мнемонической фразы для восстановления",
+        "pageText": "Write down the following words in order and keep them somewhere safe. <b>Anyone with access to it will also have access to your account!</b> You’ll be asked to verify your passphrase next.",
+        "pageTitle": "Setup Your Secure Passphrase",
         "snackbarCopyImplicitAddress": "Адрес для пополнения скопирован!",
         "snackbarCopySuccess": "Мнемоническая фраза скопирована"
     },

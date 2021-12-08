@@ -1075,8 +1075,8 @@
         "subHeader": "请设置一种账户恢复方式："
     },
     "setupSeedPhrase": {
-        "pageText": "请按顺序记录以下助记词，并安全保管它们。没有助记词你将无法恢复账户！",
-        "pageTitle": "设置恢复助记词",
+        "pageText": "Write down the following words in order and keep them somewhere safe. <b>Anyone with access to it will also have access to your account!</b> You’ll be asked to verify your passphrase next.",
+        "pageTitle": "Setup Your Secure Passphrase",
         "snackbarCopyImplicitAddress": "账户 ID 已复制！",
         "snackbarCopySuccess": "助记词已复制！"
     },

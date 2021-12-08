@@ -1075,8 +1075,8 @@
         "subHeader": "請設置一種賬戶恢復方式："
     },
     "setupSeedPhrase": {
-        "pageText": "請按順序記錄以下助記詞，並安全保管它們。沒有助記詞你將無法恢復賬戶！",
-        "pageTitle": "設置恢復助記詞",
+        "pageText": "Write down the following words in order and keep them somewhere safe. <b>Anyone with access to it will also have access to your account!</b> You’ll be asked to verify your passphrase next.",
+        "pageTitle": "Setup Your Secure Passphrase",
         "snackbarCopyImplicitAddress": "賬戶 ID 已複製！",
         "snackbarCopySuccess": "助記詞已複製！"
     },
