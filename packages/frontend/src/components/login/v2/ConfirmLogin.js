@@ -21,7 +21,7 @@ export default ({
     appReferrer,
     contractId,
     publicKey,
-    EXPLORER_URL
+    contractIdUrl
 }) => {
     const [loggingIn, setLoggingIn] = useState(false);
     const [showGrantFullAccessModal, setShowGrantFullAccessModal] = useState(false);
@@ -50,7 +50,7 @@ export default ({
                                 <SafeTranslate
                                     id='login.v2.connectConfirm.desc'
                                     data={{
-                                        contractIdUrl: `${EXPLORER_URL}/accounts/${contractId}`,
+                                        contractIdUrl: contractIdUrl,
                                         appReferrer: appReferrer || translate('sign.unknownApp'),
                                         accessType: translate(`login.v2.connectConfirm.${loginAccessType}`)
                                     }}
@@ -63,7 +63,7 @@ export default ({
                         : <FullAccessUI />
                     }
                     {publicKey && loginAccessType === LOGIN_ACCESS_TYPES.LIMITED_ACCESS &&
-                        <NetworkFeeAllowance />
+                        <NetworkFeeAllowance contractId={contractId} contractIdUrl={contractIdUrl}/>
                     }
                     <FormButtonGroup>
                         <FormButton
@@ -97,6 +97,8 @@ export default ({
                     onConfirm={handleClickConnect}
                     signedInAccountId={signedInAccountId}
                     appReferrer={appReferrer}
+                    contractId={contractId}
+                    contractIdUrl={contractIdUrl}
                     loggingIn={loggingIn}
                 />
             }
