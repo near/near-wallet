@@ -2,10 +2,10 @@ import assert from "assert";
 
 import Environments from "../../../../features/environments.json";
 import development from "./environmentDefaults/development";
-import testnet from "./environmentDefaults/testnet";
-import testnet_STAGING from "./environmentDefaults/testnet_STAGING";
 import mainnet from "./environmentDefaults/mainnet";
 import mainnet_STAGING from "./environmentDefaults/mainnet_STAGING";
+import testnet from "./environmentDefaults/testnet";
+import testnet_STAGING from "./environmentDefaults/testnet_STAGING";
 
 const NEAR_WALLET_ENV = process.env.NEAR_WALLET_ENV;
 
