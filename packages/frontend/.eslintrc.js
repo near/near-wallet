@@ -20,5 +20,14 @@ module.exports = {
                 ]
             }
         ],
-    }
+        'no-process-env': ['error']
+    },
+    overrides: [
+        {
+            files: ["src/config/**/*.js", "ci/config.js"],
+            rules: {
+                'no-process-env': ['off']
+            },
+        },
+    ],
 }
