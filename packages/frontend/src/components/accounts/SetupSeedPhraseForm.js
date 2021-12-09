@@ -33,7 +33,7 @@ const CustomDiv = styled(`div`)`
                     height: 40px;
                     margin: 0;
                     svg {
-                        margin: 0 8px -3px 8px;
+                        margin: 0 8px -3px 0;
                     }
                     &.generate {
                         margin-left: 10px;

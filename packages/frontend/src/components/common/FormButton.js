@@ -96,9 +96,9 @@ const CustomButton = styled.button`
         }
 
         &.light-blue {
-            background-color: #D6EDFF !important;
+            background-color: #D6EDFF;
             border: 0;
-            color: #005497;
+            color: #0072CE;
             border-radius: 4px;
 
             &.small {
@@ -112,6 +112,11 @@ const CustomButton = styled.button`
                 border-radius: 50px;
                 padding: 12px 15px;
                 width: auto;
+            }
+
+            :hover {
+                color: white;
+                background-color: #0072CE;
             }
         }
 
