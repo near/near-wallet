@@ -122,6 +122,16 @@ const ledgerSlice = createSlice({
             set(state, ['hasLedger'], payload.ledger.hasLedger);
             set(state, ['ledgerKey'], payload.ledger.ledgerKey);
         });
+        builder.addMatcher(
+            ({ type, ready, error }) => ready || error || type.endsWith('/rejected') || type.endsWith('/fulfilled'),
+            (state, { type }) => {
+                const { modal } = current(state);
+                if (modal.show && type === modal.action) {
+                    set(state, ['modal'], {});
+                    unset(state, ['txSigned']);
+                }
+            }
+        );
     })
 });
 
