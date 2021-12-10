@@ -72,7 +72,11 @@
             "orAskFriend": "or ask a friend!",
             "title": "Almost there! To get started, buy some NEAR using MoonPay...",
             "titleAlt": "Almost there! To get started, send at least ${amount} NEAR to your wallet address.",
-            "orSendNear": "...or send at least ${amount} NEAR to your wallet address."
+            "orSendNear": "...or send at least ${amount} NEAR to your wallet address.",
+            "createPersonalizedNameModal": {
+                "desc": "Unlike a randomly generated address, a personalized address can be anything you like, making it easier to remember and share!",
+                "title": "Claim a Personalized Address"
+            }
         },
         "fundedStatus": {
             "active": "Active",
@@ -239,6 +243,7 @@
         "recoverAccount": "Recover Account",
         "recovering": "Finding Account",
         "recoverYourAccount": "Recover your Account",
+        "registerPersonalizedAccouunt": "Register a Personalized Address",
         "removeNode": "Remove Node",
         "removingKeys": "Removing Keys",
         "reserveMyAccountId": "Reserve My Account ID",
@@ -252,6 +257,7 @@
         "signingIn": "Signing In",
         "signInLedger": "Sign in with Ledger",
         "skip": "Skip",
+        "skipThisForNow": "Skip this for now",
         "stake": "Stake",
         "staking": "Staking",
         "startOver": "Start over",

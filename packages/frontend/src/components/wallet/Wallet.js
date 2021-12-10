@@ -7,7 +7,7 @@ import styled from 'styled-components';
 import { useFungibleTokensIncludingNEAR } from '../../hooks/fungibleTokensIncludingNEAR';
 import { Mixpanel } from "../../mixpanel/index";
 import { selectAccountId, selectBalance } from '../../redux/slices/account';
-import { selectCreateFromImplicitSuccess, actions as createFromImplicitActions } from '../../redux/slices/createFromImplicit';
+import { selectCreateFromImplicitSuccess, selectCreatePersonalizedName, actions as createFromImplicitActions } from '../../redux/slices/createFromImplicit';
 import { selectLinkdropAmount, actions as linkdropActions } from '../../redux/slices/linkdrop';
 import { selectTokensWithMetadataForAccountId, actions as nftActions } from '../../redux/slices/nft';
 import { actions as tokensActions, selectTokensLoading } from '../../redux/slices/tokens';
@@ -22,6 +22,7 @@ import SendIcon from '../svg/SendIcon';
 import TopUpIcon from '../svg/TopUpIcon';
 import ActivitiesWrapper from './ActivitiesWrapper';
 import CreateFromImplicitSuccessModal from './CreateFromImplicitSuccessModal';
+import CreatePersonalizedNameModal from './CreatePersonalizedNameModal';
 import DepositNearBanner from './DepositNearBanner';
 import ExploreApps from './ExploreApps';
 import LinkDropSuccessModal from './LinkDropSuccessModal';
@@ -32,7 +33,7 @@ import Tokens from './Tokens';
 const { fetchNFTs } = nftActions;
 const { fetchTokens } = tokensActions;
 const { setLinkdropAmount } = linkdropActions;
-const { setCreateFromImplicitSuccess } = createFromImplicitActions;
+const { setCreateFromImplicitSuccess, setCreatePersonalizedName } = createFromImplicitActions;
 
 const StyledContainer = styled(Container)`
     @media (max-width: 991px) {
@@ -269,6 +270,7 @@ export function Wallet({ tab, setTab }) {
     const hideExploreApps = localStorage.getItem('hideExploreApps');
     const linkdropAmount = useSelector(selectLinkdropAmount);
     const createFromImplicitSuccess = useSelector(selectCreateFromImplicitSuccess);
+    const CreatePersonalizedName = useSelector(selectCreatePersonalizedName);
     const fungibleTokensList = useFungibleTokensIncludingNEAR();
     const tokensLoader = useSelector((state) => selectTokensLoading(state, { accountId })) || !balance?.total;
 
@@ -349,6 +351,13 @@ export function Wallet({ tab, setTab }) {
                     onClose={() => dispatch(setCreateFromImplicitSuccess(false))}
                     isOpen={createFromImplicitSuccess}
                     accountId={accountId}
+                />
+            }
+            {CreatePersonalizedName &&
+                <CreatePersonalizedNameModal
+                    onClose={() => dispatch(setCreatePersonalizedName(false))}
+                    isOpen={CreatePersonalizedName}
+                    accountId='bob.near'
                 />
             }
         </StyledContainer>
