@@ -29,6 +29,25 @@ const saveAndSelectLedgerAccounts = createAsyncThunk(
     }
 );
 
+
+const signInWithLedgerAddAndSaveAccounts = createAsyncThunk(
+    `${SLICE_NAME}/signInWithLedgerAddAndSaveAccounts`,
+    async ({ path, accountIds }, { dispatch, getState }) => {
+        for (let accountId of accountIds) {
+            try {
+                if (path) {
+                    localStorage.setItem(`ledgerHdPath:${accountId}`, path);
+                }
+                await dispatch(addLedgerAccountId({ accountId }));
+                dispatch(ledgerSlice.actions.setLedgerTxSigned({ status: false, accountId }));
+            } catch (e) {
+                console.warn('Error importing Ledger-based account', accountId, e);
+                // NOTE: We still continue importing other accounts
+            }
+        }
+        return dispatch(saveAndSelectLedgerAccounts({ accounts: selectLedgerSignInWithLedger(getState()) }));
+    }
+);
 const ledgerSlice = createSlice({
     name: SLICE_NAME,
     initialState,
