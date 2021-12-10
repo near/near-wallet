@@ -16,7 +16,7 @@ import {
 } from '../../../redux/actions/account';
 import { clearLocalAlert } from '../../../redux/actions/status';
 import { selectAccountSlice } from '../../../redux/slices/account';
-import { selectLedgerSignInWithLedger, selectLedgerSignInWithLedgerStatus, selectLedgerTxSigned } from '../../../redux/slices/ledger';
+import { LEDGER_MODAL_STATUS, selectLedgerSignInWithLedger, selectLedgerSignInWithLedgerStatus, selectLedgerTxSigned } from '../../../redux/slices/ledger';
 import { selectStatusSlice } from '../../../redux/slices/status';
 import { controller as controllerHelperApi } from '../../../utils/helper-api';
 import parseFundingOptions from '../../../utils/parseFundingOptions';
@@ -104,11 +104,10 @@ export function SignInLedger(props) {
 
     const onClose = () => {
         Mixpanel.track("IE-Ledger Close ledger confirmation");
-        if (signInWithLedgerStatus === 'confirm-public-key') {
+        if (signInWithLedgerStatus === LEDGER_MODAL_STATUS.CONFIRM_PUBLIC_KEY) {
             controllerHelperApi.abort();
         }
-        if (signInWithLedgerStatus === 'enter-accountId') {
-            dispatch(clearSignInWithLedgerModalState());
+        if (signInWithLedgerStatus === LEDGER_MODAL_STATUS.ENTER_ACCOUNTID) {
         }
     };
 

@@ -10,6 +10,12 @@ import initialErrorState from "../initialErrorState";
 
 const SLICE_NAME = 'ledger';
 
+export const LEDGER_MODAL_STATUS = {
+    CONFIRM_PUBLIC_KEY: 'confirm-public-key',
+    CONFIRM_ACCOUNTS: 'confirm-accounts',
+    ENTER_ACCOUNTID: 'enter-accountId'
+};
+
 const initialState = {
     modal: {}
 };
@@ -116,11 +122,11 @@ const ledgerSlice = createSlice({
     },
     extraReducers: ((builder) => {
         builder.addCase(getLedgerAccountIds.pending, (state) => {
-            set(state, ['signInWithLedgerStatus'], 'confirm-public-key');
+            set(state, ['signInWithLedgerStatus'], LEDGER_MODAL_STATUS.CONFIRM_PUBLIC_KEY);
         });
         builder.addCase(getLedgerAccountIds.fulfilled, (state, { payload }) => {
             unset(state, ['txSigned']);
-            set(state, ['signInWithLedgerStatus'], 'confirm-accounts');
+            set(state, ['signInWithLedgerStatus'], LEDGER_MODAL_STATUS.CONFIRM_ACCOUNTS);
             payload.forEach(accountId => 
                 set(state, ['signInWithLedger', accountId, 'status'], 'waiting')
             );
@@ -129,20 +135,20 @@ const ledgerSlice = createSlice({
 
             const noAccounts = error.message === 'No accounts were found.' && !HIDE_SIGN_IN_WITH_LEDGER_ENTER_ACCOUNT_ID_MODAL;
 
-            set(state, ['signInWithLedgerStatus'], noAccounts ? 'enter-accountId' : undefined);
+            set(state, ['signInWithLedgerStatus'], noAccounts ? LEDGER_MODAL_STATUS.ENTER_ACCOUNTID : undefined);
             unset(state, ['signInWithLedger']);
             unset(state, ['txSigned']);
         });
         builder.addCase(addLedgerAccountId.pending, (state, { payload, meta: { arg: { accountId } } }) => {
-            set(state, ['signInWithLedgerStatus'], 'confirm-accounts');
+            set(state, ['signInWithLedgerStatus'], LEDGER_MODAL_STATUS.CONFIRM_ACCOUNTS);
             set(state, ['signInWithLedger', accountId, 'status'], 'confirm');
         });
         builder.addCase(addLedgerAccountId.fulfilled, (state, { payload, meta: { arg: { accountId } } }) => {
-            set(state, ['signInWithLedgerStatus'], 'confirm-accounts');
+            set(state, ['signInWithLedgerStatus'], LEDGER_MODAL_STATUS.CONFIRM_ACCOUNTS);
             set(state, ['signInWithLedger', accountId, 'status'], 'success');
         });
         builder.addCase(addLedgerAccountId.rejected, (state, { error, meta: { arg: { accountId } } }) => {
-            set(state, ['signInWithLedgerStatus'], 'confirm-accounts');
+            set(state, ['signInWithLedgerStatus'], LEDGER_MODAL_STATUS.CONFIRM_ACCOUNTS);
 
             const transportError = error?.name === 'TransportStatusError';
             set(state, ['signInWithLedger', accountId, 'status'], transportError ? 'rejected' : 'error');
