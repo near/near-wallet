@@ -104,6 +104,20 @@ const ledgerSlice = createSlice({
             unset(state, ['signInWithLedger']);
             unset(state, ['txSigned']);
         });
+        builder.addCase(addLedgerAccountId.pending, (state, { payload, meta: { arg: { accountId } } }) => {
+            set(state, ['signInWithLedgerStatus'], 'confirm-accounts');
+            set(state, ['signInWithLedger', accountId, 'status'], 'confirm');
+        });
+        builder.addCase(addLedgerAccountId.fulfilled, (state, { payload, meta: { arg: { accountId } } }) => {
+            set(state, ['signInWithLedgerStatus'], 'confirm-accounts');
+            set(state, ['signInWithLedger', accountId, 'status'], 'success');
+        });
+        builder.addCase(addLedgerAccountId.rejected, (state, { error, meta: { arg: { accountId } } }) => {
+            set(state, ['signInWithLedgerStatus'], 'confirm-accounts');
+
+            const transportError = error?.name === 'TransportStatusError';
+            set(state, ['signInWithLedger', accountId, 'status'], transportError ? 'rejected' : 'error');
+        });
     })
 });
 
