@@ -7,6 +7,7 @@ import { HIDE_SIGN_IN_WITH_LEDGER_ENTER_ACCOUNT_ID_MODAL } from "../../../config
 import { wallet } from "../../../utils/wallet";
 import refreshAccountOwner from "../../sharedThunks/refreshAccountOwner";
 import initialErrorState from "../initialErrorState";
+
 const SLICE_NAME = 'ledger';
 
 const initialState = {
@@ -84,6 +85,25 @@ const ledgerSlice = createSlice({
                 set(state, ['signInWithLedger', payload.accountId, 'status'], 'pending');
             }
         },
+        clearSignInWithLedgerModalState(state, { payload, ready, error }) {
+            unset(state, ['txSigned']);
+            unset(state, ['signInWithLedgerStatus']);
+            unset(state, ['signInWithLedger']);
+        },
+        showLedgerModal(state, { payload, ready, error }) {
+            const { signInWithLedgerStatus } = current(state);
+
+            unset(state, ['txSigned']);
+            set(state, ['modal', 'show'], !signInWithLedgerStatus && payload.show);
+            set(state, ['modal', 'action'], payload.action);
+            set(state, ['modal', 'textId'], 'ledgerSignTxModal.DEFAULT');
+        },
+        hideLedgerModal(state, { payload, ready, error }) {
+            set(state, ['modal'], {});
+            unset(state, ['txSigned']);
+        },
+
+
     },
     extraReducers: ((builder) => {
         builder.addCase(getLedgerAccountIds.pending, (state) => {
