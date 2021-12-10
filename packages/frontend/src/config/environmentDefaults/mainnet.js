@@ -73,7 +73,11 @@ export default {
         process.env.RECAPTCHA_ENTERPRISE_SITE_KEY ||
         "6LcpJ3EcAAAAAFgA-nixKFNGWMo9IG9FQhH4XjSY",
     SENTRY_DSN: process.env.SENTRY_DSN,
-    SENTRY_RELEASE: process.env.SENTRY_RELEASE,
+    SENTRY_RELEASE:
+        process.env.SENTRY_RELEASE ||
+        (process.env.RENDER &&
+            `render:${process.env.RENDER_SERVICE_NAME}:${process.env.RENDER_GIT_BRANCH}:${process.env.RENDER_GIT_COMMIT}`) ||
+        "development",
     SHOW_PRERELEASE_WARNING:
         process.env.SHOW_PRERELEASE_WARNING === "true" ||
         process.env.SHOW_PRERELEASE_WARNING === "yes",
