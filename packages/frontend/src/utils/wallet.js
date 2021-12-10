@@ -10,10 +10,9 @@ import * as Config from '../config';
 import {
     finishAccountSetup,
     makeAccountActive,
-    redirectTo,
-    setLedgerTxSigned,
-    showLedgerModal
+    redirectTo
 } from '../redux/actions/account';
+import { actions as ledgerActions } from '../redux/slices/ledger';
 import sendJson from '../tmp_fetch_send_json';
 import { decorateWithLockup } from './account-with-lockup';
 import { getAccountIds } from './helper-api';
@@ -88,6 +87,11 @@ const WALLET_METADATA_METHOD = '__wallet__metadata';
 export const ACCOUNT_CHECK_TIMEOUT = 500;
 export const TRANSACTIONS_REFRESH_INTERVAL = 10000;
 
+const { 
+    setLedgerTxSigned,
+    showLedgerModal
+} = ledgerActions;
+
 export const convertPKForContract = (pk) => {
     if (typeof pk !== 'string') {
         pk = pk.toString();
@@ -126,7 +130,7 @@ class Wallet {
                     const { createLedgerU2FClient } = await import('./ledger.js');
                     const client = await createLedgerU2FClient();
                     const signature = await client.sign(message, path);
-                    await store.dispatch(setLedgerTxSigned(true, accountId));
+                    await store.dispatch(setLedgerTxSigned({ status: true, accountId }));
                     const publicKey = await this.getPublicKey(accountId, networkId);
                     return {
                         signature,
@@ -656,7 +660,7 @@ class Wallet {
     async getLedgerAccountIds(path) {
         const publicKey = await this.getLedgerPublicKey(path);
 
-        await store.dispatch(setLedgerTxSigned(true));
+        await store.dispatch(setLedgerTxSigned({ status: true }));
         // TODO: getXXX methods shouldn't be modifying the state
         await setKeyMeta(publicKey, { type: 'ledger' });
 
