@@ -33,6 +33,21 @@ const ledgerSlice = createSlice({
     name: SLICE_NAME,
     initialState,
     reducers: {
+        setLedgerTxSigned(state, { payload, ready, error }) {
+            const { signInWithLedger } = current(state);
+
+            set(state, ['txSigned'], payload.status);
+
+            if (!payload.accountId) {
+                return;
+            }
+            if (!Object.keys(signInWithLedger || {}).length) {
+                return;
+            }
+            if (signInWithLedger[payload.accountId].status === 'confirm' && payload.status) {
+                set(state, ['signInWithLedger', payload.accountId, 'status'], 'pending');
+            }
+        },
     },
     extraReducers: ((builder) => {
     })
