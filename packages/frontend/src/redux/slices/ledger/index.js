@@ -56,6 +56,15 @@ const signInWithLedgerAddAndSaveAccounts = createAsyncThunk(
     }
 );
 
+const checkAndHideLedgerModal = createAsyncThunk(
+    `${SLICE_NAME}/checkAndHideLedgerModal`,
+    async (_, { dispatch, getState }) => {
+        if (selectLedgerModalShow(getState())) {
+            dispatch(ledgerSlice.actions.hideLedgerModal());
+        }
+    }
+);
+
 const signInWithLedger = createAsyncThunk(
     `${SLICE_NAME}/signInWithLedger`,
     async ({ path }, { dispatch, getState }) => {
