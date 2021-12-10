@@ -138,6 +138,9 @@ const ledgerSlice = createSlice({
 export default ledgerSlice;
 
 export const actions = {
+    signInWithLedger,
+    checkAndHideLedgerModal,
+    signInWithLedgerAddAndSaveAccounts,
     ...ledgerSlice.actions
 };
 export const reducer = ledgerSlice.reducer;
@@ -148,6 +151,8 @@ export const selectLedgerSlice = (state) => state[SLICE_NAME];
 export const selectLedgerTxSigned = createSelector(selectLedgerSlice, (ledger) => ledger.txSigned);
 
 export const selectLedgerModal = createSelector(selectLedgerSlice, (ledger) => ledger.modal || {});
+
+export const selectLedgerModalShow = createSelector(selectLedgerModal, (modal) => modal.show || false);
 
 export const selectLedgerHasLedger = createSelector(selectLedgerSlice, (ledger) => ledger.hasLedger);
 
