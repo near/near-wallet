@@ -1,6 +1,27 @@
+import { createAsyncThunk, createSlice, current } from "@reduxjs/toolkit";
 import { createSelector } from "reselect";
 
 const SLICE_NAME = 'ledger';
+
+const initialState = {
+    modal: {}
+};
+
+const ledgerSlice = createSlice({
+    name: SLICE_NAME,
+    initialState,
+    reducers: {
+    },
+    extraReducers: ((builder) => {
+    })
+});
+
+export default ledgerSlice;
+
+export const actions = {
+    ...ledgerSlice.actions
+};
+export const reducer = ledgerSlice.reducer;
 
 // Top level selectors
 export const selectLedgerSlice = (state) => state[SLICE_NAME];
