@@ -7,6 +7,28 @@ const initialState = {
     modal: {}
 };
 
+
+const getLedgerAccountIds = createAsyncThunk(
+    `${SLICE_NAME}/getLedgerAccountIds`,
+    async ({ path }) => {
+        return await wallet.getLedgerAccountIds(path);
+    }
+);
+
+const addLedgerAccountId = createAsyncThunk(
+    `${SLICE_NAME}/addLedgerAccountId`,
+    async ({ accountId}) => {
+        return await wallet.addLedgerAccountId(accountId);
+    }
+);
+
+const saveAndSelectLedgerAccounts = createAsyncThunk(
+    `${SLICE_NAME}/saveAndSelectLedgerAccounts`,
+    async ({ accounts}) => {
+        return await wallet.saveAndSelectLedgerAccounts(accounts);
+    }
+);
+
 const ledgerSlice = createSlice({
     name: SLICE_NAME,
     initialState,
