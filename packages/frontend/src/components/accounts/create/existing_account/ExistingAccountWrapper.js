@@ -7,15 +7,21 @@ import { Mixpanel } from '../../../../mixpanel';
 import {
     switchAccount,
     getAccountBalance,
-    redirectTo,
-    checkAndHideLedgerModal
+    redirectTo
 } from '../../../../redux/actions/account';
 import { showCustomAlert } from '../../../../redux/actions/status';
 import { selectAccountAccountsBalances, selectAccountLocalStorageAccountId, selectBalance } from '../../../../redux/slices/account';
 import { selectAvailableAccounts } from '../../../../redux/slices/availableAccounts';
+import {
+    actions as ledgerActions
+} from '../../../../redux/slices/ledger';
 import { wallet } from '../../../../utils/wallet';
 import FundNewAccount from './FundNewAccount';
 import SelectAccount from './SelectAccount';
+
+const {
+    checkAndHideLedgerModal
+} = ledgerActions;
 
 export function ExistingAccountWrapper({ history }) {
     const dispatch = useDispatch();
