@@ -1,6 +1,12 @@
 import { createAsyncThunk, createSlice, current } from "@reduxjs/toolkit";
+import set from 'lodash.set';
+import unset from 'lodash.unset';
 import { createSelector } from "reselect";
 
+import { HIDE_SIGN_IN_WITH_LEDGER_ENTER_ACCOUNT_ID_MODAL } from "../../../config";
+import { wallet } from "../../../utils/wallet";
+import refreshAccountOwner from "../../sharedThunks/refreshAccountOwner";
+import initialErrorState from "../initialErrorState";
 const SLICE_NAME = 'ledger';
 
 const initialState = {
@@ -48,6 +54,17 @@ const signInWithLedgerAddAndSaveAccounts = createAsyncThunk(
         return dispatch(saveAndSelectLedgerAccounts({ accounts: selectLedgerSignInWithLedger(getState()) }));
     }
 );
+
+const signInWithLedger = createAsyncThunk(
+    `${SLICE_NAME}/signInWithLedger`,
+    async ({ path }, { dispatch, getState }) => {
+        await dispatch(getLedgerAccountIds({ path }));
+
+        const accountIds = Object.keys(selectLedgerSignInWithLedger(getState()));
+        await dispatch(signInWithLedgerAddAndSaveAccounts({ path, accountIds }));
+    }
+);
+
 const ledgerSlice = createSlice({
     name: SLICE_NAME,
     initialState,
