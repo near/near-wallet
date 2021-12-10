@@ -118,6 +118,10 @@ const ledgerSlice = createSlice({
             const transportError = error?.name === 'TransportStatusError';
             set(state, ['signInWithLedger', accountId, 'status'], transportError ? 'rejected' : 'error');
         });
+        builder.addCase(refreshAccountOwner.fulfilled, (state, { payload }) => {
+            set(state, ['hasLedger'], payload.ledger.hasLedger);
+            set(state, ['ledgerKey'], payload.ledger.ledgerKey);
+        });
     })
 });
 
