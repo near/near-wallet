@@ -5,18 +5,16 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import { Mixpanel } from '../../../mixpanel/index';
 import {
-    signInWithLedger,
     redirectToApp,
     redirectTo,
     refreshAccount,
-    signInWithLedgerAddAndSaveAccounts,
     checkAccountAvailable,
-    clearSignInWithLedgerModalState,
     clearAccountState
 } from '../../../redux/actions/account';
 import { clearLocalAlert } from '../../../redux/actions/status';
 import { selectAccountSlice } from '../../../redux/slices/account';
 import { LEDGER_MODAL_STATUS, selectLedgerSignInWithLedger, selectLedgerSignInWithLedgerStatus, selectLedgerTxSigned } from '../../../redux/slices/ledger';
+import { actions as ledgerActions } from '../../../redux/slices/ledger';
 import { selectStatusSlice } from '../../../redux/slices/status';
 import { controller as controllerHelperApi } from '../../../utils/helper-api';
 import parseFundingOptions from '../../../utils/parseFundingOptions';
@@ -27,6 +25,12 @@ import Container from '../../common/styled/Container.css';
 import LedgerImage from '../../svg/LedgerImage';
 import LedgerHdPaths from './LedgerHdPaths';
 import LedgerSignInModal from './LedgerSignInModal';
+
+const { 
+    signInWithLedger,
+    signInWithLedgerAddAndSaveAccounts,
+    clearSignInWithLedgerModalState
+} = ledgerActions;
 
 export function SignInLedger(props) {
     const dispatch = useDispatch();
@@ -65,7 +69,7 @@ export function SignInLedger(props) {
         setLoader(false);
         await Mixpanel.withTracking("IE-Ledger Sign in",
             async () => {
-                await dispatch(signInWithLedger(ledgerHdPath));
+                await dispatch(signInWithLedger({ path: ledgerHdPath }));
                 refreshAndRedirect();
             }
         );
@@ -75,7 +79,7 @@ export function SignInLedger(props) {
         setLoader(true);
         await Mixpanel.withTracking("IE-Ledger Handle additional accountId",
             async () => {
-                await dispatch(signInWithLedgerAddAndSaveAccounts([accountId], ledgerHdPath));
+                await dispatch(signInWithLedgerAddAndSaveAccounts({ path: ledgerHdPath, accountIds: [accountId] }));
                 setLoader(false);
                 refreshAndRedirect();
             }
@@ -108,6 +112,7 @@ export function SignInLedger(props) {
             controllerHelperApi.abort();
         }
         if (signInWithLedgerStatus === LEDGER_MODAL_STATUS.ENTER_ACCOUNTID) {
+            dispatch(clearSignInWithLedgerModalState());
         }
     };
 
