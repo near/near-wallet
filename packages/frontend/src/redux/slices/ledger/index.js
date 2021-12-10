@@ -86,6 +86,24 @@ const ledgerSlice = createSlice({
         },
     },
     extraReducers: ((builder) => {
+        builder.addCase(getLedgerAccountIds.pending, (state) => {
+            set(state, ['signInWithLedgerStatus'], 'confirm-public-key');
+        });
+        builder.addCase(getLedgerAccountIds.fulfilled, (state, { payload }) => {
+            unset(state, ['txSigned']);
+            set(state, ['signInWithLedgerStatus'], 'confirm-accounts');
+            payload.forEach(accountId => 
+                set(state, ['signInWithLedger', accountId, 'status'], 'waiting')
+            );
+        });
+        builder.addCase(getLedgerAccountIds.rejected, (state, { error }) => {
+
+            const noAccounts = error.message === 'No accounts were found.' && !HIDE_SIGN_IN_WITH_LEDGER_ENTER_ACCOUNT_ID_MODAL;
+
+            set(state, ['signInWithLedgerStatus'], noAccounts ? 'enter-accountId' : undefined);
+            unset(state, ['signInWithLedger']);
+            unset(state, ['txSigned']);
+        });
     })
 });
 
