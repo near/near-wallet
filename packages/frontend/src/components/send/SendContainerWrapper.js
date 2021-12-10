@@ -6,9 +6,11 @@ import { EXPLORER_URL } from '../../config';
 import { useFungibleTokensIncludingNEAR } from '../../hooks/fungibleTokensIncludingNEAR';
 import { Mixpanel } from '../../mixpanel/index';
 import { checkAccountAvailable, redirectTo } from '../../redux/actions/account';
-import { checkAndHideLedgerModal } from '../../redux/actions/account';
 import { clearLocalAlert, showCustomAlert } from '../../redux/actions/status';
 import { selectAccountId } from '../../redux/slices/account';
+import {
+    actions as ledgerActions
+} from '../../redux/slices/ledger';
 import { selectStatusLocalAlert } from '../../redux/slices/status';
 import { selectNearTokenFiatValueUSD } from '../../redux/slices/tokenFiatValues';
 import { actions as tokensActions } from '../../redux/slices/tokens';
@@ -16,6 +18,10 @@ import { fungibleTokensService } from '../../services/FungibleTokens';
 import isMobile from '../../utils/isMobile';
 import { SHOW_NETWORK_BANNER } from '../../utils/wallet';
 import SendContainerV2, { VIEWS } from './SendContainerV2';
+
+const {
+    checkAndHideLedgerModal
+} = ledgerActions;
 
 const { parseNearAmount, formatNearAmount } = utils.format;
 const { fetchTokens } = tokensActions;
