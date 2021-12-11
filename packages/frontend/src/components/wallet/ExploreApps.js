@@ -10,8 +10,6 @@ import MintbaseLogo from '../../images/mintbase-logo.svg';
 import ParasLogo from '../../images/paras-logo.svg';
 import ZedLogo from '../../images/zed-logo.svg';
 import FormButton from '../common/FormButton';
-import CloseButton from '../common/modal/CloseButton';
-
 
 const Container = styled.div`
     && {
@@ -105,10 +103,9 @@ const Container = styled.div`
     }
 `;
 
-const ExploreApps = ({ onClick }) => {
+const ExploreApps = () => {
     return (
         <Container>
-            <CloseButton onClick={onClick}/>
             <div className='apps-wrapper'>
                 <div>
                     <img src={HashRushLogo} alt='Hash Rush'/>

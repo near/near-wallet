@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Translate } from 'react-localize-redux';
 import { useSelector, useDispatch } from 'react-redux';
 import { Textfit } from 'react-textfit';
@@ -263,11 +263,9 @@ const StyledContainer = styled(Container)`
 `;
 
 export function Wallet({ tab, setTab }) {
-    const [exploreApps, setExploreApps] = useState(null);
     const accountId = useSelector(state => selectAccountId(state));
     const balance = useSelector(state => selectBalance(state));
     const dispatch = useDispatch();
-    const hideExploreApps = localStorage.getItem('hideExploreApps');
     const linkdropAmount = useSelector(selectLinkdropAmount);
     const createFromImplicitSuccess = useSelector(selectCreateFromImplicitSuccess);
     const CreatePersonalizedName = useSelector(selectCreatePersonalizedName);
@@ -292,12 +290,6 @@ export function Wallet({ tab, setTab }) {
         dispatch(fetchNFTs({ accountId }));
         dispatch(fetchTokens({ accountId }));
     }, [accountId]);
-
-    const handleHideExploreApps = () => {
-        localStorage.setItem('hideExploreApps', true);
-        setExploreApps(false);
-        Mixpanel.track("Click explore apps dismiss");
-    };
 
     const handleCloseLinkdropModal = () => {
         dispatch(setLinkdropAmount('0'));
@@ -334,9 +326,7 @@ export function Wallet({ tab, setTab }) {
                     }
                 </div>
                 <div className='right'>
-                    {!hideExploreApps && exploreApps !== false &&
-                        <ExploreApps onClick={handleHideExploreApps} />
-                    }
+                    <ExploreApps />
                     <ActivitiesWrapper />
                 </div>
             </div>
