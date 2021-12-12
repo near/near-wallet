@@ -65,7 +65,7 @@ import PublicRoute from './common/PublicRoute';
 import GlobalStyle from './GlobalStyle';
 import { LoginCliLoginSuccess } from './login/LoginCliLoginSuccess';
 import Navigation from './navigation/Navigation';
-import { NFTDetail } from './nft/NFTDetail';
+import { NFTDetailWrapper } from './nft/NFTDetailWrapper';
 import {PageNotFound} from './page-not-found/PageNotFound';
 import { Profile } from './profile/Profile';
 import { ReceiveContainerWrapper } from './receive-money/ReceiveContainerWrapper';
@@ -476,7 +476,7 @@ class Routing extends Component {
                             <PrivateRoute
                                 exact
                                 path='/nft-detail/:contractId/:tokenId'
-                                component={NFTDetail}
+                                component={NFTDetailWrapper}
                             />
                             <PrivateRoute
                                 exact

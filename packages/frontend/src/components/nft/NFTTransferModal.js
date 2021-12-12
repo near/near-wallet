@@ -205,7 +205,7 @@ const StyledContainer = styled.div`
     }
 `;
 
-export default function NFTTransferModal({ open, onClose, nft, accountId, setOwnerId }) {
+export default function NFTTransferModal({ open, onClose, nft, accountId }) {
     const [ receiverId, setReceiverId ] = useState('');
     const [ result, setResult ] = useState();
     const [ sending, setSending ] = useState(false);
@@ -214,14 +214,13 @@ export default function NFTTransferModal({ open, onClose, nft, accountId, setOwn
     const balance = useSelector(state => selectBalance(state));
     const nearBalance = balance.balanceAvailable;
     const dispatch = useDispatch();
-    const { fetchNFTs } = nftActions;
+    const { updateNFTs } = nftActions;
 
     const { localAlert } = useSelector(({ status }) => status);
 
     function onTransferSuccess(result, newOwnerId) {
         setResult(result);
-        setOwnerId(newOwnerId);
-        dispatch(fetchNFTs({ accountId }));
+        dispatch(updateNFTs({ accountId }));
         setViewType('success');
     }
 

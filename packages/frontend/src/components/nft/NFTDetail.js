@@ -1,11 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Translate } from 'react-localize-redux';
-import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
 import UserIconGrey from '../../images/UserIconGrey';
-import { selectAccountId, selectBalance } from '../../redux/slices/account';
-import NonFungibleTokens from '../../services/NonFungibleTokens';
 import BackArrowButton from '../common/BackArrowButton';
 import FormButton from '../common/FormButton';
 import Container from '../common/styled/Container.css';
@@ -110,26 +107,8 @@ const UserIcon = styled.div`
     }
 `;
 
-export function NFTDetail({ match, location, history }) {
-    const accountId = useSelector(selectAccountId);
-    const balance = useSelector(state => selectBalance(state));
-    const nearBalance = balance.balanceAvailable;
-
-    const contractId = match.params.contractId;
-    const tokenId = match.params.tokenId;
-    const [ nft, setNft ] = useState();
-    const [ ownerId, setOwnerId ] = useState();
+export function NFTDetail({ nft, accountId, nearBalance, ownerId, history }) {
     const [transferNftDetail, setTransferNftDetail] = useState();
-
-    useEffect(() => {
-        NonFungibleTokens.getMetadata(contractId).then(contractMetadata => {
-            NonFungibleTokens.getToken(contractId, tokenId, contractMetadata.base_uri).then(token => {
-                token.contract_id = contractId;
-                setNft(token);
-                setOwnerId(token.owner_id);
-            });
-        });
-    }, []);
 
     return (
         <StyledContainer className='medium centered'>
@@ -174,7 +153,6 @@ export function NFTDetail({ match, location, history }) {
                         open={!!transferNftDetail}
                         onClose={() => setTransferNftDetail()}
                         nft={transferNftDetail}
-                        setOwnerId={setOwnerId}
                         accountId={accountId}>
                         nearBalance={ nearBalance }
                     </NFTTransferModal>
