@@ -129,7 +129,6 @@ const NFTBox = ({ tokenDetails }) => {
     } = tokenDetails;
     const dispatch = useDispatch();
 
-
     return (
         <StyledContainer className='nft-box'>
             <div className='nft-header'>
