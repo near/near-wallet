@@ -4,13 +4,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 
 import { EXPLORER_URL } from '../../config';
-import { useFungibleTokensIncludingNEAR } from '../../hooks/fungibleTokensIncludingNEAR';
 import { checkAccountAvailable } from '../../redux/actions/account';
 import { clearLocalAlert, showCustomAlert } from '../../redux/actions/status';
+import { selectBalance } from '../../redux/slices/account';
 import { actions as nftActions } from '../../redux/slices/nft';
 import NonFungibleTokens, { NFT_TRANSFER_GAS } from '../../services/NonFungibleTokens';
 import isMobile from '../../utils/isMobile';
-import { formatNearAmount } from '../common/balance/helpers';
+import Balance from '../common/balance/Balance';
 import FormButton from '../common/FormButton';
 import Modal from '../common/modal/Modal';
 import ModalFooter from '../common/modal/ModalFooter';
@@ -21,184 +21,186 @@ import EstimatedFees from '../transfer/EstimatedFees';
 
 
 const StyledContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 0 0 0 0;
-
-    img {
-        width: 100% !important;
-        max-width: 472px;
-        border-radius: 8px;
-        margin-bottom: 16px;
-    }
-
-    .transfer-txt {
-        margin-top: 16px;
-    }
-
-    .confirm-txt {
-        margin-bottom: 4px !important; 
-    }
-
-    .confirm-img {
-        width: 272px;
-    }
-
-    .confirm-nft-card {
+    &&& {
         display: flex;
         flex-direction: column;
         align-items: center;
-        position: relative;
+        padding: 0 0 0 0;
 
-        width: 100%;
-        margin-top: 16px;
-
-        background: #FFFFFF;
-        box-shadow: 0px 45px 56px rgba(0, 0, 0, 0.07), 0px 10.0513px 12.5083px rgba(0, 0, 0, 0.0417275), 0px 2.99255px 3.72406px rgba(0, 0, 0, 0.0282725);
-        border-radius: 8px;
-
-        .from-box {
-            position: relative;
-            width: 100%;
-            height: 74px;
-            border-top: 1px solid #F0F0F1;
+        img {
+            width: 100%  ;
+            max-width: 472px;
+            border-radius: 8px;
+            margin-bottom: 16px;
         }
 
-        .to-box {
-            position: relative;
-            width: 100%;
-            height: 74px;
-            border-top: 1px solid #F0F0F1;
+        .transfer-txt {
+            margin-top: 16px;
         }
 
-    }
+        .confirm-txt {
+            margin-bottom: 4px  ; 
+        }
 
-    .confirm-txt {
-        font-size: 14px;
-        line-height: 150%;
-        color: #72727A;
-        margin-left: 16px !important;
-    }
+        .confirm-img {
+            width: 272px;
+        }
+
+        .confirm-nft-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+
+            width: 100%;
+            margin-top: 16px;
+
+            background: #FFFFFF;
+            box-shadow: 0px 45px 56px rgba(0, 0, 0, 0.07), 0px 10.0513px 12.5083px rgba(0, 0, 0, 0.0417275), 0px 2.99255px 3.72406px rgba(0, 0, 0, 0.0282725);
+            border-radius: 8px;
+
+            .from-box {
+                position: relative;
+                width: 100%;
+                height: 74px;
+                border-top: 1px solid #F0F0F1;
+            }
+
+            .to-box {
+                position: relative;
+                width: 100%;
+                height: 74px;
+                border-top: 1px solid #F0F0F1;
+            }
+
+        }
+
+        .confirm-txt {
+            font-size: 14px;
+            line-height: 150%;
+            color: #72727A;
+            margin-left: 16px  ;
+        }
 
 
-    .h-right {
-        position: absolute;
-        right: 16px;
-        text-align: right;
-    }
+        .h-right {
+            position: absolute;
+            right: 16px;
+            text-align: right;
+        }
 
-    .estimate-fee-card {
-        display: flex;
-        flex-direction: column;
-        position: relative;
+        .estimate-fee-card {
+            display: flex;
+            flex-direction: column;
+            position: relative;
 
-        width: 100%;
-        height: 78px;
-        margin-top: 16px;
+            width: 100%;
+            height: 78px;
+            margin-top: 16px;
 
-        border: 1px solid #F0F0F1;
-        box-sizing: border-box;
-        border-radius: 8px;
-    }
+            border: 1px solid #F0F0F1;
+            box-sizing: border-box;
+            border-radius: 8px;
+        }
 
-    .account-id {
-        font-weight: bold;
-        font-size: 14px;
-        line-height: 150%;
-        text-align: right;
-        color: #272729;
-    }
+        .account-id {
+            font-weight: bold;
+            font-size: 14px;
+            line-height: 150%;
+            text-align: right;
+            color: #272729;
+        }
 
-    h3 {
-        font-weight: 900;
-        font-size: 20px;
-        line-height: 130%;
-        text-align: center;
-        color: #24272A;
-    }
-
-    .success {
-        > p {
-            font-weight: 500;
+        h3 {
+            font-weight: 900;
             font-size: 20px;
+            line-height: 130%;
+            text-align: center;
+            color: #24272A;
+        }
+
+        .success {
+            > p {
+                font-weight: 500;
+                font-size: 20px;
+                line-height: 150%;
+                text-align: center;
+                color: #3F4045;
+
+                margin-bottom: 0px;
+            }
+        }
+
+        p {
+            font-weight: 500;
+            font-size: 14px;
             line-height: 150%;
             text-align: center;
-            color: #3F4045;
-
-            margin-bottom: 0px;
+            color: #72727A;
         }
-    }
 
-    p {
-        font-weight: 500;
-        font-size: 14px;
-        line-height: 150%;
-        text-align: center;
-        color: #72727A;
-    }
+        .next-btn {
+            margin-left: 44px  ;
+        }
 
-    .next-btn {
-        margin-left: 44px !important;
-    }
-
-    .receiver-input {
-      width: 100%;
-    }
-
-    .amount-grey {
-        font-weight: 500;
-        font-size: 14px;
-        line-height: 150%;
-        color: #A2A2A8;
-    }
-
-    .v-center {
-        position: absolute;
-        top: 50%;
-        transform: translate(0, -50%);
-    }
-
-    .icon {
-        margin-bottom: 20px !important;
-    }
-
-    form {
+        .receiver-input {
         width: 100%;
-    }
+        }
 
-    .full-width {
-        width: 100%;
-    }
+        .amount-grey {
+            font-weight: 500;
+            font-size: 14px;
+            line-height: 150%;
+            color: #A2A2A8;
+        }
+
+        .v-center {
+            position: absolute;
+            top: 50%;
+            transform: translate(0, -50%);
+        }
+
+        .icon {
+            margin-bottom: 20px  ;
+        }
+
+        form {
+            width: 100%;
+        }
+
+        .full-width {
+            width: 100%;
+        }
 
 
-    .modal-footer {
-        display: flex;
-        align-items: right;
-        justify-content: flex-end;
+        .modal-footer {
+            display: flex;
+            align-items: right;
+            justify-content: flex-end;
+            padding-top: 0px;
+            padding-bottom: 0px;
 
-        button {
-            width: 136px !important;
-            height: 56px !important;
-            margin-top: 0px !important;
+            button {
+                width: 136px  ;
+                height: 56px  ;
+                margin-top: 0px  ;
 
-            &.link {
-                margin: 20px 35px;
-            }
-            
-            &.blue {
-                padding: 0 35px;
+                &.link {
+                    margin: 20px 35px;
+                }
+                
+                &.blue {
+                    padding: 0 35px;
+                }
             }
         }
-    }
 
-    .success-bottons {
-        align-items: center;
-        margin-left: auto;
-        margin-right: auto;
-
-        > button {
-            width: 185px !important;
+        .success-bottons {
+            align-items: center;
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 25px;
+            margin-bottom: 25px;
         }
     }
 `;
@@ -209,9 +211,8 @@ export default function NFTTransferModal({ open, onClose, nft, accountId, setOwn
     const [ sending, setSending ] = useState(false);
     const [ viewType, setViewType ] = useState('transfer');
     const [ accountIdIsValid, setAccountIdIsValid] = useState(false);
-    const fungibleTokens = useFungibleTokensIncludingNEAR();
-    const nearBalance = fungibleTokens[0].balance;
-    const balanceToShow = formatNearAmount(nearBalance);
+    const balance = useSelector(state => selectBalance(state));
+    const nearBalance = balance.balanceAvailable;
     const dispatch = useDispatch();
     const { fetchNFTs } = nftActions;
 
@@ -314,7 +315,7 @@ export default function NFTTransferModal({ open, onClose, nft, accountId, setOwn
                             <span className='confirm-txt v-center'><Translate id='transfer.from'/></span>
                             <span className='h-right v-center'>
                                 <span className='account-id'>{accountId}</span>
-                                <div className='amount-grey'>{balanceToShow} NEAR</div>
+                                <Balance amount={nearBalance} showBalanceInUSD={false}/>
                             </span>
                         </div>
                         <div className='line'></div>

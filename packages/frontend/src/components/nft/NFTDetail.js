@@ -3,14 +3,13 @@ import { Translate } from 'react-localize-redux';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
-import { useFungibleTokensIncludingNEAR } from '../../hooks/fungibleTokensIncludingNEAR';
 import UserIconGrey from '../../images/UserIconGrey';
-import { selectAccountId } from '../../redux/slices/account';
+import { selectAccountId, selectBalance } from '../../redux/slices/account';
 import NonFungibleTokens from '../../services/NonFungibleTokens';
 import BackArrowButton from '../common/BackArrowButton';
 import FormButton from '../common/FormButton';
 import Container from '../common/styled/Container.css';
-import ArrowIcon from '../svg/ArrowIcon';
+import SendIcon from '../svg/SendIcon';
 import NFTTransferModal from './NFTTransferModal';
 
 const StyledContainer = styled(Container)`
@@ -111,19 +110,10 @@ const UserIcon = styled.div`
     }
 `;
 
-function transferSVG() {
-    return (
-        <svg className="transfer-svg" width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M21 1L14 21L10 12L1 8L21 1Z" stroke="#A2A2A8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-          <path d="M21 1L10 12" stroke="#A2A2A8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-        </svg>
-    );
-}
-
 export function NFTDetail({ match, location, history }) {
     const accountId = useSelector(selectAccountId);
-    const fungibleTokens = useFungibleTokensIncludingNEAR();
-    const nearBalance = fungibleTokens[0].balance;
+    const balance = useSelector(state => selectBalance(state));
+    const nearBalance = balance.balanceAvailable;
 
     const contractId = match.params.contractId;
     const tokenId = match.params.tokenId;
@@ -176,7 +166,7 @@ export function NFTDetail({ match, location, history }) {
                     disabled={ownerId !== accountId || !nearBalance}
                     onClick={() => setTransferNftDetail(nft)}
                 >
-                    {transferSVG()}
+                    <SendIcon/>
                     <Translate id='NFTDetail.transfer'/>
                 </FormButton>}
                 {transferNftDetail &&
