@@ -1,8 +1,10 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
 import { EXPLORER_URL } from '../../config';
 import FailedToLoad from '../../images/failed_to_load.svg';
+import { redirectTo } from '../../redux/actions/account';
 import isDataURL from '../../utils/isDataURL';
 import DefaultTokenIcon from '../svg/DefaultTokenIcon';
 import LoadMoreButtonWrapper from './LoadMoreButtonWrapper';
@@ -55,7 +57,6 @@ const StyledContainer = styled.div`
         margin-left: 14px;
 
         a {
-            font-weight: 700;
             font-size: 16px;
             color: #24272a;
         }
@@ -64,7 +65,6 @@ const StyledContainer = styled.div`
             color: #72727A;
             background-color: #F0F0F1;
             font-size: 14px;
-            font-weight: 600;
             min-width: 26px;
             min-height: 26px;
             border-radius: 50%;
@@ -101,22 +101,14 @@ const StyledContainer = styled.div`
         }
 
         a {
-            color: inherit; /* blue colors for links too */
+            color: inherit;
         }
     }
 
     .creator {
         span {
-            font-family: Inter;
-            font-style: normal;
-            font-weight: 500;
             font-size: 14px;
             line-height: 150%;
-            /* identical to box height, or 21px */
-            
-            
-            /* gray/neutral/500 */
-            
             color: #A2A2A8;
         }
     }
@@ -128,13 +120,14 @@ const StyledContainer = styled.div`
     }
 `;
 
-const NFTBox = ({ tokenDetails, history }) => {
+const NFTBox = ({ tokenDetails }) => {
     const {
         contractName,
         contractMetadata: { icon, name },
         ownedTokensMetadata,
         numberByContractName
     } = tokenDetails;
+    const dispatch = useDispatch();
 
 
     return (
@@ -160,17 +153,19 @@ const NFTBox = ({ tokenDetails, history }) => {
                 <div className='tokens'>
                     {ownedTokensMetadata.map(({ token_id, metadata }) => {
                         const { mediaUrl, title } = metadata;
-
-                        return <div className='nft' key={token_id}>
-                            <img src={mediaUrl} 
-                                alt='NFT' 
-                                onError={(e) => {
-                                    e.target.onerror = null;
-                                    e.target.src = FailedToLoad;
-                                }} 
-                                onClick={() => history.push(`/nft-detail/${contractName}/${token_id}`)}/>
-                            <b className='title' onClick={() => history.push(`/nft-detail/${contractName}/${token_id}`)}>{title}</b>
-                        </div>;
+                        return (
+                            <div className='nft' key={token_id} 
+                                onClick={() => dispatch(redirectTo(`/nft-detail/${contractName}/${token_id}`))}>
+                                <img src={mediaUrl} 
+                                    alt='NFT' 
+                                    onError={(e) => {
+                                        e.target.onerror = null;
+                                        e.target.src = FailedToLoad;
+                                    }} 
+                                />
+                                <b className='title'>{title}</b>
+                            </div>
+                        );
                     })}
                 </div>
             }

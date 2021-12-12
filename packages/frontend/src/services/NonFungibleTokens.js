@@ -67,8 +67,8 @@ export default class NonFungibleTokens {
     }
 
     static transfer = async ({ accountId, contractId, tokenId, receiverId }) => {
-        console.log('transfer()', accountId, contractId, tokenId, receiverId);
         const account = await wallet.getAccount(accountId);
+        const nftTransferDeposit = 1;
 
         return account.signAndSendTransaction({
             receiverId: contractId,
@@ -80,7 +80,7 @@ export default class NonFungibleTokens {
                         token_id: tokenId
                     },
                     NFT_TRANSFER_GAS,
-                    1
+                    nftTransferDeposit
                 )
             ]
         });

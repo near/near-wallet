@@ -261,7 +261,7 @@ const StyledContainer = styled(Container)`
     }
 `;
 
-export function Wallet({ tab, setTab, history }) {
+export function Wallet({ tab, setTab }) {
     const [exploreApps, setExploreApps] = useState(null);
     const accountId = useSelector(state => selectAccountId(state));
     const balance = useSelector(state => selectBalance(state));
@@ -322,7 +322,7 @@ export function Wallet({ tab, setTab, history }) {
                         </div>
                     </div>
                     {tab === 'collectibles'
-                        ? <NFTs tokens={sortedNFTs} accountId={accountId} history={history} />
+                        ? <NFTs tokens={sortedNFTs} accountId={accountId} />
                         : <FungibleTokens
                             balance={balance}
                             tokensLoader={tokensLoader}
