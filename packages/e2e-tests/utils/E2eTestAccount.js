@@ -24,6 +24,7 @@ class E2eTestAccount {
     async connectToNearApiJs() {
         const near = await nearApiJsConnection.getConnection();
         this.nearApiJsAccount = await near.account(this.accountId);
+        await this.nearApiJsAccount.state();
     }
     async create({ amount, contractWasm } = { amount: "1.0" }) {
         if (contractWasm) {
