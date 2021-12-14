@@ -10,6 +10,9 @@ WARNING: This wallet shouldn't be used as the only signer for high-value account
 Getting started
 ===
 
+First ensure there is a value for the `NEAR_WALLET_ENV` environment variable. This can be set in `packages/frontend/.env` prior to bundling.
+The set of valid values for `NEAR_WALLET_ENV` are the JSON values defined in [environments.json](../../features/environments.json) (e.g. `NEAR_WALLET_ENV=development`).
+
 To build locally, run this command in the project directory:
 
 `yarn && yarn start`
