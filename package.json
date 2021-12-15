@@ -5,9 +5,9 @@
     "packages/*"
   ],
   "scripts": {
-    "lint": "cd packages/frontend && yarn && yarn lint",
-    "build": "cd packages/frontend && yarn && yarn build",
-    "test": "cd packages/frontend && yarn && yarn test"
+    "lint": "cd packages/frontend && yarn install --frozen-lockfile && yarn lint",
+    "build": "cd packages/frontend && yarn install --frozen-lockfile && yarn build",
+    "test": "cd packages/frontend && yarn install --frozen-lockfile && yarn test"
   },
   "devDependencies": {
     "lerna": "^4.0.0"
