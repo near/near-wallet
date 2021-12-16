@@ -1,11 +1,11 @@
 import assert from "assert";
 
+import Environments from "../../../../features/environments.json";
 import {
     parseBooleanFromShell,
     parseObjectFromShell,
     parseCommaSeperatedStringAsArrayFromShell,
 } from "./envParsers";
-import Environments from "../../../../features/environments.json";
 
 const NEAR_WALLET_ENV = process.env.NEAR_WALLET_ENV;
 
@@ -57,10 +57,11 @@ module.exports = {
     RECAPTCHA_CHALLENGE_API_KEY: process.env.RECAPTCHA_CHALLENGE_API_KEY,
     RECAPTCHA_ENTERPRISE_SITE_KEY: process.env.RECAPTCHA_ENTERPRISE_SITE_KEY,
     SENTRY_DSN: process.env.SENTRY_DSN,
-    SENTRY_RELEASE:
-        process.env.SENTRY_RELEASE ||
-        (process.env.RENDER &&
-            `render:${process.env.RENDER_SERVICE_NAME}:${process.env.RENDER_GIT_BRANCH}:${process.env.RENDER_GIT_COMMIT}`),
+    SENTRY_RELEASE: process.env.SENTRY_RELEASE
+        ? process.env.RENDER
+            ? `render:${process.env.RENDER_SERVICE_NAME}:${process.env.RENDER_GIT_BRANCH}:${process.env.RENDER_GIT_COMMIT}`
+            : undefined
+        : undefined,
     SHOW_PRERELEASE_WARNING: parseBooleanFromShell(
         process.env.SHOW_PRERELEASE_WARNING
     ),

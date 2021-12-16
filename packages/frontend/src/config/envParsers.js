@@ -1,9 +1,9 @@
-export const envValIsSet = (envVal) => typeof envVal === "string";
+const envValIsSet = (envVal) => typeof envVal === "string";
 
-export const parseBooleanFromShell = (envVal) =>
+const parseBooleanFromShell = (envVal) =>
     envValIsSet(envVal) ? envVal === "yes" || envVal === "true" : undefined;
 
-export const parseObjectFromShell = (envVal) => {
+const parseObjectFromShell = (envVal) => {
     if (envValIsSet(envVal)) {
         try {
             let parsed = JSON.parse(envVal);
@@ -15,5 +15,12 @@ export const parseObjectFromShell = (envVal) => {
     return undefined;
 };
 
-export const parseCommaSeperatedStringAsArrayFromShell = (envVal) =>
+const parseCommaSeperatedStringAsArrayFromShell = (envVal) =>
     envValIsSet(envVal) ? envVal.split(",") : undefined;
+
+module.exports = {
+    envValIsSet,
+    parseBooleanFromShell,
+    parseObjectFromShell,
+    parseCommaSeperatedStringAsArrayFromShell,
+};
