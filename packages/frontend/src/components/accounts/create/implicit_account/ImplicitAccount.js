@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
 import FormButton from '../../../common/FormButton';
 import Container from '../../../common/styled/Container.css';
+import WhereToBuyNearModal from '../../../common/WhereToBuyNearModal';
 import YourAddress from './YourAddress';
 
 const StyledContainer = styled(Container)`
@@ -33,35 +34,45 @@ const StyledBuyButton = styled(FormButton)`
     }
 `;
 
-const BuyButton = ({ amount }) => {
-    return (
-        <StyledBuyButton color='light-blue'>
-            {amount ? (
-                `$${amount}`
-            ) : (
-                <Translate id='account.createImplicitAccount.customAmount' />
-            )
-            }
-        </StyledBuyButton>
-    );
-};
+const BuyButton = ({ amountUSD, onClickBuyButton }) => (
+    <StyledBuyButton
+        color='light-blue'
+        onClick={() => onClickBuyButton(amountUSD)}
+    >
+        {amountUSD ? (
+            `$${amountUSD}`
+        ) : (
+            <Translate id='account.createImplicitAccount.customAmount' />
+        )
+        }
+    </StyledBuyButton>
+);
 
-export default () => {
+export default ({ onClickBuyButton, implicitAccountId }) => {
+    const [showWhereToBuyModal, setShowWhereToBuyModal] = useState(false);
     return (
-        <StyledContainer className='border small-centered'>
-            <h3><Translate id='account.createImplicitAccount.title' /></h3>
-            <div className='flex-center-center'>
-                <BuyButton amount='10' />
-                <BuyButton amount='50' />
-                <BuyButton amount='100' />
-                <BuyButton />
-            </div>
-            <h3 className='bottom'><Translate id='account.createImplicitAccount.orSendNear' data={{ amount: '0.1' }} /></h3>
-            <Translate id='account.createImplicitAccount.sendFrom' />&nbsp;
-            <FormButton className='link underline'><Translate id='account.createImplicitAccount.exchange' /></FormButton>,<br />
-            <Translate id='account.createImplicitAccount.orAskFriend' />
-            <div className='address-title'><Translate id='receivePage.addressTitle' /></div>
-            <YourAddress address='herhehrthrdthrthrdhtrthrthrterergergergerhtrhehr' />
-        </StyledContainer>
+        <>
+            <StyledContainer className='border small-centered'>
+                <h3><Translate id='account.createImplicitAccount.title' /></h3>
+                <div className='flex-center-center'>
+                    <BuyButton amountUSD='30' onClickBuyButton={onClickBuyButton} />
+                    <BuyButton amountUSD='50' onClickBuyButton={onClickBuyButton} />
+                    <BuyButton amountUSD='100' onClickBuyButton={onClickBuyButton} />
+                    <BuyButton onClickBuyButton={onClickBuyButton} />
+                </div>
+                <h3 className='bottom'><Translate id='account.createImplicitAccount.orSendNear' data={{ amount: '0.1' }} /></h3>
+                <Translate id='account.createImplicitAccount.sendFrom' />&nbsp;
+                <FormButton onClick={() => setShowWhereToBuyModal(true)} className='link underline'><Translate id='account.createImplicitAccount.exchange' /></FormButton>,<br />
+                <Translate id='account.createImplicitAccount.orAskFriend' />
+                <div className='address-title'><Translate id='receivePage.addressTitle' /></div>
+                <YourAddress address={implicitAccountId} />
+            </StyledContainer>
+            {showWhereToBuyModal &&
+                <WhereToBuyNearModal
+                    onClose={() => setShowWhereToBuyModal(false)}
+                    open={showWhereToBuyModal}
+                />
+            }
+        </>
     );
 };

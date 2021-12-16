@@ -20,9 +20,7 @@ export function ImplicitAccountWrapper({ history }) {
     const dispatch = useDispatch();
 
     const [fundingNeeded, setFundingNeeded] = useState(true);
-    const [initialDeposit, setInitialDeposit] = useState('');
     const [moonpaySignedUrl, setMoonpaySignedUrl] = useState('');
-    const [claimingAccount, setClaimingAccount] = useState(false);
 
     const location = useSelector(getLocation);
     const URLParams = new URLSearchParams(location.search);
@@ -32,8 +30,9 @@ export function ImplicitAccountWrapper({ history }) {
     const formattedMinDeposit = formatNearAmount(MIN_BALANCE_TO_CREATE);
 
     useEffect(() => {
+        // FIX: Handle coming back from Moonpay, i.e. check active account
         const handleSetMoonpayURL = async () => {
-            const moonpaySignedUrl = await getSignedUrl(implicitAccountId, window.location.href);
+            const moonpaySignedUrl = await getSignedUrl(implicitAccountId, window.location.href, 30);
             setMoonpaySignedUrl(moonpaySignedUrl);
         };
         handleSetMoonpayURL();
@@ -60,7 +59,12 @@ export function ImplicitAccountWrapper({ history }) {
                         if (new BN(state.amount).gte(new BN(MIN_BALANCE_TO_CREATE))) {
                             Mixpanel.track("CA Check balance from implicit: sufficient");
                             setFundingNeeded(false);
-                            setInitialDeposit(state.amount);
+                            /*
+                                FIX:
+                                - Set recovery method in contract-helper
+                                - Add new key for localStorage
+                                - Redirect to dashboard
+                            */
                             return;
                         } else {
                             console.log('Insufficient funding amount');
@@ -81,6 +85,14 @@ export function ImplicitAccountWrapper({ history }) {
     };
 
     return (
-        <ImplicitAccount/>
+        <ImplicitAccount
+            implicitAccountId={implicitAccountId}
+            onClickBuyButton={(amountUSD) => {
+                window.open(
+                    `${moonpaySignedUrl}&baseCurrencyAmount=${amountUSD}`,
+                    '_blank'
+                );
+            }}
+        />
     );
 }
