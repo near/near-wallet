@@ -104,9 +104,9 @@ export async function transferAllFromLockup(missingAmount) {
     if (missingAmount && !liquidBalance.gt(missingAmount)) {
         throw new WalletError('Not enough tokens.', 'signAndSendTransactions.notEnoughTokens');
     }
-
-    console.info('Attempting to transfer from lockup account ID:', lockupAccountId);
+    
     if(liquidBalance.gt(new BN(0))) {
+        console.info('Attempting to transfer from lockup account ID:', lockupAccountId);
         await this.wrappedAccount.functionCall({
             contractId: lockupAccountId,
             methodName: "transfer",
