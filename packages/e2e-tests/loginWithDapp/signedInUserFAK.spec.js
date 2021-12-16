@@ -24,7 +24,7 @@ describe("Login with Dapp", () => {
     });
 
     afterAll(async () => {
-        testAccount && (await testAccount.delete());
+        await testAccount.delete();
     });
 
     test("navigates to login with dapp page requesting a full access key", async ({ page }) => {

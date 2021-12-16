@@ -32,22 +32,11 @@ function getWorkerAccountRegex(workerIndex) {
     return new RegExp(`w${workerIndex}-[0-9]+-[0-9]+.${process.env.BANK_ACCOUNT}`);
 }
 
-function bnComparator(a, b) {
-    if (a.lt(b)) {
-        return -1;
-    } else if (a.eq(b)) {
-        return 0;
-    } else {
-        return 1;
-    }
-}
-
 module.exports = {
     generateNUniqueRandomNumbersInRange,
     getKeyPairFromSeedPhrase,
     generateTestAccountId,
     getTestAccountSeedPhrase,
     getWorkerAccountId,
-    bnComparator,
     getWorkerAccountRegex
 };

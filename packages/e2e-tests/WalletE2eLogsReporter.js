@@ -4,8 +4,6 @@ const milliseconds = require("ms");
 const { formatNearAmount } = require("near-api-js/lib/utils/format");
 const { getBankAccount } = require("./utils/account");
 
-const { bnComparator } = require("./utils/helpers");
-
 /** @implements {import('@playwright/test/reporter').Reporter} */
 class WalletE2eLogsReporter {
     constructor({ logger }) {
@@ -63,10 +61,7 @@ class WalletE2eLogsReporter {
     }
     async printWorkerExpenses() {
         this.workerExpenseLogs
-            .sort(
-                ({ amountSpent: amountSpentA }, { amountSpent: amountSpentB }) =>
-                    -bnComparator(new BN(amountSpentA), new BN(amountSpentB))
-            )
+            .sort(({ amountSpent: amountSpentA }, { amountSpent: amountSpentB }) => -amountSpentA.cmp(amountSpentB))
             .forEach(({ workerBankAccount, amountSpent, workerIndex }) => {
                 this.logger.info(`amount spent by worker acc ${workerBankAccount}: ${formatNearAmount(amountSpent)} Ⓝ`);
                 this.logger.info(

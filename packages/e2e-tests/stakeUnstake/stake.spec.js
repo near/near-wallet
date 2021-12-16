@@ -22,7 +22,7 @@ describe("Staking flow", () => {
     });
 
     afterAll(async () => {
-        testAccount && (await testAccount.delete());
+        await testAccount.delete();
     });
 
     test("navigates to staking page with correct balance", async ({ page }) => {

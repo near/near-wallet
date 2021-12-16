@@ -11,7 +11,7 @@ describe("Account Recovery Using Seed Phrase", () => {
     });
 
     afterAll(async () => {
-        testAccount && (await testAccount.delete());
+        await testAccount.delete();
     });
 
     test("navigates to seed phrase page successfully", async ({ page }) => {

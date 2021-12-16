@@ -11,7 +11,7 @@ class PagerDutyReporter {
                         type: "incident",
                         title: "wallet e2e-tests failure",
                         service: {
-                            id: "PJ9TV6C", // wallet
+                            id: process.env.PAGERDUTY_WALLET_SERVICE_ID,
                             type: "service_reference",
                         },
                         assignments: [
@@ -25,8 +25,7 @@ class PagerDutyReporter {
                         body: {
                             type: "incident_body",
                             details: `
-Wallet e2e-test suite has failed. See https://dashboard.render.com/cron/crn-bvrt6tblc6ct62bdjmig/logs for details.
-Tests were run against ${process.env.WALLET_URL}`,
+Wallet e2e-test suite has failed. See ${process.env.E2E_TESTS_LOGS_URL} for details.
                         },
                     },
                 },

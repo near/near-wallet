@@ -19,7 +19,7 @@ describe("Unstaking flow", () => {
     });
 
     afterEach(async () => {
-        testAccount && (await testAccount.delete());
+        await testAccount.delete();
     });
 
     test("displays the correct number of validators with the correct amounts", async ({ page }) => {

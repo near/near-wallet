@@ -10,7 +10,8 @@ describe("Login with Dapp", () => {
     let testAccount;
 
     beforeAll(async ({ bankAccount }) => {
-        testAccount = await bankAccount.spawnRandomSubAccountInstance().create();
+        testAccount = await bankAccount.spawnRandomSubAccountInstance();
+        await testAccount.create();
     });
 
     beforeEach(async ({ page }) => {
@@ -23,7 +24,7 @@ describe("Login with Dapp", () => {
     });
 
     afterAll(async () => {
-        testAccount && (await testAccount.delete());
+        await testAccount.delete();
     });
 
     test("navigates to login with dapp page", async ({ page }) => {

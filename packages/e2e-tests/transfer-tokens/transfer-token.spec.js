@@ -16,7 +16,7 @@ describe("Transferring NEAR tokens between two accounts", () => {
     });
 
     afterAll(async () => {
-        firstAccount && (await firstAccount.delete());
+        await firstAccount.delete();
     });
 
     test("navigates to send money page", async ({ page }) => {
@@ -41,7 +41,7 @@ describe("Transferring NEAR tokens between two accounts", () => {
         });
 
         afterAll(async () => {
-            secondAccount && (await secondAccount.delete());
+            await secondAccount.delete();
         });
 
         test("is able to send NEAR tokens", async ({ page }) => {
