@@ -1042,6 +1042,7 @@ class Wallet {
         } else {
             const lastAccount = accountIdsError.reverse().find((account) => account.error.type === 'LackBalanceForState');
             if (lastAccount) {
+                this.accountId = localStorage.getItem(KEY_ACTIVE_ACCOUNT_ID) || '';
                 store.dispatch(redirectTo(`/profile/${lastAccount.accountId}`, { globalAlertPreventClear: true }));
                 throw lastAccount.error;
             } else {
