@@ -60,7 +60,8 @@
     "fix": "eslint --ext .js --ext .jsx . --fix",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
-    "precommit": "lint-staged"
+    "precommit": "lint-staged",
+    "precommit+tests": "lint-staged &&  cd ../e2e-tests && yarn && yarn run e2e"
   },
   "browserslist": [
     ">0.2%",
