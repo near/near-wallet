@@ -1,8 +1,9 @@
-const { formatTestTitle, formatFailure } = require("@playwright/test/lib/test/reporters/base");
 const { BN } = require("bn.js");
 const milliseconds = require("ms");
+
 const { formatNearAmount } = require("near-api-js/lib/utils/format");
-const { getBankAccount } = require("./utils/account");
+const { getBankAccount } = require("../utils/account");
+const { formatTestTitle, formatFailure } = require("./playwright-formatters");
 
 /** @implements {import('@playwright/test/reporter').Reporter} */
 class WalletE2eLogsReporter {
@@ -61,7 +62,9 @@ class WalletE2eLogsReporter {
     }
     async printWorkerExpenses() {
         this.workerExpenseLogs
-            .sort(({ amountSpent: amountSpentA }, { amountSpent: amountSpentB }) => -amountSpentA.cmp(amountSpentB))
+            .sort(
+                ({ amountSpent: amountSpentA }, { amountSpent: amountSpentB }) => -new BN(amountSpentA).cmp(new BN(amountSpentB))
+            )
             .forEach(({ workerBankAccount, amountSpent, workerIndex }) => {
                 this.logger.info(`amount spent by worker acc ${workerBankAccount}: ${formatNearAmount(amountSpent)} Ⓝ`);
                 this.logger.info(
@@ -98,18 +101,14 @@ class WalletE2eLogsReporter {
         this.logger.info(`${passed.length} passed`);
         this.logger.info(`${skipped.length} skipped`);
         await this.printWorkerExpenses();
-        failed.forEach((test, index) => {
-            const formattedFailure = formatFailure(this.config, test, index + 1);
-            this.logger.error(formattedFailure);
-        });
         // TODO: replace with below when playwright dependency version is updated
-        // failed.forEach((test, index) => {
-        //     const formattedFailure = formatFailure(this.config, test, {
-        //         index: index + 1,
-        //         includeStdio: true,
-        //     });
-        //     this.logger.error(formattedFailure.message);
-        // });
+        failed.forEach((test, index) => {
+            const formattedFailure = formatFailure(this.config, test, {
+                index: index + 1,
+                includeStdio: true,
+            });
+            this.logger.error(formattedFailure.message);
+        });
     }
 }
 

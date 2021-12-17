@@ -25,7 +25,7 @@ class PagerDutyReporter {
                         body: {
                             type: "incident_body",
                             details: `
-Wallet e2e-test suite has failed. See ${process.env.E2E_TESTS_LOGS_URL} for details.
+Wallet e2e-test suite has failed. See ${process.env.E2E_TESTS_LOGS_URL} for details.`,
                         },
                     },
                 },

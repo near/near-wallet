@@ -7,7 +7,7 @@ const E2eTestAccount = require("./E2eTestAccount");
 const { generateTestAccountId, getWorkerAccountRegex } = require("./helpers");
 const nearApiJsConnection = require("./connectionSingleton");
 const { getTestAccountSeedPhrase } = require("./helpers");
-const { TEST_WORKER_INDEX } = promise.env;
+const { TEST_WORKER_INDEX } = process.env;
 
 class SelfReloadingJSONRpcProvider extends JsonRpcProvider {
     constructor(...args) {
