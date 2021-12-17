@@ -82,10 +82,8 @@ const Number = styled(`span`)`
 const SetupSeedPhraseForm = ({
     seedPhrase,
     refreshData,
-    linkTo,
-    location,
-    hasSeedPhraseRecovery,
-    match: { params: { accountId } }
+    onClickContinue,
+    hasSeedPhraseRecovery = false
 }) => {
 
     return (
@@ -122,7 +120,7 @@ const SetupSeedPhraseForm = ({
             </div>
             <FormButton
                 disabled={hasSeedPhraseRecovery}
-                linkTo={linkTo ? linkTo : `/setup-seed-phrase/${accountId}/verify${location.search}`}
+                onClick={onClickContinue}
                 color='blue'
                 data-test-id="continueToSeedPhraseVerificationButton"
             >
