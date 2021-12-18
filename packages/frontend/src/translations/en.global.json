@@ -1344,7 +1344,7 @@
         "notEnabled": "2FA Not Enabled",
         "notEnoughBalance": "To enable 2FA, your account requires a minimum available balance of ${amount}",
         "phone": "Phone",
-        "promptDesc": "We highly recommend that you set up a two-factor authentication method to increase the security of your account and assests",
+        "promptDesc": "We highly recommend that you set up a two-factor authentication method to increase the security of your account and assets",
         "select": "Select Authentication Method",
         "since": "since",
         "subHeader": "Two factor authentication adds an extra layer of security to your account. <b>Passphrase and Ledger keys continue to allow full access to your account.</b>",
