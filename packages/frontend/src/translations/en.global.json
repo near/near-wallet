@@ -1459,10 +1459,10 @@
         },
         "recoveryMethods": {
             "lastMethod": "Cannot delete your last recovery method. Unless you have Ledger enabled, you need to keep at least one recovery method active to ensure recoverability of your account.",
-            "setupMethod": "An error occured. Please check your recovery method."
+            "setupMethod": "An error occurred. Please check your recovery method."
         },
         "sendFungibleToken": {
-            "error": "An error occured. Your send transaction was cancelled."
+            "error": "An error occurred. Your send transaction was cancelled."
         },
         "setupRecoveryMessage": {
             "error": "An error occurred while setting up your recovery method. Please try again!"
