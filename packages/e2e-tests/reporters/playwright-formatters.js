@@ -1,3 +1,4 @@
+// copied from @playwright/test/lib/reporters/base
 const { relative, resolve } = require("path");
 const { gray, red, cyan, enabled, dim } = require("colors/safe");
 var _codeFrame = require("@babel/code-frame");
@@ -130,7 +131,6 @@ function relativeTestPath(config, test) {
 }
 
 function formatResultFailure(test, result, initialIndent, highlightCode) {
-    // copied from @playwright/test/lib/reporters/base
     var _error;
 
     const resultTokens = [];
@@ -159,7 +159,6 @@ function formatResultFailure(test, result, initialIndent, highlightCode) {
 }
 
 function formatTestTitle(config, test, step) {
-    // copied from @playwright/test/lib/reporters/base
     // root, project, file, ...describes, test
     const [, projectName, , ...titles] = test.titlePath();
     const location = `${relativeTestPath(config, test)}:${test.location.line}:${test.location.column}`;
@@ -168,7 +167,6 @@ function formatTestTitle(config, test, step) {
 }
 
 function formatFailure(config, test, options = {}) {
-    // copied from @playwright/test/lib/reporters/base
     const { index, includeStdio, includeAttachments = true, filePath } = options;
     const lines = [];
     const title = formatTestTitle(config, test);
