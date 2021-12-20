@@ -3,6 +3,11 @@ module.exports = {
     rules: {
         'jsx-a11y/no-access-key': 'off',
         'no-useless-escape': 'off',
+        'quotes': [2, 'single'],
+        'keyword-spacing': ['error', {
+            'before': true,
+            'after': true,
+        }],
         'semi': ['error', 'always'],
         'no-console': 'off',
         'no-extra-boolean-cast':'off',
