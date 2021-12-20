@@ -7,7 +7,7 @@ import NonFungibleTokens, { TOKENS_PER_PAGE } from '../../../services/NonFungibl
 import createParameterSelector from '../createParameterSelector';
 import initialErrorState from '../initialErrorState';
 
-const { getLikelyTokenContracts, getMetadata, getTokens } = NonFungibleTokens;
+const { getLikelyTokenContracts, getMetadata, getTokens, getNumberOfTokens } = NonFungibleTokens;
 
 const SLICE_NAME = 'NFT';
 const ENABLE_DEBUG = false;

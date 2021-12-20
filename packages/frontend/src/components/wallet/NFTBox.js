@@ -107,7 +107,8 @@ const NFTBox = ({ tokenDetails }) => {
     const {
         contractName,
         contractMetadata: { icon, name },
-        ownedTokensMetadata
+        ownedTokensMetadata,
+        numberByContractName
     } = tokenDetails;
     return (
         <StyledContainer className='nft-box'>
@@ -124,7 +125,7 @@ const NFTBox = ({ tokenDetails }) => {
                        rel='noopener noreferrer'>
                         {name}
                     </a>
-                    <span>{ownedTokensMetadata?.length}</span>
+                    <span>{numberByContractName}</span>
                 </div>
             </div>
             {
