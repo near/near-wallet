@@ -142,6 +142,12 @@ const nftSlice = createSlice({
 
                 const { accountId } = payload;
                 set(state, ['ownedTokens', 'byAccountId', accountId], {});
+            },
+            addNumberOfOwnedTokens(state, { payload }) {
+                debugLog('REDUCER/addNumberOfOwnedTokens');
+                const { contractName, accountId, numberOfOwnedTokens } = payload;
+
+                set(state, ['ownedTokens', 'byAccountId', accountId, 'numberByContractName', contractName], numberOfOwnedTokens);
             }
         },
         extraReducers: ((builder) => {
