@@ -4,6 +4,8 @@ const Environments = require("../../../features/environments.json");
 const { parseBooleanFromShell } = require("../src/config/envParsers");
 
 const Config = {
+  NEAR_WALLET_ENV: process.env.NEAR_WALLET_ENV,
+  TRAVIS: parseBooleanFromShell(process.env.TRAVIS),
   BRANCH: process.env.BRANCH,
   CLOUDFLARE_BASE_URL: process.env.CLOUDFLARE_BASE_URL,
   CONTEXT: process.env.CONTEXT,
@@ -51,11 +53,14 @@ const computeCiNearWalletEnv = (Config) => {
         ? Environments.TESTNET_STAGING
         : Environments.TESTNET;
   }
+
+  if(Config.TRAVIS) {
+    return Environments.MAINNET_STAGING;
+  }
 };
 
 const NEAR_WALLET_ENV =
-    process.env.NEAR_WALLET_ENV ||
-    computeCiNearWalletEnv(Config);
+    Config.NEAR_WALLET_ENV || computeCiNearWalletEnv(Config);
 
 assert(
     Object.values(Environments).some((env) => NEAR_WALLET_ENV === env),
@@ -63,6 +68,6 @@ assert(
 );
 
 module.exports = {
-    NEAR_WALLET_ENV,
     ...Config,
+    NEAR_WALLET_ENV,
 };
