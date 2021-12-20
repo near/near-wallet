@@ -3,7 +3,7 @@ import set from 'lodash.set';
 import update from 'lodash.update';
 import { createSelector } from 'reselect';
 
-import NonFungibleTokens, { TOKENS_PER_PAGE } from '../../../services/NonFungibleTokens';
+import NonFungibleTokens from '../../../services/NonFungibleTokens';
 import createParameterSelector from '../createParameterSelector';
 import initialErrorState from '../initialErrorState';
 
@@ -25,8 +25,7 @@ const initialState = {
 const initialOwnedTokenState = {
     error: initialErrorState,
     loading: false,
-    tokens: [],
-    hasFetchedAllTokensForContract: false
+    tokens: []
 };
 
 async function getCachedContractMetadataOrFetch(contractName, state) {
@@ -45,7 +44,7 @@ const fetchNumberOfOwnedNFTsForContract = createAsyncThunk(
         const { dispatch } = thunkAPI;
         const { actions: { addNumberOfOwnedTokens } } = nftSlice;
 
-        const numberOfOwnedTokens = await getNumberOfTokens({ accountId, contractName, contractMetadata });
+        const numberOfOwnedTokens = parseInt(await getNumberOfTokens({ accountId, contractName, contractMetadata }));
         dispatch(addNumberOfOwnedTokens({accountId, contractName, numberOfOwnedTokens }));
     }
 );
@@ -140,7 +139,6 @@ const nftSlice = createSlice({
                 debugLog('REDUCER/addTokensMetadata');
 
                 const { contractName, tokens, accountId } = payload;
-                set(state, ['ownedTokens', 'byAccountId', accountId, 'byContractName', contractName, 'hasFetchedAllTokensForContract'], tokens.length < TOKENS_PER_PAGE);
                 update(state, ['ownedTokens', 'byAccountId', accountId, 'byContractName', contractName, 'tokens'], (n) => (n || []).concat(tokens));
             },
             clearTokenMetadata(state, { payload }) {
@@ -261,8 +259,8 @@ export const selectLoadingTokensForAccountForContract = createSelector(
 );
 
 export const selectHasFetchedAllTokensForAccountForContract = createSelector(
-    selectOwnedTokensForAccountForContract,
-    (ownedTokensByAccountByContract) => ownedTokensByAccountByContract.hasFetchedAllTokensForContract
+    [selectTokensListForAccountForContract, selectNumberOfOwnedTokensForAccountForContract],
+    (tokensListByAccountByContract, numberOfOwnedTokensForAccountForContract) => tokensListByAccountByContract.length === numberOfOwnedTokensForAccountForContract
 );
 
 // Returns owned tokens metadata for all tokens owned by the passed accountId, sorted by their `name` property
