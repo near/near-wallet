@@ -245,6 +245,11 @@ const selectOwnedTokensForAccountForContract = createSelector(
     })
 );
 
+const selectNumberOfOwnedTokensForAccountForContract = createSelector(
+    [selectNumberOfOwnedTokensForAccount, getContractNameParam],
+    (numberOfOwnedTokensForAccount, contractName) => numberOfOwnedTokensForAccount[contractName] || 0
+);
+
 const selectTokensListForAccountForContract = createSelector(
     selectOwnedTokensForAccountForContract,
     (ownedTokensByAccountByContract) => ownedTokensByAccountByContract.tokens
@@ -277,7 +282,7 @@ export const selectTokensWithMetadataForAccountId = createSelector(
                 contractName,
                 contractMetadata: metadataByContractName[contractName] || {},
                 ownedTokensMetadata: ownedTokensMetadata.tokens,
-                numberByContractName: numberOfOwnedTokensForAccount[contractName] || ''
+                numberByContractName: numberOfOwnedTokensForAccount[contractName]
             }));
     }
 );
