@@ -51,7 +51,7 @@ const computeCiNearWalletEnv = (Config) => {
         ? Environments.TESTNET_STAGING
         : Environments.TESTNET;
   }
-}
+};
 
 const NEAR_WALLET_ENV =
     process.env.NEAR_WALLET_ENV ||
