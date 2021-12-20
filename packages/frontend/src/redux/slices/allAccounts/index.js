@@ -23,3 +23,8 @@ export const selectAllAccountsBalanceLockedAmount = createSelector(
     [selectAllAccountsBalance],
     (balance) => balance.lockedAmount || ''
 );
+
+export const selectAllAccountsHasLockup = createSelector(
+    [selectAllAccountsByAccountId],
+    (account) => account.hasLockup
+);
