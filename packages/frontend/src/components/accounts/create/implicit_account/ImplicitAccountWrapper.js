@@ -6,7 +6,6 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import { MIN_BALANCE_TO_CREATE } from '../../../../config';
 import { Mixpanel } from '../../../../mixpanel';
-import { redirectTo } from '../../../../redux/actions/account';
 import { showCustomAlert } from '../../../../redux/actions/status';
 import { actions as flowLimitationActions } from '../../../../redux/slices/flowLimitation';
 import { getSignedUrl } from '../../../../utils/moonpay';
@@ -59,12 +58,13 @@ export function ImplicitAccountWrapper({ history }) {
                         if (new BN(state.amount).gte(new BN(MIN_BALANCE_TO_CREATE))) {
                             Mixpanel.track("CA Check balance from implicit: sufficient");
                             setFundingNeeded(false);
-                            /*
-                                FIX:
-                                - Set recovery method in contract-helper
-                                - Add new key for localStorage
-                                - Redirect to dashboard
-                            */
+                            console.log('Minimum funding amount received. Finishing acccount setup.');
+                            await wallet.finishSetupImplicitAccount({
+                                implicitAccountId,
+                                recoveryMethod
+                            });
+                            // FIX: Show 'create named account' modal on dashboard
+                            /* FIX: Add retry button for Ledger if add key action fails */
                             return;
                         } else {
                             console.log('Insufficient funding amount');
@@ -75,6 +75,7 @@ export function ImplicitAccountWrapper({ history }) {
                             return;
                         }
                         throw e;
+                        // FIX: showCustomAlert
                     }
                 },
                 (e) => {
@@ -86,6 +87,7 @@ export function ImplicitAccountWrapper({ history }) {
 
     return (
         <ImplicitAccount
+            formattedMinDeposit={formattedMinDeposit}
             implicitAccountId={implicitAccountId}
             onClickBuyButton={(amountUSD) => {
                 window.open(

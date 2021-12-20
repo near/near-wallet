@@ -14,6 +14,10 @@ const StyledContainer = styled(Container)`
     input {
         margin-bottom: 30px;
     }
+
+    .color-red {
+        margin-top: -20px;
+    }
     
     &&& {
         button {
@@ -35,7 +39,7 @@ export default ({
     wordId,
     handleChangeWord,
     handleStartOver,
-    localAlert
+    userInputValueWrongWord
 }) => {
     return (
         <StyledContainer className='small-centered border'>
@@ -48,29 +52,28 @@ export default ({
             >
                 <h1><Translate id='setupSeedPhraseVerify.pageTitle' /></h1>
                 <h2><Translate id='setupSeedPhraseVerify.pageText' /></h2>
-                <h4 data-test-id="seedPhraseVerificationWordNumber">
+                <h4 data-test-id='seedPhraseVerificationWordNumber'>
                     <SafeTranslate
-                        id="input.enterWord.title"
+                        id='input.enterWord.title'
                         data={{ wordId: wordId + 1 }}
                     />
                 </h4>
-                <Translate>
-                    {({ translate }) => (
-                        <input
-                            data-test-id="seedPhraseVerificationWordInput"
-                            value={userInputValue}
-                            onChange={e => handleChangeWord(e.target.value)}
-                            placeholder={translate('input.enterWord.placeholder')}
-                            required
-                            tabIndex='1'
-                            pattern='[a-zA-Z ]*'
-                            className={localAlert ? 'problem' : ''}
-                        />
-                    )}
-                </Translate>
+                <input
+                    data-test-id='seedPhraseVerificationWordInput'
+                    value={userInputValue}
+                    onChange={e => handleChangeWord(e.target.value)}
+                    required
+                    tabIndex='1'
+                    pattern='[a-zA-Z ]*'
+                    className={userInputValueWrongWord ? 'problem' : ''}
+                />
+                {userInputValueWrongWord &&
+                    <div className='color-red'><Translate id='setupSeedPhraseVerify.inputError' /></div>
+                }
                 <FormButton
                     type='submit'
-                    data-test-id="seedPhraseVerificationWordSubmit"
+                    data-test-id='seedPhraseVerificationWordSubmit'
+                    disabled={!userInputValue}
                 >
                     <Translate id='button.verify' />
                 </FormButton>

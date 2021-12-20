@@ -48,7 +48,11 @@ const BuyButton = ({ amountUSD, onClickBuyButton }) => (
     </StyledBuyButton>
 );
 
-export default ({ onClickBuyButton, implicitAccountId }) => {
+export default ({
+    onClickBuyButton,
+    implicitAccountId,
+    formattedMinDeposit
+}) => {
     const [showWhereToBuyModal, setShowWhereToBuyModal] = useState(false);
     return (
         <>
@@ -60,7 +64,7 @@ export default ({ onClickBuyButton, implicitAccountId }) => {
                     <BuyButton amountUSD='100' onClickBuyButton={onClickBuyButton} />
                     <BuyButton onClickBuyButton={onClickBuyButton} />
                 </div>
-                <h3 className='bottom'><Translate id='account.createImplicitAccount.orSendNear' data={{ amount: '0.1' }} /></h3>
+                <h3 className='bottom'><Translate id='account.createImplicitAccount.orSendNear' data={{ amount: formattedMinDeposit }} /></h3>
                 <Translate id='account.createImplicitAccount.sendFrom' />&nbsp;
                 <FormButton onClick={() => setShowWhereToBuyModal(true)} className='link underline'><Translate id='account.createImplicitAccount.exchange' /></FormButton>,<br />
                 <Translate id='account.createImplicitAccount.orAskFriend' />

@@ -1121,7 +1121,8 @@
     "setupSeedPhraseVerify": {
         "pageText": "Enter the following word from your recovery phrase to complete the setup process.",
         "pageTitle": "Verify Phrase",
-        "startOverText": "Didn't write it down?"
+        "startOverText": "Didn't write it down?",
+        "inputError": "Please check your passphrase and try again."
     },
     "sign": {
         "ActionWarrning": {

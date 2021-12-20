@@ -547,6 +547,21 @@ class Wallet {
         await contract.claim({ account_id: accountId }, LINKDROP_GAS);
     }
 
+    async saveImplicitAccountKeyPair({ implicitAccountId, recoveryKeyPair }) {
+        // Save account key pair in localStorage before the account has been created / exists on chain
+        await this.keyStore.setKey(this.connection.networkId, implicitAccountId, recoveryKeyPair);
+    }
+
+    async finishSetupImplicitAccount({
+        implicitAccountId,
+        recoveryMethod
+    }) {
+        // TODO: Create getter for public key
+        const publicKey = new PublicKey({ keyType: KeyType.ED25519, data: Buffer.from(implicitAccountId, 'hex') });
+        await this.saveAndMakeAccountActive(implicitAccountId);
+        await this.addLocalKeyAndFinishSetup(implicitAccountId, recoveryMethod, publicKey);
+    }
+
     async saveAccount(accountId, keyPair) {
         this.getAccountsLocalStorage();
         await this.setKey(accountId, keyPair);

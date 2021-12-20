@@ -66,7 +66,7 @@ export function CreateAccountLanding() {
                 <ArrowIcon />
             </FormButton>
             <FormButton
-                onClick={() => { /* FIX: Create a new SetupRecoveryNewAccount component */ }}
+                linkTo='/set-recovery-implicit-account'
                 className='primary'
             >
                 <Translate id='button.getStarted' />
