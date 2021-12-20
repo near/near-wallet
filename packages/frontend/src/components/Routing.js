@@ -135,7 +135,8 @@ class Routing extends Component {
             { name: "Русский", code: "ru" },
             { name: "Tiếng Việt", code: "vi" },
             { name: "简体中文", code: "zh-hans" },
-            { name: "繁體中文", code: "zh-hant" }
+            { name: "繁體中文", code: "zh-hant" },
+            { name: "Türk", code: "tr" }
         ];
 
         const browserLanguage = getBrowserLocale(languages.map(l => l.code));
