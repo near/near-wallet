@@ -232,6 +232,11 @@ const selectOwnedTokensForAccount = createSelector(
     (ownedTokensByAccountId, accountId) => (ownedTokensByAccountId.byAccountId[accountId] || {}).byContractName || {}
 );
 
+const selectNumberOfOwnedTokensForAccount = createSelector(
+    [selectOwnedTokensSlice, getAccountIdParam],
+    (ownedTokensByAccountId, accountId) => (ownedTokensByAccountId.byAccountId[accountId] || {}).numberByContractName || {}
+);
+
 const selectOwnedTokensForAccountForContract = createSelector(
     [selectOwnedTokensForAccount, getContractNameParam],
     (ownedTokensByContractName, contractName) => ({
@@ -257,8 +262,8 @@ export const selectHasFetchedAllTokensForAccountForContract = createSelector(
 
 // Returns owned tokens metadata for all tokens owned by the passed accountId, sorted by their `name` property
 export const selectTokensWithMetadataForAccountId = createSelector(
-    [selectAllContractMetadata, selectOwnedTokensForAccount],
-    (metadataByContractName, ownedTokensByContractName) => {
+    [selectAllContractMetadata, selectOwnedTokensForAccount, selectNumberOfOwnedTokensForAccount],
+    (metadataByContractName, ownedTokensByContractName, numberOfOwnedTokensForAccount) => {
         debugLog('selectTokensWithMetadataForAccountId');
 
         return Object.entries(ownedTokensByContractName)
@@ -271,7 +276,8 @@ export const selectTokensWithMetadataForAccountId = createSelector(
             .map(([contractName, ownedTokensMetadata]) => ({
                 contractName,
                 contractMetadata: metadataByContractName[contractName] || {},
-                ownedTokensMetadata: ownedTokensMetadata.tokens
+                ownedTokensMetadata: ownedTokensMetadata.tokens,
+                numberByContractName: numberOfOwnedTokensForAccount[contractName] || ''
             }));
     }
 );
