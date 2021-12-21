@@ -24,7 +24,7 @@ const StyledContainer = styled.div`
         display: flex;
         flex-direction: column;
         align-items: center;
-        padding: 0 0 0 0;
+        padding: 0;
 
         img {
             width: 100%  ;
