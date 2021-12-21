@@ -60,7 +60,7 @@ const stakingHandlers = handleActions({
             }),
     [staking.updateCurrent]: (state, { payload }) => ({
         ...state,
-        currentAccount: state.accounts.find((account) => account.accountId === payload)
+        currentAccount: payload.currentAccount
     }),
     [staking.getLockup]: (state, { ready, error, payload }) => 
         (!ready || error)

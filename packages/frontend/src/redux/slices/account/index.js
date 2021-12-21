@@ -10,6 +10,8 @@ export const selectAccountId = createSelector(selectAccountSlice, (account) => a
 
 export const selectAccountHas2fa = createSelector(selectAccountSlice, (account) => account.has2fa);
 
+export const selectAccountHasLockup = createSelector(selectAccountSlice, (account) => account.hasLockup);
+
 export const selectAccountAuthorizedApps = createSelector(selectAccountSlice, (account) => account.authorizedApps || []);
 
 export const selectAccountFullAccessKeys = createSelector(selectAccountSlice, (account) => account.fullAccessKeys || []);
@@ -43,6 +45,8 @@ export const selectAccountUrlReferrer = createSelector(selectAccountUrl, (url) =
 
 export const selectAccountUrlContractId = createSelector(selectAccountUrl, (url) => url.contract_id);
 
+export const selectAccountUrlFailureUrl = createSelector(selectAccountUrl, (url) => url.failure_url);
+
 export const selectAccountUrlPublicKey = createSelector(selectAccountUrl, (url) => url.public_key);
 
 export const selectAccountUrlMethodNames = createSelector(selectAccountUrl, (url) => url.methodNames);
@@ -52,3 +56,9 @@ export const selectAccountUrlTitle = createSelector(selectAccountUrl, (url) => u
 export const selectAccountUrlSuccessUrl = createSelector(selectAccountUrl, (url) => url.success_url);
 
 export const selectAccountUrlRedirectUrl = createSelector(selectAccountUrl, (url) => url.redirectUrl);
+
+export const selectAccountUrlTransactions = createSelector(selectAccountUrl, (url) => url.transactions);
+
+export const selectAccountUrlCallbackUrl = createSelector(selectAccountUrl, (url) => url.callbackUrl);
+
+export const selectAccountUrlMeta = createSelector(selectAccountUrl, (url) => url.meta);

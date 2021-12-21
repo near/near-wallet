@@ -1,13 +1,23 @@
 import { BN } from 'bn.js';
-import { push } from 'connected-react-router';
+import { 
+    getLocation,
+    push
+} from 'connected-react-router';
 import { utils } from 'near-api-js';
 import { PublicKey, KeyType } from 'near-api-js/lib/utils/key_pair';
 import { parse, stringify } from 'query-string';
 import { createActions, createAction } from 'redux-actions';
 
 import { DISABLE_CREATE_ACCOUNT, MULTISIG_MIN_PROMPT_AMOUNT } from '../../config';
-import { showAlert, dispatchWithAlert } from '../../utils/alerts';
-import { loadState, saveState, clearState } from '../../utils/sessionStorage';
+import { 
+    showAlert,
+    dispatchWithAlert
+} from '../../utils/alerts';
+import { 
+    loadState,
+    saveState,
+    clearState
+} from '../../utils/sessionStorage';
 import { TwoFactor } from '../../utils/twoFactor';
 import { wallet, WALLET_INITIAL_DEPOSIT_URL } from '../../utils/wallet';
 import {
@@ -22,35 +32,60 @@ import {
 } from '../../utils/wallet';
 import { WalletError } from '../../utils/walletError';
 import refreshAccountOwner from '../sharedThunks/refreshAccountOwner';
+import { 
+    selectAccountAccountsBalances,
+    selectAccountId,
+    selectAccountUrl,
+    selectAccountUrlCallbackUrl,
+    selectAccountUrlContractId,
+    selectAccountUrlFailureUrl,
+    selectAccountUrlMeta,
+    selectAccountUrlMethodNames,
+    selectAccountUrlPublicKey,
+    selectAccountUrlRedirectUrl,
+    selectAccountUrlSuccessUrl,
+    selectAccountUrlTitle,
+    selectAccountUrlTransactions,
+    selectBalance
+} from '../slices/account';
+import { selectAccountHasLockup } from '../slices/account';
+import { selectAllAccountsHasLockup } from '../slices/allAccounts';
 import { selectAvailableAccounts } from '../slices/availableAccounts';
 import { 
     actions as flowLimitationActions,
     selectFlowLimitationAccountBalance,
     selectFlowLimitationAccountData
  } from '../slices/flowLimitation';
+import { 
+    selectLedgerModal,
+    selectLedgerSignInWithLedger
+} from '../slices/ledger';
 import {
     handleStakingUpdateAccount,
     handleStakingUpdateLockup,
     handleGetLockup
 } from './staking';
 
-const { handleFlowLimitation, handleClearflowLimitation } = flowLimitationActions;
+const { 
+    handleFlowLimitation,
+    handleClearflowLimitation
+} = flowLimitationActions;
 
-export const getProfileStakingDetails = (accountId) => async (dispatch, getState) => {
-    await dispatch(handleGetLockup(accountId));
+export const getProfileStakingDetails = (externalAccountId) => async (dispatch, getState) => {
+    await dispatch(handleGetLockup(externalAccountId));
 
-    await dispatch(handleStakingUpdateAccount([], accountId));
+    await dispatch(handleStakingUpdateAccount([], externalAccountId));
 
-    const lockupIdExists = accountId
-        ? !!getState().allAccounts[accountId].balance.lockedAmount
-        : !!getState().account.balance.lockedAmount;
+    const lockupIdExists = externalAccountId
+        ? selectAllAccountsHasLockup(getState(), { accountId: externalAccountId })
+        : selectAccountHasLockup(getState());
 
     lockupIdExists
-        && dispatch(handleStakingUpdateLockup(accountId));
+        && dispatch(handleStakingUpdateLockup(externalAccountId));
 };
 
 export const handleRedirectUrl = (previousLocation) => (dispatch, getState) => {
-    const { pathname } = getState().router.location;
+    const { pathname } = getLocation(getState());
     const isValidRedirectUrl = previousLocation.pathname.includes(WALLET_LOGIN_URL) || previousLocation.pathname.includes(WALLET_SIGN_URL);
     const page = pathname.split('/')[1];
     const guestLandingPage = !page && !wallet.accountId;
@@ -59,7 +94,7 @@ export const handleRedirectUrl = (previousLocation) => (dispatch, getState) => {
 
     if ((guestLandingPage || createAccountPage || recoverAccountPage) && isValidRedirectUrl) {
         let url = {
-            ...getState().account.url,
+            ...selectAccountUrl(getState()),
             redirect_url: previousLocation.pathname
         };
         saveState(url);
@@ -68,7 +103,7 @@ export const handleRedirectUrl = (previousLocation) => (dispatch, getState) => {
 };
 
 export const handleClearUrl = () => (dispatch, getState) => {
-    const { pathname } = getState().router.location;
+    const { pathname } = getLocation(getState());
     const page = pathname.split('/')[1];
     const guestLandingPage = !page && !wallet.accountId;
     const saveUrlPages = [...WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS, WALLET_LOGIN_URL, WALLET_SIGN_URL, WALLET_LINKDROP_URL].includes(page);
@@ -87,7 +122,7 @@ export const handleClearUrl = () => (dispatch, getState) => {
 export const parseTransactionsToSign = createAction('PARSE_TRANSACTIONS_TO_SIGN');
 
 export const handleRefreshUrl = (prevRouter) => (dispatch, getState) => {
-    const { pathname, search } = prevRouter?.location || getState().router.location;
+    const { pathname, search } = prevRouter?.location || getLocation(getState());
     const currentPage = pathname.split('/')[pathname[1] === '/' ? 2 : 1];
 
     if ([...WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS, WALLET_LOGIN_URL, WALLET_SIGN_URL, WALLET_LINKDROP_URL].includes(currentPage)) {
@@ -107,7 +142,11 @@ export const handleRefreshUrl = (prevRouter) => (dispatch, getState) => {
             dispatch(refreshUrl(loadState()));
         }
         dispatch(handleFlowLimitation());
-        const { transactions, callbackUrl, meta } = getState().account.url;
+
+        const transactions = selectAccountUrlTransactions(getState());
+        const callbackUrl = selectAccountUrlCallbackUrl(getState());
+        const meta = selectAccountUrlMeta(getState());
+
         if (transactions) {
             dispatch(parseTransactionsToSign({ transactions, callbackUrl, meta }));
         }
@@ -115,21 +154,22 @@ export const handleRefreshUrl = (prevRouter) => (dispatch, getState) => {
 };
 
 const checkContractId = () => async (dispatch, getState) => {
-    const { contract_id, failure_url } = getState().account.url;
+    const contractId = selectAccountUrlContractId(getState());
+    const failureUrl = selectAccountUrlFailureUrl(getState());
 
-    if (contract_id) {
+    if (contractId) {
         const redirectIncorrectContractId = () => {
-            console.error('Invalid contractId:', contract_id);
-            dispatch(redirectTo(`/${WALLET_LOGIN_URL}/?invalidContractId=true&failure_url=${failure_url}`, { globalAlertPreventClear: true }));
+            console.error('Invalid contractId:', contractId);
+            dispatch(redirectTo(`/${WALLET_LOGIN_URL}/?invalidContractId=true&failure_url=${failureUrl}`, { globalAlertPreventClear: true }));
         };
 
-        if (!wallet.isLegitAccountId(contract_id)) {
+        if (!wallet.isLegitAccountId(contractId)) {
             redirectIncorrectContractId();
             return;
         }
 
         try {
-            await wallet.getAccountBasic(contract_id).state();
+            await wallet.getAccountBasic(contractId).state();
         } catch (error) {
             if (error.message.indexOf('does not exist while viewing') !== -1) {
                 redirectIncorrectContractId();
@@ -149,7 +189,7 @@ export const redirectTo = (location, state = {}) => (dispatch) => {
 
 export const redirectToApp = (fallback) => async (dispatch, getState) => {
     dispatch(handleRefreshUrl());
-    const { account: { url } } = getState();
+    const url = selectAccountUrl(getState());
     dispatch(push({
         pathname: (url && url.redirect_url !== '/' && url.redirect_url) || fallback || '/',
         search: (url && (url.success_url || url.public_key)) ? `?${stringify(url)}` : '',
@@ -159,34 +199,35 @@ export const redirectToApp = (fallback) => async (dispatch, getState) => {
     }));
 };
 
-
 export const allowLogin = () => async (dispatch, getState) => {
-    const { account } = getState();
-    const { url } = account;
-    const { success_url, public_key, title } = url;
+    const contractId = selectAccountUrlContractId(getState());
+    const publicKey = selectAccountUrlPublicKey(getState());
+    const methodNames = selectAccountUrlMethodNames(getState());
+    const title = selectAccountUrlTitle(getState());
+    const successUrl = selectAccountUrlSuccessUrl(getState());
 
-    if (success_url) {
-        if (public_key) {
-            await dispatchWithAlert(addAccessKey(account.accountId, url.contract_id, url.public_key, false, url.methodNames), { onlyError: true });
+    if (successUrl) {
+        if (publicKey) {
+            await dispatchWithAlert(addAccessKey(wallet.accountId, contractId, publicKey, false, methodNames), { onlyError: true });
         }
         const availableKeys = await wallet.getAvailableKeys();
         const allKeys = availableKeys.map(key => key.toString());
-        const parsedUrl = new URL(success_url);
-        parsedUrl.searchParams.set('account_id', account.accountId);
-        if (public_key) {
-            parsedUrl.searchParams.set('public_key', public_key);
+        const parsedUrl = new URL(successUrl);
+        parsedUrl.searchParams.set('account_id', wallet.accountId);
+        if (publicKey) {
+            parsedUrl.searchParams.set('public_key', publicKey);
         }
         parsedUrl.searchParams.set('all_keys', allKeys.join(','));
         window.location = parsedUrl.href;
     } else {
-        await dispatchWithAlert(addAccessKey(account.accountId, url.contract_id, url.public_key, false, url.methodNames), { data: { title } });
+        await dispatchWithAlert(addAccessKey(wallet.accountId, contractId, publicKey, false, methodNames), { data: { title } });
         dispatch(redirectTo('/authorized-apps', { globalAlertPreventClear: true }));
     }
 };
 
 export const signInWithLedger = (path) => async (dispatch, getState) => {
     await dispatch(getLedgerAccountIds(path));
-    const accountIds = Object.keys(getState().ledger.signInWithLedger);
+    const accountIds = Object.keys(selectLedgerSignInWithLedger(getState()));
     await dispatch(signInWithLedgerAddAndSaveAccounts(accountIds, path));
     return;
 };
@@ -205,7 +246,7 @@ export const signInWithLedgerAddAndSaveAccounts = (accountIds, path) => async (d
         }
     }
 
-    return dispatch(saveAndSelectLedgerAccounts(getState().ledger.signInWithLedger));
+    return dispatch(saveAndSelectLedgerAccounts(selectLedgerSignInWithLedger(getState())));
 };
 
 const twoFactorMethod = async (method, wallet, args) => {
@@ -410,8 +451,8 @@ export const {
 });
 
 export const checkAndHideLedgerModal = () => async (dispatch, getState) => {
-    const { modal } = getState().ledger;
-    if (modal?.show) {
+    const modal = selectLedgerModal(getState());
+    if (modal.show) {
         dispatch(hideLedgerModal());
     }
 };
@@ -499,7 +540,10 @@ export const finishAccountSetup = () => async (dispatch, getState) => {
     await dispatch(refreshAccount());
     await dispatch(getBalance());
     await dispatch(clearAccountState());
-    const { balance, url, accountId } = getState().account;
+
+    const balance = selectBalance(getState());
+    const redirectUrl = selectAccountUrlRedirectUrl(getState());
+    const accountId = selectAccountId(getState());
 
     let promptTwoFactor = await TwoFactor.checkCanEnableTwoFactor(balance);
 
@@ -510,8 +554,8 @@ export const finishAccountSetup = () => async (dispatch, getState) => {
     if (promptTwoFactor) {
         dispatch(redirectTo('/enable-two-factor', { globalAlertPreventClear: true }));
     } else {
-        if (url?.redirectUrl) {
-            window.location = `${url.redirectUrl}?accountId=${accountId}`;
+        if (redirectUrl) {
+            window.location = `${redirectUrl}?accountId=${accountId}`;
         } else {
             dispatch(redirectToApp('/'));
         }
@@ -608,7 +652,7 @@ export const refreshAccount = (basicData = false) => async (dispatch, getState) 
     }
 };
 
-export const switchAccount = ({ accountId }) => async (dispatch, getState) => {
+export const switchAccount = ({ accountId }) => async (dispatch) => {
     dispatch(makeAccountActive(accountId));
     dispatch(handleRefreshUrl());
     dispatch(refreshAccount());
@@ -616,7 +660,7 @@ export const switchAccount = ({ accountId }) => async (dispatch, getState) => {
 };
 
 export const getAvailableAccountsBalance = () => async (dispatch, getState) => {
-    let { accountsBalance } = getState().account;
+    let accountsBalance = selectAccountAccountsBalances(getState());
     const availableAccounts = selectAvailableAccounts(getState());
 
     if (selectFlowLimitationAccountData(getState())) {
@@ -625,12 +669,12 @@ export const getAvailableAccountsBalance = () => async (dispatch, getState) => {
 
     for (let i = 0; i < availableAccounts.length; i++) {
         const accountId = availableAccounts[i];
-        if (!accountsBalance || !accountsBalance[accountId]) {
+        if (!accountsBalance[accountId]) {
             i < 0 && await dispatch(setAccountBalance(accountId));
         }
     }
 
-    accountsBalance = getState().account.accountsBalance || {};
+    accountsBalance = selectAccountAccountsBalances(getState());
 
     for (let i = 0; i < Object.keys(accountsBalance).length; i++) {
         const accountId = Object.keys(accountsBalance)[i];

@@ -236,7 +236,7 @@ export function BuyNear({ match, location, history }) {
             </div>
             <h3><Translate id='buyNear.bridgeTokens' /></h3>
             <div className='desc'><Translate id='buyNear.descThree' /></div>
-            <a href='https://ethereum.bridgetonear.org/' target='_blank' rel='noreferrer' className='bridge'>
+            <a href='https://rainbowbridge.app/transfer' target='_blank' rel='noreferrer' className='bridge'>
                 <img src={RainbowBridgeLogo} alt='Rainbow Bridge' className='rainbow-bridge-img' />
             </a>
         </StyledContainer>
