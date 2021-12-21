@@ -52,8 +52,7 @@ const StyledContainer = styled(Container)`
         }
 
         .inner {
-            height: 30px;          
-            line-height: 30px; 
+            
             display: flex;         
             align-items: center;
 
