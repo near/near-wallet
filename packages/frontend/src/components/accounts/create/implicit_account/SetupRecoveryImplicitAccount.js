@@ -45,10 +45,7 @@ export default ({
                 return false;
         }
     };
-
-    console.log('recoveryOption', recoveryOption);
-    console.log('email', email);
-
+    
     return (
         <StyledContainer className='small-centered border'>
             <form onSubmit={e => {

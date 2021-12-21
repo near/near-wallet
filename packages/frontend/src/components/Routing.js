@@ -16,6 +16,7 @@ import { Mixpanel } from "../mixpanel/index";
 import * as accountActions from '../redux/actions/account';
 import { selectAccountSlice } from '../redux/slices/account';
 import { actions as tokenFiatValueActions } from '../redux/slices/tokenFiatValues';
+import { CreateImplicitAccountWrapper } from '../routes/CreateImplicitAccountWrapper';
 import { LoginWrapper } from '../routes/LoginWrapper';
 import { SetupLedgerNewAccountWrapper } from '../routes/SetupLedgerNewAccountWrapper';
 import { SetupPassphraseNewAccountWrapper } from '../routes/SetupPassphraseNewAccountWrapper';
@@ -43,7 +44,6 @@ import AccessKeysWrapper from './access-keys/v2/AccessKeysWrapper';
 import { AutoImportWrapper } from './accounts/auto_import/AutoImportWrapper';
 import { ActivateAccountWithRouter } from './accounts/create/ActivateAccount';
 import { ExistingAccountWrapper } from './accounts/create/existing_account/ExistingAccountWrapper';
-import { CreateImplicitAccountWrapper } from './accounts/create/implicit_account/CreateImplicitAccountWrapper'; // Move to /routes dir
 import { InitialDepositWrapper } from './accounts/create/initial_deposit/InitialDepositWrapper';
 import { CreateAccountLanding } from './accounts/create/landing/CreateAccountLanding';
 import { VerifyAccountWrapper } from './accounts/create/verify_account/VerifyAccountWrapper';
@@ -353,13 +353,13 @@ class Routing extends Component {
                                 exact
                                 path='/create/:fundingContract/:fundingKey'
                                 component={CreateAccountWithRouter}
-                                // All linkdrop users create a named account by default
+                                // All linkdrop users create a named account
                             />
                             <PublicRoute
                                 exact
                                 path='/create'
                                 render={(props) => accountFound ? <CreateAccountWithRouter {...props}/> : <CreateAccountLanding/>}
-                                // No logged in account = implicit account creation flow
+                                // Logged in users always create named accounts
                             />
                             <PublicRoute
                                 exact
