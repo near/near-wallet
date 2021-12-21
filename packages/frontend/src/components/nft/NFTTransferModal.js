@@ -49,7 +49,6 @@ const StyledContainer = styled.div`
             flex-direction: column;
             align-items: center;
             position: relative;
-
             width: 100%;
             margin-top: 16px;
 
