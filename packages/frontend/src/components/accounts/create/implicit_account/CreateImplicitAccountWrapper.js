@@ -6,19 +6,23 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import { MIN_BALANCE_TO_CREATE } from '../../../../config';
 import { Mixpanel } from '../../../../mixpanel';
+import { redirectTo } from '../../../../redux/actions/account';
 import { showCustomAlert } from '../../../../redux/actions/status';
+import { selectAccountId } from '../../../../redux/slices/account';
 import { actions as createFromImplicitActions } from '../../../../redux/slices/createFromImplicit';
 import { actions as flowLimitationActions } from '../../../../redux/slices/flowLimitation';
 import { getSignedUrl } from '../../../../utils/moonpay';
 import useRecursiveTimeout from '../../../../utils/useRecursiveTimeout';
 import { wallet } from '../../../../utils/wallet';
-import ImplicitAccount from './ImplicitAccount';
+import CreateImplicitAccount from './CreateImplicitAccount';
 
 const { setCreatePersonalizedName } = createFromImplicitActions;
 const { handleFlowLimitation } = flowLimitationActions;
 
-export function ImplicitAccountWrapper({ history }) {
+export function CreateImplicitAccountWrapper() {
     const dispatch = useDispatch();
+
+    const accountId = useSelector(selectAccountId);
 
     const [fundingNeeded, setFundingNeeded] = useState(true);
     const [moonpaySignedUrl, setMoonpaySignedUrl] = useState('');
@@ -31,6 +35,12 @@ export function ImplicitAccountWrapper({ history }) {
     const formattedMinDeposit = formatNearAmount(MIN_BALANCE_TO_CREATE);
 
     useEffect(() => {
+        if (accountId === implicitAccountId || !implicitAccountId || !recoveryMethod) {
+            dispatch(redirectTo('/'));
+        }
+    }, [accountId, implicitAccountId, recoveryMethod]);
+
+    useEffect(() => {
         // FIX: Handle coming back from Moonpay, i.e. check active account
         const handleSetMoonpayURL = async () => {
             const moonpaySignedUrl = await getSignedUrl(implicitAccountId, window.location.href, 30);
@@ -41,10 +51,6 @@ export function ImplicitAccountWrapper({ history }) {
         implicitAccountId,
         window.location.href
     ]);
-
-    useEffect(() => {
-        dispatch(handleFlowLimitation());
-    }, []);
 
     useRecursiveTimeout(async () => {
         await checkFundingAddressBalance().catch(() => { });
@@ -66,6 +72,7 @@ export function ImplicitAccountWrapper({ history }) {
                                 recoveryMethod
                             });
                             dispatch(setCreatePersonalizedName(true));
+                            // FIX: Hide Ledger modal if recovery method is ledger
                             return;
                         } else {
                             console.log('Insufficient funding amount');
@@ -75,8 +82,12 @@ export function ImplicitAccountWrapper({ history }) {
                         if (e.message.includes('does not exist while viewing')) {
                             return;
                         }
+                        dispatch(showCustomAlert({
+                            errorMessage: e.message,
+                            success: false,
+                            messageCodeHeader: 'error'
+                        }));
                         throw e;
-                        // FIX: showCustomAlert
                     }
                 },
                 (e) => {
@@ -87,7 +98,7 @@ export function ImplicitAccountWrapper({ history }) {
     };
 
     return (
-        <ImplicitAccount
+        <CreateImplicitAccount
             formattedMinDeposit={formattedMinDeposit}
             implicitAccountId={implicitAccountId}
             onClickBuyButton={(amountUSD) => {

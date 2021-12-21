@@ -12,10 +12,12 @@ export function SetupRecoveryImplicitAccountWrapper() {
                 recoveryOption,
                 email
             }) => {
-                console.log('secure my account with:', recoveryOption);
                 if (recoveryOption === 'phrase') {
                     dispatch(redirectTo(`/setup-passphrase-new-account`));
-                    return;
+                } else if (recoveryOption === 'ledger') {
+                    dispatch(redirectTo(`/setup-ledger-new-account`));
+                } else if (recoveryOption === 'email') {
+                    //FIX
                 }
             }}
         />
