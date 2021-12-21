@@ -1,4 +1,6 @@
 const assert = require("assert");
+const fs = require('fs');
+const path = require('path');
 
 const Environments = require("../../../features/environments.json");
 const { parseBooleanFromShell } = require("../src/config/envParsers");
@@ -36,15 +38,12 @@ const computeCiNearWalletEnv = (Config) => {
   if(Config.IS_NETLIFY) {
     switch (Config.CONTEXT) {
         case "production":
+        case "deploy-preview":
             return Config.DEPLOY_PRIME_URL.includes("near-wallet-staging")
                 ? Environments.MAINNET_STAGING
                 : Environments.MAINNET;
         case "branch-deploy":
             return Environments.MAINNET_STAGING;
-        case "deploy-preview":
-            return Config.DEPLOY_PRIME_URL.includes("near-wallet-staging")
-                ? Environments.MAINNET_STAGING
-                : Environments.MAINNET;
     }
   }
 
@@ -66,6 +65,23 @@ assert(
     Object.values(Environments).some((env) => NEAR_WALLET_ENV === env),
     `Invalid environment: "${NEAR_WALLET_ENV}"`
 );
+
+const bundleEnvsPath = path.join(__dirname, '../.env');
+let bundleEnvs = '';
+try {
+  bundleEnvs = fs.readFileSync(bundleEnvsPath);
+  if(!bundleEnvs.includes("NEAR_WALLET_ENV=")) {
+    fs.appendFileSync(
+      bundleEnvsPath,
+      `NEAR_WALLET_ENV=${NEAR_WALLET_ENV}\n`
+    );
+  }
+} catch (error) {
+   fs.appendFileSync(
+    bundleEnvsPath,
+    `NEAR_WALLET_ENV=${NEAR_WALLET_ENV}\n`
+   );
+}
 
 module.exports = {
     ...Config,
