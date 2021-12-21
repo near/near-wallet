@@ -55,7 +55,7 @@ const StyledContainer = styled(Container)`
             
             display: flex;         
             align-items: center;
-
+            word-break: break-all;
             span {
                 font-weight: 500;
                 font-size: 16px;
