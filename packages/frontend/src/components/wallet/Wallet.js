@@ -268,7 +268,7 @@ export function Wallet({ tab, setTab }) {
     const dispatch = useDispatch();
     const linkdropAmount = useSelector(selectLinkdropAmount);
     const createFromImplicitSuccess = useSelector(selectCreateFromImplicitSuccess);
-    const CreatePersonalizedName = useSelector(selectCreatePersonalizedName);
+    const createPersonalizedName = useSelector(selectCreatePersonalizedName);
     const fungibleTokensList = useFungibleTokensIncludingNEAR();
     const tokensLoader = useSelector((state) => selectTokensLoading(state, { accountId })) || !balance?.total;
 
@@ -343,10 +343,10 @@ export function Wallet({ tab, setTab }) {
                     accountId={accountId}
                 />
             }
-            {CreatePersonalizedName &&
+            {createPersonalizedName &&
                 <CreatePersonalizedNameModal
                     onClose={() => dispatch(setCreatePersonalizedName(false))}
-                    isOpen={CreatePersonalizedName}
+                    isOpen={createPersonalizedName}
                     accountId='bob.near'
                 />
             }

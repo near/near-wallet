@@ -7,12 +7,14 @@ import { useSelector, useDispatch } from 'react-redux';
 import { MIN_BALANCE_TO_CREATE } from '../../../../config';
 import { Mixpanel } from '../../../../mixpanel';
 import { showCustomAlert } from '../../../../redux/actions/status';
+import { actions as createFromImplicitActions } from '../../../../redux/slices/createFromImplicit';
 import { actions as flowLimitationActions } from '../../../../redux/slices/flowLimitation';
 import { getSignedUrl } from '../../../../utils/moonpay';
 import useRecursiveTimeout from '../../../../utils/useRecursiveTimeout';
 import { wallet } from '../../../../utils/wallet';
 import ImplicitAccount from './ImplicitAccount';
 
+const { setCreatePersonalizedName } = createFromImplicitActions;
 const { handleFlowLimitation } = flowLimitationActions;
 
 export function ImplicitAccountWrapper({ history }) {
@@ -63,8 +65,7 @@ export function ImplicitAccountWrapper({ history }) {
                                 implicitAccountId,
                                 recoveryMethod
                             });
-                            // FIX: Show 'create named account' modal on dashboard
-                            /* FIX: Add retry button for Ledger if add key action fails */
+                            dispatch(setCreatePersonalizedName(true));
                             return;
                         } else {
                             console.log('Insufficient funding amount');

@@ -41,7 +41,7 @@ export default ({
                 <NewAccountIdGraphic accountId={accountId}/>
                 <h3><Translate id='account.createImplicitAccount.createPersonalizedNameModal.title'/></h3>
                 <p><Translate id='account.createImplicitAccount.createPersonalizedNameModal.desc'/></p>
-                <FormButton linkTo='/create'><Translate id='button.registerPersonalizedAccouunt'/></FormButton>
+                <FormButton onClick={onClose} linkTo='/create'><Translate id='button.registerPersonalizedAccouunt'/></FormButton>
                 <FormButton className='link' onClick={onClose}><Translate id='button.skipThisForNow'/></FormButton>
             </Container>
         </Modal>
