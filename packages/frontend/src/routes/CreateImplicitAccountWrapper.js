@@ -7,7 +7,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import CreateImplicitAccount from '../components/accounts/create/implicit_account/CreateImplicitAccount';
 import { MIN_BALANCE_TO_CREATE } from '../config';
 import { Mixpanel } from '../mixpanel';
-import { redirectTo } from '../redux/actions/account';
+import { redirectTo, checkAndHideLedgerModal } from '../redux/actions/account';
 import { showCustomAlert } from '../redux/actions/status';
 import { selectAccountId } from '../redux/slices/account';
 import { actions as createFromImplicitActions } from '../redux/slices/createFromImplicit';
@@ -86,6 +86,10 @@ export function CreateImplicitAccountWrapper() {
                             messageCodeHeader: 'error'
                         }));
                         throw e;
+                    } finally {
+                        if (recoveryMethod === 'ledger') {
+                            dispatch(checkAndHideLedgerModal());
+                        }
                     }
                 },
                 (e) => {
