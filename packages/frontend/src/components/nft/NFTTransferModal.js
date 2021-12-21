@@ -287,7 +287,7 @@ export default function NFTTransferModal({ open, onClose, nft, accountId }) {
                                 disabled={!accountIdIsValid}
                                 onClick={() => setViewType('confirm')}
                             >
-                            <Translate id='NFTTransfer.next'/>
+                                <Translate id='NFTTransfer.next'/>
                             </FormButton>
                         </div>
                     </ModalFooter>
