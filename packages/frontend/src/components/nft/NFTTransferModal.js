@@ -216,7 +216,7 @@ export default function NFTTransferModal({ open, onClose, nft, accountId }) {
 
     const { localAlert } = useSelector(({ status }) => status);
 
-    function onTransferSuccess(result, newOwnerId) {
+    function onTransferSuccess(result) {
         setResult(result);
         dispatch(updateNFTs({ accountId }));
         setViewType('success');
