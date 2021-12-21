@@ -19,7 +19,6 @@ import ReceiverInputWithLabel from '../send/components/ReceiverInputWithLabel';
 import AvatarSuccessIcon from '../svg/AvatarSuccessIcon';
 import EstimatedFees from '../transfer/EstimatedFees';
 
-
 const StyledContainer = styled.div`
     &&& {
         display: flex;
