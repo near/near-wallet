@@ -11,13 +11,11 @@ import { redirectTo } from '../redux/actions/account';
 import { showCustomAlert } from '../redux/actions/status';
 import { selectAccountId } from '../redux/slices/account';
 import { actions as createFromImplicitActions } from '../redux/slices/createFromImplicit';
-import { actions as flowLimitationActions } from '../redux/slices/flowLimitation';
 import { getSignedUrl } from '../utils/moonpay';
 import useRecursiveTimeout from '../utils/useRecursiveTimeout';
 import { wallet } from '../utils/wallet';
 
 const { setCreatePersonalizedName } = createFromImplicitActions;
-const { handleFlowLimitation } = flowLimitationActions;
 
 export function CreateImplicitAccountWrapper() {
     const dispatch = useDispatch();

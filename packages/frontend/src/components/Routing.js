@@ -359,7 +359,7 @@ class Routing extends Component {
                                 exact
                                 path='/create'
                                 render={(props) => accountFound ? <CreateAccountWithRouter {...props}/> : <CreateAccountLanding/>}
-                                // Logged in users always create named accounts
+                                // Logged in users create a named account and first-time users go the implicit account route
                             />
                             <PublicRoute
                                 exact
@@ -371,24 +371,23 @@ class Routing extends Component {
                                 path='/set-recovery/:accountId/:fundingContract?/:fundingKey?'
                                 component={SetupRecoveryMethodWithRouter}
                             />
+                            {/* For first-time account creation of implicit account - start */}
                             <PublicRoute
-                                // For implicit, non-funded (no coin-op or linkdrop) accounts
                                 exact
                                 path='/set-recovery-implicit-account'
-                                component={SetupRecoveryImplicitAccountWrapper}
+                                render={() => accountFound ? <Wallet/> : <SetupRecoveryImplicitAccountWrapper/>}
                             />
                             <PublicRoute
-                                // TODO: Add support for named account + funding options
                                 exact
                                 path='/setup-passphrase-new-account'
-                                component={SetupPassphraseNewAccountWrapper}
+                                render={() => accountFound ? <Wallet/> : <SetupPassphraseNewAccountWrapper/>}
                             />
                             <PublicRoute
-                                // TODO: Add support for named account + funding options
                                 exact
                                 path='/setup-ledger-new-account'
-                                component={SetupLedgerNewAccountWrapper}
+                                render={() => accountFound ? <Wallet/> : <SetupLedgerNewAccountWrapper/>}
                             />
+                            {/* For first-time account creation of implicit account - end */}
                             <PublicRoute
                                 exact
                                 path='/setup-seed-phrase/:accountId/:step'
