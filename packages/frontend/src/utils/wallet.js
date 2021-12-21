@@ -548,7 +548,6 @@ class Wallet {
     }
 
     async saveImplicitAccountKeyPair({ implicitAccountId, recoveryKeyPair }) {
-        // Save account key pair in localStorage before the account has been created / exists on chain
         await this.keyStore.setKey(this.connection.networkId, implicitAccountId, recoveryKeyPair);
     }
 
@@ -556,7 +555,6 @@ class Wallet {
         implicitAccountId,
         recoveryMethod
     }) {
-        // TODO: Create getter for public key
         const publicKey = new PublicKey({ keyType: KeyType.ED25519, data: Buffer.from(implicitAccountId, 'hex') });
         await this.saveAndMakeAccountActive(implicitAccountId);
         await this.addLocalKeyAndFinishSetup(implicitAccountId, recoveryMethod, publicKey);

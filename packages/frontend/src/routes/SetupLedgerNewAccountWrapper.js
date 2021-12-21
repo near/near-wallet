@@ -18,6 +18,7 @@ export function SetupLedgerNewAccountWrapper() {
                     try {
                         const accountState = await account.state();
                         if (accountState) {
+                            // Redirect user to ledger sign in page if account already exists
                             dispatch(redirectTo('/sign-in-ledger'));
                             return;
                         }

@@ -39,7 +39,6 @@ export function CreateImplicitAccountWrapper() {
     }, [accountId, implicitAccountId, recoveryMethod]);
 
     useEffect(() => {
-        // FIX: Handle coming back from Moonpay, i.e. check active account
         const handleSetMoonpayURL = async () => {
             const moonpaySignedUrl = await getSignedUrl(implicitAccountId, window.location.href, 30);
             setMoonpaySignedUrl(moonpaySignedUrl);
@@ -70,7 +69,6 @@ export function CreateImplicitAccountWrapper() {
                                 recoveryMethod
                             });
                             dispatch(setCreatePersonalizedName(true));
-                            // FIX: Hide Ledger modal if recovery method is ledger
                             return;
                         } else {
                             console.log('Insufficient funding amount');
