@@ -75,7 +75,7 @@ const StyledContainer = styled.div`
             font-size: 14px;
             line-height: 150%;
             color: #72727A;
-            margin-left: 16px  ;
+            margin-left: 16px;
         }
 
 
