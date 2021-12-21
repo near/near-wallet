@@ -139,7 +139,7 @@ const StyledContainer = styled.div`
         }
 
         .receiver-input {
-        width: 100%;
+            width: 100%;
         }
 
         .amount-grey {
