@@ -299,7 +299,7 @@ export default function NFTTransferModal({ open, onClose, nft, accountId }) {
             }
 
             {viewType === 'confirm' &&
-                <StyledContainer className='small-centered'>
+                <StyledContainer>
                     <h3><Translate id='NFTTransfer.transferNft'/></h3>
 
                     <div className='confirm-nft-card'>
