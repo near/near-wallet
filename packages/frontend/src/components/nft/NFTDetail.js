@@ -152,7 +152,7 @@ export function NFTDetail({ nft, accountId, nearBalance, ownerId, history }) {
                         open={!!transferNftDetail}
                         onClose={() => setTransferNftDetail()}
                         nft={transferNftDetail}
-                        accountId={accountId}>
+                        accountId={accountId}
                         nearBalance={ nearBalance }
                     </NFTTransferModal>
                 }
