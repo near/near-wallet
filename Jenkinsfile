@@ -14,13 +14,13 @@ pipeline {
         // aws configuration
         AWS_CREDENTIALS = 'aws-credentials-password'
         AWS_REGION = 'us-west-2'
-        AWS_TESTNET_ROLE = 'testnet-builder'
-        AWS_TESTNET_ROLE_ACCOUNT = '721768877541'
+        AWS_TESTNET_ROLE = 'builder'
+        AWS_TESTNET_ROLE_ACCOUNT = '384027877896'
 
         // s3 buckets
         BUILD_ARTIFACT_BUCKET = 'andy-dev-build-artifacts'
-        TESTNET_STATIC_SITE_BUCKET = 'testnet-wallet-static-site'
-        MAINNET_STATIC_SITE_BUCKET = 'andy-dev-mainnet-near-wallet'
+        TESTNET_STATIC_SITE_BUCKET = 'testnet-static-website'
+        MAINNET_STATIC_SITE_BUCKET = 'mainnet-static-wallet'
         E2E_ARTIFACT_PATH = "$BRANCH_NAME/$CHANGE_ID/e2e-tests"
         FRONTEND_ARTIFACT_PATH = "$BRANCH_NAME/$CHANGE_ID/frontend"
 
