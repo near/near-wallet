@@ -350,9 +350,15 @@ class Routing extends Component {
                             />
                             <PublicRoute
                                 exact
-                                path='/create/:fundingContract?/:fundingKey?'
-                                component={CreateAccountLanding}
-                                // FIX: Show CreateAccountLanding || CreateAccountWithRouter if no account.accountId || no funding params
+                                path='/create/:fundingContract/:fundingKey'
+                                component={CreateAccountWithRouter}
+                                // All linkdrop users create a named account by default
+                            />
+                            <PublicRoute
+                                exact
+                                path='/create'
+                                render={(props) => accountFound ? <CreateAccountWithRouter {...props}/> : <CreateAccountLanding/>}
+                                // No logged in account = implicit account creation flow
                             />
                             <PublicRoute
                                 exact
