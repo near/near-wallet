@@ -279,7 +279,7 @@ export default function NFTTransferModal({ open, onClose, nft, accountId }) {
                                 onClick={onClose}
                                 color='gray'
                             >
-                            <Translate id='NFTTransfer.cancel'/>
+                                <Translate id='NFTTransfer.cancel'/>
                             </FormButton>
                             <FormButton
                                 className='next-btn'
