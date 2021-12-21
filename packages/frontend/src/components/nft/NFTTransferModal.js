@@ -37,7 +37,7 @@ const StyledContainer = styled.div`
         }
 
         .confirm-txt {
-            margin-bottom: 4px  ; 
+            margin-bottom: 4px; 
         }
 
         .confirm-img {
