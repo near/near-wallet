@@ -122,7 +122,6 @@ const StyledContainer = styled.div`
                 line-height: 150%;
                 text-align: center;
                 color: #3F4045;
-
                 margin-bottom: 0px;
             }
         }
