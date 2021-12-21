@@ -11,6 +11,7 @@ import styled, { ThemeProvider } from 'styled-components';
 
 import TwoFactorVerifyModal from '../components/accounts/two_factor/TwoFactorVerifyModal';
 import { IS_MAINNET, PUBLIC_URL, SHOW_PRERELEASE_WARNING } from '../config';
+import ExampleFlag from '../ExampleFlag';
 import { Mixpanel } from "../mixpanel/index";
 import * as accountActions from '../redux/actions/account';
 import { selectAccountSlice } from '../redux/slices/account';
@@ -63,6 +64,7 @@ import PublicRoute from './common/PublicRoute';
 import GlobalStyle from './GlobalStyle';
 import { LoginCliLoginSuccess } from './login/LoginCliLoginSuccess';
 import Navigation from './navigation/Navigation';
+import {PageNotFound} from './page-not-found/PageNotFound';
 import { Profile } from './profile/Profile';
 import { ReceiveContainerWrapper } from './receive-money/ReceiveContainerWrapper';
 import { SendContainerWrapper } from './send/SendContainerWrapper';
@@ -70,7 +72,6 @@ import { SignWithRouter } from './sign/Sign';
 import { StakingContainer } from './staking/StakingContainer';
 import Terms from './terms/Terms';
 import { Wallet } from './wallet/Wallet';
-
 import '../index.css';
 
 const { 
@@ -326,6 +327,11 @@ class Routing extends Component {
                                 pathname: '/*',
                                 search: search
                             }} />
+                            <PublicRoute
+                                exact
+                                path='/example_flag'
+                                component={ExampleFlag}
+                            />
                             <GuestLandingRoute
                                 exact
                                 path='/'
@@ -515,7 +521,7 @@ class Routing extends Component {
                                 indexBySearchEngines={true}
                             />
                             <PrivateRoute
-                                component={isInactiveAccount ? ActivateAccountWithRouter : Wallet}
+                                component={isInactiveAccount ? ActivateAccountWithRouter : PageNotFound}
                             />
                         </Switch>
                         <Footer/>

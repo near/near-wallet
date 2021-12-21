@@ -140,7 +140,7 @@ const TransactionsList = ({ transactions }) =>
 ));
 
 const ActionsList = ({ transaction, actions }) => 
-    actions
+    [...actions]
         .sort((a,b) => Object.keys(b)[0] === 'functionCall' ? 1 : -1)
         .map((a, i) => (
             <ActionRow 

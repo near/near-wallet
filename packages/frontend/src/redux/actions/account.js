@@ -199,7 +199,6 @@ export const redirectToApp = (fallback) => async (dispatch, getState) => {
 };
 
 export const allowLogin = () => async (dispatch, getState) => {
-    const accountId = selectAccountId(getState());
     const contractId = selectAccountUrlContractId(getState());
     const publicKey = selectAccountUrlPublicKey(getState());
     const methodNames = selectAccountUrlMethodNames(getState());
@@ -208,19 +207,19 @@ export const allowLogin = () => async (dispatch, getState) => {
 
     if (successUrl) {
         if (publicKey) {
-            await dispatchWithAlert(addAccessKey(accountId, contractId, publicKey, false, methodNames), { onlyError: true });
+            await dispatchWithAlert(addAccessKey(wallet.accountId, contractId, publicKey, false, methodNames), { onlyError: true });
         }
         const availableKeys = await wallet.getAvailableKeys();
         const allKeys = availableKeys.map(key => key.toString());
         const parsedUrl = new URL(successUrl);
-        parsedUrl.searchParams.set('account_id', accountId);
+        parsedUrl.searchParams.set('account_id', wallet.accountId);
         if (publicKey) {
             parsedUrl.searchParams.set('public_key', publicKey);
         }
         parsedUrl.searchParams.set('all_keys', allKeys.join(','));
         window.location = parsedUrl.href;
     } else {
-        await dispatchWithAlert(addAccessKey(accountId, contractId, publicKey, false, methodNames), { data: { title } });
+        await dispatchWithAlert(addAccessKey(wallet.accountId, contractId, publicKey, false, methodNames), { data: { title } });
         dispatch(redirectTo('/authorized-apps', { globalAlertPreventClear: true }));
     }
 };

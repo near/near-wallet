@@ -182,8 +182,8 @@
         "cancelTransfer": "Cancel Transfer",
         "claimAccount": "Claim Account",
         "claimMyAccount": "Claim My Account",
-        "Close": "Close",
         "close": "Close",
+        "Close": "Close",
         "confirm": "Confirm",
         "confirmAndSend": "Confirm & Send",
         "connect": "Connect",
@@ -659,6 +659,11 @@
     "of": "of",
     "ofTotal": "of Total",
     "or": "or",
+    "pageNotFound": {
+        "displayTitle": "404",
+        "returnToWallet": "Return to Wallet",
+        "title": "Whoops, looks like this page is missing."
+    },
     "profile": {
         "account": {
             "available": "Available balance",
@@ -849,6 +854,7 @@
             "error": "Public key access was rejected. No accounts were recovered.<br/>To continue, you must allow NEAR Wallet to view your public key. Please try again.",
             "success": ""
         },
+        "LackBalanceForState": "Your available balance is too low to perform any actions on your account. Please send NEAR to your account and then try again.",
         "NotEnoughBalance": "Your account does not have enough balance for this operation.",
         "PROMPT_TWO_FACTOR": {
             "invalidCode": "Invalid 2FA code. Please try again."

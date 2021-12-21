@@ -1,15 +1,19 @@
 {
   "homepage": "https://wallet.near.org",
-  "name": "near-wallet-frontend",
-  "version": "0.1.0",
-  "private": true,
+  "name": "@near-wallet/frontend",
+  "version": "0.1.1",
+  "publishConfig": {
+    "access": "public"
+  },
   "dependencies": {
     "@ledgerhq/hw-transport-u2f": "^5.34.0",
+    "@near-wallet/feature-flags": "^0.0.4",
     "@reduxjs/toolkit": "1.6.2",
     "@sentry/browser": "^6.4.1",
     "connected-react-router": "^6.6.0",
     "escape-html": "^1.0.3",
     "fetch-send-json": "0.0.2",
+    "generate-lockfile": "^0.0.11",
     "js-sha256": "^0.9.0",
     "lodash.assign": "^4.2.0",
     "lodash.isarray": "^4.0.0",
@@ -61,7 +65,7 @@
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
     "precommit": "lint-staged",
-    "precommit+tests": "lint-staged &&  cd ../e2e-tests && yarn && yarn run e2e"
+    "prepush": "yarn run test"
   },
   "browserslist": [
     ">0.2%",
@@ -74,10 +78,6 @@
     "@babel/preset-env": "^7.14.1",
     "@babel/preset-react": "^7.13.13",
     "@sentry/cli": "^1.65.0",
-    "@storybook/addon-actions": "^6.1.21",
-    "@storybook/addon-essentials": "^6.1.21",
-    "@storybook/addon-links": "^6.1.21",
-    "@storybook/react": "^6.1.21",
     "babel-eslint": "^10.1.0",
     "babel-jest": "^27.0.1",
     "babel-loader": "^8.1.0",
@@ -99,6 +99,6 @@
     "*.{js,jsx}": [
       "eslint --quiet --fix"
     ],
-    "src/translations/*.json": "sort-json --ignore-case true"
+    "src/translations/*.json": "npx sort-json --ignore-case true"
   }
 }
