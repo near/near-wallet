@@ -41,7 +41,7 @@ const StyledContainer = styled.div`
         }
 
         .confirm-img {
-            width: 272px;
+            max-width: 272px;
         }
 
         .confirm-nft-card {
