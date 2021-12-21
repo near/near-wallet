@@ -8,16 +8,11 @@ export function SetupRecoveryImplicitAccountWrapper() {
     const dispatch = useDispatch();
     return (
         <SetupRecoveryImplicitAccount
-            onClickSecureMyAccount={({
-                recoveryOption,
-                email
-            }) => {
+            onClickSecureMyAccount={({ recoveryOption }) => {
                 if (recoveryOption === 'phrase') {
                     dispatch(redirectTo(`/setup-passphrase-new-account`));
                 } else if (recoveryOption === 'ledger') {
                     dispatch(redirectTo(`/setup-ledger-new-account`));
-                } else if (recoveryOption === 'email') {
-                    //FIX
                 }
             }}
         />
