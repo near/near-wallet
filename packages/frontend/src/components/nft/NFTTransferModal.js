@@ -176,9 +176,9 @@ const StyledContainer = styled.div`
             padding-bottom: 0px;
 
             button {
-                width: 136px  ;
-                height: 56px  ;
-                margin-top: 0px  ;
+                width: 136px;
+                height: 56px;
+                margin-top: 0px;
 
                 &.link {
                     margin: 20px 35px;
