@@ -320,9 +320,7 @@ export default function NFTTransferModal({ open, onClose, nft, accountId }) {
                         </div>
                     </div>
 
-                    <div className='estimate-fee-card'>
-                        <EstimatedFees gasFeeAmount={NFT_TRANSFER_GAS}/>
-                    </div>
+                    <EstimatedFees gasFeeAmount={NFT_TRANSFER_GAS}/>
 
                     <div className='full-width'>
                         <ModalFooter>
