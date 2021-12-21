@@ -255,7 +255,7 @@ export default function NFTTransferModal({ open, onClose, nft, accountId }) {
             modalSize='md'
         >
             {viewType === 'transfer' &&
-            <StyledContainer className='small-centered'>
+            <StyledContainer>
                 <img className='transfer-img' src={nft.metadata.mediaUrl} alt='NFT'/>
 
                 <h3><Translate id='NFTTransfer.transferNft'/></h3>
