@@ -51,7 +51,6 @@ const StyledContainer = styled.div`
             position: relative;
             width: 100%;
             margin-top: 16px;
-
             background: #FFFFFF;
             box-shadow: 0px 45px 56px rgba(0, 0, 0, 0.07), 0px 10.0513px 12.5083px rgba(0, 0, 0, 0.0417275), 0px 2.99255px 3.72406px rgba(0, 0, 0, 0.0282725);
             border-radius: 8px;
