@@ -7,7 +7,7 @@ import {
     parseCommaSeperatedStringAsArrayFromShell,
 } from "./envParsers";
 
-const NEAR_WALLET_ENV = process.env.NEAR_WALLET_ENV;
+const { NEAR_WALLET_ENV } = process.env;
 
 assert(
     Object.values(Environments).some((env) => NEAR_WALLET_ENV === env),
@@ -15,7 +15,6 @@ assert(
 );
 
 module.exports = {
-    NEAR_WALLET_ENV,
     ACCOUNT_HELPER_URL: process.env.REACT_APP_ACCOUNT_HELPER_URL,
     ACCOUNT_ID_SUFFIX: process.env.REACT_APP_ACCOUNT_ID_SUFFIX,
     ACCESS_KEY_FUNDING_AMOUNT: process.env.REACT_APP_ACCESS_KEY_FUNDING_AMOUNT,
@@ -48,6 +47,7 @@ module.exports = {
     MULTISIG_MIN_AMOUNT: process.env.REACT_APP_MULTISIG_MIN_AMOUNT,
     MULTISIG_MIN_PROMPT_AMOUNT:
         process.env.REACT_APP_MULTISIG_MIN_PROMPT_AMOUNT,
+    NEAR_WALLET_ENV,
     NETWORK_ID: process.env.REACT_APP_NETWORK_ID,
     NODE_URL: process.env.REACT_APP_NODE_URL,
     PUBLIC_URL: process.env.PUBLIC_URL,

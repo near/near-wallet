@@ -6,8 +6,6 @@ const Environments = require("../../../features/environments.json");
 const { parseBooleanFromShell } = require("../src/config/envParsers");
 
 const Config = {
-  NEAR_WALLET_ENV: process.env.NEAR_WALLET_ENV,
-  TRAVIS: parseBooleanFromShell(process.env.TRAVIS),
   BRANCH: process.env.BRANCH,
   CLOUDFLARE_BASE_URL: process.env.CLOUDFLARE_BASE_URL,
   CONTEXT: process.env.CONTEXT,
@@ -17,6 +15,7 @@ const Config = {
   IS_NETLIFY: parseBooleanFromShell(process.env.NETLIFY),
   IS_RENDER: parseBooleanFromShell(process.env.RENDER),
   IS_PULL_REQUEST: parseBooleanFromShell(process.env.IS_PULL_REQUEST),
+  NEAR_WALLET_ENV: process.env.NEAR_WALLET_ENV,
   RENDER: process.env.RENDER,
   RENDER_EXTERNAL_URL: process.env.RENDER_EXTERNAL_URL,
   RENDER_GIT_COMMIT: process.env.RENDER_GIT_COMMIT,
@@ -28,6 +27,7 @@ const Config = {
       (process.env.RENDER &&
           `render:${process.env.RENDER_SERVICE_NAME}:${process.env.RENDER_GIT_BRANCH}:${process.env.RENDER_GIT_COMMIT}`),
   SHOULD_USE_CLOUDFLARE: parseBooleanFromShell(process.env.USE_CLOUDFLARE),
+  TRAVIS: parseBooleanFromShell(process.env.TRAVIS),
 };
 
 const computeCiNearWalletEnv = (Config) => {
