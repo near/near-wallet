@@ -23,19 +23,19 @@ const initialState = {
 
 const getLedgerAccountIds = createAsyncThunk(
     `${SLICE_NAME}/getLedgerAccountIds`,
-    async ({ path }) => await wallet.getLedgerAccountIds(path),
+    async ({ path }) => await wallet.getLedgerAccountIds({ path }),
     showAlertToolkit({ onlyError: true })
 );
 
 const addLedgerAccountId = createAsyncThunk(
     `${SLICE_NAME}/addLedgerAccountId`,
-    async ({ accountId}) => await wallet.addLedgerAccountId(accountId),
+    async ({ accountId}) => await wallet.addLedgerAccountId({ accountId }),
     showAlertToolkit()
 );
 
 const saveAndSelectLedgerAccounts = createAsyncThunk(
     `${SLICE_NAME}/saveAndSelectLedgerAccounts`,
-    async ({ accounts}) => await wallet.saveAndSelectLedgerAccounts(accounts),
+    async ({ accounts}) => await wallet.saveAndSelectLedgerAccounts({ accounts }),
     showAlertToolkit()
 );
 

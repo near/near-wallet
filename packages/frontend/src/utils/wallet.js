@@ -657,7 +657,7 @@ class Wallet {
         return null;
     }
 
-    async getLedgerAccountIds(path) {
+    async getLedgerAccountIds({ path }) {
         const publicKey = await this.getLedgerPublicKey(path);
 
         // TODO: getXXX methods shouldn't be modifying the state
@@ -697,7 +697,7 @@ class Wallet {
         return checkedAccountIds;
     }
 
-    async addLedgerAccountId(accountId) {
+    async addLedgerAccountId({ accountId }) {
         try {
             const accessKeys = await this.getAccessKeys(accountId);
             const localAccessKey = await this.getLocalAccessKey(accountId, accessKeys);
@@ -712,7 +712,7 @@ class Wallet {
         }
     }
 
-    async saveAndSelectLedgerAccounts(accounts) {
+    async saveAndSelectLedgerAccounts({ accounts }) {
         const accountIds = Object.keys(accounts).filter(accountId => accounts[accountId].status === 'success');
 
         if (!accountIds.length) {
@@ -859,7 +859,7 @@ class Wallet {
 
     async addLocalKeyAndFinishSetup(accountId, recoveryMethod, publicKey, previousAccountId) {
         if (recoveryMethod === 'ledger') {
-            await this.addLedgerAccountId(accountId);
+            await this.addLedgerAccountId({ accountId });
             await this.postSignedJson('/account/ledgerKeyAdded', { accountId, publicKey: publicKey.toString() });
         } else {
             const newKeyPair = KeyPair.fromRandom('ed25519');
