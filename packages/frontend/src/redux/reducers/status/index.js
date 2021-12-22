@@ -17,6 +17,19 @@ const initialState = {
 };
 
 const alertReducer = (state, { error, ready, payload, meta, type }) => {
+
+    // temporary solution to handle both `showAlert` and `showAlertToolkit`
+    if (type.endsWith('/rejected') || type.endsWith('/fulfilled')) {
+        meta = {
+            ...meta,
+            ...(error?.alertMeta || {})
+        };
+        payload = {
+            ...payload,
+            type: payload?.type || error?.type
+        };
+    }
+
     const actionStatus = {
         ...state.actionStatus,
         [type]: (typeof ready === 'undefined' && type !== 'SHOW_CUSTOM_ALERT')
@@ -56,8 +69,8 @@ const alertReducer = (state, { error, ready, payload, meta, type }) => {
                     messageCode: 
                         payload?.messageCode 
                         || (error
-                            ? payload.type !== 'UntypedError'
-                                ? `reduxActions.${payload.type}`
+                            ? payload?.type !== 'UntypedError'
+                                ? `reduxActions.${payload?.type}`
                                 : `reduxActions.${type}.error`
                             : `reduxActions.${type}.success`),
                     console: (error || (type === 'SHOW_CUSTOM_ALERT' && payload.errorMessage)) && (meta.alert?.console || payload.data?.console)
