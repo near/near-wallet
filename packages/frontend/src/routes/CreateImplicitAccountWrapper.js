@@ -1,5 +1,6 @@
 import BN from 'bn.js';
 import { getLocation } from 'connected-react-router';
+import { utils } from 'near-api-js';
 import { formatNearAmount } from 'near-api-js/lib/utils/format';
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
@@ -31,6 +32,10 @@ export function CreateImplicitAccountWrapper() {
     const recoveryMethod = URLParams.get('recoveryMethod');
 
     const formattedMinDeposit = formatNearAmount(MIN_BALANCE_TO_CREATE);
+
+    // Check that the initial deposit was at least 0.2N, otherwise the users 'available balance'
+    // won't be enough to create a named account.
+    const NAMED_ACCOUNT_MIN = utils.format.parseNearAmount('0.2');
 
     useEffect(() => {
         if (accountId === implicitAccountId || !implicitAccountId || !recoveryMethod) {
@@ -68,7 +73,9 @@ export function CreateImplicitAccountWrapper() {
                                 implicitAccountId,
                                 recoveryMethod
                             });
-                            dispatch(setCreatePersonalizedName(true));
+                            if (new BN(state.amount).gte(new BN(NAMED_ACCOUNT_MIN))) {
+                                dispatch(setCreatePersonalizedName(true));
+                            }
                             return;
                         } else {
                             console.log('Insufficient funding amount');
