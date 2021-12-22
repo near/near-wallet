@@ -7,7 +7,7 @@ import {
     parseCommaSeperatedStringAsArrayFromShell,
 } from "./envParsers";
 
-const { NEAR_WALLET_ENV } = process.env;
+const NEAR_WALLET_ENV = process.env.NEAR_WALLET_ENV;
 
 assert(
     Object.values(Environments).some((env) => NEAR_WALLET_ENV === env),
