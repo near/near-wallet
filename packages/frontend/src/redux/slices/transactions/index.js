@@ -64,14 +64,17 @@ const transactionsSlice = createSlice({
             const hash = transactionsState.map((t) => t.hash_with_index);
 
             // when updating the transaction, we do not want to replace the entire array, because for some entries the tx status may already be fetched
-            transactions.forEach((t) => {
-                if (!hash.includes(t.hash_with_index)) {
-                    transactionsState.unshift(t);
-                    if (transactionsState.length > 10) {
-                        transactionsState.pop();
+            transactions
+                .reverse()
+                .forEach((t) => {
+                    if (!hash.includes(t.hash_with_index)) {
+                        transactionsState.unshift(t);
+                        if (transactionsState.length > 10) {
+                            transactionsState.pop();
+                        }
                     }
                 }
-            });
+            );
         },
         updateTransactionStatus(state, { payload }) {
             const { status, checkStatus, accountId, hash } = payload;

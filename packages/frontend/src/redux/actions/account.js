@@ -34,7 +34,6 @@ import { WalletError } from '../../utils/walletError';
 import refreshAccountOwner from '../sharedThunks/refreshAccountOwner';
 import { 
     selectAccountAccountsBalances,
-    selectAccountBalanceLockedAmount,
     selectAccountId,
     selectAccountUrl,
     selectAccountUrlCallbackUrl,
@@ -49,7 +48,8 @@ import {
     selectAccountUrlTransactions,
     selectBalance
 } from '../slices/account';
-import { selectAllAccountsBalanceLockedAmount } from '../slices/allAccounts';
+import { selectAccountHasLockup } from '../slices/account';
+import { selectAllAccountsHasLockup } from '../slices/allAccounts';
 import { selectAvailableAccounts } from '../slices/availableAccounts';
 import { 
     actions as flowLimitationActions,
@@ -71,16 +71,17 @@ const {
     handleClearflowLimitation
 } = flowLimitationActions;
 
-export const getProfileStakingDetails = (accountId) => async (dispatch, getState) => {
-    await dispatch(handleGetLockup(accountId));
-    await dispatch(handleStakingUpdateAccount([], accountId));
+export const getProfileStakingDetails = (externalAccountId) => async (dispatch, getState) => {
+    await dispatch(handleGetLockup(externalAccountId));
 
-    const lockupIdExists = accountId
-        ? !!selectAllAccountsBalanceLockedAmount(getState(), { accountId })
-        : !!selectAccountBalanceLockedAmount(getState());
+    await dispatch(handleStakingUpdateAccount([], externalAccountId));
+
+    const lockupIdExists = externalAccountId
+        ? selectAllAccountsHasLockup(getState(), { accountId: externalAccountId })
+        : selectAccountHasLockup(getState());
 
     lockupIdExists
-        && dispatch(handleStakingUpdateLockup(accountId));
+        && dispatch(handleStakingUpdateLockup(externalAccountId));
 };
 
 export const handleRedirectUrl = (previousLocation) => (dispatch, getState) => {
