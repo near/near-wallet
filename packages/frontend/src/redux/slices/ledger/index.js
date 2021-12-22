@@ -4,6 +4,7 @@ import unset from 'lodash.unset';
 import { createSelector } from "reselect";
 
 import { HIDE_SIGN_IN_WITH_LEDGER_ENTER_ACCOUNT_ID_MODAL } from "../../../config";
+import { showAlertToolkit } from "../../../utils/alerts";
 import { wallet } from "../../../utils/wallet";
 import refreshAccountOwner from "../../sharedThunks/refreshAccountOwner";
 import initialErrorState from "../initialErrorState";
@@ -25,21 +26,24 @@ const getLedgerAccountIds = createAsyncThunk(
     `${SLICE_NAME}/getLedgerAccountIds`,
     async ({ path }) => {
         return await wallet.getLedgerAccountIds(path);
-    }
+    },
+    showAlertToolkit({ onlyError: true })
 );
 
 const addLedgerAccountId = createAsyncThunk(
     `${SLICE_NAME}/addLedgerAccountId`,
     async ({ accountId}) => {
         return await wallet.addLedgerAccountId(accountId);
-    }
+    },
+    showAlertToolkit()
 );
 
 const saveAndSelectLedgerAccounts = createAsyncThunk(
     `${SLICE_NAME}/saveAndSelectLedgerAccounts`,
     async ({ accounts}) => {
         return await wallet.saveAndSelectLedgerAccounts(accounts);
-    }
+    },
+    showAlertToolkit()
 );
 
 
@@ -73,7 +77,7 @@ const checkAndHideLedgerModal = createAsyncThunk(
 
 const signInWithLedger = createAsyncThunk(
     `${SLICE_NAME}/signInWithLedger`,
-    async ({ path }, { dispatch, getState }) => {
+    async ({ path }, { dispatch, getState }) => {
         await dispatch(getLedgerAccountIds({ path }));
 
         const accountIds = Object.keys(selectLedgerSignInWithLedger(getState()));
