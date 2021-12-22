@@ -62,8 +62,6 @@
                 "title": "Bem-vindo a NEAR"
             }
         },
-
-        "nameDoesntMatch": "O nome da conta não corresponde",
         "login": {
             "details": {
                 "warning": "Isso permite acesso a todo o seu saldo. Prossiga com cuidado."
@@ -72,6 +70,7 @@
                 "error": "O contrato ${contractId} não existe. Isso pode ser um problema com o aplicativo que você está tentando usar ou este contrato pode ter sido excluído. Você será redirecionado de volta para a aplicação"
             }
         },
+        "nameDoesntMatch": "O nome da conta não corresponde",
         "recoverAccount": {
             "error": "Falha ao recuperar conta. Nenhuma conta foi encontrada para esta frase-semente.",
             "errorInvalidSeedPhrase": "Nenhuma conta foi encontrada para esta frase-semente.",

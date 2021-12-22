@@ -64,7 +64,7 @@
     "fix": "eslint --ext .js --ext .jsx . --fix",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
-    "prepush": "concurrently \"eslint --quiet --fix\" \"cnpx sort-json * --ignore-case true\""
+    "prepush": "concurrently \"yarn run fix\" \"cd src/translations && npx sort-json * --ignore-case true\" \"yarn run test\""
   },
   "browserslist": [
     ">0.2%",
@@ -80,7 +80,6 @@
     "babel-eslint": "^10.1.0",
     "babel-jest": "^27.0.1",
     "babel-loader": "^8.1.0",
-    "concurrently": "^6.5.1",
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.15.6",
     "eslint": "5.16.0",
@@ -90,15 +89,8 @@
     "eslint-plugin-jsx-a11y": "^6.4.1",
     "eslint-plugin-react": "^7.23.2",
     "jest": "^27.0.1",
-    "lint-staged": "^12.1.2",
     "parcel-bundler": "^1.12.4",
     "parcel-plugin-bundle-visualiser": "^1.2.0",
     "react-is": "^17.0.2"
-  },
-  "lint-staged": {
-    "*.{js,jsx}": [
-      "eslint --quiet --fix"
-    ],
-    "src/translations/*.json": "npx sort-json --ignore-case true"
   }
 }
