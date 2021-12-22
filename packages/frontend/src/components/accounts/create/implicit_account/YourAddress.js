@@ -33,6 +33,7 @@ const StyledContainer = styled.div`
             height: 46px;
             font-size: 14px;
             min-width: 110px;
+            cursor: copy;
 
             @media (max-width: 767px) {
                 width: inherit;
