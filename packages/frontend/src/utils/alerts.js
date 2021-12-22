@@ -14,6 +14,14 @@ export const showAlert = ({ data, onlyError, onlySuccess, console = true, localA
     data
 });
 
+export const showAlertToolkit = (alertParams) => ({
+    serializeError: (error) => ({
+        message: error.message,
+        type: error.type,
+        alertMeta: showAlert(alertParams)
+    })
+});
+
 export const dispatchWithAlert = (action, data) => store.dispatch({
     ...action,
     meta: {
