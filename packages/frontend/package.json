@@ -64,7 +64,7 @@
     "fix": "eslint --ext .js --ext .jsx . --fix",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
-    "prepush": "lint-staged && yarn run test"
+    "prepush": "concurrently \"eslint --quiet --fix\" \"cnpx sort-json * --ignore-case true\""
   },
   "browserslist": [
     ">0.2%",
@@ -80,6 +80,7 @@
     "babel-eslint": "^10.1.0",
     "babel-jest": "^27.0.1",
     "babel-loader": "^8.1.0",
+    "concurrently": "^6.5.1",
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.15.6",
     "eslint": "5.16.0",
