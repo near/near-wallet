@@ -51,6 +51,7 @@ git commit -m "feat: linting support using eslint"
 ```
 
 The image below provides more information on the commit types.
-![image](https://user-images.githubusercontent.com/16845555/144693890-b0a4d6a9-9463-489e-8d8b-1a8cb4489d67.png)
+
+![image](./assets/conventional-commit-types.png)
 
 Learn more about this conventional commit format [here](https://www.conventionalcommits.org/en/v1.0.0/#commit-message-with--to-draw-attention-to-breaking-change).
