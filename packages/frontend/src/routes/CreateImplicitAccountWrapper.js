@@ -13,6 +13,7 @@ import { showCustomAlert } from '../redux/actions/status';
 import { selectAccountId } from '../redux/slices/account';
 import { actions as createFromImplicitActions } from '../redux/slices/createFromImplicit';
 import { getSignedUrl } from '../utils/moonpay';
+import { isMoonpayAvailable } from '../utils/moonpay';
 import useRecursiveTimeout from '../utils/useRecursiveTimeout';
 import { wallet } from '../utils/wallet';
 
@@ -44,11 +45,21 @@ export function CreateImplicitAccountWrapper() {
     }, [accountId, implicitAccountId, recoveryMethod]);
 
     useEffect(() => {
-        const handleSetMoonpayURL = async () => {
-            const moonpaySignedUrl = await getSignedUrl(implicitAccountId, window.location.href, 30);
-            setMoonpaySignedUrl(moonpaySignedUrl);
+        const checkIfMoonPayIsAvailable = async () => {
+            await Mixpanel.withTracking("CA Check Moonpay available",
+                async () => {
+                    const moonpayAvailable = await isMoonpayAvailable();
+                    if (moonpayAvailable) {
+                        const moonpaySignedUrl = await getSignedUrl(implicitAccountId, window.location.href, 30);
+                        setMoonpaySignedUrl(moonpaySignedUrl);
+                    }
+                },
+                (e) => {
+                    throw e;
+                }
+            );
         };
-        handleSetMoonpayURL();
+        checkIfMoonPayIsAvailable();
     }, [
         implicitAccountId,
         window.location.href
@@ -108,6 +119,7 @@ export function CreateImplicitAccountWrapper() {
         <CreateImplicitAccount
             formattedMinDeposit={formattedMinDeposit}
             implicitAccountId={implicitAccountId}
+            moonpayIsAvailable={!!moonpaySignedUrl}
             onClickBuyButton={(amountUSD) => {
                 window.open(
                     `${moonpaySignedUrl}&baseCurrencyAmount=${amountUSD}`,

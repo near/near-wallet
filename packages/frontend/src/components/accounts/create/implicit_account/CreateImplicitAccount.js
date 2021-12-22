@@ -34,8 +34,13 @@ const StyledBuyButton = styled(FormButton)`
     }
 `;
 
-const BuyButton = ({ amountUSD, onClickBuyButton }) => (
+const BuyButton = ({
+    amountUSD,
+    onClickBuyButton,
+    moonpayIsAvailable
+}) => (
     <StyledBuyButton
+        disabled={!moonpayIsAvailable}
         color='light-blue'
         onClick={() => onClickBuyButton(amountUSD)}
     >
@@ -51,7 +56,8 @@ const BuyButton = ({ amountUSD, onClickBuyButton }) => (
 export default ({
     onClickBuyButton,
     implicitAccountId,
-    formattedMinDeposit
+    formattedMinDeposit,
+    moonpayIsAvailable
 }) => {
     const [showWhereToBuyModal, setShowWhereToBuyModal] = useState(false);
     return (
@@ -59,10 +65,14 @@ export default ({
             <StyledContainer className='border small-centered'>
                 <h3><Translate id='account.createImplicitAccount.title' /></h3>
                 <div className='flex-center-center'>
-                    <BuyButton amountUSD='30' onClickBuyButton={onClickBuyButton} />
-                    <BuyButton amountUSD='50' onClickBuyButton={onClickBuyButton} />
-                    <BuyButton amountUSD='100' onClickBuyButton={onClickBuyButton} />
-                    <BuyButton onClickBuyButton={onClickBuyButton} />
+                    {['30', '50', '100', ''].map((amount, i) => (
+                        <BuyButton
+                            key={`${i}-${amount}`}
+                            amountUSD={amount}
+                            onClickBuyButton={onClickBuyButton}
+                            moonpayIsAvailable={moonpayIsAvailable}
+                        />
+                    ))}
                 </div>
                 <h3 className='bottom'><Translate id='account.createImplicitAccount.orSendNear' data={{ amount: formattedMinDeposit }} /></h3>
                 <Translate id='account.createImplicitAccount.sendFrom' />&nbsp;

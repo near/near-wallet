@@ -118,6 +118,11 @@ const CustomButton = styled.button`
                 color: white;
                 background-color: #0072CE;
             }
+
+            :disabled {
+                background-color: #F0F0F1;
+                color: #A2A2A8;
+            }
         }
 
         &.red {
