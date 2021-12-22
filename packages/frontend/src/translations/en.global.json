@@ -73,10 +73,10 @@
             "title": "Almost there! To get started, buy some NEAR using MoonPay...",
             "titleAlt": "Almost there! To get started, send at least ${amount} NEAR to your wallet address.",
             "orSendNear": "...or send at least ${amount} NEAR to your wallet address.",
-            "personalizedAddress": "A personalized address can be anything you like, making it easier to remember and share!",
+            "personalizedAddress": "A custom address can be anything you like, making it easier to remember and share!",
             "createPersonalizedNameModal": {
-                "desc": "Unlike a randomly generated address, a personalized address can be anything you like, making it easier to remember and share!",
-                "title": "Claim a Personalized Address"
+                "desc": "Unlike your default address, a custom address can be anything you like, making it easier to remember and share!",
+                "title": "Add a Custom Address to Your Wallet"
             }
         },
         "fundedStatus": {
@@ -244,7 +244,7 @@
         "recoverAccount": "Recover Account",
         "recovering": "Finding Account",
         "recoverYourAccount": "Recover your Account",
-        "registerPersonalizedAccouunt": "Register a Personalized Address",
+        "addACustomAddress": "Add a Custom Address",
         "removeNode": "Remove Node",
         "removingKeys": "Removing Keys",
         "reserveMyAccountId": "Reserve My Account ID",
@@ -763,7 +763,7 @@
         "loading": "Loading reCAPTCHA..."
     },
     "receivePage": {
-        "addressTitle": "Your address",
+        "addressTitle": "Your Wallet Address",
         "copyAddressLinkLong": "Copy address URL",
         "copyAddressLinkShort": "COPY",
         "qrCodeTitle": "Scan QR code",

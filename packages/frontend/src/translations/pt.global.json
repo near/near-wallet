@@ -241,6 +241,20 @@
             "success": "Link de recuperação enviado com sucesso!",
             "error": "Falha ao reenviar. Por favor, tente novamente."
         },
+        "createImplicitAccount": {
+            "customAmount": "Custom",
+            "sendFrom": "Send from an",
+            "exchange": "exchange",
+            "orAskFriend": "or ask a friend!",
+            "title": "Almost there! To get started, buy some NEAR using MoonPay...",
+            "titleAlt": "Almost there! To get started, send at least ${amount} NEAR to your wallet address.",
+            "orSendNear": "...or send at least ${amount} NEAR to your wallet address.",
+            "personalizedAddress": "A custom address can be anything you like, making it easier to remember and share!",
+            "createPersonalizedNameModal": {
+                "desc": "Unlike your default address, a custom address can be anything you like, making it easier to remember and share!",
+                "title": "Add a Custom Address to Your Wallet"
+            }
+        },
         "login": {
             "details": {
                 "warning": "Isso permite acesso a todo o seu saldo. Prossiga com cuidado."

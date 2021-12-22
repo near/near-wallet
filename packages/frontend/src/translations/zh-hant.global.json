@@ -65,6 +65,20 @@
                 "title": "歡迎使用 NEAR"
             }
         },
+        "createImplicitAccount": {
+            "customAmount": "Custom",
+            "sendFrom": "Send from an",
+            "exchange": "exchange",
+            "orAskFriend": "or ask a friend!",
+            "title": "Almost there! To get started, buy some NEAR using MoonPay...",
+            "titleAlt": "Almost there! To get started, send at least ${amount} NEAR to your wallet address.",
+            "orSendNear": "...or send at least ${amount} NEAR to your wallet address.",
+            "personalizedAddress": "A custom address can be anything you like, making it easier to remember and share!",
+            "createPersonalizedNameModal": {
+                "desc": "Unlike your default address, a custom address can be anything you like, making it easier to remember and share!",
+                "title": "Add a Custom Address to Your Wallet"
+            }
+        },
         "fundedStatus": {
             "active": "活躍",
             "awaitingDeposit": "等待充值",
