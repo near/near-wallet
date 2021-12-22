@@ -8,7 +8,6 @@ import { showAlertToolkit } from "../../../utils/alerts";
 import { setLedgerHdPath } from "../../../utils/localStorage";
 import { wallet } from "../../../utils/wallet";
 import refreshAccountOwner from "../../sharedThunks/refreshAccountOwner";
-import initialErrorState from "../initialErrorState";
 
 const SLICE_NAME = 'ledger';
 
@@ -22,28 +21,21 @@ const initialState = {
     modal: {}
 };
 
-
 const getLedgerAccountIds = createAsyncThunk(
     `${SLICE_NAME}/getLedgerAccountIds`,
-    async ({ path }) => {
-        return await wallet.getLedgerAccountIds(path);
-    },
+    async ({ path }) => await wallet.getLedgerAccountIds(path),
     showAlertToolkit({ onlyError: true })
 );
 
 const addLedgerAccountId = createAsyncThunk(
     `${SLICE_NAME}/addLedgerAccountId`,
-    async ({ accountId}) => {
-        return await wallet.addLedgerAccountId(accountId);
-    },
+    async ({ accountId}) => await wallet.addLedgerAccountId(accountId),
     showAlertToolkit()
 );
 
 const saveAndSelectLedgerAccounts = createAsyncThunk(
     `${SLICE_NAME}/saveAndSelectLedgerAccounts`,
-    async ({ accounts}) => {
-        return await wallet.saveAndSelectLedgerAccounts(accounts);
-    },
+    async ({ accounts}) => await wallet.saveAndSelectLedgerAccounts(accounts),
     showAlertToolkit()
 );
 
@@ -122,10 +114,9 @@ const ledgerSlice = createSlice({
             set(state, ['modal'], {});
             unset(state, ['txSigned']);
         },
-
-
     },
     extraReducers: ((builder) => {
+        // getLedgerAccountIds
         builder.addCase(getLedgerAccountIds.pending, (state) => {
             set(state, ['signInWithLedgerStatus'], LEDGER_MODAL_STATUS.CONFIRM_PUBLIC_KEY);
         });
@@ -137,13 +128,13 @@ const ledgerSlice = createSlice({
             );
         });
         builder.addCase(getLedgerAccountIds.rejected, (state, { error }) => {
-
             const noAccounts = error.message === 'No accounts were found.' && !HIDE_SIGN_IN_WITH_LEDGER_ENTER_ACCOUNT_ID_MODAL;
 
             set(state, ['signInWithLedgerStatus'], noAccounts ? LEDGER_MODAL_STATUS.ENTER_ACCOUNTID : undefined);
             unset(state, ['signInWithLedger']);
             unset(state, ['txSigned']);
         });
+        // addLedgerAccountId
         builder.addCase(addLedgerAccountId.pending, (state, { payload, meta: { arg: { accountId } } }) => {
             set(state, ['signInWithLedgerStatus'], LEDGER_MODAL_STATUS.CONFIRM_ACCOUNTS);
             set(state, ['signInWithLedger', accountId, 'status'], 'confirm');
@@ -158,10 +149,12 @@ const ledgerSlice = createSlice({
             const transportError = error?.name === 'TransportStatusError';
             set(state, ['signInWithLedger', accountId, 'status'], transportError ? 'rejected' : 'error');
         });
+        // refreshAccountOwner
         builder.addCase(refreshAccountOwner.fulfilled, (state, { payload }) => {
             set(state, ['hasLedger'], payload.ledger.hasLedger);
             set(state, ['ledgerKey'], payload.ledger.ledgerKey);
         });
+        // matcher to handle closing modal automatically
         builder.addMatcher(
             ({ type, ready, error }) => ready || error || type.endsWith('/rejected') || type.endsWith('/fulfilled'),
             (state, { type }) => {
