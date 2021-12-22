@@ -78,6 +78,7 @@ const checkAndHideLedgerModal = createAsyncThunk(
 const signInWithLedger = createAsyncThunk(
     `${SLICE_NAME}/signInWithLedger`,
     async ({ path }, { dispatch, getState }) => {
+        dispatch(ledgerSlice.actions.setLedgerTxSigned({ status: true }));
         await dispatch(getLedgerAccountIds({ path }));
 
         const accountIds = Object.keys(selectLedgerSignInWithLedger(getState()));

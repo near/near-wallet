@@ -660,7 +660,6 @@ class Wallet {
     async getLedgerAccountIds(path) {
         const publicKey = await this.getLedgerPublicKey(path);
 
-        await store.dispatch(setLedgerTxSigned({ status: true }));
         // TODO: getXXX methods shouldn't be modifying the state
         await setKeyMeta(publicKey, { type: 'ledger' });
 
