@@ -5,6 +5,7 @@ import { createSelector } from "reselect";
 
 import { HIDE_SIGN_IN_WITH_LEDGER_ENTER_ACCOUNT_ID_MODAL } from "../../../config";
 import { showAlertToolkit } from "../../../utils/alerts";
+import { setLedgerHdPath } from "../../../utils/localStorage";
 import { wallet } from "../../../utils/wallet";
 import refreshAccountOwner from "../../sharedThunks/refreshAccountOwner";
 import initialErrorState from "../initialErrorState";
@@ -46,14 +47,13 @@ const saveAndSelectLedgerAccounts = createAsyncThunk(
     showAlertToolkit()
 );
 
-
 const signInWithLedgerAddAndSaveAccounts = createAsyncThunk(
     `${SLICE_NAME}/signInWithLedgerAddAndSaveAccounts`,
     async ({ path, accountIds }, { dispatch, getState }) => {
         for (let accountId of accountIds) {
             try {
                 if (path) {
-                    localStorage.setItem(`ledgerHdPath:${accountId}`, path);
+                    setLedgerHdPath({ accountId, path });
                 }
                 await dispatch(addLedgerAccountId({ accountId }));
                 dispatch(ledgerSlice.actions.setLedgerTxSigned({ status: false, accountId }));
