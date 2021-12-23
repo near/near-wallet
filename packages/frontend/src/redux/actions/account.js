@@ -1,14 +1,12 @@
-import { BN } from 'bn.js';
 import { 
     getLocation,
     push
 } from 'connected-react-router';
-import { utils } from 'near-api-js';
 import { PublicKey, KeyType } from 'near-api-js/lib/utils/key_pair';
 import { parse, stringify } from 'query-string';
 import { createActions, createAction } from 'redux-actions';
 
-import { DISABLE_CREATE_ACCOUNT, MULTISIG_MIN_PROMPT_AMOUNT } from '../../config';
+import { DISABLE_CREATE_ACCOUNT } from '../../config';
 import { 
     showAlert,
     dispatchWithAlert
@@ -45,8 +43,7 @@ import {
     selectAccountUrlRedirectUrl,
     selectAccountUrlSuccessUrl,
     selectAccountUrlTitle,
-    selectAccountUrlTransactions,
-    selectBalance
+    selectAccountUrlTransactions
 } from '../slices/account';
 import { selectAccountHasLockup } from '../slices/account';
 import { selectAllAccountsHasLockup } from '../slices/allAccounts';
