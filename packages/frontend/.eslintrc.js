@@ -7,6 +7,7 @@ module.exports = {
         'no-console': 'off',
         'no-extra-boolean-cast':'off',
         'no-extra-semi':'off',
+        'no-irregular-whitespace':'off',
         'import/order': [
             'error',
             {
