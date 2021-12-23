@@ -97,7 +97,7 @@ const StyledContainer = styled.div`
         }
     }
 
-    .nft img {
+    .nft img, .nft video {
         width: 100%;
         margin-bottom: 10px;
     }
@@ -130,12 +130,22 @@ const NFTBox = ({ tokenDetails }) => {
             {
                 ownedTokensMetadata &&
                 <div className='tokens'>
-                    {ownedTokensMetadata.map(({ token_id, metadata: { mediaUrl, title } }) => {
+                    {ownedTokensMetadata.map(({ token_id, metadata: { mediaUrl, title } }, index) => {
+                        const videoProps = index === 0 ? { autoplay: "true" } : {};
                         return <div className='nft' key={token_id}>
-                            <img src={mediaUrl} alt='NFT' onError={(e) => {
-                                e.target.onerror = null;
-                                e.target.src = FailedToLoad;
-                            }}/>
+                            {
+                                mediaUrl.match(/\.webm$/i)
+                                    ? <video muted="true" loop controls { ...videoProps }>
+                                        <source src={mediaUrl} type="video/webm" onError={(e) => {
+                                        e.target.onerror = null;
+                                        e.target.src = FailedToLoad;
+                                    }}/>
+                                    </video>
+                                    : <img src={mediaUrl} alt='NFT' onError={(e) => {
+                                        e.target.onerror = null;
+                                        e.target.src = FailedToLoad;
+                                    }}/>
+                            }
                             <b>{title}</b>
                         </div>;
                     })}
