@@ -61,7 +61,10 @@
     "build": "NODE_ENV=production node ci/runBundler.js && node ci/sentry-send-release.js",
     "test": "jest",
     "lint": "eslint --ext .js --ext .jsx .",
-    "fix": "eslint --ext .js --ext .jsx . --fix"
+    "fix": "eslint --ext .js --ext .jsx . --fix",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook",
+    "prepush": "concurrently \"yarn run fix\" \"cd src/translations && npx sort-json * --ignore-case true\" \"yarn run test\""
   },
   "browserslist": [
     ">0.2%",

@@ -854,6 +854,7 @@
             "error": "Public key access was rejected. No accounts were recovered.<br/>To continue, you must allow NEAR Wallet to view your public key. Please try again.",
             "success": ""
         },
+        "LackBalanceForState": "Your available balance is too low to perform any actions on your account. Please send NEAR to your account and then try again.",
         "NotEnoughBalance": "Your account does not have enough balance for this operation.",
         "PROMPT_TWO_FACTOR": {
             "invalidCode": "Invalid 2FA code. Please try again."
@@ -893,8 +894,7 @@
         "VERIFY_TWO_FACTOR": {
             "error": "Two Factor Authentication setup failed. Please try again.",
             "success": "Two Factor Authentication successfully setup!"
-        },
-        "LackBalanceForState": "Your available balance is too low to perform any actions on your account. Please send NEAR to your account and then try again."
+        }
     },
     "releaseNotesModal": {
         "desc": "You asked, we listened! The latest update brings adjustments to how balances are displayed in the wallet, and an easier way to create new accounts.",
