@@ -5,6 +5,7 @@ module.exports = {
         'no-useless-escape': 'off',
         'semi': ['error', 'always'],
         'no-console': 'off',
+        'no-extra-boolean-cast':'off',
         'import/order': [
             'error',
             {
