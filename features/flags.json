@@ -23,7 +23,7 @@
       "lastEditedAt": "2021-05-24T09:33:27.489Z"
     }
   },
-  "CREATE_DEFAULT_ACCOUNT": {
+  "CREATE_IMPLICIT_ACCOUNT": {
     "createdBy": "Patrick Tajima",
     "createdAt": "2021-12-23T22:16:36.291Z",
     "development": {

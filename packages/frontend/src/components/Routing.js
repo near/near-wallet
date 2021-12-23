@@ -9,7 +9,7 @@ import { connect } from 'react-redux';
 import { Redirect, Switch } from 'react-router-dom';
 import styled, { ThemeProvider } from 'styled-components';
 
-import { CREATE_DEFAULT_ACCOUNT } from '../../../../features';
+import { CREATE_IMPLICIT_ACCOUNT } from '../../../../features';
 import TwoFactorVerifyModal from '../components/accounts/two_factor/TwoFactorVerifyModal';
 import { IS_MAINNET, PUBLIC_URL, SHOW_PRERELEASE_WARNING } from '../config';
 import ExampleFlag from '../ExampleFlag';
@@ -354,13 +354,19 @@ class Routing extends Component {
                                 exact
                                 path='/create/:fundingContract/:fundingKey'
                                 component={CreateAccountWithRouter}
-                            // All linkdrop users create a named account
                             />
+                            {CREATE_IMPLICIT_ACCOUNT &&
+                                <PublicRoute
+                                    exact
+                                    path='/create'
+                                    render={(props) => accountFound ? <CreateAccountWithRouter {...props} /> : <CreateAccountLanding />}
+                                    // Logged in users always create a named account
+                                />
+                            }
                             <PublicRoute
                                 exact
                                 path='/create'
-                                render={(props) => accountFound ? <CreateAccountWithRouter {...props} /> : <CreateAccountLanding />}
-                            // Logged in users create a named account and first-time users go the implicit account route
+                                component={<CreateAccountWithRouter />}
                             />
                             <PublicRoute
                                 exact
@@ -372,24 +378,33 @@ class Routing extends Component {
                                 path='/set-recovery/:accountId/:fundingContract?/:fundingKey?'
                                 component={SetupRecoveryMethodWithRouter}
                             />
-                            {CREATE_DEFAULT_ACCOUNT &&
-                                <>
-                                    < PublicRoute
-                                        exact
-                                        path='/set-recovery-implicit-account'
-                                        render={() => accountFound ? <Wallet /> : <SetupRecoveryImplicitAccountWrapper />}
-                                    />
-                                    <PublicRoute
-                                        exact
-                                        path='/setup-passphrase-new-account'
-                                        render={() => accountFound ? <Wallet /> : <SetupPassphraseNewAccountWrapper />}
-                                    />
-                                    <PublicRoute
-                                        exact
-                                        path='/setup-ledger-new-account'
-                                        render={() => accountFound ? <Wallet /> : <SetupLedgerNewAccountWrapper />}
-                                    />
-                                </>
+                            {CREATE_IMPLICIT_ACCOUNT &&
+                                < PublicRoute
+                                    exact
+                                    path='/set-recovery-implicit-account'
+                                    render={() => !accountFound ? <SetupRecoveryImplicitAccountWrapper /> : <Redirect to='/' />}
+                                />
+                            }
+                            {CREATE_IMPLICIT_ACCOUNT &&
+                                <PublicRoute
+                                    exact
+                                    path='/setup-passphrase-new-account'
+                                    render={() => !accountFound ? <SetupPassphraseNewAccountWrapper /> : <Redirect to='/' />}
+                                />
+                            }
+                            {CREATE_IMPLICIT_ACCOUNT &&
+                                <PublicRoute
+                                    exact
+                                    path='/setup-ledger-new-account'
+                                    render={() => !accountFound ? <SetupLedgerNewAccountWrapper /> : <Redirect to='/' />}
+                                />
+                            }
+                            {CREATE_IMPLICIT_ACCOUNT &&
+                                <PublicRoute
+                                    exact
+                                    path='/create-implicit-account'
+                                    render={() => !accountFound ? <CreateImplicitAccountWrapper /> : <Redirect to='/' />}
+                                />
                             }
                             <PublicRoute
                                 exact
@@ -405,11 +420,6 @@ class Routing extends Component {
                                 exact
                                 path='/initial-deposit'
                                 component={InitialDepositWrapper}
-                            />
-                            <PublicRoute
-                                exact
-                                path='/create-implicit-account'
-                                component={CreateImplicitAccountWrapper}
                             />
                             <PublicRoute
                                 exact

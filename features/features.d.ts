@@ -3,5 +3,5 @@
 
 export type Features = {
     EXAMPLE_FLAG: boolean;
-	CREATE_DEFAULT_ACCOUNT: boolean;
+	CREATE_IMPLICIT_ACCOUNT: boolean;
 };
