@@ -215,7 +215,7 @@ class SetupSeedPhrase extends Component {
     }
 
     render() {
-        const { recoveryMethods, recoveryMethodsLoader } = this.props;
+        const { recoveryMethods, recoveryMethodsLoader } = this.props;
         const hasSeedPhraseRecovery = recoveryMethodsLoader || recoveryMethods.filter(m => m.kind === 'phrase').length > 0;
         const { seedPhrase, enterWord, wordId, submitting, localAlert, isNewAccount, successSnackbar } = this.state;
 
@@ -294,7 +294,7 @@ const mapDispatchToProps = {
 };
 
 const mapStateToProps = (state, { match }) => {
-    const { accountId } = match.params;
+    const { accountId } = match.params;
     
     return {
         ...selectAccountSlice(state),

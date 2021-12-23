@@ -6,6 +6,7 @@ module.exports = {
         'semi': ['error', 'always'],
         'no-console': 'off',
         'no-extra-boolean-cast':'off',
+        'no-extra-semi':'off',
         'import/order': [
             'error',
             {

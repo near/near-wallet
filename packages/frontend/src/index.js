@@ -1,4 +1,4 @@
-import 'regenerator-runtime/runtime';
+import "regenerator-runtime/runtime";
 
 import { createBrowserHistory } from 'history';
 import React from 'react';
@@ -21,12 +21,16 @@ const history = createBrowserHistory();
 export const store = createStore(createRootReducer(history), createMiddleware(history));
 
 ReactDOM.render(
-    <GoogleReCaptchaProvider reCaptchaKey={RECAPTCHA_ENTERPRISE_SITE_KEY} useRecaptchaNet={true} useEnterprise={true}>
+    <GoogleReCaptchaProvider
+        reCaptchaKey={RECAPTCHA_ENTERPRISE_SITE_KEY}
+        useRecaptchaNet={true}
+        useEnterprise={true}
+    >
         <Provider store={store}>
             <LocalizeProvider store={store}>
-                <Routing history={history} />
+                <Routing history={history}/>
             </LocalizeProvider>
         </Provider>
     </GoogleReCaptchaProvider>,
-    document.getElementById('root'),
+    document.getElementById('root')
 );

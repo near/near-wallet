@@ -28,8 +28,8 @@ const fetchTransactions = createAsyncThunk(
         const { actions: { setTransactions, updateTransactions } } = transactionsSlice;
 
         !selectTransactionsByAccountId(getState(), { accountId }).length
-            ? dispatch(setTransactions({ transactions, accountId }))
-            : dispatch(updateTransactions({ transactions, accountId }));
+            ? dispatch(setTransactions({ transactions, accountId }))
+            : dispatch(updateTransactions({ transactions, accountId }));
     }
 );
 
@@ -45,7 +45,7 @@ const fetchTransactionStatus = createAsyncThunk(
         }
         const checkStatus = ['SuccessValue', 'Failure'].includes(status);
         const { actions: { updateTransactionStatus } } = transactionsSlice;
-        dispatch(updateTransactionStatus({ status, checkStatus, accountId, hash }));
+        dispatch(updateTransactionStatus({ status, checkStatus, accountId, hash }));
     }
 );
 
