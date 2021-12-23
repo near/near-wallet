@@ -22,5 +22,34 @@
       "lastEditedBy": "Daryl Collins",
       "lastEditedAt": "2021-05-24T09:33:27.489Z"
     }
+  },
+  "CREATE_DEFAULT_ACCOUNT": {
+    "createdBy": "Patrick Tajima",
+    "createdAt": "2021-12-23T22:16:36.291Z",
+    "development": {
+      "enabled": false,
+      "lastEditedBy": "Patrick Tajima",
+      "lastEditedAt": "2021-12-23T22:16:36.291Z"
+    },
+    "testnet": {
+      "enabled": false,
+      "lastEditedBy": "Patrick Tajima",
+      "lastEditedAt": "2021-12-23T22:16:36.291Z"
+    },
+    "testnet_STAGING": {
+      "enabled": false,
+      "lastEditedBy": "Patrick Tajima",
+      "lastEditedAt": "2021-12-23T22:16:36.291Z"
+    },
+    "mainnet": {
+      "enabled": false,
+      "lastEditedBy": "Patrick Tajima",
+      "lastEditedAt": "2021-12-23T22:16:36.291Z"
+    },
+    "mainnet_STAGING": {
+      "enabled": true,
+      "lastEditedBy": "Patrick Tajima",
+      "lastEditedAt": "2021-12-23T22:16:36.291Z"
+    }
   }
 }
