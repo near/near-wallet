@@ -66,7 +66,7 @@ RequestSignTransactionsOptions {
 ## Wallet redirect and callback
 The user will be presented with a request to sign the transaction(s) that were passed in in the wallet UI: 
 
-![image](./assets/sign-transaction-request.png =500x)
+<img src="./assets/sign-transaction-request.png" width="500">
 
 
 Once the user allows or denies the transaction, they will be redirected to `callbackUrl` with the following parameters:
