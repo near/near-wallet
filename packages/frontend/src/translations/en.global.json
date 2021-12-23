@@ -231,6 +231,7 @@
         "reserveMyAccountId": "Reserve My Account ID",
         "retry": "Retry",
         "returnToApp": "Return to App",
+        "resubmit": "Resubmit",
         "saveChanges": "Save Changes",
         "send": "Send",
         "setupPhrase": "Setup Recovery Phrase",
@@ -1123,6 +1124,14 @@
             "transferOf": "is requesting the transfer of"
         },
         "nothingHasBeenTransferred": "Nothing has been transferred.",
+        "retry": {
+            "title": "Insufficient Network Fee",
+            "text": "The default network fee was not enough to cover the cost of your transaction.<br/><br/>You may resubmit the transaction to have its fee limit automatically increased.",
+            "link": "What is the fee limit?",
+            "networkFees": "Network Fees",
+            "estimatedFees": "Estimated Fees",
+            "feeLimit": "Fee Limit"
+        },
         "transactionCancelled": "Transaction cancelled",
         "transferring": "Transferring",
         "unexpectedStatus": "Unexpected status",
