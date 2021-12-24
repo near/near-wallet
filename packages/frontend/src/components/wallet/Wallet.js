@@ -4,10 +4,12 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Textfit } from 'react-textfit';
 import styled from 'styled-components';
 
+import { CREATE_IMPLICIT_ACCOUNT } from '../../../../../features';
 import { useFungibleTokensIncludingNEAR } from '../../hooks/fungibleTokensIncludingNEAR';
 import { Mixpanel } from "../../mixpanel/index";
 import { selectAccountId, selectBalance } from '../../redux/slices/account';
-import { selectCreateFromImplicitSuccess, selectCreatePersonalizedName, actions as createFromImplicitActions } from '../../redux/slices/createFromImplicit';
+import { selectAvailableAccounts } from '../../redux/slices/availableAccounts';
+import { selectCreateFromImplicitSuccess, selectCreateCustomName, actions as createFromImplicitActions } from '../../redux/slices/createFromImplicit';
 import { selectLinkdropAmount, actions as linkdropActions } from '../../redux/slices/linkdrop';
 import { selectTokensWithMetadataForAccountId, actions as nftActions } from '../../redux/slices/nft';
 import { actions as tokensActions, selectTokensLoading } from '../../redux/slices/tokens';
@@ -21,19 +23,20 @@ import DownArrowIcon from '../svg/DownArrowIcon';
 import SendIcon from '../svg/SendIcon';
 import TopUpIcon from '../svg/TopUpIcon';
 import ActivitiesWrapper from './ActivitiesWrapper';
+import CreateCustomNameModal from './CreateCustomNameModal';
 import CreateFromImplicitSuccessModal from './CreateFromImplicitSuccessModal';
-import CreatePersonalizedNameModal from './CreatePersonalizedNameModal';
 import DepositNearBanner from './DepositNearBanner';
 import ExploreApps from './ExploreApps';
 import LinkDropSuccessModal from './LinkDropSuccessModal';
 import NFTs from './NFTs';
 import ReleaseNotesModal from './ReleaseNotesModal';
+import Sidebar from './Sidebar';
 import Tokens from './Tokens';
 
 const { fetchNFTs } = nftActions;
 const { fetchTokens } = tokensActions;
 const { setLinkdropAmount } = linkdropActions;
-const { setCreateFromImplicitSuccess, setCreatePersonalizedName } = createFromImplicitActions;
+const { setCreateFromImplicitSuccess, setCreateCustomName } = createFromImplicitActions;
 
 const StyledContainer = styled(Container)`
     @media (max-width: 991px) {
@@ -253,12 +256,12 @@ const StyledContainer = styled(Container)`
     }
 
     h2 {
-        font-weight: 900 !important;
-        font-size: 22px !important;
+        font-weight: 900;
+        font-size: 22px;
         align-self: flex-start;
         margin: 50px 0 30px 0;
-        text-align: left !important;
-        color: #24272a !important;
+        text-align: left;
+        color: #24272a;
     }
 `;
 
@@ -268,9 +271,10 @@ export function Wallet({ tab, setTab }) {
     const dispatch = useDispatch();
     const linkdropAmount = useSelector(selectLinkdropAmount);
     const createFromImplicitSuccess = useSelector(selectCreateFromImplicitSuccess);
-    const createPersonalizedName = useSelector(selectCreatePersonalizedName);
+    const createCustomName = useSelector(selectCreateCustomName);
     const fungibleTokensList = useFungibleTokensIncludingNEAR();
     const tokensLoader = useSelector((state) => selectTokensLoading(state, { accountId })) || !balance?.total;
+    const availableAccounts = useSelector(selectAvailableAccounts);
 
     useEffect(() => {
         if (accountId) {
@@ -326,7 +330,10 @@ export function Wallet({ tab, setTab }) {
                     }
                 </div>
                 <div className='right'>
-                    <ExploreApps />
+                    {CREATE_IMPLICIT_ACCOUNT
+                        ? <Sidebar availableAccounts={availableAccounts} />
+                        : <ExploreApps />
+                    }
                     <ActivitiesWrapper />
                 </div>
             </div>
@@ -343,10 +350,10 @@ export function Wallet({ tab, setTab }) {
                     accountId={accountId}
                 />
             }
-            {createPersonalizedName &&
-                <CreatePersonalizedNameModal
-                    onClose={() => dispatch(setCreatePersonalizedName(false))}
-                    isOpen={createPersonalizedName}
+            {createCustomName &&
+                <CreateCustomNameModal
+                    onClose={() => dispatch(setCreateCustomName(false))}
+                    isOpen={createCustomName}
                     accountId='bob.near'
                 />
             }

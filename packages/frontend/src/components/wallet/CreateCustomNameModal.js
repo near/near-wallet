@@ -39,8 +39,8 @@ export default ({
         >
             <Container>
                 <NewAccountIdGraphic accountId={accountId}/>
-                <h3><Translate id='account.createImplicitAccount.createPersonalizedNameModal.title'/></h3>
-                <p><Translate id='account.createImplicitAccount.createPersonalizedNameModal.desc'/></p>
+                <h3><Translate id='account.createImplicitAccount.createCustomNameModal.title'/></h3>
+                <p><Translate id='account.createImplicitAccount.createCustomNameModal.desc'/></p>
                 <FormButton onClick={onClose} linkTo='/create'><Translate id='button.addACustomAddress'/></FormButton>
                 <FormButton className='link' onClick={onClose}><Translate id='button.skipThisForNow'/></FormButton>
             </Container>

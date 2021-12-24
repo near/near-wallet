@@ -17,7 +17,7 @@ import { isMoonpayAvailable } from '../utils/moonpay';
 import useRecursiveTimeout from '../utils/useRecursiveTimeout';
 import { wallet } from '../utils/wallet';
 
-const { setCreatePersonalizedName } = createFromImplicitActions;
+const { setCreateCustomName } = createFromImplicitActions;
 
 export function CreateImplicitAccountWrapper() {
     const dispatch = useDispatch();
@@ -85,7 +85,7 @@ export function CreateImplicitAccountWrapper() {
                                 recoveryMethod
                             });
                             if (new BN(state.amount).gte(new BN(NAMED_ACCOUNT_MIN))) {
-                                dispatch(setCreatePersonalizedName(true));
+                                dispatch(setCreateCustomName(true));
                             }
                             return;
                         } else {

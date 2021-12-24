@@ -366,7 +366,7 @@ class Routing extends Component {
                             <PublicRoute
                                 exact
                                 path='/create'
-                                component={<CreateAccountWithRouter />}
+                                component={CreateAccountWithRouter}
                             />
                             <PublicRoute
                                 exact
