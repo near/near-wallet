@@ -59,6 +59,7 @@ const StyledContainer = styled.div`
 
 const NFTs = ({ tokens }) => {
     if (tokens.length) {
+        tokens = tokens.filter(tokenDetails => tokenDetails.ownedTokensMetadata && tokenDetails.ownedTokensMetadata.length)
         return (
             <StyledContainer>
                 {tokens.map((tokenDetails) => (
