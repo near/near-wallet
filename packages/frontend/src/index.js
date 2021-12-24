@@ -7,7 +7,7 @@ import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3-near';
 import { LocalizeProvider } from 'react-localize-redux';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
- 
+
 import Routing from './components/Routing';
 import { RECAPTCHA_ENTERPRISE_SITE_KEY } from './config';
 import createRootReducer from './redux/combineReducers';
