@@ -7,34 +7,37 @@ To implement authentication using the NEAR Wallet, you will need to follow the i
 * You should already have `near-api-js` installed.
 
 ## Steps
-1. Construct wallet login parameters
-2. Initialize a `WalletConnection` and call `requestSignIn`
-3. Wallet redirect on success on failure
+1. [Construct wallet login parameters](#construct-wallet-login-parameters)
+2. [Initialize a `WalletConnection` and call `requestSignIn`](#initialize-a-walletconnection-and-call-requestsignin)
+3. [Wallet redirect on success on failure](#wallet-redirect-on-success-on-failure)
 
 <br/>
 
-### Construct wallet login parameters
-The wallet login API accepts the following parameters:
+## Construct wallet login parameters
+The wallet login API accepts 2 parameters as shown below:
+
+| Command | Type | Required | Description
+| --- | --- | --- | --- |
+| contractIdOrOptions | SignInOptions | `true` |A configuration object for the request as shown below. |
+| title | string | `false` | A string identifier for the app requesting access |
+
 
 ```typescript
-    // A string indicating
-    contractIdOrOptions: string | SignInOptions = {},
-    // A string identifier for the app requesting access
-    title?: string,
-    // NEAR wallet will redirect to this URL on sign in success 
-    successUrl?: string,
-    // NEAR wallet will redirect to this URL on sign in failure 
-    failureUrl?: string
-
+   // The configuration for SignInOptions 
     interface SignInOptions {
+        // The ID of the smart contract requesting access
         contractId?: string;
+        // And array of contract methods (Leave empty for access to all methods)
         methodNames?: string[];
+        // NEAR wallet will redirect to this URL on sign in success 
         successUrl?: string;
+        // NEAR wallet will redirect to this URL on sign in failure 
         failureUrl?: string;
     }
 ```
 
-TODO: public_key? For full access?
+### Note
+* If you wish to request full access to the wallet, do not pass a `contractId` field to signup options.
 
 
 <br/>
@@ -51,17 +54,11 @@ Setup a `WalletConnection` instance by passing in your `Near` instance. You can 
     const walletConnection = new WalletConnection(near);
 
     const contractId = 'example.testnet';
-    const title = 'Demo app'
-    const successUrl = 'https://demodapp.com/auth/success'
-    const failureUrl = 'https://demodapp.com/auth/failure'
+    const title = 'Demo app';
+    const successUrl = 'https://demodapp.com/auth/success';
+    const failureUrl = 'https://demodapp.com/auth/failure';
 
-    // redirect to wallet to complete login
-    walletConnection.requestSignIn(contractId, title, successUrl, failureUrl);
-
-    // OR
-
-    // Using SignInOptions
-    walletConnection.requestSignIn({ contractId }, title, successUrl, failureUrl);
+    walletConnection.requestSignIn({ contractId, successUrl, failureUrl }, title);
 
 ```
 
@@ -75,10 +72,11 @@ Once sign in is successfully initiated, the user will be taken to the wallet whe
 
 <br/>
 
-Once the user allows or denies the request, they will be redirected to the `successUrl` and `failureUrl  respectively,with the following parameters:
+Once the user allows or denies the request, they will be redirected to the `successUrl` and `failureUrl`  respectively,with the following parameters:
 
-* `account_id`
-* `all_keys`
+* `account_id` - The ID of the authenticated wallet.
+* `all_keys` - A comma separated, concatenated string of available keys on the wallet. 
+* `public_key` -  The public key. 
 
 
 <br/>
