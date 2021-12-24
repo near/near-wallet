@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useState, useLayoutEffect } from 'react';
 import styled from 'styled-components';
 
 import languagesIcon from '../../images/icon-languages.svg';
@@ -6,6 +6,7 @@ import LanguageToggle from '../common/LangSwitcher';
 import DesktopMenu from './DesktopMenu';
 import Logo from './Logo';
 import NavLinks from './NavLinks';
+import { getNavLinkItems } from './NavLinks';
 import UserAccount from './UserAccount';
 
 const Container = styled.div`
@@ -40,6 +41,12 @@ const Container = styled.div`
         margin: 0 20px;
     }
 `;
+
+
+
+const MajorNavLinkContainer = styled.div`
+    display: flex;
+`
 
 
 const Lang = styled.div`
@@ -85,58 +92,92 @@ const Lang = styled.div`
     }
 `;
 
-class DesktopContainer extends Component {
-    render() {
-
-        const {
-            account,
-            menuOpen,
-            toggleMenu,
-            availableAccounts,
-            handleSelectAccount,
-            showNavLinks,
-            flowLimitationMainMenu,
-            flowLimitationSubMenu,
-            refreshBalance,
-            isInactiveAccount
-        } = this.props;
-
-        const showAllNavigationLinks = showNavLinks && !isInactiveAccount && !flowLimitationMainMenu;
-
-        return (
-            <Container>
-                <Logo link={!flowLimitationMainMenu} />
-                {showAllNavigationLinks &&
-                    <NavLinks />
-                }
-                <Lang>
-                    <LanguageToggle />
-                </Lang>
-                {showNavLinks &&
-                    <>
-                        <div className='divider'/>
-                        <UserAccount
-                            accountId={account.accountId || account.localStorage?.accountId}
-                            onClick={toggleMenu}
-                            flowLimitationSubMenu={flowLimitationSubMenu}
-                        />
-                        <DesktopMenu
-                            show={menuOpen}
-                            toggleMenu={toggleMenu}
-                            accountId={account.accountId}
-                            accountIdLocalStorage={account.localStorage?.accountId}
-                            accounts={availableAccounts}
-                            handleSelectAccount={handleSelectAccount}
-                            accountsBalance={account.accountsBalance}
-                            balance={account.balance}
-                            refreshBalance={refreshBalance}
-                            isInactiveAccount={isInactiveAccount}
-                        />
-                    </>
-                }
-            </Container>
-        );
+const DesktopContainer = (
+    {
+        account,
+        menuOpen,
+        toggleMenu,
+        availableAccounts,
+        handleSelectAccount,
+        showNavLinks,
+        flowLimitationMainMenu,
+        flowLimitationSubMenu,
+        refreshBalance,
+        isInactiveAccount
     }
+) => {
+
+    const showAllNavigationLinks = showNavLinks && !isInactiveAccount && !flowLimitationMainMenu;
+
+    const [deviceWidth, setDeviceWidth] = useState(960);
+    const navLinkItems = getNavLinkItems();
+    const majorNavLinkBreakpoints = [992, 992, 992, 1050, 1180];
+
+    const numOfMajorItems = getNumOfMajorItems(deviceWidth, majorNavLinkBreakpoints);
+    const majorNavLinkItems = navLinkItems.slice(0, numOfMajorItems);
+    const minorNavLinkItems = navLinkItems.slice(numOfMajorItems);
+
+    useLayoutEffect(() => {
+        function updateWidth() {
+            setDeviceWidth(window.innerWidth);
+        }
+        window.addEventListener('resize', updateWidth);
+        updateWidth();
+        return () => window.removeEventListener('resize', updateWidth);
+    }, []);
+
+
+
+
+    return (
+        <Container>
+            <Logo link={!flowLimitationMainMenu} />
+            {showAllNavigationLinks &&
+                <MajorNavLinkContainer >
+                    <NavLinks items={majorNavLinkItems} />
+                </MajorNavLinkContainer>
+            }
+            <Lang>
+                <LanguageToggle />
+            </Lang>
+            {showNavLinks &&
+                <>
+                    <div className='divider' />
+                    <UserAccount
+                        accountId={account.accountId || account.localStorage?.accountId}
+                        onClick={toggleMenu}
+                        flowLimitationSubMenu={flowLimitationSubMenu}
+                    />
+                    <DesktopMenu
+                        show={menuOpen}
+                        toggleMenu={toggleMenu}
+                        accountId={account.accountId}
+                        accountIdLocalStorage={account.localStorage?.accountId}
+                        accounts={availableAccounts}
+                        handleSelectAccount={handleSelectAccount}
+                        accountsBalance={account.accountsBalance}
+                        balance={account.balance}
+                        refreshBalance={refreshBalance}
+                        isInactiveAccount={isInactiveAccount}
+                        minorNavLinkItems={minorNavLinkItems}
+                    />
+                </>
+            }
+        </Container>
+    );
+
+}
+
+
+const getNumOfMajorItems = (deviceWidth, breakpoints) => {
+    let numOfItems = 0;
+    while (numOfItems < breakpoints.length) {
+        if (deviceWidth < breakpoints[numOfItems]) {
+            break;
+        }
+        numOfItems += 1;
+    }
+    return numOfItems;
 }
 
 export default DesktopContainer;

@@ -46,3 +46,4 @@ export const SHOW_PRERELEASE_WARNING = process.env.SHOW_PRERELEASE_WARNING === '
 export const SMS_BLACKLIST = process.env.SMS_BLACKLIST || 'CN,VN';
 export const STAKING_GAS_BASE = process.env.REACT_APP_STAKING_GAS_BASE || '25000000000000'; // 25 Tgas
 export const WHITELISTED_CONTRACTS = (process.env.TOKEN_CONTRACTS || 'berryclub.ek.near,farm.berryclub.ek.near,wrap.near').split(',');
+export const WRAP_NEAR_CONTRACT_ID = process.env.WRAP_NEAR_CONTRACT_ID || `wrap.${ACCOUNT_ID_SUFFIX}`;

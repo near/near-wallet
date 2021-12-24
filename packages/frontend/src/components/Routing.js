@@ -28,7 +28,7 @@ import getBrowserLocale from '../utils/getBrowserLocale';
 import { getAccountIsInactive, removeAccountIsInactive, setAccountIsInactive } from '../utils/localStorage';
 import { reportUiActiveMixpanelThrottled } from '../utils/reportUiActiveMixpanelThrottled';
 import ScrollToTop from '../utils/ScrollToTop';
-import { 
+import {
     WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS,
     WALLET_LOGIN_URL,
     WALLET_SIGN_URL,
@@ -63,10 +63,11 @@ import PublicRoute from './common/PublicRoute';
 import GlobalStyle from './GlobalStyle';
 import { LoginCliLoginSuccess } from './login/LoginCliLoginSuccess';
 import Navigation from './navigation/Navigation';
-import {PageNotFound} from './page-not-found/PageNotFound';
+import { PageNotFound } from './page-not-found/PageNotFound';
 import { Profile } from './profile/Profile';
 import { ReceiveContainerWrapper } from './receive-money/ReceiveContainerWrapper';
 import { SendContainerWrapper } from './send/SendContainerWrapper';
+import { WrapNearContainerWrapper } from './wrap/WrapNearContainerWrapper';
 import { SignWithRouter } from './sign/Sign';
 import { StakingContainer } from './staking/StakingContainer';
 import Terms from './terms/Terms';
@@ -74,11 +75,11 @@ import { Wallet } from './wallet/Wallet';
 
 import '../index.css';
 
-const { 
+const {
     fetchTokenFiatValues
 } = tokenFiatValueActions;
 
-const  {
+const {
     getAccountHelperWalletState,
     handleClearUrl,
     handleRedirectUrl,
@@ -181,7 +182,7 @@ class Routing extends Component {
             router,
             fetchTokenFiatValues
         } = this.props;
-        
+
         fetchTokenFiatValues();
         this.startPollingTokenFiatValue();
         handleRefreshUrl(router);
@@ -237,10 +238,10 @@ class Routing extends Component {
     }
 
     startPollingTokenFiatValue = () => {
-        const { fetchTokenFiatValues  } = this.props;
+        const { fetchTokenFiatValues } = this.props;
 
         const handlePollTokenFiatValue = async () => {
-            await fetchTokenFiatValues().catch(() => {});
+            await fetchTokenFiatValues().catch(() => { });
             if (this.pollTokenFiatValue) {
                 this.pollTokenFiatValue = setTimeout(() => handlePollTokenFiatValue(), 30000);
             }
@@ -271,12 +272,12 @@ class Routing extends Component {
             }
         };
         const { isInactiveAccount } = this.state;
-        
+
         const hideFooterOnMobile = [
             WALLET_LOGIN_URL,
             WALLET_SEND_MONEY_URL,
             WALLET_SIGN_URL
-        ].includes(pathname.replace(/\//g,''));
+        ].includes(pathname.replace(/\//g, ''));
 
         const accountFound = this.props.account.localStorage?.accountFound;
 
@@ -287,21 +288,21 @@ class Routing extends Component {
             <Container
                 className={classNames([
                     'App',
-                    {'network-banner': (!IS_MAINNET || SHOW_PRERELEASE_WARNING)},
-                    {'hide-footer-mobile' : hideFooterOnMobile}
+                    { 'network-banner': (!IS_MAINNET || SHOW_PRERELEASE_WARNING) },
+                    { 'hide-footer-mobile': hideFooterOnMobile }
                 ])}
                 id='app-container'
             >
                 <GlobalStyle />
                 <ConnectedRouter basename={PATH_PREFIX} history={this.props.history}>
                     <ThemeProvider theme={theme}>
-                        <ScrollToTop/>
+                        <ScrollToTop />
                         <NetworkBanner
                             account={account}
                         />
-                        <Navigation isInactiveAccount={isInactiveAccount}/>
-                        <GlobalAlert/>
-                        <LedgerConfirmActionModal/>
+                        <Navigation isInactiveAccount={isInactiveAccount} />
+                        <GlobalAlert />
+                        <LedgerConfirmActionModal />
                         {
                             account.requestPending !== null &&
                             <TwoFactorVerifyModal
@@ -314,7 +315,7 @@ class Routing extends Component {
                                     promptTwoFactor(null);
                                     if (error) {
                                         // tracking error
-                                        Mixpanel.track("2FA Modal Verify fail", {error: error.message});
+                                        Mixpanel.track("2FA Modal Verify fail", { error: error.message });
                                     }
                                     if (verified) {
                                         Mixpanel.track("2FA Modal Verify finish");
@@ -330,7 +331,7 @@ class Routing extends Component {
                             <GuestLandingRoute
                                 exact
                                 path='/'
-                                render={(props) => isInactiveAccount ? <ActivateAccountWithRouter {...props}/> : <Wallet tab={tab} setTab={setTab} {...props} />}
+                                render={(props) => isInactiveAccount ? <ActivateAccountWithRouter {...props} /> : <Wallet tab={tab} setTab={setTab} {...props} />}
                                 accountFound={accountFound}
                                 indexBySearchEngines={!accountFound}
                             />
@@ -453,12 +454,12 @@ class Routing extends Component {
                             <PrivateRoute
                                 exact
                                 path='/authorized-apps'
-                                render={() => <AccessKeysWrapper type='authorized-apps'/>}
+                                render={() => <AccessKeysWrapper type='authorized-apps' />}
                             />
                             <PrivateRoute
                                 exact
                                 path='/full-access-keys'
-                                render={() => <AccessKeysWrapper type='full-access-keys'/>}
+                                render={() => <AccessKeysWrapper type='full-access-keys' />}
                             />
                             {!isInactiveAccount &&
                                 <PrivateRoute
@@ -467,6 +468,14 @@ class Routing extends Component {
                                     component={SendContainerWrapper}
                                 />
                             }
+                            {!isInactiveAccount &&
+                                <PrivateRoute
+                                    exact
+                                    path='/wrap/:wrapping?'
+                                    component={WrapNearContainerWrapper}
+                                />
+                            }
+
                             <PrivateRoute
                                 exact
                                 path='/receive-money'
@@ -519,7 +528,7 @@ class Routing extends Component {
                                 component={isInactiveAccount ? ActivateAccountWithRouter : PageNotFound}
                             />
                         </Switch>
-                        <Footer/>
+                        <Footer />
                     </ThemeProvider>
                 </ConnectedRouter>
             </Container>

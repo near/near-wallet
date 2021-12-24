@@ -197,7 +197,8 @@ export default createGlobalStyle`
         }
 
         &.stake-amount-input,
-        &.send-amount-input {
+        &.send-amount-input,
+        &.wrap-amount-input {
             font-size: 38px;
             margin: 0;
             font-weight: 600;

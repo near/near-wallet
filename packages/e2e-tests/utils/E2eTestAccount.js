@@ -1,12 +1,20 @@
 const {
+    transactions: {
+        functionCall
+    },
     utils: {
         format: { parseNearAmount },
     },
 } = require("near-api-js");
-const BN = require("bn.js");
 
+const BN = require("bn.js");
+const { walletNetwork } = require("./config");
 const nearApiJsConnection = require("./connectionSingleton");
 const { getKeyPairFromSeedPhrase, generateTestAccountId } = require("./helpers");
+
+const FT_MINIMUM_STORAGE_BALANCE = parseNearAmount('0.00125');
+const FT_STORAGE_DEPOSIT_GAS = parseNearAmount('0.00000000003');
+const FT_WRAPPING_GAS = parseNearAmount('0.00000000003');
 
 class E2eTestAccount {
     constructor(accountId, seedPhrase, parentNearApiJsAccount) {
@@ -65,6 +73,34 @@ class E2eTestAccount {
             account_id: this.accountId,
         });
         return new BN(balanceString);
+    }
+    async getFungibleTokenBalance(contractName) {
+        return this.nearApiJsAccount.viewFunction(contractName, 'ft_balance_of', { account_id: this.accountId });
+    }
+    async wrapNear(amount) {
+
+        const contractName = `wrap.${walletNetwork}`;
+        const actions = [
+            functionCall(
+                "storage_deposit", // method to create an account
+                {
+                    registration_only: true,
+                },
+                FT_STORAGE_DEPOSIT_GAS, // attached gas
+                FT_MINIMUM_STORAGE_BALANCE)
+            ,
+            functionCall(
+                "near_deposit",
+                {},
+                FT_WRAPPING_GAS,
+                amount
+            ),
+        ];
+
+        return this.nearApiJsAccount.signAndSendTransaction({
+            receiverId: contractName,
+            actions,
+        });
     }
 }
 

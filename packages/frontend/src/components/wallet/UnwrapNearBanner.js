@@ -8,11 +8,6 @@ import NearLogoAndPlusIcon from '../svg/NearLogoAndPlusIcon';
 
 const StyledContainer = styled.div`
     width: 100%;
-
-    @media (max-width: 991px) {
-        margin-bottom: 40px;
-    }
-
     > div {
         border-top: 1px solid #F0F0F1;
         padding: 20px;
@@ -20,7 +15,6 @@ const StyledContainer = styled.div`
         @media (max-width: 991px) {
             margin: 0 -14px;
             padding: 20px 0;
-            border-bottom: 15px solid #F0F0F1;
         }
 
         @media (max-width: 767px) {
@@ -68,11 +62,11 @@ export default () => {
     return (
         <StyledContainer>
             <div>
-                <div data-test-id="depositNearBanner" onClick={() => dispatch(push({ pathname: '/receive-money' }))} >
+                <div data-test-id="unwrapWNearBanner" onClick={() => dispatch(push({ pathname: '/wrap/unwrap' }))} >
                     <NearLogoAndPlusIcon />
                     <div>
-                        <div className='title'><Translate id='wallet.depositNear.title' /></div>
-                        <div className='desc'><Translate id='wallet.depositNear.desc' /></div>
+                        <div className='title'><Translate id='wallet.unwrapWNear.title' /></div>
+                        <div className='desc'><Translate id='wallet.unwrapWNear.desc' /></div>
                     </div>
                 </div>
             </div>

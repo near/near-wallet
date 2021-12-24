@@ -243,6 +243,7 @@
         "startOver": "Start over",
         "subscribe": "Subscribe",
         "topUp": "Top Up",
+        "wrapNear": "Wrap NEAR",
         "transferring": "Transferring",
         "tryAgain": "Try Again",
         "unstaking": "Unstaking",
@@ -514,6 +515,7 @@
         "receive": "Receive",
         "send": "Send",
         "staking": "Staking",
+        "wrap": "Wrap Near",
         "switchAccount": "Account",
         "wallet": "Wallet"
     },
@@ -1003,6 +1005,43 @@
             }
         }
     },
+    "wrapNear": {
+        "enterAmount": {
+            "title": "Wrap Near",
+            "information": "Wrapping NEAR allows you to trade on different DeFi directly.",
+            "payAmount": "You pay",
+            "receiveAmount": "You receive",
+            "useMax": "Use Max",
+            "availableBalance": "Available balance"
+        },
+        "review": {
+            "wrappingTitle": "You are wrapping",
+            "unwrappingTitle": "You are unwrapping",
+            "TxEntry": {
+                "title": {
+                    "sendToken": "You Pay",
+                    "receiveToken": "You receive",
+                    "estimatedFees": "Estimated fees",
+                    "estimatedTotal": "Estimated total",
+                    "amount": "Amount"
+                }
+            }
+        },
+        "success": {
+            "wrappingTitle": "Transaction complete!</br>You wrapped <span class='color-blue'>${amount}</span></br>to <span class='color-green'>${receiveAmount}</span>",
+            "unwrappingTitle": "Transaction complete!</br>You unwrapped <span class='color-blue'>${amount}</span></br>to <span class='color-green'>${receiveAmount}</span>"
+        },
+        "translateIdInfoTooltip": {
+            "estimatedFees": "The estimated cost of processing your transaction.",
+            "estimatedTotal": "The estimated total of your transaction including fees.",
+            "networkFees": "The final amount paid to cover the costs of processing your transaction.",
+            "reservedForFees": "The portion of your account balance that cannot be spent. This amount is reserved to cover the storage costs of your account. For more information, visit our documentation."
+        },
+        "accordionTriggerTitle": {
+            "balanceDetails": "Balance details",
+            "transactionDetails": "Transaction Details"
+        }
+    },
     "setRecoveryConfirm": {
         "didNotReceive": "Didn't receive your code?",
         "email": "email address",
@@ -1413,6 +1452,10 @@
             "desc": "You’ll need NEAR tokens to perform transactions with your wallet.",
             "title": "Deposit NEAR"
         },
+        "unwrapWNear": {
+            "desc": "You’ll need NEAR tokens to perform transactions with your wallet.",
+            "title": "Unwrap wNEAR"
+        },
         "status": "Status",
         "tokenBalance": "Token Balance",
         "tokens": "Tokens",
@@ -1461,6 +1504,9 @@
             "setupMethod": "An error occured. Please check your recovery method."
         },
         "sendFungibleToken": {
+            "error": "An error occured. Your send transaction was cancelled."
+        },
+        "wrapNear": {
             "error": "An error occured. Your send transaction was cancelled."
         },
         "setupRecoveryMessage": {

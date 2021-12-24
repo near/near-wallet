@@ -5,7 +5,7 @@ import styled from 'styled-components';
 
 import classNames from '../../../utils/classNames';
 import BalanceDisplayUSD from './BalanceDisplayUSD';
-import { 
+import {
     formatNearAmount,
     showInYocto,
     YOCTO_NEAR_THRESHOLD
@@ -108,7 +108,7 @@ const BalanceDisplay = ({
                 <>
                     {amount
                         ? <div className='near-amount'>{amountoShow}{showSymbolNEAR !== false ? ` ${NEARSymbol}` : ``}</div>
-                        : <div className="dots"><Translate id='loadingNoDots'/></div>
+                        : <div className="dots"><Translate id='loadingNoDots' /></div>
                     }
                 </>
             }

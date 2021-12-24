@@ -3,6 +3,7 @@ import { Translate } from 'react-localize-redux';
 import { useSelector, useDispatch } from 'react-redux';
 import { Textfit } from 'react-textfit';
 import styled from 'styled-components';
+import BN from 'bn.js';
 
 import { useFungibleTokensIncludingNEAR } from '../../hooks/fungibleTokensIncludingNEAR';
 import { Mixpanel } from "../../mixpanel/index";
@@ -23,11 +24,16 @@ import TopUpIcon from '../svg/TopUpIcon';
 import ActivitiesWrapper from './ActivitiesWrapper';
 import CreateFromImplicitSuccessModal from './CreateFromImplicitSuccessModal';
 import DepositNearBanner from './DepositNearBanner';
+import UnwrapNearBanner from './UnwrapNearBanner';
 import ExploreApps from './ExploreApps';
 import LinkDropSuccessModal from './LinkDropSuccessModal';
 import NFTs from './NFTs';
 import ReleaseNotesModal from './ReleaseNotesModal';
 import Tokens from './Tokens';
+
+
+import { WRAP_NEAR_CONTRACT_ID, MIN_BALANCE_FOR_GAS } from '../../config';
+import { wrappedNearTokenService } from '../../services/WrappedNearToken';
 
 const { fetchNFTs } = nftActions;
 const { fetchTokens } = tokensActions;
@@ -358,6 +364,31 @@ export function Wallet({ tab, setTab }) {
 const FungibleTokens = ({ balance, tokensLoader, fungibleTokens }) => {
     const availableBalanceIsZero = balance?.balanceAvailable === '0';
     const hideFungibleTokenSection = availableBalanceIsZero && fungibleTokens?.length === 1 && fungibleTokens[0].symbol === 'NEAR';
+    const wNearTokenIndex = fungibleTokens.findIndex(({ contractName, symbol }) => {
+        return (contractName && contractName === WRAP_NEAR_CONTRACT_ID) || symbol === "wNEAR";
+    });
+    let wNearToken = null;
+    let showUnwrapNear = false;
+    const [unwrapFees, setUnwrapFees] = useState(null);
+
+    if (wNearTokenIndex >= 0) {
+        fungibleTokens = moveWNearHigherInTokenList({ fungibleTokens, wNearPos: wNearTokenIndex });
+        wNearToken = fungibleTokens[1];
+    }
+
+    if (availableBalanceIsZero && unwrapFees != null) {
+        const haveEnoughWNear = wNearToken?.balance ? (new BN(wNearToken.balance)).gte(new BN(MIN_BALANCE_FOR_GAS)) : false;
+        const haveEnoughGasFeeForUnwrap = (new BN(balance?.available)).gte(new BN(unwrapFees));
+        showUnwrapNear = availableBalanceIsZero && haveEnoughWNear && haveEnoughGasFeeForUnwrap;
+    }
+
+    useEffect(() => {
+        (async () => {
+            const fee = await wrappedNearTokenService.getEstimatedTotalFeesForUnWrapping();
+            setUnwrapFees(fee);
+        })();
+    }, []);
+
     return (
         <>
             <div className='total-balance'>
@@ -407,6 +438,9 @@ const FungibleTokens = ({ balance, tokensLoader, fungibleTokens }) => {
                     <Translate id='button.topUp' />
                 </FormButton>
             </div>
+            {showUnwrapNear &&
+                <UnwrapNearBanner />
+            }
             {availableBalanceIsZero &&
                 <DepositNearBanner />
             }
@@ -422,3 +456,18 @@ const FungibleTokens = ({ balance, tokensLoader, fungibleTokens }) => {
         </>
     );
 };
+
+
+const moveWNearHigherInTokenList = ({ fungibleTokens, wNearPos }) => {
+    // Show wNear higher in the tokens list to incentivize the wrap/unwrap Near operation
+    return moveToPosition({ inputList: fungibleTokens, originalPosition: wNearPos, toPosition: 1 });
+}
+
+const moveToPosition = ({ inputList, originalPosition, toPosition }) => {
+    const newList = inputList.slice();
+    const item = inputList[originalPosition];
+    newList.splice(originalPosition, 1);
+    newList.splice(toPosition, 0, item);
+    return newList;
+
+}

@@ -5,13 +5,19 @@ import { selectAccountId, selectBalance } from '../redux/slices/account';
 import { selectNearTokenFiatValueUSD } from '../redux/slices/tokenFiatValues';
 import { selectTokensWithMetadataForAccountId } from '../redux/slices/tokens';
 
+
+const getNearInTokenFormat = (balance, nearTokenFiatValueUSD) => {
+    return {
+        balance,
+        symbol: 'NEAR',
+        usd: nearTokenFiatValueUSD
+    }
+}
+
 const fungibleTokensIncludingNEAR = (tokens, balance, nearTokenFiatValueUSD) => {
     return [
-        {
-            balance,
-            symbol: 'NEAR',
-            usd: nearTokenFiatValueUSD
-        },
+        getNearInTokenFormat(balance, nearTokenFiatValueUSD)
+        ,
         ...Object.values(tokens)
     ];
 };
@@ -33,3 +39,20 @@ export const useFungibleTokensIncludingNEAR = function () {
 
     return fungibleTokensList;
 };
+
+
+export const useNear = () => {
+    const balance = useSelector(selectBalance);
+    const nearTokenFiatValueUSD = useSelector(selectNearTokenFiatValueUSD);
+    const balanceToDisplay = balance?.balanceAvailable;
+
+    const [nearToken, setNearToken] = useState(
+        () => getNearInTokenFormat(balanceToDisplay, nearTokenFiatValueUSD)
+    );
+
+    useEffect(() => {
+        setNearToken(getNearInTokenFormat(balanceToDisplay, nearTokenFiatValueUSD));
+    }, [balance, nearTokenFiatValueUSD]);
+
+    return nearToken;
+}
