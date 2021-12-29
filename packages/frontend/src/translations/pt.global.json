@@ -471,6 +471,9 @@
         "or": "ou",
         "title": "Você recebeu uma distribuição de NEAR!"
     },
+    "NFTTransfer": {
+        "youSent": "You sent <span class='color-blue'>${title}</span> to <span class='color-green'>${receiverId}</span>"
+    },
     "loading": "Carregando...",
     "lockedBalance": "Este NEAR está bloqueado em um contrato de bloqueio e não pode ser retirado. Você ainda pode delegar ou fazer stake deste NEAR. Assim que o NEAR for desbloqueado, você poderá visualizá-lo em seu Saldo Desbloqueado e escolher retirá-lo (passando para seu Saldo Disponível).",
     "login": {

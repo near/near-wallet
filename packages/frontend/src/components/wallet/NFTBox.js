@@ -57,6 +57,7 @@ const StyledContainer = styled.div`
         margin-left: 14px;
 
         a {
+            font-weight: 700;
             font-size: 16px;
             color: #24272a;
         }
@@ -65,6 +66,7 @@ const StyledContainer = styled.div`
             color: #72727A;
             background-color: #F0F0F1;
             font-size: 14px;
+            font-weight: 600;
             min-width: 26px;
             min-height: 26px;
             border-radius: 50%;

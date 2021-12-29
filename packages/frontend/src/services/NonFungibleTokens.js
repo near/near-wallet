@@ -7,6 +7,8 @@ import { wallet } from '../utils/wallet';
 export const TOKENS_PER_PAGE = 4;
 export const NFT_TRANSFER_GAS = nearAPI.utils.format.parseNearAmount('0.00000000003');
 
+const NFT_TRANSFER_DEPOSIT = 1; // 1 yocto Near
+
 const functionCall = nearAPI.transactions.functionCall;
 
 // Methods for interacting witn NEP171 tokens (https://nomicon.io/Standards/NonFungibleToken/README.html)
@@ -68,7 +70,6 @@ export default class NonFungibleTokens {
 
     static transfer = async ({ accountId, contractId, tokenId, receiverId }) => {
         const account = await wallet.getAccount(accountId);
-        const nftTransferDeposit = 1;
 
         return account.signAndSendTransaction({
             receiverId: contractId,
@@ -80,7 +81,7 @@ export default class NonFungibleTokens {
                         token_id: tokenId
                     },
                     NFT_TRANSFER_GAS,
-                    nftTransferDeposit
+                    NFT_TRANSFER_DEPOSIT
                 )
             ]
         });

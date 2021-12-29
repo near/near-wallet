@@ -29,7 +29,7 @@ const StyledContainer = styled.div`
         img {
             width: 100%  ;
             border-radius: 8px;
-            margin-bottom: 16px;
+            margin: 16px 0;
         }
 
         .transfer-txt {
@@ -85,18 +85,9 @@ const StyledContainer = styled.div`
             text-align: right;
         }
 
-        .estimate-fee-card {
-            display: flex;
-            flex-direction: column;
-            position: relative;
-
+        .estimated-fees {
             width: 100%;
-            height: 78px;
-            margin-top: 16px;
-
-            border: 1px solid #F0F0F1;
-            box-sizing: border-box;
-            border-radius: 8px;
+            margin-top: 20px;
         }
 
         .account-id {
