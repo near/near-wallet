@@ -154,7 +154,7 @@ export function NFTDetail({ nft, accountId, nearBalance, ownerId, history }) {
                         nft={transferNftDetail}
                         accountId={accountId}
                         nearBalance={nearBalance}
-                    </NFTTransferModal>
+                    ></NFTTransferModal>
                 }
             </div>
           }
