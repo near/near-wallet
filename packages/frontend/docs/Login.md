@@ -65,7 +65,7 @@ Setup a `WalletConnection` instance by passing in your `Near` instance. You can 
 <br/>
 
 ## Wallet redirect on success on failure
-Once sign in is successfully initiated, the user will be taken to the wallet where they will be presented with a screen to grant access(See image below) to the contract.
+Once sign in is successfully initiated, the user will be taken to the wallet where they will be presented with a screen to grant access to the contract (see image below).
 
 
 <img src="./assets/login-request.png" width="500">
