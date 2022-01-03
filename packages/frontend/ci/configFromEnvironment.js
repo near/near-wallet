@@ -1,6 +1,4 @@
 const assert = require("assert");
-const fs = require('fs');
-const path = require('path');
 
 const Environments = require("../../../features/environments.json");
 const { parseBooleanFromShell } = require("../src/config/envParsers");
@@ -65,23 +63,6 @@ assert(
     Object.values(Environments).some((env) => NEAR_WALLET_ENV === env),
     `Invalid environment: "${NEAR_WALLET_ENV}"`
 );
-
-const bundleEnvsPath = path.join(__dirname, '../.env');
-let bundleEnvs = '';
-try {
-  bundleEnvs = fs.readFileSync(bundleEnvsPath);
-  if(!bundleEnvs.includes("NEAR_WALLET_ENV=")) {
-    fs.appendFileSync(
-      bundleEnvsPath,
-      `NEAR_WALLET_ENV=${NEAR_WALLET_ENV}\n`
-    );
-  }
-} catch (error) {
-   fs.appendFileSync(
-    bundleEnvsPath,
-    `NEAR_WALLET_ENV=${NEAR_WALLET_ENV}\n`
-   );
-}
 
 module.exports = {
     ...Config,

@@ -1,13 +1,12 @@
 import assert from "assert";
 
 import Environments from "../../../../features/environments.json";
+import { NEAR_WALLET_ENV } from "../../ci/config";
 import {
     parseBooleanFromShell,
     parseObjectFromShell,
     parseCommaSeperatedStringAsArrayFromShell,
 } from "./envParsers";
-
-const NEAR_WALLET_ENV = process.env.NEAR_WALLET_ENV;
 
 assert(
     Object.values(Environments).some((env) => NEAR_WALLET_ENV === env),
