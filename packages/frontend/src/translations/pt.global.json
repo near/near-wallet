@@ -1531,7 +1531,6 @@
             "U2F_4": "Falha ao fazer login com o Ledger: U2F DEVICE_INELIGIBLE. Certifique-se de que seu dispositivo Ledger está conectado e desbloqueado."
         }
     },
-
     "networkBanner": {
         "title": "Carteira de testes",
         "header": "Carteira de teste NEAR",
@@ -1560,4 +1559,5 @@
         "subTitle2": "Aprimoramentos",
         "subText2": "Agora o saldo principal mostrado na carteira é o seu 'Saldo disponível', onde antes era o seu 'Saldo Total'. O saldo disponível oferece a maior utilidade aos usuários que querem saber rapidamente o que eles têm disponível para gastar/fazer stake/interagir com o ecossistema; ele não inclui nenhum token que não possa ser gasto de imediato, tais como tokens que estejam em stake. Você ainda pode ver detalhes sobre o saldo de tokens que tem em stake nas telas de 'Conta' e 'Staking'."
     }
+    "warning": "Atenção"
 }

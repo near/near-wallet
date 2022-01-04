@@ -34,7 +34,6 @@ import { WalletError } from '../../utils/walletError';
 import refreshAccountOwner from '../sharedThunks/refreshAccountOwner';
 import { 
     selectAccountAccountsBalances,
-    selectAccountBalanceLockedAmount,
     selectAccountId,
     selectAccountUrl,
     selectAccountUrlCallbackUrl,
@@ -49,7 +48,8 @@ import {
     selectAccountUrlTransactions,
     selectBalance
 } from '../slices/account';
-import { selectAllAccountsBalanceLockedAmount } from '../slices/allAccounts';
+import { selectAccountHasLockup } from '../slices/account';
+import { selectAllAccountsHasLockup } from '../slices/allAccounts';
 import { selectAvailableAccounts } from '../slices/availableAccounts';
 import { 
     actions as flowLimitationActions,
@@ -71,16 +71,17 @@ const {
     handleClearflowLimitation
 } = flowLimitationActions;
 
-export const getProfileStakingDetails = (accountId) => async (dispatch, getState) => {
-    await dispatch(handleGetLockup(accountId));
-    await dispatch(handleStakingUpdateAccount([], accountId));
+export const getProfileStakingDetails = (externalAccountId) => async (dispatch, getState) => {
+    await dispatch(handleGetLockup(externalAccountId));
 
-    const lockupIdExists = accountId
-        ? !!selectAllAccountsBalanceLockedAmount(getState(), { accountId })
-        : !!selectAccountBalanceLockedAmount(getState());
+    await dispatch(handleStakingUpdateAccount([], externalAccountId));
+
+    const lockupIdExists = externalAccountId
+        ? selectAllAccountsHasLockup(getState(), { accountId: externalAccountId })
+        : selectAccountHasLockup(getState());
 
     lockupIdExists
-        && dispatch(handleStakingUpdateLockup(accountId));
+        && dispatch(handleStakingUpdateLockup(externalAccountId));
 };
 
 export const handleRedirectUrl = (previousLocation) => (dispatch, getState) => {
@@ -199,7 +200,6 @@ export const redirectToApp = (fallback) => async (dispatch, getState) => {
 };
 
 export const allowLogin = () => async (dispatch, getState) => {
-    const accountId = selectAccountId(getState());
     const contractId = selectAccountUrlContractId(getState());
     const publicKey = selectAccountUrlPublicKey(getState());
     const methodNames = selectAccountUrlMethodNames(getState());
@@ -208,19 +208,19 @@ export const allowLogin = () => async (dispatch, getState) => {
 
     if (successUrl) {
         if (publicKey) {
-            await dispatchWithAlert(addAccessKey(accountId, contractId, publicKey, false, methodNames), { onlyError: true });
+            await dispatchWithAlert(addAccessKey(wallet.accountId, contractId, publicKey, false, methodNames), { onlyError: true });
         }
         const availableKeys = await wallet.getAvailableKeys();
         const allKeys = availableKeys.map(key => key.toString());
         const parsedUrl = new URL(successUrl);
-        parsedUrl.searchParams.set('account_id', accountId);
+        parsedUrl.searchParams.set('account_id', wallet.accountId);
         if (publicKey) {
             parsedUrl.searchParams.set('public_key', publicKey);
         }
         parsedUrl.searchParams.set('all_keys', allKeys.join(','));
         window.location = parsedUrl.href;
     } else {
-        await dispatchWithAlert(addAccessKey(accountId, contractId, publicKey, false, methodNames), { data: { title } });
+        await dispatchWithAlert(addAccessKey(wallet.accountId, contractId, publicKey, false, methodNames), { data: { title } });
         dispatch(redirectTo('/authorized-apps', { globalAlertPreventClear: true }));
     }
 };

@@ -4,12 +4,12 @@ import { createActions } from 'redux-actions';
 
 import {
     ACCOUNT_HELPER_URL,
-    MIN_LOCKUP_AMOUNT,
     REACT_APP_USE_TESTINGLOCKUP,
     STAKING_GAS_BASE,
 } from '../../config';
-import { getLockupAccountId } from '../../utils/account-with-lockup';
+import { getLockupAccountId, getLockupMinBalanceForStorage } from '../../utils/account-with-lockup';
 import { showAlert } from '../../utils/alerts';
+import { setStakingAccountSelected } from '../../utils/localStorage';
 import { 
     STAKING_AMOUNT_DEVIATION,
     MIN_DISPLAY_YOCTO,
@@ -42,6 +42,7 @@ import {
     selectStakingFindContractByValidatorId,
     selectStakingLockupId
 } from '../slices/staking';
+import { selectStakingCurrentAccountbyAccountId } from '../slices/staking';
 import { getBalance } from './account';
 
 const {
@@ -279,9 +280,10 @@ export const { staking } = createActions({
         UPDATE_LOCKUP: async (contract, account_id, exAccountId, accountId, validators) => {
             // use MIN_LOCKUP_AMOUNT vs. actual storage amount
             const deposited = new BN(await contract.get_known_deposited_balance());
+            const { code_hash } = await contract.account.state();
             let totalUnstaked = new BN(await contract.get_owners_balance())
                 .add(new BN(await contract.get_locked_amount()))
-                .sub(MIN_LOCKUP_AMOUNT)
+                .sub(getLockupMinBalanceForStorage(code_hash))
                 .sub(deposited);
 
             // minimum displayable for totalUnstaked 
@@ -351,24 +353,27 @@ export const { staking } = createActions({
             };
         },
         UPDATE_CURRENT: null,
-        GET_LOCKUP: async (accountId) => {
-            let lockupId;
-            if (REACT_APP_USE_TESTINGLOCKUP && accountId.length < 64) {
-                lockupId = `testinglockup.${accountId}`;
-            } else {
-                lockupId = getLockupAccountId(accountId);
-            }
+        GET_LOCKUP: [
+            async ({ accountId }) => {
+                let lockupId;
+                if (REACT_APP_USE_TESTINGLOCKUP && accountId.length < 64) {
+                    lockupId = `testinglockup.${accountId}`;
+                } else {
+                    lockupId = getLockupAccountId(accountId);
+                }
 
-            let contract;
-            try {
-                await (await new Account(wallet.connection, lockupId)).state();
-                contract = await new Contract(await wallet.getAccount(accountId), lockupId, { ...lockupMethods });
-            } catch (e) {
-                return;
-            }
+                let contract;
+                try {
+                    await (await new Account(wallet.connection, lockupId)).state();
+                    contract = await new Contract(await wallet.getAccount(accountId), lockupId, { ...lockupMethods });
+                } catch (e) {
+                    return;
+                }
 
-            return { contract, lockupId, accountId };
-        },
+                return { contract, lockupId, accountId };
+            },
+            ({ accountId, isOwner }) => ({ accountId, isOwner })
+        ],
         GET_VALIDATORS: async (accountIds, accountId) => {
             const { current_validators, next_validators, current_proposals } = await wallet.connection.provider.validators();
             const currentValidators = shuffle(current_validators).map(({ account_id }) => account_id);
@@ -424,9 +429,12 @@ const handleGetAccounts = () => async (dispatch, getState) => {
     return await dispatch(staking.getAccounts(accounts));
 };
 
-export const handleGetLockup = (accountId) => async (dispatch, getState) => {
+export const handleGetLockup = (externalAccountId) => async (dispatch, getState) => {
     try {
-        await dispatch(staking.getLockup(accountId || selectAccountId(getState())));
+        await dispatch(staking.getLockup({
+            accountId: externalAccountId || selectAccountId(getState()),
+            isOwner: !externalAccountId || externalAccountId === selectAccountId(getState())
+        }));
     } catch(e) {
         if (!/No contract for account/.test(e.message)) {
             throw e;
@@ -498,5 +506,17 @@ export const updateStaking = (currentAccountId, recentlyStakedValidators) => asy
         await dispatch(handleStakingUpdateLockup());
     }
 
-    dispatch(staking.updateCurrent(currentAccountId || accountId));
+    let currentAccount = selectStakingCurrentAccountbyAccountId(getState(), { accountId: currentAccountId });
+    
+    if (!currentAccount) {
+        currentAccount = selectStakingCurrentAccountbyAccountId(getState(), { accountId });
+        setStakingAccountSelected(accountId);
+    }
+
+    dispatch(staking.updateCurrent({ currentAccount }));
+};
+
+export const handleUpdateCurrent = (accountId) => async (dispatch, getState) => {
+    let currentAccount = selectStakingCurrentAccountbyAccountId(getState(), { accountId });
+    dispatch(staking.updateCurrent({ currentAccount }));
 };

@@ -1,12 +1,20 @@
 {
-  "name": "near-wallet",
+  "name": "@near-wallet/monorepo",
   "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
-    "lint": "cd packages/frontend && yarn && yarn lint",
-    "build": "cd packages/frontend && yarn && yarn build",
-    "test": "cd packages/frontend && yarn && yarn test"
+    "lint": "cd packages/frontend && yarn install --frozen-lockfile && yarn lint",
+    "build": "cd packages/frontend && yarn install --frozen-lockfile && yarn build",
+    "test": "cd packages/frontend && yarn install --frozen-lockfile && yarn test",
+    "prepare": "husky install"
   },
   "devDependencies": {
-    "lerna": "^4.0.0"
+    "lerna": "^4.0.0",
+    "husky": "^7.0.0"
+  },
+  "dependencies": {
+    "@near-wallet/feature-flags": "^0.0.4"
   }
 }

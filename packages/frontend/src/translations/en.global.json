@@ -854,6 +854,7 @@
             "error": "Public key access was rejected. No accounts were recovered.<br/>To continue, you must allow NEAR Wallet to view your public key. Please try again.",
             "success": ""
         },
+        "LackBalanceForState": "Your available balance is too low to perform any actions on your account. Please send NEAR to your account and then try again.",
         "NotEnoughBalance": "Your account does not have enough balance for this operation.",
         "PROMPT_TWO_FACTOR": {
             "invalidCode": "Invalid 2FA code. Please try again."
@@ -1343,7 +1344,7 @@
         "notEnabled": "2FA Not Enabled",
         "notEnoughBalance": "To enable 2FA, your account requires a minimum available balance of ${amount}",
         "phone": "Phone",
-        "promptDesc": "We highly recommend that you set up a two-factor authentication method to increase the security of your account and assests",
+        "promptDesc": "We highly recommend that you set up a two-factor authentication method to increase the security of your account and assets",
         "select": "Select Authentication Method",
         "since": "since",
         "subHeader": "Two factor authentication adds an extra layer of security to your account. <b>Passphrase and Ledger keys continue to allow full access to your account.</b>",
@@ -1458,10 +1459,10 @@
         },
         "recoveryMethods": {
             "lastMethod": "Cannot delete your last recovery method. Unless you have Ledger enabled, you need to keep at least one recovery method active to ensure recoverability of your account.",
-            "setupMethod": "An error occured. Please check your recovery method."
+            "setupMethod": "An error occurred. Please check your recovery method."
         },
         "sendFungibleToken": {
-            "error": "An error occured. Your send transaction was cancelled."
+            "error": "An error occurred. Your send transaction was cancelled."
         },
         "setupRecoveryMessage": {
             "error": "An error occurred while setting up your recovery method. Please try again!"
