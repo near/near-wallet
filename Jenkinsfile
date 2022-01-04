@@ -14,12 +14,12 @@ pipeline {
         // aws configuration
         AWS_CREDENTIALS = 'aws-credentials-password'
         AWS_REGION = 'us-west-2'
-        AWS_TESTNET_ROLE = 'testnet-builder'
-        AWS_TESTNET_ROLE_ACCOUNT = '721768877541'
+        TESTNET_AWS_ROLE = credentials('testnet-assumed-role')
+        TESTNET_AWS_ROLE_ACCOUNT = credentials('testnet-assumed-role-account')
 
         // s3 buckets
         BUILD_ARTIFACT_BUCKET = 'andy-dev-build-artifacts'
-        TESTNET_STATIC_SITE_BUCKET = 'testnet-wallet-static-site'
+        TESTNET_STATIC_SITE_BUCKET = credentials('testnet-static-website')
         MAINNET_STATIC_SITE_BUCKET = 'andy-dev-mainnet-near-wallet'
         E2E_ARTIFACT_PATH = "$BRANCH_NAME/$CHANGE_ID/e2e-tests"
         FRONTEND_ARTIFACT_PATH = "$BRANCH_NAME/$CHANGE_ID/frontend"
@@ -135,8 +135,8 @@ pipeline {
                                 withAWS(
                                     region: env.AWS_REGION,
                                     credentials: env.AWS_CREDENTIALS,
-                                    role: env.AWS_TESTNET_ROLE,
-                                    roleAccount: env.AWS_TESTNET_ROLE_ACCOUNT
+                                    role: env.TESTNET_AWS_ROLE,
+                                    roleAccount: env.TESTNET_AWS_ROLE_ACCOUNT
                                 ) {
                                     s3Upload(
                                         bucket: env.TESTNET_STATIC_SITE_BUCKET,
