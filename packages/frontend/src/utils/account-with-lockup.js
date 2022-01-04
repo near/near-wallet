@@ -271,7 +271,7 @@ async function getAccountBalance(limitedAccountData = false) {
         const isAccDeletable = lockedAmount.isZero() && stakedBalanceLockup.isZero();
         const liquidOwnersBalanceTransfersEnabled = isAccDeletable
             ? new BN(lockupBalance.total)
-            : BN.min(ownersBalance, new BN(lockupBalance.total).sub(new BN(MIN_BALANCE_FOR_GAS)))
+            : BN.min(ownersBalance, new BN(lockupBalance.total).sub(new BN(MIN_BALANCE_FOR_GAS)));
         const liquidOwnersBalance = areTransfersEnabled ? liquidOwnersBalanceTransfersEnabled : new BN(0);
 
         const available = BN.max(new BN(0), new BN(balance.available).add(new BN(liquidOwnersBalance)).sub(new BN(MIN_BALANCE_FOR_GAS)));
