@@ -14,12 +14,11 @@ To implement authentication using the NEAR Wallet, you will need to follow the i
 <br/>
 
 ## Construct wallet login parameters
-The wallet login API accepts 2 parameters as shown below:
+The wallet login API accepts 1 parameter as shown below:
 
 | Command | Type | Required | Description
 | --- | --- | --- | --- |
 | contractIdOrOptions | SignInOptions | `true` |A configuration object for the request as shown below. |
-| title | string | `false` | A string identifier for the app requesting access |
 
 
 ```typescript
@@ -54,11 +53,10 @@ Setup a `WalletConnection` instance by passing in your `Near` instance. You can 
     const walletConnection = new WalletConnection(near);
 
     const contractId = 'example.testnet';
-    const title = 'Demo app';
     const successUrl = 'https://demodapp.com/auth/success';
     const failureUrl = 'https://demodapp.com/auth/failure';
 
-    walletConnection.requestSignIn({ contractId, successUrl, failureUrl }, title);
+    walletConnection.requestSignIn({ contractId, successUrl, failureUrl });
 
 ```
 
@@ -76,7 +74,7 @@ Once the user allows or denies the request, they will be redirected to the `succ
 
 * `account_id` - The ID of the authenticated wallet.
 * `all_keys` - A comma separated, concatenated string of available keys on the wallet. 
-* `public_key` -  The public key. 
+* `public_key` -  The public key supplied. 
 
 
 <br/>
