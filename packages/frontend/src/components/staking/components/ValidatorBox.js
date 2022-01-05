@@ -157,7 +157,6 @@ export default function ValidatorBox({
         }
     };
     const isProjectValidator = validator.version === ValidatorVersion[PROJECT_VALIDATOR_VERSION];
-
     return (
         <Container
             className='validator-box'

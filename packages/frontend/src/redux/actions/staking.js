@@ -11,6 +11,8 @@ import { getLockupAccountId, getLockupMinBalanceForStorage } from '../../utils/a
 import { showAlert } from '../../utils/alerts';
 import { setStakingAccountSelected } from '../../utils/localStorage';
 import {
+    PROJECT_VALIDATOR_VERSION,
+    ValidatorVersion,
     MAINNET,
     getValidatorRegExp,
     getValidationVersion,
@@ -274,6 +276,13 @@ export const { staking } = createActions({
                     }
                 }
             }));
+            const projectValidators = validators.filter(v => v.version === ValidatorVersion[PROJECT_VALIDATOR_VERSION]);
+            await Promise.all(projectValidators.map(async () => {
+                const allFarms = await projectValidators.contract.get_farms({ from_index: 0, limit: 1000 });
+                const allFarmsData = Promise.all(allFarms.map((_, index) => projectValidators.contract.get_farm({ farm_id: index })));
+                console.log(allFarmsData);
+            }));
+
 
 
             return {
