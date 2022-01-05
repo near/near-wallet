@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import ConfirmLoginWrapper from '../components/login/v2/ConfirmLoginWrapper';
 import InvalidContractId from '../components/login/v2/InvalidContractId';
 import SelectAccountLoginWrapper from '../components/login/v2/SelectAccountLoginWrapper';
+import { EXPLORER_URL } from '../config';
 import { Mixpanel } from '../mixpanel/index';
 import {
     selectAccountLocalStorageAccountId
@@ -27,9 +28,15 @@ export function LoginWrapper() {
     const failureUrl = URLParams.get('failure_url');
     const invalidContractId = URLParams.get('invalidContractId');
 
+    const contractIdUrl = `${EXPLORER_URL}/accounts/${contractId}`;
+
     const accountLocalStorageAccountId = useSelector(selectAccountLocalStorageAccountId);
 
-    const requestingFullAccess = !contractId || (publicKey && contractId?.endsWith(`.${LOCKUP_ACCOUNT_ID_SUFFIX}`)) || contractId === accountLocalStorageAccountId;
+    let requestingFullAccess = !contractId || (publicKey && contractId?.endsWith(`.${LOCKUP_ACCOUNT_ID_SUFFIX}`)) || contractId === accountLocalStorageAccountId;
+    const requestAccountIdOnly = !publicKey && !contractId;
+    if (requestAccountIdOnly) {
+        requestingFullAccess = false;
+    }
     const loginAccessType = requestingFullAccess ? LOGIN_ACCESS_TYPES.FULL_ACCESS : LOGIN_ACCESS_TYPES.LIMITED_ACCESS;
 
     if (invalidContractId) {
@@ -49,7 +56,9 @@ export function LoginWrapper() {
             <ConfirmLoginWrapper
                 loginAccessType={loginAccessType}
                 contractId={contractId}
+                contractIdUrl={contractIdUrl}
                 onClickCancel={() => setConfirmLogin(false)}
+                publicKey={publicKey}
             />
         );
     }
@@ -57,6 +66,8 @@ export function LoginWrapper() {
     return (
         <SelectAccountLoginWrapper
             loginAccessType={loginAccessType}
+            contractId={contractId}
+            contractIdUrl={contractIdUrl}
             failureUrl={failureUrl}
             onClickNext={() => { setConfirmLogin(true); window.scrollTo(0, 0); }}
         />

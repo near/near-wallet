@@ -1,18 +1,23 @@
 {
-  "name": "near-wallet-e2e-tests",
-  "version": "0.0.1",
+  "name": "@near-wallet/e2e-tests",
+  "version": "0.0.2",
   "main": "index.js",
   "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
   "dependencies": {
     "@pagerduty/pdjs": "^2.2.0",
     "@playwright/test": "^1.14.0",
     "bn.js": "^5.2.0",
     "dotenv": "^8.2.0",
     "expect-playwright": "^0.7.2",
+    "express": "^4.17.1",
+    "lodash": "^4.17.21",
     "near-api-js": "^0.36.3",
     "near-seed-phrase": "^0.1.0",
-    "playwright": "^1.14.0",
-    "express": "^4.17.1"
+    "node-fetch": "^2.6.2",
+    "playwright": "^1.14.0"
   },
   "scripts": {
     "test": "node -r dotenv/config index.js",

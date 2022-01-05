@@ -17,6 +17,10 @@ export default class NonFungibleTokens {
         return this.viewFunctionAccount.viewFunction(contractName, 'nft_metadata');
     }
 
+    static getNumberOfTokens = ({ contractName, accountId }) => {
+        return this.viewFunctionAccount.viewFunction(contractName, 'nft_supply_for_owner', { account_id: accountId });
+    }
+
     static getTokens = async ({ contractName, accountId, base_uri, fromIndex = 0 }) => {
         let tokens;
         try {
@@ -52,7 +56,7 @@ export default class NonFungibleTokens {
                 if (base_uri) {
                     mediaUrl = `${base_uri}/${media}`;
                 } else {
-                    mediaUrl = `https://cloudflare-ipfs.com/ipfs/${media}`;
+                    mediaUrl = media.startsWith('data:image') ? media : `https://cloudflare-ipfs.com/ipfs/${media}`;
                 }
             } else {
                 mediaUrl = media;

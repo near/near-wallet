@@ -140,16 +140,16 @@ class SetupRecoveryMethod extends Component {
         const { option, phoneNumber, email, country } = this.state;
 
         switch (option) {
-        case 'email':
-            return validateEmail(email);
-        case 'phone':
-            return isApprovedCountryCode(country) && isValidPhoneNumber(phoneNumber);
-        case 'phrase':
-            return true;
-        case 'ledger':
-            return true;
-        default:
-            return false;
+            case 'email':
+                return validateEmail(email);
+            case 'phone':
+                return isApprovedCountryCode(country) && isValidPhoneNumber(phoneNumber);
+            case 'phrase':
+                return true;
+            case 'ledger':
+                return true;
+            default:
+                return false;
         }
     }
 
@@ -205,7 +205,8 @@ class SetupRecoveryMethod extends Component {
             validateSecurityCode,
             saveAccount,
             location,
-            setLinkdropAmount
+            setLinkdropAmount,
+            redirectTo
         } = this.props;
 
         const fundingOptions = parseFundingOptions(location.search);
@@ -232,8 +233,6 @@ class SetupRecoveryMethod extends Component {
             // IDENTITY VERIFIED FUNDED ACCOUNT
             if (DISABLE_CREATE_ACCOUNT && !fundingOptions && ENABLE_IDENTITY_VERIFIED_ACCOUNT) {
                 try {
-
-                    // Call function directly to handle error silently
                     await wallet.createIdentityFundedAccount({
                         accountId,
                         kind: method.kind,
@@ -246,7 +245,42 @@ class SetupRecoveryMethod extends Component {
                     });
                 } catch (e) {
                     console.warn(e.code);
-                    await fundCreateAccount(accountId, recoveryKeyPair, method.kind);
+
+                    const isNewAccount = await checkIsNew(accountId);
+                    if (isNewAccount) {
+                        // No on-chain account exists; fallback to implicit or verified account flow
+                        await fundCreateAccount(accountId, recoveryKeyPair, method.kind);
+                        return;
+                    }
+
+                    // on-chain account exists; verify that it is owned by the current key
+                    const accessKeys = await wallet.getAccessKeys(accountId) || [];
+                    const publicKeys = accessKeys.map(key => key.public_key);
+                    const publicKeyExistsOnAccount = publicKeys.includes(recoveryKeyPair.publicKey.toString());
+
+                    if (!publicKeyExistsOnAccount) {
+                        // Someone else must've created the account (or a two-tabs-open situation)
+                        showCustomAlert({
+                            success: false,
+                            messageCodeHeader: 'error',
+                            messageCode: 'walletErrorCodes.createNewAccount.accountExists.error',
+                            errorMessage: e.message
+                        });
+                        throw e;
+                    }
+
+                    // Assume a transient error occurred, but that the account is on-chain and we can finish the creation process
+                    try {
+                        await wallet.saveAndMakeAccountActive(accountId);
+                        await wallet.addLocalKeyAndFinishSetup(accountId, method.kind, recoveryKeyPair.publicKey);
+                    } catch (e) {
+                        showCustomAlert({
+                            success: false,
+                            messageCodeHeader: 'error',
+                            errorMessage: e.message
+                        });
+                        redirectTo('/recover-account');
+                    }
                 }
                 return;
             }
@@ -273,6 +307,7 @@ class SetupRecoveryMethod extends Component {
             }
         } catch (e) {
             this.setState({ settingUpNewAccount: false });
+            throw e;
         }
     }
 
@@ -394,11 +429,11 @@ class SetupRecoveryMethod extends Component {
                         this.handleNext();
                         e.preventDefault();
                     }}>
-                        <h1><Translate id='setupRecovery.header'/></h1>
-                        <h2><Translate id='setupRecovery.subHeader'/></h2>
+                        <h1><Translate id='setupRecovery.header' /></h1>
+                        <h2><Translate id='setupRecovery.subHeader' /></h2>
                         <h4>
-                            <Translate id='setupRecovery.advancedSecurity'/>
-                            <Tooltip translate='profile.security.mostSecureDesc' icon='icon-lg'/>
+                            <Translate id='setupRecovery.advancedSecurity' />
+                            <Tooltip translate='profile.security.mostSecureDesc' icon='icon-lg' />
                         </h4>
                         <RecoveryOption
                             onClick={() => this.setState({ option: 'phrase' })}
@@ -407,16 +442,16 @@ class SetupRecoveryMethod extends Component {
                             disabled={this.checkDisabled('phrase')}
                         />
                         {(this.checkNewAccount() || !twoFactor) &&
-                        <RecoveryOption
-                            onClick={() => this.setState({ option: 'ledger' })}
-                            option='ledger'
-                            active={option}
-                            disabled={ledgerKey !== null && accountId === activeAccountId}
-                        />
+                            <RecoveryOption
+                                onClick={() => this.setState({ option: 'ledger' })}
+                                option='ledger'
+                                active={option}
+                                disabled={ledgerKey !== null && accountId === activeAccountId}
+                            />
                         }
                         <h4>
-                            <Translate id='setupRecovery.basicSecurity'/>
-                            <Tooltip translate='profile.security.lessSecureDesc' icon='icon-lg'/>
+                            <Translate id='setupRecovery.basicSecurity' />
+                            <Tooltip translate='profile.security.lessSecureDesc' icon='icon-lg' />
                         </h4>
                         <RecoveryOption
                             onClick={() => {
@@ -479,7 +514,7 @@ class SetupRecoveryMethod extends Component {
                                             ref={this.phoneInput}
                                         />
                                         {!isApprovedCountryCode(country) &&
-                                        <div className='color-red'>{translate('setupRecovery.notSupportedPhone')}</div>
+                                            <div className='color-red'>{translate('setupRecovery.notSupportedPhone')}</div>
                                         }
                                     </>
                                 )}
@@ -493,11 +528,11 @@ class SetupRecoveryMethod extends Component {
                             trackingId='SR Click submit button'
                             data-test-id="submitSelectedRecoveryOption"
                         >
-                            <Translate id='button.continue'/>
+                            <Translate id='button.continue' />
                         </FormButton>
                     </form>
                     {isNewAccount &&
-                    <div className='recaptcha-disclaimer'><Translate id='reCAPTCHA.disclaimer'/></div>
+                        <div className='recaptcha-disclaimer'><Translate id='reCAPTCHA.disclaimer' /></div>
                     }
                 </StyledContainer>
             );
@@ -542,7 +577,7 @@ const mapDispatchToProps = {
 
 const mapStateToProps = (state, { match }) => {
     const accountId = match.params.accountId;
-    
+
     return {
         ...selectAccountSlice(state),
         router: getRouter(state),

@@ -1,0 +1,24 @@
+# IDEA
+.idea
+
+# dependencies
+/.pnp
+.pnp.js
+
+# testing
+/coverage
+
+# bundle output -- not currently published in a usable state
+/dist
+
+# misc
+.DS_Store
+.env*
+
+# npm / yarn
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# parcel
+/.cache

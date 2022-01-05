@@ -168,7 +168,7 @@ class SignTransferReady extends Component {
             account,
             sending,
             handleAllow,
-            handleDeny,
+            handleCancel,
             txTotalAmount,
             isMonetaryTransaction,
             insufficientFunds,
@@ -192,7 +192,7 @@ class SignTransferReady extends Component {
                         </div>
                         <InlineNotification
                             show={insufficientFunds}
-                            onClick={handleDeny}
+                            onClick={handleCancel}
                             messageId='sign.insufficientFunds'
                             theme='error'
                             buttonMsgId='button.goBack'
@@ -220,7 +220,7 @@ class SignTransferReady extends Component {
                     <ButtonWrapper>
                         <Button 
                             theme='secondary' 
-                            onClick={handleDeny}
+                            onClick={handleCancel}
                         >
                             <Translate id='button.deny' />
                         </Button>

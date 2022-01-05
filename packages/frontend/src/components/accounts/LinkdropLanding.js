@@ -120,30 +120,45 @@ class LinkdropLanding extends Component {
                     <NearGiftIcons/>
                     <h3><Translate id='linkdropLanding.title'/></h3>
                     <div className='near-balance'>
-                        <Balance amount={balance}/>
+                        <Balance
+                            data-test-id="linkdropBalanceAmount"
+                            amount={balance}
+                        />
                     </div>
                     <div className='desc'>
                         <Translate id='linkdropLanding.desc'/>
                     </div>
-                    {accountId ? <AccountDropdown disabled={claimingDrop}/> : null}
+                    {accountId ? (
+                        <AccountDropdown
+                            disabled={claimingDrop}
+                            data-test-id="linkdropAccountDropdown"
+                        />
+                    ) : null}
                     {accountId ?
                         <FormButton
                             onClick={this.handleClaimNearDrop}
                             sending={claimingDrop}
                             disabled={mainLoader}
                             sendingString='linkdropLanding.claiming'
+                            data-test-id="linkdropClaimToExistingAccount"
                         >
                             <Translate id='linkdropLanding.ctaAccount'/>
                         </FormButton>
                         :
                         <FormButton
                             linkTo={`/recover-account?fundingOptions=${encodeURIComponent(JSON.stringify({ fundingContract, fundingKey, fundingAmount }))}${redirectUrl}`}
+                            data-test-id="linkdropLoginAndClaim"
                         >
                             <Translate id='linkdropLanding.ctaLogin'/>
                         </FormButton>
                     }
                     <div className='or'><Translate id='linkdropLanding.or'/></div>
-                    <FormButton color='gray-blue' disabled={claimingDrop} linkTo={`/create/${fundingContract}/${fundingKey}`}>
+                    <FormButton
+                        data-test-id="linkdropCreateAccountToClaim"
+                        color="gray-blue"
+                        disabled={claimingDrop}
+                        linkTo={`/create/${fundingContract}/${fundingKey}`}
+                    >
                         <Translate id='linkdropLanding.ctaNew'/>
                     </FormButton>
                 </StyledContainer>

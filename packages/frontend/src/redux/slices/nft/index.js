@@ -3,11 +3,11 @@ import set from 'lodash.set';
 import update from 'lodash.update';
 import { createSelector } from 'reselect';
 
-import NonFungibleTokens, { TOKENS_PER_PAGE } from '../../../services/NonFungibleTokens';
+import NonFungibleTokens from '../../../services/NonFungibleTokens';
 import createParameterSelector from '../createParameterSelector';
 import initialErrorState from '../initialErrorState';
 
-const { getLikelyTokenContracts, getMetadata, getTokens } = NonFungibleTokens;
+const { getLikelyTokenContracts, getMetadata, getTokens, getNumberOfTokens } = NonFungibleTokens;
 
 const SLICE_NAME = 'NFT';
 const ENABLE_DEBUG = false;
@@ -25,8 +25,7 @@ const initialState = {
 const initialOwnedTokenState = {
     error: initialErrorState,
     loading: false,
-    tokens: [],
-    hasFetchedAllTokensForContract: false
+    tokens: []
 };
 
 async function getCachedContractMetadataOrFetch(contractName, state) {
@@ -38,6 +37,17 @@ async function getCachedContractMetadataOrFetch(contractName, state) {
     debugLog('Fetching contract metadata', { contractName });
     return getMetadata(contractName);
 }
+
+const fetchNumberOfOwnedNFTsForContract = createAsyncThunk(
+    `${SLICE_NAME}/fetchNumberOfOwnedNFTsForContract`,
+    async ({ accountId, contractName, contractMetadata }, thunkAPI) => {
+        const { dispatch } = thunkAPI;
+        const { actions: { addNumberOfOwnedTokens } } = nftSlice;
+
+        const numberOfOwnedTokens = parseInt(await getNumberOfTokens({ accountId, contractName, contractMetadata }));
+        dispatch(addNumberOfOwnedTokens({accountId, contractName, numberOfOwnedTokens }));
+    }
+);
 
 const fetchOwnedNFTsForContract = createAsyncThunk(
     `${SLICE_NAME}/fetchOwnedNFTsForContract`,
@@ -64,6 +74,28 @@ const fetchOwnedNFTsForContract = createAsyncThunk(
     }
 );
 
+const updateNFTs = createAsyncThunk(
+    `${SLICE_NAME}/updateNFTs`,
+    async ({ accountId, contractName }, thunkAPI) => {
+        debugLog('THUNK/updateNFTs');
+
+        const { dispatch, getState } = thunkAPI;
+
+        if (!!contractName) {
+            const { actions: { clearTokenMetadata } } = nftSlice;
+            dispatch(clearTokenMetadata({ accountId, contractName }));
+
+            const contractMetadata = await getCachedContractMetadataOrFetch(contractName, getState());
+            await dispatch(fetchOwnedNFTsForContract({ accountId, contractName, contractMetadata }));
+        } else {
+            const { actions: { clearAllTokensMetadata } } = nftSlice;
+            dispatch(clearAllTokensMetadata({ accountId }));
+
+            await dispatch(fetchNFTs({ accountId }));        
+        }
+    }
+);
+
 const fetchNFTs = createAsyncThunk(
     `${SLICE_NAME}/fetchNFTs`,
     async ({ accountId }, thunkAPI) => {
@@ -85,6 +117,7 @@ const fetchNFTs = createAsyncThunk(
                 }
 
                 await dispatch(fetchOwnedNFTsForContract({ accountId, contractName, contractMetadata }));
+                await dispatch(fetchNumberOfOwnedNFTsForContract({ accountId, contractName, contractMetadata }));
             } catch (e) {
                 // Continue loading other likely contracts on failures
                 console.warn(`Failed to load NFT for ${contractName}`, e);
@@ -106,8 +139,25 @@ const nftSlice = createSlice({
                 debugLog('REDUCER/addTokensMetadata');
 
                 const { contractName, tokens, accountId } = payload;
-                set(state, ['ownedTokens', 'byAccountId', accountId, 'byContractName', contractName, 'hasFetchedAllTokensForContract'], tokens.length < TOKENS_PER_PAGE);
                 update(state, ['ownedTokens', 'byAccountId', accountId, 'byContractName', contractName, 'tokens'], (n) => (n || []).concat(tokens));
+            },
+            clearTokenMetadata(state, { payload }) {
+                debugLog('REDUCER/clearTokenMetadata');
+
+                const { contractName, accountId } = payload;
+                set(state, ['ownedTokens', 'byAccountId', accountId, 'byContractName', contractName, 'tokens'], []);
+            },
+            clearAllTokensMetadata(state, { payload }) {
+                debugLog('REDUCER/clearAllTokensMetadata');
+
+                const { accountId } = payload;
+                set(state, ['ownedTokens', 'byAccountId', accountId], {});
+            },
+            addNumberOfOwnedTokens(state, { payload }) {
+                debugLog('REDUCER/addNumberOfOwnedTokens');
+                const { contractName, accountId, numberOfOwnedTokens } = payload;
+
+                set(state, ['ownedTokens', 'byAccountId', accountId, 'numberByContractName', contractName], numberOfOwnedTokens);
             }
         },
         extraReducers: ((builder) => {
@@ -146,6 +196,7 @@ export default nftSlice;
 
 export const actions = {
     fetchNFTs,
+    updateNFTs,
     fetchOwnedNFTsForContract,
     ...nftSlice.actions
 };
@@ -179,12 +230,22 @@ const selectOwnedTokensForAccount = createSelector(
     (ownedTokensByAccountId, accountId) => (ownedTokensByAccountId.byAccountId[accountId] || {}).byContractName || {}
 );
 
+const selectNumberOfOwnedTokensForAccount = createSelector(
+    [selectOwnedTokensSlice, getAccountIdParam],
+    (ownedTokensByAccountId, accountId) => (ownedTokensByAccountId.byAccountId[accountId] || {}).numberByContractName || {}
+);
+
 const selectOwnedTokensForAccountForContract = createSelector(
     [selectOwnedTokensForAccount, getContractNameParam],
     (ownedTokensByContractName, contractName) => ({
         ...initialOwnedTokenState,
         ...ownedTokensByContractName[contractName]
     })
+);
+
+const selectNumberOfOwnedTokensForAccountForContract = createSelector(
+    [selectNumberOfOwnedTokensForAccount, getContractNameParam],
+    (numberOfOwnedTokensForAccount, contractName) => numberOfOwnedTokensForAccount[contractName] || 0
 );
 
 const selectTokensListForAccountForContract = createSelector(
@@ -198,14 +259,14 @@ export const selectLoadingTokensForAccountForContract = createSelector(
 );
 
 export const selectHasFetchedAllTokensForAccountForContract = createSelector(
-    selectOwnedTokensForAccountForContract,
-    (ownedTokensByAccountByContract) => ownedTokensByAccountByContract.hasFetchedAllTokensForContract
+    [selectTokensListForAccountForContract, selectNumberOfOwnedTokensForAccountForContract],
+    (tokensListByAccountByContract, numberOfOwnedTokensForAccountForContract) => tokensListByAccountByContract.length === numberOfOwnedTokensForAccountForContract
 );
 
 // Returns owned tokens metadata for all tokens owned by the passed accountId, sorted by their `name` property
 export const selectTokensWithMetadataForAccountId = createSelector(
-    [selectAllContractMetadata, selectOwnedTokensForAccount],
-    (metadataByContractName, ownedTokensByContractName) => {
+    [selectAllContractMetadata, selectOwnedTokensForAccount, selectNumberOfOwnedTokensForAccount],
+    (metadataByContractName, ownedTokensByContractName, numberOfOwnedTokensForAccount) => {
         debugLog('selectTokensWithMetadataForAccountId');
 
         return Object.entries(ownedTokensByContractName)
@@ -218,7 +279,8 @@ export const selectTokensWithMetadataForAccountId = createSelector(
             .map(([contractName, ownedTokensMetadata]) => ({
                 contractName,
                 contractMetadata: metadataByContractName[contractName] || {},
-                ownedTokensMetadata: ownedTokensMetadata.tokens
+                ownedTokensMetadata: ownedTokensMetadata.tokens,
+                numberByContractName: numberOfOwnedTokensForAccount[contractName]
             }));
     }
 );

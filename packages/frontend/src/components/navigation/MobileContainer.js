@@ -11,7 +11,6 @@ import CreateAccountBtn from './CreateAccountBtn';
 import Logo from './Logo';
 import NavLinks from './NavLinks';
 import UserAccount from './UserAccount';
-import UserAccounts from './UserAccounts';
 
 const Container = styled.div`
     display: none;

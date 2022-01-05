@@ -1,4 +1,3 @@
-import BN from 'bn.js';
 import * as nearApiJs from 'near-api-js';
 
 export const ACCOUNT_HELPER_URL = process.env.REACT_APP_ACCOUNT_HELPER_URL || 'https://near-contract-helper.onrender.com';
@@ -16,7 +15,6 @@ export const LINKDROP_GAS = process.env.LINKDROP_GAS || '100000000000000';
 export const LOCKUP_ACCOUNT_ID_SUFFIX = process.env.LOCKUP_ACCOUNT_ID_SUFFIX || 'lockup.near';
 export const MIN_BALANCE_FOR_GAS = process.env.REACT_APP_MIN_BALANCE_FOR_GAS || nearApiJs.utils.format.parseNearAmount('0.05');
 export const MIN_BALANCE_TO_CREATE = process.env.MIN_BALANCE_TO_CREATE || nearApiJs.utils.format.parseNearAmount('0.1');
-export const MIN_LOCKUP_AMOUNT = new BN(process.env.MIN_LOCKUP_AMOUNT || nearApiJs.utils.format.parseNearAmount('35.00001'));
 export const MOONPAY_API_KEY = process.env.MOONPAY_API_KEY || 'pk_test_wQDTsWBsvUm7cPiz9XowdtNeL5xasP9';
 export const MOONPAY_API_URL = process.env.MOONPAY_API_URL || 'https://api.moonpay.com';
 export const MOONPAY_BUY_URL = process.env.MOONPAY_BUY_URL || 'https://buy.moonpay.io?apiKey=';

@@ -12,7 +12,6 @@ import {
     makeAccountActive,
     redirectTo,
     setLedgerTxSigned,
-    setSignTransactionStatus,
     showLedgerModal
 } from '../redux/actions/account';
 import sendJson from '../tmp_fetch_send_json';
@@ -436,11 +435,19 @@ class Wallet {
         newPublicKey,
         newInitialBalance
     }) {
-        const { status: { SuccessValue: createResultBase64 }, transaction: { hash: transactionHash } } =
-            await account.functionCall(ACCOUNT_ID_SUFFIX, 'create_account', {
+        const {
+            status: { SuccessValue: createResultBase64 },
+            transaction: { hash: transactionHash },
+        } = await account.functionCall({
+            contractId: ACCOUNT_ID_SUFFIX,
+            methodName: "create_account",
+            args: {
                 new_account_id: newAccountId,
-                new_public_key: newPublicKey.toString().replace(/^ed25519:/, '')
-            }, LINKDROP_GAS, newInitialBalance);
+                new_public_key: newPublicKey.toString().replace(/^ed25519:/, ""),
+            },
+            gas: LINKDROP_GAS,
+            attachedDeposit: newInitialBalance,
+        });
         const createResult = JSON.parse(Buffer.from(createResultBase64, 'base64'));
         if (!createResult) {
             throw new WalletError('Creating account has failed', 'createAccount.returnedFalse', { transactionHash });
@@ -940,10 +947,15 @@ class Wallet {
 
         const tempKeyStore = new nearApiJs.keyStores.InMemoryKeyStore();
         const implicitAccountId = Buffer.from(PublicKey.fromString(publicKey).data).toString('hex');
-        let accountIds = [accountId];
+
+        let accountIds = [];
+        const accountIdsByPublickKey = await getAccountIds(publicKey);
         if (!accountId) {
-            accountIds = await getAccountIds(publicKey);
+            accountIds = accountIdsByPublickKey;
+        } else if (accountIdsByPublickKey.includes(accountId)) {
+            accountIds = [accountId];
         }
+
         accountIds.push(implicitAccountId);
 
         // remove duplicate and non-existing accounts
@@ -1029,7 +1041,8 @@ class Wallet {
         } else {
             const lastAccount = accountIdsError.reverse().find((account) => account.error.type === 'LackBalanceForState');
             if (lastAccount) {
-                store.dispatch(redirectTo(`/`, { globalAlertPreventClear: true }));
+                this.accountId = localStorage.getItem(KEY_ACTIVE_ACCOUNT_ID) || '';
+                store.dispatch(redirectTo(`/profile/${lastAccount.accountId}`, { globalAlertPreventClear: true }));
                 throw lastAccount.error;
             } else {
                 throw accountIdsError[accountIdsError.length - 1].error;
@@ -1040,7 +1053,6 @@ class Wallet {
     async signAndSendTransactions(transactions, accountId = this.accountId) {
         const account = await this.getAccount(accountId);
 
-        store.dispatch(setSignTransactionStatus('in-progress'));
         const transactionHashes = [];
         for (let { receiverId, nonce, blockHash, actions } of transactions) {
             let status, transaction;
@@ -1048,7 +1060,15 @@ class Wallet {
             // See https://github.com/near/near-wallet/issues/1856
             const recreateTransaction = account.deployMultisig || true;
             if (recreateTransaction) {
-                ({ status, transaction } = await account.signAndSendTransaction(receiverId, actions));
+                try {
+                    ({ status, transaction } = await account.signAndSendTransaction({ receiverId, actions }));
+                } catch (error) {
+                    if (error.message.includes('Exceeded the prepaid gas')) {
+                        throw new WalletError(error.message, error.code, { transactionHashes });
+                    }
+
+                    throw error;
+                }
             } else {
                 // TODO: Maybe also only take receiverId and actions as with multisig path?
                 const [, signedTransaction] = await nearApiJs.transactions.signTransaction(receiverId, nonce, actions, blockHash, this.connection.signer, accountId, NETWORK_ID);
@@ -1059,8 +1079,10 @@ class Wallet {
             if (status.Failure !== undefined) {
                 throw new Error(`Transaction failure for transaction hash: ${transaction.hash}, receiver_id: ${transaction.receiver_id} .`);
             }
-
-            transactionHashes.push(transaction.hash);
+            transactionHashes.push({
+                hash: transaction.hash,
+                nonceString: nonce.toString()
+            });
         }
 
         return transactionHashes;

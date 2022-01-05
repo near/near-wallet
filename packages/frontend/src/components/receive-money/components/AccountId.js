@@ -41,7 +41,7 @@ const StyledContainer = styled.div`
         padding: 15px;
         font-size: 16px;
         margin-top: 10px;
-        line-break: anywhere;
+        word-break: break-all;
     }
 `;
 

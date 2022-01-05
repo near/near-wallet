@@ -24,7 +24,7 @@ const CustomDiv = styled(`div`)`
         .single-phrase {
             background: #f8f8f8;
             padding: 12px;
-            line-break: anywhere;
+            word-break: break-all;
             margin: 5px;
             flex: 1;
             min-width: 125px;

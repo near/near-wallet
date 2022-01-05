@@ -8,7 +8,7 @@ export default styled.div`
     
         h3 {
             color: black;
-            line-break: anywhere;
+            word-break: break-all;
             line-height: 150%;
         }
     

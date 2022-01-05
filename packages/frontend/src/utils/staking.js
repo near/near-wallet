@@ -61,8 +61,8 @@ export const lockupMethods = {
     ]
 };
 
-export async function signAndSendTransaction(receiverId, actions) {
-    return (await wallet.getAccount(wallet.accountId)).signAndSendTransaction(receiverId, actions);
+export async function signAndSendTransaction(signAndSendTransactionOptions) {
+    return (await wallet.getAccount(wallet.accountId)).signAndSendTransaction(signAndSendTransactionOptions);
 }
 
 export async function updateStakedBalance(validatorId, account_id, contract) {

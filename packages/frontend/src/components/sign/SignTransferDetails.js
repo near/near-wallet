@@ -42,7 +42,7 @@ const CustomGrid = styled(Grid)`
                 padding: 6px 0 0 0;
 
                 .color-blue {
-                    line-break: anywhere;
+                    word-break: break-all;
                 }
             }
             .details-subitem {
@@ -140,7 +140,7 @@ const TransactionsList = ({ transactions }) =>
 ));
 
 const ActionsList = ({ transaction, actions }) => 
-    actions
+    [...actions]
         .sort((a,b) => Object.keys(b)[0] === 'functionCall' ? 1 : -1)
         .map((a, i) => (
             <ActionRow 

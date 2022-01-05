@@ -43,6 +43,16 @@ const allAccountsReducer = handleActions({
                     }
                 }
             }),
+    [staking.getLockup]: (state, { ready, error, payload, meta }) => 
+        (error || !ready || meta.isOwner)
+            ? state
+            : ({
+                ...state,
+                [meta.accountId]: { 
+                    ...state[meta.accountId],
+                    hasLockup: !!payload
+                }
+            })
 }, initialState);
 
 

@@ -28,7 +28,7 @@ const Style = styled.div`
                 color: white;
                 background-color: #3F4045;
                 border-radius: 8px;
-                line-break: anywhere;
+                word-break: break-all;
                 padding: 15px;
                 font-size: 14px;
                 margin-top: 10px;

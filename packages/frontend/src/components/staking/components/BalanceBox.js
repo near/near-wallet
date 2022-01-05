@@ -75,7 +75,9 @@ export default function BalanceBox({
     buttonColor,
     loading,
     disclaimer,
-    linkTo
+    linkTo,
+    buttonTestId,
+    balanceTestId
 }) {
     return (
         <Container className='balance-box'>
@@ -84,7 +86,7 @@ export default function BalanceBox({
                     <Translate id={title} />
                     <Tooltip translate={info}/>
                 </div>
-                <Balance amount={amount}/>
+                <Balance data-test-id={balanceTestId} amount={amount}/>
                 {disclaimer &&
                     <div className='withdrawal-disclaimer'>
                         <Translate id={disclaimer} />
@@ -92,7 +94,15 @@ export default function BalanceBox({
                 }
             </div>
             {button && (onClick || linkTo) &&
-                <FormButton disabled={new BN(amount).isZero() || loading} onClick={onClick} linkTo={linkTo} className={classNames(['small', buttonColor])}><Translate id={button} /></FormButton>
+                <FormButton
+                    data-test-id={buttonTestId}
+                    disabled={new BN(amount).isZero() || loading}
+                    onClick={onClick}
+                    linkTo={linkTo}
+                    className={classNames(['small', buttonColor])}
+                >
+                    <Translate id={button} />
+                </FormButton>
             }
         </Container>
     );

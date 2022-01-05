@@ -44,7 +44,7 @@ const StyledContainer = styled.div`
             .account-id {
                 color: #272729;
                 font-weight: 600;
-                line-break: anywhere;
+                word-break: break-all;
             }
 
             .balance {
