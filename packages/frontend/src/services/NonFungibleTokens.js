@@ -17,6 +17,10 @@ export default class NonFungibleTokens {
         return this.viewFunctionAccount.viewFunction(contractName, 'nft_metadata');
     }
 
+    static getNumberOfTokens = ({ contractName, accountId }) => {
+        return this.viewFunctionAccount.viewFunction(contractName, 'nft_supply_for_owner', { account_id: accountId });
+    }
+
     static getTokens = async ({ contractName, accountId, base_uri, fromIndex = 0 }) => {
         let tokens;
         try {
