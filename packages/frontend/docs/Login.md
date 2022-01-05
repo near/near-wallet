@@ -10,6 +10,7 @@ To implement authentication using the NEAR Wallet, you will need to follow the i
 1. [Construct wallet login parameters](#construct-wallet-login-parameters)
 2. [Initialize a `WalletConnection` and call `requestSignIn`](#initialize-a-walletconnection-and-call-requestsignin)
 3. [Wallet redirect on success on failure](#wallet-redirect-on-success-on-failure)
+4. [Retrieving the logged in user](#retrieving-the-logged-in-user)
 
 <br/>
 
@@ -50,13 +51,13 @@ Setup a `WalletConnection` instance by passing in your `Near` instance. You can 
     const nearAPI = require("near-api-js");
     const { connect, WalletConnection } = nearApi;
     const near = await connect(config);
-    const walletConnection = new WalletConnection(near);
+    const wallet = new WalletConnection(near);
 
     const contractId = 'example.testnet';
     const successUrl = 'https://demodapp.com/auth/success';
     const failureUrl = 'https://demodapp.com/auth/failure';
 
-    walletConnection.requestSignIn({ contractId, successUrl, failureUrl });
+    wallet.requestSignIn({ contractId, successUrl, failureUrl });
 
 ```
 
@@ -75,6 +76,24 @@ Once the user allows or denies the request, they will be redirected to the `succ
 * `account_id` - The ID of the authenticated wallet.
 * `all_keys` - A comma separated, concatenated string of available keys on the wallet. 
 * `public_key` -  The public key supplied. 
+
+
+<br/>
+
+## Retrieving the logged in user
+Once a user is logged in, you can the account ID of the authorized wallet using the `getAccountId` method as shown below.
+
+
+```typescript
+
+    const nearAPI = require("near-api-js");
+    const { connect, WalletConnection } = nearApi;
+    const near = await connect(config);
+    const wallet = new WalletConnection(near);
+
+    const signedInWalletId = wallet.getAccountId();
+
+```
 
 
 <br/>
