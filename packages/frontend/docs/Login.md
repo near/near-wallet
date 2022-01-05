@@ -81,7 +81,7 @@ Once the user allows or denies the request, they will be redirected to the `succ
 <br/>
 
 ## Retrieving the logged in user
-Once a user is logged in, you can the account ID of the authorized wallet using the `getAccountId` method as shown below.
+Once a user is logged in, you can retrieve the account ID of the authorized wallet using the `getAccountId` method as shown below.
 
 
 ```typescript
