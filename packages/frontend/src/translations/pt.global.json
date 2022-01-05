@@ -1108,6 +1108,11 @@
             "pending": {
                 "title": "Aguardando liberação",
                 "info": "Esses tokens foram removidos de stake, mas ainda não estão disponíveis para serem sacados. Tokens ficam disponíveis entre 52 a 65 horas após a remoção."
+            },
+            "farm": {
+                "title": "Total token earned",
+                "info": "It's project validator",
+                "button": "Claim"
             }
         },
         "validatorBox": {

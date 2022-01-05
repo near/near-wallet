@@ -27,14 +27,14 @@ export default function Validator({
 
     const handleStakeAction = async () => {
         if (showConfirmModal && !loading) {
-           await onWithdraw('withdraw', selectedValidator || validator.accountId);
-           setConfirm('done');
+            await onWithdraw('withdraw', selectedValidator || validator.accountId);
+            setConfirm('done');
         }
     };
 
     return (
         <>
-            {stakeNotAllowed 
+            {stakeNotAllowed
                 ? <AlertBanner
                     title='staking.alertBanner.title'
                     button='staking.alertBanner.button'
@@ -48,15 +48,15 @@ export default function Validator({
                     data={{ validator: match.params.validator }}
                 />
             </h1>
-            <FormButton 
-                linkTo={`/staking/${match.params.validator}/stake`} 
+            <FormButton
+                linkTo={`/staking/${match.params.validator}/stake`}
                 disabled={(stakeNotAllowed || !validator) ? true : false}
                 trackingId="STAKE Click stake with validator button"
                 data-test-id="validatorPageStakeButton"
             >
                 <Translate id='staking.validator.button' />
             </FormButton>
-            {validator && <StakingFee fee={validator.fee.percentage}/>}
+            {validator && <StakingFee fee={validator.fee.percentage} />}
             {validator && !stakeNotAllowed && !actionsPending('UPDATE_STAKING') &&
                 <>
                     <BalanceBox
@@ -72,6 +72,18 @@ export default function Validator({
                         loading={loading}
                     />
                     <BalanceBox
+                        title='staking.balanceBox.farm.title'
+                        info='staking.balanceBox.farm.info'
+                        amount={validator.staked || '0'}
+                        onClick={() => {
+                            dispatch(redirectTo(`/staking/${match.params.validator}/claim`));
+                            Mixpanel.track("CLAIM Click claim button");
+                        }}
+                        button='staking.balanceBox.farm.button'
+                        buttonColor='gray-red'
+                        loading={loading}
+                    />
+                    <BalanceBox
                         title='staking.balanceBox.unclaimed.title'
                         info='staking.balanceBox.unclaimed.info'
                         amount={validator.unclaimed || '0'}
@@ -79,13 +91,13 @@ export default function Validator({
                     <BalanceBox
                         title='staking.balanceBox.pending.title'
                         info='staking.balanceBox.pending.info'
-                        amount={ validator.pending || '0' }
+                        amount={validator.pending || '0'}
                         disclaimer='staking.validator.withdrawalDisclaimer'
                     />
                     <BalanceBox
                         title='staking.balanceBox.available.title'
                         info='staking.balanceBox.available.info'
-                        amount={ validator.available || '0' }
+                        amount={validator.available || '0'}
                         onClick={() => {
                             setConfirm('withdraw');
                             Mixpanel.track("WITHDRAW Click withdraw button");

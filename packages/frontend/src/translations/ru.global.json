@@ -1033,6 +1033,11 @@
                 "info": "Эти токены сняты со стейкинга и теперь могут быть выведены.",
                 "title": "Доступно для вывода"
             },
+            "farm": {
+                "button": "Claim",
+                "info": "This is project validator. You’ll get the farming reward while staking on it.",
+                "title": "Total token earned"
+            },
             "pending": {
                 "info": "Эти токены сняты со стейкинга, но еще не могут быть выведены. Токенам требуется от 52 до 65 часов на вывод со стейкинга.",
                 "title": "Ожидается снятие"

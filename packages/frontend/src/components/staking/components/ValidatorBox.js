@@ -5,8 +5,10 @@ import styled from 'styled-components';
 
 import { Mixpanel } from '../../../mixpanel/index';
 import { redirectTo } from '../../../redux/actions/account';
+import { PROJECT_VALIDATOR_VERSION, ValidatorVersion } from '../../../utils/constants';
 import Balance from '../../common/balance/Balance';
 import FormButton from '../../common/FormButton';
+import Tooltip from '../../common/Tooltip';
 import ChevronIcon from '../../svg/ChevronIcon';
 import UserIcon from '../../svg/UserIcon';
 
@@ -47,6 +49,8 @@ const Container = styled.div`
         div {
             text-align: left;
             color: #A7A29E;
+            display: flex;
+            flex-direction: row;
             &:first-of-type {
                 color: #24272a;
                 max-width: 165px;
@@ -128,7 +132,7 @@ export default function ValidatorBox({
     style,
     label = false,
     stakeAction,
-    showBalanceInUSD
+    showBalanceInUSD,
 }) {
     const dispatch = useDispatch();
     const { accountId: validatorId, active } = validator;
@@ -152,31 +156,36 @@ export default function ValidatorBox({
             dispatch(redirectTo(`/staking/${validatorId}${stakeAction ? `/${stakeAction}` : ``}`));
         }
     };
-
+    const isProjectValidator = validator.version === ValidatorVersion[PROJECT_VALIDATOR_VERSION];
     return (
-        <Container 
-            className='validator-box' 
+        <Container
+            className='validator-box'
             data-test-id="stakingPageValidatorItem"
-            clickable={clickable && amount ? 'true' : ''} 
-            style={style} 
+            clickable={clickable && amount ? 'true' : ''}
+            style={style}
             onClick={handleClick}
         >
             {label && <div className='with'><Translate id='staking.validatorBox.with' /></div>}
-            <UserIcon background={true}/>
+            <UserIcon background={true} />
             <div className='left'>
                 <div data-test-id="stakingPageValidatorItemName">
                     {validatorId}
+                    {isProjectValidator && <Tooltip translate='staking.balanceBox.farm.info' />}
                 </div>
                 {typeof fee === 'number' &&
-                    <div className="text-left"> 
-                        <span>{fee}% <Translate id='staking.validatorBox.fee' /> - </span>
+                    <div className="text-left">
+                        {
+                            isProjectValidator
+                                ? <span>{fee}% <Translate id='staking.validatorBox.fee' /> - </span>
+                                : <span>{fee}% <Translate id='staking.validatorBox.fee' /> - </span>
+                        }
                         <span>
                             {
-                            active ?
-                            <span className="active"><Translate id='staking.validatorBox.state.active' /></span>
-                            :
-                            <span className="inactive"><Translate id='staking.validatorBox.state.inactive' /></span>
-                        }
+                                active ?
+                                    <span className="active"> <Translate id='staking.validatorBox.state.active' /></span>
+                                    :
+                                    <span className="inactive"> <Translate id='staking.validatorBox.state.inactive' /></span>
+                            }
                         </span>
                     </div>
                 }
@@ -185,7 +194,7 @@ export default function ValidatorBox({
                 <div className='right'>
                     {staking && <div><Translate id='staking.validatorBox.staking' /></div>}
                     <div className='amount'>
-                        <Balance amount={amount} showBalanceInUSD={showBalanceInUSD}/>
+                        <Balance amount={amount} showBalanceInUSD={showBalanceInUSD} />
                     </div>
                 </div>
             }
