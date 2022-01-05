@@ -12,7 +12,6 @@ import {
     makeAccountActive,
     redirectTo,
     setLedgerTxSigned,
-    setSignTransactionStatus,
     showLedgerModal
 } from '../redux/actions/account';
 import sendJson from '../tmp_fetch_send_json';
@@ -1054,7 +1053,6 @@ class Wallet {
     async signAndSendTransactions(transactions, accountId = this.accountId) {
         const account = await this.getAccount(accountId);
 
-        store.dispatch(setSignTransactionStatus('in-progress'));
         const transactionHashes = [];
         for (let { receiverId, nonce, blockHash, actions } of transactions) {
             let status, transaction;
@@ -1062,7 +1060,15 @@ class Wallet {
             // See https://github.com/near/near-wallet/issues/1856
             const recreateTransaction = account.deployMultisig || true;
             if (recreateTransaction) {
-                ({ status, transaction } = await account.signAndSendTransaction({ receiverId, actions }));
+                try {
+                    ({ status, transaction } = await account.signAndSendTransaction({ receiverId, actions }));
+                } catch (error) {
+                    if (error.message.includes('Exceeded the prepaid gas')) {
+                        throw new WalletError(error.message, error.code, { transactionHashes });
+                    }
+
+                    throw error;
+                }
             } else {
                 // TODO: Maybe also only take receiverId and actions as with multisig path?
                 const [, signedTransaction] = await nearApiJs.transactions.signTransaction(receiverId, nonce, actions, blockHash, this.connection.signer, accountId, NETWORK_ID);
@@ -1073,8 +1079,10 @@ class Wallet {
             if (status.Failure !== undefined) {
                 throw new Error(`Transaction failure for transaction hash: ${transaction.hash}, receiver_id: ${transaction.receiver_id} .`);
             }
-
-            transactionHashes.push(transaction.hash);
+            transactionHashes.push({
+                hash: transaction.hash,
+                nonceString: nonce.toString()
+            });
         }
 
         return transactionHashes;

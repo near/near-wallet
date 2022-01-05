@@ -2,6 +2,7 @@ import React from 'react';
 import { Translate } from 'react-localize-redux';
 import { Grid } from 'semantic-ui-react';
 
+import { SIGN_STATUS } from '../../redux/slices/sign';
 import MobileContainer from './MobileContainer';
 import SignAnimatedArrow from './SignAnimatedArrow';
 
@@ -15,8 +16,8 @@ const SignTransferReady = ({ status, isMonetaryTransaction }) => (
                 >
                     <SignAnimatedArrow
                         start={true}
-                        pending={status === 'in-progress'}
-                        end={status === 'success'}
+                        pending={status === SIGN_STATUS.IN_PROGRESS}
+                        end={status === SIGN_STATUS.SUCCESS}
                     />
                 </Grid.Column>
             </Grid.Row>

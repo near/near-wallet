@@ -615,15 +615,7 @@ export const { recoverAccountSecretKey } = createActions({
     ]
 });
 
-export const { signAndSendTransactions, setSignTransactionStatus, sendMoney, transferAllFromLockup } = createActions({
-    SET_SIGN_TRANSACTION_STATUS: [
-        (status) => ({ status }),
-        () => ({})
-    ],
-    SIGN_AND_SEND_TRANSACTIONS: [
-        wallet.signAndSendTransactions.bind(wallet),
-        () => showAlert({ onlyError: true })
-    ],
+export const { sendMoney, transferAllFromLockup } = createActions({
     SEND_MONEY: [
         wallet.sendMoney.bind(wallet),
         () => showAlert({ onlyError: true })

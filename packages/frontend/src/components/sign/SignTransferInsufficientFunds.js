@@ -7,7 +7,7 @@ import ProblemsImage from '../../images/icon-problems.svg';
 import FormButton from '../common/FormButton';
 import MobileContainer from './MobileContainer';
 
-const SignTransferInsufficientFunds = ({ handleDeny, handleAddFunds }) => (
+const SignTransferInsufficientFunds = ({ handleCancel, handleAddFunds }) => (
     <MobileContainer>
         <Grid padded>
             <Grid.Row centered>
@@ -41,7 +41,7 @@ const SignTransferInsufficientFunds = ({ handleDeny, handleAddFunds }) => (
                 <Grid.Column largeScreen={6} computer={8} tablet={10} mobile={16}>
                     <FormButton
                         color='gray-white'
-                        onClick={handleDeny}
+                        onClick={handleCancel}
                     >
                         <Translate id='button.cancel' />
                     </FormButton>

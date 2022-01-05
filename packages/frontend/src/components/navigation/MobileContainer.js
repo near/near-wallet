@@ -12,7 +12,6 @@ import Logo from './Logo';
 import NavLinks from './NavLinks';
 import UserAccount from './UserAccount';
 
-
 const Container = styled.div`
     display: none;
     color: white;

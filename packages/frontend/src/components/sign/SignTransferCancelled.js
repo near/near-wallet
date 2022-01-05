@@ -8,7 +8,7 @@ import MobileContainer from './MobileContainer';
 
 
 
-const SignTransferCancelled = ({ handleDeny }) => (
+const SignTransferCancelled = ({ handleCancel }) => (
     <MobileContainer>
         <Grid padded>
             <Grid.Row centered>
@@ -43,7 +43,7 @@ const SignTransferCancelled = ({ handleDeny }) => (
                 >
                     <FormButton
                         color='gray-white'
-                        onClick={handleDeny}
+                        onClick={handleCancel}
                     >
                         <Translate id='button.close' />
                     </FormButton>
