@@ -1070,6 +1070,11 @@
             "pending": {
                 "title": "請求釋放",
                 "info": "這些通證並未質押，但還不可提現。通常在贖回質押後 36 - 48 小時變為可提現。"
+            },
+            "farm": {
+                "title": "Total token earned",
+                "info": "It's project validator",
+                "button": "Claim"
             }
         },
         "validatorBox": {

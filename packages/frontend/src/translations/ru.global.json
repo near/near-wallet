@@ -859,6 +859,11 @@
             "pending": {
                 "title": "Ожидается снятие",
                 "info": "Эти токены сняты со стейкинга, но еще не могут быть выведены. Токенам требуется от 52 до 65 часов на вывод со стейкинга."
+            },
+            "farm": {
+                "title": "Total token earned",
+                "info": "It's project validator",
+                "button": "Claim"
             }
         },
         "validatorBox": {

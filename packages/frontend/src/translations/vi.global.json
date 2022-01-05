@@ -934,6 +934,11 @@
             "pending": {
                 "title": "Đang chờ phát hành",
                 "info": "Các token này đã được unstake, nhưng vẫn chưa sẵn sàng để rút. Việc rút sẽ khả dụng từ 52 đến 65 giờ sau khi unstake."
+            },
+            "farm": {
+                "title": "Total token earned",
+                "info": "It's project validator",
+                "button": "Claim"
             }
         },
         "validatorBox": {

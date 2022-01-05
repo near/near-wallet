@@ -1070,6 +1070,11 @@
             "pending": {
                 "title": "请求释放",
                 "info": "这些通证并未质押，但还不可提现。通常在赎回质押后 36 - 48 小时变为可提现。"
+            },
+            "farm": {
+                "title": "Total token earned",
+                "info": "It's project validator",
+                "button": "Claim"
             }
         },
         "validatorBox": {

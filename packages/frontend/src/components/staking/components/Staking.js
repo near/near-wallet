@@ -35,7 +35,7 @@ export default function Staking({
             {multipleAccounts &&
                 <div className='select-account-title'>
                     <Translate id='staking.staking.selectAccount' />
-                    <Tooltip translate='staking.stake.accounts' position='bottom'/>
+                    <Tooltip translate='staking.stake.accounts' position='bottom' />
                 </div>
             }
             {!loading && !loadingDetails &&
@@ -51,8 +51,8 @@ export default function Staking({
                 show={loading || loadingDetails}
                 className='account-loader'
             />
-            <FormButton 
-                disabled={loadingDetails} 
+            <FormButton
+                disabled={loadingDetails}
                 linkTo='/staking/validators'
                 trackingId="STAKE Click stake my tokens button"
                 data-test-id="stakeMyTokensButton"
@@ -72,6 +72,16 @@ export default function Staking({
                         info='staking.balanceBox.staked.info'
                         amount={totalStaked}
                         button={new BN(totalStaked).isZero() ? null : 'staking.balanceBox.staked.button'}
+                        linkTo={stakeFromAccount ? `/staking/unstake` : `/staking/${selectedValidator}/unstake`}
+                        buttonColor='gray-blue'
+                        buttonTestId="stakingPageUnstakingButton"
+                        balanceTestId="stakingPageTotalStakedAmount"
+                    />
+                    <BalanceBox
+                        title='staking.balanceBox.farm.title'
+                        info='staking.balanceBox.farm.info'
+                        amount={totalStaked}
+                        button={new BN(totalStaked).isZero() ? null : 'staking.balanceBox.farm.button'}
                         linkTo={stakeFromAccount ? `/staking/unstake` : `/staking/${selectedValidator}/unstake`}
                         buttonColor='gray-blue'
                         buttonTestId="stakingPageUnstakingButton"
@@ -103,7 +113,7 @@ export default function Staking({
                 </>
                 : null}
             <h3><Translate id='staking.staking.currentValidators' /></h3>
-            {!loadingDetails 
+            {!loadingDetails
                 ? currentValidators.length
                     ? <ListWrapper>
                         {currentValidators.map((validator, i) =>
