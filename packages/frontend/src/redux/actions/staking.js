@@ -10,13 +10,21 @@ import {
 import { getLockupAccountId, getLockupMinBalanceForStorage } from '../../utils/account-with-lockup';
 import { showAlert } from '../../utils/alerts';
 import { setStakingAccountSelected } from '../../utils/localStorage';
-import { 
+import {
+    PROJECT_VALIDATOR_VERSION,
+    ValidatorVersion,
+    MAINNET,
+    getValidatorRegExp,
+    getValidationVersion,
+    TESTNET
+} from '../../utils/constants';
+import {
     STAKING_AMOUNT_DEVIATION,
     MIN_DISPLAY_YOCTO,
     ZERO,
     EXPLORER_DELAY,
     ACCOUNT_DEFAULTS,
-    getStakingDeposits, 
+    getStakingDeposits,
     lockupMethods,
     updateStakedBalance,
     signAndSendTransaction,
@@ -25,12 +33,12 @@ import {
 } from '../../utils/staking';
 import { wallet } from '../../utils/wallet';
 import { WalletError } from '../../utils/walletError';
-import { 
+import {
     selectAccountId,
     selectAccountSlice
 } from '../slices/account';
 import { selectAllAccountsByAccountId } from '../slices/allAccounts';
-import { 
+import {
     selectStakingAccountsMain,
     selectStakingMainAccountId,
     selectStakingLockupAccountId,
@@ -259,12 +267,23 @@ export const { staking } = createActions({
 
                     totalStaked = totalStaked.add(new BN(validator.staked));
                     totalUnclaimed = totalUnclaimed.add(new BN(validator.unclaimed));
+                    const networkId = wallet.connection.provider.connection.url.indexOf(MAINNET) > -1 ? MAINNET : TESTNET;
+
+                    console.log(networkId, validator.accountId);
+                    validator.version = getValidationVersion(networkId, validator.accountId);
                 } catch (e) {
                     if (e.message.indexOf('cannot find contract code') === -1) {
                         console.warn('Error getting data for validator', validator.accountId, e);
                     }
                 }
             }));
+            const projectValidators = validators.filter(v => v.version === ValidatorVersion[PROJECT_VALIDATOR_VERSION]);
+            await Promise.all(projectValidators.map(async () => {
+                const allFarms = await projectValidators.contract.get_farms({ from_index: 0, limit: 1000 });
+                const allFarmsData = Promise.all(allFarms.map((_, index) => projectValidators.contract.get_farm({ farm_id: index })));
+                console.log(allFarmsData);
+            }));
+
 
             return {
                 accountId,
@@ -290,7 +309,7 @@ export const { staking } = createActions({
             if (totalUnstaked.lt(new BN(parseNearAmount('0.002')))) {
                 totalUnstaked = ZERO.clone();
             }
-            
+
             // validator specific
             const selectedValidator = await contract.get_staking_pool_account_id();
             if (!selectedValidator) {
@@ -301,7 +320,7 @@ export const { staking } = createActions({
                     mainAccountId: exAccountId
                 };
             }
-            let validator = validators.find((validator) => 
+            let validator = validators.find((validator) =>
                 validator.accountId === selectedValidator
             );
 
@@ -377,15 +396,14 @@ export const { staking } = createActions({
         GET_VALIDATORS: async (accountIds, accountId) => {
             const { current_validators, next_validators, current_proposals } = await wallet.connection.provider.validators();
             const currentValidators = shuffle(current_validators).map(({ account_id }) => account_id);
-            
             if (!accountIds) {
                 const rpcValidators = [...current_validators, ...next_validators, ...current_proposals].map(({ account_id }) => account_id);
 
-                const networkId = wallet.connection.provider.connection.url.indexOf('mainnet') > -1 ? 'mainnet' : 'testnet';
+                const networkId = wallet.connection.provider.connection.url.indexOf(MAINNET) > -1 ? MAINNET : TESTNET;
                 const allStakingPools = (await fetch(`${ACCOUNT_HELPER_URL}/stakingPools`).then((r) => r.json()));
-
+                const prefix = getValidatorRegExp(networkId);
                 accountIds = [...new Set([...rpcValidators, ...allStakingPools])]
-                    .filter((v) => v.indexOf('nfvalidator') === -1 && v.indexOf(networkId === 'mainnet' ? '.near' : '.m0') > -1);
+                    .filter((v) => v.indexOf('nfvalidator') === -1 && v.match(prefix));
             }
 
             const currentAccount = wallet.getAccountBasic(accountId);
