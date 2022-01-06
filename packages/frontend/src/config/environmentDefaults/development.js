@@ -35,7 +35,7 @@ export default {
     SENTRY_DSN: "https://75d1dabd0ab646329fad8a3e7d6c761d@o398573.ingest.sentry.io/5254526",
     SENTRY_RELEASE: "development",
     SHOW_PRERELEASE_WARNING: false,
-    SMS_BLACKLIST: "",
+    SMS_BLACKLIST: [],
     STAKING_GAS_BASE: "25000000000000", // 25 Tgas
     WHITELISTED_CONTRACTS: ["meta.pool.testnet"],
 };

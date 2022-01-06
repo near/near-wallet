@@ -12,7 +12,7 @@ const parseObjectFromShell = (envVal) => {
 };
 
 const parseCommaSeperatedStringAsArrayFromShell = (envVal) =>
-    envValIsSet(envVal) ? envVal.split(",") : undefined;
+    envValIsSet(envVal) ? envVal.replace(/\s/g, "").split(",") : undefined;
 
 module.exports = {
     envValIsSet,

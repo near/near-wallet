@@ -11,9 +11,6 @@ const envDefaults = {
     [Environments.TESTNET]: {
         CLOUDFLARE_BASE_URL: "https://content.near-wallet.workers.dev",
     },
-    [Environments.TESTNET_STAGING]: {
-        CLOUDFLARE_BASE_URL: "https://content.near-wallet.workers.dev",
-    },
     [Environments.MAINNET]: {
         CLOUDFLARE_BASE_URL: "https://content.near-wallet.workers.dev",
     },

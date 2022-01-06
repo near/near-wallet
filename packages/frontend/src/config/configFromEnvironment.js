@@ -1,12 +1,12 @@
 import assert from "assert";
 
 import Environments from "../../../../features/environments.json";
-import { NEAR_WALLET_ENV } from "../../ci/config";
 import {
     parseBooleanFromShell,
-    parseObjectFromShell,
     parseCommaSeperatedStringAsArrayFromShell,
 } from "./envParsers";
+
+const NEAR_WALLET_ENV = process.env.NEAR_WALLET_ENV;
 
 assert(
     Object.values(Environments).some((env) => NEAR_WALLET_ENV === env),
@@ -31,7 +31,7 @@ module.exports = {
         process.env.HIDE_SIGN_IN_WITH_LEDGER_ENTER_ACCOUNT_ID_MODAL
     ),
     IS_MAINNET: [Environments.MAINNET, Environments.MAINNET_STAGING].some(
-        (env) => env === process.env.NEAR_WALLET_ENV
+        (env) => env === NEAR_WALLET_ENV
     ),
     LINKDROP_GAS: process.env.LINKDROP_GAS,
     LOCKUP_ACCOUNT_ID_SUFFIX: process.env.LOCKUP_ACCOUNT_ID_SUFFIX,
@@ -40,7 +40,7 @@ module.exports = {
     MOONPAY_API_KEY: process.env.MOONPAY_API_KEY,
     MOONPAY_API_URL: process.env.MOONPAY_API_URL,
     MOONPAY_BUY_URL: process.env.MOONPAY_BUY_URL,
-    MULTISIG_CONTRACT_HASHES: parseObjectFromShell(
+    MULTISIG_CONTRACT_HASHES: parseCommaSeperatedStringAsArrayFromShell(
         process.env.MULTISIG_CONTRACT_HASHES
     ),
     MULTISIG_MIN_AMOUNT: process.env.REACT_APP_MULTISIG_MIN_AMOUNT,
@@ -57,14 +57,16 @@ module.exports = {
     RECAPTCHA_ENTERPRISE_SITE_KEY: process.env.RECAPTCHA_ENTERPRISE_SITE_KEY,
     SENTRY_DSN: process.env.SENTRY_DSN,
     SENTRY_RELEASE: process.env.SENTRY_RELEASE
-        ? process.env.RENDER
+        ? parseBooleanFromShell(process.env.RENDER)
             ? `render:${process.env.RENDER_SERVICE_NAME}:${process.env.RENDER_GIT_BRANCH}:${process.env.RENDER_GIT_COMMIT}`
             : undefined
         : undefined,
     SHOW_PRERELEASE_WARNING: parseBooleanFromShell(
         process.env.SHOW_PRERELEASE_WARNING
     ),
-    SMS_BLACKLIST: process.env.SMS_BLACKLIST,
+    SMS_BLACKLIST: parseCommaSeperatedStringAsArrayFromShell(
+        process.env.SMS_BLACKLIST
+    ),
     STAKING_GAS_BASE: process.env.REACT_APP_STAKING_GAS_BASE,
     WHITELISTED_CONTRACTS: parseCommaSeperatedStringAsArrayFromShell(
         process.env.TOKEN_CONTRACTS
