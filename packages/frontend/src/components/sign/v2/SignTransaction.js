@@ -1,3 +1,4 @@
+import BN from 'bn.js';
 import React from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
@@ -84,11 +85,13 @@ export default ({
 }) => {
     return (
         <StyledContainer className='transfer-amount brs-8 bsw-l'>
-            <Balance
-                amount={transferAmount}
-                showAlmostEqualSignUSD={false}
-                showSymbolUSD={false}
-            />
+            {new BN(transferAmount).gt(new BN(0)) &&
+                <Balance
+                    amount={transferAmount}
+                    showAlmostEqualSignUSD={false}
+                    showSymbolUSD={false}
+                />
+            }
             <div className='account from'>
                 <Translate id='transfer.from' />
                 <div className='right'>

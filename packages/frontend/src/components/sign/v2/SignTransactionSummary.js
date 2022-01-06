@@ -45,11 +45,13 @@ export default ({
     onClickCancel,
     onClickApprove,
     onClickMoreInformation,
-    accountUrlReferrer
+    accountUrlReferrer,
+    submittingTransaction
 }) => {
+    /* FIX: Handle transferAmount greater than available balance (banner) */
     return (
         <StyledContainer className='small-centered border'>
-            <h3><Translate id='sign.v2.approveTransaction.title' /></h3>
+            <h3><Translate id='sign.approveTransaction' /></h3>
             <ConnectWithApplication appReferrer={accountUrlReferrer} />
             <SignTransaction
                 transferAmount={transferAmount}
@@ -67,11 +69,14 @@ export default ({
                 <FormButton
                     color='gray-blue'
                     onClick={onClickCancel}
+                    disabled={submittingTransaction}
                 >
                     <Translate id='button.cancel' />
                 </FormButton>
                 <FormButton
                     onClick={onClickApprove}
+                    disabled={submittingTransaction}
+                    sending={submittingTransaction}
                 >
                     <Translate id='button.approve' />
                 </FormButton>

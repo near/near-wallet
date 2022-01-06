@@ -2,6 +2,7 @@ import { createAsyncThunk, createAction } from "@reduxjs/toolkit";
 import BN from 'bn.js';
 import cloneDeep from 'lodash.clonedeep';
 import { createSelector } from "reselect";
+
 import { Mixpanel } from "../../../mixpanel";
 import { wallet } from "../../../utils/wallet";
 import { showCustomAlert } from "../../actions/status";
@@ -175,6 +176,11 @@ export const selectSignSlice = (state) => state[SLICE_NAME];
 export const selectSignTransactions = createSelector(
     [selectSignSlice],
     (sign) => sign.transactions || []
+);
+
+export const selectSignTransactionAmount = createSelector(
+    [selectSignSlice],
+    (sign) => sign.totalAmount
 );
 
 export const selectSignSuccessHashes = createSelector(

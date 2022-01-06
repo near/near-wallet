@@ -6,26 +6,35 @@ import {
     selectAccountLocalStorageAccountId,
     selectAvailableBalance
 } from '../../../redux/slices/account';
+import {
+    selectSignTransactionAmount
+} from '../../../redux/slices/sign';
 import SignTransactionSummary from './SignTransactionSummary';
 
 export default ({
-    onClickMoreInformation
+    onClickMoreInformation,
+    onClickCancel,
+    onClickApprove,
+    submittingTransaction,
+    signGasFee
 }) => {
 
     const accountLocalStorageAccountId = useSelector(selectAccountLocalStorageAccountId);
     const accountUrlReferrer = useSelector(selectAccountUrlReferrer);
     const availableBalance = useSelector(selectAvailableBalance);
+    const signTransactionAmount = useSelector(selectSignTransactionAmount);
     
     return (
         <SignTransactionSummary
-            transferAmount='123420000000000234234243000'
+            transferAmount={signTransactionAmount}
             accountLocalStorageAccountId={accountLocalStorageAccountId}
             availableBalance={availableBalance}
-            estimatedFees='123420000000000000'
-            onClickCancel={() => {}}
-            onClickApprove={() => {}}
+            estimatedFees={signGasFee}
+            onClickCancel={onClickCancel}
+            onClickApprove={onClickApprove}
             onClickMoreInformation={onClickMoreInformation}
             accountUrlReferrer={accountUrlReferrer}
+            submittingTransaction={submittingTransaction}
         />
     );
 };

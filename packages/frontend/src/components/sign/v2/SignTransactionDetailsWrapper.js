@@ -1,18 +1,19 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 
-import { selectSignSlice, selectTransactions } from '../../../redux/slices/sign';
+import { selectSignTransactions } from '../../../redux/slices/sign';
 import SignTransactionDetails from './SignTransactionDetails';
 
 export default ({
-    onClickGoBack
+    onClickGoBack,
+    signGasFee
 }) => {
-    const signSlice = useSelector(selectSignSlice);
-    const transactions = useSelector(selectTransactions);
+    const transactions = useSelector(selectSignTransactions);
     return (
         <SignTransactionDetails
             onClickGoBack={onClickGoBack}
             transactions={transactions}
+            signGasFee={signGasFee}
         />
     );
 };

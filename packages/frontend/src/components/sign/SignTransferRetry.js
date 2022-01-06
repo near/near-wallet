@@ -8,8 +8,6 @@ import FormButton from '../common/FormButton';
 import Container from '../common/styled/Container.css';
 
 const CustomContainer = styled(Container)`
-    max-width: 450px;
-    margin: 0 auto;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -85,8 +83,8 @@ const CustomContainer = styled(Container)`
     }
 `;
 
-const SignTransferRetry = ({ handleRetry, handleCancel, gasLimit }) => (
-    <CustomContainer>
+const SignTransferRetry = ({ handleRetry, handleCancel, gasLimit, submittingTransaction }) => (
+    <CustomContainer className='small-centered border'>
         <div className='icon'>
             <img src={RetryImage} alt='Retry' />
         </div>
@@ -96,7 +94,7 @@ const SignTransferRetry = ({ handleRetry, handleCancel, gasLimit }) => (
         <div className='text'>
             <Translate id='sign.retry.text' />
             <br/><br/>
-            <a href='https://'>
+            <a href='https://docs.near.org/docs/concepts/gas' target='_blank' rel='noreferrer'>
                 <Translate id='sign.retry.link' />
             </a>
         </div>
@@ -118,12 +116,15 @@ const SignTransferRetry = ({ handleRetry, handleCancel, gasLimit }) => (
         <div className='buttons'>
             <FormButton
                 onClick={handleCancel}
+                disabled={submittingTransaction}
                 color='gray-blue'
             >
                 <Translate id='button.cancel' />
             </FormButton>
             <FormButton
                 onClick={handleRetry}
+                disabled={submittingTransaction}
+                sending={submittingTransaction}
             >
                 <Translate id='button.resubmit' />
             </FormButton>

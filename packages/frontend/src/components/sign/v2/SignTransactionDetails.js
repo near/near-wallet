@@ -86,7 +86,8 @@ const StyledContainer = styled(Container)`
 
 export default ({
     onClickGoBack,
-    transactions
+    transactions,
+    signGasFee
 }) => {
     return (
         <StyledContainer className='small-centered border'>
@@ -105,7 +106,7 @@ export default ({
                 </div>
                 <div className='entry'>
                     Fee Limit
-                    <div>20000000 Tgas</div>
+                    <div>{signGasFee} Tgas</div>
                 </div>
             </div>
 
