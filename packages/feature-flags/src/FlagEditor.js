@@ -35,35 +35,39 @@ class FlagEditor {
         const action = await this.prompts.action(flagNames.length !== 0);
         this.log({ action })
 
-        let flagName;
-
-        if (action === ACTIONS.REMOVE_FLAG) {
-            flagName = await this.prompts.selectExistingFlag(flagNames)
-            delete this._flagsState[flagName]
-        } else {
-            let flagEntry;
-
-            if (action === ACTIONS.EDIT_FLAG) {
-                flagName = await this.prompts.selectExistingFlag(flagNames)
-            } else {
-                flagName = await this.prompts.enterNewFlagName(flagNames);
+        switch (action) {
+            case ACTIONS.ADD_FLAG: {
+                const flagName = await this.prompts.enterNewFlagName(flagNames);
+                await this.setFlagState(flagName, userEditing);
+                break;
             }
-            this.log({ flagName });
-
-            flagEntry = this._flagsState[flagName];
-            const environmentsEnabledIn = await this.prompts.getEnvironmentStates({
-                environments: this._environments,
-                flagEntry
-            });
-
-            this._flagsState = {
-                ...this._flagsState,
-                [flagName]: this.flagEntry({ environmentsEnabledIn, flagEntry, userEditing })
+            case ACTIONS.EDIT_FLAG: {
+                const flagName = await this.prompts.selectExistingFlag(flagNames);
+                await this.setFlagState(flagName, userEditing);
+                break;
+            }
+            case ACTIONS.REMOVE_FLAG: {
+                const flagName = await this.prompts.selectExistingFlag(flagNames);
+                delete this._flagsState[flagName];
+                break;
             }
         }
 
         await this.saveFlags();
         await this.writeTypeDefinitions();
+    }
+
+    async setFlagState(flagName, userEditing) {
+        const flagEntry = this._flagsState[flagName];
+        const environmentsEnabledIn = await this.prompts.getEnvironmentStates({
+            environments: this._environments,
+            flagEntry
+        });
+
+        this._flagsState = {
+            ...this._flagsState,
+            [flagName]: this.flagEntry({ environmentsEnabledIn, flagEntry, userEditing })
+        }
     }
 
     flagEntry({ environmentsEnabledIn, flagEntry, userEditing }) {
