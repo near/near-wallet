@@ -14,7 +14,7 @@ import {
     selectSignStatus,
     selectSignCallbackUrl,
     selectSignMeta,
-    selectSignSuccessHashes
+    selectSignTransactionHashes
 } from '../redux/slices/sign';
 
 export function SignWrapper() {
@@ -27,7 +27,7 @@ export function SignWrapper() {
     const signStatus = useSelector(selectSignStatus);
     const signCallbackUrl = useSelector(selectSignCallbackUrl);
     const signMeta = useSelector(selectSignMeta);
-    const signSuccessHashes = useSelector(selectSignSuccessHashes);
+    const transactionHashes = useSelector(selectSignTransactionHashes);
 
     const signGasFee = new BN(signFeesGasLimitIncludingGasChanges).div(new BN('1000000000000')).toString();
     const submittingTransaction = signStatus === SIGN_STATUS.IN_PROGRESS;
@@ -36,16 +36,19 @@ export function SignWrapper() {
         if (signStatus === SIGN_STATUS.RETRY_TRANSACTION) {
             setInsufficientNetworkFee(true);
         }
+        
+        if (signStatus === SIGN_STATUS.SUCCESS) {
+            if (signCallbackUrl && !!transactionHashes.length) {
+                window.location.href = addQueryParams(signCallbackUrl, {
+                    signMeta,
+                    transactionHashes: transactionHashes.join(',')
+                });
+            }
+        }
     }, [signStatus]);
 
     const handleApproveTransaction = async () => {
         await dispatch(handleSignTransactions());
-        if (signCallbackUrl) {
-            window.location.href = addQueryParams(signCallbackUrl, {
-                signMeta,
-                transactionHashes: signSuccessHashes.join(',')
-            });
-        }
     };
 
     const handleCancelTransaction = async () => {

@@ -188,6 +188,11 @@ export const selectSignSuccessHashes = createSelector(
     (sign) => sign.successHashes || []
 );
 
+export const selectSignTransactionHashes = createSelector(
+    [selectSignSlice],
+    (sign) => sign.transactionHashes || []
+);
+
 export const selectSignSuccessHashesOnlyHash = createSelector(
     [selectSignSuccessHashes],
     (successHashes) => successHashes.map((successHash) => successHash.hash) || []
