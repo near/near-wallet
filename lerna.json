@@ -4,7 +4,9 @@
   ],
   "command": {
     "publish": {
-      "message": "chore: NPM release"
+      "message": "chore(release): publish",
+      "conventionalCommits": true,
+      "yes": true
     }
   },
   "useWorkspaces": true,
