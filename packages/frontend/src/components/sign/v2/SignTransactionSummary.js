@@ -1,7 +1,9 @@
+import BN from 'bn.js';
 import React from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
+import AlertBanner from '../../common/AlertBanner';
 import FormButton from '../../common/FormButton';
 import FormButtonGroup from '../../common/FormButtonGroup';
 import Container from '../../common/styled/Container.css';
@@ -34,6 +36,11 @@ const StyledContainer = styled(Container)`
         .connect-with-application {
             margin: 20px auto 30px auto;
         }
+
+        .alert-banner {
+            margin: 20px 0;
+            border-radius: 4px;
+        }
     }
 `;
 
@@ -48,11 +55,17 @@ export default ({
     accountUrlReferrer,
     submittingTransaction
 }) => {
-    /* FIX: Handle transferAmount greater than available balance (banner) */
+    const InsufficientBalance = availableBalance && transferAmount && new BN(availableBalance).lt(new BN(transferAmount));
     return (
         <StyledContainer className='small-centered border'>
             <h3><Translate id='sign.approveTransaction' /></h3>
             <ConnectWithApplication appReferrer={accountUrlReferrer} />
+            {InsufficientBalance &&
+                <AlertBanner
+                    title='sign.insufficientFundsDesc'
+                    theme='warning'
+                />
+            }
             <SignTransaction
                 transferAmount={transferAmount}
                 sender={accountLocalStorageAccountId}
@@ -75,7 +88,7 @@ export default ({
                 </FormButton>
                 <FormButton
                     onClick={onClickApprove}
-                    disabled={submittingTransaction}
+                    disabled={submittingTransaction || InsufficientBalance}
                     sending={submittingTransaction}
                 >
                     <Translate id='button.approve' />

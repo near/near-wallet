@@ -18,10 +18,6 @@ const StyledContainer = styled.div`
             font-size: 31px;
             font-weight: 600;
             color: #272729;
-
-            :before {
-                content: '-';
-            }
         }
         .fiat-amount {
             color: #72727A;
