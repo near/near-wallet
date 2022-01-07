@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import BN from 'bn.js';
-import { pick } from 'lodash';
 import set from 'lodash.set';
 import { createSelector } from 'reselect';
 
