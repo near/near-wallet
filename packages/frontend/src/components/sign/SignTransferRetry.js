@@ -100,14 +100,14 @@ const SignTransferRetry = ({ handleRetry, handleCancel, gasLimit, submittingTran
         </div>
         <div className='fees'>
             <div className='fees-line'>
-                <b><Translate id='sign.retry.networkFees' /></b>
+                <b><Translate id='sign.networkFees' /></b>
             </div>
             <div className='fees-line'>
-                <Translate id='sign.retry.estimatedFees' />
+                <Translate id='sign.estimatedFees' />
                 <div>NEAR</div>
             </div>
             <div className='fees-line'>
-                <Translate id='sign.retry.feeLimit' />
+                <Translate id='sign.feeLimit' />
                 <div className='tgas'>
                     {gasLimit} Tgas
                 </div>

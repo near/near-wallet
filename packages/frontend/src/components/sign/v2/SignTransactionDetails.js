@@ -2,6 +2,7 @@ import React from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
+import { EXPLORER_URL } from '../../../config';
 import Accordion from '../../common/Accordion';
 import BackArrowButton from '../../common/BackArrowButton';
 import Balance from '../../common/balance/Balance';
@@ -93,30 +94,30 @@ export default ({
         <StyledContainer className='small-centered border'>
             <div className='header'>
                 <BackArrowButton onClick={onClickGoBack} color='#0072CE' />
-                Transaction Details
+                <Translate id='sign.transactionDetails' />
             </div>
             <div className='network-fees'>
-                <div className='title'>Network Fees</div>
+                <div className='title'><Translate id='sign.networkFees' /></div>
                 <div className='entry'>
-                    Estimated Fees
+                    <Translate id='sign.estimatedFees' />
                     <Balance
-                        amount='123420000000000000'
+                        amount={signGasFee}
                         showBalanceInUSD={false}
                     />
                 </div>
                 <div className='entry'>
-                    Fee Limit
+                    <Translate id='sign.feeLimit' />
                     <div>{signGasFee} Tgas</div>
                 </div>
             </div>
 
             <div className='contract-details'>
-                <div className='title'>Contract Details</div>
+                <div className='title'><Translate id='sign.contractDetails' /></div>
                 {transactions.map((transaction, i) => (
                     <div key={transaction.receiverId}>
                         <div className='entry'>
                             <Translate id='sign.details.forContract' />
-                            <a href='/' rel='noopener noreferrer' target='_blank'>{transaction.receiverId} <ArrowUpRight /></a>
+                            <a href={`${EXPLORER_URL}/accounts/${transaction.receiverId}`} rel='noopener noreferrer' target='_blank'>{transaction.receiverId} <ArrowUpRight /></a>
                         </div>
                         {transaction.actions.sort((a, b) => Object.keys(b)[0] === 'functionCall' ? 1 : -1).map((action, i) => {
                             const methodName = action.functionCall?.methodName || '';
@@ -124,7 +125,7 @@ export default ({
                             return (
                                 <div key={methodName}>
                                     <div className='entry function'>
-                                        Function
+                                        <Translate id='sign.function' />
                                         <DropdownButton id={uniqueMethodId} className='font-monospace'>
                                             {methodName}
                                         </DropdownButton>
