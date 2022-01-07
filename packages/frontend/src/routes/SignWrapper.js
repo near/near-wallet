@@ -48,6 +48,7 @@ export function SignWrapper() {
     }, [signStatus]);
 
     const handleApproveTransaction = async () => {
+        Mixpanel.track("SIGN approve the transaction");
         await dispatch(handleSignTransactions());
     };
 
