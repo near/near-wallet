@@ -95,7 +95,7 @@ export function SendContainerWrapper({ match }) {
             }}
             handleContinueToReview={async ({ token, receiverId, rawAmount }) => {
                 try {
-                    if (token.symbol === 'NEAR') {
+                    if (token.onChainFTMetadata?.symbol === 'NEAR') {
                         const [totalFees, totalNear] = await Promise.all([
                             fungibleTokensService.getEstimatedTotalFees(),
                             fungibleTokensService.getEstimatedTotalNearAmount({ amount: rawAmount })
