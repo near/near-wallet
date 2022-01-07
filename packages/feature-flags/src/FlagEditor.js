@@ -31,7 +31,7 @@ class FlagEditor {
         await this.loadContext();
         await this.loadFlags(this._flagsFilepath);
 
-        const flagNames = Object.keys(this._flagsState)
+        const flagNames = Object.keys(this._flagsState);
 
         const action = await this.prompts.action(flagNames.length !== 0);
         this.log({ action })
@@ -50,6 +50,14 @@ class FlagEditor {
             case ACTIONS.REMOVE_FLAG: {
                 const flagName = await this.prompts.selectExistingFlag(flagNames);
                 delete this._flagsState[flagName];
+                break;
+            }
+            case ACTIONS.ADD_ENVIRONMENT: {
+                const {
+                    environmentName,
+                    sourceEnvironment,
+                } = await this.prompts.enterNewEnvironmentName(Object.values(this._environments));
+                await this.addEnvironment({ environmentName, sourceEnvironment });
                 break;
             }
         }
@@ -94,6 +102,20 @@ class FlagEditor {
             createdAt: flagEntry ? flagEntry.createdAt : new Date().toISOString(),
             ...perEnvEntries,
         }
+    }
+
+    async addEnvironment({ environmentName, sourceEnvironment }) {
+        this._environments = {
+            ...this._environments,
+            [environmentName.toUpperCase()]: environmentName,
+        };
+
+        const configPath = await this.resolveConfigPath();
+        await fsx.writeJson(path.join(configPath, ENVIRONMENTS_FILENAME), this._environments, { spaces: 2 });
+
+        Object.entries(this._flagsState).forEach(([flagName, flagState]) => {
+            this._flagsState[flagName][environmentName] = flagState[sourceEnvironment];
+        });
     }
 
     async resolveConfigPath() {

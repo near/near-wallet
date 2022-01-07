@@ -1,7 +1,8 @@
 const ACTIONS = {
-    ADD_FLAG: 'add',
-    REMOVE_FLAG: 'delete',
-    EDIT_FLAG: 'edit'
+    ADD_FLAG: 'add flag',
+    REMOVE_FLAG: 'delete flag',
+    EDIT_FLAG: 'edit flag',
+    ADD_ENVIRONMENT: 'add environment'
 }
 
 module.exports = {
