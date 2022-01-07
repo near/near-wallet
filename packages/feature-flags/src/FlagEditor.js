@@ -14,6 +14,7 @@ const ENABLE_DEBUG_LOGGING = process.env.NEAR_FLAG_DEBUG === 'true' || false;
 class FlagEditor {
     constructor({ prompts }) {
         this.prompts = prompts;
+        this._configPath = null;
         this._environments = null;
         this._flagsFilepath = null;
         this._flagsState = null;
@@ -27,7 +28,7 @@ class FlagEditor {
         const userEditing = await getGitUsername();
         this.log({ userEditing });
 
-        await this.loadContext({ basePath: path.parse(process.cwd()) });
+        await this.loadContext();
         await this.loadFlags(this._flagsFilepath);
 
         const flagNames = Object.keys(this._flagsState)
@@ -95,8 +96,12 @@ class FlagEditor {
         }
     }
 
-    async loadContext({ basePath }) {
-        const { base, dir, root } = basePath;
+    async resolveConfigPath() {
+        if (this._configPath) {
+            return this._configPath;
+        }
+
+        const { base, dir, root } = path.parse(process.cwd());
         let fileFound = false;
         let currPath = path.join(dir, base);
 
@@ -115,9 +120,14 @@ class FlagEditor {
             throw new Error(`Could not find a ${FLAGS_FILENAME} in CWD or any parent dir. Run this tool from a NEAR repo!`)
         }
 
-        currPath = path.join(currPath, CONFIG_DIRECTORY);
-        this._flagsFilepath = path.join(currPath, FLAGS_FILENAME);
-        this._environments = await fsx.readJson(path.join(currPath, ENVIRONMENTS_FILENAME));
+        this._configPath = path.join(currPath, CONFIG_DIRECTORY);
+        return this._configPath;
+    }
+
+    async loadContext() {
+        const configPath = await this.resolveConfigPath();
+        this._flagsFilepath = path.join(configPath, FLAGS_FILENAME);
+        this._environments = await fsx.readJson(path.join(configPath, ENVIRONMENTS_FILENAME));
     }
 
     async loadFlags() {
