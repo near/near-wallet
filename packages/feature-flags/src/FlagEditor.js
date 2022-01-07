@@ -16,6 +16,7 @@ class FlagEditor {
         this.prompts = prompts;
         this._configPath = null;
         this._environments = null;
+        this._environmentsFilepath = null;
         this._flagsFilepath = null;
         this._flagsState = null;
     }
@@ -29,7 +30,8 @@ class FlagEditor {
         this.log({ userEditing });
 
         await this.loadContext();
-        await this.loadFlags(this._flagsFilepath);
+        await this.loadEnvironments();
+        await this.loadFlags();
 
         const flagNames = Object.keys(this._flagsState);
 
@@ -67,6 +69,7 @@ class FlagEditor {
             }
         }
 
+        await this.saveEnvironments();
         await this.saveFlags();
         await this.writeTypeDefinitions();
     }
@@ -115,9 +118,6 @@ class FlagEditor {
             [environmentName.toUpperCase()]: environmentName,
         };
 
-        const configPath = await this.resolveConfigPath();
-        await fsx.writeJson(path.join(configPath, ENVIRONMENTS_FILENAME), this._environments, { spaces: 2 });
-
         Object.entries(this._flagsState).forEach(([flagName, flagState]) => {
             this._flagsState[flagName][environmentName] = flagState[sourceEnvironment];
         });
@@ -125,9 +125,6 @@ class FlagEditor {
 
     async removeEnvironment(environmentName) {
         delete this._environments[environmentName.toUpperCase()];
-
-        const configPath = await this.resolveConfigPath();
-        await fsx.writeJson(path.join(configPath, ENVIRONMENTS_FILENAME), this._environments, { spaces: 2 });
 
         Object.keys(this._flagsState).forEach((flagName) => {
             delete this._flagsState[flagName][environmentName];
@@ -164,8 +161,17 @@ class FlagEditor {
 
     async loadContext() {
         const configPath = await this.resolveConfigPath();
+        this._environmentsFilepath = path.join(configPath, ENVIRONMENTS_FILENAME);
         this._flagsFilepath = path.join(configPath, FLAGS_FILENAME);
-        this._environments = await fsx.readJson(path.join(configPath, ENVIRONMENTS_FILENAME));
+    }
+
+    async loadEnvironments() {
+        try {
+            this._environments = await fsx.readJson(this._environmentsFilepath);
+        } catch (e) {
+            console.log(e);
+            throw new Error(`Failed to load JSON from ${this._environmentsFilepath}. Probably not valid JSON!`);
+        }
     }
 
     async loadFlags() {
@@ -175,6 +181,11 @@ class FlagEditor {
             console.log(e);
             throw new Error(`Failed to load JSON from ${this._flagsFilepath}. Probably not valid JSON!`)
         }
+    }
+
+    async saveEnvironments() {
+        this.log("writing file", { filepath: this._environmentsFilepath, state: this._environments });
+        return fsx.writeJson(this._environmentsFilepath, this._environments, { spaces: 2 });
     }
 
     async saveFlags() {
