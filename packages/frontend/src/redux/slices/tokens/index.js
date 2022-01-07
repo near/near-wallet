@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import BN from 'bn.js';
+import { pick } from 'lodash';
 import set from 'lodash.set';
 import { createSelector } from 'reselect';
 
@@ -30,7 +31,9 @@ async function getCachedContractMetadataOrFetch(contractName, accountId, state) 
     if (contractMetadata) {
         return contractMetadata;
     }
-    return FungibleTokens.getMetadata({ contractName, accountId });
+    return FungibleTokens.getMetadata({ contractName, accountId }).then(
+        (metadata) => pick(metadata, ["icon", "name", "decimals", "symbol"])
+    );
 }
 
 const fetchOwnedTokensForContract = createAsyncThunk(
