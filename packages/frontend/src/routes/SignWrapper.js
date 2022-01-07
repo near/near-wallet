@@ -34,7 +34,6 @@ export function SignWrapper() {
 
     useEffect(() => {
         if (signStatus === SIGN_STATUS.RETRY_TRANSACTION) {
-            // FIX: Do we set 'RETRY_TRANSACTION' for all failure cases and not only when insufficient network fee?
             setInsufficientNetworkFee(true);
         }
     }, [signStatus]);
