@@ -23,10 +23,11 @@ The wallet will then make a view call to `ft_balance_of` on the considered contr
 
 ## NEAR Wallet fungible token display
 
-The wallet will display the following properties returned by the contract's `ft_metaddata`:
+The wallet will display the token using the following properties returned by the contract's `ft_metaddata`:
 * `icon`: An icon will be rendered for the fungible token if a data url is supplied.
 * `name`: Displayed as the fungible token's title (e.g. Banana) with a fallback to the `symbol` property.
 * `symbol`: Displayed to represent the user's balance (e.g. BANANA).
+* `decimals`: Used to show the proper significant digits of a token. This concept is explained well in this [OpenZeppelin post](https://docs.openzeppelin.com/contracts/3.x/erc20#a-note-on-decimals).
 
 The wallet will also display the balance returned by `ft_balance_of`:
 
