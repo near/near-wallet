@@ -60,6 +60,11 @@ class FlagEditor {
                 await this.addEnvironment({ environmentName, sourceEnvironment });
                 break;
             }
+            case ACTIONS.REMOVE_ENVIRONMENT: {
+                const environmentName = await this.prompts.selectExistingEnvironment(Object.values(this._environments));
+                await this.removeEnvironment(environmentName);
+                break;
+            }
         }
 
         await this.saveFlags();
@@ -115,6 +120,17 @@ class FlagEditor {
 
         Object.entries(this._flagsState).forEach(([flagName, flagState]) => {
             this._flagsState[flagName][environmentName] = flagState[sourceEnvironment];
+        });
+    }
+
+    async removeEnvironment(environmentName) {
+        delete this._environments[environmentName.toUpperCase()];
+
+        const configPath = await this.resolveConfigPath();
+        await fsx.writeJson(path.join(configPath, ENVIRONMENTS_FILENAME), this._environments, { spaces: 2 });
+
+        Object.keys(this._flagsState).forEach((flagName) => {
+            delete this._flagsState[flagName][environmentName];
         });
     }
 
