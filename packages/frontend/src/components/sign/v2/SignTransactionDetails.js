@@ -29,6 +29,11 @@ const StyledContainer = styled(Container)`
             border-bottom-left-radius: 0;
             border-bottom-right-radius: 0;
 
+            @media (max-width: 499px) {
+                border-radius: 0;
+                margin-top: -35px;
+            }
+
             .back-arrow-button { 
                 position: absolute;
                 left: 20px;

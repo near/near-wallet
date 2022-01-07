@@ -54,6 +54,10 @@ const StyledContainer = styled.div`
             .near-amount {
                 color: #72727A;
             }
+
+            &.no-border {
+                border-top: none;
+            }
         }
 
         &.fees {
@@ -79,16 +83,17 @@ export default ({
     estimatedFees,
     availableBalance
 }) => {
+    const isTransferTransaction = new BN(transferAmount).gt(new BN(0));
     return (
         <StyledContainer className='transfer-amount brs-8 bsw-l'>
-            {new BN(transferAmount).gt(new BN(0)) &&
+            {isTransferTransaction &&
                 <Balance
                     amount={transferAmount}
                     showAlmostEqualSignUSD={false}
                     showSymbolUSD={false}
                 />
             }
-            <div className='account from'>
+            <div className={`account from ${!isTransferTransaction ? 'no-border' : ''}`}>
                 <Translate id='transfer.from' />
                 <div className='right'>
                     <div className='account-id'>{sender}</div>
