@@ -2,7 +2,7 @@
   "packages": [
     "packages/*"
   ],
-  "commands": {
+  "command": {
     "publish": {
       "message": "chore: NPM release"
     }
