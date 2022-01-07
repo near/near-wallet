@@ -59,7 +59,7 @@ class FlagEditor {
                     environmentName,
                     sourceEnvironment,
                 } = await this.prompts.enterNewEnvironmentName(Object.values(this._environments));
-                await this.addEnvironment({ environmentName, sourceEnvironment });
+                await this.addEnvironment({ environmentName, sourceEnvironment, userEditing });
                 break;
             }
             case ACTIONS.REMOVE_ENVIRONMENT: {
@@ -112,14 +112,18 @@ class FlagEditor {
         }
     }
 
-    async addEnvironment({ environmentName, sourceEnvironment }) {
+    async addEnvironment({ environmentName, sourceEnvironment, userEditing }) {
         this._environments = {
             ...this._environments,
             [environmentName.toUpperCase()]: environmentName,
         };
 
         Object.entries(this._flagsState).forEach(([flagName, flagState]) => {
-            this._flagsState[flagName][environmentName] = flagState[sourceEnvironment];
+            this._flagsState[flagName][environmentName] = {
+                ...flagState[sourceEnvironment],
+                lastEditedBy: userEditing,
+                lastEditedAt: new Date().toISOString(),
+            };
         });
     }
 
