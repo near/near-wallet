@@ -12,8 +12,11 @@ const RawTokenAmount = ({
 }) => {
     if (decimals && symbol) {
         return (
-            <TokenAmount 
-                token={{ symbol, decimals, balance: amount }}
+            <TokenAmount
+                token={{
+                    onChainFTMetadata: { symbol, decimals },
+                    balance: amount
+                }}
                 withSymbol={withSymbol}
                 showFiatAmount={showFiatAmountForNonNearToken}
             />

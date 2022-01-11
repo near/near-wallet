@@ -155,15 +155,21 @@ export const selectOneTokenFromOwnedTokens = createSelector(
 
 export const selectTokensWithMetadataForAccountId = createSelector(
     [selectAllContractMetadata, selectOwnedTokensForAccount],
-    (allContractMetadata, ownedTokensForAccount) => Object.entries(ownedTokensForAccount)
-        .filter(([_, { balance }]) => !new BN(balance).isZero())
-        .sort(([a], [b]) => allContractMetadata[a].name.localeCompare(allContractMetadata[b].name))
-        .map(([contractName, { balance }]) => ({
-            ...initialOwnedTokenState,
-            contractName,
-            balance,
-            ...(allContractMetadata[contractName] || {})
-        }))
+    (allContractMetadata, ownedTokensForAccount) =>
+        Object.entries(ownedTokensForAccount)
+            .filter(([_, { balance }]) => !new BN(balance).isZero())
+            .sort(([a], [b]) =>
+                allContractMetadata[a].name.localeCompare(
+                    allContractMetadata[b].name
+                )
+            )
+            .map(([contractName, { balance }]) => ({
+                ...initialOwnedTokenState,
+                contractName,
+                balance,
+                onChainFTMetadata: allContractMetadata[contractName] || {},
+                coingeckoMetadata: {},
+            }))
 );
 
 export const selectTokensLoading = createSelector(

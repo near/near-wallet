@@ -46,8 +46,8 @@ const EnterReceiver = ({
                     <Textfit mode='single' max={20}>
                         <RawTokenAmount
                             amount={amount}
-                            symbol={selectedToken.symbol}
-                            decimals={selectedToken.decimals}
+                            symbol={selectedToken.onChainFTMetadata?.symbol}
+                            decimals={selectedToken.onChainFTMetadata?.decimals}
                             showFiatAmountForNonNearToken={false}
                         />
                     </Textfit>
