@@ -10,6 +10,8 @@ export const selectAccountId = createSelector(selectAccountSlice, (account) => a
 
 export const selectAccountHas2fa = createSelector(selectAccountSlice, (account) => account.has2fa);
 
+export const selectAccountHasLockup = createSelector(selectAccountSlice, (account) => account.hasLockup);
+
 export const selectAccountAuthorizedApps = createSelector(selectAccountSlice, (account) => account.authorizedApps || []);
 
 export const selectAccountFullAccessKeys = createSelector(selectAccountSlice, (account) => account.fullAccessKeys || []);
