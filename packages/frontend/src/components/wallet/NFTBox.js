@@ -136,7 +136,7 @@ const NFTBox = ({ tokenDetails }) => {
                             {
                                 mediaUrl.match(/\.webm$/i)
                                     ? <video poster={FailedToLoad} muted={true} loop controls { ...videoProps }>
-                                        <source src={`mediaUrl`} type="video/webm" />
+                                        <source src={mediaUrl} type="video/webm" />
                                         <img src={FailedToLoad} alt='NFT' />
                                     </video>
                                     : <img src={mediaUrl} alt='NFT' onError={(e) => {
