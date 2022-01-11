@@ -131,15 +131,13 @@ const NFTBox = ({ tokenDetails }) => {
                 ownedTokensMetadata &&
                 <div className='tokens'>
                     {ownedTokensMetadata.map(({ token_id, metadata: { mediaUrl, title } }, index) => {
-                        const videoProps = index === 0 ? { autoplay: "true" } : {};
+                        const videoProps = index === 0 ? { autoPlay: true } : {};
                         return <div className='nft' key={token_id}>
                             {
                                 mediaUrl.match(/\.webm$/i)
-                                    ? <video muted="true" loop controls { ...videoProps }>
-                                        <source src={mediaUrl} type="video/webm" onError={(e) => {
-                                        e.target.onerror = null;
-                                        e.target.src = FailedToLoad;
-                                    }}/>
+                                    ? <video poster={FailedToLoad} muted={true} loop controls { ...videoProps }>
+                                        <source src={`mediaUrl`} type="video/webm" />
+                                        <img src={FailedToLoad} alt='NFT' />
                                     </video>
                                     : <img src={mediaUrl} alt='NFT' onError={(e) => {
                                         e.target.onerror = null;
