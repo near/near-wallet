@@ -2,6 +2,7 @@ import assert from "assert";
 
 import Environments from "../../../../features/environments.json";
 import {
+    envValIsSet,
     parseBooleanFromShell,
     parseCommaSeperatedStringAsArrayFromShell,
 } from "./envParsers";
@@ -64,9 +65,9 @@ module.exports = {
     SHOW_PRERELEASE_WARNING: parseBooleanFromShell(
         process.env.SHOW_PRERELEASE_WARNING
     ),
-    SMS_BLACKLIST: parseCommaSeperatedStringAsArrayFromShell(
-        process.env.SMS_BLACKLIST
-    ),
+    SMS_BLACKLIST: envValIsSet(process.env.SMS_BLACKLIST) ? parseCommaSeperatedStringAsArrayFromShell(
+        process.env.SMS_BLACKLIST.replace(/\s/g, "")
+    ) : undefined,
     STAKING_GAS_BASE: process.env.REACT_APP_STAKING_GAS_BASE,
     WHITELISTED_CONTRACTS: parseCommaSeperatedStringAsArrayFromShell(
         process.env.TOKEN_CONTRACTS
