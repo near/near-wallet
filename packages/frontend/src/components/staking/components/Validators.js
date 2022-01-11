@@ -1,24 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Translate } from 'react-localize-redux';
-import { useDispatch } from 'react-redux';
 
-import { actions as tokensActions } from '../../../redux/slices/tokens';
 import { getValidatorRegExp } from '../../../utils/constants';
 import { wallet } from '../../../utils/wallet';
 import ListWrapper from './ListWrapper';
 import ValidatorBox from './ValidatorBox';
-const { fetchToken } = tokensActions;
+
 
 export default function Validators({ validators, stakeFromAccount }) {
-    // const dispatch = useDispatch();
+
     const [validator, setValidator] = useState('');
     const networkId = wallet.connection.networkId;
     const validatorPrefix = getValidatorRegExp(networkId);
     const validValidator = validators.map(validator => validator.accountId).includes(validator);
-
-    // useEffect(() => {
-    //     dispatch(fetchToken({ contractName: 'token.solniechniy.testnet', accountId: stakeFromAccount }));
-    // }, []);
 
     return (
         <>
