@@ -1,8 +1,7 @@
 import { SMS_BLACKLIST } from '../config';
 
 const isApprovedCountryCode = (countryCode) => {
-    const blackList = SMS_BLACKLIST.replace(/\s/g, "").split(",");
-    return !blackList.includes(countryCode);
+    return !SMS_BLACKLIST.includes(countryCode);
 };
 
 export default isApprovedCountryCode;
