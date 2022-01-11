@@ -269,7 +269,6 @@ export const { staking } = createActions({
                     totalUnclaimed = totalUnclaimed.add(new BN(validator.unclaimed));
                     const networkId = wallet.connection.provider.connection.url.indexOf(MAINNET) > -1 ? MAINNET : TESTNET;
 
-                    console.log(networkId, validator.accountId);
                     validator.version = getValidationVersion(networkId, validator.accountId);
                 } catch (e) {
                     if (e.message.indexOf('cannot find contract code') === -1) {
@@ -419,6 +418,9 @@ export const { staking } = createActions({
                         };
                         const fee = validator.fee = await validator.contract.get_reward_fee_fraction();
                         fee.percentage = +(fee.numerator / fee.denominator * 100).toFixed(2);
+                        const networkId = wallet.connection.provider.connection.url.indexOf(MAINNET) > -1 ? MAINNET : TESTNET;
+
+                        validator.version = getValidationVersion(networkId, validator.accountId);
                         return validator;
                     } catch (e) {
                         console.warn('Error getting fee for validator %s: %s', account_id, e);

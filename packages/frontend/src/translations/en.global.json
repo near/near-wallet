@@ -1210,7 +1210,7 @@
             },
             "farm": {
                 "title": "Total token earned",
-                "info": "It's project validator",
+                "info": "This is project validator. You’ll get the farming reward while staking on it.",
                 "button": "Claim"
             }
         },
