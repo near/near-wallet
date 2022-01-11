@@ -51,7 +51,7 @@ const Container = styled.div`
             color: #A7A29E;
             display: flex;
             flex-direction: row;
-            &:first-of-type {
+            &:first-of-type > div{
                 color: #24272a;
                 max-width: 165px;
                 overflow: hidden;
@@ -169,8 +169,10 @@ export default function ValidatorBox({
             {label && <div className='with'><Translate id='staking.validatorBox.with' /></div>}
             <UserIcon background={true} />
             <div className='left'>
-                <div data-test-id="stakingPageValidatorItemName">
-                    {validatorId}
+                <div className='container'>
+                    <div data-test-id="stakingPageValidatorItemName">
+                        {validatorId}
+                    </div>
                     {isProjectValidator && <Tooltip translate='staking.balanceBox.farm.info' />}
                 </div>
                 {typeof fee === 'number' &&

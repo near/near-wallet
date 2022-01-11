@@ -1095,6 +1095,11 @@
                 "info": "Esses tokens foram removidos de stake e estão disponíveis para serem sacados.",
                 "title": "Disponível para saque"
             },
+            "farm": {
+                "button": "Claim",
+                "info": "This is project validator. You’ll get the farming reward while staking on it.",
+                "title": "Total token earned"
+            },
             "pending": {
                 "info": "Esses tokens foram removidos de stake, mas ainda não estão disponíveis para serem sacados. Tokens ficam disponíveis entre 52 a 65 horas após a remoção.",
                 "title": "Aguardando liberação"
@@ -1114,11 +1119,6 @@
                     "modalTitle": "Não é possível mostrar recompensas de stake ganhas",
                     "title": "Não é possível mostrar recompensas ganhas."
                 }
-            },
-            "farm": {
-                "title": "Total token earned",
-                "info": "This is project validator. You’ll get the farming reward while staking on it.",
-                "button": "Claim"
             }
         },
         "noValidators": {

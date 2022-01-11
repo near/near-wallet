@@ -229,9 +229,9 @@
         "removeNode": "Remove Node",
         "removingKeys": "Removing Keys",
         "reserveMyAccountId": "Reserve My Account ID",
+        "resubmit": "Resubmit",
         "retry": "Retry",
         "returnToApp": "Return to App",
-        "resubmit": "Resubmit",
         "saveChanges": "Save Changes",
         "send": "Send",
         "setupPhrase": "Setup Recovery Phrase",
@@ -1125,12 +1125,12 @@
         },
         "nothingHasBeenTransferred": "Nothing has been transferred.",
         "retry": {
-            "title": "Insufficient Network Fee",
-            "text": "The default network fee was not enough to cover the cost of your transaction.<br/><br/>You may resubmit the transaction to have its fee limit automatically increased.",
+            "estimatedFees": "Estimated Fees",
+            "feeLimit": "Fee Limit",
             "link": "What is the fee limit?",
             "networkFees": "Network Fees",
-            "estimatedFees": "Estimated Fees",
-            "feeLimit": "Fee Limit"
+            "text": "The default network fee was not enough to cover the cost of your transaction.<br/><br/>You may resubmit the transaction to have its fee limit automatically increased.",
+            "title": "Insufficient Network Fee"
         },
         "transactionCancelled": "Transaction cancelled",
         "transferring": "Transferring",
@@ -1188,6 +1188,11 @@
                 "info": "These tokens have been unstaked, and are ready to be withdrawn.",
                 "title": "Available for withdrawal"
             },
+            "farm": {
+                "button": "Claim",
+                "info": "This is project validator. You’ll get the farming reward while staking on it.",
+                "title": "Total token earned"
+            },
             "pending": {
                 "info": "These tokens have been unstaked, but are not yet ready to withdraw. Tokens are ready to withdraw 52 to 65 hours after unstaking.",
                 "title": "Pending release"
@@ -1207,11 +1212,6 @@
                     "modalTitle": "Unable to display staking rewards earned",
                     "title": "Unable to display rewards earned."
                 }
-            },
-            "farm": {
-                "title": "Total token earned",
-                "info": "This is project validator. You’ll get the farming reward while staking on it.",
-                "button": "Claim"
             }
         },
         "noValidators": {

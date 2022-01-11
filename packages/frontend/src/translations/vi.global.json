@@ -1102,6 +1102,11 @@
                 "info": "Các token này đã được unstake và sẵn sàng để rút.",
                 "title": "Khả dụng để rút tiền"
             },
+            "farm": {
+                "button": "Claim",
+                "info": "This is project validator. You’ll get the farming reward while staking on it.",
+                "title": "Total token earned"
+            },
             "pending": {
                 "info": "Các token này đã được unstake, nhưng vẫn chưa sẵn sàng để rút. Việc rút sẽ khả dụng từ 52 đến 65 giờ sau khi unstake.",
                 "title": "Đang chờ phát hành"
@@ -1121,11 +1126,6 @@
                     "modalTitle": "Không thể hiển thị phần thưởng staking kiếm được",
                     "title": "Không thể hiển thị phần thưởng đã kiếm được."
                 }
-            },
-            "farm": {
-                "title": "Total token earned",
-                "info": "This is project validator. You’ll get the farming reward while staking on it.",
-                "button": "Claim"
             }
         },
         "noValidators": {
