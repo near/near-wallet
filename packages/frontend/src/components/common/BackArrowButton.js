@@ -24,10 +24,10 @@ const StyledContainer = styled.div`
     }
 `;
 
-const BackArrowButton = ({ onClick }) => {
+const BackArrowButton = ({ onClick, color = 'black' }) => {
     return (
-        <StyledContainer onClick={onClick} className='back-arrow-button'>
-            <ArrowIcon color='black'/>
+        <StyledContainer onClick={onClick} className='back-arrow-button' type='button'>
+            <ArrowIcon color={color}/>
         </StyledContainer>
     );
 };

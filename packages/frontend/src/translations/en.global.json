@@ -1105,11 +1105,18 @@
             "functionCall": "No description specified for this function.",
             "stake": "You are about to stake NEAR tokens. These tokens will be locked, and are at risk of being lost if your validator becomes unresponsive."
         },
+        "approveTransaction": "Approve Transaction",
         "authorizationRequestSuccessful": "Authorization request successful",
         "authorizing": "Authorizing",
         "availableBalance": "Available Balance",
         "availableToTransfer": "Available to transfer",
         "contract": "Contract:",
+        "contractDetails": "Contract Details",
+        "estimatedFees": "Estimated Fees",
+        "feeLimit": "Fee Limit",
+        "function": "Function:",
+        "gasLimit": "Gas Limit",
+        "networkFees": "Network Fees",
         "details": {
             "detailedDescription": "Detailed description of transaction",
             "forContract": "For Contract",
@@ -1119,6 +1126,7 @@
         },
         "hereAreSomeDetails": "Here are some details that will help you.",
         "insufficientFunds": "Insufficient Funds",
+        "insufficientFundsDesc": "You do not have enough available NEAR to complete this transaction.",
         "isRequesting": {
             "authorization": "is requesting authorization",
             "transferOf": "is requesting the transfer of"
@@ -1127,12 +1135,10 @@
         "retry": {
             "title": "Insufficient Network Fee",
             "text": "The default network fee was not enough to cover the cost of your transaction.<br/><br/>You may resubmit the transaction to have its fee limit automatically increased.",
-            "link": "What is the fee limit?",
-            "networkFees": "Network Fees",
-            "estimatedFees": "Estimated Fees",
-            "feeLimit": "Fee Limit"
+            "link": "What is the fee limit?"
         },
         "transactionCancelled": "Transaction cancelled",
+        "transactionDetails": "Transaction Details",
         "transferring": "Transferring",
         "unexpectedStatus": "Unexpected status",
         "unknownApp": "Unknown App",
