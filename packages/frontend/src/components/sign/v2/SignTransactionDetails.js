@@ -58,6 +58,7 @@ const StyledContainer = styled(Container)`
             align-items: center;
             justify-content: space-between;
             margin: 15px 0;
+            white-space: nowrap;
 
             &.function {
                 padding-left: 25px;
@@ -66,9 +67,13 @@ const StyledContainer = styled(Container)`
             a {
                 display: flex;
                 align-items: center;
+                word-break: break-word;
+                white-space: normal;
+                margin-left: 30px;
 
                 svg {
                     margin-left: 5px;
+                    min-width: 16px;
                 }
             }
         }

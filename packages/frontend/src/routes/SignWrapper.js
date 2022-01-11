@@ -90,15 +90,15 @@ export function SignWrapper() {
                 signGasFee={signGasFee}
             />
         );
-    } else {
-        return (
-            <SignTransactionSummaryWrapper
-                onClickCancel={handleCancelTransaction}
-                onClickApprove={handleApproveTransaction}
-                submittingTransaction={submittingTransaction}
-                signGasFee={signGasFee}
-                onClickMoreInformation={() => setShowTransactionDetails(true)}
-            />
-        );
     }
+
+    return (
+        <SignTransactionSummaryWrapper
+            onClickCancel={handleCancelTransaction}
+            onClickApprove={handleApproveTransaction}
+            submittingTransaction={submittingTransaction}
+            signGasFee={signGasFee}
+            onClickMoreInformation={() => setShowTransactionDetails(true)}
+        />
+    );
 }

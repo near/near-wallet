@@ -55,12 +55,12 @@ export default ({
     accountUrlReferrer,
     submittingTransaction
 }) => {
-    const InsufficientBalance = availableBalance && transferAmount && new BN(availableBalance).lt(new BN(transferAmount));
+    const insufficientBalance = availableBalance && transferAmount && new BN(availableBalance).lt(new BN(transferAmount));
     return (
         <StyledContainer className='small-centered border'>
             <h3><Translate id='sign.approveTransaction' /></h3>
             <ConnectWithApplication appReferrer={accountUrlReferrer} />
-            {InsufficientBalance &&
+            {insufficientBalance &&
                 <AlertBanner
                     title='sign.insufficientFundsDesc'
                     theme='warning'
@@ -88,7 +88,7 @@ export default ({
                 </FormButton>
                 <FormButton
                     onClick={onClickApprove}
-                    disabled={submittingTransaction || InsufficientBalance}
+                    disabled={submittingTransaction || insufficientBalance}
                     sending={submittingTransaction}
                 >
                     <Translate id='button.approve' />
