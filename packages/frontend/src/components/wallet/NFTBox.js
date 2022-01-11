@@ -135,7 +135,7 @@ const NFTBox = ({ tokenDetails }) => {
                         return <div className='nft' key={token_id}>
                             {
                                 mediaUrl.match(/\.webm$/i)
-                                    ? <video poster={FailedToLoad} muted={true} loop controls { ...videoProps }>
+                                    ? <video poster={FailedToLoad} muted={true} loop controls { ...videoProps } autoPlay={true}>
                                         <source src={mediaUrl} type="video/webm" />
                                         <img src={FailedToLoad} alt='NFT' />
                                     </video>
