@@ -6,7 +6,7 @@ module.exports = async function selectExistingEnvironment(environments) {
         name: 'proceed',
         message: `
 💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥
-Removing or modifying existing environments WILL break any production environments using this configuration.
+Removing existing environments WILL break any production environments using this configuration.
 Only proceed if the target environment is no longer active.
 
 Continue?

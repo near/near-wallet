@@ -63,7 +63,7 @@ class FlagEditor {
                 break;
             }
             case ACTIONS.REMOVE_ENVIRONMENT: {
-                const environmentName = await this.prompts.selectExistingEnvironment(Object.values(this._environments));
+                const environmentName = await this.prompts.selectEnvironmentForDeletion(Object.values(this._environments));
                 if (!environmentName) {
                     return;
                 }
