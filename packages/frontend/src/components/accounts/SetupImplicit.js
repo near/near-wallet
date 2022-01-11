@@ -22,6 +22,7 @@ import WhereToBuyNearModal from '../common/WhereToBuyNearModal';
 import SafeTranslate from '../SafeTranslate';
 import AccountFundedModal from './AccountFundedModal';
 import FundWithMoonpay from './create/FundWithMoonpay';
+import FundWithUtorg from "./create/FundWithUtorg";
 import AccountFunded from './create/status/AccountFunded';
 import AccountNeedsFunding from './create/status/AccountNeedsFunding';
 
@@ -262,6 +263,11 @@ class SetupImplicit extends Component {
                 <AccountNeedsFunding
                     fundingAddress={implicitAccountId}
                     minDeposit={MIN_BALANCE_TO_CREATE}
+                />
+                <Divider />
+                <FundWithUtorg
+                    accountId={implicitAccountId}
+                    amount={MIN_BALANCE_TO_CREATE}
                 />
                 {moonpayAvailable &&
                     <>

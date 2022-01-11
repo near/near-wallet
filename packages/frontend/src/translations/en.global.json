@@ -47,6 +47,11 @@
                     "title": "Fund with MoonPay"
                 },
                 "title": "Almost there! Activate your account with an initial deposit.",
+                "utorg": {
+                    "buyWith": "Buy with",
+                    "desc": "Make your initial deposit with Utorg using your preferred payment method.",
+                    "title": "Fund with Utorg"
+                },
                 "whereToBuy": {
                     "button": "Where can I purchase NEAR?",
                     "desc": "NEAR tokens are available to purchase through the following exchanges",
@@ -229,9 +234,9 @@
         "removeNode": "Remove Node",
         "removingKeys": "Removing Keys",
         "reserveMyAccountId": "Reserve My Account ID",
+        "resubmit": "Resubmit",
         "retry": "Retry",
         "returnToApp": "Return to App",
-        "resubmit": "Resubmit",
         "saveChanges": "Save Changes",
         "send": "Send",
         "setupPhrase": "Setup Recovery Phrase",
@@ -261,14 +266,16 @@
         "bridgeTokens": "Bridge Tokens from Ethereum",
         "buyWith": "Buy with",
         "coinMarketCap": "CoinMarketCap",
-        "descOne": "Purchase NEAR through MoonPay using your preferred payment method.",
+        "descMoonpay": "Purchase NEAR through MoonPay using your preferred payment method.",
         "descThree": "Transfer your tokens from Ethereum to NEAR Wallet using a bridge.",
         "descTwo": "NEAR is available to purchase through the following exchanges.",
+        "descUtorg": "Purchase NEAR through Utorg using your preferred payment method.",
         "moonPay": "MoonPay",
         "notSupported": "is not supported in your region",
         "seeMore": "See more on",
         "supportedExchanges": "Supported Exchanges",
-        "title": "Top Up"
+        "title": "Top Up",
+        "utorg": "Utorg"
     },
     "confirmLedgerModal": {
         "header": {
@@ -1125,12 +1132,12 @@
         },
         "nothingHasBeenTransferred": "Nothing has been transferred.",
         "retry": {
-            "title": "Insufficient Network Fee",
-            "text": "The default network fee was not enough to cover the cost of your transaction.<br/><br/>You may resubmit the transaction to have its fee limit automatically increased.",
+            "estimatedFees": "Estimated Fees",
+            "feeLimit": "Fee Limit",
             "link": "What is the fee limit?",
             "networkFees": "Network Fees",
-            "estimatedFees": "Estimated Fees",
-            "feeLimit": "Fee Limit"
+            "text": "The default network fee was not enough to cover the cost of your transaction.<br/><br/>You may resubmit the transaction to have its fee limit automatically increased.",
+            "title": "Insufficient Network Fee"
         },
         "transactionCancelled": "Transaction cancelled",
         "transferring": "Transferring",

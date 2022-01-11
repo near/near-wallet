@@ -47,6 +47,11 @@
                     "title": "通过 MoonPay 充值"
                 },
                 "title": "充值至账户",
+                "utorg": {
+                    "buyWith": "打开",
+                    "desc": "通过 Utorg 支持的支付方式进行你的首次充值。",
+                    "title": "通过 Utorg 充值"
+                },
                 "whereToBuy": {
                     "button": "我可以在哪里购买 NEAR？",
                     "desc": "NEAR 通证可以在以下交易所购买",
@@ -260,14 +265,16 @@
         "bridgeTokens": "通过以太坊跨链桥转移通证",
         "buyWith": "打开",
         "coinMarketCap": "CoinMarketCap",
-        "descOne": "可在 MoonPay 使用偏好的支付方式购买 NEAR。",
+        "descMoonpay": "可在 MoonPay 使用偏好的支付方式购买 NEAR。",
         "descThree": "通过跨链桥将以太坊链上通证转至 NEAR 钱包。",
         "descTwo": "NEAR 已经在以下交易所流通，可交易。",
+        "descUtorg": "可在 Utorg 使用偏好的支付方式购买 NEAR。",
         "moonPay": "MoonPay",
         "notSupported": "is not supported in your region",
         "seeMore": "查看更多：",
         "supportedExchanges": "交易所",
-        "title": "充值 NEAR"
+        "title": "充值 NEAR",
+        "utorg": "Utorg"
     },
     "confirmLedgerModal": {
         "header": {

@@ -235,14 +235,16 @@
         "bridgeTokens": "Bridge Tokens from Ethereum",
         "buyWith": "Mua với",
         "coinMarketCap": "CoinMarketCap",
-        "descOne": "Mua NEAR qua MoonPay bằng phương thức thanh toán ưa thích của bạn.",
+        "descMoonpay": "Mua NEAR qua MoonPay bằng phương thức thanh toán ưa thích của bạn.",
         "descThree": "Transfer your tokens from Ethereum to NEAR Wallet using a bridge.",
         "descTwo": "NEAR có sẵn để mua thông qua các sàn giao dịch sau.",
+        "descUtorg": "Mua NEAR qua Utorg bằng phương thức thanh toán ưa thích của bạn.",
         "moonPay": "MoonPay",
         "notSupported": "is not supported in your region",
         "seeMore": "Xem thêm trên",
         "supportedExchanges": "Các sàn giao dịch được hỗ trợ",
-        "title": "Mua NEAR"
+        "title": "Mua NEAR",
+        "utorg": "Utorg"
     },
     "confirmLedgerModal": {
         "header": {

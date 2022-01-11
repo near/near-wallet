@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { MIN_BALANCE_FOR_GAS } from '../../../config';
+import {MIN_BALANCE_FOR_GAS} from '../../../config';
 import { Mixpanel } from '../../../mixpanel';
 import { redirectTo, clearFundedAccountNeedsDeposit, getBalance, getAccountHelperWalletState } from '../../../redux/actions/account';
 import { selectAccountFundedAccountNeedsDeposit, selectAccountRequiredUnlockBalance, selectAccountSlice } from '../../../redux/slices/account';
@@ -20,6 +20,7 @@ import Container from '../../common/styled/Container.css';
 import WhereToBuyNearModal from '../../common/WhereToBuyNearModal';
 import SafeTranslate from '../../SafeTranslate';
 import FundWithMoonpay from './FundWithMoonpay';
+import FundWithUtorg from "./FundWithUtorg";
 import AccountFunded from './status/AccountFunded';
 import AccountNeedsFunding from './status/AccountNeedsFunding';
 
@@ -232,6 +233,11 @@ class ActivateAccount extends Component {
                 <AccountNeedsFunding
                     accountId={accountId}
                     minDeposit={minBalanceToUnlock}
+                />
+                <Divider/>
+                <FundWithUtorg
+                    accountId={accountId}
+                    amount={minBalanceToUnlock}
                 />
                 {moonpayAvailable &&
                     <>

@@ -48,6 +48,11 @@
                     "title": "Fund with MoonPay"
                 },
                 "title": "Coloque fundos em sua Conta",
+                "utorg": {
+                    "buyWith": "Buy with",
+                    "desc": "Make your initial deposit with Utorg using your preferred payment method.",
+                    "title": "Fund with Utorg"
+                },
                 "whereToBuy": {
                     "button": "Onde consigo comprar NEAR?",
                     "desc": "NEAR tokens estão disponíveis para compra nas seguintes exchanges",
@@ -228,14 +233,16 @@
         "bridgeTokens": "Bridge Tokens from Ethereum",
         "buyWith": "Comprar com",
         "coinMarketCap": "CoinMarketCap",
-        "descOne": "Compre NEAR pela MoonPay usando seu método de pagamento preferido.",
+        "descMoonpay": "Compre NEAR pela MoonPay usando seu método de pagamento preferido.",
         "descThree": "Transfer your tokens from Ethereum to NEAR Wallet using a bridge.",
         "descTwo": "NEAR está disponível para compra nas seguintes exchanges.",
+        "descUtorg": "Compre NEAR pela Utorg usando seu método de pagamento preferido.",
         "moonPay": "MoonPay",
         "notSupported": "is not supported in your region",
         "seeMore": "Ver mais em",
         "supportedExchanges": "Exchanges suportadas",
-        "title": "Comprar NEAR"
+        "title": "Comprar NEAR",
+        "utorg": "Utorg"
     },
     "confirmLedgerModal": {
         "header": {
