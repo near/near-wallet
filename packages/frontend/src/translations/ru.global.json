@@ -1038,6 +1038,11 @@
                 "info": "This is project validator. You’ll get the farming reward while staking on it.",
                 "title": "Total token earned"
             },
+            "farm": {
+                "button": "Claim",
+                "info": "This is project validator. You’ll get the farming reward while staking on it.",
+                "title": "Total token earned"
+            },
             "pending": {
                 "info": "These tokens have been withdrawn from staking, but cannot be withdrawn yet. Tokens take 52 to 65 hours to withdraw from staking.",
                 "title": "Withdrawal pending"
