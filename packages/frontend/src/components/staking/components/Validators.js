@@ -1,13 +1,12 @@
 import React, { useState, useMemo } from 'react';
 import { Translate } from 'react-localize-redux';
-import { useDispatch } from 'react-redux';
 
 import { getProjectValidatorPrefix } from '../../../utils/constants';
 import { MAINNET, TESTNET } from '../../../utils/constants';
 import { wallet } from '../../../utils/wallet';
 import ListWrapper from './ListWrapper';
 import ValidatorBox from './ValidatorBox';
-const { fetchToken } = tokensActions;
+
 
 export default function Validators({ validators, stakeFromAccount }) {
     const [validator, setValidator] = useState('');
