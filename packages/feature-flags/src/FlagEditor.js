@@ -58,7 +58,7 @@ class FlagEditor {
                 const {
                     environmentName,
                     sourceEnvironment,
-                } = await this.prompts.enterNewEnvironmentName(Object.values(this._environments));
+                } = await this.prompts.setupNewEnvironment(Object.values(this._environments));
                 await this.addEnvironment({ environmentName, sourceEnvironment, userEditing });
                 break;
             }

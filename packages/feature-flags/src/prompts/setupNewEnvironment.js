@@ -1,6 +1,6 @@
 const inquirer = require('inquirer');
 
-module.exports = async function newFlagName(existingEnvironments) {
+module.exports = async function setupNewEnvironment(existingEnvironments) {
     const { environmentName } = await inquirer.prompt({
         name: 'environmentName',
         type: 'input',
