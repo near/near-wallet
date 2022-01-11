@@ -49,7 +49,7 @@ export default class NonFungibleTokens {
             });
         }
         // TODO: Separate Redux action for loading image
-        tokens = await Promise.all(tokens.filter(({ metadata }) => !!metadata).map(async ({ metadata, ...token }) => {
+        return tokens.filter(({ metadata }) => !!metadata).map(({ metadata, ...token }) => {
             const { media } = metadata;
             let mediaUrl;
             if (!media.includes('://')) {
@@ -69,9 +69,7 @@ export default class NonFungibleTokens {
                     mediaUrl
                 }
             };
-        }));
-
-        return tokens;
+        });
     }
 }
 
