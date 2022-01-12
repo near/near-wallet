@@ -10,7 +10,7 @@ export const MAINNET = "mainnet";
 export const TESTNET = "testnet";
 export const PROJECT_VALIDATOR_PREFIX_MAINNET = ".near";
 export const VALIDATOR_PREFIX_MAINNET = ".pool.near";
-export const PROJECT_VALIDATOR_PREFIX_TESTNET = "staked.pool.f863973.m0";
+export const PROJECT_VALIDATOR_PREFIX_TESTNET = ".factory01.littlefarm.testnet";
 export const VALIDATOR_PREFIX_TESTNET = ".m0";
 
 export const PROJECT_VALIDATOR_REGEXP_TESTNET = new RegExp(`.*(${PROJECT_VALIDATOR_PREFIX_TESTNET}|${VALIDATOR_PREFIX_TESTNET})`);
