@@ -280,7 +280,7 @@ export const { staking } = createActions({
             // TODO: will be used in order to calculate APY
             const projectValidators = validators.filter(v => v.version === ValidatorVersion[PROJECT_VALIDATOR_VERSION]);
             await Promise.all(projectValidators.map(async () => {
-                const allFarms = await projectValidators.contract.get_active_farms({ from_index: 0, limit: 1000 });
+                const allFarms = await projectValidators.contract.get_active_farms();
                 const allFarmsData = Promise.all(allFarms.map((_, index) => projectValidators.contract.get_farm({ farm_id: index })));
                 console.log('allFarmsData', allFarmsData);
             }));
