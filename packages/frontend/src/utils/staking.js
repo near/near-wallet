@@ -39,7 +39,8 @@ export const stakingMethods = {
         'get_owner_id',
         'get_reward_fee_fraction',
         'get_farms',
-        'get_farm'
+        'get_farm',
+        'get_active_farms'
     ],
     changeMethods: [
         'ping',
