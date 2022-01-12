@@ -13,8 +13,8 @@ import {
     clearAccountState
 } from '../../redux/actions/account';
 import { selectAccountSlice } from '../../redux/slices/account';
+import { selectActionsPending } from '../../redux/slices/status';
 import { selectStatusMainLoader } from '../../redux/slices/status';
-import { actionsPending } from '../../utils/alerts';
 import copyText from '../../utils/copyText';
 import isMobile from '../../utils/isMobile';
 import Button from '../common/Button';
@@ -181,7 +181,7 @@ class RecoverWithLink extends Component {
     render() {
 
         const { accountId, successSnackbar, successView } = this.state;
-        const { mainLoader, history } = this.props;
+        const { mainLoader, history, continueSending } = this.props;
 
         if (successView) {
             return (
@@ -195,7 +195,7 @@ class RecoverWithLink extends Component {
                                 <FormButton
                                     onClick={this.handleContinue}
                                     disabled={mainLoader}
-                                    sending={actionsPending('RECOVER_ACCOUNT_SEED_PHRASE')}
+                                    sending={continueSending}
                                     sendingString='button.recovering'
                                 >
                                     {translate('button.continue')}
@@ -249,7 +249,8 @@ const mapStateToProps = (state, { match }) => ({
     ...selectAccountSlice(state),
     accountId: match.params.accountId,
     seedPhrase: match.params.seedPhrase,
-    mainLoader: selectStatusMainLoader(state)
+    mainLoader: selectStatusMainLoader(state),
+    continueSending: selectActionsPending(state, { types: 'RECOVER_ACCOUNT_SEED_PHRASE' })
 });
 
 export const RecoverWithLinkWithRouter = connect(

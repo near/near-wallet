@@ -6,8 +6,7 @@ import styled from 'styled-components';
 import { Mixpanel } from "../../../mixpanel/index";
 import { resendTwoFactor, get2faMethod } from '../../../redux/actions/account';
 import { selectAccountSlice } from '../../../redux/slices/account';
-import { selectStatusSlice } from '../../../redux/slices/status';
-import { actionsPending } from '../../../utils/alerts';
+import { selectActionsPending, selectStatusSlice } from '../../../redux/slices/status';
 import { WalletError } from '../../../utils/walletError';
 import FormButton from '../../common/FormButton';
 import Modal from "../../common/modal/Modal";
@@ -29,7 +28,7 @@ const TwoFactorVerifyModal = ({ open, onClose }) => {
     const dispatch = useDispatch();
     const account = useSelector(selectAccountSlice);
     const status = useSelector(selectStatusSlice);
-    const loading = actionsPending('VERIFY_TWO_FACTOR');
+    const loading = useSelector((state) => selectActionsPending(state, { types: 'VERIFY_TWO_FACTOR' }));
 
     useEffect(() => {
         let isMounted = true;

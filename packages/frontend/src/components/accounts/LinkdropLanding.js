@@ -9,7 +9,7 @@ import { clearLocalAlert } from '../../redux/actions/status';
 import { selectAccountSlice } from '../../redux/slices/account';
 import { actions as linkdropActions } from '../../redux/slices/linkdrop';
 import { selectStatusMainLoader } from '../../redux/slices/status';
-import { actionsPending } from '../../utils/alerts';
+import { selectActionsPending } from '../../redux/slices/status';
 import AccountDropdown from '../common/AccountDropdown';
 import Balance from '../common/balance/Balance';
 import FormButton from '../common/FormButton';
@@ -106,9 +106,8 @@ class LinkdropLanding extends Component {
     }
 
     render() {
-        const { fundingContract, fundingKey, accountId, mainLoader, history } = this.props;
+        const { fundingContract, fundingKey, accountId, mainLoader, history, claimingDrop } = this.props;
         const { balance, invalidNearDrop } = this.state;
-        const claimingDrop = actionsPending('CLAIM_LINKDROP_TO_ACCOUNT');
         const fundingAmount = balance;
 
         if (!invalidNearDrop) {
@@ -189,7 +188,8 @@ const mapStateToProps = (state, { match }) => ({
     ...selectAccountSlice(state),
     fundingContract: match.params.fundingContract,
     fundingKey: match.params.fundingKey,
-    mainLoader: selectStatusMainLoader(state)
+    mainLoader: selectStatusMainLoader(state),
+    claimingDrop: selectActionsPending(state, { types: 'CLAIM_LINKDROP_TO_ACCOUNT' })
 });
 
 export const LinkdropLandingWithRouter = connect(
