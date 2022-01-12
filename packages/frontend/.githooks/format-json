@@ -1,0 +1,18 @@
+#!/bin/bash
+
+for folder in "src/translations"
+do
+    # Finds only modified files that are currently staged in the current commit set and extracts their file name
+    diff="$(git diff HEAD^ --staged --name-only --diff-filter=ACMR "$folder" | xargs -n1 basename)"
+    if [ ! -z "$diff" ]
+    then
+    cd src/translations || exit 1
+    for file in $diff
+    do
+        # Some day, `sort-json` will support multiple files, but for now we will run it once per file the user modified
+        npx sort-json $file --ignore-case true
+        # Re-add file to git index so that reformatted files won't show as modified but with no actual changes
+        git add $file
+    done
+    fi
+done
