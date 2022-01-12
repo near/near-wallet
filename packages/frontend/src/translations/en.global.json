@@ -1133,7 +1133,10 @@
         "networkFees": "Network Fees",
         "nothingHasBeenTransferred": "Nothing has been transferred.",
         "retry": {
+            "estimatedFees": "Estimated Fees",
+            "feeLimit": "Fee Limit",
             "link": "What is the fee limit?",
+            "networkFees": "Network Fees",
             "text": "The default network fee was not enough to cover the cost of your transaction.<br/><br/>You may resubmit the transaction to have its fee limit automatically increased.",
             "title": "Insufficient Network Fee"
         },
