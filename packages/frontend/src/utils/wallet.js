@@ -5,7 +5,6 @@ import { PublicKey } from 'near-api-js/lib/utils';
 import { KeyType } from 'near-api-js/lib/utils/key_pair';
 import { generateSeedPhrase, parseSeedPhrase } from 'near-seed-phrase';
 
-import { store } from '..';
 import * as Config from '../config';
 import {
     finishAccountSetup,
@@ -14,6 +13,7 @@ import {
     setLedgerTxSigned,
     showLedgerModal
 } from '../redux/actions/account';
+import store from '../store';
 import sendJson from '../tmp_fetch_send_json';
 import { decorateWithLockup } from './account-with-lockup';
 import { getAccountIds } from './helper-api';

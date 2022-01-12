@@ -1,5 +1,5 @@
-import { store } from '..';
 import { clearGlobalAlert, clearLocalAlert } from '../redux/actions/status';
+import store from '../store';
 
 export const showAlert = ({ data, onlyError, onlySuccess, console = true, localAlert, messageCodeHeader, success } = {}) => ({
     alert: {

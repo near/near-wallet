@@ -2,9 +2,9 @@ import { BN } from 'bn.js';
 import * as nearApiJs from 'near-api-js';
 import { utils } from 'near-api-js';
 
-import { store } from '..';
 import { ACCOUNT_HELPER_URL, MULTISIG_CONTRACT_HASHES, MULTISIG_MIN_AMOUNT } from '../config';
 import { promptTwoFactor, refreshAccount } from '../redux/actions/account';
+import store from '../store';
 
 const {
     multisig: { Account2FA },

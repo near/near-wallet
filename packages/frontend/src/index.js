@@ -1,27 +1,21 @@
 import "regenerator-runtime/runtime";
 
-import { createBrowserHistory } from 'history';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3-near';
 import { LocalizeProvider } from 'react-localize-redux';
 import { Provider } from 'react-redux';
-import { createStore } from 'redux';
 
 import Routing from './components/Routing';
 import { RECAPTCHA_ENTERPRISE_SITE_KEY } from './config';
-import createRootReducer from './redux/combineReducers';
-import createMiddleware from './redux/middleware';
+import history from './history';
+import store from './store';
 import { initSentry } from './utils/sentry';
 
 initSentry();
 
-const history = createBrowserHistory();
-
-export const store = createStore(createRootReducer(history), createMiddleware(history));
-
 ReactDOM.render(
-    <GoogleReCaptchaProvider
+    (<GoogleReCaptchaProvider
         reCaptchaKey={RECAPTCHA_ENTERPRISE_SITE_KEY}
         useRecaptchaNet={true}
         useEnterprise={true}
@@ -31,6 +25,6 @@ ReactDOM.render(
                 <Routing history={history}/>
             </LocalizeProvider>
         </Provider>
-    </GoogleReCaptchaProvider>,
+    </GoogleReCaptchaProvider>),
     document.getElementById('root')
 );
