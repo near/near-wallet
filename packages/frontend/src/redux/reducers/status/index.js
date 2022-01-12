@@ -1,3 +1,4 @@
+import { getRouter } from 'connected-react-router';
 import reduceReducers from 'reduce-reducers';
 import { handleActions } from 'redux-actions';
 
@@ -7,6 +8,7 @@ import {
     clearGlobalAlert,
     setMainLoader
 } from '../../actions/status';
+import { selectAccountGlobalAlertPreventClear } from '../../slices/account';
 
 
 const initialState = {
@@ -14,6 +16,16 @@ const initialState = {
     actionStatus: {},
     globalAlert: {},
     localAlert: {}
+};
+
+export const handleClearAlert = () => (dispatch, getState) => {
+    const router = getRouter(getState());
+    const globalAlertPreventClear = selectAccountGlobalAlertPreventClear(getState());
+
+    if (!router.location.state?.globalAlertPreventClear && !globalAlertPreventClear) {
+        dispatch(clearGlobalAlert());
+    }
+    dispatch(clearLocalAlert());
 };
 
 const alertReducer = (state, { error, ready, payload, meta, type }) => {
