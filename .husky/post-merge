@@ -1,0 +1,9 @@
+#!/bin/sh
+
+./.git-hooks/helpers/detect-foxtrot-merge
+# check exit code and exit if needed
+exitcode=$?
+if [ $exitcode -ne 0 ]; then
+    echo -e "  ${Yellow}WARNING:${None} foxtrot merge detected; do not merge master branch into feature branches."
+    # swallow exit code
+fi
