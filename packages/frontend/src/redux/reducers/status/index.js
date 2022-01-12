@@ -2,6 +2,7 @@ import { getRouter } from 'connected-react-router';
 import reduceReducers from 'reduce-reducers';
 import { handleActions } from 'redux-actions';
 
+import { showAlert } from '../../../utils/alerts';
 import { makeAccountActive } from '../../actions/account';
 import {
     clearLocalAlert,
@@ -27,6 +28,14 @@ export const handleClearAlert = () => (dispatch, getState) => {
     }
     dispatch(clearLocalAlert());
 };
+
+export const withAlert = (action, data) => (dispatch) => dispatch({
+    ...action,
+    meta: {
+        ...action.meta,
+        ...showAlert(data)
+    }
+});
 
 const alertReducer = (state, { error, ready, payload, meta, type }) => {
 
