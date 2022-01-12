@@ -15,6 +15,7 @@ import { IS_MAINNET, PUBLIC_URL, SHOW_PRERELEASE_WARNING, DISABLE_CREATE_ACCOUNT
 import ExampleFlag from '../ExampleFlag';
 import { Mixpanel } from "../mixpanel/index";
 import * as accountActions from '../redux/actions/account';
+import { handleClearAlert } from '../redux/reducers/status';
 import { selectAccountSlice } from '../redux/slices/account';
 import { actions as tokenFiatValueActions } from '../redux/slices/tokenFiatValues';
 import { CreateImplicitAccountWrapper } from '../routes/CreateImplicitAccountWrapper';
@@ -29,7 +30,6 @@ import translations_ru from '../translations/ru.global.json';
 import translations_vi from '../translations/vi.global.json';
 import translations_zh_hans from '../translations/zh-hans.global.json';
 import translations_zh_hant from '../translations/zh-hant.global.json';
-import { handleClearAlert } from '../utils/alerts';
 import classNames from '../utils/classNames';
 import getBrowserLocale from '../utils/getBrowserLocale';
 import { getAccountIsInactive, removeAccountIsInactive, setAccountIsInactive } from '../utils/localStorage';
@@ -186,7 +186,8 @@ class Routing extends Component {
             handleRedirectUrl,
             handleClearUrl,
             router,
-            fetchTokenFiatValues
+            fetchTokenFiatValues,
+            handleClearAlert
         } = this.props;
 
         fetchTokenFiatValues();
@@ -598,7 +599,8 @@ const mapDispatchToProps = {
     promptTwoFactor,
     redirectTo,
     getAccountHelperWalletState,
-    fetchTokenFiatValues
+    fetchTokenFiatValues,
+    handleClearAlert
 };
 
 const mapStateToProps = (state) => ({
