@@ -29,6 +29,7 @@ import {
     ENABLE_IDENTITY_VERIFIED_ACCOUNT
 } from '../../utils/wallet';
 import { WalletError } from '../../utils/walletError';
+import { withAlert } from '../reducers/status';
 import refreshAccountOwner from '../sharedThunks/refreshAccountOwner';
 import { 
     selectAccountAccountsBalances,
@@ -202,7 +203,7 @@ export const allowLogin = () => async (dispatch, getState) => {
 
     if (successUrl) {
         if (publicKey) {
-            await dispatchWithAlert(addAccessKey(wallet.accountId, contractId, publicKey, false, methodNames), { onlyError: true });
+            await dispatch(withAlert(dispatch, addAccessKey(wallet.accountId, contractId, publicKey, false, methodNames), { onlyError: true }));
         }
         const availableKeys = await wallet.getAvailableKeys();
         
