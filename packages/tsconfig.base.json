@@ -1,23 +1,15 @@
 {
-    "compileOnSave": false,
-    "compilerOptions": {
-      "rootDir": ".",
-      "sourceMap": true,
-      "declaration": false,
-      "moduleResolution": "node",
-      "emitDecoratorMetadata": true,
-      "experimentalDecorators": true,
-      "importHelpers": true,
-      "target": "es2015",
-      "module": "esnext",
-      "lib": ["es2017", "dom"],
-      "skipLibCheck": true,
-      "skipDefaultLibCheck": true,
-      "baseUrl": ".",
-      "paths": {
-        "@creathor/creative-ui": ["libs/design-system/src/index.ts"]
-      }
-    },
-    "exclude": ["node_modules", "tmp"]
-  }
-  
+  "compilerOptions": {
+    "module": "CommonJS",
+    "types": [],
+    "sourceMap": true,
+    "target": "ES2018",
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "declaration": true
+  },
+  "include": ["**/*.js", "**/*.jsx", "**/*.ts", "**/*.tsx"],
+  "exclude": ["**/node_modules/**"]
+}

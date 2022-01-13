@@ -60,7 +60,6 @@
     "typescript": "^4.5.4"
   },
   "scripts": {
-    "prestart": "tsc -b .",
     "predeploy": "yarn build",
     "update:static": "cp src/wasm/multisig.wasm dist/multisig.wasm && cp src/wasm/main.wasm dist/main.wasm",
     "start": "yarn update:static; parcel src/index.html --https --cert devServerCertificates/primary.crt --key devServerCertificates/private.pem",
