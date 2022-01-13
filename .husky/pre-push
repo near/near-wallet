@@ -1,5 +1,27 @@
-#!/bin/sh
+#!/bin/bash
 # This runs the prepush script on any modified packages
 . "$(dirname "$0")/_/husky.sh"
 
 npx lerna run --concurrency 1 --stream prepush --exclude-dependents
+
+remote="$1"
+url="$2"
+z40=0000000000000000000000000000000000000000
+while read local_ref local_sha remote_ref remote_sha
+do
+    if [ "$local_sha" = $z40 ]; then
+        # handle delete, do nothing
+        :
+    else
+        # ex $local_ref as "refs/heads/dev"
+        branch=$(git rev-parse --abbrev-ref "$local_ref")
+        ./.git-hooks/helpers/detect-foxtrot-merge "$branch"
+        # check exit code and exit if needed
+        exitcode=$?
+        if [ $exitcode -ne 0 ]; then
+            echo 1>&2 "fatal: foxtrot merge detected, aborting push"
+            echo 1>&2 "fatal: branch $branch"
+            exit $exitcode
+        fi
+    fi
+done
