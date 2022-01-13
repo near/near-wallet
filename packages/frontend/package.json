@@ -65,7 +65,8 @@
     "fix": "eslint --ext .js --ext .jsx . --fix",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
-    "prepush": "concurrently \"yarn run fix\" \"cd src/translations && npx sort-json * --ignore-case true\" \"yarn run test\""
+    "prepush": "yarn run test",
+    "precommit": "concurrently \"yarn run fix\" \".githooks/format-json\""
   },
   "browserslist": [
     ">0.2%",
@@ -81,6 +82,7 @@
     "babel-eslint": "^10.1.0",
     "babel-jest": "^27.0.1",
     "babel-loader": "^8.1.0",
+    "concurrently": "^7.0.0",
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.15.6",
     "eslint": "5.16.0",

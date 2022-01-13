@@ -11,8 +11,8 @@
     "prepare": "husky install"
   },
   "devDependencies": {
-    "lerna": "^4.0.0",
-    "husky": "^7.0.0"
+    "husky": "^7.0.0",
+    "lerna": "^4.0.0"
   },
   "dependencies": {
     "@near-wallet/feature-flags": "^0.0.4"

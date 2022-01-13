@@ -229,9 +229,9 @@
         "removeNode": "Remove Node",
         "removingKeys": "Removing Keys",
         "reserveMyAccountId": "Reserve My Account ID",
+        "resubmit": "Resubmit",
         "retry": "Retry",
         "returnToApp": "Return to App",
-        "resubmit": "Resubmit",
         "saveChanges": "Save Changes",
         "send": "Send",
         "setupPhrase": "Setup Recovery Phrase",
@@ -1112,11 +1112,6 @@
         "availableToTransfer": "Available to transfer",
         "contract": "Contract:",
         "contractDetails": "Contract Details",
-        "estimatedFees": "Estimated Fees",
-        "feeLimit": "Fee Limit",
-        "function": "Function:",
-        "gasLimit": "Gas Limit",
-        "networkFees": "Network Fees",
         "details": {
             "detailedDescription": "Detailed description of transaction",
             "forContract": "For Contract",
@@ -1124,6 +1119,10 @@
             "gasPriceUnavailable": "Gas price estimate is unavailable",
             "transactionFees": "Transaction Fees"
         },
+        "estimatedFees": "Estimated Fees",
+        "feeLimit": "Fee Limit",
+        "function": "Function:",
+        "gasLimit": "Gas Limit",
         "hereAreSomeDetails": "Here are some details that will help you.",
         "insufficientFunds": "Insufficient Funds",
         "insufficientFundsDesc": "You do not have enough available NEAR to complete this transaction.",
@@ -1131,11 +1130,12 @@
             "authorization": "is requesting authorization",
             "transferOf": "is requesting the transfer of"
         },
+        "networkFees": "Network Fees",
         "nothingHasBeenTransferred": "Nothing has been transferred.",
         "retry": {
-            "title": "Insufficient Network Fee",
+            "link": "What is the fee limit?",
             "text": "The default network fee was not enough to cover the cost of your transaction.<br/><br/>You may resubmit the transaction to have its fee limit automatically increased.",
-            "link": "What is the fee limit?"
+            "title": "Insufficient Network Fee"
         },
         "transactionCancelled": "Transaction cancelled",
         "transactionDetails": "Transaction Details",
