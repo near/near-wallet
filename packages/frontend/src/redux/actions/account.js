@@ -211,6 +211,7 @@ export const allowLogin = () => async (dispatch, getState) => {
             await dispatchWithAlert(addAccessKey(wallet.accountId, contractId, publicKey, false, methodNames), { onlyError: true });
         }
         const availableKeys = await wallet.getAvailableKeys();
+        
         const allKeys = availableKeys.map(key => key.toString());
         const parsedUrl = new URL(successUrl);
         parsedUrl.searchParams.set('account_id', wallet.accountId);
