@@ -38,20 +38,25 @@ const BuyButton = ({
     amountUSD,
     onClickBuyButton,
     moonpayIsAvailable
-}) => (
-    <StyledBuyButton
-        disabled={!moonpayIsAvailable}
-        color='light-blue'
-        onClick={() => onClickBuyButton(amountUSD)}
-    >
-        {amountUSD ? (
-            `$${amountUSD}`
-        ) : (
-            <Translate id='account.createImplicitAccount.customAmount' />
-        )
+}) => {
+
+    const getBuyButtonLabel = (amountUSD) => {
+        if (amountUSD) {
+            return `$${amountUSD}`;
         }
-    </StyledBuyButton>
-);
+        return (<Translate id='account.createImplicitAccount.customAmount' />);
+    };
+
+    return (
+        <StyledBuyButton
+            disabled={!moonpayIsAvailable}
+            color='light-blue'
+            onClick={() => onClickBuyButton(amountUSD)}
+        >
+            {getBuyButtonLabel(amountUSD)}
+        </StyledBuyButton>
+    );
+};
 
 export default ({
     onClickBuyButton,
@@ -65,9 +70,9 @@ export default ({
             <StyledContainer className='border small-centered'>
                 <h3><Translate id='account.createImplicitAccount.title' /></h3>
                 <div className='flex-center-center'>
-                    {['30', '50', '100', ''].map((amount, i) => (
+                    {['30', '50', '100', ''].map((amount) => (
                         <BuyButton
-                            key={`${i}-${amount}`}
+                            key={`${amount}`}
                             amountUSD={amount}
                             onClickBuyButton={onClickBuyButton}
                             moonpayIsAvailable={moonpayIsAvailable}

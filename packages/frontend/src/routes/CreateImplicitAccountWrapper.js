@@ -19,6 +19,10 @@ import { wallet } from '../utils/wallet';
 
 const { setCreateCustomName } = createFromImplicitActions;
 
+// Check that the initial deposit was at least 0.2N, otherwise the users 'available balance'
+// won't be enough to create a named account.
+const NAMED_ACCOUNT_MIN = utils.format.parseNearAmount('0.2');
+
 export function CreateImplicitAccountWrapper() {
     const dispatch = useDispatch();
 
@@ -33,10 +37,6 @@ export function CreateImplicitAccountWrapper() {
     const recoveryMethod = URLParams.get('recoveryMethod');
 
     const formattedMinDeposit = formatNearAmount(MIN_BALANCE_TO_CREATE);
-
-    // Check that the initial deposit was at least 0.2N, otherwise the users 'available balance'
-    // won't be enough to create a named account.
-    const NAMED_ACCOUNT_MIN = utils.format.parseNearAmount('0.2');
 
     useEffect(() => {
         if (accountId === implicitAccountId || !implicitAccountId || !recoveryMethod) {

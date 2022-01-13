@@ -27,7 +27,7 @@
     "createdBy": "Patrick Tajima",
     "createdAt": "2021-12-23T22:16:36.291Z",
     "development": {
-      "enabled": false,
+      "enabled": true,
       "lastEditedBy": "Patrick Tajima",
       "lastEditedAt": "2021-12-23T22:16:36.291Z"
     },

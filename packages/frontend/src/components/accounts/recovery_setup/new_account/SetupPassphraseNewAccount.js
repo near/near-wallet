@@ -6,6 +6,8 @@ import { Mixpanel } from '../../../../mixpanel/index';
 import ConfirmPassphrase from './ConfirmPassphrase';
 import SavePassphrase from './SavePassphrase';
 
+// TODO: Make this custom hook to re-use with future SetupPassphraseExistingAccount component
+
 export default ({ handleConfirmPassphrase }) => {
     const [passPhrase, setPassPhrase] = useState('');
     const [recoveryKeyPair, setRecoveryKeyPair] = useState();
