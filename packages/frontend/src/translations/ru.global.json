@@ -3,28 +3,28 @@
         "activateAccount": {
             "post": {
                 "descOne": "Your initial deposit has been received and transferred to your new account. Your account is now active!",
-                "descTwo": "A portion of your deposit has been reserved to cover the <a href='https://docs.near.org/docs/concepts/account' rel='noopener noreferrer' target='_blank'> cost of hosting your account </a>. ",
+                "descTwo": "A portion of your deposit has been reserved to cover the <a href='https://docs.near.org/docs/concepts/account' rel='noopener noreferrer' target='_blank'>cost of hosting your account</a>.",
                 "title": "Your account has been activated."
             },
             "pre": {
-                "desc": "To begin using NEAR Wallet, make a minimum initial deposit by sending <b> at least $ {amount} </b> to your Account ID (sometimes called an“ address ”).",
+                "desc": "To begin using NEAR Wallet, make a minimum initial deposit by sending <b>at least ${amount}</b> to your Account ID (sometimes called an “address”).",
                 "title": "Almost there! Make your initial deposit."
             }
         },
         "available": {
-            "error": "Account not found!",
-            "errorSameAccount": "Could not send to myself!",
-            "implicitAccount": "Always double check your username",
-            "implicitAccountModal": "Please double check your username, especially if it is an exchange account. If you enter an incorrect username, you will permanently lose your funds.",
-            "success": "Valid account"
+            "error": "Учетная запись не найдена!",
+            "errorSameAccount": "Невозможно отправить самому себе!",
+            "implicitAccount": "Всегда дважды перепроверьте имя пользователя",
+            "implicitAccountModal": "Пожалуйста, проверьте дважды имя пользователя, особенно если это биржевой аккаунт. Если ввести неправильно имя пользователя, то вы навсегда утратите свои средства.",
+            "success": "Действительная учетная запись"
         },
         "create": {
             "checkingAvailablity": {
-                "check": "Check in progress",
-                "create": "Check availability"
+                "check": "Идет проверка",
+                "create": "Проверяем доступность"
             },
-            "errorAccountNotExist": "An error occurred while creating your account. Please try again.",
-            "errorInvalidAccountIdLength": "Username must be between 2 and 64 characters."
+            "errorAccountNotExist": "При создании аккаунта произошла ошибка. Пожалуйста, попробуйте еще раз.",
+            "errorInvalidAccountIdLength": "Имя пользователя должно содержать от 2 до 64 символов"
         },
         "createImplicit": {
             "post": {
@@ -38,245 +38,245 @@
                 "title": "Claim your account"
             },
             "pre": {
-                "addressHeader": "One-time recharge address",
-                "descOne": "Initialize your account by sending at least <b> $ {amount} </b> to the one-time recharge address below.",
-                "descTwo": "Return to this screen after making a deposit to complete the account creation process.",
+                "addressHeader": "Одноразовый адрес для пополнения",
+                "descOne": "Инициализируйте свою учетную запись, отправив хотя бы <b>${amount}</b> на указанный ниже одноразовый адрес для пополнения.",
+                "descTwo": "Вернитесь на данный экран после пополнения средств, чтобы завершить процесс создания учетной записи.",
                 "moonPay": {
                     "buyWith": "Buy with",
                     "desc": "Make your initial deposit with MoonPay using your preferred payment method.",
                     "title": "Fund with MoonPay"
                 },
-                "title": "Fund your account",
+                "title": "Пополните свою учетную запись",
                 "whereToBuy": {
-                    "button": "Where can I buy NEAR?",
-                    "desc": "NEAR tokens are available for purchase on the following exchanges",
-                    "title": "Purchase NEAR Tokens"
+                    "button": "Где можно купить NEAR?",
+                    "desc": "NEAR токены доступны для покупки на следующих биржах",
+                    "title": "Покупка токенов NEAR"
                 }
             },
             "success": {
-                "button": "Go to account",
-                "descOne": "Congratulations, <b> $ {accountId} </b>! Your account has been successfully created.",
-                "descThree": "Please update the address on all exchanges or other devices.",
-                "descTwo": "You must use this account for all NEAR transactions.",
-                "title": "Welcome to NEAR"
+                "button": "Перейти к учетной записи",
+                "descOne": "Примите поздравления, <b>${accountId}</b>! Ваша учетная запись успешно создана.",
+                "descThree": "Пожалуйста, обновите адрес на всех биржах или на других устройствах.",
+                "descTwo": "Вы должны использовать эту учетную запись для всех операций с NEAR.",
+                "title": "Добро пожаловать в NEAR"
             }
         },
         "login": {
             "details": {
-                "warning": "This will allow access to your wallet. Please proceed with caution!"
+                "warning": "Это позволит получить доступ к вашему кошельку. Пожалуйста, действуйте с осторожностью!"
             },
             "incorrectContractId": {
-                "error": "The contract $ {contractId} does not exist. This may be a problem with the application you are trying to use, or this contract may have been removed. You will be redirected back to the application."
+                "error": "Контракт ${contractId} не существует. Это может быть проблема с приложением, которое вы пытаетесь использовать, или этот контракт, возможно, был удален. Вы будете перенаправлены обратно в приложение."
             }
         },
-        "nameDoesntMatch": "Account name does not match",
+        "nameDoesntMatch": "Имя учетной записи не совпадает",
         "recoverAccount": {
-            "error": "Failed to restore account.",
-            "errorInvalidSeedPhrase": "No accounts matched the given mnemonic phrase.",
-            "success": "Mnemonic phrase recovery completed. <br/> You have successfully restored <b> $ {numberOfAccounts} account (s) </b>. <br/> The last one is selected as active."
+            "error": "Не удалось восстановить учетную запись.",
+            "errorInvalidSeedPhrase": "Учетные записи, соответствующие данной мнемонической фразе, не найдены.",
+            "success": "Восстановление по мнемонической фразе завершено.<br/>Вы успешно восстановили <b>${numberOfAccounts} учетную(ые) запись(и)</b>.<br/>Последняя из них выбрана как активная."
         },
         "requestCode": {
-            "error": "Failed to send SMS message.",
-            "success": "SMS message sent successfully."
+            "error": "Не удалось отправить SMS-сообщение.",
+            "success": "SMS-сообщение успешно отправлено."
         },
         "sendMoney": {
-            "error": "Sorry, an error has occurred. Please try again."
+            "error": "К сожалению, произошла ошибка. Попробуйте еще раз."
         },
         "sendNewRecoveryLink": {
-            "error": "Submission error. Please try again.",
-            "success": "Recovery link sent successfully!"
+            "error": "Ошибка отправки. Пожалуйста, попробуйте еще раз.",
+            "success": "Ссылка для восстановления успешно отправлена!"
         },
-        verifySeedPhrase: {
-            "error": "You entered the wrong word!"
+        "verifySeedPhrase": {
+            "error": "Вы ввели неверное слово!"
         }
     },
     "actions": {
         "AddKey": {
-            "forContract": "Access token for contract: $ {permissionReceiverId} added",
-            "forReceiver": "New key for $ {receiverId} added"
+            "forContract": "Ключ доступа для контракта: ${permissionReceiverId} добавлен",
+            "forReceiver": "Новый ключ для ${receiverId} добавлен"
         },
-        "CreateAccount": "New account created: $ {receiverId}",
-        "DeleteAccount": "Username deleted: $ {receiverId}",
-        "DeleteKey": "Key deleted",
-        "DeployContract": "The contract is deployed: $ {receiverId}",
-        "FunctionCall": "Method call: $ {methodName} in contract: $ {receiverId}",
-        "Stake": "Staking $ {stake}",
+        "CreateAccount": "Новая учетная запись создана: ${receiverId}",
+        "DeleteAccount": "Имя пользователя удалено: ${receiverId}",
+        "DeleteKey": "Ключ удален",
+        "DeployContract": "Контракт развернут: ${receiverId}",
+        "FunctionCall": "Вызов метода: ${methodName} в контракте: ${receiverId}",
+        "Stake": "Стейкинг ${stake}",
         "Transfer": {
-            "received": "Received $ {deposit} from $ {signerId}",
-            "transferred": "Sent $ {deposit} to $ {receiverId}"
+            "received": "Получено ${deposit} от ${signerId}",
+            "transferred": "Отправлено ${deposit} к ${receiverId}"
         }
     },
     "actionsSign": {
-        "addKey": "Add an access key",
-        "createAccount": "Create account: $ {receiverId}",
-        "deleteAccount": "Delete account: $ {receiverId}",
-        "deleteKey": "Delete access key",
-        "deployContract": "Deploying contract: $ {receiverId}",
-        "functionCall": "Function call: $ {methodName}",
-        "stake": "Staking: $ {stake} Ⓝ $ {publicKey} ...",
-        "transfer": "Transfer: $ {deposit} Ⓝ to $ {receiverId}"
+        "addKey": "Добавление ключа доступа",
+        "createAccount": "Создание учетной записи: ${receiverId}",
+        "deleteAccount": "Удаление учетной записи: ${receiverId}",
+        "deleteKey": "Удаление ключа доступа",
+        "deployContract": "Развертывание контракта: ${receiverId}",
+        "functionCall": "Вызов функции: ${methodName}",
+        "stake": "Стейкинг: ${stake}Ⓝ ${publicKey}...",
+        "transfer": "Перевод: ${deposit}Ⓝ к ${receiverId}"
     },
     "addNode": {
-        "desc": "Your node must be configured via the CLI before adding it here.",
+        "desc": "Ваш узел должен быть настроен через CLI, прежде чем добавлять его сюда.",
         "ipAddressInput": {
-            "placeholder": "for example: 0.0.0.0",
-            "title": "Enter your host's IP address"
+            "placeholder": "например: 0.0.0.0",
+            "title": "Введите IP-адрес вашего узла"
         },
         "nicknameInput": {
-            "placeholder": "For example: AWS",
-            "title": "Come up with a name (optional)"
+            "placeholder": "Например: AWS",
+            "title": "Придумайте имя (необязательно)"
         },
-        "pageText": "Configure the node using the CLI and add it here",
-        "pageTitle": "Add node"
+        "pageText": "Настройте узел с помощью CLI и добавьте его здесь",
+        "pageTitle": "Добавление узла"
     },
-    "amount": "amount",
-    "arguments": "Arguments",
+    "amount": "сумма",
+    "arguments": "Аргументы",
     "authorizedApps": {
-        "dashboardNoApps": "You have not authorized any applications",
-        "feeAllowance": "Fee for storage",
+        "dashboardNoApps": "Вы не авторизовали ни одного приложения",
+        "feeAllowance": "Оплата за хранение",
         "ledger": "Ledger",
-        "pageTitle": "Trusted Applications",
-        "publicKey": "Public key"
+        "pageTitle": "Доверенные приложения",
+        "publicKey": "Публичный ключ"
     },
-    "availableBalanceInfo": "Your spendable NEAR balance excluding funds locked or staked. <a href='/profile'> View Balance Breakdown → </a>",
-    "availableBalanceProfile": "This is your expendable balance in NEAR and can be immediately spent or transferred. This value is lower than your total balance.",
-    "back": "Back",
+    "availableBalanceInfo": "Your spendable NEAR balance excluding funds locked or staked. <a href='/profile'>View Balance Breakdown →</a>",
+    "availableBalanceProfile": "Это ваш расходуемый баланс в NEAR, может быть незамедлительно потрачен или передан. Это значение ниже, чем ваш общий баланс.",
+    "back": "Назад",
     "balance": {
-        "balance": "Overall balance",
-        "balanceLoading": "Load balance"
+        "balance": "Общий баланс",
+        "balanceLoading": "Загрузка баланса"
     },
     "balanceBreakdown": {
-        "available": "Available balance",
-        "reserved": "Reserved for commissions"
+        "available": "Доступный баланс",
+        "reserved": "Зарезерировано для комиссий"
     },
     "button": {
-        "addAccount": "Add account",
-        "addFunds": "ADD FUNDS",
-        "addNode": "ADD NOTE",
-        "allow": "ACCEPT",
-        "authorizing": "Authorization",
-        "browseApps": "BROWSE APPS",
-        "cancel": "CANCEL",
-        "cancelOperation": "Cancel operation",
-        "cancelTransfer": "CANCEL TRANSFER",
-        "claimAccount": "Claim an account",
-        "close": "CLOSE",
-        "Close": "Close",
-        "confirm": "CONFIRM",
-        "confirmAndSend": "CONFIRM",
-        "connect": "Connect",
-        "connecting": "Connecting",
-        "connectLedger": "Connect Ledger",
-        "continue": "CONTINUE",
-        "continueSetup": "Continue installation",
-        "copyImplicitAddress": "Copy address for replenishment",
-        "copyPhrase": "COPY PHRASE",
-        "copyUrl": "Copy link",
-        "createAccount": "Create Account",
-        "createAccountCapital": "Create Account",
-        "createNewAccount": "Create Account",
-        "deauthorize": "DEAUTHORIZE",
-        "deAuthorizing": "Removing authorization",
-        "deny": "DENY",
-        "disable": "Disable",
-        "disabling": "Disabling",
-        "dismiss": "Refuse",
-        "edit": "Edit",
-        "enable": "Enable",
-        "enabling": "Enable",
-        "findMyAccount": "FIND ACCOUNT",
-        "finish": "Finish",
-        "goBack": "Go back",
-        "goToDashboard": "GO TO CONTROL PANEL",
-        "importExistingAccount": "Import an existing account",
-        "moreInformation": "Get more information",
-        "needToEditGoBack": "Go back to edit",
-        "protectAccount": "PROTECT ACCOUNT",
-        "recoverAccount": "Recover account",
-        "recovering": "Finding an account",
-        "recoverYourAccount": "Recover account",
-        "removeNode": "REMOVE NOTE",
-        "removingKeys": "Removing Keys",
-        "retry": "Retry",
-        "saveChanges": "SAVE CHANGES",
-        "send": "SEND",
-        "setupPhrase": "USE RESTORE PHRASE",
-        "signIn": "Sign in",
-        "signingIn": "We are entering",
-        "signInLedger": "Sign in with Ledger",
-        "skip": "Skip",
-        "stake": "STAKING",
-        "staking": "Staking",
-        "startOver": "Start over",
-        "subscribe": "Subscribe",
-        "transferring": "Transfer",
-        "unstaking": "Unstaking",
-        "verify": "VERIFY AND COMPLETE",
-        "verifyCode": "Verify Code",
-        verifyCodeEnable: Verify and Continue,
-        "verifying": "Verification",
-        "viewAll": "Entire list",
-        "withdrawing": "Withdraw"
+        "addAccount": "Добавить учетную запись",
+        "addFunds": "ДОБАВИТЬ СРЕДСТВА",
+        "addNode": "ДОБАВИТЬ ПРИМЕЧАНИЕ",
+        "allow": "ПРИНЯТЬ",
+        "authorizing": "Авторизация",
+        "browseApps": "ОБЗОР ПРИЛОЖЕНИЙ",
+        "cancel": "ОТМЕНА",
+        "cancelOperation": "Отменить операцию",
+        "cancelTransfer": "ОТМЕНИТЬ ПЕРЕВОД",
+        "claimAccount": "Затребовать учетную запись",
+        "close": "ЗАКРЫТЬ",
+        "Close": "Закрыть",
+        "confirm": "ПОДТВЕРДИТЬ",
+        "confirmAndSend": "ПОДТВЕРДИТЬ",
+        "connect": "Подключить",
+        "connecting": "Подключение",
+        "connectLedger": "Подключить Ledger",
+        "continue": "ПРОДОЛЖИТЬ",
+        "continueSetup": "Продолжить установку",
+        "copyImplicitAddress": "Скопировать адрес для пополнения",
+        "copyPhrase": "СКОПИРОВАТЬ ФРАЗУ",
+        "copyUrl": "Скопировать ссылку",
+        "createAccount": "Создать учетную запись",
+        "createAccountCapital": "Создать учетную запись",
+        "createNewAccount": "Создать учетную запись",
+        "deauthorize": "ДЕАВТОРИЗОВАТЬ",
+        "deAuthorizing": "Снятие авторизации",
+        "deny": "ОТКЛОНИТЬ",
+        "disable": "Отключить",
+        "disabling": "Выключение",
+        "dismiss": "Отказаться",
+        "edit": "Редактировать",
+        "enable": "Включить",
+        "enabling": "Включение",
+        "findMyAccount": "НАЙТИ УЧЕТНУЮ ЗАПИСЬ",
+        "finish": "Закончить",
+        "goBack": "Вернуться назад",
+        "goToDashboard": "ПЕРЕЙТИ В ПАНЕЛЬ УПРАВЛЕНИЯ",
+        "importExistingAccount": "Импорт существующей учетной записи",
+        "moreInformation": "Получить больше информации",
+        "needToEditGoBack": "Вернуться назад для редактирования",
+        "protectAccount": "ЗАЩИТИТЬ УЧЕТНУЮ ЗАПИСЬ",
+        "recoverAccount": "Восстановить учетную запись",
+        "recovering": "Поиск учетной записи",
+        "recoverYourAccount": "Восстановить учетную запись",
+        "removeNode": "УДАЛИТЬ ПРИМЕЧАНИЕ",
+        "removingKeys": "Удаление ключей",
+        "retry": "Повторить",
+        "saveChanges": "СОХРАНИТЬ ИЗМЕНЕНИЯ",
+        "send": "ОТПРАВИТЬ",
+        "setupPhrase": "ИСПОЛЬЗОВАТЬ ФРАЗУ ВОССТАНОВЛЕНИЯ",
+        "signIn": "Войти",
+        "signingIn": "Входим",
+        "signInLedger": "Войти с помощью Ledger",
+        "skip": "Пропустить",
+        "stake": "СТЕЙКИНГ",
+        "staking": "Стейкинг",
+        "startOver": "Начать сначала",
+        "subscribe": "Подписаться",
+        "transferring": "Перевод",
+        "unstaking": "Снятие со стейкинга",
+        "verify": "ПРОВЕРИТЬ И ЗАВЕРШИТЬ",
+        "verifyCode": "Верифицировать код",
+        "verifyCodeEnable": "Верифицировать и продолжить",
+        "verifying": "Верификация",
+        "viewAll": "Весь список",
+        "withdrawing": "Вывод"
     },
     "confirmLedgerModal": {
         "header": {
-            "confirm": "Please confirm the operation on your device ...",
-            "processing": "Processing"
+            "confirm": "Пожалуйста, подтвердите операцию на вашем устройстве...",
+            "processing": "Обработка"
         },
-        "one": "You will need to verify the login information on your Ledger device."
+        "one": "Вы должны будете подтвердить данные входа на вашем устройстве Ledger."
     },
-    "connecting": "Connection",
+    "connecting": "Соединение",
     "copy": {
         "default": "Copied!"
     },
     "createAccount": {
         "accountIdInput": {
-            "placeholder": "yourname. $ {data}",
-            "title": "Select username"
+            "placeholder": "yourname.${data}",
+            "title": "Выберите имя пользователя"
         },
-        "alreadyHaveAnAccount": "Already have an account?",
+        "alreadyHaveAnAccount": "Уже есть учетная запись?",
         "invalidLinkDrop": {
-            "one": "The NEAR Drop link has already been activated.",
-            "title": "Incorrect link",
-            "two": "The NEAR Drop link can be used to create one account, after which the link will become invalid."
+            "one": "Ссылка NEAR Drop уже была ранее активирована.",
+            "title": "Некорректная ссылка",
+            "two": "Ссылка NEAR Drop может быть использована для создания одной учетной записи, после чего ссылка станет недействительной."
         },
         "note": {
-            "canContain": "Your username can contain any of the following values:",
-            "cannotContain": "Your username cannot contain:",
-            "characters": "The characters \" @ \ "or \". \ "",
-            "digits": "Digits (0-9)",
-            "lowercase": "Lowercase letters (az)",
-            separators: "Characters (_-) can be used as separators"
+            "canContain": "Ваше имя пользователя может содержать любое из следующих значений:",
+            "cannotContain": "Ваше имя пользователя не может содержать:",
+            "characters": "Символы \"@\" или \".\"",
+            "digits": "Цифры (0-9)",
+            "lowercase": "Строчные буквы (a-z)",
+            "separators": "Символы (_-) могут быть использованы в качестве разделителей"
         },
-        "pageText": "It doesn't take long to create an account.",
-        "pageTitle": "Create Account",
-        "recoverItHere": "Recover access",
-        "step": "Step $ {step} / $ {total}",
+        "pageText": "Создание учетной записи не займет у вас много времени.",
+        "pageTitle": "Создать учетную запись",
+        "recoverItHere": "Восстановить доступ",
+        "step": "Шаг ${step}/${total}",
         "termsPage": {
-            "descOne": "NEAR accounts require a minimum balance of <b> at least $ {amount} </b> to <a href = 'https: //docs.near.org/docs/concepts/account' rel = ' noopener noreferrer 'target =' _ blank '> hold a place on the network. </a> ",
-            "descTwo": "After reserving a unique account address, you'll be asked to make a small initial deposit to activate your account.",
-            "disclaimer": "By creating a NEAR account, you agree to the NEAR Wallet <a href='/terms' rel='noopener noreferrer' target='_blank'> Terms of Service </a> and <a href = ' https://near.org/privacy 'rel =' noopener noreferrer 'target =' _ blank '> Privacy Policy </a>. ",
-            "title": "Before you begin ..."
+            "descOne": "NEAR accounts require a minimum balance of <b>at least ${amount}</b> to <a href='https://docs.near.org/docs/concepts/account' rel='noopener noreferrer' target='_blank'>hold a place on the network.</a>",
+            "descTwo": "After reserving a unique account address, you’ll be asked to make a small initial deposit to activate your account.",
+            "disclaimer": "By creating a NEAR account, you agree to the NEAR Wallet <a href='/terms' rel='noopener noreferrer' target='_blank'>Terms of Service</a> and <a href='https://near.org/privacy' rel='noopener noreferrer' target='_blank'>Privacy Policy</a>.",
+            "title": "Before you begin..."
         }
     },
     "dashboard": {
-        "activity": "Transactions"
+        "activity": "Транзакции"
     },
     "dashboardActivity": {
         "message": {
             "AddKey": {
-                "forContract": "for <span> $ {permissionReceiverId} </span>",
-                "forReceiver": "for <span> $ {receiverId} </span>"
+                "forContract": "for <span>${permissionReceiverId}</span>",
+                "forReceiver": "for <span>${receiverId}</span>"
             },
-            "CreateAccount": "<span> $ {receiverId} </span>",
-            "DeleteAccount": "<span> $ {receiverId} <span>",
+            "CreateAccount": "<span>${receiverId}</span>",
+            "DeleteAccount": "<span>${receiverId}<span>",
             "DeleteKey": "",
-            "DeployContract": "<span> $ {receiverId} </span>",
-            "FunctionCall": "<span> $ {methodName} </span> in contract <span> $ {receiverId} </span>",
-            "Stake": "<span> $ {stake} </span>",
+            "DeployContract": "<span>${receiverId}</span>",
+            "FunctionCall": "<span>${methodName}</span> in contract <span>${receiverId}</span>",
+            "Stake": "<span>${stake}</span>",
             "Transfer": {
-                "received": "from <span> $ {signerId} </span>",
-                "transferred": "to <span> $ {receiverId} </span>"
+                "received": "from <span>${signerId}</span>",
+                "transferred": "to <span>${receiverId}</span>"
             }
         },
         "title": {
@@ -297,61 +297,61 @@
         }
     },
     "disclaimer": {
-        "text": "This is a preliminary developer wallet. It should only be used for the NEAR Protocol DevNet. Find out more on the website."
-        "title": "DISCLAIMER"
+        "text": "Это предварительный кошелек разработчиков. Он должен использоваться только для NEAR Protocol DevNet. Узнайте больше на сайте ",
+        "title": "ОТКАЗ ОТ ОТВЕТСТВЕННОСТИ"
     },
     "emailSubscribe": {
-        "placeholder": "Your email ...",
-        "title": "Subscribe below for early access"
+        "placeholder": "Ваш емейл...",
+        "title": "Подпишитесь ниже для получения раннего доступа"
     },
     "enterAccountNameLedgerModal": {
-        "header": "Enter your account name",
-        "one": "Enter the name of the account you are logging into"
+        "header": "Введите имя учетной записи",
+        "one": "Введите имя учетной записи, в которую вы осуществляете вход"
     },
-    "error": "Error",
+    "error": "Ошибка",
     "errors": {
         "ledger": {
-            "U2F_4": "Ledger device login failed: U2F DEVICE_INELIGIBLE. Please make sure your Ledger device is connected and unlocked.",
-            "U2FNotSupported": "U2F support in the browser is required to use the Ledger device. Please use Chrome, Opera or Firefox with the U2F extension. Also make sure you are using an HTTPS connection."
+            "U2F_4": "Ошибка входа через устройство Ledger: U2F DEVICE_INELIGIBLE. Пожалуйста, убедитесь, что ваше устройство Ledger подключено и разблокировано.",
+            "U2FNotSupported": "Для использования устройства Ledger требуется поддержка U2F в браузере. Пожалуйта, используйте Chrome, Opera или Firefox с расширением U2F. Также убедитесь, что вы используете HTTPS соединение"
         },
         "type": {
-            "LackBalanceForState": "Your available balance is too low to take any action on your account. Send NEAR to your account and try again.",
-            "RetriesExceeded": "The maximum number of retries for this transaction has been exceeded."
+            "LackBalanceForState": "Ваш доступный баланс слишком мал для выполнения каких-либо действий с вашей учетной записью. Отправьте NEAR на свой счет и попробуйте еще раз.",
+            "RetriesExceeded": "Превышено максимальное количество попыток для проведения данной транзакции."
         }
     },
     "footer": {
-        "contactSupport": "Contact support",
-        "copyrights": "NEAR Inc. All rights reserved.",
-        "desc": "NEAR is a scalable computing and storage platform that is changing the way the Internet works for the better.",
-        "learnMore": "Learn more",
-        "needHelp": "Need help?",
-        "privacyPolicy": "Privacy Policy",
-        "termsOfService": "Terms of Service"
+        "contactSupport": "Обратитесь в службу поддержки",
+        "copyrights": "NEAR Inc. Все права защищены.",
+        "desc": "NEAR это масштабируемая вычислительная платформа и платформа хранения данных, которая меняет работу интернета к лучшему.",
+        "learnMore": "Узнать подробнее",
+        "needHelp": "Требуется помощь?",
+        "privacyPolicy": "Политика конфиденциальности",
+        "termsOfService": "Условия обслуживания"
     },
     "fullAccessKeys": {
-        "authorizedTo": "AUTHORIZED",
-        "dashboardNoKeys": "You do not have full access keys",
-        "noKeys": "You have not connected your NEAR wallet to any applications. When you do, you can manage them here. <br /> <br /> See what was built with NEAR:",
-        "pageTitle": "Full Access Keys",
-        "submitAnyTransaction": "Submit any transactions on your behalf",
-        "useContract": "Use the <b> $ {receiverId} </b> contract on your behalf",
-        "viewYourAccountName": "View your account name"
+        "authorizedTo": "АВТОРИЗОВАН",
+        "dashboardNoKeys": "У вас нет полных ключей доступа",
+        "noKeys": "Вы не подключили свой NEAR кошелек к каким-либо приложениям. Когда вы это сделаете, вы сможете управлять ими здесь.<br /><br />Посмотрите, что было построено с помощью NEAR:",
+        "pageTitle": "Ключи Полного Доступа",
+        "submitAnyTransaction": "Отправлять любые транзакции от вашего имени",
+        "useContract": "Использовать <b>${receiverId}</b> контракт от вашего имени",
+        "viewYourAccountName": "Просмотр имени вашей учетной записи"
     },
     "hardwareDevices": {
-        "desc": "Enhance the security of your account with hardware wallets.",
+        "desc": "Повысьте безопасность вашей учетной записи с помощью аппаратных кошельков.",
         "disable": {
-            "desc": "Make sure you have other recovery methods enabled, and only then disable the existing recovery method.",
-            "disable": "Disable Ledger",
-            "keep": "No, keep the Ledger",
-            "title": "Are you sure you want to turn off the Ledger?"
+            "desc": "Убедитесь что у вас подключены другие методы восстановления, и только потом отключайте имеющийся метод.",
+            "disable": "Отключить Ledger",
+            "keep": "Нет,  оставить Ledger",
+            "title": "Вы уверены в том, что хотите отключить Ledger?"
         },
         "ledger": {
-            "auth": "Authorized",
-            "connect": "Your Ledger is not currently connected. We recommend that you reconnect your Ledger to make sure your account is secure.",
-            "disclaimer": "Before disconnecting your Ledger device, you must enable an alternate recovery method.",
-            "title": "Ledger Hardware Wallet"
+            "auth": "Авторизован",
+            "connect": "Ваше устройство Ledger в данный момент не подлючено. Мы советуем переподключить свой Ledger, чтобы убедиться в защищенности учетной записи.",
+            "disclaimer": "Перед тем как отключить устройство Ledger, вы должны подключить альтернативный метод восстановления.",
+            "title": "Аппаратный кошелек Ledger"
         },
-        "title": "Hardware devices"
+        "title": "Аппаратные устройства"
     },
     "initialDeposit": {
         "claimAccount": {
@@ -363,103 +363,103 @@
             "title": "Claim Your Account"
         },
         "creditCard": {
-            "desc": "Complete your purchase of <b> at least $ {amount} NEAR </b> through MoonPay. MoonPay will automatically deposit your funds into your new account.",
+            "desc": "Complete your purchase of <b>at least ${amount} NEAR</b> through MoonPay. MoonPay will automatically deposit your funds into your new account.",
             "title": "Fund your new account using a credit card."
         },
         "manualDeposit": {
-            "desc": "Meet the minimum initial deposit by sending <b> at least $ {amount} NEAR </b> to the single-use funding address below.",
+            "desc": "Meet the minimum initial deposit by sending <b>at least ${amount} NEAR</b> to the single-use funding address below.",
             "title": "Submit a manual deposit."
         }
     },
     "input": {
         "accountId": {
-            "placeholder": "for example, vasya.near",
-            "subLabel": "The account name must include the top-level account name, for example <b> .near </b>, or be exactly 64 characters.",
-            "title": "Account"
+            "placeholder": "например, vasya.near",
+            "subLabel": "Имя учетной записи должно включать имя учетной записи высшего уровня, например, <b>.near</b> или содержать ровно 64 символа.",
+            "title": "Учетная запись"
         },
         "enterWord": {
             "placeholder": "",
-            "title": "Word <b> # $ {wordId} </b>"
+            "title": "Слово <b>#${wordId}</b>"
         }
     },
     "landing": {
-        "banner": "NEAR Wallet is in Private Beta",
-        "desc": "Safely store NEAR tokens and other supported assets in your <span> NEAR Wallet </span>.",
+        "banner": "Кошелек NEAR находится в стадии Private Beta",
+        "desc": "Безопасно храните токены NEAR и другие поддерживаемые активы в <span>кошельке NEAR</span>.",
         "or": "or",
-        "title": "NEAR is here"
+        "title": "NEAR здесь"
     },
     "ledgerSignTxModal": {
-        "ADD_ACCESS_KEY": "You will need to verify the login information on your Ledger device.",
-        "ADD_ACCESS_KEY_SEED_PHRASE": "You will need to verify the credentials for full access on your Ledger device.",
-        "ADD_LEDGER_ACCESS_KEY": "You will need to verify the public key information on your Ledger device.",
-        "CREATE_ACCOUNT_FROM_IMPLICIT": "You will need to confirm the creation of an account on your Ledger device. This includes the transactions required to transfer balances from a temporary account.",
-        "CREATE_NEW_ACCOUNT": "You will need to confirm adding a key for a new account on your Ledger device.",
-        "DELETE_RECOVERY_METHOD": "You will need to confirm the details to delete the key on your Ledger device.",
-        "DISABLE_LEDGER": "You will need to verify the public key information on your Ledger device.",
-        "GET_LEDGER_PUBLIC_KEY": "You will need to confirm access to the public key on your Ledger device.",
-        "REMOVE_ACCESS_KEY": "You will need to verify the details to remove the key on your Ledger device.",
-        "REMOVE_NON_LEDGER_ACCESS_KEYS": "You will need to verify the details on your Ledger device.",
-        "SEND_MONEY": "You will need to confirm the transfer details on your Ledger device.",
-        "SET_SIGN_TRANSACTION_STATUS": "You will need to confirm the top up information on your Ledger device.",
-        "SETUP_RECOVERY_MESSAGE": "You will need to verify the credentials for full access on your Ledger device.",
-        "SIGN_AND_SEND_TRANSACTIONS": "You will need to confirm the top-up information on your Ledger device.",
-        "STAKE": "You will need to confirm staking on your Ledger device",
-        "UNSTAKE": "You will need to confirm unstaking on your Ledger device",
-        "WITHDRAW": "You will need to confirm the withdrawal to your Ledger device"
+        "ADD_ACCESS_KEY": "Вы должны будете подтвердить данные для входа на вашем устройстве Ledger.",
+        "ADD_ACCESS_KEY_SEED_PHRASE": "Вы должны будете подтвердить данные для полного доступа на вашем устройстве Ledger.",
+        "ADD_LEDGER_ACCESS_KEY": "Вы должны будете подтвердить данные публичного ключа на вашем устройстве Ledger.",
+        "CREATE_ACCOUNT_FROM_IMPLICIT": "Вы должны будете подтвердить создание учетной записи на вашем устройстве Ledger. Это включает транзакции, необходимые для перевода баланса с временной учетной записи.",
+        "CREATE_NEW_ACCOUNT": "Вы должны будете подтвердить добавление ключа для новой учетной записи на вашем устройстве Ledger.",
+        "DELETE_RECOVERY_METHOD": "Вы должны будете подтвердить данные для удаления ключа на вашем устройстве Ledger.",
+        "DISABLE_LEDGER": "Вы должны будете подтвердить данные публичного ключа на вашем устройстве Ledger.",
+        "GET_LEDGER_PUBLIC_KEY": "Вы должны будете подтвердить доступ к публичному ключу на вашем устройстве Ledger.",
+        "REMOVE_ACCESS_KEY": "Вы должны будете подтвердить данные для удаления ключа на вашем устройстве Ledger.",
+        "REMOVE_NON_LEDGER_ACCESS_KEYS": "Вы должны будете подтвердить данные на вашем устройстве Ledger.",
+        "SEND_MONEY": "Вы должны будете подтвердить реквизиты перевода на вашем устройстве Ledger.",
+        "SET_SIGN_TRANSACTION_STATUS": "Вы должны будете подтвердить данные пополнения на вашем устройстве Ledger.",
+        "SETUP_RECOVERY_MESSAGE": "Вы должны будете подтвердить данные для полного доступа на вашем устройстве Ledger.",
+        "SIGN_AND_SEND_TRANSACTIONS": "Вы должны будете подтвердить данные пополнения на вашем устройстве Ledger.",
+        "STAKE": "Вы должны будете подтвердить стейкинг на вашем устройстве Ledger",
+        "UNSTAKE": "Вы должны будете подтвердить снятие со стейкинга на вашем устройстве Ledger",
+        "WITHDRAW": "Вы должны будете подтвердить вывод средств на вашем устройстве Ledger"
     },
     "link": {
-        "account": "Account",
-        "authorizedApps": "Trusted Apps",
-        "fullAccessKeys": "Full Access Keys",
-        "help": "HELP",
-        "noAccount": "You have no other accounts",
-        "profile": "Profile",
-        "receive": "GET",
-        "send": "SEND",
-        "staking": "Staking",
-        "summary": "MAIN",
-        "switchAccount": "Switch account",
-        "wallet": "Wallet"
+        "account": "Аккаунт",
+        "authorizedApps": "Доверенные приложения",
+        "fullAccessKeys": "Ключи полного доступа",
+        "help": "ПОМОЩЬ",
+        "noAccount": "У вас нет других учетных записей",
+        "profile": "Профиль",
+        "receive": "ПОЛУЧИТЬ",
+        "send": "ОТПРАВИТЬ",
+        "staking": "Стейкинг",
+        "summary": "ГЛАВНОЕ",
+        "switchAccount": "Переключить учетную запись",
+        "wallet": "Кошелёк"
     },
-    "loading": "Loading ...",
-    "lockedBalance": "These NEARs are locked in a lockup contract and cannot be withdrawn. You can still delegate or stake these NEAR tokens. After the NEARs are unlocked, you can see them on your unlocked balance and withdraw them. (which would mean their transition to the "Available Balance"). ",
+    "loading": "Загрузка...",
+    "lockedBalance": "Эти NEAR заблокированы в lockup-контракте и не могут быть выведены. Вы все еще можете делегировать или отправлять в стейкинг эти токены NEAR. После того, как NEAR станут разблокированными, вы можете увидеть их на своем разблокированном балансе и вывести их (что будет означать их переход на «Доступный баланс»).",
     "login": {
         "cliLoginSuccess": {
-            "pageText": "Please close this window and follow the instructions in the terminal.",
-            "pageTitle": "You have successfully authored NEAR Shell!"
+            "pageText": "Пожалуйста, закройте это окно и следуйте инструкциям в терминале.",
+            "pageTitle": "Вы успешно автрризовали NEAR Shell!"
         },
         "confirm": {
-            "pageText": "You consent to <b> full access </b> to $ {appTitle}!",
-            "pageTextSecondLine": "<b> To confirm </b>, please enter your username below.",
-            "pageTitle": "Are you sure?",
-            "username": "Username"
+            "pageText": "Вы даете согласие <b>на полный доступ</b> к ${appTitle}!",
+            "pageTextSecondLine": "<b>Для подтверждения</b>, пожалуйста, введите свое имя пользователя ниже.",
+            "pageTitle": "Вы уверены?",
+            "username": "Имя пользователя"
         },
         "details": {
-            "callFunctions": "Call a function in any smart contract",
-            "createAndDeleteAccessKeys": "Create and delete access keys",
-            "createNewAccounts": "Create a new account",
-            "deploySmartContracts": "Deploy smart contracts",
-            "detailedDescription": "Detailed description of the transaction",
-            "forContract": "For contracts",
-            "function": "Function",
-            "noDescription": "No description provided for this method",
-            "stakeAndUnstake": "Start and stop staking NEAR tokens",
-            "thisAllows": "Allow $ {appTitle} for",
-            "transferTokens": "Transfer NEAR from your account to others"
+            "callFunctions": "Вызывать функцию в любом смарт контракте",
+            "createAndDeleteAccessKeys": "Создавать и удалять ключи доступа",
+            "createNewAccounts": "Создавать новую учетную запись",
+            "deploySmartContracts": "Разворачивать смарт контракты",
+            "detailedDescription": "Подробное описание транзакции",
+            "forContract": "Для контрактов",
+            "function": "Функция",
+            "noDescription": "Описание этого метода не указано",
+            "stakeAndUnstake": "Начинать и останавливать стейкинг NEAR токенов",
+            "thisAllows": "Разрешить ${appTitle} для ",
+            "transferTokens": "Переводить NEAR с вашей учетной записи на другие"
         },
         "form": {
-            "accessYourAccount": "access to your account.",
-            "isRequestingFullAccess": "requests <b> full access </b>",
-            "isRequestingTo": "requests",
-            "thisDoesNotAllow": "This will prevent the application from transferring NEAR tokens.",
-            "thisProvidesAccess": "This will provide <b> access to all of your tokens </b>. <br /> Be careful!",
-            "toYourAccount": "to your account."
+            "accessYourAccount": "доступ к вашей учетной записи.",
+            "isRequestingFullAccess": "запрашивает <b>полный доступ</b>",
+            "isRequestingTo": "запрашивает",
+            "thisDoesNotAllow": "Это не позволит приложению передавать токены NEAR.",
+            "thisProvidesAccess": "Это обеспечит доступ <b>ко всем вашим токенам</b>.<br />Будьте осторожны!",
+            "toYourAccount": "к вашей учетной записи."
         },
         "v2": {
             "connectConfirm": {
-                "desc": "Only connect to sites that you trust. Once connected, <a href=$ {contractIdUrl> target='_blank' rel='noreferrer'> $ {appReferrer} </a> will have <b> $ { accessType} </b>: ",
+                "desc": "Only connect to sites that you trust. Once connected, <a href=${contractIdUrl} target='_blank' rel='noreferrer'>${appReferrer}</a> will have <b>${accessType}</b>:",
                 "feeAllowance": {
-                    "desc": "The application will be given permission to spend up to <b> $ {amount} NEAR </b> towards network fees incurred during use.",
+                    "desc": "The application will be given permission to spend up to <b>${amount} NEAR</b> towards network fees incurred during use.",
                     "title": "Network Fee Allowance"
                 },
                 "fullAccess": "full permissions",
@@ -467,7 +467,7 @@
                     "desc": "Proceed with caution. Full access permissions allow contracts and applications to access your token balance. To confirm, enter your account ID below.",
                     "title": "Grant full account access?"
                 },
-                "fullAccessWarning": "This site is requesting full access to your account. To enable full access, you'll be asked to verify your account ID.",
+                "fullAccessWarning": "This site is requesting full access to your account. To enable full access, you’ll be asked to verify your account ID.",
                 "limitedAccess": "limited permissions",
                 "permissions": {
                     "notTransferTokens": "This does not allow the app to transfer tokens",
@@ -478,14 +478,14 @@
                 "title": "Connecting with:"
             },
             "connectWithNear": {
-                "desc": "An application is requesting <b> $ {accessType} </b> to your NEAR account. Select the account you wish to connect.",
+                "desc": "An application is requesting <b>${accessType}</b> to your NEAR account. Select the account you wish to connect.",
                 "fullAccess": "full access",
                 "limitedAccess": "limited access",
                 "title": "Connect with NEAR"
             }
         }
     },
-    "minimumBalance": "The minimum NEAR balance that an account must hold in order for it to remain active. This balance represents the cost of maintaining storage for your NEAR blockchain account (with a small margin), and may rise or fall. depending on whether the account requires more or less space. ",
+    "minimumBalance": "Минимальный баланс в NEAR, который должен храниться на учетной записи для того, чтобы она оставалась активной. Этот баланс представляет собой расходы на поддержание хранилища для вашей учетной записи в блокчейне NEAR (с небольшим запасом), и может расти или падать в завимости от того, требуется ли для учетной записи больше или меньше места.",
     "mobileDeviceAccess": {
         "importCode": {
             "desc": "If you are already logged in on a desktop device, scan your mobile access code to import your account."
@@ -495,7 +495,7 @@
             "desc": "Scan your mobile access code to grant full account access to your mobile device.",
             "modal": {
                 "desc": "Reveal and scan the QR code below to import your account on your mobile device.",
-                "disclaimer": "<b> This code contains highly sensitive data and grants full account access to your mobile device. </b> Take care not to share or expose it, and only import your account to a secure device that you own. ",
+                "disclaimer": "<b>This code contains highly sensitive data and grants full account access to your mobile device.</b> Take care not to share or expose it, and only import your account to a secure device that you own.",
                 "reveal": "Reveal",
                 "title": "Mobile Access Code"
             }
@@ -503,217 +503,217 @@
         "title": "Mobile Device Access"
     },
     "networkBanner": {
-        "desc": "This wallet (and network) is only available for testing purposes. Tokens and other assets have no value. Created accounts will not be transferred to the Mainnet.",
-        "header": "Test NEAR wallet",
-        "title": "Test wallet"
+        "desc": "Этот кошелек (и сеть) доступны только для целей тестирования. Токены и другие активы не имеют ценности. Созданные учетные записи не будут перенесены в Mainnet.",
+        "header": "Тестовый кошелек NEAR",
+        "title": "Тестовый кошелек"
     },
     "nodeDetails": {
-        "pageText": "Update your site details.",
-        "pageTitle": "Node details"
+        "pageText": "Обновить сведения о вашем узле.",
+        "pageTitle": "Детали узла"
     },
     "nodeStaking": {
         "nodes": {
             "noNode": {
-                "text": "This will connect your node to your wallet account.",
-                "title": "Do you already have a configured site? Add it here."
+                "text": "Это соединит ваш узел с вашей учетной записью кошелька.",
+                "title": "У вас уже имеется настроенный узел? Добавьте его сюда."
             },
-            "title": "Nodes"
+            "title": "Узлы"
         },
         "pageText": "nodeandstaking.near",
-        "pageTitle": "Node and Staking",
+        "pageTitle": "Узел и Стейкинг",
         "staking": {
-            "title": "Staking",
-            "youAreStaking": "you are staking"
+            "title": "Стейкинг",
+            "youAreStaking": "Вы делаете стейкинг"
         },
         "steps": {
             "one": {
-                "desc": "Instructions are available in the documentation",
-                "title": "1. Install and Run the Node via CLI"
+                "desc": "Инструкции доступны в документации",
+                "title": "1. Установите и Запустите Узел через CLI"
             },
             "three": {
-                "desc": "Staking from here or via the CLI. You can refer to the documentation for help.",
-                "title": "3. Start staking"
+                "desc": "Стейкинг отсюда или через CLI. Для помощи вы можете обратиться к документации.",
+                "title": "3. Начните делать стейкинг"
             },
-            "title": "To start a node or staking, do the following:",
+            "title": "Чтобы запустить узел или стейкинг, выполните следующие действия:",
             "two": {
-                "desc": "An unsynchronized node cannot produce or validate blocks",
-                "title": "2. Wait for the node to sync"
+                "desc": "Несинхронизированный узел не может производить или валидировать блоки",
+                "title": "2. Дождитесь синхронизации узла"
             }
         }
     },
-    "of": "from",
-    "ofTotal": "of everything",
-    "or": "OR",
+    "of": "из",
+    "ofTotal": "из всего",
+    "or": "ИЛИ",
     "profile": {
         "account": {
-            "available": "Available",
-            "availableToTransfer": "Available for transfer",
-            "availableToWithdraw": "Available for withdrawal",
-            "inStakingPools": "In staking pools",
-            "pendingRelease": "Pending exit from staking",
-            "reservedForStorage": "Reserved for storage fees",
-            "staked": "Staked",
-            "unstaked": "Unstaked",
-            "walletBalance": "Wallet balance",
-            "walletId": "Account"
+            "available": "Доступно",
+            "availableToTransfer": "Доступно для пересылки",
+            "availableToWithdraw": "Доступно для вывода",
+            "inStakingPools": "В стейкинг-пулах",
+            "pendingRelease": "В ожидании выхода из стейкинга",
+            "reservedForStorage": "Зарезерировано под оплату хранилища",
+            "staked": "В стейкинге",
+            "unstaked": "Снято со стейкинга",
+            "walletBalance": "Баланс кошелька",
+            "walletId": "Учетная запись"
         },
         "details": {
-            "availableBalance": "Available Balance",
-            "locked": "Locked",
+            "availableBalance": "Доступный баланс",
+            "locked": "Заблокировано",
             "lockPopup": {
-                "createAnotherAccount": "create another account",
-                "text": "Your username is your unique identifier in the system and cannot be changed as the data and ownership of the assets are linked to it. However, you can $ {link} with your desired name and submit assets as needed.",
-                "title": "Why is this blocked?"
+                "createAnotherAccount": "создать еще одну учетную запись",
+                "text": "Ваше имя пользователя является вашим уникальным идентификатором в системе и не может быть изменено, поскольку к нему привязаны данные и право собственности на активы. Однако вы можете ${link} с желаемым именем и отправлять активы по мере необходимости.",
+                "title": "Почему это заблокировано?"
             },
-            "minBalance": "Minimum balance",
-            "profile": "PROFILE",
-            "public": "Everyone",
-            "qrDesc": "Use your phone camera to send to this address",
-            "staked": "Staked",
-            "totalBalance": "Total Balance",
-            "unlocked": "Unlocked",
-            "unvested": "Reserved tokens",
-            "username": "Username",
-            "visibleTo": "VISIBLE FOR"
+            "minBalance": "Минимальный баланс",
+            "profile": "ПРОФИЛЬ",
+            "public": "Всех",
+            "qrDesc": "Используйте камеру вашего телефона для отправки на этот адрес",
+            "staked": "В стейкинге",
+            "totalBalance": "Общий баланс",
+            "unlocked": "Разблокировано",
+            "unvested": "Зарезервированные токены",
+            "username": "Имя пользователя",
+            "visibleTo": "ВИДЕН ДЛЯ"
         },
         "lockup": {
-            "locked": "Locked",
-            "lockupBalance": "Lockup Contract Balance",
-            "lockupId": "Lockup contract",
-            "unlocked": "Unlocked"
+            "locked": "Заблокировано",
+            "lockupBalance": "Баланс Lockup-контракта",
+            "lockupId": "Lockup-контракт",
+            "unlocked": "Разблокировано"
         },
         "lockupBanner": {
-            "cta": "Transfer to wallet",
-            "title": "<b> $ {amount} </b> are available for withdrawal from your lockup contract!"
+            "cta": "Перевести в кошелек",
+            "title": "<b>${amount}</b> доступны для вывода из вашего lockup-контракта!"
         },
         "pageTitle": {
-            "default": "Username",
-            "loading": "Loading ...",
-            "notFound": "Username $ {accountId} not found"
+            "default": "Имя пользователя",
+            "loading": "Загрузка...",
+            "notFound": "Имя пользователя ${accountId} не найдено"
         },
         "security": {
-            "lessSecure": "Less secure",
-            "lessSecureDesc": "These options are recommended for accounts with small amounts of NEAR and other assets. They are convenient, but pose additional risk compared to more secure options. If your email or SMS is compromised, your funds could be compromised. threat. ",
-            "mostSecure": "Most secure (recommended)",
-            "mostSecureDesc": "Ledger is the most secure option. The mnemonic phrase remains safe if used correctly (must be recorded and stored in a safe place).",
-            "title": "Security and Recovery"
+            "lessSecure": "Менее безопасные",
+            "lessSecureDesc": "Эти варианты рекомендуются для учетных записей с небольшими суммами NEAR и других активов. Они удобны, но представляют дополнительный риск по сравнению с более безопасными вариантами. Если ваш адрес электронной почты или SMS-сообщения будут скомпрометированы, ваши средства могут оказаться под угрозой.",
+            "mostSecure": "Наиболее безопасные (рекомендовано)",
+            "mostSecureDesc": "Ledger - это самый безопасный вариант. Мнемоническая фраза остается в безопасности в случае правильного использования (должна быть записана и сохранена в надежном месте).",
+            "title": "Безопасность и восстановление"
         },
-        "twoFactor": "Two-factor authentication",
-        "twoFactorDesc": "Authentication via SMS or email when authorizing transactions and / or logging into your account."
+        "twoFactor": "Двухфакторная аутентификация",
+        "twoFactorDesc": "Аутентификация через SMS или электронную почту при авторизации транзакций и/или входе в свою учетную запись."
     },
     "reCAPTCHA": {
-        "disclaimer": "This site is protected by reCAPTCHA and the Google <a href='https://policies.google.com/privacy' target='_blank' rel='noopener noreferrer'> Privacy Policy </a> and <a href='https://policies.google.com/terms' target='_blank' rel='noopener noreferrer'> Terms of Service </a> apply. ",
+        "disclaimer": "This site is protected by reCAPTCHA and the Google <a href='https://policies.google.com/privacy' target='_blank' rel='noopener noreferrer'>Privacy Policy</a> and <a href='https://policies.google.com/terms' target='_blank' rel='noopener noreferrer'>Terms of Service</a> apply.",
         "fail": {
             "desc": "reCAPTCHA is required in order to authorize new accounts funded by NEAR.",
             "link": "Fund your own account?",
             "title": "Failed to load reCAPTCHA."
         },
-        "loading": "Loading reCAPTCHA ..."
+        "loading": "Loading reCAPTCHA..."
     },
     "receivePage": {
-        "addressTitle": "Your address",
-        "copyAddressLinkLong": "Copy Link",
-        "copyAddressLinkShort": "Copy",
-        "qrCodeTitle": "Scan QR Code",
-        "snackbarCopySuccess": "Link copied!"
+        "addressTitle": "Ваш адрес",
+        "copyAddressLinkLong": "Копировать ссылку",
+        "copyAddressLinkShort": "Копировать",
+        "qrCodeTitle": "Сканировать QR код",
+        "snackbarCopySuccess": "Ссылка скопирована!"
     },
     "recoverAccount": {
-        "actionRequired": "This message contains a magic link. Please follow the link to start the recovery process."
-        "actionType": "Recovery",
-        "cannotResend": "This message was sent to you while enabling the recovery method via email / SMS. We only send this message once and will not be able to forward it again.",
+        "actionRequired": "Это сообщение содержит волшебную ссылку. Перейдите по ссылке, чтобы начать процесс восстановления",
+        "actionType": "Восстановление",
+        "cannotResend": "Это сообщение было отправлено вам во время включения методе восстановления по электронной почте/SMS. Мы отправляем это сообщение лишь единожды и не сможет переслать его еще раз.",
         "email": {
-            "desc": "Check your email from near.org with the subject line:",
-            "subject": "\" Important: Near Wallet Recovery Email \ ".",
-            "title": "Via email"
+            "desc": "Проверьте свою электронную почту от near.org с темой письма:",
+            "subject": "\"Важно: Письмо восстановления кошелька Near\" (\"Important: Near Wallet Recovery Email\").",
+            "title": "С помощью электронной почты"
         },
         "ledger": {
-            "desc": "Make sure your Ledger is securely connected and the NEAR app is running on your device.",
+            "desc": "Убедитесь, что ваш Ledger надежно подключен, а приложение NEAR запущено на устройстве.",
             "title": "Ledger"
         },
-        "pageText": "Follow the instructions to begin the access recovery process.",
-        "pageTitle": "Restore Account",
+        "pageText": "Cледуйте инструкциям, чтобы начать процес восстановления доступа.",
+        "pageTitle": "Восстановить учетную запись",
         "phone": {
-            "desc": "Check your mobile phone for SMS from",
+            "desc": "Проверьте ваш мобильный телефон на наличие SMS-сообщения от",
             "number": "+14086179592.",
-            "title": "By mobile phone"
+            "title": "С помощью мобильного телефона"
         },
         "phrase": {
-            "desc": "Make sure you have a 12-word recovery mnemonic phrase and then click below to start the recovery process"
-            "title": "Using a mnemonic phrase"
+            "desc": "Убедитесь, что у вас есть мнемоническая фраза восстановления из 12 слов, а затем нажмите ниже, чтобы начать процесс восстановления",
+            "title": "С помощью мнемонической фразы"
         }
     },
     "recoverSeedPhrase": {
-        "pageText": "Enter the backup mnemonic phrase associated with the account.",
-        "pageTitle": "Mnemonic Phrase Recovery",
+        "pageText": "Введите мнемоническую фразу резервной копии, связанную с учетной записью.",
+        "pageTitle": "Восстановление с помощью мнемонической фразы",
         "seedPhraseInput": {
-            "placeholder": "correct horse battery staple ...",
-            "title": "Mnemonic phrase (12 words)"
+            "placeholder": "correct horse battery staple...",
+            "title": "Мнемоническая фраза (12 слов)"
         }
     },
     "recoverWithLink": {
-        "errorP": "Please check your email or phone for the most recent message. Links in all previous messages are no longer valid.",
-        "errorTitle": "The link has expired",
-        "pOne": "Click the \" Continue \ "button to restore your account:",
-        "pTwo": "If this is not your default browser, please copy the URL and complete the restore process in your preferred browser.",
-        "snackbarCopySuccess": "Restore link copied",
-        "title": "Account Recovery"
+        "errorP": "Пожалуйста, проверьте свою электронную почту или телефон на наличие самого последнего сообщения. Ссылки во всех предыдущих сообщениях более недействительны.",
+        "errorTitle": "Срок действия ссылки истек",
+        "pOne": "Нажмите кнопку \"Продолжить\", чтобы восстановить учетную запись:",
+        "pTwo": "Если это не ваш браузер по умолчанию, скопируйте URL-адрес и завершите процесс восстановления в удобном для вас браузере.",
+        "snackbarCopySuccess": "Ссылка для восстанавления скопирована",
+        "title": "Восстановление Учетной Записи"
     },
     "recoveryMgmt": {
-        "disableInputPlaceholder": "Enter your username for confirmation",
-        "disableNo": "No, continue",
-        "disableNotAllowed": "Accounts require at least one active restore method. Please enable alternative restore method to proceed.",
-        "disableTextLink": "The magic link you received will be permanently deactivated.",
-        "disableTextPhrase": "Your current mnemonic phrase will be permanently disabled.",
-        "disableTitle": "Are you sure you want to disable this method?",
-        "enabled": "Enabled",
+        "disableInputPlaceholder": "Введите свое имя пользователя для подтверждения",
+        "disableNo": "Нет, продолжить",
+        "disableNotAllowed": "Учетные записи требуют наличия хотя бы одного активного способа восстановления. Пожалуйста, для продолжения включите альтернативный способ восстановления.",
+        "disableTextLink": "Полученная вами волшебная ссылка будет навсегда деактивирована.",
+        "disableTextPhrase": "Ваша текущая мнемоническая фраза будет навсегда деактивирована.",
+        "disableTitle": "Вы уверены, что хотите отключить этот метод?",
+        "enabled": "Подключено",
         "methodTitle": {
-            "email": "Email address",
-            "phone": "Phone number",
-            "phrase": "Mnemonic phrase"
+            "email": "Электронный адрес",
+            "phone": "Телефонный номер",
+            "phrase": "Мнемоническая фраза"
         },
-        "noRecoveryMethod": "You do not have any methods available to recover your account, please add one of the methods below.",
-        "recoveryLinkSent": "Recovery link sent!",
+        "noRecoveryMethod": "У вас нет доступных методов для восстановления учетной записи, пожалуйста, добавьте один из методов ниже.",
+        "recoveryLinkSent": "Ссылка на восстановление отправлена!",
         "resend": {
-            "email": "Resend",
-            "phone": "Resend"
+            "email": "Отправить повторно",
+            "phone": "Отправить повторно"
         },
-        "title": "Recovery method"
+        "title": "Метод восстановления"
     },
     "reduxActions": {
         "ADD_ACCESS_KEY": {
-            "error": "An error occurred while confirming this action. Please try again!",
-            "success": "$ {title} is now eligible to use your account"
+            "error": "При подтверждении этого действия произошла ошибка. Пожалуйста, попробуйте еще раз!",
+            "success": "${title} теперь имеет право использовать вашу учетную запись"
         },
         "ADD_ACCESS_KEY_SEED_PHRASE": {
-            "error": "An error occurred while configuring the mnemonic phrase. Please try again!",
-            "success": "Recovery mnemonic phrase setup completed successfully."
+            "error": "При настройке мнемонической фразы произошла ошибка. Повторите еще раз!",
+            "success": "Настройка мнемонической фразы восстановления успешно завершена"
         },
         "ADD_LEDGER_ACCOUNT_ID": {
-            "error": "Access to one of the accounts was denied. Accounts were not restored. <br> You must authorize read access to each account on your Ledger device to proceed. Please try again.",
+            "error": "Отказано в доступе к одной из учетных записей. Учетные записи не были восстановлены.<br>Для продолжения вы должны авторизовать доступ для чтения к каждой учетной записи на своем устройстве Ledger. Пожалуйста, попробуйте еще раз.",
             "success": ""
         },
         "CHECK_ACCOUNT_AVAILABLE": {
-            "error": "User not found.",
-            "success": "User found."
+            "error": "Пользователь не найден.",
+            "success": "Пользователь найден."
         },
         "CHECK_IS_NEW": {
-            "error": "Username is taken. Please try another one.",
-            "success": "Great! Username $ {accountId} is available."
+            "error": "Имя пользователя занято. Попробуйте другое.",
+            "success": "Отлично! Имя пользователя ${accountId} доступно."
         },
         "CHECK_NEW_ACCOUNT": {
-            "error": "Username is taken. Please try another one.",
-            "success": "Great! Username $ {accountId} is available."
+            "error": "Имя пользователя занято. Попробуйте другое.",
+            "success": "Отлично! Имя пользователя ${accountId} доступно."
         },
         "CREATE_ACCOUNT_WITH_SEED_PHRASE": {
             "error": "",
             "success": ""
         },
         "CREATE_NEW_ACCOUNT": {
-            "error": "Username is taken. Please try another one.",
-            "success": "Great! Username $ {accountId} is available."
+            "error": "Имя пользователя занято. Попробуйте другое.",
+            "success": "Отлично! Имя пользователя ${accountId} доступно."
         },
         "default": {
-            "error": "Sorry, an error has occurred. Please try again.",
+            "error": "К сожалению, произошла ошибка. Попробуйте еще раз.",
             "success": ""
         },
         "DELETE_RECOVERY_METHOD": {
@@ -726,96 +726,96 @@
         },
         "Deserialization": "",
         "GET_LEDGER_ACCOUNT_IDS": {
-            "error": "The public key was rejected. Accounts were not restored. <br/> You must give NEAR permission to the wallet to view your public key to continue. Please try again.",
+            "error": "Публичный ключ был отклонен. Учетные записи не были восстановлены.<br/>Для продолжения вы должны дать разрешение NEAR кошельку на просмотр вашего публичного ключа. Пожалуйста, попробуйте еще раз.",
             "success": ""
         },
         "PROMPT_TWO_FACTOR": {
-            "invalidCode": "Invalid 2FA code. Please try again."
+            "invalidCode": "Неправильный 2FA-код. Пожалуйста, попробуйте еще раз."
         },
         "RECOVER_ACCOUNT_SEED_PHRASE": {
-            "error": "Failed to restore account.",
-            "success": "Mnemonic phrase recovery completed. <br/> You have successfully restored <b> $ {numberOfAccounts} account (s) </b>. <br/> The last one is selected as active."
+            "error": "Не удалось восстановить учетную запись.",
+            "success": "Восстановление по мнемонической фразе завершено.<br/>Вы успешно восстановили <b>${numberOfAccounts} учетную(ые) запись(и)</b>.<br/>Последняя из них выбрана как активная."
         },
         "REFRESH_ACCOUNT_EXTERNAL": {
-            "error": "Account <b> $ {accountId} </b> not found"
+            "error": "Учетная запись <b>${accountId}</b> не найдена"
         },
         "REMOVE_ACCESS_KEY": {
-            "error": "Please check the device connection and make sure the NEAR app is open there.",
+            "error": "Пожалуйста, проверьте подключение устройства и удостоверьтесь, что там открыто приложение NEAR.",
             "success": ""
         },
-        "RetriesExceeded": "The maximum number of retries for this transaction has been exceeded.",
+        "RetriesExceeded": "Превышено максимальное количество попыток для проведения данной транзакции.",
         "SAVE_AND_SELECT_LEDGER_ACCOUNTS": {
-            "error": "Please check the device connection and make sure the NEAR app is open there.",
-            "success": "You have successfully logged in. <br/> You have successfully restored <b> $ {numberOfAccounts} account (s). </b> The last one is selected as active."
+            "error": "Пожалуйста, проверьте подключение устройства и удостоверьтесь, что там открыто приложение NEAR.",
+            "success": "Вы успешно авторизовались.<br/>Вы успешно восстановили <b>${numberOfAccounts} учетную(ые) запись(и).</b> Последняя из них выбрана как активная."
         },
         "SEND_MONEY": {
-            "error": "Sorry, an error has occurred. Please try again."
+            "error": "К сожалению, произошла ошибка. Попробуйте еще раз."
         },
         "SETUP_RECOVERY_MESSAGE": {
-            "error": "An error occurred while installing the recovery method. Please try again!",
-            "success": "The installation of the recovery method is complete."
+            "error": "Во время установки метода восстановления произошла ошибка. Пожалуйста, попробуйте еще раз!",
+            "success": "Установка метода восстановления завершена."
         },
         "SIGN_AND_SEND_TRANSACTIONS": {
             "error": "",
             "success": ""
         },
         "TRANSFER_ALL_FROM_LOCKUP": {
-            "error": "Something went wrong. Please try again.",
-            "success": "You have successfully transferred the tokens from your lockup contract!"
+            "error": "Что-то пошло не так. Пожалуйста, попробуйте еще раз.",
+            "success": "Вы успешно перевели токены из вашего lockup-контракта!"
         },
-        "U2F_4": "Ledger device login failed: U2F DEVICE_INELIGIBLE. Please make sure your Ledger device is connected and unlocked.",
+        "U2F_4": "Ошибка входа через устройство Ledger: U2F DEVICE_INELIGIBLE. Пожалуйста, убедитесь, что ваше устройство Ledger подключено и разблокировано.",
         "VERIFY_TWO_FACTOR": {
-            "error": "Two-factor authentication has not been installed. Please try again.",
-            "success": "Two-factor authentication was successfully enabled!"
+            "error": "Двухфакторная аутентификация не была установлена. Пожалуйста, попробуйте еще раз.",
+            "success": "Двухфакторная аутентификация была успешно включена!"
         }
     },
-    "reservedForFeesInfo": "Up to $ {data} NEAR is reserved to cover the cost of transactions.",
+    "reservedForFeesInfo": "Up to ${data} NEAR is reserved to cover the cost of transactions.",
     "selectAccountDropdown": {
-        "createAccount": "Create a new account",
-        "noOtherAccounts": "You have no other accounts",
-        "selectAccount": "Select account",
-        "switchAccount": "Change account",
-        "switchAccounthNotAllowed": "This application does not allow account changes."
+        "createAccount": "Создать новую учетную запись",
+        "noOtherAccounts": "У вас нет других учетных записей",
+        "selectAccount": "Выбрать учетную запись",
+        "switchAccount": "Сменить учетную запись",
+        "switchAccounthNotAllowed": "Это приложение не позволяет изменять учетную запись"
     },
-    "sending": "SENDING",
+    "sending": "ОТПРАВКА",
     "sendMoney": {
         "account": {
-            "title": "Send to"
+            "title": "Отправить на"
         },
         "amount": {
-            "available": "Available to ship"
+            "available": "Доступно для отправки"
         },
         "amountStatusId": {
-            "available": "Available balance:",
-            "howMuch": "How much do you want to send?",
-            "noMoreThan": "NO MORE THAN 5 DECIMES",
-            "notEnoughTokens": "You must leave at least $ {amount} NEAR in your account",
-            "sending": "Sending:"
+            "available": "Доступный баланс:",
+            "howMuch": "Сколько вы хотите отправить?",
+            "noMoreThan": "НЕ БОЛЕЕ 5 ДЕСЯТИЧНЫХ ЗНАКОВ",
+            "notEnoughTokens": "Вы должны оставить хотя бы ${amount} NEAR в своей учетной записи",
+            "sending": "Отправка:"
         },
         "banner": {
-            "insufficient": "You are trying to send the entire available balance. At least <b> $ {data} NEAR </b> must be reserved to cover transaction fees.",
-            "useMax": "A small portion ($ {data} NEAR) of the available balance has been reserved to cover transaction fees."
+            "insufficient": "Вы пытаетесь отправить весь доступный баланс. Хотя бы <b>${data} NEAR</b> должны быть зарезервированы для покрытия комиссий на транзакции.",
+            "useMax": "Небольшая часть (${data} NEAR) доступного баланса была зарезервирована для покрытия комиссий на транзакции."
         },
         "button": {
-            "confirm": "Confirm and send",
-            "dashboard": "Go to dashboard",
-            "send": "Confirm"
+            "confirm": "Подтвердить и отправить",
+            "dashboard": "Перейти в панель управления",
+            "send": "Подтвердить"
         },
         "confirmModal": {
-            "title": "Confirm Transaction"
+            "title": "Подтвердить транзакцию"
         },
-        "onceConfirmed": "It will be impossible to cancel the transaction!",
+        "onceConfirmed": "Отменить транзакцию будет невозможно!",
         "subtitle": {
-            "default": "Enter the number of NEAR tokens to send and the recipient's account name.",
-            "success": "You have successfully submitted NEAR"
+            "default": "Введите количество токенов NEAR для отправки и имя учетной записи получателя.",
+            "success": "Вы успешно отправили NEAR"
         },
         "title": {
-            "default": "Submit",
-            "success": "Success!"
+            "default": "Отправить",
+            "success": "Успешно!"
         },
-        "to": "to",
-        "wasSentTo": "Sent to:",
-        "youAreSending": "You are about to send"
+        "to": "к",
+        "wasSentTo": "Отправлено к:",
+        "youAreSending": "Вы собираетесь отправить"
     },
     "sendV2": {
         "accordionTriggerTitle": {
@@ -836,7 +836,7 @@
         },
         "selectTokenButtonTitle": "Select Asset",
         "success": {
-            "title": "Transaction complete! </br> You sent <span class = 'color-blue'> $ {amount} </span> </br> to <span class = 'color-green'> $ {receiverId } </span> "
+            "title": "Transaction complete!</br>You sent <span class='color-blue'>${amount}</span></br>to <span class='color-green'>${receiverId}</span>"
         },
         "translateIdInfoTooltip": {
             "estimatedFees": "The estimated cost of processing your transaction.",
@@ -868,175 +868,170 @@
         }
     },
     "setRecoveryConfirm": {
-        "didNotReceive": "Didn't receive the code?",
-        "email": "email address",
-        "inputHeader": "Enter verification code",
-        "inputPlaceholder": "Confirmation code",
-        "invalidCode": "Invalid code",
-        "or": "or",
-        "pageText": "We sent a 6-digit verification code to",
-        "phone": "phone number",
+        "didNotReceive": "Не получили код?",
+        "email": "адрес электронной почты",
+        "inputHeader": "Введите код подтверждения",
+        "inputPlaceholder": "Код подтверждения",
+        "invalidCode": "Некорректный код",
+        "or": "или",
+        "pageText": "Мы отправили код верификации из 6 цифр на ",
+        "phone": "номер телефона",
         "reenter": {
-            "link": "click here",
+            "link": "нажмите здесь",
             "one": {
-                "email": "If you did not receive this email or the email address above is incorrect,"
-                "phoneNumber": "If you have not received this SMS or the phone number above is incorrect,"
+                "email": "Если вы не получили это электронное письмо или адрес электронной почты выше некорректный, ",
+                "phoneNumber": "Если вы не получили это SMS или номер телефона выше некорректный, "
             },
             "two": {
-                "email": "to re-enter your email address and send your message.",
-                "phoneNumber": "to re-enter the phone number and send the message."
+                "email": ", чтобы заново ввести адрес электронной почты и отправить сообщение.",
+                "phoneNumber": ", чтобы заново ввести номер телефона и отправить сообщение."
             }
         },
-        "resendCode": "Resend code again",
-        "sendToDifferent": "Send to another",
-        "title": "Enter confirmation code"
+        "resendCode": "Отправить код еще раз",
+        "sendToDifferent": "Отправить на другой",
+        "title": "Введите код подтверждения"
     },
     "setupLedger": {
-        "header": "Connect your Ledger device",
-        "one": "Connect the Ledger Nano S to your computer or mobile device via USB and <b> open the NEAR app </b>.",
-        "two": "If you haven't installed the NEAR app on your Ledger yet, follow"
-        "twoLink": "given instructions"
+        "header": "Подключите своё устройство Ledger",
+        "one": "Подключите Ledger Nano S к своему компьютеру или мобильному устройству через USB и <b>откройте приложение NEAR</b>.",
+        "two": "Если вы еще не установили приложение NEAR на Ledger, следуйте",
+        "twoLink": "данным инструкциям"
     },
     "setupLedgerSteps": {
-        "five": "Follow the instructions to install the <span class = 'color-black'> NEAR app </span> to your device.",
-        "four": "Return to the <span class = 'color-black'> Manager </span> tab and search for <span class = 'color-black'> NEAR </span>.",
-        "header": "Install NEAR on your Ledger device",
-        "one": "Open <a rel='noopener noreferrer' href='https://www.ledger.com/ledger-live' target='_blank'> Ledger Live, </a> install any available firmware updates. ",
-        "three": "Go to <span class = 'color-black'> Experimental Features </span>, and make sure <span class = 'color-black'> Developer Mode </span> (<span class = 'color-black'> Developer Mode </span>) was <span class = 'color-black'> enabled </span>. ",
-        "two": "Go to <span class = 'color-black'> Settings </span> (<span class = 'color-black'> Settings </span>)."
+        "five": "Следуйте инструкциям по установке <span class='color-black'>приложения NEAR</span> на ваше устройство.",
+        "four": "Вернитесь во вкладку <span class='color-black'>Manager</span> и запустите поиск по слову <span class='color-black'>NEAR</span>.",
+        "header": "Установите NEAR на своё устройство Ledger",
+        "one": "Откройте <a rel='noopener noreferrer' href='https://www.ledger.com/ledger-live' target='_blank'>Ledger Live,</a> установите все доступные обновления прошивки.",
+        "three": "Перейдите в раздел <span class='color-black'>Экспериментальные функции</span> (<span class='color-black'>Experimental Features</span>), и убедитесь, что <span class='color-black'>Режим разработчика</span> (<span class='color-black'>Developer Mode</span>) был <span class='color-black'>включен</span>.",
+        "two": "Перейдите в <span class='color-black'>Настройки</span> (<span class='color-black'>Settings</span>)."
     },
     "setupLedgerSuccess": {
-        "header": "Ledger is verified in your account!",
+        "header": "Ledger подтвержден в вашей учетной записи!",
         "nextStep": {
             "header": {
-                "keep": "Keep existing keys?",
-                "remove": "Confirm key removal"
+                "keep": "Сохранить существующие ключи?",
+                "remove": "Подтвердите удаление ключа"
             },
             "one": {
-                "keep": "<span class = 'color-red'> Using multiple recovery methods and devices increases the vulnerability of your account. </span>",
-                "remove": "Before deleting existing keys and recovery methods, make sure you record and securely retain the original Ledger mnemonic phrase."
+                "keep": "<span class='color-red'>Использование нескольких методов восстановления и устройств повышает уязвимость вашей учетной записи.</span>",
+                "remove": "Перед удалением существующих ключей и методов восстановления убедитесь, что вы записали и надежно сохранили исходную мнемоническую фразу Ledger."
             },
             "two": {
-                "remove": "If you lose access to your original mnemonic phrase, NEAR Inc. will not be able to assist you in recovering your account and funds."
+                "remove": "Если вы потеряете доступ к своей исходной мнемонической фразе, NEAR Inc. не сможет помочь вам в восстановлении вашей учетной записи и средств на ней."
             }
         },
-        "one": "We recommend that you delete all existing keys (recovery methods and devices).",
-        "primaryCta": "Remove existing keys and recovery methods",
-        "secondaryCta": "Keep existing keys",
-        "two": "Using multiple keys and recovery methods (including mnemonic phrases) increases the vulnerability of your account."
+        "one": "Мы рекомендуем удалить все существующие ключи (методы восстановления и устройства).",
+        "primaryCta": "Удалите существующие ключи и методы восстановления",
+        "secondaryCta": "Сохранить существующие ключи",
+        "two": "Использование нескольких ключей и методов восстановления (включая мнемонические фразы) увеличивает уязвимость вашей учетной записи."
     },
     "setupRecovery": {
-        "advancedSecurity": "Advanced Security",
-        "advancedSecurityDesc": "Write down a 12-word phrase and store it securely.",
-        "basicSecurity": "Basic Security",
-        "basicSecurityDesc": "Enter your email or phone number to get the magic link",
+        "advancedSecurity": "Повышенная безопасность",
+        "advancedSecurityDesc": "Запишите фразу из 12 слов и надежно храните её.",
+        "basicSecurity": "Базовая безопасность",
+        "basicSecurityDesc": "Введите адрес электронной почты или номер телефона для получения волшебной ссылки",
         "emailPlaceholder": "example@email.com",
-        "emailTitle": "Recovery email",
-        "header": "Protect your account",
-        "ledgerTitle": "Ledger Nano S or X",
-        "notSupportedPhone": "Sorry, we cannot provide SMS service in your area. Please select a recovery method via email.",
-        "phoneDesc": "Enter your phone number below and get a magic recovery link ",
+        "emailTitle": "Электронная почта для восстановления",
+        "header": "Защитите вашу учетную запись",
+        "ledgerTitle": "Ledger Nano S или X",
+        "notSupportedPhone": "К сожалению, мы не можем предоставить SMS-сервис в вашем регионе. Пожалуйста, выберите метод восстановления по электронной почте.",
+        "phoneDesc": "Введите ниже свой номер телефона и получите волшебную ссылку для восстановления",
         "phonePlaceholder": "+7 920 555 5555",
-        "phoneTitle": "Recovery phone",
-        "phraseTitle": "Mnemonic phrase",
-        "subHeader": "Select recovery method:"
+        "phoneTitle": "Телефон для восстановления",
+        "phraseTitle": "Мнемоническая фраза",
+        "subHeader": "Выберите метод восстановления:"
     },
     "setupSeedPhrase": {
-        "pageText": "Write down the following words in order and store them in a safe place. You cannot recover your account without them!",
-        "pageTitle": "Setting the mnemonic recovery phrase",
-        "snackbarCopyImplicitAddress": "Refill address copied!",
-        "snackbarCopySuccess": "Mnemonic phrase copied"
+        "pageText": "Запишите следующие слова по порядку и храните их в надежном месте. Вы не сможете восстановить свою учетную запись без них!",
+        "pageTitle": "Установка мнемонической фразы для восстановления",
+        "snackbarCopyImplicitAddress": "Адрес для пополнения скопирован!",
+        "snackbarCopySuccess": "Мнемоническая фраза скопирована"
     },
     "setupSeedPhraseSuccess": {
-        "pageText": "Use the recovery phrase to restore your account.",
-        "pageTextSecondLine": "Anyone with access to your recovery phrase can access your funds, keep it safe!",
-        "pageTitle": "Recovery installation complete"
+        "pageText": "Используйте фразу восстановления, чтобы восстановить вашу учетную запись.",
+        "pageTextSecondLine": "Любой человек, имеющий доступ к вашей фразе восстановления, может получить доступ к вашим средствам, держите её в безопасном месте!",
+        "pageTitle": "Установка восстановления завершена"
     },
     "setupSeedPhraseVerify": {
-        "pageText": "Enter the next word from the recovery phrase to complete the installation process.",
-        "pageTitle": "Check phrase",
-        "startOverText": "Didn't write the phrase?"
+        "pageText": "Введите следующее слово из фразы восстановления, чтобы завершить процесс установки.",
+        "pageTitle": "Проверить фразу",
+        "startOverText": "Не записали фразу?"
     },
     "sign": {
         "ActionWarrning": {
-            "binaryData": "Arguments contain binary data",
-            "deleteAccount": "You are about to delete your account! Your NEAR balance will be destroyed and all your account information will be deleted.",
-            "deployContract": "You are about to deploy a contract to your account! This contract can access your NEAR balance and interact with other contracts on your behalf.",
-            "functionCall": "No description specified for this function.",
-            "stake": "You are about to stake your NEAR tokens. These tokens will be locked and may be lost if your validator stops responding."
+            "binaryData": "Аргументы содержат бинарные данные",
+            "deleteAccount": "Вы собираетесь удалить свою учетную запись! Ваш баланс NEAR будет уничтожен, а все данные вашей учетной записи удалены.",
+            "deployContract": "Вы собираетесь развернуть контракт на своей учетной записи! Этот контракт может получить доступ к вашему балансу NEAR и взаимодействовать с другими контрактами от вашего имени.",
+            "functionCall": "Для этой функции не указано описание.",
+            "stake": "Вы собираетесь стейкнуть ваши токены NEAR. Эти токены будут заблокированы и могут быть потеряны, если ваш валидатор перестанет отвечать на запросы."
         },
-        "authorizationRequestSuccessful": "Authorization request completed successfully",
-        "authorizing": "Authorizing in progress",
-        "contract": "Contract:",
-        "currentBalance": "Current balance",
+        "authorizationRequestSuccessful": "Запрос на авторизацию успешно выполнен",
+        "authorizing": "Выполняется авторизация",
+        "contract": "Контракт:",
+        "currentBalance": "Текущий баланс",
         "details": {
-            "detailedDescription": "Detailed description of the transaction",
-            "forContract": "For a contract",
-            "gasLimit": "Gas limit",
-            "gasPriceUnavailable": "Gas price estimate not available",
-            "transactionFees": "Transaction value"
+            "detailedDescription": "Подробное описание транзакции",
+            "forContract": "Для контракта",
+            "gasLimit": "Лимит газа",
+            "gasPriceUnavailable": "Оценка цены на газ недоступна",
+            "transactionFees": "Стоимость сделки"
         },
-        "hereAreSomeDetails": "Here are some details to help you.",
-        "insufficientFunds": "Insufficient funds",
+        "hereAreSomeDetails": "Вот некоторые детали, которые помогут вам.",
+        "insufficientFunds": "Недостаточно средств",
         "isRequesting": {
-            "authorization": "requests permission",
-            "transferOf": "requests a transfer"
+            "authorization": "запрашивает разрешение",
+            "transferOf": "запрашивает перевод"
         },
-        "nothingHasBeenTransferred": "Nothing was transferred.",
-        "transactionCancelled": "Transaction canceled",
-        "transferring": "Transfer",
-        "unexpectedStatus": "Unexpected status",
-        "unknownApp": "Unknown application",
-        "wasTransferredSuccessfully": "Transaction completed successfully"
+        "nothingHasBeenTransferred": "Ничего не было передано.",
+        "transactionCancelled": "Транзакция отменена",
+        "transferring": "Передача",
+        "unexpectedStatus": "Неожиданный статус",
+        "unknownApp": "Неизвестное приложение",
+        "wasTransferredSuccessfully": "Транзакция успешно выполнена"
     },
     "signInLedger": {
         "firefoxBanner": {
-            "desc": "Ledger is currently only supported in <a href='https://www.mozilla.org/' rel='noopener noreferrer' target='_blank'> <b> Mozilla Firefox </b> </ a>. Support for other browsers will soon be restored. "
+            "desc": "Ledger is currently only supported in <a href='https://www.mozilla.org/' rel='noopener noreferrer' target='_blank'><b>Mozilla Firefox</b></a>. Support for other browsers will soon be restored."
         },
-        "header": "Login with Ledger device",
+        "header": "Войти с помощью устройства Ledger",
         "modal": {
-            "accountsApproved": "account (s) confirmed",
-            "confirmPublicKey": "Confirm Public Key",
-            "ledgerMustAdd": "The ledger must add an access key to every account protected by your given device:",
+            "accountsApproved": "аккунт(ы) подтвержден(ы)",
+            "confirmPublicKey": "Подтвердите публичный ключ",
+            "ledgerMustAdd": "Ledger должен добавить ключ доступа к каждой учетной записи, защищенной вашим данным устройством:",
             "status": {
-                "confirm": "Confirm",
-                "error": "Error",
-                "pending": "Processing",
-                "rejected": "Rejected",
-                "success": "Confirmed",
-                "waiting": "Next in line"
+                "confirm": "Подтвердить",
+                "error": "Ошибка",
+                "pending": "В обработке",
+                "rejected": "Отказано",
+                "success": "Подтверждено",
+                "waiting": "На очереди"
             }
         },
-        "one": "Make sure your Ledger is securely connected and the NEAR app is running on your device."
+        "one": "Убедитесь, что ваш Ledger надежно подключен, а приложение NEAR запущено на устройстве."
     },
     "stagingBanner": {
-        "desc": "Attention: This is a preliminary version of the NEAR wallet. It may contain errors and these errors may lead to loss of funds. By continuing to use this version, you agree that you understand and accept these risks, and you also understand that the NEAR wallet team cannot help you. ",
-        "title": "Warning: This is a preliminary version of the wallet. Use at your own risk!"
+        "desc": "Внимание: Это предварительная версия NEAR кошелька. Здесь могут содержаться ошибки, и эти ошибки могут привести к потере средств. Продолжая использовать эту версию, вы соглашаетесь, что понимаете и принимаете данные риски, а также понимаете, что команда кошелька NEAR не сможет вам помочь.",
+        "title": "Внимание: Это предварительная версия кошелька. Используйте на свой риск!"
     },
-    "stakedBalance": "These NEARs are actively used to support the validator and secure the network. When you decide to unstake these NEARs, it will take some time for it to appear in your Available Balance, as NEAR requires 4 epochs (~ 52-65 hours) to withdraw tokens from staking. ",
+    "stakedBalance": "Эти токены NEAR активно используется для поддержки валидатора и защиты сети. Когда вы решите снять со стейкинга эти NEAR, то потребуется некоторое время, чтобы она отобразилась в вашем «Доступном балансе», так как в NEAR требуется 4 эпохи (~ 52-65 часов), чтобы снять токены из стейкинга.",
     "staking": {
         "alertBanner": {
-            "button": "View the current validator",
-            "title": "Before staking a new validator in the pool, you must first unstake your current validator tokens and take them out of the pool."
+            "button": "Посмотреть текущего валидатора",
+            "title": "Перед тем как начать стейкинг в пуле нового валидатора, вы сначала должны снять токены со стейкинга вашего текущего валидатора и вывести их из пула."
         },
         "amountStakingInput": {
-            "placeholder": "for example: 15",
-            "title": "Enter the amount to stake"
+            "placeholder": "например: 15",
+            "title": "Введите сумму для стейкинга"
         },
         "balanceBanner": {
             "currency": "NEAR",
-            "title": "Available lockup balance"
+            "title": "Доступный lockup-баланс"
         },
         "balanceBox": {
             "available": {
-                "button": "Output",
-                "info": "These tokens have been removed from staking and can now be withdrawn.",
-                "title": "Available for output"
-            },
-            "farm": {
-                "button": "Claim",
-                "info": "This is project validator. You’ll get the farming reward while staking on it.",
-                "title": "Total token earned"
+                "button": "Вывод",
+                "info": "Эти токены сняты со стейкинга и теперь могут быть выведены.",
+                "title": "Доступно для вывода"
             },
             "farm": {
                 "button": "Claim",
@@ -1044,212 +1039,212 @@
                 "title": "Total token earned"
             },
             "pending": {
-                "info": "These tokens have been withdrawn from staking, but cannot be withdrawn yet. Tokens take 52 to 65 hours to withdraw from staking.",
-                "title": "Withdrawal pending"
+                "info": "Эти токены сняты со стейкинга, но еще не могут быть выведены. Токенам требуется от 52 до 65 часов на вывод со стейкинга.",
+                "title": "Ожидается снятие"
             },
             "staked": {
-                "button": "Unstake",
-                "info": "What is the total staking size?",
-                "title": "Total staking size"
+                "button": "Снять со стейкинга",
+                "info": "Что обозначает общий размер стейкинга?",
+                "title": "Общий размер стейкинга"
             },
             "unclaimed": {
-                "info": "Rewards that have been earned but have not yet been withdrawn. Unclaimed rewards are automatically sent to restake, which means that your total staking size will automatically increase over time, and your rewards are mutilated by <a target = '_ blank' rel = 'noopener noreferrer' href = 'https: //www.investopedia.com/terms/c/compoundinterest.asp'> compound interest </a>. ",
-                "title": "Unclaimed Awards",
+                "info": "Награды, которые были заработаны, но еще не были выведены. Незатребованные награды автоматически отправляются в рестейкинг, что означает автоматическое увеличение общего размера вашего стейкинга по прошествии времени, а ваши награды увечиваются за счет <a target='_blank' rel='noopener noreferrer' href='https://www.investopedia.com/terms/c/compoundinterest.asp'>начисления сложных процентов</a>.",
+                "title": "Незатребованные награды",
                 "unavailable": {
-                    "cta": "More",
-                    "modalDescOne": "We cannot calculate rewards at this time if 2FA is enabled. We hope to enable this feature in the near future.",
-                    "modalDescTwo": "At the same time, you can see how your rewards are accumulating in the Total Staking Size section. This balance will grow while your tokens are staked as the rewards received are automatically sent to the current validator's staking pool. ",
-                    "modalTitle": "Unable to display staking rewards received",
-                    "title": "Unable to display received awards."
+                    "cta": "Подробнее",
+                    "modalDescOne": "В данный момент мы не можем посчитать награды, если включена двухфакторная аутентификация. Мы надеямся включить эту возможность в ближайшем будущем.",
+                    "modalDescTwo": "В то же время вы можете видеть, как накапливаются ваши награды, в разделе «Общий размер стейкинга». Этот баланс будет расти, пока ваши токены находятся в стейкинге, поскольку полученные награды автоматически направляются в стейкинг-пул текущего валидатора.",
+                    "modalTitle": "Невозможно отобразить полученные награды стейкинга",
+                    "title": "Невозможно отобразить полученные награды."
                 }
             }
         },
         "noValidators": {
-            "title": "You do not currently have staking in the pool of any validator."
+            "title": "В данный момент у вас нет стейкинга в пуле какого-либо валидатора."
         },
-        "pageText": "Configure your node through the CLI, then add it here.",
-        "pageTitle": "Staking",
+        "pageText": "Настройте свой узел через CLI, а затем добавьте его сюда.",
+        "pageTitle": "Стейкинг",
         "stake": {
-            "accounts": "If you have locked NEAR tokens, you can stake them using a NEAR lockup contract (lockup.near) or an unlocked NEAR contract (your account name). You will only see the staking amount for the selected account. . If you do not have blocked NEAR tokens, you can ignore this section ",
-            "amount": "Size",
+            "accounts": "Если у вас есть заблокированные токены NEAR, вы можете отправить их в стейкинг с помощью lockup-контракта NEAR (lockup.near) или разблокированного контракта NEAR (имя вашей учетной записи). Вы увидите размер стейкинга только для выбранной учетной записи. Если у вас нет заблокированных токенов NEAR, вы можете проигнорировать этот раздел",
+            "amount": "Размер",
             "banner": {
-                "insufficientBalance": "You are trying to stake all available balances. At least <b> $ {data} NEAR </b> must be reserved to cover transaction fees.",
-                "stakeMax": "A small portion ($ {data} NEAR) of the available balance has been set aside to cover transaction fees."
+                "insufficientBalance": "Вы пытаетесь отправить в стейкинг весь доступный баланс. Хотя бы <b>${data} NEAR</b> должны быть зарезервированы для покрытия комиссий на транзакции.",
+                "stakeMax": "Небольшая часть (${data} NEAR) доступного баланса была зарезервирована для покрытия комиссий на транзакции."
             },
-            "button": "Confirm Staking",
-            "confirm": "Your staking",
-            "desc": "Enter the staking size that will be delegated to the selected validator.",
-            "from": "from",
+            "button": "Подтвердить стейкинг",
+            "confirm": "Ваш стейкинг",
+            "desc": "Введите размер стейкинга, который будет делегирован выбранному валидатору.",
+            "from": "от",
             "input": {
-                "availableBalance": "Available for staking",
+                "availableBalance": "Доступно для стейкинга",
                 "near": "NEAR"
             },
-            "ledgerDisclaimer": "Note: Since this is the first time you are staking tokens to this validator, you will need to confirm 2 transactions.",
-            "stakeWith": "Staking in",
-            "title": "Staking size",
-            "useMax": "Maximum",
-            "with": "with"
+            "ledgerDisclaimer": "Примечание: Так как вы впервые отправляете токены в стейкинг данному валидатору, вам надо будет подтвердить 2 транзакции.",
+            "stakeWith": "Стейкинг в",
+            "title": "Размер стейкинга",
+            "useMax": "Максимум",
+            "with": "с"
         },
         "stakeSuccess": {
-            "button": "Return to control panel",
-            "desc": "Your staking has been successfully submitted for delegation to the selected validator:",
-            "descTwo": "You can view your delegation and staking rewards in the staking dashboard.",
-            "title": "Done!"
+            "button": "Вернуться в панель управления",
+            "desc": "Ваш стейкинг успешно было отправлен в делегирование выбранному валидатору:",
+            "descTwo": "Вы можете просмотреть свое делегирование и награды за стейкинг в панели управления стейкингом.",
+            "title": "Готово!"
         },
         "staking": {
-            "available": "Available",
-            "button": "NEAR staking",
-            "currentValidators": "Your current validators",
-            "desc": "Stake NEAR tokens to the validator",
-            "noValidators": "You have not started staking in the validator pool yet.",
-            "selectAccount": "Staking from:",
-            "title": "Staking",
-            "totalStaked": "Total staked"
+            "available": "Доступен",
+            "button": "Стейкинг NEAR",
+            "currentValidators": "Ваши текущие валидаторы",
+            "desc": "Отправьте токены NEAR в стейкинг валидатору",
+            "noValidators": "Вы еще не начали стейкинг в пуле валидатора.",
+            "selectAccount": "Стейкинг от:",
+            "title": "Стейкинг",
+            "totalStaked": "Всего в стейкинге"
         },
         "unstake": {
-            "beforeUnstakeDisclaimer": "Unstaked tokens will become available after ~ 52-65 hours (4 epochs).",
-            "button": "Unstake",
-            "confirm": "You are withdrawing from staking",
-            "desc": "Enter the number of tokens you would like to be staked from the current validator.",
+            "beforeUnstakeDisclaimer": "Снятые со стейкинга токены станут доступны по прошествии периода в ~ 52-65 часов (4 эпохи).",
+            "button": "Снять со стейкинга",
+            "confirm": "Вы снимаете со стейкинга",
+            "desc": "Введите количество токенов, которые вы хотели бы снять со стейкинга от текущего валидатора.",
             "input": {
-                "availableBalance": "Available for withdrawal from staking",
+                "availableBalance": "Доступно для снятия со стейкинга",
                 "near": "NEAR"
             },
-            "stakeWith": "Unstake from",
-            "title": "Withdraw tokens from staking"
+            "stakeWith": "Снять со стейкинга от",
+            "title": "Вывести токены из стейкинга"
         },
         "unstakeSuccess": {
-            "button": "Return to control panel",
-            "desc": "Your staking of <b> $ {amount} </b> has been successfully retrieved from the pool of the selected validator:",
-            "descTwo": "Your tokens are pending withdrawal from staking and will become available for withdrawal after ~ 52-65 hours (4 epochs).",
-            "title": "Done!"
+            "button": "Вернуться в панель управления",
+            "desc": "Ваш стейкинг в размере <b>${amount}</b> был успешно извлечен из пула выбранного валидатора:",
+            "descTwo": "Ваши токены находятся в ожидании вывода из стейкинга и станут доступны для вывода по прошествии ~52-65 часов (4 эпохи).",
+            "title": "Готово!"
         },
         "validator": {
-            "button": "Staking with a validator",
-            "desc": "This commission is paid to the staking validator on your behalf. Commission is imposed on your rewards only.",
-            "fee": "Staking fee",
-            "title": "Validator: <br/> @ $ {validator}",
-            "unstake": "You are unstaking",
-            "withdraw": "You are withdrawing",
-            "withdrawalDisclaimer": "Tokens will become available for withdrawal after waiting period for exit from staking, which takes ~ 52-65 hours (4 epochs)"
+            "button": "Стейкинг с валидатором",
+            "desc": "Данная комиссия выплачивается валидатору стейкинга от вашего имени. Комиссия налагается только на ваши награды.",
+            "fee": "Комиссия за стейкинг",
+            "title": "Валидатор: <br/> @${validator}",
+            "unstake": "Вы снимаете со стейкинга",
+            "withdraw": "Вы выводите",
+            "withdrawalDisclaimer": "Токены станут доступны для вывода после периода ожидания выхода из стейкинга, который занимает ~52-65 часов (4 эпохи)"
         },
         "validatorBox": {
-            "cta": "Select",
-            "fee": "Commission",
+            "cta": "Выберите",
+            "fee": "Комиссия",
             "near": "NEAR",
-            "staking": "Staking",
-            "with": "with"
+            "staking": "Стейкинг",
+            "with": "с"
         },
         "validators": {
-            "available": "Available validators",
-            "button": "View validator",
+            "available": "Доступные валидаторы",
+            "button": "Просмотр валидатора",
             "desc": {
-                "account": "Enter the name of an existing validator for staking your NEAR tokens.",
-                "lockup": "Enter the name of an existing validator for staking your NEAR tokens. You can only stake one selected validator in the pool at a time."
+                "account": "Введите название существующего валидатора для стейкинга ваших токенов NEAR.",
+                "lockup": "Введите название существующего валидатора для стейкинга ваших токенов NEAR. В каждый момент времени вы можете создать стейкинг в пуле только одного выбранного валидатора."
             },
-            "inputLabel": "Enter the name of the validator pool",
+            "inputLabel": "Укажите название пула валидатора",
             "inputPlaceholder": "validator-name.near",
             "search": {
-                "error": "No matching validator found.",
-                "success": "Validator found!"
+                "error": "Подходящий валидатор не найден.",
+                "success": "Валидатор найден!"
             },
-            "title": "Select a validator"
+            "title": "Выберите валидатора"
         }
     },
-    "stakingPoolUnstaked": "These NEARs are currently in the staking pool, but not staking. For example, they may be in a unstacked state, pending a withdrawal operation.",
-    "success": "Success!",
+    "stakingPoolUnstaked": "Эти NEAR в настоящее время находятся в стейкинг-пуле, но не участвуют в стейкинге. Например, они могут находиться в состоянии снятия из стейкинга, в ожидании операции вывода.",
+    "success": "Успех!",
     "topLevelAccounts": {
-        "body": "Account names are like domain names. Only the $ {data} account can create accounts like yourname. $ {data}, and only yourname. $ {data} can create app.yourname. $ { data} All accounts created in this wallet use. $ {data} Top Level Accounts (TLA) To learn more about account names and create your own top level account, read the documentation <a rel = 'noopener noreferrer 'href =' https: //docs.near.org/docs/concepts/account '> docs </a>. ",
-        "header": "Top Level Accounts"
+        "body": "Имена учетных записей похожи на доменные имена. Только учетная запись ${data} может создавать такие учетные записи, как yourname.${data}, и только yourname.${data} может создать app.yourname.${data}. Все учетные записи, созданные в этом кошельке, используют .${data} Учетные записи верхнего уровня (TLA). Чтобы узнать больше об именах учетных записей и создать собственную учетную запись верхнего уровня, прочтите документацию <a rel='noopener noreferrer' href='https://docs.near.org/docs/concepts/account'>docs</a>.",
+        "header": "Учетные записи верхнего уровня"
     },
-    "total": "total",
-    "totalBalance": "The total balance shows all the NEAR tokens under your control. In many cases, you will not have immediate access to all of the contents of the total balance (for example, if it is locked, delegated, or staked). Check your Available Balance "To find out the number of NEAR tokens you can actively use, transfer, delegate and stake.",
+    "total": "всего",
+    "totalBalance": "Общий баланс показывает все токены NEAR, находящиеся под вашим контролем. Во многих случаях у вас не будет немедленного доступа ко всему содержимому общего баланса (например, если он заблокирован, делегирован или находится в стейкинге). Проверьте свой «Доступный баланс», чтобы узнать количество токенов NEAR, который вы можете активно использовать, передавать, делегировать и отправлять в стейкинг.",
     "transaction": {
         "status": {
-            "checkingStatus": "Checking Status",
-            "Failure": "Error",
-            "notAvailable": "Status not available",
-            "NotStarted": "Not Started",
-            "Started": "Started",
-            "SuccessValue": "Success"
+            "checkingStatus": "Проверка состояния",
+            "Failure": "Ошибка",
+            "notAvailable": "Статус не доступен",
+            "NotStarted": "Не начато",
+            "Started": "Начато",
+            "SuccessValue": "Успех"
         }
     },
     "twoFactor": {
-        "active": "Enabled",
+        "active": "Включена",
         "alertBanner": {
-            "button": "More",
-            "title": "<b> $ {data} </b> will be blocked to cover the cost of keeping the 2FA contract as long as it is enabled."
+            "button": "Подробнее",
+            "title": "<b>${data}</b> будут заблокированы для покрытия расходов на хранение контракта двухфакторной аутентификации до тех пор, пока она включена."
         },
-        "desc": "Protect your account by requiring mandatory email or SMS confirmation of all transactions requiring authorization.",
+        "desc": "Защитите свою учетную запись за счет необходимости обязательного подтверждения по электронной почти или SMS всех транзакций, нуждающихся в авторизации.",
         "disable": {
-            "desc": "Please note that once disabled, transactions will not require 2FA confirmation.",
-            "disable": "Disable 2FA",
-            "keep": "No, keep 2FA",
-            "title": "Are you sure you want to disable 2FA?"
+            "desc": "Имейте в виду, что после отключения транзакции не будут требовать подтверждения по 2FA.",
+            "disable": "Отключить 2FA",
+            "keep": "Нет, оставить 2FA",
+            "title": "Вы уверены, что хотите отключить 2FA?"
         },
-        "email": "Email address",
-        "enable": "Enable two-factor authentication",
-        "notEnabled": "2FA is not enabled",
-        "notEnoughBalance": "To enable 2FA, your account requires a minimum balance of $ {amount}",
-        "phone": "Phone number",
-        "promptDesc": "We highly recommend setting up a two-factor authentication method to increase the security of your account and available funds",
-        "select": "Select an authentication method",
+        "email": "Адрес электронной почты",
+        "enable": "Включить двухфакторную аутентификацию",
+        "notEnabled": "2FA не включена",
+        "notEnoughBalance": "Чтобы подключить 2FA, ваша учетная запись требует наличия минимального баланса в размере ${amount}",
+        "phone": "Телефонный номер",
+        "promptDesc": "Мы очень рекомендуем настроить метод двухфакторной аутентификации для повышения безопасности вашей учетной записи и имеющихся средств",
+        "select": "Выберите метод аутентификации",
         "since": "sс",
-        "subHeader": "Two factor authentication adds an extra layer of security to your account. <b> Passphrase and Ledger keys continue to allow full access to your account. </b>",
-        "title": "Two-factor authentication",
-        verify: {
-            "desc": "A 6-digit verification code has been sent to:",
-            "didntReceive": "Didn't receive your code?",
-            "inputLabel": "Enter a 6-digit verification code",
-            "placeholder": "Confirmation code",
-            "resend": "Resend",
-            "resending": "Sending ...",
-            "resent": "Code has been sent!",
-            "title": "Enter a two-factor verification code"
+        "subHeader": "Two factor authentication adds an extra layer of security to your account. <b>Passphrase and Ledger keys continue to allow full access to your account.</b>",
+        "title": "Двухфакторная аутентификация",
+        "verify": {
+            "desc": "Верификационный код из 6 цифр был отправлен на:",
+            "didntReceive": "Не получили свой код?",
+            "inputLabel": "Введите код подтверждения из 6 цифр",
+            "placeholder": "Код подтверждения",
+            "resend": "Отправить заново",
+            "resending": "Отправка...",
+            "resent": "Код отправлен!",
+            "title": "Введите двухфакторный код подтверждения"
         }
     },
-    "unlockedAvailTransfer": "These NEAR tokens are unlocked and can be withdrawn from your lockup contract.",
-    "unlockedBalance": "These NEAR tokens are still in the lockup contract, but they are unlocked.",
-    "unvestedBalance": "These NEARs are reserved for you, but are not yet in your ownership. You can still delegate or stake them and the rewards will be yours. Once you own these NEARs, they will appear on your locked or unlocked balance. ",
+    "unlockedAvailTransfer": "Эти токены NEAR разблокированы и могут быть выведены из вашего lockup-контракта.",
+    "unlockedBalance": "Эти токены NEAR все еще находятся в lockup-контракте, но они разблокированы.",
+    "unvestedBalance": "Данные токены NEAR зарезервированы для вас, но еще не находятся в вашей собственности. Вы по-прежнему можете делегировать или отправить их в стейкинг, и награды будут полностью вашими. Как только эти NEAR перейдут в вашу собственность, они появятся на вашем заблокированном или разблокированном балансе.",
     "walletErrorCodes": {
         "addAccessKey": {
-            "error": "An error has occurred. <br /> To access your account, please enter the mnemonic phrase from the previous step below."
+            "error": "Произошла ошибка.<br />Для доступа к вашей учетной записи, пожалуйста, введите ниже мнемоническую фразу из предыдущего шага."
         },
         "addAccessKeySeedPhrase": {
-            "errorSecond": "An error has occurred. <br /> The mnemonic phrase has not been added to your account. Please try again."
+            "errorSecond": "Произошла ошибка.<br />Мнемоническая фраза не была добавлена к вашей учетной записи. Пожалуйста, попробуйте еще раз."
         },
         "addLedgerAccountId": {
-            "errorRpc": "An error occurred while recovering your account."
+            "errorRpc": "Во время восстановления учетной записи произошла ошибка."
         },
         "getLedgerAccountIds": {
-            "aborted": "The action was aborted.",
-            "noAccounts": "No account has been associated with this Ledger. You must first create an account and then use the Ledger to log in.",
-            "noAccountsAccepted": "No account has been verified.",
-            "U2FNotSupported": "U2F support in the browser is required to use the Ledger device. Please use Chrome, Opera or Firefox with the U2F extension."
+            "aborted": "Действие было прервано.",
+            "noAccounts": "Ни одна учетная запись не была связана с данным устройством Ledger. Вы должны сначала создать учетную запись и потом использовать Ledger для входа.",
+            "noAccountsAccepted": "Ни одна учетная запись не была подтверждена.",
+            "U2FNotSupported": "Для использования устройства Ledger требуется поддержка U2F в браузере. Пожалуйста, используйте Chrome, Opera или Firefox с расширением U2F."
         },
         "lockup": {
-            "transferAllWithStakingPoolBalance": "Remove from staking and withdraw all funds from the staking pool before transferring the remaining balance of the lockup contract to the Near wallet."
+            "transferAllWithStakingPoolBalance": "Снимите со стейкинга и выведите все средства из стейкинг-пула перед тем как перевести оставшийся баланс lockup-контракта в кошелек Near."
         },
         "promptTwoFactor": {
-            "userCancelled": "The 2FA code was not verified correctly."
+            "userCancelled": "2FA-код не был корректно верифицирован."
         },
         "recoverAccountSeedPhrase": {
-            "errorInvalidSeedPhrase": "No accounts matched the given mnemonic phrase."
+            "errorInvalidSeedPhrase": "Учетные записи, соответствующие данной мнемонической фразе, не найдены."
         },
         "recoveryMethods": {
-            "lastMethod": "Unable to delete your last recovery method. While you are using Ledger, you need to keep at least one recovery method in order to ensure that your account can be restored.",
-            "setupMethod": "An error has occurred. Please check your recovery method."
+            "lastMethod": "Невозможно удалить ваш последний метод восстановления. Пока вы используете Ledger, вам нужно оставить хотя бы один метод восстановления, чтобы гарантировать возможность восстановления вашей учетной записи.",
+            "setupMethod": "Произошла ошибка. Пожалуйста, проверьте свой метод восстановления."
         },
         "setupRecoveryMessage": {
-            "error": "An error occurred while installing the recovery method. Please try again."
+            "error": " Во время установки метода восстановления произошла ошибка. Пожалуйста, попробуйте еще раз."
         },
         "signAndSendTransactions": {
-            "notEnoughTokens": "There are not enough tokens."
+            "notEnoughTokens": "Недостаточно токенов."
         },
         "staking": {
-            "noLockup": "No lockup contract was found in this account",
-            "noWithdraw": "Pending balance cannot be withdrawn from the validator"
+            "noLockup": "Lockup-контракт не найден в данной учетной записи",
+            "noWithdraw": "Ожидающий баланс невозможно снять с валидатора"
         }
     },
-    "warning": "Warning"
+    "warning": "Предупреждение"
 }
