@@ -9,6 +9,8 @@
 # foxtrot merges:
 # See http://bit-booster.blogspot.cz/2016/02/no-foxtrots-allowed.html
 # https://stackoverflow.com/questions/35962754/git-how-can-i-prevent-foxtrot-merges-in-my-master-branch
+# https://git-blame.blogspot.com/2012/03/fun-with-first-parent.html
+# https://stackoverflow.com/questions/35962754/how-can-i-prevent-foxtrot-merges-in-my-master-branch
 
 remoteBranch=$(git rev-parse --abbrev-ref "$1"@{u} 2>/dev/null)
 # no remote tracking branch, exit
