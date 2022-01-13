@@ -1,8 +1,0 @@
-{
-    "files": [],
-    "references": [
-      { "path": "e2e-tests" },
-      { "path": "feature-flags" },
-      { "path": "frontend" },
-    ]
-}
