@@ -8,8 +8,8 @@ export const ValidatorVersion = {
 
 export const MAINNET = "mainnet";
 export const TESTNET = "testnet";
-export const PROJECT_VALIDATOR_PREFIX_MAINNET = ".near";
-export const VALIDATOR_PREFIX_MAINNET = ".pool.near";
+export const PROJECT_VALIDATOR_PREFIX_MAINNET = ".pool.near";
+export const VALIDATOR_PREFIX_MAINNET = ".poolv1.near";
 export const PROJECT_VALIDATOR_PREFIX_TESTNET = ".factory01.littlefarm.testnet";
 export const VALIDATOR_PREFIX_TESTNET = ".m0";
 
