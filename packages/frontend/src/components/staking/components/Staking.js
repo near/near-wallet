@@ -78,6 +78,16 @@ export default function Staking({
                         balanceTestId="stakingPageTotalStakedAmount"
                     />
                     <BalanceBox
+                        title='staking.balanceBox.farm.title'
+                        info='staking.balanceBox.farm.info'
+                        amount={totalStaked}
+                        button={new BN(totalStaked).isZero() ? null : 'staking.balanceBox.farm.button'}
+                        linkTo={stakeFromAccount ? `/staking/unstake` : `/staking/${selectedValidator}/unstake`}
+                        buttonColor='gray-blue'
+                        buttonTestId="stakingPageUnstakingButton"
+                        balanceTestId="stakingPageTotalStakedAmount"
+                    />
+                    <BalanceBox
                         title='staking.balanceBox.unclaimed.title'
                         info='staking.balanceBox.unclaimed.info'
                         amount={totalUnclaimed}

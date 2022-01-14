@@ -7,6 +7,7 @@ import { wallet } from '../../../utils/wallet';
 import ListWrapper from './ListWrapper';
 import ValidatorBox from './ValidatorBox';
 
+
 export default function Validators({ validators, stakeFromAccount }) {
     const [validator, setValidator] = useState('');
     const networkId = wallet.connection.provider.connection.url.indexOf(MAINNET) > -1 ? MAINNET : TESTNET;
