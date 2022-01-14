@@ -83,6 +83,7 @@
     "babel-jest": "^27.0.1",
     "babel-loader": "^8.1.0",
     "concurrently": "^7.0.0",
+    "dotenv": "^11.0.0",
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.15.6",
     "eslint": "5.16.0",
