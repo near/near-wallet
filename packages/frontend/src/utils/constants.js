@@ -16,6 +16,20 @@ export const VALIDATOR_PREFIX_TESTNET = ".m0";
 export const PROJECT_VALIDATOR_REGEXP_TESTNET = new RegExp(`.*(${PROJECT_VALIDATOR_PREFIX_TESTNET}|${VALIDATOR_PREFIX_TESTNET})`);
 export const PROJECT_VALIDATOR_REGEXP_MAINNET = new RegExp(`.*(${PROJECT_VALIDATOR_PREFIX_MAINNET}|${VALIDATOR_PREFIX_MAINNET})`);
 
+export const getProjectValidatorPrefix = (networkId) => {
+  switch (networkId) {
+    case (MAINNET): {
+      return PROJECT_VALIDATOR_PREFIX_MAINNET;
+    }
+    case (TESTNET): {
+      return PROJECT_VALIDATOR_PREFIX_TESTNET;
+    }
+    default: {
+      return PROJECT_VALIDATOR_PREFIX_TESTNET;
+    }
+  }
+};
+
 export const getValidatorRegExp = (networkId) => {
   switch (networkId) {
     case (MAINNET): {
@@ -25,7 +39,7 @@ export const getValidatorRegExp = (networkId) => {
       return PROJECT_VALIDATOR_REGEXP_TESTNET;
     }
     default: {
-      return PROJECT_VALIDATOR_PREFIX_TESTNET;
+      return PROJECT_VALIDATOR_REGEXP_TESTNET;
     }
   }
 };
