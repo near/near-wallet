@@ -72,18 +72,6 @@ export default function Validator({
                         loading={loading}
                     />
                     <BalanceBox
-                        title='staking.balanceBox.farm.title'
-                        info='staking.balanceBox.farm.info'
-                        amount={validator.staked || '0'}
-                        onClick={() => {
-                            dispatch(redirectTo(`/staking/${match.params.validator}/claim`));
-                            Mixpanel.track("CLAIM Click claim button");
-                        }}
-                        button='staking.balanceBox.farm.button'
-                        buttonColor='gray-red'
-                        loading={loading}
-                    />
-                    <BalanceBox
                         title='staking.balanceBox.unclaimed.title'
                         info='staking.balanceBox.unclaimed.info'
                         amount={validator.unclaimed || '0'}
