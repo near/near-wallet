@@ -390,21 +390,21 @@ class Routing extends Component {
                                 <PublicRoute
                                     exact
                                     path='/setup-passphrase-new-account'
-                                    render={() => !accountFound ? <SetupPassphraseNewAccountWrapper /> : <Redirect to='/' />}
+                                    component={SetupPassphraseNewAccountWrapper}
                                 />
                             }
                             {CREATE_IMPLICIT_ACCOUNT &&
                                 <PublicRoute
                                     exact
                                     path='/setup-ledger-new-account'
-                                    render={() => !accountFound ? <SetupLedgerNewAccountWrapper /> : <Redirect to='/' />}
+                                    component={SetupLedgerNewAccountWrapper}
                                 />
                             }
                             {CREATE_IMPLICIT_ACCOUNT &&
                                 <PublicRoute
                                     exact
                                     path='/create-implicit-account'
-                                    render={() => !accountFound ? <CreateImplicitAccountWrapper /> : <Redirect to='/' />}
+                                    component={CreateImplicitAccountWrapper}
                                 />
                             }
                             <Route

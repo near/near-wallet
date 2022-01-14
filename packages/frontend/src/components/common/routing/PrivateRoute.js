@@ -7,6 +7,8 @@ import { selectStatusLocalAlert } from '../../../redux/slices/status';
 import { KEY_ACTIVE_ACCOUNT_ID } from '../../../utils/wallet';
 import NoIndexMetaTag from '../NoIndexMetaTag';
 
+// PrivateRoute is for logged in users only and will redirect to the guest landing page if there's no active account
+
 const PrivateRoute = ({
     component: Component,
     render,
