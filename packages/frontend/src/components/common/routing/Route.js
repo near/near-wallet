@@ -1,9 +1,9 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
 
-import NoIndexMetaTag from './NoIndexMetaTag';
+import NoIndexMetaTag from '../NoIndexMetaTag';
 
-const PublicRoute = ({
+export default ({
     component,
     path,
     render,
@@ -19,5 +19,3 @@ const PublicRoute = ({
         />
     </>
 );
-
-export default PublicRoute;

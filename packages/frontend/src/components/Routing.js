@@ -66,8 +66,9 @@ import Footer from './common/Footer';
 import GlobalAlert from './common/GlobalAlert';
 import GuestLandingRoute from './common/GuestLandingRoute';
 import NetworkBanner from './common/NetworkBanner';
-import PrivateRoute from './common/PrivateRoute';
-import PublicRoute from './common/PublicRoute';
+import PrivateRoute from './common/routing/PrivateRoute';
+import PublicRoute from './common/routing/PublicRoute';
+import Route from './common/routing/Route';
 import GlobalStyle from './GlobalStyle';
 import { LoginCliLoginSuccess } from './login/LoginCliLoginSuccess';
 import Navigation from './navigation/Navigation';
@@ -333,7 +334,7 @@ class Routing extends Component {
                                 pathname: '/*',
                                 search: search
                             }} />
-                            <PublicRoute
+                            <Route
                                 exact
                                 path='/example_flag'
                                 component={ExampleFlag}
@@ -345,44 +346,44 @@ class Routing extends Component {
                                 accountFound={accountFound}
                                 indexBySearchEngines={!accountFound}
                             />
-                            <PublicRoute
+                            <Route
                                 exact
                                 path='/linkdrop/:fundingContract/:fundingKey'
                                 component={LinkdropLandingWithRouter}
                             />
-                            <PublicRoute
+                            <Route
                                 exact
                                 path='/create/:fundingContract/:fundingKey'
                                 component={CreateAccountWithRouter}
                             />
                             {CREATE_IMPLICIT_ACCOUNT &&
-                                <PublicRoute
+                                <Route
                                     exact
                                     path='/create'
                                     render={(props) => accountFound ? <CreateAccountWithRouter {...props} /> : <CreateAccountLanding />}
                                     // Logged in users always create a named account
                                 />
                             }
-                            <PublicRoute
+                            <Route
                                 exact
                                 path='/create'
                                 component={CreateAccountWithRouter}
                             />
-                            <PublicRoute
+                            <Route
                                 exact
                                 path={'/create-from/:fundingAccountId'}
                                 component={CreateAccountWithRouter}
                             />
-                            <PublicRoute
+                            <Route
                                 exact
                                 path='/set-recovery/:accountId/:fundingContract?/:fundingKey?'
                                 component={SetupRecoveryMethodWithRouter}
                             />
                             {CREATE_IMPLICIT_ACCOUNT &&
-                                < PublicRoute
+                                <PublicRoute
                                     exact
                                     path='/set-recovery-implicit-account'
-                                    render={() => !accountFound ? <SetupRecoveryImplicitAccountWrapper /> : <Redirect to='/' />}
+                                    component={SetupRecoveryImplicitAccountWrapper}
                                 />
                             }
                             {CREATE_IMPLICIT_ACCOUNT &&
@@ -406,32 +407,32 @@ class Routing extends Component {
                                     render={() => !accountFound ? <CreateImplicitAccountWrapper /> : <Redirect to='/' />}
                                 />
                             }
-                            <PublicRoute
+                            <Route
                                 exact
                                 path='/setup-seed-phrase/:accountId/:step'
                                 component={SetupSeedPhraseWithRouter}
                             />
-                            <PublicRoute
+                            <Route
                                 exact
                                 path='/verify-account'
                                 component={VerifyAccountWrapper}
                             />
-                            <PublicRoute
+                            <Route
                                 exact
                                 path='/initial-deposit'
                                 component={InitialDepositWrapper}
                             />
-                            <PublicRoute
+                            <Route
                                 exact
                                 path='/fund-with-existing-account'
                                 component={ExistingAccountWrapper}
                             />
-                            <PublicRoute
+                            <Route
                                 exact
                                 path='/fund-create-account/:accountId/:implicitAccountId/:recoveryMethod'
                                 component={SetupImplicitWithRouter}
                             />
-                            <PublicRoute
+                            <Route
                                 exact
                                 path='/setup-ledger/:accountId'
                                 component={SetupLedgerWithRouter}
@@ -446,22 +447,22 @@ class Routing extends Component {
                                 path='/enable-two-factor'
                                 component={EnableTwoFactor}
                             />
-                            <PublicRoute
+                            <Route
                                 path='/recover-account'
                                 component={RecoverAccountWrapper}
                                 indexBySearchEngines={true}
                             />
-                            <PublicRoute
+                            <Route
                                 exact
                                 path='/recover-seed-phrase/:accountId?/:seedPhrase?'
                                 component={RecoverAccountSeedPhraseWithRouter}
                             />
-                            <PublicRoute
+                            <Route
                                 exact
                                 path='/recover-with-link/:accountId/:seedPhrase'
                                 component={RecoverWithLinkWithRouter}
                             />
-                            <PublicRoute
+                            <Route
                                 exact
                                 path='/auto-import-seed-phrase'
                                 render={({ location }) => {
@@ -478,7 +479,7 @@ class Routing extends Component {
                                     );
                                 }}
                             />
-                            <PublicRoute
+                            <Route
                                 exact
                                 path='/auto-import-secret-key'
                                 render={({ location }) => {
@@ -493,7 +494,7 @@ class Routing extends Component {
                                     );
                                 }}
                             />
-                            <PublicRoute
+                            <Route
                                 exact
                                 path='/sign-in-ledger'
                                 component={SignInLedger}
@@ -529,7 +530,7 @@ class Routing extends Component {
                                 path='/buy'
                                 component={BuyNear}
                             />
-                            <PublicRoute
+                            <Route
                                 exact
                                 path='/profile/:accountId'
                                 component={Profile}
@@ -556,12 +557,12 @@ class Routing extends Component {
                                     )}
                                 />
                             }
-                            <PublicRoute
+                            <Route
                                 exact
                                 path='/cli-login-success'
                                 component={LoginCliLoginSuccess}
                             />
-                            <PublicRoute
+                            <Route
                                 exact
                                 path='/terms'
                                 component={Terms}

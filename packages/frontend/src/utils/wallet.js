@@ -848,12 +848,11 @@ class Wallet {
 
     async validateSecurityCodeNewImplicitAccount(implicitAccountId, method, securityCode) {
         try {
-            const response = await sendJson('POST', ACCOUNT_HELPER_URL + '/account/validateSecurityCodeForTempAccount', {
+            await sendJson('POST', ACCOUNT_HELPER_URL + '/account/validateSecurityCodeForTempAccount', {
                 accountId: implicitAccountId,
                 method,
                 securityCode,
             });
-            console.log('validateSecurityCodeNewImplicitAccount', response);
         } catch(e) {
             throw new WalletError('Invalid code', 'setupRecoveryMessageNewAccount.invalidCode');
         }
