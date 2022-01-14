@@ -1,18 +1,16 @@
-const { test, expect } = require("@playwright/test");
+const { test, expect } = require("../playwrightWithFixtures");
 const { formatNearAmount } = require("near-api-js/lib/utils/format");
 
 const { StakeUnstakePage } = require("./models/StakeUnstake");
 const { HomePage } = require("../register/models/Home");
 const { generateNUniqueRandomNumbersInRange } = require("../utils/helpers");
-const { getBankAccount } = require("../utils/account");
 
 const { describe, afterEach, beforeEach } = test;
 
 describe("Unstaking flow", () => {
     let testAccount;
 
-    beforeEach(async ({ page }) => {
-        const bankAccount = await getBankAccount();
+    beforeEach(async ({ page, bankAccount }) => {
         testAccount = bankAccount.spawnRandomSubAccountInstance();
         await testAccount.create();
         const homePage = new HomePage(page);

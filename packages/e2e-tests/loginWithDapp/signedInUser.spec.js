@@ -1,7 +1,6 @@
-const { test, expect } = require("@playwright/test");
+const { test, expect } = require("../playwrightWithFixtures");
 
 const { HomePage } = require("../register/models/Home");
-const { getBankAccount } = require("../utils/account");
 const { testDappURL } = require("../utils/config");
 const { LoginPage } = require("./models/Login");
 
@@ -10,9 +9,8 @@ const { describe, beforeAll, afterAll, beforeEach } = test;
 describe("Login with Dapp", () => {
     let testAccount;
 
-    beforeAll(async () => {
-        const bankAccount = await getBankAccount();
-        testAccount = bankAccount.spawnRandomSubAccountInstance();
+    beforeAll(async ({ bankAccount }) => {
+        testAccount = await bankAccount.spawnRandomSubAccountInstance();
         await testAccount.create();
     });
 

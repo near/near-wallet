@@ -357,7 +357,10 @@ export function Wallet({ tab, setTab }) {
 
 const FungibleTokens = ({ balance, tokensLoader, fungibleTokens }) => {
     const availableBalanceIsZero = balance?.balanceAvailable === '0';
-    const hideFungibleTokenSection = availableBalanceIsZero && fungibleTokens?.length === 1 && fungibleTokens[0].symbol === 'NEAR';
+    const hideFungibleTokenSection =
+        availableBalanceIsZero &&
+        fungibleTokens?.length === 1 &&
+        fungibleTokens[0]?.onChainFTMetadata?.symbol === "NEAR";
     return (
         <>
             <div className='total-balance'>

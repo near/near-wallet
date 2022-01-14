@@ -1,5 +1,15 @@
 FROM mcr.microsoft.com/playwright:bionic
 
-COPY --chown=pwuser:pwuser . /e2e-tests 
-WORKDIR /e2e-tests
+RUN mkdir -p /packages/e2e-tests
+RUN mkdir -p /packages/frontend
+WORKDIR /packages
 
+COPY e2e-tests e2e-tests/
+
+COPY frontend frontend/
+COPY .env-parcel-bundler frontend/.env
+
+RUN cd frontend && yarn && yarn build
+RUN cd e2e-tests && yarn
+
+# CMD cd e2e-tests && yarn run e2e

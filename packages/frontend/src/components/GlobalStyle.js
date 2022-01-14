@@ -57,7 +57,7 @@ export default createGlobalStyle`
     }
 
     body, p, h1, h2, h3, h4, h5, h6, button, .button, input, select, textarea {
-        font-family: "Inter", Lato, "Lucida Grande", Tahoma, Sans-Serif !important;
+        font-family: "Inter", Lato, "Lucida Grande", Tahoma, Sans-Serif;
     }
 
     .font-monospace {
@@ -93,7 +93,7 @@ export default createGlobalStyle`
     h3, .h3 {
         font-size: 20px;
         font-weight: 900;
-        color: #24272a;
+        color: #272729;
         margin: 0px;
     }
     h4, .h4 {

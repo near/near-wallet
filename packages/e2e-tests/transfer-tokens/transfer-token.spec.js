@@ -1,18 +1,16 @@
-const { test, expect } = require("@playwright/test");
+const { test, expect } = require("../playwrightWithFixtures");
 const { parseNearAmount } = require("near-api-js/lib/utils/format");
 const BN = require("bn.js");
 
 const { HomePage } = require("../register/models/Home");
 const { SendMoneyPage } = require("./models/SendMoney");
-const { getBankAccount } = require("../utils/account");
 
 const { describe, beforeAll, afterAll } = test;
 
 describe("Transferring NEAR tokens between two accounts", () => {
     let firstAccount;
 
-    beforeAll(async () => {
-        const bankAccount = await getBankAccount();
+    beforeAll(async ({ bankAccount }) => {
         firstAccount = bankAccount.spawnRandomSubAccountInstance();
         await firstAccount.create();
     });
@@ -37,8 +35,7 @@ describe("Transferring NEAR tokens between two accounts", () => {
     describe("sending between accounts", () => {
         let secondAccount;
 
-        beforeAll(async () => {
-            const bankAccount = await getBankAccount();
+        beforeAll(async ({ bankAccount }) => {
             secondAccount = bankAccount.spawnRandomSubAccountInstance();
             await secondAccount.create();
         });

@@ -12,6 +12,7 @@ class NearAPIJsConnection {
         nodeUrl: process.env.NODE_URL || "https://rpc.testnet.near.org",
         walletUrl: process.env.WALLET_URL || "https://wallet.testnet.near.org",
         keyStore: new InMemoryKeyStore(),
+        helperUrl: process.env.HELPER_URL || "https://helper.testnet.near.org"
     });
 
     constructor(config = NearAPIJsConnection.getDefaultConfig()) {

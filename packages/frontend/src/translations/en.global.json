@@ -1105,11 +1105,13 @@
             "functionCall": "No description specified for this function.",
             "stake": "You are about to stake NEAR tokens. These tokens will be locked, and are at risk of being lost if your validator becomes unresponsive."
         },
+        "approveTransaction": "Approve Transaction",
         "authorizationRequestSuccessful": "Authorization request successful",
         "authorizing": "Authorizing",
         "availableBalance": "Available Balance",
         "availableToTransfer": "Available to transfer",
         "contract": "Contract:",
+        "contractDetails": "Contract Details",
         "details": {
             "detailedDescription": "Detailed description of transaction",
             "forContract": "For Contract",
@@ -1117,12 +1119,18 @@
             "gasPriceUnavailable": "Gas price estimate is unavailable",
             "transactionFees": "Transaction Fees"
         },
+        "estimatedFees": "Estimated Fees",
+        "feeLimit": "Fee Limit",
+        "function": "Function:",
+        "gasLimit": "Gas Limit",
         "hereAreSomeDetails": "Here are some details that will help you.",
         "insufficientFunds": "Insufficient Funds",
+        "insufficientFundsDesc": "You do not have enough available NEAR to complete this transaction.",
         "isRequesting": {
             "authorization": "is requesting authorization",
             "transferOf": "is requesting the transfer of"
         },
+        "networkFees": "Network Fees",
         "nothingHasBeenTransferred": "Nothing has been transferred.",
         "retry": {
             "estimatedFees": "Estimated Fees",
@@ -1133,6 +1141,7 @@
             "title": "Insufficient Network Fee"
         },
         "transactionCancelled": "Transaction cancelled",
+        "transactionDetails": "Transaction Details",
         "transferring": "Transferring",
         "unexpectedStatus": "Unexpected status",
         "unknownApp": "Unknown App",

@@ -24,5 +24,17 @@ module.exports = {
                 ]
             }
         ],
-    }
+        'no-process-env': ['error']
+    },
+    overrides: [
+        {
+            files: [
+                "src/config/configFromEnvironment.js",
+                "ci/configFromEnvironment.js",
+            ],
+            rules: {
+                'no-process-env': ['off']
+            },
+        },
+    ],
 }

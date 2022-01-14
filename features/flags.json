@@ -12,11 +12,6 @@
       "lastEditedBy": "Daryl Collins",
       "lastEditedAt": "2021-11-09T04:34:12.847Z"
     },
-    "testnet_STAGING": {
-      "enabled": false,
-      "lastEditedBy": "Daryl Collins",
-      "lastEditedAt": "2021-11-09T04:34:33.102Z"
-    },
     "mainnet": {
       "enabled": true,
       "lastEditedBy": "Andy Haynes",

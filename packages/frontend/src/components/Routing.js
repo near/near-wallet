@@ -17,6 +17,7 @@ import * as accountActions from '../redux/actions/account';
 import { selectAccountSlice } from '../redux/slices/account';
 import { actions as tokenFiatValueActions } from '../redux/slices/tokenFiatValues';
 import { LoginWrapper } from '../routes/LoginWrapper';
+import { SignWrapper } from '../routes/SignWrapper';
 import translations_en from '../translations/en.global.json';
 import translations_pt from '../translations/pt.global.json';
 import translations_ru from '../translations/ru.global.json';
@@ -68,7 +69,6 @@ import {PageNotFound} from './page-not-found/PageNotFound';
 import { Profile } from './profile/Profile';
 import { ReceiveContainerWrapper } from './receive-money/ReceiveContainerWrapper';
 import { SendContainerWrapper } from './send/SendContainerWrapper';
-import { SignWithRouter } from './sign/Sign';
 import { StakingContainer } from './staking/StakingContainer';
 import Terms from './terms/Terms';
 import { Wallet } from './wallet/Wallet';
@@ -497,7 +497,7 @@ class Routing extends Component {
                             <PrivateRoute
                                 exact
                                 path='/sign'
-                                component={SignWithRouter}
+                                component={SignWrapper}
                             />
                             {!isInactiveAccount &&
                                 <PrivateRoute

@@ -38,8 +38,8 @@ const SelectTokenButton = ({ token, onClick }) => {
         >
             <Token
                 translateIdTitle='sendV2.selectTokenButtonTitle'
-                symbol={token.symbol}
-                icon={token.icon}
+                symbol={token.onChainFTMetadata?.symbol}
+                icon={token.onChainFTMetadata?.icon}
             />
             <ChevronIcon color='#0072ce' />
         </StyledContainer>

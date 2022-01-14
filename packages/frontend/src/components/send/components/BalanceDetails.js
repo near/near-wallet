@@ -17,8 +17,8 @@ const BalanceDetails = ({
                 data-test-id="sendPageSelectedTokenBalance"
                 translateIdTitle={prefixTXEntryTitledId('availableToSend')}
                 amount={availableToSend}
-                symbol={selectedToken.symbol}
-                decimals={selectedToken.decimals}
+                symbol={selectedToken.onChainFTMetadata?.symbol}
+                decimals={selectedToken.onChainFTMetadata?.decimals}
             />
         </Breakdown>
     );

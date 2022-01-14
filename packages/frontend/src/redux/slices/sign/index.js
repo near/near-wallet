@@ -178,9 +178,19 @@ export const selectSignTransactions = createSelector(
     (sign) => sign.transactions || []
 );
 
+export const selectSignTransactionAmount = createSelector(
+    [selectSignSlice],
+    (sign) => sign.totalAmount
+);
+
 export const selectSignSuccessHashes = createSelector(
     [selectSignSlice],
     (sign) => sign.successHashes || []
+);
+
+export const selectSignTransactionHashes = createSelector(
+    [selectSignSlice],
+    (sign) => sign.transactionHashes || []
 );
 
 export const selectSignSuccessHashesOnlyHash = createSelector(

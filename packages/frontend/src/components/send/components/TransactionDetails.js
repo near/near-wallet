@@ -17,8 +17,8 @@ const TransactionDetails = ({ selectedToken, estimatedFeesInNear, estimatedTotal
         <Breakdown className={classNames(['transaction-details-breakdown' , open ? 'open' : ''])}>
             <Token
                 translateIdTitle={prefixTXEntryTitledId('token')}
-                symbol={selectedToken.symbol}
-                icon={selectedToken.icon}
+                symbol={selectedToken.onChainFTMetadata?.symbol}
+                icon={selectedToken.onChainFTMetadata?.icon}
                 onClick={onTokenClick}
             />
             <Accordion
@@ -32,7 +32,7 @@ const TransactionDetails = ({ selectedToken, estimatedFeesInNear, estimatedTotal
                     symbol='NEAR'
                     translateIdInfoTooltip='sendV2.translateIdInfoTooltip.estimatedFees'
                 />
-                {selectedToken.symbol === 'NEAR' ?
+                {selectedToken.onChainFTMetadata?.symbol === 'NEAR' ?
                     /* Show 'Estimated total' (amount + fees) when sending NEAR only */
                     <Amount
                         translateIdTitle={prefixTXEntryTitledId('estimatedTotal')}
@@ -45,8 +45,8 @@ const TransactionDetails = ({ selectedToken, estimatedFeesInNear, estimatedTotal
                     <Amount
                         translateIdTitle={prefixTXEntryTitledId('amount')}
                         amount={amount}
-                        symbol={selectedToken.symbol}
-                        decimals={selectedToken.decimals}
+                        symbol={selectedToken.onChainFTMetadata?.symbol}
+                        decimals={selectedToken.onChainFTMetadata?.decimals}
                     />
                 }
             </Accordion>
