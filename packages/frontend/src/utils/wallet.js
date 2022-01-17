@@ -17,7 +17,6 @@ import sendJson from '../tmp_fetch_send_json';
 import { decorateWithLockup } from './account-with-lockup';
 import { getAccountIds } from './helper-api';
 import {
-    getAccountConfirmed,
     getAccountIsInactive,
     setAccountConfirmed,
     setAccountIsInactive,
@@ -202,48 +201,6 @@ class Wallet {
 
     isEmpty() {
         return !this.accounts || !Object.keys(this.accounts).length;
-    }
-
-    async refreshAccount(limitedAccountData = false) {
-        try {
-            const account = await this.loadAccount(limitedAccountData);
-            setAccountConfirmed(this.accountId, true);
-            return account;
-        } catch (error) {
-            console.log('Error loading account:', error.message);
-
-            if (error.toString().indexOf(`does not exist while viewing`) !== -1) {
-                const accountId = this.accountId;
-                const accountIdNotConfirmed = !getAccountConfirmed(accountId);
-
-                // Try to find existing account and switch to it
-                let nextAccountId = '';
-                for (let curAccountId of Object.keys(this.accounts)) {
-                    if (await this.accountExists(curAccountId)) {
-                        nextAccountId = curAccountId;
-                        break;
-                    }
-                }
-                store.dispatch(makeAccountActive(nextAccountId));
-
-                // TODO: Make sure "problem creating" only shows for actual creation
-                return {
-                    resetAccount: {
-                        reset: true,
-                        preventClear: accountIdNotConfirmed,
-                        accountIdNotConfirmed: accountIdNotConfirmed ? accountId : ''
-                    },
-                    globalAlertPreventClear: accountIdNotConfirmed || this.isEmpty(),
-                    globalAlert: {
-                        success: false,
-                        messageCode: 'account.create.errorAccountNotExist'
-                    },
-                    ...(!this.isEmpty() && !accountIdNotConfirmed && await this.loadAccount())
-                };
-            }
-
-            throw error;
-        }
     }
 
     async loadAccount(limitedAccountData = false) {
