@@ -78,11 +78,15 @@ const BalanceDisplay = ({
     showAlmostEqualSignUSD,
     showSignUSD,
     showSymbolUSD,
-    "data-test-id": testId
+    "data-test-id": testId,
+    isNear = true,
+    tokenMeta: {tokenPrice, tokenId, tokenName, isWhiteListed} = {}
 }) => {
+    const amountToShow = isNear 
+        ? (amount && formatNearAmount(amount))
+        : amount;
 
-    const amountoShow = amount && formatNearAmount(amount);
-    const NEARSymbol = 'NEAR';
+    const symbol = isNear ? 'NEAR' : tokenName;
 
     const handleShowInYocto = (amount) => {
         if (new BN(amount).lte(YOCTO_NEAR_THRESHOLD)) {
@@ -91,6 +95,8 @@ const BalanceDisplay = ({
             return '';
         }
     };
+
+    const markIfNotNearAndNotWhitelisted = !isNear && !isWhiteListed ? '#FF585D' : '';
 
     return (
         <StyledContainer
@@ -107,7 +113,7 @@ const BalanceDisplay = ({
             {showBalanceInNEAR &&
                 <>
                     {amount
-                        ? <div className='near-amount'>{amountoShow}{showSymbolNEAR !== false ? ` ${NEARSymbol}` : ``}</div>
+                        ? <div className='near-amount' style={{color: markIfNotNearAndNotWhitelisted}}>{amountToShow}{showSymbolNEAR !== false ? ` ${symbol}` : ``}</div>
                         : <div className="dots"><Translate id='loadingNoDots'/></div>
                     }
                 </>
@@ -120,6 +126,8 @@ const BalanceDisplay = ({
                         showAlmostEqualSignUSD={showAlmostEqualSignUSD}
                         showSignUSD={showSignUSD}
                         showSymbolUSD={showSymbolUSD}
+                        tokenMeta={{tokenPrice, isWhiteListed}}
+                        isNear={isNear}
                     />
                 </div>
             }

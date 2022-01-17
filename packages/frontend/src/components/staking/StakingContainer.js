@@ -279,6 +279,7 @@ export function StakingContainer({ history, match }) {
                         render={(props) => (
                             <Validator
                                 {...props}
+                                accountId={accountId}
                                 validator={validator}
                                 onWithdraw={handleAction}
                                 loading={status.mainLoader}

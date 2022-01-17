@@ -46,4 +46,15 @@ export default function StakingFee({ fee }) {
             <span className='fee'>{fee}%</span>
         </Container>
     );
-}
+};
+
+
+export const StakingAPY = ({apy}) => {
+    return (
+        <Container>
+            APY&nbsp;
+            <Tooltip translate='staking.validator.farmDesc'/>
+            <span className='fee'>{apy}%</span>
+        </Container>
+    );
+};

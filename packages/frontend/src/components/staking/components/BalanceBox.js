@@ -77,16 +77,23 @@ export default function BalanceBox({
     disclaimer,
     linkTo,
     buttonTestId,
-    balanceTestId
+    balanceTestId,
+    isNear = true,
+    tokenMeta: {tokenPrice, tokenId, tokenName, isWhiteListed, farmTitle} = {}
 }) {
+
     return (
         <Container className='balance-box'>
             <div className='left'>
                 <div className='title'>
-                    <Translate id={title} />
+                    {farmTitle || <Translate id={title} />}
                     <Tooltip translate={info}/>
                 </div>
-                <Balance data-test-id={balanceTestId} amount={amount}/>
+                <Balance 
+                    data-test-id={balanceTestId}
+                    amount={amount}
+                    isNear={isNear}
+                    tokenMeta={{tokenPrice, tokenId, tokenName, isWhiteListed}}/>
                 {disclaimer &&
                     <div className='withdrawal-disclaimer'>
                         <Translate id={disclaimer} />

@@ -13,7 +13,8 @@ import {
     MAINNET,
     getValidatorRegExp,
     getValidationVersion,
-    TESTNET
+    TESTNET,
+    PROJECT_VALIDATOR_VERSION
 } from '../../utils/constants';
 import { setStakingAccountSelected } from '../../utils/localStorage';
 import {
@@ -27,7 +28,8 @@ import {
     updateStakedBalance,
     signAndSendTransaction,
     stakingMethods,
-    shuffle
+    shuffle,
+    calculateAPY
 } from '../../utils/staking';
 import { wallet } from '../../utils/wallet';
 import { WalletError } from '../../utils/walletError';
@@ -413,6 +415,17 @@ export const { staking } = createActions({
                         const networkId = wallet.connection.provider.connection.url.indexOf(MAINNET) > -1 ? MAINNET : TESTNET;
 
                         validator.version = getValidationVersion(networkId, validator.accountId);
+
+                        if (validator.version === PROJECT_VALIDATOR_VERSION) {
+                            try {
+                                const poolSummary = await validator.contract.get_pool_summary();
+                                validator.poolSummary = poolSummary;
+                            } catch (e) {
+                                console.log('error', e);
+                            }
+                            const calculatedAPY = await calculateAPY(validator);
+                            validator.calculatedAPY = calculatedAPY;
+                        }
                         return validator;
                     } catch (e) {
                         console.warn('Error getting fee for validator %s: %s', account_id, e);

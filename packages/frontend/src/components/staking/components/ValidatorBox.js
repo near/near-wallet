@@ -176,7 +176,13 @@ export default function ValidatorBox({
                 </div>
                 {typeof fee === 'number' &&
                     <div className="text-left">
-                        <span>{fee}% <Translate id='staking.validatorBox.fee' /> - </span>
+                        { 
+                            isProjectValidator && <>
+                                <span>APY&nbsp;</span>
+                                <span>{validator?.calculatedAPY}%&nbsp;-&nbsp;</span>
+                            </>
+                        }
+                        <span>{fee}% <Translate id='staking.validatorBox.fee' /> -&nbsp;</span>
                         <span>
                             {
                                 active ?

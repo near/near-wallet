@@ -1197,6 +1197,11 @@
                 "info": "These tokens have been unstaked, and are ready to be withdrawn.",
                 "title": "Available for withdrawal"
             },
+            "farmAvailable": {
+                "button": "Claim",
+                "info": "These tokens have been unclaimed, and are ready to be withdrawn.",
+                "title": "Available for Claim"
+            },
             "farm": {
                 "button": "Claim",
                 "info": "This is project validator. You’ll get the farming reward while staking on it.",
@@ -1290,7 +1295,12 @@
             "title": "Validator: <br/>${validator}",
             "unstake": "You are unstaking",
             "withdraw": "You are withdrawing",
-            "withdrawalDisclaimer": "Funds pending release will be made available after ~52-65hrs (4 epochs)"
+            "withdrawalDisclaimer": "Funds pending release will be made available after ~52-65hrs (4 epochs)",
+            "farmDesc": "This is project validator. You’ll get the farming reward while staking on it.",
+            "claimFarmRewards": "You are going to claim your farm rewards",
+            "availableForClaim": "Available for claim",
+            "nothingToClaim": "There aren't any claim rewards for now.",
+            "notWhiteListedWarning": "This token isn't whitelisted by our service. Be aware of scammers!"
         },
         "validatorBox": {
             "cta": "Select",
