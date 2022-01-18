@@ -7,8 +7,9 @@ import styled from 'styled-components';
 
 import { MIN_BALANCE_TO_CREATE } from '../../config';
 import { Mixpanel } from '../../mixpanel';
-import { createAccountFromImplicit, redirectTo } from '../../redux/actions/account';
+import { redirectTo } from '../../redux/actions/account';
 import { selectAccountId, selectAccountSlice } from '../../redux/slices/account';
+import { createAccountFromImplicit } from '../../redux/slices/account/createAccountThunks';
 import { actions as createFromImplicitActions } from '../../redux/slices/createFromImplicit';
 import { selectStatusMainLoader } from '../../redux/slices/status';
 import { selectNearTokenFiatValueUSD } from '../../redux/slices/tokenFiatValues';
@@ -96,7 +97,7 @@ class SetupImplicit extends Component {
         this.setState({ creatingAccount: true });
         await Mixpanel.withTracking("CA Create account from implicit",
             async () => {
-                await dispatch(createAccountFromImplicit(newAccountId, implicitAccountId, recoveryMethod));
+                await dispatch(createAccountFromImplicit({ accountId: newAccountId, implicitAccountId, recoveryMethod }));
             },
             () => {
                 this.setState({ creatingAccount: false });
