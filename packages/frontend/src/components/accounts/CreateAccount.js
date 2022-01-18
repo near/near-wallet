@@ -10,7 +10,6 @@ import { Mixpanel } from '../../mixpanel/index';
 import {
     checkNearDropBalance,
     checkNewAccount,
-    createNewAccount,
     redirectTo,
     refreshAccount
 } from '../../redux/actions/account';
@@ -304,7 +303,6 @@ class CreateAccount extends Component {
 
 const mapDispatchToProps = {
     checkNewAccount,
-    createNewAccount,
     clearLocalAlert,
     refreshAccount,
     checkNearDropBalance,
