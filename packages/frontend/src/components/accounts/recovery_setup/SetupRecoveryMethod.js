@@ -14,7 +14,7 @@ import { Mixpanel } from '../../../mixpanel/index';
 import * as accountActions from '../../../redux/actions/account';
 import { showCustomAlert } from '../../../redux/actions/status';
 import { selectAccountId, selectAccountSlice } from '../../../redux/slices/account';
-import { createNewAccount } from '../../../redux/slices/account/createAccountThunks';
+import { addLocalKeyAndFinishSetup, createNewAccount } from '../../../redux/slices/account/createAccountThunks';
 import { actions as linkdropActions } from '../../../redux/slices/linkdrop';
 import { actions as recoveryMethodsActions, selectRecoveryMethodsByAccountId, selectRecoveryMethodsLoading } from '../../../redux/slices/recoveryMethods';
 import { selectActionsPending, selectStatusMainLoader } from '../../../redux/slices/status';
@@ -205,7 +205,8 @@ class SetupRecoveryMethod extends Component {
             saveAccount,
             location,
             setLinkdropAmount,
-            redirectTo
+            redirectTo,
+            addLocalKeyAndFinishSetup,
         } = this.props;
 
         const fundingOptions = parseFundingOptions(location.search);
@@ -271,7 +272,7 @@ class SetupRecoveryMethod extends Component {
                     // Assume a transient error occurred, but that the account is on-chain and we can finish the creation process
                     try {
                         await wallet.saveAndMakeAccountActive(accountId);
-                        await wallet.addLocalKeyAndFinishSetup(accountId, method.kind, recoveryKeyPair.publicKey);
+                        await addLocalKeyAndFinishSetup({ accountId, recoveryMethod: method.kind, publicKey: recoveryKeyPair.publicKey });
                     } catch (e) {
                         showCustomAlert({
                             success: false,
@@ -582,7 +583,8 @@ const mapDispatchToProps = {
     createNewAccount,
     saveAccount,
     validateSecurityCode,
-    setLinkdropAmount
+    setLinkdropAmount,
+    addLocalKeyAndFinishSetup,
 };
 
 const mapStateToProps = (state, { match }) => {
