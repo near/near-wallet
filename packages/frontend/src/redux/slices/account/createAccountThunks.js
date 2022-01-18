@@ -1,11 +1,17 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { KeyPair } from 'near-api-js';
 
+import * as Config from '../../../config';
+import sendJson from '../../../tmp_fetch_send_json';
 import { setReleaseNotesClosed } from '../../../utils/localStorage';
-import { RELEASE_NOTES_MODAL_VERSION, wallet } from '../../../utils/wallet';
+import { IDENTITY_FUNDED_ACCOUNT_CREATE_URL, RELEASE_NOTES_MODAL_VERSION, wallet } from '../../../utils/wallet';
 import { WalletError } from '../../../utils/walletError';
 import { finishAccountSetup } from '../../actions/account';
 import { SLICE_NAME } from './';
+
+const {
+    RECAPTCHA_ENTERPRISE_SITE_KEY,
+} = Config;
 
 export const addLocalKeyAndFinishSetup = createAsyncThunk(
     `${SLICE_NAME}/addLocalKeyAndFinishSetup`,
@@ -42,5 +48,33 @@ export const addLocalKeyAndFinishSetup = createAsyncThunk(
 
         setReleaseNotesClosed(RELEASE_NOTES_MODAL_VERSION);
         await dispatch(finishAccountSetup());
+    }
+);
+
+export const createIdentityFundedAccount = createAsyncThunk(
+    `${SLICE_NAME}/createIdentityFundedAccount`,
+    async ({
+        accountId,
+        kind,
+        publicKey,
+        identityKey,
+        verificationCode,
+        recoveryMethod,
+        recaptchaToken,
+        recaptchaAction
+    }, { dispatch }) => {
+        await wallet.checkNewAccount(accountId);
+        await sendJson('POST', IDENTITY_FUNDED_ACCOUNT_CREATE_URL, {
+            kind,
+            newAccountId: accountId,
+            newAccountPublicKey: publicKey.toString(),
+            identityKey,
+            verificationCode,
+            recaptchaToken,
+            recaptchaAction,
+            recaptchaSiteKey: RECAPTCHA_ENTERPRISE_SITE_KEY
+        });
+        await wallet.saveAndMakeAccountActive(accountId);
+        await dispatch(addLocalKeyAndFinishSetup({ accountId, recoveryMethod, publicKey }));
     }
 );
