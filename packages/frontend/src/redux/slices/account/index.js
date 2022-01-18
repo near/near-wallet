@@ -2,7 +2,7 @@ import { createSelector } from "reselect";
 
 import { isImplicitAccount } from "../../../utils/account";
 
-const SLICE_NAME = 'account';
+export const SLICE_NAME = 'account';
 
 // Top level selectors
 export const selectAccountSlice = (state) => state[SLICE_NAME];
