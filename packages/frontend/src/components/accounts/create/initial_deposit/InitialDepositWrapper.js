@@ -9,7 +9,7 @@ import { MIN_BALANCE_TO_CREATE } from '../../../../config';
 import { Mixpanel } from '../../../../mixpanel';
 import { redirectTo, checkIsNew } from '../../../../redux/actions/account';
 import { showCustomAlert } from '../../../../redux/actions/status';
-import { createAccountFromImplicit } from '../../../../redux/slices/account/createAccountThunks';
+import { addLocalKeyAndFinishSetup, createAccountFromImplicit } from '../../../../redux/slices/account/createAccountThunks';
 import { actions as createFromImplicitActions } from '../../../../redux/slices/createFromImplicit';
 import { actions as flowLimitationActions } from '../../../../redux/slices/flowLimitation';
 import { getSignedUrl } from '../../../../utils/moonpay';
@@ -137,7 +137,7 @@ export function InitialDepositWrapper({ history }) {
                 // Assume a transient error occurred, but that the account is on-chain and we can finish the creation process
                 try {
                     await wallet.saveAndMakeAccountActive(accountId);
-                    await wallet.addLocalKeyAndFinishSetup(accountId, recoveryMethod, publicKey);
+                    await dispatch(addLocalKeyAndFinishSetup({ accountId, recoveryMethod, publicKey }));
                 } catch (e) {
                     dispatch(showCustomAlert({
                         success: false,
