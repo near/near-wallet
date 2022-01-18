@@ -136,3 +136,19 @@ export const createAccountFromImplicit = createAsyncThunk(
     }
     // TODO: showAlert({ onlyError: true })
 );
+
+export const createAccountWithSeedPhrase = createAsyncThunk(
+    `${SLICE_NAME}/createAccountWithSeedPhrase`,
+    async ({
+        accountId,
+        recoveryKeyPair,
+        fundingOptions = {},
+        recaptchaToken
+    }, { dispatch }) => {
+        const recoveryMethod = 'phrase';
+        const previousAccountId = wallet.accountId;
+        await wallet.saveAccount(accountId, recoveryKeyPair);
+        await dispatch(createNewAccount({ accountId, fundingOptions, recoveryMethod, publicKey: recoveryKeyPair.publicKey, previousAccountId, recaptchaToken }));
+    }
+    // TODO: showAlert()
+);
