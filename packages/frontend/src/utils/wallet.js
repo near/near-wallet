@@ -8,7 +8,6 @@ import { generateSeedPhrase, parseSeedPhrase } from 'near-seed-phrase';
 import { store } from '..';
 import * as Config from '../config';
 import {
-    finishAccountSetup,
     makeAccountActive,
     redirectTo
 } from '../redux/actions/account';
@@ -19,8 +18,7 @@ import { getAccountIds } from './helper-api';
 import {
     getAccountIsInactive,
     setAccountConfirmed,
-    setAccountIsInactive,
-    setReleaseNotesClosed
+    setAccountIsInactive
 } from './localStorage';
 import { TwoFactor } from './twoFactor';
 import { WalletError } from './walletError';
@@ -54,7 +52,6 @@ const {
     MIN_BALANCE_FOR_GAS,
     NETWORK_ID,
     NODE_URL,
-    RECAPTCHA_CHALLENGE_API_KEY,
     RECAPTCHA_ENTERPRISE_SITE_KEY,
     SHOW_PRERELEASE_WARNING,
 } = Config;
@@ -343,58 +340,6 @@ class Wallet {
         const { available } = await sendJson('GET', ACCOUNT_HELPER_URL + '/checkFundedAccountAvailable');
         return available;
     }
-
-    async createIdentityFundedAccount({
-        accountId,
-        kind,
-        publicKey,
-        identityKey,
-        verificationCode,
-        recoveryMethod,
-        recaptchaToken,
-        recaptchaAction
-    }) {
-        await this.checkNewAccount(accountId);
-        await sendJson('POST', IDENTITY_FUNDED_ACCOUNT_CREATE_URL, {
-            kind,
-            newAccountId: accountId,
-            newAccountPublicKey: publicKey.toString(),
-            identityKey,
-            verificationCode,
-            recaptchaToken,
-            recaptchaAction,
-            recaptchaSiteKey: RECAPTCHA_ENTERPRISE_SITE_KEY
-        });
-        await this.saveAndMakeAccountActive(accountId);
-        await this.addLocalKeyAndFinishSetup(accountId, recoveryMethod, publicKey);
-    }
-
-    async createNewAccount(accountId, fundingOptions, recoveryMethod, publicKey, previousAccountId, recaptchaToken) {
-        await this.checkNewAccount(accountId);
-
-        const { fundingContract, fundingKey, fundingAccountId } = fundingOptions || {};
-        if (fundingContract && fundingKey) {
-            await this.createNewAccountLinkdrop(accountId, fundingContract, fundingKey, publicKey);
-            await this.keyStore.removeKey(NETWORK_ID, fundingContract);
-        } else if (fundingAccountId) {
-            await this.createNewAccountFromAnother(accountId, fundingAccountId, publicKey);
-        } else if (RECAPTCHA_CHALLENGE_API_KEY && recaptchaToken) {
-            await sendJson('POST', FUNDED_ACCOUNT_CREATE_URL, {
-                newAccountId: accountId,
-                newAccountPublicKey: publicKey.toString(),
-                recaptchaCode: recaptchaToken
-            });
-        } else {
-            await sendJson('POST', CONTRACT_CREATE_ACCOUNT_URL, {
-                newAccountId: accountId,
-                newAccountPublicKey: publicKey.toString(),
-            });
-        }
-
-        await this.saveAndMakeAccountActive(accountId);
-        await this.addLocalKeyAndFinishSetup(accountId, recoveryMethod, publicKey, previousAccountId);
-    }
-
     async createNewAccountWithNearContract({
         account,
         newAccountId,
@@ -418,25 +363,6 @@ class Wallet {
         if (!createResult) {
             throw new WalletError('Creating account has failed', 'createAccount.returnedFalse', { transactionHash });
         }
-    }
-
-    async createNewAccountWithCurrentActiveAccount({
-        newAccountId,
-        implicitAccountId,
-        newInitialBalance,
-        recoveryMethod
-    }) {
-        await this.checkNewAccount(newAccountId);
-        const newPublicKey = new PublicKey({ keyType: KeyType.ED25519, data: Buffer.from(implicitAccountId, 'hex') });
-        const account = await this.getAccount(this.accountId);
-        await this.createNewAccountWithNearContract({
-            account,
-            newAccountId,
-            newPublicKey,
-            newInitialBalance
-        });
-        await this.saveAndMakeAccountActive(newAccountId);
-        await this.addLocalKeyAndFinishSetup(newAccountId, recoveryMethod, newPublicKey);
     }
 
     async createNewAccountFromAnother(accountId, fundingAccountId, publicKey) {
@@ -856,36 +782,6 @@ class Wallet {
         const twoFactorMethods = recoveryMethods.filter(({ kind }) => kind.indexOf('2fa-') === 0);
 
         return [...publicKeyMethods, ...twoFactorMethods];
-    }
-
-    async addLocalKeyAndFinishSetup(accountId, recoveryMethod, publicKey, previousAccountId) {
-        if (recoveryMethod === 'ledger') {
-            await this.addLedgerAccountId({ accountId });
-            await this.postSignedJson('/account/ledgerKeyAdded', { accountId, publicKey: publicKey.toString() });
-        } else {
-            const newKeyPair = KeyPair.fromRandom('ed25519');
-            const newPublicKey = newKeyPair.publicKey;
-            if (recoveryMethod !== 'phrase') {
-                await this.addNewAccessKeyToAccount(accountId, newPublicKey);
-                await this.saveAccount(accountId, newKeyPair);
-            } else {
-                const contractName = null;
-                const fullAccess = true;
-                await wallet.postSignedJson('/account/seedPhraseAdded', { accountId, publicKey: publicKey.toString() });
-                try {
-                    await wallet.addAccessKey(accountId, contractName, newPublicKey, fullAccess);
-                    await this.saveAccount(accountId, newKeyPair);
-                } catch (error) {
-                    if (previousAccountId) {
-                        await wallet.saveAndMakeAccountActive(previousAccountId);
-                    }
-                    throw new WalletError(error, 'addAccessKey.error');
-                }
-            }
-        }
-
-        setReleaseNotesClosed(RELEASE_NOTES_MODAL_VERSION);
-        await store.dispatch(finishAccountSetup());
     }
 
     async setupRecoveryMessage(accountId, method, securityCode, recoverySeedPhrase) {

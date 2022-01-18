@@ -174,3 +174,15 @@ export const createNewAccountWithCurrentActiveAccount = createAsyncThunk(
         await dispatch(addLocalKeyAndFinishSetup({ accountId: newAccountId, recoveryMethod, publicKey: newPublicKey }));
     }
 );
+
+export const finishSetupImplicitAccount = createAsyncThunk(
+    `${SLICE_NAME}/finishSetupImplicitAccount`,
+    async ({
+        implicitAccountId,
+        recoveryMethod
+    }, { dispatch }) => {
+        const publicKey = new PublicKey({ keyType: KeyType.ED25519, data: Buffer.from(implicitAccountId, 'hex') });
+        await wallet.saveAndMakeAccountActive(implicitAccountId);
+        await dispatch(addLocalKeyAndFinishSetup({ accountId: implicitAccountId, recoveryMethod, publicKey }));
+    }
+);
