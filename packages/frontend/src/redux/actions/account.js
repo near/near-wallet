@@ -47,6 +47,7 @@ import {
     selectActiveAccountIdIsImplicitAccount
 } from '../slices/account';
 import { selectAccountHasLockup } from '../slices/account';
+import { createAccountWithSeedPhrase } from '../slices/account/createAccountThunks';
 import { selectAllAccountsHasLockup } from '../slices/allAccounts';
 import { selectAvailableAccounts } from '../slices/availableAccounts';
 import { 
@@ -455,7 +456,7 @@ export const handleCreateAccountWithSeedPhrase = (accountId, recoveryKeyPair, fu
     }
 
     try {
-        await dispatch(createAccountWithSeedPhrase(accountId, recoveryKeyPair, fundingOptions, recaptchaToken));
+        await dispatch(createAccountWithSeedPhrase({ accountId, recoveryKeyPair, fundingOptions, recaptchaToken }));
     } catch (error) {
         if (await wallet.accountExists(accountId)) {
             // Requests sometimes fail after creating the NEAR account for another reason (transport error?)
@@ -496,17 +497,14 @@ export const createAccountFromImplicit = createAction('CREATE_ACCOUNT_FROM_IMPLI
     () => showAlert({ onlyError: true })
 );
 
-export const { addAccessKey, createAccountWithSeedPhrase, addAccessKeySeedPhrase } = createActions({
+export const { 
+    addAccessKey,
+    addAccessKeySeedPhrase
+} = createActions({
     ADD_ACCESS_KEY: [
         wallet.addAccessKey.bind(wallet),
         (title) => showAlert({ title })
     ],
-    CREATE_ACCOUNT_WITH_SEED_PHRASE: async (accountId, recoveryKeyPair, fundingOptions = {}, recaptchaToken) => {
-        const recoveryMethod = 'phrase';
-        const previousAccountId = wallet.accountId;
-        await wallet.saveAccount(accountId, recoveryKeyPair);
-        await wallet.createNewAccount(accountId, fundingOptions, recoveryMethod, recoveryKeyPair.publicKey, previousAccountId, recaptchaToken);
-    },
     ADD_ACCESS_KEY_SEED_PHRASE: [
         async (accountId, recoveryKeyPair) => {
             const publicKey = recoveryKeyPair.publicKey.toString();
