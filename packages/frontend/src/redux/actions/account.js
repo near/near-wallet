@@ -2,7 +2,6 @@ import {
     getLocation,
     push
 } from 'connected-react-router';
-import { PublicKey, KeyType } from 'near-api-js/lib/utils/key_pair';
 import { parse, stringify } from 'query-string';
 import { createActions, createAction } from 'redux-actions';
 
@@ -485,17 +484,6 @@ export const finishAccountSetup = () => async (dispatch, getState) => {
         dispatch(redirectToApp('/'));
     }
 };
-
-export const createAccountFromImplicit = createAction('CREATE_ACCOUNT_FROM_IMPLICIT', async (accountId, implicitAccountId, recoveryMethod) => {
-    const recoveryKeyPair = await wallet.keyStore.getKey(wallet.connection.networkId, implicitAccountId);
-    if (recoveryKeyPair) {
-        await wallet.saveAccount(accountId, recoveryKeyPair);
-    }
-    const publicKey = new PublicKey({ keyType: KeyType.ED25519, data: Buffer.from(implicitAccountId, 'hex') });
-    await wallet.createNewAccount(accountId, { fundingAccountId: implicitAccountId }, recoveryMethod, publicKey);
-},
-    () => showAlert({ onlyError: true })
-);
 
 export const { 
     addAccessKey,
