@@ -14,7 +14,7 @@ import { Mixpanel } from '../../../mixpanel/index';
 import * as accountActions from '../../../redux/actions/account';
 import { showCustomAlert } from '../../../redux/actions/status';
 import { selectAccountId, selectAccountSlice } from '../../../redux/slices/account';
-import { addLocalKeyAndFinishSetup, createNewAccount } from '../../../redux/slices/account/createAccountThunks';
+import { addLocalKeyAndFinishSetup, createIdentityFundedAccount, createNewAccount } from '../../../redux/slices/account/createAccountThunks';
 import { actions as linkdropActions } from '../../../redux/slices/linkdrop';
 import { actions as recoveryMethodsActions, selectRecoveryMethodsByAccountId, selectRecoveryMethodsLoading } from '../../../redux/slices/recoveryMethods';
 import { selectActionsPending, selectStatusMainLoader } from '../../../redux/slices/status';
@@ -207,6 +207,7 @@ class SetupRecoveryMethod extends Component {
             setLinkdropAmount,
             redirectTo,
             addLocalKeyAndFinishSetup,
+            createIdentityFundedAccount
         } = this.props;
 
         const fundingOptions = parseFundingOptions(location.search);
@@ -233,7 +234,7 @@ class SetupRecoveryMethod extends Component {
             // IDENTITY VERIFIED FUNDED ACCOUNT
             if (DISABLE_CREATE_ACCOUNT && !fundingOptions && ENABLE_IDENTITY_VERIFIED_ACCOUNT) {
                 try {
-                    await wallet.createIdentityFundedAccount({
+                    await createIdentityFundedAccount({
                         accountId,
                         kind: method.kind,
                         publicKey: recoveryKeyPair.publicKey,
@@ -585,6 +586,7 @@ const mapDispatchToProps = {
     validateSecurityCode,
     setLinkdropAmount,
     addLocalKeyAndFinishSetup,
+    createIdentityFundedAccount
 };
 
 const mapStateToProps = (state, { match }) => {

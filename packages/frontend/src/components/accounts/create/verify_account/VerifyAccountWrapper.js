@@ -10,6 +10,7 @@ import {
     sendIdentityVerificationMethodCode
 } from '../../../../redux/actions/account';
 import { showCustomAlert } from '../../../../redux/actions/status';
+import { createIdentityFundedAccount } from '../../../../redux/slices/account/createAccountThunks';
 import {
     actions as ledgerActions
 } from '../../../../redux/slices/ledger';
@@ -108,7 +109,7 @@ export function VerifyAccountWrapper() {
                     });
                     try {
                         setVerifyingAndCreatingAccount(true);
-                        await wallet.createIdentityFundedAccount({
+                        await dispatch(createIdentityFundedAccount({
                             accountId,
                             kind: activeVerificationOption,
                             publicKey,
@@ -117,7 +118,7 @@ export function VerifyAccountWrapper() {
                             recoveryMethod,
                             recaptchaToken,
                             recaptchaAction: 'verifiedIdentityCreateFundedAccount'
-                        });
+                        }));
                     } catch (e) {
                         if (e.code === 'identityVerificationCodeInvalid') {
                             dispatch(showCustomAlert({
