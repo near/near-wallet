@@ -152,3 +152,25 @@ export const createAccountWithSeedPhrase = createAsyncThunk(
     }
     // TODO: showAlert()
 );
+
+export const createNewAccountWithCurrentActiveAccount = createAsyncThunk(
+    `${SLICE_NAME}/createNewAccountWithCurrentActiveAccount`,
+    async ({
+        newAccountId,
+        implicitAccountId,
+        newInitialBalance,
+        recoveryMethod
+    }, { dispatch }) => {
+        await wallet.checkNewAccount(newAccountId);
+        const newPublicKey = new PublicKey({ keyType: KeyType.ED25519, data: Buffer.from(implicitAccountId, 'hex') });
+        const account = await wallet.getAccount(wallet.accountId);
+        await wallet.createNewAccountWithNearContract({
+            account,
+            newAccountId,
+            newPublicKey,
+            newInitialBalance
+        });
+        await wallet.saveAndMakeAccountActive(newAccountId);
+        await dispatch(addLocalKeyAndFinishSetup({ accountId: newAccountId, recoveryMethod, publicKey: newPublicKey }));
+    }
+);
