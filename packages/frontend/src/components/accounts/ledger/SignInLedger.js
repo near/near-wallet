@@ -13,8 +13,7 @@ import {
 } from '../../../redux/actions/account';
 import { clearLocalAlert } from '../../../redux/actions/status';
 import { selectAccountSlice } from '../../../redux/slices/account';
-import { LEDGER_MODAL_STATUS, selectLedgerSignInWithLedger, selectLedgerSignInWithLedgerStatus, selectLedgerTxSigned } from '../../../redux/slices/ledger';
-import { actions as ledgerActions } from '../../../redux/slices/ledger';
+import { actions as ledgerActions, LEDGER_MODAL_STATUS, selectLedgerSignInWithLedger, selectLedgerSignInWithLedgerStatus, selectLedgerTxSigned } from '../../../redux/slices/ledger';
 import { selectStatusSlice } from '../../../redux/slices/status';
 import { controller as controllerHelperApi } from '../../../utils/helper-api';
 import parseFundingOptions from '../../../utils/parseFundingOptions';
