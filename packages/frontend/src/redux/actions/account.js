@@ -250,7 +250,6 @@ export const {
     claimLinkdropToAccount,
     checkIsNew,
     checkNewAccount,
-    createNewAccount,
     saveAccount,
     checkAccountAvailable,
     clearCode
@@ -353,7 +352,6 @@ export const {
         wallet.checkNewAccount.bind(wallet),
         () => showAlert({ localAlert: true })
     ],
-    CREATE_NEW_ACCOUNT: wallet.createNewAccount.bind(wallet),
     SAVE_ACCOUNT: wallet.saveAccount.bind(wallet),
     CHECK_ACCOUNT_AVAILABLE: [
         wallet.checkAccountAvailable.bind(wallet),
