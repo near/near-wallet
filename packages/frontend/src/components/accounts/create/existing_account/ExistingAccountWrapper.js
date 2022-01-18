@@ -11,11 +11,11 @@ import {
 } from '../../../../redux/actions/account';
 import { showCustomAlert } from '../../../../redux/actions/status';
 import { selectAccountAccountsBalances, selectAccountLocalStorageAccountId, selectBalance } from '../../../../redux/slices/account';
+import { createNewAccountWithCurrentActiveAccount } from '../../../../redux/slices/account/createAccountThunks';
 import { selectAvailableAccounts } from '../../../../redux/slices/availableAccounts';
 import {
     actions as ledgerActions
 } from '../../../../redux/slices/ledger';
-import { wallet } from '../../../../utils/wallet';
 import FundNewAccount from './FundNewAccount';
 import SelectAccount from './SelectAccount';
 
@@ -47,12 +47,12 @@ export function ExistingAccountWrapper({ history }) {
                     await Mixpanel.withTracking("CA Create account from existing account",
                         async () => {
                             setCreatingNewAccount(true);
-                            await wallet.createNewAccountWithCurrentActiveAccount({
+                            await dispatch(createNewAccountWithCurrentActiveAccount({
                                 newAccountId: accountId,
                                 implicitAccountId,
                                 newInitialBalance: MIN_BALANCE_TO_CREATE,
                                 recoveryMethod
-                            });
+                            }));
                         },
                         (e) => {
                             dispatch(showCustomAlert({
