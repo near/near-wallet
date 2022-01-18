@@ -59,6 +59,8 @@ const {
     SHOW_PRERELEASE_WARNING,
 } = Config;
 
+export const CONTRACT_CREATE_ACCOUNT_URL = `${ACCOUNT_HELPER_URL}/account`;
+export const FUNDED_ACCOUNT_CREATE_URL = `${ACCOUNT_HELPER_URL}/fundedAccount`;
 export const IDENTITY_FUNDED_ACCOUNT_CREATE_URL = `${ACCOUNT_HELPER_URL}/identityFundedAccount`;
 const IDENTITY_VERIFICATION_METHOD_SEND_CODE_URL = `${ACCOUNT_HELPER_URL}/identityVerificationMethod`;
 

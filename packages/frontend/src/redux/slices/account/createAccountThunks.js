@@ -4,13 +4,15 @@ import { KeyPair } from 'near-api-js';
 import * as Config from '../../../config';
 import sendJson from '../../../tmp_fetch_send_json';
 import { setReleaseNotesClosed } from '../../../utils/localStorage';
-import { IDENTITY_FUNDED_ACCOUNT_CREATE_URL, RELEASE_NOTES_MODAL_VERSION, wallet } from '../../../utils/wallet';
+import { CONTRACT_CREATE_ACCOUNT_URL, FUNDED_ACCOUNT_CREATE_URL, IDENTITY_FUNDED_ACCOUNT_CREATE_URL, RELEASE_NOTES_MODAL_VERSION, wallet } from '../../../utils/wallet';
 import { WalletError } from '../../../utils/walletError';
 import { finishAccountSetup } from '../../actions/account';
 import { SLICE_NAME } from './';
 
 const {
     RECAPTCHA_ENTERPRISE_SITE_KEY,
+    NETWORK_ID,
+    RECAPTCHA_CHALLENGE_API_KEY
 } = Config;
 
 export const addLocalKeyAndFinishSetup = createAsyncThunk(
@@ -76,5 +78,41 @@ export const createIdentityFundedAccount = createAsyncThunk(
         });
         await wallet.saveAndMakeAccountActive(accountId);
         await dispatch(addLocalKeyAndFinishSetup({ accountId, recoveryMethod, publicKey }));
+    }
+);
+
+export const createNewAccount = createAsyncThunk(
+    `${SLICE_NAME}/createNewAccount`,
+    async ({
+        accountId,
+        fundingOptions,
+        recoveryMethod,
+        publicKey,
+        previousAccountId,
+        recaptchaToken
+    }, { dispatch }) => {
+        await wallet.checkNewAccount(accountId);
+
+        const { fundingContract, fundingKey, fundingAccountId } = fundingOptions || {};
+        if (fundingContract && fundingKey) {
+            await wallet.createNewAccountLinkdrop(accountId, fundingContract, fundingKey, publicKey);
+            await wallet.keyStore.removeKey(NETWORK_ID, fundingContract);
+        } else if (fundingAccountId) {
+            await wallet.createNewAccountFromAnother(accountId, fundingAccountId, publicKey);
+        } else if (RECAPTCHA_CHALLENGE_API_KEY && recaptchaToken) {
+            await sendJson('POST', FUNDED_ACCOUNT_CREATE_URL, {
+                newAccountId: accountId,
+                newAccountPublicKey: publicKey.toString(),
+                recaptchaCode: recaptchaToken
+            });
+        } else {
+            await sendJson('POST', CONTRACT_CREATE_ACCOUNT_URL, {
+                newAccountId: accountId,
+                newAccountPublicKey: publicKey.toString(),
+            });
+        }
+
+        await wallet.saveAndMakeAccountActive(accountId);
+        await dispatch(addLocalKeyAndFinishSetup({ accountId, recoveryMethod, publicKey, previousAccountId }));
     }
 );
