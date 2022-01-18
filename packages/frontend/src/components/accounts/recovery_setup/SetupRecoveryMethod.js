@@ -14,6 +14,7 @@ import { Mixpanel } from '../../../mixpanel/index';
 import * as accountActions from '../../../redux/actions/account';
 import { showCustomAlert } from '../../../redux/actions/status';
 import { selectAccountId, selectAccountSlice } from '../../../redux/slices/account';
+import { createNewAccount } from '../../../redux/slices/account/createAccountThunks';
 import { actions as linkdropActions } from '../../../redux/slices/linkdrop';
 import { actions as recoveryMethodsActions, selectRecoveryMethodsByAccountId, selectRecoveryMethodsLoading } from '../../../redux/slices/recoveryMethods';
 import { selectActionsPending, selectStatusMainLoader } from '../../../redux/slices/status';
@@ -45,7 +46,6 @@ const {
     getLedgerKey,
     get2faMethod,
     checkIsNew,
-    createNewAccount,
     saveAccount,
     fundCreateAccount,
     validateSecurityCode
@@ -292,7 +292,7 @@ class SetupRecoveryMethod extends Component {
 
             try {
                 // NOT IMPLICIT ACCOUNT (testnet, linkdrop, funded to delegated account via contract helper)
-                await createNewAccount(accountId, fundingOptions, method, recoveryKeyPair.publicKey, undefined, recaptchaToken);
+                await createNewAccount({ accountId, fundingOptions, recoveryMethod: method, publicKey: recoveryKeyPair.publicKey, recaptchaToken });
                 if (fundingOptions?.fundingAmount) {
                     setLinkdropAmount(fundingOptions.fundingAmount);
                 }
