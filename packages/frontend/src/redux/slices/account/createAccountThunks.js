@@ -1,5 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { KeyPair } from 'near-api-js';
+import { PublicKey } from 'near-api-js/lib/utils';
+import { KeyType } from 'near-api-js/lib/utils/key_pair';
 
 import * as Config from '../../../config';
 import sendJson from '../../../tmp_fetch_send_json';
@@ -115,4 +117,22 @@ export const createNewAccount = createAsyncThunk(
         await wallet.saveAndMakeAccountActive(accountId);
         await dispatch(addLocalKeyAndFinishSetup({ accountId, recoveryMethod, publicKey, previousAccountId }));
     }
+);
+
+export const createAccountFromImplicit = createAsyncThunk(
+    `${SLICE_NAME}/createAccountFromImplicit`,
+    async ({
+        accountId,
+        implicitAccountId,
+        recoveryMethod
+    }, { dispatch }) => {
+        const recoveryKeyPair = await wallet.keyStore.getKey(wallet.connection.networkId, implicitAccountId);
+        if (recoveryKeyPair) {
+            await wallet.saveAccount(accountId, recoveryKeyPair);
+        }
+        const publicKey = new PublicKey({ keyType: KeyType.ED25519, data: Buffer.from(implicitAccountId, 'hex') });
+        const fundingOptions = { fundingAccountId: implicitAccountId };
+        await dispatch(createNewAccount({ accountId, fundingOptions, recoveryMethod, publicKey }));
+    }
+    // TODO: showAlert({ onlyError: true })
 );
