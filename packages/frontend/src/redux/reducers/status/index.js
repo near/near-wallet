@@ -19,6 +19,8 @@ const initialState = {
 const alertReducer = (state, { error, ready, payload, meta, type }) => {
 
     // temporary solution to handle both `showAlert` and `showAlertToolkit`
+    // finally, when we will be using redux-toolkit for all reducers, we will be able to rely on `rejected` and `fulfilled` types of actions only
+    // for now, we need to use both `rejected` and `fulfilled` actions and `ready` param from action meta to recognize the action status
     if (type.endsWith('/rejected') || type.endsWith('/fulfilled')) {
         meta = {
             ...meta,
