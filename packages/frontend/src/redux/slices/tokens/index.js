@@ -77,7 +77,7 @@ const fetchTokens = createAsyncThunk(
 );
 
 const fetchToken = createAsyncThunk(
-    `${SLICE_NAME}/fetchTokens`,
+    `${SLICE_NAME}/fetchToken`,
     async ({ contractName, accountId }, thunkAPI) => {
         const { dispatch, getState } = thunkAPI;
         const { actions: { setContractMetadata } } = tokensSlice;
