@@ -41,8 +41,7 @@ export const stakingMethods = {
         'get_farms',
         'get_farm',
         'get_active_farms',
-        'get_unclaimed_reward',
-        'claim'
+        'get_unclaimed_reward'
     ],
     changeMethods: [
         'ping',
@@ -53,6 +52,7 @@ export const stakingMethods = {
         'stake_all',
         'unstake',
         'withdraw',
+        'claim'
     ],
 };
 

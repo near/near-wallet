@@ -10,8 +10,6 @@ import {
 import { getLockupAccountId, getLockupMinBalanceForStorage } from '../../utils/account-with-lockup';
 import { showAlert } from '../../utils/alerts';
 import {
-    PROJECT_VALIDATOR_VERSION,
-    ValidatorVersion,
     MAINNET,
     getValidatorRegExp,
     getValidationVersion,
@@ -276,16 +274,8 @@ export const { staking } = createActions({
                     }
                 }
             }));
-
-            // TODO: will be used in order to calculate APY
-            const projectValidators = validators.filter(v => v.version === ValidatorVersion[PROJECT_VALIDATOR_VERSION]);
-            await Promise.all(projectValidators.map(async () => {
-                const allFarms = await projectValidators.contract.get_active_farms();
-                const allFarmsData = Promise.all(allFarms.map((_, index) => projectValidators.contract.get_farm({ farm_id: index })));
-                console.log('allFarmsData', allFarmsData);
-            }));
-
-
+            
+            // TODO: calculate APY
 
             return {
                 accountId,

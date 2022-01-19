@@ -103,7 +103,7 @@ export default function Validator({
                         info='staking.balanceBox.unclaimed.info'
                         token={{...nearAsFT, balance: validator.unclaimed || '0'}}
                     />
-                    {farmList.map(({ token_id, balance, farm_id }) => (
+                    {farmList.map(({ token_id, balance }) => (
                             <BalanceBox
                                 key={token_id}
                                 title="staking.balanceBox.farm.title"
@@ -116,7 +116,7 @@ export default function Validator({
                                 }}
                                 // onClick={() => {
                                 //     // TODO claim accrued rewards and redirect home where tokens will be fetched
-                                //     return validator.contract.claim({account_id: accountId, token_id, farm_id}).then(() => dispatch(redirectTo('/')));
+                                //     return validator.contract.claim({token_id}).then(() => dispatch(redirectTo('/')));
                                 // }}
                                 button="staking.balanceBox.farm.button"
                                 buttonColor='gray-red'
