@@ -36,7 +36,7 @@ const StyledContainer = styled(Container)`
 export default ({
     handleConfirmPassphrase,
     userInputValue,
-    wordId,
+    wordIndex,
     handleChangeWord,
     handleStartOver,
     userInputValueWrongWord
@@ -55,7 +55,7 @@ export default ({
                 <h4 data-test-id='seedPhraseVerificationWordNumber'>
                     <SafeTranslate
                         id='input.enterWord.title'
-                        data={{ wordId: wordId + 1 }}
+                        data={{ wordId: wordIndex + 1 }}
                     />
                 </h4>
                 <input

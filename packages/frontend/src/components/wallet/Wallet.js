@@ -354,7 +354,7 @@ export function Wallet({ tab, setTab }) {
                 <CreateCustomNameModal
                     onClose={() => dispatch(setCreateCustomName(false))}
                     isOpen={createCustomName}
-                    accountId='bob.near'
+                    accountId='satoshi.near'
                 />
             }
         </StyledContainer>

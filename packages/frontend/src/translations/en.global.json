@@ -1096,7 +1096,7 @@
         "emailDesc": "Receive a verification code and account recovery link via email.",
         "emailPlaceholder": "example@email.com",
         "emailTitle": "Email",
-        "header": "Protect Your Account",
+        "header": "Choose a Security Method",
         "ledgerDesc": "Secure your account with a Ledger hardware device.",
         "ledgerTitle": "Ledger Hardware Wallet",
         "notSupportedPhone": "Unfortunately, we do not offer SMS for your region. Please choose email instead.",

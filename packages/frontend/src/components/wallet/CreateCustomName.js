@@ -45,7 +45,7 @@ const Container = styled.div`
 export default () => {
     return (
         <Container>
-            <NewAccountIdGraphic accountId='bob.near'/>
+            <NewAccountIdGraphic accountId='satoshi.near'/>
             <h2>
                 <Translate id='account.createImplicitAccount.createCustomNameModal.title' />
             </h2>

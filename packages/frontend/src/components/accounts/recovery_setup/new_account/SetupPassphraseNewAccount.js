@@ -14,7 +14,7 @@ export default ({ handleConfirmPassphrase }) => {
     const [implicitAccountId, setImplicitAccountId] = useState('');
 
     const [confirmPassphrase, setConfirmPassphrase] = useState(false);
-    const [wordId, setWordId] = useState(null);
+    const [wordIndex, setWordIndex] = useState(null);
     const [userInputValue, setUserInputValue] = useState('');
     const [userInputValueWrongWord, setUserInputValueWrongWord] = useState(false);
 
@@ -26,7 +26,7 @@ export default ({ handleConfirmPassphrase }) => {
         setPassPhrase(seedPhrase);
         setRecoveryKeyPair(recoveryKeyPair);
         setImplicitAccountId(implicitAccountId);
-        setWordId(Math.floor(Math.random() * 12));
+        setWordIndex(Math.floor(Math.random() * 12));
     };
 
     useEffect(() => {
@@ -36,7 +36,7 @@ export default ({ handleConfirmPassphrase }) => {
     if (confirmPassphrase) {
         return (
             <ConfirmPassphrase
-                wordId={wordId}
+                wordIndex={wordIndex}
                 userInputValue={userInputValue}
                 userInputValueWrongWord={userInputValueWrongWord}
                 handleChangeWord={(userInputValue) => {
@@ -53,7 +53,7 @@ export default ({ handleConfirmPassphrase }) => {
                 }}
                 handleConfirmPassphrase={async () => {
                     Mixpanel.track("SR-SP Verify start");
-                    if (userInputValue !== passPhrase.split(' ')[wordId]) {
+                    if (userInputValue !== passPhrase.split(' ')[wordIndex]) {
                         setUserInputValueWrongWord(true);
                         return;
                     }

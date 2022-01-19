@@ -19,9 +19,9 @@ import { wallet } from '../utils/wallet';
 
 const { setCreateCustomName } = createFromImplicitActions;
 
-// Check that the initial deposit was at least 0.2N, otherwise the users 'available balance'
+// Check that the initial deposit was at least 0.17N, otherwise the users 'available balance'
 // won't be enough to create a named account.
-const NAMED_ACCOUNT_MIN = utils.format.parseNearAmount('0.2');
+const NAMED_ACCOUNT_MIN = utils.format.parseNearAmount('0.17');
 
 export function CreateImplicitAccountWrapper() {
     const dispatch = useDispatch();
@@ -50,12 +50,9 @@ export function CreateImplicitAccountWrapper() {
                 async () => {
                     const moonpayAvailable = await isMoonpayAvailable();
                     if (moonpayAvailable) {
-                        const moonpaySignedUrl = await getSignedUrl(implicitAccountId, window.location.href, 30);
+                        const moonpaySignedUrl = await getSignedUrl(implicitAccountId, window.location.href);
                         setMoonpaySignedUrl(moonpaySignedUrl);
                     }
-                },
-                (e) => {
-                    throw e;
                 }
             );
         };
@@ -107,9 +104,6 @@ export function CreateImplicitAccountWrapper() {
                             dispatch(checkAndHideLedgerModal());
                         }
                     }
-                },
-                (e) => {
-                    throw e;
                 }
             );
         }

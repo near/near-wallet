@@ -31,27 +31,21 @@ const StyledContainer = styled.div`
 `;
 
 export default ({ availableAccounts }) => {
-    const [index, setIndex] = useState(0);
+    const [activeComponent, setActiveComponent] = useState('ExploreApps');
+
     useEffect(() => {
         if (availableAccounts.length > 0) {
-            setIndex(availableAccounts.filter(a => a.length < 64).length > 0 ? 0 : 1);
+            const numNonImplicitAccounts = availableAccounts.filter(a => a.length < 64).length;
+            setActiveComponent(numNonImplicitAccounts === 0 ? 'CreateCustomName' : 'ExploreApps');
         }
     }, [availableAccounts]);
-    const components = [
-        <ExploreApps />,
-        <CreateCustomName />
-    ];
+
     return (
         <StyledContainer>
-            {components.map((component, i) => {
-                if (i === index) {
-                    return (
-                        <div key={i}>{components[i]}</div>
-                    );
-                }
-            })}
+            {activeComponent === 'ExploreApps' ? <ExploreApps /> : <CreateCustomName />}
             <div className='dots'>
-                {components.map((component, i) => <div key={i} className={`dot ${index === i ? 'active' : ''}`} onClick={() => setIndex(i)}></div>)}
+                <div className={`dot ${activeComponent === 'CreateCustomName' ? 'active' : ''}`} onClick={() => setActiveComponent('CreateCustomName')}></div>
+                <div className={`dot ${activeComponent === 'ExploreApps' ? 'active' : ''}`} onClick={() => setActiveComponent('ExploreApps')}></div>
             </div>
         </StyledContainer>
     );

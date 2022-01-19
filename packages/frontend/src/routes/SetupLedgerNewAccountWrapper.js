@@ -37,7 +37,6 @@ export function SetupLedgerNewAccountWrapper() {
                         success: false,
                         messageCodeHeader: 'error'
                     }));
-                    throw e;
                 }
             }}
         />
