@@ -135,6 +135,7 @@ export default function BalanceBox({
                             token={token}
                             className="balance"
                             withSymbol={true}
+                            data-test-id={balanceTestId}
                         />
                     )}
                 </div>
