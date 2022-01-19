@@ -114,10 +114,10 @@ export default function Validator({
                                     balance,
                                     contractName: token_id,
                                 }}
-                                onClick={() => {
-                                    // TODO claim accrued rewards and redirect home where tokens will be fetched
-                                    return validator.contract.claim({account_id: accountId, token_id, farm_id}).then(() => dispatch(redirectTo('/')));
-                                }}
+                                // onClick={() => {
+                                //     // TODO claim accrued rewards and redirect home where tokens will be fetched
+                                //     return validator.contract.claim({account_id: accountId, token_id, farm_id}).then(() => dispatch(redirectTo('/')));
+                                // }}
                                 button="staking.balanceBox.farm.button"
                                 buttonColor='gray-red'
                             />
