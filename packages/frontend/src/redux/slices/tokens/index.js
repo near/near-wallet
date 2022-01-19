@@ -25,12 +25,12 @@ const initialOwnedTokenState = {
     error: initialErrorState
 };
 
-async function getCachedContractMetadataOrFetch(contractName, accountId, state) {
+async function getCachedContractMetadataOrFetch(contractName, state) {
     let contractMetadata = selectOneContractMetadata(state, { contractName });
     if (contractMetadata) {
         return contractMetadata;
     }
-    return FungibleTokens.getMetadata({ contractName, accountId });
+    return FungibleTokens.getMetadata({ contractName });
 }
 
 const fetchOwnedTokensForContract = createAsyncThunk(
@@ -63,11 +63,11 @@ const fetchTokens = createAsyncThunk(
         await Promise.all(likelyContracts.map(async contractName => {
             const { actions: { setContractMetadata } } = tokensSlice;
             try {
-                const contractMetadata = await getCachedContractMetadataOrFetch(contractName, accountId, getState());
+                const contractMetadata = await getCachedContractMetadataOrFetch(contractName, getState());
                 if (!selectOneContractMetadata(getState(), { contractName })) {
                     dispatch(setContractMetadata({ contractName, metadata: contractMetadata }));
                 }
-                await dispatch(fetchOwnedTokensForContract({ accountId, contractName, contractMetadata }));
+                await dispatch(fetchOwnedTokensForContract({ accountId, contractName }));
             } catch (e) {
                 // Continue loading other likely contracts on failures
                 console.warn(`Failed to load FT for ${contractName}`, e);
@@ -82,11 +82,13 @@ const fetchToken = createAsyncThunk(
         const { dispatch, getState } = thunkAPI;
         const { actions: { setContractMetadata } } = tokensSlice;
         try {
-            const contractMetadata = await getCachedContractMetadataOrFetch(contractName, accountId, getState());
+            const contractMetadata = await getCachedContractMetadataOrFetch(contractName, getState());
             if (!selectOneContractMetadata(getState(), { contractName })) {
                 dispatch(setContractMetadata({ contractName, metadata: contractMetadata }));
             }
-            await dispatch(fetchOwnedTokensForContract({ accountId, contractName, contractMetadata }));
+            if(accountId) {
+                await dispatch(fetchOwnedTokensForContract({ accountId, contractName }));
+            }
         } catch (e) {
             // Continue loading other likely contracts on failures
             console.warn(`Failed to load FT for ${contractName}`, e);

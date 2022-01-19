@@ -40,7 +40,9 @@ export const stakingMethods = {
         'get_reward_fee_fraction',
         'get_farms',
         'get_farm',
-        'get_active_farms'
+        'get_active_farms',
+        'get_unclaimed_reward',
+        'claim'
     ],
     changeMethods: [
         'ping',

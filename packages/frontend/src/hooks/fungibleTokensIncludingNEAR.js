@@ -4,7 +4,7 @@ import { selectAccountId, selectBalance } from "../redux/slices/account";
 import { selectNearTokenFiatValueUSD } from "../redux/slices/tokenFiatValues";
 import { selectTokensWithMetadataForAccountId } from "../redux/slices/tokens";
 
-const useNEARAsTokenWithMetadata = () => {
+export const useNEARAsTokenWithMetadata = () => {
     const nearBalance = useSelector(selectBalance);
     const nearTokenFiatValueUSD = useSelector(selectNearTokenFiatValueUSD);
 

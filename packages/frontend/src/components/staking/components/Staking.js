@@ -2,6 +2,7 @@ import BN from 'bn.js';
 import React from 'react';
 import { Translate } from 'react-localize-redux';
 
+import { useNEARAsTokenWithMetadata } from '../../../hooks/fungibleTokensIncludingNEAR';
 import FormButton from '../../common/FormButton';
 import SkeletonLoading from '../../common/SkeletonLoading';
 import Tooltip from '../../common/Tooltip';
@@ -27,6 +28,7 @@ export default function Staking({
     selectedValidator,
     multipleAccounts
 }) {
+    const nearAsFT = useNEARAsTokenWithMetadata();
 
     return (
         <>
@@ -70,18 +72,8 @@ export default function Staking({
                     <BalanceBox
                         title='staking.balanceBox.staked.title'
                         info='staking.balanceBox.staked.info'
-                        amount={totalStaked}
+                        token={{...nearAsFT, balance: totalStaked}}
                         button={new BN(totalStaked).isZero() ? null : 'staking.balanceBox.staked.button'}
-                        linkTo={stakeFromAccount ? `/staking/unstake` : `/staking/${selectedValidator}/unstake`}
-                        buttonColor='gray-blue'
-                        buttonTestId="stakingPageUnstakingButton"
-                        balanceTestId="stakingPageTotalStakedAmount"
-                    />
-                    <BalanceBox
-                        title='staking.balanceBox.farm.title'
-                        info='staking.balanceBox.farm.info'
-                        amount={totalStaked}
-                        button={new BN(totalStaked).isZero() ? null : 'staking.balanceBox.farm.button'}
                         linkTo={stakeFromAccount ? `/staking/unstake` : `/staking/${selectedValidator}/unstake`}
                         buttonColor='gray-blue'
                         buttonTestId="stakingPageUnstakingButton"
@@ -90,7 +82,7 @@ export default function Staking({
                     <BalanceBox
                         title='staking.balanceBox.unclaimed.title'
                         info='staking.balanceBox.unclaimed.info'
-                        amount={totalUnclaimed}
+                        token={{...nearAsFT, balance: totalUnclaimed}}
                     />
                 </>
             }
@@ -99,13 +91,13 @@ export default function Staking({
                     <BalanceBox
                         title='staking.balanceBox.pending.title'
                         info='staking.balanceBox.pending.info'
-                        amount={totalPending}
+                        token={{...nearAsFT, balance: totalPending}}
                         balanceTestId="stakingPagePendingReleaseAmount"
                     />
                     <BalanceBox
                         title='staking.balanceBox.available.title'
                         info='staking.balanceBox.available.info'
-                        amount={totalAvailable}
+                        token={{...nearAsFT, balance: totalAvailable}}
                         button={new BN(totalAvailable).isZero() ? null : 'staking.balanceBox.available.button'}
                         linkTo={stakeFromAccount ? `/staking/withdraw` : `/staking/${selectedValidator}`}
                         buttonColor='gray-blue'

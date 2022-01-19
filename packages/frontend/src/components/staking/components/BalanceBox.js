@@ -7,6 +7,8 @@ import classNames from '../../../utils/classNames';
 import Balance from '../../common/balance/Balance';
 import FormButton from '../../common/FormButton';
 import Tooltip from '../../common/Tooltip';
+import TokenIcon from '../../send/components/TokenIcon';
+import TokenAmount from '../../wallet/TokenAmount';
 
 const Container = styled.div`
     border-bottom: 2px solid #F2F2F2;
@@ -23,6 +25,14 @@ const Container = styled.div`
         color: #24272a;
         font-size: 16px;
         font-weight: 700;
+        
+        .fiat-amount {
+            font-size: 14px;
+            font-weight: 400;
+            margin-top: 6px;
+            color: #72727A;
+            line-height: normal;
+        }
     }
 
     .title {
@@ -64,11 +74,34 @@ const Container = styled.div`
         margin: 0px -14px 0 -14px;
         border-radius: 0;
     }
+
+    .token-balance {
+        display: flex;
+        .icon {
+            width: 32px;
+            height: 32px;
+            min-width: 32px;
+            min-height: 32px;
+            margin-right: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border-radius: 50%;
+            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.15);
+            align-self: center;
+    
+            img, svg {
+                height: 32px;
+                width: 32px;
+            }
+        }
+    }
 `;
 
 export default function BalanceBox({
     title,
-    amount,
+    token,
     info,
     onClick,
     button,
@@ -86,7 +119,26 @@ export default function BalanceBox({
                     <Translate id={title} />
                     <Tooltip translate={info}/>
                 </div>
-                <Balance data-test-id={balanceTestId} amount={amount}/>
+                <div className='token-balance'>
+                    <div className='icon'>
+                        <TokenIcon symbol={token.onChainFTMetadata?.symbol} icon={token.onChainFTMetadata?.icon}/>
+                    </div>
+                    {token.onChainFTMetadata?.symbol === "NEAR" &&
+                    !token.contractName ? (
+                        <Balance
+                            amount={token.balance}
+                            data-test-id={balanceTestId}
+                            symbol={false}
+                        />
+                    ) : (
+                        <TokenAmount
+                            token={token}
+                            className="balance"
+                            withSymbol={true}
+                        />
+                    )}
+                </div>
+                
                 {disclaimer &&
                     <div className='withdrawal-disclaimer'>
                         <Translate id={disclaimer} />
@@ -96,7 +148,7 @@ export default function BalanceBox({
             {button && (onClick || linkTo) &&
                 <FormButton
                     data-test-id={buttonTestId}
-                    disabled={new BN(amount).isZero() || loading}
+                    disabled={new BN(token.balance).isZero() || loading}
                     onClick={onClick}
                     linkTo={linkTo}
                     className={classNames(['small', buttonColor])}
