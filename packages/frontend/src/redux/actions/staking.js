@@ -9,7 +9,6 @@ import {
 } from '../../config';
 import { getLockupAccountId, getLockupMinBalanceForStorage } from '../../utils/account-with-lockup';
 import { showAlert } from '../../utils/alerts';
-import { setStakingAccountSelected } from '../../utils/localStorage';
 import {
     PROJECT_VALIDATOR_VERSION,
     ValidatorVersion,
@@ -18,6 +17,7 @@ import {
     getValidationVersion,
     TESTNET
 } from '../../utils/constants';
+import { setStakingAccountSelected } from '../../utils/localStorage';
 import {
     STAKING_AMOUNT_DEVIATION,
     MIN_DISPLAY_YOCTO,
