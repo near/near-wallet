@@ -70,8 +70,17 @@ export default ({
                     handleContinue();
                     e.preventDefault();
                 }}>
-                    <h1><Translate id='verifyAccount.title' /></h1>
-                    <h2><Translate id='verifyAccount.desc' /></h2>
+                    {fundedAccountAvailable ?
+                        <>
+                            <h1><Translate id='verifyAccount.title' /></h1>
+                            <h2><Translate id='verifyAccount.desc' /></h2>
+                        </>
+                        :
+                        <>
+                            <h1><Translate id='verifyAccount.titleNoFunding' /></h1>
+                            <h2><Translate id='verifyAccount.descNoFunding' /></h2>
+                        </>
+                    }
                     <FormButton
                         onClick={() => setShowWhereToBuyModal(true)}
                         type='button'
