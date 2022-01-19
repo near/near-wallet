@@ -378,6 +378,11 @@ class Wallet {
         });
     }
 
+    async checkFundedAccountAvailable() {
+        const { available } = await sendJson('GET', ACCOUNT_HELPER_URL + '/checkFundedAccountAvailable');
+        return available;
+    }
+
     async createIdentityFundedAccount({
         accountId,
         kind,
