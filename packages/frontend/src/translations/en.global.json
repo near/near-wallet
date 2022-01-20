@@ -1415,6 +1415,7 @@
     "unvestedBalance": "Unvested NEAR is earmarked to you, but not yet under your ownership. You can still delegate or stake this NEAR, and the rewards will be entirely yours. As your NEAR is vested, it will appear in either your Locked or Unlocked balance.",
     "verifyAccount": {
         "desc": "To prevent spamming of new accounts, we’ll need to verify you as the owner. You may verify using a one-time passcode or by making a small initial deposit.",
+        "descNoFunding": "Choose a method below to fund and initialize your new account.",
         "modal": {
             "email": {
                 "desc": "You’ll need to use a different email address or select an alternate method to verify this account. You may still use this address as a recovery method.",
@@ -1451,7 +1452,8 @@
             "initialDeposit": "Initial Deposit",
             "passCode": "One-time passcode"
         },
-        "title": "Almost there! Verify your new account."
+        "title": "Almost there! Verify your new account.",
+        "titleNoFunding": "Almost there! Fund your new account."
     },
     "wallet": {
         "availableBalance": "Available Balance",

@@ -31,6 +31,7 @@ export function VerifyAccountWrapper() {
     const [verifyingAndCreatingAccount, setVerifyingAndCreatingAccount] = useState(false);
     const [showOptionAlreadyUsedModal, setShowOptionAlreadyUsedModal] = useState(false);
     const [showFundWithCreditCardOption, setShowFundWithCreditCardOption] = useState(false);
+    const [fundedAccountAvailable, setFundedAccountAvailable] = useState(false);
 
     const [verificationEmail, setVerificationEmail] = useState('');
     const [verificationNumber, setVerificationNumber] = useState('');
@@ -45,13 +46,18 @@ export function VerifyAccountWrapper() {
                     if (moonpayAvailable) {
                         setShowFundWithCreditCardOption(true);
                     }
-                },
-                (e) => {
-                    throw e;
                 }
             );
         };
         checkIfMoonPayIsAvailable();
+    }, []);
+
+    useEffect(() => {
+        const handleCheckFundedAccountAvailable = async () => {
+            const fundedAccountAvailable = await wallet.checkFundedAccountAvailable();
+            setFundedAccountAvailable(fundedAccountAvailable);
+        };
+        handleCheckFundedAccountAvailable();
     }, []);
 
     const handleSendIdentityVerificationMethodCode = async ({ kind, identityKey, recaptchaToken, recaptchaAction }) => {
@@ -238,6 +244,7 @@ export function VerifyAccountWrapper() {
             showOptionAlreadyUsedModal={showOptionAlreadyUsedModal}
             onCloseOptionAlreadyUsedModal={() => setShowOptionAlreadyUsedModal(false)}
             showFundWithCreditCardOption={showFundWithCreditCardOption}
+            fundedAccountAvailable={fundedAccountAvailable}
         />
     );
 }
