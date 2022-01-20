@@ -135,7 +135,7 @@ const NFTBox = ({ tokenDetails }) => {
                         return <div className='nft' key={token_id}>
                             {
                                 mediaUrl.match(/\.webm$/i)
-                                    ? <video poster="data:image/gif,AAAA" muted={true} loop controls { ...videoProps } autoPlay={true}>
+                                    ? <video muted={true} loop controls { ...videoProps }>
                                         <source src={mediaUrl} type="video/webm" onError={(e) => {
                                             e.target.onerror = null;
                                             e.target.parentElement.setAttribute('poster', FailedToLoad);
