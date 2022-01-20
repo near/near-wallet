@@ -24,7 +24,7 @@ export const ACCOUNT_DEFAULTS = {
     totalPending: '0', // pending withdrawal
     totalAvailable: '0', // available for withdrawal
     totalUnstaked: '0', // available to be staked
-    totalStaked: '0', 
+    totalStaked: '0',
     totalUnclaimed: '0', // total rewards paid out - staking deposits made
     validators: [],
 };
@@ -38,6 +38,10 @@ export const stakingMethods = {
         'get_total_staked_balance',
         'get_owner_id',
         'get_reward_fee_fraction',
+        'get_farms',
+        'get_farm',
+        'get_active_farms',
+        'get_unclaimed_reward'
     ],
     changeMethods: [
         'ping',
@@ -48,6 +52,7 @@ export const stakingMethods = {
         'stake_all',
         'unstake',
         'withdraw',
+        'claim'
     ],
 };
 
@@ -71,13 +76,13 @@ export async function updateStakedBalance(validatorId, account_id, contract) {
 }
 
 export async function getStakingDeposits(accountId) {
-    let stakingDeposits = await fetch(ACCOUNT_HELPER_URL + '/staking-deposits/' + accountId).then((r) => r.json()); 
+    let stakingDeposits = await fetch(ACCOUNT_HELPER_URL + '/staking-deposits/' + accountId).then((r) => r.json());
 
     const validatorDepositMap = {};
     stakingDeposits.forEach(({ validator_id, deposit }) => {
         validatorDepositMap[validator_id] = deposit;
     });
-    
+
     return validatorDepositMap;
 }
 

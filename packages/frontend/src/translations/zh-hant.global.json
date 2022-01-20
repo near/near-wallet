@@ -1173,6 +1173,11 @@
                 "info": "這些通證已經贖回質押，並可以提現。",
                 "title": "可提現"
             },
+            "farm": {
+                "button": "Claim",
+                "info": "This is project validator. You’ll get the farming reward while staking on it.",
+                "title": "Total token earned"
+            },
             "pending": {
                 "info": "這些通證並未質押，但還不可提現。通常在贖回質押後 36 - 48 小時變為可提現。",
                 "title": "請求釋放"

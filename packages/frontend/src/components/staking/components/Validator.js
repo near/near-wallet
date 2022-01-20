@@ -1,16 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Translate } from 'react-localize-redux';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
+import { useNEARAsTokenWithMetadata } from '../../../hooks/fungibleTokensIncludingNEAR';
 import { Mixpanel } from '../../../mixpanel';
 import { redirectTo } from '../../../redux/actions/account';
+import { selectAccountId } from '../../../redux/slices/account';
+import { actions as tokensActions, selectAllContractMetadata } from '../../../redux/slices/tokens';
 import { actionsPending } from '../../../utils/alerts';
+import { PROJECT_VALIDATOR_VERSION, ValidatorVersion } from '../../../utils/constants';
 import FormButton from '../../common/FormButton';
 import SafeTranslate from '../../SafeTranslate';
 import AlertBanner from './AlertBanner';
 import BalanceBox from './BalanceBox';
 import StakeConfirmModal from './StakeConfirmModal';
 import StakingFee from './StakingFee';
+
+const { fetchToken } = tokensActions;
 
 export default function Validator({
     match,
@@ -21,20 +27,41 @@ export default function Validator({
     currentValidators,
 }) {
     const [confirm, setConfirm] = useState(null);
+    const [farmList, setFarmList] = useState([]);
+    const nearAsFT = useNEARAsTokenWithMetadata();
+    const accountId = useSelector(selectAccountId);
+    const contractMetadata = useSelector(selectAllContractMetadata);
+
     const dispatch = useDispatch();
     const stakeNotAllowed = !!selectedValidator && selectedValidator !== match.params.validator && !!currentValidators.length;
     const showConfirmModal = confirm === 'withdraw';
 
+    useEffect(() => {
+        const getFarms = async () => {
+            const farms = await validator.contract.get_farms({from_index: 0, limit: 300});
+            setFarmList(await Promise.all(farms.map(({ token_id }, i) => {
+                dispatch(fetchToken({contractName: token_id}));
+                return validator.contract
+                    .get_unclaimed_reward({ account_id: accountId, farm_id: i })
+                    .catch(() => "0")
+                    .then((balance) => ({ token_id, balance, farm_id: i }));
+            })));
+        };
+        if(validator && validator.version === ValidatorVersion[PROJECT_VALIDATOR_VERSION]) {
+            getFarms();
+        }
+    },[validator]);
+
     const handleStakeAction = async () => {
         if (showConfirmModal && !loading) {
-           await onWithdraw('withdraw', selectedValidator || validator.accountId);
-           setConfirm('done');
+            await onWithdraw('withdraw', selectedValidator || validator.accountId);
+            setConfirm('done');
         }
     };
 
     return (
         <>
-            {stakeNotAllowed 
+            {stakeNotAllowed
                 ? <AlertBanner
                     title='staking.alertBanner.title'
                     button='staking.alertBanner.button'
@@ -48,21 +75,21 @@ export default function Validator({
                     data={{ validator: match.params.validator }}
                 />
             </h1>
-            <FormButton 
-                linkTo={`/staking/${match.params.validator}/stake`} 
+            <FormButton
+                linkTo={`/staking/${match.params.validator}/stake`}
                 disabled={(stakeNotAllowed || !validator) ? true : false}
                 trackingId="STAKE Click stake with validator button"
                 data-test-id="validatorPageStakeButton"
             >
                 <Translate id='staking.validator.button' />
             </FormButton>
-            {validator && <StakingFee fee={validator.fee.percentage}/>}
+            {validator && <StakingFee fee={validator.fee.percentage} />}
             {validator && !stakeNotAllowed && !actionsPending('UPDATE_STAKING') &&
                 <>
                     <BalanceBox
                         title='staking.balanceBox.staked.title'
                         info='staking.balanceBox.staked.info'
-                        amount={validator.staked || '0'}
+                        token={{...nearAsFT, balance: validator.staked || '0'}}
                         onClick={() => {
                             dispatch(redirectTo(`/staking/${match.params.validator}/unstake`));
                             Mixpanel.track("UNSTAKE Click unstake button");
@@ -74,18 +101,37 @@ export default function Validator({
                     <BalanceBox
                         title='staking.balanceBox.unclaimed.title'
                         info='staking.balanceBox.unclaimed.info'
-                        amount={validator.unclaimed || '0'}
+                        token={{...nearAsFT, balance: validator.unclaimed || '0'}}
                     />
+                    {farmList.map(({ token_id, balance }) => (
+                            <BalanceBox
+                                key={token_id}
+                                title="staking.balanceBox.farm.title"
+                                info="staking.balanceBox.farm.info"
+                                token={{
+                                    onChainFTMetadata: contractMetadata[token_id],
+                                    coingeckoMetadata: {},
+                                    balance,
+                                    contractName: token_id,
+                                }}
+                                // onClick={() => {
+                                //     // TODO claim accrued rewards and redirect home where tokens will be fetched
+                                //     return validator.contract.claim({token_id}).then(() => dispatch(redirectTo('/')));
+                                // }}
+                                button="staking.balanceBox.farm.button"
+                                buttonColor='gray-red'
+                            />
+                    ))}
                     <BalanceBox
                         title='staking.balanceBox.pending.title'
                         info='staking.balanceBox.pending.info'
-                        amount={ validator.pending || '0' }
+                        token={{...nearAsFT, balance: validator.pending || '0'}}
                         disclaimer='staking.validator.withdrawalDisclaimer'
                     />
                     <BalanceBox
                         title='staking.balanceBox.available.title'
                         info='staking.balanceBox.available.info'
-                        amount={ validator.available || '0' }
+                        token={{...nearAsFT, balance: validator.available || '0'}}
                         onClick={() => {
                             setConfirm('withdraw');
                             Mixpanel.track("WITHDRAW Click withdraw button");
