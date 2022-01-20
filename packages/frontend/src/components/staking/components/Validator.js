@@ -63,6 +63,8 @@ export default function Validator({
         <>
             {stakeNotAllowed
                 ? <AlertBanner
+                    data-test-id="cantStakeWithValidatorContainer"
+                    data-test-id-button="viewCurrentValidatorButton"
                     title='staking.alertBanner.title'
                     button='staking.alertBanner.button'
                     linkTo={`/staking/${selectedValidator}`}
@@ -97,6 +99,7 @@ export default function Validator({
                         button='staking.balanceBox.staked.button'
                         buttonColor='gray-red'
                         loading={loading}
+                        buttonTestId="validatorPageUnstakeButton"
                     />
                     <BalanceBox
                         title='staking.balanceBox.unclaimed.title'

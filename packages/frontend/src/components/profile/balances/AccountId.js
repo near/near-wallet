@@ -35,9 +35,9 @@ const Container = styled.div`
     }
 `;
 
-const AccountId = ({ id }) => {
+const AccountId = ({ id,  "data-test-id": testId }) => {
     return (
-        <Container> 
+        <Container data-test-id={testId}> 
             <span>{id}</span>
             <div>
                 <CopyIcon/>

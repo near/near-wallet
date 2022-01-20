@@ -31,7 +31,7 @@ describe("Unstaking flow", () => {
         await stakeUnstakePage.runStakingFlowWithAmount(0.1, randomValidatorIndexes[0]);
         await stakeUnstakePage.clickStakeButton();
         await stakeUnstakePage.runStakingFlowWithAmount(0.2, randomValidatorIndexes[1]);
-        await stakeUnstakePage.clickUnstakeButton();
+        await stakeUnstakePage.clickStakingPageUnstakeButton();
 
         await expect(page).toMatchURL(/\/staking\/unstake$/);
         await expect(page).toHaveSelectorCount("data-test-id=stakingPageValidatorItem", 2);
@@ -48,7 +48,7 @@ describe("Unstaking flow", () => {
         await stakeUnstakePage.runStakingFlowWithAmount(0.1, randomValidatorIndexes[0]);
         await stakeUnstakePage.clickStakeButton();
         await stakeUnstakePage.runStakingFlowWithAmount(0.2, randomValidatorIndexes[1]);
-        await stakeUnstakePage.clickUnstakeButton();
+        await stakeUnstakePage.clickStakingPageUnstakeButton();
         const stakedValidatorName = await stakeUnstakePage.getValidatorName(1)
         await stakeUnstakePage.clickValidatorItem(0);
         const submittedUnstakeAmount = await stakeUnstakePage.submitStakeWithMaxAmount();
@@ -69,7 +69,7 @@ describe("Unstaking flow", () => {
             new RegExp(`${submittedUnstakeAmount} NEAR`)
         );
 
-        await stakeUnstakePage.clickUnstakeButton();
+        await stakeUnstakePage.clickStakingPageUnstakeButton();
 
         await expect(page).toHaveSelectorCount("data-test-id=stakingPageValidatorItem", 1);
         await expect(page).toMatchText(new RegExp(`${amountStillStaked} NEAR`));
