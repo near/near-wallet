@@ -98,5 +98,37 @@ Once a user is logged in, you can retrieve the account ID of the authorized wall
 
 <br/>
 
+## Wallet URL API
+
+The `/login` path of the wallet recognizes the following url parameters:
+
+| Param | Description
+| --- | --- |
+| `contract_id` | The account ID of the contract to be accessed with the key |
+| `public_key` | The corresponding public key to the private key that will be granted access |
+| `failure_url` | The url to redirect to if the request is denied |
+| `success_url` | The url to redirect to if the request is successful |
+| `methodNames` | The `methodNames` that will be accessible with the key  |
+
+When requesting an access key (full or function call), a key pair is generated and the public key is sent to the wallet under the `public_key` parameter along with other information about the request.
+
+### Requesting a function call access key
+
+To request a function call access key, the `contract_id` parameter is set to the target contract account ID and the `methodNames` parameter is set to any methods on the contract the access key should be limited to. If left blank the access key will be able to call all methods on the contract.
+
+```
+GET https://wallet.testnet.near.org/login?public_key=ed25519%3A4Y1rQKB8STnPBWVo29mRc3Z5ByJwg1FLmX6EMzisVAa4&contract_id=v2.test-contract.testnet
+```
+
+### Requesting a full access key
+
+To request a full access key, omit the `contract_id` or use the target approving user's account ID as `contract_id`.
+
+```
+GET https://wallet.testnet.near.org/login?public_key=ed25519%3A4Y1rQKB8STnPBWVo29mRc3Z5ByJwg1FLmX6EMzisVAa4
+```
+
+The wallet will then redirect to either `success_url` or `failure_url` (see [wallet redirect](#wallet-redirect-on-success-on-failure)) and transactions can be signed using the private key of the key pair on behalf of the user.
+
 ## Related Resources:
 * [Near API Docs | Wallet](https://docs.near.org/docs/api/naj-quick-reference#wallet)
