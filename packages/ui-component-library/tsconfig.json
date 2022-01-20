@@ -3,6 +3,7 @@
     "outDir": "dist",
     "module": "esnext",
     "lib": ["dom", "esnext"],
+    "target": "es5",
     "moduleResolution": "node",
     "jsx": "react",
     "sourceMap": true,
@@ -20,3 +21,4 @@
   "include": ["src"],
   "exclude": ["node_modules", "dist", "example"]
 }
+
