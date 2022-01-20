@@ -65,6 +65,20 @@
                 "title": "Welcome to NEAR"
             }
         },
+        "createImplicitAccount": {
+            "customAmount": "Custom",
+            "sendFrom": "Send from an",
+            "exchange": "exchange",
+            "orAskFriend": "or ask a friend!",
+            "title": "Almost there! To get started, buy some NEAR using MoonPay...",
+            "titleAlt": "Almost there! To get started, send at least ${amount} NEAR to your wallet address.",
+            "orSendNear": "...or send at least ${amount} NEAR to your wallet address.",
+            "customAddress": "A custom address can be anything you like, making it easier to remember and share!",
+            "createCustomNameModal": {
+                "desc": "Unlike your default address, a custom address can be anything you like, making it easier to remember and share!",
+                "title": "Add a Custom Address to Your Wallet"
+            }
+        },
         "fundedStatus": {
             "active": "Active",
             "awaitingDeposit": "Awaiting deposit",
@@ -193,6 +207,7 @@
         "continueSetup": "Continue to Setup",
         "continueToMyAccount": "Continue to My Account",
         "copyImplicitAddress": "Copy Funding Address",
+        "copy": "Copy",
         "copyPhrase": "Copy Phrase",
         "copyUrl": "Copy URL",
         "createAccount": "Create Account",
@@ -211,12 +226,15 @@
         "findMyAccount": "Find My Account",
         "finish": "Finish",
         "fundWith": "Fund with",
+        "generateNew": "Generate New",
+        "getStarted": "Get Started",
         "goBack": "Go back",
         "gotIt": "Got it",
         "goToDashboard": "Go To Dashboard",
         "importAccount": "Import Account",
         "importExistingAccount": "Import Existing Account",
         "learnMore": "Learn More",
+        "learnMoreAboutNear": "Learn more about NEAR",
         "loading": "Loading",
         "moreInformation": "More information",
         "needToEditGoBack": "Need to edit? Go Back",
@@ -226,6 +244,7 @@
         "recoverAccount": "Recover Account",
         "recovering": "Finding Account",
         "recoverYourAccount": "Recover your Account",
+        "addACustomAddress": "Add a Custom Address",
         "removeNode": "Remove Node",
         "removingKeys": "Removing Keys",
         "reserveMyAccountId": "Reserve My Account ID",
@@ -233,12 +252,14 @@
         "retry": "Retry",
         "returnToApp": "Return to App",
         "saveChanges": "Save Changes",
+        "secureMyAccount": "Secure My Account",
         "send": "Send",
         "setupPhrase": "Setup Recovery Phrase",
         "signIn": "Sign In",
         "signingIn": "Signing In",
         "signInLedger": "Sign in with Ledger",
         "skip": "Skip",
+        "skipThisForNow": "Skip this for now",
         "stake": "Stake",
         "staking": "Staking",
         "startOver": "Start over",
@@ -292,6 +313,11 @@
             "one": "This NEAR Drop has been claimed.",
             "title": "Link Invalid",
             "two": "NEAR Drops can only be used to create a single account, after which the link will expire."
+        },
+        "landing": {
+            "descOne": "NEAR Wallet is a secure wallet and account manager for your accounts on the NEAR blockchain.",
+            "descTwo": "Once you create an account, you’ll need it to interact with applications on NEAR, and to securely store your various tokens and collectibles (NFTs).",
+            "title": "Create Your Account"
         },
         "note": {
             "canContain": "Your account ID can contain any of the following:",
@@ -737,7 +763,7 @@
         "loading": "Loading reCAPTCHA..."
     },
     "receivePage": {
-        "addressTitle": "Your address",
+        "addressTitle": "Your Wallet Address",
         "copyAddressLinkLong": "Copy address URL",
         "copyAddressLinkShort": "COPY",
         "qrCodeTitle": "Scan QR code",
@@ -1070,7 +1096,7 @@
         "emailDesc": "Receive a verification code and account recovery link via email.",
         "emailPlaceholder": "example@email.com",
         "emailTitle": "Email",
-        "header": "Secure your account",
+        "header": "Choose a Security Method",
         "ledgerDesc": "Secure your account with a Ledger hardware device.",
         "ledgerTitle": "Ledger Hardware Wallet",
         "notSupportedPhone": "Unfortunately, we do not offer SMS for your region. Please choose email instead.",
@@ -1082,8 +1108,8 @@
         "subHeader": "Select a method to secure and recover your account. This will be used to verify important activity, recover your account and access your account from other devices."
     },
     "setupSeedPhrase": {
-        "pageText": "Write down the following words IN ORDER and keep them somewhere safe. You cannot recover your account without them!",
-        "pageTitle": "Setup Phrase",
+        "pageText": "Write down the following words in order and keep them somewhere safe. <b>Anyone with access to it will also have access to your account!</b> You’ll be asked to verify your passphrase next.",
+        "pageTitle": "Setup Your Secure Passphrase",
         "snackbarCopyImplicitAddress": "Funding Address Copied!",
         "snackbarCopySuccess": "Passphrase copied!"
     },
@@ -1095,7 +1121,8 @@
     "setupSeedPhraseVerify": {
         "pageText": "Enter the following word from your recovery phrase to complete the setup process.",
         "pageTitle": "Verify Phrase",
-        "startOverText": "Didn't write it down?"
+        "startOverText": "Didn't write it down?",
+        "inputError": "Please check your passphrase and try again."
     },
     "sign": {
         "ActionWarrning": {

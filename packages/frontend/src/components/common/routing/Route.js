@@ -1,9 +1,11 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
 
-import NoIndexMetaTag from './NoIndexMetaTag';
+import NoIndexMetaTag from '../NoIndexMetaTag';
 
-const PublicRoute = ({
+// Route is for any user - guest or logged in
+
+export default ({
     component,
     path,
     render,
@@ -19,5 +21,3 @@ const PublicRoute = ({
         />
     </>
 );
-
-export default PublicRoute;

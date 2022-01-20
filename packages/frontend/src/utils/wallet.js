@@ -547,6 +547,19 @@ class Wallet {
         await contract.claim({ account_id: accountId }, LINKDROP_GAS);
     }
 
+    async saveImplicitAccountKeyPair({ implicitAccountId, recoveryKeyPair }) {
+        await this.keyStore.setKey(this.connection.networkId, implicitAccountId, recoveryKeyPair);
+    }
+
+    async finishSetupImplicitAccount({
+        implicitAccountId,
+        recoveryMethod
+    }) {
+        const publicKey = new PublicKey({ keyType: KeyType.ED25519, data: Buffer.from(implicitAccountId, 'hex') });
+        await this.saveAndMakeAccountActive(implicitAccountId);
+        await this.addLocalKeyAndFinishSetup(implicitAccountId, recoveryMethod, publicKey);
+    }
+
     async saveAccount(accountId, keyPair) {
         this.getAccountsLocalStorage();
         await this.setKey(accountId, keyPair);
@@ -767,7 +780,7 @@ class Wallet {
         if (!accountId) {
             return false;
         }
-        
+
         const account = await this.getAccount(accountId);
         return await account.getAccountBalance(limitedAccountData);
     }
@@ -803,6 +816,20 @@ class Wallet {
         });
     }
 
+    async initializeRecoveryMethodNewImplicitAccount(method) {
+        const { seedPhrase } = generateSeedPhrase();
+        const { secretKey } = parseSeedPhrase(seedPhrase);
+        const recoveryKeyPair = KeyPair.fromString(secretKey);
+        const implicitAccountId = Buffer.from(recoveryKeyPair.publicKey.data).toString('hex');
+        const body = {
+            accountId: implicitAccountId,
+            method,
+            seedPhrase
+        };
+        await sendJson('POST', ACCOUNT_HELPER_URL + '/account/initializeRecoveryMethodForTempAccount', body);
+        return seedPhrase;
+    }
+
     async initializeRecoveryMethod(accountId, method) {
         const { seedPhrase } = generateSeedPhrase();
         const isNew = await this.checkIsNew(accountId);
@@ -817,6 +844,18 @@ class Wallet {
             await this.postSignedJson('/account/initializeRecoveryMethod', body);
         }
         return seedPhrase;
+    }
+
+    async validateSecurityCodeNewImplicitAccount(implicitAccountId, method, securityCode) {
+        try {
+            await sendJson('POST', ACCOUNT_HELPER_URL + '/account/validateSecurityCodeForTempAccount', {
+                accountId: implicitAccountId,
+                method,
+                securityCode,
+            });
+        } catch(e) {
+            throw new WalletError('Invalid code', 'setupRecoveryMessageNewAccount.invalidCode');
+        }
     }
 
     async validateSecurityCode(accountId, method, securityCode, enterpriseRecaptchaToken, recaptchaAction) {

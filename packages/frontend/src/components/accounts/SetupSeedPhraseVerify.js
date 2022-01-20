@@ -31,16 +31,14 @@ const CustomDiv = styled.div`
         margin-top: 20px !important;
     }
 
-    .start-over {
-        padding: 20px 0 0 0;
-        color: #24272a;
-        border-top: 2px solid #f8f8f8;
-        margin-top: 48px;
-
+    &&& {
         button {
-            font-size: 16px !important;
-            font-weight: 500;
-            margin: 0 0 0 6px !important;
+            &.link {
+                &.start-over {
+                    margin: 30px auto 0 auto;
+                    display: inherit;
+                }
+            }
         }
     }
 
@@ -61,7 +59,8 @@ const SetupSeedPhraseVerify = (
         isNewAccount,
         onSubmit,
         isLinkDrop,
-        hasSeedPhraseRecovery
+        hasSeedPhraseRecovery,
+        handleStartOver
     },
     ref
 ) => {
@@ -123,6 +122,14 @@ const SetupSeedPhraseVerify = (
                 data-test-id="seedPhraseVerificationWordSubmit"
             >
                 <Translate id='button.verify'/>
+            </FormButton>
+            <FormButton
+                type='button'
+                color='gray'
+                className='link start-over'
+                onClick={handleStartOver}
+            >
+                <Translate id='button.startOver'/>
             </FormButton>
         </CustomDiv>
     );

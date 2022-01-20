@@ -133,7 +133,8 @@ export default function StakingAction({
                 <div className='amount-header-wrapper'>
                     <h4><Translate id='staking.stake.amount' /></h4>
                     <FormButton
-                        className="light-blue small"
+                        className='small' 
+                        color='light-blue'
                         onClick={handleSetMax}
                         data-test-id="stakingPageUseMaxButton"
                     >
@@ -156,7 +157,8 @@ export default function StakingAction({
                 <div className='header-button'>
                     <h4><Translate id={`staking.${action}.stakeWith`} /></h4>
                     <FormButton 
-                        className='light-blue small' 
+                        className='small' 
+                        color='light-blue'
                         linkTo='/staking/validators'
                         trackingId="STAKE Go to validators list page"
                     >

@@ -1,14 +1,12 @@
-import { BN } from 'bn.js';
 import { 
     getLocation,
     push
 } from 'connected-react-router';
-import { utils } from 'near-api-js';
 import { PublicKey, KeyType } from 'near-api-js/lib/utils/key_pair';
 import { parse, stringify } from 'query-string';
 import { createActions, createAction } from 'redux-actions';
 
-import { DISABLE_CREATE_ACCOUNT, MULTISIG_MIN_PROMPT_AMOUNT } from '../../config';
+import { DISABLE_CREATE_ACCOUNT } from '../../config';
 import { 
     showAlert,
     dispatchWithAlert
@@ -45,8 +43,7 @@ import {
     selectAccountUrlRedirectUrl,
     selectAccountUrlSuccessUrl,
     selectAccountUrlTitle,
-    selectAccountUrlTransactions,
-    selectBalance
+    selectAccountUrlTransactions
 } from '../slices/account';
 import { selectAccountHasLockup } from '../slices/account';
 import { selectAllAccountsHasLockup } from '../slices/allAccounts';
@@ -539,27 +536,15 @@ export const handleCreateAccountWithSeedPhrase = (accountId, recoveryKeyPair, fu
 
 export const finishAccountSetup = () => async (dispatch, getState) => {
     await dispatch(refreshAccount());
-    await dispatch(getBalance());
     await dispatch(clearAccountState());
 
-    const balance = selectBalance(getState());
     const redirectUrl = selectAccountUrlRedirectUrl(getState());
     const accountId = selectAccountId(getState());
 
-    let promptTwoFactor = await TwoFactor.checkCanEnableTwoFactor(balance);
-
-    if (new BN(balance.available).lt(new BN(utils.format.parseNearAmount(MULTISIG_MIN_PROMPT_AMOUNT)))) {
-        promptTwoFactor = false;
-    }
-
-    if (promptTwoFactor) {
-        dispatch(redirectTo('/enable-two-factor', { globalAlertPreventClear: true }));
+    if (redirectUrl) {
+        window.location = `${redirectUrl}?accountId=${accountId}`;
     } else {
-        if (redirectUrl) {
-            window.location = `${redirectUrl}?accountId=${accountId}`;
-        } else {
-            dispatch(redirectToApp('/'));
-        }
+        dispatch(redirectToApp('/'));
     }
 };
 

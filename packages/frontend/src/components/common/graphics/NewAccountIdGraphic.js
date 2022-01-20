@@ -10,6 +10,7 @@ const IdGraphic = styled.div`
     padding: 15px;
     border-radius: 8px;
     margin: 20px 0;
+    min-width: 120px;
     max-width: 250px;
     word-break: break-word;
 
@@ -37,7 +38,7 @@ const IdGraphic = styled.div`
 
 export default ({ accountId }) => {
     return (
-        <IdGraphic>
+        <IdGraphic className='id-graphic'>
             <StarIcon color='#80E8F8'/>
             <StarIcon color='#ECE750'/>
             <StarIcon/>

@@ -9,6 +9,7 @@ import { connect } from 'react-redux';
 import { Redirect, Switch } from 'react-router-dom';
 import styled, { ThemeProvider } from 'styled-components';
 
+import { CREATE_IMPLICIT_ACCOUNT } from '../../../../features';
 import TwoFactorVerifyModal from '../components/accounts/two_factor/TwoFactorVerifyModal';
 import { IS_MAINNET, PUBLIC_URL, SHOW_PRERELEASE_WARNING } from '../config';
 import ExampleFlag from '../ExampleFlag';
@@ -16,7 +17,11 @@ import { Mixpanel } from "../mixpanel/index";
 import * as accountActions from '../redux/actions/account';
 import { selectAccountSlice } from '../redux/slices/account';
 import { actions as tokenFiatValueActions } from '../redux/slices/tokenFiatValues';
+import { CreateImplicitAccountWrapper } from '../routes/CreateImplicitAccountWrapper';
 import { LoginWrapper } from '../routes/LoginWrapper';
+import { SetupLedgerNewAccountWrapper } from '../routes/SetupLedgerNewAccountWrapper';
+import { SetupPassphraseNewAccountWrapper } from '../routes/SetupPassphraseNewAccountWrapper';
+import { SetupRecoveryImplicitAccountWrapper } from '../routes/SetupRecoveryImplicitAccountWrapper';
 import { SignWrapper } from '../routes/SignWrapper';
 import translations_en from '../translations/en.global.json';
 import translations_pt from '../translations/pt.global.json';
@@ -30,7 +35,7 @@ import getBrowserLocale from '../utils/getBrowserLocale';
 import { getAccountIsInactive, removeAccountIsInactive, setAccountIsInactive } from '../utils/localStorage';
 import { reportUiActiveMixpanelThrottled } from '../utils/reportUiActiveMixpanelThrottled';
 import ScrollToTop from '../utils/ScrollToTop';
-import { 
+import {
     WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS,
     WALLET_LOGIN_URL,
     WALLET_SIGN_URL,
@@ -41,6 +46,7 @@ import { AutoImportWrapper } from './accounts/auto_import/AutoImportWrapper';
 import { ActivateAccountWithRouter } from './accounts/create/ActivateAccount';
 import { ExistingAccountWrapper } from './accounts/create/existing_account/ExistingAccountWrapper';
 import { InitialDepositWrapper } from './accounts/create/initial_deposit/InitialDepositWrapper';
+import { CreateAccountLanding } from './accounts/create/landing/CreateAccountLanding';
 import { VerifyAccountWrapper } from './accounts/create/verify_account/VerifyAccountWrapper';
 import { CreateAccountWithRouter } from './accounts/CreateAccount';
 import LedgerConfirmActionModal from './accounts/ledger/LedgerConfirmActionModal';
@@ -60,12 +66,13 @@ import Footer from './common/Footer';
 import GlobalAlert from './common/GlobalAlert';
 import GuestLandingRoute from './common/GuestLandingRoute';
 import NetworkBanner from './common/NetworkBanner';
-import PrivateRoute from './common/PrivateRoute';
-import PublicRoute from './common/PublicRoute';
+import PrivateRoute from './common/routing/PrivateRoute';
+import PublicRoute from './common/routing/PublicRoute';
+import Route from './common/routing/Route';
 import GlobalStyle from './GlobalStyle';
 import { LoginCliLoginSuccess } from './login/LoginCliLoginSuccess';
 import Navigation from './navigation/Navigation';
-import {PageNotFound} from './page-not-found/PageNotFound';
+import { PageNotFound } from './page-not-found/PageNotFound';
 import { Profile } from './profile/Profile';
 import { ReceiveContainerWrapper } from './receive-money/ReceiveContainerWrapper';
 import { SendContainerWrapper } from './send/SendContainerWrapper';
@@ -74,11 +81,11 @@ import Terms from './terms/Terms';
 import { Wallet } from './wallet/Wallet';
 import '../index.css';
 
-const { 
+const {
     fetchTokenFiatValues
 } = tokenFiatValueActions;
 
-const  {
+const {
     getAccountHelperWalletState,
     handleClearUrl,
     handleRedirectUrl,
@@ -181,7 +188,7 @@ class Routing extends Component {
             router,
             fetchTokenFiatValues
         } = this.props;
-        
+
         fetchTokenFiatValues();
         this.startPollingTokenFiatValue();
         handleRefreshUrl(router);
@@ -237,10 +244,10 @@ class Routing extends Component {
     }
 
     startPollingTokenFiatValue = () => {
-        const { fetchTokenFiatValues  } = this.props;
+        const { fetchTokenFiatValues } = this.props;
 
         const handlePollTokenFiatValue = async () => {
-            await fetchTokenFiatValues().catch(() => {});
+            await fetchTokenFiatValues().catch(() => { });
             if (this.pollTokenFiatValue) {
                 this.pollTokenFiatValue = setTimeout(() => handlePollTokenFiatValue(), 30000);
             }
@@ -271,12 +278,12 @@ class Routing extends Component {
             }
         };
         const { isInactiveAccount } = this.state;
-        
+
         const hideFooterOnMobile = [
             WALLET_LOGIN_URL,
             WALLET_SEND_MONEY_URL,
             WALLET_SIGN_URL
-        ].includes(pathname.replace(/\//g,''));
+        ].includes(pathname.replace(/\//g, ''));
 
         const accountFound = this.props.account.localStorage?.accountFound;
 
@@ -287,21 +294,21 @@ class Routing extends Component {
             <Container
                 className={classNames([
                     'App',
-                    {'network-banner': (!IS_MAINNET || SHOW_PRERELEASE_WARNING)},
-                    {'hide-footer-mobile' : hideFooterOnMobile}
+                    { 'network-banner': (!IS_MAINNET || SHOW_PRERELEASE_WARNING) },
+                    { 'hide-footer-mobile': hideFooterOnMobile }
                 ])}
                 id='app-container'
             >
                 <GlobalStyle />
                 <ConnectedRouter basename={PATH_PREFIX} history={this.props.history}>
                     <ThemeProvider theme={theme}>
-                        <ScrollToTop/>
+                        <ScrollToTop />
                         <NetworkBanner
                             account={account}
                         />
-                        <Navigation isInactiveAccount={isInactiveAccount}/>
-                        <GlobalAlert/>
-                        <LedgerConfirmActionModal/>
+                        <Navigation isInactiveAccount={isInactiveAccount} />
+                        <GlobalAlert />
+                        <LedgerConfirmActionModal />
                         {
                             account.requestPending !== null &&
                             <TwoFactorVerifyModal
@@ -314,7 +321,7 @@ class Routing extends Component {
                                     promptTwoFactor(null);
                                     if (error) {
                                         // tracking error
-                                        Mixpanel.track("2FA Modal Verify fail", {error: error.message});
+                                        Mixpanel.track("2FA Modal Verify fail", { error: error.message });
                                     }
                                     if (verified) {
                                         Mixpanel.track("2FA Modal Verify finish");
@@ -327,7 +334,7 @@ class Routing extends Component {
                                 pathname: '/*',
                                 search: search
                             }} />
-                            <PublicRoute
+                            <Route
                                 exact
                                 path='/example_flag'
                                 component={ExampleFlag}
@@ -335,56 +342,97 @@ class Routing extends Component {
                             <GuestLandingRoute
                                 exact
                                 path='/'
-                                render={(props) => isInactiveAccount ? <ActivateAccountWithRouter {...props}/> : <Wallet tab={tab} setTab={setTab} {...props} />}
+                                render={(props) => isInactiveAccount ? <ActivateAccountWithRouter {...props} /> : <Wallet tab={tab} setTab={setTab} {...props} />}
                                 accountFound={accountFound}
                                 indexBySearchEngines={!accountFound}
                             />
-                            <PublicRoute
+                            <Route
                                 exact
                                 path='/linkdrop/:fundingContract/:fundingKey'
                                 component={LinkdropLandingWithRouter}
                             />
-                            <PublicRoute
+                            <Route
                                 exact
-                                path='/create/:fundingContract?/:fundingKey?'
+                                path='/create/:fundingContract/:fundingKey'
                                 component={CreateAccountWithRouter}
                             />
-                            <PublicRoute
+                            {CREATE_IMPLICIT_ACCOUNT &&
+                                <Route
+                                    exact
+                                    path='/create'
+                                    render={(props) => accountFound ? <CreateAccountWithRouter {...props} /> : <CreateAccountLanding />}
+                                    // Logged in users always create a named account
+                                />
+                            }
+                            <Route
+                                exact
+                                path='/create'
+                                component={CreateAccountWithRouter}
+                            />
+                            <Route
                                 exact
                                 path={'/create-from/:fundingAccountId'}
                                 component={CreateAccountWithRouter}
                             />
-                            <PublicRoute
+                            <Route
                                 exact
                                 path='/set-recovery/:accountId/:fundingContract?/:fundingKey?'
                                 component={SetupRecoveryMethodWithRouter}
                             />
-                            <PublicRoute
+                            {CREATE_IMPLICIT_ACCOUNT &&
+                                <PublicRoute
+                                    exact
+                                    path='/set-recovery-implicit-account'
+                                    component={SetupRecoveryImplicitAccountWrapper}
+                                />
+                            }
+                            {CREATE_IMPLICIT_ACCOUNT &&
+                                <PublicRoute
+                                    exact
+                                    path='/setup-passphrase-new-account'
+                                    component={SetupPassphraseNewAccountWrapper}
+                                />
+                            }
+                            {CREATE_IMPLICIT_ACCOUNT &&
+                                <PublicRoute
+                                    exact
+                                    path='/setup-ledger-new-account'
+                                    component={SetupLedgerNewAccountWrapper}
+                                />
+                            }
+                            {CREATE_IMPLICIT_ACCOUNT &&
+                                <PublicRoute
+                                    exact
+                                    path='/create-implicit-account'
+                                    component={CreateImplicitAccountWrapper}
+                                />
+                            }
+                            <Route
                                 exact
                                 path='/setup-seed-phrase/:accountId/:step'
                                 component={SetupSeedPhraseWithRouter}
                             />
-                            <PublicRoute
+                            <Route
                                 exact
                                 path='/verify-account'
                                 component={VerifyAccountWrapper}
                             />
-                            <PublicRoute
+                            <Route
                                 exact
                                 path='/initial-deposit'
                                 component={InitialDepositWrapper}
                             />
-                            <PublicRoute
+                            <Route
                                 exact
                                 path='/fund-with-existing-account'
                                 component={ExistingAccountWrapper}
                             />
-                            <PublicRoute
+                            <Route
                                 exact
                                 path='/fund-create-account/:accountId/:implicitAccountId/:recoveryMethod'
                                 component={SetupImplicitWithRouter}
                             />
-                            <PublicRoute
+                            <Route
                                 exact
                                 path='/setup-ledger/:accountId'
                                 component={SetupLedgerWithRouter}
@@ -399,22 +447,22 @@ class Routing extends Component {
                                 path='/enable-two-factor'
                                 component={EnableTwoFactor}
                             />
-                            <PublicRoute
+                            <Route
                                 path='/recover-account'
                                 component={RecoverAccountWrapper}
                                 indexBySearchEngines={true}
                             />
-                            <PublicRoute
+                            <Route
                                 exact
                                 path='/recover-seed-phrase/:accountId?/:seedPhrase?'
                                 component={RecoverAccountSeedPhraseWithRouter}
                             />
-                            <PublicRoute
+                            <Route
                                 exact
                                 path='/recover-with-link/:accountId/:seedPhrase'
                                 component={RecoverWithLinkWithRouter}
                             />
-                            <PublicRoute
+                            <Route
                                 exact
                                 path='/auto-import-seed-phrase'
                                 render={({ location }) => {
@@ -431,7 +479,7 @@ class Routing extends Component {
                                     );
                                 }}
                             />
-                            <PublicRoute
+                            <Route
                                 exact
                                 path='/auto-import-secret-key'
                                 render={({ location }) => {
@@ -446,7 +494,7 @@ class Routing extends Component {
                                     );
                                 }}
                             />
-                            <PublicRoute
+                            <Route
                                 exact
                                 path='/sign-in-ledger'
                                 component={SignInLedger}
@@ -458,12 +506,12 @@ class Routing extends Component {
                             <PrivateRoute
                                 exact
                                 path='/authorized-apps'
-                                render={() => <AccessKeysWrapper type='authorized-apps'/>}
+                                render={() => <AccessKeysWrapper type='authorized-apps' />}
                             />
                             <PrivateRoute
                                 exact
                                 path='/full-access-keys'
-                                render={() => <AccessKeysWrapper type='full-access-keys'/>}
+                                render={() => <AccessKeysWrapper type='full-access-keys' />}
                             />
                             {!isInactiveAccount &&
                                 <PrivateRoute
@@ -482,7 +530,7 @@ class Routing extends Component {
                                 path='/buy'
                                 component={BuyNear}
                             />
-                            <PublicRoute
+                            <Route
                                 exact
                                 path='/profile/:accountId'
                                 component={Profile}
@@ -509,12 +557,12 @@ class Routing extends Component {
                                     )}
                                 />
                             }
-                            <PublicRoute
+                            <Route
                                 exact
                                 path='/cli-login-success'
                                 component={LoginCliLoginSuccess}
                             />
-                            <PublicRoute
+                            <Route
                                 exact
                                 path='/terms'
                                 component={Terms}
@@ -524,7 +572,7 @@ class Routing extends Component {
                                 component={isInactiveAccount ? ActivateAccountWithRouter : PageNotFound}
                             />
                         </Switch>
-                        <Footer/>
+                        <Footer />
                     </ThemeProvider>
                 </ConnectedRouter>
             </Container>

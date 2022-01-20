@@ -215,7 +215,7 @@ class SetupSeedPhrase extends Component {
     }
 
     render() {
-        const { recoveryMethods, recoveryMethodsLoader } = this.props;
+        const { recoveryMethods, recoveryMethodsLoader, history, accountId, location } = this.props;
         const hasSeedPhraseRecovery = recoveryMethodsLoader || recoveryMethods.filter(m => m.kind === 'phrase').length > 0;
         const { seedPhrase, enterWord, wordId, submitting, localAlert, isNewAccount, successSnackbar } = this.state;
 
@@ -234,6 +234,8 @@ class SetupSeedPhrase extends Component {
                                         seedPhrase={seedPhrase}
                                         handleCopyPhrase={this.handleCopyPhrase}
                                         hasSeedPhraseRecovery={hasSeedPhraseRecovery}
+                                        refreshData={this.refreshData}
+                                        onClickContinue={() => history.push(`/setup-seed-phrase/${accountId}/verify${location.search}`)}
                                     />
                                 </Container>
                             )}

@@ -10,14 +10,12 @@ import MintbaseLogo from '../../images/mintbase-logo.svg';
 import ParasLogo from '../../images/paras-logo.svg';
 import ZedLogo from '../../images/zed-logo.svg';
 import FormButton from '../common/FormButton';
-import CloseButton from '../common/modal/CloseButton';
-
 
 const Container = styled.div`
     && {
         background-color: black;
         border-radius: 8px;
-        padding: 24px;
+        padding: 30px 24px;
         width: 100%;
         position: relative;
         display: flex;
@@ -26,12 +24,13 @@ const Container = styled.div`
         text-align: center;
         color: #d5d4d8;
         font-size: 14px;
-        margin-bottom: 50px;
+        margin-bottom: 40px;
 
         h2 {
-            color: white !important;
-            align-self: center !important;
-            margin: -5px 0 15px 0 !important;
+            color: white;
+            align-self: center;
+            margin: 15px 0;
+            text-align: center;
         }
 
         .desc {
@@ -105,10 +104,9 @@ const Container = styled.div`
     }
 `;
 
-const ExploreApps = ({ onClick }) => {
+const ExploreApps = () => {
     return (
         <Container>
-            <CloseButton onClick={onClick}/>
             <div className='apps-wrapper'>
                 <div>
                     <img src={HashRushLogo} alt='Hash Rush'/>

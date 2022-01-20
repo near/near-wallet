@@ -241,6 +241,20 @@
             "success": "Link de recuperação enviado com sucesso!",
             "error": "Falha ao reenviar. Por favor, tente novamente."
         },
+        "createImplicitAccount": {
+            "customAmount": "Custom",
+            "sendFrom": "Send from an",
+            "exchange": "exchange",
+            "orAskFriend": "or ask a friend!",
+            "title": "Almost there! To get started, buy some NEAR using MoonPay...",
+            "titleAlt": "Almost there! To get started, send at least ${amount} NEAR to your wallet address.",
+            "orSendNear": "...or send at least ${amount} NEAR to your wallet address.",
+            "customAddress": "A custom address can be anything you like, making it easier to remember and share!",
+            "createCustomNameModal": {
+                "desc": "Unlike your default address, a custom address can be anything you like, making it easier to remember and share!",
+                "title": "Add a Custom Address to Your Wallet"
+            }
+        },
         "login": {
             "details": {
                 "warning": "Isso permite acesso a todo o seu saldo. Prossiga com cuidado."
@@ -436,13 +450,6 @@
         "addKey": "Adicionando chave de acesso",
         "deleteKey": "Deletando chave de acesso",
         "deleteAccount": "Deletando conta: ${receiverId}"
-    },
-
-    "setupSeedPhrase": {
-        "pageTitle": "Configurar Frase",
-        "pageText": "Escreva as seguintes palavras EM ORDEM e guarde-as em algum lugar seguro. Você não consegue recuperar sua conta sem elas!",
-        "snackbarCopySuccess": "Frase-semente copiada!",
-        "snackbarCopyImplicitAddress": "Endereço do fundação Copiado!"
     },
     "setupSeedPhraseVerify": {
         "pageTitle": "Verifique a frase",
@@ -924,6 +931,13 @@
             "title": "Deposite NEAR",
             "desc": "Você precisará de tokens NEAR para realizar transações com sua carteira."
         }
+    },
+        
+    "setupSeedPhrase": {
+        "pageText": "Write down the following words in order and keep them somewhere safe. <b>Anyone with access to it will also have access to your account!</b> You’ll be asked to verify your passphrase next.",
+        "pageTitle": "Setup Your Secure Passphrase",
+        "snackbarCopyImplicitAddress": "Endereço do fundação Copiado!",
+        "snackbarCopySuccess": "Frase-semente copiada!"
     },
 
     "tokenBox": {

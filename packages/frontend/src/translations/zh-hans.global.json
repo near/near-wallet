@@ -65,6 +65,20 @@
                 "title": "欢迎使用 NEAR"
             }
         },
+        "createImplicitAccount": {
+            "customAmount": "Custom",
+            "sendFrom": "Send from an",
+            "exchange": "exchange",
+            "orAskFriend": "or ask a friend!",
+            "title": "Almost there! To get started, buy some NEAR using MoonPay...",
+            "titleAlt": "Almost there! To get started, send at least ${amount} NEAR to your wallet address.",
+            "orSendNear": "...or send at least ${amount} NEAR to your wallet address.",
+            "customAddress": "A custom address can be anything you like, making it easier to remember and share!",
+            "createCustomNameModal": {
+                "desc": "Unlike your default address, a custom address can be anything you like, making it easier to remember and share!",
+                "title": "Add a Custom Address to Your Wallet"
+            }
+        },
         "fundedStatus": {
             "active": "活跃",
             "awaitingDeposit": "等待充值",
@@ -1075,8 +1089,8 @@
         "subHeader": "请设置一种账户恢复方式："
     },
     "setupSeedPhrase": {
-        "pageText": "请按顺序记录以下助记词，并安全保管它们。没有助记词你将无法恢复账户！",
-        "pageTitle": "设置恢复助记词",
+        "pageText": "Write down the following words in order and keep them somewhere safe. <b>Anyone with access to it will also have access to your account!</b> You’ll be asked to verify your passphrase next.",
+        "pageTitle": "Setup Your Secure Passphrase",
         "snackbarCopyImplicitAddress": "账户 ID 已复制！",
         "snackbarCopySuccess": "助记词已复制！"
     },
