@@ -299,7 +299,6 @@
             "placeholder": "yourname.${data}",
             "title": "ID da Conta"
         },
-        "addACustomAddress": "Add a Custom Address",
         "alreadyHaveAnAccount": "Já possui uma conta?",
         "invalidLinkDrop": {
             "one": "Esta recompensa de NEAR já foi reivindicada.",
@@ -1089,8 +1088,8 @@
         "subHeader": "Selecione um método para proteger e recuperar a sua conta. Isso será usado para verificar atividades importantes, recuperar conta e acessar sua conta em outros dispositivos."
     },
     "setupSeedPhrase": {
-        "pageText": "Write down the following words in order and keep them somewhere safe. <b>Anyone with access to it will also have access to your account!</b> You’ll be asked to verify your passphrase next.",
-        "pageTitle": "Setup Your Secure Passphrase",
+        "pageText": "Escreva as seguintes palavras EM ORDEM e guarde-as em algum lugar seguro. Você não consegue recuperar sua conta sem elas!",
+        "pageTitle": "Configurar Frase",
         "snackbarCopyImplicitAddress": "Endereço do fundação Copiado!",
         "snackbarCopySuccess": "Frase-semente copiada!"
     },
@@ -1191,10 +1190,6 @@
                 "info": "Esses tokens foram removidos de stake e estão disponíveis para serem sacados.",
                 "title": "Disponível para saque"
             },
-            "farm": {
-                "button": "Claim",
-                "info": "This validator grants staking rewards in a token other than NEAR."
-            },
             "pending": {
                 "info": "Esses tokens foram removidos de stake, mas ainda não estão disponíveis para serem sacados. Tokens ficam disponíveis entre 52 a 65 horas após a remoção.",
                 "title": "Aguardando liberação"
@@ -1205,7 +1200,7 @@
                 "title": "Quantidade total em stake"
             },
             "unclaimed": {
-                "info": "Rewards that have been earned, but not withdrawn. NEAR token rewards are  <a target='_blank' href='https://www.investopedia.com/terms/c/compoundinterest.asp'>compounding</a> and are automatically re-staked.",
+                "info": "Recompensas que foram ganhas, mas não retiradas. Recompensas obtidas são automaticamente colocadas em stake, o que significa que sua quantidade total acumulada aumenta automaticamente ao longo do tempo, e suas recompensas estão <a target='_blank' href='https://www.investopedia.com/terms/c/compoundinterest.asp'>crescendo</a>.",
                 "title": "Recompensas ganhas",
                 "unavailable": {
                     "cta": "Saber mais",
