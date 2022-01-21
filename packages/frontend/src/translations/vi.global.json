@@ -1120,7 +1120,6 @@
             "farm": {
                 "button": "Claim",
                 "info": "This is project validator. You’ll get the farming reward while staking on it.",
-                "title": "Total token earned"
             },
             "pending": {
                 "info": "Các token này đã được unstake, nhưng vẫn chưa sẵn sàng để rút. Việc rút sẽ khả dụng từ 52 đến 65 giờ sau khi unstake.",
@@ -1132,7 +1131,7 @@
                 "title": "Tổng số tiền đã stake"
             },
             "unclaimed": {
-                "info": "Phần thưởng đã kiếm được, nhưng không được rút. Phần thưởng kiếm được sẽ tự động được stake, có nghĩa là tổng số tiền đã stake của bạn tự động tăng lên theo thời gian, và phần thưởng của bạn là <a target='_blank' href='https://www.investopedia.com/terms/c/compoundinterest.asp'>lãi kép</a>.",
+                "info": "Rewards that have been earned, but not withdrawn. NEAR token rewards are  <a target='_blank' href='https://www.investopedia.com/terms/c/compoundinterest.asp'>compounding</a> and are automatically re-staked.",
                 "title": "Phần thưởng đã kiếm được",
                 "unavailable": {
                     "cta": "Tìm hiểu thêm",

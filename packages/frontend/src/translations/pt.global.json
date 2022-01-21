@@ -1190,7 +1190,6 @@
             "farm": {
                 "button": "Claim",
                 "info": "This is project validator. You’ll get the farming reward while staking on it.",
-                "title": "Total token earned"
             },
             "pending": {
                 "info": "Esses tokens foram removidos de stake, mas ainda não estão disponíveis para serem sacados. Tokens ficam disponíveis entre 52 a 65 horas após a remoção.",
@@ -1202,7 +1201,7 @@
                 "title": "Quantidade total em stake"
             },
             "unclaimed": {
-                "info": "Recompensas que foram ganhas, mas não retiradas. Recompensas obtidas são automaticamente colocadas em stake, o que significa que sua quantidade total acumulada aumenta automaticamente ao longo do tempo, e suas recompensas estão <a target='_blank' href='https://www.investopedia.com/terms/c/compoundinterest.asp'>crescendo</a>.",
+                "info": "Rewards that have been earned, but not withdrawn. NEAR token rewards are  <a target='_blank' href='https://www.investopedia.com/terms/c/compoundinterest.asp'>compounding</a> and are automatically re-staked.",
                 "title": "Recompensas ganhas",
                 "unavailable": {
                     "cta": "Saber mais",

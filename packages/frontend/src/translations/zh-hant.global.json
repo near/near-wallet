@@ -1191,7 +1191,6 @@
             "farm": {
                 "button": "Claim",
                 "info": "This is project validator. You’ll get the farming reward while staking on it.",
-                "title": "Total token earned"
             },
             "pending": {
                 "info": "這些通證並未質押，但還不可提現。通常在贖回質押後 36 - 48 小時變為可提現。",
@@ -1203,7 +1202,7 @@
                 "title": "質押總數"
             },
             "unclaimed": {
-                "info": "已賺得的獎勵並未提現。未提現獎勵將自動質押，這意味著你的質押總數將不斷增加，獎勵是<a target='_blank' href='https://www.investopedia.com/terms/c/compoundinterest.asp'>復利</a>計算的。",
+                "info": "Rewards that have been earned, but not withdrawn. NEAR token rewards are  <a target='_blank' href='https://www.investopedia.com/terms/c/compoundinterest.asp'>compounding</a> and are automatically re-staked.",
                 "title": "未提現獎勵",
                 "unavailable": {
                     "cta": "了解更多",
