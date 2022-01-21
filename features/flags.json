@@ -1,4 +1,28 @@
 {
+  "CREATE_IMPLICIT_ACCOUNT": {
+    "createdBy": "Patrick Tajima",
+    "createdAt": "2021-12-23T22:16:36.291Z",
+    "development": {
+      "enabled": true,
+      "lastEditedBy": "Patrick Tajima",
+      "lastEditedAt": "2021-12-23T22:16:36.291Z"
+    },
+    "testnet": {
+      "enabled": true,
+      "lastEditedBy": "Daryl Collins",
+      "lastEditedAt": "2022-01-21T05:04:22.473Z"
+    },
+    "mainnet": {
+      "enabled": true,
+      "lastEditedBy": "Daryl Collins",
+      "lastEditedAt": "2022-01-21T05:04:22.473Z"
+    },
+    "mainnet_STAGING": {
+      "enabled": true,
+      "lastEditedBy": "Patrick Tajima",
+      "lastEditedAt": "2021-12-23T22:16:36.291Z"
+    }
+  },
   "EXAMPLE_FLAG": {
     "createdBy": "Daryl Collins",
     "createdAt": "2021-05-24T09:33:27.489Z",
@@ -21,35 +45,6 @@
       "enabled": false,
       "lastEditedBy": "Daryl Collins",
       "lastEditedAt": "2021-05-24T09:33:27.489Z"
-    }
-  },
-  "CREATE_IMPLICIT_ACCOUNT": {
-    "createdBy": "Patrick Tajima",
-    "createdAt": "2021-12-23T22:16:36.291Z",
-    "development": {
-      "enabled": true,
-      "lastEditedBy": "Patrick Tajima",
-      "lastEditedAt": "2021-12-23T22:16:36.291Z"
-    },
-    "testnet": {
-      "enabled": false,
-      "lastEditedBy": "Patrick Tajima",
-      "lastEditedAt": "2021-12-23T22:16:36.291Z"
-    },
-    "testnet_STAGING": {
-      "enabled": false,
-      "lastEditedBy": "Patrick Tajima",
-      "lastEditedAt": "2021-12-23T22:16:36.291Z"
-    },
-    "mainnet": {
-      "enabled": false,
-      "lastEditedBy": "Patrick Tajima",
-      "lastEditedAt": "2021-12-23T22:16:36.291Z"
-    },
-    "mainnet_STAGING": {
-      "enabled": true,
-      "lastEditedBy": "Patrick Tajima",
-      "lastEditedAt": "2021-12-23T22:16:36.291Z"
     }
   }
 }
