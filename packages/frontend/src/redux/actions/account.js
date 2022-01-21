@@ -4,7 +4,6 @@ import {
 } from 'connected-react-router';
 import { PublicKey, KeyType } from 'near-api-js/lib/utils/key_pair';
 import { parse, stringify } from 'query-string';
-import { compose } from 'redux';
 import { createActions, createAction } from 'redux-actions';
 
 import { DISABLE_CREATE_ACCOUNT } from '../../config';
