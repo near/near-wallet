@@ -65,6 +65,20 @@
                 "title": "欢迎使用 NEAR"
             }
         },
+        "createImplicitAccount": {
+            "createCustomNameModal": {
+                "desc": "Unlike your default address, a custom address can be anything you like, making it easier to remember and share!",
+                "title": "Add a Custom Address to Your Wallet"
+            },
+            "customAddress": "A custom address can be anything you like, making it easier to remember and share!",
+            "customAmount": "Custom",
+            "exchange": "exchange",
+            "orAskFriend": "or ask a friend!",
+            "orSendNear": "...or send at least ${amount} NEAR to your wallet address.",
+            "sendFrom": "Send from an",
+            "title": "Almost there! To get started, buy some NEAR using MoonPay...",
+            "titleAlt": "Almost there! To get started, send at least ${amount} NEAR to your wallet address."
+        },
         "fundedStatus": {
             "active": "活跃",
             "awaitingDeposit": "等待充值",
@@ -286,6 +300,7 @@
             "placeholder": "yourname.${data}",
             "title": "输入用户名"
         },
+        "addACustomAddress": "Add a Custom Address",
         "alreadyHaveAnAccount": "已经拥有账户？",
         "invalidLinkDrop": {
             "one": "NEAR Drop 已经被领取。",
@@ -1075,8 +1090,8 @@
         "subHeader": "请设置一种账户恢复方式："
     },
     "setupSeedPhrase": {
-        "pageText": "请按顺序记录以下助记词，并安全保管它们。没有助记词你将无法恢复账户！",
-        "pageTitle": "设置恢复助记词",
+        "pageText": "Write down the following words in order and keep them somewhere safe. <b>Anyone with access to it will also have access to your account!</b> You’ll be asked to verify your passphrase next.",
+        "pageTitle": "Setup Your Secure Passphrase",
         "snackbarCopyImplicitAddress": "账户 ID 已复制！",
         "snackbarCopySuccess": "助记词已复制！"
     },
@@ -1173,6 +1188,10 @@
                 "info": "这些通证已经赎回质押，并可以提现。",
                 "title": "可提现"
             },
+            "farm": {
+                "button": "Claim",
+                "info": "This validator grants staking rewards in a token other than NEAR."
+            },
             "pending": {
                 "info": "这些通证并未质押，但还不可提现。通常在赎回质押后 36 - 48 小时变为可提现。",
                 "title": "请求释放"
@@ -1183,7 +1202,7 @@
                 "title": "质押总数"
             },
             "unclaimed": {
-                "info": "已赚得的奖励并未提现。未提现奖励将自动质押，这意味着你的质押总数将不断增加，奖励是<a target='_blank' href='https://www.investopedia.com/terms/c/compoundinterest.asp'>复利</a>计算的。",
+                "info": "Rewards that have been earned, but not withdrawn. NEAR token rewards are  <a target='_blank' href='https://www.investopedia.com/terms/c/compoundinterest.asp'>compounding</a> and are automatically re-staked.",
                 "title": "未提现奖励",
                 "unavailable": {
                     "cta": "了解更多",

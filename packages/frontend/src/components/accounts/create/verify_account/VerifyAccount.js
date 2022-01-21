@@ -41,7 +41,8 @@ export default ({
     onChangeVerificationNumber,
     showOptionAlreadyUsedModal,
     onCloseOptionAlreadyUsedModal,
-    showFundWithCreditCardOption
+    showFundWithCreditCardOption,
+    fundedAccountAvailable
 }) => {
     const [showWhereToBuyModal, setShowWhereToBuyModal] = useState(false);
 
@@ -69,8 +70,17 @@ export default ({
                     handleContinue();
                     e.preventDefault();
                 }}>
-                    <h1><Translate id='verifyAccount.title' /></h1>
-                    <h2><Translate id='verifyAccount.desc' /></h2>
+                    {fundedAccountAvailable ?
+                        <>
+                            <h1><Translate id='verifyAccount.title' /></h1>
+                            <h2><Translate id='verifyAccount.desc' /></h2>
+                        </>
+                        :
+                        <>
+                            <h1><Translate id='verifyAccount.titleNoFunding' /></h1>
+                            <h2><Translate id='verifyAccount.descNoFunding' /></h2>
+                        </>
+                    }
                     <FormButton
                         onClick={() => setShowWhereToBuyModal(true)}
                         type='button'
@@ -80,25 +90,29 @@ export default ({
                     >
                         <Translate id='account.createImplicit.pre.whereToBuy.button' />
                     </FormButton>
-                    <h4>
-                        <Translate id='verifyAccount.options.passCode' />
-                    </h4>
-                    <VerifyWithEmailOption
-                        onClick={() => setActiveVerificationOption('email')}
-                        onChangeVerificationEmail={onChangeVerificationEmail}
-                        verificationEmail={verificationEmail}
-                        activeVerificationOption={activeVerificationOption}
-                        translateIdTitle={optionTranslateId('email', 'title')}
-                        translateIdDesc={optionTranslateId('email', 'desc')}
-                    />
-                    <VerifyWithPhoneOption
-                        onClick={() => setActiveVerificationOption('phone')}
-                        onChangeVerificationNumber={onChangeVerificationNumber}
-                        verificationNumber={verificationNumber}
-                        activeVerificationOption={activeVerificationOption}
-                        translateIdTitle={optionTranslateId('phone', 'title')}
-                        translateIdDesc={optionTranslateId('phone', 'desc')}
-                    />
+                    {fundedAccountAvailable &&
+                        <>
+                            <h4>
+                                <Translate id='verifyAccount.options.passCode' />
+                            </h4>
+                            <VerifyWithEmailOption
+                                onClick={() => setActiveVerificationOption('email')}
+                                onChangeVerificationEmail={onChangeVerificationEmail}
+                                verificationEmail={verificationEmail}
+                                activeVerificationOption={activeVerificationOption}
+                                translateIdTitle={optionTranslateId('email', 'title')}
+                                translateIdDesc={optionTranslateId('email', 'desc')}
+                            />
+                            <VerifyWithPhoneOption
+                                onClick={() => setActiveVerificationOption('phone')}
+                                onChangeVerificationNumber={onChangeVerificationNumber}
+                                verificationNumber={verificationNumber}
+                                activeVerificationOption={activeVerificationOption}
+                                translateIdTitle={optionTranslateId('phone', 'title')}
+                                translateIdDesc={optionTranslateId('phone', 'desc')}
+                            />
+                        </>
+                    }
                     <h4>
                         <Translate id='verifyAccount.options.initialDeposit' />
                     </h4>

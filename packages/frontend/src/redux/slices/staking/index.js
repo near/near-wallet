@@ -14,7 +14,7 @@ export const selectStakingSlice = (state) => state[SLICE_NAME] || {};
 export const selectStakingAccounts = createSelector(selectStakingSlice, (staking) => staking.accounts || []);
 
 export const selectStakingCurrentAccountbyAccountId = createSelector(
-    [selectStakingAccounts, getAccountIdParam], 
+    [selectStakingAccounts, getAccountIdParam],
     (accounts, accountId) => accounts.find((account) => account.accountId === accountId)
 );
 

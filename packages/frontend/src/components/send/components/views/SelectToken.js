@@ -39,7 +39,7 @@ function filterTokens(tokens, searchSubstring) {
     return tokens.filter((token) => {
         if (!searchSubstring) { return true; }
 
-        return token.symbol
+        return token.onChainFTMetadata?.symbol
             .toLowerCase()
             .includes(searchSubstring.toLowerCase());
     });

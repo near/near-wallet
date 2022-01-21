@@ -1,18 +1,16 @@
-const { test, expect } = require("@playwright/test");
+const { test, expect } = require("../playwrightWithFixtures");
 const { formatNearAmount } = require("near-api-js/lib/utils/format");
 
 const { StakeUnstakePage } = require("./models/StakeUnstake");
 const { HomePage } = require("../register/models/Home");
 const { generateNUniqueRandomNumbersInRange } = require("../utils/helpers");
-const { getBankAccount } = require("../utils/account");
 
 const { describe, afterEach, beforeEach } = test;
 
 describe("Unstaking flow", () => {
     let testAccount;
 
-    beforeEach(async ({ page }) => {
-        const bankAccount = await getBankAccount();
+    beforeEach(async ({ page, bankAccount }) => {
         testAccount = bankAccount.spawnRandomSubAccountInstance();
         await testAccount.create();
         const homePage = new HomePage(page);
@@ -33,7 +31,7 @@ describe("Unstaking flow", () => {
         await stakeUnstakePage.runStakingFlowWithAmount(0.1, randomValidatorIndexes[0]);
         await stakeUnstakePage.clickStakeButton();
         await stakeUnstakePage.runStakingFlowWithAmount(0.2, randomValidatorIndexes[1]);
-        await stakeUnstakePage.clickUnstakeButton();
+        await stakeUnstakePage.clickStakingPageUnstakeButton();
 
         await expect(page).toMatchURL(/\/staking\/unstake$/);
         await expect(page).toHaveSelectorCount("data-test-id=stakingPageValidatorItem", 2);
@@ -50,7 +48,7 @@ describe("Unstaking flow", () => {
         await stakeUnstakePage.runStakingFlowWithAmount(0.1, randomValidatorIndexes[0]);
         await stakeUnstakePage.clickStakeButton();
         await stakeUnstakePage.runStakingFlowWithAmount(0.2, randomValidatorIndexes[1]);
-        await stakeUnstakePage.clickUnstakeButton();
+        await stakeUnstakePage.clickStakingPageUnstakeButton();
         const stakedValidatorName = await stakeUnstakePage.getValidatorName(1)
         await stakeUnstakePage.clickValidatorItem(0);
         const submittedUnstakeAmount = await stakeUnstakePage.submitStakeWithMaxAmount();
@@ -71,7 +69,7 @@ describe("Unstaking flow", () => {
             new RegExp(`${submittedUnstakeAmount} NEAR`)
         );
 
-        await stakeUnstakePage.clickUnstakeButton();
+        await stakeUnstakePage.clickStakingPageUnstakeButton();
 
         await expect(page).toHaveSelectorCount("data-test-id=stakingPageValidatorItem", 1);
         await expect(page).toMatchText(new RegExp(`${amountStillStaked} NEAR`));

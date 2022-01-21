@@ -17,6 +17,10 @@ export default class NonFungibleTokens {
         return this.viewFunctionAccount.viewFunction(contractName, 'nft_metadata');
     }
 
+    static getNumberOfTokens = ({ contractName, accountId }) => {
+        return this.viewFunctionAccount.viewFunction(contractName, 'nft_supply_for_owner', { account_id: accountId });
+    }
+
     static getTokens = async ({ contractName, accountId, base_uri, fromIndex = 0 }) => {
         let tokens;
         try {
@@ -45,7 +49,7 @@ export default class NonFungibleTokens {
             });
         }
         // TODO: Separate Redux action for loading image
-        tokens = await Promise.all(tokens.filter(({ metadata }) => !!metadata).map(async ({ metadata, ...token }) => {
+        return tokens.filter(({ metadata }) => !!metadata).map(({ metadata, ...token }) => {
             const { media } = metadata;
             let mediaUrl;
             if (!media.includes('://')) {
@@ -65,9 +69,7 @@ export default class NonFungibleTokens {
                     mediaUrl
                 }
             };
-        }));
-
-        return tokens;
+        });
     }
 }
 

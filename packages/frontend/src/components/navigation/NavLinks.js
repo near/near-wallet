@@ -80,7 +80,7 @@ const NavLinks = () => (
             <WalletIcon/>
             <Translate id='link.wallet'/>
         </NavLink>
-        <NavLink to='/staking' activeClassName='selected' onClick={() => Mixpanel.track("Click Staking button on nav")}>
+        <NavLink data-test-id="staking_navlink" to='/staking' activeClassName='selected' onClick={() => Mixpanel.track("Click Staking button on nav")}>
             <VaultIcon/>
             <Translate id='link.staking'/>
         </NavLink>

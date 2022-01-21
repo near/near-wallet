@@ -24,7 +24,7 @@ export default createGlobalStyle`
             min-height: 100vh !important;
 
             position: relative;
-            color: #3F4045;
+            color: #72727A;
             font-size: 14px !important;
             -webkit-overflow-scrolling: touch;
         }
@@ -57,7 +57,7 @@ export default createGlobalStyle`
     }
 
     body, p, h1, h2, h3, h4, h5, h6, button, .button, input, select, textarea {
-        font-family: "Inter", Lato, "Lucida Grande", Tahoma, Sans-Serif !important;
+        font-family: "Inter", Lato, "Lucida Grande", Tahoma, Sans-Serif;
     }
 
     .font-monospace {
@@ -93,7 +93,7 @@ export default createGlobalStyle`
     h3, .h3 {
         font-size: 20px;
         font-weight: 900;
-        color: #24272a;
+        color: #272729;
         margin: 0px;
     }
     h4, .h4 {
@@ -596,5 +596,11 @@ export default createGlobalStyle`
         &-l {
             box-shadow: 0px 45px 56px 0px rgba(0,0,0,0.07), 0px 10.05px 12.51px 0px rgba(0,0,0,0.0417), 0px 2.99px 3.72px 0px rgba(0,0,0,0.0283);
         }
+    }
+
+    .flex-center-center {
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 `;

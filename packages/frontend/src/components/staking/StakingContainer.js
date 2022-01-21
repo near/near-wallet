@@ -78,7 +78,7 @@ const StyledContainer = styled(Container)`
     }
 
     .transfer-money-icon {
-        display block;
+        display: block;
         margin: 50px auto;
     }
 
@@ -211,7 +211,7 @@ export function StakingContainer({ history, match }) {
                     ? validator
                     : selectedValidator || validator;
                 await dispatch(handleStakingAction(action, properValidator, amount));
-                Mixpanel.people.set({[`last_${action}_time`]: new Date().toString()});
+                Mixpanel.people.set({ [`last_${action}_time`]: new Date().toString() });
             }
         );
     };
@@ -277,8 +277,8 @@ export function StakingContainer({ history, match }) {
                         exact
                         path='/staking/:validator'
                         render={(props) => (
-                            <Validator 
-                                {...props} 
+                            <Validator
+                                {...props}
                                 validator={validator}
                                 onWithdraw={handleAction}
                                 loading={status.mainLoader}
@@ -295,7 +295,7 @@ export function StakingContainer({ history, match }) {
                                 {...props}
                                 action='stake'
                                 handleStakingAction={handleAction}
-                                availableBalance={totalUnstaked} 
+                                availableBalance={totalUnstaked}
                                 validator={validator}
                                 loading={status.mainLoader}
                                 hasLedger={hasLedger}

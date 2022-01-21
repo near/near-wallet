@@ -61,6 +61,20 @@
                 "title": "Добро пожаловать в NEAR"
             }
         },
+        "createImplicitAccount": {
+            "createCustomNameModal": {
+                "desc": "Unlike your default address, a custom address can be anything you like, making it easier to remember and share!",
+                "title": "Add a Custom Address to Your Wallet"
+            },
+            "customAddress": "A custom address can be anything you like, making it easier to remember and share!",
+            "customAmount": "Custom",
+            "exchange": "exchange",
+            "orAskFriend": "or ask a friend!",
+            "orSendNear": "...or send at least ${amount} NEAR to your wallet address.",
+            "sendFrom": "Send from an",
+            "title": "Almost there! To get started, buy some NEAR using MoonPay...",
+            "titleAlt": "Almost there! To get started, send at least ${amount} NEAR to your wallet address."
+        },
         "login": {
             "details": {
                 "warning": "Это позволит получить доступ к вашему кошельку. Пожалуйста, действуйте с осторожностью!"
@@ -234,6 +248,7 @@
             "placeholder": "yourname.${data}",
             "title": "Выберите имя пользователя"
         },
+        "addACustomAddress": "Add a Custom Address",
         "alreadyHaveAnAccount": "Уже есть учетная запись?",
         "invalidLinkDrop": {
             "one": "Ссылка NEAR Drop уже была ранее активирована.",
@@ -942,8 +957,8 @@
         "subHeader": "Выберите метод восстановления:"
     },
     "setupSeedPhrase": {
-        "pageText": "Запишите следующие слова по порядку и храните их в надежном месте. Вы не сможете восстановить свою учетную запись без них!",
-        "pageTitle": "Установка мнемонической фразы для восстановления",
+        "pageText": "Write down the following words in order and keep them somewhere safe. <b>Anyone with access to it will also have access to your account!</b> You’ll be asked to verify your passphrase next.",
+        "pageTitle": "Setup Your Secure Passphrase",
         "snackbarCopyImplicitAddress": "Адрес для пополнения скопирован!",
         "snackbarCopySuccess": "Мнемоническая фраза скопирована"
     },
@@ -1017,7 +1032,7 @@
     "staking": {
         "alertBanner": {
             "button": "Посмотреть текущего валидатора",
-            "title": "Перед тем как начать стейкинг в пуле нового валиадатора, вы сначала должны снять токены со стейкинга вашего текущего валидатора и вывести их из пула."
+            "title": "Перед тем как начать стейкинг в пуле нового валидатора, вы сначала должны снять токены со стейкинга вашего текущего валидатора и вывести их из пула."
         },
         "amountStakingInput": {
             "placeholder": "например: 15",
@@ -1033,6 +1048,10 @@
                 "info": "Эти токены сняты со стейкинга и теперь могут быть выведены.",
                 "title": "Доступно для вывода"
             },
+            "farm": {
+                "button": "Claim",
+                "info": "This validator grants staking rewards in a token other than NEAR."
+            },
             "pending": {
                 "info": "Эти токены сняты со стейкинга, но еще не могут быть выведены. Токенам требуется от 52 до 65 часов на вывод со стейкинга.",
                 "title": "Ожидается снятие"
@@ -1043,7 +1062,7 @@
                 "title": "Общий размер стейкинга"
             },
             "unclaimed": {
-                "info": "Награды, которые были заработаны, но еще не были выведены. Незатребованные награды автоматически отправляются в рестейкинг, что означает автоматическое увеличение общего размера вашего стейкинга по прошествии времени, а ваши награды увечиваются за счет <a target='_blank' rel='noopener noreferrer' href='https://www.investopedia.com/terms/c/compoundinterest.asp'>начисления сложных процентов</a>.",
+                "info": "Rewards that have been earned, but not withdrawn. NEAR token rewards are  <a target='_blank' href='https://www.investopedia.com/terms/c/compoundinterest.asp'>compounding</a> and are automatically re-staked.",
                 "title": "Незатребованные награды",
                 "unavailable": {
                     "cta": "Подробнее",
@@ -1132,10 +1151,10 @@
         },
         "validators": {
             "available": "Доступные валидаторы",
-            "button": "Просмотр валиадатора",
+            "button": "Просмотр валидатора",
             "desc": {
                 "account": "Введите название существующего валидатора для стейкинга ваших токенов NEAR.",
-                "lockup": "Введите название существующего валидатора для стейкинга ваших токенов NEAR. В каждый момент времени вы можете создать стейкинг в пуле только одного выбранного валиадатора."
+                "lockup": "Введите название существующего валидатора для стейкинга ваших токенов NEAR. В каждый момент времени вы можете создать стейкинг в пуле только одного выбранного валидатора."
             },
             "inputLabel": "Укажите название пула валидатора",
             "inputPlaceholder": "validator-name.near",
@@ -1143,7 +1162,7 @@
                 "error": "Подходящий валидатор не найден.",
                 "success": "Валидатор найден!"
             },
-            "title": "Выберите валиадатора"
+            "title": "Выберите валидатора"
         }
     },
     "stakingPoolUnstaked": "Эти NEAR в настоящее время находятся в стейкинг-пуле, но не участвуют в стейкинге. Например, они могут находиться в состоянии снятия из стейкинга, в ожидании операции вывода.",

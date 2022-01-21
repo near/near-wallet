@@ -67,7 +67,7 @@ const EnterAmount = ({
                     autoFocus={!isMobile}
                 />
             </div>
-            {selectedToken.symbol === 'NEAR' &&
+            {selectedToken.onChainFTMetadata?.symbol === 'NEAR' &&
                 <div className='usd-amount'>
                     <Balance amount={rawAmount} showBalanceInNEAR={false}/>
                 </div>

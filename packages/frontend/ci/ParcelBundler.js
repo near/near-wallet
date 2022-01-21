@@ -10,7 +10,7 @@ const ENTRY_FILE_PATH = path.join(__dirname, '../src/index.html');
 const WASM_PATH = path.join(__dirname, '../src/wasm/');
 const SSL_PATH = path.join(__dirname, '../devServerCertificates/');
 
-const enableDebugLogging = !Config.DEBUG_BUILD ? true : Config.DEBUG_BUILD === 'true';
+const enableDebugLogging = Config.DEBUG_BUILD;
 
 class ParcelBundler {
     constructor({

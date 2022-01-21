@@ -14,7 +14,9 @@ const ENABLE_DEBUG_LOGGING = process.env.NEAR_FLAG_DEBUG === 'true' || false;
 class FlagEditor {
     constructor({ prompts }) {
         this.prompts = prompts;
+        this._configPath = null;
         this._environments = null;
+        this._environmentsFilepath = null;
         this._flagsFilepath = null;
         this._flagsState = null;
     }
@@ -27,43 +29,66 @@ class FlagEditor {
         const userEditing = await getGitUsername();
         this.log({ userEditing });
 
-        await this.loadContext({ basePath: path.parse(process.cwd()) });
-        await this.loadFlags(this._flagsFilepath);
+        await this.loadContext();
+        await this.loadEnvironments();
+        await this.loadFlags();
 
-        const flagNames = Object.keys(this._flagsState)
+        const flagNames = Object.keys(this._flagsState);
 
         const action = await this.prompts.action(flagNames.length !== 0);
         this.log({ action })
 
-        let flagName;
-
-        if (action === ACTIONS.REMOVE_FLAG) {
-            flagName = await this.prompts.selectExistingFlag(flagNames)
-            delete this._flagsState[flagName]
-        } else {
-            let flagEntry;
-
-            if (action === ACTIONS.EDIT_FLAG) {
-                flagName = await this.prompts.selectExistingFlag(flagNames)
-            } else {
-                flagName = await this.prompts.enterNewFlagName(flagNames);
+        switch (action) {
+            case ACTIONS.ADD_FLAG: {
+                const flagName = await this.prompts.enterNewFlagName(flagNames);
+                await this.setFlagState(flagName, userEditing);
+                break;
             }
-            this.log({ flagName });
+            case ACTIONS.EDIT_FLAG: {
+                const flagName = await this.prompts.selectExistingFlag(flagNames);
+                await this.setFlagState(flagName, userEditing);
+                break;
+            }
+            case ACTIONS.REMOVE_FLAG: {
+                const flagName = await this.prompts.selectExistingFlag(flagNames);
+                delete this._flagsState[flagName];
+                break;
+            }
+            case ACTIONS.ADD_ENVIRONMENT: {
+                const {
+                    environmentName,
+                    sourceEnvironment,
+                } = await this.prompts.setupNewEnvironment(Object.values(this._environments));
+                await this.addEnvironment({ environmentName, sourceEnvironment, userEditing });
+                break;
+            }
+            case ACTIONS.REMOVE_ENVIRONMENT: {
+                const environmentName = await this.prompts.selectEnvironmentForDeletion(Object.values(this._environments));
+                if (!environmentName) {
+                    return;
+                }
 
-            flagEntry = this._flagsState[flagName];
-            const environmentsEnabledIn = await this.prompts.getEnvironmentStates({
-                environments: this._environments,
-                flagEntry
-            });
-
-            this._flagsState = {
-                ...this._flagsState,
-                [flagName]: this.flagEntry({ environmentsEnabledIn, flagEntry, userEditing })
+                await this.removeEnvironment(environmentName);
+                break;
             }
         }
 
+        await this.saveEnvironments();
         await this.saveFlags();
         await this.writeTypeDefinitions();
+    }
+
+    async setFlagState(flagName, userEditing) {
+        const flagEntry = this._flagsState[flagName];
+        const environmentsEnabledIn = await this.prompts.getEnvironmentStates({
+            environments: this._environments,
+            flagEntry
+        });
+
+        this._flagsState = {
+            ...this._flagsState,
+            [flagName]: this.flagEntry({ environmentsEnabledIn, flagEntry, userEditing })
+        }
     }
 
     flagEntry({ environmentsEnabledIn, flagEntry, userEditing }) {
@@ -91,8 +116,35 @@ class FlagEditor {
         }
     }
 
-    async loadContext({ basePath }) {
-        const { base, dir, root } = basePath;
+    async addEnvironment({ environmentName, sourceEnvironment, userEditing }) {
+        this._environments = {
+            ...this._environments,
+            [environmentName.toUpperCase()]: environmentName,
+        };
+
+        Object.entries(this._flagsState).forEach(([flagName, flagState]) => {
+            this._flagsState[flagName][environmentName] = {
+                ...flagState[sourceEnvironment],
+                lastEditedBy: userEditing,
+                lastEditedAt: new Date().toISOString(),
+            };
+        });
+    }
+
+    async removeEnvironment(environmentName) {
+        delete this._environments[environmentName.toUpperCase()];
+
+        Object.keys(this._flagsState).forEach((flagName) => {
+            delete this._flagsState[flagName][environmentName];
+        });
+    }
+
+    async resolveConfigPath() {
+        if (this._configPath) {
+            return this._configPath;
+        }
+
+        const { base, dir, root } = path.parse(process.cwd());
         let fileFound = false;
         let currPath = path.join(dir, base);
 
@@ -111,9 +163,23 @@ class FlagEditor {
             throw new Error(`Could not find a ${FLAGS_FILENAME} in CWD or any parent dir. Run this tool from a NEAR repo!`)
         }
 
-        currPath = path.join(currPath, CONFIG_DIRECTORY);
-        this._flagsFilepath = path.join(currPath, FLAGS_FILENAME);
-        this._environments = await fsx.readJson(path.join(currPath, ENVIRONMENTS_FILENAME));
+        this._configPath = path.join(currPath, CONFIG_DIRECTORY);
+        return this._configPath;
+    }
+
+    async loadContext() {
+        const configPath = await this.resolveConfigPath();
+        this._environmentsFilepath = path.join(configPath, ENVIRONMENTS_FILENAME);
+        this._flagsFilepath = path.join(configPath, FLAGS_FILENAME);
+    }
+
+    async loadEnvironments() {
+        try {
+            this._environments = await fsx.readJson(this._environmentsFilepath);
+        } catch (e) {
+            console.log(e);
+            throw new Error(`Failed to load JSON from ${this._environmentsFilepath}. Probably not valid JSON!`);
+        }
     }
 
     async loadFlags() {
@@ -123,6 +189,11 @@ class FlagEditor {
             console.log(e);
             throw new Error(`Failed to load JSON from ${this._flagsFilepath}. Probably not valid JSON!`)
         }
+    }
+
+    async saveEnvironments() {
+        this.log("writing file", { filepath: this._environmentsFilepath, state: this._environments });
+        return fsx.writeJson(this._environmentsFilepath, this._environments, { spaces: 2 });
     }
 
     async saveFlags() {

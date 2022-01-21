@@ -65,6 +65,20 @@
                 "title": "Welcome to NEAR"
             }
         },
+        "createImplicitAccount": {
+            "createCustomNameModal": {
+                "desc": "Unlike your default address, a custom address can be anything you like, making it easier to remember and share!",
+                "title": "Add a Custom Address to Your Wallet"
+            },
+            "customAddress": "A custom address can be anything you like, making it easier to remember and share!",
+            "customAmount": "Custom",
+            "exchange": "exchange",
+            "orAskFriend": "or ask a friend!",
+            "orSendNear": "...or send at least ${amount} NEAR to your wallet address.",
+            "sendFrom": "Send from an",
+            "title": "Almost there! To get started, buy some NEAR using MoonPay...",
+            "titleAlt": "Almost there! To get started, send at least ${amount} NEAR to your wallet address."
+        },
         "fundedStatus": {
             "active": "Active",
             "awaitingDeposit": "Awaiting deposit",
@@ -170,6 +184,7 @@
     },
     "button": {
         "acceptAndContinue": "Accept & Continue",
+        "addACustomAddress": "Add a Custom Address",
         "addFunds": "Add Funds",
         "addNode": "Add Node",
         "allow": "Allow",
@@ -192,6 +207,7 @@
         "continue": "Continue",
         "continueSetup": "Continue to Setup",
         "continueToMyAccount": "Continue to My Account",
+        "copy": "Copy",
         "copyImplicitAddress": "Copy Funding Address",
         "copyPhrase": "Copy Phrase",
         "copyUrl": "Copy URL",
@@ -211,12 +227,15 @@
         "findMyAccount": "Find My Account",
         "finish": "Finish",
         "fundWith": "Fund with",
+        "generateNew": "Generate New",
+        "getStarted": "Get Started",
         "goBack": "Go back",
         "gotIt": "Got it",
         "goToDashboard": "Go To Dashboard",
         "importAccount": "Import Account",
         "importExistingAccount": "Import Existing Account",
         "learnMore": "Learn More",
+        "learnMoreAboutNear": "Learn more about NEAR",
         "loading": "Loading",
         "moreInformation": "More information",
         "needToEditGoBack": "Need to edit? Go Back",
@@ -229,15 +248,18 @@
         "removeNode": "Remove Node",
         "removingKeys": "Removing Keys",
         "reserveMyAccountId": "Reserve My Account ID",
+        "resubmit": "Resubmit",
         "retry": "Retry",
         "returnToApp": "Return to App",
         "saveChanges": "Save Changes",
+        "secureMyAccount": "Secure My Account",
         "send": "Send",
         "setupPhrase": "Setup Recovery Phrase",
         "signIn": "Sign In",
         "signingIn": "Signing In",
         "signInLedger": "Sign in with Ledger",
         "skip": "Skip",
+        "skipThisForNow": "Skip this for now",
         "stake": "Stake",
         "staking": "Staking",
         "startOver": "Start over",
@@ -286,11 +308,17 @@
             "placeholder": "yourname.${data}",
             "title": "Account ID"
         },
+        "addACustomAddress": "Add a Custom Address",
         "alreadyHaveAnAccount": "Already have an account?",
         "invalidLinkDrop": {
             "one": "This NEAR Drop has been claimed.",
             "title": "Link Invalid",
             "two": "NEAR Drops can only be used to create a single account, after which the link will expire."
+        },
+        "landing": {
+            "descOne": "NEAR Wallet is a secure wallet and account manager for your accounts on the NEAR blockchain.",
+            "descTwo": "Once you create an account, you’ll need it to interact with applications on NEAR, and to securely store your various tokens and collectibles (NFTs).",
+            "title": "Create Your Account"
         },
         "note": {
             "canContain": "Your account ID can contain any of the following:",
@@ -736,7 +764,7 @@
         "loading": "Loading reCAPTCHA..."
     },
     "receivePage": {
-        "addressTitle": "Your address",
+        "addressTitle": "Your Wallet Address",
         "copyAddressLinkLong": "Copy address URL",
         "copyAddressLinkShort": "COPY",
         "qrCodeTitle": "Scan QR code",
@@ -854,6 +882,7 @@
             "error": "Public key access was rejected. No accounts were recovered.<br/>To continue, you must allow NEAR Wallet to view your public key. Please try again.",
             "success": ""
         },
+        "LackBalanceForState": "Your available balance is too low to perform any actions on your account. Please send NEAR to your account and then try again.",
         "NotEnoughBalance": "Your account does not have enough balance for this operation.",
         "PROMPT_TWO_FACTOR": {
             "invalidCode": "Invalid 2FA code. Please try again."
@@ -893,8 +922,7 @@
         "VERIFY_TWO_FACTOR": {
             "error": "Two Factor Authentication setup failed. Please try again.",
             "success": "Two Factor Authentication successfully setup!"
-        },
-        "LackBalanceForState": "Your available balance is too low to perform any actions on your account. Please send NEAR to your account and then try again."
+        }
     },
     "releaseNotesModal": {
         "desc": "You asked, we listened! The latest update brings adjustments to how balances are displayed in the wallet, and an easier way to create new accounts.",
@@ -1069,7 +1097,7 @@
         "emailDesc": "Receive a verification code and account recovery link via email.",
         "emailPlaceholder": "example@email.com",
         "emailTitle": "Email",
-        "header": "Secure your account",
+        "header": "Choose a Security Method",
         "ledgerDesc": "Secure your account with a Ledger hardware device.",
         "ledgerTitle": "Ledger Hardware Wallet",
         "notSupportedPhone": "Unfortunately, we do not offer SMS for your region. Please choose email instead.",
@@ -1081,8 +1109,8 @@
         "subHeader": "Select a method to secure and recover your account. This will be used to verify important activity, recover your account and access your account from other devices."
     },
     "setupSeedPhrase": {
-        "pageText": "Write down the following words IN ORDER and keep them somewhere safe. You cannot recover your account without them!",
-        "pageTitle": "Setup Phrase",
+        "pageText": "Write down the following words in order and keep them somewhere safe. <b>Anyone with access to it will also have access to your account!</b> You’ll be asked to verify your passphrase next.",
+        "pageTitle": "Setup Your Secure Passphrase",
         "snackbarCopyImplicitAddress": "Funding Address Copied!",
         "snackbarCopySuccess": "Passphrase copied!"
     },
@@ -1092,6 +1120,7 @@
         "pageTitle": "Recovery Setup is Complete"
     },
     "setupSeedPhraseVerify": {
+        "inputError": "Please check your passphrase and try again.",
         "pageText": "Enter the following word from your recovery phrase to complete the setup process.",
         "pageTitle": "Verify Phrase",
         "startOverText": "Didn't write it down?"
@@ -1104,11 +1133,13 @@
             "functionCall": "No description specified for this function.",
             "stake": "You are about to stake NEAR tokens. These tokens will be locked, and are at risk of being lost if your validator becomes unresponsive."
         },
+        "approveTransaction": "Approve Transaction",
         "authorizationRequestSuccessful": "Authorization request successful",
         "authorizing": "Authorizing",
         "availableBalance": "Available Balance",
         "availableToTransfer": "Available to transfer",
         "contract": "Contract:",
+        "contractDetails": "Contract Details",
         "details": {
             "detailedDescription": "Detailed description of transaction",
             "forContract": "For Contract",
@@ -1116,14 +1147,29 @@
             "gasPriceUnavailable": "Gas price estimate is unavailable",
             "transactionFees": "Transaction Fees"
         },
+        "estimatedFees": "Estimated Fees",
+        "feeLimit": "Fee Limit",
+        "function": "Function:",
+        "gasLimit": "Gas Limit",
         "hereAreSomeDetails": "Here are some details that will help you.",
         "insufficientFunds": "Insufficient Funds",
+        "insufficientFundsDesc": "You do not have enough available NEAR to complete this transaction.",
         "isRequesting": {
             "authorization": "is requesting authorization",
             "transferOf": "is requesting the transfer of"
         },
+        "networkFees": "Network Fees",
         "nothingHasBeenTransferred": "Nothing has been transferred.",
+        "retry": {
+            "estimatedFees": "Estimated Fees",
+            "feeLimit": "Fee Limit",
+            "link": "What is the fee limit?",
+            "networkFees": "Network Fees",
+            "text": "The default network fee was not enough to cover the cost of your transaction.<br/><br/>You may resubmit the transaction to have its fee limit automatically increased.",
+            "title": "Insufficient Network Fee"
+        },
         "transactionCancelled": "Transaction cancelled",
+        "transactionDetails": "Transaction Details",
         "transferring": "Transferring",
         "unexpectedStatus": "Unexpected status",
         "unknownApp": "Unknown App",
@@ -1179,6 +1225,10 @@
                 "info": "These tokens have been unstaked, and are ready to be withdrawn.",
                 "title": "Available for withdrawal"
             },
+            "farm": {
+                "button": "Claim",
+                "info": "This validator grants staking rewards in a token other than NEAR."
+            },
             "pending": {
                 "info": "These tokens have been unstaked, but are not yet ready to withdraw. Tokens are ready to withdraw 52 to 65 hours after unstaking.",
                 "title": "Pending release"
@@ -1189,7 +1239,7 @@
                 "title": "Total amount staked"
             },
             "unclaimed": {
-                "info": "Rewards that have been earned, but not withdrawn. Rewards earned are automatically restaked, which means your Total Amount Staked automatically increases over time, and your rewards are <a target='_blank' href='https://www.investopedia.com/terms/c/compoundinterest.asp'>compounding</a>.",
+                "info": "Rewards that have been earned, but not withdrawn. NEAR token rewards are  <a target='_blank' href='https://www.investopedia.com/terms/c/compoundinterest.asp'>compounding</a> and are automatically re-staked.",
                 "title": "Rewards earned",
                 "unavailable": {
                     "cta": "Learn More",
@@ -1365,6 +1415,7 @@
     "unvestedBalance": "Unvested NEAR is earmarked to you, but not yet under your ownership. You can still delegate or stake this NEAR, and the rewards will be entirely yours. As your NEAR is vested, it will appear in either your Locked or Unlocked balance.",
     "verifyAccount": {
         "desc": "To prevent spamming of new accounts, we’ll need to verify you as the owner. You may verify using a one-time passcode or by making a small initial deposit.",
+        "descNoFunding": "Choose a method below to fund and initialize your new account.",
         "modal": {
             "email": {
                 "desc": "You’ll need to use a different email address or select an alternate method to verify this account. You may still use this address as a recovery method.",
@@ -1401,7 +1452,8 @@
             "initialDeposit": "Initial Deposit",
             "passCode": "One-time passcode"
         },
-        "title": "Almost there! Verify your new account."
+        "title": "Almost there! Verify your new account.",
+        "titleNoFunding": "Almost there! Fund your new account."
     },
     "wallet": {
         "availableBalance": "Available Balance",

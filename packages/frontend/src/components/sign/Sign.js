@@ -5,13 +5,14 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
 import { Mixpanel } from '../../mixpanel';
-import { signAndSendTransactions, redirectTo } from '../../redux/actions/account';
+import { redirectTo } from '../../redux/actions/account';
 import { selectAccountSlice } from '../../redux/slices/account';
-import { selectSignSlice } from '../../redux/slices/sign';
+import { addQueryParams, handleSignTransactions, selectSignFeesGasLimitIncludingGasChanges, selectSignSlice, SIGN_STATUS } from '../../redux/slices/sign';
 import { selectStatusActionStatus } from '../../redux/slices/status';
 import SignContainer from './SignContainer';
 import SignTransferCancelled from './SignTransferCancelled';
 import SignTransferReady from './SignTransferReady';
+import SignTransferRetry from './SignTransferRetry';
 import SignTransferSuccess from './SignTransferSuccess';
 import SignTransferTransferring from './SignTransferTransferring';
 
@@ -21,7 +22,7 @@ class Sign extends Component {
         sending: false,
     }
 
-    handleDeny = e => {
+    handleCancel = e => {
         e.preventDefault();
         Mixpanel.track("SIGN Deny the transaction");
         const { callbackUrl, meta, signTxStatus } = this.props;
@@ -47,26 +48,25 @@ class Sign extends Component {
     }
 
     handleAllow = async () => {
+        // TODO: to be removed after refactoring sign reducer into redux toolkit version with status object
         this.setState({ sending: true });
-        await Mixpanel.withTracking("SIGN",
-            async () => {
-                // TODO: Maybe this needs Redux reducer to propagate result into state?
-                const { transactions, account: { accountId }, callbackUrl, meta, dispatch } = this.props;
 
-                const transactionHashes = await dispatch(signAndSendTransactions(transactions, accountId));
-                console.log('transactionHashes', transactionHashes);
-                if (this.props.callbackUrl) {
-                    window.location.href = addQueryParams(callbackUrl, {
-                        meta,
-                        transactionHashes: transactionHashes.join(',')
-                    });
-                }
-            }
-        );
+        await this.props.dispatch(handleSignTransactions());
+        this.redirectToApp();
+    }
+
+    redirectToApp = () => {
+        const { callbackUrl, meta, transactionHashes = [] } = this.props;
+        if (callbackUrl && !!transactionHashes.length) {
+            window.location.href = addQueryParams(callbackUrl, {
+                meta,
+                transactionHashes: transactionHashes.join(',')
+            });
+        }
     }
 
     renderSubcomponent = () => {
-        const { account: { url, balance }, totalAmount, sensitiveActionsCounter, status, dispatch } = this.props;
+        const { account: { url, balance }, totalAmount, sensitiveActionsCounter, status, dispatch, gasLimit } = this.props;
 
         const txTotalAmount = new BN(totalAmount); // TODO: add gas cost, etc
         const availableBalance = balance?.available;
@@ -76,12 +76,12 @@ class Sign extends Component {
         const isMonetaryTransaction = txTotalAmount.gt(new BN(0));
 
         switch (status) {
-            case 'needs-confirmation':
+            case SIGN_STATUS.NEEDS_CONFIRMATION:
                 return <SignTransferReady
                             {...this.state}
                             appTitle={url && url.referrer}
                             handleAllow={this.handleAllow}
-                            handleDeny={this.handleDeny}
+                            handleCancel={this.handleCancel}
                             handleDetails={this.handleDetails}
                             sensitiveActionsCounter={sensitiveActionsCounter}
                             txTotalAmount={txTotalAmount}
@@ -89,20 +89,26 @@ class Sign extends Component {
                             insufficientFunds={insufficientFunds}
                             isMonetaryTransaction={isMonetaryTransaction}
                         />;
-            case 'in-progress':
+            case SIGN_STATUS.IN_PROGRESS:
                 return <SignTransferTransferring
                             {...this.state}
                             isMonetaryTransaction={isMonetaryTransaction}
                         />;
-            case 'success':
+            case SIGN_STATUS.SUCCESS:
                 return <SignTransferSuccess
                             handleClose={() => dispatch(redirectTo('/'))}
                             isMonetaryTransaction={isMonetaryTransaction}
                             txTotalAmount={txTotalAmount}
                         />;
-            case 'error':
+            case SIGN_STATUS.RETRY_TRANSACTION:
+                return <SignTransferRetry
+                            handleRetry={this.handleAllow}
+                            handleCancel={this.handleCancel}
+                            gasLimit={new BN(gasLimit).div(new BN('1000000000000')).toString()}
+                        />;
+            case SIGN_STATUS.ERROR:
                 // TODO: Figure out how to handle different error types
-                return <SignTransferCancelled handleDeny={this.handleDeny} />;
+                return <SignTransferCancelled handleCancel={this.handleCancel} />;
             default:
                 return <b><Translate id='sign.unexpectedStatus' />: {status}</b>;
         }
@@ -113,19 +119,11 @@ class Sign extends Component {
     }
 }
 
-function addQueryParams(baseUrl, queryParams) {
-    const url = new URL(baseUrl);
-    for (let key in queryParams) {
-        const param = queryParams[key];
-        if(param) url.searchParams.set(key, param);
-    }
-    return url.toString();
-}
-
 const mapStateToProps = (state) => ({
     account: selectAccountSlice(state),
     ...selectSignSlice(state),
-    signTxStatus: selectStatusActionStatus(state).SIGN_AND_SEND_TRANSACTIONS
+    signTxStatus: selectStatusActionStatus(state).SIGN_AND_SEND_TRANSACTIONS,
+    gasLimit: selectSignFeesGasLimitIncludingGasChanges(state)
 });
 
 export const SignWithRouter = connect(

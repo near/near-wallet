@@ -49,13 +49,13 @@ const Container = styled.div`
 
 `;
 
-export default function AlertBanner({ title, button, linkTo, theme, titleData }) {
+export default function AlertBanner({ title, button, linkTo, theme, titleData, "data-test-id": testId, "data-test-id-button": buttonTestId  }) {
     return (
-        <Container className={classNames(['alert-banner', theme])}>
+        <Container className={classNames(['alert-banner', theme])} data-test-id={testId}>
             <AlertTriangleIcon/>
             <div>
                 <SafeTranslate id={title} data={{ data: titleData }}/>
-                {linkTo && button && <FormButton className='link' linkTo={linkTo} trackingId="Click alert banner"><Translate id={button} /></FormButton>}
+                {linkTo && button && <FormButton data-test-id={buttonTestId} className='link' linkTo={linkTo} trackingId="Click alert banner"><Translate id={button} /></FormButton>}
             </div>
         </Container>
     );

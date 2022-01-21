@@ -28,14 +28,14 @@ const showFullAmount = (amount, decimals, symbol) =>
         ? `${formatTokenAmount(amount, decimals, decimals)} ${symbol}`
         : '';
 
-const TokenAmount = ({ token: { balance, decimals, symbol }, withSymbol = false, className, showFiatAmount = true }) => (
-    <div className={className} title={showFullAmount(balance, decimals, symbol)}>
+const TokenAmount = ({ token: { balance, onChainFTMetadata }, withSymbol = false, className, showFiatAmount = true, "data-test-id": testId }) => (
+    <div className={className} title={showFullAmount(balance, onChainFTMetadata?.decimals, onChainFTMetadata?.symbol)} data-test-id={testId}>
         <div>
             {balance
-                ? formatToken(balance, decimals)
+                ? formatToken(balance, onChainFTMetadata?.decimals)
                 : <span className='dots' />
             }
-            <span className='currency'>{withSymbol ? ` ${symbol}` : null}</span>
+            <span className='currency'>{withSymbol ? ` ${onChainFTMetadata?.symbol}` : null}</span>
         </div>
         {showFiatAmount &&
             <div className='fiat-amount'>

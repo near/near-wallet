@@ -67,8 +67,8 @@ const Review = ({
                 <Textfit mode='single' max={38}>
                     <RawTokenAmount
                         amount={amount}
-                        symbol={selectedToken.symbol}
-                        decimals={selectedToken.decimals}
+                        symbol={selectedToken.onChainFTMetadata?.symbol}
+                        decimals={selectedToken.onChainFTMetadata?.decimals}
                         showFiatAmountForNonNearToken={false}
                     />
                 </Textfit>

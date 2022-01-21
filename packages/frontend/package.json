@@ -16,6 +16,7 @@
     "generate-lockfile": "^0.0.11",
     "js-sha256": "^0.9.0",
     "lodash.assign": "^4.2.0",
+    "lodash.clonedeep": "^4.5.0",
     "lodash.isarray": "^4.0.0",
     "lodash.isplainobject": "^4.0.6",
     "lodash.isstring": "^4.0.1",
@@ -61,7 +62,11 @@
     "build": "NODE_ENV=production node ci/runBundler.js && node ci/sentry-send-release.js",
     "test": "jest",
     "lint": "eslint --ext .js --ext .jsx .",
-    "fix": "eslint --ext .js --ext .jsx . --fix"
+    "fix": "eslint --ext .js --ext .jsx . --fix",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook",
+    "prepush": "yarn run test",
+    "precommit": "concurrently \"yarn run fix\" \".githooks/format-json\""
   },
   "browserslist": [
     ">0.2%",
@@ -77,6 +82,8 @@
     "babel-eslint": "^10.1.0",
     "babel-jest": "^27.0.1",
     "babel-loader": "^8.1.0",
+    "concurrently": "^7.0.0",
+    "dotenv": "^11.0.0",
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.15.6",
     "eslint": "5.16.0",

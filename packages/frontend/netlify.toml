@@ -13,7 +13,6 @@
     REACT_APP_ACCOUNT_ID_SUFFIX = "near"
     EXPLORER_URL = "https://explorer.mainnet.near.org"
     REACT_APP_IS_MAINNET = "true"
-    SHOW_PRERELEASE_WARNING = "yes"
     DISABLE_SEND_MONEY = "no"
     DISABLE_CREATE_ACCOUNT = "true"
     REACT_APP_MULTISIG_MIN_AMOUNT = "4"
@@ -28,7 +27,6 @@
     NETLIFY_USE_YARN = "true"
 
 [context.production.environment]
-    SHOW_PRERELEASE_WARNING = "no"
     BROWSER_MIXPANEL_TOKEN = "d5bbbbcc3a77ef8427f2b806b5689bf8"
     SENTRY_PROJECT = "mainnet-wallet"
     USE_CLOUDFLARE = "true"

@@ -1,14 +1,12 @@
-import { BN } from 'bn.js';
 import { 
     getLocation,
     push
 } from 'connected-react-router';
-import { utils } from 'near-api-js';
 import { PublicKey, KeyType } from 'near-api-js/lib/utils/key_pair';
 import { parse, stringify } from 'query-string';
 import { createActions, createAction } from 'redux-actions';
 
-import { DISABLE_CREATE_ACCOUNT, MULTISIG_MIN_PROMPT_AMOUNT } from '../../config';
+import { DISABLE_CREATE_ACCOUNT } from '../../config';
 import { 
     showAlert,
     dispatchWithAlert
@@ -46,7 +44,7 @@ import {
     selectAccountUrlSuccessUrl,
     selectAccountUrlTitle,
     selectAccountUrlTransactions,
-    selectBalance
+    selectActiveAccountIdIsImplicitAccount
 } from '../slices/account';
 import { selectAccountHasLockup } from '../slices/account';
 import { selectAllAccountsHasLockup } from '../slices/allAccounts';
@@ -211,6 +209,7 @@ export const allowLogin = () => async (dispatch, getState) => {
             await dispatchWithAlert(addAccessKey(wallet.accountId, contractId, publicKey, false, methodNames), { onlyError: true });
         }
         const availableKeys = await wallet.getAvailableKeys();
+        
         const allKeys = availableKeys.map(key => key.toString());
         const parsedUrl = new URL(successUrl);
         parsedUrl.searchParams.set('account_id', wallet.accountId);
@@ -472,9 +471,13 @@ const handleFundCreateAccountRedirect = ({
     accountId,
     implicitAccountId,
     recoveryMethod
-}) => (dispatch) => {
+}) => (dispatch, getState) => {
+    const activeAccountIdIsImplicit = selectActiveAccountIdIsImplicitAccount(getState());
+
     if (ENABLE_IDENTITY_VERIFIED_ACCOUNT) {
-        dispatch(redirectTo(`/verify-account?accountId=${accountId}&implicitAccountId=${implicitAccountId}&recoveryMethod=${recoveryMethod}`));
+        const route = activeAccountIdIsImplicit ? '/fund-with-existing-account' : '/verify-account';
+        const search = `?accountId=${accountId}&implicitAccountId=${implicitAccountId}&recoveryMethod=${recoveryMethod}`;
+        dispatch(redirectTo(route + search));
     } else {
         dispatch(redirectTo(`/fund-create-account/${accountId}/${implicitAccountId}/${recoveryMethod}`));
     }
@@ -538,27 +541,15 @@ export const handleCreateAccountWithSeedPhrase = (accountId, recoveryKeyPair, fu
 
 export const finishAccountSetup = () => async (dispatch, getState) => {
     await dispatch(refreshAccount());
-    await dispatch(getBalance());
     await dispatch(clearAccountState());
 
-    const balance = selectBalance(getState());
     const redirectUrl = selectAccountUrlRedirectUrl(getState());
     const accountId = selectAccountId(getState());
 
-    let promptTwoFactor = await TwoFactor.checkCanEnableTwoFactor(balance);
-
-    if (new BN(balance.available).lt(new BN(utils.format.parseNearAmount(MULTISIG_MIN_PROMPT_AMOUNT)))) {
-        promptTwoFactor = false;
-    }
-
-    if (promptTwoFactor) {
-        dispatch(redirectTo('/enable-two-factor', { globalAlertPreventClear: true }));
+    if (redirectUrl) {
+        window.location = `${redirectUrl}?accountId=${accountId}`;
     } else {
-        if (redirectUrl) {
-            window.location = `${redirectUrl}?accountId=${accountId}`;
-        } else {
-            dispatch(redirectToApp('/'));
-        }
+        dispatch(redirectToApp('/'));
     }
 };
 
@@ -615,15 +606,7 @@ export const { recoverAccountSecretKey } = createActions({
     ]
 });
 
-export const { signAndSendTransactions, setSignTransactionStatus, sendMoney, transferAllFromLockup } = createActions({
-    SET_SIGN_TRANSACTION_STATUS: [
-        (status) => ({ status }),
-        () => ({})
-    ],
-    SIGN_AND_SEND_TRANSACTIONS: [
-        wallet.signAndSendTransactions.bind(wallet),
-        () => showAlert({ onlyError: true })
-    ],
+export const { sendMoney, transferAllFromLockup } = createActions({
     SEND_MONEY: [
         wallet.sendMoney.bind(wallet),
         () => showAlert({ onlyError: true })

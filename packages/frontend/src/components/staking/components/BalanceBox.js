@@ -1,15 +1,19 @@
 import BN from 'bn.js';
 import React from 'react';
 import { Translate } from 'react-localize-redux';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import classNames from '../../../utils/classNames';
 import Balance from '../../common/balance/Balance';
 import FormButton from '../../common/FormButton';
 import Tooltip from '../../common/Tooltip';
+import TokenIcon from '../../send/components/TokenIcon';
+import TokenAmount from '../../wallet/TokenAmount';
 
 const Container = styled.div`
-    border-bottom: 2px solid #F2F2F2;
+    ${props => !props.hideBorder && css`
+        border-bottom: 2px solid #F2F2F2;
+    `}
     padding: 15px 0;
     display: flex;
 
@@ -23,13 +27,21 @@ const Container = styled.div`
         color: #24272a;
         font-size: 16px;
         font-weight: 700;
+
+        .fiat-amount {
+            font-size: 14px;
+            font-weight: 400;
+            margin-top: 6px;
+            color: #72727A;
+            line-height: normal;
+        }
     }
 
     .title {
         color: #6E7073;
         display: flex;
         align-items: center;
-        
+
         .tooltip {
             margin-bottom: -1px;
         }
@@ -64,11 +76,35 @@ const Container = styled.div`
         margin: 0px -14px 0 -14px;
         border-radius: 0;
     }
+
+    .token-balance {
+        display: flex;
+
+        .icon {
+            width: 32px;
+            height: 32px;
+            min-width: 32px;
+            min-height: 32px;
+            margin-right: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border-radius: 50%;
+            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.15);
+            align-self: center;
+
+            img, svg {
+                height: 32px;
+                width: 32px;
+            }
+        }
+    }
 `;
 
 export default function BalanceBox({
     title,
-    amount,
+    token,
     info,
     onClick,
     button,
@@ -77,32 +113,56 @@ export default function BalanceBox({
     disclaimer,
     linkTo,
     buttonTestId,
-    balanceTestId
+    balanceTestId,
+    hideBorder = false
 }) {
     return (
-        <Container className='balance-box'>
+        <Container className='balance-box' hideBorder={hideBorder}>
             <div className='left'>
-                <div className='title'>
-                    <Translate id={title} />
-                    <Tooltip translate={info}/>
-                </div>
-                <Balance data-test-id={balanceTestId} amount={amount}/>
-                {disclaimer &&
-                    <div className='withdrawal-disclaimer'>
-                        <Translate id={disclaimer} />
+                {
+                    (title || info) &&
+                    <div className='title'>
+                        {title && <Translate id={title}/>}
+                        {info && <Tooltip translate={info}/>}
                     </div>
+                }
+                <div className='token-balance'>
+                    <div className='icon'>
+                        <TokenIcon symbol={token.onChainFTMetadata?.symbol} icon={token.onChainFTMetadata?.icon}/>
+                    </div>
+                    {token.onChainFTMetadata?.symbol === "NEAR" &&
+                    !token.contractName ? (
+                        <Balance
+                            amount={token.balance}
+                            data-test-id={balanceTestId}
+                            symbol={false}
+                        />
+                    ) : (
+                        <TokenAmount
+                            token={token}
+                            className="balance"
+                            withSymbol={true}
+                            data-test-id={balanceTestId}
+                        />
+                    )}
+                </div>
+
+                {disclaimer &&
+                <div className='withdrawal-disclaimer'>
+                    <Translate id={disclaimer}/>
+                </div>
                 }
             </div>
             {button && (onClick || linkTo) &&
-                <FormButton
-                    data-test-id={buttonTestId}
-                    disabled={new BN(amount).isZero() || loading}
-                    onClick={onClick}
-                    linkTo={linkTo}
-                    className={classNames(['small', buttonColor])}
-                >
-                    <Translate id={button} />
-                </FormButton>
+            <FormButton
+                data-test-id={buttonTestId}
+                disabled={new BN(token.balance).isZero() || loading}
+                onClick={onClick}
+                linkTo={linkTo}
+                className={classNames(['small', buttonColor])}
+            >
+                <Translate id={button}/>
+            </FormButton>
             }
         </Container>
     );

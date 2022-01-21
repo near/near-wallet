@@ -12,7 +12,6 @@ import {
     makeAccountActive,
     redirectTo,
     setLedgerTxSigned,
-    setSignTransactionStatus,
     showLedgerModal
 } from '../redux/actions/account';
 import sendJson from '../tmp_fetch_send_json';
@@ -379,6 +378,11 @@ class Wallet {
         });
     }
 
+    async checkFundedAccountAvailable() {
+        const { available } = await sendJson('GET', ACCOUNT_HELPER_URL + '/checkFundedAccountAvailable');
+        return available;
+    }
+
     async createIdentityFundedAccount({
         accountId,
         kind,
@@ -546,6 +550,19 @@ class Wallet {
         });
 
         await contract.claim({ account_id: accountId }, LINKDROP_GAS);
+    }
+
+    async saveImplicitAccountKeyPair({ implicitAccountId, recoveryKeyPair }) {
+        await this.keyStore.setKey(this.connection.networkId, implicitAccountId, recoveryKeyPair);
+    }
+
+    async finishSetupImplicitAccount({
+        implicitAccountId,
+        recoveryMethod
+    }) {
+        const publicKey = new PublicKey({ keyType: KeyType.ED25519, data: Buffer.from(implicitAccountId, 'hex') });
+        await this.saveAndMakeAccountActive(implicitAccountId);
+        await this.addLocalKeyAndFinishSetup(implicitAccountId, recoveryMethod, publicKey);
     }
 
     async saveAccount(accountId, keyPair) {
@@ -768,7 +785,7 @@ class Wallet {
         if (!accountId) {
             return false;
         }
-        
+
         const account = await this.getAccount(accountId);
         return await account.getAccountBalance(limitedAccountData);
     }
@@ -804,6 +821,20 @@ class Wallet {
         });
     }
 
+    async initializeRecoveryMethodNewImplicitAccount(method) {
+        const { seedPhrase } = generateSeedPhrase();
+        const { secretKey } = parseSeedPhrase(seedPhrase);
+        const recoveryKeyPair = KeyPair.fromString(secretKey);
+        const implicitAccountId = Buffer.from(recoveryKeyPair.publicKey.data).toString('hex');
+        const body = {
+            accountId: implicitAccountId,
+            method,
+            seedPhrase
+        };
+        await sendJson('POST', ACCOUNT_HELPER_URL + '/account/initializeRecoveryMethodForTempAccount', body);
+        return seedPhrase;
+    }
+
     async initializeRecoveryMethod(accountId, method) {
         const { seedPhrase } = generateSeedPhrase();
         const isNew = await this.checkIsNew(accountId);
@@ -818,6 +849,18 @@ class Wallet {
             await this.postSignedJson('/account/initializeRecoveryMethod', body);
         }
         return seedPhrase;
+    }
+
+    async validateSecurityCodeNewImplicitAccount(implicitAccountId, method, securityCode) {
+        try {
+            await sendJson('POST', ACCOUNT_HELPER_URL + '/account/validateSecurityCodeForTempAccount', {
+                accountId: implicitAccountId,
+                method,
+                securityCode,
+            });
+        } catch(e) {
+            throw new WalletError('Invalid code', 'setupRecoveryMessageNewAccount.invalidCode');
+        }
     }
 
     async validateSecurityCode(accountId, method, securityCode, enterpriseRecaptchaToken, recaptchaAction) {
@@ -1054,7 +1097,6 @@ class Wallet {
     async signAndSendTransactions(transactions, accountId = this.accountId) {
         const account = await this.getAccount(accountId);
 
-        store.dispatch(setSignTransactionStatus('in-progress'));
         const transactionHashes = [];
         for (let { receiverId, nonce, blockHash, actions } of transactions) {
             let status, transaction;
@@ -1062,7 +1104,15 @@ class Wallet {
             // See https://github.com/near/near-wallet/issues/1856
             const recreateTransaction = account.deployMultisig || true;
             if (recreateTransaction) {
-                ({ status, transaction } = await account.signAndSendTransaction({ receiverId, actions }));
+                try {
+                    ({ status, transaction } = await account.signAndSendTransaction({ receiverId, actions }));
+                } catch (error) {
+                    if (error.message.includes('Exceeded the prepaid gas')) {
+                        throw new WalletError(error.message, error.code, { transactionHashes });
+                    }
+
+                    throw error;
+                }
             } else {
                 // TODO: Maybe also only take receiverId and actions as with multisig path?
                 const [, signedTransaction] = await nearApiJs.transactions.signTransaction(receiverId, nonce, actions, blockHash, this.connection.signer, accountId, NETWORK_ID);
@@ -1073,8 +1123,10 @@ class Wallet {
             if (status.Failure !== undefined) {
                 throw new Error(`Transaction failure for transaction hash: ${transaction.hash}, receiver_id: ${transaction.receiver_id} .`);
             }
-
-            transactionHashes.push(transaction.hash);
+            transactionHashes.push({
+                hash: transaction.hash,
+                nonceString: nonce.toString()
+            });
         }
 
         return transactionHashes;
