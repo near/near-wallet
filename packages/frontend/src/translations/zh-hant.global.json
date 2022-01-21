@@ -1190,7 +1190,7 @@
             },
             "farm": {
                 "button": "Claim",
-                "info": "This is project validator. You’ll get the farming reward while staking on it.",
+                "info": "This validator grants staking rewards in a token other than NEAR."
             },
             "pending": {
                 "info": "這些通證並未質押，但還不可提現。通常在贖回質押後 36 - 48 小時變為可提現。",
