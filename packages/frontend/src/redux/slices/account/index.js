@@ -1,5 +1,7 @@
 import { createSelector } from "reselect";
 
+import { isImplicitAccount } from "../../../utils/account";
+
 const SLICE_NAME = 'account';
 
 // Top level selectors
@@ -7,6 +9,8 @@ export const selectAccountSlice = (state) => state[SLICE_NAME];
 
 // Second level selectors 
 export const selectAccountId = createSelector(selectAccountSlice, (account) => account.accountId);
+
+export const selectActiveAccountIdIsImplicitAccount = createSelector(selectAccountSlice, (account) => isImplicitAccount(account.accountId));
 
 export const selectAccountHas2fa = createSelector(selectAccountSlice, (account) => account.has2fa);
 

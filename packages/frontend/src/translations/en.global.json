@@ -308,6 +308,7 @@
             "placeholder": "yourname.${data}",
             "title": "Account ID"
         },
+        "addACustomAddress": "Add a Custom Address",
         "alreadyHaveAnAccount": "Already have an account?",
         "invalidLinkDrop": {
             "one": "This NEAR Drop has been claimed.",

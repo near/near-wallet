@@ -8,7 +8,6 @@ import { compose } from 'redux';
 import { createActions, createAction } from 'redux-actions';
 
 import { DISABLE_CREATE_ACCOUNT } from '../../config';
-import { isImplicitAccount } from '../../utils/account';
 import { 
     showAlert,
     dispatchWithAlert
@@ -45,7 +44,8 @@ import {
     selectAccountUrlRedirectUrl,
     selectAccountUrlSuccessUrl,
     selectAccountUrlTitle,
-    selectAccountUrlTransactions
+    selectAccountUrlTransactions,
+    selectActiveAccountIdIsImplicitAccount
 } from '../slices/account';
 import { selectAccountHasLockup } from '../slices/account';
 import { selectAllAccountsHasLockup } from '../slices/allAccounts';
@@ -473,7 +473,7 @@ const handleFundCreateAccountRedirect = ({
     implicitAccountId,
     recoveryMethod
 }) => (dispatch, getState) => {
-    const hasActiveImplicitAccount = compose(isImplicitAccount, selectAccountId, getState);
+    const hasActiveImplicitAccount = compose(selectActiveAccountIdIsImplicitAccount, getState);
 
     if (ENABLE_IDENTITY_VERIFIED_ACCOUNT) {
         const route = hasActiveImplicitAccount() ? '/fund-with-existing-account' : '/verify-account';
