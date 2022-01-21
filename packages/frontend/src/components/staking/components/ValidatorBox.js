@@ -157,7 +157,6 @@ export default function ValidatorBox({
         }
     };
     const isProjectValidator = validator.version === ValidatorVersion[PROJECT_VALIDATOR_VERSION];
-    console.log(isProjectValidator, isProjectValidator && validator);
     return (
         <Container
             className='validator-box'
@@ -180,10 +179,9 @@ export default function ValidatorBox({
                         <span>{fee}% <Translate id='staking.validatorBox.fee' /> - </span>
                         <span>
                             {
-                                active ?
-                                    <span className="active"> <Translate id='staking.validatorBox.state.active' /></span>
-                                    :
-                                    <span className="inactive"> <Translate id='staking.validatorBox.state.inactive' /></span>
+                                active
+                                    ? <span className="active"> <Translate id='staking.validatorBox.state.active' /></span>
+                                    : <span className="inactive"> <Translate id='staking.validatorBox.state.inactive' /></span>
                             }
                         </span>
                     </div>
