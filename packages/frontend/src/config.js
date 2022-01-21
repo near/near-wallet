@@ -1,7 +1,7 @@
 import BN from 'bn.js';
 import * as nearApiJs from 'near-api-js';
 
-export const ACCOUNT_HELPER_URL = 'http://testnet-api.kitwallet.app';
+export const ACCOUNT_HELPER_URL = 'https://testnet-api.kitwallet.app';
 export const ACCOUNT_ID_SUFFIX = process.env.REACT_APP_ACCOUNT_ID_SUFFIX || 'testnet';
 export const ACCESS_KEY_FUNDING_AMOUNT = process.env.REACT_APP_ACCESS_KEY_FUNDING_AMOUNT || nearApiJs.utils.format.parseNearAmount('0.25');
 export const BROWSER_MIXPANEL_TOKEN = process.env.BROWSER_MIXPANEL_TOKEN;
