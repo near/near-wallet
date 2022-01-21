@@ -66,18 +66,18 @@
             }
         },
         "createImplicitAccount": {
-            "customAmount": "Custom",
-            "sendFrom": "Send from an",
-            "exchange": "exchange",
-            "orAskFriend": "or ask a friend!",
-            "title": "Almost there! To get started, buy some NEAR using MoonPay...",
-            "titleAlt": "Almost there! To get started, send at least ${amount} NEAR to your wallet address.",
-            "orSendNear": "...or send at least ${amount} NEAR to your wallet address.",
-            "customAddress": "A custom address can be anything you like, making it easier to remember and share!",
             "createCustomNameModal": {
                 "desc": "Unlike your default address, a custom address can be anything you like, making it easier to remember and share!",
                 "title": "Add a Custom Address to Your Wallet"
-            }
+            },
+            "customAddress": "A custom address can be anything you like, making it easier to remember and share!",
+            "customAmount": "Custom",
+            "exchange": "exchange",
+            "orAskFriend": "or ask a friend!",
+            "orSendNear": "...or send at least ${amount} NEAR to your wallet address.",
+            "sendFrom": "Send from an",
+            "title": "Almost there! To get started, buy some NEAR using MoonPay...",
+            "titleAlt": "Almost there! To get started, send at least ${amount} NEAR to your wallet address."
         },
         "fundedStatus": {
             "active": "活跃",
@@ -300,6 +300,7 @@
             "placeholder": "yourname.${data}",
             "title": "输入用户名"
         },
+        "addACustomAddress": "Add a Custom Address",
         "alreadyHaveAnAccount": "已经拥有账户？",
         "invalidLinkDrop": {
             "one": "NEAR Drop 已经被领取。",
