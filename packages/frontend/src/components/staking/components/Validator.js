@@ -18,6 +18,40 @@ import StakingFee from './StakingFee';
 
 const { fetchToken } = tokensActions;
 
+const renderFarmUi = ({ farmList, contractMetadataByContractId, isFarmListLoading }) => {
+    if(isFarmListLoading) {
+        // eslint-disable-next-line jsx-a11y/heading-has-content
+        return <h1 className="animated-dots"/>;
+    }
+
+    return farmList.map(({ token_id, balance }, i) => {
+        const currentTokenContractMetadata = contractMetadataByContractId[token_id];
+
+        if (!currentTokenContractMetadata) {
+            return;
+        }
+
+        return (
+            <BalanceBox
+                key={token_id}
+                token={{
+                    onChainFTMetadata: currentTokenContractMetadata,
+                    coingeckoMetadata: {},
+                    balance,
+                    contractName: token_id,
+                }}
+                // onClick={() => {
+                //     // TODO claim accrued rewards and redirect home where tokens will be fetched
+                //     return validator.contract.claim({token_id}).then(() => dispatch(redirectTo('/')));
+                // }}
+                button="staking.balanceBox.farm.button"
+                buttonColor='gray-red'
+                hideBorder={farmList.length > 1 && i < farmList.length}
+            />
+        );
+    });
+};
+
 export default function Validator({
     match,
     validator,
@@ -28,29 +62,39 @@ export default function Validator({
 }) {
     const [confirm, setConfirm] = useState(null);
     const [farmList, setFarmList] = useState([]);
+    const [isFarmListLoading, setIsFarmListLoading] = useState(false);
     const nearAsFT = useNEARAsTokenWithMetadata();
     const accountId = useSelector(selectAccountId);
-    const contractMetadata = useSelector(selectAllContractMetadata);
+    const contractMetadataByContractId = useSelector(selectAllContractMetadata);
 
     const dispatch = useDispatch();
     const stakeNotAllowed = !!selectedValidator && selectedValidator !== match.params.validator && !!currentValidators.length;
     const showConfirmModal = confirm === 'withdraw';
+    const stakingPoolHasFarms = validator && validator.version === ValidatorVersion[PROJECT_VALIDATOR_VERSION];
+
 
     useEffect(() => {
         const getFarms = async () => {
-            const farms = await validator.contract.get_farms({from_index: 0, limit: 300});
-            setFarmList(await Promise.all(farms.map(({ token_id }, i) => {
-                dispatch(fetchToken({contractName: token_id}));
-                return validator.contract
-                    .get_unclaimed_reward({ account_id: accountId, farm_id: i })
-                    .catch(() => "0")
-                    .then((balance) => ({ token_id, balance, farm_id: i }));
-            })));
+            setIsFarmListLoading(true);
+
+            try {
+                const farms = await validator.contract.get_farms({ from_index: 0, limit: 300 });
+
+                const list = await Promise.all(farms.map(({ token_id }, i) => {
+                    dispatch(fetchToken({ contractName: token_id }));
+                    return validator.contract
+                        .get_unclaimed_reward({ account_id: accountId, farm_id: i })
+                        .catch(() => "0")
+                        .then((balance) => ({ token_id, balance, farm_id: i }));
+                }));
+
+                setFarmList(list);
+            } finally {
+                setIsFarmListLoading(false);
+            }
         };
-        if(validator && validator.version === ValidatorVersion[PROJECT_VALIDATOR_VERSION]) {
-            getFarms();
-        }
-    },[validator]);
+        if (stakingPoolHasFarms) { getFarms(); }
+    }, [validator]);
 
     const handleStakeAction = async () => {
         if (showConfirmModal && !loading) {
@@ -79,7 +123,7 @@ export default function Validator({
             </h1>
             <FormButton
                 linkTo={`/staking/${match.params.validator}/stake`}
-                disabled={(stakeNotAllowed || !validator) ? true : false}
+                disabled={(stakeNotAllowed || !validator)}
                 trackingId="STAKE Click stake with validator button"
                 data-test-id="validatorPageStakeButton"
             >
@@ -105,26 +149,9 @@ export default function Validator({
                         title='staking.balanceBox.unclaimed.title'
                         info='staking.balanceBox.unclaimed.info'
                         token={{...nearAsFT, balance: validator.unclaimed || '0'}}
+                        hideBorder={(stakingPoolHasFarms && isFarmListLoading) || (!isFarmListLoading && farmList.length > 0)}
                     />
-                    {farmList.map(({ token_id, balance }) => (
-                            <BalanceBox
-                                key={token_id}
-                                title="staking.balanceBox.farm.title"
-                                info="staking.balanceBox.farm.info"
-                                token={{
-                                    onChainFTMetadata: contractMetadata[token_id],
-                                    coingeckoMetadata: {},
-                                    balance,
-                                    contractName: token_id,
-                                }}
-                                // onClick={() => {
-                                //     // TODO claim accrued rewards and redirect home where tokens will be fetched
-                                //     return validator.contract.claim({token_id}).then(() => dispatch(redirectTo('/')));
-                                // }}
-                                button="staking.balanceBox.farm.button"
-                                buttonColor='gray-red'
-                            />
-                    ))}
+                    {renderFarmUi({ farmList, contractMetadataByContractId, isFarmListLoading })}
                     <BalanceBox
                         title='staking.balanceBox.pending.title'
                         info='staking.balanceBox.pending.info'

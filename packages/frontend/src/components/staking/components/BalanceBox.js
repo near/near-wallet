@@ -1,7 +1,7 @@
 import BN from 'bn.js';
 import React from 'react';
 import { Translate } from 'react-localize-redux';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import classNames from '../../../utils/classNames';
 import Balance from '../../common/balance/Balance';
@@ -11,7 +11,9 @@ import TokenIcon from '../../send/components/TokenIcon';
 import TokenAmount from '../../wallet/TokenAmount';
 
 const Container = styled.div`
-    border-bottom: 2px solid #F2F2F2;
+    ${props => !props.hideBorder && css`
+        border-bottom: 2px solid #F2F2F2;
+    `}
     padding: 15px 0;
     display: flex;
 
@@ -110,14 +112,15 @@ export default function BalanceBox({
     disclaimer,
     linkTo,
     buttonTestId,
-    balanceTestId
+    balanceTestId,
+    hideBorder = false
 }) {
     return (
-        <Container className='balance-box'>
+        <Container className='balance-box' hideBorder={hideBorder}>
             <div className='left'>
                 <div className='title'>
-                    <Translate id={title} />
-                    <Tooltip translate={info}/>
+                    {title && <Translate id={title} />}
+                    {info && <Tooltip translate={info}/>}
                 </div>
                 <div className='token-balance'>
                     <div className='icon'>
