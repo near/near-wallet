@@ -473,10 +473,10 @@ const handleFundCreateAccountRedirect = ({
     implicitAccountId,
     recoveryMethod
 }) => (dispatch, getState) => {
-    const hasActiveImplicitAccount = compose(selectActiveAccountIdIsImplicitAccount, getState);
+    const activeAccountIdIsImplicit = selectActiveAccountIdIsImplicitAccount(getState());
 
     if (ENABLE_IDENTITY_VERIFIED_ACCOUNT) {
-        const route = hasActiveImplicitAccount() ? '/fund-with-existing-account' : '/verify-account';
+        const route = activeAccountIdIsImplicit ? '/fund-with-existing-account' : '/verify-account';
         const search = `?accountId=${accountId}&implicitAccountId=${implicitAccountId}&recoveryMethod=${recoveryMethod}`;
         dispatch(redirectTo(route + search));
     } else {
