@@ -66,18 +66,18 @@
             }
         },
         "createImplicitAccount": {
-            "customAmount": "Custom",
-            "sendFrom": "Send from an",
-            "exchange": "exchange",
-            "orAskFriend": "or ask a friend!",
-            "title": "Almost there! To get started, buy some NEAR using MoonPay...",
-            "titleAlt": "Almost there! To get started, send at least ${amount} NEAR to your wallet address.",
-            "orSendNear": "...or send at least ${amount} NEAR to your wallet address.",
-            "customAddress": "A custom address can be anything you like, making it easier to remember and share!",
             "createCustomNameModal": {
                 "desc": "Unlike your default address, a custom address can be anything you like, making it easier to remember and share!",
                 "title": "Add a Custom Address to Your Wallet"
-            }
+            },
+            "customAddress": "A custom address can be anything you like, making it easier to remember and share!",
+            "customAmount": "Custom",
+            "exchange": "exchange",
+            "orAskFriend": "or ask a friend!",
+            "orSendNear": "...or send at least ${amount} NEAR to your wallet address.",
+            "sendFrom": "Send from an",
+            "title": "Almost there! To get started, buy some NEAR using MoonPay...",
+            "titleAlt": "Almost there! To get started, send at least ${amount} NEAR to your wallet address."
         },
         "fundedStatus": {
             "active": "Active",
@@ -184,6 +184,7 @@
     },
     "button": {
         "acceptAndContinue": "Accept & Continue",
+        "addACustomAddress": "Add a Custom Address",
         "addFunds": "Add Funds",
         "addNode": "Add Node",
         "allow": "Allow",
@@ -206,8 +207,8 @@
         "continue": "Continue",
         "continueSetup": "Continue to Setup",
         "continueToMyAccount": "Continue to My Account",
-        "copyImplicitAddress": "Copy Funding Address",
         "copy": "Copy",
+        "copyImplicitAddress": "Copy Funding Address",
         "copyPhrase": "Copy Phrase",
         "copyUrl": "Copy URL",
         "createAccount": "Create Account",
@@ -244,7 +245,6 @@
         "recoverAccount": "Recover Account",
         "recovering": "Finding Account",
         "recoverYourAccount": "Recover your Account",
-        "addACustomAddress": "Add a Custom Address",
         "removeNode": "Remove Node",
         "removingKeys": "Removing Keys",
         "reserveMyAccountId": "Reserve My Account ID",
@@ -1119,10 +1119,10 @@
         "pageTitle": "Recovery Setup is Complete"
     },
     "setupSeedPhraseVerify": {
+        "inputError": "Please check your passphrase and try again.",
         "pageText": "Enter the following word from your recovery phrase to complete the setup process.",
         "pageTitle": "Verify Phrase",
-        "startOverText": "Didn't write it down?",
-        "inputError": "Please check your passphrase and try again."
+        "startOverText": "Didn't write it down?"
     },
     "sign": {
         "ActionWarrning": {
@@ -1160,12 +1160,12 @@
         "networkFees": "Network Fees",
         "nothingHasBeenTransferred": "Nothing has been transferred.",
         "retry": {
+            "estimatedFees": "Estimated Fees",
+            "feeLimit": "Fee Limit",
             "link": "What is the fee limit?",
             "networkFees": "Network Fees",
             "text": "The default network fee was not enough to cover the cost of your transaction.<br/><br/>You may resubmit the transaction to have its fee limit automatically increased.",
-            "title": "Insufficient Network Fee",
-            "estimatedFees": "Estimated Fees",
-            "feeLimit": "Fee Limit"
+            "title": "Insufficient Network Fee"
         },
         "transactionCancelled": "Transaction cancelled",
         "transactionDetails": "Transaction Details",

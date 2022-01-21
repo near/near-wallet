@@ -4,9 +4,11 @@ import {
 } from 'connected-react-router';
 import { PublicKey, KeyType } from 'near-api-js/lib/utils/key_pair';
 import { parse, stringify } from 'query-string';
+import { compose } from 'redux';
 import { createActions, createAction } from 'redux-actions';
 
 import { DISABLE_CREATE_ACCOUNT } from '../../config';
+import { isImplicitAccount } from '../../utils/account';
 import { 
     showAlert,
     dispatchWithAlert
@@ -470,9 +472,13 @@ const handleFundCreateAccountRedirect = ({
     accountId,
     implicitAccountId,
     recoveryMethod
-}) => (dispatch) => {
+}) => (dispatch, getState) => {
+    const hasActiveImplicitAccount = compose(isImplicitAccount, selectAccountId, getState);
+
     if (ENABLE_IDENTITY_VERIFIED_ACCOUNT) {
-        dispatch(redirectTo(`/verify-account?accountId=${accountId}&implicitAccountId=${implicitAccountId}&recoveryMethod=${recoveryMethod}`));
+        const route = hasActiveImplicitAccount() ? '/fund-with-existing-account' : '/verify-account';
+        const search = `?accountId=${accountId}&implicitAccountId=${implicitAccountId}&recoveryMethod=${recoveryMethod}`;
+        dispatch(redirectTo(route + search));
     } else {
         dispatch(redirectTo(`/fund-create-account/${accountId}/${implicitAccountId}/${recoveryMethod}`));
     }
