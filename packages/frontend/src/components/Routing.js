@@ -11,7 +11,7 @@ import styled, { ThemeProvider } from 'styled-components';
 
 import { CREATE_IMPLICIT_ACCOUNT } from '../../../../features';
 import TwoFactorVerifyModal from '../components/accounts/two_factor/TwoFactorVerifyModal';
-import { IS_MAINNET, PUBLIC_URL, SHOW_PRERELEASE_WARNING } from '../config';
+import { IS_MAINNET, PUBLIC_URL, SHOW_PRERELEASE_WARNING, DISABLE_CREATE_ACCOUNT } from '../config';
 import ExampleFlag from '../ExampleFlag';
 import { Mixpanel } from "../mixpanel/index";
 import * as accountActions from '../redux/actions/account';
@@ -360,7 +360,13 @@ class Routing extends Component {
                                 <Route
                                     exact
                                     path='/create'
-                                    render={(props) => accountFound ? <CreateAccountWithRouter {...props} /> : <CreateAccountLanding />}
+                                    render={(props) =>
+                                        accountFound || !DISABLE_CREATE_ACCOUNT ? (
+                                            <CreateAccountWithRouter {...props}/>
+                                        ) : (
+                                            <CreateAccountLanding />
+                                        )
+                                    }
                                     // Logged in users always create a named account
                                 />
                             }
