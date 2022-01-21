@@ -94,7 +94,7 @@ export default function Validator({
             }
         };
         if (stakingPoolHasFarms) { getFarms(); }
-    }, [validator]);
+    }, [validator, stakingPoolHasFarms, accountId]);
 
     const handleStakeAction = async () => {
         if (showConfirmModal && !loading) {
