@@ -1227,8 +1227,7 @@
             },
             "farm": {
                 "button": "Claim",
-                "info": "This is project validator. You’ll get the farming reward while staking on it.",
-                "title": "Total token earned"
+                "info": "This validator grants staking rewards in a token other than NEAR."
             },
             "pending": {
                 "info": "These tokens have been unstaked, but are not yet ready to withdraw. Tokens are ready to withdraw 52 to 65 hours after unstaking.",
@@ -1240,7 +1239,7 @@
                 "title": "Total amount staked"
             },
             "unclaimed": {
-                "info": "Rewards that have been earned, but not withdrawn. Rewards earned are automatically restaked, which means your Total Amount Staked automatically increases over time, and your rewards are <a target='_blank' href='https://www.investopedia.com/terms/c/compoundinterest.asp'>compounding</a>.",
+                "info": "Rewards that have been earned, but not withdrawn. NEAR token rewards are  <a target='_blank' href='https://www.investopedia.com/terms/c/compoundinterest.asp'>compounding</a> and are automatically re-staked.",
                 "title": "Rewards earned",
                 "unavailable": {
                     "cta": "Learn More",

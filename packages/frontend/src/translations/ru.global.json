@@ -1050,8 +1050,7 @@
             },
             "farm": {
                 "button": "Claim",
-                "info": "This is project validator. You’ll get the farming reward while staking on it.",
-                "title": "Total token earned"
+                "info": "This validator grants staking rewards in a token other than NEAR."
             },
             "pending": {
                 "info": "Эти токены сняты со стейкинга, но еще не могут быть выведены. Токенам требуется от 52 до 65 часов на вывод со стейкинга.",
@@ -1063,7 +1062,7 @@
                 "title": "Общий размер стейкинга"
             },
             "unclaimed": {
-                "info": "Награды, которые были заработаны, но еще не были выведены. Незатребованные награды автоматически отправляются в рестейкинг, что означает автоматическое увеличение общего размера вашего стейкинга по прошествии времени, а ваши награды увечиваются за счет <a target='_blank' rel='noopener noreferrer' href='https://www.investopedia.com/terms/c/compoundinterest.asp'>начисления сложных процентов</a>.",
+                "info": "Rewards that have been earned, but not withdrawn. NEAR token rewards are  <a target='_blank' href='https://www.investopedia.com/terms/c/compoundinterest.asp'>compounding</a> and are automatically re-staked.",
                 "title": "Незатребованные награды",
                 "unavailable": {
                     "cta": "Подробнее",

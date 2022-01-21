@@ -1190,8 +1190,7 @@
             },
             "farm": {
                 "button": "Claim",
-                "info": "This is project validator. You’ll get the farming reward while staking on it.",
-                "title": "Total token earned"
+                "info": "This validator grants staking rewards in a token other than NEAR."
             },
             "pending": {
                 "info": "这些通证并未质押，但还不可提现。通常在赎回质押后 36 - 48 小时变为可提现。",
@@ -1203,7 +1202,7 @@
                 "title": "质押总数"
             },
             "unclaimed": {
-                "info": "已赚得的奖励并未提现。未提现奖励将自动质押，这意味着你的质押总数将不断增加，奖励是<a target='_blank' href='https://www.investopedia.com/terms/c/compoundinterest.asp'>复利</a>计算的。",
+                "info": "Rewards that have been earned, but not withdrawn. NEAR token rewards are  <a target='_blank' href='https://www.investopedia.com/terms/c/compoundinterest.asp'>compounding</a> and are automatically re-staked.",
                 "title": "未提现奖励",
                 "unavailable": {
                     "cta": "了解更多",
