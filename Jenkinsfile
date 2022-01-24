@@ -2,9 +2,9 @@ pipeline {
     agent any
     environment {
         // e2e variables
-        BANK_ACCOUNT = 'grumby.testnet'
-        BANK_SEED_PHRASE = 'canal pond draft confirm cabin hungry pistol light valley frost dress found'
-        TEST_ACCOUNT_SEED_PHRASE = 'grant confirm ritual chuckle control leader frame same ride trophy genuine journey'
+//         BANK_ACCOUNT = 'grumby.testnet'
+//         BANK_SEED_PHRASE = 'canal pond draft confirm cabin hungry pistol light valley frost dress found'
+//         TEST_ACCOUNT_SEED_PHRASE = 'grant confirm ritual chuckle control leader frame same ride trophy genuine journey'
 
         // frontend variables
         FRONTEND_BUNDLE_PATH = "$WORKSPACE/packages/frontend/dist"
@@ -18,11 +18,13 @@ pipeline {
         TESTNET_AWS_ROLE_ACCOUNT = credentials('testnet-assumed-role-account')
 
         // s3 buckets
-        BUILD_ARTIFACT_BUCKET = 'andy-dev-build-artifacts'
+//         BUILD_ARTIFACT_BUCKET = 'andy-dev-build-artifacts'
+        TESTNET_STAGING_STATIC_SITE_BUCKET = credentials('testnet-staging-static-website')
         TESTNET_STATIC_SITE_BUCKET = credentials('testnet-static-website')
-        MAINNET_STATIC_SITE_BUCKET = 'andy-dev-mainnet-near-wallet'
-        E2E_ARTIFACT_PATH = "$BRANCH_NAME/$CHANGE_ID/e2e-tests"
-        FRONTEND_ARTIFACT_PATH = "$BRANCH_NAME/$CHANGE_ID/frontend"
+        MAINNET_STAGING_STATIC_SITE_BUCKET = credentials('mainnet-staging-static-website')
+        MAINNET_STATIC_SITE_BUCKET = credentials('mainnet-static-website')
+//         E2E_ARTIFACT_PATH = "$BRANCH_NAME/$CHANGE_ID/e2e-tests"
+//         FRONTEND_ARTIFACT_PATH = "$BRANCH_NAME/$CHANGE_ID/frontend"
 
         // package building configuration
         AFFECTED_PACKAGES = 'frontend'.split()
@@ -81,41 +83,41 @@ pipeline {
                                             sh 'yarn install'
                                             sh 'yarn build'
                                             sh 'yarn test'
-                                            sh "rm -rf $FRONTEND_TESTNET_BUNDLE_PATH"
-                                            sh "mv $FRONTEND_BUNDLE_PATH $FRONTEND_TESTNET_BUNDLE_PATH"
+//                                             sh "rm -rf $FRONTEND_TESTNET_BUNDLE_PATH"
+//                                             sh "mv $FRONTEND_BUNDLE_PATH $FRONTEND_TESTNET_BUNDLE_PATH"
                                         }
                                     }
                                 }
-                                stage('frontend:build:mainnet') {
-                                    when {
-                                        branch 'stable'
-                                    }
-                                    steps {
-                                        dir("$WORKSPACE/packages/frontend") {
-                                            sh 'yarn install'
-                                            sh 'yarn build'
-                                            sh 'yarn test'
-                                            sh "mv $FRONTEND_BUNDLE_PATH $FRONTEND_TESTNET_BUNDLE_PATH"
-                                        }
-                                    }
-                                }
+//                                 stage('frontend:build:mainnet') {
+//                                     when {
+//                                         branch 'stable'
+//                                     }
+//                                     steps {
+//                                         dir("$WORKSPACE/packages/frontend") {
+//                                             sh 'yarn install'
+//                                             sh 'yarn build'
+//                                             sh 'yarn test'
+// //                                             sh "mv $FRONTEND_BUNDLE_PATH $FRONTEND_TESTNET_BUNDLE_PATH"
+//                                         }
+//                                     }
+//                                 }
                             }
                         }
-                        stage('frontend:artifact:pull-request') {
-                            when {
-                                not { anyOf { branch 'master' ; branch 'stable' } }
-                            }
-                            steps {
-                                withAWS(region: env.AWS_REGION, credentials: env.AWS_CREDENTIALS) {
-                                    s3Upload(
-                                        bucket: env.BUILD_ARTIFACT_BUCKET,
-                                        includePathPattern: "*",
-                                        path: env.FRONTEND_ARTIFACT_PATH,
-                                        workingDir: env.FRONTEND_TESTNET_BUNDLE_PATH
-                                    )
-                                }
-                            }
-                        }
+//                         stage('frontend:artifact:pull-request') {
+//                             when {
+//                                 not { anyOf { branch 'master' ; branch 'stable' } }
+//                             }
+//                             steps {
+//                                 withAWS(region: env.AWS_REGION, credentials: env.AWS_CREDENTIALS) {
+//                                     s3Upload(
+//                                         bucket: env.BUILD_ARTIFACT_BUCKET,
+//                                         includePathPattern: "*",
+//                                         path: env.FRONTEND_ARTIFACT_PATH,
+//                                         workingDir: env.FRONTEND_TESTNET_BUNDLE_PATH
+//                                     )
+//                                 }
+//                             }
+//                         }
                     }
                 }
             }
@@ -147,22 +149,22 @@ pipeline {
                                 }
                             }
                         }
-                        stage('frontend:deploy:mainnet') {
-                            when {
-                                branch 'stable'
-                            }
-                            steps {
-                                input(message: 'Deploy to mainnet?')
-                                withAWS(region: env.AWS_REGION, credentials: env.AWS_CREDENTIALS) {
-                                    s3Upload(
-                                        bucket: env.MAINNET_STATIC_SITE_BUCKET,
-                                        includePathPattern: "*",
-                                        path: '',
-                                        workingDir: env.FRONTEND_MAINNET_BUNDLE_PATH
-                                    )
-                                }
-                            }
-                        }
+//                         stage('frontend:deploy:mainnet') {
+//                             when {
+//                                 branch 'stable'
+//                             }
+//                             steps {
+//                                 input(message: 'Deploy to mainnet?')
+//                                 withAWS(region: env.AWS_REGION, credentials: env.AWS_CREDENTIALS) {
+//                                     s3Upload(
+//                                         bucket: env.MAINNET_STATIC_SITE_BUCKET,
+//                                         includePathPattern: "*",
+//                                         path: '',
+//                                         workingDir: env.FRONTEND_MAINNET_BUNDLE_PATH
+//                                     )
+//                                 }
+//                             }
+//                         }
                     }
                 }
             }
