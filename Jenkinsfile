@@ -19,7 +19,7 @@ pipeline {
 
         // s3 buckets
 //         BUILD_ARTIFACT_BUCKET = 'andy-dev-build-artifacts'
-//         TESTNET_STAGING_STATIC_SITE_BUCKET = credentials('testnet-staging-static-website')
+        TESTNET_STAGING_STATIC_SITE_BUCKET = credentials('testnet-staging-static-website')
         TESTNET_STATIC_SITE_BUCKET = credentials('testnet-static-website')
 //         MAINNET_STAGING_STATIC_SITE_BUCKET = credentials('mainnet-staging-static-website')
 //         MAINNET_STATIC_SITE_BUCKET = credentials('mainnet-static-website')
@@ -142,7 +142,7 @@ pipeline {
                                     roleAccount: env.TESTNET_AWS_ROLE_ACCOUNT
                                 ) {
                                     s3Upload(
-                                        bucket: env.TESTNET_STATIC_SITE_BUCKET,
+                                        bucket: env.TESTNET_STAGING_STATIC_SITE_BUCKET,
                                         includePathPattern: "*",
                                         path: '',
                                         workingDir: env.FRONTEND_TESTNET_BUNDLE_PATH
