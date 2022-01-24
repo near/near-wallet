@@ -4,13 +4,13 @@ import { combineReducers } from 'redux';
 
 import account from './reducers/account';
 import allAccounts from './reducers/allAccounts';
-import ledger from './reducers/ledger';
 import sign from './reducers/sign';
 import staking from './reducers/staking';
 import status from './reducers/status';
 import availableAccountsSlice from './slices/availableAccounts';
 import createFromImplicitSlice from './slices/createFromImplicit';
 import flowLimitationSlice from './slices/flowLimitation';
+import ledgerSlice from './slices/ledger';
 import linkdropSlice from './slices/linkdrop';
 import nftSlice from './slices/nft';
 import recoveryMethodsSlice from './slices/recoveryMethods';
@@ -23,7 +23,6 @@ export default (history) => combineReducers({
     allAccounts,
     account,
     sign,
-    ledger,
     staking,
     status,
     [nftSlice.name]: nftSlice.reducer,
@@ -35,5 +34,6 @@ export default (history) => combineReducers({
     [createFromImplicitSlice.name]: createFromImplicitSlice.reducer,
     [recoveryMethodsSlice.name]: recoveryMethodsSlice.reducer,
     [availableAccountsSlice.name]: availableAccountsSlice.reducer,
+    [ledgerSlice.name]: ledgerSlice.reducer,
     router: connectRouter(history)
 });

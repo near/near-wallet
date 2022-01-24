@@ -54,10 +54,6 @@ import {
     selectFlowLimitationAccountBalance,
     selectFlowLimitationAccountData
  } from '../slices/flowLimitation';
-import { 
-    selectLedgerModal,
-    selectLedgerSignInWithLedger
-} from '../slices/ledger';
 import {
     handleStakingUpdateAccount,
     handleStakingUpdateLockup,
@@ -224,30 +220,6 @@ export const allowLogin = () => async (dispatch, getState) => {
     }
 };
 
-export const signInWithLedger = (path) => async (dispatch, getState) => {
-    await dispatch(getLedgerAccountIds(path));
-    const accountIds = Object.keys(selectLedgerSignInWithLedger(getState()));
-    await dispatch(signInWithLedgerAddAndSaveAccounts(accountIds, path));
-    return;
-};
-
-export const signInWithLedgerAddAndSaveAccounts = (accountIds, path) => async (dispatch, getState) => {
-    for (let accountId of accountIds) {
-        try {
-            if (path) {
-                await localStorage.setItem(`ledgerHdPath:${accountId}`, path);
-            }
-            await dispatch(addLedgerAccountId(accountId));
-            await dispatch(setLedgerTxSigned(false, accountId));
-        } catch (e) {
-            console.warn('Error importing Ledger-based account', accountId, e);
-            // NOTE: We still continue importing other accounts
-        }
-    }
-
-    return dispatch(saveAndSelectLedgerAccounts(selectLedgerSignInWithLedger(getState())));
-};
-
 const twoFactorMethod = async (method, wallet, args) => {
     const account = await wallet.getAccount(wallet.accountId);
     if (account[method]) {
@@ -396,14 +368,7 @@ export const {
     addLedgerAccessKey,
     sendIdentityVerificationMethodCode,
     disableLedger,
-    removeNonLedgerAccessKeys,
-    getLedgerAccountIds,
-    addLedgerAccountId,
-    saveAndSelectLedgerAccounts,
-    setLedgerTxSigned,
-    clearSignInWithLedgerModalState,
-    showLedgerModal,
-    hideLedgerModal
+    removeNonLedgerAccessKeys
 } = createActions({
     GET_ACCESS_KEYS: [wallet.getAccessKeys.bind(wallet), () => ({})],
     REMOVE_ACCESS_KEY: [
@@ -422,39 +387,8 @@ export const {
         wallet.disableLedger.bind(wallet),
         () => ({})
     ],
-    REMOVE_NON_LEDGER_ACCESS_KEYS: [wallet.removeNonLedgerAccessKeys.bind(wallet), () => ({})],
-    GET_LEDGER_ACCOUNT_IDS: [
-        wallet.getLedgerAccountIds.bind(wallet),
-        () => showAlert({ onlyError: true })
-    ],
-    ADD_LEDGER_ACCOUNT_ID: [
-        wallet.addLedgerAccountId.bind(wallet),
-        (accountId) => ({
-            accountId,
-            ...showAlert()
-        })
-    ],
-    SAVE_AND_SELECT_LEDGER_ACCOUNTS: [
-        wallet.saveAndSelectLedgerAccounts.bind(wallet),
-        () => showAlert()
-    ],
-    SET_LEDGER_TX_SIGNED: [
-        (status) => ({ status }),
-        (status, accountId) => ({
-            accountId
-        })
-    ],
-    CLEAR_SIGN_IN_WITH_LEDGER_MODAL_STATE: null,
-    SHOW_LEDGER_MODAL: null,
-    HIDE_LEDGER_MODAL: null
+    REMOVE_NON_LEDGER_ACCESS_KEYS: [wallet.removeNonLedgerAccessKeys.bind(wallet), () => ({})]
 });
-
-export const checkAndHideLedgerModal = () => async (dispatch, getState) => {
-    const modal = selectLedgerModal(getState());
-    if (modal.show) {
-        dispatch(hideLedgerModal());
-    }
-};
 
 export const handleAddAccessKeySeedPhrase = (accountId, recoveryKeyPair) => async (dispatch) => {
     try {

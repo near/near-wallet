@@ -38,3 +38,7 @@ export const setReleaseNotesClosed = (version) => {
 export const getReleaseNotesClosed = (version) => {
     return localStorage.getItem(keyReleaseNotesModalClosed(version));
 };
+
+export const setLedgerHdPath = ({ accountId, path }) => {
+    localStorage.setItem(`ledgerHdPath:${accountId}`, path);
+};
