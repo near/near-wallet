@@ -84,8 +84,8 @@ pipeline {
                                             sh 'yarn install'
                                             sh 'yarn build'
                                             sh 'yarn test'
-//                                             sh "rm -rf $FRONTEND_TESTNET_BUNDLE_PATH"
-//                                             sh "mv $FRONTEND_BUNDLE_PATH $FRONTEND_TESTNET_BUNDLE_PATH"
+                                            sh "rm -rf $FRONTEND_TESTNET_BUNDLE_PATH"
+                                            sh "mv $FRONTEND_BUNDLE_PATH $FRONTEND_TESTNET_BUNDLE_PATH"
                                         }
                                     }
                                 }
