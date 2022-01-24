@@ -78,7 +78,7 @@ A transaction is serialized using [borsh](https://borsh.io/) as follows:
 
 ```javascript=
 const { transactions } = require("near-api-js");
-const borsh = require("borsh-js");
+const borsh = require("borsh");
 
 const tx = {
   "signerId": "sender.near",
