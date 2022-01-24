@@ -28,8 +28,11 @@ const alertReducer = (state, { error, ready, payload, meta, type }) => {
         };
         payload = {
             ...payload,
-            type: payload?.type || error?.type
+            type: payload?.type || error?.type,
+            messageCode: error?.messageCode,
+            message: error?.message
         };
+        ready = true;
     }
 
     const actionStatus = {
@@ -46,7 +49,7 @@ const alertReducer = (state, { error, ready, payload, meta, type }) => {
                     ? undefined 
                     : !meta?.alert?.ignoreMainLoader && !ready,
                 errorType: payload?.type,
-                errorMessage: (error && payload?.toString()) || (type === 'SHOW_CUSTOM_ALERT' && payload.errorMessage) || undefined,
+                errorMessage: (error && payload?.message) || (type === 'SHOW_CUSTOM_ALERT' && payload.errorMessage) || undefined,
                 data: {
                     ...meta?.data,
                     ...payload

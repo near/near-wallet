@@ -18,6 +18,7 @@ export const showAlertToolkit = (alertParams) => ({
     serializeError: (error) => ({
         message: error.message,
         type: error.type,
+        messageCode: error.messageCode,
         alertMeta: showAlert(alertParams)
     })
 });

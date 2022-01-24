@@ -14,7 +14,7 @@ import {
 import { clearLocalAlert } from '../../../redux/actions/status';
 import { selectAccountSlice } from '../../../redux/slices/account';
 import { actions as ledgerActions, LEDGER_MODAL_STATUS, selectLedgerSignInWithLedger, selectLedgerSignInWithLedgerStatus, selectLedgerTxSigned } from '../../../redux/slices/ledger';
-import { selectStatusSlice } from '../../../redux/slices/status';
+import { selectStatusMainLoader, selectStatusSlice } from '../../../redux/slices/status';
 import { controller as controllerHelperApi } from '../../../utils/helper-api';
 import parseFundingOptions from '../../../utils/parseFundingOptions';
 import AlertBanner from '../../common/AlertBanner';
@@ -45,6 +45,7 @@ export function SignInLedger(props) {
     const signInWithLedgerState = useSelector(selectLedgerSignInWithLedger);
     const txSigned = useSelector(selectLedgerTxSigned);
     const signInWithLedgerStatus = useSelector(selectLedgerSignInWithLedgerStatus);
+    const mainLoader = useSelector(selectStatusMainLoader);
 
     const signInWithLedgerKeys = Object.keys(signInWithLedgerState || {});
 
@@ -68,7 +69,7 @@ export function SignInLedger(props) {
         setLoader(false);
         await Mixpanel.withTracking("IE-Ledger Sign in",
             async () => {
-                await dispatch(signInWithLedger({ path: ledgerHdPath }));
+                await dispatch(signInWithLedger({ path: ledgerHdPath })).unwrap();
                 refreshAndRedirect();
             }
         );
@@ -165,7 +166,7 @@ export function SignInLedger(props) {
                     handleChange={handleChange}
                     localAlert={status.localAlert}
                     checkAccountAvailable={(accountId) => dispatch(checkAccountAvailable(accountId))}
-                    mainLoader={account.mainLoader}
+                    mainLoader={mainLoader}
                     clearLocalAlert={() => dispatch(clearLocalAlert())}
                     stateAccountId={account.accountId}
                     loader={loader}

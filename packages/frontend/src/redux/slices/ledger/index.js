@@ -71,7 +71,7 @@ const signInWithLedger = createAsyncThunk(
     `${SLICE_NAME}/signInWithLedger`,
     async ({ path }, { dispatch, getState }) => {
         dispatch(ledgerSlice.actions.setLedgerTxSigned({ status: true }));
-        await dispatch(getLedgerAccountIds({ path }));
+        await dispatch(getLedgerAccountIds({ path })).unwrap();
 
         const accountIds = Object.keys(selectLedgerSignInWithLedger(getState()));
         await dispatch(signInWithLedgerAddAndSaveAccounts({ path, accountIds }));
@@ -189,6 +189,6 @@ export const selectLedgerModalShow = createSelector(selectLedgerModal, (modal) =
 
 export const selectLedgerHasLedger = createSelector(selectLedgerSlice, (ledger) => ledger.hasLedger);
 
-export const selectLedgerSignInWithLedger = createSelector(selectLedgerSlice, (ledger) => ledger.signInWithLedger);
+export const selectLedgerSignInWithLedger = createSelector(selectLedgerSlice, (ledger) => ledger.signInWithLedger || {});
 
 export const selectLedgerSignInWithLedgerStatus = createSelector(selectLedgerSlice, (ledger) => ledger.signInWithLedgerStatus);
