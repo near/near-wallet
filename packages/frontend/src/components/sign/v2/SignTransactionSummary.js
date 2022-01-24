@@ -52,6 +52,7 @@ export default ({
     onClickCancel,
     onClickApprove,
     onClickMoreInformation,
+    onClickEditAccount,
     accountUrlReferrer,
     submittingTransaction
 }) => {
@@ -71,6 +72,7 @@ export default ({
                 sender={accountLocalStorageAccountId}
                 estimatedFees={estimatedFees}
                 availableBalance={availableBalance}
+                onClickEditAccount={onClickEditAccount}
             />
             <FormButton
                 className='link'

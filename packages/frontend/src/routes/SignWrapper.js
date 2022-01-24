@@ -2,10 +2,15 @@ import BN from 'bn.js';
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
+import AccountSelector from '../components/accounts/account_selector/AccountSelector';
+import Container from '../components/common/styled/Container.css';
 import SignTransferRetry from '../components/sign/SignTransferRetry';
 import SignTransactionDetailsWrapper from '../components/sign/v2/SignTransactionDetailsWrapper';
 import SignTransactionSummaryWrapper from '../components/sign/v2/SignTransactionSummaryWrapper';
 import { Mixpanel } from '../mixpanel';
+import { getAccountBalance, redirectTo, switchAccount } from '../redux/actions/account';
+import { selectAccountAccountsBalances, selectAccountLocalStorageAccountId } from '../redux/slices/account';
+import { selectAvailableAccounts } from '../redux/slices/availableAccounts';
 import {
     addQueryParams,
     handleSignTransactions,
@@ -20,21 +25,30 @@ import {
 export function SignWrapper() {
     const dispatch = useDispatch();
 
-    const [showTransactionDetails, setShowTransactionDetails] = useState(false);
-    const [insufficientNetworkFee, setInsufficientNetworkFee] = useState(false);
+    const DISPLAY = {
+        TRANSACTION_SUMMARY: 0,
+        TRANSACTION_DETAILS: 1,
+        INSUFFICIENT_NETWORK_FEE: 2,
+        ACCOUNT_SELECTION: 3
+    };
+
+    const [currentDisplay, setCurrentDisplay] = useState(DISPLAY.TRANSACTION_SUMMARY);
 
     const signFeesGasLimitIncludingGasChanges = useSelector(selectSignFeesGasLimitIncludingGasChanges);
     const signStatus = useSelector(selectSignStatus);
     const signCallbackUrl = useSelector(selectSignCallbackUrl);
     const signMeta = useSelector(selectSignMeta);
     const transactionHashes = useSelector(selectSignTransactionHashes);
+    const accountLocalStorageAccountId = useSelector(selectAccountLocalStorageAccountId);
+    const availableAccounts = useSelector(selectAvailableAccounts);
+    const accountAccountsBalances = useSelector(selectAccountAccountsBalances);
 
     const signGasFee = new BN(signFeesGasLimitIncludingGasChanges).div(new BN('1000000000000')).toString();
     const submittingTransaction = signStatus === SIGN_STATUS.IN_PROGRESS;
 
     useEffect(() => {
         if (signStatus === SIGN_STATUS.RETRY_TRANSACTION) {
-            setInsufficientNetworkFee(true);
+            setCurrentDisplay(DISPLAY.INSUFFICIENT_NETWORK_FEE);
         }
         
         if (signStatus === SIGN_STATUS.SUCCESS) {
@@ -72,7 +86,28 @@ export function SignWrapper() {
         }
     };
 
-    if (insufficientNetworkFee) {
+    if(currentDisplay === DISPLAY.ACCOUNT_SELECTION) {
+        return (
+            <Container className='small-centered border'>
+                <AccountSelector
+                    signedInAccountId={accountLocalStorageAccountId}
+                    availableAccounts={availableAccounts}
+                    accountsBalances={accountAccountsBalances}
+                    onSelectAccount={(accountId) => {
+                        dispatch(switchAccount({ accountId }));
+                        setCurrentDisplay(DISPLAY.TRANSACTION_SUMMARY);
+                    }}
+                    getAccountBalance={(accountId) => dispatch(getAccountBalance(accountId))}
+                    onSignInToDifferentAccount={() => {
+                        Mixpanel.track("LOGIN Click recover different account button");
+                        dispatch(redirectTo('/recover-account'));
+                    }}
+                />
+            </Container>
+        );
+    }
+
+    if (currentDisplay === DISPLAY.INSUFFICIENT_NETWORK_FEE) {
         return (
             <SignTransferRetry
                 handleRetry={handleApproveTransaction}
@@ -83,10 +118,10 @@ export function SignWrapper() {
         );
     }
 
-    if (showTransactionDetails) {
+    if (currentDisplay === DISPLAY.TRANSACTION_DETAILS) {
         return (
             <SignTransactionDetailsWrapper
-                onClickGoBack={() => setShowTransactionDetails(false)}
+                onClickGoBack={() => setCurrentDisplay(DISPLAY.TRANSACTION_SUMMARY)}
                 signGasFee={signGasFee}
             />
         );
@@ -98,7 +133,8 @@ export function SignWrapper() {
             onClickApprove={handleApproveTransaction}
             submittingTransaction={submittingTransaction}
             signGasFee={signGasFee}
-            onClickMoreInformation={() => setShowTransactionDetails(true)}
+            onClickMoreInformation={() => setCurrentDisplay(DISPLAY.TRANSACTION_DETAILS)}
+            onClickEditAccount={() => setCurrentDisplay(DISPLAY.ACCOUNT_SELECTION)}
         />
     );
 }
