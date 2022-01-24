@@ -13,6 +13,7 @@ import SignTransactionSummary from './SignTransactionSummary';
 
 export default ({
     onClickMoreInformation,
+    onClickEditAccount,
     onClickCancel,
     onClickApprove,
     submittingTransaction,
@@ -33,6 +34,7 @@ export default ({
             onClickCancel={onClickCancel}
             onClickApprove={onClickApprove}
             onClickMoreInformation={onClickMoreInformation}
+            onClickEditAccount={onClickEditAccount}
             accountUrlReferrer={accountUrlReferrer}
             submittingTransaction={submittingTransaction}
         />
