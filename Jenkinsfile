@@ -88,6 +88,7 @@ pipeline {
                     }
                     steps {
                         dir("$WORKSPACE/packages/frontend") {
+                            sh "rm -rf $FRONTEND_TESTNET_STAGING_BUNDLE_PATH"
                             sh "NEAR_WALLET_ENV=testnet_AWS_STAGING yarn bundle --outDir=$FRONTEND_TESTNET_STAGING_BUNDLE_PATH"
                         }
                     }
@@ -102,6 +103,7 @@ pipeline {
                     }
                     steps {
                         dir("$WORKSPACE/packages/frontend") {
+                            sh "rm -rf $FRONTEND_TESTNET_BUNDLE_PATH"
                             sh "NEAR_WALLET_ENV=testnet_AWS yarn bundle --outDir=$FRONTEND_TESTNET_BUNDLE_PATH"
                         }
                     }
