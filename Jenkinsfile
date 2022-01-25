@@ -71,45 +71,45 @@ pipeline {
                         stage('frontend:build') {
                             parallel {
                                 failFast true
-                                stage('frontend:bundles') {
-                                    environment {
-                                        TOKEN_CONTRACTS = 'meta.pool.testnet'
-                                    }
 
-                                    stage('frontend:bundles:testnet-staging') {
-                                        when {
-                                            not { branch 'stable' }
-                                        }
-                                        environment {
-                                            NEAR_WALLET_ENV = 'testnet_STAGING'
-                                        }
-                                        steps {
-                                            dir("$WORKSPACE/packages/frontend") {
-                                                sh 'rm -rf node_modules'
-                                                sh "rm -rf $FRONTEND_TESTNET_BUNDLE_PATH"
-                                                sh 'yarn install'
-                                                sh 'yarn build'
-                                                sh 'yarn test'
-                                                sh "mv $FRONTEND_BUNDLE_PATH $FRONTEND_TESTNET_BUNDLE_PATH"
-                                            }
+                                environment {
+                                    TOKEN_CONTRACTS = 'meta.pool.testnet'
+                                }
+
+                                stage('frontend:bundles:testnet-staging') {
+                                    when {
+                                        not { branch 'stable' }
+                                    }
+                                    environment {
+                                        NEAR_WALLET_ENV = 'testnet_STAGING'
+                                    }
+                                    steps {
+                                        dir("$WORKSPACE/packages/frontend") {
+                                            sh 'rm -rf node_modules'
+                                            sh "rm -rf $FRONTEND_TESTNET_BUNDLE_PATH"
+                                            sh 'yarn install'
+                                            sh 'yarn build'
+                                            sh 'yarn test'
+                                            sh "mv $FRONTEND_BUNDLE_PATH $FRONTEND_TESTNET_BUNDLE_PATH"
                                         }
                                     }
-                                    stage('frontend:bundles:testnet') {
-                                        when {
-                                            not { branch 'stable' }
-                                        }
-                                        environment {
-                                            NEAR_WALLET_ENV = 'testnet'
-                                        }
-                                        steps {
-                                            dir("$WORKSPACE/packages/frontend") {
-                                                sh 'rm -rf node_modules'
-                                                sh "rm -rf $FRONTEND_TESTNET_BUNDLE_PATH"
-                                                sh 'yarn install'
-                                                sh 'yarn build'
-                                                sh 'yarn test'
-                                                sh "mv $FRONTEND_BUNDLE_PATH $FRONTEND_TESTNET_BUNDLE_PATH"
-                                            }
+                                }
+
+                                stage('frontend:bundles:testnet') {
+                                    when {
+                                        not { branch 'stable' }
+                                    }
+                                    environment {
+                                        NEAR_WALLET_ENV = 'testnet'
+                                    }
+                                    steps {
+                                        dir("$WORKSPACE/packages/frontend") {
+                                            sh 'rm -rf node_modules'
+                                            sh "rm -rf $FRONTEND_TESTNET_BUNDLE_PATH"
+                                            sh 'yarn install'
+                                            sh 'yarn build'
+                                            sh 'yarn test'
+                                            sh "mv $FRONTEND_BUNDLE_PATH $FRONTEND_TESTNET_BUNDLE_PATH"
                                         }
                                     }
                                 }
