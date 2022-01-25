@@ -7,7 +7,6 @@ pipeline {
 //         TEST_ACCOUNT_SEED_PHRASE = 'grant confirm ritual chuckle control leader frame same ride trophy genuine journey'
 
         // frontend variables
-        FRONTEND_BUNDLE_PATH = "$WORKSPACE/packages/frontend/dist"
         FRONTEND_TESTNET_STAGING_BUNDLE_PATH = "$WORKSPACE/packages/frontend/dist_testnet_staging"
         FRONTEND_TESTNET_BUNDLE_PATH = "$WORKSPACE/packages/frontend/dist_testnet_staging"
         FRONTEND_MAINNET_STAGING_BUNDLE_PATH = "$WORKSPACE/packages/frontend/dist_mainnet_staging"
@@ -40,6 +39,21 @@ pipeline {
         BUILD_FRONTEND = AFFECTED_PACKAGES.contains('frontend')
     }
     stages {
+        stage('packages:prebuild') {
+            failFast true
+
+            parallel {
+                stage('frontend:prebuild') {
+                    steps {
+                        dir("$WORKSPACE/packages/frontend") {
+                            sh 'rm -rf node_modules'
+                            sh 'yarn install --frozen-lockfile'
+                        }
+                    }
+                }
+            }
+        }
+
         // parallelize builds and tests for modified packages
         stage('packages:build') {
             // if any of the parallel stages for package builds fail, mark the entire pipeline as failed
@@ -65,44 +79,32 @@ pipeline {
                 }
 
                 // build frontend bundles
-
                 stage('frontend:bundle:testnet-staging') {
                     when {
-                        not { branch 'stable' };
                         expression { env.BUILD_FRONTEND == 'true' }
                     }
                     environment {
-                        NEAR_WALLET_ENV = 'testnet_STAGING'
+                        NEAR_WALLET_ENV = 'testnet_AWS_STAGING'
                         TOKEN_CONTRACTS = 'meta.pool.testnet'
                     }
                     steps {
                         dir("$WORKSPACE/packages/frontend") {
-                            sh 'rm -rf node_modules'
-                            sh "rm -rf $FRONTEND_TESTNET_BUNDLE_PATH"
-                            sh 'yarn install'
-                            sh 'yarn build'
-                            sh 'yarn test'
-                            sh "mv $FRONTEND_BUNDLE_PATH $FRONTEND_TESTNET_BUNDLE_PATH"
+                            sh "yarn bundle --outDir=$FRONTEND_TESTNET_STAGING_BUNDLE_PATH"
                         }
                     }
                 }
 
                 stage('frontend:bundle:testnet') {
                     when {
-                        not { branch 'stable' }
+                        expression { env.BUILD_FRONTEND == 'true' }
                     }
                     environment {
-                        NEAR_WALLET_ENV = 'testnet'
+                        NEAR_WALLET_ENV = 'testnet_AWS'
                         TOKEN_CONTRACTS = 'meta.pool.testnet'
                     }
                     steps {
                         dir("$WORKSPACE/packages/frontend") {
-                            sh 'rm -rf node_modules'
-                            sh "rm -rf $FRONTEND_TESTNET_BUNDLE_PATH"
-                            sh 'yarn install'
-                            sh 'yarn build'
-                            sh 'yarn test'
-                            sh "mv $FRONTEND_BUNDLE_PATH $FRONTEND_TESTNET_BUNDLE_PATH"
+                            sh "yarn bundle --outDir=$FRONTEND_TESTNET_BUNDLE_PATH"
                         }
                     }
                 }
@@ -157,6 +159,7 @@ pipeline {
                                 branch 'master'
                             }
                             steps {
+                                input(message: 'Deploy to testnet?')
                                 withAWS(
                                     region: env.AWS_REGION,
                                     credentials: env.AWS_CREDENTIALS,

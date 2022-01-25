@@ -25,6 +25,7 @@ class ParcelBundler {
         isNetlify = Config.IS_NETLIFY,
         isDevelopment = Config.IS_DEVELOPMENT,
     } = {}) {
+        console.warn(outDir);
         this.entryPath = entryPath;
         this.outDir = outDir;
         this.wasmSourcePath = wasmSourcePath;
