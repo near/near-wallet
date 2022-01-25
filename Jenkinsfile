@@ -8,7 +8,9 @@ pipeline {
 
         // frontend variables
         FRONTEND_BUNDLE_PATH = "$WORKSPACE/packages/frontend/dist"
-        FRONTEND_TESTNET_BUNDLE_PATH = "$WORKSPACE/packages/frontend/dist_testnet"
+        FRONTEND_TESTNET_STAGING_BUNDLE_PATH = "$WORKSPACE/packages/frontend/dist_testnet_staging"
+        FRONTEND_TESTNET_BUNDLE_PATH = "$WORKSPACE/packages/frontend/dist_testnet_staging"
+        FRONTEND_MAINNET_STAGING_BUNDLE_PATH = "$WORKSPACE/packages/frontend/dist_mainnet_staging"
         FRONTEND_MAINNET_BUNDLE_PATH = "$WORKSPACE/packages/frontend/dist_mainnet"
 
         // aws configuration
@@ -18,7 +20,7 @@ pipeline {
         TESTNET_AWS_ROLE_ACCOUNT = credentials('testnet-assumed-role-account')
 
         // s3 buckets
-        BUILD_ARTIFACT_BUCKET = 'andy-dev-build-artifacts'
+//         BUILD_ARTIFACT_BUCKET = 'andy-dev-build-artifacts'
         TESTNET_STAGING_STATIC_SITE_BUCKET = credentials('testnet-staging-static-website')
         TESTNET_STATIC_SITE_BUCKET = credentials('testnet-static-website')
 
