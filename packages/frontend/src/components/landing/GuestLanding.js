@@ -145,6 +145,7 @@ export function GuestLanding() {
             <LandingBackground/>
             <Container className='small-centered'>
                 <h1><Translate id='landing.title' /></h1>
+                <h2>{process.env.NEAR_WALLET_ENV}</h2>
                 <h3><Translate id='landing.desc' /></h3>
                 <div className='buttons'>
                     <FormButton
