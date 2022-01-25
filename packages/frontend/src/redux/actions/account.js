@@ -8,8 +8,7 @@ import { createActions, createAction } from 'redux-actions';
 
 import { DISABLE_CREATE_ACCOUNT } from '../../config';
 import { 
-    showAlert,
-    dispatchWithAlert
+    showAlert
 } from '../../utils/alerts';
 import { 
     loadState,
@@ -29,6 +28,7 @@ import {
     ENABLE_IDENTITY_VERIFIED_ACCOUNT
 } from '../../utils/wallet';
 import { WalletError } from '../../utils/walletError';
+import { withAlert } from '../reducers/status';
 import refreshAccountOwner from '../sharedThunks/refreshAccountOwner';
 import { 
     selectAccountAccountsBalances,
@@ -202,7 +202,7 @@ export const allowLogin = () => async (dispatch, getState) => {
 
     if (successUrl) {
         if (publicKey) {
-            await dispatchWithAlert(addAccessKey(wallet.accountId, contractId, publicKey, false, methodNames), { onlyError: true });
+            await dispatch(withAlert(addAccessKey(wallet.accountId, contractId, publicKey, false, methodNames), { onlyError: true }));
         }
         const availableKeys = await wallet.getAvailableKeys();
         
@@ -215,7 +215,7 @@ export const allowLogin = () => async (dispatch, getState) => {
         parsedUrl.searchParams.set('all_keys', allKeys.join(','));
         window.location = parsedUrl.href;
     } else {
-        await dispatchWithAlert(addAccessKey(wallet.accountId, contractId, publicKey, false, methodNames), { data: { title } });
+        await dispatch(withAlert(addAccessKey(wallet.accountId, contractId, publicKey, false, methodNames), { data: { title } }));
         dispatch(redirectTo('/authorized-apps', { globalAlertPreventClear: true }));
     }
 };

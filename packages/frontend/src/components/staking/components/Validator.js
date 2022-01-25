@@ -6,8 +6,8 @@ import { useNEARAsTokenWithMetadata } from '../../../hooks/fungibleTokensIncludi
 import { Mixpanel } from '../../../mixpanel';
 import { redirectTo } from '../../../redux/actions/account';
 import { selectAccountId } from '../../../redux/slices/account';
+import { selectActionsPending } from '../../../redux/slices/status';
 import { actions as tokensActions, selectAllContractMetadata } from '../../../redux/slices/tokens';
-import { actionsPending } from '../../../utils/alerts';
 import { PROJECT_VALIDATOR_VERSION, ValidatorVersion } from '../../../utils/constants';
 import FormButton from '../../common/FormButton';
 import SafeTranslate from '../../SafeTranslate';
@@ -71,7 +71,7 @@ export default function Validator({
     const stakeNotAllowed = !!selectedValidator && selectedValidator !== match.params.validator && !!currentValidators.length;
     const showConfirmModal = confirm === 'withdraw';
     const stakingPoolHasFarms = validator && validator.version === ValidatorVersion[PROJECT_VALIDATOR_VERSION];
-
+    const pendingUpdateStaking = useSelector((state) => selectActionsPending(state, { types: ['UPDATE_STAKING'] }));
 
     useEffect(() => {
         const getFarms = async () => {
@@ -130,7 +130,7 @@ export default function Validator({
                 <Translate id='staking.validator.button' />
             </FormButton>
             {validator && <StakingFee fee={validator.fee.percentage} />}
-            {validator && !stakeNotAllowed && !actionsPending('UPDATE_STAKING') &&
+            {validator && !stakeNotAllowed && !pendingUpdateStaking &&
                 <>
                     <BalanceBox
                         title='staking.balanceBox.staked.title'

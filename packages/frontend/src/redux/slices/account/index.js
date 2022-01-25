@@ -22,6 +22,8 @@ export const selectAccountFullAccessKeys = createSelector(selectAccountSlice, (a
 
 export const selectAccountLedgerKey = createSelector(selectAccountSlice, (account) => account.ledgerKey);
 
+export const selectAccountGlobalAlertPreventClear = createSelector(selectAccountSlice, (account) => account.globalAlertPreventClear);
+
 // balance - state
 export const selectBalance = createSelector(selectAccountSlice, (account) => account.balance || {});
 export const selectAvailableBalance = createSelector(selectBalance, (balance) => balance.balanceAvailable);
