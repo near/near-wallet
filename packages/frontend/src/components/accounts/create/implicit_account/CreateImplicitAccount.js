@@ -106,7 +106,8 @@ export default ({
                 </div> */}
                 {/*
                 TEMPORARILY DISABLE MOONPAY PRE-SPECIFIED AMOUNT BUTTONS
-                WHILE MOONPAY 'baseCurrencyAmount' IS BROKEN 
+                WHILE MOONPAY 'baseCurrencyAmount' IS BROKEN
+                ISSUE: https://github.com/near/near-wallet/issues/2408
                 */}
                 <FormButton
                     disabled={!moonpayIsAvailable}
