@@ -62,76 +62,65 @@ pipeline {
                     }
                 }
 
-                // build frontend package
-                stage('frontend') {
+                // build frontend bundles
+
+                stage('frontend:bundle:testnet-staging') {
                     when {
+                        not { branch 'stable' };
                         expression { env.BUILD_FRONTEND == 'true' }
                     }
-                    stages {
-                        stage('frontend:build') {
-                            parallel {
-                                failFast true
-
-                                environment {
-                                    TOKEN_CONTRACTS = 'meta.pool.testnet'
-                                }
-
-                                stage('frontend:bundles:testnet-staging') {
-                                    when {
-                                        not { branch 'stable' }
-                                    }
-                                    environment {
-                                        NEAR_WALLET_ENV = 'testnet_STAGING'
-                                    }
-                                    steps {
-                                        dir("$WORKSPACE/packages/frontend") {
-                                            sh 'rm -rf node_modules'
-                                            sh "rm -rf $FRONTEND_TESTNET_BUNDLE_PATH"
-                                            sh 'yarn install'
-                                            sh 'yarn build'
-                                            sh 'yarn test'
-                                            sh "mv $FRONTEND_BUNDLE_PATH $FRONTEND_TESTNET_BUNDLE_PATH"
-                                        }
-                                    }
-                                }
-
-                                stage('frontend:bundles:testnet') {
-                                    when {
-                                        not { branch 'stable' }
-                                    }
-                                    environment {
-                                        NEAR_WALLET_ENV = 'testnet'
-                                    }
-                                    steps {
-                                        dir("$WORKSPACE/packages/frontend") {
-                                            sh 'rm -rf node_modules'
-                                            sh "rm -rf $FRONTEND_TESTNET_BUNDLE_PATH"
-                                            sh 'yarn install'
-                                            sh 'yarn build'
-                                            sh 'yarn test'
-                                            sh "mv $FRONTEND_BUNDLE_PATH $FRONTEND_TESTNET_BUNDLE_PATH"
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                        stage('frontend:artifact:pull-request') {
-                            when {
-                                not { anyOf { branch 'master' ; branch 'stable' } }
-                            }
-                            steps {
-                                withAWS(region: env.AWS_REGION, credentials: env.AWS_CREDENTIALS) {
-                                    s3Upload(
-                                        bucket: env.BUILD_ARTIFACT_BUCKET,
-                                        includePathPattern: "*",
-                                        path: env.FRONTEND_ARTIFACT_PATH,
-                                        workingDir: env.FRONTEND_TESTNET_BUNDLE_PATH
-                                    )
-                                }
-                            }
+                    environment {
+                        NEAR_WALLET_ENV = 'testnet_STAGING'
+                        TOKEN_CONTRACTS = 'meta.pool.testnet'
+                    }
+                    steps {
+                        dir("$WORKSPACE/packages/frontend") {
+                            sh 'rm -rf node_modules'
+                            sh "rm -rf $FRONTEND_TESTNET_BUNDLE_PATH"
+                            sh 'yarn install'
+                            sh 'yarn build'
+                            sh 'yarn test'
+                            sh "mv $FRONTEND_BUNDLE_PATH $FRONTEND_TESTNET_BUNDLE_PATH"
                         }
                     }
                 }
+
+                stage('frontend:bundle:testnet') {
+                    when {
+                        not { branch 'stable' }
+                    }
+                    environment {
+                        NEAR_WALLET_ENV = 'testnet'
+                        TOKEN_CONTRACTS = 'meta.pool.testnet'
+                    }
+                    steps {
+                        dir("$WORKSPACE/packages/frontend") {
+                            sh 'rm -rf node_modules'
+                            sh "rm -rf $FRONTEND_TESTNET_BUNDLE_PATH"
+                            sh 'yarn install'
+                            sh 'yarn build'
+                            sh 'yarn test'
+                            sh "mv $FRONTEND_BUNDLE_PATH $FRONTEND_TESTNET_BUNDLE_PATH"
+                        }
+                    }
+                }
+//                         stage('frontend:artifact:pull-request') {
+//                             when {
+//                                 not { anyOf { branch 'master' ; branch 'stable' } }
+//                             }
+//                             steps {
+//                                 withAWS(region: env.AWS_REGION, credentials: env.AWS_CREDENTIALS) {
+//                                     s3Upload(
+//                                         bucket: env.BUILD_ARTIFACT_BUCKET,
+//                                         includePathPattern: "*",
+//                                         path: env.FRONTEND_ARTIFACT_PATH,
+//                                         workingDir: env.FRONTEND_TESTNET_BUNDLE_PATH
+//                                     )
+//                                 }
+//                             }
+//                         }
+//                     }
+//                 }
             }
         }
         stage('packages:deploy') {
