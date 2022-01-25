@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import FormButton from '../../../common/FormButton';
 import Container from '../../../common/styled/Container.css';
 import WhereToBuyNearModal from '../../../common/WhereToBuyNearModal';
+import MoonPayIcon from '../../../svg/MoonPayIcon';
 import YourAddress from './YourAddress';
 
 const StyledContainer = styled(Container)`
@@ -18,6 +19,29 @@ const StyledContainer = styled(Container)`
     h3 {
         &.bottom {
             margin: 70px 0 10px 0;
+        }
+    }
+
+    &&& {
+        > button {
+            &.black, &.gray-gray {
+                width: 100%;
+                background-color: #272729;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-top: 45px;
+
+                svg {
+                    width: 105px;
+                    height: auto;
+                    margin: 0 0 0 10px;
+                }
+            }
+
+            &.gray-gray {
+                background-color: #cccccc;
+            }
         }
     }
 `;
@@ -62,14 +86,15 @@ export default ({
     onClickBuyButton,
     implicitAccountId,
     formattedMinDeposit,
-    moonpayIsAvailable
+    moonpayIsAvailable,
+    moonpaySignedUrl
 }) => {
     const [showWhereToBuyModal, setShowWhereToBuyModal] = useState(false);
     return (
         <>
             <StyledContainer className='border small-centered'>
                 <h3><Translate id='account.createImplicitAccount.title' /></h3>
-                <div className='flex-center-center'>
+                {/* <div className='flex-center-center'>
                     {['30', '50', '100', ''].map((amount) => (
                         <BuyButton
                             key={`${amount}`}
@@ -78,7 +103,26 @@ export default ({
                             moonpayIsAvailable={moonpayIsAvailable}
                         />
                     ))}
-                </div>
+                </div> */}
+                {/*
+                TEMPORARILY DISABLE MOONPAY PRE-SPECIFIED AMOUNT BUTTONS
+                WHILE MOONPAY 'baseCurrencyAmount' IS BROKEN 
+                */}
+                <FormButton
+                    disabled={!moonpayIsAvailable}
+                    color={moonpayIsAvailable ? 'black' : 'gray-gray'}
+                    linkTo={moonpaySignedUrl}
+                >
+                    {moonpayIsAvailable
+                        ? <>
+                            <Translate id='buyNear.buyWith' />
+                            <MoonPayIcon />
+                        </> : <>
+                            <MoonPayIcon color='#3F4045' />
+                            <Translate id='buyNear.notSupported' />
+                        </>
+                    }
+                </FormButton>
                 <h3 className='bottom'><Translate id='account.createImplicitAccount.orSendNear' data={{ amount: formattedMinDeposit }} /></h3>
                 <Translate id='account.createImplicitAccount.sendFrom' />&nbsp;
                 <FormButton onClick={() => setShowWhereToBuyModal(true)} className='link underline'><Translate id='account.createImplicitAccount.exchange' /></FormButton>,<br />
