@@ -443,15 +443,6 @@ class Wallet {
         await this.keyStore.setKey(this.connection.networkId, implicitAccountId, recoveryKeyPair);
     }
 
-    async finishSetupImplicitAccount({
-        implicitAccountId,
-        recoveryMethod
-    }) {
-        const publicKey = new PublicKey({ keyType: KeyType.ED25519, data: Buffer.from(implicitAccountId, 'hex') });
-        await this.saveAndMakeAccountActive(implicitAccountId);
-        await this.addLocalKeyAndFinishSetup(implicitAccountId, recoveryMethod, publicKey);
-    }
-
     async saveAccount(accountId, keyPair) {
         this.getAccountsLocalStorage();
         await this.setKey(accountId, keyPair);
