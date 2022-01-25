@@ -13,7 +13,7 @@ export const selectStatusMainLoader = createSelector(selectStatusSlice, (status)
 
 export const selectStatusLocalAlert = createSelector(selectStatusSlice, (status) => status.localAlert || {});
 
-export const selectStatusActionStatus = createSelector(selectStatusSlice, (status) => status.actionStatus || []);
+export const selectStatusActionStatus = createSelector(selectStatusSlice, (status) => status.actionStatus || {});
 
 export const selectActionsPending = createSelector(
     [getTypes, selectStatusActionStatus],
