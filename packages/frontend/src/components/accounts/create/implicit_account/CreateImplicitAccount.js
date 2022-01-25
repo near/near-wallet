@@ -46,41 +46,41 @@ const StyledContainer = styled(Container)`
     }
 `;
 
-const StyledBuyButton = styled(FormButton)`
-    &&&& {
-        border-radius: 16px;
-        flex: 1;
-        margin-right: 8px;
+// const StyledBuyButton = styled(FormButton)`
+//     &&&& {
+//         border-radius: 16px;
+//         flex: 1;
+//         margin-right: 8px;
 
-        :last-child {
-            margin-right: 0;
-        }
-    }
-`;
+//         :last-child {
+//             margin-right: 0;
+//         }
+//     }
+// `;
 
-const BuyButton = ({
-    amountUSD,
-    onClickBuyButton,
-    moonpayIsAvailable
-}) => {
+// const BuyButton = ({
+//     amountUSD,
+//     onClickBuyButton,
+//     moonpayIsAvailable
+// }) => {
 
-    const getBuyButtonLabel = (amountUSD) => {
-        if (amountUSD) {
-            return `$${amountUSD}`;
-        }
-        return (<Translate id='account.createImplicitAccount.customAmount' />);
-    };
+//     const getBuyButtonLabel = (amountUSD) => {
+//         if (amountUSD) {
+//             return `$${amountUSD}`;
+//         }
+//         return (<Translate id='account.createImplicitAccount.customAmount' />);
+//     };
 
-    return (
-        <StyledBuyButton
-            disabled={!moonpayIsAvailable}
-            color='light-blue'
-            onClick={() => onClickBuyButton(amountUSD)}
-        >
-            {getBuyButtonLabel(amountUSD)}
-        </StyledBuyButton>
-    );
-};
+//     return (
+//         <StyledBuyButton
+//             disabled={!moonpayIsAvailable}
+//             color='light-blue'
+//             onClick={() => onClickBuyButton(amountUSD)}
+//         >
+//             {getBuyButtonLabel(amountUSD)}
+//         </StyledBuyButton>
+//     );
+// };
 
 export default ({
     onClickBuyButton,
