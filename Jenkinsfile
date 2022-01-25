@@ -21,8 +21,6 @@ pipeline {
 //         BUILD_ARTIFACT_BUCKET = 'andy-dev-build-artifacts'
         TESTNET_STAGING_STATIC_SITE_BUCKET = credentials('testnet-staging-static-website')
         TESTNET_STATIC_SITE_BUCKET = credentials('testnet-static-website')
-//         MAINNET_STAGING_STATIC_SITE_BUCKET = credentials('mainnet-staging-static-website')
-//         MAINNET_STATIC_SITE_BUCKET = credentials('mainnet-static-website')
 
 //         E2E_ARTIFACT_PATH = "$BRANCH_NAME/$CHANGE_ID/e2e-tests"
 //         FRONTEND_ARTIFACT_PATH = "$BRANCH_NAME/$CHANGE_ID/frontend"
@@ -72,36 +70,44 @@ pipeline {
                     stages {
                         stage('frontend:build') {
                             stages {
+                                stage('frontend:build:testnet-staging') {
+                                    when {
+                                        not { branch 'stable' }
+                                    }
+                                    environment {
+                                        NEAR_WALLET_ENV = 'testnet_STAGING'
+                                        TOKEN_CONTRACTS = 'meta.pool.testnet'
+                                    }
+                                    steps {
+                                        dir("$WORKSPACE/packages/frontend") {
+                                            sh 'rm -rf node_modules'
+                                            sh "rm -rf $FRONTEND_TESTNET_BUNDLE_PATH"
+                                            sh 'yarn install'
+                                            sh 'yarn build'
+                                            sh 'yarn test'
+                                            sh "mv $FRONTEND_BUNDLE_PATH $FRONTEND_TESTNET_BUNDLE_PATH"
+                                        }
+                                    }
+                                }
                                 stage('frontend:build:testnet') {
                                     when {
                                         not { branch 'stable' }
                                     }
                                     environment {
+                                        NEAR_WALLET_ENV = 'testnet'
                                         TOKEN_CONTRACTS = 'meta.pool.testnet'
                                     }
                                     steps {
                                         dir("$WORKSPACE/packages/frontend") {
+                                            sh 'rm -rf node_modules'
+                                            sh "rm -rf $FRONTEND_TESTNET_BUNDLE_PATH"
                                             sh 'yarn install'
                                             sh 'yarn build'
                                             sh 'yarn test'
-                                            sh "rm -rf $FRONTEND_TESTNET_BUNDLE_PATH"
                                             sh "mv $FRONTEND_BUNDLE_PATH $FRONTEND_TESTNET_BUNDLE_PATH"
                                         }
                                     }
                                 }
-//                                 stage('frontend:build:mainnet') {
-//                                     when {
-//                                         branch 'stable'
-//                                     }
-//                                     steps {
-//                                         dir("$WORKSPACE/packages/frontend") {
-//                                             sh 'yarn install'
-//                                             sh 'yarn build'
-//                                             sh 'yarn test'
-// //                                             sh "mv $FRONTEND_BUNDLE_PATH $FRONTEND_TESTNET_BUNDLE_PATH"
-//                                         }
-//                                     }
-//                                 }
                             }
                         }
 //                         stage('frontend:artifact:pull-request') {
@@ -130,7 +136,7 @@ pipeline {
                         expression { env.BUILD_FRONTEND == 'true' }
                     }
                     stages {
-                        stage('frontend:deploy:testnet') {
+                        stage('frontend:deploy:testnet-staging') {
                             when {
                                 branch 'master'
                             }
@@ -143,6 +149,26 @@ pipeline {
                                 ) {
                                     s3Upload(
                                         bucket: env.TESTNET_STAGING_STATIC_SITE_BUCKET,
+                                        includePathPattern: "*",
+                                        path: '',
+                                        workingDir: env.FRONTEND_TESTNET_BUNDLE_PATH
+                                    )
+                                }
+                            }
+                        }
+                        stage('frontend:deploy:testnet') {
+                            when {
+                                branch 'master'
+                            }
+                            steps {
+                                withAWS(
+                                    region: env.AWS_REGION,
+                                    credentials: env.AWS_CREDENTIALS,
+                                    role: env.TESTNET_AWS_ROLE,
+                                    roleAccount: env.TESTNET_AWS_ROLE_ACCOUNT
+                                ) {
+                                    s3Upload(
+                                        bucket: env.TESTNET_STATIC_SITE_BUCKET,
                                         includePathPattern: "*",
                                         path: '',
                                         workingDir: env.FRONTEND_TESTNET_BUNDLE_PATH
