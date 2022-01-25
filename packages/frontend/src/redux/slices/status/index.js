@@ -17,5 +17,5 @@ export const selectStatusActionStatus = createSelector(selectStatusSlice, (statu
 
 export const selectActionsPending = createSelector(
     [getTypes, selectStatusActionStatus],
-    (types, actionStatus) => (typeof types === 'string' ? [types] : types).some((type) => actionStatus[type]?.pending)
+    (types, actionStatus) => types.some((type) => actionStatus[type]?.pending)
 );

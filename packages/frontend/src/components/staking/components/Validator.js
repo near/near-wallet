@@ -71,7 +71,7 @@ export default function Validator({
     const stakeNotAllowed = !!selectedValidator && selectedValidator !== match.params.validator && !!currentValidators.length;
     const showConfirmModal = confirm === 'withdraw';
     const stakingPoolHasFarms = validator && validator.version === ValidatorVersion[PROJECT_VALIDATOR_VERSION];
-    const pendingUpdateStaking = useSelector((state) => selectActionsPending(state, { types: 'UPDATE_STAKING' }));
+    const pendingUpdateStaking = useSelector((state) => selectActionsPending(state, { types: ['UPDATE_STAKING'] }));
 
     useEffect(() => {
         const getFarms = async () => {

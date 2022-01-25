@@ -28,7 +28,7 @@ const TwoFactorVerifyModal = ({ open, onClose }) => {
     const dispatch = useDispatch();
     const account = useSelector(selectAccountSlice);
     const status = useSelector(selectStatusSlice);
-    const loading = useSelector((state) => selectActionsPending(state, { types: 'VERIFY_TWO_FACTOR' }));
+    const loading = useSelector((state) => selectActionsPending(state, { types: ['VERIFY_TWO_FACTOR'] }));
 
     useEffect(() => {
         let isMounted = true;

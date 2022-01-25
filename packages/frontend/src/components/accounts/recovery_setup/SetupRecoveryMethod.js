@@ -597,8 +597,8 @@ const mapStateToProps = (state, { match }) => {
         mainLoader: selectStatusMainLoader(state),
         recoveryMethodsLoader: selectRecoveryMethodsLoading(state, { accountId }),
         continueSending: selectActionsPending(state, { types: ['INITIALIZE_RECOVERY_METHOD', 'SETUP_RECOVERY_MESSAGE'] }),
-        reSending: selectActionsPending(state, { types: 'INITIALIZE_RECOVERY_METHOD' }),
-        verifyingCode: selectActionsPending(state, { types: 'SETUP_RECOVERY_MESSAGE' }),
+        reSending: selectActionsPending(state, { types: ['INITIALIZE_RECOVERY_METHOD'] }),
+        verifyingCode: selectActionsPending(state, { types: ['SETUP_RECOVERY_MESSAGE'] }),
     };
 };
 

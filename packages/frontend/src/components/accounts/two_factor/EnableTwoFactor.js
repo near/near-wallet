@@ -96,7 +96,7 @@ export function EnableTwoFactor(props) {
     const recoveryMethods = useRecoveryMethods(accountId);
     const loading = status.mainLoader;
     const pendingTwoFactorAction = useSelector((state) => selectActionsPending(state, { types: ['INIT_TWO_FACTOR', 'DEPLOY_MULTISIG'] }));
-    const reSending = useSelector((state) => selectActionsPending(state, { types: 'INIT_TWO_FACTOR' }));
+    const reSending = useSelector((state) => selectActionsPending(state, { types: ['INIT_TWO_FACTOR'] }));
 
     const multiSigMinAmountRaw = parseNearAmount(MULTISIG_MIN_AMOUNT);
 

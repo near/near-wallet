@@ -189,7 +189,7 @@ const mapStateToProps = (state, { match }) => ({
     fundingContract: match.params.fundingContract,
     fundingKey: match.params.fundingKey,
     mainLoader: selectStatusMainLoader(state),
-    claimingDrop: selectActionsPending(state, { types: 'CLAIM_LINKDROP_TO_ACCOUNT' })
+    claimingDrop: selectActionsPending(state, { types: ['CLAIM_LINKDROP_TO_ACCOUNT'] })
 });
 
 export const LinkdropLandingWithRouter = connect(

@@ -250,7 +250,7 @@ const mapStateToProps = (state, { match }) => ({
     accountId: match.params.accountId,
     seedPhrase: match.params.seedPhrase,
     mainLoader: selectStatusMainLoader(state),
-    continueSending: selectActionsPending(state, { types: 'RECOVER_ACCOUNT_SEED_PHRASE' })
+    continueSending: selectActionsPending(state, { types: ['RECOVER_ACCOUNT_SEED_PHRASE'] })
 });
 
 export const RecoverWithLinkWithRouter = connect(

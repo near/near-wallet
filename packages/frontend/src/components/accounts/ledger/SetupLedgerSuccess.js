@@ -14,7 +14,7 @@ import NextStepModal from './NextStepModal';
 
 const SetupLedgerSuccess = (props) => {
     const [nextStep, setNextStep] = useState('');
-    const removingkeys = useSelector((state) => selectActionsPending(state, { types: 'REMOVE_NON_LEDGER_ACCESS_KEYS' }));
+    const removingkeys = useSelector((state) => selectActionsPending(state, { types: ['REMOVE_NON_LEDGER_ACCESS_KEYS'] }));
     const hasLedger = useSelector(selectLedgerHasLedger);
 
     const handleConfirm = async () => {

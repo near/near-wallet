@@ -69,7 +69,7 @@ const TwoFactorAuth = ({ twoFactor, history }) => {
     const account = useSelector(selectAccountSlice);
     const nearTokenFiatValueUSD = useSelector(selectNearTokenFiatValueUSD);
     const dispatch = useDispatch();
-    const confirmDisabling = useSelector((state) => selectActionsPending(state, { types: 'DISABLE_MULTISIG' }));
+    const confirmDisabling = useSelector((state) => selectActionsPending(state, { types: ['DISABLE_MULTISIG'] }));
 
     const handleConfirmDisable = async () => {
         await dispatch(disableMultisig());
