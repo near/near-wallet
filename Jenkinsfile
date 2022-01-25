@@ -84,12 +84,13 @@ pipeline {
                         expression { env.BUILD_FRONTEND == 'true' }
                     }
                     environment {
+                        NEAR_WALLET_ENV = 'testnet_AWS_STAGING'
                         TOKEN_CONTRACTS = 'meta.pool.testnet'
                     }
                     steps {
                         dir("$WORKSPACE/packages/frontend") {
                             sh "rm -rf $FRONTEND_TESTNET_STAGING_BUNDLE_PATH"
-                            sh "NEAR_WALLET_ENV=testnet_AWS_STAGING yarn bundle --outDir=$FRONTEND_TESTNET_STAGING_BUNDLE_PATH"
+                            sh "yarn bundle --outDir=$FRONTEND_TESTNET_STAGING_BUNDLE_PATH"
                         }
                     }
                 }
@@ -99,12 +100,13 @@ pipeline {
                         expression { env.BUILD_FRONTEND == 'true' }
                     }
                     environment {
+                        NEAR_WALLET_ENV = 'testnet_AWS'
                         TOKEN_CONTRACTS = 'meta.pool.testnet'
                     }
                     steps {
                         dir("$WORKSPACE/packages/frontend") {
                             sh "rm -rf $FRONTEND_TESTNET_BUNDLE_PATH"
-                            sh "NEAR_WALLET_ENV=testnet_AWS yarn bundle --outDir=$FRONTEND_TESTNET_BUNDLE_PATH"
+                            sh "yarn bundle --outDir=$FRONTEND_TESTNET_BUNDLE_PATH"
                         }
                     }
                 }
