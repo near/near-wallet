@@ -20,6 +20,7 @@ import { LoginWrapper } from '../routes/LoginWrapper';
 import translations_en from '../translations/en.global.json';
 import translations_pt from '../translations/pt.global.json';
 import translations_ru from '../translations/ru.global.json';
+import translations_tr from '../translations/tr.global.json';
 import translations_vi from '../translations/vi.global.json';
 import translations_zh_hans from '../translations/zh-hans.global.json';
 import translations_zh_hant from '../translations/zh-hant.global.json';
@@ -164,9 +165,10 @@ class Routing extends Component {
         this.props.addTranslationForLanguage(translations_en, "en");
         this.props.addTranslationForLanguage(translations_pt, "pt");
         this.props.addTranslationForLanguage(translations_ru, "ru");
+        this.props.addTranslationForLanguage(translations_vi, "vi");
         this.props.addTranslationForLanguage(translations_zh_hans, "zh-hans");
         this.props.addTranslationForLanguage(translations_zh_hant, "zh-hant");
-        this.props.addTranslationForLanguage(translations_vi, "vi");
+        this.props.addTranslationForLanguage(translations_tr, "tr");
 
         this.props.setActiveLanguage(activeLang);
         // this.addTranslationsForActiveLanguage(defaultLanguage)
