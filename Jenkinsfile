@@ -24,7 +24,7 @@ pipeline {
         TESTNET_STATIC_SITE_BUCKET = credentials('testnet-static-website')
 
 //         E2E_ARTIFACT_PATH = "$BRANCH_NAME/$CHANGE_ID/e2e-tests"
-//         FRONTEND_ARTIFACT_PATH = "$BRANCH_NAME/$CHANGE_ID/frontend"
+        FRONTEND_ARTIFACT_PATH = "$BRANCH_NAME/$CHANGE_ID/frontend"
 
         // package building configuration
         AFFECTED_PACKAGES = 'frontend'.split()
