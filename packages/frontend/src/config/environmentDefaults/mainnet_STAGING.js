@@ -18,6 +18,9 @@ export default {
     MOONPAY_API_KEY: "pk_live_jYDdkGL7bJsrwalHZs1lVIhdOHOtK8BR",
     MOONPAY_API_URL: "https://api.moonpay.com",
     MOONPAY_BUY_URL: "https://buy.moonpay.io?apiKey=",
+    // nearpay's `merchant_api_key`
+    NEARPAY_API_KEY: "",
+    NEARPAY_BUY_URL: "",
     MULTISIG_CONTRACT_HASHES: [
         // https://github.com/near/core-contracts/blob/fa3e2c6819ef790fdb1ec9eed6b4104cd13eb4b7/multisig/src/lib.rs
         "7GQStUCd8bmCK43bzD8PRh7sD2uyyeMJU5h8Rj3kXXJk",
@@ -35,7 +38,8 @@ export default {
     REACT_APP_USE_TESTINGLOCKUP: false,
     RECAPTCHA_CHALLENGE_API_KEY: "6LeRzswaAAAAAGeS7mSasZ1wDcGnMcH3D7W1gy1b",
     RECAPTCHA_ENTERPRISE_SITE_KEY: "6LcpJ3EcAAAAAFgA-nixKFNGWMo9IG9FQhH4XjSY",
-    SENTRY_DSN: "https://15d0d1b94e8548dd9663b8c93bf4550a@o398573.ingest.sentry.io/5396205",
+    SENTRY_DSN:
+        "https://15d0d1b94e8548dd9663b8c93bf4550a@o398573.ingest.sentry.io/5396205",
     SHOW_PRERELEASE_WARNING: true,
     SMS_BLACKLIST: ["CN", "VN"],
     STAKING_GAS_BASE: "25000000000000", // 25 Tgas
