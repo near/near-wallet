@@ -2,5 +2,6 @@
   "DEVELOPMENT": "development",
   "TESTNET": "testnet",
   "MAINNET": "mainnet",
-  "MAINNET_STAGING": "mainnet_STAGING"
+  "MAINNET_STAGING": "mainnet_STAGING",
+  "TESTNET_STAGING": "testnet_STAGING"
 }
