@@ -16,10 +16,9 @@ import {
 } from '../../../redux/actions/account';
 import { clearGlobalAlert } from '../../../redux/actions/status';
 import { selectAccountHas2fa, selectAccountId } from '../../../redux/slices/account';
-import { selectStatusSlice } from '../../../redux/slices/status';
+import { selectActionsPending, selectStatusSlice } from '../../../redux/slices/status';
 import { selectNearTokenFiatValueUSD } from '../../../redux/slices/tokenFiatValues';
 import { validateEmail } from '../../../utils/account';
-import { actionsPending } from '../../../utils/alerts';
 import isApprovedCountryCode from '../../../utils/isApprovedCountryCode';
 import AlertBanner from '../../common/AlertBanner';
 import { getNearAndFiatValue } from '../../common/balance/helpers';
@@ -96,7 +95,8 @@ export function EnableTwoFactor(props) {
     const [twoFactorAmountApproved, setTwoFactorAmountApproved] = useState(false);
     const recoveryMethods = useRecoveryMethods(accountId);
     const loading = status.mainLoader;
-    const pendingTwoFactorAction = actionsPending(['INIT_TWO_FACTOR', 'DEPLOY_MULTISIG']);
+    const pendingTwoFactorAction = useSelector((state) => selectActionsPending(state, { types: ['INIT_TWO_FACTOR', 'DEPLOY_MULTISIG'] }));
+    const reSending = useSelector((state) => selectActionsPending(state, { types: ['INIT_TWO_FACTOR'] }));
 
     const multiSigMinAmountRaw = parseNearAmount(MULTISIG_MIN_AMOUNT);
 
@@ -268,7 +268,7 @@ export function EnableTwoFactor(props) {
                 onConfirm={handleConfirm}
                 onGoBack={handleGoBack}
                 onResend={handleResendCode}
-                reSending={actionsPending('INIT_TWO_FACTOR')}
+                reSending={reSending}
                 verifyingCode={loading}
                 localAlert={status.localAlert}
             />

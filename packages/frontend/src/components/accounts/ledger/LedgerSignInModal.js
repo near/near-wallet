@@ -4,6 +4,7 @@ import styled from 'styled-components';
 
 import IconCheck from '../../../images/IconCheck';
 import UserIconGrey from '../../../images/UserIconGrey';
+import { LEDGER_MODAL_STATUS } from '../../../redux/slices/ledger';
 import AccountFormAccountId from '../../accounts/AccountFormAccountId';
 import FormButton from '../../common/FormButton';
 import Modal from "../../common/modal/Modal";
@@ -174,7 +175,7 @@ const LedgerSignInModal = ({
         >
             <ModalTheme/>
 
-            {signInWithLedgerStatus === 'confirm-public-key' && (!txSigned
+            {signInWithLedgerStatus === LEDGER_MODAL_STATUS.CONFIRM_PUBLIC_KEY && (!txSigned
                     ? (
                         <>
                             <h2>
@@ -195,7 +196,7 @@ const LedgerSignInModal = ({
                         </>
                     )
             )}
-            {signInWithLedgerStatus === 'enter-accountId' && (
+            {signInWithLedgerStatus === LEDGER_MODAL_STATUS.ENTER_ACCOUNTID && (
                 <>
                     <h2>
                         <Translate id='enterAccountNameLedgerModal.header'/>
@@ -230,7 +231,7 @@ const LedgerSignInModal = ({
                     </FormButton>
                 </>
             )}
-            {signInWithLedgerStatus === 'confirm-accounts' && (
+            {signInWithLedgerStatus === LEDGER_MODAL_STATUS.CONFIRM_ACCOUNTS && (
                 <>
                     <h2 className={txSigned? 'dots' : ''}>
                         <Translate id={`confirmLedgerModal.header.${txSigned ? 'processing' : 'confirm'}`}/>

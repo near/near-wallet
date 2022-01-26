@@ -9,8 +9,8 @@ import { MULTISIG_MIN_AMOUNT } from '../../../config';
 import { disableMultisig } from '../../../redux/actions/account';
 import { selectAccountSlice } from '../../../redux/slices/account';
 import { actions as recoveryMethodsActions } from '../../../redux/slices/recoveryMethods';
+import { selectActionsPending } from '../../../redux/slices/status';
 import { selectNearTokenFiatValueUSD } from '../../../redux/slices/tokenFiatValues';
-import { actionsPending } from '../../../utils/alerts';
 import { getNearAndFiatValue } from '../../common/balance/helpers';
 import FormButton from '../../common/FormButton';
 import Card from '../../common/styled/Card.css';
@@ -69,6 +69,7 @@ const TwoFactorAuth = ({ twoFactor, history }) => {
     const account = useSelector(selectAccountSlice);
     const nearTokenFiatValueUSD = useSelector(selectNearTokenFiatValueUSD);
     const dispatch = useDispatch();
+    const confirmDisabling = useSelector((state) => selectActionsPending(state, { types: ['DISABLE_MULTISIG'] }));
 
     const handleConfirmDisable = async () => {
         await dispatch(disableMultisig());
@@ -101,7 +102,7 @@ const TwoFactorAuth = ({ twoFactor, history }) => {
                     onConfirmDisable={handleConfirmDisable} 
                     onKeepEnabled={() => setConfirmDisable(false)}
                     accountId={account.accountId}
-                    disabling={actionsPending('DISABLE_MULTISIG')}
+                    disabling={confirmDisabling}
                     component='twoFactor'
                 />
             }

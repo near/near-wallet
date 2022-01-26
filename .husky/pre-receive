@@ -1,0 +1,19 @@
+#!/bin/bash
+
+# Copyright (c) 2016 G. Sylvie Davies. http://bit-booster.com/
+# Copyright (c) 2016 torek. http://stackoverflow.com/users/1256452/torek
+# License: MIT license. https://opensource.org/licenses/MIT
+while read oldrev newrev refname
+do
+if [ "$refname" = "refs/heads/master" ]; then
+   MATCH=`git log --first-parent --pretty='%H %P' $oldrev..$newrev |
+     grep $oldrev |
+     awk '{ print $2 }'`
+   if [ "$oldrev" = "$MATCH" ]; then
+     exit 0
+   else
+     echo "*** PUSH REJECTED! FOXTROT MERGE BLOCKED!!! ***"
+     exit 1
+   fi
+fi
+done

@@ -16,9 +16,8 @@ import { showCustomAlert } from '../../../redux/actions/status';
 import { selectAccountId, selectAccountSlice } from '../../../redux/slices/account';
 import { actions as linkdropActions } from '../../../redux/slices/linkdrop';
 import { actions as recoveryMethodsActions, selectRecoveryMethodsByAccountId, selectRecoveryMethodsLoading } from '../../../redux/slices/recoveryMethods';
-import { selectStatusMainLoader } from '../../../redux/slices/status';
+import { selectActionsPending, selectStatusMainLoader } from '../../../redux/slices/status';
 import { validateEmail } from '../../../utils/account';
-import { actionsPending } from '../../../utils/alerts';
 import isApprovedCountryCode from '../../../utils/isApprovedCountryCode';
 import parseFundingOptions from '../../../utils/parseFundingOptions';
 import {
@@ -420,7 +419,18 @@ class SetupRecoveryMethod extends Component {
             isNewAccount,
             settingUpNewAccount
         } = this.state;
-        const { mainLoader, accountId, activeAccountId, ledgerKey, twoFactor, location, recoveryMethodsLoader } = this.props;
+        const { 
+            mainLoader,
+            accountId,
+            activeAccountId,
+            ledgerKey,
+            twoFactor,
+            location,
+            recoveryMethodsLoader,
+            continueSending,
+            reSending,
+            verifyingCode
+        } = this.props;
 
         if (!success) {
             return (
@@ -524,7 +534,7 @@ class SetupRecoveryMethod extends Component {
                             color='blue'
                             type='submit'
                             disabled={!this.isValidInput || mainLoader || recoveryMethodsLoader}
-                            sending={actionsPending(['INITIALIZE_RECOVERY_METHOD', 'SETUP_RECOVERY_MESSAGE'])}
+                            sending={continueSending}
                             trackingId='SR Click submit button'
                             data-test-id="submitSelectedRecoveryOption"
                         >
@@ -546,8 +556,8 @@ class SetupRecoveryMethod extends Component {
                     onConfirm={this.handleSetupRecoveryMethod}
                     onGoBack={this.handleGoBack}
                     onResend={this.handleSendCode}
-                    reSending={actionsPending('INITIALIZE_RECOVERY_METHOD')}
-                    verifyingCode={actionsPending('SETUP_RECOVERY_MESSAGE') || settingUpNewAccount}
+                    reSending={reSending}
+                    verifyingCode={verifyingCode || settingUpNewAccount}
                     onRecaptchaChange={this.handleRecaptchaChange}
                     isLinkDrop={parseFundingOptions(location.search) !== null}
                     skipRecaptcha={ENABLE_IDENTITY_VERIFIED_ACCOUNT}
@@ -585,7 +595,10 @@ const mapStateToProps = (state, { match }) => {
         activeAccountId: selectAccountId(state),
         recoveryMethods: selectRecoveryMethodsByAccountId(state, { accountId }),
         mainLoader: selectStatusMainLoader(state),
-        recoveryMethodsLoader: selectRecoveryMethodsLoading(state, { accountId })
+        recoveryMethodsLoader: selectRecoveryMethodsLoading(state, { accountId }),
+        continueSending: selectActionsPending(state, { types: ['INITIALIZE_RECOVERY_METHOD', 'SETUP_RECOVERY_MESSAGE'] }),
+        reSending: selectActionsPending(state, { types: ['INITIALIZE_RECOVERY_METHOD'] }),
+        verifyingCode: selectActionsPending(state, { types: ['SETUP_RECOVERY_MESSAGE'] }),
     };
 };
 

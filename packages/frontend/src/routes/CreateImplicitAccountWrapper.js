@@ -114,6 +114,7 @@ export function CreateImplicitAccountWrapper() {
             formattedMinDeposit={formattedMinDeposit}
             implicitAccountId={implicitAccountId}
             moonpayIsAvailable={!!moonpaySignedUrl}
+            moonpaySignedUrl={moonpaySignedUrl}
             onClickBuyButton={(amountUSD) => {
                 window.open(
                     `${moonpaySignedUrl}&baseCurrencyAmount=${amountUSD}`,

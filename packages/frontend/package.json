@@ -25,6 +25,7 @@
     "lodash.once": "^4.1.1",
     "lodash.set": "^4.3.2",
     "lodash.throttle": "^4.1.1",
+    "lodash.unset": "^4.5.2",
     "lodash.update": "^4.10.2",
     "mixpanel-browser": "^2.41.0",
     "near-api-js": "^0.43.1",

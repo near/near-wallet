@@ -1,12 +1,15 @@
+import { getRouter } from 'connected-react-router';
 import reduceReducers from 'reduce-reducers';
 import { handleActions } from 'redux-actions';
 
+import { showAlert } from '../../../utils/alerts';
 import { makeAccountActive } from '../../actions/account';
 import {
     clearLocalAlert,
     clearGlobalAlert,
     setMainLoader
 } from '../../actions/status';
+import { selectAccountGlobalAlertPreventClear } from '../../slices/account';
 
 
 const initialState = {
@@ -16,7 +19,43 @@ const initialState = {
     localAlert: {}
 };
 
+export const handleClearAlert = () => (dispatch, getState) => {
+    const router = getRouter(getState());
+    const globalAlertPreventClear = selectAccountGlobalAlertPreventClear(getState());
+
+    if (!router.location.state?.globalAlertPreventClear && !globalAlertPreventClear) {
+        dispatch(clearGlobalAlert());
+    }
+    dispatch(clearLocalAlert());
+};
+
+export const withAlert = (action, data) => (dispatch) => dispatch({
+    ...action,
+    meta: {
+        ...action.meta,
+        ...showAlert(data)
+    }
+});
+
 const alertReducer = (state, { error, ready, payload, meta, type }) => {
+
+    // temporary solution to handle both `showAlert` and `showAlertToolkit`
+    // finally, when we will be using redux-toolkit for all reducers, we will be able to rely on `rejected` and `fulfilled` types of actions only
+    // for now, we need to use both `rejected` and `fulfilled` actions and `ready` param from action meta to recognize the action status
+    if (type.endsWith('/rejected') || type.endsWith('/fulfilled')) {
+        meta = {
+            ...meta,
+            ...(error?.alertMeta || {})
+        };
+        payload = {
+            ...payload,
+            type: payload?.type || error?.type,
+            messageCode: error?.messageCode,
+            message: error?.message
+        };
+        ready = true;
+    }
+
     const actionStatus = {
         ...state.actionStatus,
         [type]: (typeof ready === 'undefined' && type !== 'SHOW_CUSTOM_ALERT')
@@ -31,7 +70,7 @@ const alertReducer = (state, { error, ready, payload, meta, type }) => {
                     ? undefined 
                     : !meta?.alert?.ignoreMainLoader && !ready,
                 errorType: payload?.type,
-                errorMessage: (error && payload?.toString()) || (type === 'SHOW_CUSTOM_ALERT' && payload.errorMessage) || undefined,
+                errorMessage: (error && payload?.message) || (type === 'SHOW_CUSTOM_ALERT' && payload.errorMessage) || undefined,
                 data: {
                     ...meta?.data,
                     ...payload
@@ -56,8 +95,8 @@ const alertReducer = (state, { error, ready, payload, meta, type }) => {
                     messageCode: 
                         payload?.messageCode 
                         || (error
-                            ? payload.type !== 'UntypedError'
-                                ? `reduxActions.${payload.type}`
+                            ? payload?.type !== 'UntypedError'
+                                ? `reduxActions.${payload?.type}`
                                 : `reduxActions.${type}.error`
                             : `reduxActions.${type}.success`),
                     console: (error || (type === 'SHOW_CUSTOM_ALERT' && payload.errorMessage)) && (meta.alert?.console || payload.data?.console)

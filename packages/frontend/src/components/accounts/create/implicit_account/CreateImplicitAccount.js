@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import FormButton from '../../../common/FormButton';
 import Container from '../../../common/styled/Container.css';
 import WhereToBuyNearModal from '../../../common/WhereToBuyNearModal';
+import MoonPayIcon from '../../../svg/MoonPayIcon';
 import YourAddress from './YourAddress';
 
 const StyledContainer = styled(Container)`
@@ -20,56 +21,80 @@ const StyledContainer = styled(Container)`
             margin: 70px 0 10px 0;
         }
     }
-`;
 
-const StyledBuyButton = styled(FormButton)`
-    &&&& {
-        border-radius: 16px;
-        flex: 1;
-        margin-right: 8px;
+    &&& {
+        > button {
+            &.black, &.gray-gray {
+                width: 100%;
+                background-color: #272729;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-top: 45px;
 
-        :last-child {
-            margin-right: 0;
+                svg {
+                    width: 105px;
+                    height: auto;
+                    margin: 0 0 0 10px;
+                }
+            }
+
+            &.gray-gray {
+                background-color: #cccccc;
+            }
         }
     }
 `;
 
-const BuyButton = ({
-    amountUSD,
-    onClickBuyButton,
-    moonpayIsAvailable
-}) => {
+// const StyledBuyButton = styled(FormButton)`
+//     &&&& {
+//         border-radius: 16px;
+//         flex: 1;
+//         margin-right: 8px;
 
-    const getBuyButtonLabel = (amountUSD) => {
-        if (amountUSD) {
-            return `$${amountUSD}`;
-        }
-        return (<Translate id='account.createImplicitAccount.customAmount' />);
-    };
+//         :last-child {
+//             margin-right: 0;
+//         }
+//     }
+// `;
 
-    return (
-        <StyledBuyButton
-            disabled={!moonpayIsAvailable}
-            color='light-blue'
-            onClick={() => onClickBuyButton(amountUSD)}
-        >
-            {getBuyButtonLabel(amountUSD)}
-        </StyledBuyButton>
-    );
-};
+// const BuyButton = ({
+//     amountUSD,
+//     onClickBuyButton,
+//     moonpayIsAvailable
+// }) => {
+
+//     const getBuyButtonLabel = (amountUSD) => {
+//         if (amountUSD) {
+//             return `$${amountUSD}`;
+//         }
+//         return (<Translate id='account.createImplicitAccount.customAmount' />);
+//     };
+
+//     return (
+//         <StyledBuyButton
+//             disabled={!moonpayIsAvailable}
+//             color='light-blue'
+//             onClick={() => onClickBuyButton(amountUSD)}
+//         >
+//             {getBuyButtonLabel(amountUSD)}
+//         </StyledBuyButton>
+//     );
+// };
 
 export default ({
     onClickBuyButton,
     implicitAccountId,
     formattedMinDeposit,
-    moonpayIsAvailable
+    moonpayIsAvailable,
+    moonpaySignedUrl
 }) => {
     const [showWhereToBuyModal, setShowWhereToBuyModal] = useState(false);
     return (
         <>
             <StyledContainer className='border small-centered'>
                 <h3><Translate id='account.createImplicitAccount.title' /></h3>
-                <div className='flex-center-center'>
+                {/* <div className='flex-center-center'>
                     {['30', '50', '100', ''].map((amount) => (
                         <BuyButton
                             key={`${amount}`}
@@ -78,7 +103,27 @@ export default ({
                             moonpayIsAvailable={moonpayIsAvailable}
                         />
                     ))}
-                </div>
+                </div> */}
+                {/*
+                TEMPORARILY DISABLE MOONPAY PRE-SPECIFIED AMOUNT BUTTONS
+                WHILE MOONPAY 'baseCurrencyAmount' IS BROKEN
+                ISSUE: https://github.com/near/near-wallet/issues/2408
+                */}
+                <FormButton
+                    disabled={!moonpayIsAvailable}
+                    color={moonpayIsAvailable ? 'black' : 'gray-gray'}
+                    linkTo={moonpaySignedUrl}
+                >
+                    {moonpayIsAvailable
+                        ? <>
+                            <Translate id='buyNear.buyWith' />
+                            <MoonPayIcon />
+                        </> : <>
+                            <MoonPayIcon color='#3F4045' />
+                            <Translate id='buyNear.notSupported' />
+                        </>
+                    }
+                </FormButton>
                 <h3 className='bottom'><Translate id='account.createImplicitAccount.orSendNear' data={{ amount: formattedMinDeposit }} /></h3>
                 <Translate id='account.createImplicitAccount.sendFrom' />&nbsp;
                 <FormButton onClick={() => setShowWhereToBuyModal(true)} className='link underline'><Translate id='account.createImplicitAccount.exchange' /></FormButton>,<br />

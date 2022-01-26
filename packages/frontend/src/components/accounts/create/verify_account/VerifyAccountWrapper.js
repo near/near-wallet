@@ -7,14 +7,20 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Mixpanel } from '../../../../mixpanel';
 import {
     redirectTo,
-    sendIdentityVerificationMethodCode,
-    checkAndHideLedgerModal
+    sendIdentityVerificationMethodCode
 } from '../../../../redux/actions/account';
 import { showCustomAlert } from '../../../../redux/actions/status';
+import {
+    actions as ledgerActions
+} from '../../../../redux/slices/ledger';
 import { isMoonpayAvailable } from '../../../../utils/moonpay';
 import { wallet } from '../../../../utils/wallet';
 import EnterVerificationCode from '../../EnterVerificationCode';
 import VerifyAccount from './VerifyAccount';
+
+const {
+    checkAndHideLedgerModal
+} = ledgerActions;
 
 export function VerifyAccountWrapper() {
     const { executeRecaptcha } = useGoogleReCaptcha();

@@ -1,0 +1,41 @@
+#!/bin/bash
+
+#usage:
+#   foxtrot-merge-detector [<branch>]
+#
+# If foxtrot merge detected for branch (current branch if no branch),
+# exit with 1.
+
+# foxtrot merges:
+# See http://bit-booster.blogspot.cz/2016/02/no-foxtrots-allowed.html
+# https://stackoverflow.com/questions/35962754/git-how-can-i-prevent-foxtrot-merges-in-my-master-branch
+# https://git-blame.blogspot.com/2012/03/fun-with-first-parent.html
+# https://stackoverflow.com/questions/35962754/how-can-i-prevent-foxtrot-merges-in-my-master-branch
+
+remoteBranch=$(git rev-parse --abbrev-ref "$1"@{u} 2>/dev/null)
+# no remote tracking branch, exit
+if [[ -z "$remoteBranch" ]]; then
+    # echo "no remote tracking branch, no foxtrot merge detected"
+    exit 0
+fi
+branch=$(git rev-parse --abbrev-ref "${1-@}" 2>/dev/null)
+# branch commit does not cover remote branch commit, exit
+if ! $(git merge-base --is-ancestor $remoteBranch $branch); then
+    # echo "branch commit does not cover remote branch commit, no foxtrot merge detected"
+    exit 0
+fi
+remoteBranchCommit=$(git rev-parse $remoteBranch)
+# branch commit is same as remote branch commit, exit
+if [[ $(git rev-parse $branch) == $remoteBranchCommit ]]; then
+    # echo "branch commit is same as remote branch commit, no foxtrot merge detected"
+    exit 0
+fi
+# remote branch commit is first-parent of branch, exit
+if [[ $(git log --first-parent --pretty='%P' $remoteBranchCommit..$branch | \
+    cut -d' ' -f1 | \
+    grep $remoteBranchCommit | wc -l) -eq 1 ]]; then
+    # echo "remote branch commit is first-parent of branch, no foxtrot merge detected"
+    exit 0
+fi
+# foxtrot merge detected if here
+exit 1
