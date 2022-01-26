@@ -77,7 +77,6 @@ pipeline {
                     }
                     environment {
                         NEAR_WALLET_ENV = 'testnet_AWS'
-                        TOKEN_CONTRACTS = 'meta.pool.testnet'
                     }
                     steps {
                         dir("$WORKSPACE/packages/frontend") {
@@ -94,7 +93,6 @@ pipeline {
                     }
                     environment {
                         NEAR_WALLET_ENV = 'testnet_AWS_STAGING'
-                        TOKEN_CONTRACTS = 'meta.pool.testnet'
                     }
                     steps {
                         dir("$WORKSPACE/packages/frontend") {
