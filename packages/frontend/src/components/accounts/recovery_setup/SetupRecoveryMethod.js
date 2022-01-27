@@ -243,7 +243,7 @@ class SetupRecoveryMethod extends Component {
                         recoveryMethod: method.kind,
                         recaptchaAction: 'verifiedIdentityCreateFundedAccount',
                         recaptchaToken: createIdentityFundedAccountEnterpriseRecaptchaToken,
-                    });
+                    }).unwrap();
                 } catch (e) {
                     console.warn(e.code);
 
