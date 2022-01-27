@@ -3,6 +3,7 @@ import { Translate } from 'react-localize-redux';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
+import { useBuyWithNearpay } from "../../hooks/buyWithNearpay";
 import BinanceLogo from '../../images/binance-logo.svg';
 import GateLogo from '../../images/gate-io-logo.svg';
 import HuobiLogo from '../../images/huobi-logo.svg';
@@ -17,6 +18,7 @@ import FormButton from '../common/FormButton';
 import Container from '../common/styled/Container.css';
 import ArrowIcon from '../svg/ArrowIcon';
 import MoonPayIcon from '../svg/MoonPayIcon';
+import NearPayIcon from "../svg/NearPayIcon";
 
 const StyledContainer = styled(Container)`
     position: relative;
@@ -151,6 +153,7 @@ export function BuyNear({ match, location, history }) {
     const accountId = useSelector(selectAccountId);
     const [moonPayAvailable, setMoonPayAvailable] = useState(null);
     const [signedMoonPayUrl, setSignedMoonPayUrl] = useState(null);
+    const nearpay = useBuyWithNearpay(accountId);
 
     useEffect(() => {
         if (!accountId) {
@@ -191,6 +194,27 @@ export function BuyNear({ match, location, history }) {
             >
                 <Translate id='button.learnMore' />
             </FormButton>
+            <FormButton
+                sending={!accountId || nearpay.isAvailable == null}
+                sendingString="button.loading"
+                disabled={accountId && !nearpay.isAvailable}
+                color={nearpay.isAvailable ? "black" : "gray-gray"}
+                linkTo={nearpay.url}
+                onClick={() => Mixpanel.track("Wallet Click Buy with Nearpay")}
+            >
+                {nearpay.isAvailable ? (
+                    <>
+                        <Translate id="buyNear.buyWith" />
+                        <NearPayIcon />
+                    </>
+                ) : (
+                    <>
+                        <NearPayIcon color="#3F4045" />
+                        <Translate id="buyNear.notSupported" />
+                    </>
+                )}
+            </FormButton>
+
             <FormButton
                 sending={!accountId || moonPayAvailable == null}
                 sendingString='button.loading'

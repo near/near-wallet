@@ -17,6 +17,9 @@ export default {
     MOONPAY_API_KEY: "pk_test_wQDTsWBsvUm7cPiz9XowdtNeL5xasP9",
     MOONPAY_API_URL: "https://api.moonpay.com",
     MOONPAY_BUY_URL:"https://buy.moonpay.io?apiKey=",
+    // nearpay's `merchant_api_key`
+    NEARPAY_API_KEY: "03aa4855-fcd6-403c-b6a9-2909e8133b8a",
+    NEARPAY_BUY_URL: "https://dev-widget.nearpay.co",
     MULTISIG_CONTRACT_HASHES: [
         // https://github.com/near/core-contracts/blob/fa3e2c6819ef790fdb1ec9eed6b4104cd13eb4b7/multisig/src/lib.rs
         "7GQStUCd8bmCK43bzD8PRh7sD2uyyeMJU5h8Rj3kXXJk",
