@@ -132,7 +132,7 @@ export const createAccountFromImplicit = createAsyncThunk(
         }
         const publicKey = new PublicKey({ keyType: KeyType.ED25519, data: Buffer.from(implicitAccountId, 'hex') });
         const fundingOptions = { fundingAccountId: implicitAccountId };
-        await dispatch(createNewAccount({ accountId, fundingOptions, recoveryMethod, publicKey }));
+        await dispatch(createNewAccount({ accountId, fundingOptions, recoveryMethod, publicKey })).unwrap();
     }
     // TODO: showAlert({ onlyError: true })
 );
@@ -148,7 +148,7 @@ export const createAccountWithSeedPhrase = createAsyncThunk(
         const recoveryMethod = 'phrase';
         const previousAccountId = wallet.accountId;
         await wallet.saveAccount(accountId, recoveryKeyPair);
-        await dispatch(createNewAccount({ accountId, fundingOptions, recoveryMethod, publicKey: recoveryKeyPair.publicKey, previousAccountId, recaptchaToken }));
+        await dispatch(createNewAccount({ accountId, fundingOptions, recoveryMethod, publicKey: recoveryKeyPair.publicKey, previousAccountId, recaptchaToken })).unwrap();
     }
     // TODO: showAlert()
 );

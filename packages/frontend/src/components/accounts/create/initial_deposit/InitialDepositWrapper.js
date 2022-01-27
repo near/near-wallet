@@ -100,7 +100,7 @@ export function InitialDepositWrapper({ history }) {
         await Mixpanel.withTracking("CA Create account from implicit",
             async () => {
                 setClaimingAccount(true);
-                await dispatch(createAccountFromImplicit({ accountId, implicitAccountId, recoveryMethod }));
+                await dispatch(createAccountFromImplicit({ accountId, implicitAccountId, recoveryMethod })).unwrap();
             },
             async (e) => {
                 console.warn(e);

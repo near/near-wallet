@@ -455,7 +455,7 @@ export const handleCreateAccountWithSeedPhrase = (accountId, recoveryKeyPair, fu
     }
 
     try {
-        await dispatch(createAccountWithSeedPhrase({ accountId, recoveryKeyPair, fundingOptions, recaptchaToken }));
+        await dispatch(createAccountWithSeedPhrase({ accountId, recoveryKeyPair, fundingOptions, recaptchaToken })).unwrap();
     } catch (error) {
         if (await wallet.accountExists(accountId)) {
             // Requests sometimes fail after creating the NEAR account for another reason (transport error?)
@@ -546,7 +546,7 @@ export const refreshAccount = (basicData = false) => async (dispatch, getState) 
     }
 
     dispatch(setLocalStorage(wallet.accountId));
-    await dispatch(refreshAccountOwner(selectFlowLimitationAccountData(getState())));
+    await dispatch(refreshAccountOwner(selectFlowLimitationAccountData(getState()))).unwrap();
 
     if (!basicData && !selectFlowLimitationAccountBalance(getState())) {
         dispatch(getBalance('', selectFlowLimitationAccountData(getState())));

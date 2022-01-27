@@ -97,7 +97,7 @@ class SetupImplicit extends Component {
         this.setState({ creatingAccount: true });
         await Mixpanel.withTracking("CA Create account from implicit",
             async () => {
-                await dispatch(createAccountFromImplicit({ accountId: newAccountId, implicitAccountId, recoveryMethod }));
+                await dispatch(createAccountFromImplicit({ accountId: newAccountId, implicitAccountId, recoveryMethod })).unwrap();
             },
             () => {
                 this.setState({ creatingAccount: false });

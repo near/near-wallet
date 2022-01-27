@@ -93,7 +93,7 @@ const SetupLedger = (props) => {
                             return;
                         }
 
-                        await dispatch(createNewAccount({ accountId, fundingOptions, recoveryMethod: 'ledger', publicKey, recaptchaToken }));
+                        await dispatch(createNewAccount({ accountId, fundingOptions, recoveryMethod: 'ledger', publicKey, recaptchaToken })).unwrap();
                         if (fundingOptions?.fundingAmount) {
                             setLinkdropAmount(fundingOptions.fundingAmount);
                         }
