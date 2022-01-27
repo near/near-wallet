@@ -118,7 +118,7 @@ export function VerifyAccountWrapper() {
                             recoveryMethod,
                             recaptchaToken,
                             recaptchaAction: 'verifiedIdentityCreateFundedAccount'
-                        }));
+                        })).unwrap();
                     } catch (e) {
                         if (e.code === 'identityVerificationCodeInvalid') {
                             dispatch(showCustomAlert({

@@ -52,7 +52,7 @@ export function ExistingAccountWrapper({ history }) {
                                 implicitAccountId,
                                 newInitialBalance: MIN_BALANCE_TO_CREATE,
                                 recoveryMethod
-                            }));
+                            })).unwrap();
                         },
                         (e) => {
                             dispatch(showCustomAlert({

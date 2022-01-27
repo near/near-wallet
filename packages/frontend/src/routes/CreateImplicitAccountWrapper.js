@@ -81,7 +81,7 @@ export function CreateImplicitAccountWrapper() {
                             await dispatch(finishSetupImplicitAccount({
                                 implicitAccountId,
                                 recoveryMethod
-                            }));
+                            })).unwrap();
                             if (new BN(state.amount).gte(new BN(NAMED_ACCOUNT_MIN))) {
                                 dispatch(setCreateCustomName(true));
                             }

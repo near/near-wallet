@@ -79,7 +79,7 @@ export const createIdentityFundedAccount = createAsyncThunk(
             recaptchaSiteKey: RECAPTCHA_ENTERPRISE_SITE_KEY
         });
         await wallet.saveAndMakeAccountActive(accountId);
-        await dispatch(addLocalKeyAndFinishSetup({ accountId, recoveryMethod, publicKey }));
+        await dispatch(addLocalKeyAndFinishSetup({ accountId, recoveryMethod, publicKey })).unwrap();
     }
 );
 
@@ -115,7 +115,7 @@ export const createNewAccount = createAsyncThunk(
         }
 
         await wallet.saveAndMakeAccountActive(accountId);
-        await dispatch(addLocalKeyAndFinishSetup({ accountId, recoveryMethod, publicKey, previousAccountId }));
+        await dispatch(addLocalKeyAndFinishSetup({ accountId, recoveryMethod, publicKey, previousAccountId })).unwrap();
     }
 );
 
@@ -171,7 +171,7 @@ export const createNewAccountWithCurrentActiveAccount = createAsyncThunk(
             newInitialBalance
         });
         await wallet.saveAndMakeAccountActive(newAccountId);
-        await dispatch(addLocalKeyAndFinishSetup({ accountId: newAccountId, recoveryMethod, publicKey: newPublicKey }));
+        await dispatch(addLocalKeyAndFinishSetup({ accountId: newAccountId, recoveryMethod, publicKey: newPublicKey })).unwrap();
     }
 );
 
@@ -183,6 +183,6 @@ export const finishSetupImplicitAccount = createAsyncThunk(
     }, { dispatch }) => {
         const publicKey = new PublicKey({ keyType: KeyType.ED25519, data: Buffer.from(implicitAccountId, 'hex') });
         await wallet.saveAndMakeAccountActive(implicitAccountId);
-        await dispatch(addLocalKeyAndFinishSetup({ accountId: implicitAccountId, recoveryMethod, publicKey }));
+        await dispatch(addLocalKeyAndFinishSetup({ accountId: implicitAccountId, recoveryMethod, publicKey })).unwrap();
     }
 );

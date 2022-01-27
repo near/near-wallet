@@ -137,7 +137,7 @@ export function InitialDepositWrapper({ history }) {
                 // Assume a transient error occurred, but that the account is on-chain and we can finish the creation process
                 try {
                     await wallet.saveAndMakeAccountActive(accountId);
-                    await dispatch(addLocalKeyAndFinishSetup({ accountId, recoveryMethod, publicKey }));
+                    await dispatch(addLocalKeyAndFinishSetup({ accountId, recoveryMethod, publicKey })).unwrap();
                 } catch (e) {
                     dispatch(showCustomAlert({
                         success: false,
