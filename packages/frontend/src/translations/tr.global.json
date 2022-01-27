@@ -2,843 +2,843 @@
     "account": {
         "activateAccount": {
             "post": {
-                "descOne": "Your initial deposit has been received and transferred to your new account. Your account is now active!",
-                "descTwo": "A portion of your deposit has been reserved to cover the <a href='https://docs.near.org/docs/concepts/account' rel='noopener noreferrer' target='_blank'>cost of hosting your account</a>.",
-                "title": "Your account has been activated."
+                "descOne": "İlk para yatırma işleminiz alındı ve yeni hesabınıza aktarıldı. Hesabınız artık aktif!",
+                "descTwo": "Depozitonuzun bir kısmı <a href='https://docs.near.org/docs/concepts/account' rel='noopener noreferrer' target='_blank'>hesabınızı barındırma maliyetini karşılamak için ayrılmıştır</a>.",
+                "title": "Hesabınız etkinleştirildi."
             },
             "pre": {
-                "desc": "To begin using NEAR Wallet, make a minimum initial deposit by sending <b>at least ${amount}</b> to your Account ID (sometimes called an “address”).",
-                "title": "Almost there! Make your initial deposit."
+                "desc": "NEAR Cüzdanınızı kullanmaya başlamak için <b>en az ${amount}</b> hesabınıza yatırınız (sometimes called an “address”).",
+                "title": "Az kaldı! İlk para yatırma işleminizi yapın."
             }
         },
         "available": {
-            "error": "User not found!",
-            "errorSameAccount": "Cannot send to yourself.",
-            "implicitAccount": "Always double check the account ID",
-            "implicitAccountModal": "Please double check the account ID, especially if this is an exchange account. If the account ID is entered incorrectly, your funds will be lost forever.",
-            "success": "User found!"
+            "error": "Kullanıcı bulunamadı!",
+            "errorSameAccount": "Kendinize gönderemezsiniz.",
+            "implicitAccount": "Hesap kimliğinizi her zaman iki kez kontrol ediniz",
+            "implicitAccountModal": "Lütfen hesap kimliğinizi iki kez kontrol edin, özellikle de bu bir borsa hesabıysa. Hesap kimliği yanlış girilirse, paranız tamamiyle kaybolacaktır.",
+            "success": "Kullanıcı bulundu!"
         },
         "create": {
             "checkingAvailablity": {
-                "check": "Checking",
-                "create": "Checking availability"
+                "check": "Kontrol etme",
+                "create": "Kullanılabilirliği kontrol ediliyor"
             },
-            "errorAccountNotExist": "There was a problem creating your account. Please try again!",
-            "errorInvalidAccountIdLength": "Account ID must be between 2 and 64 characters"
+            "errorAccountNotExist": "Hesabınız oluşturulurken bir sorun oluştu. Lütfen tekrar deneyin!",
+            "errorInvalidAccountIdLength": "Hesap Kimliği 2 ile 64 karakter arasında olmalıdır"
         },
         "createImplicit": {
             "post": {
-                "descOne": "Your initial deposit was received! Once claimed, your deposit will be transferred to your new account.",
-                "descTwo": "Important: Your single-use funding address will no longer be valid. Make sure to replace it with your Account ID on any exchanges or other devices where it may have been saved.",
+                "descOne": "İlk para yatırma işleminiz alındı! Talep edildiğinde, mevduatınız yeni hesabınıza aktarılacaktır.",
+                "descTwo": "Önemli: Tek kullanımlık finansman adresiniz artık geçerli olmayacak. Kaydedilmiş olabileceği tüm borsalarda veya diğer cihazlarda Hesap Kimliğinizle değiştirdiğinizden emin olun.",
                 "modal": {
-                    "descOne": "By continuing, you acknowledge that the single-use funding address will be replaced, and any additional funds sent to the old address will be lost.",
-                    "descTwo": "Remember to replace it with your Account ID on any exchanges or other devices where it may have been saved.",
-                    "title": "Update your address"
+                    "descOne": "Devam ederek, tek kullanımlık fonlama adresinin değiştirileceğini ve eski adrese gönderilen ek fonların kaybedileceğini kabul etmiş olursunuz.",
+                    "descTwo": "Kaydedilmiş olabileceği tüm borsalarda veya diğer cihazlarda Hesap Kimliğinizle değiştirmeyi unutmayın.",
+                    "title": "Adresinizi güncelleyin"
                 },
-                "title": "Claim your account"
+                "title": "Hesabınızı talep edin"
             },
             "pre": {
-                "addressHeader": "One-time funding address",
-                "descOne": "To begin using NEAR Wallet, meet the minimum initial deposit by sending <b>at least ${amount}</b> to your single-use funding address below.",
-                "descTwo": "Return to this screen once your funds have been deposited to finish creating your account.",
+                "addressHeader": "Tek seferlik finansman adresi",
+                "descOne": "NEAR Cüzdanınızı kullanmaya başlamak için, aşağıdaki tek kullanımlık finansman adresinize <b>en az ${amount}</b> başlangıç depozitosunu yatırın.",
+                "descTwo": "Hesabınızı oluşturmayı tamamlamak için paranız yatırıldıktan sonra bu ekrana tekrar dönün.",
                 "moonPay": {
-                    "buyWith": "Buy with",
-                    "desc": "Make your initial deposit with MoonPay using your preferred payment method.",
-                    "title": "Fund with MoonPay"
+                    "buyWith": "İle satın al",
+                    "desc": "Tercih ettiğiniz ödeme yöntemini kullanarak MoonPay ile ilk para yatırma işleminizi yapın.",
+                    "title": "MoonPay ile yatırın"
                 },
-                "title": "Almost there! Activate your account with an initial deposit.",
+                "title": "Az kaldı! Hesabınızı ilk para yatırma işlemiyle etkinleştirin.",
                 "whereToBuy": {
-                    "button": "Where can I purchase NEAR?",
-                    "desc": "NEAR tokens are available to purchase through the following exchanges",
-                    "title": "Purchase NEAR tokens"
+                    "button": "NEAR'ı nerede satın alabilirim?",
+                    "desc": "NEAR tokenleri aşağıdaki borsalar aracılığıyla satın alınabilir",
+                    "title": "NEAR tokenlerini al"
                 }
             },
             "success": {
-                "button": "Continue to Account",
-                "descOne": "Congratulations <b>${accountId}</b>! Your account has been successfully created.",
-                "descThree": "Please update your address on any exchanges or other devices.",
-                "descTwo": "You must now use this Account ID as your address for all NEAR operations.",
+                "button": "Hesabına gitmek için devam et",
+                "descOne": "Tebrikler <b>${accountId}</b>! Hesabınız başarıyla oluşturuldu.",
+                "descThree": "Lütfen adresinizi herhangi bir borsa veya diğer cihazlarda güncelleyin.",
+                "descTwo": "Artık tüm NEAR işlemleri için bu Hesap Kimliğini adresiniz olarak kullanmalısınız.",
                 "modal": {
-                    "desc": "Congratulations! Your account has been successfully created.",
-                    "title": "Welcome to NEAR Wallet!"
+                    "desc": "Tebrikler! Hesabınız başarıyla oluşturuldu.",
+                    "title": "NEAR Cüzdan'a Hoş geldiniz!"
                 },
-                "title": "Welcome to NEAR"
+                "title": "Near'a Hoş geldiniz"
             }
         },
         "fundedStatus": {
-            "active": "Active",
-            "awaitingDeposit": "Awaiting deposit",
-            "initialDeposit": "Initial deposit",
-            "minDeposit": "Minimum deposit",
-            "nearName": "Account ID",
-            "ready": "Ready to claim",
-            "singleUse": "Single-use Funding address",
-            "status": "Account status"
+            "active": "Aktif",
+            "awaitingDeposit": "Depozito bekleniyor",
+            "initialDeposit": "İlk depozito",
+            "minDeposit": "Minimum depozito",
+            "nearName": "Hesap Kimliği",
+            "ready": "Talep etmeye hazır",
+            "singleUse": "Tek kullanımlık Finansman adresi",
+            "status": "Hesap durumu"
         },
         "login": {
             "details": {
-                "warning": "This allows access to your entire balance. Please proceed with caution."
+                "warning": "Bu tüm bakiyenize erişmenizi sağlar. Lütfen dikkatli ilerleyin."
             },
             "incorrectContractId": {
-                "error": "The contract ${contractId} does not exist. This may be an issue with the application you are trying to use, or this contract may have been deleted. You will be redirected back to the application",
-                "errorTitle": "Invalid contract ID"
+                "error": "Sözleşme ${contractId} mevcut değil. Bu, kullanmaya çalıştığınız uygulamayla ilgili bir sorun olabilir veya bu sözleşme silinmiş olabilir. Uygulamaya geri yönlendirileceksiniz",
+                "errorTitle": "Geçersiz sözleşme kimliği"
             }
         },
-        "nameDoesntMatch": "Account name doesn't match",
+        "nameDoesntMatch": "Hesap adı eşleşmiyor",
         "recoverAccount": {
-            "error": "Failed to recover account. No accounts were found for this passphrase.",
-            "errorInvalidSeedPhrase": "No accounts were found for this passphrase.",
-            "success": "Recover using passphrase is complete.<br/><b>${numberOfAccounts} account(s)</b> have been successfully recovered.<br/>The last one is set as active."
+            "error": "Hesap kurtarılamadı. Bu Anahtar Kelime için hesap bulunamadı.",
+            "errorInvalidSeedPhrase": "Bu Anahtar Kelime için hesap bulunamadı.",
+            "success": "Anahtar Kelime kullanılarak kurtarma işlemi tamamlandı.<br/><b>${numberOfAccounts} hesap(s)</b> başarıyla kurtarıldı.<br/>Sonuncusu aktif olarak ayarlanmıştır."
         },
         "requestCode": {
-            "error": "Failed to send SMS with code.",
-            "success": "Sent SMS with code."
+            "error": "Kod içeren SMS gönderilemedi.",
+            "success": "Kod SMS ile gönderildi."
         },
         "sendMoney": {
-            "error": "Sorry an error has occurred. You may want to try again."
+            "error": "Üzgünüz, bir hata oluştu. Tekrar deneyebilirsiniz."
         },
         "sendNewRecoveryLink": {
-            "error": "Failed to resend. Please try again.",
-            "success": "Recovery link successfully sent!"
+            "error": "Yeniden gönderme başarısız. Lütfen tekrar deneyin.",
+            "success": "Kurtarma linki başarıyla gönderildi!"
         },
         "verifySeedPhrase": {
-            "error": "You entered the incorrect word"
+            "error": "yanlış kelime girdiniz"
         }
     },
     "accountSelector": {
-        "noAccountDesc": "You’re not currently signed in to any alternate accounts.",
-        "signInButton": "Import a Different Account"
+        "noAccountDesc": "Şu anda herhangi bir alternatif hesapta oturum açmadınız.",
+        "signInButton": "Farklı Bir Hesabı İçe Aktar"
     },
     "actions": {
         "AddKey": {
-            "forContract": "Access Key added for: ${permissionReceiverId}",
-            "forReceiver": "Full Access Key added for: ${receiverId}"
+            "forContract": "Erişim Anahtarı eklendi: ${permissionReceiverId}",
+            "forReceiver": "Tam Erişim Anahtarı eklendi: ${receiverId}"
         },
-        "CreateAccount": "New account created: ${receiverId}",
-        "DeleteAccount": "Account deleted: ${receiverId}",
-        "DeleteKey": "Key deleted",
-        "DeployContract": "Contract deployed: ${receiverId}",
-        "FunctionCall": "Called method: ${methodName} in contract: ${receiverId}",
-        "Stake": "Staked ${stake}",
+        "CreateAccount": "Yeni hesap oluşturuldu: ${receiverId}",
+        "DeleteAccount": "Hesap silindi: ${receiverId}",
+        "DeleteKey": "Anahtar silindi",
+        "DeployContract": "Sözleşme uygulandı: ${receiverId}",
+        "FunctionCall": "Sözleşmede: ${receiverId} Uygulanan yöntem: ${methodName}",
+        "Stake": "Katılım sağlandı ${stake}",
         "Transfer": {
-            "received": "Received ${deposit} from ${signerId}",
-            "transferred": "Sent ${deposit} to ${receiverId}"
+            "received": "Göndericiden ${signerId} alındı ${deposit}",
+            "transferred": "Alıcıya ${receiverId} Gönderildi ${deposit}"
         }
     },
     "actionsSign": {
-        "addKey": "Adding access key",
-        "createAccount": "Creating Account: ${receiverId}",
-        "deleteAccount": "Deleting account: ${receiverId}",
-        "deleteKey": "Deleting access key",
-        "deployContract": "Deploying Contract: ${receiverId}",
-        "functionCall": "Calling function: ${methodName}",
-        "stake": "Staking: ${stake}Ⓝ ${publicKey}...",
-        "transfer": "Transferring: ${deposit}Ⓝ to ${receiverId}"
+        "addKey": "Erişim anahtarı ekleniyor",
+        "createAccount": "Hesap Oluşturma: ${receiverId}",
+        "deleteAccount": "Hesap silme: ${receiverId}",
+        "deleteKey": "Erişim anahtarını silme",
+        "deployContract": "Sözleşme Uygulanıyor: ${receiverId}",
+        "functionCall": "Arama fonksiyonu: ${methodName}",
+        "stake": "Katılım sağlanıyor: ${stake}Ⓝ ${publicKey}...",
+        "transfer": "Alıcıya ${receiverId} aktarılıyor: ${deposit}Ⓝ "
     },
     "addNode": {
-        "desc": "Your node must be setup via CLI before adding it here.",
+        "desc": "Düğümünüz buraya eklenmeden önce CLI (komut satırı arayüzü) üzerinden kurulmalıdır.",
         "ipAddressInput": {
-            "placeholder": "example: 0.0.0.0",
-            "title": "Enter the IP Address of your Node"
+            "placeholder": "örnek: 0.0.0.0",
+            "title": "Düğümünüzün IP Adresini girin"
         },
         "nicknameInput": {
-            "placeholder": "example: AWS Instance",
-            "title": "Give it a nickname (optional)"
+            "placeholder": "örnek: AWS Instance",
+            "title": "Bir takma ad verin (isteğe bağlı)"
         },
-        "pageText": "Setup your Node via CLI, then add it here.",
-        "pageTitle": "Add a Node"
+        "pageText": "Düğümünüzü CLI (komut satırı arayüzü) aracılığıyla kurun, ardından buraya ekleyin.",
+        "pageTitle": "Düğüm Ekle"
     },
-    "amount": "amount",
-    "arguments": "Arguments",
+    "amount": "miktar",
+    "arguments": "Argümanlar",
     "authorizedApps": {
-        "dashboardNoApps": "You have not authorized any apps",
-        "feeAllowance": "Fee Allowance",
+        "dashboardNoApps": "Herhangi bir uygulamaya yetki vermediniz",
+        "feeAllowance": "Ücret Ödeneği",
         "ledger": "Ledger",
-        "pageTitle": "Authorized Apps",
-        "publicKey": "Public Key"
+        "pageTitle": "Yetkili Uygulamalar",
+        "publicKey": "Açık Adres"
     },
-    "availableBalanceInfo": "Your spendable NEAR balance excluding funds locked or staked. <a href='/profile'>View Balance Breakdown →</a>",
-    "availableBalanceProfile": "This is your spendable NEAR balance, and can be used or transferred immediately.",
-    "back": "Back",
+    "availableBalanceInfo": "Kilitlenen veya Katılım sağlanan fonlar hariç harcanabilir NEAR bakiyeniz. <a href='/profile'>Bakiye Dökümünü Görüntüle →</a>",
+    "availableBalanceProfile": "Bu, anlık kullanılabilir NEAR bakiyenizdir.",
+    "back": "Geri",
     "balance": {
-        "balance": "Total Balance",
-        "balanceLoading": "Balance loading"
+        "balance": "Toplam Bakiye",
+        "balanceLoading": "Bakiye güncelleniyor"
     },
     "balanceBreakdown": {
-        "available": "Available balance",
-        "reserved": "Reserved for fees"
+        "available": "Kalan bakiye",
+        "reserved": "Ücretler için ayrılmıştır"
     },
     "button": {
-        "acceptAndContinue": "Accept & Continue",
-        "addFunds": "Add Funds",
-        "addNode": "Add Node",
-        "allow": "Allow",
-        "approve": "Approve",
-        "authorizing": "Authorizing",
-        "browseApps": "Browse Apps",
-        "buy": "Buy",
-        "cancel": "Cancel",
-        "cancelOperation": "Cancel Operation",
-        "cancelTransfer": "Cancel Transfer",
-        "claimAccount": "Claim Account",
-        "claimMyAccount": "Claim My Account",
-        "close": "Close",
-        "Close": "Close",
-        "confirm": "Confirm",
-        "confirmAndSend": "Confirm & Send",
-        "connect": "Connect",
-        "connecting": "Connecting",
-        "connectLedger": "Connect to Ledger",
-        "continue": "Continue",
-        "continueSetup": "Continue to Setup",
-        "continueToMyAccount": "Continue to My Account",
-        "copyImplicitAddress": "Copy Funding Address",
-        "copyPhrase": "Copy Phrase",
-        "copyUrl": "Copy URL",
-        "createAccount": "Create Account",
-        "createAccountCapital": "Create Account",
-        "createNewAccount": "Create New Account",
-        "creatingAccount": "Creating account",
-        "deauthorize": "Deauthorize",
-        "deAuthorizing": "Deauthorizing",
-        "deny": "Deny",
-        "disable": "Disable",
-        "disabling": "Disabling",
-        "dismiss": "Dismiss",
-        "edit": "Edit",
-        "enable": "Enable",
-        "enabling": "Enabling",
-        "findMyAccount": "Find My Account",
-        "finish": "Finish",
-        "fundWith": "Fund with",
-        "goBack": "Go back",
-        "gotIt": "Got it",
-        "goToDashboard": "Go To Dashboard",
-        "importAccount": "Import Account",
-        "importExistingAccount": "Import Existing Account",
-        "learnMore": "Learn More",
-        "loading": "Loading",
-        "moreInformation": "More information",
-        "needToEditGoBack": "Need to edit? Go Back",
-        "next": "Next",
-        "protectAccount": "Protect Account",
-        "receive": "Receive",
-        "recoverAccount": "Recover Account",
-        "recovering": "Finding Account",
-        "recoverYourAccount": "Recover your Account",
-        "removeNode": "Remove Node",
-        "removingKeys": "Removing Keys",
-        "reserveMyAccountId": "Reserve My Account ID",
-        "retry": "Retry",
-        "returnToApp": "Return to App",
-        "saveChanges": "Save Changes",
-        "send": "Send",
-        "setupPhrase": "Setup Recovery Phrase",
-        "signIn": "Sign In",
-        "signingIn": "Signing In",
-        "signInLedger": "Sign in with Ledger",
-        "skip": "Skip",
-        "stake": "Stake",
-        "staking": "Staking",
-        "startOver": "Start over",
-        "subscribe": "Subscribe",
-        "topUp": "Top Up",
-        "transferring": "Transferring",
-        "tryAgain": "Try Again",
-        "unstaking": "Unstaking",
-        "useMax": "Use Max",
-        "verify": "Verify & Complete",
-        "verifyCode": "Verify Code",
-        "verifyCodeEnable": "Verify & Continue",
-        "verifying": "Verifying",
-        "viewAll": "View All",
-        "viewFAQ": "View FAQ",
-        "viewOnExplorer": "View on Explorer",
-        "withdrawing": "Withdrawing"
+        "acceptAndContinue": "Kabul Et & Devam Et",
+        "addFunds": "Fon Ekle",
+        "addNode": "Düğüm Ekle",
+        "allow": "İzin ver",
+        "approve": "Onayla",
+        "authorizing": "Yetkilendiriyor",
+        "browseApps": "Uygulamalara Göz Atın",
+        "buy": "Satın al",
+        "cancel": "İptal",
+        "cancelOperation": "İşlemi İptal Et",
+        "cancelTransfer": "Transferi İptal Et",
+        "claimAccount": "Hesap Talebi",
+        "claimMyAccount": "Hesabımı Al",
+        "close": "Kapat",
+        "Close": "Kapat",
+        "confirm": "Onayla",
+        "confirmAndSend": "Onayla & Gönder",
+        "connect": "Bağlan",
+        "connecting": "Bağlanıyor",
+        "connectLedger": "Ledger'e bağlan",
+        "continue": "Devam",
+        "continueSetup": "Kuruluma Devam Et",
+        "continueToMyAccount": "Hesabıma Devam Et",
+        "copyImplicitAddress": "Finansman Adresini Kopyala",
+        "copyPhrase": "Sözcüğü kopyala",
+        "copyUrl": "URL Kopyala",
+        "createAccount": "Hesap Oluştur",
+        "createAccountCapital": "Hesap Oluştur",
+        "createNewAccount": "Yeni Hesap Oluştur",
+        "creatingAccount": "Hesap Oluşturuluyor",
+        "deauthorize": "Yetkiyi kaldır",
+        "deAuthorizing": "Yetki kaldırılıyor",
+        "deny": "Red",
+        "disable": "Devre dışı bırak",
+        "disabling": "Devre dışı bırakılıyor",
+        "dismiss": "Reddet",
+        "edit": "Düzenle",
+        "enable": "Etkinleştirme",
+        "enabling": "Etkinleştiriliyor",
+        "findMyAccount": "Hesabımı Bul",
+        "finish": "Bitiş",
+        "fundWith": "-ile Yatır",
+        "goBack": "Geri git",
+        "gotIt": "Anladım",
+        "goToDashboard": "Panoya Git",
+        "importAccount": "Hesabı İçe Aktar",
+        "importExistingAccount": "Mevcut Hesabı İçe Aktar",
+        "learnMore": "Daha Fazla Bilgi Edin",
+        "loading": "Yükleniyor",
+        "moreInformation": "Daha fazla bilgi",
+        "needToEditGoBack": "Düzenlemeniz mi gerekiyor? Geri Git",
+        "next": "Sonraki",
+        "protectAccount": "Hesabı Koru",
+        "receive": "Al",
+        "recoverAccount": "Hesabı Kurtar",
+        "recovering": "Hesap Bulunuyor",
+        "recoverYourAccount": "Hesabınızı Kurtarın",
+        "removeNode": "Düğümü Kaldır",
+        "removingKeys": "Anahtarlar Kaldırılıyor",
+        "reserveMyAccountId": "Hesap Kimliğimi Oluştur",
+        "retry": "Tekrar dene",
+        "returnToApp": "Uygulamaya Dön",
+        "saveChanges": "Değişiklikleri Kaydet",
+        "send": "Gönder",
+        "setupPhrase": "Kurtarma İfadesini Ayarla",
+        "signIn": "Oturum aç",
+        "signingIn": "Oturum açılıyor",
+        "signInLedger": "Ledger ile Oturum aç",
+        "skip": "Atla",
+        "stake": "Katılım",
+        "staking": "Katılım Sağlanıyor",
+        "startOver": "Baştan başla",
+        "subscribe": "Abone ol",
+        "topUp": "Yükle",
+        "transferring": "Aktarılıyor",
+        "tryAgain": "Tekrar dene",
+        "unstaking": "Katılımdan Çıkılıyor",
+        "useMax": "Maks. Kullan",
+        "verify": "Doğrula & Tamamla",
+        "verifyCode": "Doğrulama kodu",
+        "verifyCodeEnable": "Doğrula & Devam Et",
+        "verifying": "Doğrulanıyor",
+        "viewAll": "Tümünü Görüntüle",
+        "viewFAQ": "SSS'yi Görüntüle",
+        "viewOnExplorer": "Explorer'da Görüntüle",
+        "withdrawing": "Para Çekme"
     },
     "buyNear": {
-        "bridgeTokens": "Bridge Tokens from Ethereum",
-        "buyWith": "Buy with",
+        "bridgeTokens": "Ethereum'dan Tokenleri transfer et",
+        "buyWith": "İle Satın Al",
         "coinMarketCap": "CoinMarketCap",
-        "descOne": "Purchase NEAR through MoonPay using your preferred payment method.",
-        "descThree": "Transfer your tokens from Ethereum to NEAR Wallet using a bridge.",
-        "descTwo": "NEAR is available to purchase through the following exchanges.",
+        "descOne": "Tercih ettiğiniz ödeme yöntemini kullanarak MoonPay aracılığıyla NEAR satın alın.",
+        "descThree": "Bir köprü kullanarak tokenlerinizi Ethereum'dan NEAR Cüzdanına aktarın.",
+        "descTwo": "NEAR aşağıdaki borsalardan satın alınabilir.",
         "moonPay": "MoonPay",
-        "notSupported": "is not supported in your region",
-        "seeMore": "See more on",
-        "supportedExchanges": "Supported Exchanges",
-        "title": "Top Up"
+        "notSupported": "bölgenizde desteklenmiyor",
+        "seeMore": "Daha fazlasını gör",
+        "supportedExchanges": "Desteklenen Borsalar",
+        "title": "Yükle"
     },
     "confirmLedgerModal": {
         "header": {
-            "confirm": "Please confirm the operation on your device...",
-            "processing": "Processing"
+            "confirm": "Lütfen cihazınızdaki işlemi onaylayın...",
+            "processing": "İşlem sürüyor"
         },
-        "one": "You will need to confirm your sign-in details on your Ledger."
+        "one": "Ledger'ınızdaki oturum açma ayrıntılarınızı onaylamanız gerekecek."
     },
-    "connecting": "Connecting",
+    "connecting": "Bağlanıyor",
     "copy": {
-        "default": "Copied!",
-        "title": "Copy"
+        "default": "kopyalandı!",
+        "title": "kopyala"
     },
     "createAccount": {
         "accountIdInput": {
-            "placeholder": "yourname.${data}",
-            "title": "Account ID"
+            "placeholder": "adınız.${data}",
+            "title": "Hesap Kimliği"
         },
-        "alreadyHaveAnAccount": "Already have an account?",
+        "alreadyHaveAnAccount": "Zaten bir hesabınız mı var?",
         "invalidLinkDrop": {
-            "one": "This NEAR Drop has been claimed.",
-            "title": "Link Invalid",
-            "two": "NEAR Drops can only be used to create a single account, after which the link will expire."
+            "one": "Bu NEAR Drop talep edildi.",
+            "title": "Geçersiz Bağlantı",
+            "two": "NEAR Drop'lar yalnızca tek bir hesap oluşturmak için kullanılabilir, ardından bağlantı sona erer."
         },
         "note": {
-            "canContain": "Your account ID can contain any of the following:",
-            "cannotContain": "Your account ID CANNOT contain:",
-            "characters": "Characters \"@\" or \".\"",
-            "digits": "Digits (0-9)",
-            "lowercase": "Lowercase characters (a-z)",
-            "maxCharacters": "More than 64 characters (including .${accountSuffix})",
-            "minCharacters": "Fewer than 2 characters",
-            "separators": "Characters (_-) can be used as separators"
+            "canContain": "Hesap kimliğiniz aşağıdakilerden herhangi birini içerebilir:",
+            "cannotContain": "Hesap kimliğiniz şunları İÇEREMEZ:",
+            "characters": "Karakterler \"@\" or \".\"",
+            "digits": "Rakamlar (0-9)",
+            "lowercase": "Küçük harfler (a-z)",
+            "maxCharacters": "64'ten fazla karakter (dahil .${accountSuffix})",
+            "minCharacters": "2'den az karakter",
+            "separators": "Karakterler (_-) ayırıcı olarak kullanılabilir"
         },
-        "pageText": "Enter an Account ID to use with your NEAR account. Your Account ID will be used for all NEAR operations, including sending and receiving assets.",
-        "pageTitle": "Reserve Account ID",
-        "recoverItHere": "Import Existing Account",
+        "pageText": "NEAR hesabınızla kullanmak için bir Hesap Kimliği girin. Hesap Kimliğiniz, varlık gönderme ve alma dahil tüm NEAR işlemleri için kullanılacaktır.",
+        "pageTitle": "Hesap Kimliği Oluştur",
+        "recoverItHere": "Mevcut Hesabı İçe Aktar",
         "step": "Step ${step}/${total}",
         "terms": {
-            "agreeBtn": "Agree & Continue",
-            "declineBtn": "Decline",
-            "desc": "By proceeding with creating a NEAR account, you agree to the NEAR Wallet Terms of Service and Privacy Policy. We urge you to read them carefully:",
-            "privacyCheck": "I agree to the Privacy Policy",
-            "privacyLink": "Privacy Policy",
-            "termsCheck": "I agree to the Terms of Service",
-            "termsLink": "Terms & Conditions",
-            "title": "Terms & Conditions"
+            "agreeBtn": "Kabul et & Devam et",
+            "declineBtn": "Reddet",
+            "desc": "NEAR hesabı oluşturmaya devam ederek, NEAR Cüzdan Hizmet Koşullarını ve Gizlilik Politikasını kabul etmiş olursunuz. Bunları dikkatlice okumanızı öneririz:",
+            "privacyCheck": "Gizlilik Politikasını kabul ediyorum",
+            "privacyLink": "Gizlilik Politikası",
+            "termsCheck": "Hizmet Koşullarını kabul ediyorum",
+            "termsLink": "Şartlar & Koşullar",
+            "title": "Şartlar & Koşullar"
         },
         "termsPage": {
-            "descOne": "NEAR accounts require a minimum balance of <b>at least ${amount}</b> to <a href='https://docs.near.org/docs/concepts/account' rel='noopener noreferrer' target='_blank'>hold a place on the network.</a>",
-            "descTwo": "After reserving a unique account address, you’ll be asked to make a small initial deposit to activate your account.",
-            "disclaimer": "By creating a NEAR account, you agree to the NEAR Wallet <a href='/terms' rel='noopener noreferrer' target='_blank'>Terms of Service</a> and <a href='https://near.org/privacy' rel='noopener noreferrer' target='_blank'>Privacy Policy</a>.",
-            "title": "Before you begin..."
+            "descOne": "NEAR hesapları <b>en az ${amount}</b> ağ üzerinde <a href='https://docs.near.org/docs/concepts/account' rel='noopener noreferrer' target='_blank'>bir yer tutmak için ihtiyaç duyar.</a>",
+            "descTwo": "Hesap adresi oluşturduktan sonra, hesabınızı etkinleştirmek için küçük bir başlangıç depozitosu yatırmanız istenecektir.",
+            "disclaimer": "NEAR hesabı oluşturarak, NEAR Cüzdan <a href='/terms' rel='noopener noreferrer' target='_blank'>Hizmet Şartlarını</a> ve <a href='https://near.org/privacy' rel='noopener noreferrer' target='_blank'>Gizlilik Politikasını</a> kabul etmiş olursunuz.",
+            "title": "Başlamadan önce..."
         }
     },
     "dashboard": {
-        "activity": "Recent activity"
+        "activity": "Son İşlemler"
     },
     "dashboardActivity": {
         "message": {
             "AddKey": {
-                "forContract": "<span>for</span> <span>${permissionReceiverId}</span>",
-                "forReceiver": "<span>for</span> <span>${receiverId}</span>"
+                "forContract": "<span>için</span> <span>${permissionReceiverId}</span>",
+                "forReceiver": "<span>için</span> <span>${receiverId}</span>"
             },
-            "CreateAccount": "<span>account</span> <span>${receiverId}</span>",
-            "DeleteAccount": "<span>account</span> <span>${receiverId}<span>",
+            "CreateAccount": "<span>hesap</span> <span>${receiverId}</span>",
+            "DeleteAccount": "<span>hesap</span> <span>${receiverId}<span>",
             "DeleteKey": "",
-            "DeployContract": "<span>contract</span> <span>${receiverId}</span>",
-            "FunctionCall": "<span>${methodName}</span> in contract <span>${receiverId}</span>",
+            "DeployContract": "<span>sözleşme</span> <span>${receiverId}</span>",
+            "FunctionCall": "<span>${methodName}</span> sözleşmede <span>${receiverId}</span>",
             "FunctionCallDetails": {
                 "first": "<span>Method</span> <span>${methodName}</span>",
-                "second": "<span>In contract</span> <span>${receiverId}</span>"
+                "second": "<span>Sözleşmede</span> <span>${receiverId}</span>"
             },
-            "Stake": "<span>stake</span><span>${stake}</span>",
+            "Stake": "<span>katılım</span><span>${stake}</span>",
             "Transfer": {
-                "received": "<span>from</span> <span>${signerId}</span>",
-                "transferred": "<span>to</span> <span>${receiverId}</span>"
+                "received": "<span>gönderen</span> <span>${signerId}</span>",
+                "transferred": "<span>alıcı</span> <span>${receiverId}</span>"
             }
         },
         "title": {
             "AddKey": {
-                "forContract": "Access Key added",
-                "forReceiver": "Access Key added"
+                "forContract": "Erişim Anahtarı eklendi",
+                "forReceiver": "Erişim Anahtarı eklendi"
             },
-            "CreateAccount": "New account created",
-            "DeleteAccount": "Account deleted",
-            "DeleteKey": "Key deleted",
-            "DeployContract": "Contract deployed",
-            "FunctionCall": "Method called",
-            "Stake": "Staked",
+            "CreateAccount": "Yeni hesap oluşturuldu",
+            "DeleteAccount": "Hesap silindi",
+            "DeleteKey": "Anahtar silindi",
+            "DeployContract": "Sözleşme uygulandı",
+            "FunctionCall": "Yöntem uygulandı",
+            "Stake": "Katılım sağlandı",
             "Transfer": {
-                "received": "Received NEAR",
-                "transferred": "Sent NEAR"
+                "received": "NEAR Geldi",
+                "transferred": "NEAR Gönderildi"
             }
         }
     },
     "disclaimer": {
-        "text": "This is a developers&apos; preview Wallet. It should be used for NEAR Protocol DevNet only. Learn more at ",
-        "title": "DISCLAIMER"
+        "text": "Bu bir geliştirme, bir Cüzdan önizlemesidir. Yalnızca NEAR Protokol Yazılım Mühendisi Ağı (DevNet) için kullanılmalıdır. Daha fazla bilgi için ",
+        "title": "VAZGEÇME"
     },
     "emailSubscribe": {
-        "placeholder": "Your email...",
-        "title": "Sign up below for early access"
+        "placeholder": "E-postanız...",
+        "title": "Erken erişim için aşağıdan üye olun"
     },
     "enterAccountNameLedgerModal": {
-        "header": "Enter account name",
-        "one": "Enter the name of the account you’re signing in to"
+        "header": "esap adı girin",
+        "one": "Oturum açtığınız hesabın adını girin"
     },
-    "error": "Error",
+    "error": "Hata",
     "errors": {
         "ledger": {
-            "U2F_4": "Failed to sign with Ledger device: U2F DEVICE_INELIGIBLE. Please make sure that your Ledger device is connected and unlocked.",
-            "U2FNotSupported": "U2F browser support is needed for Ledger. Please use Chrome, Opera or Firefox with a U2F extension. Also make sure you're on an HTTPS connection."
+            "U2F_4": "Ledger cihazı ile giriş başarısız: U2F CİHAZI_UYGUN DEĞİL. Lütfen Ledger cihazınızın bağlı ve kilidinin açık olduğundan emin olun.",
+            "U2FNotSupported": "Ledger için U2F tarayıcı desteği gereklidir. Lütfen U2F uzantılı Chrome, Opera veya Firefox kullanın. Ayrıca bir HTTPS bağlantısında olduğunuzdan da emin olun."
         },
         "type": {
-            "LackBalanceForState": "Your available balance is too low to perform any actions on your account. Please send NEAR to your account and then try again.",
-            "RetriesExceeded": "Exceeded maximum attempts for this transaction."
+            "LackBalanceForState": "Hesabınızda herhangi bir işlem yapmak için mevcut bakiyeniz yetersizdir. Lütfen hesabınıza NEAR gönderip tekrar deneyin.",
+            "RetriesExceeded": "Bu işlem için maksimum deneme sayısı aşıldı."
         }
     },
     "existingAccount": {
         "fundNewAccount": {
-            "titleOne": "Approve Transaction",
-            "titleTwo": "Fund New Account"
+            "titleOne": "İşlemi Onayla",
+            "titleTwo": "Yeni Hesaba Para Yatırın"
         },
         "selectAccount": {
-            "desc": "If you have an alternate account containing a balance of <b>at least ${amount} NEAR</b>, you may use it to fund and initialize your new account!",
-            "descTwo": "Select or sign into the account you wish to use, then continue to approve a minimum deposit.",
-            "title": "Fund with an existing account."
+            "desc": "Alternatif bir hesabınız varsa <b>en az ${amount} NEAR</b>, yeni hesabınıza para yatırmak ve başlatmak için kullanabilirsiniz!",
+            "descTwo": "Kullanmak istediğiniz hesabı seçin veya oturum açın, ardından minimum depozitoyu onaylamaya devam edin.",
+            "title": "Mevcut bir hesapla para yatırın."
         }
     },
     "exploreApps": {
-        "desc": "Earn, mint, and play! Discover the ecosystem of NEAR applications.",
-        "exploreApps": "Explore Apps",
-        "exploreDeFi": "Explore DeFi",
-        "title": "What's on NEAR?"
+        "desc": "Para kazan, Para bas ve Parayla oyna! NEAR uygulamalarının ekosistemini keşfedin.",
+        "exploreApps": "Uygulamaları Keşfet",
+        "exploreDeFi": "DeFi'yi Keşfet",
+        "title": "NEAR'da neler var?"
     },
     "footer": {
-        "contactSupport": "Join Community",
-        "copyrights": "NEAR Inc. All Rights Reserved.",
-        "desc": "NEAR is a scalable computing and storage platform that changes how the web works for the better.",
-        "learnMore": "Learn More",
-        "needHelp": "Questions?",
-        "privacyPolicy": "Privacy Policy",
-        "termsOfService": "Terms of Service"
+        "contactSupport": "Topluluğa katıl",
+        "copyrights": "NEAR A.Ş. Tüm Hakları Saklıdır.",
+        "desc": "NEAR, WEB'in çalışma şeklini daha iyi hale getiren, ölçeklenebilir bir bilgi işlem ve depolama platformudur.",
+        "learnMore": "Daha fazla bilgi edin",
+        "needHelp": "Yardım?",
+        "privacyPolicy": "Gizlilik Politikası",
+        "termsOfService": "Hizmet Şartları"
     },
     "fullAccessKeys": {
-        "authorizedTo": "AUTHORIZED TO",
-        "dashboardNoKeys": "You have no full access keys",
+        "authorizedTo": "YETKİLENDİRİLDİ",
+        "dashboardNoKeys": "Erişim anahtarınız tam değil",
         "deAuthorizeConfirm": {
-            "desc": "The full access key will be permanently deactivated.",
-            "title": "Are you sure you want to disable this full access key?"
+            "desc": "Tam erişim anahtarı kalıcı olarak devre dışı bırakılacaktır.",
+            "title": "Tam erişim anahtarını devre dışı bırakmak istediğinizden emin misiniz?"
         },
-        "noKeys": "You have not connected your NEAR Wallet to any applications. When you do, you can manage them here.<br /><br />See what's been built with NEAR:",
-        "pageTitle": "Full Access Keys",
-        "submitAnyTransaction": "Submit any transaction on your behalf",
-        "useContract": "Use <b>${receiverId}</b> contract on your behalf",
-        "viewYourAccountName": "View your Account Name"
+        "noKeys": "NEAR Cüzdanınızı herhangi bir uygulamaya bağlamadınız. Bunu yaptığınızda, onları burada yönetebilirsiniz.<br /><br />NEAR ile neler yapıldığını görün:",
+        "pageTitle": "Tam Erişim Anahtarları",
+        "submitAnyTransaction": "Sizin adınıza herhangi bir işlem gönderin",
+        "useContract": "Adınıza olan sözleşmeyi <b>${receiverId}</b> kullanın",
+        "viewYourAccountName": "Hesap Adınızı Görüntüleyin"
     },
-    "getBalance": "Get balance",
+    "getBalance": "Bakiye alın",
     "hardwareDevices": {
-        "desc": "Improve the security of your account by using a hardware wallet.",
+        "desc": "Bir donanım cüzdanı kullanarak hesabınızın güvenliğini artırın.",
         "disable": {
-            "desc": "Make sure you have other recovery methods setup before disabling.",
-            "disable": "Disable Ledger",
-            "keep": "No, keep Ledger",
-            "title": "Are you sure you want to disable Ledger?"
+            "desc": "Devre dışı bırakmadan önce başka kurtarma yöntemleri kurulumunuz olduğundan emin olun.",
+            "disable": "Ledger'ı devre dışı bırak",
+            "keep": "Hayır, Ledger'a devam",
+            "title": "Ledger'ı devre dışı bırakmak istediğinizden emin misiniz?"
         },
         "ledger": {
-            "auth": "Authorized",
-            "connect": "Your ledger is not currently connected. We advise that you re-connect your Ledger to ensure your account is secured.",
-            "disclaimer": "In order to disable your ledger device, you must first enable an alternative recovery method.",
-            "title": "Ledger Hardware Wallet"
+            "auth": "Yetkilendirildi",
+            "connect": "Ledger'ınız şu anda bağlı değil. Hesabınızın güvende olduğundan emin olmak için Ledger'ınızı yeniden bağlamanızı öneririz.",
+            "disclaimer": "Ledger cihazınızı devre dışı bırakmak için önce alternatif bir kurtarma yöntemini etkinleştirmelisiniz.",
+            "title": "Ledger Donanım Cüzdanı"
         },
-        "title": "Hardware Devices"
+        "title": "Donanım Cihazları"
     },
     "importAccount": {
-        "noId": "Importing account",
-        "noIdFailed": "Failed to import account.",
-        "withId": "Importing account: ${accountId}",
-        "withIdFailed": "Failed to import account: ${accountId}"
+        "noId": "Hesap içe aktarılıyor",
+        "noIdFailed": "Hesap içe aktarılamadı.",
+        "withId": "Aktarılan Hesap: ${accountId}",
+        "withIdFailed": "Hesap içe aktarılamadı: ${accountId}"
     },
     "initialDeposit": {
         "claimAccount": {
-            "desc": "Your deposit was received! Once claimed, your deposit will be transferred to your new account.",
+            "desc": "Depozitonuz alındı! Talep edildiğinde, depozitonuz yeni hesabınıza aktarılacaktır.",
             "disclaimer": {
-                "checkBox": "Agree & Continue",
-                "desc": "Important: The old single-use funding address will no longer be valid. Make sure to replace it with your new address on any exchanges or other devices where it may have been saved."
+                "checkBox": "Kabul et & devam et",
+                "desc": "Önemli: Eski tek kullanımlık finansman adresi artık geçerli olmayacak. Kaydedilmiş olabileceği tüm borsalarda veya diğer cihazlarda yeni adresinizle değiştirdiğinizden emin olun."
             },
-            "title": "Claim Your Account"
+            "title": "Hesabınızı Talep Edin"
         },
         "creditCard": {
-            "desc": "Complete your purchase of <b>at least ${amount} NEAR</b> through MoonPay. MoonPay will automatically deposit your funds into your new account.",
-            "title": "Fund your new account using a credit card."
+            "desc": "Satın alma işleminiz olan <b>en az ${amount} NEAR</b> MoonPay üzerinden tamamlayın. MoonPay otomatik olarak depozitonuzu yeni hesabınıza yatıracaktır.",
+            "title": "Kredi kartı kullanarak yeni hesabınıza para yatırın."
         },
         "manualDeposit": {
-            "desc": "Meet the minimum initial deposit by sending <b>at least ${amount} NEAR</b> to the single-use funding address below.",
-            "title": "Submit a manual deposit."
+            "desc": "Aşağıdaki tek kullanımlık finansman adresinize <b>en az ${amount} NEAR</b> göndererek minimum başlangıç depozitosunu yatırın.",
+            "title": "Manuel para yatırma."
         }
     },
     "input": {
         "accountId": {
-            "placeholder": "e.g. johndoe.near",
-            "placeHolderAlt": "Account ID",
-            "subLabel": "The account ID must include a Top Level Account such as <b>.near</b> or contain exactly 64 characters.",
-            "title": "Account ID"
+            "placeholder": "örn. ebuzer.near",
+            "placeHolderAlt": "Hesap Kimliği",
+            "subLabel": "Hesap kimliği örnekteki gibi bir Üst Düzey Hesap olmalıdır <b>.near</b> veya tam 64 karakter içermelidir.",
+            "title": "Hesap Kimliği"
         },
         "enterWord": {
             "placeholder": "",
-            "title": "Word <b>#${wordId}</b>"
+            "title": "Kelime <b>#${wordId}</b>"
         }
     },
     "landing": {
-        "banner": "NEAR Wallet is in Private Beta",
-        "desc": "Securely store and stake your NEAR tokens and compatible assets with <span>NEAR Wallet</span>.",
-        "or": "or",
-        "title": "NEAR is here."
+        "banner": "NEAR Cüzdan Özel Beta'da",
+        "desc": " <span>NEAR Cüzdan</span> ile NEAR tokenlerinizi ve uyumlu varlıklarınızı güvende tutup katılım sağlayarak kazanın.",
+        "or": "veya",
+        "title": "NEAR burada."
     },
     "ledgerSignTxModal": {
-        "ADD_ACCESS_KEY": "You will need to confirm login details on your Ledger.",
-        "ADD_ACCESS_KEY_SEED_PHRASE": "You will need to confirm full access details on your Ledger.",
-        "ADD_LEDGER_ACCESS_KEY": "You will need to confirm public key details on your Ledger.",
-        "CREATE_ACCOUNT_FROM_IMPLICIT": "You will need to confirm account creation on your Ledger. This includes transactions needed to move balance from temporary account.",
-        "CREATE_NEW_ACCOUNT": "You will need to confirm add a key for new account on your Ledger.",
-        "DEFAULT": "You will need to confirm the transaction details on your Ledger.",
-        "DELETE_RECOVERY_METHOD": "You will need to confirm delete key details on your Ledger.",
-        "DISABLE_LEDGER": "You will need to confirm public key details on your Ledger.",
-        "GET_LEDGER_PUBLIC_KEY": "You will need to confirm public key access on your Ledger.",
-        "REMOVE_ACCESS_KEY": "You will need to confirm delete key details on your Ledger.",
-        "REMOVE_NON_LEDGER_ACCESS_KEYS": "You will need to confirm details on your Ledger.",
-        "SEND_MONEY": "You will need to confirm transfer details on your Ledger.",
-        "SET_SIGN_TRANSACTION_STATUS": "You will need to confirm deposit details on your Ledger.",
-        "SETUP_RECOVERY_MESSAGE": "You will need to confirm full access details on your Ledger.",
-        "SIGN_AND_SEND_TRANSACTIONS": "You will need to confirm deposit details on your Ledger.",
-        "STAKE": "You will need to confirm staking on your Ledger",
-        "UNSTAKE": "You will need to confirm unstaking on your Ledger",
-        "WITHDRAW": "You will need to confirm withdrawal on your Ledger"
+        "ADD_ACCESS_KEY": "Ledger'ınızdaki giriş bilgilerinizi onaylamanız gerekecek.",
+        "ADD_ACCESS_KEY_SEED_PHRASE": "Ledger'ınızdaki tüm erişim ayrıntılarını onaylamanız gerekecek.",
+        "ADD_LEDGER_ACCESS_KEY": "Ledger'ınızdaki genel anahtar ayrıntılarını onaylamanız gerekecek.",
+        "CREATE_ACCOUNT_FROM_IMPLICIT": "Ledger'ınızda hesap oluşturmayı onaylamanız gerekecek. Bu, geçici hesaptan bakiyeyi taşımak için gereken işlemleri içerir.",
+        "CREATE_NEW_ACCOUNT": "Ledger'ınızda yeni hesap için bir anahtar eklemeyi onaylamanız gerekecek.",
+        "DEFAULT": "Ledger'ınızdaki işlem ayrıntılarını onaylamanız gerekecek.",
+        "DELETE_RECOVERY_METHOD": "Ledger'ınızdaki anahtar ayrıntılarını silmeyi onaylamanız gerekecek.",
+        "DISABLE_LEDGER": "Ledger'ınızdaki genel anahtar ayrıntılarını onaylamanız gerekecek.",
+        "GET_LEDGER_PUBLIC_KEY": "Ledger'ınızdaki genel anahtar erişimini onaylamanız gerekecek.",
+        "REMOVE_ACCESS_KEY": "Ledger'ınızdaki anahtar ayrıntılarını silmeyi onaylamanız gerekecek.",
+        "REMOVE_NON_LEDGER_ACCESS_KEYS": "Ledger'ınızdaki ayrıntıları onaylamanız gerekecek.",
+        "SEND_MONEY": "Ledger'ınızdaki transfer detaylarını onaylamanız gerekecek.",
+        "SET_SIGN_TRANSACTION_STATUS": "Ledger'ınızdaki depozito ayrıntılarını onaylamanız gerekecek.",
+        "SETUP_RECOVERY_MESSAGE": "Ledger'ınızdaki tüm erişim ayrıntılarını onaylamanız gerekecek.",
+        "SIGN_AND_SEND_TRANSACTIONS": "Ledger'ınızdaki depozito ayrıntılarını onaylamanız gerekecek.",
+        "STAKE": "Ledger'ınızda katılım sağlamayı onaylamanız gerekecek",
+        "UNSTAKE": "Ledger'ınızda katılımdan çıkmayı onaylamanız gerekecek",
+        "WITHDRAW": "Ledger'ınızda para çekme işlemini onaylamanız gerekecek"
     },
     "link": {
-        "account": "Account",
-        "authorizedApps": "Authorized Apps",
-        "fullAccessKeys": "Full Access Keys",
-        "help": "Help",
-        "noAccount": "You have no other accounts",
-        "receive": "Receive",
-        "send": "Send",
-        "staking": "Staking",
-        "switchAccount": "Account",
-        "wallet": "Wallet"
+        "account": "Hesap",
+        "authorizedApps": "Yetkili Uygulamalar",
+        "fullAccessKeys": "Tam Erişim Anahtarları",
+        "help": "Yardım",
+        "noAccount": "Başka hesabınız yok",
+        "receive": "Al",
+        "send": "Gönder",
+        "staking": "Katılım",
+        "switchAccount": "Hesap",
+        "wallet": "Cüzdan"
     },
     "linkdropLanding": {
-        "claiming": "Claiming",
-        "ctaAccount": "Claim with Existing Account",
-        "ctaLogin": "Log In and Claim",
-        "ctaNew": "Claim with New Account",
-        "desc": "You may claim your NEAR drop with an existing account (must be logged in), or create a new account to receive it as an initial deposit.",
+        "claiming": "Talep",
+        "ctaAccount": "Mevcut Hesapla Talep Edin",
+        "ctaLogin": "Giriş Yap ve Talep Et",
+        "ctaNew": "Yeni Hesapla Talep Edin",
+        "desc": "NEAR Hediyelerinizi mevcut bir hesapla talep edebilir (oturum açmış olmanız gerekir), veya ilk depozito olarak almak için yeni bir hesap oluşturabilirsiniz.",
         "modal": {
-            "desc": "Your NEAR drop has been automatically deposited to your account.",
-            "title": "Your NEAR drop has been claimed"
+            "desc": "NEAR bahşişiniz otomatik olarak hesabınıza yatırıldı.",
+            "title": "NEAR bahşişiniz talep edildi"
         },
-        "or": "or",
-        "title": "You’ve received a NEAR drop!"
+        "or": "veya",
+        "title": "NEAR bahşişi aldınız!"
     },
-    "loading": "Loading...",
-    "loadingNoDots": "Loading",
-    "lockedBalance": "This NEAR is locked in a lockup contract, and cannot be withdrawn. You may still delegate or stake this NEAR. Once the NEAR is unlocked, you can view it in your Unlocked Balance, and chose to withdraw it (moving to your Available Balance).",
+    "loading": "Yükleniyor...",
+    "loadingNoDots": "Yükleme",
+    "lockedBalance": "Bu NEAR bir kilitleme sözleşmesinde kilitlenmiştir ve çekilemez. Yine de bu NEAR'ı devredebilir veya katılım sağlayabilirsiniz. NEAR'ın kilidi açıldığında, onu Kilitlenmemiş Bakiyenizde görüntüleyebilir ve çekmeyi seçebilirsiniz (Kullanılabilir Bakiyenize taşıyarak).",
     "login": {
         "cliLoginSuccess": {
-            "pageText": "Please close this window and follow the instructions in the terminal.",
-            "pageTitle": "You've successfully authorized NEAR Shell!"
+            "pageText": "Lütfen bu pencereyi kapatın ve terminaldeki talimatları takip edin.",
+            "pageTitle": "NEAR Shell başarıyla yetkilendirdiniz!"
         },
         "confirm": {
-            "pageText": "You are granting <b>full access</b> to ${appTitle}!",
-            "pageTextSecondLine": "<b>To confirm</b>, please enter your account ID below.",
-            "pageTitle": "Are you sure?",
-            "username": "Account ID"
+            "pageText": "Uygulamasına <b>tam yetki</b> veriyorsunuz ${appTitle}!",
+            "pageTextSecondLine": "<b>Onaylamak için</b>, lütfen aşağıya hesap kimliğinizi girin.",
+            "pageTitle": "Emin misiniz?",
+            "username": "Hesap Kimliği"
         },
         "details": {
-            "callFunctions": "Call functions on any smart contract",
-            "createAndDeleteAccessKeys": "Create and delete access keys",
-            "createNewAccounts": "Create new accounts",
-            "deploySmartContracts": "Deploy smart contracts",
-            "detailedDescription": "Detailed description of transaction",
-            "forContract": "For Contract",
-            "function": "Function",
-            "noDescription": "No description specified for this method",
-            "stakeAndUnstake": "Stake and unstake NEAR tokens",
-            "thisAllows": "This allows ${appTitle} to:",
-            "transferTokens": "Transfer tokens from your account to other accounts"
+            "callFunctions": "Herhangi bir akıllı sözleşmede çağrı fonksiyonları",
+            "createAndDeleteAccessKeys": "Erişim anahtarları oluşturma ve silme",
+            "createNewAccounts": "Yeni hesap oluştur",
+            "deploySmartContracts": "Akıllı sözleşme uygula",
+            "detailedDescription": "İşlemin detaylı açıklaması",
+            "forContract": "Sözleşme için",
+            "function": "İşlev",
+            "noDescription": "Bu yöntem için açıklama belirtilmedi",
+            "stakeAndUnstake": "NEAR tokenlerine Katılım sağlama ve Katılımdan çıkma",
+            "thisAllows": "Buna izin verir ${appTitle} :",
+            "transferTokens": "Hesabınızdan diğer hesaplara token aktarın"
         },
         "form": {
-            "accessYourAccount": "access your account.",
-            "accountIdOnly": "is asking for your Account ID.",
-            "isRequestingFullAccess": "is requesting <b>full access</b>",
-            "isRequestingTo": "is requesting to",
-            "thisDoesNotAllow": "This does not allow the app to transfer any tokens.",
-            "thisProvidesAccess": "This provides access to <b>all of your tokens</b>.<br />Proceed with caution!",
-            "toYourAccount": "to your account."
+            "accessYourAccount": "hesabınıza erişin.",
+            "accountIdOnly": "Hesap Kimliğinizi istiyor.",
+            "isRequestingFullAccess": "tam erişim <b>istiyor</b>",
+            "isRequestingTo": "isteğinde bulunuyor",
+            "thisDoesNotAllow": "Bu, uygulamanın herhangi bir token aktarmasına izin vermez.",
+            "thisProvidesAccess": "Bu size tüm tokenlerinize <b>erişmenizi sağlar</b>.<br />Dikkatle ilerleyiniz!",
+            "toYourAccount": "hesabınıza."
         },
         "v2": {
             "connectConfirm": {
-                "desc": "Only connect to sites that you trust. Once connected, <a href=${contractIdUrl} target='_blank' rel='noreferrer'>${appReferrer}</a> will have <b>${accessType}</b>:",
+                "desc": "Yalnızca güvendiğiniz sitelere bağlanın. bağlantı kurulduğunda, <a href=${contractIdUrl} target='_blank' rel='noreferrer'>${appReferrer}</a> yetkilerine sahip olacak <b>${accessType}</b>:",
                 "feeAllowance": {
-                    "desc": "The application will be given permission to spend up to <b>${amount} NEAR</b> towards network fees incurred during use.",
-                    "title": "Network Fee Allowance"
+                    "desc": "Uygulamaya kullanım sırasında oluşan ağ ücretleri için <b>${amount} NEAR</b> kadar harcama izni verilecektir.",
+                    "title": "Ağ Ücreti Ödeneği"
                 },
-                "fullAccess": "full permissions",
+                "fullAccess": "tam izin",
                 "fullAccessModal": {
-                    "desc": "Proceed with caution. Full access permissions allow contracts and applications to access your token balance. To confirm, enter your account ID below.",
-                    "title": "Grant full account access?"
+                    "desc": "Dikkatle ilerleyin. Tam erişim izinleri, sözleşmelerin ve uygulamaların token bakiyenize erişmesine izin verir. Onaylamak için aşağıya hesap kimliğinizi girin.",
+                    "title": "Hesap erişimine tam izin verilsin mi?"
                 },
-                "fullAccessWarning": "This site is requesting full access to your account. To enable full access, you’ll be asked to verify your account ID.",
-                "limitedAccess": "limited permissions",
+                "fullAccessWarning": "Bu site, hesabınıza tam erişim istiyor. Tam erişimi etkinleştirmek için hesap kimliğinizi doğrulamanız istenecektir.",
+                "limitedAccess": "sınırlı izinler",
                 "permissions": {
-                    "notTransferTokens": "This does not allow the app to transfer tokens",
-                    "transferTokens": "Transfer tokens from your account",
-                    "viewAddress": "View the address of your permitted account",
-                    "viewBalance": "View the balance of your permitted account"
+                    "notTransferTokens": "Bu, uygulamanın tokenleri aktarmasına izin vermez",
+                    "transferTokens": "Hesabınızdan tokenleri aktarın",
+                    "viewAddress": "İzin verilen hesabınızın adresini görüntüleyin",
+                    "viewBalance": "İzin verilen hesabınızın bakiyesini görüntüleyin"
                 },
-                "title": "Connecting with:"
+                "title": "ile bağlanıyor:"
             },
             "connectWithNear": {
-                "desc": "An application is requesting <b>${accessType}</b> to your NEAR account. Select the account you wish to connect.",
-                "fullAccess": "full access",
-                "limitedAccess": "limited access",
-                "title": "Connect with NEAR"
+                "desc": "Bir uygulama Near hesabınıza <b>${accessType}</b> istiyor. Bağlamak istediğiniz hesabı seçin.",
+                "fullAccess": "tam erişim",
+                "limitedAccess": "sınırlı erişim",
+                "title": "NEAR ile bağlantı kurun"
             }
         }
     },
-    "minimumBalance": "This is the minimum NEAR balance your account must maintain to remain active. This balance represents the storage space your account is using on the NEAR blockchain (with a small buffer), and will go up or down as you use more or less space.",
+    "minimumBalance": "Bu, hesabınızın etkin kalması için tutması gerekilen minimum NEAR bakiyesidir. Bu bakiye, hesabınızın NEAR blok zincirinde (küçük bir arabellekle) kullandığı depolama alanını temsil eder ve siz daha fazla veya daha az alan kullandıkça yukarı veya aşağı gidecektir.",
     "mobileDeviceAccess": {
         "importCode": {
-            "desc": "If you are already logged in on a desktop device, scan your mobile access code to import your account."
+            "desc": "Halihazırda bir masaüstü cihazda oturum açtıysanız, hesabınızı içe aktarmak için mobil erişim kodunuzu tarayın."
         },
         "showCode": {
-            "button": "View Mobile Code",
-            "desc": "Scan your mobile access code to grant full account access to your mobile device.",
+            "button": "Mobil Kodu Göster",
+            "desc": "Mobil cihazınıza tam hesap erişim izni vermek için mobil erişim kodunuzu tarayın.",
             "modal": {
-                "desc": "Reveal and scan the QR code below to import your account on your mobile device.",
-                "disclaimer": "<b>This code contains highly sensitive data and grants full account access to your mobile device.</b> Take care not to share or expose it, and only import your account to a secure device that you own.",
-                "reveal": "Reveal",
-                "title": "Mobile Access Code"
+                "desc": "Hesabınızı mobil cihazınıza aktarmak için aşağıdaki QR kodunu açın ve tarayın.",
+                "disclaimer": "<b>Bu kod son derece hassas veriler içerir ve mobil cihazınıza tam hesap erişim izni sağlar.</b> Bunu paylaşmamaya veya ifşa etmemeye dikkat edin, hesabınızı yalnızca sahip olduğunuz güvenli bir cihaza aktarın.",
+                "reveal": "Göster",
+                "title": "Mobil Erişim Kodu"
             }
         },
-        "title": "Mobile Device Access"
+        "title": "Mobil Cihaz Erişimi"
     },
     "networkBanner": {
-        "desc": "This wallet (and network) are for testing purposes only. Tokens and other assets have no value. Accounts created do not transfer to Mainnet.",
-        "header": "NEAR test Wallet",
-        "title": "Test-only Wallet"
+        "desc": "Bu cüzdan (ve ağ) sadece deneme amaçlıdır. Token ve diğer varlıkların değeri yoktur. Oluşturulan hesaplar Mainnet'e aktarılmaz.",
+        "header": "NEAR test Cüzdanı",
+        "title": "Sadece test amaçlı Cüzdan"
     },
     "NFTs": {
-        "emptyState": "Looks like you don't have any collectibles yet.",
-        "loadMore": "Load more"
+        "emptyState": "Henüz koleksiyonunuz yok gibi görünüyor.",
+        "loadMore": "Daha fazla yükle"
     },
     "nodeDetails": {
-        "pageText": "Update the details of your node.",
-        "pageTitle": "Node Details"
+        "pageText": "Düğümünüzün ayrıntılarını güncelleyin.",
+        "pageTitle": "Düğüm Ayrıntıları"
     },
     "nodeStaking": {
         "nodes": {
             "noNode": {
-                "text": "This connects your node to your wallet account.",
-                "title": "Already have your node setup? Add it here."
+                "text": "Bu, düğümünüzü cüzdan hesabınıza bağlar.",
+                "title": "Zaten düğüm kurulumunuz mu var? Buraya ekleyin."
             },
-            "title": "Nodes"
+            "title": "Düğümler"
         },
         "pageText": "nodeandstaking.near",
-        "pageTitle": "Node & Staking",
+        "pageTitle": "Düğüm & Katılım",
         "staking": {
-            "title": "Staking",
-            "youAreStaking": "You are staking"
+            "title": "Katılım",
+            "youAreStaking": "Katılım sağlıyorsunuz"
         },
         "steps": {
             "one": {
-                "desc": "Instructions available in the Docs",
-                "title": "1. Setup & Run a Node via CLI"
+                "desc": "Dokümanlar'da bulunan talimatlar",
+                "title": "1. CLI (komut satırı arayüzü) aracılığıyla bir Düğüm Kurun ve Çalıştırın"
             },
             "three": {
-                "desc": "Stake from here or CLI. See docs for help.",
-                "title": "3. Start Staking"
+                "desc": "Buradan veya CLI'den Katılım sağlayın. Yardım için belgelere bakın.",
+                "title": "3. Katılım sağlamaya Başlayın"
             },
-            "title": "To run a node or stake, please fallow these steps:",
+            "title": "Bir düğüm veya Katılım için lütfen bu adımları izleyin:",
             "two": {
-                "desc": "An out of sync node cannot produce or validate",
-                "title": "2. Wait for Node to Sync"
+                "desc": "Senkronizasyon dışı bir düğüm üretemez veya doğrulayamaz",
+                "title": "2. Düğümün Senkronize olmasını bekleyin"
             }
         }
     },
-    "of": "of",
-    "ofTotal": "of Total",
-    "or": "or",
+    "of": "...",
+    "ofTotal": "Toplamı",
+    "or": "veya",
     "pageNotFound": {
         "displayTitle": "404",
-        "returnToWallet": "Return to Wallet",
-        "title": "Whoops, looks like this page is missing."
+        "returnToWallet": "Cüzdan'a Dön",
+        "title": "Hata, bu sayfa eksik gibi görünüyor."
     },
     "profile": {
         "account": {
-            "available": "Available balance",
-            "availableToTransfer": "Available to transfer",
-            "availableToWithdraw": "Available for withdrawal",
-            "inStakingPools": "In staking pools",
-            "pendingRelease": "Pending release",
-            "reservedForStorage": "Reserved for storage",
-            "reservedForTransactions": "Reserved for transactions",
-            "staked": "Staked",
-            "staking": "Staking",
-            "unstaked": "Unstaked",
-            "walletBalance": "Wallet balance",
-            "walletId": "Wallet ID"
+            "available": "Mevcut bakiye",
+            "availableToTransfer": "Aktarılabilir bakiye",
+            "availableToWithdraw": "Çekilebilir bakiye",
+            "inStakingPools": "Katılım havuzunda",
+            "pendingRelease": "Bakiye hazırlanıyor",
+            "reservedForStorage": "Depolama için ayrıldı",
+            "reservedForTransactions": "İşlemler için ayrıldı",
+            "staked": "Katılım sağlandı",
+            "staking": "Katılım sağlanıyor",
+            "unstaked": "Katılımdan çıkıldı",
+            "walletBalance": "Cüzdan bakiyesi",
+            "walletId": "Cüzdan Kimliği"
         },
         "authorizedApps": {
-            "title": "Authorized Apps"
+            "title": "Yetkili Uygulamalar"
         },
         "details": {
-            "availableBalance": "Available Balance",
-            "locked": "Locked",
+            "availableBalance": "Mevcut Bakiye",
+            "locked": "Kilitli",
             "lockPopup": {
-                "createAnotherAccount": "create another account",
-                "text": "Your account ID is your unique identifier in the system and cannot be changed because data and asset ownership is tied to it. However you are welcome to ${link} with desired name and transfer assets as needed.",
-                "title": "Why is this locked?"
+                "createAnotherAccount": "başka bir hesap oluştur",
+                "text": "Hesap kimliğiniz sistemdeki benzersiz tanımlayıcınızdır, veri ve varlık sahipliği buna bağlı olduğundan değiştirilemez. Ancak istediğiniz isimle ${link} hoşgeldiniz, varlıklarınızı istediğiniz gibi aktarabilirsiniz.",
+                "title": "Bu neden kilitli?"
             },
-            "minBalance": "Minimum Balance",
-            "profile": "PROFILE",
-            "public": "Public",
-            "qrDesc": "Use your phone's camera app to send to this address",
-            "staked": "Staked",
-            "totalBalance": "Total Balance",
-            "unlocked": "Unlocked",
-            "unvested": "Unvested",
-            "username": "Account ID",
-            "visibleTo": "VISIBLE TO"
+            "minBalance": "Minimum Bakiye",
+            "profile": "PROFİL",
+            "public": "Genel",
+            "qrDesc": "Bu adrese göndermek için telefonunuzun kamera uygulamasını kullanın",
+            "staked": "Katılım sağlandı",
+            "totalBalance": "Toplam Bakiye",
+            "unlocked": "kilit açıldı",
+            "unvested": "yatırım yapılmadı",
+            "username": "Hesap Kimliği",
+            "visibleTo": "GÖRÜLEBİLİR"
         },
         "lockup": {
-            "locked": "Locked",
-            "lockupBalance": "Lockup balance",
-            "lockupId": "Lockup ID",
-            "unlocked": "Unlocked"
+            "locked": "Kilitli",
+            "lockupBalance": "Kilitli bakiye",
+            "lockupId": "Kilitli Kimlik",
+            "unlocked": "kilit açıldı"
         },
         "lockupBanner": {
-            "cta": "Transfer to Wallet",
-            "title": "You have <b>${amount}</b> available to withdraw from your lockup!"
+            "cta": "Cüzdana Aktar",
+            "title": "Kilitli bakiyenizden çekebileceğiniz <b>${amount}</b> bulunmaktadır!"
         },
         "pageTitle": {
-            "default": "Account Details",
-            "loading": "Loading...",
-            "notFound": "Account ${accountId} not found"
+            "default": "Hesap Detayları",
+            "loading": "Yükleniyor...",
+            "notFound": "Hesap ${accountId} bulunamadı"
         },
         "security": {
-            "lessSecure": "Most Convenient",
-            "lessSecureDesc": "These options are recommended for accounts with small amounts of NEAR and other assets. They are convenient, but do present additional risk to the more secure options. If your email account or SMS messages are compromised, your funds might be at risk.",
-            "mostSecure": "Most Secure (Recommended)",
-            "mostSecureDesc": "Ledger is the most secure option. Passphrases can be secure if used correctly (they must be written down and stored safely).",
-            "title": "Security & Recovery"
+            "lessSecure": "En Pratik",
+            "lessSecureDesc": "Bu seçenek, az miktarda NEAR ve diğer varlıkları olan hesaplar için önerilir. Pratiktir, ancak daha güvenli seçeneklere ek risk oluşturabilir. E-posta hesabınız veya SMS mesajlarınız ele geçirilirse, paranız risk altında olabilir.",
+            "mostSecure": "En Güvenli (Önerilen)",
+            "mostSecureDesc": "Ledger en güvenli seçenektir. Parolalar doğru kullanıldıklarında güvenli olabilirler (bunlar bir yere yazılmalı ve güvenli bir şekilde saklanmalıdırlar).",
+            "title": "Güvenlik & Kurtarma"
         },
-        "twoFactor": "Two-Factor Authentication",
-        "twoFactorDesc": "Authenticate with SMS or email when authorizing transactions and/or signing in to your account."
+        "twoFactor": "İki Faktörlü Kimlik Doğrulama",
+        "twoFactorDesc": "İşlemleri onaylarken veya hesabınızda oturum açarken SMS veya e-posta ile kimlik doğrulaması yapın."
     },
     "reCAPTCHA": {
-        "disclaimer": "This site is protected by reCAPTCHA and the Google <a href='https://policies.google.com/privacy' target='_blank' rel='noopener noreferrer'>Privacy Policy</a> and <a href='https://policies.google.com/terms' target='_blank' rel='noopener noreferrer'>Terms of Service</a> apply.",
+        "disclaimer": "Bu site reCAPTCHA tarafından korunmaktadır ve Google <a href='https://policies.google.com/privacy' target='_blank' rel='noopener noreferrer'>Gizlilik Politikası</a> ve <a href='https://policies.google.com/terms' target='_blank' rel='noopener noreferrer'>Hizmet Şartları</a> geçerlidir.",
         "fail": {
-            "desc": "reCAPTCHA is required in order to authorize new accounts funded by NEAR.",
-            "link": "Fund your own account?",
-            "title": "Failed to load reCAPTCHA."
+            "desc": "NEAR tarafından finanse edilen yeni hesapları yetkilendirmek için reCAPTCHA gereklidir.",
+            "link": "Kendi hesabınıza para yatırmak mı istiyorsunuz?",
+            "title": "reCAPTCHA yüklenemedi."
         },
-        "loading": "Loading reCAPTCHA..."
+        "loading": "reCAPTCHA yükleniyor..."
     },
     "receivePage": {
-        "addressTitle": "Your address",
-        "copyAddressLinkLong": "Copy address URL",
-        "copyAddressLinkShort": "COPY",
-        "qrCodeTitle": "Scan QR code",
-        "snackbarCopySuccess": "Address URL copied!"
+        "addressTitle": "Addresiniz",
+        "copyAddressLinkLong": "Adres URL'nizi kopyalayın",
+        "copyAddressLinkShort": "KOPYALA",
+        "qrCodeTitle": "QR kodunu tarayın",
+        "snackbarCopySuccess": "Address URL'niz kopyalandı!"
     },
     "recoverAccount": {
-        "actionRequired": "This message contains a magic link. Click the link to begin recovery!",
-        "actionType": "Recovery",
-        "cannotResend": "This message was sent when you enabled email/phone recovery. We only send this message once, and cannot resend it.",
+        "actionRequired": "Bu mesaj sihirli bir bağlantı içerir. Kurtarmaya başlamak için bağlantıya tıklayın!",
+        "actionType": "Kurtarma",
+        "cannotResend": "Bu mesaj, e-posta/telefon kurtarma özelliğini etkinleştirdiğinizde gönderildi. Bu mesaj yalnızca bir kez gönderilir ve yeniden gönderilmez.",
         "email": {
-            "desc": "Check your email for a message from near.org with the subject:",
+            "desc": "E-postanızda near.org'dan konuyla ilgili bir mesaj olup olmadığını kontrol edin:",
             "subject": "\"Important: Near Wallet Recovery Email\".",
             "title": "Email"
         },
         "ledger": {
-            "desc": "Make sure your ledger is connected securely, and that the NEAR app is open on the device.",
+            "desc": "Ledger'in güvenli bir şekilde bağlandığından ve cihazda NEAR uygulamasının açık olduğundan emin olun.",
             "title": "Ledger"
         },
-        "pageText": "If you’ve setup one or more account recovery methods, follow the instructions below to import your account.",
-        "pageTitle": "Import Account",
+        "pageText": "Bir veya daha fazla hesap kurtarma yöntemi kurduysanız, hesabınızı içe aktarmak için aşağıdaki talimatları izleyin.",
+        "pageTitle": "Hesabı İçe Aktar",
         "phone": {
-            "desc": "Check your phone records for an SMS message from",
+            "desc": "Numaradan gelen SMS mesajını kontrol edin",
             "number": "+14086179592.",
-            "title": "Phone"
+            "title": "Telefon"
         },
         "phrase": {
-            "desc": "Make sure you have your 12 word recovery phrase, then click below to begin the recovery process.",
+            "desc": "12 kelimelik kurtarma sözcüklerinizin bulunduğundan emin olun, ardından kurtarma işlemine başlamak için aşağıya tıklayın.",
             "title": "Passphrase"
         }
     },
     "recoverSeedPhrase": {
-        "pageText": "Enter the backup passphrase associated with the account.",
-        "pageTitle": "Recover using Passphrase",
+        "pageText": "Hesapla ilişkilendirilmiş yedek anahtar kelimelerini girin.",
+        "pageTitle": "Anahtar Kelime kullanarak kurtar",
         "seedPhraseInput": {
-            "placeholder": "correct horse battery staple...",
-            "title": "Passphrase (12 words)"
+            "placeholder": "kelime dizinini doğru giriniz...",
+            "title": "Anahtar Kelime (12 Kelime)"
         }
     },
     "recoverWithLink": {
-        "errorP": "Please check your email or phone for the most recent message. Links in all earlier messages are invalid.",
-        "errorTitle": "Link Expired",
-        "pOne": "Click \"Continue\" to restore your account:",
-        "pTwo": "If this isn't your preferred browser, copy the URL and complete this process in your browser of choice.",
-        "snackbarCopySuccess": "Recover URL copied",
-        "title": "Restore Account"
+        "errorP": "Lütfen en son gönderilmiş olan e-postanızı veya telefonunuzu kontrol edin. Önceki tüm iletilerdeki bağlantılar geçersizdir.",
+        "errorTitle": "Bağlantı Süresi Doldu",
+        "pOne": "Hesabınızı geri yüklemek için \"Devam\" tıklayınız:",
+        "pTwo": "Tercih ettiğiniz tarayıcı bu değilse, URL'yi kopyalayın ve bu işlemi tercih ettiğiniz tarayıcıda tamamlayın.",
+        "snackbarCopySuccess": "Kopyalanan URL'yi kurtar",
+        "title": "Hesabı Geri Yükle"
     },
     "recoveryMgmt": {
-        "disableInputPlaceholder": "Enter your account ID to confirm",
-        "disableNo": "No, keep",
-        "disableNotAllowed": "Accounts are required to have at least one active recovery method. Please first enable an alternative recovery method to proceed.",
-        "disableTextLink": "The magic link you received will be permanently deactivated.",
-        "disableTextPhrase": "Your current passphrase will be permanently deactivated.",
-        "disableTitle": "Are you sure you want to disable this method?",
-        "enabled": "Enabled",
+        "disableInputPlaceholder": "Onaylamak için hesap kimliğinizi girin",
+        "disableNo": "Hayır, Devam",
+        "disableNotAllowed": "Hesapların en az bir etkin kurtarma yöntemi olması gerekir. Lütfen devam etmek için alternatif bir kurtarma yöntemini etkinleştirin.",
+        "disableTextLink": "Aldığınız sihirli bağlantı kalıcı olarak devre dışı bırakılacaktır.",
+        "disableTextPhrase": "Mevcut Anahta Kelime parolanız kalıcı olarak devre dışı bırakılacak.",
+        "disableTitle": "Bu metodu devre dışı bırakmak istediğinizden emin misiniz?",
+        "enabled": "Etkinleştirildi",
         "methodTitle": {
             "email": "Email",
-            "phone": "Phone",
-            "phrase": "Passphrase"
+            "phone": "Telefon",
+            "phrase": "Anahtar Kelime"
         },
-        "noRecoveryMethod": "You have no method to recover your account. please add a method below.",
-        "recoveryLinkSent": "Recovery Link Sent!",
+        "noRecoveryMethod": "Hesabınızı kurtarmak için bir yönteminiz yok. lütfen aşağıya bir yöntem ekleyin.",
+        "recoveryLinkSent": "Kurtarma Bağlantısı Gönderildi!",
         "resend": {
-            "email": "Resend Email",
-            "phone": "Resend SMS"
+            "email": "Email'i Tekrar Gönder",
+            "phone": "SMS'i Tekrar Gönder"
         },
-        "title": "Recovery Methods"
+        "title": "Kurtarma Yöntemleri"
     },
     "reduxActions": {
         "ADD_ACCESS_KEY": {
-            "error": "An error occurred while approving this action. Please try again!",
-            "success": "${title} is now authorized to use your account."
+            "error": "Bu eylem onaylanırken bir hata oluştu. Lütfen tekrar deneyin!",
+            "success": "${title} artık hesabınızı kullanma yetkisine sahip."
         },
         "ADD_ACCESS_KEY_SEED_PHRASE": {
-            "error": "An error occurred while setting up passphrase recovery. Please try again!",
-            "success": "Passphrases recovery setup is complete."
+            "error": "Anahtar Kelime kurtarma ayarlanırken bir hata oluştu. Lütfen tekrar deneyin!",
+            "success": "Anahtar Kelime kurtarma kurulumu tamamlandı."
         },
         "ADD_LEDGER_ACCOUNT_ID": {
-            "error": "Access to one of the accounts was rejected. No accounts were recovered.<br>To continue, you must authorize read-only access to each account on your Ledger device. Please try again.",
+            "error": "Hesaplardan birine erişim reddedildi. Hiçbir hesap kurtarılmadı.<br>Devam etmek için, Ledger cihazınızdaki her hesaba salt okunur erişim yetkisi vermelisiniz. Lütfen tekrar deneyin.",
             "success": ""
         },
         "CHECK_ACCOUNT_AVAILABLE": {
-            "error": "User not found.",
-            "success": "User found."
+            "error": "Kullanıcı bulunamadı.",
+            "success": "Kullanıcı bulundu."
         },
         "CHECK_IS_NEW": {
-            "error": "Account ID is taken. Try something else.",
-            "success": "Congrats! ${accountId} is available."
+            "error": "Hesap kimliği alınmıştır. Başka bir şey deneyin.",
+            "success": "Tebrikler! ${accountId} kullanılabilir."
         },
         "CHECK_NEW_ACCOUNT": {
-            "error": "Account ID is taken. Try something else.",
-            "success": "Congrats! ${accountId} is available."
+            "error": "Hesap kimliği alınmıştır. Başka bir şey deneyin.",
+            "success": "Tebrikler! ${accountId} kullanılabilir."
         },
         "CREATE_ACCOUNT_WITH_SEED_PHRASE": {
             "error": "",
             "success": ""
         },
         "CREATE_NEW_ACCOUNT": {
-            "error": "Account ID is taken. Try something else.",
-            "success": "Congrats! ${accountId} is available."
+            "error": "Hesap kimliği alınmıştır. Başka bir şey deneyin.",
+            "success": "Tebrikler! ${accountId} kullanılabilir."
         },
         "default": {
-            "error": "Sorry an error has occurred. You may want to try again.",
+            "error": "Üzgünüz, bir hata oluştu. tekrar deneyebilirsiniz.",
             "success": ""
         },
         "DELETE_RECOVERY_METHOD": {
@@ -851,632 +851,632 @@
         },
         "Deserialization": "",
         "GET_LEDGER_ACCOUNT_IDS": {
-            "error": "Public key access was rejected. No accounts were recovered.<br/>To continue, you must allow NEAR Wallet to view your public key. Please try again.",
+            "error": "Genel anahtar erişimi reddedildi. Hiçbir hesap kurtarılmadı.<br/>Devam etmek için, NEAR Cüzdanının genel anahtarınızı görmesine izin vermelisiniz. Lütfen tekrar deneyin.",
             "success": ""
         },
-        "NotEnoughBalance": "Your account does not have enough balance for this operation.",
+        "NotEnoughBalance": "Hesabınızda bu işlem için yeterli bakiye yok.",
         "PROMPT_TWO_FACTOR": {
-            "invalidCode": "Invalid 2FA code. Please try again."
+            "invalidCode": "Geçersiz 2FA kodu. Lütfen tekrar deneyin."
         },
         "RECOVER_ACCOUNT_SEED_PHRASE": {
-            "error": "Failed to recover account. No accounts were found for this passphrase.",
-            "success": "Recover using passphrase is complete.<br/><b>${numberOfAccounts} account(s)</b> have been successfully recovered.<br/>The last one is set as active."
+            "error": "Hesap kurtarılamadı. Bu Anahtar Kelime için hesap bulunamadı.",
+            "success": "Anahtar Kelime kullanılarak kurtarma işlemi tamamlandı.<br/><b>${numberOfAccounts} hesap(lar)</b> başarıyla kurtarıldı.<br/>Sonuncusu aktif olarak ayarlandı."
         },
         "REFRESH_ACCOUNT_EXTERNAL": {
-            "error": "Account <b>${accountId}</b> not found"
+            "error": "Hesap <b>${accountId}</b> bulunamadı"
         },
         "REMOVE_ACCESS_KEY": {
-            "error": "Please check that your device is connected and the NEAR app is open.",
+            "error": "Lütfen cihazınızın bağlı olduğunu ve NEAR uygulamasının açık olduğundan emin olun.",
             "success": ""
         },
-        "RetriesExceeded": "We are experiencing a high load. Please try again.",
+        "RetriesExceeded": "Aşırı yoğunluktan dolayı sistem meşgul, Lütfen tekrar deneyin.",
         "SAVE_AND_SELECT_LEDGER_ACCOUNTS": {
-            "error": "Please check that your device is connected and the NEAR app is open.",
-            "success": "You’ve successfully signed in.<br/><b>${numberOfAccounts} account(s) were recovered.</b> Your most recently created account has been set to active."
+            "error": "Lütfen cihazınızın bağlı olduğunu ve NEAR uygulamasının açık olduğunu kontrol edin.",
+            "success": "Başarıyla oturum açtınız.<br/><b>${numberOfAccounts} hesap(lar) kurtarıldı.</b> En son oluşturduğunuz hesabınız etkin olarak ayarlandı."
         },
         "SEND_MONEY": {
-            "error": "Sorry an error has occurred. You may want to try again."
+            "error": "Üzgünüz, bir hata oluştu. Tekrar deneyebilirsiniz."
         },
         "SETUP_RECOVERY_MESSAGE": {
-            "error": "An error occurred while setting up your recovery method. Please try again!",
-            "success": "Recovery setup is complete."
+            "error": "Kurtarma yönteminiz kurulurken bir hata oluştu. Lütfen tekrar deneyin!",
+            "success": "Kurtarma ayarları tamamlandı."
         },
         "SIGN_AND_SEND_TRANSACTIONS": {
             "error": "",
             "success": ""
         },
         "TRANSFER_ALL_FROM_LOCKUP": {
-            "error": "Something went wrong. Please try again.",
-            "success": "You successfully transferred tokens from your lockup!"
+            "error": "Bir şeyler ters gitti. Lütfen tekrar deneyin.",
+            "success": "Kilitli hesabınızdan tokenleri başarıyla aktardınız!"
         },
-        "U2F_4": "Failed to sign with Ledger device: U2F DEVICE_INELIGIBLE. Please make sure that your Ledger device is connected and unlocked.",
+        "U2F_4": "Ledger cihazı ile giriş başarısız oldu: U2F CİHAZI_UYGUN DEĞİL. Lütfen Ledger cihazınızın bağlı ve kilidinin açık olduğundan emin olun.",
         "VERIFY_TWO_FACTOR": {
-            "error": "Two Factor Authentication setup failed. Please try again.",
-            "success": "Two Factor Authentication successfully setup!"
+            "error": "İki Faktörlü Doğrulama kurulumu başarısız oldu. Lütfen tekrar deneyin.",
+            "success": "İki Faktörlü Doğrulama başarıyla kuruldu!"
         },
-        "LackBalanceForState": "Your available balance is too low to perform any actions on your account. Please send NEAR to your account and then try again."
+        "LackBalanceForState": "Bakiyeniz yetersiz olduğundan işleminizi gerçekleştiremiyoruz. Lütfen hesabınıza NEAR gönderip tekrar deneyin."
     },
     "releaseNotesModal": {
-        "desc": "You asked, we listened! The latest update brings adjustments to how balances are displayed in the wallet, and an easier way to create new accounts.",
-        "subText1": "During on-boarding, you may now use an SMS capable phone number to verify and initialize your new account. Users who don’t wish to provide this information may still initialize new accounts with an initial deposit.",
-        "subText2": "The primary balance displayed in the wallet is now your 'Available Balance', where it was previously your 'Total Balance'. The Available Balance offers the most utility to users wanting to know at a glance what they have available to spend/stake/and interact with the ecosystem; it does not include any tokens that are not readily spendable, such as tokens that are staked.  You can still see your staked tokens balance details on the 'Account' and 'Staking' screens.",
-        "subTitle1": "New Features",
-        "subTitle2": "Enhancements",
-        "title": "Release Notes"
+        "desc": "Siz sordunuz, biz dinledik! En son güncelleme, bakiyelerin cüzdanda nasıl görüntülendiğini ve yeni hesaplar oluşturmanın daha kolay yollarını getiriyor.",
+        "subText1": "Yükleme esnasında, yeni hesabınızı doğrulamak ve başlatmak için SMS özellikli bir telefon numarası kullanabilirsiniz. Bu bilgileri vermek istemeyen kullanıcılarda depozito ile yeni hesapını başlatabilirler.",
+        "subText2": "Cüzdanda şimdi görüntülenen birincil bakiye, daha önce 'Toplam Bakiyeniz' olan 'Kullanılabilir Bakiyeniz'dir. Kullanılabilir Bakiye, harcamak/katılım sağlamak/ve ekosistemle etkileşim kurmak için nelere sahip olduklarını bir bakışta bilmek isteyen kullanıcılara en fazla faydayı sunar; katılım sağlanmış kolayca harcanamayan tokenleri içermez. Katılım sağlanan tokenlerinizin bakiyesinin ayrıntılarını 'Hesap' ve 'Katılım' ekranlarında görmeye devam edebilirsiniz.",
+        "subTitle1": "Yeni Özellikler",
+        "subTitle2": "Geliştirmeler",
+        "title": "Sürüm notları"
     },
-    "reservedForFeesInfo": "Up to ${data} NEAR is reserved to cover the cost of transactions.",
+    "reservedForFeesInfo": "İşlemlerin maliyetini karşılamak için ${data} NEAR'a ayrılmıştır.",
     "selectAccountDropdown": {
-        "account": "Account",
-        "createAccount": "Create New Account",
-        "noOtherAccounts": "You have no other accounts",
-        "selectAccount": "Select account",
-        "switchAccount": "Switch account",
-        "switchAccounthNotAllowed": "This app doesn't allow account changes"
+        "account": "Hesap",
+        "createAccount": "Yeni Hesap Oluştur",
+        "noOtherAccounts": "Başka hesabınız yok",
+        "selectAccount": "Hesap seçin",
+        "switchAccount": "Hesap değiştir",
+        "switchAccounthNotAllowed": "Bu uygulama hesap değişikliklerine izin vermez"
     },
-    "sending": "Sending",
+    "sending": "Gönderiyor",
     "sendMoney": {
         "account": {
-            "title": "Send to"
+            "title": "Alıcı"
         },
         "amount": {
-            "available": "Available to send"
+            "available": "Gönderilebilen"
         },
         "amountStatusId": {
-            "available": "Available Balance:",
-            "howMuch": "How much do you want to send?",
-            "noMoreThan": "NO MORE THAN 5 DECIMAL DIGITS",
-            "notEnoughTokens": "You must leave at least ${amount} NEAR in your account",
-            "sending": "Sending:"
+            "available": "Mevcut Bakiye:",
+            "howMuch": "Ne kadar göndermek istiyorsun?",
+            "noMoreThan": "5 ONDALIK BASAMAKTAN FAZLA OLMAMALI",
+            "notEnoughTokens": "Hesabınızda en az ${amount} NEAR bırakmalısınız",
+            "sending": "Gönderiyor:"
         },
         "banner": {
-            "insufficient": "You are attempting to send your entire available balance. At least <b>${data} NEAR</b> must be reserved to cover transaction fees.",
-            "useMax": "A small portion (${data} NEAR) of your available balance has been reserved to cover transaction fees."
+            "insufficient": "Mevcut bakiyenizin tamamını göndermeye çalışıyorsunuz. İşlem ücretlerini karşılamak için en az <b>${data} NEAR</b> ayırmalısınız.",
+            "useMax": "Mevcut bakiyenizin küçük bir kısmı (${data} NEAR) işlem ücretlerini karşılamak için ayrıldı."
         },
         "button": {
-            "confirm": "Confirm & Send",
-            "dashboard": "Go To Dashboard",
-            "send": "Submit"
+            "confirm": "Onayla & Gönder",
+            "dashboard": "Gösterge Tablosuna Git",
+            "send": "İlet"
         },
         "confirmModal": {
-            "title": "Confirm transaction"
+            "title": "İşlemi onayla"
         },
-        "onceConfirmed": "Once confirmed, this cannot be undone.",
+        "onceConfirmed": "Onaylandıktan sonra bu işlem geri alınamaz.",
         "subtitle": {
-            "default": "Enter the amount of NEAR to send, and the account ID to send it to.",
-            "success": "You have successfully sent",
-            "to": "to:"
+            "default": "Gönderilecek NEAR tutarını ve gönderilecek Hesap Kimliğini girin.",
+            "success": "Başarıyla gönderdiniz",
+            "to": "alıcı:"
         },
         "title": {
-            "default": "Send",
-            "success": "Success!"
+            "default": "Gönder",
+            "success": "Başarılı!"
         },
-        "to": "to",
-        "wasSentTo": "was sent to:",
-        "youAreSending": "You are sending"
+        "to": "alıcı",
+        "wasSentTo": "gönderildi:",
+        "youAreSending": "Gönderiyorsunuz"
     },
     "sendV2": {
         "accordionTriggerTitle": {
-            "balanceDetails": "Balance details",
-            "transactionDetails": "Transaction Details"
+            "balanceDetails": "Bakiye ayrıntıları",
+            "transactionDetails": "İşlem Ayrıntıları"
         },
         "review": {
-            "title": "You are sending"
+            "title": "Gönderiyorsunuz"
         },
         "selectAsset": {
-            "assetInputPlaceholder": "Search asset name",
-            "assetListNameTitle": "Name",
-            "asssetListBalanceTitle": "Available to send",
-            "title": "Select Asset"
+            "assetInputPlaceholder": "Varlık adı ara",
+            "assetListNameTitle": "Ad",
+            "asssetListBalanceTitle": "Gönderilebilir",
+            "title": "Varlık Seç"
         },
         "selectReceiver": {
-            "receiverInputLabel": "Send to"
+            "receiverInputLabel": "Alıcıya Gönder"
         },
-        "selectTokenButtonTitle": "Select Asset",
+        "selectTokenButtonTitle": "Varlık Seç",
         "success": {
-            "title": "Transaction complete!</br>You sent <span class='color-blue'>${amount}</span></br>to <span class='color-green'>${receiverId}</span>"
+            "title": "İşlem tamamlandı!</br>Gönderdiğiniz <span class='color-blue'>${amount}</span></br>hesaba <span class='color-green'>${receiverId}</span>"
         },
         "translateIdInfoTooltip": {
-            "estimatedFees": "The estimated cost of processing your transaction.",
-            "estimatedTotal": "The estimated total of your transaction including fees.",
-            "networkFees": "The final amount paid to cover the costs of processing your transaction.",
-            "reservedForFees": "The portion of your account balance that cannot be spent. This amount is reserved to cover the storage costs of your account. For more information, visit our documentation."
+            "estimatedFees": "İşleminizin tahmini maliyeti.",
+            "estimatedTotal": "Ücretler dahil işleminizin tahmini toplamı.",
+            "networkFees": "İşleminizi işleme koyma maliyetlerini karşılamak için ödenen nihai tutar.",
+            "reservedForFees": "Hesap bakiyenizin harcanamayan kısmı. Bu miktar, hesabınızın depolama maliyetlerini karşılamak için ayrılmıştır. Daha fazla bilgi için belgelerimizi inceleyebilirsiniz."
         },
         "TXEntry": {
             "status": {
-                "Failure": "Failed",
-                "notAvailable": "Status not available",
-                "SuccessValue": "Successful"
+                "Failure": "Başarısız",
+                "notAvailable": "Durum mevcut değil",
+                "SuccessValue": "Başarılı"
             },
             "title": {
-                "amount": "Amount",
-                "availableBalance": "Available balance",
-                "availableToSend": "Available to Send",
-                "estimatedFees": "Estimated fees",
-                "estimatedTotal": "Estimated total",
-                "from": "From",
-                "networkFees": "Network fees",
-                "receiverId": "Sent to",
-                "reservedForFees": "Reserved for fees",
-                "status": "TXN Status",
-                "timeStamp": "Date & time",
-                "to": "To",
-                "token": "Asset"
+                "amount": "Tutar",
+                "availableBalance": "Mevcut bakiye",
+                "availableToSend": "Gönderilebilir bakiye",
+                "estimatedFees": "Tahmini ücretler",
+                "estimatedTotal": "Tahmini toplam",
+                "from": "Gönderen",
+                "networkFees": "Ağ ücretleri",
+                "receiverId": "Alıcı",
+                "reservedForFees": "Ücretler için ayrılmıştır",
+                "status": "TXN Durumu",
+                "timeStamp": "Tarih & saat",
+                "to": "Alıcı",
+                "token": "Varlık"
             }
         }
     },
     "setRecoveryConfirm": {
-        "didNotReceive": "Didn't receive your code?",
-        "email": "email address",
-        "inputError": "Please enter verification code!",
-        "inputHeader": "Enter verification code",
-        "inputPlaceholder": "Verification Code",
-        "or": "or",
-        "pageText": "We've sent a 6-digit verification code to the ",
-        "phone": "phone number",
+        "didNotReceive": "Kodunuzu almadınız mı?",
+        "email": "email adres",
+        "inputError": "Lütfen doğrulama kodunu giriniz!",
+        "inputHeader": "Doğrulama kodunu giriniz",
+        "inputPlaceholder": "Doğrulama kodu",
+        "or": "veya",
+        "pageText": "6 basamaklı bir doğrulama kodu gönderdik ",
+        "phone": "telefon numarası",
         "reenter": {
-            "link": "click here",
+            "link": "buraya tıklayın",
             "one": {
-                "email": "If you did not yet receive this email, or the above email address is incorrect, ",
-                "phoneNumber": "If you did not yet receive this SMS, or the above phone number is incorrect, "
+                "email": "Henüz bu e-postayı almadıysanız veya yukarıdaki e-posta adresi yanlışsa, ",
+                "phoneNumber": "Henüz bu SMS'i almadıysanız veya yukarıdaki telefon numarası yanlışsa, "
             },
             "two": {
-                "email": " to Re-enter your email address and resend.",
-                "phoneNumber": " to Re-enter your phone number and resend."
+                "email": " E-posta adresinizi tekrar girin ve tekrar gönderin.",
+                "phoneNumber": " Telefon numaranızı tekrar girin ve tekrar gönderin."
             }
         },
-        "resendCode": "Resend your code",
-        "resending": "Resending...",
-        "sendToDifferent": "Send to a different",
-        "title": "Enter Verification Code"
+        "resendCode": "Kodunuzu tekrar gönderin",
+        "resending": "Tekrar gönderiliyor...",
+        "sendToDifferent": "Farklı bir yere gönder",
+        "title": "Doğrulama Kodunu Giriniz"
     },
     "setupLedger": {
-        "header": "Connect your Ledger device",
-        "one": "Connect your Ledger Nano S or X to your computer or mobile device via USB and <b>open the NEAR application</b>. <br><br>Then, <b>press both buttons</b> at the 'Pending Ledger Review' screen.",
-        "two": "If you have not yet installed the NEAR Ledger app, follow",
-        "twoLink": "these instructions"
+        "header": "Ledger cihazınızı bağlayın",
+        "one": "Ledger Nano S veya X'i USB aracılığıyla bilgisayarınıza veya mobil cihazınıza bağlayın ve <b>NEAR uygulamasını açın</b>. <br><br>Ardından, <b>her iki düğmeye basın</b> 'Bekleyen Ledger İncelemesi' ekranından.",
+        "two": "NEAR Ledger uygulamasını henüz yüklemediyseniz, takip edin",
+        "twoLink": "bu talimatları"
     },
     "setupLedgerSteps": {
-        "header": "Install NEAR on your Ledger device",
-        "one": "Open <a href='https://www.ledger.com/ledger-live' target='_blank'>Ledger Live,</a> install any firmware updates available.",
-        "three": "Follow the instructions to install the <span class='color-black'>NEAR application</span> on your device.",
-        "two": "Click on the <span class='color-black'>Manager</span> tab, then search for <span class='color-black'>NEAR</span>."
+        "header": "Ledger cihazınıza NEAR'ı kurun",
+        "one": "Açın <a href='https://www.ledger.com/ledger-live' target='_blank'>Ledger Live,</a> mevcut herhangi bir yazılım güncellemesini yükleyin.",
+        "three": "Cihazınıza <span class='color-black'>NEAR uygulamasını</span> yüklemek için talimatları izleyin.",
+        "two": "Yönetici <span class='color-black'>Sekmesine tıklayın</span> ardından, <span class='color-black'>NEAR</span> için arama yapın."
     },
     "setupLedgerSuccess": {
-        "header": "Ledger has secured your account!",
+        "header": "Ledger hesabınızı güvence altına aldı!",
         "nextStep": {
             "header": {
-                "keep": "Keep existing keys?",
-                "remove": "Confirm key removal"
+                "keep": "Mevcut anahtarlar tutulsun mu?",
+                "remove": "Anahtar kaldırma işlemini onaylayın"
             },
             "one": {
-                "keep": "<span class='color-red'>Maintaining multiple recovery methods and devices increases the vulnerability of your account.</span>",
-                "remove": "Before removing your existing keys and recovery methods, make sure that you have recorded and securely stored your Ledger passphrase."
+                "keep": "<span class='color-red'>Birden çok kurtarma yöntemini sürdürme ve cihazına sahip olmak hesabınızın güvenlik açığını artırır.</span>",
+                "remove": "Mevcut anahtarlarınızı ve kurtarma yöntemlerinizi kaldırmadan önce, Ledger Anahtar Kelime parolanızı kaydettiğinizden ve güvenli bir şekilde sakladığınızdan emin olun."
             },
             "two": {
-                "remove": "If you lose access to your passphrase, NEAR Inc. will be unable to assist you in recovery of your account and its funds."
+                "remove": "Anahtar Kelime parolanıza erişiminizi kaybederseniz, NEAR A.Ş, hesabınızın ve fonlarının kurtarılmasında size yardımcı olamayacak."
             }
         },
-        "one": "We recommend that you remove all existing keys (recovery methods and devices).",
-        "primaryCta": "Remove Existing Keys and Recovery Methods",
-        "secondaryCta": "Keep existing keys",
-        "two": "Maintaining multiple keys and recovery methods (including passphrases) increases the vulnerability of your account."
+        "one": "Mevcut tüm anahtarları (kurtarma yöntemleri ve cihazları) kaldırmanızı öneririz.",
+        "primaryCta": "Mevcut Anahtarları ve Kurtarma Yöntemlerini Kaldırın",
+        "secondaryCta": "Mevcut anahtarları koru",
+        "two": "Birden çok şifre ve kurtarma yöntemini sürdürme (Anahtar Kelimeler dahil) hesabınızın güvenlik açığını artırır."
     },
     "setupRecovery": {
-        "advancedSecurity": "Most Secure (Recommended)",
-        "advancedSecurityDesc": "Write down a 12 word passphrase, or secure your account with your Ledger device.",
-        "basicSecurity": "Most Convenient",
-        "basicSecurityDesc": "Enter your email address or phone number and receive a magic link",
-        "emailDesc": "Receive a verification code and account recovery link via email.",
+        "advancedSecurity": "En Güvenli (Önerilen)",
+        "advancedSecurityDesc": "12 kelimelik parolanızı yazın veya hesabınızı Ledger cihazınızla güvenceye alın.",
+        "basicSecurity": "En Pratik",
+        "basicSecurityDesc": "E-posta adresinizi veya telefon numaranızı girin ve sihirli bir bağlantı alın",
+        "emailDesc": "E-posta ile doğrulama kodu ve hesap kurtarma bağlantısı alın.",
         "emailPlaceholder": "example@email.com",
         "emailTitle": "Email",
-        "header": "Secure your account",
-        "ledgerDesc": "Secure your account with a Ledger hardware device.",
-        "ledgerTitle": "Ledger Hardware Wallet",
-        "notSupportedPhone": "Unfortunately, we do not offer SMS for your region. Please choose email instead.",
-        "phoneDesc": "Receive a verification code and account recovery link via SMS.",
+        "header": "Hesabınızın güvenliğini sağlayın",
+        "ledgerDesc": "Hesabınızı bir Ledger donanım cihazıyla koruyun.",
+        "ledgerTitle": "Ledger Donanım Cüzdanı",
+        "notSupportedPhone": "Maalesef, bölgeniz için SMS hizmetini sunmuyoruz. Bunun yerine lütfen e-postayı seçin.",
+        "phoneDesc": "SMS ile doğrulama kodu ve hesap kurtarma bağlantısı alın.",
         "phonePlaceholder": "+1 415 797 8554",
-        "phoneTitle": "Phone",
-        "phraseDesc": "Generate and safely store a unique passphrase.",
-        "phraseTitle": "Secure Passphrase",
-        "subHeader": "Select a method to secure and recover your account. This will be used to verify important activity, recover your account and access your account from other devices."
+        "phoneTitle": "Telefon",
+        "phraseDesc": "Benzersiz bir parola oluşturun ve güvenli bir şekilde saklayın.",
+        "phraseTitle": "Anahtar Kelimeyi Güvene Al",
+        "subHeader": "Hesabınızı güvenceye almak ve kurtarmak için bir yöntem seçin. Bu, önemli etkinlikleri doğrulamak, hesabınızı kurtarmak ve hesabınıza diğer cihazlardan erişmek için kullanılacaktır."
     },
     "setupSeedPhrase": {
-        "pageText": "Write down the following words IN ORDER and keep them somewhere safe. You cannot recover your account without them!",
-        "pageTitle": "Setup Phrase",
-        "snackbarCopyImplicitAddress": "Funding Address Copied!",
-        "snackbarCopySuccess": "Passphrase copied!"
+        "pageText": "Aşağıdaki kelimeleri SIRASI İLE yazınız ve güvenli bir yerde saklayınız. Onlar olmadan hesabınızı kurtaramazsınız!",
+        "pageTitle": "Sözcük Kurulumu",
+        "snackbarCopyImplicitAddress": "Finansman Adresi Kopyalandı!",
+        "snackbarCopySuccess": "Sözcükler kopyalandı!"
     },
     "setupSeedPhraseSuccess": {
-        "pageText": "Use your Recovery Phrase to restore your account.",
-        "pageTextSecondLine": "Anyone with access to your Recovery Phrase can access your funds, so keep it offline somewhere safe and secure.",
-        "pageTitle": "Recovery Setup is Complete"
+        "pageText": "Hesabınızı geri yüklemek için Kurtarma Sözcüklerinizi kullanın.",
+        "pageTextSecondLine": "Kurtarma İfadenize erişimi olan herkes hesaplarınıza erişebilir, bu nedenle çevrimdışı olan, güvenli ve emniyetli bir yerde saklayın.",
+        "pageTitle": "Kurtarma Kurulumu Tamamlandı"
     },
     "setupSeedPhraseVerify": {
-        "pageText": "Enter the following word from your recovery phrase to complete the setup process.",
-        "pageTitle": "Verify Phrase",
-        "startOverText": "Didn't write it down?"
+        "pageText": "Kurulum işlemini tamamlamak için kurtarma sözcüklerinizden aşağıdaki kelimeyi girin.",
+        "pageTitle": "Sözcüğü Doğrula",
+        "startOverText": "Onu yazmadınız mı?"
     },
     "sign": {
         "ActionWarrning": {
-            "binaryData": "Arguments contain binary data",
-            "deleteAccount": "You are about to delete your account! Your NEAR balance will be destroyed, and all of your account data deleted.",
-            "deployContract": "You are about to deploy a contract to your account! This contract can access your NEAR balance, and interact with other contracts on your behalf.",
-            "functionCall": "No description specified for this function.",
-            "stake": "You are about to stake NEAR tokens. These tokens will be locked, and are at risk of being lost if your validator becomes unresponsive."
+            "binaryData": "Bağımsız değişkenler ikili veri içerir",
+            "deleteAccount": "Hesabınızı silmek üzeresiniz! NEAR bakiyeniz yok edilecek ve tüm hesap verileriniz silinecek.",
+            "deployContract": "Hesabınıza bir sözleşme yerleştirmek üzeresiniz! Bu sözleşme, NEAR bakiyenize erişebilir ve sizin adınıza diğer sözleşmelerle etkileşim kurabilir.",
+            "functionCall": "Bu işlev için tanım belirtilmemiş.",
+            "stake": "NEAR tokenlerini katılım sağlamak üzeresiniz. Bu tokenler kilitlenir ve doğrulayıcınız yanıt vermezse kaybolma riskiyle karşı karşıya kalır."
         },
-        "authorizationRequestSuccessful": "Authorization request successful",
-        "authorizing": "Authorizing",
-        "availableBalance": "Available Balance",
-        "availableToTransfer": "Available to transfer",
-        "contract": "Contract:",
+        "authorizationRequestSuccessful": "Yetkilendirme talebi başarılı",
+        "authorizing": "Yetkilendiriliyor",
+        "availableBalance": "Mevcut Bakiye",
+        "availableToTransfer": "Aktarılabilir",
+        "contract": "Sözleşme:",
         "details": {
-            "detailedDescription": "Detailed description of transaction",
-            "forContract": "For Contract",
-            "gasLimit": "Gas Limit",
-            "gasPriceUnavailable": "Gas price estimate is unavailable",
-            "transactionFees": "Transaction Fees"
+            "detailedDescription": "İşlemin detaylı açıklaması",
+            "forContract": "Sözleşme için",
+            "gasLimit": "Gaz Limiti",
+            "gasPriceUnavailable": "Gaz fiyatı tahmini bulunmuyor",
+            "transactionFees": "İşlem Ücretleri"
         },
-        "hereAreSomeDetails": "Here are some details that will help you.",
-        "insufficientFunds": "Insufficient Funds",
+        "hereAreSomeDetails": "İşte size yardımcı olacak bazı detaylar.",
+        "insufficientFunds": "Yetersiz bakiye",
         "isRequesting": {
-            "authorization": "is requesting authorization",
-            "transferOf": "is requesting the transfer of"
+            "authorization": "yetkilendirme istiyor",
+            "transferOf": "aktarılmasını talep ediyor"
         },
-        "nothingHasBeenTransferred": "Nothing has been transferred.",
-        "transactionCancelled": "Transaction cancelled",
-        "transferring": "Transferring",
-        "unexpectedStatus": "Unexpected status",
-        "unknownApp": "Unknown App",
-        "wasTransferredSuccessfully": "was transferred successfully"
+        "nothingHasBeenTransferred": "Hiçbir şey aktarılmadı.",
+        "transactionCancelled": "İşlem iptal edildi",
+        "transferring": "Aktarılıyor",
+        "unexpectedStatus": "Beklenmedik durum",
+        "unknownApp": "Bilinmeyen Uygulama",
+        "wasTransferredSuccessfully": "başarıyla aktarıldı"
     },
     "signInLedger": {
         "advanced": {
-            "desc": "Specify an HD path to import its linked accounts.",
-            "setPath": "Set HD Path",
-            "subTitle": "HD Path",
-            "title": "Advanced Options"
+            "desc": "Bağlantılı hesaplarını içe aktarmak için bir HD yolu belirtin.",
+            "setPath": "HD Yolu Ayarla",
+            "subTitle": "HD Yolu",
+            "title": "Gelişmiş Seçenekler"
         },
         "firefoxBanner": {
-            "desc": "Ledger is currently only supported in <a href='https://www.mozilla.org/' rel='noopener noreferrer' target='_blank'><b>Mozilla Firefox</b></a>. Support for other browsers will soon be restored."
+            "desc": "Ledger şuanda sadece <a href='https://www.mozilla.org/' rel='noopener noreferrer' target='_blank'><b>Mozilla Firefox</b></a>. desteklemektedir. Diğer tarayıcılar da çok yakında eklenecektir."
         },
-        "header": "Sign in with your Ledger device",
+        "header": "Ledger cihazınızla oturum açın",
         "modal": {
-            "accountsApproved": "account(s) approved",
-            "confirmPublicKey": "Confirm public key",
-            "ledgerMustAdd": "Ledger must add an access key for each account protected by your device:",
+            "accountsApproved": "hesap(lar) onaylandı",
+            "confirmPublicKey": "Genel anahtarı onaylayın",
+            "ledgerMustAdd": "Ledger, cihazınız tarafından korunan her hesap için bir erişim anahtarı eklemelidir:",
             "status": {
-                "confirm": "Confirm",
-                "error": "Error",
-                "pending": "Pending",
-                "rejected": "Rejected",
-                "success": "Approved",
-                "waiting": "Up next"
+                "confirm": "Onayla",
+                "error": "Hata",
+                "pending": "Bekliyor",
+                "rejected": "Reddedildi",
+                "success": "Onaylandı",
+                "waiting": "Bir sonraki"
             }
         },
-        "one": "Make sure your ledger is connected securely, and that the NEAR app is open on the device."
+        "one": "Ledger'ın güvenli bir şekilde bağlandığından ve cihazda NEAR uygulamasının açık olduğundan emin olun.."
     },
     "stagingBanner": {
-        "desc": "Warning: This is a pre-release version of the NEAR Wallet. There may be bugs, and these bugs may lead to loss of funds. By continuing to use this version, you agree that you understand and accept these risks, and understand that the NEAR Wallet team will be unable to help you.",
-        "title": "Warning: This is a pre-release version of Wallet. Use at your own risk!"
+        "desc": "Uyarı: Bu, NEAR Cüzdanının yayın öncesi sürümüdür. Hatalar olabilir ve bu hatalar para kaybına neden olabilir. Bu sürümü kullanmaya devam ederek, bu riskleri anladığınızı ve kabul ettiğinizi ve NEAR Cüzdan ekibinin size yardımcı olamayacağını kabul etmiş olursunuz..",
+        "title": "Uyarı: Bu, Cüzdan'ın yayın öncesi sürümüdür. Riskler size aittir!"
     },
-    "stakedBalance": "This NEAR is actively being used to back a validator and secure the network. When you decide to unstake this NEAR, it will take some time to be shown in your Available Balance, as NEAR takes 4 epochs (~52-65 hours) to unstake.",
+    "stakedBalance": "NEAR, bir validatörü desteklemek ve ağın güvenliğini sağlamak için aktif olarak kullanılmaktadır. Bu NEAR'dan katılımınızı geri almak istediğinizde; bu işlem, 4 döngü (~52-65 saat) sürdüğünden, Kullanılabilir Bakiyenizde görünmesi biraz zaman alacaktır.",
     "staking": {
         "alertBanner": {
-            "button": "View Current Validator",
-            "title": "You must first unstake and withdraw your tokens from your current validator in order to stake with a new validator."
+            "button": "Mevcut Validatörü Görüntüle",
+            "title": "Yeni bir validatör ile katılım sağlamak için öncelikle mevcut validatörünüzün katılımından çıkıp ve tokenlerinizi çekmelisiniz."
         },
         "amountStakingInput": {
-            "placeholder": "example: 15",
-            "title": "Enter amount to stake"
+            "placeholder": "örneğin: 15",
+            "title": "Katılım tutarını girin"
         },
         "balanceBanner": {
             "currency": "NEAR",
-            "title": "Available lockup balance"
+            "title": "Mevcut kilitli bakiye"
         },
         "balanceBox": {
             "available": {
-                "button": "Withdraw",
-                "info": "These tokens have been unstaked, and are ready to be withdrawn.",
-                "title": "Available for withdrawal"
+                "button": "Çek",
+                "info": "Bu tokenler katılımdan çıktı ve çekilmeye hazır.",
+                "title": "Çekilebilir bakiye"
             },
             "pending": {
-                "info": "These tokens have been unstaked, but are not yet ready to withdraw. Tokens are ready to withdraw 52 to 65 hours after unstaking.",
-                "title": "Pending release"
+                "info": "Bu tokenler katılımdan çıkartıldı, ancak henüz çekilmeye hazır değiller. Tokenler, katılımdan çekildikten 52 ila 65 saat sonra çekilmeye hazır olur.",
+                "title": "Hazırlanan tutar"
             },
             "staked": {
-                "button": "Unstake",
-                "info": "NEAR tokens currently staked with validators. These tokens are accumulating rewards. To access these tokens, you must first unstake and then withdraw them.",
-                "title": "Total amount staked"
+                "button": "Katılımdan çık",
+                "info": "NEAR tokenleri şu anda validatörle katılım sağlanmıştır. Bu tokenler şuanda ödül biriktiriyor. Bu tokenlere erişebilmek için önce katılımdan çıkılmalı ve daha sonra bu tokenleri çekilmelidir.",
+                "title": "Toplam katılım miktarı"
             },
             "unclaimed": {
-                "info": "Rewards that have been earned, but not withdrawn. Rewards earned are automatically restaked, which means your Total Amount Staked automatically increases over time, and your rewards are <a target='_blank' href='https://www.investopedia.com/terms/c/compoundinterest.asp'>compounding</a>.",
-                "title": "Rewards earned",
+                "info": "Kazanılan, ancak çekilmeyen ödüller; otomatik olarak yeniden katılım sağlanır, bunun zaman içerisinde sürekli birikerek arttığı <a target='_blank' href='https://www.investopedia.com/terms/c/compoundinterest.asp'>ifade eder</a>.",
+                "title": "Kazanılan ödüller",
                 "unavailable": {
-                    "cta": "Learn More",
-                    "modalDescOne": "We are currently unable to calculate rewards when Two-Factor Authentication is enabled. We hope to enable this functionality in the near future.",
-                    "modalDescTwo": "In the meantime, you will be able to see your rewards accumulating under ”Total amount staked”. This balance will grow while your tokens are staked, since your rewards are automatically re-staked with your current validator.",
-                    "modalTitle": "Unable to display staking rewards earned",
-                    "title": "Unable to display rewards earned."
+                    "cta": "Daha fazla bilgi edin",
+                    "modalDescOne": "İki Faktörlü Kimlik Doğrulama etkinleştirildiğinden şu anda ödülleri hesaplayamıyoruz. Bu işlevi yakın gelecekte etkinleştirmeyi umuyoruz.",
+                    "modalDescTwo": "Bu arada, “Toplam katılım sağlanan miktar” altında biriken ödüllerinizi görebileceksiniz. Ödülleriniz otomatik olarak tekrar katılım sağlandığından tokenleriniz katılımda kaldığı sürece bakiyeniz sürekli artacaktır.",
+                    "modalTitle": "Kazanılan katılım ödülleri görüntülenemiyor",
+                    "title": "Kazanılan ödüller görüntülenemiyor."
                 }
             }
         },
         "noValidators": {
-            "title": "You are not currently staking with any validators."
+            "title": "Şu anda herhangi bir validatörle katılımda değilsiniz."
         },
-        "pageText": "Setup your Node via CLI, then add it here.",
-        "pageTitle": "Staking",
+        "pageText": "Düğümünüzü CLI aracılığıyla kurun, ardından buraya ekleyin.",
+        "pageTitle": "Katılım",
         "stake": {
-            "accounts": "If you have locked NEAR, you can choose to stake with either your locked NEAR (lockup.near), or your unlocked NEAR (your account name). You will only see the staking positions for the selected account. If you do not have locked NEAR, you can ignore this section",
-            "amount": "Amount",
+            "accounts": "NEAR'ı kilitlediyseniz eğer, kilitli NEAR (lockup.near), veya kilitsiz NEAR (hesap isminiz) ile de katılım sağlayabilirsiniz. Yalnızca seçilen hesap için katılım pozisyonlarını göreceksiniz. NEAR'ı kilitlemediyseniz, bu bölümü göz ardı edebilirsiniz",
+            "amount": "Miktar",
             "banner": {
-                "insufficientBalance": "You are attempting to stake your entire available balance. At least <b>${data} NEAR</b> must be reserved to cover transaction fees.",
-                "stakeMax": "A small portion (${data} NEAR) of your available balance has been reserved to cover transaction fees."
+                "insufficientBalance": "Mevcut bakiyenizin tamamına katılım sağlamaya çalışıyorsunuz. En az <b>${data} NEAR</b> işlem ücretlerini karşılamak için ayrılmalı.",
+                "stakeMax": "Mevcut bakiyenizin küçük bir kısmı (${data} NEAR) işlem ücretlerini karşılamak için ayrıldı."
             },
-            "button": "Submit Stake",
-            "confirm": "You are staking",
-            "desc": "Enter the amount you would like to stake with your chosen validator.",
-            "from": "from",
+            "button": "Katılım Sağla",
+            "confirm": "Katılım sağlıyorsunuz",
+            "desc": "Seçtiğiniz validatör ile katılım sağlamak istediğiniz tutarı girin.",
+            "from": "gönderen",
             "input": {
-                "availableBalance": "Available balance",
+                "availableBalance": "Mevcut bakiye",
                 "near": "NEAR"
             },
-            "ledgerDisclaimer": "Note: Since this is your first time staking with this validator, you will need to confirm two transactions.",
-            "stakeWith": "Stake with",
-            "title": "Stake Amount",
-            "useMax": "Use max",
-            "with": "with"
+            "ledgerDisclaimer": "Not: Bu validatör ile ilk defa katılım sağladığınız için, iki işlemi onaylamanız gerekecektir.",
+            "stakeWith": "İle katılım sağla",
+            "title": "Katılım Tutarı",
+            "useMax": "Maks. kullan",
+            "with": "ile"
         },
         "stakeSuccess": {
-            "button": "Return to Dashboard",
-            "desc": "Your stake has successfully been delegated to your chosen validator:",
-            "descTwo": "You can now view your delegation and staking rewards from your staking dashboard.",
-            "title": "Success!"
+            "button": "Gösterge Tablosuna Dön",
+            "desc": "Katılımınız başarıyla seçtiğiniz validatöre devredildi:",
+            "descTwo": "Artık devir ve katılım ödüllerinizi katılım kontrol panelinizden görüntüleyebilirsiniz.",
+            "title": "Başarılı!"
         },
         "staking": {
-            "available": "Available balance",
-            "button": "Stake My Tokens",
-            "currentValidators": "Your Current Validators",
-            "desc": "Stake your NEAR tokens with a validator",
-            "noValidators": "You haven't staked with a validator yet.",
-            "selectAccount": "Staking from",
-            "title": "Staking",
-            "totalStaked": "Staked"
+            "available": "Mevcut bakiye",
+            "button": "Tokenlerime Katılım Sağla",
+            "currentValidators": "Mevcut Validatörleriniz",
+            "desc": "NEAR tokenlerinizi bir validatör ile katılım sağlayın",
+            "noValidators": "Henüz bir validatörle katılım sağlamadınız.",
+            "selectAccount": "Hesabından katılım sağlanıyor",
+            "title": "Katılım sağlanıyor",
+            "totalStaked": "Katılım sağlandı"
         },
         "unstake": {
-            "beforeUnstakeDisclaimer": "Unstaked tokens will be made available pending a release period of ~52-65hrs (4 epochs).",
-            "button": "Unstake Tokens",
-            "confirm": "You are unstaking",
-            "desc": "Enter the number of tokens you would like to unstake from your current validator.",
+            "beforeUnstakeDisclaimer": "Katılımdan çıkmış tokenler ~52-65 saat (4 döngü) zaman diliminde hazırlanan tutar bölümünde kullanıma sunulacaktır.",
+            "button": "Tokenleri katılımdan çıkartın",
+            "confirm": "Katılımdan çıkıyorsunuz",
+            "desc": "Mevcut validatörünüzde katılımdan çıkarmak istediğiniz token sayısını girin.",
             "input": {
-                "availableBalance": "Available to unstake",
+                "availableBalance": "Katılımdan çıkılabilir bakiye",
                 "near": "NEAR"
             },
-            "stakeWith": "Unstake from",
-            "title": "Unstake Tokens"
+            "stakeWith": "Katılımından çıkılan",
+            "title": "Tokenleri Katılımdan Çıkar"
         },
         "unstakeSuccess": {
-            "button": "Return to Dashboard",
-            "desc": "<b>${amount}</b> has successfully been unstaked from this validator:",
-            "descTwo": "Your tokens are pending release and will be made available within ~52-65hrs (4 epochs).",
-            "title": "Success!"
+            "button": "Gösterge Tablosuna Dön",
+            "desc": "<b>${amount}</b> başarıyla bu validatörün katılımından çıktınız:",
+            "descTwo": "Tokenleriniz hazırlanan bölümde ve ~52-65 saat içerisinde kullanımınıza sunulacak.",
+            "title": "Başarılı!"
         },
         "validator": {
-            "button": "Stake With Validator",
-            "desc": "This is the fee paid to the validator to stake on your behalf. This fee is only charged on your rewards.",
-            "fee": "Validator Fee",
-            "title": "Validator: <br/>${validator}",
-            "unstake": "You are unstaking",
-            "withdraw": "You are withdrawing",
-            "withdrawalDisclaimer": "Funds pending release will be made available after ~52-65hrs (4 epochs)"
+            "button": "Validatör ile katılım sağla",
+            "desc": "Bu ücret sizin adınıza validatöre katılım sağlaması için ödenmiştir. Ücret ödüllerinizden düşürülür.",
+            "fee": "Validatör Ücreti",
+            "title": "Validatör: <br/>${validator}",
+            "unstake": "Katılımdan çıkıyorsunuz",
+            "withdraw": "Paranızı çekiyorsunuz",
+            "withdrawalDisclaimer": "Hazırlamaya alınan paranız ~52-65 saat sonra kullanımınıza sunulacaktır"
         },
         "validatorBox": {
-            "cta": "Select",
-            "fee": "Fee",
+            "cta": "Seç",
+            "fee": "Ücret",
             "near": "NEAR",
-            "staking": "Staking",
+            "staking": "Katılım",
             "state": {
-                "active": "active",
-                "inactive": "inactive"
+                "active": "aktif",
+                "inactive": "pasif"
             },
-            "with": "with"
+            "with": "ile"
         },
         "validators": {
-            "available": "Available Validators",
-            "button": "View Validator",
+            "available": "Mevcut Validatörler",
+            "button": "Validatör Görüntüle",
             "desc": {
-                "account": "Enter a known validator or select a validator from the list to stake your NEAR tokens.",
-                "lockup": "Enter a known validator or select a validator from the list to stake your NEAR tokens. You may only stake with a single validator at any given time.",
-                "unstake": "Select the validator pool from which you wish to unstake your tokens.",
-                "withdraw": "Select the validator pool from which you wish to withdraw your tokens."
+                "account": "NEAR tokenlerinizi katılım sağlamak için bilinen bir validatör girin veya listeden birini seçin.",
+                "lockup": "NEAR tokenlerinizi katılım sağlamak için bilinen bir validatör girin veya listeden birini seçin. Verilen herhangi bir zamanda yalnızca tek bir validatör ile katılım sağlayabilirsiniz.",
+                "unstake": "Tokenlerinizi katılımdan çıkarmak istediğiniz validatör havuzunu seçin.",
+                "withdraw": "Tokenlerinizi çekmek istediğiniz validatör havuzunu seçin."
             },
-            "inputLabel": "Validator account ID",
-            "inputPlaceholder": "validator-name.near",
+            "inputLabel": "Validatör Hesap Kimliği",
+            "inputPlaceholder": "validatör-adı.near",
             "search": {
-                "error": "No matching validator.",
-                "success": "Validator found!"
+                "error": "Eşleşen validatör bulunamadı.",
+                "success": "Validatör bulundu!"
             },
-            "title": "Select a Validator"
+            "title": "Bir Validator seç"
         }
     },
-    "stakingPoolUnstaked": "This NEAR is currently in a staking pool but unstaked. It could for example be in a pending release state.",
-    "success": "Success",
-    "sync": "Sync",
+    "stakingPoolUnstaked": "Bu NEAR şu anda bir katılım havuzundadır ancak katılım sağlanmamıştır. Hazırlanan tutar durumunda da olabilir.",
+    "success": "Başarılı",
+    "sync": "Eşitle",
     "tokenBox": {
-        "priceUnavailable": "Price Unavailable"
+        "priceUnavailable": "Fiyat Mevcut Değil"
     },
     "topLevelAccounts": {
-        "body": "Account names are similar to domain names. Only the ${data} account can create accounts such as yourname.${data}, and only yourname.${data} can create app.yourname.${data}. All accounts created in this wallet use the .${data} Top Level Account (TLA). To learn more about account names and creating your own TLA, visit the <a rel='noopener noreferrer' href='https://docs.nearprotocol.com/docs/concepts/account'>docs</a>.",
-        "header": "Top Level Accounts"
+        "body": "Hesap adları, alan adlarına benzer. Sadece ${data} hesapları adınız.${data} gibi hesapları oluşturabilir, örn. sadece adınız.${data} uygulama adınız.${data}. Bu cüzdanda oluşturulan tüm hesaplar .${data} Üst Düzey Hesap kullanır (ÜDH). Hesap adları ve kendi ÜDH'nızı oluşturma hakkında daha fazla bilgi için <a rel='noopener noreferrer' href='https://docs.nearprotocol.com/docs/concepts/account'>docs</a>.",
+        "header": "Üst Düzey Hesaplar"
     },
-    "total": "total",
-    "totalBalance": "Your total balance represents all NEAR tokens under your control. In many cases, you will not have immediate access to this entire balance (e.g. if it is locked, delegated, or staked). Check your Available Balance for the NEAR you can actively use, transfer, delegate, and stake.",
+    "total": "toplam",
+    "totalBalance": "Toplam bakiyeniz, kontrolünüz altındaki tüm NEAR tokenlerini temsil eder. Çoğu durumda, bu bakiyenin tamamına anında erişemeyebilirsiniz (ör. bakiye kilitliyse, devredilmişse veya katılım sağlanmışsa). Aktif olarak aktarabileceğiniz, devredebileceğiniz ve katılım sağlayabileceğiniz NEAR Mevcut Bakiyenizi kontrol edin.",
     "transaction": {
         "status": {
-            "checkingStatus": "Checking status...",
-            "Failure": "Failed",
-            "notAvailable": "Status not available",
-            "NotStarted": "Not started",
-            "Started": "Started",
-            "SuccessValue": "Succeeded"
+            "checkingStatus": "Durum kontrol ediliyor...",
+            "Failure": "Başarısız",
+            "notAvailable": "Durum bulunamadı",
+            "NotStarted": "Başlatılmadı",
+            "Started": "Başlatıldı",
+            "SuccessValue": "başarılı"
         }
     },
     "transfer": {
-        "estimatedFees": "Estimated fees",
-        "from": "From",
-        "to": "To"
+        "estimatedFees": "Tahmini ücretler",
+        "from": "Gönderen",
+        "to": "Alıcı"
     },
     "twoFactor": {
-        "active": "Active",
+        "active": "Aktif",
         "alertBanner": {
-            "button": "Learn More",
-            "title": "When enabled, <b>${data}</b> will be locked to cover the contract storage costs of two-factor authentication."
+            "button": "Daha fazla bilgi edin",
+            "title": "Etkinleştirildiğinde, <b>${data}</b> iki faktörlü kimlik doğrulamanın sözleşme depolama maliyetlerini karşılamak için kilitlenecektir."
         },
-        "checkBox": "I acknowledge that by enabling two-factor authentication, ${amount} will be reserved to cover contract storage.",
-        "desc": "Protect your account by requiring confirmation via SMS or email when authorizing transactions.",
+        "checkBox": "İki faktörlü kimlik doğrulamayı etkinleştirerek, ${amount} tutarının sözleşme depolamasını kapsayacak şekilde ayrılacağını kabul ediyorum.",
+        "desc": "İşlemleri yetkilendirirken SMS veya e-posta yoluyla onay isteyerek hesabınızı koruyun.",
         "disable": {
-            "desc": "Keep in mind that transactions won't have to be confirmed with 2FA once it's disabled.",
-            "disable": "Disable 2FA",
-            "keep": "No, keep 2FA",
-            "title": "Are you sure you want to disable 2FA?"
+            "desc": "2FA Devre dışı bırakıldığında işlemlerin onaylanması gerekmeyeceğini unutmayın.",
+            "disable": "2FA'yı Devre Dışı Bırak",
+            "keep": "Hayır, 2FA'yı devam ettir",
+            "title": "2FA'yı devre dışı bırakmak istediğinize emin misiniz??"
         },
         "email": "Email",
-        "enable": "Enable Two-Factor Authentication",
-        "notEnabled": "2FA Not Enabled",
-        "notEnoughBalance": "To enable 2FA, your account requires a minimum available balance of ${amount}",
-        "phone": "Phone",
-        "promptDesc": "We highly recommend that you set up a two-factor authentication method to increase the security of your account and assets",
-        "select": "Select Authentication Method",
-        "since": "since",
-        "subHeader": "Two factor authentication adds an extra layer of security to your account. <b>Passphrase and Ledger keys continue to allow full access to your account.</b>",
-        "title": "Two-Factor Authentication",
+        "enable": "İki Faktörlü Kimlik Doğrulamayı Etkinleştir",
+        "notEnabled": "2FA Etkin Değil",
+        "notEnoughBalance": "2FA'yı etkinleştirmek için hesabınızda minimum bulunması gereken tutar ${amount}",
+        "phone": "Telefon",
+        "promptDesc": "Hesabınızın ve varlıklarınızın güvenliğini artırmak için iki faktörlü kimlik doğrulama yöntemini ayarlamanızı önemle tavsiye ederiz.",
+        "select": "Kimlik Doğrulama Yöntemini Seçin",
+        "since": "dan beri",
+        "subHeader": "İki faktörlü kimlik doğrulama, hesabınıza ekstra bir güvenlik katmanı ekler. <b>Anahtar kelime ve Ledger parolaları, hesabınıza tam erişime izin vermeye devam eder.</b>",
+        "title": "İki Faktörlü Kimlik Doğrulama",
         "verify": {
-            "desc": "A 6-digit verification code has been sent to:",
-            "didntReceive": "Didn't receive your code?",
-            "inputLabel": "Enter your 6-digit verification code",
-            "placeholder": "Verification Code",
-            "resend": "Resend",
-            "resending": "Sending...",
-            "resent": "Code sent!",
-            "title": "Enter Two-Factor Verification Code"
+            "desc": "6 haneli bir doğrulama kodu gönderildi:",
+            "didntReceive": "Kodunuzu almadınız mı?",
+            "inputLabel": "6 basamaklı doğrulama kodunuzu giriniz",
+            "placeholder": "Doğrulama kodu",
+            "resend": "Yeniden gönder",
+            "resending": "Gönderiliyor...",
+            "resent": "Kod gönderildi!",
+            "title": "İki Faktörlü Doğrulama Kodunu Girin"
         }
     },
-    "unlockedAvailTransfer": "This NEAR is unlocked, and can be transferred out of your lockup contract.",
-    "unlockedBalance": "This NEAR is still in a lockup contract, but unlocked.",
-    "unvestedBalance": "Unvested NEAR is earmarked to you, but not yet under your ownership. You can still delegate or stake this NEAR, and the rewards will be entirely yours. As your NEAR is vested, it will appear in either your Locked or Unlocked balance.",
+    "unlockedAvailTransfer": "Bu NEAR'ın kilidi açıldı ve kilitleme sözleşmenizden aktarılabilir.",
+    "unlockedBalance": "Bu NEAR hala bir kilitleme sözleşmesinde ama kilidi açıldı.",
+    "unvestedBalance": "Yatırımsız NEAR size tahsis edilmiştir, ancak henüz sizin mülkiyetinizde değil. Yine de bu NEAR'ı devredebilir veya katılım sağlayabilirsiniz ki ödüller tamamen sizin olacaktır. NEAR'ınız yatırım hakkı elde ettiğinde Kilitli veya Kilitsiz bakiyenizde görünecektir.",
     "verifyAccount": {
-        "desc": "To prevent spamming of new accounts, we’ll need to verify you as the owner. You may verify using a one-time passcode or by making a small initial deposit.",
+        "desc": "Yeni hesapların spamlanmasını önlemek için, hesap sahibi olduğunuzu doğrulamamız gerekecek. Tek seferlik bir şifre kullanarak veya küçük bir miktar para yatırma işlemi yaparak doğrulayabilirsiniz.",
         "modal": {
             "email": {
-                "desc": "You’ll need to use a different email address or select an alternate method to verify this account. You may still use this address as a recovery method.",
-                "title": "This email address has already been used to verify a different account."
+                "desc": "Bu hesabı doğrulamak için farklı bir e-posta adresi kullanmanız veya alternatif bir yöntem seçmeniz gerekecek. Yine de bu adresi kurtarma yöntemi olarak kullanmaya devam edebilirsiniz.",
+                "title": "Bu e-posta adresi, farklı bir hesabı doğrulamak için zaten kullanılmış."
             },
             "phone": {
-                "desc": "You’ll need to use a different phone number or select an alternate method to verify this account. You may still use this number as a recovery method.",
-                "title": "This phone number has already been used to verify a different account."
+                "desc": "Bu hesabı doğrulamak için farklı bir telefon numarası kullanmanız veya başka bir yöntem seçmeniz gerekecek. Bu numarayı kurtarma yöntemi olarak kullanmaya devam edebilirsiniz.",
+                "title": "Bu telefon numarası, farklı bir hesabı doğrulamak için zaten kullanılmış."
             }
         },
         "option": {
             "creditCard": {
-                "desc": "Purchase NEAR through MoonPay to be used as your initial deposit.",
-                "title": "Fund with a Credit Card"
+                "desc": "İlk para yatırma işleminiz için MoonPay aracılığıyla NEAR satın alın.",
+                "title": "Kredi Kartı ile Yatır"
             },
             "email": {
-                "desc": "Receive a one-time verification code via email.",
+                "desc": "E-posta yoluyla tek seferlik bir doğrulama kodu alın.",
                 "title": "Email"
             },
             "existingAccount": {
-                "desc": "Use an existing account to fund and initialize your new account.",
-                "title": "Fund with an existing account"
+                "desc": "Yeni hesabınıza para yatırmak ve başlatmak için mevcut bir hesabı kullanın.",
+                "title": "Mevcut bir hesapla para yatırın"
             },
             "manualDeposit": {
-                "desc": "Submit a manual deposit via a single-use funding address.",
-                "title": "Manual deposit"
+                "desc": "Tek kullanımlık bir finansman adresi aracılığıyla manuel para yatırma işlemi gönderin.",
+                "title": "Manuel para yatırma"
             },
             "phone": {
-                "desc": "Receive a one-time verification code via SMS.",
-                "title": "Phone"
+                "desc": "SMS yoluyla tek seferlik doğrulama kodu alın.",
+                "title": "Telefon"
             }
         },
         "options": {
-            "initialDeposit": "Initial Deposit",
-            "passCode": "One-time passcode"
+            "initialDeposit": "İlk Para Yatırma",
+            "passCode": "Tek kullanımlık şifre"
         },
-        "title": "Almost there! Verify your new account."
+        "title": "Az Kaldı! Yeni hesabınızı doğrulayın."
     },
     "wallet": {
-        "availableBalance": "Available Balance",
-        "balance": "Balance",
-        "balances": "Balances",
-        "balanceTitle": "NEAR Balance",
-        "collectibles": "Collectibles",
-        "dateAndTime": "Date & Time",
+        "availableBalance": "Mevcut Bakiye",
+        "balance": "Bakiye",
+        "balances": "Bakiyeler",
+        "balanceTitle": "NEAR Bakiyesi",
+        "collectibles": "Kolleksiyonlarım",
+        "dateAndTime": "Tarih & Saat",
         "depositNear": {
-            "desc": "You’ll need NEAR tokens to perform transactions with your wallet.",
-            "title": "Deposit NEAR"
+            "desc": "Cüzdanınızla işlem yapmak için NEAR tokenlerine ihtiyacınız olacak.",
+            "title": "NEAR Yatır"
         },
-        "status": "Status",
-        "tokenBalance": "Token Balance",
-        "tokens": "Tokens",
-        "totalBalance": "Total Balance",
-        "totalBalanceTitle": "Total Balance",
-        "yourPortfolio": "Your Portfolio"
+        "status": "Durum",
+        "tokenBalance": "Token Bakiyesi",
+        "tokens": "Tokenler",
+        "totalBalance": "Toplam Bakiye",
+        "totalBalanceTitle": "Toplam Bakiye",
+        "yourPortfolio": "Portföyünüz"
     },
     "walletErrorCodes": {
         "addAccessKey": {
-            "error": "An error has occurred.<br />To access your account, please enter the passphrase from the previous step below."
+            "error": "Bir hata oluştu.<br />Hesabınıza erişmek için lütfen bir önceki adımdaki Anahtar Kelimelerini girin."
         },
         "addAccessKeySeedPhrase": {
-            "errorSecond": "An error has occurred.<br />The passphrases was not added to your account. Please try again."
+            "errorSecond": "Bir hata oluştu.<br />Anahtar Kelimeler hesabınıza eklenmedi. Lütfen tekrar deneyin."
         },
         "addLedgerAccountId": {
-            "errorRpc": "Error appears while recovering the account."
+            "errorRpc": "Hesap kurtarılırken hata oluşuyor."
         },
         "createNewAccount": {
             "accountCreated": {
-                "error": "Account creation succeded but an error occured. Please import your account."
+                "error": "Hesap oluşturma başarılı ancak bir hata oluştu. Lütfen hesabınızı içe aktarın."
             },
             "accountExists": {
-                "error": "Account creation failed. Account already exists."
+                "error": "Hesap oluşturma başarısız. Bu Hesap Zaten Mevcut."
             },
-            "error": "Account creation failed. You may want to try again."
+            "error": "Hesap oluşturma başarısız. Tekrar deneyebilirsiniz."
         },
-        "emailProviderInvalid": "${domainName} cannot be used for account verification.  Please provide an e-mail address from a different email provider.",
+        "emailProviderInvalid": "${domainName} hesap doğrulaması için kullanılamaz.  Lütfen farklı bir e-posta sağlayıcısından bir e-posta adresi sağlayın.",
         "getLedgerAccountIds": {
-            "aborted": "Action was aborted.",
-            "noAccounts": "No accounts were found for this Ledger device. Please confirm you have associated an account with this Ledger.",
-            "noAccountsAccepted": "No accounts were accepted.",
-            "U2FNotSupported": "U2F browser support is needed for Ledger. Please use Chrome, Opera or Firefox with U2F extension."
+            "aborted": "İşlem durduruldu.",
+            "noAccounts": "Bu Ledger cihazı için hesap bulunamadı. Lütfen bu Ledger ile bir hesap ilişkilendirdiğinizi doğrulayın.",
+            "noAccountsAccepted": "Hiçbir hesap kabul edilmedi.",
+            "U2FNotSupported": "Ledger için U2F tarayıcı desteği gereklidir. Lütfen U2F uzantılı Chrome, Opera veya Firefox kullanın."
         },
-        "invalidRecaptchaCode": "Invalid reCAPTCHA code; try again!",
+        "invalidRecaptchaCode": "Geçersiz reCAPTCHA kodu; Tekrar deneyin!",
         "lockup": {
-            "transferAllWithStakingPoolBalance": "Unstake and withdraw all funds from the staking pool in order to transfer your remaining lockup balance to Wallet."
+            "transferAllWithStakingPoolBalance": "Kalan kilitli bakiyenizi Cüzdan'a aktarmak için katılım havuzundaki tutarınızın tamamını katılımdan çıkartıp çekiniz."
         },
         "promptTwoFactor": {
-            "userCancelled": "2FA code was not verified correctly."
+            "userCancelled": "2FA kodu doğru bir şekilde doğrulanmadı."
         },
         "recoverAccountSeedPhrase": {
-            "errorInvalidSeedPhrase": "No accounts were found for this passphrase."
+            "errorInvalidSeedPhrase": "Bu Anahtar Kelime için hesap bulunamadı."
         },
         "recoveryMethods": {
-            "lastMethod": "Cannot delete your last recovery method. Unless you have Ledger enabled, you need to keep at least one recovery method active to ensure recoverability of your account.",
-            "setupMethod": "An error occurred. Please check your recovery method."
+            "lastMethod": "Son kurtarma yönteminizi silemezsiniz. Ledger'i etkinleştirmedikçe, hesabınızın kurtarılabilirliğini sağlamak için en az bir kurtarma yöntemini etkin tutmanız gerekir.",
+            "setupMethod": "Bir hata oluştu. Lütfen kurtarma yönteminizi kontrol edin."
         },
         "sendFungibleToken": {
-            "error": "An error occurred. Your send transaction was cancelled."
+            "error": "Bir hata oluştu. Gönderme işleminiz iptal edildi."
         },
         "setupRecoveryMessage": {
-            "error": "An error occurred while setting up your recovery method. Please try again!"
+            "error": "Kurtarma yönteminiz kurulurken bir hata oluştu. Lütfen tekrar deneyin!"
         },
         "setupRecoveryMessageNewAccount": {
-            "invalidCode": "Invalid code"
+            "invalidCode": "Geçersiz kod"
         },
         "signAndSendTransactions": {
-            "notEnoughTokens": "Not enough tokens."
+            "notEnoughTokens": "Yetersiz Token."
         },
         "staking": {
-            "noLockup": "No lockup contract for account",
-            "noWithdraw": "Unable to withdraw pending balance from validator"
+            "noLockup": "Hesap için kilitleme sözleşmesi yok",
+            "noWithdraw": "Validatörden bekleyen bakiye çekilemiyor"
         }
     },
-    "warning": "Warning"
+    "warning": "Uyarı"
 }
