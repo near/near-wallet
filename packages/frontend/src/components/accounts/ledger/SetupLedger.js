@@ -16,6 +16,7 @@ import {
 } from '../../../redux/actions/account';
 import { showCustomAlert } from '../../../redux/actions/status';
 import { selectAccountSlice } from '../../../redux/slices/account';
+import { getLedgerPublicKey } from '../../../redux/slices/ledger';
 import { actions as linkdropActions } from '../../../redux/slices/linkdrop';
 import { selectStatusMainLoader } from '../../../redux/slices/status';
 import parseFundingOptions from '../../../utils/parseFundingOptions';
@@ -75,7 +76,7 @@ const SetupLedger = (props) => {
                     try {
 
                         debugLog(DISABLE_CREATE_ACCOUNT, fundingOptions);
-                        publicKey = await dispatch(getLedgerPublicKey());
+                        publicKey = await dispatch(getLedgerPublicKey()).unwrap();
                         await setKeyMeta(publicKey, { type: 'ledger' });
                         Mixpanel.track("SR-Ledger Set key meta");
 
