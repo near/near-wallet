@@ -5,18 +5,16 @@ import { connect } from 'react-redux';
 import { DISABLE_CREATE_ACCOUNT, RECAPTCHA_CHALLENGE_API_KEY } from '../../../config';
 import { Mixpanel } from '../../../mixpanel/index';
 import {
-    addLedgerAccessKey,
     createNewAccount,
     refreshAccount,
     redirectToApp,
     redirectTo,
     checkIsNew,
-    fundCreateAccountLedger,
-    getLedgerPublicKey
+    fundCreateAccountLedger
 } from '../../../redux/actions/account';
 import { showCustomAlert } from '../../../redux/actions/status';
 import { selectAccountSlice } from '../../../redux/slices/account';
-import { getLedgerPublicKey } from '../../../redux/slices/ledger';
+import { addLedgerAccessKey, getLedgerPublicKey } from '../../../redux/slices/ledger';
 import { actions as linkdropActions } from '../../../redux/slices/linkdrop';
 import { selectStatusMainLoader } from '../../../redux/slices/status';
 import parseFundingOptions from '../../../utils/parseFundingOptions';
@@ -126,7 +124,7 @@ const SetupLedger = (props) => {
                         return;
                     }
                 } else {
-                    await dispatch(addLedgerAccessKey());
+                    await dispatch(addLedgerAccessKey()).unwrap();
                     Mixpanel.track("SR-Ledger Add ledger access key");
                 }
                 await dispatch(refreshAccount());

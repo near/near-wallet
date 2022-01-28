@@ -13,6 +13,7 @@ import {
 } from '../../../redux/actions/account';
 import selectRecoveryLoader from '../../../redux/crossStateSelectors/selectRecoveryLoader';
 import { selectAccountSlice } from '../../../redux/slices/account';
+import { addLedgerAccessKey } from '../../../redux/slices/ledger';
 import { actions as recoveryMethodsActions } from '../../../redux/slices/recoveryMethods';
 import FormButton from '../../common/FormButton';
 import SkeletonLoading from '../../common/SkeletonLoading';
@@ -98,7 +99,7 @@ const HardwareDevices = ({ recoveryMethods }) => {
     const handleConnectLedger = async () => {
         await Mixpanel.withTracking("SR-Ledger Reconnect ledger",
             async () => {
-                await dispatch(addLedgerAccessKey());
+                await dispatch(addLedgerAccessKey()).unwrap();
                 await dispatch(getLedgerKey());
                 await dispatch(fetchRecoveryMethods({ accountId: account.accountId }));
             }
