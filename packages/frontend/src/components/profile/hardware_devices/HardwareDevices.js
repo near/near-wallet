@@ -5,15 +5,10 @@ import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { Mixpanel } from '../../../mixpanel/index';
-import { 
-    getAccessKeys,
-    disableLedger,
-    getLedgerKey,
-    addLedgerAccessKey
-} from '../../../redux/actions/account';
+import { getAccessKeys, getLedgerKey } from '../../../redux/actions/account';
 import selectRecoveryLoader from '../../../redux/crossStateSelectors/selectRecoveryLoader';
 import { selectAccountSlice } from '../../../redux/slices/account';
-import { addLedgerAccessKey } from '../../../redux/slices/ledger';
+import { addLedgerAccessKey, disableLedger } from '../../../redux/slices/ledger';
 import { actions as recoveryMethodsActions } from '../../../redux/slices/recoveryMethods';
 import FormButton from '../../common/FormButton';
 import SkeletonLoading from '../../common/SkeletonLoading';
@@ -83,7 +78,7 @@ const HardwareDevices = ({ recoveryMethods }) => {
         await Mixpanel.withTracking("SR-Ledger Handle confirm disable",
             async () => {
                 setDisabling(true);
-                await dispatch(disableLedger());
+                await dispatch(disableLedger()).unwrap();
             },
             () => {},
             async () => {
