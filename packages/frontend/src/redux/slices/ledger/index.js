@@ -9,8 +9,11 @@ import { createSelector } from "reselect";
 import { HIDE_SIGN_IN_WITH_LEDGER_ENTER_ACCOUNT_ID_MODAL } from "../../../config";
 import * as Config from '../../../config';
 import { showAlertToolkit } from "../../../utils/alerts";
+import { getAccountIds } from "../../../utils/helper-api";
 import { setLedgerHdPath } from "../../../utils/localStorage";
 import { setKeyMeta, wallet } from "../../../utils/wallet";
+import { WalletError } from "../../../utils/walletError";
+import { makeAccountActive } from "../../actions/account";
 import refreshAccountOwner from "../../sharedThunks/refreshAccountOwner";
 import { selectStatusActionStatus } from '../status';
 
@@ -89,7 +92,43 @@ export const disableLedger = createAsyncThunk(
 
 const getLedgerAccountIds = createAsyncThunk(
     `${SLICE_NAME}/getLedgerAccountIds`,
-    async ({ path }) => await wallet.getLedgerAccountIds({ path }),
+    async ({ path }, { dispatch }) => {
+        const publicKey = await dispatch(getLedgerPublicKey(path)).unwrap();
+
+        // TODO: getXXX methods shouldn't be modifying the state
+        await setKeyMeta(publicKey, { type: 'ledger' });
+
+        let accountIds;
+        try {
+            accountIds = await getAccountIds(publicKey);
+        } catch (error) {
+            if (error.name === 'AbortError') {
+                throw new WalletError('Fetch aborted.', 'getLedgerAccountIds.aborted');
+            }
+            throw error;
+        }
+
+        const checkedAccountIds = (await Promise.all(
+            accountIds.map(async (accountId) => {
+                try {
+                    const accountKeys = await (await wallet.getAccount(accountId)).getAccessKeys();
+                    return accountKeys.find(({ public_key }) => public_key === publicKey.toString()) ? accountId : null;
+                } catch (error) {
+                    if (error.toString().indexOf('does not exist while viewing') !== -1) {
+                        return null;
+                    }
+                    throw error;
+                }
+            })
+        ))
+        .filter(accountId => accountId);
+
+        if (!checkedAccountIds.length) {
+            throw new WalletError('No accounts were found.', 'getLedgerAccountIds.noAccounts');
+        }
+
+        return checkedAccountIds;
+    },
     showAlertToolkit({ onlyError: true })
 );
 
