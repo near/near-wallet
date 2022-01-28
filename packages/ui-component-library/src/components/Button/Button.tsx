@@ -1,5 +1,4 @@
-import PropTypes from 'prop-types';
-import React from 'react';
+import React, { ButtonHTMLAttributes } from 'react';
 import styled from 'styled-components';
 
 const StyledButton = styled.button`
@@ -35,7 +34,21 @@ const StyledButton = styled.button`
     }
 `;
 
-const Button = (props:any) => (
+export enum ButtonVariant {
+  Primary = 'primary',
+  Secondary = 'secondary',
+}
+
+export interface ButtonProps extends ButtonHTMLAttributes<any>{
+  className?:string;
+  title:string;
+  theme?: ButtonVariant;
+  onClick?: ()=>void;
+  disabled ?:boolean;
+  fullWidth?: boolean;
+}
+
+const Button:React.FC<ButtonProps> = (props) => (
   <StyledButton
     theme={props.theme}
     className={props.className}
@@ -50,15 +63,10 @@ const Button = (props:any) => (
   </StyledButton>
 );
 
-Button.propTypes = {
-  disabled: PropTypes.bool,
-  theme: PropTypes.oneOf(['primary', 'secondary']),
-  fullWidth: PropTypes.bool
-};
-
 Button.defaultProps = {
   disabled: false,
-  theme: 'primary',
+  theme: ButtonVariant.Primary,
+  type: 'button',
   fullWidth: true
 };
 
