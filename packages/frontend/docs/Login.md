@@ -116,8 +116,10 @@ When requesting an access key (full or function call), a key pair is generated a
 
 To request a function call access key, the `contract_id` parameter is set to the target contract account ID and the `methodNames` parameter is set to any methods on the contract the access key should be limited to. If left blank the access key will be able to call all methods on the contract.
 
+Multiple `methodNames` params are added when the key needs to scoped to more than one method.
+
 ```
-GET https://wallet.testnet.near.org/login?public_key=ed25519%3A4Y1rQKB8STnPBWVo29mRc3Z5ByJwg1FLmX6EMzisVAa4&contract_id=v2.test-contract.testnet
+GET https://wallet.testnet.near.org/login?public_key=ed25519%3A4Y1rQKB8STnPBWVo29mRc3Z5ByJwg1FLmX6EMzisVAa4&contract_id=v2.test-contract.testnet?methodNames=method1&methodNames=method2
 ```
 
 ### Requesting a full access key
