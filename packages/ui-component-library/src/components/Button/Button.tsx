@@ -41,7 +41,7 @@ export enum ButtonVariant {
 
 export interface ButtonProps extends ButtonHTMLAttributes<any>{
   className?:string;
-  title:string;
+  title?:string;
   theme?: ButtonVariant;
   onClick?: ()=>void;
   disabled ?:boolean;

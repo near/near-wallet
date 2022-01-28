@@ -1,15 +1,30 @@
 import React from 'react';
 
 import Button, { ButtonVariant } from './Button';
+import { ComponentMeta, ComponentStory } from '@storybook/react';
 
 export default {
   title: 'Button',
   component: Button,
-  argTypes: {}
-};
-const Template: React.FC = ({ children, ...args }) => {
+  argTypes: {},
+  args: {
+    children: (
+      <span>
+        The future is NEAR{' '}
+        <span role='img' aria-label='emoji'>
+          😄
+        </span>
+      </span>
+    ),
+    onClick: () => {
+      alert('Button click successful');
+    }
+  }
+} as ComponentMeta<typeof Button>;
+
+const Template: ComponentStory<typeof Button> = ({ children, ...args }) => {
   return (
-    <Button {...args} title='The future is NEAR'>
+    <Button {...args}>
       {children}
     </Button>
   );
@@ -17,23 +32,10 @@ const Template: React.FC = ({ children, ...args }) => {
 
 export const Primary = Template.bind({});
 Primary.args = {
-  variant: ButtonVariant.Primary
-};
-
-export const WithChildren = Template.bind({});
-WithChildren.args = {
-  variant: ButtonVariant.Primary,
-  children: (
-    <span>
-      The future is NEAR{' '}
-      <span role='img' aria-label='emoji'>
-        😄
-      </span>
-    </span>
-  )
+  theme: ButtonVariant.Primary
 };
 
 export const Secondary = Template.bind({});
 Secondary.args = {
-  variant: ButtonVariant.Secondary
+  theme: ButtonVariant.Secondary
 };
