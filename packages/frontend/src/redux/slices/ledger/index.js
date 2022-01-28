@@ -138,9 +138,26 @@ const addLedgerAccountId = createAsyncThunk(
     showAlertToolkit()
 );
 
+// test
 const saveAndSelectLedgerAccounts = createAsyncThunk(
     `${SLICE_NAME}/saveAndSelectLedgerAccounts`,
-    async ({ accounts}) => await wallet.saveAndSelectLedgerAccounts({ accounts }),
+    async ({ accounts}, { dispatch }) => {
+        const accountIds = Object.keys(accounts).filter(accountId => accounts[accountId].status === 'success');
+
+        if (!accountIds.length) {
+            throw new WalletError('No accounts were accepted.', 'getLedgerAccountIds.noAccountsAccepted');
+        }
+
+        await Promise.all(accountIds.map(async (accountId) => {
+            await wallet.saveAccount(accountId);
+        }));
+
+        dispatch(makeAccountActive(accountIds[accountIds.length - 1]));
+
+        return {
+            numberOfAccounts: accountIds.length
+        };
+    },
     showAlertToolkit()
 );
 
