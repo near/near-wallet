@@ -7,7 +7,7 @@ import { createSelector } from "reselect";
 import { HIDE_SIGN_IN_WITH_LEDGER_ENTER_ACCOUNT_ID_MODAL } from "../../../config";
 import { showAlertToolkit } from "../../../utils/alerts";
 import { setLedgerHdPath } from "../../../utils/localStorage";
-import { wallet } from "../../../utils/wallet";
+import { setKeyMeta, wallet } from "../../../utils/wallet";
 import refreshAccountOwner from "../../sharedThunks/refreshAccountOwner";
 import { selectStatusActionStatus } from '../status';
 
@@ -42,6 +42,24 @@ export const getLedgerPublicKey = createAsyncThunk(
         const rawPublicKey = await client.getPublicKey(path);
         return new PublicKey({ keyType: KeyType.ED25519, data: rawPublicKey });
     }
+);
+
+export const addLedgerAccessKey = createAsyncThunk(
+    `${SLICE_NAME}/addLedgerAccessKey`,
+    async (_, { dispatch }) => {
+        const accountId = wallet.accountId;
+        const ledgerPublicKey = await dispatch(getLedgerPublicKey()).unwrap();
+        const accessKeys = await wallet.getAccessKeys();
+        const accountHasLedgerKey = accessKeys.map(key => key.public_key).includes(ledgerPublicKey.toString());
+        await setKeyMeta(ledgerPublicKey, { type: 'ledger' });
+
+        const account = await wallet.getAccount(accountId);
+        if (!accountHasLedgerKey) {
+            await account.addKey(ledgerPublicKey);
+            await wallet.postSignedJson('/account/ledgerKeyAdded', { accountId, publicKey: ledgerPublicKey.toString() });
+        }
+    },
+    showAlertToolkit({ onlyError: true })
 );
 
 const getLedgerAccountIds = createAsyncThunk(
