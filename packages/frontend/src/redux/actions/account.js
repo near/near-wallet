@@ -243,7 +243,6 @@ export const {
     getLedgerKey,
     getAccountHelperWalletState,
     clearFundedAccountNeedsDeposit,
-    getLedgerPublicKey,
     setupRecoveryMessage,
     deleteRecoveryMethod,
     checkNearDropBalance,
@@ -325,10 +324,6 @@ export const {
         wallet.clearFundedAccountNeedsDeposit.bind(wallet),
         () => showAlert({ onlyError: true })
     ],
-    GET_LEDGER_PUBLIC_KEY: [
-        wallet.getLedgerPublicKey.bind(wallet),
-        () => ({})
-    ],
     SETUP_RECOVERY_MESSAGE: [
         wallet.setupRecoveryMessage.bind(wallet),
         () => showAlert()
@@ -365,9 +360,7 @@ export const {
 export const {
     getAccessKeys,
     removeAccessKey,
-    addLedgerAccessKey,
     sendIdentityVerificationMethodCode,
-    disableLedger,
     removeNonLedgerAccessKeys
 } = createActions({
     GET_ACCESS_KEYS: [wallet.getAccessKeys.bind(wallet), () => ({})],
@@ -375,17 +368,9 @@ export const {
         wallet.removeAccessKey.bind(wallet),
         () => showAlert({ onlyError: true })
     ],
-    ADD_LEDGER_ACCESS_KEY: [
-        wallet.addLedgerAccessKey.bind(wallet),
-        () => showAlert({ onlyError: true })
-    ],
     SEND_IDENTITY_VERIFICATION_METHOD_CODE: [
         wallet.sendIdentityVerificationMethodCode.bind(wallet),
         () => showAlert({ localAlert: true })
-    ],
-    DISABLE_LEDGER: [
-        wallet.disableLedger.bind(wallet),
-        () => ({})
     ],
     REMOVE_NON_LEDGER_ACCESS_KEYS: [wallet.removeNonLedgerAccessKeys.bind(wallet), () => ({})]
 });
