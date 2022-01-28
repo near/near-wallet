@@ -1,8 +1,9 @@
 import BN from 'bn.js';
 import React from 'react';
 import { Translate } from 'react-localize-redux';
+import { useSelector } from 'react-redux';
 
-import { useNEARAsTokenWithMetadata } from '../../../hooks/fungibleTokensIncludingNEAR';
+import { selectNEARAsTokenWithMetadata } from '../../../redux/slices/tokens';
 import FormButton from '../../common/FormButton';
 import SkeletonLoading from '../../common/SkeletonLoading';
 import Tooltip from '../../common/Tooltip';
@@ -28,7 +29,7 @@ export default function Staking({
     selectedValidator,
     multipleAccounts
 }) {
-    const nearAsFT = useNEARAsTokenWithMetadata();
+    const nearAsFT = useSelector(selectNEARAsTokenWithMetadata);
 
     return (
         <>

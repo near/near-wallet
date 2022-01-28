@@ -61,6 +61,10 @@ export default class FungibleTokens {
         return formattedTokenAmount;
     }
 
+    static getUniqueTokenIdentity(token) {
+        return token.contractName || token.onChainFTMetadata?.symbol;
+    }
+
     static async getLikelyTokenContracts({ accountId }) {
         return sendJson('GET', `${ACCOUNT_HELPER_URL}/account/${accountId}/likelyTokens`);
     }
