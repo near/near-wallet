@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice, current } from "@reduxjs/toolkit";
 import set from 'lodash.set';
 import unset from 'lodash.unset';
+import { PublicKey } from "near-api-js/lib/utils";
 import { createSelector } from "reselect";
 
 import { HIDE_SIGN_IN_WITH_LEDGER_ENTER_ACCOUNT_ID_MODAL } from "../../../config";
@@ -29,6 +30,17 @@ const showLedgerModal = createAsyncThunk(
         const actions = Object.keys(actionStatus).filter((action) => actionStatus[action]?.pending === true);
         const action = actions.length ? actions[actions.length - 1] : false;
         dispatch(ledgerSlice.actions.showLedgerModal({ show, action }));
+    }
+);
+
+export const getLedgerPublicKey = createAsyncThunk(
+    `${SLICE_NAME}/getLedgerPublicKey`,
+    async ({ path }, { dispatch }) => {
+        const { createLedgerU2FClient } = await import('../../../utils/ledger.js');
+        const client = await createLedgerU2FClient();
+        dispatch(showLedgerModal({ show: true }));
+        const rawPublicKey = await client.getPublicKey(path);
+        return new PublicKey({ keyType: KeyType.ED25519, data: rawPublicKey });
     }
 );
 
