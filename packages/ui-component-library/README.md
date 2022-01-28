@@ -44,6 +44,7 @@ When adding a new component, use the following file pattern
 ├─ Badge
 │  ├─ Badge.module.scss
 │  ├─ Badge.stories.tsx
+│  ├─ Badge.test.tsx
 │  ├─ Badge.tsx
 │  ├─ index.ts
 
