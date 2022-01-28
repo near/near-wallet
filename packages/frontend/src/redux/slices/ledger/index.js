@@ -8,6 +8,7 @@ import { showAlertToolkit } from "../../../utils/alerts";
 import { setLedgerHdPath } from "../../../utils/localStorage";
 import { wallet } from "../../../utils/wallet";
 import refreshAccountOwner from "../../sharedThunks/refreshAccountOwner";
+import { selectStatusActionStatus } from '../status';
 
 const SLICE_NAME = 'ledger';
 
@@ -20,6 +21,16 @@ export const LEDGER_MODAL_STATUS = {
 const initialState = {
     modal: {}
 };
+
+const showLedgerModal = createAsyncThunk(
+    `${SLICE_NAME}/showLedgerModal`,
+    async ({ show }, { dispatch, getState }) => {
+        const actionStatus = selectStatusActionStatus(getState());
+        const actions = Object.keys(actionStatus).filter((action) => actionStatus[action]?.pending === true);
+        const action = actions.length ? actions[actions.length - 1] : false;
+        dispatch(ledgerSlice.actions.showLedgerModal({ show, action }));
+    }
+);
 
 const getLedgerAccountIds = createAsyncThunk(
     `${SLICE_NAME}/getLedgerAccountIds`,
