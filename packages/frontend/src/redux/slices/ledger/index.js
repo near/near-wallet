@@ -1,15 +1,22 @@
 import { createAsyncThunk, createSlice, current } from "@reduxjs/toolkit";
 import set from 'lodash.set';
 import unset from 'lodash.unset';
+import { KeyPair } from "near-api-js";
 import { PublicKey } from "near-api-js/lib/utils";
+import { KeyType } from "near-api-js/lib/utils/key_pair";
 import { createSelector } from "reselect";
 
 import { HIDE_SIGN_IN_WITH_LEDGER_ENTER_ACCOUNT_ID_MODAL } from "../../../config";
+import * as Config from '../../../config';
 import { showAlertToolkit } from "../../../utils/alerts";
 import { setLedgerHdPath } from "../../../utils/localStorage";
 import { setKeyMeta, wallet } from "../../../utils/wallet";
 import refreshAccountOwner from "../../sharedThunks/refreshAccountOwner";
 import { selectStatusActionStatus } from '../status';
+
+const {
+    NETWORK_ID
+} = Config;
 
 const SLICE_NAME = 'ledger';
 
@@ -60,6 +67,24 @@ export const addLedgerAccessKey = createAsyncThunk(
         }
     },
     showAlertToolkit({ onlyError: true })
+);
+
+export const disableLedger = createAsyncThunk(
+    `${SLICE_NAME}/disableLedger`,
+    async (_, { dispatch }) => {
+        const account = await wallet.getAccount(wallet.accountId);
+        const keyPair = KeyPair.fromRandom('ed25519');
+        await account.addKey(keyPair.publicKey);
+        await wallet.keyStore.setKey(NETWORK_ID, wallet.accountId, keyPair);
+
+        const path = localStorage.getItem(`ledgerHdPath:${wallet.accountId}`);
+        const publicKey = await dispatch(getLedgerPublicKey(path)).unwrap();
+        await wallet.removeAccessKey(publicKey);
+        await wallet.getAccessKeys(wallet.accountId);
+
+        await wallet.deleteRecoveryMethod({ kind: 'ledger', publicKey: publicKey.toString() });
+        localStorage.removeItem(`ledgerHdPath:${wallet.accountId}`);
+    }
 );
 
 const getLedgerAccountIds = createAsyncThunk(
