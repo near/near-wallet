@@ -49,6 +49,34 @@ pipeline {
             }
         }
 
+        stage('packages:test') {
+            failFast true
+
+            parallel {
+                stage('frontend:prebuild:testnet-staging') {
+                    when {
+                        expression { env.BUILD_FRONTEND == 'true' }
+                    }
+                    steps {
+                        dir("$WORKSPACE/packages/frontend") {
+                            sh 'NEAR_WALLET_ENV=testnet_STAGING yarn test'
+                        }
+                    }
+                }
+
+                stage('frontend:prebuild:testnet') {
+                    when {
+                        expression { env.BUILD_FRONTEND == 'true' }
+                    }
+                    steps {
+                        dir("$WORKSPACE/packages/frontend") {
+                            sh 'NEAR_WALLET_ENV=testnet yarn test'
+                        }
+                    }
+                }
+            }
+        }
+
         // parallelize builds and tests for modified packages
         stage('packages:build') {
             // if any of the parallel stages for package builds fail, mark the entire pipeline as failed
