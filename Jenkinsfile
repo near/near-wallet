@@ -36,6 +36,9 @@ pipeline {
 
             parallel {
                 stage('frontend:prebuild') {
+                    when {
+                        expression { env.BUILD_FRONTEND == 'true' }
+                    }
                     steps {
                         dir("$WORKSPACE/packages/frontend") {
                             sh 'rm -rf node_modules'
