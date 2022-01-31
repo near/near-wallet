@@ -9,7 +9,7 @@ import SignTransactionDetailsWrapper from '../components/sign/v2/SignTransaction
 import SignTransactionSummaryWrapper from '../components/sign/v2/SignTransactionSummaryWrapper';
 import { Mixpanel } from '../mixpanel';
 import { getAccountBalance, redirectTo, switchAccount } from '../redux/actions/account';
-import { selectAccountAccountsBalances, selectAccountLocalStorageAccountId } from '../redux/slices/account';
+import { selectAccountAccountsBalances, selectAccountId, selectAccountLocalStorageAccountId } from '../redux/slices/account';
 import { selectAvailableAccounts } from '../redux/slices/availableAccounts';
 import {
     addQueryParams,
@@ -19,7 +19,8 @@ import {
     selectSignStatus,
     selectSignCallbackUrl,
     selectSignMeta,
-    selectSignTransactionHashes
+    selectSignTransactionHashes,
+    selectSignTransactions
 } from '../redux/slices/sign';
 
 export function SignWrapper() {
@@ -33,6 +34,7 @@ export function SignWrapper() {
     };
 
     const [currentDisplay, setCurrentDisplay] = useState(DISPLAY.TRANSACTION_SUMMARY);
+    const [ customAccount, setCustomAccount ] = useState(false);
 
     const signFeesGasLimitIncludingGasChanges = useSelector(selectSignFeesGasLimitIncludingGasChanges);
     const signStatus = useSelector(selectSignStatus);
@@ -42,9 +44,27 @@ export function SignWrapper() {
     const accountLocalStorageAccountId = useSelector(selectAccountLocalStorageAccountId);
     const availableAccounts = useSelector(selectAvailableAccounts);
     const accountAccountsBalances = useSelector(selectAccountAccountsBalances);
+    const transactions = useSelector(selectSignTransactions);
+    const accountId = useSelector(selectAccountId)
 
     const signGasFee = new BN(signFeesGasLimitIncludingGasChanges).div(new BN('1000000000000')).toString();
     const submittingTransaction = signStatus === SIGN_STATUS.IN_PROGRESS;
+
+    useEffect(() => {
+            if (
+                !customAccount &&
+                transactions.length &&
+                accountId &&
+                accountId !== transactions[0].signerId &&
+                availableAccounts.some(
+                    (accountId) => accountId === transactions[0].signerId
+                )
+            ) {
+                dispatch(
+                    switchAccount({ accountId: transactions[0].signerId })
+                );
+            }
+    }, [transactions, customAccount, availableAccounts, accountId]);
 
     useEffect(() => {
         if (signStatus === SIGN_STATUS.RETRY_TRANSACTION) {
@@ -94,7 +114,7 @@ export function SignWrapper() {
                     availableAccounts={availableAccounts}
                     accountsBalances={accountAccountsBalances}
                     onSelectAccount={(accountId) => {
-                        dispatch(switchAccount({ accountId }));
+                        dispatch(switchAccount({ accountId })).then(() => setCustomAccount(true));
                         setCurrentDisplay(DISPLAY.TRANSACTION_SUMMARY);
                     }}
                     getAccountBalance={(accountId) => dispatch(getAccountBalance(accountId))}
