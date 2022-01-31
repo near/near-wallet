@@ -57,9 +57,12 @@ pipeline {
                     when {
                         expression { env.BUILD_FRONTEND == 'true' }
                     }
+                    environment {
+                        NEAR_WALLET_ENV = 'testnet_STAGING'
+                    }
                     steps {
                         dir("$WORKSPACE/packages/frontend") {
-                            sh 'NEAR_WALLET_ENV=testnet_STAGING yarn test'
+                            sh 'yarn test'
                         }
                     }
                 }
@@ -68,9 +71,12 @@ pipeline {
                     when {
                         expression { env.BUILD_FRONTEND == 'true' }
                     }
+                    environment {
+                        NEAR_WALLET_ENV = 'testnet'
+                    }
                     steps {
                         dir("$WORKSPACE/packages/frontend") {
-                            sh 'NEAR_WALLET_ENV=testnet yarn test'
+                            sh 'yarn test'
                         }
                     }
                 }
@@ -102,33 +108,35 @@ pipeline {
                     }
                 }
 
-                stage('frontend:bundle:testnet') {
-                    when {
-                        expression { env.BUILD_FRONTEND == 'true' }
-                    }
-                    environment {
-                        NEAR_WALLET_ENV = 'testnet_AWS'
-                    }
-                    steps {
-                        dir("$WORKSPACE/packages/frontend") {
-                            sh "rm -rf $FRONTEND_TESTNET_BUNDLE_PATH"
-                            sh "yarn bundle --outDir=$FRONTEND_TESTNET_BUNDLE_PATH"
-                        }
-                    }
-                }
-
                 // build frontend bundles
                 stage('frontend:bundle:testnet-staging') {
                     when {
                         expression { env.BUILD_FRONTEND == 'true' }
                     }
                     environment {
-                        NEAR_WALLET_ENV = 'testnet_AWS_STAGING'
+                        NEAR_WALLET_ENV = 'testnet_STAGING'
+                        REACT_APP_ACCOUNT_HELPER_URL = 'https://preflight-api.kitwallet.app'
                     }
                     steps {
                         dir("$WORKSPACE/packages/frontend") {
                             sh "rm -rf $FRONTEND_TESTNET_STAGING_BUNDLE_PATH"
                             sh "yarn bundle --outDir=$FRONTEND_TESTNET_STAGING_BUNDLE_PATH"
+                        }
+                    }
+                }
+
+                stage('frontend:bundle:testnet') {
+                    when {
+                        expression { env.BUILD_FRONTEND == 'true' }
+                    }
+                    environment {
+                        NEAR_WALLET_ENV = 'testnet'
+                        REACT_APP_ACCOUNT_HELPER_URL = 'https://testnet-api.kitwallet.app'
+                    }
+                    steps {
+                        dir("$WORKSPACE/packages/frontend") {
+                            sh "rm -rf $FRONTEND_TESTNET_BUNDLE_PATH"
+                            sh "yarn bundle --outDir=$FRONTEND_TESTNET_BUNDLE_PATH"
                         }
                     }
                 }
