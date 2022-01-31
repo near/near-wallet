@@ -124,13 +124,18 @@ The transactions then need to be outputted as `base64` to be passed to the walle
 const serializedEncodedTx = serializedTx.toString('base64'); // -> "CwAAAHNlbmRlci5uZWFyAGT3V2lh0VAA/mrod+KWM30Iae3jRgA4Uum87Q4YvR6WQOIBAAAAAAANAAAAcmVjZWl2ZXIubmVhch6z3oIrhTeXGliWsOilax3Aoq0rrwkYdb8fNSw75IW3AgAAAAADAAAAoe3MzhvC0wAAAAAAAA=="
 ```
 
+The resulting string can then be added to the url as a param with `encodeURIComponent`.
 
 
 ### Example usage of wallet URL API
 
 ```
-GET https://wallet.near.org/sign?transactions=CwAAAHNlbmRlci5uZWFyAGT3V2lh0VAA/mrod+KWM30Iae3jRgA4Uum87Q4YvR6WQOIBAAAAAAANAAAAcmVjZWl2ZXIubmVhch6z3oIrhTeXGliWsOilax3Aoq0rrwkYdb8fNSw75IW3AgAAAAADAAAAoe3MzhvC0wAAAAAAAA==&callbackUrl=https%3A%2F%2Fwww.google.com&meta=test
+GET https://wallet.near.org/sign?transactions=CwAAAHNlbmRlci5uZWFyAGT3V2lh0VAA%2Fmrod%2BKWM30Iae3jRgA4Uum87Q4YvR6WQOIBAAAAAAANAAAAcmVjZWl2ZXIubmVhch6z3oIrhTeXGliWsOilax3Aoq0rrwkYdb8fNSw75IW3AgAAAAADAAAAoe3MzhvC0wAAAAAAAA%3D%3D&callbackUrl=https%3A%2F%2Fwww.google.com&meta=test
 ```
+
+### Wallet transaction sending behavior
+
+For each transaction in the batch, the wallet will create a new transaction based on the `receiverId` and the `actions` that are sent in and sign and send them using the account that the user selects as the `signerId` and signer of the transaction. The account that will be signing and sending the transaction once approved will always be displayed in the **From** section.
 
 ## Wallet redirect and callback
 The user will be presented with a request to sign the transaction(s) that were passed in in the wallet UI: 
