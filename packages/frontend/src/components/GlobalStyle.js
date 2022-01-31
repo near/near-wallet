@@ -1,6 +1,5 @@
 import { createGlobalStyle } from "styled-components";
 
-import "semantic-ui-css/semantic.min.css";
 import CloseBtn from "../images/close-btn.svg";
 
 export default createGlobalStyle`
@@ -170,6 +169,13 @@ export default createGlobalStyle`
             }
         }
     }
+
+    //Navbar styles
+      .nav-links{
+          a{
+              text-decoration: none;
+          }
+      }
 
     input, .react-phone-number-input__input {
         font-size: 16px;
