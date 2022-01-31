@@ -45,7 +45,7 @@ export function SignWrapper() {
     const availableAccounts = useSelector(selectAvailableAccounts);
     const accountAccountsBalances = useSelector(selectAccountAccountsBalances);
     const transactions = useSelector(selectSignTransactions);
-    const accountId = useSelector(selectAccountId)
+    const accountId = useSelector(selectAccountId);
 
     const signGasFee = new BN(signFeesGasLimitIncludingGasChanges).div(new BN('1000000000000')).toString();
     const submittingTransaction = signStatus === SIGN_STATUS.IN_PROGRESS;
