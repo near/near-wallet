@@ -1060,7 +1060,7 @@ class Wallet {
         const serialized  = {
             signature: Buffer.from(signed.signature).toString("hex"),
             publicKey: signed.publicKey.toString(),
-        }
+        };
 
         return Buffer.from(JSON.stringify(serialized)).toString('base64');
     }
