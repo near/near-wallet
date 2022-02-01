@@ -130,7 +130,6 @@ pipeline {
                     }
                     steps {
                         dir("$WORKSPACE/packages/frontend") {
-                            sh "rm -rf $FRONTEND_TESTNET_STAGING_BUNDLE_PATH"
                             sh "yarn bundle --outDir=$FRONTEND_TESTNET_STAGING_BUNDLE_PATH"
                         }
                     }
@@ -146,7 +145,6 @@ pipeline {
                     }
                     steps {
                         dir("$WORKSPACE/packages/frontend") {
-                            sh "rm -rf $FRONTEND_TESTNET_BUNDLE_PATH"
                             sh "yarn bundle --outDir=$FRONTEND_TESTNET_BUNDLE_PATH"
                         }
                     }
