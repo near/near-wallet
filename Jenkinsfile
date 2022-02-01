@@ -31,6 +31,7 @@ pipeline {
         BUILD_FRONTEND = AFFECTED_PACKAGES.contains('frontend')
     }
     stages {
+        milestone 100
         stage('packages:prebuild') {
             failFast true
 
@@ -49,6 +50,7 @@ pipeline {
             }
         }
 
+        milestone 200
         stage('packages:test') {
             failFast true
 
@@ -84,6 +86,7 @@ pipeline {
         }
 
         // parallelize builds and tests for modified packages
+        milestone 300
         stage('packages:build') {
             // if any of the parallel stages for package builds fail, mark the entire pipeline as failed
             failFast true
@@ -142,6 +145,8 @@ pipeline {
                 }
             }
         }
+
+        milestone 400
         stage('packages:deploy') {
             stages {
                 stage('frontend:deploy') {
