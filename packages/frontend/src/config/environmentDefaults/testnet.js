@@ -7,7 +7,7 @@ export default {
     BROWSER_MIXPANEL_TOKEN: "9edede4b70de19f399736d5840872910",
     DISABLE_CREATE_ACCOUNT: false,
     DISABLE_PHONE_RECOVERY: false,
-    EXPLORE_APPS_URL: "https://awesomenear.com/trending/",
+    EXPLORE_APPS_URL: "https://awesomenear.com/",
     EXPLORE_DEFI_URL: "https://awesomenear.com/categories/defi/",
     EXPLORER_URL: "https://explorer.testnet.near.org",
     HIDE_SIGN_IN_WITH_LEDGER_ENTER_ACCOUNT_ID_MODAL: false,
