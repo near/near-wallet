@@ -202,11 +202,11 @@
         "deauthorize": "Yetkiyi kaldır",
         "deAuthorizing": "Yetki kaldırılıyor",
         "deny": "Red",
-        "disable": "Devre dışı bırak",
-        "disabling": "Devre dışı bırakılıyor",
+        "disable": "Etkisizleştir",
+        "disabling": "Etkisizleştiriliyor",
         "dismiss": "Reddet",
         "edit": "Düzenle",
-        "enable": "Etkinleştirme",
+        "enable": "Etkinleştir",
         "enabling": "Etkinleştiriliyor",
         "findMyAccount": "Hesabımı Bul",
         "finish": "Bitiş",
@@ -399,7 +399,7 @@
         }
     },
     "exploreApps": {
-        "desc": "Para kazan, Para bas ve Parayla oyna! NEAR uygulamalarının ekosistemini keşfedin.",
+        "desc": "Para kazan, Tokenini çıkar, Yatırıma dönüştür! NEAR uygulamalarının ekosistemini keşfedin.",
         "exploreApps": "Uygulamaları Keşfet",
         "exploreDeFi": "DeFi'yi Keşfet",
         "title": "NEAR'da neler var?"
@@ -596,7 +596,7 @@
             }
         }
     },
-    "minimumBalance": "Bu, hesabınızın etkin kalması için tutması gerekilen minimum NEAR bakiyesidir. Bu bakiye, hesabınızın NEAR blok zincirinde (küçük bir arabellekle) kullandığı depolama alanını temsil eder ve siz daha fazla veya daha az alan kullandıkça yukarı veya aşağı gidecektir.",
+    "minimumBalance": "Bu, hesabınızın etkin kalması için tutması gerekilen minimum NEAR bakiyesidir. Bu bakiye, hesabınızın NEAR blok zincirinde (küçük bir arabellekle) kullandığı depolama alanını temsil eder, siz daha fazla veya daha az alan kullandıkça azalacak veya artacaktır.",
     "mobileDeviceAccess": {
         "importCode": {
             "desc": "Halihazırda bir masaüstü cihazda oturum açtıysanız, hesabınızı içe aktarmak için mobil erişim kodunuzu tarayın."
@@ -671,10 +671,10 @@
             "availableToWithdraw": "Çekilebilir bakiye",
             "inStakingPools": "Katılım havuzunda",
             "pendingRelease": "Bakiye hazırlanıyor",
-            "reservedForStorage": "Depolama için ayrıldı",
-            "reservedForTransactions": "İşlemler için ayrıldı",
+            "reservedForStorage": "Depolama için ayrılan",
+            "reservedForTransactions": "İşlemler için ayrılan",
             "staked": "Katılım sağlandı",
-            "staking": "Katılım sağlanıyor",
+            "staking": "Katılım durumu",
             "unstaked": "Katılımdan çıkıldı",
             "walletBalance": "Cüzdan bakiyesi",
             "walletId": "Cüzdan Kimliği"
@@ -718,7 +718,7 @@
         },
         "security": {
             "lessSecure": "En Pratik",
-            "lessSecureDesc": "Bu seçenek, az miktarda NEAR ve diğer varlıkları olan hesaplar için önerilir. Pratiktir, ancak daha güvenli seçeneklere ek risk oluşturabilir. E-posta hesabınız veya SMS mesajlarınız ele geçirilirse, paranız risk altında olabilir.",
+            "lessSecureDesc": "Bu seçenek, az miktarda NEAR ve diğer varlıkları olan hesaplar için önerilir. Pratiktir, ancak daha güvenli seçeneklere göre riskli olabilir. E-posta hesabınız veya SMS mesajlarınız ele geçirilirse, paranız risk altında olabilir.",
             "mostSecure": "En Güvenli (Önerilen)",
             "mostSecureDesc": "Ledger en güvenli seçenektir. Parolalar doğru kullanıldıklarında güvenli olabilirler (bunlar bir yere yazılmalı ve güvenli bir şekilde saklanmalıdırlar).",
             "title": "Güvenlik & Kurtarma"
@@ -745,7 +745,7 @@
     "recoverAccount": {
         "actionRequired": "Bu mesaj sihirli bir bağlantı içerir. Kurtarmaya başlamak için bağlantıya tıklayın!",
         "actionType": "Kurtarma",
-        "cannotResend": "Bu mesaj, e-posta/telefon kurtarma özelliğini etkinleştirdiğinizde gönderildi. Bu mesaj yalnızca bir kez gönderilir ve yeniden gönderilmez.",
+        "cannotResend": "Bu mesaj, e-posta/telefon kurtarma özelliğini etkinleştirdiğinizde gönderildi. Bu mesaj yalnızca bir kez gönderilir ve tekrar gönderilemez.",
         "email": {
             "desc": "E-postanızda near.org'dan konuyla ilgili bir mesaj olup olmadığını kontrol edin:",
             "subject": "\"Important: Near Wallet Recovery Email\".",
@@ -763,13 +763,13 @@
             "title": "Telefon"
         },
         "phrase": {
-            "desc": "12 kelimelik kurtarma sözcüklerinizin bulunduğundan emin olun, ardından kurtarma işlemine başlamak için aşağıya tıklayın.",
-            "title": "Passphrase"
+            "desc": "12 kelimelik kurtarma sözcüklerinizi yanınızda bulunduğundan emin olun, ardından kurtarma işlemine başlamak için aşağıya tıklayın.",
+            "title": "Anahtar Kelimeler"
         }
     },
     "recoverSeedPhrase": {
-        "pageText": "Hesapla ilişkilendirilmiş yedek anahtar kelimelerini girin.",
-        "pageTitle": "Anahtar Kelime kullanarak kurtar",
+        "pageText": "Hesapla ilişkilendirilmiş olan anahtar kelimelerinizi giriniz.",
+        "pageTitle": "Anahtar Kelimeleri kullanarak kurtar",
         "seedPhraseInput": {
             "placeholder": "kelime dizinini doğru giriniz...",
             "title": "Anahtar Kelime (12 Kelime)"
@@ -788,7 +788,7 @@
         "disableNo": "Hayır, Devam",
         "disableNotAllowed": "Hesapların en az bir etkin kurtarma yöntemi olması gerekir. Lütfen devam etmek için alternatif bir kurtarma yöntemini etkinleştirin.",
         "disableTextLink": "Aldığınız sihirli bağlantı kalıcı olarak devre dışı bırakılacaktır.",
-        "disableTextPhrase": "Mevcut Anahta Kelime parolanız kalıcı olarak devre dışı bırakılacak.",
+        "disableTextPhrase": "Mevcut Anahtar Kelime parolanız kalıcı olarak devre dışı bırakılacak.",
         "disableTitle": "Bu metodu devre dışı bırakmak istediğinizden emin misiniz?",
         "enabled": "Etkinleştirildi",
         "methodTitle": {
@@ -973,7 +973,7 @@
         },
         "selectTokenButtonTitle": "Varlık Seç",
         "success": {
-            "title": "İşlem tamamlandı!</br>Gönderdiğiniz <span class='color-blue'>${amount}</span></br>hesaba <span class='color-green'>${receiverId}</span>"
+            "title": "İşlem tamamlandı!</br>Gönderdiğiniz <span class='color-blue'>${amount}</span></br> <span class='color-green'>${receiverId}</span> hesabına aktarıldı"
         },
         "translateIdInfoTooltip": {
             "estimatedFees": "İşleminizin tahmini maliyeti.",
@@ -1011,7 +1011,7 @@
         "inputHeader": "Doğrulama kodunu giriniz",
         "inputPlaceholder": "Doğrulama kodu",
         "or": "veya",
-        "pageText": "6 basamaklı bir doğrulama kodu gönderdik ",
+        "pageText": "6 basamaklı bir doğrulama kodu gönderdik, ",
         "phone": "telefon numarası",
         "reenter": {
             "link": "buraya tıklayın",
@@ -1031,13 +1031,13 @@
     },
     "setupLedger": {
         "header": "Ledger cihazınızı bağlayın",
-        "one": "Ledger Nano S veya X'i USB aracılığıyla bilgisayarınıza veya mobil cihazınıza bağlayın ve <b>NEAR uygulamasını açın</b>. <br><br>Ardından, <b>her iki düğmeye basın</b> 'Bekleyen Ledger İncelemesi' ekranından.",
-        "two": "NEAR Ledger uygulamasını henüz yüklemediyseniz, takip edin",
-        "twoLink": "bu talimatları"
+        "one": "Ledger Nano S veya X'i USB aracılığıyla bilgisayarınıza veya mobil cihazınıza bağlayın ve <b>NEAR uygulamasını açın</b>. <br><br>Ardından, 'Bekleyen Ledger İncelemesi' ekranından  <b>her iki düğmeye basın</b>.",
+        "two": "NEAR Ledger uygulamasını henüz yüklemediyseniz,",
+        "twoLink": "bu talimatları takip ediniz"
     },
     "setupLedgerSteps": {
         "header": "Ledger cihazınıza NEAR'ı kurun",
-        "one": "Açın <a href='https://www.ledger.com/ledger-live' target='_blank'>Ledger Live,</a> mevcut herhangi bir yazılım güncellemesini yükleyin.",
+        "one": "<a href='https://www.ledger.com/ledger-live' target='_blank'>Ledger Live,</a> Adresinden mevcut bir yazılım güncellemesi var ise yükleyiniz.",
         "three": "Cihazınıza <span class='color-black'>NEAR uygulamasını</span> yüklemek için talimatları izleyin.",
         "two": "Yönetici <span class='color-black'>Sekmesine tıklayın</span> ardından, <span class='color-black'>NEAR</span> için arama yapın."
     },
@@ -1185,11 +1185,11 @@
             },
             "staked": {
                 "button": "Katılımdan çık",
-                "info": "NEAR tokenleri şu anda validatörle katılım sağlanmıştır. Bu tokenler şuanda ödül biriktiriyor. Bu tokenlere erişebilmek için önce katılımdan çıkılmalı ve daha sonra bu tokenleri çekilmelidir.",
+                "info": "NEAR tokenleri şu anda validatörle katılım sağlanmıştır. Bu tokenler şuanda ödül biriktiriyor. Bu tokenlere erişebilmek için önce katılımdan çıkılmalı ve daha sonra bu tokenler çekilmelidir.",
                 "title": "Toplam katılım miktarı"
             },
             "unclaimed": {
-                "info": "Kazanılan, ancak çekilmeyen ödüller; otomatik olarak yeniden katılım sağlanır, bunun zaman içerisinde sürekli birikerek arttığı <a target='_blank' href='https://www.investopedia.com/terms/c/compoundinterest.asp'>ifade eder</a>.",
+                "info": "Kazanılan, ancak çekilmeyen ödüller; otomatik olarak yeniden katılım sağlanır, bu ödüllerin zaman içerisinde sürekli birikerek arttığını <a target='_blank' href='https://www.investopedia.com/terms/c/compoundinterest.asp'>ifade eder</a>.",
                 "title": "Kazanılan ödüller",
                 "unavailable": {
                     "cta": "Daha fazla bilgi edin",
@@ -1229,7 +1229,7 @@
         "stakeSuccess": {
             "button": "Gösterge Tablosuna Dön",
             "desc": "Katılımınız başarıyla seçtiğiniz validatöre devredildi:",
-            "descTwo": "Artık devir ve katılım ödüllerinizi katılım kontrol panelinizden görüntüleyebilirsiniz.",
+            "descTwo": "Artık katılım durumunuzu ve ödüllerinizi katılım kontrol panelinizden görüntüleyebilirsiniz.",
             "title": "Başarılı!"
         },
         "staking": {
@@ -1239,14 +1239,14 @@
             "desc": "NEAR tokenlerinizi bir validatör ile katılım sağlayın",
             "noValidators": "Henüz bir validatörle katılım sağlamadınız.",
             "selectAccount": "Hesabından katılım sağlanıyor",
-            "title": "Katılım sağlanıyor",
+            "title": "Katılım Durumu",
             "totalStaked": "Katılım sağlandı"
         },
         "unstake": {
             "beforeUnstakeDisclaimer": "Katılımdan çıkmış tokenler ~52-65 saat (4 döngü) zaman diliminde hazırlanan tutar bölümünde kullanıma sunulacaktır.",
             "button": "Tokenleri katılımdan çıkartın",
             "confirm": "Katılımdan çıkıyorsunuz",
-            "desc": "Mevcut validatörünüzde katılımdan çıkarmak istediğiniz token sayısını girin.",
+            "desc": "Mevcut validatörünüzde katılımdan çıkarmak istediğiniz token miktarını giriniz.",
             "input": {
                 "availableBalance": "Katılımdan çıkılabilir bakiye",
                 "near": "NEAR"
@@ -1256,14 +1256,14 @@
         },
         "unstakeSuccess": {
             "button": "Gösterge Tablosuna Dön",
-            "desc": "<b>${amount}</b> başarıyla bu validatörün katılımından çıktınız:",
+            "desc": "Başarıyla bu validatörün katılımından çıktınız:<b>${amount}</b>",
             "descTwo": "Tokenleriniz hazırlanan bölümde ve ~52-65 saat içerisinde kullanımınıza sunulacak.",
             "title": "Başarılı!"
         },
         "validator": {
             "button": "Validatör ile katılım sağla",
-            "desc": "Bu ücret sizin adınıza validatöre katılım sağlaması için ödenmiştir. Ücret ödüllerinizden düşürülür.",
-            "fee": "Validatör Ücreti",
+            "desc": "Bu komisyon sizin adınıza validatöre katılım sağlaması için ödenmiştir. Komisyon, ödüllerinizden düşürülür.",
+            "fee": "Validatör Komisyonu",
             "title": "Validatör: <br/>${validator}",
             "unstake": "Katılımdan çıkıyorsunuz",
             "withdraw": "Paranızı çekiyorsunuz",
@@ -1271,7 +1271,7 @@
         },
         "validatorBox": {
             "cta": "Seç",
-            "fee": "Ücret",
+            "fee": "Komisyon",
             "near": "NEAR",
             "staking": "Katılım",
             "state": {
