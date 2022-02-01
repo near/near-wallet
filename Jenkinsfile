@@ -41,7 +41,6 @@ pipeline {
                     }
                     steps {
                         dir("$WORKSPACE/packages/frontend") {
-                            sh 'rm -rf node_modules'
                             sh 'yarn install --frozen-lockfile'
                         }
                     }
