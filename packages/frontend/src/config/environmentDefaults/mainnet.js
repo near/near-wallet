@@ -1,4 +1,5 @@
-import * as nearApiJs from 'near-api-js';
+import * as nearApiJs from "near-api-js";
+import { parseNearAmount } from "near-api-js/lib/utils/format";
 
 export default {
     ACCOUNT_HELPER_URL: 'https://helper.mainnet.near.org',
@@ -44,8 +45,11 @@ export default {
     SMS_BLACKLIST: ['CN', 'VN', 'TH'],
     STAKING_GAS_BASE: '25000000000000', // 25 Tgas
     WHITELISTED_CONTRACTS: [
-      'berryclub.ek.near',
-      'wrap.near',
-      '6b175474e89094c44da98b954eedeac495271d0f.factory.bridge.near',
-    ]
+      "berryclub.ek.near",
+      "wrap.near",
+      "6b175474e89094c44da98b954eedeac495271d0f.factory.bridge.near",
+    ],
+    NEAR_TOKEN_ID: 'wrap.near',
+    FARMING_CLAIM_GAS: parseNearAmount('0.00000000015'),
+    FARMING_CLAIM_YOCTO: '1'
 };
