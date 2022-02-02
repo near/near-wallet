@@ -3,6 +3,7 @@ import { Translate } from 'react-localize-redux';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
+import { IS_MAINNET } from '../../config';
 import BinanceLogo from '../../images/binance-logo.svg';
 import GateLogo from '../../images/gate-io-logo.svg';
 import HuobiLogo from '../../images/huobi-logo.svg';
@@ -194,7 +195,7 @@ export function BuyNear({ match, location, history }) {
             <FormButton
                 sending={!accountId || moonPayAvailable == null}
                 sendingString='button.loading'
-                disabled={accountId && !moonPayAvailable}
+                disabled={!IS_MAINNET || accountId && !moonPayAvailable}
                 color={moonPayAvailable ? 'black' : 'gray-gray'}
                 linkTo={signedMoonPayUrl}
                 onClick={() => Mixpanel.track("Wallet Click Buy with Moonpay")}
