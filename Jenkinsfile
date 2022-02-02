@@ -12,11 +12,16 @@ pipeline {
         AWS_REGION = 'us-west-2'
         TESTNET_AWS_ROLE = credentials('testnet-assumed-role')
         TESTNET_AWS_ROLE_ACCOUNT = credentials('testnet-assumed-role-account')
+        MAINNET_AWS_ROLE = credentials('mainnet-assumed-role')
+        MAINNET_AWS_ROLE_ACCOUNT = credentials('mainnet-assumed-role-account')
 
         // s3 buckets
         TESTNET_PR_PREVIEW_STATIC_SITE_BUCKET = credentials('testnet-pr-previews-static-website')
         TESTNET_STAGING_STATIC_SITE_BUCKET = credentials('testnet-staging-static-website')
         TESTNET_STATIC_SITE_BUCKET = credentials('testnet-static-website')
+        MAINNET_PR_PREVIEW_STATIC_SITE_BUCKET = credentials('mainnet-pr-previews-static-website')
+        MAINNET_STAGING_STATIC_SITE_BUCKET = credentials('mainnet-staging-static-website')
+        MAINNET_STATIC_SITE_BUCKET = credentials('mainnet-static-website')
 
         // package building configuration
         AFFECTED_PACKAGES = 'frontend'.split()
@@ -78,6 +83,34 @@ pipeline {
                     }
                     environment {
                         NEAR_WALLET_ENV = 'testnet'
+                    }
+                    steps {
+                        dir("$WORKSPACE/packages/frontend") {
+                            sh 'yarn test'
+                        }
+                    }
+                }
+
+                stage('frontend:prebuild:mainnet-staging') {
+                    when {
+                        expression { env.BUILD_FRONTEND == 'true' }
+                    }
+                    environment {
+                        NEAR_WALLET_ENV = 'mainnet_STAGING'
+                    }
+                    steps {
+                        dir("$WORKSPACE/packages/frontend") {
+                            sh 'yarn test'
+                        }
+                    }
+                }
+
+                stage('frontend:prebuild:mainnet') {
+                    when {
+                        expression { env.BUILD_FRONTEND == 'true' }
+                    }
+                    environment {
+                        NEAR_WALLET_ENV = 'mainnet'
                     }
                     steps {
                         dir("$WORKSPACE/packages/frontend") {
@@ -149,6 +182,36 @@ pipeline {
                         }
                     }
                 }
+
+                stage('frontend:bundle:mainnet-staging') {
+                    when {
+                        expression { env.BUILD_FRONTEND == 'true' }
+                    }
+                    environment {
+                        NEAR_WALLET_ENV = 'mainnet_STAGING'
+                        REACT_APP_ACCOUNT_HELPER_URL = 'https://staging-api.kitwallet.app'
+                    }
+                    steps {
+                        dir("$WORKSPACE/packages/frontend") {
+                            sh "yarn bundle --outDir=$FRONTEND_MAINNET_STAGING_BUNDLE_PATH"
+                        }
+                    }
+                }
+
+                stage('frontend:bundle:mainnet') {
+                    when {
+                        expression { env.BUILD_FRONTEND == 'true' }
+                    }
+                    environment {
+                        NEAR_WALLET_ENV = 'mainnet'
+                        REACT_APP_ACCOUNT_HELPER_URL = 'https://api.kitwallet.app'
+                    }
+                    steps {
+                        dir("$WORKSPACE/packages/frontend") {
+                            sh "yarn bundle --outDir=$FRONTEND_MAINNET_BUNDLE_PATH"
+                        }
+                    }
+                }
             }
         }
 
@@ -187,6 +250,7 @@ pipeline {
                                 }
                             }
                         }
+
                         stage('frontend:deploy:testnet-staging') {
                             when {
                                 branch 'master'
@@ -208,6 +272,7 @@ pipeline {
                                 }
                             }
                         }
+
                         stage('frontend:deploy:testnet') {
                             when {
                                 branch 'master'
@@ -227,6 +292,75 @@ pipeline {
                                         includePathPattern: "*",
                                         path: '',
                                         workingDir: env.FRONTEND_TESTNET_BUNDLE_PATH
+                                    )
+                                }
+                            }
+                        }
+
+                        stage('frontend:deploy:mainnet-pr-preview') {
+                            when {
+                                not { anyOf { branch 'master' ; branch 'stable' } };
+                                expression { env.CHANGE_TARGET != "" }
+                            }
+                            steps {
+                                milestone(405)
+                                withAWS(
+                                    region: env.AWS_REGION,
+                                    credentials: env.AWS_CREDENTIALS,
+                                    role: env.MAINNET_AWS_ROLE,
+                                    roleAccount: env.MAINNET_AWS_ROLE_ACCOUNT
+                                ) {
+                                    s3Upload(
+                                        bucket: "$MAINNET_PR_PREVIEW_STATIC_SITE_BUCKET/$CHANGE_ID",
+                                        includePathPattern: "*",
+                                        path: '',
+                                        workingDir: env.FRONTEND_MAINNET_BUNDLE_PATH
+                                    )
+                                }
+                            }
+                        }
+
+                        stage('frontend:deploy:mainnet-staging') {
+                            when {
+                                branch 'master'
+                            }
+                            steps {
+                                milestone(406)
+                                withAWS(
+                                    region: env.AWS_REGION,
+                                    credentials: env.AWS_CREDENTIALS,
+                                    role: env.MAINNET_AWS_ROLE,
+                                    roleAccount: env.MAINNET_AWS_ROLE_ACCOUNT
+                                ) {
+                                    s3Upload(
+                                        bucket: env.MAINNET_STAGING_STATIC_SITE_BUCKET,
+                                        includePathPattern: "*",
+                                        path: '',
+                                        workingDir: env.FRONTEND_MAINNET_STAGING_BUNDLE_PATH
+                                    )
+                                }
+                            }
+                        }
+
+                        stage('frontend:deploy:mainnet') {
+                            when {
+                                branch 'master'
+                            }
+                            steps {
+                                milestone(407)
+                                input(message: 'Deploy to mainnet?')
+                                milestone(408)
+                                withAWS(
+                                    region: env.AWS_REGION,
+                                    credentials: env.AWS_CREDENTIALS,
+                                    role: env.MAINNET_AWS_ROLE,
+                                    roleAccount: env.MAINNET_AWS_ROLE_ACCOUNT
+                                ) {
+                                    s3Upload(
+                                        bucket: env.MAINNET_STATIC_SITE_BUCKET,
+                                        includePathPattern: "*",
+                                        path: '',
+                                        workingDir: env.FRONTEND_MAINNET_BUNDLE_PATH
                                     )
                                 }
                             }
