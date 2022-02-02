@@ -556,8 +556,8 @@ class Wallet {
         await contract.claim({ account_id: accountId }, LINKDROP_GAS);
     }
 
-    async saveImplicitAccountKeyPair({ implicitAccountId, recoveryKeyPair }) {
-        await this.keyStore.setKey(this.connection.networkId, implicitAccountId, recoveryKeyPair);
+    async saveAccountKeyPair({ accountId, recoveryKeyPair }) {
+        await this.keyStore.setKey(this.connection.networkId, accountId, recoveryKeyPair);
     }
 
     async finishSetupImplicitAccount({
