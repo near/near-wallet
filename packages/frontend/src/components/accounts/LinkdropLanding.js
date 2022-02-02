@@ -1,3 +1,4 @@
+import { parse } from 'query-string';
 import React, { Component } from 'react';
 import { Translate } from 'react-localize-redux';
 import { connect } from 'react-redux';
@@ -111,8 +112,8 @@ class LinkdropLanding extends Component {
         const fundingAmount = balance;
 
         if (!invalidNearDrop) {
-            const params = new URLSearchParams(history.location.search);
-            const redirectUrl = params.has('redirectUrl') ? `&redirectUrl=${encodeURIComponent(params.get('redirectUrl'))}` : '';
+            const params = parse(history.location.search);
+            const redirectUrl = params.redirectUrl ? `&redirectUrl=${encodeURIComponent(params.redirectUrl)}` : '';
 
             return (
                 <StyledContainer className='xs-centered'>

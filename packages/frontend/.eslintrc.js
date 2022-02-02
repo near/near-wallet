@@ -24,7 +24,19 @@ module.exports = {
                 ]
             }
         ],
-        'no-process-env': ['error']
+        'no-process-env': ['error'],
+        'no-restricted-globals': ['error', {
+            'name': 'URLSearchParams',
+            'message': 'Use `query-string` package instead'
+        }],
+        'no-restricted-properties': ['error', {
+            'property': 'searchParams',
+            'message': 'Use `query-string` package instead'
+        }],
+        'no-restricted-syntax': ['error', {
+            'selector': `VariableDeclarator[id.type='ObjectPattern'] Property[key.name='searchParams']`, 
+            'message': 'URL.searchParams is not allowed, Use `query-string` package instead' 
+        }]
     },
     overrides: [
         {

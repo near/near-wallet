@@ -2,6 +2,7 @@ import BN from 'bn.js';
 import { getLocation } from 'connected-react-router';
 import { formatNearAmount } from 'near-api-js/lib/utils/format';
 import { PublicKey, KeyType } from 'near-api-js/lib/utils/key_pair';
+import { parse } from 'query-string';
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
@@ -31,11 +32,11 @@ export function InitialDepositWrapper({ history }) {
     const [claimingAccount, setClaimingAccount] = useState(false);
 
     const location = useSelector(getLocation);
-    const URLParams = new URLSearchParams(location.search);
-    const accountId = URLParams.get('accountId');
-    const implicitAccountId = URLParams.get('implicitAccountId');
-    const recoveryMethod = URLParams.get('recoveryMethod');
-    const fundingMethod = URLParams.get('fundingMethod');
+    const URLParams = parse(location.search);
+    const accountId = URLParams.accountId;
+    const implicitAccountId = URLParams.implicitAccountId;
+    const recoveryMethod = URLParams.recoveryMethod;
+    const fundingMethod = URLParams.fundingMethod;
 
     const formattedMinDeposit = formatNearAmount(MIN_BALANCE_TO_CREATE);
 

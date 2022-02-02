@@ -1,4 +1,5 @@
 import { getLocation } from 'connected-react-router';
+import { parse } from 'query-string';
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -18,10 +19,10 @@ export function AutoImportWrapper({
 }) {
     const dispatch = useDispatch();
     const location = useSelector(getLocation);
-    const URLParams = new URLSearchParams(location.search);
+    const URLParams = parse(location.search);
     const [recoveryFailed, setRecoveryFailed] = useState(false);
-    const successUrl = URLParams.get('success_url');
-    const failureUrl = URLParams.get('failure_url');
+    const successUrl = URLParams.success_url;
+    const failureUrl = URLParams.failure_url;
 
     useEffect(() => {
         handleRecoverWithSecretKey();
