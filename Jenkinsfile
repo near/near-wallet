@@ -322,7 +322,7 @@ pipeline {
 
                         stage('frontend:deploy:mainnet-staging') {
                             when {
-                                branch 'master'
+                                branch 'stable'
                             }
                             steps {
                                 milestone(406)
@@ -344,7 +344,7 @@ pipeline {
 
                         stage('frontend:deploy:mainnet') {
                             when {
-                                branch 'master'
+                                branch 'stable'
                             }
                             steps {
                                 milestone(407)
