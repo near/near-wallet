@@ -228,26 +228,60 @@ pipeline {
                         expression { env.BUILD_FRONTEND == 'true' }
                     }
                     stages {
-                        stage('frontend:deploy:testnet-pr-preview') {
+                        stage('frontend:deploy:pr-previews') {
+                            failFast true
+
                             when {
                                 not { anyOf { branch 'master' ; branch 'stable' } };
                                 expression { env.CHANGE_TARGET != "" }
                             }
+
+                            parallel {
+                                stage('frontend:deploy:testnet-pr-preview') {
+                                    steps {
+                                        withAWS(
+                                            region: env.AWS_REGION,
+                                            credentials: env.AWS_CREDENTIALS,
+                                            role: env.TESTNET_AWS_ROLE,
+                                            roleAccount: env.TESTNET_AWS_ROLE_ACCOUNT
+                                        ) {
+                                            s3Upload(
+                                                bucket: "$TESTNET_PR_PREVIEW_STATIC_SITE_BUCKET/$CHANGE_ID",
+                                                includePathPattern: "*",
+                                                path: '',
+                                                workingDir: env.FRONTEND_TESTNET_BUNDLE_PATH
+                                            )
+                                        }
+                                    }
+                                }
+
+                                stage('frontend:deploy:mainnet-pr-preview') {
+                                    when {
+                                        not { anyOf { branch 'master' ; branch 'stable' } };
+                                        expression { env.CHANGE_TARGET != "" }
+                                    }
+                                    steps {
+                                        withAWS(
+                                            region: env.AWS_REGION,
+                                            credentials: env.AWS_CREDENTIALS,
+                                            role: env.MAINNET_AWS_ROLE,
+                                            roleAccount: env.MAINNET_AWS_ROLE_ACCOUNT
+                                        ) {
+                                            s3Upload(
+                                                bucket: "$MAINNET_PR_PREVIEW_STATIC_SITE_BUCKET/$CHANGE_ID",
+                                                includePathPattern: "*",
+                                                path: '',
+                                                workingDir: env.FRONTEND_MAINNET_BUNDLE_PATH
+                                            )
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        stage('frontend:deployed:pr-previews') {
                             steps {
                                 milestone(401)
-                                withAWS(
-                                    region: env.AWS_REGION,
-                                    credentials: env.AWS_CREDENTIALS,
-                                    role: env.TESTNET_AWS_ROLE,
-                                    roleAccount: env.TESTNET_AWS_ROLE_ACCOUNT
-                                ) {
-                                    s3Upload(
-                                        bucket: "$TESTNET_PR_PREVIEW_STATIC_SITE_BUCKET/$CHANGE_ID",
-                                        includePathPattern: "*",
-                                        path: '',
-                                        workingDir: env.FRONTEND_TESTNET_BUNDLE_PATH
-                                    )
-                                }
                             }
                         }
 
@@ -297,35 +331,12 @@ pipeline {
                             }
                         }
 
-                        stage('frontend:deploy:mainnet-pr-preview') {
-                            when {
-                                not { anyOf { branch 'master' ; branch 'stable' } };
-                                expression { env.CHANGE_TARGET != "" }
-                            }
-                            steps {
-                                milestone(405)
-                                withAWS(
-                                    region: env.AWS_REGION,
-                                    credentials: env.AWS_CREDENTIALS,
-                                    role: env.MAINNET_AWS_ROLE,
-                                    roleAccount: env.MAINNET_AWS_ROLE_ACCOUNT
-                                ) {
-                                    s3Upload(
-                                        bucket: "$MAINNET_PR_PREVIEW_STATIC_SITE_BUCKET/$CHANGE_ID",
-                                        includePathPattern: "*",
-                                        path: '',
-                                        workingDir: env.FRONTEND_MAINNET_BUNDLE_PATH
-                                    )
-                                }
-                            }
-                        }
-
                         stage('frontend:deploy:mainnet-staging') {
                             when {
                                 branch 'stable'
                             }
                             steps {
-                                milestone(406)
+                                milestone(405)
                                 withAWS(
                                     region: env.AWS_REGION,
                                     credentials: env.AWS_CREDENTIALS,
@@ -347,9 +358,9 @@ pipeline {
                                 branch 'stable'
                             }
                             steps {
-                                milestone(407)
+                                milestone(406)
                                 input(message: 'Deploy to mainnet?')
-                                milestone(408)
+                                milestone(407)
                                 withAWS(
                                     region: env.AWS_REGION,
                                     credentials: env.AWS_CREDENTIALS,
