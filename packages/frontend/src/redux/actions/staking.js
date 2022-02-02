@@ -6,28 +6,21 @@ import {
     ACCOUNT_HELPER_URL,
     REACT_APP_USE_TESTINGLOCKUP,
     STAKING_GAS_BASE,
+    FARMING_CLAIM_GAS,
+FARMING_CLAIM_YOCTO,
+FT_MINIMUM_STORAGE_BALANCE_LARGE
 } from '../../config';
+import { fungibleTokensService } from '../../services/FungibleTokens';
 import { getLockupAccountId, getLockupMinBalanceForStorage } from '../../utils/account-with-lockup';
 import { showAlert } from '../../utils/alerts';
 import {
-    MAINNET,
-    getValidatorRegExp,
-    getValidationVersion,
-    TESTNET
+    getValidationVersion, getValidatorRegExp, MAINNET, FARMING_VALIDATOR_VERSION, TESTNET
 } from '../../utils/constants';
 import { setStakingAccountSelected } from '../../utils/localStorage';
 import {
-    STAKING_AMOUNT_DEVIATION,
-    MIN_DISPLAY_YOCTO,
-    ZERO,
-    EXPLORER_DELAY,
-    ACCOUNT_DEFAULTS,
-    getStakingDeposits,
-    lockupMethods,
-    updateStakedBalance,
-    signAndSendTransaction,
-    stakingMethods,
-    shuffle
+    ACCOUNT_DEFAULTS, EXPLORER_DELAY, getStakingDeposits,
+    lockupMethods, MIN_DISPLAY_YOCTO, shuffle, signAndSendTransaction,
+    stakingMethods, STAKING_AMOUNT_DEVIATION, updateStakedBalance, ZERO
 } from '../../utils/staking';
 import { wallet } from '../../utils/wallet';
 import { WalletError } from '../../utils/walletError';
@@ -37,19 +30,15 @@ import {
 } from '../slices/account';
 import { selectAllAccountsByAccountId } from '../slices/allAccounts';
 import {
-    selectStakingAccountsMain,
-    selectStakingMainAccountId,
-    selectStakingLockupAccountId,
-    selectStakingAccountsLockup,
-    selectStakingAllValidators,
+    selectStakingAccountsLockup, selectStakingAccountsMain, selectStakingAllValidators,
     selectStakingAllValidatorsLength,
     selectStakingContract,
-    selectStakingCurrentAccountAccountId,
-    selectStakingFindContractByValidatorId,
-    selectStakingLockupId
+    selectStakingCurrentAccountAccountId, selectStakingCurrentAccountbyAccountId, selectStakingFindContractByValidatorId, selectStakingLockupAccountId, selectStakingLockupId, selectStakingMainAccountId
 } from '../slices/staking';
-import { selectStakingCurrentAccountbyAccountId } from '../slices/staking';
+import { actions as tokensActions } from '../slices/tokens';
 import { getBalance } from './account';
+
+const { fetchToken } = tokensActions;
 
 const {
     transactions: {
@@ -420,7 +409,10 @@ export const { staking } = createActions({
                     }
                 })
             )).filter((v) => !!v);
-        }
+        },
+        SET_VALIDATOR_FARM_DATA: (validatorId, farmData) => {
+            return {validatorId, farmData};
+        },
     }
 });
 
@@ -532,4 +524,62 @@ export const updateStaking = (currentAccountId, recentlyStakedValidators) => asy
 export const handleUpdateCurrent = (accountId) => async (dispatch, getState) => {
     let currentAccount = selectStakingCurrentAccountbyAccountId(getState(), { accountId });
     dispatch(staking.updateCurrent({ currentAccount }));
+};
+
+export const getValidatorFarmData = (validatorId, accountId) => async (dispatch, getState) => {
+
+    const validators = selectStakingAllValidators(getState());
+    const validator = { ...validators.find(validator => validator?.accountId === validatorId)};
+
+    if (validator?.version !== FARMING_VALIDATOR_VERSION) return;
+
+    const poolSummary = await validator.contract.get_pool_summary();
+    const farms = await validator.contract.get_farms({ from_index: 0, limit: 300 });
+    
+ 
+    const list = await Promise.all(farms.map(({ token_id, farm_id }) => {
+        try {
+            dispatch(fetchToken({ contractName: token_id }));
+            return validator.contract
+                .get_unclaimed_reward({ account_id: accountId, farm_id })
+                .catch(() => "0")
+                .then((balance) => ({ 
+                    token_id,
+                    balance,
+                    farm_id,
+                }));
+        } catch (error) {
+            console.error(error);
+            return ({
+                token_id,
+                farm_id,
+                balance: 0
+            });
+        }
+        
+    }));
+
+    const farmData = {
+        poolSummary: {...poolSummary},
+        farmRewards: list,
+    };
+    await dispatch(staking.setValidatorFarmData(validator.accountId, farmData));
+};
+
+export const claimFarmRewards = (validatorId, accountId, token_id) => async (dispatch, getState) => {
+    const validators = selectStakingAllValidators(getState());
+    const validator = { ...validators.find(validator => validator?.accountId === validatorId)};
+
+    const storageAvailable = await fungibleTokensService.isStorageBalanceAvailable({ contractName: token_id, accountId: accountId });
+        if (!storageAvailable) {
+            try {
+                const account = await wallet.getAccount(accountId);
+                await fungibleTokensService.transferStorageDeposit({ account, contractName: token_id, receiverId: accountId, storageDepositAmount: FT_MINIMUM_STORAGE_BALANCE_LARGE });
+            }
+            catch (e) {
+                console.warn(e);
+            }
+        }
+
+    return validator.contract.claim({ token_id }, FARMING_CLAIM_GAS, FARMING_CLAIM_YOCTO);
 };

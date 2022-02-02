@@ -37,13 +37,13 @@ const Container = styled.div`
     }
 `;
 
-export default function StakingFee({ fee }) {
+export function FarmingAPY({ apy }) {
     
     return (
         <Container>
-            <Translate id='staking.validator.fee' />
-            <Tooltip translate='staking.validator.desc'/>
-            <span className='fee'>{fee}%</span>
+            <Translate id='staking.validator.apy' />
+            <Tooltip translate='staking.balanceBox.farm.info'/>
+            <span className='fee'>{apy}%</span>
         </Container>
     );
 }

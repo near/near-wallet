@@ -84,7 +84,8 @@ import { Wallet } from './wallet/Wallet';
 import '../index.css';
 
 const {
-    fetchTokenFiatValues
+    fetchTokenFiatValues,
+    getTokenWhiteList,
 } = tokenFiatValueActions;
 
 const {
@@ -217,6 +218,7 @@ class Routing extends Component {
 
         if (prevProps.account.accountId !== account.accountId && account.accountId !== undefined) {
             getAccountHelperWalletState(account.accountId);
+            this.props.getTokenWhiteList(account.accountId);
         }
 
         if (prevProps.account.accountHelperWalletState.isLoaded !== account.accountHelperWalletState.isLoaded) {
@@ -600,7 +602,8 @@ const mapDispatchToProps = {
     redirectTo,
     getAccountHelperWalletState,
     fetchTokenFiatValues,
-    handleClearAlert
+    handleClearAlert,
+    getTokenWhiteList
 };
 
 const mapStateToProps = (state) => ({

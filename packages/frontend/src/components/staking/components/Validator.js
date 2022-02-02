@@ -4,47 +4,59 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { Mixpanel } from '../../../mixpanel';
 import { redirectTo } from '../../../redux/actions/account';
+import { claimFarmRewards, getValidatorFarmData } from '../../../redux/actions/staking';
 import { selectAccountId } from '../../../redux/slices/account';
+import { selectValidatorsFarmData, selectFarmValidatorAPY } from '../../../redux/slices/staking';
 import { selectActionsPending } from '../../../redux/slices/status';
-import { actions as tokensActions, selectAllContractMetadata, selectNEARAsTokenWithMetadata } from '../../../redux/slices/tokens';
-import { PROJECT_VALIDATOR_VERSION, ValidatorVersion } from '../../../utils/constants';
+import { selectTokensFiatValueUSD, selectTokenWhiteList } from '../../../redux/slices/tokenFiatValues';
+import { selectAllContractMetadata, selectNEARAsTokenWithMetadata } from '../../../redux/slices/tokens';
+import { FARMING_VALIDATOR_VERSION } from '../../../utils/constants';
 import FormButton from '../../common/FormButton';
 import SafeTranslate from '../../SafeTranslate';
 import AlertBanner from './AlertBanner';
 import BalanceBox from './BalanceBox';
+import ClaimConfirmModal from './ClaimConfirmModal';
+import { FarmingAPY } from './FarmingAPY';
 import StakeConfirmModal from './StakeConfirmModal';
 import StakingFee from './StakingFee';
 
-const { fetchToken } = tokensActions;
-
-const renderFarmUi = ({ farmList, contractMetadataByContractId, isFarmListLoading }) => {
-    if(isFarmListLoading) {
+const renderFarmUi = ({ farmList, contractMetadataByContractId, openModal, tokenPriceMetadata }) => {
+    if (!farmList.length) {
         // eslint-disable-next-line jsx-a11y/heading-has-content
-        return <h1 className="animated-dots"/>;
+        return <h1 className="animated-dots" />;
     }
 
-    return farmList.map(({ token_id, balance }, i) => {
+    return farmList.map((farm, i) => {
+        const { token_id, balance } = farm;
         const currentTokenContractMetadata = contractMetadataByContractId[token_id];
 
         if (!currentTokenContractMetadata) {
             return;
         }
+        const fiatValueMetadata = tokenPriceMetadata.tokenFiatValues[token_id];
+        const isWhiteListed = tokenPriceMetadata.tokenWhitelist.includes(token_id);
 
         return (
             <BalanceBox
                 key={token_id}
                 token={{
                     onChainFTMetadata: currentTokenContractMetadata,
-                    coingeckoMetadata: {},
+                    fiatValueMetadata,
                     balance,
                     contractName: token_id,
+                    isWhiteListed,
                 }}
-                // onClick={() => {
-                //     // TODO claim accrued rewards and redirect home where tokens will be fetched
-                //     return validator.contract.claim({token_id}).then(() => dispatch(redirectTo('/')));
-                // }}
+                onClick={() => {
+                    openModal({
+                        onChainFTMetadata: currentTokenContractMetadata,
+                        fiatValueMetadata,
+                        balance,
+                        contractName: token_id,
+                        isWhiteListed,
+                    });
+
+                }}
                 button="staking.balanceBox.farm.button"
-                buttonColor='gray-red'
                 hideBorder={farmList.length > 1 && i < farmList.length}
             />
         );
@@ -60,40 +72,26 @@ export default function Validator({
     currentValidators,
 }) {
     const [confirm, setConfirm] = useState(null);
-    const [farmList, setFarmList] = useState([]);
-    const [isFarmListLoading, setIsFarmListLoading] = useState(false);
+    
     const nearAsFT = useSelector(selectNEARAsTokenWithMetadata);
     const accountId = useSelector(selectAccountId);
+
     const contractMetadataByContractId = useSelector(selectAllContractMetadata);
+    const tokenFiatValues = useSelector(selectTokensFiatValueUSD);
+    const tokenWhitelist = useSelector(selectTokenWhiteList);
 
     const dispatch = useDispatch();
     const stakeNotAllowed = !!selectedValidator && selectedValidator !== match.params.validator && !!currentValidators.length;
     const showConfirmModal = confirm === 'withdraw';
-    const stakingPoolHasFarms = validator && validator.version === ValidatorVersion[PROJECT_VALIDATOR_VERSION];
     const pendingUpdateStaking = useSelector((state) => selectActionsPending(state, { types: ['UPDATE_STAKING'] }));
 
-    useEffect(() => {
-        const getFarms = async () => {
-            setIsFarmListLoading(true);
+    const [showClaimConfirmModal, setShowClaimConfirmModal] = useState(false);
+    const [selectedFarm, setSelectedFarm] = useState(null);
 
-            try {
-                const farms = await validator.contract.get_farms({ from_index: 0, limit: 300 });
-
-                const list = await Promise.all(farms.map(({ token_id }, i) => {
-                    dispatch(fetchToken({ contractName: token_id }));
-                    return validator.contract
-                        .get_unclaimed_reward({ account_id: accountId, farm_id: i })
-                        .catch(() => "0")
-                        .then((balance) => ({ token_id, balance, farm_id: i }));
-                }));
-
-                setFarmList(list);
-            } finally {
-                setIsFarmListLoading(false);
-            }
-        };
-        if (stakingPoolHasFarms) { getFarms(); }
-    }, [validator, stakingPoolHasFarms, accountId]);
+    const openModal = (farm) => {
+        setSelectedFarm(farm);
+        setShowClaimConfirmModal(true);
+    };
 
     const handleStakeAction = async () => {
         if (showConfirmModal && !loading) {
@@ -101,6 +99,29 @@ export default function Validator({
             setConfirm('done');
         }
     };
+    const isFarmingValidator = validator?.version === FARMING_VALIDATOR_VERSION;
+
+    const handleClaimAction = async (token_id) => {
+        if (!validator || !isFarmingValidator || !token_id) return null;
+
+        await dispatch(claimFarmRewards(validator.accountId, accountId, token_id));
+        // TODO: handle modal close, success and fail cases;
+        return dispatch(redirectTo('/'));
+    };
+
+    const validatorsFarmData = useSelector(selectValidatorsFarmData);
+    const validatorFarmData = validatorsFarmData[validator?.accountId] || {};
+
+    useEffect(() => {
+        if (!isFarmingValidator || !validator?.accountId) return;
+
+        dispatch(getValidatorFarmData(validator.accountId, accountId));
+    }, [validator?.accountId, isFarmingValidator]);
+
+    const farmList = validatorFarmData?.farmRewards || [];
+    const tokenPriceMetadata = { tokenFiatValues, tokenWhitelist };
+
+    const farmAPY = useSelector(state => selectFarmValidatorAPY(state, {validatorId: validator?.accountId}));
 
     return (
         <>
@@ -129,12 +150,13 @@ export default function Validator({
                 <Translate id='staking.validator.button' />
             </FormButton>
             {validator && <StakingFee fee={validator.fee.percentage} />}
+            {isFarmingValidator && <FarmingAPY apy={farmAPY} />}
             {validator && !stakeNotAllowed && !pendingUpdateStaking &&
                 <>
                     <BalanceBox
                         title='staking.balanceBox.staked.title'
                         info='staking.balanceBox.staked.info'
-                        token={{...nearAsFT, balance: validator.staked || '0'}}
+                        token={{ ...nearAsFT, balance: validator.staked || '0' }}
                         onClick={() => {
                             dispatch(redirectTo(`/staking/${match.params.validator}/unstake`));
                             Mixpanel.track("UNSTAKE Click unstake button");
@@ -147,20 +169,20 @@ export default function Validator({
                     <BalanceBox
                         title='staking.balanceBox.unclaimed.title'
                         info='staking.balanceBox.unclaimed.info'
-                        token={{...nearAsFT, balance: validator.unclaimed || '0'}}
-                        hideBorder={(stakingPoolHasFarms && isFarmListLoading) || (!isFarmListLoading && farmList.length > 0)}
+                        token={{ ...nearAsFT, balance: validator.unclaimed || '0' }}
+                        hideBorder={isFarmingValidator && farmList.length > 0}
                     />
-                    {renderFarmUi({ farmList, contractMetadataByContractId, isFarmListLoading })}
+                    {renderFarmUi({ farmList, contractMetadataByContractId, openModal, tokenPriceMetadata })}
                     <BalanceBox
                         title='staking.balanceBox.pending.title'
                         info='staking.balanceBox.pending.info'
-                        token={{...nearAsFT, balance: validator.pending || '0'}}
+                        token={{ ...nearAsFT, balance: validator.pending || '0' }}
                         disclaimer='staking.validator.withdrawalDisclaimer'
                     />
                     <BalanceBox
                         title='staking.balanceBox.available.title'
                         info='staking.balanceBox.available.info'
-                        token={{...nearAsFT, balance: validator.available || '0'}}
+                        token={{ ...nearAsFT, balance: validator.available || '0' }}
                         onClick={() => {
                             setConfirm('withdraw');
                             Mixpanel.track("WITHDRAW Click withdraw button");
@@ -181,6 +203,17 @@ export default function Validator({
                             sendingString='withdrawing'
                         />
                     }
+                    {isFarmingValidator && selectedFarm && showClaimConfirmModal &&
+                        <ClaimConfirmModal
+                            title={`staking.validator.claimFarmRewards`}
+                            label="staking.stake.from"
+                            validator={validator}
+                            open={showClaimConfirmModal}
+                            onConfirm={handleClaimAction}
+                            onClose={() => setShowClaimConfirmModal(false)}
+                            loading={loading}
+                            farm={selectedFarm}
+                        />}
                 </>
             }
         </>

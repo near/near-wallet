@@ -1311,9 +1311,12 @@
             "title": "Success!"
         },
         "validator": {
+            "apy": "APY",
             "button": "Stake With Validator",
+            "claimFarmRewards": "Сlaim you farm rewards",
             "desc": "This is the fee paid to the validator to stake on your behalf. This fee is only charged on your rewards.",
             "fee": "Validator Fee",
+            "notWhitelistedWarning": "This token isn't whitelisted by ref-finance. Make sure you research this token!",
             "title": "Validator: <br/>${validator}",
             "unstake": "You are unstaking",
             "withdraw": "You are withdrawing",
@@ -1321,6 +1324,7 @@
         },
         "validatorBox": {
             "cta": "Select",
+            "farming": "Farming",
             "fee": "Fee",
             "near": "NEAR",
             "staking": "Staking",

@@ -1,6 +1,7 @@
 import { useSelector } from "react-redux";
 
 import { selectAccountId } from "../redux/slices/account";
+import { selectTokensFiatValueUSD } from "../redux/slices/tokenFiatValues";
 import { selectNEARAsTokenWithMetadata, selectTokensWithMetadataForAccountId } from "../redux/slices/tokens";
 
 export const useFungibleTokensIncludingNEAR = function () {
@@ -10,5 +11,11 @@ export const useFungibleTokensIncludingNEAR = function () {
         selectTokensWithMetadataForAccountId(state, { accountId })
     );
 
-    return [nearAsToken, ...fungibleTokens];
+    const fungibleTokenPrices = useSelector(selectTokensFiatValueUSD);
+    const fungibleTokensWithPrices = fungibleTokens.map(ft => ({
+        ...ft,
+        fiatValueMetadata: {...fungibleTokenPrices[ft.contractName]}
+    }));
+
+    return [nearAsToken, ...fungibleTokensWithPrices];
 };
