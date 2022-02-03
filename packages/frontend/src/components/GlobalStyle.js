@@ -256,6 +256,24 @@ export default createGlobalStyle`
         }
     }
 
+    .input-label {
+        font-size: 14px;
+        color: #72727A;
+        margin-bottom: 8px;
+    }
+
+    textarea {
+        border: 2px solid #E5E5E6;
+        border-radius: 8px;
+        width: 100%;
+        padding: 14px;
+        line-height: 180%;
+        font-size: 16px;
+        ::placeholder {
+            color: #A2A2A8;
+        }
+    }
+
     .input-sub-label {
         font-size: 12px;
         font-style: italic;

@@ -333,6 +333,24 @@
         "pageText": "Enter an Account ID to use with your NEAR account. Your Account ID will be used for all NEAR operations, including sending and receiving assets.",
         "pageTitle": "Reserve Account ID",
         "recoverItHere": "Import Existing Account",
+        "setupPassphrase": {
+            "generatePassphrase": {
+                "desc": "For the best security, we recommend generating a unique passphrase for each new account in your wallet.",
+                "descTwo": "As a more convenient option, you may instead share an existing passphrase between multiple accounts. You can change this at any time.",
+                "tite": "Generate a New Passphrase?"
+            },
+            "sharedPassphrase": {
+                "desc": "Your passphrase has been verified! Once you’ve funded your new address, your passphrase will be shared by <b>${numberOfAccounts} accounts.</b>",
+                "descTwo": "Whenever this passphrase is used to recover your wallet, the following accounts will be imported:",
+                "tite": "Your Shared Passphrase"
+            },
+            "verifyPassphrase": {
+                "desc": "Enter an existing passphrase below to secure your new account.",
+                "tite": "Verify Your Passphrase",
+                "yourPassphrase": "Your Passphrase",
+                "passPhrasePlaceholder": "bubble word sun join impact exist ramp skull title hollow symbol very"
+            }
+        },
         "step": "Step ${step}/${total}",
         "terms": {
             "agreeBtn": "Agree & Continue",
@@ -1097,9 +1115,13 @@
         "emailDesc": "Receive a verification code and account recovery link via email.",
         "emailPlaceholder": "example@email.com",
         "emailTitle": "Email",
+        "existingPhraseDesc": "Protect your new address by sharing an existing passphrase.",
+        "existingPhraseTitle": "Use an Existing Passphrase",
         "header": "Choose a Security Method",
         "ledgerDesc": "Secure your account with a Ledger hardware device.",
         "ledgerTitle": "Ledger Hardware Wallet",
+        "newPhraseDesc": "Protect your new address with a new and unique passphrase.",
+        "newPhraseTitle": "Generate a New Passphrase",
         "notSupportedPhone": "Unfortunately, we do not offer SMS for your region. Please choose email instead.",
         "phoneDesc": "Receive a verification code and account recovery link via SMS.",
         "phonePlaceholder": "+1 415 797 8554",
