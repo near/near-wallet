@@ -36,6 +36,12 @@ module.exports = {
         'no-restricted-syntax': ['error', {
             'selector': `VariableDeclarator[id.type='ObjectPattern'] Property[key.name='searchParams']`, 
             'message': 'URL.searchParams is not allowed, Use `query-string` package instead' 
+        }, {
+            'selector': `CallExpression[callee.name='useSelector'] MemberExpression[object.name='state']`,
+            'message': 'Please use a selector for any state accesses within useSelector'
+        }, {
+            'selector': `CallExpression[callee.name='useSelector'] VariableDeclarator[id.type='ObjectPattern'][init.name='state']`,
+            'message': 'Please use a selector for any state accesses within useSelector'
         }]
     },
     overrides: [
