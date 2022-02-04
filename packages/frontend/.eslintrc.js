@@ -42,6 +42,9 @@ module.exports = {
         }, {
             'selector': `CallExpression[callee.name='useSelector'] VariableDeclarator[id.type='ObjectPattern'][init.name='state']`,
             'message': 'Please use a selector for any state accesses within useSelector'
+        }, {
+            'selector': `CallExpression[callee.name='useSelector'] *[type=/FunctionExpression$/][params.0.type='ObjectPattern']`,
+            'message': 'Please use a selector for any state accesses within useSelector'
         }]
     },
     overrides: [
