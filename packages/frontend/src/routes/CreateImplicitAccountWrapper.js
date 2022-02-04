@@ -2,6 +2,7 @@ import BN from 'bn.js';
 import { getLocation } from 'connected-react-router';
 import { utils } from 'near-api-js';
 import { formatNearAmount } from 'near-api-js/lib/utils/format';
+import { parse } from 'query-string';
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
@@ -32,9 +33,9 @@ export function CreateImplicitAccountWrapper() {
     const [moonpaySignedUrl, setMoonpaySignedUrl] = useState('');
 
     const location = useSelector(getLocation);
-    const URLParams = new URLSearchParams(location.search);
-    const implicitAccountId = URLParams.get('implicitAccountId');
-    const recoveryMethod = URLParams.get('recoveryMethod');
+    const URLParams = parse(location.search);
+    const implicitAccountId = URLParams.implicitAccountId;
+    const recoveryMethod = URLParams.recoveryMethod;
 
     const formattedMinDeposit = formatNearAmount(MIN_BALANCE_TO_CREATE);
 

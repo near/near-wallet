@@ -1,4 +1,5 @@
 import { getLocation } from 'connected-react-router';
+import { parse } from 'query-string';
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
@@ -34,10 +35,10 @@ export function ExistingAccountWrapper({ history }) {
     const accountsBalances = useSelector(selectAccountAccountsBalances);
     const signedInAccountBalance = useSelector(selectBalance);
     const location = useSelector(getLocation);
-    const URLParams = new URLSearchParams(location.search);
-    const accountId = URLParams.get('accountId');
-    const implicitAccountId = URLParams.get('implicitAccountId');
-    const recoveryMethod = URLParams.get('recoveryMethod');
+    const URLParams = parse(location.search);
+    const accountId = URLParams.accountId;
+    const implicitAccountId = URLParams.implicitAccountId;
+    const recoveryMethod = URLParams.recoveryMethod;
     const hasAllRequiredParams = !!accountId && !!implicitAccountId && !!recoveryMethod;
 
     if (fundingAccountId) {

@@ -1,5 +1,5 @@
 import { getRouter } from 'connected-react-router';
-import { parse as parseQuery } from 'query-string';
+import { parse as parseQuery, stringify } from 'query-string';
 import React, { Component } from 'react';
 import { Translate } from 'react-localize-redux';
 import { connect } from 'react-redux';
@@ -96,7 +96,7 @@ class RecoverAccountSeedPhrase extends Component {
 
         const fundWithExistingAccount = parseQuery(location.search, { parseBooleans: true }).fundWithExistingAccount;
         if (fundWithExistingAccount) {
-            const createNewAccountParams = new URLSearchParams(JSON.parse(fundWithExistingAccount)).toString();
+            const createNewAccountParams = stringify(JSON.parse(fundWithExistingAccount));
             redirectTo(`/fund-with-existing-account?${createNewAccountParams}`);
         } else {
             const options = parseFundingOptions(location.search);

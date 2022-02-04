@@ -1,4 +1,5 @@
 import { getLocation } from 'connected-react-router';
+import { parse } from 'query-string';
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 
@@ -22,11 +23,11 @@ export function LoginWrapper() {
     const [confirmLogin, setConfirmLogin] = useState(false);
 
     const location = useSelector(getLocation);
-    const URLParams = new URLSearchParams(location.search);
-    const contractId = URLParams.get('contract_id');
-    const publicKey = URLParams.get('public_key');
-    const failureUrl = URLParams.get('failure_url');
-    const invalidContractId = URLParams.get('invalidContractId');
+    const URLParams = parse(location.search);
+    const contractId = URLParams.contract_id;
+    const publicKey = URLParams.public_key;
+    const failureUrl = URLParams.failure_url;
+    const invalidContractId = URLParams.invalidContractId;
 
     const contractIdUrl = `${EXPLORER_URL}/accounts/${contractId}`;
 

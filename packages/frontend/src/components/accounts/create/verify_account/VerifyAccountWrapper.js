@@ -1,5 +1,6 @@
 import { getLocation } from 'connected-react-router';
 import { PublicKey, KeyType } from 'near-api-js/lib/utils/key_pair';
+import { parse } from 'query-string';
 import React, { useState, useEffect, useCallback } from 'react';
 import { useGoogleReCaptcha } from 'react-google-recaptcha-v3-near';
 import { useDispatch, useSelector } from 'react-redux';
@@ -27,10 +28,10 @@ export function VerifyAccountWrapper() {
     const dispatch = useDispatch();
 
     const location = useSelector(getLocation);
-    const URLParams = new URLSearchParams(location.search);
-    const accountId = URLParams.get('accountId');
-    const implicitAccountId = URLParams.get('implicitAccountId');
-    const recoveryMethod = URLParams.get('recoveryMethod');
+    const URLParams = parse(location.search);
+    const accountId = URLParams.accountId;
+    const implicitAccountId = URLParams.implicitAccountId;
+    const recoveryMethod = URLParams.recoveryMethod;
 
     const [activeVerificationOption, setActiveVerificationOption] = useState('email');
     const [showEnterVerificationCode, setShowEnterVerificationCode] = useState(false);

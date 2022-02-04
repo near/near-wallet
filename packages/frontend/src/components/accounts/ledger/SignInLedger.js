@@ -1,4 +1,4 @@
-import { parse as parseQuery } from 'query-string';
+import { parse as parseQuery, stringify } from 'query-string';
 import React, { useState } from 'react';
 import { Translate } from 'react-localize-redux';
 import { useSelector, useDispatch } from 'react-redux';
@@ -92,7 +92,7 @@ export function SignInLedger(props) {
         const { search } = props.history.location;
         const fundWithExistingAccount = parseQuery(search, { parseBooleans: true }).fundWithExistingAccount;
         if (fundWithExistingAccount) {
-            const createNewAccountParams = new URLSearchParams(JSON.parse(fundWithExistingAccount)).toString();
+            const createNewAccountParams = stringify(JSON.parse(fundWithExistingAccount));
             dispatch(redirectTo(`/fund-with-existing-account?${createNewAccountParams}`));
         } else {
             const options = parseFundingOptions(search);
