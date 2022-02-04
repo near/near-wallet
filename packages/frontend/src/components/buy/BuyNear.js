@@ -79,6 +79,11 @@ const StyledContainer = styled(Container)`
             }
         }
 
+        &.black .nearpay-logo {
+            margin-left: 15px !important;
+        }
+       
+
         &.gray-gray svg {
             margin-right: 4px !important;
         }
@@ -180,7 +185,7 @@ export function BuyNear({ match, location, history }) {
             (e) => console.warn('Error checking Moonpay', e)
         );
     };
-
+    nearpay.isAvailable = false;
     return (
         <StyledContainer className='small-centered'>
             <FormButton
@@ -209,12 +214,12 @@ export function BuyNear({ match, location, history }) {
             >
                 {nearpay.isAvailable ? (
                     <>
-                        <Translate id="buyNear.buyWith" />
-                        <NearPayIcon />
+                        <Translate id="buyNear.buyWith"/>
+                        <NearPayIcon className="nearpay-logo"/>
                     </>
                 ) : (
                     <>
-                        <NearPayIcon color="#3F4045" />
+                        <NearPayIcon color="#3F4045" className="nearpay-logo"/>
                         <Translate id="buyNear.notSupported" />
                     </>
                 )}
