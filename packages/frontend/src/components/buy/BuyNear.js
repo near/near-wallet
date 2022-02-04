@@ -72,7 +72,10 @@ const StyledContainer = styled(Container)`
             border: 0 !important;
 
             svg {
-                margin: -3px 0 0 10px !important;
+                margin: 0 0 0 10px !important;
+            }
+            .moonpay-logo {
+                margin-top: -3px !important;
             }
         }
 
@@ -237,9 +240,9 @@ export function BuyNear({ match, location, history }) {
                 {moonPayAvailable
                     ? <>
                         <Translate id='buyNear.buyWith' />
-                        <MoonPayIcon />
+                        <MoonPayIcon className="moonpay-logo"/>
                     </> : <>
-                        <MoonPayIcon color='#3F4045' />
+                        <MoonPayIcon color='#3F4045' className="moonpay-logo"/>
                         <Translate id='buyNear.notSupported' />
                     </>
                 }
