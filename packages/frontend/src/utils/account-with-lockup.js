@@ -269,9 +269,10 @@ async function getAccountBalance(limitedAccountData = false) {
 
         // if acc is deletable (nothing locked && nothing stake) you can transfer the whole amount ohterwise get_liquid_owners_balance
         const isAccDeletable = lockedAmount.isZero() && stakedBalanceLockup.isZero();
+        const MIN_BALANCE_FOR_STORAGE = getLockupMinBalanceForStorage(lockupContractCodeHash);
         const liquidOwnersBalanceTransfersEnabled = isAccDeletable
             ? new BN(lockupBalance.total)
-            : BN.min(ownersBalance, new BN(lockupBalance.total).sub(new BN(MIN_BALANCE_FOR_GAS)));
+            : BN.min(ownersBalance, new BN(lockupBalance.total).sub(new BN(MIN_BALANCE_FOR_STORAGE)));
         const liquidOwnersBalance = areTransfersEnabled ? liquidOwnersBalanceTransfersEnabled : new BN(0);
 
         const available = BN.max(new BN(0), new BN(balance.available).add(new BN(liquidOwnersBalance)).sub(new BN(MIN_BALANCE_FOR_GAS)));
@@ -288,7 +289,7 @@ async function getAccountBalance(limitedAccountData = false) {
             stakedBalanceLockup: stakedBalanceLockup,
             lockupAccountId,
             stakedBalanceMainAccount,
-            lockupReservedForStorage: getLockupMinBalanceForStorage(lockupContractCodeHash)
+            lockupReservedForStorage: MIN_BALANCE_FOR_STORAGE
         };
     } catch (error) {
         if (error.message.match(/ccount ".+" doesn't exist/) || error.message.includes('does not exist while viewing') || error.message.includes('cannot find contract code for account')) {
