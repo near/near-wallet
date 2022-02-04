@@ -278,6 +278,7 @@
         "descThree": "通過跨鏈橋將以太坊鏈上通證轉至 NEAR 錢包。",
         "descTwo": "NEAR 已經在以下交易所流通，可交易。",
         "moonPay": "MoonPay",
+        "nearPay": "NearPay",
         "notSupported": "is not supported in your region",
         "seeMore": "查看更多：",
         "supportedExchanges": "交易所",

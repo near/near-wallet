@@ -13,7 +13,7 @@ export function useBuyWithNearpay(accountId) {
         await Mixpanel.withTracking(
             "Wallet Check Nearpay available",
             async () => {
-                const isAvailable = await nearpayUtils.isNearpayAvailable();
+                const isAvailable = await nearpayUtils.isAvailable();
                 if (isAvailable) {
                     const url = await nearpayUtils.getSignedUrl(
                         accountId,

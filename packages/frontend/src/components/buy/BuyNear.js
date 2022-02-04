@@ -185,12 +185,13 @@ export function BuyNear({ match, location, history }) {
             >
                 <ArrowIcon />
             </FormButton>
+            
             <h4><Translate id='buyNear.title' /></h4>
-            <h3><Translate id='buyNear.moonPay' /></h3>
-            <div className='desc'><Translate id='buyNear.descOne' /></div>
+            <h3><Translate id='buyNear.nearPay' /></h3>
+            <div className='desc'><Translate id='buyNear.descNearPay' /></div>
             <FormButton
                 color='link learn-more'
-                linkTo='https://support.moonpay.com/'
+                linkTo='https://help.nearpay.co'
             >
                 <Translate id='button.learnMore' />
             </FormButton>
@@ -213,6 +214,15 @@ export function BuyNear({ match, location, history }) {
                         <Translate id="buyNear.notSupported" />
                     </>
                 )}
+            </FormButton>
+
+            <h3><Translate id='buyNear.moonPay' /></h3>
+            <div className='desc'><Translate id='buyNear.descOne' /></div>
+            <FormButton
+                color='link learn-more'
+                linkTo='https://support.moonpay.com/'
+            >
+                <Translate id='button.learnMore' />
             </FormButton>
 
             <FormButton
