@@ -67,17 +67,17 @@
         },
         "createImplicitAccount": {
             "createCustomNameModal": {
-                "desc": "Unlike your default address, a custom address can be anything you like, making it easier to remember and share!",
-                "title": "Add a Custom Address to Your Wallet"
+                "desc": "不像默認的賬戶地址，自定義 ID 可以是任選，並且容易記住並分享的 ID。",
+                "title": "添加自定義賬戶 ID"
             },
-            "customAddress": "A custom address can be anything you like, making it easier to remember and share!",
-            "customAmount": "Custom",
-            "exchange": "exchange",
-            "orAskFriend": "or ask a friend!",
-            "orSendNear": "...or send at least ${amount} NEAR to your wallet address.",
-            "sendFrom": "Send from an",
-            "title": "Almost there! To get started, buy some NEAR using MoonPay...",
-            "titleAlt": "Almost there! To get started, send at least ${amount} NEAR to your wallet address."
+            "customAddress": "自定義 ID 可以是任選，並且容易記住並分享的 ID。",
+            "customAmount": "自定義",
+            "exchange": "交易所",
+            "orAskFriend": "或詢問朋友轉賬。",
+            "orSendNear": "...或發送至少 ${amount} NEAR 至你的錢包地址。",
+            "sendFrom": "發送來自",
+            "title": "即將完成！完成前，可以先通過 MoonPay 購買一些 NEAR...",
+            "titleAlt": "即將完成！完成前，請發送至少 ${amount} NEAR 至你的錢包地址。"
         },
         "fundedStatus": {
             "active": "活躍",
@@ -184,6 +184,7 @@
     },
     "button": {
         "acceptAndContinue": "接受並繼續",
+        "addACustomAddress": "自定義賬戶 ID",
         "addFunds": "充值",
         "addNode": "添加節點",
         "allow": "允許",
@@ -206,6 +207,7 @@
         "continue": "繼續",
         "continueSetup": "繼續設置",
         "continueToMyAccount": "前往我的賬戶",
+        "copy": "複製",
         "copyImplicitAddress": "複製賬戶 ID",
         "copyPhrase": "複製助記詞",
         "copyUrl": "複製鏈接",
@@ -225,12 +227,15 @@
         "findMyAccount": "查找我的賬戶",
         "finish": "完成",
         "fundWith": "充值",
+        "generateNew": "重新生成",
+        "getStarted": "開始",
         "goBack": "返回",
         "gotIt": "知曉",
         "goToDashboard": "訪問概覽頁",
         "importAccount": "導入已有賬戶",
         "importExistingAccount": "導入已有賬戶",
         "learnMore": "了解更多",
+        "learnMoreAboutNear": "了解更多關於 NEAR",
         "loading": "正在加載",
         "moreInformation": "更多信息",
         "needToEditGoBack": "需要修改？請返回",
@@ -243,15 +248,18 @@
         "removeNode": "刪除模式",
         "removingKeys": "刪除密鑰",
         "reserveMyAccountId": "保留賬戶 ID",
+        "resubmit": "重新提交",
         "retry": "重試",
         "returnToApp": "返回至應用",
         "saveChanges": "保存更改",
+        "secureMyAccount": "加強賬戶安全",
         "send": "發送",
         "setupPhrase": "設置助記詞",
         "signIn": "登錄",
         "signingIn": "正在登錄",
         "signInLedger": "通過 Ledger 登錄",
         "skip": "跳過",
+        "skipThisForNow": "暫時跳過",
         "stake": "質押",
         "staking": "正在質押",
         "startOver": "重新開始",
@@ -279,7 +287,7 @@
         "descTwo": "NEAR 已經在以下交易所流通，可交易。",
         "moonPay": "MoonPay",
         "nearPay": "NearPay",
-        "notSupported": "is not supported in your region",
+        "notSupported": "未在你所在地區支持",
         "seeMore": "查看更多：",
         "supportedExchanges": "交易所",
         "title": "充值 NEAR"
@@ -307,6 +315,11 @@
             "one": "NEAR Drop 已經被領取。",
             "title": "鏈接無效",
             "two": "NEAR Drop 只能被領取一次，之後鏈接會無效。"
+        },
+        "landing": {
+            "descOne": "NEAR Wallet 是一款安全的錢包，而且是 NEAR 區塊鏈的賬戶管理器。",
+            "descTwo": "一旦你創建賬戶，你可以用它和 NEAR 鏈上應用交互，安全地存儲通證資產和 NFT 收藏品。",
+            "title": "創建賬戶"
         },
         "note": {
             "canContain": "你的用戶名可以輸入以下任何字符：",
@@ -586,8 +599,8 @@
             "connectConfirm": {
                 "desc": "請連接你信任的應用。一旦連接，<a href=${contractIdUrl} target='_blank' rel='noreferrer'>${appReferrer}</a> 將擁有 <b>${accessType}</b> 權限：",
                 "feeAllowance": {
-                    "desc": "The application will be given permission to spend up to <b>${amount} NEAR</b> towards network fees incurred during use.",
-                    "title": "Network Fee Allowance"
+                    "desc": "授權該應用在使用過程中支付最多 <b>${amount} NEAR</b> 的網絡費用。",
+                    "title": "網絡費用授權"
                 },
                 "fullAccess": "完全訪問",
                 "fullAccessModal": {
@@ -675,6 +688,11 @@
     "of": "/",
     "ofTotal": "占總數",
     "or": "或",
+    "pageNotFound": {
+        "displayTitle": "404",
+        "returnToWallet": "返回錢包",
+        "title": "抱歉，無法找到該頁面。"
+    },
     "profile": {
         "account": {
             "available": "可用餘額",
@@ -865,6 +883,7 @@
             "error": "公鑰訪問被拒絕，恢復賬戶失敗。<br/>若要繼續，需要允許 NEAR 錢包訪問你的公鑰，請再重試。",
             "success": ""
         },
+        "LackBalanceForState": "你的賬戶可用餘額過低，無法執行操作。請充值 NEAR 後重試。",
         "NotEnoughBalance": "你的賬戶沒有足夠餘額進行此操作。",
         "PROMPT_TWO_FACTOR": {
             "invalidCode": "無效的雙重認證驗證碼，請重試。"
@@ -1091,8 +1110,8 @@
         "subHeader": "請設置一種賬戶恢復方式："
     },
     "setupSeedPhrase": {
-        "pageText": "Write down the following words in order and keep them somewhere safe. <b>Anyone with access to it will also have access to your account!</b> You’ll be asked to verify your passphrase next.",
-        "pageTitle": "Setup Your Secure Passphrase",
+        "pageText": "請在安全的位置按順序記錄以下單詞。<b>任何獲得助記詞的人都將可以完全訪問該賬戶！</b>接下來將驗證你記錄的助記詞。",
+        "pageTitle": "設置你的安全助記詞",
         "snackbarCopyImplicitAddress": "賬戶 ID 已複製！",
         "snackbarCopySuccess": "助記詞已複製！"
     },
@@ -1102,6 +1121,7 @@
         "pageTitle": "恢復設置已完成"
     },
     "setupSeedPhraseVerify": {
+        "inputError": "請檢查你的助記詞，並重試。",
         "pageText": "請根據你的助記詞輸入以下單詞完成設置。",
         "pageTitle": "驗證助記詞",
         "startOverText": "沒有記錄下來？"
@@ -1114,11 +1134,13 @@
             "functionCall": "該函數沒有描述。",
             "stake": "你正在質押 NEAR 通證。這些通證將會被鎖定，並且如果你的驗證節點無法即時響應，這些通證有丟失風險。"
         },
+        "approveTransaction": "授權交易",
         "authorizationRequestSuccessful": "授權請求成功",
         "authorizing": "正在授權",
         "availableBalance": "可用餘額",
         "availableToTransfer": "可轉賬",
         "contract": "合約：",
+        "contractDetails": "合約細節",
         "details": {
             "detailedDescription": "交易的詳細描述",
             "forContract": "合約",
@@ -1126,14 +1148,29 @@
             "gasPriceUnavailable": "Gas 價格估計不可用",
             "transactionFees": "交易費"
         },
+        "estimatedFees": "預估費用",
+        "feeLimit": "費用限制",
+        "function": "方法：",
+        "gasLimit": "Gas 限制",
         "hereAreSomeDetails": "這裏是能夠幫助你的一些信息。",
         "insufficientFunds": "資產不足",
+        "insufficientFundsDesc": "你沒有足夠的可用 NEAR 完成該操作。",
         "isRequesting": {
             "authorization": "正在請求授權",
             "transferOf": "正在請求轉賬"
         },
+        "networkFees": "網絡費用",
         "nothingHasBeenTransferred": "沒有進行轉賬。",
+        "retry": {
+            "estimatedFees": "預估費用",
+            "feeLimit": "費用限制",
+            "link": "什麼是費用限制？",
+            "networkFees": "網絡費用",
+            "text": "默認的網絡費用不足以涵蓋交易成本。<br/><br/>你可以重新提交交易，費用限制將自動提高。",
+            "title": "網絡費用不足"
+        },
         "transactionCancelled": "交易取消",
+        "transactionDetails": "交易細節",
         "transferring": "正在轉賬",
         "unexpectedStatus": "意外狀態",
         "unknownApp": "未知應用",
@@ -1147,7 +1184,7 @@
             "title": "高級選項"
         },
         "firefoxBanner": {
-            "desc": "Ledger is currently only supported in <a href='https://www.mozilla.org/' rel='noopener noreferrer' target='_blank'><b>Mozilla Firefox</b></a>. Support for other browsers will soon be restored."
+            "desc": "Ledger 目前僅支持 <a href='https://www.mozilla.org/' rel='noopener noreferrer' target='_blank'><b>Mozilla Firefox</b> 瀏覽器</a>。其他瀏覽器的支持即將恢復。"
         },
         "header": "通過 Ledger 硬件登錄",
         "modal": {
@@ -1190,11 +1227,11 @@
                 "title": "可提現"
             },
             "farm": {
-                "button": "Claim",
-                "info": "This validator grants staking rewards in a token other than NEAR."
+                "button": "領取",
+                "info": "該節點質押獎勵將以非 NEAR 通證給予。"
             },
             "pending": {
-                "info": "這些通證並未質押，但還不可提現。通常在贖回質押後 36 - 48 小時變為可提現。",
+                "info": "這些通證並未質押，但還不可提現。通常在贖回質押後 52 - 65 小時變為可提現。",
                 "title": "請求釋放"
             },
             "staked": {
@@ -1203,7 +1240,7 @@
                 "title": "質押總數"
             },
             "unclaimed": {
-                "info": "Rewards that have been earned, but not withdrawn. NEAR token rewards are  <a target='_blank' href='https://www.investopedia.com/terms/c/compoundinterest.asp'>compounding</a> and are automatically re-staked.",
+                "info": "已賺得的獎勵，但還未提現。NEAR 通證獎勵是<a target='_blank' href='https://www.investopedia.com/terms/c/compoundinterest.asp'>複利計算的</a>，並會自動質押。",
                 "title": "未提現獎勵",
                 "unavailable": {
                     "cta": "了解更多",
@@ -1257,7 +1294,7 @@
             "totalStaked": "總質押"
         },
         "unstake": {
-            "beforeUnstakeDisclaimer": "贖回質押通證通常在贖回質押後 36 - 48 小時釋放。",
+            "beforeUnstakeDisclaimer": "贖回質押通證通常在贖回質押後 52 - 65 小時釋放。",
             "button": "贖回質押通證",
             "confirm": "你正在贖回質押",
             "desc": "請輸入計劃贖回質押的 NEAR 通證數量。",
@@ -1271,7 +1308,7 @@
         "unstakeSuccess": {
             "button": "返回質押頁",
             "desc": "你質押的 <b>${amount}</b> 已經成功從驗證節點的質押池釋放：",
-            "descTwo": "你的通證請求釋放將會在 36 - 48 小時釋放。",
+            "descTwo": "你的通證請求釋放將會在 52 - 65 小時釋放。",
             "title": "成功！"
         },
         "validator": {
@@ -1281,7 +1318,7 @@
             "title": "驗證節點：<br/> @${validator}",
             "unstake": "你正在贖回質押",
             "withdraw": "你正在提現",
-            "withdrawalDisclaimer": "請求釋放的資金將會在 36 - 48 小時內釋放。"
+            "withdrawalDisclaimer": "請求釋放的資金將會在 52 - 65 小時內釋放。"
         },
         "validatorBox": {
             "cta": "選擇",
@@ -1379,6 +1416,7 @@
     "unvestedBalance": "未兌現的 NEAR 屬於你，但還未實際可使用。你可以委托或質押這些 NEAR，獎勵也將歸屬於你。當 NEAR 兌現後，將出現在鎖定的或未鎖定的餘額中。",
     "verifyAccount": {
         "desc": "為避免發送垃圾信息，我們需要驗證你是賬戶所有者，你可以通過一次性驗證碼或初始充值進行驗證。",
+        "descNoFunding": "請選擇一種方式充值，從而初始化你的新賬戶。",
         "modal": {
             "email": {
                 "desc": "你需要使用其他郵箱地址或選擇其他方式來驗證此賬戶，不過你可以使用此郵箱作為恢復方式。",
@@ -1415,7 +1453,8 @@
             "initialDeposit": "初始充值",
             "passCode": "一次性驗證碼"
         },
-        "title": "只差一步！驗證你的新賬戶。"
+        "title": "只差一步！驗證你的新賬戶。",
+        "titleNoFunding": "即將完成！請為新賬戶充值。"
     },
     "wallet": {
         "availableBalance": "可用餘額",
@@ -1446,6 +1485,12 @@
             "errorRpc": "恢復賬戶時發生錯誤。"
         },
         "createNewAccount": {
+            "accountCreated": {
+                "error": "賬戶創建成功，但出現錯誤，請重新導入你的賬戶。"
+            },
+            "accountExists": {
+                "error": "賬戶創建失敗，該賬戶已經存在。"
+            },
             "error": "賬戶創建失敗，請重試。"
         },
         "emailProviderInvalid": "${domainName} 郵箱無法用於賬戶驗證。請嘗試其他域名的郵箱。",
