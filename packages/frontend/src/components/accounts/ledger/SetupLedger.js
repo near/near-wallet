@@ -14,7 +14,7 @@ import {
 } from '../../../redux/actions/account';
 import { showCustomAlert } from '../../../redux/actions/status';
 import { selectAccountSlice } from '../../../redux/slices/account';
-import { addLedgerAccessKey, getLedgerPublicKey } from '../../../redux/slices/ledger';
+import { actions as ledgerActions } from '../../../redux/slices/ledger';
 import { actions as linkdropActions } from '../../../redux/slices/linkdrop';
 import { selectStatusMainLoader } from '../../../redux/slices/status';
 import parseFundingOptions from '../../../utils/parseFundingOptions';
@@ -25,6 +25,12 @@ import Container from '../../common/styled/Container.css';
 import { isRetryableRecaptchaError, Recaptcha } from '../../Recaptcha';
 import LedgerIcon from '../../svg/LedgerIcon';
 import InstructionsModal from './InstructionsModal';
+
+const {
+    addLedgerAccessKey,
+    checkAndHideLedgerModal,
+    getLedgerPublicKey
+} = ledgerActions;
 
 const { setLinkdropAmount } = linkdropActions;
 
@@ -72,7 +78,6 @@ const SetupLedger = (props) => {
                     let publicKey;
 
                     try {
-
                         debugLog(DISABLE_CREATE_ACCOUNT, fundingOptions);
                         publicKey = await dispatch(getLedgerPublicKey()).unwrap();
                         await setKeyMeta(publicKey, { type: 'ledger' });
@@ -139,6 +144,9 @@ const SetupLedger = (props) => {
             (e) => {
                 setConnect('fail');
                 throw e;
+            },
+            () => {
+                dispatch(checkAndHideLedgerModal());
             }
         );
     };
