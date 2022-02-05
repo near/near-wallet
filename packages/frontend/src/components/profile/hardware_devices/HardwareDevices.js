@@ -101,7 +101,13 @@ const HardwareDevices = ({ recoveryMethods }) => {
     const handleConnectLedger = async () => {
         await Mixpanel.withTracking("SR-Ledger Reconnect ledger",
             async () => {
-                await dispatch(addLedgerAccessKey()).unwrap();
+                try {
+                    await dispatch(addLedgerAccessKey()).unwrap();
+                } catch (error) {
+                    throw error;
+                } finally {
+                    dispatch(checkAndHideLedgerModal());
+                }
                 await dispatch(getLedgerKey());
                 await dispatch(fetchRecoveryMethods({ accountId: account.accountId }));
             }
