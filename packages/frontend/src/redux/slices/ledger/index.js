@@ -48,7 +48,7 @@ export const getLedgerPublicKey = createAsyncThunk(
     async ({ path }, { dispatch }) => {
         const { createLedgerU2FClient } = await import('../../../utils/ledger.js');
         const client = await createLedgerU2FClient();
-        dispatch(showLedgerModal({ show: true }));
+        dispatch(handleShowLedgerModal({ show: true })).unwrap();
         const rawPublicKey = await client.getPublicKey(path);
         return new PublicKey({ keyType: KeyType.ED25519, data: rawPublicKey });
     }
@@ -81,7 +81,7 @@ export const disableLedger = createAsyncThunk(
         await wallet.keyStore.setKey(NETWORK_ID, wallet.accountId, keyPair);
 
         const path = localStorage.getItem(`ledgerHdPath:${wallet.accountId}`);
-        const publicKey = await dispatch(getLedgerPublicKey(path)).unwrap();
+        const publicKey = await dispatch(getLedgerPublicKey({ path })).unwrap();
         await wallet.removeAccessKey(publicKey);
         await wallet.getAccessKeys(wallet.accountId);
 
@@ -93,7 +93,7 @@ export const disableLedger = createAsyncThunk(
 const getLedgerAccountIds = createAsyncThunk(
     `${SLICE_NAME}/getLedgerAccountIds`,
     async ({ path }, { dispatch }) => {
-        const publicKey = await dispatch(getLedgerPublicKey(path)).unwrap();
+        const publicKey = await dispatch(getLedgerPublicKey({ path })).unwrap();
 
         // TODO: getXXX methods shouldn't be modifying the state
         await setKeyMeta(publicKey, { type: 'ledger' });
