@@ -33,8 +33,8 @@ const initialState = {
     modal: {}
 };
 
-const showLedgerModal = createAsyncThunk(
-    `${SLICE_NAME}/showLedgerModal`,
+const handleShowLedgerModal = createAsyncThunk(
+    `${SLICE_NAME}/handleShowLedgerModal`,
     async ({ show }, { dispatch, getState }) => {
         const actionStatus = selectStatusActionStatus(getState());
         const actions = Object.keys(actionStatus).filter((action) => actionStatus[action]?.pending === true);
@@ -43,9 +43,9 @@ const showLedgerModal = createAsyncThunk(
     }
 );
 
-export const getLedgerPublicKey = createAsyncThunk(
+const getLedgerPublicKey = createAsyncThunk(
     `${SLICE_NAME}/getLedgerPublicKey`,
-    async ({ path }, { dispatch }) => {
+    async ({ path } = {}, { dispatch }) => {
         const { createLedgerU2FClient } = await import('../../../utils/ledger.js');
         const client = await createLedgerU2FClient();
         dispatch(handleShowLedgerModal({ show: true })).unwrap();
@@ -54,7 +54,7 @@ export const getLedgerPublicKey = createAsyncThunk(
     }
 );
 
-export const addLedgerAccessKey = createAsyncThunk(
+const addLedgerAccessKey = createAsyncThunk(
     `${SLICE_NAME}/addLedgerAccessKey`,
     async (_, { dispatch }) => {
         const accountId = wallet.accountId;
@@ -72,7 +72,7 @@ export const addLedgerAccessKey = createAsyncThunk(
     showAlertToolkit({ onlyError: true })
 );
 
-export const disableLedger = createAsyncThunk(
+const disableLedger = createAsyncThunk(
     `${SLICE_NAME}/disableLedger`,
     async (_, { dispatch }) => {
         const account = await wallet.getAccount(wallet.accountId);
@@ -138,7 +138,6 @@ const addLedgerAccountId = createAsyncThunk(
     showAlertToolkit()
 );
 
-// test
 const saveAndSelectLedgerAccounts = createAsyncThunk(
     `${SLICE_NAME}/saveAndSelectLedgerAccounts`,
     async ({ accounts}, { dispatch }) => {
@@ -204,7 +203,7 @@ const ledgerSlice = createSlice({
     name: SLICE_NAME,
     initialState,
     reducers: {
-        setLedgerTxSigned(state, { payload, ready, error }) {
+        setLedgerTxSigned(state, { payload }) {
             const { signInWithLedger } = current(state);
 
             set(state, ['txSigned'], payload.status);
@@ -219,12 +218,12 @@ const ledgerSlice = createSlice({
                 set(state, ['signInWithLedger', payload.accountId, 'status'], 'pending');
             }
         },
-        clearSignInWithLedgerModalState(state, { payload, ready, error }) {
+        clearSignInWithLedgerModalState(state) {
             unset(state, ['txSigned']);
             unset(state, ['signInWithLedgerStatus']);
             unset(state, ['signInWithLedger']);
         },
-        showLedgerModal(state, { payload, ready, error }) {
+        showLedgerModal(state, { payload }) {
             const { signInWithLedgerStatus } = current(state);
 
             unset(state, ['txSigned']);
@@ -232,7 +231,7 @@ const ledgerSlice = createSlice({
             set(state, ['modal', 'action'], payload.action);
             set(state, ['modal', 'textId'], 'ledgerSignTxModal.DEFAULT');
         },
-        hideLedgerModal(state, { payload, ready, error }) {
+        hideLedgerModal(state) {
             set(state, ['modal'], {});
             unset(state, ['txSigned']);
         },
@@ -257,11 +256,11 @@ const ledgerSlice = createSlice({
             unset(state, ['txSigned']);
         });
         // addLedgerAccountId
-        builder.addCase(addLedgerAccountId.pending, (state, { payload, meta: { arg: { accountId } } }) => {
+        builder.addCase(addLedgerAccountId.pending, (state, { meta: { arg: { accountId } } }) => {
             set(state, ['signInWithLedgerStatus'], LEDGER_MODAL_STATUS.CONFIRM_ACCOUNTS);
             set(state, ['signInWithLedger', accountId, 'status'], 'confirm');
         });
-        builder.addCase(addLedgerAccountId.fulfilled, (state, { payload, meta: { arg: { accountId } } }) => {
+        builder.addCase(addLedgerAccountId.fulfilled, (state, { meta: { arg: { accountId } } }) => {
             set(state, ['signInWithLedgerStatus'], LEDGER_MODAL_STATUS.CONFIRM_ACCOUNTS);
             set(state, ['signInWithLedger', accountId, 'status'], 'success');
         });
@@ -296,6 +295,9 @@ export const actions = {
     signInWithLedger,
     checkAndHideLedgerModal,
     signInWithLedgerAddAndSaveAccounts,
+    getLedgerPublicKey,
+    addLedgerAccessKey,
+    disableLedger,
     ...ledgerSlice.actions
 };
 export const reducer = ledgerSlice.reducer;
