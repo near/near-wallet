@@ -2,9 +2,15 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 
 import SetupLedgerNewAccount from '../components/accounts/ledger/SetupLedgerNewAccount';
-import { getLedgerPublicKey, redirectTo } from '../redux/actions/account';
+import { redirectTo } from '../redux/actions/account';
 import { showCustomAlert } from '../redux/actions/status';
+import { actions as ledgerActions } from '../redux/slices/ledger';
 import { setKeyMeta, wallet } from '../utils/wallet';
+
+const {
+    checkAndHideLedgerModal,
+    getLedgerPublicKey
+} = ledgerActions;
 
 export function SetupLedgerNewAccountWrapper() {
     const dispatch = useDispatch();
@@ -12,7 +18,14 @@ export function SetupLedgerNewAccountWrapper() {
         <SetupLedgerNewAccount
             onClickConnectLedger={async () => {
                 try {
-                    const ledgerPublicKey = await dispatch(getLedgerPublicKey());
+                    let ledgerPublicKey;
+                    try {
+                        ledgerPublicKey = await dispatch(getLedgerPublicKey()).unwrap();
+                    } catch(error) {
+                        throw error;
+                    } finally {
+                        dispatch(checkAndHideLedgerModal());
+                    }
                     const implicitAccountId = Buffer.from(ledgerPublicKey.data).toString('hex');
                     const account = wallet.getAccountBasic(implicitAccountId);
                     try {

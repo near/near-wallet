@@ -626,35 +626,6 @@ class Wallet {
         }
     }
 
-    async addLedgerAccessKey() {
-        const accountId = this.accountId;
-        const ledgerPublicKey = await this.getLedgerPublicKey();
-        const accessKeys = await this.getAccessKeys();
-        const accountHasLedgerKey = accessKeys.map(key => key.public_key).includes(ledgerPublicKey.toString());
-        await setKeyMeta(ledgerPublicKey, { type: 'ledger' });
-
-        const account = await this.getAccount(accountId);
-        if (!accountHasLedgerKey) {
-            await account.addKey(ledgerPublicKey);
-            await this.postSignedJson('/account/ledgerKeyAdded', { accountId, publicKey: ledgerPublicKey.toString() });
-        }
-    }
-
-    async disableLedger() {
-        const account = await this.getAccount(this.accountId);
-        const keyPair = KeyPair.fromRandom('ed25519');
-        await account.addKey(keyPair.publicKey);
-        await this.keyStore.setKey(NETWORK_ID, this.accountId, keyPair);
-
-        const path = await localStorage.getItem(`ledgerHdPath:${this.accountId}`);
-        const publicKey = await this.getLedgerPublicKey(path);
-        await this.removeAccessKey(publicKey);
-        await this.getAccessKeys(this.accountId);
-
-        await this.deleteRecoveryMethod({ kind: 'ledger', publicKey: publicKey.toString() });
-        await localStorage.removeItem(`ledgerHdPath:${this.accountId}`);
-    }
-
     async addWalletMetadataAccessKeyIfNeeded(accountId, localAccessKey) {
         if (!localAccessKey || (!localAccessKey.access_key.permission.FunctionCall ||
             !localAccessKey.access_key.permission.FunctionCall.method_names.includes(WALLET_METADATA_METHOD))) {
@@ -675,46 +646,6 @@ class Wallet {
         return null;
     }
 
-    async getLedgerAccountIds({ path }) {
-        const publicKey = await this.getLedgerPublicKey(path);
-
-        // TODO: getXXX methods shouldn't be modifying the state
-        await setKeyMeta(publicKey, { type: 'ledger' });
-
-        let accountIds;
-        try {
-            accountIds = await getAccountIds(publicKey);
-        } catch (error) {
-            if (error.name === 'AbortError') {
-                throw new WalletError('Fetch aborted.', 'getLedgerAccountIds.aborted');
-            }
-            throw error;
-        }
-
-        const checkedAccountIds = (await Promise.all(
-            accountIds
-                .map(async (accountId) => {
-                    try {
-                        const accountKeys = await (await this.getAccount(accountId)).getAccessKeys();
-                        return accountKeys.find(({ public_key }) => public_key === publicKey.toString()) ? accountId : null;
-                    } catch (error) {
-                        if (error.toString().indexOf('does not exist while viewing') !== -1) {
-                            return null;
-                        }
-                        throw error;
-                    }
-                })
-        )
-        )
-            .filter(accountId => accountId);
-
-        if (!checkedAccountIds.length) {
-            throw new WalletError('No accounts were found.', 'getLedgerAccountIds.noAccounts');
-        }
-
-        return checkedAccountIds;
-    }
-
     async addLedgerAccountId({ accountId }) {
         try {
             const accessKeys = await this.getAccessKeys(accountId);
@@ -728,32 +659,6 @@ class Wallet {
             }
             throw error;
         }
-    }
-
-    async saveAndSelectLedgerAccounts({ accounts }) {
-        const accountIds = Object.keys(accounts).filter(accountId => accounts[accountId].status === 'success');
-
-        if (!accountIds.length) {
-            throw new WalletError('No accounts were accepted.', 'getLedgerAccountIds.noAccountsAccepted');
-        }
-
-        await Promise.all(accountIds.map(async (accountId) => {
-            await this.saveAccount(accountId);
-        }));
-
-        store.dispatch(makeAccountActive(accountIds[accountIds.length - 1]));
-
-        return {
-            numberOfAccounts: accountIds.length
-        };
-    }
-
-    async getLedgerPublicKey(path) {
-        const { createLedgerU2FClient } = await import('./ledger.js');
-        const client = await createLedgerU2FClient();
-        this.dispatchShowLedgerModal(true);
-        const rawPublicKey = await client.getPublicKey(path);
-        return new PublicKey({ keyType: KeyType.ED25519, data: rawPublicKey });
     }
 
     async getAvailableKeys() {

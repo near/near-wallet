@@ -5,19 +5,21 @@ import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { Mixpanel } from '../../../mixpanel/index';
-import { 
-    getAccessKeys,
-    disableLedger,
-    getLedgerKey,
-    addLedgerAccessKey
-} from '../../../redux/actions/account';
+import { getAccessKeys, getLedgerKey } from '../../../redux/actions/account';
 import selectRecoveryLoader from '../../../redux/crossStateSelectors/selectRecoveryLoader';
 import { selectAccountSlice } from '../../../redux/slices/account';
+import { actions as ledgerActions } from '../../../redux/slices/ledger';
 import { actions as recoveryMethodsActions } from '../../../redux/slices/recoveryMethods';
 import FormButton from '../../common/FormButton';
 import SkeletonLoading from '../../common/SkeletonLoading';
 import Card from '../../common/styled/Card.css';
 import ConfirmDisable from './ConfirmDisable';
+
+const {
+    addLedgerAccessKey,
+    checkAndHideLedgerModal,
+    disableLedger
+} = ledgerActions;
 
 const { fetchRecoveryMethods } = recoveryMethodsActions;
 
@@ -82,10 +84,11 @@ const HardwareDevices = ({ recoveryMethods }) => {
         await Mixpanel.withTracking("SR-Ledger Handle confirm disable",
             async () => {
                 setDisabling(true);
-                await dispatch(disableLedger());
+                await dispatch(disableLedger()).unwrap();
             },
             () => {},
             async () => {
+                dispatch(checkAndHideLedgerModal());
                 await dispatch(getAccessKeys());
                 await dispatch(getLedgerKey());
                 await dispatch(fetchRecoveryMethods({ accountId: account.accountId }));
@@ -98,7 +101,13 @@ const HardwareDevices = ({ recoveryMethods }) => {
     const handleConnectLedger = async () => {
         await Mixpanel.withTracking("SR-Ledger Reconnect ledger",
             async () => {
-                await dispatch(addLedgerAccessKey());
+                try {
+                    await dispatch(addLedgerAccessKey()).unwrap();
+                } catch (error) {
+                    throw error;
+                } finally {
+                    dispatch(checkAndHideLedgerModal());
+                }
                 await dispatch(getLedgerKey());
                 await dispatch(fetchRecoveryMethods({ accountId: account.accountId }));
             }
