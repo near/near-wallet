@@ -8,12 +8,18 @@ import { Mixpanel } from '../../../mixpanel/index';
 import { getAccessKeys, getLedgerKey } from '../../../redux/actions/account';
 import selectRecoveryLoader from '../../../redux/crossStateSelectors/selectRecoveryLoader';
 import { selectAccountSlice } from '../../../redux/slices/account';
-import { addLedgerAccessKey, disableLedger } from '../../../redux/slices/ledger';
+import { actions as ledgerActions } from '../../../redux/slices/ledger';
 import { actions as recoveryMethodsActions } from '../../../redux/slices/recoveryMethods';
 import FormButton from '../../common/FormButton';
 import SkeletonLoading from '../../common/SkeletonLoading';
 import Card from '../../common/styled/Card.css';
 import ConfirmDisable from './ConfirmDisable';
+
+const {
+    addLedgerAccessKey,
+    checkAndHideLedgerModal,
+    disableLedger
+} = ledgerActions;
 
 const { fetchRecoveryMethods } = recoveryMethodsActions;
 
@@ -82,6 +88,7 @@ const HardwareDevices = ({ recoveryMethods }) => {
             },
             () => {},
             async () => {
+                dispatch(checkAndHideLedgerModal());
                 await dispatch(getAccessKeys());
                 await dispatch(getLedgerKey());
                 await dispatch(fetchRecoveryMethods({ accountId: account.accountId }));
