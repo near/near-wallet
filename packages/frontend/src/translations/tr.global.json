@@ -20,7 +20,7 @@
         },
         "create": {
             "checkingAvailablity": {
-                "check": "Kontrol etme",
+                "check": "Kontrol et",
                 "create": "Kullanılabilirliği kontrol ediliyor"
             },
             "errorAccountNotExist": "Hesabınız oluşturulurken bir sorun oluştu. Lütfen tekrar deneyin!",
@@ -254,7 +254,7 @@
         "viewAll": "Tümünü Görüntüle",
         "viewFAQ": "SSS'yi Görüntüle",
         "viewOnExplorer": "Explorer'da Görüntüle",
-        "withdrawing": "Para Çekme"
+        "withdrawing": "Para Çekiliyor"
     },
     "buyNear": {
         "bridgeTokens": "Ethereum'dan Tokenleri transfer et",
@@ -309,7 +309,7 @@
         "terms": {
             "agreeBtn": "Kabul et & Devam et",
             "declineBtn": "Reddet",
-            "desc": "NEAR hesabı oluşturmaya devam ederek, NEAR Cüzdan Hizmet Koşullarını ve Gizlilik Politikasını kabul etmiş olursunuz. Bunları dikkatlice okumanızı öneririz:",
+            "desc": "NEAR hesabı oluşturmaya devam ederek, NEAR Cüzdanın Hizmet Koşullarını ve Gizlilik Politikasını kabul etmiş olursunuz. Bunları dikkatlice okumanızı öneririz:",
             "privacyCheck": "Gizlilik Politikasını kabul ediyorum",
             "privacyLink": "Gizlilik Politikası",
             "termsCheck": "Hizmet Koşullarını kabul ediyorum",
@@ -319,7 +319,7 @@
         "termsPage": {
             "descOne": "NEAR hesapları <b>en az ${amount}</b> ağ üzerinde <a href='https://docs.near.org/docs/concepts/account' rel='noopener noreferrer' target='_blank'>bir yer tutmak için ihtiyaç duyar.</a>",
             "descTwo": "Hesap adresi oluşturduktan sonra, hesabınızı etkinleştirmek için küçük bir başlangıç depozitosu yatırmanız istenecektir.",
-            "disclaimer": "NEAR hesabı oluşturarak, NEAR Cüzdan <a href='/terms' rel='noopener noreferrer' target='_blank'>Hizmet Şartlarını</a> ve <a href='https://near.org/privacy' rel='noopener noreferrer' target='_blank'>Gizlilik Politikasını</a> kabul etmiş olursunuz.",
+            "disclaimer": "NEAR hesabı oluşturarak, NEAR Cüzdanın <a href='/terms' rel='noopener noreferrer' target='_blank'>Hizmet Şartlarını</a> ve <a href='https://near.org/privacy' rel='noopener noreferrer' target='_blank'>Gizlilik Politikasını</a> kabul etmiş olursunuz.",
             "title": "Başlamadan önce..."
         }
     },
@@ -904,7 +904,7 @@
         "subTitle2": "Geliştirmeler",
         "title": "Sürüm notları"
     },
-    "reservedForFeesInfo": "İşlemlerin maliyetini karşılamak için ${data} NEAR'a ayrılmıştır.",
+    "reservedForFeesInfo": "Yaklaşık ${data} NEAR işlemlerin maliyetini karşılamak için ayrılmıştır.",
     "selectAccountDropdown": {
         "account": "Hesap",
         "createAccount": "Yeni Hesap Oluştur",
@@ -1408,7 +1408,7 @@
         "balance": "Bakiye",
         "balances": "Bakiyeler",
         "balanceTitle": "NEAR Bakiyesi",
-        "collectibles": "Kolleksiyonlarım",
+        "collectibles": "Koleksiyonlarım",
         "dateAndTime": "Tarih & Saat",
         "depositNear": {
             "desc": "Cüzdanınızla işlem yapmak için NEAR tokenlerine ihtiyacınız olacak.",
