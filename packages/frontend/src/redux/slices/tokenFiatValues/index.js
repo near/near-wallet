@@ -4,6 +4,7 @@ import { createSelector } from 'reselect';
 
 import { ACCOUNT_HELPER_URL } from '../../../config';
 import sendJson from '../../../tmp_fetch_send_json';
+import handleAsyncThunkStatus from '../handleAsyncThunkStatus';
 import initialErrorState from '../initialErrorState';
 
 const SLICE_NAME = 'tokenFiatValues';
@@ -23,31 +24,18 @@ const tokenFiatValuesSlice = createSlice({
         name: SLICE_NAME,
         initialState,
         extraReducers: ((builder) => {
-            builder.addCase(fetchTokenFiatValues.pending, (state, action) => {
-                state.loading = true;
-                state.error = initialErrorState;
-            });
-
             builder.addCase(fetchTokenFiatValues.fulfilled, (state, action) => {
                 // Payload of .fulfilled is in the same shape as the store; just merge it!
                 // { near: { usd: x, lastUpdatedTimestamp: 1212312321, ... }
-
-                state.loading = false;
-                state.error = initialErrorState;
 
                 // Using merge instead of `assign()` so in the future we don't blow away previously loaded token
                 // prices when we load new ones with different token names
                 merge(state.tokens, action.payload);
             });
-
-            builder.addCase(fetchTokenFiatValues.rejected, (state, { error }) => {
-                state.loading = false;
-
-                // TODO: Localize this?
-                state.error = {
-                    message: error?.message || 'An error was encountered.',
-                    code: error?.code
-                };
+            handleAsyncThunkStatus({
+                asyncThunk: `${SLICE_NAME}/fetchTokenFiatValues`,
+                buildStatusPath: () => '',
+                builder
             });
         })
     }
