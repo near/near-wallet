@@ -1,9 +1,30 @@
 import React from 'react';
 import { Translate } from 'react-localize-redux';
-import { Grid, Image } from 'semantic-ui-react';
 import styled from 'styled-components';
 
 import IconCheckImage from '../../images/icon-check.svg';
+import Image from '../common/image';
+
+
+const LoginCliLoginSuccessWrapper = styled('section')`
+    width: 100%;
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    text-align: center;
+
+    @media (max-width: 768px) {
+        padding: 16px;
+    }
+
+    .title{
+        margin-top: 16px;
+    }
+
+`;
 
 
 const CustomImage = styled(Image)`
@@ -13,36 +34,13 @@ const CustomImage = styled(Image)`
 `;
 
 export const LoginCliLoginSuccess = () => (
-    <Grid padded>
-        <Grid.Row centered>
-            <Grid.Column
-                textAlign='center'
-                className='authorize'
-            >
-                <CustomImage src={IconCheckImage} />
-            </Grid.Column>
-        </Grid.Row>
-        <Grid.Row className='title'>
-            <Grid.Column
-                as='h2'
-                textAlign='center'
-                computer={16}
-                tablet={16}
-                mobile={16}
-            >
-                <Translate id='login.cliLoginSuccess.pageTitle' />
-            </Grid.Column>
-        </Grid.Row>
-        <Grid.Row>
-            <Grid.Column
-                textAlign='center'
-                computer={16}
-                tablet={16}
-                mobile={16}
-                className='color-black'
-            >
-                <Translate id='login.cliLoginSuccess.pageText' />
-            </Grid.Column>
-        </Grid.Row>
-    </Grid>
+    <LoginCliLoginSuccessWrapper>
+         <CustomImage src={IconCheckImage} />
+        <h2 className='title'>
+            <Translate id='login.cliLoginSuccess.pageTitle' />
+        </h2>
+        <p className='color-black'>
+            <Translate id='login.cliLoginSuccess.pageText' />
+        </p>
+    </LoginCliLoginSuccessWrapper>
 );

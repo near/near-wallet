@@ -3,7 +3,6 @@ import { createGlobalStyle } from "styled-components";
 import CloseBtn from "../images/close-btn.svg";
 
 export default createGlobalStyle`
-
   * {
         box-sizing: inherit;
     }
@@ -32,6 +31,7 @@ export default createGlobalStyle`
     a {
         color: #0072ce;
     }
+
     a:hover {
         color: #0072ce;
         text-decoration: underline;
