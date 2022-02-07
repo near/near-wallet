@@ -7,6 +7,7 @@ import { WHITELISTED_CONTRACTS } from '../../../config';
 import FungibleTokens from '../../../services/FungibleTokens';
 import { selectBalance } from '../account';
 import createParameterSelector from '../createParameterSelector';
+import handleAsyncThunkStatus from '../handleAsyncThunkStatus';
 import initialErrorState from '../initialErrorState';
 import { selectNearTokenFiatValueUSD } from '../tokenFiatValues';
 
@@ -112,26 +113,10 @@ const tokensSlice = createSlice({
         },
     },
     extraReducers: ((builder) => {
-        builder.addCase(fetchOwnedTokensForContract.pending, (state, { meta }) => {
-            const { accountId, contractName } = meta.arg;
-
-            set(state, ['ownedTokens', 'byAccountId', accountId, contractName, 'loading'], true);
-            set(state, ['ownedTokens', 'byAccountId', accountId, contractName, 'error'], initialErrorState);
-        });
-        builder.addCase(fetchOwnedTokensForContract.fulfilled, (state, { meta }) => {
-            const { accountId, contractName } = meta.arg;
-
-            set(state, ['ownedTokens', 'byAccountId', accountId, contractName, 'loading'], false);
-            set(state, ['ownedTokens', 'byAccountId', accountId, contractName, 'error'], initialErrorState);
-        });
-        builder.addCase(fetchOwnedTokensForContract.rejected, (state, { meta, error }) => {
-            const { accountId, contractName } = meta.arg;
-
-            set(state, ['ownedTokens', 'byAccountId', accountId, contractName, 'loading'], false);
-            set(state, ['ownedTokens', 'byAccountId', accountId, contractName, 'error'], {
-                message: error?.message || 'An error was encountered.',
-                code: error?.code
-            });
+        handleAsyncThunkStatus({
+            asyncThunk: `${SLICE_NAME}/fetchOwnedTokensForContract`,
+            buildStatusPath: ({ meta: { arg: { accountId, contractName }}}) => ['ownedTokens', 'byAccountId', accountId, contractName],
+            builder
         });
     })
 });
