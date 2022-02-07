@@ -5,6 +5,7 @@ import { createSelector } from 'reselect';
 
 import NonFungibleTokens from '../../../services/NonFungibleTokens';
 import createParameterSelector from '../createParameterSelector';
+import handleAsyncThunkStatus from '../handleAsyncThunkStatus';
 import initialErrorState from '../initialErrorState';
 
 const { getLikelyTokenContracts, getMetadata, getTokens, getNumberOfTokens } = NonFungibleTokens;
@@ -161,32 +162,10 @@ const nftSlice = createSlice({
             }
         },
         extraReducers: ((builder) => {
-            builder.addCase(fetchOwnedNFTsForContract.pending, (state, { meta }) => {
-                debugLog('REDUCER/fetchOwnedNFTsForContract.pending');
-
-                const { accountId, contractName } = meta.arg;
-
-                set(state, ['ownedTokens', 'byAccountId', accountId, 'byContractName', contractName, 'loading'], true);
-                set(state, ['ownedTokens', 'byAccountId', accountId, 'byContractName', contractName, 'error'], initialErrorState);
-            });
-            builder.addCase(fetchOwnedNFTsForContract.fulfilled, (state, { meta }) => {
-                debugLog('REDUCER/fetchOwnedNFTsForContract.fulfilled');
-
-                const { accountId, contractName } = meta.arg;
-
-                set(state, ['ownedTokens', 'byAccountId', accountId, 'byContractName', contractName, 'loading'], false);
-                set(state, ['ownedTokens', 'byAccountId', accountId, 'byContractName', contractName, 'error'], initialErrorState);
-            });
-            builder.addCase(fetchOwnedNFTsForContract.rejected, (state, { meta, error }) => {
-                debugLog('REDUCER/fetchOwnedNFTsForContract.fulfilled');
-                
-                const { accountId, contractName } = meta.arg;
-
-                set(state, ['ownedTokens', 'byAccountId', accountId, 'byContractName', contractName, 'loading'], false);
-                set(state, ['ownedTokens', 'byAccountId', accountId, 'byContractName', contractName, 'error'], {
-                    message: error?.message || 'An error was encountered.',
-                    code: error?.code
-                });
+            handleAsyncThunkStatus({
+                asyncThunk: `${SLICE_NAME}/fetchOwnedNFTsForContract`,
+                buildStatusPath: ({ meta: { arg: { accountId, contractName }}}) => ['ownedTokens', 'byAccountId', accountId, 'byContractName', contractName],
+                builder
             });
         })
     }
