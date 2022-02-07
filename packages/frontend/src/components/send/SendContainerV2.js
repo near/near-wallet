@@ -14,7 +14,7 @@ import Review from './components/views/Review';
 import SelectToken from './components/views/SelectToken';
 import Success from './components/views/Success';
 
-const { getFormattedTokenAmount, getParsedTokenAmount } = FungibleTokens;
+const { getFormattedTokenAmount, getParsedTokenAmount, getUniqueTokenIdentity } = FungibleTokens;
 
 export const VIEWS = {
     ENTER_AMOUNT: 'enterAmount',
@@ -118,7 +118,7 @@ const SendContainerV2 = ({
             setIsMaxAmount(false);
             setUserInputAmount('');
         }
-    }, [selectedToken]);
+    }, [getUniqueTokenIdentity(selectedToken)]);
 
     useEffect(() => window.scrollTo(0, 0), [activeView]);
 
@@ -194,7 +194,7 @@ const SendContainerV2 = ({
                 <EnterReceiver
                     onClickGoBack={() => setActiveView(VIEWS.ENTER_AMOUNT)}
                     onClickCancel={() => redirectTo('/')}
-                    amount={getRawAmount()}
+                    amount={isMaxAmount ? selectedToken.balance : getRawAmount()}
                     selectedToken={selectedToken}
                     handleChangeReceiverId={(receiverId) => setReceiverId(receiverId)}
                     receiverId={receiverId}

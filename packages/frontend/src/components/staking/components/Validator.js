@@ -2,12 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { Translate } from 'react-localize-redux';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { useNEARAsTokenWithMetadata } from '../../../hooks/fungibleTokensIncludingNEAR';
 import { Mixpanel } from '../../../mixpanel';
 import { redirectTo } from '../../../redux/actions/account';
 import { selectAccountId } from '../../../redux/slices/account';
 import { selectActionsPending } from '../../../redux/slices/status';
-import { actions as tokensActions, selectAllContractMetadata } from '../../../redux/slices/tokens';
+import { actions as tokensActions, selectAllContractMetadata, selectNEARAsTokenWithMetadata } from '../../../redux/slices/tokens';
 import { PROJECT_VALIDATOR_VERSION, ValidatorVersion } from '../../../utils/constants';
 import FormButton from '../../common/FormButton';
 import SafeTranslate from '../../SafeTranslate';
@@ -63,7 +62,7 @@ export default function Validator({
     const [confirm, setConfirm] = useState(null);
     const [farmList, setFarmList] = useState([]);
     const [isFarmListLoading, setIsFarmListLoading] = useState(false);
-    const nearAsFT = useNEARAsTokenWithMetadata();
+    const nearAsFT = useSelector(selectNEARAsTokenWithMetadata);
     const accountId = useSelector(selectAccountId);
     const contractMetadataByContractId = useSelector(selectAllContractMetadata);
 

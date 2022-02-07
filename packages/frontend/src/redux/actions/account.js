@@ -2,7 +2,6 @@ import {
     getLocation,
     push
 } from 'connected-react-router';
-import { PublicKey, KeyType } from 'near-api-js/lib/utils/key_pair';
 import { parse, stringify } from 'query-string';
 import { createActions, createAction } from 'redux-actions';
 
@@ -47,6 +46,7 @@ import {
     selectActiveAccountIdIsImplicitAccount
 } from '../slices/account';
 import { selectAccountHasLockup } from '../slices/account';
+import { createAccountWithSeedPhrase } from '../slices/account/createAccountThunks';
 import { selectAllAccountsHasLockup } from '../slices/allAccounts';
 import { selectAvailableAccounts } from '../slices/availableAccounts';
 import { 
@@ -247,7 +247,6 @@ export const {
     claimLinkdropToAccount,
     checkIsNew,
     checkNewAccount,
-    createNewAccount,
     saveAccount,
     checkAccountAvailable,
     clearCode
@@ -350,7 +349,6 @@ export const {
         wallet.checkNewAccount.bind(wallet),
         () => showAlert({ localAlert: true })
     ],
-    CREATE_NEW_ACCOUNT: wallet.createNewAccount.bind(wallet),
     SAVE_ACCOUNT: wallet.saveAccount.bind(wallet),
     CHECK_ACCOUNT_AVAILABLE: [
         wallet.checkAccountAvailable.bind(wallet),
@@ -454,7 +452,7 @@ export const handleCreateAccountWithSeedPhrase = (accountId, recoveryKeyPair, fu
     }
 
     try {
-        await dispatch(createAccountWithSeedPhrase(accountId, recoveryKeyPair, fundingOptions, recaptchaToken));
+        await dispatch(createAccountWithSeedPhrase({ accountId, recoveryKeyPair, fundingOptions, recaptchaToken })).unwrap();
     } catch (error) {
         if (await wallet.accountExists(accountId)) {
             // Requests sometimes fail after creating the NEAR account for another reason (transport error?)
@@ -484,28 +482,14 @@ export const finishAccountSetup = () => async (dispatch, getState) => {
     }
 };
 
-export const createAccountFromImplicit = createAction('CREATE_ACCOUNT_FROM_IMPLICIT', async (accountId, implicitAccountId, recoveryMethod) => {
-    const recoveryKeyPair = await wallet.keyStore.getKey(wallet.connection.networkId, implicitAccountId);
-    if (recoveryKeyPair) {
-        await wallet.saveAccount(accountId, recoveryKeyPair);
-    }
-    const publicKey = new PublicKey({ keyType: KeyType.ED25519, data: Buffer.from(implicitAccountId, 'hex') });
-    await wallet.createNewAccount(accountId, { fundingAccountId: implicitAccountId }, recoveryMethod, publicKey);
-},
-    () => showAlert({ onlyError: true })
-);
-
-export const { addAccessKey, createAccountWithSeedPhrase, addAccessKeySeedPhrase } = createActions({
+export const { 
+    addAccessKey,
+    addAccessKeySeedPhrase
+} = createActions({
     ADD_ACCESS_KEY: [
         wallet.addAccessKey.bind(wallet),
         (title) => showAlert({ title })
     ],
-    CREATE_ACCOUNT_WITH_SEED_PHRASE: async (accountId, recoveryKeyPair, fundingOptions = {}, recaptchaToken) => {
-        const recoveryMethod = 'phrase';
-        const previousAccountId = wallet.accountId;
-        await wallet.saveAccount(accountId, recoveryKeyPair);
-        await wallet.createNewAccount(accountId, fundingOptions, recoveryMethod, recoveryKeyPair.publicKey, previousAccountId, recaptchaToken);
-    },
     ADD_ACCESS_KEY_SEED_PHRASE: [
         async (accountId, recoveryKeyPair) => {
             const publicKey = recoveryKeyPair.publicKey.toString();
@@ -559,7 +543,7 @@ export const refreshAccount = (basicData = false) => async (dispatch, getState) 
     }
 
     dispatch(setLocalStorage(wallet.accountId));
-    await dispatch(refreshAccountOwner(selectFlowLimitationAccountData(getState())));
+    await dispatch(refreshAccountOwner(selectFlowLimitationAccountData(getState()))).unwrap();
 
     if (!basicData && !selectFlowLimitationAccountBalance(getState())) {
         dispatch(getBalance('', selectFlowLimitationAccountData(getState())));

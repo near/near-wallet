@@ -14,6 +14,7 @@ import { Mixpanel } from '../../../mixpanel/index';
 import * as accountActions from '../../../redux/actions/account';
 import { showCustomAlert } from '../../../redux/actions/status';
 import { selectAccountId, selectAccountSlice } from '../../../redux/slices/account';
+import { addLocalKeyAndFinishSetup, createIdentityFundedAccount, createNewAccount } from '../../../redux/slices/account/createAccountThunks';
 import { actions as linkdropActions } from '../../../redux/slices/linkdrop';
 import { actions as recoveryMethodsActions, selectRecoveryMethodsByAccountId, selectRecoveryMethodsLoading } from '../../../redux/slices/recoveryMethods';
 import { selectActionsPending, selectStatusMainLoader } from '../../../redux/slices/status';
@@ -45,7 +46,6 @@ const {
     getLedgerKey,
     get2faMethod,
     checkIsNew,
-    createNewAccount,
     saveAccount,
     fundCreateAccount,
     validateSecurityCode
@@ -205,7 +205,9 @@ class SetupRecoveryMethod extends Component {
             saveAccount,
             location,
             setLinkdropAmount,
-            redirectTo
+            redirectTo,
+            addLocalKeyAndFinishSetup,
+            createIdentityFundedAccount
         } = this.props;
 
         const fundingOptions = parseFundingOptions(location.search);
@@ -232,7 +234,7 @@ class SetupRecoveryMethod extends Component {
             // IDENTITY VERIFIED FUNDED ACCOUNT
             if (DISABLE_CREATE_ACCOUNT && !fundingOptions && ENABLE_IDENTITY_VERIFIED_ACCOUNT) {
                 try {
-                    await wallet.createIdentityFundedAccount({
+                    await createIdentityFundedAccount({
                         accountId,
                         kind: method.kind,
                         publicKey: recoveryKeyPair.publicKey,
@@ -241,7 +243,7 @@ class SetupRecoveryMethod extends Component {
                         recoveryMethod: method.kind,
                         recaptchaAction: 'verifiedIdentityCreateFundedAccount',
                         recaptchaToken: createIdentityFundedAccountEnterpriseRecaptchaToken,
-                    });
+                    }).unwrap();
                 } catch (e) {
                     console.warn(e.code);
 
@@ -271,7 +273,7 @@ class SetupRecoveryMethod extends Component {
                     // Assume a transient error occurred, but that the account is on-chain and we can finish the creation process
                     try {
                         await wallet.saveAndMakeAccountActive(accountId);
-                        await wallet.addLocalKeyAndFinishSetup(accountId, method.kind, recoveryKeyPair.publicKey);
+                        await addLocalKeyAndFinishSetup({ accountId, recoveryMethod: method.kind, publicKey: recoveryKeyPair.publicKey });
                     } catch (e) {
                         showCustomAlert({
                             success: false,
@@ -292,7 +294,7 @@ class SetupRecoveryMethod extends Component {
 
             try {
                 // NOT IMPLICIT ACCOUNT (testnet, linkdrop, funded to delegated account via contract helper)
-                await createNewAccount(accountId, fundingOptions, method, recoveryKeyPair.publicKey, undefined, recaptchaToken);
+                await createNewAccount({ accountId, fundingOptions, recoveryMethod: method, publicKey: recoveryKeyPair.publicKey, recaptchaToken });
                 if (fundingOptions?.fundingAmount) {
                     setLinkdropAmount(fundingOptions.fundingAmount);
                 }
@@ -582,7 +584,9 @@ const mapDispatchToProps = {
     createNewAccount,
     saveAccount,
     validateSecurityCode,
-    setLinkdropAmount
+    setLinkdropAmount,
+    addLocalKeyAndFinishSetup,
+    createIdentityFundedAccount
 };
 
 const mapStateToProps = (state, { match }) => {
