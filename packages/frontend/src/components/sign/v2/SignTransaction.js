@@ -4,7 +4,6 @@ import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
 import Balance from '../../common/balance/Balance';
-import FormButton from '../../common/FormButton';
 import Tooltip from '../../common/Tooltip';
 
 const StyledContainer = styled.div`
@@ -90,8 +89,7 @@ export default ({
     transferAmount,
     sender,
     estimatedFees,
-    availableBalance,
-    onClickEditAccount
+    availableBalance
 }) => {
     const isTransferTransaction = new BN(transferAmount).gt(new BN(0));
     return (
@@ -104,16 +102,7 @@ export default ({
                 />
             }
             <div className={`account from ${!isTransferTransaction ? 'no-border' : ''}`}>
-                <div className='left'>
-                    <Translate id='transfer.from' />
-                    {' • '}
-                    <FormButton
-                        className="link"
-                        onClick={onClickEditAccount}
-                    >
-                        <Translate id="button.edit" />
-                    </FormButton>
-                </div>
+                <Translate id='transfer.from' />
                 <div className='right'>
                     <div className='account-id'>{sender}</div>
                     <Balance

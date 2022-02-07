@@ -2,15 +2,14 @@ import BN from 'bn.js';
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import AccountSelector from '../components/accounts/account_selector/AccountSelector';
-import Container from '../components/common/styled/Container.css';
+import SignTransferAccountNotFound from '../components/sign/SignTransferAccountNotFound';
 import SignTransferRetry from '../components/sign/SignTransferRetry';
 import SignTransactionDetailsWrapper from '../components/sign/v2/SignTransactionDetailsWrapper';
 import SignTransactionSummaryWrapper from '../components/sign/v2/SignTransactionSummaryWrapper';
 import { Mixpanel } from '../mixpanel';
-import { getAccountBalance, redirectTo, switchAccount } from '../redux/actions/account';
-import { selectAccountAccountsBalances, selectAccountId, selectAccountLocalStorageAccountId } from '../redux/slices/account';
-import { selectAvailableAccounts } from '../redux/slices/availableAccounts';
+import { switchAccount } from '../redux/actions/account';
+import { selectAccountId } from '../redux/slices/account';
+import { selectAvailableAccounts, selectAvailableAccountsIsLoading } from '../redux/slices/availableAccounts';
 import {
     addQueryParams,
     handleSignTransactions,
@@ -20,7 +19,8 @@ import {
     selectSignCallbackUrl,
     selectSignMeta,
     selectSignTransactionHashes,
-    selectSignTransactions
+    selectSignTransactions,
+    selectSignTransactionsBatchIsValid
 } from '../redux/slices/sign';
 
 export function SignWrapper() {
@@ -30,41 +30,50 @@ export function SignWrapper() {
         TRANSACTION_SUMMARY: 0,
         TRANSACTION_DETAILS: 1,
         INSUFFICIENT_NETWORK_FEE: 2,
-        ACCOUNT_SELECTION: 3
+        ACCOUNT_NOT_FOUND: 3
     };
 
     const [currentDisplay, setCurrentDisplay] = useState(DISPLAY.TRANSACTION_SUMMARY);
-    const [ customAccount, setCustomAccount ] = useState(false);
 
     const signFeesGasLimitIncludingGasChanges = useSelector(selectSignFeesGasLimitIncludingGasChanges);
     const signStatus = useSelector(selectSignStatus);
     const signCallbackUrl = useSelector(selectSignCallbackUrl);
     const signMeta = useSelector(selectSignMeta);
     const transactionHashes = useSelector(selectSignTransactionHashes);
-    const accountLocalStorageAccountId = useSelector(selectAccountLocalStorageAccountId);
     const availableAccounts = useSelector(selectAvailableAccounts);
-    const accountAccountsBalances = useSelector(selectAccountAccountsBalances);
+    const availableAccountsIsLoading = useSelector(selectAvailableAccountsIsLoading);
     const transactions = useSelector(selectSignTransactions);
     const accountId = useSelector(selectAccountId);
+    const transactionBatchisValid = useSelector(selectSignTransactionsBatchIsValid);
 
+    const signerId = transactions.length && transactions[0].signerId;
     const signGasFee = new BN(signFeesGasLimitIncludingGasChanges).div(new BN('1000000000000')).toString();
     const submittingTransaction = signStatus === SIGN_STATUS.IN_PROGRESS;
 
     useEffect(() => {
+        if(!transactionBatchisValid) {
+            // switch to invalid batch screen
+        } else if(signerId && !availableAccountsIsLoading && !availableAccounts.some(
+            (accountId) => accountId === signerId
+        )) {
+            setCurrentDisplay(DISPLAY.ACCOUNT_NOT_FOUND);
+        } else {
+            setCurrentDisplay(DISPLAY.TRANSACTION_SUMMARY);
+        }
+    },[signerId, transactionBatchisValid, availableAccounts, accountId, availableAccountsIsLoading]);
+
+    useEffect(() => {
             if (
-                !customAccount &&
-                transactions.length &&
-                accountId &&
-                accountId !== transactions[0].signerId &&
+                accountId !== signerId &&
                 availableAccounts.some(
-                    (accountId) => accountId === transactions[0].signerId
+                    (accountId) => accountId === signerId
                 )
             ) {
                 dispatch(
-                    switchAccount({ accountId: transactions[0].signerId })
+                    switchAccount({ accountId: signerId })
                 );
             }
-    }, [transactions, customAccount, availableAccounts, accountId]);
+    }, [signerId, availableAccounts, accountId]);
 
     useEffect(() => {
         if (signStatus === SIGN_STATUS.RETRY_TRANSACTION) {
@@ -106,33 +115,24 @@ export function SignWrapper() {
         }
     };
 
-    if(currentDisplay === DISPLAY.ACCOUNT_SELECTION) {
-        return (
-            <Container className='small-centered border'>
-                <AccountSelector
-                    signedInAccountId={accountLocalStorageAccountId}
-                    availableAccounts={availableAccounts}
-                    accountsBalances={accountAccountsBalances}
-                    onSelectAccount={(accountId) => {
-                        dispatch(switchAccount({ accountId })).then(() => setCustomAccount(true));
-                        setCurrentDisplay(DISPLAY.TRANSACTION_SUMMARY);
-                    }}
-                    getAccountBalance={(accountId) => dispatch(getAccountBalance(accountId))}
-                    onSignInToDifferentAccount={() => {
-                        Mixpanel.track("LOGIN Click recover different account button");
-                        dispatch(redirectTo('/recover-account'));
-                    }}
-                />
-            </Container>
-        );
-    }
-
     if (currentDisplay === DISPLAY.INSUFFICIENT_NETWORK_FEE) {
         return (
             <SignTransferRetry
                 handleRetry={handleApproveTransaction}
                 handleCancel={handleCancelTransaction}
                 gasLimit={signGasFee}
+                submittingTransaction={submittingTransaction}
+            />
+        );
+    }
+
+    if (currentDisplay === DISPLAY.ACCOUNT_NOT_FOUND) {
+        return (
+            <SignTransferAccountNotFound
+                handleRetry={handleApproveTransaction}
+                handleCancel={handleCancelTransaction}
+                signCallbackUrl={signCallbackUrl}
+                signTransactionSignerId={signerId}
                 submittingTransaction={submittingTransaction}
             />
         );

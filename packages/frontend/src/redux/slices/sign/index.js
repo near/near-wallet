@@ -177,6 +177,14 @@ export const selectSignTransactions = createSelector(
     (sign) => sign.transactions || []
 );
 
+export const selectSignTransactionsBatchIsValid = createSelector(
+    [selectSignTransactions],
+    (transactions) => {
+        const firstSignerId = transactions.length && transactions[0].signerId;
+        return !transactions.length || transactions.every(({signerId}) => signerId === firstSignerId);
+    }
+);
+
 export const selectSignTransactionAmount = createSelector(
     [selectSignSlice],
     (sign) => sign.totalAmount
