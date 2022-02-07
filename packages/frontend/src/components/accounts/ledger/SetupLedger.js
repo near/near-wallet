@@ -6,7 +6,6 @@ import { DISABLE_CREATE_ACCOUNT, RECAPTCHA_CHALLENGE_API_KEY } from '../../../co
 import { Mixpanel } from '../../../mixpanel/index';
 import {
     addLedgerAccessKey,
-    createNewAccount,
     refreshAccount,
     redirectToApp,
     redirectTo,
@@ -16,6 +15,7 @@ import {
 } from '../../../redux/actions/account';
 import { showCustomAlert } from '../../../redux/actions/status';
 import { selectAccountSlice } from '../../../redux/slices/account';
+import { createNewAccount } from '../../../redux/slices/account/createAccountThunks';
 import { actions as linkdropActions } from '../../../redux/slices/linkdrop';
 import { selectStatusMainLoader } from '../../../redux/slices/status';
 import parseFundingOptions from '../../../utils/parseFundingOptions';
@@ -93,7 +93,7 @@ const SetupLedger = (props) => {
                             return;
                         }
 
-                        await dispatch(createNewAccount(accountId, fundingOptions, 'ledger', publicKey, undefined, recaptchaToken));
+                        await dispatch(createNewAccount({ accountId, fundingOptions, recoveryMethod: 'ledger', publicKey, recaptchaToken })).unwrap();
                         if (fundingOptions?.fundingAmount) {
                             setLinkdropAmount(fundingOptions.fundingAmount);
                         }

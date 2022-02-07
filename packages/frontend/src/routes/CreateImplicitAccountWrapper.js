@@ -12,6 +12,7 @@ import { Mixpanel } from '../mixpanel';
 import { redirectTo, checkAndHideLedgerModal } from '../redux/actions/account';
 import { showCustomAlert } from '../redux/actions/status';
 import { selectAccountId } from '../redux/slices/account';
+import { finishSetupImplicitAccount } from '../redux/slices/account/createAccountThunks';
 import { actions as createFromImplicitActions } from '../redux/slices/createFromImplicit';
 import { getSignedUrl } from '../utils/moonpay';
 import { isMoonpayAvailable } from '../utils/moonpay';
@@ -78,10 +79,10 @@ export function CreateImplicitAccountWrapper() {
                             Mixpanel.track("CA Check balance from implicit: sufficient");
                             setFundingNeeded(false);
                             console.log('Minimum funding amount received. Finishing acccount setup.');
-                            await wallet.finishSetupImplicitAccount({
+                            await dispatch(finishSetupImplicitAccount({
                                 implicitAccountId,
                                 recoveryMethod
-                            });
+                            })).unwrap();
                             if (new BN(state.amount).gte(new BN(NAMED_ACCOUNT_MIN))) {
                                 dispatch(setCreateCustomName(true));
                             }
