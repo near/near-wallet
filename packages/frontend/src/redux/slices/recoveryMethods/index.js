@@ -4,6 +4,7 @@ import { createSelector } from 'reselect';
 
 import { wallet } from '../../../utils/wallet';
 import createParameterSelector from '../createParameterSelector';
+import handleAsyncThunkStatus from '../handleAsyncThunkStatus';
 import initialErrorState from '../initialErrorState';
 
 const SLICE_NAME = 'recoveryMethods';
@@ -50,26 +51,10 @@ const recoveryMethodsSlice = createSlice({
             }
         },
         extraReducers: ((builder) => {
-            builder.addCase(fetchRecoveryMethods.pending, (state, { meta }) => {
-                const { accountId } = meta.arg;
-    
-                set(state, ['byAccountId', accountId, 'status', 'loading'], true);
-                set(state, ['byAccountId', accountId, 'status', 'error'], initialErrorState);
-            });
-            builder.addCase(fetchRecoveryMethods.fulfilled, (state,  { meta }) => {
-                const { accountId } = meta.arg;
-    
-                set(state, ['byAccountId', accountId, 'status', 'loading'], false);
-                set(state, ['byAccountId', accountId, 'status', 'error'], initialErrorState);
-            });
-            builder.addCase(fetchRecoveryMethods.rejected, (state, { meta, error }) => {
-                const { accountId } = meta.arg;
-                
-                set(state, ['byAccountId', accountId, 'status', 'loading'], false);
-                set(state, ['byAccountId', accountId, 'status', 'error'], {
-                    message: error?.message || 'An error was encountered.',
-                    code: error?.code
-                });
+            handleAsyncThunkStatus({
+                asyncThunk: `${SLICE_NAME}/fetchRecoveryMethods`,
+                buildStatusPath: ({ meta: { arg: { accountId }}}) => ['byAccountId', accountId, 'status'],
+                builder
             });
         })
     }
