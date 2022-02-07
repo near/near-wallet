@@ -48,9 +48,10 @@ When adding a new component, use the following file pattern
 │  ├─ index.ts
 
 ```
+> Make sure to write stories and tests for every new component added
 
 ## 💭 Architecture
-- The primary goal of this package is maximum compatability / reuse with other projects. Any imports and dependencies should be kept to an absolute minimum.
+- The primary goal of this package is maximum compatability / reuse with other projects. Any third-party dependencies should be kept to an absolute minimum.
 
 ## 🥂 References
 - [Microbundle](https://github.com/developit/microbundle)
