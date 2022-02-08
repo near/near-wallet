@@ -189,12 +189,12 @@ class SetupRecoveryMethod extends Component {
             fundCreateAccount,
             createNewAccount,
             validateSecurityCode,
-            saveAccount,
             location,
             setLinkdropAmount,
             redirectTo,
             addLocalKeyAndFinishSetup,
-            createIdentityFundedAccount
+            createIdentityFundedAccount,
+            checkIsNew
         } = this.props;
 
         const fundingOptions = parseFundingOptions(location.search);
