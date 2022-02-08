@@ -37,19 +37,7 @@ import 'react-phone-number-input/style.css';
 const { setLinkdropAmount } = linkdropActions;
 const { fetchRecoveryMethods } = recoveryMethodsActions;
 
-const {
-    initializeRecoveryMethod,
-    setupRecoveryMessage,
-    redirectToApp,
-    redirectTo,
-    getAccessKeys,
-    getLedgerKey,
-    get2faMethod,
-    checkIsNew,
-    saveAccount,
-    fundCreateAccount,
-    validateSecurityCode
-} = accountActions;
+
 
 // FIXME: Use `debug` npm package so we can keep some debug logging around but not spam the console everywhere
 const ENABLE_DEBUG_LOGGING = false;
@@ -202,10 +190,10 @@ class SetupRecoveryMethod extends Component {
             fundCreateAccount,
             createNewAccount,
             validateSecurityCode,
-            saveAccount,
             location,
             setLinkdropAmount,
             redirectTo,
+            checkIsNew,
             addLocalKeyAndFinishSetup,
             createIdentityFundedAccount
         } = this.props;
@@ -569,24 +557,40 @@ class SetupRecoveryMethod extends Component {
     }
 }
 
-const mapDispatchToProps = {
-    setupRecoveryMessage,
-    redirectToApp,
-    fetchRecoveryMethods,
-    initializeRecoveryMethod,
-    getAccessKeys,
-    getLedgerKey,
-    get2faMethod,
-    checkIsNew,
-    redirectTo,
-    showCustomAlert,
-    fundCreateAccount,
-    createNewAccount,
-    saveAccount,
-    validateSecurityCode,
-    setLinkdropAmount,
-    addLocalKeyAndFinishSetup,
-    createIdentityFundedAccount
+const mapDispatchToProps =()=> {
+    const {
+        initializeRecoveryMethod,
+        setupRecoveryMessage,
+        redirectToApp,
+        redirectTo,
+        getAccessKeys,
+        getLedgerKey,
+        get2faMethod,
+        checkIsNew,
+        saveAccount,
+        fundCreateAccount,
+        validateSecurityCode
+    } = accountActions;
+
+    return {
+        setupRecoveryMessage,
+        redirectToApp,
+        fetchRecoveryMethods,
+        initializeRecoveryMethod,
+        getAccessKeys,
+        getLedgerKey,
+        get2faMethod,
+        checkIsNew,
+        redirectTo,
+        showCustomAlert,
+        fundCreateAccount,
+        createNewAccount,
+        saveAccount,
+        validateSecurityCode,
+        setLinkdropAmount,
+        addLocalKeyAndFinishSetup,
+        createIdentityFundedAccount
+    };
 };
 
 const mapStateToProps = (state, { match }) => {
