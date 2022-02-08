@@ -38,6 +38,7 @@ const { setLinkdropAmount } = linkdropActions;
 const { fetchRecoveryMethods } = recoveryMethodsActions;
 
 
+
 // FIXME: Use `debug` npm package so we can keep some debug logging around but not spam the console everywhere
 const ENABLE_DEBUG_LOGGING = false;
 const debugLog = (...args) => ENABLE_DEBUG_LOGGING && console.log('SetupRecoveryMethod:', ...args);
@@ -192,9 +193,9 @@ class SetupRecoveryMethod extends Component {
             location,
             setLinkdropAmount,
             redirectTo,
+            checkIsNew,
             addLocalKeyAndFinishSetup,
-            createIdentityFundedAccount,
-            checkIsNew
+            createIdentityFundedAccount
         } = this.props;
 
         const fundingOptions = parseFundingOptions(location.search);
@@ -556,38 +557,40 @@ class SetupRecoveryMethod extends Component {
     }
 }
 
-const {
-    initializeRecoveryMethod,
-    setupRecoveryMessage,
-    redirectToApp,
-    redirectTo,
-    getAccessKeys,
-    getLedgerKey,
-    get2faMethod,
-    checkIsNew,
-    saveAccount,
-    fundCreateAccount,
-    validateSecurityCode
-} = accountActions;
+const mapDispatchToProps =()=> {
+    const {
+        initializeRecoveryMethod,
+        setupRecoveryMessage,
+        redirectToApp,
+        redirectTo,
+        getAccessKeys,
+        getLedgerKey,
+        get2faMethod,
+        checkIsNew,
+        saveAccount,
+        fundCreateAccount,
+        validateSecurityCode
+    } = accountActions;
 
-const mapDispatchToProps = {
-    setupRecoveryMessage,
-    redirectToApp,
-    fetchRecoveryMethods,
-    initializeRecoveryMethod,
-    getAccessKeys,
-    getLedgerKey,
-    get2faMethod,
-    checkIsNew,
-    redirectTo,
-    showCustomAlert,
-    fundCreateAccount,
-    createNewAccount,
-    saveAccount,
-    validateSecurityCode,
-    setLinkdropAmount,
-    addLocalKeyAndFinishSetup,
-    createIdentityFundedAccount
+    return {
+        setupRecoveryMessage,
+        redirectToApp,
+        fetchRecoveryMethods,
+        initializeRecoveryMethod,
+        getAccessKeys,
+        getLedgerKey,
+        get2faMethod,
+        checkIsNew,
+        redirectTo,
+        showCustomAlert,
+        fundCreateAccount,
+        createNewAccount,
+        saveAccount,
+        validateSecurityCode,
+        setLinkdropAmount,
+        addLocalKeyAndFinishSetup,
+        createIdentityFundedAccount
+    };
 };
 
 const mapStateToProps = (state, { match }) => {
