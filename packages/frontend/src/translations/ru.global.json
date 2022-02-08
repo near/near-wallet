@@ -973,6 +973,10 @@
         "startOverText": "Не записали фразу?"
     },
     "sign": {
+        "accountNotFound": {
+            "body": "<a href=\"${signCallbackUrl}\">${signCallbackUrl}</a> is requesting authorization from a NEAR account that cannot be found: <b>${signTransactionSignerId}</b><br/><br/>To approve any transactions, you’ll first need to import the account.",
+            "title": "Account Not Found"
+        },
         "ActionWarrning": {
             "binaryData": "Аргументы содержат бинарные данные",
             "deleteAccount": "Вы собираетесь удалить свою учетную запись! Ваш баланс NEAR будет уничтожен, а все данные вашей учетной записи удалены.",

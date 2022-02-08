@@ -1035,6 +1035,10 @@
         "startOverText": "Không viết sẽ ra sao?"
     },
     "sign": {
+        "accountNotFound": {
+            "body": "<a href=\"${signCallbackUrl}\">${signCallbackUrl}</a> is requesting authorization from a NEAR account that cannot be found: <b>${signTransactionSignerId}</b><br/><br/>To approve any transactions, you’ll first need to import the account.",
+            "title": "Account Not Found"
+        },
         "ActionWarrning": {
             "binaryData": "Đối số chứa dữ liệu nhị phân",
             "deleteAccount": "Bạn sắp xóa tài khoản của mình! Số dư NEAR của bạn sẽ bị hủy và tất cả dữ liệu tài khoản của bạn sẽ bị xóa.",
