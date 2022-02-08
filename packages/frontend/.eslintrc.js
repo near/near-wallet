@@ -12,6 +12,7 @@ module.exports = {
             'after': true,
         }],
         'no-duplicate-imports': ['error', { includeExports: true }],
+        'eol-last': ['error', 'always'],
         'semi': ['error', 'always'],
         'no-console': 'off',
         'no-extra-boolean-cast':'off',
