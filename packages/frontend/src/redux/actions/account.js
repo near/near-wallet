@@ -209,7 +209,7 @@ export const allowLogin = () => async (dispatch, getState) => {
         const allKeys = availableKeys.map(key => key.toString());
         const url = new URL(successUrl);
         const originalSearchParams = parse(url.search);
-        window.location = `${url.origin}${url.pathname}?${stringify(
+        window.location = successUrl.replace(url.search, `?${stringify(
             {
                 ...originalSearchParams,
                 account_id: wallet.accountId,
@@ -221,7 +221,7 @@ export const allowLogin = () => async (dispatch, getState) => {
                 skipNull: true,
                 arrayFormat: "comma"
             }
-        )}`;
+        )}`);
     } else {
         await dispatch(withAlert(addAccessKey(wallet.accountId, contractId, publicKey, false, methodNames), { data: { title } }));
         dispatch(redirectTo('/authorized-apps', { globalAlertPreventClear: true }));
