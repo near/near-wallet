@@ -1126,6 +1126,10 @@
         "startOverText": "没有记录下来？"
     },
     "sign": {
+        "accountNotFound": {
+            "body": "<a href=\"${signCallbackUrl}\">${signCallbackUrl}</a> is requesting authorization from a NEAR account that cannot be found: <b>${signTransactionSignerId}</b><br/><br/>To approve any transactions, you’ll first need to import the account.",
+            "title": "Account Not Found"
+        },
         "ActionWarrning": {
             "binaryData": "参数中包含二进制数据",
             "deleteAccount": "你将要删除你的账户！你的 NEAR 余额将被清空，并且你的账户数据都将被删除。",
