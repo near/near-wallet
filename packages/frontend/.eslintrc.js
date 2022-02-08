@@ -1,6 +1,7 @@
 module.exports = {
     extends: ['react-app', 'eslint:recommended'],
     rules: {
+        'arrow-parens': 'error',
         'jsx-a11y/no-access-key': 'off',
         'no-useless-escape': 'off',
         'quotes': [2, 'single'],
