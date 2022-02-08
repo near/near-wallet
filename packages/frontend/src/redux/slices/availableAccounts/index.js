@@ -25,7 +25,7 @@ const availableAccountsSlice = createSlice({
         });
         handleAsyncThunkStatus({
             asyncThunk: `refreshAccountOwner`,
-            buildStatusPath: ({ meta: { arg: { accountId }}}) => ['status'],
+            buildStatusPath: () => ['status'],
             builder
         });
     })
