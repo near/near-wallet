@@ -37,19 +37,6 @@ import 'react-phone-number-input/style.css';
 const { setLinkdropAmount } = linkdropActions;
 const { fetchRecoveryMethods } = recoveryMethodsActions;
 
-const {
-    initializeRecoveryMethod,
-    setupRecoveryMessage,
-    redirectToApp,
-    redirectTo,
-    getAccessKeys,
-    getLedgerKey,
-    get2faMethod,
-    checkIsNew,
-    saveAccount,
-    fundCreateAccount,
-    validateSecurityCode
-} = accountActions;
 
 // FIXME: Use `debug` npm package so we can keep some debug logging around but not spam the console everywhere
 const ENABLE_DEBUG_LOGGING = false;
@@ -568,6 +555,20 @@ class SetupRecoveryMethod extends Component {
         }
     }
 }
+
+const {
+    initializeRecoveryMethod,
+    setupRecoveryMessage,
+    redirectToApp,
+    redirectTo,
+    getAccessKeys,
+    getLedgerKey,
+    get2faMethod,
+    checkIsNew,
+    saveAccount,
+    fundCreateAccount,
+    validateSecurityCode
+} = accountActions;
 
 const mapDispatchToProps = {
     setupRecoveryMessage,
