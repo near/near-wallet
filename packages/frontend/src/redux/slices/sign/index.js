@@ -83,7 +83,7 @@ export const handleSignTransactions = createAsyncThunk(
 export function addQueryParams(baseUrl, queryParams = {}) {
     const url = new URL(baseUrl);
     const originalSearchParams = parse(url.search);
-    return `${url.origin}?${stringify({...originalSearchParams, ...queryParams}, {
+    return `${url.origin}${url.pathname}?${stringify({...originalSearchParams, ...queryParams}, {
         skipEmptyString: true,
         skipNull: true,
     })}`;
