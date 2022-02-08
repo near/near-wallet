@@ -11,6 +11,7 @@ module.exports = {
             'before': true,
             'after': true,
         }],
+        'no-duplicate-imports': ['error', { includeExports: true }],
         'semi': ['error', 'always'],
         'no-console': 'off',
         'no-extra-boolean-cast':'off',
