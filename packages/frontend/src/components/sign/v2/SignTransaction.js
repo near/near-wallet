@@ -50,14 +50,6 @@ const StyledContainer = styled.div`
             }
         }
 
-        .left {
-            text-align: left;
-
-            .link {
-                font-weight: normal;
-            }
-        }
-
         &.from {
             .near-amount {
                 color: #72727A;
