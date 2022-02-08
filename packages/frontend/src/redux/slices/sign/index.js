@@ -83,10 +83,10 @@ export const handleSignTransactions = createAsyncThunk(
 export function addQueryParams(baseUrl, queryParams = {}) {
     const url = new URL(baseUrl);
     const originalSearchParams = parse(url.search);
-    return `${url.origin}${url.pathname}?${stringify({...originalSearchParams, ...queryParams}, {
+    return baseUrl.replace(url.search,`?${stringify({...originalSearchParams, ...queryParams}, {
         skipEmptyString: true,
         skipNull: true,
-    })}`;
+    })}`);
 }
 
 export const removeSuccessTransactions = ({ transactions, successHashes }) => {
