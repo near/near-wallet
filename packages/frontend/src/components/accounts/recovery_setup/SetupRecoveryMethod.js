@@ -202,7 +202,6 @@ class SetupRecoveryMethod extends Component {
             fundCreateAccount,
             createNewAccount,
             validateSecurityCode,
-            saveAccount,
             location,
             setLinkdropAmount,
             redirectTo,
