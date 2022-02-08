@@ -207,9 +207,20 @@ export const allowLogin = () => async (dispatch, getState) => {
         const availableKeys = await wallet.getAvailableKeys();
         
         const allKeys = availableKeys.map(key => key.toString());
-        window.location = `${successUrl}?${stringify(
-            { account_id: wallet.accountId, public_key: publicKey, all_keys: allKeys.join(',') },
-            { skipEmptyString: true, skipNull: true, arrayFormat: "comma" }
+        const url = new URL(successUrl);
+        const originalSearchParams = parse(url.search);
+        window.location = `${url.origin}?${stringify(
+            {
+                ...originalSearchParams,
+                account_id: wallet.accountId,
+                public_key: publicKey,
+                all_keys: allKeys.join(","),
+            },
+            {
+                skipEmptyString: true,
+                skipNull: true,
+                arrayFormat: "comma"
+            }
         )}`;
     } else {
         await dispatch(withAlert(addAccessKey(wallet.accountId, contractId, publicKey, false, methodNames), { data: { title } }));
