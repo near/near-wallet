@@ -24,7 +24,7 @@ const availableAccountsSlice = createSlice({
             set(state, ['items'], Object.keys((action.payload && action.payload.accounts) || {}).sort());
         });
         handleAsyncThunkStatus({
-            asyncThunk: `refreshAccountOwner`,
+            asyncThunk: refreshAccountOwner,
             buildStatusPath: () => ['status'],
             builder
         });

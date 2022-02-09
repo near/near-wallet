@@ -52,7 +52,7 @@ const recoveryMethodsSlice = createSlice({
         },
         extraReducers: ((builder) => {
             handleAsyncThunkStatus({
-                asyncThunk: `${SLICE_NAME}/fetchRecoveryMethods`,
+                asyncThunk: fetchRecoveryMethods,
                 buildStatusPath: ({ meta: { arg: { accountId }}}) => ['byAccountId', accountId, 'status'],
                 builder
             });

@@ -90,7 +90,7 @@ const transactionsSlice = createSlice({
     },
     extraReducers: ((builder) => {
         handleAsyncThunkStatus({
-            asyncThunk: `${SLICE_NAME}/fetchTransactions`,
+            asyncThunk: fetchTransactions,
             buildStatusPath: ({ meta: { arg: { accountId }}}) => ['byAccountId', accountId, 'status'],
             builder
         });

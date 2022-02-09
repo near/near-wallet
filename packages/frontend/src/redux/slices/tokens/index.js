@@ -112,7 +112,7 @@ const tokensSlice = createSlice({
     },
     extraReducers: ((builder) => {
         handleAsyncThunkStatus({
-            asyncThunk: `${SLICE_NAME}/fetchOwnedTokensForContract`,
+            asyncThunk: fetchOwnedTokensForContract,
             buildStatusPath: ({ meta: { arg: { accountId, contractName }}}) => ['ownedTokens', 'byAccountId', accountId, contractName],
             builder
         });
