@@ -1,6 +1,7 @@
 import { createAsyncThunk, createAction } from "@reduxjs/toolkit";
 import BN from 'bn.js';
 import cloneDeep from 'lodash.clonedeep';
+import { parse, stringify } from "query-string";
 import { createSelector } from "reselect";
 
 import { Mixpanel } from "../../../mixpanel";
