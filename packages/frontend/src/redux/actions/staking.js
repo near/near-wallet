@@ -567,19 +567,25 @@ export const getValidatorFarmData = (validatorId, accountId) => async (dispatch,
 };
 
 export const claimFarmRewards = (validatorId, accountId, token_id) => async (dispatch, getState) => {
-    const validators = selectStakingAllValidators(getState());
-    const validator = { ...validators.find(validator => validator?.accountId === validatorId)};
+    try {
+        const validators = selectStakingAllValidators(getState());
+        const validator = { ...validators.find(validator => validator?.accountId === validatorId)};
 
-    const storageAvailable = await fungibleTokensService.isStorageBalanceAvailable({ contractName: token_id, accountId: accountId });
-        if (!storageAvailable) {
-            try {
-                const account = await wallet.getAccount(accountId);
-                await fungibleTokensService.transferStorageDeposit({ account, contractName: token_id, receiverId: accountId, storageDepositAmount: FT_MINIMUM_STORAGE_BALANCE_LARGE });
+        const storageAvailable = await fungibleTokensService.isStorageBalanceAvailable({ contractName: token_id, accountId: accountId });
+            if (!storageAvailable) {
+                try {
+                    const account = await wallet.getAccount(accountId);
+                    await fungibleTokensService.transferStorageDeposit({ account, contractName: token_id, receiverId: accountId, storageDepositAmount: FT_MINIMUM_STORAGE_BALANCE_LARGE });
+                }
+                catch (e) {
+                    console.warn(e);
+                    throw e;
+                }
             }
-            catch (e) {
-                console.warn(e);
-            }
-        }
 
-    return validator.contract.claim({ token_id }, FARMING_CLAIM_GAS, FARMING_CLAIM_YOCTO);
+        return validator.contract.claim({ token_id }, FARMING_CLAIM_GAS, FARMING_CLAIM_YOCTO);
+    } catch (error) {
+        throw error;
+    }
+    
 };

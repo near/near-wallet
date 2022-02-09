@@ -47,5 +47,7 @@ export default {
     ],
     NEAR_TOKEN_ID: 'wrap.near',
     FARMING_CLAIM_GAS: parseNearAmount('0.00000000015'),
-    FARMING_CLAIM_YOCTO: '1'
+    FARMING_CLAIM_YOCTO: '1',
+    REF_FINANCE_API_ENDPOINT: 'https://indexer.ref-finance.net',
+    REF_FINANCE_CONTRACT: 'v2.ref-finance.near'
 };

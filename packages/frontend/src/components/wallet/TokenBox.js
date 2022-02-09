@@ -161,7 +161,7 @@ const TokenBox = ({ token, onClick }) => {
                     </span>
                 }
                 <span className='fiat-rate'>
-                    {token.fiatValueMetadata?.usd
+                    {token?.fiatValueMetadata?.usd
                         ? <>${token.fiatValueMetadata?.usd}</>
                         : <span><Translate id='tokenBox.priceUnavailable' /></span>
                     }

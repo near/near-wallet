@@ -37,13 +37,15 @@ const TokenAmount = ({
     showFiatAmount = true, 
     "data-test-id": testId 
 }) => {
-    const tokenBalance = balance && formatToken(balance, onChainFTMetadata?.decimals);
-    const tokenPrice = (tokenBalance && fiatValueMetadata) && (tokenBalance * +fiatValueMetadata.usd).toFixed(2);
+    const tokenBalance = formatTokenAmount(balance, onChainFTMetadata?.decimals, FRAC_DIGITS);
+    const tokenBalanceToView = balance && formatToken(balance, onChainFTMetadata?.decimals);
+    const fiatAmount = (tokenBalance && fiatValueMetadata?.usd) && (tokenBalance * +fiatValueMetadata.usd).toFixed(2);
+    
     return (
         <div className={className} style={{color: isWhiteListed ? '' : '#FF585D'}} title={showFullAmount(balance, onChainFTMetadata?.decimals, onChainFTMetadata?.symbol)} data-test-id={testId}>
             <div>
                 {balance
-                    ? tokenBalance
+                    ? tokenBalanceToView
                     : <span className='dots' />
                 }
                 <span className='currency'>{withSymbol ? ` ${onChainFTMetadata?.symbol}` : null}</span>
@@ -56,8 +58,8 @@ const TokenAmount = ({
                         display: 'inline-flex',
                         whiteSpace: 'normal'
                     }}>
-                { tokenPrice 
-                    ? `≈ $${tokenPrice} USD`
+                { fiatAmount 
+                    ? `≈ $${fiatAmount} USD`
                     : `— USD`
                 }
                 {!isWhiteListed && <Tooltip translate={'staking.validator.notWhitelistedWarning'}>
