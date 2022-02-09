@@ -187,3 +187,12 @@ const selectOneTokenLoading = createSelector(
     [selectOneTokenFromOwnedTokens],
     (token) => token.status.loading
 );
+
+export const selectNEARAsTokenWithMetadata = createSelector(
+    [selectBalance, selectNearTokenFiatValueUSD],
+    (nearBalance, nearTokenFiatValueUSD) => ({
+        balance: nearBalance?.balanceAvailable || "",
+        onChainFTMetadata: { symbol: "NEAR" },
+        fiatValueMetadata: { usd: nearTokenFiatValueUSD },
+    })
+);

@@ -6,6 +6,7 @@ import { Mixpanel } from '../../../mixpanel';
 import { redirectTo } from '../../../redux/actions/account';
 import selectNEARAsTokenWithMetadata from '../../../redux/crossStateSelectors/selectNEARAsTokenWithMetadata';
 import { claimFarmRewards, getValidatorFarmData } from '../../../redux/actions/staking';
+import { showCustomAlert } from '../../../redux/actions/status';
 import { selectAccountId } from '../../../redux/slices/account';
 import { selectValidatorsFarmData, selectFarmValidatorAPY } from '../../../redux/slices/staking';
 import { selectActionsPending } from '../../../redux/slices/status';
@@ -90,6 +91,8 @@ export default function Validator({
     const [showClaimConfirmModal, setShowClaimConfirmModal] = useState(false);
     const [selectedFarm, setSelectedFarm] = useState(null);
 
+    const [claimingProceed, setClaimingProceed] = useState(false);
+
     const openModal = (farm) => {
         setSelectedFarm(farm);
         setShowClaimConfirmModal(true);
@@ -106,9 +109,20 @@ export default function Validator({
     const handleClaimAction = async (token_id) => {
         if (!validator || !isFarmingValidator || !token_id) return null;
 
-        await dispatch(claimFarmRewards(validator.accountId, accountId, token_id));
-        // TODO: handle modal close, success and fail cases;
-        return dispatch(redirectTo('/'));
+        try {
+            setClaimingProceed(true);
+            await dispatch(claimFarmRewards(validator.accountId, accountId, token_id));
+            setClaimingProceed(false);
+            return dispatch(redirectTo(`/staking/${match.params.validator}/claim`));
+        } catch (e) {
+            setClaimingProceed(false);
+            dispatch(showCustomAlert({
+                success: false,
+                messageCodeHeader: 'error',
+                messageCode: 'staking.validator.errorClaimRewards',
+            }));
+        }
+        
     };
 
     const validatorsFarmData = useSelector(selectValidatorsFarmData);
@@ -174,7 +188,7 @@ export default function Validator({
                         token={{...NEARAsTokenWithMetadata, balance: validator.unclaimed || '0'}}
                         hideBorder={(stakingPoolHasFarms && isFarmListLoading) || (!isFarmListLoading && farmList.length > 0)}
                     />
-                    {renderFarmUi({ farmList, contractMetadataByContractId, openModal, tokenPriceMetadata })}
+                    {isFarmingValidator && renderFarmUi({ farmList, contractMetadataByContractId, openModal, tokenPriceMetadata })}
                     <BalanceBox
                         title='staking.balanceBox.pending.title'
                         info='staking.balanceBox.pending.info'
@@ -213,7 +227,7 @@ export default function Validator({
                             open={showClaimConfirmModal}
                             onConfirm={handleClaimAction}
                             onClose={() => setShowClaimConfirmModal(false)}
-                            loading={loading}
+                            loading={claimingProceed}
                             farm={selectedFarm}
                         />}
                 </>
