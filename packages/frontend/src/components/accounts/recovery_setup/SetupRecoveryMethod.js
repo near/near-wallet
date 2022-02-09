@@ -610,4 +610,4 @@ const mapStateToProps = (state, { match }) => {
     };
 };
 
-export const SetupRecoveryMethodWithRouter = connect(mapStateToProps, mapDispatchToProps)(withGoogleReCaptcha(SetupRecoveryMethod));
+export const SetupRecoveryMethodWithRouter = connect(mapStateToProps, mapDispatchToProps())(withGoogleReCaptcha(SetupRecoveryMethod));
