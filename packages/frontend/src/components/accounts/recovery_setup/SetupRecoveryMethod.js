@@ -557,7 +557,7 @@ class SetupRecoveryMethod extends Component {
     }
 }
 
-const mapDispatchToProps =()=> {
+const mapDispatchToProps = () => {
     const {
         initializeRecoveryMethod,
         setupRecoveryMessage,
