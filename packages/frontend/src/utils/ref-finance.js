@@ -1,10 +1,8 @@
 import { Contract } from "near-api-js";
 
+import { REF_FINANCE_API_ENDPOINT, REF_FINANCE_CONTRACT} from '../config';
 import sendJson from '../tmp_fetch_send_json';
 import { wallet } from "./wallet";
-
-const REF_FINANCE_API_ENDPOINT = 'https://indexer.ref-finance.net';
-const REF_FINANCE_CONTRACT = 'v2.ref-finance.near';
 
 export const fetchTokenPrices = async () => {
   try {

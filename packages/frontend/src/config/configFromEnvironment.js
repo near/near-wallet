@@ -79,5 +79,7 @@ module.exports = {
     ),
     NEAR_TOKEN_ID: process.env.NEAR_TOKEN_ID,
     FARMING_CLAIM_GAS: process.env.FARMING_CLAIM_GAS || parseNearAmount('0.00000000015'),
-    FARMING_CLAIM_YOCTO: process.env.FARMING_CLAIM_YOCTO || '1'
+    FARMING_CLAIM_YOCTO: process.env.FARMING_CLAIM_YOCTO || '1',
+    REF_FINANCE_API_ENDPOINT: process.env.REF_FINANCE_API_ENDPOINT,
+    REF_FINANCE_CONTRACT: process.env.REF_FINANCE_CONTRACT
 };

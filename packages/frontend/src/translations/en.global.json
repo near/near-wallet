@@ -1308,6 +1308,7 @@
             "descTwo": "You can now view your delegation and staking rewards from your staking dashboard.",
             "title": "Success!"
         },
+
         "staking": {
             "available": "Available balance",
             "button": "Stake My Tokens",
@@ -1336,10 +1337,17 @@
             "descTwo": "Your tokens are pending release and will be made available within ~52-65hrs (4 epochs).",
             "title": "Success!"
         },
+        "claimSuccess": {
+            "button": "Return to Dashboard",
+            "desc": "Tokens has successfully been claimed from validator",
+            "descTwo": "Your tokens are already available",
+            "title": "Success!"
+        },
         "validator": {
             "apy": "APY",
             "button": "Stake With Validator",
             "claimFarmRewards": "Сlaim you farm rewards",
+            "errorClaimRewards": "Something went wrong during claiming your farm rewards. Please, try again later",
             "desc": "This is the fee paid to the validator to stake on your behalf. This fee is only charged on your rewards.",
             "fee": "Validator Fee",
             "notWhitelistedWarning": "This token isn't whitelisted by ref-finance. Make sure you research this token!",
