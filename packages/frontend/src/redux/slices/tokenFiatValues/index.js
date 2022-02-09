@@ -33,8 +33,8 @@ const tokenFiatValuesSlice = createSlice({
                 merge(state.tokens, action.payload);
             });
             handleAsyncThunkStatus({
-                asyncThunk: `${SLICE_NAME}/fetchTokenFiatValues`,
-                buildStatusPath: () => '',
+                asyncThunk: fetchTokenFiatValues,
+                buildStatusPath: () => [],
                 builder
             });
         })

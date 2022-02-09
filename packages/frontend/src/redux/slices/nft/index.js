@@ -163,7 +163,7 @@ const nftSlice = createSlice({
         },
         extraReducers: ((builder) => {
             handleAsyncThunkStatus({
-                asyncThunk: `${SLICE_NAME}/fetchOwnedNFTsForContract`,
+                asyncThunk: fetchOwnedNFTsForContract,
                 buildStatusPath: ({ meta: { arg: { accountId, contractName }}}) => ['ownedTokens', 'byAccountId', accountId, 'byContractName', contractName],
                 builder
             });
