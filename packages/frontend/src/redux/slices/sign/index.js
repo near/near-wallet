@@ -1,7 +1,6 @@
 import { createAsyncThunk, createAction } from "@reduxjs/toolkit";
 import BN from 'bn.js';
 import cloneDeep from 'lodash.clonedeep';
-import { parse, stringify } from "query-string";
 import { createSelector } from "reselect";
 
 import { Mixpanel } from "../../../mixpanel";
@@ -80,13 +79,13 @@ export const handleSignTransactions = createAsyncThunk(
     }
 );
 
-export function addQueryParams(baseUrl, queryParams = {}) {
+export function addQueryParams(baseUrl, queryParams) {
     const url = new URL(baseUrl);
-    const originalSearchParams = parse(url.search);
-    return baseUrl.replace(url.search,`?${stringify({...originalSearchParams, ...queryParams}, {
-        skipEmptyString: true,
-        skipNull: true,
-    })}`);
+    for (let key in queryParams) {
+        const param = queryParams[key];
+        if(param) url.searchParams.set(key, param);
+    }
+    return url.toString();
 }
 
 export const removeSuccessTransactions = ({ transactions, successHashes }) => {
