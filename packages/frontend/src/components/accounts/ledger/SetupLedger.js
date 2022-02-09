@@ -18,6 +18,7 @@ import { selectAccountSlice } from '../../../redux/slices/account';
 import { createNewAccount } from '../../../redux/slices/account/createAccountThunks';
 import { actions as linkdropActions } from '../../../redux/slices/linkdrop';
 import { selectStatusMainLoader } from '../../../redux/slices/status';
+import { getLedgerHDPath } from '../../../utils/ledger';
 import parseFundingOptions from '../../../utils/parseFundingOptions';
 import { setKeyMeta, ENABLE_IDENTITY_VERIFIED_ACCOUNT } from '../../../utils/wallet';
 import FormButton from '../../common/FormButton';
@@ -26,6 +27,7 @@ import Container from '../../common/styled/Container.css';
 import { isRetryableRecaptchaError, Recaptcha } from '../../Recaptcha';
 import LedgerIcon from '../../svg/LedgerIcon';
 import InstructionsModal from './InstructionsModal';
+import LedgerHdPaths from './LedgerHdPaths';
 
 const { setLinkdropAmount } = linkdropActions;
 
@@ -40,6 +42,12 @@ const SetupLedger = (props) => {
     const [isNewAccount, setIsNewAccount] = useState(null);
     // TODO: Custom recaptcha hook
     const [recaptchaToken, setRecaptchaToken] = useState(null);
+    const [path, setPath] = useState(1);
+    const [confirmedPath, setConfirmedPath] = useState(null);
+    // eslint-disable-next-line no-unused-vars
+    const ledgerHdPath = getLedgerHDPath(confirmedPath);
+
+
     const recaptchaRef = useRef(null);
     const fundingOptions = parseFundingOptions(props.location.search);
     const shouldRenderRecaptcha = !fundingOptions && RECAPTCHA_CHALLENGE_API_KEY && isNewAccount && !ENABLE_IDENTITY_VERIFIED_ACCOUNT;
@@ -160,6 +168,14 @@ const SetupLedger = (props) => {
                 <Translate id='setupLedger.one' />
                 &nbsp;<Translate id='setupLedger.two' /> <span className='link underline' onClick={openShowInstructions}><Translate id='setupLedger.twoLink' /></span>.
             </h2>
+            <LedgerHdPaths
+                path={path}
+                onSetPath={path => setPath(path)}
+                onConfirmHdPath={() => {
+                    setConfirmedPath(path);
+                    Mixpanel.track("SR-Ledger Setup set custom HD path");
+                }}
+            />
             {
                 shouldRenderRecaptcha && <Recaptcha
                     ref={recaptchaRef}
