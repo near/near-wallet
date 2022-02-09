@@ -1,7 +1,8 @@
 **/.git
 **/node_modules
-dist
-.cache
+packages/frontend/dist
+packages/frontend/.cache
 Dockerfile
 Dockerfile.fast
+*.md
 *.swp
