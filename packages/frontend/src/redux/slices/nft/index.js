@@ -24,9 +24,11 @@ const initialState = {
 };
 
 const initialOwnedTokenState = {
-    error: initialErrorState,
-    loading: false,
-    tokens: []
+    tokens: [],
+    status: {
+        loading: false,
+        error: initialErrorState
+    }
 };
 
 async function getCachedContractMetadataOrFetch(contractName, state) {
@@ -164,7 +166,7 @@ const nftSlice = createSlice({
         extraReducers: ((builder) => {
             handleAsyncThunkStatus({
                 asyncThunk: fetchOwnedNFTsForContract,
-                buildStatusPath: ({ meta: { arg: { accountId, contractName }}}) => ['ownedTokens', 'byAccountId', accountId, 'byContractName', contractName],
+                buildStatusPath: ({ meta: { arg: { accountId, contractName }}}) => ['ownedTokens', 'byAccountId', accountId, 'byContractName', contractName, 'status'],
                 builder
             });
         })
@@ -234,7 +236,7 @@ const selectTokensListForAccountForContract = createSelector(
 
 export const selectLoadingTokensForAccountForContract = createSelector(
     selectOwnedTokensForAccountForContract,
-    (ownedTokensByAccountByContract) => ownedTokensByAccountByContract.loading
+    (ownedTokensByAccountByContract) => ownedTokensByAccountByContract.status.loading
 );
 
 export const selectHasFetchedAllTokensForAccountForContract = createSelector(
