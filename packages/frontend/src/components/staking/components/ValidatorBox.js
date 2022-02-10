@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Translate } from 'react-localize-redux';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 
 import { Mixpanel } from '../../../mixpanel/index';
 import { redirectTo } from '../../../redux/actions/account';
+import { getValidatorFarmData } from '../../../redux/actions/staking';
 import { selectFarmValidatorAPY } from '../../../redux/slices/staking';
 import { FARMING_VALIDATOR_VERSION, ValidatorVersion } from '../../../utils/constants';
 import Balance from '../../common/balance/Balance';
@@ -141,6 +142,12 @@ export default function ValidatorBox({
     const dispatch = useDispatch();
     const farmAPY = useSelector(state => selectFarmValidatorAPY(state, {validatorId: validator?.accountId}));
     const { accountId: validatorId, active } = validator;
+    const isFarmingValidator = validator.version === ValidatorVersion[FARMING_VALIDATOR_VERSION];
+
+    useEffect(() => {
+        if (!isFarmingValidator) return;
+        dispatch(getValidatorFarmData(validatorId));
+    }, []);
 
     const fee = validator.fee && validator.fee.percentage;
     const cta = amount ? (
@@ -161,7 +168,7 @@ export default function ValidatorBox({
             dispatch(redirectTo(`/staking/${validatorId}${stakeAction ? `/${stakeAction}` : ''}`));
         }
     };
-    const isFarmingValidator = validator.version === ValidatorVersion[FARMING_VALIDATOR_VERSION];
+
     return (
         <Container
             className='validator-box'
@@ -184,7 +191,11 @@ export default function ValidatorBox({
                         { 
                             isFarmingValidator && <>
                                 <span><Translate id='staking.validator.apy'/>&nbsp;</span>
-                                <span>{farmAPY}%&nbsp;-&nbsp;</span>
+                                {farmAPY === null 
+                                    ? <span className="animated-dots" style={{width: 16}}/>
+                                    : <span>{farmAPY}</span>
+                                }
+                                <span>%&nbsp;-&nbsp;</span>               
                             </>
                         }
                         <span>{fee}% <Translate id='staking.validatorBox.fee' /> -&nbsp;</span>

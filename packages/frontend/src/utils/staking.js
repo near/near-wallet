@@ -125,6 +125,6 @@ export const calculateAPY = (poolSummary, tokenPrices) => {
     }
     catch (e) {
         console.error('Error during calculating APY', e);
-        return 0;
+        return '-';
     }
 };
