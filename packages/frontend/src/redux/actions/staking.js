@@ -538,7 +538,6 @@ export const getValidatorFarmData = (validatorId) => async (dispatch, getState) 
     const accountId = selectStakingMainAccountId(getState());
     const currentAccountId = selectStakingCurrentAccountAccountId(getState());
     const isLockup = currentAccountId !== accountId;
-
     const account_id = isLockup ? selectStakingLockupId(getState()) : accountId;
 
     const list = await Promise.all(farms.map(({ token_id, farm_id }) => {
