@@ -22,8 +22,10 @@ const initialState = {
 
 const initialOwnedTokenState = {
     balance: '',
-    loading: false,
-    error: initialErrorState
+    status: {
+        loading: false,
+        error: initialErrorState
+    }
 };
 
 async function getCachedContractMetadataOrFetch(contractName, state) {
@@ -113,7 +115,7 @@ const tokensSlice = createSlice({
     extraReducers: ((builder) => {
         handleAsyncThunkStatus({
             asyncThunk: fetchOwnedTokensForContract,
-            buildStatusPath: ({ meta: { arg: { accountId, contractName }}}) => ['ownedTokens', 'byAccountId', accountId, contractName],
+            buildStatusPath: ({ meta: { arg: { accountId, contractName }}}) => ['ownedTokens', 'byAccountId', accountId, contractName, 'status'],
             builder
         });
     })
@@ -181,10 +183,10 @@ export const selectTokensWithMetadataForAccountId = createSelector(
 export const selectTokensLoading = createSelector(
     [selectOwnedTokensSlice, getAccountIdParam],
     (ownedTokens, accountId) => Object.entries(ownedTokens.byAccountId[accountId] || {})
-        .some(([_, { loading }]) => loading)
+        .some(([_, { status: { loading } }]) => loading)
 );
 
 const selectOneTokenLoading = createSelector(
     [selectOneTokenFromOwnedTokens],
-    (token) => token.loading
+    (token) => token.status.loading
 );
