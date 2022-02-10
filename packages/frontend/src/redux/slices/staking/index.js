@@ -65,8 +65,7 @@ export const selectValidatorFarmDataByValidatorID = createSelector(
 export const selectFarmValidatorAPY = createSelector(
     [selectValidatorFarmDataByValidatorID, selectTokensFiatValueUSD],
     (farmData, tokenPrices) => {
-        if (!farmData.poolSummary || !tokenPrices) return 0;
-        
+        if (!farmData.poolSummary || !tokenPrices) return null;
         return calculateAPY(farmData.poolSummary, tokenPrices);
     }
 );
