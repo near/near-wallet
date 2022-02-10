@@ -6,7 +6,6 @@ import { Mixpanel } from '../../../mixpanel';
 import { redirectTo } from '../../../redux/actions/account';
 import { claimFarmRewards, getValidatorFarmData } from '../../../redux/actions/staking';
 import { showCustomAlert } from '../../../redux/actions/status';
-import { selectAccountId } from '../../../redux/slices/account';
 import { selectValidatorsFarmData, selectFarmValidatorAPY } from '../../../redux/slices/staking';
 import { selectActionsPending } from '../../../redux/slices/status';
 import { selectTokensFiatValueUSD, selectTokenWhiteList } from '../../../redux/slices/tokenFiatValues';
@@ -75,7 +74,6 @@ export default function Validator({
     const [confirm, setConfirm] = useState(null);
     
     const nearAsFT = useSelector(selectNEARAsTokenWithMetadata);
-    const accountId = useSelector(selectAccountId);
 
     const contractMetadataByContractId = useSelector(selectAllContractMetadata);
     const tokenFiatValues = useSelector(selectTokensFiatValueUSD);
@@ -109,7 +107,7 @@ export default function Validator({
 
         try {
             setClaimingProceed(true);
-            await dispatch(claimFarmRewards(validator.accountId, accountId, token_id));
+            await dispatch(claimFarmRewards(validator.accountId, token_id));
             setClaimingProceed(false);
             return dispatch(redirectTo(`/staking/${match.params.validator}/claim`));
         } catch (e) {
@@ -129,7 +127,7 @@ export default function Validator({
     useEffect(() => {
         if (!isFarmingValidator || !validator?.accountId) return;
 
-        dispatch(getValidatorFarmData(validator.accountId, accountId));
+        dispatch(getValidatorFarmData(validator.accountId));
     }, [validator?.accountId, isFarmingValidator]);
 
     const farmList = validatorFarmData?.farmRewards || [];

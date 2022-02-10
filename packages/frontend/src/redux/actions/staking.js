@@ -525,7 +525,7 @@ export const handleUpdateCurrent = (accountId) => async (dispatch, getState) => 
     dispatch(staking.updateCurrent({ currentAccount }));
 };
 
-export const getValidatorFarmData = (validatorId, accountId) => async (dispatch, getState) => {
+export const getValidatorFarmData = (validatorId) => async (dispatch, getState) => {
 
     const validators = selectStakingAllValidators(getState());
     const validator = { ...validators.find(validator => validator?.accountId === validatorId)};
@@ -535,12 +535,17 @@ export const getValidatorFarmData = (validatorId, accountId) => async (dispatch,
     const poolSummary = await validator.contract.get_pool_summary();
     const farms = await validator.contract.get_farms({ from_index: 0, limit: 300 });
     
- 
+    const accountId = selectStakingMainAccountId(getState());
+    const currentAccountId = selectStakingCurrentAccountAccountId(getState());
+    const isLockup = currentAccountId !== accountId;
+
+    const account_id = isLockup ? selectStakingLockupId(getState()) : accountId;
+
     const list = await Promise.all(farms.map(({ token_id, farm_id }) => {
         try {
             dispatch(fetchToken({ contractName: token_id }));
             return validator.contract
-                .get_unclaimed_reward({ account_id: accountId, farm_id })
+                .get_unclaimed_reward({ account_id, farm_id })
                 .catch(() => "0")
                 .then((balance) => ({ 
                     token_id,
@@ -565,16 +570,28 @@ export const getValidatorFarmData = (validatorId, accountId) => async (dispatch,
     await dispatch(staking.setValidatorFarmData(validator.accountId, farmData));
 };
 
-export const claimFarmRewards = (validatorId, accountId, token_id) => async (dispatch, getState) => {
+export const claimFarmRewards = (validatorId, token_id) => async (dispatch, getState) => {
     try {
+        const accountId = selectStakingMainAccountId(getState());
+        const currentAccountId = selectStakingCurrentAccountAccountId(getState());
+        const isLockup = currentAccountId !== accountId;
+
         const validators = selectStakingAllValidators(getState());
         const validator = { ...validators.find(validator => validator?.accountId === validatorId)};
 
-        const storageAvailable = await fungibleTokensService.isStorageBalanceAvailable({ contractName: token_id, accountId: accountId });
+        const storageAvailable = await fungibleTokensService.isStorageBalanceAvailable({ 
+            contractName: token_id,
+            accountId: accountId
+        });
             if (!storageAvailable) {
                 try {
                     const account = await wallet.getAccount(accountId);
-                    await fungibleTokensService.transferStorageDeposit({ account, contractName: token_id, receiverId: accountId, storageDepositAmount: FT_MINIMUM_STORAGE_BALANCE_LARGE });
+                    await fungibleTokensService.transferStorageDeposit({
+                         account,
+                         contractName: token_id,
+                         receiverId: accountId,
+                         storageDepositAmount: FT_MINIMUM_STORAGE_BALANCE_LARGE
+                        });
                 }
                 catch (e) {
                     console.warn(e);
@@ -582,7 +599,14 @@ export const claimFarmRewards = (validatorId, accountId, token_id) => async (dis
                 }
             }
 
-        return validator.contract.claim({ token_id }, FARMING_CLAIM_GAS, FARMING_CLAIM_YOCTO);
+        const args = { token_id };
+
+        if (isLockup) {
+            const lockupId = selectStakingLockupId(getState());
+            args.delegator_id = lockupId;
+        }
+
+        return validator.contract.claim(args, FARMING_CLAIM_GAS, FARMING_CLAIM_YOCTO);
     } catch (error) {
         throw error;
     }
