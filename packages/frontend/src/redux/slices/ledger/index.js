@@ -8,6 +8,7 @@ import { showAlertToolkit } from "../../../utils/alerts";
 import { setLedgerHdPath } from "../../../utils/localStorage";
 import { wallet } from "../../../utils/wallet";
 import refreshAccountOwner from "../../sharedThunks/refreshAccountOwner";
+import handleAsyncThunkStatus from "../handleAsyncThunkStatus";
 import initialErrorState from "../initialErrorState";
 
 const SLICE_NAME = 'ledger';
@@ -170,6 +171,11 @@ const ledgerSlice = createSlice({
                 }
             }
         );
+        handleAsyncThunkStatus({
+            asyncThunk: signInWithLedger,
+            buildStatusPath: () => ['status'],
+            builder
+        });
     })
 });
 
