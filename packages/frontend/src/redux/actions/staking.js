@@ -7,10 +7,9 @@ import {
     REACT_APP_USE_TESTINGLOCKUP,
     STAKING_GAS_BASE,
     FARMING_CLAIM_GAS,
-FARMING_CLAIM_YOCTO,
-FT_MINIMUM_STORAGE_BALANCE_LARGE
+    FARMING_CLAIM_YOCTO,
 } from '../../config';
-import { fungibleTokensService } from '../../services/FungibleTokens';
+import { fungibleTokensService, FT_MINIMUM_STORAGE_BALANCE_LARGE } from '../../services/FungibleTokens';
 import { getLockupAccountId, getLockupMinBalanceForStorage } from '../../utils/account-with-lockup';
 import { showAlert } from '../../utils/alerts';
 import {
