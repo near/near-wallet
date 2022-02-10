@@ -14,7 +14,8 @@ export default ({
     buildStatusPath,
     builder
 }) => builder
-    // TODO: use the same status object to all reducers, which will allow simplifying buildStatusPath 
+    // TODO: use the same status object to all reducers, which will allow simplifying buildStatusPath
+    // TODO: consider to keying `loading` and `error` by thunk typePrefix, this could be useful if we would need to track status of several thunks independently in one slice
     .addMatcher(
         (action) => action.type === `${asyncThunk.typePrefix}/pending`,
         (state, action) => {
