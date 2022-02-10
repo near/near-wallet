@@ -15,9 +15,11 @@ const fetchTokenFiatValues = createAsyncThunk(
 );
 
 const initialState = {
-    loading: false,
-    error: initialErrorState,
-    tokens: {}
+    tokens: {},
+    status: {
+        loading: false,
+        error: initialErrorState
+    }
 };
 
 const tokenFiatValuesSlice = createSlice({
@@ -34,7 +36,7 @@ const tokenFiatValuesSlice = createSlice({
             });
             handleAsyncThunkStatus({
                 asyncThunk: fetchTokenFiatValues,
-                buildStatusPath: () => [],
+                buildStatusPath: () => ['status'],
                 builder
             });
         })
@@ -49,8 +51,8 @@ export const actions = {
 };
 
 // Future: Refactor to track loading state and error states _per token type_, when we actually support multiple tokens
-export const selectFiatValueLoadingState = (state) => state.loading;
-export const selectFiatValueErrorState = (state) => state.error;
+export const selectFiatValueLoadingState = (state) => state.status.loading;
+export const selectFiatValueErrorState = (state) => state.status.error;
 
 export const selectAllTokenFiatValues = (state) => state[SLICE_NAME];
 export const selectNearTokenFiatData = createSelector(selectAllTokenFiatValues, ({ tokens }) => tokens.near || {});
