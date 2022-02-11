@@ -19,14 +19,11 @@ import { handleClearAlert } from '../redux/reducers/status';
 import { selectAccountSlice } from '../redux/slices/account';
 import { actions as tokenFiatValueActions } from '../redux/slices/tokenFiatValues';
 import { CreateImplicitAccountWrapper } from '../routes/CreateImplicitAccountWrapper';
-import { GeneratePassphraseWrapper } from '../routes/GeneratePassphraseWrapper';
 import { LoginWrapper } from '../routes/LoginWrapper';
 import { SetupLedgerNewAccountWrapper } from '../routes/SetupLedgerNewAccountWrapper';
 import { SetupPassphraseNewAccountWrapper } from '../routes/SetupPassphraseNewAccountWrapper';
 import { SetupRecoveryImplicitAccountWrapper } from '../routes/SetupRecoveryImplicitAccountWrapper';
-import { SharedPassphraseWrapper } from '../routes/SharedPassphraseWrapper';
 import { SignWrapper } from '../routes/SignWrapper';
-import { VerifyPassphraseWrapper } from '../routes/VerifyPassphraseWrapper';
 import translations_en from '../translations/en.global.json';
 import translations_pt from '../translations/pt.global.json';
 import translations_ru from '../translations/ru.global.json';
@@ -417,21 +414,6 @@ class Routing extends Component {
                                     component={CreateImplicitAccountWrapper}
                                 />
                             }
-                            <Route
-                                exact
-                                path='/generate-passphrase'
-                                component={GeneratePassphraseWrapper}
-                            />
-                            <Route
-                                exact
-                                path='/verify-passphrase'
-                                component={VerifyPassphraseWrapper}
-                            />
-                            <Route
-                                exact
-                                path='/shared-passphrase'
-                                component={SharedPassphraseWrapper}
-                            />
                             <Route
                                 exact
                                 path='/setup-seed-phrase/:accountId/:step'
