@@ -6,7 +6,6 @@
     "access": "public"
   },
   "dependencies": {
-    "@near/ui-component-library": "*",
     "@ledgerhq/hw-transport-u2f": "^5.34.0",
     "@near-wallet/feature-flags": "^0.1.0",
     "@reduxjs/toolkit": "1.6.2",
