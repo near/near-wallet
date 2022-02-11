@@ -609,4 +609,8 @@ export default createGlobalStyle`
         justify-content: center;
         align-items: center;
     }
+
+    a{
+        text-decoration:none;
+    }
 `;
