@@ -10,7 +10,9 @@ import {
     redirectTo,
     clearAccountState
 } from '../../../redux/actions/account';
+import { checkIsValidUrl } from '../../../utils/helper-api';
 import AutoImport from './AutoImport';
+
 
 export function AutoImportWrapper({
     secretKey,
@@ -21,8 +23,8 @@ export function AutoImportWrapper({
     const location = useSelector(getLocation);
     const URLParams = parse(location.search);
     const [recoveryFailed, setRecoveryFailed] = useState(false);
-    const successUrl = URLParams.success_url;
-    const failureUrl = URLParams.failure_url;
+    const successUrl = checkIsValidUrl(URLParams.success_url) ? URLParams.success_url : null;
+    const failureUrl = checkIsValidUrl(URLParams.failure_url) ? URLParams.failure_url : null;
 
     useEffect(() => {
         handleRecoverWithSecretKey();

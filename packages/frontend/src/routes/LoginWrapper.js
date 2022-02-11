@@ -11,6 +11,7 @@ import { Mixpanel } from '../mixpanel/index';
 import {
     selectAccountLocalStorageAccountId
 } from '../redux/slices/account';
+import { checkIsValidUrl } from '../utils/helper-api';
 import { LOCKUP_ACCOUNT_ID_SUFFIX } from '../utils/wallet';
 
 export const LOGIN_ACCESS_TYPES = {
@@ -26,7 +27,7 @@ export function LoginWrapper() {
     const URLParams = parse(location.search);
     const contractId = URLParams.contract_id;
     const publicKey = URLParams.public_key;
-    const failureUrl = URLParams.failure_url;
+    const failureUrl = checkIsValidUrl(URLParams.failure_url) ? URLParams.failure_url : null;
     const invalidContractId = URLParams.invalidContractId;
 
     const contractIdUrl = `${EXPLORER_URL}/accounts/${contractId}`;

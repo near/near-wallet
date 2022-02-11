@@ -9,6 +9,7 @@ import { DISABLE_CREATE_ACCOUNT } from '../../config';
 import { 
     showAlert
 } from '../../utils/alerts';
+import { checkIsValidUrl } from '../../utils/helper-api';
 import { 
     loadState,
     saveState,
@@ -213,7 +214,9 @@ export const allowLogin = () => async (dispatch, getState) => {
             parsedUrl.searchParams.set('public_key', publicKey);
         }
         parsedUrl.searchParams.set('all_keys', allKeys.join(','));
-        window.location = parsedUrl.href;
+        if (checkIsValidUrl(parsedUrl.href)) {
+            window.location = parsedUrl.href;
+        }
     } else {
         await dispatch(withAlert(addAccessKey(wallet.accountId, contractId, publicKey, false, methodNames), { data: { title } }));
         dispatch(redirectTo('/authorized-apps', { globalAlertPreventClear: true }));
@@ -478,7 +481,7 @@ export const finishAccountSetup = () => async (dispatch, getState) => {
     const redirectUrl = selectAccountUrlRedirectUrl(getState());
     const accountId = selectAccountId(getState());
 
-    if (redirectUrl) {
+    if (redirectUrl && checkIsValidUrl(redirectUrl)) {
         window.location = `${redirectUrl}?accountId=${accountId}`;
     } else {
         dispatch(redirectToApp('/'));

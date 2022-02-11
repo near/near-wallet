@@ -11,6 +11,7 @@ import { selectAccountSlice } from '../../redux/slices/account';
 import { actions as linkdropActions } from '../../redux/slices/linkdrop';
 import { selectStatusMainLoader } from '../../redux/slices/status';
 import { selectActionsPending } from '../../redux/slices/status';
+import { checkIsValidUrl } from '../../utils/helper-api';
 import AccountDropdown from '../common/AccountDropdown';
 import Balance from '../common/balance/Balance';
 import FormButton from '../common/FormButton';
@@ -98,7 +99,7 @@ class LinkdropLanding extends Component {
     handleClaimNearDrop = async () => {
         const { fundingContract, fundingKey, redirectTo, claimLinkdropToAccount, accountId, url, setLinkdropAmount } = this.props;
         await claimLinkdropToAccount(fundingContract, fundingKey);
-        if (url?.redirectUrl) {
+        if (url?.redirectUrl && checkIsValidUrl(url?.redirectUrl)) {
             window.location = `${url.redirectUrl}?accountId=${accountId}`;
         } else {
             setLinkdropAmount(this.state.balance);
