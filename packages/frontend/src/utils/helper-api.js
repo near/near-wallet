@@ -15,6 +15,7 @@ export function checkIsValidUrl(url) {
 
     const urlProtocol = new URL(url).protocol;
     if (urlProtocol !== 'http:' && urlProtocol !== 'https:') {
+        console.log('Invalid URL protocol:', urlProtocol, 'Please use http or https.');
         return false;
     }
 

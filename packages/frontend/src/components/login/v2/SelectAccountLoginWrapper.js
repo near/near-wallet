@@ -14,6 +14,7 @@ import {
     selectAccountAccountsBalances
 } from '../../../redux/slices/account';
 import { selectAvailableAccounts } from '../../../redux/slices/availableAccounts';
+import { checkIsValidUrl } from '../../../utils/helper-api';
 import SelectAccountLogin from './SelectAccountLogin';
 
 export default ({
@@ -48,7 +49,7 @@ export default ({
             contractIdUrl={contractIdUrl}
             onClickCancel={() => {
                 Mixpanel.track("LOGIN Click deny button");
-                if (failureUrl) {
+                if (failureUrl && checkIsValidUrl(failureUrl)) {
                     window.location.href = failureUrl;
                 } else {
                     dispatch(redirectToApp());

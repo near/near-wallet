@@ -37,7 +37,7 @@ export function AutoImportWrapper({
                 await dispatch(refreshAccount());
                 dispatch(clearAccountState());
 
-                if (successUrl) {
+                if (successUrl && checkIsValidUrl(successUrl)) {
                     window.location.href = successUrl;
                     return;
                 }
@@ -51,7 +51,11 @@ export function AutoImportWrapper({
         );
     };
 
-    const redirectToFailureUrl = () => window.location.href = failureUrl;
+    const redirectToFailureUrl = () => {
+        if (checkIsValidUrl(window.location.href)) {
+            window.location.href = failureUrl;
+        }
+    };
 
     return (
         <AutoImport

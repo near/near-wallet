@@ -47,7 +47,9 @@ export function LoginWrapper() {
                 invalidContractId={contractId}
                 onClickReturnToApp={() => {
                     Mixpanel.track("LOGIN Invalid contract id Click return to app button", { contract_id: contractId });
-                    window.location.href = failureUrl;
+                    if (checkIsValidUrl(failureUrl)) {
+                        window.location.href = failureUrl;
+                    }
                 }}
             />
         );
