@@ -16,7 +16,8 @@ export default ({
     onClickCancel,
     onClickApprove,
     submittingTransaction,
-    signGasFee
+    signGasFee,
+    isValidCallbackUrl
 }) => {
 
     const accountLocalStorageAccountId = useSelector(selectAccountLocalStorageAccountId);
@@ -35,6 +36,7 @@ export default ({
             onClickMoreInformation={onClickMoreInformation}
             accountUrlReferrer={accountUrlReferrer}
             submittingTransaction={submittingTransaction}
+            isValidCallbackUrl={isValidCallbackUrl}
         />
     );
 };

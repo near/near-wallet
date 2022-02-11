@@ -15,7 +15,8 @@ export default ({
     contractId,
     contractIdUrl,
     onClickCancel,
-    publicKey
+    publicKey,
+    isValidFailureUrl
 }) => {
     const dispatch = useDispatch();
 
@@ -45,6 +46,7 @@ export default ({
                 );
             }}
             contractIdUrl={contractIdUrl}
+            isValidFailureUrl={isValidFailureUrl}
         />
     );
 };

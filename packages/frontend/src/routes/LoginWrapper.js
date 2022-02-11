@@ -28,6 +28,7 @@ export function LoginWrapper() {
     const contractId = URLParams.contract_id;
     const publicKey = URLParams.public_key;
     const failureUrl = checkIsValidUrl(URLParams.failure_url) ? URLParams.failure_url : null;
+    const isValidFailureUrl = checkIsValidUrl(failureUrl);
     const invalidContractId = URLParams.invalidContractId;
 
     const contractIdUrl = `${EXPLORER_URL}/accounts/${contractId}`;
@@ -47,7 +48,7 @@ export function LoginWrapper() {
                 invalidContractId={contractId}
                 onClickReturnToApp={() => {
                     Mixpanel.track("LOGIN Invalid contract id Click return to app button", { contract_id: contractId });
-                    if (checkIsValidUrl(failureUrl)) {
+                    if (isValidFailureUrl) {
                         window.location.href = failureUrl;
                     }
                 }}
@@ -63,6 +64,7 @@ export function LoginWrapper() {
                 contractIdUrl={contractIdUrl}
                 onClickCancel={() => setConfirmLogin(false)}
                 publicKey={publicKey}
+                isValidFailureUrl={isValidFailureUrl}
             />
         );
     }
@@ -73,6 +75,7 @@ export function LoginWrapper() {
             contractId={contractId}
             contractIdUrl={contractIdUrl}
             failureUrl={failureUrl}
+            isValidFailureUrl={isValidFailureUrl}
             onClickNext={() => { setConfirmLogin(true); window.scrollTo(0, 0); }}
         />
     );
