@@ -52,7 +52,7 @@ export function AutoImportWrapper({
     };
 
     const redirectToFailureUrl = () => {
-        if (isUrlNotJavascriptProtocol(window.location.href)) {
+        if (isUrlNotJavascriptProtocol(failureUrl)) {
             window.location.href = failureUrl;
         }
     };
