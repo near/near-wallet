@@ -11,7 +11,7 @@ import { Mixpanel } from '../mixpanel/index';
 import {
     selectAccountLocalStorageAccountId
 } from '../redux/slices/account';
-import { checkIsValidUrl } from '../utils/helper-api';
+import { isUrlNotJavascriptProtocol } from '../utils/helper-api';
 import { LOCKUP_ACCOUNT_ID_SUFFIX } from '../utils/wallet';
 
 export const LOGIN_ACCESS_TYPES = {
@@ -27,8 +27,8 @@ export function LoginWrapper() {
     const URLParams = parse(location.search);
     const contractId = URLParams.contract_id;
     const publicKey = URLParams.public_key;
-    const failureUrl = checkIsValidUrl(URLParams.failure_url) ? URLParams.failure_url : null;
-    const isValidFailureUrl = checkIsValidUrl(failureUrl);
+    const failureUrl = URLParams.failure_url;
+    const successUrl = URLParams.success_url;
     const invalidContractId = URLParams.invalidContractId;
 
     const contractIdUrl = `${EXPLORER_URL}/accounts/${contractId}`;
@@ -48,7 +48,7 @@ export function LoginWrapper() {
                 invalidContractId={contractId}
                 onClickReturnToApp={() => {
                     Mixpanel.track("LOGIN Invalid contract id Click return to app button", { contract_id: contractId });
-                    if (isValidFailureUrl) {
+                    if (isUrlNotJavascriptProtocol(failureUrl)) {
                         window.location.href = failureUrl;
                     }
                 }}
@@ -64,7 +64,7 @@ export function LoginWrapper() {
                 contractIdUrl={contractIdUrl}
                 onClickCancel={() => setConfirmLogin(false)}
                 publicKey={publicKey}
-                isValidFailureUrl={isValidFailureUrl}
+                successUrl={successUrl}
             />
         );
     }
@@ -75,8 +75,8 @@ export function LoginWrapper() {
             contractId={contractId}
             contractIdUrl={contractIdUrl}
             failureUrl={failureUrl}
-            isValidFailureUrl={isValidFailureUrl}
-            onClickNext={() => { setConfirmLogin(true); window.scrollTo(0, 0); }}
+            successUrl={successUrl}
+            onClickNext={() => { setConfirmLogin(true); window.scrollTo(0, 0);}}
         />
     );
 }

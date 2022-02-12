@@ -8,7 +8,7 @@ export async function getAccountIds(publicKey) {
     return await fetch(`${ACCOUNT_HELPER_URL}/publicKey/${publicKey}/accounts`, { signal: controller.signal }).then((res) => res.json());
 }
 
-export function checkIsValidUrl(url) {
+export function isUrlNotJavascriptProtocol(url) {
     if (!url) {
         return false;
     }

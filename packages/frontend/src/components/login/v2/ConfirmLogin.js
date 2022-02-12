@@ -22,7 +22,7 @@ export default ({
     contractId,
     publicKey,
     contractIdUrl,
-    isValidFailureUrl
+    successUrlIsValid
 }) => {
     const [loggingIn, setLoggingIn] = useState(false);
     const [showGrantFullAccessModal, setShowGrantFullAccessModal] = useState(false);
@@ -82,7 +82,7 @@ export default ({
                                     handleClickConnect();
                                 }
                             }}
-                            disabled={loggingIn || !isValidFailureUrl}
+                            disabled={loggingIn || !successUrlIsValid}
                             sending={loggingIn}
                             sendingString='button.connecting'
                         >

@@ -9,7 +9,7 @@ import { DISABLE_CREATE_ACCOUNT } from '../../config';
 import { 
     showAlert
 } from '../../utils/alerts';
-import { checkIsValidUrl } from '../../utils/helper-api';
+import { isUrlNotJavascriptProtocol } from '../../utils/helper-api';
 import { 
     loadState,
     saveState,
@@ -214,7 +214,7 @@ export const allowLogin = () => async (dispatch, getState) => {
             parsedUrl.searchParams.set('public_key', publicKey);
         }
         parsedUrl.searchParams.set('all_keys', allKeys.join(','));
-        if (checkIsValidUrl(parsedUrl.href)) {
+        if (isUrlNotJavascriptProtocol(parsedUrl.href)) {
             window.location = parsedUrl.href;
         }
     } else {
@@ -481,7 +481,7 @@ export const finishAccountSetup = () => async (dispatch, getState) => {
     const redirectUrl = selectAccountUrlRedirectUrl(getState());
     const accountId = selectAccountId(getState());
 
-    if (redirectUrl && checkIsValidUrl(redirectUrl)) {
+    if (redirectUrl && isUrlNotJavascriptProtocol(redirectUrl)) {
         window.location = `${redirectUrl}?accountId=${accountId}`;
     } else {
         dispatch(redirectToApp('/'));

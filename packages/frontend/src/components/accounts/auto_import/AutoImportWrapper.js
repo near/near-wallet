@@ -10,7 +10,7 @@ import {
     redirectTo,
     clearAccountState
 } from '../../../redux/actions/account';
-import { checkIsValidUrl } from '../../../utils/helper-api';
+import { isUrlNotJavascriptProtocol } from '../../../utils/helper-api';
 import AutoImport from './AutoImport';
 
 
@@ -23,8 +23,8 @@ export function AutoImportWrapper({
     const location = useSelector(getLocation);
     const URLParams = parse(location.search);
     const [recoveryFailed, setRecoveryFailed] = useState(false);
-    const successUrl = checkIsValidUrl(URLParams.success_url) ? URLParams.success_url : null;
-    const failureUrl = checkIsValidUrl(URLParams.failure_url) ? URLParams.failure_url : null;
+    const successUrl = URLParams.success_url;
+    const failureUrl = URLParams.failure_url;
 
     useEffect(() => {
         handleRecoverWithSecretKey();
@@ -37,7 +37,7 @@ export function AutoImportWrapper({
                 await dispatch(refreshAccount());
                 dispatch(clearAccountState());
 
-                if (successUrl && checkIsValidUrl(successUrl)) {
+                if (successUrl && isUrlNotJavascriptProtocol(successUrl)) {
                     window.location.href = successUrl;
                     return;
                 }
@@ -52,7 +52,7 @@ export function AutoImportWrapper({
     };
 
     const redirectToFailureUrl = () => {
-        if (checkIsValidUrl(window.location.href)) {
+        if (isUrlNotJavascriptProtocol(window.location.href)) {
             window.location.href = failureUrl;
         }
     };

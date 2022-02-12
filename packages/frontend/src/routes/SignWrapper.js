@@ -22,7 +22,7 @@ import {
     selectSignTransactions,
     selectSignTransactionsBatchIsValid
 } from '../redux/slices/sign';
-import { checkIsValidUrl } from '../utils/helper-api';
+import { isUrlNotJavascriptProtocol } from '../utils/helper-api';
 
 export function SignWrapper() {
     const dispatch = useDispatch();
@@ -46,7 +46,7 @@ export function SignWrapper() {
     const transactions = useSelector(selectSignTransactions);
     const accountId = useSelector(selectAccountId);
     const transactionBatchisValid = useSelector(selectSignTransactionsBatchIsValid);
-    const isValidCallbackUrl = checkIsValidUrl(signCallbackUrl);
+    const isValidCallbackUrl = isUrlNotJavascriptProtocol(signCallbackUrl);
 
     const signerId = transactions.length && transactions[0].signerId;
     const signGasFee = new BN(signFeesGasLimitIncludingGasChanges).div(new BN('1000000000000')).toString();
