@@ -7,7 +7,7 @@ import SignTransferRetry from '../components/sign/SignTransferRetry';
 import SignTransactionDetailsWrapper from '../components/sign/v2/SignTransactionDetailsWrapper';
 import SignTransactionSummaryWrapper from '../components/sign/v2/SignTransactionSummaryWrapper';
 import { Mixpanel } from '../mixpanel';
-import { switchAccount } from '../redux/actions/account';
+import { switchAccount, redirectTo } from '../redux/actions/account';
 import { selectAccountId } from '../redux/slices/account';
 import { selectAvailableAccounts, selectAvailableAccountsIsLoading } from '../redux/slices/availableAccounts';
 import {
@@ -22,6 +22,7 @@ import {
     selectSignTransactions,
     selectSignTransactionsBatchIsValid
 } from '../redux/slices/sign';
+import { isUrlNotJavascriptProtocol } from '../utils/helper-api';
 
 export function SignWrapper() {
     const dispatch = useDispatch();
@@ -45,6 +46,7 @@ export function SignWrapper() {
     const transactions = useSelector(selectSignTransactions);
     const accountId = useSelector(selectAccountId);
     const transactionBatchisValid = useSelector(selectSignTransactionsBatchIsValid);
+    const isValidCallbackUrl = isUrlNotJavascriptProtocol(signCallbackUrl);
 
     const signerId = transactions.length && transactions[0].signerId;
     const signGasFee = new BN(signFeesGasLimitIncludingGasChanges).div(new BN('1000000000000')).toString();
@@ -81,11 +83,13 @@ export function SignWrapper() {
         }
         
         if (signStatus === SIGN_STATUS.SUCCESS) {
-            if (signCallbackUrl && !!transactionHashes.length) {
+            if (signCallbackUrl && !!transactionHashes.length && isValidCallbackUrl) {
                 window.location.href = addQueryParams(signCallbackUrl, {
                     signMeta,
                     transactionHashes: transactionHashes.join(',')
                 });
+            } else {
+                dispatch(redirectTo('/'));
             }
         }
     }, [signStatus]);
@@ -97,7 +101,7 @@ export function SignWrapper() {
 
     const handleCancelTransaction = async () => {
         Mixpanel.track("SIGN Deny the transaction");
-        if (signCallbackUrl) {
+        if (signCallbackUrl && isValidCallbackUrl) {
             if (signStatus?.success !== false) {
                 window.location.href = addQueryParams(signCallbackUrl, {
                     signMeta,
@@ -112,6 +116,8 @@ export function SignWrapper() {
                 errorMessage: encodeURIComponent(signStatus?.errorMessage?.substring(0, 100)) || encodeURIComponent('Unknown error')
             });
             return;
+        } else {
+            dispatch(redirectTo('/'));
         }
     };
 
@@ -155,6 +161,7 @@ export function SignWrapper() {
             signGasFee={signGasFee}
             onClickMoreInformation={() => setCurrentDisplay(DISPLAY.TRANSACTION_DETAILS)}
             onClickEditAccount={() => setCurrentDisplay(DISPLAY.ACCOUNT_SELECTION)}
+            isValidCallbackUrl={isValidCallbackUrl}
         />
     );
 }

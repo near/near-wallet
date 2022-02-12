@@ -14,6 +14,7 @@ import {
     selectAccountAccountsBalances
 } from '../../../redux/slices/account';
 import { selectAvailableAccounts } from '../../../redux/slices/availableAccounts';
+import { isUrlNotJavascriptProtocol } from '../../../utils/helper-api';
 import SelectAccountLogin from './SelectAccountLogin';
 
 export default ({
@@ -21,7 +22,8 @@ export default ({
     contractId,
     contractIdUrl,
     onClickNext,
-    failureUrl
+    failureUrl,
+    successUrl
 }) => {
 
     const dispatch = useDispatch();
@@ -30,6 +32,7 @@ export default ({
     const availableAccounts = useSelector(selectAvailableAccounts);
     const accountAccountsBalances = useSelector(selectAccountAccountsBalances);
     const accountUrlReferrer = useSelector(selectAccountUrlReferrer);
+    const failureAndSuccessUrlsAreValid = isUrlNotJavascriptProtocol(failureUrl) && isUrlNotJavascriptProtocol(successUrl);
 
     return (
         <SelectAccountLogin
@@ -48,13 +51,14 @@ export default ({
             contractIdUrl={contractIdUrl}
             onClickCancel={() => {
                 Mixpanel.track("LOGIN Click deny button");
-                if (failureUrl) {
+                if (failureUrl && failureAndSuccessUrlsAreValid) {
                     window.location.href = failureUrl;
                 } else {
                     dispatch(redirectToApp());
                 }
             }}
             onClickNext={onClickNext}
+            failureAndSuccessUrlsAreValid={failureAndSuccessUrlsAreValid}
         />
     );
 };

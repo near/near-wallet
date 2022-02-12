@@ -53,7 +53,8 @@ export default ({
     onClickApprove,
     onClickMoreInformation,
     accountUrlReferrer,
-    submittingTransaction
+    submittingTransaction,
+    isValidCallbackUrl
 }) => {
     const insufficientBalance = availableBalance && transferAmount && new BN(availableBalance).lt(new BN(transferAmount));
     return (
@@ -82,13 +83,13 @@ export default ({
                 <FormButton
                     color='gray-blue'
                     onClick={onClickCancel}
-                    disabled={submittingTransaction}
+                    disabled={submittingTransaction || !isValidCallbackUrl}
                 >
                     <Translate id='button.cancel' />
                 </FormButton>
                 <FormButton
                     onClick={onClickApprove}
-                    disabled={submittingTransaction || insufficientBalance}
+                    disabled={submittingTransaction || insufficientBalance || !isValidCallbackUrl}
                     sending={submittingTransaction}
                 >
                     <Translate id='button.approve' />

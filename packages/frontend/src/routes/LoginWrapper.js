@@ -11,6 +11,7 @@ import { Mixpanel } from '../mixpanel/index';
 import {
     selectAccountLocalStorageAccountId
 } from '../redux/slices/account';
+import { isUrlNotJavascriptProtocol } from '../utils/helper-api';
 import { LOCKUP_ACCOUNT_ID_SUFFIX } from '../utils/wallet';
 
 export const LOGIN_ACCESS_TYPES = {
@@ -27,6 +28,7 @@ export function LoginWrapper() {
     const contractId = URLParams.contract_id;
     const publicKey = URLParams.public_key;
     const failureUrl = URLParams.failure_url;
+    const successUrl = URLParams.success_url;
     const invalidContractId = URLParams.invalidContractId;
 
     const contractIdUrl = `${EXPLORER_URL}/accounts/${contractId}`;
@@ -46,7 +48,9 @@ export function LoginWrapper() {
                 invalidContractId={contractId}
                 onClickReturnToApp={() => {
                     Mixpanel.track("LOGIN Invalid contract id Click return to app button", { contract_id: contractId });
-                    window.location.href = failureUrl;
+                    if (isUrlNotJavascriptProtocol(failureUrl)) {
+                        window.location.href = failureUrl;
+                    }
                 }}
             />
         );
@@ -60,6 +64,7 @@ export function LoginWrapper() {
                 contractIdUrl={contractIdUrl}
                 onClickCancel={() => setConfirmLogin(false)}
                 publicKey={publicKey}
+                successUrl={successUrl}
             />
         );
     }
@@ -70,7 +75,8 @@ export function LoginWrapper() {
             contractId={contractId}
             contractIdUrl={contractIdUrl}
             failureUrl={failureUrl}
-            onClickNext={() => { setConfirmLogin(true); window.scrollTo(0, 0); }}
+            successUrl={successUrl}
+            onClickNext={() => { setConfirmLogin(true); window.scrollTo(0, 0);}}
         />
     );
 }

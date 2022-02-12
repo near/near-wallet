@@ -7,3 +7,17 @@ export async function getAccountIds(publicKey) {
     controller = new AbortController();
     return await fetch(`${ACCOUNT_HELPER_URL}/publicKey/${publicKey}/accounts`, { signal: controller.signal }).then((res) => res.json());
 }
+
+export function isUrlNotJavascriptProtocol(url) {
+    if (!url) {
+        return false;
+    }
+
+    const urlProtocol = new URL(url).protocol;
+    if (urlProtocol === 'javascript:') {
+        console.log('Invalid URL protocol:', urlProtocol, 'URL cannot execute JavaScript');
+        return false;
+    }
+
+    return true;
+}

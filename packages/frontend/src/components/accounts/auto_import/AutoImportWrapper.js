@@ -10,7 +10,9 @@ import {
     redirectTo,
     clearAccountState
 } from '../../../redux/actions/account';
+import { isUrlNotJavascriptProtocol } from '../../../utils/helper-api';
 import AutoImport from './AutoImport';
+
 
 export function AutoImportWrapper({
     secretKey,
@@ -35,7 +37,7 @@ export function AutoImportWrapper({
                 await dispatch(refreshAccount());
                 dispatch(clearAccountState());
 
-                if (successUrl) {
+                if (successUrl && isUrlNotJavascriptProtocol(successUrl)) {
                     window.location.href = successUrl;
                     return;
                 }
@@ -49,7 +51,11 @@ export function AutoImportWrapper({
         );
     };
 
-    const redirectToFailureUrl = () => window.location.href = failureUrl;
+    const redirectToFailureUrl = () => {
+        if (isUrlNotJavascriptProtocol(failureUrl)) {
+            window.location.href = failureUrl;
+        }
+    };
 
     return (
         <AutoImport
