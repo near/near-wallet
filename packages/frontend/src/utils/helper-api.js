@@ -10,7 +10,7 @@ export async function getAccountIds(publicKey) {
 
 export function isUrlNotJavascriptProtocol(url) {
     if (!url) {
-        return false;
+        return true;
     }
 
     const urlProtocol = new URL(url).protocol;
