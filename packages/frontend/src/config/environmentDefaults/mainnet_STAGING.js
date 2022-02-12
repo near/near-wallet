@@ -7,7 +7,7 @@ export default {
     BROWSER_MIXPANEL_TOKEN: "d5bbbbcc3a77ef8427f2b806b5689bf8",
     DISABLE_CREATE_ACCOUNT: true,
     DISABLE_PHONE_RECOVERY: true,
-    EXPLORE_APPS_URL: "https://awesomenear.com/trending/",
+    EXPLORE_APPS_URL: "https://awesomenear.com/",
     EXPLORE_DEFI_URL: "https://awesomenear.com/categories/defi/",
     EXPLORER_URL: "https://explorer.mainnet.near.org",
     HIDE_SIGN_IN_WITH_LEDGER_ENTER_ACCOUNT_ID_MODAL: false,
@@ -37,7 +37,7 @@ export default {
     RECAPTCHA_ENTERPRISE_SITE_KEY: "6LcpJ3EcAAAAAFgA-nixKFNGWMo9IG9FQhH4XjSY",
     SENTRY_DSN: "https://15d0d1b94e8548dd9663b8c93bf4550a@o398573.ingest.sentry.io/5396205",
     SHOW_PRERELEASE_WARNING: true,
-    SMS_BLACKLIST: ["CN", "VN"],
+    SMS_BLACKLIST: ["CN", "VN", "TH"],
     STAKING_GAS_BASE: "25000000000000", // 25 Tgas
     WHITELISTED_CONTRACTS: [
         "berryclub.ek.near",

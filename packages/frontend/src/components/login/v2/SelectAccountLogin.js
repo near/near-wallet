@@ -21,7 +21,8 @@ export default ({
     onClickNext,
     loginAccessType,
     appReferrer,
-    contractIdUrl
+    contractIdUrl,
+    failureAndSuccessUrlsAreValid
 }) => (
     <Container className='small-centered border'>
         <LoginStyle className={loginAccessType === LOGIN_ACCESS_TYPES.FULL_ACCESS ? 'full-access' : ''}>
@@ -54,11 +55,13 @@ export default ({
                 <FormButton
                     onClick={onClickCancel}
                     color='gray-blue'
+                    disabled={!failureAndSuccessUrlsAreValid}
                 >
                     <Translate id='button.cancel' />
                 </FormButton>
                 <FormButton
                     onClick={onClickNext}
+                    disabled={!failureAndSuccessUrlsAreValid}
                 >
                     <Translate id='button.next' />
                 </FormButton>

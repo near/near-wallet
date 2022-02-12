@@ -50,3 +50,8 @@ export const selectAvailableAccounts = createSelector(
     selectAvailableAccountsSlice,
     (availableAccounts) => availableAccounts.items || []
 );
+
+export const selectAvailableAccountsIsLoading = createSelector(
+    selectAvailableAccountsSlice,
+    (availableAccounts) => availableAccounts.status && availableAccounts.status.loading
+);

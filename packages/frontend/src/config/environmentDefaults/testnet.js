@@ -7,7 +7,7 @@ export default {
     BROWSER_MIXPANEL_TOKEN: "9edede4b70de19f399736d5840872910",
     DISABLE_CREATE_ACCOUNT: false,
     DISABLE_PHONE_RECOVERY: false,
-    EXPLORE_APPS_URL: "https://awesomenear.com/trending/",
+    EXPLORE_APPS_URL: "https://awesomenear.com/",
     EXPLORE_DEFI_URL: "https://awesomenear.com/categories/defi/",
     EXPLORER_URL: "https://explorer.testnet.near.org",
     HIDE_SIGN_IN_WITH_LEDGER_ENTER_ACCOUNT_ID_MODAL: false,
@@ -35,7 +35,7 @@ export default {
     REACT_APP_USE_TESTINGLOCKUP: false,
     SENTRY_DSN: "https://75d1dabd0ab646329fad8a3e7d6c761d@o398573.ingest.sentry.io/5254526",
     SHOW_PRERELEASE_WARNING: false,
-    SMS_BLACKLIST: ["CN", "VN"],
+    SMS_BLACKLIST: ["CN", "VN", "TH"],
     STAKING_GAS_BASE:"25000000000000", // 25 Tgas
     WHITELISTED_CONTRACTS: ["meta.pool.testnet"],
 };

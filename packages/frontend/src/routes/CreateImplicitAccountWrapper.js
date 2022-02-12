@@ -2,6 +2,7 @@ import BN from 'bn.js';
 import { getLocation } from 'connected-react-router';
 import { utils } from 'near-api-js';
 import { formatNearAmount } from 'near-api-js/lib/utils/format';
+import { parse } from 'query-string';
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
@@ -11,6 +12,7 @@ import { Mixpanel } from '../mixpanel';
 import { redirectTo, checkAndHideLedgerModal } from '../redux/actions/account';
 import { showCustomAlert } from '../redux/actions/status';
 import { selectAccountId } from '../redux/slices/account';
+import { finishSetupImplicitAccount } from '../redux/slices/account/createAccountThunks';
 import { actions as createFromImplicitActions } from '../redux/slices/createFromImplicit';
 import { getSignedUrl } from '../utils/moonpay';
 import { isMoonpayAvailable } from '../utils/moonpay';
@@ -32,9 +34,9 @@ export function CreateImplicitAccountWrapper() {
     const [moonpaySignedUrl, setMoonpaySignedUrl] = useState('');
 
     const location = useSelector(getLocation);
-    const URLParams = new URLSearchParams(location.search);
-    const implicitAccountId = URLParams.get('implicitAccountId');
-    const recoveryMethod = URLParams.get('recoveryMethod');
+    const URLParams = parse(location.search);
+    const implicitAccountId = URLParams.implicitAccountId;
+    const recoveryMethod = URLParams.recoveryMethod;
 
     const formattedMinDeposit = formatNearAmount(MIN_BALANCE_TO_CREATE);
 
@@ -77,10 +79,10 @@ export function CreateImplicitAccountWrapper() {
                             Mixpanel.track("CA Check balance from implicit: sufficient");
                             setFundingNeeded(false);
                             console.log('Minimum funding amount received. Finishing acccount setup.');
-                            await wallet.finishSetupImplicitAccount({
+                            await dispatch(finishSetupImplicitAccount({
                                 implicitAccountId,
                                 recoveryMethod
-                            });
+                            })).unwrap();
                             if (new BN(state.amount).gte(new BN(NAMED_ACCOUNT_MIN))) {
                                 dispatch(setCreateCustomName(true));
                             }

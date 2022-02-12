@@ -2,13 +2,13 @@
     "account": {
         "activateAccount": {
             "post": {
-                "descOne": "Your initial deposit has been received and transferred to your new account. Your account is now active!",
-                "descTwo": "A portion of your deposit has been reserved to cover the <a href='https://docs.near.org/docs/concepts/account' rel='noopener noreferrer' target='_blank'>cost of hosting your account</a>.",
-                "title": "Your account has been activated."
+                "descOne": "Ваш первоначальный депозит был получен и переведен на ваш новый счет. Ваша учетная запись теперь активна!",
+                "descTwo": "Часть вашего депозита была зарезервирована для покрытия <a href='https://docs.near.org/docs/concepts/account' rel='noopener noreferrer' target='_blank'>стоимость размещения вашей учетной записи</a>.",
+                "title": "Ваша учетная запись активирована."
             },
             "pre": {
-                "desc": "To begin using NEAR Wallet, make a minimum initial deposit by sending <b>at least ${amount}</b> to your Account ID (sometimes called an “address”).",
-                "title": "Almost there! Make your initial deposit."
+                "desc": "Чтобы начать пользоваться кошельком NEAR, внесите минимальный первоначальный депозит, отправив <b>по крайней мере ${amount}</b> к логину вашей учетной записи (иногда называемый “Адрес”).",
+                "title": "Почти готово! Внесите свой первоначальный депозит."
             }
         },
         "available": {
@@ -28,23 +28,23 @@
         },
         "createImplicit": {
             "post": {
-                "descOne": "Your initial deposit was received! Once claimed, your deposit will be transferred to your new account.",
-                "descTwo": "Important: Your single-use funding address will no longer be valid. Make sure to replace it with your Account ID on any exchanges or other devices where it may have been saved.",
+                "descOne": "Ваш первоначальный депозит был получен! После получения заявки ваш депозит будет переведен на ваш новый счет.",
+                "descTwo": "Важно: Ваш адрес для одноразового финансирования больше не будет действительным. Обязательно замените его логином вашей учетной записи на любых биржах или других устройствах, где он мог быть сохранен.",
                 "modal": {
-                    "descOne": "By continuing, you acknowledge that the single-use funding address will be replaced, and any additional funds sent to the old address will be lost.",
-                    "descTwo": "Remember to replace it with your Account ID on any exchanges or other devices where it may have been saved.",
-                    "title": "Update your address"
+                    "descOne": "Продолжая, вы подтверждаете, что адрес одноразового финансирования будет заменен, и любые дополнительные средства, отправленные на старый адрес, будут потеряны.",
+                    "descTwo": "Не забудьте заменить его логиномом вашей учетной записи на любых биржах или других устройствах, где он мог быть сохранен.",
+                    "title": "Обновите свой адрес"
                 },
-                "title": "Claim your account"
+                "title": "Востребуйте свой аккаунт"
             },
             "pre": {
                 "addressHeader": "Одноразовый адрес для пополнения",
                 "descOne": "Инициализируйте свою учетную запись, отправив хотя бы <b>${amount}</b> на указанный ниже одноразовый адрес для пополнения.",
                 "descTwo": "Вернитесь на данный экран после пополнения средств, чтобы завершить процесс создания учетной записи.",
                 "moonPay": {
-                    "buyWith": "Buy with",
-                    "desc": "Make your initial deposit with MoonPay using your preferred payment method.",
-                    "title": "Fund with MoonPay"
+                    "buyWith": "Покупайте с",
+                    "desc": "Внесите свой первоначальный депозит с помощью MoonPay, используя предпочитаемый вами способ оплаты.",
+                    "title": "Оплатить с помощью MoonPay"
                 },
                 "title": "Пополните свою учетную запись",
                 "whereToBuy": {
@@ -63,17 +63,17 @@
         },
         "createImplicitAccount": {
             "createCustomNameModal": {
-                "desc": "Unlike your default address, a custom address can be anything you like, making it easier to remember and share!",
-                "title": "Add a Custom Address to Your Wallet"
+                "desc": "В отличие от вашего адреса по умолчанию, пользовательский адрес может быть любым, что вам нравится, что облегчает запоминание и обмен информацией!",
+                "title": "Добавьте пользовательский адрес в Свой кошелек"
             },
-            "customAddress": "A custom address can be anything you like, making it easier to remember and share!",
-            "customAmount": "Custom",
-            "exchange": "exchange",
-            "orAskFriend": "or ask a friend!",
-            "orSendNear": "...or send at least ${amount} NEAR to your wallet address.",
-            "sendFrom": "Send from an",
-            "title": "Almost there! To get started, buy some NEAR using MoonPay...",
-            "titleAlt": "Almost there! To get started, send at least ${amount} NEAR to your wallet address."
+            "customAddress": "Пользовательский адрес может быть любым, что вам нравится, что облегчает запоминание и обмен!",
+            "customAmount": "Другая",
+            "exchange": "Обмен",
+            "orAskFriend": "или спроси у друга!",
+            "orSendNear": "...или отправьте по крайней мере $ {сумму} РЯДОМ с адресом вашего кошелька.",
+            "sendFrom": "Отправить с",
+            "title": "Почти на месте! Для начала купите несколько монет с помощью MoonPay...",
+            "titleAlt": "Почти на месте! Для начала отправьте хотя бы ${amount} NEAR на адрес вашего кошелька."
         },
         "login": {
             "details": {
@@ -152,7 +152,7 @@
         "pageTitle": "Доверенные приложения",
         "publicKey": "Публичный ключ"
     },
-    "availableBalanceInfo": "Your spendable NEAR balance excluding funds locked or staked. <a href='/profile'>View Balance Breakdown →</a>",
+    "availableBalanceInfo": "Ваш расходуемый баланс в Near, за исключением застейканных или размещенных средств. <a href='/profile'>Просмотр Расходуемого баланса →</a>",
     "availableBalanceProfile": "Это ваш расходуемый баланс в NEAR, может быть незамедлительно потрачен или передан. Это значение ниже, чем ваш общий баланс.",
     "back": "Назад",
     "balance": {
@@ -241,14 +241,14 @@
     },
     "connecting": "Соединение",
     "copy": {
-        "default": "Copied!"
+        "default": "Скопировано!"
     },
     "createAccount": {
         "accountIdInput": {
             "placeholder": "yourname.${data}",
             "title": "Выберите имя пользователя"
         },
-        "addACustomAddress": "Add a Custom Address",
+        "addACustomAddress": "Добавьте пользовательский адрес",
         "alreadyHaveAnAccount": "Уже есть учетная запись?",
         "invalidLinkDrop": {
             "one": "Ссылка NEAR Drop уже была ранее активирована.",
@@ -268,10 +268,10 @@
         "recoverItHere": "Восстановить доступ",
         "step": "Шаг ${step}/${total}",
         "termsPage": {
-            "descOne": "NEAR accounts require a minimum balance of <b>at least ${amount}</b> to <a href='https://docs.near.org/docs/concepts/account' rel='noopener noreferrer' target='_blank'>hold a place on the network.</a>",
-            "descTwo": "After reserving a unique account address, you’ll be asked to make a small initial deposit to activate your account.",
-            "disclaimer": "By creating a NEAR account, you agree to the NEAR Wallet <a href='/terms' rel='noopener noreferrer' target='_blank'>Terms of Service</a> and <a href='https://near.org/privacy' rel='noopener noreferrer' target='_blank'>Privacy Policy</a>.",
-            "title": "Before you begin..."
+            "descOne": "NEAR аккаунт требует минимального баланса <b>по крайней мере ${amount}</b> для <a href='https://docs.near.org/docs/concepts/account' rel='noopener noreferrer' target='_blank'>занимаемого места в сети</a>",
+            "descTwo": "После резервирования уникального адреса учетной записи вам будет предложено внести небольшой первоначальный депозит для активации вашей учетной записи.",
+            "disclaimer": "Создавая учетную запись NEAR, вы соглашаетесь на использование кошелька NEAR <a href='/terms' rel='noopener noreferrer' target='_blank'>условия обслуживания</a> and <a href='https://near.org/privacy' rel='noopener noreferrer' target='_blank'>политика конфиденциальности</a>.",
+            "title": "Прежде чем вы начнете..."
         }
     },
     "dashboard": {
@@ -280,34 +280,34 @@
     "dashboardActivity": {
         "message": {
             "AddKey": {
-                "forContract": "for <span>${permissionReceiverId}</span>",
-                "forReceiver": "for <span>${receiverId}</span>"
+                "forContract": "для <span>${permissionReceiverId}</span>",
+                "forReceiver": "для <span>${receiverId}</span>"
             },
             "CreateAccount": "<span>${receiverId}</span>",
             "DeleteAccount": "<span>${receiverId}<span>",
             "DeleteKey": "",
             "DeployContract": "<span>${receiverId}</span>",
-            "FunctionCall": "<span>${methodName}</span> in contract <span>${receiverId}</span>",
+            "FunctionCall": "<span>${methodName}</span> в контракте <span>${receiverId}</span>",
             "Stake": "<span>${stake}</span>",
             "Transfer": {
-                "received": "from <span>${signerId}</span>",
-                "transferred": "to <span>${receiverId}</span>"
+                "received": "от <span>${signerId}</span>",
+                "transferred": "к <span>${receiverId}</span>"
             }
         },
         "title": {
             "AddKey": {
-                "forContract": "Access Key added",
-                "forReceiver": "Access Key added"
+                "forContract": "Добавлен ключ доступа",
+                "forReceiver": "Добавлен ключ доступа"
             },
-            "CreateAccount": "New account created",
-            "DeleteAccount": "Account deleted",
-            "DeleteKey": "Key deleted",
-            "DeployContract": "Contract deployed",
-            "FunctionCall": "Method called",
-            "Stake": "Staked",
+            "CreateAccount": "Создана новая учетная запись",
+            "DeleteAccount": "Учетная запись удалена",
+            "DeleteKey": "Ключ удален",
+            "DeployContract": "Контракт развернут",
+            "FunctionCall": "Метод, называемый",
+            "Stake": "Застейкано",
             "Transfer": {
-                "received": "Received NEAR",
-                "transferred": "Sent NEAR"
+                "received": "Полученно NEAR",
+                "transferred": "Отправленно NEAR"
             }
         }
     },
@@ -370,20 +370,20 @@
     },
     "initialDeposit": {
         "claimAccount": {
-            "desc": "Your deposit was received! Once claimed, your deposit will be transferred to your new account.",
+            "desc": "Ваш депозит был получен! После получения заявки ваш депозит будет переведен на вашу новую учётную запись.",
             "disclaimer": {
-                "checkBox": "Agree & Continue",
-                "desc": "Important: The old single-use funding address will no longer be valid. Make sure to replace it with your new address on any exchanges or other devices where it may have been saved."
+                "checkBox": "Соглашайтесь и продолжайте",
+                "desc": "Важно: Старый адрес одноразового финансирования больше не будет действительным. Обязательно замените его своим новым адресом на любых биржах или других устройствах, где он мог быть сохранен."
             },
-            "title": "Claim Your Account"
+            "title": "Востребуйте Свой Аккаунт"
         },
         "creditCard": {
-            "desc": "Complete your purchase of <b>at least ${amount} NEAR</b> through MoonPay. MoonPay will automatically deposit your funds into your new account.",
-            "title": "Fund your new account using a credit card."
+            "desc": "Завершите покупку <b>по крайней мере ${amount} NEAR</b> через Мунпэй. MoonPay автоматически переведет ваши средства на ваш новый аккаунт.",
+            "title": "Пополните свой новый аккаунт с помощью кредитной карты."
         },
         "manualDeposit": {
-            "desc": "Meet the minimum initial deposit by sending <b>at least ${amount} NEAR</b> to the single-use funding address below.",
-            "title": "Submit a manual deposit."
+            "desc": "Соберите минимальный начальный депозит, отправив <b>по крайней мере ${amount} NEAR</b> на указанный ниже адрес одноразового финансирования.",
+            "title": "Отправьте депозит вручную."
         }
     },
     "input": {
@@ -400,7 +400,7 @@
     "landing": {
         "banner": "Кошелек NEAR находится в стадии Private Beta",
         "desc": "Безопасно храните токены NEAR и другие поддерживаемые активы в <span>кошельке NEAR</span>.",
-        "or": "or",
+        "or": "или",
         "title": "NEAR здесь"
     },
     "ledgerSignTxModal": {
@@ -472,50 +472,50 @@
         },
         "v2": {
             "connectConfirm": {
-                "desc": "Only connect to sites that you trust. Once connected, <a href=${contractIdUrl} target='_blank' rel='noreferrer'>${appReferrer}</a> will have <b>${accessType}</b>:",
+                "desc": "Подключайтесь только к сайтам, которым вы доверяете. Однажды подключенный, <a href=${contractIdUrl} target='_blank' rel='noreferrer'>${appReferrer}</a>сможет <b>${accessType}</b>:",
                 "feeAllowance": {
-                    "desc": "The application will be given permission to spend up to <b>${amount} NEAR</b> towards network fees incurred during use.",
-                    "title": "Network Fee Allowance"
+                    "desc": "Приложению будет разрешено потратить до <b>${amount} NEAR</b> в счет сетевых сборов, понесенных во время использования.",
+                    "title": "Надбавка за Сетевую плату"
                 },
-                "fullAccess": "full permissions",
+                "fullAccess": "Полный доступ",
                 "fullAccessModal": {
-                    "desc": "Proceed with caution. Full access permissions allow contracts and applications to access your token balance. To confirm, enter your account ID below.",
-                    "title": "Grant full account access?"
+                    "desc": "Действуйте с осторожностью. Разрешения на полный доступ позволяют контрактам и приложениям получать доступ к вашему балансу токенов. Для подтверждения введите свой логин учетной записи ниже.",
+                    "title": "Предоставить полный доступ к учетной записи?"
                 },
-                "fullAccessWarning": "This site is requesting full access to your account. To enable full access, you’ll be asked to verify your account ID.",
-                "limitedAccess": "limited permissions",
+                "fullAccessWarning": "Этот сайт запрашивает полный доступ к вашей учетной записи. Чтобы включить полный доступ, вам будет предложено подтвердить логин вашей учетной записи.",
+                "limitedAccess": "Ограниченный доступ",
                 "permissions": {
-                    "notTransferTokens": "This does not allow the app to transfer tokens",
-                    "transferTokens": "Transfer tokens from your account",
-                    "viewAddress": "View the address of your permitted account",
-                    "viewBalance": "View the balance of your permitted account"
+                    "notTransferTokens": "Это не позволяет приложению передавать токены",
+                    "transferTokens": "Перевод токенов с вашего аккаунта",
+                    "viewAddress": "Просмотреть адрес вашей разрешенной учетной записи",
+                    "viewBalance": "Просмотр баланса вашего разрешенного аккаунта"
                 },
-                "title": "Connecting with:"
+                "title": "Соединяясь с:"
             },
             "connectWithNear": {
-                "desc": "An application is requesting <b>${accessType}</b> to your NEAR account. Select the account you wish to connect.",
-                "fullAccess": "full access",
-                "limitedAccess": "limited access",
-                "title": "Connect with NEAR"
+                "desc": "Приложение запрашивает <b>${accessType}</b> на ваш Near аккаунт. Выберите учетную запись, которую вы хотите подключить.",
+                "fullAccess": "полный доступ",
+                "limitedAccess": "ограниченный доступ",
+                "title": "Соединяйтесь с NEAR"
             }
         }
     },
     "minimumBalance": "Минимальный баланс в NEAR, который должен храниться на учетной записи для того, чтобы она оставалась активной. Этот баланс представляет собой расходы на поддержание хранилища для вашей учетной записи в блокчейне NEAR (с небольшим запасом), и может расти или падать в завимости от того, требуется ли для учетной записи больше или меньше места.",
     "mobileDeviceAccess": {
         "importCode": {
-            "desc": "If you are already logged in on a desktop device, scan your mobile access code to import your account."
+            "desc": "Если вы уже вошли в систему на настольном устройстве, отсканируйте код мобильного доступа, чтобы импортировать свою учетную запись."
         },
         "showCode": {
-            "button": "View Mobile Code",
-            "desc": "Scan your mobile access code to grant full account access to your mobile device.",
+            "button": "Просмотр Кода мобильного телефона",
+            "desc": "Отсканируйте свой код мобильного доступа, чтобы предоставить полный доступ к учетной записи вашего мобильного устройства.",
             "modal": {
-                "desc": "Reveal and scan the QR code below to import your account on your mobile device.",
-                "disclaimer": "<b>This code contains highly sensitive data and grants full account access to your mobile device.</b> Take care not to share or expose it, and only import your account to a secure device that you own.",
-                "reveal": "Reveal",
-                "title": "Mobile Access Code"
+                "desc": "Откройте и отсканируйте QR-код ниже, чтобы импортировать свою учетную запись на свое мобильное устройство.",
+                "disclaimer": "<b>Этот код содержит конфиденциальные данные и предоставляет полный доступ к учетной записи вашего мобильного устройства.</b> Будьте осторожны, чтобы не делиться и не раскрывать это, и импортируйте свою учетную запись только на защищенное устройство, которым вы владеете.",
+                "reveal": "Раскрыть",
+                "title": "Код мобильного Доступа"
             }
         },
-        "title": "Mobile Device Access"
+        "title": "Доступ к Мобильному Устройству"
     },
     "networkBanner": {
         "desc": "Этот кошелек (и сеть) доступны только для целей тестирования. Токены и другие активы не имеют ценности. Созданные учетные записи не будут перенесены в Mainnet.",
@@ -577,7 +577,7 @@
             "locked": "Заблокировано",
             "lockPopup": {
                 "createAnotherAccount": "создать еще одну учетную запись",
-                "text": "Ваше имя пользователя является вашим уникальным идентификатором в системе и не может быть изменено, поскольку к нему привязаны данные и право собственности на активы. Однако вы можете ${link} с желаемым именем и отправлять активы по мере необходимости.",
+                "text": "Ваше имя пользователя является вашим уникальным логиномом в системе и не может быть изменено, поскольку к нему привязаны данные и право собственности на активы. Однако вы можете ${link} с желаемым именем и отправлять активы по мере необходимости.",
                 "title": "Почему это заблокировано?"
             },
             "minBalance": "Минимальный баланс",
@@ -617,13 +617,13 @@
         "twoFactorDesc": "Аутентификация через SMS или электронную почту при авторизации транзакций и/или входе в свою учетную запись."
     },
     "reCAPTCHA": {
-        "disclaimer": "This site is protected by reCAPTCHA and the Google <a href='https://policies.google.com/privacy' target='_blank' rel='noopener noreferrer'>Privacy Policy</a> and <a href='https://policies.google.com/terms' target='_blank' rel='noopener noreferrer'>Terms of Service</a> apply.",
+        "disclaimer": "Этот сайт защищен reCAPTCHA и Google <a href='https://policies.google.com/privacy' target='_blank' rel='noopener noreferrer'>политика конфиденциальности</a> и <a href='https://policies.google.com/terms' target='_blank' rel='noopener noreferrer'>условия обслуживания</a> принять.",
         "fail": {
-            "desc": "reCAPTCHA is required in order to authorize new accounts funded by NEAR.",
-            "link": "Fund your own account?",
-            "title": "Failed to load reCAPTCHA."
+            "desc": "reCAPTCHA требуется для авторизации новых учетных записей, пополняемых NEAR.",
+            "link": "Пополнить свой собственный аккаунт?",
+            "title": "Не удалось загрузить рекапчу."
         },
-        "loading": "Loading reCAPTCHA..."
+        "loading": "Загрузка рекапчи..."
     },
     "receivePage": {
         "addressTitle": "Ваш адрес",
@@ -638,7 +638,7 @@
         "cannotResend": "Это сообщение было отправлено вам во время включения методе восстановления по электронной почте/SMS. Мы отправляем это сообщение лишь единожды и не сможет переслать его еще раз.",
         "email": {
             "desc": "Проверьте свою электронную почту от near.org с темой письма:",
-            "subject": "\"Важно: Письмо восстановления кошелька Near\" (\"Important: Near Wallet Recovery Email\").",
+            "subject": "\"Важно: Письмо восстановления кошелька Near\" (\"Важно: Восстановление кошелька Near\").",
             "title": "С помощью электронной почты"
         },
         "ledger": {
@@ -720,8 +720,8 @@
             "success": "Отлично! Имя пользователя ${accountId} доступно."
         },
         "CREATE_ACCOUNT_WITH_SEED_PHRASE": {
-            "error": "",
-            "success": ""
+            "error": "Ошибка создания аккаунта с Seed фразой",
+            "success": "Аккаунт успешно создан"
         },
         "CREATE_NEW_ACCOUNT": {
             "error": "Имя пользователя занято. Попробуйте другое.",
@@ -729,15 +729,15 @@
         },
         "default": {
             "error": "К сожалению, произошла ошибка. Попробуйте еще раз.",
-            "success": ""
+            "success": "Успешно"
         },
         "DELETE_RECOVERY_METHOD": {
-            "error": "",
-            "success": ""
+            "error": "Ошибка удаления метода восстановления.",
+            "success": "Метод восстановления успешно удалён"
         },
         "DEPLOY_MULTISIG": {
-            "error": "",
-            "success": ""
+            "error": "Ошибка создания мультисига",
+            "success": "Мультисиг успешно создан"
         },
         "Deserialization": "",
         "GET_LEDGER_ACCOUNT_IDS": {
@@ -771,8 +771,8 @@
             "success": "Установка метода восстановления завершена."
         },
         "SIGN_AND_SEND_TRANSACTIONS": {
-            "error": "",
-            "success": ""
+            "error": "Ошибка подписи и отправки транзакции.",
+            "success": "Транзакция успешно подписана и отправлена."
         },
         "TRANSFER_ALL_FROM_LOCKUP": {
             "error": "Что-то пошло не так. Пожалуйста, попробуйте еще раз.",
@@ -784,7 +784,7 @@
             "success": "Двухфакторная аутентификация была успешно включена!"
         }
     },
-    "reservedForFeesInfo": "Up to ${data} NEAR is reserved to cover the cost of transactions.",
+    "reservedForFeesInfo": "Вплоть до ${data} NEAR зарезервировано для покрытия расходов на транзакции.",
     "selectAccountDropdown": {
         "createAccount": "Создать новую учетную запись",
         "noOtherAccounts": "У вас нет других учетных записей",
@@ -834,51 +834,51 @@
     },
     "sendV2": {
         "accordionTriggerTitle": {
-            "balanceDetails": "Balance details",
-            "transactionDetails": "Transaction Details"
+            "balanceDetails": "Сведения о балансе",
+            "transactionDetails": "Детали транзакции"
         },
         "review": {
-            "title": "You are sending"
+            "title": "Вы отправляете"
         },
         "selectAsset": {
-            "assetInputPlaceholder": "Search asset name",
-            "assetListNameTitle": "Name",
-            "asssetListBalanceTitle": "Available to send",
-            "title": "Select Asset"
+            "assetInputPlaceholder": "Имя актива для поиска",
+            "assetListNameTitle": "название",
+            "asssetListBalanceTitle": "Доступно для отправки",
+            "title": "Выберите актив"
         },
         "selectReceiver": {
-            "receiverInputLabel": "Send to"
+            "receiverInputLabel": "Отправить к"
         },
-        "selectTokenButtonTitle": "Select Asset",
+        "selectTokenButtonTitle": "Выберите актив",
         "success": {
-            "title": "Transaction complete!</br>You sent <span class='color-blue'>${amount}</span></br>to <span class='color-green'>${receiverId}</span>"
+            "title": "Транзакция завершена!</br>Вы послали <span class='color-blue'>${amount}</span></br>к <span class='color-green'>${receiverId}</span>"
         },
         "translateIdInfoTooltip": {
-            "estimatedFees": "The estimated cost of processing your transaction.",
-            "estimatedTotal": "The estimated total of your transaction including fees.",
-            "networkFees": "The final amount paid to cover the costs of processing your transaction.",
-            "reservedForFees": "The portion of your account balance that cannot be spent. This amount is reserved to cover the storage costs of your account. For more information, visit our documentation."
+            "estimatedFees": "Ориентировочная стоимость обработки вашей транзакции.",
+            "estimatedTotal": "Предполагаемая общая сумма вашей транзакции, включая комиссионные.",
+            "networkFees": "Окончательная сумма, уплаченная для покрытия расходов на обработку вашей транзакции.",
+            "reservedForFees": "Часть баланса вашего аккаунта, которая не может быть потрачена. Эта сумма зарезервирована для покрытия расходов на хранение вашей учетной записи. Для получения дополнительной информации посетите нашу документацию."
         },
         "TXEntry": {
             "status": {
-                "Failure": "Failed",
-                "notAvailable": "Status not available",
-                "SuccessValue": "Successful"
+                "Failure": "Неудачно",
+                "notAvailable": "Статус недоступен",
+                "SuccessValue": "Успешно"
             },
             "title": {
-                "amount": "Amount",
-                "availableBalance": "Available balance",
-                "availableToSend": "Available to Send",
-                "estimatedFees": "Estimated fees",
-                "estimatedTotal": "Estimated total",
-                "from": "From",
-                "networkFees": "Network fees",
-                "receiverId": "Sent to",
-                "reservedForFees": "Reserved for fees",
-                "status": "TXN Status",
-                "timeStamp": "Date & time",
-                "to": "To",
-                "token": "Asset"
+                "amount": "Сумма",
+                "availableBalance": "Доступный баланс",
+                "availableToSend": "Доступно для отправки",
+                "estimatedFees": "Предполагаемые комиссии",
+                "estimatedTotal": "весь Предполагаемый",
+                "from": "от",
+                "networkFees": "Сетевые комиссии",
+                "receiverId": "отправлено к",
+                "reservedForFees": "Зарезервировано для комиссий",
+                "status": "Статус транзакции",
+                "timeStamp": "Дата и время",
+                "to": "К",
+                "token": "токен"
             }
         }
     },
@@ -957,8 +957,8 @@
         "subHeader": "Выберите метод восстановления:"
     },
     "setupSeedPhrase": {
-        "pageText": "Write down the following words in order and keep them somewhere safe. <b>Anyone with access to it will also have access to your account!</b> You’ll be asked to verify your passphrase next.",
-        "pageTitle": "Setup Your Secure Passphrase",
+        "pageText": "Запишите следующие слова по порядку и храните их в надежном месте. <b>Любой, у кого есть доступ к нему, также будет иметь доступ к вашей учетной записи!</b> Затем вас попросят подтвердить вашу кодовую фразу.",
+        "pageTitle": "Настройте Свою Безопасную Seed фразу",
         "snackbarCopyImplicitAddress": "Адрес для пополнения скопирован!",
         "snackbarCopySuccess": "Мнемоническая фраза скопирована"
     },
@@ -973,6 +973,10 @@
         "startOverText": "Не записали фразу?"
     },
     "sign": {
+        "accountNotFound": {
+            "body": "<a href=\"${signCallbackUrl}\">${signCallbackUrl}</a> is requesting authorization from a NEAR account that cannot be found: <b>${signTransactionSignerId}</b><br/><br/>To approve any transactions, you’ll first need to import the account.",
+            "title": "Account Not Found"
+        },
         "ActionWarrning": {
             "binaryData": "Аргументы содержат бинарные данные",
             "deleteAccount": "Вы собираетесь удалить свою учетную запись! Ваш баланс NEAR будет уничтожен, а все данные вашей учетной записи удалены.",
@@ -1006,7 +1010,7 @@
     },
     "signInLedger": {
         "firefoxBanner": {
-            "desc": "Ledger is currently only supported in <a href='https://www.mozilla.org/' rel='noopener noreferrer' target='_blank'><b>Mozilla Firefox</b></a>. Support for other browsers will soon be restored."
+            "desc": "Ledger в настоящее время поддерживается только в <a href='https://www.mozilla.org/' rel='noopener noreferrer' target='_blank'><b>Mozilla Firefox</b></a>. Поддержка других браузеров скоро будет восстановлена."
         },
         "header": "Войти с помощью устройства Ledger",
         "modal": {
@@ -1049,8 +1053,8 @@
                 "title": "Доступно для вывода"
             },
             "farm": {
-                "button": "Claim",
-                "info": "This validator grants staking rewards in a token other than NEAR."
+                "button": "Получить",
+                "info": "Этот валидатор предоставляет вознаграждение за ставки в токене, отличном от NEAR."
             },
             "pending": {
                 "info": "Эти токены сняты со стейкинга, но еще не могут быть выведены. Токенам требуется от 52 до 65 часов на вывод со стейкинга.",
@@ -1062,7 +1066,7 @@
                 "title": "Общий размер стейкинга"
             },
             "unclaimed": {
-                "info": "Rewards that have been earned, but not withdrawn. NEAR token rewards are  <a target='_blank' href='https://www.investopedia.com/terms/c/compoundinterest.asp'>compounding</a> and are automatically re-staked.",
+                "info": "Награды, которые были заработаны, но не сняты. Награды в Near токене <a target='_blank' href='https://www.investopedia.com/terms/c/compoundinterest.asp'>реинвестируются</a> и автоматически стейкаются.",
                 "title": "Незатребованные награды",
                 "unavailable": {
                     "cta": "Подробнее",
@@ -1204,7 +1208,7 @@
         "promptDesc": "Мы очень рекомендуем настроить метод двухфакторной аутентификации для повышения безопасности вашей учетной записи и имеющихся средств",
         "select": "Выберите метод аутентификации",
         "since": "sс",
-        "subHeader": "Two factor authentication adds an extra layer of security to your account. <b>Passphrase and Ledger keys continue to allow full access to your account.</b>",
+        "subHeader": "Двухфакторная аутентификация добавляет дополнительный уровень безопасности вашей учетной записи. <b>Seed фраза и Ledger ключи продолжают разрешать полный доступ к вашей учетной записи.</b>",
         "title": "Двухфакторная аутентификация",
         "verify": {
             "desc": "Верификационный код из 6 цифр был отправлен на:",

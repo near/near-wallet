@@ -8,6 +8,7 @@ import {
     selectAccountLocalStorageAccountId,
     selectAccountUrlReferrer
 } from '../../../redux/slices/account';
+import { isUrlNotJavascriptProtocol } from '../../../utils/helper-api';
 import ConfirmLogin from './ConfirmLogin';
 
 export default ({
@@ -15,12 +16,14 @@ export default ({
     contractId,
     contractIdUrl,
     onClickCancel,
-    publicKey
+    publicKey,
+    successUrl
 }) => {
     const dispatch = useDispatch();
 
     const accountLocalStorageAccountId = useSelector(selectAccountLocalStorageAccountId);
     const accountUrlReferrer = useSelector(selectAccountUrlReferrer);
+    const successUrlIsValid = isUrlNotJavascriptProtocol(successUrl);
 
     return (
         <ConfirmLogin
@@ -45,6 +48,7 @@ export default ({
                 );
             }}
             contractIdUrl={contractIdUrl}
+            successUrlIsValid={successUrlIsValid}
         />
     );
 };

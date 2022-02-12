@@ -1,6 +1,6 @@
 {
   "name": "@near-wallet/e2e-tests",
-  "version": "0.0.2",
+  "version": "0.0.4",
   "main": "index.js",
   "license": "MIT",
   "publishConfig": {

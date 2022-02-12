@@ -1,4 +1,5 @@
 import { getLocation } from 'connected-react-router';
+import { parse } from 'query-string';
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
@@ -11,11 +12,11 @@ import {
 } from '../../../../redux/actions/account';
 import { showCustomAlert } from '../../../../redux/actions/status';
 import { selectAccountAccountsBalances, selectAccountLocalStorageAccountId, selectBalance } from '../../../../redux/slices/account';
+import { createNewAccountWithCurrentActiveAccount } from '../../../../redux/slices/account/createAccountThunks';
 import { selectAvailableAccounts } from '../../../../redux/slices/availableAccounts';
 import {
     actions as ledgerActions
 } from '../../../../redux/slices/ledger';
-import { wallet } from '../../../../utils/wallet';
 import FundNewAccount from './FundNewAccount';
 import SelectAccount from './SelectAccount';
 
@@ -34,10 +35,10 @@ export function ExistingAccountWrapper({ history }) {
     const accountsBalances = useSelector(selectAccountAccountsBalances);
     const signedInAccountBalance = useSelector(selectBalance);
     const location = useSelector(getLocation);
-    const URLParams = new URLSearchParams(location.search);
-    const accountId = URLParams.get('accountId');
-    const implicitAccountId = URLParams.get('implicitAccountId');
-    const recoveryMethod = URLParams.get('recoveryMethod');
+    const URLParams = parse(location.search);
+    const accountId = URLParams.accountId;
+    const implicitAccountId = URLParams.implicitAccountId;
+    const recoveryMethod = URLParams.recoveryMethod;
     const hasAllRequiredParams = !!accountId && !!implicitAccountId && !!recoveryMethod;
 
     if (fundingAccountId) {
@@ -47,12 +48,12 @@ export function ExistingAccountWrapper({ history }) {
                     await Mixpanel.withTracking("CA Create account from existing account",
                         async () => {
                             setCreatingNewAccount(true);
-                            await wallet.createNewAccountWithCurrentActiveAccount({
+                            await dispatch(createNewAccountWithCurrentActiveAccount({
                                 newAccountId: accountId,
                                 implicitAccountId,
                                 newInitialBalance: MIN_BALANCE_TO_CREATE,
                                 recoveryMethod
-                            });
+                            })).unwrap();
                         },
                         (e) => {
                             dispatch(showCustomAlert({

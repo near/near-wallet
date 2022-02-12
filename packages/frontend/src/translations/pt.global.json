@@ -1105,6 +1105,10 @@
         "startOverText": "Não anotou?"
     },
     "sign": {
+        "accountNotFound": {
+            "body": "<a href=\"${signCallbackUrl}\">${signCallbackUrl}</a> is requesting authorization from a NEAR account that cannot be found: <b>${signTransactionSignerId}</b><br/><br/>To approve any transactions, you’ll first need to import the account.",
+            "title": "Account Not Found"
+        },
         "ActionWarrning": {
             "binaryData": "Argumentos contêm dados binários",
             "deleteAccount": "Você está prestes a excluir sua conta! Seu saldo de NEAR será destruído e todos os seus dados de conta serão excluídos.",

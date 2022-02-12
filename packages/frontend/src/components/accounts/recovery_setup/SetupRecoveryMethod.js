@@ -14,6 +14,7 @@ import { Mixpanel } from '../../../mixpanel/index';
 import * as accountActions from '../../../redux/actions/account';
 import { showCustomAlert } from '../../../redux/actions/status';
 import { selectAccountId, selectAccountSlice } from '../../../redux/slices/account';
+import { addLocalKeyAndFinishSetup, createIdentityFundedAccount, createNewAccount } from '../../../redux/slices/account/createAccountThunks';
 import { actions as linkdropActions } from '../../../redux/slices/linkdrop';
 import { actions as recoveryMethodsActions, selectRecoveryMethodsByAccountId, selectRecoveryMethodsLoading } from '../../../redux/slices/recoveryMethods';
 import { selectActionsPending, selectStatusMainLoader } from '../../../redux/slices/status';
@@ -36,20 +37,7 @@ import 'react-phone-number-input/style.css';
 const { setLinkdropAmount } = linkdropActions;
 const { fetchRecoveryMethods } = recoveryMethodsActions;
 
-const {
-    initializeRecoveryMethod,
-    setupRecoveryMessage,
-    redirectToApp,
-    redirectTo,
-    getAccessKeys,
-    getLedgerKey,
-    get2faMethod,
-    checkIsNew,
-    createNewAccount,
-    saveAccount,
-    fundCreateAccount,
-    validateSecurityCode
-} = accountActions;
+
 
 // FIXME: Use `debug` npm package so we can keep some debug logging around but not spam the console everywhere
 const ENABLE_DEBUG_LOGGING = false;
@@ -202,10 +190,12 @@ class SetupRecoveryMethod extends Component {
             fundCreateAccount,
             createNewAccount,
             validateSecurityCode,
-            saveAccount,
             location,
             setLinkdropAmount,
-            redirectTo
+            redirectTo,
+            checkIsNew,
+            addLocalKeyAndFinishSetup,
+            createIdentityFundedAccount
         } = this.props;
 
         const fundingOptions = parseFundingOptions(location.search);
@@ -227,12 +217,12 @@ class SetupRecoveryMethod extends Component {
             const { secretKey } = parseSeedPhrase(recoverySeedPhrase);
             const recoveryKeyPair = KeyPair.fromString(secretKey);
             await validateSecurityCode(accountId, method, securityCode, validateSecurityCodeEnterpriseRecaptchaToken, 'setupRecoveryMethodNewAccount');
-            await saveAccount(accountId, recoveryKeyPair);
+            await wallet.saveAccountKeyPair({ accountId, recoveryKeyPair });
 
             // IDENTITY VERIFIED FUNDED ACCOUNT
             if (DISABLE_CREATE_ACCOUNT && !fundingOptions && ENABLE_IDENTITY_VERIFIED_ACCOUNT) {
                 try {
-                    await wallet.createIdentityFundedAccount({
+                    await createIdentityFundedAccount({
                         accountId,
                         kind: method.kind,
                         publicKey: recoveryKeyPair.publicKey,
@@ -241,7 +231,7 @@ class SetupRecoveryMethod extends Component {
                         recoveryMethod: method.kind,
                         recaptchaAction: 'verifiedIdentityCreateFundedAccount',
                         recaptchaToken: createIdentityFundedAccountEnterpriseRecaptchaToken,
-                    });
+                    }).unwrap();
                 } catch (e) {
                     console.warn(e.code);
 
@@ -271,7 +261,7 @@ class SetupRecoveryMethod extends Component {
                     // Assume a transient error occurred, but that the account is on-chain and we can finish the creation process
                     try {
                         await wallet.saveAndMakeAccountActive(accountId);
-                        await wallet.addLocalKeyAndFinishSetup(accountId, method.kind, recoveryKeyPair.publicKey);
+                        await addLocalKeyAndFinishSetup({ accountId, recoveryMethod: method.kind, publicKey: recoveryKeyPair.publicKey });
                     } catch (e) {
                         showCustomAlert({
                             success: false,
@@ -292,7 +282,7 @@ class SetupRecoveryMethod extends Component {
 
             try {
                 // NOT IMPLICIT ACCOUNT (testnet, linkdrop, funded to delegated account via contract helper)
-                await createNewAccount(accountId, fundingOptions, method, recoveryKeyPair.publicKey, undefined, recaptchaToken);
+                await createNewAccount({ accountId, fundingOptions, recoveryMethod: method, publicKey: recoveryKeyPair.publicKey, recaptchaToken });
                 if (fundingOptions?.fundingAmount) {
                     setLinkdropAmount(fundingOptions.fundingAmount);
                 }
@@ -419,7 +409,7 @@ class SetupRecoveryMethod extends Component {
             isNewAccount,
             settingUpNewAccount
         } = this.state;
-        const { 
+        const {
             mainLoader,
             accountId,
             activeAccountId,
@@ -567,22 +557,40 @@ class SetupRecoveryMethod extends Component {
     }
 }
 
-const mapDispatchToProps = {
-    setupRecoveryMessage,
-    redirectToApp,
-    fetchRecoveryMethods,
-    initializeRecoveryMethod,
-    getAccessKeys,
-    getLedgerKey,
-    get2faMethod,
-    checkIsNew,
-    redirectTo,
-    showCustomAlert,
-    fundCreateAccount,
-    createNewAccount,
-    saveAccount,
-    validateSecurityCode,
-    setLinkdropAmount
+const mapDispatchToProps = () => {
+    const {
+        initializeRecoveryMethod,
+        setupRecoveryMessage,
+        redirectToApp,
+        redirectTo,
+        getAccessKeys,
+        getLedgerKey,
+        get2faMethod,
+        checkIsNew,
+        saveAccount,
+        fundCreateAccount,
+        validateSecurityCode
+    } = accountActions;
+
+    return {
+        setupRecoveryMessage,
+        redirectToApp,
+        fetchRecoveryMethods,
+        initializeRecoveryMethod,
+        getAccessKeys,
+        getLedgerKey,
+        get2faMethod,
+        checkIsNew,
+        redirectTo,
+        showCustomAlert,
+        fundCreateAccount,
+        createNewAccount,
+        saveAccount,
+        validateSecurityCode,
+        setLinkdropAmount,
+        addLocalKeyAndFinishSetup,
+        createIdentityFundedAccount
+    };
 };
 
 const mapStateToProps = (state, { match }) => {
@@ -602,4 +610,4 @@ const mapStateToProps = (state, { match }) => {
     };
 };
 
-export const SetupRecoveryMethodWithRouter = connect(mapStateToProps, mapDispatchToProps)(withGoogleReCaptcha(SetupRecoveryMethod));
+export const SetupRecoveryMethodWithRouter = connect(mapStateToProps, mapDispatchToProps())(withGoogleReCaptcha(SetupRecoveryMethod));

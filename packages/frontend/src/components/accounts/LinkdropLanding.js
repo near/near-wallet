@@ -1,3 +1,4 @@
+import { parse } from 'query-string';
 import React, { Component } from 'react';
 import { Translate } from 'react-localize-redux';
 import { connect } from 'react-redux';
@@ -10,6 +11,7 @@ import { selectAccountSlice } from '../../redux/slices/account';
 import { actions as linkdropActions } from '../../redux/slices/linkdrop';
 import { selectStatusMainLoader } from '../../redux/slices/status';
 import { selectActionsPending } from '../../redux/slices/status';
+import { isUrlNotJavascriptProtocol } from '../../utils/helper-api';
 import AccountDropdown from '../common/AccountDropdown';
 import Balance from '../common/balance/Balance';
 import FormButton from '../common/FormButton';
@@ -97,7 +99,7 @@ class LinkdropLanding extends Component {
     handleClaimNearDrop = async () => {
         const { fundingContract, fundingKey, redirectTo, claimLinkdropToAccount, accountId, url, setLinkdropAmount } = this.props;
         await claimLinkdropToAccount(fundingContract, fundingKey);
-        if (url?.redirectUrl) {
+        if (url?.redirectUrl && isUrlNotJavascriptProtocol(url?.redirectUrl)) {
             window.location = `${url.redirectUrl}?accountId=${accountId}`;
         } else {
             setLinkdropAmount(this.state.balance);
@@ -111,8 +113,8 @@ class LinkdropLanding extends Component {
         const fundingAmount = balance;
 
         if (!invalidNearDrop) {
-            const params = new URLSearchParams(history.location.search);
-            const redirectUrl = params.has('redirectUrl') ? `&redirectUrl=${encodeURIComponent(params.get('redirectUrl'))}` : '';
+            const params = parse(history.location.search);
+            const redirectUrl = params.redirectUrl ? `&redirectUrl=${encodeURIComponent(params.redirectUrl)}` : '';
 
             return (
                 <StyledContainer className='xs-centered'>

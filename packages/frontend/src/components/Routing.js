@@ -2,6 +2,7 @@ import { ConnectedRouter, getRouter } from 'connected-react-router';
 import isString from 'lodash.isstring';
 import { parseSeedPhrase } from 'near-seed-phrase';
 import PropTypes from 'prop-types';
+import { stringify } from 'query-string';
 import React, { Component } from 'react';
 import ReactDOMServer from 'react-dom/server';
 import { withLocalize } from 'react-localize-redux';
@@ -79,6 +80,7 @@ import { SendContainerWrapper } from './send/SendContainerWrapper';
 import { StakingContainer } from './staking/StakingContainer';
 import Terms from './terms/Terms';
 import { Wallet } from './wallet/Wallet';
+
 import '../index.css';
 
 const {
@@ -266,16 +268,14 @@ class Routing extends Component {
         const { account } = this.props;
         const setTab = (nextTab) => {
             if (tab !== nextTab) {
-                const destinationSearch = new URLSearchParams(search);
-
-                if (nextTab) {
-                    destinationSearch.set('tab', nextTab);
-                } else {
-                    destinationSearch.delete('tab');
-                }
-
                 // Ensure any `hash` value remains in the URL when we toggle tab
-                this.props.history.push({ search: destinationSearch.toString(), hash });
+                this.props.history.push({
+                    search: stringify(
+                        { tab: nextTab },
+                        { skipNull: true, skipEmptyString: true }
+                    ),
+                    hash,
+                });
             }
         };
         const { isInactiveAccount } = this.state;

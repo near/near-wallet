@@ -21,6 +21,11 @@
       "enabled": true,
       "lastEditedBy": "Patrick Tajima",
       "lastEditedAt": "2021-12-23T22:16:36.291Z"
+    },
+    "testnet_STAGING": {
+      "enabled": true,
+      "lastEditedBy": "Andy Haynes",
+      "lastEditedAt": "2022-01-31T21:13:09.948Z"
     }
   },
   "EXAMPLE_FLAG": {
@@ -45,6 +50,11 @@
       "enabled": false,
       "lastEditedBy": "Daryl Collins",
       "lastEditedAt": "2021-05-24T09:33:27.489Z"
+    },
+    "testnet_STAGING": {
+      "enabled": true,
+      "lastEditedBy": "Andy Haynes",
+      "lastEditedAt": "2022-01-31T21:13:09.948Z"
     }
   }
 }

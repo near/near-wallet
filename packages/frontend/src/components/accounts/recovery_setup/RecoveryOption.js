@@ -193,7 +193,7 @@ const Icon = ({option, color}) => {
         case 'ledger':
             return <HardwareWalletIcon color={color}/>;
         default:
-            return;
+            return '';
     }
 };
 

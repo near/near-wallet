@@ -2,13 +2,15 @@ import BN from 'bn.js';
 import { getLocation } from 'connected-react-router';
 import { formatNearAmount } from 'near-api-js/lib/utils/format';
 import { PublicKey, KeyType } from 'near-api-js/lib/utils/key_pair';
+import { parse } from 'query-string';
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { MIN_BALANCE_TO_CREATE } from '../../../../config';
 import { Mixpanel } from '../../../../mixpanel';
-import { createAccountFromImplicit, redirectTo, checkIsNew } from '../../../../redux/actions/account';
+import { redirectTo, checkIsNew } from '../../../../redux/actions/account';
 import { showCustomAlert } from '../../../../redux/actions/status';
+import { addLocalKeyAndFinishSetup, createAccountFromImplicit } from '../../../../redux/slices/account/createAccountThunks';
 import { actions as createFromImplicitActions } from '../../../../redux/slices/createFromImplicit';
 import { actions as flowLimitationActions } from '../../../../redux/slices/flowLimitation';
 import { getSignedUrl } from '../../../../utils/moonpay';
@@ -31,11 +33,11 @@ export function InitialDepositWrapper({ history }) {
     const [claimingAccount, setClaimingAccount] = useState(false);
 
     const location = useSelector(getLocation);
-    const URLParams = new URLSearchParams(location.search);
-    const accountId = URLParams.get('accountId');
-    const implicitAccountId = URLParams.get('implicitAccountId');
-    const recoveryMethod = URLParams.get('recoveryMethod');
-    const fundingMethod = URLParams.get('fundingMethod');
+    const URLParams = parse(location.search);
+    const accountId = URLParams.accountId;
+    const implicitAccountId = URLParams.implicitAccountId;
+    const recoveryMethod = URLParams.recoveryMethod;
+    const fundingMethod = URLParams.fundingMethod;
 
     const formattedMinDeposit = formatNearAmount(MIN_BALANCE_TO_CREATE);
 
@@ -99,7 +101,7 @@ export function InitialDepositWrapper({ history }) {
         await Mixpanel.withTracking("CA Create account from implicit",
             async () => {
                 setClaimingAccount(true);
-                await dispatch(createAccountFromImplicit(accountId, implicitAccountId, recoveryMethod));
+                await dispatch(createAccountFromImplicit({ accountId, implicitAccountId, recoveryMethod })).unwrap();
             },
             async (e) => {
                 console.warn(e);
@@ -136,7 +138,7 @@ export function InitialDepositWrapper({ history }) {
                 // Assume a transient error occurred, but that the account is on-chain and we can finish the creation process
                 try {
                     await wallet.saveAndMakeAccountActive(accountId);
-                    await wallet.addLocalKeyAndFinishSetup(accountId, recoveryMethod, publicKey);
+                    await dispatch(addLocalKeyAndFinishSetup({ accountId, recoveryMethod, publicKey })).unwrap();
                 } catch (e) {
                     dispatch(showCustomAlert({
                         success: false,

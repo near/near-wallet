@@ -13,7 +13,7 @@ export function SetupPassphraseNewAccountWrapper() {
                 implicitAccountId,
                 recoveryKeyPair
             }) => {
-                await wallet.saveImplicitAccountKeyPair({ implicitAccountId, recoveryKeyPair });
+                await wallet.saveAccountKeyPair({ accountId: implicitAccountId, recoveryKeyPair });
                 dispatch(redirectTo(`/create-implicit-account?implicitAccountId=${implicitAccountId}&recoveryMethod=phrase`));
             }}
         />

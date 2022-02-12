@@ -1,10 +1,8 @@
 import { createGlobalStyle } from "styled-components";
 
-import "semantic-ui-css/semantic.min.css";
 import CloseBtn from "../images/close-btn.svg";
 
 export default createGlobalStyle`
-
   * {
         box-sizing: inherit;
     }
@@ -33,6 +31,7 @@ export default createGlobalStyle`
     a {
         color: #0072ce;
     }
+
     a:hover {
         color: #0072ce;
         text-decoration: underline;
@@ -171,6 +170,13 @@ export default createGlobalStyle`
         }
     }
 
+    //Navbar styles
+      .nav-links{
+          a{
+              text-decoration: none;
+          }
+      }
+
     input, .react-phone-number-input__input {
         font-size: 16px;
         width: 100%;
@@ -253,6 +259,24 @@ export default createGlobalStyle`
 
         &.error {
             color: #ff585d;
+        }
+    }
+
+    .input-label {
+        font-size: 14px;
+        color: #72727A;
+        margin-bottom: 8px;
+    }
+
+    textarea {
+        border: 2px solid #E5E5E6;
+        border-radius: 8px;
+        width: 100%;
+        padding: 14px;
+        line-height: 180%;
+        font-size: 16px;
+        ::placeholder {
+            color: #A2A2A8;
         }
     }
 
@@ -602,5 +626,9 @@ export default createGlobalStyle`
         display: flex;
         justify-content: center;
         align-items: center;
+    }
+
+    a{
+        text-decoration:none;
     }
 `;
