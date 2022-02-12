@@ -1,5 +1,5 @@
 import { utils } from 'near-api-js';
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import { Translate } from 'react-localize-redux';
 import { useSelector, useDispatch } from 'react-redux';
 import { withRouter } from 'react-router-dom';
@@ -67,6 +67,7 @@ const Container = styled(Card)`
 const TwoFactorAuth = ({ twoFactor, history }) => {
     const [confirmDisable, setConfirmDisable] = useState(false);
     const account = useSelector(selectAccountSlice);
+    const existingContract = (account?.code_hash !== '11111111111111111111111111111111');
     const nearTokenFiatValueUSD = useSelector(selectNearTokenFiatValueUSD);
     const dispatch = useDispatch();
     const confirmDisabling = useSelector((state) => selectActionsPending(state, { types: ['DISABLE_MULTISIG'] }));
@@ -98,8 +99,8 @@ const TwoFactorAuth = ({ twoFactor, history }) => {
                 </div>
             }
             {twoFactor && confirmDisable &&
-                <ConfirmDisable 
-                    onConfirmDisable={handleConfirmDisable} 
+                <ConfirmDisable
+                    onConfirmDisable={handleConfirmDisable}
                     onKeepEnabled={() => setConfirmDisable(false)}
                     accountId={account.accountId}
                     disabling={confirmDisabling}
@@ -110,15 +111,15 @@ const TwoFactorAuth = ({ twoFactor, history }) => {
                 <div className='method'>
                     <div className='top'>
                         <div className='title'><Translate id='twoFactor.notEnabled'/></div>
-                        <FormButton 
-                            onClick={() => history.push('/enable-two-factor')} 
+                        <FormButton
+                            onClick={() => history.push('/enable-two-factor')}
                             trackingId="2FA Click enable button"
-                            disabled={!account.canEnableTwoFactor}
+                            disabled={!account.canEnableTwoFactor || existingContract}
                         >
                             <Translate id='button.enable'/>
                         </FormButton>
                     </div>
-                    {!account.canEnableTwoFactor && 
+                    {!account.canEnableTwoFactor &&
                         <div className='color-red'>
                             <SafeTranslate
                                 id='twoFactor.notEnoughBalance'
