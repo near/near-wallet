@@ -4,6 +4,10 @@ export default {
     ACCOUNT_HELPER_URL:"https://near-contract-helper.onrender.com",
     ACCOUNT_ID_SUFFIX: "testnet",
     ACCESS_KEY_FUNDING_AMOUNT: nearApiJs.utils.format.parseNearAmount("0.25"),
+    ALLOW_2FA_ENABLE_HASHES: [
+        'E8jZ1giWcVrps8PcV75ATauu6gFRkcwjNtKp7NKmipZG',
+        '11111111111111111111111111111111'
+    ],
     DISABLE_CREATE_ACCOUNT: false,
     DISABLE_PHONE_RECOVERY: true,
     EXPLORE_APPS_URL: "https://awesomenear.com/",
