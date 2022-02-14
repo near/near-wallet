@@ -8,7 +8,7 @@ import FluxLogo from '../../images/flux-logo.svg';
 import HashRushLogo from '../../images/hash-rush-logo.svg';
 import MintbaseLogo from '../../images/mintbase-logo.svg';
 import ParasLogo from '../../images/paras-logo.svg';
-import ZedLogo from '../../images/zed-logo.svg';
+import RefLogo from '../../images/ref-logo.svg';
 import FormButton from '../common/FormButton';
 
 const Container = styled.div`
@@ -74,8 +74,10 @@ const Container = styled.div`
                     }
 
                     :nth-of-type(2) {
+                        height: 54px;
                         top: -80px;
                         right: -85px;
+                        width: 54px;
                     }
 
                     :nth-of-type(3) {
@@ -112,7 +114,7 @@ const ExploreApps = () => {
                     <img src={HashRushLogo} alt='Hash Rush'/>
                     <img src={FluxLogo} alt='Flux'/>
                     <img src={ParasLogo} alt='Paras'/>
-                    <img src={ZedLogo} alt='Zed'/>
+                    <img src={RefLogo} alt='Ref Finance'/>
                     <img src={MintbaseLogo} alt='Mintbase'/>
                     <img src={BerryClubLogo} alt='Berryclub'/>
                 </div>
