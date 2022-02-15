@@ -7,7 +7,7 @@ import { WHITELISTED_CONTRACTS } from '../../../config';
 import FungibleTokens from '../../../services/FungibleTokens';
 import handleAsyncThunkStatus from '../../reducerStatus/handleAsyncThunkStatus';
 import initialStatusState from '../../reducerStatus/initialState/initialStatusState';
-import { selectBalance } from '../account';
+import { selectAvailableBalance } from '../account';
 import createParameterSelector from '../createParameterSelector';
 import { selectNearTokenFiatValueUSD } from '../tokenFiatValues';
 
@@ -191,10 +191,10 @@ const selectOneTokenLoading = createSelector(
 );
 
 export const selectNEARAsTokenWithMetadata = createSelector(
-    [selectBalance, selectNearTokenFiatValueUSD],
-    (nearBalance, nearTokenFiatValueUSD) => ({
-        balance: nearBalance?.balanceAvailable || "",
+    [selectAvailableBalance, selectNearTokenFiatValueUSD],
+    (balanceAvailable, usd) => ({
+        balance: balanceAvailable,
         onChainFTMetadata: { symbol: "NEAR" },
-        coingeckoMetadata: { usd: nearTokenFiatValueUSD },
+        coingeckoMetadata: { usd },
     })
 );
