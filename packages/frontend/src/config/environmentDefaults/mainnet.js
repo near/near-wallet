@@ -4,6 +4,10 @@ export default {
     ACCOUNT_HELPER_URL: "https://helper.mainnet.near.org",
     ACCOUNT_ID_SUFFIX: "near",
     ACCESS_KEY_FUNDING_AMOUNT: nearApiJs.utils.format.parseNearAmount("0.25"),
+    ALLOW_2FA_ENABLE_HASHES: [
+      'E8jZ1giWcVrps8PcV75ATauu6gFRkcwjNtKp7NKmipZG',
+      '11111111111111111111111111111111'
+    ],
     BROWSER_MIXPANEL_TOKEN: "d5bbbbcc3a77ef8427f2b806b5689bf8",
     DISABLE_CREATE_ACCOUNT: true,
     DISABLE_PHONE_RECOVERY: true,

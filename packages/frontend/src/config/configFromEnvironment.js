@@ -18,6 +18,9 @@ module.exports = {
     ACCOUNT_HELPER_URL: process.env.REACT_APP_ACCOUNT_HELPER_URL,
     ACCOUNT_ID_SUFFIX: process.env.REACT_APP_ACCOUNT_ID_SUFFIX,
     ACCESS_KEY_FUNDING_AMOUNT: process.env.REACT_APP_ACCESS_KEY_FUNDING_AMOUNT,
+    ALLOW_2FA_ENABLE_HASHES: parseCommaSeperatedStringAsArrayFromShell(
+        process.env.ALLOW_2FA_ENABLE_HASHES
+    ),
     BROWSER_MIXPANEL_TOKEN: process.env.BROWSER_MIXPANEL_TOKEN,
     DISABLE_CREATE_ACCOUNT: parseBooleanFromShell(
         process.env.DISABLE_CREATE_ACCOUNT
