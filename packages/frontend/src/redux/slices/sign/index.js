@@ -134,7 +134,7 @@ export const getFirstTransactionWithFunctionCallAction = ({ transactions }) => {
 };
 
 export const increaseGasForFirstTransaction = ({ transactions }) => {
-    const transaction = getFirstTransactionWithFunctionCallAction({ transactions });
+    const transaction = getFirstTransactionWithFunctionCallAction({ transactions });
 
     if (!transaction) {
         return transactions;

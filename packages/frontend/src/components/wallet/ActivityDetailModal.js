@@ -137,7 +137,7 @@ const ActivityDetailModal = ({
     } = transaction;
 
     const dispatch = useDispatch();
-    const getTransactionStatusConditions = () => checkStatus && !document.hidden && dispatch(transactionsActions.fetchTransactionStatus({ hash, signer_id, accountId }));
+    const getTransactionStatusConditions = () => checkStatus && !document.hidden && dispatch(transactionsActions.fetchTransactionStatus({ hash, signer_id, accountId }));
 
     useEffect(() => {
         getTransactionStatusConditions();
