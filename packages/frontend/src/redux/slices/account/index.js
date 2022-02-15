@@ -26,6 +26,7 @@ export const selectAccountGlobalAlertPreventClear = createSelector(selectAccount
 
 // balance - state
 export const selectBalance = createSelector(selectAccountSlice, (account) => account.balance || {});
+
 export const selectAvailableBalance = createSelector(selectBalance, (balance) => balance.balanceAvailable);
 
 export const selectAccountBalanceLockedAmount = createSelector(selectBalance, (balance) => balance.lockedAmount || '');

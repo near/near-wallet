@@ -3,7 +3,7 @@ import React from 'react';
 import { Translate } from 'react-localize-redux';
 import { useSelector } from 'react-redux';
 
-import { selectNEARAsTokenWithMetadata } from '../../../redux/slices/tokens';
+import selectNEARAsTokenWithMetadata from '../../../redux/crossStateSelectors/selectNEARAsTokenWithMetadata';
 import FormButton from '../../common/FormButton';
 import SkeletonLoading from '../../common/SkeletonLoading';
 import Tooltip from '../../common/Tooltip';
@@ -29,7 +29,7 @@ export default function Staking({
     selectedValidator,
     multipleAccounts
 }) {
-    const nearAsFT = useSelector(selectNEARAsTokenWithMetadata);
+    const NEARAsTokenWithMetadata = useSelector(selectNEARAsTokenWithMetadata);
 
     return (
         <>
@@ -73,7 +73,7 @@ export default function Staking({
                     <BalanceBox
                         title='staking.balanceBox.staked.title'
                         info='staking.balanceBox.staked.info'
-                        token={{...nearAsFT, balance: totalStaked}}
+                        token={{...NEARAsTokenWithMetadata, balance: totalStaked}}
                         button={new BN(totalStaked).isZero() ? null : 'staking.balanceBox.staked.button'}
                         linkTo={stakeFromAccount ? `/staking/unstake` : `/staking/${selectedValidator}/unstake`}
                         buttonColor='gray-blue'
@@ -83,7 +83,7 @@ export default function Staking({
                     <BalanceBox
                         title='staking.balanceBox.unclaimed.title'
                         info='staking.balanceBox.unclaimed.info'
-                        token={{...nearAsFT, balance: totalUnclaimed}}
+                        token={{...NEARAsTokenWithMetadata, balance: totalUnclaimed}}
                     />
                 </>
             }
@@ -92,13 +92,13 @@ export default function Staking({
                     <BalanceBox
                         title='staking.balanceBox.pending.title'
                         info='staking.balanceBox.pending.info'
-                        token={{...nearAsFT, balance: totalPending}}
+                        token={{...NEARAsTokenWithMetadata, balance: totalPending}}
                         balanceTestId="stakingPagePendingReleaseAmount"
                     />
                     <BalanceBox
                         title='staking.balanceBox.available.title'
                         info='staking.balanceBox.available.info'
-                        token={{...nearAsFT, balance: totalAvailable}}
+                        token={{...NEARAsTokenWithMetadata, balance: totalAvailable}}
                         button={new BN(totalAvailable).isZero() ? null : 'staking.balanceBox.available.button'}
                         linkTo={stakeFromAccount ? `/staking/withdraw` : `/staking/${selectedValidator}`}
                         buttonColor='gray-blue'
