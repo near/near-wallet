@@ -1,6 +1,7 @@
 import { isFulfilled, isPending, isRejected } from '@reduxjs/toolkit';
 
 import clearError from './clearError';
+import clearLoading from './clearLoading';
 import setError from './setError';
 import setLoading from './setLoading';
 
@@ -18,9 +19,9 @@ export default ({
     buildStatusPath,
     builder
 }) => builder
-    .addMatcher(isPending(asyncThunk), setLoading(buildStatusPath, true))
+    .addMatcher(isPending(asyncThunk), setLoading(buildStatusPath))
     .addMatcher(isPending(asyncThunk), clearError(buildStatusPath))
-    .addMatcher(isFulfilled(asyncThunk), setLoading(buildStatusPath, false))
+    .addMatcher(isFulfilled(asyncThunk), clearLoading(buildStatusPath))
     .addMatcher(isFulfilled(asyncThunk), clearError(buildStatusPath))
-    .addMatcher(isRejected(asyncThunk), setLoading(buildStatusPath, false))
+    .addMatcher(isRejected(asyncThunk), clearLoading(buildStatusPath))
     .addMatcher(isRejected(asyncThunk), setError(buildStatusPath));
