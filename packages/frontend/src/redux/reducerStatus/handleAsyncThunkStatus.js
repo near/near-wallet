@@ -1,18 +1,8 @@
 import { isFulfilled, isPending, isRejected } from '@reduxjs/toolkit';
-import set from 'lodash.set';
 
-import initialErrorState from './initialErrorState';
-
-const fullPath = (action, buildStatusPath) => [...buildStatusPath(action), 'status'];
-
-const setLoading = (buildStatusPath, loading) => (state, action) => set(state, [...fullPath(action, buildStatusPath), 'loading'], loading);
-
-const clearError = (buildStatusPath) => (state, action) =>  set(state, [...fullPath(action, buildStatusPath), 'error'], initialErrorState);
-
-const setError = (buildStatusPath) => (state, action) =>  set(state, [...fullPath(action, buildStatusPath), 'error'], {
-    message: action.error?.message || 'An error was encountered.',
-    code: action.error?.code
-});
+import clearError from './clearError';
+import setError from './setError';
+import setLoading from './setLoading';
 
 /**
  * Automatically handle status part of reducer based on initialErrorState
