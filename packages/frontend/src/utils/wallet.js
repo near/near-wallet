@@ -123,6 +123,7 @@ class Wallet {
                 if (await wallet.getLedgerKey(accountId)) {
                     wallet.dispatchShowLedgerModal(true);
                     const path = await localStorage.getItem(`ledgerHdPath:${accountId}`);
+                    // eslint-disable-next-line es/no-dynamic-import
                     const { createLedgerU2FClient } = await import('./ledger.js');
                     const client = await createLedgerU2FClient();
                     const signature = await client.sign(message, path);
@@ -623,6 +624,7 @@ class Wallet {
     }
 
     async getLedgerPublicKey(path) {
+        // eslint-disable-next-line es/no-dynamic-import
         const { createLedgerU2FClient } = await import('./ledger.js');
         const client = await createLedgerU2FClient();
         this.dispatchShowLedgerModal(true);
