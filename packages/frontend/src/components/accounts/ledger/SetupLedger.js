@@ -19,6 +19,7 @@ import { createNewAccount } from '../../../redux/slices/account/createAccountThu
 import { actions as ledgerActions } from '../../../redux/slices/ledger';
 import { actions as linkdropActions } from '../../../redux/slices/linkdrop';
 import { selectStatusMainLoader } from '../../../redux/slices/status';
+import { getLedgerHDPath } from '../../../utils/ledger';
 import parseFundingOptions from '../../../utils/parseFundingOptions';
 import { setKeyMeta, ENABLE_IDENTITY_VERIFIED_ACCOUNT } from '../../../utils/wallet';
 import FormButton from '../../common/FormButton';
@@ -27,6 +28,7 @@ import Container from '../../common/styled/Container.css';
 import { isRetryableRecaptchaError, Recaptcha } from '../../Recaptcha';
 import LedgerIcon from '../../svg/LedgerIcon';
 import InstructionsModal from './InstructionsModal';
+import LedgerHdPaths from './LedgerHdPaths';
 
 const {
     checkAndHideLedgerModal
@@ -45,6 +47,11 @@ const SetupLedger = (props) => {
     const [isNewAccount, setIsNewAccount] = useState(null);
     // TODO: Custom recaptcha hook
     const [recaptchaToken, setRecaptchaToken] = useState(null);
+    const [path, setPath] = useState(1);
+    const [confirmedPath, setConfirmedPath] = useState(null);
+    const customLedgerHdPath = getLedgerHDPath(confirmedPath);
+
+
     const recaptchaRef = useRef(null);
     const fundingOptions = parseFundingOptions(props.location.search);
     const shouldRenderRecaptcha = !fundingOptions && RECAPTCHA_CHALLENGE_API_KEY && isNewAccount && !ENABLE_IDENTITY_VERIFIED_ACCOUNT;
@@ -78,9 +85,8 @@ const SetupLedger = (props) => {
                     let publicKey;
 
                     try {
-
                         debugLog(DISABLE_CREATE_ACCOUNT, fundingOptions);
-                        publicKey = await dispatch(getLedgerPublicKey());
+                        publicKey = await dispatch(getLedgerPublicKey(customLedgerHdPath));
                         await setKeyMeta(publicKey, { type: 'ledger' });
                         Mixpanel.track('SR-Ledger Set key meta');
 
@@ -179,6 +185,14 @@ const SetupLedger = (props) => {
                 <Translate id='setupLedger.one' />
                 &nbsp;<Translate id='setupLedger.two' /> <span className='link underline' onClick={openShowInstructions}><Translate id='setupLedger.twoLink' /></span>.
             </h2>
+            <LedgerHdPaths
+                path={path}
+                onSetPath={(path) => setPath(path)}
+                onConfirmHdPath={() => {
+                    setConfirmedPath(path);
+                    Mixpanel.track('SR-Ledger Setup set custom HD path');
+                }}
+            />
             {
                 shouldRenderRecaptcha && <Recaptcha
                     ref={recaptchaRef}

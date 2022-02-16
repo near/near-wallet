@@ -14,6 +14,7 @@ import { clearLocalAlert } from '../../../redux/actions/status';
 import { selectAccountSlice } from '../../../redux/slices/account';
 import { actions as ledgerActions, LEDGER_MODAL_STATUS, selectLedgerSignInWithLedger, selectLedgerSignInWithLedgerStatus, selectLedgerTxSigned } from '../../../redux/slices/ledger';
 import { selectStatusMainLoader, selectStatusSlice } from '../../../redux/slices/status';
+import { getLedgerHDPath } from '../../../utils/ledger';
 import parseFundingOptions from '../../../utils/parseFundingOptions';
 import Container from '../../common/styled/Container.css';
 import Authorize from './SignInLedgerViews/Authorize';
@@ -42,7 +43,7 @@ export function SignInLedgerWrapper(props) {
     const [loader, setLoader] = useState(false);
     const [path, setPath] = useState(1);
     const [confirmedPath, setConfirmedPath] = useState(null);
-    const ledgerHdPath = confirmedPath ? `44'/397'/0'/0'/${confirmedPath}'` : null;
+    const ledgerHdPath = getLedgerHDPath(confirmedPath);
 
     const account = useSelector(selectAccountSlice);
     const status = useSelector(selectStatusSlice);
