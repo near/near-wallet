@@ -9,7 +9,7 @@ import { setLedgerHdPath } from "../../../utils/localStorage";
 import { wallet } from "../../../utils/wallet";
 import refreshAccountOwner from "../../sharedThunks/refreshAccountOwner";
 import handleAsyncThunkStatus from "../handleAsyncThunkStatus";
-import initialErrorState from "../initialErrorState";
+import initialStatusState from "../initialStatusState";
 
 const SLICE_NAME = 'ledger';
 
@@ -20,11 +20,8 @@ export const LEDGER_MODAL_STATUS = {
 };
 
 const initialState = {
-    modal: {},
-    status: {
-        loading: false,
-        error: initialErrorState
-    }
+    ...initialStatusState,
+    modal: {}
 };
 
 const getLedgerAccountIds = createAsyncThunk(
@@ -173,7 +170,7 @@ const ledgerSlice = createSlice({
         );
         handleAsyncThunkStatus({
             asyncThunk: signInWithLedger,
-            buildStatusPath: () => ['status'],
+            buildStatusPath: () => [],
             builder
         });
     })

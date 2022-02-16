@@ -5,7 +5,7 @@ import { createSelector } from 'reselect';
 import { getTransactions, transactionExtraInfo } from '../../../utils/explorer-api';
 import createParameterSelector from '../createParameterSelector';
 import handleAsyncThunkStatus from '../handleAsyncThunkStatus';
-import initialErrorState from '../initialErrorState';
+import initialStatusState from '../initialStatusState';
 
 const SLICE_NAME = 'transactions';
 
@@ -14,11 +14,8 @@ const initialState = {
 };
 
 const initialAccountIdState = {
-    items: [],
-    status: {
-        loading: false,
-        error: initialErrorState
-    }
+    ...initialStatusState,
+    items: []
 };
 
 const fetchTransactions = createAsyncThunk(
@@ -91,7 +88,7 @@ const transactionsSlice = createSlice({
     extraReducers: ((builder) => {
         handleAsyncThunkStatus({
             asyncThunk: fetchTransactions,
-            buildStatusPath: ({ meta: { arg: { accountId }}}) => ['byAccountId', accountId, 'status'],
+            buildStatusPath: ({ meta: { arg: { accountId }}}) => ['byAccountId', accountId],
             builder
         });
     })

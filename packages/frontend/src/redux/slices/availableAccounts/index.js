@@ -4,16 +4,13 @@ import { createSelector } from 'reselect';
 
 import refreshAccountOwner from '../../sharedThunks/refreshAccountOwner';
 import handleAsyncThunkStatus from '../handleAsyncThunkStatus';
-import initialErrorState from '../initialErrorState';
+import initialStatusState from '../initialStatusState';
 
 const SLICE_NAME = 'availableAccounts';
 
 const initialState = {
-    items: [],
-    status: {
-        loading: false,
-        error: initialErrorState
-    }
+    ...initialStatusState,
+    items: []
 };
 
 const availableAccountsSlice = createSlice({
@@ -25,7 +22,7 @@ const availableAccountsSlice = createSlice({
         });
         handleAsyncThunkStatus({
             asyncThunk: refreshAccountOwner,
-            buildStatusPath: () => ['status'],
+            buildStatusPath: () => [],
             builder
         });
     })

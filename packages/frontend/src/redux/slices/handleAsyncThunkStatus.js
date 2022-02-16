@@ -15,26 +15,26 @@ export default ({
     builder
 }) => builder
     // TODO: use the same status object to all reducers, which will allow simplifying buildStatusPath
-    // TODO: consider to keying `loading` and `error` by thunk typePrefix, this could be useful if we would need to track status of several thunks independently in one slice
+    // TODO: consider to keying `status` by thunk typePrefix, this could be useful if we would need to track status of several thunks independently in one slice
     .addMatcher(
         (action) => action.type === `${asyncThunk.typePrefix}/pending`,
         (state, action) => {
-            set(state, [...buildStatusPath(action), 'loading'], true);
-            set(state, [...buildStatusPath(action), 'error'], initialErrorState);
+            set(state, [...buildStatusPath(action), 'status', 'loading'], true);
+            set(state, [...buildStatusPath(action), 'status', 'error'], initialErrorState);
         }
     )
     .addMatcher(
         (action) => action.type === `${asyncThunk.typePrefix}/fulfilled`,
         (state, action) => {
-            set(state, [...buildStatusPath(action), 'loading'], false);
-            set(state, [...buildStatusPath(action), 'error'], initialErrorState);
+            set(state, [...buildStatusPath(action), 'status', 'loading'], false);
+            set(state, [...buildStatusPath(action), 'status', 'error'], initialErrorState);
         }
     )
     .addMatcher(
         (action) => action.type === `${asyncThunk.typePrefix}/rejected`,
         (state, action) => {
-            set(state, [...buildStatusPath(action), 'loading'], false);
-            set(state, [...buildStatusPath(action), 'error'], {
+            set(state, [...buildStatusPath(action), 'status', 'loading'], false);
+            set(state, [...buildStatusPath(action), 'status', 'error'], {
                 message: action.error?.message || 'An error was encountered.',
                 code: action.error?.code
             });

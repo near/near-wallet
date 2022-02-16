@@ -6,7 +6,7 @@ import { createSelector } from 'reselect';
 import NonFungibleTokens from '../../../services/NonFungibleTokens';
 import createParameterSelector from '../createParameterSelector';
 import handleAsyncThunkStatus from '../handleAsyncThunkStatus';
-import initialErrorState from '../initialErrorState';
+import initialStatusState from '../initialStatusState';
 
 const { getLikelyTokenContracts, getMetadata, getTokens, getNumberOfTokens } = NonFungibleTokens;
 
@@ -24,11 +24,8 @@ const initialState = {
 };
 
 const initialOwnedTokenState = {
-    tokens: [],
-    status: {
-        loading: false,
-        error: initialErrorState
-    }
+    ...initialStatusState,
+    tokens: []
 };
 
 async function getCachedContractMetadataOrFetch(contractName, state) {
@@ -166,7 +163,7 @@ const nftSlice = createSlice({
         extraReducers: ((builder) => {
             handleAsyncThunkStatus({
                 asyncThunk: fetchOwnedNFTsForContract,
-                buildStatusPath: ({ meta: { arg: { accountId, contractName }}}) => ['ownedTokens', 'byAccountId', accountId, 'byContractName', contractName, 'status'],
+                buildStatusPath: ({ meta: { arg: { accountId, contractName }}}) => ['ownedTokens', 'byAccountId', accountId, 'byContractName', contractName],
                 builder
             });
         })
