@@ -16,8 +16,7 @@ import {
 } from '../../redux/actions/account';
 import { clearLocalAlert } from '../../redux/actions/status';
 import { selectAccountSlice } from '../../redux/slices/account';
-import { selectStatusLocalAlert, selectStatusMainLoader } from '../../redux/slices/status';
-import { selectActionsPending } from '../../redux/slices/status';
+import { selectActionsPending, selectStatusLocalAlert, selectStatusMainLoader } from '../../redux/slices/status';
 import parseFundingOptions from '../../utils/parseFundingOptions';
 import Container from '../common/styled/Container.css';
 import RecoverAccountSeedPhraseForm from './RecoverAccountSeedPhraseForm';

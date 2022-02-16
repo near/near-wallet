@@ -5,8 +5,12 @@ import styled from 'styled-components';
 
 import { EXPLORER_URL } from '../../config';
 import { selectAccountId } from '../../redux/slices/account';
-import { selectOneTransactionByIdentity, selectTransactionsByAccountId, selectTransactionsLoading } from '../../redux/slices/transactions';
-import { actions as transactionsActions } from '../../redux/slices/transactions';
+import {
+    actions as transactionsActions,
+    selectOneTransactionByIdentity,
+    selectTransactionsByAccountId,
+    selectTransactionsLoading,
+} from '../../redux/slices/transactions';
 import classNames from '../../utils/classNames';
 import FormButton from '../common/FormButton';
 import ActivityBox from './ActivityBox';

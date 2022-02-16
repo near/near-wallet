@@ -1,5 +1,4 @@
 import * as nearApiJs from 'near-api-js';
-import { KeyPair } from 'near-api-js';
 import { MULTISIG_CHANGE_METHODS } from 'near-api-js/lib/account_multisig';
 import { PublicKey } from 'near-api-js/lib/utils';
 import { KeyType } from 'near-api-js/lib/utils/key_pair';
@@ -269,7 +268,7 @@ class Wallet {
         if (!localAccessKey || (!localAccessKey.access_key.permission.FunctionCall ||
             !localAccessKey.access_key.permission.FunctionCall.method_names.includes(WALLET_METADATA_METHOD))) {
             // NOTE: This key isn't used to call actual contract method, just used to verify connection with account in private DB
-            newLocalKeyPair = KeyPair.fromRandom('ed25519');
+            newLocalKeyPair = nearApiJs.KeyPair.fromRandom('ed25519');
             await account.addKey(newLocalKeyPair.getPublicKey(), this.accountId, WALLET_METADATA_METHOD, '0');
         }
 
@@ -407,14 +406,14 @@ class Wallet {
             sender: fundingContract
         });
 
-        const key = KeyPair.fromString(fundingKey).publicKey.toString();
+        const key = nearApiJs.KeyPair.fromString(fundingKey).publicKey.toString();
 
         return await contract.get_key_balance({ key });
     }
 
     async createNewAccountLinkdrop(accountId, fundingContract, fundingKey, publicKey) {
         const account = await this.getAccount(fundingContract);
-        await this.keyStore.setKey(NETWORK_ID, fundingContract, KeyPair.fromString(fundingKey));
+        await this.keyStore.setKey(NETWORK_ID, fundingContract, nearApiJs.KeyPair.fromString(fundingKey));
 
         const contract = new nearApiJs.Contract(account, fundingContract, {
             changeMethods: ['create_account_and_claim', 'claim'],
@@ -428,7 +427,7 @@ class Wallet {
     }
 
     async claimLinkdropToAccount(fundingContract, fundingKey) {
-        await this.keyStore.setKey(NETWORK_ID, fundingContract, KeyPair.fromString(fundingKey));
+        await this.keyStore.setKey(NETWORK_ID, fundingContract, nearApiJs.KeyPair.fromString(fundingKey));
         const account = await this.getAccount(fundingContract);
         const accountId = this.accountId;
 
@@ -517,7 +516,7 @@ class Wallet {
 
     async disableLedger() {
         const account = await this.getAccount(this.accountId);
-        const keyPair = KeyPair.fromRandom('ed25519');
+        const keyPair = nearApiJs.KeyPair.fromRandom('ed25519');
         await account.addKey(keyPair.publicKey);
         await this.keyStore.setKey(NETWORK_ID, this.accountId, keyPair);
 
@@ -534,7 +533,7 @@ class Wallet {
         if (!localAccessKey || (!localAccessKey.access_key.permission.FunctionCall ||
             !localAccessKey.access_key.permission.FunctionCall.method_names.includes(WALLET_METADATA_METHOD))) {
             // NOTE: This key isn't used to call actual contract method, just used to verify connection with account in private DB
-            const newLocalKeyPair = KeyPair.fromRandom('ed25519');
+            const newLocalKeyPair = nearApiJs.KeyPair.fromRandom('ed25519');
             const account = await this.getAccount(accountId);
             try {
                 await account.addKey(newLocalKeyPair.getPublicKey(), accountId, WALLET_METADATA_METHOD, '0');
@@ -703,7 +702,7 @@ class Wallet {
     async initializeRecoveryMethodNewImplicitAccount(method) {
         const { seedPhrase } = generateSeedPhrase();
         const { secretKey } = parseSeedPhrase(seedPhrase);
-        const recoveryKeyPair = KeyPair.fromString(secretKey);
+        const recoveryKeyPair = nearApiJs.KeyPair.fromString(secretKey);
         const implicitAccountId = Buffer.from(recoveryKeyPair.publicKey.data).toString('hex');
         const body = {
             accountId: implicitAccountId,
@@ -835,7 +834,7 @@ class Wallet {
     }
 
     async recoverAccountSecretKey(secretKey, accountId, shouldCreateFullAccessKey) {
-        const keyPair = KeyPair.fromString(secretKey);
+        const keyPair = nearApiJs.KeyPair.fromString(secretKey);
         const publicKey = keyPair.publicKey.toString();
 
         const tempKeyStore = new nearApiJs.keyStores.InMemoryKeyStore();
@@ -897,11 +896,11 @@ class Wallet {
                 }
             }
 
-            const keyPair = KeyPair.fromString(secretKey);
+            const keyPair = nearApiJs.KeyPair.fromString(secretKey);
             await tempKeyStore.setKey(NETWORK_ID, accountId, keyPair);
             account.keyStore = tempKeyStore;
             account.inMemorySigner = account.connection.signer = new nearApiJs.InMemorySigner(tempKeyStore);
-            const newKeyPair = KeyPair.fromRandom('ed25519');
+            const newKeyPair = nearApiJs.KeyPair.fromRandom('ed25519');
 
             try {
                 await this.addAccessKey(accountId, accountId, newKeyPair.publicKey, shouldCreateFullAccessKey, '', recoveryKeyIsFAK);

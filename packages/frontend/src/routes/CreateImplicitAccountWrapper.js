@@ -14,8 +14,7 @@ import { showCustomAlert } from '../redux/actions/status';
 import { selectAccountId } from '../redux/slices/account';
 import { finishSetupImplicitAccount } from '../redux/slices/account/createAccountThunks';
 import { actions as createFromImplicitActions } from '../redux/slices/createFromImplicit';
-import { getSignedUrl } from '../utils/moonpay';
-import { isMoonpayAvailable } from '../utils/moonpay';
+import { getSignedUrl, isMoonpayAvailable } from '../utils/moonpay';
 import useRecursiveTimeout from '../utils/useRecursiveTimeout';
 import { wallet } from '../utils/wallet';
 

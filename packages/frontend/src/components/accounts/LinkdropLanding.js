@@ -9,8 +9,7 @@ import { checkNearDropBalance, claimLinkdropToAccount, redirectTo, handleRefresh
 import { clearLocalAlert } from '../../redux/actions/status';
 import { selectAccountSlice } from '../../redux/slices/account';
 import { actions as linkdropActions } from '../../redux/slices/linkdrop';
-import { selectStatusMainLoader } from '../../redux/slices/status';
-import { selectActionsPending } from '../../redux/slices/status';
+import { selectActionsPending, selectStatusMainLoader } from '../../redux/slices/status';
 import { isUrlNotJavascriptProtocol } from '../../utils/helper-api';
 import AccountDropdown from '../common/AccountDropdown';
 import Balance from '../common/balance/Balance';

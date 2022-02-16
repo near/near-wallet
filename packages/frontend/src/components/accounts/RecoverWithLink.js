@@ -13,17 +13,13 @@ import {
     clearAccountState
 } from '../../redux/actions/account';
 import { selectAccountSlice } from '../../redux/slices/account';
-import { selectActionsPending } from '../../redux/slices/status';
-import { selectStatusMainLoader } from '../../redux/slices/status';
+import { selectActionsPending, selectStatusMainLoader } from '../../redux/slices/status';
 import copyText from '../../utils/copyText';
 import isMobile from '../../utils/isMobile';
 import Button from '../common/Button';
 import FormButton from '../common/FormButton';
 import { Snackbar, snackbarDuration } from '../common/Snackbar';
 import Container from '../common/styled/Container.css';
-
-
-
 
 const StyledContainer = styled.div`
     margin-top: 5px;

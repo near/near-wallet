@@ -1,6 +1,5 @@
 import { BN } from 'bn.js';
 import * as nearApiJs from 'near-api-js';
-import { utils } from 'near-api-js';
 
 import { store } from '..';
 import { ACCOUNT_HELPER_URL, MULTISIG_CONTRACT_HASHES, MULTISIG_MIN_AMOUNT } from '../config';
@@ -29,7 +28,7 @@ export class TwoFactor extends Account2FA {
 
     static async checkCanEnableTwoFactor(balance) {
         const availableBalance = new BN(balance.available);
-        const multisigMinAmount = new BN(utils.format.parseNearAmount(MULTISIG_MIN_AMOUNT));
+        const multisigMinAmount = new BN(nearApiJs.utils.format.parseNearAmount(MULTISIG_MIN_AMOUNT));
         return multisigMinAmount.lt(availableBalance);
     }
 

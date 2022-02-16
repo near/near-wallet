@@ -45,10 +45,10 @@ import {
     selectStakingAllValidatorsLength,
     selectStakingContract,
     selectStakingCurrentAccountAccountId,
+    selectStakingCurrentAccountbyAccountId,
     selectStakingFindContractByValidatorId,
     selectStakingLockupId
 } from '../slices/staking';
-import { selectStakingCurrentAccountbyAccountId } from '../slices/staking';
 import { getBalance } from './account';
 
 const {
