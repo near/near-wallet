@@ -2,9 +2,9 @@ import { createSlice } from '@reduxjs/toolkit';
 import set from 'lodash.set';
 import { createSelector } from 'reselect';
 
+import handleAsyncThunkStatus from '../../reducerStatus/handleAsyncThunkStatus';
+import initialStatusState from '../../reducerStatus/initialStatusState';
 import refreshAccountOwner from '../../sharedThunks/refreshAccountOwner';
-import handleAsyncThunkStatus from '../handleAsyncThunkStatus';
-import initialStatusState from '../initialStatusState';
 
 const SLICE_NAME = 'availableAccounts';
 

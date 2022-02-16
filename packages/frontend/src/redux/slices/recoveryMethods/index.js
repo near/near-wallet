@@ -3,9 +3,9 @@ import set from 'lodash.set';
 import { createSelector } from 'reselect';
 
 import { wallet } from '../../../utils/wallet';
+import handleAsyncThunkStatus from '../../reducerStatus/handleAsyncThunkStatus';
+import initialStatusState from '../../reducerStatus/initialStatusState';
 import createParameterSelector from '../createParameterSelector';
-import handleAsyncThunkStatus from '../handleAsyncThunkStatus';
-import initialStatusState from '../initialStatusState';
 
 const SLICE_NAME = 'recoveryMethods';
 

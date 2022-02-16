@@ -4,9 +4,9 @@ import update from 'lodash.update';
 import { createSelector } from 'reselect';
 
 import NonFungibleTokens from '../../../services/NonFungibleTokens';
+import handleAsyncThunkStatus from '../../reducerStatus/handleAsyncThunkStatus';
+import initialStatusState from '../../reducerStatus/initialStatusState';
 import createParameterSelector from '../createParameterSelector';
-import handleAsyncThunkStatus from '../handleAsyncThunkStatus';
-import initialStatusState from '../initialStatusState';
 
 const { getLikelyTokenContracts, getMetadata, getTokens, getNumberOfTokens } = NonFungibleTokens;
 

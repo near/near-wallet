@@ -7,9 +7,9 @@ import { HIDE_SIGN_IN_WITH_LEDGER_ENTER_ACCOUNT_ID_MODAL } from "../../../config
 import { showAlertToolkit } from "../../../utils/alerts";
 import { setLedgerHdPath } from "../../../utils/localStorage";
 import { wallet } from "../../../utils/wallet";
+import handleAsyncThunkStatus from "../../reducerStatus/handleAsyncThunkStatus";
+import initialStatusState from "../../reducerStatus/initialStatusState";
 import refreshAccountOwner from "../../sharedThunks/refreshAccountOwner";
-import handleAsyncThunkStatus from "../handleAsyncThunkStatus";
-import initialStatusState from "../initialStatusState";
 
 const SLICE_NAME = 'ledger';
 

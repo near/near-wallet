@@ -4,8 +4,8 @@ import { createSelector } from 'reselect';
 
 import { ACCOUNT_HELPER_URL } from '../../../config';
 import sendJson from '../../../tmp_fetch_send_json';
-import handleAsyncThunkStatus from '../handleAsyncThunkStatus';
-import initialStatusState from '../initialStatusState';
+import handleAsyncThunkStatus from '../../reducerStatus/handleAsyncThunkStatus';
+import initialStatusState from '../../reducerStatus/initialStatusState';
 
 const SLICE_NAME = 'tokenFiatValues';
 

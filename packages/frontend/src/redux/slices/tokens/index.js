@@ -5,10 +5,10 @@ import { createSelector } from 'reselect';
 
 import { WHITELISTED_CONTRACTS } from '../../../config';
 import FungibleTokens from '../../../services/FungibleTokens';
+import handleAsyncThunkStatus from '../../reducerStatus/handleAsyncThunkStatus';
+import initialStatusState from '../../reducerStatus/initialStatusState';
 import { selectBalance } from '../account';
 import createParameterSelector from '../createParameterSelector';
-import handleAsyncThunkStatus from '../handleAsyncThunkStatus';
-import initialStatusState from '../initialStatusState';
 import { selectNearTokenFiatValueUSD } from '../tokenFiatValues';
 
 const SLICE_NAME = 'tokens';
