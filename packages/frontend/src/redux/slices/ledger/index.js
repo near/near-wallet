@@ -8,7 +8,7 @@ import { showAlertToolkit } from "../../../utils/alerts";
 import { setLedgerHdPath } from "../../../utils/localStorage";
 import { wallet } from "../../../utils/wallet";
 import handleAsyncThunkStatus from "../../reducerStatus/handleAsyncThunkStatus";
-import initialStatusState from "../../reducerStatus/initialStatusState";
+import initialStatusState from "../../reducerStatus/initialState/initialStatusState";
 import refreshAccountOwner from "../../sharedThunks/refreshAccountOwner";
 
 const SLICE_NAME = 'ledger';

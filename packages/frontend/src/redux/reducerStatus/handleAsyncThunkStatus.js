@@ -1,9 +1,9 @@
 import { isFulfilled, isPending, isRejected } from '@reduxjs/toolkit';
 
-import clearError from './clearError';
-import clearLoading from './clearLoading';
-import setError from './setError';
-import setLoading from './setLoading';
+import clearError from './manageStatus/clearError';
+import clearLoading from './manageStatus/clearLoading';
+import setError from './manageStatus/setError';
+import setLoading from './manageStatus/setLoading';
 
 /**
  * Automatically handle status part of reducer based on initialErrorState

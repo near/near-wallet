@@ -1,6 +1,6 @@
 import set from 'lodash.set';
 
-import initialErrorState from './initialErrorState';
+import initialErrorState from '../initialState/initialErrorState';
 
 export default (buildStatusPath) => 
     (state, action) => 

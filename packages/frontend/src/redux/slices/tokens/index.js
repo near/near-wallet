@@ -6,7 +6,7 @@ import { createSelector } from 'reselect';
 import { WHITELISTED_CONTRACTS } from '../../../config';
 import FungibleTokens from '../../../services/FungibleTokens';
 import handleAsyncThunkStatus from '../../reducerStatus/handleAsyncThunkStatus';
-import initialStatusState from '../../reducerStatus/initialStatusState';
+import initialStatusState from '../../reducerStatus/initialState/initialStatusState';
 import { selectBalance } from '../account';
 import createParameterSelector from '../createParameterSelector';
 import { selectNearTokenFiatValueUSD } from '../tokenFiatValues';

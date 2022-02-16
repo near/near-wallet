@@ -4,7 +4,7 @@ import { createSelector } from 'reselect';
 
 import { wallet } from '../../../utils/wallet';
 import handleAsyncThunkStatus from '../../reducerStatus/handleAsyncThunkStatus';
-import initialStatusState from '../../reducerStatus/initialStatusState';
+import initialStatusState from '../../reducerStatus/initialState/initialStatusState';
 import createParameterSelector from '../createParameterSelector';
 
 const SLICE_NAME = 'recoveryMethods';
