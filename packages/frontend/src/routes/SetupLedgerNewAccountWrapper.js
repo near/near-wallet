@@ -10,9 +10,9 @@ export function SetupLedgerNewAccountWrapper() {
     const dispatch = useDispatch();
     return (
         <SetupLedgerNewAccount
-            onClickConnectLedger={async () => {
+            onClickConnectLedger={async (path) => {
                 try {
-                    const ledgerPublicKey = await dispatch(getLedgerPublicKey());
+                    const ledgerPublicKey = await dispatch(getLedgerPublicKey(path));
                     const implicitAccountId = Buffer.from(ledgerPublicKey.data).toString('hex');
                     const account = wallet.getAccountBasic(implicitAccountId);
                     try {
