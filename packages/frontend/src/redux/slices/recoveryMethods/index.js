@@ -3,9 +3,9 @@ import set from 'lodash.set';
 import { createSelector } from 'reselect';
 
 import { wallet } from '../../../utils/wallet';
+import handleAsyncThunkStatus from '../../reducerStatus/handleAsyncThunkStatus';
+import initialStatusState from '../../reducerStatus/initialState/initialStatusState';
 import createParameterSelector from '../createParameterSelector';
-import handleAsyncThunkStatus from '../handleAsyncThunkStatus';
-import initialErrorState from '../initialErrorState';
 
 const SLICE_NAME = 'recoveryMethods';
 
@@ -14,11 +14,8 @@ const initialState = {
 };
 
 const initialAccountIdState = {
-    items: [],
-    status: {
-        loading: false,
-        error: initialErrorState
-    }
+    ...initialStatusState,
+    items: []
 };
 
 const fetchRecoveryMethods = createAsyncThunk(
@@ -53,7 +50,7 @@ const recoveryMethodsSlice = createSlice({
         extraReducers: ((builder) => {
             handleAsyncThunkStatus({
                 asyncThunk: fetchRecoveryMethods,
-                buildStatusPath: ({ meta: { arg: { accountId }}}) => ['byAccountId', accountId, 'status'],
+                buildStatusPath: ({ meta: { arg: { accountId }}}) => ['byAccountId', accountId],
                 builder
             });
         })

@@ -2,18 +2,15 @@ import { createSlice } from '@reduxjs/toolkit';
 import set from 'lodash.set';
 import { createSelector } from 'reselect';
 
+import handleAsyncThunkStatus from '../../reducerStatus/handleAsyncThunkStatus';
+import initialStatusState from '../../reducerStatus/initialState/initialStatusState';
 import refreshAccountOwner from '../../sharedThunks/refreshAccountOwner';
-import handleAsyncThunkStatus from '../handleAsyncThunkStatus';
-import initialErrorState from '../initialErrorState';
 
 const SLICE_NAME = 'availableAccounts';
 
 const initialState = {
-    items: [],
-    status: {
-        loading: false,
-        error: initialErrorState
-    }
+    ...initialStatusState,
+    items: []
 };
 
 const availableAccountsSlice = createSlice({
@@ -25,7 +22,7 @@ const availableAccountsSlice = createSlice({
         });
         handleAsyncThunkStatus({
             asyncThunk: refreshAccountOwner,
-            buildStatusPath: () => ['status'],
+            buildStatusPath: () => [],
             builder
         });
     })

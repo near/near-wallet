@@ -4,8 +4,8 @@ import { createSelector } from 'reselect';
 
 import { ACCOUNT_HELPER_URL } from '../../../config';
 import sendJson from '../../../tmp_fetch_send_json';
-import handleAsyncThunkStatus from '../handleAsyncThunkStatus';
-import initialErrorState from '../initialErrorState';
+import handleAsyncThunkStatus from '../../reducerStatus/handleAsyncThunkStatus';
+import initialStatusState from '../../reducerStatus/initialState/initialStatusState';
 
 const SLICE_NAME = 'tokenFiatValues';
 
@@ -15,11 +15,8 @@ const fetchTokenFiatValues = createAsyncThunk(
 );
 
 const initialState = {
-    tokens: {},
-    status: {
-        loading: false,
-        error: initialErrorState
-    }
+    ...initialStatusState,
+    tokens: {}
 };
 
 const tokenFiatValuesSlice = createSlice({
@@ -36,7 +33,7 @@ const tokenFiatValuesSlice = createSlice({
             });
             handleAsyncThunkStatus({
                 asyncThunk: fetchTokenFiatValues,
-                buildStatusPath: () => ['status'],
+                buildStatusPath: () => [],
                 builder
             });
         })

@@ -5,10 +5,10 @@ import { createSelector } from 'reselect';
 
 import { WHITELISTED_CONTRACTS } from '../../../config';
 import FungibleTokens from '../../../services/FungibleTokens';
+import handleAsyncThunkStatus from '../../reducerStatus/handleAsyncThunkStatus';
+import initialStatusState from '../../reducerStatus/initialState/initialStatusState';
 import { selectBalance } from '../account';
 import createParameterSelector from '../createParameterSelector';
-import handleAsyncThunkStatus from '../handleAsyncThunkStatus';
-import initialErrorState from '../initialErrorState';
 import { selectNearTokenFiatValueUSD } from '../tokenFiatValues';
 
 const SLICE_NAME = 'tokens';
@@ -23,11 +23,8 @@ const initialState = {
 };
 
 const initialOwnedTokenState = {
-    balance: '',
-    status: {
-        loading: false,
-        error: initialErrorState
-    }
+    ...initialStatusState,
+    balance: ''
 };
 
 async function getCachedContractMetadataOrFetch(contractName, state) {
@@ -117,7 +114,7 @@ const tokensSlice = createSlice({
     extraReducers: ((builder) => {
         handleAsyncThunkStatus({
             asyncThunk: fetchOwnedTokensForContract,
-            buildStatusPath: ({ meta: { arg: { accountId, contractName }}}) => ['ownedTokens', 'byAccountId', accountId, contractName, 'status'],
+            buildStatusPath: ({ meta: { arg: { accountId, contractName }}}) => ['ownedTokens', 'byAccountId', accountId, contractName],
             builder
         });
     })

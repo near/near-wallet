@@ -7,9 +7,9 @@ import { HIDE_SIGN_IN_WITH_LEDGER_ENTER_ACCOUNT_ID_MODAL } from "../../../config
 import { showAlertToolkit } from "../../../utils/alerts";
 import { setLedgerHdPath } from "../../../utils/localStorage";
 import { wallet } from "../../../utils/wallet";
+import handleAsyncThunkStatus from "../../reducerStatus/handleAsyncThunkStatus";
+import initialStatusState from "../../reducerStatus/initialState/initialStatusState";
 import refreshAccountOwner from "../../sharedThunks/refreshAccountOwner";
-import handleAsyncThunkStatus from "../handleAsyncThunkStatus";
-import initialErrorState from "../initialErrorState";
 
 const SLICE_NAME = 'ledger';
 
@@ -20,11 +20,8 @@ export const LEDGER_MODAL_STATUS = {
 };
 
 const initialState = {
-    modal: {},
-    status: {
-        loading: false,
-        error: initialErrorState
-    }
+    ...initialStatusState,
+    modal: {}
 };
 
 const getLedgerAccountIds = createAsyncThunk(
@@ -173,7 +170,7 @@ const ledgerSlice = createSlice({
         );
         handleAsyncThunkStatus({
             asyncThunk: signInWithLedger,
-            buildStatusPath: () => ['status'],
+            buildStatusPath: () => [],
             builder
         });
     })
