@@ -8,6 +8,7 @@
     "lint": "cd packages/frontend && yarn install --frozen-lockfile && yarn lint",
     "build": "cd packages/frontend && yarn install --frozen-lockfile && yarn build",
     "test": "cd packages/frontend && yarn install --frozen-lockfile && yarn test",
+    "clean": "lerna run clean",
     "prepare": "husky install",
     "release": "lerna version --conventional-commits",
     "commit": "cz"
