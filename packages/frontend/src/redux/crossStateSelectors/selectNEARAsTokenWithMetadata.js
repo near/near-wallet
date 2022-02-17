@@ -6,7 +6,7 @@ import { selectNearTokenFiatValueUSD } from "../slices/tokenFiatValues";
 export default createSelector(
     [selectAvailableBalance, selectNearTokenFiatValueUSD],
     (balanceAvailable, usd) => ({
-        balance: balanceAvailable,
+        balance: balanceAvailable || '',
         onChainFTMetadata: { symbol: "NEAR" },
         coingeckoMetadata: { usd },
     })
