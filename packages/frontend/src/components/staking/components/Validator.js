@@ -4,9 +4,10 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { Mixpanel } from '../../../mixpanel';
 import { redirectTo } from '../../../redux/actions/account';
+import selectNEARAsTokenWithMetadata from '../../../redux/crossStateSelectors/selectNEARAsTokenWithMetadata';
 import { selectAccountId } from '../../../redux/slices/account';
 import { selectActionsPending } from '../../../redux/slices/status';
-import { actions as tokensActions, selectAllContractMetadata, selectNEARAsTokenWithMetadata } from '../../../redux/slices/tokens';
+import { actions as tokensActions, selectAllContractMetadata } from '../../../redux/slices/tokens';
 import { PROJECT_VALIDATOR_VERSION, ValidatorVersion } from '../../../utils/constants';
 import FormButton from '../../common/FormButton';
 import SafeTranslate from '../../SafeTranslate';
@@ -62,7 +63,7 @@ export default function Validator({
     const [confirm, setConfirm] = useState(null);
     const [farmList, setFarmList] = useState([]);
     const [isFarmListLoading, setIsFarmListLoading] = useState(false);
-    const nearAsFT = useSelector(selectNEARAsTokenWithMetadata);
+    const NEARAsTokenWithMetadata = useSelector(selectNEARAsTokenWithMetadata);
     const accountId = useSelector(selectAccountId);
     const contractMetadataByContractId = useSelector(selectAllContractMetadata);
 
@@ -134,7 +135,7 @@ export default function Validator({
                     <BalanceBox
                         title='staking.balanceBox.staked.title'
                         info='staking.balanceBox.staked.info'
-                        token={{...nearAsFT, balance: validator.staked || '0'}}
+                        token={{...NEARAsTokenWithMetadata, balance: validator.staked || '0'}}
                         onClick={() => {
                             dispatch(redirectTo(`/staking/${match.params.validator}/unstake`));
                             Mixpanel.track("UNSTAKE Click unstake button");
@@ -147,20 +148,20 @@ export default function Validator({
                     <BalanceBox
                         title='staking.balanceBox.unclaimed.title'
                         info='staking.balanceBox.unclaimed.info'
-                        token={{...nearAsFT, balance: validator.unclaimed || '0'}}
+                        token={{...NEARAsTokenWithMetadata, balance: validator.unclaimed || '0'}}
                         hideBorder={(stakingPoolHasFarms && isFarmListLoading) || (!isFarmListLoading && farmList.length > 0)}
                     />
                     {renderFarmUi({ farmList, contractMetadataByContractId, isFarmListLoading })}
                     <BalanceBox
                         title='staking.balanceBox.pending.title'
                         info='staking.balanceBox.pending.info'
-                        token={{...nearAsFT, balance: validator.pending || '0'}}
+                        token={{...NEARAsTokenWithMetadata, balance: validator.pending || '0'}}
                         disclaimer='staking.validator.withdrawalDisclaimer'
                     />
                     <BalanceBox
                         title='staking.balanceBox.available.title'
                         info='staking.balanceBox.available.info'
-                        token={{...nearAsFT, balance: validator.available || '0'}}
+                        token={{...NEARAsTokenWithMetadata, balance: validator.available || '0'}}
                         onClick={() => {
                             setConfirm('withdraw');
                             Mixpanel.track("WITHDRAW Click withdraw button");
