@@ -106,9 +106,11 @@ const SendContainerV2 = ({
     useEffect(() => {
         // fungibleTokens contains balance data for each token -- we need to update local state every time it changes
         // TODO: Add a `byIdentity` reducer for faster lookups than .find()
-        const targetToken = fungibleTokens.find(({ contractName, onChainFTMetadata }) => {
-            return (contractName && contractName === selectedToken.contractName) || onChainFTMetadata?.symbol === selectedToken.onChainFTMetadata?.symbol;
-        });
+        let targetToken = fungibleTokens.find(({ contractName }) => 
+            (contractName && contractName === selectedToken.contractName)
+        ) || fungibleTokens.find(({ onChainFTMetadata }) => 
+            onChainFTMetadata?.symbol === selectedToken.onChainFTMetadata?.symbol
+        );
 
         setSelectedToken(targetToken);
     }, [fungibleTokens]);
