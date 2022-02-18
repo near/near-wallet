@@ -82,7 +82,7 @@ const SelectToken = ({ onClickGoBack, fungibleTokens, onSelectToken, isMobile })
                 <span><Translate id='sendV2.selectAsset.assetListNameTitle'/></span>
                 <span><Translate id='sendV2.selectAsset.asssetListBalanceTitle'/></span>
             </div>
-            <Tokens tokens={filteredFungibleTokens} showTokenContract={false} onClick={onSelectToken}/>
+            <Tokens tokens={filteredFungibleTokens} onClick={onSelectToken}/>
         </StyledContainer>
     );
 };
