@@ -3,13 +3,13 @@ import { Translate } from 'react-localize-redux';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 
-import { Mixpanel } from "../../../mixpanel/index";
+import { Mixpanel } from '../../../mixpanel/index';
 import { resendTwoFactor, get2faMethod } from '../../../redux/actions/account';
 import { selectAccountSlice } from '../../../redux/slices/account';
 import { selectActionsPending, selectStatusSlice } from '../../../redux/slices/status';
 import { WalletError } from '../../../utils/walletError';
 import FormButton from '../../common/FormButton';
-import Modal from "../../common/modal/Modal";
+import Modal from '../../common/modal/Modal';
 import ModalTheme from '../ledger/ModalTheme';
 import TwoFactorVerifyInput from './TwoFactorVerifyInput';
 
@@ -56,7 +56,7 @@ const TwoFactorVerifyModal = ({ open, onClose }) => {
 
     const handleResendCode = async () => {
         setResendCode('resending');
-        await Mixpanel.withTracking("2FA Modal Resend code", 
+        await Mixpanel.withTracking('2FA Modal Resend code', 
             async () => await dispatch(resendTwoFactor()),
             (e) => {
                 setResendCode();
@@ -70,7 +70,7 @@ const TwoFactorVerifyModal = ({ open, onClose }) => {
     };
     
     const handleCancelClose = () => {
-        Mixpanel.track("2FA Modal Cancel verification");
+        Mixpanel.track('2FA Modal Cancel verification');
         onClose(false, new WalletError('Request was cancelled.', 'promptTwoFactor.userCancelled'));
     };
     
@@ -85,7 +85,7 @@ const TwoFactorVerifyModal = ({ open, onClose }) => {
             <h2 className='title'><Translate id='twoFactor.verify.title'/></h2>
             <p className='font-bw'><Translate id='twoFactor.verify.desc'/></p>
             <p className='color-black font-bw' style={{ marginTop: '-10px', fontWeight: '500', height: '19px'}}>{method && method.detail}</p>
-            <Form onSubmit={e => {handleVerifyCode(); e.preventDefault();}}>
+            <Form onSubmit={(e) => {handleVerifyCode(); e.preventDefault();}}>
                 <TwoFactorVerifyInput
                     code={code}
                     onChange={handleChange}

@@ -24,7 +24,7 @@ export const isMoonpayAvailable = async () => {
     }
     const { alpha2, alpha3, state } = ipAddressInfo;
 
-    const country = countries.find(c => c.alpha2 === alpha2 && c.alpha3 === alpha3) || {};
+    const country = countries.find((c) => c.alpha2 === alpha2 && c.alpha3 === alpha3) || {};
     if (!isAllowed(country)) {
         return false;
     }
@@ -42,8 +42,8 @@ export const isMoonpayAvailable = async () => {
 export const getSignedUrl = async (accountId, redirectUrl) => {
     const widgetUrl = `${MOONPAY_BUY_URL_PREFIX}`
         + `&walletAddress=${encodeURIComponent(accountId)}`
-        + `&currencyCode=NEAR`
-        + `&baseCurrencyCode=usd`
+        + '&currencyCode=NEAR'
+        + '&baseCurrencyCode=usd'
         + `&redirectURL=${encodeURIComponent(redirectUrl)}`
     ;
     const { signature } = await sendJson('GET', `${ACCOUNT_HELPER_URL}/moonpay/signURL?url=${encodeURIComponent(widgetUrl)}`);

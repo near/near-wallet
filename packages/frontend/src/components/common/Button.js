@@ -9,20 +9,20 @@ const StyledButton = styled.button`
     font-size: 15px;
     height: 56px;
     font-weight: 600;
-    width: ${props => props.fullWidth === true ? "100%" : "auto"};
+    width: ${(props) => props.fullWidth === true ? '100%' : 'auto'};
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
     transition: all 150ms ease;
-    background-color: ${props => props.theme === 'secondary' ? "#ffffff" : "#0072CE"};
-    border: 2px solid ${props => props.theme === 'secondary' ? "#cccccc" : "#0072CE"};
-    color: ${props => props.theme === 'secondary' ? "#888888" : "white"};
+    background-color: ${(props) => props.theme === 'secondary' ? '#ffffff' : '#0072CE'};
+    border: 2px solid ${(props) => props.theme === 'secondary' ? '#cccccc' : '#0072CE'};
+    color: ${(props) => props.theme === 'secondary' ? '#888888' : 'white'};
 
     @media (min-width: 768px) {
         &:enabled {
             &:hover {
-                background-color: ${props => props.theme === 'secondary' ? "#cccccc" : "#007fe6"};
+                background-color: ${(props) => props.theme === 'secondary' ? '#cccccc' : '#007fe6'};
                 color: white;
             }
         }

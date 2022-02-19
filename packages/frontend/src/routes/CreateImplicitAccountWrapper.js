@@ -47,7 +47,7 @@ export function CreateImplicitAccountWrapper() {
 
     useEffect(() => {
         const checkIfMoonPayIsAvailable = async () => {
-            await Mixpanel.withTracking("CA Check Moonpay available",
+            await Mixpanel.withTracking('CA Check Moonpay available',
                 async () => {
                     const moonpayAvailable = await isMoonpayAvailable();
                     if (moonpayAvailable) {
@@ -69,13 +69,13 @@ export function CreateImplicitAccountWrapper() {
 
     const checkFundingAddressBalance = async () => {
         if (fundingNeeded) {
-            await Mixpanel.withTracking("CA Check balance from implicit",
+            await Mixpanel.withTracking('CA Check balance from implicit',
                 async () => {
                     try {
                         const account = wallet.getAccountBasic(implicitAccountId);
                         const state = await account.state();
                         if (new BN(state.amount).gte(new BN(MIN_BALANCE_TO_CREATE))) {
-                            Mixpanel.track("CA Check balance from implicit: sufficient");
+                            Mixpanel.track('CA Check balance from implicit: sufficient');
                             setFundingNeeded(false);
                             console.log('Minimum funding amount received. Finishing acccount setup.');
                             await dispatch(finishSetupImplicitAccount({
@@ -88,7 +88,7 @@ export function CreateImplicitAccountWrapper() {
                             return;
                         } else {
                             console.log('Insufficient funding amount');
-                            Mixpanel.track("CA Check balance from implicit: insufficient");
+                            Mixpanel.track('CA Check balance from implicit: insufficient');
                         }
                     } catch (e) {
                         if (e.message.includes('does not exist while viewing')) {

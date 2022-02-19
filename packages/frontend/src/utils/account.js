@@ -6,4 +6,4 @@ export const validateEmail = (email) => {
 };
 
 export const isImplicitAccount = (accountId) =>
-    accountId && accountId.length === 64 && !accountId.includes(".");
+    accountId && accountId.length === 64 && !accountId.includes('.');

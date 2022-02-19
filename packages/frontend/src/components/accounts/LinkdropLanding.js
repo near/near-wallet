@@ -86,7 +86,7 @@ class LinkdropLanding extends Component {
 
     handleCheckNearDropBalance = async () => {
         const { fundingContract, fundingKey, checkNearDropBalance } = this.props;
-        await Mixpanel.withTracking("CA Check near drop balance",
+        await Mixpanel.withTracking('CA Check near drop balance',
             async () => {
                 const balance = await checkNearDropBalance(fundingContract, fundingKey);
                 this.setState({ balance: balance });

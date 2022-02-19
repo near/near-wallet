@@ -37,11 +37,11 @@ export function SetupRecoveryImplicitAccountWrapper() {
                 setEmail={(email) => setEmail(email)}
                 onClickSecureMyAccount={async ({ recoveryOption }) => {
                     if (recoveryOption === 'phrase') {
-                        dispatch(redirectTo(`/setup-passphrase-new-account`));
+                        dispatch(redirectTo('/setup-passphrase-new-account'));
                     } else if (recoveryOption === 'ledger') {
-                        dispatch(redirectTo(`/setup-ledger-new-account`));
+                        dispatch(redirectTo('/setup-ledger-new-account'));
                     } else if (recoveryOption === 'email') {
-                        Mixpanel.track("SR Select email");
+                        Mixpanel.track('SR Select email');
                         setShowVerifyEmailCode(true);
                         handleInititalizeEmailRecoveryLink();
                     }
@@ -57,12 +57,12 @@ export function SetupRecoveryImplicitAccountWrapper() {
             option='email'
             email={email}
             onConfirm={async (securityCode) => {
-                Mixpanel.track("SR Verify email code");
+                Mixpanel.track('SR Verify email code');
                 try {
                     setVerifyingEmailCode(true);
                     await wallet.validateSecurityCodeNewImplicitAccount(implicitAccountId, { kind: 'email', detail: email }, securityCode);
                     await dispatch(saveAccount(implicitAccountId, recoveryKeyPair));
-                } catch(e) {
+                } catch (e) {
                     dispatch(showCustomAlert({
                         success: false,
                         messageCodeHeader: 'error',

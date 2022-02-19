@@ -1,6 +1,6 @@
-import { createSelector } from "reselect";
+import { createSelector } from 'reselect';
 
-import { isImplicitAccount } from "../../../utils/account";
+import { isImplicitAccount } from '../../../utils/account';
 
 export const SLICE_NAME = 'account';
 

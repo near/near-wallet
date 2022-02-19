@@ -175,7 +175,7 @@ class Wallet {
         const accessKeys = await this.getAccessKeys(accountId);
         if (accessKeys) {
             const localKey = await this.getLocalAccessKey(accountId, accessKeys);
-            const ledgerKey = accessKeys.find(accessKey => accessKey.meta.type === 'ledger');
+            const ledgerKey = accessKeys.find((accessKey) => accessKey.meta.type === 'ledger');
             if (ledgerKey && (!localKey || localKey.permission !== 'FullAccess')) {
                 return PublicKey.from(ledgerKey.public_key);
             }
@@ -205,7 +205,7 @@ class Wallet {
             const accessKeys = limitedAccountData
                 ? []
                 : await this.getAccessKeys() || [];
-            const ledgerKey = accessKeys.find(key => key.meta.type === 'ledger');
+            const ledgerKey = accessKeys.find((key) => key.meta.type === 'ledger');
             const account = await this.getAccount(this.accountId, limitedAccountData);
             const state = await account.state();
 
@@ -218,12 +218,12 @@ class Wallet {
                 accountId: this.accountId,
                 accounts: this.accounts,
                 accessKeys,
-                authorizedApps: accessKeys.filter(it => (
+                authorizedApps: accessKeys.filter((it) => (
                     it.access_key
                     && it.access_key.permission.FunctionCall
                     && it.access_key.permission.FunctionCall.receiver_id !== this.accountId
                 )),
-                fullAccessKeys: accessKeys.filter(it => (
+                fullAccessKeys: accessKeys.filter((it) => (
                     it.access_key
                     && it.access_key.permission === 'FullAccess'
                 )),
@@ -284,7 +284,7 @@ class Wallet {
         }
 
         const { data: recoveryMethods } = await this.getRecoveryMethods();
-        const methodsToRemove = recoveryMethods.filter(method => method.kind !== 'ledger');
+        const methodsToRemove = recoveryMethods.filter((method) => method.kind !== 'ledger');
         for (const recoveryMethod of methodsToRemove) {
             await this.deleteRecoveryMethod(recoveryMethod);
         }
@@ -351,10 +351,10 @@ class Wallet {
             transaction: { hash: transactionHash },
         } = await account.functionCall({
             contractId: ACCOUNT_ID_SUFFIX,
-            methodName: "create_account",
+            methodName: 'create_account',
             args: {
                 new_account_id: newAccountId,
-                new_public_key: newPublicKey.toString().replace(/^ed25519:/, ""),
+                new_public_key: newPublicKey.toString().replace(/^ed25519:/, ''),
             },
             gas: LINKDROP_GAS,
             attachedDeposit: newInitialBalance,
@@ -504,7 +504,7 @@ class Wallet {
         const accountId = this.accountId;
         const ledgerPublicKey = await this.getLedgerPublicKey();
         const accessKeys = await this.getAccessKeys();
-        const accountHasLedgerKey = accessKeys.map(key => key.public_key).includes(ledgerPublicKey.toString());
+        const accountHasLedgerKey = accessKeys.map((key) => key.public_key).includes(ledgerPublicKey.toString());
         await setKeyMeta(ledgerPublicKey, { type: 'ledger' });
 
         const account = await this.getAccount(accountId);
@@ -580,7 +580,7 @@ class Wallet {
                 })
         )
         )
-            .filter(accountId => accountId);
+            .filter((accountId) => accountId);
 
         if (!checkedAccountIds.length) {
             throw new WalletError('No accounts were found.', 'getLedgerAccountIds.noAccounts');
@@ -605,7 +605,7 @@ class Wallet {
     }
 
     async saveAndSelectLedgerAccounts({ accounts }) {
-        const accountIds = Object.keys(accounts).filter(accountId => accounts[accountId].status === 'success');
+        const accountIds = Object.keys(accounts).filter((accountId) => accounts[accountId].status === 'success');
 
         if (!accountIds.length) {
             throw new WalletError('No accounts were accepted.', 'getLedgerAccountIds.noAccountsAccepted');
@@ -694,7 +694,7 @@ class Wallet {
     }
 
     async clearFundedAccountNeedsDeposit(accountId) {
-        await sendJson('POST', ACCOUNT_HELPER_URL + `/fundedAccount/clearNeedsDeposit`, {
+        await sendJson('POST', ACCOUNT_HELPER_URL + '/fundedAccount/clearNeedsDeposit', {
             accountId
         });
     }
@@ -736,7 +736,7 @@ class Wallet {
                 method,
                 securityCode,
             });
-        } catch(e) {
+        } catch (e) {
             throw new WalletError('Invalid code', 'setupRecoveryMessageNewAccount.invalidCode');
         }
     }
@@ -769,7 +769,7 @@ class Wallet {
         const { accountId } = this;
         let recoveryMethods = await this.postSignedJson('/account/recoveryMethods', { accountId });
         const accessKeys = await this.getAccessKeys();
-        const publicKeys = accessKeys.map(key => key.public_key);
+        const publicKeys = accessKeys.map((key) => key.public_key);
         const publicKeyMethods = recoveryMethods.filter(({ publicKey }) => publicKeys.includes(publicKey));
         const twoFactorMethods = recoveryMethods.filter(({ kind }) => kind.indexOf('2fa-') === 0);
 
@@ -793,14 +793,14 @@ class Wallet {
         const account = await this.getAccount(accountId);
         const accountKeys = await account.getAccessKeys();
 
-        if (!accountKeys.some(it => it.public_key.endsWith(newPublicKey))) {
+        if (!accountKeys.some((it) => it.public_key.endsWith(newPublicKey))) {
             await this.addAccessKey(accountId, accountId, convertPKForContract(newPublicKey));
         }
     }
 
     async deleteRecoveryMethod({ kind, publicKey }, deleteAllowed = true) {
         const accessKeys = await this.getAccessKeys();
-        const pubKeys = accessKeys.map(key => key.public_key);
+        const pubKeys = accessKeys.map((key) => key.public_key);
 
         if (deleteAllowed) {
             if (pubKeys.includes(publicKey)) {

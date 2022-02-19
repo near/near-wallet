@@ -1,10 +1,10 @@
-import React from "react";
-import { Translate } from "react-localize-redux";
-import styled from "styled-components";
+import React from 'react';
+import { Translate } from 'react-localize-redux';
+import styled from 'styled-components';
 
-import textBackgroundImage  from "../../images/bg-landing-patterned.svg";
-import FormButton from "../common/FormButton";
-import Container from "../common/styled/Container.css";
+import textBackgroundImage  from '../../images/bg-landing-patterned.svg';
+import FormButton from '../common/FormButton';
+import Container from '../common/styled/Container.css';
 
 const StyledContainer = styled(Container)`
   &&& {

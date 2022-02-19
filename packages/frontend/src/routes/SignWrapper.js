@@ -53,9 +53,9 @@ export function SignWrapper() {
     const submittingTransaction = signStatus === SIGN_STATUS.IN_PROGRESS;
 
     useEffect(() => {
-        if(!transactionBatchisValid) {
+        if (!transactionBatchisValid) {
             // switch to invalid batch screen
-        } else if(signerId && !availableAccountsIsLoading && !availableAccounts.some(
+        } else if (signerId && !availableAccountsIsLoading && !availableAccounts.some(
             (accountId) => accountId === signerId
         )) {
             setCurrentDisplay(DISPLAY.ACCOUNT_NOT_FOUND);
@@ -95,12 +95,12 @@ export function SignWrapper() {
     }, [signStatus]);
 
     const handleApproveTransaction = async () => {
-        Mixpanel.track("SIGN approve the transaction");
+        Mixpanel.track('SIGN approve the transaction');
         await dispatch(handleSignTransactions());
     };
 
     const handleCancelTransaction = async () => {
-        Mixpanel.track("SIGN Deny the transaction");
+        Mixpanel.track('SIGN Deny the transaction');
         if (signCallbackUrl && isValidCallbackUrl) {
             if (signStatus?.success !== false) {
                 window.location.href = addQueryParams(signCallbackUrl, {

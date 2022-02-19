@@ -1,8 +1,8 @@
-import { useSelector } from "react-redux";
+import { useSelector } from 'react-redux';
 
-import selectNEARAsTokenWithMetadata from "../redux/crossStateSelectors/selectNEARAsTokenWithMetadata";
-import { selectAccountId } from "../redux/slices/account";
-import { selectTokensWithMetadataForAccountId } from "../redux/slices/tokens";
+import selectNEARAsTokenWithMetadata from '../redux/crossStateSelectors/selectNEARAsTokenWithMetadata';
+import { selectAccountId } from '../redux/slices/account';
+import { selectTokensWithMetadataForAccountId } from '../redux/slices/tokens';
 
 export const useFungibleTokensIncludingNEAR = function () {
     const NEARAsTokenWithMetadata = useSelector(selectNEARAsTokenWithMetadata);

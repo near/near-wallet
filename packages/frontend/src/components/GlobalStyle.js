@@ -1,6 +1,6 @@
-import { createGlobalStyle } from "styled-components";
+import { createGlobalStyle } from 'styled-components';
 
-import CloseBtn from "../images/close-btn.svg";
+import CloseBtn from '../images/close-btn.svg';
 
 export default createGlobalStyle`
   * {

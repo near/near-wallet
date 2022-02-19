@@ -1,7 +1,7 @@
-const assert = require("assert");
+const assert = require('assert');
 
-const Environments = require("../../../features/environments.json");
-const { parseBooleanFromShell } = require("../src/config/envParsers");
+const Environments = require('../../../features/environments.json');
+const { parseBooleanFromShell } = require('../src/config/envParsers');
 
 const NEAR_WALLET_ENV = process.env.NEAR_WALLET_ENV;
 
@@ -16,7 +16,7 @@ module.exports = {
   CONTEXT: process.env.CONTEXT,
   DEBUG_BUILD: parseBooleanFromShell(process.env.DEBUG_BUILD) || true,
   DEPLOY_PRIME_URL: process.env.DEPLOY_PRIME_URL,
-  IS_DEVELOPMENT: process.env.NODE_ENV === "development",
+  IS_DEVELOPMENT: process.env.NODE_ENV === 'development',
   IS_NETLIFY: parseBooleanFromShell(process.env.NETLIFY),
   IS_RENDER: parseBooleanFromShell(process.env.RENDER),
   IS_PULL_REQUEST: parseBooleanFromShell(process.env.IS_PULL_REQUEST),

@@ -11,7 +11,7 @@ export const formatNearAmount = (amount) => {
     }
     let formattedAmount = utils.format.formatNearAmount(amount, FRAC_DIGITS);
     if (formattedAmount === '0') {
-        return `< ${!FRAC_DIGITS ? `0` : `0.${'0'.repeat((FRAC_DIGITS || 1) - 1)}1`}`;
+        return `< ${!FRAC_DIGITS ? '0' : `0.${'0'.repeat((FRAC_DIGITS || 1) - 1)}1`}`;
     }
     return formattedAmount;
 };

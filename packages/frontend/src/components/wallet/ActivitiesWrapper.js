@@ -94,10 +94,10 @@ const ActivitiesWrapper = () => {
 
     const [transactionHash, setTransactionHash] = useState();
 
-    const accountId = useSelector(state => selectAccountId(state));
-    const transactions = useSelector(state => selectTransactionsByAccountId(state, { accountId }));
-    const transaction = useSelector(state => selectOneTransactionByIdentity(state, { accountId, hash: transactionHash }));
-    const activityLoader = useSelector(state => selectTransactionsLoading(state, { accountId }));
+    const accountId = useSelector((state) => selectAccountId(state));
+    const transactions = useSelector((state) => selectTransactionsByAccountId(state, { accountId }));
+    const transaction = useSelector((state) => selectOneTransactionByIdentity(state, { accountId, hash: transactionHash }));
+    const activityLoader = useSelector((state) => selectTransactionsLoading(state, { accountId }));
 
     useEffect(() => {
         if (accountId) {

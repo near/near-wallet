@@ -45,7 +45,7 @@ const ConfirmDisable = ({ onConfirmDisable, onKeepEnabled, accountId, disabling,
     const [username, setUsername] = useState('');
 
     return (
-        <Container onSubmit={e => {onConfirmDisable(); e.preventDefault();}}>
+        <Container onSubmit={(e) => {onConfirmDisable(); e.preventDefault();}}>
             <div><Translate id={`${component}.disable.title`}/></div>
             <div><Translate id={`${component}.disable.desc`}/></div>
             <Translate>
@@ -53,7 +53,7 @@ const ConfirmDisable = ({ onConfirmDisable, onKeepEnabled, accountId, disabling,
                     <input
                         placeholder={translate('recoveryMgmt.disableInputPlaceholder')}
                         value={username}
-                        onChange={e => setUsername(e.target.value)}
+                        onChange={(e) => setUsername(e.target.value)}
                         autoComplete='off'
                         spellCheck='false'
                         disabled={disabling}

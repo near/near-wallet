@@ -1,15 +1,15 @@
-import { createAsyncThunk, createSlice, current } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, current } from '@reduxjs/toolkit';
 import set from 'lodash.set';
 import unset from 'lodash.unset';
-import { createSelector } from "reselect";
+import { createSelector } from 'reselect';
 
-import { HIDE_SIGN_IN_WITH_LEDGER_ENTER_ACCOUNT_ID_MODAL } from "../../../config";
-import { showAlertToolkit } from "../../../utils/alerts";
-import { setLedgerHdPath } from "../../../utils/localStorage";
-import { wallet } from "../../../utils/wallet";
-import handleAsyncThunkStatus from "../../reducerStatus/handleAsyncThunkStatus";
-import initialStatusState from "../../reducerStatus/initialState/initialStatusState";
-import refreshAccountOwner from "../../sharedThunks/refreshAccountOwner";
+import { HIDE_SIGN_IN_WITH_LEDGER_ENTER_ACCOUNT_ID_MODAL } from '../../../config';
+import { showAlertToolkit } from '../../../utils/alerts';
+import { setLedgerHdPath } from '../../../utils/localStorage';
+import { wallet } from '../../../utils/wallet';
+import handleAsyncThunkStatus from '../../reducerStatus/handleAsyncThunkStatus';
+import initialStatusState from '../../reducerStatus/initialState/initialStatusState';
+import refreshAccountOwner from '../../sharedThunks/refreshAccountOwner';
 
 const SLICE_NAME = 'ledger';
 
@@ -126,7 +126,7 @@ const ledgerSlice = createSlice({
         builder.addCase(getLedgerAccountIds.fulfilled, (state, { payload }) => {
             unset(state, ['txSigned']);
             set(state, ['signInWithLedgerStatus'], LEDGER_MODAL_STATUS.CONFIRM_ACCOUNTS);
-            payload.forEach(accountId => 
+            payload.forEach((accountId) => 
                 set(state, ['signInWithLedger', accountId, 'status'], 'waiting')
             );
         });

@@ -134,9 +134,9 @@ const StyledContainer = styled(Container)`
     }
 
     .radio-label {
-        cursor: ${props => props.multipleAccounts ? 'pointer' : 'default'};
+        cursor: ${(props) => props.multipleAccounts ? 'pointer' : 'default'};
         .input-wrapper {
-            display: ${props => props.multipleAccounts ? 'block' : 'none'};
+            display: ${(props) => props.multipleAccounts ? 'block' : 'none'};
         }
     }
 
@@ -179,10 +179,10 @@ export function StakingContainer({ history, match }) {
     const validators = staking.allValidators;
     const currentValidators = currentAccount.validators;
     const validatorId = history.location.pathname.split('/')[2];
-    let validator = currentValidators.filter(validator => validator.accountId === validatorId)[0];
+    let validator = currentValidators.filter((validator) => validator.accountId === validatorId)[0];
     // validator profile not in account's current validators (with balances) find validator in allValidators
     if (!validator) {
-        validator = validators.filter(validator => validator.accountId === validatorId)[0];
+        validator = validators.filter((validator) => validator.accountId === validatorId)[0];
     }
     const { totalUnstaked, selectedValidator } = currentAccount;
     const loadingBalance = !stakingAccounts.every((account) => !!account.totalUnstaked);

@@ -8,7 +8,7 @@ export default function Validators({ validators, stakeFromAccount }) {
 
     const [validator, setValidator] = useState('');
 
-    const validValidator = validators.map(validator => validator.accountId).includes(validator);
+    const validValidator = validators.map((validator) => validator.accountId).includes(validator);
 
     return (
         <>
@@ -21,7 +21,7 @@ export default function Validators({ validators, stakeFromAccount }) {
                         className='view-validator'
                         placeholder={translate('staking.validators.inputPlaceholder')}
                         value={validator}
-                        onChange={e => setValidator(e.target.value)}
+                        onChange={(e) => setValidator(e.target.value)}
                         autoFocus 
                         spellCheck='false'
                         autoCapitalize='off'
@@ -38,7 +38,7 @@ export default function Validators({ validators, stakeFromAccount }) {
                 </div>
             )}
             <ListWrapper>
-                {validators.filter(v => v.accountId.includes(validator)).map((validator, i) => 
+                {validators.filter((v) => v.accountId.includes(validator)).map((validator, i) => 
                     <ValidatorBox
                         key={i}
                         validator={validator}

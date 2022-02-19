@@ -50,11 +50,11 @@ class RecoverAccountSeedPhrase extends Component {
 
     // TODO: Use some validation framework?
     validators = {
-        seedPhrase: value => !!value.length
+        seedPhrase: (value) => !!value.length
     }
 
     get isLegit() {
-        return Object.keys(this.validators).every(field => this.validators[field](this.state[field]));
+        return Object.keys(this.validators).every((field) => this.validators[field](this.state[field]));
     }
 
     handleChange = (value) => {
@@ -67,7 +67,7 @@ class RecoverAccountSeedPhrase extends Component {
 
     handleSubmit = async () => {
         if (!this.isLegit) {
-            Mixpanel.track("IE-SP Recover seed phrase link not valid");
+            Mixpanel.track('IE-SP Recover seed phrase link not valid');
             return false;
         }
 
@@ -81,7 +81,7 @@ class RecoverAccountSeedPhrase extends Component {
             refreshAccount
         } = this.props;
 
-        await Mixpanel.withTracking("IE-SP Recovery with seed phrase",
+        await Mixpanel.withTracking('IE-SP Recovery with seed phrase',
             async () => {
                 this.setState({ recoveringAccount: true });
                 await recoverAccountSeedPhrase(seedPhrase);
@@ -121,7 +121,7 @@ class RecoverAccountSeedPhrase extends Component {
             <StyledContainer className='small-centered border'>
                 <h1><Translate id='recoverSeedPhrase.pageTitle' /></h1>
                 <h2><Translate id='recoverSeedPhrase.pageText' /></h2>
-                <form onSubmit={e => { this.handleSubmit(); e.preventDefault(); }} autoComplete='off'>
+                <form onSubmit={(e) => { this.handleSubmit(); e.preventDefault(); }} autoComplete='off'>
                     <RecoverAccountSeedPhraseForm
                         {...combinedState}
                         handleChange={this.handleChange}

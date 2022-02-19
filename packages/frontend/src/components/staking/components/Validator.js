@@ -19,7 +19,7 @@ import StakingFee from './StakingFee';
 const { fetchToken } = tokensActions;
 
 const renderFarmUi = ({ farmList, contractMetadataByContractId, isFarmListLoading }) => {
-    if(isFarmListLoading) {
+    if (isFarmListLoading) {
         // eslint-disable-next-line jsx-a11y/heading-has-content
         return <h1 className="animated-dots"/>;
     }
@@ -84,7 +84,7 @@ export default function Validator({
                     dispatch(fetchToken({ contractName: token_id }));
                     return validator.contract
                         .get_unclaimed_reward({ account_id: accountId, farm_id: i })
-                        .catch(() => "0")
+                        .catch(() => '0')
                         .then((balance) => ({ token_id, balance, farm_id: i }));
                 }));
 
@@ -138,7 +138,7 @@ export default function Validator({
                         token={{...NEARAsTokenWithMetadata, balance: validator.staked || '0'}}
                         onClick={() => {
                             dispatch(redirectTo(`/staking/${match.params.validator}/unstake`));
-                            Mixpanel.track("UNSTAKE Click unstake button");
+                            Mixpanel.track('UNSTAKE Click unstake button');
                         }}
                         button='staking.balanceBox.staked.button'
                         buttonColor='gray-red'
@@ -164,7 +164,7 @@ export default function Validator({
                         token={{...NEARAsTokenWithMetadata, balance: validator.available || '0'}}
                         onClick={() => {
                             setConfirm('withdraw');
-                            Mixpanel.track("WITHDRAW Click withdraw button");
+                            Mixpanel.track('WITHDRAW Click withdraw button');
                         }}
                         button='staking.balanceBox.available.button'
                         loading={loading}

@@ -129,7 +129,7 @@ class CreateAccount extends Component {
 
     handleCheckNearDropBalance = async () => {
         const { fundingContract, fundingKey, checkNearDropBalance } = this.props;
-        await Mixpanel.withTracking("CA Check near drop balance",
+        await Mixpanel.withTracking('CA Check near drop balance',
             async () => {
                 const fundingAmount = await checkNearDropBalance(fundingContract, fundingKey);
                 this.setState({ fundingAmount });
@@ -160,7 +160,7 @@ class CreateAccount extends Component {
             const fundingOptions = fundingAccountId ? { fundingAccountId } : { fundingContract, fundingKey, fundingAmount };
             queryString = `?fundingOptions=${encodeURIComponent(JSON.stringify(fundingOptions))}`;
         }
-        Mixpanel.track("CA Click create account button");
+        Mixpanel.track('CA Click create account button');
         this.props.history.push(`/set-recovery/${accountId}${queryString}`);
     }
 
@@ -242,13 +242,13 @@ class CreateAccount extends Component {
         if (!invalidNearDrop) {
             return (
                 <StyledContainer className='small-centered border'>
-                    <form onSubmit={e => { this.handleCreateAccount(); e.preventDefault(); }} autoComplete='off'>
+                    <form onSubmit={(e) => { this.handleCreateAccount(); e.preventDefault(); }} autoComplete='off'>
                         <h1>
                             <Translate
                                 id={
                                     activeAccountIdIsImplicit
-                                        ? "createAccount.addACustomAddress"
-                                        : "createAccount.pageTitle"
+                                        ? 'createAccount.addACustomAddress'
+                                        : 'createAccount.pageTitle'
                                 }
                             />
                         </h1>
@@ -281,7 +281,7 @@ class CreateAccount extends Component {
                             </div>
                         }
                         <div className='alternatives-title'><Translate id='createAccount.alreadyHaveAnAccount' /></div>
-                        <div className='alternatives' onClick={() => { Mixpanel.track("IE Click import existing account button"); }}>
+                        <div className='alternatives' onClick={() => { Mixpanel.track('IE Click import existing account button'); }}>
                             <Link to={`/recover-account${locationSearch}`}><Translate id='createAccount.recoverItHere' /></Link>
                         </div>
                     </form>

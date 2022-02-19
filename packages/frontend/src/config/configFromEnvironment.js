@@ -1,11 +1,11 @@
-import assert from "assert";
+import assert from 'assert';
 
-import Environments from "../../../../features/environments.json";
+import Environments from '../../../../features/environments.json';
 import {
     envValIsSet,
     parseBooleanFromShell,
     parseCommaSeperatedStringAsArrayFromShell,
-} from "./envParsers";
+} from './envParsers';
 
 const NEAR_WALLET_ENV = process.env.NEAR_WALLET_ENV;
 
@@ -69,7 +69,7 @@ module.exports = {
         process.env.SHOW_PRERELEASE_WARNING
     ),
     SMS_BLACKLIST: envValIsSet(process.env.SMS_BLACKLIST) ? parseCommaSeperatedStringAsArrayFromShell(
-        process.env.SMS_BLACKLIST.replace(/\s/g, "")
+        process.env.SMS_BLACKLIST.replace(/\s/g, '')
     ) : undefined,
     STAKING_GAS_BASE: process.env.REACT_APP_STAKING_GAS_BASE,
     WHITELISTED_CONTRACTS: parseCommaSeperatedStringAsArrayFromShell(

@@ -66,7 +66,7 @@ const Desc = styled.div`
     color: #4a4f54;
     font-size: 18px;
     line-height: normal;
-    margin-top: ${props => props.last ? "20px" : "0"};
+    margin-top: ${(props) => props.last ? '20px' : '0'};
 
     @media (min-width: 768px) {
         font-size: 28px;
@@ -141,11 +141,11 @@ class RecoverWithLink extends Component {
     }
 
     handleCopyUrl = () => {
-        Mixpanel.track("IE with link Click copy url button");
+        Mixpanel.track('IE with link Click copy url button');
         if (navigator.share && isMobile()) {
             navigator.share({
                 url: window.location.href
-            }).catch(err => {
+            }).catch((err) => {
                 console.log(err.message);
             });
         } else {
@@ -163,7 +163,7 @@ class RecoverWithLink extends Component {
     }
 
     handleContinue = async () => {
-        await Mixpanel.withTracking("IE Recover with link", 
+        await Mixpanel.withTracking('IE Recover with link', 
             async () => {
                 await this.props.recoverAccountSeedPhrase(this.state.seedPhrase, this.props.match.params.accountId, false);
                 this.props.refreshAccount();
@@ -225,7 +225,7 @@ class RecoverWithLink extends Component {
                             <Desc>{translate('recoverWithLink.errorP')}</Desc>
                             {!DISABLE_CREATE_ACCOUNT &&
                                 <Button onClick={() => {
-                                    Mixpanel.track("IE with link expired click create button");
+                                    Mixpanel.track('IE with link expired click create button');
                                     history.push('/create');
                                 }}>
                                     {translate('button.createAccount')}

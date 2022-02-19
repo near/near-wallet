@@ -6,7 +6,7 @@ import styled from 'styled-components';
 
 import { CREATE_IMPLICIT_ACCOUNT } from '../../../../../features';
 import { useFungibleTokensIncludingNEAR } from '../../hooks/fungibleTokensIncludingNEAR';
-import { Mixpanel } from "../../mixpanel/index";
+import { Mixpanel } from '../../mixpanel/index';
 import { selectAccountId, selectBalance } from '../../redux/slices/account';
 import { selectAvailableAccounts } from '../../redux/slices/availableAccounts';
 import { selectCreateFromImplicitSuccess, selectCreateCustomName, actions as createFromImplicitActions } from '../../redux/slices/createFromImplicit';
@@ -266,8 +266,8 @@ const StyledContainer = styled(Container)`
 `;
 
 export function Wallet({ tab, setTab }) {
-    const accountId = useSelector(state => selectAccountId(state));
-    const balance = useSelector(state => selectBalance(state));
+    const accountId = useSelector((state) => selectAccountId(state));
+    const balance = useSelector((state) => selectBalance(state));
     const dispatch = useDispatch();
     const linkdropAmount = useSelector(selectLinkdropAmount);
     const createFromImplicitSuccess = useSelector(selectCreateFromImplicitSuccess);
@@ -297,7 +297,7 @@ export function Wallet({ tab, setTab }) {
 
     const handleCloseLinkdropModal = () => {
         dispatch(setLinkdropAmount('0'));
-        Mixpanel.track("Click dismiss NEAR drop success modal");
+        Mixpanel.track('Click dismiss NEAR drop success modal');
     };
 
     return (
@@ -366,7 +366,7 @@ const FungibleTokens = ({ balance, tokensLoader, fungibleTokens }) => {
     const hideFungibleTokenSection =
         availableBalanceIsZero &&
         fungibleTokens?.length === 1 &&
-        fungibleTokens[0]?.onChainFTMetadata?.symbol === "NEAR";
+        fungibleTokens[0]?.onChainFTMetadata?.symbol === 'NEAR';
     return (
         <>
             <div className='total-balance'>

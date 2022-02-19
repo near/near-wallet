@@ -151,17 +151,17 @@ class SetupRecoveryMethod extends Component {
         if (this.isValidInput && !success) {
             if (option === 'email' || option === 'phone') {
                 if (option === 'email') {
-                    Mixpanel.track("SR Select email");
+                    Mixpanel.track('SR Select email');
                 } else {
-                    Mixpanel.track("SR Select phone");
+                    Mixpanel.track('SR Select phone');
                 }
                 await this.handleSendCode();
                 window.scrollTo(0, 0);
             } else if (option === 'phrase') {
-                Mixpanel.track("SR-SP Select seed phrase");
+                Mixpanel.track('SR-SP Select seed phrase');
                 redirectTo(`/setup-seed-phrase/${accountId}/phrase${location.search}`);
             } else if (option === 'ledger') {
-                Mixpanel.track("SR-Ledger Select ledger");
+                Mixpanel.track('SR-Ledger Select ledger');
                 redirectTo(`/setup-ledger/${accountId}${location.search}`);
             }
         }
@@ -179,7 +179,7 @@ class SetupRecoveryMethod extends Component {
     }
 
     handleSendCode = async () => {
-        Mixpanel.track("SR Send code", { send_code_detail: this.method });
+        Mixpanel.track('SR Send code', { send_code_detail: this.method });
         const { accountId, initializeRecoveryMethod } = this.props;
         const recoverySeedPhrase = await initializeRecoveryMethod(accountId, this.method);
         this.setState({ success: true, recoverySeedPhrase: recoverySeedPhrase });
@@ -205,8 +205,8 @@ class SetupRecoveryMethod extends Component {
 
         try {
             [validateSecurityCodeEnterpriseRecaptchaToken, createIdentityFundedAccountEnterpriseRecaptchaToken] = await Promise.all([
-                this.handleVerifyEnterpriseRecaptcha(`validateSecurityCodeNewAccount`).catch(() => null),
-                this.handleVerifyEnterpriseRecaptcha(`verifiedIdentityCreateFundedAccount`).catch(() => null)
+                this.handleVerifyEnterpriseRecaptcha('validateSecurityCodeNewAccount').catch(() => null),
+                this.handleVerifyEnterpriseRecaptcha('verifiedIdentityCreateFundedAccount').catch(() => null)
             ]);
         } catch (e) {
             // no-op; enterprise recaptcha is only necessary to validate implicit identity verification
@@ -244,7 +244,7 @@ class SetupRecoveryMethod extends Component {
 
                     // on-chain account exists; verify that it is owned by the current key
                     const accessKeys = await wallet.getAccessKeys(accountId) || [];
-                    const publicKeys = accessKeys.map(key => key.public_key);
+                    const publicKeys = accessKeys.map((key) => key.public_key);
                     const publicKeyExistsOnAccount = publicKeys.includes(recoveryKeyPair.publicKey.toString());
 
                     if (!publicKeyExistsOnAccount) {
@@ -311,7 +311,7 @@ class SetupRecoveryMethod extends Component {
         const { recoverySeedPhrase, recaptchaToken, success } = this.state;
 
         if (success) {
-            await Mixpanel.withTracking("SR Setup recovery method",
+            await Mixpanel.withTracking('SR Setup recovery method',
                 async () => {
                     if (!this.state.isNewAccount) {
                         return setupRecoveryMessage(accountId, this.method, securityCode, this.state.recoverySeedPhrase);
@@ -358,7 +358,7 @@ class SetupRecoveryMethod extends Component {
 
     handleGoBack = () => {
         const { option } = this.state;
-        Mixpanel.track(option === 'email' ? "SR Send to different email" : "SR Send to different phone");
+        Mixpanel.track(option === 'email' ? 'SR Send to different email' : 'SR Send to different phone');
         this.setState({
             email: '',
             phoneNumber: '',
@@ -382,7 +382,7 @@ class SetupRecoveryMethod extends Component {
         const { recoveryMethods } = this.props;
         let activeMethods = [];
         if (!!recoveryMethods.length) {
-            activeMethods = recoveryMethods.filter(method => method.confirmed).map(method => method.kind);
+            activeMethods = recoveryMethods.filter((method) => method.confirmed).map((method) => method.kind);
         }
 
         return !this.checkNewAccount() && activeMethods.includes(method);
@@ -425,7 +425,7 @@ class SetupRecoveryMethod extends Component {
         if (!success) {
             return (
                 <StyledContainer className='small-centered border'>
-                    <form onSubmit={e => {
+                    <form onSubmit={(e) => {
                         this.handleNext();
                         e.preventDefault();
                     }}>
@@ -474,7 +474,7 @@ class SetupRecoveryMethod extends Component {
                                         placeholder={translate('setupRecovery.emailPlaceholder')}
                                         value={email}
                                         disabled={this.props.mainLoader}
-                                        onChange={e => this.setState({ email: e.target.value, emailInvalid: false })}
+                                        onChange={(e) => this.setState({ email: e.target.value, emailInvalid: false })}
                                         onBlur={this.handleBlurEmail}
                                         tabIndex='1'
                                         ref={this.emailInput}
@@ -504,11 +504,11 @@ class SetupRecoveryMethod extends Component {
                                             type='phone'
                                             value={phoneNumber}
                                             disabled={this.props.mainLoader}
-                                            onChange={value => this.setState({
+                                            onChange={(value) => this.setState({
                                                 phoneNumber: value,
                                                 phoneInvalid: false
                                             })}
-                                            onCountryChange={option => this.setState({ country: option })}
+                                            onCountryChange={(option) => this.setState({ country: option })}
                                             tabIndex='1'
                                             onBlur={this.handleBlurPhone}
                                             ref={this.phoneInput}

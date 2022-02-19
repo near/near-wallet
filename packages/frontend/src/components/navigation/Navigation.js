@@ -19,7 +19,7 @@ const Container = styled.div`
         right: 0;
         z-index: 1000;
         @media (max-width: 991px) {
-            bottom: ${props => props.open ? '0' : 'unset'};
+            bottom: ${(props) => props.open ? '0' : 'unset'};
         }
 
         h6 {
@@ -85,12 +85,12 @@ class Navigation extends Component {
             this.props.getAvailableAccountsBalance();
         }
 
-        this.setState(prevState => ({
+        this.setState((prevState) => ({
             menuOpen: !prevState.menuOpen
         }));
     }
 
-    handleSelectAccount = accountId => {
+    handleSelectAccount = (accountId) => {
         this.props.switchAccount({ accountId });
         this.setState({ menuOpen: false });
     }

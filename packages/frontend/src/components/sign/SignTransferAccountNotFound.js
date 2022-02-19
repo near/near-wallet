@@ -1,12 +1,12 @@
-import React from "react";
-import { Translate } from "react-localize-redux";
-import styled from "styled-components";
+import React from 'react';
+import { Translate } from 'react-localize-redux';
+import styled from 'styled-components';
 
-import AccountNotFound from "../../images/icon-account-not-found.svg";
-import ArrowUpImage from "../../images/icon-arrow-up-green.svg";
-import FormButton from "../common/FormButton";
-import Container from "../common/styled/Container.css";
-import SafeTranslate from "../SafeTranslate";
+import AccountNotFound from '../../images/icon-account-not-found.svg';
+import ArrowUpImage from '../../images/icon-arrow-up-green.svg';
+import FormButton from '../common/FormButton';
+import Container from '../common/styled/Container.css';
+import SafeTranslate from '../SafeTranslate';
 
 const CustomContainer = styled(Container)`
     display: flex;

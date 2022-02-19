@@ -42,7 +42,7 @@ export default ({
             onSelectAccount={(accountId) => dispatch(switchAccount({ accountId }))}
             getAccountBalance={(accountId) => dispatch(getAccountBalance(accountId))}
             onSignInToDifferentAccount={() => {
-                Mixpanel.track("LOGIN Click recover different account button");
+                Mixpanel.track('LOGIN Click recover different account button');
                 dispatch(redirectTo('/recover-account'));
             }}
             loginAccessType={loginAccessType}
@@ -50,7 +50,7 @@ export default ({
             contractId={contractId}
             contractIdUrl={contractIdUrl}
             onClickCancel={() => {
-                Mixpanel.track("LOGIN Click deny button");
+                Mixpanel.track('LOGIN Click deny button');
                 if (failureUrl && failureAndSuccessUrlsAreValid) {
                     window.location.href = failureUrl;
                 } else {

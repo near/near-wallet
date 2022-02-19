@@ -1,6 +1,6 @@
-import { createSelector } from "reselect";
+import { createSelector } from 'reselect';
 
-import createParameterSelector from "../createParameterSelector";
+import createParameterSelector from '../createParameterSelector';
 
 const SLICE_NAME = 'allAccounts';
 

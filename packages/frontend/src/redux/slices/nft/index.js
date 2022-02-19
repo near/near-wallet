@@ -106,7 +106,7 @@ const fetchNFTs = createAsyncThunk(
         const likelyContracts = await getLikelyTokenContracts(accountId);
         debugLog({ likelyContracts });
 
-        await Promise.all(likelyContracts.map(async contractName => {
+        await Promise.all(likelyContracts.map(async (contractName) => {
             const { actions: { setContractMetadata } } = nftSlice;
             try {
                 const contractMetadata = await getCachedContractMetadataOrFetch(contractName, getState());
