@@ -20,10 +20,12 @@ import isMobile from '../../utils/isMobile';
 import Button from '../common/Button';
 import FormButton from '../common/FormButton';
 import { Snackbar, snackbarDuration } from '../common/Snackbar';
+import Container from '../common/styled/Container.css';
 
 
 
-const Container = styled.div`
+
+const StyledContainer = styled.div`
     margin-top: 5px;
 
     @media (min-width: 768px) {
@@ -185,9 +187,10 @@ class RecoverWithLink extends Component {
 
         if (successView) {
             return (
-                <Translate>
+              <Container>
+                    <Translate>
                     {({ translate }) => (
-                        <Container className='ui container'>
+                        <StyledContainer className='ui container'>
                             <Title>{translate('recoverWithLink.title')}</Title>
                             <Desc>{translate('recoverWithLink.pOne')} <UserName>{accountId}</UserName></Desc>
                             <Desc last>{translate('recoverWithLink.pTwo')}</Desc>
@@ -211,13 +214,15 @@ class RecoverWithLink extends Component {
                                 show={successSnackbar}
                                 onHide={() => this.setState({ successSnackbar: false })}
                             />
-                        </Container>
+                        </StyledContainer>
                     )}
                 </Translate>
+              </Container>
             );
         } else {
             return (
-                <Translate>
+               <Container>
+                    <Translate>
                     {({ translate }) => (
                         <Container className='ui container error'>
                             <Title>{translate('recoverWithLink.errorTitle')}</Title>
@@ -233,6 +238,7 @@ class RecoverWithLink extends Component {
                         </Container>
                     )}
                 </Translate>
+               </Container>
             );
         }
     }
