@@ -26,7 +26,7 @@ export const addLocalKeyAndFinishSetup = createAsyncThunk(
         previousAccountId
     }, { dispatch }) => {
         if (recoveryMethod === 'ledger') {
-            await wallet.addLedgerAccountId(accountId);
+            await wallet.addLedgerAccountId({ accountId });
             await wallet.postSignedJson('/account/ledgerKeyAdded', { accountId, publicKey: publicKey.toString() });
         } else {
             const newKeyPair = KeyPair.fromRandom('ed25519');
