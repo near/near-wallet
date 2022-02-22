@@ -72,7 +72,7 @@ const Header = styled.div`
     :not(.no-background) {
         :before {
             content: '';
-            background: url(${props => props.icon});
+            background: url(${(props) => props.icon});
             background-repeat: no-repeat;
             display: block;
             width: 40px;
@@ -130,7 +130,7 @@ const RecoverAccount = ({
                     <FormButton
                         color='seafoam-blue'
                         linkTo={`/recover-seed-phrase${locationSearch}`}
-                        onClick={()=> Mixpanel.track("IE Click seed phrase recovery button")}
+                        onClick={()=> Mixpanel.track('IE Click seed phrase recovery button')}
                         data-test-id="recoverAccountWithPassphraseButton"
                     >
                             <Translate id='button.recoverAccount' />
@@ -142,7 +142,7 @@ const RecoverAccount = ({
                     <FormButton
                         color='seafoam-blue'
                         linkTo={`/sign-in-ledger${locationSearch}`}
-                        onClick={()=> Mixpanel.track("IE Click ledger recovery button")}
+                        onClick={()=> Mixpanel.track('IE Click ledger recovery button')}
                     >
                             <Translate id='button.signInLedger' />
                     </FormButton>

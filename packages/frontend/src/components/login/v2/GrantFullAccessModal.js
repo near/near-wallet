@@ -84,7 +84,7 @@ export default ({
             onClose={onClose}
             modalSize='md'
         >
-            <form onSubmit={e => {
+            <form onSubmit={(e) => {
                 if (signedInAccountId === userInputValue && !loggingIn) {
                     onConfirm();
                 }

@@ -49,7 +49,7 @@ const Container = styled.div`
 
 `;
 
-export default function AlertBanner({ title, button, linkTo, theme, titleData, "data-test-id": testId, "data-test-id-button": buttonTestId  }) {
+export default function AlertBanner({ title, button, linkTo, theme, titleData, 'data-test-id': testId, 'data-test-id-button': buttonTestId  }) {
     return (
         <Container className={classNames(['alert-banner', theme])} data-test-id={testId}>
             <AlertTriangleIcon/>

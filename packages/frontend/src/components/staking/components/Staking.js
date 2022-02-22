@@ -44,7 +44,7 @@ export default function Staking({
             {!loading && !loadingDetails &&
                 <SelectAccount
                     accounts={accounts}
-                    onChange={e => onSwitchAccount(e.target.value)}
+                    onChange={(e) => onSwitchAccount(e.target.value)}
                     selectedAccount={activeAccount.accountId}
                 />
             }
@@ -75,7 +75,7 @@ export default function Staking({
                         info='staking.balanceBox.staked.info'
                         token={{...NEARAsTokenWithMetadata, balance: totalStaked}}
                         button={new BN(totalStaked).isZero() ? null : 'staking.balanceBox.staked.button'}
-                        linkTo={stakeFromAccount ? `/staking/unstake` : `/staking/${selectedValidator}/unstake`}
+                        linkTo={stakeFromAccount ? '/staking/unstake' : `/staking/${selectedValidator}/unstake`}
                         buttonColor='gray-blue'
                         buttonTestId="stakingPageUnstakingButton"
                         balanceTestId="stakingPageTotalStakedAmount"
@@ -100,7 +100,7 @@ export default function Staking({
                         info='staking.balanceBox.available.info'
                         token={{...NEARAsTokenWithMetadata, balance: totalAvailable}}
                         button={new BN(totalAvailable).isZero() ? null : 'staking.balanceBox.available.button'}
-                        linkTo={stakeFromAccount ? `/staking/withdraw` : `/staking/${selectedValidator}`}
+                        linkTo={stakeFromAccount ? '/staking/withdraw' : `/staking/${selectedValidator}`}
                         buttonColor='gray-blue'
                     />
                 </>

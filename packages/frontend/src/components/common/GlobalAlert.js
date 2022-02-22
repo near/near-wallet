@@ -72,14 +72,14 @@ const Alert = styled.div`
     background-color: #fff;
     border-left: 4px solid;
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.04);
-    border-color: ${props => props.success ? '#02ba86' : '#e41d22'};
+    border-color: ${(props) => props.success ? '#02ba86' : '#e41d22'};
     margin-bottom: 12px;
 
     @media (max-width: 991px) {
         width: 100%;
     }
 
-    &.number-${props => props.closing} {
+    &.number-${(props) => props.closing} {
         animation: alertAnimationClose ease-in-out .3s forwards;
     }
     animation-iteration-count: 1;
@@ -162,7 +162,7 @@ const Close = styled.div`
 const Header = styled.div`
     font-weight: 600;
     margin-bottom: 8px;
-    color: ${props => props.success ? '#02ba86' : '#e41d22'};
+    color: ${(props) => props.success ? '#02ba86' : '#e41d22'};
 `;
 
 const Console = styled.div`
@@ -207,7 +207,7 @@ const GlobalAlertNew = ({ globalAlert, actionStatus, clearGlobalAlert, closeIcon
                 <Translate>
                     {({ translate }) =>
                         <>
-                            {alerts.filter(alert => alert.show).map((alert, i) => {
+                            {alerts.filter((alert) => alert.show).map((alert, i) => {
                                 const msgCode = typeof translate(alert.messageCode) === 'string' ? translate(alert.messageCode) : '';
                                 const noTranslationFound = msgCode.includes('No default translation found!');
                                 return (

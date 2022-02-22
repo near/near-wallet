@@ -145,7 +145,7 @@ const EnterVerificationCode = ({
                                 aria-label={translate('setRecoveryConfirm.inputPlaceholder')}
                                 value={code}
                                 disabled={verifyingCode}
-                                onChange={e => {setCode(e.target.value); setError(false);}}
+                                onChange={(e) => {setCode(e.target.value); setError(false);}}
                                 autoFocus={true}
                             />
                         </div>

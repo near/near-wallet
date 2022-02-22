@@ -1,17 +1,17 @@
-export const VALIDATOR_VERSION = "VALIDATOR";
-export const PROJECT_VALIDATOR_VERSION = "PROJECT_VALIDATOR";
+export const VALIDATOR_VERSION = 'VALIDATOR';
+export const PROJECT_VALIDATOR_VERSION = 'PROJECT_VALIDATOR';
 
 export const ValidatorVersion = {
   [VALIDATOR_VERSION]: VALIDATOR_VERSION,
   [PROJECT_VALIDATOR_VERSION]: PROJECT_VALIDATOR_VERSION
 };
 
-export const MAINNET = "mainnet";
-export const TESTNET = "testnet";
-export const PROJECT_VALIDATOR_PREFIX_MAINNET = ".pool.near";
-export const VALIDATOR_PREFIX_MAINNET = ".poolv1.near";
-export const PROJECT_VALIDATOR_PREFIX_TESTNET = ".factory01.littlefarm.testnet";
-export const VALIDATOR_PREFIX_TESTNET = ".m0";
+export const MAINNET = 'mainnet';
+export const TESTNET = 'testnet';
+export const PROJECT_VALIDATOR_PREFIX_MAINNET = '.pool.near';
+export const VALIDATOR_PREFIX_MAINNET = '.poolv1.near';
+export const PROJECT_VALIDATOR_PREFIX_TESTNET = '.factory01.littlefarm.testnet';
+export const VALIDATOR_PREFIX_TESTNET = '.m0';
 
 export const PROJECT_VALIDATOR_REGEXP_TESTNET = new RegExp(`.*(${PROJECT_VALIDATOR_PREFIX_TESTNET}|${VALIDATOR_PREFIX_TESTNET})`);
 export const PROJECT_VALIDATOR_REGEXP_MAINNET = new RegExp(`.*(${PROJECT_VALIDATOR_PREFIX_MAINNET}|${VALIDATOR_PREFIX_MAINNET})`);

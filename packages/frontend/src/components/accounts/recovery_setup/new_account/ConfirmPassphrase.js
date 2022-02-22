@@ -44,7 +44,7 @@ export default ({
     return (
         <StyledContainer className='small-centered border'>
             <form
-                onSubmit={e => {
+                onSubmit={(e) => {
                     handleConfirmPassphrase();
                     e.preventDefault();
                 }}
@@ -61,7 +61,7 @@ export default ({
                 <input
                     data-test-id='seedPhraseVerificationWordInput'
                     value={userInputValue}
-                    onChange={e => handleChangeWord(e.target.value)}
+                    onChange={(e) => handleChangeWord(e.target.value)}
                     required
                     tabIndex='1'
                     pattern='[a-zA-Z ]*'

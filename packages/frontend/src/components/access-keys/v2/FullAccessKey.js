@@ -63,7 +63,7 @@ export default ({
             {confirmDeAuthorizeKey !== accessKey.public_key &&
                 <>
                     <div className='title'>
-                        <Translate id='authorizedApps.publicKey' /> {accessKey.meta.type === 'ledger' ? <>- <Translate id='hardwareDevices.ledger.title' /></> : ``}
+                        <Translate id='authorizedApps.publicKey' /> {accessKey.meta.type === 'ledger' ? <>- <Translate id='hardwareDevices.ledger.title' /></> : ''}
                         {setConfirmDeAuthorizeKey &&
                             <FormButton color='gray-red' className='small'
                                 onClick={() => {
@@ -85,13 +85,13 @@ export default ({
                     <div className='title disable'><Translate id='fullAccessKeys.deAuthorizeConfirm.title' /></div>
                     <div className='desc'><Translate id='fullAccessKeys.deAuthorizeConfirm.desc' /></div>
                     <div className='key font-monospace'>{accessKey.public_key}</div>
-                    <form onSubmit={e => { onClickDeAuthorizeKey(accessKey.public_key); e.preventDefault(); }} autoComplete='off'>
+                    <form onSubmit={(e) => { onClickDeAuthorizeKey(accessKey.public_key); e.preventDefault(); }} autoComplete='off'>
                         <Translate>
                             {({ translate }) => (
                                 <input
                                     placeholder={translate('recoveryMgmt.disableInputPlaceholder')}
                                     value={userInputAccountId}
-                                    onChange={e => setUserInputAccountId(e.target.value)}
+                                    onChange={(e) => setUserInputAccountId(e.target.value)}
                                     autoComplete='off'
                                     spellCheck='false'
                                     disabled={deAuthorizing}

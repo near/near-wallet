@@ -11,7 +11,7 @@ const SLICE_NAME = 'tokenFiatValues';
 
 const fetchTokenFiatValues = createAsyncThunk(
     `${SLICE_NAME}/fetchTokenFiatValues`,
-    () => sendJson('GET', ACCOUNT_HELPER_URL + `/fiat`)
+    () => sendJson('GET', ACCOUNT_HELPER_URL + '/fiat')
 );
 
 const initialState = {

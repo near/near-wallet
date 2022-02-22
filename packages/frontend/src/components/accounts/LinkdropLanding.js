@@ -9,8 +9,7 @@ import { checkNearDropBalance, claimLinkdropToAccount, redirectTo, handleRefresh
 import { clearLocalAlert } from '../../redux/actions/status';
 import { selectAccountSlice } from '../../redux/slices/account';
 import { actions as linkdropActions } from '../../redux/slices/linkdrop';
-import { selectStatusMainLoader } from '../../redux/slices/status';
-import { selectActionsPending } from '../../redux/slices/status';
+import { selectActionsPending, selectStatusMainLoader } from '../../redux/slices/status';
 import { isUrlNotJavascriptProtocol } from '../../utils/helper-api';
 import AccountDropdown from '../common/AccountDropdown';
 import Balance from '../common/balance/Balance';
@@ -87,7 +86,7 @@ class LinkdropLanding extends Component {
 
     handleCheckNearDropBalance = async () => {
         const { fundingContract, fundingKey, checkNearDropBalance } = this.props;
-        await Mixpanel.withTracking("CA Check near drop balance",
+        await Mixpanel.withTracking('CA Check near drop balance',
             async () => {
                 const balance = await checkNearDropBalance(fundingContract, fundingKey);
                 this.setState({ balance: balance });

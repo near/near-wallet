@@ -504,7 +504,7 @@ const FormButton = ({
     className,
     id,
     trackingId,
-    "data-test-id": testId
+    'data-test-id': testId
 }) => (
     <CustomButton
         type={type}

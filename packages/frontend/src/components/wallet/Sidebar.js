@@ -35,7 +35,7 @@ export default ({ availableAccounts }) => {
 
     useEffect(() => {
         if (availableAccounts.length > 0) {
-            const numNonImplicitAccounts = availableAccounts.filter(a => a.length < 64).length;
+            const numNonImplicitAccounts = availableAccounts.filter((a) => a.length < 64).length;
             setActiveComponent(numNonImplicitAccounts === 0 ? 'CreateCustomName' : 'ExploreApps');
         }
     }, [availableAccounts]);

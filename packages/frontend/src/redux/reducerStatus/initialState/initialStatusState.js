@@ -1,4 +1,4 @@
-import initialErrorState from "./initialErrorState";
+import initialErrorState from './initialErrorState';
 
 export default {
     status: {

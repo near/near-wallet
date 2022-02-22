@@ -90,6 +90,7 @@
     "enzyme-adapter-react-16": "^1.15.6",
     "eslint": "5.16.0",
     "eslint-config-react-app": "^3.0.8",
+    "eslint-plugin-es": "^4.1.0",
     "eslint-plugin-flowtype": "^5.7.2",
     "eslint-plugin-import": "^2.23.4",
     "eslint-plugin-jsx-a11y": "^6.4.1",

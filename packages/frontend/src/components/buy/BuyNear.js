@@ -162,7 +162,7 @@ export function BuyNear({ match, location, history }) {
     }, [accountId]);
 
     const checkMoonPay = async () => {
-        await Mixpanel.withTracking("Wallet Check Moonpay available",
+        await Mixpanel.withTracking('Wallet Check Moonpay available',
             async () => {
                 const moonPay = await isMoonpayAvailable();
                 setMoonPayAvailable(moonPay);
@@ -198,7 +198,7 @@ export function BuyNear({ match, location, history }) {
                 disabled={!IS_MAINNET || accountId && !moonPayAvailable}
                 color={moonPayAvailable ? 'black' : 'gray-gray'}
                 linkTo={signedMoonPayUrl}
-                onClick={() => Mixpanel.track("Wallet Click Buy with Moonpay")}
+                onClick={() => Mixpanel.track('Wallet Click Buy with Moonpay')}
             >
                 {moonPayAvailable
                     ? <>

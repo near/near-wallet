@@ -3,7 +3,7 @@ import { Translate } from 'react-localize-redux';
 import { useSelector } from 'react-redux';
 
 import { selectLedgerModal, selectLedgerTxSigned } from '../../../redux/slices/ledger';
-import Modal from "../../common/modal/Modal";
+import Modal from '../../common/modal/Modal';
 import LedgerImage from '../../svg/LedgerImage';
 import ModalTheme from './ModalTheme';
 

@@ -1,5 +1,4 @@
 import * as nearApiJs from 'near-api-js';
-import { KeyPair } from 'near-api-js';
 import { MULTISIG_CHANGE_METHODS } from 'near-api-js/lib/account_multisig';
 import { PublicKey } from 'near-api-js/lib/utils';
 import { KeyType } from 'near-api-js/lib/utils/key_pair';
@@ -123,6 +122,7 @@ class Wallet {
                 if (await wallet.getLedgerKey(accountId)) {
                     wallet.dispatchShowLedgerModal(true);
                     const path = await localStorage.getItem(`ledgerHdPath:${accountId}`);
+                    // eslint-disable-next-line es/no-dynamic-import
                     const { createLedgerU2FClient } = await import('./ledger.js');
                     const client = await createLedgerU2FClient();
                     const signature = await client.sign(message, path);
@@ -175,7 +175,7 @@ class Wallet {
         const accessKeys = await this.getAccessKeys(accountId);
         if (accessKeys) {
             const localKey = await this.getLocalAccessKey(accountId, accessKeys);
-            const ledgerKey = accessKeys.find(accessKey => accessKey.meta.type === 'ledger');
+            const ledgerKey = accessKeys.find((accessKey) => accessKey.meta.type === 'ledger');
             if (ledgerKey && (!localKey || localKey.permission !== 'FullAccess')) {
                 return PublicKey.from(ledgerKey.public_key);
             }
@@ -205,7 +205,7 @@ class Wallet {
             const accessKeys = limitedAccountData
                 ? []
                 : await this.getAccessKeys() || [];
-            const ledgerKey = accessKeys.find(key => key.meta.type === 'ledger');
+            const ledgerKey = accessKeys.find((key) => key.meta.type === 'ledger');
             const account = await this.getAccount(this.accountId, limitedAccountData);
             const state = await account.state();
 
@@ -218,12 +218,12 @@ class Wallet {
                 accountId: this.accountId,
                 accounts: this.accounts,
                 accessKeys,
-                authorizedApps: accessKeys.filter(it => (
+                authorizedApps: accessKeys.filter((it) => (
                     it.access_key
                     && it.access_key.permission.FunctionCall
                     && it.access_key.permission.FunctionCall.receiver_id !== this.accountId
                 )),
-                fullAccessKeys: accessKeys.filter(it => (
+                fullAccessKeys: accessKeys.filter((it) => (
                     it.access_key
                     && it.access_key.permission === 'FullAccess'
                 )),
@@ -268,7 +268,7 @@ class Wallet {
         if (!localAccessKey || (!localAccessKey.access_key.permission.FunctionCall ||
             !localAccessKey.access_key.permission.FunctionCall.method_names.includes(WALLET_METADATA_METHOD))) {
             // NOTE: This key isn't used to call actual contract method, just used to verify connection with account in private DB
-            newLocalKeyPair = KeyPair.fromRandom('ed25519');
+            newLocalKeyPair = nearApiJs.KeyPair.fromRandom('ed25519');
             await account.addKey(newLocalKeyPair.getPublicKey(), this.accountId, WALLET_METADATA_METHOD, '0');
         }
 
@@ -284,7 +284,7 @@ class Wallet {
         }
 
         const { data: recoveryMethods } = await this.getRecoveryMethods();
-        const methodsToRemove = recoveryMethods.filter(method => method.kind !== 'ledger');
+        const methodsToRemove = recoveryMethods.filter((method) => method.kind !== 'ledger');
         for (const recoveryMethod of methodsToRemove) {
             await this.deleteRecoveryMethod(recoveryMethod);
         }
@@ -351,10 +351,10 @@ class Wallet {
             transaction: { hash: transactionHash },
         } = await account.functionCall({
             contractId: ACCOUNT_ID_SUFFIX,
-            methodName: "create_account",
+            methodName: 'create_account',
             args: {
                 new_account_id: newAccountId,
-                new_public_key: newPublicKey.toString().replace(/^ed25519:/, ""),
+                new_public_key: newPublicKey.toString().replace(/^ed25519:/, ''),
             },
             gas: LINKDROP_GAS,
             attachedDeposit: newInitialBalance,
@@ -406,14 +406,14 @@ class Wallet {
             sender: fundingContract
         });
 
-        const key = KeyPair.fromString(fundingKey).publicKey.toString();
+        const key = nearApiJs.KeyPair.fromString(fundingKey).publicKey.toString();
 
         return await contract.get_key_balance({ key });
     }
 
     async createNewAccountLinkdrop(accountId, fundingContract, fundingKey, publicKey) {
         const account = await this.getAccount(fundingContract);
-        await this.keyStore.setKey(NETWORK_ID, fundingContract, KeyPair.fromString(fundingKey));
+        await this.keyStore.setKey(NETWORK_ID, fundingContract, nearApiJs.KeyPair.fromString(fundingKey));
 
         const contract = new nearApiJs.Contract(account, fundingContract, {
             changeMethods: ['create_account_and_claim', 'claim'],
@@ -427,7 +427,7 @@ class Wallet {
     }
 
     async claimLinkdropToAccount(fundingContract, fundingKey) {
-        await this.keyStore.setKey(NETWORK_ID, fundingContract, KeyPair.fromString(fundingKey));
+        await this.keyStore.setKey(NETWORK_ID, fundingContract, nearApiJs.KeyPair.fromString(fundingKey));
         const account = await this.getAccount(fundingContract);
         const accountId = this.accountId;
 
@@ -504,7 +504,7 @@ class Wallet {
         const accountId = this.accountId;
         const ledgerPublicKey = await this.getLedgerPublicKey();
         const accessKeys = await this.getAccessKeys();
-        const accountHasLedgerKey = accessKeys.map(key => key.public_key).includes(ledgerPublicKey.toString());
+        const accountHasLedgerKey = accessKeys.map((key) => key.public_key).includes(ledgerPublicKey.toString());
         await setKeyMeta(ledgerPublicKey, { type: 'ledger' });
 
         const account = await this.getAccount(accountId);
@@ -516,7 +516,7 @@ class Wallet {
 
     async disableLedger() {
         const account = await this.getAccount(this.accountId);
-        const keyPair = KeyPair.fromRandom('ed25519');
+        const keyPair = nearApiJs.KeyPair.fromRandom('ed25519');
         await account.addKey(keyPair.publicKey);
         await this.keyStore.setKey(NETWORK_ID, this.accountId, keyPair);
 
@@ -533,7 +533,7 @@ class Wallet {
         if (!localAccessKey || (!localAccessKey.access_key.permission.FunctionCall ||
             !localAccessKey.access_key.permission.FunctionCall.method_names.includes(WALLET_METADATA_METHOD))) {
             // NOTE: This key isn't used to call actual contract method, just used to verify connection with account in private DB
-            const newLocalKeyPair = KeyPair.fromRandom('ed25519');
+            const newLocalKeyPair = nearApiJs.KeyPair.fromRandom('ed25519');
             const account = await this.getAccount(accountId);
             try {
                 await account.addKey(newLocalKeyPair.getPublicKey(), accountId, WALLET_METADATA_METHOD, '0');
@@ -580,7 +580,7 @@ class Wallet {
                 })
         )
         )
-            .filter(accountId => accountId);
+            .filter((accountId) => accountId);
 
         if (!checkedAccountIds.length) {
             throw new WalletError('No accounts were found.', 'getLedgerAccountIds.noAccounts');
@@ -605,7 +605,7 @@ class Wallet {
     }
 
     async saveAndSelectLedgerAccounts({ accounts }) {
-        const accountIds = Object.keys(accounts).filter(accountId => accounts[accountId].status === 'success');
+        const accountIds = Object.keys(accounts).filter((accountId) => accounts[accountId].status === 'success');
 
         if (!accountIds.length) {
             throw new WalletError('No accounts were accepted.', 'getLedgerAccountIds.noAccountsAccepted');
@@ -623,6 +623,7 @@ class Wallet {
     }
 
     async getLedgerPublicKey(path) {
+        // eslint-disable-next-line es/no-dynamic-import
         const { createLedgerU2FClient } = await import('./ledger.js');
         const client = await createLedgerU2FClient();
         this.dispatchShowLedgerModal(true);
@@ -693,7 +694,7 @@ class Wallet {
     }
 
     async clearFundedAccountNeedsDeposit(accountId) {
-        await sendJson('POST', ACCOUNT_HELPER_URL + `/fundedAccount/clearNeedsDeposit`, {
+        await sendJson('POST', ACCOUNT_HELPER_URL + '/fundedAccount/clearNeedsDeposit', {
             accountId
         });
     }
@@ -701,7 +702,7 @@ class Wallet {
     async initializeRecoveryMethodNewImplicitAccount(method) {
         const { seedPhrase } = generateSeedPhrase();
         const { secretKey } = parseSeedPhrase(seedPhrase);
-        const recoveryKeyPair = KeyPair.fromString(secretKey);
+        const recoveryKeyPair = nearApiJs.KeyPair.fromString(secretKey);
         const implicitAccountId = Buffer.from(recoveryKeyPair.publicKey.data).toString('hex');
         const body = {
             accountId: implicitAccountId,
@@ -735,7 +736,7 @@ class Wallet {
                 method,
                 securityCode,
             });
-        } catch(e) {
+        } catch (e) {
             throw new WalletError('Invalid code', 'setupRecoveryMessageNewAccount.invalidCode');
         }
     }
@@ -768,7 +769,7 @@ class Wallet {
         const { accountId } = this;
         let recoveryMethods = await this.postSignedJson('/account/recoveryMethods', { accountId });
         const accessKeys = await this.getAccessKeys();
-        const publicKeys = accessKeys.map(key => key.public_key);
+        const publicKeys = accessKeys.map((key) => key.public_key);
         const publicKeyMethods = recoveryMethods.filter(({ publicKey }) => publicKeys.includes(publicKey));
         const twoFactorMethods = recoveryMethods.filter(({ kind }) => kind.indexOf('2fa-') === 0);
 
@@ -792,14 +793,14 @@ class Wallet {
         const account = await this.getAccount(accountId);
         const accountKeys = await account.getAccessKeys();
 
-        if (!accountKeys.some(it => it.public_key.endsWith(newPublicKey))) {
+        if (!accountKeys.some((it) => it.public_key.endsWith(newPublicKey))) {
             await this.addAccessKey(accountId, accountId, convertPKForContract(newPublicKey));
         }
     }
 
     async deleteRecoveryMethod({ kind, publicKey }, deleteAllowed = true) {
         const accessKeys = await this.getAccessKeys();
-        const pubKeys = accessKeys.map(key => key.public_key);
+        const pubKeys = accessKeys.map((key) => key.public_key);
 
         if (deleteAllowed) {
             if (pubKeys.includes(publicKey)) {
@@ -833,7 +834,7 @@ class Wallet {
     }
 
     async recoverAccountSecretKey(secretKey, accountId, shouldCreateFullAccessKey) {
-        const keyPair = KeyPair.fromString(secretKey);
+        const keyPair = nearApiJs.KeyPair.fromString(secretKey);
         const publicKey = keyPair.publicKey.toString();
 
         const tempKeyStore = new nearApiJs.keyStores.InMemoryKeyStore();
@@ -895,11 +896,11 @@ class Wallet {
                 }
             }
 
-            const keyPair = KeyPair.fromString(secretKey);
+            const keyPair = nearApiJs.KeyPair.fromString(secretKey);
             await tempKeyStore.setKey(NETWORK_ID, accountId, keyPair);
             account.keyStore = tempKeyStore;
             account.inMemorySigner = account.connection.signer = new nearApiJs.InMemorySigner(tempKeyStore);
-            const newKeyPair = KeyPair.fromRandom('ed25519');
+            const newKeyPair = nearApiJs.KeyPair.fromRandom('ed25519');
 
             try {
                 await this.addAccessKey(accountId, accountId, newKeyPair.publicKey, shouldCreateFullAccessKey, '', recoveryKeyIsFAK);

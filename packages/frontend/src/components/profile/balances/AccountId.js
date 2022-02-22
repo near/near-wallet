@@ -35,7 +35,7 @@ const Container = styled.div`
     }
 `;
 
-const AccountId = ({ id,  "data-test-id": testId }) => {
+const AccountId = ({ id,  'data-test-id': testId }) => {
     return (
         <Container data-test-id={testId}> 
             <span>{id}</span>

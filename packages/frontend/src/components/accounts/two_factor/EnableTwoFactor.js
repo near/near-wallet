@@ -106,8 +106,8 @@ export function EnableTwoFactor(props) {
     };
 
     useEffect(() => {
-        const email = recoveryMethods.filter(method => method.kind === 'email')[0];
-        const phone = recoveryMethods.filter(method => method.kind === 'phone')[0];
+        const email = recoveryMethods.filter((method) => method.kind === 'email')[0];
+        const phone = recoveryMethods.filter((method) => method.kind === 'phone')[0];
 
         if (email) {
             setEmail(email.detail);
@@ -122,13 +122,13 @@ export function EnableTwoFactor(props) {
     const handleNext = async () => {
         if (!initiated && !loading && !has2fa && isValidInput()) {
             let response;
-            Mixpanel.track("2FA Click continue button", {option: option});
-            await Mixpanel.withTracking("2FA Initialize two factor",
+            Mixpanel.track('2FA Click continue button', {option: option});
+            await Mixpanel.withTracking('2FA Initialize two factor',
                 async () => response = await dispatch(initTwoFactor(accountId, method)),
                 () => {},
                 async () => {
                     if (response && response.confirmed) {
-                        await Mixpanel.withTracking("2FA Deploy multisig",
+                        await Mixpanel.withTracking('2FA Deploy multisig',
                             async () => await handleDeployMultisig()
                         );
                     } else {
@@ -140,13 +140,13 @@ export function EnableTwoFactor(props) {
     };
 
     const handleResendCode = async () => {
-        Mixpanel.track("2FA Resend code");
+        Mixpanel.track('2FA Resend code');
         await dispatch(initTwoFactor(accountId, method));
     };
 
     const handleConfirm = async (securityCode) => {
         if (initiated && securityCode.length === 6) {
-            await Mixpanel.withTracking("2FA Verify", 
+            await Mixpanel.withTracking('2FA Verify', 
                 async () => {
                     await dispatch(verifyTwoFactor(securityCode));
                     await dispatch(clearGlobalAlert());
@@ -163,7 +163,7 @@ export function EnableTwoFactor(props) {
 
     const handleGoBack = () => {
         setInitiated(false);
-        Mixpanel.track("2FA Go back");
+        Mixpanel.track('2FA Go back');
     };
 
     const isValidInput = () => {
@@ -187,7 +187,7 @@ export function EnableTwoFactor(props) {
                     theme='alert'
                     linkTo='https://docs.near.org/docs/concepts/storage-staking'
                 />
-                <form onSubmit={e => { handleNext(); e.preventDefault();}}>
+                <form onSubmit={(e) => { handleNext(); e.preventDefault();}}>
                     <h1><Translate id='twoFactor.enable' /></h1>
                     <h2><Translate id='twoFactor.subHeader' /></h2>
                     <h4><Translate id='twoFactor.select' /><span>*</span></h4>
@@ -202,7 +202,7 @@ export function EnableTwoFactor(props) {
                                     type='email'
                                     placeholder={translate('setupRecovery.emailPlaceholder')}
                                     value={email}
-                                    onChange={e => setEmail(e.target.value)}
+                                    onChange={(e) => setEmail(e.target.value)}
                                     tabIndex='1'
                                     disabled={loading}
                                 />
@@ -220,8 +220,8 @@ export function EnableTwoFactor(props) {
                                     <PhoneInput
                                         placeholder={translate('setupRecovery.phonePlaceholder')}
                                         value={phoneNumber}
-                                        onChange={value => setPhoneNumber(value)}
-                                        onCountryChange={option => setCountry(option)}
+                                        onChange={(value) => setPhoneNumber(value)}
+                                        onCountryChange={(option) => setCountry(option)}
                                         tabIndex='1'
                                         disabled={loading}
                                     />
@@ -235,7 +235,7 @@ export function EnableTwoFactor(props) {
                     <label>
                         <Checkbox
                             checked={twoFactorAmountApproved}
-                            onChange={e => setTwoFactorAmountApproved(e.target.checked)}
+                            onChange={(e) => setTwoFactorAmountApproved(e.target.checked)}
                         />
                         <span><SafeTranslate id='twoFactor.checkBox' data={{ amount: getNearAndFiatValue(multiSigMinAmountRaw, nearTokenFiatValueUSD) }}/></span>
                     </label>
@@ -246,7 +246,7 @@ export function EnableTwoFactor(props) {
                         sending={pendingTwoFactorAction}
                         sendingString='button.enabling'
                     >
-                        <Translate id={`button.continue`} />
+                        <Translate id={'button.continue'} />
                     </FormButton>
                     <FormButton 
                         className='link' 

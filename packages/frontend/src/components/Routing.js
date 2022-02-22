@@ -14,7 +14,7 @@ import { CREATE_IMPLICIT_ACCOUNT } from '../../../../features';
 import TwoFactorVerifyModal from '../components/accounts/two_factor/TwoFactorVerifyModal';
 import { IS_MAINNET, PUBLIC_URL, SHOW_PRERELEASE_WARNING, DISABLE_CREATE_ACCOUNT } from '../config';
 import ExampleFlag from '../ExampleFlag';
-import { Mixpanel } from "../mixpanel/index";
+import { Mixpanel } from '../mixpanel/index';
 import * as accountActions from '../redux/actions/account';
 import { handleClearAlert } from '../redux/reducers/status';
 import { selectAccountSlice } from '../redux/slices/account';
@@ -140,17 +140,17 @@ class Routing extends Component {
         this.pollTokenFiatValue = null;
 
         const languages = [
-            { name: "English", code: "en" },
-            { name: "Português", code: "pt" },
-            { name: "Русский", code: "ru" },
-            { name: "Tiếng Việt", code: "vi" },
-            { name: "简体中文", code: "zh-hans" },
-            { name: "繁體中文", code: "zh-hant" },
-            { name: "Türkçe", code: "tr" }
+            { name: 'English', code: 'en' },
+            { name: 'Português', code: 'pt' },
+            { name: 'Русский', code: 'ru' },
+            { name: 'Tiếng Việt', code: 'vi' },
+            { name: '简体中文', code: 'zh-hans' },
+            { name: '繁體中文', code: 'zh-hant' },
+            { name: 'Türkçe', code: 'tr' }
         ];
 
-        const browserLanguage = getBrowserLocale(languages.map(l => l.code));
-        const activeLang = localStorage.getItem("languageCode") || browserLanguage || languages[0].code;
+        const browserLanguage = getBrowserLocale(languages.map((l) => l.code));
+        const activeLang = localStorage.getItem('languageCode') || browserLanguage || languages[0].code;
 
         this.props.initialize({
             languages,
@@ -171,13 +171,13 @@ class Routing extends Component {
         });
 
         // TODO: Figure out how to load only necessary translations dynamically
-        this.props.addTranslationForLanguage(translations_en, "en");
-        this.props.addTranslationForLanguage(translations_pt, "pt");
-        this.props.addTranslationForLanguage(translations_ru, "ru");
-        this.props.addTranslationForLanguage(translations_vi, "vi");
-        this.props.addTranslationForLanguage(translations_zh_hans, "zh-hans");
-        this.props.addTranslationForLanguage(translations_zh_hant, "zh-hant");
-        this.props.addTranslationForLanguage(translations_tr, "tr");
+        this.props.addTranslationForLanguage(translations_en, 'en');
+        this.props.addTranslationForLanguage(translations_pt, 'pt');
+        this.props.addTranslationForLanguage(translations_ru, 'ru');
+        this.props.addTranslationForLanguage(translations_vi, 'vi');
+        this.props.addTranslationForLanguage(translations_zh_hans, 'zh-hans');
+        this.props.addTranslationForLanguage(translations_zh_hant, 'zh-hant');
+        this.props.addTranslationForLanguage(translations_tr, 'tr');
 
         this.props.setActiveLanguage(activeLang);
         // this.addTranslationsForActiveLanguage(defaultLanguage)
@@ -241,7 +241,7 @@ class Routing extends Component {
 
         if (hasLanguageChanged) {
             // this.addTranslationsForActiveLanguage(curLangCode)
-            localStorage.setItem("languageCode", curLangCode);
+            localStorage.setItem('languageCode', curLangCode);
         }
     }
 
@@ -318,17 +318,17 @@ class Routing extends Component {
                             <TwoFactorVerifyModal
                                 onClose={(verified, error) => {
                                     const { account, promptTwoFactor } = this.props;
-                                    Mixpanel.track("2FA Modal Verify start");
+                                    Mixpanel.track('2FA Modal Verify start');
                                     // requestPending will resolve (verified == true) or reject the Promise being awaited in the method that dispatched promptTwoFactor
                                     account.requestPending(verified, error);
                                     // clears requestPending and closes the modal
                                     promptTwoFactor(null);
                                     if (error) {
                                         // tracking error
-                                        Mixpanel.track("2FA Modal Verify fail", { error: error.message });
+                                        Mixpanel.track('2FA Modal Verify fail', { error: error.message });
                                     }
                                     if (verified) {
-                                        Mixpanel.track("2FA Modal Verify finish");
+                                        Mixpanel.track('2FA Modal Verify finish');
                                     }
                                 }}
                             />

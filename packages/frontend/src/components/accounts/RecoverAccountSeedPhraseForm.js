@@ -18,7 +18,7 @@ const RecoverAccountSeedPhraseForm = ({
                 {({ translate }) => (
                     <input
                         value={seedPhrase}
-                        onChange={e => handleChange(e.target.value)}
+                        onChange={(e) => handleChange(e.target.value)}
                         className={classNames([{'success': localAlert && localAlert.success}, {'problem': localAlert && localAlert.success === false}])}
                         placeholder={translate('recoverSeedPhrase.seedPhraseInput.placeholder')}
                         disabled={recoveringAccount}

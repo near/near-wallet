@@ -67,7 +67,7 @@ export function SignInLedger(props) {
 
     const handleSignIn = async () => {
         setLoader(false);
-        await Mixpanel.withTracking("IE-Ledger Sign in",
+        await Mixpanel.withTracking('IE-Ledger Sign in',
             async () => {
                 await dispatch(signInWithLedger({ path: ledgerHdPath })).unwrap();
                 refreshAndRedirect();
@@ -77,7 +77,7 @@ export function SignInLedger(props) {
 
     const handleAdditionalAccountId = async () => {
         setLoader(true);
-        await Mixpanel.withTracking("IE-Ledger Handle additional accountId",
+        await Mixpanel.withTracking('IE-Ledger Handle additional accountId',
             async () => {
                 await dispatch(signInWithLedgerAddAndSaveAccounts({ path: ledgerHdPath, accountIds: [accountId] }));
                 setLoader(false);
@@ -107,7 +107,7 @@ export function SignInLedger(props) {
     };
 
     const onClose = () => {
-        Mixpanel.track("IE-Ledger Close ledger confirmation");
+        Mixpanel.track('IE-Ledger Close ledger confirmation');
         if (signInWithLedgerStatus === LEDGER_MODAL_STATUS.CONFIRM_PUBLIC_KEY) {
             controllerHelperApi.abort();
         }
@@ -129,10 +129,10 @@ export function SignInLedger(props) {
             <LocalAlertBox localAlert={status.localAlert} />
             <LedgerHdPaths
                 path={path}
-                onSetPath={path => setPath(path)}
+                onSetPath={(path) => setPath(path)}
                 onConfirmHdPath={() => {
                     setConfirmedPath(path);
-                    Mixpanel.track("IE-Ledger Sign in set custom HD path");
+                    Mixpanel.track('IE-Ledger Sign in set custom HD path');
                 }}
             />
             <FormButton

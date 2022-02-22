@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 import NearLogo from '../svg/NearLogo';
 
-const StyledLogo = styled(`div`)`
+const StyledLogo = styled('div')`
     margin-top: 5px;
 
     svg {

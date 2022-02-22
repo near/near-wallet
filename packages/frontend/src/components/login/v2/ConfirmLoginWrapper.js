@@ -34,7 +34,7 @@ export default ({
             contractId={contractId}
             onClickCancel={onClickCancel}
             onClickConnect={async () => {
-                await Mixpanel.withTracking("LOGIN",
+                await Mixpanel.withTracking('LOGIN',
                     async () => {
                         await dispatch(allowLogin());
                     },

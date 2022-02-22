@@ -48,7 +48,7 @@ export default ({
 
     return (
         <StyledContainer className='small-centered border'>
-            <form onSubmit={e => {
+            <form onSubmit={(e) => {
                 onClickSecureMyAccount({
                     recoveryOption,
                     email
@@ -87,7 +87,7 @@ export default ({
                                 type='email'
                                 placeholder={translate('setupRecovery.emailPlaceholder')}
                                 value={email}
-                                onChange={e => {
+                                onChange={(e) => {
                                     setEmail(e.target.value);
                                     setEmailisInvalid(false);
                                 }}

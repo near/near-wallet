@@ -49,7 +49,7 @@ export default ({ newAccount, sharedAccounts }) => {
         <StyledContainer className='shared-passphrase-list'>
             <div><div>{newAccount}</div> <span>New</span></div>
             {
-                sharedAccounts.map(account => <div key={account}><div>{account}</div></div>)
+                sharedAccounts.map((account) => <div key={account}><div>{account}</div></div>)
             }
         </StyledContainer>
     );

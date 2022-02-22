@@ -48,7 +48,7 @@ export function VerifyAccountWrapper() {
 
     useEffect(() => {
         const checkIfMoonPayIsAvailable = async () => {
-            await Mixpanel.withTracking("CA Check Moonpay available",
+            await Mixpanel.withTracking('CA Check Moonpay available',
                 async () => {
                     const moonpayAvailable = await isMoonpayAvailable();
                     if (moonpayAvailable) {
@@ -190,11 +190,11 @@ export function VerifyAccountWrapper() {
     return (
         <VerifyAccount
             activeVerificationOption={activeVerificationOption}
-            setActiveVerificationOption={option => setActiveVerificationOption(option)}
+            setActiveVerificationOption={(option) => setActiveVerificationOption(option)}
             verificationEmail={verificationEmail}
-            onChangeVerificationEmail={e => setVerificationEmail(e.target.value)}
+            onChangeVerificationEmail={(e) => setVerificationEmail(e.target.value)}
             verificationNumber={verificationNumber}
-            onChangeVerificationNumber={number => setVerificationNumber(number)}
+            onChangeVerificationNumber={(number) => setVerificationNumber(number)}
             handleContinue={async () => {
                 if (activeVerificationOption === 'email' || activeVerificationOption === 'phone') {
                     try {

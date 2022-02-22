@@ -89,7 +89,7 @@ export default ({
                     showBalanceInUSD={showBalanceInUSD}
                     onToggleShowBalance={() => getAccountBalance(signedInAccountId, true)}
                 />
-                {availableAccounts.filter(a => a !== signedInAccountId).map((accountId) =>
+                {availableAccounts.filter((a) => a !== signedInAccountId).map((accountId) =>
                     <Account
                         key={accountId}
                         accountId={accountId}
