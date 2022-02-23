@@ -110,7 +110,7 @@ const ActivitiesWrapper = () => {
             <h2 className={classNames({'dots': activityLoader})}><Translate id='dashboard.activity' /></h2>
             {transactions.map((transaction, i) => (
                 <ActivityBox
-                    key={`${transaction.hash_with_index}-${transaction.kind}`}
+                    key={`${transaction.hash_with_index}-${transaction.block_hash}-${transaction.kind}`}
                     transaction={transaction}
                     actionArgs={transaction.args}
                     actionKind={transaction.kind}
