@@ -224,11 +224,10 @@ const GlobalAlertNew = ({ globalAlert, actionStatus, clearGlobalAlert, closeIcon
                                                     {noTranslationFound
                                                         ? <Translate id={`reduxActions.default.${alert.success ? 'success' : 'error'}`} />
                                                         : <SafeTranslate id={alert.messageCode} data={alert.data} />
-                                                        // : <Translate id={alert.messageCode} data={escapeHtml(alert.data)} />
                                                     }
                                                     {!alert.success &&
                                                         <a
-                                                            href={(noTranslationFound || msgCode.includes('Sorry an error has occured')) 
+                                                            href={(noTranslationFound || msgCode.includes('Sorry an error has occurred'))
                                                                 ? `${zendeskBaseURL}${alert.errorMessage ? `search?query=${encodeURIComponent(alert.errorMessage.substring(0, 500))}` : ''}` 
                                                                 : `${zendeskBaseURL}search?query=${encodeURIComponent(msgCode.substring(0, 500))}`
                                                             }
