@@ -224,7 +224,6 @@ const GlobalAlertNew = ({ globalAlert, actionStatus, clearGlobalAlert, closeIcon
                                                     {noTranslationFound
                                                         ? <Translate id={`reduxActions.default.${alert.success ? 'success' : 'error'}`} />
                                                         : <SafeTranslate id={alert.messageCode} data={alert.data} />
-                                                        // : <Translate id={alert.messageCode} data={escapeHtml(alert.data)} />
                                                     }
                                                     {!alert.success &&
                                                         <a
