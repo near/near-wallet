@@ -1511,7 +1511,7 @@
         },
         "createNewAccount": {
             "accountCreated": {
-                "error": "Account creation succeded but an error occured. Please import your account."
+                "error": "Account creation succeeded but an error occurred. Please import your account."
             },
             "accountExists": {
                 "error": "Account creation failed. Account already exists."

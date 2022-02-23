@@ -228,7 +228,7 @@ const GlobalAlertNew = ({ globalAlert, actionStatus, clearGlobalAlert, closeIcon
                                                     }
                                                     {!alert.success &&
                                                         <a
-                                                            href={(noTranslationFound || msgCode.includes('Sorry an error has occured')) 
+                                                            href={(noTranslationFound || msgCode.includes('Sorry an error has occurred'))
                                                                 ? `${zendeskBaseURL}${alert.errorMessage ? `search?query=${encodeURIComponent(alert.errorMessage.substring(0, 500))}` : ''}` 
                                                                 : `${zendeskBaseURL}search?query=${encodeURIComponent(msgCode.substring(0, 500))}`
                                                             }
