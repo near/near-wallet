@@ -3,6 +3,7 @@ import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
 import UserIconGrey from '../../images/UserIconGrey';
+import { NFT_TRANSFER_DEPOSIT, NFT_TRANSFER_GAS } from '../../services/NonFungibleTokens';
 import BackArrowButton from '../common/BackArrowButton';
 import FormButton from '../common/FormButton';
 import Container from '../common/styled/Container.css';
@@ -108,6 +109,7 @@ const UserIcon = styled.div`
 
 export function NFTDetail({ nft, accountId, nearBalance, ownerId, history }) {
     const [transferNftDetail, setTransferNftDetail] = useState();
+    const hasSufficientBalance = nearBalance >= NFT_TRANSFER_DEPOSIT + NFT_TRANSFER_GAS;
 
     return (
         <StyledContainer className='medium centered'>
@@ -137,25 +139,26 @@ export function NFTDetail({ nft, accountId, nearBalance, ownerId, history }) {
                     </div>
                 </div>
 
-                {(ownerId === accountId) &&
-                  <FormButton 
+                {(ownerId === accountId) && (
+                  <FormButton
                     className='transfer-btn'
-                    color='gray-gray' 
-                    disabled={ownerId !== accountId || !nearBalance}
+                    color='gray-gray'
+                    disabled={!hasSufficientBalance}
                     onClick={() => setTransferNftDetail(nft)}
-                >
+                  >
                     <SendIcon/>
                     <Translate id='NFTDetail.transfer'/>
-                </FormButton>}
-                {transferNftDetail &&
+                  </FormButton>
+                )}
+                {transferNftDetail && (
                     <NFTTransferModal
                         open={!!transferNftDetail}
                         onClose={() => setTransferNftDetail()}
                         nft={transferNftDetail}
                         accountId={accountId}
                         nearBalance={nearBalance}
-                    ></NFTTransferModal>
-                }
+                    />
+                )}
             </div>
           }
         </StyledContainer>
