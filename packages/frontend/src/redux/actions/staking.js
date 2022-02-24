@@ -533,7 +533,7 @@ export const getValidatorFarmData = (validatorId) => async (dispatch, getState) 
     if (validator?.version !== FARMING_VALIDATOR_VERSION) return;
 
     const poolSummary = await validator.contract.get_pool_summary();
-    console.log(poolSummary,'pools')
+    console.log(poolSummary,'pools');
     const farms = await validator.contract.get_farms({ from_index: 0, limit: 300 });
     
     const accountId = selectStakingMainAccountId(getState());

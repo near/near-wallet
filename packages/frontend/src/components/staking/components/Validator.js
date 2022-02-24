@@ -126,7 +126,7 @@ export default function Validator({
     const validatorFarmData = validatorsFarmData[validator?.accountId] || {};
 
     useEffect(() => {
-        console.log(isFarmingValidator,'isfarmi', validator)
+        console.log(isFarmingValidator,'isfarmi', validator);
         if (!isFarmingValidator || !validator?.accountId) return;
 
         dispatch(getValidatorFarmData(validator.accountId));
