@@ -1,8 +1,8 @@
 import assert from 'assert';
 
-import { parseNearAmount } from "near-api-js/lib/utils/format";
+import { parseNearAmount } from 'near-api-js/lib/utils/format';
 
-import Environments from "../../../../features/environments.json";
+import Environments from '../../../../features/environments.json';
 import {
     envValIsSet,
     parseBooleanFromShell,

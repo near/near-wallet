@@ -528,11 +528,12 @@ export const handleUpdateCurrent = (accountId) => async (dispatch, getState) => 
 export const getValidatorFarmData = (validatorId) => async (dispatch, getState) => {
 
     const validators = selectStakingAllValidators(getState());
-    const validator = { ...validators.find(validator => validator?.accountId === validatorId)};
+    const validator = { ...validators.find((validator) => validator?.accountId === validatorId)};
 
     if (validator?.version !== FARMING_VALIDATOR_VERSION) return;
 
     const poolSummary = await validator.contract.get_pool_summary();
+    console.log(poolSummary,'pools')
     const farms = await validator.contract.get_farms({ from_index: 0, limit: 300 });
     
     const accountId = selectStakingMainAccountId(getState());
@@ -545,7 +546,7 @@ export const getValidatorFarmData = (validatorId) => async (dispatch, getState) 
             dispatch(fetchToken({ contractName: token_id }));
             return validator.contract
                 .get_unclaimed_reward({ account_id, farm_id })
-                .catch(() => "0")
+                .catch(() => '0')
                 .then((balance) => ({ 
                     token_id,
                     balance,
@@ -576,7 +577,7 @@ export const claimFarmRewards = (validatorId, token_id) => async (dispatch, getS
         const isLockup = currentAccountId !== accountId;
 
         const validators = selectStakingAllValidators(getState());
-        const validator = { ...validators.find(validator => validator?.accountId === validatorId)};
+        const validator = { ...validators.find((validator) => validator?.accountId === validatorId)};
 
         const storageAvailable = await fungibleTokensService.isStorageBalanceAvailable({ 
             contractName: token_id,

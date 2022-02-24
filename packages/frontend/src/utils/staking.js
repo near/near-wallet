@@ -107,7 +107,7 @@ export const calculateAPY = (poolSummary, tokenPrices) => {
 
     try {
 
-        if (activeFarms.some(farm => !+tokenPrices[farm.token_id]?.usd)) return 0;
+        if (activeFarms.some((farm) => !+tokenPrices[farm.token_id]?.usd)) return 0;
         const totalStakedBalance = nearTo(poolSummary.total_staked_balance);
 
         const summaryAPY = activeFarms.reduce((acc, farm) => {

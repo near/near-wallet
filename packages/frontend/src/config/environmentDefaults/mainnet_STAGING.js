@@ -1,5 +1,5 @@
-import * as nearApiJs from "near-api-js";
-import { parseNearAmount } from "near-api-js/lib/utils/format";
+import * as nearApiJs from 'near-api-js';
+import { parseNearAmount } from 'near-api-js/lib/utils/format';
 
 export default {
     ACCOUNT_HELPER_URL: 'https://helper.mainnet.near.org',

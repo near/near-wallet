@@ -4,13 +4,13 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { Mixpanel } from '../../../mixpanel';
 import { redirectTo } from '../../../redux/actions/account';
-import selectNEARAsTokenWithMetadata from '../../../redux/crossStateSelectors/selectNEARAsTokenWithMetadata';
 import { claimFarmRewards, getValidatorFarmData } from '../../../redux/actions/staking';
 import { showCustomAlert } from '../../../redux/actions/status';
+import selectNEARAsTokenWithMetadata from '../../../redux/crossStateSelectors/selectNEARAsTokenWithMetadata';
 import { selectValidatorsFarmData, selectFarmValidatorAPY } from '../../../redux/slices/staking';
 import { selectActionsPending } from '../../../redux/slices/status';
 import { selectTokensFiatValueUSD, selectTokenWhiteList } from '../../../redux/slices/tokenFiatValues';
-import { selectAllContractMetadata, selectNEARAsTokenWithMetadata } from '../../../redux/slices/tokens';
+import { selectAllContractMetadata } from '../../../redux/slices/tokens';
 import { FARMING_VALIDATOR_VERSION } from '../../../utils/constants';
 import FormButton from '../../common/FormButton';
 import SafeTranslate from '../../SafeTranslate';
@@ -126,6 +126,7 @@ export default function Validator({
     const validatorFarmData = validatorsFarmData[validator?.accountId] || {};
 
     useEffect(() => {
+        console.log(isFarmingValidator,'isfarmi', validator)
         if (!isFarmingValidator || !validator?.accountId) return;
 
         dispatch(getValidatorFarmData(validator.accountId));
@@ -134,7 +135,7 @@ export default function Validator({
     const farmList = validatorFarmData?.farmRewards || [];
     const tokenPriceMetadata = { tokenFiatValues, tokenWhitelist };
 
-    const farmAPY = useSelector(state => selectFarmValidatorAPY(state, {validatorId: validator?.accountId}));
+    const farmAPY = useSelector((state) => selectFarmValidatorAPY(state, {validatorId: validator?.accountId}));
 
     return (
         <>
@@ -183,7 +184,7 @@ export default function Validator({
                         title='staking.balanceBox.unclaimed.title'
                         info='staking.balanceBox.unclaimed.info'
                         token={{...NEARAsTokenWithMetadata, balance: validator.unclaimed || '0'}}
-                        hideBorder={(stakingPoolHasFarms && isFarmListLoading) || (!isFarmListLoading && farmList.length > 0)}
+                        hideBorder={isFarmingValidator && farmList.length > 0}
                     />
                     {isFarmingValidator && renderFarmUi({ farmList, contractMetadataByContractId, openModal, tokenPriceMetadata })}
                     <BalanceBox
@@ -218,7 +219,7 @@ export default function Validator({
                     }
                     {isFarmingValidator && selectedFarm && showClaimConfirmModal &&
                         <ClaimConfirmModal
-                            title={`staking.validator.claimFarmRewards`}
+                            title={'staking.validator.claimFarmRewards'}
                             label="staking.stake.from"
                             validator={validator}
                             open={showClaimConfirmModal}

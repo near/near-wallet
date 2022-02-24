@@ -35,7 +35,7 @@ const TokenAmount = ({
     withSymbol = false, 
     className, 
     showFiatAmount = true, 
-    "data-test-id": testId 
+    'data-test-id': testId 
 }) => {
     const tokenBalance = formatTokenAmount(balance, onChainFTMetadata?.decimals, FRAC_DIGITS);
     const tokenBalanceToView = balance && formatToken(balance, onChainFTMetadata?.decimals);
@@ -60,7 +60,7 @@ const TokenAmount = ({
                     }}>
                 { fiatAmount 
                     ? `≈ $${fiatAmount} USD`
-                    : `— USD`
+                    : '— USD'
                 }
                 {!isWhiteListed && <Tooltip translate={'staking.validator.notWhitelistedWarning'}>
                     <AlertRoundedIcon/>
