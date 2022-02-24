@@ -5,15 +5,15 @@ import { createSelector } from 'reselect';
 import { ACCOUNT_HELPER_URL } from '../../../config';
 import sendJson from '../../../tmp_fetch_send_json';
 import { fetchTokenPrices, fetchTokenWhiteList } from '../../../utils/ref-finance';
+import handleAsyncThunkStatus from '../../reducerStatus/handleAsyncThunkStatus';
 import initialStatusState from '../../reducerStatus/initialState/initialStatusState';
-import handleAsyncThunkStatus from '../handleAsyncThunkStatus';
 
 const SLICE_NAME = 'tokenFiatValues';
 
 const fetchTokenFiatValues = createAsyncThunk(
     `${SLICE_NAME}/fetchTokenFiatValues`,
     async () => {
-        const nearFiatValue = await sendJson('GET', ACCOUNT_HELPER_URL + `/fiat`);
+        const nearFiatValue = await sendJson('GET', ACCOUNT_HELPER_URL + '/fiat');
         // TODO: Rewrite this function call on by demand or even create separate action.
 
         const tokenPrices = await fetchTokenPrices();
@@ -55,14 +55,13 @@ const tokenFiatValuesSlice = createSlice({
                 // prices when we load new ones with different token names
                 merge(state.tokens, action.payload);
             });
+            builder.addCase(getTokenWhiteList.fulfilled, (state, action) => {
+                state.tokenWhiteList = action.payload;
+            });
             handleAsyncThunkStatus({
                 asyncThunk: fetchTokenFiatValues,
                 buildStatusPath: () => [],
                 builder
-            });
-
-            builder.addCase(getTokenWhiteList.fulfilled, (state, action) => {
-                state.tokenWhiteList = action.payload;
             });
         })
     }

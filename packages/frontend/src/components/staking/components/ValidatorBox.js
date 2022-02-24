@@ -140,7 +140,7 @@ export default function ValidatorBox({
     token = null
 }) {
     const dispatch = useDispatch();
-    const farmAPY = useSelector(state => selectFarmValidatorAPY(state, {validatorId: validator?.accountId}));
+    const farmAPY = useSelector((state) => selectFarmValidatorAPY(state, {validatorId: validator?.accountId}));
     const { accountId: validatorId, active } = validator;
     const isFarmingValidator = validator.version === ValidatorVersion[FARMING_VALIDATOR_VERSION];
 
