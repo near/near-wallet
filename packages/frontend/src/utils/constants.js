@@ -46,7 +46,7 @@ export const getValidatorRegExp = (networkId) => {
 
 export const getValidationVersion = (networkId, accountId) => {
   const prefixes = getValidationNetworkPrefixes(networkId);
-  return prefixes.some((prefix) => accountId.indexOf(prefix)) ? FARMING_VALIDATOR_VERSION : VALIDATOR_VERSION;
+  return prefixes.some((prefix) => accountId.indexOf(prefix) !== -1) ? FARMING_VALIDATOR_VERSION : VALIDATOR_VERSION;
 };
 
 export const getValidationNetworkPrefixes = (networkId) => {
