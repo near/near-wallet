@@ -10,9 +10,11 @@ import {
     recoverAccountSeedPhrase,
     refreshAccount,
     redirectTo,
-    clearAccountState
+    clearAccountState,
+    makeAccountActive,
 } from '../../redux/actions/account';
-import { selectAccountSlice } from '../../redux/slices/account';
+import { selectAccountId, selectAccountSlice } from '../../redux/slices/account';
+import { selectAvailableAccounts } from '../../redux/slices/availableAccounts';
 import { selectActionsPending, selectStatusMainLoader } from '../../redux/slices/status';
 import copyText from '../../utils/copyText';
 import isMobile from '../../utils/isMobile';
@@ -134,6 +136,7 @@ class RecoverWithLink extends Component {
 
         this.state = {
             accountId: this.props.accountId,
+            isSwitchingAccount: false,
             seedPhrase: this.props.seedPhrase,
             successSnackbar: false,
             successView: true
@@ -176,8 +179,23 @@ class RecoverWithLink extends Component {
         );
     }
 
-    render() {
+    componentDidUpdate() {
+        const { accountId, isSwitchingAccount } = this.state;
+        const { isAccountActive, isAccountAvailable } = this.props;
 
+        // redirect user to home page if active account is being recovered
+        // switch to account being recovered if already in the set of available accounts
+        if (isAccountActive) {
+            this.props.redirectTo('/');
+        } else if (isAccountAvailable && !isSwitchingAccount) {
+            // reset flag to ensure account switch is only dispatched once
+            this.setState({ isSwitchingAccount: true });
+            this.props.makeAccountActive(accountId);
+            this.props.refreshAccount();
+        }
+    }
+
+    render() {
         const { accountId, successSnackbar, successView } = this.state;
         const { mainLoader, history, continueSending } = this.props;
 
@@ -241,10 +259,11 @@ class RecoverWithLink extends Component {
 }
 
 const mapDispatchToProps = {
-    recoverAccountSeedPhrase, 
+    recoverAccountSeedPhrase,
     refreshAccount,
     redirectTo,
-    clearAccountState
+    clearAccountState,
+    makeAccountActive,
 };
 
 const mapStateToProps = (state, { match }) => ({
@@ -252,7 +271,9 @@ const mapStateToProps = (state, { match }) => ({
     accountId: match.params.accountId,
     seedPhrase: match.params.seedPhrase,
     mainLoader: selectStatusMainLoader(state),
-    continueSending: selectActionsPending(state, { types: ['RECOVER_ACCOUNT_SEED_PHRASE'] })
+    continueSending: selectActionsPending(state, { types: ['RECOVER_ACCOUNT_SEED_PHRASE'] }),
+    isAccountActive: selectAccountId(state) === match.params.accountId,
+    isAccountAvailable: selectAvailableAccounts(state).some((accountId) => accountId === match.params.accountId),
 });
 
 export const RecoverWithLinkWithRouter = connect(
