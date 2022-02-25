@@ -582,12 +582,12 @@
     },
     "NFTTransfer": {
       "transferNft": "Transfer NFT",
-      "enterReceipt": "Enter a recipient address, then proceed to confirm your transaction.",
+      "enterReceiver": "Enter a recipient address, then proceed to confirm your transaction.",
       "cancel": "Cancel",
       "next": "Next",
       "confirm": "Confirm",
       "transactionComplete": "Transaction Complete!",
-      "viewReceipt": "View Receipt",
+      "viewTransaction": "View Receipt",
       "continue": "Continue",
       "youSent": "You sent <span class='color-blue'>${title}</span> to <span class='color-green'>${receiverId}</span>"
     },
