@@ -1130,6 +1130,10 @@
         },
         "hereAreSomeDetails": "Aqui estão alguns detalhes que ajudarão você.",
         "insufficientFunds": "Fundos insuficientes",
+        "invalidTransaction": {
+            "body": "The request is invalid and cannot be signed.",
+            "title": "Invalid Transaction"
+        },
         "isRequesting": {
             "authorization": "está solicitando autorização",
             "transferOf": "está solicitando a transferência de"
