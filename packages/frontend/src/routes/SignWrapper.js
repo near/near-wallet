@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import SignTransferAccountNotFound from '../components/sign/SignTransferAccountNotFound';
+import SignTransferInvalid from '../components/sign/SignTransferInvalid';
 import SignTransferRetry from '../components/sign/SignTransferRetry';
 import SignTransactionDetailsWrapper from '../components/sign/v2/SignTransactionDetailsWrapper';
 import SignTransactionSummaryWrapper from '../components/sign/v2/SignTransactionSummaryWrapper';
@@ -121,6 +122,13 @@ export function SignWrapper() {
             dispatch(redirectTo('/'));
         }
     };
+
+    // potentially malicious callback URL found
+    if (!isValidCallbackUrl) {
+        return (
+            <SignTransferInvalid />
+        );
+    }
 
     if (currentDisplay === DISPLAY.INSUFFICIENT_NETWORK_FEE) {
         return (

@@ -1158,6 +1158,10 @@
         "hereAreSomeDetails": "这里是能够帮助你的一些信息。",
         "insufficientFunds": "资产不足",
         "insufficientFundsDesc": "你没有足够的可用 NEAR 完成该操作。",
+        "invalidTransaction": {
+            "body": "The request is invalid and cannot be signed.",
+            "title": "Invalid Transaction"
+        },
         "isRequesting": {
             "authorization": "正在请求授权",
             "transferOf": "正在请求转账"
