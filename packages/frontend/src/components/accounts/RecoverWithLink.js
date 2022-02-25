@@ -196,7 +196,7 @@ class RecoverWithLink extends Component {
     }
 
     render() {
-        const { accountId, successSnackbar, successView } = this.state;
+        const { accountId, isSwitchingAccounts, successSnackbar, successView } = this.state;
         const { mainLoader, history, continueSending } = this.props;
 
         if (successView) {
@@ -211,7 +211,7 @@ class RecoverWithLink extends Component {
                             <ButtonWrapper>
                                 <FormButton
                                     onClick={this.handleContinue}
-                                    disabled={mainLoader}
+                                    disabled={mainLoader || isSwitchingAccounts}
                                     sending={continueSending}
                                     sendingString='button.recovering'
                                 >
