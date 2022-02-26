@@ -974,7 +974,7 @@
     },
     "sign": {
         "accountNotFound": {
-            "body": "<a href=\"${signCallbackUrl}\">${signCallbackUrl}</a> is requesting authorization from a NEAR account that cannot be found: <b>${signTransactionSignerId}</b><br/><br/>To approve any transactions, you’ll first need to import the account.",
+            "body": "${signCallbackUrl} is requesting authorization from a NEAR account that cannot be found: <b>${signTransactionSignerId}</b><br/><br/>To approve any transactions, you’ll first need to import the account.",
             "title": "Account Not Found"
         },
         "ActionWarrning": {
@@ -997,6 +997,10 @@
         },
         "hereAreSomeDetails": "Вот некоторые детали, которые помогут вам.",
         "insufficientFunds": "Недостаточно средств",
+        "invalidTransaction": {
+            "body": "The request is invalid and cannot be signed.",
+            "title": "Invalid Transaction"
+        },
         "isRequesting": {
             "authorization": "запрашивает разрешение",
             "transferOf": "запрашивает перевод"

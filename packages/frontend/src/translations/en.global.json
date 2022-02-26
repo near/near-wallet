@@ -346,9 +346,9 @@
             },
             "verifyPassphrase": {
                 "desc": "Enter an existing passphrase below to secure your new account.",
+                "passPhrasePlaceholder": "bubble word sun join impact exist ramp skull title hollow symbol very",
                 "tite": "Verify Your Passphrase",
-                "yourPassphrase": "Your Passphrase",
-                "passPhrasePlaceholder": "bubble word sun join impact exist ramp skull title hollow symbol very"
+                "yourPassphrase": "Your Passphrase"
             }
         },
         "step": "Step ${step}/${total}",
@@ -1149,7 +1149,7 @@
     },
     "sign": {
         "accountNotFound": {
-            "body": "<a href=\"${signCallbackUrl}\">${signCallbackUrl}</a> is requesting authorization from a NEAR account that cannot be found: <b>${signTransactionSignerId}</b><br/><br/>To approve any transactions, you’ll first need to import the account.",
+            "body": "${signCallbackUrl} is requesting authorization from a NEAR account that cannot be found: <b>${signTransactionSignerId}</b><br/><br/>To approve any transactions, you’ll first need to import the account.",
             "title": "Account Not Found"
         },
         "ActionWarrning": {
@@ -1180,6 +1180,10 @@
         "hereAreSomeDetails": "Here are some details that will help you.",
         "insufficientFunds": "Insufficient Funds",
         "insufficientFundsDesc": "You do not have enough available NEAR to complete this transaction.",
+        "invalidTransaction": {
+            "body": "The request is invalid and cannot be signed.",
+            "title": "Invalid Transaction"
+        },
         "isRequesting": {
             "authorization": "is requesting authorization",
             "transferOf": "is requesting the transfer of"
