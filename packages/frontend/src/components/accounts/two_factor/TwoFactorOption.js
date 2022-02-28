@@ -5,7 +5,6 @@ import styled from 'styled-components';
 import IntFlagIcon from '../../../images/int-flag-small.svg';
 import classNames from '../../../utils/classNames';
 import EmailIcon from '../../svg/EmailIcon';
-import PhoneIcon from '../../svg/PhoneIcon';
 
 const Container = styled.div`
     background-color: #F8F8F8;
@@ -152,7 +151,7 @@ const TwoFactorOption = ({
     return (
         <Container onClick={onClick} className={classNames([{active: active, inputProblem: problem}])}>
             <Header>
-                {option === 'email' ? <EmailIcon/> : <PhoneIcon/>}
+                {option === 'email' ? <EmailIcon/> : null}
                 <Title><Translate id={`twoFactor.${option}`}/></Title>
             </Header>
             {active && children}
