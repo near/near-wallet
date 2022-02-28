@@ -7,7 +7,7 @@ import { redirectTo } from '../../../redux/actions/account';
 import { claimFarmRewards, getValidatorFarmData } from '../../../redux/actions/staking';
 import { showCustomAlert } from '../../../redux/actions/status';
 import selectNEARAsTokenWithMetadata from '../../../redux/crossStateSelectors/selectNEARAsTokenWithMetadata';
-import { selectValidatorsFarmData, selectFarmValidatorAPY } from '../../../redux/slices/staking';
+import { selectValidatorsFarmData, selectFarmValidatorAPY, selectStakingCurrentAccountAccountId } from '../../../redux/slices/staking';
 import { selectActionsPending } from '../../../redux/slices/status';
 import { selectTokensFiatValueUSD, selectTokenWhiteList } from '../../../redux/slices/tokenFiatValues';
 import { selectAllContractMetadata } from '../../../redux/slices/tokens';
@@ -28,7 +28,7 @@ const renderFarmUi = ({ farmList, contractMetadataByContractId, openModal, token
     }
 
     return farmList.map((farm, i) => {
-        const { token_id, balance } = farm;
+        const { token_id, balance, farm_id } = farm;
         const currentTokenContractMetadata = contractMetadataByContractId[token_id];
 
         if (!currentTokenContractMetadata) {
@@ -39,7 +39,7 @@ const renderFarmUi = ({ farmList, contractMetadataByContractId, openModal, token
 
         return (
             <BalanceBox
-                key={token_id}
+                key={farm_id}
                 token={{
                     onChainFTMetadata: currentTokenContractMetadata,
                     fiatValueMetadata,
@@ -79,6 +79,7 @@ export default function Validator({
     const contractMetadataByContractId = useSelector(selectAllContractMetadata);
     const tokenFiatValues = useSelector(selectTokensFiatValueUSD);
     const tokenWhitelist = useSelector(selectTokenWhiteList);
+    const currentAccountId = useSelector(selectStakingCurrentAccountAccountId);
 
     const dispatch = useDispatch();
     const stakeNotAllowed = !!selectedValidator && selectedValidator !== match.params.validator && !!currentValidators.length;
@@ -126,11 +127,8 @@ export default function Validator({
     const validatorFarmData = validatorsFarmData[validator?.accountId] || {};
 
     useEffect(() => {
-        console.log(isFarmingValidator,'isfarmi', validator);
-        if (!isFarmingValidator || !validator?.accountId) return;
-
-        dispatch(getValidatorFarmData(validator.accountId));
-    }, [validator?.accountId, isFarmingValidator]);
+        dispatch(getValidatorFarmData(validator, currentAccountId));
+    }, [validator, currentAccountId]);
 
     const farmList = validatorFarmData?.farmRewards || [];
     const tokenPriceMetadata = { tokenFiatValues, tokenWhitelist };
