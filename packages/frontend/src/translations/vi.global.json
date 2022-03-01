@@ -1036,7 +1036,7 @@
     },
     "sign": {
         "accountNotFound": {
-            "body": "<a href=\"${signCallbackUrl}\">${signCallbackUrl}</a> is requesting authorization from a NEAR account that cannot be found: <b>${signTransactionSignerId}</b><br/><br/>To approve any transactions, you’ll first need to import the account.",
+            "body": "${signCallbackUrl} is requesting authorization from a NEAR account that cannot be found: <b>${signTransactionSignerId}</b><br/><br/>To approve any transactions, you’ll first need to import the account.",
             "title": "Account Not Found"
         },
         "ActionWarrning": {
@@ -1060,6 +1060,10 @@
         },
         "hereAreSomeDetails": "Dưới đây là một số chi tiết sẽ hỗ trợ bạn.",
         "insufficientFunds": "Không đủ tiền",
+        "invalidTransaction": {
+            "body": "The request is invalid and cannot be signed.",
+            "title": "Invalid Transaction"
+        },
         "isRequesting": {
             "authorization": "đang yêu cầu ủy quyền",
             "transferOf": "đang yêu cầu chuyển"
