@@ -35,17 +35,18 @@ const TokenAmount = ({
     withSymbol = false, 
     className, 
     showFiatAmount = true, 
-    'data-test-id': testId 
+    'data-test-id': testId,
+    balancePrefix = ''
 }) => {
     const tokenBalance = formatTokenAmount(balance, onChainFTMetadata?.decimals, FRAC_DIGITS);
     const tokenBalanceToView = balance && formatToken(balance, onChainFTMetadata?.decimals);
     const fiatAmount = (tokenBalance && fiatValueMetadata?.usd) && (tokenBalance * +fiatValueMetadata.usd).toFixed(2);
     
     return (
-        <div className={className} style={{color: isWhiteListed ? '' : '#FF585D'}} title={showFullAmount(balance, onChainFTMetadata?.decimals, onChainFTMetadata?.symbol)} data-test-id={testId}>
+        <div className={className} title={showFullAmount(balance, onChainFTMetadata?.decimals, onChainFTMetadata?.symbol)} data-test-id={testId}>
             <div>
                 {balance
-                    ? tokenBalanceToView
+                    ? balancePrefix + tokenBalanceToView
                     : <span className='dots' />
                 }
                 <span className='currency'>{withSymbol ? ` ${onChainFTMetadata?.symbol}` : null}</span>
