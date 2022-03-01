@@ -264,6 +264,8 @@
         "staking": "Staking",
         "startOver": "Start over",
         "subscribe": "Subscribe",
+        "switchToAccount": "Switch To Account",
+        "switching": "Switching Account",
         "topUp": "Top Up",
         "transferring": "Transferring",
         "tryAgain": "Try Again",
@@ -824,8 +826,9 @@
     "recoverWithLink": {
         "errorP": "Please check your email or phone for the most recent message. Links in all earlier messages are invalid.",
         "errorTitle": "Link Expired",
-        "pOne": "Click \"Continue\" to restore your account:",
+        "pOne": "Click \"Recover Account\" to restore your account:",
         "pTwo": "If this isn't your preferred browser, copy the URL and complete this process in your browser of choice.",
+        "pThree": "If the account is already active, you may instead switch to your account. This option will not create additional access keys.",
         "snackbarCopySuccess": "Recover URL copied",
         "title": "Restore Account"
     },

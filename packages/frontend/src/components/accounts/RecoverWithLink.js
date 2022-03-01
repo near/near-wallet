@@ -84,6 +84,8 @@ const UserName = styled.span`
 const ButtonWrapper = styled.div`
     display: flex;
     flex-direction: column;
+    align-items: flex-end;
+    justify-content: space-evenly;
     margin-top: 30px;
 
     @media (min-width: 768px) {
@@ -96,17 +98,12 @@ const ButtonWrapper = styled.div`
             max-width: 300px;
         }
 
-        &:first-of-type {
-            margin-top: 0 !important;
-        }
-
         &:last-of-type {
             margin-top: 25px;
             position: relative;
             overflow: hidden;
 
             @media (min-width: 768px) {
-                margin-left: 25px;
                 margin-top: 0;
             }
 
@@ -137,6 +134,7 @@ class RecoverWithLink extends Component {
         this.state = {
             accountId: this.props.accountId,
             isSwitchingAccount: false,
+            isTargetAccountSelected: false,
             seedPhrase: this.props.seedPhrase,
             successSnackbar: false,
             successView: true
@@ -179,14 +177,18 @@ class RecoverWithLink extends Component {
         );
     }
 
+    handleContinueWithoutRecovery = async () => {
+        this.props.redirectTo('/');
+    }
+
     componentDidUpdate() {
-        const { accountId, isSwitchingAccount } = this.state;
+        const { accountId, isSwitchingAccount, isTargetAccountSelected } = this.state;
         const { isAccountActive, isAccountAvailable } = this.props;
 
         // redirect user to home page if active account is being recovered
         // switch to account being recovered if already in the set of available accounts
-        if (isAccountActive) {
-            this.props.redirectTo('/');
+        if (isAccountActive && !isTargetAccountSelected) {
+            this.setState({ isTargetAccountSelected: true });
         } else if (isAccountAvailable && !isSwitchingAccount) {
             // reset flag to ensure account switch is only dispatched once
             this.setState({ isSwitchingAccount: true });
@@ -196,7 +198,7 @@ class RecoverWithLink extends Component {
     }
 
     render() {
-        const { accountId, isSwitchingAccounts, successSnackbar, successView } = this.state;
+        const { accountId, isSwitchingAccounts, isTargetAccountSelected, successSnackbar, successView } = this.state;
         const { mainLoader, history, continueSending } = this.props;
 
         if (successView) {
@@ -208,14 +210,23 @@ class RecoverWithLink extends Component {
                             <Title>{translate('recoverWithLink.title')}</Title>
                             <Desc>{translate('recoverWithLink.pOne')} <UserName>{accountId}</UserName></Desc>
                             <Desc last>{translate('recoverWithLink.pTwo')}</Desc>
+                            <Desc last>{translate('recoverWithLink.pThree')}</Desc>
                             <ButtonWrapper>
+                                <FormButton
+                                    onClick={this.handleContinueWithoutRecovery}
+                                    disabled={!isTargetAccountSelected}
+                                    sending={isSwitchingAccounts}
+                                    sendingString='button.switching'
+                                >
+                                    {translate('button.switchToAccount')}
+                                </FormButton>
                                 <FormButton
                                     onClick={this.handleContinue}
                                     disabled={mainLoader || isSwitchingAccounts}
                                     sending={continueSending}
                                     sendingString='button.recovering'
                                 >
-                                    {translate('button.continue')}
+                                    {translate('button.recoverAccount')}
                                 </FormButton>
                                 <Button onClick={this.handleCopyUrl}>
                                     {translate('button.copyUrl')}
