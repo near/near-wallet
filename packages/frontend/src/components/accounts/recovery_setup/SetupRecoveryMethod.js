@@ -528,7 +528,7 @@ class SetupRecoveryMethod extends Component {
                             trackingId='SR Click submit button'
                             data-test-id="submitSelectedRecoveryOption"
                         >
-                            <Translate id='button.continue' />
+                            <Translate id='button.secureMyAccount' />
                         </FormButton>
                     </form>
                     {isNewAccount &&
