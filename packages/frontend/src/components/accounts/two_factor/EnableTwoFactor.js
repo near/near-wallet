@@ -1,7 +1,6 @@
 import { utils } from 'near-api-js';
 import React, { useState, useEffect } from 'react';
 import { Translate } from 'react-localize-redux';
-import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input';
 import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
@@ -19,7 +18,6 @@ import { selectAccountHas2fa, selectAccountId } from '../../../redux/slices/acco
 import { selectActionsPending, selectStatusSlice } from '../../../redux/slices/status';
 import { selectNearTokenFiatValueUSD } from '../../../redux/slices/tokenFiatValues';
 import { validateEmail } from '../../../utils/account';
-import isApprovedCountryCode from '../../../utils/isApprovedCountryCode';
 import AlertBanner from '../../common/AlertBanner';
 import { getNearAndFiatValue } from '../../common/balance/helpers';
 import Checkbox from '../../common/Checkbox';
@@ -90,8 +88,6 @@ export function EnableTwoFactor(props) {
     const [initiated, setInitiated] = useState(false);
     const [option, setOption] = useState('email');
     const [email, setEmail] = useState('');
-    const [phoneNumber, setPhoneNumber] = useState('');
-    const [country, setCountry] = useState('');
     const [twoFactorAmountApproved, setTwoFactorAmountApproved] = useState(false);
     const recoveryMethods = useRecoveryMethods(accountId);
     const loading = status.mainLoader;
@@ -101,20 +97,15 @@ export function EnableTwoFactor(props) {
     const multiSigMinAmountRaw = parseNearAmount(MULTISIG_MIN_AMOUNT);
 
     const method = {
-        kind: `2fa-${option}`,
-        detail: option === 'email' ? email : phoneNumber
+        kind: '2fa-email',
+        detail: email
     };
 
     useEffect(() => {
         const email = recoveryMethods.filter((method) => method.kind === 'email')[0];
-        const phone = recoveryMethods.filter((method) => method.kind === 'phone')[0];
 
         if (email) {
             setEmail(email.detail);
-        }
-
-        if (phone) {
-            setPhoneNumber(phone.detail);
         }
 
     }, [recoveryMethods]);
@@ -170,8 +161,6 @@ export function EnableTwoFactor(props) {
         switch (option) {
             case 'email':
                 return validateEmail(email);
-            case 'phone':
-                return isApprovedCountryCode(country) && isValidPhoneNumber(phoneNumber);
             default:
                 return false;
         }
@@ -209,29 +198,6 @@ export function EnableTwoFactor(props) {
                             )}
                         </Translate>
                     </TwoFactorOption>
-                    <TwoFactorOption
-                        onClick={() => setOption('phone')}
-                        option='phone'
-                        active={option}
-                    >
-                        <Translate>
-                            {({ translate }) => (
-                                <>
-                                    <PhoneInput
-                                        placeholder={translate('setupRecovery.phonePlaceholder')}
-                                        value={phoneNumber}
-                                        onChange={(value) => setPhoneNumber(value)}
-                                        onCountryChange={(option) => setCountry(option)}
-                                        tabIndex='1'
-                                        disabled={loading}
-                                    />
-                                    {!isApprovedCountryCode(country) && 
-                                        <div className='color-red'>{translate('setupRecovery.notSupportedPhone')}</div>
-                                    }
-                                </>
-                            )}
-                        </Translate>
-                    </TwoFactorOption>
                     <label>
                         <Checkbox
                             checked={twoFactorAmountApproved}
@@ -263,7 +229,6 @@ export function EnableTwoFactor(props) {
         return (
             <EnterVerificationCode
                 option={option}
-                phoneNumber={phoneNumber}
                 email={email}
                 onConfirm={handleConfirm}
                 onGoBack={handleGoBack}

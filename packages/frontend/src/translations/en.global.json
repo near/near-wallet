@@ -1415,6 +1415,7 @@
         "desc": "Protect your account by requiring confirmation via SMS or email when authorizing transactions.",
         "disable": {
             "desc": "Keep in mind that transactions won't have to be confirmed with 2FA once it's disabled.",
+            "phoneDesc": "The SMS option for two-factor authentication is being deprecated, and cannot be re-enbaled.",
             "disable": "Disable 2FA",
             "keep": "No, keep 2FA",
             "title": "Are you sure you want to disable 2FA?"

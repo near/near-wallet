@@ -105,6 +105,7 @@ const TwoFactorAuth = ({ twoFactor, history }) => {
                     accountId={account.accountId}
                     disabling={confirmDisabling}
                     component='twoFactor'
+                    twoFactorKind={twoFactor.kind}
                 />
             }
             {!twoFactor &&
