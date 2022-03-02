@@ -9,16 +9,18 @@ import { useSelector, useDispatch } from 'react-redux';
 import CreateImplicitAccount from '../components/accounts/create/implicit_account/CreateImplicitAccount';
 import { MIN_BALANCE_TO_CREATE } from '../config';
 import { Mixpanel } from '../mixpanel';
-import { redirectTo, checkAndHideLedgerModal } from '../redux/actions/account';
+import { redirectTo } from '../redux/actions/account';
 import { showCustomAlert } from '../redux/actions/status';
 import { selectAccountId } from '../redux/slices/account';
 import { finishSetupImplicitAccount } from '../redux/slices/account/createAccountThunks';
 import { actions as createFromImplicitActions } from '../redux/slices/createFromImplicit';
+import { actions as ledgerActions } from '../redux/slices/ledger';
 import { getSignedUrl, isMoonpayAvailable } from '../utils/moonpay';
 import useRecursiveTimeout from '../utils/useRecursiveTimeout';
 import { wallet } from '../utils/wallet';
 
 const { setCreateCustomName } = createFromImplicitActions;
+const { checkAndHideLedgerModal } = ledgerActions;
 
 // Check that the initial deposit was at least 0.17N, otherwise the users 'available balance'
 // won't be enough to create a named account.
