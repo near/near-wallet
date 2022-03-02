@@ -1,3 +1,4 @@
+import BN from 'bn.js';
 import React, { useState, useEffect } from 'react';
 import { Translate } from 'react-localize-redux';
 import { useDispatch, useSelector } from 'react-redux';
@@ -28,10 +29,10 @@ const renderFarmUi = ({ farmList, contractMetadataByContractId, openModal, token
     }
 
     return farmList.map((farm, i) => {
-        const { token_id, balance, farm_id } = farm;
+        const { token_id, balance, farm_id, active } = farm;
         const currentTokenContractMetadata = contractMetadataByContractId[token_id];
 
-        if (!currentTokenContractMetadata) {
+        if (!currentTokenContractMetadata || (!active && new BN(balance).isZero())) {
             return;
         }
         const fiatValueMetadata = tokenPriceMetadata.tokenFiatValues[token_id];
