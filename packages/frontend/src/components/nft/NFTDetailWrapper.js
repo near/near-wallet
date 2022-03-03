@@ -6,6 +6,7 @@ import { selectAccountId, selectBalance } from "../../redux/slices/account";
 import {
     actions as nftActions,
     selectTokenForAccountForContractForTokenId,
+    selectTransferredTokenForContractForTokenId,
 } from '../../redux/slices/nft';
 import { NFTDetail } from "./NFTDetail";
 
@@ -22,6 +23,11 @@ export function NFTDetailWrapper ({
         tokenId,
     }));
 
+    const transferredNft = useSelector((state) => selectTransferredTokenForContractForTokenId(state, {
+        contractName,
+        tokenId,
+    }));
+
     const dispatch = useDispatch();
     const { fetchNFTs } = nftActions;
 
@@ -33,10 +39,10 @@ export function NFTDetailWrapper ({
 
     return (
         <NFTDetail
-            nft={nft && { ...nft, contract_id: contractName }}
+            nft={(nft && { ...nft, contract_id: contractName }) || transferredNft}
             accountId={accountId}
             nearBalance={nearBalance}
-            ownerId={nft?.owner_id}
+            ownerId={nft?.owner_id || transferredNft?.owner_id}
             history={history}
         />
     );
