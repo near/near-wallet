@@ -232,7 +232,7 @@ const selectTokensListForAccountForContract = createSelector(
     (ownedTokensByAccountByContract) => ownedTokensByAccountByContract.tokens
 );
 
-export const selectTokenForAccountForContactForTokenId = createSelector(
+export const selectTokenForAccountForContractForTokenId = createSelector(
     [selectTokensListForAccountForContract, getTokenIdParam],
     (tokensListByAccountByContract, tokenId) => tokensListByAccountByContract.find(({ token_id }) => token_id === tokenId)
 );

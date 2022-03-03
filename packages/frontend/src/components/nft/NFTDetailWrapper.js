@@ -1,40 +1,42 @@
 import React from 'react';
-import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 import { selectAccountId, selectBalance } from "../../redux/slices/account";
-import NonFungibleTokens from "../../services/NonFungibleTokens";
+import {
+    actions as nftActions,
+    selectTokenForAccountForContractForTokenId,
+} from '../../redux/slices/nft';
 import { NFTDetail } from "./NFTDetail";
 
 export function NFTDetailWrapper ({
     match,
     history
 }) {
+    const { contractId: contractName, tokenId } = match.params;
     const accountId = useSelector(selectAccountId);
-    const balance = useSelector(state => selectBalance(state));
-    const nearBalance = balance.balanceAvailable;
+    const { balanceAvailable: nearBalance} = useSelector(selectBalance);
+    const nft = useSelector((state) => selectTokenForAccountForContractForTokenId(state, {
+        accountId,
+        contractName,
+        tokenId,
+    }));
 
-    const contractId = match.params.contractId;
-    const tokenId = match.params.tokenId;
-    const [ nft, setNft ] = useState();
-    const [ ownerId, setOwnerId ] = useState();
+    const dispatch = useDispatch();
+    const { fetchNFTs } = nftActions;
 
     useEffect(() => {
-        NonFungibleTokens.getMetadata(contractId).then(contractMetadata => {
-            NonFungibleTokens.getToken(contractId, tokenId, contractMetadata.base_uri).then(token => {
-                token.contract_id = contractId;
-                setNft(token);
-                setOwnerId(token.owner_id);
-            });
-        });
-    }, []);
+        if (accountId && !nft) {
+            dispatch(fetchNFTs({ accountId, contractName }));
+        }
+    }, [accountId, contractName, nft]);
 
     return (
         <NFTDetail
-            nft={nft}
+            nft={nft && { ...nft, contract_id: contractName }}
             accountId={accountId}
             nearBalance={nearBalance}
-            ownerId={ownerId}
+            ownerId={nft?.owner_id}
             history={history}
         />
     );
