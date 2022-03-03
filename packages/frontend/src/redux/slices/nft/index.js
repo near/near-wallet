@@ -195,6 +195,7 @@ export const selectAllContractMetadata = createSelector(
 );
 
 const getContractNameParam = createParameterSelector((params) => params.contractName);
+const getTokenIdParam = createParameterSelector((params) => params.tokenId);
 
 // Returns contract metadata for only the contractName provided
 export const selectOneContractMetadata = createSelector(
@@ -229,6 +230,11 @@ const selectNumberOfOwnedTokensForAccountForContract = createSelector(
 const selectTokensListForAccountForContract = createSelector(
     selectOwnedTokensForAccountForContract,
     (ownedTokensByAccountByContract) => ownedTokensByAccountByContract.tokens
+);
+
+export const selectTokenForAccountForContactForTokenId = createSelector(
+    [selectTokensListForAccountForContract, getTokenIdParam],
+    (tokensListByAccountByContract, tokenId) => tokensListByAccountByContract.find(({ token_id }) => token_id === tokenId)
 );
 
 export const selectLoadingTokensForAccountForContract = createSelector(
