@@ -1,14 +1,13 @@
-import React from 'react';
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { selectAccountId, selectBalance } from "../../redux/slices/account";
+import { selectAccountId, selectBalance } from '../../redux/slices/account';
 import {
     actions as nftActions,
     selectTokenForAccountForContractForTokenId,
     selectTransferredTokenForContractForTokenId,
 } from '../../redux/slices/nft';
-import { NFTDetail } from "./NFTDetail";
+import { NFTDetail } from './NFTDetail';
 
 export function NFTDetailWrapper ({
     match,

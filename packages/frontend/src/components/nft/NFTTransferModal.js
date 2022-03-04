@@ -253,8 +253,8 @@ export default function NFTTransferModal({ open, onClose, nft, accountId }) {
                         <div className='receiver-input'>
                             <ReceiverInputWithLabel
                                 receiverId={receiverId}
-                                handleChangeReceiverId={receiverId => setReceiverId(receiverId)}
-                                checkAccountAvailable={accountId => dispatch(checkAccountAvailable(accountId))}
+                                handleChangeReceiverId={(receiverId) => setReceiverId(receiverId)}
+                                checkAccountAvailable={(accountId) => dispatch(checkAccountAvailable(accountId))}
                                 localAlert={localAlert}
                                 autoFocus={!isMobile()}
                                 clearLocalAlert={() => dispatch(clearLocalAlert())}
