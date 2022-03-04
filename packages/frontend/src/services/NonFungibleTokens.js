@@ -30,7 +30,7 @@ export default class NonFungibleTokens {
 
     static getToken = async (contractName, tokenId, base_uri) => {
         const token = await this.viewFunctionAccount.viewFunction(contractName, 'nft_token', { token_id: tokenId });
-        return mapTokenMediaUrl(token, base_uri);
+        return this.mapTokenMediaUrl(token, base_uri);
     }
 
     static getTokens = async ({ contractName, accountId, base_uri, fromIndex = 0 }) => {
@@ -61,27 +61,30 @@ export default class NonFungibleTokens {
             });
         }
         // TODO: Separate Redux action for loading image
-        return tokens.filter(({ metadata }) => !!metadata).map(({ metadata, ...token }) => {
-            const { media } = metadata;
-            let mediaUrl;
-            if (media && !media.includes('://')) {
-                if (base_uri) {
-                    mediaUrl = `${base_uri}/${media}`;
-                } else {
-                    mediaUrl = media.startsWith('data:image') ? media : `https://cloudflare-ipfs.com/ipfs/${media}`;
-                }
-            } else {
-                mediaUrl = media;
-            }
+        return tokens.filter(({ metadata }) => !!metadata)
+            .map((token) => this.mapTokenMediaUrl(token, base_uri));
+    }
 
-            return {
-                ...token,
-                metadata: {
-                    ...metadata,
-                    mediaUrl
-                }
-            };
-        });
+    static mapTokenMediaUrl = ({ metadata, ...token }, base_uri) => {
+        const { media } = metadata;
+        let mediaUrl;
+        if (media && !media.includes('://')) {
+            if (base_uri) {
+                mediaUrl = `${base_uri}/${media}`;
+            } else {
+                mediaUrl = `https://cloudflare-ipfs.com/ipfs/${media}`;
+            }
+        } else {
+            mediaUrl = media;
+        }
+
+        return {
+            ...token,
+            metadata: {
+                ...metadata,
+                mediaUrl
+            }
+        };
     }
 
     static transfer = async ({ accountId, contractId, tokenId, receiverId }) => {
