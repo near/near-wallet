@@ -28,11 +28,11 @@ export function NFTDetailWrapper ({
     }));
 
     const dispatch = useDispatch();
-    const { fetchNFTs } = nftActions;
+    const { fetchNFT } = nftActions;
 
     useEffect(() => {
         if (accountId && !nft) {
-            dispatch(fetchNFTs({ accountId, contractName, tokenId }));
+            dispatch(fetchNFT({ accountId, contractName, tokenId }));
         }
     }, [accountId, contractName, nft]);
 
