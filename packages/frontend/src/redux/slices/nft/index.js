@@ -78,17 +78,6 @@ const fetchOwnedNFTsForContract = createAsyncThunk(
     }
 );
 
-const transferNFT = createAsyncThunk(
-    `${SLICE_NAME}/transferNFT`,
-    async ({ accountId, contractName, nft }, { dispatch, getState }) => {
-        debugLog('THUNK/transferNFT');
-
-        const { actions: { transferToken } } = nftSlice;
-        dispatch(transferToken({ contractName, nft }));
-        await dispatch(updateNFTs({ accountId, contractName }));
-    }
-);
-
 const updateNFTs = createAsyncThunk(
     `${SLICE_NAME}/updateNFTs`,
     async ({ accountId, contractName }, thunkAPI) => {
@@ -176,9 +165,14 @@ const nftSlice = createSlice({
             },
             transferToken(state, { payload }) {
                 debugLog('REDUCER/transferToken');
-                const { contractName, nft } = payload;
+                const { accountId, contractName, nft } = payload;
 
                 merge(state, { transferredTokens: { byContractName: { [contractName]: { [nft.token_id]: nft } } } });
+                update(
+                    state,
+                    ['ownedTokens', 'byAccountId', accountId, 'byContractName', contractName, 'tokens'],
+                    (ownedTokens) => ownedTokens.filter(({ token_id }) => token_id !== nft.token_id)
+                );
             }
         },
         extraReducers: ((builder) => {
@@ -195,7 +189,6 @@ export default nftSlice;
 
 export const actions = {
     fetchNFTs,
-    transferNFT,
     updateNFTs,
     fetchOwnedNFTsForContract,
     ...nftSlice.actions

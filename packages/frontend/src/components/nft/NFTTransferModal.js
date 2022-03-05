@@ -200,7 +200,7 @@ export default function NFTTransferModal({ open, onClose, nft, accountId }) {
     const [ accountIdIsValid, setAccountIdIsValid] = useState(false);
     const { balanceAvailable: nearBalance } = useSelector(selectBalance);
     const dispatch = useDispatch();
-    const { transferNFT } = nftActions;
+    const { transferToken } = nftActions;
 
     const localAlert = useSelector(selectStatusLocalAlert);
 
@@ -216,7 +216,7 @@ export default function NFTTransferModal({ open, onClose, nft, accountId }) {
             });
 
             setResult(res);
-            dispatch(transferNFT({
+            dispatch(transferToken({
                 accountId,
                 contractName: contract_id,
                 nft: { ...nft, owner_id: receiverId },
