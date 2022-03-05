@@ -32,7 +32,7 @@ export function NFTDetailWrapper ({
 
     useEffect(() => {
         if (accountId && !nft) {
-            dispatch(fetchNFTs({ accountId, contractName }));
+            dispatch(fetchNFTs({ accountId, contractName, tokenId }));
         }
     }, [accountId, contractName, nft]);
 

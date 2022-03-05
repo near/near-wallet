@@ -9,7 +9,7 @@ import handleAsyncThunkStatus from '../../reducerStatus/handleAsyncThunkStatus';
 import initialStatusState from '../../reducerStatus/initialState/initialStatusState';
 import createParameterSelector from '../createParameterSelector';
 
-const { getLikelyTokenContracts, getMetadata, getTokens, getNumberOfTokens } = NonFungibleTokens;
+const { getLikelyTokenContracts, getMetadata, getToken, getTokens, getNumberOfTokens } = NonFungibleTokens;
 
 const SLICE_NAME = 'NFT';
 const ENABLE_DEBUG = false;
@@ -96,6 +96,23 @@ const updateNFTs = createAsyncThunk(
             dispatch(clearAllTokensMetadata({ accountId }));
 
             await dispatch(fetchNFTs({ accountId }));        
+        }
+    }
+);
+
+const fetchNFT = createAsyncThunk(
+    `${SLICE_NAME}/fetchNFT`,
+    async ({ accountId, contractName, tokenId }, { dispatch, getState }) => {
+        debugLog('THUNK/fetchNFT');
+
+        const { actions: { addTokensMetadata, setContractMetadata } } = nftSlice;
+
+        if (!selectTokenForAccountForContractForTokenId(getState(), { accountId, contractName, tokenId })) {
+            const contractMetadata = await getCachedContractMetadataOrFetch(contractName, getState());
+            dispatch(setContractMetadata({ contractName, metadata: contractMetadata }));
+
+            const token = await getToken(contractName, tokenId, contractMetadata.base_uri);
+            dispatch(addTokensMetadata({ accountId, contractName, tokens: [token] }));
         }
     }
 );
@@ -188,6 +205,7 @@ const nftSlice = createSlice({
 export default nftSlice;
 
 export const actions = {
+    fetchNFT,
     fetchNFTs,
     updateNFTs,
     fetchOwnedNFTsForContract,
