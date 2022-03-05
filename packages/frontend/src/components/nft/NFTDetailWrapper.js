@@ -31,10 +31,10 @@ export function NFTDetailWrapper ({
     const { fetchNFT } = nftActions;
 
     useEffect(() => {
-        if (accountId && !nft) {
+        if (accountId && !nft && !transferredNft) {
             dispatch(fetchNFT({ accountId, contractName, tokenId }));
         }
-    }, [accountId, contractName, nft]);
+    }, [accountId, contractName, nft, transferredNft]);
 
     return (
         <NFTDetail
