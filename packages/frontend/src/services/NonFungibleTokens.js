@@ -33,22 +33,31 @@ export default class NonFungibleTokens {
         return this.mapTokenMediaUrl(token, base_uri);
     }
 
+    static getTokenMetadata = async (contractName, tokenId, base_uri) => {
+        let metadata = await this.viewFunctionAccount.viewFunction(contractName, 'nft_token_metadata', { token_id: tokenId });
+        let { media, reference } = metadata;
+        if (!media && reference) {
+            // TODO: Filter which URIs are allowed for privacy?
+            // TODO: Figure out ARWeave CORS issue
+            // NOTE: For some reason raw fetch() doesn't have same issue as sendJson
+            // tokenMetadata = sendJson('GET', `${base_uri}/${reference}`);
+            metadata = await (await fetch(`${base_uri}/${reference}`)).json();
+        }
+
+        return metadata;
+    }
+
     static getTokens = async ({ contractName, accountId, base_uri, fromIndex = 0 }) => {
         let tokens;
         try {
             const tokenIds = await this.viewFunctionAccount.viewFunction(contractName, 'nft_tokens_for_owner_set', { account_id: accountId });
-            tokens = await Promise.all(tokenIds.slice(fromIndex, TOKENS_PER_PAGE + fromIndex).map(async (token_id) => {
-                let metadata = await this.viewFunctionAccount.viewFunction(contractName, 'nft_token_metadata', { token_id: token_id.toString() });
-                let { media, reference } = metadata;
-                if (!media && reference) {
-                    // TODO: Filter which URIs are allowed for privacy?
-                    // TODO: Figure out ARWeave CORS issue
-                    // NOTE: For some reason raw fetch() doesn't have same issue as sendJson
-                    // tokenMetadata = sendJson('GET', `${base_uri}/${reference}`);
-                    metadata = await (await fetch(`${base_uri}/${reference}`)).json();
-                }
-                return { token_id, metadata };
-            }));
+            tokens = await Promise.all(
+                tokenIds.slice(fromIndex, TOKENS_PER_PAGE + fromIndex)
+                    .map(async (token_id) => ({
+                        token_id,
+                        metadata: await this.getTokenMetadata(contractName, token_id.toString(), base_uri),
+                    }))
+            );
         } catch (e) {
             if (!e.toString().includes('FunctionCallError(MethodResolveError(MethodNotFound))')) {
                 throw e;
