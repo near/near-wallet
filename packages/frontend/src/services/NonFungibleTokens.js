@@ -30,6 +30,24 @@ export default class NonFungibleTokens {
 
     static getToken = async (contractName, tokenId, base_uri) => {
         const token = await this.viewFunctionAccount.viewFunction(contractName, 'nft_token', { token_id: tokenId });
+
+        // need to restructure response for Mintbase NFTs for consistency with NFT spec
+        if (token.id && !token.token_id) {
+            token.token_id = token.id.toString();
+            delete token.id;
+        }
+
+        if (token.owner_id && token.owner_id.Account) {
+            token.owner_id = token.owner_id.Account;
+        }
+
+        if (!token.metadata || !token.metadata.media) {
+            token.metadata = {
+                ...token.metadata,
+                ...(await this.getTokenMetadata(contractName, tokenId, base_uri)),
+            };
+        }
+
         return this.mapTokenMediaUrl(token, base_uri);
     }
 
