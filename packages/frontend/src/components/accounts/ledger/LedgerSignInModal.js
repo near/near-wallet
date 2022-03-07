@@ -7,7 +7,7 @@ import UserIconGrey from '../../../images/UserIconGrey';
 import { LEDGER_MODAL_STATUS } from '../../../redux/slices/ledger';
 import AccountFormAccountId from '../../accounts/AccountFormAccountId';
 import FormButton from '../../common/FormButton';
-import Modal from "../../common/modal/Modal";
+import Modal from '../../common/modal/Modal';
 import LedgerImage from '../../svg/LedgerImage';
 import ModalTheme from './ModalTheme';
 
@@ -47,7 +47,7 @@ const AnimateList = styled.div`
     overflow: hidden;
 
     & > div:first-of-type {
-        margin-top: ${props => `-${props.animate * 60}px`};
+        margin-top: ${(props) => `-${props.animate * 60}px`};
         transition: 1s;
     }
 

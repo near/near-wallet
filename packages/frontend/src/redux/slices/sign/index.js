@@ -1,12 +1,12 @@
-import { createAsyncThunk, createAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createAction } from '@reduxjs/toolkit';
 import BN from 'bn.js';
 import cloneDeep from 'lodash.clonedeep';
-import { createSelector } from "reselect";
+import { createSelector } from 'reselect';
 
-import { Mixpanel } from "../../../mixpanel";
-import { wallet } from "../../../utils/wallet";
-import { showCustomAlert } from "../../actions/status";
-import { selectAccountId } from "../account";
+import { Mixpanel } from '../../../mixpanel';
+import { wallet } from '../../../utils/wallet';
+import { showCustomAlert } from '../../actions/status';
+import { selectAccountId } from '../account';
 
 const SLICE_NAME = 'sign';
 
@@ -32,7 +32,7 @@ export const handleSignTransactions = createAsyncThunk(
         let transactionsHashes;
         const retryingTx = !!selectSignRetryTransactions(getState()).length;
 
-        const mixpanelName = `SIGN${retryingTx ? ` - RETRYRETRY WITH INCREASED GAS` : ''}`;
+        const mixpanelName = `SIGN${retryingTx ? ' - RETRYRETRY WITH INCREASED GAS' : ''}`;
         await Mixpanel.withTracking(mixpanelName,
             async () => {
                 let transactions;
@@ -83,7 +83,7 @@ export function addQueryParams(baseUrl, queryParams) {
     const url = new URL(baseUrl);
     for (let key in queryParams) {
         const param = queryParams[key];
-        if(param) url.searchParams.set(key, param);
+        if (param) url.searchParams.set(key, param);
     }
     return url.toString();
 }
@@ -134,7 +134,7 @@ export const getFirstTransactionWithFunctionCallAction = ({ transactions }) => {
 };
 
 export const increaseGasForFirstTransaction = ({ transactions }) => {
-    const transaction = getFirstTransactionWithFunctionCallAction({ transactions });
+    const transaction = getFirstTransactionWithFunctionCallAction({ transactions });
 
     if (!transaction) {
         return transactions;
@@ -166,8 +166,8 @@ export const increaseGasForFirstTransaction = ({ transactions }) => {
 };
 
 export const calculateGasLimit = (actions) => actions
-    .filter(a => Object.keys(a)[0] === 'functionCall')
-    .map(a => a.functionCall.gas)
+    .filter((a) => Object.keys(a)[0] === 'functionCall')
+    .map((a) => a.functionCall.gas)
     .reduce((totalGas, gas) => totalGas.add(gas), new BN(0)).toString();
 
 // Top level selectors
@@ -239,6 +239,6 @@ export const selectSignFeesGasLimitIncludingGasChanges = createSelector(
             : transactions;
         
         const tx = increaseGasForFirstTransaction({ transactions: cloneDeep(transactionsToCalculate)});
-        return new BN(calculateGasLimit(tx.flatMap(t => t.actions))).add(gasUsed);
+        return new BN(calculateGasLimit(tx.flatMap((t) => t.actions))).add(gasUsed);
     }
 );

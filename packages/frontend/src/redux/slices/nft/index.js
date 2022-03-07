@@ -4,8 +4,9 @@ import update from 'lodash.update';
 import { createSelector } from 'reselect';
 
 import NonFungibleTokens from '../../../services/NonFungibleTokens';
+import handleAsyncThunkStatus from '../../reducerStatus/handleAsyncThunkStatus';
+import initialStatusState from '../../reducerStatus/initialState/initialStatusState';
 import createParameterSelector from '../createParameterSelector';
-import initialErrorState from '../initialErrorState';
 
 const { getLikelyTokenContracts, getMetadata, getTokens, getNumberOfTokens } = NonFungibleTokens;
 
@@ -23,8 +24,7 @@ const initialState = {
 };
 
 const initialOwnedTokenState = {
-    error: initialErrorState,
-    loading: false,
+    ...initialStatusState,
     tokens: []
 };
 
@@ -106,7 +106,7 @@ const fetchNFTs = createAsyncThunk(
         const likelyContracts = await getLikelyTokenContracts(accountId);
         debugLog({ likelyContracts });
 
-        await Promise.all(likelyContracts.map(async contractName => {
+        await Promise.all(likelyContracts.map(async (contractName) => {
             const { actions: { setContractMetadata } } = nftSlice;
             try {
                 const contractMetadata = await getCachedContractMetadataOrFetch(contractName, getState());
@@ -161,32 +161,10 @@ const nftSlice = createSlice({
             }
         },
         extraReducers: ((builder) => {
-            builder.addCase(fetchOwnedNFTsForContract.pending, (state, { meta }) => {
-                debugLog('REDUCER/fetchOwnedNFTsForContract.pending');
-
-                const { accountId, contractName } = meta.arg;
-
-                set(state, ['ownedTokens', 'byAccountId', accountId, 'byContractName', contractName, 'loading'], true);
-                set(state, ['ownedTokens', 'byAccountId', accountId, 'byContractName', contractName, 'error'], initialErrorState);
-            });
-            builder.addCase(fetchOwnedNFTsForContract.fulfilled, (state, { meta }) => {
-                debugLog('REDUCER/fetchOwnedNFTsForContract.fulfilled');
-
-                const { accountId, contractName } = meta.arg;
-
-                set(state, ['ownedTokens', 'byAccountId', accountId, 'byContractName', contractName, 'loading'], false);
-                set(state, ['ownedTokens', 'byAccountId', accountId, 'byContractName', contractName, 'error'], initialErrorState);
-            });
-            builder.addCase(fetchOwnedNFTsForContract.rejected, (state, { meta, error }) => {
-                debugLog('REDUCER/fetchOwnedNFTsForContract.fulfilled');
-                
-                const { accountId, contractName } = meta.arg;
-
-                set(state, ['ownedTokens', 'byAccountId', accountId, 'byContractName', contractName, 'loading'], false);
-                set(state, ['ownedTokens', 'byAccountId', accountId, 'byContractName', contractName, 'error'], {
-                    message: error?.message || 'An error was encountered.',
-                    code: error?.code
-                });
+            handleAsyncThunkStatus({
+                asyncThunk: fetchOwnedNFTsForContract,
+                buildStatusPath: ({ meta: { arg: { accountId, contractName }}}) => ['ownedTokens', 'byAccountId', accountId, 'byContractName', contractName],
+                builder
             });
         })
     }
@@ -255,7 +233,7 @@ const selectTokensListForAccountForContract = createSelector(
 
 export const selectLoadingTokensForAccountForContract = createSelector(
     selectOwnedTokensForAccountForContract,
-    (ownedTokensByAccountByContract) => ownedTokensByAccountByContract.loading
+    (ownedTokensByAccountByContract) => ownedTokensByAccountByContract.status.loading
 );
 
 export const selectHasFetchedAllTokensForAccountForContract = createSelector(

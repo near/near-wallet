@@ -130,14 +130,14 @@ class ParcelBundler {
                 // Netlify staging is a dedicated deployment using 'master' as the production branch
                 return {
                     ...this.getBaseConfig(),
-                    publicUrl: this.buildCloudflarePath(`/ntl/staging/`)
+                    publicUrl: this.buildCloudflarePath('/ntl/staging/')
                 };
             }
 
             // Netlify production/mainnet is a dedicated deployment using 'stable' as the production branch
             return {
                 ...this.getBaseConfig(),
-                publicUrl: this.buildCloudflarePath(`/ntl/mainnet/`)
+                publicUrl: this.buildCloudflarePath('/ntl/mainnet/')
             };
 
         case 'branch-deploy':

@@ -66,7 +66,7 @@ export default ({
     return (
         <>
             <StyledContainer className='small-centered border'>
-                <form onSubmit={e => {
+                <form onSubmit={(e) => {
                     handleContinue();
                     e.preventDefault();
                 }}>

@@ -45,7 +45,7 @@ export function ExistingAccountWrapper({ history }) {
         return (
             <FundNewAccount
                 onClickApprove={async () => {
-                    await Mixpanel.withTracking("CA Create account from existing account",
+                    await Mixpanel.withTracking('CA Create account from existing account',
                         async () => {
                             setCreatingNewAccount(true);
                             await dispatch(createNewAccountWithCurrentActiveAccount({

@@ -54,7 +54,7 @@ const AmountInput = ({ value, onChange, error, autoFocus = true, maxLength = 18}
             onChange={(event) => {
                 const { value, maxLength } = event.target;
 
-                if(maxLength && value.length > maxLength) { return false; }
+                if (maxLength && value.length > maxLength) { return false; }
 
                 onChange(event);
             }}

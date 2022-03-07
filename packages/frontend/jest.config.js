@@ -1,4 +1,4 @@
 module.exports = {
-    setupFilesAfterEnv: ["./jest.setup.js"],
-    setupFiles: ["dotenv/config"],
+    setupFilesAfterEnv: ['./jest.setup.js'],
+    setupFiles: ['dotenv/config'],
 };

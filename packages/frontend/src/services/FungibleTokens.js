@@ -136,7 +136,7 @@ export default class FungibleTokens {
                 receiverId: contractName,
                 actions: [
                     functionCall(
-                        "ft_transfer",
+                        'ft_transfer',
                         {
                             amount,
                             memo: memo,

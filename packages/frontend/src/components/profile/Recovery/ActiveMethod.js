@@ -125,7 +125,7 @@ class ActiveMethod extends Component {
     };
 
     handleToggleDisable = () => {
-        this.setState(prevState => ({
+        this.setState((prevState) => ({
             disable: !prevState.disable
         }));
     }
@@ -162,7 +162,7 @@ class ActiveMethod extends Component {
             );
         } else {
             return (
-                <DisableContainer onSubmit={e => {onDelete(); e.preventDefault();}}>
+                <DisableContainer onSubmit={(e) => {onDelete(); e.preventDefault();}}>
                     {!deleteAllowed &&
                         <div className='not-allowed'>
                             <Translate id='recoveryMgmt.disableNotAllowed'/>
@@ -189,7 +189,7 @@ class ActiveMethod extends Component {
                                     <input
                                         placeholder={translate('recoveryMgmt.disableInputPlaceholder')}
                                         value={username}
-                                        onChange={e => this.setState({ username: e.target.value })}
+                                        onChange={(e) => this.setState({ username: e.target.value })}
                                         autoComplete='off'
                                         spellCheck='false'
                                         disabled={deletingMethod}

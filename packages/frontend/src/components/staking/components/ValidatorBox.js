@@ -19,7 +19,7 @@ const Container = styled.div`
     border-radius: 8px;
     padding: 14px;
     position: relative;
-    cursor: ${props => props.clickable === 'true' ? 'pointer' : ''};
+    cursor: ${(props) => props.clickable === 'true' ? 'pointer' : ''};
 
     svg {
         height: 100%;
@@ -151,9 +151,9 @@ export default function ValidatorBox({
     );
 
     const handleClick = () => {
-        Mixpanel.track("STAKE Go to staked account page");
+        Mixpanel.track('STAKE Go to staked account page');
         if (clickable && amount) {
-            dispatch(redirectTo(`/staking/${validatorId}${stakeAction ? `/${stakeAction}` : ``}`));
+            dispatch(redirectTo(`/staking/${validatorId}${stakeAction ? `/${stakeAction}` : ''}`));
         }
     };
     const isProjectValidator = validator.version === ValidatorVersion[PROJECT_VALIDATOR_VERSION];

@@ -5,7 +5,7 @@ import { wallet } from '../../utils/wallet';
 import { makeAccountActive } from '../actions/account';
 
 export default createAsyncThunk(
-    `refreshAccountOwner`,
+    'refreshAccountOwner',
     async ({ limitedAccountData }, { dispatch }) => {
         try {
             const account = await wallet.loadAccount(limitedAccountData);
@@ -14,7 +14,7 @@ export default createAsyncThunk(
         } catch (error) {
             console.log('Error loading account:', error.message);
 
-            if (error.toString().indexOf(`does not exist while viewing`) !== -1) {
+            if (error.toString().indexOf('does not exist while viewing') !== -1) {
                 const accountId = wallet.accountId;
                 const accountIdNotConfirmed = !getAccountConfirmed(accountId);
 

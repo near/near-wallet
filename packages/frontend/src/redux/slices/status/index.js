@@ -1,4 +1,4 @@
-import { createSelector } from "reselect";
+import { createSelector } from 'reselect';
 
 import createParameterSelector from '../createParameterSelector';
 

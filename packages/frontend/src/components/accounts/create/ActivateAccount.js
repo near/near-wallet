@@ -97,7 +97,7 @@ class ActivateAccount extends Component {
 
     checkMoonPay = async () => {
         const { accountId } = this.props;
-        await Mixpanel.withTracking("CA Check Moonpay available", 
+        await Mixpanel.withTracking('CA Check Moonpay available', 
             async () => {
                 const moonpayAvailable = await isMoonpayAvailable();
                 if (moonpayAvailable) {

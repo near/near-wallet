@@ -11,7 +11,7 @@ import TokenIcon from '../../send/components/TokenIcon';
 import TokenAmount from '../../wallet/TokenAmount';
 
 const Container = styled.div`
-    ${props => !props.hideBorder && css`
+    ${(props) => !props.hideBorder && css`
         border-bottom: 2px solid #F2F2F2;
     `}
     padding: 15px 0;
@@ -130,7 +130,7 @@ export default function BalanceBox({
                     <div className='icon'>
                         <TokenIcon symbol={token.onChainFTMetadata?.symbol} icon={token.onChainFTMetadata?.icon}/>
                     </div>
-                    {token.onChainFTMetadata?.symbol === "NEAR" &&
+                    {token.onChainFTMetadata?.symbol === 'NEAR' &&
                     !token.contractName ? (
                         <Balance
                             amount={token.balance}

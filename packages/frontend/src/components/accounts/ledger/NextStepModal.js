@@ -2,7 +2,7 @@ import React from 'react';
 import { Translate } from 'react-localize-redux';
 
 import FormButton from '../../common/FormButton';
-import Modal from "../../common/modal/Modal";
+import Modal from '../../common/modal/Modal';
 import ModalTheme from './ModalTheme';
 
 const NextStepModal = ({ nextStep, onClose, onConfirm, removingkeys }) => {

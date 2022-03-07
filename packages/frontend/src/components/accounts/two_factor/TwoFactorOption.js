@@ -5,7 +5,6 @@ import styled from 'styled-components';
 import IntFlagIcon from '../../../images/int-flag-small.svg';
 import classNames from '../../../utils/classNames';
 import EmailIcon from '../../svg/EmailIcon';
-import PhoneIcon from '../../svg/PhoneIcon';
 
 const Container = styled.div`
     background-color: #F8F8F8;
@@ -15,19 +14,7 @@ const Container = styled.div`
     max-width: 500px;
     cursor: pointer;
     position: relative;
-    margin-left: 35px;
     margin-top: 20px;
-
-    :before {
-        content: '';
-        height: 22px;
-        width: 22px;
-        border: 2px solid #E6E6E6;
-        position: absolute;
-        left: -35px;
-        top: 13px;
-        border-radius: 50%;
-    }
 
     path {
         stroke: #8dd4bd;
@@ -45,18 +32,6 @@ const Container = styled.div`
         :before {
             background-color: #0072CE;
             border-color: #0072CE;
-        }
-
-        :after {
-            content: '';
-            position: absolute;
-            transform: rotate(45deg);
-            left: -27px;
-            top: 17px;
-            height: 11px;
-            width: 6px;
-            border-bottom: 2px solid white;
-            border-right: 2px solid white;
         }
 
         .icon, path {
@@ -152,7 +127,7 @@ const TwoFactorOption = ({
     return (
         <Container onClick={onClick} className={classNames([{active: active, inputProblem: problem}])}>
             <Header>
-                {option === 'email' ? <EmailIcon/> : <PhoneIcon/>}
+                {option === 'email' ? <EmailIcon/> : null}
                 <Title><Translate id={`twoFactor.${option}`}/></Title>
             </Header>
             {active && children}

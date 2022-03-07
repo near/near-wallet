@@ -1,6 +1,6 @@
-import { createSelector } from "reselect";
+import { createSelector } from 'reselect';
 
-import { isImplicitAccount } from "../../../utils/account";
+import { isImplicitAccount } from '../../../utils/account';
 
 export const SLICE_NAME = 'account';
 
@@ -26,6 +26,7 @@ export const selectAccountGlobalAlertPreventClear = createSelector(selectAccount
 
 // balance - state
 export const selectBalance = createSelector(selectAccountSlice, (account) => account.balance || {});
+
 export const selectAvailableBalance = createSelector(selectBalance, (balance) => balance.balanceAvailable);
 
 export const selectAccountBalanceLockedAmount = createSelector(selectBalance, (balance) => balance.lockedAmount || '');

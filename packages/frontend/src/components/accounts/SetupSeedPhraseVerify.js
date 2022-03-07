@@ -91,7 +91,7 @@ const SetupSeedPhraseVerify = (
                         data-test-id="seedPhraseVerificationWordInput"
                         name='enterWord'
                         value={enterWord}
-                        onChange={e => handleChangeWord(e.target.value)}
+                        onChange={(e) => handleChangeWord(e.target.value)}
                         placeholder={translate('input.enterWord.placeholder')}
                         required
                         tabIndex='1'

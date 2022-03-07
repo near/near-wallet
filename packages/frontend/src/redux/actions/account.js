@@ -16,10 +16,11 @@ import {
     clearState
 } from '../../utils/sessionStorage';
 import { TwoFactor } from '../../utils/twoFactor';
-import { wallet, WALLET_INITIAL_DEPOSIT_URL } from '../../utils/wallet';
 import {
+    wallet,
     WALLET_CREATE_NEW_ACCOUNT_URL,
     WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS,
+    WALLET_INITIAL_DEPOSIT_URL,
     WALLET_LOGIN_URL,
     WALLET_SIGN_URL,
     WALLET_RECOVER_ACCOUNT_URL,
@@ -32,6 +33,7 @@ import { withAlert } from '../reducers/status';
 import refreshAccountOwner from '../sharedThunks/refreshAccountOwner';
 import { 
     selectAccountAccountsBalances,
+    selectAccountHasLockup,
     selectAccountId,
     selectAccountUrl,
     selectAccountUrlCallbackUrl,
@@ -46,7 +48,6 @@ import {
     selectAccountUrlTransactions,
     selectActiveAccountIdIsImplicitAccount
 } from '../slices/account';
-import { selectAccountHasLockup } from '../slices/account';
 import { createAccountWithSeedPhrase } from '../slices/account/createAccountThunks';
 import { selectAllAccountsHasLockup } from '../slices/allAccounts';
 import { selectAvailableAccounts } from '../slices/availableAccounts';
@@ -207,7 +208,7 @@ export const allowLogin = () => async (dispatch, getState) => {
         }
         const availableKeys = await wallet.getAvailableKeys();
         
-        const allKeys = availableKeys.map(key => key.toString());
+        const allKeys = availableKeys.map((key) => key.toString());
         const parsedUrl = new URL(successUrl);
         parsedUrl.searchParams.set('account_id', wallet.accountId);
         if (publicKey) {
@@ -597,7 +598,7 @@ export const { makeAccountActive, refreshAccountExternal, refreshUrl, updateStak
                 ...await wallet.getBalance(accountId)
             }
         }),
-        accountId => ({
+        (accountId) => ({
             accountId,
             ...showAlert({ onlyError: true, data: { accountId } })
         })

@@ -65,7 +65,7 @@ export default ({
                 <label>
                     <Checkbox
                         checked={newAddressApproved}
-                        onChange={e => setNewAddressApproved(e.target.checked)}
+                        onChange={(e) => setNewAddressApproved(e.target.checked)}
                     />
                     <span><Translate id='initialDeposit.claimAccount.disclaimer.checkBox' /></span>
                 </label>

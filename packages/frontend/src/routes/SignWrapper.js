@@ -52,11 +52,12 @@ export function SignWrapper() {
     const signerId = transactions.length && transactions[0].signerId;
     const signGasFee = new BN(signFeesGasLimitIncludingGasChanges).div(new BN('1000000000000')).toString();
     const submittingTransaction = signStatus === SIGN_STATUS.IN_PROGRESS;
+    const isSignerValid = accountId === signerId;
 
     useEffect(() => {
-        if(!transactionBatchisValid) {
+        if (!transactionBatchisValid) {
             // switch to invalid batch screen
-        } else if(signerId && !availableAccountsIsLoading && !availableAccounts.some(
+        } else if (signerId && !availableAccountsIsLoading && !availableAccounts.some(
             (accountId) => accountId === signerId
         )) {
             setCurrentDisplay(DISPLAY.ACCOUNT_NOT_FOUND);
@@ -67,7 +68,7 @@ export function SignWrapper() {
 
     useEffect(() => {
             if (
-                accountId !== signerId &&
+                !isSignerValid &&
                 availableAccounts.some(
                     (accountId) => accountId === signerId
                 )
@@ -96,12 +97,12 @@ export function SignWrapper() {
     }, [signStatus]);
 
     const handleApproveTransaction = async () => {
-        Mixpanel.track("SIGN approve the transaction");
+        Mixpanel.track('SIGN approve the transaction');
         await dispatch(handleSignTransactions());
     };
 
     const handleCancelTransaction = async () => {
-        Mixpanel.track("SIGN Deny the transaction");
+        Mixpanel.track('SIGN Deny the transaction');
         if (signCallbackUrl && isValidCallbackUrl) {
             if (signStatus?.success !== false) {
                 window.location.href = addQueryParams(signCallbackUrl, {
@@ -169,6 +170,7 @@ export function SignWrapper() {
             signGasFee={signGasFee}
             onClickMoreInformation={() => setCurrentDisplay(DISPLAY.TRANSACTION_DETAILS)}
             onClickEditAccount={() => setCurrentDisplay(DISPLAY.ACCOUNT_SELECTION)}
+            isSignerValid={isSignerValid}
             isValidCallbackUrl={isValidCallbackUrl}
         />
     );

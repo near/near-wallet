@@ -95,7 +95,7 @@ class SetupImplicit extends Component {
     handleContinue = async () => {
         const { dispatch, newAccountId, implicitAccountId, recoveryMethod } = this.props;
         this.setState({ creatingAccount: true });
-        await Mixpanel.withTracking("CA Create account from implicit",
+        await Mixpanel.withTracking('CA Create account from implicit',
             async () => {
                 await dispatch(createAccountFromImplicit({ accountId: newAccountId, implicitAccountId, recoveryMethod })).unwrap();
             },
@@ -109,7 +109,7 @@ class SetupImplicit extends Component {
 
     checkMoonPay = async () => {
         const { implicitAccountId } = this.props;
-        await Mixpanel.withTracking("CA Check Moonpay available",
+        await Mixpanel.withTracking('CA Check Moonpay available',
             async () => {
                 const moonpayAvailable = await isMoonpayAvailable();
                 if (moonpayAvailable) {
@@ -129,13 +129,13 @@ class SetupImplicit extends Component {
         const { accountFunded } = this.state;
 
         if (!accountFunded) {
-            await Mixpanel.withTracking("CA Check balance from implicit",
+            await Mixpanel.withTracking('CA Check balance from implicit',
                 async () => {
                     try {
                         const account = wallet.getAccountBasic(implicitAccountId);
                         const state = await account.state();
                         if (new BN(state.amount).gte(new BN(MIN_BALANCE_TO_CREATE))) {
-                            Mixpanel.track("CA Check balance from implicit: sufficient");
+                            Mixpanel.track('CA Check balance from implicit: sufficient');
                             this.setState({
                                 balance: state.amount,
                                 whereToBuy: false,
@@ -144,9 +144,9 @@ class SetupImplicit extends Component {
                             window.scrollTo(0, 0);
                             return;
                         } else {
-                            Mixpanel.track("CA Check balance from implicit: insufficient");
+                            Mixpanel.track('CA Check balance from implicit: insufficient');
                         }
-                    } catch(e) {
+                    } catch (e) {
                         if (e.message.includes('does not exist while viewing')) {
                             return;
                         }

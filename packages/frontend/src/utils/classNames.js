@@ -9,15 +9,15 @@ const classNames = (names) => {
 
     let isArray = Array.isArray;
 
-    if (typeof(names) === "string") {
-        return names || "";
+    if (typeof(names) === 'string') {
+        return names || '';
     }
 
     if (isArray(names) && names.length > 0) {
-        return names.map(name => classNames(name)).filter(name => !!name).join(" ");
+        return names.map((name) => classNames(name)).filter((name) => !!name).join(' ');
     }
 
-    return Object.keys(names).filter(key => names[key]).join(" ");
+    return Object.keys(names).filter((key) => names[key]).join(' ');
 };
 
 export default classNames;

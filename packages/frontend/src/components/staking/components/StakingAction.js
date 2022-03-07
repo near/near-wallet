@@ -50,7 +50,7 @@ export default function StakingAction({
     const stakeActionAllowed = hasStakeActionAmount && !invalidStakeActionAmount && !success;
     const stakeNotAllowed = !!selectedValidator && selectedValidator !== match.params.validator && !!currentValidators.length;
 
-    onKeyDown(e => {
+    onKeyDown((e) => {
         if (e.keyCode === 13 && stakeActionAllowed) {
             if (!confirm) {
                 setConfirm(true);
@@ -95,7 +95,7 @@ export default function StakingAction({
             setAmount(amount);
             setUseMax(true);
         }
-        Mixpanel.track("STAKE/UNSTAKE Use max token");
+        Mixpanel.track('STAKE/UNSTAKE Use max token');
     };
 
     const handleOnChange = (amount) => {
@@ -190,7 +190,7 @@ export default function StakingAction({
                         onConfirm={onStakingAction} 
                         onClose={() => {
                             setConfirm(false);
-                            Mixpanel.track("STAKE/UNSTAKE Close the modal");
+                            Mixpanel.track('STAKE/UNSTAKE Close the modal');
                         }}
                         loading={loadingStaking}
                         disclaimer={getStakeActionDisclaimer()}

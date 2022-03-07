@@ -107,7 +107,7 @@ const Container = styled.div`
 `;
 
 export default function LedgerHdPaths({ onSetPath, path, onConfirmHdPath }) {
-    onKeyDown(e => {
+    onKeyDown((e) => {
         const dropdownOpen = document.getElementById('hd-paths-dropdown').classList.contains('open');
         if (dropdownOpen) {
             if (e.keyCode === 38) {

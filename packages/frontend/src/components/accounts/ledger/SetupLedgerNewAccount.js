@@ -26,7 +26,7 @@ export default ({
                 &nbsp;<span
                     className='link underline'
                     onClick={() => {
-                        Mixpanel.track("SR-Ledger See instructions");
+                        Mixpanel.track('SR-Ledger See instructions');
                         setShowInstructions(true);
                     }}
                 >
@@ -47,7 +47,7 @@ export default ({
                 <InstructionsModal
                     open={showInstructions}
                     onClose={() => {
-                        Mixpanel.track("SR-Ledger Close instructions");
+                        Mixpanel.track('SR-Ledger Close instructions');
                         setShowInstructions(false);
                     }}
                 />

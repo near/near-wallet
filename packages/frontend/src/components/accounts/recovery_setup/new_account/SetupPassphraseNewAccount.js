@@ -52,13 +52,13 @@ export default ({ handleConfirmPassphrase }) => {
                     setUserInputValue('');
                 }}
                 handleConfirmPassphrase={async () => {
-                    Mixpanel.track("SR-SP Verify start");
+                    Mixpanel.track('SR-SP Verify start');
                     if (userInputValue !== passPhrase.split(' ')[wordIndex]) {
                         setUserInputValueWrongWord(true);
                         return;
                     }
                     handleConfirmPassphrase({ implicitAccountId, recoveryKeyPair });
-                    Mixpanel.track("SR-SP Verify finish");
+                    Mixpanel.track('SR-SP Verify finish');
                 }}
             />
         );

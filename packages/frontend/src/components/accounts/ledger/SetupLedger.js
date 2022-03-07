@@ -53,11 +53,11 @@ const SetupLedger = (props) => {
 
     const openShowInstructions = () => {
         setShowInstructions(true);
-        Mixpanel.track("SR-Ledger See instructions");
+        Mixpanel.track('SR-Ledger See instructions');
     };
     const closeShowInstructions = () => {
         setShowInstructions(false);
-        Mixpanel.track("SR-Ledger Close instructions");
+        Mixpanel.track('SR-Ledger Close instructions');
     };
 
     const handleClick = async () => {
@@ -67,7 +67,7 @@ const SetupLedger = (props) => {
         } = props;
 
         setConnect(true);
-        await Mixpanel.withTracking("SR-Ledger Connect ledger",
+        await Mixpanel.withTracking('SR-Ledger Connect ledger',
             async () => {
                 if (isNewAccount) {
                     let publicKey;
@@ -77,19 +77,19 @@ const SetupLedger = (props) => {
                         debugLog(DISABLE_CREATE_ACCOUNT, fundingOptions);
                         publicKey = await dispatch(getLedgerPublicKey());
                         await setKeyMeta(publicKey, { type: 'ledger' });
-                        Mixpanel.track("SR-Ledger Set key meta");
+                        Mixpanel.track('SR-Ledger Set key meta');
 
                         // COIN-OP VERIFY ACCOUNT
                         if (DISABLE_CREATE_ACCOUNT && ENABLE_IDENTITY_VERIFIED_ACCOUNT && !fundingOptions) {
                             await dispatch(fundCreateAccountLedger(accountId, publicKey));
-                            Mixpanel.track("SR-Ledger Fund create account ledger");
+                            Mixpanel.track('SR-Ledger Fund create account ledger');
                             return;
                         }
 
                         // IMPLICIT ACCOUNT
                         if (DISABLE_CREATE_ACCOUNT && !fundingOptions && !recaptchaToken) {
                             await dispatch(fundCreateAccountLedger(accountId, publicKey));
-                            Mixpanel.track("SR-Ledger Fund create account ledger");
+                            Mixpanel.track('SR-Ledger Fund create account ledger');
                             return;
                         }
 
@@ -97,7 +97,7 @@ const SetupLedger = (props) => {
                         if (fundingOptions?.fundingAmount) {
                             setLinkdropAmount(fundingOptions.fundingAmount);
                         }
-                        Mixpanel.track("SR-Ledger Create new account ledger");
+                        Mixpanel.track('SR-Ledger Create new account ledger');
                     } catch (err) {
                         if (isRetryableRecaptchaError(err)) {
                             Mixpanel.track('Funded account creation failed due to invalid / expired reCaptcha response from user');
@@ -126,14 +126,14 @@ const SetupLedger = (props) => {
                     }
                 } else {
                     await dispatch(addLedgerAccessKey());
-                    Mixpanel.track("SR-Ledger Add ledger access key");
+                    Mixpanel.track('SR-Ledger Add ledger access key');
                 }
                 await dispatch(refreshAccount());
                 if (isNewAccount) {
-                    Mixpanel.track("SR-Ledger Go to profile of new account");
+                    Mixpanel.track('SR-Ledger Go to profile of new account');
                     await dispatch(redirectToApp('/'));
                 } else {
-                    Mixpanel.track("SR-Ledger Go to setup ledger success");
+                    Mixpanel.track('SR-Ledger Go to setup ledger success');
                     await dispatch(redirectTo('/setup-ledger-success'));
                 }
             },

@@ -45,10 +45,10 @@ import {
     selectStakingAllValidatorsLength,
     selectStakingContract,
     selectStakingCurrentAccountAccountId,
+    selectStakingCurrentAccountbyAccountId,
     selectStakingFindContractByValidatorId,
     selectStakingLockupId
 } from '../slices/staking';
-import { selectStakingCurrentAccountbyAccountId } from '../slices/staking';
 import { getBalance } from './account';
 
 const {
@@ -85,10 +85,10 @@ export const { staking } = createActions({
                             receiverId: lockupId,
                             actions: [
                                 functionCall(
-                                    "select_staking_pool",
+                                    'select_staking_pool',
                                     { staking_pool_account_id: validatorId },
                                     STAKING_GAS_BASE * 3,
-                                    "0"
+                                    '0'
                                 ),
                             ],
                         });
@@ -97,10 +97,10 @@ export const { staking } = createActions({
                         receiverId: lockupId,
                         actions: [
                             functionCall(
-                                "deposit_and_stake",
+                                'deposit_and_stake',
                                 { amount },
                                 STAKING_GAS_BASE * 5,
-                                "0"
+                                '0'
                             ),
                         ],
                     });
@@ -448,7 +448,7 @@ export const handleGetLockup = (externalAccountId) => async (dispatch, getState)
             accountId: externalAccountId || selectAccountId(getState()),
             isOwner: !externalAccountId || externalAccountId === selectAccountId(getState())
         }));
-    } catch(e) {
+    } catch (e) {
         if (!/No contract for account/.test(e.message)) {
             throw e;
         }

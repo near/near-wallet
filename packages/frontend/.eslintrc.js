@@ -1,8 +1,18 @@
 module.exports = {
     extends: ['react-app', 'eslint:recommended'],
+    plugins: ['es'],
     rules: {
+        'arrow-parens': 'error',
+        'es/no-dynamic-import': 'error',
         'jsx-a11y/no-access-key': 'off',
         'no-useless-escape': 'off',
+        'quotes': [2, 'single'],
+        'keyword-spacing': ['error', {
+            'before': true,
+            'after': true,
+        }],
+        'no-duplicate-imports': ['error', { includeExports: true }],
+        'eol-last': ['error', 'always'],
         'semi': ['error', 'always'],
         'no-console': 'off',
         'no-extra-boolean-cast':'off',

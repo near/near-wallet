@@ -13,17 +13,15 @@ import {
     clearAccountState
 } from '../../redux/actions/account';
 import { selectAccountSlice } from '../../redux/slices/account';
-import { selectActionsPending } from '../../redux/slices/status';
-import { selectStatusMainLoader } from '../../redux/slices/status';
+import { selectActionsPending, selectStatusMainLoader } from '../../redux/slices/status';
 import copyText from '../../utils/copyText';
 import isMobile from '../../utils/isMobile';
 import Button from '../common/Button';
 import FormButton from '../common/FormButton';
 import { Snackbar, snackbarDuration } from '../common/Snackbar';
+import Container from '../common/styled/Container.css';
 
-
-
-const Container = styled.div`
+const StyledContainer = styled.div`
     margin-top: 5px;
 
     @media (min-width: 768px) {
@@ -68,7 +66,7 @@ const Desc = styled.div`
     color: #4a4f54;
     font-size: 18px;
     line-height: normal;
-    margin-top: ${props => props.last ? "20px" : "0"};
+    margin-top: ${(props) => props.last ? '20px' : '0'};
 
     @media (min-width: 768px) {
         font-size: 28px;
@@ -143,11 +141,11 @@ class RecoverWithLink extends Component {
     }
 
     handleCopyUrl = () => {
-        Mixpanel.track("IE with link Click copy url button");
+        Mixpanel.track('IE with link Click copy url button');
         if (navigator.share && isMobile()) {
             navigator.share({
                 url: window.location.href
-            }).catch(err => {
+            }).catch((err) => {
                 console.log(err.message);
             });
         } else {
@@ -165,7 +163,7 @@ class RecoverWithLink extends Component {
     }
 
     handleContinue = async () => {
-        await Mixpanel.withTracking("IE Recover with link", 
+        await Mixpanel.withTracking('IE Recover with link', 
             async () => {
                 await this.props.recoverAccountSeedPhrase(this.state.seedPhrase, this.props.match.params.accountId, false);
                 this.props.refreshAccount();
@@ -185,9 +183,10 @@ class RecoverWithLink extends Component {
 
         if (successView) {
             return (
-                <Translate>
+              <Container>
+                    <Translate>
                     {({ translate }) => (
-                        <Container className='ui container'>
+                        <StyledContainer className='ui container'>
                             <Title>{translate('recoverWithLink.title')}</Title>
                             <Desc>{translate('recoverWithLink.pOne')} <UserName>{accountId}</UserName></Desc>
                             <Desc last>{translate('recoverWithLink.pTwo')}</Desc>
@@ -211,20 +210,22 @@ class RecoverWithLink extends Component {
                                 show={successSnackbar}
                                 onHide={() => this.setState({ successSnackbar: false })}
                             />
-                        </Container>
+                        </StyledContainer>
                     )}
                 </Translate>
+              </Container>
             );
         } else {
             return (
-                <Translate>
+               <Container>
+                    <Translate>
                     {({ translate }) => (
                         <Container className='ui container error'>
                             <Title>{translate('recoverWithLink.errorTitle')}</Title>
                             <Desc>{translate('recoverWithLink.errorP')}</Desc>
                             {!DISABLE_CREATE_ACCOUNT &&
                                 <Button onClick={() => {
-                                    Mixpanel.track("IE with link expired click create button");
+                                    Mixpanel.track('IE with link expired click create button');
                                     history.push('/create');
                                 }}>
                                     {translate('button.createAccount')}
@@ -233,6 +234,7 @@ class RecoverWithLink extends Component {
                         </Container>
                     )}
                 </Translate>
+               </Container>
             );
         }
     }

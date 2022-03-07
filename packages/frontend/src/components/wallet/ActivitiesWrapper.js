@@ -5,8 +5,12 @@ import styled from 'styled-components';
 
 import { EXPLORER_URL } from '../../config';
 import { selectAccountId } from '../../redux/slices/account';
-import { selectOneTransactionByIdentity, selectTransactionsByAccountId, selectTransactionsLoading } from '../../redux/slices/transactions';
-import { actions as transactionsActions } from '../../redux/slices/transactions';
+import {
+    actions as transactionsActions,
+    selectOneTransactionByIdentity,
+    selectTransactionsByAccountId,
+    selectTransactionsLoading,
+} from '../../redux/slices/transactions';
 import classNames from '../../utils/classNames';
 import FormButton from '../common/FormButton';
 import ActivityBox from './ActivityBox';
@@ -90,10 +94,10 @@ const ActivitiesWrapper = () => {
 
     const [transactionHash, setTransactionHash] = useState();
 
-    const accountId = useSelector(state => selectAccountId(state));
-    const transactions = useSelector(state => selectTransactionsByAccountId(state, { accountId }));
-    const transaction = useSelector(state => selectOneTransactionByIdentity(state, { accountId, hash: transactionHash }));
-    const activityLoader = useSelector(state => selectTransactionsLoading(state, { accountId }));
+    const accountId = useSelector((state) => selectAccountId(state));
+    const transactions = useSelector((state) => selectTransactionsByAccountId(state, { accountId }));
+    const transaction = useSelector((state) => selectOneTransactionByIdentity(state, { accountId, hash: transactionHash }));
+    const activityLoader = useSelector((state) => selectTransactionsLoading(state, { accountId }));
 
     useEffect(() => {
         if (accountId) {
@@ -106,7 +110,7 @@ const ActivitiesWrapper = () => {
             <h2 className={classNames({'dots': activityLoader})}><Translate id='dashboard.activity' /></h2>
             {transactions.map((transaction, i) => (
                 <ActivityBox
-                    key={`${transaction.hash_with_index}-${transaction.kind}`}
+                    key={`${transaction.hash_with_index}-${transaction.block_hash}-${transaction.kind}`}
                     transaction={transaction}
                     actionArgs={transaction.args}
                     actionKind={transaction.kind}

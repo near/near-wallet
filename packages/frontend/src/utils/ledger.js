@@ -1,4 +1,4 @@
-import TransportU2F from "@ledgerhq/hw-transport-u2f";
+import TransportU2F from '@ledgerhq/hw-transport-u2f';
 import { createClient } from 'near-ledger-js';
 
 import { WalletError } from './walletError';
@@ -13,7 +13,7 @@ async function createLedgerU2FTransport() {
         }
         throw error;
     }
-    transport.setScrambleKey("NEAR");
+    transport.setScrambleKey('NEAR');
     return transport;
 }
 

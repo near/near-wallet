@@ -16,6 +16,7 @@ const Container = styled.form`
         div {
             :nth-child(1) {
                 font-weight: 600;
+                margin-bottom: 10px;
             }
         }
 
@@ -41,19 +42,21 @@ const Container = styled.form`
     }
 `;
 
-const ConfirmDisable = ({ onConfirmDisable, onKeepEnabled, accountId, disabling, component }) => {
+const ConfirmDisable = ({ onConfirmDisable, onKeepEnabled, accountId, disabling, component, twoFactorKind }) => {
     const [username, setUsername] = useState('');
 
+    const isTwoFactorPhone = component === 'twoFactor' && twoFactorKind === '2fa-phone';
+
     return (
-        <Container onSubmit={e => {onConfirmDisable(); e.preventDefault();}}>
+        <Container onSubmit={(e) => {onConfirmDisable(); e.preventDefault();}}>
             <div><Translate id={`${component}.disable.title`}/></div>
-            <div><Translate id={`${component}.disable.desc`}/></div>
+            <div><Translate id={`${component}.disable.${isTwoFactorPhone ? 'phoneDesc' : 'desc'}`}/></div>
             <Translate>
                 {({ translate }) => (
                     <input
                         placeholder={translate('recoveryMgmt.disableInputPlaceholder')}
                         value={username}
-                        onChange={e => setUsername(e.target.value)}
+                        onChange={(e) => setUsername(e.target.value)}
                         autoComplete='off'
                         spellCheck='false'
                         disabled={disabling}

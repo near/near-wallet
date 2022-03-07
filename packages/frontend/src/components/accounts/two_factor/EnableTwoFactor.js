@@ -1,7 +1,6 @@
 import { utils } from 'near-api-js';
 import React, { useState, useEffect } from 'react';
 import { Translate } from 'react-localize-redux';
-import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input';
 import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
@@ -19,7 +18,6 @@ import { selectAccountHas2fa, selectAccountId } from '../../../redux/slices/acco
 import { selectActionsPending, selectStatusSlice } from '../../../redux/slices/status';
 import { selectNearTokenFiatValueUSD } from '../../../redux/slices/tokenFiatValues';
 import { validateEmail } from '../../../utils/account';
-import isApprovedCountryCode from '../../../utils/isApprovedCountryCode';
 import AlertBanner from '../../common/AlertBanner';
 import { getNearAndFiatValue } from '../../common/balance/helpers';
 import Checkbox from '../../common/Checkbox';
@@ -90,8 +88,6 @@ export function EnableTwoFactor(props) {
     const [initiated, setInitiated] = useState(false);
     const [option, setOption] = useState('email');
     const [email, setEmail] = useState('');
-    const [phoneNumber, setPhoneNumber] = useState('');
-    const [country, setCountry] = useState('');
     const [twoFactorAmountApproved, setTwoFactorAmountApproved] = useState(false);
     const recoveryMethods = useRecoveryMethods(accountId);
     const loading = status.mainLoader;
@@ -101,20 +97,15 @@ export function EnableTwoFactor(props) {
     const multiSigMinAmountRaw = parseNearAmount(MULTISIG_MIN_AMOUNT);
 
     const method = {
-        kind: `2fa-${option}`,
-        detail: option === 'email' ? email : phoneNumber
+        kind: '2fa-email',
+        detail: email
     };
 
     useEffect(() => {
-        const email = recoveryMethods.filter(method => method.kind === 'email')[0];
-        const phone = recoveryMethods.filter(method => method.kind === 'phone')[0];
+        const email = recoveryMethods.filter((method) => method.kind === 'email')[0];
 
         if (email) {
             setEmail(email.detail);
-        }
-
-        if (phone) {
-            setPhoneNumber(phone.detail);
         }
 
     }, [recoveryMethods]);
@@ -122,13 +113,13 @@ export function EnableTwoFactor(props) {
     const handleNext = async () => {
         if (!initiated && !loading && !has2fa && isValidInput()) {
             let response;
-            Mixpanel.track("2FA Click continue button", {option: option});
-            await Mixpanel.withTracking("2FA Initialize two factor",
+            Mixpanel.track('2FA Click continue button', {option: option});
+            await Mixpanel.withTracking('2FA Initialize two factor',
                 async () => response = await dispatch(initTwoFactor(accountId, method)),
                 () => {},
                 async () => {
                     if (response && response.confirmed) {
-                        await Mixpanel.withTracking("2FA Deploy multisig",
+                        await Mixpanel.withTracking('2FA Deploy multisig',
                             async () => await handleDeployMultisig()
                         );
                     } else {
@@ -140,13 +131,13 @@ export function EnableTwoFactor(props) {
     };
 
     const handleResendCode = async () => {
-        Mixpanel.track("2FA Resend code");
+        Mixpanel.track('2FA Resend code');
         await dispatch(initTwoFactor(accountId, method));
     };
 
     const handleConfirm = async (securityCode) => {
         if (initiated && securityCode.length === 6) {
-            await Mixpanel.withTracking("2FA Verify", 
+            await Mixpanel.withTracking('2FA Verify', 
                 async () => {
                     await dispatch(verifyTwoFactor(securityCode));
                     await dispatch(clearGlobalAlert());
@@ -163,15 +154,13 @@ export function EnableTwoFactor(props) {
 
     const handleGoBack = () => {
         setInitiated(false);
-        Mixpanel.track("2FA Go back");
+        Mixpanel.track('2FA Go back');
     };
 
     const isValidInput = () => {
         switch (option) {
             case 'email':
                 return validateEmail(email);
-            case 'phone':
-                return isApprovedCountryCode(country) && isValidPhoneNumber(phoneNumber);
             default:
                 return false;
         }
@@ -187,7 +176,7 @@ export function EnableTwoFactor(props) {
                     theme='alert'
                     linkTo='https://docs.near.org/docs/concepts/storage-staking'
                 />
-                <form onSubmit={e => { handleNext(); e.preventDefault();}}>
+                <form onSubmit={(e) => { handleNext(); e.preventDefault();}}>
                     <h1><Translate id='twoFactor.enable' /></h1>
                     <h2><Translate id='twoFactor.subHeader' /></h2>
                     <h4><Translate id='twoFactor.select' /><span>*</span></h4>
@@ -202,40 +191,17 @@ export function EnableTwoFactor(props) {
                                     type='email'
                                     placeholder={translate('setupRecovery.emailPlaceholder')}
                                     value={email}
-                                    onChange={e => setEmail(e.target.value)}
+                                    onChange={(e) => setEmail(e.target.value)}
                                     tabIndex='1'
                                     disabled={loading}
                                 />
                             )}
                         </Translate>
                     </TwoFactorOption>
-                    <TwoFactorOption
-                        onClick={() => setOption('phone')}
-                        option='phone'
-                        active={option}
-                    >
-                        <Translate>
-                            {({ translate }) => (
-                                <>
-                                    <PhoneInput
-                                        placeholder={translate('setupRecovery.phonePlaceholder')}
-                                        value={phoneNumber}
-                                        onChange={value => setPhoneNumber(value)}
-                                        onCountryChange={option => setCountry(option)}
-                                        tabIndex='1'
-                                        disabled={loading}
-                                    />
-                                    {!isApprovedCountryCode(country) && 
-                                        <div className='color-red'>{translate('setupRecovery.notSupportedPhone')}</div>
-                                    }
-                                </>
-                            )}
-                        </Translate>
-                    </TwoFactorOption>
                     <label>
                         <Checkbox
                             checked={twoFactorAmountApproved}
-                            onChange={e => setTwoFactorAmountApproved(e.target.checked)}
+                            onChange={(e) => setTwoFactorAmountApproved(e.target.checked)}
                         />
                         <span><SafeTranslate id='twoFactor.checkBox' data={{ amount: getNearAndFiatValue(multiSigMinAmountRaw, nearTokenFiatValueUSD) }}/></span>
                     </label>
@@ -246,7 +212,7 @@ export function EnableTwoFactor(props) {
                         sending={pendingTwoFactorAction}
                         sendingString='button.enabling'
                     >
-                        <Translate id={`button.continue`} />
+                        <Translate id={'button.continue'} />
                     </FormButton>
                     <FormButton 
                         className='link' 
@@ -263,7 +229,6 @@ export function EnableTwoFactor(props) {
         return (
             <EnterVerificationCode
                 option={option}
-                phoneNumber={phoneNumber}
                 email={email}
                 onConfirm={handleConfirm}
                 onGoBack={handleGoBack}

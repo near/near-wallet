@@ -28,14 +28,14 @@ function findBestSupportedLocale(appLocales, browserLocales) {
 
     for (const [index, browserLocale] of walletLocales.entries()) {
         // match exact locale.
-        const matchedExactLocale = appLocales.find(appLocale => appLocale.toLowerCase() === browserLocale.toLowerCase());
+        const matchedExactLocale = appLocales.find((appLocale) => appLocale.toLowerCase() === browserLocale.toLowerCase());
         if (matchedExactLocale) {
             debugLog('Found direct match:', { browserLocale, matchedExactLocale });
             matchedLocales[matchedExactLocale] = { code: matchedExactLocale, score: 1 - index / walletLocales.length };
         } else {
             // match only locale code part of the browser locale (not including country).
             const languageCode = browserLocale.split('-')[0].toLowerCase();
-            const matchedPartialLocale = appLocales.find(appLocale => appLocale.split('-')[0].toLowerCase() === languageCode);
+            const matchedPartialLocale = appLocales.find((appLocale) => appLocale.split('-')[0].toLowerCase() === languageCode);
             if (matchedPartialLocale) {
                 const existingMatch = matchedLocales[matchedPartialLocale];
 

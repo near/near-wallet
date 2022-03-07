@@ -22,7 +22,7 @@ export function SetupLedgerNewAccountWrapper() {
                             dispatch(redirectTo('/sign-in-ledger'));
                             return;
                         }
-                    } catch(e) {
+                    } catch (e) {
                         if (e.message.includes('does not exist while viewing')) {
                             console.log('implicitAccountId does not exist on chain.');
                         } else {

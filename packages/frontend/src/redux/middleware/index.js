@@ -13,7 +13,7 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
  *
  * For convenience, `dispatch` will return the promise so the caller can wait.
  */
-const readyStatePromise = store => next => action => {
+const readyStatePromise = (store) => (next) => (action) => {
     if (!action.payload || !action.payload.then) {
         return next(action);
     }
@@ -26,11 +26,11 @@ const readyStatePromise = store => next => action => {
 
     next(makeAction(false));
     return action.payload.then(
-        payload => {
+        (payload) => {
             next(makeAction(true, { payload }));
             return payload;
         },
-        error => {
+        (error) => {
             console.warn('Error in background action:', error);
             Sentry.captureException(error);
             next(makeAction(true, { error: true, payload: error }));

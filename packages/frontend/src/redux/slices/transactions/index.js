@@ -3,8 +3,9 @@ import set from 'lodash.set';
 import { createSelector } from 'reselect';
 
 import { getTransactions, transactionExtraInfo } from '../../../utils/explorer-api';
+import handleAsyncThunkStatus from '../../reducerStatus/handleAsyncThunkStatus';
+import initialStatusState from '../../reducerStatus/initialState/initialStatusState';
 import createParameterSelector from '../createParameterSelector';
-import initialErrorState from '../initialErrorState';
 
 const SLICE_NAME = 'transactions';
 
@@ -13,11 +14,8 @@ const initialState = {
 };
 
 const initialAccountIdState = {
-    items: [],
-    status: {
-        loading: false,
-        error: initialErrorState
-    }
+    ...initialStatusState,
+    items: []
 };
 
 const fetchTransactions = createAsyncThunk(
@@ -28,8 +26,8 @@ const fetchTransactions = createAsyncThunk(
         const { actions: { setTransactions, updateTransactions } } = transactionsSlice;
 
         !selectTransactionsByAccountId(getState(), { accountId }).length
-            ? dispatch(setTransactions({ transactions, accountId }))
-            : dispatch(updateTransactions({ transactions, accountId }));
+            ? dispatch(setTransactions({ transactions, accountId }))
+            : dispatch(updateTransactions({ transactions, accountId }));
     }
 );
 
@@ -45,7 +43,7 @@ const fetchTransactionStatus = createAsyncThunk(
         }
         const checkStatus = ['SuccessValue', 'Failure'].includes(status);
         const { actions: { updateTransactionStatus } } = transactionsSlice;
-        dispatch(updateTransactionStatus({ status, checkStatus, accountId, hash }));
+        dispatch(updateTransactionStatus({ status, checkStatus, accountId, hash }));
     }
 );
 
@@ -88,26 +86,10 @@ const transactionsSlice = createSlice({
         }
     },
     extraReducers: ((builder) => {
-        builder.addCase(fetchTransactions.pending, (state, { meta }) => {
-            const { accountId } = meta.arg;
-
-            set(state, ['byAccountId', accountId, 'status', 'loading'], true);
-            set(state, ['byAccountId', accountId, 'status', 'error'], initialErrorState);
-        });
-        builder.addCase(fetchTransactions.fulfilled, (state,  { meta }) => {
-            const { accountId } = meta.arg;
-
-            set(state, ['byAccountId', accountId, 'status', 'loading'], false);
-            set(state, ['byAccountId', accountId, 'status', 'error'], initialErrorState);
-        });
-        builder.addCase(fetchTransactions.rejected, (state, { meta, error }) => {
-            const { accountId } = meta.arg;
-            
-            set(state, ['byAccountId', accountId, 'status', 'loading'], false);
-            set(state, ['byAccountId', accountId, 'status', 'error'], {
-                message: error?.message || 'An error was encountered.',
-                code: error?.code
-            });
+        handleAsyncThunkStatus({
+            asyncThunk: fetchTransactions,
+            buildStatusPath: ({ meta: { arg: { accountId }}}) => ['byAccountId', accountId],
+            builder
         });
     })
 });

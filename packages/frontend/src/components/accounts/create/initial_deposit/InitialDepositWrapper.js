@@ -69,19 +69,19 @@ export function InitialDepositWrapper({ history }) {
 
     const checkFundingAddressBalance = async () => {
         if (fundingNeeded) {
-            await Mixpanel.withTracking("CA Check balance from implicit",
+            await Mixpanel.withTracking('CA Check balance from implicit',
                 async () => {
                     try {
                         const account = wallet.getAccountBasic(implicitAccountId);
                         const state = await account.state();
                         if (new BN(state.amount).gte(new BN(MIN_BALANCE_TO_CREATE))) {
-                            Mixpanel.track("CA Check balance from implicit: sufficient");
+                            Mixpanel.track('CA Check balance from implicit: sufficient');
                             setFundingNeeded(false);
                             setInitialDeposit(state.amount);
                             return;
                         } else {
                             console.log('Insufficient funding amount');
-                            Mixpanel.track("CA Check balance from implicit: insufficient");
+                            Mixpanel.track('CA Check balance from implicit: insufficient');
                         }
                     } catch (e) {
                         if (e.message.includes('does not exist while viewing')) {
@@ -98,7 +98,7 @@ export function InitialDepositWrapper({ history }) {
     };
 
     const handleClaimAccount = async () => {
-        await Mixpanel.withTracking("CA Create account from implicit",
+        await Mixpanel.withTracking('CA Create account from implicit',
             async () => {
                 setClaimingAccount(true);
                 await dispatch(createAccountFromImplicit({ accountId, implicitAccountId, recoveryMethod })).unwrap();
@@ -120,7 +120,7 @@ export function InitialDepositWrapper({ history }) {
 
                 // On-chain account exists; verify that it is owned by the current key
                 const accessKeys = await wallet.getAccessKeys(accountId) || [];
-                const publicKeys = accessKeys.map(key => key.public_key);
+                const publicKeys = accessKeys.map((key) => key.public_key);
                 const publicKey = new PublicKey({ keyType: KeyType.ED25519, data: Buffer.from(implicitAccountId, 'hex') });
                 const publicKeyExistsOnAccount = publicKeys.includes(publicKey.toString());
 

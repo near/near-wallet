@@ -1,4 +1,4 @@
-import "regenerator-runtime/runtime";
+import 'regenerator-runtime/runtime';
 
 import { createBrowserHistory } from 'history';
 import React from 'react';
