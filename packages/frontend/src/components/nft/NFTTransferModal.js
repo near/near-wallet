@@ -7,6 +7,7 @@ import { EXPLORER_URL } from '../../config';
 import { checkAccountAvailable } from '../../redux/actions/account';
 import { clearLocalAlert, showCustomAlert } from '../../redux/actions/status';
 import { selectBalance } from '../../redux/slices/account';
+import { actions as ledgerActions } from '../../redux/slices/ledger';
 import { actions as nftActions } from '../../redux/slices/nft';
 import { selectStatusLocalAlert } from '../../redux/slices/status';
 import NonFungibleTokens, { NFT_TRANSFER_GAS } from '../../services/NonFungibleTokens';
@@ -200,6 +201,7 @@ export default function NFTTransferModal({ open, onClose, nft, accountId }) {
     const [ accountIdIsValid, setAccountIdIsValid] = useState(false);
     const { balanceAvailable: nearBalance } = useSelector(selectBalance);
     const dispatch = useDispatch();
+    const { checkAndHideLedgerModal } = ledgerActions;
     const { transferToken } = nftActions;
 
     const localAlert = useSelector(selectStatusLocalAlert);
@@ -231,6 +233,7 @@ export default function NFTTransferModal({ open, onClose, nft, accountId }) {
             }));
         } finally {
             setSending(false);
+            dispatch(checkAndHideLedgerModal());
         }
     }
 
