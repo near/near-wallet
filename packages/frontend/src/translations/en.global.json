@@ -576,6 +576,21 @@
         "or": "or",
         "title": "You’ve received a NEAR drop!"
     },
+    "NFTDetail": {
+        "owner": "OWNER",
+        "transfer": "Transfer"
+    },
+    "NFTTransfer": {
+      "transferNft": "Transfer NFT",
+      "enterReceiver": "Enter a recipient address, then proceed to confirm your transaction.",
+      "cancel": "Cancel",
+      "next": "Next",
+      "confirm": "Confirm",
+      "transactionComplete": "Transaction Complete!",
+      "viewTransaction": "View Receipt",
+      "continue": "Continue",
+      "youSent": "You sent <span class='color-blue'>${title}</span> to <span class='color-green'>${receiverId}</span>"
+    },
     "loading": "Loading...",
     "loadingNoDots": "Loading",
     "lockedBalance": "This NEAR is locked in a lockup contract, and cannot be withdrawn. You may still delegate or stake this NEAR. Once the NEAR is unlocked, you can view it in your Unlocked Balance, and chose to withdraw it (moving to your Available Balance).",

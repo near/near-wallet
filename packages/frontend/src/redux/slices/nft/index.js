@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import merge from 'lodash.merge';
 import set from 'lodash.set';
 import update from 'lodash.update';
 import { createSelector } from 'reselect';
@@ -8,7 +9,7 @@ import handleAsyncThunkStatus from '../../reducerStatus/handleAsyncThunkStatus';
 import initialStatusState from '../../reducerStatus/initialState/initialStatusState';
 import createParameterSelector from '../createParameterSelector';
 
-const { getLikelyTokenContracts, getMetadata, getTokens, getNumberOfTokens } = NonFungibleTokens;
+const { getLikelyTokenContracts, getMetadata, getToken, getTokens, getNumberOfTokens } = NonFungibleTokens;
 
 const SLICE_NAME = 'NFT';
 const ENABLE_DEBUG = false;
@@ -17,6 +18,9 @@ const debugLog = (...args) => ENABLE_DEBUG && console.log(`${SLICE_NAME}Slice`, 
 const initialState = {
     ownedTokens: {
         byAccountId: {}
+    },
+    transferredTokens: {
+        byContractName: {}
     },
     metadata: {
         byContractName: {}
@@ -96,6 +100,23 @@ const updateNFTs = createAsyncThunk(
     }
 );
 
+const fetchNFT = createAsyncThunk(
+    `${SLICE_NAME}/fetchNFT`,
+    async ({ accountId, contractName, tokenId }, { dispatch, getState }) => {
+        debugLog('THUNK/fetchNFT');
+
+        const { actions: { addTokensMetadata, setContractMetadata } } = nftSlice;
+
+        if (!selectTokenForAccountForContractForTokenId(getState(), { accountId, contractName, tokenId })) {
+            const contractMetadata = await getCachedContractMetadataOrFetch(contractName, getState());
+            dispatch(setContractMetadata({ contractName, metadata: contractMetadata }));
+
+            const token = await getToken(contractName, tokenId, contractMetadata.base_uri);
+            dispatch(addTokensMetadata({ accountId, contractName, tokens: [token] }));
+        }
+    }
+);
+
 const fetchNFTs = createAsyncThunk(
     `${SLICE_NAME}/fetchNFTs`,
     async ({ accountId }, thunkAPI) => {
@@ -158,6 +179,17 @@ const nftSlice = createSlice({
                 const { contractName, accountId, numberOfOwnedTokens } = payload;
 
                 set(state, ['ownedTokens', 'byAccountId', accountId, 'numberByContractName', contractName], numberOfOwnedTokens);
+            },
+            transferToken(state, { payload }) {
+                debugLog('REDUCER/transferToken');
+                const { accountId, contractName, nft } = payload;
+
+                merge(state, { transferredTokens: { byContractName: { [contractName]: { [nft.token_id]: nft } } } });
+                update(
+                    state,
+                    ['ownedTokens', 'byAccountId', accountId, 'byContractName', contractName, 'tokens'],
+                    (ownedTokens) => ownedTokens.filter(({ token_id }) => token_id !== nft.token_id)
+                );
             }
         },
         extraReducers: ((builder) => {
@@ -173,6 +205,7 @@ const nftSlice = createSlice({
 export default nftSlice;
 
 export const actions = {
+    fetchNFT,
     fetchNFTs,
     updateNFTs,
     fetchOwnedNFTsForContract,
@@ -186,6 +219,7 @@ const getAccountIdParam = createParameterSelector((params) => params.accountId);
 const selectNftSlice = (state) => state[nftSlice.name];
 const selectMetadataSlice = createSelector(selectNftSlice, ({ metadata }) => metadata);
 const selectOwnedTokensSlice = createSelector(selectNftSlice, ({ ownedTokens }) => ownedTokens);
+const selectTransferredTokensSlice = createSelector(selectNftSlice, ({ transferredTokens }) => transferredTokens);
 
 // Contract metadata selectors
 // Returns contract metadata for every contract in the store, in an object keyed by contractName
@@ -195,6 +229,7 @@ export const selectAllContractMetadata = createSelector(
 );
 
 const getContractNameParam = createParameterSelector((params) => params.contractName);
+const getTokenIdParam = createParameterSelector((params) => params.tokenId);
 
 // Returns contract metadata for only the contractName provided
 export const selectOneContractMetadata = createSelector(
@@ -231,6 +266,11 @@ const selectTokensListForAccountForContract = createSelector(
     (ownedTokensByAccountByContract) => ownedTokensByAccountByContract.tokens
 );
 
+export const selectTokenForAccountForContractForTokenId = createSelector(
+    [selectTokensListForAccountForContract, getTokenIdParam],
+    (tokensListByAccountByContract, tokenId) => tokensListByAccountByContract.find(({ token_id }) => token_id === tokenId)
+);
+
 export const selectLoadingTokensForAccountForContract = createSelector(
     selectOwnedTokensForAccountForContract,
     (ownedTokensByAccountByContract) => ownedTokensByAccountByContract.status.loading
@@ -239,6 +279,11 @@ export const selectLoadingTokensForAccountForContract = createSelector(
 export const selectHasFetchedAllTokensForAccountForContract = createSelector(
     [selectTokensListForAccountForContract, selectNumberOfOwnedTokensForAccountForContract],
     (tokensListByAccountByContract, numberOfOwnedTokensForAccountForContract) => tokensListByAccountByContract.length === numberOfOwnedTokensForAccountForContract
+);
+
+export const selectTransferredTokenForContractForTokenId = createSelector(
+    [selectTransferredTokensSlice, getContractNameParam, getTokenIdParam],
+    (transferredTokens, contractName, tokenId) => (transferredTokens.byContractName[contractName] || {})[tokenId]
 );
 
 // Returns owned tokens metadata for all tokens owned by the passed accountId, sorted by their `name` property
