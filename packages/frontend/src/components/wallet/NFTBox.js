@@ -154,25 +154,27 @@ const NFTBox = ({ tokenDetails }) => {
                 <div className='tokens'>
                     {ownedTokensMetadata.map(({ token_id, metadata: { mediaUrl, title } }, index) => {
                         const videoProps = index === 0 ? { autoPlay: true } : {};
+                        const isVideo = !!mediaUrl && mediaUrl.match(/\.webm$/i);
                         return (
                             <div className='nft' key={token_id}
                                 onClick={() => dispatch(redirectTo(`/nft-detail/${contractName}/${token_id}`))}>
-                                {
-                                mediaUrl.match(/\.webm$/i)
-                                    ? <video muted={true} loop controls { ...videoProps }>
+                                {isVideo && (
+                                    <video muted={true} loop controls { ...videoProps }>
                                         <source src={mediaUrl} type="video/webm" onError={(e) => {
                                             e.target.onerror = null;
                                             e.target.parentElement.setAttribute('poster', FailedToLoad);
                                         }}/>
                                     </video>
-                                    : <img src={mediaUrl}
-                                        alt='NFT'
-                                        onError={(e) => {
-                                            e.target.onerror = null;
-                                            e.target.src = FailedToLoad;
-                                        }}
-                                      />
-                            }
+                                )}
+                                {!isVideo && (
+                                    <img src={mediaUrl}
+                                         alt='NFT'
+                                         onError={(e) => {
+                                             e.target.onerror = null;
+                                             e.target.src = FailedToLoad;
+                                         }}
+                                    />
+                                )}
                                 <b className='title'>{title}</b>
                             </div>
                         );
