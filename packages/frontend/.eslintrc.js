@@ -18,6 +18,7 @@ module.exports = {
         'no-extra-boolean-cast':'off',
         'no-extra-semi':'off',
         'no-irregular-whitespace':'off',
+        'import/named': ['error', 'always'],
         'import/order': [
             'error',
             {
@@ -52,6 +53,9 @@ module.exports = {
             'selector': `CallExpression[callee.name='useSelector'] *[type=/FunctionExpression$/][params.0.type='ObjectPattern']`,
             'message': 'Please use a selector for any state accesses within useSelector'
         }]
+    },
+    settings: {
+        'import/ignore': ['src/config/*'],
     },
     overrides: [
         {
