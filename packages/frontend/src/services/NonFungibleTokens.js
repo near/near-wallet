@@ -72,7 +72,8 @@ export default class NonFungibleTokens {
             tokens = await Promise.all(
                 tokenIds.slice(fromIndex, TOKENS_PER_PAGE + fromIndex)
                     .map(async (token_id) => ({
-                        token_id,
+                        token_id: token_id.toString(),
+                        owner_id: accountId,
                         metadata: await this.getTokenMetadata(contractName, token_id.toString(), base_uri),
                     }))
             );
