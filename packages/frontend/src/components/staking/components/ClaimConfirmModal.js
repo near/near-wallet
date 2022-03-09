@@ -7,6 +7,7 @@ import styled from 'styled-components';
 import selectNEARAsTokenWithMetadata from '../../../redux/crossStateSelectors/selectNEARAsTokenWithMetadata';
 import FormButton from '../../common/FormButton';
 import Modal from '../../common/modal/Modal';
+import AlertTriangleIcon from '../../svg/AlertTriangleIcon';
 import TokenAmount from '../../wallet/TokenAmount';
 import TokenStakeRewards from './TokenStakeRewards';
 
@@ -91,6 +92,7 @@ const Container = styled.div`
     }
 
     .token-whitelist-disclaimer {
+        display: flex;
         width: 100%;
         margin-top: 15px;
         padding: 12px;
@@ -100,6 +102,9 @@ const Container = styled.div`
         color: #995200;
         background: #FFECD6;
         border-radius: 4px;
+        > span {
+            margin-left: 10px;
+        }
     }
 `;
 
@@ -148,7 +153,10 @@ const ClaimConfirmModal = ({ open, onClose, onConfirm, validator, loading, title
                 {!isWhiteListed ? (
                     <div style={{ padding: '0px 17px' }}>
                         <div className="token-whitelist-disclaimer">
-                            <Translate id="staking.validator.notWhitelistedTokenWarning" />
+                            <AlertTriangleIcon />
+                            <span>
+                                <Translate id="staking.validator.notWhitelistedTokenWarning" />
+                            </span>
                         </div>
                     </div>
                 ) : null}
