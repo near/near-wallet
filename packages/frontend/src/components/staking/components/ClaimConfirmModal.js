@@ -125,7 +125,7 @@ const ClaimConfirmModal = ({ open, onClose, onConfirm, validator, loading, title
                 <Textfit mode='single' max={40} className='amount'>
                     <TokenAmount
                         token={{
-                            balance, onChainFTMetadata, fiatValueMetadata, isWhiteListed
+                            balance, onChainFTMetadata, fiatValueMetadata
                         }}
                         className="stake-amount"
                         withSymbol={true}
@@ -138,7 +138,6 @@ const ClaimConfirmModal = ({ open, onClose, onConfirm, validator, loading, title
                         onChainFTMetadata,
                         contractName,
                         balance,
-                        isWhiteListed,
                         fiatValueMetadata,
                     }}
                     stakedToken={{
@@ -146,11 +145,13 @@ const ClaimConfirmModal = ({ open, onClose, onConfirm, validator, loading, title
                         balance: validator.staked,
                     }}
                 />
-                <div style={{padding: '0px 17px'}}>
-                    <div className='token-whitelist-disclaimer'>
-                        <Translate id='staking.validator.notWhitelistedWarning'/>
+                {!isWhiteListed ? (
+                    <div style={{ padding: '0px 17px' }}>
+                        <div className="token-whitelist-disclaimer">
+                            <Translate id="staking.validator.notWhitelistedTokenWarning" />
+                        </div>
                     </div>
-                </div>
+                ) : null}
                 <div className='action-buttons'>
                     <FormButton disabled={loading} color='gray action-button' id='close-button'>
                         <Translate id='button.cancel'/>
@@ -158,6 +159,7 @@ const ClaimConfirmModal = ({ open, onClose, onConfirm, validator, loading, title
                     <FormButton 
                         disabled={loading}
                         sending={loading}
+                        sendingString='staking.validator.claiming'
                         onClick={() => onConfirm(contractName)}
                         color='blue action-button'
                         data-test-id="confirmStakeOnModalButton"

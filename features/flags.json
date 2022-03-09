@@ -56,5 +56,34 @@
       "lastEditedBy": "Andy Haynes",
       "lastEditedAt": "2022-01-31T21:13:09.948Z"
     }
+  },
+  "FARMING_VALIDATOR_APY_DISPLAY": {
+    "createdBy": "esaminu",
+    "createdAt": "2022-03-09T21:26:58.971Z",
+    "development": {
+      "enabled": false,
+      "lastEditedBy": "esaminu",
+      "lastEditedAt": "2022-03-09T21:26:58.971Z"
+    },
+    "testnet": {
+      "enabled": false,
+      "lastEditedBy": "esaminu",
+      "lastEditedAt": "2022-03-09T21:26:58.971Z"
+    },
+    "mainnet": {
+      "enabled": false,
+      "lastEditedBy": "esaminu",
+      "lastEditedAt": "2022-03-09T21:26:58.971Z"
+    },
+    "mainnet_STAGING": {
+      "enabled": false,
+      "lastEditedBy": "esaminu",
+      "lastEditedAt": "2022-03-09T21:26:58.971Z"
+    },
+    "testnet_STAGING": {
+      "enabled": false,
+      "lastEditedBy": "esaminu",
+      "lastEditedAt": "2022-03-09T21:26:58.971Z"
+    }
   }
 }
