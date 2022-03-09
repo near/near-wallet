@@ -2,7 +2,6 @@ import React from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
-import { EXPLORER_URL } from '../../../config';
 import TokenIcon from '../../send/components/TokenIcon';
 import TokenAmount from '../../wallet/TokenAmount';
 
@@ -112,14 +111,7 @@ const TokenStakeRewards = ({earnedToken, stakedToken}) => {
         </div>
         {earnedToken.contractName ?
           <span className='symbol' title={earnedToken.contractName}>
-              <a 
-                  href={`${EXPLORER_URL}/accounts/${earnedToken.contractName}`}
-                  onClick={(e) => e.stopPropagation()}
-                  target='_blank'
-                  rel='noopener noreferrer'
-              >
-                  {earnedToken.contractName}
-              </a>
+            {earnedToken.contractName}
           </span>
           :
           <span className='symbol'>

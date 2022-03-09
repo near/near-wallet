@@ -3,6 +3,7 @@ import { Translate } from 'react-localize-redux';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 
+import { FARMING_VALIDATOR_APY_DISPLAY } from '../../../../../../features';
 import { Mixpanel } from '../../../mixpanel/index';
 import { redirectTo } from '../../../redux/actions/account';
 import { getValidatorFarmData } from '../../../redux/actions/staking';
@@ -188,7 +189,7 @@ export default function ValidatorBox({
                 </div>
                 {typeof fee === 'number' &&
                     <div className="text-left">
-                        { 
+                        {FARMING_VALIDATOR_APY_DISPLAY ? 
                             isFarmingValidator && <>
                                 <span><Translate id='staking.validator.apy'/>&nbsp;</span>
                                 {farmAPY === null 
@@ -197,7 +198,7 @@ export default function ValidatorBox({
                                 }
                                 <span>%&nbsp;-&nbsp;</span>               
                             </>
-                        }
+                        : null}
                         <span>{fee}% <Translate id='staking.validatorBox.fee' /> -&nbsp;</span>
                         <span>
                             {

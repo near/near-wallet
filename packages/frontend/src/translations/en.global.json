@@ -1373,12 +1373,13 @@
         },
         "claimSuccess": {
             "button": "Return to Dashboard",
-            "desc": "Tokens has successfully been claimed from validator",
+            "desc": "Tokens have been successfully claimed from the validator",
             "descTwo": "Your tokens are already available",
             "title": "Success!"
         },
         "validator": {
             "apy": "APY",
+            "claiming": "Claiming",
             "button": "Stake With Validator",
             "claimFarmRewards": "You are claiming",
             "activeStake": "Active Stake",
@@ -1386,7 +1387,8 @@
             "errorClaimRewards": "Something went wrong during claiming your farm rewards. Please, try again later",
             "desc": "This is the fee paid to the validator to stake on your behalf. This fee is only charged on your rewards.",
             "fee": "Validator Fee",
-            "notWhitelistedWarning": "This token has not been whitelisted. Proceed at your own risk.",
+            "notWhitelistedTokenWarning": "This token has not been whitelisted by ref-finance. Proceed at your own risk.",
+            "notWhitelistedValidatorWarning": "Tokens awarded by this validator have not been whitelisted by ref-finance. Proceed at your own risk.",
             "title": "Validator: <br/>${validator}",
             "unstake": "You are unstaking",
             "withdraw": "You are withdrawing",

@@ -1,8 +1,6 @@
 import React from 'react';
 
 import { formatTokenAmount, removeTrailingZeros } from '../../utils/amounts';
-import Tooltip from '../common/Tooltip';
-import AlertRoundedIcon from '../svg/AlertRoundedIcon';
 
 const FRAC_DIGITS = 5;
 
@@ -31,7 +29,7 @@ const showFullAmount = (amount, decimals, symbol) =>
         : '';
 
 const TokenAmount = ({ 
-    token: { balance, onChainFTMetadata, fiatValueMetadata, isWhiteListed = true }, 
+    token: { balance, onChainFTMetadata, fiatValueMetadata }, 
     withSymbol = false, 
     className, 
     showFiatAmount = true, 
@@ -55,17 +53,13 @@ const TokenAmount = ({
                 <div 
                     className='fiat-amount' 
                     style={{
-                        color: isWhiteListed ? '' : '#FF585D',
                         display: 'inline-flex',
                         whiteSpace: 'normal'
                     }}>
-                { fiatAmount 
+                {fiatAmount 
                     ? `≈ $${fiatAmount} USD`
                     : '— USD'
                 }
-                {!isWhiteListed && <Tooltip translate={'staking.validator.notWhitelistedWarning'}>
-                    <AlertRoundedIcon/>
-                </Tooltip>}
             </div>
             }
         </div>

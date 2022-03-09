@@ -1,8 +1,9 @@
 import BN from 'bn.js';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Translate } from 'react-localize-redux';
 import { useDispatch, useSelector } from 'react-redux';
 
+import { FARMING_VALIDATOR_APY_DISPLAY } from '../../../../../../features';
 import { Mixpanel } from '../../../mixpanel';
 import { redirectTo } from '../../../redux/actions/account';
 import { claimFarmRewards, getValidatorFarmData } from '../../../redux/actions/staking';
@@ -46,7 +47,6 @@ const renderFarmUi = ({ farmList, contractMetadataByContractId, openModal, token
                     fiatValueMetadata,
                     balance,
                     contractName: token_id,
-                    isWhiteListed,
                 }}
                 onClick={() => {
                     openModal({
@@ -59,7 +59,7 @@ const renderFarmUi = ({ farmList, contractMetadataByContractId, openModal, token
 
                 }}
                 button="staking.balanceBox.farm.button"
-                hideBorder={farmList.length > 1 && i < farmList.length}
+                hideBorder={farmList.length > 1 && i < (farmList.length - 1)}
             />
         );
     });
@@ -133,6 +133,11 @@ export default function Validator({
 
     const farmList = validatorFarmData?.farmRewards || [];
     const tokenPriceMetadata = { tokenFiatValues, tokenWhitelist };
+    const hasUnwhitelistedTokens = useMemo(
+        () =>
+            farmList.some(({ token_id }) => !tokenWhitelist.includes(token_id)),
+        [farmList, tokenWhitelist]
+    );
 
     const farmAPY = useSelector((state) => selectFarmValidatorAPY(state, {validatorId: validator?.accountId}));
 
@@ -148,6 +153,9 @@ export default function Validator({
                 />
                 : null
             }
+            {hasUnwhitelistedTokens ? <AlertBanner
+                title='staking.validator.notWhitelistedValidatorWarning'
+            /> : null}
             <h1 data-test-id="validatorNamePageTitle">
                 <SafeTranslate
                     id="staking.validator.title"
@@ -163,7 +171,9 @@ export default function Validator({
                 <Translate id='staking.validator.button' />
             </FormButton>
             {validator && <StakingFee fee={validator.fee.percentage} />}
-            {isFarmingValidator && <FarmingAPY apy={farmAPY} />}
+            {FARMING_VALIDATOR_APY_DISPLAY
+                ? isFarmingValidator && <FarmingAPY apy={farmAPY} />
+                : null}
             {validator && !stakeNotAllowed && !pendingUpdateStaking &&
                 <>
                     <BalanceBox
