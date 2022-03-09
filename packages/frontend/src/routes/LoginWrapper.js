@@ -6,13 +6,12 @@ import { useSelector } from 'react-redux';
 import ConfirmLoginWrapper from '../components/login/v2/ConfirmLoginWrapper';
 import InvalidContractId from '../components/login/v2/InvalidContractId';
 import SelectAccountLoginWrapper from '../components/login/v2/SelectAccountLoginWrapper';
-import { EXPLORER_URL } from '../config';
+import { EXPLORER_URL, LOCKUP_ACCOUNT_ID_SUFFIX } from '../config';
 import { Mixpanel } from '../mixpanel/index';
 import {
     selectAccountLocalStorageAccountId
 } from '../redux/slices/account';
 import { isUrlNotJavascriptProtocol } from '../utils/helper-api';
-import { LOCKUP_ACCOUNT_ID_SUFFIX } from '../utils/wallet';
 
 export const LOGIN_ACCESS_TYPES = {
     FULL_ACCESS: 'fullAccess',

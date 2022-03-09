@@ -2,12 +2,10 @@ import reduceReducers from 'reduce-reducers';
 import { handleActions } from 'redux-actions';
 
 import {
-    requestCode,
     getAccessKeys,
     clearCode,
     promptTwoFactor,
     refreshUrl,
-    resetAccounts,
     checkCanEnableTwoFactor,
     get2faMethod,
     getLedgerKey,
@@ -38,12 +36,6 @@ const initialState = {
 };
 
 const recoverCodeReducer = handleActions({
-    [requestCode]: (state, { error, ready }) => {
-        if (ready && !error) {
-            return { ...state, sentMessage: true };
-        }
-        return state;
-    },
     [clearCode]: (state, { error, ready }) => {
         return { ...state, sentMessage: false };
     }
@@ -126,10 +118,6 @@ const account = handleActions({
             loader: false
         };
     },
-    [resetAccounts]: (state) => ({
-        ...state,
-        loginResetAccounts: true
-    }),
     [staking.updateAccount]: (state, { ready, error, payload }) =>
         (!ready || error)
             ? state
