@@ -105,7 +105,7 @@ export default function Validator({
                     .filter(({balance}) => !new BN(balance).isZero())
                     .map(({token_id}) => dispatch(claimFarmRewards(validator.accountId, token_id)))
                 ])
-            )
+            );
             await onWithdraw('withdraw', selectedValidator || validator.accountId);
             setConfirm('done');
         }
