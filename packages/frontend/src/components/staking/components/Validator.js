@@ -99,6 +99,13 @@ export default function Validator({
 
     const handleStakeAction = async () => {
         if (showConfirmModal && !loading) {
+            await dispatch(getValidatorFarmData(validator, currentAccountId)).then((res) => 
+                Promise.all([
+                    (res?.farmRewards || [])
+                    .filter(({balance}) => !new BN(balance).isZero())
+                    .map(({token_id}) => dispatch(claimFarmRewards(validator.accountId, token_id)))
+                ])
+            )
             await onWithdraw('withdraw', selectedValidator || validator.accountId);
             setConfirm('done');
         }

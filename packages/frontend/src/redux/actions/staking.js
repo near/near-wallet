@@ -561,6 +561,7 @@ export const getValidatorFarmData = (validator, accountId) => async (dispatch, g
         farmRewards: list,
     };
     await dispatch(staking.setValidatorFarmData(validator.accountId, farmData));
+    return farmData;
 };
 
 export const claimFarmRewards = (validatorId, token_id) => async (dispatch, getState) => {
