@@ -45,8 +45,7 @@ import {
     selectAccountUrlRedirectUrl,
     selectAccountUrlSuccessUrl,
     selectAccountUrlTitle,
-    selectAccountUrlTransactions,
-    selectActiveAccountIdIsImplicitAccount
+    selectAccountUrlTransactions
 } from '../slices/account';
 import { createAccountWithSeedPhrase } from '../slices/account/createAccountThunks';
 import { selectAllAccountsHasLockup } from '../slices/allAccounts';
@@ -408,10 +407,10 @@ const handleFundCreateAccountRedirect = ({
     implicitAccountId,
     recoveryMethod
 }) => (dispatch, getState) => {
-    const activeAccountIdIsImplicit = selectActiveAccountIdIsImplicitAccount(getState());
+    const activeAccountId = selectAccountId(getState());
 
     if (ENABLE_IDENTITY_VERIFIED_ACCOUNT) {
-        const route = activeAccountIdIsImplicit ? '/fund-with-existing-account' : '/verify-account';
+        const route = activeAccountId ? '/fund-with-existing-account' : '/verify-account';
         const search = `?accountId=${accountId}&implicitAccountId=${implicitAccountId}&recoveryMethod=${recoveryMethod}`;
         dispatch(redirectTo(route + search));
     } else {
