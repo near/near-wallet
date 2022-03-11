@@ -848,7 +848,10 @@ class Wallet {
             accountIds = [accountId];
         }
 
-        accountIds.push(implicitAccountId);
+        if (!accountId) {
+            // Import implicit account only if no accountId is specified
+            accountIds.push(implicitAccountId);
+        }
 
         // remove duplicate and non-existing accounts
         const accountsSet = new Set(accountIds);

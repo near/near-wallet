@@ -20,6 +20,7 @@ import { handleClearAlert } from '../redux/reducers/status';
 import { selectAccountSlice } from '../redux/slices/account';
 import { actions as tokenFiatValueActions } from '../redux/slices/tokenFiatValues';
 import { CreateImplicitAccountWrapper } from '../routes/CreateImplicitAccountWrapper';
+import { ImportAccountWithLinkWrapper } from '../routes/ImportAccountWithLinkWrapper';
 import { LoginWrapper } from '../routes/LoginWrapper';
 import { SetupLedgerNewAccountWrapper } from '../routes/SetupLedgerNewAccountWrapper';
 import { SetupPassphraseNewAccountWrapper } from '../routes/SetupPassphraseNewAccountWrapper';
@@ -471,7 +472,7 @@ class Routing extends Component {
                             <Route
                                 exact
                                 path='/recover-with-link/:accountId/:seedPhrase'
-                                component={RecoverWithLinkWithRouter}
+                                component={ImportAccountWithLinkWrapper}
                             />
                             <Route
                                 exact

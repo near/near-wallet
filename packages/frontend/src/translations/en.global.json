@@ -844,6 +844,20 @@
         "snackbarCopySuccess": "Recover URL copied",
         "title": "Restore Account"
     },
+    "importAccountWithLink": {
+        "accountFound": "1 Account Found",
+        "accountsFound": "${count} Accounts Found",
+        "accountImported": "Account Imported",
+        "alreadyImported": "The account secured by this link has been imported.",
+        "copyUrl": "copy the URL",
+        "continue": "and continue this process in your browser of choice.",
+        "foundAccount": "We found <b>1 account</b> secured by this link.",
+        "foundAccounts": "We found <b>${count} accounts</b> secured by this link.",
+        "import": "Import",
+        "importAccount": "Import Your Account",
+        "preferedBrowser": "If this isn't your preferred browser,",
+        "goToAccount": "Go to Account"
+    },
     "recoveryMgmt": {
         "disableInputPlaceholder": "Enter your account ID to confirm",
         "disableNo": "No, keep",
@@ -975,6 +989,7 @@
         "switchAccounthNotAllowed": "This app doesn't allow account changes"
     },
     "sending": "Sending",
+    "importing": "Importing",
     "sendMoney": {
         "account": {
             "title": "Send to"
@@ -1554,6 +1569,9 @@
         },
         "recoverAccountSeedPhrase": {
             "errorInvalidSeedPhrase": "No accounts were found for this passphrase."
+        },
+        "recoverAccountLink": {
+            "error": "Import of your account failed. Please try again or contact support for assistance."
         },
         "recoveryMethods": {
             "lastMethod": "Cannot delete your last recovery method. Unless you have Ledger enabled, you need to keep at least one recovery method active to ensure recoverability of your account.",
