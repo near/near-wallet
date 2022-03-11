@@ -59,7 +59,6 @@ import { SignInLedger } from './accounts/ledger/SignInLedger';
 import { LinkdropLandingWithRouter } from './accounts/LinkdropLanding';
 import { RecoverAccountSeedPhraseWithRouter } from './accounts/RecoverAccountSeedPhrase';
 import { RecoverAccountWrapper } from './accounts/RecoverAccountWrapper';
-import { RecoverWithLinkWithRouter } from './accounts/RecoverWithLink';
 import { SetupRecoveryMethodWithRouter } from './accounts/recovery_setup/SetupRecoveryMethod';
 import { SetupImplicitWithRouter } from './accounts/SetupImplicit';
 import { SetupSeedPhraseWithRouter } from './accounts/SetupSeedPhrase';
