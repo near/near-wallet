@@ -15,8 +15,7 @@ export async function getAccountIdsBySeedPhrase(seedPhrase) {
     const { secretKey } = parseSeedPhrase(seedPhrase);
     const keyPair = nearApiJs.KeyPair.fromString(secretKey);
     const publicKey = keyPair.publicKey.toString();
-    const accountIdsByPublickKey = await getAccountIds(publicKey);
-    return accountIdsByPublickKey;
+    return getAccountIds(publicKey);
 }
 
 export function isUrlNotJavascriptProtocol(url) {

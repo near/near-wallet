@@ -99,7 +99,7 @@ export default ({
     const numberOfAccountsFound = accountsBySeedPhrase.length;
 
     const getAccountsStatus = () => {
-        if (numberOfAccountsFound === 1 && accountsBySeedPhrase[0].imported === true) {
+        if (numberOfAccountsFound === 1 && accountsBySeedPhrase[0].imported) {
             return <h2><Translate id='importAccountWithLink.alreadyImported' /></h2>;
         }
 
@@ -119,7 +119,7 @@ export default ({
             <h2>
                 <Translate id='importAccountWithLink.preferedBrowser' />&nbsp;
                 <ClickToCopy copy={window.location.href} className='copy'>
-                    <FormButton className='link underline'>
+                    <FormButton className='link underline' trackingId='IE with link Click copy url button'>
                         <Translate id='importAccountWithLink.copyUrl' />
                     </FormButton>
                 </ClickToCopy>&nbsp;

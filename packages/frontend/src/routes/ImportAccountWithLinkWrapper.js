@@ -22,7 +22,7 @@ export function ImportAccountWithLinkWrapper() {
     const activeAccountId = useSelector(selectAccountId);
     const availableAccounts = useSelector(selectAvailableAccounts);
     const [accountIdsBySeedPhrase, setAccountIdsBySeedPhrase] = useState([]);
-    const [importingAccount, setImportingAccount] = useState(false);
+    const [importingAccount, setImportingAccount] = useState(null);
 
     useEffect(() => {
         const handleGetAccountsBySeedPhrase = async () => {
@@ -32,14 +32,10 @@ export function ImportAccountWithLinkWrapper() {
         handleGetAccountsBySeedPhrase();
     }, []);
 
-    let accountsBySeedPhrase = [];
-
-    for (let accountId of accountIdsBySeedPhrase) {
-        let account = {};
-        account.accountId = accountId;
-        account.imported = availableAccounts.includes(accountId);
-        accountsBySeedPhrase.push(account);
-    }
+    const accountsBySeedPhrase = accountIdsBySeedPhrase.map((accountId) => ({
+        accountId,
+        imported: availableAccounts.includes(accountId),
+    }));
 
     return (
         <ImportAccountWithLink
@@ -73,7 +69,7 @@ export function ImportAccountWithLinkWrapper() {
                     if (accountId !== activeAccountId) {
                         await dispatch(switchAccount({ accountId }));
                     }
-                    await dispatch(redirectTo('/'));
+                    dispatch(redirectTo('/'));
                 }
             }}
         />
