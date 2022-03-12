@@ -5,6 +5,7 @@ import { KeyType } from 'near-api-js/lib/utils/key_pair';
 import { generateSeedPhrase, parseSeedPhrase } from 'near-seed-phrase';
 
 import { store } from '..';
+import { IMPORT_ACCOUNT_WITH_LINK_V2 } from '../../../../features';
 import * as Config from '../config';
 import {
     makeAccountActive,
@@ -848,10 +849,13 @@ class Wallet {
             accountIds = [accountId];
         }
 
-        if (!accountId) {
-            // Import implicit account only if no accountId is specified
+        if (!IMPORT_ACCOUNT_WITH_LINK_V2) {
             accountIds.push(implicitAccountId);
         }
+
+        // TODO: getAccountIds returns all accounts including any implicit account.
+        // Once 'IMPORT_ACCOUNT_WITH_LINK_V2' feature is on shipped:
+        // Remove automatically adding implicitAccountId into array and then removing the duplicates.
 
         // remove duplicate and non-existing accounts
         const accountsSet = new Set(accountIds);
