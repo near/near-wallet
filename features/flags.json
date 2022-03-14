@@ -56,5 +56,34 @@
       "lastEditedBy": "Andy Haynes",
       "lastEditedAt": "2022-01-31T21:13:09.948Z"
     }
+  },
+  "IMPORT_ACCOUNT_WITH_LINK_V2": {
+    "createdBy": "Patrick Tajima",
+    "createdAt": "2022-03-12T01:30:32.577Z",
+    "development": {
+      "enabled": true,
+      "lastEditedBy": "Patrick Tajima",
+      "lastEditedAt": "2022-03-12T01:30:32.577Z"
+    },
+    "testnet": {
+      "enabled": false,
+      "lastEditedBy": "Patrick Tajima",
+      "lastEditedAt": "2022-03-12T01:30:32.577Z"
+    },
+    "mainnet": {
+      "enabled": false,
+      "lastEditedBy": "Patrick Tajima",
+      "lastEditedAt": "2022-03-12T01:30:32.577Z"
+    },
+    "mainnet_STAGING": {
+      "enabled": false,
+      "lastEditedBy": "Patrick Tajima",
+      "lastEditedAt": "2022-03-12T01:30:32.577Z"
+    },
+    "testnet_STAGING": {
+      "enabled": false,
+      "lastEditedBy": "Patrick Tajima",
+      "lastEditedAt": "2022-03-12T01:30:32.577Z"
+    }
   }
 }

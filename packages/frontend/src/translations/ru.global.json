@@ -676,6 +676,20 @@
         "snackbarCopySuccess": "Ссылка для восстанавления скопирована",
         "title": "Восстановление Учетной Записи"
     },
+    "importAccountWithLink": {
+        "accountFound": "1 Account Found",
+        "accountsFound": "${count} Accounts Found",
+        "accountImported": "Account Imported",
+        "alreadyImported": "The account secured by this link has been imported.",
+        "copyUrl": "copy the URL",
+        "continue": "and continue this process in your browser of choice.",
+        "foundAccount": "We found <b>1 account</b> secured by this link.",
+        "foundAccounts": "We found <b>${count} accounts</b> secured by this link.",
+        "import": "Import",
+        "importAccount": "Import Your Account",
+        "preferedBrowser": "If this isn't your preferred browser,",
+        "goToAccount": "Go to Account"
+    },
     "recoveryMgmt": {
         "disableInputPlaceholder": "Введите свое имя пользователя для подтверждения",
         "disableNo": "Нет, продолжить",

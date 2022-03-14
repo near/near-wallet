@@ -814,6 +814,20 @@
         "snackbarCopySuccess": "恢复链接已复制",
         "title": "恢复账户"
     },
+    "importAccountWithLink": {
+        "accountFound": "1 Account Found",
+        "accountsFound": "${count} Accounts Found",
+        "accountImported": "Account Imported",
+        "alreadyImported": "The account secured by this link has been imported.",
+        "copyUrl": "copy the URL",
+        "continue": "and continue this process in your browser of choice.",
+        "foundAccount": "We found <b>1 account</b> secured by this link.",
+        "foundAccounts": "We found <b>${count} accounts</b> secured by this link.",
+        "import": "Import",
+        "importAccount": "Import Your Account",
+        "preferedBrowser": "If this isn't your preferred browser,",
+        "goToAccount": "Go to Account"
+    },
     "recoveryMgmt": {
         "disableInputPlaceholder": "请输入用户名确认",
         "disableNo": "不，保留。",

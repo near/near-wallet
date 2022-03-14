@@ -10,7 +10,7 @@ import { connect } from 'react-redux';
 import { Redirect, Switch } from 'react-router-dom';
 import styled, { ThemeProvider } from 'styled-components';
 
-import { CREATE_IMPLICIT_ACCOUNT } from '../../../../features';
+import { CREATE_IMPLICIT_ACCOUNT, IMPORT_ACCOUNT_WITH_LINK_V2 } from '../../../../features';
 import TwoFactorVerifyModal from '../components/accounts/two_factor/TwoFactorVerifyModal';
 import { IS_MAINNET, PUBLIC_URL, SHOW_PRERELEASE_WARNING, DISABLE_CREATE_ACCOUNT } from '../config';
 import ExampleFlag from '../ExampleFlag';
@@ -20,6 +20,7 @@ import { handleClearAlert } from '../redux/reducers/status';
 import { selectAccountSlice } from '../redux/slices/account';
 import { actions as tokenFiatValueActions } from '../redux/slices/tokenFiatValues';
 import { CreateImplicitAccountWrapper } from '../routes/CreateImplicitAccountWrapper';
+import { ImportAccountWithLinkWrapper } from '../routes/ImportAccountWithLinkWrapper';
 import { LoginWrapper } from '../routes/LoginWrapper';
 import { SetupLedgerNewAccountWrapper } from '../routes/SetupLedgerNewAccountWrapper';
 import { SetupPassphraseNewAccountWrapper } from '../routes/SetupPassphraseNewAccountWrapper';
@@ -471,7 +472,7 @@ class Routing extends Component {
                             <Route
                                 exact
                                 path='/recover-with-link/:accountId/:seedPhrase'
-                                component={RecoverWithLinkWithRouter}
+                                component={IMPORT_ACCOUNT_WITH_LINK_V2 ? ImportAccountWithLinkWrapper : RecoverWithLinkWithRouter}
                             />
                             <Route
                                 exact
