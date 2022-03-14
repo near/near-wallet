@@ -21,6 +21,9 @@ const Container = styled.div`
     }
 
     div {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
         font-style: italic;
         margin-left: 20px;
         font-size: 13px;
@@ -34,6 +37,7 @@ const Container = styled.div`
         margin: 20px 0 0 0 !important;
         width: auto !important;
         font-size: 13px !important;
+        align-self: flex-start;
     }
 
     &.error {

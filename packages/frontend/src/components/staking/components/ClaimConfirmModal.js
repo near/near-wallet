@@ -1,26 +1,28 @@
 import React from 'react';
 import { Translate } from 'react-localize-redux';
+import { useSelector } from 'react-redux';
 import { Textfit } from 'react-textfit';
 import styled from 'styled-components';
 
+import selectNEARAsTokenWithMetadata from '../../../redux/crossStateSelectors/selectNEARAsTokenWithMetadata';
 import FormButton from '../../common/FormButton';
 import Modal from '../../common/modal/Modal';
+import AlertTriangleIcon from '../../svg/AlertTriangleIcon';
 import TokenAmount from '../../wallet/TokenAmount';
-import ValidatorBox from './ValidatorBox';
+import TokenStakeRewards from './TokenStakeRewards';
 
 const Container = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
-    padding-top: 40px;
+    background: #FAFAFA;
 
     h2 {
-        color: #24272a !important;
-    }
-
-    @media (min-width: 500px) {
-        padding: 40px 25px;
+        font-size: 16px;
+        font-weight: 500;
+        color: #72727A !important;
+        padding: 51px 8px 8px 8px;
     }
 
     .validator-box {
@@ -45,40 +47,24 @@ const Container = styled.div`
     }
 
     .stake-amount {
-        color: #24272a;
-        font-weight: 500;
-        margin: 40px 0 !important;
+        color: #111618;
+        font-weight: 900;
+        margin-top: 4px !important;
+        font-size: 25px;
 
         .fiat-amount {
             font-size: 14px;
         }
     }
 
-    .green {
-        margin-top: 50px !important;
-        width: 100%;
-        max-width: 400px;
-    }
-
-    .link {
-        margin-top: 30px !important;
-    }
-
-    .ledger-disclaimer {
-        font-style: italic;
-        margin-top: 50px;
-        max-width: 400px;
-    }
-
     .divider {
         width: 100%;
         border-top: 1px solid #F2F2F2;
         position: relative;
-        margin-bottom: 40px;
-        max-width: 400px;
+        margin: 50px 0px;
 
         div {
-            background-color: white;
+            background-color: #FAFAFA;
             padding: 0 10px;
             position: absolute;
             top: 50%;
@@ -88,9 +74,42 @@ const Container = styled.div`
         }
     }
 
+    .action-buttons {
+        width: 100%;
+        display: flex;
+        padding: 22px 11px 0px 11px;
+
+        .action-button {
+            flex: 1;
+            margin: 18px 4px;
+        }
+
+        .gray {
+            background: #F0F0F1;
+            color: #0072CE;
+            border-width: 0px;
+        }
+    }
+
+    .token-whitelist-disclaimer {
+        display: flex;
+        width: 100%;
+        margin-top: 15px;
+        padding: 12px;
+        font-size: 12px;
+        font-weight: 500;
+        text-align: left;
+        color: #995200;
+        background: #FFECD6;
+        border-radius: 4px;
+        > span {
+            margin-left: 10px;
+        }
+    }
 `;
 
-const ClaimConfirmModal = ({ open, onClose, onConfirm, validator, loading, title, disclaimer, label, farm }) => {
+const ClaimConfirmModal = ({ open, onClose, onConfirm, validator, loading, title, label, farm }) => {
+    const NEARAsTokenWithMetadata = useSelector(selectNEARAsTokenWithMetadata);
     const { 
         onChainFTMetadata,
         fiatValueMetadata,
@@ -103,14 +122,15 @@ const ClaimConfirmModal = ({ open, onClose, onConfirm, validator, loading, title
             id='stake-confirm-modal'
             isOpen={open}
             onClose={onClose}
-            closeButton='desktop'
+            modalClass='slim'
+            modalSize='sm'
         >
             <Container>
                 <h2><Translate id={title}/></h2>
                 <Textfit mode='single' max={40} className='amount'>
                     <TokenAmount
                         token={{
-                            balance, onChainFTMetadata, fiatValueMetadata, isWhiteListed
+                            balance, onChainFTMetadata, fiatValueMetadata
                         }}
                         className="stake-amount"
                         withSymbol={true}
@@ -118,27 +138,43 @@ const ClaimConfirmModal = ({ open, onClose, onConfirm, validator, loading, title
                     />
                 </Textfit>
                 {label && <div className='divider'><div><Translate id={label}/></div></div>}
-                <ValidatorBox 
-                    validator={validator}
-                    clickable={false}
-                    staking={false}
-                    farming={true}
-                    amount={balance}
-                    token={{onChainFTMetadata, contractName, balance, isWhiteListed, fiatValueMetadata}}
+                <TokenStakeRewards
+                    earnedToken={{
+                        onChainFTMetadata,
+                        contractName,
+                        balance,
+                        fiatValueMetadata,
+                    }}
+                    stakedToken={{
+                        ...NEARAsTokenWithMetadata,
+                        balance: validator.staked,
+                    }}
                 />
-                {disclaimer && <div className='ledger-disclaimer'><Translate id={disclaimer}/></div>}
-                <FormButton 
-                    disabled={loading}
-                    sending={loading}
-                    color='green'
-                    onClick={() => onConfirm(contractName)}
-                    data-test-id="confirmStakeOnModalButton"
-                >
-                    <Translate id='button.confirm'/>
-                </FormButton>
-                <FormButton disabled={loading} color='link red' id='close-button'>
-                    <Translate id='button.cancel'/>
-                </FormButton>
+                {!isWhiteListed ? (
+                    <div style={{ padding: '0px 17px' }}>
+                        <div className="token-whitelist-disclaimer">
+                            <AlertTriangleIcon />
+                            <span>
+                                <Translate id="staking.validator.notWhitelistedTokenWarning" />
+                            </span>
+                        </div>
+                    </div>
+                ) : null}
+                <div className='action-buttons'>
+                    <FormButton disabled={loading} color='gray action-button' id='close-button'>
+                        <Translate id='button.cancel'/>
+                    </FormButton>
+                    <FormButton 
+                        disabled={loading}
+                        sending={loading}
+                        sendingString='staking.validator.claiming'
+                        onClick={() => onConfirm(contractName)}
+                        color='blue action-button'
+                        data-test-id="confirmStakeOnModalButton"
+                    >
+                        <Translate id='button.confirm'/>
+                    </FormButton>
+                </div>
             </Container>
         </Modal>
     );

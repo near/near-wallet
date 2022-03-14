@@ -1,8 +1,6 @@
 import React from 'react';
 
 import { formatTokenAmount, removeTrailingZeros } from '../../utils/amounts';
-import Tooltip from '../common/Tooltip';
-import AlertRoundedIcon from '../svg/AlertRoundedIcon';
 
 const FRAC_DIGITS = 5;
 
@@ -31,21 +29,22 @@ const showFullAmount = (amount, decimals, symbol) =>
         : '';
 
 const TokenAmount = ({ 
-    token: { balance, onChainFTMetadata, fiatValueMetadata, isWhiteListed = true }, 
+    token: { balance, onChainFTMetadata, fiatValueMetadata }, 
     withSymbol = false, 
     className, 
     showFiatAmount = true, 
-    'data-test-id': testId 
+    'data-test-id': testId,
+    balancePrefix = ''
 }) => {
     const tokenBalance = formatTokenAmount(balance, onChainFTMetadata?.decimals, FRAC_DIGITS);
     const tokenBalanceToView = balance && formatToken(balance, onChainFTMetadata?.decimals);
     const fiatAmount = (tokenBalance && fiatValueMetadata?.usd) && (tokenBalance * +fiatValueMetadata.usd).toFixed(2);
     
     return (
-        <div className={className} style={{color: isWhiteListed ? '' : '#FF585D'}} title={showFullAmount(balance, onChainFTMetadata?.decimals, onChainFTMetadata?.symbol)} data-test-id={testId}>
+        <div className={className} title={showFullAmount(balance, onChainFTMetadata?.decimals, onChainFTMetadata?.symbol)} data-test-id={testId}>
             <div>
                 {balance
-                    ? tokenBalanceToView
+                    ? balancePrefix + tokenBalanceToView
                     : <span className='dots' />
                 }
                 <span className='currency'>{withSymbol ? ` ${onChainFTMetadata?.symbol}` : null}</span>
@@ -54,17 +53,13 @@ const TokenAmount = ({
                 <div 
                     className='fiat-amount' 
                     style={{
-                        color: isWhiteListed ? '' : '#FF585D',
                         display: 'inline-flex',
                         whiteSpace: 'normal'
                     }}>
-                { fiatAmount 
+                {fiatAmount 
                     ? `≈ $${fiatAmount} USD`
                     : '— USD'
                 }
-                {!isWhiteListed && <Tooltip translate={'staking.validator.notWhitelistedWarning'}>
-                    <AlertRoundedIcon/>
-                </Tooltip>}
             </div>
             }
         </div>
