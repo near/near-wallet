@@ -854,7 +854,7 @@ class Wallet {
         }
 
         // TODO: getAccountIds returns all accounts including any implicit account.
-        // Once 'IMPORT_ACCOUNT_WITH_LINK_V2' feature is on shipped:
+        // Once 'IMPORT_ACCOUNT_WITH_LINK_V2' feature is shipped:
         // Remove automatically adding implicitAccountId into array and then removing the duplicates.
 
         // remove duplicate and non-existing accounts
