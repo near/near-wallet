@@ -91,10 +91,9 @@ const TwoFactorVerifyModal = ({ open, onClose }) => {
             <p className='color-black font-bw' style={{ marginTop: '-10px', fontWeight: '500', height: '19px'}}>{method && method.detail}</p>
             {multisigRequest && (
                 <AlertBanner theme='alert'>
-                    {getTranslationsFromMultisigRequest(multisigRequest).map(({ id, data }) => (
                         <>
                             <Translate id={id} data={data} />
-                            <br />
+                            {index !== arr.length - 1 && <br />}
                         </>
                     ))}
                 </AlertBanner>
