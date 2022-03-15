@@ -180,7 +180,7 @@ const TwoFactorVerifyModal = ({ open, onClose }) => {
             <p className='font-bw'><Translate id='twoFactor.verify.desc'/></p>
             <p className='color-black font-bw' style={{ marginTop: '-10px', fontWeight: '500', height: '19px'}}>{method && method.detail}</p>
             {multisigRequest && (
-                <AlertBanner theme="alert">
+                <AlertBanner theme='alert'>
                     {getTranslationsFromMultisigRequest(multisigRequest).map(({ id, data }) => (
                         <>
                             <Translate id={id} data={data} />
