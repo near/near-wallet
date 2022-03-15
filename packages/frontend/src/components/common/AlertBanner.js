@@ -96,7 +96,7 @@ const Container = styled.div`
     }
 `;
 
-export default function AlertBanner({ title, button, linkTo, data, theme }) {
+export default function AlertBanner({ title, button, linkTo, data, theme, children }) {
     return (
         <Container className={classNames(['alert-banner', theme])}>
             {theme !== 'warning'
@@ -115,6 +115,7 @@ export default function AlertBanner({ title, button, linkTo, data, theme }) {
                     </>
                     : null
                 }
+                {children}
             </div>
         </Container>
     );
