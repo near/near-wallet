@@ -1477,7 +1477,7 @@
             },
             "deleteKey": "Deleting key ${publicKey}",
             "functionCall": "Calling method: ${methodName} in contract: ${receiverId} with amount ${deposit} NEAR and with args ${args}",
-            "stake": "Staking: ${deposit} NEAR to validator: ${receiverId}",
+            "stake": "Staking: ${amount} NEAR to validator: ${receiverId}",
             "transfer": "Transferring: ${deposit} NEAR to ${receiverId}"
         }
     },
