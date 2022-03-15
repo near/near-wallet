@@ -104,7 +104,7 @@ export default function AlertBanner({ title, button, linkTo, data, theme }) {
                 : <AlertTriangleIcon/>
             }      
             <div>
-                <SafeTranslate id={title} data={{ data: data }}/>
+                {title && <SafeTranslate id={title} data={{ data: data }}/>}
                 {linkTo ? 
                     <>
                         {linkTo.includes('http') ? (
