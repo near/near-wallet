@@ -66,7 +66,7 @@ export default function getTranslationsFromMultisigRequest({ actions, receiverId
                             receiverId,
                             methodName: action.methodName,
                             deposit: formatNear(action.deposit),
-                            args: Buffer.from(action.args).toString(),
+                            args: JSON.stringify(JSON.parse(Buffer.from(action.args).toString()), null, 2),
                         }
                     };
                 case 'transfer':

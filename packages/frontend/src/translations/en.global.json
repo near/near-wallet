@@ -1476,7 +1476,7 @@
                 "full": "WARNING: Entering the code below will authorize full access to your NEAR account: ${accountId}. If you did not initiate this action, please DO NOT continue.<br /><br />This should only be done if you are adding a new seed phrase to your account. In all other cases, this is very dangerous.<br /><br /> The public key you are adding is: ${publicKey} ",
             },
             "deleteKey": "Deleting key ${publicKey}",
-            "functionCall": "Calling method: ${methodName} in contract: ${receiverId} with amount ${deposit} NEAR and with args ${args}",
+            "functionCall": "Calling method: ${methodName} in contract: ${receiverId} with amount ${deposit} NEAR and with args: <pre>${args}</pre>",
             "stake": "Staking: ${amount} NEAR to validator: ${receiverId}",
             "transfer": "Transferring: ${deposit} NEAR to ${receiverId}"
         }
