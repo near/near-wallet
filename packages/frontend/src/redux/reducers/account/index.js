@@ -13,7 +13,8 @@ import {
     makeAccountActive,
     setLocalStorage,
     getAccountBalance,
-    setAccountBalance
+    setAccountBalance,
+    getMultisigRequest,
 } from '../../actions/account';
 import {
     staking
@@ -28,7 +29,8 @@ const initialState = {
     canEnableTwoFactor: null,
     twoFactor: null,
     ledgerKey: null,
-    accountsBalance: undefined
+    accountsBalance: undefined,
+    multisigRequest: null,
 };
 
 const recoverCodeReducer = handleActions({
@@ -63,6 +65,13 @@ const twoFactor = handleActions({
     [get2faMethod]: (state, { payload }) => ({
         ...state,
         twoFactor: payload
+    })
+}, initialState);
+
+const multisigRequest = handleActions({
+    [getMultisigRequest]: (state, { payload }) => ({
+        ...state,
+        multisigRequest: payload,
     })
 }, initialState);
 
@@ -195,5 +204,6 @@ export default reduceReducers(
     canEnableTwoFactor,
     twoFactor,
     twoFactorPrompt,
-    ledgerKey
+    ledgerKey,
+    multisigRequest,
 );
