@@ -22,6 +22,39 @@ const Form = styled.form`
     width: 100%;
 `;
 
+const StyledBannerContainer = styled.div`
+    &&& {
+        div:first-child {
+            margin: 0px;
+            width: 100%;
+            @media (max-width: 450px) {
+                 border-radius: 4px;
+            }
+        }
+
+        pre {
+            margin: 0px;
+        }
+    }
+`;
+
+const ActionDetailsBanner = ({ multisigRequest }) => {
+    const isAddingFullAccessKey = multisigRequest.actions.some(({ enum: type, permission }) => type === 'addKey' && !permission);
+
+    return  (
+        <StyledBannerContainer>
+            <AlertBanner theme={isAddingFullAccessKey ? 'warning' : 'light-blue'}>
+                {getTranslationsFromMultisigRequest(multisigRequest).map(({ id, data }, index, arr) => (
+                    <React.Fragment key={JSON.stringify(data)}>
+                        <Translate id={id} data={data} />
+                        {index !== arr.length - 1 && <br />}
+                    </React.Fragment>
+                ))}
+            </AlertBanner>
+        </StyledBannerContainer>
+    );
+};
+
 const TwoFactorVerifyModal = ({ open, onClose }) => {
 
     const [method, setMethod] = useState();
@@ -89,15 +122,7 @@ const TwoFactorVerifyModal = ({ open, onClose }) => {
             <h2 className='title'><Translate id='twoFactor.verify.title'/></h2>
             <p className='font-bw'><Translate id='twoFactor.verify.desc'/></p>
             <p className='color-black font-bw' style={{ marginTop: '-10px', fontWeight: '500', height: '19px'}}>{method && method.detail}</p>
-            {multisigRequest && (
-                <AlertBanner theme='alert'>
-                        <>
-                            <Translate id={id} data={data} />
-                            {index !== arr.length - 1 && <br />}
-                        </>
-                    ))}
-                </AlertBanner>
-            )}
+            {multisigRequest && <ActionDetailsBanner multisigRequest={multisigRequest} />}
             <Form onSubmit={(e) => {handleVerifyCode(); e.preventDefault();}}>
                 <TwoFactorVerifyInput
                     code={code}

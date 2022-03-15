@@ -5,7 +5,7 @@ import styled from 'styled-components';
 const Container = styled.div`
     max-width: 350px;
     width: 100%;
-    margin-bottom: 40px;
+    margin: 40px 0;
 
     .color-black {
         font-weight: 500;
