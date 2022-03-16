@@ -15,11 +15,7 @@ import { actions as ledgerActions } from '../redux/slices/ledger';
 import sendJson from '../tmp_fetch_send_json';
 import { decorateWithLockup } from './account-with-lockup';
 import { getAccountIds } from './helper-api';
-import {
-    getAccountIsInactive,
-    setAccountConfirmed,
-    setAccountIsInactive
-} from './localStorage';
+import { setAccountConfirmed } from './localStorage';
 import { TwoFactor } from './twoFactor';
 import { WalletError } from './walletError';
 
@@ -75,7 +71,6 @@ export const RELEASE_NOTES_MODAL_VERSION = 'v0.01.2';
 
 export const keyAccountConfirmed = (accountId) => `wallet.account:${accountId}:${NETWORK_ID}:confirmed`;
 export const keyStakingAccountSelected = () => `wallet.account:${wallet.accountId}:${NETWORK_ID}:stakingAccount`;
-export const keyAccountInactive = (accountId) => `wallet.account:${accountId}:${NETWORK_ID}:inactive`;
 export const keyReleaseNotesModalClosed = (version) => `wallet.releaseNotesModal:${version}:closed`;
 
 const WALLET_METADATA_METHOD = '__wallet__metadata';
@@ -683,20 +678,6 @@ class Wallet {
         return await sendJson('POST', ACCOUNT_HELPER_URL + path, {
             ...options,
             ...(await this.signatureFor(this))
-        });
-    }
-
-    async getAccountHelperWalletState(accountId) {
-        const state = await sendJson('GET', ACCOUNT_HELPER_URL + `/account/walletState/${accountId}`);
-        if (state.fundedAccountNeedsDeposit && !getAccountIsInactive(accountId)) {
-            setAccountIsInactive(accountId);
-        }
-        return state;
-    }
-
-    async clearFundedAccountNeedsDeposit(accountId) {
-        await sendJson('POST', ACCOUNT_HELPER_URL + '/fundedAccount/clearNeedsDeposit', {
-            accountId
         });
     }
 

@@ -99,8 +99,7 @@ class Navigation extends Component {
         const { menuOpen } = this.state;
         const { 
             flowLimitationMainMenu,
-            flowLimitationSubMenu,
-            isInactiveAccount
+            flowLimitationSubMenu
         } = this.props;
 
         return (
@@ -113,7 +112,6 @@ class Navigation extends Component {
                     flowLimitationMainMenu={flowLimitationMainMenu}
                     flowLimitationSubMenu={flowLimitationSubMenu}
                     refreshBalance={this.props.getAccountBalance}
-                    isInactiveAccount={isInactiveAccount}
                     {...this.props}
                 />
                 <MobileContainer
@@ -124,7 +122,6 @@ class Navigation extends Component {
                     flowLimitationMainMenu={flowLimitationMainMenu}
                     flowLimitationSubMenu={flowLimitationSubMenu}
                     refreshBalance={this.props.getAccountBalance}
-                    isInactiveAccount={isInactiveAccount}
                     {...this.props}
                 />
             </Container>

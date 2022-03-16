@@ -35,7 +35,6 @@ import translations_zh_hans from '../translations/zh-hans.global.json';
 import translations_zh_hant from '../translations/zh-hant.global.json';
 import classNames from '../utils/classNames';
 import getBrowserLocale from '../utils/getBrowserLocale';
-import { getAccountIsInactive, removeAccountIsInactive, setAccountIsInactive } from '../utils/localStorage';
 import { reportUiActiveMixpanelThrottled } from '../utils/reportUiActiveMixpanelThrottled';
 import ScrollToTop from '../utils/ScrollToTop';
 import {
@@ -46,7 +45,6 @@ import {
 } from '../utils/wallet';
 import AccessKeysWrapper from './access-keys/v2/AccessKeysWrapper';
 import { AutoImportWrapper } from './accounts/auto_import/AutoImportWrapper';
-import { ActivateAccountWithRouter } from './accounts/create/ActivateAccount';
 import { ExistingAccountWrapper } from './accounts/create/existing_account/ExistingAccountWrapper';
 import { InitialDepositWrapper } from './accounts/create/initial_deposit/InitialDepositWrapper';
 import { CreateAccountLanding } from './accounts/create/landing/CreateAccountLanding';
@@ -91,7 +89,6 @@ const {
 } = tokenFiatValueActions;
 
 const {
-    getAccountHelperWalletState,
     handleClearUrl,
     handleRedirectUrl,
     handleRefreshUrl,
@@ -134,10 +131,6 @@ const Container = styled.div`
 class Routing extends Component {
     constructor(props) {
         super(props);
-
-        this.state = {
-            isInactiveAccount: null
-        };
 
         this.pollTokenFiatValue = null;
 
@@ -214,28 +207,7 @@ class Routing extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        const { activeLanguage, account, getAccountHelperWalletState } = this.props;
-
-        if (prevProps.account.localStorage?.accountId !== account.localStorage?.accountId) {
-            this.setState({ isInactiveAccount: getAccountIsInactive(`${account.accountId || account.localStorage?.accountId}`) });
-        }
-
-        if (prevProps.account.accountId !== account.accountId && account.accountId !== undefined) {
-            getAccountHelperWalletState(account.accountId);
-        }
-
-        if (prevProps.account.accountHelperWalletState.isLoaded !== account.accountHelperWalletState.isLoaded) {
-            const needsDeposit = account.accountHelperWalletState.fundedAccountNeedsDeposit;
-            const accountId = account.accountId || account.localStorage?.accountId;
-
-            this.setState({ isInactiveAccount: needsDeposit });
-
-            if (!needsDeposit) {
-                removeAccountIsInactive(accountId);
-            } else {
-                setAccountIsInactive(accountId);
-            }
-        }
+        const { activeLanguage } = this.props;
 
         const prevLangCode = prevProps.activeLanguage && prevProps.activeLanguage.code;
         const curLangCode = activeLanguage && activeLanguage.code;
@@ -283,7 +255,6 @@ class Routing extends Component {
                 });
             }
         };
-        const { isInactiveAccount } = this.state;
 
         const hideFooterOnMobile = [
             WALLET_LOGIN_URL,
@@ -312,7 +283,7 @@ class Routing extends Component {
                         <NetworkBanner
                             account={account}
                         />
-                        <Navigation isInactiveAccount={isInactiveAccount} />
+                        <Navigation />
                         <GlobalAlert />
                         <LedgerConfirmActionModal />
                         {
@@ -348,7 +319,7 @@ class Routing extends Component {
                             <GuestLandingRoute
                                 exact
                                 path='/'
-                                render={(props) => isInactiveAccount ? <ActivateAccountWithRouter {...props} /> : <Wallet tab={tab} setTab={setTab} {...props} />}
+                                render={(props) => <Wallet tab={tab} setTab={setTab} {...props} />}
                                 accountFound={accountFound}
                                 indexBySearchEngines={!accountFound}
                             />
@@ -368,12 +339,12 @@ class Routing extends Component {
                                     path='/create'
                                     render={(props) =>
                                         accountFound || !DISABLE_CREATE_ACCOUNT ? (
-                                            <CreateAccountWithRouter {...props}/>
+                                            <CreateAccountWithRouter {...props} />
                                         ) : (
                                             <CreateAccountLanding />
                                         )
                                     }
-                                    // Logged in users always create a named account
+                                // Logged in users always create a named account
                                 />
                             }
                             <Route
@@ -525,13 +496,11 @@ class Routing extends Component {
                                 path='/full-access-keys'
                                 render={() => <AccessKeysWrapper type='full-access-keys' />}
                             />
-                            {!isInactiveAccount &&
-                                <PrivateRoute
-                                    exact
-                                    path='/send-money/:accountId?'
-                                    component={SendContainerWrapper}
-                                />
-                            }
+                            <PrivateRoute
+                                exact
+                                path='/send-money/:accountId?'
+                                component={SendContainerWrapper}
+                            />
                             <PrivateRoute
                                 exact
                                 path='/nft-detail/:contractId/:tokenId'
@@ -552,28 +521,24 @@ class Routing extends Component {
                                 path='/profile/:accountId'
                                 component={Profile}
                             />
-                            {!isInactiveAccount &&
-                                <PrivateRoute
-                                    exact
-                                    path='/profile/:accountId?'
-                                    component={Profile}
-                                />
-                            }
+                            <PrivateRoute
+                                exact
+                                path='/profile/:accountId?'
+                                component={Profile}
+                            />
                             <PrivateRoute
                                 exact
                                 path='/sign'
                                 component={SignWrapper}
                             />
-                            {!isInactiveAccount &&
-                                <PrivateRoute
-                                    path='/staking'
-                                    render={() => (
-                                        <StakingContainer
-                                            history={this.props.history}
-                                        />
-                                    )}
-                                />
-                            }
+                            <PrivateRoute
+                                path='/staking'
+                                render={() => (
+                                    <StakingContainer
+                                        history={this.props.history}
+                                    />
+                                )}
+                            />
                             <Route
                                 exact
                                 path='/cli-login-success'
@@ -586,7 +551,7 @@ class Routing extends Component {
                                 indexBySearchEngines={true}
                             />
                             <PrivateRoute
-                                component={isInactiveAccount ? ActivateAccountWithRouter : PageNotFound}
+                                component={PageNotFound}
                             />
                         </Switch>
                         <Footer />
@@ -608,7 +573,6 @@ const mapDispatchToProps = {
     handleClearUrl,
     promptTwoFactor,
     redirectTo,
-    getAccountHelperWalletState,
     fetchTokenFiatValues,
     handleClearAlert
 };
