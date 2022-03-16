@@ -292,6 +292,13 @@
         "supportedExchanges": "Supported Exchanges",
         "title": "Top Up"
     },
+    "changePassword": {
+        "confirmPassword": "Confirm Password",
+        "consentText": "I understand that NEAR Wallet cannot recover this password for me. Learn more",
+        "desc": "Enter a new password for securing your wallet while using Brave Browser on this device.",
+        "newPassword": "New Password",
+        "ttl": "Change Your Browser Password"
+    },
     "confirmLedgerModal": {
         "header": {
             "confirm": "Please confirm the operation on your device...",

@@ -42,7 +42,7 @@ const StyledContainer = styled(Container)`
 `;
 
 
-const SetPassword = () => {
+const ChangePassword = () => {
     // const initialState ={
     //     newPassword: "",
     //     confirmPassword: "",
@@ -56,25 +56,25 @@ const SetPassword = () => {
         <form>
             <header>
                 <h1 className="ttl">
-                    <Translate id="setPassword.ttl"/>
+                    <Translate id="changePassword.ttl"/>
                 </h1>
-                <p className="desc"><Translate id="setPassword.desc"/></p>
+                <p className="desc"><Translate id="changePassword.desc"/></p>
             </header>
            <div className='inputWrapper'>
-               <label htmlFor=""><Translate id="setPassword.newPassword"/></label>
+               <label htmlFor=""><Translate id="changePassword.newPassword"/></label>
                 <input type='password'/>
              </div>
             <div className='inputWrapper'>
-                <label htmlFor=""><Translate id="setPassword.confirmPassword"/></label>
+                <label htmlFor=""><Translate id="changePassword.confirmPassword"/></label>
                 <input type='password'/>
                 {/*<p>Incorrect password. 2 attempts remaining.</p>*/}
             </div>
             <Button className="btn">
-                <Translate id="setPassword.buttonCta"/>
+                <Translate id="button.continue"/>
             </Button>
         </form>
     </StyledContainer>
   );
 };
 
-export default SetPassword;
+export default ChangePassword;

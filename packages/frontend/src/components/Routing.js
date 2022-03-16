@@ -20,6 +20,7 @@ import * as accountActions from '../redux/actions/account';
 import { handleClearAlert } from '../redux/reducers/status';
 import { selectAccountSlice } from '../redux/slices/account';
 import { actions as tokenFiatValueActions } from '../redux/slices/tokenFiatValues';
+import ChangePassword from '../routes/ChangePassword';
 import { CreateImplicitAccountWrapper } from '../routes/CreateImplicitAccountWrapper';
 import { LoginWrapper } from '../routes/LoginWrapper';
 import SetPassword from '../routes/SetPassword';
@@ -87,6 +88,7 @@ import Terms from './terms/Terms';
 import { Wallet } from './wallet/Wallet';
 
 import '../index.css';
+
 
 const { fetchTokenFiatValues } = tokenFiatValueActions;
 
@@ -585,6 +587,11 @@ class Routing extends Component {
                                 exact
                                 path='/security/set-password'
                                 component={SetPassword}
+                            />
+                            <PrivateRoute
+                                exact
+                                path='/security/set-password'
+                                component={ChangePassword}
                             />
                             {!isInactiveAccount &&
                                 <PrivateRoute
