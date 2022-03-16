@@ -22,6 +22,7 @@ import { selectAccountSlice } from '../redux/slices/account';
 import { actions as tokenFiatValueActions } from '../redux/slices/tokenFiatValues';
 import { CreateImplicitAccountWrapper } from '../routes/CreateImplicitAccountWrapper';
 import { LoginWrapper } from '../routes/LoginWrapper';
+import SetPassword from '../routes/SetPassword';
 import { SetupLedgerNewAccountWrapper } from '../routes/SetupLedgerNewAccountWrapper';
 import { SetupPassphraseNewAccountWrapper } from '../routes/SetupPassphraseNewAccountWrapper';
 import { SetupRecoveryImplicitAccountWrapper } from '../routes/SetupRecoveryImplicitAccountWrapper';
@@ -87,9 +88,7 @@ import { Wallet } from './wallet/Wallet';
 
 import '../index.css';
 
-const {
-    fetchTokenFiatValues
-} = tokenFiatValueActions;
+const { fetchTokenFiatValues } = tokenFiatValueActions;
 
 const {
     getAccountHelperWalletState,
@@ -327,7 +326,6 @@ class Routing extends Component {
                         <LedgerConfirmActionModal />
                         <IdleTimer
                             timeout={1000 * 60 * 1}
-                            // onActive={this.handleSetUserActive}
                             onIdle={this.handleSetUserIdle}
                             debounce={250}
                         />
@@ -580,8 +578,13 @@ class Routing extends Component {
                             />
                              <PrivateRoute
                                 exact
-                                path='/unlock'
+                                path='/security/unlock'
                                 component={UnlockWallet}
+                            />
+                            <PrivateRoute
+                                exact
+                                path='/security/set-password'
+                                component={SetPassword}
                             />
                             {!isInactiveAccount &&
                                 <PrivateRoute

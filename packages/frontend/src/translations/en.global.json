@@ -531,6 +531,14 @@
             "title": "Word <b>#${wordId}</b>"
         }
     },
+    "introducingPasswordsModal": {
+        "desc": "NEAR Wallet now uses browser passwords to provide additional security to your accounts on the web.\n\nContinue to set up a browser password for your wallet.",
+        "ttl": "Introducing Browser Passwords!"
+    },
+    "keepPasswordsSafeModal": {
+        "desc": "NEAR Wallet is not able to recover your password for you.\n\nIf you lose it, you’ll have to reset your wallet and recover any accounts you may have previously imported.",
+        "ttl": "Keep Your Password Safe!"
+    },
     "landing": {
         "banner": "NEAR Wallet is in Private Beta",
         "desc": "Securely store and stake your NEAR tokens and compatible assets with <span>NEAR Wallet</span>.",
@@ -957,6 +965,12 @@
         "title": "Release Notes"
     },
     "reservedForFeesInfo": "Up to ${data} NEAR is reserved to cover the cost of transactions.",
+    "resetWalletModal": {
+        "buttonCta": "Reset & Recover",
+        "consentText": "I’ve confirmed that I have access to the recovery information for my accounts.",
+        "desc": "NEAR Wallet is not able to recover your browser password for you. <br/> If you’ve lost it, you’ll need to reset your wallet and manually recover any accounts you may have previously added. Make sure you have your recovery information for each account before resetting.",
+        "ttl": "Reset Your Wallet?"
+    },
     "selectAccountDropdown": {
         "account": "Account",
         "createAccount": "Create New Account",
@@ -1055,6 +1069,14 @@
                 "token": "Asset"
             }
         }
+    },
+    "setPassword": {
+        "buttonCta": "Set password",
+        "confirmPassword": "Confirm Password",
+        "consentText": "I understand that NEAR Wallet cannot recover this password for me. Learn more",
+        "desc": "Set a password to secure your wallet while using Brave Browser on this device.",
+        "newPassword": "New Password",
+        "ttl": "Set a Browser Password"
     },
     "setRecoveryConfirm": {
         "didNotReceive": "Didn't receive your code?",

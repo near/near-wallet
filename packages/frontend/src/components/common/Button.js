@@ -2,6 +2,26 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import styled from 'styled-components';
 
+const backgroundColorMap = {
+    primary: '#0072CE',
+    secondary: '#ffffff',
+    destructive: '#FC5B5B'
+};
+const backgroundColorHoverMap = {
+    primary: '#007fe6',
+    secondary: '#cccccc',
+    destructive: '#FC5B5B'
+};
+const colorMap = {
+    primary: '#FFFFFF',
+    secondary: '#888888',
+    destructive: '#FFFFFF'
+};
+const borderColorMap = {
+    primary: '#0072CE',
+    secondary: '#cccccc',
+    destructive: '#FC5B5B'
+};
 const StyledButton = styled.button`
     border-radius: 40px;
     padding: 5px 32px;
@@ -15,14 +35,14 @@ const StyledButton = styled.button`
     align-items: center;
     justify-content: center;
     transition: all 150ms ease;
-    background-color: ${(props) => props.theme === 'secondary' ? '#ffffff' : '#0072CE'};
-    border: 2px solid ${(props) => props.theme === 'secondary' ? '#cccccc' : '#0072CE'};
-    color: ${(props) => props.theme === 'secondary' ? '#888888' : 'white'};
+    background-color: ${(props) => backgroundColorMap[props.theme]};
+    border: 2px solid ${(props) => borderColorMap[props.theme]};
+    color:  ${(props) => colorMap[props.theme]};
 
     @media (min-width: 768px) {
         &:enabled {
             &:hover {
-                background-color: ${(props) => props.theme === 'secondary' ? '#cccccc' : '#007fe6'};
+                background-color: ${(props) => backgroundColorHoverMap[props.theme]};
                 color: white;
             }
         }
@@ -50,7 +70,7 @@ const Button = (props) => (
 
 Button.propTypes = {
   disabled: PropTypes.bool,
-  theme: PropTypes.oneOf(['primary', 'secondary']),
+  theme: PropTypes.oneOf(['primary', 'secondary', 'destructive']),
   fullWidth: PropTypes.bool,
 };
 
