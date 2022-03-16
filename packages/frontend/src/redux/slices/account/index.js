@@ -39,13 +39,6 @@ export const selectAccountLocalStorage = createSelector(selectAccountSlice, (acc
 
 export const selectAccountLocalStorageAccountId = createSelector(selectAccountLocalStorage, (localStorage) => localStorage.accountId);
 
-// helperWalletState - state
-export const selectAccountHelperWalletState = createSelector(selectAccountSlice, (account) => account.accountHelperWalletState || {});
-
-export const selectAccountRequiredUnlockBalance = createSelector(selectAccountHelperWalletState, (accountHelperWalletState) => accountHelperWalletState.requiredUnlockBalance);
-
-export const selectAccountFundedAccountNeedsDeposit = createSelector(selectAccountHelperWalletState, (accountHelperWalletState) => accountHelperWalletState.fundedAccountNeedsDeposit);
-
 // url - state
 export const selectAccountUrl = createSelector(selectAccountSlice, (account) => account.url || {});
 
