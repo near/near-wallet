@@ -240,6 +240,7 @@
         "moreInformation": "More information",
         "needToEditGoBack": "Need to edit? Go Back",
         "next": "Next",
+        "okIveSavedItSomewhere": "OK, I saved it somewhere",
         "protectAccount": "Protect Account",
         "receive": "Receive",
         "recoverAccount": "Recover Account",
@@ -291,6 +292,13 @@
         "supportedExchanges": "Supported Exchanges",
         "title": "Top Up"
     },
+    "changePassword": {
+        "confirmPassword": "Confirm Password",
+        "consentText": "I understand that NEAR Wallet cannot recover this password for me. Learn more",
+        "desc": "Enter a new password for securing your wallet while using Brave Browser on this device.",
+        "newPassword": "New Password",
+        "ttl": "Change Your Browser Password"
+    },
     "confirmLedgerModal": {
         "header": {
             "confirm": "Please confirm the operation on your device...",
@@ -330,8 +338,8 @@
             "minCharacters": "Fewer than 2 characters",
             "separators": "Characters (_-) can be used as separators"
         },
-        "pageText": "Enter an Account ID to use with your NEAR account. Your Account ID will be used for all NEAR operations, including sending and receiving assets.",
-        "pageTitle": "Reserve Account ID",
+        "pageText": "NEAR Wallet is a secure wallet and account manager for your accounts on the NEAR blockchain. Once you create an account, you’ll need it to interact with applications on NEAR, and to securely store your various tokens and collectibles (NFTs).",
+        "pageTitle": "Create Your Account",
         "recoverItHere": "Import Existing Account",
         "setupPassphrase": {
             "generatePassphrase": {
@@ -495,6 +503,11 @@
         "withId": "Importing account: ${accountId}",
         "withIdFailed": "Failed to import account: ${accountId}"
     },
+    "inactivityLockModal": {
+        "buttonCta": "I’m still here",
+        "desc": "Your wallet will soon be locked due to inactivity. Would you like to continue your session?",
+        "ttl": "Are you still there?"
+    },
     "initialDeposit": {
         "claimAccount": {
             "desc": "Your deposit was received! Once claimed, your deposit will be transferred to your new account.",
@@ -524,6 +537,14 @@
             "placeholder": "",
             "title": "Word <b>#${wordId}</b>"
         }
+    },
+    "introducingPasswordsModal": {
+        "desc": "NEAR Wallet now uses browser passwords to provide additional security to your accounts on the web.\n\nContinue to set up a browser password for your wallet.",
+        "ttl": "Introducing Browser Passwords!"
+    },
+    "keepPasswordsSafeModal": {
+        "desc": "NEAR Wallet is not able to recover your password for you.\n\nIf you lose it, you’ll have to reset your wallet and recover any accounts you may have previously imported.",
+        "ttl": "Keep Your Password Safe!"
     },
     "landing": {
         "banner": "NEAR Wallet is in Private Beta",
@@ -742,6 +763,10 @@
         },
         "authorizedApps": {
             "title": "Authorized Apps"
+        },
+        "browserPassword": {
+            "desc": "Change the password used to secure your wallet while using Brave Browser on this device.",
+            "ttl": "Browser Password"
         },
         "details": {
             "availableBalance": "Available Balance",
@@ -980,6 +1005,12 @@
         "title": "Release Notes"
     },
     "reservedForFeesInfo": "Up to ${data} NEAR is reserved to cover the cost of transactions.",
+    "resetWalletModal": {
+        "buttonCta": "Reset & Recover",
+        "consentText": "I’ve confirmed that I have access to the recovery information for my accounts.",
+        "desc": "NEAR Wallet is not able to recover your browser password for you. <br/> If you’ve lost it, you’ll need to reset your wallet and manually recover any accounts you may have previously added. Make sure you have your recovery information for each account before resetting.",
+        "ttl": "Reset Your Wallet?"
+    },
     "selectAccountDropdown": {
         "account": "Account",
         "createAccount": "Create New Account",
@@ -1080,6 +1111,14 @@
             }
         }
     },
+    "setPassword": {
+        "buttonCta": "Set password",
+        "confirmPassword": "Confirm Password",
+        "consentText": "I understand that NEAR Wallet cannot recover this password for me. Learn more",
+        "desc": "Set a password to secure your wallet while using Brave Browser on this device.",
+        "newPassword": "New Password",
+        "ttl": "Set a Browser Password"
+    },
     "setRecoveryConfirm": {
         "didNotReceive": "Didn't receive your code?",
         "email": "email address",
@@ -1147,7 +1186,7 @@
         "emailTitle": "Email",
         "existingPhraseDesc": "Protect your new address by sharing an existing passphrase.",
         "existingPhraseTitle": "Use an Existing Passphrase",
-        "header": "Choose a Security Method",
+        "header": "Choose a Recovery Method",
         "ledgerDesc": "Secure your account with a Ledger hardware device.",
         "ledgerTitle": "Ledger Hardware Wallet",
         "newPhraseDesc": "Protect your new address with a new and unique passphrase.",
@@ -1158,11 +1197,11 @@
         "phoneTitle": "Phone",
         "phraseDesc": "Generate and safely store a unique passphrase.",
         "phraseTitle": "Secure Passphrase",
-        "subHeader": "Select a method to secure and recover your account. This will be used to verify important activity, recover your account and access your account from other devices."
+        "subHeader": "Select a method to secure and recover your account, and to access it on other devices."
     },
     "setupSeedPhrase": {
-        "pageText": "Write down the following words in order and keep them somewhere safe. <b>Anyone with access to it will also have access to your account!</b> You’ll be asked to verify your passphrase next.",
-        "pageTitle": "Setup Your Secure Passphrase",
+        "pageText": "This passphrase is the master-key for your account. Store it somewhere safe and do not share it. Anyone with these words will have full access to your account.",
+        "pageTitle": "Safely Store Your Secure Passphrase",
         "snackbarCopyImplicitAddress": "Funding Address Copied!",
         "snackbarCopySuccess": "Passphrase copied!"
     },
@@ -1173,8 +1212,8 @@
     },
     "setupSeedPhraseVerify": {
         "inputError": "Please check your passphrase and try again.",
-        "pageText": "Enter the following word from your recovery phrase to complete the setup process.",
-        "pageTitle": "Verify Phrase",
+        "pageText": "Click or tap each word in the correct order to complete your passphrase.",
+        "pageTitle": "Verify Passphrase",
         "startOverText": "Didn't write it down?"
     },
     "sign": {
@@ -1445,9 +1484,9 @@
         "desc": "Protect your account by requiring confirmation via SMS or email when authorizing transactions.",
         "disable": {
             "desc": "Keep in mind that transactions won't have to be confirmed with 2FA once it's disabled.",
-            "phoneDesc": "The SMS option for two-factor authentication is being deprecated, and cannot be re-enbaled.",
             "disable": "Disable 2FA",
             "keep": "No, keep 2FA",
+            "phoneDesc": "The SMS option for two-factor authentication is being deprecated, and cannot be re-enbaled.",
             "title": "Are you sure you want to disable 2FA?"
         },
         "email": "Email",

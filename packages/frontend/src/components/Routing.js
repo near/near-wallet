@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import { stringify } from 'query-string';
 import React, { Component } from 'react';
 import ReactDOMServer from 'react-dom/server';
+import IdleTimer from 'react-idle-timer';
 import { withLocalize } from 'react-localize-redux';
 import { connect } from 'react-redux';
 import { Redirect, Switch } from 'react-router-dom';
@@ -19,13 +20,16 @@ import * as accountActions from '../redux/actions/account';
 import { handleClearAlert } from '../redux/reducers/status';
 import { selectAccountSlice } from '../redux/slices/account';
 import { actions as tokenFiatValueActions } from '../redux/slices/tokenFiatValues';
+import ChangePassword from '../routes/ChangePassword';
 import { CreateImplicitAccountWrapper } from '../routes/CreateImplicitAccountWrapper';
 import { ImportAccountWithLinkWrapper } from '../routes/ImportAccountWithLinkWrapper';
 import { LoginWrapper } from '../routes/LoginWrapper';
+import SetPassword from '../routes/SetPassword';
 import { SetupLedgerNewAccountWrapper } from '../routes/SetupLedgerNewAccountWrapper';
 import { SetupPassphraseNewAccountWrapper } from '../routes/SetupPassphraseNewAccountWrapper';
 import { SetupRecoveryImplicitAccountWrapper } from '../routes/SetupRecoveryImplicitAccountWrapper';
 import { SignWrapper } from '../routes/SignWrapper';
+import UnlockWallet from '../routes/UnlockWallet';
 import translations_en from '../translations/en.global.json';
 import translations_pt from '../translations/pt.global.json';
 import translations_ru from '../translations/ru.global.json';
@@ -79,6 +83,7 @@ import { NFTDetailWrapper } from './nft/NFTDetailWrapper';
 import { PageNotFound } from './page-not-found/PageNotFound';
 import { Profile } from './profile/Profile';
 import { ReceiveContainerWrapper } from './receive-money/ReceiveContainerWrapper';
+import InactivityLockModal from './security/InactivityLockModal';
 import { SendContainerWrapper } from './send/SendContainerWrapper';
 import { StakingContainer } from './staking/StakingContainer';
 import Terms from './terms/Terms';
@@ -86,9 +91,8 @@ import { Wallet } from './wallet/Wallet';
 
 import '../index.css';
 
-const {
-    fetchTokenFiatValues
-} = tokenFiatValueActions;
+
+const { fetchTokenFiatValues } = tokenFiatValueActions;
 
 const {
     getAccountHelperWalletState,
@@ -136,7 +140,8 @@ class Routing extends Component {
         super(props);
 
         this.state = {
-            isInactiveAccount: null
+            isInactiveAccount: null,
+            isUserActive: true
         };
 
         this.pollTokenFiatValue = null;
@@ -251,6 +256,14 @@ class Routing extends Component {
         this.stopPollingTokenFiatValue();
     }
 
+    handleSetUserActive = () => {
+        return this.setState({...this.state,isUserActive: true });
+    }
+
+    handleSetUserIdle = () => {
+        return this.setState({...this.state, isUserActive: false });
+    }
+
     startPollingTokenFiatValue = () => {
         const { fetchTokenFiatValues } = this.props;
 
@@ -315,6 +328,14 @@ class Routing extends Component {
                         <Navigation isInactiveAccount={isInactiveAccount} />
                         <GlobalAlert />
                         <LedgerConfirmActionModal />
+                        <IdleTimer
+                            timeout={1000 * 60 * 1}
+                            onIdle={this.handleSetUserIdle}
+                            debounce={250}
+                        />
+                        {!this.state.isUserActive && 
+                        <InactivityLockModal isOpen={!this.state.isUserActive} onClose={this.handleSetUserActive}/>
+                        }
                         {
                             account.requestPending !== null &&
                             <TwoFactorVerifyModal
@@ -563,6 +584,21 @@ class Routing extends Component {
                                 exact
                                 path='/sign'
                                 component={SignWrapper}
+                            />
+                             <PrivateRoute
+                                exact
+                                path='/security/unlock'
+                                component={UnlockWallet}
+                            />
+                            <PrivateRoute
+                                exact
+                                path='/security/set-password'
+                                component={SetPassword}
+                            />
+                            <PrivateRoute
+                                exact
+                                path='/security/change-password'
+                                component={ChangePassword}
                             />
                             {!isInactiveAccount &&
                                 <PrivateRoute

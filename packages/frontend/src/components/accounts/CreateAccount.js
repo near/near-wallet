@@ -2,7 +2,6 @@ import { getSearch } from 'connected-react-router';
 import React, { Component } from 'react';
 import { Translate } from 'react-localize-redux';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { ACCOUNT_ID_SUFFIX, IS_MAINNET, MIN_BALANCE_TO_CREATE } from '../../config';
@@ -17,19 +16,17 @@ import { clearLocalAlert } from '../../redux/actions/status';
 import { selectAccountSlice, selectActiveAccountIdIsImplicitAccount } from '../../redux/slices/account';
 import { selectStatusLocalAlert, selectStatusMainLoader } from '../../redux/slices/status';
 import { selectNearTokenFiatValueUSD } from '../../redux/slices/tokenFiatValues';
-import isMobile from '../../utils/isMobile';
 import {
     ENABLE_IDENTITY_VERIFIED_ACCOUNT
 } from '../../utils/wallet';
-import AccountNote from '../common/AccountNote';
 import { getNearAndFiatValue } from '../common/balance/helpers';
+import Button from '../common/Button';
 import FormButton from '../common/FormButton';
 import Container from '../common/styled/Container.css';
 import WhereToBuyNearModal from '../common/WhereToBuyNearModal';
 import SafeTranslate from '../SafeTranslate';
 import BrokenLinkIcon from '../svg/BrokenLinkIcon';
 import FundNearIcon from '../svg/FundNearIcon';
-import AccountFormAccountId from './AccountFormAccountId';
 
 const StyledContainer = styled(Container)`
     .input {
@@ -147,47 +144,38 @@ class CreateAccount extends Component {
     }
 
     handleCreateAccount = async () => {
-        const { accountId, fundingAmount } = this.state;
-        const {
-            fundingContract, fundingKey,
-            fundingAccountId,
-        } = this.props;
+        // const { accountId, fundingAmount } = this.state;
+        // const {
+        //     fundingContract, fundingKey,
+        //     fundingAccountId,
+        // } = this.props;
 
-        this.setState({ loader: true });
+        // this.setState({ loader: true });
 
-        let queryString = '';
-        if (fundingAccountId || fundingContract) {
-            const fundingOptions = fundingAccountId ? { fundingAccountId } : { fundingContract, fundingKey, fundingAmount };
-            queryString = `?fundingOptions=${encodeURIComponent(JSON.stringify(fundingOptions))}`;
-        }
+        // let queryString = '';
+        // if (fundingAccountId || fundingContract) {
+        //     const fundingOptions = fundingAccountId ? { fundingAccountId } : { fundingContract, fundingKey, fundingAmount };
+        //     queryString = `?fundingOptions=${encodeURIComponent(JSON.stringify(fundingOptions))}`;
+        // }
         Mixpanel.track('CA Click create account button');
-        this.props.history.push(`/set-recovery/${accountId}${queryString}`);
+        this.props.history.push(`/set-recovery/${'accountId'}${'queryString'}`);
     }
 
     render() {
         const {
-            loader,
-            accountId,
             invalidNearDrop,
             termsAccepted,
             whereToBuy
         } = this.state;
 
         const {
-            localAlert,
-            mainLoader,
-            checkNewAccount,
-            resetAccount,
-            clearLocalAlert,
             fundingContract,
             fundingKey,
             nearTokenFiatValueUSD,
-            locationSearch,
             activeAccountIdIsImplicit
         } = this.props;
         
         const isLinkDrop = fundingContract && fundingKey;
-        const useLocalAlert = accountId.length > 0 ? localAlert : undefined;
         const showTermsPage = IS_MAINNET && !isLinkDrop && !termsAccepted && !ENABLE_IDENTITY_VERIFIED_ACCOUNT;
 
         if (showTermsPage) {
@@ -253,37 +241,21 @@ class CreateAccount extends Component {
                             />
                         </h1>
                         <h2><Translate id='createAccount.pageText' /></h2>
-                        <h4 className='small'><Translate id='createAccount.accountIdInput.title' /></h4>
-                        <AccountFormAccountId
-                            mainLoader={mainLoader}
-                            handleChange={this.handleChange}
-                            type='create'
-                            pattern={/[^a-zA-Z0-9_-]/}
-                            checkAvailability={checkNewAccount}
-                            localAlert={useLocalAlert}
-                            accountId={accountId}
-                            clearLocalAlert={clearLocalAlert}
-                            defaultAccountId={resetAccount && resetAccount.accountIdNotConfirmed.split('.')[0]}
-                            autoFocus={isMobile() ? false : true}
-                        />
-                        <AccountNote />
-                        <FormButton
-                            type='submit'
-                            disabled={!(localAlert && localAlert.success)}
-                            sending={loader}
+                        <Button
+                            onClick={this.handleCreateAccount}
                             data-test-id="reserveAccountIdButton"
                         >
-                            <Translate id='button.reserveMyAccountId' />
-                        </FormButton>
+                            <Translate id='button.getStarted' />
+                        </Button>
                         {!termsAccepted &&
                             <div className='disclaimer no-terms-page'>
                                 <Translate id='createAccount.termsPage.disclaimer' />
                             </div>
                         }
-                        <div className='alternatives-title'><Translate id='createAccount.alreadyHaveAnAccount' /></div>
+                        {/* <div className='alternatives-title'><Translate id='createAccount.alreadyHaveAnAccount' /></div>
                         <div className='alternatives' onClick={() => { Mixpanel.track('IE Click import existing account button'); }}>
                             <Link to={`/recover-account${locationSearch}`}><Translate id='createAccount.recoverItHere' /></Link>
-                        </div>
+                        </div> */}
                     </form>
                 </StyledContainer>
 

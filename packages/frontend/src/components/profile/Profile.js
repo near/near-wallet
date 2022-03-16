@@ -34,6 +34,7 @@ import UserIcon from '../svg/UserIcon';
 import AuthorizedApp from './authorized_apps/AuthorizedApp';
 import BalanceContainer from './balances/BalanceContainer';
 import LockupAvailTransfer from './balances/LockupAvailTransfer';
+import BrowserPassword from './browser-password/BrowserPassword';
 import HardwareDevices from './hardware_devices/HardwareDevices';
 import MobileSharingWrapper from './mobile_sharing/MobileSharingWrapper';
 import RecoveryContainer from './Recovery/RecoveryContainer';
@@ -267,6 +268,12 @@ export function Profile({ match }) {
                         <h4><Translate id='profile.security.lessSecure'/><Tooltip translate='profile.security.lessSecureDesc' icon='icon-lg'/></h4>
                         <RecoveryContainer type='email' recoveryMethods={userRecoveryMethods}/>
                         <RecoveryContainer type='phone' recoveryMethods={userRecoveryMethods}/>
+                        <hr/>
+                        <div>
+                            <h2><LockIcon/><Translate id='profile.browserPassword.ttl'/></h2>
+                            <div className='sub-heading'><Translate id='profile.browserPassword.desc'/></div>
+                            <BrowserPassword/>
+                        </div>
                         {!account.ledgerKey &&
                             <>
                                 <hr/>
