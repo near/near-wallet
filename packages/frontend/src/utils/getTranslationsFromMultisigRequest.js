@@ -77,14 +77,6 @@ export default function getTranslationsFromMultisigRequest({ actions, receiverId
                             deposit: formatNear(action.deposit),
                         }
                     };
-                case 'stake':
-                    return {
-                        id: 'twoFactor.action.stake',
-                        data: {
-                            receiverId,
-                            amount: formatNear(action.amount),
-                        }
-                    };
                 default:
                     return {};
             }
