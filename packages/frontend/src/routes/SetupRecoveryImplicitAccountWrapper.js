@@ -19,15 +19,17 @@ export function SetupRecoveryImplicitAccountWrapper() {
     const [recoveryKeyPair, setRecoveryKeyPair] = useState();
     const [verifyingEmailCode, setVerifyingEmailCode] = useState(false);
     const [resendingEmailCode, setResendingEmailCode] = useState(false);
+    const [seedPhrasePublicKey, setSeedPhrasePublicKey] = useState(null);
 
     const handleInititalizeEmailRecoveryLink = async () => {
         const passPhrase = await wallet.initializeRecoveryMethodNewImplicitAccount({ kind: 'email', detail: email });
-        const { secretKey } = parseSeedPhrase(passPhrase);
+        const { publicKey, secretKey } = parseSeedPhrase(passPhrase);
         const recoveryKeyPair = KeyPair.fromString(secretKey);
         const implicitAccountId = Buffer.from(recoveryKeyPair.publicKey.data).toString('hex');
 
         setRecoveryKeyPair(recoveryKeyPair);
         setImplicitAccountId(implicitAccountId);
+        setSeedPhrasePublicKey(publicKey);
     };
 
     if (!showVerifyEmailCode) {
@@ -60,7 +62,7 @@ export function SetupRecoveryImplicitAccountWrapper() {
                 Mixpanel.track('SR Verify email code');
                 try {
                     setVerifyingEmailCode(true);
-                    await wallet.validateSecurityCodeNewImplicitAccount(implicitAccountId, { kind: 'email', detail: email }, securityCode);
+                    await wallet.validateSecurityCodeNewImplicitAccount(implicitAccountId, { kind: 'email', detail: email }, securityCode, seedPhrasePublicKey);
                     await dispatch(saveAccount(implicitAccountId, recoveryKeyPair));
                 } catch (e) {
                     dispatch(showCustomAlert({

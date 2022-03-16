@@ -730,11 +730,12 @@ class Wallet {
         return seedPhrase;
     }
 
-    async validateSecurityCodeNewImplicitAccount(implicitAccountId, method, securityCode) {
+    async validateSecurityCodeNewImplicitAccount(implicitAccountId, method, securityCode, publicKey) {
         try {
             await sendJson('POST', ACCOUNT_HELPER_URL + '/account/validateSecurityCodeForTempAccount', {
                 accountId: implicitAccountId,
                 method,
+                publicKey,
                 securityCode,
             });
         } catch (e) {
@@ -742,11 +743,12 @@ class Wallet {
         }
     }
 
-    async validateSecurityCode(accountId, method, securityCode, enterpriseRecaptchaToken, recaptchaAction) {
+    async validateSecurityCode(accountId, method, securityCode, enterpriseRecaptchaToken, recaptchaAction, publicKey) {
         const isNew = await this.checkIsNew(accountId);
         const body = {
             accountId,
             method,
+            publicKey,
             securityCode,
         };
 
@@ -779,7 +781,7 @@ class Wallet {
 
     async setupRecoveryMessage(accountId, method, securityCode, recoverySeedPhrase) {
         const { publicKey } = parseSeedPhrase(recoverySeedPhrase);
-        await this.validateSecurityCode(accountId, method, securityCode);
+        await this.validateSecurityCode(accountId, method, securityCode, undefined, undefined, publicKey);
         try {
             await this.addNewAccessKeyToAccount(accountId, publicKey);
         } catch (e) {
