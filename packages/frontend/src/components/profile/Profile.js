@@ -38,6 +38,7 @@ import HardwareDevices from './hardware_devices/HardwareDevices';
 import MobileSharingWrapper from './mobile_sharing/MobileSharingWrapper';
 import RecoveryContainer from './Recovery/RecoveryContainer';
 import TwoFactorAuth from './two_factor/TwoFactorAuth';
+import BrowserPassword from "./browser-password/BrowserPassword";
 
 const { fetchRecoveryMethods } = recoveryMethodsActions;
 
@@ -271,6 +272,7 @@ export function Profile({ match }) {
                         <div>
                             <h2><LockIcon/><Translate id='profile.browserPassword.ttl'/></h2>
                             <div className='sub-heading'><Translate id='profile.browserPassword.desc'/></div>
+                            <BrowserPassword/>
                         </div>
                         {!account.ledgerKey &&
                             <>
