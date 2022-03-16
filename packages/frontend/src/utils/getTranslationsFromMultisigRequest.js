@@ -7,7 +7,6 @@ const {
     },
     key_pair: {
         PublicKey,
-        KeyType
     },
 } = utils;
 
@@ -21,19 +20,17 @@ const formatNear = (amount) => {
     }
 };
 
+const rawPublicKeyToString = ({ keyType, data }) => new PublicKey({ keyType, data }).toString();
+
 export default function getTranslationsFromMultisigRequest({ actions, receiverId, accountId }) {
     const fullAccessKeyAction = actions.find(({ enum: type, permission }) => type === 'addKey' && !permission);
     if (fullAccessKeyAction) {
-        const publicKey = new PublicKey({
-            keyType: KeyType.ED25519,
-            data: fullAccessKeyAction.addKey.publicKey.data
-        });
         return [
             {
                 id: 'twoFactor.action.addKey.full',
                 data: {
                     accountId,
-                    publicKey: publicKey.toString(),
+                    publicKey: rawPublicKeyToString(fullAccessKeyAction.addKey.publicKey)
                 }
             }
         ];
@@ -49,14 +46,14 @@ export default function getTranslationsFromMultisigRequest({ actions, receiverId
                             receiverId,
                             methodNames: action.permission.functionCall.methodNames.join(', '),
                             allowance: formatNear(action.permission.functionCall.allowance),
-                            publicKey: new PublicKey({ keyType: KeyType.ED25519, data: action.publicKey.data }).toString(),
+                            publicKey: rawPublicKeyToString(action.publicKey),
                         }
                     };
                 case 'deleteKey':
                     return {
                         id: 'twoFactor.action.deleteKey',
                         data: {
-                            publicKey: new PublicKey({ keyType: KeyType.ED25519, data: action.publicKey.data }).toString(),
+                            publicKey: rawPublicKeyToString((action.publicKey)),
                         }
                     };
                 case 'functionCall':
