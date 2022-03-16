@@ -60,6 +60,7 @@ export default ({ handleConfirmPassphrase }) => {
                     handleConfirmPassphrase({ implicitAccountId, recoveryKeyPair });
                     Mixpanel.track('SR-SP Verify finish');
                 }}
+                passPhrase={passPhrase}
             />
         );
     }

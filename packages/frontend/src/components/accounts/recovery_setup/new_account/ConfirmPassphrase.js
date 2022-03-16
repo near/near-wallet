@@ -39,8 +39,10 @@ export default ({
     wordIndex,
     handleChangeWord,
     handleStartOver,
-    userInputValueWrongWord
+    userInputValueWrongWord,
+    passPhrase
 }) => {
+    console.log(passPhrase);
     return (
         <StyledContainer className='small-centered border'>
             <form
@@ -67,9 +69,7 @@ export default ({
                     pattern='[a-zA-Z ]*'
                     className={userInputValueWrongWord ? 'problem' : ''}
                 />
-                {userInputValueWrongWord &&
-                    <div className='color-red'><Translate id='setupSeedPhraseVerify.inputError' /></div>
-                }
+                { userInputValueWrongWord && <div className='color-red'><Translate id='setupSeedPhraseVerify.inputError' /></div> }
                 <FormButton
                     type='submit'
                     data-test-id='seedPhraseVerificationWordSubmit'

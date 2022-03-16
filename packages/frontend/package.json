@@ -39,6 +39,7 @@
     "react-google-recaptcha": "^2.1.0",
     "react-google-recaptcha-v3-near": "^2.0.0",
     "react-helmet": "^6.1.0",
+    "react-idle-timer": "^4.6.4",
     "react-localize-redux": "^3.5.3",
     "react-phone-number-input": "2.3.11",
     "react-redux": "^7.2.4",

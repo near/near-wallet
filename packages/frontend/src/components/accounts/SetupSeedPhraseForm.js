@@ -124,7 +124,7 @@ const SetupSeedPhraseForm = ({
                 color='blue'
                 data-test-id="continueToSeedPhraseVerificationButton"
             >
-                <Translate id='button.continue' />
+                <Translate id='button.okIveSavedItSomewhere' />
             </FormButton>
         </CustomDiv>
     );

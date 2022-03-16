@@ -240,6 +240,7 @@
         "moreInformation": "More information",
         "needToEditGoBack": "Need to edit? Go Back",
         "next": "Next",
+        "okIveSavedItSomewhere": "OK, I saved it somewhere",
         "protectAccount": "Protect Account",
         "receive": "Receive",
         "recoverAccount": "Recover Account",
@@ -494,6 +495,11 @@
         "noIdFailed": "Failed to import account.",
         "withId": "Importing account: ${accountId}",
         "withIdFailed": "Failed to import account: ${accountId}"
+    },
+    "inactivityLockModal": {
+        "buttonCta": "I’m still here",
+        "desc": "Your wallet will soon be locked due to inactivity. Would you like to continue your session?",
+        "ttl": "Are you still there?"
     },
     "initialDeposit": {
         "claimAccount": {
@@ -1131,8 +1137,8 @@
         "subHeader": "Select a method to secure and recover your account, and to access it on other devices."
     },
     "setupSeedPhrase": {
-        "pageText": "Write down the following words in order and keep them somewhere safe. <b>Anyone with access to it will also have access to your account!</b> You’ll be asked to verify your passphrase next.",
-        "pageTitle": "Setup Your Secure Passphrase",
+        "pageText": "This passphrase is the master-key for your account. Store it somewhere safe and do not share it. Anyone with these words will have full access to your account.",
+        "pageTitle": "Safely Store Your Secure Passphrase",
         "snackbarCopyImplicitAddress": "Funding Address Copied!",
         "snackbarCopySuccess": "Passphrase copied!"
     },
@@ -1143,8 +1149,8 @@
     },
     "setupSeedPhraseVerify": {
         "inputError": "Please check your passphrase and try again.",
-        "pageText": "Enter the following word from your recovery phrase to complete the setup process.",
-        "pageTitle": "Verify Phrase",
+        "pageText": "Click or tap each word in the correct order to complete your passphrase.",
+        "pageTitle": "Verify Passphrase",
         "startOverText": "Didn't write it down?"
     },
     "sign": {
