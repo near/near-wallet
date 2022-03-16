@@ -34,11 +34,11 @@ import UserIcon from '../svg/UserIcon';
 import AuthorizedApp from './authorized_apps/AuthorizedApp';
 import BalanceContainer from './balances/BalanceContainer';
 import LockupAvailTransfer from './balances/LockupAvailTransfer';
+import BrowserPassword from './browser-password/BrowserPassword';
 import HardwareDevices from './hardware_devices/HardwareDevices';
 import MobileSharingWrapper from './mobile_sharing/MobileSharingWrapper';
 import RecoveryContainer from './Recovery/RecoveryContainer';
 import TwoFactorAuth from './two_factor/TwoFactorAuth';
-import BrowserPassword from "./browser-password/BrowserPassword";
 
 const { fetchRecoveryMethods } = recoveryMethodsActions;
 
