@@ -39,7 +39,7 @@ const StyledBannerContainer = styled.div`
 `;
 
 const ActionDetailsBanner = ({ multisigRequest }) => {
-    const isAddingFullAccessKey = multisigRequest.actions.some(({ enum: type, permission }) => type === 'addKey' && !permission);
+    const isAddingFullAccessKey = multisigRequest.actions.some(({ enum: type, [type]: action }) => type === 'addKey' && !action.accessKey.permission);
 
     return  (
         <StyledBannerContainer>

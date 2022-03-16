@@ -35,7 +35,7 @@ const parseAndFormatArguments = (argsBuffer) => {
 };
 
 export default function getTranslationsFromMultisigRequest({ actions, receiverId, accountId }) {
-    const fullAccessKeyAction = actions.find(({ enum: type, permission }) => type === 'addKey' && !permission);
+    const fullAccessKeyAction = actions.find(({ enum: type, [type]: action }) => type === 'addKey' && !action.accessKey.permission);
     if (fullAccessKeyAction) {
         return [
             {
@@ -49,15 +49,15 @@ export default function getTranslationsFromMultisigRequest({ actions, receiverId
     }
 
     return actions
-        .map(({ enum: actionType, [actionType]: action }) => {
-            switch (actionType) {
+        .map(({ enum: type, [type]: action }) => {
+            switch (type) {
                 case 'addKey':
                     return {
                         id: 'twoFactor.action.addKey.limited',
                         data: {
                             receiverId,
-                            methodNames: action.permission.functionCall.methodNames.join(', '),
-                            allowance: formatNear(action.permission.functionCall.allowance),
+                            methodNames: action.accessKey.permission.functionCall.methodNames.join(', '),
+                            allowance: formatNear(action.accessKey.permission.functionCall.allowance),
                             publicKey: rawPublicKeyToString(action.publicKey),
                         }
                     };
