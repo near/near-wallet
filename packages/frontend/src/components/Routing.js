@@ -590,7 +590,7 @@ class Routing extends Component {
                             />
                             <PrivateRoute
                                 exact
-                                path='/security/set-password'
+                                path='/security/change-password'
                                 component={ChangePassword}
                             />
                             {!isInactiveAccount &&
