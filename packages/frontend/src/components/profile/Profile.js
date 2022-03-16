@@ -267,6 +267,11 @@ export function Profile({ match }) {
                         <h4><Translate id='profile.security.lessSecure'/><Tooltip translate='profile.security.lessSecureDesc' icon='icon-lg'/></h4>
                         <RecoveryContainer type='email' recoveryMethods={userRecoveryMethods}/>
                         <RecoveryContainer type='phone' recoveryMethods={userRecoveryMethods}/>
+                        <hr/>
+                        <div>
+                            <h2><LockIcon/><Translate id='profile.browserPassword.ttl'/></h2>
+                            <div className='sub-heading'><Translate id='profile.browserPassword.desc'/></div>
+                        </div>
                         {!account.ledgerKey &&
                             <>
                                 <hr/>

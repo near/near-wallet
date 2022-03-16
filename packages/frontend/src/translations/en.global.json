@@ -742,6 +742,10 @@
         "authorizedApps": {
             "title": "Authorized Apps"
         },
+        "browserPassword": {
+            "desc": "Change the password used to secure your wallet while using Brave Browser on this device.",
+            "ttl": "Browser Password"
+        },
         "details": {
             "availableBalance": "Available Balance",
             "locked": "Locked",
