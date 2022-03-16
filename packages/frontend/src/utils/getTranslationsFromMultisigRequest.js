@@ -22,6 +22,18 @@ const formatNear = (amount) => {
 
 const rawPublicKeyToString = ({ keyType, data }) => new PublicKey({ keyType, data }).toString();
 
+const parseAndFormatArguments = (argsBuffer) => {
+    const args = JSON.parse(Buffer.from(argsBuffer).toString());
+
+    const parsedArgs = {
+        ...args,
+        ...(args.amount && { amount: formatNear(args.amount) }),
+        ...(args.deposit && { deposit: formatNear(args.deposit )}),
+    };
+
+    return JSON.stringify(parsedArgs, null, 2);
+};
+
 export default function getTranslationsFromMultisigRequest({ actions, receiverId, accountId }) {
     const fullAccessKeyAction = actions.find(({ enum: type, permission }) => type === 'addKey' && !permission);
     if (fullAccessKeyAction) {
@@ -63,7 +75,7 @@ export default function getTranslationsFromMultisigRequest({ actions, receiverId
                             receiverId,
                             methodName: action.methodName,
                             deposit: formatNear(action.deposit),
-                            args: JSON.stringify(JSON.parse(Buffer.from(action.args).toString()), null, 2),
+                            args: parseAndFormatArguments(action.args),
                         }
                     };
                 case 'transfer':
