@@ -24,6 +24,8 @@ export const selectAccountLedgerKey = createSelector(selectAccountSlice, (accoun
 
 export const selectAccountGlobalAlertPreventClear = createSelector(selectAccountSlice, (account) => account.globalAlertPreventClear);
 
+export const selectAccountMultisigRequest = createSelector(selectAccountSlice, (account) => account.multisigRequest);
+
 // balance - state
 export const selectBalance = createSelector(selectAccountSlice, (account) => account.balance || {});
 
