@@ -102,6 +102,7 @@ export default ({
                     color='blue'
                     type='submit'
                     disabled={!isValidInput() || isInitializingRecoveryLink}
+                    sending={isInitializingRecoveryLink}
                     trackingId='SR Click submit button'
                     data-test-id="submitSelectedRecoveryOption"
                 >
