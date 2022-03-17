@@ -213,7 +213,7 @@ class Routing extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        const { activeLanguage } = this.props;
+        const { activeLanguage, account } = this.props;
 
         if (prevProps.account.accountId !== account.accountId && account.accountId !== undefined) {
             this.props.getTokenWhiteList(account.accountId);
