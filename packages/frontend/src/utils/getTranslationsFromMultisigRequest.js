@@ -1,8 +1,4 @@
-import { formatNearAmount } from 'near-api-js/lib/utils/format';
-
-const NEAR_FRACTIONAL_DIGITS = 4;
-
-const formatNear = (amount) => formatNearAmount(amount, NEAR_FRACTIONAL_DIGITS);
+import { formatNearAmount } from '../components/common/balance/helpers';
 
 const parseAndFormatArguments = (encodedArgs) => {
     const argsBuffer = Buffer.from(encodedArgs, 'base64');
@@ -10,8 +6,8 @@ const parseAndFormatArguments = (encodedArgs) => {
 
     const parsedArgs = {
         ...args,
-        ...(args.amount && { amount: formatNear(args.amount) }),
-        ...(args.deposit && { deposit: formatNear(args.deposit )}),
+        ...(args.amount && { amount: formatNearAmount(args.amount) }),
+        ...(args.deposit && { deposit: formatNearAmount(args.deposit )}),
     };
 
     return JSON.stringify(parsedArgs, null, 2);
@@ -40,7 +36,7 @@ export default function getTranslationsFromMultisigRequest({ actions, receiver_i
                         data: {
                             receiverId: receiver_id,
                             methodNames: action.permission.method_names.join(', '),
-                            allowance: formatNear(action.permission.allowance),
+                            allowance: formatNearAmount(action.permission.allowance),
                             publicKey: action.public_key,
                         }
                     };
@@ -57,7 +53,7 @@ export default function getTranslationsFromMultisigRequest({ actions, receiver_i
                         data: {
                             receiverId: receiver_id,
                             methodName: action.method_name,
-                            deposit: formatNear(action.deposit),
+                            deposit: formatNearAmount(action.deposit),
                             args: parseAndFormatArguments(action.args),
                         }
                     };
@@ -66,7 +62,7 @@ export default function getTranslationsFromMultisigRequest({ actions, receiver_i
                         id: 'twoFactor.action.transfer',
                         data:{
                             receiverId: receiver_id,
-                            amount: formatNear(action.amount),
+                            amount: formatNearAmount(action.amount),
                         }
                     };
                 default:
