@@ -20,6 +20,7 @@ export function SetupRecoveryImplicitAccountWrapper() {
     const [verifyingEmailCode, setVerifyingEmailCode] = useState(false);
     const [resendingEmailCode, setResendingEmailCode] = useState(false);
     const [seedPhrasePublicKey, setSeedPhrasePublicKey] = useState(null);
+    const [isInitializingRecoveryLink, setIsInitializingRecoveryLink] = useState(false);
 
     const handleInititalizeEmailRecoveryLink = async () => {
         const passPhrase = await wallet.initializeRecoveryMethodNewImplicitAccount({ kind: 'email', detail: email });
@@ -36,6 +37,7 @@ export function SetupRecoveryImplicitAccountWrapper() {
         return (
             <SetupRecoveryImplicitAccount
                 email={email}
+                isInitializingRecoveryLink={isInitializingRecoveryLink}
                 setEmail={(email) => setEmail(email)}
                 onClickSecureMyAccount={async ({ recoveryOption }) => {
                     if (recoveryOption === 'phrase') {
@@ -44,8 +46,10 @@ export function SetupRecoveryImplicitAccountWrapper() {
                         dispatch(redirectTo('/setup-ledger-new-account'));
                     } else if (recoveryOption === 'email') {
                         Mixpanel.track('SR Select email');
+                        setIsInitializingRecoveryLink(true);
+                        await handleInititalizeEmailRecoveryLink();
+                        setIsInitializingRecoveryLink(false);
                         setShowVerifyEmailCode(true);
-                        handleInititalizeEmailRecoveryLink();
                     }
                 }}
             />

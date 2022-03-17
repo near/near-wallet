@@ -28,6 +28,7 @@ const StyledContainer = styled(Container)`
 export default ({
     onClickSecureMyAccount,
     email,
+    isInitializingRecoveryLink,
     setEmail
 }) => {
     const [recoveryOption, setRecoveryOption] = useState('phrase');
@@ -100,7 +101,7 @@ export default ({
                 <FormButton
                     color='blue'
                     type='submit'
-                    disabled={!isValidInput()}
+                    disabled={!isValidInput() || isInitializingRecoveryLink}
                     trackingId='SR Click submit button'
                     data-test-id="submitSelectedRecoveryOption"
                 >
