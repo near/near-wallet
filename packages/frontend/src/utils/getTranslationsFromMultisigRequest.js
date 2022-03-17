@@ -1,29 +1,12 @@
-import BN from 'bn.js';
-import { utils } from 'near-api-js';
+import { formatNearAmount } from 'near-api-js/lib/utils/format';
 
-const {
-    format: {
-        formatNearAmount
-    },
-    key_pair: {
-        PublicKey,
-    },
-} = utils;
+const NEAR_FRACTIONAL_DIGITS = 4;
 
+const formatNear = (amount) => formatNearAmount(amount, NEAR_FRACTIONAL_DIGITS);
 
-const formatNear = (amount) => {
-    try {
-        return formatNearAmount(amount, 4);
-    } catch {
-        // Near amount may be stored as hex rather than decimal
-        return formatNearAmount(new BN(amount, 16).toString(), 4);
-    }
-};
-
-const rawPublicKeyToString = ({ keyType, data }) => new PublicKey({ keyType, data }).toString();
-
-const parseAndFormatArguments = (argsBuffer) => {
-    const args = JSON.parse(Buffer.from(argsBuffer).toString());
+const parseAndFormatArguments = (encodedArgs) => {
+    const argsBuffer = Buffer.from(encodedArgs, 'base64');
+    const args = JSON.parse(argsBuffer.toString('utf-8'));
 
     const parsedArgs = {
         ...args,
@@ -34,56 +17,56 @@ const parseAndFormatArguments = (argsBuffer) => {
     return JSON.stringify(parsedArgs, null, 2);
 };
 
-export default function getTranslationsFromMultisigRequest({ actions, receiverId, accountId }) {
-    const fullAccessKeyAction = actions.find(({ enum: type, [type]: action }) => type === 'addKey' && !action.accessKey.permission);
+export default function getTranslationsFromMultisigRequest({ actions, receiver_id, account_id }) {
+    const fullAccessKeyAction = actions.find(({ type, permission }) => type === 'AddKey' && !permission);
     if (fullAccessKeyAction) {
         return [
             {
                 id: 'twoFactor.action.addKey.full',
                 data: {
-                    accountId,
-                    publicKey: rawPublicKeyToString(fullAccessKeyAction.addKey.publicKey)
+                    accountId: account_id,
+                    publicKey: fullAccessKeyAction.public_key,
                 }
             }
         ];
     }
 
     return actions
-        .map(({ enum: type, [type]: action }) => {
-            switch (type) {
-                case 'addKey':
+        .map((action) => {
+            switch (action.type) {
+                case 'AddKey':
                     return {
                         id: 'twoFactor.action.addKey.limited',
                         data: {
-                            receiverId,
-                            methodNames: action.accessKey.permission.functionCall.methodNames.join(', '),
-                            allowance: formatNear(action.accessKey.permission.functionCall.allowance),
-                            publicKey: rawPublicKeyToString(action.publicKey),
+                            receiverId: receiver_id,
+                            methodNames: action.permission.method_names.join(', '),
+                            allowance: formatNear(action.permission.allowance),
+                            publicKey: action.public_key,
                         }
                     };
-                case 'deleteKey':
+                case 'DeleteKey':
                     return {
                         id: 'twoFactor.action.deleteKey',
                         data: {
-                            publicKey: rawPublicKeyToString((action.publicKey)),
+                            publicKey: action.public_key,
                         }
                     };
-                case 'functionCall':
+                case 'FunctionCall':
                     return {
                         id: 'twoFactor.action.functionCall',
                         data: {
-                            receiverId,
-                            methodName: action.methodName,
+                            receiverId: receiver_id,
+                            methodName: action.method_name,
                             deposit: formatNear(action.deposit),
                             args: parseAndFormatArguments(action.args),
                         }
                     };
-                case 'transfer':
+                case 'Transfer':
                     return {
                         id: 'twoFactor.action.transfer',
                         data:{
-                            receiverId,
-                            deposit: formatNear(action.deposit),
+                            receiverId: receiver_id,
+                            amount: formatNear(action.amount),
                         }
                     };
                 default:

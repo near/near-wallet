@@ -49,16 +49,11 @@ export class TwoFactor extends Account2FA {
     }
 
     async getMultisigRequest() {
-        const request = this.getRequest();
-        const { receiver_id } = await this.viewFunction(
-            this.accountId,
-            'get_request',
-            { request_id: request.requestId }
-        );
-
+        const { requestId, accountId } = this.getRequest();
         return {
-            ...request,
-            receiverId: receiver_id,
+            ...await this.viewFunction(this.accountId, 'get_request', { request_id: requestId }),
+            request_id: requestId,
+            account_id: accountId,
         };
     }
 
