@@ -27,6 +27,7 @@ const StyledBannerContainer = styled.div`
         div:first-child {
             margin: 0px;
             width: 100%;
+            word-break: break-word;
             @media (max-width: 450px) {
                  border-radius: 4px;
             }
