@@ -214,9 +214,9 @@ class SetupRecoveryMethod extends Component {
         }
 
         try {
-            const { secretKey } = parseSeedPhrase(recoverySeedPhrase);
+            const { publicKey, secretKey } = parseSeedPhrase(recoverySeedPhrase);
             const recoveryKeyPair = KeyPair.fromString(secretKey);
-            await validateSecurityCode(accountId, method, securityCode, validateSecurityCodeEnterpriseRecaptchaToken, 'setupRecoveryMethodNewAccount');
+            await validateSecurityCode(accountId, method, securityCode, validateSecurityCodeEnterpriseRecaptchaToken, 'setupRecoveryMethodNewAccount', publicKey);
             await wallet.saveAccountKeyPair({ accountId, recoveryKeyPair });
 
             // IDENTITY VERIFIED FUNDED ACCOUNT
