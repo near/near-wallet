@@ -179,41 +179,36 @@ class Routing extends Component {
 
         this.props.setActiveLanguage(activeLang);
         // this.addTranslationsForActiveLanguage(defaultLanguage)
-
-        const {
-            refreshAccount,
-            history,
-            handleRedirectUrl,
-            handleClearUrl,
-            handleClearAlert,
-            handleFlowLimitation,
-            router
-        } = this.props;
-
-        history.listen(async (location) => {
-            handleRedirectUrl(router.location);
-            handleClearUrl();
-            handleFlowLimitation();
-            if (!WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS.find((path) => router.location.pathname.indexOf(path) > -1)) {
-                await refreshAccount(true);
-            }
-
-            handleClearAlert();
-        });
     }
 
     componentDidMount = async () => {
         const {
             refreshAccount,
             handleRefreshUrl,
+            history,
+            handleRedirectUrl,
+            handleClearUrl,
             router,
             fetchTokenFiatValues,
+            handleClearAlert,
+            handleFlowLimitation
         } = this.props;
 
         fetchTokenFiatValues();
         this.startPollingTokenFiatValue();
         handleRefreshUrl(router);
         refreshAccount();
+
+        history.listen(async () => {
+            handleRedirectUrl(this.props.router.location);
+            handleClearUrl();
+            if (!WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS.find((path) => this.props.router.location.pathname.indexOf(path) > -1)) {
+                await refreshAccount(true);
+            }
+
+            handleClearAlert();
+            handleFlowLimitation();
+        });
     }
 
     componentDidUpdate(prevProps) {

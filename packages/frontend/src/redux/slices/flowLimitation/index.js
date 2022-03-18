@@ -22,11 +22,18 @@ const initialState = {
 const handleFlowLimitation = createAsyncThunk(
     `${SLICE_NAME}/handleFlowLimitation`,
     async (_, thunkAPI) => {
+        const { actions: { setFlowLimitation } } = flowLimitationSlice;
         const { dispatch, getState } = thunkAPI;
         const { pathname } = getState().router.location;
-        const { redirect_url } = getState().account.url;
-        const { actions: { setFlowLimitation } } = flowLimitationSlice;
 
+        if (WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS.some((url) => pathname.includes(url))) {
+            // Disallow account switching on account creation/recovery pages
+            dispatch(setFlowLimitation({ subMenu: true }));
+        } else {
+            dispatch(setFlowLimitation({ subMenu: false }));
+        }
+
+        const { redirect_url } = getState().account.url;
         const redirectUrl = redirect_url || pathname;
 
         if (redirectUrl.includes(WALLET_LOGIN_URL)) {
@@ -55,13 +62,6 @@ const handleFlowLimitation = createAsyncThunk(
                 accountData: true,
                 accountBalance: false
             }));
-        }
-
-        if (WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS.some((url) => pathname.includes(url))) {
-            // Disallow account switching on account creation/recovery pages
-            dispatch(setFlowLimitation({ subMenu: true }));
-        } else {
-            dispatch(setFlowLimitation({ subMenu: false }));
         }
     }
 );
