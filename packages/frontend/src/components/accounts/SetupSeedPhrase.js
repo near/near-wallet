@@ -51,23 +51,39 @@ class SetupSeedPhrase extends Component {
     }
 
     componentDidMount = async () => {
-        const { accountId, fetchRecoveryMethods } = this.props;
         this.refreshData();
-
-        if (accountId === wallet.accountId) {
-            fetchRecoveryMethods({ accountId });
-        }
-
-        // We need to know if the account is new so when we render SetupSeedPhraseVerify, it doesn't load reCaptcha if its an existing account
-        const isNewAccount = await this.props.checkIsNew(this.props.accountId);
-        this.setState({ isNewAccount });
     }
 
-    refreshData = () => {
+    componentDidUpdate = async (prevProps) => {
+        const {
+            accountId,
+            walletAccountId,
+            checkIsNew,
+            history,
+            location
+        } = this.props;
+        if (prevProps.walletAccountId !== walletAccountId) {
+            const isNewAccount = await checkIsNew(accountId);
+            if (!isNewAccount) {
+                // Reset seed phrase setup flow if the active account changes and it's not a new account being setup
+                history.push(`/setup-seed-phrase/${walletAccountId}/phrase${location.search}`);
+                this.refreshData();
+            }
+        }
+    }
 
+    refreshData = async () => {
+        const { accountId, fetchRecoveryMethods, checkIsNew } = this.props;
         const { seedPhrase, publicKey, secretKey } = generateSeedPhrase();
         const recoveryKeyPair = KeyPair.fromString(secretKey);
         const wordId = Math.floor(Math.random() * 12);
+
+        const isNewAccount = await checkIsNew(accountId);
+        this.setState({ isNewAccount });
+
+        if (!isNewAccount) {
+            fetchRecoveryMethods({ accountId });
+        }
 
         this.setState((prevState) => ({
             ...prevState,
@@ -91,7 +107,7 @@ class SetupSeedPhrase extends Component {
         }));
     }
 
-    handleStartOver = (e) => {
+    handleStartOver = () => {
         const {
             history,
             location,
@@ -300,6 +316,7 @@ const mapStateToProps = (state, { match }) => {
     
     return {
         ...selectAccountSlice(state),
+        walletAccountId: wallet.accountId,
         accountId,
         recoveryMethods: selectRecoveryMethodsByAccountId(state, { accountId }),
         mainLoader: selectStatusMainLoader(state),
