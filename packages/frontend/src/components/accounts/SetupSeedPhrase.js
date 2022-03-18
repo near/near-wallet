@@ -21,7 +21,6 @@ import { selectStatusMainLoader } from '../../redux/slices/status';
 import copyText from '../../utils/copyText';
 import isMobile from '../../utils/isMobile';
 import parseFundingOptions from '../../utils/parseFundingOptions';
-import { wallet } from '../../utils/wallet';
 import { Snackbar, snackbarDuration } from '../common/Snackbar';
 import Container from '../common/styled/Container.css';
 import { isRetryableRecaptchaError } from '../Recaptcha';
@@ -54,24 +53,6 @@ class SetupSeedPhrase extends Component {
         this.refreshData();
     }
 
-    componentDidUpdate = async (prevProps) => {
-        const {
-            accountId,
-            walletAccountId,
-            checkIsNew,
-            history,
-            location
-        } = this.props;
-        if (prevProps.walletAccountId !== walletAccountId) {
-            const isNewAccount = await checkIsNew(accountId);
-            if (!isNewAccount) {
-                // Reset seed phrase setup flow if the active account changes and it's not a new account being setup
-                history.push(`/setup-seed-phrase/${walletAccountId}/phrase${location.search}`);
-                this.refreshData();
-            }
-        }
-    }
-
     refreshData = async () => {
         const { accountId, fetchRecoveryMethods, checkIsNew } = this.props;
         const { seedPhrase, publicKey, secretKey } = generateSeedPhrase();
@@ -79,7 +60,6 @@ class SetupSeedPhrase extends Component {
         const wordId = Math.floor(Math.random() * 12);
 
         const isNewAccount = await checkIsNew(accountId);
-        this.setState({ isNewAccount });
 
         if (!isNewAccount) {
             fetchRecoveryMethods({ accountId });
@@ -92,7 +72,8 @@ class SetupSeedPhrase extends Component {
             wordId,
             enterWord: '',
             localAlert: null,
-            recoveryKeyPair
+            recoveryKeyPair,
+            isNewAccount
         }));
     }
 
@@ -252,6 +233,13 @@ class SetupSeedPhrase extends Component {
                                         hasSeedPhraseRecovery={hasSeedPhraseRecovery}
                                         refreshData={this.refreshData}
                                         onClickContinue={() => history.push(`/setup-seed-phrase/${accountId}/verify${location.search}`)}
+                                        onClickCancel={() => {
+                                            if (isNewAccount) {
+                                                history.push(`/set-recovery/${accountId}${location.search}`);
+                                            } else {
+                                                history.push('/profile');
+                                            }
+                                        }}
                                     />
                                 </Container>
                             )}
@@ -316,7 +304,6 @@ const mapStateToProps = (state, { match }) => {
     
     return {
         ...selectAccountSlice(state),
-        walletAccountId: wallet.accountId,
         accountId,
         recoveryMethods: selectRecoveryMethodsByAccountId(state, { accountId }),
         mainLoader: selectStatusMainLoader(state),

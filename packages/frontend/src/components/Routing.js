@@ -18,6 +18,7 @@ import { Mixpanel } from '../mixpanel/index';
 import * as accountActions from '../redux/actions/account';
 import { handleClearAlert } from '../redux/reducers/status';
 import { selectAccountSlice } from '../redux/slices/account';
+import { actions as flowLimitationActions } from '../redux/slices/flowLimitation';
 import { actions as tokenFiatValueActions } from '../redux/slices/tokenFiatValues';
 import { CreateImplicitAccountWrapper } from '../routes/CreateImplicitAccountWrapper';
 import { ImportAccountWithLinkWrapper } from '../routes/ImportAccountWithLinkWrapper';
@@ -96,6 +97,8 @@ const {
     redirectTo,
     refreshAccount
 } = accountActions;
+
+const { handleFlowLimitation } = flowLimitationActions;
 
 const theme = {};
 
@@ -176,34 +179,41 @@ class Routing extends Component {
 
         this.props.setActiveLanguage(activeLang);
         // this.addTranslationsForActiveLanguage(defaultLanguage)
+
+        const {
+            refreshAccount,
+            history,
+            handleRedirectUrl,
+            handleClearUrl,
+            handleClearAlert,
+            handleFlowLimitation,
+            router
+        } = this.props;
+
+        history.listen(async (location) => {
+            handleRedirectUrl(router.location);
+            handleClearUrl();
+            handleFlowLimitation();
+            if (!WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS.find((path) => router.location.pathname.indexOf(path) > -1)) {
+                await refreshAccount(true);
+            }
+
+            handleClearAlert();
+        });
     }
 
     componentDidMount = async () => {
         const {
             refreshAccount,
             handleRefreshUrl,
-            history,
-            handleRedirectUrl,
-            handleClearUrl,
             router,
             fetchTokenFiatValues,
-            handleClearAlert
         } = this.props;
 
         fetchTokenFiatValues();
         this.startPollingTokenFiatValue();
         handleRefreshUrl(router);
         refreshAccount();
-
-        history.listen(async () => {
-            handleRedirectUrl(this.props.router.location);
-            handleClearUrl();
-            if (!WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS.find((path) => this.props.router.location.pathname.indexOf(path) > -1)) {
-                await refreshAccount(true);
-            }
-
-            handleClearAlert();
-        });
     }
 
     componentDidUpdate(prevProps) {
@@ -574,7 +584,8 @@ const mapDispatchToProps = {
     promptTwoFactor,
     redirectTo,
     fetchTokenFiatValues,
-    handleClearAlert
+    handleClearAlert,
+    handleFlowLimitation
 };
 
 const mapStateToProps = (state) => ({

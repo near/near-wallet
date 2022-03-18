@@ -4,7 +4,8 @@ import assign from 'lodash.assign';
 import { 
     WALLET_INITIAL_DEPOSIT_URL,
     WALLET_LOGIN_URL,
-    WALLET_SIGN_URL
+    WALLET_SIGN_URL,
+    WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS
 } from '../../../utils/wallet';
 import { getBalance } from '../../actions/account';
 
@@ -54,6 +55,13 @@ const handleFlowLimitation = createAsyncThunk(
                 accountData: true,
                 accountBalance: false
             }));
+        }
+
+        if (WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS.some((url) => pathname.includes(url))) {
+            // Disallow account switching on account creation/recovery pages
+            dispatch(setFlowLimitation({ subMenu: true }));
+        } else {
+            dispatch(setFlowLimitation({ subMenu: false }));
         }
     }
 );
