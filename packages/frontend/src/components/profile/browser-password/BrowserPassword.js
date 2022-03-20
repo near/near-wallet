@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from 'react-router-dom';
 import styled from 'styled-components';
 
 import Button from '../../common/Button';
@@ -54,9 +55,11 @@ const BrowserPassword = () => {
                     <p className="desc">Desktop • v23.13</p>
                 </div>
 
-                <Button>
-                    Change
-                </Button>
+                <Link to="/security/change-password">
+                    <Button>
+                        Change
+                    </Button>
+                </Link>
             </header>
             <p>Enabled Jan 08, 2020</p>
         </Container>
