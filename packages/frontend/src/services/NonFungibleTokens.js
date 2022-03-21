@@ -11,7 +11,7 @@ export const NFT_TRANSFER_DEPOSIT = 1; // 1 yocto Near
 
 const functionCall = nearAPI.transactions.functionCall;
 
-// Methods for interacting witn NEP171 tokens (https://nomicon.io/Standards/NonFungibleToken/README.html)
+// Methods for interacting with NEP171 tokens (https://nomicon.io/Standards/NonFungibleToken/README.html)
 export default class NonFungibleTokens {
     // View functions are not signed, so do not require a real account!
     static viewFunctionAccount = wallet.getAccountBasic('dontcare')
