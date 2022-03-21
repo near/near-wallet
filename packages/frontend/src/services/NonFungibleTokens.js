@@ -93,24 +93,26 @@ export default class NonFungibleTokens {
             .map((token) => this.mapTokenMediaUrl(token, base_uri));
     }
 
-    static mapTokenMediaUrl = ({ metadata, ...token }, base_uri) => {
-        const { media } = metadata;
-        let mediaUrl;
-        if (media && !media.includes('://')) {
-            if (base_uri) {
-                mediaUrl = `${base_uri}/${media}`;
-            } else {
-                mediaUrl = `https://cloudflare-ipfs.com/ipfs/${media}`;
-            }
-        } else {
-            mediaUrl = media;
+    static buildMediaUrl = (media, base_uri) => {
+        // return the provided media string if it is empty or already in a URI format
+        if (!media || media.includes('://') || media.startsWith('data:image')) {
+            return media;
         }
 
+        if (base_uri) {
+            return `${base_uri}/${media}`;
+        }
+
+        return `https://cloudflare-ipfs.com/ipfs/${media}`;
+    }
+
+    static mapTokenMediaUrl = ({ metadata, ...token }, base_uri) => {
+        const { media } = metadata;
         return {
             ...token,
             metadata: {
                 ...metadata,
-                mediaUrl
+                mediaUrl: this.buildMediaUrl(media, base_uri),
             }
         };
     }
