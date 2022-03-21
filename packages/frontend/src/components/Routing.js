@@ -18,6 +18,7 @@ import { Mixpanel } from '../mixpanel/index';
 import * as accountActions from '../redux/actions/account';
 import { handleClearAlert } from '../redux/reducers/status';
 import { selectAccountSlice } from '../redux/slices/account';
+import { actions as flowLimitationActions } from '../redux/slices/flowLimitation';
 import { actions as tokenFiatValueActions } from '../redux/slices/tokenFiatValues';
 import { CreateImplicitAccountWrapper } from '../routes/CreateImplicitAccountWrapper';
 import { ImportAccountWithLinkWrapper } from '../routes/ImportAccountWithLinkWrapper';
@@ -96,6 +97,8 @@ const {
     redirectTo,
     refreshAccount
 } = accountActions;
+
+const { handleFlowLimitation } = flowLimitationActions;
 
 const theme = {};
 
@@ -187,7 +190,8 @@ class Routing extends Component {
             handleClearUrl,
             router,
             fetchTokenFiatValues,
-            handleClearAlert
+            handleClearAlert,
+            handleFlowLimitation
         } = this.props;
 
         fetchTokenFiatValues();
@@ -203,6 +207,7 @@ class Routing extends Component {
             }
 
             handleClearAlert();
+            handleFlowLimitation();
         });
     }
 
@@ -574,7 +579,8 @@ const mapDispatchToProps = {
     promptTwoFactor,
     redirectTo,
     fetchTokenFiatValues,
-    handleClearAlert
+    handleClearAlert,
+    handleFlowLimitation
 };
 
 const mapStateToProps = (state) => ({
