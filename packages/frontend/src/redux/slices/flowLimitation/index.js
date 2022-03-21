@@ -26,12 +26,9 @@ const handleFlowLimitation = createAsyncThunk(
         const { dispatch, getState } = thunkAPI;
         const { pathname } = getState().router.location;
 
-        if (WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS.some((url) => pathname.includes(url))) {
-            // Disallow account switching on account creation/recovery pages
-            dispatch(setFlowLimitation({ subMenu: true }));
-        } else {
-            dispatch(setFlowLimitation({ subMenu: false }));
-        }
+        // Disallow account switching on account creation/recovery pages
+        const disableAccountSwitching = WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS.some((url) => pathname.includes(url));
+        dispatch(setFlowLimitation({ subMenu: disableAccountSwitching }));
 
         const { redirect_url } = getState().account.url;
         const redirectUrl = redirect_url || pathname;
