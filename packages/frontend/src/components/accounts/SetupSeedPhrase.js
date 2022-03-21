@@ -265,7 +265,6 @@ class SetupSeedPhrase extends Component {
                                             onSubmit={this.handleOnSubmit}
                                             isLinkDrop={parseFundingOptions(this.props.location.search) !== null}
                                             hasSeedPhraseRecovery={hasSeedPhraseRecovery}
-                                            seedPhrase={seedPhrase}
                                         />
                                     </form>
                                 </Container>
