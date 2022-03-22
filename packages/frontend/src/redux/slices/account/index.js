@@ -24,6 +24,8 @@ export const selectAccountLedgerKey = createSelector(selectAccountSlice, (accoun
 
 export const selectAccountGlobalAlertPreventClear = createSelector(selectAccountSlice, (account) => account.globalAlertPreventClear);
 
+export const selectAccountMultisigRequest = createSelector(selectAccountSlice, (account) => account.multisigRequest);
+
 // balance - state
 export const selectBalance = createSelector(selectAccountSlice, (account) => account.balance || {});
 
@@ -38,13 +40,6 @@ export const selectAccountAccountsBalances = createSelector(selectAccountSlice, 
 export const selectAccountLocalStorage = createSelector(selectAccountSlice, (account) => account.localStorage || {});
 
 export const selectAccountLocalStorageAccountId = createSelector(selectAccountLocalStorage, (localStorage) => localStorage.accountId);
-
-// helperWalletState - state
-export const selectAccountHelperWalletState = createSelector(selectAccountSlice, (account) => account.accountHelperWalletState || {});
-
-export const selectAccountRequiredUnlockBalance = createSelector(selectAccountHelperWalletState, (accountHelperWalletState) => accountHelperWalletState.requiredUnlockBalance);
-
-export const selectAccountFundedAccountNeedsDeposit = createSelector(selectAccountHelperWalletState, (accountHelperWalletState) => accountHelperWalletState.fundedAccountNeedsDeposit);
 
 // url - state
 export const selectAccountUrl = createSelector(selectAccountSlice, (account) => account.url || {});

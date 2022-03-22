@@ -58,10 +58,11 @@ const StyledContainer = styled.div`
 `;
 
 const NFTs = ({ tokens }) => {
-    if (tokens.length) {
+    const ownedTokens = tokens.filter((tokenDetails) => tokenDetails.ownedTokensMetadata && tokenDetails.ownedTokensMetadata.length);
+    if (ownedTokens.length) {
         return (
             <StyledContainer>
-                {tokens.filter((tokenDetails) => tokenDetails.ownedTokensMetadata && tokenDetails.ownedTokensMetadata.length).map((tokenDetails) => (
+                {ownedTokens.map((tokenDetails) => (
                     <NFTBox
                         key={tokenDetails.contractName}
                         tokenDetails={tokenDetails}

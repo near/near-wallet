@@ -96,7 +96,7 @@ const Container = styled.div`
             }
 
             &.link {
-                &.red {
+                &.gray {
                     margin-top: 25px !important;
                 }
             }

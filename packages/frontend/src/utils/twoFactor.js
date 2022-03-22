@@ -48,6 +48,15 @@ export class TwoFactor extends Account2FA {
         });
     }
 
+    async getMultisigRequest() {
+        const { requestId, accountId } = this.getRequest();
+        return {
+            ...await this.viewFunction(this.accountId, 'get_request', { request_id: requestId }),
+            request_id: requestId,
+            account_id: accountId,
+        };
+    }
+
     async deployMultisig() {
         const contractBytes = new Uint8Array(await (await fetch('/multisig.wasm')).arrayBuffer());
         await super.deployMultisig(contractBytes);

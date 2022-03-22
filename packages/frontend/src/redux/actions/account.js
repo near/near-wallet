@@ -45,8 +45,7 @@ import {
     selectAccountUrlRedirectUrl,
     selectAccountUrlSuccessUrl,
     selectAccountUrlTitle,
-    selectAccountUrlTransactions,
-    selectActiveAccountIdIsImplicitAccount
+    selectAccountUrlTransactions
 } from '../slices/account';
 import { createAccountWithSeedPhrase } from '../slices/account/createAccountThunks';
 import { selectAllAccountsHasLockup } from '../slices/allAccounts';
@@ -245,8 +244,6 @@ export const {
     checkCanEnableTwoFactor,
     get2faMethod,
     getLedgerKey,
-    getAccountHelperWalletState,
-    clearFundedAccountNeedsDeposit,
     getLedgerPublicKey,
     setupRecoveryMessage,
     deleteRecoveryMethod,
@@ -256,7 +253,8 @@ export const {
     checkNewAccount,
     saveAccount,
     checkAccountAvailable,
-    clearCode
+    clearCode,
+    getMultisigRequest,
 } = createActions({
     INITIALIZE_RECOVERY_METHOD: [
         wallet.initializeRecoveryMethod.bind(wallet),
@@ -316,17 +314,13 @@ export const {
         (...args) => twoFactorMethod('get2faMethod', wallet, args),
         () => ({})
     ],
+    GET_MULTISIG_REQUEST: [
+        () => new TwoFactor(wallet, wallet.accountId).getMultisigRequest(),
+        () => ({}),
+    ],
     GET_LEDGER_KEY: [
         wallet.getLedgerKey.bind(wallet),
         () => ({})
-    ],
-    GET_ACCOUNT_HELPER_WALLET_STATE: [
-        wallet.getAccountHelperWalletState.bind(wallet),
-        () => ({})
-    ],
-    CLEAR_FUNDED_ACCOUNT_NEEDS_DEPOSIT: [
-        wallet.clearFundedAccountNeedsDeposit.bind(wallet),
-        () => showAlert({ onlyError: true })
     ],
     GET_LEDGER_PUBLIC_KEY: [
         wallet.getLedgerPublicKey.bind(wallet),
@@ -408,10 +402,10 @@ const handleFundCreateAccountRedirect = ({
     implicitAccountId,
     recoveryMethod
 }) => (dispatch, getState) => {
-    const activeAccountIdIsImplicit = selectActiveAccountIdIsImplicitAccount(getState());
+    const activeAccountId = selectAccountId(getState());
 
     if (ENABLE_IDENTITY_VERIFIED_ACCOUNT) {
-        const route = activeAccountIdIsImplicit ? '/fund-with-existing-account' : '/verify-account';
+        const route = activeAccountId ? '/fund-with-existing-account' : '/verify-account';
         const search = `?accountId=${accountId}&implicitAccountId=${implicitAccountId}&recoveryMethod=${recoveryMethod}`;
         dispatch(redirectTo(route + search));
     } else {

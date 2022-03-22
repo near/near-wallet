@@ -576,6 +576,21 @@
         "or": "or",
         "title": "You’ve received a NEAR drop!"
     },
+    "NFTDetail": {
+        "owner": "OWNER",
+        "transfer": "Transfer"
+    },
+    "NFTTransfer": {
+      "transferNft": "Transfer NFT",
+      "enterReceiver": "Enter a recipient address, then proceed to confirm your transaction.",
+      "cancel": "Cancel",
+      "next": "Next",
+      "confirm": "Confirm",
+      "transactionComplete": "Transaction Complete!",
+      "viewTransaction": "View Receipt",
+      "continue": "Continue",
+      "youSent": "You sent <span class='color-blue'>${title}</span> to <span class='color-green'>${receiverId}</span>"
+    },
     "loading": "Loading...",
     "loadingNoDots": "Loading",
     "lockedBalance": "This NEAR is locked in a lockup contract, and cannot be withdrawn. You may still delegate or stake this NEAR. Once the NEAR is unlocked, you can view it in your Unlocked Balance, and chose to withdraw it (moving to your Available Balance).",
@@ -829,6 +844,20 @@
         "snackbarCopySuccess": "Recover URL copied",
         "title": "Restore Account"
     },
+    "importAccountWithLink": {
+        "accountFound": "1 Account Found",
+        "accountsFound": "${count} Accounts Found",
+        "accountImported": "Account Imported",
+        "alreadyImported": "The account secured by this link has been imported.",
+        "copyUrl": "copy the URL",
+        "continue": "and continue this process in your browser of choice.",
+        "foundAccount": "We found <b>1 account</b> secured by this link.",
+        "foundAccounts": "We found <b>${count} accounts</b> secured by this link.",
+        "import": "Import",
+        "importAccount": "Import Your Account",
+        "preferedBrowser": "If this isn't your preferred browser,",
+        "goToAccount": "Go to Account"
+    },
     "recoveryMgmt": {
         "disableInputPlaceholder": "Enter your account ID to confirm",
         "disableNo": "No, keep",
@@ -960,6 +989,7 @@
         "switchAccounthNotAllowed": "This app doesn't allow account changes"
     },
     "sending": "Sending",
+    "importing": "Importing",
     "sendMoney": {
         "account": {
             "title": "Send to"
@@ -1439,6 +1469,16 @@
             "resending": "Sending...",
             "resent": "Code sent!",
             "title": "Enter Two-Factor Verification Code"
+        },
+        "action": {
+            "addKey": {
+                "limited": "Adding key ${publicKey} limited to call ${methodNames} on ${receiverId} and spend up to ${allowance} NEAR on gas",
+                "full": "WARNING: Entering the code below will authorize full access to your NEAR account: ${accountId}. If you did not initiate this action, please DO NOT continue.<br /><br />This should only be done if you are adding a new full access key to your account. In all other cases, this is very dangerous.<br /><br /> The public key you are adding is: ${publicKey} ",
+            },
+            "deleteKey": "Deleting key ${publicKey}",
+            "functionCall": "Calling method: ${methodName} in contract: ${receiverId} with amount ${deposit} NEAR and with args: <pre>${args}</pre>",
+            "stake": "Staking: ${amount} NEAR to validator: ${receiverId}",
+            "transfer": "Transferring: ${amount} NEAR to ${receiverId}"
         }
     },
     "unlockedAvailTransfer": "This NEAR is unlocked, and can be transferred out of your lockup contract.",
@@ -1539,6 +1579,9 @@
         },
         "recoverAccountSeedPhrase": {
             "errorInvalidSeedPhrase": "No accounts were found for this passphrase."
+        },
+        "recoverAccountLink": {
+            "error": "Import of your account failed. Please try again or contact support for assistance."
         },
         "recoveryMethods": {
             "lastMethod": "Cannot delete your last recovery method. Unless you have Ledger enabled, you need to keep at least one recovery method active to ensure recoverability of your account.",

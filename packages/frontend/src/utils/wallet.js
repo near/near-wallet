@@ -5,6 +5,7 @@ import { KeyType } from 'near-api-js/lib/utils/key_pair';
 import { generateSeedPhrase, parseSeedPhrase } from 'near-seed-phrase';
 
 import { store } from '..';
+import { IMPORT_ACCOUNT_WITH_LINK_V2 } from '../../../../features';
 import * as Config from '../config';
 import {
     makeAccountActive,
@@ -14,11 +15,7 @@ import { actions as ledgerActions } from '../redux/slices/ledger';
 import sendJson from '../tmp_fetch_send_json';
 import { decorateWithLockup } from './account-with-lockup';
 import { getAccountIds } from './helper-api';
-import {
-    getAccountIsInactive,
-    setAccountConfirmed,
-    setAccountIsInactive
-} from './localStorage';
+import { setAccountConfirmed } from './localStorage';
 import { TwoFactor } from './twoFactor';
 import { WalletError } from './walletError';
 
@@ -74,7 +71,6 @@ export const RELEASE_NOTES_MODAL_VERSION = 'v0.01.2';
 
 export const keyAccountConfirmed = (accountId) => `wallet.account:${accountId}:${NETWORK_ID}:confirmed`;
 export const keyStakingAccountSelected = () => `wallet.account:${wallet.accountId}:${NETWORK_ID}:stakingAccount`;
-export const keyAccountInactive = (accountId) => `wallet.account:${accountId}:${NETWORK_ID}:inactive`;
 export const keyReleaseNotesModalClosed = (version) => `wallet.releaseNotesModal:${version}:closed`;
 
 const WALLET_METADATA_METHOD = '__wallet__metadata';
@@ -685,20 +681,6 @@ class Wallet {
         });
     }
 
-    async getAccountHelperWalletState(accountId) {
-        const state = await sendJson('GET', ACCOUNT_HELPER_URL + `/account/walletState/${accountId}`);
-        if (state.fundedAccountNeedsDeposit && !getAccountIsInactive(accountId)) {
-            setAccountIsInactive(accountId);
-        }
-        return state;
-    }
-
-    async clearFundedAccountNeedsDeposit(accountId) {
-        await sendJson('POST', ACCOUNT_HELPER_URL + '/fundedAccount/clearNeedsDeposit', {
-            accountId
-        });
-    }
-
     async initializeRecoveryMethodNewImplicitAccount(method) {
         const { seedPhrase } = generateSeedPhrase();
         const { secretKey } = parseSeedPhrase(seedPhrase);
@@ -729,11 +711,12 @@ class Wallet {
         return seedPhrase;
     }
 
-    async validateSecurityCodeNewImplicitAccount(implicitAccountId, method, securityCode) {
+    async validateSecurityCodeNewImplicitAccount(implicitAccountId, method, securityCode, publicKey) {
         try {
             await sendJson('POST', ACCOUNT_HELPER_URL + '/account/validateSecurityCodeForTempAccount', {
                 accountId: implicitAccountId,
                 method,
+                publicKey,
                 securityCode,
             });
         } catch (e) {
@@ -741,11 +724,12 @@ class Wallet {
         }
     }
 
-    async validateSecurityCode(accountId, method, securityCode, enterpriseRecaptchaToken, recaptchaAction) {
+    async validateSecurityCode(accountId, method, securityCode, enterpriseRecaptchaToken, recaptchaAction, publicKey) {
         const isNew = await this.checkIsNew(accountId);
         const body = {
             accountId,
             method,
+            publicKey,
             securityCode,
         };
 
@@ -778,7 +762,7 @@ class Wallet {
 
     async setupRecoveryMessage(accountId, method, securityCode, recoverySeedPhrase) {
         const { publicKey } = parseSeedPhrase(recoverySeedPhrase);
-        await this.validateSecurityCode(accountId, method, securityCode);
+        await this.validateSecurityCode(accountId, method, securityCode, undefined, undefined, publicKey);
         try {
             await this.addNewAccessKeyToAccount(accountId, publicKey);
         } catch (e) {
@@ -848,7 +832,13 @@ class Wallet {
             accountIds = [accountId];
         }
 
-        accountIds.push(implicitAccountId);
+        if (!IMPORT_ACCOUNT_WITH_LINK_V2) {
+            accountIds.push(implicitAccountId);
+        }
+
+        // TODO: getAccountIds returns all accounts including any implicit account.
+        // Once 'IMPORT_ACCOUNT_WITH_LINK_V2' feature is shipped:
+        // Remove automatically adding implicitAccountId into array and then removing the duplicates.
 
         // remove duplicate and non-existing accounts
         const accountsSet = new Set(accountIds);

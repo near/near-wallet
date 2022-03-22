@@ -544,6 +544,9 @@
         "or": "ou",
         "title": "Você recebeu uma distribuição de NEAR!"
     },
+    "NFTTransfer": {
+        "youSent": "You sent <span class='color-blue'>${title}</span> to <span class='color-green'>${receiverId}</span>"
+    },
     "loading": "Carregando...",
     "loadingNoDots": "Carregando",
     "lockedBalance": "Este NEAR está bloqueado em um contrato de bloqueio e não pode ser retirado. Você ainda pode delegar ou fazer stake deste NEAR. Assim que o NEAR for desbloqueado, você poderá visualizá-lo em seu Saldo Desbloqueado e escolher retirá-lo (passando para seu Saldo Disponível).",
@@ -791,6 +794,20 @@
         "pTwo": "Se este não for o seu navegador preferido, copie a URL e complete este processo no navegador a sua escolha.",
         "snackbarCopySuccess": "URL de Recuperação copiada",
         "title": "Restaurar conta"
+    },
+    "importAccountWithLink": {
+        "accountFound": "1 Account Found",
+        "accountsFound": "${count} Accounts Found",
+        "accountImported": "Account Imported",
+        "alreadyImported": "The account secured by this link has been imported.",
+        "copyUrl": "copy the URL",
+        "continue": "and continue this process in your browser of choice.",
+        "foundAccount": "We found <b>1 account</b> secured by this link.",
+        "foundAccounts": "We found <b>${count} accounts</b> secured by this link.",
+        "import": "Import",
+        "importAccount": "Import Your Account",
+        "preferedBrowser": "If this isn't your preferred browser,",
+        "goToAccount": "Go to Account"
     },
     "recoveryMgmt": {
         "disableInputPlaceholder": "Insira o ID da sua conta para confirmar",

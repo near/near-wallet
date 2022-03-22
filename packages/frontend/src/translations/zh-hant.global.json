@@ -558,6 +558,9 @@
         "or": "或",
         "title": "你收到了 NEAR 空投！"
     },
+    "NFTTransfer": {
+        "youSent": "You sent <span class='color-blue'>${title}</span> to <span class='color-green'>${receiverId}</span>"
+    },
     "loading": "加載中...",
     "loadingNoDots": "加載中",
     "lockedBalance": "NEAR 鎖定在鎖定合約中，但無法取出。你可能仍委托或質押著這些 NEAR。一旦 NEAR 解鎖，你可以在未鎖定餘額中查看，並選擇取出（轉移到「可用餘額」）。",
@@ -810,6 +813,20 @@
         "pTwo": "如果這不是你偏好的瀏覽器，請複製鏈接並在你偏好的瀏覽器中完成恢復流程。",
         "snackbarCopySuccess": "恢復鏈接已複製",
         "title": "恢復賬戶"
+    },
+    "importAccountWithLink": {
+        "accountFound": "1 Account Found",
+        "accountsFound": "${count} Accounts Found",
+        "accountImported": "Account Imported",
+        "alreadyImported": "The account secured by this link has been imported.",
+        "copyUrl": "copy the URL",
+        "continue": "and continue this process in your browser of choice.",
+        "foundAccount": "We found <b>1 account</b> secured by this link.",
+        "foundAccounts": "We found <b>${count} accounts</b> secured by this link.",
+        "import": "Import",
+        "importAccount": "Import Your Account",
+        "preferedBrowser": "If this isn't your preferred browser,",
+        "goToAccount": "Go to Account"
     },
     "recoveryMgmt": {
         "disableInputPlaceholder": "請輸入用戶名確認",
