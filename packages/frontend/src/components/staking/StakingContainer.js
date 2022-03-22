@@ -9,13 +9,15 @@ import { getBalance } from '../../redux/actions/account';
 import {
     updateStaking,
     handleStakingAction,
-    handleUpdateCurrent
+    handleUpdateCurrent,
+    getValidatorFarmData
 } from '../../redux/actions/staking';
 import { selectAccountHas2fa, selectAccountHasLockup, selectAccountId, selectBalance } from '../../redux/slices/account';
 import { selectLedgerHasLedger } from '../../redux/slices/ledger';
 import { selectStakingSlice } from '../../redux/slices/staking';
 import { selectStatusSlice } from '../../redux/slices/status';
 import { selectNearTokenFiatValueUSD } from '../../redux/slices/tokenFiatValues';
+import { FARMING_VALIDATOR_VERSION } from '../../utils/constants';
 import { setStakingAccountSelected, getStakingAccountSelected } from '../../utils/localStorage';
 import Container from '../common/styled/Container.css';
 import { ClaimSuccess } from './components/ClaimSuccess';
@@ -202,6 +204,14 @@ export function StakingContainer({ history, match }) {
         setStakingAccountSelected(accountId);
         dispatch(handleUpdateCurrent(accountId));
     };
+
+    useEffect(() => {
+        if (!accountId || !validators.length) return;
+        
+        validators
+            .filter((validator) => validator.version === FARMING_VALIDATOR_VERSION && validator.active)
+            .forEach((validator) => dispatch(getValidatorFarmData(validator, accountId)));
+    }, [accountId, validators]);
 
     const handleAction = async (action, validator, amount) => {
         let id = Mixpanel.get_distinct_id();

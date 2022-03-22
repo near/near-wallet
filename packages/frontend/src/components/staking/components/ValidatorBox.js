@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Translate } from 'react-localize-redux';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
@@ -6,8 +6,7 @@ import styled from 'styled-components';
 import { FARMING_VALIDATOR_APY_DISPLAY } from '../../../../../../features';
 import { Mixpanel } from '../../../mixpanel/index';
 import { redirectTo } from '../../../redux/actions/account';
-import { getValidatorFarmData } from '../../../redux/actions/staking';
-import { selectFarmValidatorAPY, selectStakingCurrentAccountAccountId } from '../../../redux/slices/staking';
+import { selectFarmValidatorAPY } from '../../../redux/slices/staking';
 import { FARMING_VALIDATOR_VERSION, ValidatorVersion } from '../../../utils/constants';
 import Balance from '../../common/balance/Balance';
 import FormButton from '../../common/FormButton';
@@ -144,11 +143,6 @@ export default function ValidatorBox({
     const farmAPY = useSelector((state) => selectFarmValidatorAPY(state, {validatorId: validator?.accountId}));
     const { accountId: validatorId, active } = validator;
     const isFarmingValidator = validator?.version === ValidatorVersion[FARMING_VALIDATOR_VERSION];
-    const currentAccountId = useSelector(selectStakingCurrentAccountAccountId);
-
-    useEffect(() => {
-        dispatch(getValidatorFarmData(validator, currentAccountId));
-    }, [validator, currentAccountId]);
 
     const fee = validator.fee && validator.fee.percentage;
     const cta = amount ? (
