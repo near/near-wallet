@@ -1526,6 +1526,9 @@
         "title": "Almost there! Verify your new account.",
         "titleNoFunding": "Almost there! Fund your new account."
     },
+    "verifyWalletDomainBanner": {
+        "title": "Please make sure you are visiting"
+    },
     "wallet": {
         "availableBalance": "Available Balance",
         "balance": "Balance",
