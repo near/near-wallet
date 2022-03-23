@@ -7,11 +7,14 @@ import LockIcon from '../svg/LockIcon';
 
 const StyledContainer = styled.div`
     background-color: #fafafa;
-    border-radius: 8px;
     margin: 0 auto;
     text-align: center;
     padding: 10px 20px;
     margin: -5px 0 40px 0;
+
+    &.network-banner {
+        margin: -15px 0 40px 0;
+    }
 
     svg {
         width: 20px;
@@ -67,7 +70,7 @@ const getWalletURL = () => {
 
 export default () => {
     return (
-        <StyledContainer>
+        <StyledContainer className={(SHOW_PRERELEASE_WARNING || !IS_MAINNET) ? 'network-banner' : ''}>
             <div className='desktop'>
                 <LockIcon color='#00C08B' />
                 <Translate id='verifyWalletDomainBanner.title' />
