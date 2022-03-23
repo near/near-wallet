@@ -560,7 +560,7 @@ export const getValidatorFarmData = (validator, accountId) => async (dispatch, g
                             account_id: accountId,
                             farm_id,
                         })
-                        .catch(() => "0")
+                        .catch(() => '0')
                         .then((balance) => ({
                             token_id,
                             balance,
