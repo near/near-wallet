@@ -551,29 +551,34 @@ export const getValidatorFarmData = (validator, accountId) => async (dispatch, g
     const poolSummary = await validator.contract.get_pool_summary();
     const farms = await validator.contract.get_farms({ from_index: 0, limit: 300 });
 
-    const list = await Promise.all(farms.map(({ token_id, farm_id, active }) => {
-        try {
-            dispatch(fetchToken({ contractName: token_id }));
-            return validator.contract
-                .get_unclaimed_reward({ account_id: accountId, farm_id })
-                .catch(() => '0')
-                .then((balance) => ({ 
-                    token_id,
-                    balance,
-                    farm_id,
-                    active
-                }));
-        } catch (error) {
-            console.error(error);
-            return ({
-                token_id,
-                farm_id,
-                balance: 0,
-                active
-            });
-        }
-        
-    }));
+    const list = await Promise.all(
+        farms.map(({ token_id, farm_id, active }) =>
+            dispatch(fetchToken({ contractName: token_id }))
+                .then(() =>
+                    validator.contract
+                        .get_unclaimed_reward({
+                            account_id: accountId,
+                            farm_id,
+                        })
+                        .catch(() => "0")
+                        .then((balance) => ({
+                            token_id,
+                            balance,
+                            farm_id,
+                            active,
+                        }))
+                )
+                .catch((error) => {
+                    console.error(error);
+                    return {
+                        token_id,
+                        farm_id,
+                        balance: 0,
+                        active,
+                    };
+                })
+        )
+    );
 
     const farmData = {
         poolSummary: {...poolSummary},
