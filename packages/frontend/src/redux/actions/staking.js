@@ -13,13 +13,25 @@ import { fungibleTokensService, FT_MINIMUM_STORAGE_BALANCE_LARGE } from '../../s
 import { getLockupAccountId, getLockupMinBalanceForStorage } from '../../utils/account-with-lockup';
 import { showAlert } from '../../utils/alerts';
 import {
-    getValidationVersion, getValidatorRegExp, MAINNET, FARMING_VALIDATOR_VERSION, TESTNET
+    MAINNET, 
+    getValidationVersion, 
+    getValidatorRegExp, 
+    FARMING_VALIDATOR_VERSION, 
+    TESTNET
 } from '../../utils/constants';
 import { setStakingAccountSelected } from '../../utils/localStorage';
 import {
-    ACCOUNT_DEFAULTS, EXPLORER_DELAY, getStakingDeposits,
-    lockupMethods, MIN_DISPLAY_YOCTO, shuffle, signAndSendTransaction,
-    stakingMethods, STAKING_AMOUNT_DEVIATION, updateStakedBalance, ZERO
+    STAKING_AMOUNT_DEVIATION, 
+    MIN_DISPLAY_YOCTO, 
+    ZERO,
+    EXPLORER_DELAY, 
+    ACCOUNT_DEFAULTS, 
+    getStakingDeposits,
+    lockupMethods, 
+    updateStakedBalance, 
+    signAndSendTransaction,
+    stakingMethods, 
+    shuffle
 } from '../../utils/staking';
 import { wallet } from '../../utils/wallet';
 import { WalletError } from '../../utils/walletError';
@@ -29,10 +41,17 @@ import {
 } from '../slices/account';
 import { selectAllAccountsByAccountId } from '../slices/allAccounts';
 import {
-    selectStakingAccountsLockup, selectStakingAccountsMain, selectStakingAllValidators,
+    selectStakingAccountsMain,
+    selectStakingMainAccountId,
+    selectStakingLockupAccountId,
+    selectStakingAccountsLockup,
+    selectStakingAllValidators,
     selectStakingAllValidatorsLength,
     selectStakingContract,
-    selectStakingCurrentAccountAccountId, selectStakingCurrentAccountbyAccountId, selectStakingFindContractByValidatorId, selectStakingLockupAccountId, selectStakingLockupId, selectStakingMainAccountId
+    selectStakingCurrentAccountAccountId,
+    selectStakingCurrentAccountbyAccountId,
+    selectStakingFindContractByValidatorId,
+    selectStakingLockupId
 } from '../slices/staking';
 import { actions as tokensActions } from '../slices/tokens';
 import { getBalance } from './account';
