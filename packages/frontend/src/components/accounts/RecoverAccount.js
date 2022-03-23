@@ -109,8 +109,8 @@ const RecoverAccount = ({
     isMobile
 }) => {
     return (
-        <>
-            {IS_MAINNET && <VerifyWalletDomainBanner />}
+        <>  
+            <VerifyWalletDomainBanner />
             <StyledContainer>
                 <h1><Translate id='recoverAccount.pageTitle' /></h1>
                 <h2><Translate id='recoverAccount.pageText' /></h2>

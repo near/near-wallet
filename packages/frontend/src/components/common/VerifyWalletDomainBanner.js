@@ -2,6 +2,7 @@ import React from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
+import { IS_MAINNET, SHOW_PRERELEASE_WARNING } from '../../config';
 import LockIcon from '../svg/LockIcon';
 
 const StyledContainer = styled.div`
@@ -47,16 +48,37 @@ const StyledContainer = styled.div`
     }
 `;
 
+const getWalletURL = () => {
+    let networkName = '';
+
+    if (SHOW_PRERELEASE_WARNING) {
+        networkName = 'staging.';
+    }
+    if (!IS_MAINNET) {
+        networkName = 'testnet.';
+    }
+
+    return (
+        <>
+            <span>https://</span><span>wallet.{networkName}near.org</span>
+        </>
+    );
+};
+
 export default () => {
     return (
         <StyledContainer>
             <div className='desktop'>
-                <LockIcon color='#00C08B' /><Translate id='verifyWalletDomainBanner.title' />&nbsp;<span>https://</span><span>wallet.near.org</span>
+                <LockIcon color='#00C08B' />
+                <Translate id='verifyWalletDomainBanner.title' />
+                &nbsp;
+                {getWalletURL()}
             </div>
             <div className='mobile'>
                 <Translate id='verifyWalletDomainBanner.title' />
                 <div>
-                    <LockIcon color='#00C08B' /><span>https://</span><span>wallet.near.org</span>
+                    <LockIcon color='#00C08B' />
+                    {getWalletURL()}
                 </div>
             </div>
         </StyledContainer>
