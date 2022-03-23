@@ -18,7 +18,7 @@ import FormButton from '../../common/FormButton';
 import SafeTranslate from '../../SafeTranslate';
 import AlertBanner from './AlertBanner';
 import BalanceBox from './BalanceBox';
-import ClaimConfirmModal from './ClaimConfirmModal';
+import ClaimTokenFarmRewardsModal from './ClaimTokenFarmRewardsModal';
 import { FarmingAPY } from './FarmingAPY';
 import StakeConfirmModal from './StakeConfirmModal';
 import StakingFee from './StakingFee';
@@ -87,14 +87,14 @@ export default function Validator({
     const showConfirmModal = confirm === 'withdraw';
     const pendingUpdateStaking = useSelector((state) => selectActionsPending(state, { types: ['UPDATE_STAKING'] }));
 
-    const [showClaimConfirmModal, setShowClaimConfirmModal] = useState(false);
+    const [showClaimTokenFarmRewardsModal, setShowClaimTokenFarmRewardsModal] = useState(false);
     const [selectedFarm, setSelectedFarm] = useState(null);
 
     const [claimingProceed, setClaimingProceed] = useState(false);
 
     const openModal = (farm) => {
         setSelectedFarm(farm);
-        setShowClaimConfirmModal(true);
+        setShowClaimTokenFarmRewardsModal(true);
     };
 
     const handleStakeAction = async () => {
@@ -233,14 +233,14 @@ export default function Validator({
                             sendingString='withdrawing'
                         />
                     }
-                    {isFarmingValidator && selectedFarm && showClaimConfirmModal &&
-                        <ClaimConfirmModal
+                    {isFarmingValidator && selectedFarm && showClaimTokenFarmRewardsModal &&
+                        <ClaimTokenFarmRewardsModal
                             title={'staking.validator.claimFarmRewards'}
                             label="staking.stake.from"
                             validator={validator}
-                            open={showClaimConfirmModal}
+                            open={showClaimTokenFarmRewardsModal}
                             onConfirm={handleClaimAction}
-                            onClose={() => setShowClaimConfirmModal(false)}
+                            onClose={() => setShowClaimTokenFarmRewardsModal(false)}
                             loading={claimingProceed}
                             farm={selectedFarm}
                         />}

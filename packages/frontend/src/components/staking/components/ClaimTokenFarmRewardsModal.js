@@ -108,7 +108,7 @@ const Container = styled.div`
     }
 `;
 
-const ClaimConfirmModal = ({ open, onClose, onConfirm, validator, loading, title, label, farm }) => {
+const ClaimTokenFarmRewardsModal = ({ open, onClose, onConfirm, validator, loading, title, label, farm }) => {
     const NEARAsTokenWithMetadata = useSelector(selectNEARAsTokenWithMetadata);
     const { 
         onChainFTMetadata,
@@ -180,4 +180,4 @@ const ClaimConfirmModal = ({ open, onClose, onConfirm, validator, loading, title
     );
 };
 
-export default ClaimConfirmModal;
+export default ClaimTokenFarmRewardsModal;
