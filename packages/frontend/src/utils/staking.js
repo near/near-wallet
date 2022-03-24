@@ -101,16 +101,15 @@ export function shuffle(sourceArray) {
 const SECONDS_IN_YEAR = 3600 * 24 * 365;
 
 export const calculateAPY = (poolSummary, tokenPrices) => {
-    // Handle if there are no farms:
-    const activeFarms = poolSummary?.farms;
-    if (!activeFarms) return 0;
+    // Handle if there are no active farms:
+    const activeFarms = poolSummary?.farms?.filter((farm) => farm.active);
+    if (!activeFarms || activeFarms.every((farm) => !+tokenPrices[farm.token_id]?.usd)) return 0;
 
     try {
-
-        if (activeFarms.some((farm) => !+tokenPrices[farm.token_id]?.usd)) return 0;
+        const farmsWithTokenPrices = activeFarms.filter((farm) => tokenPrices[farm.token_id]?.usd);
         const totalStakedBalance = nearTo(poolSummary.total_staked_balance);
 
-        const summaryAPY = activeFarms.reduce((acc, farm) => {
+        const summaryAPY = farmsWithTokenPrices.reduce((acc, farm) => {
             const tokenPriceInUSD = +tokenPrices[farm.token_id].usd;
             const nearPriceInUSD = +tokenPrices[NEAR_TOKEN_ID].usd;
 
