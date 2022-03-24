@@ -8,6 +8,7 @@ import {
     STAKING_GAS_BASE,
     FARMING_CLAIM_GAS,
     FARMING_CLAIM_YOCTO,
+    LOCKUP_ACCOUNT_ID_SUFFIX
 } from '../../config';
 import { fungibleTokensService, FT_MINIMUM_STORAGE_BALANCE_LARGE } from '../../services/FungibleTokens';
 import StakingFarmContracts from '../../services/StakingFarmContracts';
@@ -500,7 +501,7 @@ export const handleStakingAction = (action, validatorId, amount) => async (dispa
     const accountId = selectStakingMainAccountId(getState());
     const currentAccountId = selectStakingCurrentAccountAccountId(getState());
 
-    const isLockup = currentAccountId !== accountId;
+    const isLockup = currentAccountId.endsWith(`.${LOCKUP_ACCOUNT_ID_SUFFIX}`);
 
     if (amount && amount.length < 15) {
         amount = parseNearAmount(amount);
@@ -575,7 +576,7 @@ export const claimFarmRewards = (validatorId, token_id) => async (dispatch, getS
     try {
         const accountId = selectStakingMainAccountId(getState());
         const currentAccountId = selectStakingCurrentAccountAccountId(getState());
-        const isLockup = currentAccountId !== accountId;
+        const isLockup = currentAccountId.endsWith(`.${LOCKUP_ACCOUNT_ID_SUFFIX}`);
 
         const validators = selectStakingAllValidators(getState());
         const validator = { ...validators.find((validator) => validator?.accountId === validatorId)};
