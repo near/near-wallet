@@ -15,24 +15,24 @@ import StakingFarmContracts from '../../services/StakingFarmContracts';
 import { getLockupAccountId, getLockupMinBalanceForStorage } from '../../utils/account-with-lockup';
 import { showAlert } from '../../utils/alerts';
 import {
-    MAINNET, 
-    getValidationVersion, 
-    getValidatorRegExp, 
-    FARMING_VALIDATOR_VERSION, 
+    MAINNET,
+    getValidatorRegExp,
+    getValidationVersion,
+    FARMING_VALIDATOR_VERSION,
     TESTNET
 } from '../../utils/constants';
 import { setStakingAccountSelected } from '../../utils/localStorage';
 import {
-    STAKING_AMOUNT_DEVIATION, 
-    MIN_DISPLAY_YOCTO, 
+    STAKING_AMOUNT_DEVIATION,
+    MIN_DISPLAY_YOCTO,
     ZERO,
-    EXPLORER_DELAY, 
-    ACCOUNT_DEFAULTS, 
+    EXPLORER_DELAY,
+    ACCOUNT_DEFAULTS,
     getStakingDeposits,
-    lockupMethods, 
-    updateStakedBalance, 
+    lockupMethods,
+    updateStakedBalance,
     signAndSendTransaction,
-    stakingMethods, 
+    stakingMethods,
     shuffle
 } from '../../utils/staking';
 import { wallet } from '../../utils/wallet';
