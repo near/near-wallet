@@ -6,13 +6,19 @@ import {
     ACCOUNT_HELPER_URL,
     REACT_APP_USE_TESTINGLOCKUP,
     STAKING_GAS_BASE,
+    FARMING_CLAIM_GAS,
+    FARMING_CLAIM_YOCTO,
+    LOCKUP_ACCOUNT_ID_SUFFIX
 } from '../../config';
+import { fungibleTokensService, FT_MINIMUM_STORAGE_BALANCE_LARGE } from '../../services/FungibleTokens';
+import StakingFarmContracts from '../../services/StakingFarmContracts';
 import { getLockupAccountId, getLockupMinBalanceForStorage } from '../../utils/account-with-lockup';
 import { showAlert } from '../../utils/alerts';
 import {
     MAINNET,
     getValidatorRegExp,
     getValidationVersion,
+    FARMING_VALIDATOR_VERSION,
     TESTNET
 } from '../../utils/constants';
 import { setStakingAccountSelected } from '../../utils/localStorage';
@@ -49,7 +55,10 @@ import {
     selectStakingFindContractByValidatorId,
     selectStakingLockupId
 } from '../slices/staking';
+import { actions as tokensActions } from '../slices/tokens';
 import { getBalance } from './account';
+
+const { fetchToken } = tokensActions;
 
 const {
     transactions: {
@@ -420,7 +429,10 @@ export const { staking } = createActions({
                     }
                 })
             )).filter((v) => !!v);
-        }
+        },
+        SET_VALIDATOR_FARM_DATA: (validatorId, farmData) => {
+            return {validatorId, farmData};
+        },
     }
 });
 
@@ -489,7 +501,7 @@ export const handleStakingAction = (action, validatorId, amount) => async (dispa
     const accountId = selectStakingMainAccountId(getState());
     const currentAccountId = selectStakingCurrentAccountAccountId(getState());
 
-    const isLockup = currentAccountId !== accountId;
+    const isLockup = currentAccountId.endsWith(`.${LOCKUP_ACCOUNT_ID_SUFFIX}`);
 
     if (amount && amount.length < 15) {
         amount = parseNearAmount(amount);
@@ -532,4 +544,73 @@ export const updateStaking = (currentAccountId, recentlyStakedValidators) => asy
 export const handleUpdateCurrent = (accountId) => async (dispatch, getState) => {
     let currentAccount = selectStakingCurrentAccountbyAccountId(getState(), { accountId });
     dispatch(staking.updateCurrent({ currentAccount }));
+};
+
+export const getValidatorFarmData = (validator, accountId) => async (dispatch, getState) => {
+
+    if (validator?.version !== FARMING_VALIDATOR_VERSION || !accountId) return;
+
+    const poolSummary = await validator.contract.get_pool_summary();
+
+    const farmList = await StakingFarmContracts.getFarmListWithUnclaimedRewards({
+        contractName: validator.contract.contractId,
+        account_id: accountId,
+        from_index: 0,
+        limit: 300,
+    });
+
+    try {
+        await Promise.all(farmList.map(({ token_id }) => dispatch(fetchToken({ contractName: token_id }))));
+    } catch (error) {
+        console.error(error);
+    }
+
+    const farmData = {
+        poolSummary: {...poolSummary},
+        farmRewards: farmList,
+    };
+    await dispatch(staking.setValidatorFarmData(validator.accountId, farmData));
+};
+
+export const claimFarmRewards = (validatorId, token_id) => async (dispatch, getState) => {
+    try {
+        const accountId = selectStakingMainAccountId(getState());
+        const currentAccountId = selectStakingCurrentAccountAccountId(getState());
+        const isLockup = currentAccountId.endsWith(`.${LOCKUP_ACCOUNT_ID_SUFFIX}`);
+
+        const validators = selectStakingAllValidators(getState());
+        const validator = { ...validators.find((validator) => validator?.accountId === validatorId)};
+
+        const storageAvailable = await fungibleTokensService.isStorageBalanceAvailable({ 
+            contractName: token_id,
+            accountId: accountId
+        });
+            if (!storageAvailable) {
+                try {
+                    const account = await wallet.getAccount(accountId);
+                    await fungibleTokensService.transferStorageDeposit({
+                         account,
+                         contractName: token_id,
+                         receiverId: accountId,
+                         storageDepositAmount: FT_MINIMUM_STORAGE_BALANCE_LARGE
+                        });
+                }
+                catch (e) {
+                    console.warn(e);
+                    throw e;
+                }
+            }
+
+        const args = { token_id };
+
+        if (isLockup) {
+            const lockupId = selectStakingLockupId(getState());
+            args.delegator_id = lockupId;
+        }
+
+        return validator.contract.claim(args, FARMING_CLAIM_GAS, FARMING_CLAIM_YOCTO);
+    } catch (error) {
+        throw error;
+    }
+    
 };

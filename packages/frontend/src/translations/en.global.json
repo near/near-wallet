@@ -1342,6 +1342,7 @@
             "descTwo": "You can now view your delegation and staking rewards from your staking dashboard.",
             "title": "Success!"
         },
+
         "staking": {
             "available": "Available balance",
             "button": "Stake My Tokens",
@@ -1370,10 +1371,24 @@
             "descTwo": "Your tokens are pending release and will be made available within ~52-65hrs (4 epochs).",
             "title": "Success!"
         },
+        "claimSuccess": {
+            "button": "Return to Dashboard",
+            "desc": "Tokens have been successfully claimed from the validator",
+            "descTwo": "Your tokens are already available",
+            "title": "Success!"
+        },
         "validator": {
+            "apy": "APY",
+            "claiming": "Claiming",
             "button": "Stake With Validator",
+            "claimFarmRewards": "You are claiming",
+            "activeStake": "Active Stake",
+            "rewards": "Rewards",
+            "errorClaimRewards": "Something went wrong during claiming your farm rewards. Please, try again later",
             "desc": "This is the fee paid to the validator to stake on your behalf. This fee is only charged on your rewards.",
             "fee": "Validator Fee",
+            "notWhitelistedTokenWarning": "This token has not been whitelisted by ref-finance. Proceed at your own risk.",
+            "notWhitelistedValidatorWarning": "Tokens awarded by this validator have not been whitelisted by ref-finance. Proceed at your own risk.",
             "title": "Validator: <br/>${validator}",
             "unstake": "You are unstaking",
             "withdraw": "You are withdrawing",
@@ -1381,6 +1396,7 @@
         },
         "validatorBox": {
             "cta": "Select",
+            "farming": "Farming",
             "fee": "Fee",
             "near": "NEAR",
             "staking": "Staking",
