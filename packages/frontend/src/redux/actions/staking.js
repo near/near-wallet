@@ -10,6 +10,7 @@ import {
     FARMING_CLAIM_YOCTO,
 } from '../../config';
 import { fungibleTokensService, FT_MINIMUM_STORAGE_BALANCE_LARGE } from '../../services/FungibleTokens';
+import StakingFarmContracts from '../../services/StakingFarmContracts';
 import { getLockupAccountId, getLockupMinBalanceForStorage } from '../../utils/account-with-lockup';
 import { showAlert } from '../../utils/alerts';
 import {
@@ -549,43 +550,25 @@ export const getValidatorFarmData = (validator, accountId) => async (dispatch, g
     if (validator?.version !== FARMING_VALIDATOR_VERSION || !accountId) return;
 
     const poolSummary = await validator.contract.get_pool_summary();
-    const farms = await validator.contract.get_farms({ from_index: 0, limit: 300 });
 
-    const list = await Promise.all(
-        farms.map(({ token_id, farm_id, active }) =>
-            dispatch(fetchToken({ contractName: token_id }))
-                .then(() =>
-                    validator.contract
-                        .get_unclaimed_reward({
-                            account_id: accountId,
-                            farm_id,
-                        })
-                        .catch(() => '0')
-                        .then((balance) => ({
-                            token_id,
-                            balance,
-                            farm_id,
-                            active,
-                        }))
-                )
-                .catch((error) => {
-                    console.error(error);
-                    return {
-                        token_id,
-                        farm_id,
-                        balance: 0,
-                        active,
-                    };
-                })
-        )
-    );
+    const farmList = await StakingFarmContracts.getFarmListWithUnclaimedRewards({
+        contractName: validator.contract.contractId,
+        account_id: accountId,
+        from_index: 0,
+        limit: 300,
+    });
+
+    try {
+        await Promise.all(farmList.map(({ token_id }) => dispatch(fetchToken({ contractName: token_id }))));
+    } catch (error) {
+        console.error(error);
+    }
 
     const farmData = {
         poolSummary: {...poolSummary},
-        farmRewards: list,
+        farmRewards: farmList,
     };
     await dispatch(staking.setValidatorFarmData(validator.accountId, farmData));
-    return farmData;
 };
 
 export const claimFarmRewards = (validatorId, token_id) => async (dispatch, getState) => {

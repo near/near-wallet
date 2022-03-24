@@ -13,6 +13,7 @@ import { selectValidatorsFarmData, selectFarmValidatorAPY, selectStakingCurrentA
 import { selectActionsPending } from '../../../redux/slices/status';
 import { selectTokensFiatValueUSD, selectTokenWhiteList } from '../../../redux/slices/tokenFiatValues';
 import { selectAllContractMetadata } from '../../../redux/slices/tokens';
+import StakingFarmContracts from '../../../services/StakingFarmContracts';
 import { FARMING_VALIDATOR_VERSION } from '../../../utils/constants';
 import FormButton from '../../common/FormButton';
 import SafeTranslate from '../../SafeTranslate';
@@ -99,9 +100,14 @@ export default function Validator({
 
     const handleStakeAction = async () => {
         if (showConfirmModal && !loading) {
-            await dispatch(getValidatorFarmData(validator, currentAccountId)).then((res) => 
+            await StakingFarmContracts.getFarmListWithUnclaimedRewards({
+                contractName: validator.contract.contractId,
+                account_id: currentAccountId,
+                from_index: 0,
+                limit: 300,
+            }).then((res) => 
                 Promise.all([
-                    (res?.farmRewards || [])
+                    (res || [])
                     .filter(({balance}) => !new BN(balance).isZero())
                     .map(({token_id}) => dispatch(claimFarmRewards(validator.accountId, token_id)))
                 ])
