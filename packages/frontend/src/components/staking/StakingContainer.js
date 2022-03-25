@@ -18,6 +18,7 @@ import { selectStatusSlice } from '../../redux/slices/status';
 import { selectNearTokenFiatValueUSD } from '../../redux/slices/tokenFiatValues';
 import { setStakingAccountSelected, getStakingAccountSelected } from '../../utils/localStorage';
 import Container from '../common/styled/Container.css';
+import { ClaimSuccess } from './components/ClaimSuccess';
 import Staking from './components/Staking';
 import StakingAction from './components/StakingAction';
 import Unstake from './components/Unstake';
@@ -321,6 +322,15 @@ export function StakingContainer({ history, match }) {
                                 hasLedger={hasLedger}
                                 has2fa={has2fa}
                                 nearTokenFiatValueUSD={nearTokenFiatValueUSD}
+                            />
+                        )}
+                    />
+                    <Route
+                        exact
+                        path='/staking/:validator/claim'
+                        render={(props) => (
+                            <ClaimSuccess
+                                {...props}
                             />
                         )}
                     />

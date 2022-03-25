@@ -1,4 +1,5 @@
 import * as nearApiJs from 'near-api-js';
+import { parseNearAmount } from 'near-api-js/lib/utils/format';
 
 export default {
     ACCOUNT_HELPER_URL: 'https://near-contract-helper.onrender.com',
@@ -42,4 +43,9 @@ export default {
     SMS_BLACKLIST: ['CN', 'VN', 'TH'],
     STAKING_GAS_BASE:'25000000000000', // 25 Tgas
     WHITELISTED_CONTRACTS: ['meta.pool.testnet'],
+    NEAR_TOKEN_ID: 'wrap.testnet',
+    FARMING_CLAIM_GAS: parseNearAmount('0.00000000015'),
+    FARMING_CLAIM_YOCTO: '1',
+    REF_FINANCE_API_ENDPOINT: 'https://dev-indexer.ref-finance.com/',
+    REF_FINANCE_CONTRACT: 'ref-finance-101.testnet'
 };

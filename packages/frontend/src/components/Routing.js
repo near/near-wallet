@@ -86,7 +86,8 @@ import { Wallet } from './wallet/Wallet';
 import '../index.css';
 
 const {
-    fetchTokenFiatValues
+    fetchTokenFiatValues,
+    getTokenWhiteList,
 } = tokenFiatValueActions;
 
 const {
@@ -212,7 +213,11 @@ class Routing extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        const { activeLanguage } = this.props;
+        const { activeLanguage, account } = this.props;
+
+        if (prevProps.account.accountId !== account.accountId && account.accountId !== undefined) {
+            this.props.getTokenWhiteList(account.accountId);
+        }
 
         const prevLangCode = prevProps.activeLanguage && prevProps.activeLanguage.code;
         const curLangCode = activeLanguage && activeLanguage.code;
@@ -580,7 +585,8 @@ const mapDispatchToProps = {
     redirectTo,
     fetchTokenFiatValues,
     handleClearAlert,
-    handleFlowLimitation
+    handleFlowLimitation,
+    getTokenWhiteList
 };
 
 const mapStateToProps = (state) => ({
