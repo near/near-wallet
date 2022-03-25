@@ -98,25 +98,28 @@ export default function Validator({
         setShowClaimTokenFarmRewardsModal(true);
     };
 
+    const isFarmingValidator = validator?.version === FARMING_VALIDATOR_VERSION;
+
     const handleStakeAction = async () => {
         if (showConfirmModal && !loading) {
-            await StakingFarmContracts.getFarmListWithUnclaimedRewards({
-                contractName: validator.contract.contractId,
-                account_id: currentAccountId,
-                from_index: 0,
-                limit: 300,
-            }).then((res) => 
-                Promise.all([
-                    (res || [])
-                    .filter(({balance}) => !new BN(balance).isZero())
-                    .map(({token_id}) => dispatch(claimFarmRewards(validator.accountId, token_id)))
-                ])
-            );
+            if (isFarmingValidator) {
+                await StakingFarmContracts.getFarmListWithUnclaimedRewards({
+                    contractName: validator.contract.contractId,
+                    account_id: currentAccountId,
+                    from_index: 0,
+                    limit: 300,
+                }).then((res) => 
+                    Promise.all([
+                        (res || [])
+                        .filter(({balance}) => !new BN(balance).isZero())
+                        .map(({token_id}) => dispatch(claimFarmRewards(validator.accountId, token_id)))
+                    ])
+                );
+            }
             await onWithdraw('withdraw', selectedValidator || validator.accountId);
             setConfirm('done');
         }
     };
-    const isFarmingValidator = validator?.version === FARMING_VALIDATOR_VERSION;
 
     const handleClaimAction = async (token_id) => {
         if (!validator || !isFarmingValidator || !token_id) return null;
