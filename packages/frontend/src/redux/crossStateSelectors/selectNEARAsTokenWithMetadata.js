@@ -8,6 +8,6 @@ export default createSelector(
     (balanceAvailable, usd) => ({
         balance: balanceAvailable || '',
         onChainFTMetadata: { symbol: 'NEAR', decimals: 24 },
-        coingeckoMetadata: { usd },
+        fiatValueMetadata: { usd },
     })
 );
