@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { Wallet } from '../components/wallet/Wallet';
@@ -21,8 +21,8 @@ export function WalletWrapper({
     setTab
 }) {
 
-    const accountId = useSelector((state) => selectAccountId(state));
-    const balance = useSelector((state) => selectBalance(state));
+    const accountId = useSelector(selectAccountId);
+    const balance = useSelector(selectBalance);
     const dispatch = useDispatch();
     const linkdropAmount = useSelector(selectLinkdropAmount);
     const createFromImplicitSuccess = useSelector(selectCreateFromImplicitSuccess);
@@ -34,19 +34,12 @@ export function WalletWrapper({
 
     useEffect(() => {
         if (accountId) {
-            let id = Mixpanel.get_distinct_id();
-            Mixpanel.identify(id);
+            Mixpanel.identify(Mixpanel.get_distinct_id());
             Mixpanel.people.set({ relogin_date: new Date().toString() });
+            
+            dispatch(fetchNFTs({ accountId }));
+            dispatch(fetchTokens({ accountId }));
         }
-    }, [accountId]);
-
-    useEffect(() => {
-        if (!accountId) {
-            return;
-        }
-
-        dispatch(fetchNFTs({ accountId }));
-        dispatch(fetchTokens({ accountId }));
     }, [accountId]);
 
     return (
@@ -63,10 +56,10 @@ export function WalletWrapper({
             availableAccounts={availableAccounts}
             sortedNFTs={sortedNFTs}
             handleCloseLinkdropModal={
-                () => {
+                useCallback(() => {
                     dispatch(setLinkdropAmount('0'));
                     Mixpanel.track('Click dismiss NEAR drop success modal');
-                }
+                },[])
             }
             handleSetCreateFromImplicitSuccess={() => dispatch(setCreateFromImplicitSuccess(false))}
             handleSetCreateCustomName={() => dispatch(setCreateCustomName(false))}

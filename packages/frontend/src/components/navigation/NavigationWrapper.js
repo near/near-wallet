@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { switchAccount, getAccountBalance } from '../../redux/actions/account';
@@ -17,13 +17,15 @@ export default () => {
 
     return (
         <Navigation
-            selectAccount={(accountId) => {
+            selectAccount={useCallback((accountId) => {
                 dispatch(switchAccount({ accountId }));
-            }}
+            }, [])}
             showNavLinks={account.localStorage?.accountFound}
             flowLimitationMainMenu={flowLimitationMainMenu}
             flowLimitationSubMenu={flowLimitationSubMenu}
-            refreshBalance={(accountId) => dispatch(getAccountBalance(accountId))}
+            refreshBalance={useCallback((accountId) => {
+                dispatch(getAccountBalance(accountId));
+            }, [])}
             availableAccounts={availableAccounts}
             account={account}
         />

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
 
 import DesktopContainer from './DesktopContainer';
@@ -46,22 +46,19 @@ export default ({
         if (menuOpen) {
             document.addEventListener('keydown', handleKeyDown);
             document.addEventListener('click', handleClick);
+        } else {
+            document.removeEventListener('keydown', handleKeyDown);
+            document.removeEventListener('click', handleClick);
         }
     }, [menuOpen]);
 
-    const handleCloseMenu = () => {
-        setMenuOpen(false);
-        document.removeEventListener('keydown', handleKeyDown);
-        document.removeEventListener('click', handleClick);
-    };
-
-    const handleKeyDown = (e) => {
+    const handleKeyDown = useCallback((e) => {
         if (e.keyCode === 27) {
-            handleCloseMenu();
+            setMenuOpen(false);
         }
-    };
+    }, []);
 
-    const handleClick = (e) => {
+    const handleClick = useCallback((e) => {
         const desktopMenu = document.getElementById('desktop-menu');
         const mobileMenu = document.getElementById('mobile-menu');
 
@@ -70,21 +67,21 @@ export default ({
         }
 
         if (e.target.tagName === 'BUTTON' || e.target.tagName === 'A' || (!desktopMenu?.contains(e.target) && !mobileMenu?.contains(e.target))) {
-            handleCloseMenu();
+            setMenuOpen(false);
         }
-    };
+    }, []);
 
-    const toggleMenu = () => {
+    const toggleMenu = useCallback(() => {
         if (menuOpen) {
-            handleCloseMenu();
+            setMenuOpen(false);
         } else {
             setMenuOpen(true);
         }
-    };
+    }, [menuOpen]);
 
     const handleSelectAccount = (accountId) => {
         selectAccount(accountId);
-        handleCloseMenu();
+        setMenuOpen(false);
     };
     
     return (
