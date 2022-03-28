@@ -5,8 +5,7 @@ import { wallet } from '../utils/wallet';
 import combinedAccountReducers from './combinedAccountReducers';
 import combinedMainReducers from './combinedMainReducers';
 
-
-const setupAccountReducers = (history) => {
+const setupAccountReducer = (history) => {
     const accounts = Object.keys(wallet.accounts);
     if (!accounts) {
         return {};
@@ -29,5 +28,5 @@ const setupAccountReducers = (history) => {
 
 export default (history) => combineReducers({
     ...combinedMainReducers(history),
-    ...setupAccountReducers(history)
+    ...setupAccountReducer(history)
 });
