@@ -505,7 +505,8 @@ const FormButton = ({
     id,
     trackingId,
     swapButton,
-    'data-test-id': testId
+    'data-test-id': testId,
+    style
 }) => (
     <CustomButton
         swapButton={swapButton}
@@ -520,6 +521,7 @@ const FormButton = ({
         }}
         tabIndex='3'
         data-test-id={testId}
+        style={style}
     >
         {sending
             ? <Translate id={sendingString ? sendingString : 'sending'} />
