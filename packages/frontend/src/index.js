@@ -10,7 +10,7 @@ import { createStore } from 'redux';
 
 import Routing from './components/Routing';
 import { RECAPTCHA_ENTERPRISE_SITE_KEY } from './config';
-import createRootReducer from './redux/combineReducers';
+import createRootReducer from './redux/createRootReducer';
 import createMiddleware from './redux/middleware';
 import { initSentry } from './utils/sentry';
 
