@@ -460,6 +460,11 @@ class Wallet {
         this.getAccountsLocalStorage();
         await this.setKey(accountId, keyPair);
         this.accounts[accountId] = true;
+
+
+        // temporary solution
+        // TODO: figure out better way to inject reducer
+        store.injectReducer();
     }
 
     makeAccountActive(accountId) {
