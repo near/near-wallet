@@ -95,15 +95,15 @@ const TwoFactorVerifyModal = ({ open, onClose }) => {
     const handleResendCode = async () => {
         setResendCode('resending');
         await Mixpanel.withTracking('2FA Modal Resend code', 
-            async () => await dispatch(resendTwoFactor()),
+            async () => {
+                await dispatch(resendTwoFactor());
+                setResendCode('resent');
+                setTimeout(() => { setResendCode(); }, 3000);
+            },
             (e) => {
                 setResendCode();
                 throw e;
             },
-            () => {
-                setResendCode('resent');
-                setTimeout(() => { setResendCode(); }, 3000);
-            }
         );
     };
     
