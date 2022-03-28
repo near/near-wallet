@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 
-import { store } from '..';
-import { wallet } from '../utils/wallet';
+import { store } from '../..';
+import { wallet } from '../../utils/wallet';
 import combinedAccountReducers from './combinedAccountReducers';
 
 export default (history) => {
