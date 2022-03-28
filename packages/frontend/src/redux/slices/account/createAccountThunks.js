@@ -5,7 +5,7 @@ import { KeyType } from 'near-api-js/lib/utils/key_pair';
 
 import * as Config from '../../../config';
 import sendJson from '../../../tmp_fetch_send_json';
-import { setReleaseNotesClosed } from '../../../utils/localStorage';
+import { setLedgerHdPath, setReleaseNotesClosed } from '../../../utils/localStorage';
 import { CONTRACT_CREATE_ACCOUNT_URL, FUNDED_ACCOUNT_CREATE_URL, IDENTITY_FUNDED_ACCOUNT_CREATE_URL, RELEASE_NOTES_MODAL_VERSION, wallet } from '../../../utils/wallet';
 import { WalletError } from '../../../utils/walletError';
 import { finishAccountSetup } from '../../actions/account';
@@ -91,7 +91,9 @@ export const createNewAccount = createAsyncThunk(
         recoveryMethod,
         publicKey,
         previousAccountId,
-        recaptchaToken
+        recaptchaToken,
+        path,
+        handleCloseModal
     }, { dispatch }) => {
         await wallet.checkNewAccount(accountId);
 
@@ -115,7 +117,11 @@ export const createNewAccount = createAsyncThunk(
         }
 
         await wallet.saveAndMakeAccountActive(accountId);
+        if (path) {
+            setLedgerHdPath({ accountId, path });
+        }
         await dispatch(addLocalKeyAndFinishSetup({ accountId, recoveryMethod, publicKey, previousAccountId })).unwrap();
+        handleCloseModal();
     }
 );
 
