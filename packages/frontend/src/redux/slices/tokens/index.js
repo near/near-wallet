@@ -9,6 +9,7 @@ import FungibleTokens from '../../../services/FungibleTokens';
 import handleAsyncThunkStatus from '../../reducerStatus/handleAsyncThunkStatus';
 import initialStatusState from '../../reducerStatus/initialState/initialStatusState';
 import createParameterSelector from '../createParameterSelector';
+import selectSliceByAccountId from '../selectSliceByAccountId';
 import { selectUSDNTokenFiatValueUSD } from '../tokenFiatValues';
 
 const currentContractName = !IS_MAINNET ? 'usdn.testnet': 'usn';
@@ -200,15 +201,9 @@ export const reducer = tokensSlice.reducer;
 const getAccountIdParam = createParameterSelector((params) => params.accountId);
 
 // Top level selectors
-const selectTokensSlice = (state) => state[tokensSlice.name];
-const selectMetadataSlice = createSelector(
-    selectTokensSlice,
-    ({ metadata }) => metadata || {}
-);
-const selectOwnedTokensSlice = createSelector(
-    selectTokensSlice,
-    ({ ownedTokens }) => ownedTokens
-);
+const selectTokensSlice = selectSliceByAccountId(SLICE_NAME, initialState);
+const selectMetadataSlice = createSelector(selectTokensSlice, ({ metadata }) => metadata || {});
+const selectOwnedTokensSlice = createSelector(selectTokensSlice, ({ ownedTokens }) => ownedTokens);
 
 // Contract metadata selectors
 // Returns contract metadata for every contract in the store, in an object keyed by contractName
@@ -270,15 +265,8 @@ export const selectTokensWithMetadataForAccountId = createSelector(
 
 export const selectTokensLoading = createSelector(
     [selectOwnedTokensSlice, getAccountIdParam],
-    (ownedTokens, accountId) =>
-        Object.entries(ownedTokens.byAccountId[accountId] || {}).some(
-            ([
-                _,
-                {
-                    status: { loading },
-                },
-            ]) => loading
-        )
+    (ownedTokens, accountId) => Object.entries(ownedTokens.byAccountId[accountId] || {})
+        .some(([_, { status: { loading } }]) => loading)
 );
 
 const selectOneTokenLoading = createSelector(
