@@ -13,7 +13,7 @@ const setupAccountReducers = (history) => {
     }
 
     return accounts.reduce((x, accountId) => {
-        const reducer = combinedAccountReducers(history);
+        const reducer = combineReducers(combinedAccountReducers(history));
         const inicialState = reducer(store?.getState()[accountId], {});
 
         return ({

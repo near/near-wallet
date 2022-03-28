@@ -1,7 +1,5 @@
-import { combineReducers } from 'redux';
-
 import tokensSlice from './slices/tokens';
 
-export default () => combineReducers({
+export default () => ({
     [tokensSlice.name]: tokensSlice.reducer
 });
