@@ -15,6 +15,8 @@ import Modal from '../../common/modal/Modal';
 import ModalTheme from '../ledger/ModalTheme';
 import TwoFactorVerifyInput from './TwoFactorVerifyInput';
 
+const TOO_MANY_REQUESTS_STATUS = 429;
+
 const Form = styled.form`
     display: flex;
     flex-direction: column;
@@ -101,7 +103,12 @@ const TwoFactorVerifyModal = ({ open, onClose }) => {
                 setTimeout(() => { setResendCode(); }, 3000);
             },
             (e) => {
-                setResendCode();
+                if (e.status === TOO_MANY_REQUESTS_STATUS) {
+                    onClose(false, e);
+                } else {
+                    setResendCode();
+                }
+
                 throw e;
             },
         );
