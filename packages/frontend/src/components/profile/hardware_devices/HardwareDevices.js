@@ -11,7 +11,7 @@ import {
     getLedgerKey,
     addLedgerAccessKey
 } from '../../../redux/actions/account';
-import selectRecoveryLoader from '../../../redux/crossStateSelectors/selectRecoveryLoader';
+import selectRecoveryLoader from '../../../redux/selectors/crossStateSelectors/selectRecoveryLoader';
 import { selectAccountSlice } from '../../../redux/slices/account';
 import { actions as recoveryMethodsActions } from '../../../redux/slices/recoveryMethods';
 import FormButton from '../../common/FormButton';

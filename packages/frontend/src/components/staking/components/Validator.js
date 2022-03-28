@@ -8,7 +8,7 @@ import { Mixpanel } from '../../../mixpanel';
 import { redirectTo } from '../../../redux/actions/account';
 import { claimFarmRewards, getValidatorFarmData } from '../../../redux/actions/staking';
 import { showCustomAlert } from '../../../redux/actions/status';
-import selectNEARAsTokenWithMetadata from '../../../redux/crossStateSelectors/selectNEARAsTokenWithMetadata';
+import selectNEARAsTokenWithMetadata from '../../../redux/selectors/crossStateSelectors/selectNEARAsTokenWithMetadata';
 import { selectValidatorsFarmData, selectFarmValidatorAPY, selectStakingCurrentAccountAccountId } from '../../../redux/slices/staking';
 import { selectActionsPending } from '../../../redux/slices/status';
 import { selectTokensFiatValueUSD, selectTokenWhiteList } from '../../../redux/slices/tokenFiatValues';

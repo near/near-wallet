@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux';
 
-import selectNEARAsTokenWithMetadata from '../redux/crossStateSelectors/selectNEARAsTokenWithMetadata';
+import selectNEARAsTokenWithMetadata from '../redux/selectors/crossStateSelectors/selectNEARAsTokenWithMetadata';
 import { selectAccountId } from '../redux/slices/account';
 import { selectTokensFiatValueUSD } from '../redux/slices/tokenFiatValues';
 import { selectTokensWithMetadataForAccountId } from '../redux/slices/tokens';
