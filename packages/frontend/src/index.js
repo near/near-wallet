@@ -20,6 +20,10 @@ const history = createBrowserHistory();
 
 export const store = createStore(createRootReducer(history), createMiddleware(history));
 
+store.injectReducer = () => {
+    store.replaceReducer(createRootReducer(history));
+};
+
 ReactDOM.render(
     <GoogleReCaptchaProvider
         reCaptchaKey={RECAPTCHA_ENTERPRISE_SITE_KEY}
