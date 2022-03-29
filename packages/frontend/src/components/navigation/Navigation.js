@@ -79,10 +79,10 @@ export default ({
         }
     }, [menuOpen]);
 
-    const handleSelectAccount = (accountId) => {
+    const handleSelectAccount = useCallback((accountId) => {
         selectAccount(accountId);
         setMenuOpen(false);
-    };
+    }, []);
     
     return (
         <Container id='nav-container' open={menuOpen}>
