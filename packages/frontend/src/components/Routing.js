@@ -27,6 +27,7 @@ import { SetupLedgerNewAccountWrapper } from '../routes/SetupLedgerNewAccountWra
 import { SetupPassphraseNewAccountWrapper } from '../routes/SetupPassphraseNewAccountWrapper';
 import { SetupRecoveryImplicitAccountWrapper } from '../routes/SetupRecoveryImplicitAccountWrapper';
 import { SignWrapper } from '../routes/SignWrapper';
+import { WalletWrapper } from '../routes/WalletWrapper';
 import translations_en from '../translations/en.global.json';
 import translations_pt from '../translations/pt.global.json';
 import translations_ru from '../translations/ru.global.json';
@@ -73,7 +74,7 @@ import PublicRoute from './common/routing/PublicRoute';
 import Route from './common/routing/Route';
 import GlobalStyle from './GlobalStyle';
 import { LoginCliLoginSuccess } from './login/LoginCliLoginSuccess';
-import Navigation from './navigation/Navigation';
+import NavigationWrapper from './navigation/NavigationWrapper';
 import { NFTDetailWrapper } from './nft/NFTDetailWrapper';
 import { PageNotFound } from './page-not-found/PageNotFound';
 import { Profile } from './profile/Profile';
@@ -81,7 +82,6 @@ import { ReceiveContainerWrapper } from './receive-money/ReceiveContainerWrapper
 import { SendContainerWrapper } from './send/SendContainerWrapper';
 import { StakingContainer } from './staking/StakingContainer';
 import Terms from './terms/Terms';
-import { Wallet } from './wallet/Wallet';
 
 import '../index.css';
 
@@ -293,7 +293,7 @@ class Routing extends Component {
                         <NetworkBanner
                             account={account}
                         />
-                        <Navigation />
+                        <NavigationWrapper />
                         <GlobalAlert />
                         <LedgerConfirmActionModal />
                         {
@@ -329,7 +329,7 @@ class Routing extends Component {
                             <GuestLandingRoute
                                 exact
                                 path='/'
-                                render={(props) => <Wallet tab={tab} setTab={setTab} {...props} />}
+                                render={(props) => <WalletWrapper tab={tab} setTab={setTab} {...props} />}
                                 accountFound={accountFound}
                                 indexBySearchEngines={!accountFound}
                             />

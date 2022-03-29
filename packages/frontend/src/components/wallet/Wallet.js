@@ -1,18 +1,9 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Translate } from 'react-localize-redux';
-import { useSelector, useDispatch } from 'react-redux';
 import { Textfit } from 'react-textfit';
 import styled from 'styled-components';
 
 import { CREATE_IMPLICIT_ACCOUNT } from '../../../../../features';
-import { useFungibleTokensIncludingNEAR } from '../../hooks/fungibleTokensIncludingNEAR';
-import { Mixpanel } from '../../mixpanel/index';
-import { selectAccountId, selectBalance } from '../../redux/slices/account';
-import { selectAvailableAccounts } from '../../redux/slices/availableAccounts';
-import { selectCreateFromImplicitSuccess, selectCreateCustomName, actions as createFromImplicitActions } from '../../redux/slices/createFromImplicit';
-import { selectLinkdropAmount, actions as linkdropActions } from '../../redux/slices/linkdrop';
-import { selectTokensWithMetadataForAccountId, actions as nftActions } from '../../redux/slices/nft';
-import { actions as tokensActions, selectTokensLoading } from '../../redux/slices/tokens';
 import classNames from '../../utils/classNames';
 import { SHOW_NETWORK_BANNER } from '../../utils/wallet';
 import Balance from '../common/balance/Balance';
@@ -32,11 +23,6 @@ import NFTs from './NFTs';
 import ReleaseNotesModal from './ReleaseNotesModal';
 import Sidebar from './Sidebar';
 import Tokens from './Tokens';
-
-const { fetchNFTs } = nftActions;
-const { fetchTokens } = tokensActions;
-const { setLinkdropAmount } = linkdropActions;
-const { setCreateFromImplicitSuccess, setCreateCustomName } = createFromImplicitActions;
 
 const StyledContainer = styled(Container)`
     @media (max-width: 991px) {
@@ -265,41 +251,22 @@ const StyledContainer = styled(Container)`
     }
 `;
 
-export function Wallet({ tab, setTab }) {
-    const accountId = useSelector((state) => selectAccountId(state));
-    const balance = useSelector((state) => selectBalance(state));
-    const dispatch = useDispatch();
-    const linkdropAmount = useSelector(selectLinkdropAmount);
-    const createFromImplicitSuccess = useSelector(selectCreateFromImplicitSuccess);
-    const createCustomName = useSelector(selectCreateCustomName);
-    const fungibleTokensList = useFungibleTokensIncludingNEAR();
-    const tokensLoader = useSelector((state) => selectTokensLoading(state, { accountId })) || !balance?.total;
-    const availableAccounts = useSelector(selectAvailableAccounts);
-
-    useEffect(() => {
-        if (accountId) {
-            let id = Mixpanel.get_distinct_id();
-            Mixpanel.identify(id);
-            Mixpanel.people.set({ relogin_date: new Date().toString() });
-        }
-    }, [accountId]);
-
-    const sortedNFTs = useSelector((state) => selectTokensWithMetadataForAccountId(state, { accountId }));
-
-    useEffect(() => {
-        if (!accountId) {
-            return;
-        }
-
-        dispatch(fetchNFTs({ accountId }));
-        dispatch(fetchTokens({ accountId }));
-    }, [accountId]);
-
-    const handleCloseLinkdropModal = () => {
-        dispatch(setLinkdropAmount('0'));
-        Mixpanel.track('Click dismiss NEAR drop success modal');
-    };
-
+export function Wallet({
+    tab,
+    setTab,
+    accountId,
+    balance,
+    linkdropAmount,
+    createFromImplicitSuccess,
+    createCustomName,
+    fungibleTokensList,
+    tokensLoader,
+    availableAccounts,
+    sortedNFTs,
+    handleCloseLinkdropModal,
+    handleSetCreateFromImplicitSuccess,
+    handleSetCreateCustomName
+}) {
     return (
         <StyledContainer className={SHOW_NETWORK_BANNER ? 'showing-banner' : ''}>
             <ReleaseNotesModal />
@@ -345,14 +312,14 @@ export function Wallet({ tab, setTab }) {
             }
             {createFromImplicitSuccess &&
                 <CreateFromImplicitSuccessModal
-                    onClose={() => dispatch(setCreateFromImplicitSuccess(false))}
+                    onClose={handleSetCreateFromImplicitSuccess}
                     isOpen={createFromImplicitSuccess}
                     accountId={accountId}
                 />
             }
             {createCustomName &&
                 <CreateCustomNameModal
-                    onClose={() => dispatch(setCreateCustomName(false))}
+                    onClose={handleSetCreateCustomName}
                     isOpen={createCustomName}
                     accountId='satoshi.near'
                 />
