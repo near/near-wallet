@@ -3,7 +3,6 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import { Mixpanel } from '../../../mixpanel/index';
 import { allowLogin } from '../../../redux/actions/account';
-import { showCustomAlert } from '../../../redux/actions/status';
 import {
     selectAccountLocalStorageAccountId,
     selectAccountUrlReferrer
@@ -33,20 +32,7 @@ export default ({
             publicKey={publicKey}
             contractId={contractId}
             onClickCancel={onClickCancel}
-            onClickConnect={async () => {
-                await Mixpanel.withTracking('LOGIN',
-                    async () => {
-                        await dispatch(allowLogin());
-                    },
-                    (e) => {
-                        dispatch(showCustomAlert({
-                            success: false,
-                            messageCodeHeader: 'error',
-                            errorMessage: e.message
-                        }));
-                    }
-                );
-            }}
+            onClickConnect={() => Mixpanel.withTracking('LOGIN', () => dispatch(allowLogin()))}
             contractIdUrl={contractIdUrl}
             successUrlIsValid={successUrlIsValid}
         />
