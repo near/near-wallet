@@ -13,7 +13,9 @@ _Click on a command for more information and examples._
 
 ## Disable 2fa
 
-This script allows the user to disable NEAR Wallet 2fa using the provided seedphrase
+This script allows the user to disable NEAR Wallet 2fa using the provided seedphrase. It converts 2fa LAKs back to FAKs, deploys the empty contract and optionally cleans up state
+* arguments: `accountId` `seedPhrase`
+* options: `cleanupState` `helperUrl`
 
 ### Usage
 
