@@ -335,6 +335,7 @@ const CustomButton = styled.button`
         &.link {
             width: auto !important;
             height: auto;
+            min-height: 50px;
             padding: 0;
             margin: 0;
             border-radius: 0px;
