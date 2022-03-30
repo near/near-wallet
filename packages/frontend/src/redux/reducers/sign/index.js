@@ -6,7 +6,8 @@ import { parseTransactionsToSign, makeAccountActive } from '../../actions/accoun
 import { calculateGasLimit, increaseGasForFirstTransaction, handleSignTransactions, SIGN_STATUS, removeSuccessTransactions, updateSuccessHashes, checkAbleToIncreaseGas, getFirstTransactionWithFunctionCallAction, calculateGasForSuccessTransactions } from '../../slices/sign';
 
 const initialState = {
-    status: SIGN_STATUS.NEEDS_CONFIRMATION
+    status: SIGN_STATUS.NEEDS_CONFIRMATION,
+    successHashes: []
 };
 
 const deserializeTransactionsFromString = (transactionsString) => transactionsString.split(',')
@@ -20,6 +21,7 @@ const sign = handleActions({
         const allActions = transactions.flatMap((t) => t.actions);
         
         return {
+            ...initialState,
             status: SIGN_STATUS.NEEDS_CONFIRMATION,
             callbackUrl,
             meta,
