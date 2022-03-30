@@ -25,6 +25,10 @@ export const addLocalKeyAndFinishSetup = createAsyncThunk(
         publicKey,
         previousAccountId
     }, { dispatch }) => {
+        console.log(accountId,
+            recoveryMethod,
+            publicKey,
+            previousAccountId);
         if (recoveryMethod === 'ledger') {
             await wallet.addLedgerAccountId({ accountId });
             await wallet.postSignedJson('/account/ledgerKeyAdded', { accountId, publicKey: publicKey.toString() });
@@ -92,7 +96,6 @@ export const createNewAccount = createAsyncThunk(
         publicKey,
         previousAccountId,
         recaptchaToken,
-        path,
         handleCloseModal
     }, { dispatch }) => {
         await wallet.checkNewAccount(accountId);
@@ -117,9 +120,6 @@ export const createNewAccount = createAsyncThunk(
         }
 
         await wallet.saveAndMakeAccountActive(accountId);
-        if (path) {
-            setLedgerHdPath({ accountId, path });
-        }
         await dispatch(addLocalKeyAndFinishSetup({ accountId, recoveryMethod, publicKey, previousAccountId })).unwrap();
         handleCloseModal();
     }

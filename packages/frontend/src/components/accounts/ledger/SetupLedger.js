@@ -20,6 +20,7 @@ import { actions as ledgerActions } from '../../../redux/slices/ledger';
 import { actions as linkdropActions } from '../../../redux/slices/linkdrop';
 import { selectStatusMainLoader } from '../../../redux/slices/status';
 import { getLedgerHDPath } from '../../../utils/ledger';
+import { setLedgerHdPath } from '../../../utils/localStorage';
 import parseFundingOptions from '../../../utils/parseFundingOptions';
 import { setKeyMeta, ENABLE_IDENTITY_VERIFIED_ACCOUNT } from '../../../utils/wallet';
 import FormButton from '../../common/FormButton';
@@ -85,6 +86,11 @@ const SetupLedger = (props) => {
                         publicKey = await dispatch(getLedgerPublicKey(customLedgerHdPath));
                         await setKeyMeta(publicKey, { type: 'ledger' });
                         Mixpanel.track('SR-Ledger Set key meta');
+
+                        // Set custom path to localstorage
+                        if (customLedgerHdPath) {
+                            setLedgerHdPath({ accountId, path:customLedgerHdPath });
+                        }
 
                         // COIN-OP VERIFY ACCOUNT
                         if (DISABLE_CREATE_ACCOUNT && ENABLE_IDENTITY_VERIFIED_ACCOUNT && !fundingOptions) {

@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 import SetupLedgerNewAccount from '../components/accounts/ledger/SetupLedgerNewAccount';
 import { getLedgerPublicKey, redirectTo } from '../redux/actions/account';
 import { showCustomAlert } from '../redux/actions/status';
+import { setLedgerHdPath } from '../utils/localStorage';
 import { setKeyMeta, wallet } from '../utils/wallet';
 
 export function SetupLedgerNewAccountWrapper() {
@@ -28,6 +29,9 @@ export function SetupLedgerNewAccountWrapper() {
                         } else {
                             throw e;
                         }
+                    }
+                    if (path) {
+                        setLedgerHdPath({ accountId: implicitAccountId, path });
                     }
                     await setKeyMeta(ledgerPublicKey, { type: 'ledger' });
                     dispatch(redirectTo(`/create-implicit-account?implicitAccountId=${implicitAccountId}&recoveryMethod=ledger`));
