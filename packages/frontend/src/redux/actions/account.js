@@ -595,6 +595,8 @@ export const { makeAccountActive, refreshAccountExternal, refreshUrl, updateStak
         (accountId) => ({
             accountId,
             ...showAlert({ onlyError: true, data: { accountId } })
+            // TODO: Should we show an alert if the account is not found / has no record on chain?
+            // Show zero balance instead of error with an on-page disclaimer that the acccount either doesn't exist or has no record on chain, yet?
         })
     ],
     REFRESH_URL: null,

@@ -21,13 +21,14 @@ export default function Staking({
     totalPending,
     onSwitchAccount,
     accounts,
-    activeAccount,
+    activeAccountId,
     loading,
     hasLockup,
     loadingDetails,
     stakeFromAccount,
     selectedValidator,
-    multipleAccounts
+    multipleAccounts,
+    accountId
 }) {
     const NEARAsTokenWithMetadata = useSelector(selectNEARAsTokenWithMetadata);
 
@@ -45,7 +46,7 @@ export default function Staking({
                 <SelectAccount
                     accounts={accounts}
                     onChange={(e) => onSwitchAccount(e.target.value)}
-                    selectedAccount={activeAccount.accountId}
+                    selectedAccount={activeAccountId}
                 />
             }
             <SkeletonLoading
@@ -55,7 +56,7 @@ export default function Staking({
                 className='account-loader'
             />
             <FormButton
-                disabled={loadingDetails}
+                disabled={loadingDetails || !accountId}
                 linkTo='/staking/validators'
                 trackingId="STAKE Click stake my tokens button"
                 data-test-id="stakeMyTokensButton"
@@ -118,7 +119,7 @@ export default function Staking({
                             />
                         )}
                     </ListWrapper>
-                    : <NoValidators />
+                    : <NoValidators accountId={accountId}/>
                 : <SkeletonLoading
                     height='200px'
                     show={true}

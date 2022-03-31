@@ -18,7 +18,14 @@ import {
     getBalance
 } from '../../redux/actions/account';
 import { selectProfileBalance } from '../../redux/reducers/selectors/balance';
-import { selectAccountAuthorizedApps, selectAccountHas2fa, selectAccountHasLockup, selectAccountId, selectAccountLedgerKey } from '../../redux/slices/account';
+import {
+    selectAccountAuthorizedApps,
+    selectAccountHas2fa,
+    selectAccountHasLockup,
+    selectAccountId,
+    selectAccountLedgerKey,
+    selectAccountLocalStorageAccountId
+} from '../../redux/slices/account';
 import { selectAllAccountsHasLockup } from '../../redux/slices/allAccounts';
 import { actions as recoveryMethodsActions, selectRecoveryMethodsByAccountId } from '../../redux/slices/recoveryMethods';
 import { selectNearTokenFiatValueUSD } from '../../redux/slices/tokenFiatValues';
@@ -135,11 +142,12 @@ export function Profile({ match }) {
     const has2fa = useSelector(selectAccountHas2fa);
     const authorizedApps = useSelector(selectAccountAuthorizedApps);
     const ledgerKey = useSelector(selectAccountLedgerKey);
+    const accountLocalStorageAccountId = useSelector(selectAccountLocalStorageAccountId);
     const loginAccountId = useSelector(selectAccountId);
     const nearTokenFiatValueUSD = useSelector(selectNearTokenFiatValueUSD);
     const accountIdFromUrl = match.params.accountId;
-    const accountId = accountIdFromUrl || loginAccountId;
-    const isOwner = accountId === loginAccountId;
+    const accountId = accountIdFromUrl || loginAccountId || accountLocalStorageAccountId;
+    const isOwner = accountId && accountId === loginAccountId;
     const account = useAccount(accountId);
     const dispatch = useDispatch();
     const profileBalance = selectProfileBalance(account);
@@ -225,6 +233,7 @@ export function Profile({ match }) {
                     <h2><UserIcon/><Translate id='profile.pageTitle.default'/></h2>
                     {profileBalance ? (
                         <BalanceContainer
+                            accountId={accountId}
                             account={account}
                             profileBalance={profileBalance}
                             hasLockup={hasLockup}

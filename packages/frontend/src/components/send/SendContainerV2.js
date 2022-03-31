@@ -167,7 +167,7 @@ const SendContainerV2 = ({
                             setUserInputAmount(formattedTokenAmount.replace(/,/g, ''));
                         }
                     }}
-                    availableToSend={selectedToken.balance}
+                    availableToSend={selectedToken.balance || '0'}
                     continueAllowed={enterAmountIsComplete()}
                     onContinue={() => {
                         setActiveView(VIEWS.ENTER_RECEIVER);

@@ -26,7 +26,9 @@ export default createAsyncThunk(
                         break;
                     }
                 }
-                dispatch(makeAccountActive(nextAccountId));
+                if (nextAccountId) {
+                    dispatch(makeAccountActive(nextAccountId));
+                }
 
                 // TODO: Make sure "problem creating" only shows for actual creation
                 return {

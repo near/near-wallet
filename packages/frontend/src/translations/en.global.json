@@ -370,7 +370,8 @@
         }
     },
     "dashboard": {
-        "activity": "Recent activity"
+        "activity": "Recent activity",
+        "noActivity": "No activity has been recorded for this account."
     },
     "dashboardActivity": {
         "message": {

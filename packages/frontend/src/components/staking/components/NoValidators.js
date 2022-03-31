@@ -33,12 +33,13 @@ const Container = styled.div`
     }
 `;
 
-export default function NoValidators() {
+export default function NoValidators({ accountId }) {
     return (
         <Container className='no-validators'>
             <NearCircleIcon/>
             <div><Translate id='staking.noValidators.title' /></div>
-            <FormButton 
+            <FormButton
+                disabled={!accountId}
                 className='gray-blue dark' 
                 linkTo='/staking/validators'
                 trackingId="STAKE Click stake my tokens button : no validators"

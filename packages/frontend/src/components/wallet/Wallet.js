@@ -3,7 +3,6 @@ import { Translate } from 'react-localize-redux';
 import { Textfit } from 'react-textfit';
 import styled from 'styled-components';
 
-import { CREATE_IMPLICIT_ACCOUNT } from '../../../../../features';
 import classNames from '../../utils/classNames';
 import { SHOW_NETWORK_BANNER } from '../../utils/wallet';
 import Balance from '../common/balance/Balance';
@@ -292,12 +291,13 @@ export function Wallet({
                             balance={balance}
                             tokensLoader={tokensLoader}
                             fungibleTokens={fungibleTokensList}
+                            accountId={accountId}
                         />
 
                     }
                 </div>
                 <div className='right'>
-                    {CREATE_IMPLICIT_ACCOUNT
+                    {accountId
                         ? <Sidebar availableAccounts={availableAccounts} />
                         : <ExploreApps />
                     }
@@ -328,19 +328,15 @@ export function Wallet({
     );
 }
 
-const FungibleTokens = ({ balance, tokensLoader, fungibleTokens }) => {
-    const availableBalanceIsZero = balance?.balanceAvailable === '0';
-    const hideFungibleTokenSection =
-        availableBalanceIsZero &&
-        fungibleTokens?.length === 1 &&
-        fungibleTokens[0]?.onChainFTMetadata?.symbol === 'NEAR';
+const FungibleTokens = ({ balance, tokensLoader, fungibleTokens, accountId }) => {
+    const zeroBalanceAccount = !accountId && !tokensLoader;
     return (
         <>
             <div className='total-balance'>
                 <Textfit mode='single' max={48}>
                     <Balance
                         showBalanceInNEAR={false}
-                        amount={balance?.balanceAvailable}
+                        amount={balance?.balanceAvailable || '0'}
                         showAlmostEqualSignUSD={false}
                         showSymbolUSD={false}
                         showSignUSD={true}
@@ -383,10 +379,10 @@ const FungibleTokens = ({ balance, tokensLoader, fungibleTokens }) => {
                     <Translate id='button.topUp' />
                 </FormButton>
             </div>
-            {availableBalanceIsZero &&
+            {zeroBalanceAccount &&
                 <DepositNearBanner />
             }
-            {!hideFungibleTokenSection &&
+            {!zeroBalanceAccount &&
                 <>
                     <div className='sub-title tokens'>
                         <span className={classNames({ dots: tokensLoader })}><Translate id='wallet.yourPortfolio' /></span>
