@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
-import FailedToLoad from '../../images/failed_to_load.svg';
 import UserIconGrey from '../../images/UserIconGrey';
 import { NFT_TRANSFER_DEPOSIT, NFT_TRANSFER_GAS } from '../../services/NonFungibleTokens';
 import BackArrowButton from '../common/BackArrowButton';
 import FormButton from '../common/FormButton';
 import Container from '../common/styled/Container.css';
 import SendIcon from '../svg/SendIcon';
+import { NFTMedia } from './NFTMedia';
 import NFTTransferModal from './NFTTransferModal';
 
 const StyledContainer = styled(Container)`
@@ -111,8 +111,7 @@ const UserIcon = styled.div`
 export function NFTDetail({ nft, accountId, nearBalance, ownerId, history }) {
     const [transferNftDetail, setTransferNftDetail] = useState();
     const hasSufficientBalance = nearBalance >= NFT_TRANSFER_DEPOSIT + NFT_TRANSFER_GAS;
-    const isVideo = !!nft.metadata.mediaUrl && nft.metadata.mediaUrl.match(/\.webm$/i);
-
+    
     return (
         <StyledContainer className='medium centered'>
           {
@@ -124,22 +123,8 @@ export function NFTDetail({ nft, accountId, nearBalance, ownerId, history }) {
                 >
                 </BackArrowButton>
 
-                {isVideo && (
-                    <video muted={true} loop controls>
-                        <source
-                            src={nft.metadata.mediaUrl}
-                            type="video/webm"
-                            onError={(e) => {
-                                e.target.onerror = null;
-                                e.target.parentElement.setAttribute(
-                                    'poster',
-                                    FailedToLoad
-                                );
-                            }}
-                        />
-                    </video>
-                )}
-                {!isVideo && <img src={nft.metadata.mediaUrl} alt='NFT'/>}
+                <NFTMedia mediaUrl={nft.metadata.mediaUrl}/>
+
                 <h1 className="title">{nft.metadata.title}</h1>
                 <p className="desc">{nft.metadata.description}</p>
 
