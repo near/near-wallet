@@ -4,23 +4,23 @@ import { store } from '../..';
 import { wallet } from '../../utils/wallet';
 import combinedAccountReducers from './combinedAccountReducers';
 
-export default (history) => {
+export default () => {
     const accounts = Object.keys(wallet.accounts);
     if (!accounts) {
         return {};
     }
 
-    return accounts.reduce((x, accountId) => {
-        const reducer = combineReducers(combinedAccountReducers(history));
-        const inicialState = reducer(store?.getState()[accountId], {});
+    return accounts.reduce((accountState, accountId) => {
+        const reducer = combineReducers(combinedAccountReducers());
+        const initialState = reducer(store?.getState()[accountId], {});
 
-        return ({
-            ...x,
-            [accountId]: (state = inicialState, action) => (
+        return {
+            ...accountState,
+            [accountId]: (state = initialState, action) => (
                 (accountId === wallet.accountId)
                     ? reducer(state, action)
                     : state
             )
-        });
+        };
     }, {});
 };
