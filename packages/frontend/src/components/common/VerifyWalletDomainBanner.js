@@ -52,7 +52,7 @@ const StyledContainer = styled.div`
     }
 `;
 
-const getWalletURLString = () => <><span>https://</span><span>{getWalletURL(false)}</span></>;
+const WalletURLString = () => <><span>https://</span><span>{getWalletURL(false)}</span></>;
 
 export default () => {
     return (
@@ -61,13 +61,13 @@ export default () => {
                 <LockIcon color='#00C08B' />
                 <Translate id='verifyWalletDomainBanner.title' />
                 &nbsp;
-                {getWalletURLString()}
+                <WalletURLString/>
             </div>
             <div className='mobile'>
                 <Translate id='verifyWalletDomainBanner.title' />
                 <div>
                     <LockIcon color='#00C08B' />
-                    {getWalletURLString()}
+                    <WalletURLString/>
                 </div>
             </div>
         </StyledContainer>

@@ -5,8 +5,7 @@ export default (https = true) => {
 
     if (SHOW_PRERELEASE_WARNING) {
         networkName = 'staging.';
-    }
-    if (!IS_MAINNET) {
+    } else if (!IS_MAINNET) {
         networkName = 'testnet.';
     }
 
