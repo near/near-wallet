@@ -3,12 +3,11 @@ import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
 import { EXPLORER_URL } from '../../config';
-import FailedToLoad from '../../images/failed_to_load.svg';
 import { redirectTo } from '../../redux/actions/account';
 import isDataURL from '../../utils/isDataURL';
+import {NFTMedia} from '../nft/NFTMedia';
 import DefaultTokenIcon from '../svg/DefaultTokenIcon';
 import LoadMoreButtonWrapper from './LoadMoreButtonWrapper';
-
 const StyledContainer = styled.div`
     display: flex;
     justify-content: flex-start;
@@ -153,28 +152,10 @@ const NFTBox = ({ tokenDetails }) => {
                 ownedTokensMetadata &&
                 <div className='tokens'>
                     {ownedTokensMetadata.map(({ token_id, metadata: { mediaUrl, title } }, index) => {
-                        const videoProps = index === 0 ? { autoPlay: true } : {};
-                        const isVideo = !!mediaUrl && mediaUrl.match(/\.webm$/i);
                         return (
                             <div className='nft' key={token_id}
                                 onClick={() => dispatch(redirectTo(`/nft-detail/${contractName}/${token_id}`))}>
-                                {isVideo && (
-                                    <video muted={true} loop controls { ...videoProps }>
-                                        <source src={mediaUrl} type="video/webm" onError={(e) => {
-                                            e.target.onerror = null;
-                                            e.target.parentElement.setAttribute('poster', FailedToLoad);
-                                        }}/>
-                                    </video>
-                                )}
-                                {!isVideo && (
-                                    <img src={mediaUrl}
-                                         alt='NFT'
-                                         onError={(e) => {
-                                             e.target.onerror = null;
-                                             e.target.src = FailedToLoad;
-                                         }}
-                                    />
-                                )}
+                                    <NFTMedia mediaUrl={mediaUrl} autoPlay={ index === 0}/>
                                 <b className='title'>{title}</b>
                             </div>
                         );
