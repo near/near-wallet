@@ -7,7 +7,7 @@ import { createSelector } from 'reselect';
 import NonFungibleTokens from '../../../services/NonFungibleTokens';
 import handleAsyncThunkStatus from '../../reducerStatus/handleAsyncThunkStatus';
 import initialStatusState from '../../reducerStatus/initialState/initialStatusState';
-import createParameterSelector from '../../selectors/mainSelectors/createParameterSelector';
+import { createParameterSelector } from '../../selectors/topLevel';
 
 const { getLikelyTokenContracts, getMetadata, getToken, getTokens, getNumberOfTokens } = NonFungibleTokens;
 

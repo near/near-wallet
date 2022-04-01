@@ -5,7 +5,7 @@ import { createSelector } from 'reselect';
 import { getTransactions, transactionExtraInfo } from '../../../utils/explorer-api';
 import handleAsyncThunkStatus from '../../reducerStatus/handleAsyncThunkStatus';
 import initialStatusState from '../../reducerStatus/initialState/initialStatusState';
-import createParameterSelector from '../../selectors/mainSelectors/createParameterSelector';
+import { createParameterSelector } from '../../selectors/topLevel';
 
 const SLICE_NAME = 'transactions';
 

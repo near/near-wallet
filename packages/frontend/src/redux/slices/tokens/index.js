@@ -8,8 +8,7 @@ import { WHITELISTED_CONTRACTS, IS_MAINNET} from '../../../config';
 import FungibleTokens from '../../../services/FungibleTokens';
 import handleAsyncThunkStatus from '../../reducerStatus/handleAsyncThunkStatus';
 import initialStatusState from '../../reducerStatus/initialState/initialStatusState';
-import createParameterSelector from '../createParameterSelector';
-import selectSliceByAccountId from '../selectSliceByAccountId';
+import { createParameterSelector, selectSliceByAccountId } from '../../selectors/topLevel';
 import { selectUSDNTokenFiatValueUSD } from '../tokenFiatValues';
 
 const currentContractName = !IS_MAINNET ? 'usdn.testnet': 'usn';
