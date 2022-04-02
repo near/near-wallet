@@ -10,6 +10,7 @@ import PhraseIcon from '../../images/icon-recover-seedphrase.svg';
 import { Mixpanel } from '../../mixpanel/index';
 import FormButton from '../common/FormButton';
 import Container from '../common/styled/Container.css';
+import VerifyWalletDomainBanner from '../common/VerifyWalletDomainBanner';
 import SmartPhoneIcon from '../svg/SmartPhoneIcon';
 
 
@@ -108,53 +109,56 @@ const RecoverAccount = ({
     isMobile
 }) => {
     return (
-        <StyledContainer>
-            <h1><Translate id='recoverAccount.pageTitle'/></h1>
-            <h2><Translate id='recoverAccount.pageText'/></h2>
-            <Options>
-                <Option>
-                    <Header icon={EmailIcon}><Translate id='recoverAccount.email.title'/></Header>
-                    <P><Translate id='recoverAccount.email.desc'/> <span><Translate id='recoverAccount.email.subject'/></span></P>
-                    <P><Translate id='recoverAccount.actionRequired'/></P>
-                    <P><Translate id='recoverAccount.cannotResend'/></P>
-                </Option>
-                <Option>
-                    <Header icon={PhoneIcon}><Translate id='recoverAccount.phone.title'/></Header>
-                    <P><Translate id='recoverAccount.phone.desc'/> <span><Translate id='recoverAccount.phone.number'/></span></P>
-                    <P><Translate id='recoverAccount.actionRequired'/></P>
-                    <P><Translate id='recoverAccount.cannotResend'/></P>
-                </Option>
-                <Option>
-                    <Header icon={PhraseIcon}><Translate id='recoverAccount.phrase.title'/></Header>
-                    <P><Translate id='recoverAccount.phrase.desc'/></P>
-                    <FormButton
-                        color='seafoam-blue'
-                        linkTo={`/recover-seed-phrase${locationSearch}`}
-                        onClick={()=> Mixpanel.track('IE Click seed phrase recovery button')}
-                        data-test-id="recoverAccountWithPassphraseButton"
-                    >
-                            <Translate id='button.recoverAccount' />
-                    </FormButton>
-                </Option>
-                <Option>
-                    <Header icon={HardwareDeviceIcon}><Translate id='recoverAccount.ledger.title'/></Header>
-                    <P><Translate id='recoverAccount.ledger.desc'/></P>
-                    <FormButton
-                        color='seafoam-blue'
-                        linkTo={`/sign-in-ledger${locationSearch}`}
-                        onClick={()=> Mixpanel.track('IE Click ledger recovery button')}
-                    >
-                            <Translate id='button.signInLedger' />
-                    </FormButton>
-                </Option>
-                {!IS_MAINNET && isMobile &&
+        <>  
+            <VerifyWalletDomainBanner />
+            <StyledContainer>
+                <h1><Translate id='recoverAccount.pageTitle' /></h1>
+                <h2><Translate id='recoverAccount.pageText' /></h2>
+                <Options>
                     <Option>
-                        <Header className='no-background'><SmartPhoneIcon/><Translate id='mobileDeviceAccess.title'/></Header>
-                        <P><Translate id='mobileDeviceAccess.importCode.desc'/></P>
+                        <Header icon={EmailIcon}><Translate id='recoverAccount.email.title' /></Header>
+                        <P><Translate id='recoverAccount.email.desc' /> <span><Translate id='recoverAccount.email.subject' /></span></P>
+                        <P><Translate id='recoverAccount.actionRequired' /></P>
+                        <P><Translate id='recoverAccount.cannotResend' /></P>
                     </Option>
-                }
-            </Options>
-        </StyledContainer>
+                    <Option>
+                        <Header icon={PhoneIcon}><Translate id='recoverAccount.phone.title' /></Header>
+                        <P><Translate id='recoverAccount.phone.desc' /> <span><Translate id='recoverAccount.phone.number' /></span></P>
+                        <P><Translate id='recoverAccount.actionRequired' /></P>
+                        <P><Translate id='recoverAccount.cannotResend' /></P>
+                    </Option>
+                    <Option>
+                        <Header icon={PhraseIcon}><Translate id='recoverAccount.phrase.title' /></Header>
+                        <P><Translate id='recoverAccount.phrase.desc' /></P>
+                        <FormButton
+                            color='seafoam-blue'
+                            linkTo={`/recover-seed-phrase${locationSearch}`}
+                            onClick={() => Mixpanel.track('IE Click seed phrase recovery button')}
+                            data-test-id="recoverAccountWithPassphraseButton"
+                        >
+                            <Translate id='button.recoverAccount' />
+                        </FormButton>
+                    </Option>
+                    <Option>
+                        <Header icon={HardwareDeviceIcon}><Translate id='recoverAccount.ledger.title' /></Header>
+                        <P><Translate id='recoverAccount.ledger.desc' /></P>
+                        <FormButton
+                            color='seafoam-blue'
+                            linkTo={`/sign-in-ledger${locationSearch}`}
+                            onClick={() => Mixpanel.track('IE Click ledger recovery button')}
+                        >
+                            <Translate id='button.signInLedger' />
+                        </FormButton>
+                    </Option>
+                    {!IS_MAINNET && isMobile &&
+                        <Option>
+                            <Header className='no-background'><SmartPhoneIcon /><Translate id='mobileDeviceAccess.title' /></Header>
+                            <P><Translate id='mobileDeviceAccess.importCode.desc' /></P>
+                        </Option>
+                    }
+                </Options>
+            </StyledContainer>
+        </>
     );
 };
 
