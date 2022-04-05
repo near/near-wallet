@@ -368,6 +368,20 @@
         },
         "title": "Аппаратные устройства"
     },
+    "importAccountWithLink": {
+        "accountFound": "1 Account Found",
+        "accountImported": "Account Imported",
+        "accountsFound": "${count} Accounts Found",
+        "alreadyImported": "The account secured by this link has been imported.",
+        "continue": "and continue this process in your browser of choice.",
+        "copyUrl": "copy the URL",
+        "foundAccount": "We found <b>1 account</b> secured by this link.",
+        "foundAccounts": "We found <b>${count} accounts</b> secured by this link.",
+        "goToAccount": "Go to Account",
+        "import": "Import",
+        "importAccount": "Import Your Account",
+        "preferedBrowser": "If this isn't your preferred browser,"
+    },
     "initialDeposit": {
         "claimAccount": {
             "desc": "Ваш депозит был получен! После получения заявки ваш депозит будет переведен на вашу новую учётную запись.",
@@ -435,9 +449,6 @@
         "summary": "Главное",
         "switchAccount": "Переключить учетную запись",
         "wallet": "Кошелёк"
-    },
-    "NFTTransfer": {
-        "youSent": "You sent <span class='color-blue'>${title}</span> to <span class='color-green'>${receiverId}</span>"
     },
     "loading": "Загрузка...",
     "lockedBalance": "Эти NEAR заблокированы в lockup-контракте и не могут быть выведены. Вы все еще можете делегировать или отправлять в стейкинг эти токены NEAR. После того, как NEAR станут разблокированными, вы можете увидеть их на своем разблокированном балансе и вывести их (что будет означать их переход на «Доступный баланс»).",
@@ -524,6 +535,9 @@
         "desc": "Этот кошелек (и сеть) доступны только для целей тестирования. Токены и другие активы не имеют ценности. Созданные учетные записи не будут перенесены в Mainnet.",
         "header": "Тестовый кошелек NEAR",
         "title": "Тестовый кошелек"
+    },
+    "NFTTransfer": {
+        "youSent": "You sent <span class='color-blue'>${title}</span> to <span class='color-green'>${receiverId}</span>"
     },
     "nodeDetails": {
         "pageText": "Обновить сведения о вашем узле.",
@@ -675,20 +689,6 @@
         "pTwo": "Если это не ваш браузер по умолчанию, скопируйте URL-адрес и завершите процесс восстановления в удобном для вас браузере.",
         "snackbarCopySuccess": "Ссылка для восстанавления скопирована",
         "title": "Восстановление Учетной Записи"
-    },
-    "importAccountWithLink": {
-        "accountFound": "1 Account Found",
-        "accountsFound": "${count} Accounts Found",
-        "accountImported": "Account Imported",
-        "alreadyImported": "The account secured by this link has been imported.",
-        "copyUrl": "copy the URL",
-        "continue": "and continue this process in your browser of choice.",
-        "foundAccount": "We found <b>1 account</b> secured by this link.",
-        "foundAccounts": "We found <b>${count} accounts</b> secured by this link.",
-        "import": "Import",
-        "importAccount": "Import Your Account",
-        "preferedBrowser": "If this isn't your preferred browser,",
-        "goToAccount": "Go to Account"
     },
     "recoveryMgmt": {
         "disableInputPlaceholder": "Введите свое имя пользователя для подтверждения",
@@ -1021,6 +1021,10 @@
         "isRequesting": {
             "authorization": "запрашивает разрешение",
             "transferOf": "запрашивает перевод"
+        },
+        "multipleAccountsError": {
+            "body": "<a href=${signCallbackUrl} target='_blank' rel='noreferrer'>${signCallbackUrl}</a> has requested authorization from more than one account.<br/><br/>NEAR Wallet may only authorize transactions for a single account at a time.",
+            "title": "Batch Transaction Error"
         },
         "nothingHasBeenTransferred": "Ничего не было передано.",
         "transactionCancelled": "Транзакция отменена",

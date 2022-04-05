@@ -477,6 +477,20 @@
         "withId": "導入賬戶：${accountId}",
         "withIdFailed": "導入賬戶失敗：${accountId}"
     },
+    "importAccountWithLink": {
+        "accountFound": "1 Account Found",
+        "accountImported": "Account Imported",
+        "accountsFound": "${count} Accounts Found",
+        "alreadyImported": "The account secured by this link has been imported.",
+        "continue": "and continue this process in your browser of choice.",
+        "copyUrl": "copy the URL",
+        "foundAccount": "We found <b>1 account</b> secured by this link.",
+        "foundAccounts": "We found <b>${count} accounts</b> secured by this link.",
+        "goToAccount": "Go to Account",
+        "import": "Import",
+        "importAccount": "Import Your Account",
+        "preferedBrowser": "If this isn't your preferred browser,"
+    },
     "initialDeposit": {
         "claimAccount": {
             "desc": "你的初始充值已到賬，一旦認領賬戶，你充值的通證會被轉移到新認領的賬戶。",
@@ -557,9 +571,6 @@
         },
         "or": "或",
         "title": "你收到了 NEAR 空投！"
-    },
-    "NFTTransfer": {
-        "youSent": "You sent <span class='color-blue'>${title}</span> to <span class='color-green'>${receiverId}</span>"
     },
     "loading": "加載中...",
     "loadingNoDots": "加載中",
@@ -652,6 +663,9 @@
     "NFTs": {
         "emptyState": "似乎你還沒有收藏品。",
         "loadMore": "加載更多"
+    },
+    "NFTTransfer": {
+        "youSent": "You sent <span class='color-blue'>${title}</span> to <span class='color-green'>${receiverId}</span>"
     },
     "nodeDetails": {
         "pageText": "更新節點的詳細信息。",
@@ -813,20 +827,6 @@
         "pTwo": "如果這不是你偏好的瀏覽器，請複製鏈接並在你偏好的瀏覽器中完成恢復流程。",
         "snackbarCopySuccess": "恢復鏈接已複製",
         "title": "恢復賬戶"
-    },
-    "importAccountWithLink": {
-        "accountFound": "1 Account Found",
-        "accountsFound": "${count} Accounts Found",
-        "accountImported": "Account Imported",
-        "alreadyImported": "The account secured by this link has been imported.",
-        "copyUrl": "copy the URL",
-        "continue": "and continue this process in your browser of choice.",
-        "foundAccount": "We found <b>1 account</b> secured by this link.",
-        "foundAccounts": "We found <b>${count} accounts</b> secured by this link.",
-        "import": "Import",
-        "importAccount": "Import Your Account",
-        "preferedBrowser": "If this isn't your preferred browser,",
-        "goToAccount": "Go to Account"
     },
     "recoveryMgmt": {
         "disableInputPlaceholder": "請輸入用戶名確認",
@@ -1182,6 +1182,10 @@
         "isRequesting": {
             "authorization": "正在請求授權",
             "transferOf": "正在請求轉賬"
+        },
+        "multipleAccountsError": {
+            "body": "<a href=${signCallbackUrl} target='_blank' rel='noreferrer'>${signCallbackUrl}</a> has requested authorization from more than one account.<br/><br/>NEAR Wallet may only authorize transactions for a single account at a time.",
+            "title": "Batch Transaction Error"
         },
         "networkFees": "網絡費用",
         "nothingHasBeenTransferred": "沒有進行轉賬。",
