@@ -106,7 +106,7 @@ export default function Staking({
                     />
                 </>
                 : null}
-            {!loading && !!collectedFarmData.length && collectedFarmData.map((tokenData, i) => {
+            {!loading && collectedFarmData.map((tokenData, i) => {
                 return (
                     <BalanceBox
                         title={!i && 'staking.balanceBox.farmed.title'}
@@ -123,8 +123,7 @@ export default function Staking({
                         hideBorder={collectedFarmData.length > 1 && i < (collectedFarmData.length - 1)}
                 />
                 );
-            })
-            }
+            })}
             <h3><Translate id='staking.staking.currentValidators' /></h3>
             {!loadingDetails
                 ? currentValidators.length

@@ -186,9 +186,9 @@ export default function ValidatorBox({
                         {FARMING_VALIDATOR_APY_DISPLAY ? 
                             isFarmingValidator && <>
                                 <span><Translate id='staking.validator.apy'/>&nbsp;</span>
-                                {farmAPY === null 
+                                {farmAPY === null && validator.active
                                     ? <span className="animated-dots" style={{width: 16}}/>
-                                    : <span>{farmAPY}</span>
+                                    : <span>{farmAPY || 0}</span>
                                 }
                                 <span>%&nbsp;-&nbsp;</span>               
                             </>

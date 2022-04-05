@@ -1,5 +1,5 @@
 import BN from 'bn.js';
-import { isEmpty } from 'lodash';
+import { isEmpty, some } from 'lodash';
 import { createSelector } from 'reselect';
 
 import { selectValidatorsFarmData } from '../slices/staking';
@@ -9,38 +9,28 @@ import {
 } from '../slices/tokenFiatValues';
 import { selectAllContractMetadata } from '../slices/tokens';
 
-const collectFarmingData = (...args) => {
+const collectFarmingData = (args) => {
     try {
-        if (args.some((el) => isEmpty(el))) return [];
+        if (some(args, isEmpty)) return [];
 
-        const [
+        const {
             validatorsFarmData,
             contractMetadataByContractId,
             tokenFiatValues,
             tokenWhitelist,
-        ] = args;
+        } = args;
         const filteredFarms = Object.keys(validatorsFarmData)
             .reduce((acc, validatorId) => {
                 return [...acc, ...validatorsFarmData[validatorId].farmRewards];
             }, [])
             .filter((farm) => farm.active && +farm.balance > 0);
 
-        const collectedBalance = filteredFarms.reduce((acc, farm) => {
-            const tokenId = farm.token_id;
-            if (acc[tokenId]) {
-                return {
-                    ...acc,
-                    [tokenId]: new BN(acc[tokenId].balance)
-                        .add(new BN(farm.balance))
-                        .toString(),
-                };
-            }
-
-            return {
-                ...acc,
-                [tokenId]: new BN(farm.balance).toString(),
-            };
-        }, {});
+        const collectedBalance = filteredFarms.reduce((acc, farm) => ({
+            ...acc,
+            [farm.token_id]: new BN(acc[farm.token_id])
+                .add(new BN(farm.balance))
+                .toString()
+        }), {});
 
         return Object.keys(collectedBalance).map((tokenId) => ({
             balance: collectedBalance[tokenId],
@@ -71,11 +61,11 @@ export default createSelector(
         tokenFiatValues,
         tokenWhitelist
     ) => {
-        return collectFarmingData(
+        return collectFarmingData({
             validatorsFarmData,
             contractMetadataByContractId,
             tokenFiatValues,
             tokenWhitelist
-        );
+        });
     }
 );
