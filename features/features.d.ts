@@ -3,6 +3,7 @@
 
 export type Features = {
     CREATE_IMPLICIT_ACCOUNT: boolean;
+	CREATE_USN_CONTRACT: boolean;
 	EXAMPLE_FLAG: boolean;
 	IMPORT_ACCOUNT_WITH_LINK_V2: boolean;
 };

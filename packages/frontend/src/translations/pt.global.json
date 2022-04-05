@@ -256,6 +256,7 @@
         "staking": "Staking",
         "startOver": "Iniciar novamente",
         "subscribe": "Inscrever-se",
+        "swap": "Troca",
         "topUp": "Top Up",
         "transferring": "Transferindo",
         "tryAgain": "Tentar Novamente",
@@ -544,9 +545,6 @@
         "or": "ou",
         "title": "Você recebeu uma distribuição de NEAR!"
     },
-    "NFTTransfer": {
-        "youSent": "You sent <span class='color-blue'>${title}</span> to <span class='color-green'>${receiverId}</span>"
-    },
     "loading": "Carregando...",
     "loadingNoDots": "Carregando",
     "lockedBalance": "Este NEAR está bloqueado em um contrato de bloqueio e não pode ser retirado. Você ainda pode delegar ou fazer stake deste NEAR. Assim que o NEAR for desbloqueado, você poderá visualizá-lo em seu Saldo Desbloqueado e escolher retirá-lo (passando para seu Saldo Disponível).",
@@ -795,20 +793,6 @@
         "snackbarCopySuccess": "URL de Recuperação copiada",
         "title": "Restaurar conta"
     },
-    "importAccountWithLink": {
-        "accountFound": "1 Account Found",
-        "accountsFound": "${count} Accounts Found",
-        "accountImported": "Account Imported",
-        "alreadyImported": "The account secured by this link has been imported.",
-        "copyUrl": "copy the URL",
-        "continue": "and continue this process in your browser of choice.",
-        "foundAccount": "We found <b>1 account</b> secured by this link.",
-        "foundAccounts": "We found <b>${count} accounts</b> secured by this link.",
-        "import": "Import",
-        "importAccount": "Import Your Account",
-        "preferedBrowser": "If this isn't your preferred browser,",
-        "goToAccount": "Go to Account"
-    },
     "recoveryMgmt": {
         "disableInputPlaceholder": "Insira o ID da sua conta para confirmar",
         "disableNo": "Não, manter",
@@ -939,6 +923,17 @@
         "switchAccounthNotAllowed": "Esse aplicativo não permite alterações na conta"
     },
     "sending": "ENVIANDO",
+    "swap": {
+        "from": "A partir de",
+        "to": "Para",
+        "AvailableToSwap": "Disponível para troca",
+        "slipPage": "Tolerância de deslizamento",
+        "pairPrice": "Preço do par",
+        "ExpectedPrice": "Preço esperado",
+        "TradingFee": "Taxa de negociação",
+        "MinimumReceived": "Mínimo recebido",
+        "slipPageError": "de 1 a 50"
+    },
     "sendMoney": {
         "account": {
             "title": "Enviar para"
@@ -1339,7 +1334,8 @@
     "success": "Sucesso",
     "sync": "Sincronizar",
     "tokenBox": {
-        "priceUnavailable": "Preço indisponível"
+        "priceUnavailable": "Preço indisponível",
+        "swapTo": "para"
     },
     "topLevelAccounts": {
         "body": "Nomes de contas são similares a nomes de domínio. Apenas a conta ${suffix} pode criar contas como seunome.${suffix}, e apenas seunome.${suffix} pode criar app.seunome.${suffix}. Todas as contas criadas nesta carteira usam a Conta Top Level (TLA) .${suffix} . Para saber mais sobre nomes de conta e criar sua própria TLA, visite a <a rel='noopener noreferrer' href='https://docs.nearprotocol.com/docs/concepts/account'>documentação</a>.",
