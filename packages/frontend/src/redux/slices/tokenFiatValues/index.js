@@ -38,9 +38,18 @@ const getTokenWhiteList = createAsyncThunk(
     async (account_id) => fetchTokenWhiteList(account_id)
 );
 
+const fetchTokenUSDNFiatValues = createAsyncThunk(
+    `${SLICE_NAME}/fetchTokenUSDNFiatValues`,
+    () =>
+        sendJson(
+            'GET',
+            'https://api.coingecko.com/api/v3/simple/price?ids=Tether&vs_currencies=usd'
+        )
+);
+
 const initialState = {
     ...initialStatusState,
-    tokens: {}
+    tokens: {},
 };
 
 const tokenFiatValuesSlice = createSlice({
@@ -53,6 +62,9 @@ const tokenFiatValuesSlice = createSlice({
 
                 // Using merge instead of `assign()` so in the future we don't blow away previously loaded token
                 // prices when we load new ones with different token names
+                merge(state.tokens, action.payload);
+            });
+            builder.addCase(fetchTokenUSDNFiatValues.fulfilled, (state, action) => {
                 merge(state.tokens, action.payload);
             });
             builder.addCase(getTokenWhiteList.fulfilled, (state, action) => {
@@ -72,7 +84,8 @@ export default tokenFiatValuesSlice;
 export const reducer = tokenFiatValuesSlice.reducer;
 export const actions = {
     fetchTokenFiatValues,
-    getTokenWhiteList
+    getTokenWhiteList,
+    fetchTokenUSDNFiatValues,
 };
 
 // Future: Refactor to track loading state and error states _per token type_, when we actually support multiple tokens
@@ -82,6 +95,15 @@ export const selectFiatValueErrorState = (state) => state.status.error;
 export const selectAllTokenFiatValues = (state) => state[SLICE_NAME];
 export const selectNearTokenFiatData = createSelector(selectAllTokenFiatValues, ({ tokens }) => tokens.near || {});
 export const selectNearTokenFiatValueUSD = createSelector(selectNearTokenFiatData, (near) => near.usd);
+
+export const selectUSDNTokenFiatData = createSelector(
+    selectAllTokenFiatValues,
+    ({ tokens }) => tokens.tether || {}
+);
+export const selectUSDNTokenFiatValueUSD = createSelector(
+    selectUSDNTokenFiatData,
+    (tether) => tether.usd
+);
 
 export const selectTokensFiatValueUSD = createSelector(selectAllTokenFiatValues, ({ tokens }) => tokens || {});
 export const selectTokenWhiteList = createSelector(selectAllTokenFiatValues, ({tokenWhiteList}) => tokenWhiteList || []);
