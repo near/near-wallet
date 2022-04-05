@@ -55,28 +55,28 @@ const SignTransferMultipleAccounts = ({
     submittingTransaction,
     signTransactionSignerId,
 }) => (
-    <CustomContainer className="small-centered">
-        <div className="icon">
-            <img src={DangerIcon} alt="Retry" />
+    <CustomContainer className='small-centered'>
+        <div className='icon'>
+            <img src={DangerIcon} alt='Retry' />
         </div>
-        <div className="title">
+        <div className='title'>
             <h2>
-                <Translate id="sign.multipleAccountsError.title" />
+                <Translate id='sign.multipleAccountsError.title' />
             </h2>
         </div>
-        <div className="text">
+        <div className='text' >
             <SafeTranslate
-                id="sign.multipleAccountsError.body"
+                id='sign.multipleAccountsError.body'
                 data={{ signCallbackUrl, signTransactionSignerId }}
             />
         </div>
-        <div className="buttons">
+        <div className='buttons'>
             <FormButton
                 onClick={handleCancel}
                 disabled={submittingTransaction}
-                color="gray-blue"
+                color='gray-blue'
             >
-                <Translate id="button.cancel" />
+                <Translate id='button.cancel' />
             </FormButton>
             <FormButton
                 onClick={() => {
@@ -87,7 +87,7 @@ const SignTransferMultipleAccounts = ({
                 disabled={submittingTransaction}
                 sending={submittingTransaction}
             >
-                <Translate id="button.returnToApp" />
+                <Translate id='button.returnToApp' />
             </FormButton>
         </div>
     </CustomContainer>
