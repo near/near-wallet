@@ -2,8 +2,8 @@ import React from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
-import ArrowUpImage from '../../images/icon-arrow-up-green.svg';
 import DangerIcon from '../../images/icon-danger-circle.svg';
+import { isUrlNotJavascriptProtocol } from '../../utils/helper-api';
 import FormButton from '../common/FormButton';
 import Container from '../common/styled/Container.css';
 import SafeTranslate from '../SafeTranslate';
@@ -47,41 +47,6 @@ const CustomContainer = styled(Container)`
             }
         }
     }
-
-    .fees {
-        width: 100%;
-        border: 1px solid #f0f0f1;
-        padding: 15px;
-        border-radius: 8px;
-        margin-top: 30px;
-        color: #72727a;
-
-        b {
-            color: #25282a;
-        }
-
-        .fees-line {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-top: 12px;
-
-            .tgas {
-                color: #00c08b;
-                position: relative;
-
-                :after {
-                    content: "";
-                    position: absolute;
-                    background: url(${ArrowUpImage}) center top no-repeat;
-                    width: 16px;
-                    height: 17px;
-                    left: -22px;
-                    top: 1px;
-                }
-            }
-        }
-    }
 `;
 
 const SignTransferMultipleAccounts = ({
@@ -114,7 +79,11 @@ const SignTransferMultipleAccounts = ({
                 <Translate id="button.cancel" />
             </FormButton>
             <FormButton
-                linkTo={signCallbackUrl}
+                onClick={() => {
+                  if (isUrlNotJavascriptProtocol(signCallbackUrl)) {
+                    window.location.href = signCallbackUrl;
+                  }
+                }}
                 disabled={submittingTransaction}
                 sending={submittingTransaction}
             >
