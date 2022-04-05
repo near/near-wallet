@@ -234,6 +234,7 @@
         "staking": "Staking",
         "startOver": "Bắt đầu lại",
         "subscribe": "Đăng ký",
+        "swap": "Tráo đổi",
         "transferring": "Đang chuyển tiền",
         "unstaking": "Unstaking",
         "verify": "Xác minh & Hoàn thành",
@@ -1123,6 +1124,17 @@
             }
         },
         "one": "Đảm bảo Ledger của bạn được kết nối an toàn và ứng dụng NEAR đang mở trên thiết bị."
+    },
+    "swap": {
+        "from": "Từ",
+        "to": "Đến",
+        "AvailableToSwap": "Có sẵn để hoán đổi",
+        "slipPage": "Khả năng chịu trượt",
+        "pairPrice": "Giá cặp",
+        "ExpectedPrice": "Giá cả dự kiến",
+        "TradingFee": "Phí giao dịch",
+        "MinimumReceived": "Số tiền nhận được tối thiểu",
+        "slipPageError": "từ 1 đến 50"
     },
     "stagingBanner": {
         "desc": "Cảnh báo: Đây là phiên bản phát hành trước của Ví. Sử dụng có các rủi ro nhất định. Có thể có lỗi và những lỗi này có thể dẫn đến mất tiền. Bằng cách tiếp tục sử dụng phiên bản này, bạn đồng ý rằng bạn hiểu và chấp nhận những rủi ro này, đồng thời hiểu rằng đội ngũ NEAR Wallet sẽ không thể hỗ trợ bạn.",

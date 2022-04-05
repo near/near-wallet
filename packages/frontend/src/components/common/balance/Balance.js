@@ -5,6 +5,7 @@ import { selectNearTokenFiatValueUSD } from '../../../redux/slices/tokenFiatValu
 import BalanceDisplay from './BalanceDisplay';
 
 const Balance = ({
+    totalAmount,
     amount,
     showSymbolNEAR,
     className,
@@ -19,6 +20,7 @@ const Balance = ({
 
     return (
         <BalanceDisplay
+            totalAmount={totalAmount}
             amount={amount}
             showSymbolNEAR={showSymbolNEAR}
             className={className}

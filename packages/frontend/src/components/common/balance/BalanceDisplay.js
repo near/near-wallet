@@ -78,6 +78,7 @@ const BalanceDisplay = ({
     showAlmostEqualSignUSD,
     showSignUSD,
     showSymbolUSD,
+    totalAmount,
     'data-test-id': testId
 }) => {
 
@@ -115,6 +116,7 @@ const BalanceDisplay = ({
             {showBalanceInUSD &&
                 <div className='fiat-amount'>
                     <BalanceDisplayUSD
+                        totalAmount={totalAmount}
                         amount={amount}
                         nearTokenFiatValueUSD={nearTokenFiatValueUSD}
                         showAlmostEqualSignUSD={showAlmostEqualSignUSD}
