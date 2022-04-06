@@ -142,11 +142,11 @@ class Wallet {
         this.accountId = localStorage.getItem(KEY_ACTIVE_ACCOUNT_ID) || '';
     }
 
-    removeWalletAccount(accountId) {
+    async removeWalletAccount(accountId) {
         let walletAccounts = this.getAccountsLocalStorage();
         delete walletAccounts[accountId];
         setWalletAccounts(KEY_WALLET_ACCOUNTS, walletAccounts);
-        this.keyStore.removeKey(NETWORK_ID, accountId);
+        await this.keyStore.removeKey(NETWORK_ID, accountId);
         removeActiveAccount(KEY_ACTIVE_ACCOUNT_ID);
         removeAccountConfirmed(accountId);
         return walletAccounts;

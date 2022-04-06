@@ -31,8 +31,8 @@ export default () => {
             {showRemoveAccountModal &&
                 <RemoveAccountModal
                     onClose={() => setShowRemoveAccountModal(false)}
-                    onRemoveAccount={() => {
-                        const walletAccounts = wallet.removeWalletAccount(accountId);
+                    onRemoveAccount={async () => {
+                        const walletAccounts = await wallet.removeWalletAccount(accountId);
                         if (Object.keys(walletAccounts).length === 0) {
                             location.reload();
                         } else {
