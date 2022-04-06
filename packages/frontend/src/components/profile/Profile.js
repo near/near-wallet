@@ -37,6 +37,7 @@ import LockupAvailTransfer from './balances/LockupAvailTransfer';
 import HardwareDevices from './hardware_devices/HardwareDevices';
 import MobileSharingWrapper from './mobile_sharing/MobileSharingWrapper';
 import RecoveryContainer from './Recovery/RecoveryContainer';
+import RemoveAccountWrapper from './remove_account/RemoveAccountWrapper';
 import TwoFactorAuth from './two_factor/TwoFactorAuth';
 
 const { fetchRecoveryMethods } = recoveryMethodsActions;
@@ -285,6 +286,7 @@ export function Profile({ match }) {
                                 )}
                             </>
                         }
+                        <RemoveAccountWrapper/>
                         {!IS_MAINNET && !account.ledgerKey && !isMobile() &&
                             <MobileSharingWrapper/>
                         }
