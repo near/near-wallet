@@ -250,6 +250,7 @@
         "reserveMyAccountId": "Reserve My Account ID",
         "resubmit": "Resubmit",
         "retry": "Retry",
+        "removeAccount": "Remove Account",
         "returnToApp": "Return to App",
         "saveChanges": "Save Changes",
         "secureMyAccount": "Secure My Account",
@@ -978,6 +979,12 @@
         "subTitle1": "New Features",
         "subTitle2": "Enhancements",
         "title": "Release Notes"
+    },
+    "removeAccount": {
+        "button": "Remove Account from Wallet",
+        "desc": "You will need your recovery method to re-import this account in the future. Make sure you still have access to it.",
+        "disclaimer": "I have access to the recovery method for <b>${accountId}</b>",
+        "title": "Remove Account?"
     },
     "reservedForFeesInfo": "Up to ${data} NEAR is reserved to cover the cost of transactions.",
     "selectAccountDropdown": {
