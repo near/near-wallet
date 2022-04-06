@@ -5,7 +5,6 @@ import { KeyType } from 'near-api-js/lib/utils/key_pair';
 import { generateSeedPhrase, parseSeedPhrase } from 'near-seed-phrase';
 
 import { store } from '..';
-import { IMPORT_ACCOUNT_WITH_LINK_V2 } from '../../../../features';
 import * as Config from '../config';
 import {
     makeAccountActive,
@@ -832,7 +831,6 @@ class Wallet {
         const publicKey = keyPair.publicKey.toString();
 
         const tempKeyStore = new nearApiJs.keyStores.InMemoryKeyStore();
-        const implicitAccountId = Buffer.from(PublicKey.fromString(publicKey).data).toString('hex');
 
         let accountIds = [];
         const accountIdsByPublickKey = await getAccountIds(publicKey);
@@ -841,23 +839,6 @@ class Wallet {
         } else if (accountIdsByPublickKey.includes(accountId)) {
             accountIds = [accountId];
         }
-
-        if (!IMPORT_ACCOUNT_WITH_LINK_V2) {
-            accountIds.push(implicitAccountId);
-        }
-
-        // TODO: getAccountIds returns all accounts including any implicit account.
-        // Once 'IMPORT_ACCOUNT_WITH_LINK_V2' feature is shipped:
-        // Remove automatically adding implicitAccountId into array and then removing the duplicates.
-
-        // remove duplicate and non-existing accounts
-        const accountsSet = new Set(accountIds);
-        for (const accountId of accountsSet) {
-            if (!(await this.accountExists(accountId))) {
-                accountsSet.delete(accountId);
-            }
-        }
-        accountIds = [...accountsSet];
 
         if (!accountIds.length) {
             throw new WalletError(`Cannot find matching public key: ${publicKey}`, 'recoverAccountSeedPhrase.errorInvalidSeedPhrase');

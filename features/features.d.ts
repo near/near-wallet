@@ -4,6 +4,5 @@
 export type Features = {
     CREATE_IMPLICIT_ACCOUNT: boolean;
 	EXAMPLE_FLAG: boolean;
-	IMPORT_ACCOUNT_WITH_LINK_V2: boolean;
 	FARMING_VALIDATOR_APY_DISPLAY: boolean;
 };
