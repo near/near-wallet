@@ -32,7 +32,7 @@ export function CreateImplicitAccountWrapper() {
     const accountId = useSelector(selectAccountId);
 
     const [fundingNeeded, setFundingNeeded] = useState(true);
-    const [moonpaySignedUrl, setMoonpaySignedUrl] = useState('');
+    const [moonpaySignedUrl, setMoonpaySignedUrl] = useState(null);
 
     const location = useSelector(getLocation);
     const URLParams = parse(location.search);
@@ -116,7 +116,7 @@ export function CreateImplicitAccountWrapper() {
         <CreateImplicitAccount
             formattedMinDeposit={formattedMinDeposit}
             implicitAccountId={implicitAccountId}
-            moonpayIsAvailable={!!moonpaySignedUrl}
+            moonpayIsAvailable={moonpaySignedUrl}
             moonpaySignedUrl={moonpaySignedUrl}
             onClickBuyButton={(amountUSD) => {
                 window.open(
