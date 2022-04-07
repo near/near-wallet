@@ -250,6 +250,7 @@
         "reserveMyAccountId": "Reserve My Account ID",
         "resubmit": "Resubmit",
         "retry": "Retry",
+        "removeAccount": "Remove Account",
         "returnToApp": "Return to App",
         "saveChanges": "Save Changes",
         "secureMyAccount": "Secure My Account",
@@ -979,6 +980,12 @@
         "subTitle2": "Enhancements",
         "title": "Release Notes"
     },
+    "removeAccount": {
+        "button": "Remove Account from Wallet",
+        "desc": "You will need your recovery method to re-import this account in the future. Make sure you still have access to it.",
+        "disclaimer": "I have access to the recovery method for <b>${accountId}</b>",
+        "title": "Remove Account?"
+    },
     "reservedForFeesInfo": "Up to ${data} NEAR is reserved to cover the cost of transactions.",
     "selectAccountDropdown": {
         "account": "Account",
@@ -1181,6 +1188,10 @@
         "accountNotFound": {
             "body": "${signCallbackUrl} is requesting authorization from a NEAR account that cannot be found: <b>${signTransactionSignerId}</b><br/><br/>To approve any transactions, you’ll first need to import the account.",
             "title": "Account Not Found"
+        },
+        "multipleAccountsError": {
+            "body": "<a href=${signCallbackUrl} target='_blank' rel='noreferrer'>${signCallbackUrl}</a> has requested authorization from more than one account.<br/><br/>NEAR Wallet may only authorize transactions for a single account at a time.",
+            "title": "Batch Transaction Error"
         },
         "ActionWarrning": {
             "binaryData": "Arguments contain binary data",
@@ -1541,6 +1552,9 @@
         },
         "title": "Almost there! Verify your new account.",
         "titleNoFunding": "Almost there! Fund your new account."
+    },
+    "verifyWalletDomainBanner": {
+        "title": "Please make sure you are visiting"
     },
     "wallet": {
         "availableBalance": "Available Balance",

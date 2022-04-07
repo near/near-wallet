@@ -15,6 +15,8 @@ import Modal from '../../common/modal/Modal';
 import ModalTheme from '../ledger/ModalTheme';
 import TwoFactorVerifyInput from './TwoFactorVerifyInput';
 
+const TOO_MANY_REQUESTS_STATUS = 429;
+
 const Form = styled.form`
     display: flex;
     flex-direction: column;
@@ -95,15 +97,20 @@ const TwoFactorVerifyModal = ({ open, onClose }) => {
     const handleResendCode = async () => {
         setResendCode('resending');
         await Mixpanel.withTracking('2FA Modal Resend code', 
-            async () => await dispatch(resendTwoFactor()),
-            (e) => {
-                setResendCode();
-                throw e;
-            },
-            () => {
+            async () => {
+                await dispatch(resendTwoFactor());
                 setResendCode('resent');
                 setTimeout(() => { setResendCode(); }, 3000);
-            }
+            },
+            (e) => {
+                if (e.status === TOO_MANY_REQUESTS_STATUS) {
+                    onClose(false, e);
+                } else {
+                    setResendCode();
+                }
+
+                throw e;
+            },
         );
     };
     

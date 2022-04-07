@@ -15,7 +15,7 @@ import { actions as ledgerActions } from '../redux/slices/ledger';
 import sendJson from '../tmp_fetch_send_json';
 import { decorateWithLockup } from './account-with-lockup';
 import { getAccountIds } from './helper-api';
-import { setAccountConfirmed } from './localStorage';
+import { setAccountConfirmed, setWalletAccounts, removeActiveAccount, removeAccountConfirmed } from './localStorage';
 import { TwoFactor } from './twoFactor';
 import { WalletError } from './walletError';
 
@@ -142,8 +142,18 @@ class Wallet {
         this.accountId = localStorage.getItem(KEY_ACTIVE_ACCOUNT_ID) || '';
     }
 
+    async removeWalletAccount(accountId) {
+        let walletAccounts = this.getAccountsLocalStorage();
+        delete walletAccounts[accountId];
+        setWalletAccounts(KEY_WALLET_ACCOUNTS, walletAccounts);
+        await this.keyStore.removeKey(NETWORK_ID, accountId);
+        removeActiveAccount(KEY_ACTIVE_ACCOUNT_ID);
+        removeAccountConfirmed(accountId);
+        return walletAccounts;
+    }
+
     getAccountsLocalStorage() {
-        this.accounts = JSON.parse(
+        return this.accounts = JSON.parse(
             localStorage.getItem(KEY_WALLET_ACCOUNTS) || '{}'
         );
     }

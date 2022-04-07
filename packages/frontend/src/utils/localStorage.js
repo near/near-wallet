@@ -30,3 +30,11 @@ export const getReleaseNotesClosed = (version) => {
 export const setLedgerHdPath = ({ accountId, path }) => {
     localStorage.setItem(`ledgerHdPath:${accountId}`, path);
 };
+
+export const setWalletAccounts = (walletAccountsKey, walletAccounts) => {
+    localStorage.setItem(walletAccountsKey, JSON.stringify(walletAccounts));
+};
+
+export const removeActiveAccount = (activeAccountKey) => {
+    localStorage.removeItem(activeAccountKey);
+};
