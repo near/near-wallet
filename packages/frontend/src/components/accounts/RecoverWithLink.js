@@ -23,11 +23,9 @@ import Container from '../common/styled/Container.css';
 
 const StyledContainer = styled.div`
     margin-top: 5px;
-
     @media (min-width: 768px) {
         margin-top: 32px;
     }
-
     button {
         width: 100%;
     }
@@ -38,13 +36,11 @@ const StyledContainer = styled.div`
         align-items: center;
         padding-top: 50px;
         text-align: center;
-
         div {
             @media (min-width: 768px) {
                 max-width: 800px;
             }
         }
-
         button {
             margin-top: 35px;
             @media (min-width: 768px) {
@@ -67,7 +63,6 @@ const Desc = styled.div`
     font-size: 18px;
     line-height: normal;
     margin-top: ${(props) => props.last ? '20px' : '0'};
-
     @media (min-width: 768px) {
         font-size: 28px;
     }
@@ -83,35 +78,27 @@ const ButtonWrapper = styled.div`
     display: flex;
     flex-direction: column;
     margin-top: 30px;
-
     @media (min-width: 768px) {
         flex-direction: row;
     }
-
     button {
-
         @media (min-width: 768px) {
             max-width: 300px;
         }
-
         &:first-of-type {
             margin-top: 0 !important;
         }
-
         &:last-of-type {
             margin-top: 25px;
             position: relative;
             overflow: hidden;
-
             @media (min-width: 768px) {
                 margin-left: 25px;
                 margin-top: 0;
             }
-
             color: #6AD1E3;
             border: 2px solid #6AD1E3;
             background-color: white;
-
             &:hover {
                 color: white;
                 background-color: #6AD1E3;
