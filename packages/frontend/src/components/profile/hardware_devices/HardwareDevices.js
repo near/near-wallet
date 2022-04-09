@@ -70,16 +70,16 @@ const HardwareDevices = ({ recoveryMethods }) => {
 
     let userRecoveryMethods = recoveryMethods || [];
     const keys = account.fullAccessKeys || [];
-    const recoveryKeys = userRecoveryMethods.filter(method => method.kind !== 'ledger').map(key => key.publicKey);
-    const publicKeys = keys.map(key => key.public_key);
-    const hasOtherMethods = publicKeys.some(key => recoveryKeys.includes(key));
-    const hasLedger = userRecoveryMethods.filter(method => method.kind === 'ledger').map(key => key.publicKey).some(key => publicKeys.includes(key));
+    const recoveryKeys = userRecoveryMethods.filter((method) => method.kind !== 'ledger').map((key) => key.publicKey);
+    const publicKeys = keys.map((key) => key.public_key);
+    const hasOtherMethods = publicKeys.some((key) => recoveryKeys.includes(key));
+    const hasLedger = userRecoveryMethods.filter((method) => method.kind === 'ledger').map((key) => key.publicKey).some((key) => publicKeys.includes(key));
     const ledgerIsConnected = account.ledgerKey;
     const hasLedgerButNotConnected = hasLedger && !ledgerIsConnected;
     const recoveryLoader = useSelector((state) => selectRecoveryLoader(state, { accountId: account.accountId }));
 
     const handleConfirmDisable = async () => {
-        await Mixpanel.withTracking("SR-Ledger Handle confirm disable",
+        await Mixpanel.withTracking('SR-Ledger Handle confirm disable',
             async () => {
                 setDisabling(true);
                 await dispatch(disableLedger());
@@ -96,7 +96,7 @@ const HardwareDevices = ({ recoveryMethods }) => {
     };
 
     const handleConnectLedger = async () => {
-        await Mixpanel.withTracking("SR-Ledger Reconnect ledger",
+        await Mixpanel.withTracking('SR-Ledger Reconnect ledger',
             async () => {
                 await dispatch(addLedgerAccessKey());
                 await dispatch(getLedgerKey());

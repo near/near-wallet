@@ -1,16 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Translate } from 'react-localize-redux';
-import { useSelector, useDispatch } from 'react-redux';
 import { Textfit } from 'react-textfit';
 import styled from 'styled-components';
 
-import { useFungibleTokensIncludingNEAR } from '../../hooks/fungibleTokensIncludingNEAR';
-import { Mixpanel } from "../../mixpanel/index";
-import { selectAccountId, selectBalance } from '../../redux/slices/account';
-import { selectCreateFromImplicitSuccess, actions as createFromImplicitActions } from '../../redux/slices/createFromImplicit';
-import { selectLinkdropAmount, actions as linkdropActions } from '../../redux/slices/linkdrop';
-import { selectTokensWithMetadataForAccountId, actions as nftActions } from '../../redux/slices/nft';
-import { actions as tokensActions, selectTokensLoading } from '../../redux/slices/tokens';
+import { CREATE_IMPLICIT_ACCOUNT } from '../../../../../features';
 import classNames from '../../utils/classNames';
 import { SHOW_NETWORK_BANNER } from '../../utils/wallet';
 import Balance from '../common/balance/Balance';
@@ -21,18 +14,15 @@ import DownArrowIcon from '../svg/DownArrowIcon';
 import SendIcon from '../svg/SendIcon';
 import TopUpIcon from '../svg/TopUpIcon';
 import ActivitiesWrapper from './ActivitiesWrapper';
+import CreateCustomNameModal from './CreateCustomNameModal';
 import CreateFromImplicitSuccessModal from './CreateFromImplicitSuccessModal';
 import DepositNearBanner from './DepositNearBanner';
 import ExploreApps from './ExploreApps';
 import LinkDropSuccessModal from './LinkDropSuccessModal';
 import NFTs from './NFTs';
 import ReleaseNotesModal from './ReleaseNotesModal';
+import Sidebar from './Sidebar';
 import Tokens from './Tokens';
-
-const { fetchNFTs } = nftActions;
-const { fetchTokens } = tokensActions;
-const { setLinkdropAmount } = linkdropActions;
-const { setCreateFromImplicitSuccess } = createFromImplicitActions;
 
 const StyledContainer = styled(Container)`
     @media (max-width: 991px) {
@@ -252,56 +242,31 @@ const StyledContainer = styled(Container)`
     }
 
     h2 {
-        font-weight: 900 !important;
-        font-size: 22px !important;
+        font-weight: 900;
+        font-size: 22px;
         align-self: flex-start;
         margin: 50px 0 30px 0;
-        text-align: left !important;
-        color: #24272a !important;
+        text-align: left;
+        color: #24272a;
     }
 `;
 
-export function Wallet({ tab, setTab }) {
-    const [exploreApps, setExploreApps] = useState(null);
-    const accountId = useSelector(state => selectAccountId(state));
-    const balance = useSelector(state => selectBalance(state));
-    const dispatch = useDispatch();
-    const hideExploreApps = localStorage.getItem('hideExploreApps');
-    const linkdropAmount = useSelector(selectLinkdropAmount);
-    const createFromImplicitSuccess = useSelector(selectCreateFromImplicitSuccess);
-    const fungibleTokensList = useFungibleTokensIncludingNEAR();
-    const tokensLoader = useSelector((state) => selectTokensLoading(state, { accountId })) || !balance?.total;
-
-    useEffect(() => {
-        if (accountId) {
-            let id = Mixpanel.get_distinct_id();
-            Mixpanel.identify(id);
-            Mixpanel.people.set({ relogin_date: new Date().toString() });
-        }
-    }, [accountId]);
-
-    const sortedNFTs = useSelector((state) => selectTokensWithMetadataForAccountId(state, { accountId }));
-
-    useEffect(() => {
-        if (!accountId) {
-            return;
-        }
-
-        dispatch(fetchNFTs({ accountId }));
-        dispatch(fetchTokens({ accountId }));
-    }, [accountId]);
-
-    const handleHideExploreApps = () => {
-        localStorage.setItem('hideExploreApps', true);
-        setExploreApps(false);
-        Mixpanel.track("Click explore apps dismiss");
-    };
-
-    const handleCloseLinkdropModal = () => {
-        dispatch(setLinkdropAmount('0'));
-        Mixpanel.track("Click dismiss NEAR drop success modal");
-    };
-
+export function Wallet({
+    tab,
+    setTab,
+    accountId,
+    balance,
+    linkdropAmount,
+    createFromImplicitSuccess,
+    createCustomName,
+    fungibleTokensList,
+    tokensLoader,
+    availableAccounts,
+    sortedNFTs,
+    handleCloseLinkdropModal,
+    handleSetCreateFromImplicitSuccess,
+    handleSetCreateCustomName
+}) {
     return (
         <StyledContainer className={SHOW_NETWORK_BANNER ? 'showing-banner' : ''}>
             <ReleaseNotesModal />
@@ -332,8 +297,9 @@ export function Wallet({ tab, setTab }) {
                     }
                 </div>
                 <div className='right'>
-                    {!hideExploreApps && exploreApps !== false &&
-                        <ExploreApps onClick={handleHideExploreApps} />
+                    {CREATE_IMPLICIT_ACCOUNT
+                        ? <Sidebar availableAccounts={availableAccounts} />
+                        : <ExploreApps />
                     }
                     <ActivitiesWrapper />
                 </div>
@@ -346,9 +312,16 @@ export function Wallet({ tab, setTab }) {
             }
             {createFromImplicitSuccess &&
                 <CreateFromImplicitSuccessModal
-                    onClose={() => dispatch(setCreateFromImplicitSuccess(false))}
+                    onClose={handleSetCreateFromImplicitSuccess}
                     isOpen={createFromImplicitSuccess}
                     accountId={accountId}
+                />
+            }
+            {createCustomName &&
+                <CreateCustomNameModal
+                    onClose={handleSetCreateCustomName}
+                    isOpen={createCustomName}
+                    accountId='satoshi.near'
                 />
             }
         </StyledContainer>
@@ -360,7 +333,7 @@ const FungibleTokens = ({ balance, tokensLoader, fungibleTokens }) => {
     const hideFungibleTokenSection =
         availableBalanceIsZero &&
         fungibleTokens?.length === 1 &&
-        fungibleTokens[0]?.onChainFTMetadata?.symbol === "NEAR";
+        fungibleTokens[0]?.onChainFTMetadata?.symbol === 'NEAR';
     return (
         <>
             <div className='total-balance'>

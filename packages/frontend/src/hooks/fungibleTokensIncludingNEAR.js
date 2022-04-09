@@ -1,26 +1,22 @@
-import { useSelector } from "react-redux";
+import { useSelector } from 'react-redux';
 
-import { selectAccountId, selectBalance } from "../redux/slices/account";
-import { selectNearTokenFiatValueUSD } from "../redux/slices/tokenFiatValues";
-import { selectTokensWithMetadataForAccountId } from "../redux/slices/tokens";
-
-const useNEARAsTokenWithMetadata = () => {
-    const nearBalance = useSelector(selectBalance);
-    const nearTokenFiatValueUSD = useSelector(selectNearTokenFiatValueUSD);
-
-    return {
-        balance: nearBalance?.balanceAvailable || "",
-        onChainFTMetadata: { symbol: "NEAR" },
-        coingeckoMetadata: { usd: nearTokenFiatValueUSD },
-    };
-};
+import selectNEARAsTokenWithMetadata from '../redux/crossStateSelectors/selectNEARAsTokenWithMetadata';
+import { selectAccountId } from '../redux/slices/account';
+import { selectTokensFiatValueUSD } from '../redux/slices/tokenFiatValues';
+import { selectTokensWithMetadataForAccountId } from '../redux/slices/tokens';
 
 export const useFungibleTokensIncludingNEAR = function () {
-    const nearAsToken = useNEARAsTokenWithMetadata();
+    const NEARAsTokenWithMetadata = useSelector(selectNEARAsTokenWithMetadata);
     const accountId = useSelector(selectAccountId);
     const fungibleTokens = useSelector((state) =>
         selectTokensWithMetadataForAccountId(state, { accountId })
     );
 
-    return [nearAsToken, ...fungibleTokens];
+    const fungibleTokenPrices = useSelector(selectTokensFiatValueUSD);
+    const fungibleTokensWithPrices = fungibleTokens.map((ft) => ({
+        ...ft,
+        fiatValueMetadata: {...fungibleTokenPrices[ft.contractName]}
+    }));
+
+    return [NEARAsTokenWithMetadata, ...fungibleTokensWithPrices];
 };

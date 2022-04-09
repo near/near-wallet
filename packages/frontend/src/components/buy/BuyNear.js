@@ -3,6 +3,7 @@ import { Translate } from 'react-localize-redux';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
+import { IS_MAINNET } from '../../config';
 import BinanceLogo from '../../images/binance-logo.svg';
 import GateLogo from '../../images/gate-io-logo.svg';
 import HuobiLogo from '../../images/huobi-logo.svg';
@@ -14,7 +15,7 @@ import UtorgLogo from '../../images/utorg-logo.png';
 import { Mixpanel } from '../../mixpanel';
 import { selectAccountId } from '../../redux/slices/account';
 import { isMoonpayAvailable, getSignedUrl } from '../../utils/moonpay';
-import {buildUtorgPayLink} from "../accounts/create/FundWithUtorg";
+import {buildUtorgPayLink} from '../accounts/create/FundWithUtorg';
 import FormButton from '../common/FormButton';
 import Container from '../common/styled/Container.css';
 import ArrowIcon from '../svg/ArrowIcon';
@@ -170,7 +171,7 @@ export function BuyNear({ match, location, history }) {
     }, [accountId]);
 
     const checkMoonPay = async () => {
-        await Mixpanel.withTracking("Wallet Check Moonpay available",
+        await Mixpanel.withTracking('Wallet Check Moonpay available',
             async () => {
                 const moonPay = await isMoonpayAvailable();
                 setMoonPayAvailable(moonPay);
@@ -203,9 +204,11 @@ export function BuyNear({ match, location, history }) {
             <FormButton
                 sending={!accountId}
                 sendingString='button.loading'
+                disabled={!IS_MAINNET}
                 color='black'
                 linkTo={utorgPayUrl}
-                onClick={() => Mixpanel.track("Wallet Click Buy with Utorg")}
+
+                onClick={() => Mixpanel.track('Wallet Click Buy with Utorg')}
             >
                 <>
                     <Translate id='buyNear.buyWith' />
@@ -223,10 +226,10 @@ export function BuyNear({ match, location, history }) {
             <FormButton
                 sending={!accountId || moonPayAvailable == null}
                 sendingString='button.loading'
-                disabled={accountId && !moonPayAvailable}
+                disabled={!IS_MAINNET || accountId && !moonPayAvailable}
                 color={moonPayAvailable ? 'black' : 'gray-gray'}
                 linkTo={signedMoonPayUrl}
-                onClick={() => Mixpanel.track("Wallet Click Buy with Moonpay")}
+                onClick={() => Mixpanel.track('Wallet Click Buy with Moonpay')}
             >
                 {moonPayAvailable
                     ? <>

@@ -1,4 +1,4 @@
-const { test, expect } = require("@playwright/test");
+const { test, expect } = require("../playwrightWithFixtures");
 const { BN } = require("bn.js");
 const { parseNearAmount } = require("near-api-js/lib/utils/format");
 
@@ -7,8 +7,8 @@ const { HomePage } = require("../register/models/Home");
 const { SetRecoveryOptionPage } = require("../register/models/SetRecoveryOption");
 const { VerifySeedPhrasePage } = require("../register/models/VerifySeedPhrase");
 const nearApiJsConnection = require("../utils/connectionSingleton");
-const { generateTestAccountId, getBankAccount } = require("../utils/account");
-const E2eTestAccount = require('../utils/E2eTestAccount');
+const { generateTestAccountId } = require("../utils/account");
+const E2eTestAccount = require("../utils/E2eTestAccount");
 const { LinkDropPage } = require("./models/LinkDrop");
 const { SetupSeedPhrasePage } = require("../register/models/SetupSeedPhrase");
 const { WALLET_NETWORK, LINKDROP_ACCESS_KEY_ALLOWANCE } = require("../constants");
@@ -24,8 +24,7 @@ describe("Linkdrop flow", () => {
 
     const linkdropClaimableAmount = new BN(parseNearAmount(linkdropNEARAmount)).sub(LINKDROP_ACCESS_KEY_ALLOWANCE);
 
-    beforeAll(async () => {
-        const bankAccount = await getBankAccount();
+    beforeAll(async ({ bankAccount }) => {
         linkdropAccountManager = await new LinkdropAccountManager(bankAccount).initialize("11.0");
     });
 

@@ -1,9 +1,10 @@
-import {utils} from "near-api-js";
+import {utils} from 'near-api-js';
+import { stringifyUrl } from 'query-string';
 import React from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
-import {UTORG_ORDER_URL} from "../../../config";
+import { UTORG_ORDER_URL } from '../../../config';
 import UtorgLogo from '../../../images/utorg-logo.png';
 import { Mixpanel } from '../../../mixpanel';
 import FormButton from '../../common/FormButton';
@@ -28,16 +29,25 @@ const Container = styled.div`
 
 `;
 
-export function buildUtorgPayLink(accountId, amount) {
-    let utorgPayUrl = UTORG_ORDER_URL;
+export function buildUtorgPayLink(accountId, amount, amountFiat, currencyFiat) {
+    let uri = {
+        url: UTORG_ORDER_URL,
+        query: {
+            currency: 'NEAR',
+        }
+    };
+
     if (accountId) {
-        utorgPayUrl += `${accountId}/`;
+        uri.url += `${accountId}/`;
     }
-    utorgPayUrl += '?&currency=NEAR';
     if (amount) {
-        utorgPayUrl += `&amount=${utils.format.formatNearAmount(amount)}`;
+        uri.query.amount = utils.format.formatNearAmount(amount);
+    } else if (amountFiat && currencyFiat) {
+        uri.query.paymentAmount = amountFiat;
+        uri.query.paymentCurrency = currencyFiat;
     }
-    return utorgPayUrl;
+
+    return stringifyUrl(uri);
 }
 
 const FundWithUtorg = ({ accountId, amount }) => {
@@ -55,7 +65,7 @@ const FundWithUtorg = ({ accountId, amount }) => {
             <FormButton
                 linkTo={buildUtorgPayLink(accountId, amount)}
                 color='black'
-                onClick={() => Mixpanel.track("CA Click Fund with Utorg")}
+                onClick={() => Mixpanel.track('CA Click Fund with Utorg')}
             >
                 <Translate id='account.createImplicit.pre.utorg.buyWith'/>
                 <img src={UtorgLogo} alt='utorg'/>

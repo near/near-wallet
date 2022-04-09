@@ -21,7 +21,6 @@ import { selectStatusMainLoader } from '../../redux/slices/status';
 import copyText from '../../utils/copyText';
 import isMobile from '../../utils/isMobile';
 import parseFundingOptions from '../../utils/parseFundingOptions';
-import { wallet } from '../../utils/wallet';
 import { Snackbar, snackbarDuration } from '../common/Snackbar';
 import Container from '../common/styled/Container.css';
 import { isRetryableRecaptchaError } from '../Recaptcha';
@@ -51,23 +50,20 @@ class SetupSeedPhrase extends Component {
     }
 
     componentDidMount = async () => {
-        const { accountId, fetchRecoveryMethods } = this.props;
         this.refreshData();
-
-        if (accountId === wallet.accountId) {
-            fetchRecoveryMethods({ accountId });
-        }
-
-        // We need to know if the account is new so when we render SetupSeedPhraseVerify, it doesn't load reCaptcha if its an existing account
-        const isNewAccount = await this.props.checkIsNew(this.props.accountId);
-        this.setState({ isNewAccount });
     }
 
-    refreshData = () => {
-
+    refreshData = async () => {
+        const { accountId, fetchRecoveryMethods, checkIsNew } = this.props;
         const { seedPhrase, publicKey, secretKey } = generateSeedPhrase();
         const recoveryKeyPair = KeyPair.fromString(secretKey);
         const wordId = Math.floor(Math.random() * 12);
+
+        const isNewAccount = await checkIsNew(accountId);
+
+        if (!isNewAccount) {
+            fetchRecoveryMethods({ accountId });
+        }
 
         this.setState((prevState) => ({
             ...prevState,
@@ -76,7 +72,8 @@ class SetupSeedPhrase extends Component {
             wordId,
             enterWord: '',
             localAlert: null,
-            recoveryKeyPair
+            recoveryKeyPair,
+            isNewAccount
         }));
     }
 
@@ -91,7 +88,7 @@ class SetupSeedPhrase extends Component {
         }));
     }
 
-    handleStartOver = e => {
+    handleStartOver = () => {
         const {
             history,
             location,
@@ -104,7 +101,7 @@ class SetupSeedPhrase extends Component {
 
     handleVerifyPhrase = () => {
         const { seedPhrase, enterWord, wordId, submitting } = this.state;
-        Mixpanel.track("SR-SP Verify start");
+        Mixpanel.track('SR-SP Verify start');
         if (enterWord !== seedPhrase.split(' ')[wordId]) {
             this.setState(() => ({
                 localAlert: {
@@ -113,14 +110,14 @@ class SetupSeedPhrase extends Component {
                     show: true
                 }
             }));
-            Mixpanel.track("SR-SP Verify fail", { error: 'word is not matched the phrase' });
+            Mixpanel.track('SR-SP Verify fail', { error: 'word is not matched the phrase' });
             return false;
         }
 
         if (!submitting) {
             this.setState({ submitting: true }, this.handleSetupSeedPhrase);
         }
-        Mixpanel.track("SR-SP Verify finish");
+        Mixpanel.track('SR-SP Verify finish');
     }
 
     handleSetupSeedPhrase = async () => {
@@ -139,7 +136,7 @@ class SetupSeedPhrase extends Component {
         if (!this.state.isNewAccount) {
             debugLog('handleSetupSeedPhrase()/existing account');
 
-            await Mixpanel.withTracking("SR-SP Setup for existing account",
+            await Mixpanel.withTracking('SR-SP Setup for existing account',
                 async () => await handleAddAccessKeySeedPhrase(accountId, recoveryKeyPair)
             );
             return;
@@ -147,7 +144,7 @@ class SetupSeedPhrase extends Component {
 
         const fundingOptions = parseFundingOptions(location.search);
 
-        await Mixpanel.withTracking("SR-SP Setup for new account",
+        await Mixpanel.withTracking('SR-SP Setup for new account',
             async () => {
                 await handleCreateAccountWithSeedPhrase(accountId, recoveryKeyPair, fundingOptions, recaptchaToken);
                 if (fundingOptions?.fundingAmount) {
@@ -168,7 +165,7 @@ class SetupSeedPhrase extends Component {
                         messageCode: 'walletErrorCodes.invalidRecaptchaCode',
                         errorMessage: err.message
                     });
-                } else if(err.code === 'NotEnoughBalance') {
+                } else if (err.code === 'NotEnoughBalance') {
                     Mixpanel.track('SR-SP NotEnoughBalance creating funded account');
                     await fundCreateAccount(accountId, recoveryKeyPair, 'phrase');
                 } else {
@@ -183,11 +180,11 @@ class SetupSeedPhrase extends Component {
     }
 
     handleCopyPhrase = () => {
-        Mixpanel.track("SR-SP Copy seed phrase");
+        Mixpanel.track('SR-SP Copy seed phrase');
         if (navigator.share && isMobile()) {
             navigator.share({
                 text: this.state.seedPhrase
-            }).catch(err => {
+            }).catch((err) => {
                 debugLog(err.message);
             });
         } else {
@@ -215,8 +212,8 @@ class SetupSeedPhrase extends Component {
     }
 
     render() {
-        const { recoveryMethods, recoveryMethodsLoader } = this.props;
-        const hasSeedPhraseRecovery = recoveryMethodsLoader || recoveryMethods.filter(m => m.kind === 'phrase').length > 0;
+        const { recoveryMethods, recoveryMethodsLoader, history, accountId, location } = this.props;
+        const hasSeedPhraseRecovery = recoveryMethodsLoader || recoveryMethods.filter((m) => m.kind === 'phrase').length > 0;
         const { seedPhrase, enterWord, wordId, submitting, localAlert, isNewAccount, successSnackbar } = this.state;
 
         return (
@@ -225,7 +222,7 @@ class SetupSeedPhrase extends Component {
                     <Fragment>
                         <Route
                             exact
-                            path={`/setup-seed-phrase/:accountId/phrase`}
+                            path={'/setup-seed-phrase/:accountId/phrase'}
                             render={() => (
                                 <Container className='small-centered border'>
                                     <h1><Translate id='setupSeedPhrase.pageTitle'/></h1>
@@ -234,13 +231,22 @@ class SetupSeedPhrase extends Component {
                                         seedPhrase={seedPhrase}
                                         handleCopyPhrase={this.handleCopyPhrase}
                                         hasSeedPhraseRecovery={hasSeedPhraseRecovery}
+                                        refreshData={this.refreshData}
+                                        onClickContinue={() => history.push(`/setup-seed-phrase/${accountId}/verify${location.search}`)}
+                                        onClickCancel={() => {
+                                            if (isNewAccount) {
+                                                history.push(`/set-recovery/${accountId}${location.search}`);
+                                            } else {
+                                                history.push('/profile');
+                                            }
+                                        }}
                                     />
                                 </Container>
                             )}
                         />
                         <Route
                             exact
-                            path={`/setup-seed-phrase/:accountId/verify`}
+                            path={'/setup-seed-phrase/:accountId/verify'}
                             render={() => (
                                 <Container className='small-centered border'>
                                     <form
@@ -294,7 +300,7 @@ const mapDispatchToProps = {
 };
 
 const mapStateToProps = (state, { match }) => {
-    const { accountId } = match.params;
+    const { accountId } = match.params;
     
     return {
         ...selectAccountSlice(state),

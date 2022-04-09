@@ -21,7 +21,8 @@ export default ({
     appReferrer,
     contractId,
     publicKey,
-    contractIdUrl
+    contractIdUrl,
+    successUrlIsValid
 }) => {
     const [loggingIn, setLoggingIn] = useState(false);
     const [showGrantFullAccessModal, setShowGrantFullAccessModal] = useState(false);
@@ -81,7 +82,7 @@ export default ({
                                     handleClickConnect();
                                 }
                             }}
-                            disabled={loggingIn}
+                            disabled={loggingIn || !successUrlIsValid}
                             sending={loggingIn}
                             sendingString='button.connecting'
                         >

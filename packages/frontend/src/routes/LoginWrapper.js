@@ -1,16 +1,17 @@
 import { getLocation } from 'connected-react-router';
+import { parse } from 'query-string';
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import ConfirmLoginWrapper from '../components/login/v2/ConfirmLoginWrapper';
 import InvalidContractId from '../components/login/v2/InvalidContractId';
 import SelectAccountLoginWrapper from '../components/login/v2/SelectAccountLoginWrapper';
-import { EXPLORER_URL } from '../config';
+import { EXPLORER_URL, LOCKUP_ACCOUNT_ID_SUFFIX } from '../config';
 import { Mixpanel } from '../mixpanel/index';
 import {
     selectAccountLocalStorageAccountId
 } from '../redux/slices/account';
-import { LOCKUP_ACCOUNT_ID_SUFFIX } from '../utils/wallet';
+import { isUrlNotJavascriptProtocol } from '../utils/helper-api';
 
 export const LOGIN_ACCESS_TYPES = {
     FULL_ACCESS: 'fullAccess',
@@ -22,11 +23,12 @@ export function LoginWrapper() {
     const [confirmLogin, setConfirmLogin] = useState(false);
 
     const location = useSelector(getLocation);
-    const URLParams = new URLSearchParams(location.search);
-    const contractId = URLParams.get('contract_id');
-    const publicKey = URLParams.get('public_key');
-    const failureUrl = URLParams.get('failure_url');
-    const invalidContractId = URLParams.get('invalidContractId');
+    const URLParams = parse(location.search);
+    const contractId = URLParams.contract_id;
+    const publicKey = URLParams.public_key;
+    const failureUrl = URLParams.failure_url;
+    const successUrl = URLParams.success_url;
+    const invalidContractId = URLParams.invalidContractId;
 
     const contractIdUrl = `${EXPLORER_URL}/accounts/${contractId}`;
 
@@ -44,8 +46,10 @@ export function LoginWrapper() {
             <InvalidContractId
                 invalidContractId={contractId}
                 onClickReturnToApp={() => {
-                    Mixpanel.track("LOGIN Invalid contract id Click return to app button", { contract_id: contractId });
-                    window.location.href = failureUrl;
+                    Mixpanel.track('LOGIN Invalid contract id Click return to app button', { contract_id: contractId });
+                    if (isUrlNotJavascriptProtocol(failureUrl)) {
+                        window.location.href = failureUrl;
+                    }
                 }}
             />
         );
@@ -59,6 +63,7 @@ export function LoginWrapper() {
                 contractIdUrl={contractIdUrl}
                 onClickCancel={() => setConfirmLogin(false)}
                 publicKey={publicKey}
+                successUrl={successUrl}
             />
         );
     }
@@ -69,7 +74,8 @@ export function LoginWrapper() {
             contractId={contractId}
             contractIdUrl={contractIdUrl}
             failureUrl={failureUrl}
-            onClickNext={() => { setConfirmLogin(true); window.scrollTo(0, 0); }}
+            successUrl={successUrl}
+            onClickNext={() => { setConfirmLogin(true); window.scrollTo(0, 0);}}
         />
     );
 }

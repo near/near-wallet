@@ -6,26 +6,28 @@ import { parseTransactionsToSign, makeAccountActive } from '../../actions/accoun
 import { calculateGasLimit, increaseGasForFirstTransaction, handleSignTransactions, SIGN_STATUS, removeSuccessTransactions, updateSuccessHashes, checkAbleToIncreaseGas, getFirstTransactionWithFunctionCallAction, calculateGasForSuccessTransactions } from '../../slices/sign';
 
 const initialState = {
-    status: SIGN_STATUS.NEEDS_CONFIRMATION
+    status: SIGN_STATUS.NEEDS_CONFIRMATION,
+    successHashes: []
 };
 
 const deserializeTransactionsFromString = (transactionsString) => transactionsString.split(',')
-    .map(str => Buffer.from(str, 'base64'))
-    .map(buffer => utils.serialize.deserialize(transaction.SCHEMA, transaction.Transaction, buffer));
+    .map((str) => Buffer.from(str, 'base64'))
+    .map((buffer) => utils.serialize.deserialize(transaction.SCHEMA, transaction.Transaction, buffer));
 
 const sign = handleActions({
     [parseTransactionsToSign]: (state, { payload: { transactions: transactionsString, callbackUrl, meta } }) => {
         const transactions = deserializeTransactionsFromString(transactionsString);
 
-        const allActions = transactions.flatMap(t => t.actions);
+        const allActions = transactions.flatMap((t) => t.actions);
         
         return {
+            ...initialState,
             status: SIGN_STATUS.NEEDS_CONFIRMATION,
             callbackUrl,
             meta,
             transactions,
             totalAmount: allActions
-                .map(a => (a.transfer && a.transfer.deposit) || (a.functionCall && a.functionCall.deposit) || 0)
+                .map((a) => (a.transfer && a.transfer.deposit) || (a.functionCall && a.functionCall.deposit) || 0)
                 .reduce((totalAmount, amount) => totalAmount.add(new BN(amount)), new BN(0)).toString(),
             fees: {
                 transactionFees: '', // TODO: Calculate total fees
@@ -33,7 +35,7 @@ const sign = handleActions({
                 gasPrice: '' // TODO: Where to get gas price?
             },
             sensitiveActionsCounter: allActions
-                .filter(a => ['deployContract', 'stake', 'deleteAccount'].indexOf(Object.keys(a)[0]) > -1)
+                .filter((a) => ['deployContract', 'stake', 'deleteAccount'].indexOf(Object.keys(a)[0]) > -1)
                 .length
         };
     },
@@ -62,7 +64,7 @@ const sign = handleActions({
             retryTransactions,
             fees: {
                 ...state.transactions.fees,
-                gasLimit: calculateGasLimit((retryTransactions || transactions).flatMap(t => t.actions))
+                gasLimit: calculateGasLimit((retryTransactions || transactions).flatMap((t) => t.actions))
             }
         };
     },

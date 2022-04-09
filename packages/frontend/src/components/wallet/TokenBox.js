@@ -138,7 +138,7 @@ const TokenBox = ({ token, onClick }) => {
         <StyledContainer
             className="token-box"
             onClick={onClick ? () => onClick(token) : null}
-            data-test-id={`token-selection-${token.contractName || "NEAR"}`}
+            data-test-id={`token-selection-${token.contractName || 'NEAR'}`}
         >
             <div className='icon'>
                 <TokenIcon symbol={token.onChainFTMetadata?.symbol} icon={token.onChainFTMetadata?.icon}/>
@@ -148,7 +148,7 @@ const TokenBox = ({ token, onClick }) => {
                     <span className='symbol' title={token.contractName}>
                         <a 
                             href={`${EXPLORER_URL}/accounts/${token.contractName}`}
-                            onClick={e => e.stopPropagation()}
+                            onClick={(e) => e.stopPropagation()}
                             target='_blank'
                             rel='noopener noreferrer'
                         >
@@ -161,8 +161,8 @@ const TokenBox = ({ token, onClick }) => {
                     </span>
                 }
                 <span className='fiat-rate'>
-                    {token.coingeckoMetadata?.usd
-                        ? <>${token.coingeckoMetadata?.usd}</>
+                    {token?.fiatValueMetadata?.usd
+                        ? <>${token.fiatValueMetadata?.usd}</>
                         : <span><Translate id='tokenBox.priceUnavailable' /></span>
                     }
                 </span>

@@ -4,7 +4,8 @@ import assign from 'lodash.assign';
 import { 
     WALLET_INITIAL_DEPOSIT_URL,
     WALLET_LOGIN_URL,
-    WALLET_SIGN_URL
+    WALLET_SIGN_URL,
+    WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS
 } from '../../../utils/wallet';
 import { getBalance } from '../../actions/account';
 
@@ -21,11 +22,15 @@ const initialState = {
 const handleFlowLimitation = createAsyncThunk(
     `${SLICE_NAME}/handleFlowLimitation`,
     async (_, thunkAPI) => {
+        const { actions: { setFlowLimitation } } = flowLimitationSlice;
         const { dispatch, getState } = thunkAPI;
         const { pathname } = getState().router.location;
-        const { redirect_url } = getState().account.url;
-        const { actions: { setFlowLimitation } } = flowLimitationSlice;
 
+        // Disallow account switching on account creation/recovery pages
+        const disableAccountSwitching = WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS.some((url) => pathname.includes(url));
+        dispatch(setFlowLimitation({ subMenu: disableAccountSwitching }));
+
+        const { redirect_url } = getState().account.url;
         const redirectUrl = redirect_url || pathname;
 
         if (redirectUrl.includes(WALLET_LOGIN_URL)) {

@@ -6,9 +6,11 @@ import { EXPLORER_URL } from '../../config';
 import { useFungibleTokensIncludingNEAR } from '../../hooks/fungibleTokensIncludingNEAR';
 import { Mixpanel } from '../../mixpanel/index';
 import { checkAccountAvailable, redirectTo } from '../../redux/actions/account';
-import { checkAndHideLedgerModal } from '../../redux/actions/account';
 import { clearLocalAlert, showCustomAlert } from '../../redux/actions/status';
 import { selectAccountId } from '../../redux/slices/account';
+import {
+    actions as ledgerActions
+} from '../../redux/slices/ledger';
 import { selectStatusLocalAlert } from '../../redux/slices/status';
 import { selectNearTokenFiatValueUSD } from '../../redux/slices/tokenFiatValues';
 import { actions as tokensActions } from '../../redux/slices/tokens';
@@ -16,6 +18,10 @@ import { fungibleTokensService } from '../../services/FungibleTokens';
 import isMobile from '../../utils/isMobile';
 import { SHOW_NETWORK_BANNER } from '../../utils/wallet';
 import SendContainerV2, { VIEWS } from './SendContainerV2';
+
+const {
+    checkAndHideLedgerModal
+} = ledgerActions;
 
 const { parseNearAmount, formatNearAmount } = utils.format;
 const { fetchTokens } = tokensActions;
@@ -44,8 +50,8 @@ export function SendContainerWrapper({ match }) {
     return (
         <SendContainerV2
             accountId={accountId}
-            redirectTo={path => dispatch(redirectTo(path))}
-            checkAccountAvailable={accountId => dispatch(checkAccountAvailable(accountId))}
+            redirectTo={(path) => dispatch(redirectTo(path))}
+            checkAccountAvailable={(accountId) => dispatch(checkAccountAvailable(accountId))}
             parseNearAmount={parseNearAmount}
             formatNearAmount={formatNearAmount}
             fungibleTokens={fungibleTokensList}
@@ -56,14 +62,14 @@ export function SendContainerWrapper({ match }) {
             showNetworkBanner={SHOW_NETWORK_BANNER}
             accountIdFromUrl={accountIdFromUrl}
             activeView={activeView}
-            setActiveView={view => setActiveView(view)}
+            setActiveView={(view) => setActiveView(view)}
             estimatedTotalFees={estimatedTotalFees}
             estimatedTotalInNear={estimatedTotalInNear}
             nearTokenFiatValueUSD={nearTokenFiatValueUSD}
             handleSendToken={async (rawAmount, receiverId, contractName) => {
                 setSendingToken(true);
 
-                await Mixpanel.withTracking("SEND token",
+                await Mixpanel.withTracking('SEND token',
                     async () => {
                         const result = await fungibleTokensService.transfer({
                             accountId,

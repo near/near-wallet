@@ -14,7 +14,7 @@ import Review from './components/views/Review';
 import SelectToken from './components/views/SelectToken';
 import Success from './components/views/Success';
 
-const { getFormattedTokenAmount, getParsedTokenAmount } = FungibleTokens;
+const { getFormattedTokenAmount, getParsedTokenAmount, getUniqueTokenIdentity } = FungibleTokens;
 
 export const VIEWS = {
     ENTER_AMOUNT: 'enterAmount',
@@ -106,19 +106,21 @@ const SendContainerV2 = ({
     useEffect(() => {
         // fungibleTokens contains balance data for each token -- we need to update local state every time it changes
         // TODO: Add a `byIdentity` reducer for faster lookups than .find()
-        const targetToken = fungibleTokens.find(({ contractName, onChainFTMetadata }) => {
-            return (contractName && contractName === selectedToken.contractName) || onChainFTMetadata?.symbol === selectedToken.onChainFTMetadata?.symbol;
-        });
+        let targetToken = fungibleTokens.find(({ contractName }) => 
+            (contractName && contractName === selectedToken.contractName)
+        ) || fungibleTokens.find(({ onChainFTMetadata }) => 
+            onChainFTMetadata?.symbol === selectedToken.onChainFTMetadata?.symbol
+        );
 
         setSelectedToken(targetToken);
     }, [fungibleTokens]);
 
     useEffect(() => {
-        if(isMaxAmount === true) {
+        if (isMaxAmount === true) {
             setIsMaxAmount(false);
             setUserInputAmount('');
         }
-    }, [selectedToken]);
+    }, [getUniqueTokenIdentity(selectedToken)]);
 
     useEffect(() => window.scrollTo(0, 0), [activeView]);
 
@@ -160,7 +162,7 @@ const SendContainerV2 = ({
                         const formattedTokenAmount = getFormattedTokenAmount(selectedToken.balance, selectedToken.onChainFTMetadata?.symbol, selectedToken.onChainFTMetadata?.decimals);
 
                         if (!new BN(selectedToken.balance).isZero()) {
-                            Mixpanel.track("SEND Use max amount");
+                            Mixpanel.track('SEND Use max amount');
                             setIsMaxAmount(true);
                             setUserInputAmount(formattedTokenAmount.replace(/,/g, ''));
                         }
@@ -194,7 +196,7 @@ const SendContainerV2 = ({
                 <EnterReceiver
                     onClickGoBack={() => setActiveView(VIEWS.ENTER_AMOUNT)}
                     onClickCancel={() => redirectTo('/')}
-                    amount={getRawAmount()}
+                    amount={isMaxAmount ? selectedToken.balance : getRawAmount()}
                     selectedToken={selectedToken}
                     handleChangeReceiverId={(receiverId) => setReceiverId(receiverId)}
                     receiverId={receiverId}
@@ -202,7 +204,7 @@ const SendContainerV2 = ({
                     localAlert={localAlert}
                     clearLocalAlert={clearLocalAlert}
                     onClickContinue={() => {
-                        Mixpanel.track("SEND Click continue to review button");
+                        Mixpanel.track('SEND Click continue to review button');
                         handleContinueToReview({
                             token: selectedToken,
                             rawAmount: getRawAmount(),
@@ -217,7 +219,7 @@ const SendContainerV2 = ({
                 <Review
                     onClickCancel={() => {
                         redirectTo('/');
-                        Mixpanel.track("SEND Click cancel button");
+                        Mixpanel.track('SEND Click cancel button');
                     }}
                     amount={getRawAmount()}
                     selectedToken={selectedToken}

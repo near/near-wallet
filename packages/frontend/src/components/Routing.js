@@ -2,6 +2,7 @@ import { ConnectedRouter, getRouter } from 'connected-react-router';
 import isString from 'lodash.isstring';
 import { parseSeedPhrase } from 'near-seed-phrase';
 import PropTypes from 'prop-types';
+import { stringify } from 'query-string';
 import React, { Component } from 'react';
 import ReactDOMServer from 'react-dom/server';
 import { withLocalize } from 'react-localize-redux';
@@ -9,27 +10,36 @@ import { connect } from 'react-redux';
 import { Redirect, Switch } from 'react-router-dom';
 import styled, { ThemeProvider } from 'styled-components';
 
+import { CREATE_IMPLICIT_ACCOUNT, IMPORT_ACCOUNT_WITH_LINK_V2 } from '../../../../features';
 import TwoFactorVerifyModal from '../components/accounts/two_factor/TwoFactorVerifyModal';
-import { IS_MAINNET, PUBLIC_URL, SHOW_PRERELEASE_WARNING } from '../config';
+import { IS_MAINNET, PUBLIC_URL, SHOW_PRERELEASE_WARNING, DISABLE_CREATE_ACCOUNT } from '../config';
 import ExampleFlag from '../ExampleFlag';
-import { Mixpanel } from "../mixpanel/index";
+import { Mixpanel } from '../mixpanel/index';
 import * as accountActions from '../redux/actions/account';
+import { handleClearAlert } from '../redux/reducers/status';
 import { selectAccountSlice } from '../redux/slices/account';
+import { actions as flowLimitationActions } from '../redux/slices/flowLimitation';
 import { actions as tokenFiatValueActions } from '../redux/slices/tokenFiatValues';
+import { CreateImplicitAccountWrapper } from '../routes/CreateImplicitAccountWrapper';
+import { ImportAccountWithLinkWrapper } from '../routes/ImportAccountWithLinkWrapper';
 import { LoginWrapper } from '../routes/LoginWrapper';
+import { SetupLedgerNewAccountWrapper } from '../routes/SetupLedgerNewAccountWrapper';
+import { SetupPassphraseNewAccountWrapper } from '../routes/SetupPassphraseNewAccountWrapper';
+import { SetupRecoveryImplicitAccountWrapper } from '../routes/SetupRecoveryImplicitAccountWrapper';
+import { SignWrapper } from '../routes/SignWrapper';
+import { WalletWrapper } from '../routes/WalletWrapper';
 import translations_en from '../translations/en.global.json';
 import translations_pt from '../translations/pt.global.json';
 import translations_ru from '../translations/ru.global.json';
+import translations_tr from '../translations/tr.global.json';
 import translations_vi from '../translations/vi.global.json';
 import translations_zh_hans from '../translations/zh-hans.global.json';
 import translations_zh_hant from '../translations/zh-hant.global.json';
-import { handleClearAlert } from '../utils/alerts';
 import classNames from '../utils/classNames';
 import getBrowserLocale from '../utils/getBrowserLocale';
-import { getAccountIsInactive, removeAccountIsInactive, setAccountIsInactive } from '../utils/localStorage';
 import { reportUiActiveMixpanelThrottled } from '../utils/reportUiActiveMixpanelThrottled';
 import ScrollToTop from '../utils/ScrollToTop';
-import { 
+import {
     WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS,
     WALLET_LOGIN_URL,
     WALLET_SIGN_URL,
@@ -37,9 +47,9 @@ import {
 } from '../utils/wallet';
 import AccessKeysWrapper from './access-keys/v2/AccessKeysWrapper';
 import { AutoImportWrapper } from './accounts/auto_import/AutoImportWrapper';
-import { ActivateAccountWithRouter } from './accounts/create/ActivateAccount';
 import { ExistingAccountWrapper } from './accounts/create/existing_account/ExistingAccountWrapper';
 import { InitialDepositWrapper } from './accounts/create/initial_deposit/InitialDepositWrapper';
+import { CreateAccountLanding } from './accounts/create/landing/CreateAccountLanding';
 import { VerifyAccountWrapper } from './accounts/create/verify_account/VerifyAccountWrapper';
 import { CreateAccountWithRouter } from './accounts/CreateAccount';
 import LedgerConfirmActionModal from './accounts/ledger/LedgerConfirmActionModal';
@@ -59,27 +69,28 @@ import Footer from './common/Footer';
 import GlobalAlert from './common/GlobalAlert';
 import GuestLandingRoute from './common/GuestLandingRoute';
 import NetworkBanner from './common/NetworkBanner';
-import PrivateRoute from './common/PrivateRoute';
-import PublicRoute from './common/PublicRoute';
+import PrivateRoute from './common/routing/PrivateRoute';
+import PublicRoute from './common/routing/PublicRoute';
+import Route from './common/routing/Route';
 import GlobalStyle from './GlobalStyle';
 import { LoginCliLoginSuccess } from './login/LoginCliLoginSuccess';
-import Navigation from './navigation/Navigation';
-import {PageNotFound} from './page-not-found/PageNotFound';
+import NavigationWrapper from './navigation/NavigationWrapper';
+import { NFTDetailWrapper } from './nft/NFTDetailWrapper';
+import { PageNotFound } from './page-not-found/PageNotFound';
 import { Profile } from './profile/Profile';
 import { ReceiveContainerWrapper } from './receive-money/ReceiveContainerWrapper';
 import { SendContainerWrapper } from './send/SendContainerWrapper';
-import { SignWithRouter } from './sign/Sign';
 import { StakingContainer } from './staking/StakingContainer';
 import Terms from './terms/Terms';
-import { Wallet } from './wallet/Wallet';
+
 import '../index.css';
 
-const { 
-    fetchTokenFiatValues
+const {
+    fetchTokenFiatValues,
+    getTokenWhiteList,
 } = tokenFiatValueActions;
 
-const  {
-    getAccountHelperWalletState,
+const {
     handleClearUrl,
     handleRedirectUrl,
     handleRefreshUrl,
@@ -87,6 +98,8 @@ const  {
     redirectTo,
     refreshAccount
 } = accountActions;
+
+const { handleFlowLimitation } = flowLimitationActions;
 
 const theme = {};
 
@@ -123,23 +136,20 @@ class Routing extends Component {
     constructor(props) {
         super(props);
 
-        this.state = {
-            isInactiveAccount: null
-        };
-
         this.pollTokenFiatValue = null;
 
         const languages = [
-            { name: "English", code: "en" },
-            { name: "Português", code: "pt" },
-            { name: "Русский", code: "ru" },
-            { name: "Tiếng Việt", code: "vi" },
-            { name: "简体中文", code: "zh-hans" },
-            { name: "繁體中文", code: "zh-hant" }
+            { name: 'English', code: 'en' },
+            { name: 'Português', code: 'pt' },
+            { name: 'Русский', code: 'ru' },
+            { name: 'Tiếng Việt', code: 'vi' },
+            { name: '简体中文', code: 'zh-hans' },
+            { name: '繁體中文', code: 'zh-hant' },
+            { name: 'Türkçe', code: 'tr' }
         ];
 
-        const browserLanguage = getBrowserLocale(languages.map(l => l.code));
-        const activeLang = localStorage.getItem("languageCode") || browserLanguage || languages[0].code;
+        const browserLanguage = getBrowserLocale(languages.map((l) => l.code));
+        const activeLang = localStorage.getItem('languageCode') || browserLanguage || languages[0].code;
 
         this.props.initialize({
             languages,
@@ -160,12 +170,13 @@ class Routing extends Component {
         });
 
         // TODO: Figure out how to load only necessary translations dynamically
-        this.props.addTranslationForLanguage(translations_en, "en");
-        this.props.addTranslationForLanguage(translations_pt, "pt");
-        this.props.addTranslationForLanguage(translations_ru, "ru");
-        this.props.addTranslationForLanguage(translations_zh_hans, "zh-hans");
-        this.props.addTranslationForLanguage(translations_zh_hant, "zh-hant");
-        this.props.addTranslationForLanguage(translations_vi, "vi");
+        this.props.addTranslationForLanguage(translations_en, 'en');
+        this.props.addTranslationForLanguage(translations_pt, 'pt');
+        this.props.addTranslationForLanguage(translations_ru, 'ru');
+        this.props.addTranslationForLanguage(translations_vi, 'vi');
+        this.props.addTranslationForLanguage(translations_zh_hans, 'zh-hans');
+        this.props.addTranslationForLanguage(translations_zh_hant, 'zh-hant');
+        this.props.addTranslationForLanguage(translations_tr, 'tr');
 
         this.props.setActiveLanguage(activeLang);
         // this.addTranslationsForActiveLanguage(defaultLanguage)
@@ -179,9 +190,11 @@ class Routing extends Component {
             handleRedirectUrl,
             handleClearUrl,
             router,
-            fetchTokenFiatValues
+            fetchTokenFiatValues,
+            handleClearAlert,
+            handleFlowLimitation
         } = this.props;
-        
+
         fetchTokenFiatValues();
         this.startPollingTokenFiatValue();
         handleRefreshUrl(router);
@@ -195,31 +208,15 @@ class Routing extends Component {
             }
 
             handleClearAlert();
+            handleFlowLimitation();
         });
     }
 
     componentDidUpdate(prevProps) {
-        const { activeLanguage, account, getAccountHelperWalletState } = this.props;
-
-        if (prevProps.account.localStorage?.accountId !== account.localStorage?.accountId) {
-            this.setState({ isInactiveAccount: getAccountIsInactive(`${account.accountId || account.localStorage?.accountId}`) });
-        }
+        const { activeLanguage, account } = this.props;
 
         if (prevProps.account.accountId !== account.accountId && account.accountId !== undefined) {
-            getAccountHelperWalletState(account.accountId);
-        }
-
-        if (prevProps.account.accountHelperWalletState.isLoaded !== account.accountHelperWalletState.isLoaded) {
-            const needsDeposit = account.accountHelperWalletState.fundedAccountNeedsDeposit;
-            const accountId = account.accountId || account.localStorage?.accountId;
-
-            this.setState({ isInactiveAccount: needsDeposit });
-
-            if (!needsDeposit) {
-                removeAccountIsInactive(accountId);
-            } else {
-                setAccountIsInactive(accountId);
-            }
+            this.props.getTokenWhiteList(account.accountId);
         }
 
         const prevLangCode = prevProps.activeLanguage && prevProps.activeLanguage.code;
@@ -228,7 +225,7 @@ class Routing extends Component {
 
         if (hasLanguageChanged) {
             // this.addTranslationsForActiveLanguage(curLangCode)
-            localStorage.setItem("languageCode", curLangCode);
+            localStorage.setItem('languageCode', curLangCode);
         }
     }
 
@@ -237,10 +234,10 @@ class Routing extends Component {
     }
 
     startPollingTokenFiatValue = () => {
-        const { fetchTokenFiatValues  } = this.props;
+        const { fetchTokenFiatValues } = this.props;
 
         const handlePollTokenFiatValue = async () => {
-            await fetchTokenFiatValues().catch(() => {});
+            await fetchTokenFiatValues().catch(() => { });
             if (this.pollTokenFiatValue) {
                 this.pollTokenFiatValue = setTimeout(() => handlePollTokenFiatValue(), 30000);
             }
@@ -258,25 +255,22 @@ class Routing extends Component {
         const { account } = this.props;
         const setTab = (nextTab) => {
             if (tab !== nextTab) {
-                const destinationSearch = new URLSearchParams(search);
-
-                if (nextTab) {
-                    destinationSearch.set('tab', nextTab);
-                } else {
-                    destinationSearch.delete('tab');
-                }
-
                 // Ensure any `hash` value remains in the URL when we toggle tab
-                this.props.history.push({ search: destinationSearch.toString(), hash });
+                this.props.history.push({
+                    search: stringify(
+                        { tab: nextTab },
+                        { skipNull: true, skipEmptyString: true }
+                    ),
+                    hash,
+                });
             }
         };
-        const { isInactiveAccount } = this.state;
-        
+
         const hideFooterOnMobile = [
             WALLET_LOGIN_URL,
             WALLET_SEND_MONEY_URL,
             WALLET_SIGN_URL
-        ].includes(pathname.replace(/\//g,''));
+        ].includes(pathname.replace(/\//g, ''));
 
         const accountFound = this.props.account.localStorage?.accountFound;
 
@@ -287,37 +281,37 @@ class Routing extends Component {
             <Container
                 className={classNames([
                     'App',
-                    {'network-banner': (!IS_MAINNET || SHOW_PRERELEASE_WARNING)},
-                    {'hide-footer-mobile' : hideFooterOnMobile}
+                    { 'network-banner': (!IS_MAINNET || SHOW_PRERELEASE_WARNING) },
+                    { 'hide-footer-mobile': hideFooterOnMobile }
                 ])}
                 id='app-container'
             >
                 <GlobalStyle />
                 <ConnectedRouter basename={PATH_PREFIX} history={this.props.history}>
                     <ThemeProvider theme={theme}>
-                        <ScrollToTop/>
+                        <ScrollToTop />
                         <NetworkBanner
                             account={account}
                         />
-                        <Navigation isInactiveAccount={isInactiveAccount}/>
-                        <GlobalAlert/>
-                        <LedgerConfirmActionModal/>
+                        <NavigationWrapper />
+                        <GlobalAlert />
+                        <LedgerConfirmActionModal />
                         {
                             account.requestPending !== null &&
                             <TwoFactorVerifyModal
                                 onClose={(verified, error) => {
                                     const { account, promptTwoFactor } = this.props;
-                                    Mixpanel.track("2FA Modal Verify start");
+                                    Mixpanel.track('2FA Modal Verify start');
                                     // requestPending will resolve (verified == true) or reject the Promise being awaited in the method that dispatched promptTwoFactor
                                     account.requestPending(verified, error);
                                     // clears requestPending and closes the modal
                                     promptTwoFactor(null);
                                     if (error) {
                                         // tracking error
-                                        Mixpanel.track("2FA Modal Verify fail", {error: error.message});
+                                        Mixpanel.track('2FA Modal Verify fail', { error: error.message });
                                     }
                                     if (verified) {
-                                        Mixpanel.track("2FA Modal Verify finish");
+                                        Mixpanel.track('2FA Modal Verify finish');
                                     }
                                 }}
                             />
@@ -327,7 +321,7 @@ class Routing extends Component {
                                 pathname: '/*',
                                 search: search
                             }} />
-                            <PublicRoute
+                            <Route
                                 exact
                                 path='/example_flag'
                                 component={ExampleFlag}
@@ -335,56 +329,103 @@ class Routing extends Component {
                             <GuestLandingRoute
                                 exact
                                 path='/'
-                                render={(props) => isInactiveAccount ? <ActivateAccountWithRouter {...props}/> : <Wallet tab={tab} setTab={setTab} {...props} />}
+                                render={(props) => <WalletWrapper tab={tab} setTab={setTab} {...props} />}
                                 accountFound={accountFound}
                                 indexBySearchEngines={!accountFound}
                             />
-                            <PublicRoute
+                            <Route
                                 exact
                                 path='/linkdrop/:fundingContract/:fundingKey'
                                 component={LinkdropLandingWithRouter}
                             />
-                            <PublicRoute
+                            <Route
                                 exact
-                                path='/create/:fundingContract?/:fundingKey?'
+                                path='/create/:fundingContract/:fundingKey'
                                 component={CreateAccountWithRouter}
                             />
-                            <PublicRoute
+                            {CREATE_IMPLICIT_ACCOUNT &&
+                                <Route
+                                    exact
+                                    path='/create'
+                                    render={(props) =>
+                                        accountFound || !DISABLE_CREATE_ACCOUNT ? (
+                                            <CreateAccountWithRouter {...props} />
+                                        ) : (
+                                            <CreateAccountLanding />
+                                        )
+                                    }
+                                // Logged in users always create a named account
+                                />
+                            }
+                            <Route
+                                exact
+                                path='/create'
+                                component={CreateAccountWithRouter}
+                            />
+                            <Route
                                 exact
                                 path={'/create-from/:fundingAccountId'}
                                 component={CreateAccountWithRouter}
                             />
-                            <PublicRoute
+                            <Route
                                 exact
                                 path='/set-recovery/:accountId/:fundingContract?/:fundingKey?'
                                 component={SetupRecoveryMethodWithRouter}
                             />
-                            <PublicRoute
+                            {CREATE_IMPLICIT_ACCOUNT &&
+                                <PublicRoute
+                                    exact
+                                    path='/set-recovery-implicit-account'
+                                    component={SetupRecoveryImplicitAccountWrapper}
+                                />
+                            }
+                            {CREATE_IMPLICIT_ACCOUNT &&
+                                <PublicRoute
+                                    exact
+                                    path='/setup-passphrase-new-account'
+                                    component={SetupPassphraseNewAccountWrapper}
+                                />
+                            }
+                            {CREATE_IMPLICIT_ACCOUNT &&
+                                <PublicRoute
+                                    exact
+                                    path='/setup-ledger-new-account'
+                                    component={SetupLedgerNewAccountWrapper}
+                                />
+                            }
+                            {CREATE_IMPLICIT_ACCOUNT &&
+                                <PublicRoute
+                                    exact
+                                    path='/create-implicit-account'
+                                    component={CreateImplicitAccountWrapper}
+                                />
+                            }
+                            <Route
                                 exact
                                 path='/setup-seed-phrase/:accountId/:step'
                                 component={SetupSeedPhraseWithRouter}
                             />
-                            <PublicRoute
+                            <Route
                                 exact
                                 path='/verify-account'
                                 component={VerifyAccountWrapper}
                             />
-                            <PublicRoute
+                            <Route
                                 exact
                                 path='/initial-deposit'
                                 component={InitialDepositWrapper}
                             />
-                            <PublicRoute
+                            <Route
                                 exact
                                 path='/fund-with-existing-account'
                                 component={ExistingAccountWrapper}
                             />
-                            <PublicRoute
+                            <Route
                                 exact
                                 path='/fund-create-account/:accountId/:implicitAccountId/:recoveryMethod'
                                 component={SetupImplicitWithRouter}
                             />
-                            <PublicRoute
+                            <Route
                                 exact
                                 path='/setup-ledger/:accountId'
                                 component={SetupLedgerWithRouter}
@@ -399,22 +440,22 @@ class Routing extends Component {
                                 path='/enable-two-factor'
                                 component={EnableTwoFactor}
                             />
-                            <PublicRoute
+                            <Route
                                 path='/recover-account'
                                 component={RecoverAccountWrapper}
                                 indexBySearchEngines={true}
                             />
-                            <PublicRoute
+                            <Route
                                 exact
                                 path='/recover-seed-phrase/:accountId?/:seedPhrase?'
                                 component={RecoverAccountSeedPhraseWithRouter}
                             />
-                            <PublicRoute
+                            <Route
                                 exact
                                 path='/recover-with-link/:accountId/:seedPhrase'
-                                component={RecoverWithLinkWithRouter}
+                                component={IMPORT_ACCOUNT_WITH_LINK_V2 ? ImportAccountWithLinkWrapper : RecoverWithLinkWithRouter}
                             />
-                            <PublicRoute
+                            <Route
                                 exact
                                 path='/auto-import-seed-phrase'
                                 render={({ location }) => {
@@ -431,7 +472,7 @@ class Routing extends Component {
                                     );
                                 }}
                             />
-                            <PublicRoute
+                            <Route
                                 exact
                                 path='/auto-import-secret-key'
                                 render={({ location }) => {
@@ -446,7 +487,7 @@ class Routing extends Component {
                                     );
                                 }}
                             />
-                            <PublicRoute
+                            <Route
                                 exact
                                 path='/sign-in-ledger'
                                 component={SignInLedger}
@@ -458,20 +499,23 @@ class Routing extends Component {
                             <PrivateRoute
                                 exact
                                 path='/authorized-apps'
-                                render={() => <AccessKeysWrapper type='authorized-apps'/>}
+                                render={() => <AccessKeysWrapper type='authorized-apps' />}
                             />
                             <PrivateRoute
                                 exact
                                 path='/full-access-keys'
-                                render={() => <AccessKeysWrapper type='full-access-keys'/>}
+                                render={() => <AccessKeysWrapper type='full-access-keys' />}
                             />
-                            {!isInactiveAccount &&
-                                <PrivateRoute
-                                    exact
-                                    path='/send-money/:accountId?'
-                                    component={SendContainerWrapper}
-                                />
-                            }
+                            <PrivateRoute
+                                exact
+                                path='/send-money/:accountId?'
+                                component={SendContainerWrapper}
+                            />
+                            <PrivateRoute
+                                exact
+                                path='/nft-detail/:contractId/:tokenId'
+                                component={NFTDetailWrapper}
+                            />
                             <PrivateRoute
                                 exact
                                 path='/receive-money'
@@ -482,49 +526,45 @@ class Routing extends Component {
                                 path='/buy'
                                 component={BuyNear}
                             />
-                            <PublicRoute
+                            <Route
                                 exact
                                 path='/profile/:accountId'
                                 component={Profile}
                             />
-                            {!isInactiveAccount &&
-                                <PrivateRoute
-                                    exact
-                                    path='/profile/:accountId?'
-                                    component={Profile}
-                                />
-                            }
+                            <PrivateRoute
+                                exact
+                                path='/profile/:accountId?'
+                                component={Profile}
+                            />
                             <PrivateRoute
                                 exact
                                 path='/sign'
-                                component={SignWithRouter}
+                                component={SignWrapper}
                             />
-                            {!isInactiveAccount &&
-                                <PrivateRoute
-                                    path='/staking'
-                                    render={() => (
-                                        <StakingContainer
-                                            history={this.props.history}
-                                        />
-                                    )}
-                                />
-                            }
-                            <PublicRoute
+                            <PrivateRoute
+                                path='/staking'
+                                render={() => (
+                                    <StakingContainer
+                                        history={this.props.history}
+                                    />
+                                )}
+                            />
+                            <Route
                                 exact
                                 path='/cli-login-success'
                                 component={LoginCliLoginSuccess}
                             />
-                            <PublicRoute
+                            <Route
                                 exact
                                 path='/terms'
                                 component={Terms}
                                 indexBySearchEngines={true}
                             />
                             <PrivateRoute
-                                component={isInactiveAccount ? ActivateAccountWithRouter : PageNotFound}
+                                component={PageNotFound}
                             />
                         </Switch>
-                        <Footer/>
+                        <Footer />
                     </ThemeProvider>
                 </ConnectedRouter>
             </Container>
@@ -543,8 +583,10 @@ const mapDispatchToProps = {
     handleClearUrl,
     promptTwoFactor,
     redirectTo,
-    getAccountHelperWalletState,
-    fetchTokenFiatValues
+    fetchTokenFiatValues,
+    handleClearAlert,
+    handleFlowLimitation,
+    getTokenWhiteList
 };
 
 const mapStateToProps = (state) => ({

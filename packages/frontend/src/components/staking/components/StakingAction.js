@@ -50,7 +50,7 @@ export default function StakingAction({
     const stakeActionAllowed = hasStakeActionAmount && !invalidStakeActionAmount && !success;
     const stakeNotAllowed = !!selectedValidator && selectedValidator !== match.params.validator && !!currentValidators.length;
 
-    onKeyDown(e => {
+    onKeyDown((e) => {
         if (e.keyCode === 13 && stakeActionAllowed) {
             if (!confirm) {
                 setConfirm(true);
@@ -95,7 +95,7 @@ export default function StakingAction({
             setAmount(amount);
             setUseMax(true);
         }
-        Mixpanel.track("STAKE/UNSTAKE Use max token");
+        Mixpanel.track('STAKE/UNSTAKE Use max token');
     };
 
     const handleOnChange = (amount) => {
@@ -133,7 +133,8 @@ export default function StakingAction({
                 <div className='amount-header-wrapper'>
                     <h4><Translate id='staking.stake.amount' /></h4>
                     <FormButton
-                        className="light-blue small"
+                        className='small' 
+                        color='light-blue'
                         onClick={handleSetMax}
                         data-test-id="stakingPageUseMaxButton"
                     >
@@ -156,7 +157,8 @@ export default function StakingAction({
                 <div className='header-button'>
                     <h4><Translate id={`staking.${action}.stakeWith`} /></h4>
                     <FormButton 
-                        className='light-blue small' 
+                        className='small' 
+                        color='light-blue'
                         linkTo='/staking/validators'
                         trackingId="STAKE Go to validators list page"
                     >
@@ -188,7 +190,7 @@ export default function StakingAction({
                         onConfirm={onStakingAction} 
                         onClose={() => {
                             setConfirm(false);
-                            Mixpanel.track("STAKE/UNSTAKE Close the modal");
+                            Mixpanel.track('STAKE/UNSTAKE Close the modal');
                         }}
                         loading={loadingStaking}
                         disclaimer={getStakeActionDisclaimer()}

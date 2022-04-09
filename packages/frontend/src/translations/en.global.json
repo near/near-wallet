@@ -70,6 +70,20 @@
                 "title": "Welcome to NEAR"
             }
         },
+        "createImplicitAccount": {
+            "createCustomNameModal": {
+                "desc": "Unlike your default address, a custom address can be anything you like, making it easier to remember and share!",
+                "title": "Add a Custom Address to Your Wallet"
+            },
+            "customAddress": "A custom address can be anything you like, making it easier to remember and share!",
+            "customAmount": "Custom",
+            "exchange": "exchange",
+            "orAskFriend": "or ask a friend!",
+            "orSendNear": "...or send at least ${amount} NEAR to your wallet address.",
+            "sendFrom": "Send from an",
+            "title": "Almost there! To get started, buy some NEAR using one of providers...",
+            "titleAlt": "Almost there! To get started, send at least ${amount} NEAR to your wallet address."
+        },
         "fundedStatus": {
             "active": "Active",
             "awaitingDeposit": "Awaiting deposit",
@@ -175,6 +189,7 @@
     },
     "button": {
         "acceptAndContinue": "Accept & Continue",
+        "addACustomAddress": "Add a Custom Address",
         "addFunds": "Add Funds",
         "addNode": "Add Node",
         "allow": "Allow",
@@ -197,6 +212,7 @@
         "continue": "Continue",
         "continueSetup": "Continue to Setup",
         "continueToMyAccount": "Continue to My Account",
+        "copy": "Copy",
         "copyImplicitAddress": "Copy Funding Address",
         "copyPhrase": "Copy Phrase",
         "copyUrl": "Copy URL",
@@ -216,12 +232,15 @@
         "findMyAccount": "Find My Account",
         "finish": "Finish",
         "fundWith": "Fund with",
+        "generateNew": "Generate New",
+        "getStarted": "Get Started",
         "goBack": "Go back",
         "gotIt": "Got it",
         "goToDashboard": "Go To Dashboard",
         "importAccount": "Import Account",
         "importExistingAccount": "Import Existing Account",
         "learnMore": "Learn More",
+        "learnMoreAboutNear": "Learn more about NEAR",
         "loading": "Loading",
         "moreInformation": "More information",
         "needToEditGoBack": "Need to edit? Go Back",
@@ -231,6 +250,7 @@
         "recoverAccount": "Recover Account",
         "recovering": "Finding Account",
         "recoverYourAccount": "Recover your Account",
+        "removeAccount": "Remove Account",
         "removeNode": "Remove Node",
         "removingKeys": "Removing Keys",
         "reserveMyAccountId": "Reserve My Account ID",
@@ -238,12 +258,14 @@
         "retry": "Retry",
         "returnToApp": "Return to App",
         "saveChanges": "Save Changes",
+        "secureMyAccount": "Secure My Account",
         "send": "Send",
         "setupPhrase": "Setup Recovery Phrase",
         "signIn": "Sign In",
         "signingIn": "Signing In",
         "signInLedger": "Sign in with Ledger",
         "skip": "Skip",
+        "skipThisForNow": "Skip this for now",
         "stake": "Stake",
         "staking": "Staking",
         "startOver": "Start over",
@@ -294,11 +316,17 @@
             "placeholder": "yourname.${data}",
             "title": "Account ID"
         },
+        "addACustomAddress": "Add a Custom Address",
         "alreadyHaveAnAccount": "Already have an account?",
         "invalidLinkDrop": {
             "one": "This NEAR Drop has been claimed.",
             "title": "Link Invalid",
             "two": "NEAR Drops can only be used to create a single account, after which the link will expire."
+        },
+        "landing": {
+            "descOne": "NEAR Wallet is a secure wallet and account manager for your accounts on the NEAR blockchain.",
+            "descTwo": "Once you create an account, you’ll need it to interact with applications on NEAR, and to securely store your various tokens and collectibles (NFTs).",
+            "title": "Create Your Account"
         },
         "note": {
             "canContain": "Your account ID can contain any of the following:",
@@ -313,6 +341,24 @@
         "pageText": "Enter an Account ID to use with your NEAR account. Your Account ID will be used for all NEAR operations, including sending and receiving assets.",
         "pageTitle": "Reserve Account ID",
         "recoverItHere": "Import Existing Account",
+        "setupPassphrase": {
+            "generatePassphrase": {
+                "desc": "For the best security, we recommend generating a unique passphrase for each new account in your wallet.",
+                "descTwo": "As a more convenient option, you may instead share an existing passphrase between multiple accounts. You can change this at any time.",
+                "tite": "Generate a New Passphrase?"
+            },
+            "sharedPassphrase": {
+                "desc": "Your passphrase has been verified! Once you’ve funded your new address, your passphrase will be shared by <b>${numberOfAccounts} accounts.</b>",
+                "descTwo": "Whenever this passphrase is used to recover your wallet, the following accounts will be imported:",
+                "tite": "Your Shared Passphrase"
+            },
+            "verifyPassphrase": {
+                "desc": "Enter an existing passphrase below to secure your new account.",
+                "passPhrasePlaceholder": "bubble word sun join impact exist ramp skull title hollow symbol very",
+                "tite": "Verify Your Passphrase",
+                "yourPassphrase": "Your Passphrase"
+            }
+        },
         "step": "Step ${step}/${total}",
         "terms": {
             "agreeBtn": "Agree & Continue",
@@ -457,6 +503,21 @@
         "withId": "Importing account: ${accountId}",
         "withIdFailed": "Failed to import account: ${accountId}"
     },
+    "importAccountWithLink": {
+        "accountFound": "1 Account Found",
+        "accountImported": "Account Imported",
+        "accountsFound": "${count} Accounts Found",
+        "alreadyImported": "The account secured by this link has been imported.",
+        "continue": "and continue this process in your browser of choice.",
+        "copyUrl": "copy the URL",
+        "foundAccount": "We found <b>1 account</b> secured by this link.",
+        "foundAccounts": "We found <b>${count} accounts</b> secured by this link.",
+        "goToAccount": "Go to Account",
+        "import": "Import",
+        "importAccount": "Import Your Account",
+        "preferedBrowser": "If this isn't your preferred browser,"
+    },
+    "importing": "Importing",
     "initialDeposit": {
         "claimAccount": {
             "desc": "Your deposit was received! Once claimed, your deposit will be transferred to your new account.",
@@ -626,9 +687,24 @@
         "header": "NEAR test Wallet",
         "title": "Test-only Wallet"
     },
+    "NFTDetail": {
+        "owner": "OWNER",
+        "transfer": "Transfer"
+    },
     "NFTs": {
         "emptyState": "Looks like you don't have any collectibles yet.",
         "loadMore": "Load more"
+    },
+    "NFTTransfer": {
+        "cancel": "Cancel",
+        "confirm": "Confirm",
+        "continue": "Continue",
+        "enterReceiver": "Enter a recipient address, then proceed to confirm your transaction.",
+        "next": "Next",
+        "transactionComplete": "Transaction Complete!",
+        "transferNft": "Transfer NFT",
+        "viewTransaction": "View Receipt",
+        "youSent": "You sent <span class='color-blue'>${title}</span> to <span class='color-green'>${receiverId}</span>"
     },
     "nodeDetails": {
         "pageText": "Update the details of your node.",
@@ -744,7 +820,7 @@
         "loading": "Loading reCAPTCHA..."
     },
     "receivePage": {
-        "addressTitle": "Your address",
+        "addressTitle": "Your Wallet Address",
         "copyAddressLinkLong": "Copy address URL",
         "copyAddressLinkShort": "COPY",
         "qrCodeTitle": "Scan QR code",
@@ -912,6 +988,12 @@
         "subTitle2": "Enhancements",
         "title": "Release Notes"
     },
+    "removeAccount": {
+        "button": "Remove Account from Wallet",
+        "desc": "You will need your recovery method to re-import this account in the future. Make sure you still have access to it.",
+        "disclaimer": "I have access to the recovery method for <b>${accountId}</b>",
+        "title": "Remove Account?"
+    },
     "reservedForFeesInfo": "Up to ${data} NEAR is reserved to cover the cost of transactions.",
     "selectAccountDropdown": {
         "account": "Account",
@@ -1077,9 +1159,13 @@
         "emailDesc": "Receive a verification code and account recovery link via email.",
         "emailPlaceholder": "example@email.com",
         "emailTitle": "Email",
-        "header": "Secure your account",
+        "existingPhraseDesc": "Protect your new address by sharing an existing passphrase.",
+        "existingPhraseTitle": "Use an Existing Passphrase",
+        "header": "Choose a Security Method",
         "ledgerDesc": "Secure your account with a Ledger hardware device.",
         "ledgerTitle": "Ledger Hardware Wallet",
+        "newPhraseDesc": "Protect your new address with a new and unique passphrase.",
+        "newPhraseTitle": "Generate a New Passphrase",
         "notSupportedPhone": "Unfortunately, we do not offer SMS for your region. Please choose email instead.",
         "phoneDesc": "Receive a verification code and account recovery link via SMS.",
         "phonePlaceholder": "+1 415 797 8554",
@@ -1089,8 +1175,8 @@
         "subHeader": "Select a method to secure and recover your account. This will be used to verify important activity, recover your account and access your account from other devices."
     },
     "setupSeedPhrase": {
-        "pageText": "Write down the following words IN ORDER and keep them somewhere safe. You cannot recover your account without them!",
-        "pageTitle": "Setup Phrase",
+        "pageText": "Write down the following words in order and keep them somewhere safe. <b>Anyone with access to it will also have access to your account!</b> You’ll be asked to verify your passphrase next.",
+        "pageTitle": "Setup Your Secure Passphrase",
         "snackbarCopyImplicitAddress": "Funding Address Copied!",
         "snackbarCopySuccess": "Passphrase copied!"
     },
@@ -1100,11 +1186,16 @@
         "pageTitle": "Recovery Setup is Complete"
     },
     "setupSeedPhraseVerify": {
+        "inputError": "Please check your passphrase and try again.",
         "pageText": "Enter the following word from your recovery phrase to complete the setup process.",
         "pageTitle": "Verify Phrase",
         "startOverText": "Didn't write it down?"
     },
     "sign": {
+        "accountNotFound": {
+            "body": "${signCallbackUrl} is requesting authorization from a NEAR account that cannot be found: <b>${signTransactionSignerId}</b><br/><br/>To approve any transactions, you’ll first need to import the account.",
+            "title": "Account Not Found"
+        },
         "ActionWarrning": {
             "binaryData": "Arguments contain binary data",
             "deleteAccount": "You are about to delete your account! Your NEAR balance will be destroyed, and all of your account data deleted.",
@@ -1112,11 +1203,13 @@
             "functionCall": "No description specified for this function.",
             "stake": "You are about to stake NEAR tokens. These tokens will be locked, and are at risk of being lost if your validator becomes unresponsive."
         },
+        "approveTransaction": "Approve Transaction",
         "authorizationRequestSuccessful": "Authorization request successful",
         "authorizing": "Authorizing",
         "availableBalance": "Available Balance",
         "availableToTransfer": "Available to transfer",
         "contract": "Contract:",
+        "contractDetails": "Contract Details",
         "details": {
             "detailedDescription": "Detailed description of transaction",
             "forContract": "For Contract",
@@ -1124,12 +1217,26 @@
             "gasPriceUnavailable": "Gas price estimate is unavailable",
             "transactionFees": "Transaction Fees"
         },
+        "estimatedFees": "Estimated Fees",
+        "feeLimit": "Fee Limit",
+        "function": "Function:",
+        "gasLimit": "Gas Limit",
         "hereAreSomeDetails": "Here are some details that will help you.",
         "insufficientFunds": "Insufficient Funds",
+        "insufficientFundsDesc": "You do not have enough available NEAR to complete this transaction.",
+        "invalidTransaction": {
+            "body": "The request is invalid and cannot be signed.",
+            "title": "Invalid Transaction"
+        },
         "isRequesting": {
             "authorization": "is requesting authorization",
             "transferOf": "is requesting the transfer of"
         },
+        "multipleAccountsError": {
+            "body": "<a href=${signCallbackUrl} target='_blank' rel='noreferrer'>${signCallbackUrl}</a> has requested authorization from more than one account.<br/><br/>NEAR Wallet may only authorize transactions for a single account at a time.",
+            "title": "Batch Transaction Error"
+        },
+        "networkFees": "Network Fees",
         "nothingHasBeenTransferred": "Nothing has been transferred.",
         "retry": {
             "estimatedFees": "Estimated Fees",
@@ -1140,6 +1247,7 @@
             "title": "Insufficient Network Fee"
         },
         "transactionCancelled": "Transaction cancelled",
+        "transactionDetails": "Transaction Details",
         "transferring": "Transferring",
         "unexpectedStatus": "Unexpected status",
         "unknownApp": "Unknown App",
@@ -1195,6 +1303,10 @@
                 "info": "These tokens have been unstaked, and are ready to be withdrawn.",
                 "title": "Available for withdrawal"
             },
+            "farm": {
+                "button": "Claim",
+                "info": "This validator grants staking rewards in a token other than NEAR."
+            },
             "pending": {
                 "info": "These tokens have been unstaked, but are not yet ready to withdraw. Tokens are ready to withdraw 52 to 65 hours after unstaking.",
                 "title": "Pending release"
@@ -1205,7 +1317,7 @@
                 "title": "Total amount staked"
             },
             "unclaimed": {
-                "info": "Rewards that have been earned, but not withdrawn. Rewards earned are automatically restaked, which means your Total Amount Staked automatically increases over time, and your rewards are <a target='_blank' href='https://www.investopedia.com/terms/c/compoundinterest.asp'>compounding</a>.",
+                "info": "Rewards that have been earned, but not withdrawn. NEAR token rewards are  <a target='_blank' href='https://www.investopedia.com/terms/c/compoundinterest.asp'>compounding</a> and are automatically re-staked.",
                 "title": "Rewards earned",
                 "unavailable": {
                     "cta": "Learn More",
@@ -1215,6 +1327,12 @@
                     "title": "Unable to display rewards earned."
                 }
             }
+        },
+        "claimSuccess": {
+            "button": "Return to Dashboard",
+            "desc": "Tokens have been successfully claimed from the validator",
+            "descTwo": "Your tokens are already available",
+            "title": "Success!"
         },
         "noValidators": {
             "title": "You are not currently staking with any validators."
@@ -1277,9 +1395,17 @@
             "title": "Success!"
         },
         "validator": {
+            "activeStake": "Active Stake",
+            "apy": "APY",
             "button": "Stake With Validator",
+            "claimFarmRewards": "You are claiming",
+            "claiming": "Claiming",
             "desc": "This is the fee paid to the validator to stake on your behalf. This fee is only charged on your rewards.",
+            "errorClaimRewards": "Something went wrong during claiming your farm rewards. Please, try again later",
             "fee": "Validator Fee",
+            "notWhitelistedTokenWarning": "This token has not been whitelisted by ref-finance. Proceed at your own risk.",
+            "notWhitelistedValidatorWarning": "Tokens awarded by this validator have not been whitelisted by ref-finance. Proceed at your own risk.",
+            "rewards": "Rewards",
             "title": "Validator: <br/>${validator}",
             "unstake": "You are unstaking",
             "withdraw": "You are withdrawing",
@@ -1287,6 +1413,7 @@
         },
         "validatorBox": {
             "cta": "Select",
+            "farming": "Farming",
             "fee": "Fee",
             "near": "NEAR",
             "staking": "Staking",
@@ -1342,6 +1469,16 @@
         "to": "To"
     },
     "twoFactor": {
+        "action": {
+            "addKey": {
+                "full": "WARNING: Entering the code below will authorize full access to your NEAR account: ${accountId}. If you did not initiate this action, please DO NOT continue.<br /><br />This should only be done if you are adding a new full access key to your account. In all other cases, this is very dangerous.<br /><br /> The public key you are adding is: ${publicKey} ",
+                "limited": "Adding key ${publicKey} limited to call ${methodNames} on ${receiverId} and spend up to ${allowance} NEAR on gas"
+            },
+            "deleteKey": "Deleting key ${publicKey}",
+            "functionCall": "Calling method: ${methodName} in contract: ${receiverId} with amount ${deposit} NEAR and with args: <pre>${args}</pre>",
+            "stake": "Staking: ${amount} NEAR to validator: ${receiverId}",
+            "transfer": "Transferring: ${amount} NEAR to ${receiverId}"
+        },
         "active": "Active",
         "alertBanner": {
             "button": "Learn More",
@@ -1353,6 +1490,7 @@
             "desc": "Keep in mind that transactions won't have to be confirmed with 2FA once it's disabled.",
             "disable": "Disable 2FA",
             "keep": "No, keep 2FA",
+            "phoneDesc": "The SMS option for two-factor authentication is being deprecated, and cannot be re-enbaled.",
             "title": "Are you sure you want to disable 2FA?"
         },
         "email": "Email",
@@ -1381,6 +1519,7 @@
     "unvestedBalance": "Unvested NEAR is earmarked to you, but not yet under your ownership. You can still delegate or stake this NEAR, and the rewards will be entirely yours. As your NEAR is vested, it will appear in either your Locked or Unlocked balance.",
     "verifyAccount": {
         "desc": "To prevent spamming of new accounts, we’ll need to verify you as the owner. You may verify using a one-time passcode or by making a small initial deposit.",
+        "descNoFunding": "Choose a method below to fund and initialize your new account.",
         "modal": {
             "email": {
                 "desc": "You’ll need to use a different email address or select an alternate method to verify this account. You may still use this address as a recovery method.",
@@ -1417,7 +1556,11 @@
             "initialDeposit": "Initial Deposit",
             "passCode": "One-time passcode"
         },
-        "title": "Almost there! Verify your new account."
+        "title": "Almost there! Verify your new account.",
+        "titleNoFunding": "Almost there! Fund your new account."
+    },
+    "verifyWalletDomainBanner": {
+        "title": "Please make sure you are visiting"
     },
     "wallet": {
         "availableBalance": "Available Balance",
@@ -1449,7 +1592,7 @@
         },
         "createNewAccount": {
             "accountCreated": {
-                "error": "Account creation succeded but an error occured. Please import your account."
+                "error": "Account creation succeeded but an error occurred. Please import your account."
             },
             "accountExists": {
                 "error": "Account creation failed. Account already exists."
@@ -1469,6 +1612,9 @@
         },
         "promptTwoFactor": {
             "userCancelled": "2FA code was not verified correctly."
+        },
+        "recoverAccountLink": {
+            "error": "Import of your account failed. Please try again or contact support for assistance."
         },
         "recoverAccountSeedPhrase": {
             "errorInvalidSeedPhrase": "No accounts were found for this passphrase."

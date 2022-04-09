@@ -8,16 +8,14 @@ import FluxLogo from '../../images/flux-logo.svg';
 import HashRushLogo from '../../images/hash-rush-logo.svg';
 import MintbaseLogo from '../../images/mintbase-logo.svg';
 import ParasLogo from '../../images/paras-logo.svg';
-import ZedLogo from '../../images/zed-logo.svg';
+import RefLogo from '../../images/ref-logo.svg';
 import FormButton from '../common/FormButton';
-import CloseButton from '../common/modal/CloseButton';
-
 
 const Container = styled.div`
     && {
         background-color: black;
         border-radius: 8px;
-        padding: 24px;
+        padding: 30px 24px;
         width: 100%;
         position: relative;
         display: flex;
@@ -26,12 +24,13 @@ const Container = styled.div`
         text-align: center;
         color: #d5d4d8;
         font-size: 14px;
-        margin-bottom: 50px;
+        margin-bottom: 40px;
 
         h2 {
-            color: white !important;
-            align-self: center !important;
-            margin: -5px 0 15px 0 !important;
+            color: white;
+            align-self: center;
+            margin: 15px 0;
+            text-align: center;
         }
 
         .desc {
@@ -75,8 +74,10 @@ const Container = styled.div`
                     }
 
                     :nth-of-type(2) {
+                        height: 54px;
                         top: -80px;
                         right: -85px;
+                        width: 54px;
                     }
 
                     :nth-of-type(3) {
@@ -105,16 +106,15 @@ const Container = styled.div`
     }
 `;
 
-const ExploreApps = ({ onClick }) => {
+const ExploreApps = () => {
     return (
         <Container>
-            <CloseButton onClick={onClick}/>
             <div className='apps-wrapper'>
                 <div>
                     <img src={HashRushLogo} alt='Hash Rush'/>
                     <img src={FluxLogo} alt='Flux'/>
                     <img src={ParasLogo} alt='Paras'/>
-                    <img src={ZedLogo} alt='Zed'/>
+                    <img src={RefLogo} alt='Ref Finance'/>
                     <img src={MintbaseLogo} alt='Mintbase'/>
                     <img src={BerryClubLogo} alt='Berryclub'/>
                 </div>

@@ -6,7 +6,7 @@ import { Mixpanel } from '../../../mixpanel/index';
 import { removeNonLedgerAccessKeys, redirectTo } from '../../../redux/actions/account';
 import { selectAccountSlice } from '../../../redux/slices/account';
 import { selectLedgerHasLedger } from '../../../redux/slices/ledger';
-import { actionsPending } from '../../../utils/alerts';
+import { selectActionsPending } from '../../../redux/slices/status';
 import FormButton from '../../common/FormButton';
 import Container from '../../common/styled/Container.css';
 import HardwareDeviceIcon from '../../svg/HardwareDeviceIcon';
@@ -14,7 +14,7 @@ import NextStepModal from './NextStepModal';
 
 const SetupLedgerSuccess = (props) => {
     const [nextStep, setNextStep] = useState('');
-    const removingkeys = actionsPending('REMOVE_NON_LEDGER_ACCESS_KEYS');
+    const removingkeys = useSelector((state) => selectActionsPending(state, { types: ['REMOVE_NON_LEDGER_ACCESS_KEYS'] }));
     const hasLedger = useSelector(selectLedgerHasLedger);
 
     const handleConfirm = async () => {
@@ -24,14 +24,14 @@ const SetupLedgerSuccess = (props) => {
             if (hasLedger) {
                 setNextStep('');
             }
-            Mixpanel.track("SR-Ledger Remove non ledger access keys");
+            Mixpanel.track('SR-Ledger Remove non ledger access keys');
             await props.removeNonLedgerAccessKeys();
             goToProfile();
         }
     };
 
     const goToProfile = () => {
-        Mixpanel.track("SR-Ledger Go to profile page with ledger");
+        Mixpanel.track('SR-Ledger Go to profile page with ledger');
         props.redirectTo('/profile');
     };
 

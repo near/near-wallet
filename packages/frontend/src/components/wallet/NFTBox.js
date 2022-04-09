@@ -1,12 +1,13 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
 import { EXPLORER_URL } from '../../config';
-import FailedToLoad from '../../images/failed_to_load.svg';
+import { redirectTo } from '../../redux/actions/account';
 import isDataURL from '../../utils/isDataURL';
+import {NFTMedia} from '../nft/NFTMedia';
 import DefaultTokenIcon from '../svg/DefaultTokenIcon';
 import LoadMoreButtonWrapper from './LoadMoreButtonWrapper';
-
 const StyledContainer = styled.div`
     display: flex;
     justify-content: flex-start;
@@ -75,6 +76,10 @@ const StyledContainer = styled.div`
         }
     }
 
+    .title {
+        cursor: pointer;
+    }
+
     .tokens {
         display: flex;
         flex-wrap: wrap;
@@ -95,11 +100,24 @@ const StyledContainer = styled.div`
         :nth-child(even) {
             padding-left: 5px;
         }
+
+        a {
+            color: inherit;
+        }
     }
 
-    .nft img {
+    .creator {
+        span {
+            font-size: 14px;
+            line-height: 150%;
+            color: #A2A2A8;
+        }
+    }
+
+    .nft img, .nft video {
         width: 100%;
         margin-bottom: 10px;
+        cursor: pointer;
     }
 `;
 
@@ -110,19 +128,21 @@ const NFTBox = ({ tokenDetails }) => {
         ownedTokensMetadata,
         numberByContractName
     } = tokenDetails;
+    const dispatch = useDispatch();
+
     return (
         <StyledContainer className='nft-box'>
             <div className='nft-header'>
                 <div className='symbol'>
                     {icon && isDataURL(icon) ?
-                        <img src={icon} alt={name}/>
+                        <img src={icon} alt={name} />
                         :
-                        <DefaultTokenIcon/>
+                        <DefaultTokenIcon />
                     }
                 </div>
                 <div className='desc'>
                     <a href={`${EXPLORER_URL}/accounts/${contractName}`} title={name} target='_blank'
-                       rel='noopener noreferrer'>
+                        rel='noopener noreferrer'>
                         {name}
                     </a>
                     <span>{numberByContractName}</span>
@@ -131,18 +151,18 @@ const NFTBox = ({ tokenDetails }) => {
             {
                 ownedTokensMetadata &&
                 <div className='tokens'>
-                    {ownedTokensMetadata.map(({ token_id, metadata: { mediaUrl, title } }) => {
-                        return <div className='nft' key={token_id}>
-                            <img src={mediaUrl} alt='NFT' onError={(e) => {
-                                e.target.onerror = null;
-                                e.target.src = FailedToLoad;
-                            }}/>
-                            <b>{title}</b>
-                        </div>;
+                    {ownedTokensMetadata.map(({ token_id, metadata: { mediaUrl, title } }, index) => {
+                        return (
+                            <div className='nft' key={token_id}
+                                onClick={() => dispatch(redirectTo(`/nft-detail/${contractName}/${token_id}`))}>
+                                    <NFTMedia mediaUrl={mediaUrl} autoPlay={ index === 0}/>
+                                <b className='title'>{title}</b>
+                            </div>
+                        );
                     })}
                 </div>
             }
-            <LoadMoreButtonWrapper contractName={contractName}/>
+            <LoadMoreButtonWrapper contractName={contractName} />
         </StyledContainer>
     );
 };

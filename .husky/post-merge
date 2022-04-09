@@ -1,0 +1,12 @@
+#!/bin/bash
+
+Color_Off='\033[0m'       # Text Reset
+Yellow='\033[0;33m'       # Yellow
+
+./.git-hooks/helpers/detect-foxtrot-merge
+# check exit code and exit if needed
+exitcode=$?
+if [ $exitcode -ne 0 ]; then
+    echo -e "  ${Yellow}WARNING:${Color_Off} foxtrot merge detected; do not merge master branch into feature branches."
+    # swallow exit code
+fi

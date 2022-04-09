@@ -2,12 +2,12 @@ import React from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
-import UtorgLogo from "../../../../images/utorg-logo.png";
+import UtorgLogo from '../../../../images/utorg-logo.png';
 import FormButton from '../../../common/FormButton';
 import Container from '../../../common/styled/Container.css';
 import SafeTranslate from '../../../SafeTranslate';
 import MoonPayIcon from '../../../svg/MoonPayIcon';
-import {buildUtorgPayLink} from "../FundWithUtorg";
+import { buildUtorgPayLink } from '../FundWithUtorg';
 import AccountNeedsFunding from '../status/AccountNeedsFunding';
 
 const StyledContainer = styled(Container)`

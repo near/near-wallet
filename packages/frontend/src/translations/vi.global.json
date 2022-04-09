@@ -59,6 +59,20 @@
                 "title": "Chào mừng đến với NEAR"
             }
         },
+        "createImplicitAccount": {
+            "createCustomNameModal": {
+                "desc": "Unlike your default address, a custom address can be anything you like, making it easier to remember and share!",
+                "title": "Add a Custom Address to Your Wallet"
+            },
+            "customAddress": "A custom address can be anything you like, making it easier to remember and share!",
+            "customAmount": "Custom",
+            "exchange": "exchange",
+            "orAskFriend": "or ask a friend!",
+            "orSendNear": "...or send at least ${amount} NEAR to your wallet address.",
+            "sendFrom": "Send from an",
+            "title": "Almost there! To get started, buy some NEAR using one of providers...",
+            "titleAlt": "Almost there! To get started, send at least ${amount} NEAR to your wallet address."
+        },
         "fundedStatus": {
             "active": "Active",
             "awaitingDeposit": "Awaiting deposit",
@@ -262,6 +276,7 @@
             "placeholder": "Ví dụ: satoshi",
             "title": "ID tài khoản"
         },
+        "addACustomAddress": "Add a Custom Address",
         "alreadyHaveAnAccount": "Bạn đã có một tài khoản?",
         "invalidLinkDrop": {
             "one": "NEAR Drop này đã được claim.",
@@ -402,6 +417,20 @@
             "title": "Ví Ledger"
         },
         "title": "Thiêt bị ổ cứng"
+    },
+    "importAccountWithLink": {
+        "accountFound": "1 Account Found",
+        "accountImported": "Account Imported",
+        "accountsFound": "${count} Accounts Found",
+        "alreadyImported": "The account secured by this link has been imported.",
+        "continue": "and continue this process in your browser of choice.",
+        "copyUrl": "copy the URL",
+        "foundAccount": "We found <b>1 account</b> secured by this link.",
+        "foundAccounts": "We found <b>${count} accounts</b> secured by this link.",
+        "goToAccount": "Go to Account",
+        "import": "Import",
+        "importAccount": "Import Your Account",
+        "preferedBrowser": "If this isn't your preferred browser,"
     },
     "initialDeposit": {
         "claimAccount": {
@@ -568,6 +597,9 @@
         "desc": "Ví này (và mạng lưới) chỉ dành cho mục đích thử nghiệm. Token và các tài sản khác không có giá trị. Các tài khoản được tạo không thể chuyển sang Mainnet.",
         "header": "NEAR thử nghiệm Ví",
         "title": "Ví chỉ thử nghiệm"
+    },
+    "NFTTransfer": {
+        "youSent": "You sent <span class='color-blue'>${title}</span> to <span class='color-green'>${receiverId}</span>"
     },
     "nodeDetails": {
         "pageText": "Cập nhật thông tin chi tiết về node của bạn.",
@@ -1006,8 +1038,8 @@
         "subHeader": "Chọn một phương thức để bảo mật và khôi phục tài khoản của bạn. Sẽ được sử dụng để xác minh các hoạt động quan trọng, khôi phục tài khoản của bạn và truy cập tài khoản của bạn từ các thiết bị khác."
     },
     "setupSeedPhrase": {
-        "pageText": "Viết ra những từ sau TRONG LỆNH và cất chúng ở nơi an toàn. Bạn không thể khôi phục tài khoản của bạn mà không có chúng!",
-        "pageTitle": "Cài đặt cụm từ khôi phục",
+        "pageText": "Write down the following words in order and keep them somewhere safe. <b>Anyone with access to it will also have access to your account!</b> You’ll be asked to verify your passphrase next.",
+        "pageTitle": "Setup Your Secure Passphrase",
         "snackbarCopyImplicitAddress": "Đã sao chép địa chỉ gửi tiền!",
         "snackbarCopySuccess": "Đã sao chép cụm từ khôi phục!"
     },
@@ -1022,6 +1054,10 @@
         "startOverText": "Không viết sẽ ra sao?"
     },
     "sign": {
+        "accountNotFound": {
+            "body": "${signCallbackUrl} is requesting authorization from a NEAR account that cannot be found: <b>${signTransactionSignerId}</b><br/><br/>To approve any transactions, you’ll first need to import the account.",
+            "title": "Account Not Found"
+        },
         "ActionWarrning": {
             "binaryData": "Đối số chứa dữ liệu nhị phân",
             "deleteAccount": "Bạn sắp xóa tài khoản của mình! Số dư NEAR của bạn sẽ bị hủy và tất cả dữ liệu tài khoản của bạn sẽ bị xóa.",
@@ -1043,9 +1079,17 @@
         },
         "hereAreSomeDetails": "Dưới đây là một số chi tiết sẽ hỗ trợ bạn.",
         "insufficientFunds": "Không đủ tiền",
+        "invalidTransaction": {
+            "body": "The request is invalid and cannot be signed.",
+            "title": "Invalid Transaction"
+        },
         "isRequesting": {
             "authorization": "đang yêu cầu ủy quyền",
             "transferOf": "đang yêu cầu chuyển"
+        },
+        "multipleAccountsError": {
+            "body": "<a href=${signCallbackUrl} target='_blank' rel='noreferrer'>${signCallbackUrl}</a> has requested authorization from more than one account.<br/><br/>NEAR Wallet may only authorize transactions for a single account at a time.",
+            "title": "Batch Transaction Error"
         },
         "nothingHasBeenTransferred": "Không có lệnh chuyển nào.",
         "transactionCancelled": "Giao dịch đã được hủy",
@@ -1104,6 +1148,10 @@
                 "info": "Các token này đã được unstake và sẵn sàng để rút.",
                 "title": "Khả dụng để rút tiền"
             },
+            "farm": {
+                "button": "Claim",
+                "info": "This validator grants staking rewards in a token other than NEAR."
+            },
             "pending": {
                 "info": "Các token này đã được unstake, nhưng vẫn chưa sẵn sàng để rút. Việc rút sẽ khả dụng từ 52 đến 65 giờ sau khi unstake.",
                 "title": "Đang chờ phát hành"
@@ -1114,7 +1162,7 @@
                 "title": "Tổng số tiền đã stake"
             },
             "unclaimed": {
-                "info": "Phần thưởng đã kiếm được, nhưng không được rút. Phần thưởng kiếm được sẽ tự động được stake, có nghĩa là tổng số tiền đã stake của bạn tự động tăng lên theo thời gian, và phần thưởng của bạn là <a target='_blank' href='https://www.investopedia.com/terms/c/compoundinterest.asp'>lãi kép</a>.",
+                "info": "Rewards that have been earned, but not withdrawn. NEAR token rewards are  <a target='_blank' href='https://www.investopedia.com/terms/c/compoundinterest.asp'>compounding</a> and are automatically re-staked.",
                 "title": "Phần thưởng đã kiếm được",
                 "unavailable": {
                     "cta": "Tìm hiểu thêm",

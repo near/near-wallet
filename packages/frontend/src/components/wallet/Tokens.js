@@ -1,7 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import FungibleTokens from '../../services/FungibleTokens';
 import TokenBox from './TokenBox';
+
+const { getUniqueTokenIdentity } = FungibleTokens;
 
 const StyledContainer = styled.div`
     width: 100%;
@@ -27,7 +30,7 @@ const Tokens = ({ tokens, onClick }) => {
     return (
         <StyledContainer>
             {tokens.map((token, i) => (
-                <TokenBox key={token.contractName || token.onChainFTMetadata?.symbol} token={token} onClick={onClick}/>
+                <TokenBox key={getUniqueTokenIdentity(token)} token={token} onClick={onClick}/>
             ))}
         </StyledContainer>
     );

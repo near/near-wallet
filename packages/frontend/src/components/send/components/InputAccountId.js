@@ -170,7 +170,7 @@ class InputAccountId extends Component {
         try {
             await checkAvailability(accountId);
             setAccountIdIsValid(true);
-        } catch(e) {
+        } catch (e) {
             if (this.isImplicitAccount(accountId) && e.toString().includes('does not exist while viewing')) {
                 console.warn(`${accountId} does not exist. Assuming this is an implicit Account ID.`);
                 clearLocalAlert();
@@ -202,7 +202,7 @@ class InputAccountId extends Component {
                         <input
                             value={accountId}
                             onInput={(e) => this.updatePrefix(e.target.value)}
-                            onChange={e => this.handleChangeAccountId({ userValue: e.target.value, el: e.target })}
+                            onChange={(e) => this.handleChangeAccountId({ userValue: e.target.value, el: e.target })}
                             placeholder={translate('input.accountId.placeHolderAlt')}
                             required
                             autoComplete='off'

@@ -1,6 +1,9 @@
-import { createSelector } from "reselect";
+import { createSelector } from 'reselect';
 
-import createParameterSelector from "../createParameterSelector";
+import { calculateAPY } from '../../../utils/staking';
+import createParameterSelector from '../createParameterSelector';
+import { selectTokensFiatValueUSD } from '../tokenFiatValues';
+
 
 const SLICE_NAME = 'staking';
 
@@ -14,7 +17,7 @@ export const selectStakingSlice = (state) => state[SLICE_NAME] || {};
 export const selectStakingAccounts = createSelector(selectStakingSlice, (staking) => staking.accounts || []);
 
 export const selectStakingCurrentAccountbyAccountId = createSelector(
-    [selectStakingAccounts, getAccountIdParam], 
+    [selectStakingAccounts, getAccountIdParam],
     (accounts, accountId) => accounts.find((account) => account.accountId === accountId)
 );
 
@@ -50,3 +53,19 @@ export const selectStakingLockupAccountId = createSelector(selectStakingAccounts
 const selectStakingCurrentAccount = createSelector(selectStakingSlice, (staking) => staking.currentAccount || {});
 
 export const selectStakingCurrentAccountAccountId = createSelector(selectStakingCurrentAccount, (currentAccount) => currentAccount.accountId || '');
+
+// farmingValidators - state
+export const selectValidatorsFarmData = createSelector(selectStakingSlice, (staking) => staking.farmingValidators || {});
+export const selectValidatorFarmDataByValidatorID = createSelector(
+    [selectValidatorsFarmData, getValidatorIdParam], 
+    (farmingValidators, validatorId) => farmingValidators?.[validatorId] || {}
+);
+
+
+export const selectFarmValidatorAPY = createSelector(
+    [selectValidatorFarmDataByValidatorID, selectTokensFiatValueUSD],
+    (farmData, tokenPrices) => {
+        if (!farmData.poolSummary || !tokenPrices) return null;
+        return calculateAPY(farmData.poolSummary, tokenPrices);
+    }
+);

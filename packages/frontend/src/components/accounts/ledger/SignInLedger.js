@@ -1,23 +1,20 @@
-import { parse as parseQuery } from 'query-string';
+import { parse as parseQuery, stringify } from 'query-string';
 import React, { useState } from 'react';
 import { Translate } from 'react-localize-redux';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { Mixpanel } from '../../../mixpanel/index';
 import {
-    signInWithLedger,
     redirectToApp,
     redirectTo,
     refreshAccount,
-    signInWithLedgerAddAndSaveAccounts,
     checkAccountAvailable,
-    clearSignInWithLedgerModalState,
     clearAccountState
 } from '../../../redux/actions/account';
 import { clearLocalAlert } from '../../../redux/actions/status';
 import { selectAccountSlice } from '../../../redux/slices/account';
-import { selectLedgerSignInWithLedger, selectLedgerSignInWithLedgerStatus, selectLedgerTxSigned } from '../../../redux/slices/ledger';
-import { selectStatusSlice } from '../../../redux/slices/status';
+import { actions as ledgerActions, LEDGER_MODAL_STATUS, selectLedgerSignInWithLedger, selectLedgerSignInWithLedgerStatus, selectLedgerTxSigned } from '../../../redux/slices/ledger';
+import { selectStatusMainLoader, selectStatusSlice } from '../../../redux/slices/status';
 import { controller as controllerHelperApi } from '../../../utils/helper-api';
 import parseFundingOptions from '../../../utils/parseFundingOptions';
 import AlertBanner from '../../common/AlertBanner';
@@ -27,6 +24,12 @@ import Container from '../../common/styled/Container.css';
 import LedgerImage from '../../svg/LedgerImage';
 import LedgerHdPaths from './LedgerHdPaths';
 import LedgerSignInModal from './LedgerSignInModal';
+
+const { 
+    signInWithLedger,
+    signInWithLedgerAddAndSaveAccounts,
+    clearSignInWithLedgerModalState
+} = ledgerActions;
 
 export function SignInLedger(props) {
     const dispatch = useDispatch();
@@ -42,6 +45,7 @@ export function SignInLedger(props) {
     const signInWithLedgerState = useSelector(selectLedgerSignInWithLedger);
     const txSigned = useSelector(selectLedgerTxSigned);
     const signInWithLedgerStatus = useSelector(selectLedgerSignInWithLedgerStatus);
+    const mainLoader = useSelector(selectStatusMainLoader);
 
     const signInWithLedgerKeys = Object.keys(signInWithLedgerState || {});
 
@@ -63,9 +67,9 @@ export function SignInLedger(props) {
 
     const handleSignIn = async () => {
         setLoader(false);
-        await Mixpanel.withTracking("IE-Ledger Sign in",
+        await Mixpanel.withTracking('IE-Ledger Sign in',
             async () => {
-                await dispatch(signInWithLedger(ledgerHdPath));
+                await dispatch(signInWithLedger({ path: ledgerHdPath })).unwrap();
                 refreshAndRedirect();
             }
         );
@@ -73,9 +77,9 @@ export function SignInLedger(props) {
 
     const handleAdditionalAccountId = async () => {
         setLoader(true);
-        await Mixpanel.withTracking("IE-Ledger Handle additional accountId",
+        await Mixpanel.withTracking('IE-Ledger Handle additional accountId',
             async () => {
-                await dispatch(signInWithLedgerAddAndSaveAccounts([accountId], ledgerHdPath));
+                await dispatch(signInWithLedgerAddAndSaveAccounts({ path: ledgerHdPath, accountIds: [accountId] }));
                 setLoader(false);
                 refreshAndRedirect();
             }
@@ -88,7 +92,7 @@ export function SignInLedger(props) {
         const { search } = props.history.location;
         const fundWithExistingAccount = parseQuery(search, { parseBooleans: true }).fundWithExistingAccount;
         if (fundWithExistingAccount) {
-            const createNewAccountParams = new URLSearchParams(JSON.parse(fundWithExistingAccount)).toString();
+            const createNewAccountParams = stringify(JSON.parse(fundWithExistingAccount));
             dispatch(redirectTo(`/fund-with-existing-account?${createNewAccountParams}`));
         } else {
             const options = parseFundingOptions(search);
@@ -103,11 +107,11 @@ export function SignInLedger(props) {
     };
 
     const onClose = () => {
-        Mixpanel.track("IE-Ledger Close ledger confirmation");
-        if (signInWithLedgerStatus === 'confirm-public-key') {
+        Mixpanel.track('IE-Ledger Close ledger confirmation');
+        if (signInWithLedgerStatus === LEDGER_MODAL_STATUS.CONFIRM_PUBLIC_KEY) {
             controllerHelperApi.abort();
         }
-        if (signInWithLedgerStatus === 'enter-accountId') {
+        if (signInWithLedgerStatus === LEDGER_MODAL_STATUS.ENTER_ACCOUNTID) {
             dispatch(clearSignInWithLedgerModalState());
         }
     };
@@ -125,10 +129,10 @@ export function SignInLedger(props) {
             <LocalAlertBox localAlert={status.localAlert} />
             <LedgerHdPaths
                 path={path}
-                onSetPath={path => setPath(path)}
+                onSetPath={(path) => setPath(path)}
                 onConfirmHdPath={() => {
                     setConfirmedPath(path);
-                    Mixpanel.track("IE-Ledger Sign in set custom HD path");
+                    Mixpanel.track('IE-Ledger Sign in set custom HD path');
                 }}
             />
             <FormButton
@@ -162,7 +166,7 @@ export function SignInLedger(props) {
                     handleChange={handleChange}
                     localAlert={status.localAlert}
                     checkAccountAvailable={(accountId) => dispatch(checkAccountAvailable(accountId))}
-                    mainLoader={account.mainLoader}
+                    mainLoader={mainLoader}
                     clearLocalAlert={() => dispatch(clearLocalAlert())}
                     stateAccountId={account.accountId}
                     loader={loader}

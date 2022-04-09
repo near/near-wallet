@@ -2,9 +2,11 @@ import BN from 'bn.js';
 import { formatNearAmount } from 'near-api-js/lib/utils/format';
 import React from 'react';
 import { Translate } from 'react-localize-redux';
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
 import { MIN_BALANCE_TO_CREATE } from '../../../../config';
+import { selectActiveAccountIdIsImplicitAccount } from '../../../../redux/slices/account';
 import FormButton from '../../../common/FormButton';
 import FormButtonGroup from '../../../common/FormButtonGroup';
 import Container from '../../../common/styled/Container.css';
@@ -28,6 +30,8 @@ export default ({
     onClickCancel,
     hasAllRequiredParams
 }) => {
+    const activeAccountIdIsImplicit = useSelector(selectActiveAccountIdIsImplicitAccount);
+
     return (
         <StyledContainer className='small-centered border'>
             <h1><Translate id='existingAccount.selectAccount.title' /></h1>
@@ -43,12 +47,11 @@ export default ({
                 showBalanceInUSD={false}
             />
             <FormButtonGroup>
-                <FormButton
-                    onClick={onClickCancel}
-                    color='gray-blue'
-                >
-                    <Translate id='button.cancel' />
-                </FormButton>
+                {!activeAccountIdIsImplicit ? (
+                    <FormButton onClick={onClickCancel} color="gray-blue">
+                        <Translate id="button.cancel" />
+                    </FormButton>
+                ) : null}
                 <FormButton
                     onClick={onClickNext}
                     disabled={!hasAllRequiredParams || !new BN(signedInAccountAvailableBalance).gte(new BN(MIN_BALANCE_TO_CREATE))}

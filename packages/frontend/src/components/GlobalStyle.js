@@ -1,10 +1,8 @@
-import { createGlobalStyle } from "styled-components";
+import { createGlobalStyle } from 'styled-components';
 
-import "semantic-ui-css/semantic.min.css";
-import CloseBtn from "../images/close-btn.svg";
+import CloseBtn from '../images/close-btn.svg';
 
 export default createGlobalStyle`
-
   * {
         box-sizing: inherit;
     }
@@ -24,7 +22,7 @@ export default createGlobalStyle`
             min-height: 100vh !important;
 
             position: relative;
-            color: #3F4045;
+            color: #72727A;
             font-size: 14px !important;
             -webkit-overflow-scrolling: touch;
         }
@@ -33,6 +31,7 @@ export default createGlobalStyle`
     a {
         color: #0072ce;
     }
+
     a:hover {
         color: #0072ce;
         text-decoration: underline;
@@ -57,7 +56,7 @@ export default createGlobalStyle`
     }
 
     body, p, h1, h2, h3, h4, h5, h6, button, .button, input, select, textarea {
-        font-family: "Inter", Lato, "Lucida Grande", Tahoma, Sans-Serif !important;
+        font-family: "Inter", Lato, "Lucida Grande", Tahoma, Sans-Serif;
     }
 
     .font-monospace {
@@ -93,7 +92,7 @@ export default createGlobalStyle`
     h3, .h3 {
         font-size: 20px;
         font-weight: 900;
-        color: #24272a;
+        color: #272729;
         margin: 0px;
     }
     h4, .h4 {
@@ -170,6 +169,13 @@ export default createGlobalStyle`
             }
         }
     }
+
+    //Navbar styles
+      .nav-links{
+          a{
+              text-decoration: none;
+          }
+      }
 
     input, .react-phone-number-input__input {
         font-size: 16px;
@@ -253,6 +259,24 @@ export default createGlobalStyle`
 
         &.error {
             color: #ff585d;
+        }
+    }
+
+    .input-label {
+        font-size: 14px;
+        color: #72727A;
+        margin-bottom: 8px;
+    }
+
+    textarea {
+        border: 2px solid #E5E5E6;
+        border-radius: 8px;
+        width: 100%;
+        padding: 14px;
+        line-height: 180%;
+        font-size: 16px;
+        ::placeholder {
+            color: #A2A2A8;
         }
     }
 
@@ -596,5 +620,15 @@ export default createGlobalStyle`
         &-l {
             box-shadow: 0px 45px 56px 0px rgba(0,0,0,0.07), 0px 10.05px 12.51px 0px rgba(0,0,0,0.0417), 0px 2.99px 3.72px 0px rgba(0,0,0,0.0283);
         }
+    }
+
+    .flex-center-center {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    a{
+        text-decoration:none;
     }
 `;

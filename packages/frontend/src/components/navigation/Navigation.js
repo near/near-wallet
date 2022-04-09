@@ -1,13 +1,6 @@
-import { getRouter } from 'connected-react-router';
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import React, { useState, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
 
-import { switchAccount, getAvailableAccountsBalance, getAccountBalance } from '../../redux/actions/account';
-import { selectAccountSlice } from '../../redux/slices/account';
-import { selectAvailableAccounts } from '../../redux/slices/availableAccounts';
-import { selectFlowLimitationMainMenu, selectFlowLimitationSubMenu } from '../../redux/slices/flowLimitation';
 import DesktopContainer from './DesktopContainer';
 import MobileContainer from './MobileContainer';
 
@@ -19,7 +12,7 @@ const Container = styled.div`
         right: 0;
         z-index: 1000;
         @media (max-width: 991px) {
-            bottom: ${props => props.open ? '0' : 'unset'};
+            bottom: ${(props) => props.open ? '0' : 'unset'};
         }
 
         h6 {
@@ -36,34 +29,36 @@ const Container = styled.div`
         }
     }
 `;
-class Navigation extends Component {
 
-    state = {
-        menuOpen: false
-    }
+export default ({
+    selectAccount,
+    showNavLinks,
+    flowLimitationMainMenu,
+    flowLimitationSubMenu,
+    refreshBalance,
+    availableAccounts,
+    account
+}) => {
 
-    componentDidUpdate(prevState) {
+    const [menuOpen, setMenuOpen] = useState(false);
 
-        const { menuOpen } = this.state;
-
-        if (menuOpen !== prevState.menuOpen) {
-            if (menuOpen) {
-                document.addEventListener('keydown', this.handleKeyDown);
-                document.addEventListener('click', this.handleClick);
-            } else {
-                document.removeEventListener('keydown', this.handleKeyDown);
-                document.removeEventListener('click', this.handleClick);
-            }
+    useEffect(() => {
+        if (menuOpen) {
+            document.addEventListener('keydown', handleKeyDown);
+            document.addEventListener('click', handleClick);
+        } else {
+            document.removeEventListener('keydown', handleKeyDown);
+            document.removeEventListener('click', handleClick);
         }
-    }
+    }, [menuOpen]);
 
-    handleKeyDown = (e) => {
+    const handleKeyDown = useCallback((e) => {
         if (e.keyCode === 27) {
-            this.setState({ menuOpen: false });
+            setMenuOpen(false);
         }
-    }
+    }, []);
 
-    handleClick = (e) => {
+    const handleClick = useCallback((e) => {
         const desktopMenu = document.getElementById('desktop-menu');
         const mobileMenu = document.getElementById('mobile-menu');
 
@@ -71,82 +66,48 @@ class Navigation extends Component {
             return false;
         }
 
-        if (e.target.tagName === 'BUTTON' || e.target.tagName === 'A' || (!desktopMenu.contains(e.target) && !mobileMenu.contains(e.target))) {
-            this.setState({ menuOpen: false });
+        if (e.target.tagName === 'BUTTON' || e.target.tagName === 'A' || (!desktopMenu?.contains(e.target) && !mobileMenu?.contains(e.target))) {
+            setMenuOpen(false);
         }
-    }
+    }, []);
 
-    get showNavLinks() {
-        return this.props.account.localStorage?.accountFound;
-    }
-
-    toggleMenu = () => {
-        if (!this.state.menuOpen) {
-            this.props.getAvailableAccountsBalance();
+    const toggleMenu = useCallback(() => {
+        if (menuOpen) {
+            setMenuOpen(false);
+        } else {
+            setMenuOpen(true);
         }
+    }, [menuOpen]);
 
-        this.setState(prevState => ({
-            menuOpen: !prevState.menuOpen
-        }));
-    }
-
-    handleSelectAccount = accountId => {
-        this.props.switchAccount({ accountId });
-        this.setState({ menuOpen: false });
-    }
-
-    render() {
-        const { menuOpen } = this.state;
-        const { 
-            flowLimitationMainMenu,
-            flowLimitationSubMenu,
-            isInactiveAccount
-        } = this.props;
-
-        return (
-            <Container id='nav-container' open={menuOpen}>
-                <DesktopContainer
-                    menuOpen={menuOpen}
-                    toggleMenu={this.toggleMenu}
-                    handleSelectAccount={this.handleSelectAccount}
-                    showNavLinks={this.showNavLinks}
-                    flowLimitationMainMenu={flowLimitationMainMenu}
-                    flowLimitationSubMenu={flowLimitationSubMenu}
-                    refreshBalance={this.props.getAccountBalance}
-                    isInactiveAccount={isInactiveAccount}
-                    {...this.props}
-                />
-                <MobileContainer
-                    menuOpen={menuOpen}
-                    toggleMenu={this.toggleMenu}
-                    handleSelectAccount={this.handleSelectAccount}
-                    showNavLinks={this.showNavLinks}
-                    flowLimitationMainMenu={flowLimitationMainMenu}
-                    flowLimitationSubMenu={flowLimitationSubMenu}
-                    refreshBalance={this.props.getAccountBalance}
-                    isInactiveAccount={isInactiveAccount}
-                    {...this.props}
-                />
-            </Container>
-        );
-    }
-}
-
-const mapStateToProps = (state) => ({
-    account: selectAccountSlice(state),
-    router: getRouter(state),
-    availableAccounts: selectAvailableAccounts(state),
-    flowLimitationMainMenu: selectFlowLimitationMainMenu(state),
-    flowLimitationSubMenu: selectFlowLimitationSubMenu(state)
-});
-
-const mapDispatchToProps = {
-    switchAccount,
-    getAvailableAccountsBalance,
-    getAccountBalance
+    const handleSelectAccount = useCallback((accountId) => {
+        selectAccount(accountId);
+        setMenuOpen(false);
+    }, []);
+    
+    return (
+        <Container id='nav-container' open={menuOpen}>
+            <DesktopContainer
+                menuOpen={menuOpen}
+                toggleMenu={toggleMenu}
+                handleSelectAccount={handleSelectAccount}
+                showNavLinks={showNavLinks}
+                flowLimitationMainMenu={flowLimitationMainMenu}
+                flowLimitationSubMenu={flowLimitationSubMenu}   
+                refreshBalance={refreshBalance}
+                availableAccounts={availableAccounts}
+                account={account}
+            />
+            <MobileContainer
+                menuOpen={menuOpen}
+                toggleMenu={toggleMenu}
+                handleSelectAccount={handleSelectAccount}
+                showNavLinks={showNavLinks}
+                flowLimitationMainMenu={flowLimitationMainMenu}
+                flowLimitationSubMenu={flowLimitationSubMenu}   
+                refreshBalance={refreshBalance}
+                availableAccounts={availableAccounts}
+                account={account}
+            />
+        </Container>
+    );
 };
-
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(withRouter(Navigation));

@@ -18,6 +18,7 @@ import { selectStatusSlice } from '../../redux/slices/status';
 import { selectNearTokenFiatValueUSD } from '../../redux/slices/tokenFiatValues';
 import { setStakingAccountSelected, getStakingAccountSelected } from '../../utils/localStorage';
 import Container from '../common/styled/Container.css';
+import { ClaimSuccess } from './components/ClaimSuccess';
 import Staking from './components/Staking';
 import StakingAction from './components/StakingAction';
 import Unstake from './components/Unstake';
@@ -78,7 +79,7 @@ const StyledContainer = styled(Container)`
     }
 
     .transfer-money-icon {
-        display block;
+        display: block;
         margin: 50px auto;
     }
 
@@ -134,9 +135,9 @@ const StyledContainer = styled(Container)`
     }
 
     .radio-label {
-        cursor: ${props => props.multipleAccounts ? 'pointer' : 'default'};
+        cursor: ${(props) => props.multipleAccounts ? 'pointer' : 'default'};
         .input-wrapper {
-            display: ${props => props.multipleAccounts ? 'block' : 'none'};
+            display: ${(props) => props.multipleAccounts ? 'block' : 'none'};
         }
     }
 
@@ -179,10 +180,10 @@ export function StakingContainer({ history, match }) {
     const validators = staking.allValidators;
     const currentValidators = currentAccount.validators;
     const validatorId = history.location.pathname.split('/')[2];
-    let validator = currentValidators.filter(validator => validator.accountId === validatorId)[0];
+    let validator = currentValidators.filter((validator) => validator.accountId === validatorId)[0];
     // validator profile not in account's current validators (with balances) find validator in allValidators
     if (!validator) {
-        validator = validators.filter(validator => validator.accountId === validatorId)[0];
+        validator = validators.filter((validator) => validator.accountId === validatorId)[0];
     }
     const { totalUnstaked, selectedValidator } = currentAccount;
     const loadingBalance = !stakingAccounts.every((account) => !!account.totalUnstaked);
@@ -211,7 +212,7 @@ export function StakingContainer({ history, match }) {
                     ? validator
                     : selectedValidator || validator;
                 await dispatch(handleStakingAction(action, properValidator, amount));
-                Mixpanel.people.set({[`last_${action}_time`]: new Date().toString()});
+                Mixpanel.people.set({ [`last_${action}_time`]: new Date().toString() });
             }
         );
     };
@@ -277,8 +278,8 @@ export function StakingContainer({ history, match }) {
                         exact
                         path='/staking/:validator'
                         render={(props) => (
-                            <Validator 
-                                {...props} 
+                            <Validator
+                                {...props}
                                 validator={validator}
                                 onWithdraw={handleAction}
                                 loading={status.mainLoader}
@@ -295,7 +296,7 @@ export function StakingContainer({ history, match }) {
                                 {...props}
                                 action='stake'
                                 handleStakingAction={handleAction}
-                                availableBalance={totalUnstaked} 
+                                availableBalance={totalUnstaked}
                                 validator={validator}
                                 loading={status.mainLoader}
                                 hasLedger={hasLedger}
@@ -321,6 +322,15 @@ export function StakingContainer({ history, match }) {
                                 hasLedger={hasLedger}
                                 has2fa={has2fa}
                                 nearTokenFiatValueUSD={nearTokenFiatValueUSD}
+                            />
+                        )}
+                    />
+                    <Route
+                        exact
+                        path='/staking/:validator/claim'
+                        render={(props) => (
+                            <ClaimSuccess
+                                {...props}
                             />
                         )}
                     />

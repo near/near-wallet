@@ -58,7 +58,7 @@ const Container = styled.div`
     }
 `;
 
-export default function AccountDropdown({ disabled, "data-test-id": testId }) {
+export default function AccountDropdown({ disabled, 'data-test-id': testId }) {
     const dispatch = useDispatch();
     const accountId = useSelector(selectAccountId);
     const availableAccounts = useSelector(selectAvailableAccounts);
@@ -66,7 +66,7 @@ export default function AccountDropdown({ disabled, "data-test-id": testId }) {
     
     return (
         <Container
-            className={classNames(["account-dropdown-container"])}
+            className={classNames(['account-dropdown-container'])}
             data-test-id={testId}
         >
             <div className='account-dropdown-title'>
@@ -77,7 +77,7 @@ export default function AccountDropdown({ disabled, "data-test-id": testId }) {
                 name='account-dropdown'
                 title={accountId || ''}
                 content={
-                    availableAccounts.filter(a => a !== accountId).map((account, i) =>
+                    availableAccounts.filter((a) => a !== accountId).map((account, i) =>
                         <div
                             key={i}
                             onClick={() => dispatch(switchAccount({ accountId: account }))}

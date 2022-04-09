@@ -96,9 +96,9 @@ const CustomButton = styled.button`
         }
 
         &.light-blue {
-            background-color: #D6EDFF !important;
+            background-color: #D6EDFF;
             border: 0;
-            color: #005497;
+            color: #0072CE;
             border-radius: 4px;
 
             &.small {
@@ -113,11 +113,21 @@ const CustomButton = styled.button`
                 padding: 12px 15px;
                 width: auto;
             }
+
+            :hover {
+                color: white;
+                background-color: #0072CE;
+            }
+
+            :disabled {
+                background-color: #F0F0F1;
+                color: #A2A2A8;
+            }
         }
 
         &.red {
-            border-color: #ff585d;
-            background: #ff585d;
+            border-color: #E5484D;
+            background: #E5484D;
 
             :disabled {
                 background: #e6e6e6;
@@ -127,9 +137,9 @@ const CustomButton = styled.button`
             :active,
             :hover,
             :focus {
-                border-color: #ff585d;
+                border-color: #E5484D;
                 background: #fff;
-                color: #ff585d;
+                color: #E5484D;
             }
             &.dots {
                 color: #fff;
@@ -494,7 +504,7 @@ const FormButton = ({
     className,
     id,
     trackingId,
-    "data-test-id": testId
+    'data-test-id': testId
 }) => (
     <CustomButton
         type={type}

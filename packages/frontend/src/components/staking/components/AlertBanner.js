@@ -21,6 +21,9 @@ const Container = styled.div`
     }
 
     div {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
         font-style: italic;
         margin-left: 20px;
         font-size: 13px;
@@ -34,6 +37,7 @@ const Container = styled.div`
         margin: 20px 0 0 0 !important;
         width: auto !important;
         font-size: 13px !important;
+        align-self: flex-start;
     }
 
     &.error {
@@ -49,13 +53,13 @@ const Container = styled.div`
 
 `;
 
-export default function AlertBanner({ title, button, linkTo, theme, titleData }) {
+export default function AlertBanner({ title, button, linkTo, theme, titleData, 'data-test-id': testId, 'data-test-id-button': buttonTestId  }) {
     return (
-        <Container className={classNames(['alert-banner', theme])}>
+        <Container className={classNames(['alert-banner', theme])} data-test-id={testId}>
             <AlertTriangleIcon/>
             <div>
                 <SafeTranslate id={title} data={{ data: titleData }}/>
-                {linkTo && button && <FormButton className='link' linkTo={linkTo} trackingId="Click alert banner"><Translate id={button} /></FormButton>}
+                {linkTo && button && <FormButton data-test-id={buttonTestId} className='link' linkTo={linkTo} trackingId="Click alert banner"><Translate id={button} /></FormButton>}
             </div>
         </Container>
     );

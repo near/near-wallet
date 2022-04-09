@@ -19,7 +19,7 @@ const Header = styled.div`
     > div {
         width: 100%;
         height: 53px;
-        background: url(${props => props.icon}) center top no-repeat;
+        background: url(${(props) => props.icon}) center top no-repeat;
     }
     > h2 {
         font-weight: bold;
@@ -57,7 +57,7 @@ const SubHeader = styled.div`
 
     :before {
         content: '';
-        background: url(${props => props.icon}) center top no-repeat;
+        background: url(${(props) => props.icon}) center top no-repeat;
         display: block;
         width: 24px;
         height: 25px;
@@ -100,7 +100,7 @@ const Container = styled.div`
 `;
 
 const ReleaseNotesModal = () => {
-    const accountId = useSelector(state => selectAccountId(state));
+    const accountId = useSelector((state) => selectAccountId(state));
     const [open, setOpen] = useState(!getReleaseNotesClosed(RELEASE_NOTES_MODAL_VERSION));
     
     const onClose = () => {

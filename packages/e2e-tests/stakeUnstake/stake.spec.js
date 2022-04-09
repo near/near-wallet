@@ -1,9 +1,8 @@
-const { test, expect } = require("@playwright/test");
+const { test, expect } = require("../playwrightWithFixtures");
 const BN = require("bn.js");
 const { parseNearAmount, formatNearAmount } = require("near-api-js/lib/utils/format");
 
 const { HomePage } = require("../register/models/Home");
-const { getBankAccount } = require("../utils/account");
 const { StakeUnstakePage } = require("./models/StakeUnstake");
 
 const { describe, beforeAll, afterAll, beforeEach } = test;
@@ -11,8 +10,7 @@ const { describe, beforeAll, afterAll, beforeEach } = test;
 describe("Staking flow", () => {
     let testAccount;
 
-    beforeAll(async () => {
-        const bankAccount = await getBankAccount();
+    beforeAll(async ({ bankAccount }) => {
         testAccount = bankAccount.spawnRandomSubAccountInstance();
         await testAccount.create();
     });

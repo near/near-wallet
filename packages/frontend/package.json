@@ -1,13 +1,13 @@
 {
   "homepage": "https://wallet.near.org",
   "name": "@near-wallet/frontend",
-  "version": "0.1.1",
+  "version": "0.1.3",
   "publishConfig": {
     "access": "public"
   },
   "dependencies": {
     "@ledgerhq/hw-transport-u2f": "^5.34.0",
-    "@near-wallet/feature-flags": "^0.0.4",
+    "@near-wallet/feature-flags": "^0.1.0",
     "@reduxjs/toolkit": "1.6.2",
     "@sentry/browser": "^6.4.1",
     "connected-react-router": "^6.6.0",
@@ -25,6 +25,7 @@
     "lodash.once": "^4.1.1",
     "lodash.set": "^4.3.2",
     "lodash.throttle": "^4.1.1",
+    "lodash.unset": "^4.5.2",
     "lodash.update": "^4.10.2",
     "mixpanel-browser": "^2.41.0",
     "near-api-js": "^0.43.1",
@@ -49,8 +50,6 @@
     "redux-thunk": "^2.3.0",
     "regenerator-runtime": "^0.13.5",
     "reselect": "^4.0.0",
-    "semantic-ui-css": "^2.4.1",
-    "semantic-ui-react": "^0.88.1",
     "styled-components": "^5.3.0",
     "timeago.js": "^4.0.2"
   },
@@ -59,13 +58,17 @@
     "update:static": "cp src/wasm/multisig.wasm dist/multisig.wasm && cp src/wasm/main.wasm dist/main.wasm",
     "start": "yarn update:static; parcel src/index.html --https --cert devServerCertificates/primary.crt --key devServerCertificates/private.pem",
     "prebuild": "rm -rf dist/",
-    "build": "NODE_ENV=production node ci/runBundler.js && node ci/sentry-send-release.js",
+    "build": "yarn run bundle && yarn run sentry",
+    "bundle": "NODE_ENV=production node ci/runBundler.js",
+    "sentry": "node ci/sentry-send-release.js",
     "test": "jest",
     "lint": "eslint --ext .js --ext .jsx .",
     "fix": "eslint --ext .js --ext .jsx . --fix",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
-    "prepush": "concurrently \"yarn run fix\" \"cd src/translations && npx sort-json * --ignore-case true\" \"yarn run test\""
+    "prepush": "yarn run test",
+    "precommit": "concurrently \"yarn run fix\" \".githooks/format-json\"",
+    "preinstall": "npx only-allow yarn"
   },
   "browserslist": [
     ">0.2%",
@@ -81,10 +84,13 @@
     "babel-eslint": "^10.1.0",
     "babel-jest": "^27.0.1",
     "babel-loader": "^8.1.0",
+    "concurrently": "^7.0.0",
+    "dotenv": "^11.0.0",
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.15.6",
     "eslint": "5.16.0",
     "eslint-config-react-app": "^3.0.8",
+    "eslint-plugin-es": "^4.1.0",
     "eslint-plugin-flowtype": "^5.7.2",
     "eslint-plugin-import": "^2.23.4",
     "eslint-plugin-jsx-a11y": "^6.4.1",

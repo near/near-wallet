@@ -10,7 +10,7 @@ const Indicator = styled.span`
     display: inline-block;
     width: 9px;
     height: 9px;   
-    background-color: ${props => props.color};
+    background-color: ${(props) => props.color};
     border-radius: 50%;
     margin-right: 10px;
 `;

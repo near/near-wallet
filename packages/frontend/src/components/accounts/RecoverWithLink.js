@@ -13,23 +13,19 @@ import {
     clearAccountState
 } from '../../redux/actions/account';
 import { selectAccountSlice } from '../../redux/slices/account';
-import { selectStatusMainLoader } from '../../redux/slices/status';
-import { actionsPending } from '../../utils/alerts';
+import { selectActionsPending, selectStatusMainLoader } from '../../redux/slices/status';
 import copyText from '../../utils/copyText';
 import isMobile from '../../utils/isMobile';
 import Button from '../common/Button';
 import FormButton from '../common/FormButton';
 import { Snackbar, snackbarDuration } from '../common/Snackbar';
+import Container from '../common/styled/Container.css';
 
-
-
-const Container = styled.div`
+const StyledContainer = styled.div`
     margin-top: 5px;
-
     @media (min-width: 768px) {
         margin-top: 32px;
     }
-
     button {
         width: 100%;
     }
@@ -40,13 +36,11 @@ const Container = styled.div`
         align-items: center;
         padding-top: 50px;
         text-align: center;
-
         div {
             @media (min-width: 768px) {
                 max-width: 800px;
             }
         }
-
         button {
             margin-top: 35px;
             @media (min-width: 768px) {
@@ -68,8 +62,7 @@ const Desc = styled.div`
     color: #4a4f54;
     font-size: 18px;
     line-height: normal;
-    margin-top: ${props => props.last ? "20px" : "0"};
-
+    margin-top: ${(props) => props.last ? '20px' : '0'};
     @media (min-width: 768px) {
         font-size: 28px;
     }
@@ -85,35 +78,27 @@ const ButtonWrapper = styled.div`
     display: flex;
     flex-direction: column;
     margin-top: 30px;
-
     @media (min-width: 768px) {
         flex-direction: row;
     }
-
     button {
-
         @media (min-width: 768px) {
             max-width: 300px;
         }
-
         &:first-of-type {
             margin-top: 0 !important;
         }
-
         &:last-of-type {
             margin-top: 25px;
             position: relative;
             overflow: hidden;
-
             @media (min-width: 768px) {
                 margin-left: 25px;
                 margin-top: 0;
             }
-
             color: #6AD1E3;
             border: 2px solid #6AD1E3;
             background-color: white;
-
             &:hover {
                 color: white;
                 background-color: #6AD1E3;
@@ -143,11 +128,11 @@ class RecoverWithLink extends Component {
     }
 
     handleCopyUrl = () => {
-        Mixpanel.track("IE with link Click copy url button");
+        Mixpanel.track('IE with link Click copy url button');
         if (navigator.share && isMobile()) {
             navigator.share({
                 url: window.location.href
-            }).catch(err => {
+            }).catch((err) => {
                 console.log(err.message);
             });
         } else {
@@ -165,7 +150,7 @@ class RecoverWithLink extends Component {
     }
 
     handleContinue = async () => {
-        await Mixpanel.withTracking("IE Recover with link", 
+        await Mixpanel.withTracking('IE Recover with link', 
             async () => {
                 await this.props.recoverAccountSeedPhrase(this.state.seedPhrase, this.props.match.params.accountId, false);
                 this.props.refreshAccount();
@@ -181,13 +166,14 @@ class RecoverWithLink extends Component {
     render() {
 
         const { accountId, successSnackbar, successView } = this.state;
-        const { mainLoader, history } = this.props;
+        const { mainLoader, history, continueSending } = this.props;
 
         if (successView) {
             return (
-                <Translate>
+              <Container>
+                    <Translate>
                     {({ translate }) => (
-                        <Container className='ui container'>
+                        <StyledContainer className='ui container'>
                             <Title>{translate('recoverWithLink.title')}</Title>
                             <Desc>{translate('recoverWithLink.pOne')} <UserName>{accountId}</UserName></Desc>
                             <Desc last>{translate('recoverWithLink.pTwo')}</Desc>
@@ -195,7 +181,7 @@ class RecoverWithLink extends Component {
                                 <FormButton
                                     onClick={this.handleContinue}
                                     disabled={mainLoader}
-                                    sending={actionsPending('RECOVER_ACCOUNT_SEED_PHRASE')}
+                                    sending={continueSending}
                                     sendingString='button.recovering'
                                 >
                                     {translate('button.continue')}
@@ -211,20 +197,22 @@ class RecoverWithLink extends Component {
                                 show={successSnackbar}
                                 onHide={() => this.setState({ successSnackbar: false })}
                             />
-                        </Container>
+                        </StyledContainer>
                     )}
                 </Translate>
+              </Container>
             );
         } else {
             return (
-                <Translate>
+               <Container>
+                    <Translate>
                     {({ translate }) => (
                         <Container className='ui container error'>
                             <Title>{translate('recoverWithLink.errorTitle')}</Title>
                             <Desc>{translate('recoverWithLink.errorP')}</Desc>
                             {!DISABLE_CREATE_ACCOUNT &&
                                 <Button onClick={() => {
-                                    Mixpanel.track("IE with link expired click create button");
+                                    Mixpanel.track('IE with link expired click create button');
                                     history.push('/create');
                                 }}>
                                     {translate('button.createAccount')}
@@ -233,6 +221,7 @@ class RecoverWithLink extends Component {
                         </Container>
                     )}
                 </Translate>
+               </Container>
             );
         }
     }
@@ -249,7 +238,8 @@ const mapStateToProps = (state, { match }) => ({
     ...selectAccountSlice(state),
     accountId: match.params.accountId,
     seedPhrase: match.params.seedPhrase,
-    mainLoader: selectStatusMainLoader(state)
+    mainLoader: selectStatusMainLoader(state),
+    continueSending: selectActionsPending(state, { types: ['RECOVER_ACCOUNT_SEED_PHRASE'] })
 });
 
 export const RecoverWithLinkWithRouter = connect(

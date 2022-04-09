@@ -18,7 +18,7 @@ const formatToken = (amount, decimals) => {
     let formattedAmount = formatTokenAmount(amount, decimals, FRAC_DIGITS);
 
     if (formattedAmount === `0.${'0'.repeat(FRAC_DIGITS)}`) {
-        return `< ${!FRAC_DIGITS ? `0` : `0.${'0'.repeat((FRAC_DIGITS || 1) - 1)}1`}`;
+        return `< ${!FRAC_DIGITS ? '0' : `0.${'0'.repeat((FRAC_DIGITS || 1) - 1)}1`}`;
     }
     return amountWithCommas(removeTrailingZeros(formattedAmount));
 };
@@ -28,21 +28,42 @@ const showFullAmount = (amount, decimals, symbol) =>
         ? `${formatTokenAmount(amount, decimals, decimals)} ${symbol}`
         : '';
 
-const TokenAmount = ({ token: { balance, onChainFTMetadata }, withSymbol = false, className, showFiatAmount = true }) => (
-    <div className={className} title={showFullAmount(balance, onChainFTMetadata?.decimals, onChainFTMetadata?.symbol)}>
-        <div>
-            {balance
-                ? formatToken(balance, onChainFTMetadata?.decimals)
-                : <span className='dots' />
-            }
-            <span className='currency'>{withSymbol ? ` ${onChainFTMetadata?.symbol}` : null}</span>
-        </div>
-        {showFiatAmount &&
-            <div className='fiat-amount'>
-                — USD
+const TokenAmount = ({ 
+    token: { balance, onChainFTMetadata, fiatValueMetadata }, 
+    withSymbol = false, 
+    className, 
+    showFiatAmount = true, 
+    'data-test-id': testId,
+    balancePrefix = ''
+}) => {
+    const tokenBalance = formatTokenAmount(balance, onChainFTMetadata?.decimals, FRAC_DIGITS);
+    const tokenBalanceToView = balance && formatToken(balance, onChainFTMetadata?.decimals);
+    const fiatAmount = (tokenBalance && fiatValueMetadata?.usd) && (tokenBalance * +fiatValueMetadata.usd).toFixed(2);
+    
+    return (
+        <div className={className} title={showFullAmount(balance, onChainFTMetadata?.decimals, onChainFTMetadata?.symbol)} data-test-id={testId}>
+            <div>
+                {balance
+                    ? balancePrefix + tokenBalanceToView
+                    : <span className='dots' />
+                }
+                <span className='currency'>{withSymbol ? ` ${onChainFTMetadata?.symbol}` : null}</span>
             </div>
-        }
-    </div>
-);
+            {showFiatAmount &&
+                <div 
+                    className='fiat-amount' 
+                    style={{
+                        display: 'inline-flex',
+                        whiteSpace: 'normal'
+                    }}>
+                {fiatAmount 
+                    ? `≈ $${fiatAmount} USD`
+                    : '— USD'
+                }
+            </div>
+            }
+        </div>
+    );
+};
 
 export default TokenAmount;

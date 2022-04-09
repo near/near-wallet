@@ -1,4 +1,4 @@
-import QRCode from "qrcode.react";
+import QRCode from 'qrcode.react';
 import React from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
@@ -17,7 +17,7 @@ const ProfileQRCode = ({ accountId }) => (
             bgColor="#FFFFFF"
             fgColor="#24272a"
             level="Q"
-            style={{ width: "100%", height: '100%' }}
+            style={{ width: '100%', height: '100%' }}
             renderAs='svg'
             value={`${accountId}`}
         />

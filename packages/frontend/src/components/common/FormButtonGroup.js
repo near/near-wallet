@@ -9,7 +9,7 @@ const StyledContainer = styled.div`
         > button {
             flex: 1;
 
-            :last-of-type {
+            :last-of-type:not(:first-of-type) {
                 margin-left: 20px;
             }
         }

@@ -7,7 +7,7 @@ import styled from 'styled-components';
 
 import { IS_MAINNET, MIN_BALANCE_FOR_GAS } from '../../config';
 import { useAccount } from '../../hooks/allAccounts';
-import { Mixpanel } from "../../mixpanel/index";
+import { Mixpanel } from '../../mixpanel/index';
 import {
     getLedgerKey,
     checkCanEnableTwoFactor,
@@ -37,6 +37,7 @@ import LockupAvailTransfer from './balances/LockupAvailTransfer';
 import HardwareDevices from './hardware_devices/HardwareDevices';
 import MobileSharingWrapper from './mobile_sharing/MobileSharingWrapper';
 import RecoveryContainer from './Recovery/RecoveryContainer';
+import RemoveAccountWrapper from './remove_account/RemoveAccountWrapper';
 import TwoFactorAuth from './two_factor/TwoFactorAuth';
 
 const { fetchRecoveryMethods } = recoveryMethodsActions;
@@ -148,7 +149,7 @@ export function Profile({ match }) {
         : useSelector((state) => selectAllAccountsHasLockup(state, { accountId }));
 
     const userRecoveryMethods = useSelector((state) => selectRecoveryMethodsByAccountId(state, { accountId: account.accountId }));
-    const twoFactor = has2fa && userRecoveryMethods && userRecoveryMethods.filter(m => m.kind.includes('2fa'))[0];
+    const twoFactor = has2fa && userRecoveryMethods && userRecoveryMethods.filter((m) => m.kind.includes('2fa'))[0];
 
     useEffect(() => {
         if (!loginAccountId) {
@@ -285,6 +286,7 @@ export function Profile({ match }) {
                                 )}
                             </>
                         }
+                        <RemoveAccountWrapper/>
                         {!IS_MAINNET && !account.ledgerKey && !isMobile() &&
                             <MobileSharingWrapper/>
                         }

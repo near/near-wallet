@@ -1,7 +1,6 @@
 import React from 'react';
 import { Translate } from 'react-localize-redux';
 
-import { actionsPending } from '../../utils/alerts';
 import classNames from '../../utils/classNames';
 import FormButton from '../common/FormButton';
 
@@ -10,7 +9,8 @@ const RecoverAccountSeedPhraseForm = ({
     handleChange,
     seedPhrase,
     localAlert,
-    recoveringAccount
+    recoveringAccount,
+    findMyAccountSending
 }) => (
         <>
             <h4><Translate id='recoverSeedPhrase.seedPhraseInput.title' /></h4>
@@ -18,7 +18,7 @@ const RecoverAccountSeedPhraseForm = ({
                 {({ translate }) => (
                     <input
                         value={seedPhrase}
-                        onChange={e => handleChange(e.target.value)}
+                        onChange={(e) => handleChange(e.target.value)}
                         className={classNames([{'success': localAlert && localAlert.success}, {'problem': localAlert && localAlert.success === false}])}
                         placeholder={translate('recoverSeedPhrase.seedPhraseInput.placeholder')}
                         disabled={recoveringAccount}
@@ -33,7 +33,7 @@ const RecoverAccountSeedPhraseForm = ({
                 type='submit'
                 color='blue'
                 disabled={!isLegit || recoveringAccount}
-                sending={actionsPending(['RECOVER_ACCOUNT_SEED_PHRASE', 'REFRESH_ACCOUNT_OWNER'])}
+                sending={findMyAccountSending}
                 sendingString='button.recovering'
                 data-test-id="seedPhraseRecoverySubmitButton"
             >

@@ -4,6 +4,8 @@ node_js: 12
 jobs:
   include:
     - name: yarn
+      env:
+      - NEAR_WALLET_ENV=mainnet
       script:
       - yarn lint
       - yarn test

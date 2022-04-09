@@ -1,14 +1,11 @@
-const { test, expect } = require("@playwright/test");
-
-const { getBankAccount } = require("../utils/account");
+const { test, expect } = require("../playwrightWithFixtures");
 
 const { describe, beforeAll, afterAll } = test;
 
 describe("Account Recovery Using Seed Phrase", () => {
     let testAccount;
 
-    beforeAll(async () => {
-        const bankAccount = await getBankAccount();
+    beforeAll(async ({ bankAccount }) => {
         testAccount = bankAccount.spawnRandomSubAccountInstance();
         await testAccount.create();
     });

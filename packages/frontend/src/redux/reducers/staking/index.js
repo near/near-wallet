@@ -21,7 +21,8 @@ const initialState = {
     allValidators: [],
     accounts: [],
     isLockup: false,
-    currentAccount: { ...ACCOUNT_DEFAULTS }
+    currentAccount: { ...ACCOUNT_DEFAULTS },
+    farmingValidators: {},
 };
 
 const stakingHandlers = handleActions({
@@ -69,13 +70,22 @@ const stakingHandlers = handleActions({
                 ...state,
                 lockup: payload
             }),
-    [staking.getValidators]: (state, { ready, error, payload }) => 
+    [staking.getValidators]: (state, { ready, error, payload }) =>
         (!ready || error)
             ? state
             : ({
                 ...state,
                 allValidators: payload
             }),
+    [staking.setValidatorFarmData]: (state, { payload }) => ({
+        ...state,
+        farmingValidators: {
+            ...state.farmingValidators,
+            [payload.validatorId]: {
+                ...payload.farmData
+            },
+        }
+    }),
     [clearAccountState]: () => initialState
 }, initialState);
 

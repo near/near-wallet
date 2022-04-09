@@ -12,7 +12,7 @@ const Style = styled.div`
     opacity: 0;
     transition: 0.3s;
     z-index: 2000;
-    max-width: ${props => {
+    max-width: ${(props) => {
         switch (props.modalSize) {
             case 'lg': return '800';
             case 'md': return '550';
@@ -22,6 +22,15 @@ const Style = styled.div`
         }
     }}px;
     margin: 40px auto;
+
+    &.slim {
+        padding: 0;
+        border-radius: 16px;
+        .modal {
+            padding: 0;
+            border-radius: 16px;
+        }
+    }
 
     &.fade-in {
         opacity: 1;

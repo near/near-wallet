@@ -28,7 +28,7 @@ const {
 // https://docs.near.org/docs/api/naj-cookbook#wrap-and-unwrap-near
 const FT_MINIMUM_STORAGE_BALANCE = parseNearAmount('0.00125');
 // FT_MINIMUM_STORAGE_BALANCE: nUSDC, nUSDT require minimum 0.0125 NEAR. Came to this conclusion using trial and error.
-const FT_MINIMUM_STORAGE_BALANCE_LARGE = parseNearAmount('0.0125');
+export const FT_MINIMUM_STORAGE_BALANCE_LARGE = parseNearAmount('0.0125');
 const FT_STORAGE_DEPOSIT_GAS = parseNearAmount('0.00000000003');
 
 // set this to the same value as we use for creating an account and the remainder is refunded
@@ -59,6 +59,10 @@ export default class FungibleTokens {
             : removeTrailingZeros(formatTokenAmount(amount, decimals, 5));
 
         return formattedTokenAmount;
+    }
+
+    static getUniqueTokenIdentity(token) {
+        return token.contractName || token.onChainFTMetadata?.symbol;
     }
 
     static async getLikelyTokenContracts({ accountId }) {
@@ -132,7 +136,7 @@ export default class FungibleTokens {
                 receiverId: contractName,
                 actions: [
                     functionCall(
-                        "ft_transfer",
+                        'ft_transfer',
                         {
                             amount,
                             memo: memo,

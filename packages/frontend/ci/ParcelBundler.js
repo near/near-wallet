@@ -10,7 +10,7 @@ const ENTRY_FILE_PATH = path.join(__dirname, '../src/index.html');
 const WASM_PATH = path.join(__dirname, '../src/wasm/');
 const SSL_PATH = path.join(__dirname, '../devServerCertificates/');
 
-const enableDebugLogging = !Config.DEBUG_BUILD ? true : Config.DEBUG_BUILD === 'true';
+const enableDebugLogging = Config.DEBUG_BUILD;
 
 class ParcelBundler {
     constructor({
@@ -130,14 +130,14 @@ class ParcelBundler {
                 // Netlify staging is a dedicated deployment using 'master' as the production branch
                 return {
                     ...this.getBaseConfig(),
-                    publicUrl: this.buildCloudflarePath(`/ntl/staging/`)
+                    publicUrl: this.buildCloudflarePath('/ntl/staging/')
                 };
             }
 
             // Netlify production/mainnet is a dedicated deployment using 'stable' as the production branch
             return {
                 ...this.getBaseConfig(),
-                publicUrl: this.buildCloudflarePath(`/ntl/mainnet/`)
+                publicUrl: this.buildCloudflarePath('/ntl/mainnet/')
             };
 
         case 'branch-deploy':

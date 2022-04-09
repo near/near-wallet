@@ -13,7 +13,7 @@ const Amount = ({
     decimals,
     translateIdTitle,
     translateIdInfoTooltip,
-    "data-test-id": testId
+    'data-test-id': testId
 }) => {
     /* TODO: Handle long amounts */
     return (

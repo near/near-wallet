@@ -1,0 +1,8 @@
+**/.git
+**/node_modules
+packages/frontend/dist
+packages/frontend/.cache
+Dockerfile
+Dockerfile.fast
+*.md
+*.swp

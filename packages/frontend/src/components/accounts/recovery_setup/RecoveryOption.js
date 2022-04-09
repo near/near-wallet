@@ -85,8 +85,8 @@ const Container = styled.div`
             content: '';
             position: absolute;
             transform: rotate(45deg);
-            left: 21px;
-            top: 35px;
+            left: 23px;
+            top: 37px;
             height: 11px;
             width: 11px;
             background-color: white;
@@ -193,7 +193,7 @@ const Icon = ({option, color}) => {
         case 'ledger':
             return <HardwareWalletIcon color={color}/>;
         default:
-            return;
+            return '';
     }
 };
 

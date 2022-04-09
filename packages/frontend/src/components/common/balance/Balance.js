@@ -13,7 +13,7 @@ const Balance = ({
     showAlmostEqualSignUSD,
     showSignUSD,
     showSymbolUSD,
-    "data-test-id": testId 
+    'data-test-id': testId 
 }) => {
     const nearTokenFiatValueUSD = useSelector(selectNearTokenFiatValueUSD);
 

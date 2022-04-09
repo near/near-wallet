@@ -120,11 +120,11 @@ class ReceiveMoney extends Component {
     }
 
     handleCopyAddress = () => {
-        Mixpanel.track("RECEIVE Copy account address");
+        Mixpanel.track('RECEIVE Copy account address');
         if (navigator.share && this.props.isMobile) {
             navigator.share({
                 url: this.props.account.accountId
-            }).catch(err => {
+            }).catch((err) => {
                 console.log(err.message);
             });
         } else {

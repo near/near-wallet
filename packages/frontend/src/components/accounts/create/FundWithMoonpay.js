@@ -18,11 +18,6 @@ const Container = styled.div`
             }
         }
     }
-
-    h3 {
-        font-size: 20px !important;
-    }
-
 `;
 
 const FundWithMoonpay = ({ moonpaySignedURL }) => {
@@ -41,7 +36,7 @@ const FundWithMoonpay = ({ moonpaySignedURL }) => {
             <FormButton
                 linkTo={moonpaySignedURL}
                 color='black'
-                onClick={() => Mixpanel.track("CA Click Fund with Moonpay")}
+                onClick={() => Mixpanel.track('CA Click Fund with Moonpay')}
             >
                 <Translate id='account.createImplicit.pre.moonPay.buyWith'/>
                 <MoonPayIcon/>

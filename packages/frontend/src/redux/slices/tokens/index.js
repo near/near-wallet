@@ -5,8 +5,9 @@ import { createSelector } from 'reselect';
 
 import { WHITELISTED_CONTRACTS } from '../../../config';
 import FungibleTokens from '../../../services/FungibleTokens';
+import handleAsyncThunkStatus from '../../reducerStatus/handleAsyncThunkStatus';
+import initialStatusState from '../../reducerStatus/initialState/initialStatusState';
 import createParameterSelector from '../createParameterSelector';
-import initialErrorState from '../initialErrorState';
 
 const SLICE_NAME = 'tokens';
 
@@ -20,17 +21,16 @@ const initialState = {
 };
 
 const initialOwnedTokenState = {
-    balance: '',
-    loading: false,
-    error: initialErrorState
+    ...initialStatusState,
+    balance: ''
 };
 
-async function getCachedContractMetadataOrFetch(contractName, accountId, state) {
+async function getCachedContractMetadataOrFetch(contractName, state) {
     let contractMetadata = selectOneContractMetadata(state, { contractName });
     if (contractMetadata) {
         return contractMetadata;
     }
-    return FungibleTokens.getMetadata({ contractName, accountId });
+    return FungibleTokens.getMetadata({ contractName });
 }
 
 const fetchOwnedTokensForContract = createAsyncThunk(
@@ -58,21 +58,41 @@ const fetchTokens = createAsyncThunk(
     async ({ accountId }, thunkAPI) => {
         const { dispatch, getState } = thunkAPI;
 
-        const likelyContracts = [...new Set([...(await FungibleTokens.getLikelyTokenContracts({ accountId })), ...WHITELISTED_CONTRACTS])];
+        const likelyContracts = [...new Set([...(await FungibleTokens.getLikelyTokenContracts({ accountId })), ...WHITELISTED_CONTRACTS])];
 
-        await Promise.all(likelyContracts.map(async contractName => {
+        await Promise.all(likelyContracts.map(async (contractName) => {
             const { actions: { setContractMetadata } } = tokensSlice;
             try {
-                const contractMetadata = await getCachedContractMetadataOrFetch(contractName, accountId, getState());
+                const contractMetadata = await getCachedContractMetadataOrFetch(contractName, getState());
                 if (!selectOneContractMetadata(getState(), { contractName })) {
                     dispatch(setContractMetadata({ contractName, metadata: contractMetadata }));
                 }
-                await dispatch(fetchOwnedTokensForContract({ accountId, contractName, contractMetadata }));
+                await dispatch(fetchOwnedTokensForContract({ accountId, contractName }));
             } catch (e) {
                 // Continue loading other likely contracts on failures
                 console.warn(`Failed to load FT for ${contractName}`, e);
             }
         }));
+    }
+);
+
+const fetchToken = createAsyncThunk(
+    `${SLICE_NAME}/fetchToken`,
+    async ({ contractName, accountId }, thunkAPI) => {
+        const { dispatch, getState } = thunkAPI;
+        const { actions: { setContractMetadata } } = tokensSlice;
+        try {
+            const contractMetadata = await getCachedContractMetadataOrFetch(contractName, getState());
+            if (!selectOneContractMetadata(getState(), { contractName })) {
+                dispatch(setContractMetadata({ contractName, metadata: contractMetadata }));
+            }
+            if (accountId) {
+                await dispatch(fetchOwnedTokensForContract({ accountId, contractName }));
+            }
+        } catch (e) {
+            // Continue loading other likely contracts on failures
+            console.warn(`Failed to load FT for ${contractName}`, e);
+        }
     }
 );
 
@@ -90,26 +110,10 @@ const tokensSlice = createSlice({
         },
     },
     extraReducers: ((builder) => {
-        builder.addCase(fetchOwnedTokensForContract.pending, (state, { meta }) => {
-            const { accountId, contractName } = meta.arg;
-
-            set(state, ['ownedTokens', 'byAccountId', accountId, contractName, 'loading'], true);
-            set(state, ['ownedTokens', 'byAccountId', accountId, contractName, 'error'], initialErrorState);
-        });
-        builder.addCase(fetchOwnedTokensForContract.fulfilled, (state, { meta }) => {
-            const { accountId, contractName } = meta.arg;
-
-            set(state, ['ownedTokens', 'byAccountId', accountId, contractName, 'loading'], false);
-            set(state, ['ownedTokens', 'byAccountId', accountId, contractName, 'error'], initialErrorState);
-        });
-        builder.addCase(fetchOwnedTokensForContract.rejected, (state, { meta,  error }) => {
-            const { accountId, contractName } = meta.arg;
-            
-            set(state, ['ownedTokens', 'byAccountId', accountId, contractName, 'loading'], false);
-            set(state, ['ownedTokens', 'byAccountId', accountId, contractName, 'error'], {
-                message: error?.message || 'An error was encountered.',
-                code: error?.code
-            });
+        handleAsyncThunkStatus({
+            asyncThunk: fetchOwnedTokensForContract,
+            buildStatusPath: ({ meta: { arg: { accountId, contractName }}}) => ['ownedTokens', 'byAccountId', accountId, contractName],
+            builder
         });
     })
 });
@@ -117,10 +121,11 @@ const tokensSlice = createSlice({
 export default tokensSlice;
 
 export const actions = {
+    fetchToken,
     fetchTokens,
     ...tokensSlice.actions
 };
-export const reducer = tokensSlice.reducer; 
+export const reducer = tokensSlice.reducer;
 
 const getAccountIdParam = createParameterSelector((params) => params.accountId);
 
@@ -168,17 +173,17 @@ export const selectTokensWithMetadataForAccountId = createSelector(
                 contractName,
                 balance,
                 onChainFTMetadata: allContractMetadata[contractName] || {},
-                coingeckoMetadata: {},
+                fiatValueMetadata: {},
             }))
 );
 
 export const selectTokensLoading = createSelector(
     [selectOwnedTokensSlice, getAccountIdParam],
     (ownedTokens, accountId) => Object.entries(ownedTokens.byAccountId[accountId] || {})
-        .some(([_, { loading }]) => loading)
+        .some(([_, { status: { loading } }]) => loading)
 );
 
 const selectOneTokenLoading = createSelector(
     [selectOneTokenFromOwnedTokens],
-    (token) => token.loading
+    (token) => token.status.loading
 );

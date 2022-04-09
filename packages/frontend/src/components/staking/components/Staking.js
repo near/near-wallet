@@ -1,7 +1,9 @@
 import BN from 'bn.js';
 import React from 'react';
 import { Translate } from 'react-localize-redux';
+import { useSelector } from 'react-redux';
 
+import selectNEARAsTokenWithMetadata from '../../../redux/crossStateSelectors/selectNEARAsTokenWithMetadata';
 import FormButton from '../../common/FormButton';
 import SkeletonLoading from '../../common/SkeletonLoading';
 import Tooltip from '../../common/Tooltip';
@@ -27,6 +29,7 @@ export default function Staking({
     selectedValidator,
     multipleAccounts
 }) {
+    const NEARAsTokenWithMetadata = useSelector(selectNEARAsTokenWithMetadata);
 
     return (
         <>
@@ -35,13 +38,13 @@ export default function Staking({
             {multipleAccounts &&
                 <div className='select-account-title'>
                     <Translate id='staking.staking.selectAccount' />
-                    <Tooltip translate='staking.stake.accounts' position='bottom'/>
+                    <Tooltip translate='staking.stake.accounts' position='bottom' />
                 </div>
             }
             {!loading && !loadingDetails &&
                 <SelectAccount
                     accounts={accounts}
-                    onChange={e => onSwitchAccount(e.target.value)}
+                    onChange={(e) => onSwitchAccount(e.target.value)}
                     selectedAccount={activeAccount.accountId}
                 />
             }
@@ -51,8 +54,8 @@ export default function Staking({
                 show={loading || loadingDetails}
                 className='account-loader'
             />
-            <FormButton 
-                disabled={loadingDetails} 
+            <FormButton
+                disabled={loadingDetails}
                 linkTo='/staking/validators'
                 trackingId="STAKE Click stake my tokens button"
                 data-test-id="stakeMyTokensButton"
@@ -70,9 +73,9 @@ export default function Staking({
                     <BalanceBox
                         title='staking.balanceBox.staked.title'
                         info='staking.balanceBox.staked.info'
-                        amount={totalStaked}
+                        token={{...NEARAsTokenWithMetadata, balance: totalStaked}}
                         button={new BN(totalStaked).isZero() ? null : 'staking.balanceBox.staked.button'}
-                        linkTo={stakeFromAccount ? `/staking/unstake` : `/staking/${selectedValidator}/unstake`}
+                        linkTo={stakeFromAccount ? '/staking/unstake' : `/staking/${selectedValidator}/unstake`}
                         buttonColor='gray-blue'
                         buttonTestId="stakingPageUnstakingButton"
                         balanceTestId="stakingPageTotalStakedAmount"
@@ -80,7 +83,7 @@ export default function Staking({
                     <BalanceBox
                         title='staking.balanceBox.unclaimed.title'
                         info='staking.balanceBox.unclaimed.info'
-                        amount={totalUnclaimed}
+                        token={{...NEARAsTokenWithMetadata, balance: totalUnclaimed}}
                     />
                 </>
             }
@@ -89,21 +92,21 @@ export default function Staking({
                     <BalanceBox
                         title='staking.balanceBox.pending.title'
                         info='staking.balanceBox.pending.info'
-                        amount={totalPending}
+                        token={{...NEARAsTokenWithMetadata, balance: totalPending}}
                         balanceTestId="stakingPagePendingReleaseAmount"
                     />
                     <BalanceBox
                         title='staking.balanceBox.available.title'
                         info='staking.balanceBox.available.info'
-                        amount={totalAvailable}
+                        token={{...NEARAsTokenWithMetadata, balance: totalAvailable}}
                         button={new BN(totalAvailable).isZero() ? null : 'staking.balanceBox.available.button'}
-                        linkTo={stakeFromAccount ? `/staking/withdraw` : `/staking/${selectedValidator}`}
+                        linkTo={stakeFromAccount ? '/staking/withdraw' : `/staking/${selectedValidator}`}
                         buttonColor='gray-blue'
                     />
                 </>
                 : null}
             <h3><Translate id='staking.staking.currentValidators' /></h3>
-            {!loadingDetails 
+            {!loadingDetails
                 ? currentValidators.length
                     ? <ListWrapper>
                         {currentValidators.map((validator, i) =>

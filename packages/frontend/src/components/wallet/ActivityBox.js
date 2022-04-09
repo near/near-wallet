@@ -173,10 +173,10 @@ export const ActionMessage = ({ transaction, actionArgs, actionKind, accountId }
 
 const translateId = (transaction, actionArgs, actionKind, accountId) => (
     `${actionKind
-        }${actionKind === `AddKey`
+        }${actionKind === 'AddKey'
             ? actionArgs.access_key && actionArgs.access_key.permission.permission_details
-                ? `.forContract`
-                : `.forReceiver`
+                ? '.forContract'
+                : '.forReceiver'
             : ''
         }${actionKind === 'Transfer'
             ? transaction.signer_id === accountId
@@ -189,10 +189,10 @@ const translateId = (transaction, actionArgs, actionKind, accountId) => (
 export const translateData = (transaction, actionArgs, actionKind) => ({
     receiverId: transaction.receiver_id || '',
     signerId: transaction.signer_id || '',
-    methodName: actionKind === "FunctionCall" ? actionArgs.method_name : '',
-    deposit: actionKind === "Transfer" ? <Balance amount={actionArgs.deposit} /> : '',
-    stake: actionKind === "Stake" ? <Balance amount={actionArgs.stake} />  : '',
-    permissionReceiverId: (actionKind === "AddKey" && actionArgs.access_key && actionArgs.access_key.permission.permission_kind === 'FUNCTION_CALL') ? actionArgs.access_key.permission.permission_details.receiver_id : '',
+    methodName: actionKind === 'FunctionCall' ? actionArgs.method_name : '',
+    deposit: actionKind === 'Transfer' ? <Balance amount={actionArgs.deposit} /> : '',
+    stake: actionKind === 'Stake' ? <Balance amount={actionArgs.stake} />  : '',
+    permissionReceiverId: (actionKind === 'AddKey' && actionArgs.access_key && actionArgs.access_key.permission.permission_kind === 'FUNCTION_CALL') ? actionArgs.access_key.permission.permission_details.receiver_id : '',
 });
 
 const ActionIcon = ({ actionKind, receiverId, accountId }) => (
@@ -244,8 +244,8 @@ const ActionTimeStamp = ({ timeStamp }) => {
 
 export const ActionValue = ({ transaction, actionArgs, actionKind, accountId, showBalanceInUSD }) => (
     <div className={`value ${actionKind === 'Transfer' ? transaction.signer_id === accountId ? 'transferred' : 'received' : ''}`}>
-        {actionKind === "Transfer" && <Balance amount={actionArgs.deposit} showBalanceInUSD={showBalanceInUSD}/>}
-        {actionKind === "Stake" && <Balance amount={actionArgs.stake} showBalanceInUSD={showBalanceInUSD}/>}
+        {actionKind === 'Transfer' && <Balance amount={actionArgs.deposit} showBalanceInUSD={showBalanceInUSD}/>}
+        {actionKind === 'Stake' && <Balance amount={actionArgs.stake} showBalanceInUSD={showBalanceInUSD}/>}
     </div>
 );
 

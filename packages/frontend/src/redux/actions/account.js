@@ -1,28 +1,26 @@
-import { BN } from 'bn.js';
 import { 
     getLocation,
     push
 } from 'connected-react-router';
-import { utils } from 'near-api-js';
-import { PublicKey, KeyType } from 'near-api-js/lib/utils/key_pair';
 import { parse, stringify } from 'query-string';
 import { createActions, createAction } from 'redux-actions';
 
-import { DISABLE_CREATE_ACCOUNT, MULTISIG_MIN_PROMPT_AMOUNT } from '../../config';
+import { DISABLE_CREATE_ACCOUNT } from '../../config';
 import { 
-    showAlert,
-    dispatchWithAlert
+    showAlert
 } from '../../utils/alerts';
+import { isUrlNotJavascriptProtocol } from '../../utils/helper-api';
 import { 
     loadState,
     saveState,
     clearState
 } from '../../utils/sessionStorage';
 import { TwoFactor } from '../../utils/twoFactor';
-import { wallet, WALLET_INITIAL_DEPOSIT_URL } from '../../utils/wallet';
 import {
+    wallet,
     WALLET_CREATE_NEW_ACCOUNT_URL,
     WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS,
+    WALLET_INITIAL_DEPOSIT_URL,
     WALLET_LOGIN_URL,
     WALLET_SIGN_URL,
     WALLET_RECOVER_ACCOUNT_URL,
@@ -31,9 +29,11 @@ import {
     ENABLE_IDENTITY_VERIFIED_ACCOUNT
 } from '../../utils/wallet';
 import { WalletError } from '../../utils/walletError';
+import { withAlert } from '../reducers/status';
 import refreshAccountOwner from '../sharedThunks/refreshAccountOwner';
 import { 
     selectAccountAccountsBalances,
+    selectAccountHasLockup,
     selectAccountId,
     selectAccountUrl,
     selectAccountUrlCallbackUrl,
@@ -45,10 +45,9 @@ import {
     selectAccountUrlRedirectUrl,
     selectAccountUrlSuccessUrl,
     selectAccountUrlTitle,
-    selectAccountUrlTransactions,
-    selectBalance
+    selectAccountUrlTransactions
 } from '../slices/account';
-import { selectAccountHasLockup } from '../slices/account';
+import { createAccountWithSeedPhrase } from '../slices/account/createAccountThunks';
 import { selectAllAccountsHasLockup } from '../slices/allAccounts';
 import { selectAvailableAccounts } from '../slices/availableAccounts';
 import { 
@@ -56,10 +55,6 @@ import {
     selectFlowLimitationAccountBalance,
     selectFlowLimitationAccountData
  } from '../slices/flowLimitation';
-import { 
-    selectLedgerModal,
-    selectLedgerSignInWithLedger
-} from '../slices/ledger';
 import {
     handleStakingUpdateAccount,
     handleStakingUpdateLockup,
@@ -208,45 +203,24 @@ export const allowLogin = () => async (dispatch, getState) => {
 
     if (successUrl) {
         if (publicKey) {
-            await dispatchWithAlert(addAccessKey(wallet.accountId, contractId, publicKey, false, methodNames), { onlyError: true });
+            await dispatch(withAlert(addAccessKey(wallet.accountId, contractId, publicKey, false, methodNames), { onlyError: true }));
         }
         const availableKeys = await wallet.getAvailableKeys();
-        const allKeys = availableKeys.map(key => key.toString());
+        
+        const allKeys = availableKeys.map((key) => key.toString());
         const parsedUrl = new URL(successUrl);
         parsedUrl.searchParams.set('account_id', wallet.accountId);
         if (publicKey) {
             parsedUrl.searchParams.set('public_key', publicKey);
         }
         parsedUrl.searchParams.set('all_keys', allKeys.join(','));
-        window.location = parsedUrl.href;
+        if (isUrlNotJavascriptProtocol(parsedUrl.href)) {
+            window.location = parsedUrl.href;
+        }
     } else {
-        await dispatchWithAlert(addAccessKey(wallet.accountId, contractId, publicKey, false, methodNames), { data: { title } });
+        await dispatch(withAlert(addAccessKey(wallet.accountId, contractId, publicKey, false, methodNames), { data: { title } }));
         dispatch(redirectTo('/authorized-apps', { globalAlertPreventClear: true }));
     }
-};
-
-export const signInWithLedger = (path) => async (dispatch, getState) => {
-    await dispatch(getLedgerAccountIds(path));
-    const accountIds = Object.keys(selectLedgerSignInWithLedger(getState()));
-    await dispatch(signInWithLedgerAddAndSaveAccounts(accountIds, path));
-    return;
-};
-
-export const signInWithLedgerAddAndSaveAccounts = (accountIds, path) => async (dispatch, getState) => {
-    for (let accountId of accountIds) {
-        try {
-            if (path) {
-                await localStorage.setItem(`ledgerHdPath:${accountId}`, path);
-            }
-            await dispatch(addLedgerAccountId(accountId));
-            await dispatch(setLedgerTxSigned(false, accountId));
-        } catch (e) {
-            console.warn('Error importing Ledger-based account', accountId, e);
-            // NOTE: We still continue importing other accounts
-        }
-    }
-
-    return dispatch(saveAndSelectLedgerAccounts(selectLedgerSignInWithLedger(getState())));
 };
 
 const twoFactorMethod = async (method, wallet, args) => {
@@ -270,8 +244,6 @@ export const {
     checkCanEnableTwoFactor,
     get2faMethod,
     getLedgerKey,
-    getAccountHelperWalletState,
-    clearFundedAccountNeedsDeposit,
     getLedgerPublicKey,
     setupRecoveryMessage,
     deleteRecoveryMethod,
@@ -279,10 +251,10 @@ export const {
     claimLinkdropToAccount,
     checkIsNew,
     checkNewAccount,
-    createNewAccount,
     saveAccount,
     checkAccountAvailable,
-    clearCode
+    clearCode,
+    getMultisigRequest,
 } = createActions({
     INITIALIZE_RECOVERY_METHOD: [
         wallet.initializeRecoveryMethod.bind(wallet),
@@ -332,7 +304,7 @@ export const {
     ],
     DISABLE_MULTISIG: [
         (...args) => twoFactorMethod('disableMultisig', wallet, args),
-        () => ({})
+        () => showAlert()
     ],
     CHECK_CAN_ENABLE_TWO_FACTOR: [
         (...args) => TwoFactor.checkCanEnableTwoFactor(...args),
@@ -342,17 +314,13 @@ export const {
         (...args) => twoFactorMethod('get2faMethod', wallet, args),
         () => ({})
     ],
+    GET_MULTISIG_REQUEST: [
+        () => new TwoFactor(wallet, wallet.accountId).getMultisigRequest(),
+        () => ({}),
+    ],
     GET_LEDGER_KEY: [
         wallet.getLedgerKey.bind(wallet),
         () => ({})
-    ],
-    GET_ACCOUNT_HELPER_WALLET_STATE: [
-        wallet.getAccountHelperWalletState.bind(wallet),
-        () => ({})
-    ],
-    CLEAR_FUNDED_ACCOUNT_NEEDS_DEPOSIT: [
-        wallet.clearFundedAccountNeedsDeposit.bind(wallet),
-        () => showAlert({ onlyError: true })
     ],
     GET_LEDGER_PUBLIC_KEY: [
         wallet.getLedgerPublicKey.bind(wallet),
@@ -382,7 +350,6 @@ export const {
         wallet.checkNewAccount.bind(wallet),
         () => showAlert({ localAlert: true })
     ],
-    CREATE_NEW_ACCOUNT: wallet.createNewAccount.bind(wallet),
     SAVE_ACCOUNT: wallet.saveAccount.bind(wallet),
     CHECK_ACCOUNT_AVAILABLE: [
         wallet.checkAccountAvailable.bind(wallet),
@@ -397,14 +364,7 @@ export const {
     addLedgerAccessKey,
     sendIdentityVerificationMethodCode,
     disableLedger,
-    removeNonLedgerAccessKeys,
-    getLedgerAccountIds,
-    addLedgerAccountId,
-    saveAndSelectLedgerAccounts,
-    setLedgerTxSigned,
-    clearSignInWithLedgerModalState,
-    showLedgerModal,
-    hideLedgerModal
+    removeNonLedgerAccessKeys
 } = createActions({
     GET_ACCESS_KEYS: [wallet.getAccessKeys.bind(wallet), () => ({})],
     REMOVE_ACCESS_KEY: [
@@ -423,39 +383,8 @@ export const {
         wallet.disableLedger.bind(wallet),
         () => ({})
     ],
-    REMOVE_NON_LEDGER_ACCESS_KEYS: [wallet.removeNonLedgerAccessKeys.bind(wallet), () => ({})],
-    GET_LEDGER_ACCOUNT_IDS: [
-        wallet.getLedgerAccountIds.bind(wallet),
-        () => showAlert({ onlyError: true })
-    ],
-    ADD_LEDGER_ACCOUNT_ID: [
-        wallet.addLedgerAccountId.bind(wallet),
-        (accountId) => ({
-            accountId,
-            ...showAlert()
-        })
-    ],
-    SAVE_AND_SELECT_LEDGER_ACCOUNTS: [
-        wallet.saveAndSelectLedgerAccounts.bind(wallet),
-        () => showAlert()
-    ],
-    SET_LEDGER_TX_SIGNED: [
-        (status) => ({ status }),
-        (status, accountId) => ({
-            accountId
-        })
-    ],
-    CLEAR_SIGN_IN_WITH_LEDGER_MODAL_STATE: null,
-    SHOW_LEDGER_MODAL: null,
-    HIDE_LEDGER_MODAL: null
+    REMOVE_NON_LEDGER_ACCESS_KEYS: [wallet.removeNonLedgerAccessKeys.bind(wallet), () => ({})]
 });
-
-export const checkAndHideLedgerModal = () => async (dispatch, getState) => {
-    const modal = selectLedgerModal(getState());
-    if (modal.show) {
-        dispatch(hideLedgerModal());
-    }
-};
 
 export const handleAddAccessKeySeedPhrase = (accountId, recoveryKeyPair) => async (dispatch) => {
     try {
@@ -472,9 +401,13 @@ const handleFundCreateAccountRedirect = ({
     accountId,
     implicitAccountId,
     recoveryMethod
-}) => (dispatch) => {
+}) => (dispatch, getState) => {
+    const activeAccountId = selectAccountId(getState());
+
     if (ENABLE_IDENTITY_VERIFIED_ACCOUNT) {
-        dispatch(redirectTo(`/verify-account?accountId=${accountId}&implicitAccountId=${implicitAccountId}&recoveryMethod=${recoveryMethod}`));
+        const route = activeAccountId ? '/fund-with-existing-account' : '/verify-account';
+        const search = `?accountId=${accountId}&implicitAccountId=${implicitAccountId}&recoveryMethod=${recoveryMethod}`;
+        dispatch(redirectTo(route + search));
     } else {
         dispatch(redirectTo(`/fund-create-account/${accountId}/${implicitAccountId}/${recoveryMethod}`));
     }
@@ -520,7 +453,7 @@ export const handleCreateAccountWithSeedPhrase = (accountId, recoveryKeyPair, fu
     }
 
     try {
-        await dispatch(createAccountWithSeedPhrase(accountId, recoveryKeyPair, fundingOptions, recaptchaToken));
+        await dispatch(createAccountWithSeedPhrase({ accountId, recoveryKeyPair, fundingOptions, recaptchaToken })).unwrap();
     } catch (error) {
         if (await wallet.accountExists(accountId)) {
             // Requests sometimes fail after creating the NEAR account for another reason (transport error?)
@@ -538,52 +471,26 @@ export const handleCreateAccountWithSeedPhrase = (accountId, recoveryKeyPair, fu
 
 export const finishAccountSetup = () => async (dispatch, getState) => {
     await dispatch(refreshAccount());
-    await dispatch(getBalance());
     await dispatch(clearAccountState());
 
-    const balance = selectBalance(getState());
     const redirectUrl = selectAccountUrlRedirectUrl(getState());
     const accountId = selectAccountId(getState());
 
-    let promptTwoFactor = await TwoFactor.checkCanEnableTwoFactor(balance);
-
-    if (new BN(balance.available).lt(new BN(utils.format.parseNearAmount(MULTISIG_MIN_PROMPT_AMOUNT)))) {
-        promptTwoFactor = false;
-    }
-
-    if (promptTwoFactor) {
-        dispatch(redirectTo('/enable-two-factor', { globalAlertPreventClear: true }));
+    if (redirectUrl && isUrlNotJavascriptProtocol(redirectUrl)) {
+        window.location = `${redirectUrl}?accountId=${accountId}`;
     } else {
-        if (redirectUrl) {
-            window.location = `${redirectUrl}?accountId=${accountId}`;
-        } else {
-            dispatch(redirectToApp('/'));
-        }
+        dispatch(redirectToApp('/'));
     }
 };
 
-export const createAccountFromImplicit = createAction('CREATE_ACCOUNT_FROM_IMPLICIT', async (accountId, implicitAccountId, recoveryMethod) => {
-    const recoveryKeyPair = await wallet.keyStore.getKey(wallet.connection.networkId, implicitAccountId);
-    if (recoveryKeyPair) {
-        await wallet.saveAccount(accountId, recoveryKeyPair);
-    }
-    const publicKey = new PublicKey({ keyType: KeyType.ED25519, data: Buffer.from(implicitAccountId, 'hex') });
-    await wallet.createNewAccount(accountId, { fundingAccountId: implicitAccountId }, recoveryMethod, publicKey);
-},
-    () => showAlert({ onlyError: true })
-);
-
-export const { addAccessKey, createAccountWithSeedPhrase, addAccessKeySeedPhrase } = createActions({
+export const { 
+    addAccessKey,
+    addAccessKeySeedPhrase
+} = createActions({
     ADD_ACCESS_KEY: [
         wallet.addAccessKey.bind(wallet),
         (title) => showAlert({ title })
     ],
-    CREATE_ACCOUNT_WITH_SEED_PHRASE: async (accountId, recoveryKeyPair, fundingOptions = {}, recaptchaToken) => {
-        const recoveryMethod = 'phrase';
-        const previousAccountId = wallet.accountId;
-        await wallet.saveAccount(accountId, recoveryKeyPair);
-        await wallet.createNewAccount(accountId, fundingOptions, recoveryMethod, recoveryKeyPair.publicKey, previousAccountId, recaptchaToken);
-    },
     ADD_ACCESS_KEY_SEED_PHRASE: [
         async (accountId, recoveryKeyPair) => {
             const publicKey = recoveryKeyPair.publicKey.toString();
@@ -637,7 +544,7 @@ export const refreshAccount = (basicData = false) => async (dispatch, getState) 
     }
 
     dispatch(setLocalStorage(wallet.accountId));
-    await dispatch(refreshAccountOwner(selectFlowLimitationAccountData(getState())));
+    await dispatch(refreshAccountOwner(selectFlowLimitationAccountData(getState()))).unwrap();
 
     if (!basicData && !selectFlowLimitationAccountBalance(getState())) {
         dispatch(getBalance('', selectFlowLimitationAccountData(getState())));
@@ -685,7 +592,7 @@ export const { makeAccountActive, refreshAccountExternal, refreshUrl, updateStak
                 ...await wallet.getBalance(accountId)
             }
         }),
-        accountId => ({
+        (accountId) => ({
             accountId,
             ...showAlert({ onlyError: true, data: { accountId } })
         })

@@ -52,7 +52,7 @@ const TwoFactorVerifyInput = ({
                             placeholder={translate('setRecoveryConfirm.inputPlaceholder')}
                             aria-label={translate('setRecoveryConfirm.inputPlaceholder')}
                             value={code}
-                            onChange={e => onChange(e.target.value)}
+                            onChange={(e) => onChange(e.target.value)}
                             autoFocus={true}
                         />
                         {status.localAlert && status.localAlert.messageCode === 'reduxActions.VERIFY_TWO_FACTOR.error' && code.length > 0 &&
