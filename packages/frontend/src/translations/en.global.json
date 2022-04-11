@@ -646,7 +646,8 @@
                     "notTransferTokens": "This does not allow the app to transfer tokens",
                     "transferTokens": "Transfer tokens from your account",
                     "viewAddress": "View the address of your permitted account",
-                    "viewBalance": "View the balance of your permitted account"
+                    "viewBalance": "View the balance of your permitted account",
+                    "callMethodsOnContract": "Call methods on the smart contract on behalf of your permitted account"
                 },
                 "title": "Connecting with:"
             },

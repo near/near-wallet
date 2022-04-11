@@ -11,6 +11,7 @@ const StyledContainer = styled.div`
     > div {
         margin-right: 15px;
         width: 32px;
+        min-width: 32px;
         height: 32px;
         background-color: #F0F0F1;
         border-radius: 50%;
