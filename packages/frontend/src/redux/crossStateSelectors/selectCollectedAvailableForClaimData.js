@@ -19,11 +19,8 @@ const collectFarmingData = (args) => {
             tokenFiatValues,
             tokenWhitelist,
         } = args;
-        const filteredFarms = Object.keys(validatorsFarmData)
-            .reduce((acc, validatorId) => {
-                return [...acc, ...validatorsFarmData[validatorId].farmRewards];
-            }, [])
-            .filter((farm) => farm.active && +farm.balance > 0);
+        const filteredFarms = Object.values(validatorsFarmData)
+            .reduce((acc, {farmRewards}) => [...acc, ...farmRewards], []);
 
         const collectedBalance = filteredFarms.reduce((acc, farm) => ({
             ...acc,

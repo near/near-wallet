@@ -106,7 +106,9 @@ export default function Staking({
                     />
                 </>
                 : null}
-            {!loading && collectedFarmData.map((tokenData, i) => {
+            {!loading && collectedFarmData
+                .filter((tokenData) => +tokenData.balance > 0)
+                .map((tokenData, i) => {
                 return (
                     <BalanceBox
                         title={!i && 'staking.balanceBox.farmed.title'}

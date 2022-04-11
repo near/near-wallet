@@ -209,7 +209,7 @@ export function StakingContainer({ history, match }) {
         if (!accountId || !validators.length) return;
         
         validators
-            .filter((validator) => validator.version === FARMING_VALIDATOR_VERSION && validator.active)
+            .filter((validator) => validator.version === FARMING_VALIDATOR_VERSION)
             .forEach((validator) => dispatch(getValidatorFarmData(validator, accountId)));
     }, [accountId, validators]);
 
