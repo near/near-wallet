@@ -57,6 +57,35 @@
       "lastEditedAt": "2022-04-18T08:13:09.149Z"
     }
   },
+  "DONATE_TO_UKRAINE": {
+    "createdBy": "OlegYak ",
+    "createdAt": "2022-04-12T10:32:33.154Z",
+    "development": {
+      "enabled": true,
+      "lastEditedBy": "OlegYak ",
+      "lastEditedAt": "2022-04-12T10:32:33.154Z"
+    },
+    "testnet": {
+      "enabled": true,
+      "lastEditedBy": "OlegYak ",
+      "lastEditedAt": "2022-04-12T10:32:33.154Z"
+    },
+    "mainnet": {
+      "enabled": true,
+      "lastEditedBy": "OlegYak ",
+      "lastEditedAt": "2022-04-12T10:32:33.154Z"
+    },
+    "mainnet_STAGING": {
+      "enabled": false,
+      "lastEditedBy": "OlegYak ",
+      "lastEditedAt": "2022-04-12T10:32:33.154Z"
+    },
+    "testnet_STAGING": {
+      "enabled": false,
+      "lastEditedBy": "OlegYak ",
+      "lastEditedAt": "2022-04-12T10:32:33.154Z"
+    }
+  },
   "EXAMPLE_FLAG": {
     "createdBy": "Daryl Collins",
     "createdAt": "2021-05-24T09:33:27.489Z",
