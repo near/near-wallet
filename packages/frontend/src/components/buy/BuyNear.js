@@ -12,7 +12,7 @@ import OkCoinLogo from '../../images/ok-coin-logo.svg';
 import OkexLogo from '../../images/okex-logo.svg';
 import RainbowBridgeLogo from '../../images/rainbow-bridge-logo.svg';
 import { Mixpanel } from '../../mixpanel';
-import { selectAccountLocalStorageAccountId } from '../../redux/slices/account';
+import { selectAccountId } from '../../redux/slices/account';
 import { isMoonpayAvailable, getSignedUrl } from '../../utils/moonpay';
 import FormButton from '../common/FormButton';
 import Container from '../common/styled/Container.css';
@@ -149,7 +149,7 @@ const StyledContainer = styled(Container)`
 `;
 
 export function BuyNear({ history }) {
-    const accountId = useSelector(selectAccountLocalStorageAccountId);
+    const accountId = useSelector(selectAccountId);
     const [moonPayAvailable, setMoonPayAvailable] = useState(null);
     const [signedMoonPayUrl, setSignedMoonPayUrl] = useState(null);
 

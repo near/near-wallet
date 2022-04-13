@@ -28,7 +28,11 @@ export default createAsyncThunk(
                 }
                 if (nextAccountId) {
                     dispatch(makeAccountActive(nextAccountId));
+                    //FIX: Automatic switching when account doesn't exist makes it impossible to switch to a zero balance account
+                    // However, redux 'availableAccounts' array becomes empty if you switch to a zero balance account and refresh the page
                 }
+
+                console.log('createAsyncThunk refreshAccountOwner wallet.accounts',wallet.accounts);
 
                 // TODO: Make sure "problem creating" only shows for actual creation
                 return {

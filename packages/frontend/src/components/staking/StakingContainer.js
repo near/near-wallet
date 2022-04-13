@@ -11,7 +11,7 @@ import {
     handleStakingAction,
     handleUpdateCurrent
 } from '../../redux/actions/staking';
-import { selectAccountHas2fa, selectAccountHasLockup, selectAccountId, selectBalance, selectAccountLocalStorageAccountId } from '../../redux/slices/account';
+import { selectAccountHas2fa, selectAccountHasLockup, selectAccountId, selectBalance } from '../../redux/slices/account';
 import { selectLedgerHasLedger } from '../../redux/slices/ledger';
 import { selectStakingSlice } from '../../redux/slices/staking';
 import { selectStatusSlice } from '../../redux/slices/status';
@@ -166,7 +166,6 @@ const StyledContainer = styled(Container)`
 
 export function StakingContainer({ history, match }) {
     const dispatch = useDispatch();
-    const accountLocalStorageAccountId = useSelector(selectAccountLocalStorageAccountId);
     const accountId = useSelector(selectAccountId);
     const has2fa = useSelector(selectAccountHas2fa);
     const balance = useSelector(selectBalance);
@@ -177,9 +176,11 @@ export function StakingContainer({ history, match }) {
     const hasLockup = useSelector(selectAccountHasLockup);
 
     const { currentAccount } = staking;
-    const stakingAccounts = staking.accounts.length
-        ? staking.accounts
-        : [{ accountId: accountLocalStorageAccountId, totalUnstaked: '0', totalStaked: '0' }];
+    const currentAccountDataForInactiveAccount = {
+        accountId: accountId,
+        ...currentAccount
+    };
+    const stakingAccounts = staking.accounts.length ? staking.accounts : [currentAccountDataForInactiveAccount];
     const validators = staking.allValidators;
     const currentValidators = currentAccount.validators;
     const validatorId = history.location.pathname.split('/')[2];
@@ -235,7 +236,7 @@ export function StakingContainer({ history, match }) {
                                 currentValidators={currentValidators}
                                 onSwitchAccount={handleSwitchAccount}
                                 accounts={stakingAccounts}
-                                activeAccountId={currentAccount.accountId || accountLocalStorageAccountId}
+                                activeAccount={currentAccount}
                                 accountId={accountId}
                                 loading={status.mainLoader && !stakingAccounts.length}
                                 loadingDetails={(status.mainLoader && !stakingAccounts.length) || loadingBalance}

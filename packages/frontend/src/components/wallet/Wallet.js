@@ -254,6 +254,7 @@ export function Wallet({
     tab,
     setTab,
     accountId,
+    accountExists,
     balance,
     linkdropAmount,
     createFromImplicitSuccess,
@@ -291,7 +292,7 @@ export function Wallet({
                             balance={balance}
                             tokensLoader={tokensLoader}
                             fungibleTokens={fungibleTokensList}
-                            accountId={accountId}
+                            accountExists={accountExists}
                         />
 
                     }
@@ -328,15 +329,15 @@ export function Wallet({
     );
 }
 
-const FungibleTokens = ({ balance, tokensLoader, fungibleTokens, accountId }) => {
-    const zeroBalanceAccount = !accountId && !tokensLoader;
+const FungibleTokens = ({ balance, tokensLoader, fungibleTokens, accountExists }) => {
+    const zeroBalanceAccount = accountExists === false;
     return (
         <>
             <div className='total-balance'>
                 <Textfit mode='single' max={48}>
                     <Balance
                         showBalanceInNEAR={false}
-                        amount={balance?.balanceAvailable || '0'}
+                        amount={balance?.balanceAvailable}
                         showAlmostEqualSignUSD={false}
                         showSymbolUSD={false}
                         showSignUSD={true}

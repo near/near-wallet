@@ -12,6 +12,8 @@ export const selectAccountId = createSelector(selectAccountSlice, (account) => a
 
 export const selectActiveAccountIdIsImplicitAccount = createSelector(selectAccountSlice, (account) => isImplicitAccount(account.accountId));
 
+export const selectAccountExists = createSelector(selectAccountSlice, (account) => account.accountExists);
+
 export const selectAccountHas2fa = createSelector(selectAccountSlice, (account) => account.has2fa);
 
 export const selectAccountHasLockup = createSelector(selectAccountSlice, (account) => account.hasLockup);

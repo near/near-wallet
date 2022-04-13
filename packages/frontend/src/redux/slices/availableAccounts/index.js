@@ -20,6 +20,10 @@ const availableAccountsSlice = createSlice({
         builder.addCase(refreshAccountOwner.fulfilled, (state, action) => {
             set(state, ['items'], Object.keys((action.payload && action.payload.accounts) || {}).sort());
         });
+        builder.addCase(refreshAccountOwner.rejected, (state, action) => {
+            // FIX: should accounts be loaded from localStorage regardless of status?
+            set(state, ['items'], Object.keys((action.payload && action.payload.accounts) || {}).sort());
+        });
         handleAsyncThunkStatus({
             asyncThunk: refreshAccountOwner,
             buildStatusPath: () => [],

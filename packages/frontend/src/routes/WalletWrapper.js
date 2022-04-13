@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Wallet } from '../components/wallet/Wallet';
 import { useFungibleTokensIncludingNEAR } from '../hooks/fungibleTokensIncludingNEAR';
 import { Mixpanel } from '../mixpanel/index';
-import { selectAccountId, selectBalance } from '../redux/slices/account';
+import { selectAccountId, selectBalance, selectAccountExists } from '../redux/slices/account';
 import { selectAvailableAccounts } from '../redux/slices/availableAccounts';
 import { selectCreateFromImplicitSuccess, selectCreateCustomName, actions as createFromImplicitActions } from '../redux/slices/createFromImplicit';
 import { selectLinkdropAmount, actions as linkdropActions } from '../redux/slices/linkdrop';
@@ -20,8 +20,8 @@ export function WalletWrapper({
     tab,
     setTab
 }) {
-
     const accountId = useSelector(selectAccountId);
+    const accountExists = useSelector(selectAccountExists);
     const balance = useSelector(selectBalance);
     const dispatch = useDispatch();
     const linkdropAmount = useSelector(selectLinkdropAmount);
@@ -47,6 +47,7 @@ export function WalletWrapper({
             tab={tab}
             setTab={setTab}
             accountId={accountId}
+            accountExists={accountExists}
             balance={balance}
             linkdropAmount={linkdropAmount}
             createFromImplicitSuccess={createFromImplicitSuccess}

@@ -48,7 +48,7 @@ const Container = styled.div`
 
 export default function SelectAccount({ accounts, onChange, selectedAccount }) {
     return (
-        <RadioGroup onChange={accounts.every((account) => !!account.totalUnstaked) ? (e) => onChange(e) : null} selectedValue={selectedAccount}>
+        <RadioGroup onChange={accounts.length > 1 && accounts.every((account) => !!account.totalUnstaked) ? (e) => onChange(e) : null} selectedValue={selectedAccount}>
             {accounts.map((account, i) => 
                 <RadioButton value={account.accountId} key={i}>
                     <Container>

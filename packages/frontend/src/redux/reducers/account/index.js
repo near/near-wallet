@@ -22,6 +22,7 @@ import {
 import refreshAccountOwner from '../../sharedThunks/refreshAccountOwner';
 
 const initialState = {
+    accountExists: null,
     formLoader: false,
     sentMessage: false,
     requestPending: null,
@@ -104,12 +105,26 @@ const account = handleActions({
         return {
             ...state,
             ...payload,
+            accountExists: true,
             balance: {
                 ...payload?.balance,
                 ...state.balance
             },
             ledger: undefined,
             ...resetAccountState,
+            loader: false
+        };
+    },
+    [refreshAccountOwner.rejected]: (state, { error, payload }) => {
+        return {
+            ...state,
+            ...payload,
+            accountExists: error.message.includes('does not exist while viewing') ? false : null,
+            accountId: state.localStorage.accountFound ? state.localStorage.accountId : '',
+            balance: {
+                balanceAvailable: '0'
+            },
+            ledger: undefined,
             loader: false
         };
     },
