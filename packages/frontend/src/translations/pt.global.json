@@ -224,6 +224,7 @@
         "disable": "Desativar",
         "disabling": "Desativando",
         "dismiss": "Dispensar",
+        "donate": "Doar",
         "edit": "Editar",
         "enable": "Ativar",
         "enabling": "Ativando",
@@ -543,6 +544,7 @@
     },
     "link": {
         "account": "Conta",
+        "donateToUkraine": "Doe para a Ucrânia",
         "authorizedApps": "Apps Autorizados",
         "fullAccessKeys": "Chaves de Acesso Completo",
         "help": "Ajuda",

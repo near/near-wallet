@@ -10,7 +10,7 @@ import { connect } from 'react-redux';
 import { Redirect, Switch } from 'react-router-dom';
 import styled, { ThemeProvider } from 'styled-components';
 
-import { CREATE_IMPLICIT_ACCOUNT, IMPORT_ACCOUNT_WITH_LINK_V2, CREATE_USN_CONTRACT } from '../../../../features';
+import { CREATE_IMPLICIT_ACCOUNT, IMPORT_ACCOUNT_WITH_LINK_V2, CREATE_USN_CONTRACT, DONATE_TO_UKRAINE } from '../../../../features';
 import TwoFactorVerifyModal from '../components/accounts/two_factor/TwoFactorVerifyModal';
 import { IS_MAINNET, PUBLIC_URL, SHOW_PRERELEASE_WARNING, DISABLE_CREATE_ACCOUNT } from '../config';
 import ExampleFlag from '../ExampleFlag';
@@ -86,6 +86,7 @@ import { StakingContainer } from './staking/StakingContainer';
 import Terms from './terms/Terms';
 
 import '../index.css';
+import { DoanteContainerWrapper } from './DonateToUkraine/DonateContainer';
 
 const {    
     fetchTokenFiatValues,
@@ -514,6 +515,13 @@ class Routing extends Component {
                                 path="/swap-money"
                                 component={SwapContainerWrapper}
                             />}
+                            {DONATE_TO_UKRAINE && 
+                            <PrivateRoute
+                                exact
+                                ath="/donate-to-Ukraine"
+                                component={DoanteContainerWrapper}
+                            />}
+                            
                             <Route
                                 exact
                                 path='/profile/:accountId'

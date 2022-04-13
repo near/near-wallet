@@ -203,6 +203,7 @@
         "disable": "Tắt",
         "disabling": "Đang tắt",
         "dismiss": "Bỏ qua",
+        "donate": "Quyên tặng",
         "edit": "Sửa",
         "enable": "Bật",
         "enabling": "Đang bật",
@@ -489,6 +490,7 @@
     },
     "link": {
         "account": "Tài khoản",
+        "donateToUkraine": "Quyên góp cho Ukraine",
         "authorizedApps": "Các ứng dụng được ủy quyền",
         "fullAccessKeys": "Các khóa toàn quyền truy cập",
         "help": "Hỗ trợ",

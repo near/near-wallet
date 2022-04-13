@@ -205,6 +205,7 @@
         "disable": "Etkisizleştir",
         "disabling": "Etkisizleştiriliyor",
         "dismiss": "Reddet",
+        "donate": "Bağış yapmak",
         "edit": "Düzenle",
         "enable": "Etkinleştir",
         "enabling": "Etkinleştiriliyor",
@@ -522,6 +523,7 @@
     },
     "link": {
         "account": "Hesap",
+        "donateToUkraine": "Ukrayna'ya bağış yapın",
         "authorizedApps": "Yetkili Uygulamalar",
         "fullAccessKeys": "Tam Erişim Anahtarları",
         "help": "Yardım",

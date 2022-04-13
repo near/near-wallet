@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import FormButton from '../../../common/FormButton';
 import SafeTranslate from '../../../SafeTranslate';
 import AvatarSuccessIcon from '../../../svg/AvatarSuccessIcon';
+import UkraineDonateSuccessIcon from '../../../svg/UkraineDonateSuccessIcon';
 
 const StyledContainer = styled.div`
     > svg {
@@ -22,17 +23,21 @@ const Success = ({
     amount,
     receiverId,
     onClickContinue,
-    onClickGoToExplorer
+    onClickGoToExplorer,
+    donateToUkraine = false
 }) => {
 
     return (
         <StyledContainer className='buttons-bottom'>
-            <AvatarSuccessIcon/>
+            {donateToUkraine 
+                ? <UkraineDonateSuccessIcon/>
+                : <AvatarSuccessIcon/>
+            }
             <div
                 className="header"
                 data-test-id="sendTransactionSuccessMessage"
             >
-                <SafeTranslate id='sendV2.success.title'
+                <SafeTranslate id={`sendV2.success.${!donateToUkraine ? 'title' : 'titleDonate'}`}
                     data={{ 
                         amount: amount,
                         receiverId: receiverId

@@ -8,19 +8,15 @@ import classNames from '../../utils/classNames';
 import isDecimalString from '../../utils/isDecimalString';
 import { getNearAndFiatValue } from '../common/balance/helpers';
 import Container from '../common/styled/Container.css';
-import EnterAmount from './components/views/EnterAmount';
-import EnterReceiver from './components/views/EnterReceiver';
-import Review from './components/views/Review';
-import SelectToken from './components/views/SelectToken';
-import Success from './components/views/Success';
+import EnterAmount from '../send/components/views/EnterAmount';
+import SelectToken from '../send/components/views/SelectToken';
+import Success from '../send/components/views//Success';
 
 const { getFormattedTokenAmount, getParsedTokenAmount, getUniqueTokenIdentity } = FungibleTokens;
 
 export const VIEWS = {
     ENTER_AMOUNT: 'enterAmount',
     SELECT_TOKEN: 'selectToken',
-    ENTER_RECEIVER: 'enterReceiver',
-    REVIEW: 'review',
     SUCCESS: 'success'
 };
 
@@ -76,23 +72,16 @@ const StyledContainer = styled(Container)`
     }
 `;
 
-const SendContainerV2 = ({
+const DonateContainerV2 = ({
     redirectTo,
     fungibleTokens,
-    checkAccountAvailable,
-    localAlert,
-    clearLocalAlert,
     accountId,
     isMobile,
     explorerUrl,
     showNetworkBanner,
-    accountIdFromUrl,
     activeView,
     setActiveView,
-    estimatedTotalFees,
-    estimatedTotalInNear,
     handleSendToken,
-    handleContinueToReview,
     sendingToken,
     transactionHash,
     nearTokenFiatValueUSD
@@ -100,12 +89,9 @@ const SendContainerV2 = ({
     const [userInputAmount, setUserInputAmount] = useState('');
     const [isMaxAmount, setIsMaxAmount] = useState(false);
 
-    const [receiverId, setReceiverId] = useState(accountIdFromUrl);
     const [selectedToken, setSelectedToken] = useState(fungibleTokens[0]);
 
     useEffect(() => {
-        // fungibleTokens contains balance data for each token -- we need to update local state every time it changes
-        // TODO: Add a `byIdentity` reducer for faster lookups than .find()
         let targetToken = fungibleTokens.find(({ contractName }) => 
             (contractName && contractName === selectedToken.contractName)
         ) || fungibleTokens.find(({ onChainFTMetadata }) => 
@@ -133,7 +119,6 @@ const SendContainerV2 = ({
 
     const getRawAmount = () => getParsedTokenAmount(userInputAmount, selectedToken.onChainFTMetadata?.symbol, selectedToken.onChainFTMetadata?.decimals);
     const isValidAmount = () => {
-        // TODO: Handle rounding issue that can occur entering exact available amount
         if (isMaxAmount === true) {
             return true;
         }
@@ -150,7 +135,8 @@ const SendContainerV2 = ({
         case VIEWS.ENTER_AMOUNT:
             return (
                 <EnterAmount
-                    donateToUkraine={false}
+                    sendingToken={sendingToken}
+                    donateToUkraine={true}
                     amount={userInputAmount}
                     rawAmount={getRawAmount()}
                     onChangeAmount={(event) => {
@@ -171,7 +157,7 @@ const SendContainerV2 = ({
                     availableToSend={selectedToken.balance}
                     continueAllowed={enterAmountIsComplete()}
                     onContinue={() => {
-                        setActiveView(VIEWS.ENTER_RECEIVER);
+                        handleSendToken(isMaxAmount ? selectedToken.balance : getRawAmount(), 'ukraine.testnet', selectedToken.contractName);
                     }}
                     onClickCancel={() => redirectTo('/')}
                     selectedToken={selectedToken}
@@ -192,58 +178,16 @@ const SendContainerV2 = ({
                     isMobile={isMobile}
                 />
             );
-        case VIEWS.ENTER_RECEIVER:
-            return (
-                <EnterReceiver
-                    onClickGoBack={() => setActiveView(VIEWS.ENTER_AMOUNT)}
-                    onClickCancel={() => redirectTo('/')}
-                    amount={isMaxAmount ? selectedToken.balance : getRawAmount()}
-                    selectedToken={selectedToken}
-                    handleChangeReceiverId={(receiverId) => setReceiverId(receiverId)}
-                    receiverId={receiverId}
-                    checkAccountAvailable={checkAccountAvailable}
-                    localAlert={localAlert}
-                    clearLocalAlert={clearLocalAlert}
-                    onClickContinue={() => {
-                        Mixpanel.track('SEND Click continue to review button');
-                        handleContinueToReview({
-                            token: selectedToken,
-                            rawAmount: getRawAmount(),
-                            receiverId
-                        });
-                    }}
-                    isMobile={isMobile}
-                />
-            );
-        case VIEWS.REVIEW:
-            return (
-                <Review
-                    onClickCancel={() => {
-                        redirectTo('/');
-                        Mixpanel.track('SEND Click cancel button');
-                    }}
-                    amount={getRawAmount()}
-                    selectedToken={selectedToken}
-                    onClickContinue={() => handleSendToken(isMaxAmount ? selectedToken.balance : getRawAmount(), receiverId, selectedToken.contractName)}
-                    senderId={accountId}
-                    receiverId={receiverId}
-                    estimatedFeesInNear={estimatedTotalFees}
-                    sendingToken={sendingToken}
-                    estimatedTotalInNear={estimatedTotalInNear}
-                    onClickAmount={() => setActiveView(VIEWS.ENTER_AMOUNT)}
-                    onClickReceiver={() => setActiveView(VIEWS.ENTER_RECEIVER)}
-                    onClickSelectedToken={() => setActiveView(VIEWS.SELECT_TOKEN)}
-                />
-            );
         case VIEWS.SUCCESS:
             return (
                 <Success
+                    donateToUkraine={true}
                     amount={
                         selectedToken.onChainFTMetadata?.symbol === 'NEAR'
                         ? getNearAndFiatValue(getRawAmount(), nearTokenFiatValueUSD)
                         : `${userInputAmount} ${selectedToken.onChainFTMetadata?.symbol}`
                     }
-                    receiverId={receiverId}
+                    receiverId='ukraine'
                     onClickContinue={() => redirectTo('/')}
                     onClickGoToExplorer={() => window.open(`${explorerUrl}/transactions/${transactionHash}`, '_blank')}
                 />
@@ -260,4 +204,4 @@ const SendContainerV2 = ({
     );
 };
 
-export default SendContainerV2;
+export default DonateContainerV2;

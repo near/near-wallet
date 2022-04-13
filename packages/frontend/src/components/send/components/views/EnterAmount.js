@@ -25,6 +25,10 @@ const StyledContainer = styled.form`
             align-items: center;
         }
 
+        .donate_title {
+            text-align: center;
+        }
+
         .usd-amount {
             text-align: center;
             margin-bottom: 20px;
@@ -49,7 +53,9 @@ const EnterAmount = ({
     selectedToken,
     onClickSelectToken,
     error,
-    isMobile
+    isMobile,
+    donateToUkraine = false,
+    sendingToken = false
 }) => {
 
     return (
@@ -58,7 +64,10 @@ const EnterAmount = ({
             onSubmit={(e) => {onContinue(e); e.preventDefault();}}
             novalidate
         >
-            <TabSelector/>
+            {donateToUkraine 
+                ? <h1 className='donate_title'><Translate id='link.donateToUkraine'/></h1>
+                : <TabSelector/> 
+            }
             <div className='amount-input-wrapper'>
                 <AmountInput
                     value={amount}
@@ -92,10 +101,11 @@ const EnterAmount = ({
                 {/* TODO: Add error state */}
                 <FormButton
                     type='submit'
-                    disabled={!continueAllowed}
+                    disabled={!continueAllowed || sendingToken === true}
+                    sending={donateToUkraine && sendingToken === true}
                     data-test-id="sendMoneyPageSubmitAmountButton"
                 >
-                    <Translate id='button.continue'/>
+                   {!sendingToken && !donateToUkraine ? <Translate id='button.continue'/> : <Translate id={`button.${sendingToken === 'failed' ? 'retry' : 'donate'}`}/>}  
                 </FormButton>
                 <FormButton
                     type='button'

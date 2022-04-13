@@ -1,5 +1,5 @@
 import React from 'react';
-import { CREATE_USN_CONTRACT } from '../../../../../features'
+import { CREATE_USN_CONTRACT, DONATE_TO_UKRAINE } from '../../../../../features'
 import { Translate } from 'react-localize-redux';
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
@@ -10,6 +10,7 @@ import SwapIconTwoArrows from '../svg/SwapIconTwoArrows';
 import UserIcon from '../svg/UserIcon';
 import VaultIcon from '../svg/VaultIcon';
 import WalletIcon from '../svg/WalletIcon';
+import DonateToUkraineIcon from '../svg/DonateToUkraineIcon';
 
 const Container = styled.div`
     display: flex;
@@ -110,6 +111,15 @@ const NavLinks = () => (
             </div>
 
             <Translate id="button.swap" />
+        </NavLink>}
+        {DONATE_TO_UKRAINE && 
+        <NavLink
+             to="/donate-to-Ukraine"
+             activeClassName="selected"
+             onClick={() => Mixpanel.track("Click Donate button on nav")}
+        >
+            <DonateToUkraineIcon />
+            <Translate id="link.donateToUkraine" />
         </NavLink>}
     </Container>
 );
