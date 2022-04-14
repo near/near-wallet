@@ -303,9 +303,12 @@
     "confirmLedgerModal": {
         "header": {
             "confirm": "Please confirm the operation on your device...",
-            "processing": "Processing"
+            "processing": "Processing",
+            "success": "accounts have been successfully imported from your Ledger device.",
+            "weFound": "We found ${totalAccounts} accounts secured by your device."
         },
-        "one": "You will need to confirm your sign-in details on your Ledger."
+        "one": "You will need to confirm your sign-in details on your Ledger.",
+        "two": "Follow the instructions on your device to confirm and grant access to each account you'd like to import."
     },
     "connecting": "Connecting",
     "connectLedger": {
