@@ -118,9 +118,11 @@ class Wallet {
                 if (await wallet.getLedgerKey(accountId)) {
                     wallet.dispatchShowLedgerModal(true);
                     const path = await localStorage.getItem(`ledgerHdPath:${accountId}`);
-                    // eslint-disable-next-line es/no-dynamic-import
-                    const { createLedgerU2FClient } = await import('./ledger.js');
-                    const client = await createLedgerU2FClient();
+
+                    const { client } = ledgerManager;
+                    if (!client) {
+                        throw new WalletError('No client', 'connectLedger.noClient');
+                    }
                     const signature = await client.sign(message, path);
                     await store.dispatch(setLedgerTxSigned({ status: true, accountId }));
                     const publicKey = await this.getPublicKey(accountId, networkId);
