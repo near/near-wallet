@@ -174,6 +174,10 @@ const ledgerSlice = createSlice({
             set(state, ['hasLedger'], payload.ledger.hasLedger);
             set(state, ['ledgerKey'], payload.ledger.ledgerKey);
         });
+        builder.addCase(handleConnectLedger.rejected, (state, payload) => {
+            set(state, ['connection', 'available'], false);
+        });
+
         // matcher to handle closing modal automatically
         builder.addMatcher(
             ({ type, ready, error }) => ready || error || type.endsWith('/rejected') || type.endsWith('/fulfilled'),
