@@ -23,33 +23,39 @@ class LedgerManager {
         this.available = status;
     }
 
-    async initialize(disconnect) {
+    disconnectLedger() {
         if (this.transport) {
             if (this.transport.close) {
                 console.log('Closing transport');
                 try {
-                    this.transport.close && this.transport.close();
+                    this.transport.close();
                 } catch (e) {
                     console.warn('Failed to close existing transport', e);
                 } finally {
                     this.transport.off('disconnect', this.disconnectHandler);
                 }
             }
-
             delete this.transport;
             delete this.client;
             this.setLedgerAvailableStatus(false);
         }
+    }
 
+    async connectLedger(disconnectFunction) {
         this.transport = await this.createTransport();
         this.transport.on('disconnect', () => {
-            disconnect();
+            disconnectFunction();
             this.disconnectHandler();
         });
 
         this.client = await this.createClient(this.transport);
 
         this.setLedgerAvailableStatus(true);
+    }
+
+    async initialize(disconnectFunction) {
+        this.disconnectLedger();
+        await this.connectLedger(disconnectFunction);
     }
 
     createClient(...args) {
