@@ -18,7 +18,8 @@ const SLICE_NAME = 'ledger';
 export const LEDGER_MODAL_STATUS = {
     CONFIRM_PUBLIC_KEY: 'confirm-public-key',
     CONFIRM_ACCOUNTS: 'confirm-accounts',
-    ENTER_ACCOUNTID: 'enter-accountId'
+    ENTER_ACCOUNTID: 'enter-accountId',
+    SUCCESS: 'success'
 };
 
 const initialState = {
@@ -199,10 +200,13 @@ const ledgerSlice = createSlice({
             set(state, ['hasLedger'], payload.ledger.hasLedger);
             set(state, ['ledgerKey'], payload.ledger.ledgerKey);
         });
-        builder.addCase(handleConnectLedger.rejected, (state, payload) => {
+        builder.addCase(handleConnectLedger.rejected, (state) => {
             set(state, ['connection', 'available'], false);
         });
-
+        // signInWithLedger
+        builder.addCase(signInWithLedger.fulfilled, (state) => {
+            set(state, ['signInWithLedgerStatus'], LEDGER_MODAL_STATUS.SUCCESS);
+        });
         // matcher to handle closing modal automatically
         builder.addMatcher(
             ({ type, ready, error }) => ready || error || type.endsWith('/rejected') || type.endsWith('/fulfilled'),
