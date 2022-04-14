@@ -12,7 +12,7 @@ import classNames from '../../utils/classNames';
 const CustomButton = styled.button`
     &&& {
         color: #fff;
-        margin: 24px 0 0 0;
+        margin: ${({ swapButton }) => (swapButton ? 0 : '24px 0 0 0')};
         border: 2px solid;
         font-weight: 600;
         height: 56px;
@@ -110,7 +110,7 @@ const CustomButton = styled.button`
 
             &.rounded {
                 border-radius: 50px;
-                padding: 12px 15px;
+                padding: ${({ swapButton }) => (swapButton ? '6px 12px' : '12px 15px')};
                 width: auto;
             }
 
@@ -504,9 +504,11 @@ const FormButton = ({
     className,
     id,
     trackingId,
+    swapButton,
     'data-test-id': testId
 }) => (
     <CustomButton
+        swapButton={swapButton}
         type={type}
         id={id}
         className={classNames([color, size, className, {'dots': sending}])}

@@ -24,7 +24,7 @@ const StyledInfoItem = styled.div`
         width: 67px;
         height: 26px;
         background: #ffffff;
-        border: 1px solid #f1f0f0;
+        border: 1px solid #0072ce;
         box-sizing: border-box;
         border-radius: 60px;
         text-align: right;

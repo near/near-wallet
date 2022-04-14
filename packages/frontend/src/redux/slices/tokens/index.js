@@ -245,7 +245,13 @@ export const selectTokensWithMetadataForAccountId = createSelector(
     ],
     (allContractMetadata, ownedTokensForAccount, usd) =>
         Object.entries(ownedTokensForAccount)
-            // .filter(([_, { balance }]) => !new BN(balance).isZero())
+            .filter(([contractName, { balance }]) => {
+                // We need to see our contract even with zero balance
+                if(contractName === currentContractName) {
+                     return true;
+                }
+                return !new BN(balance).isZero()
+            })
             .sort(([a], [b]) =>
                 allContractMetadata[a].name.localeCompare(
                     allContractMetadata[b].name
