@@ -8,6 +8,7 @@ import { showAlertToolkit } from '../../../utils/alerts';
 import { ledgerManager } from '../../../utils/ledgerManager';
 import { setLedgerHdPath } from '../../../utils/localStorage';
 import { wallet } from '../../../utils/wallet';
+import { showCustomAlert } from '../../actions/status';
 import handleAsyncThunkStatus from '../../reducerStatus/handleAsyncThunkStatus';
 import initialStatusState from '../../reducerStatus/initialState/initialStatusState';
 import refreshAccountOwner from '../../sharedThunks/refreshAccountOwner';
@@ -35,6 +36,11 @@ const handleConnectLedger = createAsyncThunk(
         await ledgerManager.initialize();
         const { available } = ledgerManager;
         dispatch(ledgerSlice.actions.setLedgerConnectionStatus({ available }));
+        dispatch(showCustomAlert({
+            success: true,
+            messageCodeHeader: 'connectLedger.ledgerConnected',
+            messageCode: 'connectLedger.youMayNow',
+        }));
     },
     showAlertToolkit({ onlyError: true })
 );
