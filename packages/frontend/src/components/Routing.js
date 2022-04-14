@@ -20,7 +20,6 @@ import { handleClearAlert } from '../redux/reducers/status';
 import { selectAccountSlice } from '../redux/slices/account';
 import { actions as flowLimitationActions } from '../redux/slices/flowLimitation';
 import { actions as tokenFiatValueActions } from '../redux/slices/tokenFiatValues';
-import { fetchMultiplier } from '../redux/slices/multiplier'
 import { CreateImplicitAccountWrapper } from '../routes/CreateImplicitAccountWrapper';
 import { ImportAccountWithLinkWrapper } from '../routes/ImportAccountWithLinkWrapper';
 import { LoginWrapper } from '../routes/LoginWrapper';
@@ -89,7 +88,7 @@ import Terms from './terms/Terms';
 import '../index.css';
 
 const {    
-    fetchTokenFiatValues,fetchTokenUSDNFiatValues,
+    fetchTokenFiatValues,
     getTokenWhiteList
 } = tokenFiatValueActions;
 
@@ -140,7 +139,6 @@ class Routing extends Component {
         super(props);
 
         this.pollTokenFiatValue = null;
-        this.pollTokenFiatValueUSD = null;
 
         const languages = [
             { name: 'English', code: 'en' },
@@ -197,14 +195,11 @@ class Routing extends Component {
             handleClearUrl,
             router,
             fetchTokenFiatValues,
-            fetchTokenUSDNFiatValues,
             handleClearAlert,
             handleFlowLimitation
         } = this.props;
 
         fetchTokenFiatValues();
-        fetchTokenUSDNFiatValues();
-        this.startPollingTokenFiatValue();
         handleRefreshUrl(router);
         refreshAccount();
 
@@ -236,49 +231,6 @@ class Routing extends Component {
             localStorage.setItem('languageCode', curLangCode);
         }
     }
-
-    componentWillUnmount = () => {
-        this.stopPollingTokenFiatValue();
-    }
-
-    startPollingTokenFiatValue = () => {
-        const { fetchTokenFiatValues, fetchTokenUSDNFiatValues } = this.props;
-
-        const handlePollTokenFiatValue = async () => {
-            await fetchTokenFiatValues().catch(() => {});
-            if (this.pollTokenFiatValue) {
-                this.pollTokenFiatValue = setTimeout(
-                    () => handlePollTokenFiatValue(),
-                    30000
-                );
-            }
-        };
-        this.pollTokenFiatValue = setTimeout(
-            () => handlePollTokenFiatValue(),
-            30000
-        );
-
-        const handlePollTokenFiatValueUSDN = async () => {
-            await fetchTokenUSDNFiatValues().catch(() => {});
-            if (this.pollTokenFiatValueUSD) {
-                this.pollTokenFiatValueUSD = setTimeout(
-                    () => handlePollTokenFiatValueUSDN(),
-                    30000
-                );
-            }
-        };
-        this.pollTokenFiatValueUSD = setTimeout(
-            () => handlePollTokenFiatValueUSDN(),
-            30000
-        );
-    };
-
-    stopPollingTokenFiatValue = () => {
-        clearTimeout(this.pollTokenFiatValue);
-        clearTimeout(this.pollTokenFiatValueUSD);
-        this.pollTokenFiatValue = null;
-        this.pollTokenFiatValueUSD = null;
-    };
 
     render() {
         const { search, query: { tab }, hash, pathname } = this.props.router.location;
@@ -620,7 +572,6 @@ const mapDispatchToProps = {
     promptTwoFactor,
     redirectTo,
     fetchTokenFiatValues,
-    fetchTokenUSDNFiatValues,
     handleClearAlert,
     handleFlowLimitation,
     getTokenWhiteList

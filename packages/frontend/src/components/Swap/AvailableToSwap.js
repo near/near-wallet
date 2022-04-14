@@ -3,8 +3,13 @@ import { Translate } from "react-localize-redux";
 import styled from "styled-components";
 import { formatTokenAmount } from "../../utils/amounts";
 import { formatNearAmount } from "../common/balance/helpers";
+import FormButton from "../common/FormButton";
 
 const StyledAvailableContainer = styled.div`
+    display:flex;
+    padding-left: 4px;
+    justify-content:space-between;
+    align-items: center;
     text-align: right;
     width: 100%;
     margin-top: 5px;
@@ -13,7 +18,7 @@ const StyledAvailableContainer = styled.div`
     font-weight: 500;
     font-size: 14px;
     line-height: 17px;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
 
     span {
         color: green;
@@ -26,20 +31,34 @@ function AvailableToSwap({ balance, symbol, decimals, onClick }) {
 
     return (
         <StyledAvailableContainer>
-            <Translate id="swap.AvailableToSwap" />{" "}
-            <span onClick={() => onClick(symbol === "NEAR" ? amountoShow : formatTokenAmount(balance, decimals, 5))}>
-                {balance ? (
-                    <>
-                        {" "}
-                        {symbol === "NEAR"
+            <div>
+                <Translate id="swap.AvailableToSwap" />{" "}
+                    <span>
+                        {balance ? (
+                        <>
+                            {" "}
+                            {symbol === "NEAR"
                             ? amountoShow
                             : formatTokenAmount(balance, decimals, 5)}
-                    </>
-                ) : (
+                        </>
+                            ) : (
                     <span className="dots" />
                 )}{" "}
                 <>{symbol}</>
             </span>
+            </div>
+            <div>
+                <FormButton
+                swapButton={true}
+                onClick={() => onClick(symbol === "NEAR" ? amountoShow : formatTokenAmount(balance, decimals, 5))}
+                type='button'
+                color='light-blue'
+                className='small rounded'
+                >
+                    <Translate id='button.useMax'/>
+                </FormButton>                
+            </div>
+           
         </StyledAvailableContainer>
     );
 }

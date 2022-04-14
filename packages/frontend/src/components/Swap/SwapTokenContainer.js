@@ -21,13 +21,16 @@ const SwapContainer = styled.div`
 
     input {
         text-align: right;
-        font-weight: 600;
         padding-right: 3px;
         height: auto;
         border: 0;
         background-color: white;
         width: 150px;
         margin-left: auto;
+        font-weight: 500;
+        font-size: 18px;
+        line-height: 22px;
+        color: #252729;
     }
 
     .exchenge {

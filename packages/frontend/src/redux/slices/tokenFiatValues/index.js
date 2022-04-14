@@ -9,14 +9,13 @@ import handleAsyncThunkStatus from '../../reducerStatus/handleAsyncThunkStatus';
 import initialStatusState from '../../reducerStatus/initialState/initialStatusState';
 
 const SLICE_NAME = 'tokenFiatValues';
+const url = 'https://api.coingecko.com/api/v3/simple/price?ids=Tether&vs_currencies=usd'
 
 const fetchTokenFiatValues = createAsyncThunk(
     `${SLICE_NAME}/fetchTokenFiatValues`,
     async () => {
-        const nearFiatValue = await sendJson('GET', ACCOUNT_HELPER_URL + '/fiat');
-        // TODO: Rewrite this function call on by demand or even create separate action.
+        const [near, tether, tokenPrices] = await Promise.all([sendJson('GET', ACCOUNT_HELPER_URL + '/fiat'), sendJson('GET',url), fetchTokenPrices()])
 
-        const tokenPrices = await fetchTokenPrices();
         const last_updated_at = Date.now() / 1000; 
 
         const tokenFiatValues = Object.keys(tokenPrices).reduce((acc, curr) => {
@@ -28,9 +27,9 @@ const fetchTokenFiatValues = createAsyncThunk(
                 }
             });
         }, {});
-    
-        return merge(nearFiatValue, tokenFiatValues);
-    }
+     
+        return merge({}, near, tether, tokenFiatValues)
+    } 
 );
 
 const getTokenWhiteList = createAsyncThunk(
@@ -38,14 +37,6 @@ const getTokenWhiteList = createAsyncThunk(
     async (account_id) => fetchTokenWhiteList(account_id)
 );
 
-const fetchTokenUSDNFiatValues = createAsyncThunk(
-    `${SLICE_NAME}/fetchTokenUSDNFiatValues`,
-    () =>
-        sendJson(
-            'GET',
-            'https://api.coingecko.com/api/v3/simple/price?ids=Tether&vs_currencies=usd'
-        )
-);
 
 const initialState = {
     ...initialStatusState,
@@ -62,9 +53,6 @@ const tokenFiatValuesSlice = createSlice({
 
                 // Using merge instead of `assign()` so in the future we don't blow away previously loaded token
                 // prices when we load new ones with different token names
-                merge(state.tokens, action.payload);
-            });
-            builder.addCase(fetchTokenUSDNFiatValues.fulfilled, (state, action) => {
                 merge(state.tokens, action.payload);
             });
             builder.addCase(getTokenWhiteList.fulfilled, (state, action) => {
@@ -84,8 +72,7 @@ export default tokenFiatValuesSlice;
 export const reducer = tokenFiatValuesSlice.reducer;
 export const actions = {
     fetchTokenFiatValues,
-    getTokenWhiteList,
-    fetchTokenUSDNFiatValues,
+    getTokenWhiteList
 };
 
 // Future: Refactor to track loading state and error states _per token type_, when we actually support multiple tokens

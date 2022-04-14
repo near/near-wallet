@@ -1,11 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Container from '../common/styled/Container.css';
 import { currentToken } from './helpers';
-import { useDispatch } from 'react-redux';
-import { handleSwapBycontractName } from '../../redux/slices/swap';
+import { useDispatch, useSelector } from 'react-redux';
+import { handleSwapBycontractName, selectSwapBycontractName } from '../../redux/slices/swap';
 import SwapPage from './views/SwapPage';
 import Success from './views/Success';
+import { refreshAccount } from '../../redux/actions/account';
+import { actions as tokensActions } from "../../redux/slices/tokens";
+
+const { fetchTokens } = tokensActions;
+
 
 export const VIEWS_SWAP = {
     MAIN: 'main',
@@ -14,7 +19,7 @@ export const VIEWS_SWAP = {
 
 const StyledContainer = styled(Container)`
     position: relative;
-
+    
     h1 {
         text-align: center;
         margin-bottom: 30px;
@@ -27,10 +32,28 @@ const StyledContainer = styled(Container)`
         margin: 0 auto;
         width: fit-content;
         margin-bottom: 30px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 8px 8px 5px 5px;
+        border-radius:50%;
+        border: 1px solid #3170c7;
+        :hover {
+            svg {
+                g, path {
+                stroke: #0072ce;
+                fill: #0072ce;
+             }
+        }
+    }
 
         svg {
             transform: rotate(90deg);
             cursor: pointer;
+            g:hover {
+                stroke: #0072ce;
+                fill: #0072ce;
+             }
         }
     }
 
@@ -64,19 +87,13 @@ const StyledContainer = styled(Container)`
 const SwapAndSuccessContainer = ({
     fungibleTokensList,
     accountId,
-    miltiplier,
-    swapContractValue,
-    activeView,
-    isLoading,
-    handleSwapToken,
-    handleBackToSwap,
-    onRefreshMultiplier
+    multiplier,
 }) => {
     const [from, setFrom] = useState(fungibleTokensList[0]);
     const [to, setTo] = useState(currentToken(fungibleTokensList, 'USN'));
     const [inputValueFrom, setInputValueFrom] = useState(0);
-    const [slippPageValue, setSlippPageValue] = useState(1);
-    const [USNamount, setUSNamount] = useState('')
+    const swapContractValue = useSelector(selectSwapBycontractName)
+    const [activeView, setActiveView] = useState(VIEWS_SWAP.MAIN);
     const dispatch = useDispatch()
 
     useEffect(() => {
@@ -96,22 +113,23 @@ const SwapAndSuccessContainer = ({
         return () => dispatch(handleSwapBycontractName(''))
     },[dispatch])
 
+    const onHandleSBackToSwap = useCallback(async () => {
+        await dispatch(refreshAccount())
+        await dispatch(fetchTokens({ accountId }));
+        setActiveView('main')
+    },[]) 
+
    const getCurrentViewComponent = (activeView) => {
     switch (activeView) {
     case VIEWS_SWAP.MAIN:
             return (
                 <SwapPage
-                    onRefreshMultiplier={() => onRefreshMultiplier()}
-                    onClickContinue={() =>  handleSwapToken(slippPageValue, +inputValueFrom, from?.onChainFTMetadata?.symbol, USNamount)}
+                    setActiveView={setActiveView}
                     accountId={accountId}
                     from={from}
                     inputValueFrom={inputValueFrom}
-                    isLoading={isLoading}
-                    miltiplier={miltiplier}
+                    multiplier={multiplier}
                     setInputValueFrom={setInputValueFrom}
-                    setSlippPageValue={setSlippPageValue}
-                    setUSNamount={setUSNamount}
-                    slippPageValue={slippPageValue}
                     to={to}
                     onSwap={() => {
                         if (to?.balance === '0' || !to?.balance) return;
@@ -132,10 +150,10 @@ const SwapAndSuccessContainer = ({
                     inputValueFrom={inputValueFrom}
                     symbol={from.onChainFTMetadata?.symbol}
                     to={to}
-                    miltiplier={miltiplier}
+                    multiplier={multiplier}
                     handleBackToSwap={async () => {
                         setInputValueFrom(0)
-                       await handleBackToSwap(); 
+                       await onHandleSBackToSwap(); 
                     }}
                 />
             );

@@ -1,5 +1,9 @@
-import React, { useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { Translate } from 'react-localize-redux'
+import { useDispatch } from 'react-redux'
+import { useFetchByorSellUSN } from '../../../hooks/fetchByorSellUSN'
+import { showCustomAlert } from '../../../redux/actions/status'
+import { fetchMultiplier } from '../../../redux/slices/multiplier'
 import { formatTokenAmount } from '../../../utils/amounts'
 import { formatNearAmount } from '../../common/balance/helpers'
 import FormButton from '../../common/FormButton'
@@ -21,26 +25,40 @@ const SwapPage = ({
     to,
     inputValueFrom,
     setInputValueFrom,
-    miltiplier,
-    slippPageValue,
-    setSlippPageValue,
+    multiplier,
     accountId,
-    isLoading,
-    onClickContinue,
     onSwap,
-    setUSNamount,
-    onRefreshMultiplier
+    setActiveView
 }) => {
     const [isSwaped, setIsSwaped] = useState(false)
-    const {commissionFree, isLoadingCommission} = commission(accountId, inputValueFrom, 500, +miltiplier, from, isSwaped)
-
+    const [slippPageValue, setSlippPageValue] = useState(1);
+    const [USNamount, setUSNamount] = useState('')
+    const {commissionFree, isLoadingCommission} = commission(accountId, inputValueFrom, 500, +multiplier, from, isSwaped)
+    const { fetchByOrSell, isLoading, setIsLoading } = useFetchByorSellUSN();
+    const dispatch = useDispatch()
     const balance = balanceForError(from);
-    const error = balance < +inputValueFrom;
+    const error = balance < +inputValueFrom || !inputValueFrom
     const splpPageError = slippPageValue < 1 || slippPageValue > 50;
 
+    const onHandleSwapTokens = useCallback(async (accountId, multiplier, slippPageValue, inputValueFrom, symbol, USNamount) => {
+        try {
+            setIsLoading(true)
+            await fetchByOrSell(accountId, multiplier, slippPageValue, +inputValueFrom, symbol, USNamount)
+            setActiveView('success')
+        } catch (e) {
+            dispatch(showCustomAlert({
+                errorMessage: e.message,
+                success: false,
+                messageCodeHeader: 'error',
+            }));
+        } finally {
+            setIsLoading(false)
+        }
+    },[]) 
+   
   return (
     <>
-        <Loader onRefreshMultiplier={() => onRefreshMultiplier()}/>
+        <Loader onRefreshMultiplier={() => dispatch(fetchMultiplier())}/>
          <h1>
             <Translate id="button.swap" />
         </h1>
@@ -61,15 +79,15 @@ const SwapPage = ({
             onClick={() => {onSwap(); setIsSwaped(prev => !prev)}} 
         >
             <SwapIconTwoArrows
-                width={"20"}
-                height="20"
-                color="#3070C6"
+                width="23"
+                height="23"
+                color="#72727A"
             />
         </div>
         <SwapTokenContainer
             text="swap.to"
             fromTotoken={to}
-            muliplier={miltiplier}
+            muliplier={multiplier}
             value={inputValueFrom}
         />
         <SwapInfoContainer
@@ -77,7 +95,7 @@ const SwapPage = ({
             slippPageValue={slippPageValue}
             setSlippPageValue={setSlippPageValue}
             token={from?.onChainFTMetadata?.symbol}
-            exchngeRate={+miltiplier / 10000}
+            exchngeRate={+multiplier / 10000}
             amount={inputValueFrom}
             tradinFree={commissionFree?.result}
             isLoading={isLoadingCommission}
@@ -88,7 +106,7 @@ const SwapPage = ({
                 type="submit"
                 disabled={error || splpPageError || isLoading}
                 data-test-id="sendMoneyPageSubmitAmountButton"
-                onClick={onClickContinue}
+                onClick={() => onHandleSwapTokens(accountId, multiplier, slippPageValue, +inputValueFrom, from?.onChainFTMetadata?.symbol, USNamount)}
                 sending={isLoading}
             >
                 <Translate id="button.continue" />

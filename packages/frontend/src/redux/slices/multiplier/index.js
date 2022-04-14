@@ -1,13 +1,16 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import merge from 'lodash.merge';
 import { wallet } from "../../../utils/wallet";
 import { createSelector } from "reselect";
 import { ACCOUNT_ID_SUFFIX } from "../../../config"
+import initialStatusState from '../../reducerStatus/initialState/initialStatusState';
 
 
 
 const SLICE_NAME = "multiplier";
 
 const initialState = {
+    ...initialStatusState,
     prices: {},
 };
 
@@ -21,7 +24,7 @@ export const fetchMultiplier = createAsyncThunk(
                     request_type: "call_function",
                     account_id: `priceoracle.${ACCOUNT_ID_SUFFIX}`,
                     method_name: "get_price_data",
-                    args_base64: "eyJhc3NldF9pZHMiOiBbIndyYXAudGVzdG5ldCJdfQ==",
+                    args_base64: btoa(`{"asset_ids": ["wrap.${ACCOUNT_ID_SUFFIX}"]}`),
                     finality: "final",
                 }
             );
@@ -40,10 +43,10 @@ export const fetchMultiplier = createAsyncThunk(
 const multiplierSlice = createSlice({
     name: SLICE_NAME,
     initialState,
-    extraReducers: {
-        [fetchMultiplier.fulfilled]: (state, action) => {
-            state.prices = action.payload;
-        },
+    extraReducers: (builder) => {
+        builder.addCase(fetchMultiplier.fulfilled, (state, action) => {
+            merge(state.prices, action.payload);
+        });
     },
 });
 

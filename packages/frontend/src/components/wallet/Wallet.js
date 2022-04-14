@@ -2,9 +2,8 @@ import React from 'react';
 import { Translate } from 'react-localize-redux';
 import { Textfit } from 'react-textfit';
 import styled from 'styled-components';
-
-import { CREATE_IMPLICIT_ACCOUNT, CREATE_USN_CONTRACT } from '../../../../../features';
-import { useSplitFungibleTokens } from '../../hooks/splitFungibleTokens';
+import { CREATE_IMPLICIT_ACCOUNT,CREATE_USN_CONTRACT } from '../../../../../features';
+import { actions as tokenFiatValueActions } from '../../redux/slices/tokenFiatValues';
 import classNames from '../../utils/classNames';
 import { SHOW_NETWORK_BANNER } from '../../utils/wallet';
 import Balance from '../common/balance/Balance';
@@ -26,6 +25,8 @@ import NFTs from './NFTs';
 import ReleaseNotesModal from './ReleaseNotesModal';
 import Sidebar from './Sidebar';
 import Tokens from './Tokens';
+
+const { fetchTokenFiatValues } = tokenFiatValueActions;
 
 const StyledContainer = styled(Container)`
     @media (max-width: 991px) {
@@ -336,11 +337,20 @@ export function Wallet({
 
 const FungibleTokens = ({ balance, tokensLoading, fungibleTokens, accountExists, totalAmount }) => {
     const zeroBalanceAccount = accountExists === false;
+    const dispatch = useDispatch()
     const currentFungibleTokens = CREATE_USN_CONTRACT ? fungibleTokens[0][0] : fungibleTokens[0];
     const hideFungibleTokenSection =
         zeroBalanceAccount &&
         fungibleTokens?.length === 1 &&
         currentFungibleTokens?.onChainFTMetadata?.symbol === 'NEAR';
+
+    useEffect(() => {
+        const startPollingTokenFiatValue = setInterval(() => {
+            dispatch(fetchTokenFiatValues())
+        },30000)
+
+        return () => clearInterval(startPollingTokenFiatValue)
+    }, [])
 
     return (
         <>
