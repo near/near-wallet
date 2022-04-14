@@ -17,7 +17,6 @@ import { actions as ledgerActions, LEDGER_MODAL_STATUS, selectLedgerSignInWithLe
 import { selectStatusMainLoader, selectStatusSlice } from '../../../redux/slices/status';
 import { controller as controllerHelperApi } from '../../../utils/helper-api';
 import parseFundingOptions from '../../../utils/parseFundingOptions';
-import AlertBanner from '../../common/AlertBanner';
 import FormButton from '../../common/FormButton';
 import LocalAlertBox from '../../common/LocalAlertBox';
 import Container from '../../common/styled/Container.css';
@@ -118,10 +117,6 @@ export function SignInLedger(props) {
 
     return (
         <Container className='small-centered border ledger-theme'>
-            <AlertBanner
-                title='signInLedger.firefoxBanner.desc'
-                theme='alert'
-            />
             <h1><Translate id='signInLedger.header' /></h1>
             <LedgerImage />
             <h2><Translate id='signInLedger.one' /></h2>
