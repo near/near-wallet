@@ -26,6 +26,7 @@ const initialState = {
     modal: {},
     connection: {
         available: false,
+        disconnected: false,
         ...initialStatusState
     }
 };
@@ -140,6 +141,9 @@ const ledgerSlice = createSlice({
         setLedgerConnectionStatus(state, { payload: { available } }) {
             set(state, ['connection', 'available'], available);
         },
+        setLedgerDisconnect(state, { payload: { disconnected } }) {
+            set(state, ['connection', 'disconnected'], disconnected);
+        }
     },
     extraReducers: ((builder) => {
         // getLedgerAccountIds
