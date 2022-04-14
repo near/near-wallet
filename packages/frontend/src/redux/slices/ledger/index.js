@@ -45,6 +45,15 @@ const handleConnectLedger = createAsyncThunk(
     },
     showAlertToolkit({ onlyError: true })
 );
+
+const handleDisconnectLedger = createAsyncThunk(
+    `${SLICE_NAME}/handleDisconnectLedger`,
+    async (_, { dispatch }) => {
+        dispatch(ledgerSlice.actions.setLedgerConnectionStatus({ available: false }));
+        dispatch(ledgerSlice.actions.setLedgerDisconnect({ disconnected: true }));
+    }
+);
+
 const getLedgerAccountIds = createAsyncThunk(
     `${SLICE_NAME}/getLedgerAccountIds`,
     async ({ path }) => await wallet.getLedgerAccountIds({ path }),
