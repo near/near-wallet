@@ -56,7 +56,7 @@ import { CreateAccountWithRouter } from './accounts/CreateAccount';
 import LedgerConfirmActionModal from './accounts/ledger/LedgerConfirmActionModal';
 import { SetupLedgerWithRouter } from './accounts/ledger/SetupLedger';
 import { SetupLedgerSuccessWithRouter } from './accounts/ledger/SetupLedgerSuccess';
-import { SignInLedger } from './accounts/ledger/SignInLedger';
+import { SignInLedgerWrapper } from './accounts/ledger/SignInLedgerWrapper';
 import { LinkdropLandingWithRouter } from './accounts/LinkdropLanding';
 import { RecoverAccountSeedPhraseWithRouter } from './accounts/RecoverAccountSeedPhrase';
 import { RecoverAccountWrapper } from './accounts/RecoverAccountWrapper';
@@ -493,7 +493,7 @@ class Routing extends Component {
                             <Route
                                 exact
                                 path='/sign-in-ledger'
-                                component={SignInLedger}
+                                component={SignInLedgerWrapper}
                             />
                             <PrivateRoute
                                 path='/login'
