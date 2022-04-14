@@ -8,20 +8,17 @@ import handleAsyncThunkStatus from '../../reducerStatus/handleAsyncThunkStatus';
 import initialStatusState from '../../reducerStatus/initialState/initialStatusState';
 
 const SLICE_NAME = 'tokenFiatValues';
+const url = 'https://api.coingecko.com/api/v3/simple/price?ids=Tether&vs_currencies=usd'
 
 const fetchTokenFiatValues = createAsyncThunk(
     `${SLICE_NAME}/fetchTokenFiatValues`,
-    () => sendJson('GET', ACCOUNT_HELPER_URL + '/fiat')
+    async () => {
+        const [near, tether] = await Promise.all([sendJson('GET', ACCOUNT_HELPER_URL + '/fiat'), sendJson('GET',url)])
+     
+        return merge({}, near, tether)
+    } 
 );
 
-const fetchTokenUSDNFiatValues = createAsyncThunk(
-    `${SLICE_NAME}/fetchTokenUSDNFiatValues`,
-    () =>
-        sendJson(
-            'GET',
-            'https://api.coingecko.com/api/v3/simple/price?ids=Tether&vs_currencies=usd'
-        )
-);
 
 const initialState = {
     ...initialStatusState,
@@ -41,15 +38,6 @@ const tokenFiatValuesSlice = createSlice({
 
             merge(state.tokens, action.payload);
         });
-        builder.addCase(fetchTokenUSDNFiatValues.fulfilled, (state, action) => {
-            merge(state.tokens, action.payload);
-        });
-
-        // handleAsyncThunkStatus({
-        //     asyncThunk: fetchTokenFiatValues,
-        //     buildStatusPath: () => [],
-        //     builder,
-        // });
     },
 });
 
@@ -58,7 +46,6 @@ export default tokenFiatValuesSlice;
 export const reducer = tokenFiatValuesSlice.reducer;
 export const actions = {
     fetchTokenFiatValues,
-    fetchTokenUSDNFiatValues,
 };
 
 // Future: Refactor to track loading state and error states _per token type_, when we actually support multiple tokens

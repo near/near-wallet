@@ -9,7 +9,7 @@ const Success = ({
     inputValueFrom,
     to,
     symbol,
-    miltiplier,
+    multiplier,
     handleBackToSwap
 }) => {
   return (
@@ -20,7 +20,7 @@ const Success = ({
             valueTo={exchengeRateTranslation(
                 to,
                 +inputValueFrom,
-                +miltiplier / 10000
+                +multiplier / 10000
             )}
             symbol={symbol}
         />

@@ -25,6 +25,7 @@ import {
     actions as tokensActions,
     selectTokensLoading,
 } from '../../redux/slices/tokens';
+import { actions as tokenFiatValueActions } from '../../redux/slices/tokenFiatValues';
 import classNames from '../../utils/classNames';
 import { SHOW_NETWORK_BANNER } from '../../utils/wallet';
 import Balance from '../common/balance/Balance';
@@ -53,6 +54,7 @@ const { fetchTokens } = tokensActions;
 const { setLinkdropAmount } = linkdropActions;
 const { setCreateFromImplicitSuccess, setCreateCustomName } =
     createFromImplicitActions;
+const { fetchTokenFiatValues } = tokenFiatValueActions;
 
 const StyledContainer = styled(Container)`
     @media (max-width: 991px) {
@@ -367,12 +369,21 @@ export function Wallet({ tab, setTab }) {
 }
 
 const FungibleTokens = ({ balance, tokensLoader, fungibleTokens, totalAmount }) => {
+    const dispatch = useDispatch()
     const currentFungibleTokens = CREATE_USN_CONTRACT ? fungibleTokens[0][0] : fungibleTokens[0]
     const availableBalanceIsZero = balance?.balanceAvailable === '0';
     const hideFungibleTokenSection =
         availableBalanceIsZero &&
         fungibleTokens?.length === 1 &&
         currentFungibleTokens?.onChainFTMetadata?.symbol === 'NEAR';
+    
+    useEffect(() => {
+        const startPollingTokenFiatValue = setInterval(() => {
+            dispatch(fetchTokenFiatValues())
+        },30000)
+
+        return () => clearInterval(startPollingTokenFiatValue)
+    }, [])
     
     return (
         <>
