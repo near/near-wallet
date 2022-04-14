@@ -21,7 +21,10 @@ export const LEDGER_MODAL_STATUS = {
 
 const initialState = {
     ...initialStatusState,
-    modal: {}
+    modal: {},
+    connection: {
+        available: false,
+    }
 };
 
 const getLedgerAccountIds = createAsyncThunk(
@@ -116,6 +119,9 @@ const ledgerSlice = createSlice({
         hideLedgerModal(state, { payload, ready, error }) {
             set(state, ['modal'], {});
             unset(state, ['txSigned']);
+        },
+        setLedgerConnectionStatus(state, { payload: { available } }) {
+            set(state, ['connection', 'available'], available);
         },
     },
     extraReducers: ((builder) => {
