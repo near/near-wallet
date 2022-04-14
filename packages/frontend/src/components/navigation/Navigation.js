@@ -1,8 +1,12 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 
+import { actions as ledgerActions, selectLedgerConnectionAvailable, selectLedgerHasLedger } from '../../redux/slices/ledger';
 import DesktopContainer from './DesktopContainer';
 import MobileContainer from './MobileContainer';
+
+const { handleConnectLedger } = ledgerActions;
 
 const Container = styled.div`
     &&& {
@@ -39,8 +43,12 @@ export default ({
     availableAccounts,
     account
 }) => {
+    const dispatch = useDispatch();
 
     const [menuOpen, setMenuOpen] = useState(false);
+
+    const ledgerConnectionAvailable = useSelector(selectLedgerConnectionAvailable);
+    const hasLedger = useSelector(selectLedgerHasLedger);
 
     useEffect(() => {
         if (menuOpen) {
@@ -98,6 +106,9 @@ export default ({
                 refreshBalance={refreshBalance}
                 availableAccounts={availableAccounts}
                 account={account}
+                connectLedger={connectLedger}
+                ledgerConnectionAvailable={ledgerConnectionAvailable}
+                hasLedger = {hasLedger}
             />
             <MobileContainer
                 menuOpen={menuOpen}
