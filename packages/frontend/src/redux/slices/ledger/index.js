@@ -5,6 +5,7 @@ import { createSelector } from 'reselect';
 
 import { HIDE_SIGN_IN_WITH_LEDGER_ENTER_ACCOUNT_ID_MODAL } from '../../../config';
 import { showAlertToolkit } from '../../../utils/alerts';
+import { ledgerManager } from '../../../utils/ledgerManager';
 import { setLedgerHdPath } from '../../../utils/localStorage';
 import { wallet } from '../../../utils/wallet';
 import handleAsyncThunkStatus from '../../reducerStatus/handleAsyncThunkStatus';
@@ -200,6 +201,7 @@ const ledgerSlice = createSlice({
 export default ledgerSlice;
 
 export const actions = {
+    handleConnectLedger,
     signInWithLedger,
     checkAndHideLedgerModal,
     signInWithLedgerAddAndSaveAccounts,
@@ -221,3 +223,7 @@ export const selectLedgerHasLedger = createSelector(selectLedgerSlice, (ledger) 
 export const selectLedgerSignInWithLedger = createSelector(selectLedgerSlice, (ledger) => ledger.signInWithLedger || {});
 
 export const selectLedgerSignInWithLedgerStatus = createSelector(selectLedgerSlice, (ledger) => ledger.signInWithLedgerStatus);
+
+const selectLedgerConnection = createSelector(selectLedgerSlice, (ledger) => ledger.connection);
+
+export const selectLedgerConnectionAvailable= createSelector(selectLedgerConnection, (connection) => connection.available);
