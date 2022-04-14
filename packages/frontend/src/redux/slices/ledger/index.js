@@ -27,6 +27,15 @@ const initialState = {
     }
 };
 
+const handleConnectLedger = createAsyncThunk(
+    `${SLICE_NAME}/handleConnectLedger`,
+    async (_, { dispatch }) => {
+        await ledgerManager.initialize();
+        const { available } = ledgerManager;
+        dispatch(ledgerSlice.actions.setLedgerConnectionStatus({ available }));
+    },
+    showAlertToolkit({ onlyError: true })
+);
 const getLedgerAccountIds = createAsyncThunk(
     `${SLICE_NAME}/getLedgerAccountIds`,
     async ({ path }) => await wallet.getLedgerAccountIds({ path }),
