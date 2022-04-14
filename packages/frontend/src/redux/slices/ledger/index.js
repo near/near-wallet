@@ -24,6 +24,7 @@ const initialState = {
     modal: {},
     connection: {
         available: false,
+        ...initialStatusState
     }
 };
 
@@ -186,6 +187,11 @@ const ledgerSlice = createSlice({
         handleAsyncThunkStatus({
             asyncThunk: signInWithLedger,
             buildStatusPath: () => [],
+            builder
+        });
+        handleAsyncThunkStatus({
+            asyncThunk: handleConnectLedger,
+            buildStatusPath: () => ['connection'],
             builder
         });
     })
