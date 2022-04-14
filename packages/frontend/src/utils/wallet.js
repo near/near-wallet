@@ -16,7 +16,7 @@ import sendJson from '../tmp_fetch_send_json';
 import { decorateWithLockup } from './account-with-lockup';
 import { getAccountIds } from './helper-api';
 import { ledgerManager } from './ledgerManager';
-import { setAccountConfirmed, setWalletAccounts, removeActiveAccount, removeAccountConfirmed } from './localStorage';
+import { setAccountConfirmed, setWalletAccounts, removeActiveAccount, removeAccountConfirmed, getLedgerHDPath, removeLedgerHDPath } from './localStorage';
 import { TwoFactor } from './twoFactor';
 import { WalletError } from './walletError';
 
@@ -118,7 +118,7 @@ class Wallet {
             async signMessage(message, accountId, networkId) {
                 if (await wallet.getLedgerKey(accountId)) {
                     wallet.dispatchShowLedgerModal(true);
-                    const path = await localStorage.getItem(`ledgerHdPath:${accountId}`);
+                    const path = getLedgerHDPath(accountId);
 
                     const { client } = ledgerManager;
                     if (!client) {
@@ -529,13 +529,13 @@ class Wallet {
         await account.addKey(keyPair.publicKey);
         await this.keyStore.setKey(NETWORK_ID, this.accountId, keyPair);
 
-        const path = await localStorage.getItem(`ledgerHdPath:${this.accountId}`);
+        const path = getLedgerHDPath(this.accountId);
         const publicKey = await this.getLedgerPublicKey(path);
         await this.removeAccessKey(publicKey);
         await this.getAccessKeys(this.accountId);
 
         await this.deleteRecoveryMethod({ kind: 'ledger', publicKey: publicKey.toString() });
-        await localStorage.removeItem(`ledgerHdPath:${this.accountId}`);
+        removeLedgerHDPath(this.accountId);
     }
 
     async addWalletMetadataAccessKeyIfNeeded(accountId, localAccessKey) {
