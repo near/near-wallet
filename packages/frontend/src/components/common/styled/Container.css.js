@@ -81,16 +81,26 @@ const Container = styled.div`
     }
 
     &.ledger-theme {
+        text-align: center;
         display: flex;
         flex-direction: column;
         align-items: center;
 
-        > svg {
-            margin: 20px 0;
+        h1 {
+            font-size: 20px;
+            line-height: 130%;
+            margin: 10px 28px;
+        }
+        h2 {
+            margin: 0 0;
         }
 
-        &&& {
-            button {
+        > svg {
+            margin: 20px 0 60px -30px;
+        }
+
+        button {
+            &.link {
                 margin-top: 25px;
     
                 &.blue {
@@ -102,6 +112,21 @@ const Container = styled.div`
                     height: auto;
                     line-height: 140%;
                 }
+            }
+        }
+
+        .buttons-bottom-buttons {
+            width: 100%;
+
+            > button {
+                display: block;
+                width: 100%;
+
+            }
+
+            .link {
+                display: block;
+                margin: 20px auto;
             }
         }
     }

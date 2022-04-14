@@ -20,7 +20,7 @@ import parseFundingOptions from '../../../utils/parseFundingOptions';
 import FormButton from '../../common/FormButton';
 import LocalAlertBox from '../../common/LocalAlertBox';
 import Container from '../../common/styled/Container.css';
-import LedgerImage from '../../svg/LedgerImage';
+import LedgerImageCircle from '../../svg/LedgerImageCircle';
 import LedgerHdPaths from './LedgerHdPaths';
 import LedgerSignInModal from './LedgerSignInModal';
 
@@ -117,10 +117,10 @@ export function SignInLedger(props) {
 
     return (
         <Container className='small-centered border ledger-theme'>
+            <LedgerImageCircle />
             <h1><Translate id='signInLedger.header' /></h1>
-            <LedgerImage />
-            <h2><Translate id='signInLedger.one' /></h2>
-            <br />
+            <Translate id='signInLedger.one' />
+            <br /><br />
             <LocalAlertBox localAlert={status.localAlert} />
             <LedgerHdPaths
                 path={path}
@@ -130,21 +130,22 @@ export function SignInLedger(props) {
                     Mixpanel.track('IE-Ledger Sign in set custom HD path');
                 }}
             />
-            <FormButton
-                onClick={handleSignIn}
-                sending={signingIn}
-                sendingString='button.signingIn'
-            >
-                <Translate id={`button.${status.localAlert && !status.localAlert.success ? 'retry' : 'signIn'}`} />
-            </FormButton>
-            <FormButton
-                className='link red'
-                onClick={() => props.history.goBack()}
-                trackingId='IE-Ledger Click cancel button'
-            >
-                <Translate id='button.cancel' />
-            </FormButton>
-
+            <div className='buttons-bottom-buttons'>
+                <FormButton
+                    onClick={handleSignIn}
+                    sending={signingIn}
+                    sendingString='button.signingIn'
+                >
+                    <Translate id='button.authorize' />
+                </FormButton>
+                <FormButton
+                    className='gray link'
+                    onClick={() => props.history.goBack()}
+                    trackingId='IE-Ledger Click cancel button'
+                >
+                    <Translate id='button.cancel' />
+                </FormButton>
+            </div>
             {signingIn &&
                 <LedgerSignInModal
                     open={signingIn}
