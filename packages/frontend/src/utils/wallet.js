@@ -15,6 +15,7 @@ import { actions as ledgerActions } from '../redux/slices/ledger';
 import sendJson from '../tmp_fetch_send_json';
 import { decorateWithLockup } from './account-with-lockup';
 import { getAccountIds } from './helper-api';
+import { ledgerManager } from './ledgerManager';
 import { setAccountConfirmed, setWalletAccounts, removeActiveAccount, removeAccountConfirmed } from './localStorage';
 import { TwoFactor } from './twoFactor';
 import { WalletError } from './walletError';
@@ -631,9 +632,10 @@ class Wallet {
     }
 
     async getLedgerPublicKey(path) {
-        // eslint-disable-next-line es/no-dynamic-import
-        const { createLedgerU2FClient } = await import('./ledger.js');
-        const client = await createLedgerU2FClient();
+        const { client } = ledgerManager;
+        if (!client) {
+            throw new WalletError('No client', 'connectLedger.noClient');
+        }
         this.dispatchShowLedgerModal(true);
         const rawPublicKey = await client.getPublicKey(path);
         return new PublicKey({ keyType: KeyType.ED25519, data: rawPublicKey });
