@@ -157,7 +157,7 @@ const DonateContainerV2 = ({
                     availableToSend={selectedToken.balance}
                     continueAllowed={enterAmountIsComplete()}
                     onContinue={() => {
-                        handleSendToken(isMaxAmount ? selectedToken.balance : getRawAmount(), 'ukraine.testnet', selectedToken.contractName);
+                        handleSendToken(isMaxAmount ? selectedToken.balance : getRawAmount(), 'ukraine', selectedToken.contractName);
                     }}
                     onClickCancel={() => redirectTo('/')}
                     selectedToken={selectedToken}
