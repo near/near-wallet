@@ -83,7 +83,9 @@ export default ({
         selectAccount(accountId);
         setMenuOpen(false);
     }, []);
-    
+
+    const connectLedger =  () => dispatch(handleConnectLedger()).unwrap();
+
     return (
         <Container id='nav-container' open={menuOpen}>
             <DesktopContainer
