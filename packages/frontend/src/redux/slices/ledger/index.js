@@ -34,7 +34,7 @@ const initialState = {
 const handleConnectLedger = createAsyncThunk(
     `${SLICE_NAME}/handleConnectLedger`,
     async (_, { dispatch }) => {
-        await ledgerManager.initialize();
+        await ledgerManager.initialize(() => dispatch(handleDisconnectLedger()));
         const { available } = ledgerManager;
         dispatch(ledgerSlice.actions.setLedgerConnectionStatus({ available }));
         dispatch(showCustomAlert({
@@ -51,6 +51,12 @@ const handleDisconnectLedger = createAsyncThunk(
     async (_, { dispatch }) => {
         dispatch(ledgerSlice.actions.setLedgerConnectionStatus({ available: false }));
         dispatch(ledgerSlice.actions.setLedgerDisconnect({ disconnected: true }));
+
+        dispatch(showCustomAlert({
+            success: false,
+            messageCodeHeader: 'warning',
+            messageCode: 'errors.ledger.disconnected',
+        }));
     }
 );
 
