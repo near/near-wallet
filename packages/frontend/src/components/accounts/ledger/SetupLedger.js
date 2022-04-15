@@ -48,7 +48,6 @@ const SetupLedger = (props) => {
     const [confirmedPath, setConfirmedPath] = useState(null);
     const customLedgerHdPath = getLedgerHDPath(confirmedPath);
 
-
     const recaptchaRef = useRef(null);
     const fundingOptions = parseFundingOptions(props.location.search);
     const shouldRenderRecaptcha = !fundingOptions && RECAPTCHA_CHALLENGE_API_KEY && isNewAccount && !ENABLE_IDENTITY_VERIFIED_ACCOUNT;
@@ -115,7 +114,6 @@ const SetupLedger = (props) => {
                         dispatch(checkAndHideLedgerModal());
                         Mixpanel.track('SR-Ledger Create new account ledger');
                     } catch (err) {
-                        console.log(err);
                         if (isRetryableRecaptchaError(err)) {
                             Mixpanel.track('Funded account creation failed due to invalid / expired reCaptcha response from user');
                             recaptchaRef.current.reset();

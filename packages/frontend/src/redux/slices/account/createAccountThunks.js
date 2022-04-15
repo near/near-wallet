@@ -5,7 +5,7 @@ import { KeyType } from 'near-api-js/lib/utils/key_pair';
 
 import * as Config from '../../../config';
 import sendJson from '../../../tmp_fetch_send_json';
-import { setLedgerHdPath, setReleaseNotesClosed } from '../../../utils/localStorage';
+import { setReleaseNotesClosed } from '../../../utils/localStorage';
 import { CONTRACT_CREATE_ACCOUNT_URL, FUNDED_ACCOUNT_CREATE_URL, IDENTITY_FUNDED_ACCOUNT_CREATE_URL, RELEASE_NOTES_MODAL_VERSION, wallet } from '../../../utils/wallet';
 import { WalletError } from '../../../utils/walletError';
 import { finishAccountSetup } from '../../actions/account';
@@ -25,10 +25,6 @@ export const addLocalKeyAndFinishSetup = createAsyncThunk(
         publicKey,
         previousAccountId
     }, { dispatch }) => {
-        console.log(accountId,
-            recoveryMethod,
-            publicKey,
-            previousAccountId);
         if (recoveryMethod === 'ledger') {
             await wallet.addLedgerAccountId({ accountId });
             await wallet.postSignedJson('/account/ledgerKeyAdded', { accountId, publicKey: publicKey.toString() });

@@ -24,7 +24,7 @@ async function createLedgerU2FClient() {
 }
 
 function getLedgerHDPath(confirmedPath){
- return confirmedPath ? `44'/397'/0'/0'/${confirmedPath}'` : null;
+    return confirmedPath ? `44'/397'/0'/0'/${confirmedPath}'` : null;
 }
 
 export { createLedgerU2FClient, getLedgerHDPath };
