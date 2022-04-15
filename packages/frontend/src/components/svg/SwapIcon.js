@@ -11,11 +11,11 @@ const SwapIcon = ({ color }) => {
         >
             <g
                 fill="none"
-                fill-rule="evenodd"
+                fillRule="evenodd"
                 stroke={stroke}
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
                 transform="matrix(0 1 -1 0 18.5 2.5)"
             >
                 <g transform="matrix(0 -1 1 0 .5 16.5)">
