@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import set from 'lodash.set';
 import { createSelector } from 'reselect';
 
+import { wallet } from '../../../utils/wallet';
 import handleAsyncThunkStatus from '../../reducerStatus/handleAsyncThunkStatus';
 import initialStatusState from '../../reducerStatus/initialState/initialStatusState';
 import refreshAccountOwner from '../../sharedThunks/refreshAccountOwner';
@@ -21,8 +22,7 @@ const availableAccountsSlice = createSlice({
             set(state, ['items'], Object.keys((action.payload && action.payload.accounts) || {}).sort());
         });
         builder.addCase(refreshAccountOwner.rejected, (state, action) => {
-            // FIX: should accounts be loaded from localStorage regardless of status?
-            set(state, ['items'], Object.keys((action.payload && action.payload.accounts) || {}).sort());
+            set(state, ['items'], Object.keys((wallet.accounts) || {}).sort());
         });
         handleAsyncThunkStatus({
             asyncThunk: refreshAccountOwner,
