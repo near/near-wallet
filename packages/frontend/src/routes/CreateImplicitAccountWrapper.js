@@ -118,12 +118,6 @@ export function CreateImplicitAccountWrapper() {
             implicitAccountId={implicitAccountId}
             moonpayIsAvailable={moonpaySignedUrl}
             moonpaySignedUrl={moonpaySignedUrl}
-            onClickBuyButton={(amountUSD) => {
-                window.open(
-                    `${moonpaySignedUrl}&baseCurrencyAmount=${amountUSD}`,
-                    '_blank'
-                );
-            }}
         />
     );
 }

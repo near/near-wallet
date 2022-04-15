@@ -47,6 +47,11 @@
                     "title": "Fund with MoonPay"
                 },
                 "title": "Almost there! Activate your account with an initial deposit.",
+                "utorg": {
+                    "buyWith": "Buy with",
+                    "desc": "Make your initial deposit with Utorg using your preferred payment method.",
+                    "title": "Fund with Utorg"
+                },
                 "whereToBuy": {
                     "button": "Where can I purchase NEAR?",
                     "desc": "NEAR tokens are available to purchase through the following exchanges",
@@ -76,7 +81,7 @@
             "orAskFriend": "or ask a friend!",
             "orSendNear": "...or send at least ${amount} NEAR to your wallet address.",
             "sendFrom": "Send from an",
-            "title": "Almost there! To get started, buy some NEAR using MoonPay...",
+            "title": "Almost there! To get started, buy some NEAR using one of providers...",
             "titleAlt": "Almost there! To get started, send at least ${amount} NEAR to your wallet address."
         },
         "fundedStatus": {
@@ -245,12 +250,12 @@
         "recoverAccount": "Recover Account",
         "recovering": "Finding Account",
         "recoverYourAccount": "Recover your Account",
+        "removeAccount": "Remove Account",
         "removeNode": "Remove Node",
         "removingKeys": "Removing Keys",
         "reserveMyAccountId": "Reserve My Account ID",
         "resubmit": "Resubmit",
         "retry": "Retry",
-        "removeAccount": "Remove Account",
         "returnToApp": "Return to App",
         "saveChanges": "Save Changes",
         "secureMyAccount": "Secure My Account",
@@ -283,14 +288,16 @@
         "bridgeTokens": "Bridge Tokens from Ethereum",
         "buyWith": "Buy with",
         "coinMarketCap": "CoinMarketCap",
-        "descOne": "Purchase NEAR through MoonPay using your preferred payment method.",
+        "descMoonpay": "Purchase NEAR through MoonPay using your preferred payment method.",
         "descThree": "Transfer your tokens from Ethereum to NEAR Wallet using a bridge.",
         "descTwo": "NEAR is available to purchase through the following exchanges.",
+        "descUtorg": "Purchase NEAR through Utorg using your preferred payment method.",
         "moonPay": "MoonPay",
         "notSupported": "is not supported in your region",
         "seeMore": "See more on",
         "supportedExchanges": "Supported Exchanges",
-        "title": "Top Up"
+        "title": "Top Up",
+        "utorg": "Utorg"
     },
     "confirmLedgerModal": {
         "header": {
@@ -496,6 +503,21 @@
         "withId": "Importing account: ${accountId}",
         "withIdFailed": "Failed to import account: ${accountId}"
     },
+    "importAccountWithLink": {
+        "accountFound": "1 Account Found",
+        "accountImported": "Account Imported",
+        "accountsFound": "${count} Accounts Found",
+        "alreadyImported": "The account secured by this link has been imported.",
+        "continue": "and continue this process in your browser of choice.",
+        "copyUrl": "copy the URL",
+        "foundAccount": "We found <b>1 account</b> secured by this link.",
+        "foundAccounts": "We found <b>${count} accounts</b> secured by this link.",
+        "goToAccount": "Go to Account",
+        "import": "Import",
+        "importAccount": "Import Your Account",
+        "preferedBrowser": "If this isn't your preferred browser,"
+    },
+    "importing": "Importing",
     "initialDeposit": {
         "claimAccount": {
             "desc": "Your deposit was received! Once claimed, your deposit will be transferred to your new account.",
@@ -576,21 +598,6 @@
         },
         "or": "or",
         "title": "You’ve received a NEAR drop!"
-    },
-    "NFTDetail": {
-        "owner": "OWNER",
-        "transfer": "Transfer"
-    },
-    "NFTTransfer": {
-      "transferNft": "Transfer NFT",
-      "enterReceiver": "Enter a recipient address, then proceed to confirm your transaction.",
-      "cancel": "Cancel",
-      "next": "Next",
-      "confirm": "Confirm",
-      "transactionComplete": "Transaction Complete!",
-      "viewTransaction": "View Receipt",
-      "continue": "Continue",
-      "youSent": "You sent <span class='color-blue'>${title}</span> to <span class='color-green'>${receiverId}</span>"
     },
     "loading": "Loading...",
     "loadingNoDots": "Loading",
@@ -681,9 +688,24 @@
         "header": "NEAR test Wallet",
         "title": "Test-only Wallet"
     },
+    "NFTDetail": {
+        "owner": "OWNER",
+        "transfer": "Transfer"
+    },
     "NFTs": {
         "emptyState": "Looks like you don't have any collectibles yet.",
         "loadMore": "Load more"
+    },
+    "NFTTransfer": {
+        "cancel": "Cancel",
+        "confirm": "Confirm",
+        "continue": "Continue",
+        "enterReceiver": "Enter a recipient address, then proceed to confirm your transaction.",
+        "next": "Next",
+        "transactionComplete": "Transaction Complete!",
+        "transferNft": "Transfer NFT",
+        "viewTransaction": "View Receipt",
+        "youSent": "You sent <span class='color-blue'>${title}</span> to <span class='color-green'>${receiverId}</span>"
     },
     "nodeDetails": {
         "pageText": "Update the details of your node.",
@@ -846,20 +868,6 @@
         "snackbarCopySuccess": "Recover URL copied",
         "title": "Restore Account"
     },
-    "importAccountWithLink": {
-        "accountFound": "1 Account Found",
-        "accountsFound": "${count} Accounts Found",
-        "accountImported": "Account Imported",
-        "alreadyImported": "The account secured by this link has been imported.",
-        "copyUrl": "copy the URL",
-        "continue": "and continue this process in your browser of choice.",
-        "foundAccount": "We found <b>1 account</b> secured by this link.",
-        "foundAccounts": "We found <b>${count} accounts</b> secured by this link.",
-        "import": "Import",
-        "importAccount": "Import Your Account",
-        "preferedBrowser": "If this isn't your preferred browser,",
-        "goToAccount": "Go to Account"
-    },
     "recoveryMgmt": {
         "disableInputPlaceholder": "Enter your account ID to confirm",
         "disableNo": "No, keep",
@@ -997,7 +1005,6 @@
         "switchAccounthNotAllowed": "This app doesn't allow account changes"
     },
     "sending": "Sending",
-    "importing": "Importing",
     "sendMoney": {
         "account": {
             "title": "Send to"
@@ -1190,10 +1197,6 @@
             "body": "${signCallbackUrl} is requesting authorization from a NEAR account that cannot be found: <b>${signTransactionSignerId}</b><br/><br/>To approve any transactions, you’ll first need to import the account.",
             "title": "Account Not Found"
         },
-        "multipleAccountsError": {
-            "body": "<a href=${signCallbackUrl} target='_blank' rel='noreferrer'>${signCallbackUrl}</a> has requested authorization from more than one account.<br/><br/>NEAR Wallet may only authorize transactions for a single account at a time.",
-            "title": "Batch Transaction Error"
-        },
         "ActionWarrning": {
             "binaryData": "Arguments contain binary data",
             "deleteAccount": "You are about to delete your account! Your NEAR balance will be destroyed, and all of your account data deleted.",
@@ -1229,6 +1232,10 @@
         "isRequesting": {
             "authorization": "is requesting authorization",
             "transferOf": "is requesting the transfer of"
+        },
+        "multipleAccountsError": {
+            "body": "<a href=${signCallbackUrl} target='_blank' rel='noreferrer'>${signCallbackUrl}</a> has requested authorization from more than one account.<br/><br/>NEAR Wallet may only authorize transactions for a single account at a time.",
+            "title": "Batch Transaction Error"
         },
         "networkFees": "Network Fees",
         "nothingHasBeenTransferred": "Nothing has been transferred.",
@@ -1322,6 +1329,12 @@
                 }
             }
         },
+        "claimSuccess": {
+            "button": "Return to Dashboard",
+            "desc": "Tokens have been successfully claimed from the validator",
+            "descTwo": "Your tokens are already available",
+            "title": "Success!"
+        },
         "noValidators": {
             "title": "You are not currently staking with any validators."
         },
@@ -1354,7 +1367,6 @@
             "descTwo": "You can now view your delegation and staking rewards from your staking dashboard.",
             "title": "Success!"
         },
-
         "staking": {
             "available": "Available balance",
             "button": "Stake My Tokens",
@@ -1383,24 +1395,18 @@
             "descTwo": "Your tokens are pending release and will be made available within ~52-65hrs (4 epochs).",
             "title": "Success!"
         },
-        "claimSuccess": {
-            "button": "Return to Dashboard",
-            "desc": "Tokens have been successfully claimed from the validator",
-            "descTwo": "Your tokens are already available",
-            "title": "Success!"
-        },
         "validator": {
+            "activeStake": "Active Stake",
             "apy": "APY",
-            "claiming": "Claiming",
             "button": "Stake With Validator",
             "claimFarmRewards": "You are claiming",
-            "activeStake": "Active Stake",
-            "rewards": "Rewards",
-            "errorClaimRewards": "Something went wrong during claiming your farm rewards. Please, try again later",
+            "claiming": "Claiming",
             "desc": "This is the fee paid to the validator to stake on your behalf. This fee is only charged on your rewards.",
+            "errorClaimRewards": "Something went wrong during claiming your farm rewards. Please, try again later",
             "fee": "Validator Fee",
             "notWhitelistedTokenWarning": "This token has not been whitelisted by ref-finance. Proceed at your own risk.",
             "notWhitelistedValidatorWarning": "Tokens awarded by this validator have not been whitelisted by ref-finance. Proceed at your own risk.",
+            "rewards": "Rewards",
             "title": "Validator: <br/>${validator}",
             "unstake": "You are unstaking",
             "withdraw": "You are withdrawing",
@@ -1464,6 +1470,16 @@
         "to": "To"
     },
     "twoFactor": {
+        "action": {
+            "addKey": {
+                "full": "WARNING: Entering the code below will authorize full access to your NEAR account: ${accountId}. If you did not initiate this action, please DO NOT continue.<br /><br />This should only be done if you are adding a new full access key to your account. In all other cases, this is very dangerous.<br /><br /> The public key you are adding is: ${publicKey} ",
+                "limited": "Adding key ${publicKey} limited to call ${methodNames} on ${receiverId} and spend up to ${allowance} NEAR on gas"
+            },
+            "deleteKey": "Deleting key ${publicKey}",
+            "functionCall": "Calling method: ${methodName} in contract: ${receiverId} with amount ${deposit} NEAR and with args: <pre>${args}</pre>",
+            "stake": "Staking: ${amount} NEAR to validator: ${receiverId}",
+            "transfer": "Transferring: ${amount} NEAR to ${receiverId}"
+        },
         "active": "Active",
         "alertBanner": {
             "button": "Learn More",
@@ -1473,9 +1489,9 @@
         "desc": "Protect your account by requiring confirmation via SMS or email when authorizing transactions.",
         "disable": {
             "desc": "Keep in mind that transactions won't have to be confirmed with 2FA once it's disabled.",
-            "phoneDesc": "The SMS option for two-factor authentication is being deprecated, and cannot be re-enbaled.",
             "disable": "Disable 2FA",
             "keep": "No, keep 2FA",
+            "phoneDesc": "The SMS option for two-factor authentication is being deprecated, and cannot be re-enbaled.",
             "title": "Are you sure you want to disable 2FA?"
         },
         "email": "Email",
@@ -1497,16 +1513,6 @@
             "resending": "Sending...",
             "resent": "Code sent!",
             "title": "Enter Two-Factor Verification Code"
-        },
-        "action": {
-            "addKey": {
-                "limited": "Adding key ${publicKey} limited to call ${methodNames} on ${receiverId} and spend up to ${allowance} NEAR on gas",
-                "full": "WARNING: Entering the code below will authorize full access to your NEAR account: ${accountId}. If you did not initiate this action, please DO NOT continue.<br /><br />This should only be done if you are adding a new full access key to your account. In all other cases, this is very dangerous.<br /><br /> The public key you are adding is: ${publicKey} ",
-            },
-            "deleteKey": "Deleting key ${publicKey}",
-            "functionCall": "Calling method: ${methodName} in contract: ${receiverId} with amount ${deposit} NEAR and with args: <pre>${args}</pre>",
-            "stake": "Staking: ${amount} NEAR to validator: ${receiverId}",
-            "transfer": "Transferring: ${amount} NEAR to ${receiverId}"
         }
     },
     "unlockedAvailTransfer": "This NEAR is unlocked, and can be transferred out of your lockup contract.",
@@ -1608,11 +1614,11 @@
         "promptTwoFactor": {
             "userCancelled": "2FA code was not verified correctly."
         },
-        "recoverAccountSeedPhrase": {
-            "errorInvalidSeedPhrase": "No accounts were found for this passphrase."
-        },
         "recoverAccountLink": {
             "error": "Import of your account failed. Please try again or contact support for assistance."
+        },
+        "recoverAccountSeedPhrase": {
+            "errorInvalidSeedPhrase": "No accounts were found for this passphrase."
         },
         "recoveryMethods": {
             "lastMethod": "Cannot delete your last recovery method. Unless you have Ledger enabled, you need to keep at least one recovery method active to ensure recoverability of your account.",

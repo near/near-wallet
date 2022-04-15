@@ -2,10 +2,12 @@ import React, { useState } from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
+import UtorgLogo from '../../../../images/utorg-logo.png';
 import FormButton from '../../../common/FormButton';
 import Container from '../../../common/styled/Container.css';
 import WhereToBuyNearModal from '../../../common/WhereToBuyNearModal';
 import MoonPayIcon from '../../../svg/MoonPayIcon';
+import { buildUtorgPayLink } from '../FundWithUtorg';
 import YourAddress from './YourAddress';
 
 const StyledContainer = styled(Container)`
@@ -37,6 +39,12 @@ const StyledContainer = styled(Container)`
                     height: auto;
                     margin: 0 0 0 10px;
                 }
+                
+                img {
+                    width: 105px;
+                    height: auto;
+                    margin: 0 0 0 10px;
+                }
             }
 
             &.gray-gray {
@@ -46,44 +54,7 @@ const StyledContainer = styled(Container)`
     }
 `;
 
-// const StyledBuyButton = styled(FormButton)`
-//     &&&& {
-//         border-radius: 16px;
-//         flex: 1;
-//         margin-right: 8px;
-
-//         :last-child {
-//             margin-right: 0;
-//         }
-//     }
-// `;
-
-// const BuyButton = ({
-//     amountUSD,
-//     onClickBuyButton,
-//     moonpayIsAvailable
-// }) => {
-
-//     const getBuyButtonLabel = (amountUSD) => {
-//         if (amountUSD) {
-//             return `$${amountUSD}`;
-//         }
-//         return (<Translate id='account.createImplicitAccount.customAmount' />);
-//     };
-
-//     return (
-//         <StyledBuyButton
-//             disabled={!moonpayIsAvailable}
-//             color='light-blue'
-//             onClick={() => onClickBuyButton(amountUSD)}
-//         >
-//             {getBuyButtonLabel(amountUSD)}
-//         </StyledBuyButton>
-//     );
-// };
-
 export default ({
-    onClickBuyButton,
     implicitAccountId,
     formattedMinDeposit,
     moonpayIsAvailable,
@@ -94,21 +65,15 @@ export default ({
         <>
             <StyledContainer className='border small-centered'>
                 <h3><Translate id='account.createImplicitAccount.title' /></h3>
-                {/* <div className='flex-center-center'>
-                    {['30', '50', '100', ''].map((amount) => (
-                        <BuyButton
-                            key={`${amount}`}
-                            amountUSD={amount}
-                            onClickBuyButton={onClickBuyButton}
-                            moonpayIsAvailable={moonpayIsAvailable}
-                        />
-                    ))}
-                </div> */}
-                {/*
-                TEMPORARILY DISABLE MOONPAY PRE-SPECIFIED AMOUNT BUTTONS
-                WHILE MOONPAY 'baseCurrencyAmount' IS BROKEN
-                ISSUE: https://github.com/near/near-wallet/issues/2408
-                */}
+                <FormButton
+                    linkTo={buildUtorgPayLink(implicitAccountId)}
+                    color='black'
+                    sending={!implicitAccountId}
+                    sendingString='button.loading'
+                >
+                    <Translate id='buyNear.buyWith' />
+                    <img src={UtorgLogo} alt='utorg'/>
+                </FormButton>
                 <FormButton
                     disabled={!moonpayIsAvailable}
                     sending={!implicitAccountId || moonpaySignedUrl === null}

@@ -449,6 +449,20 @@
         "withId": "Aktarılan Hesap: ${accountId}",
         "withIdFailed": "Hesap içe aktarılamadı: ${accountId}"
     },
+    "importAccountWithLink": {
+        "accountFound": "1 Account Found",
+        "accountImported": "Account Imported",
+        "accountsFound": "${count} Accounts Found",
+        "alreadyImported": "The account secured by this link has been imported.",
+        "continue": "and continue this process in your browser of choice.",
+        "copyUrl": "copy the URL",
+        "foundAccount": "We found <b>1 account</b> secured by this link.",
+        "foundAccounts": "We found <b>${count} accounts</b> secured by this link.",
+        "goToAccount": "Go to Account",
+        "import": "Import",
+        "importAccount": "Import Your Account",
+        "preferedBrowser": "If this isn't your preferred browser,"
+    },
     "initialDeposit": {
         "claimAccount": {
             "desc": "Depozitonuz alındı! Talep edildiğinde, depozitonuz yeni hesabınıza aktarılacaktır.",
@@ -783,20 +797,6 @@
         "snackbarCopySuccess": "Kopyalanan URL'yi kurtar",
         "title": "Hesabı Geri Yükle"
     },
-    "importAccountWithLink": {
-        "accountFound": "1 Account Found",
-        "accountsFound": "${count} Accounts Found",
-        "accountImported": "Account Imported",
-        "alreadyImported": "The account secured by this link has been imported.",
-        "copyUrl": "copy the URL",
-        "continue": "and continue this process in your browser of choice.",
-        "foundAccount": "We found <b>1 account</b> secured by this link.",
-        "foundAccounts": "We found <b>${count} accounts</b> secured by this link.",
-        "import": "Import",
-        "importAccount": "Import Your Account",
-        "preferedBrowser": "If this isn't your preferred browser,",
-        "goToAccount": "Go to Account"
-    },
     "recoveryMgmt": {
         "disableInputPlaceholder": "Onaylamak için hesap kimliğinizi girin",
         "disableNo": "Hayır, Devam",
@@ -868,6 +868,7 @@
             "error": "Genel anahtar erişimi reddedildi. Hiçbir hesap kurtarılmadı.<br/>Devam etmek için, NEAR Cüzdanının genel anahtarınızı görmesine izin vermelisiniz. Lütfen tekrar deneyin.",
             "success": ""
         },
+        "LackBalanceForState": "Bakiyeniz yetersiz olduğundan işleminizi gerçekleştiremiyoruz. Lütfen hesabınıza NEAR gönderip tekrar deneyin.",
         "NotEnoughBalance": "Hesabınızda bu işlem için yeterli bakiye yok.",
         "PROMPT_TWO_FACTOR": {
             "invalidCode": "Geçersiz 2FA kodu. Lütfen tekrar deneyin."
@@ -907,8 +908,7 @@
         "VERIFY_TWO_FACTOR": {
             "error": "İki Faktörlü Doğrulama kurulumu başarısız oldu. Lütfen tekrar deneyin.",
             "success": "İki Faktörlü Doğrulama başarıyla kuruldu!"
-        },
-        "LackBalanceForState": "Bakiyeniz yetersiz olduğundan işleminizi gerçekleştiremiyoruz. Lütfen hesabınıza NEAR gönderip tekrar deneyin."
+        }
     },
     "releaseNotesModal": {
         "desc": "Siz sordunuz, biz dinledik! En son güncelleme, bakiyelerin cüzdanda nasıl görüntülendiğini ve yeni hesaplar oluşturmanın daha kolay yollarını getiriyor.",
