@@ -24,7 +24,6 @@ import {
     selectAccountHasLockup,
     selectAccountId,
     selectAccountLedgerKey,
-    selectAccountLocalStorageAccountId,
     selectAccountExists
 } from '../../redux/slices/account';
 import { selectAllAccountsHasLockup } from '../../redux/slices/allAccounts';
@@ -145,11 +144,10 @@ export function Profile({ match }) {
     const has2fa = useSelector(selectAccountHas2fa);
     const authorizedApps = useSelector(selectAccountAuthorizedApps);
     const ledgerKey = useSelector(selectAccountLedgerKey);
-    const accountLocalStorageAccountId = useSelector(selectAccountLocalStorageAccountId);
     const loginAccountId = useSelector(selectAccountId);
     const nearTokenFiatValueUSD = useSelector(selectNearTokenFiatValueUSD);
     const accountIdFromUrl = match.params.accountId;
-    const accountId = accountIdFromUrl || loginAccountId || accountLocalStorageAccountId;
+    const accountId = accountIdFromUrl || loginAccountId;
     const isOwner = accountId && accountId === loginAccountId && accountExists;
     const account = useAccount(accountId);
     const dispatch = useDispatch();
@@ -243,7 +241,6 @@ export function Profile({ match }) {
                     <h2><UserIcon/><Translate id='profile.pageTitle.default'/></h2>
                     {profileBalance ? (
                         <BalanceContainer
-                            accountId={accountId}
                             account={account}
                             profileBalance={profileBalance}
                             hasLockup={hasLockup}
