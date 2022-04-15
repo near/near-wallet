@@ -15,11 +15,11 @@ const SwapIconTwoArrows = ({ color, width, height, margin }) => {
         >
             <g
                 fill={color}
-                fill-rule="evenodd"
+                fillRule="evenodd"
                 stroke={color}
-                stroke-width="3.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeWidth="3.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
                 transform="translate(1 1)"
                 // style="stroke:#24272a;fill:none;fill-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-width:2"
             >
