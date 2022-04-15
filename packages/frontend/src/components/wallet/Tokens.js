@@ -26,7 +26,7 @@ const StyledContainer = styled.div`
     }
 `;
 
-const Tokens = ({ tokens, onClick }) => {
+const Tokens = ({ tokens, onClick, currentLanguage }) => {
     return (
         <StyledContainer>
             {tokens.map((token, i) => (
@@ -34,6 +34,7 @@ const Tokens = ({ tokens, onClick }) => {
                     key={getUniqueTokenIdentity(token)}
                     token={token}
                     onClick={onClick}
+                    currentLanguage={currentLanguage}
                 />
             ))}
         </StyledContainer>

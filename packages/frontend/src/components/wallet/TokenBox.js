@@ -180,7 +180,7 @@ const StyledContainer = styled.div`
     }
 `;
 
-const TokenBox = ({ token, onClick }) => {
+const TokenBox = ({ token, onClick, currentLanguage }) => {
     const dispatch = useDispatch()
     return (
         <StyledContainer
@@ -218,7 +218,7 @@ const TokenBox = ({ token, onClick }) => {
                         {token.coingeckoMetadata?.usd ? (
                             <>
                                 $
-                                {new Intl.NumberFormat('ru-RU', {
+                                {new Intl.NumberFormat(`${currentLanguage}`, {
                                     minimumFractionDigits: 2,
                                     maximumFractionDigits: 2,
                                 }).format(token.coingeckoMetadata?.usd)}
