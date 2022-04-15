@@ -26,6 +26,7 @@ import Sidebar from './Sidebar';
 import Tokens from './Tokens';
 import { useSplitFungibleTokens } from '../../hooks/splitFungibleTokens';
 import { getTotalBalanceInFiat } from '../common/balance/helpers';
+import getCurrentLanguage from '../../hooks/getCurrentLanguage';
 
 const { fetchTokenFiatValues } = tokenFiatValueActions;
 
@@ -242,7 +243,9 @@ export function Wallet({
     handleSetCreateCustomName
 }) {
     const splitedFungibleTokens = useSplitFungibleTokens(fungibleTokensList, "USN");
-    const totalAmount = getTotalBalanceInFiat(splitedFungibleTokens[0])
+    const currentLanguage = getCurrentLanguage()
+    const totalAmount = getTotalBalanceInFiat(splitedFungibleTokens[0], currentLanguage)
+   
 
     return (
         <StyledContainer
@@ -275,6 +278,7 @@ export function Wallet({
                         <NFTs tokens={sortedNFTs} />
                     ) : (
                         <FungibleTokens
+                            currentLanguage={currentLanguage}
                             totalAmount={totalAmount}
                             balance={balance}
                             tokensLoader={tokensLoader}
@@ -315,7 +319,7 @@ export function Wallet({
     );
 }
 
-const FungibleTokens = ({ balance, tokensLoader, fungibleTokens, totalAmount }) => {
+const FungibleTokens = ({ balance, tokensLoader, fungibleTokens, totalAmount, currentLanguage }) => {
     const dispatch = useDispatch()
     const currentFungibleTokens = CREATE_USN_CONTRACT ? fungibleTokens[0][0] : fungibleTokens[0]
     const availableBalanceIsZero = balance?.balanceAvailable === '0';
@@ -410,7 +414,7 @@ const FungibleTokens = ({ balance, tokensLoader, fungibleTokens, totalAmount }) 
                             </span>
                         }  
                     </div>
-                    <Tokens tokens={CREATE_USN_CONTRACT ? fungibleTokens[0] : fungibleTokens} />
+                    <Tokens tokens={CREATE_USN_CONTRACT ? fungibleTokens[0] : fungibleTokens} currentLanguage={currentLanguage}/>
                     {CREATE_USN_CONTRACT && (
                         <>
                             <div className='sub-title tokens'>
@@ -422,7 +426,7 @@ const FungibleTokens = ({ balance, tokensLoader, fungibleTokens, totalAmount }) 
                                     <Translate id='wallet.OthersTokens' />
                                 </span>
                             </div>
-                            <Tokens tokens={fungibleTokens[1]} />
+                            <Tokens tokens={fungibleTokens[1]} currentLanguage={currentLanguage}/>
                         </>
                     )}
                 </>

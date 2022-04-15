@@ -39,14 +39,14 @@ export const getRoundedBalanceInFiat = (rawNearAmount, tokenFiatValue,isNear,dec
     return roundedBalanceInFiat;
 };
 
-export const getTotalBalanceInFiat = (mainTokens) => {
+export const getTotalBalanceInFiat = (mainTokens, currentLanguage) => {
     const totalAmount = mainTokens.map((el) => {
     const USD = el.fiatValueMetadata.usd
     const balance = el.balance
       return el.contractName ? getRoundedBalanceInFiat(balance,USD,true,el.onChainFTMetadata.decimals) : getRoundedBalanceInFiat(balance,USD)
     }).reduce((a,b) =>`${+a + +b}`)
     
-    return totalAmount !== NaN ? new Intl.NumberFormat("en-EN",{maximumFractionDigits:2,minimumFractionDigits:2}).format(totalAmount) :'0'
+    return totalAmount !== NaN ? new Intl.NumberFormat(`${currentLanguage}`,{maximumFractionDigits:2,minimumFractionDigits:2}).format(totalAmount) :'0'
 } 
 
 export const getNearAndFiatValue = (rawNearAmount, tokenFiatValue, fiat = 'usd') => {
