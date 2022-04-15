@@ -177,7 +177,7 @@ export function StakingContainer({ history, match }) {
 
     const { currentAccount } = staking;
     const currentAccountDataForInactiveAccount = {
-        accountId: accountId,
+        accountId,
         ...currentAccount
     };
     const stakingAccounts = staking.accounts.length ? staking.accounts : [currentAccountDataForInactiveAccount];

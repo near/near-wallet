@@ -3,6 +3,7 @@ import { Translate } from 'react-localize-redux';
 import { Textfit } from 'react-textfit';
 import styled from 'styled-components';
 
+import { CREATE_IMPLICIT_ACCOUNT } from '../../../../../features';
 import classNames from '../../utils/classNames';
 import { SHOW_NETWORK_BANNER } from '../../utils/wallet';
 import Balance from '../common/balance/Balance';
@@ -298,7 +299,7 @@ export function Wallet({
                     }
                 </div>
                 <div className='right'>
-                    {accountId
+                    {CREATE_IMPLICIT_ACCOUNT && accountExists
                         ? <Sidebar availableAccounts={availableAccounts} />
                         : <ExploreApps />
                     }
