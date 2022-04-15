@@ -433,7 +433,7 @@ const FungibleTokens = ({ balance, tokensLoading, fungibleTokens, accountExists,
                             </span>
                         }
                     </div>
-                    <Tokens tokens={fungibleTokens[0]} />
+                    <Tokens tokens={CREATE_USN_CONTRACT ? fungibleTokens[0] : fungibleTokens} />
                     {CREATE_USN_CONTRACT && (
                         <>
                             <div className='sub-title tokens'>
