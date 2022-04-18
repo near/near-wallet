@@ -95,7 +95,7 @@
             },
             "incorrectContractId": {
                 "error": "Контракту ${contractId} не існує. Це може бути проблема з додатком, який ви намагаєтеся використати, або цей контракт, можливо, був вилучений. Ви будете перенаправлені назад до додатку.",
-                "errorTitle": "Invalid contract ID TODO"
+                "errorTitle": "Неправильний ID контракту"
             }
         },
         "nameDoesntMatch": "Ім'я облікового запису не співпадає",
@@ -135,7 +135,7 @@
         "FunctionCall": "Виклик методу: ${methodName} у контракті: ${receiverId} TODD",
         "Stake": "Стейкінг ${stake}",
         "Transfer": {
-            "received": "Отримано ${deposit} від ${signerId} TODO",
+            "received": "Отримано ${deposit} від ${signerId}",
             "transferred": "Відправлено ${deposit} до ${receiverId}"
         }
     },
@@ -147,7 +147,7 @@
         "deployContract": "Розміщення контракту: ${receiverId}",
         "functionCall": "Виклик функції: ${methodName}",
         "stake": "Стейкінг: ${stake}Ⓝ ${publicKey}...",
-        "transfer": "Переказ: ${deposit}Ⓝ до ${receiverId} TODO"
+        "transfer": "Переказ: ${deposit}Ⓝ до ${receiverId}"
     },
     "addNode": {
         "desc": "Ваш вузол(node) має бути налаштований через CLI, перш ніж додавати його сюди.",
@@ -194,8 +194,8 @@
         "cancel": "Скасування",
         "cancelOperation": "Скасувати операцію",
         "cancelTransfer": "Скасувати переказ",
-        "claimAccount": "Claim account TODO",
-        "claimMyAccount": "Claim My Account TODO",
+        "claimAccount": "Запросити акаунт",
+        "claimMyAccount": "Запросити мій акаунт",
         "close": "Закрити",
         "Close": "Закрити",
         "confirm": "Підтвердити",
@@ -229,7 +229,7 @@
         "generateNew": "Створити новий",
         "getStarted": "Почати",
         "goBack": "Назад",
-        "gotIt": "Got it TODO",
+        "gotIt": "Зрозуміло",
         "goToDashboard": "Перейти до панелі керування",
         "importAccount": "Імпорт акаунту",
         "importExistingAccount": "Імпорт існуючого акаунту",
@@ -267,7 +267,7 @@
         "transferring": "Грошовий переказ",
         "tryAgain": "Спробувати ще раз",
         "unstaking": "Зняття зі стейкінгу",
-        "useMax": "Use Max TODO",
+        "useMax": "Максимальна кількість",
         "verify": "Перевірити та завершити",
         "verifyCode": "Верифікувати код",
         "verifyCodeEnable": "Верифікувати та продовжити",
@@ -278,11 +278,11 @@
         "withdrawing": "Виведення грошей"
     },
     "buyNear": {
-        "bridgeTokens": "Bridge Tokens from Ethereum TODO",
+        "bridgeTokens": "Переказати токени з Ethereum",
         "buyWith": "Купити через",
         "coinMarketCap": "CoinMarketCap",
         "descOne": "Купити NEAR через MoonPay, використовуючи бажаний спосіб оплати.",
-        "descThree": "Перенести свої токени з Ethereum в NEAR Wallet за допомогою bridge TODO.",
+        "descThree": "Перенести свої токени з Ethereum в NEAR Wallet за допомогою моста.",
         "descTwo": "NEAR можна придбати через наступні біржі.",
         "moonPay": "MoonPay",
         "notSupported": "Не підтримується у вашому регіоні",
@@ -330,7 +330,7 @@
             "separators": "Символи (_-) можуть бути використані як роздільники"
         },
         "pageText": "Введіть ваш ID облікового запису для використання акаунту NEAR. Ваш ID облікового запису використовуватиметься для всіх операцій NEAR, включаючи надсилання та отримання активів..",
-        "pageTitle": "Reserve Account ID TODO",
+        "pageTitle": "Зарезервуйте Account ID",
         "recoverItHere": "Імпортувати існуючий акаунт",
         "setupPassphrase": {
             "generatePassphrase": {
@@ -471,7 +471,7 @@
     "hardwareDevices": {
         "desc": "Підвищте безпеку вашого облікового запису за допомогою апаратних гаманців.",
         "disable": {
-            "desc": "Переконайтеся, що у вас під'єднані інші методи відновлення, і лише потім від'єднюйте наявний метод TODO.",
+            "desc": "Переконайтеся, що у вас під'єднані інші методи відновлення, і лише потім від'єднайте наявний метод.",
             "disable": "Від'єднати Ledger",
             "keep": "Ні, залишити Ledger",
             "title": "Ви впевнені, що хочете від'єднати Ledger?"
@@ -558,17 +558,17 @@
         "wallet": "Гаманець"
     },
     "linkdropLanding": {
-        "claiming": "Claiming TODO",
-        "ctaAccount": "Claim with Existing Account",
-        "ctaLogin": "Log In and Claim",
-        "ctaNew": "Claim with New Account",
-        "desc": "You may claim your NEAR drop with an existing account (must be logged in), or create a new account to receive it as an initial deposit.",
+        "claiming": "Запрошування",
+        "ctaAccount": "Запросити використовуючи існуючий акаунт",
+        "ctaLogin": "Увійти та запросити",
+        "ctaNew": "Запросити використовуючи новий акаунт",
+        "desc": "Ви можете запросити ваш NEAR drop за допомогою існуючого акаунту (ви маєте бути залогінені), або створити новий акаунт щоб отримати його як початковий депозит.",
         "modal": {
-            "desc": "Your NEAR drop has been automatically deposited to your account.",
-            "title": "Your NEAR drop has been claimed"
+            "desc": "Ваш NEAR drop був автоматично переведений на ваш акаунт.",
+            "title": "Ваш NEAR drop був отриманий"
         },
-        "or": "or",
-        "title": "You’ve received a NEAR drop!"
+        "or": "або",
+        "title": "Ви отримали NEAR drop!"
     },
     "NFTDetail": {
         "owner": "Власник",
@@ -600,7 +600,7 @@
             "username": "ID акаунту"
         },
         "details": {
-            "callFunctions": "Робити виклики функції у будь-якому смарт контракті TODO",
+            "callFunctions": "Робити виклики функції у будь-якому смарт контракті",
             "createAndDeleteAccessKeys": "Створювати та видаляти ключі доступу",
             "createNewAccounts": "Створювати нові акаунти",
             "deploySmartContracts": "Розміщувати смарт контракти",
@@ -711,9 +711,9 @@
             }
         }
     },
-    "of": "of TODO",
-    "ofTotal": "of Total",
-    "or": "or",
+    "of": "",
+    "ofTotal": "загального",
+    "or": "або",
     "pageNotFound": {
         "displayTitle": "404",
         "returnToWallet": "Повернутися до гаманеця",
@@ -743,18 +743,18 @@
             "lockPopup": {
                 "createAnotherAccount": "створити інший акаунт",
                 "text": "Ваше ім'я користувача є вашим унікальним логіномом у систему і не може бути змінено, оскільки до нього прив'язані дані та право власності на активи. Однак ви можете ${link} бажане ім'я і надсилати активи за необхідності.",
-                "title": "Why is this locked TODO?"
+                "title": "Чому це заблоковано?"
             },
             "minBalance": "Мінімальний баланс",
             "profile": "ПРОФІЛЬ",
-            "public": "Public TODO",
+            "public": "Публічний",
             "qrDesc": "Використовуйте камеру вашого телефону для надсилання на цю адресу",
             "staked": "У стейкінгу",
             "totalBalance": "Загальний баланс",
             "unlocked": "Розблоковано",
             "unvested": "Зарезервовані токени",
             "username": "ID акаунту",
-            "visibleTo": "VISIBLE TO TODO"
+            "visibleTo": "ВИДИМИЙ"
         },
         "lockup": {
             "locked": "Заблоковано",
@@ -826,7 +826,7 @@
         "pageText": "Введіть менімонічну фразу резервної копії, пов'язану з обліковим записом.",
         "pageTitle": "Відновлення за допомогою мнемонічної фрази",
         "seedPhraseInput": {
-            "placeholder": "correct horse battery staple... TODO",
+            "placeholder": "correct horse battery staple...",
             "title": "Мнемонічна фраза (12 слів)"
         }
     },
