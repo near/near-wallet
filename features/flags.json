@@ -37,9 +37,9 @@
       "lastEditedAt": "2022-03-24T13:11:21.223Z"
     },
     "testnet": {
-      "enabled": false,
-      "lastEditedBy": "OlegYak ",
-      "lastEditedAt": "2022-03-24T13:11:21.223Z"
+      "enabled": true,
+      "lastEditedBy": "esaminu",
+      "lastEditedAt": "2022-04-18T08:24:21.375Z"
     },
     "mainnet": {
       "enabled": false,
