@@ -52,9 +52,9 @@
       "lastEditedAt": "2022-03-24T13:11:21.223Z"
     },
     "testnet_STAGING": {
-      "enabled": false,
-      "lastEditedBy": "OlegYak ",
-      "lastEditedAt": "2022-03-24T13:11:21.223Z"
+      "enabled": true,
+      "lastEditedBy": "esaminu",
+      "lastEditedAt": "2022-04-18T08:13:09.149Z"
     }
   },
   "EXAMPLE_FLAG": {
