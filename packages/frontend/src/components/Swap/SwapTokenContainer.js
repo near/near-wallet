@@ -1,11 +1,12 @@
-import React, { useRef } from "react";
-import styled from "styled-components";
-import TokenIcon from "../send/components/TokenIcon";
-import { EXPLORER_URL } from "../../config";
-import { formatNearAmount } from "../common/balance/helpers";
-import { formatTokenAmount } from "../../utils/amounts";
-import { exchengeRateTranslation } from "./helpers";
-import { Translate } from "react-localize-redux";
+import React, { useRef } from 'react';
+import { Translate } from 'react-localize-redux';
+import styled from 'styled-components';
+
+import { EXPLORER_URL } from '../../config';
+import { formatTokenAmount } from '../../utils/amounts';
+import { formatNearAmount } from '../common/balance/helpers';
+import TokenIcon from '../send/components/TokenIcon';
+import { exchengeRateTranslation } from './helpers';
 
 const SwapContainer = styled.div`
     width: 100%;
@@ -108,9 +109,9 @@ const SwapTokenContainer = ({
     setInputValueFrom,
     muliplier,
 }) => {
-    const inputRef = useRef(null)
+    const inputRef = useRef(null);
     const balance =
-        fromTotoken?.onChainFTMetadata?.symbol === "NEAR"
+        fromTotoken?.onChainFTMetadata?.symbol === 'NEAR'
             ? +formatNearAmount(fromTotoken?.balance)
             : +formatTokenAmount(
                   fromTotoken?.balance,
@@ -121,18 +122,18 @@ const SwapTokenContainer = ({
     const error = setInputValueFrom && balance < +value;
     const formatMuliplier = +muliplier / 10000;
     const handelChange = (e) => {
-        const { value } = e.target
+        const { value } = e.target;
         setInputValueFrom(value.replace(/[^.\d,]/g, ''));
     };
 
     const onFocus = () => {
-        if(setInputValueFrom) {
-            inputRef.current.focus()
+        if (setInputValueFrom) {
+            inputRef.current.focus();
         }
-    }
+    };
 
     return (
-        <SwapContainer className={error ? "error" : ""} onClick={onFocus}>
+        <SwapContainer className={error ? 'error' : ''} onClick={onFocus}>
             <div className="text">
                 <Translate id={text} />
             </div>
@@ -172,7 +173,7 @@ const SwapTokenContainer = ({
                         autoFocus
                         value={value}
                         onChange={handelChange}
-                        className={error ? "inputError" : ""}
+                        className={error ? 'inputError' : ''}
                     />
                 ) : muliplier && fromTotoken ? (
                     <div className="exchenge">

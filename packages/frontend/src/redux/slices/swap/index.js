@@ -14,12 +14,12 @@ const swapBycontractName = createSlice({
     initialState,
     reducers: {
         handleSwapBycontractName(state, { payload }) {
-            set(state, 'swapBycontractName', payload) 
+            set(state, 'swapBycontractName', payload); 
         }
     }
 });
 
-export const { handleSwapBycontractName } = swapBycontractName.actions
+export const { handleSwapBycontractName } = swapBycontractName.actions;
 
 export default swapBycontractName;
 

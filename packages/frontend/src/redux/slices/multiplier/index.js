@@ -1,13 +1,14 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import merge from 'lodash.merge';
-import { wallet } from "../../../utils/wallet";
-import { createSelector } from "reselect";
-import { ACCOUNT_ID_SUFFIX } from "../../../config"
+import { createSelector } from 'reselect';
+
+import { ACCOUNT_ID_SUFFIX } from '../../../config';
+import { wallet } from '../../../utils/wallet';
 import initialStatusState from '../../reducerStatus/initialState/initialStatusState';
 
 
 
-const SLICE_NAME = "multiplier";
+const SLICE_NAME = 'multiplier';
 
 const initialState = {
     ...initialStatusState,
@@ -19,23 +20,23 @@ export const fetchMultiplier = createAsyncThunk(
     async function () {
         try {
             const response = await wallet.connection.provider.sendJsonRpc(
-                "query",
+                'query',
                 {
-                    request_type: "call_function",
+                    request_type: 'call_function',
                     account_id: `priceoracle.${ACCOUNT_ID_SUFFIX}`,
-                    method_name: "get_price_data",
+                    method_name: 'get_price_data',
                     args_base64: btoa(`{"asset_ids": ["wrap.${ACCOUNT_ID_SUFFIX}"]}`),
-                    finality: "final",
+                    finality: 'final',
                 }
             );
 
             const res = JSON.parse(
-                response.result.map((x) => String.fromCharCode(x)).join("")
+                response.result.map((x) => String.fromCharCode(x)).join('')
             );
 
             return res.prices[0].price;
         } catch (error) {
-            console.warn(`Failed to load `, error);
+            console.warn('Failed to load ', error);
         }
     }
 );

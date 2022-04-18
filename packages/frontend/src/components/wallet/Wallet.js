@@ -1,8 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Translate } from 'react-localize-redux';
+import { useDispatch } from 'react-redux';
 import { Textfit } from 'react-textfit';
 import styled from 'styled-components';
+
 import { CREATE_IMPLICIT_ACCOUNT,CREATE_USN_CONTRACT } from '../../../../../features';
+import getCurrentLanguage from '../../hooks/getCurrentLanguage';
+import { useSplitFungibleTokens } from '../../hooks/splitFungibleTokens';
 import { actions as tokenFiatValueActions } from '../../redux/slices/tokenFiatValues';
 import classNames from '../../utils/classNames';
 import { SHOW_NETWORK_BANNER } from '../../utils/wallet';
@@ -25,8 +29,6 @@ import NFTs from './NFTs';
 import ReleaseNotesModal from './ReleaseNotesModal';
 import Sidebar from './Sidebar';
 import Tokens from './Tokens';
-import { useSplitFungibleTokens } from '../../hooks/splitFungibleTokens';
-import getCurrentLanguage from '../../hooks/getCurrentLanguage';
 
 const { fetchTokenFiatValues } = tokenFiatValueActions;
 
@@ -272,10 +274,9 @@ export function Wallet({
     handleSetCreateFromImplicitSuccess,
     handleSetCreateCustomName
 }) {
-    const splitedFungibleTokens = useSplitFungibleTokens(fungibleTokensList, "USN");
-    const currentLanguage = getCurrentLanguage()
-    const totalAmount = getTotalBalanceInFiat(splitedFungibleTokens[0], currentLanguage)
-
+    const splitedFungibleTokens = useSplitFungibleTokens(fungibleTokensList, 'USN');
+    const currentLanguage = getCurrentLanguage();
+    const totalAmount = getTotalBalanceInFiat(splitedFungibleTokens[0], currentLanguage);
 
     return (
         <StyledContainer className={SHOW_NETWORK_BANNER ? 'showing-banner' : ''}>
@@ -351,12 +352,11 @@ const FungibleTokens = ({ balance, tokensLoading, fungibleTokens, accountExists,
 
     useEffect(() => {
         const startPollingTokenFiatValue = setInterval(() => {
-            dispatch(fetchTokenFiatValues())
-        },30000)
+            dispatch(fetchTokenFiatValues());
+        },30000);
 
-        return () => clearInterval(startPollingTokenFiatValue)
-    }, [])
-
+        return () => clearInterval(startPollingTokenFiatValue);
+    }, []);
     return (
         <>
             <div className='total-balance'>

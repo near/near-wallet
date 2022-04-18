@@ -1,9 +1,10 @@
-import React from "react";
-import { Translate } from "react-localize-redux";
-import styled from "styled-components";
-import { formatTokenAmount } from "../../utils/amounts";
-import { formatNearAmount } from "../common/balance/helpers";
-import FormButton from "../common/FormButton";
+import React from 'react';
+import { Translate } from 'react-localize-redux';
+import styled from 'styled-components';
+
+import { formatTokenAmount } from '../../utils/amounts';
+import { formatNearAmount } from '../common/balance/helpers';
+import FormButton from '../common/FormButton';
 
 const StyledAvailableContainer = styled.div`
     display:flex;
@@ -32,25 +33,25 @@ function AvailableToSwap({ balance, symbol, decimals, onClick }) {
     return (
         <StyledAvailableContainer>
             <div>
-                <Translate id="swap.AvailableToSwap" />{" "}
+                <Translate id="swap.AvailableToSwap" />{' '}
                     <span>
                         {balance ? (
                         <>
-                            {" "}
-                            {symbol === "NEAR"
+                            {' '}
+                            {symbol === 'NEAR'
                             ? amountoShow
                             : formatTokenAmount(balance, decimals, 5)}
                         </>
                             ) : (
                     <span className="dots" />
-                )}{" "}
+                )}{' '}
                 <>{symbol}</>
             </span>
             </div>
             <div>
                 <FormButton
                 swapButton={true}
-                onClick={() => onClick(symbol === "NEAR" ? amountoShow : formatTokenAmount(balance, decimals, 5))}
+                onClick={() => onClick(symbol === 'NEAR' ? amountoShow : formatTokenAmount(balance, decimals, 5))}
                 type='button'
                 color='light-blue'
                 className='small rounded'

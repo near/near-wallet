@@ -1,9 +1,10 @@
-import React, { useEffect } from 'react'
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+
 import { useFungibleTokensIncludingNEAR } from '../../hooks/fungibleTokensIncludingNEAR';
 import { selectAccountId } from '../../redux/slices/account';
 import { fetchMultiplier, selectMetadataSlice } from '../../redux/slices/multiplier';
-import { actions as tokensActions } from "../../redux/slices/tokens";
+import { actions as tokensActions } from '../../redux/slices/tokens';
 import SwapAndSuccessContainer from './SwapAndSuccessContainer';
 
 const { fetchTokens } = tokensActions;
@@ -15,7 +16,7 @@ const SwapContainerWrapper = () => {
     const dispatch = useDispatch();
    
     useEffect(() => {
-        if(!accountId) {
+        if (!accountId) {
             return;
         }
 
@@ -29,7 +30,7 @@ const SwapContainerWrapper = () => {
         accountId={accountId}
         multiplier={multiplier}
     />
-  )
-}
+  );
+};
 
-export default SwapContainerWrapper
+export default SwapContainerWrapper;

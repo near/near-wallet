@@ -66,7 +66,6 @@ import { SetupImplicitWithRouter } from './accounts/SetupImplicit';
 import { SetupSeedPhraseWithRouter } from './accounts/SetupSeedPhrase';
 import { EnableTwoFactor } from './accounts/two_factor/EnableTwoFactor';
 import { BuyNear } from './buy/BuyNear';
-import SwapContainerWrapper from './Swap/SwapContainerWrapper';
 import Footer from './common/Footer';
 import GlobalAlert from './common/GlobalAlert';
 import GuestLandingRoute from './common/GuestLandingRoute';
@@ -83,6 +82,7 @@ import { Profile } from './profile/Profile';
 import { ReceiveContainerWrapper } from './receive-money/ReceiveContainerWrapper';
 import { SendContainerWrapper } from './send/SendContainerWrapper';
 import { StakingContainer } from './staking/StakingContainer';
+import SwapContainerWrapper from './Swap/SwapContainerWrapper';
 import Terms from './terms/Terms';
 
 import '../index.css';

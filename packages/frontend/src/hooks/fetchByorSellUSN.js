@@ -1,8 +1,9 @@
-import * as nearApiJs from "near-api-js";
-import { useState } from "react";
-import { IS_MAINNET } from "../config";
-import { parseTokenAmount } from "../utils/amounts";
-import { wallet } from "../utils/wallet";
+import * as nearApiJs from 'near-api-js';
+import { useState } from 'react';
+
+import { IS_MAINNET } from '../config';
+import { parseTokenAmount } from '../utils/amounts';
+import { wallet } from '../utils/wallet';
 
 const setArgsUSNContractBuy = (multiplier, slippage, amount) => {
     return {
@@ -17,8 +18,8 @@ const setArgsUSNContractBuy = (multiplier, slippage, amount) => {
         },
         amount: parseTokenAmount(amount * (10 ** 24), 0),
         gas: 50000000000000,
-    }
-}
+    };
+};
 
 const setArgsUSNContractSell = (amount, multiplier, slippage, USNamount) => {
     return {
@@ -34,15 +35,15 @@ const setArgsUSNContractSell = (amount, multiplier, slippage, USNamount) => {
         },
         amount: 1,
         gas: 100000000000000,
-    }
-}
+    };
+};
 
 export const useFetchByorSellUSN = () => {
     const [isLoading, setIsLoading] = useState(false);
-    const contractName = !IS_MAINNET ? "usdn.testnet" : "usn";
+    const contractName = !IS_MAINNET ? 'usdn.testnet' : 'usn';
     const usnMethods = {
-        viewMethods: ["version", "name", "symbol", "decimals", "ft_balance_of"],
-        changeMethods: ["buy", "sell"],
+        viewMethods: ['version', 'name', 'symbol', 'decimals', 'ft_balance_of'],
+        changeMethods: ['buy', 'sell'],
     };
 
     const fetchByOrSell = async (
@@ -60,7 +61,7 @@ export const useFetchByorSellUSN = () => {
             usnMethods
         );
        
-        if (symbol === "NEAR") {
+        if (symbol === 'NEAR') {
             await usnContract.buy(setArgsUSNContractBuy(multiplier, slippage, amount));
            
         } else {
