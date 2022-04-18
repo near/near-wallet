@@ -1432,7 +1432,7 @@
     "success": "Успіх",
     "sync": "Синхронізація",
     "tokenBox": {
-        "priceUnavailable": "Price Unavailable"
+        "priceUnavailable": "Ціна недоступна"
     },
     "topLevelAccounts": {
         "body": "Імена облікових записів схожі на доменні імена. Тільки обліковий запис ${data} може створювати такі облікові записи, як yourname.${data}, і тільки yourname.${data} може створити app.yourname.${ data} Всі облікові записи, створені в цьому гаманці, використовують .${data} Облікові записи верхнього рівня (TLA) Щоб дізнатися більше про імена облікових записів та створити власний обліковий запис верхнього рівня, прочитайте документацію <a rel='noopener noreferrer ' href='https://docs.near.org/docs/concepts/account'>docs</a>.",
