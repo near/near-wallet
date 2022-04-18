@@ -1497,7 +1497,7 @@
             },
             "deleteKey": "Видалення ключа ${publicKey}",
             "functionCall": "Виклки методу: ${methodName} в контракті: ${receiverId} з сумою депозиту ${deposit} NEAR і параметрами: <pre>${args}</pre>",
-            "stake": "Стейкінг: ${amount} NEAR to validator: ${receiverId}",
+            "stake": "Стейкінг: ${amount} NEAR з валідатором: ${receiverId}",
             "transfer": "Переказ: ${amount} NEAR на акаунт ${receiverId}"
         }
     },
