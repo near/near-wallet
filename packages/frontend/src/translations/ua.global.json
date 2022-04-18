@@ -1059,9 +1059,9 @@
         },
         "TXEntry": {
             "status": {
-                "Failure": "Failed",
-                "notAvailable": "Status not available",
-                "SuccessValue": "Successful"
+                "Failure": "Невдача",
+                "notAvailable": "Статус недоступний",
+                "SuccessValue": "Успіх"
             },
             "title": {
                 "amount": "Сума",
