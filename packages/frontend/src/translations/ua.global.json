@@ -1451,7 +1451,7 @@
         }
     },
     "transfer": {
-        "estimatedFees": "Estimated fees",
+        "estimatedFees": "Прогнозовані комісії",
         "from": "Від",
         "to": "Кому"
     },
