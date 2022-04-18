@@ -1241,8 +1241,8 @@
     },
     "signInLedger": {
         "advanced": {
-            "desc": "Specify an HD path to import its linked accounts.",
-            "setPath": "Set HD Path",
+            "desc": "Вкажіть HD Path для імпорту приєднаних акаунтів.",
+            "setPath": "Вкажіть HD Path",
             "subTitle": "HD Path",
             "title": "Додаткові параметри"
         },
