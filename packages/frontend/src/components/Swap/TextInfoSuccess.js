@@ -1,10 +1,10 @@
-import React from "react";
-import { Translate } from "react-localize-redux";
+import React from 'react';
+import { Translate } from 'react-localize-redux';
 
 const TextInfoSuccess = ({ valueFrom, valueTo, symbol }) => {
-    const isNear = symbol === "NEAR";
-    const NEAR = "NEAR";
-    const USN = "USN";
+    const isNear = symbol === 'NEAR';
+    const NEAR = 'NEAR';
+    const USN = 'USN';
 
     return (
         <div className="text_info_success">
@@ -13,7 +13,7 @@ const TextInfoSuccess = ({ valueFrom, valueTo, symbol }) => {
             </>
             <br />
             <>
-                <Translate id="swap.success.youSwap" /> {valueFrom}{" "}
+                <Translate id="swap.success.youSwap" /> {valueFrom}{' '}
                 {isNear ? NEAR : USN}
             </>
             <br />
@@ -24,6 +24,6 @@ const TextInfoSuccess = ({ valueFrom, valueTo, symbol }) => {
     );
 };
 
-const comparisonFn = (prev, next) => prev.valueTo !== next.valueTo
+const comparisonFn = (prev, next) => prev.valueTo !== next.valueTo;
 
 export default React.memo(TextInfoSuccess, comparisonFn);

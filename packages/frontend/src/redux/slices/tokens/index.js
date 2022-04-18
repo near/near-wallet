@@ -2,7 +2,8 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import BN from 'bn.js';
 import set from 'lodash.set';
 import { createSelector } from 'reselect';
-import { CREATE_USN_CONTRACT } from '../../../../../../features'
+
+import { CREATE_USN_CONTRACT } from '../../../../../../features';
 import { WHITELISTED_CONTRACTS, IS_MAINNET} from '../../../config';
 import FungibleTokens from '../../../services/FungibleTokens';
 import handleAsyncThunkStatus from '../../reducerStatus/handleAsyncThunkStatus';
@@ -10,7 +11,7 @@ import initialStatusState from '../../reducerStatus/initialState/initialStatusSt
 import createParameterSelector from '../createParameterSelector';
 import { selectUSDNTokenFiatValueUSD } from '../tokenFiatValues';
 
-const currentContractName = !IS_MAINNET ? 'usdn.testnet': 'usn'
+const currentContractName = !IS_MAINNET ? 'usdn.testnet': 'usn';
 
 const SLICE_NAME = 'tokens';
 
@@ -247,10 +248,10 @@ export const selectTokensWithMetadataForAccountId = createSelector(
         Object.entries(ownedTokensForAccount)
             .filter(([contractName, { balance }]) => {
                 // We need to see our contract even with zero balance
-                if(contractName === currentContractName) {
+                if (contractName === currentContractName) {
                      return true;
                 }
-                return !new BN(balance).isZero()
+                return !new BN(balance).isZero();
             })
             .sort(([a], [b]) =>
                 allContractMetadata[a].name.localeCompare(

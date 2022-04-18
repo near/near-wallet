@@ -1,7 +1,7 @@
-import React from "react";
+import React from 'react';
 
 const SwapIcon = ({ color }) => {
-    const stroke = color || "#fff";
+    const stroke = color || '#fff';
     return (
         <svg
             width="22px"

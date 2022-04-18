@@ -1,12 +1,13 @@
-import React from "react";
-import styled from "styled-components";
-import { MinimumReceived } from "./helpers";
-import SwapInfoItem from "./SwapInfoItem";
+import React from 'react';
+import styled from 'styled-components';
+
+import { MinimumReceived } from './helpers';
+import SwapInfoItem from './SwapInfoItem';
 
 const pairPrice = (isNear, exchngeRate) => {
-    const price = isNear ? 1 * exchngeRate : 1 / exchngeRate
-    return price?.toFixed(5)
-}
+    const price = isNear ? 1 * exchngeRate : 1 / exchngeRate;
+    return price?.toFixed(5);
+};
 
 const StyledContainer = styled.div`
     width: 100%;
@@ -26,11 +27,11 @@ function SwapInfoContainer({
     isLoading,
     percent
 }) {
-    const isNear = token === "NEAR";
+    const isNear = token === 'NEAR';
     const expectedPrice = isNear
         ? +amount * exchngeRate
         : +amount / exchngeRate;
-    const symbol = !isNear ? "NEAR" : "USN";
+    const symbol = !isNear ? 'NEAR' : 'USN';
 
     return (
         <StyledContainer>
@@ -40,15 +41,15 @@ function SwapInfoContainer({
                 slippPageValue={slippPageValue}
                 setSlippPageValue={setSlippPageValue}
             />
-            <SwapInfoItem leftText={"swap.pairPrice"} rightText={`1 ${isNear ? 'NEAR': 'USN'} = ${pairPrice(isNear, exchngeRate)} ${symbol}`} />
+            <SwapInfoItem leftText={'swap.pairPrice'} rightText={`1 ${isNear ? 'NEAR': 'USN'} = ${pairPrice(isNear, exchngeRate)} ${symbol}`} />
             <SwapInfoItem
-                leftText={"swap.ExpectedPrice"}
+                leftText={'swap.ExpectedPrice'}
                 rightText={`${amount} ${token} = ${expectedPrice?.toFixed(5)} ${symbol}`}
             />
             <SwapInfoItem
                 isDots={isLoading}
                 tradinFree={tradinFree}
-                leftText={"swap.TradingFee"}
+                leftText={'swap.TradingFee'}
                 rightText={!amount && !tradinFree
                     ? `${amount} ${symbol}`
                     : !tradinFree 
@@ -59,7 +60,7 @@ function SwapInfoContainer({
             <SwapInfoItem
                 isDots={isLoading}
                 tradinFree={tradinFree}
-                leftText={"swap.MinimumReceived"}
+                leftText={'swap.MinimumReceived'}
                 rightText={!amount && !tradinFree
                     ? `${amount} ${symbol}`
                     : !tradinFree 

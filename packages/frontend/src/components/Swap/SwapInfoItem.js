@@ -1,7 +1,8 @@
-import React from "react";
-import { Translate } from "react-localize-redux";
-import styled from "styled-components";
-import classNames from "../../utils/classNames";
+import React from 'react';
+import { Translate } from 'react-localize-redux';
+import styled from 'styled-components';
+
+import classNames from '../../utils/classNames';
 
 const StyledInfoItem = styled.div`
     width: 100%;

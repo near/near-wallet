@@ -9,12 +9,12 @@ import handleAsyncThunkStatus from '../../reducerStatus/handleAsyncThunkStatus';
 import initialStatusState from '../../reducerStatus/initialState/initialStatusState';
 
 const SLICE_NAME = 'tokenFiatValues';
-const url = 'https://api.coingecko.com/api/v3/simple/price?ids=Tether&vs_currencies=usd'
+const url = 'https://api.coingecko.com/api/v3/simple/price?ids=Tether&vs_currencies=usd';
 
 const fetchTokenFiatValues = createAsyncThunk(
     `${SLICE_NAME}/fetchTokenFiatValues`,
     async () => {
-        const [near, tether, tokenPrices] = await Promise.all([sendJson('GET', ACCOUNT_HELPER_URL + '/fiat'), sendJson('GET',url), fetchTokenPrices()])
+        const [near, tether, tokenPrices] = await Promise.all([sendJson('GET', ACCOUNT_HELPER_URL + '/fiat'), sendJson('GET',url), fetchTokenPrices()]);
 
         const last_updated_at = Date.now() / 1000; 
 
@@ -28,7 +28,7 @@ const fetchTokenFiatValues = createAsyncThunk(
             });
         }, {});
      
-        return merge({}, near, tether, tokenFiatValues)
+        return merge({}, near, tether, tokenFiatValues);
     } 
 );
 

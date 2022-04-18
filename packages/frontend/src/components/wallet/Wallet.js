@@ -1,19 +1,24 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Translate } from 'react-localize-redux';
+import { useDispatch } from 'react-redux';
 import { Textfit } from 'react-textfit';
 import styled from 'styled-components';
+
 import { CREATE_IMPLICIT_ACCOUNT,CREATE_USN_CONTRACT } from '../../../../../features';
+import getCurrentLanguage from '../../hooks/getCurrentLanguage';
+import { useSplitFungibleTokens } from '../../hooks/splitFungibleTokens';
 import { actions as tokenFiatValueActions } from '../../redux/slices/tokenFiatValues';
 import classNames from '../../utils/classNames';
 import { SHOW_NETWORK_BANNER } from '../../utils/wallet';
 import Balance from '../common/balance/Balance';
+import { getTotalBalanceInFiat } from '../common/balance/helpers';
 import FormButton from '../common/FormButton';
 import Container from '../common/styled/Container.css';
 import Tooltip from '../common/Tooltip';
 import DownArrowIcon from '../svg/DownArrowIcon';
 import SendIcon from '../svg/SendIcon';
-import TopUpIcon from '../svg/TopUpIcon';
 import Swap from '../svg/SwapIcon';
+import TopUpIcon from '../svg/TopUpIcon';
 import ActivitiesWrapper from './ActivitiesWrapper';
 import CreateCustomNameModal from './CreateCustomNameModal';
 import CreateFromImplicitSuccessModal from './CreateFromImplicitSuccessModal';
@@ -24,9 +29,6 @@ import NFTs from './NFTs';
 import ReleaseNotesModal from './ReleaseNotesModal';
 import Sidebar from './Sidebar';
 import Tokens from './Tokens';
-import { useSplitFungibleTokens } from '../../hooks/splitFungibleTokens';
-import { getTotalBalanceInFiat } from '../common/balance/helpers';
-import getCurrentLanguage from '../../hooks/getCurrentLanguage';
 
 const { fetchTokenFiatValues } = tokenFiatValueActions;
 
@@ -242,9 +244,9 @@ export function Wallet({
     handleSetCreateFromImplicitSuccess,
     handleSetCreateCustomName
 }) {
-    const splitedFungibleTokens = useSplitFungibleTokens(fungibleTokensList, "USN");
-    const currentLanguage = getCurrentLanguage()
-    const totalAmount = getTotalBalanceInFiat(splitedFungibleTokens[0], currentLanguage)
+    const splitedFungibleTokens = useSplitFungibleTokens(fungibleTokensList, 'USN');
+    const currentLanguage = getCurrentLanguage();
+    const totalAmount = getTotalBalanceInFiat(splitedFungibleTokens[0], currentLanguage);
    
 
     return (
@@ -320,8 +322,8 @@ export function Wallet({
 }
 
 const FungibleTokens = ({ balance, tokensLoader, fungibleTokens, totalAmount, currentLanguage }) => {
-    const dispatch = useDispatch()
-    const currentFungibleTokens = CREATE_USN_CONTRACT ? fungibleTokens[0][0] : fungibleTokens[0]
+    const dispatch = useDispatch();
+    const currentFungibleTokens = CREATE_USN_CONTRACT ? fungibleTokens[0][0] : fungibleTokens[0];
     const availableBalanceIsZero = balance?.balanceAvailable === '0';
     const hideFungibleTokenSection =
         availableBalanceIsZero &&
@@ -330,11 +332,11 @@ const FungibleTokens = ({ balance, tokensLoader, fungibleTokens, totalAmount, cu
     
     useEffect(() => {
         const startPollingTokenFiatValue = setInterval(() => {
-            dispatch(fetchTokenFiatValues())
-        },30000)
+            dispatch(fetchTokenFiatValues());
+        },30000);
 
-        return () => clearInterval(startPollingTokenFiatValue)
-    }, [])
+        return () => clearInterval(startPollingTokenFiatValue);
+    }, []);
     
     return (
         <>

@@ -1,42 +1,42 @@
-import React from "react";
+import React from 'react';
 
-import { formatTokenAmount, removeTrailingZeros } from "../../utils/amounts";
-import BalanceDisplayUSD from "../common/balance/BalanceDisplayUSD";
+import { formatTokenAmount, removeTrailingZeros } from '../../utils/amounts';
+import BalanceDisplayUSD from '../common/balance/BalanceDisplayUSD';
 
 const FRAC_DIGITS = 5;
 
 const amountWithCommas = (amount) => {
-    var parts = amount.split(".");
-    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    return parts.join(".");
+    var parts = amount.split('.');
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    return parts.join('.');
 };
 
 const formatToken = (amount, decimals) => {
-    if (amount === "0") {
+    if (amount === '0') {
         return amount;
     }
 
     let formattedAmount = formatTokenAmount(amount, decimals, FRAC_DIGITS);
 
-    if (formattedAmount === `0.${"0".repeat(FRAC_DIGITS)}`) {
+    if (formattedAmount === `0.${'0'.repeat(FRAC_DIGITS)}`) {
         return `< ${
-            !FRAC_DIGITS ? "0" : `0.${"0".repeat((FRAC_DIGITS || 1) - 1)}1`
+            !FRAC_DIGITS ? '0' : `0.${'0'.repeat((FRAC_DIGITS || 1) - 1)}1`
         }`;
     }
     return amountWithCommas(removeTrailingZeros(formattedAmount));
 };
 
 const showFullAmount = (amount, decimals, symbol) =>
-    amount !== "0" && !!amount
+    amount !== '0' && !!amount
         ? `${formatTokenAmount(amount, decimals, decimals)} ${symbol}`
-        : "";
+        : '';
 
 const TokenAmount = ({
     token: { balance, onChainFTMetadata, fiatValueMetadata },
     withSymbol = false,
     className,
     showFiatAmount = true,
-    "data-test-id": testId,
+    'data-test-id': testId,
     balancePrefix = ''
 }) => (
     <div

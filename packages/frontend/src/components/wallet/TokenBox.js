@@ -1,40 +1,40 @@
 import React from 'react';
 import { Translate } from 'react-localize-redux';
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
+import { CREATE_USN_CONTRACT } from '../../../../../features';
 import { EXPLORER_URL } from '../../config';
-import { CREATE_USN_CONTRACT } from '../../../../../features'
+import { handleSwapBycontractName } from '../../redux/slices/swap';
+// import { formatTokenAmount, removeTrailingZeros } from '../../utils/amounts';
 import Balance from '../common/balance/Balance';
 import TokenIcon from '../send/components/TokenIcon';
 import Swap from './Swap';
 import TokenAmount from './TokenAmount';
-import { formatTokenAmount, removeTrailingZeros } from '../../utils/amounts';
-import { useDispatch } from 'react-redux';
-import { handleSwapBycontractName } from '../../redux/slices/swap';
 
 
-const FRAC_DIGITS = 5;
+// const FRAC_DIGITS = 5;
 
-const amountWithCommas = (amount) => {
-    var parts = amount.split('.');
-    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-    return parts.join('.');
-};
+// const amountWithCommas = (amount) => {
+//     var parts = amount.split('.');
+//     parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+//     return parts.join('.');
+// };
 
-const formatToken = (amount, decimals) => {
-    if (amount === '0') {
-        return amount;
-    }
+// const formatToken = (amount, decimals) => {
+//     if (amount === '0') {
+//         return amount;
+//     }
 
-    let formattedAmount = formatTokenAmount(amount, decimals, FRAC_DIGITS);
+//     let formattedAmount = formatTokenAmount(amount, decimals, FRAC_DIGITS);
 
-    if (formattedAmount === `0.${'0'.repeat(FRAC_DIGITS)}`) {
-        return `< ${
-            !FRAC_DIGITS ? '0' : `0.${'0'.repeat((FRAC_DIGITS || 1) - 1)}1`
-        }`;
-    }
-    return amountWithCommas(removeTrailingZeros(formattedAmount));
-};
+//     if (formattedAmount === `0.${'0'.repeat(FRAC_DIGITS)}`) {
+//         return `< ${
+//             !FRAC_DIGITS ? '0' : `0.${'0'.repeat((FRAC_DIGITS || 1) - 1)}1`
+//         }`;
+//     }
+//     return amountWithCommas(removeTrailingZeros(formattedAmount));
+// };
 
 const StyledContainer = styled.div`
     display: flex;
@@ -181,7 +181,7 @@ const StyledContainer = styled.div`
 `;
 
 const TokenBox = ({ token, onClick, currentLanguage }) => {
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
     return (
         <StyledContainer
             className='token-box'
