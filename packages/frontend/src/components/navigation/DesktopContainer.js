@@ -101,7 +101,7 @@ class DesktopContainer extends Component {
             refreshBalance,
             connectLedger,
             ledgerConnectionAvailable,
-            hasLedger
+            showConnectLedgerButton
         } = this.props;
 
         const showAllNavigationLinks = showNavLinks && !flowLimitationMainMenu;
@@ -118,7 +118,7 @@ class DesktopContainer extends Component {
                 <ConnectLedger
                     connectLedger={connectLedger}
                     ledgerConnectionAvailable={ledgerConnectionAvailable}
-                    hasLedger={hasLedger}
+                    showConnectLedgerButton={showConnectLedgerButton}
                 />
                 {showNavLinks &&
                     <>

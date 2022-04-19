@@ -1,3 +1,4 @@
+import { getLocation } from 'connected-react-router';
 import React, { useState, useEffect, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
@@ -49,6 +50,7 @@ export default ({
 
     const ledgerConnectionAvailable = useSelector(selectLedgerConnectionAvailable);
     const hasLedger = useSelector(selectLedgerHasLedger);
+    const { pathname } = useSelector(getLocation);
 
     useEffect(() => {
         if (menuOpen) {
@@ -94,6 +96,8 @@ export default ({
 
     const connectLedger =  () => dispatch(handleConnectLedger()).unwrap();
 
+    const showConnectLedgerButton = hasLedger || pathname === '/sign-in-ledger';
+
     return (
         <Container id='nav-container' open={menuOpen}>
             <DesktopContainer
@@ -108,7 +112,7 @@ export default ({
                 account={account}
                 connectLedger={connectLedger}
                 ledgerConnectionAvailable={ledgerConnectionAvailable}
-                hasLedger = {hasLedger}
+                showConnectLedgerButton={showConnectLedgerButton}
             />
             <MobileContainer
                 menuOpen={menuOpen}

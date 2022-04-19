@@ -27,11 +27,11 @@ const ConnectLedgerButton = styled.div`
 export default ({
     connectLedger,
     ledgerConnectionAvailable,
-    hasLedger
+    showConnectLedgerButton
 }) => {
     return (
         <>
-            {hasLedger &&
+            {showConnectLedgerButton &&
                 <>
                     <div className='divider'/>
                     <ConnectLedgerButton onClick={connectLedger}>
