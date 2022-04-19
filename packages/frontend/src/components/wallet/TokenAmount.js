@@ -58,7 +58,7 @@ const TokenAmount = ({
                 {withSymbol ? ` ${onChainFTMetadata?.symbol}` : null}
             </span>
         </div>
-        {showFiatAmount && fiatValueMetadata?.usd ? (
+        {showFiatAmount ? (
             <div className="fiat-amount">
                 <BalanceDisplayUSD
                     amount={balance}
@@ -67,9 +67,7 @@ const TokenAmount = ({
                     isNear={true}
                 />
             </div>
-        ) : (
-            <div className="fiat-amount">— USD</div>
-        )}
+        ) : null}
     </div>
 );
 
