@@ -261,7 +261,7 @@ export function Wallet({
     createFromImplicitSuccess,
     createCustomName,
     fungibleTokensList,
-    tokensLoader,
+    tokensLoading,
     availableAccounts,
     sortedNFTs,
     handleCloseLinkdropModal,
@@ -291,7 +291,7 @@ export function Wallet({
                         ? <NFTs tokens={sortedNFTs} />
                         : <FungibleTokens
                             balance={balance}
-                            tokensLoader={tokensLoader}
+                            tokensLoading={tokensLoading}
                             fungibleTokens={fungibleTokensList}
                             accountExists={accountExists}
                         />
@@ -330,7 +330,7 @@ export function Wallet({
     );
 }
 
-const FungibleTokens = ({ balance, tokensLoader, fungibleTokens, accountExists }) => {
+const FungibleTokens = ({ balance, tokensLoading, fungibleTokens, accountExists }) => {
     const zeroBalanceAccount = accountExists === false;
     return (
         <>
@@ -387,7 +387,7 @@ const FungibleTokens = ({ balance, tokensLoader, fungibleTokens, accountExists }
             {!zeroBalanceAccount &&
                 <>
                     <div className='sub-title tokens'>
-                        <span className={classNames({ dots: tokensLoader })}><Translate id='wallet.yourPortfolio' /></span>
+                        <span className={classNames({ dots: tokensLoading })}><Translate id='wallet.yourPortfolio' /></span>
                         <span><Translate id='wallet.tokenBalance' /></span>
                     </div>
                     <Tokens tokens={fungibleTokens} />

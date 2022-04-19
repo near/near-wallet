@@ -28,7 +28,7 @@ export function WalletWrapper({
     const createFromImplicitSuccess = useSelector(selectCreateFromImplicitSuccess);
     const createCustomName = useSelector(selectCreateCustomName);
     const fungibleTokensList = useFungibleTokensIncludingNEAR();
-    const tokensLoader = useSelector((state) => selectTokensLoading(state, { accountId }));
+    const tokensLoading = useSelector((state) => selectTokensLoading(state, { accountId }));
     const availableAccounts = useSelector(selectAvailableAccounts);
     const sortedNFTs = useSelector((state) => selectTokensWithMetadataForAccountId(state, { accountId }));
 
@@ -53,7 +53,7 @@ export function WalletWrapper({
             createFromImplicitSuccess={createFromImplicitSuccess}
             createCustomName={createCustomName}
             fungibleTokensList={fungibleTokensList}
-            tokensLoader={tokensLoader}
+            tokensLoading={tokensLoading}
             availableAccounts={availableAccounts}
             sortedNFTs={sortedNFTs}
             handleCloseLinkdropModal={
