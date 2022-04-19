@@ -94,7 +94,7 @@ export const createNewAccount = createAsyncThunk(
         recoveryMethod,
         publicKey,
         previousAccountId,
-        recaptchaToken,
+        recaptchaToken
     }, { dispatch }) => {
         await wallet.checkNewAccount(accountId);
 
