@@ -14,7 +14,7 @@ const BalanceDisplayUSD = ({
     totalAmount
 }) => {
 
-    const roundedBalanceInUSD = getRoundedBalanceInFiat(amount, nearTokenFiatValueUSD,isNear,
+    const roundedBalanceInUSD = amount && nearTokenFiatValueUSD && getRoundedBalanceInFiat(amount, nearTokenFiatValueUSD,isNear,
         decimals);
     const USDSymbol = 'USD';
     const roundedBalanceInUSDIsBelowThreshold = roundedBalanceInUSD === '< $0.01';
