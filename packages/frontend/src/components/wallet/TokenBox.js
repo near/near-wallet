@@ -3,20 +3,13 @@ import { Translate } from 'react-localize-redux';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
-import { CREATE_USN_CONTRACT } from '../../../../../features';
 import { EXPLORER_URL } from '../../config';
-<<<<<<< HEAD
 import { CREATE_USN_CONTRACT } from '../../../../../features'
-=======
-import { handleSwapBycontractName } from '../../redux/slices/swap';
-// import { formatTokenAmount, removeTrailingZeros } from '../../utils/amounts';
->>>>>>> 6db6616dc592adc17a0b06f3e365add52170a872
 import Balance from '../common/balance/Balance';
 import TokenIcon from '../send/components/TokenIcon';
 import Swap from './Swap';
 import TokenAmount from './TokenAmount';
 import { formatTokenAmount, removeTrailingZeros } from '../../utils/amounts';
-import { useDispatch } from 'react-redux';
 import { handleSwapBycontractName } from '../../redux/slices/swap';
 
 
@@ -148,7 +141,6 @@ const StyledContainer = styled.div`
         font-weight: 600;
         color: #24272a;
         text-align:${({IS_USN}) =>(IS_USN ? 'left' : 'right')};
-<<<<<<< HEAD
         white-space: nowrap;
 
         .fiat-amount {
@@ -156,30 +148,6 @@ const StyledContainer = styled.div`
             font-weight: 400;
             margin-top: 6px;
             color: #72727a;
-            line-height: normal;
-        }
-    }
-
-    .balance {
-        margin-left: ${({IS_USN}) =>(IS_USN ? 0 : 'auto')};
-        font-size: 16px;
-        font-weight: 600;
-        color: #24272a;
-        text-align: ${({IS_USN}) =>(IS_USN ? 'left' : 'right')};
-=======
->>>>>>> 6db6616dc592adc17a0b06f3e365add52170a872
-        white-space: nowrap;
-        &.tokenAmount {
-            margin-left: auto !important;
-        }
-
-        .fiat-amount {
-            font-size: 14px;
-            font-weight: 400;
-            margin-top: 6px;
-            color: #72727a;
-<<<<<<< HEAD
-=======
             line-height: normal;
         }
     }
@@ -200,7 +168,26 @@ const StyledContainer = styled.div`
             font-weight: 400;
             margin-top: 6px;
             color: #72727a;
->>>>>>> 6db6616dc592adc17a0b06f3e365add52170a872
+            line-height: normal;
+        }
+    }
+
+    .balance {
+        margin-left: ${({IS_USN}) =>(IS_USN ? 0 : 'auto')};
+        font-size: 16px;
+        font-weight: 600;
+        color: #24272a;
+        text-align: ${({IS_USN}) =>(IS_USN ? 'left' : 'right')};
+        white-space: nowrap;
+        &.tokenAmount {
+            margin-left: auto !important;
+        }
+
+        .fiat-amount {
+            font-size: 14px;
+            font-weight: 400;
+            margin-top: 6px;
+            color: #72727a;
             line-height: normal;
         }
 
@@ -238,11 +225,7 @@ const StyledContainer = styled.div`
 `;
 
 const TokenBox = ({ token, onClick, currentLanguage }) => {
-<<<<<<< HEAD
-    const dispatch = useDispatch()
-=======
     const dispatch = useDispatch();
->>>>>>> 6db6616dc592adc17a0b06f3e365add52170a872
     return (
         <StyledContainer
             className='token-box'
@@ -255,72 +238,6 @@ const TokenBox = ({ token, onClick, currentLanguage }) => {
                     <TokenIcon
                         symbol={token.onChainFTMetadata?.symbol}
                         icon={token.onChainFTMetadata?.icon}
-<<<<<<< HEAD
-                    />
-                </div>
-                <div className='desc'>
-                    {token.contractName ? (
-                        <span className='symbol' title={token.contractName}>
-                            <a
-                                href={`${EXPLORER_URL}/accounts/${token.contractName}`}
-                                onClick={(e) => e.stopPropagation()}
-                                target='_blank'
-                                rel='noopener noreferrer'
-                            >
-                                {token.onChainFTMetadata?.name ||
-                                    token.onChainFTMetadata?.symbol}
-                            </a>
-                        </span>
-                    ) : (
-                        <span className='symbol'>
-                            {token.onChainFTMetadata?.symbol}
-                        </span>
-                    )}
-                    <span className='fiat-rate'>
-                        {token.coingeckoMetadata?.usd ? (
-                            <>
-                                $
-                                {new Intl.NumberFormat(`${currentLanguage}`, {
-                                    minimumFractionDigits: 2,
-                                    maximumFractionDigits: 2,
-                                }).format(token.coingeckoMetadata?.usd)}
-                            </>
-                        ) : (
-                            <span>
-                                <Translate id='tokenBox.priceUnavailable' />
-                            </span>
-                        )}
-                    </span>
-                </div>
-                {token.onChainFTMetadata?.symbol === 'NEAR' &&
-                !token.contractName ? (
-                    <div className='balance'>
-                        <Balance
-                            amount={token.balance}
-                            data-test-id='walletHomeNearBalance'
-                            symbol={false}
-                            showSymbolNEAR={false}
-                        />
-                    </div>
-                ) : (
-                    <TokenAmount
-                        token={token}
-                        className={token.onChainFTMetadata?.symbol  !== 'USN' && CREATE_USN_CONTRACT ? 'balance tokenAmount':'balance'}
-                        withSymbol={CREATE_USN_CONTRACT ? false : true}
-                    />
-                )}
-            </div>
-            {!onClick && CREATE_USN_CONTRACT &&
-                (token.onChainFTMetadata?.symbol === 'NEAR' ||
-                    token.onChainFTMetadata?.symbol === 'USN') && (
-                    <Swap
-                        symbol={token.onChainFTMetadata?.symbol === 'NEAR'}
-                        disable={!token.balance || token.balance === '0'} 
-                        linkTo={!token.balance || token.balance === '0' ? false : '/swap-money'}
-                        onClick={() => dispatch(handleSwapBycontractName(token.onChainFTMetadata?.symbol === 'NEAR' ? 'USN' : 'NEAR'))}
-                    />
-                )}
-=======
                     />
                 </div>
                 <div className='desc'>
@@ -387,7 +304,6 @@ const TokenBox = ({ token, onClick, currentLanguage }) => {
                     </div>
                 )}
             </div>
->>>>>>> 6db6616dc592adc17a0b06f3e365add52170a872
         </StyledContainer>
     );
 };

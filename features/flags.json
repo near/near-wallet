@@ -37,15 +37,9 @@
       "lastEditedAt": "2022-03-24T13:11:21.223Z"
     },
     "testnet": {
-<<<<<<< HEAD
-      "enabled": false,
-      "lastEditedBy": "OlegYak ",
-      "lastEditedAt": "2022-03-24T13:11:21.223Z"
-=======
       "enabled": true,
       "lastEditedBy": "esaminu",
       "lastEditedAt": "2022-04-18T08:24:21.375Z"
->>>>>>> 6db6616dc592adc17a0b06f3e365add52170a872
     },
     "mainnet": {
       "enabled": false,
@@ -58,15 +52,9 @@
       "lastEditedAt": "2022-03-24T13:11:21.223Z"
     },
     "testnet_STAGING": {
-<<<<<<< HEAD
-      "enabled": false,
-      "lastEditedBy": "OlegYak ",
-      "lastEditedAt": "2022-03-24T13:11:21.223Z"
-=======
       "enabled": true,
       "lastEditedBy": "esaminu",
       "lastEditedAt": "2022-04-18T08:13:09.149Z"
->>>>>>> 6db6616dc592adc17a0b06f3e365add52170a872
     }
   },
   "EXAMPLE_FLAG": {

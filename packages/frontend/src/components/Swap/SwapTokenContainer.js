@@ -1,13 +1,3 @@
-<<<<<<< HEAD
-import React, { useRef } from "react";
-import styled from "styled-components";
-import TokenIcon from "../send/components/TokenIcon";
-import { EXPLORER_URL } from "../../config";
-import { formatNearAmount } from "../common/balance/helpers";
-import { formatTokenAmount } from "../../utils/amounts";
-import { exchengeRateTranslation } from "./helpers";
-import { Translate } from "react-localize-redux";
-=======
 import React, { useRef } from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
@@ -17,7 +7,6 @@ import { formatTokenAmount } from '../../utils/amounts';
 import { formatNearAmount } from '../common/balance/helpers';
 import TokenIcon from '../send/components/TokenIcon';
 import { exchengeRateTranslation } from './helpers';
->>>>>>> 6db6616dc592adc17a0b06f3e365add52170a872
 
 const SwapContainer = styled.div`
     width: 100%;
@@ -120,15 +109,9 @@ const SwapTokenContainer = ({
     setInputValueFrom,
     muliplier,
 }) => {
-<<<<<<< HEAD
-    const inputRef = useRef(null)
-    const balance =
-        fromTotoken?.onChainFTMetadata?.symbol === "NEAR"
-=======
     const inputRef = useRef(null);
     const balance =
         fromTotoken?.onChainFTMetadata?.symbol === 'NEAR'
->>>>>>> 6db6616dc592adc17a0b06f3e365add52170a872
             ? +formatNearAmount(fromTotoken?.balance)
             : +formatTokenAmount(
                   fromTotoken?.balance,
@@ -139,24 +122,11 @@ const SwapTokenContainer = ({
     const error = setInputValueFrom && balance < +value;
     const formatMuliplier = +muliplier / 10000;
     const handelChange = (e) => {
-<<<<<<< HEAD
-        const { value } = e.target
-=======
         const { value } = e.target;
->>>>>>> 6db6616dc592adc17a0b06f3e365add52170a872
         setInputValueFrom(value.replace(/[^.\d,]/g, ''));
     };
 
     const onFocus = () => {
-<<<<<<< HEAD
-        if(setInputValueFrom) {
-            inputRef.current.focus()
-        }
-    }
-
-    return (
-        <SwapContainer className={error ? "error" : ""} onClick={onFocus}>
-=======
         if (setInputValueFrom) {
             inputRef.current.focus();
         }
@@ -164,7 +134,6 @@ const SwapTokenContainer = ({
 
     return (
         <SwapContainer className={error ? 'error' : ''} onClick={onFocus}>
->>>>>>> 6db6616dc592adc17a0b06f3e365add52170a872
             <div className="text">
                 <Translate id={text} />
             </div>
@@ -204,11 +173,7 @@ const SwapTokenContainer = ({
                         autoFocus
                         value={value}
                         onChange={handelChange}
-<<<<<<< HEAD
-                        className={error ? "inputError" : ""}
-=======
                         className={error ? 'inputError' : ''}
->>>>>>> 6db6616dc592adc17a0b06f3e365add52170a872
                     />
                 ) : muliplier && fromTotoken ? (
                     <div className="exchenge">

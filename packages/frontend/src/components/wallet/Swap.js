@@ -2,10 +2,6 @@ import React from 'react';
 import { Translate } from 'react-localize-redux';
 import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
-<<<<<<< HEAD
-=======
-
->>>>>>> 6db6616dc592adc17a0b06f3e365add52170a872
 import SwapIconTwoArrows from '../svg/SwapIconTwoArrows';
 
 const StyledContainer = styled.div`
@@ -38,11 +34,7 @@ const Swap = ({ disable, onClick, linkTo , history, symbol}) => {
             }}>
                 <SwapIconTwoArrows color={!disable ? '#000' : '#b7b7b7'}/>
                 <div className='swap'>
-<<<<<<< HEAD
-                    <div><Translate id='tokenBox.swapTo'/> {!symbol ? `NEAR` : 'USN'}</div>
-=======
                     <div><Translate id='tokenBox.swapTo'/> {!symbol ? 'NEAR' : 'USN'}</div>
->>>>>>> 6db6616dc592adc17a0b06f3e365add52170a872
                 </div>
         </StyledContainer>
         </>

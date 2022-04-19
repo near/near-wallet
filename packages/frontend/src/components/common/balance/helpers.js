@@ -2,7 +2,6 @@ import BN from 'bn.js';
 import { utils } from 'near-api-js';
 import { formatTokenAmount } from "../../../utils/amounts";
 
-import { formatTokenAmount } from '../../../utils/amounts';
 
 const NEAR_FRACTIONAL_DIGITS = 5;
 export const YOCTO_NEAR_THRESHOLD = new BN('10', 10).pow(new BN(utils.format.NEAR_NOMINATION_EXP - NEAR_FRACTIONAL_DIGITS + 1, 10));
@@ -32,11 +31,7 @@ export const formatWithCommas = (value) => {
 };
 
 export const getRoundedBalanceInFiat = (rawNearAmount, tokenFiatValue,isNear,decimals) => {
-<<<<<<< HEAD
-    const formattedNearAmount = rawNearAmount && !isNear ? formatNearAmount(rawNearAmount).replace(/,/g, "") : formatTokenAmount(rawNearAmount, decimals);
-=======
     const formattedNearAmount = rawNearAmount && !isNear ? formatNearAmount(rawNearAmount).replace(/,/g, '') : formatTokenAmount(rawNearAmount, decimals);
->>>>>>> 6db6616dc592adc17a0b06f3e365add52170a872
     const balanceInFiat = Number(formattedNearAmount) * tokenFiatValue;
     const roundedBalanceInFiat = balanceInFiat && balanceInFiat.toFixed(2);
     if (roundedBalanceInFiat === '0.00' || formattedNearAmount === '< 0.00001') {
@@ -47,15 +42,6 @@ export const getRoundedBalanceInFiat = (rawNearAmount, tokenFiatValue,isNear,dec
 
 export const getTotalBalanceInFiat = (mainTokens, currentLanguage) => {
     const totalAmount = mainTokens.map((el) => {
-<<<<<<< HEAD
-    const USD = el.coingeckoMetadata.usd
-    const balance = el.balance
-      return el.contractName ? getRoundedBalanceInFiat(balance,USD,true,el.onChainFTMetadata.decimals) : getRoundedBalanceInFiat(balance,USD)
-    }).reduce((a,b) =>`${+a + +b}`)
-    
-    return totalAmount !== NaN ? new Intl.NumberFormat(`${currentLanguage}`,{maximumFractionDigits:2,minimumFractionDigits:2}).format(totalAmount) :'0'
-} 
-=======
     const USD = el.fiatValueMetadata.usd;
     const balance = el.balance;
       return el.contractName ? getRoundedBalanceInFiat(balance,USD,true,el.onChainFTMetadata.decimals) : getRoundedBalanceInFiat(balance,USD);
@@ -63,7 +49,6 @@ export const getTotalBalanceInFiat = (mainTokens, currentLanguage) => {
     
     return !isNaN(totalAmount) ? new Intl.NumberFormat(`${currentLanguage}`,{maximumFractionDigits:2,minimumFractionDigits:2}).format(totalAmount) :'0';
 }; 
->>>>>>> 6db6616dc592adc17a0b06f3e365add52170a872
 
 export const getNearAndFiatValue = (rawNearAmount, tokenFiatValue, fiat = 'usd') => {
     const nearAmount = formatNearAmount(rawNearAmount);

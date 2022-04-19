@@ -83,19 +83,13 @@ import { Profile } from './profile/Profile';
 import { ReceiveContainerWrapper } from './receive-money/ReceiveContainerWrapper';
 import { SendContainerWrapper } from './send/SendContainerWrapper';
 import { StakingContainer } from './staking/StakingContainer';
-import SwapContainerWrapper from './Swap/SwapContainerWrapper';
 import Terms from './terms/Terms';
 
 import '../index.css';
 
-<<<<<<< HEAD
-const {
-    fetchTokenFiatValues,
-=======
 const {    
     fetchTokenFiatValues,
     getTokenWhiteList
->>>>>>> 6db6616dc592adc17a0b06f3e365add52170a872
 } = tokenFiatValueActions;
 
 const {

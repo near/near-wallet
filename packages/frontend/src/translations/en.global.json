@@ -274,10 +274,7 @@
         "startOver": "Start over",
         "subscribe": "Subscribe",
         "swap": "Swap",
-<<<<<<< HEAD
-=======
         "ToMaine": "To the main screen",
->>>>>>> 6db6616dc592adc17a0b06f3e365add52170a872
         "topUp": "Top Up",
         "transferring": "Transferring",
         "tryAgain": "Try Again",
@@ -1492,10 +1489,6 @@
     "tokenBox": {
         "priceUnavailable": "Price Unavailable",
         "swapTo": "to"
-<<<<<<< HEAD
-        
-=======
->>>>>>> 6db6616dc592adc17a0b06f3e365add52170a872
     },
     "topLevelAccounts": {
         "body": "Account names are similar to domain names. Only the ${data} account can create accounts such as yourname.${data}, and only yourname.${data} can create app.yourname.${data}. All accounts created in this wallet use the .${data} Top Level Account (TLA). To learn more about account names and creating your own TLA, visit the <a rel='noopener noreferrer' href='https://docs.nearprotocol.com/docs/concepts/account'>docs</a>.",
@@ -1665,12 +1658,9 @@
         "promptTwoFactor": {
             "userCancelled": "2FA code was not verified correctly."
         },
-<<<<<<< HEAD
-=======
         "recoverAccountLink": {
             "error": "Import of your account failed. Please try again or contact support for assistance."
         },
->>>>>>> 6db6616dc592adc17a0b06f3e365add52170a872
         "recoverAccountSeedPhrase": {
             "errorInvalidSeedPhrase": "No accounts were found for this passphrase."
         },

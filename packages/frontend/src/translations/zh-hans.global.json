@@ -584,8 +584,6 @@
         "or": "或",
         "title": "你收到了 NEAR 空投！"
     },
-<<<<<<< HEAD
-=======
     "NFTDetail": {
         "owner": "所有者",
         "transfer": "发送"
@@ -601,7 +599,6 @@
         "continue": "继续",
         "youSent": "你已经向 <span class='color-green'>${receiverId}</span> 发送了 <span class='color-blue'>${title}</span>。"
     },
->>>>>>> 6db6616dc592adc17a0b06f3e365add52170a872
     "loading": "加载中...",
     "loadingNoDots": "加载中",
     "lockedBalance": "NEAR 锁定在锁定合约中，但无法取出。你可能仍委托或质押着这些 NEAR。一旦 NEAR 解锁，你可以在未锁定余额中查看，并选择取出（转移到「可用余额」）。",
@@ -855,8 +852,6 @@
         "snackbarCopySuccess": "恢复链接已复制",
         "title": "恢复账户"
     },
-<<<<<<< HEAD
-=======
     "importAccountWithLink": {
         "accountFound": "找到 1 个账户",
         "accountImported": "账户已导入",
@@ -871,7 +866,6 @@
         "importAccount": "导入你的账户",
         "preferedBrowser": "如果这不是你偏好的浏览器，"
     },
->>>>>>> 6db6616dc592adc17a0b06f3e365add52170a872
     "recoveryMgmt": {
         "disableInputPlaceholder": "请输入用户名确认",
         "disableNo": "不，保留。",

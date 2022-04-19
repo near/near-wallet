@@ -1,12 +1,3 @@
-<<<<<<< HEAD
-import React from "react";
-
-const SwapIconTwoArrows = ({ color, width, height, margin }) => {
-    const stroke = color || "#000";
-    const currentWidth = width || "20";
-    const currentHeight = height || "20";
-    const currentMargin = margin || "0px";
-=======
 import React from 'react';
 
 const SwapIconTwoArrows = ({ color, width, height, margin }) => {
@@ -14,7 +5,6 @@ const SwapIconTwoArrows = ({ color, width, height, margin }) => {
     const currentWidth = width || '20';
     const currentHeight = height || '20';
     // const currentMargin = margin || '0px';
->>>>>>> 6db6616dc592adc17a0b06f3e365add52170a872
     return (
         <svg
             style={{ marginTop: margin }}

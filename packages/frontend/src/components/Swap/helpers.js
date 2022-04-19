@@ -1,15 +1,9 @@
 import * as nearApiJs from 'near-api-js';
 import { useEffect, useState } from 'react';
-<<<<<<< HEAD
-import { wallet } from '../../utils/wallet';
-import { IS_MAINNET } from '../../config';
-import { parseTokenAmount } from '../../utils/amounts';
-=======
 
 import { IS_MAINNET } from '../../config';
 import { parseTokenAmount } from '../../utils/amounts';
 import { wallet } from '../../utils/wallet';
->>>>>>> 6db6616dc592adc17a0b06f3e365add52170a872
 
 
 export const currentToken = (tokens, value) => {
@@ -45,32 +39,6 @@ export const MinimumReceived = (token, balance, exchangeRate) => {
 };
 
 const useDebounce = (value,delay) => {
-<<<<<<< HEAD
-    const [deboucedValue,setDeboucedValue] = useState(value)
-
-    useEffect(() => {
-        const handler = setTimeout(() => {
-            setDeboucedValue(value)
-        },delay)
-        return () => {
-            clearTimeout(handler)
-        }
-    },[value])
-
-   return  deboucedValue;
-}
-
-const roundeUSNExchange = (amount,exchangeRate) => {
-   const cuurrentExchangeRate =  +exchangeRate / 10000
-
-   return amount * cuurrentExchangeRate
-}
-
-async function fetchCommissiom (accountId,amount,exchangeRate,token) {
-    const contractName = !IS_MAINNET ? 'usdn.testnet' : 'usn';
-    const currentTooken = token?.onChainFTMetadata?.symbol === 'NEAR'
-    const cuurrentExchangeRate =  +exchangeRate / 10000
-=======
     const [deboucedValue,setDeboucedValue] = useState(value);
 
     useEffect(() => {
@@ -95,7 +63,6 @@ async function fetchCommissiom (accountId,amount,exchangeRate,token) {
     const contractName = !IS_MAINNET ? 'usdn.testnet' : 'usn';
     const currentTooken = token?.onChainFTMetadata?.symbol === 'NEAR';
     const cuurrentExchangeRate =  +exchangeRate / 10000;
->>>>>>> 6db6616dc592adc17a0b06f3e365add52170a872
     const usnMethods = {
         viewMethods: ['version', 'name', 'symbol', 'decimals', 'ft_balance_of', 'spread'],
         changeMethods: ['buy', 'sell'],
@@ -106,26 +73,12 @@ async function fetchCommissiom (accountId,amount,exchangeRate,token) {
         contractName,
         usnMethods
     );
-<<<<<<< HEAD
-    const USNamount = `${currentTooken ? parseTokenAmount(roundeUSNExchange(amount,exchangeRate) * 10 ** 18, 0) : parseTokenAmount(amount * 10 ** 18, 0)}`
-    const result = await usnContract.spread({ amount:USNamount }) / 1000000
-=======
     const USNamount = `${currentTooken ? parseTokenAmount(roundeUSNExchange(amount,exchangeRate) * 10 ** 18, 0) : parseTokenAmount(amount * 10 ** 18, 0)}`;
     const result = await usnContract.spread({ amount:USNamount }) / 1000000;
->>>>>>> 6db6616dc592adc17a0b06f3e365add52170a872
 
     return {
         result: currentTooken ? (cuurrentExchangeRate * amount) * result : (amount / cuurrentExchangeRate ) * result,
         percent: Number(result * 100)?.toFixed(2) 
-<<<<<<< HEAD
-    } 
-}
-
-export const commission = (accountId,amount,delay,exchangeRate,token,isSwaped) => {
-    const [commissionFree,setCommissionFree] = useState('')
-    const [isLoadingCommission,setIsLoadingCommission] = useState(false)
-    const debounceValue = useDebounce(amount,delay)
-=======
     }; 
 }
 
@@ -133,27 +86,10 @@ export const commission = (accountId,amount,delay,exchangeRate,token,isSwaped) =
     const [commissionFree,setCommissionFree] = useState('');
     const [isLoadingCommission,setIsLoadingCommission] = useState(false);
     const debounceValue = useDebounce(amount,delay);
->>>>>>> 6db6616dc592adc17a0b06f3e365add52170a872
 
   
     useEffect(() => {
         const getCommission = async () => {
-<<<<<<< HEAD
-            if(debounceValue) {
-                setIsLoadingCommission(true)
-                await fetchCommissiom(accountId,debounceValue,exchangeRate,token).then(res => setCommissionFree(res))
-                setIsLoadingCommission(false)
-            }
-        }
-        
-        getCommission()
-       
-        // return () => setCommissionFree('')
-    },[debounceValue,exchangeRate,isSwaped])
-    
-    return {commissionFree, isLoadingCommission}
-}
-=======
             if (debounceValue) {
                 setIsLoadingCommission(true);
                 await fetchCommissiom(accountId,debounceValue,exchangeRate,token).then((res) => setCommissionFree(res));
@@ -168,4 +104,3 @@ export const commission = (accountId,amount,delay,exchangeRate,token,isSwaped) =
     
     return {commissionFree, isLoadingCommission};
 };
->>>>>>> 6db6616dc592adc17a0b06f3e365add52170a872

@@ -1,11 +1,3 @@
-<<<<<<< HEAD
-import React from 'react'
-import { Translate } from 'react-localize-redux'
-import FormButton from '../../common/FormButton'
-import { exchengeRateTranslation } from '../helpers'
-import ImageContainer from '../ImageContainer'
-import TextInfoSuccess from '../TextInfoSuccess'
-=======
 import React from 'react';
 import { Translate } from 'react-localize-redux';
 
@@ -13,7 +5,6 @@ import FormButton from '../../common/FormButton';
 import { exchengeRateTranslation } from '../helpers';
 import ImageContainer from '../ImageContainer';
 import TextInfoSuccess from '../TextInfoSuccess';
->>>>>>> 6db6616dc592adc17a0b06f3e365add52170a872
 
 const Success = ({
     inputValueFrom,
@@ -52,14 +43,7 @@ const Success = ({
             </FormButton>
         </div>
     </>      
-<<<<<<< HEAD
-  )
-}
-
-export default Success
-=======
   );
 };
 
 export default Success;
->>>>>>> 6db6616dc592adc17a0b06f3e365add52170a872

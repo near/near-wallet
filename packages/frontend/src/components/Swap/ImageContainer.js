@@ -1,13 +1,7 @@
-<<<<<<< HEAD
-import React from "react";
-import styled from "styled-components";
-import SuccessSwap from "../../images/SuccessSwap.png";
-=======
 import React from 'react';
 import styled from 'styled-components';
 
 import SuccessSwap from '../../images/SuccessSwap.png';
->>>>>>> 6db6616dc592adc17a0b06f3e365add52170a872
 
 const StyledImageContainer = styled.div`
     width: 113px;

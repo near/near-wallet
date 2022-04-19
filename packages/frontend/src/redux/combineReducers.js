@@ -19,8 +19,7 @@ import swapSlice from './slices/swap';
 import tokenFiatValuesSlice from './slices/tokenFiatValues';
 import tokensSlice from './slices/tokens';
 import transactionsSlice from './slices/transactions';
-import multiplierSlice from './slices/multiplier';
-import swapSlice from './slices/swap'
+
 
 export default (history) => combineReducers({
     localize: localizeReducer,

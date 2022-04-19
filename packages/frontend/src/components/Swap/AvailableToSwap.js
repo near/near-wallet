@@ -1,11 +1,3 @@
-<<<<<<< HEAD
-import React from "react";
-import { Translate } from "react-localize-redux";
-import styled from "styled-components";
-import { formatTokenAmount } from "../../utils/amounts";
-import { formatNearAmount } from "../common/balance/helpers";
-import FormButton from "../common/FormButton";
-=======
 import React from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
@@ -13,7 +5,6 @@ import styled from 'styled-components';
 import { formatTokenAmount } from '../../utils/amounts';
 import { formatNearAmount } from '../common/balance/helpers';
 import FormButton from '../common/FormButton';
->>>>>>> 6db6616dc592adc17a0b06f3e365add52170a872
 
 const StyledAvailableContainer = styled.div`
     display:flex;
@@ -42,42 +33,25 @@ function AvailableToSwap({ balance, symbol, decimals, onClick }) {
     return (
         <StyledAvailableContainer>
             <div>
-<<<<<<< HEAD
-                <Translate id="swap.AvailableToSwap" />{" "}
-                    <span>
-                        {balance ? (
-                        <>
-                            {" "}
-                            {symbol === "NEAR"
-=======
                 <Translate id="swap.AvailableToSwap" />{' '}
                     <span>
                         {balance ? (
                         <>
                             {' '}
                             {symbol === 'NEAR'
->>>>>>> 6db6616dc592adc17a0b06f3e365add52170a872
                             ? amountoShow
                             : formatTokenAmount(balance, decimals, 5)}
                         </>
                             ) : (
                     <span className="dots" />
-<<<<<<< HEAD
-                )}{" "}
-=======
                 )}{' '}
->>>>>>> 6db6616dc592adc17a0b06f3e365add52170a872
                 <>{symbol}</>
             </span>
             </div>
             <div>
                 <FormButton
                 swapButton={true}
-<<<<<<< HEAD
-                onClick={() => onClick(symbol === "NEAR" ? amountoShow : formatTokenAmount(balance, decimals, 5))}
-=======
                 onClick={() => onClick(symbol === 'NEAR' ? amountoShow : formatTokenAmount(balance, decimals, 5))}
->>>>>>> 6db6616dc592adc17a0b06f3e365add52170a872
                 type='button'
                 color='light-blue'
                 className='small rounded'
