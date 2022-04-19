@@ -660,11 +660,11 @@
                 "fullAccessWarning": "This site is requesting full access to your account. To enable full access, you’ll be asked to verify your account ID.",
                 "limitedAccess": "limited permissions",
                 "permissions": {
+                    "callMethodsOnContract": "Call methods on the smart contract on behalf of your permitted account",
                     "notTransferTokens": "This does not allow the app to transfer tokens",
                     "transferTokens": "Transfer tokens from your account",
                     "viewAddress": "View the address of your permitted account",
-                    "viewBalance": "View the balance of your permitted account",
-                    "callMethodsOnContract": "Call methods on the smart contract on behalf of your permitted account"
+                    "viewBalance": "View the balance of your permitted account"
                 },
                 "title": "Connecting with:"
             },
@@ -1606,7 +1606,7 @@
             "errorRpc": "Error appears while recovering the account."
         },
         "connectLedger": {
-            "noClient": "Ledger is not connected yet."
+            "noClient": "Ledger is not connected yet. Please connect ledger using the button in main menu."
         },
         "createNewAccount": {
             "accountCreated": {

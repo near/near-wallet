@@ -112,6 +112,13 @@ const SetupLedger = (props) => {
                         } else if (err.code === 'NotEnoughBalance') {
                             Mixpanel.track('SR-Ledger NotEnoughBalance creating funded account');
                             dispatch(fundCreateAccountLedger(accountId, publicKey));
+                        } else if (err.message.includes('The Ledger client is unavailable.')) {
+                            dispatch(showCustomAlert({
+                                success: false,
+                                messageCodeHeader: 'error',
+                                messageCode: 'walletErrorCodes.connectLedger.noClient',
+                                errorMessage: err.message
+                            }));
                         } else {
                             recaptchaRef.current.reset();
 

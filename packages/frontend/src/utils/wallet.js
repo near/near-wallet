@@ -122,7 +122,7 @@ class Wallet {
 
                     const { client } = ledgerManager;
                     if (!client) {
-                        throw new WalletError('No client', 'connectLedger.noClient');
+                        throw new WalletError('The Ledger client is unavailable.', 'connectLedger.noClient');
                     }
                     const signature = await client.sign(message, path);
                     await store.dispatch(setLedgerTxSigned({ status: true, accountId }));
@@ -634,7 +634,7 @@ class Wallet {
     async getLedgerPublicKey(path) {
         const { client } = ledgerManager;
         if (!client) {
-            throw new WalletError('No client', 'connectLedger.noClient');
+            throw new WalletError('The Ledger client is unavailable.', 'connectLedger.noClient');
         }
         this.dispatchShowLedgerModal(true);
         const rawPublicKey = await client.getPublicKey(path);
