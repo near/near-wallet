@@ -304,7 +304,7 @@ export const {
     ],
     DISABLE_MULTISIG: [
         (...args) => twoFactorMethod('disableMultisig', wallet, args),
-        () => ({})
+        () => showAlert()
     ],
     CHECK_CAN_ENABLE_TWO_FACTOR: [
         (...args) => TwoFactor.checkCanEnableTwoFactor(...args),

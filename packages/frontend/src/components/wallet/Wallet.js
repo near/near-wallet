@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
 import { Translate } from 'react-localize-redux';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Textfit } from 'react-textfit';
 import styled from 'styled-components';
+<<<<<<< HEAD
 import { CREATE_IMPLICIT_ACCOUNT,CREATE_USN_CONTRACT } from '../../../../../features';
 import { useFungibleTokensIncludingNEAR } from '../../hooks/fungibleTokensIncludingNEAR';
 import { Mixpanel } from '../../mixpanel/index';
@@ -25,15 +26,23 @@ import {
     actions as tokensActions,
     selectTokensLoading,
 } from '../../redux/slices/tokens';
+=======
+
+import { CREATE_IMPLICIT_ACCOUNT,CREATE_USN_CONTRACT } from '../../../../../features';
+import getCurrentLanguage from '../../hooks/getCurrentLanguage';
+import { useSplitFungibleTokens } from '../../hooks/splitFungibleTokens';
+>>>>>>> 6db6616dc592adc17a0b06f3e365add52170a872
 import { actions as tokenFiatValueActions } from '../../redux/slices/tokenFiatValues';
 import classNames from '../../utils/classNames';
 import { SHOW_NETWORK_BANNER } from '../../utils/wallet';
 import Balance from '../common/balance/Balance';
+import { getTotalBalanceInFiat } from '../common/balance/helpers';
 import FormButton from '../common/FormButton';
 import Container from '../common/styled/Container.css';
 import Tooltip from '../common/Tooltip';
 import DownArrowIcon from '../svg/DownArrowIcon';
 import SendIcon from '../svg/SendIcon';
+import Swap from '../svg/SwapIcon';
 import TopUpIcon from '../svg/TopUpIcon';
 import Swap from '../svg/SwapIcon';
 import ActivitiesWrapper from './ActivitiesWrapper';
@@ -50,11 +59,14 @@ import { useSplitFungibleTokens } from '../../hooks/splitFungibleTokens';
 import { getTotalBalanceInFiat } from '../common/balance/helpers';
 import getCurrentLanguage from '../../hooks/getCurrentLanguage';
 
+<<<<<<< HEAD
 const { fetchNFTs } = nftActions;
 const { fetchTokens } = tokensActions;
 const { setLinkdropAmount } = linkdropActions;
 const { setCreateFromImplicitSuccess, setCreateCustomName } =
     createFromImplicitActions;
+=======
+>>>>>>> 6db6616dc592adc17a0b06f3e365add52170a872
 const { fetchTokenFiatValues } = tokenFiatValueActions;
 
 const StyledContainer = styled(Container)`
@@ -253,6 +265,7 @@ const StyledContainer = styled(Container)`
     }
 `;
 
+<<<<<<< HEAD
 export function Wallet({ tab, setTab }) {
     const accountId = useSelector((state) => selectAccountId(state));
     const balance = useSelector((state) => selectBalance(state));
@@ -297,6 +310,28 @@ export function Wallet({ tab, setTab }) {
         dispatch(setLinkdropAmount('0'));
         Mixpanel.track('Click dismiss NEAR drop success modal');
     };
+=======
+export function Wallet({
+    tab,
+    setTab,
+    accountId,
+    balance,
+    linkdropAmount,
+    createFromImplicitSuccess,
+    createCustomName,
+    fungibleTokensList,
+    tokensLoader,
+    availableAccounts,
+    sortedNFTs,
+    handleCloseLinkdropModal,
+    handleSetCreateFromImplicitSuccess,
+    handleSetCreateCustomName
+}) {
+    const splitedFungibleTokens = useSplitFungibleTokens(fungibleTokensList, 'USN');
+    const currentLanguage = getCurrentLanguage();
+    const totalAmount = getTotalBalanceInFiat(splitedFungibleTokens[0], currentLanguage);
+   
+>>>>>>> 6db6616dc592adc17a0b06f3e365add52170a872
 
     return (
         <StyledContainer
@@ -354,16 +389,20 @@ export function Wallet({ tab, setTab }) {
             )}
             {createFromImplicitSuccess && (
                 <CreateFromImplicitSuccessModal
+<<<<<<< HEAD
                     onClose={() =>
                         dispatch(setCreateFromImplicitSuccess(false))
                     }
+=======
+                    onClose={handleSetCreateFromImplicitSuccess}
+>>>>>>> 6db6616dc592adc17a0b06f3e365add52170a872
                     isOpen={createFromImplicitSuccess}
                     accountId={accountId}
                 />
             )}
             {createCustomName && (
                 <CreateCustomNameModal
-                    onClose={() => dispatch(setCreateCustomName(false))}
+                    onClose={handleSetCreateCustomName}
                     isOpen={createCustomName}
                     accountId='satoshi.near'
                 />
@@ -373,8 +412,13 @@ export function Wallet({ tab, setTab }) {
 }
 
 const FungibleTokens = ({ balance, tokensLoader, fungibleTokens, totalAmount, currentLanguage }) => {
+<<<<<<< HEAD
     const dispatch = useDispatch()
     const currentFungibleTokens = CREATE_USN_CONTRACT ? fungibleTokens[0][0] : fungibleTokens[0]
+=======
+    const dispatch = useDispatch();
+    const currentFungibleTokens = CREATE_USN_CONTRACT ? fungibleTokens[0][0] : fungibleTokens[0];
+>>>>>>> 6db6616dc592adc17a0b06f3e365add52170a872
     const availableBalanceIsZero = balance?.balanceAvailable === '0';
     const hideFungibleTokenSection =
         availableBalanceIsZero &&
@@ -383,11 +427,19 @@ const FungibleTokens = ({ balance, tokensLoader, fungibleTokens, totalAmount, cu
     
     useEffect(() => {
         const startPollingTokenFiatValue = setInterval(() => {
+<<<<<<< HEAD
             dispatch(fetchTokenFiatValues())
         },30000)
 
         return () => clearInterval(startPollingTokenFiatValue)
     }, [])
+=======
+            dispatch(fetchTokenFiatValues());
+        },30000);
+
+        return () => clearInterval(startPollingTokenFiatValue);
+    }, []);
+>>>>>>> 6db6616dc592adc17a0b06f3e365add52170a872
     
     return (
         <>

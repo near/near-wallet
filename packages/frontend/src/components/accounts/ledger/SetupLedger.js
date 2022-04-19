@@ -179,7 +179,7 @@ const SetupLedger = (props) => {
                 <Translate id={`button.${connect !== 'fail' ? 'continue' : 'retry'}`} />
             </FormButton>
             <FormButton
-                className='link red'
+                className='link gray'
                 onClick={() => props.history.goBack()}
                 trackingId='SR-Ledger Click cancel button'
             >

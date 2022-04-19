@@ -1,7 +1,14 @@
+<<<<<<< HEAD
 import React from "react";
 
 const SwapIcon = ({ color }) => {
     const stroke = color || "#fff";
+=======
+import React from 'react';
+
+const SwapIcon = ({ color }) => {
+    const stroke = color || '#fff';
+>>>>>>> 6db6616dc592adc17a0b06f3e365add52170a872
     return (
         <svg
             width="22px"

@@ -238,7 +238,7 @@ export function VerifyAccountWrapper() {
                 }
 
                 if (activeVerificationOption === 'creditCard') {
-                    return dispatch(redirectTo(`/initial-deposit${location.search}&fundingMethod=creditCard`));
+                    return dispatch(redirectTo(`/initial-deposit${location.search ? location.search + '&' : '?'}fundingMethod=creditCard`));
                 }
 
                 if (activeVerificationOption === 'existingAccount') {

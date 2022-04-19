@@ -3,9 +3,15 @@ import { CREATE_USN_CONTRACT } from '../../../../../features'
 import { Translate } from 'react-localize-redux';
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
+<<<<<<< HEAD
 import SwapIconTwoArrows from "../svg/SwapIconTwoArrows";
+=======
+
+import { CREATE_USN_CONTRACT } from '../../../../../features';
+>>>>>>> 6db6616dc592adc17a0b06f3e365add52170a872
 import { Mixpanel } from '../../mixpanel/index';
 import HelpIcon from '../svg/HelpIcon';
+import SwapIconTwoArrows from '../svg/SwapIconTwoArrows';
 import UserIcon from '../svg/UserIcon';
 import VaultIcon from '../svg/VaultIcon';
 import WalletIcon from '../svg/WalletIcon';
@@ -97,11 +103,19 @@ const NavLinks = () => (
         <NavLink
             to="/swap-money"
             activeClassName="selected"
+<<<<<<< HEAD
             onClick={() => Mixpanel.track("Click Swap button on nav")}
         >
             <div>
                 <SwapIconTwoArrows
                     width={"20"}
+=======
+            onClick={() => Mixpanel.track('Click Swap button on nav')}
+        >
+            <div>
+                <SwapIconTwoArrows
+                    width={'20'}
+>>>>>>> 6db6616dc592adc17a0b06f3e365add52170a872
                     height="16"
                     color="#A2A2A8"
                     margin="10px"

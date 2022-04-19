@@ -70,7 +70,7 @@
             "orAskFriend": "or ask a friend!",
             "orSendNear": "...or send at least ${amount} NEAR to your wallet address.",
             "sendFrom": "Send from an",
-            "title": "Almost there! To get started, buy some NEAR using MoonPay...",
+            "title": "Almost there! To get started, buy some NEAR using one of providers...",
             "titleAlt": "Almost there! To get started, send at least ${amount} NEAR to your wallet address."
         },
         "fundedStatus": {
@@ -250,14 +250,16 @@
         "bridgeTokens": "Bridge Tokens from Ethereum",
         "buyWith": "Mua với",
         "coinMarketCap": "CoinMarketCap",
-        "descOne": "Mua NEAR qua MoonPay bằng phương thức thanh toán ưa thích của bạn.",
+        "descMoonpay": "Mua NEAR qua MoonPay bằng phương thức thanh toán ưa thích của bạn.",
         "descThree": "Transfer your tokens from Ethereum to NEAR Wallet using a bridge.",
         "descTwo": "NEAR có sẵn để mua thông qua các sàn giao dịch sau.",
+        "descUtorg": "Mua NEAR qua Utorg bằng phương thức thanh toán ưa thích của bạn.",
         "moonPay": "MoonPay",
         "notSupported": "is not supported in your region",
         "seeMore": "Xem thêm trên",
         "supportedExchanges": "Các sàn giao dịch được hỗ trợ",
-        "title": "Mua NEAR"
+        "title": "Mua NEAR",
+        "utorg": "Utorg"
     },
     "confirmLedgerModal": {
         "header": {
@@ -416,6 +418,20 @@
             "title": "Ví Ledger"
         },
         "title": "Thiêt bị ổ cứng"
+    },
+    "importAccountWithLink": {
+        "accountFound": "1 Account Found",
+        "accountImported": "Account Imported",
+        "accountsFound": "${count} Accounts Found",
+        "alreadyImported": "The account secured by this link has been imported.",
+        "continue": "and continue this process in your browser of choice.",
+        "copyUrl": "copy the URL",
+        "foundAccount": "We found <b>1 account</b> secured by this link.",
+        "foundAccounts": "We found <b>${count} accounts</b> secured by this link.",
+        "goToAccount": "Go to Account",
+        "import": "Import",
+        "importAccount": "Import Your Account",
+        "preferedBrowser": "If this isn't your preferred browser,"
     },
     "initialDeposit": {
         "claimAccount": {
@@ -582,6 +598,9 @@
         "desc": "Ví này (và mạng lưới) chỉ dành cho mục đích thử nghiệm. Token và các tài sản khác không có giá trị. Các tài khoản được tạo không thể chuyển sang Mainnet.",
         "header": "NEAR thử nghiệm Ví",
         "title": "Ví chỉ thử nghiệm"
+    },
+    "NFTTransfer": {
+        "youSent": "You sent <span class='color-blue'>${title}</span> to <span class='color-green'>${receiverId}</span>"
     },
     "nodeDetails": {
         "pageText": "Cập nhật thông tin chi tiết về node của bạn.",
@@ -1068,6 +1087,10 @@
         "isRequesting": {
             "authorization": "đang yêu cầu ủy quyền",
             "transferOf": "đang yêu cầu chuyển"
+        },
+        "multipleAccountsError": {
+            "body": "<a href=${signCallbackUrl} target='_blank' rel='noreferrer'>${signCallbackUrl}</a> has requested authorization from more than one account.<br/><br/>NEAR Wallet may only authorize transactions for a single account at a time.",
+            "title": "Batch Transaction Error"
         },
         "nothingHasBeenTransferred": "Không có lệnh chuyển nào.",
         "transactionCancelled": "Giao dịch đã được hủy",

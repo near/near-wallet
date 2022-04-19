@@ -126,8 +126,8 @@ const CustomButton = styled.button`
         }
 
         &.red {
-            border-color: #ff585d;
-            background: #ff585d;
+            border-color: #E5484D;
+            background: #E5484D;
 
             :disabled {
                 background: #e6e6e6;
@@ -137,9 +137,9 @@ const CustomButton = styled.button`
             :active,
             :hover,
             :focus {
-                border-color: #ff585d;
+                border-color: #E5484D;
                 background: #fff;
-                color: #ff585d;
+                color: #E5484D;
             }
             &.dots {
                 color: #fff;

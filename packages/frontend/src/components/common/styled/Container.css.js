@@ -89,26 +89,19 @@ const Container = styled.div`
             margin: 20px 0;
         }
 
-        button {
-
-            &.link {
+        &&& {
+            button {
                 margin-top: 25px;
-            }
-
-            &.link {
-                &.red {
-                    margin-top: 25px !important;
+    
+                &.blue {
+                    width: 100%;
                 }
-            }
-
-            &.blue {
-                width: 100% !important;
-            }
-
-            &.remove-all-keys {
-                min-height: 56px;
-                height: auto;
-                line-height: 140%;
+    
+                &.remove-all-keys {
+                    min-height: 56px;
+                    height: auto;
+                    line-height: 140%;
+                }
             }
         }
     }

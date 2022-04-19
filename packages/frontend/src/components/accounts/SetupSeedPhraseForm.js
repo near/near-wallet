@@ -46,6 +46,11 @@ const CustomDiv = styled('div')`
         > button {
             width: 100%;
             margin-top: 45px;
+
+            &.link {
+                margin: 30px auto 0 auto;
+                display: inherit;
+            }
         }
     }
     #seed-phrase {
@@ -83,6 +88,7 @@ const SetupSeedPhraseForm = ({
     seedPhrase,
     refreshData,
     onClickContinue,
+    onClickCancel,
     hasSeedPhraseRecovery = false
 }) => {
 
@@ -125,6 +131,13 @@ const SetupSeedPhraseForm = ({
                 data-test-id="continueToSeedPhraseVerificationButton"
             >
                 <Translate id='button.continue' />
+            </FormButton>
+            <FormButton
+                onClick={onClickCancel}
+                className='link'
+                color='gray'
+            >
+                <Translate id='button.cancel' />
             </FormButton>
         </CustomDiv>
     );

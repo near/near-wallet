@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import SignTransferAccountNotFound from '../components/sign/SignTransferAccountNotFound';
 import SignTransferInvalid from '../components/sign/SignTransferInvalid';
+import SignTransferMultipleAccounts from '../components/sign/SignTransferMultipleAccounts';
 import SignTransferRetry from '../components/sign/SignTransferRetry';
 import SignTransactionDetailsWrapper from '../components/sign/v2/SignTransactionDetailsWrapper';
 import SignTransactionSummaryWrapper from '../components/sign/v2/SignTransactionSummaryWrapper';
@@ -32,7 +33,8 @@ export function SignWrapper() {
         TRANSACTION_SUMMARY: 0,
         TRANSACTION_DETAILS: 1,
         INSUFFICIENT_NETWORK_FEE: 2,
-        ACCOUNT_NOT_FOUND: 3
+        ACCOUNT_NOT_FOUND: 3,
+        MULTIPLE_ACCOUNTS_IN_BATCH: 4
     };
 
     const [currentDisplay, setCurrentDisplay] = useState(DISPLAY.TRANSACTION_SUMMARY);
@@ -56,7 +58,7 @@ export function SignWrapper() {
 
     useEffect(() => {
         if (!transactionBatchisValid) {
-            // switch to invalid batch screen
+            setCurrentDisplay(DISPLAY.MULTIPLE_ACCOUNTS_IN_BATCH);
         } else if (signerId && !availableAccountsIsLoading && !availableAccounts.some(
             (accountId) => accountId === signerId
         )) {
@@ -144,7 +146,17 @@ export function SignWrapper() {
     if (currentDisplay === DISPLAY.ACCOUNT_NOT_FOUND) {
         return (
             <SignTransferAccountNotFound
-                handleRetry={handleApproveTransaction}
+                handleCancel={handleCancelTransaction}
+                signCallbackUrl={signCallbackUrl}
+                signTransactionSignerId={signerId}
+                submittingTransaction={submittingTransaction}
+            />
+        );
+    }
+
+    if (currentDisplay === DISPLAY.MULTIPLE_ACCOUNTS_IN_BATCH) {
+        return (
+            <SignTransferMultipleAccounts
                 handleCancel={handleCancelTransaction}
                 signCallbackUrl={signCallbackUrl}
                 signTransactionSignerId={signerId}

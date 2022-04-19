@@ -23,6 +23,15 @@ const Style = styled.div`
     }}px;
     margin: 40px auto;
 
+    &.slim {
+        padding: 0;
+        border-radius: 16px;
+        .modal {
+            padding: 0;
+            border-radius: 16px;
+        }
+    }
+
     &.fade-in {
         opacity: 1;
         transition: 0.3s;

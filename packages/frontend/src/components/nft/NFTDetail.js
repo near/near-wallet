@@ -8,6 +8,7 @@ import BackArrowButton from '../common/BackArrowButton';
 import FormButton from '../common/FormButton';
 import Container from '../common/styled/Container.css';
 import SendIcon from '../svg/SendIcon';
+import { NFTMedia } from './NFTMedia';
 import NFTTransferModal from './NFTTransferModal';
 
 const StyledContainer = styled(Container)`
@@ -15,7 +16,7 @@ const StyledContainer = styled(Container)`
         max-width: 429px;
         position: relative;
 
-        img {
+        video,img {
             width: 100%;
             max-width: 429px;
             margin-bottom: 83px;
@@ -110,7 +111,7 @@ const UserIcon = styled.div`
 export function NFTDetail({ nft, accountId, nearBalance, ownerId, history }) {
     const [transferNftDetail, setTransferNftDetail] = useState();
     const hasSufficientBalance = nearBalance >= NFT_TRANSFER_DEPOSIT + NFT_TRANSFER_GAS;
-
+    
     return (
         <StyledContainer className='medium centered'>
           {
@@ -122,7 +123,8 @@ export function NFTDetail({ nft, accountId, nearBalance, ownerId, history }) {
                 >
                 </BackArrowButton>
 
-                <img src={nft.metadata.mediaUrl} alt='NFT'/>
+                <NFTMedia mediaUrl={nft.metadata.mediaUrl}/>
+
                 <h1 className="title">{nft.metadata.title}</h1>
                 <p className="desc">{nft.metadata.description}</p>
 

@@ -1,5 +1,7 @@
 import assert from 'assert';
 
+import { parseNearAmount } from 'near-api-js/lib/utils/format';
+
 import Environments from '../../../../features/environments.json';
 import {
     envValIsSet,
@@ -44,6 +46,7 @@ module.exports = {
     MOONPAY_API_KEY: process.env.MOONPAY_API_KEY,
     MOONPAY_API_URL: process.env.MOONPAY_API_URL,
     MOONPAY_BUY_URL: process.env.MOONPAY_BUY_URL,
+    UTORG_ORDER_URL: process.env.UTORG_ORDER_URL,
     MULTISIG_CONTRACT_HASHES: parseCommaSeperatedStringAsArrayFromShell(
         process.env.MULTISIG_CONTRACT_HASHES
     ),
@@ -75,4 +78,9 @@ module.exports = {
     WHITELISTED_CONTRACTS: parseCommaSeperatedStringAsArrayFromShell(
         process.env.TOKEN_CONTRACTS
     ),
+    NEAR_TOKEN_ID: process.env.NEAR_TOKEN_ID,
+    FARMING_CLAIM_GAS: process.env.FARMING_CLAIM_GAS || parseNearAmount('0.00000000015'),
+    FARMING_CLAIM_YOCTO: process.env.FARMING_CLAIM_YOCTO || '1',
+    REF_FINANCE_API_ENDPOINT: process.env.REF_FINANCE_API_ENDPOINT,
+    REF_FINANCE_CONTRACT: process.env.REF_FINANCE_CONTRACT
 };

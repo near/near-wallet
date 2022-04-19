@@ -2,7 +2,12 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import BN from 'bn.js';
 import set from 'lodash.set';
 import { createSelector } from 'reselect';
+<<<<<<< HEAD
 import { CREATE_USN_CONTRACT } from '../../../../../../features'
+=======
+
+import { CREATE_USN_CONTRACT } from '../../../../../../features';
+>>>>>>> 6db6616dc592adc17a0b06f3e365add52170a872
 import { WHITELISTED_CONTRACTS, IS_MAINNET} from '../../../config';
 import FungibleTokens from '../../../services/FungibleTokens';
 import handleAsyncThunkStatus from '../../reducerStatus/handleAsyncThunkStatus';
@@ -10,7 +15,11 @@ import initialStatusState from '../../reducerStatus/initialState/initialStatusSt
 import createParameterSelector from '../createParameterSelector';
 import { selectUSDNTokenFiatValueUSD } from '../tokenFiatValues';
 
+<<<<<<< HEAD
 const currentContractName = !IS_MAINNET ? 'usdn.testnet': 'usn'
+=======
+const currentContractName = !IS_MAINNET ? 'usdn.testnet': 'usn';
+>>>>>>> 6db6616dc592adc17a0b06f3e365add52170a872
 
 const SLICE_NAME = 'tokens';
 
@@ -247,10 +256,17 @@ export const selectTokensWithMetadataForAccountId = createSelector(
         Object.entries(ownedTokensForAccount)
             .filter(([contractName, { balance }]) => {
                 // We need to see our contract even with zero balance
+<<<<<<< HEAD
                 if(contractName === currentContractName) {
                      return true;
                 }
                 return !new BN(balance).isZero()
+=======
+                if (contractName === currentContractName) {
+                     return true;
+                }
+                return !new BN(balance).isZero();
+>>>>>>> 6db6616dc592adc17a0b06f3e365add52170a872
             })
             .sort(([a], [b]) =>
                 allContractMetadata[a].name.localeCompare(
@@ -262,7 +278,11 @@ export const selectTokensWithMetadataForAccountId = createSelector(
                 contractName,
                 balance,
                 onChainFTMetadata: allContractMetadata[contractName] || {},
+<<<<<<< HEAD
                 coingeckoMetadata:
+=======
+                fiatValueMetadata:
+>>>>>>> 6db6616dc592adc17a0b06f3e365add52170a872
                     contractName === currentContractName ? { usd } : {},
             }))
 );

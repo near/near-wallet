@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
+<<<<<<< HEAD
 import styled from 'styled-components';
 import Container from '../common/styled/Container.css';
 import { currentToken } from './helpers';
@@ -8,6 +9,18 @@ import SwapPage from './views/SwapPage';
 import Success from './views/Success';
 import { refreshAccount } from '../../redux/actions/account';
 import { actions as tokensActions } from "../../redux/slices/tokens";
+=======
+import { useDispatch, useSelector } from 'react-redux';
+import styled from 'styled-components';
+
+import { refreshAccount } from '../../redux/actions/account';
+import { handleSwapBycontractName, selectSwapBycontractName } from '../../redux/slices/swap';
+import { actions as tokensActions } from '../../redux/slices/tokens';
+import Container from '../common/styled/Container.css';
+import { currentToken } from './helpers';
+import Success from './views/Success';
+import SwapPage from './views/SwapPage';
+>>>>>>> 6db6616dc592adc17a0b06f3e365add52170a872
 
 const { fetchTokens } = tokensActions;
 
@@ -92,12 +105,21 @@ const SwapAndSuccessContainer = ({
     const [from, setFrom] = useState(fungibleTokensList[0]);
     const [to, setTo] = useState(currentToken(fungibleTokensList, 'USN'));
     const [inputValueFrom, setInputValueFrom] = useState(0);
+<<<<<<< HEAD
     const swapContractValue = useSelector(selectSwapBycontractName)
     const [activeView, setActiveView] = useState(VIEWS_SWAP.MAIN);
     const dispatch = useDispatch()
 
     useEffect(() => {
         if(swapContractValue && swapContractValue === 'NEAR') {
+=======
+    const swapContractValue = useSelector(selectSwapBycontractName);
+    const [activeView, setActiveView] = useState(VIEWS_SWAP.MAIN);
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        if (swapContractValue && swapContractValue === 'NEAR') {
+>>>>>>> 6db6616dc592adc17a0b06f3e365add52170a872
             setFrom(currentToken(fungibleTokensList, 'USN'));
             setTo(fungibleTokensList[0]);
             return;
@@ -110,6 +132,7 @@ const SwapAndSuccessContainer = ({
 
 
     useEffect(() => {
+<<<<<<< HEAD
         return () => dispatch(handleSwapBycontractName(''))
     },[dispatch])
 
@@ -118,6 +141,16 @@ const SwapAndSuccessContainer = ({
         await dispatch(fetchTokens({ accountId }));
         setActiveView('main')
     },[]) 
+=======
+        return () => dispatch(handleSwapBycontractName(''));
+    },[dispatch]);
+
+    const onHandleSBackToSwap = useCallback(async () => {
+        await dispatch(refreshAccount());
+        await dispatch(fetchTokens({ accountId }));
+        setActiveView('main');
+    },[]); 
+>>>>>>> 6db6616dc592adc17a0b06f3e365add52170a872
 
    const getCurrentViewComponent = (activeView) => {
     switch (activeView) {
@@ -152,7 +185,11 @@ const SwapAndSuccessContainer = ({
                     to={to}
                     multiplier={multiplier}
                     handleBackToSwap={async () => {
+<<<<<<< HEAD
                         setInputValueFrom(0)
+=======
+                        setInputValueFrom(0);
+>>>>>>> 6db6616dc592adc17a0b06f3e365add52170a872
                        await onHandleSBackToSwap(); 
                     }}
                 />

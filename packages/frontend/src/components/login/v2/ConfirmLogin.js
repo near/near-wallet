@@ -111,6 +111,7 @@ const LimitedAccessUI = () => (
     <>
         <PermissionItem translateId='login.v2.connectConfirm.permissions.viewAddress' />
         <PermissionItem translateId='login.v2.connectConfirm.permissions.viewBalance' />
+        <PermissionItem translateId='login.v2.connectConfirm.permissions.callMethodsOnContract' />
         <PermissionItem permitted={false} translateId='login.v2.connectConfirm.permissions.notTransferTokens' />
     </>
 );
