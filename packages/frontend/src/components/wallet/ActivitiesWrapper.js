@@ -19,6 +19,11 @@ import ActivityDetailModal from './ActivityDetailModal';
 const StyledContainer = styled.div`
     width: 100%;
 
+    .no-activity {
+        color: #B4B4B4;
+        line-height: 150%;
+    }
+
     @media (min-width: 992px) {
         border: 2px solid #F0F0F0;
         border-radius: 8px;
@@ -93,8 +98,7 @@ const ActivitiesWrapper = () => {
     const dispatch = useDispatch();
 
     const [transactionHash, setTransactionHash] = useState();
-
-    const accountId = useSelector((state) => selectAccountId(state));
+    const accountId = useSelector(selectAccountId);
     const transactions = useSelector((state) => selectTransactionsByAccountId(state, { accountId }));
     const transaction = useSelector((state) => selectOneTransactionByIdentity(state, { accountId, hash: transactionHash }));
     const activityLoader = useSelector((state) => selectTransactionsLoading(state, { accountId }));
@@ -119,6 +123,9 @@ const ActivitiesWrapper = () => {
                     setTransactionHash={setTransactionHash}
                 />
             ))}
+            {transactions?.length === 0 && !activityLoader && (
+                <div className='no-activity'><Translate id='dashboard.noActivity' /></div>
+            )}
             {transactionHash && 
                 <ActivityDetailModal 
                     open={!!transactionHash}

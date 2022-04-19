@@ -3,7 +3,26 @@ import BN from 'bn.js';
 import { MIN_BALANCE_FOR_GAS } from '../../../config';
 
 export const selectProfileBalance = (walletAccount) => {
+    let walletBalance = {
+        available: '0',
+        inStakingPools: {
+            availableForWithdraw: '0',
+            pendingRelease: '0',
+            staked: '0',
+            sum: '0',
+        },
+        reservedForStorage: '0',
+        reservedForTransactions: '0',
+        walletBalance: '0'
+    };
+
     const balance = walletAccount?.balance;
+
+    if (walletAccount?.accountExists === false) {
+        return {
+            walletBalance
+        };
+    }
 
     if (!balance || !balance.available) {
         return false;
@@ -26,7 +45,7 @@ export const selectProfileBalance = (walletAccount) => {
 
     const lockupIdExists = !!lockedAmount;
 
-    const walletBalance = {
+    walletBalance = {
         walletBalance: walletAccount?.amount,
         reservedForStorage: stateStaked.toString(),
         reservedForTransactions: BN.min(new BN(available), new BN(MIN_BALANCE_FOR_GAS)).toString(),

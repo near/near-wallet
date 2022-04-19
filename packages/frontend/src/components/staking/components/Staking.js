@@ -56,7 +56,7 @@ export default function Staking({
                 className='account-loader'
             />
             <FormButton
-                disabled={loadingDetails}
+                disabled={loadingDetails || !activeAccount.accountId}
                 linkTo='/staking/validators'
                 trackingId="STAKE Click stake my tokens button"
                 data-test-id="stakeMyTokensButton"
@@ -139,7 +139,7 @@ export default function Staking({
                             />
                         )}
                     </ListWrapper>
-                    : <NoValidators />
+                    : <NoValidators accountId={activeAccount.accountId}/>
                 : <SkeletonLoading
                     height='200px'
                     show={true}

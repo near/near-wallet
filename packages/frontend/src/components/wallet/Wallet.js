@@ -255,12 +255,13 @@ export function Wallet({
     tab,
     setTab,
     accountId,
+    accountExists,
     balance,
     linkdropAmount,
     createFromImplicitSuccess,
     createCustomName,
     fungibleTokensList,
-    tokensLoader,
+    tokensLoading,
     availableAccounts,
     sortedNFTs,
     handleCloseLinkdropModal,
@@ -290,14 +291,15 @@ export function Wallet({
                         ? <NFTs tokens={sortedNFTs} />
                         : <FungibleTokens
                             balance={balance}
-                            tokensLoader={tokensLoader}
+                            tokensLoading={tokensLoading}
                             fungibleTokens={fungibleTokensList}
+                            accountExists={accountExists}
                         />
 
                     }
                 </div>
                 <div className='right'>
-                    {CREATE_IMPLICIT_ACCOUNT
+                    {CREATE_IMPLICIT_ACCOUNT && accountExists
                         ? <Sidebar availableAccounts={availableAccounts} />
                         : <ExploreApps />
                     }
@@ -328,12 +330,8 @@ export function Wallet({
     );
 }
 
-const FungibleTokens = ({ balance, tokensLoader, fungibleTokens }) => {
-    const availableBalanceIsZero = balance?.balanceAvailable === '0';
-    const hideFungibleTokenSection =
-        availableBalanceIsZero &&
-        fungibleTokens?.length === 1 &&
-        fungibleTokens[0]?.onChainFTMetadata?.symbol === 'NEAR';
+const FungibleTokens = ({ balance, tokensLoading, fungibleTokens, accountExists }) => {
+    const zeroBalanceAccount = accountExists === false;
     return (
         <>
             <div className='total-balance'>
@@ -383,13 +381,13 @@ const FungibleTokens = ({ balance, tokensLoader, fungibleTokens }) => {
                     <Translate id='button.topUp' />
                 </FormButton>
             </div>
-            {availableBalanceIsZero &&
+            {zeroBalanceAccount &&
                 <DepositNearBanner />
             }
-            {!hideFungibleTokenSection &&
+            {!zeroBalanceAccount &&
                 <>
                     <div className='sub-title tokens'>
-                        <span className={classNames({ dots: tokensLoader })}><Translate id='wallet.yourPortfolio' /></span>
+                        <span className={classNames({ dots: tokensLoading })}><Translate id='wallet.yourPortfolio' /></span>
                         <span><Translate id='wallet.tokenBalance' /></span>
                     </div>
                     <Tokens tokens={fungibleTokens} />
