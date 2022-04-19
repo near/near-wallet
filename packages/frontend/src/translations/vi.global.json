@@ -162,6 +162,8 @@
     },
     "availableBalanceInfo": "Your spendable NEAR balance excluding funds locked or staked. <a href='/profile'>View Balance Breakdown →</a>",
     "availableBalanceProfile": "Đây là số dư NEAR có thể sử dụng của bạn hoặc chuyển ngay lập tức. Số tiền này sẽ thấp hơn tổng số dư của bạn.",
+    "donationInfo": "Khoản đóng góp sẽ được chuyển đến Bộ chuyển đổi kỹ thuật số của Ukraine.<br/>Web sitesi: <a href='https://donate.thedigital.gov.ua/' target='_blank'>donate.thedigital.gov.ua→</a>",
+    "receiverInfo": "Địa chỉ người nhận",
     "back": "Trở lại",
     "balance": {
         "balance": "Tổng số dư",
@@ -1341,6 +1343,7 @@
         "balance": "Số dư",
         "balanceTitle": "Số dư NEAR",
         "dateAndTime": "Ngày & Giờ",
+        "donationInfoText": "Thông tin quyên góp",
         "status": "Trạng thái",
         "tokens": "Token"
     },

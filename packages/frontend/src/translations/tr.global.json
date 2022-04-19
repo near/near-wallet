@@ -158,6 +158,8 @@
         "publicKey": "Açık Adres"
     },
     "availableBalanceInfo": "Kilitlenen veya Katılım sağlanan fonlar hariç harcanabilir NEAR bakiyeniz. <a href='/profile'>Bakiye Dökümünü Görüntüle →</a>",
+    "donationInfo": "Bağış Ukrayna Dijital Dönüşüm Bakanlığı'na gidecek.<br/>Web sitesi: <a href='https://donate.thedigital.gov.ua/' target='_blank'>donate.thedigital.gov.ua→</a><br/>",
+    "receiverInfo": " Alıcı adresi",
     "availableBalanceProfile": "Bu, anlık kullanılabilir NEAR bakiyenizdir.",
     "back": "Geri",
     "balance": {
@@ -1443,6 +1445,7 @@
             "desc": "Cüzdanınızla işlem yapmak için NEAR tokenlerine ihtiyacınız olacak.",
             "title": "NEAR Yatır"
         },
+        "donationInfoText": "bağış bilgileri",
         "status": "Durum",
         "tokenBalance": "Token Bakiyesi",
         "tokens": "Tokenler",

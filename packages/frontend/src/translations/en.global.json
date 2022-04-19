@@ -177,7 +177,9 @@
         "publicKey": "Public Key"
     },
     "availableBalanceInfo": "Your spendable NEAR balance excluding funds locked or staked. <a href='/profile'>View Balance Breakdown →</a>",
+    "donationInfo": "The donation will go to the Ministry of Digital Transformation of Ukraine. Webiste: <a href='https://donate.thedigital.gov.ua/' target='_blank'>donate.thedigital.gov.ua →</a>",
     "availableBalanceProfile": "This is your spendable NEAR balance, and can be used or transferred immediately.",
+    "receiverInfo": "Receiver address",
     "back": "Back",
     "balance": {
         "balance": "Total Balance",
@@ -1619,14 +1621,14 @@
             "desc": "You’ll need NEAR tokens to perform transactions with your wallet.",
             "title": "Deposit NEAR"
         },
+        "donationInfoText": "Donation information",
         "OthersTokens": "Other tokens",
         "status": "Status",
         "tokenBalance": "Token Balance",
         "tokens": "Tokens",
         "totalBalance": "Total Balance",
         "totalBalanceTitle": "Total Balance",
-        "yourPortfolio": "Your Portfolio",
-        "OthersTokens": "Other tokens"
+        "yourPortfolio": "Your Portfolio"
     },
     "walletErrorCodes": {
         "addAccessKey": {

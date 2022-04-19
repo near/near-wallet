@@ -4,6 +4,8 @@ import styled from 'styled-components';
 
 import Balance from '../../../common/balance/Balance';
 import FormButton from '../../../common/FormButton';
+import ReceiverInfo from '../../../DonateToUkraine/ReceiverInfo';
+import TooltipDonateInfo from '../../../DonateToUkraine/TooltipDonateInfo';
 import AmountInput from '../AmountInput';
 import BalanceDetails from '../BalanceDetails';
 import SelectTokenButton from '../SelectTokenButton';
@@ -65,7 +67,12 @@ const EnterAmount = ({
             novalidate
         >
             {donateToUkraine 
-                ? <h1 className='donate_title'><Translate id='link.donateToUkraine'/></h1>
+                ?   <>
+                    <h1 className='donate_title'>
+                       <Translate id='link.donateToUkraine'/>
+                    </h1>
+                    <TooltipDonateInfo/>
+                    </>
                 : <TabSelector/> 
             }
             <div className='amount-input-wrapper'>
@@ -97,6 +104,7 @@ const EnterAmount = ({
                 availableToSend={availableToSend}
                 selectedToken={selectedToken}
             />
+            {donateToUkraine && <ReceiverInfo/>}
             <div className='buttons-bottom-buttons'>
                 {/* TODO: Add error state */}
                 <FormButton

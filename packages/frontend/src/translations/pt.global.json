@@ -177,6 +177,8 @@
         "publicKey": "Chave Pública"
     },
     "availableBalanceInfo": "Saldo NEAR disponível excluindo valores em stake ou bloqueados. <a href='/profile'>Ver saldo detalhado→</a>",
+    "donationInfo": "A doação irá para o Ministério da Transformação Digital da Ucrânia. Webiste: <a href='https://donate.thedigital.gov.ua/' target='_blank'>donate.thedigital.gov.ua →</a>",
+    "receiverInfo": "Endereço do destinatário",
     "availableBalanceProfile": "Este é o seu saldo NEAR gastável e pode ser usado ou transferido imediatamente. Isso será inferior ao seu saldo total.",
     "back": "Voltar",
     "balance": {
@@ -1477,6 +1479,7 @@
             "desc": "Você precisará de tokens NEAR para realizar transações com sua carteira.",
             "title": "Deposite NEAR"
         },
+        "donationInfoText": "Informações de doação",
         "status": "Status",
         "tokenBalance": "Saldo de tokens",
         "tokens": "Tokens",

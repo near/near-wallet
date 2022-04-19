@@ -518,7 +518,7 @@ class Routing extends Component {
                             {DONATE_TO_UKRAINE && 
                             <PrivateRoute
                                 exact
-                                ath="/donate-to-Ukraine"
+                                path="/donate-to-Ukraine"
                                 component={DoanteContainerWrapper}
                             />}
                             
