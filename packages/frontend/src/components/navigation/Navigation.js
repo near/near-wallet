@@ -96,7 +96,7 @@ export default ({
 
     const connectLedger =  () => dispatch(handleConnectLedger()).unwrap();
 
-    const showConnectLedgerButton = hasLedger || pathname === '/sign-in-ledger';
+    const showConnectLedgerButton = hasLedger || ['sign-in-ledger', 'setup-ledger'].includes(pathname.split('/')[1]);
 
     return (
         <Container id='nav-container' open={menuOpen}>
