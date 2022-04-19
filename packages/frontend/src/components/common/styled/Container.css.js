@@ -99,8 +99,8 @@ const Container = styled.div`
             margin: 20px 0 60px -30px;
         }
 
-        button {
-            &.link {
+        &&& {
+            button {
                 margin-top: 25px;
     
                 &.blue {
