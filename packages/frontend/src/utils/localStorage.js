@@ -40,7 +40,7 @@ export const removeActiveAccount = (activeAccountKey) => {
 };
 
 export const getLedgerHDPath = (accountId) => {
-    localStorage.getItem(`ledgerHdPath:${accountId}`);
+    return localStorage.getItem(`ledgerHdPath:${accountId}`);
 };
 
 export const removeLedgerHDPath = (accountId) => {

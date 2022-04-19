@@ -87,7 +87,7 @@ const signInWithLedgerAddAndSaveAccounts = createAsyncThunk(
                 if (path) {
                     setLedgerHdPath({ accountId, path });
                 }
-                await dispatch(addLedgerAccountId({ accountId }));
+                await dispatch(addLedgerAccountId({ accountId })).unwrap();
                 dispatch(ledgerSlice.actions.setLedgerTxSigned({ status: false, accountId }));
             } catch (e) {
                 console.warn('Error importing Ledger-based account', accountId, e);
