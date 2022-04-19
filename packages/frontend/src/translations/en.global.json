@@ -1308,6 +1308,10 @@
                 "button": "Claim",
                 "info": "This validator grants staking rewards in a token other than NEAR."
             },
+            "farmed": {
+                "info": "Collected tokens that have been earned during farming with farming validators",
+                "title": "Available for claim"
+            },
             "pending": {
                 "info": "These tokens have been unstaked, but are not yet ready to withdraw. Tokens are ready to withdraw 52 to 65 hours after unstaking.",
                 "title": "Pending release"
