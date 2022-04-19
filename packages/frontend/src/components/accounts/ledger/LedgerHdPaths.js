@@ -27,6 +27,8 @@ const Container = styled.div`
 
         button {
             &.blue {
+                width: 100%;
+                
                 :focus {
                     box-shadow: 0 0 0 3pt #c8e3fc !important;
                 }
