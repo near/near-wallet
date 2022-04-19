@@ -247,17 +247,19 @@ const TokenBox = ({ token, onClick, currentLanguage }) => {
                         withSymbol={CREATE_USN_CONTRACT ? false : true}
                     />
                 )}
-            </div>
-            {!onClick && CREATE_USN_CONTRACT &&
+                {!onClick && CREATE_USN_CONTRACT &&
                 (token.onChainFTMetadata?.symbol === 'NEAR' ||
                     token.onChainFTMetadata?.symbol === 'USN') && (
-                    <Swap
-                        symbol={token.onChainFTMetadata?.symbol === 'NEAR'}
-                        disable={!token.balance || token.balance === '0'} 
-                        linkTo={!token.balance || token.balance === '0' ? false : '/swap-money'}
-                        onClick={() => dispatch(handleSwapBycontractName(token.onChainFTMetadata?.symbol === 'NEAR' ? 'USN' : 'NEAR'))}
-                    />
+                    <div style={{marginLeft: 'auto'}}>
+                        <Swap
+                            symbol={token.onChainFTMetadata?.symbol === 'NEAR'}
+                            disable={!token.balance || token.balance === '0'} 
+                            linkTo={!token.balance || token.balance === '0' ? false : '/swap-money'}
+                            onClick={() => dispatch(handleSwapBycontractName(token.onChainFTMetadata?.symbol === 'NEAR' ? 'USN' : 'NEAR'))}
+                        />
+                    </div>
                 )}
+            </div>
         </StyledContainer>
     );
 };
