@@ -47,6 +47,11 @@
                     "title": "通過 MoonPay 充值"
                 },
                 "title": "充值至賬戶",
+                "utorg": {
+                    "buyWith": "打開",
+                    "desc": "通過 Utorg 支持的支付方式進行你的首次充值。",
+                    "title": "通過 Utorg 充值"
+                },
                 "whereToBuy": {
                     "button": "我可以在哪裡購買 NEAR？",
                     "desc": "NEAR 通證可以在以下交易所購買",
@@ -250,6 +255,7 @@
         "reserveMyAccountId": "保留賬戶 ID",
         "resubmit": "重新提交",
         "retry": "重試",
+        "removeAccount": "登出賬戶",
         "returnToApp": "返回至應用",
         "saveChanges": "保存更改",
         "secureMyAccount": "加強賬戶安全",
@@ -282,14 +288,16 @@
         "bridgeTokens": "通過以太坊跨鏈橋轉移通證",
         "buyWith": "打開",
         "coinMarketCap": "CoinMarketCap",
-        "descOne": "可在 MoonPay 使用偏好的支付方式購買 NEAR。",
+        "descMoonpay": "可在 MoonPay 使用偏好的支付方式購買 NEAR。",
         "descThree": "通過跨鏈橋將以太坊鏈上通證轉至 NEAR 錢包。",
         "descTwo": "NEAR 已經在以下交易所流通，可交易。",
+        "descUtorg": "可在 Utorg 使用偏好的支付方式購買 NEAR。",
         "moonPay": "MoonPay",
         "notSupported": "未在你所在地區支持",
         "seeMore": "查看更多：",
         "supportedExchanges": "交易所",
-        "title": "充值 NEAR"
+        "title": "充值 NEAR",
+        "utorg": "Utorg"
     },
     "confirmLedgerModal": {
         "header": {
@@ -333,6 +341,24 @@
         "pageText": "只需要輸入用戶名即完成註冊。",
         "pageTitle": "創建新的賬戶",
         "recoverItHere": "恢復賬戶",
+        "setupPassphrase": {
+            "generatePassphrase": {
+                "desc": "為更高的安全性，我們建議為每一個新的錢包賬戶生成唯一的助記詞。",
+                "descTwo": "作為一個快捷選項，你可以選擇在多個賬戶間共用一組助記詞。任何時候你都可以修改。",
+                "tite": "創建新的助記詞？"
+            },
+            "sharedPassphrase": {
+                "desc": "你的助記詞已驗證。一旦你向新賬戶充值，你的助記詞將在 <b>${numberOfAccounts} 個賬戶</b>間共享。",
+                "descTwo": "一旦當你使用該助記詞恢復賬戶，以下賬戶也將會被恢復：",
+                "tite": "你的共享助記詞"
+            },
+            "verifyPassphrase": {
+                "desc": "請輸入已有的助記詞來綁定新的賬戶。",
+                "passPhrasePlaceholder": "bubble word sun join impact exist ramp skull title hollow symbol very",
+                "tite": "驗證助記詞",
+                "yourPassphrase": "你的助記詞"
+            }
+        },
         "step": "步驟 ${step}/${total}",
         "terms": {
             "agreeBtn": "同意並繼續",
@@ -427,7 +453,7 @@
         }
     },
     "exploreApps": {
-        "desc": "賺取、鑄幣和玩遊戲！發現 NEAR 生態的應用。",
+        "desc": "賺取、鑄造和玩遊戲！發現 NEAR 生態的應用。",
         "exploreApps": "瀏覽應用",
         "exploreDeFi": "瀏覽 DeFi 應用",
         "title": "尋找 NEAR 生態和應用？"
@@ -476,20 +502,6 @@
         "noIdFailed": "導入賬戶失敗。",
         "withId": "導入賬戶：${accountId}",
         "withIdFailed": "導入賬戶失敗：${accountId}"
-    },
-    "importAccountWithLink": {
-        "accountFound": "1 Account Found",
-        "accountImported": "Account Imported",
-        "accountsFound": "${count} Accounts Found",
-        "alreadyImported": "The account secured by this link has been imported.",
-        "continue": "and continue this process in your browser of choice.",
-        "copyUrl": "copy the URL",
-        "foundAccount": "We found <b>1 account</b> secured by this link.",
-        "foundAccounts": "We found <b>${count} accounts</b> secured by this link.",
-        "goToAccount": "Go to Account",
-        "import": "Import",
-        "importAccount": "Import Your Account",
-        "preferedBrowser": "If this isn't your preferred browser,"
     },
     "initialDeposit": {
         "claimAccount": {
@@ -571,6 +583,21 @@
         },
         "or": "或",
         "title": "你收到了 NEAR 空投！"
+    },
+    "NFTDetail": {
+        "owner": "所有者",
+        "transfer": "發送"
+    },
+    "NFTTransfer": {
+        "transferNft": "發送 NFT",
+        "enterReceiver": "輸入接收方的地址，然後確認發送。",
+        "cancel": "取消",
+        "next": "下一步",
+        "confirm": "確認",
+        "transactionComplete": "發送完成！",
+        "viewTransaction": "查看結果",
+        "continue": "繼續",
+        "youSent": "你已經向 <span class='color-green'>${receiverId}</span> 發送了 <span class='color-blue'>${title}</span>。"
     },
     "loading": "加載中...",
     "loadingNoDots": "加載中",
@@ -663,9 +690,6 @@
     "NFTs": {
         "emptyState": "似乎你還沒有收藏品。",
         "loadMore": "加載更多"
-    },
-    "NFTTransfer": {
-        "youSent": "You sent <span class='color-blue'>${title}</span> to <span class='color-green'>${receiverId}</span>"
     },
     "nodeDetails": {
         "pageText": "更新節點的詳細信息。",
@@ -828,6 +852,20 @@
         "snackbarCopySuccess": "恢復鏈接已複製",
         "title": "恢復賬戶"
     },
+    "importAccountWithLink": {
+        "accountFound": "找到 1 個賬戶",
+        "accountImported": "賬戶已導入",
+        "accountsFound": "找到 ${count} 個賬戶",
+        "alreadyImported": "由該鏈接保護的賬戶已導入。",
+        "continue": "請在你選擇的瀏覽器中繼續該流程。",
+        "copyUrl": "複製鏈接",
+        "foundAccount": "我們找到 <b>1 個由該鏈接保護的賬戶</b>。",
+        "foundAccounts": "我們找到 <b>${count} 個由該鏈接保護的賬戶</b>。",
+        "goToAccount": "訪問賬戶",
+        "import": "導入",
+        "importAccount": "導入你的賬戶",
+        "preferedBrowser": "如果這不是你偏好的瀏覽器，"
+    },
     "recoveryMgmt": {
         "disableInputPlaceholder": "請輸入用戶名確認",
         "disableNo": "不，保留。",
@@ -949,7 +987,13 @@
         "subTitle2": "功能增強",
         "title": "更新說明"
     },
-    "reservedForFeesInfo": "保留 ${data}，以承擔交易成本。",
+    "removeAccount": {
+        "button": "從錢包中登出賬戶",
+        "desc": "你需要在將來通過恢復方式重新導入該賬戶。請確保你已經保存好助記詞或其他恢復方式。",
+        "disclaimer": "我確認有 <b>${accountId}</b> 賬戶的恢復方式",
+        "title": "登出賬戶？"
+    },
+    "reservedForFeesInfo": "保留 ${data} NEAR，以承擔交易成本。",
     "selectAccountDropdown": {
         "account": "賬戶",
         "createAccount": "創建新的賬戶",
@@ -959,6 +1003,7 @@
         "switchAccounthNotAllowed": "該應用不支持賬戶切換"
     },
     "sending": "發送中",
+    "importing": "正在導入",
     "sendMoney": {
         "account": {
             "title": "轉賬至"
@@ -1114,9 +1159,13 @@
         "emailDesc": "通過郵箱方式接收驗證碼和賬戶恢復鏈接。",
         "emailPlaceholder": "example@email.com",
         "emailTitle": "郵箱方式",
+        "existingPhraseDesc": "通過共享助記詞來保護新的地址。",
+        "existingPhraseTitle": "使用已有的助記詞",
         "header": "保護你的賬戶",
         "ledgerDesc": "通過 Ledger 硬件錢包保護你的賬戶安全。",
         "ledgerTitle": "Ledger 硬件錢包",
+        "newPhraseDesc": "通過新的助記詞保護新地址。",
+        "newPhraseTitle": "創建新助記詞",
         "notSupportedPhone": "抱歉，目前我們暫未對你所在的地區開放短信恢復方式。請選擇郵箱方式。",
         "phoneDesc": "請輸入你的手機號以接收恢復鏈接。",
         "phonePlaceholder": "+1 415 797 8554",
@@ -1144,8 +1193,8 @@
     },
     "sign": {
         "accountNotFound": {
-            "body": "${signCallbackUrl} is requesting authorization from a NEAR account that cannot be found: <b>${signTransactionSignerId}</b><br/><br/>To approve any transactions, you’ll first need to import the account.",
-            "title": "Account Not Found"
+            "body": "${signCallbackUrl} 正在請求授權的 NEAR 賬戶無法找到：<b>${signTransactionSignerId}</b><br/><br/>為授權任何交易，請先導入該賬戶。",
+            "title": "賬戶無法找到"
         },
         "ActionWarrning": {
             "binaryData": "參數中包含二進制數據",
@@ -1176,8 +1225,8 @@
         "insufficientFunds": "資產不足",
         "insufficientFundsDesc": "你沒有足夠的可用 NEAR 完成該操作。",
         "invalidTransaction": {
-            "body": "The request is invalid and cannot be signed.",
-            "title": "Invalid Transaction"
+            "body": "該請求無效，無法簽名。",
+            "title": "無效交易"
         },
         "isRequesting": {
             "authorization": "正在請求授權",
@@ -1311,8 +1360,9 @@
             "descTwo": "你可以在質押頁查看你的委托和質押獎勵。",
             "title": "成功！"
         },
+
         "staking": {
-            "available": "可用",
+            "available": "可用餘額",
             "button": "質押 NEAR",
             "currentValidators": "當前驗證節點",
             "desc": "選擇驗證節點質押 NEAR 通證",
@@ -1339,10 +1389,24 @@
             "descTwo": "你的通證請求釋放將會在 52 - 65 小時釋放。",
             "title": "成功！"
         },
+        "claimSuccess": {
+            "button": "返回概覽頁",
+            "desc": "來自該節點的獎勵已經成功領取",
+            "descTwo": "你的通證已經可被領取",
+            "title": "成功！"
+        },
         "validator": {
-            "button": "委托節點質押",
-            "desc": "這是你將支付給驗證節點委托質押的費用，僅從你的獎勵中支付。",
+            "apy": "APY",
+            "claiming": "正在領取",
+            "button": "委託節點質押",
+            "claimFarmRewards": "你將領取",
+            "activeStake": "活躍質押",
+            "rewards": "獎勵",
+            "errorClaimRewards": "領取質押獎勵時出現錯誤，請稍後重試",
+            "desc": "這是你將支付給驗證節點委託質押的費用，僅從你的獎勵中支付。",
             "fee": "質押費",
+            "notWhitelistedTokenWarning": "該通證還未通過 Ref Finance 白名單，風險自負。",
+            "notWhitelistedValidatorWarning": "該節點獎勵的通證還未通過 Ref Finance 白名單，風險自負。",
             "title": "驗證節點：<br/> @${validator}",
             "unstake": "你正在贖回質押",
             "withdraw": "你正在提現",
@@ -1350,6 +1414,7 @@
         },
         "validatorBox": {
             "cta": "選擇",
+            "farming": "挖礦",
             "fee": "費用",
             "near": "NEAR",
             "staking": "質押",
@@ -1414,6 +1479,7 @@
         "desc": "通過雙重認證保護你的賬戶，在授權交易時必須通過短信或郵箱確認。",
         "disable": {
             "desc": "禁用雙重認證後，交易將不再要求雙重認證確認。",
+            "phoneDesc": "雙重認證中的短信選項將被放棄，無法重新開啟。",
             "disable": "禁用雙重認證",
             "keep": "不，保留雙重認證",
             "title": "是否確認禁用雙重認證？"
@@ -1437,6 +1503,16 @@
             "resending": "發送中...",
             "resent": "驗證碼已發送！",
             "title": "輸入雙重認證驗證碼"
+        },
+        "action": {
+            "addKey": {
+                "limited": "添加密鑰 ${publicKey}，僅限於調用方法 ${methodNames}（來自合約 ${receiverId}），並且限制最多使用 ${allowance} NEAR 的 Gas 費",
+                "full": "警告：輸入驗證碼將授權該 NEAR 賬戶的完整權限：${accountId}。如果這不是你發起的操作，請忽略。<br /><br />只有當你為賬戶添加完全訪問密鑰時才需要操作。在其他情況下，此操作非常危險。<br /><br /> 你添加的公鑰：${publicKey} ",
+            },
+            "deleteKey": "刪除密鑰 ${publicKey}",
+            "functionCall": "調用方法：${methodName}（來自合約 ${receiverId}），並附加 ${deposit} NEAR 和參數 <pre>${args}</pre>",
+            "stake": "質押：${amount} NEAR 至節點 ${receiverId}",
+            "transfer": "轉賬：${amount} NEAR 至賬戶 ${receiverId}"
         }
     },
     "unlockedAvailTransfer": "這部分 NEAR 未鎖定，可以從你的鎖定賬戶中轉賬出來。",
@@ -1484,6 +1560,9 @@
         "title": "只差一步！驗證你的新賬戶。",
         "titleNoFunding": "即將完成！請為新賬戶充值。"
     },
+    "verifyWalletDomainBanner": {
+        "title": "請確認你正在訪問"
+    },
     "wallet": {
         "availableBalance": "可用餘額",
         "balance": "餘額",
@@ -1500,7 +1579,7 @@
         "tokens": "通證",
         "totalBalance": "總餘額",
         "totalBalanceTitle": "總餘額",
-        "yourPortfolio": "你的通證組合"
+        "yourPortfolio": "你的資產"
     },
     "walletErrorCodes": {
         "addAccessKey": {
@@ -1537,6 +1616,9 @@
         },
         "recoverAccountSeedPhrase": {
             "errorInvalidSeedPhrase": "助記詞無效"
+        },
+        "recoverAccountLink": {
+            "error": "導入賬戶失敗，請重試或聯繫服務支持。"
         },
         "recoveryMethods": {
             "lastMethod": "無法刪除最後一個恢復方式。除非你添加了 Ledger，你需要保留至少一種賬戶恢復方式。",

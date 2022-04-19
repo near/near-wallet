@@ -2,10 +2,12 @@ import React from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
+import UtorgLogo from '../../../../images/utorg-logo.png';
 import FormButton from '../../../common/FormButton';
 import Container from '../../../common/styled/Container.css';
 import SafeTranslate from '../../../SafeTranslate';
 import MoonPayIcon from '../../../svg/MoonPayIcon';
+import { buildUtorgPayLink } from '../FundWithUtorg';
 import AccountNeedsFunding from '../status/AccountNeedsFunding';
 
 const StyledContainer = styled(Container)`
@@ -24,6 +26,12 @@ const StyledContainer = styled(Container)`
                 margin-top: 45px;
 
                 svg {
+                    width: 105px;
+                    height: auto;
+                    margin: 0 0 0 10px;
+                }
+                
+                img {
                     width: 105px;
                     height: auto;
                     margin: 0 0 0 10px;
@@ -55,12 +63,19 @@ export default ({
                     minDeposit={minDeposit}
                 />
                 <FormButton
+                    linkTo={buildUtorgPayLink(fundingAddress, minDeposit)}
+                    color='black'
+                >
+                    <Translate id='button.fundWith' />
+                    <img src={UtorgLogo} alt='utorg'/>
+                </FormButton>
+                {moonpaySignedUrl && (<FormButton
                     linkTo={moonpaySignedUrl}
                     color='black'
                 >
                     <Translate id='button.fundWith' />
                     <MoonPayIcon />
-                </FormButton>
+                </FormButton>)}
                 <FormButton
                     onClick={onClickCancel}
                     className='link'

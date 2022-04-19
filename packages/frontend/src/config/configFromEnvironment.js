@@ -46,6 +46,7 @@ module.exports = {
     MOONPAY_API_KEY: process.env.MOONPAY_API_KEY,
     MOONPAY_API_URL: process.env.MOONPAY_API_URL,
     MOONPAY_BUY_URL: process.env.MOONPAY_BUY_URL,
+    UTORG_ORDER_URL: process.env.UTORG_ORDER_URL,
     MULTISIG_CONTRACT_HASHES: parseCommaSeperatedStringAsArrayFromShell(
         process.env.MULTISIG_CONTRACT_HASHES
     ),

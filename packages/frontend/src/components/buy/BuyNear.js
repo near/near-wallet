@@ -11,9 +11,11 @@ import LiqualityLogo from '../../images/liquality-logo.svg';
 import OkCoinLogo from '../../images/ok-coin-logo.svg';
 import OkexLogo from '../../images/okex-logo.svg';
 import RainbowBridgeLogo from '../../images/rainbow-bridge-logo.svg';
+import UtorgLogo from '../../images/utorg-logo.png';
 import { Mixpanel } from '../../mixpanel';
 import { selectAccountId } from '../../redux/slices/account';
 import { isMoonpayAvailable, getSignedUrl } from '../../utils/moonpay';
+import {buildUtorgPayLink} from '../accounts/create/FundWithUtorg';
 import FormButton from '../common/FormButton';
 import Container from '../common/styled/Container.css';
 import ArrowIcon from '../svg/ArrowIcon';
@@ -71,6 +73,11 @@ const StyledContainer = styled(Container)`
 
             svg {
                 margin: -3px 0 0 10px !important;
+            }
+            
+            img {
+                margin: -3px 0 0 10px !important;
+                height: 40% !important;
             }
         }
 
@@ -152,12 +159,14 @@ export function BuyNear({ match, location, history }) {
     const accountId = useSelector(selectAccountId);
     const [moonPayAvailable, setMoonPayAvailable] = useState(null);
     const [signedMoonPayUrl, setSignedMoonPayUrl] = useState(null);
+    const [utorgPayUrl, setUtorgPayUrl] = useState(null);
 
     useEffect(() => {
         if (!accountId) {
             return;
         }
 
+        setUtorgPayUrl(buildUtorgPayLink(accountId));
         checkMoonPay();
     }, [accountId]);
 
@@ -184,8 +193,30 @@ export function BuyNear({ match, location, history }) {
                 <ArrowIcon />
             </FormButton>
             <h4><Translate id='buyNear.title' /></h4>
+            <h3><Translate id='buyNear.utorg' /></h3>
+            <div className='desc'><Translate id='buyNear.descUtorg' /></div>
+            <FormButton
+                color='link learn-more'
+                linkTo='https://utorg.pro/faq/'
+            >
+                <Translate id='button.learnMore' />
+            </FormButton>
+            <FormButton
+                sending={!accountId}
+                sendingString='button.loading'
+                disabled={!IS_MAINNET}
+                color='black'
+                linkTo={utorgPayUrl}
+
+                onClick={() => Mixpanel.track('Wallet Click Buy with Utorg')}
+            >
+                <>
+                    <Translate id='buyNear.buyWith' />
+                    <img src={UtorgLogo} alt='utorg'/>
+                </>
+            </FormButton>
             <h3><Translate id='buyNear.moonPay' /></h3>
-            <div className='desc'><Translate id='buyNear.descOne' /></div>
+            <div className='desc'><Translate id='buyNear.descMoonpay' /></div>
             <FormButton
                 color='link learn-more'
                 linkTo='https://support.moonpay.com/'

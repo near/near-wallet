@@ -47,6 +47,11 @@
                     "title": "通过 MoonPay 充值"
                 },
                 "title": "充值至账户",
+                "utorg": {
+                    "buyWith": "打开",
+                    "desc": "通过 Utorg 支持的支付方式进行你的首次充值。",
+                    "title": "通过 Utorg 充值"
+                },
                 "whereToBuy": {
                     "button": "我可以在哪里购买 NEAR？",
                     "desc": "NEAR 通证可以在以下交易所购买",
@@ -250,6 +255,7 @@
         "reserveMyAccountId": "保留账户 ID",
         "resubmit": "重新提交",
         "retry": "重试",
+        "removeAccount": "登出账户",
         "returnToApp": "返回至应用",
         "saveChanges": "保存更改",
         "secureMyAccount": "加强账户安全",
@@ -282,14 +288,16 @@
         "bridgeTokens": "通过以太坊跨链桥转移通证",
         "buyWith": "打开",
         "coinMarketCap": "CoinMarketCap",
-        "descOne": "可在 MoonPay 使用偏好的支付方式购买 NEAR。",
+        "descMoonpay": "可在 MoonPay 使用偏好的支付方式购买 NEAR。",
         "descThree": "通过跨链桥将以太坊链上通证转至 NEAR 钱包。",
         "descTwo": "NEAR 已经在以下交易所流通，可交易。",
+        "descUtorg": "可在 Utorg 使用偏好的支付方式购买 NEAR。",
         "moonPay": "MoonPay",
         "notSupported": "未在你所在地区支持",
         "seeMore": "查看更多：",
         "supportedExchanges": "交易所",
-        "title": "充值 NEAR"
+        "title": "充值 NEAR",
+        "utorg": "Utorg"
     },
     "confirmLedgerModal": {
         "header": {
@@ -333,6 +341,24 @@
         "pageText": "只需要输入用户名即完成注册。",
         "pageTitle": "创建新的账户",
         "recoverItHere": "恢复账户",
+        "setupPassphrase": {
+            "generatePassphrase": {
+                "desc": "为更高的安全性，我们建议为每一个新的钱包账户生成唯一的助记词。",
+                "descTwo": "作为一个快捷选项，你可以选择在多个账户间共用一组助记词。任何时候你都可以修改。",
+                "tite": "创建新的助记词？"
+            },
+            "sharedPassphrase": {
+                "desc": "你的助记词已验证。一旦你向新账户充值，你的助记词将在 <b>${numberOfAccounts} 个账户</b>间共享。",
+                "descTwo": "一旦当你使用该助记词恢复账户，以下账户也将会被恢复：",
+                "tite": "你的共享助记词"
+            },
+            "verifyPassphrase": {
+                "desc": "请输入已有的助记词来绑定新的账户。",
+                "passPhrasePlaceholder": "bubble word sun join impact exist ramp skull title hollow symbol very",
+                "tite": "验证助记词",
+                "yourPassphrase": "你的助记词"
+            }
+        },
         "step": "步骤 ${step}/${total}",
         "terms": {
             "agreeBtn": "同意并继续",
@@ -427,7 +453,7 @@
         }
     },
     "exploreApps": {
-        "desc": "赚取、铸币和玩游戏！发现 NEAR 生态的应用。",
+        "desc": "赚取、铸造和玩游戏！发现 NEAR 生态的应用。",
         "exploreApps": "浏览应用",
         "exploreDeFi": "浏览 DeFi 应用",
         "title": "寻找 NEAR 生态和应用？"
@@ -476,20 +502,6 @@
         "noIdFailed": "导入账户失败。",
         "withId": "导入账户：${accountId}",
         "withIdFailed": "导入账户失败：${accountId}"
-    },
-    "importAccountWithLink": {
-        "accountFound": "1 Account Found",
-        "accountImported": "Account Imported",
-        "accountsFound": "${count} Accounts Found",
-        "alreadyImported": "The account secured by this link has been imported.",
-        "continue": "and continue this process in your browser of choice.",
-        "copyUrl": "copy the URL",
-        "foundAccount": "We found <b>1 account</b> secured by this link.",
-        "foundAccounts": "We found <b>${count} accounts</b> secured by this link.",
-        "goToAccount": "Go to Account",
-        "import": "Import",
-        "importAccount": "Import Your Account",
-        "preferedBrowser": "If this isn't your preferred browser,"
     },
     "initialDeposit": {
         "claimAccount": {
@@ -571,6 +583,21 @@
         },
         "or": "或",
         "title": "你收到了 NEAR 空投！"
+    },
+    "NFTDetail": {
+        "owner": "所有者",
+        "transfer": "发送"
+    },
+    "NFTTransfer": {
+        "transferNft": "发送 NFT",
+        "enterReceiver": "输入接收方的地址，然后确认发送。",
+        "cancel": "取消",
+        "next": "下一步",
+        "confirm": "确认",
+        "transactionComplete": "发送完成！",
+        "viewTransaction": "查看结果",
+        "continue": "继续",
+        "youSent": "你已经向 <span class='color-green'>${receiverId}</span> 发送了 <span class='color-blue'>${title}</span>。"
     },
     "loading": "加载中...",
     "loadingNoDots": "加载中",
@@ -663,9 +690,6 @@
     "NFTs": {
         "emptyState": "似乎你还没有收藏品。",
         "loadMore": "加载更多"
-    },
-    "NFTTransfer": {
-        "youSent": "You sent <span class='color-blue'>${title}</span> to <span class='color-green'>${receiverId}</span>"
     },
     "nodeDetails": {
         "pageText": "更新节点的详细信息。",
@@ -828,6 +852,20 @@
         "snackbarCopySuccess": "恢复链接已复制",
         "title": "恢复账户"
     },
+    "importAccountWithLink": {
+        "accountFound": "找到 1 个账户",
+        "accountImported": "账户已导入",
+        "accountsFound": "找到 ${count} 个账户",
+        "alreadyImported": "由该链接保护的账户已导入。",
+        "continue": "请在你选择的浏览器中继续该流程。",
+        "copyUrl": "复制链接",
+        "foundAccount": "我们找到 <b>1 个由该链接保护的账户</b>。",
+        "foundAccounts": "我们找到 <b>${count} 个由该链接保护的账户</b>。",
+        "goToAccount": "访问账户",
+        "import": "导入",
+        "importAccount": "导入你的账户",
+        "preferedBrowser": "如果这不是你偏好的浏览器，"
+    },
     "recoveryMgmt": {
         "disableInputPlaceholder": "请输入用户名确认",
         "disableNo": "不，保留。",
@@ -949,7 +987,13 @@
         "subTitle2": "功能增强",
         "title": "更新说明"
     },
-    "reservedForFeesInfo": "保留 ${data}，以承担交易成本。",
+    "removeAccount": {
+        "button": "从钱包中登出账户",
+        "desc": "你需要在将来通过恢复方式重新导入该账户。请确保你已经保存好助记词或其他恢复方式。",
+        "disclaimer": "我确认有 <b>${accountId}</b> 账户的恢复方式",
+        "title": "登出账户？"
+    },
+    "reservedForFeesInfo": "保留 ${data} NEAR，以承担交易成本。",
     "selectAccountDropdown": {
         "account": "账户",
         "createAccount": "创建新的账户",
@@ -959,6 +1003,7 @@
         "switchAccounthNotAllowed": "该应用不支持账户切换"
     },
     "sending": "发送中",
+    "importing": "正在导入",
     "sendMoney": {
         "account": {
             "title": "转账至"
@@ -1114,9 +1159,13 @@
         "emailDesc": "通过邮箱方式接收验证码和账户恢复链接。",
         "emailPlaceholder": "example@email.com",
         "emailTitle": "邮箱方式",
+        "existingPhraseDesc": "通过共享助记词来保护新的地址。",
+        "existingPhraseTitle": "使用已有的助记词",
         "header": "保护你的账户",
         "ledgerDesc": "通过 Ledger 硬件钱包保护你的账户安全。",
         "ledgerTitle": "Ledger 硬件钱包",
+        "newPhraseDesc": "通过新的助记词保护新地址。",
+        "newPhraseTitle": "创建新助记词",
         "notSupportedPhone": "抱歉，目前我们暂未对你所在的地区开放短信恢复方式。请选择邮箱方式。",
         "phoneDesc": "请输入你的手机号以接收恢复链接。",
         "phonePlaceholder": "+1 415 797 8554",
@@ -1144,8 +1193,8 @@
     },
     "sign": {
         "accountNotFound": {
-            "body": "${signCallbackUrl} is requesting authorization from a NEAR account that cannot be found: <b>${signTransactionSignerId}</b><br/><br/>To approve any transactions, you’ll first need to import the account.",
-            "title": "Account Not Found"
+            "body": "${signCallbackUrl} 正在请求授权的 NEAR 账户无法找到：<b>${signTransactionSignerId}</b><br/><br/>为授权任何交易，请先导入该账户。",
+            "title": "账户无法找到"
         },
         "ActionWarrning": {
             "binaryData": "参数中包含二进制数据",
@@ -1176,8 +1225,8 @@
         "insufficientFunds": "资产不足",
         "insufficientFundsDesc": "你没有足够的可用 NEAR 完成该操作。",
         "invalidTransaction": {
-            "body": "The request is invalid and cannot be signed.",
-            "title": "Invalid Transaction"
+            "body": "该请求无效，无法签名。",
+            "title": "无效交易"
         },
         "isRequesting": {
             "authorization": "正在请求授权",
@@ -1311,8 +1360,9 @@
             "descTwo": "你可以在质押页查看你的委托和质押奖励。",
             "title": "成功！"
         },
+
         "staking": {
-            "available": "可用",
+            "available": "可用余额",
             "button": "质押 NEAR",
             "currentValidators": "当前验证节点",
             "desc": "选择验证节点质押 NEAR 通证",
@@ -1339,10 +1389,24 @@
             "descTwo": "你的通证请求释放将会在 52 - 65 小时释放。",
             "title": "成功！"
         },
+        "claimSuccess": {
+            "button": "返回概览页",
+            "desc": "来自该节点的奖励已经成功领取",
+            "descTwo": "你的通证已经可被领取",
+            "title": "成功！"
+        },
         "validator": {
+            "apy": "APY",
+            "claiming": "正在领取",
             "button": "委托节点质押",
+            "claimFarmRewards": "你将领取",
+            "activeStake": "活跃质押",
+            "rewards": "奖励",
+            "errorClaimRewards": "领取质押奖励时出现错误，请稍后重试",
             "desc": "这是你将支付给验证节点委托质押的费用，仅从你的奖励中支付。",
             "fee": "质押费",
+            "notWhitelistedTokenWarning": "该通证还未通过 Ref Finance 白名单，风险自负。",
+            "notWhitelistedValidatorWarning": "该节点奖励的通证还未通过 Ref Finance 白名单，风险自负。",
             "title": "验证节点：<br/> @${validator}",
             "unstake": "你正在赎回质押",
             "withdraw": "你正在提现",
@@ -1350,6 +1414,7 @@
         },
         "validatorBox": {
             "cta": "选择",
+            "farming": "挖矿",
             "fee": "费用",
             "near": "NEAR",
             "staking": "质押",
@@ -1414,6 +1479,7 @@
         "desc": "通过双重认证保护你的账户，在授权交易时必须通过短信或邮箱确认。",
         "disable": {
             "desc": "禁用双重认证后，交易将不再要求双重认证确认。",
+            "phoneDesc": "双重认证中的短信选项将被放弃，无法重新开启。",
             "disable": "禁用双重认证",
             "keep": "不，保留双重认证",
             "title": "是否确认禁用双重认证？"
@@ -1437,6 +1503,16 @@
             "resending": "发送中...",
             "resent": "验证码已发送！",
             "title": "输入双重认证验证码"
+        },
+        "action": {
+            "addKey": {
+                "limited": "添加密钥 ${publicKey}，仅限于调用方法 ${methodNames}（来自合约 ${receiverId}），并且限制最多使用 ${allowance} NEAR 的 Gas 费",
+                "full": "警告：输入验证码将授权该 NEAR 账户的完整权限：${accountId}。如果这不是你发起的操作，请忽略。<br /><br />只有当你为账户添加完全访问密钥时才需要操作。在其他情况下，此操作非常危险。<br /><br /> 你添加的公钥：${publicKey} ",
+            },
+            "deleteKey": "删除密钥 ${publicKey}",
+            "functionCall": "调用方法：${methodName}（来自合约 ${receiverId}），并附加 ${deposit} NEAR 和参数 <pre>${args}</pre>",
+            "stake": "质押：${amount} NEAR 至节点 ${receiverId}",
+            "transfer": "转账：${amount} NEAR 至账户 ${receiverId}"
         }
     },
     "unlockedAvailTransfer": "这部分 NEAR 未锁定，可以从你的锁定账户中转账出来。",
@@ -1484,6 +1560,9 @@
         "title": "只差一步！验证你的新账户。",
         "titleNoFunding": "即将完成！请为新账户充值。"
     },
+    "verifyWalletDomainBanner": {
+        "title": "请确认你正在访问"
+    },
     "wallet": {
         "availableBalance": "可用余额",
         "balance": "余额",
@@ -1500,7 +1579,7 @@
         "tokens": "通证",
         "totalBalance": "总余额",
         "totalBalanceTitle": "总余额",
-        "yourPortfolio": "你的通证组合"
+        "yourPortfolio": "你的资产"
     },
     "walletErrorCodes": {
         "addAccessKey": {
@@ -1537,6 +1616,9 @@
         },
         "recoverAccountSeedPhrase": {
             "errorInvalidSeedPhrase": "助记词无效"
+        },
+        "recoverAccountLink": {
+            "error": "导入账户失败，请重试或联系服务支持。"
         },
         "recoveryMethods": {
             "lastMethod": "无法删除最后一个恢复方式。除非你添加了 Ledger，你需要保留至少一种账户恢复方式。",
