@@ -34,19 +34,17 @@ function AvailableToSwap({ balance, symbol, decimals, onClick }) {
         <StyledAvailableContainer>
             <div>
                 <Translate id="swap.AvailableToSwap" />{' '}
-                    <span>
-                        {balance ? (
+                <span>
+                    {balance && (
                         <>
                             {' '}
-                            {symbol === 'NEAR'
-                            ? amountoShow
-                            : formatTokenAmount(balance, decimals, 5)}
+                            {symbol === 'NEAR' ? amountoShow : formatTokenAmount(balance, decimals, 5)}
                         </>
-                            ) : (
-                    <span className="dots" />
-                )}{' '}
-                <>{symbol}</>
-            </span>
+                    )}
+                    {!balance && <span className="dots" />}
+                    {' '}
+                    <>{symbol}</>
+                </span>
             </div>
             <div>
                 <FormButton
