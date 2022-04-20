@@ -97,7 +97,6 @@ function SwapInfoItem({
     slippPageValue,
     setSlippPageValue,
     slipPageError,
-    tradinFree={tradinFree},
     isDots =false
 }) {
     return (

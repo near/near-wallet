@@ -61,7 +61,6 @@ function SwapInfoContainer({
             />
             <SwapInfoItem
                 isDots={isLoading}
-                tradinFree={tradinFree}
                 leftText={'swap.TradingFee'}
                 rightText={formatAmount({
                     amount,
@@ -72,7 +71,6 @@ function SwapInfoContainer({
             />
             <SwapInfoItem
                 isDots={isLoading}
-                tradinFree={tradinFree}
                 leftText={'swap.MinimumReceived'}
                 rightText={formatAmount({
                     amount,
