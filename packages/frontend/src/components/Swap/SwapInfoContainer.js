@@ -16,6 +16,19 @@ const StyledContainer = styled.div`
     flex-direction: column;
 `;
 
+function formatAmount({ amount, symbol, tradinFree, value }) {
+    if (!amount && !tradinFree) {
+        return `${amount} ${symbol}`;
+    }
+
+    if (!tradinFree) {
+        return `- ${symbol}`;
+    }
+
+    return `${value} ${symbol}`;
+}
+
+
 function SwapInfoContainer({
     exchngeRate,
     amount,
@@ -50,24 +63,23 @@ function SwapInfoContainer({
                 isDots={isLoading}
                 tradinFree={tradinFree}
                 leftText={'swap.TradingFee'}
-                rightText={!amount && !tradinFree
-                    ? `${amount} ${symbol}`
-                    : !tradinFree 
-                    ? `- ${symbol}`
-                    : `${percent}% / ` + tradinFree?.toFixed(5) + ` ${symbol}`
-                }
+                rightText={formatAmount({
+                    amount,
+                    symbol,
+                    tradinFree,
+                    value: `${percent}% / ${tradinFree?.toFixed(5)}`,
+                })}
             />
             <SwapInfoItem
                 isDots={isLoading}
                 tradinFree={tradinFree}
                 leftText={'swap.MinimumReceived'}
-                rightText={!amount && !tradinFree
-                    ? `${amount} ${symbol}`
-                    : !tradinFree 
-                    ? `- ${symbol}`
-                    : MinimumReceived(symbol, amount, exchngeRate) -
-                    tradinFree + ` ${symbol}` 
-                }
+                rightText={formatAmount({
+                    amount,
+                    symbol,
+                    tradinFree,
+                    value: MinimumReceived(symbol, amount, exchngeRate) - tradinFree,
+                })}
             />
         </StyledContainer>
     );
