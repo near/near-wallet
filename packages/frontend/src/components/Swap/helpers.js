@@ -84,7 +84,7 @@ async function fetchCommission({ accountId, amount, exchangeRate, token }) {
 }
 
 export const commission = ({ accountId, amount, delay, exchangeRate, token, isSwapped }) => {
-    const [commissionFree, setCommissionFree] = useState('');
+    const [commissionFee, setCommissionFee] = useState('');
     const [isLoadingCommission, setIsLoadingCommission] = useState(false);
     const debounceValue = useDebounce(amount, delay);
 
@@ -98,7 +98,7 @@ export const commission = ({ accountId, amount, delay, exchangeRate, token, isSw
                     exchangeRate,
                     token,
                 });
-                setCommissionFree(commission);
+                setCommissionFee(commission);
                 setIsLoadingCommission(false);
             }
         };
@@ -106,5 +106,5 @@ export const commission = ({ accountId, amount, delay, exchangeRate, token, isSw
         getCommission();
     }, [debounceValue, exchangeRate, isSwapped]);
 
-    return { commissionFree, isLoadingCommission };
+    return { commissionFee, isLoadingCommission };
 };

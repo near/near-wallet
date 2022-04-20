@@ -32,9 +32,9 @@ const SwapPage = ({
   setActiveView
 }) => {
     const [isSwapped, setIsSwapped] = useState(false);
-    const [slippPageValue, setSlippPageValue] = useState(1);
+    const [slippageValue, setSlippageValue] = useState(1);
     const [usnAmount, setUSNAmount] = useState('');
-    const { commissionFree, isLoadingCommission } = commission({
+    const { commissionFee, isLoadingCommission } = commission({
         accountId,
         amount: inputValueFrom,
         delay: 500,
@@ -46,12 +46,12 @@ const SwapPage = ({
     const dispatch = useDispatch();
     const balance = balanceForError(from);
     const error = balance < +inputValueFrom || !inputValueFrom;
-    const splpPageError = slippPageValue < 1 || slippPageValue > 50;
+    const slippageError = slippageValue < 1 || slippageValue > 50;
 
-    const onHandleSwapTokens = useCallback(async (accountId, multiplier, slippPageValue, inputValueFrom, symbol, usnAmount) => {
+    const onHandleSwapTokens = useCallback(async (accountId, multiplier, slippageValue, inputValueFrom, symbol, usnAmount) => {
         try {
             setIsLoading(true);
-            await fetchByOrSell(accountId, multiplier, slippPageValue, +inputValueFrom, symbol, usnAmount);
+            await fetchByOrSell(accountId, multiplier, slippageValue, +inputValueFrom, symbol, usnAmount);
             setActiveView('success');
         } catch (e) {
             dispatch(showCustomAlert({
@@ -105,22 +105,22 @@ const SwapPage = ({
                 value={inputValueFrom}
             />
             <SwapInfoContainer
-                slipPageError={splpPageError}
-                slippPageValue={slippPageValue}
-                setSlippPageValue={setSlippPageValue}
+                slipPageError={slippageError}
+                slippageValue={slippageValue}
+                setSlippageValue={setSlippageValue}
                 token={from?.onChainFTMetadata?.symbol}
                 exchangeRate={+multiplier / 10000}
                 amount={inputValueFrom}
-                tradinFree={commissionFree?.result}
+                tradingFee={commissionFee?.result}
                 isLoading={isLoadingCommission}
-                percent={commissionFree?.percent}
+                percent={commissionFee?.percent}
             />
             <div className="buttons-bottom-buttons">
                 <FormButton
                     type="submit"
-                    disabled={error || splpPageError || isLoading}
+                    disabled={error || slippageError || isLoading}
                     data-test-id="sendMoneyPageSubmitAmountButton"
-                    onClick={() => onHandleSwapTokens(accountId, multiplier, slippPageValue, +inputValueFrom, from?.onChainFTMetadata?.symbol, usnAmount)}
+                    onClick={() => onHandleSwapTokens(accountId, multiplier, slippageValue, +inputValueFrom, from?.onChainFTMetadata?.symbol, usnAmount)}
                     sending={isLoading}
                 >
                     <Translate id="button.continue"/>

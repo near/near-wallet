@@ -16,12 +16,12 @@ const StyledContainer = styled.div`
     flex-direction: column;
 `;
 
-function formatAmount({ amount, symbol, tradinFree, value }) {
-    if (!amount && !tradinFree) {
+function formatAmount({ amount, symbol, tradingFee, value }) {
+    if (!amount && !tradingFee) {
         return `${amount} ${symbol}`;
     }
 
-    if (!tradinFree) {
+    if (!tradingFee) {
         return `- ${symbol}`;
     }
 
@@ -32,10 +32,10 @@ function SwapInfoContainer({
    exchangeRate,
    amount,
    token,
-   setSlippPageValue,
-   slippPageValue,
+   setSlippageValue,
+   slippageValue,
    slipPageError,
-   tradinFree,
+   tradingFee,
    isLoading,
    percent
 }) {
@@ -50,8 +50,8 @@ function SwapInfoContainer({
             <SwapInfoItem
                 leftText="swap.slipPage"
                 slipPageError={slipPageError}
-                slippPageValue={slippPageValue}
-                setSlippPageValue={setSlippPageValue}
+                slippageValue={slippageValue}
+                setSlippageValue={setSlippageValue}
             />
             <SwapInfoItem
                 leftText={'swap.pairPrice'}
@@ -67,8 +67,8 @@ function SwapInfoContainer({
                 rightText={formatAmount({
                     amount,
                     symbol,
-                    tradinFree,
-                    value: `${percent}% / ${tradinFree?.toFixed(5)}`,
+                    tradingFee,
+                    value: `${percent}% / ${tradingFee?.toFixed(5)}`,
                 })}
             />
             <SwapInfoItem
@@ -77,8 +77,8 @@ function SwapInfoContainer({
                 rightText={formatAmount({
                     amount,
                     symbol,
-                    tradinFree,
-                    value: MinimumReceived({ token: symbol, balance: amount, exchangeRate }) - tradinFree,
+                    tradingFee,
+                    value: MinimumReceived({ token: symbol, balance: amount, exchangeRate }) - tradingFee,
                 })}
             />
         </StyledContainer>

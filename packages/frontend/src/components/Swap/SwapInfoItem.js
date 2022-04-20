@@ -94,8 +94,8 @@ const StyledInfoItem = styled.div`
 function SwapInfoItem({
     leftText,
     rightText,
-    slippPageValue,
-    setSlippPageValue,
+    slippageValue,
+    setSlippageValue,
     slipPageError,
     isDots =false
 }) {
@@ -109,13 +109,13 @@ function SwapInfoItem({
                     <Translate id="swap.slipPageError" />
                 </div>
             )}
-            {setSlippPageValue ? (
+            {setSlippageValue ? (
                 <>
                     <input
-                        value={slippPageValue && slippPageValue}
+                        value={slippageValue && slippageValue}
                         onChange={(e) =>
-                            setSlippPageValue &&
-                            setSlippPageValue(+e.target.value)
+                            setSlippageValue &&
+                            setSlippageValue(+e.target.value)
                         }
                     />
                     <span>%</span>

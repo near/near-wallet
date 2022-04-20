@@ -121,7 +121,7 @@ const SwapTokenContainer = ({
 
     const error = setInputValueFrom && balance < +value;
     const formatMultiplier = +multiplier / 10000;
-    const handelChange = (e) => {
+    const handleChange = (e) => {
         const { value } = e.target;
         setInputValueFrom(value.replace(/[^.\d,]/g, ''));
     };
@@ -172,7 +172,7 @@ const SwapTokenContainer = ({
                         type="text"
                         autoFocus
                         value={value}
-                        onChange={handelChange}
+                        onChange={handleChange}
                         className={error ? 'inputError' : ''}
                     />
                 ) : multiplier && fromToToken ? (
