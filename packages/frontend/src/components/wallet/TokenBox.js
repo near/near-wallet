@@ -5,7 +5,7 @@ import styled from 'styled-components';
 
 import { CREATE_USN_CONTRACT } from '../../../../../features';
 import { EXPLORER_URL } from '../../config';
-import { handleSwapBycontractName } from '../../redux/slices/swap';
+import { handleSwapByContractName } from '../../redux/slices/swap';
 // import { formatTokenAmount, removeTrailingZeros } from '../../utils/amounts';
 import Balance from '../common/balance/Balance';
 import TokenIcon from '../send/components/TokenIcon';
@@ -255,7 +255,7 @@ const TokenBox = ({ token, onClick, currentLanguage }) => {
                             symbol={token.onChainFTMetadata?.symbol === 'NEAR'}
                             disable={!token.balance || token.balance === '0'} 
                             linkTo={!token.balance || token.balance === '0' ? false : '/swap-money'}
-                            onClick={() => dispatch(handleSwapBycontractName(token.onChainFTMetadata?.symbol === 'NEAR' ? 'USN' : 'NEAR'))}
+                            onClick={() => dispatch(handleSwapByContractName(token.onChainFTMetadata?.symbol === 'NEAR' ? 'USN' : 'NEAR'))}
                         />
                     </div>
                 )}

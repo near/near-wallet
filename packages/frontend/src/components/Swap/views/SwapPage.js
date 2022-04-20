@@ -31,20 +31,20 @@ const SwapPage = ({
     onSwap,
     setActiveView
 }) => {
-    const [isSwaped, setIsSwaped] = useState(false);
+    const [isSwapped, setIsSwapped] = useState(false);
     const [slippPageValue, setSlippPageValue] = useState(1);
-    const [USNamount, setUSNamount] = useState('');
-    const {commissionFree, isLoadingCommission} = commission(accountId, inputValueFrom, 500, +multiplier, from, isSwaped);
+    const [usnAmount, setUSNAmount] = useState('');
+    const {commissionFree, isLoadingCommission} = commission(accountId, inputValueFrom, 500, +multiplier, from, isSwapped);
     const { fetchByOrSell, isLoading, setIsLoading } = useFetchByorSellUSN();
     const dispatch = useDispatch();
     const balance = balanceForError(from);
     const error = balance < +inputValueFrom || !inputValueFrom;
     const splpPageError = slippPageValue < 1 || slippPageValue > 50;
 
-    const onHandleSwapTokens = useCallback(async (accountId, multiplier, slippPageValue, inputValueFrom, symbol, USNamount) => {
+    const onHandleSwapTokens = useCallback(async (accountId, multiplier, slippPageValue, inputValueFrom, symbol, usnAmount) => {
         try {
             setIsLoading(true);
-            await fetchByOrSell(accountId, multiplier, slippPageValue, +inputValueFrom, symbol, USNamount);
+            await fetchByOrSell(accountId, multiplier, slippPageValue, +inputValueFrom, symbol, usnAmount);
             setActiveView('success');
         } catch (e) {
             dispatch(showCustomAlert({
@@ -65,19 +65,19 @@ const SwapPage = ({
         </h1>
         <SwapTokenContainer
             text="swap.from"
-            fromTotoken={from}
+            fromToToken={from}
             value={inputValueFrom}
             setInputValueFrom={setInputValueFrom}
         />
         <AvailableToSwap
-            onClick={(balance) => {setInputValueFrom(balance); from?.onChainFTMetadata?.symbol === 'USN' && setUSNamount(from?.balance);}}
+            onClick={(balance) => {setInputValueFrom(balance); from?.onChainFTMetadata?.symbol === 'USN' && setUSNAmount(from?.balance);}}
             balance={from?.balance}
             symbol={from?.onChainFTMetadata?.symbol}
             decimals={from?.onChainFTMetadata?.decimals}
         />
         <div
             className="iconSwap"
-            onClick={() => {onSwap(); setIsSwaped((prev) => !prev);}} 
+            onClick={() => {onSwap(); setIsSwapped((prev) => !prev);}} 
         >
             <SwapIconTwoArrows
                 width="23"
@@ -87,8 +87,8 @@ const SwapPage = ({
         </div>
         <SwapTokenContainer
             text="swap.to"
-            fromTotoken={to}
-            muliplier={multiplier}
+            fromToToken={to}
+            multiplier={multiplier}
             value={inputValueFrom}
         />
         <SwapInfoContainer
@@ -96,7 +96,7 @@ const SwapPage = ({
             slippPageValue={slippPageValue}
             setSlippPageValue={setSlippPageValue}
             token={from?.onChainFTMetadata?.symbol}
-            exchngeRate={+multiplier / 10000}
+            exchangeRate={+multiplier / 10000}
             amount={inputValueFrom}
             tradinFree={commissionFree?.result}
             isLoading={isLoadingCommission}
@@ -107,7 +107,7 @@ const SwapPage = ({
                 type="submit"
                 disabled={error || splpPageError || isLoading}
                 data-test-id="sendMoneyPageSubmitAmountButton"
-                onClick={() => onHandleSwapTokens(accountId, multiplier, slippPageValue, +inputValueFrom, from?.onChainFTMetadata?.symbol, USNamount)}
+                onClick={() => onHandleSwapTokens(accountId, multiplier, slippPageValue, +inputValueFrom, from?.onChainFTMetadata?.symbol, usnAmount)}
                 sending={isLoading}
             >
                 <Translate id="button.continue" />

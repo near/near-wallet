@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 
 import { refreshAccount } from '../../redux/actions/account';
-import { handleSwapBycontractName, selectSwapBycontractName } from '../../redux/slices/swap';
+import { handleSwapByContractName, selectSwapByContractName } from '../../redux/slices/swap';
 import { actions as tokensActions } from '../../redux/slices/tokens';
 import Container from '../common/styled/Container.css';
 import { currentToken } from './helpers';
@@ -96,7 +96,7 @@ const SwapAndSuccessContainer = ({
     const [from, setFrom] = useState(fungibleTokensList[0]);
     const [to, setTo] = useState(currentToken(fungibleTokensList, 'USN'));
     const [inputValueFrom, setInputValueFrom] = useState(0);
-    const swapContractValue = useSelector(selectSwapBycontractName);
+    const swapContractValue = useSelector(selectSwapByContractName);
     const [activeView, setActiveView] = useState(VIEWS_SWAP.MAIN);
     const dispatch = useDispatch();
 
@@ -114,7 +114,7 @@ const SwapAndSuccessContainer = ({
 
 
     useEffect(() => {
-        return () => dispatch(handleSwapBycontractName(''));
+        return () => dispatch(handleSwapByContractName(''));
     }, [dispatch]);
 
     const onHandleSBackToSwap = useCallback(async () => {

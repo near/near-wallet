@@ -28,7 +28,7 @@ const StyledAvailableContainer = styled.div`
 `;
 
 function AvailableToSwap({ balance, symbol, decimals, onClick }) {
-    const amountoShow = balance && formatNearAmount(balance);
+    const amountToShow = balance && formatNearAmount(balance);
 
     return (
         <StyledAvailableContainer>
@@ -38,7 +38,7 @@ function AvailableToSwap({ balance, symbol, decimals, onClick }) {
                     {balance && (
                         <>
                             {' '}
-                            {symbol === 'NEAR' ? amountoShow : formatTokenAmount(balance, decimals, 5)}
+                            {symbol === 'NEAR' ? amountToShow : formatTokenAmount(balance, decimals, 5)}
                         </>
                     )}
                     {!balance && <span className="dots"/>}
@@ -49,7 +49,7 @@ function AvailableToSwap({ balance, symbol, decimals, onClick }) {
             <div>
                 <FormButton
                     swapButton={true}
-                    onClick={() => onClick(symbol === 'NEAR' ? amountoShow : formatTokenAmount(balance, decimals, 5))}
+                    onClick={() => onClick(symbol === 'NEAR' ? amountToShow : formatTokenAmount(balance, decimals, 5))}
                     type='button'
                     color='light-blue'
                     className='small rounded'

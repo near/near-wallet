@@ -5,24 +5,24 @@ import set from 'lodash.set';
 const SLICE_NAME = 'swap';
 
 const initialState = {
-    swapBycontractName: '',
+    swapByContractName: '',
 };
 
 
-const swapBycontractName = createSlice({
+const swapByContractName = createSlice({
     name: SLICE_NAME,
     initialState,
     reducers: {
-        handleSwapBycontractName(state, { payload }) {
-            set(state, 'swapBycontractName', payload); 
+        handleSwapByContractName(state, { payload }) {
+            set(state, 'swapByContractName', payload); 
         }
     }
 });
 
-export const { handleSwapBycontractName } = swapBycontractName.actions;
+export const { handleSwapByContractName } = swapByContractName.actions;
 
-export default swapBycontractName;
+export default swapByContractName;
 
-export const reducer = swapBycontractName.reducer;
+export const reducer = swapByContractName.reducer;
 
-export const selectSwapBycontractName = (state) => state[SLICE_NAME].swapBycontractName;
+export const selectSwapByContractName = (state) => state[SLICE_NAME].swapByContractName;

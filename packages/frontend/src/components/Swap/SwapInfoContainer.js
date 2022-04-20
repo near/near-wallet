@@ -4,8 +4,8 @@ import styled from 'styled-components';
 import { MinimumReceived } from './helpers';
 import SwapInfoItem from './SwapInfoItem';
 
-const pairPrice = (isNear, exchngeRate) => {
-    const price = isNear ? 1 * exchngeRate : 1 / exchngeRate;
+const pairPrice = (isNear, exchangeRate) => {
+    const price = isNear ? 1 * exchangeRate : 1 / exchangeRate;
     return price?.toFixed(5);
 };
 
@@ -29,7 +29,7 @@ function formatAmount({ amount, symbol, tradinFree, value }) {
 }
 
 function SwapInfoContainer({
-   exchngeRate,
+   exchangeRate,
    amount,
    token,
    setSlippPageValue,
@@ -41,8 +41,8 @@ function SwapInfoContainer({
 }) {
     const isNear = token === 'NEAR';
     const expectedPrice = isNear
-        ? +amount * exchngeRate
-        : +amount / exchngeRate;
+        ? +amount * exchangeRate
+        : +amount / exchangeRate;
     const symbol = !isNear ? 'NEAR' : 'USN';
 
     return (
@@ -55,7 +55,7 @@ function SwapInfoContainer({
             />
             <SwapInfoItem
                 leftText={'swap.pairPrice'}
-                rightText={`1 ${isNear ? 'NEAR' : 'USN'} = ${pairPrice(isNear, exchngeRate)} ${symbol}`}
+                rightText={`1 ${isNear ? 'NEAR' : 'USN'} = ${pairPrice(isNear, exchangeRate)} ${symbol}`}
             />
             <SwapInfoItem
                 leftText={'swap.ExpectedPrice'}
@@ -78,7 +78,7 @@ function SwapInfoContainer({
                     amount,
                     symbol,
                     tradinFree,
-                    value: MinimumReceived(symbol, amount, exchngeRate) - tradinFree,
+                    value: MinimumReceived(symbol, amount, exchangeRate) - tradinFree,
                 })}
             />
         </StyledContainer>
