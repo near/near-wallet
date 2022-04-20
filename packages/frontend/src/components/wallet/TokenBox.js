@@ -6,35 +6,10 @@ import styled from 'styled-components';
 import { CREATE_USN_CONTRACT } from '../../../../../features';
 import { EXPLORER_URL } from '../../config';
 import { handleSwapByContractName } from '../../redux/slices/swap';
-// import { formatTokenAmount, removeTrailingZeros } from '../../utils/amounts';
 import Balance from '../common/balance/Balance';
 import TokenIcon from '../send/components/TokenIcon';
 import Swap from './Swap';
 import TokenAmount from './TokenAmount';
-
-
-// const FRAC_DIGITS = 5;
-
-// const amountWithCommas = (amount) => {
-//     var parts = amount.split('.');
-//     parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-//     return parts.join('.');
-// };
-
-// const formatToken = (amount, decimals) => {
-//     if (amount === '0') {
-//         return amount;
-//     }
-
-//     let formattedAmount = formatTokenAmount(amount, decimals, FRAC_DIGITS);
-
-//     if (formattedAmount === `0.${'0'.repeat(FRAC_DIGITS)}`) {
-//         return `< ${
-//             !FRAC_DIGITS ? '0' : `0.${'0'.repeat((FRAC_DIGITS || 1) - 1)}1`
-//         }`;
-//     }
-//     return amountWithCommas(removeTrailingZeros(formattedAmount));
-// };
 
 const StyledContainer = styled.div`
     display: flex;
@@ -244,7 +219,7 @@ const TokenBox = ({ token, onClick, currentLanguage }) => {
                     <TokenAmount
                         token={token}
                         className={token.onChainFTMetadata?.symbol  !== 'USN' && CREATE_USN_CONTRACT ? 'balance tokenAmount':'balance'}
-                        withSymbol={CREATE_USN_CONTRACT ? false : true}
+                        withSymbol={!CREATE_USN_CONTRACT}
                     />
                 )}
                 {!onClick && CREATE_USN_CONTRACT &&
