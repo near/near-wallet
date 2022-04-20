@@ -28,17 +28,16 @@ function formatAmount({ amount, symbol, tradinFree, value }) {
     return `${value} ${symbol}`;
 }
 
-
 function SwapInfoContainer({
-    exchngeRate,
-    amount,
-    token,
-    setSlippPageValue,
-    slippPageValue,
-    slipPageError,
-    tradinFree,
-    isLoading,
-    percent
+   exchngeRate,
+   amount,
+   token,
+   setSlippPageValue,
+   slippPageValue,
+   slipPageError,
+   tradinFree,
+   isLoading,
+   percent
 }) {
     const isNear = token === 'NEAR';
     const expectedPrice = isNear
@@ -54,7 +53,10 @@ function SwapInfoContainer({
                 slippPageValue={slippPageValue}
                 setSlippPageValue={setSlippPageValue}
             />
-            <SwapInfoItem leftText={'swap.pairPrice'} rightText={`1 ${isNear ? 'NEAR': 'USN'} = ${pairPrice(isNear, exchngeRate)} ${symbol}`} />
+            <SwapInfoItem
+                leftText={'swap.pairPrice'}
+                rightText={`1 ${isNear ? 'NEAR' : 'USN'} = ${pairPrice(isNear, exchngeRate)} ${symbol}`}
+            />
             <SwapInfoItem
                 leftText={'swap.ExpectedPrice'}
                 rightText={`${amount} ${token} = ${expectedPrice?.toFixed(5)} ${symbol}`}

@@ -7,9 +7,9 @@ import { formatNearAmount } from '../common/balance/helpers';
 import FormButton from '../common/FormButton';
 
 const StyledAvailableContainer = styled.div`
-    display:flex;
+    display: flex;
     padding-left: 4px;
-    justify-content:space-between;
+    justify-content: space-between;
     align-items: center;
     text-align: right;
     width: 100%;
@@ -33,7 +33,7 @@ function AvailableToSwap({ balance, symbol, decimals, onClick }) {
     return (
         <StyledAvailableContainer>
             <div>
-                <Translate id="swap.AvailableToSwap" />{' '}
+                <Translate id="swap.AvailableToSwap"/>{' '}
                 <span>
                     {balance && (
                         <>
@@ -41,23 +41,23 @@ function AvailableToSwap({ balance, symbol, decimals, onClick }) {
                             {symbol === 'NEAR' ? amountoShow : formatTokenAmount(balance, decimals, 5)}
                         </>
                     )}
-                    {!balance && <span className="dots" />}
+                    {!balance && <span className="dots"/>}
                     {' '}
                     <>{symbol}</>
                 </span>
             </div>
             <div>
                 <FormButton
-                swapButton={true}
-                onClick={() => onClick(symbol === 'NEAR' ? amountoShow : formatTokenAmount(balance, decimals, 5))}
-                type='button'
-                color='light-blue'
-                className='small rounded'
+                    swapButton={true}
+                    onClick={() => onClick(symbol === 'NEAR' ? amountoShow : formatTokenAmount(balance, decimals, 5))}
+                    type='button'
+                    color='light-blue'
+                    className='small rounded'
                 >
                     <Translate id='button.useMax'/>
-                </FormButton>                
+                </FormButton>
             </div>
-           
+
         </StyledAvailableContainer>
     );
 }

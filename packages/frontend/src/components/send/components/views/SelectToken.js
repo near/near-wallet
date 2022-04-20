@@ -2,8 +2,8 @@ import throttle from 'lodash.throttle';
 import React, { useCallback, useEffect, useState } from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
-import getCurrentLanguage from '../../../../hooks/getCurrentLanguage';
 
+import getCurrentLanguage from '../../../../hooks/getCurrentLanguage';
 import BackArrowButton from '../../../common/BackArrowButton';
 import Tokens from '../../../wallet/Tokens';
 

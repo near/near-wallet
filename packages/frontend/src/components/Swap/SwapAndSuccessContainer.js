@@ -20,11 +20,12 @@ export const VIEWS_SWAP = {
 
 const StyledContainer = styled(Container)`
     position: relative;
-    
+
     h1 {
         text-align: center;
         margin-bottom: 30px;
     }
+
     .text {
         margin-bottom: 11px;
     }
@@ -37,24 +38,26 @@ const StyledContainer = styled(Container)`
         justify-content: center;
         align-items: center;
         padding: 8px 8px 5px 5px;
-        border-radius:50%;
+        border-radius: 50%;
         border: 1px solid #3170c7;
+
         :hover {
             svg {
                 g, path {
-                stroke: #0072ce;
-                fill: #0072ce;
-             }
+                    stroke: #0072ce;
+                    fill: #0072ce;
+                }
+            }
         }
-    }
 
         svg {
             transform: rotate(90deg);
             cursor: pointer;
+
             g:hover {
                 stroke: #0072ce;
                 fill: #0072ce;
-             }
+            }
         }
     }
 
@@ -102,72 +105,72 @@ const SwapAndSuccessContainer = ({
             setFrom(currentToken(fungibleTokensList, 'USN'));
             setTo(fungibleTokensList[0]);
             return;
-        } 
+        }
 
         setFrom(currentToken(fungibleTokensList, from?.onChainFTMetadata?.symbol));
         setTo(currentToken(fungibleTokensList, to?.onChainFTMetadata?.symbol || 'USN'));
-        
+
     }, [fungibleTokensList]);
 
 
     useEffect(() => {
         return () => dispatch(handleSwapBycontractName(''));
-    },[dispatch]);
+    }, [dispatch]);
 
     const onHandleSBackToSwap = useCallback(async () => {
         await dispatch(refreshAccount());
         await dispatch(fetchTokens({ accountId }));
         setActiveView('main');
-    },[]); 
+    }, []);
 
-   const getCurrentViewComponent = (activeView) => {
-    switch (activeView) {
-    case VIEWS_SWAP.MAIN:
-            return (
-                <SwapPage
-                    setActiveView={setActiveView}
-                    accountId={accountId}
-                    from={from}
-                    inputValueFrom={inputValueFrom}
-                    multiplier={multiplier}
-                    setInputValueFrom={setInputValueFrom}
-                    to={to}
-                    onSwap={() => {
-                        if (to?.balance === '0' || !to?.balance) return;
+    const getCurrentViewComponent = (activeView) => {
+        switch (activeView) {
+            case VIEWS_SWAP.MAIN:
+                return (
+                    <SwapPage
+                        setActiveView={setActiveView}
+                        accountId={accountId}
+                        from={from}
+                        inputValueFrom={inputValueFrom}
+                        multiplier={multiplier}
+                        setInputValueFrom={setInputValueFrom}
+                        to={to}
+                        onSwap={() => {
+                            if (to?.balance === '0' || !to?.balance) return;
 
-                        if (from?.onChainFTMetadata?.symbol === 'NEAR') {
-                            setFrom(currentToken(fungibleTokensList, 'USN'));
-                            setTo(fungibleTokensList[0]);
-                        } else {
-                            setFrom(fungibleTokensList[0]);
-                            setTo(currentToken(fungibleTokensList, 'USN'));
-                        }
-                    }}
-                />
-            );
-    case VIEWS_SWAP.SUCCESS:
-            return (
-                <Success 
-                    inputValueFrom={inputValueFrom}
-                    symbol={from.onChainFTMetadata?.symbol}
-                    to={to}
-                    multiplier={multiplier}
-                    handleBackToSwap={async () => {
-                        setInputValueFrom(0);
-                       await onHandleSBackToSwap(); 
-                    }}
-                />
-            );
-    
-    default:
-            return null;
-    }
-};
+                            if (from?.onChainFTMetadata?.symbol === 'NEAR') {
+                                setFrom(currentToken(fungibleTokensList, 'USN'));
+                                setTo(fungibleTokensList[0]);
+                            } else {
+                                setFrom(fungibleTokensList[0]);
+                                setTo(currentToken(fungibleTokensList, 'USN'));
+                            }
+                        }}
+                    />
+                );
+            case VIEWS_SWAP.SUCCESS:
+                return (
+                    <Success
+                        inputValueFrom={inputValueFrom}
+                        symbol={from.onChainFTMetadata?.symbol}
+                        to={to}
+                        multiplier={multiplier}
+                        handleBackToSwap={async () => {
+                            setInputValueFrom(0);
+                            await onHandleSBackToSwap();
+                        }}
+                    />
+                );
+
+            default:
+                return null;
+        }
+    };
 
 
     return (
         <StyledContainer className='small-centered'>
-           {getCurrentViewComponent(activeView)}
+            {getCurrentViewComponent(activeView)}
         </StyledContainer>
     );
 };
