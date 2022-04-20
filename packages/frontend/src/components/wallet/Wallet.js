@@ -343,7 +343,7 @@ export function Wallet({
 
 const FungibleTokens = ({ balance, tokensLoading, fungibleTokens, accountExists, totalAmount, currentLanguage }) => {
     const zeroBalanceAccount = accountExists === false;
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
     const currentFungibleTokens = CREATE_USN_CONTRACT ? fungibleTokens[0][0] : fungibleTokens[0];
     const hideFungibleTokenSection =
         zeroBalanceAccount &&
