@@ -5,7 +5,6 @@ import { IS_MAINNET } from '../../config';
 import { parseTokenAmount } from '../../utils/amounts';
 import { wallet } from '../../utils/wallet';
 
-
 export const currentToken = (tokens, value) => {
     return tokens.find((el) => el.onChainFTMetadata.symbol === value);
 };
@@ -38,8 +37,8 @@ export const MinimumReceived = (token, balance, exchangeRate) => {
     return token === 'NEAR' ? balance / exchangeRate : balance * exchangeRate;
 };
 
-const useDebounce = (value,delay) => {
-    const [debouncedValue,setDebouncedValue] = useState(value);
+const useDebounce = (value, delay) => {
+    const [debouncedValue, setDebouncedValue] = useState(value);
 
     useEffect(() => {
         const handler = setTimeout(() => {
@@ -48,21 +47,21 @@ const useDebounce = (value,delay) => {
         return () => {
             clearTimeout(handler);
         };
-    },[value]);
+    }, [value]);
 
-   return  debouncedValue;
+    return debouncedValue;
 };
 
-const roundeUSNExchange = (amount,exchangeRate) => {
-   const currentExchangeRate =  +exchangeRate / 10000;
+const roundUSNExchange = (amount, exchangeRate) => {
+    const currentExchangeRate = +exchangeRate / 10000;
 
-   return amount * currentExchangeRate;
+    return amount * currentExchangeRate;
 };
 
-async function fetchCommission (accountId,amount,exchangeRate,token) {
+async function fetchCommission(accountId, amount, exchangeRate, token) {
     const contractName = !IS_MAINNET ? 'usdn.testnet' : 'usn';
     const currentToken = token?.onChainFTMetadata?.symbol === 'NEAR';
-    const currentExchangeRate =  +exchangeRate / 10000;
+    const currentExchangeRate = +exchangeRate / 10000;
     const usnMethods = {
         viewMethods: ['version', 'name', 'symbol', 'decimals', 'ft_balance_of', 'spread'],
         changeMethods: ['buy', 'sell'],
@@ -73,34 +72,33 @@ async function fetchCommission (accountId,amount,exchangeRate,token) {
         contractName,
         usnMethods
     );
-    const usnAmount = `${currentToken ? parseTokenAmount(roundeUSNExchange(amount,exchangeRate) * 10 ** 18, 0) : parseTokenAmount(amount * 10 ** 18, 0)}`;
-    const result = await usnContract.spread({ amount:usnAmount }) / 1000000;
+    const usnAmount = (currentToken
+        ? parseTokenAmount(roundUSNExchange(amount, exchangeRate) * 10 ** 18, 0)
+        : parseTokenAmount(amount * 10 ** 18, 0)).toString();
+    const result = await usnContract.spread({ amount: usnAmount }) / 1000000;
 
     return {
-        result: currentToken ? (currentExchangeRate * amount) * result : (amount / currentExchangeRate ) * result,
-        percent: Number(result * 100)?.toFixed(2) 
-    }; 
+        result: currentToken ? (currentExchangeRate * amount) * result : (amount / currentExchangeRate) * result,
+        percent: Number(result * 100)?.toFixed(2)
+    };
 }
 
-export const commission = (accountId,amount,delay,exchangeRate,token,isSwapped) => {
-    const [commissionFree,setCommissionFree] = useState('');
-    const [isLoadingCommission,setIsLoadingCommission] = useState(false);
-    const debounceValue = useDebounce(amount,delay);
+export const commission = (accountId, amount, delay, exchangeRate, token, isSwapped) => {
+    const [commissionFree, setCommissionFree] = useState('');
+    const [isLoadingCommission, setIsLoadingCommission] = useState(false);
+    const debounceValue = useDebounce(amount, delay);
 
-  
     useEffect(() => {
         const getCommission = async () => {
             if (debounceValue) {
                 setIsLoadingCommission(true);
-                await fetchCommission(accountId,debounceValue,exchangeRate,token).then((res) => setCommissionFree(res));
+                await fetchCommission(accountId, debounceValue, exchangeRate, token).then((res) => setCommissionFree(res));
                 setIsLoadingCommission(false);
             }
         };
-        
+
         getCommission();
-       
-        // return () => setCommissionFree('')
-    },[debounceValue,exchangeRate,isSwapped]);
-    
-    return {commissionFree, isLoadingCommission};
+    }, [debounceValue, exchangeRate, isSwapped]);
+
+    return { commissionFree, isLoadingCommission };
 };

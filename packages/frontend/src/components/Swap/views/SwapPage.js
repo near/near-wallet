@@ -22,19 +22,22 @@ const balanceForError = (from) => {
 };
 
 const SwapPage = ({
-    from,
-    to,
-    inputValueFrom,
-    setInputValueFrom,
-    multiplier,
-    accountId,
-    onSwap,
-    setActiveView
+  from,
+  to,
+  inputValueFrom,
+  setInputValueFrom,
+  multiplier,
+  accountId,
+  onSwap,
+  setActiveView
 }) => {
     const [isSwapped, setIsSwapped] = useState(false);
     const [slippPageValue, setSlippPageValue] = useState(1);
     const [usnAmount, setUSNAmount] = useState('');
-    const {commissionFree, isLoadingCommission} = commission(accountId, inputValueFrom, 500, +multiplier, from, isSwapped);
+    const {
+        commissionFree,
+        isLoadingCommission
+    } = commission(accountId, inputValueFrom, 500, +multiplier, from, isSwapped);
     const { fetchByOrSell, isLoading, setIsLoading } = useFetchByorSellUSN();
     const dispatch = useDispatch();
     const balance = balanceForError(from);
@@ -55,74 +58,80 @@ const SwapPage = ({
         } finally {
             setIsLoading(false);
         }
-    },[]); 
-   
-  return (
-    <>
-        <Loader onRefreshMultiplier={() => dispatch(fetchMultiplier())}/>
-         <h1>
-            <Translate id="button.swap" />
-        </h1>
-        <SwapTokenContainer
-            text="swap.from"
-            fromToToken={from}
-            value={inputValueFrom}
-            setInputValueFrom={setInputValueFrom}
-        />
-        <AvailableToSwap
-            onClick={(balance) => {setInputValueFrom(balance); from?.onChainFTMetadata?.symbol === 'USN' && setUSNAmount(from?.balance);}}
-            balance={from?.balance}
-            symbol={from?.onChainFTMetadata?.symbol}
-            decimals={from?.onChainFTMetadata?.decimals}
-        />
-        <div
-            className="iconSwap"
-            onClick={() => {onSwap(); setIsSwapped((prev) => !prev);}} 
-        >
-            <SwapIconTwoArrows
-                width="23"
-                height="23"
-                color="#72727A"
+    }, []);
+
+    return (
+        <>
+            <Loader onRefreshMultiplier={() => dispatch(fetchMultiplier())}/>
+            <h1>
+                <Translate id="button.swap"/>
+            </h1>
+            <SwapTokenContainer
+                text="swap.from"
+                fromToToken={from}
+                value={inputValueFrom}
+                setInputValueFrom={setInputValueFrom}
             />
-        </div>
-        <SwapTokenContainer
-            text="swap.to"
-            fromToToken={to}
-            multiplier={multiplier}
-            value={inputValueFrom}
-        />
-        <SwapInfoContainer
-            slipPageError={splpPageError}
-            slippPageValue={slippPageValue}
-            setSlippPageValue={setSlippPageValue}
-            token={from?.onChainFTMetadata?.symbol}
-            exchangeRate={+multiplier / 10000}
-            amount={inputValueFrom}
-            tradinFree={commissionFree?.result}
-            isLoading={isLoadingCommission}
-            percent={commissionFree?.percent}
-        />
-        <div className="buttons-bottom-buttons">
-            <FormButton
-                type="submit"
-                disabled={error || splpPageError || isLoading}
-                data-test-id="sendMoneyPageSubmitAmountButton"
-                onClick={() => onHandleSwapTokens(accountId, multiplier, slippPageValue, +inputValueFrom, from?.onChainFTMetadata?.symbol, usnAmount)}
-                sending={isLoading}
+            <AvailableToSwap
+                onClick={(balance) => {
+                    setInputValueFrom(balance);
+                    from?.onChainFTMetadata?.symbol === 'USN' && setUSNAmount(from?.balance);
+                }}
+                balance={from?.balance}
+                symbol={from?.onChainFTMetadata?.symbol}
+                decimals={from?.onChainFTMetadata?.decimals}
+            />
+            <div
+                className="iconSwap"
+                onClick={() => {
+                    onSwap();
+                    setIsSwapped((prev) => !prev);
+                }}
             >
-                <Translate id="button.continue" />
-            </FormButton>
-            <FormButton
-                type="button"
-                className="link"
-                color="gray"
-                linkTo="/"
-            >
-                <Translate id="button.cancel" />
-            </FormButton>
-        </div>
-    </>
-  ); 
+                <SwapIconTwoArrows
+                    width="23"
+                    height="23"
+                    color="#72727A"
+                />
+            </div>
+            <SwapTokenContainer
+                text="swap.to"
+                fromToToken={to}
+                multiplier={multiplier}
+                value={inputValueFrom}
+            />
+            <SwapInfoContainer
+                slipPageError={splpPageError}
+                slippPageValue={slippPageValue}
+                setSlippPageValue={setSlippPageValue}
+                token={from?.onChainFTMetadata?.symbol}
+                exchangeRate={+multiplier / 10000}
+                amount={inputValueFrom}
+                tradinFree={commissionFree?.result}
+                isLoading={isLoadingCommission}
+                percent={commissionFree?.percent}
+            />
+            <div className="buttons-bottom-buttons">
+                <FormButton
+                    type="submit"
+                    disabled={error || splpPageError || isLoading}
+                    data-test-id="sendMoneyPageSubmitAmountButton"
+                    onClick={() => onHandleSwapTokens(accountId, multiplier, slippPageValue, +inputValueFrom, from?.onChainFTMetadata?.symbol, usnAmount)}
+                    sending={isLoading}
+                >
+                    <Translate id="button.continue"/>
+                </FormButton>
+                <FormButton
+                    type="button"
+                    className="link"
+                    color="gray"
+                    linkTo="/"
+                >
+                    <Translate id="button.cancel"/>
+                </FormButton>
+            </div>
+        </>
+    );
 };
 
 export default SwapPage;

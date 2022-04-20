@@ -14,7 +14,7 @@ const SwapContainerWrapper = () => {
     const accountId = useSelector((state) => selectAccountId(state));
     const multiplier = useSelector(selectMetadataSlice);
     const dispatch = useDispatch();
-   
+
     useEffect(() => {
         if (!accountId) {
             return;
@@ -24,13 +24,13 @@ const SwapContainerWrapper = () => {
         dispatch(fetchMultiplier());
     }, [accountId]);
 
-  return (
-    <SwapAndSuccessContainer
-        fungibleTokensList={fungibleTokensList}
-        accountId={accountId}
-        multiplier={multiplier}
-    />
-  );
+    return (
+        <SwapAndSuccessContainer
+            fungibleTokensList={fungibleTokensList}
+            accountId={accountId}
+            multiplier={multiplier}
+        />
+    );
 };
 
 export default SwapContainerWrapper;
