@@ -18,11 +18,11 @@ const Success = ({
         <ImageContainer />
         <TextInfoSuccess
             valueFrom={inputValueFrom}
-            valueTo={exchangeRateTranslation(
-                to,
-                +inputValueFrom,
-                +multiplier / 10000
-            )}
+            valueTo={exchangeRateTranslation({
+                token: to,
+                balance: + inputValueFrom,
+                exchangeRate: +multiplier / 10000
+            })}
             symbol={symbol}
         />
         <div className="buttons-bottom-buttons">

@@ -21,19 +21,19 @@ export const swapTokens = (tokens, from, setFrom, setTo, to) => {
     }
 };
 
-export const exchangeRateTranslation = (token, balance, exchangeRate) => {
+export const exchangeRateTranslation = ({ token, balance, exchangeRate }) => {
     return token?.onChainFTMetadata?.symbol === 'NEAR'
         ? balance / exchangeRate
         : balance * exchangeRate;
 };
 
-export const tradingFree = (token, balance, exchangeRate) => {
+export const tradingFree = ({ token, balance, exchangeRate }) => {
     return token === 'NEAR'
         ? (balance / exchangeRate) * 0.002
         : balance * exchangeRate * 0.002;
 };
 
-export const MinimumReceived = (token, balance, exchangeRate) => {
+export const MinimumReceived = ({ token, balance, exchangeRate }) => {
     return token === 'NEAR' ? balance / exchangeRate : balance * exchangeRate;
 };
 
@@ -58,7 +58,7 @@ const roundUSNExchange = (amount, exchangeRate) => {
     return amount * currentExchangeRate;
 };
 
-async function fetchCommission(accountId, amount, exchangeRate, token) {
+async function fetchCommission({ accountId, amount, exchangeRate, token }) {
     const contractName = !IS_MAINNET ? 'usdn.testnet' : 'usn';
     const currentToken = token?.onChainFTMetadata?.symbol === 'NEAR';
     const currentExchangeRate = +exchangeRate / 10000;
@@ -83,7 +83,7 @@ async function fetchCommission(accountId, amount, exchangeRate, token) {
     };
 }
 
-export const commission = (accountId, amount, delay, exchangeRate, token, isSwapped) => {
+export const commission = ({ accountId, amount, delay, exchangeRate, token, isSwapped }) => {
     const [commissionFree, setCommissionFree] = useState('');
     const [isLoadingCommission, setIsLoadingCommission] = useState(false);
     const debounceValue = useDebounce(amount, delay);
@@ -92,7 +92,13 @@ export const commission = (accountId, amount, delay, exchangeRate, token, isSwap
         const getCommission = async () => {
             if (debounceValue) {
                 setIsLoadingCommission(true);
-                await fetchCommission(accountId, debounceValue, exchangeRate, token).then((res) => setCommissionFree(res));
+                const commission = await fetchCommission({
+                    accountId,
+                    amount: debounceValue,
+                    exchangeRate,
+                    token,
+                });
+                setCommissionFree(commission);
                 setIsLoadingCommission(false);
             }
         };

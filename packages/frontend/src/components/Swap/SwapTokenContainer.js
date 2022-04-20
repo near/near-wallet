@@ -179,11 +179,11 @@ const SwapTokenContainer = ({
                     <div className="exchange">
                         ≈
                         <>
-                            {exchangeRateTranslation(
-                                fromToToken,
-                                +value,
-                                formatMultiplier
-                            )?.toFixed(5)}
+                            {exchangeRateTranslation({
+                                token: fromToToken,
+                                balance: + value,
+                                exchangeRate: formatMultiplier
+                            })?.toFixed(5)}
                         </>
                     </div>
                 ) : null}

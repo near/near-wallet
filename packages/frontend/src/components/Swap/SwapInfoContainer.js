@@ -78,7 +78,7 @@ function SwapInfoContainer({
                     amount,
                     symbol,
                     tradinFree,
-                    value: MinimumReceived(symbol, amount, exchangeRate) - tradinFree,
+                    value: MinimumReceived({ token: symbol, balance: amount, exchangeRate }) - tradinFree,
                 })}
             />
         </StyledContainer>

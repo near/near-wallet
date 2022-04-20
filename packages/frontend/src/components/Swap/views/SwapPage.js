@@ -34,10 +34,14 @@ const SwapPage = ({
     const [isSwapped, setIsSwapped] = useState(false);
     const [slippPageValue, setSlippPageValue] = useState(1);
     const [usnAmount, setUSNAmount] = useState('');
-    const {
-        commissionFree,
-        isLoadingCommission
-    } = commission(accountId, inputValueFrom, 500, +multiplier, from, isSwapped);
+    const { commissionFree, isLoadingCommission } = commission({
+        accountId,
+        amount: inputValueFrom,
+        delay: 500,
+        exchangeRate: + multiplier,
+        token: from,
+        isSwapped,
+    });
     const { fetchByOrSell, isLoading, setIsLoading } = useFetchByorSellUSN();
     const dispatch = useDispatch();
     const balance = balanceForError(from);
