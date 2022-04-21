@@ -9,6 +9,10 @@ export default createGlobalStyle`
         align-items: center;
         padding: 0px !important;
         width: 500px !important;
+        @media (max-width: 500px) {
+            width: 100% !important;
+        }
+
         line-height: 21px;
         && {
             border-radius: 16px;
@@ -108,5 +112,8 @@ export default createGlobalStyle`
             
             
         }
+
+        
+
     }
 `;
