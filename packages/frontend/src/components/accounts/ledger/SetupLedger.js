@@ -16,6 +16,7 @@ import {
 import { showCustomAlert } from '../../../redux/actions/status';
 import { selectAccountSlice } from '../../../redux/slices/account';
 import { createNewAccount } from '../../../redux/slices/account/createAccountThunks';
+import { actions as ledgerActions } from '../../../redux/slices/ledger';
 import { actions as linkdropActions } from '../../../redux/slices/linkdrop';
 import { selectStatusMainLoader } from '../../../redux/slices/status';
 import parseFundingOptions from '../../../utils/parseFundingOptions';
@@ -26,6 +27,10 @@ import Container from '../../common/styled/Container.css';
 import { isRetryableRecaptchaError, Recaptcha } from '../../Recaptcha';
 import LedgerIcon from '../../svg/LedgerIcon';
 import InstructionsModal from './InstructionsModal';
+
+const {
+    checkAndHideLedgerModal
+} = ledgerActions;
 
 const { setLinkdropAmount } = linkdropActions;
 
@@ -132,7 +137,12 @@ const SetupLedger = (props) => {
                         return;
                     }
                 } else {
-                    await dispatch(addLedgerAccessKey());
+                    try {
+                        await dispatch(addLedgerAccessKey());
+                    } catch (error) {
+                        dispatch(checkAndHideLedgerModal());
+                        throw error;
+                    }
                     Mixpanel.track('SR-Ledger Add ledger access key');
                 }
                 await dispatch(refreshAccount());
