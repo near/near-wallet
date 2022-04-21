@@ -25,8 +25,7 @@ export const LEDGER_MODAL_STATUS = {
 export const CONNECT_MODAL_TYPE = {
     CONNECT: 'connect',
     CONNECTION_ERROR: 'connection-error',
-    DISCONNECTED: 'disconnected',
-    HIDE: false
+    DISCONNECTED: 'disconnected'
 };
 
 const initialState = {
@@ -35,9 +34,7 @@ const initialState = {
     connection: {
         available: false,
         disconnected: false,
-        modal: {
-            type: false
-        },
+        modal: {},
         ...initialStatusState
     }
 };
@@ -61,7 +58,7 @@ const handleConnectLedger = createAsyncThunk(
                 messageCodeHeader: 'connectLedger.ledgerConnected',
                 messageCode: 'connectLedger.youMayNow',
             }));
-            dispatch(ledgerSlice.actions.setLedgerConnectionModalType({ type: CONNECT_MODAL_TYPE.HIDE }));
+            dispatch(ledgerSlice.actions.setLedgerConnectionModalType({ type: undefined }));
         } catch (error) {
             dispatch(ledgerSlice.actions.setLedgerConnectionModalType({ type: CONNECT_MODAL_TYPE.CONNECTION_ERROR }));
             throw error;

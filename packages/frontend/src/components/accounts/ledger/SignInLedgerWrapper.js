@@ -118,6 +118,7 @@ export function SignInLedgerWrapper(props) {
     const handleCancelSignIn = () => {
         dispatch(clearSignInWithLedgerModalState());
     };
+    
     const handleCancelAuthorize = () => {
         dispatch(redirectTo('/recover-account'));
     };

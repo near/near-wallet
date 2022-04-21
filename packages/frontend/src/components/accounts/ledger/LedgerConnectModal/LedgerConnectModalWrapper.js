@@ -25,7 +25,7 @@ const LedgerConnectModal = () => {
     const connecting = useSelector(selectLedgerConnectionStatusLoading);
 
     const connect = () => dispatch(handleConnectLedger());
-    const cancel = () => dispatch(setLedgerConnectionModalType({ type: false }));
+    const cancel = () => dispatch(setLedgerConnectionModalType({ type: undefined }));
 
     const getCurrentViewComponent = () => {
         switch (modalType) {
