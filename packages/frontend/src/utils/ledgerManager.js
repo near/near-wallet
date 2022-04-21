@@ -1,8 +1,6 @@
-import { listen } from '@ledgerhq/logs';
 import { createClient, getSupportedTransport, setDebugLogging } from 'near-ledger-js';
 
-setDebugLogging(true);
-listen(console.log);
+setDebugLogging(false);
 
 window.Buffer = Buffer; // Exists due to `bs58` import
 
