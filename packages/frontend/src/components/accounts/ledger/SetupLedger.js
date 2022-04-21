@@ -89,7 +89,7 @@ const SetupLedger = (props) => {
 
                         // Set custom path to localstorage
                         if (customLedgerHdPath) {
-                            setLedgerHdPath({ accountId, path:customLedgerHdPath });
+                            setLedgerHdPath({ accountId, path: customLedgerHdPath });
                         }
 
                         // COIN-OP VERIFY ACCOUNT
@@ -106,7 +106,7 @@ const SetupLedger = (props) => {
                             return;
                         }
 
-                        await dispatch(createNewAccount({ accountId, fundingOptions, recoveryMethod: 'ledger', publicKey, recaptchaToken, path: customLedgerHdPath })).unwrap();
+                        await dispatch(createNewAccount({ accountId, fundingOptions, recoveryMethod: 'ledger', publicKey, recaptchaToken })).unwrap();
                         if (fundingOptions?.fundingAmount) {
                             setLinkdropAmount(fundingOptions.fundingAmount);
                         }
