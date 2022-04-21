@@ -102,6 +102,7 @@ const SetupLedger = (props) => {
                         if (fundingOptions?.fundingAmount) {
                             setLinkdropAmount(fundingOptions.fundingAmount);
                         }
+                        dispatch(checkAndHideLedgerModal());
                         Mixpanel.track('SR-Ledger Create new account ledger');
                     } catch (err) {
                         if (isRetryableRecaptchaError(err)) {
