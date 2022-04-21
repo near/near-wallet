@@ -56,7 +56,6 @@ const SwapPage = ({
             setIsLoading(true);
             await fetchByOrSell(accountId, multiplier, slippageValue, +inputValueFrom, symbol, usnAmount);
             setActiveView('success');
-            dispatch(checkAndHideLedgerModal());
         } catch (e) {
             dispatch(showCustomAlert({
                 errorMessage: e.message,
@@ -65,6 +64,7 @@ const SwapPage = ({
             }));
         } finally {
             setIsLoading(false);
+            dispatch(checkAndHideLedgerModal());
         }
     }, []);
 
