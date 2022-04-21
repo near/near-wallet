@@ -55,11 +55,8 @@ const AnimateList = styled.div`
 
     .accountId {
         overflow: hidden;
-        
-        > h3 {
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
+        font-size: 14px;
+        text-overflow: ellipsis;
     }
 
     .row {
@@ -80,14 +77,48 @@ const AnimateList = styled.div`
             color: #de2e32;
         }
         &.confirm .status {
-            background: #6ad1e3;
-            color: #14889d;
+            background: #f4c898;
+            color: #ae6816;
+            text-align: left;
+            padding: 0 0 0 10px;
+            flex: 0 0 140px;
+
+            :after {
+                content: '.';
+                animation: dots 1s steps(5, end) infinite;
+            
+                @keyframes dots {
+                    0%, 20% {
+                        color: rgba(0,0,0,0);
+                        text-shadow:
+                            .3em 0 0 rgba(0,0,0,0),
+                            .6em 0 0 rgba(0,0,0,0);
+                    }
+                    40% {
+                        color: #ae6816;
+                        text-shadow:
+                            .3em 0 0 rgba(0,0,0,0),
+                            .6em 0 0 rgba(0,0,0,0);
+                    }
+                    60% {
+                        text-shadow:
+                            .3em 0 0 #ae6816,
+                            .6em 0 0 rgba(0,0,0,0);
+                    }
+                    80%, 100% {
+                        text-shadow:
+                            .3em 0 0 #ae6816,
+                            .6em 0 0 #ae6816;
+                    }
+                }
+            }
         }
         &.pending .status {
             background: #f4c898;
             color: #ae6816;
             text-align: left;
             padding: 0 0 0 10px;
+            flex: 0 0 82px;
 
             :after {
                 content: '.';
@@ -181,9 +212,7 @@ const ImportAccounts = ({
                                 <UserIconGrey color='#9a9a9a' />
                             </UserIcon>
                             <div className='accountId'>
-                                <h3>
-                                    {account.accountId}
-                                </h3>
+                                {account.accountId}
                             </div>
                             <div className='status'>
                                 {account.status !== 'success' 

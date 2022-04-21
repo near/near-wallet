@@ -1295,7 +1295,7 @@
             "confirmPublicKey": "Confirm public key",
             "ledgerMustAdd": "Ledger must add an access key for each account protected by your device:",
             "status": {
-                "confirm": "Confirm",
+                "confirm": "Confirm on Device",
                 "error": "Error",
                 "pending": "Pending",
                 "rejected": "Rejected",
