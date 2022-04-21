@@ -115,8 +115,11 @@ export function SignInLedgerWrapper(props) {
         dispatch(redirectToApp());
     };
 
-    const handleCancel = () => {
+    const handleCancelSignIn = () => {
         dispatch(clearSignInWithLedgerModalState());
+    };
+    const handleCancelAuthorize = () => {
+        dispatch(redirectTo('/recover-account'));
     };
 
     const activeView = () => {
@@ -145,13 +148,14 @@ export function SignInLedgerWrapper(props) {
                         setConfirmedPath={setConfirmedPath}
                         handleSignIn={handleSignIn}
                         signingIn={!!signInWithLedgerStatus}
-                />
+                        handleCancel={handleCancelAuthorize}
+                    />
                 );
             case VIEWS.SIGN_IN:
                 return (
                     <SignIn
                         txSigned={txSigned}
-                        handleCancel={handleCancel}
+                        handleCancel={handleCancelSignIn}
                     />
                 );
             case VIEWS.ENTER_ACCOUNT_ID:

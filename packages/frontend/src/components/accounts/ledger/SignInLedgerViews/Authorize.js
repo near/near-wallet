@@ -14,7 +14,7 @@ const Authorize = ({
     setConfirmedPath,
     handleSignIn,
     signingIn,
-    props
+    handleCancel
 }) => {
     return (
         <>
@@ -41,7 +41,7 @@ const Authorize = ({
                 </FormButton>
                 <FormButton
                     className='gray link'
-                    onClick={() => props.history.goBack()}
+                    onClick={handleCancel}
                     trackingId='IE-Ledger Click cancel button'
                 >
                     <Translate id='button.cancel' />
