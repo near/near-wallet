@@ -15,7 +15,7 @@ const StyledLogo = styled('div')`
         }
     }
 
-    @media (max-width: 991px) {
+    @media (max-width: 1120px) {
         max-width: 44px;
         overflow: hidden;
         margin-left: -10px;
