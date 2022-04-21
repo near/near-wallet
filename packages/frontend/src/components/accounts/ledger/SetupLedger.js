@@ -33,6 +33,7 @@ import LedgerHdPaths from './LedgerHdPaths';
 
 const { checkAndHideLedgerModal } = ledgerActions;
 const { setLinkdropAmount } = linkdropActions;
+
 // FIXME: Use `debug` npm package so we can keep some debug logging around but not spam the console everywhere
 const ENABLE_DEBUG_LOGGING = false;
 const debugLog = (...args) => ENABLE_DEBUG_LOGGING && console.log('SetupLedger:', ...args);

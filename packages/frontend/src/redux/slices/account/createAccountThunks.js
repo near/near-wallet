@@ -4,7 +4,6 @@ import { PublicKey } from 'near-api-js/lib/utils';
 import { KeyType } from 'near-api-js/lib/utils/key_pair';
 
 import * as Config from '../../../config';
-import {actions as ledgerActions } from '../../../redux/slices/ledger';
 import sendJson from '../../../tmp_fetch_send_json';
 import { setReleaseNotesClosed } from '../../../utils/localStorage';
 import { CONTRACT_CREATE_ACCOUNT_URL, FUNDED_ACCOUNT_CREATE_URL, IDENTITY_FUNDED_ACCOUNT_CREATE_URL, RELEASE_NOTES_MODAL_VERSION, wallet } from '../../../utils/wallet';
@@ -13,7 +12,6 @@ import { finishAccountSetup } from '../../actions/account';
 import { SLICE_NAME } from './';
 
 
-const { checkAndHideLedgerModal } = ledgerActions;
 const {
     RECAPTCHA_ENTERPRISE_SITE_KEY,
     NETWORK_ID,
@@ -119,7 +117,6 @@ export const createNewAccount = createAsyncThunk(
 
         await wallet.saveAndMakeAccountActive(accountId);
         await dispatch(addLocalKeyAndFinishSetup({ accountId, recoveryMethod, publicKey, previousAccountId })).unwrap();
-        dispatch(checkAndHideLedgerModal());
     }
 );
 
