@@ -12,7 +12,6 @@ import SwapPage from './views/SwapPage';
 
 const { fetchTokens } = tokensActions;
 
-
 export const VIEWS_SWAP = {
     MAIN: 'main',
     SUCCESS: 'success'
@@ -117,7 +116,7 @@ const SwapAndSuccessContainer = ({
         return () => dispatch(handleSwapByContractName(''));
     }, [dispatch]);
 
-    const onHandleSBackToSwap = useCallback(async () => {
+    const onHandleBackToSwap = useCallback(async () => {
         await dispatch(refreshAccount());
         await dispatch(fetchTokens({ accountId }));
         setActiveView('main');
@@ -155,7 +154,7 @@ const SwapAndSuccessContainer = ({
                     multiplier={multiplier}
                     handleBackToSwap={async () => {
                         setInputValueFrom(0);
-                        await onHandleSBackToSwap();
+                        await onHandleBackToSwap();
                     }}
                 />
             )}
