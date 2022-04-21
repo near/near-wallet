@@ -123,54 +123,42 @@ const SwapAndSuccessContainer = ({
         setActiveView('main');
     }, []);
 
-    const getCurrentViewComponent = (activeView) => {
-        switch (activeView) {
-            case VIEWS_SWAP.MAIN:
-                return (
-                    <SwapPage
-                        setActiveView={setActiveView}
-                        accountId={accountId}
-                        from={from}
-                        inputValueFrom={inputValueFrom}
-                        multiplier={multiplier}
-                        setInputValueFrom={setInputValueFrom}
-                        to={to}
-                        onSwap={() => {
-                            if (to?.balance === '0' || !to?.balance) return;
-
-                            if (from?.onChainFTMetadata?.symbol === 'NEAR') {
-                                setFrom(currentToken(fungibleTokensList, 'USN'));
-                                setTo(fungibleTokensList[0]);
-                            } else {
-                                setFrom(fungibleTokensList[0]);
-                                setTo(currentToken(fungibleTokensList, 'USN'));
-                            }
-                        }}
-                    />
-                );
-            case VIEWS_SWAP.SUCCESS:
-                return (
-                    <Success
-                        inputValueFrom={inputValueFrom}
-                        symbol={from.onChainFTMetadata?.symbol}
-                        to={to}
-                        multiplier={multiplier}
-                        handleBackToSwap={async () => {
-                            setInputValueFrom(0);
-                            await onHandleSBackToSwap();
-                        }}
-                    />
-                );
-
-            default:
-                return null;
-        }
-    };
-
-
     return (
         <StyledContainer className='small-centered'>
-            {getCurrentViewComponent(activeView)}
+            {activeView === VIEWS_SWAP.MAIN && (
+                <SwapPage
+                    setActiveView={setActiveView}
+                    accountId={accountId}
+                    from={from}
+                    inputValueFrom={inputValueFrom}
+                    multiplier={multiplier}
+                    setInputValueFrom={setInputValueFrom}
+                    to={to}
+                    onSwap={() => {
+                        if (to?.balance === '0' || !to?.balance) return;
+
+                        if (from?.onChainFTMetadata?.symbol === 'NEAR') {
+                            setFrom(currentToken(fungibleTokensList, 'USN'));
+                            setTo(fungibleTokensList[0]);
+                        } else {
+                            setFrom(fungibleTokensList[0]);
+                            setTo(currentToken(fungibleTokensList, 'USN'));
+                        }
+                    }}
+                />
+            )}
+            {activeView === VIEWS_SWAP.SUCCESS && (
+                <Success
+                    inputValueFrom={inputValueFrom}
+                    symbol={from.onChainFTMetadata?.symbol}
+                    to={to}
+                    multiplier={multiplier}
+                    handleBackToSwap={async () => {
+                        setInputValueFrom(0);
+                        await onHandleSBackToSwap();
+                    }}
+                />
+            )}
         </StyledContainer>
     );
 };
