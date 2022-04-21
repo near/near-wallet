@@ -212,14 +212,14 @@ const TokenBox = ({ token, onClick, currentLanguage }) => {
                             amount={token.balance}
                             data-test-id='walletHomeNearBalance'
                             symbol={false}
-                            showSymbolNEAR={false}
+                            showSymbolNEAR={!CREATE_USN_CONTRACT}
                         />
                     </div>
                 ) : (
                     <TokenAmount
                         token={token}
                         className={token.onChainFTMetadata?.symbol  !== 'USN' && CREATE_USN_CONTRACT ? 'balance tokenAmount':'balance'}
-                        withSymbol={!CREATE_USN_CONTRACT}
+                        withSymbol={token.onChainFTMetadata?.symbol !== 'USN' || !CREATE_USN_CONTRACT}
                     />
                 )}
                 {!onClick && CREATE_USN_CONTRACT &&
