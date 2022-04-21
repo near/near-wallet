@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 
 import { useFetchByorSellUSN } from '../../../hooks/fetchByorSellUSN';
 import { showCustomAlert } from '../../../redux/actions/status';
+import { actions as ledgerActions } from '../../../redux/slices/ledger';
 import { fetchMultiplier } from '../../../redux/slices/multiplier';
 import { formatTokenAmount } from '../../../utils/amounts';
 import { formatNearAmount } from '../../common/balance/helpers';
@@ -14,6 +15,8 @@ import { commission } from '../helpers';
 import Loader from '../Loader';
 import SwapInfoContainer from '../SwapInfoContainer';
 import SwapTokenContainer from '../SwapTokenContainer';
+
+const { checkAndHideLedgerModal } = ledgerActions;
 
 const balanceForError = (from) => {
     return from?.onChainFTMetadata?.symbol === 'NEAR'
@@ -53,6 +56,7 @@ const SwapPage = ({
             setIsLoading(true);
             await fetchByOrSell(accountId, multiplier, slippageValue, +inputValueFrom, symbol, usnAmount);
             setActiveView('success');
+            dispatch(checkAndHideLedgerModal());
         } catch (e) {
             dispatch(showCustomAlert({
                 errorMessage: e.message,
