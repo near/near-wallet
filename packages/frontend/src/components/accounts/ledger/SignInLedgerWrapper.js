@@ -1,5 +1,5 @@
 import { parse as parseQuery, stringify } from 'query-string';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { Mixpanel } from '../../../mixpanel/index';
@@ -62,6 +62,10 @@ export function SignInLedgerWrapper(props) {
     const accountsError = signInWithLedgerKeys.reduce((a, accountId) => signInWithLedgerState[accountId].status === 'error' ? a + 1 : a, 0);
     const accountsRejected = signInWithLedgerKeys.reduce((a, accountId) => signInWithLedgerState[accountId].status === 'rejected' ? a + 1 : a, 0);
     const totalAccounts = signInWithLedgerKeys.length;
+
+    useEffect(() => {
+        dispatch(clearSignInWithLedgerModalState());
+    }, []);
 
     const handleChange = (value) => {
         setAccountId(value);
