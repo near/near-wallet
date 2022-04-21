@@ -2,7 +2,7 @@ import React from 'react';
 import { Translate } from 'react-localize-redux';
 
 import FormButton from '../../common/FormButton';
-import { exchengeRateTranslation } from '../helpers';
+import { exchangeRateTranslation } from '../helpers';
 import ImageContainer from '../ImageContainer';
 import TextInfoSuccess from '../TextInfoSuccess';
 
@@ -18,11 +18,11 @@ const Success = ({
         <ImageContainer />
         <TextInfoSuccess
             valueFrom={inputValueFrom}
-            valueTo={exchengeRateTranslation(
-                to,
-                +inputValueFrom,
-                +multiplier / 10000
-            )}
+            valueTo={exchangeRateTranslation({
+                token: to,
+                balance: + inputValueFrom,
+                exchangeRate: +multiplier / 10000
+            })}
             symbol={symbol}
         />
         <div className="buttons-bottom-buttons">

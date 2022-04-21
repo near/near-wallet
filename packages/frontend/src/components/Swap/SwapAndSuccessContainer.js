@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 
 import { refreshAccount } from '../../redux/actions/account';
-import { handleSwapBycontractName, selectSwapBycontractName } from '../../redux/slices/swap';
+import { handleSwapByContractName, selectSwapByContractName } from '../../redux/slices/swap';
 import { actions as tokensActions } from '../../redux/slices/tokens';
 import Container from '../common/styled/Container.css';
 import { currentToken } from './helpers';
@@ -12,7 +12,6 @@ import SwapPage from './views/SwapPage';
 
 const { fetchTokens } = tokensActions;
 
-
 export const VIEWS_SWAP = {
     MAIN: 'main',
     SUCCESS: 'success'
@@ -20,7 +19,6 @@ export const VIEWS_SWAP = {
 
 const StyledContainer = styled(Container)`
     position: relative;
-    
     h1 {
         text-align: center;
         margin-bottom: 30px;
@@ -37,24 +35,26 @@ const StyledContainer = styled(Container)`
         justify-content: center;
         align-items: center;
         padding: 8px 8px 5px 5px;
-        border-radius:50%;
+        border-radius: 50%;
         border: 1px solid #3170c7;
+
         :hover {
             svg {
                 g, path {
-                stroke: #0072ce;
-                fill: #0072ce;
-             }
+                    stroke: #0072ce;
+                    fill: #0072ce;
+                }
+            }
         }
-    }
 
         svg {
             transform: rotate(90deg);
             cursor: pointer;
+
             g:hover {
                 stroke: #0072ce;
                 fill: #0072ce;
-             }
+            }
         }
     }
 
@@ -93,7 +93,7 @@ const SwapAndSuccessContainer = ({
     const [from, setFrom] = useState(fungibleTokensList[0]);
     const [to, setTo] = useState(currentToken(fungibleTokensList, 'USN'));
     const [inputValueFrom, setInputValueFrom] = useState(0);
-    const swapContractValue = useSelector(selectSwapBycontractName);
+    const swapContractValue = useSelector(selectSwapByContractName);
     const [activeView, setActiveView] = useState(VIEWS_SWAP.MAIN);
     const dispatch = useDispatch();
 
@@ -102,28 +102,27 @@ const SwapAndSuccessContainer = ({
             setFrom(currentToken(fungibleTokensList, 'USN'));
             setTo(fungibleTokensList[0]);
             return;
-        } 
+        }
 
         setFrom(currentToken(fungibleTokensList, from?.onChainFTMetadata?.symbol));
         setTo(currentToken(fungibleTokensList, to?.onChainFTMetadata?.symbol || 'USN'));
-        
+
     }, [fungibleTokensList]);
 
 
     useEffect(() => {
-        return () => dispatch(handleSwapBycontractName(''));
-    },[dispatch]);
+        return () => dispatch(handleSwapByContractName(''));
+    }, [dispatch]);
 
-    const onHandleSBackToSwap = useCallback(async () => {
+    const onHandleBackToSwap = useCallback(async () => {
         await dispatch(refreshAccount());
         await dispatch(fetchTokens({ accountId }));
         setActiveView('main');
-    },[]); 
+    }, []);
 
-   const getCurrentViewComponent = (activeView) => {
-    switch (activeView) {
-    case VIEWS_SWAP.MAIN:
-            return (
+    return (
+        <StyledContainer className='small-centered'>
+            {activeView === VIEWS_SWAP.MAIN && (
                 <SwapPage
                     setActiveView={setActiveView}
                     accountId={accountId}
@@ -144,30 +143,19 @@ const SwapAndSuccessContainer = ({
                         }
                     }}
                 />
-            );
-    case VIEWS_SWAP.SUCCESS:
-            return (
-                <Success 
+            )}
+            {activeView === VIEWS_SWAP.SUCCESS && (
+                <Success
                     inputValueFrom={inputValueFrom}
                     symbol={from.onChainFTMetadata?.symbol}
                     to={to}
                     multiplier={multiplier}
                     handleBackToSwap={async () => {
                         setInputValueFrom(0);
-                       await onHandleSBackToSwap(); 
+                        await onHandleBackToSwap();
                     }}
                 />
-            );
-    
-    default:
-            return null;
-    }
-};
-
-
-    return (
-        <StyledContainer className='small-centered'>
-           {getCurrentViewComponent(activeView)}
+            )}
         </StyledContainer>
     );
 };

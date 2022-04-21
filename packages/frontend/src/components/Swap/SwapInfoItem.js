@@ -85,7 +85,7 @@ const StyledInfoItem = styled.div`
             }
         }
     }
-    .slipPageError {
+    .slippageError {
         color: #ec6563;
         margin-top: 5px;
     }
@@ -94,10 +94,9 @@ const StyledInfoItem = styled.div`
 function SwapInfoItem({
     leftText,
     rightText,
-    slippPageValue,
-    setSlippPageValue,
-    slipPageError,
-    tradinFree={tradinFree},
+    slippageValue,
+    setSlippageValue,
+    slippageError,
     isDots =false
 }) {
     return (
@@ -105,18 +104,18 @@ function SwapInfoItem({
             <div className="left_text">
                 <Translate id={leftText} />
             </div>
-            {slipPageError && (
-                <div className="slipPageError">
-                    <Translate id="swap.slipPageError" />
+            {slippageError && (
+                <div className="slippageError">
+                    <Translate id="swap.slippageError" />
                 </div>
             )}
-            {setSlippPageValue ? (
+            {setSlippageValue ? (
                 <>
                     <input
-                        value={slippPageValue && slippPageValue}
+                        value={slippageValue && slippageValue}
                         onChange={(e) =>
-                            setSlippPageValue &&
-                            setSlippPageValue(+e.target.value)
+                            setSlippageValue &&
+                            setSlippageValue(+e.target.value)
                         }
                     />
                     <span>%</span>

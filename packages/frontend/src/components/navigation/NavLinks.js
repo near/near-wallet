@@ -1,9 +1,9 @@
 import React from 'react';
-import { CREATE_USN_CONTRACT } from '../../../../../features'
 import { Translate } from 'react-localize-redux';
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 
+import { CREATE_USN_CONTRACT } from '../../../../../features';
 import { Mixpanel } from '../../mixpanel/index';
 import HelpIcon from '../svg/HelpIcon';
 import SwapIconTwoArrows from '../svg/SwapIconTwoArrows';
@@ -20,21 +20,17 @@ const Container = styled.div`
         transition: 100ms;
         color: #72727A;
         font-size: 15px;
-
         :hover, &.selected {
             text-decoration: none;
             color: #272729;
-
             svg {
                 path, circle, line {
                     stroke: #0072CE;
                 }
-
                 &.user-icon {
                     path {
                         stroke: #0072CE;
                         fill: #0072CE;
-
                         :last-of-type {
                             fill: none;
                         }
@@ -43,12 +39,10 @@ const Container = styled.div`
             }
         }
     }
-
     svg {
         margin-right: 10px;
         width: 23px;
         height: 23px;
-
         &.user-icon {
             width: 35px;
             height: 35px;
@@ -56,19 +50,15 @@ const Container = styled.div`
             stroke-width: 0px;
         }
     }
-
     @media (max-width: 991px) {
         flex-direction: column;
         align-items: flex-start;
     }
-
     @media (min-width: 992px) {
         align-items: center;
         margin-left: 10px;
-
         a {
             margin-left: 25px;
-
             &.account-details-link {
                 margin-left: 20px;
             }

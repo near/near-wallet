@@ -383,7 +383,8 @@
         }
     },
     "dashboard": {
-        "activity": "Recent activity"
+        "activity": "Recent activity",
+        "noActivity": "No activity has been recorded for this account."
     },
     "dashboardActivity": {
         "message": {
@@ -770,6 +771,9 @@
             "unstaked": "Unstaked",
             "walletBalance": "Wallet balance",
             "walletId": "Wallet ID"
+        },
+        "accountDoesNotExistBanner": {
+            "desc": "No activity has been recorded for <a href='https://explorer.near.org/accounts/${data}' rel='noopener noreferrer' target='_blank'><b>this account</b></a>. Send NEAR to your account to begin using all features of the NEAR Wallet."
         },
         "authorizedApps": {
             "title": "Authorized Apps"
@@ -1477,7 +1481,7 @@
         "MinimumReceived": "Minimum received",
         "pairPrice": "Pair price",
         "slipPage": "Slippage tolerance",
-        "slipPageError": "from 1 to 50",
+        "slippageError": "from 1 to 50",
         "success": {
             "complete": "Transaction complete!",
             "youSwap": "You've swapped"

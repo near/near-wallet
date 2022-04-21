@@ -178,7 +178,11 @@ export function StakingContainer({ history, match }) {
     const hasLockup = useSelector(selectAccountHasLockup);
 
     const { currentAccount } = staking;
-    const stakingAccounts = staking.accounts;
+    const currentAccountDataForInactiveAccount = {
+        accountId,
+        ...currentAccount
+    };
+    const stakingAccounts = staking.accounts.length ? staking.accounts : [currentAccountDataForInactiveAccount];
     const validators = staking.allValidators;
     const currentValidators = currentAccount.validators;
     const validatorId = history.location.pathname.split('/')[2];

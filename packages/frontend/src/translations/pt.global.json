@@ -1360,6 +1360,17 @@
     },
     "stakingPoolUnstaked": "Este NEAR está atualmente em uma pool de stake, mas unstaked. Pode, por exemplo, estar em um estado de liberação pendente.",
     "success": "Sucesso",
+    "swap": {
+        "AvailableToSwap": "Disponível para troca",
+        "ExpectedPrice": "Preço esperado",
+        "from": "A partir de",
+        "MinimumReceived": "Mínimo recebido",
+        "pairPrice": "Preço do par",
+        "slipPage": "Tolerância de deslizamento",
+        "slippageError": "de 1 a 50",
+        "to": "Para",
+        "TradingFee": "Taxa de negociação"
+    },
     "sync": "Sincronizar",
     "tokenBox": {
         "priceUnavailable": "Preço indisponível",

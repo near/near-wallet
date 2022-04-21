@@ -7,9 +7,9 @@ import { formatNearAmount } from '../common/balance/helpers';
 import FormButton from '../common/FormButton';
 
 const StyledAvailableContainer = styled.div`
-    display:flex;
+    display: flex;
     padding-left: 4px;
-    justify-content:space-between;
+    justify-content: space-between;
     align-items: center;
     text-align: right;
     width: 100%;
@@ -28,38 +28,36 @@ const StyledAvailableContainer = styled.div`
 `;
 
 function AvailableToSwap({ balance, symbol, decimals, onClick }) {
-    const amountoShow = balance && formatNearAmount(balance);
+    const amountToShow = balance && formatNearAmount(balance);
 
     return (
         <StyledAvailableContainer>
             <div>
-                <Translate id="swap.AvailableToSwap" />{' '}
-                    <span>
-                        {balance ? (
+                <Translate id="swap.AvailableToSwap"/>{' '}
+                <span>
+                    {balance && (
                         <>
                             {' '}
-                            {symbol === 'NEAR'
-                            ? amountoShow
-                            : formatTokenAmount(balance, decimals, 5)}
+                            {symbol === 'NEAR' ? amountToShow : formatTokenAmount(balance, decimals, 5)}
                         </>
-                            ) : (
-                    <span className="dots" />
-                )}{' '}
-                <>{symbol}</>
-            </span>
+                    )}
+                    {!balance && <span className="dots"/>}
+                    {' '}
+                    <>{symbol}</>
+                </span>
             </div>
             <div>
                 <FormButton
-                swapButton={true}
-                onClick={() => onClick(symbol === 'NEAR' ? amountoShow : formatTokenAmount(balance, decimals, 5))}
-                type='button'
-                color='light-blue'
-                className='small rounded'
+                    swapButton={true}
+                    onClick={() => onClick(symbol === 'NEAR' ? amountToShow : formatTokenAmount(balance, decimals, 5))}
+                    type='button'
+                    color='light-blue'
+                    className='small rounded'
                 >
                     <Translate id='button.useMax'/>
-                </FormButton>                
+                </FormButton>
             </div>
-           
+
         </StyledAvailableContainer>
     );
 }

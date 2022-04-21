@@ -21,10 +21,10 @@ const setArgsUSNContractBuy = (multiplier, slippage, amount) => {
     };
 };
 
-const setArgsUSNContractSell = (amount, multiplier, slippage, USNamount) => {
+const setArgsUSNContractSell = (amount, multiplier, slippage, usnAmount) => {
     return {
         args: {
-            amount: USNamount ? USNamount : parseTokenAmount(amount * (10 ** 18), 0),
+            amount: usnAmount ? usnAmount : parseTokenAmount(amount * (10 ** 18), 0),
             expected: {
                 multiplier,
                 slippage: `${Math.round(
@@ -52,7 +52,7 @@ export const useFetchByorSellUSN = () => {
         slippage,
         amount,
         symbol,
-        USNamount
+        usnAmount
     ) => {
         const account = await wallet.getAccount(accountId);
         const usnContract = new nearApiJs.Contract(
@@ -65,7 +65,7 @@ export const useFetchByorSellUSN = () => {
             await usnContract.buy(setArgsUSNContractBuy(multiplier, slippage, amount));
            
         } else {
-           await usnContract.sell(setArgsUSNContractSell(amount, multiplier, slippage, USNamount));
+           await usnContract.sell(setArgsUSNContractSell(amount, multiplier, slippage, usnAmount));
         }
     };
 

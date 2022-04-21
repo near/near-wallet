@@ -15,7 +15,7 @@ export const useFungibleTokensIncludingNEAR = function () {
     const fungibleTokenPrices = useSelector(selectTokensFiatValueUSD);
     const fungibleTokensWithPrices = fungibleTokens.map((ft) => ({
         ...ft,
-        fiatValueMetadata: ft.fiatValueMetadata || {...fungibleTokenPrices[ft.contractName]}
+        fiatValueMetadata: ft.fiatValueMetadata?.usd ? ft.fiatValueMetadata : {...fungibleTokenPrices[ft.contractName]}
     }));
 
     return [NEARAsTokenWithMetadata, ...fungibleTokensWithPrices];

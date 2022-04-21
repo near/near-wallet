@@ -15,6 +15,7 @@ const Container = styled.div`
         border-radius: 4px;
         margin-bottom: 30px;
         align-items: center;
+        word-break: break-word;
 
         @media (max-width: 450px) {
             margin: -25px -14px 30px -14px;
@@ -76,6 +77,7 @@ const Container = styled.div`
             font-style: italic;
             margin-left: 20px;
             font-size: 13px;
+            line-height: 150%;
         }
 
         button, a {

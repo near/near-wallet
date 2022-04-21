@@ -66,7 +66,6 @@ import { SetupImplicitWithRouter } from './accounts/SetupImplicit';
 import { SetupSeedPhraseWithRouter } from './accounts/SetupSeedPhrase';
 import { EnableTwoFactor } from './accounts/two_factor/EnableTwoFactor';
 import { BuyNear } from './buy/BuyNear';
-import SwapContainerWrapper from './Swap/SwapContainerWrapper';
 import Footer from './common/Footer';
 import GlobalAlert from './common/GlobalAlert';
 import GuestLandingRoute from './common/GuestLandingRoute';
@@ -83,6 +82,7 @@ import { Profile } from './profile/Profile';
 import { ReceiveContainerWrapper } from './receive-money/ReceiveContainerWrapper';
 import { SendContainerWrapper } from './send/SendContainerWrapper';
 import { StakingContainer } from './staking/StakingContainer';
+import SwapContainerWrapper from './Swap/SwapContainerWrapper';
 import Terms from './terms/Terms';
 
 import '../index.css';
@@ -125,7 +125,6 @@ const Container = styled.div`
             }
         }
     }
-
     @media (max-width: 767px) {
         &.hide-footer-mobile { 
             .wallet-footer {
@@ -134,6 +133,7 @@ const Container = styled.div`
         }
     }
 `;
+
 class Routing extends Component {
     constructor(props) {
         super(props);
@@ -200,6 +200,7 @@ class Routing extends Component {
         } = this.props;
 
         fetchTokenFiatValues();
+        this.startPollingTokenFiatValue();
         handleRefreshUrl(router);
         refreshAccount();
 
@@ -230,6 +231,27 @@ class Routing extends Component {
             // this.addTranslationsForActiveLanguage(curLangCode)
             localStorage.setItem('languageCode', curLangCode);
         }
+    }
+
+    componentWillUnmount = () => {
+        this.stopPollingTokenFiatValue();
+    }
+
+    startPollingTokenFiatValue = () => {
+        const { fetchTokenFiatValues } = this.props;
+
+        const handlePollTokenFiatValue = async () => {
+            await fetchTokenFiatValues().catch(() => { });
+            if (this.pollTokenFiatValue) {
+                this.pollTokenFiatValue = setTimeout(() => handlePollTokenFiatValue(), 30000);
+            }
+        };
+        this.pollTokenFiatValue = setTimeout(() => handlePollTokenFiatValue(), 30000);
+    }
+
+    stopPollingTokenFiatValue = () => {
+        clearTimeout(this.pollTokenFiatValue);
+        this.pollTokenFiatValue = null;
     }
 
     render() {

@@ -6,7 +6,7 @@ import { EXPLORER_URL } from '../../config';
 import { formatTokenAmount } from '../../utils/amounts';
 import { formatNearAmount } from '../common/balance/helpers';
 import TokenIcon from '../send/components/TokenIcon';
-import { exchengeRateTranslation } from './helpers';
+import { exchangeRateTranslation } from './helpers';
 
 const SwapContainer = styled.div`
     width: 100%;
@@ -34,7 +34,7 @@ const SwapContainer = styled.div`
         color: #252729;
     }
 
-    .exchenge {
+    .exchange {
         text-align: right;
         padding: 0;
         height: auto;
@@ -104,24 +104,24 @@ const SwapContainer = styled.div`
 
 const SwapTokenContainer = ({
     text,
-    fromTotoken,
+    fromToToken,
     value,
     setInputValueFrom,
-    muliplier,
+    multiplier,
 }) => {
     const inputRef = useRef(null);
     const balance =
-        fromTotoken?.onChainFTMetadata?.symbol === 'NEAR'
-            ? +formatNearAmount(fromTotoken?.balance)
+        fromToToken?.onChainFTMetadata?.symbol === 'NEAR'
+            ? +formatNearAmount(fromToToken?.balance)
             : +formatTokenAmount(
-                  fromTotoken?.balance,
-                  fromTotoken?.onChainFTMetadata?.decimals,
+                  fromToToken?.balance,
+                  fromToToken?.onChainFTMetadata?.decimals,
                   5
               );
 
     const error = setInputValueFrom && balance < +value;
-    const formatMuliplier = +muliplier / 10000;
-    const handelChange = (e) => {
+    const formatMultiplier = +multiplier / 10000;
+    const handleChange = (e) => {
         const { value } = e.target;
         setInputValueFrom(value.replace(/[^.\d,]/g, ''));
     };
@@ -140,29 +140,29 @@ const SwapTokenContainer = ({
             <div className="symbolFlex">
                 <div className="icon">
                     <TokenIcon
-                        symbol={fromTotoken?.onChainFTMetadata?.symbol}
-                        icon={fromTotoken?.onChainFTMetadata?.icon}
+                        symbol={fromToToken?.onChainFTMetadata?.symbol}
+                        icon={fromToToken?.onChainFTMetadata?.icon}
                     />
                 </div>
                 <div className="desc">
-                    {fromTotoken?.contractName ? (
+                    {fromToToken?.contractName ? (
                         <span
                             className="symbol"
-                            title={fromTotoken?.contractName}
+                            title={fromToToken?.contractName}
                         >
                             <a
-                                href={`${EXPLORER_URL}/accounts/${fromTotoken?.contractName}`}
+                                href={`${EXPLORER_URL}/accounts/${fromToToken?.contractName}`}
                                 onClick={(e) => e.stopPropagation()}
                                 target="_blank"
                                 rel="noopener noreferrer"
                             >
-                                {fromTotoken?.onChainFTMetadata?.name ||
-                                    fromTotoken?.onChainFTMetadata?.symbol}
+                                {fromToToken?.onChainFTMetadata?.name ||
+                                    fromToToken?.onChainFTMetadata?.symbol}
                             </a>
                         </span>
                     ) : (
                         <span className="symbol">
-                            {fromTotoken?.onChainFTMetadata?.symbol}
+                            {fromToToken?.onChainFTMetadata?.symbol}
                         </span>
                     )}
                 </div>
@@ -172,18 +172,18 @@ const SwapTokenContainer = ({
                         type="text"
                         autoFocus
                         value={value}
-                        onChange={handelChange}
+                        onChange={handleChange}
                         className={error ? 'inputError' : ''}
                     />
-                ) : muliplier && fromTotoken ? (
-                    <div className="exchenge">
+                ) : multiplier && fromToToken ? (
+                    <div className="exchange">
                         ≈
                         <>
-                            {exchengeRateTranslation(
-                                fromTotoken,
-                                +value,
-                                formatMuliplier
-                            )?.toFixed(5)}
+                            {exchangeRateTranslation({
+                                token: fromToToken,
+                                balance: + value,
+                                exchangeRate: formatMultiplier
+                            })?.toFixed(5)}
                         </>
                     </div>
                 ) : null}

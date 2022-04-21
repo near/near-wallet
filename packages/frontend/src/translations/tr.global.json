@@ -1326,6 +1326,17 @@
     },
     "stakingPoolUnstaked": "Bu NEAR şu anda bir katılım havuzundadır ancak katılım sağlanmamıştır. Hazırlanan tutar durumunda da olabilir.",
     "success": "Başarılı",
+    "swap": {
+        "AvailableToSwap": "takas edilebilir",
+        "ExpectedPrice": "Beklenen fiyat",
+        "from": "İtibaren",
+        "MinimumReceived": "Minimum alınan",
+        "pairPrice": "Çift fiyatı",
+        "slipPage": "kayma toleransı",
+        "slippageError": "1'den 50'ye",
+        "to": "İle",
+        "TradingFee": "ticaret ücreti"
+    },
     "sync": "Eşitle",
     "tokenBox": {
         "priceUnavailable": "Fiyat Mevcut Değil",
