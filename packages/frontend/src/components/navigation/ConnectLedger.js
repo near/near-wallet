@@ -29,24 +29,20 @@ export default ({
     ledgerConnectionAvailable,
     showConnectLedgerButton
 }) => {
-    return (
-        <>
-            {showConnectLedgerButton &&
-                <>
-                    <div className='divider'/>
-                    <ConnectLedgerButton onClick={connectLedger}>
-                        {ledgerConnectionAvailable
-                            ? <>
-                                <CheckCircleIcon color='#00C08B' />
-                                <Translate id='connectLedger.ledgerConnected'/>
-                            </> : <>
-                                <LedgerSmall />
-                                <Translate id='connectLedger.connectLedger'/>
-                            </>
-                        }
-                    </ConnectLedgerButton>
-                </>
-            }
+    return showConnectLedgerButton
+        ? <>
+            <div className='divider'/>
+            <ConnectLedgerButton onClick={connectLedger}>
+                {ledgerConnectionAvailable
+                    ? <>
+                        <CheckCircleIcon color='#00C08B' />
+                        <Translate id='connectLedger.ledgerConnected'/>
+                    </> : <>
+                        <LedgerSmall />
+                        <Translate id='connectLedger.connectLedger'/>
+                    </>
+                }
+            </ConnectLedgerButton>
         </>
-    );
+        : null;
 };
