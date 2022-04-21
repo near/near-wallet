@@ -1,5 +1,4 @@
 import { listen } from '@ledgerhq/logs';
-import bs58 from 'bs58';
 import { createClient, getSupportedTransport, setDebugLogging } from 'near-ledger-js';
 
 setDebugLogging(true);
@@ -9,7 +8,6 @@ window.Buffer = Buffer; // Exists due to `bs58` import
 
 class LedgerManager {
     constructor() {
-        this.bs58 = bs58;
         this.available = false;
         this.disconnectHandler = (...args) => this.handleDisconnect(...args);
     }
