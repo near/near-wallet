@@ -35,6 +35,7 @@
     "qrcode.react": "^1.0.1",
     "query-string": "^7.0.0",
     "react": "^16.13.1",
+    "react-countdown-circle-timer": "^3.0.9",
     "react-dom": "^16.13.1",
     "react-google-recaptcha": "^2.1.0",
     "react-google-recaptcha-v3-near": "^2.0.0",

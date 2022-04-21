@@ -28,6 +28,35 @@
       "lastEditedAt": "2022-01-31T21:13:09.948Z"
     }
   },
+  "CREATE_USN_CONTRACT": {
+    "createdBy": "OlegYak ",
+    "createdAt": "2022-03-24T13:11:21.223Z",
+    "development": {
+      "enabled": true,
+      "lastEditedBy": "OlegYak ",
+      "lastEditedAt": "2022-03-24T13:11:21.223Z"
+    },
+    "testnet": {
+      "enabled": true,
+      "lastEditedBy": "esaminu",
+      "lastEditedAt": "2022-04-18T08:24:21.375Z"
+    },
+    "mainnet": {
+      "enabled": false,
+      "lastEditedBy": "OlegYak ",
+      "lastEditedAt": "2022-03-24T13:11:21.223Z"
+    },
+    "mainnet_STAGING": {
+      "enabled": false,
+      "lastEditedBy": "OlegYak ",
+      "lastEditedAt": "2022-03-24T13:11:21.223Z"
+    },
+    "testnet_STAGING": {
+      "enabled": true,
+      "lastEditedBy": "esaminu",
+      "lastEditedAt": "2022-04-18T08:13:09.149Z"
+    }
+  },
   "EXAMPLE_FLAG": {
     "createdBy": "Daryl Collins",
     "createdAt": "2021-05-24T09:33:27.489Z",

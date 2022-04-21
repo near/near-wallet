@@ -195,6 +195,7 @@
         "allow": "Allow",
         "approve": "Approve",
         "authorizing": "Authorizing",
+        "backToSwap": "Back to Swap",
         "browseApps": "Browse Apps",
         "buy": "Buy",
         "cancel": "Cancel",
@@ -270,6 +271,8 @@
         "staking": "Staking",
         "startOver": "Start over",
         "subscribe": "Subscribe",
+        "swap": "Swap",
+        "ToMaine": "To the main screen",
         "topUp": "Top Up",
         "transferring": "Transferring",
         "tryAgain": "Try Again",
@@ -584,6 +587,7 @@
         "receive": "Receive",
         "send": "Send",
         "staking": "Staking",
+        "swap": "Swap",
         "switchAccount": "Account",
         "wallet": "Wallet"
     },
@@ -651,11 +655,11 @@
                 "fullAccessWarning": "This site is requesting full access to your account. To enable full access, you’ll be asked to verify your account ID.",
                 "limitedAccess": "limited permissions",
                 "permissions": {
+                    "callMethodsOnContract": "Call methods on the smart contract on behalf of your permitted account",
                     "notTransferTokens": "This does not allow the app to transfer tokens",
                     "transferTokens": "Transfer tokens from your account",
                     "viewAddress": "View the address of your permitted account",
-                    "viewBalance": "View the balance of your permitted account",
-                    "callMethodsOnContract": "Call methods on the smart contract on behalf of your permitted account"
+                    "viewBalance": "View the balance of your permitted account"
                 },
                 "title": "Connecting with:"
             },
@@ -1452,9 +1456,25 @@
     },
     "stakingPoolUnstaked": "This NEAR is currently in a staking pool but unstaked. It could for example be in a pending release state.",
     "success": "Success",
+    "swap": {
+        "AvailableToSwap": "Available to swap",
+        "ExpectedPrice": "Expected price",
+        "from": "From",
+        "MinimumReceived": "Minimum received",
+        "pairPrice": "Pair price",
+        "slipPage": "Slippage tolerance",
+        "slippageError": "from 1 to 50",
+        "success": {
+            "complete": "Transaction complete!",
+            "youSwap": "You've swapped"
+        },
+        "to": "To",
+        "TradingFee": "Trading fee"
+    },
     "sync": "Sync",
     "tokenBox": {
-        "priceUnavailable": "Price Unavailable"
+        "priceUnavailable": "Price Unavailable",
+        "swapTo": "to"
     },
     "topLevelAccounts": {
         "body": "Account names are similar to domain names. Only the ${data} account can create accounts such as yourname.${data}, and only yourname.${data} can create app.yourname.${data}. All accounts created in this wallet use the .${data} Top Level Account (TLA). To learn more about account names and creating your own TLA, visit the <a rel='noopener noreferrer' href='https://docs.nearprotocol.com/docs/concepts/account'>docs</a>.",
@@ -1582,6 +1602,7 @@
             "desc": "You’ll need NEAR tokens to perform transactions with your wallet.",
             "title": "Deposit NEAR"
         },
+        "OthersTokens": "Other tokens",
         "status": "Status",
         "tokenBalance": "Token Balance",
         "tokens": "Tokens",

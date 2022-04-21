@@ -10,7 +10,7 @@ import { connect } from 'react-redux';
 import { Redirect, Switch } from 'react-router-dom';
 import styled, { ThemeProvider } from 'styled-components';
 
-import { CREATE_IMPLICIT_ACCOUNT, IMPORT_ACCOUNT_WITH_LINK_V2 } from '../../../../features';
+import { CREATE_IMPLICIT_ACCOUNT, IMPORT_ACCOUNT_WITH_LINK_V2, CREATE_USN_CONTRACT } from '../../../../features';
 import TwoFactorVerifyModal from '../components/accounts/two_factor/TwoFactorVerifyModal';
 import { IS_MAINNET, PUBLIC_URL, SHOW_PRERELEASE_WARNING, DISABLE_CREATE_ACCOUNT } from '../config';
 import ExampleFlag from '../ExampleFlag';
@@ -82,13 +82,14 @@ import { Profile } from './profile/Profile';
 import { ReceiveContainerWrapper } from './receive-money/ReceiveContainerWrapper';
 import { SendContainerWrapper } from './send/SendContainerWrapper';
 import { StakingContainer } from './staking/StakingContainer';
+import SwapContainerWrapper from './Swap/SwapContainerWrapper';
 import Terms from './terms/Terms';
 
 import '../index.css';
 
-const {
+const {    
     fetchTokenFiatValues,
-    getTokenWhiteList,
+    getTokenWhiteList
 } = tokenFiatValueActions;
 
 const {
@@ -133,6 +134,7 @@ const Container = styled.div`
         }
     }
 `;
+
 class Routing extends Component {
     constructor(props) {
         super(props);
@@ -529,6 +531,12 @@ class Routing extends Component {
                                 path='/buy'
                                 component={BuyNear}
                             />
+                            {CREATE_USN_CONTRACT &&    
+                            <PrivateRoute
+                                exact
+                                path="/swap-money"
+                                component={SwapContainerWrapper}
+                            />}
                             <Route
                                 exact
                                 path='/profile/:accountId'

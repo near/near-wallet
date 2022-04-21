@@ -3,6 +3,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
+import getCurrentLanguage from '../../../../hooks/getCurrentLanguage';
 import BackArrowButton from '../../../common/BackArrowButton';
 import Tokens from '../../../wallet/Tokens';
 
@@ -48,6 +49,7 @@ function filterTokens(tokens, searchSubstring) {
 const SelectToken = ({ onClickGoBack, fungibleTokens, onSelectToken, isMobile }) => {
     const [searchValue, setSearchValue] = useState('');
     const [filteredFungibleTokens, setFilteredFungibleTokens] = useState(() => filterTokens(fungibleTokens));
+    const currentLanguage = getCurrentLanguage();
 
     const throttledSetFilteredTokens = useCallback(throttle(
         (tokens, searchSubstring) => {
@@ -82,7 +84,7 @@ const SelectToken = ({ onClickGoBack, fungibleTokens, onSelectToken, isMobile })
                 <span><Translate id='sendV2.selectAsset.assetListNameTitle'/></span>
                 <span><Translate id='sendV2.selectAsset.asssetListBalanceTitle'/></span>
             </div>
-            <Tokens tokens={filteredFungibleTokens} onClick={onSelectToken}/>
+            <Tokens tokens={filteredFungibleTokens} onClick={onSelectToken} currentLanguage={currentLanguage}/>
         </StyledContainer>
     );
 };

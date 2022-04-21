@@ -3,8 +3,10 @@ import { Translate } from 'react-localize-redux';
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 
+import { CREATE_USN_CONTRACT } from '../../../../../features';
 import { Mixpanel } from '../../mixpanel/index';
 import HelpIcon from '../svg/HelpIcon';
+import SwapIconTwoArrows from '../svg/SwapIconTwoArrows';
 import UserIcon from '../svg/UserIcon';
 import VaultIcon from '../svg/VaultIcon';
 import WalletIcon from '../svg/WalletIcon';
@@ -92,6 +94,23 @@ const NavLinks = () => (
             <HelpIcon/>
             <Translate id='link.help'/>
         </a>
+        {CREATE_USN_CONTRACT && 
+        <NavLink
+            to="/swap-money"
+            activeClassName="selected"
+            onClick={() => Mixpanel.track('Click Swap button on nav')}
+        >
+            <div>
+                <SwapIconTwoArrows
+                    width={'20'}
+                    height="16"
+                    color="#A2A2A8"
+                    margin="10px"
+                />
+            </div>
+
+            <Translate id="button.swap" />
+        </NavLink>}
     </Container>
 );
 
