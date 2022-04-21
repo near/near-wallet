@@ -134,6 +134,7 @@ const Container = styled.div`
         }
     }
 `;
+
 class Routing extends Component {
     constructor(props) {
         super(props);
@@ -200,6 +201,7 @@ class Routing extends Component {
         } = this.props;
 
         fetchTokenFiatValues();
+        this.startPollingTokenFiatValue();
         handleRefreshUrl(router);
         refreshAccount();
 
@@ -230,6 +232,27 @@ class Routing extends Component {
             // this.addTranslationsForActiveLanguage(curLangCode)
             localStorage.setItem('languageCode', curLangCode);
         }
+    }
+
+    componentWillUnmount = () => {
+        this.stopPollingTokenFiatValue();
+    }
+
+    startPollingTokenFiatValue = () => {
+        const { fetchTokenFiatValues } = this.props;
+
+        const handlePollTokenFiatValue = async () => {
+            await fetchTokenFiatValues().catch(() => { });
+            if (this.pollTokenFiatValue) {
+                this.pollTokenFiatValue = setTimeout(() => handlePollTokenFiatValue(), 30000);
+            }
+        };
+        this.pollTokenFiatValue = setTimeout(() => handlePollTokenFiatValue(), 30000);
+    }
+
+    stopPollingTokenFiatValue = () => {
+        clearTimeout(this.pollTokenFiatValue);
+        this.pollTokenFiatValue = null;
     }
 
     render() {
