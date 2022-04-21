@@ -1463,7 +1463,7 @@
         "MinimumReceived": "Minimum received",
         "pairPrice": "Pair price",
         "slipPage": "Slippage tolerance",
-        "slipPageError": "from 1 to 50",
+        "slippageError": "from 1 to 50",
         "success": {
             "complete": "Transaction complete!",
             "youSwap": "You've swapped"

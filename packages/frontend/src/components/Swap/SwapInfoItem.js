@@ -85,7 +85,7 @@ const StyledInfoItem = styled.div`
             }
         }
     }
-    .slipPageError {
+    .slippageError {
         color: #ec6563;
         margin-top: 5px;
     }
@@ -96,7 +96,7 @@ function SwapInfoItem({
     rightText,
     slippageValue,
     setSlippageValue,
-    slipPageError,
+    slippageError,
     isDots =false
 }) {
     return (
@@ -104,9 +104,9 @@ function SwapInfoItem({
             <div className="left_text">
                 <Translate id={leftText} />
             </div>
-            {slipPageError && (
-                <div className="slipPageError">
-                    <Translate id="swap.slipPageError" />
+            {slippageError && (
+                <div className="slippageError">
+                    <Translate id="swap.slippageError" />
                 </div>
             )}
             {setSlippageValue ? (

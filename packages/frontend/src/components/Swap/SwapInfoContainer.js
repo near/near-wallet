@@ -34,7 +34,7 @@ function SwapInfoContainer({
    token,
    setSlippageValue,
    slippageValue,
-   slipPageError,
+   slippageError,
    tradingFee,
    isLoading,
    percent
@@ -49,7 +49,7 @@ function SwapInfoContainer({
         <StyledContainer>
             <SwapInfoItem
                 leftText="swap.slipPage"
-                slipPageError={slipPageError}
+                slippageError={slippageError}
                 slippageValue={slippageValue}
                 setSlippageValue={setSlippageValue}
             />

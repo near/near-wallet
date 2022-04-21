@@ -105,7 +105,7 @@ const SwapPage = ({
                 value={inputValueFrom}
             />
             <SwapInfoContainer
-                slipPageError={slippageError}
+                slippageError={slippageError}
                 slippageValue={slippageValue}
                 setSlippageValue={setSlippageValue}
                 token={from?.onChainFTMetadata?.symbol}

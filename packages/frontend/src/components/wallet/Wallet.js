@@ -270,9 +270,9 @@ export function Wallet({
     handleSetCreateFromImplicitSuccess,
     handleSetCreateCustomName
 }) {
-    const splitedFungibleTokens = useSplitFungibleTokens(fungibleTokensList, 'USN');
+    const splitFungibleTokens = useSplitFungibleTokens(fungibleTokensList, 'USN');
     const currentLanguage = getCurrentLanguage();
-    const totalAmount = getTotalBalanceInFiat(splitedFungibleTokens[0], currentLanguage);
+    const totalAmount = getTotalBalanceInFiat(splitFungibleTokens[0], currentLanguage);
 
     return (
         <StyledContainer className={SHOW_NETWORK_BANNER ? 'showing-banner' : ''}>
@@ -300,7 +300,7 @@ export function Wallet({
                             totalAmount={totalAmount}
                             balance={balance}
                             tokensLoading={tokensLoading}
-                            fungibleTokens={CREATE_USN_CONTRACT ? splitedFungibleTokens : fungibleTokensList}
+                            fungibleTokens={CREATE_USN_CONTRACT ? splitFungibleTokens : fungibleTokensList}
                             accountExists={accountExists}
                         />
                     }
