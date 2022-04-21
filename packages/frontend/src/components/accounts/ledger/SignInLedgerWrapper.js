@@ -1,6 +1,5 @@
 import { parse as parseQuery, stringify } from 'query-string';
-import React, { useState } from 'react';
-import { Translate } from 'react-localize-redux';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { Mixpanel } from '../../../mixpanel/index';
@@ -15,15 +14,12 @@ import { clearLocalAlert } from '../../../redux/actions/status';
 import { selectAccountSlice } from '../../../redux/slices/account';
 import { actions as ledgerActions, LEDGER_MODAL_STATUS, selectLedgerSignInWithLedger, selectLedgerSignInWithLedgerStatus, selectLedgerTxSigned } from '../../../redux/slices/ledger';
 import { selectStatusMainLoader, selectStatusSlice } from '../../../redux/slices/status';
-import { controller as controllerHelperApi } from '../../../utils/helper-api';
 import parseFundingOptions from '../../../utils/parseFundingOptions';
-import AlertBanner from '../../common/AlertBanner';
-import FormButton from '../../common/FormButton';
-import LocalAlertBox from '../../common/LocalAlertBox';
 import Container from '../../common/styled/Container.css';
-import LedgerImage from '../../svg/LedgerImage';
-import LedgerHdPaths from './LedgerHdPaths';
-import LedgerSignInModal from './LedgerSignInModal';
+import Authorize from './SignInLedgerViews/Authorize';
+import EnterAccountId from './SignInLedgerViews/EnterAccountId';
+import ImportAccounts from './SignInLedgerViews/ImportAccounts';
+import SignIn from './SignInLedgerViews/SignIn';
 
 const { 
     signInWithLedger,
@@ -31,7 +27,15 @@ const {
     clearSignInWithLedgerModalState
 } = ledgerActions;
 
-export function SignInLedger(props) {
+export const VIEWS = {
+    AUTHORIZE: 'authorize',
+    SIGN_IN: 'signIn',
+    ENTER_ACCOUNT_ID: 'enterAccountId',
+    IMPORT_ACCOUNTS: 'importAccounts',
+    SUCCESS: 'success'
+};
+
+export function SignInLedgerWrapper(props) {
     const dispatch = useDispatch();
 
     const [accountId, setAccountId] = useState('');
@@ -59,7 +63,9 @@ export function SignInLedger(props) {
     const accountsRejected = signInWithLedgerKeys.reduce((a, accountId) => signInWithLedgerState[accountId].status === 'rejected' ? a + 1 : a, 0);
     const totalAccounts = signInWithLedgerKeys.length;
 
-    const signingIn = !!signInWithLedgerStatus;
+    useEffect(() => {
+        dispatch(clearSignInWithLedgerModalState());
+    }, []);
 
     const handleChange = (value) => {
         setAccountId(value);
@@ -70,7 +76,6 @@ export function SignInLedger(props) {
         await Mixpanel.withTracking('IE-Ledger Sign in',
             async () => {
                 await dispatch(signInWithLedger({ path: ledgerHdPath })).unwrap();
-                refreshAndRedirect();
             }
         );
     };
@@ -106,73 +111,89 @@ export function SignInLedger(props) {
         dispatch(clearAccountState());
     };
 
-    const onClose = () => {
-        Mixpanel.track('IE-Ledger Close ledger confirmation');
+    const handleContinue = () => {
+        dispatch(redirectToApp());
+    };
+
+    const handleCancelSignIn = () => {
+        dispatch(clearSignInWithLedgerModalState());
+    };
+    
+    const handleCancelAuthorize = () => {
+        dispatch(redirectTo('/recover-account'));
+    };
+
+    const activeView = () => {
+        if (!signInWithLedgerStatus) {
+            return VIEWS.AUTHORIZE;
+        }
         if (signInWithLedgerStatus === LEDGER_MODAL_STATUS.CONFIRM_PUBLIC_KEY) {
-            controllerHelperApi.abort();
+            return VIEWS.SIGN_IN;
         }
         if (signInWithLedgerStatus === LEDGER_MODAL_STATUS.ENTER_ACCOUNTID) {
-            dispatch(clearSignInWithLedgerModalState());
+            return VIEWS.ENTER_ACCOUNT_ID;
+        }
+        if (signInWithLedgerStatus === LEDGER_MODAL_STATUS.CONFIRM_ACCOUNTS || signInWithLedgerStatus === LEDGER_MODAL_STATUS.SUCCESS) {
+            return VIEWS.IMPORT_ACCOUNTS;
+        }
+    };
+
+    const getCurrentViewComponent = (view) => {
+        switch (view) {
+            case VIEWS.AUTHORIZE:
+                return (
+                    <Authorize
+                        status={status}
+                        path={path}
+                        setPath={setPath}
+                        setConfirmedPath={setConfirmedPath}
+                        handleSignIn={handleSignIn}
+                        signingIn={!!signInWithLedgerStatus}
+                        handleCancel={handleCancelAuthorize}
+                    />
+                );
+            case VIEWS.SIGN_IN:
+                return (
+                    <SignIn
+                        txSigned={txSigned}
+                        handleCancel={handleCancelSignIn}
+                    />
+                );
+            case VIEWS.ENTER_ACCOUNT_ID:
+                return (
+                    <EnterAccountId
+                        handleAdditionalAccountId={handleAdditionalAccountId}
+                        accountId={accountId}
+                        handleChange={handleChange}
+                        localAlert={status.localAlert}
+                        checkAccountAvailable={(accountId) => dispatch(checkAccountAvailable(accountId))}
+                        mainLoader={mainLoader}
+                        clearLocalAlert={() => dispatch(clearLocalAlert())}
+                        stateAccountId={account.accountId}
+                        loader={loader}
+                        clearSignInWithLedgerModalState={() => dispatch(clearSignInWithLedgerModalState())}
+                    />
+                );
+            case VIEWS.IMPORT_ACCOUNTS:
+                return (
+                    <ImportAccounts
+                        accountsApproved={accountsApproved}
+                        totalAccounts={totalAccounts}
+                        ledgerAccounts={ledgerAccounts}
+                        accountsError={accountsError}
+                        accountsRejected={accountsRejected}
+                        signInWithLedgerStatus={signInWithLedgerStatus}
+                        handleContinue={handleContinue}
+                    />
+                );
+            default:
+                return null;
         }
     };
 
     return (
         <Container className='small-centered border ledger-theme'>
-            <AlertBanner
-                title='signInLedger.firefoxBanner.desc'
-                theme='alert'
-            />
-            <h1><Translate id='signInLedger.header' /></h1>
-            <LedgerImage />
-            <h2><Translate id='signInLedger.one' /></h2>
-            <br />
-            <LocalAlertBox localAlert={status.localAlert} />
-            <LedgerHdPaths
-                path={path}
-                onSetPath={(path) => setPath(path)}
-                onConfirmHdPath={() => {
-                    setConfirmedPath(path);
-                    Mixpanel.track('IE-Ledger Sign in set custom HD path');
-                }}
-            />
-            <FormButton
-                onClick={handleSignIn}
-                sending={signingIn}
-                sendingString='button.signingIn'
-            >
-                <Translate id={`button.${status.localAlert && !status.localAlert.success ? 'retry' : 'signIn'}`} />
-            </FormButton>
-            <FormButton
-                className='link red'
-                onClick={() => props.history.goBack()}
-                trackingId='IE-Ledger Click cancel button'
-            >
-                <Translate id='button.cancel' />
-            </FormButton>
-
-            {signingIn &&
-                <LedgerSignInModal
-                    open={signingIn}
-                    onClose={onClose}
-                    ledgerAccounts={ledgerAccounts}
-                    accountsApproved={accountsApproved}
-                    accountsError={accountsError}
-                    accountsRejected={accountsRejected}
-                    totalAccounts={totalAccounts}
-                    txSigned={txSigned}
-                    handleAdditionalAccountId={handleAdditionalAccountId}
-                    signInWithLedgerStatus={signInWithLedgerStatus}
-                    accountId={accountId}
-                    handleChange={handleChange}
-                    localAlert={status.localAlert}
-                    checkAccountAvailable={(accountId) => dispatch(checkAccountAvailable(accountId))}
-                    mainLoader={mainLoader}
-                    clearLocalAlert={() => dispatch(clearLocalAlert())}
-                    stateAccountId={account.accountId}
-                    loader={loader}
-                    clearSignInWithLedgerModalState={() => dispatch(clearSignInWithLedgerModalState())}
-                />
-            }
+            {getCurrentViewComponent(activeView())}
         </Container>
     );
 }

@@ -44,7 +44,7 @@ import {
     WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS,
     WALLET_LOGIN_URL,
     WALLET_SIGN_URL,
-    WALLET_SEND_MONEY_URL,
+    WALLET_SEND_MONEY_URL
 } from '../utils/wallet';
 import AccessKeysWrapper from './access-keys/v2/AccessKeysWrapper';
 import { AutoImportWrapper } from './accounts/auto_import/AutoImportWrapper';
@@ -54,9 +54,10 @@ import { CreateAccountLanding } from './accounts/create/landing/CreateAccountLan
 import { VerifyAccountWrapper } from './accounts/create/verify_account/VerifyAccountWrapper';
 import { CreateAccountWithRouter } from './accounts/CreateAccount';
 import LedgerConfirmActionModal from './accounts/ledger/LedgerConfirmActionModal';
+import LedgerConnectModal from './accounts/ledger/LedgerConnectModal/LedgerConnectModalWrapper';
 import { SetupLedgerWithRouter } from './accounts/ledger/SetupLedger';
 import { SetupLedgerSuccessWithRouter } from './accounts/ledger/SetupLedgerSuccess';
-import { SignInLedger } from './accounts/ledger/SignInLedger';
+import { SignInLedgerWrapper } from './accounts/ledger/SignInLedgerWrapper';
 import { LinkdropLandingWithRouter } from './accounts/LinkdropLanding';
 import { RecoverAccountSeedPhraseWithRouter } from './accounts/RecoverAccountSeedPhrase';
 import { RecoverAccountWrapper } from './accounts/RecoverAccountWrapper';
@@ -279,7 +280,6 @@ class Routing extends Component {
 
         const accountFound = this.props.account.localStorage?.accountFound;
 
-
         reportUiActiveMixpanelThrottled();
 
         return (
@@ -301,6 +301,7 @@ class Routing extends Component {
                         <NavigationWrapper />
                         <GlobalAlert />
                         <LedgerConfirmActionModal />
+                        <LedgerConnectModal />
                         {
                             account.requestPending !== null &&
                             <TwoFactorVerifyModal
@@ -495,7 +496,7 @@ class Routing extends Component {
                             <Route
                                 exact
                                 path='/sign-in-ledger'
-                                component={SignInLedger}
+                                component={SignInLedgerWrapper}
                             />
                             <PrivateRoute
                                 path='/login'

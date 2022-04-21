@@ -7,7 +7,6 @@ import Modal from '../../common/modal/Modal';
 import LedgerImage from '../../svg/LedgerImage';
 import ModalTheme from './ModalTheme';
 
-
 const LedgerConfirmActionModal = () => {
     const txSigned = useSelector(selectLedgerTxSigned);
     const modal = useSelector(selectLedgerModal);

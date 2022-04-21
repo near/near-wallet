@@ -29,7 +29,7 @@
     "lodash.update": "^4.10.2",
     "mixpanel-browser": "^2.41.0",
     "near-api-js": "^0.43.1",
-    "near-ledger-js": "^0.1.2",
+    "near-ledger-js": "^0.2.1",
     "near-seed-phrase": "^0.2.0",
     "prop-types": "^15.7.2",
     "qrcode.react": "^1.0.1",

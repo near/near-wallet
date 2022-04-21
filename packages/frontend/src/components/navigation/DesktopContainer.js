@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 import languagesIcon from '../../images/icon-languages.svg';
 import LanguageToggle from '../common/LangSwitcher';
+import ConnectLedger from './ConnectLedger';
 import DesktopMenu from './DesktopMenu';
 import Logo from './Logo';
 import NavLinks from './NavLinks';
@@ -97,7 +98,10 @@ class DesktopContainer extends Component {
             showNavLinks,
             flowLimitationMainMenu,
             flowLimitationSubMenu,
-            refreshBalance
+            refreshBalance,
+            connectLedger,
+            ledgerConnectionAvailable,
+            showConnectLedgerButton
         } = this.props;
 
         const showAllNavigationLinks = showNavLinks && !flowLimitationMainMenu;
@@ -111,6 +115,11 @@ class DesktopContainer extends Component {
                 <Lang>
                     <LanguageToggle />
                 </Lang>
+                <ConnectLedger
+                    connectLedger={connectLedger}
+                    ledgerConnectionAvailable={ledgerConnectionAvailable}
+                    showConnectLedgerButton={showConnectLedgerButton}
+                />
                 {showNavLinks &&
                     <>
                         <div className='divider'/>

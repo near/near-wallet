@@ -38,3 +38,11 @@ export const setWalletAccounts = (walletAccountsKey, walletAccounts) => {
 export const removeActiveAccount = (activeAccountKey) => {
     localStorage.removeItem(activeAccountKey);
 };
+
+export const getLedgerHDPath = (accountId) => {
+    return localStorage.getItem(`ledgerHdPath:${accountId}`);
+};
+
+export const removeLedgerHDPath = (accountId) => {
+    localStorage.removeItem(`ledgerHdPath:${accountId}`);
+};

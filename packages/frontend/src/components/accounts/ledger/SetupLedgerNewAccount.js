@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Translate } from 'react-localize-redux';
 
 import { Mixpanel } from '../../../mixpanel/index';
-import AlertBanner from '../../common/AlertBanner';
 import FormButton from '../../common/FormButton';
 import Container from '../../common/styled/Container.css';
 import LedgerIcon from '../../svg/LedgerIcon';
@@ -14,10 +13,6 @@ export default ({
     const [showInstructions, setShowInstructions] = useState(false);
     return (
         <Container className='small-centered border ledger-theme'>
-            <AlertBanner
-                title='signInLedger.firefoxBanner.desc'
-                theme='alert'
-            />
             <h1><Translate id='setupLedger.header' /></h1>
             <LedgerIcon />
             <h2>
