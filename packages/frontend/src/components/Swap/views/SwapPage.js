@@ -127,7 +127,7 @@ const SwapPage = ({
                     onClick={() => onHandleSwapTokens(accountId, multiplier, slippageValue, +inputValueFrom, from?.onChainFTMetadata?.symbol, usnAmount)}
                     sending={isLoading}
                 >
-                    <Translate id="button.continue"/>
+                    <Translate id="button.swap"/>
                 </FormButton>
                 <FormButton
                     type="button"
