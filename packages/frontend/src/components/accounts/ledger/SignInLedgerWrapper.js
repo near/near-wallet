@@ -111,6 +111,10 @@ export function SignInLedgerWrapper(props) {
         dispatch(redirectToApp());
     };
 
+    const handleCancel = () => {
+        dispatch(clearSignInWithLedgerModalState());
+    };
+
     const activeView = () => {
         if (!signInWithLedgerStatus) {
             return VIEWS.AUTHORIZE;
@@ -142,11 +146,8 @@ export function SignInLedgerWrapper(props) {
             case VIEWS.SIGN_IN:
                 return (
                     <SignIn
-                        accountsApproved={accountsApproved}
-                        accountsError={accountsError}
-                        accountsRejected={accountsRejected}
-                        totalAccounts={totalAccounts}
                         txSigned={txSigned}
+                        handleCancel={handleCancel}
                     />
                 );
             case VIEWS.ENTER_ACCOUNT_ID:

@@ -248,6 +248,7 @@
         "next": "Next",
         "protectAccount": "Protect Account",
         "receive": "Receive",
+        "reconnect": "Reconnect",
         "recoverAccount": "Recover Account",
         "recovering": "Finding Account",
         "recoverYourAccount": "Recover your Account",
@@ -314,6 +315,20 @@
     "connectLedger": {
         "connectLedger": "Connect Ledger",
         "ledgerConnected": "Ledger Connected",
+        "modal": {
+            "connect": {
+                "header": "Connect to your Ledger device.",
+                "one": "Make sure your Ledger is connected securely, and that the NEAR app is open on your device."
+            },
+            "disconnected": {
+                "header": "Your device was disconnected.",
+                "one": "Make sure your Ledger is connected securely, and that the NEAR app is open on your device."
+            },
+            "error": {
+                "header": "Connection unsuccessful.",
+                "one": "Make sure your ledger is connected securely, and that the NEAR app is open on your device."
+            }
+        },
         "youMayNow": "You may now perform operations using your device."
     },
     "copy": {
@@ -1606,7 +1621,7 @@
             "errorRpc": "Error appears while recovering the account."
         },
         "connectLedger": {
-            "noClient": "Ledger is not connected yet. Please connect ledger using the button in main menu."
+            "noClient": "Ledger is not connected yet. Please connect ledger first."
         },
         "createNewAccount": {
             "accountCreated": {

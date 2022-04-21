@@ -14,6 +14,7 @@ const Container = styled.div`
 
     .ledger-dropdown-content {
         padding: 20px 15px;
+        text-align: left;
 
         .title {
             font-weight: 600;

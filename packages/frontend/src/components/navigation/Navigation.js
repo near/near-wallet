@@ -7,7 +7,7 @@ import { actions as ledgerActions, selectLedgerConnectionAvailable, selectLedger
 import DesktopContainer from './DesktopContainer';
 import MobileContainer from './MobileContainer';
 
-const { handleConnectLedger } = ledgerActions;
+const { handleShowConnectModal } = ledgerActions;
 
 const Container = styled.div`
     &&& {
@@ -94,7 +94,7 @@ export default ({
         setMenuOpen(false);
     }, []);
 
-    const connectLedger =  () => dispatch(handleConnectLedger()).unwrap();
+    const connectLedger =  () => dispatch(handleShowConnectModal());
 
     const showConnectLedgerButton = hasLedger || ['sign-in-ledger', 'setup-ledger'].includes(pathname.split('/')[1]);
 

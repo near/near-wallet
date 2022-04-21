@@ -81,7 +81,8 @@ export const TRANSACTIONS_REFRESH_INTERVAL = 10000;
 
 const { 
     setLedgerTxSigned,
-    showLedgerModal
+    showLedgerModal,
+    handleShowConnectModal
 } = ledgerActions;
 
 export const convertPKForContract = (pk) => {
@@ -122,6 +123,7 @@ class Wallet {
 
                     const { client } = ledgerManager;
                     if (!client) {
+                        store.dispatch(handleShowConnectModal());
                         throw new WalletError('The Ledger client is unavailable.', 'connectLedger.noClient');
                     }
                     const signature = await client.sign(message, path);
@@ -634,6 +636,7 @@ class Wallet {
     async getLedgerPublicKey(path) {
         const { client } = ledgerManager;
         if (!client) {
+            store.dispatch(handleShowConnectModal());
             throw new WalletError('The Ledger client is unavailable.', 'connectLedger.noClient');
         }
         this.dispatchShowLedgerModal(true);
