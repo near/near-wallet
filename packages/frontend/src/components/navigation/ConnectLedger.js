@@ -1,9 +1,14 @@
+import { getLocation } from 'connected-react-router';
 import React from 'react';
 import { Translate } from 'react-localize-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 
+import { actions as ledgerActions, selectLedgerConnectionAvailable, selectLedgerHasLedger } from '../../redux/slices/ledger';
 import CheckCircleIcon from '../svg/CheckCircleIcon';
 import LedgerSmall from '../svg/LedgerSmall';
+
+const { handleShowConnectModal } = ledgerActions;
 
 const ConnectLedgerButton = styled.div`
     background: #F0F0F1;
@@ -24,11 +29,17 @@ const ConnectLedgerButton = styled.div`
     }
 `;
 
-export default ({
-    connectLedger,
-    ledgerConnectionAvailable,
-    showConnectLedgerButton
-}) => {
+export default () => {
+    const dispatch = useDispatch();
+
+    const { pathname } = useSelector(getLocation);
+    const ledgerConnectionAvailable = useSelector(selectLedgerConnectionAvailable);
+    const hasLedger = useSelector(selectLedgerHasLedger);
+
+    const connectLedger =  () => dispatch(handleShowConnectModal());
+    
+    const showConnectLedgerButton = hasLedger || ['sign-in-ledger', 'setup-ledger'].includes(pathname.split('/')[1]);
+
     return showConnectLedgerButton
         ? <>
             <div className='divider'/>
