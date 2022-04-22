@@ -172,6 +172,8 @@
         "publicKey": "Публічний ключ"
     },
     "availableBalanceInfo": "Ваш баланс для витрат в Near, за винятком застейканих або розміщених коштів. <a href='/profile'>Перегляд балансу для витрат →</a>",
+    "donationInfo": "Пожертвування надійдуть до Міністерства цифрової трансформації України.<br/> Webiste: <a href='https://donate.thedigital.gov.ua/' target='_blank'>donate.thedigital.gov.ua →</a>",
+    "receiverInfo": "Адреса одержувача",
     "availableBalanceProfile": "Це ваш баланс для витрат в NEAR, кошти на ньому можуть бути негайно витрачені або використані для переказу.",
     "back": "Назад",
     "balance": {
@@ -1560,6 +1562,7 @@
             "desc": "Вам знадобляться токени NEAR для здійснення транзакцій з вашим гаманцем.",
             "title": "Депозит NEAR"
         },
+        "donationInfoText": "Інформація про пожертвування",
         "status": "Статус",
         "tokenBalance": "Баланс токенів",
         "tokens": "Токени",

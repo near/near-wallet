@@ -4,6 +4,8 @@ import styled from 'styled-components';
 
 import Balance from '../../../common/balance/Balance';
 import FormButton from '../../../common/FormButton';
+import ReceiverInfo from '../../../DonateToUkraine/ReceiverInfo';
+import TooltipDonateInfo from '../../../DonateToUkraine/TooltipDonateInfo';
 import AmountInput from '../AmountInput';
 import BalanceDetails from '../BalanceDetails';
 import SelectTokenButton from '../SelectTokenButton';
@@ -23,6 +25,10 @@ const StyledContainer = styled.form`
             height: 74px;
             display: flex;
             align-items: center;
+        }
+
+        .donate_title {
+            text-align: center;
         }
 
         .usd-amount {
@@ -49,7 +55,9 @@ const EnterAmount = ({
     selectedToken,
     onClickSelectToken,
     error,
-    isMobile
+    isMobile,
+    donateToUkraine = false,
+    sendingToken = false
 }) => {
 
     return (
@@ -58,7 +66,15 @@ const EnterAmount = ({
             onSubmit={(e) => {onContinue(e); e.preventDefault();}}
             novalidate
         >
-            <TabSelector/>
+            {donateToUkraine 
+                ?   <>
+                    <h1 className='donate_title'>
+                       <Translate id='link.donateToUkraine'/>
+                    </h1>
+                    <TooltipDonateInfo/>
+                    </>
+                : <TabSelector/> 
+            }
             <div className='amount-input-wrapper'>
                 <AmountInput
                     value={amount}
@@ -88,14 +104,16 @@ const EnterAmount = ({
                 availableToSend={availableToSend}
                 selectedToken={selectedToken}
             />
+            {donateToUkraine && <ReceiverInfo/>}
             <div className='buttons-bottom-buttons'>
                 {/* TODO: Add error state */}
                 <FormButton
                     type='submit'
-                    disabled={!continueAllowed}
+                    disabled={!continueAllowed || sendingToken === true}
+                    sending={donateToUkraine && sendingToken === true}
                     data-test-id="sendMoneyPageSubmitAmountButton"
                 >
-                    <Translate id='button.continue'/>
+                   {!sendingToken && !donateToUkraine ? <Translate id='button.continue'/> : <Translate id={`button.${sendingToken === 'failed' ? 'retry' : 'donate'}`}/>}  
                 </FormButton>
                 <FormButton
                     type='button'

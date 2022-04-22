@@ -177,7 +177,9 @@
         "publicKey": "Public Key"
     },
     "availableBalanceInfo": "Your spendable NEAR balance excluding funds locked or staked. <a href='/profile'>View Balance Breakdown →</a>",
+    "donationInfo": "The donation will go to the Ministry of Digital Transformation of Ukraine. Webiste: <a href='https://donate.thedigital.gov.ua/' target='_blank'>donate.thedigital.gov.ua →</a>",
     "availableBalanceProfile": "This is your spendable NEAR balance, and can be used or transferred immediately.",
+    "receiverInfo": "Receiver address",
     "back": "Back",
     "balance": {
         "balance": "Total Balance",
@@ -229,6 +231,7 @@
         "disable": "Disable",
         "disabling": "Disabling",
         "dismiss": "Dismiss",
+        "donate": "Donate",
         "edit": "Edit",
         "enable": "Enable",
         "enabling": "Enabling",
@@ -583,6 +586,7 @@
     "link": {
         "account": "Account",
         "authorizedApps": "Authorized Apps",
+        "donateToUkraine": "Donate to Ukraine",
         "fullAccessKeys": "Full Access Keys",
         "help": "Help",
         "noAccount": "You have no other accounts",
@@ -1075,7 +1079,8 @@
         },
         "selectTokenButtonTitle": "Select Asset",
         "success": {
-            "title": "Transaction complete!</br>You sent <span class='color-blue'>${amount}</span></br>to <span class='color-green'>${receiverId}</span>"
+            "title": "Transaction complete!</br>You sent <span class='color-blue'>${amount}</span></br>to <span class='color-green'>${receiverId}</span>",
+            "titleDonate": "Transaction complete!</br>You donate <span class='color-blue'>${amount}</span></br>to <span class='color-green'>${receiverId}</span>"
         },
         "translateIdInfoTooltip": {
             "estimatedFees": "The estimated cost of processing your transaction.",
@@ -1620,14 +1625,14 @@
             "desc": "You’ll need NEAR tokens to perform transactions with your wallet.",
             "title": "Deposit NEAR"
         },
+        "donationInfoText": "Donation information",
         "OthersTokens": "Other tokens",
         "status": "Status",
         "tokenBalance": "Token Balance",
         "tokens": "Tokens",
         "totalBalance": "Total Balance",
         "totalBalanceTitle": "Total Balance",
-        "yourPortfolio": "Your Portfolio",
-        "OthersTokens": "Other tokens"
+        "yourPortfolio": "Your Portfolio"
     },
     "walletErrorCodes": {
         "addAccessKey": {
