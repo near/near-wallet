@@ -1,5 +1,5 @@
 import assert from 'assert';
-
+import getUserCountry from 'js-user-country'
 import { parseNearAmount } from 'near-api-js/lib/utils/format';
 
 import Environments from '../../../../features/environments.json';
@@ -82,5 +82,6 @@ module.exports = {
     FARMING_CLAIM_GAS: process.env.FARMING_CLAIM_GAS || parseNearAmount('0.00000000015'),
     FARMING_CLAIM_YOCTO: process.env.FARMING_CLAIM_YOCTO || '1',
     REF_FINANCE_API_ENDPOINT: process.env.REF_FINANCE_API_ENDPOINT,
-    REF_FINANCE_CONTRACT: process.env.REF_FINANCE_CONTRACT
+    REF_FINANCE_CONTRACT: process.env.REF_FINANCE_CONTRACT,
+    BLOCKED_COUNTRIES: ['US'].includes(getUserCountry().id)
 };

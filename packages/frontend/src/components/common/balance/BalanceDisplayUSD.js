@@ -19,7 +19,7 @@ const BalanceDisplayUSD = ({
     const USDSymbol = 'USD';
     const roundedBalanceInUSDIsBelowThreshold = roundedBalanceInUSD === '< $0.01';
 
-    if (roundedBalanceInUSD) {
+    if (roundedBalanceInUSD || totalAmount) {
         return (
             <>
                 {!roundedBalanceInUSDIsBelowThreshold &&
