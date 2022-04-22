@@ -12,7 +12,7 @@ import styled, { ThemeProvider } from 'styled-components';
 
 import { CREATE_IMPLICIT_ACCOUNT, IMPORT_ACCOUNT_WITH_LINK_V2, CREATE_USN_CONTRACT, DONATE_TO_UKRAINE } from '../../../../features';
 import TwoFactorVerifyModal from '../components/accounts/two_factor/TwoFactorVerifyModal';
-import { IS_MAINNET, PUBLIC_URL, SHOW_PRERELEASE_WARNING, DISABLE_CREATE_ACCOUNT } from '../config';
+import { IS_MAINNET, PUBLIC_URL, SHOW_PRERELEASE_WARNING, DISABLE_CREATE_ACCOUNT, BLOCKED_COUNTRIES } from '../config';
 import ExampleFlag from '../ExampleFlag';
 import { Mixpanel } from '../mixpanel/index';
 import * as accountActions from '../redux/actions/account';
