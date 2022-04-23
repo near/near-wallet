@@ -2,15 +2,23 @@ import { formatNearAmount } from '../components/common/balance/helpers';
 
 const parseAndFormatArguments = (encodedArgs) => {
     const argsBuffer = Buffer.from(encodedArgs, 'base64');
-    const args = JSON.parse(argsBuffer.toString('utf-8'));
+    // In most of the cases, the args can be parsed as JSON, but it doesn't work well for some contracts
+    // such as Aurora, which is serialized with Borsh. It's not possible to parse the Borsh without
+    // knowing the schema of the serialized data, so fallback to encoded base64 if the args is not JSON.
+    try {
+        const args = JSON.parse(argsBuffer.toString('utf-8'));
 
-    const parsedArgs = {
-        ...args,
-        ...(args.amount && { amount: formatNearAmount(args.amount) }),
-        ...(args.deposit && { deposit: formatNearAmount(args.deposit )}),
-    };
+        const parsedArgs = {
+            ...args,
+            ...(args.amount && { amount: formatNearAmount(args.amount) }),
+            ...(args.deposit && { deposit: formatNearAmount(args.deposit )}),
+        };
 
-    return JSON.stringify(parsedArgs, null, 2);
+        return JSON.stringify(parsedArgs, null, 2);
+    } catch (e) {
+        console.log('Cannot parse function call args as JSON. Display raw base64 string.', encodedArgs);
+        return encodedArgs;
+    }
 };
 
 export default function getTranslationsFromMultisigRequest({ actions, receiver_id, account_id }) {
