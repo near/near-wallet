@@ -74,22 +74,23 @@ import NetworkBanner from './common/NetworkBanner';
 import PrivateRoute from './common/routing/PrivateRoute';
 import PublicRoute from './common/routing/PublicRoute';
 import Route from './common/routing/Route';
+import { CookiePolicy } from './cookie-policy/CookiePolicy';
 import GlobalStyle from './GlobalStyle';
 import { LoginCliLoginSuccess } from './login/LoginCliLoginSuccess';
 import NavigationWrapper from './navigation/NavigationWrapper';
 import { NFTDetailWrapper } from './nft/NFTDetailWrapper';
 import { PageNotFound } from './page-not-found/PageNotFound';
+import Privacy from './privacy/Privacy';
 import { Profile } from './profile/Profile';
 import { ReceiveContainerWrapper } from './receive-money/ReceiveContainerWrapper';
 import { SendContainerWrapper } from './send/SendContainerWrapper';
 import { StakingContainer } from './staking/StakingContainer';
 import SwapContainerWrapper from './Swap/SwapContainerWrapper';
 import Terms from './terms/Terms';
-import Privacy from './privacy/Privacy';
 
 import '../index.css';
 
-const {    
+const {
     fetchTokenFiatValues,
     getTokenWhiteList
 } = tokenFiatValueActions;
@@ -303,6 +304,7 @@ class Routing extends Component {
                         <GlobalAlert />
                         <LedgerConfirmActionModal />
                         <LedgerConnectModal />
+                        <CookiePolicy />
                         {
                             account.requestPending !== null &&
                             <TwoFactorVerifyModal
@@ -533,12 +535,12 @@ class Routing extends Component {
                                 path='/buy'
                                 component={BuyNear}
                             />
-                            {CREATE_USN_CONTRACT &&    
-                            <PrivateRoute
-                                exact
-                                path="/swap-money"
-                                component={SwapContainerWrapper}
-                            />}
+                            {CREATE_USN_CONTRACT &&
+                                <PrivateRoute
+                                    exact
+                                    path="/swap-money"
+                                    component={SwapContainerWrapper}
+                                />}
                             <Route
                                 exact
                                 path='/profile/:accountId'

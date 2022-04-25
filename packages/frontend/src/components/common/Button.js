@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import styled from 'styled-components';
 
-const StyledButton = styled.button`
+export const StyledButton = styled.button`
     border-radius: 40px;
     padding: 5px 32px;
     outline: none;
@@ -49,15 +49,15 @@ const Button = (props) => (
 );
 
 Button.propTypes = {
-  disabled: PropTypes.bool,
-  theme: PropTypes.oneOf(['primary', 'secondary']),
-  fullWidth: PropTypes.bool,
+    disabled: PropTypes.bool,
+    theme: PropTypes.oneOf(['primary', 'secondary']),
+    fullWidth: PropTypes.bool,
 };
 
 Button.defaultProps = {
-  disabled: false,
-  theme: 'primary',
-  fullWidth: true,
+    disabled: false,
+    theme: 'primary',
+    fullWidth: true,
 };
 
 export default Button;
