@@ -7,8 +7,8 @@ import { CREATE_IMPLICIT_ACCOUNT,CREATE_USN_CONTRACT } from '../../../../../feat
 import getCurrentLanguage from '../../hooks/getCurrentLanguage';
 import { useSplitFungibleTokens } from '../../hooks/splitFungibleTokens';
 import classNames from '../../utils/classNames';
+import Balance from './Balance';
 import { SHOW_NETWORK_BANNER } from '../../utils/wallet';
-import Balance from '../common/balance/Balance';
 import { getTotalBalanceInFiat } from '../common/balance/helpers';
 import FormButton from '../common/FormButton';
 import Container from '../common/styled/Container.css';
@@ -350,9 +350,8 @@ const FungibleTokens = ({ balance, tokensLoading, fungibleTokens, accountExists,
             <div className='total-balance'>
                 <Textfit mode='single' max={48}>
                     <Balance
-                        totalAmount={CREATE_USN_CONTRACT && totalAmount}
                         showBalanceInNEAR={false}
-                        amount={balance?.balanceAvailable}
+                        tokens={fungibleTokens}
                         showAlmostEqualSignUSD={false}
                         showSymbolUSD={false}
                         showSignUSD={true}
