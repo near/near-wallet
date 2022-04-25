@@ -295,7 +295,7 @@ class Wallet {
         }
 
         const { data: recoveryMethods } = await this.getRecoveryMethods();
-        const methodsToRemove = recoveryMethods.filter((method) => method.kind !== 'ledger');
+        const methodsToRemove = (recoveryMethods || []).filter((method) => method.kind !== 'ledger');
         for (const recoveryMethod of methodsToRemove) {
             await this.deleteRecoveryMethod(recoveryMethod);
         }
