@@ -194,7 +194,9 @@
         "addNode": "Add Node",
         "allow": "Allow",
         "approve": "Approve",
+        "authorize": "Authorize",
         "authorizing": "Authorizing",
+        "backToSwap": "Back to Swap",
         "browseApps": "Browse Apps",
         "buy": "Buy",
         "cancel": "Cancel",
@@ -247,6 +249,7 @@
         "next": "Next",
         "protectAccount": "Protect Account",
         "receive": "Receive",
+        "reconnect": "Reconnect",
         "recoverAccount": "Recover Account",
         "recovering": "Finding Account",
         "recoverYourAccount": "Recover your Account",
@@ -270,6 +273,8 @@
         "staking": "Staking",
         "startOver": "Start over",
         "subscribe": "Subscribe",
+        "swap": "Swap",
+        "ToMaine": "To the main screen",
         "topUp": "Top Up",
         "transferring": "Transferring",
         "tryAgain": "Try Again",
@@ -302,11 +307,33 @@
     "confirmLedgerModal": {
         "header": {
             "confirm": "Please confirm the operation on your device...",
-            "processing": "Processing"
+            "processing": "Processing",
+            "success": "accounts have been successfully imported from your Ledger device.",
+            "weFound": "We found ${totalAccounts} accounts secured by your device."
         },
-        "one": "You will need to confirm your sign-in details on your Ledger."
+        "one": "You will need to confirm your sign-in details on your Ledger.",
+        "two": "Follow the instructions on your device to confirm and grant access to each account you'd like to import."
     },
     "connecting": "Connecting",
+    "connectLedger": {
+        "connectLedger": "Connect Ledger",
+        "ledgerConnected": "Ledger Connected",
+        "modal": {
+            "connect": {
+                "header": "Connect to your Ledger device.",
+                "one": "Make sure your Ledger is connected securely, and that the NEAR app is open on your device."
+            },
+            "disconnected": {
+                "header": "Your device was disconnected.",
+                "one": "Make sure your Ledger is connected securely, and that the NEAR app is open on your device."
+            },
+            "error": {
+                "header": "Connection unsuccessful.",
+                "one": "Make sure your ledger is connected securely, and that the NEAR app is open on your device."
+            }
+        },
+        "youMayNow": "You may now perform operations using your device."
+    },
     "copy": {
         "default": "Copied!",
         "title": "Copy"
@@ -378,7 +405,8 @@
         }
     },
     "dashboard": {
-        "activity": "Recent activity"
+        "activity": "Recent activity",
+        "noActivity": "No activity has been recorded for this account."
     },
     "dashboardActivity": {
         "message": {
@@ -433,6 +461,7 @@
     "error": "Error",
     "errors": {
         "ledger": {
+            "disconnected": "Ledger was disconnected.",
             "U2F_4": "Failed to sign with Ledger device: U2F DEVICE_INELIGIBLE. Please make sure that your Ledger device is connected and unlocked.",
             "U2FNotSupported": "U2F browser support is needed for Ledger. Please use Chrome, Opera or Firefox with a U2F extension. Also make sure you're on an HTTPS connection."
         },
@@ -460,7 +489,7 @@
     },
     "footer": {
         "contactSupport": "Join Community",
-        "copyrights": "NEAR Inc. All Rights Reserved.",
+        "copyrights": "Roketo Labs LTD. All Rights Reserved.",
         "desc": "NEAR is a scalable computing and storage platform that changes how the web works for the better.",
         "learnMore": "Learn More",
         "needHelp": "Questions?",
@@ -583,6 +612,7 @@
         "receive": "Receive",
         "send": "Send",
         "staking": "Staking",
+        "swap": "Swap",
         "switchAccount": "Account",
         "wallet": "Wallet"
     },
@@ -597,7 +627,7 @@
             "title": "Your NEAR drop has been claimed"
         },
         "or": "or",
-        "title": "You’ve received a NEAR drop!"
+        "title": "You've received a NEAR drop!"
     },
     "loading": "Loading...",
     "loadingNoDots": "Loading",
@@ -650,11 +680,11 @@
                 "fullAccessWarning": "This site is requesting full access to your account. To enable full access, you’ll be asked to verify your account ID.",
                 "limitedAccess": "limited permissions",
                 "permissions": {
+                    "callMethodsOnContract": "Call methods on the smart contract on behalf of your permitted account",
                     "notTransferTokens": "This does not allow the app to transfer tokens",
                     "transferTokens": "Transfer tokens from your account",
                     "viewAddress": "View the address of your permitted account",
-                    "viewBalance": "View the balance of your permitted account",
-                    "callMethodsOnContract": "Call methods on the smart contract on behalf of your permitted account"
+                    "viewBalance": "View the balance of your permitted account"
                 },
                 "title": "Connecting with:"
             },
@@ -763,6 +793,9 @@
             "unstaked": "Unstaked",
             "walletBalance": "Wallet balance",
             "walletId": "Wallet ID"
+        },
+        "accountDoesNotExistBanner": {
+            "desc": "No activity has been recorded for <a href='https://explorer.near.org/accounts/${data}' rel='noopener noreferrer' target='_blank'><b>this account</b></a>. Send NEAR to your account to begin using all features of the NEAR Wallet."
         },
         "authorizedApps": {
             "title": "Authorized Apps"
@@ -1264,13 +1297,13 @@
         "firefoxBanner": {
             "desc": "Ledger is currently only supported in <a href='https://www.mozilla.org/' rel='noopener noreferrer' target='_blank'><b>Mozilla Firefox</b></a>. Support for other browsers will soon be restored."
         },
-        "header": "Sign in with your Ledger device",
+        "header": "Authorize NEAR Wallet to import your accounts.",
         "modal": {
             "accountsApproved": "account(s) approved",
             "confirmPublicKey": "Confirm public key",
             "ledgerMustAdd": "Ledger must add an access key for each account protected by your device:",
             "status": {
-                "confirm": "Confirm",
+                "confirm": "Confirm on Device",
                 "error": "Error",
                 "pending": "Pending",
                 "rejected": "Rejected",
@@ -1278,7 +1311,7 @@
                 "waiting": "Up next"
             }
         },
-        "one": "Make sure your ledger is connected securely, and that the NEAR app is open on the device."
+        "one": "Before importing your accounts, you’ll need to grant NEAR Wallet permission to access them."
     },
     "stagingBanner": {
         "desc": "Warning: This is a pre-release version of the NEAR Wallet. There may be bugs, and these bugs may lead to loss of funds. By continuing to use this version, you agree that you understand and accept these risks, and understand that the NEAR Wallet team will be unable to help you.",
@@ -1448,9 +1481,25 @@
     },
     "stakingPoolUnstaked": "This NEAR is currently in a staking pool but unstaked. It could for example be in a pending release state.",
     "success": "Success",
+    "swap": {
+        "AvailableToSwap": "Available to swap",
+        "ExpectedPrice": "Expected price",
+        "from": "From",
+        "MinimumReceived": "Minimum received",
+        "pairPrice": "Pair price",
+        "slipPage": "Slippage tolerance",
+        "slippageError": "from 1 to 50",
+        "success": {
+            "complete": "Transaction complete!",
+            "youSwap": "You've swapped"
+        },
+        "to": "To",
+        "TradingFee": "Trading fee"
+    },
     "sync": "Sync",
     "tokenBox": {
-        "priceUnavailable": "Price Unavailable"
+        "priceUnavailable": "Price Unavailable",
+        "swapTo": "to"
     },
     "topLevelAccounts": {
         "body": "Account names are similar to domain names. Only the ${data} account can create accounts such as yourname.${data}, and only yourname.${data} can create app.yourname.${data}. All accounts created in this wallet use the .${data} Top Level Account (TLA). To learn more about account names and creating your own TLA, visit the <a rel='noopener noreferrer' href='https://docs.nearprotocol.com/docs/concepts/account'>docs</a>.",
@@ -1523,15 +1572,15 @@
     "unlockedBalance": "This NEAR is still in a lockup contract, but unlocked.",
     "unvestedBalance": "Unvested NEAR is earmarked to you, but not yet under your ownership. You can still delegate or stake this NEAR, and the rewards will be entirely yours. As your NEAR is vested, it will appear in either your Locked or Unlocked balance.",
     "verifyAccount": {
-        "desc": "To prevent spamming of new accounts, we’ll need to verify you as the owner. You may verify using a one-time passcode or by making a small initial deposit.",
+        "desc": "To prevent spamming of new accounts, we'll need to verify you as the owner. You may verify using a one-time passcode or by making a small initial deposit.",
         "descNoFunding": "Choose a method below to fund and initialize your new account.",
         "modal": {
             "email": {
-                "desc": "You’ll need to use a different email address or select an alternate method to verify this account. You may still use this address as a recovery method.",
+                "desc": "You'll need to use a different email address or select an alternate method to verify this account. You may still use this address as a recovery method.",
                 "title": "This email address has already been used to verify a different account."
             },
             "phone": {
-                "desc": "You’ll need to use a different phone number or select an alternate method to verify this account. You may still use this number as a recovery method.",
+                "desc": "You'll need to use a different phone number or select an alternate method to verify this account. You may still use this number as a recovery method.",
                 "title": "This phone number has already been used to verify a different account."
             }
         },
@@ -1578,6 +1627,7 @@
             "desc": "You’ll need NEAR tokens to perform transactions with your wallet.",
             "title": "Deposit NEAR"
         },
+        "OthersTokens": "Other tokens",
         "status": "Status",
         "tokenBalance": "Token Balance",
         "tokens": "Tokens",
@@ -1594,6 +1644,9 @@
         },
         "addLedgerAccountId": {
             "errorRpc": "Error appears while recovering the account."
+        },
+        "connectLedger": {
+            "noClient": "Ledger is not connected yet. Please connect ledger first."
         },
         "createNewAccount": {
             "accountCreated": {

@@ -18,11 +18,19 @@ import {
     getBalance
 } from '../../redux/actions/account';
 import { selectProfileBalance } from '../../redux/reducers/selectors/balance';
-import { selectAccountAuthorizedApps, selectAccountHas2fa, selectAccountHasLockup, selectAccountId, selectAccountLedgerKey } from '../../redux/slices/account';
+import {
+    selectAccountAuthorizedApps,
+    selectAccountHas2fa,
+    selectAccountHasLockup,
+    selectAccountId,
+    selectAccountLedgerKey,
+    selectAccountExists
+} from '../../redux/slices/account';
 import { selectAllAccountsHasLockup } from '../../redux/slices/allAccounts';
 import { actions as recoveryMethodsActions, selectRecoveryMethodsByAccountId } from '../../redux/slices/recoveryMethods';
 import { selectNearTokenFiatValueUSD } from '../../redux/slices/tokenFiatValues';
 import isMobile from '../../utils/isMobile';
+import AlertBanner from '../common/AlertBanner';
 import FormButton from '../common/FormButton';
 import SkeletonLoading from '../common/SkeletonLoading';
 import Container from '../common/styled/Container.css';
@@ -133,6 +141,7 @@ const StyledContainer = styled(Container)`
 
 export function Profile({ match }) {
     const [transferring, setTransferring] = useState(false);
+    const accountExists = useSelector(selectAccountExists);
     const has2fa = useSelector(selectAccountHas2fa);
     const authorizedApps = useSelector(selectAccountAuthorizedApps);
     const ledgerKey = useSelector(selectAccountLedgerKey);
@@ -140,7 +149,7 @@ export function Profile({ match }) {
     const nearTokenFiatValueUSD = useSelector(selectNearTokenFiatValueUSD);
     const accountIdFromUrl = match.params.accountId;
     const accountId = accountIdFromUrl || loginAccountId;
-    const isOwner = accountId === loginAccountId;
+    const isOwner = accountId && accountId === loginAccountId && accountExists;
     const account = useAccount(accountId);
     const dispatch = useDispatch();
     const profileBalance = selectProfileBalance(account);
@@ -223,6 +232,13 @@ export function Profile({ match }) {
             }
             <div className='split'>
                 <div className='left'>
+                    {accountExists === false &&
+                        <AlertBanner
+                            title='profile.accountDoesNotExistBanner.desc'
+                            data={accountId}
+                            theme='light-blue'
+                        />
+                    }
                     <h2><UserIcon/><Translate id='profile.pageTitle.default'/></h2>
                     {profileBalance ? (
                         <BalanceContainer

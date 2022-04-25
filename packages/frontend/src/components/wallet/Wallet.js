@@ -3,15 +3,19 @@ import { Translate } from 'react-localize-redux';
 import { Textfit } from 'react-textfit';
 import styled from 'styled-components';
 
-import { CREATE_IMPLICIT_ACCOUNT } from '../../../../../features';
+import { CREATE_IMPLICIT_ACCOUNT,CREATE_USN_CONTRACT } from '../../../../../features';
+import getCurrentLanguage from '../../hooks/getCurrentLanguage';
+import { useSplitFungibleTokens } from '../../hooks/splitFungibleTokens';
 import classNames from '../../utils/classNames';
 import { SHOW_NETWORK_BANNER } from '../../utils/wallet';
 import Balance from '../common/balance/Balance';
+import { getTotalBalanceInFiat } from '../common/balance/helpers';
 import FormButton from '../common/FormButton';
 import Container from '../common/styled/Container.css';
 import Tooltip from '../common/Tooltip';
 import DownArrowIcon from '../svg/DownArrowIcon';
 import SendIcon from '../svg/SendIcon';
+import Swap from '../svg/SwapIcon';
 import TopUpIcon from '../svg/TopUpIcon';
 import ActivitiesWrapper from './ActivitiesWrapper';
 import CreateCustomNameModal from './CreateCustomNameModal';
@@ -27,12 +31,10 @@ import Tokens from './Tokens';
 const StyledContainer = styled(Container)`
     @media (max-width: 991px) {
         margin: -5px auto 0 auto;
-
         &.showing-banner {
             margin-top: -15px;
         }
     }
-
     .sub-title {
         font-size: 14px;
         margin-bottom: 10px;
@@ -255,18 +257,23 @@ export function Wallet({
     tab,
     setTab,
     accountId,
+    accountExists,
     balance,
     linkdropAmount,
     createFromImplicitSuccess,
     createCustomName,
     fungibleTokensList,
-    tokensLoader,
+    tokensLoading,
     availableAccounts,
     sortedNFTs,
     handleCloseLinkdropModal,
     handleSetCreateFromImplicitSuccess,
     handleSetCreateCustomName
 }) {
+    const splitFungibleTokens = useSplitFungibleTokens(fungibleTokensList, 'USN');
+    const currentLanguage = getCurrentLanguage();
+    const totalAmount = getTotalBalanceInFiat(splitFungibleTokens[0], currentLanguage);
+
     return (
         <StyledContainer className={SHOW_NETWORK_BANNER ? 'showing-banner' : ''}>
             <ReleaseNotesModal />
@@ -289,56 +296,61 @@ export function Wallet({
                     {tab === 'collectibles'
                         ? <NFTs tokens={sortedNFTs} />
                         : <FungibleTokens
+                            currentLanguage={currentLanguage}
+                            totalAmount={totalAmount}
                             balance={balance}
-                            tokensLoader={tokensLoader}
-                            fungibleTokens={fungibleTokensList}
+                            tokensLoading={tokensLoading}
+                            fungibleTokens={CREATE_USN_CONTRACT ? splitFungibleTokens : fungibleTokensList}
+                            accountExists={accountExists}
                         />
-
                     }
                 </div>
                 <div className='right'>
-                    {CREATE_IMPLICIT_ACCOUNT
+                    {CREATE_IMPLICIT_ACCOUNT && accountExists
                         ? <Sidebar availableAccounts={availableAccounts} />
                         : <ExploreApps />
                     }
                     <ActivitiesWrapper />
                 </div>
             </div>
-            {linkdropAmount !== '0' &&
+            {linkdropAmount !== '0' && (
                 <LinkDropSuccessModal
                     onClose={handleCloseLinkdropModal}
                     linkdropAmount={linkdropAmount}
                 />
-            }
-            {createFromImplicitSuccess &&
+            )}
+            {createFromImplicitSuccess && (
                 <CreateFromImplicitSuccessModal
                     onClose={handleSetCreateFromImplicitSuccess}
                     isOpen={createFromImplicitSuccess}
                     accountId={accountId}
                 />
-            }
-            {createCustomName &&
+            )}
+            {createCustomName && (
                 <CreateCustomNameModal
                     onClose={handleSetCreateCustomName}
                     isOpen={createCustomName}
                     accountId='satoshi.near'
                 />
-            }
+            )}
         </StyledContainer>
     );
 }
 
-const FungibleTokens = ({ balance, tokensLoader, fungibleTokens }) => {
-    const availableBalanceIsZero = balance?.balanceAvailable === '0';
+const FungibleTokens = ({ balance, tokensLoading, fungibleTokens, accountExists, totalAmount, currentLanguage }) => {
+    const zeroBalanceAccount = accountExists === false;
+    const currentFungibleTokens = CREATE_USN_CONTRACT ? fungibleTokens[0][0] : fungibleTokens[0];
     const hideFungibleTokenSection =
-        availableBalanceIsZero &&
+        zeroBalanceAccount &&
         fungibleTokens?.length === 1 &&
-        fungibleTokens[0]?.onChainFTMetadata?.symbol === 'NEAR';
+        currentFungibleTokens?.onChainFTMetadata?.symbol === 'NEAR';
+
     return (
         <>
             <div className='total-balance'>
                 <Textfit mode='single' max={48}>
                     <Balance
+                        totalAmount={CREATE_USN_CONTRACT && totalAmount}
                         showBalanceInNEAR={false}
                         amount={balance?.balanceAvailable}
                         showAlmostEqualSignUSD={false}
@@ -347,13 +359,16 @@ const FungibleTokens = ({ balance, tokensLoader, fungibleTokens }) => {
                     />
                 </Textfit>
             </div>
-            <div className='sub-title balance'><Translate id='wallet.availableBalance' /> <Tooltip translate='availableBalanceInfo' /></div>
+            <div className='sub-title balance'>
+                <Translate id='wallet.availableBalance' />{' '}
+                <Tooltip translate='availableBalanceInfo' />
+            </div>
             <div className='buttons'>
                 <FormButton
                     color='dark-gray'
                     linkTo='/send-money'
                     trackingId='Click Send on Wallet page'
-                    data-test-id="balancesTab.send"
+                    data-test-id='balancesTab.send'
                 >
                     <div>
                         <SendIcon />
@@ -364,18 +379,31 @@ const FungibleTokens = ({ balance, tokensLoader, fungibleTokens }) => {
                     color='dark-gray'
                     linkTo='/receive-money'
                     trackingId='Click Receive on Wallet page'
-                    data-test-id="balancesTab.receive"
+                    data-test-id='balancesTab.receive'
                 >
                     <div>
                         <DownArrowIcon />
                     </div>
                     <Translate id='button.receive' />
                 </FormButton>
+                {CREATE_USN_CONTRACT && (
+                     <FormButton
+                        color='dark-gray'
+                        linkTo='/swap-money'
+                        trackingId='Click Receive on Wallet page'
+                        data-test-id='balancesTab.buy'
+                    >
+                        <div>
+                            <Swap />
+                        </div>
+                        <Translate id='button.swap' />
+                    </FormButton>
+                )}
                 <FormButton
                     color='dark-gray'
                     linkTo='/buy'
                     trackingId='Click Receive on Wallet page'
-                    data-test-id="balancesTab.buy"
+                    data-test-id='balancesTab.buy'
                 >
                     <div>
                         <TopUpIcon />
@@ -383,18 +411,38 @@ const FungibleTokens = ({ balance, tokensLoader, fungibleTokens }) => {
                     <Translate id='button.topUp' />
                 </FormButton>
             </div>
-            {availableBalanceIsZero &&
+            {zeroBalanceAccount &&
                 <DepositNearBanner />
             }
-            {!hideFungibleTokenSection &&
+            {!hideFungibleTokenSection && (
                 <>
                     <div className='sub-title tokens'>
-                        <span className={classNames({ dots: tokensLoader })}><Translate id='wallet.yourPortfolio' /></span>
-                        <span><Translate id='wallet.tokenBalance' /></span>
+                        <span className={classNames({ dots: tokensLoading })}>
+                            <Translate id='wallet.yourPortfolio' />
+                        </span>
+                        {!CREATE_USN_CONTRACT &&
+                            <span>
+                                <Translate id='wallet.tokenBalance' />
+                            </span>
+                        }
                     </div>
-                    <Tokens tokens={fungibleTokens} />
+                    <Tokens tokens={CREATE_USN_CONTRACT ? fungibleTokens[0] : fungibleTokens} currentLanguage={currentLanguage}/>
+                    {CREATE_USN_CONTRACT && (
+                        <>
+                            <div className='sub-title tokens'>
+                                <span
+                                    className={classNames({
+                                        dots: tokensLoading,
+                                    })}
+                                >
+                                    <Translate id='wallet.OthersTokens' />
+                                </span>
+                            </div>
+                            <Tokens tokens={fungibleTokens[1]} currentLanguage={currentLanguage}/>
+                        </>
+                    )}
                 </>
-            }
+            )}
         </>
     );
 };

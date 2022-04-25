@@ -195,6 +195,7 @@
         "allow": "允許",
         "approve": "允許",
         "authorizing": "正在授權",
+        "backToSwap": "返回兌換",
         "browseApps": "瀏覽應用",
         "buy": "購買",
         "cancel": "取消",
@@ -270,6 +271,8 @@
         "staking": "正在質押",
         "startOver": "重新開始",
         "subscribe": "訂閱",
+        "swap": "兌換",
+        "ToMaine": "返回主頁",
         "topUp": "充值",
         "transferring": "正在轉賬",
         "tryAgain": "再次嘗試",
@@ -460,7 +463,7 @@
     },
     "footer": {
         "contactSupport": "加入社區",
-        "copyrights": "NEAR Inc. 版權所有。",
+        "copyrights": "Roketo Labs LTD. 版權所有。",
         "desc": "NEAR 是開放性網絡 (Open Web) 的基礎架構, 提供了一個去中心化存儲和計算平臺。",
         "learnMore": "了解更多",
         "needHelp": "需要幫助？",
@@ -568,6 +571,7 @@
         "receive": "接收",
         "send": "發送",
         "staking": "質押",
+        "swap": "兌換",
         "switchAccount": "切換賬號",
         "wallet": "錢包"
     },
@@ -1444,9 +1448,25 @@
     },
     "stakingPoolUnstaked": "這部分 NEAR 目前在質押池中，但未贖回。可能仍在請求釋放的階段。",
     "success": "成功",
+    "swap": {
+        "AvailableToSwap": "可兌換",
+        "ExpectedPrice": "預期價格",
+        "from": "自",
+        "MinimumReceived": "最少收到",
+        "pairPrice": "交易價格",
+        "slipPage": "滑點容差",
+        "slippageError": "自1至50",
+        "success": {
+            "complete": "交易完成！",
+            "youSwap": "你已經換了"
+        },
+        "to": "至",
+        "TradingFee": "交易費"
+    },
     "sync": "刷新",
     "tokenBox": {
-        "priceUnavailable": "無法獲取價格"
+        "priceUnavailable": "無法獲取價格",
+        "swapTo": "換成"
     },
     "topLevelAccounts": {
         "body": "賬戶名稱類似於域名，只有 ${data} 才能創建比如 yourname.${data} 的賬戶，並且只有 yourname.${data} 可以創建 app.yourname.${data}。所有在此錢包創建的賬戶都使用 .${data} 頂級賬戶（TLA）。了解更多關於賬戶名稱和創建你的頂級賬戶（TLA），請訪問 <a rel='noopener noreferrer' href='https://docs.nearprotocol.com/docs/concepts/account'>NEAR 文檔</a>。",

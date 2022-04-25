@@ -242,6 +242,7 @@
         "staking": "Katılım Sağlanıyor",
         "startOver": "Baştan başla",
         "subscribe": "Abone ol",
+        "swap": "Takas",
         "topUp": "Yükle",
         "transferring": "Aktarılıyor",
         "tryAgain": "Tekrar dene",
@@ -406,7 +407,7 @@
     },
     "footer": {
         "contactSupport": "Topluluğa katıl",
-        "copyrights": "NEAR A.Ş. Tüm Hakları Saklıdır.",
+        "copyrights": "Roketo Labs LTD. Tüm Hakları Saklıdır.",
         "desc": "NEAR, WEB'in çalışma şeklini daha iyi hale getiren, ölçeklenebilir bir bilgi işlem ve depolama platformudur.",
         "learnMore": "Daha fazla bilgi edin",
         "needHelp": "Yardım?",
@@ -1314,9 +1315,21 @@
     },
     "stakingPoolUnstaked": "Bu NEAR şu anda bir katılım havuzundadır ancak katılım sağlanmamıştır. Hazırlanan tutar durumunda da olabilir.",
     "success": "Başarılı",
+    "swap": {
+        "AvailableToSwap": "takas edilebilir",
+        "ExpectedPrice": "Beklenen fiyat",
+        "from": "İtibaren",
+        "MinimumReceived": "Minimum alınan",
+        "pairPrice": "Çift fiyatı",
+        "slipPage": "kayma toleransı",
+        "slippageError": "1'den 50'ye",
+        "to": "İle",
+        "TradingFee": "ticaret ücreti"
+    },
     "sync": "Eşitle",
     "tokenBox": {
-        "priceUnavailable": "Fiyat Mevcut Değil"
+        "priceUnavailable": "Fiyat Mevcut Değil",
+        "swapTo": "İtibaren"
     },
     "topLevelAccounts": {
         "body": "Hesap adları, alan adlarına benzer. Sadece ${data} hesapları adınız.${data} gibi hesapları oluşturabilir, örn. sadece adınız.${data} uygulama adınız.${data}. Bu cüzdanda oluşturulan tüm hesaplar .${data} Üst Düzey Hesap kullanır (ÜDH). Hesap adları ve kendi ÜDH'nızı oluşturma hakkında daha fazla bilgi için <a rel='noopener noreferrer' href='https://docs.nearprotocol.com/docs/concepts/account'>docs</a>.",

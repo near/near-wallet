@@ -5,8 +5,10 @@ import { createSelector } from 'reselect';
 
 import { HIDE_SIGN_IN_WITH_LEDGER_ENTER_ACCOUNT_ID_MODAL } from '../../../config';
 import { showAlertToolkit } from '../../../utils/alerts';
+import { ledgerManager } from '../../../utils/ledgerManager';
 import { setLedgerHdPath } from '../../../utils/localStorage';
 import { wallet } from '../../../utils/wallet';
+import { showCustomAlert } from '../../actions/status';
 import handleAsyncThunkStatus from '../../reducerStatus/handleAsyncThunkStatus';
 import initialStatusState from '../../reducerStatus/initialState/initialStatusState';
 import refreshAccountOwner from '../../sharedThunks/refreshAccountOwner';
@@ -16,13 +18,69 @@ const SLICE_NAME = 'ledger';
 export const LEDGER_MODAL_STATUS = {
     CONFIRM_PUBLIC_KEY: 'confirm-public-key',
     CONFIRM_ACCOUNTS: 'confirm-accounts',
-    ENTER_ACCOUNTID: 'enter-accountId'
+    ENTER_ACCOUNTID: 'enter-accountId',
+    SUCCESS: 'success'
+};
+
+export const CONNECT_MODAL_TYPE = {
+    CONNECT: 'connect',
+    CONNECTION_ERROR: 'connection-error',
+    DISCONNECTED: 'disconnected'
 };
 
 const initialState = {
     ...initialStatusState,
-    modal: {}
+    modal: {},
+    connection: {
+        available: false,
+        disconnected: false,
+        modal: {},
+        ...initialStatusState
+    }
 };
+
+const handleShowConnectModal = createAsyncThunk(
+    `${SLICE_NAME}/handleConnectLedger`,
+    async (_, { dispatch }) => {
+        dispatch(ledgerSlice.actions.setLedgerConnectionModalType({ type: CONNECT_MODAL_TYPE.CONNECT }));
+    }
+);
+
+const handleConnectLedger = createAsyncThunk(
+    `${SLICE_NAME}/handleConnectLedger`,
+    async (_, { dispatch }) => {
+        try {
+            await ledgerManager.initialize(() => dispatch(handleDisconnectLedger()));
+            const { available } = ledgerManager;
+            dispatch(ledgerSlice.actions.setLedgerConnectionStatus({ available }));
+            dispatch(showCustomAlert({
+                success: true,
+                messageCodeHeader: 'connectLedger.ledgerConnected',
+                messageCode: 'connectLedger.youMayNow',
+            }));
+            dispatch(ledgerSlice.actions.setLedgerConnectionModalType({ type: undefined }));
+        } catch (error) {
+            dispatch(ledgerSlice.actions.setLedgerConnectionModalType({ type: CONNECT_MODAL_TYPE.CONNECTION_ERROR }));
+            throw error;
+        }
+    },
+    showAlertToolkit({ onlyError: true })
+);
+
+const handleDisconnectLedger = createAsyncThunk(
+    `${SLICE_NAME}/handleDisconnectLedger`,
+    async (_, { dispatch }) => {
+        dispatch(ledgerSlice.actions.setLedgerConnectionStatus({ available: false }));
+        dispatch(ledgerSlice.actions.setLedgerDisconnect({ disconnected: true }));
+        dispatch(ledgerSlice.actions.setLedgerConnectionModalType({ type: CONNECT_MODAL_TYPE.DISCONNECTED }));
+
+        dispatch(showCustomAlert({
+            success: false,
+            messageCodeHeader: 'warning',
+            messageCode: 'errors.ledger.disconnected',
+        }));
+    }
+);
 
 const getLedgerAccountIds = createAsyncThunk(
     `${SLICE_NAME}/getLedgerAccountIds`,
@@ -50,7 +108,7 @@ const signInWithLedgerAddAndSaveAccounts = createAsyncThunk(
                 if (path) {
                     setLedgerHdPath({ accountId, path });
                 }
-                await dispatch(addLedgerAccountId({ accountId }));
+                await dispatch(addLedgerAccountId({ accountId })).unwrap();
                 dispatch(ledgerSlice.actions.setLedgerTxSigned({ status: false, accountId }));
             } catch (e) {
                 console.warn('Error importing Ledger-based account', accountId, e);
@@ -117,6 +175,15 @@ const ledgerSlice = createSlice({
             set(state, ['modal'], {});
             unset(state, ['txSigned']);
         },
+        setLedgerConnectionStatus(state, { payload: { available } }) {
+            set(state, ['connection', 'available'], available);
+        },
+        setLedgerDisconnect(state, { payload: { disconnected } }) {
+            set(state, ['connection', 'disconnected'], disconnected);
+        },
+        setLedgerConnectionModalType(state, { payload: { type } }) {
+            set(state, ['connection', 'modal', 'type'], type);
+        }
     },
     extraReducers: ((builder) => {
         // getLedgerAccountIds
@@ -157,6 +224,13 @@ const ledgerSlice = createSlice({
             set(state, ['hasLedger'], payload.ledger.hasLedger);
             set(state, ['ledgerKey'], payload.ledger.ledgerKey);
         });
+        builder.addCase(handleConnectLedger.rejected, (state) => {
+            set(state, ['connection', 'available'], false);
+        });
+        // signInWithLedger
+        builder.addCase(signInWithLedger.fulfilled, (state) => {
+            set(state, ['signInWithLedgerStatus'], LEDGER_MODAL_STATUS.SUCCESS);
+        });
         // matcher to handle closing modal automatically
         builder.addMatcher(
             ({ type, ready, error }) => ready || error || type.endsWith('/rejected') || type.endsWith('/fulfilled'),
@@ -173,12 +247,19 @@ const ledgerSlice = createSlice({
             buildStatusPath: () => [],
             builder
         });
+        handleAsyncThunkStatus({
+            asyncThunk: handleConnectLedger,
+            buildStatusPath: () => ['connection'],
+            builder
+        });
     })
 });
 
 export default ledgerSlice;
 
 export const actions = {
+    handleShowConnectModal,
+    handleConnectLedger,
     signInWithLedger,
     checkAndHideLedgerModal,
     signInWithLedgerAddAndSaveAccounts,
@@ -200,3 +281,15 @@ export const selectLedgerHasLedger = createSelector(selectLedgerSlice, (ledger) 
 export const selectLedgerSignInWithLedger = createSelector(selectLedgerSlice, (ledger) => ledger.signInWithLedger || {});
 
 export const selectLedgerSignInWithLedgerStatus = createSelector(selectLedgerSlice, (ledger) => ledger.signInWithLedgerStatus);
+
+const selectLedgerConnection = createSelector(selectLedgerSlice, (ledger) => ledger.connection);
+
+export const selectLedgerConnectionAvailable= createSelector(selectLedgerConnection, (connection) => connection.available);
+
+export const selectLedgerConnectionModalType = createSelector(selectLedgerConnection, (connection) => connection.modal.type);
+
+export const selectLedgerConnectionStatus = createSelector(selectLedgerConnection, (connection) => connection.status);
+
+export const selectLedgerConnectionStatusLoading = createSelector(selectLedgerConnectionStatus, (status) => status.loading);
+
+export const selectLedgerConnectionStatusError = createSelector(selectLedgerConnectionStatus, (status) => status.error);

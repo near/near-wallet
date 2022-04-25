@@ -10,7 +10,7 @@ import { connect } from 'react-redux';
 import { Redirect, Switch } from 'react-router-dom';
 import styled, { ThemeProvider } from 'styled-components';
 
-import { CREATE_IMPLICIT_ACCOUNT, IMPORT_ACCOUNT_WITH_LINK_V2 } from '../../../../features';
+import { CREATE_IMPLICIT_ACCOUNT, IMPORT_ACCOUNT_WITH_LINK_V2, CREATE_USN_CONTRACT } from '../../../../features';
 import TwoFactorVerifyModal from '../components/accounts/two_factor/TwoFactorVerifyModal';
 import { IS_MAINNET, PUBLIC_URL, SHOW_PRERELEASE_WARNING, DISABLE_CREATE_ACCOUNT } from '../config';
 import ExampleFlag from '../ExampleFlag';
@@ -44,7 +44,7 @@ import {
     WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS,
     WALLET_LOGIN_URL,
     WALLET_SIGN_URL,
-    WALLET_SEND_MONEY_URL,
+    WALLET_SEND_MONEY_URL
 } from '../utils/wallet';
 import AccessKeysWrapper from './access-keys/v2/AccessKeysWrapper';
 import { AutoImportWrapper } from './accounts/auto_import/AutoImportWrapper';
@@ -54,9 +54,10 @@ import { CreateAccountLanding } from './accounts/create/landing/CreateAccountLan
 import { VerifyAccountWrapper } from './accounts/create/verify_account/VerifyAccountWrapper';
 import { CreateAccountWithRouter } from './accounts/CreateAccount';
 import LedgerConfirmActionModal from './accounts/ledger/LedgerConfirmActionModal';
+import LedgerConnectModal from './accounts/ledger/LedgerConnectModal/LedgerConnectModalWrapper';
 import { SetupLedgerWithRouter } from './accounts/ledger/SetupLedger';
 import { SetupLedgerSuccessWithRouter } from './accounts/ledger/SetupLedgerSuccess';
-import { SignInLedger } from './accounts/ledger/SignInLedger';
+import { SignInLedgerWrapper } from './accounts/ledger/SignInLedgerWrapper';
 import { LinkdropLandingWithRouter } from './accounts/LinkdropLanding';
 import { RecoverAccountSeedPhraseWithRouter } from './accounts/RecoverAccountSeedPhrase';
 import { RecoverAccountWrapper } from './accounts/RecoverAccountWrapper';
@@ -82,13 +83,15 @@ import { Profile } from './profile/Profile';
 import { ReceiveContainerWrapper } from './receive-money/ReceiveContainerWrapper';
 import { SendContainerWrapper } from './send/SendContainerWrapper';
 import { StakingContainer } from './staking/StakingContainer';
+import SwapContainerWrapper from './Swap/SwapContainerWrapper';
 import Terms from './terms/Terms';
+import Privacy from './privacy/Privacy';
 
 import '../index.css';
 
-const {
+const {    
     fetchTokenFiatValues,
-    getTokenWhiteList,
+    getTokenWhiteList
 } = tokenFiatValueActions;
 
 const {
@@ -133,6 +136,7 @@ const Container = styled.div`
         }
     }
 `;
+
 class Routing extends Component {
     constructor(props) {
         super(props);
@@ -277,7 +281,6 @@ class Routing extends Component {
 
         const accountFound = this.props.account.localStorage?.accountFound;
 
-
         reportUiActiveMixpanelThrottled();
 
         return (
@@ -299,6 +302,7 @@ class Routing extends Component {
                         <NavigationWrapper />
                         <GlobalAlert />
                         <LedgerConfirmActionModal />
+                        <LedgerConnectModal />
                         {
                             account.requestPending !== null &&
                             <TwoFactorVerifyModal
@@ -493,7 +497,7 @@ class Routing extends Component {
                             <Route
                                 exact
                                 path='/sign-in-ledger'
-                                component={SignInLedger}
+                                component={SignInLedgerWrapper}
                             />
                             <PrivateRoute
                                 path='/login'
@@ -529,6 +533,12 @@ class Routing extends Component {
                                 path='/buy'
                                 component={BuyNear}
                             />
+                            {CREATE_USN_CONTRACT &&    
+                            <PrivateRoute
+                                exact
+                                path="/swap-money"
+                                component={SwapContainerWrapper}
+                            />}
                             <Route
                                 exact
                                 path='/profile/:accountId'
@@ -561,6 +571,12 @@ class Routing extends Component {
                                 exact
                                 path='/terms'
                                 component={Terms}
+                                indexBySearchEngines={true}
+                            />
+                            <Route
+                                exact
+                                path='/privacy'
+                                component={Privacy}
                                 indexBySearchEngines={true}
                             />
                             <PrivateRoute

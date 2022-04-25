@@ -261,6 +261,7 @@
         "staking": "Staking",
         "startOver": "Iniciar novamente",
         "subscribe": "Inscrever-se",
+        "swap": "Troca",
         "topUp": "Top Up",
         "transferring": "Transferindo",
         "tryAgain": "Tentar Novamente",
@@ -427,7 +428,7 @@
     },
     "footer": {
         "contactSupport": "Entrar na Comunidade",
-        "copyrights": "NEAR Inc. Todos os direitos reservados.",
+        "copyrights": "Roketo Labs LTD. Todos os direitos reservados.",
         "desc": "NEAR é uma plataforma escalável de computação e armazenamento que muda como a web funciona, para melhor.",
         "learnMore": "Saber mais",
         "needHelp": "Precisa de ajuda?",
@@ -1348,9 +1349,21 @@
     },
     "stakingPoolUnstaked": "Este NEAR está atualmente em uma pool de stake, mas unstaked. Pode, por exemplo, estar em um estado de liberação pendente.",
     "success": "Sucesso",
+    "swap": {
+        "AvailableToSwap": "Disponível para troca",
+        "ExpectedPrice": "Preço esperado",
+        "from": "A partir de",
+        "MinimumReceived": "Mínimo recebido",
+        "pairPrice": "Preço do par",
+        "slipPage": "Tolerância de deslizamento",
+        "slippageError": "de 1 a 50",
+        "to": "Para",
+        "TradingFee": "Taxa de negociação"
+    },
     "sync": "Sincronizar",
     "tokenBox": {
-        "priceUnavailable": "Preço indisponível"
+        "priceUnavailable": "Preço indisponível",
+        "swapTo": "para"
     },
     "topLevelAccounts": {
         "body": "Nomes de contas são similares a nomes de domínio. Apenas a conta ${suffix} pode criar contas como seunome.${suffix}, e apenas seunome.${suffix} pode criar app.seunome.${suffix}. Todas as contas criadas nesta carteira usam a Conta Top Level (TLA) .${suffix} . Para saber mais sobre nomes de conta e criar sua própria TLA, visite a <a rel='noopener noreferrer' href='https://docs.nearprotocol.com/docs/concepts/account'>documentação</a>.",

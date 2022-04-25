@@ -593,8 +593,7 @@ export const { makeAccountActive, refreshAccountExternal, refreshUrl, updateStak
             }
         }),
         (accountId) => ({
-            accountId,
-            ...showAlert({ onlyError: true, data: { accountId } })
+            accountId
         })
     ],
     REFRESH_URL: null,

@@ -15,7 +15,8 @@ import { actions as ledgerActions } from '../redux/slices/ledger';
 import sendJson from '../tmp_fetch_send_json';
 import { decorateWithLockup } from './account-with-lockup';
 import { getAccountIds } from './helper-api';
-import { setAccountConfirmed, setWalletAccounts, removeActiveAccount, removeAccountConfirmed } from './localStorage';
+import { ledgerManager } from './ledgerManager';
+import { setAccountConfirmed, setWalletAccounts, removeActiveAccount, removeAccountConfirmed, getLedgerHDPath, removeLedgerHDPath } from './localStorage';
 import { TwoFactor } from './twoFactor';
 import { WalletError } from './walletError';
 
@@ -80,7 +81,8 @@ export const TRANSACTIONS_REFRESH_INTERVAL = 10000;
 
 const { 
     setLedgerTxSigned,
-    showLedgerModal
+    showLedgerModal,
+    handleShowConnectModal
 } = ledgerActions;
 
 export const convertPKForContract = (pk) => {
@@ -117,10 +119,13 @@ class Wallet {
             async signMessage(message, accountId, networkId) {
                 if (await wallet.getLedgerKey(accountId)) {
                     wallet.dispatchShowLedgerModal(true);
-                    const path = await localStorage.getItem(`ledgerHdPath:${accountId}`);
-                    // eslint-disable-next-line es/no-dynamic-import
-                    const { createLedgerU2FClient } = await import('./ledger.js');
-                    const client = await createLedgerU2FClient();
+                    const path = getLedgerHDPath(accountId);
+
+                    const { client } = ledgerManager;
+                    if (!client) {
+                        store.dispatch(handleShowConnectModal());
+                        throw new WalletError('The Ledger client is unavailable.', 'connectLedger.noClient');
+                    }
                     const signature = await client.sign(message, path);
                     await store.dispatch(setLedgerTxSigned({ status: true, accountId }));
                     const publicKey = await this.getPublicKey(accountId, networkId);
@@ -526,13 +531,13 @@ class Wallet {
         await account.addKey(keyPair.publicKey);
         await this.keyStore.setKey(NETWORK_ID, this.accountId, keyPair);
 
-        const path = await localStorage.getItem(`ledgerHdPath:${this.accountId}`);
+        const path = getLedgerHDPath(this.accountId);
         const publicKey = await this.getLedgerPublicKey(path);
         await this.removeAccessKey(publicKey);
         await this.getAccessKeys(this.accountId);
 
         await this.deleteRecoveryMethod({ kind: 'ledger', publicKey: publicKey.toString() });
-        await localStorage.removeItem(`ledgerHdPath:${this.accountId}`);
+        removeLedgerHDPath(this.accountId);
     }
 
     async addWalletMetadataAccessKeyIfNeeded(accountId, localAccessKey) {
@@ -629,9 +634,11 @@ class Wallet {
     }
 
     async getLedgerPublicKey(path) {
-        // eslint-disable-next-line es/no-dynamic-import
-        const { createLedgerU2FClient } = await import('./ledger.js');
-        const client = await createLedgerU2FClient();
+        const { client } = ledgerManager;
+        if (!client) {
+            store.dispatch(handleShowConnectModal());
+            throw new WalletError('The Ledger client is unavailable.', 'connectLedger.noClient');
+        }
         this.dispatchShowLedgerModal(true);
         const rawPublicKey = await client.getPublicKey(path);
         return new PublicKey({ keyType: KeyType.ED25519, data: rawPublicKey });

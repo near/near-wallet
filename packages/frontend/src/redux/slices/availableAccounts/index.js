@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import set from 'lodash.set';
 import { createSelector } from 'reselect';
 
+import { wallet } from '../../../utils/wallet';
 import handleAsyncThunkStatus from '../../reducerStatus/handleAsyncThunkStatus';
 import initialStatusState from '../../reducerStatus/initialState/initialStatusState';
 import refreshAccountOwner from '../../sharedThunks/refreshAccountOwner';
@@ -19,6 +20,9 @@ const availableAccountsSlice = createSlice({
     extraReducers: ((builder) => {
         builder.addCase(refreshAccountOwner.fulfilled, (state, action) => {
             set(state, ['items'], Object.keys((action.payload && action.payload.accounts) || {}).sort());
+        });
+        builder.addCase(refreshAccountOwner.rejected, (state, action) => {
+            set(state, ['items'], Object.keys((wallet.accounts) || {}).sort());
         });
         handleAsyncThunkStatus({
             asyncThunk: refreshAccountOwner,

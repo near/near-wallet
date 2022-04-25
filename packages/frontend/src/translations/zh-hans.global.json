@@ -195,6 +195,7 @@
         "allow": "允许",
         "approve": "允许",
         "authorizing": "正在授权",
+        "backToSwap": "返回兑换",
         "browseApps": "浏览应用",
         "buy": "购买",
         "cancel": "取消",
@@ -270,6 +271,8 @@
         "staking": "正在质押",
         "startOver": "重新开始",
         "subscribe": "订阅",
+        "swap": "兑换",
+        "ToMaine": "返回主页",
         "topUp": "充值",
         "transferring": "正在转账",
         "tryAgain": "再次尝试",
@@ -460,7 +463,7 @@
     },
     "footer": {
         "contactSupport": "加入社区",
-        "copyrights": "NEAR Inc. 版权所有。",
+        "copyrights": "Roketo Labs LTD. 版权所有。",
         "desc": "NEAR 是开放性网络 (Open Web) 的基础架构, 提供了一个去中心化存储和计算平台。",
         "learnMore": "了解更多",
         "needHelp": "需要帮助？",
@@ -568,6 +571,7 @@
         "receive": "接收",
         "send": "发送",
         "staking": "质押",
+        "swap": "兑换",
         "switchAccount": "切换账号",
         "wallet": "钱包"
     },
@@ -1444,9 +1448,25 @@
     },
     "stakingPoolUnstaked": "这部分 NEAR 目前在质押池中，但未赎回。可能仍在请求释放的阶段。",
     "success": "成功",
+    "swap": {
+        "AvailableToSwap": "可兑换",
+        "ExpectedPrice": "预期价格",
+        "from": "自",
+        "MinimumReceived": "最少收到",
+        "pairPrice": "交易价格",
+        "slipPage": "滑点容差",
+        "slippageError": "自1至50",
+        "success": {
+            "complete": "交易完成！",
+            "youSwap": "你已经换了"
+        },
+        "to": "至",
+        "TradingFee": "交易费"
+    },
     "sync": "刷新",
     "tokenBox": {
-        "priceUnavailable": "无法获取价格"
+        "priceUnavailable": "无法获取价格",
+        "swapTo": "换成"
     },
     "topLevelAccounts": {
         "body": "账户名称类似于域名，只有 ${data} 才能创建比如 yourname.${data} 的账户，并且只有 yourname.${data} 可以创建 app.yourname.${data}。所有在此钱包创建的账户都使用 .${data} 顶级账户（TLA）。了解更多关于账户名称和创建你的顶级账户（TLA），请访问 <a rel='noopener noreferrer' href='https://docs.nearprotocol.com/docs/concepts/account'>NEAR 文档</a>。",

@@ -14,6 +14,7 @@ const Container = styled.div`
 
     .ledger-dropdown-content {
         padding: 20px 15px;
+        text-align: left;
 
         .title {
             font-weight: 600;
@@ -27,6 +28,8 @@ const Container = styled.div`
 
         button {
             &.blue {
+                width: 100%;
+                
                 :focus {
                     box-shadow: 0 0 0 3pt #c8e3fc !important;
                 }

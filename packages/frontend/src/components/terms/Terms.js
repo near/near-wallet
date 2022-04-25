@@ -1,4 +1,4 @@
-import termsPdf from '../../documents/20210319-near-tcs.pdf';
+import termsPdf from '../../documents/20220425-wallet-tcs.pdf';
 
 const Terms = () => {
     window.location.href = termsPdf;
