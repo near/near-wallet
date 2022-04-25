@@ -4,7 +4,6 @@ import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { CREATE_USN_CONTRACT, DONATE_TO_UKRAINE } from '../../../../../features'
-import { BLOCKED_COUNTRIES } from '../../config'
 import { Mixpanel } from '../../mixpanel/index';
 import HelpIcon from '../svg/HelpIcon';
 import SwapIconTwoArrows from '../svg/SwapIconTwoArrows';
@@ -86,7 +85,7 @@ const NavLinks = () => (
             <HelpIcon/>
             <Translate id='link.help'/>
         </a>
-        {CREATE_USN_CONTRACT && !BLOCKED_COUNTRIES &&
+        {CREATE_USN_CONTRACT &&
         <NavLink
             to="/swap-money"
             activeClassName="selected"

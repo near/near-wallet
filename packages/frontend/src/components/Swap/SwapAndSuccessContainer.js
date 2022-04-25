@@ -34,11 +34,12 @@ const StyledContainer = styled(Container)`
         display: flex;
         justify-content: center;
         align-items: center;
-        padding: 8px 8px 5px 5px;
+        padding: 9px 10px 5px 5px;
         border-radius: 50%;
         border: 1px solid #3170c7;
 
         :hover {
+            box-shadow: 0px 0px 1px 4px #D6EDFF;
             svg {
                 g, path {
                     stroke: #0072ce;
