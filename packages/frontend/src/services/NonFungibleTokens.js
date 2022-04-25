@@ -99,7 +99,7 @@ export default class NonFungibleTokens {
             return media;
         }
 
-        if (base_uri) {
+        if (base_uri && base_uri != 'ipfs://') {
             return `${base_uri}/${media}`;
         }
 
