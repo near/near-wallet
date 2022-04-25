@@ -96,7 +96,7 @@ const Footer = () => {
                             <Translate id='footer.termsOfService' />
                         </a>
                         <span className='color-brown-grey'>|</span>
-                        <a href='https://near.org/privacy/'
+                        <a href='/privacy'
                             rel='noopener noreferrer'
                             target='_blank'
                             onClick={() => Mixpanel.track('Footer Click privacy policy')}
