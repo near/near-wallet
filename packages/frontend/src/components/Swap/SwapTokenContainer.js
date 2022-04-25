@@ -171,6 +171,7 @@ const SwapTokenContainer = ({
                         ref={inputRef}
                         type="text"
                         autoFocus
+                        placeholder='0'
                         value={value}
                         onChange={handleChange}
                         className={error ? 'inputError' : ''}

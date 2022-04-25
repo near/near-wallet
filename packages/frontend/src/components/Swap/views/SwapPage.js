@@ -70,10 +70,12 @@ const SwapPage = ({
 
     return (
         <>
-            <Loader onRefreshMultiplier={() => dispatch(fetchMultiplier())}/>
-            <h1>
-                <Translate id="button.swap"/>
-            </h1>
+            <div className='wrap'>
+                <Loader onRefreshMultiplier={() => dispatch(fetchMultiplier())}/>
+                <h1>
+                    <Translate id="button.swap"/>
+                </h1>
+            </div>
             <SwapTokenContainer
                 text="swap.from"
                 fromToToken={from}

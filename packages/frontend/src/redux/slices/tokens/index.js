@@ -9,7 +9,6 @@ import FungibleTokens from '../../../services/FungibleTokens';
 import handleAsyncThunkStatus from '../../reducerStatus/handleAsyncThunkStatus';
 import initialStatusState from '../../reducerStatus/initialState/initialStatusState';
 import createParameterSelector from '../createParameterSelector';
-import { selectUSDNTokenFiatValueUSD } from '../tokenFiatValues';
 
 const currentContractName = !IS_MAINNET ? 'usdn.testnet': 'usn';
 
@@ -242,9 +241,8 @@ export const selectTokensWithMetadataForAccountId = createSelector(
     [
         selectAllContractMetadata,
         selectOwnedTokensForAccount,
-        selectUSDNTokenFiatValueUSD,
     ],
-    (allContractMetadata, ownedTokensForAccount, usd) =>
+    (allContractMetadata, ownedTokensForAccount) =>
         Object.entries(ownedTokensForAccount)
             .filter(([contractName, { balance }]) => {
                 // We need to see our contract even with zero balance
@@ -264,7 +262,7 @@ export const selectTokensWithMetadataForAccountId = createSelector(
                 balance,
                 onChainFTMetadata: allContractMetadata[contractName] || {},
                 fiatValueMetadata:
-                    contractName === currentContractName ? { usd } : {},
+                    contractName === currentContractName ? { usd: 1 } : {},
             }))
 );
 

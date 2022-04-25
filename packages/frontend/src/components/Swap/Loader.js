@@ -3,7 +3,7 @@ import { CountdownCircleTimer } from 'react-countdown-circle-timer';
 import styled from 'styled-components';
 
 const StyledLoader = styled.div`
-    top: 44px;
+    top: calc(50% - 6px);
     right: 10px;
     position: absolute;
 `;

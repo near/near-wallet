@@ -19,6 +19,9 @@ export const VIEWS_SWAP = {
 
 const StyledContainer = styled(Container)`
     position: relative;
+    .wrap {
+        position:relative;
+    }
 
     h1 {
         text-align: center;
@@ -41,6 +44,7 @@ const StyledContainer = styled(Container)`
         border: 1px solid #3170c7;
 
         :hover {
+            box-shadow: 0px 0px 1px 4px #D6EDFF;
             svg {
                 g, path {
                     stroke: #0072ce;
@@ -94,7 +98,7 @@ const SwapAndSuccessContainer = ({
 }) => {
     const [from, setFrom] = useState(fungibleTokensList[0]);
     const [to, setTo] = useState(currentToken(fungibleTokensList, 'USN'));
-    const [inputValueFrom, setInputValueFrom] = useState(0);
+    const [inputValueFrom, setInputValueFrom] = useState('');
     const swapContractValue = useSelector(selectSwapByContractName);
     const [activeView, setActiveView] = useState(VIEWS_SWAP.MAIN);
     const dispatch = useDispatch();
