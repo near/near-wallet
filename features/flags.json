@@ -42,14 +42,14 @@
       "lastEditedAt": "2022-04-18T08:24:21.375Z"
     },
     "mainnet": {
-      "enabled": false,
+      "enabled": true,
       "lastEditedBy": "OlegYak ",
-      "lastEditedAt": "2022-03-24T13:11:21.223Z"
+      "lastEditedAt": "2022-04-25T10:09:03.581Z"
     },
     "mainnet_STAGING": {
-      "enabled": false,
+      "enabled": true,
       "lastEditedBy": "OlegYak ",
-      "lastEditedAt": "2022-03-24T13:11:21.223Z"
+      "lastEditedAt": "2022-04-25T10:09:03.581Z"
     },
     "testnet_STAGING": {
       "enabled": true,
