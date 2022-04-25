@@ -85,6 +85,7 @@ import { SendContainerWrapper } from './send/SendContainerWrapper';
 import { StakingContainer } from './staking/StakingContainer';
 import SwapContainerWrapper from './Swap/SwapContainerWrapper';
 import Terms from './terms/Terms';
+import Privacy from './privacy/Privacy';
 
 import '../index.css';
 
@@ -570,6 +571,12 @@ class Routing extends Component {
                                 exact
                                 path='/terms'
                                 component={Terms}
+                                indexBySearchEngines={true}
+                            />
+                            <Route
+                                exact
+                                path='/privacy'
+                                component={Privacy}
                                 indexBySearchEngines={true}
                             />
                             <PrivateRoute
