@@ -351,8 +351,8 @@ async function viewLockupState(connection, lockupAccountId) {
         let vestingEnd = reader.readU64();
         vestingInformation = { vestingStart, vestingCliff, vestingEnd };
     } else if (vestingType === 3) {
-        let unvestedAmount = reader.read_u128();
-        let terminationStatus = reader.read_u8();
+        let unvestedAmount = reader.readU128();
+        let terminationStatus = reader.readU8();
         vestingInformation = { unvestedAmount, terminationStatus };
     } else {
         vestingInformation = 'TODO';
