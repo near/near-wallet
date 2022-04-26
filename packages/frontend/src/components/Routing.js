@@ -79,13 +79,13 @@ import { LoginCliLoginSuccess } from './login/LoginCliLoginSuccess';
 import NavigationWrapper from './navigation/NavigationWrapper';
 import { NFTDetailWrapper } from './nft/NFTDetailWrapper';
 import { PageNotFound } from './page-not-found/PageNotFound';
+import Privacy from './privacy/Privacy';
 import { Profile } from './profile/Profile';
 import { ReceiveContainerWrapper } from './receive-money/ReceiveContainerWrapper';
 import { SendContainerWrapper } from './send/SendContainerWrapper';
 import { StakingContainer } from './staking/StakingContainer';
 import SwapContainerWrapper from './Swap/SwapContainerWrapper';
 import Terms from './terms/Terms';
-import Privacy from './privacy/Privacy';
 
 import '../index.css';
 
