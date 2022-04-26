@@ -147,7 +147,7 @@ export default function Validator({
         dispatch(getValidatorFarmData(validator, currentAccountId));
     }, [validator, currentAccountId]);
 
-    const farmList = validatorFarmData?.farmRewards || [];
+    const farmList = validatorFarmData?.farmRewards?.[currentAccountId] || [];
     const tokenPriceMetadata = { tokenFiatValues, tokenWhitelist };
     const hasUnwhitelistedTokens = useMemo(
         () =>

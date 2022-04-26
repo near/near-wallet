@@ -574,7 +574,7 @@ export const getValidatorFarmData = (validator, accountId) => async (dispatch, g
 
     const farmData = {
         poolSummary: {...poolSummary},
-        farmRewards: farmList,
+        farmRewards: {[accountId]: farmList},
     };
     await dispatch(staking.setValidatorFarmData(validator.accountId, farmData));
 };

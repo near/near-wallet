@@ -82,7 +82,12 @@ const stakingHandlers = handleActions({
         farmingValidators: {
             ...state.farmingValidators,
             [payload.validatorId]: {
-                ...payload.farmData
+                ...payload.farmData,
+                farmRewards: {
+                    ...state.farmingValidators?.[payload.validatorId]
+                        ?.farmRewards,
+                    ...payload.farmData.farmRewards,
+                }
             },
         }
     }),
