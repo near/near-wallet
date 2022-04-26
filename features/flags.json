@@ -37,24 +37,24 @@
       "lastEditedAt": "2022-03-24T13:11:21.223Z"
     },
     "testnet": {
-      "enabled": true,
-      "lastEditedBy": "esaminu",
-      "lastEditedAt": "2022-04-18T08:24:21.375Z"
+      "enabled": false,
+      "lastEditedBy": "agileurbanite",
+      "lastEditedAt": "2022-04-26T08:16:00:UTC"
     },
     "mainnet": {
-      "enabled": true,
-      "lastEditedBy": "OlegYak ",
-      "lastEditedAt": "2022-04-25T10:09:03.581Z"
+      "enabled": false,
+      "lastEditedBy": "agileurbanite ",
+      "lastEditedAt": "2022-04-26T08:16:00:UTC"
     },
     "mainnet_STAGING": {
-      "enabled": true,
-      "lastEditedBy": "OlegYak ",
-      "lastEditedAt": "2022-04-25T10:09:03.581Z"
+      "enabled": false,
+      "lastEditedBy": "agileurbanite ",
+      "lastEditedAt": "2022-04-26T08:16:00:UTC"
     },
     "testnet_STAGING": {
-      "enabled": true,
-      "lastEditedBy": "esaminu",
-      "lastEditedAt": "2022-04-18T08:13:09.149Z"
+      "enabled": false,
+      "lastEditedBy": "agileurbanite",
+      "lastEditedAt": "2022-04-26T08:16:00:UTC"
     }
   },
   "EXAMPLE_FLAG": {
