@@ -22,7 +22,7 @@ const LedgerConnectionModal = ({
                 <Translate id={`connectLedger.modal.${modalType}.header`} />
             </h3>
             <p>
-                <Translate id={`connectLedger.modal.${modalType}.one`} />
+                <Translate id={`connectLedger.modal.${modalType}.connectionPrompt`} />
             </p>
         </div>
         <div className='buttons'>

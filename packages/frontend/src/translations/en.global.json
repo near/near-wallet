@@ -328,8 +328,8 @@
             "connection-error": {
                 "cancelButton": "Cancel",
                 "connectButton": "Retry",
-                "header": "Connection unsuccessful.",
-                "one": "Make sure your ledger is connected securely, and that the NEAR app is open on your device."
+                "connectionPrompt": "Make sure your ledger is connected securely, and that the NEAR app is open on your device.",
+                "header": "Connection unsuccessful."
             },
             "disconnected": {
                 "cancelButton": "Dismiss",
