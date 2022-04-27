@@ -39,21 +39,23 @@ export default () => {
     const connectLedger =  () => dispatch(handleShowConnectModal());
     
     const showConnectLedgerButton = hasLedger || ['sign-in-ledger', 'setup-ledger'].includes(pathname.split('/')[1]);
+    
+    if (!showConnectLedgerButton) {
+        return null;
+    }
 
-    return showConnectLedgerButton
-        ? <>
-            <div className='divider'/>
-            <ConnectLedgerButton onClick={connectLedger}>
-                {ledgerConnectionAvailable
-                    ? <>
-                        <CheckCircleIcon color='#00C08B' />
-                        <Translate id='connectLedger.ledgerConnected'/>
-                    </> : <>
-                        <LedgerSmall />
-                        <Translate id='connectLedger.connectLedger'/>
-                    </>
-                }
-            </ConnectLedgerButton>
-        </>
-        : null;
+    return <>
+        <div className='divider'/>
+        <ConnectLedgerButton onClick={connectLedger}>
+            {ledgerConnectionAvailable
+                ? <>
+                    <CheckCircleIcon color='#00C08B' />
+                    <Translate id='connectLedger.ledgerConnected'/>
+                </> : <>
+                    <LedgerSmall />
+                    <Translate id='connectLedger.connectLedger'/>
+                </>
+            }
+        </ConnectLedgerButton>
+    </>;
 };
