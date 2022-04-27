@@ -12,6 +12,7 @@ import { Mixpanel } from '../mixpanel';
 import { switchAccount, redirectTo } from '../redux/actions/account';
 import { selectAccountId } from '../redux/slices/account';
 import { selectAvailableAccounts, selectAvailableAccountsIsLoading } from '../redux/slices/availableAccounts';
+import { actions as ledgerActions } from '../redux/slices/ledger';
 import {
     addQueryParams,
     handleSignTransactions,
@@ -25,6 +26,10 @@ import {
     selectSignTransactionsBatchIsValid
 } from '../redux/slices/sign';
 import { isUrlNotJavascriptProtocol } from '../utils/helper-api';
+
+const {
+    checkAndHideLedgerModal
+} = ledgerActions;
 
 export function SignWrapper() {
     const dispatch = useDispatch();
@@ -101,6 +106,7 @@ export function SignWrapper() {
     const handleApproveTransaction = async () => {
         Mixpanel.track('SIGN approve the transaction');
         await dispatch(handleSignTransactions());
+        dispatch(checkAndHideLedgerModal());
     };
 
     const handleCancelTransaction = async () => {
