@@ -294,7 +294,7 @@ class Wallet {
             await this.keyStore.setKey(NETWORK_ID, this.accountId, newLocalKeyPair);
         }
 
-        const { data: recoveryMethods } = await this.getRecoveryMethods();
+        const recoveryMethods = await this.getRecoveryMethods();
         const methodsToRemove = recoveryMethods.filter((method) => method.kind !== 'ledger');
         for (const recoveryMethod of methodsToRemove) {
             await this.deleteRecoveryMethod(recoveryMethod);

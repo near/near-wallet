@@ -320,16 +320,22 @@
         "ledgerConnected": "Ledger Connected",
         "modal": {
             "connect": {
+                "cancelButton": "Cancel",
+                "connectButton": "Connect",
                 "header": "Connect to your Ledger device.",
                 "one": "Make sure your Ledger is connected securely, and that the NEAR app is open on your device."
             },
+            "connection-error": {
+                "cancelButton": "Cancel",
+                "connectButton": "Retry",
+                "connectionPrompt": "Make sure your ledger is connected securely, and that the NEAR app is open on your device.",
+                "header": "Connection unsuccessful."
+            },
             "disconnected": {
+                "cancelButton": "Dismiss",
+                "connectButton": "Reconnect",
                 "header": "Your device was disconnected.",
                 "one": "Make sure your Ledger is connected securely, and that the NEAR app is open on your device."
-            },
-            "error": {
-                "header": "Connection unsuccessful.",
-                "one": "Make sure your ledger is connected securely, and that the NEAR app is open on your device."
             }
         },
         "youMayNow": "You may now perform operations using your device."
