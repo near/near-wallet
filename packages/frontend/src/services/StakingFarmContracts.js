@@ -1,10 +1,10 @@
 import { Account, Connection } from 'near-api-js';
 
-import { FARMING_VALIDATOR_VERSION, getValidationVersion, MAINNET, TESTNET } from '../utils/constants';
 import {
     NETWORK_ID,
     NODE_URL
 } from '../config';
+import { FARMING_VALIDATOR_VERSION, getValidationVersion, MAINNET, TESTNET } from '../utils/constants';
 
 // Staking Farm Contract
 // https://github.com/referencedev/staking-farm/
@@ -14,12 +14,12 @@ export default class StakingFarmContracts {
         Connection.fromConfig({
             networkId: NETWORK_ID,
             provider: {
-                type: "JsonRpcProvider",
-                args: { url: NODE_URL + "/" },
+                type: 'JsonRpcProvider',
+                args: { url: NODE_URL + '/' },
             },
             signer: {}
         }),
-        "dontcare"
+        'dontcare'
     );
 
     static getFarms({ contractName, from_index, limit }) {

@@ -102,4 +102,4 @@ export const selectHasAvailableForClaimForAccountId = createSelector(
         farmData.filter((tokenData) => +tokenData.balance > 0).length > 0
 );
 
-export default selectCollectedAvailableForClaimData
+export default selectCollectedAvailableForClaimData;
