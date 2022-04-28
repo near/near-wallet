@@ -20,7 +20,7 @@ const history = createBrowserHistory();
 
 export const store = createStore(createRootReducer(history), createMiddleware(history));
 
-store.injectReducer = (accountId) => {
+store.addAccountReducer = (accountId) => {
     store.replaceReducer(createRootReducer(history, accountId));
 };
 

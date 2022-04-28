@@ -462,7 +462,7 @@ class Wallet {
         this.accounts[accountId] = true;
 
         // TODO: figure out better way to inject reducer
-        store.injectReducer(accountId);
+        store.addAccountReducer(accountId);
     }
 
     makeAccountActive(accountId) {
