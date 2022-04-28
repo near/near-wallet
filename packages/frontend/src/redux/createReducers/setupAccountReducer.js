@@ -5,20 +5,20 @@ import { wallet } from '../../utils/wallet';
 import { selectAccountState } from '../selectors/topLevel';
 import combinedAccountReducers from './combinedAccountReducers';
 
-export default () => {
-    const accounts = Object.keys(wallet.accounts);
-    if (!accounts) {
+export default (accountId) => {
+    const accountsKeys = Object.keys(wallet.accounts);
+    if (!accountsKeys) {
         return {};
     }
 
-    return accounts.reduce((accountState, accountId) => {
+    return accountsKeys.reduce((accountState, existingAccountId) => {
         const reducer = combineReducers(combinedAccountReducers());
-        const initialState = reducer(selectAccountState(store?.getState() || {}, { accountId }), {});
+        const initialState = reducer(selectAccountState(store?.getState() || {}, { existingAccountId }), {});
 
         return {
             ...accountState,
-            [accountId]: (state = initialState, action) => (
-                (accountId === wallet.accountId)
+            [existingAccountId]: (state = initialState, action) => (
+                (existingAccountId === accountId)
                     ? reducer(state, action)
                     : state
             )

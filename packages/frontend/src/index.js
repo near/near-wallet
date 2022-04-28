@@ -20,8 +20,8 @@ const history = createBrowserHistory();
 
 export const store = createStore(createRootReducer(history), createMiddleware(history));
 
-store.injectReducer = () => {
-    store.replaceReducer(createRootReducer(history));
+store.injectReducer = (accountId) => {
+    store.replaceReducer(createRootReducer(history, accountId));
 };
 
 ReactDOM.render(
