@@ -2,6 +2,7 @@ import { combineReducers } from 'redux';
 
 import { store } from '../..';
 import { wallet } from '../../utils/wallet';
+import { selectAccountState } from '../selectors/topLevel';
 import combinedAccountReducers from './combinedAccountReducers';
 
 export default () => {
@@ -12,7 +13,7 @@ export default () => {
 
     return accounts.reduce((accountState, accountId) => {
         const reducer = combineReducers(combinedAccountReducers());
-        const initialState = reducer(store?.getState()[accountId], {});
+        const initialState = reducer(selectAccountState(store?.getState() || {}, { accountId }), {});
 
         return {
             ...accountState,
