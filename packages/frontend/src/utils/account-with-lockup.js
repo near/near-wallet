@@ -13,6 +13,7 @@ import {
     REACT_APP_USE_TESTINGLOCKUP,
 } from '../config';
 import { listStakingDeposits } from '../services/indexer';
+import StakingFarmContracts from '../services/StakingFarmContracts';
 import { WalletError } from './walletError';
 
 // TODO: Should gas allowance be dynamically calculated
@@ -124,7 +125,15 @@ export async function transferAllFromLockup(missingAmount) {
     const lockedBalance = new BN(await this.wrappedAccount.viewFunction(lockupAccountId, 'get_locked_amount'));
     if (lockedBalance.eq(new BN(0))) {
         const stakingPoolBalance = await this.wrappedAccount.viewFunction(lockupAccountId, 'get_known_deposited_balance');
-        if (!new BN(stakingPoolBalance).eq(new BN(0))) {
+        const hasUnclaimedTokenRewards =
+            poolAccountId &&
+            (await StakingFarmContracts.hasUnclaimedRewards({
+                contractName: poolAccountId,
+                account_id: lockupAccountId,
+                from_index: 0,
+                limit: 300,
+            }));
+        if (!new BN(stakingPoolBalance).eq(new BN(0)) || hasUnclaimedTokenRewards) {
             throw new WalletError('Staking pool balance detected.', 'lockup.transferAllWithStakingPoolBalance');
         }
 
@@ -266,6 +275,12 @@ async function getAccountBalance(limitedAccountData = false) {
         let totalBalance = new BN(lockupBalance.total);
         let stakedBalanceLockup = new BN(0);
         const stakingPoolLockupAccountId = await this.wrappedAccount.viewFunction(lockupAccountId, 'get_staking_pool_account_id');
+        let hasUnclaimedTokenBalance = stakingPoolLockupAccountId && await StakingFarmContracts.hasUnclaimedRewards({
+            contractName: stakingPoolLockupAccountId,
+            account_id: lockupAccountId,
+            from_index: 0,
+            limit: 300,
+        });
         if (stakingPoolLockupAccountId) {
             stakedBalanceLockup = new BN(await this.wrappedAccount.viewFunction(stakingPoolLockupAccountId,
                 'get_account_total_balance', { account_id: lockupAccountId }));
@@ -275,7 +290,7 @@ async function getAccountBalance(limitedAccountData = false) {
         const ownersBalance = totalBalance.sub(lockedAmount);
 
         // if acc is deletable (nothing locked && nothing stake) you can transfer the whole amount ohterwise get_liquid_owners_balance
-        const isAccDeletable = lockedAmount.isZero() && stakedBalanceLockup.isZero();
+        const isAccDeletable = lockedAmount.isZero() && stakedBalanceLockup.isZero() && !hasUnclaimedTokenBalance;
         const MIN_BALANCE_FOR_STORAGE = getLockupMinBalanceForStorage(lockupContractCodeHash);
         const liquidOwnersBalanceTransfersEnabled = isAccDeletable
             ? new BN(lockupBalance.total)
