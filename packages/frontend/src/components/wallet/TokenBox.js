@@ -162,7 +162,7 @@ const TokenBox = ({ token, onClick, currentLanguage }) => {
             className='token-box'
             onClick={onClick ? () => onClick(token) : null}
             data-test-id={`token-selection-${token.contractName || 'NEAR'}`}
-            IS_USN={CREATE_USN_CONTRACT && token.onChainFTMetadata?.symbol === 'NEAR' || token.onChainFTMetadata?.symbol === 'USN'}
+            IS_USN={CREATE_USN_CONTRACT && (token.onChainFTMetadata?.symbol === 'NEAR' || token.onChainFTMetadata?.symbol === 'USN')}
         >
             <div style={{ display: 'flex', width: '100%' }}>
                 <div className='icon'>
