@@ -251,12 +251,12 @@
         "recoverAccount": "恢复账户",
         "recovering": "正在恢复账户",
         "recoverYourAccount": "恢复账户",
+        "removeAccount": "登出账户",
         "removeNode": "删除模式",
         "removingKeys": "删除密钥",
         "reserveMyAccountId": "保留账户 ID",
         "resubmit": "重新提交",
         "retry": "重试",
-        "removeAccount": "登出账户",
         "returnToApp": "返回至应用",
         "saveChanges": "保存更改",
         "secureMyAccount": "加强账户安全",
@@ -506,6 +506,21 @@
         "withId": "导入账户：${accountId}",
         "withIdFailed": "导入账户失败：${accountId}"
     },
+    "importAccountWithLink": {
+        "accountFound": "找到 1 个账户",
+        "accountImported": "账户已导入",
+        "accountsFound": "找到 ${count} 个账户",
+        "alreadyImported": "由该链接保护的账户已导入。",
+        "continue": "请在你选择的浏览器中继续该流程。",
+        "copyUrl": "复制链接",
+        "foundAccount": "我们找到 <b>1 个由该链接保护的账户</b>。",
+        "foundAccounts": "我们找到 <b>${count} 个由该链接保护的账户</b>。",
+        "goToAccount": "访问账户",
+        "import": "导入",
+        "importAccount": "导入你的账户",
+        "preferedBrowser": "如果这不是你偏好的浏览器，"
+    },
+    "importing": "正在导入",
     "initialDeposit": {
         "claimAccount": {
             "desc": "你的初始充值已到账，一旦认领账户，你充值的通证会被转移到新认领的账户。",
@@ -587,21 +602,6 @@
         },
         "or": "或",
         "title": "你收到了 NEAR 空投！"
-    },
-    "NFTDetail": {
-        "owner": "所有者",
-        "transfer": "发送"
-    },
-    "NFTTransfer": {
-        "transferNft": "发送 NFT",
-        "enterReceiver": "输入接收方的地址，然后确认发送。",
-        "cancel": "取消",
-        "next": "下一步",
-        "confirm": "确认",
-        "transactionComplete": "发送完成！",
-        "viewTransaction": "查看结果",
-        "continue": "继续",
-        "youSent": "你已经向 <span class='color-green'>${receiverId}</span> 发送了 <span class='color-blue'>${title}</span>。"
     },
     "loading": "加载中...",
     "loadingNoDots": "加载中",
@@ -691,9 +691,24 @@
         "header": "NEAR 测试钱包",
         "title": "测试网钱包"
     },
+    "NFTDetail": {
+        "owner": "所有者",
+        "transfer": "发送"
+    },
     "NFTs": {
         "emptyState": "似乎你还没有收藏品。",
         "loadMore": "加载更多"
+    },
+    "NFTTransfer": {
+        "cancel": "取消",
+        "confirm": "确认",
+        "continue": "继续",
+        "enterReceiver": "输入接收方的地址，然后确认发送。",
+        "next": "下一步",
+        "transactionComplete": "发送完成！",
+        "transferNft": "发送 NFT",
+        "viewTransaction": "查看结果",
+        "youSent": "你已经向 <span class='color-green'>${receiverId}</span> 发送了 <span class='color-blue'>${title}</span>。"
     },
     "nodeDetails": {
         "pageText": "更新节点的详细信息。",
@@ -856,20 +871,6 @@
         "snackbarCopySuccess": "恢复链接已复制",
         "title": "恢复账户"
     },
-    "importAccountWithLink": {
-        "accountFound": "找到 1 个账户",
-        "accountImported": "账户已导入",
-        "accountsFound": "找到 ${count} 个账户",
-        "alreadyImported": "由该链接保护的账户已导入。",
-        "continue": "请在你选择的浏览器中继续该流程。",
-        "copyUrl": "复制链接",
-        "foundAccount": "我们找到 <b>1 个由该链接保护的账户</b>。",
-        "foundAccounts": "我们找到 <b>${count} 个由该链接保护的账户</b>。",
-        "goToAccount": "访问账户",
-        "import": "导入",
-        "importAccount": "导入你的账户",
-        "preferedBrowser": "如果这不是你偏好的浏览器，"
-    },
     "recoveryMgmt": {
         "disableInputPlaceholder": "请输入用户名确认",
         "disableNo": "不，保留。",
@@ -1007,7 +1008,6 @@
         "switchAccounthNotAllowed": "该应用不支持账户切换"
     },
     "sending": "发送中",
-    "importing": "正在导入",
     "sendMoney": {
         "account": {
             "title": "转账至"
@@ -1332,6 +1332,12 @@
                 }
             }
         },
+        "claimSuccess": {
+            "button": "返回概览页",
+            "desc": "来自该节点的奖励已经成功领取",
+            "descTwo": "你的通证已经可被领取",
+            "title": "成功！"
+        },
         "noValidators": {
             "title": "你目前没有委托任何验证节点质押。"
         },
@@ -1364,7 +1370,6 @@
             "descTwo": "你可以在质押页查看你的委托和质押奖励。",
             "title": "成功！"
         },
-
         "staking": {
             "available": "可用余额",
             "button": "质押 NEAR",
@@ -1393,24 +1398,18 @@
             "descTwo": "你的通证请求释放将会在 52 - 65 小时释放。",
             "title": "成功！"
         },
-        "claimSuccess": {
-            "button": "返回概览页",
-            "desc": "来自该节点的奖励已经成功领取",
-            "descTwo": "你的通证已经可被领取",
-            "title": "成功！"
-        },
         "validator": {
+            "activeStake": "活跃质押",
             "apy": "APY",
-            "claiming": "正在领取",
             "button": "委托节点质押",
             "claimFarmRewards": "你将领取",
-            "activeStake": "活跃质押",
-            "rewards": "奖励",
-            "errorClaimRewards": "领取质押奖励时出现错误，请稍后重试",
+            "claiming": "正在领取",
             "desc": "这是你将支付给验证节点委托质押的费用，仅从你的奖励中支付。",
+            "errorClaimRewards": "领取质押奖励时出现错误，请稍后重试",
             "fee": "质押费",
             "notWhitelistedTokenWarning": "该通证还未通过 Ref Finance 白名单，风险自负。",
             "notWhitelistedValidatorWarning": "该节点奖励的通证还未通过 Ref Finance 白名单，风险自负。",
+            "rewards": "奖励",
             "title": "验证节点：<br/> @${validator}",
             "unstake": "你正在赎回质押",
             "withdraw": "你正在提现",
@@ -1463,6 +1462,27 @@
         "to": "至",
         "TradingFee": "交易费"
     },
+    "swapNear": {
+        "confirm": "Confirm & Swap",
+        "details": "Transaction details",
+        "fee": "Liquidity Provider Fee",
+        "from": "From",
+        "max": "Max: ${amount} ${symbol}",
+        "minReceived": "Minimum received",
+        "price": "Price",
+        "priceImpact": "Price Impact",
+        "review": "Review Swap",
+        "reviewInfo": "You are swapping",
+        "successTitle": "Transaction complete!</br>You swapped <span class='color-blue space'>${amount}</span></br>to <span class='color-green'>${tokenTo}</span>",
+        "title": "Swap",
+        "to": "To",
+        "translateIdInfoTooltip": {
+            "liquidityProviderFee": "The estimated cost of processing your transaction.",
+            "minimumReceived": "The minimum amount you will receive from the trade.",
+            "priceImpact": "The difference between the market price and estimated price due to trade size."
+        }
+    },
+    "swapping": "Swapping",
     "sync": "刷新",
     "tokenBox": {
         "priceUnavailable": "无法获取价格",
@@ -1490,6 +1510,16 @@
         "to": "至"
     },
     "twoFactor": {
+        "action": {
+            "addKey": {
+                "full": "警告：输入验证码将授权该 NEAR 账户的完整权限：${accountId}。如果这不是你发起的操作，请忽略。<br /><br />只有当你为账户添加完全访问密钥时才需要操作。在其他情况下，此操作非常危险。<br /><br /> 你添加的公钥：${publicKey} ",
+                "limited": "添加密钥 ${publicKey}，仅限于调用方法 ${methodNames}（来自合约 ${receiverId}），并且限制最多使用 ${allowance} NEAR 的 Gas 费"
+            },
+            "deleteKey": "删除密钥 ${publicKey}",
+            "functionCall": "调用方法：${methodName}（来自合约 ${receiverId}），并附加 ${deposit} NEAR 和参数 <pre>${args}</pre>",
+            "stake": "质押：${amount} NEAR 至节点 ${receiverId}",
+            "transfer": "转账：${amount} NEAR 至账户 ${receiverId}"
+        },
         "active": "已开启",
         "alertBanner": {
             "button": "了解更多",
@@ -1499,9 +1529,9 @@
         "desc": "通过双重认证保护你的账户，在授权交易时必须通过短信或邮箱确认。",
         "disable": {
             "desc": "禁用双重认证后，交易将不再要求双重认证确认。",
-            "phoneDesc": "双重认证中的短信选项将被放弃，无法重新开启。",
             "disable": "禁用双重认证",
             "keep": "不，保留双重认证",
+            "phoneDesc": "双重认证中的短信选项将被放弃，无法重新开启。",
             "title": "是否确认禁用双重认证？"
         },
         "email": "邮箱地址",
@@ -1523,16 +1553,6 @@
             "resending": "发送中...",
             "resent": "验证码已发送！",
             "title": "输入双重认证验证码"
-        },
-        "action": {
-            "addKey": {
-                "limited": "添加密钥 ${publicKey}，仅限于调用方法 ${methodNames}（来自合约 ${receiverId}），并且限制最多使用 ${allowance} NEAR 的 Gas 费",
-                "full": "警告：输入验证码将授权该 NEAR 账户的完整权限：${accountId}。如果这不是你发起的操作，请忽略。<br /><br />只有当你为账户添加完全访问密钥时才需要操作。在其他情况下，此操作非常危险。<br /><br /> 你添加的公钥：${publicKey} ",
-            },
-            "deleteKey": "删除密钥 ${publicKey}",
-            "functionCall": "调用方法：${methodName}（来自合约 ${receiverId}），并附加 ${deposit} NEAR 和参数 <pre>${args}</pre>",
-            "stake": "质押：${amount} NEAR 至节点 ${receiverId}",
-            "transfer": "转账：${amount} NEAR 至账户 ${receiverId}"
         }
     },
     "unlockedAvailTransfer": "这部分 NEAR 未锁定，可以从你的锁定账户中转账出来。",
@@ -1634,11 +1654,11 @@
         "promptTwoFactor": {
             "userCancelled": "此操作已被取消。"
         },
-        "recoverAccountSeedPhrase": {
-            "errorInvalidSeedPhrase": "助记词无效"
-        },
         "recoverAccountLink": {
             "error": "导入账户失败，请重试或联系服务支持。"
+        },
+        "recoverAccountSeedPhrase": {
+            "errorInvalidSeedPhrase": "助记词无效"
         },
         "recoveryMethods": {
             "lastMethod": "无法删除最后一个恢复方式。除非你添加了 Ledger，你需要保留至少一种账户恢复方式。",
