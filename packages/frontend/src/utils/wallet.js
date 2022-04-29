@@ -82,7 +82,8 @@ export const TRANSACTIONS_REFRESH_INTERVAL = 10000;
 const { 
     setLedgerTxSigned,
     showLedgerModal,
-    handleShowConnectModal
+    handleShowConnectModal,
+    checkAndHideLedgerModal
 } = ledgerActions;
 
 export const convertPKForContract = (pk) => {
@@ -123,6 +124,7 @@ class Wallet {
 
                     const { client } = ledgerManager;
                     if (!client) {
+                        store.dispatch(checkAndHideLedgerModal());
                         store.dispatch(handleShowConnectModal());
                         throw new WalletError('The Ledger client is unavailable.', 'connectLedger.noClient');
                     }
@@ -294,7 +296,7 @@ class Wallet {
             await this.keyStore.setKey(NETWORK_ID, this.accountId, newLocalKeyPair);
         }
 
-        const { data: recoveryMethods } = await this.getRecoveryMethods();
+        const recoveryMethods = await this.getRecoveryMethods();
         const methodsToRemove = recoveryMethods.filter((method) => method.kind !== 'ledger');
         for (const recoveryMethod of methodsToRemove) {
             await this.deleteRecoveryMethod(recoveryMethod);
@@ -636,6 +638,7 @@ class Wallet {
     async getLedgerPublicKey(path) {
         const { client } = ledgerManager;
         if (!client) {
+            store.dispatch(checkAndHideLedgerModal());
             store.dispatch(handleShowConnectModal());
             throw new WalletError('The Ledger client is unavailable.', 'connectLedger.noClient');
         }

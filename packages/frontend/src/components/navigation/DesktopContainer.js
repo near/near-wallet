@@ -88,7 +88,6 @@ const Lang = styled.div`
 
 class DesktopContainer extends Component {
     render() {
-
         const {
             account,
             menuOpen,
@@ -99,9 +98,6 @@ class DesktopContainer extends Component {
             flowLimitationMainMenu,
             flowLimitationSubMenu,
             refreshBalance,
-            connectLedger,
-            ledgerConnectionAvailable,
-            showConnectLedgerButton
         } = this.props;
 
         const showAllNavigationLinks = showNavLinks && !flowLimitationMainMenu;
@@ -115,11 +111,7 @@ class DesktopContainer extends Component {
                 <Lang>
                     <LanguageToggle />
                 </Lang>
-                <ConnectLedger
-                    connectLedger={connectLedger}
-                    ledgerConnectionAvailable={ledgerConnectionAvailable}
-                    showConnectLedgerButton={showConnectLedgerButton}
-                />
+                <ConnectLedger />
                 {showNavLinks &&
                     <>
                         <div className='divider'/>
