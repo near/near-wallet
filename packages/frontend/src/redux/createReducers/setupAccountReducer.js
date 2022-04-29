@@ -7,21 +7,25 @@ import combinedAccountReducers from './combinedAccountReducers';
 
 export default (accountId) => {
     const accountsKeys = Object.keys(wallet.accounts);
-    if (!accountsKeys) {
+    if (!accountsKeys.length) {
         return {};
     }
 
-    return accountsKeys.reduce((accountState, existingAccountId) => {
-        const reducer = combineReducers(combinedAccountReducers());
-        const initialState = reducer(selectAccountState(store?.getState() || {}, { existingAccountId }), {});
-
-        return {
-            ...accountState,
-            [existingAccountId]: (state = initialState, action) => (
-                (existingAccountId === accountId)
-                    ? reducer(state, action)
-                    : state
-            )
-        };
-    }, {});
+    return {
+        accounts: combineReducers(
+            accountsKeys.reduce((accountState, existingAccountId) => {
+                const reducer = combineReducers(combinedAccountReducers());
+                const initialState = reducer(selectAccountState(store?.getState() || {}, { existingAccountId }), {});
+        
+                return {
+                    ...accountState,
+                    [existingAccountId]: (state = initialState, action) => (
+                        (existingAccountId === accountId)
+                            ? reducer(state, action)
+                            : state
+                    )
+                };
+            }, {})
+        )
+    };
 };
