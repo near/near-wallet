@@ -1463,6 +1463,27 @@
         "to": "至",
         "TradingFee": "交易费"
     },
+    "swapNear": {
+        "confirm": "Confirm & Swap",
+        "details": "Transaction details",
+        "fee": "Liquidity Provider Fee",
+        "from": "From",
+        "max": "Max: ${amount} ${symbol}",
+        "minReceived": "Minimum received",
+        "price": "Price",
+        "priceImpact": "Price Impact",
+        "review": "Review Swap",
+        "reviewInfo": "You are swapping",
+        "successTitle": "Transaction complete!</br>You swapped <span class='color-blue space'>${amount}</span></br>to <span class='color-green'>${tokenTo}</span>",
+        "title": "Swap",
+        "to": "To",
+        "translateIdInfoTooltip": {
+            "liquidityProviderFee": "The estimated cost of processing your transaction.",
+            "minimumReceived": "The minimum amount you will receive from the trade.",
+            "priceImpact": "The difference between the market price and estimated price due to trade size."
+        }
+    },
+    "swapping": "Swapping",
     "sync": "刷新",
     "tokenBox": {
         "priceUnavailable": "无法获取价格",

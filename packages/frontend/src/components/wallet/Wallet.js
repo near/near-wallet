@@ -16,6 +16,7 @@ import Tooltip from '../common/Tooltip';
 import DownArrowIcon from '../svg/DownArrowIcon';
 import SendIcon from '../svg/SendIcon';
 import Swap from '../svg/SwapIcon';
+import WrapIcon from "../svg/WrapIcon";
 import TopUpIcon from '../svg/TopUpIcon';
 import ActivitiesWrapper from './ActivitiesWrapper';
 import CreateCustomNameModal from './CreateCustomNameModal';
@@ -409,6 +410,17 @@ const FungibleTokens = ({ balance, tokensLoading, fungibleTokens, accountExists,
                         <TopUpIcon />
                     </div>
                     <Translate id='button.topUp' />
+                </FormButton>
+                <FormButton
+                    color="dark-gray"
+                    linkTo="/swap"
+                    trackingId="Click Send on Wallet page"
+                    data-test-id="balancesTab.send"
+                >
+                    <div>
+                        <WrapIcon color="white" />
+                    </div>
+                    <Translate id="button.swap" />
                 </FormButton>
             </div>
             {zeroBalanceAccount &&

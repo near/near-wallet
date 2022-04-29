@@ -67,6 +67,7 @@ import { SetupImplicitWithRouter } from './accounts/SetupImplicit';
 import { SetupSeedPhraseWithRouter } from './accounts/SetupSeedPhrase';
 import { EnableTwoFactor } from './accounts/two_factor/EnableTwoFactor';
 import { BuyNear } from './buy/BuyNear';
+import { SwapNear } from "./wrap/SwapNear";
 import Footer from './common/Footer';
 import GlobalAlert from './common/GlobalAlert';
 import GuestLandingRoute from './common/GuestLandingRoute';
@@ -532,6 +533,11 @@ class Routing extends Component {
                                 exact
                                 path='/buy'
                                 component={BuyNear}
+                            />
+                            <PrivateRoute
+                                exact
+                                path='/swap'
+                                component={SwapNear}
                             />
                             {CREATE_USN_CONTRACT &&    
                             <PrivateRoute

@@ -1,7 +1,7 @@
 import BN from 'bn.js';
 import * as nearApiJs from 'near-api-js';
 
-import { ACCOUNT_HELPER_URL } from '../config';
+import { ACCOUNT_HELPER_URL, NEAR_TOKEN_ID } from '../config';
 import sendJson from '../tmp_fetch_send_json';
 import {
     parseTokenAmount,
@@ -161,6 +161,40 @@ export default class FungibleTokens {
                     registration_only: true,
                 }, FT_STORAGE_DEPOSIT_GAS, storageDepositAmount)
             ]
+        });
+    }
+
+    async wrapNear({ accountId, wrapAmount, toWNear }) {
+        const account = await wallet.getAccount(accountId);
+        const actions = [
+            functionCall(
+                toWNear ? 'near_deposit' : 'near_withdraw',
+                toWNear ? {} : { amount: wrapAmount },
+                FT_STORAGE_DEPOSIT_GAS,
+                toWNear ? wrapAmount : FT_TRANSFER_DEPOSIT
+            ),
+        ];
+
+        const storage = await account.viewFunction(
+            NEAR_TOKEN_ID,
+            'storage_balance_of',
+            { account_id: accountId }
+        );
+
+        if (!storage) {
+            actions.unshift(
+                functionCall(
+                    'storage_deposit',
+                    {},
+                    FT_STORAGE_DEPOSIT_GAS,
+                    parseNearAmount('0.00125')
+                )
+            );
+        }
+
+        return account.signAndSendTransaction({
+            receiverId: NEAR_TOKEN_ID,
+            actions,
         });
     }
 }
