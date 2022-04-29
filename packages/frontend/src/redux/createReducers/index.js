@@ -5,5 +5,5 @@ import setupAccountReducer from './setupAccountReducer';
 
 export default (history, accountId) => combineReducers({
     ...combinedMainReducers(history),
-    accountsReducer: combineReducers(setupAccountReducer(accountId))
+    accounts: combineReducers(setupAccountReducer(accountId))
 });

@@ -4,13 +4,13 @@ import { createSelector } from 'reselect';
 // Ref: https://flufd.github.io/reselect-with-multiple-parameters/
 export const createParameterSelector = (selector) => (_, params) => selector(params);
 
-const selectAccountsReducer = (state) => state.accountsReducer || {};
+const selectAccounts = (state) => state.accounts || {};
 
 const getAccountIdParam = createParameterSelector((params) => params.accountId);
 
 export const selectAccountState = createSelector(
-    [selectAccountsReducer, getAccountIdParam],
-    (accountsReducer, accountId) => accountsReducer[accountId] || {}
+    [selectAccounts, getAccountIdParam],
+    (accounts, accountId) => accounts[accountId] || {}
 );
 
 export const selectSliceByAccountId = (sliceName, initialState) => createSelector(
