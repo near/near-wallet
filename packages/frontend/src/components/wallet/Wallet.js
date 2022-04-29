@@ -3,7 +3,8 @@ import { Translate } from 'react-localize-redux';
 import { Textfit } from 'react-textfit';
 import styled from 'styled-components';
 
-import { CREATE_IMPLICIT_ACCOUNT,CREATE_USN_CONTRACT } from '../../../../../features';
+import { CREATE_IMPLICIT_ACCOUNT,CREATE_USN_CONTRACT, USN_BANNER} from '../../../../../features';
+import { IS_MAINNET} from '../../config';
 import getCurrentLanguage from '../../hooks/getCurrentLanguage';
 import { useSplitFungibleTokens } from '../../hooks/splitFungibleTokens';
 import classNames from '../../utils/classNames';
@@ -14,6 +15,7 @@ import FormButton from '../common/FormButton';
 import Container from '../common/styled/Container.css';
 import Tooltip from '../common/Tooltip';
 import DownArrowIcon from '../svg/DownArrowIcon';
+import WHITE_LOGO from '../../images/WHITE_LOGO.png'
 import SendIcon from '../svg/SendIcon';
 import Swap from '../svg/SwapIcon';
 import TopUpIcon from '../svg/TopUpIcon';
@@ -120,6 +122,11 @@ const StyledContainer = styled(Container)`
             align-items: center;
             margin: 30px 0;
             width: 100%;
+
+            img {
+                width: 22px;
+                height: 22px;
+            }
 
             button {
                 display: flex;
@@ -410,6 +417,22 @@ const FungibleTokens = ({ balance, tokensLoading, fungibleTokens, accountExists,
                     </div>
                     <Translate id='button.topUp' />
                 </FormButton>
+                {USN_BANNER && (
+                     <FormButton
+                        color='dark-gray'
+                        linkTo={!IS_MAINNET 
+                            ? 'https://swap.testnet.decentral-bank.finance/'
+                            : 'https://swap.decentral-bank.finance/'
+                        } 
+                        trackingId='Click Receive on Wallet page'
+                        data-test-id='balancesTab.buy'
+                    >
+                        <div>
+                           <img src={WHITE_LOGO} alt='USN_LOGO'/>
+                        </div>
+                       <span>Buy $USN</span>
+                    </FormButton>
+                )}
             </div>
             {zeroBalanceAccount &&
                 <DepositNearBanner />

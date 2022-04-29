@@ -10,7 +10,7 @@ import { connect } from 'react-redux';
 import { Redirect, Switch } from 'react-router-dom';
 import styled, { ThemeProvider } from 'styled-components';
 
-import { CREATE_IMPLICIT_ACCOUNT, IMPORT_ACCOUNT_WITH_LINK_V2, CREATE_USN_CONTRACT } from '../../../../features';
+import { CREATE_IMPLICIT_ACCOUNT, IMPORT_ACCOUNT_WITH_LINK_V2, CREATE_USN_CONTRACT, USN_BANNER } from '../../../../features';
 import TwoFactorVerifyModal from '../components/accounts/two_factor/TwoFactorVerifyModal';
 import { IS_MAINNET, PUBLIC_URL, SHOW_PRERELEASE_WARNING, DISABLE_CREATE_ACCOUNT } from '../config';
 import ExampleFlag from '../ExampleFlag';
@@ -88,6 +88,7 @@ import SwapContainerWrapper from './Swap/SwapContainerWrapper';
 import Terms from './terms/Terms';
 
 import '../index.css';
+import { NetworkUSNBanner } from './common/UsnBanner';
 
 const {    
     fetchTokenFiatValues,
@@ -299,6 +300,7 @@ class Routing extends Component {
                         <NetworkBanner
                             account={account}
                         />
+                        {USN_BANNER && <NetworkUSNBanner/>}
                         <NavigationWrapper />
                         <GlobalAlert />
                         <LedgerConfirmActionModal />

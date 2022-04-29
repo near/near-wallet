@@ -79,7 +79,7 @@ const NetworkBanner = ({ account }) => {
         const bannerHeight = document.getElementById('top-banner') && document.getElementById('top-banner').offsetHeight;
         const app = document.getElementById('app-container');
         const navContainer = document.getElementById('nav-container');
-        navContainer.style.top = bannerHeight ? `${bannerHeight}px` : 0;
+        navContainer.style.top = bannerHeight && !IS_MAINNET ? `${bannerHeight + 38}px` : '38px';
         app.style.paddingTop = bannerHeight ? `${bannerHeight + 85}px` : '75px';
     };
 
