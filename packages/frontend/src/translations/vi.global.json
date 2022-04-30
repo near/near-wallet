@@ -2,13 +2,13 @@
     "account": {
         "activateAccount": {
             "post": {
-                "descOne": "Khoản deposit ban đầu của bạn đã được nhận và được chuyển vào tài khoản mới của bạn. Tài khoản của bạn đã được kích hoạt!",
-                "descTwo": "Một phần deposit của bạn đã được để dành cho việc trang trải <a href='https://docs.near.org/docs/concepts/account' rel='noopener noreferrer' target='_blank'>chi phí lưu trữ tài khoản của bạn</a>.",
+                "descOne": "Khoản nạp ban đầu của bạn đã được nhận và được chuyển vào tài khoản mới của bạn. Tài khoản của bạn đã được kích hoạt!",
+                "descTwo": "Một phần nạp của bạn đã được để dành cho việc trang trải <a href='https://docs.near.org/docs/concepts/account' rel='noopener noreferrer' target='_blank'>chi phí lưu trữ tài khoản</a>.",
                 "title": "Tài khoản của bạn đã được kích hoạt."
             },
             "pre": {
-                "desc": "Để bắt đầu sử dụng Ví NEAR, bạn cần một khoản deposit tối thiểu ban đầu bằng cách gửi <b>ít nhất ${amount}</b> đến ID tài khoản (đôi khi được gọi là “địa chỉ”).",
-                "title": "Đã gần hoàn tất! Bạn hãy gửi deposit ban đầu."
+                "desc": "Để bắt đầu sử dụng Ví NEAR, bạn cần nạp tối thiểu ban đầu bằng cách gửi <b>ít nhất ${amount}</b> đến ID tài khoản (đôi khi được gọi là “địa chỉ”).",
+                "title": "Đã gần hoàn tất! Hãy gửi số NEAR cần nạp ban đầu."
             }
         },
         "available": {
@@ -29,19 +29,19 @@
         "createImplicit": {
             "post": {
                 "modal": {
-                    "checkbox": "Tôi xác nhận rằng địa chỉ one-time không hợp lệ và bất kỳ tài sản bổ sung nào được gửi đến địa chỉ này sẽ bị mất.",
+                    "checkbox": "Tôi xác nhận rằng địa chỉ một lần không hợp lệ và bất kỳ tài sản bổ sung nào được gửi đến địa chỉ này sẽ bị mất.",
                     "descOne": "Tài khoản của bạn đã được nạp tiền thành công!",
                     "descThree": "ID tài khoản của bạn: <b>${accountId}</b> là địa chỉ duy nhất của bạn cho tất cả các hoạt động NEAR.",
-                    "descTwo": "Địa chỉ ví one-time không còn được sử dụng để nhận tài sản.",
+                    "descTwo": "Địa chỉ ví một lần không còn được sử dụng để nhận tài sản.",
                     "title": "Tài khoản quỹ"
                 }
             },
             "pre": {
-                "addressHeader": "Địa chỉ ví one-time",
+                "addressHeader": "Địa chỉ ví một lần",
                 "alertBanner": {
                     "title": "Đừng đóng cửa sổ này!"
                 },
-                "descOne": "Khởi tạo tài khoản của bạn bằng cách gửi ít nhất <b>${amount}</b> đến địa chỉ ví one-time bên dưới.",
+                "descOne": "Khởi tạo tài khoản của bạn bằng cách gửi ít nhất <b>${amount}</b> đến địa chỉ ví một lần bên dưới.",
                 "descTwo": "Quay lại màn hình này sau khi tiền của bạn đã được gửi để hoàn tất việc tạo tài khoản của bạn.",
                 "fundWith": "Gửi tiền với",
                 "title": "Nạp tiền vào tài khoản của bạn",
@@ -55,7 +55,7 @@
                 "button": "Tiếp tục đến Tài khoản",
                 "descOne": "Chúc mừng <b>${accountId}</b>! Tài khoản của bạn đã được tạo thành công.",
                 "descThree": "Vui lòng cập nhật địa chỉ của bạn trên bất kỳ sàn giao dịch nào hoặc các thiết bị khác.",
-                "descTwo": "Bây giờ bạn phải sử dụng ID tài khoản này làm địa chỉ của bạn cho tất cả các hoạt động NEAR.",
+                "descTwo": "Bây giờ bạn phải sử dụng ID tài khoản này làm địa chỉ của bạn cho tất cả các hoạt động trên NEAR.",
                 "title": "Chào mừng đến với NEAR"
             }
         },
@@ -75,20 +75,20 @@
         },
         "fundedStatus": {
             "active": "Active",
-            "awaitingDeposit": "Đang chờ deposit",
-            "initialDeposit": "Deposit ban đầu",
-            "minDeposit": "Deposit tối thiểu",
+            "awaitingDeposit": "Đang chờ nạp",
+            "initialDeposit": "Nạp ban đầu",
+            "minDeposit": "Nạp tối thiểu",
             "nearName": "ID tài khoản",
-            "ready": "Sẵn sàng để claim",
-            "singleUse": "Địa chỉ Tài trợ sử-dụng-một-lần",
-            "status": "Tình trạng tài khoản"
+            "ready": "Sẵn sàng để nhận",
+            "singleUse": "Địa chỉ Ví Tài trợ sử-dụng-một-lần",
+            "status": "Trạng thái tài khoản"
         },
         "login": {
             "details": {
                 "warning": "Điều này cho phép truy cập vào toàn bộ số dư của bạn. Hãy thực hiện một cách thận trọng."
             },
             "incorrectContractId": {
-                "error": "Hợp đồng ${contractId} không tồn  tại. Đây có thể là vấn đề của ứng dụng bạn đang cố gắng sử dụng hoặc hợp đồng này có thể đã bị xóa. Bạn sẽ được chuyển hướng trở lại ứng dụng"
+                "error": "Hợp đồng ${contractId} không tồn tại. Đây có thể là vấn đề của ứng dụng bạn đang cố gắng sử dụng hoặc hợp đồng này có thể đã bị xóa. Bạn sẽ được chuyển hướng trở lại ứng dụng"
             }
         },
         "nameDoesntMatch": "Tên tài khoản không khớp",
@@ -161,7 +161,7 @@
         "publicKey": "Khóa công khai"
     },
     "availableBalanceInfo": "Số dư NEAR có thể chi tiêu của bạn không bao gồm các khoản đã bị khóa hoặc đã stake. <a href='/profile'>Xem Phân tích Số dư →</a>",
-    "availableBalanceProfile": "Đây là số dư NEAR có thể sử dụng hoặc chuyển đi ngay lập tức của bạn. Số tiền này sẽ thấp hơn tổng số dư của bạn.",
+    "availableBalanceProfile": "Đây là số dư NEAR bạn có thể sử dụng hoặc chuyển đi ngay lập tức. Số này sẽ nhỏ hơn tổng số dư của bạn.",
     "back": "Trở lại",
     "balance": {
         "balance": "Tổng số dư",
@@ -309,8 +309,8 @@
             "title": "Điều khoản và điều kiện"
         },
         "termsPage": {
-            "descOne": "Các tài khoản NEAR yêu cầu số dư <b>ít nhất ${amount}</b> để <a href='https://docs.near.org/docs/concepts/account' rel='noopener noreferrer' target='_blank'>giữ chỗ trên mạng.</a>",
-            "descTwo": "Sau khi đặt trước một địa chỉ tài khoản duy nhất, bạn sẽ được yêu cầu gửi một khoản deposit nhỏ ban đầu để kích hoạt tài khoản của mình.",
+            "descOne": "Các tài khoản NEAR yêu cầu số dư <b>ít nhất ${amount}</b> để <a href='https://docs.near.org/docs/concepts/account' rel='noopener noreferrer' target='_blank'>giữ chỗ trên mạng lưới.</a>",
+            "descTwo": "Sau khi giữ chỗ một địa chỉ ví duy nhất, bạn sẽ được yêu cầu gửi một khoản nạp nhỏ ban đầu để kích hoạt tài khoản của mình.",
             "disclaimer": "Bằng cách tạo một tài khoản NEAR, bạn đồng ý với <a href='/terms' rel='noopener noreferrer' target='_blank'>Các điều khoản dịch vụ</a> của Ví NEAR cũng như <a href='https://near.org/privacy' rel='noopener noreferrer' target='_blank'>Chính sách Bảo mật</a>.",
             "title": "Trước khi bạn bắt đầu..."
         }
@@ -420,35 +420,35 @@
         "title": "Thiêt bị ổ cứng"
     },
     "importAccountWithLink": {
-        "accountFound": "1 Tài khoản được Tìm thấy",
+        "accountFound": "1 Tài khoản được tìm thấy",
         "accountImported": "Tài khoản được Thêm vào",
-        "accountsFound": "${count} Tài khoản được Tìm thấy",
+        "accountsFound": "${count} Tài khoản được tìm thấy",
         "alreadyImported": "Tài khoản được bảo mật bằng liên kết này đã được thêm vào.",
         "continue": "và tiếp tục quá trình này trong trình duyệt mà bạn chọn.",
         "copyUrl": "sao chép URL",
         "foundAccount": "Chúng tôi tìm được <b>1 tài khoản</b> được bảo mật bằng liên kết này.",
         "foundAccounts": "Chúng tôi tìm được <b>${count} tài khoản</b> được bảo mật bằng liên kết này.",
         "goToAccount": "Đến Tài khoản",
-        "import": "Thêm vào",
-        "importAccount": "Thêm vào Tài khoản của bạn",
+        "import": "Nhập",
+        "importAccount": "Nhập tài khoản của bạn",
         "preferedBrowser": "Nếu đây không phải là trình duyệt bạn ưa thích,"
     },
     "initialDeposit": {
         "claimAccount": {
-            "desc": "Đã nhận được khoản deposit của bạn! Một khi đã claim, khoản deposit sẽ được chuyển vào tài khoản mới của bạn.",
+            "desc": "Đã nhận được khoản nạp của bạn! Một khi đã nhận, khoản nạp sẽ được chuyển vào tài khoản mới của bạn.",
             "disclaimer": {
                 "checkBox": "Đồng ý & Tiếp tục",
                 "desc": "Quan trọng: Địa chỉ tài trợ sử-dụng-một-lần trước đó sẽ không còn hợp lệ. Hãy thay thế địa chỉ đó bằng địa chỉ mới của bạn trên tất cả các sàn giao dịch hoặc các thiết bị khác mà địa chỉ đó có thể đã được lưu."
             },
-            "title": "Claim Tài khoản Của bạn"
+            "title": "Nhận tài khoản Của bạn"
         },
         "creditCard": {
-            "desc": "Hoàn tất giao dịch của bạn mua <b>ít nhất ${amount} NEAR</b> qua MoonPay. MoonPay sẽ tự động deposit vào tài khoản mới của bạn.",
+            "desc": "Hoàn tất giao dịch của bạn mua <b>ít nhất ${amount} NEAR</b> qua MoonPay. MoonPay sẽ tự động nạp vào tài khoản mới của bạn.",
             "title": "Thêm tiền vào tài khoản mới của bạn bằng thẻ tín dụng."
         },
         "manualDeposit": {
-            "desc": "Đáp ứng khoản tiền gửi ban đầu tối thiểu bằng cách gửi <b>ít nhất ${amount} NEAR</b> đến địa chỉ tài trợ sử-dụng-một-lần bên dưới.",
-            "title": "Gởi deposit thủ công."
+            "desc": "Hoàn tất khoản tiền gửi ban đầu tối thiểu bằng cách gửi <b>ít nhất ${amount} NEAR</b> đến địa chỉ tài trợ sử-dụng-một-lần bên dưới.",
+            "title": "Nạp thủ công."
         }
     },
     "input": {
@@ -551,7 +551,7 @@
             "connectConfirm": {
                 "desc": "Chỉ kết nối với các trang web mà bạn tin tưởng. Sau khi kết nối, <a href=${contractIdUrl} target='_blank' rel='noreferrer'>${appReferrer}</a> sẽ có <b>${accessType}</b>:",
                 "feeAllowance": {
-                    "desc": "Ứng dụng sẽ được phép chi tiêu tối đa <b>${amount} NEAR</b> có các phí phát sinh trên mạng trong quá trình sử dụng.",
+                    "desc": "Ứng dụng sẽ được phép chi tiêu TỐI ĐA <b>${amount} NEAR</b> có các phí phát sinh trên mạng trong quá trình sử dụng.",
                     "title": "Khoảng cho phép Phí xử lý Mạng"
                 },
                 "fullAccess": "các quyền đầy đủ",
@@ -691,7 +691,7 @@
         },
         "security": {
             "lessSecure": "Kém an toàn",
-            "lessSecureDesc": "Các tùy chọn này được đề xuất cho những tài khoản có số lượng NEAR nhỏ và các tài sản khác. Chúng thuận tiện, nhưng rủi ro hơn so với các tùy chọn an toàn khác. Nếu tài khoản email hoặc tin nhắn SMS của bạn bị xâm phạm, tài sản của bạn có thể sẽ gặp rủi ro.",
+            "lessSecureDesc": "Các tùy chọn này được đề xuất cho những tài khoản có số lượng ít NEAR và các tài sản khác. Chúng thuận tiện, nhưng rủi ro hơn so với các tùy chọn an toàn khác. Nếu tài khoản email hoặc tin nhắn SMS của bạn bị xâm phạm, tài sản của bạn có thể sẽ gặp rủi ro.",
             "mostSecure": "An toàn nhất (được đề xuất)",
             "mostSecureDesc": "Ledger là lựa chọn an toàn nhất. Các cụm từ khôi phục có thể được bảo mật nếu được sử dụng đúng cách (được viết ra và lưu trữ một cách an toàn).",
             "title": "Bảo mật & Khôi phục"
@@ -725,13 +725,13 @@
             "title": "Email"
         },
         "ledger": {
-            "desc": "Hãy đảm bảo sổ cái của bạn được kết nối an toàn và ứng dụng NEAR đang mở trên thiết bị.",
+            "desc": "Hãy đảm bảo ledger của bạn được kết nối an toàn và ứng dụng NEAR đang mở trên thiết bị.",
             "title": "Ledger"
         },
         "pageText": "Nếu bạn đã thiết lập một hoặc nhiều phương thức khôi phục tài khoản, hãy làm theo hướng dẫn bên dưới để thêm tài khoản của bạn.",
         "pageTitle": "Thêm tài khoản",
         "phone": {
-            "desc": "Kiểm tra lịch sửa tin nhắn của bạn để tìm tin nhắn SMS từ",
+            "desc": "Kiểm tra lịch sử tin nhắn của bạn để tìm tin nhắn SMS từ",
             "number": "+14086179592.",
             "title": "Số điện thoại"
         },
@@ -867,7 +867,7 @@
             "success": "Xác thực hai yếu tố đã thiết lập thành công!"
         }
     },
-    "reservedForFeesInfo": "Tối đa ${data} NEAR được dự trữ để trang trải chi phí giao dịch.",
+    "reservedForFeesInfo": "Tối đa ${data} NEAR được bảo lưu để trang trải chi phí giao dịch.",
     "selectAccountDropdown": {
         "account": "Tài khoản",
         "createAccount": "Tạo tài khoản mới",
@@ -919,8 +919,8 @@
     },
     "sendV2": {
         "accordionTriggerTitle": {
-            "balanceDetails": "Các chi tiết Số dư",
-            "transactionDetails": "Các chi tiết Giao dịch"
+            "balanceDetails": "Chi tiết Số dư",
+            "transactionDetails": "Chi tiết Giao dịch"
         },
         "review": {
             "title": "Bạn đang gửi"
@@ -959,7 +959,7 @@
                 "from": "Từ",
                 "networkFees": "Phí mạng lưới",
                 "receiverId": "Gửi đến",
-                "reservedForFees": "Dành sẵn cho các phí",
+                "reservedForFees": "Giữ lại cho các phí",
                 "status": "Tình trạng giao dịch",
                 "timeStamp": "Ngày & giờ",
                 "to": "Đến",
@@ -1089,7 +1089,7 @@
             "transferOf": "đang yêu cầu chuyển"
         },
         "multipleAccountsError": {
-            "body": "<a href=${signCallbackUrl} target='_blank' rel='noreferrer'>${signCallbackUrl}</a> đã yêu cầu chứng nhận quyền từ nhiều tài khoản.<br/><br/>NEAR Wallet chỉ có thể chứng nhận quyền cho các giao dịch cho một tài khoản tại một thời điểm.",
+            "body": "<a href=${signCallbackUrl} target='_blank' rel='noreferrer'>${signCallbackUrl}</a> đã yêu cầu cấp quyền từ nhiều tài khoản.<br/><br/>NEAR Wallet chỉ có thể cấp quyền cho các giao dịch cho một tài khoản tại một thời điểm.",
             "title": "Giao dịch hàng loạt có lỗi"
         },
         "nothingHasBeenTransferred": "Không có lệnh chuyển nào.",
@@ -1151,7 +1151,7 @@
             },
             "farm": {
                 "button": "Claim",
-                "info": "Validator này cấp phần thưởng stake bằng một token không phải là NEAR."
+                "info": "Validator này cấp phần thưởng stake bằng token không phải là NEAR."
             },
             "pending": {
                 "info": "Các token này đã được unstake, nhưng vẫn chưa sẵn sàng để rút. Việc rút sẽ khả dụng từ 52 đến 65 giờ sau khi unstake.",
@@ -1301,9 +1301,9 @@
         "active": "Hoạt động",
         "alertBanner": {
             "button": "Tìm hiểu thêm",
-            "title": "Khi được bật, <b>${data}</b> sẽ bị khóa để duy trì chi phí lưu trữ hợp đồng của xác thực hai yếu tố."
+            "title": "Khi được bật, <b>${data}</b> sẽ bị khóa lại để duy trì chi phí lưu trữ hợp đồng của xác thực hai yếu tố."
         },
-        "checkBox": "Tôi xác nhận bằng cách bật xác thực hai yếu tố, ${amount} sẽ được dành để chi trả cho việc lưu trữ hợp đồng.",
+        "checkBox": "Tôi xác nhận bằng cách bật xác thực hai yếu tố, ${amount} sẽ được khóa lại để chi trả cho việc lưu trữ hợp đồng.",
         "desc": "Bảo vệ tài khoản của bạn bằng cách yêu cầu xác nhận qua SMS hoặc email khi ủy quyền giao dịch.",
         "disable": {
             "desc": "Hãy nhớ rằng các giao dịch sẽ không cần phải được xác nhận khi 2FA bị vô hiệu hóa.",
@@ -1319,7 +1319,7 @@
         "promptDesc": "Chúng tôi khuyên bạn nên thiết lập phương thức xác thực hai yếu tố để tăng tính bảo mật cho tài khoản và các tài sản của bạn",
         "select": "Chọn phương thức xác thực",
         "since": "từ",
-        "subHeader": "Two factor authentication adds an extra layer of security to your account. <b>Passphrase and Ledger keys continue to allow full access to your account.</b>",
+        "subHeader": "Mã xác thực hai lớp thêm bảo mật cho tài khoản của bạn. <b>Cụm mật khẩu và cụm mật khẩu Ledger vẫn cho phép quyền truy cập đầy đủ vào tài khoản của bạn.</b>",
         "title": "Xác thực hai yếu tố",
         "verify": {
             "desc": "Mã xác minh gồm 6 chữ số đã được gửi tới:",
@@ -1334,7 +1334,7 @@
     },
     "unlockedAvailTransfer": "NEAR này đã được mở khóa và có thể được chuyển ra khỏi hợp đồng khóa của bạn.",
     "unlockedBalance": "NEAR này vẫn còn trong hợp đồng khóa, nhưng đã được mở khóa.",
-    "unvestedBalance": "NEAR chưa cấp (vest) này được đánh dấu dành cho bạn, nhưng chưa thuộc quyền sở hữu của bạn. Bạn vẫn có thể ủy quyền hoặc stake NEAR này, phần thưởng sẽ hoàn toàn thuộc về bạn. Khi NEAR này của bạn được cấp, nó sẽ xuất hiện trong số dư đã khóa hoặc đã mở khóa của bạn.",
+    "unvestedBalance": "NEAR chưa cấp (vest) này được đánh dấu là dành cho bạn, nhưng chưa thuộc quyền sở hữu của bạn. Bạn vẫn có thể ủy quyền hoặc stake NEAR này, phần lãi sẽ hoàn toàn thuộc về bạn. Khi số NEAR này của bạn được cấp, nó sẽ xuất hiện trong số dư đã khóa hoặc đã mở khóa của bạn.",
     "wallet": {
         "balance": "Số dư",
         "balanceTitle": "Số dư NEAR",
@@ -1356,7 +1356,7 @@
             "aborted": "Hành động đã bị hủy bỏ.",
             "noAccounts": "Không có tài khoản nào được tìm thấy cho thiết bị Ledger này. Vui lòng xác nhận rằng bạn đã liên kết tài khoản với Ledger này.",
             "noAccountsAccepted": "Không có tài khoản nào được chấp nhận.",
-            "U2FNotSupported": "Hỗ trợ trình duyệt U2F là cần thiết cho Ledger. Vui lòng sử dụng Chrome, Opera hoặc Firefox với U2F Extension."
+            "U2FNotSupported": "Trình duyệt hỗ trợ U2F là cần thiết cho Ledger. Vui lòng sử dụng Chrome, Opera hoặc Firefox với U2F Extension."
         },
         "lockup": {
             "transferAllWithStakingPoolBalance": "Unstake và rút tất cả tiền từ pool staking để chuyển số dư khóa còn lại của bạn sang Ví."
