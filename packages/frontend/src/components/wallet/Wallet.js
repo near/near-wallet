@@ -20,7 +20,7 @@ import DownArrowIcon from '../svg/DownArrowIcon';
 import SendIcon from '../svg/SendIcon';
 import Swap from '../svg/SwapIcon';
 import TopUpIcon from '../svg/TopUpIcon';
-import Wrap from '../svg/WrapIcon';
+import WrapIcon from '../svg/WrapIcon';
 import ActivitiesWrapper from './ActivitiesWrapper';
 import CreateCustomNameModal from './CreateCustomNameModal';
 import CreateFromImplicitSuccessModal from './CreateFromImplicitSuccessModal';
@@ -447,11 +447,11 @@ const FungibleTokens = ({
                 <FormButton
                     color="dark-gray"
                     linkTo="/swap"
-                    trackingId="Click Receive on Wallet page"
+                    trackingId="Click Swap on Wallet page"
                     data-test-id="balancesTab.swap"
                 >
                     <div>
-                        <Wrap color="white" />
+                        <WrapIcon color="white" />
                     </div>
                     <Translate id="button.swap" />
                 </FormButton>

@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
+import { getFormatBalance } from '../../../utils/wrap-unwrap';
 import BackArrowButton from '../../common/BackArrowButton';
 import FormButton from '../../common/FormButton';
 import SwapIcon from '../../svg/WrapIcon';
 import { VIEWS } from '../SwapNear';
-import { getFormatBalance } from './helper';
 import SwapFromForm from './SwapFromForm';
 import SwapFromTo from './SwapFromTo';
 
@@ -111,6 +111,19 @@ export function SwapAmountForm({
         }
     }, [amountTokenFrom, amountTokenTo, error]);
 
+    const handleSwapForm = () => {
+        const temp = amountTokenTo;
+        const tempMax = maxTo;
+        const tempToken = activeTokenTo;
+        setActiveTokenTo(activeTokenFrom);
+        setActiveTokenFrom(tempToken);
+        setAmountTokenTo(amountTokenFrom);
+        setAmountTokenFrom(temp);
+        setMaxTo(maxFrom);
+        setMaxFrom(tempMax);
+        setMockRateData(1 / mockRateData);
+    };
+
     return (
         <StyledContainer>
             <div className="header">
@@ -130,18 +143,7 @@ export function SwapAmountForm({
                 <div className="margin">
                     <FormButton
                         color="small-rounded"
-                        onClick={() => {
-                            const temp = amountTokenTo;
-                            const tempMax = maxTo;
-                            const tempToken = activeTokenTo;
-                            setActiveTokenTo(activeTokenFrom);
-                            setActiveTokenFrom(tempToken);
-                            setAmountTokenTo(amountTokenFrom);
-                            setAmountTokenFrom(temp);
-                            setMaxTo(maxFrom);
-                            setMaxFrom(tempMax);
-                            setMockRateData(1 / mockRateData);
-                        }}
+                        onClick={handleSwapForm}
                     >
                         <SwapIcon className="hoverFill" />
                     </FormButton>

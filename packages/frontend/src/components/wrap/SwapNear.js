@@ -1,4 +1,4 @@
-import * as nearApiJs from 'near-api-js';
+import { parseNearAmount } from 'near-api-js/lib/utils/format';
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
@@ -14,17 +14,11 @@ import {
     selectTokensLoading,
 } from '../../redux/slices/tokens';
 import { fungibleTokensService } from '../../services/FungibleTokens';
+import { validateInput } from '../../utils/wrap-unwrap';
 import Container from '../common/styled/Container.css';
-import { validateInput } from './components/helper';
 import Success from './components/Success';
 import { SwapAmountForm } from './components/SwapAmountForm';
 import { SwapReviewForm } from './components/SwapReviewForm';
-
-const {
-    utils: {
-        format: { parseNearAmount },
-    },
-} = nearApiJs;
 
 const { fetchTokens } = tokensActions;
 const { checkAndHideLedgerModal } = ledgerActions;
@@ -57,54 +51,6 @@ const StyledContainer = styled(Container)`
             width: initial !important;
             height: initial !important;
             margin: initial !important;
-        }
-
-        &.go-back {
-            position: absolute;
-            top: 0;
-            left: -13px;
-            min-height: 42px !important;
-            height: 42px !important;
-            min-width: 42px !important;
-            width: 42px !important;
-            border-radius: 50% !important;
-
-            :hover {
-                background-color: #eeefee !important;
-            }
-
-            @media (max-width: 991px) {
-                top: -9px;
-                left: 1px;
-            }
-        }
-
-        &.learn-more {
-            font-size: 14px !important;
-            font-weight: 400 !important;
-            text-decoration: none !important;
-            margin-top: 10px !important;
-
-            :hover {
-                text-decoration: underline !important;
-            }
-        }
-
-        &.black,
-        &.gray-gray {
-            width: 100% !important;
-            display: flex !important;
-            align-items: center;
-            justify-content: center;
-            border: 0 !important;
-
-            svg {
-                margin: -3px 0 0 10px !important;
-            }
-        }
-
-        &.gray-gray svg {
-            margin-right: 4px !important;
         }
     }
 
@@ -198,6 +144,51 @@ export function SwapNear({ match, location, history }) {
         setError(!validateInput(amountTokenFrom, maxFrom.fullNum));
     }, [amountTokenFrom, maxFrom]);
 
+
+    const handleSwapToken = async (
+        accountId,
+        wrapAmount,
+        toWNear
+    ) => {
+        await Mixpanel.withTracking(
+            'SWAP token',
+            async () => {
+                setSwappingToken(true);
+
+                const result =
+                    await fungibleTokensService.wrapNear({
+                        accountId,
+                        wrapAmount:
+                            parseNearAmount(wrapAmount),
+                        toWNear,
+                    });
+                setTransactionHash(result.transaction.hash);
+                setActiveView(VIEWS.SUCCESS);
+
+                const id = Mixpanel.get_distinct_id();
+                Mixpanel.identify(id);
+                Mixpanel.people.set({
+                    last_send_token: new Date().toString(),
+                });
+            },
+            (e) => {
+                dispatch(
+                    showCustomAlert({
+                        success: false,
+                        messageCodeHeader: 'error',
+                        messageCode:
+                            'walletErrorCodes.sendFungibleToken.error',
+                        errorMessage: e.message,
+                    })
+                );
+                setSwappingToken('failed');
+                return;
+            }
+        );
+
+        dispatch(checkAndHideLedgerModal());
+    };
+
     const getCurrentViewComponent = (view) => {
         switch (view) {
             case VIEWS.SWAP_AMOUNT:
@@ -232,49 +223,7 @@ export function SwapNear({ match, location, history }) {
                         activeTokenTo={activeTokenTo}
                         mockRateData={mockRateData}
                         accountId={accountId}
-                        handleSwapToken={async (
-                            accountId,
-                            wrapAmount,
-                            toWNear
-                        ) => {
-                            await Mixpanel.withTracking(
-                                'SWAP token',
-                                async () => {
-                                    setSwappingToken(true);
-
-                                    const result =
-                                        await fungibleTokensService.wrapNear({
-                                            accountId,
-                                            wrapAmount:
-                                                parseNearAmount(wrapAmount),
-                                            toWNear,
-                                        });
-                                    setTransactionHash(result.transaction.hash);
-                                    setActiveView(VIEWS.SUCCESS);
-
-                                    const id = Mixpanel.get_distinct_id();
-                                    Mixpanel.identify(id);
-                                    Mixpanel.people.set({
-                                        last_send_token: new Date().toString(),
-                                    });
-                                },
-                                (e) => {
-                                    dispatch(
-                                        showCustomAlert({
-                                            success: false,
-                                            messageCodeHeader: 'error',
-                                            messageCode:
-                                                'walletErrorCodes.sendFungibleToken.error',
-                                            errorMessage: e.message,
-                                        })
-                                    );
-                                    setSwappingToken('failed');
-                                    return;
-                                }
-                            );
-
-                            dispatch(checkAndHideLedgerModal());
-                        }}
+                        handleSwapToken={handleSwapToken}
                         swappingToken={swappingToken}
                     />
                 );

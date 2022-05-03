@@ -13,7 +13,6 @@ import styled, { ThemeProvider } from 'styled-components';
 import {
     CREATE_IMPLICIT_ACCOUNT,
     IMPORT_ACCOUNT_WITH_LINK_V2,
-    CREATE_USN_CONTRACT,
 } from '../../../../features';
 import TwoFactorVerifyModal from '../components/accounts/two_factor/TwoFactorVerifyModal';
 import {
@@ -93,9 +92,9 @@ import { Profile } from './profile/Profile';
 import { ReceiveContainerWrapper } from './receive-money/ReceiveContainerWrapper';
 import { SendContainerWrapper } from './send/SendContainerWrapper';
 import { StakingContainer } from './staking/StakingContainer';
-import SwapContainerWrapper from './Swap/SwapContainerWrapper';
 import Terms from './terms/Terms';
 import { SwapNear } from './wrap/SwapNear';
+
 
 import '../index.css';
 
@@ -621,13 +620,11 @@ class Routing extends Component {
                                 path="/buy"
                                 component={BuyNear}
                             />
-                            {CREATE_USN_CONTRACT && (
-                                <PrivateRoute
-                                    exact
-                                    path="/swap-money"
-                                    component={SwapContainerWrapper}
-                                />
-                            )}
+                            <PrivateRoute
+                                exact
+                                path='/swap'
+                                component={SwapNear}
+                            />  
                             <PrivateRoute
                                 exact
                                 path="/swap"
