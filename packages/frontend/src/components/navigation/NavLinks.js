@@ -3,9 +3,11 @@ import { Translate } from 'react-localize-redux';
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { CREATE_USN_CONTRACT } from '../../../../../features';
+import { CREATE_USN_CONTRACT, USN_BUTTON } from '../../../../../features';
+import { IS_MAINNET } from '../../config'
 import { Mixpanel } from '../../mixpanel/index';
 import HelpIcon from '../svg/HelpIcon';
+import USN_LOGO from '../../images/USN-logo.png'
 import SwapIconTwoArrows from '../svg/SwapIconTwoArrows';
 import UserIcon from '../svg/UserIcon';
 import VaultIcon from '../svg/VaultIcon';
@@ -13,6 +15,7 @@ import WalletIcon from '../svg/WalletIcon';
 
 const Container = styled.div`
     display: flex;
+    width: 100%;
     a {
         display: flex;
         align-items: center;
@@ -44,6 +47,7 @@ const Container = styled.div`
         }
     }
 
+
     svg {
         margin-right: 10px;
         width: 23px;
@@ -54,6 +58,29 @@ const Container = styled.div`
             height: 35px;
             margin-right: 4px;
             stroke-width: 0px;
+        }
+    }
+
+    .usn-button {
+        margin-left: auto;
+        margin-right: 20px;
+        height: 35px;
+        padding: 5px 15px 5px 5px;
+        border-radius: 20px;
+        background: #D6EDFF;
+        font-weight: 600;
+        color: black;
+
+        :hover {
+            background: #0072CE;
+            color: white;
+        }
+
+        img {
+            margin-right: 10px;
+            margin-top: 2px;
+            width: 25px;
+            height: 25px;
         }
     }
 
@@ -111,6 +138,22 @@ const NavLinks = () => (
 
             <Translate id="button.swap" />
         </NavLink>}
+        {USN_BUTTON && 
+            <a
+            href={!IS_MAINNET 
+                ? 'https://swap.testnet.decentral-bank.finance/'
+                : 'https://swap.decentral-bank.finance/'
+            }
+            target='_blank' 
+            className="usn-button"
+            onClick={() => Mixpanel.track('Click Buy USN')}
+            >
+            <div>
+                <img src={USN_LOGO} alt='open-link'></img>
+            </div>
+
+       <>Buy $USN</>
+    </a>}
     </Container>
 );
 

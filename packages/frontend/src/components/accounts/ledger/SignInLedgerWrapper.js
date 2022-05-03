@@ -123,77 +123,55 @@ export function SignInLedgerWrapper(props) {
         dispatch(redirectTo('/recover-account'));
     };
 
-    const activeView = () => {
+    const LedgerView = () => {
         if (!signInWithLedgerStatus) {
-            return VIEWS.AUTHORIZE;
+            return <Authorize
+                status={status}
+                path={path}
+                setPath={setPath}
+                setConfirmedPath={setConfirmedPath}
+                handleSignIn={handleSignIn}
+                signingIn={!!signInWithLedgerStatus}
+                handleCancel={handleCancelAuthorize}
+            />;
         }
         if (signInWithLedgerStatus === LEDGER_MODAL_STATUS.CONFIRM_PUBLIC_KEY) {
-            return VIEWS.SIGN_IN;
+            return <SignIn
+                txSigned={txSigned}
+                handleCancel={handleCancelSignIn}
+            />;
         }
         if (signInWithLedgerStatus === LEDGER_MODAL_STATUS.ENTER_ACCOUNTID) {
-            return VIEWS.ENTER_ACCOUNT_ID;
+            return <EnterAccountId
+                handleAdditionalAccountId={handleAdditionalAccountId}
+                accountId={accountId}
+                handleChange={handleChange}
+                localAlert={status.localAlert}
+                checkAccountAvailable={(accountId) => dispatch(checkAccountAvailable(accountId))}
+                mainLoader={mainLoader}
+                clearLocalAlert={() => dispatch(clearLocalAlert())}
+                stateAccountId={account.accountId}
+                loader={loader}
+                clearSignInWithLedgerModalState={() => dispatch(clearSignInWithLedgerModalState())}
+            />;
         }
         if (signInWithLedgerStatus === LEDGER_MODAL_STATUS.CONFIRM_ACCOUNTS || signInWithLedgerStatus === LEDGER_MODAL_STATUS.SUCCESS) {
-            return VIEWS.IMPORT_ACCOUNTS;
+            return <ImportAccounts
+                accountsApproved={accountsApproved}
+                totalAccounts={totalAccounts}
+                ledgerAccounts={ledgerAccounts}
+                accountsError={accountsError}
+                accountsRejected={accountsRejected}
+                signInWithLedgerStatus={signInWithLedgerStatus}
+                handleContinue={handleContinue}
+            />;
         }
-    };
-
-    const getCurrentViewComponent = (view) => {
-        switch (view) {
-            case VIEWS.AUTHORIZE:
-                return (
-                    <Authorize
-                        status={status}
-                        path={path}
-                        setPath={setPath}
-                        setConfirmedPath={setConfirmedPath}
-                        handleSignIn={handleSignIn}
-                        signingIn={!!signInWithLedgerStatus}
-                        handleCancel={handleCancelAuthorize}
-                    />
-                );
-            case VIEWS.SIGN_IN:
-                return (
-                    <SignIn
-                        txSigned={txSigned}
-                        handleCancel={handleCancelSignIn}
-                    />
-                );
-            case VIEWS.ENTER_ACCOUNT_ID:
-                return (
-                    <EnterAccountId
-                        handleAdditionalAccountId={handleAdditionalAccountId}
-                        accountId={accountId}
-                        handleChange={handleChange}
-                        localAlert={status.localAlert}
-                        checkAccountAvailable={(accountId) => dispatch(checkAccountAvailable(accountId))}
-                        mainLoader={mainLoader}
-                        clearLocalAlert={() => dispatch(clearLocalAlert())}
-                        stateAccountId={account.accountId}
-                        loader={loader}
-                        clearSignInWithLedgerModalState={() => dispatch(clearSignInWithLedgerModalState())}
-                    />
-                );
-            case VIEWS.IMPORT_ACCOUNTS:
-                return (
-                    <ImportAccounts
-                        accountsApproved={accountsApproved}
-                        totalAccounts={totalAccounts}
-                        ledgerAccounts={ledgerAccounts}
-                        accountsError={accountsError}
-                        accountsRejected={accountsRejected}
-                        signInWithLedgerStatus={signInWithLedgerStatus}
-                        handleContinue={handleContinue}
-                    />
-                );
-            default:
-                return null;
-        }
+        return null;
     };
 
     return (
         <Container className='small-centered border ledger-theme'>
-            {getCurrentViewComponent(activeView())}
+            <LedgerView />
         </Container>
     );
 }

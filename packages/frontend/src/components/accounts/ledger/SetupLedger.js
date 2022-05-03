@@ -151,6 +151,7 @@ const SetupLedger = (props) => {
                     Mixpanel.track('SR-Ledger Go to profile of new account');
                     await dispatch(redirectToApp('/'));
                 } else {
+                    dispatch(checkAndHideLedgerModal());
                     Mixpanel.track('SR-Ledger Go to setup ledger success');
                     await dispatch(redirectTo('/setup-ledger-success'));
                 }

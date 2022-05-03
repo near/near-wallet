@@ -1029,7 +1029,7 @@
             "transferOf": "запрашивает перевод"
         },
         "multipleAccountsError": {
-            "body": "<a href=${signCallbackUrl} target='_blank' rel='noreferrer'>${signCallbackUrl}</a> has requested authorization from more than one account.<br/><br/>NEAR Wallet may only authorize transactions for a single account at a time.",
+            "body": "<a href='${signCallbackUrl}' target='_blank' rel='noreferrer'>${signCallbackUrl}</a> has requested authorization from more than one account.<br/><br/>NEAR Wallet may only authorize transactions for a single account at a time.",
             "title": "Batch Transaction Error"
         },
         "nothingHasBeenTransferred": "Ничего не было передано.",
