@@ -1281,6 +1281,27 @@
         "to": "Đến",
         "TradingFee": "Phí giao dịch"
     },
+    "swapNear": {
+        "confirm": "Confirm & Swap",
+        "details": "Transaction details",
+        "fee": "Liquidity Provider Fee",
+        "from": "From",
+        "max": "Max: ${amount} ${symbol}",
+        "minReceived": "Minimum received",
+        "price": "Price",
+        "priceImpact": "Price Impact",
+        "review": "Review Swap",
+        "reviewInfo": "You are swapping",
+        "successTitle": "Transaction complete!</br>You swapped <span class='color-blue space'>${amount}</span></br>to <span class='color-green'>${tokenTo}</span>",
+        "title": "Swap",
+        "to": "To",
+        "translateIdInfoTooltip": {
+            "liquidityProviderFee": "The estimated cost of processing your transaction.",
+            "minimumReceived": "The minimum amount you will receive from the trade.",
+            "priceImpact": "The difference between the market price and estimated price due to trade size."
+        }
+    },
+    "swapping": "Swapping",
     "topLevelAccounts": {
         "body": "Tên tài khoản tương tự như tên miền. Chỉ tài khoản ${data} mới có thể tạo các tài khoản như tên của bạn.${data}, và chỉ tên của bạn.${data} có thể tạo app.yourname.${data}. Tất cả các tài khoản được tạo trong ví này đều sử dụng .${data} Tài khoản cấp cao nhất (TLA). Để tìm hiểu thêm về tên tài khoản và tạo TLA của riêng bạn, truy cập <a rel='noopener noreferrer' href='https://docs.nearprotocol.com/docs/concepts/account'>trang tài liệu</a>.",
         "header": "Tài khoản cấp cao nhất"
