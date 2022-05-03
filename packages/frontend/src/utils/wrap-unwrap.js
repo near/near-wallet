@@ -1,4 +1,4 @@
-import { removeTrailingZeros } from '../../../utils/amounts';
+import { removeTrailingZeros } from './amounts';
 
 export const getFormatBalance = (num, decimals) => {
     if (!num || num === '0') {

@@ -414,8 +414,8 @@ const FungibleTokens = ({ balance, tokensLoading, fungibleTokens, accountExists,
                 <FormButton
                     color="dark-gray"
                     linkTo="/swap"
-                    trackingId="Click Send on Wallet page"
-                    data-test-id="balancesTab.send"
+                    trackingId="Click Swap on Wallet page"
+                    data-test-id="balancesTab.swap"
                 >
                     <div>
                         <WrapIcon color="white" />
