@@ -43,7 +43,11 @@ const FormFrom = styled.form`
         text-align: right;
         padding: 0 15px 0 15px;
         height: 64px;
-        background: #ffffff;
+        background-color: #F1F3F5;
+
+        :focus {
+            background-color: #FFFFFF;
+        }
     }
     input.error {
         color: #fc5b5b;

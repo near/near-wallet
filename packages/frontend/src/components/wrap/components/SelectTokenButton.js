@@ -8,7 +8,7 @@ const StyledContainer = styled.div`
     display: flex;
     align-items: center;
     padding: 15px;
-    background-color: #fafafa;
+    background-color: #F1F3F5;
     border-radius: 8px;
     transition: 100ms;
     height: 64px;
