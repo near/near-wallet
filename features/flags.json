@@ -158,17 +158,17 @@
       "lastEditedAt": "2022-05-02T17:12:41.421Z"
     },
     "mainnet": {
-      "enabled": true,
+      "enabled": false,
       "lastEditedBy": "ignatKorokov",
       "lastEditedAt": "2022-05-02T17:12:41.421Z"
     },
     "mainnet_STAGING": {
-      "enabled": true,
+      "enabled": false,
       "lastEditedBy": "ignatKorokov",
       "lastEditedAt": "2022-05-02T17:12:41.421Z"
     },
     "testnet_STAGING": {
-      "enabled": true,
+      "enabled": false,
       "lastEditedBy": "ignatKorokov",
       "lastEditedAt": "2022-05-02T17:12:41.421Z"
     }
