@@ -164,8 +164,7 @@ const NavLinks = () => (
             <div>
                 <img src={USN_LOGO} alt='open-link'></img>
             </div>
-
-                <>Buy $USN</>
+                <Translate id='link.buyUSN'/>
             </a>
      }
     </Container>

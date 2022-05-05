@@ -613,6 +613,7 @@
     "link": {
         "account": "Account",
         "authorizedApps": "Authorized Apps",
+        "buyUSN": "Buy $USN",
         "donateToUkraine": "Donate to Ukraine",
         "fullAccessKeys": "Full Access Keys",
         "help": "Help",
@@ -896,7 +897,10 @@
     "recoverSeedPhrase": {
         "couldNotFindAccountModal": {
             "buttonImport": "Import Anyway",
-            "desc": "We couldn't find any <b>active account(s)</b> using the provided passphrase. This could be because the passphrase is incorrect, or because the account has no activity yet.",
+            "desc": {
+                "ledger": "We couldn't find any <b>active account(s)</b> using the provided Ledger key. This could be because the account has no activity yet.",
+                "phrase": "We couldn't find any <b>active account(s)</b> using the provided passphrase. This could be because the passphrase is incorrect, or because the account has no activity yet."
+            },
             "title": "Couldn't find account"
         },
         "pageText": "Enter the backup passphrase associated with the account.",
@@ -1355,7 +1359,7 @@
                 "info": "This validator grants staking rewards in a token other than NEAR."
             },
             "farmed": {
-                "info": "Collected tokens that have been earned during farming with farming validators",
+                "info": "Collected tokens that have been earned during farming with farming validators.",
                 "title": "Available for claim"
             },
             "pending": {

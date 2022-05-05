@@ -194,6 +194,7 @@
         "addNode": "添加節點",
         "allow": "允許",
         "approve": "允許",
+        "authorize": "授權",
         "authorizing": "正在授權",
         "backToSwap": "返回兌換",
         "browseApps": "瀏覽應用",
@@ -248,11 +249,12 @@
         "next": "下一步",
         "protectAccount": "保護賬戶",
         "receive": "接收",
+        "reconnect": "重新連接",
         "recoverAccount": "恢復賬戶",
         "recovering": "正在恢復賬戶",
         "recoverYourAccount": "恢復賬戶",
         "removeAccount": "登出賬戶",
-        "removeNode": "刪除模式",
+        "removeNode": "刪除節點",
         "removingKeys": "刪除密鑰",
         "reserveMyAccountId": "保留賬戶 ID",
         "resubmit": "重新提交",
@@ -272,6 +274,7 @@
         "startOver": "重新開始",
         "subscribe": "訂閱",
         "swap": "兌換",
+        "swapUSN": "兌換 USN",
         "ToMaine": "返回主頁",
         "topUp": "充值",
         "transferring": "正在轉賬",
@@ -305,11 +308,39 @@
     "confirmLedgerModal": {
         "header": {
             "confirm": "請在設備上確認此操作...",
-            "processing": "正在處理"
+            "processing": "正在處理",
+            "success": "賬戶已經成功從 Ledger 錢包導入。",
+            "weFound": "我們發現 ${totalAccounts} 個賬戶正通過你的設備保護。"
         },
-        "one": "請在 Ledger 硬件設備上確認登錄細節。"
+        "one": "請在 Ledger 硬件設備上確認登錄細節。",
+        "two": "請在設備上根據指示確認並授權每個你希望導入的賬戶。"
     },
     "connecting": "連接中",
+    "connectLedger": {
+        "connectLedger": "連接 Ledger",
+        "ledgerConnected": "Ledger 已連接",
+        "modal": {
+            "connect": {
+                "cancelButton": "取消",
+                "connectButton": "連接",
+                "connectionPrompt": "請確保 Ledger 已安全連接，並且 NEAR 應用已在設備上打開。",
+                "header": "連接至 Ledger 設備。"
+            },
+            "connection-error": {
+                "cancelButton": "取消",
+                "connectButton": "重試",
+                "connectionPrompt": "請確保 Ledger 已安全連接，並且 NEAR 應用已在設備上打開。",
+                "header": "連接失敗。"
+            },
+            "disconnected": {
+                "cancelButton": "取消",
+                "connectButton": "重新連接",
+                "connectionPrompt": "請確保 Ledger 已安全連接，並且 NEAR 應用已在設備上打開。",
+                "header": "你的設備已斷開連接。"
+            }
+        },
+        "youMayNow": "你現在可以在設備上進行操作。"
+    },
     "copy": {
         "default": "已複製！",
         "title": "複製"
@@ -319,7 +350,7 @@
             "placeholder": "yourname.${data}",
             "title": "輸入用戶名"
         },
-        "addACustomAddress": "Add a Custom Address",
+        "addACustomAddress": "添加自定義地址",
         "alreadyHaveAnAccount": "已經擁有賬戶？",
         "invalidLinkDrop": {
             "one": "NEAR Drop 已經被領取。",
@@ -381,7 +412,8 @@
         }
     },
     "dashboard": {
-        "activity": "最近動態"
+        "activity": "最近動態",
+        "noActivity": "該賬戶暫無動態。"
     },
     "dashboardActivity": {
         "message": {
@@ -436,6 +468,7 @@
     "error": "失敗",
     "errors": {
         "ledger": {
+            "disconnected": "Ledger 已斷開連接。",
             "U2F_4": "無法通過硬件錢包登錄：U2F DEVICE_INELIGIBLE。請確保 Ledger 設備已連接並解鎖。",
             "U2FNotSupported": "Ledger 硬件錢包需要 U2F 瀏覽器支持。請使用 Chrome、Opera 或 Firefox 安裝 U2F 擴展，並確保你是通過 HTTPS 加密連接。"
         },
@@ -580,6 +613,8 @@
     "link": {
         "account": "賬戶",
         "authorizedApps": "已授權應用",
+        "buyUSN": "購買 $USN",
+        "donateToUkraine": "捐助烏克蘭",
         "fullAccessKeys": "完全訪問密鑰",
         "help": "幫助",
         "noAccount": "你未登錄其他賬號",
@@ -654,6 +689,7 @@
                 "fullAccessWarning": "此應用正在請求你的賬戶的完全訪問權限。為開啟完全訪問，你將會被要求確認即將連接的賬戶 ID。",
                 "limitedAccess": "受限訪問",
                 "permissions": {
+                    "callMethodsOnContract": "以你的授權賬戶的名義調用該智能合約的調用方法",
                     "notTransferTokens": "該應用沒有權限轉賬 NEAR 通證",
                     "transferTokens": "從你的賬戶轉賬 NEAR 通證",
                     "viewAddress": "查看你連接的賬戶地址",
@@ -767,6 +803,9 @@
             "walletBalance": "錢包餘額",
             "walletId": "錢包 ID"
         },
+        "accountDoesNotExistBanner": {
+            "desc": "<a href='https://explorer.near.org/accounts/${data}' rel='noopener noreferrer' target='_blank'><b>此賬戶</b></a>暫無動態。向你的賬戶發送 NEAR 開始使用所有 NEAR 錢包功能。"
+        },
         "authorizedApps": {
             "title": "已授權應用"
         },
@@ -856,6 +895,14 @@
         }
     },
     "recoverSeedPhrase": {
+        "couldNotFindAccountModal": {
+            "buttonImport": "仍然導入",
+            "desc": {
+                "ledger": "我們無法在此 Ledger 上找到<b>任何活躍賬戶</b>。這可能是因為賬戶還沒任何動態。",
+                "phrase": "我們無法通過此助記詞找到<b>任何活躍賬戶</b>。這可能是因為助記詞錯誤，或者賬戶還沒有任何動態。"
+            },
+            "title": "無法找到賬戶"
+        },
         "pageText": "請輸入與此賬戶關聯的助記詞。",
         "pageTitle": "通過助記詞恢復賬戶",
         "seedPhraseInput": {
@@ -1311,6 +1358,10 @@
                 "button": "領取",
                 "info": "該節點質押獎勵將以非 NEAR 通證給予。"
             },
+            "farmed": {
+                "info": "在質押期間賺得的通證。",
+                "title": "可領取"
+            },
             "pending": {
                 "info": "這些通證並未質押，但還不可提現。通常在贖回質押後 52 - 65 小時變為可提現。",
                 "title": "請求釋放"
@@ -1450,11 +1501,11 @@
     "swap": {
         "AvailableToSwap": "可兌換",
         "ExpectedPrice": "預期價格",
-        "from": "自",
+        "from": "來自",
         "MinimumReceived": "最少收到",
         "pairPrice": "交易價格",
         "slipPage": "滑點容差",
-        "slippageError": "自1至50",
+        "slippageError": "自 1 至 50",
         "success": {
             "complete": "交易完成！",
             "youSwap": "你已經換了"
@@ -1463,26 +1514,26 @@
         "TradingFee": "交易費"
     },
     "swapNear": {
-        "confirm": "Confirm & Swap",
-        "details": "Transaction details",
-        "fee": "Liquidity Provider Fee",
-        "from": "From",
-        "max": "Max: ${amount} ${symbol}",
-        "minReceived": "Minimum received",
-        "price": "Price",
-        "priceImpact": "Price Impact",
-        "review": "Review Swap",
-        "reviewInfo": "You are swapping",
-        "successTitle": "Transaction complete!</br>You swapped <span class='color-blue space'>${amount}</span></br>to <span class='color-green'>${tokenTo}</span>",
-        "title": "Swap",
-        "to": "To",
+        "confirm": "確認並兌換",
+        "details": "交易細節",
+        "fee": "流動性提供方費用",
+        "from": "來自",
+        "max": "最多：${amount} ${symbol}",
+        "minReceived": "收到的最低數額",
+        "price": "價格",
+        "priceImpact": "兌換率影響",
+        "review": "確認兌換",
+        "reviewInfo": "你將兌換",
+        "successTitle": "交易完成！</br>你兌換了 <span class='color-blue space'>${amount}</span></br>至 <span class='color-green'>${tokenTo}</span>",
+        "title": "兌換",
+        "to": "至",
         "translateIdInfoTooltip": {
-            "liquidityProviderFee": "The estimated cost of processing your transaction.",
-            "minimumReceived": "The minimum amount you will receive from the trade.",
-            "priceImpact": "The difference between the market price and estimated price due to trade size."
+            "liquidityProviderFee": "處理此筆交易的預估費用。",
+            "minimumReceived": "從此筆交易中你將最少收到的數額。",
+            "priceImpact": "市場價格和預估價格之間的區別是由於交易規模。"
         }
     },
-    "swapping": "Swapping",
+    "swapping": "正在兌換",
     "sync": "刷新",
     "tokenBox": {
         "priceUnavailable": "無法獲取價格",
@@ -1614,6 +1665,7 @@
             "desc": "請充值 NEAR 通證後才能使用 NEAR 錢包。",
             "title": "充值 NEAR"
         },
+        "OthersTokens": "其他通證",
         "status": "狀態",
         "tokenBalance": "通證餘額",
         "tokens": "通證",
@@ -1630,6 +1682,9 @@
         },
         "addLedgerAccountId": {
             "errorRpc": "恢復賬戶時發生錯誤。"
+        },
+        "connectLedger": {
+            "noClient": "Ledger 設備還沒連接，請先連接 Ledger。"
         },
         "createNewAccount": {
             "accountCreated": {
@@ -1658,7 +1713,9 @@
             "error": "導入賬戶失敗，請重試或聯繫服務支持。"
         },
         "recoverAccountSeedPhrase": {
-            "errorInvalidSeedPhrase": "助記詞無效"
+            "errorInvalidSeedPhrase": "助記詞無效",
+            "errorNotAbleToImportAccount": "導入賬戶失敗。請重試，或聯繫客服獲得幫助。",
+            "errorSeedPhraseNotValid": "助記詞無效，請檢查後重試。"
         },
         "recoveryMethods": {
             "lastMethod": "無法刪除最後一個恢復方式。除非你添加了 Ledger，你需要保留至少一種賬戶恢復方式。",
