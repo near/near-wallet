@@ -1,11 +1,11 @@
-import React, { Component, createRef } from 'react';
+import React, { Component, createRef, ReactFragment, ReactNode } from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
 import classNames from '../../../utils/classNames';
 import { ACCOUNT_CHECK_TIMEOUT } from '../../../utils/wallet';
 import CheckCircleIcon from '../../svg/CheckCircleIcon';
-
+import { ReceiverInputWithLabelProps } from './ReceiverInputWithLabel';
 const InputWrapper = styled.div`
     position: relative;
     font: 16px 'Inter';
@@ -87,14 +87,30 @@ const InputWrapper = styled.div`
         }
     }
 `;
+type InputAccountIdProps = {
+    accountId: string;
+    handleChange: (accountId: string) => void;
+    ReceiverInputWithLabel: (props: ReceiverInputWithLabelProps) => JSX.Element;
+    checkAvailability: (accountId: string) => void;
+    localAlert: { success: boolean; show: boolean };
+    clearLocalAlert: () => void;
+    onFocus: () => void;
+    onBlur: () => void;
+    autoFocus: boolean;
+    success: string | boolean;
+    problem: string | boolean;
+    setAccountIdIsValid: (isValid: boolean) => void;
+    disabled?: boolean;
+};
+
 class InputAccountId extends Component {
     state = {
         wrongChar: false
     }
-
+    props: InputAccountIdProps;
     checkAccountAvailabilityTimer = null;
     canvas = null;
-    prefix = createRef();
+    prefix: React.RefObject<HTMLInputElement> = createRef();
 
     componentDidMount = () => {
         const { accountId } = this.props;
@@ -125,8 +141,20 @@ class InputAccountId extends Component {
         return metrics.width;
     }
 
-    handleChangeAccountId = ({ userValue, el }) => {
-        const { handleChange, localAlert, clearLocalAlert, setAccountIdIsValid } = this.props;
+    handleChangeAccountId = ({
+        userValue,
+        el,
+    }: {
+        userValue: string;
+        //@ts-ignore
+        el?: EventTarget<HTMLInputElement>;
+    }) => {
+        const {
+            handleChange,
+            localAlert,
+            clearLocalAlert,
+            setAccountIdIsValid,
+        } = this.props;
         const { wrongChar } = this.state;
         const pattern = /[^a-zA-Z0-9._-]/;
 
@@ -201,20 +229,20 @@ class InputAccountId extends Component {
                     <InputWrapper className={classNames([{ 'success': success }, { 'problem': problem }, { 'wrong-char': wrongChar }])}>
                         <input
                             value={accountId}
-                            onInput={(e) => this.updatePrefix(e.target.value)}
-                            onChange={(e) => this.handleChangeAccountId({ userValue: e.target.value, el: e.target })}
+                            onInput={(e: React.ChangeEvent<HTMLInputElement>) =>this.updatePrefix(e.target.value)}
+                            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>this.handleChangeAccountId({userValue: e.target.value,el: e.target})}
                             placeholder={translate('input.accountId.placeHolderAlt')}
                             required
                             autoComplete='off'
                             autoCorrect='off'
                             autoCapitalize='off'
                             spellCheck='false'
-                            tabIndex='1'
+                            tabIndex={1}
                             disabled={disabled}
                             autoFocus={autoFocus}
                             onBlur={onBlur}
                             onFocus={onFocus}
-                            data-test-id="sendMoneyPageAccountIdInput"
+                            data-test-id='sendMoneyPageAccountIdInput'
                         />
                         <span className='success-prefix' ref={this.prefix}>
                             <CheckCircleIcon color='#00C08B' />

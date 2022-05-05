@@ -28,8 +28,15 @@ const StyledContainer = styled.div`
         margin-right: 15px;
     }
 `;
+type SelectTokenButtonProps = {
+    token: {
+        balance: string;
+        onChainFTMetadata: { symbol: string; icon: string };
+    };
+    onClick: () => void;
+};
 
-const SelectTokenButton = ({ token, onClick }) => {
+const SelectTokenButton = ({ token, onClick }: SelectTokenButtonProps) => {
     return (
         <StyledContainer
             onClick={onClick}

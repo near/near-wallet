@@ -32,7 +32,14 @@ const StyledContainer = styled.div`
     }
 `;
 
-const AccordionTrigger = ({ id, onClick, translateIdTitle, open }) => {
+type AccordionTriggerProps = {
+    id: string;
+    onClick: () => void;
+    translateIdTitle: string;
+    open: boolean;
+};
+
+const AccordionTrigger = ({ id, onClick, translateIdTitle, open }:AccordionTriggerProps) => {
     return (
         <StyledContainer
             id={id}

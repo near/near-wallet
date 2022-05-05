@@ -37,7 +37,25 @@ const StyledContainer = styled.form`
     }
 `;
 
-const EnterAmount = ({ 
+type EnterAmountProps = {
+    amount: string;
+    rawAmount: string;
+    onChangeAmount: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    onSetMaxAmount: () => void;
+    availableToSend: string;
+    continueAllowed: boolean;
+    onContinue: (e: React.FormEvent) => void;
+    onClickCancel: () => void;
+    selectedToken: {
+        balance: string;
+        onChainFTMetadata: { symbol: string; icon: string; decimals: number };
+    };
+    onClickSelectToken: () => void;
+    error: boolean;
+    isMobile: boolean;
+};
+
+const EnterAmount = ({
     amount,
     rawAmount,
     onChangeAmount,
@@ -50,13 +68,12 @@ const EnterAmount = ({
     onClickSelectToken,
     error,
     isMobile
-}) => {
-
+}: EnterAmountProps) => {
     return (
-        <StyledContainer 
+        <StyledContainer
             className='buttons-bottom'
-            onSubmit={(e) => {onContinue(e); e.preventDefault();}}
-            novalidate
+            onSubmit={(e: React.FormEvent) => {onContinue(e); e.preventDefault()}}
+            noValidate
         >
             <TabSelector/>
             <div className='amount-input-wrapper'>

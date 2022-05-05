@@ -20,6 +20,23 @@ const StyledContainer = styled.form`
     }
 `;
 
+type EnterReceiverProps = {
+    onClickGoBack: () => void;
+    onClickCancel: () => void;
+    amount: string;
+    selectedToken: {
+        balance: string;
+        onChainFTMetadata: { symbol: string; icon: string; decimals: number };
+    };
+    receiverId: string;
+    handleChangeReceiverId: (receiverId: string) => void;
+    checkAccountAvailable: (accountId: string) => void;
+    localAlert: { messageCode: string; show: boolean; success: boolean };
+    clearLocalAlert: () => void;
+    onClickContinue: (e: React.FormEvent) => void;
+    isMobile: boolean;
+};
+
 const EnterReceiver = ({
     onClickGoBack,
     onClickCancel,
@@ -31,14 +48,14 @@ const EnterReceiver = ({
     localAlert,
     clearLocalAlert,
     onClickContinue,
-    isMobile
-}) => {
-    const [ accountIdIsValid, setAccountIdIsValid] = useState(false);
+    isMobile,
+}: EnterReceiverProps) => {
+    const [accountIdIsValid, setAccountIdIsValid] = useState<boolean>(false);
 
     return (
         <StyledContainer
             className='buttons-bottom'
-            onSubmit={(e) => {onClickContinue(e); e.preventDefault();}}
+            onSubmit={(e: React.FormEvent) => {onClickContinue(e); e.preventDefault()}}
         >
             <div className='header'>
                 <BackArrowButton onClick={onClickGoBack}/>

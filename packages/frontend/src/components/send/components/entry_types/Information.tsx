@@ -4,7 +4,14 @@ import { Translate } from 'react-localize-redux';
 import classNames from '../../../../utils/classNames';
 import StyledContainer from './css/Style.css';
 
-const Information = ({ className, translateIdTitle, informationValue, onClick }) => {
+type InformationProps = {
+    className?: string;
+    translateIdTitle: string;
+    informationValue: string;
+    onClick?: () => void;
+};
+
+const Information = ({className, translateIdTitle, informationValue, onClick}: InformationProps) => {
     /* TODO: Handle long informationValue */
     return (
         <StyledContainer

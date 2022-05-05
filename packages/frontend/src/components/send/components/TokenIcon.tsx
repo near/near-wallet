@@ -4,7 +4,12 @@ import isDataURL from '../../../utils/isDataURL';
 import DefaultTokenIcon from '../../svg/DefaultTokenIcon';
 import DefaultTokenIconBlack from '../../svg/DefaultTokenIconBlack';
 
-const TokenIcon = ({ symbol = 'Token', icon }) => {
+type TokenIconProps = {
+    symbol: string;
+    icon: string;
+};
+
+const TokenIcon = ({ symbol = 'Token', icon }: TokenIconProps) => {
     if (icon && isDataURL(icon)) {
         return <img src={icon} alt={symbol}/>;
     } else if (symbol === 'NEAR') {

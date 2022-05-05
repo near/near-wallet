@@ -44,7 +44,7 @@ const Container = styled.div`
             margin: 0 auto;
 
             :first-of-type {
-                border-bottom: 1px solid #F5F5F3;
+                border-bottom: 1px solid #f5f5f3;
             }
 
             div {
@@ -56,11 +56,27 @@ const Container = styled.div`
             }
         }
     }
-
 `;
 
-const SendConfirmModal = ({ open, onClose, onConfirm, amount, receiver, loading }) => {
+type SendConfirmModalProps = {
+    open: boolean;
+    onClose: () => void;
+    onConfirm: () => void;
+    amount: string;
+    receiver: string;
+    loading: boolean;
+};
+
+const SendConfirmModal = ({
+    open,
+    onClose,
+    onConfirm,
+    amount,
+    receiver,
+    loading,
+}: SendConfirmModalProps) => {
     return (
+        // @ts-ignore
         <Modal
             id='stake-confirm-modal'
             isOpen={open}
@@ -68,22 +84,35 @@ const SendConfirmModal = ({ open, onClose, onConfirm, amount, receiver, loading 
             closeButton='desktop'
         >
             <Container>
-                <h2><Translate id='sendMoney.confirmModal.title'/></h2>
+                <h2>
+                    <Translate id='sendMoney.confirmModal.title' />
+                </h2>
                 <div className='breakdown'>
                     <div>
                         Amount to send
-                        <Balance amount={utils.format.parseNearAmount(amount)}/>
+                        <Balance
+                            amount={utils.format.parseNearAmount(amount)}
+                        />
                     </div>
                     <div>
                         Recipient
                         <div>{receiver}</div>
                     </div>
                 </div>
-                <FormButton disabled={loading} sending={loading} color='green' onClick={onConfirm}>
-                    <Translate id='button.confirm'/>
+                <FormButton
+                    disabled={loading}
+                    sending={loading}
+                    color='green'
+                    onClick={onConfirm}
+                >
+                    <Translate id='button.confirm' />
                 </FormButton>
-                <FormButton disabled={loading} color='link red' id='close-button'>
-                    <Translate id='button.cancel'/>
+                <FormButton
+                    disabled={loading}
+                    color='link red'
+                    id='close-button'
+                >
+                    <Translate id='button.cancel' />
                 </FormButton>
             </Container>
         </Modal>

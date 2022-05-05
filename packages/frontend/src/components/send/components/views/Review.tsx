@@ -41,7 +41,25 @@ const StyledContainer = styled.div`
     }
 `;
 
-const prefixTXEntryTitleId = (key) => `sendV2.TXEntry.title.${key}`;
+const prefixTXEntryTitleId = (key: string) => `sendV2.TXEntry.title.${key}`;
+
+type ReviewProps = {
+    onClickCancel: () => void;
+    onClickContinue: () => void;
+    amount: string;
+    selectedToken: {
+        balance: string;
+        onChainFTMetadata: { symbol: string; icon: string; decimals: number };
+    };
+    senderId: string;
+    receiverId: string;
+    estimatedFeesInNear: string;
+    estimatedTotalInNear: string;
+    sendingToken: boolean | string;
+    onClickAmount: () => void;
+    onClickReceiver: () => void;
+    onClickSelectedToken: () => void;
+};
 
 const Review = ({
     onClickCancel,
@@ -56,8 +74,7 @@ const Review = ({
     onClickAmount,
     onClickReceiver,
     onClickSelectedToken
-}) => {
-
+}: ReviewProps) => {
     return (
         <StyledContainer className={classNames(['buttons-bottom', {'sending-token' : sendingToken === true}])}>
             <div className='header'>

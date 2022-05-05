@@ -21,10 +21,28 @@ const StyledContainer = styled.div`
     }
 `;
 
-const prefixTXEntryTitleId = (key) => `sendV2.TXEntry.title.${key}`;
+const prefixTXEntryTitleId = (key: string) => `sendV2.TXEntry.title.${key}`;
 
-const Receipt = ({ status, token, network_fees, receiver_id, block_timestamp }) => {
-    
+type ReceiptProps = {
+    status: string;
+    token: {
+        symbol: string;
+        icon: string;
+        decimals: number;
+        amount: string;
+    };
+    network_fees: string;
+    receiver_id: string;
+    block_timestamp: string;
+};
+
+const Receipt = ({
+    status,
+    token,
+    network_fees,
+    receiver_id,
+    block_timestamp,
+}: ReceiptProps) => {
     return (
         <StyledContainer>
             <Status

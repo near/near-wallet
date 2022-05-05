@@ -23,7 +23,7 @@ const StyledInput = styled.input`
     }
 `;
 
-const getFontSize = (charLength) => {
+const getFontSize = (charLength: number) => {
     let baseSize = 70;
 
     if (charLength > 5) {
@@ -41,7 +41,15 @@ const getFontSize = (charLength) => {
     return fontSize;
 };
 
-const AmountInput = ({ value, onChange, error, autoFocus = true, maxLength = 18}) => {
+type AmountInputProps = {
+    value: string;
+    onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    error: boolean;
+    autoFocus?: boolean;
+    maxLength?: number;
+};
+
+const AmountInput = ({ value, onChange, error, autoFocus = true, maxLength = 18}:AmountInputProps) => {
     return (
         <StyledInput
             className={error ? 'error' : ''}
@@ -51,7 +59,7 @@ const AmountInput = ({ value, onChange, error, autoFocus = true, maxLength = 18}
             placeholder='0'
             data-test-id="sendMoneyAmountInput"
             value={value}
-            onChange={(event) => {
+            onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                 const { value, maxLength } = event.target;
 
                 if (maxLength && value.length > maxLength) { return false; }
@@ -64,4 +72,4 @@ const AmountInput = ({ value, onChange, error, autoFocus = true, maxLength = 18}
     );
 };
 
-export default AmountInput; 
+export default AmountInput;

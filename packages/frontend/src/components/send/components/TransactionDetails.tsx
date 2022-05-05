@@ -7,11 +7,21 @@ import Breakdown from './css/Breakdown.css';
 import Amount from './entry_types/Amount';
 import Token from './entry_types/Token';
 
-const prefixTXEntryTitledId = (key) => `sendV2.TXEntry.title.${key}`;
+const prefixTXEntryTitledId = (key: string) => `sendV2.TXEntry.title.${key}`;
 
-const TransactionDetails = ({ selectedToken, estimatedFeesInNear, estimatedTotalInNear, amount, onTokenClick }) => {
+type TransactionDetailsProps = {
+    selectedToken: {
+        balance: string;
+        onChainFTMetadata: { symbol: string; icon: string; decimals: number };
+    };
+    estimatedFeesInNear: string;
+    estimatedTotalInNear: string;
+    amount: string;
+    onTokenClick: () => void;
+};
 
-    const [open, setOpen] = useState(false);
+const TransactionDetails = ({selectedToken, estimatedFeesInNear, estimatedTotalInNear, amount, onTokenClick}: TransactionDetailsProps) => {
+    const [open, setOpen] = useState<boolean>(false);
 
     return (
         <Breakdown className={classNames(['transaction-details-breakdown' , open ? 'open' : ''])}>
@@ -22,6 +32,7 @@ const TransactionDetails = ({ selectedToken, estimatedFeesInNear, estimatedTotal
                 onClick={onTokenClick}
             />
             <Accordion
+                disabled={false}
                 trigger='transaction-details-breakdown'
                 className='breakdown'
             >

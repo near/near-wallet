@@ -44,6 +44,16 @@ const StyledContainer = styled.div`
     }
 `;
 
+export type ReceiverInputWithLabelProps = {
+    receiverId: string;
+    handleChangeReceiverId: (receiverId: string) => void;
+    checkAccountAvailable: (accountId: string) => void;
+    localAlert: { success: boolean; show: boolean };
+    clearLocalAlert: () => void;
+    setAccountIdIsValid: (isValid: boolean) => void;
+    autoFocus: boolean;
+};
+
 const ReceiverInputWithLabel = ({
     receiverId,
     handleChangeReceiverId,
@@ -52,9 +62,8 @@ const ReceiverInputWithLabel = ({
     clearLocalAlert,
     setAccountIdIsValid,
     autoFocus
-}) => {
-
-    const [inputHasFocus, setInputHasFocus] = useState(false);
+}: ReceiverInputWithLabelProps) => {
+    const [inputHasFocus, setInputHasFocus] = useState<boolean>(false);
     const success = localAlert?.success;
     const problem = !localAlert?.success && localAlert?.show;
 

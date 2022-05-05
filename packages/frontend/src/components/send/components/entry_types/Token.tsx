@@ -4,7 +4,14 @@ import { Translate } from 'react-localize-redux';
 import TokenIcon from '../TokenIcon';
 import StyledContainer from './css/Style.css';
 
-const Token = ({ symbol, icon, translateIdTitle, onClick }) => {
+type TokenProps = {
+    symbol: string;
+    icon: string;
+    translateIdTitle: string;
+    onClick?: () => void;
+};
+
+const Token = ({ symbol, icon, translateIdTitle, onClick }: TokenProps) => {
     /* TODO: Handle long Tokens */
     return (
         <StyledContainer className={onClick ? 'clickable' : ''} onClick={onClick}>

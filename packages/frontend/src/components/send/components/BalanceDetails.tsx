@@ -3,13 +3,20 @@ import React from 'react';
 import Breakdown from './css/Breakdown.css';
 import Amount from './entry_types/Amount';
 
-const prefixTXEntryTitledId = (key) => `sendV2.TXEntry.title.${key}`;
+const prefixTXEntryTitledId = (key: string) => `sendV2.TXEntry.title.${key}`;
 
-const BalanceDetails = ({ 
+type BalanceDetailsProps = {
+    availableToSend: string;
+    selectedToken: {
+        balance: string;
+        onChainFTMetadata: { symbol: string; icon: string; decimals: number };
+    };
+};
+
+const BalanceDetails = ({
     availableToSend,
     selectedToken
-}) => {
-
+}: BalanceDetailsProps) => {
     /* TODO: Add error state */
     return (
         <Breakdown className='available-to-send-breakdown'>

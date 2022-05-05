@@ -18,13 +18,19 @@ const StyledContainer = styled.div`
     }
 `;
 
+type SuccessProps = {
+    amount: string;
+    receiverId: string;
+    onClickContinue: () => void;
+    onClickGoToExplorer: () => void;
+};
+
 const Success = ({
     amount,
     receiverId,
     onClickContinue,
     onClickGoToExplorer
-}) => {
-
+}: SuccessProps) => {
     return (
         <StyledContainer className='buttons-bottom'>
             <AvatarSuccessIcon/>
@@ -35,9 +41,10 @@ const Success = ({
                 <SafeTranslate id='sendV2.success.title'
                     data={{ 
                         amount: amount,
-                        receiverId: receiverId
+                        receiverId: receiverId,
                     }}
-                />
+                > 
+                </SafeTranslate>
             </div>
             <div className='buttons-bottom-buttons'>
                 <FormButton

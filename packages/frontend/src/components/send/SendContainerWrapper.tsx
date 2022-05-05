@@ -1,7 +1,7 @@
 import { utils } from 'near-api-js';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-
+// @ts-ignore
 import { EXPLORER_URL } from '../../config';
 import { useFungibleTokensIncludingNEAR } from '../../hooks/fungibleTokensIncludingNEAR';
 import { Mixpanel } from '../../mixpanel/index';
@@ -19,12 +19,11 @@ import isMobile from '../../utils/isMobile';
 import { SHOW_NETWORK_BANNER } from '../../utils/wallet';
 import SendContainerV2, { VIEWS } from './SendContainerV2';
 
-const {
-    checkAndHideLedgerModal
-} = ledgerActions;
+const { checkAndHideLedgerModal } = ledgerActions;
 
 const { parseNearAmount, formatNearAmount } = utils.format;
 const { fetchTokens } = tokensActions;
+
 
 export function SendContainerWrapper({ match }) {
     const accountIdFromUrl = match.params.accountId || '';
@@ -35,7 +34,7 @@ export function SendContainerWrapper({ match }) {
     const [activeView, setActiveView] = useState(VIEWS.ENTER_AMOUNT);
     const [estimatedTotalFees, setEstimatedTotalFees] = useState('0');
     const [estimatedTotalInNear, setEstimatedTotalInNear] = useState('0');
-    const [sendingToken, setSendingToken] = useState(false);
+    const [sendingToken, setSendingToken] = useState<boolean | string>(false);
     const [transactionHash, setTransactionHash] = useState(null);
     const fungibleTokensList = useFungibleTokensIncludingNEAR();
 
@@ -43,7 +42,7 @@ export function SendContainerWrapper({ match }) {
         if (!accountId) {
             return;
         }
-
+        // @ts-ignore
         dispatch(fetchTokens({ accountId }));
     }, [accountId]);
 
@@ -71,6 +70,7 @@ export function SendContainerWrapper({ match }) {
 
                 await Mixpanel.withTracking('SEND token',
                     async () => {
+                        // @ts-ignore
                         const result = await fungibleTokensService.transfer({
                             accountId,
                             amount: rawAmount,
@@ -82,7 +82,9 @@ export function SendContainerWrapper({ match }) {
                         setActiveView(VIEWS.SUCCESS);
 
                         const id = Mixpanel.get_distinct_id();
+                        // @ts-ignore
                         Mixpanel.identify(id);
+                        // @ts-ignore
                         Mixpanel.people.set({ last_send_token: new Date().toString() });
                     },
                     (e) => {
@@ -92,6 +94,7 @@ export function SendContainerWrapper({ match }) {
                             messageCode: 'walletErrorCodes.sendFungibleToken.error',
                             errorMessage: e.message,
                         }));
+
                         setSendingToken('failed');
                         return;
                     }
@@ -130,5 +133,4 @@ export function SendContainerWrapper({ match }) {
             transactionHash={transactionHash}
         />
     );
-
 }

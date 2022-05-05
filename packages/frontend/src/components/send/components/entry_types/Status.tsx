@@ -4,7 +4,9 @@ import { Translate } from 'react-localize-redux';
 import TXStatus from '../TXStatus';
 import StyledContainer from './css/Style.css';
 
-const Status = ({ status, translate }) => {
+type StatusProps = { status: string; translate: string };
+
+const Status = ({ status, translate }: StatusProps) => {
     return (
         <StyledContainer>
             <Translate id={translate} />

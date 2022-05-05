@@ -36,23 +36,40 @@ const StyledContainer = styled.div`
     }
 `;
 
-function filterTokens(tokens, searchSubstring) {
+type Token = {
+    balance: string;
+    onChainFTMetadata: { symbol: string; icon: string; decimals: number };
+    contractName: string;
+};
+
+function filterTokens(tokens: Token[], searchSubstring?: string) {
     return tokens.filter((token) => {
         if (!searchSubstring) { return true; }
-
         return token.onChainFTMetadata?.symbol
             .toLowerCase()
             .includes(searchSubstring.toLowerCase());
     });
 }
 
-const SelectToken = ({ onClickGoBack, fungibleTokens, onSelectToken, isMobile }) => {
-    const [searchValue, setSearchValue] = useState('');
-    const [filteredFungibleTokens, setFilteredFungibleTokens] = useState(() => filterTokens(fungibleTokens));
+type SelectTokenProps = {
+    onClickGoBack: () => void;
+    fungibleTokens: Token[];
+    onSelectToken: (token: Token) => void;
+    isMobile: boolean;
+};
+
+const SelectToken = ({
+    onClickGoBack,
+    fungibleTokens,
+    onSelectToken,
+    isMobile,
+}: SelectTokenProps) => {
+    const [searchValue, setSearchValue] = useState<string>('');
+    const [filteredFungibleTokens, setFilteredFungibleTokens] = useState(() =>filterTokens(fungibleTokens));
     const currentLanguage = getCurrentLanguage();
 
     const throttledSetFilteredTokens = useCallback(throttle(
-        (tokens, searchSubstring) => {
+        (tokens: Token[], searchSubstring:string) => {
             const filteredTokens = filterTokens(tokens, searchSubstring);
             setFilteredFungibleTokens(filteredTokens);
         },

@@ -4,7 +4,9 @@ import { Translate } from 'react-localize-redux';
 import formatTimestampForLocale from '../../../../utils/formatTimestampForLocale';
 import StyledContainer from './css/Style.css';
 
-const DateAndTime = ({ timeStamp, translateIdTitle }) => {
+type DateAndTimeProps = { timeStamp: string; translateIdTitle: string };
+
+const DateAndTime = ({ timeStamp, translateIdTitle }: DateAndTimeProps) => {
     return (
         <StyledContainer>
             <Translate id={translateIdTitle} />
