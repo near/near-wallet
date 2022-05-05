@@ -23,13 +23,11 @@
     TOKEN_CONTRACTS = 'berryclub.ek.near,wrap.near,6b175474e89094c44da98b954eedeac495271d0f.factory.bridge.near'
     RECAPTCHA_ENTERPRISE_SITE_KEY = "6LcpJ3EcAAAAAFgA-nixKFNGWMo9IG9FQhH4XjSY"
     RECAPTCHA_CHALLENGE_API_KEY = "6LeRzswaAAAAAGeS7mSasZ1wDcGnMcH3D7W1gy1b"
-    USE_CLOUDFLARE = "false"
     NETLIFY_USE_YARN = "true"
 
 [context.production.environment]
     BROWSER_MIXPANEL_TOKEN = "d5bbbbcc3a77ef8427f2b806b5689bf8"
     SENTRY_PROJECT = "mainnet-wallet"
-    USE_CLOUDFLARE = "false"
 
 [[headers]]
     for = "/*"
