@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+window.React = React
 
 const StyledInput = styled.input`
     text-align: center;

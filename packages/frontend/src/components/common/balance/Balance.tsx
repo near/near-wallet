@@ -7,7 +7,7 @@ import BalanceDisplay from './BalanceDisplay';
 type BalanceProps = {
     totalAmount?: string;
     amount: string;
-    showSymbolNEAR?: boolean;
+    showSymbolNEAR?: string | boolean;
     className?: string;
     showBalanceInNEAR?: boolean;
     showBalanceInUSD?: boolean;
@@ -34,6 +34,7 @@ const Balance = ({
         <BalanceDisplay
             totalAmount={totalAmount}
             amount={amount}
+            //@ts-ignore
             showSymbolNEAR={showSymbolNEAR}
             className={className}
             showBalanceInNEAR={showBalanceInNEAR}

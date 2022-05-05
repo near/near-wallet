@@ -31,7 +31,7 @@ const RawTokenAmount = ({
             />
         );
     } else {
-        return <Balance amount={amount} showSymbolNEAR={withSymbol ? true : false}/>
+        return <Balance amount={amount} showSymbolNEAR={withSymbol ? 'near' : false}/>;
     }
 };
 
