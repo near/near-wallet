@@ -3,5 +3,9 @@
   "TESTNET": "testnet",
   "MAINNET": "mainnet",
   "MAINNET_STAGING": "mainnet_STAGING",
-  "TESTNET_STAGING": "testnet_STAGING"
+  "TESTNET_STAGING": "testnet_STAGING",
+  "TESTNET_NEARORG": "testnet_NEARORG",
+  "MAINNET_NEARORG": "mainnet_NEARORG",
+  "TESTNET_STAGING_NEARORG": "testnet_STAGING_NEARORG",
+  "MAINNET_STAGING_NEARORG": "mainnet_STAGING_NEARORG"
 }
