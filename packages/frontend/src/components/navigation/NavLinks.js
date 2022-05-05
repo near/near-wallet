@@ -146,7 +146,8 @@ const NavLinks = () => (
             }
             target='_blank' 
             className="usn-button"
-            onClick={() => Mixpanel.track('Click Buy USN')} rel="noreferrer"
+            onClick={() => Mixpanel.track('Click Buy USN')}
+            rel="noreferrer"
             >
             <div>
                 <img src={USN_LOGO} alt='open-link'></img>
