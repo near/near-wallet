@@ -41,11 +41,6 @@
       "enabled": true,
       "lastEditedBy": "esaminu",
       "lastEditedAt": "2022-05-05T18:07:50.110Z"
-    },
-    "testnet_STAGING_NEARORG": {
-      "enabled": true,
-      "lastEditedBy": "esaminu",
-      "lastEditedAt": "2022-05-05T18:08:06.806Z"
     }
   },
   "CREATE_USN_CONTRACT": {
@@ -85,11 +80,6 @@
       "enabled": false,
       "lastEditedBy": "esaminu",
       "lastEditedAt": "2022-05-05T18:06:54.374Z"
-    },
-    "testnet_STAGING_NEARORG": {
-      "enabled": false,
-      "lastEditedBy": "esaminu",
-      "lastEditedAt": "2022-05-05T18:08:06.806Z"
     },
     "mainnet_STAGING_NEARORG": {
       "enabled": false,
@@ -139,11 +129,6 @@
       "enabled": true,
       "lastEditedBy": "esaminu",
       "lastEditedAt": "2022-05-05T18:07:50.110Z"
-    },
-    "testnet_STAGING_NEARORG": {
-      "enabled": true,
-      "lastEditedBy": "esaminu",
-      "lastEditedAt": "2022-05-05T18:08:06.806Z"
     }
   },
   "FARMING_VALIDATOR_APY_DISPLAY": {
@@ -188,11 +173,6 @@
       "enabled": true,
       "lastEditedBy": "esaminu",
       "lastEditedAt": "2022-05-05T18:07:50.110Z"
-    },
-    "testnet_STAGING_NEARORG": {
-      "enabled": true,
-      "lastEditedBy": "esaminu",
-      "lastEditedAt": "2022-05-05T18:08:06.806Z"
     }
   },
   "IMPORT_ACCOUNT_WITH_LINK_V2": {
@@ -237,11 +217,6 @@
       "enabled": true,
       "lastEditedBy": "esaminu",
       "lastEditedAt": "2022-05-05T18:07:50.110Z"
-    },
-    "testnet_STAGING_NEARORG": {
-      "enabled": true,
-      "lastEditedBy": "esaminu",
-      "lastEditedAt": "2022-05-05T18:08:06.806Z"
     }
   },
   "USE_INDEXER_SERVICE": {
@@ -315,11 +290,6 @@
       "enabled": true,
       "lastEditedBy": "esaminu",
       "lastEditedAt": "2022-05-05T18:07:50.110Z"
-    },
-    "testnet_STAGING_NEARORG": {
-      "enabled": false,
-      "lastEditedBy": "esaminu",
-      "lastEditedAt": "2022-05-05T18:08:06.806Z"
     }
   }
 }
