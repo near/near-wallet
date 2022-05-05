@@ -1,16 +1,16 @@
 import { createSelector } from 'reselect';
 
+import { selectActiveAccountId } from '../slices/activeAccount';
+
 // A helper function to create the parameter selectors
 // Ref: https://flufd.github.io/reselect-with-multiple-parameters/
 export const createParameterSelector = (selector) => (_, params) => selector(params);
 
 const selectAccounts = (state) => state.accounts || {};
 
-const getAccountIdParam = createParameterSelector((params) => params.accountId);
-
-export const selectAccountState = createSelector(
-    [selectAccounts, getAccountIdParam],
-    (accounts, accountId) => accounts[accountId] || {}
+const selectAccountState = createSelector(
+    [selectAccounts, selectActiveAccountId],
+    (accounts, activeAccountId) => accounts[activeAccountId] || {}
 );
 
 export const selectSliceByAccountId = (sliceName, initialState) => createSelector(

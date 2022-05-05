@@ -13,16 +13,15 @@ import { RECAPTCHA_ENTERPRISE_SITE_KEY } from './config';
 import createRootReducer from './redux/createReducers';
 import createMiddleware from './redux/middleware';
 import { initSentry } from './utils/sentry';
-import { wallet } from './utils/wallet';
 
 initSentry();
 
 const history = createBrowserHistory();
 
-export const store = createStore(createRootReducer(history, wallet.accountId), createMiddleware(history));
+export const store = createStore(createRootReducer(history), createMiddleware(history));
 
-store.addAccountReducer = (accountId) => {
-    store.replaceReducer(createRootReducer(history, accountId));
+store.addAccountReducer = () => {
+    store.replaceReducer(createRootReducer(history));
 };
 
 ReactDOM.render(

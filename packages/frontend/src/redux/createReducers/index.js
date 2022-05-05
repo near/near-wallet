@@ -3,7 +3,7 @@ import { combineReducers } from 'redux';
 import combinedMainReducers from './combinedMainReducers';
 import setupAccountReducer from './setupAccountReducer';
 
-export default (history, accountId) => combineReducers({
+export default (history) => combineReducers({
     ...combinedMainReducers(history),
-    ...setupAccountReducer(accountId)
+    ...setupAccountReducer()
 });

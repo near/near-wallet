@@ -6,6 +6,7 @@ import { parse, stringify } from 'query-string';
 import { createActions, createAction } from 'redux-actions';
 
 import { DISABLE_CREATE_ACCOUNT } from '../../config';
+import { actions as activeAccountActions } from '../../redux/slices/activeAccount';
 import { 
     showAlert
 } from '../../utils/alerts';
@@ -544,6 +545,7 @@ export const refreshAccount = (basicData = false) => async (dispatch, getState) 
     }
 
     dispatch(setLocalStorage(wallet.accountId));
+    dispatch(activeAccountActions.setAccountId({ accountId: wallet.accountId }));
     await dispatch(refreshAccountOwner(selectFlowLimitationAccountData(getState()))).unwrap();
 
     if (!basicData && !selectFlowLimitationAccountBalance(getState())) {

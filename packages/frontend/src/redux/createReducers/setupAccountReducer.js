@@ -1,31 +1,34 @@
 import { combineReducers } from 'redux';
 
-import { store } from '../..';
 import { wallet } from '../../utils/wallet';
-import { selectAccountState } from '../selectors/topLevel';
+import activeAccountSlice from '../slices/activeAccount';
 import combinedAccountReducers from './combinedAccountReducers';
 
-export default (accountId) => {
+export default () => {
     const accountsKeys = Object.keys(wallet.accounts);
     if (!accountsKeys.length) {
         return {};
     }
 
     return {
-        accounts: combineReducers(
-            accountsKeys.reduce((accountState, existingAccountId) => {
-                const reducer = combineReducers(combinedAccountReducers());
-                const initialState = reducer(selectAccountState(store?.getState() || {}, { existingAccountId }), {});
-        
-                return {
-                    ...accountState,
-                    [existingAccountId]: (state = initialState, action) => (
-                        (existingAccountId === accountId)
-                            ? reducer(state, action)
-                            : state
-                    )
-                };
-            }, {})
-        )
+        accounts: (state, action) => {
+            const reducer = combineReducers(combinedAccountReducers());
+            const initialState = reducer({}, {});
+
+            return {
+                ...accountsKeys.reduce((accountsState, existingAccountId) => {
+                    const accountState = state ? state[existingAccountId] : initialState;
+
+                    return {
+                        ...accountsState,
+                        [existingAccountId]: 
+                            (existingAccountId === state?.activeAccount.accountId)
+                                ? reducer(accountState, action)
+                                : accountState
+                    };
+                }, {}),
+                [activeAccountSlice.name]: activeAccountSlice.reducer(state?.activeAccount, action)
+            };
+        }
     };
 };
