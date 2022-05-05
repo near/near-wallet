@@ -1,6 +1,7 @@
 import BN from 'bn.js';
 import * as nearApiJs from 'near-api-js';
 
+import { USE_INDEXER_SERVICE } from '../../../../features';
 import { ACCOUNT_HELPER_URL, NEAR_TOKEN_ID } from '../config';
 import sendJson from '../tmp_fetch_send_json';
 import {
@@ -9,6 +10,7 @@ import {
     removeTrailingZeros,
 } from '../utils/amounts';
 import { wallet } from '../utils/wallet';
+import { listLikelyTokens } from './indexer';
 
 const {
     transactions: { functionCall },
@@ -61,10 +63,13 @@ export default class FungibleTokens {
     }
 
     static async getLikelyTokenContracts({ accountId }) {
-        return sendJson(
-            'GET',
-            `${ACCOUNT_HELPER_URL}/account/${accountId}/likelyTokens`
-        );
+        if (!USE_INDEXER_SERVICE) {
+            return sendJson(
+                'GET',
+                `${ACCOUNT_HELPER_URL}/account/${accountId}/likelyTokens`
+            );
+        }
+        return listLikelyTokens(accountId);
     }
 
     static async getStorageBalance({ contractName, accountId }) {

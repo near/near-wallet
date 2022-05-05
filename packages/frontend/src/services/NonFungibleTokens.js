@@ -1,8 +1,10 @@
 import * as nearAPI from 'near-api-js';
 
+import { USE_INDEXER_SERVICE } from '../../../../features';
 import { ACCOUNT_HELPER_URL } from '../config';
 import sendJson from '../tmp_fetch_send_json';
 import { wallet } from '../utils/wallet';
+import { listLikelyNfts } from './indexer';
 
 export const TOKENS_PER_PAGE = 4;
 export const NFT_TRANSFER_GAS = nearAPI.utils.format.parseNearAmount('0.00000000003');
@@ -17,7 +19,10 @@ export default class NonFungibleTokens {
     static viewFunctionAccount = wallet.getAccountBasic('dontcare')
 
     static getLikelyTokenContracts = async (accountId) => {
-        return sendJson('GET', `${ACCOUNT_HELPER_URL}/account/${accountId}/likelyNFTs`);
+        if (!USE_INDEXER_SERVICE) {
+            return sendJson('GET', `${ACCOUNT_HELPER_URL}/account/${accountId}/likelyNFTs`);
+        }
+        return listLikelyNfts(accountId);
     }
 
     static getMetadata = async (contractName) => {
