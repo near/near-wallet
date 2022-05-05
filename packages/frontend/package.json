@@ -10,6 +10,7 @@
     "@near-wallet/feature-flags": "^0.1.0",
     "@reduxjs/toolkit": "1.6.2",
     "@sentry/browser": "^6.4.1",
+    "bip39-light": "^1.0.7",
     "connected-react-router": "^6.6.0",
     "escape-html": "^1.0.3",
     "fetch-send-json": "0.0.2",
