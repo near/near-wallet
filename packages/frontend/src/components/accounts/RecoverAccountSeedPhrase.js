@@ -107,7 +107,9 @@ class RecoverAccountSeedPhrase extends Component {
                 await recoverAccountSeedPhrase(seedPhrase);
                 await refreshAccount();
             }, (e) => {
-                this.setState({ showCouldNotFindAccountModal: true });
+                if (e.message.includes('Cannot find matching public key')) {
+                    this.setState({ showCouldNotFindAccountModal: true });
+                }
                 throw e;
             }, () => {
                 this.setState({ recoveringAccount: false });
