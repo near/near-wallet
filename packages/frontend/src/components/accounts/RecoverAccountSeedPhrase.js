@@ -158,10 +158,19 @@ class RecoverAccountSeedPhrase extends Component {
                             const { secretKey } = parseSeedPhrase(seedPhrase);
                             const recoveryKeyPair = KeyPair.fromString(secretKey);
                             const implicitAccountId = Buffer.from(recoveryKeyPair.publicKey.data).toString('hex');
-                            await wallet.importZeroBalanceAccount(implicitAccountId, recoveryKeyPair);
-                            this.props.refreshAccount();
-                            this.props.redirectTo('/');
-                            this.props.clearGlobalAlert();
+                            try {
+                                await wallet.importZeroBalanceAccount(implicitAccountId, recoveryKeyPair);
+                                this.props.refreshAccount();
+                                this.props.redirectTo('/');
+                                this.props.clearGlobalAlert();
+                            } catch (e) {
+                                this.props.showCustomAlert({
+                                    success: false,
+                                    messageCodeHeader: 'error',
+                                    messageCode: 'walletErrorCodes.recoverAccountSeedPhrase.errorNotAbleToImportAccount',
+                                    errorMessage: e.message
+                                });
+                            }
                         }}
                         onClose={() => this.setState({ showCouldNotFindAccountModal: false })}
                         isOpen={showCouldNotFindAccountModal}
