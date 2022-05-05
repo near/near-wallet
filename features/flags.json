@@ -144,6 +144,35 @@
       "lastEditedAt": "2022-04-07T02:50:24.123Z"
     }
   },
+  "USE_INDEXER_SERVICE": {
+    "createdBy": "Andy Haynes",
+    "createdAt": "2022-05-05T21:19:46.314Z",
+    "development": {
+      "enabled": true,
+      "lastEditedBy": "Andy Haynes",
+      "lastEditedAt": "2022-05-05T21:19:46.313Z"
+    },
+    "testnet": {
+      "enabled": true,
+      "lastEditedBy": "Andy Haynes",
+      "lastEditedAt": "2022-05-05T22:25:53.915Z"
+    },
+    "mainnet": {
+      "enabled": false,
+      "lastEditedBy": "Andy Haynes",
+      "lastEditedAt": "2022-05-05T21:19:46.314Z"
+    },
+    "mainnet_STAGING": {
+      "enabled": false,
+      "lastEditedBy": "Andy Haynes",
+      "lastEditedAt": "2022-05-05T21:19:46.314Z"
+    },
+    "testnet_STAGING": {
+      "enabled": true,
+      "lastEditedBy": "Andy Haynes",
+      "lastEditedAt": "2022-05-05T22:25:53.915Z"
+    }
+  },
   "USN_BUTTON": {
     "createdBy": "ignatKorokov",
     "createdAt": "2022-05-02T17:12:41.421Z",
