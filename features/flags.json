@@ -52,29 +52,29 @@
     "createdBy": "OlegYak ",
     "createdAt": "2022-03-24T13:11:21.223Z",
     "development": {
-      "enabled": true,
+      "enabled": false,
       "lastEditedBy": "esaminu",
-      "lastEditedAt": "2022-05-05T18:11:03.325Z"
+      "lastEditedAt": "2022-05-05T22:23:33.682Z"
     },
     "testnet": {
-      "enabled": true,
+      "enabled": false,
       "lastEditedBy": "esaminu",
-      "lastEditedAt": "2022-05-05T18:11:03.325Z"
+      "lastEditedAt": "2022-05-05T22:23:33.682Z"
     },
     "mainnet": {
-      "enabled": true,
+      "enabled": false,
       "lastEditedBy": "esaminu",
-      "lastEditedAt": "2022-05-05T18:11:03.325Z"
+      "lastEditedAt": "2022-05-05T22:23:33.682Z"
     },
     "mainnet_STAGING": {
-      "enabled": true,
+      "enabled": false,
       "lastEditedBy": "esaminu",
-      "lastEditedAt": "2022-05-05T18:11:03.325Z"
+      "lastEditedAt": "2022-05-05T22:23:33.682Z"
     },
     "testnet_STAGING": {
-      "enabled": true,
+      "enabled": false,
       "lastEditedBy": "esaminu",
-      "lastEditedAt": "2022-05-05T18:11:03.325Z"
+      "lastEditedAt": "2022-05-05T22:23:33.682Z"
     },
     "testnet_NEARORG": {
       "enabled": false,
