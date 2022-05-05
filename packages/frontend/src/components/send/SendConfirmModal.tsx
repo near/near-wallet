@@ -44,7 +44,7 @@ const Container = styled.div`
             margin: 0 auto;
 
             :first-of-type {
-                border-bottom: 1px solid #f5f5f3;
+                border-bottom: 1px solid #F5F5F3;
             }
 
             div {
