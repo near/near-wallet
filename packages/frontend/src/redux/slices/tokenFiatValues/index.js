@@ -1,34 +1,96 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import DataLoader from 'dataloader';
 import merge from 'lodash.merge';
+import Cache from 'node-cache';
 import { createSelector } from 'reselect';
+import { stringifyUrl } from 'query-string';
 
-import { ACCOUNT_HELPER_URL } from '../../../config';
 import sendJson from '../../../tmp_fetch_send_json';
 import { fetchTokenPrices, fetchTokenWhiteList } from '../../../utils/ref-finance';
 import handleAsyncThunkStatus from '../../reducerStatus/handleAsyncThunkStatus';
 import initialStatusState from '../../reducerStatus/initialState/initialStatusState';
 
 const SLICE_NAME = 'tokenFiatValues';
-const url = 'https://api.coingecko.com/api/v3/simple/price?ids=Tether&vs_currencies=usd';
+const COINGECKO_PRICE_URL = 'https://api.coingecko.com/api/v3/simple/price';
+
+function wrapNodeCacheForDataloader(cache) {
+    return {
+        get: (...args) => {
+            return cache.get(...args);
+        },
+
+        set: (...args) => {
+            return cache.set(...args);
+        },
+
+        delete: (...args) => {
+            return cache.del(...args);
+        },
+
+        clear: (...args) => {
+            return cache.flushAll(...args);
+        }
+
+    };
+}
+
+class FiatValueManager {
+    constructor(DataLoader) {
+        this.fiatValueDataLoader = DataLoader;
+    }
+
+    async getPrice(tokens = ['near']) {
+        const byTokenName = {};
+
+        const prices = await this.fiatValueDataLoader.loadMany(tokens);
+        tokens.forEach((tokenName, ndx) => byTokenName[tokenName] = prices[ndx]);
+
+        return byTokenName;
+    }
+}
+
+const fiatValueDataLoader = new DataLoader(
+    async (tokenIds) => {
+        const tokenFiatValues = await sendJson(
+            'GET', 
+            stringifyUrl({
+                url: COINGECKO_PRICE_URL,
+                query: {
+                    ids: tokenIds.join(','),
+                    vs_currencies: 'usd,eur,cny',
+                    include_last_updated_at: true
+                }
+            })
+        );
+
+        return tokenIds.map((id) => tokenFiatValues[id]);
+    },
+    {
+        /* 0 checkperiod means we only purge values from the cache on attempting to read an expired value
+        Which allows us to avoid having to call `.close()` on the cache to allow node to exit cleanly */
+        cacheMap: wrapNodeCacheForDataloader(new Cache({ stdTTL: 30, checkperiod: 0, useClones: false }))
+    }
+);
 
 const fetchTokenFiatValues = createAsyncThunk(
     `${SLICE_NAME}/fetchTokenFiatValues`,
     async () => {
-        const [near, tether, tokenPrices] = await Promise.all([sendJson('GET', ACCOUNT_HELPER_URL + '/fiat'), sendJson('GET',url), fetchTokenPrices()]);
+        const fiatValueManager = new FiatValueManager(fiatValueDataLoader);
+
+        const [coinGeckoTokenFiatValues, refFinanceTokenFiatValues] = await Promise.allSettled([fiatValueManager.getPrice(['near']), fetchTokenPrices()]);
 
         const last_updated_at = Date.now() / 1000; 
-
-        const tokenFiatValues = Object.keys(tokenPrices).reduce((acc, curr) => {
+        const otherTokenFiatValues = Object.keys(refFinanceTokenFiatValues).reduce((acc, curr) => {
             return ({
                 ...acc,
                 [curr]: {
-                    usd: +Number(tokenPrices[curr]?.price).toFixed(2) || null,
+                    usd: +Number(refFinanceTokenFiatValues[curr]?.price).toFixed(2) || null,
                     last_updated_at
                 }
             });
         }, {});
-     
-        return merge({}, near, tether, tokenFiatValues);
+
+        return merge({}, coinGeckoTokenFiatValues, otherTokenFiatValues);
     } 
 );
 
