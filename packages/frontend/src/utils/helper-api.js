@@ -2,13 +2,18 @@
 import * as nearApiJs from 'near-api-js';
 import { parseSeedPhrase } from 'near-seed-phrase';
 
+import { USE_INDEXER_SERVICE } from '../../../../features';
 import { ACCOUNT_HELPER_URL } from '../config';
+import { listAccountsByPublicKey } from '../services/indexer';
 
 export let controller;
 
 export async function getAccountIds(publicKey) {
     controller = new AbortController();
-    return await fetch(`${ACCOUNT_HELPER_URL}/publicKey/${publicKey}/accounts`, { signal: controller.signal }).then((res) => res.json());
+    if (!USE_INDEXER_SERVICE) {
+        return await fetch(`${ACCOUNT_HELPER_URL}/publicKey/${publicKey}/accounts`, { signal: controller.signal }).then((res) => res.json());
+    }
+    return listAccountsByPublicKey(publicKey);
 }
 
 export async function getAccountIdsBySeedPhrase(seedPhrase) {
