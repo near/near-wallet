@@ -4,10 +4,10 @@ import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { CREATE_USN_CONTRACT, USN_BUTTON } from '../../../../../features';
-import { IS_MAINNET } from '../../config'
+import { IS_MAINNET } from '../../config';
+import USN_LOGO from '../../images/USN-logo.png';
 import { Mixpanel } from '../../mixpanel/index';
 import HelpIcon from '../svg/HelpIcon';
-import USN_LOGO from '../../images/USN-logo.png'
 import SwapIconTwoArrows from '../svg/SwapIconTwoArrows';
 import UserIcon from '../svg/UserIcon';
 import VaultIcon from '../svg/VaultIcon';
@@ -70,6 +70,7 @@ const Container = styled.div`
         background: #D6EDFF;
         font-weight: 600;
         color: black;
+        white-space: nowrap;
 
         :hover {
             background: #0072CE;
@@ -146,14 +147,15 @@ const NavLinks = () => (
             }
             target='_blank' 
             className="usn-button"
-            onClick={() => Mixpanel.track('Click Buy USN')}
+            onClick={() => Mixpanel.track('Click Buy USN')} rel="noreferrer"
             >
             <div>
                 <img src={USN_LOGO} alt='open-link'></img>
             </div>
 
-       <>Buy $USN</>
-    </a>}
+                <>Buy $USN</>
+            </a>
+     }
     </Container>
 );
 
