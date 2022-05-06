@@ -144,6 +144,35 @@
       "lastEditedAt": "2022-04-07T02:50:24.123Z"
     }
   },
+  "IMPORT_ZERO_BALANCE_ACCOUNT": {
+    "createdBy": "Patrick Tajima",
+    "createdAt": "2022-05-06T17:30:49.430Z",
+    "development": {
+      "enabled": false,
+      "lastEditedBy": "Patrick Tajima",
+      "lastEditedAt": "2022-05-06T17:30:49.429Z"
+    },
+    "testnet": {
+      "enabled": true,
+      "lastEditedBy": "Patrick Tajima",
+      "lastEditedAt": "2022-05-06T17:30:49.430Z"
+    },
+    "mainnet": {
+      "enabled": false,
+      "lastEditedBy": "Patrick Tajima",
+      "lastEditedAt": "2022-05-06T17:30:49.430Z"
+    },
+    "mainnet_STAGING": {
+      "enabled": false,
+      "lastEditedBy": "Patrick Tajima",
+      "lastEditedAt": "2022-05-06T17:30:49.430Z"
+    },
+    "testnet_STAGING": {
+      "enabled": true,
+      "lastEditedBy": "Patrick Tajima",
+      "lastEditedAt": "2022-05-06T17:30:49.430Z"
+    }
+  },
   "USE_INDEXER_SERVICE": {
     "createdBy": "Andy Haynes",
     "createdAt": "2022-05-05T21:19:46.314Z",
