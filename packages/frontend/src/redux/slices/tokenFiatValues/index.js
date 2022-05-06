@@ -2,8 +2,8 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import DataLoader from 'dataloader';
 import merge from 'lodash.merge';
 import Cache from 'node-cache';
-import { createSelector } from 'reselect';
 import { stringifyUrl } from 'query-string';
+import { createSelector } from 'reselect';
 
 import sendJson from '../../../tmp_fetch_send_json';
 import { fetchTokenPrices, fetchTokenWhiteList } from '../../../utils/ref-finance';
