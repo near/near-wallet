@@ -1,10 +1,13 @@
 import { getRouter } from 'connected-react-router';
+import { KeyPair } from 'near-api-js';
+import { parseSeedPhrase } from 'near-seed-phrase';
 import { parse as parseQuery, stringify } from 'query-string';
 import React, { Component } from 'react';
 import { Translate } from 'react-localize-redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
+
 
 import { Mixpanel } from '../../mixpanel/index';
 import {
@@ -14,11 +17,14 @@ import {
     refreshAccount,
     clearAccountState
 } from '../../redux/actions/account';
-import { clearLocalAlert } from '../../redux/actions/status';
+import { clearLocalAlert, showCustomAlert, clearGlobalAlert } from '../../redux/actions/status';
 import { selectAccountSlice } from '../../redux/slices/account';
 import { selectActionsPending, selectStatusLocalAlert, selectStatusMainLoader } from '../../redux/slices/status';
+import isValidSeedPhrase from '../../utils/isValidSeedPhrase';
 import parseFundingOptions from '../../utils/parseFundingOptions';
+import { wallet } from '../../utils/wallet';
 import Container from '../common/styled/Container.css';
+import CouldNotFindAccountModal from './CouldNotFindAccountModal';
 import RecoverAccountSeedPhraseForm from './RecoverAccountSeedPhraseForm';
 
 const StyledContainer = styled(Container)`
@@ -45,7 +51,8 @@ const StyledContainer = styled(Container)`
 class RecoverAccountSeedPhrase extends Component {
     state = {
         seedPhrase: this.props.seedPhrase,
-        recoveringAccount: false
+        recoveringAccount: false,
+        showCouldNotFindAccountModal: false
     }
 
     // TODO: Use some validation framework?
@@ -72,14 +79,27 @@ class RecoverAccountSeedPhrase extends Component {
         }
 
         const { seedPhrase } = this.state;
-        const { 
+        const {
             location,
             redirectTo,
             redirectToApp,
             clearAccountState,
             recoverAccountSeedPhrase,
-            refreshAccount
+            refreshAccount,
+            showCustomAlert
         } = this.props;
+
+        try {
+            isValidSeedPhrase(seedPhrase);
+        } catch (e) {
+            showCustomAlert({
+                success: false,
+                messageCodeHeader: 'error',
+                messageCode: 'walletErrorCodes.recoverAccountSeedPhrase.errorSeedPhraseNotValid',
+                errorMessage: e.message
+            });
+            return;
+        }
 
         await Mixpanel.withTracking('IE-SP Recovery with seed phrase',
             async () => {
@@ -87,6 +107,9 @@ class RecoverAccountSeedPhrase extends Component {
                 await recoverAccountSeedPhrase(seedPhrase);
                 await refreshAccount();
             }, (e) => {
+                if (e.message.includes('Cannot find matching public key')) {
+                    this.setState({ showCouldNotFindAccountModal: true });
+                }
                 throw e;
             }, () => {
                 this.setState({ recoveringAccount: false });
@@ -117,6 +140,8 @@ class RecoverAccountSeedPhrase extends Component {
             isLegit: this.isLegit && !(this.props.localAlert && this.props.localAlert.success === false)
         };
 
+        const { showCouldNotFindAccountModal, seedPhrase } = this.state;
+
         return (
             <StyledContainer className='small-centered border'>
                 <h1><Translate id='recoverSeedPhrase.pageTitle' /></h1>
@@ -127,6 +152,30 @@ class RecoverAccountSeedPhrase extends Component {
                         handleChange={this.handleChange}
                     />
                 </form>
+                {showCouldNotFindAccountModal && (
+                    <CouldNotFindAccountModal
+                        onClickImport={async () => {
+                            const { secretKey } = parseSeedPhrase(seedPhrase);
+                            const recoveryKeyPair = KeyPair.fromString(secretKey);
+                            const implicitAccountId = Buffer.from(recoveryKeyPair.publicKey.data).toString('hex');
+                            try {
+                                await wallet.importZeroBalanceAccount(implicitAccountId, recoveryKeyPair);
+                                this.props.refreshAccount();
+                                this.props.redirectTo('/');
+                                this.props.clearGlobalAlert();
+                            } catch (e) {
+                                this.props.showCustomAlert({
+                                    success: false,
+                                    messageCodeHeader: 'error',
+                                    messageCode: 'walletErrorCodes.recoverAccountSeedPhrase.errorNotAbleToImportAccount',
+                                    errorMessage: e.message
+                                });
+                            }
+                        }}
+                        onClose={() => this.setState({ showCouldNotFindAccountModal: false })}
+                        isOpen={showCouldNotFindAccountModal}
+                    />
+                )}
             </StyledContainer>
         );
     }
@@ -138,7 +187,9 @@ const mapDispatchToProps = {
     redirectToApp,
     refreshAccount,
     clearLocalAlert,
-    clearAccountState
+    clearAccountState,
+    showCustomAlert,
+    clearGlobalAlert
 };
 
 const mapStateToProps = (state, { match }) => ({
