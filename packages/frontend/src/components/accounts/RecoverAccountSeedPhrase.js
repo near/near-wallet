@@ -1,6 +1,4 @@
 import { getRouter } from 'connected-react-router';
-import { KeyPair } from 'near-api-js';
-import { parseSeedPhrase } from 'near-seed-phrase';
 import { parse as parseQuery, stringify } from 'query-string';
 import React, { Component } from 'react';
 import { Translate } from 'react-localize-redux';
@@ -17,14 +15,13 @@ import {
     refreshAccount,
     clearAccountState
 } from '../../redux/actions/account';
-import { clearLocalAlert, showCustomAlert, clearGlobalAlert } from '../../redux/actions/status';
+import { clearLocalAlert, showCustomAlert } from '../../redux/actions/status';
 import { selectAccountSlice } from '../../redux/slices/account';
 import { selectActionsPending, selectStatusLocalAlert, selectStatusMainLoader } from '../../redux/slices/status';
 import isValidSeedPhrase from '../../utils/isValidSeedPhrase';
 import parseFundingOptions from '../../utils/parseFundingOptions';
-import { wallet } from '../../utils/wallet';
 import Container from '../common/styled/Container.css';
-import CouldNotFindAccountModal from './CouldNotFindAccountModal';
+import CouldNotFindAccountModalWrapper from './CouldNotFindAccountModalWrapper';
 import RecoverAccountSeedPhraseForm from './RecoverAccountSeedPhraseForm';
 
 const StyledContainer = styled(Container)`
@@ -157,27 +154,10 @@ class RecoverAccountSeedPhrase extends Component {
                     />
                 </form>
                 {showCouldNotFindAccountModal && (
-                    <CouldNotFindAccountModal
-                        onClickImport={async () => {
-                            const { secretKey } = parseSeedPhrase(seedPhrase);
-                            const recoveryKeyPair = KeyPair.fromString(secretKey);
-                            const implicitAccountId = Buffer.from(recoveryKeyPair.publicKey.data).toString('hex');
-                            try {
-                                await wallet.importZeroBalanceAccount(implicitAccountId, recoveryKeyPair);
-                                this.props.refreshAccount();
-                                this.props.redirectTo('/');
-                                this.props.clearGlobalAlert();
-                            } catch (e) {
-                                this.props.showCustomAlert({
-                                    success: false,
-                                    messageCodeHeader: 'error',
-                                    messageCode: 'walletErrorCodes.recoverAccountSeedPhrase.errorNotAbleToImportAccount',
-                                    errorMessage: e.message
-                                });
-                            }
-                        }}
+                    <CouldNotFindAccountModalWrapper
                         onClose={() => this.setState({ showCouldNotFindAccountModal: false })}
                         isOpen={showCouldNotFindAccountModal}
+                        seedPhrase={seedPhrase}
                     />
                 )}
             </StyledContainer>
@@ -192,8 +172,7 @@ const mapDispatchToProps = {
     refreshAccount,
     clearLocalAlert,
     clearAccountState,
-    showCustomAlert,
-    clearGlobalAlert
+    showCustomAlert
 };
 
 const mapStateToProps = (state, { match }) => ({
