@@ -1,7 +1,9 @@
 import BN from 'bn.js';
 import * as nearApiJs from 'near-api-js';
 
+import { USE_INDEXER_SERVICE } from '../../../../features';
 import { ACCOUNT_HELPER_URL, NEAR_TOKEN_ID } from '../config';
+import { listStakingDeposits } from '../services/indexer';
 import { nearTo } from '../utils/amounts';
 import { wallet } from './wallet';
 
@@ -78,7 +80,12 @@ export async function updateStakedBalance(validatorId, account_id, contract) {
 }
 
 export async function getStakingDeposits(accountId) {
-    let stakingDeposits = await fetch(ACCOUNT_HELPER_URL + '/staking-deposits/' + accountId).then((r) => r.json());
+    let stakingDeposits;
+    if (USE_INDEXER_SERVICE) {
+        stakingDeposits = await listStakingDeposits(accountId);
+    } else {
+        stakingDeposits = await fetch(ACCOUNT_HELPER_URL + '/staking-deposits/' + accountId).then((r) => r.json());
+    }
 
     const validatorDepositMap = {};
     stakingDeposits.forEach(({ validator_id, deposit }) => {
