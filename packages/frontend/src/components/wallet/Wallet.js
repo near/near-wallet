@@ -45,7 +45,6 @@ const StyledContainer = styled(Container)`
         line-height: 150%;
         align-self: end;
         padding: 10px 20px;
-        
     }
 
     .sub-title {
