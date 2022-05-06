@@ -1089,7 +1089,7 @@
             "transferOf": "đang yêu cầu chuyển"
         },
         "multipleAccountsError": {
-            "body": "<a href=${signCallbackUrl} target='_blank' rel='noreferrer'>${signCallbackUrl}</a> đã yêu cầu cấp quyền từ nhiều tài khoản.<br/><br/>NEAR Wallet chỉ có thể cấp quyền cho các giao dịch cho một tài khoản tại một thời điểm.",
+            "body": "<a href='${signCallbackUrl}' target='_blank' rel='noreferrer'>${signCallbackUrl}</a> đã yêu cầu cấp quyền từ nhiều tài khoản.<br/><br/>NEAR Wallet chỉ có thể cấp quyền cho các giao dịch cho một tài khoản tại một thời điểm.",
             "title": "Giao dịch hàng loạt có lỗi"
         },
         "nothingHasBeenTransferred": "Không có lệnh chuyển nào.",
