@@ -26,6 +26,21 @@
       "enabled": true,
       "lastEditedBy": "Andy Haynes",
       "lastEditedAt": "2022-01-31T21:13:09.948Z"
+    },
+    "mainnet_NEARORG": {
+      "enabled": true,
+      "lastEditedBy": "esaminu",
+      "lastEditedAt": "2022-05-05T18:06:54.374Z"
+    },
+    "mainnet_STAGING_NEARORG": {
+      "enabled": true,
+      "lastEditedBy": "esaminu",
+      "lastEditedAt": "2022-05-05T18:07:28.665Z"
+    },
+    "testnet_NEARORG": {
+      "enabled": true,
+      "lastEditedBy": "esaminu",
+      "lastEditedAt": "2022-05-05T18:07:50.110Z"
     }
   },
   "CREATE_USN_CONTRACT": {
@@ -33,28 +48,43 @@
     "createdAt": "2022-03-24T13:11:21.223Z",
     "development": {
       "enabled": false,
-      "lastEditedBy": "OlegYak ",
-      "lastEditedAt": "2022-03-24T13:11:21.223Z"
+      "lastEditedBy": "esaminu",
+      "lastEditedAt": "2022-05-05T22:23:33.682Z"
     },
     "testnet": {
       "enabled": false,
-      "lastEditedBy": "agileurbanite",
-      "lastEditedAt": "2022-04-26T08:16:00:UTC"
+      "lastEditedBy": "esaminu",
+      "lastEditedAt": "2022-05-05T22:23:33.682Z"
     },
     "mainnet": {
       "enabled": false,
-      "lastEditedBy": "agileurbanite ",
-      "lastEditedAt": "2022-04-26T08:16:00:UTC"
+      "lastEditedBy": "esaminu",
+      "lastEditedAt": "2022-05-05T22:23:33.682Z"
     },
     "mainnet_STAGING": {
       "enabled": false,
-      "lastEditedBy": "agileurbanite ",
-      "lastEditedAt": "2022-04-26T08:16:00:UTC"
+      "lastEditedBy": "esaminu",
+      "lastEditedAt": "2022-05-05T22:23:33.682Z"
     },
     "testnet_STAGING": {
       "enabled": false,
-      "lastEditedBy": "agileurbanite",
-      "lastEditedAt": "2022-04-26T08:16:00:UTC"
+      "lastEditedBy": "esaminu",
+      "lastEditedAt": "2022-05-05T22:23:33.682Z"
+    },
+    "testnet_NEARORG": {
+      "enabled": false,
+      "lastEditedBy": "esaminu",
+      "lastEditedAt": "2022-05-05T18:07:50.110Z"
+    },
+    "mainnet_NEARORG": {
+      "enabled": false,
+      "lastEditedBy": "esaminu",
+      "lastEditedAt": "2022-05-05T18:06:54.374Z"
+    },
+    "mainnet_STAGING_NEARORG": {
+      "enabled": false,
+      "lastEditedBy": "esaminu",
+      "lastEditedAt": "2022-05-05T18:07:28.665Z"
     }
   },
   "EXAMPLE_FLAG": {
@@ -84,6 +114,21 @@
       "enabled": true,
       "lastEditedBy": "Andy Haynes",
       "lastEditedAt": "2022-01-31T21:13:09.948Z"
+    },
+    "mainnet_NEARORG": {
+      "enabled": true,
+      "lastEditedBy": "esaminu",
+      "lastEditedAt": "2022-05-05T18:06:54.374Z"
+    },
+    "mainnet_STAGING_NEARORG": {
+      "enabled": false,
+      "lastEditedBy": "esaminu",
+      "lastEditedAt": "2022-05-05T18:07:28.665Z"
+    },
+    "testnet_NEARORG": {
+      "enabled": true,
+      "lastEditedBy": "esaminu",
+      "lastEditedAt": "2022-05-05T18:07:50.110Z"
     }
   },
   "FARMING_VALIDATOR_APY_DISPLAY": {
@@ -113,6 +158,21 @@
       "enabled": true,
       "lastEditedBy": "Arsen Kulikov",
       "lastEditedAt": "2022-03-22T20:12:55.968Z"
+    },
+    "mainnet_NEARORG": {
+      "enabled": true,
+      "lastEditedBy": "esaminu",
+      "lastEditedAt": "2022-05-05T18:06:54.374Z"
+    },
+    "mainnet_STAGING_NEARORG": {
+      "enabled": true,
+      "lastEditedBy": "esaminu",
+      "lastEditedAt": "2022-05-05T18:07:28.665Z"
+    },
+    "testnet_NEARORG": {
+      "enabled": true,
+      "lastEditedBy": "esaminu",
+      "lastEditedAt": "2022-05-05T18:07:50.110Z"
     }
   },
   "IMPORT_ACCOUNT_WITH_LINK_V2": {
@@ -142,6 +202,21 @@
       "enabled": true,
       "lastEditedBy": "Patrick Tajima",
       "lastEditedAt": "2022-04-07T02:50:24.123Z"
+    },
+    "mainnet_NEARORG": {
+      "enabled": true,
+      "lastEditedBy": "esaminu",
+      "lastEditedAt": "2022-05-05T18:06:54.374Z"
+    },
+    "mainnet_STAGING_NEARORG": {
+      "enabled": true,
+      "lastEditedBy": "esaminu",
+      "lastEditedAt": "2022-05-05T18:07:28.665Z"
+    },
+    "testnet_NEARORG": {
+      "enabled": true,
+      "lastEditedBy": "esaminu",
+      "lastEditedAt": "2022-05-05T18:07:50.110Z"
     }
   },
   "IMPORT_ZERO_BALANCE_ACCOUNT": {
@@ -229,6 +304,21 @@
       "enabled": false,
       "lastEditedBy": "ignatKorokov",
       "lastEditedAt": "2022-05-02T17:12:41.421Z"
+    },
+    "mainnet_NEARORG": {
+      "enabled": false,
+      "lastEditedBy": "esaminu",
+      "lastEditedAt": "2022-05-05T18:06:54.374Z"
+    },
+    "mainnet_STAGING_NEARORG": {
+      "enabled": false,
+      "lastEditedBy": "esaminu",
+      "lastEditedAt": "2022-05-05T18:07:28.665Z"
+    },
+    "testnet_NEARORG": {
+      "enabled": true,
+      "lastEditedBy": "esaminu",
+      "lastEditedAt": "2022-05-05T18:07:50.110Z"
     }
   }
 }
