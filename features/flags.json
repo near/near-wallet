@@ -248,9 +248,9 @@
       "lastEditedAt": "2022-05-06T17:30:49.430Z"
     },
     "testnet_NEARORG": {
-      "enabled": false,
+      "enabled": true,
       "lastEditedBy": "esaminu",
-      "lastEditedAt": "2022-05-06T23:34:05.414Z"
+      "lastEditedAt": "2022-05-09T21:50:59.559Z"
     },
     "mainnet_NEARORG": {
       "enabled": false,
