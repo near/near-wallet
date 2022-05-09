@@ -1,3 +1,4 @@
+import { shuffle } from 'lodash';
 import React, { useState, useEffect, useMemo } from 'react';
 import { Translate } from 'react-localize-redux';
 import { useSelector } from 'react-redux';
@@ -10,7 +11,7 @@ import { isMoonpayAvailable, getSignedUrl } from '../../utils/moonpay';
 import { buildUtorgPayLink } from '../accounts/create/FundWithUtorg';
 import FormButton from '../common/FormButton';
 import ArrowIcon from '../svg/ArrowIcon';
-import { FundingCard } from './fundingCard';
+import { FundingCard } from './FundingCard';
 
 const StyledContainer = styled.div`
     position: relative;
@@ -217,9 +218,7 @@ export function BuyNear({ match, location, history }) {
             <div className='subTitle'><Translate id='buyNear.subTitle' /></div>
             <div className='wrapper'>
                 <FundingCard title='buyNear.nearPurchaseTitle' subTitle='buyNear.nearPurchaseSubTitle' actions={
-                    [PayMethods.moonPay, PayMethods.nearPay, PayMethods.utorg
-
-                    ]
+                    shuffle([PayMethods.moonPay, PayMethods.nearPay, PayMethods.utorg])
                 } />
                 <FundingCard title='buyNear.bridgeTitle'  subTitle='buyNear.bridgeSubTitle' actions={
                     [PayMethods.rainbow]
