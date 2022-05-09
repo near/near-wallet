@@ -290,28 +290,28 @@
         "withdrawing": "Withdrawing"
     },
     "buyNear": {
+        "bridgeSubTitle": "Transfer your tokens from Ethereum to NEAR using the Rainbow Bridge.",
+        "bridgeTitle": "Bridge From Ethereum",
         "bridgeTokens": "Bridge From Ethereum",
         "buyWith": "Buy with",
         "coinMarketCap": "CoinMarketCap",
-        "descMoonpay": "Purchase NEAR through MoonPay using your preferred payment method.",
         "coinMarketLink": "More on CoinMarketCap",
+        "descMoonpay": "Purchase NEAR through MoonPay using your preferred payment method.",
         "descOne": "Purchase NEAR through MoonPay using your preferred payment method.",
         "descThree": "Transfer your tokens from Ethereum to NEAR Wallet using a bridge.",
         "descTwo": "NEAR is available to purchase through the following exchanges.",
         "descUtorg": "Purchase NEAR through Utorg using your preferred payment method.",
         "moonPay": "MoonPay",
+        "nearPurchaseSubTitle": "Use your preferred payment method to purchase $NEAR through one of our supported partners.",
+        "nearPurchaseTitle": "Purchase NEAR",
         "notSupported": "is not supported in your region",
         "seeMore": "See more on",
-        "supportedExchanges": "Supported Exchanges",
-        "title": "Top Up",
-        "utorg": "Utorg",
         "subTitle": "Choose from a variety of funding options to top up your wallet!",
-        "nearPurchaseTitle": "Purchase NEAR",
-        "nearPurchaseSubTitle": "Use your preferred payment method to purchase $NEAR through one of our supported partners.",
-        "bridgeTitle": "Bridge From Ethereum",
-        "bridgeSubTitle": "Transfer your tokens from Ethereum to NEAR using the Rainbow Bridge.",
+        "supportedExchanges": "Supported Exchanges",
+        "supportedSubTitle": " $NEAR is available to purchase and trade on various exchanges.",
         "supportedTitle": "Supported Exchanges",
-        "supportedSubTitle": " $NEAR is available to purchase and trade on various exchanges."
+        "title": "Top Up",
+        "utorg": "Utorg"
     },
     "confirmLedgerModal": {
         "header": {
