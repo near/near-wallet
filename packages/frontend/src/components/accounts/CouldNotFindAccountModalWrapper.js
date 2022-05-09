@@ -1,5 +1,3 @@
-import { KeyPair } from 'near-api-js';
-import { parseSeedPhrase } from 'near-seed-phrase';
 import React from 'react';
 import { useDispatch } from 'react-redux';
 
@@ -10,13 +8,13 @@ import {
 import { showCustomAlert, clearGlobalAlert } from '../../redux/actions/status';
 import { getImplicitAccountIdFromSeedPhrase, getKeyPairFromSeedPhrase } from '../../utils/parseSeedPhrase';
 import { wallet } from '../../utils/wallet';
-import CouldNotFindAccountModal from './CouldNotFindAccountModal';
+import { CouldNotFindAccountModal } from './CouldNotFindAccountModal';
 
-export default ({
+export function CouldNotFindAccountModalWrapper ({
     isOpen,
     onClose,
     seedPhrase
-}) => {
+}) {
     const dispatch = useDispatch();
     return (
         <CouldNotFindAccountModal
@@ -42,3 +40,4 @@ export default ({
         />
     );
 };
+

@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
 import { IMPORT_ZERO_BALANCE_ACCOUNT } from '../../../../features';
-import CouldNotFindAccountModalWrapper from '../components/accounts/CouldNotFindAccountModalWrapper';
+import { CouldNotFindAccountModalWrapper } from '../components/accounts/CouldNotFindAccountModalWrapper';
 import ImportAccountWithLink from '../components/accounts/import/ImportAccountWithLink';
 import { Mixpanel } from '../mixpanel/index';
 import {
