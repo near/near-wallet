@@ -3,20 +3,13 @@ import { Translate } from 'react-localize-redux';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
-import { IS_MAINNET } from '../../config';
+import { getPayMethods } from '../../config/buyNearConfig';
 import { Mixpanel } from '../../mixpanel';
 import { selectAccountId } from '../../redux/slices/account';
 import { isMoonpayAvailable, getSignedUrl } from '../../utils/moonpay';
 import { buildUtorgPayLink } from '../accounts/create/FundWithUtorg';
 import FormButton from '../common/FormButton';
 import ArrowIcon from '../svg/ArrowIcon';
-import binance from './assets/binance.svg';
-import huobi from './assets/huobi.svg';
-import monoPay from './assets/monoPay.svg';
-import okex from './assets/okex.svg';
-import payNear from './assets/payNear.svg';
-import rainbow from './assets/rainbow.svg';
-import utorg from './assets/utorg.svg';
 import { FundingCard } from './fundingCard';
 
 const StyledContainer = styled.div`
@@ -196,23 +189,8 @@ export function BuyNear({ match, location, history }) {
         checkMoonPay();
     }, [accountId]);
 
-    const PayMethods = useMemo(() => {
-        return {
-            moonPay: {
-                icon: monoPay, name: 'MoonPay',
-                link: signedMoonPayUrl,
-                disabled: !IS_MAINNET || accountId && !moonPayAvailable,
-                track: () => Mixpanel.track('Wallet Click Buy with Moonpay')
-            },
-            nearPay: { icon: payNear, name: 'NearPay', link: 'https://www.nearpay.io/' },
-            utorg: { icon: utorg, disabled:!IS_MAINNET, name: 'UTORG', link: utorgPayUrl },
-            rainbow: { icon: rainbow, name: 'Rainbow Bridge', link: 'https://rainbowbridge.app/transfer' },
-            binance: { icon: okex, name: 'Okex', link: 'https://www.okex.com/' },
-            okex: { icon: binance, name: 'Binance', link: 'https://www.binance.com/' },
-            huobi: { icon: huobi, name: 'Huobi', link: 'https://c2c.huobi.com/en-us/one-trade/buy' }
-        };
-    }, [accountId, moonPayAvailable, signedMoonPayUrl, utorgPayUrl]);
-
+    const PayMethods = useMemo(() => getPayMethods(accountId, moonPayAvailable, signedMoonPayUrl, utorgPayUrl), [accountId, moonPayAvailable, signedMoonPayUrl, utorgPayUrl]);
+    
     const checkMoonPay = async () => {
         await Mixpanel.withTracking('Wallet Check Moonpay available',
             async () => {
