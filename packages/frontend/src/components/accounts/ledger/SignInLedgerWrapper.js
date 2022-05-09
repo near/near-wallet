@@ -40,9 +40,8 @@ export function SignInLedgerWrapper(props) {
 
     const [accountId, setAccountId] = useState('');
     const [loader, setLoader] = useState(false);
-    const [path, setPath] = useState(1);
-    const [confirmedPath, setConfirmedPath] = useState(null);
-    const ledgerHdPath = confirmedPath ? `44'/397'/0'/0'/${confirmedPath}'` : null;
+    const [confirmedPath, setConfirmedPath] = useState(1);
+    const ledgerHdPath = `44'/397'/0'/0'/${confirmedPath}'`;
 
     const account = useSelector(selectAccountSlice);
     const status = useSelector(selectStatusSlice);
@@ -127,8 +126,7 @@ export function SignInLedgerWrapper(props) {
         if (!signInWithLedgerStatus) {
             return <Authorize
                 status={status}
-                path={path}
-                setPath={setPath}
+                confirmedPath={confirmedPath}
                 setConfirmedPath={setConfirmedPath}
                 handleSignIn={handleSignIn}
                 signingIn={!!signInWithLedgerStatus}

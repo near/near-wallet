@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
@@ -109,7 +109,12 @@ const Container = styled.div`
     }
 `;
 
-export default function LedgerHdPaths({ onSetPath, path, onConfirmHdPath }) {
+export default function LedgerHdPaths({ 
+    confirmedPath,
+    setConfirmedPath
+}) {
+    const [path, setPath] = useState(confirmedPath);
+
     onKeyDown((e) => {
         const dropdownOpen = document.getElementById('hd-paths-dropdown').classList.contains('open');
         if (dropdownOpen) {
@@ -123,13 +128,17 @@ export default function LedgerHdPaths({ onSetPath, path, onConfirmHdPath }) {
     });
 
     const increment = () => {
-        onSetPath(path + 1);
+        setPath(path + 1);
     };
 
     const decrement = () => {
         if (path > 0) {
-            onSetPath(path - 1);
+            setPath(path - 1);
         }
+    };
+
+    const handleConfirmHdPath = () => {
+        setConfirmedPath(path);
     };
 
     const dropDownContent = () => {
@@ -152,7 +161,7 @@ export default function LedgerHdPaths({ onSetPath, path, onConfirmHdPath }) {
                         </div>
                     </div>
                 </div>
-                <FormButton className='hd-paths-dropdown-toggle' onClick={onConfirmHdPath}>
+                <FormButton className='hd-paths-dropdown-toggle' onClick={handleConfirmHdPath}>
                     <Translate id='signInLedger.advanced.setPath'/>
                 </FormButton>
             </div>

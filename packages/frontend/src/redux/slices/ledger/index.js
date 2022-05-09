@@ -105,9 +105,7 @@ const signInWithLedgerAddAndSaveAccounts = createAsyncThunk(
     async ({ path, accountIds }, { dispatch, getState }) => {
         for (let accountId of accountIds) {
             try {
-                if (path) {
-                    setLedgerHdPath({ accountId, path });
-                }
+                setLedgerHdPath({ accountId, path });
                 await dispatch(addLedgerAccountId({ accountId })).unwrap();
                 dispatch(ledgerSlice.actions.setLedgerTxSigned({ status: false, accountId }));
             } catch (e) {
