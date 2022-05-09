@@ -24,11 +24,11 @@ const Container = styled.div`
     }
 `;
 
-export default ({
+export function CouldNotFindAccountModal ({
     isOpen,
     onClickImport,
     onClose
- }) => {
+ }) {
     return (
         <Modal
             id='could-not-find-account-modal'
