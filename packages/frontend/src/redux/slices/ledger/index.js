@@ -15,6 +15,8 @@ import refreshAccountOwner from '../../sharedThunks/refreshAccountOwner';
 
 const SLICE_NAME = 'ledger';
 
+export const LEDGER_HD_PATH_PREFIX = '44\'/397\'/0\'/0\'/';
+
 export const LEDGER_MODAL_STATUS = {
     CONFIRM_PUBLIC_KEY: 'confirm-public-key',
     CONFIRM_ACCOUNTS: 'confirm-accounts',
