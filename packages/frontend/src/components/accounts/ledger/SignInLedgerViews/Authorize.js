@@ -2,12 +2,10 @@ import React from 'react';
 import { Translate } from 'react-localize-redux';
 
 import FormButton from '../../../common/FormButton';
-import LocalAlertBox from '../../../common/LocalAlertBox';
 import LedgerImageCircle from '../../../svg/LedgerImageCircle';
 import LedgerHdPaths from '../LedgerHdPaths';
 
 const Authorize = ({
-    status,
     confirmedPath,
     setConfirmedPath,
     handleSignIn,
@@ -20,7 +18,6 @@ const Authorize = ({
             <h1><Translate id='signInLedger.header' /></h1>
             <Translate id='signInLedger.one' />
             <br /><br />
-            <LocalAlertBox localAlert={status.localAlert} />
             <LedgerHdPaths
                 confirmedPath={confirmedPath}
                 setConfirmedPath={setConfirmedPath}

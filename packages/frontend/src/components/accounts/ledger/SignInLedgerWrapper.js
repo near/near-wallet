@@ -10,10 +10,9 @@ import {
     checkAccountAvailable,
     clearAccountState
 } from '../../../redux/actions/account';
-import { clearLocalAlert } from '../../../redux/actions/status';
 import { selectAccountSlice } from '../../../redux/slices/account';
 import { actions as ledgerActions, LEDGER_MODAL_STATUS, selectLedgerSignInWithLedger, selectLedgerSignInWithLedgerStatus, selectLedgerTxSigned } from '../../../redux/slices/ledger';
-import { selectStatusMainLoader, selectStatusSlice } from '../../../redux/slices/status';
+import { selectStatusMainLoader } from '../../../redux/slices/status';
 import parseFundingOptions from '../../../utils/parseFundingOptions';
 import Container from '../../common/styled/Container.css';
 import Authorize from './SignInLedgerViews/Authorize';
@@ -44,7 +43,6 @@ export function SignInLedgerWrapper(props) {
     const ledgerHdPath = `44'/397'/0'/0'/${confirmedPath}'`;
 
     const account = useSelector(selectAccountSlice);
-    const status = useSelector(selectStatusSlice);
     const signInWithLedgerState = useSelector(selectLedgerSignInWithLedger);
     const txSigned = useSelector(selectLedgerTxSigned);
     const signInWithLedgerStatus = useSelector(selectLedgerSignInWithLedgerStatus);
@@ -125,7 +123,6 @@ export function SignInLedgerWrapper(props) {
     const LedgerView = () => {
         if (!signInWithLedgerStatus) {
             return <Authorize
-                status={status}
                 confirmedPath={confirmedPath}
                 setConfirmedPath={setConfirmedPath}
                 handleSignIn={handleSignIn}
@@ -144,10 +141,8 @@ export function SignInLedgerWrapper(props) {
                 handleAdditionalAccountId={handleAdditionalAccountId}
                 accountId={accountId}
                 handleChange={handleChange}
-                localAlert={status.localAlert}
                 checkAccountAvailable={(accountId) => dispatch(checkAccountAvailable(accountId))}
                 mainLoader={mainLoader}
-                clearLocalAlert={() => dispatch(clearLocalAlert())}
                 stateAccountId={account.accountId}
                 loader={loader}
                 clearSignInWithLedgerModalState={() => dispatch(clearSignInWithLedgerModalState())}
