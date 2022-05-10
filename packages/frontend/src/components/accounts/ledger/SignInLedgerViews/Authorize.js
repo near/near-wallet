@@ -3,14 +3,11 @@ import { Translate } from 'react-localize-redux';
 
 import { Mixpanel } from '../../../../mixpanel/index';
 import FormButton from '../../../common/FormButton';
-import LocalAlertBox from '../../../common/LocalAlertBox';
 import LedgerImageCircle from '../../../svg/LedgerImageCircle';
 import LedgerHdPaths from '../LedgerHdPaths';
 
 const Authorize = ({
-    status,
-    path,
-    setPath,
+    confirmedPath,
     setConfirmedPath,
     handleSignIn,
     signingIn,
@@ -22,11 +19,9 @@ const Authorize = ({
             <h1><Translate id='signInLedger.header' /></h1>
             <Translate id='signInLedger.one' />
             <br /><br />
-            <LocalAlertBox localAlert={status.localAlert} />
             <LedgerHdPaths
-                path={path}
-                onSetPath={(path) => setPath(path)}
-                onConfirmHdPath={() => {
+                confirmedPath={confirmedPath}
+                setConfirmedPath={(path) => {
                     setConfirmedPath(path);
                     Mixpanel.track('IE-Ledger Sign in set custom HD path');
                 }}

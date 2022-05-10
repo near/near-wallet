@@ -589,8 +589,8 @@
     },
     "link": {
         "account": "Акаунт",
-        "donateToUkraine": "Пожертвувати Україні",
         "authorizedApps": "Авторизовані додатки",
+        "donateToUkraine": "Пожертвувати Україні",
         "fullAccessKeys": "Ключі повного доступу",
         "help": "Допомога",
         "noAccount": "У вас немає інших облікових записів",

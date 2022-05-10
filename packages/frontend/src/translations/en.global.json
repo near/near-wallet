@@ -893,16 +893,16 @@
         }
     },
     "recoverSeedPhrase": {
+        "couldNotFindAccountModal": {
+            "buttonImport": "Import Anyway",
+            "desc": "We couldn't find any <b>active account(s)</b> using the provided passphrase. This could be because the passphrase is incorrect, or because the account has no activity yet.",
+            "title": "Couldn't find account"
+        },
         "pageText": "Enter the backup passphrase associated with the account.",
         "pageTitle": "Recover using Passphrase",
         "seedPhraseInput": {
             "placeholder": "correct horse battery staple...",
             "title": "Passphrase (12 words)"
-        },
-        "couldNotFindAccountModal": {
-            "desc": "We couldn't find any <b>active account(s)</b> using the provided passphrase. This could be because the passphrase is incorrect, or because the account has no activity yet.",
-            "title": "Couldn't find account",
-            "buttonImport": "Import Anyway"
         }
     },
     "recoverWithLink": {
@@ -1709,8 +1709,8 @@
         },
         "recoverAccountSeedPhrase": {
             "errorInvalidSeedPhrase": "No accounts were found for this passphrase.",
-            "errorSeedPhraseNotValid": "The provided passphrase is not valid. Please check your passphrase and try again.",
-            "errorNotAbleToImportAccount": "Import of your account failed. Please try again or contact support for assistance."
+            "errorNotAbleToImportAccount": "Import of your account failed. Please try again or contact support for assistance.",
+            "errorSeedPhraseNotValid": "The provided passphrase is not valid. Please check your passphrase and try again."
         },
         "recoveryMethods": {
             "lastMethod": "Cannot delete your last recovery method. Unless you have Ledger enabled, you need to keep at least one recovery method active to ensure recoverability of your account.",
