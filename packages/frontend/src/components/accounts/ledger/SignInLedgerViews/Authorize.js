@@ -1,6 +1,7 @@
 import React from 'react';
 import { Translate } from 'react-localize-redux';
 
+import { Mixpanel } from '../../../../mixpanel/index';
 import FormButton from '../../../common/FormButton';
 import LedgerImageCircle from '../../../svg/LedgerImageCircle';
 import LedgerHdPaths from '../LedgerHdPaths';
@@ -20,7 +21,10 @@ const Authorize = ({
             <br /><br />
             <LedgerHdPaths
                 confirmedPath={confirmedPath}
-                setConfirmedPath={setConfirmedPath}
+                setConfirmedPath={(path) => {
+                    setConfirmedPath(path);
+                    Mixpanel.track('IE-Ledger Sign in set custom HD path');
+                }}
             />
             <div className='buttons-bottom-buttons'>
                 <FormButton
