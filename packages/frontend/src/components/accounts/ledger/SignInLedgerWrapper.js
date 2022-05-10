@@ -140,7 +140,6 @@ export function SignInLedgerWrapper(props) {
             {signInWithLedgerStatus === LEDGER_MODAL_STATUS.ENTER_ACCOUNTID && 
                 <EnterAccountId
                     handleAdditionalAccountId={handleAdditionalAccountId}
-                    accountId={accountId}
                     handleChange={handleChange}
                     checkAccountAvailable={(accountId) => dispatch(checkAccountAvailable(accountId))}
                     mainLoader={mainLoader}
