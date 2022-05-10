@@ -114,6 +114,21 @@
       "enabled": true,
       "lastEditedBy": "OlegYak",
       "lastEditedAt": "2022-05-06T07:29:20.914Z"
+    },
+    "testnet_NEARORG": {
+      "enabled": true,
+      "lastEditedBy": "esaminu",
+      "lastEditedAt": "2022-05-10T17:07:20.351Z"
+    },
+    "mainnet_NEARORG": {
+      "enabled": false,
+      "lastEditedBy": "esaminu",
+      "lastEditedAt": "2022-05-10T17:07:20.351Z"
+    },
+    "mainnet_STAGING_NEARORG": {
+      "enabled": false,
+      "lastEditedBy": "esaminu",
+      "lastEditedAt": "2022-05-10T17:07:20.351Z"
     }
   },
   "EXAMPLE_FLAG": {
