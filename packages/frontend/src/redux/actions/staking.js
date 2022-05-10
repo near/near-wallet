@@ -2,6 +2,7 @@ import BN from 'bn.js';
 import * as nearApiJs from 'near-api-js';
 import { createActions } from 'redux-actions';
 
+import { USE_INDEXER_SERVICE } from '../../../../../features';
 import {
     ACCOUNT_HELPER_URL,
     REACT_APP_USE_TESTINGLOCKUP,
@@ -11,6 +12,7 @@ import {
     LOCKUP_ACCOUNT_ID_SUFFIX
 } from '../../config';
 import { fungibleTokensService, FT_MINIMUM_STORAGE_BALANCE_LARGE } from '../../services/FungibleTokens';
+import { listStakingPools } from '../../services/indexer';
 import StakingFarmContracts from '../../services/StakingFarmContracts';
 import { getLockupAccountId, getLockupMinBalanceForStorage } from '../../utils/account-with-lockup';
 import { showAlert } from '../../utils/alerts';
@@ -401,7 +403,12 @@ export const { staking } = createActions({
                 const rpcValidators = [...current_validators, ...next_validators, ...current_proposals].map(({ account_id }) => account_id);
 
                 const networkId = wallet.connection.provider.connection.url.indexOf(MAINNET) > -1 ? MAINNET : TESTNET;
-                const allStakingPools = (await fetch(`${ACCOUNT_HELPER_URL}/stakingPools`).then((r) => r.json()));
+                let allStakingPools;
+                if (USE_INDEXER_SERVICE) {
+                    allStakingPools = await listStakingPools();
+                } else {
+                    allStakingPools = (await fetch(`${ACCOUNT_HELPER_URL}/stakingPools`).then((r) => r.json()));
+                }
                 const prefix = getValidatorRegExp(networkId);
                 accountIds = [...new Set([...rpcValidators, ...allStakingPools])]
                     .filter((v) => v.indexOf('nfvalidator') === -1 && v.match(prefix));
