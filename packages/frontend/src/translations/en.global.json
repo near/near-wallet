@@ -897,6 +897,11 @@
         "seedPhraseInput": {
             "placeholder": "correct horse battery staple...",
             "title": "Passphrase (12 words)"
+        },
+        "couldNotFindAccountModal": {
+            "desc": "We couldn't find any <b>active account(s)</b> using the provided passphrase. This could be because the passphrase is incorrect, or because the account has no activity yet.",
+            "title": "Couldn't find account",
+            "buttonImport": "Import Anyway"
         }
     },
     "recoverWithLink": {
@@ -1502,6 +1507,27 @@
         "to": "To",
         "TradingFee": "Trading fee"
     },
+    "swapNear": {
+        "confirm": "Confirm & Swap",
+        "details": "Transaction details",
+        "fee": "Liquidity Provider Fee",
+        "from": "From",
+        "max": "Max: ${amount} ${symbol}",
+        "minReceived": "Minimum received",
+        "price": "Price",
+        "priceImpact": "Price Impact",
+        "review": "Review Swap",
+        "reviewInfo": "You are swapping",
+        "successTitle": "Transaction complete!</br>You swapped <span class='color-blue space'>${amount}</span></br>to <span class='color-green'>${tokenTo}</span>",
+        "title": "Swap",
+        "to": "To",
+        "translateIdInfoTooltip": {
+            "liquidityProviderFee": "The estimated cost of processing your transaction.",
+            "minimumReceived": "The minimum amount you will receive from the trade.",
+            "priceImpact": "The difference between the market price and estimated price due to trade size."
+        }
+    },
+    "swapping": "Swapping",
     "sync": "Sync",
     "tokenBox": {
         "priceUnavailable": "Price Unavailable",
@@ -1681,7 +1707,9 @@
             "error": "Import of your account failed. Please try again or contact support for assistance."
         },
         "recoverAccountSeedPhrase": {
-            "errorInvalidSeedPhrase": "No accounts were found for this passphrase."
+            "errorInvalidSeedPhrase": "No accounts were found for this passphrase.",
+            "errorSeedPhraseNotValid": "The provided passphrase is not valid. Please check your passphrase and try again.",
+            "errorNotAbleToImportAccount": "Import of your account failed. Please try again or contact support for assistance."
         },
         "recoveryMethods": {
             "lastMethod": "Cannot delete your last recovery method. Unless you have Ledger enabled, you need to keep at least one recovery method active to ensure recoverability of your account.",

@@ -477,6 +477,12 @@ class Wallet {
         setAccountConfirmed(this.accountId, false);
     }
 
+    async importZeroBalanceAccount(accountId, keyPair) {
+        await this.saveAccount(accountId, keyPair);
+        this.makeAccountActive(accountId);
+        setAccountConfirmed(this.accountId, true);
+    }
+
     async setKey(accountId, keyPair) {
         if (keyPair) {
             await this.keyStore.setKey(NETWORK_ID, accountId, keyPair);

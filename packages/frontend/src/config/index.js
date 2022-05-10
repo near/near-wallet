@@ -12,6 +12,9 @@ const envDefaults = {
     [Environments.TESTNET]: testnet,
     [Environments.MAINNET]: mainnet,
     [Environments.MAINNET_STAGING]: mainnet_STAGING,
+    [Environments.TESTNET_NEARORG]: testnet,
+    [Environments.MAINNET_NEARORG]: mainnet,
+    [Environments.MAINNET_STAGING_NEARORG]: mainnet_STAGING
 };
 
 module.exports = defaults(
