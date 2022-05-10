@@ -321,14 +321,14 @@
       "lastEditedAt": "2022-05-05T22:25:53.915Z"
     },
     "mainnet": {
-      "enabled": false,
+      "enabled": true,
       "lastEditedBy": "Andy Haynes",
-      "lastEditedAt": "2022-05-05T21:19:46.314Z"
+      "lastEditedAt": "2022-05-10T17:35:17.989Z"
     },
     "mainnet_STAGING": {
-      "enabled": false,
+      "enabled": true,
       "lastEditedBy": "Andy Haynes",
-      "lastEditedAt": "2022-05-05T21:19:46.314Z"
+      "lastEditedAt": "2022-05-10T17:35:17.990Z"
     },
     "testnet_STAGING": {
       "enabled": true,
@@ -341,14 +341,14 @@
       "lastEditedAt": "2022-05-06T23:31:29.664Z"
     },
     "mainnet_NEARORG": {
-      "enabled": false,
-      "lastEditedBy": "esaminu",
-      "lastEditedAt": "2022-05-06T23:31:29.664Z"
+      "enabled": true,
+      "lastEditedBy": "Andy Haynes",
+      "lastEditedAt": "2022-05-10T17:35:17.990Z"
     },
     "mainnet_STAGING_NEARORG": {
-      "enabled": false,
-      "lastEditedBy": "esaminu",
-      "lastEditedAt": "2022-05-06T23:31:29.664Z"
+      "enabled": true,
+      "lastEditedBy": "Andy Haynes",
+      "lastEditedAt": "2022-05-10T17:35:17.990Z"
     }
   },
   "USN_BUTTON": {
