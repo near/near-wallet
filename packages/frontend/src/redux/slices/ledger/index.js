@@ -15,6 +15,8 @@ import refreshAccountOwner from '../../sharedThunks/refreshAccountOwner';
 
 const SLICE_NAME = 'ledger';
 
+export const LEDGER_HD_PATH_PREFIX = '44\'/397\'/0\'/0\'/';
+
 export const LEDGER_MODAL_STATUS = {
     CONFIRM_PUBLIC_KEY: 'confirm-public-key',
     CONFIRM_ACCOUNTS: 'confirm-accounts',
@@ -105,9 +107,7 @@ const signInWithLedgerAddAndSaveAccounts = createAsyncThunk(
     async ({ path, accountIds }, { dispatch, getState }) => {
         for (let accountId of accountIds) {
             try {
-                if (path) {
-                    setLedgerHdPath({ accountId, path });
-                }
+                setLedgerHdPath({ accountId, path });
                 await dispatch(addLedgerAccountId({ accountId })).unwrap();
                 dispatch(ledgerSlice.actions.setLedgerTxSigned({ status: false, accountId }));
             } catch (e) {
