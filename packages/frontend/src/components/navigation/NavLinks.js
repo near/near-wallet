@@ -2,7 +2,7 @@ import React from 'react';
 import { Translate } from 'react-localize-redux';
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
-import USN_LOGO from '../../images/USN-logo.png';
+
 import { CREATE_USN_CONTRACT, USN_BUTTON, DONATE_TO_UKRAINE } from '../../../../../features';
 import { IS_MAINNET } from '../../config';
 import USN_LOGO from '../../images/USN-logo.png';
