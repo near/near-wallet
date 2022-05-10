@@ -120,10 +120,11 @@ export default function LedgerHdPaths({
         if (dropdownOpen) {
             if (e.keyCode === 38) {
                 increment();
+                e.preventDefault();
             } else if (e.keyCode === 40) {
                 decrement();
+                e.preventDefault();
             }
-            e.preventDefault();
         }
     });
 
