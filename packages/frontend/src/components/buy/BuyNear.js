@@ -3,7 +3,7 @@ import { Translate } from 'react-localize-redux';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
-import { getPayMethods } from '../../config/buyNearConfig';
+import { getPayMethods, getRandomList } from '../../config/buyNearConfig';
 import { Mixpanel } from '../../mixpanel';
 import { selectAccountId } from '../../redux/slices/account';
 import { isMoonpayAvailable, getSignedUrl } from '../../utils/moonpay';
@@ -179,6 +179,7 @@ export function BuyNear({ match, location, history }) {
     const [moonPayAvailable, setMoonPayAvailable] = useState(null);
     const [signedMoonPayUrl, setSignedMoonPayUrl] = useState(null);
     const [utorgPayUrl, setUtorgPayUrl] = useState(null);
+    const [paymentsList, setPaymentsLait]= useState([]);
 
     useEffect(() => {
         if (!accountId) {
@@ -188,6 +189,10 @@ export function BuyNear({ match, location, history }) {
         setUtorgPayUrl(buildUtorgPayLink(accountId));
         checkMoonPay();
     }, [accountId]);
+
+    useEffect(()=>{
+        setPaymentsLait(getRandomList([PayMethods.moonPay, PayMethods.nearPay, PayMethods.utorg]))
+    },[])
 
     const PayMethods = useMemo(() => getPayMethods(accountId, moonPayAvailable, signedMoonPayUrl, utorgPayUrl), [accountId, moonPayAvailable, signedMoonPayUrl, utorgPayUrl]);
     
@@ -216,11 +221,7 @@ export function BuyNear({ match, location, history }) {
             <div className='title'><Translate id='buyNear.title' /></div>
             <div className='subTitle'><Translate id='buyNear.subTitle' /></div>
             <div className='wrapper'>
-                <FundingCard title='buyNear.nearPurchaseTitle' subTitle='buyNear.nearPurchaseSubTitle' actions={
-                    [PayMethods.moonPay, PayMethods.nearPay, PayMethods.utorg
-
-                    ]
-                } />
+                <FundingCard title='buyNear.nearPurchaseTitle' subTitle='buyNear.nearPurchaseSubTitle' actions={paymentsList} />
                 <FundingCard title='buyNear.bridgeTitle'  subTitle='buyNear.bridgeSubTitle' actions={
                     [PayMethods.rainbow]
                 } />
