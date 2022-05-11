@@ -47,44 +47,44 @@
     "createdBy": "OlegYak ",
     "createdAt": "2022-03-24T13:11:21.223Z",
     "development": {
-      "enabled": false,
+      "enabled": true,
       "lastEditedBy": "esaminu",
-      "lastEditedAt": "2022-05-05T22:23:33.682Z"
+      "lastEditedAt": "2022-05-11T20:22:15.771Z"
     },
     "testnet": {
-      "enabled": false,
+      "enabled": true,
       "lastEditedBy": "esaminu",
-      "lastEditedAt": "2022-05-05T22:23:33.682Z"
+      "lastEditedAt": "2022-05-11T22:37:08.020Z"
     },
     "mainnet": {
-      "enabled": false,
+      "enabled": true,
       "lastEditedBy": "esaminu",
-      "lastEditedAt": "2022-05-05T22:23:33.682Z"
+      "lastEditedAt": "2022-05-11T22:37:08.020Z"
     },
     "mainnet_STAGING": {
-      "enabled": false,
+      "enabled": true,
       "lastEditedBy": "esaminu",
-      "lastEditedAt": "2022-05-05T22:23:33.682Z"
+      "lastEditedAt": "2022-05-11T22:37:08.020Z"
     },
     "testnet_STAGING": {
-      "enabled": false,
+      "enabled": true,
       "lastEditedBy": "esaminu",
-      "lastEditedAt": "2022-05-05T22:23:33.682Z"
+      "lastEditedAt": "2022-05-11T22:37:08.020Z"
     },
     "testnet_NEARORG": {
       "enabled": false,
       "lastEditedBy": "esaminu",
-      "lastEditedAt": "2022-05-05T18:07:50.110Z"
+      "lastEditedAt": "2022-05-11T22:37:08.020Z"
     },
     "mainnet_NEARORG": {
       "enabled": false,
       "lastEditedBy": "esaminu",
-      "lastEditedAt": "2022-05-05T18:06:54.374Z"
+      "lastEditedAt": "2022-05-11T22:37:08.020Z"
     },
     "mainnet_STAGING_NEARORG": {
       "enabled": false,
       "lastEditedBy": "esaminu",
-      "lastEditedAt": "2022-05-05T18:07:28.665Z"
+      "lastEditedAt": "2022-05-11T22:37:08.020Z"
     }
   },
   "DONATE_TO_UKRAINE": {
