@@ -210,7 +210,7 @@ export function StakingContainer({ history, match }) {
     };
 
     useEffect(() => {
-        if (!accountId || !validators.length) return;
+        if (!currentAccount.accountId || !validators.length) return;
         
         validators
             .filter((validator) => validator.version === FARMING_VALIDATOR_VERSION)
