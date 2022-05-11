@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Translate } from 'react-localize-redux';
 
 import { Mixpanel } from '../../../mixpanel/index';
-import { getLedgerHDPath } from '../../../utils/ledger';
+import { LEDGER_HD_PATH_PREFIX } from '../../../redux/slices/ledger';
 import FormButton from '../../common/FormButton';
 import Container from '../../common/styled/Container.css';
 import LedgerIcon from '../../svg/LedgerIcon';
@@ -13,9 +13,8 @@ export default ({
     onClickConnectLedger
 }) => {
     const [showInstructions, setShowInstructions] = useState(false);
-    const [path, setPath] = useState(1);
-    const [confirmedPath, setConfirmedPath] = useState(null);
-    const customLedgerHdPath = getLedgerHDPath(confirmedPath);
+    const [confirmedPath, setConfirmedPath] = useState(1);
+    const ledgerHdPath = `${LEDGER_HD_PATH_PREFIX}${confirmedPath}'`;
     return (
         <Container className='small-centered border ledger-theme'>
             <h1><Translate id='setupLedger.header' /></h1>
@@ -34,15 +33,14 @@ export default ({
                 </span>.
             </h2>
             <LedgerHdPaths
-                path={path}
-                onSetPath={(path) => setPath(path)}
-                onConfirmHdPath={() => {
+                confirmedPath={confirmedPath}
+                setConfirmedPath={(path) => {
                     setConfirmedPath(path);
                     Mixpanel.track('SR-Ledger Setup set custom HD path');
                 }}
             />
             <FormButton onClick={()=>{
-                onClickConnectLedger(customLedgerHdPath);
+                onClickConnectLedger(ledgerHdPath);
             }}>
                 <Translate id='button.continue' />
             </FormButton>

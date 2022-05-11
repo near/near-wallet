@@ -16,10 +16,9 @@ import {
 import { showCustomAlert } from '../../../redux/actions/status';
 import { selectAccountSlice } from '../../../redux/slices/account';
 import { createNewAccount } from '../../../redux/slices/account/createAccountThunks';
-import { actions as ledgerActions } from '../../../redux/slices/ledger';
+import { actions as ledgerActions, LEDGER_HD_PATH_PREFIX } from '../../../redux/slices/ledger';
 import { actions as linkdropActions } from '../../../redux/slices/linkdrop';
 import { selectStatusMainLoader } from '../../../redux/slices/status';
-import { getLedgerHDPath } from '../../../utils/ledger';
 import { setLedgerHdPath } from '../../../utils/localStorage';
 import parseFundingOptions from '../../../utils/parseFundingOptions';
 import { setKeyMeta, ENABLE_IDENTITY_VERIFIED_ACCOUNT } from '../../../utils/wallet';
@@ -45,9 +44,8 @@ const SetupLedger = (props) => {
     const [isNewAccount, setIsNewAccount] = useState(null);
     // TODO: Custom recaptcha hook
     const [recaptchaToken, setRecaptchaToken] = useState(null);
-    const [path, setPath] = useState(1);
-    const [confirmedPath, setConfirmedPath] = useState(null);
-    const customLedgerHdPath = getLedgerHDPath(confirmedPath);
+    const [confirmedPath, setConfirmedPath] = useState(1);
+    const ledgerHdPath = `${LEDGER_HD_PATH_PREFIX}${confirmedPath}'`;
 
     const recaptchaRef = useRef(null);
     const fundingOptions = parseFundingOptions(props.location.search);
@@ -83,13 +81,13 @@ const SetupLedger = (props) => {
 
                     try {
                         debugLog(DISABLE_CREATE_ACCOUNT, fundingOptions);
-                        publicKey = await dispatch(getLedgerPublicKey(customLedgerHdPath));
+                        publicKey = await dispatch(getLedgerPublicKey(ledgerHdPath));
                         await setKeyMeta(publicKey, { type: 'ledger' });
                         Mixpanel.track('SR-Ledger Set key meta');
 
                         // Set custom path to localstorage
-                        if (customLedgerHdPath) {
-                            setLedgerHdPath({ accountId, path: customLedgerHdPath });
+                        if (ledgerHdPath) {
+                            setLedgerHdPath({ accountId, path: ledgerHdPath });
                         }
 
                         // COIN-OP VERIFY ACCOUNT
@@ -188,9 +186,8 @@ const SetupLedger = (props) => {
                 &nbsp;<Translate id='setupLedger.two' /> <span className='link underline' onClick={openShowInstructions}><Translate id='setupLedger.twoLink' /></span>.
             </h2>
             <LedgerHdPaths
-                path={path}
-                onSetPath={(path) => setPath(path)}
-                onConfirmHdPath={() => {
+                confirmedPath={confirmedPath}
+                setConfirmedPath={(path) => {
                     setConfirmedPath(path);
                     Mixpanel.track('SR-Ledger Setup set custom HD path');
                 }}
