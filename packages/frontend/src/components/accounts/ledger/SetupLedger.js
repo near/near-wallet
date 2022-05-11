@@ -145,7 +145,7 @@ const SetupLedger = (props) => {
                     }
                 } else {
                     try {
-                        await dispatch(addLedgerAccessKey());
+                        await dispatch(addLedgerAccessKey(ledgerHdPath));
                     } catch (error) {
                         dispatch(checkAndHideLedgerModal());
                         throw error;
