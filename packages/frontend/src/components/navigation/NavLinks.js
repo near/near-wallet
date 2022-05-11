@@ -24,6 +24,7 @@ const Container = styled.div`
         transition: 100ms;
         color: #72727A;
         font-size: 15px;
+        white-space: nowrap;
 
         :hover, &.selected {
             text-decoration: none;
