@@ -335,7 +335,6 @@ const CustomButton = styled.button`
         &.link {
             width: auto !important;
             height: auto;
-            min-height: 50px;
             padding: 0;
             margin: 0;
             border-radius: 0px;
@@ -506,8 +505,7 @@ const FormButton = ({
     id,
     trackingId,
     swapButton,
-    'data-test-id': testId,
-    style
+    'data-test-id': testId
 }) => (
     <CustomButton
         swapButton={swapButton}
@@ -522,7 +520,6 @@ const FormButton = ({
         }}
         tabIndex='3'
         data-test-id={testId}
-        style={style}
     >
         {sending
             ? <Translate id={sendingString ? sendingString : 'sending'} />

@@ -24,7 +24,6 @@ const Container = styled.div`
         transition: 100ms;
         color: #72727A;
         font-size: 15px;
-        white-space: nowrap;
 
         :hover, &.selected {
             text-decoration: none;
@@ -72,7 +71,6 @@ const Container = styled.div`
         background: #D6EDFF;
         font-weight: 600;
         color: black;
-        white-space: nowrap;
 
         :hover {
             background: #0072CE;
@@ -165,9 +163,8 @@ const NavLinks = () => (
                 <img src={USN_LOGO} alt='open-link'></img>
             </div>
 
-                <>Buy $USN</>
-            </a>
-     }
+       <>Buy $USN</>
+    </a>}
     </Container>
 );
 
