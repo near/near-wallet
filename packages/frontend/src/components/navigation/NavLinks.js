@@ -3,10 +3,11 @@ import { Translate } from 'react-localize-redux';
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { CREATE_USN_CONTRACT, USN_BUTTON } from '../../../../../features';
+import { CREATE_USN_CONTRACT, USN_BUTTON, DONATE_TO_UKRAINE } from '../../../../../features';
 import { IS_MAINNET } from '../../config';
 import USN_LOGO from '../../images/USN-logo.png';
 import { Mixpanel } from '../../mixpanel/index';
+import DonateToUkraineIcon from '../svg/DonateToUkraineIcon';
 import HelpIcon from '../svg/HelpIcon';
 import SwapIconTwoArrows from '../svg/SwapIconTwoArrows';
 import UserIcon from '../svg/UserIcon';
@@ -23,6 +24,7 @@ const Container = styled.div`
         transition: 100ms;
         color: #72727A;
         font-size: 15px;
+        white-space: nowrap;
 
         :hover, &.selected {
             text-decoration: none;
@@ -70,6 +72,7 @@ const Container = styled.div`
         background: #D6EDFF;
         font-weight: 600;
         color: black;
+        white-space: nowrap;
 
         :hover {
             background: #0072CE;
@@ -138,6 +141,15 @@ const NavLinks = () => (
 
             <Translate id="button.swap" />
         </NavLink>}
+        {DONATE_TO_UKRAINE && 
+        <NavLink
+             to={`/send-money/${IS_MAINNET ? 'ukraine' : 'ukraine.testnet'}`}
+             activeClassName="selected"
+             onClick={() => Mixpanel.track('Click Donate button on nav')}
+        >
+            <DonateToUkraineIcon />
+            <Translate id="link.donateToUkraine" />
+        </NavLink>}
         {USN_BUTTON && 
             <a
             href={!IS_MAINNET 
@@ -153,8 +165,9 @@ const NavLinks = () => (
                 <img src={USN_LOGO} alt='open-link'></img>
             </div>
 
-       <>Buy $USN</>
-    </a>}
+                <>Buy $USN</>
+            </a>
+     }
     </Container>
 );
 
