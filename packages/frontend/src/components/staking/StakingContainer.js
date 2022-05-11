@@ -215,7 +215,7 @@ export function StakingContainer({ history, match }) {
         validators
             .filter((validator) => validator.version === FARMING_VALIDATOR_VERSION)
             .forEach((validator) => dispatch(getValidatorFarmData(validator, currentAccount.accountId)));
-    }, [currentAccount, validators]);
+    }, [currentAccount.accountId, validators]);
 
     const handleAction = async (action, validator, amount) => {
         let id = Mixpanel.get_distinct_id();
