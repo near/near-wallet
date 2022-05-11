@@ -1,0 +1,15 @@
+@use 'sass:math';
+@import 'variables';
+@import 'animations';
+
+@import 'loaders/loader01';
+
+
+.loader {
+    @include loader01($align: middle);
+}
+
+.margin {
+    height: 60px;
+    margin: 10px;
+}

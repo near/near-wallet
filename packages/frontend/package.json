@@ -34,6 +34,7 @@
     "prop-types": "^15.7.2",
     "qrcode.react": "^1.0.1",
     "query-string": "^7.0.0",
+    "re": "^0.1.4",
     "react": "^16.13.1",
     "react-countdown-circle-timer": "^3.0.9",
     "react-dom": "^16.13.1",
@@ -99,6 +100,7 @@
     "jest": "^27.0.1",
     "parcel-bundler": "^1.12.4",
     "parcel-plugin-bundle-visualiser": "^1.2.0",
-    "react-is": "^17.0.2"
+    "react-is": "^17.0.2",
+    "sass": "^1.51.0"
   }
 }

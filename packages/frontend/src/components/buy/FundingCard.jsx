@@ -1,7 +1,7 @@
 import React from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
-
+import {Loader} from './Loader/Loader'
 import { FundingType } from './FundingType';
 
 const Block = styled.div`
@@ -80,7 +80,7 @@ const Link = styled.div`
     }
 `;
 
-export const FundingCard = ({ title, subTitle, actions, link }) => {
+export const FundingCard = ({ title, subTitle, actions, link, isLoading}) => {
     return <Block >
         <TextWrap> <Title>  <Translate id={title} /></Title>
             <SubTitle>
@@ -94,8 +94,7 @@ export const FundingCard = ({ title, subTitle, actions, link }) => {
                 }
             </SubTitle>
         </TextWrap>
-
-        <div>{
+        {isLoading? <Loader/> : <div>{
             actions.map((action, i) => {
                 const { title, name, icon, track, link, disabled } = action;
                 return <FundingType
@@ -108,6 +107,7 @@ export const FundingCard = ({ title, subTitle, actions, link }) => {
                     disabled={disabled}
                 />;
             })
-        }</div>
+        }</div>}
+        
     </Block>;
 };

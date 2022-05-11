@@ -189,13 +189,15 @@ export function BuyNear({ match, location, history }) {
         setUtorgPayUrl(buildUtorgPayLink(accountId));
         checkMoonPay();
     }, [accountId]);
-
-    useEffect(()=>{
-        setPaymentsLait(getRandomList([PayMethods.moonPay, PayMethods.nearPay, PayMethods.utorg]))
-    },[])
-
+    
     const PayMethods = useMemo(() => getPayMethods(accountId, moonPayAvailable, signedMoonPayUrl, utorgPayUrl), [accountId, moonPayAvailable, signedMoonPayUrl, utorgPayUrl]);
     
+    useEffect(()=>{
+        if(accountId !== undefined && moonPayAvailable !== null){
+            setPaymentsLait(getRandomList([PayMethods.moonPay, PayMethods.nearPay, PayMethods.utorg]));
+        }        
+    },[PayMethods, accountId, moonPayAvailable]);
+
     const checkMoonPay = async () => {
         await Mixpanel.withTracking('Wallet Check Moonpay available',
             async () => {
@@ -221,7 +223,7 @@ export function BuyNear({ match, location, history }) {
             <div className='title'><Translate id='buyNear.title' /></div>
             <div className='subTitle'><Translate id='buyNear.subTitle' /></div>
             <div className='wrapper'>
-                <FundingCard title='buyNear.nearPurchaseTitle' subTitle='buyNear.nearPurchaseSubTitle' actions={paymentsList} />
+                <FundingCard title='buyNear.nearPurchaseTitle' subTitle='buyNear.nearPurchaseSubTitle' actions={paymentsList} isLoading={!paymentsList.length} />
                 <FundingCard title='buyNear.bridgeTitle'  subTitle='buyNear.bridgeSubTitle' actions={
                     [PayMethods.rainbow]
                 } />
