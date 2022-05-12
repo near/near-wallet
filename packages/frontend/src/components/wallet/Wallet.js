@@ -121,10 +121,10 @@ const StyledContainer = styled(Container)`
 
         .buttons {
             display: flex;
-            justify-content: center;
-            align-items: center;
+            align-items: flex-start;
             margin: 30px 0;
             width: 100%;
+            overflow: scroll;
 
             button {
                 display: flex;
@@ -148,6 +148,14 @@ const StyledContainer = styled(Container)`
                     > div {
                         background-color: black;
                     }
+                }
+
+                :first-child { 
+                    margin-left: auto;
+                }
+    
+                :last-child {
+                    margin-right: auto;
                 }
 
                 > div {
