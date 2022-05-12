@@ -11,6 +11,7 @@ import { WalletError } from '../../../utils/walletError';
 import { finishAccountSetup } from '../../actions/account';
 import { SLICE_NAME } from './';
 
+
 const {
     RECAPTCHA_ENTERPRISE_SITE_KEY,
     NETWORK_ID,

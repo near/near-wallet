@@ -423,14 +423,14 @@ const FungibleTokens = ({
                 {CREATE_USN_CONTRACT && (
                     <FormButton
                         color="dark-gray"
-                        linkTo="/swap-money"
+                        linkTo="/swap-usn"
                         trackingId="Click Receive on Wallet page"
                         data-test-id="balancesTab.buy"
                     >
                         <div>
                             <Swap />
                         </div>
-                        <Translate id="button.swap" />
+                        <Translate id="button.swapUSN" />
                     </FormButton>
                 )}
                 <FormButton

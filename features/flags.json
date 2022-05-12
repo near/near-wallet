@@ -47,44 +47,88 @@
     "createdBy": "OlegYak ",
     "createdAt": "2022-03-24T13:11:21.223Z",
     "development": {
-      "enabled": false,
+      "enabled": true,
       "lastEditedBy": "esaminu",
-      "lastEditedAt": "2022-05-05T22:23:33.682Z"
+      "lastEditedAt": "2022-05-11T20:22:15.771Z"
     },
     "testnet": {
-      "enabled": false,
+      "enabled": true,
       "lastEditedBy": "esaminu",
-      "lastEditedAt": "2022-05-05T22:23:33.682Z"
+      "lastEditedAt": "2022-05-11T22:37:08.020Z"
     },
     "mainnet": {
-      "enabled": false,
+      "enabled": true,
       "lastEditedBy": "esaminu",
-      "lastEditedAt": "2022-05-05T22:23:33.682Z"
+      "lastEditedAt": "2022-05-11T22:37:08.020Z"
     },
     "mainnet_STAGING": {
-      "enabled": false,
+      "enabled": true,
       "lastEditedBy": "esaminu",
-      "lastEditedAt": "2022-05-05T22:23:33.682Z"
+      "lastEditedAt": "2022-05-11T22:37:08.020Z"
     },
     "testnet_STAGING": {
-      "enabled": false,
+      "enabled": true,
       "lastEditedBy": "esaminu",
-      "lastEditedAt": "2022-05-05T22:23:33.682Z"
+      "lastEditedAt": "2022-05-11T22:37:08.020Z"
     },
     "testnet_NEARORG": {
       "enabled": false,
       "lastEditedBy": "esaminu",
-      "lastEditedAt": "2022-05-05T18:07:50.110Z"
+      "lastEditedAt": "2022-05-11T22:37:08.020Z"
     },
     "mainnet_NEARORG": {
       "enabled": false,
       "lastEditedBy": "esaminu",
-      "lastEditedAt": "2022-05-05T18:06:54.374Z"
+      "lastEditedAt": "2022-05-11T22:37:08.020Z"
     },
     "mainnet_STAGING_NEARORG": {
       "enabled": false,
       "lastEditedBy": "esaminu",
-      "lastEditedAt": "2022-05-05T18:07:28.665Z"
+      "lastEditedAt": "2022-05-11T22:37:08.020Z"
+    }
+  },
+  "DONATE_TO_UKRAINE": {
+    "createdBy": "OlegYak",
+    "createdAt": "2022-05-06T07:29:20.914Z",
+    "development": {
+      "enabled": true,
+      "lastEditedBy": "OlegYak",
+      "lastEditedAt": "2022-05-06T07:29:20.914Z"
+    },
+    "testnet": {
+      "enabled": true,
+      "lastEditedBy": "OlegYak",
+      "lastEditedAt": "2022-05-06T07:29:20.914Z"
+    },
+    "mainnet": {
+      "enabled": false,
+      "lastEditedBy": "OlegYak",
+      "lastEditedAt": "2022-05-06T07:29:20.914Z"
+    },
+    "mainnet_STAGING": {
+      "enabled": false,
+      "lastEditedBy": "OlegYak",
+      "lastEditedAt": "2022-05-06T07:29:20.914Z"
+    },
+    "testnet_STAGING": {
+      "enabled": true,
+      "lastEditedBy": "OlegYak",
+      "lastEditedAt": "2022-05-06T07:29:20.914Z"
+    },
+    "testnet_NEARORG": {
+      "enabled": true,
+      "lastEditedBy": "esaminu",
+      "lastEditedAt": "2022-05-10T17:07:20.351Z"
+    },
+    "mainnet_NEARORG": {
+      "enabled": false,
+      "lastEditedBy": "esaminu",
+      "lastEditedAt": "2022-05-10T17:07:20.351Z"
+    },
+    "mainnet_STAGING_NEARORG": {
+      "enabled": false,
+      "lastEditedBy": "esaminu",
+      "lastEditedAt": "2022-05-10T17:07:20.351Z"
     }
   },
   "EXAMPLE_FLAG": {
@@ -277,14 +321,14 @@
       "lastEditedAt": "2022-05-05T22:25:53.915Z"
     },
     "mainnet": {
-      "enabled": false,
+      "enabled": true,
       "lastEditedBy": "Andy Haynes",
-      "lastEditedAt": "2022-05-05T21:19:46.314Z"
+      "lastEditedAt": "2022-05-10T17:35:17.989Z"
     },
     "mainnet_STAGING": {
-      "enabled": false,
+      "enabled": true,
       "lastEditedBy": "Andy Haynes",
-      "lastEditedAt": "2022-05-05T21:19:46.314Z"
+      "lastEditedAt": "2022-05-10T17:35:17.990Z"
     },
     "testnet_STAGING": {
       "enabled": true,
@@ -297,14 +341,14 @@
       "lastEditedAt": "2022-05-06T23:31:29.664Z"
     },
     "mainnet_NEARORG": {
-      "enabled": false,
-      "lastEditedBy": "esaminu",
-      "lastEditedAt": "2022-05-06T23:31:29.664Z"
+      "enabled": true,
+      "lastEditedBy": "Andy Haynes",
+      "lastEditedAt": "2022-05-10T17:35:17.990Z"
     },
     "mainnet_STAGING_NEARORG": {
-      "enabled": false,
-      "lastEditedBy": "esaminu",
-      "lastEditedAt": "2022-05-06T23:31:29.664Z"
+      "enabled": true,
+      "lastEditedBy": "Andy Haynes",
+      "lastEditedAt": "2022-05-10T17:35:17.990Z"
     }
   },
   "USN_BUTTON": {
