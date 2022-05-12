@@ -145,6 +145,9 @@ const SetupLedger = (props) => {
                     }
                 } else {
                     try {
+                        if (ledgerHdPath) {
+                            setLedgerHdPath({ accountId, path: ledgerHdPath });
+                        }
                         await dispatch(addLedgerAccessKey(ledgerHdPath));
                     } catch (error) {
                         dispatch(checkAndHideLedgerModal());
