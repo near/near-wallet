@@ -85,10 +85,8 @@ const SetupLedger = (props) => {
                         await setKeyMeta(publicKey, { type: 'ledger' });
                         Mixpanel.track('SR-Ledger Set key meta');
 
-                        // Set custom path to localstorage
-                        if (ledgerHdPath) {
-                            setLedgerHdPath({ accountId, path: ledgerHdPath });
-                        }
+                        // Set path to localstorage
+                        setLedgerHdPath({ accountId, path: ledgerHdPath });
 
                         // COIN-OP VERIFY ACCOUNT
                         if (DISABLE_CREATE_ACCOUNT && ENABLE_IDENTITY_VERIFIED_ACCOUNT && !fundingOptions) {
@@ -145,9 +143,7 @@ const SetupLedger = (props) => {
                     }
                 } else {
                     try {
-                        if (ledgerHdPath) {
-                            setLedgerHdPath({ accountId, path: ledgerHdPath });
-                        }
+                        setLedgerHdPath({ accountId, path: ledgerHdPath });
                         await dispatch(addLedgerAccessKey(ledgerHdPath));
                     } catch (error) {
                         dispatch(checkAndHideLedgerModal());
