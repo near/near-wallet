@@ -229,7 +229,7 @@ const TokenBox = ({ token, onClick, currentLanguage }) => {
                         <Swap
                             symbol={token.onChainFTMetadata?.symbol === 'NEAR'}
                             disable={!token.balance || token.balance === '0'} 
-                            linkTo={!token.balance || token.balance === '0' ? false : '/swap-money'}
+                            linkTo={!token.balance || token.balance === '0' ? false : '/swap-usn'}
                             onClick={() => dispatch(handleSwapByContractName(token.onChainFTMetadata?.symbol === 'NEAR' ? 'USN' : 'NEAR'))}
                         />
                     </div>

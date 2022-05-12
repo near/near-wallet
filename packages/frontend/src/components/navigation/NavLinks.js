@@ -126,7 +126,7 @@ const NavLinks = () => (
         </a>
         {CREATE_USN_CONTRACT && 
         <NavLink
-            to="/swap-money"
+            to="/swap-usn"
             activeClassName="selected"
             onClick={() => Mixpanel.track('Click Swap button on nav')}
         >
@@ -139,7 +139,7 @@ const NavLinks = () => (
                 />
             </div>
 
-            <Translate id="button.swap" />
+            <Translate id="button.swapUSN" />
         </NavLink>}
         {DONATE_TO_UKRAINE && 
         <NavLink
