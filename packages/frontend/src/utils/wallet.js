@@ -519,9 +519,9 @@ class Wallet {
         }
     }
 
-    async addLedgerAccessKey() {
+    async addLedgerAccessKey(path) {
         const accountId = this.accountId;
-        const ledgerPublicKey = await this.getLedgerPublicKey();
+        const ledgerPublicKey = await this.getLedgerPublicKey(path);
         const accessKeys = await this.getAccessKeys();
         const accountHasLedgerKey = accessKeys.map((key) => key.public_key).includes(ledgerPublicKey.toString());
         await setKeyMeta(ledgerPublicKey, { type: 'ledger' });
@@ -570,8 +570,6 @@ class Wallet {
 
     async getLedgerAccountIds({ path }) {
         const publicKey = await this.getLedgerPublicKey(path);
-
-        // TODO: getXXX methods shouldn't be modifying the state
         await setKeyMeta(publicKey, { type: 'ledger' });
 
         let accountIds;
