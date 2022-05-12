@@ -1168,15 +1168,20 @@
     },
     "setupLedger": {
         "header": "Connect your Ledger device",
-        "one": "Connect your Ledger Nano S or X to your computer or mobile device via USB and <b>open the NEAR application</b>. <br><br>Then, <b>press both buttons</b> at the 'Pending Ledger Review' screen.",
+        "one": "Connect your Ledger Nano S or X to your computer or mobile device via USB and <b>open the NEAR application.</b>",
         "two": "If you have not yet installed the NEAR Ledger app, follow",
         "twoLink": "these instructions"
     },
     "setupLedgerSteps": {
+        "five": "Select the device from the list in the second pop-up and select Connect.",
+        "four": "On the first pop-up window, select the Connect button.",
         "header": "Install NEAR on your Ledger device",
-        "one": "Open <a href='https://www.ledger.com/ledger-live' target='_blank'>Ledger Live,</a> install any firmware updates available.",
-        "three": "Follow the instructions to install the <span class='color-black'>NEAR application</span> on your device.",
-        "two": "Click on the <span class='color-black'>Manager</span> tab, then search for <span class='color-black'>NEAR</span>."
+        "install": "If you have not yet installed the NEAR Ledger app, follow",
+        "installLink": "<a href='https://www.ledger.com/ledger-live' target='_blank'>these instructions</a>.",
+        "one": "Connect your Ledger via USB to your computer.",
+        "six": "Select the Continue button below to finish setting up the Ledger on this account.",
+        "three": "Select the Connect Ledger button at the top right of the window.",
+        "two": "Open the NEAR app on the Ledger."
     },
     "setupLedgerSuccess": {
         "header": "Ledger has secured your account!",
