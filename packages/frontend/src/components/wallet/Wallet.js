@@ -42,9 +42,11 @@ const StyledContainer = styled(Container)`
     
     .coingecko {
         color: #B4B4B4;
-        line-height: 150%;
         align-self: end;
-        padding: 10px 20px;
+        margin: 20px;
+        @media (max-width: 991px) {
+            margin: -25px 0 25px 0;
+        }
     }
 
     .sub-title {
@@ -502,7 +504,7 @@ const FungibleTokens = ({
                             />
                         </>
                     )}
-                    <div className="coingecko"><Translate id="poweredByCoinGecko"/></div>
+                    <div className='coingecko'><Translate id='poweredByCoinGecko'/></div>
                 </>
             )}
         </>
