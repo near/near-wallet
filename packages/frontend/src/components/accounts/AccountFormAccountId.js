@@ -7,7 +7,7 @@ import { ACCOUNT_ID_SUFFIX } from '../../config';
 import { Mixpanel } from '../../mixpanel/index';
 import classNames from '../../utils/classNames';
 import { ACCOUNT_CHECK_TIMEOUT } from '../../utils/wallet';
-import LocalAlertBox from '../common/LocalAlertBox.js';
+import LocalAlertBox from '../common/LocalAlertBox';
 
 const InputWrapper = styled.div`
     position: relative;

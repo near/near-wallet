@@ -31,7 +31,9 @@ const StyledContainer = styled.div`
 type SelectTokenButtonProps = {
     token: {
         balance: string;
-        onChainFTMetadata: { symbol: string; icon: string };
+        onChainFTMetadata?: { symbol: string; icon: string; decimals: number; name:string; };
+        fiatValueMetadata?: {usd: string}
+        contractName?: string;
     };
     onClick: () => void;
 };

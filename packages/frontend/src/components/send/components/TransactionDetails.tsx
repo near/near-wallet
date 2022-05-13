@@ -12,7 +12,9 @@ const prefixTXEntryTitledId = (key: string) => `sendV2.TXEntry.title.${key}`;
 type TransactionDetailsProps = {
     selectedToken: {
         balance: string;
-        onChainFTMetadata: { symbol: string; icon: string; decimals: number };
+        onChainFTMetadata?: { symbol: string; icon: string; decimals: number; name:string; };
+        fiatValueMetadata?: {usd: string}
+        contractName?: string;
     };
     estimatedFeesInNear: string;
     estimatedTotalInNear: string;

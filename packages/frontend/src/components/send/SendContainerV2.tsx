@@ -75,10 +75,12 @@ const StyledContainer = styled(Container)`
         }
     }
 `;
-type Token = {
+
+export type Token = {
     balance: string;
-    onChainFTMetadata: { symbol: string; icon: string; decimals: number };
-    contractName: string;
+    onChainFTMetadata?: { symbol: string; icon: string; decimals: number; name:string; };
+    fiatValueMetadata?: {usd: string}
+    contractName?: string;
 };
 
 type SendContainerV2Props = {

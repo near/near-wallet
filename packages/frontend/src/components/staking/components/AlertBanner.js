@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import classNames from '../../../utils/classNames';
 import FormButton from '../../common/FormButton';
 import SafeTranslate from '../../SafeTranslate';
-import AlertTriangleIcon from '../../svg/AlertTriangleIcon.js';
+import AlertTriangleIcon from '../../svg/AlertTriangleIcon';
 
 const Container = styled.div`
     background-color: #FFF0DE;

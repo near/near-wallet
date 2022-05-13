@@ -38,8 +38,9 @@ const StyledContainer = styled.div`
 
 type Token = {
     balance: string;
-    onChainFTMetadata: { symbol: string; icon: string; decimals: number };
-    contractName: string;
+    onChainFTMetadata?: { symbol: string; icon: string; decimals: number; name:string; };
+    fiatValueMetadata?: {usd: string}
+    contractName?: string;
 };
 
 function filterTokens(tokens: Token[], searchSubstring?: string) {

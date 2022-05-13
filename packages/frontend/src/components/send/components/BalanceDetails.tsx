@@ -2,15 +2,12 @@ import React from 'react';
 
 import Breakdown from './css/Breakdown.css';
 import Amount from './entry_types/Amount';
-
+import {Token} from '../SendContainerV2'
 const prefixTXEntryTitledId = (key: string) => `sendV2.TXEntry.title.${key}`;
 
 type BalanceDetailsProps = {
     availableToSend: string;
-    selectedToken: {
-        balance: string;
-        onChainFTMetadata: { symbol: string; icon: string; decimals: number };
-    };
+    selectedToken: Token;
 };
 
 const BalanceDetails = ({

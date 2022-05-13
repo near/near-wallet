@@ -8,6 +8,7 @@ import AmountInput from '../AmountInput';
 import BalanceDetails from '../BalanceDetails';
 import SelectTokenButton from '../SelectTokenButton';
 import TabSelector from '../TabSelector';
+import {Token} from '../../SendContainerV2'
 
 const StyledContainer = styled.form`
     &&& {
@@ -46,10 +47,7 @@ type EnterAmountProps = {
     continueAllowed: boolean;
     onContinue: (e: React.FormEvent) => void;
     onClickCancel: () => void;
-    selectedToken: {
-        balance: string;
-        onChainFTMetadata: { symbol: string; icon: string; decimals: number };
-    };
+    selectedToken: Token;
     onClickSelectToken: () => void;
     error: boolean;
     isMobile: boolean;

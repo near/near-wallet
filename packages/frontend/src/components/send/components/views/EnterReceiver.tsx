@@ -26,7 +26,9 @@ type EnterReceiverProps = {
     amount: string;
     selectedToken: {
         balance: string;
-        onChainFTMetadata: { symbol: string; icon: string; decimals: number };
+        onChainFTMetadata?: { symbol: string; icon: string; decimals: number; name:string; };
+        fiatValueMetadata?: {usd: string}
+        contractName?: string;
     };
     receiverId: string;
     handleChangeReceiverId: (receiverId: string) => void;

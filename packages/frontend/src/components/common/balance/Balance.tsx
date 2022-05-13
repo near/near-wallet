@@ -34,7 +34,6 @@ const Balance = ({
         <BalanceDisplay
             totalAmount={totalAmount}
             amount={amount}
-            //@ts-ignore
             showSymbolNEAR={showSymbolNEAR}
             className={className}
             showBalanceInNEAR={showBalanceInNEAR}
