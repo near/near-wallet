@@ -7,7 +7,7 @@ import { createSelector } from 'reselect';
 import NonFungibleTokens from '../../../services/NonFungibleTokens';
 import handleAsyncThunkStatus from '../../reducerStatus/handleAsyncThunkStatus';
 import initialStatusState from '../../reducerStatus/initialState/initialStatusState';
-import createParameterSelector from '../createParameterSelector';
+import { createParameterSelector } from '../../selectors/topLevel';
 
 const { getLikelyTokenContracts, getMetadata, getToken, getTokens, getNumberOfTokens } = NonFungibleTokens;
 
@@ -217,14 +217,14 @@ const getAccountIdParam = createParameterSelector((params) => params.accountId);
 
 // Top level selectors
 const selectNftSlice = (state) => state[nftSlice.name];
-const selectMetadataSlice = createSelector(selectNftSlice, ({ metadata }) => metadata);
-const selectOwnedTokensSlice = createSelector(selectNftSlice, ({ ownedTokens }) => ownedTokens);
+const selectMetadata = createSelector(selectNftSlice, ({ metadata }) => metadata);
+const selectOwnedTokens = createSelector(selectNftSlice, ({ ownedTokens }) => ownedTokens);
 const selectTransferredTokensSlice = createSelector(selectNftSlice, ({ transferredTokens }) => transferredTokens);
 
 // Contract metadata selectors
 // Returns contract metadata for every contract in the store, in an object keyed by contractName
 export const selectAllContractMetadata = createSelector(
-    selectMetadataSlice,
+    selectMetadata,
     (metadata) => metadata.byContractName
 );
 
@@ -239,12 +239,12 @@ export const selectOneContractMetadata = createSelector(
 
 // Owned tokens selectors
 const selectOwnedTokensForAccount = createSelector(
-    [selectOwnedTokensSlice, getAccountIdParam],
+    [selectOwnedTokens, getAccountIdParam],
     (ownedTokensByAccountId, accountId) => (ownedTokensByAccountId.byAccountId[accountId] || {}).byContractName || {}
 );
 
 const selectNumberOfOwnedTokensForAccount = createSelector(
-    [selectOwnedTokensSlice, getAccountIdParam],
+    [selectOwnedTokens, getAccountIdParam],
     (ownedTokensByAccountId, accountId) => (ownedTokensByAccountId.byAccountId[accountId] || {}).numberByContractName || {}
 );
 

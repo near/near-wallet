@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import { DISABLE_PHONE_RECOVERY } from '../../../config';
 import { Mixpanel } from '../../../mixpanel/index';
 import { deleteRecoveryMethod } from '../../../redux/actions/account';
-import selectRecoveryLoader from '../../../redux/crossStateSelectors/selectRecoveryLoader';
+import selectRecoveryLoader from '../../../redux/selectors/crossStateSelectors/selectRecoveryLoader';
 import { selectAccountSlice } from '../../../redux/slices/account';
 import { actions as recoveryMethodsActions } from '../../../redux/slices/recoveryMethods';
 import { selectStatusMainLoader } from '../../../redux/slices/status';

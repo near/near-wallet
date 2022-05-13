@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect';
 
 import { calculateAPY } from '../../../utils/staking';
-import createParameterSelector from '../createParameterSelector';
+import { createParameterSelector } from '../../selectors/topLevel';
 import { selectTokensFiatValueUSD } from '../tokenFiatValues';
 
 
