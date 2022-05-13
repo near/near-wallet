@@ -77,7 +77,7 @@ const fetchTokenFiatValues = createAsyncThunk(
     async () => {
         const fiatValueManager = new FiatValueManager(fiatValueDataLoader);
 
-        const [coinGeckoTokenFiatValues, refFinanceTokenFiatValues] = await Promise.all([fiatValueManager.getPrice(['near','tether']), fetchTokenPrices()]);
+        const [coinGeckoTokenFiatValues, refFinanceTokenFiatValues] = await Promise.all([fiatValueManager.getPrice(['near']), fetchTokenPrices()]);
 
         const last_updated_at = Date.now() / 1000; 
         const otherTokenFiatValues = Object.keys(refFinanceTokenFiatValues).reduce((acc, curr) => {
