@@ -122,9 +122,26 @@ const StyledContainer = styled(Container)`
         .buttons {
             display: flex;
             align-items: flex-start;
-            margin: 30px 0;
-            width: 100%;
+            margin: 30px -14px;
+            width: calc(100% + 28px);
             overflow: scroll;
+            padding: 0 14px;
+
+            background-image: linear-gradient(to right, white, white),
+            linear-gradient(to right, white, white),
+            linear-gradient(to right, rgba(0, 0, 0, 0.25), rgba(255, 255, 255, 0)),
+            linear-gradient(to left, rgba(0, 0, 0, 0.25), rgba(255, 255, 255, 0));
+            background-position: left center, right center, left center, right center;
+            background-repeat: no-repeat;
+            background-color: white;
+            background-size: 20px 100%, 20px 100%, 10px 100%, 10px 100%;
+            background-attachment: local, local, scroll, scroll;
+
+            @media (min-width: 992px) {
+                margin-left: 0;
+                margin-right: 0;
+                width: 100%;
+            }
 
             button {
                 display: flex;
