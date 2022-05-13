@@ -1,13 +1,13 @@
 import { useSelector } from 'react-redux';
 
 import selectNEARAsTokenWithMetadata from '../redux/selectors/crossStateSelectors/selectNEARAsTokenWithMetadata';
-import { selectAccountId } from '../redux/slices/account';
+import { selectActiveAccountId } from '../redux/slices/activeAccount';
 import { selectTokensFiatValueUSD } from '../redux/slices/tokenFiatValues';
 import { selectTokensWithMetadataForAccountId } from '../redux/slices/tokens';
 
 export const useFungibleTokensIncludingNEAR = function () {
     const NEARAsTokenWithMetadata = useSelector(selectNEARAsTokenWithMetadata);
-    const accountId = useSelector(selectAccountId);
+    const accountId = useSelector(selectActiveAccountId);
     const fungibleTokens = useSelector((state) =>
         selectTokensWithMetadataForAccountId(state, { accountId })
     );
