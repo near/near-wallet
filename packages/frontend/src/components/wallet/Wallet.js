@@ -125,6 +125,15 @@ const StyledContainer = styled(Container)`
             align-items: center;
             margin: 30px 0;
             width: 100%;
+            flex-wrap: wrap;
+            margin: 30px -14px;
+            width: calc(100% + 28px);
+
+            @media (min-width: 992px) {
+                margin-left: 0;
+                margin-right: 0;
+                width: 100%;
+            }
 
             button {
                 display: flex;
@@ -139,7 +148,7 @@ const StyledContainer = styled(Container)`
                 color: #3f4045;
                 font-weight: 400;
                 font-size: 14px;
-                margin: 20px;
+                margin: 20px 18px;
                 border-radius: 0;
 
                 :hover {
