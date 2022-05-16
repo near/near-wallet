@@ -124,6 +124,7 @@ export default function BalanceBox({
                     <div className='title'>
                         {title && <Translate id={title}/>}
                         {info && <Tooltip translate={info}/>}
+                        {loading && <span className="animated-dots" style={{width: 16}}/>}
                     </div>
                 }
                 <div className='token-balance'>
