@@ -2,6 +2,7 @@ import { parse as parseQuery, stringify } from 'query-string';
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
+import { CouldNotFindAccountModalWrapper } from '../../../components/accounts/CouldNotFindAccountModalWrapper';
 import { Mixpanel } from '../../../mixpanel/index';
 import {
     redirectToApp,
@@ -20,7 +21,7 @@ import EnterAccountId from './SignInLedgerViews/EnterAccountId';
 import ImportAccounts from './SignInLedgerViews/ImportAccounts';
 import SignIn from './SignInLedgerViews/SignIn';
 
-const { 
+const {
     signInWithLedger,
     signInWithLedgerAddAndSaveAccounts,
     clearSignInWithLedgerModalState
@@ -39,7 +40,8 @@ export function SignInLedgerWrapper(props) {
 
     const [accountId, setAccountId] = useState('');
     const [loader, setLoader] = useState(false);
-    const [confirmedPath, setConfirmedPath] = useState(1);
+    const [confirmedPath, setConfirmedPath] = useState(10);
+    const [showCouldNotFindAccountModal, setShowCouldNotFindAccountModal] = useState(false);
     const ledgerHdPath = `${LEDGER_HD_PATH_PREFIX}${confirmedPath}'`;
 
     const account = useSelector(selectAccountSlice);
@@ -63,6 +65,12 @@ export function SignInLedgerWrapper(props) {
     useEffect(() => {
         dispatch(clearSignInWithLedgerModalState());
     }, []);
+
+    useEffect(() => {
+        if (signInWithLedgerStatus === LEDGER_MODAL_STATUS.ENTER_ACCOUNTID) {
+            setShowCouldNotFindAccountModal(true);
+        }
+    }, [signInWithLedgerStatus]);
 
     const handleChange = (value) => {
         setAccountId(value);
@@ -115,50 +123,61 @@ export function SignInLedgerWrapper(props) {
     const handleCancelSignIn = () => {
         dispatch(clearSignInWithLedgerModalState());
     };
-    
+
     const handleCancelAuthorize = () => {
         dispatch(redirectTo('/recover-account'));
     };
 
     return (
-        <Container className='small-centered border ledger-theme'>
-            {!signInWithLedgerStatus &&
-                <Authorize
-                    confirmedPath={confirmedPath}
-                    setConfirmedPath={setConfirmedPath}
-                    handleSignIn={handleSignIn}
-                    signingIn={!!signInWithLedgerStatus}
-                    handleCancel={handleCancelAuthorize}
+        <>
+            <Container className='small-centered border ledger-theme'>
+                {!signInWithLedgerStatus &&
+                    <Authorize
+                        confirmedPath={confirmedPath}
+                        setConfirmedPath={setConfirmedPath}
+                        handleSignIn={handleSignIn}
+                        signingIn={!!signInWithLedgerStatus}
+                        handleCancel={handleCancelAuthorize}
+                    />
+                }
+                {signInWithLedgerStatus === LEDGER_MODAL_STATUS.CONFIRM_PUBLIC_KEY &&
+                    <SignIn
+                        txSigned={txSigned}
+                        handleCancel={handleCancelSignIn}
+                    />
+                }
+                {signInWithLedgerStatus === LEDGER_MODAL_STATUS.ENTER_ACCOUNTID &&
+                    <EnterAccountId
+                        handleAdditionalAccountId={handleAdditionalAccountId}
+                        handleChange={handleChange}
+                        checkAccountAvailable={(accountId) => dispatch(checkAccountAvailable(accountId))}
+                        mainLoader={mainLoader}
+                        stateAccountId={account.accountId}
+                        loader={loader}
+                        clearSignInWithLedgerModalState={() => dispatch(clearSignInWithLedgerModalState())}
+                    />
+                }
+                {(signInWithLedgerStatus === LEDGER_MODAL_STATUS.CONFIRM_ACCOUNTS || signInWithLedgerStatus === LEDGER_MODAL_STATUS.SUCCESS) &&
+                    <ImportAccounts
+                        accountsApproved={accountsApproved}
+                        totalAccounts={totalAccounts}
+                        ledgerAccounts={ledgerAccounts}
+                        accountsError={accountsError}
+                        accountsRejected={accountsRejected}
+                        signInWithLedgerStatus={signInWithLedgerStatus}
+                        handleContinue={handleContinue}
+                    />
+                }
+            </Container>
+            {showCouldNotFindAccountModal && (
+                <CouldNotFindAccountModalWrapper
+                    onClose={() => setShowCouldNotFindAccountModal(false)}
+                    isOpen={showCouldNotFindAccountModal}
+                    recoveryMethod='ledger'
+                    ledgerHdPath={ledgerHdPath}
+                    // TODO: Provide ledger public key as prop to avoid asking for it again
                 />
-            }
-            {signInWithLedgerStatus === LEDGER_MODAL_STATUS.CONFIRM_PUBLIC_KEY &&
-                <SignIn
-                    txSigned={txSigned}
-                    handleCancel={handleCancelSignIn}
-                />
-            }
-            {signInWithLedgerStatus === LEDGER_MODAL_STATUS.ENTER_ACCOUNTID && 
-                <EnterAccountId
-                    handleAdditionalAccountId={handleAdditionalAccountId}
-                    handleChange={handleChange}
-                    checkAccountAvailable={(accountId) => dispatch(checkAccountAvailable(accountId))}
-                    mainLoader={mainLoader}
-                    stateAccountId={account.accountId}
-                    loader={loader}
-                    clearSignInWithLedgerModalState={() => dispatch(clearSignInWithLedgerModalState())}
-                />
-            }
-            {(signInWithLedgerStatus === LEDGER_MODAL_STATUS.CONFIRM_ACCOUNTS || signInWithLedgerStatus === LEDGER_MODAL_STATUS.SUCCESS) &&
-                <ImportAccounts
-                    accountsApproved={accountsApproved}
-                    totalAccounts={totalAccounts}
-                    ledgerAccounts={ledgerAccounts}
-                    accountsError={accountsError}
-                    accountsRejected={accountsRejected}
-                    signInWithLedgerStatus={signInWithLedgerStatus}
-                    handleContinue={handleContinue}
-                />
-            }
-        </Container>
+            )}
+        </>
     );
 }

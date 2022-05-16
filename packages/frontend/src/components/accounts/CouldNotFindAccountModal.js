@@ -27,7 +27,8 @@ const Container = styled.div`
 export function CouldNotFindAccountModal ({
     isOpen,
     onClickImport,
-    onClose
+    onClose,
+    recoveryMethod
  }) {
     return (
         <Modal
@@ -38,7 +39,10 @@ export function CouldNotFindAccountModal ({
         >
             <Container>
                 <h3><Translate id='recoverSeedPhrase.couldNotFindAccountModal.title'/></h3>
-                <p><Translate id='recoverSeedPhrase.couldNotFindAccountModal.desc'/></p>
+                {recoveryMethod === 'ledger'
+                    ? <p><Translate id='recoverSeedPhrase.couldNotFindAccountModal.desc.ledger'/></p>
+                    : <p><Translate id='recoverSeedPhrase.couldNotFindAccountModal.desc.phrase'/></p>
+                }
                 <FormButton onClick={onClickImport}><Translate id='recoverSeedPhrase.couldNotFindAccountModal.buttonImport'/></FormButton>
                 <FormButton className='link' onClick={onClose}><Translate id='button.cancel'/></FormButton>
             </Container>
