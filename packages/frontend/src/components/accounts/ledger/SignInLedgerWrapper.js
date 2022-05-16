@@ -2,6 +2,7 @@ import { parse as parseQuery, stringify } from 'query-string';
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
+import { IMPORT_ZERO_BALANCE_ACCOUNT } from '../../../../../../features';
 import { CouldNotFindAccountModalWrapper } from '../../../components/accounts/CouldNotFindAccountModalWrapper';
 import { Mixpanel } from '../../../mixpanel/index';
 import {
@@ -67,8 +68,10 @@ export function SignInLedgerWrapper(props) {
     }, []);
 
     useEffect(() => {
-        if (signInWithLedgerStatus === LEDGER_MODAL_STATUS.ENTER_ACCOUNTID) {
-            setShowCouldNotFindAccountModal(true);
+        if (IMPORT_ZERO_BALANCE_ACCOUNT) {
+            if (signInWithLedgerStatus === LEDGER_MODAL_STATUS.ENTER_ACCOUNTID) {
+                setShowCouldNotFindAccountModal(true);
+            }
         }
     }, [signInWithLedgerStatus]);
 
