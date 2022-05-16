@@ -6,7 +6,7 @@ import { formatTokenAmount } from '../../../utils/amounts';
 const NEAR_FRACTIONAL_DIGITS = 5;
 export const YOCTO_NEAR_THRESHOLD = new BN('10', 10).pow(new BN(utils.format.NEAR_NOMINATION_EXP - NEAR_FRACTIONAL_DIGITS + 1, 10));
 
-export const formatNearAmount = (amount: string | number) => {
+export const formatNearAmount = (amount) => {
     amount = amount.toString();
     if (amount === '0') {
         return amount;
@@ -18,7 +18,7 @@ export const formatNearAmount = (amount: string | number) => {
     return formattedAmount;
 };
 
-export const showInYocto = (amountStr: string) => {
+export const showInYocto = (amountStr) => {
     return formatWithCommas(amountStr) + ' yoctoNEAR';
 };
 
@@ -30,7 +30,7 @@ export const formatWithCommas = (value) => {
     return value;
 };
 
-export const getRoundedBalanceInFiat = (rawNearAmount: string, tokenFiatValue: number, isNear?:boolean, decimals?:number) => {
+export const getRoundedBalanceInFiat = (rawNearAmount, tokenFiatValue, isNear, decimals) => {
     const formattedNearAmount = rawNearAmount && !isNear ? formatNearAmount(rawNearAmount).replace(/,/g, '') : formatTokenAmount(rawNearAmount, decimals);
     const balanceInFiat = Number(formattedNearAmount) * tokenFiatValue;
     const roundedBalanceInFiat = balanceInFiat && balanceInFiat.toFixed(2);

@@ -7,7 +7,7 @@ import { switchAccount } from '../../redux/actions/account';
 import { selectAccountId } from '../../redux/slices/account';
 import { selectAvailableAccounts } from '../../redux/slices/availableAccounts';
 import classNames from '../../utils/classNames';
-import DropDown from './DropDown';
+import DropDown from '../common/DropDown';
 
 
 const Container = styled.div`
