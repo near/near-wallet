@@ -20,6 +20,7 @@ const Container = styled.div`
 
     @media (min-width: 992px) {
         display: flex;
+        overflow-y: auto;
     }
 
     background-color: white;
