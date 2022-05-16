@@ -3,10 +3,10 @@ import { Translate } from 'react-localize-redux';
 import { useDispatch, useSelector } from 'react-redux';
 import { Textfit } from 'react-textfit';
 import styled from 'styled-components';
+
 import { redirectTo } from '../../../redux/actions/account';
 import { claimFarmRewards } from '../../../redux/actions/staking';
 import { showCustomAlert } from '../../../redux/actions/status';
-
 import selectNEARAsTokenWithMetadata from '../../../redux/selectors/crossStateSelectors/selectNEARAsTokenWithMetadata';
 import FormButton from '../../common/FormButton';
 import Modal from '../../common/modal/Modal';

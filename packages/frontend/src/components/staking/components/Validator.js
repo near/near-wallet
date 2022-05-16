@@ -2,6 +2,7 @@ import BN from 'bn.js';
 import React, { useState, useEffect, useMemo } from 'react';
 import { Translate } from 'react-localize-redux';
 import { useDispatch, useSelector } from 'react-redux';
+
 import { FARMING_VALIDATOR_APY_DISPLAY } from '../../../../../../features';
 import { Mixpanel } from '../../../mixpanel';
 import { redirectTo } from '../../../redux/actions/account';
