@@ -3,7 +3,7 @@ import { handleActions } from 'redux-actions';
 
 import { ACCOUNT_DEFAULTS } from '../../../utils/staking';
 import { clearAccountState } from '../../actions/account';
-import { staking } from '../../actions/staking';
+import { getValidatorFarmData, staking } from '../../actions/staking';
 
 // sample validator entry
 // const validator = {
@@ -77,7 +77,17 @@ const stakingHandlers = handleActions({
                 ...state,
                 allValidators: payload
             }),
-    [staking.setValidatorFarmData]: (state, { payload }) => ({
+    [getValidatorFarmData.pending]: (state, { meta: { arg: { validator } } }) => ({
+        ...state,
+        farmingValidators: {
+            ...state.farmingValidators,
+            [validator.accountId]: {
+                ...state.farmingValidators?.[validator.accountId],
+                loading: true
+            },
+        }
+    }),
+    [getValidatorFarmData.fulfilled]: (state, { payload }) => ({
         ...state,
         farmingValidators: {
             ...state.farmingValidators,
@@ -87,7 +97,18 @@ const stakingHandlers = handleActions({
                     ...state.farmingValidators?.[payload.validatorId]
                         ?.farmRewards,
                     ...payload.farmData.farmRewards,
-                }
+                },
+                loading: false
+            },
+        }
+    }),
+    [getValidatorFarmData.rejected]: (state, { meta: { arg: { validator } } }) => ({
+        ...state,
+        farmingValidators: {
+            ...state.farmingValidators,
+            [validator.accountId]: {
+                ...state.farmingValidators?.[validator.accountId],
+                loading: false
             },
         }
     }),

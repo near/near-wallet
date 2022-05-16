@@ -144,7 +144,7 @@ export default function Validator({
     const validatorFarmData = validatorsFarmData[validator?.accountId] || {};
 
     useEffect(() => {
-        dispatch(getValidatorFarmData(validator, currentAccountId));
+        dispatch(getValidatorFarmData({ validator, accountId: currentAccountId }));
     }, [validator, currentAccountId]);
 
     const farmList = validatorFarmData?.farmRewards?.[currentAccountId] || [];

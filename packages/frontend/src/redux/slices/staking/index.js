@@ -69,3 +69,9 @@ export const selectFarmValidatorAPY = createSelector(
         return calculateAPY(farmData.poolSummary, tokenPrices);
     }
 );
+
+export const selectFarmValidatorDataIsLoading = createSelector(
+    selectValidatorsFarmData,
+    (farmingValidators) =>
+        Object.values(farmingValidators).some(({ loading }) => loading)
+);

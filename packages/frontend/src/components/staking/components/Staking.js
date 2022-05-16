@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 
 import selectCollectedAvailableForClaimData from '../../../redux/crossStateSelectors/selectCollectedAvailableForClaimData';
 import selectNEARAsTokenWithMetadata from '../../../redux/selectors/crossStateSelectors/selectNEARAsTokenWithMetadata';
+import { selectFarmValidatorDataIsLoading } from '../../../redux/slices/staking';
 import FormButton from '../../common/FormButton';
 import SkeletonLoading from '../../common/SkeletonLoading';
 import Tooltip from '../../common/Tooltip';
@@ -32,6 +33,7 @@ export default function Staking({
 }) {
     const NEARAsTokenWithMetadata = useSelector(selectNEARAsTokenWithMetadata);
     const collectedFarmData = useSelector(selectCollectedAvailableForClaimData);
+    const farmValidatorDataIsLoading = useSelector(selectFarmValidatorDataIsLoading);
     return (
         <>
             <h1><Translate id='staking.staking.title' /></h1>
@@ -123,6 +125,7 @@ export default function Staking({
                         }}
                         button="staking.balanceBox.farm.button"
                         hideBorder={collectedFarmData.length > 1 && i < (collectedFarmData.length - 1)}
+                        loading={farmValidatorDataIsLoading}
                 />
                 );
             })}
