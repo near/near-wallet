@@ -2,12 +2,10 @@ import BN from 'bn.js';
 import React, { useState, useEffect, useMemo } from 'react';
 import { Translate } from 'react-localize-redux';
 import { useDispatch, useSelector } from 'react-redux';
-
 import { FARMING_VALIDATOR_APY_DISPLAY } from '../../../../../../features';
 import { Mixpanel } from '../../../mixpanel';
 import { redirectTo } from '../../../redux/actions/account';
 import { claimFarmRewards, getValidatorFarmData } from '../../../redux/actions/staking';
-import { showCustomAlert } from '../../../redux/actions/status';
 import selectNEARAsTokenWithMetadata from '../../../redux/selectors/crossStateSelectors/selectNEARAsTokenWithMetadata';
 import { selectValidatorsFarmData, selectFarmValidatorAPY, selectStakingCurrentAccountAccountId } from '../../../redux/slices/staking';
 import { selectActionsPending } from '../../../redux/slices/status';
@@ -91,8 +89,6 @@ export default function Validator({
     const [showClaimTokenFarmRewardsModal, setShowClaimTokenFarmRewardsModal] = useState(false);
     const [selectedFarm, setSelectedFarm] = useState(null);
 
-    const [claimingProceed, setClaimingProceed] = useState(false);
-
     const openModal = (farm) => {
         setSelectedFarm(farm);
         setShowClaimTokenFarmRewardsModal(true);
@@ -119,25 +115,6 @@ export default function Validator({
             await onWithdraw('withdraw', selectedValidator || validator.accountId);
             setConfirm('done');
         }
-    };
-
-    const handleClaimAction = async (token_id) => {
-        if (!validator || !isFarmingValidator || !token_id) return null;
-
-        try {
-            setClaimingProceed(true);
-            await dispatch(claimFarmRewards(validator.accountId, token_id));
-            setClaimingProceed(false);
-            return dispatch(redirectTo(`/staking/${match.params.validator}/claim`));
-        } catch (e) {
-            setClaimingProceed(false);
-            dispatch(showCustomAlert({
-                success: false,
-                messageCodeHeader: 'error',
-                messageCode: 'staking.validator.errorClaimRewards',
-            }));
-        }
-        
     };
 
     const validatorsFarmData = useSelector(selectValidatorsFarmData);
@@ -248,10 +225,9 @@ export default function Validator({
                             label="staking.stake.from"
                             validator={validator}
                             open={showClaimTokenFarmRewardsModal}
-                            onConfirm={handleClaimAction}
                             onClose={() => setShowClaimTokenFarmRewardsModal(false)}
-                            loading={claimingProceed}
                             farm={selectedFarm}
+                            match={match}
                         />}
                 </>
             }

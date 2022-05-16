@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Translate } from 'react-localize-redux';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Textfit } from 'react-textfit';
 import styled from 'styled-components';
+import { redirectTo } from '../../../redux/actions/account';
+import { claimFarmRewards } from '../../../redux/actions/staking';
+import { showCustomAlert } from '../../../redux/actions/status';
 
 import selectNEARAsTokenWithMetadata from '../../../redux/selectors/crossStateSelectors/selectNEARAsTokenWithMetadata';
 import FormButton from '../../common/FormButton';
@@ -108,8 +111,11 @@ const Container = styled.div`
     }
 `;
 
-const ClaimTokenFarmRewardsModal = ({ open, onClose, onConfirm, validator, loading, title, label, farm }) => {
+const ClaimTokenFarmRewardsModal = ({ open, onClose, validator, title, label, farm, match }) => {
     const NEARAsTokenWithMetadata = useSelector(selectNEARAsTokenWithMetadata);
+    const [claimingProceed, setClaimingProceed] = useState(false);
+    const dispatch = useDispatch();
+
     const { 
         onChainFTMetadata,
         fiatValueMetadata,
@@ -117,6 +123,8 @@ const ClaimTokenFarmRewardsModal = ({ open, onClose, onConfirm, validator, loadi
         contractName,
         isWhiteListed
     } = farm;
+    const loading = claimingProceed;
+
     return (
         <Modal
             id='stake-confirm-modal'
@@ -168,7 +176,23 @@ const ClaimTokenFarmRewardsModal = ({ open, onClose, onConfirm, validator, loadi
                         disabled={loading}
                         sending={loading}
                         sendingString='staking.validator.claiming'
-                        onClick={() => onConfirm(contractName)}
+                        onClick={async () => {
+                            if (!validator || !contractName) return null;
+
+                            try {
+                                setClaimingProceed(true);
+                                await dispatch(claimFarmRewards(validator.accountId, contractName));
+                                setClaimingProceed(false);
+                                return dispatch(redirectTo(`/staking/${match.params.validator}/claim`));
+                            } catch (e) {
+                                setClaimingProceed(false);
+                                dispatch(showCustomAlert({
+                                    success: false,
+                                    messageCodeHeader: 'error',
+                                    messageCode: 'staking.validator.errorClaimRewards',
+                                }));
+                            }
+                        }}
                         color='blue action-button'
                         data-test-id="confirmStakeOnModalButton"
                     >
