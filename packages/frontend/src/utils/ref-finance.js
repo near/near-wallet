@@ -13,11 +13,9 @@ export const fetchTokenPrices = async () => {
   }
 };
 
-export const fetchTokenWhiteList = async (accountId) => {
+export const fetchTokenWhiteList = async () => {
   try {
-    const account = wallet.getAccountBasic(accountId);
-    const contract = new Contract(account, REF_FINANCE_CONTRACT, {viewMethods: ['get_whitelisted_tokens']});
-    const whiteListedTokens = await contract.get_whitelisted_tokens();
+    const whiteListedTokens = await wallet.getAccountBasic('dontcare').viewFunction(REF_FINANCE_CONTRACT, 'get_whitelisted_tokens');;
 
     return whiteListedTokens;
   } catch (error) {

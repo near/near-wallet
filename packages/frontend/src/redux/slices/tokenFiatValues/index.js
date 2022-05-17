@@ -34,7 +34,7 @@ const fetchTokenFiatValues = createAsyncThunk(
 
 const getTokenWhiteList = createAsyncThunk(
     `${SLICE_NAME}/getTokenWhiteList`,
-    async (account_id) => fetchTokenWhiteList(account_id)
+    fetchTokenWhiteList
 );
 
 
@@ -56,6 +56,7 @@ const tokenFiatValuesSlice = createSlice({
                 merge(state.tokens, action.payload);
             });
             builder.addCase(getTokenWhiteList.fulfilled, (state, action) => {
+                console.log(action);
                 state.tokenWhiteList = action.payload;
             });
             handleAsyncThunkStatus({
