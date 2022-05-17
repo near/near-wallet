@@ -1,4 +1,5 @@
 import { removeTrailingZeros } from '../../../utils/amounts';
+import { VALID_TOKEN_PAIRS, W_NEAR_PROPS } from '../Swap';
 
 export const getFormatBalance = (num, decimals) => {
     if (!num || num === '0') {
@@ -74,4 +75,22 @@ export const validateInput = (value, max) => {
         return false;
     }
     return true;
+};
+
+export const findTokenSwapToList = ({ tokenSymbol, fungibleTokensList }) => {
+    if (!tokenSymbol) {
+        return;
+    }
+    const validTokensToSwapTo = VALID_TOKEN_PAIRS[tokenSymbol];
+    const fungibleTokensWithPrices = fungibleTokensList.reduce((accum, current) => {
+        if (validTokensToSwapTo.includes(current.onChainFTMetadata.symbol)) {
+            accum.push(current);
+        }
+        return accum;
+    }, []);
+    const hasWNear = fungibleTokensWithPrices.find((token) => token.onChainFTMetadata?.symbol == 'wNEAR');
+    if (!hasWNear && validTokensToSwapTo.includes('wNEAR')) {
+        fungibleTokensWithPrices.push(W_NEAR_PROPS);
+    }
+    return fungibleTokensWithPrices;
 };

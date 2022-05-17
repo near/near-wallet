@@ -6,9 +6,9 @@ import { getFormatBalance } from '../../../utils/wrap-unwrap';
 import BackArrowButton from '../../common/BackArrowButton';
 import FormButton from '../../common/FormButton';
 import SwapIcon from '../../svg/WrapIcon';
-import { VIEWS } from '../SwapNear';
+import { VIEWS } from '../Swap';
 import SwapFromForm from './SwapFromForm';
-import SwapFromTo from './SwapFromTo';
+import SwapToForm from './SwapToForm';
 
 const StyledContainer = styled.div`
     h4 {
@@ -63,8 +63,6 @@ const StyledContainer = styled.div`
 `;
 
 export function SwapAmountForm({
-    match,
-    location,
     history,
     setActiveView,
     amountTokenFrom,
@@ -82,6 +80,7 @@ export function SwapAmountForm({
     maxTo,
     setMaxTo,
     error,
+    setReversePositionsJustClicked
 }) {
     const [isDisabled, setDisabled] = useState(true);
     useEffect(() => {
@@ -122,17 +121,19 @@ export function SwapAmountForm({
         setMaxTo(maxFrom);
         setMaxFrom(tempMax);
         setMockRateData(1 / mockRateData);
+        setReversePositionsJustClicked(true);
     };
 
     return (
         <StyledContainer>
-            <div className="header">
+            <div className="headerSwap">
                 <BackArrowButton onClick={() => history.push('/')} />
                 <h4>
                     <Translate id="swapNear.title" />
                 </h4>
             </div>
             <SwapFromForm
+                setActiveView={setActiveView}
                 maxValue={maxFrom}
                 amountToken={amountTokenFrom}
                 setAmountToken={setAmountTokenFrom}
@@ -149,7 +150,8 @@ export function SwapAmountForm({
                     </FormButton>
                 </div>
             </div>
-            <SwapFromTo
+            <SwapToForm
+                setActiveView={setActiveView}
                 maxValue={maxTo}
                 amountToken={amountTokenTo}
                 setAmountToken={setAmountTokenTo}
