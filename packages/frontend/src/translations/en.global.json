@@ -896,7 +896,10 @@
     "recoverSeedPhrase": {
         "couldNotFindAccountModal": {
             "buttonImport": "Import Anyway",
-            "desc": "We couldn't find any <b>active account(s)</b> using the provided passphrase. This could be because the passphrase is incorrect, or because the account has no activity yet.",
+            "desc": {
+                "ledger": "We couldn't find any <b>active account(s)</b> using the provided Ledger key. This could be because the account has no activity yet.",
+                "phrase": "We couldn't find any <b>active account(s)</b> using the provided passphrase. This could be because the passphrase is incorrect, or because the account has no activity yet."
+            },
             "title": "Couldn't find account"
         },
         "pageText": "Enter the backup passphrase associated with the account.",
