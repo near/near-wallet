@@ -41,7 +41,7 @@ export function SignInLedgerWrapper(props) {
 
     const [accountId, setAccountId] = useState('');
     const [loader, setLoader] = useState(false);
-    const [confirmedPath, setConfirmedPath] = useState(10);
+    const [confirmedPath, setConfirmedPath] = useState(1);
     const [showCouldNotFindAccountModal, setShowCouldNotFindAccountModal] = useState(false);
     const ledgerHdPath = `${LEDGER_HD_PATH_PREFIX}${confirmedPath}'`;
 

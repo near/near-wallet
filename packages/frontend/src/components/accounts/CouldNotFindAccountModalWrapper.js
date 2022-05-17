@@ -26,9 +26,6 @@ export function CouldNotFindAccountModalWrapper({
         const implicitAccountId = getImplicitAccountIdFromSeedPhrase(seedPhrase);
         try {
             await wallet.importZeroBalanceAccount(implicitAccountId, recoveryKeyPair);
-            dispatch(refreshAccount());
-            dispatch(redirectTo('/'));
-            dispatch(clearGlobalAlert());
         } catch (e) {
             dispatch(showCustomAlert({
                 success: false,
@@ -63,8 +60,6 @@ export function CouldNotFindAccountModalWrapper({
                     await setKeyMeta(ledgerPublicKey, { type: 'ledger' });
                     await setLedgerHdPath({ accountId: implicitAccountId, path: ledgerHdPath });
                     await wallet.importZeroBalanceAccount(implicitAccountId);
-                    dispatch(refreshAccount());
-                    dispatch(redirectTo('/'));
                 } else {
                     throw e;
                 }
@@ -89,6 +84,9 @@ export function CouldNotFindAccountModalWrapper({
                 } else {
                     await handleImportNonLedgerImplicitAccount();
                 }
+                dispatch(refreshAccount());
+                dispatch(redirectTo('/'));
+                dispatch(clearGlobalAlert());
             }}
         />
     );
