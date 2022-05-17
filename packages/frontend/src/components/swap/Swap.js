@@ -16,6 +16,8 @@ import {
 import { fungibleTokensService } from '../../services/FungibleTokens';
 import { validateInput } from '../../utils/wrap-unwrap';
 import Container from '../common/styled/Container.css';
+import SelectToken from '../send/components/views/SelectToken';
+import { findTokenSwapToList } from './components/helper';
 import Success from './components/Success';
 import { SwapAmountForm } from './components/SwapAmountForm';
 import { SwapReviewForm } from './components/SwapReviewForm';
@@ -25,20 +27,29 @@ const { checkAndHideLedgerModal } = ledgerActions;
 
 export const VIEWS = {
     SWAP_AMOUNT: 'swapAmount',
-    SELECT_TOKEN: 'selectToken',
+    SELECT_TOKEN_TO: 'selectTokenTo',
+    SELECT_TOKEN_FROM: 'selectTokenFrom',
     REVIEW: 'review',
     SUCCESS: 'success',
 };
 
-const W_NEAR_PROPS = {
+export const W_NEAR_PROPS = {
     balance: '0',
     onChainFTMetadata: {
+        decimals: 24,
         spec: 'ft-1.0.0',
         name: 'Wrapped NEAR fungible token',
         symbol: 'wNEAR',
         icon: null,
         reference: null,
+        reference_hash: null
     },
+};
+
+export const VALID_TOKEN_PAIRS = {
+    NEAR: ['wNEAR', 'USN'],
+    USN: ['NEAR'],
+    wNEAR: ['NEAR']
 };
 
 const StyledContainer = styled(Container)`
@@ -70,6 +81,21 @@ const StyledContainer = styled(Container)`
         white-space: nowrap;
     }
     div.header {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #272729;
+        font-weight: 600;
+        font-size: 20px;
+        word-break: break-all;
+
+        .back-arrow-button {
+            position: absolute;
+            left: 0;
+        }
+    }
+    div.headerSwap {
         display: grid;
         grid-template-columns: repeat(3, 1fr)
     }
@@ -93,8 +119,8 @@ const StyledContainer = styled(Container)`
     }
 `;
 
-export function SwapNear({ match, location, history }) {
-    let fungibleTokensList = useFungibleTokensIncludingNEAR();
+function Swap({ history }) {
+    const fungibleTokensList = useFungibleTokensIncludingNEAR();
     const accountId = useSelector(selectAccountId);
     const [amountTokenFrom, setAmountTokenFrom] = useState(0);
     const [amountTokenTo, setAmountTokenTo] = useState(0);
@@ -107,6 +133,7 @@ export function SwapNear({ match, location, history }) {
     const [activeTokenTo, setActiveTokenTo] = useState();
     const [swappingToken, setSwappingToken] = useState(false);
     const [transactionHash, setTransactionHash] = useState(null);
+    const [reversePositionsJustClicked, setReversePositionsJustClicked] = useState(false);
     const dispatch = useDispatch();
     const tokensLoader =
         useSelector((state) => selectTokensLoading(state, { accountId })) ||
@@ -144,7 +171,27 @@ export function SwapNear({ match, location, history }) {
         setError(!validateInput(amountTokenFrom, maxFrom.fullNum));
     }, [amountTokenFrom, maxFrom]);
 
+    const validTokensSwapFrom = fungibleTokensList.reduce((accum, current) => {
+        if (current.onChainFTMetadata.symbol in VALID_TOKEN_PAIRS) {
+            accum.push(current);
+        }
+        return accum;
+    }, []);
+    const currentToken = activeTokenFrom && activeTokenFrom.onChainFTMetadata && activeTokenFrom.onChainFTMetadata.symbol;
+    const validTokensSwapTo = findTokenSwapToList({ tokenSymbol: currentToken, fungibleTokensList });
 
+    useEffect(() => {
+        const hasValidParams = validTokensSwapTo && activeTokenFrom;
+        const optForPriorityToken = !reversePositionsJustClicked;
+        if (hasValidParams && optForPriorityToken) {
+            const prioritySwapToTokenSymbol = VALID_TOKEN_PAIRS[activeTokenFrom.onChainFTMetadata.symbol][0];
+            const prioritySwapToToken = validTokensSwapTo.find((token) => {
+                return token.onChainFTMetadata.symbol == prioritySwapToTokenSymbol;
+            });
+            setActiveTokenTo(prioritySwapToToken);
+        }
+    }, [activeTokenFrom]);
+    
     const handleSwapToken = async (
         accountId,
         wrapAmount,
@@ -211,6 +258,33 @@ export function SwapNear({ match, location, history }) {
                         maxTo={maxTo}
                         setMaxTo={setMaxTo}
                         error={error}
+                        setReversePositionsJustClicked={setReversePositionsJustClicked}
+                    />
+                );
+            case VIEWS.SELECT_TOKEN_FROM:
+                return (
+                    <SelectToken
+                        onClickGoBack={() => setActiveView(VIEWS.SWAP_AMOUNT)}
+                        onSelectToken={(token) => {
+                            setActiveTokenFrom(token);
+                            setActiveView(VIEWS.SWAP_AMOUNT);
+                            setReversePositionsJustClicked(false);
+                        }}
+                        fungibleTokens={validTokensSwapFrom}
+                        isMobile={true} // isMobile
+                    />
+                );
+            case VIEWS.SELECT_TOKEN_TO:
+                return (
+                    <SelectToken
+                        onClickGoBack={() => setActiveView(VIEWS.SWAP_AMOUNT)}
+                        onSelectToken={(token) => {
+                            console.log('TOKEN TO', token);
+                            setActiveTokenTo(token);
+                            setActiveView(VIEWS.SWAP_AMOUNT);
+                        }}
+                        fungibleTokens={validTokensSwapTo}
+                        isMobile={true} // isMobile
                     />
                 );
             case VIEWS.REVIEW:
@@ -253,3 +327,5 @@ export function SwapNear({ match, location, history }) {
         </StyledContainer>
     );
 }
+
+export default Swap;

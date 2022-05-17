@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { removeTrailingZeros } from '../../../utils/amounts';
 import BackArrowButton from '../../common/BackArrowButton';
 import FormButton from '../../common/FormButton';
-import { VIEWS } from '../SwapNear';
+import { VIEWS } from '../Swap';
 import ReviewTransactionDetails from './ReviewTransactionDetails';
 
 const StyledContainer = styled.div`

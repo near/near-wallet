@@ -4,11 +4,13 @@ import { withRouter } from 'react-router';
 import styled from 'styled-components';
 
 import SafeTranslate from '../../SafeTranslate';
+import { VIEWS } from '../Swap';
 import SelectTokenButton from './SelectTokenButton';
 
-const FormFrom = styled.form`
+const FromForm = styled.form`
     display: flex;
     flex-direction: column;
+    margin: 34px 0 0 0;
     padding: 8px 16px 16px;
     background-color: #fbfcfd;
     border: 1px solid #eceef0;
@@ -43,6 +45,7 @@ const FormFrom = styled.form`
         text-align: right;
         padding: 0 15px 0 15px;
         height: 64px;
+        margin-top: 0;
         background-color: #F1F3F5;
 
         :focus {
@@ -54,17 +57,19 @@ const FormFrom = styled.form`
     }
 `;
 
-const SwapFromTo = ({
+const SwapFromForm = ({
+    setActiveView,
     maxValue,
     amountToken,
     setAmountToken,
-    activeTokenTo,
+    activeTokenFrom,
+    error,
 }) => {
     return (
-        <FormFrom>
+        <FromForm>
             <div className="flex">
                 <div className="title">
-                    <Translate id="swapNear.to" />
+                    <Translate id="swapNear.from" />
                 </div>
                 <div
                     className="maxTitle"
@@ -76,22 +81,21 @@ const SwapFromTo = ({
                         id="swapNear.max"
                         data={{
                             amount: maxValue.numToShow,
-                            symbol: activeTokenTo?.onChainFTMetadata?.symbol,
+                            symbol: activeTokenFrom?.onChainFTMetadata?.symbol,
                         }}
                     />
                 </div>
             </div>
             <div className="flex-input">
-                {activeTokenTo && (
+                {activeTokenFrom && (
                     <SelectTokenButton
-                        token={activeTokenTo}
-                        onClick={() => {}}
+                        token={activeTokenFrom}
+                        onClick={() => setActiveView(VIEWS.SELECT_TOKEN_FROM)}
                     />
                 )}
-
                 <input
                     type="number"
-                    className={'input-text'}
+                    className={`input-text ${error ? 'error' : ''}`}
                     onChange={(e) => {
                         e.preventDefault();
                         setAmountToken(e.target.value);
@@ -101,8 +105,8 @@ const SwapFromTo = ({
                     maxLength="18"
                 />
             </div>
-        </FormFrom>
+        </FromForm>
     );
 };
 
-export default withRouter(SwapFromTo);
+export default withRouter(SwapFromForm);

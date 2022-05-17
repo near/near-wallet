@@ -4,12 +4,12 @@ import { withRouter } from 'react-router';
 import styled from 'styled-components';
 
 import SafeTranslate from '../../SafeTranslate';
+import { VIEWS } from '../Swap';
 import SelectTokenButton from './SelectTokenButton';
 
 const FormFrom = styled.form`
     display: flex;
     flex-direction: column;
-    margin: 34px 0 0 0;
     padding: 8px 16px 16px;
     background-color: #fbfcfd;
     border: 1px solid #eceef0;
@@ -56,18 +56,18 @@ const FormFrom = styled.form`
     }
 `;
 
-const SwapFromForm = ({
+const SwapToForm = ({
+    setActiveView,
     maxValue,
     amountToken,
     setAmountToken,
-    activeTokenFrom,
-    error,
+    activeTokenTo,
 }) => {
     return (
         <FormFrom>
             <div className="flex">
                 <div className="title">
-                    <Translate id="swapNear.from" />
+                    <Translate id="swapNear.to" />
                 </div>
                 <div
                     className="maxTitle"
@@ -79,21 +79,21 @@ const SwapFromForm = ({
                         id="swapNear.max"
                         data={{
                             amount: maxValue.numToShow,
-                            symbol: activeTokenFrom?.onChainFTMetadata?.symbol,
+                            symbol: activeTokenTo?.onChainFTMetadata?.symbol,
                         }}
                     />
                 </div>
             </div>
             <div className="flex-input">
-                {activeTokenFrom && (
+                {activeTokenTo && (
                     <SelectTokenButton
-                        token={activeTokenFrom}
-                        onClick={() => {}}
+                        token={activeTokenTo}
+                        onClick={() => setActiveView(VIEWS.SELECT_TOKEN_TO)}
                     />
                 )}
                 <input
                     type="number"
-                    className={`input-text ${error ? 'error' : ''}`}
+                    className={'input-text'}
                     onChange={(e) => {
                         e.preventDefault();
                         setAmountToken(e.target.value);
@@ -107,4 +107,4 @@ const SwapFromForm = ({
     );
 };
 
-export default withRouter(SwapFromForm);
+export default withRouter(SwapToForm);

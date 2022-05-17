@@ -93,9 +93,9 @@ import { Profile } from './profile/Profile';
 import { ReceiveContainerWrapper } from './receive-money/ReceiveContainerWrapper';
 import { SendContainerWrapper } from './send/SendContainerWrapper';
 import { StakingContainer } from './staking/StakingContainer';
-import SwapContainerWrapper from './Swap/SwapContainerWrapper';
+import Swap from './swap/Swap';
+import SwapContainerWrapper from './tbdeleted/SwapContainerWrapper';
 import Terms from './terms/Terms';
-import { SwapNear } from './wrap/SwapNear';
 import '../index.css';
 
 const { fetchTokenFiatValues, getTokenWhiteList } = tokenFiatValueActions;
@@ -629,7 +629,7 @@ class Routing extends Component {
                             <PrivateRoute
                                 exact
                                 path="/swap"
-                                component={SwapNear}
+                                component={Swap}
                             />
                             <Route
                                 exact
