@@ -4,9 +4,10 @@ import { withRouter } from 'react-router';
 import styled from 'styled-components';
 
 import SafeTranslate from '../../SafeTranslate';
+import { VIEWS } from '../Swap';
 import SelectTokenButton from './SelectTokenButton';
 
-const FormFrom = styled.form`
+const FromForm = styled.form`
     display: flex;
     flex-direction: column;
     margin: 34px 0 0 0;
@@ -57,6 +58,7 @@ const FormFrom = styled.form`
 `;
 
 const SwapFromForm = ({
+    setActiveView,
     maxValue,
     amountToken,
     setAmountToken,
@@ -64,7 +66,7 @@ const SwapFromForm = ({
     error,
 }) => {
     return (
-        <FormFrom>
+        <FromForm>
             <div className="flex">
                 <div className="title">
                     <Translate id="swapNear.from" />
@@ -88,7 +90,7 @@ const SwapFromForm = ({
                 {activeTokenFrom && (
                     <SelectTokenButton
                         token={activeTokenFrom}
-                        onClick={() => {}}
+                        onClick={() => setActiveView(VIEWS.SELECT_TOKEN_FROM)}
                     />
                 )}
                 <input
@@ -103,7 +105,7 @@ const SwapFromForm = ({
                     maxLength="18"
                 />
             </div>
-        </FormFrom>
+        </FromForm>
     );
 };
 

@@ -104,15 +104,12 @@ const StyledContainer = styled.div`
     }
 
     .balance {
-        margin-left: ${({IS_USN}) =>(IS_USN ? 0 : 'auto')};
+        margin-left: auto !important;
         font-size: 16px;
         font-weight: 600;
         color: #24272a;
-        text-align: ${({IS_USN}) =>(IS_USN ? 'left' : 'right')};
+        text-align: right;
         white-space: nowrap;
-        &.tokenAmount {
-            margin-left: auto !important;
-        }
 
         .fiat-amount {
             font-size: 14px;

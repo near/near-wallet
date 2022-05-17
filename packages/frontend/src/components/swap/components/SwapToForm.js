@@ -4,6 +4,7 @@ import { withRouter } from 'react-router';
 import styled from 'styled-components';
 
 import SafeTranslate from '../../SafeTranslate';
+import { VIEWS } from '../Swap';
 import SelectTokenButton from './SelectTokenButton';
 
 const FormFrom = styled.form`
@@ -55,7 +56,8 @@ const FormFrom = styled.form`
     }
 `;
 
-const SwapFromTo = ({
+const SwapToForm = ({
+    setActiveView,
     maxValue,
     amountToken,
     setAmountToken,
@@ -86,10 +88,9 @@ const SwapFromTo = ({
                 {activeTokenTo && (
                     <SelectTokenButton
                         token={activeTokenTo}
-                        onClick={() => {}}
+                        onClick={() => setActiveView(VIEWS.SELECT_TOKEN_TO)}
                     />
                 )}
-
                 <input
                     type="number"
                     className={'input-text'}
@@ -106,4 +107,4 @@ const SwapFromTo = ({
     );
 };
 
-export default withRouter(SwapFromTo);
+export default withRouter(SwapToForm);
