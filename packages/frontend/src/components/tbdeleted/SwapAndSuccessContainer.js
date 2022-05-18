@@ -100,8 +100,8 @@ const SwapAndSuccessContainer = ({
     const dispatch = useDispatch();
 
     useEffect(() => {
-        if (swapContractValue && swapContractValue === 'NEAR') {
-            setFrom(currentToken(fungibleTokensList, 'USN'));
+        if (swapContractValue && swapContractValue === 'NEAR') { /*todo: investigate? does not work as expected*/
+            setFrom(currentToken(fungibleTokensList, 'USN')); 
             setTo(fungibleTokensList[0]);
             return;
         }

@@ -12,7 +12,8 @@ const StyledContainer = styled.div`
     border-radius: 8px;
     transition: 100ms;
     height: 64px;
-
+    cursor: pointer;
+    
     > div {
         width: 100%;
         padding: 0px;
