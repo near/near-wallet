@@ -34,7 +34,7 @@ const Container = styled.div`
     }
 `;
 
-const ClickToCopy = ({ className, children, copy, translate = 'default' }) => {
+const ClickToCopy = ({ className, children, copy, successTranslation = 'default' }) => {
     const [show, setShow] = useState(false);
 
     const handleCopy = () => {
@@ -51,12 +51,20 @@ const ClickToCopy = ({ className, children, copy, translate = 'default' }) => {
     };
 
     return (
-        <Container title="Copy to clipboard" className={classNames([className, show ? 'show' : ''])} onClick={handleCopy}>
-            {children}
-            <div className='copy-success'>
-                <Translate id={`copy.${translate}`}/>
-            </div>
-        </Container>
+        <Translate>
+            {({ translate }) =>
+                <Container
+                    title={translate('copy.title')}
+                    className={classNames([className, show ? 'show' : ''])}
+                    onClick={handleCopy}
+                >
+                    {children}
+                    <div className='copy-success'>
+                        <Translate id={`copy.${successTranslation}`}/>
+                    </div>
+                </Container>
+            }
+        </Translate>
     );
 };
 
