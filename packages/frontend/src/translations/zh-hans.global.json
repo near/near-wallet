@@ -1501,11 +1501,11 @@
     "swap": {
         "AvailableToSwap": "可兑换",
         "ExpectedPrice": "预期价格",
-        "from": "自",
+        "from": "来自",
         "MinimumReceived": "最少收到",
         "pairPrice": "交易价格",
         "slipPage": "滑点容差",
-        "slippageError": "自1至50",
+        "slippageError": "自 1 至 50",
         "success": {
             "complete": "交易完成！",
             "youSwap": "你已经换了"
