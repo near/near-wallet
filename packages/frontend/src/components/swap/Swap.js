@@ -1,23 +1,27 @@
 import { parseNearAmount } from 'near-api-js/lib/utils/format';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
 import { EXPLORER_URL } from '../../config';
 import { useFungibleTokensIncludingNEAR } from '../../hooks/fungibleTokensIncludingNEAR';
+// import { usePerformBuyOrSellUSN } from '../../hooks/performBuyOrSellUSN';
 import { Mixpanel } from '../../mixpanel/index';
 import { showCustomAlert } from '../../redux/actions/status';
 import { selectAccountId } from '../../redux/slices/account';
 import { actions as ledgerActions } from '../../redux/slices/ledger';
+import { fetchMultiplier, selectMetadataSlice } from '../../redux/slices/multiplier';
 import {
     actions as tokensActions,
     selectTokensLoading,
 } from '../../redux/slices/tokens';
 import { fungibleTokensService } from '../../services/FungibleTokens';
+import isMobile from '../../utils/isMobile';
 import { validateInput } from '../../utils/wrap-unwrap';
 import Container from '../common/styled/Container.css';
 import SelectToken from '../send/components/views/SelectToken';
-import { findTokenSwapToList } from './components/helper';
+import { findTokenSwapToList, exchangeRateTranslation } from './components/helpers'; //duplicate below
+// import { findTokenSwapToList, commission, getBalance, exchangeRateTranslation } from './components/helpers';
 import Success from './components/Success';
 import { SwapAmountForm } from './components/SwapAmountForm';
 import { SwapReviewForm } from './components/SwapReviewForm';
@@ -122,6 +126,7 @@ const StyledContainer = styled(Container)`
 function Swap({ history }) {
     const fungibleTokensList = useFungibleTokensIncludingNEAR();
     const accountId = useSelector(selectAccountId);
+    const multiplier = useSelector(selectMetadataSlice);
     const [amountTokenFrom, setAmountTokenFrom] = useState(0);
     const [amountTokenTo, setAmountTokenTo] = useState(0);
     const [mockRateData, setMockRateData] = useState(1);
@@ -135,6 +140,33 @@ function Swap({ history }) {
     const [transactionHash, setTransactionHash] = useState(null);
     const [reversePositionsJustClicked, setReversePositionsJustClicked] = useState(false);
     const dispatch = useDispatch();
+
+    // USN based logic
+    // to do: move to confirm screen
+    // const [slippageValue, setSlippageValue] = useState(1);
+
+    // //to do: figure out what this commission fee does
+    // const { commissionFee, isLoadingCommission } = commission({
+    //     accountId,
+    //     amount: amountTokenFrom,
+    //     delay: 500,
+    //     exchangeRate: + multiplier,
+    //     token: activeTokenFrom,
+    //     activeView,
+    // });
+    // const balance = getBalance(activeTokenFrom);
+
+    // // to do: move to confirm screen
+    // const { performBuyOrSellUSN, isLoading, setIsLoading } = usePerformBuyOrSellUSN();
+
+    // useEffect(() => {
+    //     // not tested yet
+    //     if (slippageValue < 1 || slippageValue > 50) {
+    //         setError(true);
+    //     }
+    // }, [slippageValue]);
+    // end USN based logic
+
     const tokensLoader =
         useSelector((state) => selectTokensLoading(state, { accountId })) ||
         false;
@@ -143,6 +175,7 @@ function Swap({ history }) {
             return;
         }
         dispatch(fetchTokens({ accountId }));
+        dispatch(fetchMultiplier());
     }, [accountId]);
 
     useEffect(() => window.scrollTo(0, 0), [activeView]);
@@ -162,13 +195,25 @@ function Swap({ history }) {
         });
     }, [tokensLoader, fungibleTokensList[0].balance]);
 
-    useEffect(() => {
-        setAmountTokenFrom(amountTokenTo);
-    }, [amountTokenTo]);
+
+    const formatMultiplier = +multiplier / 10000;
+    
+    const checkValidInput = useCallback(
+        () => 
+            amountTokenFrom && setError(!validateInput(amountTokenFrom.toString(), maxFrom.fullNum))
+    , [amountTokenFrom, maxFrom]);
 
     useEffect(() => {
-        setAmountTokenTo(amountTokenFrom);
-        setError(!validateInput(amountTokenFrom, maxFrom.fullNum));
+        const convertedAmount = exchangeRateTranslation({
+            inputtedAmountOfToken: activeTokenFrom,
+            calculateAmountOfToken: activeTokenTo,
+            balance: amountTokenFrom,
+            exchangeRate: formatMultiplier
+        });
+        if (convertedAmount) {
+            setAmountTokenTo(convertedAmount);
+        }
+        checkValidInput();
     }, [amountTokenFrom, maxFrom]);
 
     const validTokensSwapFrom = fungibleTokensList.reduce((accum, current) => {
@@ -267,11 +312,13 @@ function Swap({ history }) {
                         onClickGoBack={() => setActiveView(VIEWS.SWAP_AMOUNT)}
                         onSelectToken={(token) => {
                             setActiveTokenFrom(token);
+                            setAmountTokenFrom(0);
+                            setAmountTokenTo(0);
                             setActiveView(VIEWS.SWAP_AMOUNT);
                             setReversePositionsJustClicked(false);
                         }}
                         fungibleTokens={validTokensSwapFrom}
-                        isMobile={true} // isMobile
+                        isMobile={isMobile()}
                     />
                 );
             case VIEWS.SELECT_TOKEN_TO:
@@ -279,12 +326,13 @@ function Swap({ history }) {
                     <SelectToken
                         onClickGoBack={() => setActiveView(VIEWS.SWAP_AMOUNT)}
                         onSelectToken={(token) => {
-                            console.log('TOKEN TO', token);
                             setActiveTokenTo(token);
+                            setAmountTokenFrom(0);
+                            setAmountTokenTo(0);
                             setActiveView(VIEWS.SWAP_AMOUNT);
                         }}
                         fungibleTokens={validTokensSwapTo}
-                        isMobile={true} // isMobile
+                        isMobile={isMobile()}
                     />
                 );
             case VIEWS.REVIEW:

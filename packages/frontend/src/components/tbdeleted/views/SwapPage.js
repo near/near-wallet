@@ -2,7 +2,7 @@ import React, { useCallback, useState } from 'react';
 import { Translate } from 'react-localize-redux';
 import { useDispatch } from 'react-redux';
 
-import { useFetchByorSellUSN } from '../../../hooks/fetchByorSellUSN';
+import { usePerformBuyOrSellUSN } from '../../../hooks/performBuyOrSellUSN';
 import { showCustomAlert } from '../../../redux/actions/status';
 import { actions as ledgerActions } from '../../../redux/slices/ledger';
 import { fetchMultiplier } from '../../../redux/slices/multiplier';
@@ -45,7 +45,7 @@ const SwapPage = ({
         token: from,
         isSwapped,
     });
-    const { fetchByOrSell, isLoading, setIsLoading } = useFetchByorSellUSN();
+    const { performBuyOrSellUSN, isLoading, setIsLoading } = usePerformBuyOrSellUSN();
     const dispatch = useDispatch();
     const balance = balanceForError(from);
     const error = balance < +inputValueFrom || !inputValueFrom;
@@ -54,7 +54,7 @@ const SwapPage = ({
     const onHandleSwapTokens = useCallback(async (accountId, multiplier, slippageValue, inputValueFrom, symbol, usnAmount) => {
         try {
             setIsLoading(true);
-            await fetchByOrSell(accountId, multiplier, slippageValue, +inputValueFrom, symbol, usnAmount);
+            await performBuyOrSellUSN(accountId, multiplier, slippageValue, +inputValueFrom, symbol, usnAmount);
             setActiveView('success');
         } catch (e) {
             dispatch(showCustomAlert({

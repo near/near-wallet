@@ -35,21 +35,16 @@ const FormFrom = styled.form`
     div.maxTitle {
         font-style: italic;
         color: #2f98f3;
-        cursor: pointer;
-        :hover {
-            text-decoration: underline;
-        }
     }
-    input.input-text {
+    .outputText {
         text-align: right;
-        padding: 0 15px 0 15px;
+        padding: 20px 15px 0 15px;
+        font-size: 16px;
         height: 64px;
         margin-top: 0;
         background-color: #F1F3F5;
-
-        :focus {
-            background-color: #FFFFFF;
-        }
+        color: #A2A2A7;
+        border-radius: 8px;
     }
     input.error {
         color: #fc5b5b;
@@ -60,7 +55,6 @@ const SwapToForm = ({
     setActiveView,
     maxValue,
     amountToken,
-    setAmountToken,
     activeTokenTo,
 }) => {
     return (
@@ -71,9 +65,6 @@ const SwapToForm = ({
                 </div>
                 <div
                     className="maxTitle"
-                    onClick={() => {
-                        setAmountToken(maxValue.fullNum);
-                    }}
                 >
                     <SafeTranslate
                         id="swapNear.max"
@@ -91,17 +82,9 @@ const SwapToForm = ({
                         onClick={() => setActiveView(VIEWS.SELECT_TOKEN_TO)}
                     />
                 )}
-                <input
-                    type="number"
-                    className={'input-text'}
-                    onChange={(e) => {
-                        e.preventDefault();
-                        setAmountToken(e.target.value);
-                    }}
-                    value={amountToken ? amountToken : ''}
-                    placeholder="0"
-                    maxLength="18"
-                />
+                <div className='outputText'>
+                    {amountToken ? amountToken : '0'}
+                </div>
             </div>
         </FormFrom>
     );

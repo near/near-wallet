@@ -154,7 +154,6 @@ export function SwapAmountForm({
                 setActiveView={setActiveView}
                 maxValue={maxTo}
                 amountToken={amountTokenTo}
-                setAmountToken={setAmountTokenTo}
                 activeTokenTo={activeTokenTo}
             />
 
