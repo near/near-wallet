@@ -194,6 +194,7 @@
         "addNode": "添加节点",
         "allow": "允许",
         "approve": "允许",
+        "authorize": "授权",
         "authorizing": "正在授权",
         "backToSwap": "返回兑换",
         "browseApps": "浏览应用",
@@ -248,11 +249,12 @@
         "next": "下一步",
         "protectAccount": "保护账户",
         "receive": "接收",
+        "reconnect": "重新连接",
         "recoverAccount": "恢复账户",
         "recovering": "正在恢复账户",
         "recoverYourAccount": "恢复账户",
         "removeAccount": "登出账户",
-        "removeNode": "删除模式",
+        "removeNode": "删除节点",
         "removingKeys": "删除密钥",
         "reserveMyAccountId": "保留账户 ID",
         "resubmit": "重新提交",
@@ -272,6 +274,7 @@
         "startOver": "重新开始",
         "subscribe": "订阅",
         "swap": "兑换",
+        "swapUSN": "兑换 USN",
         "ToMaine": "返回主页",
         "topUp": "充值",
         "transferring": "正在转账",
@@ -305,11 +308,39 @@
     "confirmLedgerModal": {
         "header": {
             "confirm": "请在设备上确认此操作...",
-            "processing": "正在处理"
+            "processing": "正在处理",
+            "success": "账户已经成功从 Ledger 钱包导入。",
+            "weFound": "我们发现 ${totalAccounts} 个账户正通过你的设备保护。"
         },
-        "one": "请在 Ledger 硬件设备上确认登录细节。"
+        "one": "请在 Ledger 硬件设备上确认登录细节。",
+        "two": "请在设备上根据指示确认并授权每个你希望导入的账户。"
     },
     "connecting": "连接中",
+    "connectLedger": {
+        "connectLedger": "连接 Ledger",
+        "ledgerConnected": "Ledger 已连接",
+        "modal": {
+            "connect": {
+                "cancelButton": "取消",
+                "connectButton": "连接",
+                "connectionPrompt": "请确保 Ledger 已安全连接，并且 NEAR 应用已在设备上打开。",
+                "header": "连接至 Ledger 设备。"
+            },
+            "connection-error": {
+                "cancelButton": "取消",
+                "connectButton": "重试",
+                "connectionPrompt": "请确保 Ledger 已安全连接，并且 NEAR 应用已在设备上打开。",
+                "header": "连接失败。"
+            },
+            "disconnected": {
+                "cancelButton": "取消",
+                "connectButton": "重新连接",
+                "connectionPrompt": "请确保 Ledger 已安全连接，并且 NEAR 应用已在设备上打开。",
+                "header": "你的设备已断开连接。"
+            }
+        },
+        "youMayNow": "你现在可以在设备上进行操作。"
+    },
     "copy": {
         "default": "已复制！",
         "title": "复制"
@@ -319,7 +350,7 @@
             "placeholder": "yourname.${data}",
             "title": "输入用户名"
         },
-        "addACustomAddress": "Add a Custom Address",
+        "addACustomAddress": "添加自定义地址",
         "alreadyHaveAnAccount": "已经拥有账户？",
         "invalidLinkDrop": {
             "one": "NEAR Drop 已经被领取。",
@@ -381,7 +412,8 @@
         }
     },
     "dashboard": {
-        "activity": "最近动态"
+        "activity": "最近动态",
+        "noActivity": "该账户暂无动态。"
     },
     "dashboardActivity": {
         "message": {
@@ -436,6 +468,7 @@
     "error": "失败",
     "errors": {
         "ledger": {
+            "disconnected": "Ledger 已断开连接。",
             "U2F_4": "无法通过硬件钱包登录：U2F DEVICE_INELIGIBLE。请确保 Ledger 设备已连接并解锁。",
             "U2FNotSupported": "Ledger 硬件钱包需要 U2F 浏览器支持。请使用 Chrome、Opera 或 Firefox 安装 U2F 扩展，并确保你是通过 HTTPS 加密连接。"
         },
@@ -580,6 +613,8 @@
     "link": {
         "account": "账户",
         "authorizedApps": "已授权应用",
+        "buyUSN": "购买 $USN",
+        "donateToUkraine": "捐助乌克兰",
         "fullAccessKeys": "完全访问密钥",
         "help": "帮助",
         "noAccount": "你未登录其他账号",
@@ -654,6 +689,7 @@
                 "fullAccessWarning": "此应用正在请求你的账户的完全访问权限。为开启完全访问，你将会被要求确认即将连接的账户 ID。",
                 "limitedAccess": "受限访问",
                 "permissions": {
+                    "callMethodsOnContract": "以你的授权账户的名义调用该智能合约的调用方法",
                     "notTransferTokens": "该应用没有权限转账 NEAR 通证",
                     "transferTokens": "从你的账户转账 NEAR 通证",
                     "viewAddress": "查看你连接的账户地址",
@@ -767,6 +803,9 @@
             "walletBalance": "钱包余额",
             "walletId": "钱包 ID"
         },
+        "accountDoesNotExistBanner": {
+            "desc": "<a href='https://explorer.near.org/accounts/${data}' rel='noopener noreferrer' target='_blank'><b>此账户</b></a>暂无动态。向你的账户发送 NEAR 开始使用所有 NEAR 钱包功能。"
+        },
         "authorizedApps": {
             "title": "已授权应用"
         },
@@ -856,6 +895,14 @@
         }
     },
     "recoverSeedPhrase": {
+        "couldNotFindAccountModal": {
+            "buttonImport": "仍然导入",
+            "desc": {
+                "ledger": "我们无法在此 Ledger 上找到<b>任何活跃账户</b>。这可能是因为账户还没任何动态。",
+                "phrase": "我们无法通过此助记词找到<b>任何活跃账户</b>。这可能是因为助记词错误，或者账户还没有任何动态。"
+            },
+            "title": "无法找到账户"
+        },
         "pageText": "请输入与此账户关联的助记词。",
         "pageTitle": "通过助记词恢复账户",
         "seedPhraseInput": {
@@ -1311,6 +1358,10 @@
                 "button": "领取",
                 "info": "该节点质押奖励将以非 NEAR 通证给予。"
             },
+            "farmed": {
+                "info": "在质押期间赚得的通证。",
+                "title": "可领取"
+            },
             "pending": {
                 "info": "这些通证并未质押，但还不可提现。通常在赎回质押后 52 - 65 小时变为可提现。",
                 "title": "请求释放"
@@ -1450,11 +1501,11 @@
     "swap": {
         "AvailableToSwap": "可兑换",
         "ExpectedPrice": "预期价格",
-        "from": "自",
+        "from": "来自",
         "MinimumReceived": "最少收到",
         "pairPrice": "交易价格",
         "slipPage": "滑点容差",
-        "slippageError": "自1至50",
+        "slippageError": "自 1 至 50",
         "success": {
             "complete": "交易完成！",
             "youSwap": "你已经换了"
@@ -1463,26 +1514,26 @@
         "TradingFee": "交易费"
     },
     "swapNear": {
-        "confirm": "Confirm & Swap",
-        "details": "Transaction details",
-        "fee": "Liquidity Provider Fee",
-        "from": "From",
-        "max": "Max: ${amount} ${symbol}",
-        "minReceived": "Minimum received",
-        "price": "Price",
-        "priceImpact": "Price Impact",
-        "review": "Review Swap",
-        "reviewInfo": "You are swapping",
-        "successTitle": "Transaction complete!</br>You swapped <span class='color-blue space'>${amount}</span></br>to <span class='color-green'>${tokenTo}</span>",
-        "title": "Swap",
-        "to": "To",
+        "confirm": "确认并兑换",
+        "details": "交易细节",
+        "fee": "流动性提供方费用",
+        "from": "来自",
+        "max": "最多：${amount} ${symbol}",
+        "minReceived": "收到的最低数额",
+        "price": "价格",
+        "priceImpact": "兑换率影响",
+        "review": "确认兑换",
+        "reviewInfo": "你将兑换",
+        "successTitle": "交易完成！</br>你兑换了 <span class='color-blue space'>${amount}</span></br>至 <span class='color-green'>${tokenTo}</span>",
+        "title": "兑换",
+        "to": "至",
         "translateIdInfoTooltip": {
-            "liquidityProviderFee": "The estimated cost of processing your transaction.",
-            "minimumReceived": "The minimum amount you will receive from the trade.",
-            "priceImpact": "The difference between the market price and estimated price due to trade size."
+            "liquidityProviderFee": "处理此笔交易的预估费用。",
+            "minimumReceived": "从此笔交易中你将最少收到的数额。",
+            "priceImpact": "市场价格和预估价格之间的区别是由于交易规模。"
         }
     },
-    "swapping": "Swapping",
+    "swapping": "正在兑换",
     "sync": "刷新",
     "tokenBox": {
         "priceUnavailable": "无法获取价格",
@@ -1614,6 +1665,7 @@
             "desc": "请充值 NEAR 通证后才能使用 NEAR 钱包。",
             "title": "充值 NEAR"
         },
+        "OthersTokens": "其他通证",
         "status": "状态",
         "tokenBalance": "通证余额",
         "tokens": "通证",
@@ -1630,6 +1682,9 @@
         },
         "addLedgerAccountId": {
             "errorRpc": "恢复账户时发生错误。"
+        },
+        "connectLedger": {
+            "noClient": "Ledger 设备还没连接，请先连接 Ledger。"
         },
         "createNewAccount": {
             "accountCreated": {
@@ -1658,7 +1713,9 @@
             "error": "导入账户失败，请重试或联系服务支持。"
         },
         "recoverAccountSeedPhrase": {
-            "errorInvalidSeedPhrase": "助记词无效"
+            "errorInvalidSeedPhrase": "助记词无效",
+            "errorNotAbleToImportAccount": "导入账户失败。请重试，或联系客服获得帮助。",
+            "errorSeedPhraseNotValid": "助记词无效，请检查后重试。"
         },
         "recoveryMethods": {
             "lastMethod": "无法删除最后一个恢复方式。除非你添加了 Ledger，你需要保留至少一种账户恢复方式。",
