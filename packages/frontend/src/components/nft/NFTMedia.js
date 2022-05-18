@@ -1,9 +1,15 @@
-import React from 'react';
+import React, { useMemo } from "react";
 
-import FailedToLoad from '../../images/failed_to_load.svg';
+import FailedToLoad from "../../images/failed_to_load.svg";
 
 export function NFTMedia({ mediaUrl, autoPlay = false }) {
-    const isVideo = !!mediaUrl && mediaUrl.match(/\.webm$/i);
+    const [isVideo, mimeType] = useMemo(() => {
+        let mimeType;
+        if (mediaUrl.match(/\.webm$/i)) mimeType = "webm";
+        else if (mediaUrl.match(/\.mp4$/i)) mimeType = "mp4";
+        const isVideo = !!mediaUrl && mimeType;
+        return [isVideo, mimeType];
+    }, [mediaUrl]);
 
     return (
         <>
@@ -11,11 +17,11 @@ export function NFTMedia({ mediaUrl, autoPlay = false }) {
                 <video muted={true} loop controls autoPlay={autoPlay}>
                     <source
                         src={mediaUrl}
-                        type="video/webm"
+                        type={`video/${mimeType}`}
                         onError={(e) => {
                             e.target.onerror = null;
                             e.target.parentElement.setAttribute(
-                                'poster',
+                                "poster",
                                 FailedToLoad
                             );
                         }}
