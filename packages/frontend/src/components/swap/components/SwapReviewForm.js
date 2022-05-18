@@ -62,9 +62,6 @@ const getFontSize = (charLength) => {
 };
 
 export function SwapReviewForm({
-    match,
-    location,
-    history,
     setActiveView,
     amountTokenFrom,
     amountTokenTo,

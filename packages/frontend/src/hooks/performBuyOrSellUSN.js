@@ -38,7 +38,7 @@ const setArgsUSNContractSell = (amount, multiplier, slippage, usnAmount) => {
     };
 };
 
-export const useFetchByorSellUSN = () => {
+export const usePerformBuyOrSellUSN = () => {
     const [isLoading, setIsLoading] = useState(false);
     const contractName = !IS_MAINNET ? 'usdn.testnet' : 'usn';
     const usnMethods = {
@@ -46,7 +46,7 @@ export const useFetchByorSellUSN = () => {
         changeMethods: ['buy', 'sell'],
     };
 
-    const fetchByOrSell = async (
+    const performBuyOrSellUSN = async (
         accountId,
         multiplier,
         slippage,
@@ -69,5 +69,5 @@ export const useFetchByorSellUSN = () => {
         }
     };
 
-    return { fetchByOrSell, isLoading, setIsLoading};
+    return { performBuyOrSellUSN, isLoading, setIsLoading};
 };
