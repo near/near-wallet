@@ -19,7 +19,7 @@ const Container = styled.div`
         border-radius: 4px;
         padding: 6px 8px;
         font-size: 13px;
-        top: -30px;
+        top: -24px;
         opacity: 0;
         pointer-events: none;
         transition: 200ms;
@@ -28,7 +28,7 @@ const Container = styled.div`
 
     &.show {
         .copy-success {
-            top: -40px;
+            top: -32px;
             opacity: 1;
         }
     }
@@ -51,7 +51,7 @@ const ClickToCopy = ({ className, children, copy, translate = 'default' }) => {
     };
 
     return (
-        <Container title={copy} className={classNames([className, show ? 'show' : ''])} onClick={handleCopy}>
+        <Container title="Copy to clipboard" className={classNames([className, show ? 'show' : ''])} onClick={handleCopy}>
             {children}
             <div className='copy-success'>
                 <Translate id={`copy.${translate}`}/>

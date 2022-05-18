@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 
 import Balance from '../../common/balance/Balance';
+import ClickToCopy from '../../common/ClickToCopy';
+import CopyIcon from '../../svg/CopyIcon';
 import EyeIcon from './EyeIcon';
 
 const StyledContainer = styled.div`
@@ -14,13 +16,21 @@ const StyledContainer = styled.div`
     color: #72727A;
     margin: 8px 0;
 
-    > div {
+    > .details {
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
         margin-right: 10px;
     }
 
+    > .copy {
+        margin: 0 8px 0 auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    > .copy,
     > svg {
         cursor: pointer;
         min-width: 32px;
@@ -85,7 +95,7 @@ export default ({
     const [showBalance, setShowBalance] = useState(defaultShowBalance);
     return (
         <StyledContainer className={active ? 'active' : ''} onClick={onSelectAccount}>
-            <div>
+            <div className='details'>
                 <div className='account-id'>{accountId}</div>
                 <div className='balance'>
                     {showBalance
@@ -99,6 +109,9 @@ export default ({
                     }
                 </div>
             </div>
+            <ClickToCopy copy={accountId} className='copy'>
+                <CopyIcon color='#2B9AF4' />
+            </ClickToCopy>
             <EyeIcon
                 show={showBalance}
                 onClick={(e) => {
