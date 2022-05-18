@@ -159,7 +159,7 @@ export default function StakingAction({
                     <FormButton 
                         className='small' 
                         color='light-blue'
-                        linkTo='/staking/validators'
+                        linkTo='/staking/unstake'
                         trackingId="STAKE Go to validators list page"
                     >
                         <Translate id='button.edit' />
