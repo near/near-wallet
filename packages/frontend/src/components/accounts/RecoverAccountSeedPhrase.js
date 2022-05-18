@@ -21,7 +21,7 @@ import { selectActionsPending, selectStatusLocalAlert, selectStatusMainLoader } 
 import isValidSeedPhrase from '../../utils/isValidSeedPhrase';
 import parseFundingOptions from '../../utils/parseFundingOptions';
 import Container from '../common/styled/Container.css';
-import CouldNotFindAccountModalWrapper from './CouldNotFindAccountModalWrapper';
+import { CouldNotFindAccountModalWrapper } from './CouldNotFindAccountModalWrapper';
 import RecoverAccountSeedPhraseForm from './RecoverAccountSeedPhraseForm';
 
 const StyledContainer = styled(Container)`
