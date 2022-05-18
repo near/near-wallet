@@ -613,6 +613,7 @@
     "link": {
         "account": "Account",
         "authorizedApps": "Authorized Apps",
+        "buyUSN": "Buy $USN",
         "donateToUkraine": "Donate to Ukraine",
         "fullAccessKeys": "Full Access Keys",
         "help": "Help",
@@ -1358,7 +1359,7 @@
                 "info": "This validator grants staking rewards in a token other than NEAR."
             },
             "farmed": {
-                "info": "Collected tokens that have been earned during farming with farming validators",
+                "info": "Collected tokens that have been earned during farming with farming validators.",
                 "title": "Available for claim"
             },
             "pending": {
