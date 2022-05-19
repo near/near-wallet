@@ -551,7 +551,7 @@ export const handleUpdateCurrent = (accountId) => async (dispatch, getState) => 
     dispatch(staking.updateCurrent({ currentAccount }));
 };
 
-export const getValidatorFarmData = createAsyncThunk('staking/setValidatorFarmData', async ({ validator, accountId }, { dispatch }) => {
+export const getValidatorFarmData = createAsyncThunk('staking/getValidatorFarmData', async ({ validator, accountId }, { dispatch }) => {
     if (validator?.version !== FARMING_VALIDATOR_VERSION || !accountId) return;
 
     const poolSummary = await validator.contract.get_pool_summary();
