@@ -34,10 +34,10 @@ const Container = styled.div`
     }
 `;
 
-const ClickToCopy = ({ className, children, copy, successTranslation = 'default' }) => {
+const ClickToCopy = ({ className, children, copy, onClick, successTranslation = 'default' }) => {
     const [show, setShow] = useState(false);
 
-    const handleCopy = () => {
+    const handleCopy = (e) => {
         Mixpanel.track('Click to copy text');
         setShow(true);
         setTimeout (() => setShow(false), 2000);
@@ -47,6 +47,9 @@ const ClickToCopy = ({ className, children, copy, successTranslation = 'default'
         input.select();
         const result = document.execCommand('copy');
         document.body.removeChild(input);
+        if (onClick) {
+            onClick(e);
+        }
         return result;
     };
 
