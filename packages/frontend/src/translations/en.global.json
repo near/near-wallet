@@ -1677,6 +1677,9 @@
         "addAccessKey": {
             "error": "An error has occurred.<br />To access your account, please enter the passphrase from the previous step below."
         },
+        "addAccessKeyZeroBalanceAccountSetup": {
+            "error": "Something went wrong while finishing import of your now active account. Please re-import your account in the wallet."
+        },
         "addAccessKeySeedPhrase": {
             "errorSecond": "An error has occurred.<br />The passphrases was not added to your account. Please try again."
         },
@@ -1738,5 +1741,33 @@
             "noWithdraw": "Unable to withdraw pending balance from validator"
         }
     },
-    "warning": "Warning"
+    "warning": "Warning",
+    "zeroBalance": {
+        "ledgerModal": {
+            "desc": "Add a Ledger limited access key to the wallet to manage multiple recovery methods.",
+            "confirmOnLedger": "Confirm the action on your Ledger device.",
+            "title": "Your account is now active!",
+            "addLedgerKey": "Add Ledger Key"
+        },
+        "addLedgerKey": {
+            "success": {
+                "header": "Ledger access key added successfully!",
+                "message": "A new Ledger key was added to your account. You can now manage your accounts recovery methods using your Ledger device."
+            },
+            "error": {
+                "header": "Something went wrong",
+                "message": "We were unable to add an additional Ledger key to your account. Please try again or re-import your Ledger account."
+            }
+        },
+        "addPhraseKey": {
+            "success": {
+                "header": "Your account has been successfully imported!",
+                "message": "Now that your account is active, a new access key has been added to your account to sign transactions in the wallet."
+            },
+            "error": {
+                "header": "Something went wrong",
+                "message": "We were unable to add a new access key to your account. Please re-import your account to add a new wallet key."
+            }
+        }
+    }
 }
