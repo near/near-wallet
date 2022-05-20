@@ -71,6 +71,13 @@ export function SwapReviewForm({
     accountId,
     handleSwapToken,
     swappingToken,
+    slippageError,
+    slippageValue,
+    setSlippageValue,
+    exchangeRate,
+    tradingFee,
+    isCommissionLoading,
+    percent
 }) {
     return (
         <StyledContainer>

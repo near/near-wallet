@@ -1,5 +1,5 @@
 import * as nearApiJs from 'near-api-js';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 
 import { IS_MAINNET } from '../../../config';
 import { removeTrailingZeros, formatTokenAmount, parseTokenAmount } from '../../../utils/amounts';
@@ -155,7 +155,7 @@ async function fetchCommission({ accountId, amount, exchangeRate, token }) {
     };
 }
 
-export const commission = ({ accountId, amount, delay, exchangeRate, token, activeView }) => {
+export const commission = ({ accountId, amount, delay, exchangeRate, token }) => {
     const [commissionFee, setCommissionFee] = useState('');
     const [isLoadingCommission, setIsLoadingCommission] = useState(false);
     const debounceValue = useDebounce(amount, delay);
@@ -176,7 +176,7 @@ export const commission = ({ accountId, amount, delay, exchangeRate, token, acti
         };
 
         getCommission();
-    }, [debounceValue, exchangeRate, activeView]);
+    }, [debounceValue, exchangeRate]);
 
     return { commissionFee, isLoadingCommission };
 };
@@ -193,10 +193,28 @@ export const exchangeRateTranslation = ({ inputtedAmountOfToken, calculateAmount
     
     const activeTokenFromSymbol = inputtedAmountOfToken?.onChainFTMetadata?.symbol;
     const activeTokenToSymbol = calculateAmountOfToken?.onChainFTMetadata?.symbol;
-    
     const operation = convertBalanceWithExchangeRate[`${activeTokenFromSymbol}->${activeTokenToSymbol}`];
-    if (operation == '1:1') return balance;
 
-    return operation.toFixed(5);
+    if (operation == '1:1') return balance;
+    const removedZeros = removeTrailingZeros(`${operation.toFixed(5)}`);
+    return removedZeros;
 };
 
+
+export const useInterval = (cb, interval) => {
+  const callback = useRef();
+
+  useEffect(() => {
+    callback.current = cb;
+  }, [callback]);
+
+  useEffect(() => {
+    function tick() {
+        callback.current();
+    }
+    if (interval !== null) {
+      const intervalFunction = setInterval(tick, interval);
+      return () => clearInterval(intervalFunction);
+    }
+  }, [interval]);
+};

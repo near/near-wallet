@@ -5,7 +5,7 @@ import styled from 'styled-components';
 
 import { EXPLORER_URL } from '../../config';
 import { useFungibleTokensIncludingNEAR } from '../../hooks/fungibleTokensIncludingNEAR';
-// import { usePerformBuyOrSellUSN } from '../../hooks/performBuyOrSellUSN';
+import { usePerformBuyOrSellUSN } from '../../hooks/performBuyOrSellUSN';
 import { Mixpanel } from '../../mixpanel/index';
 import { showCustomAlert } from '../../redux/actions/status';
 import { selectAccountId } from '../../redux/slices/account';
@@ -20,8 +20,7 @@ import isMobile from '../../utils/isMobile';
 import { validateInput } from '../../utils/wrap-unwrap';
 import Container from '../common/styled/Container.css';
 import SelectToken from '../send/components/views/SelectToken';
-import { findTokenSwapToList, exchangeRateTranslation } from './components/helpers'; //duplicate below
-// import { findTokenSwapToList, commission, getBalance, exchangeRateTranslation } from './components/helpers';
+import { findTokenSwapToList, exchangeRateTranslation, useInterval, commission } from './components/helpers';
 import Success from './components/Success';
 import { SwapAmountForm } from './components/SwapAmountForm';
 import { SwapReviewForm } from './components/SwapReviewForm';
@@ -126,13 +125,14 @@ const StyledContainer = styled(Container)`
 function Swap({ history }) {
     const fungibleTokensList = useFungibleTokensIncludingNEAR();
     const accountId = useSelector(selectAccountId);
-    const multiplier = useSelector(selectMetadataSlice);
+    const multiplierResult = useSelector(selectMetadataSlice);
+    const [multiplier, setMultiplier] = useState(0);
     const [amountTokenFrom, setAmountTokenFrom] = useState(0);
     const [amountTokenTo, setAmountTokenTo] = useState(0);
     const [mockRateData, setMockRateData] = useState(1);
     const [maxFrom, setMaxFrom] = useState({ fullNum: '0', numToShow: '0' });
     const [maxTo, setMaxTo] = useState({ fullNum: '0', numToShow: '0' });
-    const [error, setError] = useState(false);
+    const [amountError, setAmountError] = useState(false);
     const [activeView, setActiveView] = useState(VIEWS.SWAP_AMOUNT);
     const [activeTokenFrom, setActiveTokenFrom] = useState();
     const [activeTokenTo, setActiveTokenTo] = useState();
@@ -141,31 +141,14 @@ function Swap({ history }) {
     const [reversePositionsJustClicked, setReversePositionsJustClicked] = useState(false);
     const dispatch = useDispatch();
 
-    // USN based logic
-    // to do: move to confirm screen
-    // const [slippageValue, setSlippageValue] = useState(1);
-
-    // //to do: figure out what this commission fee does
-    // const { commissionFee, isLoadingCommission } = commission({
-    //     accountId,
-    //     amount: amountTokenFrom,
-    //     delay: 500,
-    //     exchangeRate: + multiplier,
-    //     token: activeTokenFrom,
-    //     activeView,
-    // });
-    // const balance = getBalance(activeTokenFrom);
-
-    // // to do: move to confirm screen
-    // const { performBuyOrSellUSN, isLoading, setIsLoading } = usePerformBuyOrSellUSN();
-
-    // useEffect(() => {
-    //     // not tested yet
-    //     if (slippageValue < 1 || slippageValue > 50) {
-    //         setError(true);
-    //     }
-    // }, [slippageValue]);
-    // end USN based logic
+    useEffect(() => {
+        // setsMultiplier as multiplierResult gets populated
+        setMultiplier(multiplierResult);
+    }, [multiplierResult]);
+    useInterval(() => {
+        // callback of fetchMultiplier every 30 seconds
+        dispatch(fetchMultiplier());
+    }, 30000);
 
     const tokensLoader =
         useSelector((state) => selectTokensLoading(state, { accountId })) ||
@@ -200,7 +183,7 @@ function Swap({ history }) {
     
     const checkValidInput = useCallback(
         () => 
-            amountTokenFrom && setError(!validateInput(amountTokenFrom.toString(), maxFrom.fullNum))
+            amountTokenFrom && setAmountError(!validateInput(amountTokenFrom.toString(), maxFrom.fullNum))
     , [amountTokenFrom, maxFrom]);
 
     useEffect(() => {
@@ -210,9 +193,7 @@ function Swap({ history }) {
             balance: amountTokenFrom,
             exchangeRate: formatMultiplier
         });
-        if (convertedAmount) {
-            setAmountTokenTo(convertedAmount);
-        }
+        setAmountTokenTo(convertedAmount);
         checkValidInput();
     }, [amountTokenFrom, maxFrom]);
 
@@ -242,44 +223,64 @@ function Swap({ history }) {
         wrapAmount,
         toWNear
     ) => {
-        await Mixpanel.withTracking(
-            'SWAP token',
-            async () => {
-                setSwappingToken(true);
+        // await Mixpanel.withTracking(
+        //     'SWAP token',
+        //     async () => {
+        //         setSwappingToken(true);
 
-                const result =
-                    await fungibleTokensService.wrapNear({
-                        accountId,
-                        wrapAmount:
-                            parseNearAmount(wrapAmount),
-                        toWNear,
-                    });
-                setTransactionHash(result.transaction.hash);
-                setActiveView(VIEWS.SUCCESS);
+        //         const result =
+        //             await fungibleTokensService.wrapNear({
+        //                 accountId,
+        //                 wrapAmount:
+        //                     parseNearAmount(wrapAmount),
+        //                 toWNear,
+        //             });
+        //         setTransactionHash(result.transaction.hash);
+        //         setActiveView(VIEWS.SUCCESS);
 
-                const id = Mixpanel.get_distinct_id();
-                Mixpanel.identify(id);
-                Mixpanel.people.set({
-                    last_send_token: new Date().toString(),
-                });
-            },
-            (e) => {
-                dispatch(
-                    showCustomAlert({
-                        success: false,
-                        messageCodeHeader: 'error',
-                        messageCode:
-                            'walletErrorCodes.sendFungibleToken.error',
-                        errorMessage: e.message,
-                    })
-                );
-                setSwappingToken('failed');
-                return;
-            }
-        );
+        //         const id = Mixpanel.get_distinct_id();
+        //         Mixpanel.identify(id);
+        //         Mixpanel.people.set({
+        //             last_send_token: new Date().toString(),
+        //         });
+        //     },
+        //     (e) => {
+        //         dispatch(
+        //             showCustomAlert({
+        //                 success: false,
+        //                 messageCodeHeader: 'error',
+        //                 messageCode:
+        //                     'walletErrorCodes.sendFungibleToken.error',
+        //                 errorMessage: e.message,
+        //             })
+        //         );
+        //         setSwappingToken('failed');
+        //         return;
+        //     }
+        // );
 
-        dispatch(checkAndHideLedgerModal());
+        // dispatch(checkAndHideLedgerModal());
+        console.log('handleSwapToken', [accountId, wrapAmount, toWNear]);
     };
+
+    // USN based logic
+    const [slippageValue, setSlippageValue] = useState(1);
+    const slippageError = slippageValue < 1 || slippageValue > 50;
+
+    const { commissionFee, isLoadingCommission } = commission({
+        accountId,
+        amount: amountTokenFrom,
+        delay: 500,
+        exchangeRate: + multiplier,
+        token: activeTokenFrom,
+        activeView,
+    });
+    const balance = getBalance(activeTokenFrom);
+
+    const { performBuyOrSellUSN, isLoading, setIsLoading } = usePerformBuyOrSellUSN();
+
+    // end USN based logic
+    
 
     const getCurrentViewComponent = (view) => {
         switch (view) {
@@ -302,7 +303,7 @@ function Swap({ history }) {
                         setMaxFrom={setMaxFrom}
                         maxTo={maxTo}
                         setMaxTo={setMaxTo}
-                        error={error}
+                        error={amountError}
                         setReversePositionsJustClicked={setReversePositionsJustClicked}
                     />
                 );
@@ -347,6 +348,13 @@ function Swap({ history }) {
                         accountId={accountId}
                         handleSwapToken={handleSwapToken}
                         swappingToken={swappingToken}
+                        slippageError={slippageError}
+                        slippageValue={slippageValue}
+                        setSlippageValue={setSlippageValue}
+                        exchangeRate={+multiplier / 10000}
+                        tradingFee={commissionFee?.result}
+                        isCommissionLoading={isLoadingCommission}
+                        percent={commissionFee?.percent}
                     />
                 );
 
