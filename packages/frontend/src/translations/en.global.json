@@ -832,6 +832,9 @@
         "title": "Whoops, looks like this page is missing."
     },
     "poweredByCoinGecko": "Prices powered by <a href='https://www.coingecko.com/en/api' target='_blank' rel='noopener noreferrer'>CoinGecko</a>",
+    "preMigration": {
+        "message": "We’re moving! NEAR Wallet will be migrating to a new domain (mynearwallet.com) starting on 6/12/22.<br/> Return once the new domain is live to migrate your accounts, or export your account keys from your account settings."
+    },
     "profile": {
         "account": {
             "available": "Available balance",

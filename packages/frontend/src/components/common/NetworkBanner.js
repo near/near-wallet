@@ -76,11 +76,13 @@ const NetworkBanner = ({ account }) => {
     }, [account]);
 
     const setBannerHeight = () => {
-        const bannerHeight = document.getElementById('top-banner') && document.getElementById('top-banner').offsetHeight;
+        const banner =  document.getElementById('top-banner');
+        const bannerHeight = banner ? banner.getBoundingClientRect().top + banner.offsetHeight : 0;
+        console.log(bannerHeight);
         const app = document.getElementById('app-container');
         const navContainer = document.getElementById('nav-container');
         navContainer.style.top = bannerHeight ? `${bannerHeight}px` : 0;
-        app.style.paddingTop = bannerHeight ? `${bannerHeight + 85}px` : '75px';
+        app.style.paddingTop = bannerHeight ? `${bannerHeight + 85}px` : '75px'; 
     };
 
     if (!IS_MAINNET) {

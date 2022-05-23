@@ -76,6 +76,7 @@ import { BuyNear } from './buy/BuyNear';
 import Footer from './common/Footer';
 import GlobalAlert from './common/GlobalAlert';
 import GuestLandingRoute from './common/GuestLandingRoute';
+import MigrationBanner from './common/MigrationBanner';
 import NetworkBanner from './common/NetworkBanner';
 import PrivateRoute from './common/routing/PrivateRoute';
 import PublicRoute from './common/routing/PublicRoute';
@@ -339,6 +340,7 @@ class Routing extends Component {
                 >
                     <ThemeProvider theme={theme}>
                         <ScrollToTop />
+                        <MigrationBanner  account={account}/>
                         <NetworkBanner account={account} />
                         <NavigationWrapper />
                         <GlobalAlert />
