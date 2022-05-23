@@ -272,7 +272,7 @@
       "lastEditedAt": "2022-05-06T17:30:49.429Z"
     },
     "testnet": {
-      "enabled": true,
+      "enabled": false,
       "lastEditedBy": "Patrick Tajima",
       "lastEditedAt": "2022-05-06T17:30:49.430Z"
     },
@@ -287,12 +287,12 @@
       "lastEditedAt": "2022-05-06T17:30:49.430Z"
     },
     "testnet_STAGING": {
-      "enabled": true,
+      "enabled": false,
       "lastEditedBy": "Patrick Tajima",
       "lastEditedAt": "2022-05-06T17:30:49.430Z"
     },
     "testnet_NEARORG": {
-      "enabled": true,
+      "enabled": false,
       "lastEditedBy": "esaminu",
       "lastEditedAt": "2022-05-09T21:50:59.559Z"
     },

@@ -4,13 +4,17 @@ import { PublicKey } from 'near-api-js/lib/utils';
 import { KeyType } from 'near-api-js/lib/utils/key_pair';
 
 import * as Config from '../../../config';
+import { actions as ledgerActions } from '../../../redux/slices/ledger';
 import sendJson from '../../../tmp_fetch_send_json';
-import { setReleaseNotesClosed } from '../../../utils/localStorage';
+import { setReleaseNotesClosed, getLedgerHDPath } from '../../../utils/localStorage';
 import { CONTRACT_CREATE_ACCOUNT_URL, FUNDED_ACCOUNT_CREATE_URL, IDENTITY_FUNDED_ACCOUNT_CREATE_URL, RELEASE_NOTES_MODAL_VERSION, wallet } from '../../../utils/wallet';
 import { WalletError } from '../../../utils/walletError';
 import { finishAccountSetup } from '../../actions/account';
 import { SLICE_NAME } from './';
 
+const {
+    signInWithLedger
+} = ledgerActions;
 
 const {
     RECAPTCHA_ENTERPRISE_SITE_KEY,
@@ -185,5 +189,33 @@ export const finishSetupImplicitAccount = createAsyncThunk(
         const publicKey = new PublicKey({ keyType: KeyType.ED25519, data: Buffer.from(implicitAccountId, 'hex') });
         await wallet.saveAndMakeAccountActive(implicitAccountId);
         await dispatch(addLocalKeyAndFinishSetup({ accountId: implicitAccountId, recoveryMethod, publicKey })).unwrap();
+    }
+);
+
+export const finishLocalSetupForZeroBalanceAccount = createAsyncThunk(
+    `${SLICE_NAME}/finishLocalSetupForZeroBalanceAccount`,
+    async ({
+        implicitAccountId,
+        recoveryMethod
+    }, { dispatch }) => {
+        try {
+            if (recoveryMethod === 'ledger') {
+                const ledgerHDPath = getLedgerHDPath(implicitAccountId);
+                await dispatch(signInWithLedger({ path: ledgerHDPath })).unwrap();
+            } else {
+                const account = await wallet.getAccount(implicitAccountId);
+                const accessKeys = await account.getAccessKeys();
+                const fullAccessKeys = accessKeys.filter((it) => it.access_key?.permission === 'FullAccess');
+                if (fullAccessKeys.length === 1) {
+                    const newKeyPair = KeyPair.fromRandom('ed25519');
+                    const newPublicKey = newKeyPair.publicKey;
+                    await wallet.addNewAccessKeyToAccount(implicitAccountId, newPublicKey);
+                    await wallet.saveAccount(implicitAccountId, newKeyPair);
+                }
+            }
+        } catch (e) {
+            throw new WalletError(e, 'addAccessKeyZeroBalanceAccountSetup.error');
+        }
+
     }
 );

@@ -172,7 +172,7 @@ class Wallet {
 
     async getLocalSecretKey(accountId) {
         const localKeyPair = await this.keyStore.getKey(NETWORK_ID, accountId);
-        return localKeyPair.toString();
+        return localKeyPair ? localKeyPair.toString() : null;
     }
 
     async getLedgerKey(accountId) {
