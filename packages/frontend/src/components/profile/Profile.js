@@ -31,6 +31,7 @@ import { selectAllAccountsHasLockup } from '../../redux/slices/allAccounts';
 import { actions as recoveryMethodsActions, selectRecoveryMethodsByAccountId } from '../../redux/slices/recoveryMethods';
 import { selectNearTokenFiatValueUSD } from '../../redux/slices/tokenFiatValues';
 import isMobile from '../../utils/isMobile';
+import { wallet } from '../../utils/wallet';
 import AlertBanner from '../common/AlertBanner';
 import FormButton from '../common/FormButton';
 import SkeletonLoading from '../common/SkeletonLoading';
@@ -43,6 +44,7 @@ import UserIcon from '../svg/UserIcon';
 import AuthorizedApp from './authorized_apps/AuthorizedApp';
 import BalanceContainer from './balances/BalanceContainer';
 import LockupAvailTransfer from './balances/LockupAvailTransfer';
+import ExportKeyWrapper from './export_private_key/ExportKeyWrapper';
 import HardwareDevices from './hardware_devices/HardwareDevices';
 import MobileSharingWrapper from './mobile_sharing/MobileSharingWrapper';
 import RecoveryContainer from './Recovery/RecoveryContainer';
@@ -158,6 +160,7 @@ export function Profile({ match }) {
     const hasLockup = isOwner
         ? useSelector(selectAccountHasLockup)
         : useSelector((state) => selectAllAccountsHasLockup(state, { accountId }));
+    const [secretKey, setSecretKey] = useState(null);
 
     const userRecoveryMethods = useSelector((state) => selectRecoveryMethodsByAccountId(state, { accountId: account.accountId }));
     const twoFactor = has2fa && userRecoveryMethods && userRecoveryMethods.filter((m) => m.kind.includes('2fa'))[0];
@@ -196,6 +199,13 @@ export function Profile({ match }) {
             Mixpanel.alias(accountId);
             userRecoveryMethods.forEach((method) => Mixpanel.people.set({ ['recovery_with_' + method.kind]: true }));
         }
+    },[userRecoveryMethods]);
+
+    useEffect(() => {
+        wallet.getLocalKeyPair(accountId).then(async (keyPair) => {
+            const isFullAccessKey = await wallet.isFullAccessKey(accountId, keyPair);
+            setSecretKey(isFullAccessKey ? keyPair : null);
+        });
     },[userRecoveryMethods]);
 
     useEffect(()=> {
@@ -304,7 +314,11 @@ export function Profile({ match }) {
                                 )}
                             </>
                         }
-                        <RemoveAccountWrapper/>
+                        <>
+                            <hr />
+                            {secretKey ? <ExportKeyWrapper secretKey={secretKey}/> : null}
+                            <RemoveAccountWrapper/>
+                        </>
                         {!IS_MAINNET && !account.ledgerKey && !isMobile() &&
                             <MobileSharingWrapper/>
                         }

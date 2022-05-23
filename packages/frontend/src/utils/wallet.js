@@ -175,6 +175,10 @@ class Wallet {
         return localKeyPair ? localKeyPair.toString() : null;
     }
 
+    async getLocalKeyPair(accountId) {
+        return this.keyStore.getKey(NETWORK_ID, accountId);
+    }
+
     async getLedgerKey(accountId) {
         // TODO: All callers should specify accountId explicitly
         accountId = accountId || this.accountId;
@@ -203,6 +207,13 @@ class Wallet {
 
     isLegitAccountId(accountId) {
         return ACCOUNT_ID_REGEX.test(accountId);
+    }
+
+    isFullAccessKey(accountId, keypair) {
+        return this.getAccessKeys(accountId).then((keys) => {
+            const key = keys.find(({ public_key }) => public_key === keypair.getPublicKey().toString());
+            return key?.access_key?.permission === 'FullAccess';
+        });
     }
 
     async sendMoney(receiverId, amount) {

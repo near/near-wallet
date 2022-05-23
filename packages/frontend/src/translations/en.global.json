@@ -500,6 +500,9 @@
         "exploreDeFi": "Explore DeFi",
         "title": "What's on NEAR?"
     },
+    "exportPrivateKey": {
+        "button": "Export Private Key"
+    },
     "footer": {
         "contactSupport": "Join Community",
         "copyrights": "Roketo Labs LTD. All Rights Reserved.",
