@@ -1,17 +1,10 @@
-import { USE_INDEXER_SERVICE } from '../../../../features';
-import { ACCOUNT_HELPER_URL } from '../config';
 import { listRecentTransactions } from '../services/indexer';
 import { wallet } from './wallet';
 
 export async function getTransactions({ accountId }) {
     if (!accountId) return {};
 
-    let txs;
-    if (USE_INDEXER_SERVICE) {
-        txs = await listRecentTransactions(accountId);
-    } else {
-        txs = await fetch(`${ACCOUNT_HELPER_URL}/account/${accountId}/activity`).then((res) => res.json());
-    }
+    const txs = await listRecentTransactions(accountId);
 
     return txs.map((t, i) => ({
         ...t,

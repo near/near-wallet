@@ -1,9 +1,7 @@
 import BN from 'bn.js';
 import * as nearApiJs from 'near-api-js';
 
-import { USE_INDEXER_SERVICE } from '../../../../features';
-import { ACCOUNT_HELPER_URL, NEAR_TOKEN_ID } from '../config';
-import sendJson from '../tmp_fetch_send_json';
+import { NEAR_TOKEN_ID } from '../config';
 import {
     parseTokenAmount,
     formatTokenAmount,
@@ -63,12 +61,6 @@ export default class FungibleTokens {
     }
 
     static async getLikelyTokenContracts({ accountId }) {
-        if (!USE_INDEXER_SERVICE) {
-            return sendJson(
-                'GET',
-                `${ACCOUNT_HELPER_URL}/account/${accountId}/likelyTokens`
-            );
-        }
         return listLikelyTokens(accountId);
     }
 
