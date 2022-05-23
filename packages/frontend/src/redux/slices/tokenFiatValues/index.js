@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import merge from 'lodash.merge';
 import cloneDeep from 'lodash.clonedeep';
+import merge from 'lodash.merge';
 import { createSelector } from 'reselect';
 
 import FiatValueManager from '../../../utils/fiatValueManager';

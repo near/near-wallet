@@ -1,9 +1,10 @@
-import { Contract } from 'near-api-js';
 import DataLoader from 'dataloader';
+import { Contract } from 'near-api-js';
 import Cache from 'node-cache';
 import { stringifyUrl } from 'query-string';
-import sendJson from '../tmp_fetch_send_json';
+
 import { REF_FINANCE_API_ENDPOINT, REF_FINANCE_CONTRACT} from '../config';
+import sendJson from '../tmp_fetch_send_json';
 import { wallet } from './wallet';
 
 const COINGECKO_PRICE_URL = 'https://api.coingecko.com/api/v3/simple/price';
@@ -77,7 +78,7 @@ export default class FiatValueManager {
             {
                 cacheMap: wrapNodeCacheForDataloader(new Cache({ stdTTL: 30, checkperiod: 0, useClones: false }))
             }
-        )
+        );
     };
 
     async getPrice(tokens = ['near', 'usn']) {
