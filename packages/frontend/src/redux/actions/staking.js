@@ -1,3 +1,4 @@
+import { createAsyncThunk } from '@reduxjs/toolkit';
 import BN from 'bn.js';
 import * as nearApiJs from 'near-api-js';
 import { createActions } from 'redux-actions';
@@ -436,10 +437,7 @@ export const { staking } = createActions({
                     }
                 })
             )).filter((v) => !!v);
-        },
-        SET_VALIDATOR_FARM_DATA: (validatorId, farmData) => {
-            return {validatorId, farmData};
-        },
+        }
     }
 });
 
@@ -553,8 +551,7 @@ export const handleUpdateCurrent = (accountId) => async (dispatch, getState) => 
     dispatch(staking.updateCurrent({ currentAccount }));
 };
 
-export const getValidatorFarmData = (validator, accountId) => async (dispatch, getState) => {
-
+export const getValidatorFarmData = createAsyncThunk('staking/getValidatorFarmData', async ({ validator, accountId }, { dispatch }) => {
     if (validator?.version !== FARMING_VALIDATOR_VERSION || !accountId) return;
 
     const poolSummary = await validator.contract.get_pool_summary();
@@ -574,10 +571,14 @@ export const getValidatorFarmData = (validator, accountId) => async (dispatch, g
 
     const farmData = {
         poolSummary: {...poolSummary},
-        farmRewards: farmList,
+        farmRewards: {[accountId]: farmList},
     };
-    await dispatch(staking.setValidatorFarmData(validator.accountId, farmData));
-};
+
+    return {
+        validatorId: validator.accountId,
+        farmData
+    };
+});
 
 export const claimFarmRewards = (validatorId, token_id) => async (dispatch, getState) => {
     try {
