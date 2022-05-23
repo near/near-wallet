@@ -30,7 +30,7 @@ export function ZeroBalanceAccountWrapper() {
             if (isLedgerKey) {
                 handleCheckLedgerStatus();
             } else {
-                handleAddLocalAccessKeyPhrase();
+                handleAddLocalAccessKey('phrase');
             }
         }
     }, [accountExists]);
@@ -42,44 +42,24 @@ export function ZeroBalanceAccountWrapper() {
         }
     };
 
-    const handleAddLocalAccessKeyLedger = async () => {
+    const handleAddLocalAccessKey = async (recoveryMethod) => {
+        const translationId = recoveryMethod === 'ledger' ? 'addLedgerKey' : 'addPhraseKey';
+
         try {
             await dispatch(finishLocalSetupForZeroBalanceAccount({
                 implicitAccountId: accountId,
-                recoveryMethod: 'ledger',
+                recoveryMethod,
             }));
             dispatch(showCustomAlert({
                 success: true,
-                messageCodeHeader: 'zeroBalance.addLedgerKey.success.header',
-                messageCode: 'zeroBalance.addLedgerKey.success.message'
+                messageCodeHeader: `zeroBalance.${translationId}.success.header`,
+                messageCode: `zeroBalance.${translationId}.success.message`
             }));
         } catch (e) {
             dispatch(showCustomAlert({
                 success: false,
-                messageCodeHeader: 'zeroBalance.addLedgerKey.error.header',
-                messageCode: 'zeroBalance.addLedgerKey.error.message',
-            }));
-        }
-
-        dispatch(refreshAccount());
-    };
-
-    const handleAddLocalAccessKeyPhrase = async () => {
-        try {
-            await dispatch(finishLocalSetupForZeroBalanceAccount({
-                implicitAccountId: accountId,
-                recoveryMethod: 'phrase',
-            }));
-            dispatch(showCustomAlert({
-                success: true,
-                messageCodeHeader: 'zeroBalance.addPhraseKey.success.header',
-                messageCode: 'zeroBalance.addPhraseKey.success.message'
-            }));
-        } catch (e) {
-            dispatch(showCustomAlert({
-                success: false,
-                messageCodeHeader: 'zeroBalance.addPhraseKey.error.header',
-                messageCode: 'zeroBalance.addPhraseKey.error.message',
+                messageCodeHeader: `zeroBalance.${translationId}.error.header`,
+                messageCode: `zeroBalance.${translationId}.error.message`,
             }));
         }
 
@@ -97,7 +77,7 @@ export function ZeroBalanceAccountWrapper() {
                         dispatch(handleShowConnectModal());
                     } else {
                         setFinishingLedgerKeySetup(true);
-                        await handleAddLocalAccessKeyLedger();
+                        await handleAddLocalAccessKey('ledger');
                         setShowAddLedgerKeyModal(false);
                         setFinishingLedgerKeySetup(false);
                     }
