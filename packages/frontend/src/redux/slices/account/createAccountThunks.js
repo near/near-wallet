@@ -205,7 +205,7 @@ export const finishLocalSetupForZeroBalanceAccount = createAsyncThunk(
             } else {
                 const account = await wallet.getAccount(implicitAccountId);
                 const accessKeys = await account.getAccessKeys();
-                const fullAccessKeys = accessKeys.filter((it) => it.access_key && it.access_key.permission === 'FullAccess');
+                const fullAccessKeys = accessKeys.filter((it) => it.access_key?.permission === 'FullAccess');
                 if (fullAccessKeys.length === 1) {
                     const newKeyPair = KeyPair.fromRandom('ed25519');
                     const newPublicKey = newKeyPair.publicKey;
