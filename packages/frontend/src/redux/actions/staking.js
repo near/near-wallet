@@ -415,7 +415,7 @@ export const { staking } = createActions({
                     .filter((v) => v.indexOf('nfvalidator') === -1 && v.match(prefix));
             }
 
-            const currentAccount = wallet.getAccountBasic(accountId);
+            const currentAccount = await wallet.getAccount(accountId);
 
             return (await Promise.all(
                 accountIds.map(async (account_id) => {
