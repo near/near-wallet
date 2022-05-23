@@ -480,7 +480,7 @@ export const handleStakingUpdateAccount = (recentlyStakedValidators = [], exAcco
     const validatorDepositMap = await getStakingDeposits(accountId);
 
     if (!selectStakingAllValidatorsLength(getState())) {
-        await dispatch(staking.getValidators(null, exAccountId));
+        await dispatch(staking.getValidators(null, accountId));
     }
 
     const validators = selectStakingAllValidators(getState())
