@@ -64,14 +64,16 @@ const TransactionDetails = ({
                 />
                 )} 
 
-                <Amount
-                    className="green details-info"
-                    translateIdTitle={'swapNear.priceImpact'}
-                    amount={estimatedFeesInNear}
-                    symbol={'%'}
-                    decimals={selectedTokenFrom.onChainFTMetadata?.decimals}
-                    translateIdInfoTooltip="swapNear.translateIdInfoTooltip.priceImpact"
-                />
+                {!isUSNSwap && 
+                    <Amount
+                        className="green details-info"
+                        translateIdTitle={'swapNear.priceImpact'}
+                        amount={estimatedFeesInNear}
+                        symbol={'%'}
+                        decimals={selectedTokenFrom.onChainFTMetadata?.decimals}
+                        translateIdInfoTooltip="swapNear.translateIdInfoTooltip.priceImpact"
+                    />
+                }
 
                 {isUSNSwap ? 
                 (
