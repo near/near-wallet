@@ -129,7 +129,6 @@ function Swap({ history }) {
     const [multiplier, setMultiplier] = useState(0);
     const [amountTokenFrom, setAmountTokenFrom] = useState(0);
     const [amountTokenTo, setAmountTokenTo] = useState(0);
-    const [mockRateData, setMockRateData] = useState(1);
     const [maxFrom, setMaxFrom] = useState({ fullNum: '0', numToShow: '0' });
     const [maxTo, setMaxTo] = useState({ fullNum: '0', numToShow: '0' });
     const [amountError, setAmountError] = useState(false);
@@ -275,7 +274,7 @@ function Swap({ history }) {
         token: activeTokenFrom,
         activeView,
     });
-    const balance = getBalance(activeTokenFrom);
+    // const balance = getBalance(activeTokenFrom);
 
     const { performBuyOrSellUSN, isLoading, setIsLoading } = usePerformBuyOrSellUSN();
 
@@ -293,8 +292,6 @@ function Swap({ history }) {
                         setAmountTokenFrom={setAmountTokenFrom}
                         amountTokenTo={amountTokenTo}
                         setAmountTokenTo={setAmountTokenTo}
-                        mockRateData={mockRateData}
-                        setMockRateData={setMockRateData}
                         activeTokenFrom={activeTokenFrom}
                         setActiveTokenFrom={setActiveTokenFrom}
                         activeTokenTo={activeTokenTo}
@@ -344,14 +341,13 @@ function Swap({ history }) {
                         amountTokenTo={amountTokenTo}
                         activeTokenFrom={activeTokenFrom}
                         activeTokenTo={activeTokenTo}
-                        mockRateData={mockRateData}
                         accountId={accountId}
                         handleSwapToken={handleSwapToken}
                         swappingToken={swappingToken}
                         slippageError={slippageError}
                         slippageValue={slippageValue}
                         setSlippageValue={setSlippageValue}
-                        exchangeRate={+multiplier / 10000}
+                        exchangeRate={formatMultiplier}
                         tradingFee={commissionFee?.result}
                         isCommissionLoading={isLoadingCommission}
                         percent={commissionFee?.percent}

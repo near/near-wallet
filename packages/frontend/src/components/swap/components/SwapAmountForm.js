@@ -69,8 +69,6 @@ export function SwapAmountForm({
     setAmountTokenFrom,
     amountTokenTo,
     setAmountTokenTo,
-    mockRateData,
-    setMockRateData,
     activeTokenFrom,
     setActiveTokenFrom,
     activeTokenTo,
@@ -120,7 +118,6 @@ export function SwapAmountForm({
         setAmountTokenFrom(temp);
         setMaxTo(maxFrom);
         setMaxFrom(tempMax);
-        setMockRateData(1 / mockRateData);
         setReversePositionsJustClicked(true);
     };
 
