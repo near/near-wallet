@@ -1680,8 +1680,11 @@
         "addAccessKeyZeroBalanceAccountSetup": {
             "error": "Something went wrong while finishing import of your now active account. Please re-import your account in the wallet."
         },
+        "initiateZeroBalanceAccount": {
+            "error": "Something went wrong while initiating your account. Please try again."
+        },
         "addAccessKeySeedPhrase": {
-            "errorSecond": "An error has occurred.<br />The passphrases was not added to your account. Please try again."
+            "errorSecond": "An error has occurred.<br />The passphrase was not added to your account. Please try again."
         },
         "addLedgerAccountId": {
             "errorRpc": "Error appears while recovering the account."

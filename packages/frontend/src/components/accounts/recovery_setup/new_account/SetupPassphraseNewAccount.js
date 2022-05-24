@@ -14,6 +14,7 @@ export default ({ handleConfirmPassphrase }) => {
     const [implicitAccountId, setImplicitAccountId] = useState('');
 
     const [confirmPassphrase, setConfirmPassphrase] = useState(false);
+    const [finishingSetup, setFinishingSetup] = useState(false);
     const [wordIndex, setWordIndex] = useState(null);
     const [userInputValue, setUserInputValue] = useState('');
     const [userInputValueWrongWord, setUserInputValueWrongWord] = useState(false);
@@ -39,6 +40,7 @@ export default ({ handleConfirmPassphrase }) => {
                 wordIndex={wordIndex}
                 userInputValue={userInputValue}
                 userInputValueWrongWord={userInputValueWrongWord}
+                finishingSetup={finishingSetup}
                 handleChangeWord={(userInputValue) => {
                     if (userInputValue.match(/[^a-zA-Z]/)) {
                         return false;
@@ -52,13 +54,18 @@ export default ({ handleConfirmPassphrase }) => {
                     setUserInputValue('');
                 }}
                 handleConfirmPassphrase={async () => {
-                    Mixpanel.track('SR-SP Verify start');
-                    if (userInputValue !== passPhrase.split(' ')[wordIndex]) {
-                        setUserInputValueWrongWord(true);
-                        return;
+                    try {
+                        setFinishingSetup(true);
+                        Mixpanel.track('SR-SP Verify start');
+                        if (userInputValue !== passPhrase.split(' ')[wordIndex]) {
+                            setUserInputValueWrongWord(true);
+                            return;
+                        }
+                        await handleConfirmPassphrase({ implicitAccountId, recoveryKeyPair });
+                        Mixpanel.track('SR-SP Verify finish');
+                    } finally {
+                        setFinishingSetup(false);
                     }
-                    handleConfirmPassphrase({ implicitAccountId, recoveryKeyPair });
-                    Mixpanel.track('SR-SP Verify finish');
                 }}
             />
         );
