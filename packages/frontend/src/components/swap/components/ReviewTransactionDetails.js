@@ -142,13 +142,27 @@ const ReviewTransactionDetails = ({
     amountTokenTo,
     tokenFrom,
     tokenTo,
-    rate,
+    slippageError,
+    slippageValue,
+    setSlippageValue,
+    exchangeRate,
+    tradingFee,
+    isCommissionLoading,
+    percent
 }) => {
     let estimatedMinReceived = '';
     try {
         estimatedMinReceived = parseNearAmount(amountTokenTo.toString());
     } catch {
         console.log('error parseNearAmount');
+    }
+
+    const ratio = () => {
+        const ratio = amountTokenFrom/amountTokenTo;
+        const isAFraction = !!(ratio % 1);
+        return isAFraction
+            ? (ratio).toFixed(5)
+            : removeTrailingZeros((ratio).toString());
     }
 
     return (
@@ -196,7 +210,7 @@ const ReviewTransactionDetails = ({
             </div>
             <div className="bg height60 first index">
                 <Translate id="swapNear.price" />
-                <div>{`${1 / rate} ${tokenFrom.onChainFTMetadata?.symbol} per ${
+                <div>{`${ratio()} ${tokenFrom.onChainFTMetadata?.symbol} per ${
                     tokenTo.onChainFTMetadata?.symbol
                 }`}</div>
             </div>
@@ -210,6 +224,10 @@ const ReviewTransactionDetails = ({
                 }`}
                 estimatedMinReceived={estimatedMinReceived}
                 amount={amountTokenFrom}
+                exchangeRate={exchangeRate}
+                tradingFee={tradingFee}
+                isCommissionLoading={isCommissionLoading}
+                percent={percent}
             />
         </ReviewForm>
     );

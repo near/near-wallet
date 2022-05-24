@@ -67,7 +67,6 @@ export function SwapReviewForm({
     amountTokenTo,
     activeTokenFrom,
     activeTokenTo,
-    mockRateData,
     accountId,
     handleSwapToken,
     swappingToken,
@@ -112,7 +111,13 @@ export function SwapReviewForm({
                 amountTokenTo={amountTokenTo}
                 tokenFrom={activeTokenFrom}
                 tokenTo={activeTokenTo}
-                rate={mockRateData}
+                exchangeRate={exchangeRate}
+                slippageError={slippageError}
+                slippageValue={slippageValue}
+                setSlippageValue={setSlippageValue}
+                tradingFee={tradingFee}
+                isCommissionLoading={isCommissionLoading}
+                percent={percent}
             />
             <FormButton
                 color="blue width100"
