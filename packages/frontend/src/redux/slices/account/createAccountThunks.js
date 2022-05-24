@@ -242,8 +242,8 @@ export const initiateSetupForZeroBalanceAccountPhrase = createAsyncThunk(
                     publicKey: recoveryKeyPair.publicKey.toString()
                 });
             } catch (e) {
-                if (e.status === 400) {
-                    console.log(`Public key ${recoveryKeyPair.publicKey.toString()} has previously been added as recovery method to account. Continueing setup...`);
+                if (e.message.includes('ConditionalCheckFailedException')) {
+                    console.log(`Public key ${recoveryKeyPair.publicKey.toString()} has previously been added as recovery method to account. Continuing setup...`);
                 } else {
                     throw new WalletError(e, 'initiateSetupForZeroBalanceAccountPhrase.error');
                 }
@@ -275,14 +275,14 @@ export const initiateSetupForZeroBalanceAccountLedger = createAsyncThunk(
                     publicKey: ledgerPublicKey.toString()
                 });
             } catch (e) {
-                if (e.status === 400) {
-                    console.log(`Ledger public key ${ledgerPublicKey.toString()} has previously been added as recovery method to account. Continueing setup...`);
+                if (e.message.includes('ConditionalCheckFailedException')) {
+                    console.log(`Ledger public key ${ledgerPublicKey.toString()} has previously been added as recovery method to account. Continuing setup...`);
                 } else {
                     throw new WalletError(e, 'initiateSetupForZeroBalanceAccountLedger.error');
                 }
             }
             await setKeyMeta(ledgerPublicKey, { type: 'ledger' });
-            await setLedgerHdPath({ accountId: implicitAccountId, path: ledgerHdPath });
+            setLedgerHdPath({ accountId: implicitAccountId, path: ledgerHdPath });
             await wallet.importZeroBalanceAccount(implicitAccountId);
         } catch (e) {
             dispatch(showCustomAlert({
