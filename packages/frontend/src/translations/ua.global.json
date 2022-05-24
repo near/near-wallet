@@ -1462,7 +1462,7 @@
     "swapNear": {
         "confirm": "Confirm & Swap",
         "details": "Transaction details",
-        "fee": "Liquidity Provider Fee",
+        "fee": "Estimated Fees",
         "from": "From",
         "max": "Max: ${amount} ${symbol}",
         "minReceived": "Minimum received",

@@ -1516,7 +1516,7 @@
     "swapNear": {
         "confirm": "確認並兌換",
         "details": "交易細節",
-        "fee": "流動性提供方費用",
+        "fee": "估計費用",
         "from": "來自",
         "max": "最多：${amount} ${symbol}",
         "minReceived": "收到的最低數額",
