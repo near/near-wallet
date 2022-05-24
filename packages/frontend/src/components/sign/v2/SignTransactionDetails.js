@@ -129,7 +129,7 @@ export default ({
                             <Translate id='sign.details.forContract' />
                             <a href={`${EXPLORER_URL}/accounts/${transaction.receiverId}`} rel='noopener noreferrer' target='_blank'>{transaction.receiverId} <ArrowUpRight /></a>
                         </div>
-                        {transaction.actions.sort((a, b) => Object.keys(b)[0] === 'functionCall' ? 1 : -1).map((action, i) => {
+                        {transaction.actions.sort((a) => Object.keys(a)[0] === 'functionCall' ? -1 : 1).map((action, i) => {
                             const methodName = action.functionCall?.methodName || '';
                             const uniqueMethodId = `${methodName}-${transaction.receiverId}`;
                             return (
