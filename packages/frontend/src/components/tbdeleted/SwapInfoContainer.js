@@ -68,7 +68,7 @@ function SwapInfoContainer({
                     amount,
                     symbol,
                     tradingFee,
-                    value: `${percent}% / ${tradingFee?.toFixed(5)}`,
+                    value: `${percent}% / ${tradingFee?.toFixed(5)}`, // todo: get clarification
                 })}
             />
             <SwapInfoItem
@@ -78,7 +78,7 @@ function SwapInfoContainer({
                     amount,
                     symbol,
                     tradingFee,
-                    value: MinimumReceived({ token: symbol, balance: amount, exchangeRate }) - tradingFee,
+                    value: MinimumReceived({ token: symbol, balance: amount, exchangeRate }) - tradingFee, // todo: get clarification
                 })}
             />
         </StyledContainer>
