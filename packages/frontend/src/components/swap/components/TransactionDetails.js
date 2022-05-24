@@ -42,7 +42,19 @@ const TransactionDetails = ({
                 trigger="transaction-details-breakdown"
                 className="breakdown"
             >
-                <Amount
+                {isUSNSwap ? 
+                (
+                    <Amount
+                        className="details-info"
+                        translateIdTitle={'swapNear.minReceived'}
+                        amount={minimumReceived.toString()}
+                        symbol={selectedTokenTo.onChainFTMetadata?.symbol}
+                        decimals={0}
+                        translateIdInfoTooltip="swapNear.translateIdInfoTooltip.minimumReceived"
+                    />
+                ) : 
+                (
+                    <Amount
                     className="details-info"
                     translateIdTitle={'swapNear.minReceived'}
                     amount={estimatedMinReceived}
@@ -50,6 +62,7 @@ const TransactionDetails = ({
                     decimals={selectedTokenTo.onChainFTMetadata?.decimals}
                     translateIdInfoTooltip="swapNear.translateIdInfoTooltip.minimumReceived"
                 />
+                )} 
 
                 <Amount
                     className="green details-info"
@@ -78,16 +91,6 @@ const TransactionDetails = ({
                         amount={estimatedFeesInNear}
                         symbol="NEAR"
                         translateIdInfoTooltip="swapNear.translateIdInfoTooltip.liquidityProviderFee"
-                    />
-                )} 
-                {isUSNSwap && (
-                    <Amount
-                        className="details-info"
-                        translateIdTitle={'swapNear.minReceived'}
-                        amount={minimumReceived.toString()}
-                        symbol={selectedTokenTo.onChainFTMetadata?.symbol}
-                        decimals={0}
-                        translateIdInfoTooltip="swapNear.translateIdInfoTooltip.minimumReceived"
                     />
                 )} 
             </Accordion>
