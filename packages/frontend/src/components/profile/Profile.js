@@ -203,8 +203,8 @@ export function Profile({ match }) {
 
     useEffect(() => {
         wallet.getLocalKeyPair(accountId).then(async (keyPair) => {
-            const isFullAccessKey = await wallet.isFullAccessKey(accountId, keyPair);
-            setSecretKey(isFullAccessKey ? keyPair : null);
+            const isFullAccessKey = keyPair && await wallet.isFullAccessKey(accountId, keyPair);
+            setSecretKey(isFullAccessKey ? keyPair.toString() : null);
         });
     },[userRecoveryMethods]);
 
