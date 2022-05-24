@@ -6,10 +6,18 @@ import { KeyType } from 'near-api-js/lib/utils/key_pair';
 import * as Config from '../../../config';
 import { actions as ledgerActions } from '../../../redux/slices/ledger';
 import sendJson from '../../../tmp_fetch_send_json';
-import { setReleaseNotesClosed, getLedgerHDPath } from '../../../utils/localStorage';
-import { CONTRACT_CREATE_ACCOUNT_URL, FUNDED_ACCOUNT_CREATE_URL, IDENTITY_FUNDED_ACCOUNT_CREATE_URL, RELEASE_NOTES_MODAL_VERSION, wallet } from '../../../utils/wallet';
+import { setReleaseNotesClosed, getLedgerHDPath, setLedgerHdPath } from '../../../utils/localStorage';
+import {
+    CONTRACT_CREATE_ACCOUNT_URL,
+    FUNDED_ACCOUNT_CREATE_URL,
+    IDENTITY_FUNDED_ACCOUNT_CREATE_URL,
+    RELEASE_NOTES_MODAL_VERSION,
+    wallet,
+    setKeyMeta
+} from '../../../utils/wallet';
 import { WalletError } from '../../../utils/walletError';
 import { finishAccountSetup } from '../../actions/account';
+import { showCustomAlert } from '../../actions/status';
 import { SLICE_NAME } from './';
 
 const {
@@ -19,7 +27,8 @@ const {
 const {
     RECAPTCHA_ENTERPRISE_SITE_KEY,
     NETWORK_ID,
-    RECAPTCHA_CHALLENGE_API_KEY
+    RECAPTCHA_CHALLENGE_API_KEY,
+    ACCOUNT_HELPER_URL
 } = Config;
 
 export const addLocalKeyAndFinishSetup = createAsyncThunk(
@@ -215,6 +224,73 @@ export const finishLocalSetupForZeroBalanceAccount = createAsyncThunk(
             }
         } catch (e) {
             throw new WalletError(e, 'addAccessKeyZeroBalanceAccountSetup.error');
+        }
+
+    }
+);
+
+export const initiateSetupForZeroBalanceAccountPhrase = createAsyncThunk(
+    `${SLICE_NAME}/initiateSetupForZeroBalanceAccountPhrase`,
+    async ({
+        implicitAccountId,
+        recoveryKeyPair
+    }, { dispatch }) => {
+        try {
+            try {
+                await sendJson('POST', `${ACCOUNT_HELPER_URL}/account/seedPhraseAdded`, {
+                    accountId: implicitAccountId,
+                    publicKey: recoveryKeyPair.publicKey.toString()
+                });
+            } catch (e) {
+                if (e.status === 400) {
+                    console.log(`Public key ${recoveryKeyPair.publicKey.toString()} has previously been added as recovery method to account. Continueing setup...`);
+                } else {
+                    throw new WalletError(e, 'initiateSetupForZeroBalanceAccountPhrase.error');
+                }
+            }
+            await wallet.importZeroBalanceAccount(implicitAccountId, recoveryKeyPair);
+        } catch (e) {
+            dispatch(showCustomAlert({
+                success: false,
+                messageCodeHeader: 'error',
+                messageCode: 'walletErrorCodes.initiateZeroBalanceAccount',
+                errorMessage: e.message
+            }));
+        }
+
+    }
+);
+
+export const initiateSetupForZeroBalanceAccountLedger = createAsyncThunk(
+    `${SLICE_NAME}/initiateSetupForZeroBalanceAccountLedger`,
+    async ({
+        implicitAccountId,
+        ledgerPublicKey,
+        ledgerHdPath
+    }, { dispatch }) => {
+        try {
+            try {
+                await sendJson('POST', `${ACCOUNT_HELPER_URL}/account/ledgerKeyAdded`, {
+                    accountId: implicitAccountId,
+                    publicKey: ledgerPublicKey.toString()
+                });
+            } catch (e) {
+                if (e.status === 400) {
+                    console.log(`Ledger public key ${ledgerPublicKey.toString()} has previously been added as recovery method to account. Continueing setup...`);
+                } else {
+                    throw new WalletError(e, 'initiateSetupForZeroBalanceAccountLedger.error');
+                }
+            }
+            await setKeyMeta(ledgerPublicKey, { type: 'ledger' });
+            await setLedgerHdPath({ accountId: implicitAccountId, path: ledgerHdPath });
+            await wallet.importZeroBalanceAccount(implicitAccountId);
+        } catch (e) {
+            dispatch(showCustomAlert({
+                success: false,
+                messageCodeHeader: 'error',
+                messageCode: 'walletErrorCodes.initiateZeroBalanceAccount',
+                errorMessage: e.message
+            }));
         }
 
     }
