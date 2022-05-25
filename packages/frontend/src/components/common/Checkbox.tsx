@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-type CheckboxProps = {className:string; checked: boolean; }
+type CheckboxProps = {className?:string; checked: boolean; onChange?: (e:React.ChangeEvent<HTMLInputElement>)=> void  }
 
 const CheckboxContainer = styled.div`
     display: inline-block;

@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import FormButton from '../../common/FormButton';
 import Modal from '../../common/modal/Modal';
 import AlertRoundedIcon from '../../svg/AlertRoundedIcon.js';
-import NearCircleIcon from '../../svg/NearCircleIcon.js';
+import NearCircleIcon from '../../svg/NearCircleIcon';
 
 const Container = styled.div`
     &&&& {

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
-
+//@ts-ignore
 import { ACCOUNT_ID_SUFFIX } from '../../config';
 import SafeTranslate from '../SafeTranslate';
 
@@ -34,6 +34,7 @@ const AccountNote = () => (
         <ul>
             <li><Translate id='createAccount.note.characters'/></li>
             <li><Translate id='createAccount.note.minCharacters'/></li>
+            {/*//@ts-ignore */}
             <li><SafeTranslate id='createAccount.note.maxCharacters' data={{ accountSuffix: ACCOUNT_ID_SUFFIX }}/></li>
         </ul>
     </Container>

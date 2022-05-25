@@ -4,11 +4,11 @@ import { ReactNode } from 'react';
 import styled from 'styled-components';
 
 type ButtonProps = {
-    className: string;
+    className?: string;
     onClick: ()=> void;
-    title: string;
-    type: "button" | "submit" | "reset";
-    children: ReactNode;
+    title?: string;
+    type?: "button" | "submit" | "reset";
+    children?: ReactNode;
     disabled?: boolean;
     theme?: 'primary' | 'secondary';
     fullWidth?: boolean;

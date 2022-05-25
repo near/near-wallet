@@ -1,0 +1,18 @@
+import React from 'react';
+
+type HardwareWalletIconProps = {
+    color: boolean;
+}
+
+const HardwareWalletIcon = ({ color }:HardwareWalletIconProps) => {
+
+    return (
+        <svg width="82" height="94" viewBox="0 0 82 94" fill="none" xmlns="http://www.w3.org/2000/svg" className='hardware-wallet-icon'>
+            <path d="M40.5958 11.8997C45.7737 8.27083 77.9961 -7.18591 76.9478 11.3951C74.8131 49.2324 -27.0089 18.7732 14.7356 92.7263" stroke={color ? '#8FCDFF' : '#D5D4D8'} strokeWidth="2"/>
+            <path fillRule="evenodd" clipRule="evenodd" d="M37.9208 7.17133L43.7325 16.44L18.5746 32.2147C16.0151 33.8196 12.6392 33.0457 11.0344 30.4862C9.42952 27.9267 10.2034 24.5509 12.7629 22.946L37.9208 7.17133ZM14.0082 24.9322C15.4708 24.0151 17.3998 24.4573 18.3169 25.9199C19.234 27.3825 18.7917 29.3115 17.3292 30.2286C15.8666 31.1457 13.9376 30.7034 13.0205 29.2409C12.1034 27.7783 12.5456 25.8493 14.0082 24.9322Z" fill={color ? '#8FCDFF' : '#D5D4D8'}/>
+            <path fillRule="evenodd" clipRule="evenodd" d="M36.0779 49.8326L26.8092 55.6443L11.0345 30.4864C9.42964 27.9269 10.2035 24.551 12.763 22.9462C15.3225 21.3413 18.6983 22.1152 20.3032 24.6746L36.0779 49.8326ZM14.0083 24.9323C15.4709 24.0152 17.4 24.4574 18.317 25.92C19.2341 27.3826 18.7919 29.3116 17.3293 30.2287C15.8668 31.1458 13.9377 30.7035 13.0206 29.241C12.1036 27.7784 12.5458 25.8493 14.0083 24.9323Z" fill={color ? '#D6EDFF' : '#E5E5E6'}/>
+        </svg>
+    );
+};
+
+export default HardwareWalletIcon;

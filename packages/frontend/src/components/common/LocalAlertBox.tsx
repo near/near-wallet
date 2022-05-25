@@ -66,12 +66,12 @@ const LocalAlertBoxContainer = styled.div`
 
 type LocalAlertBoxProps = { 
     localAlert: {
-        show:string;
-        messageCode:string;
-        success:string; 
+        show?:string;
+        messageCode?:string;
+        success?:string; 
     }
-    accountId: string;
-    dots: string; 
+    accountId?: string;
+    dots?: boolean; 
 }
 
 const LocalAlertBox = ({ localAlert, accountId, dots }:LocalAlertBoxProps) => (

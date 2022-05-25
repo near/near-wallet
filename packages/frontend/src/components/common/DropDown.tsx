@@ -94,10 +94,10 @@ const Container = styled.div`
 
 type DropDownProps = {
     name: string;
-    title: string;
-    icon?:string;
+    title: React.ReactNode;
+    icon?:React.ReactNode;
     content: ReactNode | ReactNode[];
-    disabled: boolean;
+    disabled?: boolean;
     maxHeight?:boolean;
 }
 

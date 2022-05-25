@@ -29,7 +29,6 @@ const Amount = ({
         <StyledContainer className={className} data-test-id={testId}>
             <Translate id={translateIdTitle} />
             {translateIdInfoTooltip && 
-                //@ts-ignore
                 <Tooltip translate={translateIdInfoTooltip}/>
             }
             <div className='amount'>

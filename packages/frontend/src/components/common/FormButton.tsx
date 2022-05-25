@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 import { ReactNode } from 'react';
 import { Translate } from 'react-localize-redux';
@@ -10,29 +9,35 @@ import ArrowGrnImage from '../../images/icon-arrow-grn.svg';
 import ArrowWhiteImage from '../../images/icon-arrow-white.svg';
 import { Mixpanel } from '../../mixpanel/index';
 import classNames from '../../utils/classNames';
+import { History, LocationState } from "history";
+import { RouteComponentProps } from 'react-router-dom';
 
-type FormButtonProps = { 
-    children: ReactNode | ReactNode[];
-    type: "button" | "submit" | "reset";
+type FormButtonProps = RouteComponentProps & { 
+    children?: React.ReactNode;
+    type?: "button" | "submit" | "reset";
     color?:string; 
     disabled?:boolean;
-    onClick:(e:React.MouseEvent<HTMLButtonElement, MouseEvent>)=>void;
+    onClick?:(e:React.MouseEvent<HTMLButtonElement, MouseEvent>)=>void;
     sending?: boolean,
     sendingString?: string;
-    size:string;
-    linkTo:string;
-    history;
-    className:string;
-    id: string
-    trackingId: string;
-    swapButton?: string;
+    size?:string;
+    linkTo?:string;
+    history?:History<LocationState>;
+    className?:string;
+    id?: string
+    trackingId?: string;
+    swapButton?: boolean;
     'data-test-id'?:string;
+}
+
+type CustomButtonProps = {
+    swapButton: boolean;
 }
 
 const CustomButton = styled.button`
     &&& {
         color: #fff;
-        margin: ${({ swapButton }:FormButtonProps) => (swapButton ? 0 : '24px 0 0 0')};
+        margin: ${({ swapButton }:CustomButtonProps) => (swapButton ? 0 : '24px 0 0 0')};
         border: 2px solid;
         font-weight: 600;
         height: 56px;
@@ -130,7 +135,7 @@ const CustomButton = styled.button`
 
             &.rounded {
                 border-radius: 50px;
-                padding: ${({ swapButton }:FormButtonProps) => (swapButton ? '6px 12px' : '12px 15px')};
+                padding: ${({ swapButton }:CustomButtonProps) => (swapButton ? '6px 12px' : '12px 15px')};
                 width: auto;
             }
 
@@ -526,8 +531,7 @@ const FormButton = ({
     trackingId,
     swapButton,
     'data-test-id': testId
-}) => (
-    //@ts-ignore
+}:FormButtonProps) => (
     <CustomButton
         swapButton={swapButton}
         type={type}
@@ -550,5 +554,6 @@ const FormButton = ({
     </CustomButton>
 );
 
+const FormButtonComponent: any = withRouter(FormButton)
 
-export default withRouter(FormButton);
+export default  FormButtonComponent;

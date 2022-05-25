@@ -100,12 +100,12 @@ const Container = styled.div`
 `;
 
 type AlertBannerProps = { 
-    title:string; 
-    button:string; 
-    linkTo:string; 
-    data, 
+    title?:string; 
+    button?:string; 
+    linkTo?:string; 
+    data?:string;
     theme:string; 
-    children: ReactNode;
+    children?: ReactNode | ReactNode[];
  }
 
 export default function AlertBanner({ title, button, linkTo, data, theme, children }:AlertBannerProps) {
@@ -122,6 +122,7 @@ export default function AlertBanner({ title, button, linkTo, data, theme, childr
                         {linkTo.includes('http') ? (
                             <a target='_blank' rel='noreferrer' className='link' href={linkTo}><Translate id={button} /></a>
                         ) : (
+                            //@ts-ignore
                             <FormButton className='link' linkTo={linkTo}><Translate id={button} /></FormButton>
                         )}
                     </>

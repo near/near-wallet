@@ -10,13 +10,13 @@ import StyledModal from './Style.css';
 const modalRoot = document.getElementById('modal-root');
 
 type ModalProps = {
-    isOpen: boolean;
+    isOpen?: string | boolean;
     onClose: ()=>void;
     id?: string;
-    modalSize: string;
+    modalSize?: string;
     modalClass?: string;
     children: ReactNode | ReactNode[];
-    closeButton: string;
+    closeButton?: string;
     disableClose?: boolean;
     mobileActionSheet?: boolean;
     'data-test-id'?: string; 

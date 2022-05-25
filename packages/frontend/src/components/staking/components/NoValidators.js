@@ -3,7 +3,7 @@ import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
 import FormButton from '../../common/FormButton';
-import NearCircleIcon from '../../svg/NearCircleIcon.js';
+import NearCircleIcon from '../../svg/NearCircleIcon';
 
 const Container = styled.div`
     background-color: #F8F8F8;
