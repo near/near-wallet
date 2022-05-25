@@ -103,9 +103,10 @@ const MigrationBanner = ({ account }) => {
 
     const getInviteCalendarEventURl =()=>{
         const calenderURL = new URL('https://calendar.google.com/calendar/u/0/r/eventedit');
-        const calendarDate= migrationStartDate.toISOString().replace(/-|:|\.\d\d\d/g,'');
+        const calendarStartDate= migrationStartDate.toISOString().replace(/-|:|\.\d\d\d/g,'');
+        const calendarEndDate= migrationEndDate.toISOString().replace(/-|:|\.\d\d\d/g,'');
 
-        calenderURL.searchParams.append('dates', `${calendarDate}/${calendarDate}`);
+        calenderURL.searchParams.append('dates', `${calendarStartDate}/${calendarEndDate}`);
         calenderURL.searchParams.append('text', 'Wallet Migration Event');
         calenderURL.searchParams.append('details', 'This is the official start date of the near wallet migration. Please make sure to start migrating your account as soon as possible.');
         return calenderURL;
