@@ -1516,7 +1516,7 @@
     "swapNear": {
         "confirm": "确认并兑换",
         "details": "交易细节",
-        "fee": "流动性提供方费用",
+        "fee": "估计费用",
         "from": "来自",
         "max": "最多：${amount} ${symbol}",
         "minReceived": "收到的最低数额",
