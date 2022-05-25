@@ -264,9 +264,7 @@ function Swap({ history }) {
 
     // USN based logic
     const [slippageValue, setSlippageValue] = useState(1);
-    const slippageError = slippageValue < 1 || slippageValue > 50;
-
-    const { commissionFee, isLoadingCommission } = commission({
+    const commissionFee = commission({
         accountId,
         amount: amountTokenFrom,
         delay: 500,
@@ -344,13 +342,9 @@ function Swap({ history }) {
                         accountId={accountId}
                         handleSwapToken={handleSwapToken}
                         swappingToken={swappingToken}
-                        slippageError={slippageError}
-                        slippageValue={slippageValue}
                         setSlippageValue={setSlippageValue}
                         exchangeRate={formatMultiplier}
                         tradingFee={commissionFee?.result}
-                        isCommissionLoading={isLoadingCommission}
-                        percent={commissionFee?.percent}
                     />
                 );
 

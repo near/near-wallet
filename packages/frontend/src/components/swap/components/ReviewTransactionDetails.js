@@ -142,13 +142,9 @@ const ReviewTransactionDetails = ({
     amountTokenTo,
     tokenFrom,
     tokenTo,
-    slippageError,
-    slippageValue,
     setSlippageValue,
     exchangeRate,
-    tradingFee,
-    isCommissionLoading,
-    percent
+    tradingFee
 }) => {
     let estimatedMinReceived = '';
     try {
@@ -163,7 +159,7 @@ const ReviewTransactionDetails = ({
         return isAFraction
             ? (ratio).toFixed(5)
             : removeTrailingZeros((ratio).toString());
-    }
+    };
 
     return (
         <ReviewForm>
@@ -226,8 +222,7 @@ const ReviewTransactionDetails = ({
                 amount={amountTokenFrom}
                 exchangeRate={exchangeRate}
                 tradingFee={tradingFee}
-                isCommissionLoading={isCommissionLoading}
-                percent={percent}
+                setSlippageValue={setSlippageValue}
             />
         </ReviewForm>
     );

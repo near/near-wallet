@@ -70,13 +70,9 @@ export function SwapReviewForm({
     accountId,
     handleSwapToken,
     swappingToken,
-    slippageError,
-    slippageValue,
     setSlippageValue,
     exchangeRate,
-    tradingFee,
-    isCommissionLoading,
-    percent
+    tradingFee
 }) {
     return (
         <StyledContainer>
@@ -112,12 +108,8 @@ export function SwapReviewForm({
                 tokenFrom={activeTokenFrom}
                 tokenTo={activeTokenTo}
                 exchangeRate={exchangeRate}
-                slippageError={slippageError}
-                slippageValue={slippageValue}
                 setSlippageValue={setSlippageValue}
                 tradingFee={tradingFee}
-                isCommissionLoading={isCommissionLoading}
-                percent={percent}
             />
             <FormButton
                 color="blue width100"

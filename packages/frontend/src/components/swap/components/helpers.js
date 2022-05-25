@@ -157,13 +157,11 @@ async function fetchCommission({ accountId, amount, exchangeRate, token }) {
 
 export const commission = ({ accountId, amount, delay, exchangeRate, token }) => {
     const [commissionFee, setCommissionFee] = useState('');
-    const [isLoadingCommission, setIsLoadingCommission] = useState(false);
     const debounceValue = useDebounce(amount, delay);
 
     useEffect(() => {
         const getCommission = async () => {
             if (debounceValue) {
-                setIsLoadingCommission(true);
                 const commission = await fetchCommission({
                     accountId,
                     amount: debounceValue,
@@ -171,14 +169,13 @@ export const commission = ({ accountId, amount, delay, exchangeRate, token }) =>
                     token,
                 });
                 setCommissionFee(commission);
-                setIsLoadingCommission(false);
             }
         };
 
         getCommission();
     }, [debounceValue, exchangeRate]);
 
-    return { commissionFee, isLoadingCommission };
+    return commissionFee;
 };
 
 export const exchangeRateTranslation = ({ inputtedAmountOfToken, calculateAmountOfToken, balance, exchangeRate }) => {
