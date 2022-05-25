@@ -2,7 +2,10 @@ import React, { useEffect } from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
-// import { MIGRATION_START_DATE, MIGRATION_END_DATE } from '../../config';
+import { MIGRATION_START_DATE, MIGRATION_END_DATE } from '../../config';
+import IconAlertTriangle from '../../images/IconAlertTriangle';
+import IconBell from '../../images/IconBell';
+import IconShare from '../../images/IconShare';
 import FormButton from './FormButton';
 import Container from './styled/Container.css';
 
@@ -18,45 +21,13 @@ const StyledContainer = styled.div`
     align-items: center;
     justify-content: center;
 
-    .tooltip {
-        margin: 0 0 0 8px;
-        svg {
-            width: 18px;
-            height: 18px;
-
-            path {
-                stroke: white;
-            }
-        }
-    }
-
-    .network-link {
-        margin-left: 6px;
-    }
-
     a {
-        color: white;
+        color: #995200;
+        text-decoration: underline;
+        cursor: pointer;
+
         :hover {
-            color: white;
-            text-decoration: underline;
-        }
-    }
-
-    &.staging-banner {
-        background-color: #F6C98E;
-        color: #452500;
-
-        .tooltip {
-            svg {
-                path {
-                    stroke: #452500;
-                }
-            }
-        }
-
-        .alert-triangle-icon {
-            margin-right: 8px;
-            min-width: 16px;
+            color: #995200;
         }
     }
 `;
@@ -66,6 +37,31 @@ const ContentWrapper =  styled(Container)`
     align-items: center;
     justify-content: space-between;
     margin-top: 0;
+
+    &>*:first-child{
+        margin-right: 10px;
+    }
+
+    @media (max-width: 992px) {
+        padding: 16px;
+    }
+
+    @media (max-width: 768px) {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 16px;
+    }
+
+    & .content {
+        display: flex;
+        align-items: flex-start;
+        flex-wrap: none;
+
+        svg{
+            margin-right: 18px;
+            min-width: 24px;
+        }
+    }
 `;
 
 const CustomButton = styled(FormButton)`
@@ -76,9 +72,15 @@ const CustomButton = styled(FormButton)`
     padding: 11px 16px;
     margin: 0 !important;
     height: 40px;
+
+    @media (max-width: 768px) {
+        margin-top: 16px !important;
+    }
 `;
 
 const MigrationBanner = ({ account }) => {
+    const migrationStartDate = new Date(MIGRATION_START_DATE *1000);
+    const migrationEndDate = new Date(MIGRATION_END_DATE *1000);
     const setBannerHeight = () => {
         const migrationBanner = document.getElementById('migration-banner');
         const bannerHeight = migrationBanner ? migrationBanner.offsetHeight : 0;
@@ -93,11 +95,14 @@ const MigrationBanner = ({ account }) => {
         }
     };
 
+
     const getInviteCalendarEventURl =()=>{
         const calenderURL = new URL('https://calendar.google.com/calendar/u/0/r/eventedit');
-        calenderURL.searchParams.append('dates', '20160917T001500Z');
-        calenderURL.searchParams.append('text', 'Migration Event');
-        calenderURL.searchParams.append('details', 'Some stuff goes here.');
+        const calendarDate= migrationStartDate.toISOString().replace(/-|:|\.\d\d\d/g,'');
+
+        calenderURL.searchParams.append('dates', `${calendarDate}/${calendarDate}`);
+        calenderURL.searchParams.append('text', 'Wallet Migration Event');
+        calenderURL.searchParams.append('details', 'This is the official start date of the near wallet migration. Please make sure to start migrating your account as soon as possible.');
         return calenderURL;
     };
 
@@ -115,23 +120,36 @@ const MigrationBanner = ({ account }) => {
         };
     }, [account]);
 
-    
-
-
     const preMigrationMarkup = (
             <ContentWrapper>
-                <Translate id='preMigration.message' />
+               <div className='content'>
+                    <IconAlertTriangle/>
+                    <Translate id='preMigration.message' data={{ startDate: migrationStartDate.toLocaleDateString() }} />
+               </div>
                 <CustomButton onClick={handleAddToCalendar}>
-                    Set a Reminder
+                <IconBell/> Set a Reminder
                 </CustomButton>
             </ContentWrapper>
+    );
+
+    const postMigrationMarkup = (
+        <ContentWrapper>
+            <div className='content'>
+                <IconAlertTriangle/>
+                <Translate id='postMigration.message' data={{ endDate: migrationEndDate.toLocaleDateString() }} />
+            </div>
+            <CustomButton onClick={()=>{}}>
+               <IconShare/>  Transfer My Accounts
+            </CustomButton>
+        </ContentWrapper>
     );
 
 
 
     return (
         <StyledContainer id='migration-banner'>
-           {preMigrationMarkup}
+           {/* {preMigrationMarkup} */}
+           {postMigrationMarkup}
         </StyledContainer>
     );
 };
