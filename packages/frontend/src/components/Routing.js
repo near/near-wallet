@@ -10,6 +10,7 @@ import { connect } from 'react-redux';
 import { Redirect, Switch } from 'react-router-dom';
 import styled, { ThemeProvider } from 'styled-components';
 
+import { SHOW_MIGRATION_BANNER } from '../../../../features';
 import favicon from '../../src/images/mynearwallet-cropped.svg';
 import TwoFactorVerifyModal from '../components/accounts/two_factor/TwoFactorVerifyModal';
 import {
@@ -340,7 +341,8 @@ class Routing extends Component {
                 >
                     <ThemeProvider theme={theme}>
                         <ScrollToTop />
-                        <MigrationBanner  account={account}/>
+                        {SHOW_MIGRATION_BANNER && <MigrationBanner  account={account}/>}
+                        
                         <NetworkBanner account={account} />
                         <NavigationWrapper />
                         <GlobalAlert />

@@ -78,7 +78,6 @@ const NetworkBanner = ({ account }) => {
     const setBannerHeight = () => {
         const banner =  document.getElementById('top-banner');
         const bannerHeight = banner ? banner.getBoundingClientRect().top + banner.offsetHeight : 0;
-        console.log(bannerHeight);
         const app = document.getElementById('app-container');
         const navContainer = document.getElementById('nav-container');
         navContainer.style.top = bannerHeight ? `${bannerHeight}px` : 0;

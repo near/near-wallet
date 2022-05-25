@@ -1,3 +1,4 @@
+import { isAfter } from 'date-fns';
 import React, { useEffect } from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
@@ -79,8 +80,12 @@ const CustomButton = styled(FormButton)`
 `;
 
 const MigrationBanner = ({ account }) => {
-    const migrationStartDate = new Date(MIGRATION_START_DATE *1000);
-    const migrationEndDate = new Date(MIGRATION_END_DATE *1000);
+    const migrationStartDate = new Date( MIGRATION_START_DATE * 1000);
+    const migrationEndDate = new Date(MIGRATION_END_DATE * 1000);
+
+    const showPostMigrationBanner = isAfter(new Date(), new Date(migrationStartDate));
+
+
     const setBannerHeight = () => {
         const migrationBanner = document.getElementById('migration-banner');
         const bannerHeight = migrationBanner ? migrationBanner.offsetHeight : 0;
@@ -144,12 +149,9 @@ const MigrationBanner = ({ account }) => {
         </ContentWrapper>
     );
 
-
-
     return (
         <StyledContainer id='migration-banner'>
-           {/* {preMigrationMarkup} */}
-           {postMigrationMarkup}
+           {showPostMigrationBanner ? postMigrationMarkup: preMigrationMarkup}
         </StyledContainer>
     );
 };
