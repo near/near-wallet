@@ -5,7 +5,7 @@ import { IS_MAINNET } from '../config';
 import { parseTokenAmount } from '../utils/amounts';
 import { wallet } from '../utils/wallet';
 
-const setArgsUSNContractBuy = (multiplier, slippage, amount) => {
+const setArgsUSNContractBuy = ({multiplier, slippage, amount}) => {
     return {
         args: {
             expected: {
@@ -21,10 +21,10 @@ const setArgsUSNContractBuy = (multiplier, slippage, amount) => {
     };
 };
 
-const setArgsUSNContractSell = (amount, multiplier, slippage, usnAmount) => {
+const setArgsUSNContractSell = ({multiplier, slippage, amount}) => {
     return {
         args: {
-            amount: usnAmount ? usnAmount : parseTokenAmount(amount * (10 ** 18), 0),
+            amount: parseTokenAmount(amount * (10 ** 18), 0),
             expected: {
                 multiplier,
                 slippage: `${Math.round(
@@ -46,14 +46,13 @@ export const usePerformBuyOrSellUSN = () => {
         changeMethods: ['buy', 'sell'],
     };
 
-    const performBuyOrSellUSN = async (
+    const performBuyOrSellUSN = async ({
         accountId,
         multiplier,
         slippage,
         amount,
-        symbol,
-        usnAmount
-    ) => {
+        tokenFrom,
+    }) => {
         const account = await wallet.getAccount(accountId);
         const usnContract = new nearApiJs.Contract(
             account,
@@ -61,11 +60,11 @@ export const usePerformBuyOrSellUSN = () => {
             usnMethods
         );
        
-        if (symbol === 'NEAR') {
-            await usnContract.buy(setArgsUSNContractBuy(multiplier, slippage, amount));
+        if (tokenFrom === 'NEAR') {
+            await usnContract.buy(setArgsUSNContractBuy({multiplier, slippage, amount}));
            
         } else {
-           await usnContract.sell(setArgsUSNContractSell(amount, multiplier, slippage, usnAmount));
+           await usnContract.sell(setArgsUSNContractSell({multiplier, slippage, amount}));
         }
     };
 

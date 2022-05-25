@@ -38,7 +38,7 @@ const StyledContainer = styled.div`
     }
 `;
 
-const Success = ({ amount, tokenTo, onClickContinue, onClickGoToExplorer }) => {
+const Success = ({ amount, tokenTo, transactionHash, onClickContinue, onClickGoToExplorer }) => {
     return (
         <StyledContainer className="buttons-bottom">
             <AvatarSuccessIcon />
@@ -58,9 +58,11 @@ const Success = ({ amount, tokenTo, onClickContinue, onClickGoToExplorer }) => {
                 <FormButton onClick={onClickContinue}>
                     <Translate id="button.continue" />
                 </FormButton>
-                <FormButton color="gray-gray" onClick={onClickGoToExplorer}>
-                    <Translate id="button.viewOnExplorer" />
-                </FormButton>
+                {transactionHash && (
+                    <FormButton color="gray-gray" onClick={onClickGoToExplorer}>
+                        <Translate id="button.viewOnExplorer" />
+                    </FormButton>
+                )}
             </div>
         </StyledContainer>
     );
