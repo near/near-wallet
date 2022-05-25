@@ -16,7 +16,7 @@ const TransactionDetails = ({
     amount,
     exchangeRate,
     tradingFee,
-    setSlippageValue
+    setSlippage
 }) => {
     const [open, setOpen] = useState(false);
 
@@ -42,11 +42,14 @@ const TransactionDetails = ({
                 trigger="transaction-details-breakdown"
                 className="breakdown"
             >
-                {isUSNSwap && <SlippagePicker
-                    translateIdTitle={'swapNear.priceImpact'} // to do: translations
-                    translateIdInfoTooltip="swapNear.translateIdInfoTooltip.priceImpact"
-                    setSlippageValue={setSlippageValue}
-                />}
+                {isUSNSwap && 
+                    <SlippagePicker
+                        translateIdTitle={'swapNear.priceImpact'} // to do: translations
+                        translateIdInfoTooltip="swapNear.translateIdInfoTooltip.priceImpact"
+                        setSlippage={setSlippage}
+                    />
+                }
+                
                 {!isUSNSwap && 
                     <Amount
                         className="green details-info"

@@ -145,7 +145,7 @@ function Swap({ history }) {
         setMultiplier(multiplierResult);
     }, [multiplierResult]);
     useInterval(() => {
-        // callback of fetchMultiplier every 30 seconds
+        // fetchMultiplier every 30 seconds
         dispatch(fetchMultiplier());
     }, 30000);
 
@@ -216,54 +216,9 @@ function Swap({ history }) {
             setActiveTokenTo(prioritySwapToToken);
         }
     }, [activeTokenFrom]);
-    
-    const handleSwapToken = async (
-        accountId,
-        wrapAmount,
-        toWNear
-    ) => {
-        // await Mixpanel.withTracking(
-        //     'SWAP token',
-        //     async () => {
-        //         setSwappingToken(true);
-
-        //         const result =
-        //             await fungibleTokensService.wrapNear({
-        //                 accountId,
-        //                 wrapAmount:
-        //                     parseNearAmount(wrapAmount),
-        //                 toWNear,
-        //             });
-        //         setTransactionHash(result.transaction.hash);
-        //         setActiveView(VIEWS.SUCCESS);
-
-        //         const id = Mixpanel.get_distinct_id();
-        //         Mixpanel.identify(id);
-        //         Mixpanel.people.set({
-        //             last_send_token: new Date().toString(),
-        //         });
-        //     },
-        //     (e) => {
-        //         dispatch(
-        //             showCustomAlert({
-        //                 success: false,
-        //                 messageCodeHeader: 'error',
-        //                 messageCode:
-        //                     'walletErrorCodes.sendFungibleToken.error',
-        //                 errorMessage: e.message,
-        //             })
-        //         );
-        //         setSwappingToken('failed');
-        //         return;
-        //     }
-        // );
-
-        // dispatch(checkAndHideLedgerModal());
-        console.log('handleSwapToken', [accountId, wrapAmount, toWNear]);
-    };
 
     // USN based logic
-    const [slippageValue, setSlippageValue] = useState(1);
+    const [slippage, setSlippage] = useState(1);
     const commissionFee = commission({
         accountId,
         amount: amountTokenFrom,
@@ -272,12 +227,65 @@ function Swap({ history }) {
         token: activeTokenFrom,
         activeView,
     });
-    // const balance = getBalance(activeTokenFrom);
 
-    const { performBuyOrSellUSN, isLoading, setIsLoading } = usePerformBuyOrSellUSN();
+    const { performBuyOrSellUSN } = usePerformBuyOrSellUSN();
 
-    // end USN based logic
-    
+    const handleSwapToken = async ({
+        accountId,
+        amount,
+        tokenFrom,
+        tokenTo
+    }) => {
+        await Mixpanel.withTracking(
+            'SWAP token',
+            async () => {
+                setSwappingToken(true);
+                if (tokenFrom == 'wNEAR' || tokenTo == 'wNEAR') {
+                    const result =
+                        await fungibleTokensService.wrapNear({
+                            accountId,
+                            wrapAmount:
+                                parseNearAmount(amount),
+                            toWNear: tokenTo == 'wNEAR',
+                        });
+                    setTransactionHash(result.transaction.hash);
+                }
+
+                else if (tokenFrom == 'USN' || tokenTo == 'USN') {
+                    await performBuyOrSellUSN({
+                        accountId, 
+                        multiplier, 
+                        slippage, 
+                        amount, 
+                        tokenFrom
+                    });
+                }
+                
+                setActiveView(VIEWS.SUCCESS);
+
+                const id = Mixpanel.get_distinct_id();
+                Mixpanel.identify(id);
+                Mixpanel.people.set({
+                    last_send_token: new Date().toString(),
+                });
+            },
+            (e) => {
+                dispatch(
+                    showCustomAlert({
+                        success: false,
+                        messageCodeHeader: 'error',
+                        messageCode:
+                            'walletErrorCodes.sendFungibleToken.error',
+                        errorMessage: e.message,
+                    })
+                );
+                setSwappingToken('failed');
+                return;
+            }
+        );
+
+        dispatch(checkAndHideLedgerModal());
+    };
 
     const getCurrentViewComponent = (view) => {
         switch (view) {
@@ -342,7 +350,7 @@ function Swap({ history }) {
                         accountId={accountId}
                         handleSwapToken={handleSwapToken}
                         swappingToken={swappingToken}
-                        setSlippageValue={setSlippageValue}
+                        setSlippage={setSlippage}
                         exchangeRate={formatMultiplier}
                         tradingFee={commissionFee?.result}
                     />
@@ -353,6 +361,7 @@ function Swap({ history }) {
                     <Success
                         amount={`${amountTokenFrom} ${activeTokenFrom.onChainFTMetadata?.symbol}`}
                         tokenTo={activeTokenTo.onChainFTMetadata?.symbol}
+                        transactionHash={transactionHash}
                         onClickContinue={() => history.push('/')}
                         onClickGoToExplorer={() =>
                             window.open(

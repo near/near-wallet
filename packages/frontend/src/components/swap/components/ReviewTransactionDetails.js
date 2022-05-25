@@ -142,7 +142,7 @@ const ReviewTransactionDetails = ({
     amountTokenTo,
     tokenFrom,
     tokenTo,
-    setSlippageValue,
+    setSlippage,
     exchangeRate,
     tradingFee
 }) => {
@@ -222,7 +222,7 @@ const ReviewTransactionDetails = ({
                 amount={amountTokenFrom}
                 exchangeRate={exchangeRate}
                 tradingFee={tradingFee}
-                setSlippageValue={setSlippageValue}
+                setSlippage={setSlippage}
             />
         </ReviewForm>
     );

@@ -70,7 +70,7 @@ export function SwapReviewForm({
     accountId,
     handleSwapToken,
     swappingToken,
-    setSlippageValue,
+    setSlippage,
     exchangeRate,
     tradingFee
 }) {
@@ -108,7 +108,7 @@ export function SwapReviewForm({
                 tokenFrom={activeTokenFrom}
                 tokenTo={activeTokenTo}
                 exchangeRate={exchangeRate}
-                setSlippageValue={setSlippageValue}
+                setSlippage={setSlippage}
                 tradingFee={tradingFee}
             />
             <FormButton
@@ -116,12 +116,13 @@ export function SwapReviewForm({
                 disabled={swappingToken === true}
                 sending={swappingToken === true}
                 sendingString="swapping"
-                onClick={() => {
-                    handleSwapToken(
+                onClick={async () => {
+                    await handleSwapToken({
                         accountId,
-                        amountTokenFrom.toString(),
-                        activeTokenFrom.onChainFTMetadata?.symbol === 'NEAR'
-                    );
+                        amount: amountTokenFrom.toString(),
+                        tokenFrom: activeTokenFrom.onChainFTMetadata?.symbol,
+                        tokenTo: activeTokenTo.onChainFTMetadata?.symbol
+                    });
                 }}
             >
                 <Translate id="swapNear.confirm" />

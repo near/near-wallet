@@ -47,13 +47,13 @@ const slippageValues = [0.5, 1, 3];
 const SlippagePicker = ({
     translateIdTitle,
     translateIdInfoTooltip,
-    setSlippageValue
+    setSlippage
 }) => {
     const [active, setActive] = useState(1);
     
     const handleClick = (value) => {
         setActive(value);
-        setSlippageValue(value);
+        setSlippage(value);
     };
 
     return (
