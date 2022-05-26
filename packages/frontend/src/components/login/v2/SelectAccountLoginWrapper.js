@@ -11,7 +11,8 @@ import {
 import {
     selectAccountLocalStorageAccountId,
     selectAccountUrlReferrer,
-    selectAccountAccountsBalances
+    selectAccountAccountsBalances,
+    selectAccountExists
 } from '../../../redux/slices/account';
 import { selectAvailableAccounts } from '../../../redux/slices/availableAccounts';
 import { isUrlNotJavascriptProtocol } from '../../../utils/helper-api';
@@ -33,6 +34,7 @@ export default ({
     const accountAccountsBalances = useSelector(selectAccountAccountsBalances);
     const accountUrlReferrer = useSelector(selectAccountUrlReferrer);
     const failureAndSuccessUrlsAreValid = isUrlNotJavascriptProtocol(failureUrl) && isUrlNotJavascriptProtocol(successUrl);
+    const accountExists = useSelector(selectAccountExists);
 
     return (
         <SelectAccountLogin
@@ -59,6 +61,7 @@ export default ({
             }}
             onClickNext={onClickNext}
             failureAndSuccessUrlsAreValid={failureAndSuccessUrlsAreValid}
+            accountExists={accountExists}
         />
     );
 };
