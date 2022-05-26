@@ -5,7 +5,7 @@ import { IS_MAINNET } from '../../../config';
 import { removeTrailingZeros, formatTokenAmount, parseTokenAmount } from '../../../utils/amounts';
 import { wallet } from '../../../utils/wallet';
 import { formatNearAmount } from '../../common/balance/helpers';
-import { VALID_TOKEN_PAIRS, W_NEAR_PROPS } from '../Swap';
+import { VALID_TOKEN_PAIRS, W_NEAR_PROPS, USN_PROPS } from '../Swap';
 
 export const getFormatBalance = (num, decimals) => {
     if (!num || num === '0') {
@@ -98,6 +98,12 @@ export const findTokenSwapToList = ({ tokenSymbol, fungibleTokensList }) => {
     if (!hasWNear && validTokensToSwapTo.includes('wNEAR')) {
         fungibleTokensWithPrices.push(W_NEAR_PROPS);
     }
+
+    const hasUSN = fungibleTokensWithPrices.find((token) => token.onChainFTMetadata?.symbol == 'USN');
+    if (!hasUSN && validTokensToSwapTo.includes('USN')) {
+        fungibleTokensWithPrices.push(USN_PROPS);
+    }
+
     return fungibleTokensWithPrices;
 };
 

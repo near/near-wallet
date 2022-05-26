@@ -49,6 +49,19 @@ export const W_NEAR_PROPS = {
     },
 };
 
+export const USN_PROPS = {
+    balance: '0',
+    onChainFTMetadata: {
+        decimals: 18,
+        spec: 'ft-1.0.0',
+        name: 'USN',
+        symbol: 'USN',
+        icon: null, // to do: add svg for usn
+        reference: null,
+        reference_hash: null
+    },
+};
+
 export const VALID_TOKEN_PAIRS = {
     NEAR: ['wNEAR', 'USN'],
     USN: ['NEAR'],
@@ -217,7 +230,6 @@ function Swap({ history }) {
         }
     }, [activeTokenFrom]);
 
-    // USN based logic
     const [slippage, setSlippage] = useState(1);
     const commissionFee = commission({
         accountId,
