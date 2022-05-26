@@ -57,7 +57,6 @@ export default function StakingAction({
     const stakeActionAllowed = hasStakeActionAmount && !invalidStakeActionAmount && !success && !disableStaking;
     const stakeNotAllowed = !!selectedValidator && selectedValidator !== match.params.validator && !!currentValidators.length;
 
-
     const validatorHasFAK = async (validator) => {
         const accessKeys = await wallet.getAccessKeys(validator);
         const fullAccessKeys = accessKeys.filter((key) => (
