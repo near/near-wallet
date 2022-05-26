@@ -59,15 +59,32 @@ export default function StakingAction({
 
 
     const validatorHasFAK = async (validator) => {
+        const accessKeys = await wallet.getAccessKeys(validator);
+        const fullAccessKeys = accessKeys.filter((key) => (
+            key?.access_key.permission === 'FullAccess'
+        ));
+
+        return !!fullAccessKeys.length;
+    };
+
+    const handleSubmitStake = async () => {
         try {
             setCheckingValidator(true);
-            const accessKeys = await wallet.getAccessKeys(validator);
-            const fullAccessKeys = accessKeys.filter((key) => (
-                key?.access_key.permission === 'FullAccess'
-            ));
-    
-            return !!fullAccessKeys.length;
+
+            if (await validatorHasFAK(match.params.validator)) {
+                setDisableStaking(true);
+                dispatch(showCustomAlert({
+                    success: false,
+                    messageCodeHeader: 'error',
+                    messageCode: 'walletErrorCodes.staking.validatorHasFAK',
+                    errorMessage: 'Validator has full access key'
+                }));
+            } else {
+                setConfirm(true);
+            }
+            
         } catch (error) {
+            setDisableStaking(true);
             dispatch(showCustomAlert({
                 success: false,
                 messageCodeHeader: 'error',
@@ -76,21 +93,7 @@ export default function StakingAction({
             }));
             throw error;
         } finally {
-            setCheckingValidator(false);    
-        }
-    };
-
-    const handleSubmitStake = async () => {
-        if (await validatorHasFAK(match.params.validator)) {
-            setDisableStaking(true);
-            dispatch(showCustomAlert({
-                success: false,
-                messageCodeHeader: 'error',
-                messageCode: 'walletErrorCodes.staking.validatorHasFAK',
-                errorMessage: 'Validator has full access key'
-            }));
-        } else {
-            setConfirm(true);
+            setCheckingValidator(false);  
         }
     };
 
