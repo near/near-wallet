@@ -37,6 +37,7 @@ export default function StakingAction({
     currentValidators,
     nearTokenFiatValueUSD
 }) {
+    const [disableStaking, setDisableStaking] = useState(false);
     const [confirm, setConfirm] = useState();
     const [amount, setAmount] = useState('');
     const [success, setSuccess] = useState();
@@ -60,6 +61,15 @@ export default function StakingAction({
 
         return !!fullAccessKeys.length;
     };
+
+    const handleSubmitStake = async () => {
+        if (await validatorHasFAK(match.params.validator)) {
+            setDisableStaking(true);
+        } else {
+            setConfirm(true);
+        }
+    };
+
     onKeyDown((e) => {
         if (e.keyCode === 13 && stakeActionAllowed) {
             if (!confirm) {
