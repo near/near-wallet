@@ -49,7 +49,7 @@ export default function StakingAction({
     const displayAmount = useMax ? formatNearAmount(amount, 5).replace(/,/g, '') : amount;
     const availableToStake = availableBalance;
     const invalidStakeActionAmount = new BN(useMax ? amount : parseNearAmount(amount)).sub(new BN(stake ? availableToStake : staked)).gt(new BN(STAKING_AMOUNT_DEVIATION)) || !isDecimalString(amount);
-    const stakeActionAllowed = hasStakeActionAmount && !invalidStakeActionAmount && !success;
+    const stakeActionAllowed = hasStakeActionAmount && !invalidStakeActionAmount && !success && !disableStaking;
     const stakeNotAllowed = !!selectedValidator && selectedValidator !== match.params.validator && !!currentValidators.length;
 
 
@@ -194,7 +194,7 @@ export default function StakingAction({
                 }
                 <FormButton
                     disabled={!stakeActionAllowed} 
-                    onClick={() => setConfirm(true)}
+                    onClick={handleSubmitStake}
                     trackingId="STAKE/UNSTAKE Click submit stake button"
                     data-test-id="submitStakeButton"
                 >
