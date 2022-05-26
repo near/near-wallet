@@ -41,6 +41,7 @@ export default function StakingAction({
 }) {
     const dispatch = useDispatch();
 
+    const [checkingValidator, setCheckingValidator] = useState(false);
     const [disableStaking, setDisableStaking] = useState(false);
     const [confirm, setConfirm] = useState();
     const [amount, setAmount] = useState('');
@@ -58,12 +59,25 @@ export default function StakingAction({
 
 
     const validatorHasFAK = async (validator) => {
-        const accessKeys = await wallet.getAccessKeys(validator);
-        const fullAccessKeys = accessKeys.filter((key) => (
-            key?.access_key.permission === 'FullAccess'
-        ));
-
-        return !!fullAccessKeys.length;
+        try {
+            setCheckingValidator(true);
+            const accessKeys = await wallet.getAccessKeys(validator);
+            const fullAccessKeys = accessKeys.filter((key) => (
+                key?.access_key.permission === 'FullAccess'
+            ));
+    
+            return !!fullAccessKeys.length;
+        } catch (error) {
+            dispatch(showCustomAlert({
+                success: false,
+                messageCodeHeader: 'error',
+                messageCode: 'walletErrorCodes.staking.notAbleToCheckFAK',
+                errorMessage: 'Not able to check full access key'
+            }));
+            throw error;
+        } finally {
+            setCheckingValidator(false);    
+        }
     };
 
     const handleSubmitStake = async () => {
@@ -203,6 +217,8 @@ export default function StakingAction({
                     />
                 }
                 <FormButton
+                    sending={checkingValidator}
+                    sendingString='staking.staking.checkingValidator'
                     disabled={!stakeActionAllowed} 
                     onClick={handleSubmitStake}
                     trackingId="STAKE/UNSTAKE Click submit stake button"

@@ -1443,6 +1443,7 @@
         "staking": {
             "available": "Available balance",
             "button": "Stake My Tokens",
+            "checkingValidator": "Checking Validator",
             "currentValidators": "Your Current Validators",
             "desc": "Stake your NEAR tokens with a validator",
             "noValidators": "You haven't staked with a validator yet.",
@@ -1746,7 +1747,9 @@
         },
         "staking": {
             "noLockup": "No lockup contract for account",
-            "noWithdraw": "Unable to withdraw pending balance from validator"
+            "notAbleToCheckFAK": "Sorry, we are not able to check if Validator has full access key.",
+            "noWithdraw": "Unable to withdraw pending balance from validator",
+            "validatorHasFAK": "Sorry, we are not allowing you to stake with Validator that has a full access key, for your safety."
         }
     },
     "warning": "Warning",
