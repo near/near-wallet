@@ -3,7 +3,6 @@ import BN from 'bn.js';
 import set from 'lodash.set';
 import { createSelector } from 'reselect';
 
-import { CREATE_USN_CONTRACT } from '../../../../../../features';
 import { WHITELISTED_CONTRACTS, IS_MAINNET} from '../../../config';
 import FungibleTokens from '../../../services/FungibleTokens';
 import handleAsyncThunkStatus from '../../reducerStatus/handleAsyncThunkStatus';
@@ -66,9 +65,6 @@ const fetchTokens = createAsyncThunk(
             ]),
         ];
 
-        if (!likelyContracts.includes(currentContractName) && CREATE_USN_CONTRACT) {
-            likelyContracts.push(currentContractName);
-        }
 
         await Promise.all(
             likelyContracts.map(async (contractName) => {
@@ -182,15 +178,9 @@ export const selectTokensWithMetadataForAccountId = createSelector(
         selectOwnedTokens,
         selectUSDNTokenFiatValueUSD,
     ],
-    (allContractMetadata, ownedTokens, usd) =>
-        Object.entries(ownedTokens)
-            .filter(([contractName, { balance }]) => {
-                // We need to see our contract even with zero balance
-                if (contractName === currentContractName) {
-                     return true;
-                }
-                return !new BN(balance).isZero();
-            })
+    (allContractMetadata, ownedTokensForAccount, usd) =>
+        Object.entries(ownedTokensForAccount)
+        .filter(([_, { balance }]) => !new BN(balance).isZero())
             .sort(([a], [b]) =>
                 allContractMetadata[a]?.name.localeCompare(
                     allContractMetadata[b]?.name
