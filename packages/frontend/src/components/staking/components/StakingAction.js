@@ -81,7 +81,6 @@ export default function StakingAction({
             } else {
                 setConfirm(true);
             }
-            
         } catch (error) {
             setDisableStaking(true);
             dispatch(showCustomAlert({
