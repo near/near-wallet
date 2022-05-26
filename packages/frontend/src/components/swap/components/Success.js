@@ -47,7 +47,7 @@ const Success = ({ amount, tokenTo, transactionHash, onClickContinue, onClickGoT
                 data-test-id="sendTransactionSuccessMessage"
             >
                 <SafeTranslate
-                    id="swapNear.successTitle"
+                    id="swap.successTitle"
                     data={{
                         amount: amount,
                         tokenTo: tokenTo,

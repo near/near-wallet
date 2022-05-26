@@ -81,7 +81,7 @@ export function SwapReviewForm({
                     onClick={() => setActiveView(VIEWS.SWAP_AMOUNT)}
                 />
                 <h4>
-                    <Translate id="swapNear.reviewInfo" />
+                    <Translate id="swap.reviewInfo" />
                 </h4>
             </div>
             <div className="flexCenterColumn">
@@ -125,7 +125,7 @@ export function SwapReviewForm({
                     });
                 }}
             >
-                <Translate id="swapNear.confirm" />
+                <Translate id="swap.confirm" />
             </FormButton>
             <div className="flexCenterButton">
                 <FormButton

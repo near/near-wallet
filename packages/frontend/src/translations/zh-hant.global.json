@@ -1499,21 +1499,6 @@
     "stakingPoolUnstaked": "這部分 NEAR 目前在質押池中，但未贖回。可能仍在請求釋放的階段。",
     "success": "成功",
     "swap": {
-        "AvailableToSwap": "可兌換",
-        "ExpectedPrice": "預期價格",
-        "from": "來自",
-        "MinimumReceived": "最少收到",
-        "pairPrice": "交易價格",
-        "slipPage": "滑點容差",
-        "slippageError": "自 1 至 50",
-        "success": {
-            "complete": "交易完成！",
-            "youSwap": "你已經換了"
-        },
-        "to": "至",
-        "TradingFee": "交易費"
-    },
-    "swapNear": {
         "confirm": "確認並兌換",
         "details": "交易細節",
         "fee": "估計費用",
@@ -1524,13 +1509,15 @@
         "priceImpact": "兌換率影響",
         "review": "確認兌換",
         "reviewInfo": "你將兌換",
+        "slippage": "滑动公差",
         "successTitle": "交易完成！</br>你兌換了 <span class='color-blue space'>${amount}</span></br>至 <span class='color-green'>${tokenTo}</span>",
         "title": "兌換",
         "to": "至",
         "translateIdInfoTooltip": {
-            "liquidityProviderFee": "處理此筆交易的預估費用。",
+            "fee": "處理此筆交易的預估費用。",
             "minimumReceived": "從此筆交易中你將最少收到的數額。",
-            "priceImpact": "市場價格和預估價格之間的區別是由於交易規模。"
+            "priceImpact": "市場價格和預估價格之間的區別是由於交易規模。",
+            "slippage": "交易失败前价格可能上涨的百分比."
         }
     },
     "swapping": "正在兌換",
@@ -1665,7 +1652,6 @@
             "desc": "請充值 NEAR 通證後才能使用 NEAR 錢包。",
             "title": "充值 NEAR"
         },
-        "OthersTokens": "其他通證",
         "status": "狀態",
         "tokenBalance": "通證餘額",
         "tokens": "通證",

@@ -1,14 +1,11 @@
 import React from 'react';
 import { Translate } from 'react-localize-redux';
-import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
 import { CREATE_USN_CONTRACT } from '../../../../../features';
 import { EXPLORER_URL } from '../../config';
-import { handleSwapByContractName } from '../../redux/slices/swap';
 import Balance from '../common/balance/Balance';
 import TokenIcon from '../send/components/TokenIcon';
-import Swap from './Swap';
 import TokenAmount from './TokenAmount';
 
 const StyledContainer = styled.div`
@@ -153,7 +150,6 @@ const StyledContainer = styled.div`
 `;
 
 const TokenBox = ({ token, onClick, currentLanguage }) => {
-    const dispatch = useDispatch();
     return (
         <StyledContainer
             className='token-box'
@@ -218,18 +214,6 @@ const TokenBox = ({ token, onClick, currentLanguage }) => {
                         className={token.onChainFTMetadata?.symbol  !== 'USN' && CREATE_USN_CONTRACT ? 'balance tokenAmount':'balance'}
                         withSymbol={token.onChainFTMetadata?.symbol !== 'USN' || !CREATE_USN_CONTRACT}
                     />
-                )}
-                {!onClick && CREATE_USN_CONTRACT &&
-                (token.onChainFTMetadata?.symbol === 'NEAR' ||
-                    token.onChainFTMetadata?.symbol === 'USN') && (
-                    <div style={{marginLeft: 'auto'}}>
-                        <Swap
-                            symbol={token.onChainFTMetadata?.symbol === 'NEAR'}
-                            disable={!token.balance || token.balance === '0'} 
-                            linkTo={!token.balance || token.balance === '0' ? false : '/swap-usn'}
-                            onClick={() => dispatch(handleSwapByContractName(token.onChainFTMetadata?.symbol === 'NEAR' ? 'USN' : 'NEAR'))}
-                        />
-                    </div>
                 )}
             </div>
         </StyledContainer>

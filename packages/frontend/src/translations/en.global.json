@@ -1500,38 +1500,25 @@
     "stakingPoolUnstaked": "This NEAR is currently in a staking pool but unstaked. It could for example be in a pending release state.",
     "success": "Success",
     "swap": {
-        "AvailableToSwap": "Available to swap",
-        "ExpectedPrice": "Expected price",
-        "from": "From",
-        "MinimumReceived": "Minimum received",
-        "pairPrice": "Pair price",
-        "slipPage": "Slippage tolerance",
-        "slippageError": "from 1 to 50",
-        "success": {
-            "complete": "Transaction complete!",
-            "youSwap": "You've swapped"
-        },
-        "to": "To",
-        "TradingFee": "Trading fee"
-    },
-    "swapNear": {
         "confirm": "Confirm & Swap",
         "details": "Transaction details",
-        "fee": "Estimated Fees",
+        "fee": "Estimated fees",
         "from": "From",
         "max": "Max: ${amount} ${symbol}",
         "minReceived": "Minimum received",
         "price": "Price",
-        "priceImpact": "Price Impact",
+        "priceImpact": "Price impact",
         "review": "Review Swap",
         "reviewInfo": "You are swapping",
+        "slippage": "Slippage tolerance",
         "successTitle": "Transaction complete!</br>You swapped <span class='color-blue space'>${amount}</span></br>to <span class='color-green'>${tokenTo}</span>",
         "title": "Swap",
         "to": "To",
         "translateIdInfoTooltip": {
-            "liquidityProviderFee": "The estimated cost of processing your transaction.",
+            "fee": "The estimated cost of processing your transaction.",
             "minimumReceived": "The minimum amount you will receive from the trade.",
-            "priceImpact": "The difference between the market price and estimated price due to trade size."
+            "priceImpact": "The difference between the market price and estimated price due to trade size.",
+            "slippage": "The percentage the price may increase before the transaction fails."
         }
     },
     "swapping": "Swapping",
@@ -1666,7 +1653,6 @@
             "desc": "You’ll need NEAR tokens to perform transactions with your wallet.",
             "title": "Deposit NEAR"
         },
-        "OthersTokens": "Other tokens",
         "status": "Status",
         "tokenBalance": "Token Balance",
         "tokens": "Tokens",

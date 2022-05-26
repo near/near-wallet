@@ -205,7 +205,7 @@ const ReviewTransactionDetails = ({
                 />
             </div>
             <div className="bg height60 first index">
-                <Translate id="swapNear.price" />
+                <Translate id="swap.price" />
                 <div>{`${ratio()} ${tokenFrom.onChainFTMetadata?.symbol} per ${
                     tokenTo.onChainFTMetadata?.symbol
                 }`}</div>

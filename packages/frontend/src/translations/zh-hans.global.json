@@ -1499,21 +1499,6 @@
     "stakingPoolUnstaked": "这部分 NEAR 目前在质押池中，但未赎回。可能仍在请求释放的阶段。",
     "success": "成功",
     "swap": {
-        "AvailableToSwap": "可兑换",
-        "ExpectedPrice": "预期价格",
-        "from": "来自",
-        "MinimumReceived": "最少收到",
-        "pairPrice": "交易价格",
-        "slipPage": "滑点容差",
-        "slippageError": "自 1 至 50",
-        "success": {
-            "complete": "交易完成！",
-            "youSwap": "你已经换了"
-        },
-        "to": "至",
-        "TradingFee": "交易费"
-    },
-    "swapNear": {
         "confirm": "确认并兑换",
         "details": "交易细节",
         "fee": "估计费用",
@@ -1524,13 +1509,15 @@
         "priceImpact": "兑换率影响",
         "review": "确认兑换",
         "reviewInfo": "你将兑换",
+        "slippage": "滑动公差",
         "successTitle": "交易完成！</br>你兑换了 <span class='color-blue space'>${amount}</span></br>至 <span class='color-green'>${tokenTo}</span>",
         "title": "兑换",
         "to": "至",
         "translateIdInfoTooltip": {
-            "liquidityProviderFee": "处理此笔交易的预估费用。",
+            "fee": "处理此笔交易的预估费用。",
             "minimumReceived": "从此笔交易中你将最少收到的数额。",
-            "priceImpact": "市场价格和预估价格之间的区别是由于交易规模。"
+            "priceImpact": "市场价格和预估价格之间的区别是由于交易规模。",
+            "slippage": "交易失败前价格可能上涨的百分比."
         }
     },
     "swapping": "正在兑换",
@@ -1665,7 +1652,6 @@
             "desc": "请充值 NEAR 通证后才能使用 NEAR 钱包。",
             "title": "充值 NEAR"
         },
-        "OthersTokens": "其他通证",
         "status": "状态",
         "tokenBalance": "通证余额",
         "tokens": "通证",
