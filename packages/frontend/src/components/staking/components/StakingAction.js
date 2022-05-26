@@ -2,9 +2,11 @@ import BN from 'bn.js';
 import { utils } from 'near-api-js';
 import React, { useState } from 'react';
 import { Translate } from 'react-localize-redux';
+import { useDispatch } from 'react-redux';
 
 import { onKeyDown } from '../../../hooks/eventListeners';
 import { Mixpanel } from '../../../mixpanel/index';
+import { showCustomAlert } from '../../../redux/actions/status';
 import { toNear } from '../../../utils/amounts';
 import isDecimalString from '../../../utils/isDecimalString';
 import { STAKING_AMOUNT_DEVIATION } from '../../../utils/staking';
@@ -37,6 +39,8 @@ export default function StakingAction({
     currentValidators,
     nearTokenFiatValueUSD
 }) {
+    const dispatch = useDispatch();
+
     const [disableStaking, setDisableStaking] = useState(false);
     const [confirm, setConfirm] = useState();
     const [amount, setAmount] = useState('');
@@ -65,6 +69,12 @@ export default function StakingAction({
     const handleSubmitStake = async () => {
         if (await validatorHasFAK(match.params.validator)) {
             setDisableStaking(true);
+            dispatch(showCustomAlert({
+                success: false,
+                messageCodeHeader: 'error',
+                messageCode: 'walletErrorCodes.staking.validatorHasFAK',
+                errorMessage: 'Validator has full access key'
+            }));
         } else {
             setConfirm(true);
         }
