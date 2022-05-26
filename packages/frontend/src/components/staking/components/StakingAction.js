@@ -8,6 +8,7 @@ import { Mixpanel } from '../../../mixpanel/index';
 import { toNear } from '../../../utils/amounts';
 import isDecimalString from '../../../utils/isDecimalString';
 import { STAKING_AMOUNT_DEVIATION } from '../../../utils/staking';
+import { wallet } from '../../../utils/wallet';
 import { getNearAndFiatValue } from '../../common/balance/helpers';
 import FormButton from '../../common/FormButton';
 import SafeTranslate from '../../SafeTranslate';
@@ -50,6 +51,15 @@ export default function StakingAction({
     const stakeActionAllowed = hasStakeActionAmount && !invalidStakeActionAmount && !success;
     const stakeNotAllowed = !!selectedValidator && selectedValidator !== match.params.validator && !!currentValidators.length;
 
+
+    const validatorHasFAK = async (validator) => {
+        const accessKeys = await wallet.getAccessKeys(validator);
+        const fullAccessKeys = accessKeys.filter((key) => (
+            key?.access_key.permission === 'FullAccess'
+        ));
+
+        return !!fullAccessKeys.length;
+    };
     onKeyDown((e) => {
         if (e.keyCode === 13 && stakeActionAllowed) {
             if (!confirm) {
