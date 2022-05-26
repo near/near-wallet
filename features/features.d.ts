@@ -10,5 +10,4 @@ export type Features = {
 	IMPORT_ACCOUNT_WITH_LINK_V2: boolean;
 	IMPORT_ZERO_BALANCE_ACCOUNT: boolean;
 	USE_INDEXER_SERVICE: boolean;
-	USN_BUTTON: boolean;
 };

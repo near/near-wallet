@@ -61,13 +61,13 @@ const SwapToForm = ({
         <FormFrom>
             <div className="flex">
                 <div className="title">
-                    <Translate id="swapNear.to" />
+                    <Translate id="swap.to" />
                 </div>
                 <div
                     className="maxTitle"
                 >
                     <SafeTranslate
-                        id="swapNear.max"
+                        id="swap.max"
                         data={{
                             amount: maxValue.numToShow,
                             symbol: activeTokenTo?.onChainFTMetadata?.symbol,

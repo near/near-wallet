@@ -44,8 +44,8 @@ const TransactionDetails = ({
             >
                 {isUSNSwap && 
                     <SlippagePicker
-                        translateIdTitle={'swapNear.priceImpact'} // to do: translations
-                        translateIdInfoTooltip="swapNear.translateIdInfoTooltip.priceImpact"
+                        translateIdTitle={'swap.priceImpact'}
+                        translateIdInfoTooltip="swap.translateIdInfoTooltip.priceImpact"
                         setSlippage={setSlippage}
                     />
                 }
@@ -53,11 +53,11 @@ const TransactionDetails = ({
                 {!isUSNSwap && 
                     <Amount
                         className="green details-info"
-                        translateIdTitle={'swapNear.priceImpact'}
+                        translateIdTitle={'swap.priceImpact'}
                         amount={estimatedFeesInNear}
                         symbol={'%'}
                         decimals={selectedTokenFrom.onChainFTMetadata?.decimals}
-                        translateIdInfoTooltip="swapNear.translateIdInfoTooltip.priceImpact"
+                        translateIdInfoTooltip="swap.translateIdInfoTooltip.priceImpact"
                     />
                 }
 
@@ -65,20 +65,20 @@ const TransactionDetails = ({
                 (
                     <Amount
                         className="details-info"
-                        translateIdTitle={'swapNear.fee'}
+                        translateIdTitle={'swap.fee'}
                         amount={commissionFee.toString()}
                         symbol={selectedTokenTo.onChainFTMetadata?.symbol}
                         decimals={0}
-                        translateIdInfoTooltip="swapNear.translateIdInfoTooltip.liquidityProviderFee"
+                        translateIdInfoTooltip="swap.translateIdInfoTooltip.fee"
                     /> 
                 ) : 
                 (
                     <Amount
                         className="details-info"
-                        translateIdTitle={'swapNear.fee'}
+                        translateIdTitle={'swap.fee'}
                         amount={estimatedFeesInNear}
                         symbol="NEAR"
-                        translateIdInfoTooltip="swapNear.translateIdInfoTooltip.liquidityProviderFee"
+                        translateIdInfoTooltip="swap.translateIdInfoTooltip.fee"
                     />
                 )}
 
@@ -86,21 +86,21 @@ const TransactionDetails = ({
                 (
                     <Amount
                         className="details-info"
-                        translateIdTitle={'swapNear.minReceived'}
+                        translateIdTitle={'swap.minReceived'}
                         amount={minimumReceived.toString()}
                         symbol={selectedTokenTo.onChainFTMetadata?.symbol}
                         decimals={0}
-                        translateIdInfoTooltip="swapNear.translateIdInfoTooltip.minimumReceived"
+                        translateIdInfoTooltip="swap.translateIdInfoTooltip.minimumReceived"
                     />
                 ) : 
                 (
                     <Amount
                     className="details-info"
-                    translateIdTitle={'swapNear.minReceived'}
+                    translateIdTitle={'swap.minReceived'}
                     amount={estimatedMinReceived}
                     symbol={selectedTokenTo.onChainFTMetadata?.symbol}
                     decimals={selectedTokenTo.onChainFTMetadata?.decimals}
-                    translateIdInfoTooltip="swapNear.translateIdInfoTooltip.minimumReceived"
+                    translateIdInfoTooltip="swap.translateIdInfoTooltip.minimumReceived"
                 />
                 )} 
             </Accordion>

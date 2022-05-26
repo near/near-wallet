@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
 import { Translate } from 'react-localize-redux';
+import styled from 'styled-components';
+
 import Tooltip from '../../common/Tooltip';
 
 const StyledContainer = styled.div`
@@ -63,7 +64,7 @@ const SlippagePicker = ({
                 <Tooltip translate={translateIdInfoTooltip} />
             }
             <div className={'buttonsContainer'} >
-                {slippageValues.map(value => 
+                {slippageValues.map((value) => 
                     <button 
                         className={active == value ? 'active' : ''} 
                         onClick={() => handleClick(value)}

@@ -126,7 +126,7 @@ export function SwapAmountForm({
             <div className="headerSwap">
                 <BackArrowButton onClick={() => history.push('/')} />
                 <h4>
-                    <Translate id="swapNear.title" />
+                    <Translate id="swap.title" />
                 </h4>
             </div>
             <SwapFromForm
@@ -159,7 +159,7 @@ export function SwapAmountForm({
                 color="blue width width100"
                 onClick={() => setActiveView(VIEWS.REVIEW)}
             >
-                <Translate id="swapNear.review" />
+                <Translate id="swap.review" />
             </FormButton>
 
             <div className="flexCenterButton">
