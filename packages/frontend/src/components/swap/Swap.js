@@ -3,6 +3,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
+import { CREATE_USN_CONTRACT } from '../../../../../features';
 import { EXPLORER_URL } from '../../config';
 import { useFungibleTokensIncludingNEAR } from '../../hooks/fungibleTokensIncludingNEAR';
 import { usePerformBuyOrSellUSN } from '../../hooks/performBuyOrSellUSN';
@@ -24,7 +25,6 @@ import { findTokenSwapToList, exchangeRateTranslation, useInterval, commission }
 import Success from './components/Success';
 import { SwapAmountForm } from './components/SwapAmountForm';
 import { SwapReviewForm } from './components/SwapReviewForm';
-import { CREATE_USN_CONTRACT } from '../../../../../features';
 
 const { fetchTokens } = tokensActions;
 const { checkAndHideLedgerModal } = ledgerActions;
