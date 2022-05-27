@@ -7,7 +7,7 @@ import {
     selectTokensFiatValueUSD,
     selectTokenWhiteList,
 } from '../slices/tokenFiatValues';
-import { selectAllContractMetadata } from '../slices/tokens';
+import { selectContractsMetadata } from '../slices/tokensMetadata';
 
 const collectFarmingData = (args) => {
     try {
@@ -49,7 +49,7 @@ const collectFarmingData = (args) => {
 export default createSelector(
     [
         selectValidatorsFarmData,
-        selectAllContractMetadata,
+        selectContractsMetadata,
         selectTokensFiatValueUSD,
         selectTokenWhiteList,
         selectStakingCurrentAccountAccountId
