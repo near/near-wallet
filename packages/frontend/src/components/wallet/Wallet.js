@@ -275,6 +275,26 @@ const StyledContainer = styled(Container)`
         text-align: left;
         color: #24272a;
     }
+
+    .deposit-banner-wrapper {
+        width: 100%;
+        .deposit-near-banner {
+            > div {
+                border-top: 1px solid #F0F0F1;
+                padding: 20px;
+        
+                @media (max-width: 991px) {
+                    margin: 0 -14px;
+                    padding: 20px 0;
+                    border-bottom: 15px solid #F0F0F1;
+                }
+        
+                @media (max-width: 767px) {
+                    padding: 20px 14px 20px 14px;
+                }
+            }
+        }
+    }
 `;
 
 export function Wallet({
@@ -475,7 +495,11 @@ const FungibleTokens = ({
                     <Translate id="button.swap" />
                 </FormButton>
             </div>
-            {zeroBalanceAccount && <DepositNearBanner />}
+            {zeroBalanceAccount &&
+                <div className='deposit-banner-wrapper'>
+                    <DepositNearBanner />
+                </div>
+            }
             {!hideFungibleTokenSection && (
                 <>
                     <div className="sub-title tokens">
