@@ -59,6 +59,7 @@ const ReviewForm = styled.div`
             border-radius: 8px;
         }
         &.first {
+            color: #11181C;
             border-radius: 8px 8px 0 0;
         }
         &.last {
@@ -114,6 +115,9 @@ const ReviewForm = styled.div`
         color: #5bb98c;
     }
 
+    .details-info {
+        color: #687076;
+    }
     .details-info div {
         @media screen and (max-width: 400px) {
             font-size: 14px;
