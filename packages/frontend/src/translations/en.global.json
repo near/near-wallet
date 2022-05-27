@@ -1511,7 +1511,7 @@
         "review": "Review Swap",
         "reviewInfo": "You are swapping",
         "slippage": "Slippage tolerance",
-        "successTitle": "Transaction complete!</br>You swapped <span class='color-blue space'>${amount}</span></br>to <span class='color-green'>${tokenTo}</span>",
+        "successTitle": "Transaction complete!</br>You swapped <span class='color-blue space'>${amountFrom}</span></br>to <span class='color-green'>${amountTo}</span>",
         "title": "Swap",
         "to": "To",
         "translateIdInfoTooltip": {

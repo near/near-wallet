@@ -38,7 +38,7 @@ const StyledContainer = styled.div`
     }
 `;
 
-const Success = ({ amount, tokenTo, transactionHash, onClickContinue, onClickGoToExplorer }) => {
+const Success = ({ amountFrom, amountTo, transactionHash, onClickContinue, onClickGoToExplorer }) => {
     return (
         <StyledContainer className="buttons-bottom">
             <AvatarSuccessIcon />
@@ -49,8 +49,8 @@ const Success = ({ amount, tokenTo, transactionHash, onClickContinue, onClickGoT
                 <SafeTranslate
                     id="swap.successTitle"
                     data={{
-                        amount: amount,
-                        tokenTo: tokenTo,
+                        amountFrom,
+                        amountTo
                     }}
                 />
             </div>

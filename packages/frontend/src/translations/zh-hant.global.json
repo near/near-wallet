@@ -1510,7 +1510,7 @@
         "review": "確認兌換",
         "reviewInfo": "你將兌換",
         "slippage": "滑动公差",
-        "successTitle": "交易完成！</br>你兌換了 <span class='color-blue space'>${amount}</span></br>至 <span class='color-green'>${tokenTo}</span>",
+        "successTitle": "交易完成！</br>你兌換了 <span class='color-blue space'>${amountFrom}</span></br>至 <span class='color-green'>${amountTo}</span>",
         "title": "兌換",
         "to": "至",
         "translateIdInfoTooltip": {

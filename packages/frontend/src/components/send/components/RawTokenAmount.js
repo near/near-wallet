@@ -10,7 +10,7 @@ const RawTokenAmount = ({
     withSymbol = true,
     showFiatAmountForNonNearToken
 }) => {
-    if (decimals && symbol || decimals === 0 && symbol) {
+    if (decimals !== null && symbol) {
         return (
             <TokenAmount
                 token={{

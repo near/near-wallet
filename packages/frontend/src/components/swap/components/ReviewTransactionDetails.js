@@ -7,7 +7,9 @@ import styled from 'styled-components';
 import { removeTrailingZeros } from '../../../utils/amounts';
 import Token from '../../send/components/entry_types/Token';
 import SwapIcon from '../../svg/WrapIcon';
-import TransactionDetails from './TransactionDetails';
+import TransactionDetailsWrappedNear from './TransactionDetailsWrappedNear';
+import TransactionDetailsUSN from './TransactionDetailsUSN';
+import { CREATE_USN_CONTRACT } from '../../../../../../features';
 
 const {
     utils: {
@@ -161,6 +163,52 @@ const ReviewTransactionDetails = ({
             : removeTrailingZeros((ratio).toString());
     };
 
+    const isUSN = 
+        (tokenFrom.onChainFTMetadata.name === 'USN' || tokenTo.onChainFTMetadata.name === 'USN') 
+        && CREATE_USN_CONTRACT;
+
+    function transactionDetailsSwitch(token) {
+        switch(token) {
+            case 'USN':
+                return (
+                    <TransactionDetailsUSN
+                        selectedTokenFrom={tokenFrom}
+                        selectedTokenTo={tokenTo}
+                        amount={amountTokenFrom}
+                        exchangeRate={exchangeRate}
+                        tradingFee={tradingFee}
+                        setSlippage={setSlippage}
+                    />
+                );
+            case 'wNEAR':
+                return (
+                    <TransactionDetailsWrappedNear
+                        selectedTokenFrom={tokenFrom}
+                        selectedTokenTo={tokenTo}
+                        estimatedFeesInNear={`${
+                            amountTokenFrom > 1
+                                ? Math.trunc(amountTokenFrom).toString()
+                                : '1'
+                        }`}
+                        estimatedMinReceived={estimatedMinReceived}
+                    />  
+                );
+            default:
+                return (
+                    <TransactionDetailsWrappedNear
+                        selectedTokenFrom={tokenFrom}
+                        selectedTokenTo={tokenTo}
+                        estimatedFeesInNear={`${
+                            amountTokenFrom > 1
+                                ? Math.trunc(amountTokenFrom).toString()
+                                : '1'
+                        }`}
+                        estimatedMinReceived={estimatedMinReceived}
+                    />
+                );
+        }
+    }
+
     return (
         <ReviewForm>
             <div className="flex space-between bg radius">
@@ -210,20 +258,7 @@ const ReviewTransactionDetails = ({
                     tokenTo.onChainFTMetadata?.symbol
                 }`}</div>
             </div>
-            <TransactionDetails
-                selectedTokenFrom={tokenFrom}
-                selectedTokenTo={tokenTo}
-                estimatedFeesInNear={`${
-                    amountTokenFrom > 1
-                        ? Math.trunc(amountTokenFrom).toString()
-                        : '1'
-                }`}
-                estimatedMinReceived={estimatedMinReceived}
-                amount={amountTokenFrom}
-                exchangeRate={exchangeRate}
-                tradingFee={tradingFee}
-                setSlippage={setSlippage}
-            />
+            {transactionDetailsSwitch(isUSN ? 'USN' : 'wNEAR')}
         </ReviewForm>
     );
 };

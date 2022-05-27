@@ -400,9 +400,7 @@ const FungibleTokens = ({
     currentLanguage,
 }) => {
     const zeroBalanceAccount = accountExists === false;
-    const currentFungibleTokens = CREATE_USN_CONTRACT
-        ? fungibleTokens[0][0]
-        : fungibleTokens[0];
+    const currentFungibleTokens = fungibleTokens[0];
     const hideFungibleTokenSection =
         zeroBalanceAccount &&
         fungibleTokens?.length === 1 &&
