@@ -39,6 +39,16 @@ const StyledContainer = styled(Container)`
             margin-top: -15px;
         }
     }
+    
+    .coingecko {
+        color: #B4B4B4;
+        align-self: end;
+        margin: 20px;
+        @media (max-width: 991px) {
+            margin: -25px 0 25px 0;
+        }
+    }
+
     .sub-title {
         font-size: 14px;
         margin-bottom: 10px;
@@ -503,6 +513,7 @@ const FungibleTokens = ({
                             />
                         </>
                     )}
+                    <div className='coingecko'><Translate id='poweredByCoinGecko'/></div>
                 </>
             )}
         </>
