@@ -66,6 +66,7 @@ const SlippagePicker = ({
             <div className={'buttonsContainer'} >
                 {slippageValues.map((value) => 
                     <button 
+                        key={value}
                         className={active == value ? 'active' : ''} 
                         onClick={() => handleClick(value)}
                     >

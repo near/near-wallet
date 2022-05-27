@@ -101,7 +101,7 @@ const StyledContainer = styled.div`
     }
 
     .balance {
-        margin-left: auto !important;
+        margin-left: auto;
         font-size: 16px;
         font-weight: 600;
         color: #24272a;
@@ -155,7 +155,7 @@ const TokenBox = ({ token, onClick, currentLanguage }) => {
             className='token-box'
             onClick={onClick ? () => onClick(token) : null}
             data-test-id={`token-selection-${token.contractName || 'NEAR'}`}
-            IS_USN={CREATE_USN_CONTRACT && (token.onChainFTMetadata?.symbol === 'NEAR' || token.onChainFTMetadata?.symbol === 'USN')}
+            IS_USN={CREATE_USN_CONTRACT && token.onChainFTMetadata?.symbol === 'USN'}
         >
             <div style={{ display: 'flex', width: '100%' }}>
                 <div className='icon'>

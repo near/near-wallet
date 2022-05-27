@@ -39,7 +39,7 @@ const StyledContainer = styled.div`
         width: 100%;
     }
     .margin {
-        margin-bottom: 16px;
+        margin-bottom: 20px;
         width 72px;
     }
     .small-rounded {
@@ -154,14 +154,15 @@ export function SwapAmountForm({
                 activeTokenTo={activeTokenTo}
             />
 
-            <FormButton
-                disabled={isDisabled}
-                color="blue width width100"
-                onClick={() => setActiveView(VIEWS.REVIEW)}
-            >
-                <Translate id="swap.review" />
-            </FormButton>
-
+            <div className="flexCenterButton">
+                <FormButton
+                    disabled={isDisabled}
+                    color="blue width width100"
+                    onClick={() => setActiveView(VIEWS.REVIEW)}
+                >
+                    <Translate id="swap.review" />
+                </FormButton>
+            </div>
             <div className="flexCenterButton">
                 <FormButton color="gray link " onClick={() => history.goBack()}>
                     <Translate id="button.cancel" />

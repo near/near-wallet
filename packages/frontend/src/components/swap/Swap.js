@@ -371,8 +371,8 @@ function Swap({ history }) {
             case VIEWS.SUCCESS:
                 return (
                     <Success
-                        amount={`${amountTokenFrom} ${activeTokenFrom.onChainFTMetadata?.symbol}`}
-                        tokenTo={activeTokenTo.onChainFTMetadata?.symbol}
+                        amountFrom={`${amountTokenFrom} ${activeTokenFrom.onChainFTMetadata?.symbol}`}
+                        amountTo={`${amountTokenTo} ${activeTokenTo.onChainFTMetadata?.symbol}`}
                         transactionHash={transactionHash}
                         onClickContinue={() => history.push('/')}
                         onClickGoToExplorer={() =>

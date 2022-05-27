@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import SafeTranslate from '../../SafeTranslate';
 import { VIEWS } from '../Swap';
 import SelectTokenButton from './SelectTokenButton';
+import { CREATE_USN_CONTRACT } from '../../../../../../features';
 
 const FormFrom = styled.form`
     display: flex;
@@ -79,7 +80,7 @@ const SwapToForm = ({
                 {activeTokenTo && (
                     <SelectTokenButton
                         token={activeTokenTo}
-                        onClick={() => setActiveView(VIEWS.SELECT_TOKEN_TO)}
+                        onClick={() => CREATE_USN_CONTRACT && setActiveView(VIEWS.SELECT_TOKEN_TO)}
                     />
                 )}
                 <div className='outputText'>
