@@ -33,7 +33,7 @@ export const tokensMetadataSlice = createSlice({
 export default tokensMetadataSlice;
 
 // Top level selectors
-const selectTokensMetadataSlice = (state) => state[SLICE_NAME] || initialState;
+const selectTokensMetadataSlice = (state) => state.shared[SLICE_NAME] || initialState;
 
 const getContractNameParam = createParameterSelector((params) => params.contractName);
 

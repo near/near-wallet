@@ -16,7 +16,6 @@ import nftSlice from '../slices/nft';
 import recoveryMethodsSlice from '../slices/recoveryMethods';
 import swapSlice from '../slices/swap';
 import tokenFiatValuesSlice from '../slices/tokenFiatValues';
-import tokensMetadataSlice from '../slices/tokensMetadata';
 import transactionsSlice from '../slices/transactions';
 
 export default (history) => ({
@@ -24,7 +23,6 @@ export default (history) => ({
     localize: localizeReducer,
     router: connectRouter(history),
     [tokenFiatValuesSlice.name]: tokenFiatValuesSlice.reducer,
-    [tokensMetadataSlice.name]: tokensMetadataSlice.reducer,
     // account reducers
     allAccounts,
     account,
