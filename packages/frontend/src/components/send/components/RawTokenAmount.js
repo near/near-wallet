@@ -6,7 +6,7 @@ import TokenAmount from '../../wallet/TokenAmount';
 const RawTokenAmount = ({
     symbol,
     amount,
-    decimals,
+    decimals = null,
     withSymbol = true,
     showFiatAmountForNonNearToken
 }) => {
