@@ -277,9 +277,9 @@
       "lastEditedAt": "2022-05-24T23:56:29.721Z"
     },
     "mainnet": {
-      "enabled": false,
+      "enabled": true,
       "lastEditedBy": "Patrick Tajima",
-      "lastEditedAt": "2022-05-06T17:30:49.430Z"
+      "lastEditedAt": "2022-05-27T17:30:49.430Z"
     },
     "mainnet_STAGING": {
       "enabled": true,
@@ -297,9 +297,9 @@
       "lastEditedAt": "2022-05-24T23:56:29.721Z"
     },
     "mainnet_NEARORG": {
-      "enabled": false,
+      "enabled": true,
       "lastEditedBy": "esaminu",
-      "lastEditedAt": "2022-05-06T23:34:05.414Z"
+      "lastEditedAt": "2022-05-27T23:34:05.414Z"
     },
     "mainnet_STAGING_NEARORG": {
       "enabled": true,
