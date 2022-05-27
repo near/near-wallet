@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import { CREATE_USN_CONTRACT } from '../../../../../../features';
 import Token from '../../send/components/entry_types/Token';
 import ChevronIcon from '../../svg/ChevronIcon';
 
@@ -12,7 +13,7 @@ const StyledContainer = styled.div`
     border-radius: 8px;
     transition: 100ms;
     height: 64px;
-    cursor: pointer;
+    cursor: ${CREATE_USN_CONTRACT ? 'pointer' : null};
     
     > div {
         width: 100%;
