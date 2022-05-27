@@ -4,12 +4,12 @@ import { Translate } from 'react-localize-redux';
 import { withRouter } from 'react-router';
 import styled from 'styled-components';
 
+import { CREATE_USN_CONTRACT } from '../../../../../../features';
 import { removeTrailingZeros } from '../../../utils/amounts';
 import Token from '../../send/components/entry_types/Token';
 import SwapIcon from '../../svg/WrapIcon';
-import TransactionDetailsWrappedNear from './TransactionDetailsWrappedNear';
 import TransactionDetailsUSN from './TransactionDetailsUSN';
-import { CREATE_USN_CONTRACT } from '../../../../../../features';
+import TransactionDetailsWrappedNear from './TransactionDetailsWrappedNear';
 
 const {
     utils: {
@@ -168,7 +168,7 @@ const ReviewTransactionDetails = ({
         && CREATE_USN_CONTRACT;
 
     function transactionDetailsSwitch(token) {
-        switch(token) {
+        switch (token) {
             case 'USN':
                 return (
                     <TransactionDetailsUSN
