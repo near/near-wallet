@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import set from 'lodash.set';
 import { createSelector } from 'reselect';
 
+import FungibleTokens from '../../../services/FungibleTokens';
 import createParameterSelector from '../../selectors/mainSelectors/createParameterSelector';
 
 const SLICE_NAME = 'tokensMetadata';
@@ -9,6 +10,15 @@ const SLICE_NAME = 'tokensMetadata';
 const initialState = {
     byContractName: {}
 };
+
+export async function getCachedContractMetadataOrFetch(contractName, state) {
+    let contractMetadata = selectOneContractMetadata(state, { contractName });
+    if (contractMetadata) {
+        return contractMetadata;
+    }
+    return FungibleTokens.getMetadata({ contractName });
+}
+
 export const tokensMetadataSlice = createSlice({
     name: SLICE_NAME,
     initialState,
