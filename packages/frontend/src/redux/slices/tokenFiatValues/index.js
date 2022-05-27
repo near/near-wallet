@@ -1,6 +1,8 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import cloneDeep from 'lodash.clonedeep';
+import isEqual from 'lodash.isequal';
+import mergeWith from 'lodash.mergewith';
 import merge from 'lodash.merge';
+import omit from 'lodash.omit';
 import { createSelector } from 'reselect';
 
 import FiatValueManager from '../../../utils/fiatValueManager';
@@ -38,22 +40,12 @@ const tokenFiatValuesSlice = createSlice({
             builder.addCase(fetchTokenFiatValues.fulfilled, (state, action) => {
                 // Payload of .fulfilled is in the same shape as the store; just merge it!
                 // { near: { usd: x, lastUpdatedTimestamp: 1212312321, ... }
-                const beenUpdatedTokens = {};
-                const tokens = cloneDeep(state).tokens;
-                Object.keys(action.payload).map((token) => {
-                    const previousLastUpdatedAt = tokens[token] ? tokens[token].last_updated_at : 0;
-                    const previousPrice = tokens[token] ? tokens[token].usd : 0;
-                    const fetchedLastUpdatedAt = action.payload[token].last_updated_at;
-                    const fetchedPrice = action.payload[token].usd;
-                    if (fetchedLastUpdatedAt > previousLastUpdatedAt && fetchedPrice !== previousPrice) {
-                        beenUpdatedTokens[token] = action.payload[token];
-                    }
-                });
-                // Using merge instead of `assign()` so in the future we don't blow away previously loaded token
-                // prices when we load new ones with different token names
-                if (Object.keys(beenUpdatedTokens).length) {
-                    merge(state.tokens, beenUpdatedTokens);
-                }
+                mergeWith(state.tokens, action.payload, (previous, fetched) =>
+                    fetched?.last_updated_at > previous?.last_updated_at &&
+                    !isEqual(omit(fetched, 'last_updated_at'), omit(previous, 'last_updated_at'))
+                        ? fetched
+                        : previous
+                );
             });
             builder.addCase(getTokenWhiteList.fulfilled, (state, action) => {
                 state.tokenWhiteList = action.payload;
