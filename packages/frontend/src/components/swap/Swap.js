@@ -24,6 +24,7 @@ import { findTokenSwapToList, exchangeRateTranslation, useInterval, commission }
 import Success from './components/Success';
 import { SwapAmountForm } from './components/SwapAmountForm';
 import { SwapReviewForm } from './components/SwapReviewForm';
+import { CREATE_USN_CONTRACT } from '../../../../../features';
 
 const { fetchTokens } = tokensActions;
 const { checkAndHideLedgerModal } = ledgerActions;
@@ -263,7 +264,7 @@ function Swap({ history }) {
                     setTransactionHash(result.transaction.hash);
                 }
 
-                else if (tokenFrom == 'USN' || tokenTo == 'USN') {
+                else if ((tokenFrom == 'USN' || tokenTo == 'USN') && CREATE_USN_CONTRACT) {
                     await performBuyOrSellUSN({
                         accountId, 
                         multiplier, 
