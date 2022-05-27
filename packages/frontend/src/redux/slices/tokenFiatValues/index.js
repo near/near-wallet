@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import isEqual from 'lodash.isequal';
-import mergeWith from 'lodash.mergewith';
 import merge from 'lodash.merge';
+import mergeWith from 'lodash.mergewith';
 import omit from 'lodash.omit';
 import { createSelector } from 'reselect';
 
