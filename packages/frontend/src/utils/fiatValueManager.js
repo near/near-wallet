@@ -51,9 +51,7 @@ export default class FiatValueManager {
                     // DataLoader must be constructed with a function which accepts 
                     // Array<key> and returns Promise<Array<value>> of the same length
                     // as the Array of keys
-                    return new Promise((resolve, reject) => {
-                        return [].fill({}, tokenIds.length);
-                    });
+                    return Promise.resolve(Array(tokenIds.length).fill({}));
                 }
             },
             {
@@ -72,7 +70,7 @@ export default class FiatValueManager {
                     return [refFinanceTokenFiatValues];
                 } catch (error) {
                     console.error(`Failed to fetch ref-finance prices: ${error}`);
-                    return new Promise((resolve, reject) => [{}]);
+                    return Promise.resolve([{}]);
                 }
             },
             {
@@ -81,14 +79,14 @@ export default class FiatValueManager {
         );
     };
 
-    async getPrice(tokens = ['near', 'usn']) {
+    async fetchCoinGeckoPrices(tokens = ['near', 'usn']) {
         const byTokenName = {};
-        const prices = await this.fiatValueDataLoader.loadMany(tokens);
+        const prices = await this.coinGeckoFiatValueDataLoader.loadMany(tokens);
         tokens.forEach((tokenName, ndx) => byTokenName[tokenName] = prices[ndx]);
         return byTokenName;
     };
 
-    async fetchTokenPrices(dummyToken = ['near']) {
+    async fetchRefFinancePrices(dummyToken = ['near']) {
         const [prices] = await this.refFinanceDataLoader.loadMany(dummyToken);
         const last_updated_at = Date.now() / 1000; 
         const formattedValues = Object.keys(prices).reduce((acc, curr) => {

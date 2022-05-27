@@ -16,7 +16,7 @@ const fetchTokenFiatValues = createAsyncThunk(
     `${SLICE_NAME}/fetchTokenFiatValues`,
     async () => {
         const [coinGeckoTokenFiatValues, refFinanceTokenFiatValues] = await Promise.all(
-            [fiatValueManager.getPrice(['near', 'usn']), fiatValueManager.fetchTokenPrices()]
+            [fiatValueManager.fetchCoinGeckoPrices(['near', 'usn']), fiatValueManager.fetchRefFinancePrices()]
         );
         return merge({}, coinGeckoTokenFiatValues, refFinanceTokenFiatValues);
     }
