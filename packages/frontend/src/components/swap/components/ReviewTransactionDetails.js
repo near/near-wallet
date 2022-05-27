@@ -106,7 +106,7 @@ const ReviewForm = styled.div`
         width: 15px;
         height: 15px;
     }
-    .green div {
+    .green div.amount {
         font-family: "Inter";
         font-style: normal;
         font-weight: 400;
