@@ -3,7 +3,13 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import { refreshAccount } from '../../../redux/actions/account';
 import { showCustomAlert } from '../../../redux/actions/status';
-import { selectAccountExists, selectAccountFullAccessKeys, selectAccountId } from '../../../redux/slices/account';
+import {
+    selectAccountExists,
+    selectAccountFullAccessKeys,
+    selectAccountId,
+    selectAccountHas2fa,
+    selectActiveAccountIdIsImplicitAccount
+} from '../../../redux/slices/account';
 import { finishLocalSetupForZeroBalanceAccount } from '../../../redux/slices/account/createAccountThunks';
 import { actions as ledgerActions, selectLedgerConnectionAvailable } from '../../../redux/slices/ledger';
 import { wallet } from '../../../utils/wallet';
@@ -22,18 +28,20 @@ export function ZeroBalanceAccountWrapper() {
     const accountId = useSelector(selectAccountId);
     const accountExists = useSelector(selectAccountExists);
     const accountFullAccessKeys = useSelector(selectAccountFullAccessKeys);
+    const accountHas2fa = useSelector(selectAccountHas2fa);
+    const activeAccountIdIsImplicitAccount = useSelector(selectActiveAccountIdIsImplicitAccount);
 
     const isLedgerKey = accountFullAccessKeys[0]?.meta.type === 'ledger';
 
     useEffect(() => {
-        if (accountExists && accountFullAccessKeys.length === 1) {
+        if (accountExists && activeAccountIdIsImplicitAccount && accountFullAccessKeys.length === 1 && !accountHas2fa) {
             if (isLedgerKey) {
                 handleCheckLedgerStatus();
             } else {
                 handleAddLocalAccessKey('phrase');
             }
         }
-    }, [accountExists]);
+    }, [accountExists, accountHas2fa]);
 
     const handleCheckLedgerStatus = async () => {
         const localKey = await wallet.getLocalSecretKey(accountId);
@@ -44,7 +52,7 @@ export function ZeroBalanceAccountWrapper() {
 
     const handleAddLocalAccessKey = async (recoveryMethod) => {
         const translationId = recoveryMethod === 'ledger' ? 'addLedgerKey' : 'addPhraseKey';
-
+        
         try {
             await dispatch(finishLocalSetupForZeroBalanceAccount({
                 implicitAccountId: accountId,
