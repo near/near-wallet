@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 0.0.5 (2022-05-29)
+
+**Note:** Version bump only for package @near-wallet/e2e-tests
+
+
+
+
+
 ## 0.0.4 (2022-02-08)
 
 **Note:** Version bump only for package @near-wallet/e2e-tests
