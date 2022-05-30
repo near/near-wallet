@@ -97,22 +97,21 @@ const MigrationBanner = ({ account }) => {
     };
 
 
-    const getInviteCalendarEventURl =()=>{
+    const getInviteCalendarEventURl =({ text, details })=>{
         const calenderURL = new URL('https://calendar.google.com/calendar/u/0/r/eventedit');
         const calendarStartDate= MIGRATION_START_DATE.toISOString().replace(/-|:|\.\d\d\d/g,'');
         const calendarEndDate= MIGRATION_END_DATE.toISOString().replace(/-|:|\.\d\d\d/g,'');
 
         calenderURL.searchParams.append('dates', `${calendarStartDate}/${calendarEndDate}`);
-        calenderURL.searchParams.append('text', 'Wallet Migration Event');
-        calenderURL.searchParams.append('details', 'This is the official start date of the near wallet migration. Please make sure to start migrating your account as soon as possible.');
+        calenderURL.searchParams.append('text', text);
+        calenderURL.searchParams.append('details', details);
         return calenderURL;
     };
 
-    const handleAddToCalendar = ()=>{
-        window.open(getInviteCalendarEventURl(), '_blank');
+    const handleAddToCalendar = (eventInfo)=>{
+        window.open(getInviteCalendarEventURl(eventInfo), '_blank');
     };
 
-  
 
     useEffect(() => {
         setBannerHeight();
@@ -121,6 +120,7 @@ const MigrationBanner = ({ account }) => {
             window.removeEventListener('resize', setBannerHeight);
         };
     }, [account]);
+    
 
     const preMigrationMarkup = (
             <ContentWrapper>
@@ -128,9 +128,17 @@ const MigrationBanner = ({ account }) => {
                     <IconAlertTriangle/>
                     <Translate id='preMigration.message' data={{ startDate: MIGRATION_START_DATE.toLocaleDateString() }} />
                </div>
-                <CustomButton onClick={handleAddToCalendar}>
-                <IconBell/> <Translate id='preMigration.cta' />
-                </CustomButton>
+               <Translate>
+                    {({ translate }) =>
+                    <CustomButton onClick={()=>{handleAddToCalendar({
+                        text: translate('preMigration.calendarEvent.text'),
+                        details: translate('preMigration.calendarEvent.details'),
+                    });}}>
+                        <IconBell/> <Translate id='preMigration.cta' />
+                    </CustomButton>
+                    }
+                </Translate>
+               
             </ContentWrapper>
     );
 
