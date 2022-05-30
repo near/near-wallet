@@ -83,30 +83,6 @@ export const validateInput = (value, max) => {
     return true;
 };
 
-export const findTokenSwapToList = ({ tokenSymbol, fungibleTokensList }) => {
-    if (!tokenSymbol) {
-        return;
-    }
-    const validTokensToSwapTo = VALID_TOKEN_PAIRS[tokenSymbol];
-    const fungibleTokensWithPrices = fungibleTokensList.reduce((accum, current) => {
-        if (validTokensToSwapTo.includes(current.onChainFTMetadata.symbol)) {
-            accum.push(current);
-        }
-        return accum;
-    }, []);
-    const hasWNear = fungibleTokensWithPrices.find((token) => token.onChainFTMetadata?.symbol == 'wNEAR');
-    if (!hasWNear && validTokensToSwapTo.includes('wNEAR')) {
-        fungibleTokensWithPrices.push(W_NEAR_PROPS);
-    }
-
-    const hasUSN = fungibleTokensWithPrices.find((token) => token.onChainFTMetadata?.symbol == 'USN');
-    if (!hasUSN && validTokensToSwapTo.includes('USN')) {
-        fungibleTokensWithPrices.push(USN_PROPS);
-    }
-
-    return fungibleTokensWithPrices;
-};
-
 // USN Logic below
 
 export const getBalance = (activeTokenFrom) => {

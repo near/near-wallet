@@ -1,3 +1,4 @@
+import { flattenDeep, uniq } from 'lodash';
 import { parseNearAmount } from 'near-api-js/lib/utils/format';
 import React, { useState, useEffect, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
@@ -21,12 +22,13 @@ import isMobile from '../../utils/isMobile';
 import { validateInput } from '../../utils/wrap-unwrap';
 import Container from '../common/styled/Container.css';
 import SelectToken from '../send/components/views/SelectToken';
-import { findTokenSwapToList, exchangeRateTranslation, useInterval, commission } from './components/helpers';
+import { exchangeRateTranslation, useInterval, commission } from './components/helpers';
 import Success from './components/Success';
 import { SwapAmountForm } from './components/SwapAmountForm';
 import { SwapReviewForm } from './components/SwapReviewForm';
+import {NEAR_TOKEN_ID, IS_MAINNET} from '../../config'
 
-const { fetchTokens } = tokensActions;
+const { fetchToken } = tokensActions;
 const { checkAndHideLedgerModal } = ledgerActions;
 
 export const VIEWS = {
@@ -37,37 +39,14 @@ export const VIEWS = {
     SUCCESS: 'success',
 };
 
-export const W_NEAR_PROPS = {
-    balance: '0',
-    onChainFTMetadata: {
-        decimals: 24,
-        spec: 'ft-1.0.0',
-        name: 'Wrapped NEAR fungible token',
-        symbol: 'wNEAR',
-        icon: null,
-        reference: null,
-        reference_hash: null
-    },
-};
-
-export const USN_PROPS = {
-    balance: '0',
-    onChainFTMetadata: {
-        decimals: 18,
-        spec: 'ft-1.0.0',
-        name: 'USN',
-        symbol: 'USN',
-        icon: null, // to do: add svg for usn
-        reference: null,
-        reference_hash: null
-    },
-};
-
+const USN_CONTRACT = !IS_MAINNET ? 'usdn.testnet' : 'usn';
 export const VALID_TOKEN_PAIRS = {
-    NEAR: ['wNEAR', 'USN'],
-    USN: ['NEAR'],
-    wNEAR: ['NEAR']
+    NEAR: [NEAR_TOKEN_ID, USN_CONTRACT],
+    [USN_CONTRACT]: ['NEAR'],
+    [NEAR_TOKEN_ID]: ['NEAR']
 };
+
+const allTokens = uniq(flattenDeep(Object.entries(VALID_TOKEN_PAIRS)))
 
 const StyledContainer = styled(Container)`
     position: relative;
@@ -137,7 +116,7 @@ const StyledContainer = styled(Container)`
 `;
 
 function Swap({ history }) {
-    const fungibleTokensList = useFungibleTokensIncludingNEAR();
+    const fungibleTokensList = useFungibleTokensIncludingNEAR({showTokensWithZeroBalance: true});
     const accountId = useSelector(selectAccountId);
     const multiplierResult = useSelector(selectMetadataSlice);
     const [multiplier, setMultiplier] = useState(0);
@@ -170,7 +149,7 @@ function Swap({ history }) {
         if (!accountId) {
             return;
         }
-        dispatch(fetchTokens({ accountId }));
+        Promise.all(allTokens.map(token => dispatch(fetchToken({accountId, contractName: token}))));
         dispatch(fetchMultiplier());
     }, [accountId]);
 
@@ -185,8 +164,6 @@ function Swap({ history }) {
         fungibleTokensList.find((token) => {
             if (token.onChainFTMetadata?.symbol === 'wNEAR') {
                 setActiveTokenTo(token);
-            } else {
-                setActiveTokenTo(W_NEAR_PROPS);
             }
         });
     }, [tokensLoader, fungibleTokensList[0].balance]);
@@ -210,22 +187,17 @@ function Swap({ history }) {
         checkValidInput();
     }, [amountTokenFrom, maxFrom]);
 
-    const validTokensSwapFrom = fungibleTokensList.reduce((accum, current) => {
-        if (current.onChainFTMetadata.symbol in VALID_TOKEN_PAIRS) {
-            accum.push(current);
-        }
-        return accum;
-    }, []);
-    const currentToken = activeTokenFrom && activeTokenFrom.onChainFTMetadata && activeTokenFrom.onChainFTMetadata.symbol;
-    const validTokensSwapTo = findTokenSwapToList({ tokenSymbol: currentToken, fungibleTokensList });
+    const validTokensSwapFrom = fungibleTokensList.filter(({ contractName }) => contractName in VALID_TOKEN_PAIRS );
+    const currentToken = activeTokenFrom && activeTokenFrom.onChainFTMetadata && activeTokenFrom.contractName;
+    const validTokensSwapTo = fungibleTokensList.filter(token => (VALID_TOKEN_PAIRS[currentToken] || []).some((contractName) => contractName === token.contractName));
 
     useEffect(() => {
         const hasValidParams = validTokensSwapTo && activeTokenFrom;
         const optForPriorityToken = !reversePositionsJustClicked;
         if (hasValidParams && optForPriorityToken) {
-            const prioritySwapToTokenSymbol = VALID_TOKEN_PAIRS[activeTokenFrom.onChainFTMetadata.symbol][0];
+            const prioritySwapToTokenSymbol = VALID_TOKEN_PAIRS[activeTokenFrom.contractName][0];
             const prioritySwapToToken = validTokensSwapTo.find((token) => {
-                return token.onChainFTMetadata.symbol == prioritySwapToTokenSymbol;
+                return token.contractName == prioritySwapToTokenSymbol;
             });
             setActiveTokenTo(prioritySwapToToken);
         }

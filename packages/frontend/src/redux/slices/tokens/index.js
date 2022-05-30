@@ -217,7 +217,7 @@ export const selectOneContractMetadata = createSelector(
         metadataByContractName[contractName]
 );
 
-const selectOwnedTokensForAccount = createSelector(
+export const selectOwnedTokensForAccount = createSelector(
     [selectOwnedTokens, getAccountIdParam],
     (ownedTokens, accountId) => ownedTokens.byAccountId[accountId] || {}
 );
@@ -233,11 +233,14 @@ export const selectTokensWithMetadataForAccountId = createSelector(
         selectAllContractMetadata,
         selectOwnedTokensForAccount,
         selectUSDNTokenFiatValueUSD,
+        (_, params) => params.showTokensWithZeroBalance
     ],
-    (allContractMetadata, ownedTokensForAccount, usd) =>
-        Object.entries(ownedTokensForAccount)
-        .filter(([_, { balance }]) => !new BN(balance).isZero())
-            .sort(([a], [b]) =>
+    (allContractMetadata, ownedTokensForAccount, usd, showTokensWithZeroBalance) =>{
+        let tokenEntries = Object.entries(ownedTokensForAccount);
+        if(!showTokensWithZeroBalance) {
+            tokenEntries = tokenEntries.filter(([_, { balance }]) => !new BN(balance).isZero())
+        }
+        return tokenEntries.sort(([a], [b]) =>
                 allContractMetadata[a].name.localeCompare(
                     allContractMetadata[b].name
                 )
@@ -250,7 +253,7 @@ export const selectTokensWithMetadataForAccountId = createSelector(
                 fiatValueMetadata:
                     contractName === currentContractName ? { usd } : {},
             }))
-);
+});
 
 export const selectTokensLoading = createSelector(
     [selectOwnedTokens, getAccountIdParam],
