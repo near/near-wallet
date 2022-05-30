@@ -8,6 +8,8 @@ export const createParameterSelector = (selector) => (_, params) => selector(par
 
 const selectAccounts = (state) => state.accounts || {};
 
+const selectShared = (state) => state.shared || {};
+
 const selectAccountState = createSelector(
     [selectAccounts, selectActiveAccountId],
     (accounts, activeAccountId) => accounts[activeAccountId] || {}
@@ -16,4 +18,9 @@ const selectAccountState = createSelector(
 export const selectSliceByAccountId = (sliceName, initialState) => createSelector(
     selectAccountState, 
     (accountState) => accountState[sliceName] || initialState
+);
+
+export const selectSliceFromShared = (sliceName, initialState) => createSelector(
+    selectShared, 
+    (shared) => shared[sliceName] || initialState
 );

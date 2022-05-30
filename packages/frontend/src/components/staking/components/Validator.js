@@ -12,7 +12,7 @@ import selectNEARAsTokenWithMetadata from '../../../redux/selectors/crossStateSe
 import { selectValidatorsFarmData, selectFarmValidatorAPY, selectStakingCurrentAccountAccountId } from '../../../redux/slices/staking';
 import { selectActionsPending } from '../../../redux/slices/status';
 import { selectTokensFiatValueUSD, selectTokenWhiteList } from '../../../redux/slices/tokenFiatValues';
-import { selectAllContractMetadata } from '../../../redux/slices/tokens';
+import { selectContractsMetadata } from '../../../redux/slices/tokensMetadata';
 import StakingFarmContracts from '../../../services/StakingFarmContracts';
 import { FARMING_VALIDATOR_VERSION } from '../../../utils/constants';
 import FormButton from '../../common/FormButton';
@@ -78,7 +78,7 @@ export default function Validator({
     
     const NEARAsTokenWithMetadata = useSelector(selectNEARAsTokenWithMetadata);
 
-    const contractMetadataByContractId = useSelector(selectAllContractMetadata);
+    const contractMetadataByContractId = useSelector(selectContractsMetadata);
     const tokenFiatValues = useSelector(selectTokensFiatValueUSD);
     const tokenWhitelist = useSelector(selectTokenWhiteList);
     const currentAccountId = useSelector(selectStakingCurrentAccountAccountId);
