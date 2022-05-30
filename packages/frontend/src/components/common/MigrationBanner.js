@@ -1,4 +1,3 @@
-import { isAfter } from 'date-fns';
 import React, { useEffect } from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
@@ -80,11 +79,8 @@ const CustomButton = styled(FormButton)`
 `;
 
 const MigrationBanner = ({ account }) => {
-    const migrationStartDate = new Date( MIGRATION_START_DATE * 1000);
-    const migrationEndDate = new Date(MIGRATION_END_DATE * 1000);
 
-    const showPostMigrationBanner = isAfter(new Date(), new Date(migrationStartDate));
-
+    const showPostMigrationBanner = new Date() > MIGRATION_START_DATE;
 
     const setBannerHeight = () => {
         const migrationBanner = document.getElementById('migration-banner');
@@ -103,8 +99,8 @@ const MigrationBanner = ({ account }) => {
 
     const getInviteCalendarEventURl =()=>{
         const calenderURL = new URL('https://calendar.google.com/calendar/u/0/r/eventedit');
-        const calendarStartDate= migrationStartDate.toISOString().replace(/-|:|\.\d\d\d/g,'');
-        const calendarEndDate= migrationEndDate.toISOString().replace(/-|:|\.\d\d\d/g,'');
+        const calendarStartDate= MIGRATION_START_DATE.toISOString().replace(/-|:|\.\d\d\d/g,'');
+        const calendarEndDate= MIGRATION_END_DATE.toISOString().replace(/-|:|\.\d\d\d/g,'');
 
         calenderURL.searchParams.append('dates', `${calendarStartDate}/${calendarEndDate}`);
         calenderURL.searchParams.append('text', 'Wallet Migration Event');
@@ -130,10 +126,10 @@ const MigrationBanner = ({ account }) => {
             <ContentWrapper>
                <div className='content'>
                     <IconAlertTriangle/>
-                    <Translate id='preMigration.message' data={{ startDate: migrationStartDate.toLocaleDateString() }} />
+                    <Translate id='preMigration.message' data={{ startDate: MIGRATION_START_DATE.toLocaleDateString() }} />
                </div>
                 <CustomButton onClick={handleAddToCalendar}>
-                <IconBell/> Set a Reminder
+                <IconBell/> <Translate id='preMigration.cta' />
                 </CustomButton>
             </ContentWrapper>
     );
@@ -142,10 +138,10 @@ const MigrationBanner = ({ account }) => {
         <ContentWrapper>
             <div className='content'>
                 <IconAlertTriangle/>
-                <Translate id='postMigration.message' data={{ endDate: migrationEndDate.toLocaleDateString() }} />
+                <Translate id='postMigration.message' data={{ endDate: MIGRATION_END_DATE.toLocaleDateString() }} />
             </div>
             <CustomButton onClick={()=>{}}>
-               <IconShare/>  Transfer My Accounts
+               <IconShare/> <Translate id='postMigration.cta' />
             </CustomButton>
         </ContentWrapper>
     );

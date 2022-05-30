@@ -7,6 +7,7 @@ import {
     envValIsSet,
     parseBooleanFromShell,
     parseCommaSeperatedStringAsArrayFromShell,
+    parseDateFromShell
 } from './envParsers';
 
 const NEAR_WALLET_ENV = process.env.NEAR_WALLET_ENV;
@@ -44,6 +45,8 @@ module.exports = {
     ].some((env) => env === NEAR_WALLET_ENV),
     LINKDROP_GAS: process.env.LINKDROP_GAS,
     LOCKUP_ACCOUNT_ID_SUFFIX: process.env.LOCKUP_ACCOUNT_ID_SUFFIX,
+    MIGRATION_START_DATE: parseDateFromShell(process.env.MIGRATION_START_DATE),
+    MIGRATION_END_DATE: parseDateFromShell(process.env.MIGRATION_END_DATE),
     MIN_BALANCE_FOR_GAS: process.env.REACT_APP_MIN_BALANCE_FOR_GAS,
     MIN_BALANCE_TO_CREATE: process.env.MIN_BALANCE_TO_CREATE,
     MOONPAY_API_KEY: process.env.MOONPAY_API_KEY,
