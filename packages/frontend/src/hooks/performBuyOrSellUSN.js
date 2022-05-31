@@ -1,7 +1,7 @@
 import * as nearApiJs from 'near-api-js';
 import { useState } from 'react';
 
-import { IS_MAINNET } from '../config';
+import { USN_CONTRACT } from '../config';
 import { parseTokenAmount } from '../utils/amounts';
 import { wallet } from '../utils/wallet';
 
@@ -40,7 +40,6 @@ const setArgsUSNContractSell = ({multiplier, slippage, amount}) => {
 
 export const usePerformBuyOrSellUSN = () => {
     const [isLoading, setIsLoading] = useState(false);
-    const contractName = !IS_MAINNET ? 'usdn.testnet' : 'usn';
     const usnMethods = {
         viewMethods: ['version', 'name', 'symbol', 'decimals', 'ft_balance_of'],
         changeMethods: ['buy', 'sell'],
@@ -56,7 +55,7 @@ export const usePerformBuyOrSellUSN = () => {
         const account = await wallet.getAccount(accountId);
         const usnContract = new nearApiJs.Contract(
             account,
-            contractName,
+            USN_CONTRACT,
             usnMethods
         );
        

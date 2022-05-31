@@ -5,11 +5,11 @@ import { selectActiveAccountId } from '../redux/slices/activeAccount';
 import { selectTokensFiatValueUSD } from '../redux/slices/tokenFiatValues';
 import { selectTokensWithMetadataForAccountId } from '../redux/slices/tokens';
 
-export const useFungibleTokensIncludingNEAR = function () {
+export const useFungibleTokensIncludingNEAR = function ({ showTokensWithZeroBalance = false } = {}) {
     const NEARAsTokenWithMetadata = useSelector(selectNEARAsTokenWithMetadata);
     const accountId = useSelector(selectActiveAccountId);
     const fungibleTokens = useSelector((state) =>
-        selectTokensWithMetadataForAccountId(state, { accountId })
+        selectTokensWithMetadataForAccountId(state, { accountId, showTokensWithZeroBalance })
     );
 
     const fungibleTokenPrices = useSelector(selectTokensFiatValueUSD);

@@ -1,11 +1,10 @@
 import * as nearApiJs from 'near-api-js';
 import { useEffect, useState, useRef } from 'react';
 
-import { IS_MAINNET } from '../../../config';
+import { USN_CONTRACT } from '../../../config';
 import { removeTrailingZeros, formatTokenAmount, parseTokenAmount } from '../../../utils/amounts';
 import { wallet } from '../../../utils/wallet';
 import { formatNearAmount } from '../../common/balance/helpers';
-import { VALID_TOKEN_PAIRS, W_NEAR_PROPS, USN_PROPS } from '../Swap';
 
 export const getFormatBalance = (num, decimals) => {
     if (!num || num === '0') {
@@ -83,30 +82,6 @@ export const validateInput = (value, max) => {
     return true;
 };
 
-export const findTokenSwapToList = ({ tokenSymbol, fungibleTokensList }) => {
-    if (!tokenSymbol) {
-        return;
-    }
-    const validTokensToSwapTo = VALID_TOKEN_PAIRS[tokenSymbol];
-    const fungibleTokensWithPrices = fungibleTokensList.reduce((accum, current) => {
-        if (validTokensToSwapTo.includes(current.onChainFTMetadata.symbol)) {
-            accum.push(current);
-        }
-        return accum;
-    }, []);
-    const hasWNear = fungibleTokensWithPrices.find((token) => token.onChainFTMetadata?.symbol == 'wNEAR');
-    if (!hasWNear && validTokensToSwapTo.includes('wNEAR')) {
-        fungibleTokensWithPrices.push(W_NEAR_PROPS);
-    }
-
-    const hasUSN = fungibleTokensWithPrices.find((token) => token.onChainFTMetadata?.symbol == 'USN');
-    if (!hasUSN && validTokensToSwapTo.includes('USN')) {
-        fungibleTokensWithPrices.push(USN_PROPS);
-    }
-
-    return fungibleTokensWithPrices;
-};
-
 // USN Logic below
 
 export const getBalance = (activeTokenFrom) => {
@@ -137,7 +112,6 @@ const roundUSNExchange = (amount, exchangeRate) => {
 };
 
 async function fetchCommission({ accountId, amount, exchangeRate, token }) {
-    const contractName = !IS_MAINNET ? 'usdn.testnet' : 'usn';
     const currentToken = token?.onChainFTMetadata?.symbol === 'NEAR';
     const currentExchangeRate = +exchangeRate / 10000;
     const usnMethods = {
@@ -147,7 +121,7 @@ async function fetchCommission({ accountId, amount, exchangeRate, token }) {
     const account = await wallet.getAccount(accountId);
     const usnContract = new nearApiJs.Contract(
         account,
-        contractName,
+        USN_CONTRACT,
         usnMethods
     );
     const usnAmount = (currentToken
