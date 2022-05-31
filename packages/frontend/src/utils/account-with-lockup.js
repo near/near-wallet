@@ -5,9 +5,7 @@ import { InMemoryKeyStore } from 'near-api-js/lib/key_stores';
 import { parseNearAmount } from 'near-api-js/lib/utils/format';
 import { BinaryReader } from 'near-api-js/lib/utils/serialize';
 
-import { USE_INDEXER_SERVICE } from '../../../../features';
 import {
-    ACCOUNT_HELPER_URL,
     LOCKUP_ACCOUNT_ID_SUFFIX,
     MIN_BALANCE_FOR_GAS,
     REACT_APP_USE_TESTINGLOCKUP,
@@ -179,12 +177,7 @@ async function getAccountBalance(limitedAccountData = false) {
         };
     }
 
-    let stakingDeposits;
-    if (USE_INDEXER_SERVICE) {
-        stakingDeposits = await listStakingDeposits(this.accountId);
-    } else {
-        stakingDeposits = await fetch(ACCOUNT_HELPER_URL + '/staking-deposits/' + this.accountId).then((r) => r.json());
-    }
+    const stakingDeposits = await listStakingDeposits(this.accountId);
     let stakedBalanceMainAccount = new BN(0);
     await Promise.all(
         stakingDeposits.map(async ({ validator_id }) => {
