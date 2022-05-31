@@ -310,6 +310,11 @@ export function Profile({ match }) {
                         }
                     </div>
                 }
+                {accountExists === false && !accountIdFromUrl &&
+                    <div className='right'>
+                        <RemoveAccountWrapper/>
+                    </div>
+                }
             </div>
             {IMPORT_ZERO_BALANCE_ACCOUNT &&
                 <ZeroBalanceAccountWrapper/>
