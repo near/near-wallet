@@ -45,7 +45,7 @@ export const VALID_TOKEN_PAIRS = {
     [NEAR_TOKEN_ID]: ['NEAR']
 };
 
-const allTokens = uniq(flattenDeep(Object.entries(VALID_TOKEN_PAIRS)))
+const allTokens = uniq(flattenDeep(Object.entries(VALID_TOKEN_PAIRS)));
 
 const StyledContainer = styled(Container)`
     position: relative;
@@ -148,7 +148,7 @@ function Swap({ history }) {
         if (!accountId) {
             return;
         }
-        Promise.all(allTokens.map(token => dispatch(fetchToken({accountId, contractName: token}))));
+        Promise.all(allTokens.map((token) => dispatch(fetchToken({accountId, contractName: token}))));
         dispatch(fetchMultiplier());
     }, [accountId]);
 
@@ -188,7 +188,7 @@ function Swap({ history }) {
 
     const validTokensSwapFrom = fungibleTokensList.filter(({ contractName, balance }) => contractName in VALID_TOKEN_PAIRS && !!Number(balance));
     const currentToken = activeTokenFrom && activeTokenFrom.contractName;
-    const validTokensSwapTo = fungibleTokensList.filter(token => (VALID_TOKEN_PAIRS[currentToken] || []).some((contractName) => contractName === token.contractName));
+    const validTokensSwapTo = fungibleTokensList.filter((token) => (VALID_TOKEN_PAIRS[currentToken] || []).some((contractName) => contractName === token.contractName));
 
     useEffect(() => {
         const hasValidParams = validTokensSwapTo && activeTokenFrom;
@@ -236,6 +236,11 @@ function Swap({ history }) {
                 }
 
                 else if ((tokenFrom == 'USN' || tokenTo == 'USN') && CREATE_USN_CONTRACT) {
+                    if (amount == maxFrom.numToShow) {
+                        // in the event that a user clicks "Max: x" the input box only shows an estimated number
+                        // so we must ensure that the actual amount that gets converted is the full max number
+                        amount = maxFrom.fullNum;
+                    }
                     await performBuyOrSellUSN({
                         accountId, 
                         multiplier, 

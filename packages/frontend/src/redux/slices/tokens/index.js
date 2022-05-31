@@ -179,8 +179,8 @@ export const selectTokensWithMetadataForAccountId = createSelector(
     ],
     (allContractMetadata, ownedTokensForAccount, usd, showTokensWithZeroBalance) => {
         let tokenEntries = Object.entries(ownedTokensForAccount);
-        if(!showTokensWithZeroBalance) {
-            tokenEntries = tokenEntries.filter(([_, { balance }]) => !new BN(balance).isZero())
+        if (!showTokensWithZeroBalance) {
+            tokenEntries = tokenEntries.filter(([_, { balance }]) => !new BN(balance).isZero());
         }
         return tokenEntries
             .sort(([a], [b]) =>
@@ -195,7 +195,7 @@ export const selectTokensWithMetadataForAccountId = createSelector(
                 onChainFTMetadata: allContractMetadata[contractName] || {},
                 fiatValueMetadata:
                     contractName === USN_CONTRACT ? { usd } : {},
-            }))
+            }));
 });
 
 export const selectTokensLoading = createSelector(
