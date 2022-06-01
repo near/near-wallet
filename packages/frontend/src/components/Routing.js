@@ -38,6 +38,7 @@ import { SetupRecoveryImplicitAccountWrapper } from '../routes/SetupRecoveryImpl
 import { SignWrapper } from '../routes/SignWrapper';
 import { WalletWrapper } from '../routes/WalletWrapper';
 import translations_en from '../translations/en.global.json';
+import translations_it from '../translations/it.global.json';
 import translations_pt from '../translations/pt.global.json';
 import translations_ru from '../translations/ru.global.json';
 import translations_tr from '../translations/tr.global.json';
@@ -152,6 +153,7 @@ class Routing extends Component {
 
         const languages = [
             { name: 'English', code: 'en' },
+            { name: 'Italiano', code: 'it' },
             { name: 'Português', code: 'pt' },
             { name: 'Русский', code: 'ru' },
             { name: 'Tiếng Việt', code: 'vi' },
@@ -192,6 +194,7 @@ class Routing extends Component {
 
         // TODO: Figure out how to load only necessary translations dynamically
         this.props.addTranslationForLanguage(translations_en, 'en');
+        this.props.addTranslationForLanguage(translations_it, 'it');
         this.props.addTranslationForLanguage(translations_pt, 'pt');
         this.props.addTranslationForLanguage(translations_ru, 'ru');
         this.props.addTranslationForLanguage(translations_vi, 'vi');
