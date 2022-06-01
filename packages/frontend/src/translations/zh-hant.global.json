@@ -676,7 +676,7 @@
         },
         "v2": {
             "connectConfirm": {
-                "desc": "請連接你信任的應用。一旦連接，<a href=${contractIdUrl} target='_blank' rel='noreferrer'>${appReferrer}</a> 將擁有 <b>${accessType}</b> 權限：",
+                "desc": "請連接你信任的應用。一旦連接，<a href='${contractIdUrl}' target='_blank' rel='noreferrer'>${appReferrer}</a> 將擁有 <b>${accessType}</b> 權限：",
                 "feeAllowance": {
                     "desc": "授權該應用在使用過程中支付最多 <b>${amount} NEAR</b> 的網絡費用。",
                     "title": "網絡費用授權"

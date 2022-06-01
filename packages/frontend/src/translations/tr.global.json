@@ -585,7 +585,7 @@
         },
         "v2": {
             "connectConfirm": {
-                "desc": "Yalnızca güvendiğiniz sitelere bağlanın. bağlantı kurulduğunda, <a href=${contractIdUrl} target='_blank' rel='noreferrer'>${appReferrer}</a> yetkilerine sahip olacak <b>${accessType}</b>:",
+                "desc": "Yalnızca güvendiğiniz sitelere bağlanın. bağlantı kurulduğunda, <a href='${contractIdUrl}' target='_blank' rel='noreferrer'>${appReferrer}</a> yetkilerine sahip olacak <b>${accessType}</b>:",
                 "feeAllowance": {
                     "desc": "Uygulamaya kullanım sırasında oluşan ağ ücretleri için <b>${amount} NEAR</b> kadar harcama izni verilecektir.",
                     "title": "Ağ Ücreti Ödeneği"

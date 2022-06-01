@@ -682,7 +682,7 @@
         },
         "v2": {
             "connectConfirm": {
-                "desc": "Only connect to sites that you trust. Once connected, <a href=${contractIdUrl} target='_blank' rel='noreferrer'>${appReferrer}</a> will have <b>${accessType}</b>:",
+                "desc": "Only connect to sites that you trust. Once connected, <a href='${contractIdUrl}' target='_blank' rel='noreferrer'>${appReferrer}</a> will have <b>${accessType}</b>:",
                 "feeAllowance": {
                     "desc": "The application will be given permission to spend up to <b>${amount} NEAR</b> towards network fees incurred during use.",
                     "title": "Network Fee Allowance"

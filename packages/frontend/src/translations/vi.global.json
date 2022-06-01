@@ -551,7 +551,7 @@
         },
         "v2": {
             "connectConfirm": {
-                "desc": "Chỉ kết nối với các trang web mà bạn tin tưởng. Sau khi kết nối, <a href=${contractIdUrl} target='_blank' rel='noreferrer'>${appReferrer}</a> sẽ có <b>${accessType}</b>:",
+                "desc": "Chỉ kết nối với các trang web mà bạn tin tưởng. Sau khi kết nối, <a href='${contractIdUrl}' target='_blank' rel='noreferrer'>${appReferrer}</a> sẽ có <b>${accessType}</b>:",
                 "feeAllowance": {
                     "desc": "Ứng dụng sẽ được phép chi tiêu TỐI ĐA <b>${amount} NEAR</b> có các phí phát sinh trên mạng trong quá trình sử dụng.",
                     "title": "Khoảng cho phép Phí xử lý Mạng"
