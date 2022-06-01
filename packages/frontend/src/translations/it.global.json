@@ -7,7 +7,7 @@
                 "title": "il tuo Account è stato attivato."
             },
             "pre": {
-                "desc": "Per iniziare ad usare NEAR Wallet, effettua un deposito iniziale minimo inviando <b>at least ${amount}</b> al tuo Account ID (certe volte chiamato "indirizzo”).",
+                "desc": "Per iniziare ad usare NEAR Wallet, effettua un deposito iniziale minimo inviando <b>at least ${amount}</b> al tuo Account ID (certe volte chiamato ”indirizzo”).",
                 "title": "Quasi fatto! Effettua il tuo deposito iniziale."
             }
         },
@@ -215,7 +215,7 @@
         "createAccountCapital": "Crea Account",
         "createNewAccount": "Crea Nuovo Account",
         "creatingAccount": "Creazione dell'account",
-        "deauthorize": Annulla l'autorizzazione",
+        "deauthorize": "Annulla l'autorizzazione",
         "deAuthorizing": "Annullamento dell'autorizzazione",
         "deny": "Rifiuta",
         "disable": "Disattiva",
@@ -346,9 +346,9 @@
             },
             "verifyPassphrase": {
                 "desc": "Enter an existing passphrase below to secure your new account.",
+                "passPhrasePlaceholder": "bolla parola sole unire impatto esiste rampa teschio titolo cavo simbolo molto",
                 "tite": "Verifica la tua Passphrase",
-                "yourPassphrase": "La tua Passphrase",
-                "passPhrasePlaceholder": "bolla parola sole unire impatto esiste rampa teschio titolo cavo simbolo molto"
+                "yourPassphrase": "La tua Passphrase"
             }
         },
         "step": "Passo ${step}/${total}",
@@ -495,6 +495,21 @@
         "withId": "Importando account: ${accountId}",
         "withIdFailed": "Impossibile importare l'account: ${accountId}"
     },
+    "importAccountWithLink": {
+        "accountFound": "1 Account Trovato",
+        "accountImported": "Account Importato",
+        "accountsFound": "${count} Account Trovati",
+        "alreadyImported": "L'account protetto da questo link è stato importato.",
+        "continue": "e continua questo processo nel browser che preferisci.",
+        "copyUrl": "copia l'URL",
+        "foundAccount": "Abbiamo trovato <b>1 account</b> protetto da questo link.",
+        "foundAccounts": "Abbiamo trovato<b>${count} account</b> protetti da questo link.",
+        "goToAccount": "Vai ad Account",
+        "import": "Importa",
+        "importAccount": "Importa i tuoi Account",
+        "preferedBrowser": "Se questo non è il tuo browser preferito,"
+    },
+    "importing": "Importando",
     "initialDeposit": {
         "claimAccount": {
             "desc": "Il tuo deposito è stato ricevuto! Una volta riscosso, il tuo deposito sarà trasferito nel tuo nuovo account.",
@@ -575,21 +590,6 @@
         },
         "or": "or",
         "title": "Hai ricevuto un NEAR drop!"
-    },
-    "NFTDetail": {
-        "owner": "PROPRIETARIO",
-        "transfer": "Trasferisci"
-    },
-    "NFTTransfer": {
-        "transferNft": "Trasferisci NFT",
-        "enterReceiver": "Inserisci un indirizzo del destinatario, quindi procedi con la conferma della transazione.",
-        "cancel": "Cancella",
-        "next": "Prossimo",
-        "confirm": "Conferma",
-        "transactionComplete": "Transazione Completa!",
-        "viewTransaction": "Visualizza ricevuta",
-        "continue": "Continua",
-        "youSent": "Hai inviato <span class='color-blue'>${title}</span> a <span class='color-green'>${receiverId}</span>"
     },
     "loading": "Caricamento in corso...",
     "loadingNoDots": "Caricamento in corso",
@@ -679,9 +679,24 @@
         "header": "NEAR Wallet di prova",
         "title": "Wallet di prova"
     },
+    "NFTDetail": {
+        "owner": "PROPRIETARIO",
+        "transfer": "Trasferisci"
+    },
     "NFTs": {
         "emptyState": "Sembra che tu non abbia ancora alcun collectible.",
         "loadMore": "carica di più"
+    },
+    "NFTTransfer": {
+        "cancel": "Cancella",
+        "confirm": "Conferma",
+        "continue": "Continua",
+        "enterReceiver": "Inserisci un indirizzo del destinatario, quindi procedi con la conferma della transazione.",
+        "next": "Prossimo",
+        "transactionComplete": "Transazione Completa!",
+        "transferNft": "Trasferisci NFT",
+        "viewTransaction": "Visualizza ricevuta",
+        "youSent": "Hai inviato <span class='color-blue'>${title}</span> a <span class='color-green'>${receiverId}</span>"
     },
     "nodeDetails": {
         "pageText": "Aggiorna i dettagli del tuo node.",
@@ -844,20 +859,6 @@
         "snackbarCopySuccess": "URL di recupero copiata",
         "title": "Ripristina Account"
     },
-    "importAccountWithLink": {
-        "accountFound": "1 Account Trovato",
-        "accountsFound": "${count} Account Trovati",
-        "accountImported": "Account Importato",
-        "alreadyImported": "L'account protetto da questo link è stato importato.",
-        "copyUrl": "copia l'URL",
-        "continue": "e continua questo processo nel browser che preferisci.",
-        "foundAccount": "Abbiamo trovato <b>1 account</b> protetto da questo link.",
-        "foundAccounts": "Abbiamo trovato<b>${count} account</b> protetti da questo link.",
-        "import": "Importa",
-        "importAccount": "Importa i tuoi Account",
-        "preferedBrowser": "Se questo non è il tuo browser preferito,",
-        "goToAccount": "Vai ad Account"
-    },
     "recoveryMgmt": {
         "disableInputPlaceholder": "Immetti il tuo account ID per confermare",
         "disableNo": "No, mantieni",
@@ -974,7 +975,7 @@
     "releaseNotesModal": {
         "desc": "Hai chiesto, ti abbiamo ascoltato! L'ultimo aggiornamento apporta modifiche alla modalità di visualizzazione dei saldi nel portafoglio e un modo più semplice per creare nuovi account.",
         "subText1": "Durante la fase di registrazione, ora puoi utilizzare un numero di telefono compatibile con gli SMS per verificare e inizializzare il tuo nuovo account. Gli utenti che non desiderano fornire queste informazioni possono comunque creare nuovi account con un deposito iniziale.",
-        "subText2": "Il saldo principale visualizzato nel portafoglio è ora il tuo "Saldo disponibile", in precedenza era il tuo "Saldo totale". Il saldo disponibile offre la massima efficacia agli utenti che desiderano sapere a colpo d'occhio quanto hanno a disposizione da spendere/mettere in staking/e interagire con l'ecosistema; non include i token che non sono pronti ad essere spesi, come i token che sono in staking. Puoi ancora vedere i dettagli del saldo dei tuoi token in staking nelle schermate "Account" e "Staking"..",
+        "subText2": "Il saldo principale visualizzato nel portafoglio è ora il tuo 'Saldo disponibile', in precedenza era il tuo 'Saldo totale'. Il saldo disponibile offre la massima efficacia agli utenti che desiderano sapere a colpo d'occhio quanto hanno a disposizione da spendere/mettere in staking/e interagire con l'ecosistema; non include i token che non sono pronti ad essere spesi, come i token che sono in staking. Puoi ancora vedere i dettagli del saldo dei tuoi token in staking nelle schermate 'Account' e 'Staking'.",
         "subTitle1": "Nuove Funzioni",
         "subTitle2": "Miglioramenti",
         "title": "Note di Rilascio"
@@ -989,7 +990,6 @@
         "switchAccounthNotAllowed": "Questa app non consente modifiche all'account"
     },
     "sending": "Inviando",
-    "importing":"Importando"
     "sendMoney": {
         "account": {
             "title": "Invia a"
@@ -1107,7 +1107,7 @@
     },
     "setupLedger": {
         "header": "Connetti il tuo dispositivo Ledger",
-        "one": "Collega il tuo Ledger Nano S o X al tuo computer o dispositivo mobile tramite USB e <b>apri l'applicazione NEAR</b>. <br><br>Quindi, <b>premi entrambi i pulsanti</b> nella schermata "In attesa dela revisione del Ledger".",
+        "one": "Collega il tuo Ledger Nano S o X al tuo computer o dispositivo mobile tramite USB e <b>apri l'applicazione NEAR</b>. <br><br>Quindi, <b>premi entrambi i pulsanti</b> nella schermata 'In attesa dela revisione del Ledger'.",
         "two": "Se non hai ancora installato l'app NEAR Ledger, segui",
         "twoLink": "queste instruzioni"
     },
@@ -1287,7 +1287,7 @@
             },
             "farm": {
                 "button": "Riscatta",
-                "info": "Questo validatore offre le ricompense dello staking in un token che non è NEAR.",
+                "info": "Questo validatore offre le ricompense dello staking in un token che non è NEAR."
             },
             "pending": {
                 "info": "I token non sono più in staking, ma non sono ancora pronti per essere ritirati. I token sono pronti per il ritiro da 52 a 65 ore dopo l'annullamento dello staking.",
@@ -1304,7 +1304,7 @@
                 "unavailable": {
                     "cta": "Per saperne di più",
                     "modalDescOne": "Al momento non siamo in grado di calcolare le ricompense quando è abilitata l'autenticazione a due fattori. Ci auguriamo di poter abilitare questa funzionalità nel prossimo futuro.",
-                    "modalDescTwo": "Nel frattempo, potrai vedere i tuoi premi accumularsi in "Importo totale impegnato". Questo saldo aumenterà durante lo staking dei tuoi token, poiché le tue ricompense vengono automaticamente riassegnate con il tuo validatore attuale.",
+                    "modalDescTwo": "Nel frattempo, potrai vedere i tuoi premi accumularsi in ”Importo totale impegnato”,. Questo saldo aumenterà durante lo staking dei tuoi token, poiché le tue ricompense vengono automaticamente riassegnate con il tuo validatore attuale.",
                     "modalTitle": "Impossibile visualizzare le ricompense di staking guadagnate",
                     "title": "Impossibile visualizzare le ricompense guadagnate."
                 }
@@ -1342,7 +1342,6 @@
             "descTwo": "Ora puoi visualizzare l'ammontare' delegato e le ricompense di staking dalla dashboard di staking.",
             "title": "Successo!"
         },
-
         "staking": {
             "available": "Saldo disponibile",
             "button": "Metti in stake i Miei Tokens",
@@ -1372,17 +1371,17 @@
             "title": "Successo!"
         },
         "validator": {
+            "activeStake": "Stake Attivo",
             "apy": "APY",
-            "claiming": "Riscuotendo",
             "button": "Stake con il Validatore",
             "claimFarmRewards": "Stai riscuotendo",
-            "activeStake": "Stake Attivo",
-            "rewards": "Ricompense",
-            "errorClaimRewards": "Qualcosa è andato storto durante la richiesta delle ricompense della tua fattoria. Per favore riprova più tardi",
+            "claiming": "Riscuotendo",
             "desc": "Questa è la commissione pagata al validatore per scommettere per tuo conto. Questa commissione viene addebitata solo sulle tue ricompense.",
+            "errorClaimRewards": "Qualcosa è andato storto durante la richiesta delle ricompense della tua fattoria. Per favore riprova più tardi",
             "fee": "Commissione di convalida",
             "notWhitelistedTokenWarning": "Questo token non è stato autorizzato da ref-finance. Procedete a vostro rischio.",
             "notWhitelistedValidatorWarning": "I token assegnati da questo validatore non sono stati inseriti nella whitelist da ref-finance. Procedete a vostro rischio.",
+            "rewards": "Ricompense",
             "title": "Convalidatore: <br/>${validator}",
             "unstake": "Stai unstaking",
             "withdraw": "Ti stai ritirando",
@@ -1446,6 +1445,16 @@
         "to": "A"
     },
     "twoFactor": {
+        "action": {
+            "addKey": {
+                "full": "ATTENZIONE: l'inserimento del codice sottostante autorizzerà l'accesso completo al tuo account NEAR: ${accountId}. Se non hai avviato questa azione, NON continuare.<br /><br />Questo dovrebbe essere fatto solo se stai aggiungendo una nuova chiave di accesso completo al tuo account. In tutti gli altri casi, questo è molto pericoloso.<br /><br /> La chiave pubblica che stai aggiungendo è: ${publicKey}",
+                "limited": "Aggiungendo chiave ${publicKey} limitato a chiamare ${methodNames} su ${receiverId} e di spendere fino a ${allowance} NEAR sul gas"
+            },
+            "deleteKey": "Eliminazione chiave ${publicKey}",
+            "functionCall": "Metodo di chiamata: ${methodName} in contratto: ${receiverId} con quantità ${deposit} NEAR e con args: <pre>${args}</pre>",
+            "stake": "Staking: ${amount} NEAR al validatore: ${receiverId}",
+            "transfer": "Transferimento: ${amount} NEAR a ${receiverId}"
+        },
         "active": "Attivo",
         "alertBanner": {
             "button": "Per saperne di più",
@@ -1455,9 +1464,9 @@
         "desc": "Proteggi il tuo account richiedendo conferma via SMS o e-mail quando autorizzi le transazioni.",
         "disable": {
             "desc": "Tieni presente che le transazioni non dovranno essere confermate con 2FA una volta disabilitato.",
-            "phoneDesc": "L'opzione SMS per l'autenticazione a due fattori è deprecata e non può essere riattivata.",
             "disable": "Disabilita 2FA",
             "keep": "No, mantieni 2FA",
+            "phoneDesc": "L'opzione SMS per l'autenticazione a due fattori è deprecata e non può essere riattivata.",
             "title": "Sei sicuro di voler disabilitare 2FA?"
         },
         "email": "Email",
@@ -1479,16 +1488,6 @@
             "resending": "Inviando...",
             "resent": "Codice inviato!",
             "title": "Inserisci il codice di verifica a due fattori"
-        },
-        "action": {
-            "addKey": {
-                "limited": "Aggiungendo chiave ${publicKey} limitato a chiamare ${methodNames} su ${receiverId} e di spendere fino a ${allowance} NEAR sul gas",
-                "full": "ATTENZIONE: l'inserimento del codice sottostante autorizzerà l'accesso completo al tuo account NEAR: ${accountId}. Se non hai avviato questa azione, NON continuare.<br /><br />Questo dovrebbe essere fatto solo se stai aggiungendo una nuova chiave di accesso completo al tuo account. In tutti gli altri casi, questo è molto pericoloso.<br /><br /> La chiave pubblica che stai aggiungendo è: ${publicKey}",
-            },
-            "deleteKey": "Eliminazione chiave ${publicKey}",
-            "functionCall": "Metodo di chiamata: ${methodName} in contratto: ${receiverId} con quantità ${deposit} NEAR e con args: <pre>${args}</pre>",
-            "stake": "Staking: ${amount} NEAR al validatore: ${receiverId}",
-            "transfer": "Transferimento: ${amount} NEAR a ${receiverId}"
         }
     },
     "unlockedAvailTransfer": "Questi NEAR sono sbloccati e possono essere trasferiti fuori dal contratto di lockup.",
@@ -1533,7 +1532,7 @@
             "initialDeposit": "Deposito iniziale",
             "passCode": "Codice di accesso una tantum"
         },
-        "title": "Ci siamo quasi! Verifica il tuo nuovo account."
+        "title": "Ci siamo quasi! Verifica il tuo nuovo account.",
         "titleNoFunding": "Ci siamo quasi! Finanzia il tuo nuovo account."
     },
     "wallet": {
@@ -1587,11 +1586,11 @@
         "promptTwoFactor": {
             "userCancelled": "Il codice 2FA non è stato verificato correttamente."
         },
-        "recoverAccountSeedPhrase": {
-            "errorInvalidSeedPhrase": "Non sono stati trovati account per questa passphrase."
-        },
         "recoverAccountLink": {
             "error": "Importazione del tuo account non riuscita. Riprova o contatta il supporto per assistenza."
+        },
+        "recoverAccountSeedPhrase": {
+            "errorInvalidSeedPhrase": "Non sono stati trovati account per questa passphrase."
         },
         "recoveryMethods": {
             "lastMethod": "Impossibile eliminare l'ultimo metodo di ripristino. A meno che tu non abbia abilitato Ledger, devi mantenere attivo almeno un metodo di recupero per garantire la recuperabilità del tuo account.",
