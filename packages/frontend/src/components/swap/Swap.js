@@ -117,8 +117,7 @@ const StyledContainer = styled(Container)`
 function Swap({ history }) {
     const fungibleTokensList = useFungibleTokensIncludingNEAR({showTokensWithZeroBalance: true});
     const accountId = useSelector(selectAccountId);
-    const multiplierResult = useSelector(selectMetadataSlice);
-    const [multiplier, setMultiplier] = useState(0);
+    const multiplier = useSelector(selectMetadataSlice);
     const [amountTokenFrom, setAmountTokenFrom] = useState(0);
     const [amountTokenTo, setAmountTokenTo] = useState(0);
     const [maxFrom, setMaxFrom] = useState({ fullNum: '0', numToShow: '0' });
@@ -132,10 +131,6 @@ function Swap({ history }) {
     const [reversePositionsJustClicked, setReversePositionsJustClicked] = useState(false);
     const dispatch = useDispatch();
 
-    useEffect(() => {
-        // setsMultiplier as multiplierResult gets populated
-        setMultiplier(multiplierResult);
-    }, [multiplierResult]);
     useInterval(() => {
         // fetchMultiplier every 30 seconds
         dispatch(fetchMultiplier());
@@ -282,7 +277,9 @@ function Swap({ history }) {
                 return (
                     <SwapAmountForm
                         history={history}
-                        setActiveView={setActiveView}
+                        onClickFromToken={() => CREATE_USN_CONTRACT && setActiveView(VIEWS.SELECT_TOKEN_FROM)}
+                        onClickToToken={() => CREATE_USN_CONTRACT && setActiveView(VIEWS.SELECT_TOKEN_TO)}
+                        onClickReview={() => setActiveView(VIEWS.REVIEW)}
                         amountTokenFrom={amountTokenFrom}
                         setAmountTokenFrom={setAmountTokenFrom}
                         amountTokenTo={amountTokenTo}

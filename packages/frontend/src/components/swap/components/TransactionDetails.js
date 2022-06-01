@@ -143,7 +143,7 @@ const getFontSize = (charLength) => {
     return fontSize;
 };
 
-const ReviewTransactionDetails = ({
+const TransactionDetails = ({
     amountTokenFrom,
     amountTokenTo,
     tokenFrom,
@@ -183,19 +183,6 @@ const ReviewTransactionDetails = ({
                         tradingFee={tradingFee}
                         setSlippage={setSlippage}
                     />
-                );
-            case 'wNEAR':
-                return (
-                    <TransactionDetailsWrappedNear
-                        selectedTokenFrom={tokenFrom}
-                        selectedTokenTo={tokenTo}
-                        estimatedFeesInNear={`${
-                            amountTokenFrom > 1
-                                ? Math.trunc(amountTokenFrom).toString()
-                                : '1'
-                        }`}
-                        estimatedMinReceived={estimatedMinReceived}
-                    />  
                 );
             default:
                 return (
@@ -262,9 +249,9 @@ const ReviewTransactionDetails = ({
                     tokenTo.onChainFTMetadata?.symbol
                 }`}</div>
             </div>
-            {transactionDetailsSwitch(isUSN ? 'USN' : 'wNEAR')}
+            {transactionDetailsSwitch(isUSN && 'USN')}
         </ReviewForm>
     );
 };
 
-export default withRouter(ReviewTransactionDetails);
+export default withRouter(TransactionDetails);

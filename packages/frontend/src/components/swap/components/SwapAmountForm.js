@@ -6,7 +6,6 @@ import { getFormatBalance } from '../../../utils/wrap-unwrap';
 import BackArrowButton from '../../common/BackArrowButton';
 import FormButton from '../../common/FormButton';
 import SwapIcon from '../../svg/WrapIcon';
-import { VIEWS } from '../Swap';
 import SwapFromForm from './SwapFromForm';
 import SwapToForm from './SwapToForm';
 
@@ -64,7 +63,9 @@ const StyledContainer = styled.div`
 
 export function SwapAmountForm({
     history,
-    setActiveView,
+    onClickReview,
+    onClickFromToken,
+    onClickToToken,
     amountTokenFrom,
     setAmountTokenFrom,
     amountTokenTo,
@@ -130,7 +131,7 @@ export function SwapAmountForm({
                 </h4>
             </div>
             <SwapFromForm
-                setActiveView={setActiveView}
+                onClickFromToken={onClickFromToken}
                 maxValue={maxFrom}
                 amountToken={amountTokenFrom}
                 setAmountToken={setAmountTokenFrom}
@@ -148,7 +149,7 @@ export function SwapAmountForm({
                 </div>
             </div>
             <SwapToForm
-                setActiveView={setActiveView}
+                onClickToToken={onClickToToken}
                 maxValue={maxTo}
                 amountToken={amountTokenTo}
                 activeTokenTo={activeTokenTo}
@@ -158,7 +159,7 @@ export function SwapAmountForm({
                 <FormButton
                     disabled={isDisabled}
                     color="blue width width100"
-                    onClick={() => setActiveView(VIEWS.REVIEW)}
+                    onClick={onClickReview}
                 >
                     <Translate id="swap.review" />
                 </FormButton>

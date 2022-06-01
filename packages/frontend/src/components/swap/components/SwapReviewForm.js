@@ -6,7 +6,7 @@ import { removeTrailingZeros } from '../../../utils/amounts';
 import BackArrowButton from '../../common/BackArrowButton';
 import FormButton from '../../common/FormButton';
 import { VIEWS } from '../Swap';
-import ReviewTransactionDetails from './ReviewTransactionDetails';
+import TransactionDetails from './TransactionDetails';
 
 const StyledContainer = styled.div`
     h4 {
@@ -102,7 +102,7 @@ export function SwapReviewForm({
                     amountTokenFrom * activeTokenFrom.fiatValueMetadata.usd
                 ).toFixed(2)} USD`}</div>
             </div>
-            <ReviewTransactionDetails
+            <TransactionDetails
                 amountTokenFrom={amountTokenFrom}
                 amountTokenTo={amountTokenTo}
                 tokenFrom={activeTokenFrom}

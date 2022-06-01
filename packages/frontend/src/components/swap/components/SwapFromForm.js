@@ -3,9 +3,7 @@ import { Translate } from 'react-localize-redux';
 import { withRouter } from 'react-router';
 import styled from 'styled-components';
 
-import { CREATE_USN_CONTRACT } from '../../../../../../features';
 import SafeTranslate from '../../SafeTranslate';
-import { VIEWS } from '../Swap';
 import SelectTokenButton from './SelectTokenButton';
 
 const FromForm = styled.form`
@@ -59,7 +57,7 @@ const FromForm = styled.form`
 `;
 
 const SwapFromForm = ({
-    setActiveView,
+    onClickFromToken,
     maxValue,
     amountToken,
     setAmountToken,
@@ -91,7 +89,7 @@ const SwapFromForm = ({
                 {activeTokenFrom && (
                     <SelectTokenButton
                         token={activeTokenFrom}
-                        onClick={() => CREATE_USN_CONTRACT && setActiveView(VIEWS.SELECT_TOKEN_FROM)}
+                        onClick={onClickFromToken}
                     />
                 )}
                 <input
