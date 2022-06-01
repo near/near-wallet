@@ -4,7 +4,6 @@ import { Textfit } from 'react-textfit';
 import styled from 'styled-components';
 
 import {
-    CREATE_IMPLICIT_ACCOUNT,
     CREATE_USN_CONTRACT,
 } from '../../../../../features';
 import getCurrentLanguage from '../../hooks/getCurrentLanguage';
@@ -359,7 +358,7 @@ export function Wallet({
                     )}
                 </div>
                 <div className="right">
-                    {CREATE_IMPLICIT_ACCOUNT && accountExists ? (
+                    {accountExists ? (
                         <Sidebar availableAccounts={availableAccounts} />
                     ) : (
                         <ExploreApps />
