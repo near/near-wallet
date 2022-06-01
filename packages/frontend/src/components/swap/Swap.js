@@ -328,7 +328,7 @@ function Swap({ history }) {
             case VIEWS.REVIEW:
                 return (
                     <SwapReviewForm
-                        setActiveView={setActiveView}
+                        onClickGoBack={() => setActiveView(VIEWS.SWAP_AMOUNT)}
                         amountTokenFrom={amountTokenFrom}
                         amountTokenTo={amountTokenTo}
                         activeTokenFrom={activeTokenFrom}

@@ -5,7 +5,6 @@ import styled from 'styled-components';
 import { removeTrailingZeros } from '../../../utils/amounts';
 import BackArrowButton from '../../common/BackArrowButton';
 import FormButton from '../../common/FormButton';
-import { VIEWS } from '../Swap';
 import TransactionDetails from './TransactionDetails';
 
 const StyledContainer = styled.div`
@@ -62,7 +61,7 @@ const getFontSize = (charLength) => {
 };
 
 export function SwapReviewForm({
-    setActiveView,
+    onClickGoBack,
     amountTokenFrom,
     amountTokenTo,
     activeTokenFrom,
@@ -78,7 +77,7 @@ export function SwapReviewForm({
         <StyledContainer>
             <div className="header">
                 <BackArrowButton
-                    onClick={() => setActiveView(VIEWS.SWAP_AMOUNT)}
+                    onClick={onClickGoBack}
                 />
                 <h4>
                     <Translate id="swap.reviewInfo" />
@@ -130,7 +129,7 @@ export function SwapReviewForm({
             <div className="flexCenterButton">
                 <FormButton
                     color="gray link"
-                    onClick={() => setActiveView(VIEWS.SWAP_AMOUNT)}
+                    onClick={onClickGoBack}
                 >
                     <Translate id="button.cancel" />
                 </FormButton>
