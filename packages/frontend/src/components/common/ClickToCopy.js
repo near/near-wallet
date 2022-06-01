@@ -19,7 +19,7 @@ const Container = styled.div`
         border-radius: 4px;
         padding: 6px 8px;
         font-size: 13px;
-        top: -24px;
+        top: -30px;
         opacity: 0;
         pointer-events: none;
         transition: 200ms;
@@ -28,13 +28,22 @@ const Container = styled.div`
 
     &.show {
         .copy-success {
-            top: -32px;
+            top: -40px;
             opacity: 1;
+        }
+    }
+
+    &.compact {
+        .copy-success {
+            top: -18px;
+        }
+        &.show .copy-success {
+            top: -28px;
         }
     }
 `;
 
-const ClickToCopy = ({ className, children, copy, onClick, successTranslation = 'default' }) => {
+const ClickToCopy = ({ className, children, compact, copy, onClick, successTranslation = 'default' }) => {
     const [show, setShow] = useState(false);
 
     const handleCopy = (e) => {
@@ -58,7 +67,11 @@ const ClickToCopy = ({ className, children, copy, onClick, successTranslation = 
             {({ translate }) =>
                 <Container
                     title={translate('copy.title')}
-                    className={classNames([className, show ? 'show' : ''])}
+                    className={classNames([
+                        className,
+                        show ? 'show' : '',
+                        compact ? 'compact': ''
+                    ])}
                     onClick={handleCopy}
                 >
                     {children}

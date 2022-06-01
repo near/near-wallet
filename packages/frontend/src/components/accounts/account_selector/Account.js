@@ -109,7 +109,7 @@ export default ({
                     }
                 </div>
             </div>
-            <ClickToCopy copy={accountId} className='copy' onClick={(e) => e.stopPropagation()}>
+            <ClickToCopy copy={accountId} className='copy' compact={true} onClick={(e) => e.stopPropagation()}>
                 <CopyIcon color='#2B9AF4' />
             </ClickToCopy>
             <EyeIcon
