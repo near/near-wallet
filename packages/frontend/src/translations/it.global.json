@@ -1372,12 +1372,6 @@
             "title": "Successo!"
         },
         "validator": {
-            "button": "Stake Con validatore",
-            "desc": "Questa è la commissione pagata al validatore per scommettere per tuo conto. Questa commissione viene addebitata solo sui tuoi premi.",
-            "descTwo": "I tuoi tokens sono già disponibili",
-            "title": "Successo!"
-        },
-        "validator": {
             "apy": "APY",
             "claiming": "Riscuotendo",
             "button": "Stake con il Validatore",
