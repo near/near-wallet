@@ -7,6 +7,7 @@ import FormButton from '../../common/FormButton';
 import FormButtonGroup from '../../common/FormButtonGroup';
 import LoadingDots from '../../common/loader/LoadingDots';
 import Container from '../../common/styled/Container.css';
+import DepositNearBanner from '../../wallet/DepositNearBanner';
 import ConnectWithApplication from './ConnectWithApplication';
 import LoginStyle from './style/LoginStyle.css';
 
@@ -22,7 +23,8 @@ export default ({
     loginAccessType,
     appReferrer,
     contractIdUrl,
-    failureAndSuccessUrlsAreValid
+    failureAndSuccessUrlsAreValid,
+    accountExists
 }) => (
     <Container className='small-centered border'>
         <LoginStyle className={loginAccessType === LOGIN_ACCESS_TYPES.FULL_ACCESS ? 'full-access' : ''}>
@@ -51,6 +53,7 @@ export default ({
                 onSignInToDifferentAccount={onSignInToDifferentAccount}
                 showBalanceInUSD={false}
             />
+            {accountExists === false && <DepositNearBanner />}
             <FormButtonGroup>
                 <FormButton
                     onClick={onClickCancel}
@@ -61,7 +64,7 @@ export default ({
                 </FormButton>
                 <FormButton
                     onClick={onClickNext}
-                    disabled={!failureAndSuccessUrlsAreValid}
+                    disabled={!failureAndSuccessUrlsAreValid || accountExists === false}
                 >
                     <Translate id='button.next' />
                 </FormButton>

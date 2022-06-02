@@ -1,8 +1,5 @@
 import * as nearAPI from 'near-api-js';
 
-import { USE_INDEXER_SERVICE } from '../../../../features';
-import { ACCOUNT_HELPER_URL } from '../config';
-import sendJson from '../tmp_fetch_send_json';
 import { wallet } from '../utils/wallet';
 import { listLikelyNfts } from './indexer';
 
@@ -19,9 +16,6 @@ export default class NonFungibleTokens {
     static viewFunctionAccount = wallet.getAccountBasic('dontcare')
 
     static getLikelyTokenContracts = async (accountId) => {
-        if (!USE_INDEXER_SERVICE) {
-            return sendJson('GET', `${ACCOUNT_HELPER_URL}/account/${accountId}/likelyNFTs`);
-        }
         return listLikelyNfts(accountId);
     }
 

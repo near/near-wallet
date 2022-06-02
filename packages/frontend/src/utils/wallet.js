@@ -172,7 +172,7 @@ class Wallet {
 
     async getLocalSecretKey(accountId) {
         const localKeyPair = await this.keyStore.getKey(NETWORK_ID, accountId);
-        return localKeyPair.toString();
+        return localKeyPair ? localKeyPair.toString() : null;
     }
 
     async getLedgerKey(accountId) {
@@ -460,6 +460,9 @@ class Wallet {
         this.getAccountsLocalStorage();
         await this.setKey(accountId, keyPair);
         this.accounts[accountId] = true;
+
+        // TODO: figure out better way to inject reducer
+        store.addAccountReducer();
     }
 
     makeAccountActive(accountId) {

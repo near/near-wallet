@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect';
 
 import { calculateAPY } from '../../../utils/staking';
-import createParameterSelector from '../createParameterSelector';
+import { createParameterSelector } from '../../selectors/topLevel';
 import { selectTokensFiatValueUSD } from '../tokenFiatValues';
 
 
@@ -68,4 +68,10 @@ export const selectFarmValidatorAPY = createSelector(
         if (!farmData.poolSummary || !tokenPrices) return null;
         return calculateAPY(farmData.poolSummary, tokenPrices);
     }
+);
+
+export const selectFarmValidatorDataIsLoading = createSelector(
+    selectValidatorsFarmData,
+    (farmingValidators) =>
+        Object.values(farmingValidators).some(({ loading }) => loading)
 );

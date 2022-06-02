@@ -267,88 +267,44 @@
     "createdBy": "Patrick Tajima",
     "createdAt": "2022-05-06T17:30:49.430Z",
     "development": {
-      "enabled": false,
+      "enabled": true,
       "lastEditedBy": "Patrick Tajima",
-      "lastEditedAt": "2022-05-06T17:30:49.429Z"
+      "lastEditedAt": "2022-05-24T23:56:29.721Z"
     },
     "testnet": {
       "enabled": true,
       "lastEditedBy": "Patrick Tajima",
-      "lastEditedAt": "2022-05-06T17:30:49.430Z"
+      "lastEditedAt": "2022-05-24T23:56:29.721Z"
     },
     "mainnet": {
-      "enabled": false,
+      "enabled": true,
       "lastEditedBy": "Patrick Tajima",
-      "lastEditedAt": "2022-05-06T17:30:49.430Z"
+      "lastEditedAt": "2022-05-27T17:30:49.430Z"
     },
     "mainnet_STAGING": {
-      "enabled": false,
+      "enabled": true,
       "lastEditedBy": "Patrick Tajima",
-      "lastEditedAt": "2022-05-06T17:30:49.430Z"
+      "lastEditedAt": "2022-05-24T23:56:29.721Z"
     },
     "testnet_STAGING": {
       "enabled": true,
       "lastEditedBy": "Patrick Tajima",
-      "lastEditedAt": "2022-05-06T17:30:49.430Z"
+      "lastEditedAt": "2022-05-24T23:56:29.721Z"
     },
     "testnet_NEARORG": {
       "enabled": true,
-      "lastEditedBy": "esaminu",
-      "lastEditedAt": "2022-05-09T21:50:59.559Z"
-    },
-    "mainnet_NEARORG": {
-      "enabled": false,
-      "lastEditedBy": "esaminu",
-      "lastEditedAt": "2022-05-06T23:34:05.414Z"
-    },
-    "mainnet_STAGING_NEARORG": {
-      "enabled": false,
-      "lastEditedBy": "esaminu",
-      "lastEditedAt": "2022-05-06T23:34:05.414Z"
-    }
-  },
-  "USE_INDEXER_SERVICE": {
-    "createdBy": "Andy Haynes",
-    "createdAt": "2022-05-05T21:19:46.314Z",
-    "development": {
-      "enabled": true,
-      "lastEditedBy": "Andy Haynes",
-      "lastEditedAt": "2022-05-05T21:19:46.313Z"
-    },
-    "testnet": {
-      "enabled": true,
-      "lastEditedBy": "Andy Haynes",
-      "lastEditedAt": "2022-05-05T22:25:53.915Z"
-    },
-    "mainnet": {
-      "enabled": true,
-      "lastEditedBy": "Andy Haynes",
-      "lastEditedAt": "2022-05-10T17:35:17.989Z"
-    },
-    "mainnet_STAGING": {
-      "enabled": true,
-      "lastEditedBy": "Andy Haynes",
-      "lastEditedAt": "2022-05-10T17:35:17.990Z"
-    },
-    "testnet_STAGING": {
-      "enabled": true,
-      "lastEditedBy": "Andy Haynes",
-      "lastEditedAt": "2022-05-05T22:25:53.915Z"
-    },
-    "testnet_NEARORG": {
-      "enabled": true,
-      "lastEditedBy": "esaminu",
-      "lastEditedAt": "2022-05-06T23:31:29.664Z"
+      "lastEditedBy": "Patrick Tajima",
+      "lastEditedAt": "2022-05-24T23:56:29.721Z"
     },
     "mainnet_NEARORG": {
       "enabled": true,
-      "lastEditedBy": "Andy Haynes",
-      "lastEditedAt": "2022-05-10T17:35:17.990Z"
+      "lastEditedBy": "esaminu",
+      "lastEditedAt": "2022-05-27T23:34:05.414Z"
     },
     "mainnet_STAGING_NEARORG": {
       "enabled": true,
-      "lastEditedBy": "Andy Haynes",
-      "lastEditedAt": "2022-05-10T17:35:17.990Z"
+      "lastEditedBy": "Patrick Tajima",
+      "lastEditedAt": "2022-05-24T23:56:29.721Z"
     }
   },
   "USN_BUTTON": {

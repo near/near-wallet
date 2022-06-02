@@ -323,8 +323,8 @@
             "connect": {
                 "cancelButton": "Cancel",
                 "connectButton": "Connect",
-                "header": "Connect to your Ledger device.",
-                "one": "Make sure your Ledger is connected securely, and that the NEAR app is open on your device."
+                "connectionPrompt": "Make sure your Ledger is connected securely, and that the NEAR app is open on your device.",
+                "header": "Connect to your Ledger device."
             },
             "connection-error": {
                 "cancelButton": "Cancel",
@@ -335,8 +335,8 @@
             "disconnected": {
                 "cancelButton": "Dismiss",
                 "connectButton": "Reconnect",
-                "header": "Your device was disconnected.",
-                "one": "Make sure your Ledger is connected securely, and that the NEAR app is open on your device."
+                "connectionPrompt": "Make sure your Ledger is connected securely, and that the NEAR app is open on your device.",
+                "header": "Your device was disconnected."
             }
         },
         "youMayNow": "You may now perform operations using your device."
@@ -613,6 +613,7 @@
     "link": {
         "account": "Account",
         "authorizedApps": "Authorized Apps",
+        "buyUSN": "Buy $USN",
         "donateToUkraine": "Donate to Ukraine",
         "fullAccessKeys": "Full Access Keys",
         "help": "Help",
@@ -787,6 +788,7 @@
         "returnToWallet": "Return to Wallet",
         "title": "Whoops, looks like this page is missing."
     },
+    "poweredByCoinGecko": "Prices powered by <a href='https://www.coingecko.com/en/api' target='_blank' rel='noopener noreferrer'>CoinGecko</a>",
     "profile": {
         "account": {
             "available": "Available balance",
@@ -896,7 +898,10 @@
     "recoverSeedPhrase": {
         "couldNotFindAccountModal": {
             "buttonImport": "Import Anyway",
-            "desc": "We couldn't find any <b>active account(s)</b> using the provided passphrase. This could be because the passphrase is incorrect, or because the account has no activity yet.",
+            "desc": {
+                "ledger": "We couldn't find any <b>active account(s)</b> using the provided Ledger key. This could be because the account has no activity yet.",
+                "phrase": "We couldn't find any <b>active account(s)</b> using the provided passphrase. This could be because the passphrase is incorrect, or because the account has no activity yet."
+            },
             "title": "Couldn't find account"
         },
         "pageText": "Enter the backup passphrase associated with the account.",
@@ -1355,7 +1360,7 @@
                 "info": "This validator grants staking rewards in a token other than NEAR."
             },
             "farmed": {
-                "info": "Collected tokens that have been earned during farming with farming validators",
+                "info": "Collected tokens that have been earned during farming with farming validators.",
                 "title": "Available for claim"
             },
             "pending": {
@@ -1673,8 +1678,14 @@
         "addAccessKey": {
             "error": "An error has occurred.<br />To access your account, please enter the passphrase from the previous step below."
         },
+        "addAccessKeyZeroBalanceAccountSetup": {
+            "error": "Something went wrong while finishing import of your now active account. Please re-import your account in the wallet."
+        },
+        "initiateZeroBalanceAccount": {
+            "error": "Something went wrong while initiating your account. Please try again."
+        },
         "addAccessKeySeedPhrase": {
-            "errorSecond": "An error has occurred.<br />The passphrases was not added to your account. Please try again."
+            "errorSecond": "An error has occurred.<br />The passphrase was not added to your account. Please try again."
         },
         "addLedgerAccountId": {
             "errorRpc": "Error appears while recovering the account."
@@ -1734,5 +1745,33 @@
             "noWithdraw": "Unable to withdraw pending balance from validator"
         }
     },
-    "warning": "Warning"
+    "warning": "Warning",
+    "zeroBalance": {
+        "ledgerModal": {
+            "desc": "Add a Ledger limited access key to the wallet to manage multiple recovery methods.",
+            "confirmOnLedger": "Confirm the action on your Ledger device.",
+            "title": "Your account is now active!",
+            "addLedgerKey": "Add Ledger Key"
+        },
+        "addLedgerKey": {
+            "success": {
+                "header": "Ledger access key added successfully!",
+                "message": "A new Ledger key was added to your account. You can now manage your accounts recovery methods using your Ledger device."
+            },
+            "error": {
+                "header": "Something went wrong",
+                "message": "We were unable to add an additional Ledger key to your account. Please try again or re-import your Ledger account."
+            }
+        },
+        "addPhraseKey": {
+            "success": {
+                "header": "Your account has been successfully imported!",
+                "message": "Now that your account is active, a new access key has been added to your account to sign transactions in the wallet."
+            },
+            "error": {
+                "header": "Something went wrong",
+                "message": "We were unable to add a new access key to your account. Please re-import your account to add a new wallet key."
+            }
+        }
+    }
 }

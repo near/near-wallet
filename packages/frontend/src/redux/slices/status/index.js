@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect';
 
-import createParameterSelector from '../createParameterSelector';
+import { createParameterSelector } from '../../selectors/topLevel';
 
 const SLICE_NAME = 'status';
 

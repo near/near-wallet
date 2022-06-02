@@ -1,14 +1,16 @@
 import { KeyPair } from 'near-api-js';
 import { parseSeedPhrase } from 'near-seed-phrase';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
+import { IMPORT_ZERO_BALANCE_ACCOUNT } from '../../../../features';
 import SetupRecoveryImplicitAccount from '../components/accounts/create/implicit_account/SetupRecoveryImplicitAccount';
 import EnterVerificationCode from '../components/accounts/EnterVerificationCode';
 import { Mixpanel } from '../mixpanel';
 import { redirectTo, saveAccount } from '../redux/actions/account';
 import { showCustomAlert } from '../redux/actions/status';
-import { wallet } from '../utils/wallet';
+import { setReleaseNotesClosed } from '../utils/localStorage';
+import { wallet, RELEASE_NOTES_MODAL_VERSION } from '../utils/wallet';
 
 export function SetupRecoveryImplicitAccountWrapper() {
     const dispatch = useDispatch();
@@ -21,6 +23,10 @@ export function SetupRecoveryImplicitAccountWrapper() {
     const [resendingEmailCode, setResendingEmailCode] = useState(false);
     const [seedPhrasePublicKey, setSeedPhrasePublicKey] = useState(null);
     const [isInitializingRecoveryLink, setIsInitializingRecoveryLink] = useState(false);
+
+    useEffect(() => {
+        setReleaseNotesClosed(RELEASE_NOTES_MODAL_VERSION);
+    }, []);
 
     const handleInititalizeEmailRecoveryLink = async () => {
         const passPhrase = await wallet.initializeRecoveryMethodNewImplicitAccount({ kind: 'email', detail: email });
@@ -79,7 +85,22 @@ export function SetupRecoveryImplicitAccountWrapper() {
                 } finally {
                     setVerifyingEmailCode(false);
                 }
-                dispatch(redirectTo(`/create-implicit-account?implicitAccountId=${implicitAccountId}&recoveryMethod=email`));
+
+                if (IMPORT_ZERO_BALANCE_ACCOUNT) {
+                    try {
+                        await wallet.importZeroBalanceAccount(implicitAccountId, recoveryKeyPair);
+                        dispatch(redirectTo('/'));
+                    } catch (e) {
+                        dispatch(showCustomAlert({
+                            success: false,
+                            messageCodeHeader: 'error',
+                            messageCode: 'walletErrorCodes.recoverAccountSeedPhrase.errorNotAbleToImportAccount',
+                            errorMessage: e.message
+                        }));
+                    }
+                } else {
+                    dispatch(redirectTo(`/create-implicit-account?implicitAccountId=${implicitAccountId}&recoveryMethod=email`));
+                }
             }}
             onGoBack={() => setShowVerifyEmailCode(false)}
             onResend={async () => {

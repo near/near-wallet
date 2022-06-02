@@ -1,3 +1,4 @@
+import BN from 'bn.js';
 import React, { useState } from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
@@ -110,7 +111,9 @@ const UserIcon = styled.div`
 
 export function NFTDetail({ nft, accountId, nearBalance, ownerId, history }) {
     const [transferNftDetail, setTransferNftDetail] = useState();
-    const hasSufficientBalance = nearBalance >= NFT_TRANSFER_DEPOSIT + NFT_TRANSFER_GAS;
+
+    const transferMax = new BN((parseInt(NFT_TRANSFER_GAS, 10) + NFT_TRANSFER_DEPOSIT).toString());
+    const hasSufficientBalance = (new BN(nearBalance)).gte(transferMax);
     
     return (
         <StyledContainer className='medium centered'>

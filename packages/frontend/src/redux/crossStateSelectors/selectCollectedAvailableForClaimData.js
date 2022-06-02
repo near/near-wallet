@@ -2,12 +2,12 @@ import BN from 'bn.js';
 import { isEmpty, some } from 'lodash';
 import { createSelector } from 'reselect';
 
-import { selectValidatorsFarmData } from '../slices/staking';
+import { selectStakingCurrentAccountAccountId, selectValidatorsFarmData } from '../slices/staking';
 import {
     selectTokensFiatValueUSD,
     selectTokenWhiteList,
 } from '../slices/tokenFiatValues';
-import { selectAllContractMetadata } from '../slices/tokens';
+import { selectContractsMetadata } from '../slices/tokensMetadata';
 
 const collectFarmingData = (args) => {
     try {
@@ -18,9 +18,10 @@ const collectFarmingData = (args) => {
             contractMetadataByContractId,
             tokenFiatValues,
             tokenWhitelist,
+            accountId
         } = args;
         const filteredFarms = Object.values(validatorsFarmData)
-            .reduce((acc, {farmRewards}) => [...acc, ...farmRewards], []);
+            .reduce((acc, {farmRewards}) => [...acc, ...(farmRewards?.[accountId] || [])], []);
 
         const collectedBalance = filteredFarms.reduce((acc, farm) => ({
             ...acc,
@@ -48,21 +49,24 @@ const collectFarmingData = (args) => {
 export default createSelector(
     [
         selectValidatorsFarmData,
-        selectAllContractMetadata,
+        selectContractsMetadata,
         selectTokensFiatValueUSD,
         selectTokenWhiteList,
+        selectStakingCurrentAccountAccountId
     ],
     (
         validatorsFarmData,
         contractMetadataByContractId,
         tokenFiatValues,
-        tokenWhitelist
+        tokenWhitelist,
+        accountId
     ) => {
         return collectFarmingData({
             validatorsFarmData,
             contractMetadataByContractId,
             tokenFiatValues,
-            tokenWhitelist
+            tokenWhitelist,
+            accountId
         });
     }
 );

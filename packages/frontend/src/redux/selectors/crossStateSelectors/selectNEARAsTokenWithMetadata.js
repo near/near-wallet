@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect';
 
-import { selectAvailableBalance } from '../slices/account';
-import { selectNearTokenFiatValueUSD } from '../slices/tokenFiatValues';
+import { selectAvailableBalance } from '../../slices/account';
+import { selectNearTokenFiatValueUSD } from '../../slices/tokenFiatValues';
 
 export default createSelector(
     [selectAvailableBalance, selectNearTokenFiatValueUSD],

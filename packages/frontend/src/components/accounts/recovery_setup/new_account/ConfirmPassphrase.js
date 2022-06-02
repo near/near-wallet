@@ -39,7 +39,8 @@ export default ({
     wordIndex,
     handleChangeWord,
     handleStartOver,
-    userInputValueWrongWord
+    userInputValueWrongWord,
+    finishingSetup
 }) => {
     return (
         <StyledContainer className='small-centered border'>
@@ -48,6 +49,7 @@ export default ({
                     handleConfirmPassphrase();
                     e.preventDefault();
                 }}
+                disabled={finishingSetup}
                 autoComplete='off'
             >
                 <h1><Translate id='setupSeedPhraseVerify.pageTitle' /></h1>
@@ -73,7 +75,8 @@ export default ({
                 <FormButton
                     type='submit'
                     data-test-id='seedPhraseVerificationWordSubmit'
-                    disabled={!userInputValue}
+                    sending={finishingSetup}
+                    disabled={!userInputValue || finishingSetup}
                 >
                     <Translate id='button.verify' />
                 </FormButton>
@@ -82,6 +85,7 @@ export default ({
                     color='gray'
                     className='link start-over'
                     onClick={handleStartOver}
+                    disabled={finishingSetup}
                 >
                     <Translate id='button.startOver' />
                 </FormButton>

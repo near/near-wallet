@@ -10,7 +10,7 @@ import { createStore } from 'redux';
 
 import Routing from './components/Routing';
 import { RECAPTCHA_ENTERPRISE_SITE_KEY } from './config';
-import createRootReducer from './redux/combineReducers';
+import createRootReducer from './redux/createReducers';
 import createMiddleware from './redux/middleware';
 import { initSentry } from './utils/sentry';
 
@@ -19,6 +19,10 @@ initSentry();
 const history = createBrowserHistory();
 
 export const store = createStore(createRootReducer(history), createMiddleware(history));
+
+store.addAccountReducer = () => {
+    store.replaceReducer(createRootReducer(history));
+};
 
 ReactDOM.render(
     <GoogleReCaptchaProvider
