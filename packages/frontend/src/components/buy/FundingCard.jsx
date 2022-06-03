@@ -81,33 +81,34 @@ const Link = styled.div`
 `;
 
 export const FundingCard = ({ title, subTitle, actions, link }) => {
-    return <Block >
-        <TextWrap> <Title>  <Translate id={title} /></Title>
-            <SubTitle>
-                <Translate id={subTitle} />
-                {link && <Link
-                >
-                    <a href={link.url} target='_blank' rel='noreferrer' >
-                        <Translate id={link.title} />
-                    </a>
-                </Link>
+    return (
+        <Block>
+            <TextWrap>
+                <Title>
+                    <Translate id={title} />
+                </Title>
+                <SubTitle>
+                    <Translate id={subTitle} />
+                    {link && (
+                        <Link>
+                            <a href={link.url} target='_blank' rel='noreferrer' >
+                                <Translate id={link.title} />
+                            </a>
+                        </Link>
+                    )}
+                </SubTitle>
+            </TextWrap>
+            <div>
+                {actions
+                    .filter(({ disabled }) => !disabled)
+                    .map((action, i) => (
+                        <FundingType
+                            key={i}
+                            {...action}
+                        />
+                    ))
                 }
-            </SubTitle>
-        </TextWrap>
-
-        <div>{
-            actions.map((action, i) => {
-                const { title, name, icon, track, link, disabled } = action;
-                return <FundingType
-                    key={i}
-                    title={title}
-                    track={track}
-                    name={name}
-                    icon={icon}
-                    link={link}
-                    disabled={disabled}
-                />;
-            })
-        }</div>
-    </Block>;
+            </div>
+        </Block>
+    );
 };

@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import arrow from './assets/arrow.svg';
+
 const LinkWrap = styled.a`
     display: block;
     border-top: 1px solid #F0F0F1;
@@ -44,17 +45,15 @@ const WrapperImg = styled.div`
     display: flex;
 `;
 
-export const FundingType = ({ icon, link, name, track, disabled }) => {
-    return !disabled && <LinkWrap href={link} target='_blank' rel='noreferrer'  onClick={(e) => {
-        if (track) {
-            track();
-        }
-    }}>
-        <Wrapper>
-            <WrapperImg title={name}>
-                <img src={icon} alt="" />
-            </WrapperImg>
-            <Button />
-        </Wrapper>
-    </LinkWrap>;
+export const FundingType = ({ icon, link, name, track }) => {
+    return (
+        <LinkWrap href={link} target='_blank' rel='noreferrer' onClick={() => track && track()}>
+            <Wrapper>
+                <WrapperImg title={name}>
+                    <img src={icon} alt="" />
+                </WrapperImg>
+                <Button />
+            </Wrapper>
+        </LinkWrap>
+    );
 };
