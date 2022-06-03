@@ -7,7 +7,7 @@ import rainbow from '../components/buy/assets/rainbow.svg';
 import utorg from '../components/buy/assets/utorg.svg';
 import { Mixpanel } from '../mixpanel';
 
-export const getPayMethods = (accountId, moonPayAvailable, signedMoonPayUrl, utorgPayUrl) => {
+export const getPayMethods = ({ accountId, moonPayAvailable, signedMoonPayUrl, utorgPayUrl }) => {
     return {
         moonPay: {
             disabled: accountId && !moonPayAvailable,

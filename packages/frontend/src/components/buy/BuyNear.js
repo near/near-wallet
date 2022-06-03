@@ -190,7 +190,10 @@ export function BuyNear({ match, location, history }) {
         checkMoonPay();
     }, [accountId]);
 
-    const PayMethods = useMemo(() => getPayMethods(accountId, moonPayAvailable, signedMoonPayUrl, utorgPayUrl), [accountId, moonPayAvailable, signedMoonPayUrl, utorgPayUrl]);
+    const PayMethods = useMemo(
+        () => getPayMethods({ accountId, moonPayAvailable, signedMoonPayUrl, utorgPayUrl }),
+        [accountId, moonPayAvailable, signedMoonPayUrl, utorgPayUrl]
+    );
     
     const checkMoonPay = async () => {
         await Mixpanel.withTracking('Wallet Check Moonpay available',
