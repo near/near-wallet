@@ -84,9 +84,12 @@ export function CouldNotFindAccountModalWrapper({
                 } else {
                     await handleImportNonLedgerImplicitAccount();
                 }
-                dispatch(refreshAccount());
-                dispatch(redirectTo('/'));
-                dispatch(clearGlobalAlert());
+                try {
+                    await dispatch(refreshAccount());
+                } finally {
+                    dispatch(redirectTo('/'));
+                    dispatch(clearGlobalAlert());
+                }
             }}
         />
     );
