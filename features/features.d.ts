@@ -9,5 +9,4 @@ export type Features = {
 	FARMING_VALIDATOR_APY_DISPLAY: boolean;
 	IMPORT_ACCOUNT_WITH_LINK_V2: boolean;
 	IMPORT_ZERO_BALANCE_ACCOUNT: boolean;
-	USE_INDEXER_SERVICE: boolean;
 };
