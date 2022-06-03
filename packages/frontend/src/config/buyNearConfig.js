@@ -11,15 +11,16 @@ export const getPayMethods = ({ accountId, moonPayAvailable, signedMoonPayUrl, u
     return {
         moonPay: {
             disabled: accountId && !moonPayAvailable,
-            icon: monoPay, name: 'MoonPay',
+            icon: monoPay,
+            name: 'MoonPay',
             link: signedMoonPayUrl,
-            track: () => Mixpanel.track('Wallet Click Buy with Moonpay')
+            track: () => Mixpanel.track('Wallet Click Buy with Moonpay'),
         },
         nearPay: { icon: payNear, name: 'NearPay', link: 'https://www.nearpay.io/' },
         utorg: { icon: utorg, name: 'UTORG', link: utorgPayUrl },
         rainbow: { icon: rainbow, name: 'Rainbow Bridge', link: 'https://rainbowbridge.app/transfer' },
         binance: { icon: okex, name: 'Okex', link: 'https://www.okex.com/' },
         okex: { icon: binance, name: 'Binance', link: 'https://www.binance.com/' },
-        huobi: { icon: huobi, name: 'Huobi', link: 'https://c2c.huobi.com/en-us/one-trade/buy' }
+        huobi: { icon: huobi, name: 'Huobi', link: 'https://c2c.huobi.com/en-us/one-trade/buy' },
     };
 };
