@@ -59,11 +59,7 @@ export default function StakingAction({
 
     const validatorHasFAK = async (validator) => {
         const accessKeys = await wallet.getAccessKeys(validator);
-        const fullAccessKeys = accessKeys.filter((key) => (
-            key?.access_key.permission === 'FullAccess'
-        ));
-
-        return !!fullAccessKeys.length;
+        return accessKeys.some((key) => key?.access_key.permission === 'FullAccess');
     };
 
     const handleSubmitStake = async () => {
