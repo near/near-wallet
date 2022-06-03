@@ -1352,34 +1352,25 @@
     "stakingPoolUnstaked": "Este NEAR está atualmente em uma pool de stake, mas unstaked. Pode, por exemplo, estar em um estado de liberação pendente.",
     "success": "Sucesso",
     "swap": {
-        "AvailableToSwap": "Disponível para troca",
-        "ExpectedPrice": "Preço esperado",
-        "from": "A partir de",
-        "MinimumReceived": "Mínimo recebido",
-        "pairPrice": "Preço do par",
-        "slipPage": "Tolerância de deslizamento",
-        "slippageError": "de 1 a 50",
-        "to": "Para",
-        "TradingFee": "Taxa de negociação"
-    },
-    "swapNear": {
         "confirm": "Confirm & Swap",
         "details": "Transaction details",
-        "fee": "Liquidity Provider Fee",
+        "fee": "Estimated fees",
         "from": "From",
         "max": "Max: ${amount} ${symbol}",
         "minReceived": "Minimum received",
         "price": "Price",
-        "priceImpact": "Price Impact",
+        "priceImpact": "Price impact",
         "review": "Review Swap",
         "reviewInfo": "You are swapping",
-        "successTitle": "Transaction complete!</br>You swapped <span class='color-blue space'>${amount}</span></br>to <span class='color-green'>${tokenTo}</span>",
+        "slippage": "Slippage tolerance",
+        "successTitle": "Transaction complete!</br>You swapped <span class='color-blue space'>${amountFrom}</span></br>to <span class='color-green'>${amountTo}</span>",
         "title": "Swap",
         "to": "To",
         "translateIdInfoTooltip": {
-            "liquidityProviderFee": "The estimated cost of processing your transaction.",
+            "fee": "The estimated cost of processing your transaction.",
             "minimumReceived": "The minimum amount you will receive from the trade.",
-            "priceImpact": "The difference between the market price and estimated price due to trade size."
+            "priceImpact": "The difference between the market price and estimated price due to trade size.",
+            "slippage": "The percentage the price may increase before the transaction fails."
         }
     },
     "swapping": "Swapping",

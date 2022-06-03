@@ -5,15 +5,28 @@ import Accordion from '../../common/Accordion';
 import AccordionTrigger from '../../send/components/AccordionTrigger';
 import Breakdown from '../../send/components/css/Breakdown.css';
 import Amount from '../../send/components/entry_types/Amount';
+import { exchangeRateTranslation } from './helpers';
+import SlippagePicker from './SlippagePicker';
 
-const TransactionDetails = ({
+
+const TransactionDetailsUSN = ({
     selectedTokenFrom,
     selectedTokenTo,
-    estimatedFeesInNear,
-    estimatedMinReceived,
     amount,
+    exchangeRate,
+    tradingFee,
+    setSlippage
 }) => {
     const [open, setOpen] = useState(false);
+
+    const commissionFee = tradingFee?.toFixed(5);
+    const minimumReceived = exchangeRateTranslation({
+        inputtedAmountOfToken: selectedTokenFrom,
+        calculateAmountOfToken: selectedTokenTo,
+        balance: amount,
+        exchangeRate
+    }) - tradingFee;
+
     return (
         <Breakdown
             className={classNames([
@@ -25,30 +38,26 @@ const TransactionDetails = ({
                 trigger="transaction-details-breakdown"
                 className="breakdown"
             >
+                <SlippagePicker
+                    translateIdTitle={'swap.slippage'}
+                    translateIdInfoTooltip="swap.translateIdInfoTooltip.slippage"
+                    setSlippage={setSlippage}
+                />
                 <Amount
                     className="details-info"
-                    translateIdTitle={'swapNear.minReceived'}
-                    amount={estimatedMinReceived}
+                    translateIdTitle={'swap.fee'}
+                    amount={commissionFee.toString()}
                     symbol={selectedTokenTo.onChainFTMetadata?.symbol}
-                    decimals={selectedTokenTo.onChainFTMetadata?.decimals}
-                    translateIdInfoTooltip="swapNear.translateIdInfoTooltip.minimumReceived"
+                    decimals={0}
+                    translateIdInfoTooltip="swap.translateIdInfoTooltip.fee"
                 />
-
-                <Amount
-                    className="green details-info"
-                    translateIdTitle={'swapNear.priceImpact'}
-                    amount={estimatedFeesInNear}
-                    symbol={'%'}
-                    decimals={selectedTokenFrom.onChainFTMetadata?.decimals}
-                    translateIdInfoTooltip="swapNear.translateIdInfoTooltip.priceImpact"
-                />
-
                 <Amount
                     className="details-info"
-                    translateIdTitle={'swapNear.fee'}
-                    amount={estimatedFeesInNear}
-                    symbol="NEAR"
-                    translateIdInfoTooltip="swapNear.translateIdInfoTooltip.liquidityProviderFee"
+                    translateIdTitle={'swap.minReceived'}
+                    amount={minimumReceived.toString()}
+                    symbol={selectedTokenTo.onChainFTMetadata?.symbol}
+                    decimals={0}
+                    translateIdInfoTooltip="swap.translateIdInfoTooltip.minimumReceived"
                 />
             </Accordion>
             <AccordionTrigger
@@ -61,4 +70,4 @@ const TransactionDetails = ({
     );
 };
 
-export default TransactionDetails;
+export default TransactionDetailsUSN;

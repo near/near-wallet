@@ -3,16 +3,13 @@ import BN from 'bn.js';
 import set from 'lodash.set';
 import { createSelector } from 'reselect';
 
-import { CREATE_USN_CONTRACT } from '../../../../../../features';
-import { WHITELISTED_CONTRACTS, IS_MAINNET} from '../../../config';
+import { WHITELISTED_CONTRACTS, USN_CONTRACT } from '../../../config';
 import FungibleTokens from '../../../services/FungibleTokens';
 import handleAsyncThunkStatus from '../../reducerStatus/handleAsyncThunkStatus';
 import initialStatusState from '../../reducerStatus/initialState/initialStatusState';
 import { createParameterSelector, selectSliceByAccountId } from '../../selectors/topLevel';
 import { selectUSDNTokenFiatValueUSD } from '../tokenFiatValues';
 import tokensMetadataSlice, { getCachedContractMetadataOrFetch, selectContractsMetadata, selectOneContractMetadata } from '../tokensMetadata';
-
-const currentContractName = !IS_MAINNET ? 'usdn.testnet': 'usn';
 
 const SLICE_NAME = 'tokens';
 
@@ -66,9 +63,6 @@ const fetchTokens = createAsyncThunk(
             ]),
         ];
 
-        if (!likelyContracts.includes(currentContractName) && CREATE_USN_CONTRACT) {
-            likelyContracts.push(currentContractName);
-        }
 
         await Promise.all(
             likelyContracts.map(async (contractName) => {
@@ -181,16 +175,14 @@ export const selectTokensWithMetadataForAccountId = createSelector(
         selectContractsMetadata,
         selectOwnedTokens,
         selectUSDNTokenFiatValueUSD,
+        (_, params) => params.showTokensWithZeroBalance
     ],
-    (allContractMetadata, ownedTokens, usd) =>
-        Object.entries(ownedTokens)
-            .filter(([contractName, { balance }]) => {
-                // We need to see our contract even with zero balance
-                if (contractName === currentContractName) {
-                     return true;
-                }
-                return !new BN(balance).isZero();
-            })
+    (allContractMetadata, ownedTokensForAccount, usd, showTokensWithZeroBalance) => {
+        let tokenEntries = Object.entries(ownedTokensForAccount);
+        if (!showTokensWithZeroBalance) {
+            tokenEntries = tokenEntries.filter(([_, { balance }]) => !new BN(balance).isZero());
+        }
+        return tokenEntries
             .sort(([a], [b]) =>
                 allContractMetadata[a]?.name.localeCompare(
                     allContractMetadata[b]?.name
@@ -202,9 +194,9 @@ export const selectTokensWithMetadataForAccountId = createSelector(
                 balance,
                 onChainFTMetadata: allContractMetadata[contractName] || {},
                 fiatValueMetadata:
-                    contractName === currentContractName ? { usd } : {},
-            }))
-);
+                    contractName === USN_CONTRACT ? { usd } : {},
+            }));
+});
 
 export const selectTokensLoading = createSelector(
     [selectOwnedTokens],

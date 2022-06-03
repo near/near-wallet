@@ -7,6 +7,7 @@ export default createSelector(
     [selectAvailableBalance, selectNearTokenFiatValueUSD],
     (balanceAvailable, usd) => ({
         balance: balanceAvailable || '',
+        contractName: 'NEAR',
         onChainFTMetadata: { symbol: 'NEAR', decimals: 24 },
         fiatValueMetadata: { usd },
     })

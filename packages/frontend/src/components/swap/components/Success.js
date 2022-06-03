@@ -38,7 +38,7 @@ const StyledContainer = styled.div`
     }
 `;
 
-const Success = ({ amount, tokenTo, onClickContinue, onClickGoToExplorer }) => {
+const Success = ({ amountFrom, amountTo, transactionHash, onClickContinue, onClickGoToExplorer }) => {
     return (
         <StyledContainer className="buttons-bottom">
             <AvatarSuccessIcon />
@@ -47,10 +47,10 @@ const Success = ({ amount, tokenTo, onClickContinue, onClickGoToExplorer }) => {
                 data-test-id="sendTransactionSuccessMessage"
             >
                 <SafeTranslate
-                    id="swapNear.successTitle"
+                    id="swap.successTitle"
                     data={{
-                        amount: amount,
-                        tokenTo: tokenTo,
+                        amountFrom,
+                        amountTo
                     }}
                 />
             </div>
@@ -58,9 +58,11 @@ const Success = ({ amount, tokenTo, onClickContinue, onClickGoToExplorer }) => {
                 <FormButton onClick={onClickContinue}>
                     <Translate id="button.continue" />
                 </FormButton>
-                <FormButton color="gray-gray" onClick={onClickGoToExplorer}>
-                    <Translate id="button.viewOnExplorer" />
-                </FormButton>
+                {transactionHash && (
+                    <FormButton color="gray-gray" onClick={onClickGoToExplorer}>
+                        <Translate id="button.viewOnExplorer" />
+                    </FormButton>
+                )}
             </div>
         </StyledContainer>
     );

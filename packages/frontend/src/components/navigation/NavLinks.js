@@ -3,13 +3,11 @@ import { Translate } from 'react-localize-redux';
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { CREATE_USN_CONTRACT, USN_BUTTON, DONATE_TO_UKRAINE } from '../../../../../features';
+import { DONATE_TO_UKRAINE } from '../../../../../features';
 import { IS_MAINNET } from '../../config';
-import USN_LOGO from '../../images/USN-logo.png';
 import { Mixpanel } from '../../mixpanel/index';
 import DonateToUkraineIcon from '../svg/DonateToUkraineIcon';
 import HelpIcon from '../svg/HelpIcon';
-import SwapIconTwoArrows from '../svg/SwapIconTwoArrows';
 import UserIcon from '../svg/UserIcon';
 import VaultIcon from '../svg/VaultIcon';
 import WalletIcon from '../svg/WalletIcon';
@@ -124,23 +122,6 @@ const NavLinks = () => (
             <HelpIcon/>
             <Translate id='link.help'/>
         </a>
-        {CREATE_USN_CONTRACT && 
-        <NavLink
-            to="/swap-usn"
-            activeClassName="selected"
-            onClick={() => Mixpanel.track('Click Swap button on nav')}
-        >
-            <div>
-                <SwapIconTwoArrows
-                    width={'20'}
-                    height="16"
-                    color="#A2A2A8"
-                    margin="10px"
-                />
-            </div>
-
-            <Translate id="button.swapUSN" />
-        </NavLink>}
         {DONATE_TO_UKRAINE && 
         <NavLink
              to={`/send-money/${IS_MAINNET ? 'ukraine' : 'ukraine.testnet'}`}
@@ -150,23 +131,6 @@ const NavLinks = () => (
             <DonateToUkraineIcon />
             <Translate id="link.donateToUkraine" />
         </NavLink>}
-        {USN_BUTTON && 
-            <a
-            href={!IS_MAINNET 
-                ? 'https://swap.testnet.decentral-bank.finance/'
-                : 'https://swap.decentral-bank.finance/'
-            }
-            target='_blank' 
-            className="usn-button"
-            onClick={() => Mixpanel.track('Click Buy USN')}
-            rel="noreferrer"
-            >
-            <div>
-                <img src={USN_LOGO} alt='open-link'></img>
-            </div>
-                <Translate id='link.buyUSN'/>
-            </a>
-     }
     </Container>
 );
 

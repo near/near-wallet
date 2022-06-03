@@ -55,10 +55,10 @@ export default multiplierSlice;
 
 export const reducer = multiplierSlice.reducer;
 
-const selectmultiplierSlice = (state) => state[SLICE_NAME];
+const selectMultiplierSlice = (state) => state[SLICE_NAME];
 
 const selectMultiplier = createSelector(
-    selectmultiplierSlice,
+    selectMultiplierSlice,
     ({ prices }) => prices || {}
 );
 

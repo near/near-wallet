@@ -8,7 +8,6 @@ import {
     CREATE_USN_CONTRACT,
 } from '../../../../../features';
 import getCurrentLanguage from '../../hooks/getCurrentLanguage';
-import { useSplitFungibleTokens } from '../../hooks/splitFungibleTokens';
 import classNames from '../../utils/classNames';
 import { SHOW_NETWORK_BANNER } from '../../utils/wallet';
 import Balance from '../common/balance/Balance';
@@ -18,7 +17,6 @@ import Container from '../common/styled/Container.css';
 import Tooltip from '../common/Tooltip';
 import DownArrowIcon from '../svg/DownArrowIcon';
 import SendIcon from '../svg/SendIcon';
-import Swap from '../svg/SwapIcon';
 import TopUpIcon from '../svg/TopUpIcon';
 import WrapIcon from '../svg/WrapIcon';
 import ActivitiesWrapper from './ActivitiesWrapper';
@@ -314,13 +312,9 @@ export function Wallet({
     handleSetCreateFromImplicitSuccess,
     handleSetCreateCustomName,
 }) {
-    const splitFungibleTokens = useSplitFungibleTokens(
-        fungibleTokensList,
-        'USN'
-    );
     const currentLanguage = getCurrentLanguage();
     const totalAmount = getTotalBalanceInFiat(
-        splitFungibleTokens[0],
+        fungibleTokensList,
         currentLanguage
     );
 
@@ -359,11 +353,7 @@ export function Wallet({
                             totalAmount={totalAmount}
                             balance={balance}
                             tokensLoading={tokensLoading}
-                            fungibleTokens={
-                                CREATE_USN_CONTRACT
-                                    ? splitFungibleTokens
-                                    : fungibleTokensList
-                            }
+                            fungibleTokens={fungibleTokensList}
                             accountExists={accountExists}
                         />
                     )}
@@ -410,9 +400,7 @@ const FungibleTokens = ({
     currentLanguage,
 }) => {
     const zeroBalanceAccount = accountExists === false;
-    const currentFungibleTokens = CREATE_USN_CONTRACT
-        ? fungibleTokens[0][0]
-        : fungibleTokens[0];
+    const currentFungibleTokens = fungibleTokens[0];
     const hideFungibleTokenSection =
         zeroBalanceAccount &&
         fungibleTokens?.length === 1 &&
@@ -423,7 +411,7 @@ const FungibleTokens = ({
             <div className="total-balance">
                 <Textfit mode="single" max={48}>
                     <Balance
-                        totalAmount={CREATE_USN_CONTRACT && totalAmount}
+                        totalAmount={totalAmount}
                         showBalanceInNEAR={false}
                         amount={balance?.balanceAvailable}
                         showAlmostEqualSignUSD={false}
@@ -459,19 +447,6 @@ const FungibleTokens = ({
                     </div>
                     <Translate id="button.receive" />
                 </FormButton>
-                {CREATE_USN_CONTRACT && (
-                    <FormButton
-                        color="dark-gray"
-                        linkTo="/swap-usn"
-                        trackingId="Click Receive on Wallet page"
-                        data-test-id="balancesTab.buy"
-                    >
-                        <div>
-                            <Swap />
-                        </div>
-                        <Translate id="button.swapUSN" />
-                    </FormButton>
-                )}
                 <FormButton
                     color="dark-gray"
                     linkTo="/buy"
@@ -513,30 +488,9 @@ const FungibleTokens = ({
                         )}
                     </div>
                     <Tokens
-                        tokens={
-                            CREATE_USN_CONTRACT
-                                ? fungibleTokens[0]
-                                : fungibleTokens
-                        }
+                        tokens={fungibleTokens}
                         currentLanguage={currentLanguage}
                     />
-                    {CREATE_USN_CONTRACT && (
-                        <>
-                            <div className="sub-title tokens">
-                                <span
-                                    className={classNames({
-                                        dots: tokensLoading,
-                                    })}
-                                >
-                                    <Translate id="wallet.OthersTokens" />
-                                </span>
-                            </div>
-                            <Tokens
-                                tokens={fungibleTokens[1]}
-                                currentLanguage={currentLanguage}
-                            />
-                        </>
-                    )}
                     <div className='coingecko'><Translate id='poweredByCoinGecko'/></div>
                 </>
             )}

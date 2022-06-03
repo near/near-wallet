@@ -9,7 +9,6 @@ import SelectTokenButton from './SelectTokenButton';
 const FormFrom = styled.form`
     display: flex;
     flex-direction: column;
-    margin: 34px 0 0 0;
     padding: 8px 16px 16px;
     background-color: #fbfcfd;
     border: 1px solid #eceef0;
@@ -35,76 +34,59 @@ const FormFrom = styled.form`
     div.maxTitle {
         font-style: italic;
         color: #2f98f3;
-        cursor: pointer;
-        :hover {
-            text-decoration: underline;
-        }
     }
-    input.input-text {
+    .outputText {
         text-align: right;
-        padding: 0 15px 0 15px;
+        padding: 20px 15px 0 15px;
+        font-size: 16px;
         height: 64px;
         margin-top: 0;
         background-color: #F1F3F5;
-
-        :focus {
-            background-color: #FFFFFF;
-        }
+        color: #A2A2A7;
+        border-radius: 8px;
     }
     input.error {
         color: #fc5b5b;
     }
 `;
 
-const SwapFromForm = ({
+const SwapToForm = ({
+    onClickToToken,
     maxValue,
     amountToken,
-    setAmountToken,
-    activeTokenFrom,
-    error,
+    activeTokenTo,
 }) => {
     return (
         <FormFrom>
             <div className="flex">
                 <div className="title">
-                    <Translate id="swapNear.from" />
+                    <Translate id="swap.to" />
                 </div>
                 <div
                     className="maxTitle"
-                    onClick={() => {
-                        setAmountToken(maxValue.fullNum);
-                    }}
                 >
                     <SafeTranslate
-                        id="swapNear.max"
+                        id="swap.max"
                         data={{
                             amount: maxValue.numToShow,
-                            symbol: activeTokenFrom?.onChainFTMetadata?.symbol,
+                            symbol: activeTokenTo?.onChainFTMetadata?.symbol,
                         }}
                     />
                 </div>
             </div>
             <div className="flex-input">
-                {activeTokenFrom && (
+                {activeTokenTo && (
                     <SelectTokenButton
-                        token={activeTokenFrom}
-                        onClick={() => {}}
+                        token={activeTokenTo}
+                        onClick={onClickToToken}
                     />
                 )}
-                <input
-                    type="number"
-                    className={`input-text ${error ? 'error' : ''}`}
-                    onChange={(e) => {
-                        e.preventDefault();
-                        setAmountToken(e.target.value);
-                    }}
-                    value={amountToken ? amountToken : ''}
-                    placeholder="0"
-                    maxLength="18"
-                />
+                <div className='outputText'>
+                    {amountToken ? amountToken : '0'}
+                </div>
             </div>
         </FormFrom>
     );
 };
 
-export default withRouter(SwapFromForm);
+export default withRouter(SwapToForm);
