@@ -220,22 +220,24 @@ export function BuyNear({ match, location, history }) {
             <div className='title'><Translate id='buyNear.title' /></div>
             <div className='subTitle'><Translate id='buyNear.subTitle' /></div>
             <div className='wrapper'>
-                <FundingCard title='buyNear.nearPurchaseTitle' subTitle='buyNear.nearPurchaseSubTitle' actions={
-                    shuffle([PayMethods.moonPay, PayMethods.nearPay, PayMethods.utorg])
-                } />
-                <FundingCard title='buyNear.bridgeTokens'  subTitle='buyNear.bridgeSubTitle' actions={
-                    [PayMethods.rainbow]
-                } />
+                <FundingCard
+                    title='buyNear.nearPurchaseTitle'
+                    subTitle='buyNear.nearPurchaseSubTitle'
+                    actions={shuffle([PayMethods.moonPay, PayMethods.nearPay, PayMethods.utorg])}
+                />
+                <FundingCard
+                    title='buyNear.bridgeTokens'
+                    subTitle='buyNear.bridgeSubTitle'
+                    actions={[PayMethods.rainbow]}
+                />
                 <FundingCard title='buyNear.supportedExchanges'
                     subTitle='buyNear.supportedSubTitle'
-                    link={
-                        {
-                            url: 'https://coinmarketcap.com/currencies/near-protocol/markets/',
-                            title: 'buyNear.coinMarketLink'
-                        }}
-                    actions={
-                        [PayMethods.okex, PayMethods.binance, PayMethods.huobi]
-                    } />
+                    link={{
+                        url: 'https://coinmarketcap.com/currencies/near-protocol/markets/',
+                        title: 'buyNear.coinMarketLink'
+                    }}
+                    actions={[PayMethods.okex, PayMethods.binance, PayMethods.huobi]}
+                />
             </div>
         </StyledContainer>
     );
