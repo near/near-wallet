@@ -19,7 +19,19 @@ const InstructionsModal = ({ open, onClose }) => {
                 <li><Translate id='setupLedgerSteps.one'/></li>
                 <li><Translate id='setupLedgerSteps.two'/></li>
                 <li><Translate id='setupLedgerSteps.three'/></li>
+                <li><Translate id='setupLedgerSteps.four'/></li>
+                <li><Translate id='setupLedgerSteps.five'/></li>
+                <li><Translate id='setupLedgerSteps.six'/></li>
+                <br />
+                <div>
+                    <Translate id='setupLedgerSteps.install' />
+                    &nbsp;<span
+                            className='link underline'>
+                        <Translate id='setupLedgerSteps.installLink' />
+                    </span>
+                </div>
             </ol>
+            
             <FormButton color='gray-white' id='close-button' trackingId='Close Instructions Modal'>
                 <Translate id='button.dismiss'/>
             </FormButton>
