@@ -1747,8 +1747,8 @@
         },
         "staking": {
             "noLockup": "No lockup contract for account",
-            "notAbleToCheckFAK": "Sorry, we are not able to check if Validator has full access key.",
             "noWithdraw": "Unable to withdraw pending balance from validator",
+            "unableToCheckFAK": "Sorry, we are not able to check if Validator has full access key.",
             "validatorHasFAK": "Sorry, we are not allowing you to stake with Validator that has a full access key, for your safety."
         }
     },

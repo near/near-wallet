@@ -42,7 +42,7 @@ export default function StakingAction({
     const dispatch = useDispatch();
 
     const [checkingValidator, setCheckingValidator] = useState(false);
-    const [disableStaking, setDisableStaking] = useState(false);
+    const [validatorMightHaveFAK, setValidatorMightHaveFAK] = useState(false);
     const [confirm, setConfirm] = useState();
     const [amount, setAmount] = useState('');
     const [success, setSuccess] = useState();
@@ -54,7 +54,7 @@ export default function StakingAction({
     const displayAmount = useMax ? formatNearAmount(amount, 5).replace(/,/g, '') : amount;
     const availableToStake = availableBalance;
     const invalidStakeActionAmount = new BN(useMax ? amount : parseNearAmount(amount)).sub(new BN(stake ? availableToStake : staked)).gt(new BN(STAKING_AMOUNT_DEVIATION)) || !isDecimalString(amount);
-    const stakeActionAllowed = hasStakeActionAmount && !invalidStakeActionAmount && !success && !disableStaking;
+    const stakeActionAllowed = hasStakeActionAmount && !invalidStakeActionAmount && !success && !validatorMightHaveFAK;
     const stakeNotAllowed = !!selectedValidator && selectedValidator !== match.params.validator && !!currentValidators.length;
 
     const validatorHasFAK = async (validator) => {
@@ -67,7 +67,7 @@ export default function StakingAction({
             setCheckingValidator(true);
 
             if (await validatorHasFAK(match.params.validator)) {
-                setDisableStaking(true);
+                setValidatorMightHaveFAK(true);
                 dispatch(showCustomAlert({
                     success: false,
                     messageCodeHeader: 'error',
@@ -78,11 +78,11 @@ export default function StakingAction({
                 setConfirm(true);
             }
         } catch (error) {
-            setDisableStaking(true);
+            setValidatorMightHaveFAK(true);
             dispatch(showCustomAlert({
                 success: false,
                 messageCodeHeader: 'error',
-                messageCode: 'walletErrorCodes.staking.notAbleToCheckFAK',
+                messageCode: 'walletErrorCodes.staking.unableToCheckFAK',
                 errorMessage: 'Not able to check full access key'
             }));
             throw error;
