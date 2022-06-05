@@ -115,7 +115,7 @@ const StyledContainer = styled(Container)`
 `;
 
 function Swap({ history }) {
-    const fungibleTokensList = useFungibleTokensIncludingNEAR({showTokensWithZeroBalance: true});
+    const fungibleTokensList = useFungibleTokensIncludingNEAR({showTokensWithZeroBalance: true, includeNearContractName: true});
     const accountId = useSelector(selectAccountId);
     const multiplier = useSelector(selectMetadataSlice);
     const [amountTokenFrom, setAmountTokenFrom] = useState(0);
