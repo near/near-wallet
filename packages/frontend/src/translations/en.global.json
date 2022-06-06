@@ -291,17 +291,23 @@
         "withdrawing": "Withdrawing"
     },
     "buyNear": {
-        "bridgeTokens": "Bridge Tokens from Ethereum",
+        "bridgeSubTitle": "Transfer your tokens from Ethereum to NEAR using the Rainbow Bridge.",
+        "bridgeTokens": "Bridge From Ethereum",
         "buyWith": "Buy with",
         "coinMarketCap": "CoinMarketCap",
+        "coinMarketLink": "More on CoinMarketCap",
         "descMoonpay": "Purchase NEAR through MoonPay using your preferred payment method.",
         "descThree": "Transfer your tokens from Ethereum to NEAR Wallet using a bridge.",
         "descTwo": "NEAR is available to purchase through the following exchanges.",
         "descUtorg": "Purchase NEAR through Utorg using your preferred payment method.",
         "moonPay": "MoonPay",
+        "nearPurchaseSubTitle": "Use your preferred payment method to purchase $NEAR through one of our supported partners.",
+        "nearPurchaseTitle": "Purchase NEAR",
         "notSupported": "is not supported in your region",
         "seeMore": "See more on",
+        "subTitle": "Choose from a variety of funding options to top up your wallet!",
         "supportedExchanges": "Supported Exchanges",
+        "supportedSubTitle": " $NEAR is available to purchase and trade on various exchanges.",
         "title": "Top Up",
         "utorg": "Utorg"
     },
@@ -1669,14 +1675,11 @@
         "addAccessKey": {
             "error": "An error has occurred.<br />To access your account, please enter the passphrase from the previous step below."
         },
-        "addAccessKeyZeroBalanceAccountSetup": {
-            "error": "Something went wrong while finishing import of your now active account. Please re-import your account in the wallet."
-        },
-        "initiateZeroBalanceAccount": {
-            "error": "Something went wrong while initiating your account. Please try again."
-        },
         "addAccessKeySeedPhrase": {
             "errorSecond": "An error has occurred.<br />The passphrase was not added to your account. Please try again."
+        },
+        "addAccessKeyZeroBalanceAccountSetup": {
+            "error": "Something went wrong while finishing import of your now active account. Please re-import your account in the wallet."
         },
         "addLedgerAccountId": {
             "errorRpc": "Error appears while recovering the account."
@@ -1699,6 +1702,9 @@
             "noAccounts": "No accounts were found for this Ledger device. Please confirm you have associated an account with this Ledger.",
             "noAccountsAccepted": "No accounts were accepted.",
             "U2FNotSupported": "U2F browser support is needed for Ledger. Please use Chrome, Opera or Firefox with U2F extension."
+        },
+        "initiateZeroBalanceAccount": {
+            "error": "Something went wrong while initiating your account. Please try again."
         },
         "invalidRecaptchaCode": "Invalid reCAPTCHA code; try again!",
         "lockup": {
@@ -1738,31 +1744,31 @@
     },
     "warning": "Warning",
     "zeroBalance": {
-        "ledgerModal": {
-            "desc": "Add a Ledger limited access key to the wallet to manage multiple recovery methods.",
-            "confirmOnLedger": "Confirm the action on your Ledger device.",
-            "title": "Your account is now active!",
-            "addLedgerKey": "Add Ledger Key"
-        },
         "addLedgerKey": {
-            "success": {
-                "header": "Ledger access key added successfully!",
-                "message": "A new Ledger key was added to your account. You can now manage your accounts recovery methods using your Ledger device."
-            },
             "error": {
                 "header": "Something went wrong",
                 "message": "We were unable to add an additional Ledger key to your account. Please try again or re-import your Ledger account."
+            },
+            "success": {
+                "header": "Ledger access key added successfully!",
+                "message": "A new Ledger key was added to your account. You can now manage your accounts recovery methods using your Ledger device."
             }
         },
         "addPhraseKey": {
-            "success": {
-                "header": "Your account has been successfully imported!",
-                "message": "Now that your account is active, a new access key has been added to your account to sign transactions in the wallet."
-            },
             "error": {
                 "header": "Something went wrong",
                 "message": "We were unable to add a new access key to your account. Please re-import your account to add a new wallet key."
+            },
+            "success": {
+                "header": "Your account has been successfully imported!",
+                "message": "Now that your account is active, a new access key has been added to your account to sign transactions in the wallet."
             }
+        },
+        "ledgerModal": {
+            "addLedgerKey": "Add Ledger Key",
+            "confirmOnLedger": "Confirm the action on your Ledger device.",
+            "desc": "Add a Ledger limited access key to the wallet to manage multiple recovery methods.",
+            "title": "Your account is now active!"
         }
     }
 }
