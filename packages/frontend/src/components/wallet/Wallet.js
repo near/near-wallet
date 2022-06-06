@@ -7,7 +7,6 @@ import { CREATE_IMPLICIT_ACCOUNT,CREATE_USN_CONTRACT } from '../../../../../feat
 import getCurrentLanguage from '../../hooks/getCurrentLanguage';
 import { useSplitFungibleTokens } from '../../hooks/splitFungibleTokens';
 import classNames from '../../utils/classNames';
-import Balance from './Balance';
 import { SHOW_NETWORK_BANNER } from '../../utils/wallet';
 import { getTotalBalanceInFiat } from '../common/balance/helpers';
 import FormButton from '../common/FormButton';
@@ -18,6 +17,7 @@ import SendIcon from '../svg/SendIcon';
 import Swap from '../svg/SwapIcon';
 import TopUpIcon from '../svg/TopUpIcon';
 import ActivitiesWrapper from './ActivitiesWrapper';
+import AllTokensTotalBalanceUSD from './AllTokensTotalBalanceUSD';
 import CreateCustomNameModal from './CreateCustomNameModal';
 import CreateFromImplicitSuccessModal from './CreateFromImplicitSuccessModal';
 import DepositNearBanner from './DepositNearBanner';
@@ -302,6 +302,7 @@ export function Wallet({
                             tokensLoading={tokensLoading}
                             fungibleTokens={CREATE_USN_CONTRACT ? splitFungibleTokens : fungibleTokensList}
                             accountExists={accountExists}
+                            fungibleTokensList={fungibleTokensList}
                         />
                     }
                 </div>
@@ -337,7 +338,7 @@ export function Wallet({
     );
 }
 
-const FungibleTokens = ({ balance, tokensLoading, fungibleTokens, accountExists, totalAmount, currentLanguage }) => {
+const FungibleTokens = ({ balance, tokensLoading, fungibleTokens, accountExists, totalAmount, currentLanguage, fungibleTokensList }) => {
     const zeroBalanceAccount = accountExists === false;
     const currentFungibleTokens = CREATE_USN_CONTRACT ? fungibleTokens[0][0] : fungibleTokens[0];
     const hideFungibleTokenSection =
@@ -349,13 +350,7 @@ const FungibleTokens = ({ balance, tokensLoading, fungibleTokens, accountExists,
         <>
             <div className='total-balance'>
                 <Textfit mode='single' max={48}>
-                    <Balance
-                        showBalanceInNEAR={false}
-                        tokens={fungibleTokens}
-                        showAlmostEqualSignUSD={false}
-                        showSymbolUSD={false}
-                        showSignUSD={true}
-                    />
+                    <AllTokensTotalBalanceUSD allFungibleTokens={fungibleTokensList}/>
                 </Textfit>
             </div>
             <div className='sub-title balance'>

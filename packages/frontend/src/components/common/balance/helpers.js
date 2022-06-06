@@ -57,3 +57,12 @@ export const getNearAndFiatValue = (rawNearAmount, tokenFiatValue, fiat = 'usd')
     const fiatPrefix = fiatAmount !== '< 0.01' ? '≈ ' : '';
     return `${nearAmount} NEAR (${fiatPrefix}${formatWithCommas(fiatAmount) || '—'} ${fiatSymbol})`;
 };
+
+export const getTotalBalanceFromFungibleTokensListUSD = (fungibleTokensList) => {
+    let totalBalanceUSD = 0;
+    const tokensWithUSDValue = fungibleTokensList.filter((token) => typeof token?.fiatValueMetadata?.usd === 'number');
+    for (let token of tokensWithUSDValue) {
+        totalBalanceUSD += token.fiatValueMetadata.usd * formatTokenAmount(token.balance, token.onChainFTMetadata?.decimals, 5);
+    }
+    return Number(totalBalanceUSD.toFixed(2));
+};
