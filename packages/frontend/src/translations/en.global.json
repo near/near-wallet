@@ -196,7 +196,13 @@
         "reserved": "Reserved for fees"
     },
     "batchImportAccounts": {
-        "confirmModal": {
+        "confirmImportModal": {
+            "accountToImport": "Account to Import",
+            "desc": "To ensure account security during your transfer, confirm that the URL in your browser is correct:",
+            "title": "Approve Account Import from",
+            "transactionDetails": "+ Transaction Details"
+        },
+        "confirmUrlModal": {
             "desc": "To ensure account security during your transfer, confirm that the URL in your browser is correct:",
             "title": "Confirm Your URL"
         }

@@ -27,7 +27,8 @@ import {
     WALLET_RECOVER_ACCOUNT_URL,
     WALLET_LINKDROP_URL,
     setKeyMeta,
-    ENABLE_IDENTITY_VERIFIED_ACCOUNT
+    ENABLE_IDENTITY_VERIFIED_ACCOUNT,
+    WALLET_BATCH_IMPORT_URL
 } from '../../utils/wallet';
 import { WalletError } from '../../utils/walletError';
 import { withAlert } from '../reducers/status';
@@ -130,7 +131,7 @@ export const handleRefreshUrl = (prevRouter) => (dispatch, getState) => {
         if ([WALLET_CREATE_NEW_ACCOUNT_URL, WALLET_LINKDROP_URL].includes(currentPage) && search !== '') {
             saveState(parsedUrl);
             dispatch(refreshUrl(parsedUrl));
-        } else if ([WALLET_LOGIN_URL, WALLET_SIGN_URL].includes(currentPage) && search !== '') {
+        } else if ([WALLET_LOGIN_URL, WALLET_SIGN_URL, WALLET_BATCH_IMPORT_URL].includes(currentPage) && search !== '') {
             saveState(parsedUrl);
             dispatch(refreshUrl(parsedUrl));
             dispatch(checkContractId());

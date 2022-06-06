@@ -2,6 +2,7 @@ import React from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
+import RightArrow from '../../images/icon-arrow-right.svg';
 import IconCheck from '../../images/IconCheck';
 import UserIconGrey from '../../images/UserIconGrey';
 
@@ -145,6 +146,11 @@ overflow: hidden;
         }
     }
 
+    .right-arrow {
+      width: 24px;
+      height: 24px;
+    }
+
     .status {
         flex: 0 0 72px;
         margin-left: auto;
@@ -157,17 +163,23 @@ overflow: hidden;
 }
 `;
 
-const AccountListImport = ({ accounts = [], animationScope = 0 }) => (
+const AccountListImport = ({ accounts = [], animationScope = 0, onClickAccount }) => (
   <AnimateList animate={animationScope}>
       {accounts.map((account) => (
-          <div key={account.accountId} className={`row ${account.status}`}>
+          <div
+            key={account.accountId}
+            className={`row ${account.status}`}
+            onClick={() => onClickAccount ? onClickAccount(account) : null}
+            style={{ cursor: onClickAccount ? 'pointer' : 'default' }}
+          >
               <UserIcon>
                   <UserIconGrey color='#9a9a9a' />
               </UserIcon>
               <div className='accountId'>
                   {account.accountId}
               </div>
-              {account.status ? 
+              {onClickAccount ? <div className='status'><img src={RightArrow} alt="RightArrow" className='right-arrow'/></div> : null}
+              {account.status && !onClickAccount ? 
                 <div className='status'>
                     {account.status !== 'success' 
                         ? <Translate id={`signInLedger.modal.status.${account.status}`}/>
