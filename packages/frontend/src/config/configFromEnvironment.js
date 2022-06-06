@@ -36,9 +36,12 @@ module.exports = {
     HIDE_SIGN_IN_WITH_LEDGER_ENTER_ACCOUNT_ID_MODAL: parseBooleanFromShell(
         process.env.HIDE_SIGN_IN_WITH_LEDGER_ENTER_ACCOUNT_ID_MODAL
     ),
-    IS_MAINNET: [Environments.MAINNET, Environments.MAINNET_STAGING].some(
-        (env) => env === NEAR_WALLET_ENV
-    ),
+    IS_MAINNET: [
+        Environments.MAINNET,
+        Environments.MAINNET_STAGING,
+        Environments.MAINNET_STAGING_NEARORG,
+        Environments.MAINNET_NEARORG,
+    ].some((env) => env === NEAR_WALLET_ENV),
     LINKDROP_GAS: process.env.LINKDROP_GAS,
     LOCKUP_ACCOUNT_ID_SUFFIX: process.env.LOCKUP_ACCOUNT_ID_SUFFIX,
     MIN_BALANCE_FOR_GAS: process.env.REACT_APP_MIN_BALANCE_FOR_GAS,

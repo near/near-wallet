@@ -1,9 +1,9 @@
+import { createAsyncThunk } from '@reduxjs/toolkit';
 import BN from 'bn.js';
 import * as nearApiJs from 'near-api-js';
 import { createActions } from 'redux-actions';
 
 import {
-    ACCOUNT_HELPER_URL,
     REACT_APP_USE_TESTINGLOCKUP,
     STAKING_GAS_BASE,
     FARMING_CLAIM_GAS,
@@ -11,6 +11,7 @@ import {
     LOCKUP_ACCOUNT_ID_SUFFIX
 } from '../../config';
 import { fungibleTokensService, FT_MINIMUM_STORAGE_BALANCE_LARGE } from '../../services/FungibleTokens';
+import { listStakingPools } from '../../services/indexer';
 import StakingFarmContracts from '../../services/StakingFarmContracts';
 import { getLockupAccountId, getLockupMinBalanceForStorage } from '../../utils/account-with-lockup';
 import { showAlert } from '../../utils/alerts';
@@ -401,13 +402,13 @@ export const { staking } = createActions({
                 const rpcValidators = [...current_validators, ...next_validators, ...current_proposals].map(({ account_id }) => account_id);
 
                 const networkId = wallet.connection.provider.connection.url.indexOf(MAINNET) > -1 ? MAINNET : TESTNET;
-                const allStakingPools = (await fetch(`${ACCOUNT_HELPER_URL}/stakingPools`).then((r) => r.json()));
+                const allStakingPools = await listStakingPools();
                 const prefix = getValidatorRegExp(networkId);
                 accountIds = [...new Set([...rpcValidators, ...allStakingPools])]
                     .filter((v) => v.indexOf('nfvalidator') === -1 && v.match(prefix));
             }
 
-            const currentAccount = wallet.getAccountBasic(accountId);
+            const currentAccount = await wallet.getAccount(accountId);
 
             return (await Promise.all(
                 accountIds.map(async (account_id) => {
@@ -429,10 +430,7 @@ export const { staking } = createActions({
                     }
                 })
             )).filter((v) => !!v);
-        },
-        SET_VALIDATOR_FARM_DATA: (validatorId, farmData) => {
-            return {validatorId, farmData};
-        },
+        }
     }
 });
 
@@ -475,7 +473,7 @@ export const handleStakingUpdateAccount = (recentlyStakedValidators = [], exAcco
     const validatorDepositMap = await getStakingDeposits(accountId);
 
     if (!selectStakingAllValidatorsLength(getState())) {
-        await dispatch(staking.getValidators(null, exAccountId));
+        await dispatch(staking.getValidators(null, accountId));
     }
 
     const validators = selectStakingAllValidators(getState())
@@ -546,8 +544,7 @@ export const handleUpdateCurrent = (accountId) => async (dispatch, getState) => 
     dispatch(staking.updateCurrent({ currentAccount }));
 };
 
-export const getValidatorFarmData = (validator, accountId) => async (dispatch, getState) => {
-
+export const getValidatorFarmData = createAsyncThunk('staking/getValidatorFarmData', async ({ validator, accountId }, { dispatch }) => {
     if (validator?.version !== FARMING_VALIDATOR_VERSION || !accountId) return;
 
     const poolSummary = await validator.contract.get_pool_summary();
@@ -567,10 +564,14 @@ export const getValidatorFarmData = (validator, accountId) => async (dispatch, g
 
     const farmData = {
         poolSummary: {...poolSummary},
-        farmRewards: farmList,
+        farmRewards: {[accountId]: farmList},
     };
-    await dispatch(staking.setValidatorFarmData(validator.accountId, farmData));
-};
+
+    return {
+        validatorId: validator.accountId,
+        farmData
+    };
+});
 
 export const claimFarmRewards = (validatorId, token_id) => async (dispatch, getState) => {
     try {

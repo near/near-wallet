@@ -16,6 +16,7 @@ export default {
     EXPLORE_DEFI_URL: 'https://awesomenear.com/categories/defi/',
     EXPLORER_URL: 'https://explorer.mainnet.near.org',
     HIDE_SIGN_IN_WITH_LEDGER_ENTER_ACCOUNT_ID_MODAL: false,
+    INDEXER_SERVICE_URL: 'https://staging-api.kitwallet.app',
     LINKDROP_GAS: '100000000000000',
     LOCKUP_ACCOUNT_ID_SUFFIX: 'lockup.near',
     MIN_BALANCE_FOR_GAS: nearApiJs.utils.format.parseNearAmount('0.05'),
@@ -54,5 +55,6 @@ export default {
     FARMING_CLAIM_GAS: parseNearAmount('0.00000000015'),
     FARMING_CLAIM_YOCTO: '1',
     REF_FINANCE_API_ENDPOINT: 'https://indexer.ref-finance.net',
-    REF_FINANCE_CONTRACT: 'v2.ref-finance.near'
+    REF_FINANCE_CONTRACT: 'v2.ref-finance.near',
+    USN_CONTRACT: 'usn'
 };

@@ -210,12 +210,12 @@ export function StakingContainer({ history, match }) {
     };
 
     useEffect(() => {
-        if (!accountId || !validators.length) return;
+        if (!currentAccount.accountId || !validators.length) return;
         
         validators
             .filter((validator) => validator.version === FARMING_VALIDATOR_VERSION)
-            .forEach((validator) => dispatch(getValidatorFarmData(validator, accountId)));
-    }, [accountId, validators]);
+            .forEach((validator) => dispatch(getValidatorFarmData({ validator, accountId: currentAccount.accountId })));
+    }, [currentAccount.accountId, validators]);
 
     const handleAction = async (action, validator, amount) => {
         let id = Mixpanel.get_distinct_id();

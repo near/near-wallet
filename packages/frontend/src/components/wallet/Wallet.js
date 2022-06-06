@@ -3,9 +3,11 @@ import { Translate } from 'react-localize-redux';
 import { Textfit } from 'react-textfit';
 import styled from 'styled-components';
 
-import { CREATE_IMPLICIT_ACCOUNT,CREATE_USN_CONTRACT } from '../../../../../features';
+import {
+    CREATE_IMPLICIT_ACCOUNT,
+    CREATE_USN_CONTRACT,
+} from '../../../../../features';
 import getCurrentLanguage from '../../hooks/getCurrentLanguage';
-import { useSplitFungibleTokens } from '../../hooks/splitFungibleTokens';
 import classNames from '../../utils/classNames';
 import { SHOW_NETWORK_BANNER } from '../../utils/wallet';
 import { getTotalBalanceInFiat } from '../common/balance/helpers';
@@ -14,8 +16,8 @@ import Container from '../common/styled/Container.css';
 import Tooltip from '../common/Tooltip';
 import DownArrowIcon from '../svg/DownArrowIcon';
 import SendIcon from '../svg/SendIcon';
-import Swap from '../svg/SwapIcon';
 import TopUpIcon from '../svg/TopUpIcon';
+import WrapIcon from '../svg/WrapIcon';
 import ActivitiesWrapper from './ActivitiesWrapper';
 import AllTokensTotalBalanceUSD from './AllTokensTotalBalanceUSD';
 import CreateCustomNameModal from './CreateCustomNameModal';
@@ -35,19 +37,29 @@ const StyledContainer = styled(Container)`
             margin-top: -15px;
         }
     }
+    
+    .coingecko {
+        color: #B4B4B4;
+        align-self: end;
+        margin: 20px;
+        @media (max-width: 991px) {
+            margin: -25px 0 25px 0;
+        }
+    }
+
     .sub-title {
         font-size: 14px;
         margin-bottom: 10px;
 
         &.balance {
-            color: #A2A2A8;
+            color: #a2a2a8;
             margin-top: 0;
             display: flex;
             align-items: center;
         }
 
         &.tokens {
-            color: #72727A;
+            color: #72727a;
             margin-top: 20px;
             margin-bottom: 15px;
             display: flex;
@@ -63,27 +75,28 @@ const StyledContainer = styled(Container)`
             .dots {
                 :after {
                     position: absolute;
-                    content: '.';
+                    content: ".";
                     animation: link 1s steps(5, end) infinite;
 
                     @keyframes link {
-                        0%, 20% {
+                        0%,
+                        20% {
                             color: rgba(0, 0, 0, 0);
-                            text-shadow: .3em 0 0 rgba(0, 0, 0, 0),
-                            .6em 0 0 rgba(0, 0, 0, 0);
+                            text-shadow: 0.3em 0 0 rgba(0, 0, 0, 0),
+                                0.6em 0 0 rgba(0, 0, 0, 0);
                         }
                         40% {
                             color: #24272a;
-                            text-shadow: .3em 0 0 rgba(0, 0, 0, 0),
-                            .6em 0 0 rgba(0, 0, 0, 0);
+                            text-shadow: 0.3em 0 0 rgba(0, 0, 0, 0),
+                                0.6em 0 0 rgba(0, 0, 0, 0);
                         }
                         60% {
-                            text-shadow: .3em 0 0 #24272a,
-                            .6em 0 0 rgba(0, 0, 0, 0);
+                            text-shadow: 0.3em 0 0 #24272a,
+                                0.6em 0 0 rgba(0, 0, 0, 0);
                         }
-                        80%, 100% {
-                            text-shadow: .3em 0 0 #24272a,
-                            .6em 0 0 #24272a;
+                        80%,
+                        100% {
+                            text-shadow: 0.3em 0 0 #24272a, 0.6em 0 0 #24272a;
                         }
                     }
                 }
@@ -109,7 +122,7 @@ const StyledContainer = styled(Container)`
         }
 
         @media (min-width: 992px) {
-            border: 2px solid #F0F0F0;
+            border: 2px solid #f0f0f0;
             border-radius: 8px;
             height: max-content;
         }
@@ -120,6 +133,15 @@ const StyledContainer = styled(Container)`
             align-items: center;
             margin: 30px 0;
             width: 100%;
+            flex-wrap: wrap;
+            margin: 30px -14px;
+            width: calc(100% + 28px);
+
+            @media (min-width: 992px) {
+                margin-left: 0;
+                margin-right: 0;
+                width: 100%;
+            }
 
             button {
                 display: flex;
@@ -131,14 +153,14 @@ const StyledContainer = styled(Container)`
                 background-color: transparent !important;
                 border: 0;
                 padding: 0;
-                color: #3F4045;
+                color: #3f4045;
                 font-weight: 400;
                 font-size: 14px;
-                margin: 20px;
+                margin: 20px 18px;
                 border-radius: 0;
 
                 :hover {
-                    color: #3F4045;
+                    color: #3f4045;
 
                     > div {
                         background-color: black;
@@ -190,10 +212,10 @@ const StyledContainer = styled(Container)`
                 font-size: 16px;
 
                 &.inactive {
-                    background-color: #FAFAFA;
-                    border-bottom: 1px solid #F0F0F1;
+                    background-color: #fafafa;
+                    border-bottom: 1px solid #f0f0f1;
                     cursor: pointer;
-                    color: #A2A2A8;
+                    color: #a2a2a8;
                     transition: color 100ms;
 
                     :hover {
@@ -214,7 +236,7 @@ const StyledContainer = styled(Container)`
                 }
 
                 &.inactive {
-                    border-right: 1px solid #F0F0F1;
+                    border-right: 1px solid #f0f0f1;
                 }
             }
 
@@ -230,7 +252,7 @@ const StyledContainer = styled(Container)`
                 }
 
                 &.inactive {
-                    border-left: 1px solid #F0F0F1;
+                    border-left: 1px solid #f0f0f1;
                 }
             }
         }
@@ -251,6 +273,26 @@ const StyledContainer = styled(Container)`
         text-align: left;
         color: #24272a;
     }
+
+    .deposit-banner-wrapper {
+        width: 100%;
+        .deposit-near-banner {
+            > div {
+                border-top: 1px solid #F0F0F1;
+                padding: 20px;
+        
+                @media (max-width: 991px) {
+                    margin: 0 -14px;
+                    padding: 20px 0;
+                    border-bottom: 15px solid #F0F0F1;
+                }
+        
+                @media (max-width: 767px) {
+                    padding: 20px 14px 20px 14px;
+                }
+            }
+        }
+    }
 `;
 
 export function Wallet({
@@ -268,49 +310,61 @@ export function Wallet({
     sortedNFTs,
     handleCloseLinkdropModal,
     handleSetCreateFromImplicitSuccess,
-    handleSetCreateCustomName
+    handleSetCreateCustomName,
 }) {
-    const splitFungibleTokens = useSplitFungibleTokens(fungibleTokensList, 'USN');
     const currentLanguage = getCurrentLanguage();
-    const totalAmount = getTotalBalanceInFiat(splitFungibleTokens[0], currentLanguage);
+    const totalAmount = getTotalBalanceInFiat(
+        fungibleTokensList,
+        currentLanguage
+    );
 
     return (
-        <StyledContainer className={SHOW_NETWORK_BANNER ? 'showing-banner' : ''}>
+        <StyledContainer
+            className={SHOW_NETWORK_BANNER ? 'showing-banner' : ''}
+        >
             <ReleaseNotesModal />
-            <div className='split'>
-                <div className='left'>
-                    <div className='tab-selector'>
+            <div className="split">
+                <div className="left">
+                    <div className="tab-selector">
                         <div
-                            className={classNames(['tab-balances', tab === 'collectibles' ? 'inactive' : ''])}
+                            className={classNames([
+                                'tab-balances',
+                                tab === 'collectibles' ? 'inactive' : '',
+                            ])}
                             onClick={() => setTab('')}
                         >
-                            <Translate id='wallet.balances' />
+                            <Translate id="wallet.balances" />
                         </div>
                         <div
-                            className={classNames(['tab-collectibles', tab !== 'collectibles' ? 'inactive' : ''])}
+                            className={classNames([
+                                'tab-collectibles',
+                                tab !== 'collectibles' ? 'inactive' : '',
+                            ])}
                             onClick={() => setTab('collectibles')}
                         >
-                            <Translate id='wallet.collectibles' />
+                            <Translate id="wallet.collectibles" />
                         </div>
                     </div>
-                    {tab === 'collectibles'
-                        ? <NFTs tokens={sortedNFTs} />
-                        : <FungibleTokens
+                    {tab === 'collectibles' ? (
+                        <NFTs tokens={sortedNFTs} />
+                    ) : (
+                        <FungibleTokens
                             currentLanguage={currentLanguage}
                             totalAmount={totalAmount}
                             balance={balance}
                             tokensLoading={tokensLoading}
-                            fungibleTokens={CREATE_USN_CONTRACT ? splitFungibleTokens : fungibleTokensList}
+                            fungibleTokens={fungibleTokensList}
                             accountExists={accountExists}
                             fungibleTokensList={fungibleTokensList}
                         />
-                    }
+                    )}
                 </div>
-                <div className='right'>
-                    {CREATE_IMPLICIT_ACCOUNT && accountExists
-                        ? <Sidebar availableAccounts={availableAccounts} />
-                        : <ExploreApps />
-                    }
+                <div className="right">
+                    {CREATE_IMPLICIT_ACCOUNT && accountExists ? (
+                        <Sidebar availableAccounts={availableAccounts} />
+                    ) : (
+                        <ExploreApps />
+                    )}
                     <ActivitiesWrapper />
                 </div>
             </div>
@@ -331,21 +385,28 @@ export function Wallet({
                 <CreateCustomNameModal
                     onClose={handleSetCreateCustomName}
                     isOpen={createCustomName}
-                    accountId='satoshi.near'
+                    accountId="satoshi.near"
                 />
             )}
         </StyledContainer>
     );
 }
 
-const FungibleTokens = ({ balance, tokensLoading, fungibleTokens, accountExists, totalAmount, currentLanguage, fungibleTokensList }) => {
+const FungibleTokens = ({
+    balance,
+    tokensLoading,
+    fungibleTokens,
+    accountExists,
+    totalAmount,
+    currentLanguage,
+    fungibleTokensList
+}) => {
     const zeroBalanceAccount = accountExists === false;
-    const currentFungibleTokens = CREATE_USN_CONTRACT ? fungibleTokens[0][0] : fungibleTokens[0];
+    const currentFungibleTokens = fungibleTokens[0];
     const hideFungibleTokenSection =
         zeroBalanceAccount &&
         fungibleTokens?.length === 1 &&
         currentFungibleTokens?.onChainFTMetadata?.symbol === 'NEAR';
-
     return (
         <>
             <div className='total-balance'>
@@ -353,88 +414,78 @@ const FungibleTokens = ({ balance, tokensLoading, fungibleTokens, accountExists,
                     <AllTokensTotalBalanceUSD allFungibleTokens={fungibleTokensList}/>
                 </Textfit>
             </div>
-            <div className='sub-title balance'>
-                <Translate id='wallet.availableBalance' />{' '}
-                <Tooltip translate='availableBalanceInfo' />
+            <div className="sub-title balance">
+                <Translate id="wallet.availableBalance" />{' '}
+                <Tooltip translate="availableBalanceInfo" />
             </div>
-            <div className='buttons'>
+            <div className="buttons">
                 <FormButton
-                    color='dark-gray'
-                    linkTo='/send-money'
-                    trackingId='Click Send on Wallet page'
-                    data-test-id='balancesTab.send'
+                    color="dark-gray"
+                    linkTo="/send-money"
+                    trackingId="Click Send on Wallet page"
+                    data-test-id="balancesTab.send"
                 >
                     <div>
                         <SendIcon />
                     </div>
-                    <Translate id='button.send' />
+                    <Translate id="button.send" />
                 </FormButton>
                 <FormButton
-                    color='dark-gray'
-                    linkTo='/receive-money'
-                    trackingId='Click Receive on Wallet page'
-                    data-test-id='balancesTab.receive'
+                    color="dark-gray"
+                    linkTo="/receive-money"
+                    trackingId="Click Receive on Wallet page"
+                    data-test-id="balancesTab.receive"
                 >
                     <div>
                         <DownArrowIcon />
                     </div>
-                    <Translate id='button.receive' />
+                    <Translate id="button.receive" />
                 </FormButton>
-                {CREATE_USN_CONTRACT && (
-                     <FormButton
-                        color='dark-gray'
-                        linkTo='/swap-money'
-                        trackingId='Click Receive on Wallet page'
-                        data-test-id='balancesTab.buy'
-                    >
-                        <div>
-                            <Swap />
-                        </div>
-                        <Translate id='button.swap' />
-                    </FormButton>
-                )}
                 <FormButton
-                    color='dark-gray'
-                    linkTo='/buy'
-                    trackingId='Click Receive on Wallet page'
-                    data-test-id='balancesTab.buy'
+                    color="dark-gray"
+                    linkTo="/buy"
+                    trackingId="Click Receive on Wallet page"
+                    data-test-id="balancesTab.buy"
                 >
                     <div>
                         <TopUpIcon />
                     </div>
-                    <Translate id='button.topUp' />
+                    <Translate id="button.topUp" />
+                </FormButton>
+                <FormButton
+                    color="dark-gray"
+                    linkTo="/swap"
+                    trackingId="Click Swap on Wallet page"
+                    data-test-id="balancesTab.swap"
+                >
+                    <div>
+                        <WrapIcon color="white" />
+                    </div>
+                    <Translate id="button.swap" />
                 </FormButton>
             </div>
             {zeroBalanceAccount &&
-                <DepositNearBanner />
+                <div className='deposit-banner-wrapper'>
+                    <DepositNearBanner />
+                </div>
             }
             {!hideFungibleTokenSection && (
                 <>
-                    <div className='sub-title tokens'>
+                    <div className="sub-title tokens">
                         <span className={classNames({ dots: tokensLoading })}>
-                            <Translate id='wallet.yourPortfolio' />
+                            <Translate id="wallet.yourPortfolio" />
                         </span>
-                        {!CREATE_USN_CONTRACT &&
+                        {!CREATE_USN_CONTRACT && (
                             <span>
-                                <Translate id='wallet.tokenBalance' />
+                                <Translate id="wallet.tokenBalance" />
                             </span>
-                        }
+                        )}
                     </div>
-                    <Tokens tokens={CREATE_USN_CONTRACT ? fungibleTokens[0] : fungibleTokens} currentLanguage={currentLanguage}/>
-                    {CREATE_USN_CONTRACT && (
-                        <>
-                            <div className='sub-title tokens'>
-                                <span
-                                    className={classNames({
-                                        dots: tokensLoading,
-                                    })}
-                                >
-                                    <Translate id='wallet.OthersTokens' />
-                                </span>
-                            </div>
-                            <Tokens tokens={fungibleTokens[1]} currentLanguage={currentLanguage}/>
-                        </>
-                    )}
+                    <Tokens
+                        tokens={fungibleTokens}
+                        currentLanguage={currentLanguage}
+                    />
+                    <div className='coingecko'><Translate id='poweredByCoinGecko'/></div>
                 </>
             )}
         </>

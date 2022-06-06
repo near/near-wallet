@@ -1,14 +1,11 @@
 import React from 'react';
 import { Translate } from 'react-localize-redux';
-import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
 import { CREATE_USN_CONTRACT } from '../../../../../features';
 import { EXPLORER_URL } from '../../config';
-import { handleSwapByContractName } from '../../redux/slices/swap';
 import Balance from '../common/balance/Balance';
 import TokenIcon from '../send/components/TokenIcon';
-import Swap from './Swap';
 import TokenAmount from './TokenAmount';
 
 const StyledContainer = styled.div`
@@ -104,15 +101,12 @@ const StyledContainer = styled.div`
     }
 
     .balance {
-        margin-left: ${({IS_USN}) =>(IS_USN ? 0 : 'auto')};
+        margin-left: auto;
         font-size: 16px;
         font-weight: 600;
         color: #24272a;
-        text-align: ${({IS_USN}) =>(IS_USN ? 'left' : 'right')};
+        text-align: right;
         white-space: nowrap;
-        &.tokenAmount {
-            margin-left: auto !important;
-        }
 
         .fiat-amount {
             font-size: 14px;
@@ -156,13 +150,12 @@ const StyledContainer = styled.div`
 `;
 
 const TokenBox = ({ token, onClick, currentLanguage }) => {
-    const dispatch = useDispatch();
     return (
         <StyledContainer
             className='token-box'
             onClick={onClick ? () => onClick(token) : null}
             data-test-id={`token-selection-${token.contractName || 'NEAR'}`}
-            IS_USN={CREATE_USN_CONTRACT && token.onChainFTMetadata?.symbol === 'NEAR' || token.onChainFTMetadata?.symbol === 'USN'}
+            IS_USN={CREATE_USN_CONTRACT && token.onChainFTMetadata?.symbol === 'USN'}
         >
             <div style={{ display: 'flex', width: '100%' }}>
                 <div className='icon'>
@@ -221,18 +214,6 @@ const TokenBox = ({ token, onClick, currentLanguage }) => {
                         className={token.onChainFTMetadata?.symbol  !== 'USN' && CREATE_USN_CONTRACT ? 'balance tokenAmount':'balance'}
                         withSymbol={token.onChainFTMetadata?.symbol !== 'USN' || !CREATE_USN_CONTRACT}
                     />
-                )}
-                {!onClick && CREATE_USN_CONTRACT &&
-                (token.onChainFTMetadata?.symbol === 'NEAR' ||
-                    token.onChainFTMetadata?.symbol === 'USN') && (
-                    <div style={{marginLeft: 'auto'}}>
-                        <Swap
-                            symbol={token.onChainFTMetadata?.symbol === 'NEAR'}
-                            disable={!token.balance || token.balance === '0'} 
-                            linkTo={!token.balance || token.balance === '0' ? false : '/swap-money'}
-                            onClick={() => dispatch(handleSwapByContractName(token.onChainFTMetadata?.symbol === 'NEAR' ? 'USN' : 'NEAR'))}
-                        />
-                    </div>
                 )}
             </div>
         </StyledContainer>

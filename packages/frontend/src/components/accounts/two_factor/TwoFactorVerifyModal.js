@@ -26,12 +26,17 @@ const Form = styled.form`
 
 const StyledBannerContainer = styled.div`
     &&& {
+        width: 100%;
+
         div:first-child {
             margin: 0px;
-            width: 100%;
             word-break: break-word;
             @media (max-width: 450px) {
                  border-radius: 4px;
+            }
+
+            > div {
+                overflow: auto;
             }
         }
 

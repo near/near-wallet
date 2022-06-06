@@ -16,8 +16,9 @@ export default {
     EXPLORE_DEFI_URL: 'https://awesomenear.com/categories/defi/',
     EXPLORER_URL: 'https://explorer.testnet.near.org',
     HIDE_SIGN_IN_WITH_LEDGER_ENTER_ACCOUNT_ID_MODAL: false,
+    INDEXER_SERVICE_URL: 'https://testnet-api.kitwallet.app',
     LINKDROP_GAS: '100000000000000',
-    LOCKUP_ACCOUNT_ID_SUFFIX: 'lockup.m0',
+    LOCKUP_ACCOUNT_ID_SUFFIX: 'lockup.devnet',
     MIN_BALANCE_FOR_GAS: nearApiJs.utils.format.parseNearAmount('0.05'),
     MIN_BALANCE_TO_CREATE: nearApiJs.utils.format.parseNearAmount('0.1'),
     MOONPAY_API_KEY: 'pk_test_wQDTsWBsvUm7cPiz9XowdtNeL5xasP9',
@@ -48,5 +49,6 @@ export default {
     FARMING_CLAIM_GAS: parseNearAmount('0.00000000015'),
     FARMING_CLAIM_YOCTO: '1',
     REF_FINANCE_API_ENDPOINT: 'https://dev-indexer.ref-finance.com/',
-    REF_FINANCE_CONTRACT: 'ref-finance-101.testnet'
+    REF_FINANCE_CONTRACT: 'ref-finance-101.testnet',
+    USN_CONTRACT: 'usdn.testnet'
 };

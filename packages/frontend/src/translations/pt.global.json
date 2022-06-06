@@ -428,7 +428,7 @@
     },
     "footer": {
         "contactSupport": "Entrar na Comunidade",
-        "copyrights": "NEAR Inc. Todos os direitos reservados.",
+        "copyrights": "Roketo Labs LTD. Todos os direitos reservados.",
         "desc": "NEAR é uma plataforma escalável de computação e armazenamento que muda como a web funciona, para melhor.",
         "learnMore": "Saber mais",
         "needHelp": "Precisa de ajuda?",
@@ -544,6 +544,8 @@
     "link": {
         "account": "Conta",
         "authorizedApps": "Apps Autorizados",
+        "buyUSN": "Buy $USN",
+        "donateToUkraine": "Doe para a Ucrânia",
         "fullAccessKeys": "Chaves de Acesso Completo",
         "help": "Ajuda",
         "noAccount": "Você não tem outras contas",
@@ -1164,7 +1166,7 @@
             "transferOf": "está solicitando a transferência de"
         },
         "multipleAccountsError": {
-            "body": "<a href=${signCallbackUrl} target='_blank' rel='noreferrer'>${signCallbackUrl}</a> has requested authorization from more than one account.<br/><br/>NEAR Wallet may only authorize transactions for a single account at a time.",
+            "body": "<a href='${signCallbackUrl}' target='_blank' rel='noreferrer'>${signCallbackUrl}</a> has requested authorization from more than one account.<br/><br/>NEAR Wallet may only authorize transactions for a single account at a time.",
             "title": "Batch Transaction Error"
         },
         "nothingHasBeenTransferred": "Nada foi transferido.",
@@ -1350,16 +1352,28 @@
     "stakingPoolUnstaked": "Este NEAR está atualmente em uma pool de stake, mas unstaked. Pode, por exemplo, estar em um estado de liberação pendente.",
     "success": "Sucesso",
     "swap": {
-        "AvailableToSwap": "Disponível para troca",
-        "ExpectedPrice": "Preço esperado",
-        "from": "A partir de",
-        "MinimumReceived": "Mínimo recebido",
-        "pairPrice": "Preço do par",
-        "slipPage": "Tolerância de deslizamento",
-        "slippageError": "de 1 a 50",
-        "to": "Para",
-        "TradingFee": "Taxa de negociação"
+        "confirm": "Confirm & Swap",
+        "details": "Transaction details",
+        "fee": "Estimated fees",
+        "from": "From",
+        "max": "Max: ${amount} ${symbol}",
+        "minReceived": "Minimum received",
+        "price": "Price",
+        "priceImpact": "Price impact",
+        "review": "Review Swap",
+        "reviewInfo": "You are swapping",
+        "slippage": "Slippage tolerance",
+        "successTitle": "Transaction complete!</br>You swapped <span class='color-blue space'>${amountFrom}</span></br>to <span class='color-green'>${amountTo}</span>",
+        "title": "Swap",
+        "to": "To",
+        "translateIdInfoTooltip": {
+            "fee": "The estimated cost of processing your transaction.",
+            "minimumReceived": "The minimum amount you will receive from the trade.",
+            "priceImpact": "The difference between the market price and estimated price due to trade size.",
+            "slippage": "The percentage the price may increase before the transaction fails."
+        }
     },
+    "swapping": "Swapping",
     "sync": "Sincronizar",
     "tokenBox": {
         "priceUnavailable": "Preço indisponível",

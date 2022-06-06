@@ -2,6 +2,8 @@ import { parse as parseQuery, stringify } from 'query-string';
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
+import { IMPORT_ZERO_BALANCE_ACCOUNT } from '../../../../../../features';
+import { CouldNotFindAccountModalWrapper } from '../../../components/accounts/CouldNotFindAccountModalWrapper';
 import { Mixpanel } from '../../../mixpanel/index';
 import {
     redirectToApp,
@@ -10,10 +12,9 @@ import {
     checkAccountAvailable,
     clearAccountState
 } from '../../../redux/actions/account';
-import { clearLocalAlert } from '../../../redux/actions/status';
 import { selectAccountSlice } from '../../../redux/slices/account';
-import { actions as ledgerActions, LEDGER_MODAL_STATUS, selectLedgerSignInWithLedger, selectLedgerSignInWithLedgerStatus, selectLedgerTxSigned } from '../../../redux/slices/ledger';
-import { selectStatusMainLoader, selectStatusSlice } from '../../../redux/slices/status';
+import { actions as ledgerActions, LEDGER_HD_PATH_PREFIX, LEDGER_MODAL_STATUS, selectLedgerSignInWithLedger, selectLedgerSignInWithLedgerStatus, selectLedgerTxSigned } from '../../../redux/slices/ledger';
+import { selectStatusMainLoader } from '../../../redux/slices/status';
 import parseFundingOptions from '../../../utils/parseFundingOptions';
 import Container from '../../common/styled/Container.css';
 import Authorize from './SignInLedgerViews/Authorize';
@@ -21,7 +22,7 @@ import EnterAccountId from './SignInLedgerViews/EnterAccountId';
 import ImportAccounts from './SignInLedgerViews/ImportAccounts';
 import SignIn from './SignInLedgerViews/SignIn';
 
-const { 
+const {
     signInWithLedger,
     signInWithLedgerAddAndSaveAccounts,
     clearSignInWithLedgerModalState
@@ -40,12 +41,11 @@ export function SignInLedgerWrapper(props) {
 
     const [accountId, setAccountId] = useState('');
     const [loader, setLoader] = useState(false);
-    const [path, setPath] = useState(1);
-    const [confirmedPath, setConfirmedPath] = useState(null);
-    const ledgerHdPath = confirmedPath ? `44'/397'/0'/0'/${confirmedPath}'` : null;
+    const [confirmedPath, setConfirmedPath] = useState(1);
+    const [showCouldNotFindAccountModal, setShowCouldNotFindAccountModal] = useState(false);
+    const ledgerHdPath = `${LEDGER_HD_PATH_PREFIX}${confirmedPath}'`;
 
     const account = useSelector(selectAccountSlice);
-    const status = useSelector(selectStatusSlice);
     const signInWithLedgerState = useSelector(selectLedgerSignInWithLedger);
     const txSigned = useSelector(selectLedgerTxSigned);
     const signInWithLedgerStatus = useSelector(selectLedgerSignInWithLedgerStatus);
@@ -66,6 +66,14 @@ export function SignInLedgerWrapper(props) {
     useEffect(() => {
         dispatch(clearSignInWithLedgerModalState());
     }, []);
+
+    useEffect(() => {
+        if (IMPORT_ZERO_BALANCE_ACCOUNT) {
+            if (signInWithLedgerStatus === LEDGER_MODAL_STATUS.ENTER_ACCOUNTID) {
+                setShowCouldNotFindAccountModal(true);
+            }
+        }
+    }, [signInWithLedgerStatus]);
 
     const handleChange = (value) => {
         setAccountId(value);
@@ -118,64 +126,41 @@ export function SignInLedgerWrapper(props) {
     const handleCancelSignIn = () => {
         dispatch(clearSignInWithLedgerModalState());
     };
-    
+
     const handleCancelAuthorize = () => {
         dispatch(redirectTo('/recover-account'));
     };
 
-    const activeView = () => {
-        if (!signInWithLedgerStatus) {
-            return VIEWS.AUTHORIZE;
-        }
-        if (signInWithLedgerStatus === LEDGER_MODAL_STATUS.CONFIRM_PUBLIC_KEY) {
-            return VIEWS.SIGN_IN;
-        }
-        if (signInWithLedgerStatus === LEDGER_MODAL_STATUS.ENTER_ACCOUNTID) {
-            return VIEWS.ENTER_ACCOUNT_ID;
-        }
-        if (signInWithLedgerStatus === LEDGER_MODAL_STATUS.CONFIRM_ACCOUNTS || signInWithLedgerStatus === LEDGER_MODAL_STATUS.SUCCESS) {
-            return VIEWS.IMPORT_ACCOUNTS;
-        }
-    };
-
-    const getCurrentViewComponent = (view) => {
-        switch (view) {
-            case VIEWS.AUTHORIZE:
-                return (
+    return (
+        <>
+            <Container className='small-centered border ledger-theme'>
+                {!signInWithLedgerStatus &&
                     <Authorize
-                        status={status}
-                        path={path}
-                        setPath={setPath}
+                        confirmedPath={confirmedPath}
                         setConfirmedPath={setConfirmedPath}
                         handleSignIn={handleSignIn}
                         signingIn={!!signInWithLedgerStatus}
                         handleCancel={handleCancelAuthorize}
                     />
-                );
-            case VIEWS.SIGN_IN:
-                return (
+                }
+                {signInWithLedgerStatus === LEDGER_MODAL_STATUS.CONFIRM_PUBLIC_KEY &&
                     <SignIn
                         txSigned={txSigned}
                         handleCancel={handleCancelSignIn}
                     />
-                );
-            case VIEWS.ENTER_ACCOUNT_ID:
-                return (
+                }
+                {signInWithLedgerStatus === LEDGER_MODAL_STATUS.ENTER_ACCOUNTID &&
                     <EnterAccountId
                         handleAdditionalAccountId={handleAdditionalAccountId}
-                        accountId={accountId}
                         handleChange={handleChange}
-                        localAlert={status.localAlert}
                         checkAccountAvailable={(accountId) => dispatch(checkAccountAvailable(accountId))}
                         mainLoader={mainLoader}
-                        clearLocalAlert={() => dispatch(clearLocalAlert())}
                         stateAccountId={account.accountId}
                         loader={loader}
                         clearSignInWithLedgerModalState={() => dispatch(clearSignInWithLedgerModalState())}
                     />
-                );
-            case VIEWS.IMPORT_ACCOUNTS:
-                return (
+                }
+                {(signInWithLedgerStatus === LEDGER_MODAL_STATUS.CONFIRM_ACCOUNTS || signInWithLedgerStatus === LEDGER_MODAL_STATUS.SUCCESS) &&
                     <ImportAccounts
                         accountsApproved={accountsApproved}
                         totalAccounts={totalAccounts}
@@ -185,15 +170,17 @@ export function SignInLedgerWrapper(props) {
                         signInWithLedgerStatus={signInWithLedgerStatus}
                         handleContinue={handleContinue}
                     />
-                );
-            default:
-                return null;
-        }
-    };
-
-    return (
-        <Container className='small-centered border ledger-theme'>
-            {getCurrentViewComponent(activeView())}
-        </Container>
+                }
+            </Container>
+            {showCouldNotFindAccountModal && (
+                <CouldNotFindAccountModalWrapper
+                    onClose={() => setShowCouldNotFindAccountModal(false)}
+                    isOpen={showCouldNotFindAccountModal}
+                    recoveryMethod='ledger'
+                    ledgerHdPath={ledgerHdPath}
+                    // TODO: Provide ledger public key as prop to avoid asking for it again
+                />
+            )}
+        </>
     );
 }

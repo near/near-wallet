@@ -3,16 +3,18 @@ import { Translate } from 'react-localize-redux';
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { CREATE_USN_CONTRACT } from '../../../../../features';
+import { DONATE_TO_UKRAINE } from '../../../../../features';
+import { IS_MAINNET } from '../../config';
 import { Mixpanel } from '../../mixpanel/index';
+import DonateToUkraineIcon from '../svg/DonateToUkraineIcon';
 import HelpIcon from '../svg/HelpIcon';
-import SwapIconTwoArrows from '../svg/SwapIconTwoArrows';
 import UserIcon from '../svg/UserIcon';
 import VaultIcon from '../svg/VaultIcon';
 import WalletIcon from '../svg/WalletIcon';
 
 const Container = styled.div`
     display: flex;
+    width: 100%;
     a {
         display: flex;
         align-items: center;
@@ -20,6 +22,7 @@ const Container = styled.div`
         transition: 100ms;
         color: #72727A;
         font-size: 15px;
+        white-space: nowrap;
 
         :hover, &.selected {
             text-decoration: none;
@@ -44,6 +47,7 @@ const Container = styled.div`
         }
     }
 
+
     svg {
         margin-right: 10px;
         width: 23px;
@@ -54,6 +58,30 @@ const Container = styled.div`
             height: 35px;
             margin-right: 4px;
             stroke-width: 0px;
+        }
+    }
+
+    .usn-button {
+        margin-left: auto;
+        margin-right: 20px;
+        height: 35px;
+        padding: 5px 15px 5px 5px;
+        border-radius: 20px;
+        background: #D6EDFF;
+        font-weight: 600;
+        color: black;
+        white-space: nowrap;
+
+        :hover {
+            background: #0072CE;
+            color: white;
+        }
+
+        img {
+            margin-right: 10px;
+            margin-top: 2px;
+            width: 25px;
+            height: 25px;
         }
     }
 
@@ -94,22 +122,14 @@ const NavLinks = () => (
             <HelpIcon/>
             <Translate id='link.help'/>
         </a>
-        {CREATE_USN_CONTRACT && 
+        {DONATE_TO_UKRAINE && 
         <NavLink
-            to="/swap-money"
-            activeClassName="selected"
-            onClick={() => Mixpanel.track('Click Swap button on nav')}
+             to={`/send-money/${IS_MAINNET ? 'ukraine' : 'ukraine.testnet'}`}
+             activeClassName="selected"
+             onClick={() => Mixpanel.track('Click Donate button on nav')}
         >
-            <div>
-                <SwapIconTwoArrows
-                    width={'20'}
-                    height="16"
-                    color="#A2A2A8"
-                    margin="10px"
-                />
-            </div>
-
-            <Translate id="button.swap" />
+            <DonateToUkraineIcon />
+            <Translate id="link.donateToUkraine" />
         </NavLink>}
     </Container>
 );

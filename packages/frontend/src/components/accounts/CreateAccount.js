@@ -14,7 +14,7 @@ import {
     refreshAccount
 } from '../../redux/actions/account';
 import { clearLocalAlert } from '../../redux/actions/status';
-import { selectAccountSlice, selectActiveAccountIdIsImplicitAccount } from '../../redux/slices/account';
+import { selectAccountSlice, selectActiveAccountIdIsImplicitAccount, selectAccountExists } from '../../redux/slices/account';
 import { selectStatusLocalAlert, selectStatusMainLoader } from '../../redux/slices/status';
 import { selectNearTokenFiatValueUSD } from '../../redux/slices/tokenFiatValues';
 import isMobile from '../../utils/isMobile';
@@ -29,6 +29,7 @@ import WhereToBuyNearModal from '../common/WhereToBuyNearModal';
 import SafeTranslate from '../SafeTranslate';
 import BrokenLinkIcon from '../svg/BrokenLinkIcon';
 import FundNearIcon from '../svg/FundNearIcon';
+import DepositNearBanner from '../wallet/DepositNearBanner';
 import AccountFormAccountId from './AccountFormAccountId';
 
 const StyledContainer = styled(Container)`
@@ -183,12 +184,14 @@ class CreateAccount extends Component {
             fundingKey,
             nearTokenFiatValueUSD,
             locationSearch,
-            activeAccountIdIsImplicit
+            activeAccountIdIsImplicit,
+            accountExists
         } = this.props;
         
         const isLinkDrop = fundingContract && fundingKey;
         const useLocalAlert = accountId.length > 0 ? localAlert : undefined;
         const showTermsPage = IS_MAINNET && !isLinkDrop && !termsAccepted && !ENABLE_IDENTITY_VERIFIED_ACCOUNT;
+        const cannotCreateNewAccountWithZeroBalanceAccount = !isLinkDrop && accountExists === false;
 
         if (showTermsPage) {
             return (
@@ -267,9 +270,10 @@ class CreateAccount extends Component {
                             autoFocus={isMobile() ? false : true}
                         />
                         <AccountNote />
+                        {cannotCreateNewAccountWithZeroBalanceAccount && <DepositNearBanner />}
                         <FormButton
                             type='submit'
-                            disabled={!(localAlert && localAlert.success)}
+                            disabled={!(localAlert && localAlert.success) || cannotCreateNewAccountWithZeroBalanceAccount}
                             sending={loader}
                             data-test-id="reserveAccountIdButton"
                         >
@@ -313,6 +317,7 @@ const mapStateToProps = (state, { match }) => ({
     ...selectAccountSlice(state),
     localAlert: selectStatusLocalAlert(state),
     mainLoader: selectStatusMainLoader(state),
+    accountExists: selectAccountExists(state),
     fundingContract: match.params.fundingContract,
     fundingKey: match.params.fundingKey,
     fundingAccountId: match.params.fundingAccountId,

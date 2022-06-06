@@ -1,40 +1,30 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import isEqual from 'lodash.isequal';
 import merge from 'lodash.merge';
+import mergeWith from 'lodash.mergewith';
+import omit from 'lodash.omit';
 import { createSelector } from 'reselect';
 
-import { ACCOUNT_HELPER_URL } from '../../../config';
-import sendJson from '../../../tmp_fetch_send_json';
-import { fetchTokenPrices, fetchTokenWhiteList } from '../../../utils/ref-finance';
+import FiatValueManager from '../../../utils/fiatValueManager';
 import handleAsyncThunkStatus from '../../reducerStatus/handleAsyncThunkStatus';
 import initialStatusState from '../../reducerStatus/initialState/initialStatusState';
 
 const SLICE_NAME = 'tokenFiatValues';
-const url = 'https://api.coingecko.com/api/v3/simple/price?ids=Tether&vs_currencies=usd';
+const fiatValueManager = new FiatValueManager();
 
 const fetchTokenFiatValues = createAsyncThunk(
     `${SLICE_NAME}/fetchTokenFiatValues`,
     async () => {
-        const [near, tether, tokenPrices] = await Promise.all([sendJson('GET', ACCOUNT_HELPER_URL + '/fiat'), sendJson('GET',url), fetchTokenPrices()]);
-
-        const last_updated_at = Date.now() / 1000; 
-
-        const tokenFiatValues = Object.keys(tokenPrices).reduce((acc, curr) => {
-            return ({
-                ...acc,
-                [curr]: {
-                    usd: +Number(tokenPrices[curr]?.price).toFixed(2) || null,
-                    last_updated_at
-                }
-            });
-        }, {});
-     
-        return merge({}, near, tether, tokenFiatValues);
-    } 
+        const [coinGeckoTokenFiatValues, refFinanceTokenFiatValues] = await Promise.all(
+            [fiatValueManager.fetchCoinGeckoPrices(['near', 'usn']), fiatValueManager.fetchRefFinancePrices()]
+        );
+        return merge({}, coinGeckoTokenFiatValues, refFinanceTokenFiatValues);
+    }
 );
 
 const getTokenWhiteList = createAsyncThunk(
     `${SLICE_NAME}/getTokenWhiteList`,
-    async (account_id) => fetchTokenWhiteList(account_id)
+    async (account_id) => fiatValueManager.fetchTokenWhiteList(account_id)
 );
 
 
@@ -50,10 +40,12 @@ const tokenFiatValuesSlice = createSlice({
             builder.addCase(fetchTokenFiatValues.fulfilled, (state, action) => {
                 // Payload of .fulfilled is in the same shape as the store; just merge it!
                 // { near: { usd: x, lastUpdatedTimestamp: 1212312321, ... }
-
-                // Using merge instead of `assign()` so in the future we don't blow away previously loaded token
-                // prices when we load new ones with different token names
-                merge(state.tokens, action.payload);
+                mergeWith(state.tokens, action.payload, (previous, fetched) =>
+                    fetched?.last_updated_at > previous?.last_updated_at &&
+                    !isEqual(omit(fetched, 'last_updated_at'), omit(previous, 'last_updated_at'))
+                        ? fetched
+                        : previous
+                );
             });
             builder.addCase(getTokenWhiteList.fulfilled, (state, action) => {
                 state.tokenWhiteList = action.payload;
@@ -85,11 +77,11 @@ export const selectNearTokenFiatValueUSD = createSelector(selectNearTokenFiatDat
 
 export const selectUSDNTokenFiatData = createSelector(
     selectAllTokenFiatValues,
-    ({ tokens }) => tokens.tether || {}
+    ({ tokens }) => tokens.usn || {}
 );
 export const selectUSDNTokenFiatValueUSD = createSelector(
     selectUSDNTokenFiatData,
-    (tether) => tether.usd
+    (usn) => usn.usd
 );
 
 export const selectTokensFiatValueUSD = createSelector(selectAllTokenFiatValues, ({ tokens }) => tokens || {});

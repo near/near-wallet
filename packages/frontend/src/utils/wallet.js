@@ -82,7 +82,8 @@ export const TRANSACTIONS_REFRESH_INTERVAL = 10000;
 const { 
     setLedgerTxSigned,
     showLedgerModal,
-    handleShowConnectModal
+    handleShowConnectModal,
+    checkAndHideLedgerModal
 } = ledgerActions;
 
 export const convertPKForContract = (pk) => {
@@ -123,6 +124,7 @@ class Wallet {
 
                     const { client } = ledgerManager;
                     if (!client) {
+                        store.dispatch(checkAndHideLedgerModal());
                         store.dispatch(handleShowConnectModal());
                         throw new WalletError('The Ledger client is unavailable.', 'connectLedger.noClient');
                     }
@@ -170,7 +172,7 @@ class Wallet {
 
     async getLocalSecretKey(accountId) {
         const localKeyPair = await this.keyStore.getKey(NETWORK_ID, accountId);
-        return localKeyPair.toString();
+        return localKeyPair ? localKeyPair.toString() : null;
     }
 
     async getLedgerKey(accountId) {
@@ -294,7 +296,7 @@ class Wallet {
             await this.keyStore.setKey(NETWORK_ID, this.accountId, newLocalKeyPair);
         }
 
-        const { data: recoveryMethods } = await this.getRecoveryMethods();
+        const recoveryMethods = await this.getRecoveryMethods();
         const methodsToRemove = recoveryMethods.filter((method) => method.kind !== 'ledger');
         for (const recoveryMethod of methodsToRemove) {
             await this.deleteRecoveryMethod(recoveryMethod);
@@ -458,6 +460,9 @@ class Wallet {
         this.getAccountsLocalStorage();
         await this.setKey(accountId, keyPair);
         this.accounts[accountId] = true;
+
+        // TODO: figure out better way to inject reducer
+        store.addAccountReducer();
     }
 
     makeAccountActive(accountId) {
@@ -473,6 +478,12 @@ class Wallet {
         this.makeAccountActive(accountId);
         // TODO: What does setAccountConfirmed do?
         setAccountConfirmed(this.accountId, false);
+    }
+
+    async importZeroBalanceAccount(accountId, keyPair) {
+        await this.saveAccount(accountId, keyPair);
+        this.makeAccountActive(accountId);
+        setAccountConfirmed(this.accountId, true);
     }
 
     async setKey(accountId, keyPair) {
@@ -511,9 +522,9 @@ class Wallet {
         }
     }
 
-    async addLedgerAccessKey() {
+    async addLedgerAccessKey(path) {
         const accountId = this.accountId;
-        const ledgerPublicKey = await this.getLedgerPublicKey();
+        const ledgerPublicKey = await this.getLedgerPublicKey(path);
         const accessKeys = await this.getAccessKeys();
         const accountHasLedgerKey = accessKeys.map((key) => key.public_key).includes(ledgerPublicKey.toString());
         await setKeyMeta(ledgerPublicKey, { type: 'ledger' });
@@ -562,8 +573,6 @@ class Wallet {
 
     async getLedgerAccountIds({ path }) {
         const publicKey = await this.getLedgerPublicKey(path);
-
-        // TODO: getXXX methods shouldn't be modifying the state
         await setKeyMeta(publicKey, { type: 'ledger' });
 
         let accountIds;
@@ -636,6 +645,7 @@ class Wallet {
     async getLedgerPublicKey(path) {
         const { client } = ledgerManager;
         if (!client) {
+            store.dispatch(checkAndHideLedgerModal());
             store.dispatch(handleShowConnectModal());
             throw new WalletError('The Ledger client is unavailable.', 'connectLedger.noClient');
         }

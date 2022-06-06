@@ -228,7 +228,7 @@
         "staking": "Стейкинг",
         "startOver": "Начать сначала",
         "subscribe": "Подписаться",
-        "swap": "Изменить",
+        "swap": "Обмен",
         "transferring": "Перевод",
         "unstaking": "Снятие со стейкинга",
         "verify": "ПРОВЕРИТЬ И ЗАВЕРШИТЬ",
@@ -342,7 +342,7 @@
     },
     "footer": {
         "contactSupport": "Обратитесь в службу поддержки",
-        "copyrights": "NEAR Inc. Все права защищены.",
+        "copyrights": "Roketo Labs LTD. Все права защищены.",
         "desc": "NEAR это масштабируемая вычислительная платформа и платформа хранения данных, которая меняет работу интернета к лучшему.",
         "learnMore": "Узнать подробнее",
         "needHelp": "Требуется помощь?",
@@ -445,6 +445,8 @@
     "link": {
         "account": "Аккаунт",
         "authorizedApps": "Доверенные приложения",
+        "buyUSN": "Buy $USN",
+        "donateToUkraine": "Пожертвовать Украине",
         "fullAccessKeys": "Ключи полного доступа",
         "help": "ПОМОЩЬ",
         "noAccount": "У вас нет других учетных записей",
@@ -1029,7 +1031,7 @@
             "transferOf": "запрашивает перевод"
         },
         "multipleAccountsError": {
-            "body": "<a href=${signCallbackUrl} target='_blank' rel='noreferrer'>${signCallbackUrl}</a> has requested authorization from more than one account.<br/><br/>NEAR Wallet may only authorize transactions for a single account at a time.",
+            "body": "<a href='${signCallbackUrl}' target='_blank' rel='noreferrer'>${signCallbackUrl}</a> has requested authorization from more than one account.<br/><br/>NEAR Wallet may only authorize transactions for a single account at a time.",
             "title": "Batch Transaction Error"
         },
         "nothingHasBeenTransferred": "Ничего не было передано.",
@@ -1203,16 +1205,28 @@
     "stakingPoolUnstaked": "Эти NEAR в настоящее время находятся в стейкинг-пуле, но не участвуют в стейкинге. Например, они могут находиться в состоянии снятия из стейкинга, в ожидании операции вывода.",
     "success": "Успех!",
     "swap": {
-        "AvailableToSwap": "Доступно для обмена",
-        "ExpectedPrice": "Ожидаемая цена",
-        "from": "От",
-        "MinimumReceived": "Минимум получено",
-        "pairPrice": "Цена пары",
-        "slipPage": "Допуск на проскальзывание",
-        "slippageError": "От 1 до 50",
-        "to": "К",
-        "TradingFee": "Торговая комиссия"
+        "confirm": "Confirm & Swap",
+        "details": "Transaction details",
+        "fee": "Estimated fees",
+        "from": "From",
+        "max": "Max: ${amount} ${symbol}",
+        "minReceived": "Minimum received",
+        "price": "Price",
+        "priceImpact": "Price impact",
+        "review": "Review Swap",
+        "reviewInfo": "You are swapping",
+        "slippage": "Slippage tolerance",
+        "successTitle": "Transaction complete!</br>You swapped <span class='color-blue space'>${amountFrom}</span></br>to <span class='color-green'>${amountTo}</span>",
+        "title": "Swap",
+        "to": "To",
+        "translateIdInfoTooltip": {
+            "fee": "The estimated cost of processing your transaction.",
+            "minimumReceived": "The minimum amount you will receive from the trade.",
+            "priceImpact": "The difference between the market price and estimated price due to trade size.",
+            "slippage": "The percentage the price may increase before the transaction fails."
+        }
     },
+    "swapping": "Swapping",
     "topLevelAccounts": {
         "body": "Имена учетных записей похожи на доменные имена. Только учетная запись ${data} может создавать такие учетные записи, как yourname.${data}, и только yourname.${data} может создать app.yourname.${data}. Все учетные записи, созданные в этом кошельке, используют .${data} Учетные записи верхнего уровня (TLA). Чтобы узнать больше об именах учетных записей и создать собственную учетную запись верхнего уровня, прочтите документацию <a rel='noopener noreferrer' href='https://docs.near.org/docs/concepts/account'>docs</a>.",
         "header": "Учетные записи верхнего уровня"
