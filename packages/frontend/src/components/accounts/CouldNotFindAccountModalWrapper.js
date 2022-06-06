@@ -2,9 +2,9 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 
 import {
-    redirectTo,
     refreshAccount,
-    getLedgerPublicKey
+    getLedgerPublicKey,
+    redirectToApp
 } from '../../redux/actions/account';
 import { showCustomAlert, clearGlobalAlert } from '../../redux/actions/status';
 import { setLedgerHdPath } from '../../utils/localStorage';
@@ -84,9 +84,12 @@ export function CouldNotFindAccountModalWrapper({
                 } else {
                     await handleImportNonLedgerImplicitAccount();
                 }
-                dispatch(refreshAccount());
-                dispatch(redirectTo('/'));
-                dispatch(clearGlobalAlert());
+                try {
+                    await dispatch(refreshAccount());
+                } finally {
+                    dispatch(redirectToApp());
+                    dispatch(clearGlobalAlert());
+                }
             }}
         />
     );

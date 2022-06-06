@@ -24,7 +24,7 @@ export const VIEWS = {
     SUCCESS: 'success'
 };
 
-const StyledContainer = styled(Container)`
+export const StyledContainer = styled(Container)`
     &&& {
         .header {
             position: relative;

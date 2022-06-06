@@ -291,17 +291,23 @@
         "withdrawing": "Withdrawing"
     },
     "buyNear": {
-        "bridgeTokens": "Bridge Tokens from Ethereum",
+        "bridgeSubTitle": "Transfer your tokens from Ethereum to NEAR using the Rainbow Bridge.",
+        "bridgeTokens": "Bridge From Ethereum",
         "buyWith": "Buy with",
         "coinMarketCap": "CoinMarketCap",
+        "coinMarketLink": "More on CoinMarketCap",
         "descMoonpay": "Purchase NEAR through MoonPay using your preferred payment method.",
         "descThree": "Transfer your tokens from Ethereum to NEAR Wallet using a bridge.",
         "descTwo": "NEAR is available to purchase through the following exchanges.",
         "descUtorg": "Purchase NEAR through Utorg using your preferred payment method.",
         "moonPay": "MoonPay",
+        "nearPurchaseSubTitle": "Use your preferred payment method to purchase $NEAR through one of our supported partners.",
+        "nearPurchaseTitle": "Purchase NEAR",
         "notSupported": "is not supported in your region",
         "seeMore": "See more on",
+        "subTitle": "Choose from a variety of funding options to top up your wallet!",
         "supportedExchanges": "Supported Exchanges",
+        "supportedSubTitle": " $NEAR is available to purchase and trade on various exchanges.",
         "title": "Top Up",
         "utorg": "Utorg"
     },
@@ -1173,15 +1179,20 @@
     },
     "setupLedger": {
         "header": "Connect your Ledger device",
-        "one": "Connect your Ledger Nano S or X to your computer or mobile device via USB and <b>open the NEAR application</b>. <br><br>Then, <b>press both buttons</b> at the 'Pending Ledger Review' screen.",
+        "one": "Connect your Ledger Nano S or X to your computer or mobile device via USB and <b>open the NEAR application.</b>",
         "two": "If you have not yet installed the NEAR Ledger app, follow",
         "twoLink": "these instructions"
     },
     "setupLedgerSteps": {
+        "five": "Select the device from the list in the second pop-up and select Connect.",
+        "four": "On the first pop-up window, select the Connect button.",
         "header": "Install NEAR on your Ledger device",
-        "one": "Open <a href='https://www.ledger.com/ledger-live' target='_blank'>Ledger Live,</a> install any firmware updates available.",
-        "three": "Follow the instructions to install the <span class='color-black'>NEAR application</span> on your device.",
-        "two": "Click on the <span class='color-black'>Manager</span> tab, then search for <span class='color-black'>NEAR</span>."
+        "install": "If you have not yet installed the NEAR Ledger app, follow",
+        "installLink": "<a href='https://www.ledger.com/ledger-live' target='_blank'>these instructions</a>.",
+        "one": "Connect your Ledger via USB to your computer.",
+        "six": "Select the Continue button below to finish setting up the Ledger on this account.",
+        "three": "Select the Connect Ledger button at the top right of the window.",
+        "two": "Open the NEAR app on the Ledger."
     },
     "setupLedgerSuccess": {
         "header": "Ledger has secured your account!",
@@ -1500,38 +1511,25 @@
     "stakingPoolUnstaked": "This NEAR is currently in a staking pool but unstaked. It could for example be in a pending release state.",
     "success": "Success",
     "swap": {
-        "AvailableToSwap": "Available to swap",
-        "ExpectedPrice": "Expected price",
-        "from": "From",
-        "MinimumReceived": "Minimum received",
-        "pairPrice": "Pair price",
-        "slipPage": "Slippage tolerance",
-        "slippageError": "from 1 to 50",
-        "success": {
-            "complete": "Transaction complete!",
-            "youSwap": "You've swapped"
-        },
-        "to": "To",
-        "TradingFee": "Trading fee"
-    },
-    "swapNear": {
         "confirm": "Confirm & Swap",
         "details": "Transaction details",
-        "fee": "Liquidity Provider Fee",
+        "fee": "Estimated fees",
         "from": "From",
         "max": "Max: ${amount} ${symbol}",
         "minReceived": "Minimum received",
         "price": "Price",
-        "priceImpact": "Price Impact",
+        "priceImpact": "Price impact",
         "review": "Review Swap",
         "reviewInfo": "You are swapping",
-        "successTitle": "Transaction complete!</br>You swapped <span class='color-blue space'>${amount}</span></br>to <span class='color-green'>${tokenTo}</span>",
+        "slippage": "Slippage tolerance",
+        "successTitle": "Transaction complete!</br>You swapped <span class='color-blue space'>${amountFrom}</span></br>to <span class='color-green'>${amountTo}</span>",
         "title": "Swap",
         "to": "To",
         "translateIdInfoTooltip": {
-            "liquidityProviderFee": "The estimated cost of processing your transaction.",
+            "fee": "The estimated cost of processing your transaction.",
             "minimumReceived": "The minimum amount you will receive from the trade.",
-            "priceImpact": "The difference between the market price and estimated price due to trade size."
+            "priceImpact": "The difference between the market price and estimated price due to trade size.",
+            "slippage": "The percentage the price may increase before the transaction fails."
         }
     },
     "swapping": "Swapping",
@@ -1666,7 +1664,6 @@
             "desc": "You’ll need NEAR tokens to perform transactions with your wallet.",
             "title": "Deposit NEAR"
         },
-        "OthersTokens": "Other tokens",
         "status": "Status",
         "tokenBalance": "Token Balance",
         "tokens": "Tokens",
@@ -1678,14 +1675,11 @@
         "addAccessKey": {
             "error": "An error has occurred.<br />To access your account, please enter the passphrase from the previous step below."
         },
-        "addAccessKeyZeroBalanceAccountSetup": {
-            "error": "Something went wrong while finishing import of your now active account. Please re-import your account in the wallet."
-        },
-        "initiateZeroBalanceAccount": {
-            "error": "Something went wrong while initiating your account. Please try again."
-        },
         "addAccessKeySeedPhrase": {
             "errorSecond": "An error has occurred.<br />The passphrase was not added to your account. Please try again."
+        },
+        "addAccessKeyZeroBalanceAccountSetup": {
+            "error": "Something went wrong while finishing import of your now active account. Please re-import your account in the wallet."
         },
         "addLedgerAccountId": {
             "errorRpc": "Error appears while recovering the account."
@@ -1708,6 +1702,9 @@
             "noAccounts": "No accounts were found for this Ledger device. Please confirm you have associated an account with this Ledger.",
             "noAccountsAccepted": "No accounts were accepted.",
             "U2FNotSupported": "U2F browser support is needed for Ledger. Please use Chrome, Opera or Firefox with U2F extension."
+        },
+        "initiateZeroBalanceAccount": {
+            "error": "Something went wrong while initiating your account. Please try again."
         },
         "invalidRecaptchaCode": "Invalid reCAPTCHA code; try again!",
         "lockup": {
@@ -1747,31 +1744,31 @@
     },
     "warning": "Warning",
     "zeroBalance": {
-        "ledgerModal": {
-            "desc": "Add a Ledger limited access key to the wallet to manage multiple recovery methods.",
-            "confirmOnLedger": "Confirm the action on your Ledger device.",
-            "title": "Your account is now active!",
-            "addLedgerKey": "Add Ledger Key"
-        },
         "addLedgerKey": {
-            "success": {
-                "header": "Ledger access key added successfully!",
-                "message": "A new Ledger key was added to your account. You can now manage your accounts recovery methods using your Ledger device."
-            },
             "error": {
                 "header": "Something went wrong",
                 "message": "We were unable to add an additional Ledger key to your account. Please try again or re-import your Ledger account."
+            },
+            "success": {
+                "header": "Ledger access key added successfully!",
+                "message": "A new Ledger key was added to your account. You can now manage your accounts recovery methods using your Ledger device."
             }
         },
         "addPhraseKey": {
-            "success": {
-                "header": "Your account has been successfully imported!",
-                "message": "Now that your account is active, a new access key has been added to your account to sign transactions in the wallet."
-            },
             "error": {
                 "header": "Something went wrong",
                 "message": "We were unable to add a new access key to your account. Please re-import your account to add a new wallet key."
+            },
+            "success": {
+                "header": "Your account has been successfully imported!",
+                "message": "Now that your account is active, a new access key has been added to your account to sign transactions in the wallet."
             }
+        },
+        "ledgerModal": {
+            "addLedgerKey": "Add Ledger Key",
+            "confirmOnLedger": "Confirm the action on your Ledger device.",
+            "desc": "Add a Ledger limited access key to the wallet to manage multiple recovery methods.",
+            "title": "Your account is now active!"
         }
     }
 }

@@ -6,9 +6,8 @@ import { getFormatBalance } from '../../../utils/wrap-unwrap';
 import BackArrowButton from '../../common/BackArrowButton';
 import FormButton from '../../common/FormButton';
 import SwapIcon from '../../svg/WrapIcon';
-import { VIEWS } from '../SwapNear';
 import SwapFromForm from './SwapFromForm';
-import SwapFromTo from './SwapFromTo';
+import SwapToForm from './SwapToForm';
 
 const StyledContainer = styled.div`
     h4 {
@@ -39,7 +38,7 @@ const StyledContainer = styled.div`
         width: 100%;
     }
     .margin {
-        margin-bottom: 16px;
+        margin-bottom: 20px;
         width 72px;
     }
     .small-rounded {
@@ -63,16 +62,14 @@ const StyledContainer = styled.div`
 `;
 
 export function SwapAmountForm({
-    match,
-    location,
     history,
-    setActiveView,
+    onClickReview,
+    onClickFromToken,
+    onClickToToken,
     amountTokenFrom,
     setAmountTokenFrom,
     amountTokenTo,
     setAmountTokenTo,
-    mockRateData,
-    setMockRateData,
     activeTokenFrom,
     setActiveTokenFrom,
     activeTokenTo,
@@ -82,6 +79,7 @@ export function SwapAmountForm({
     maxTo,
     setMaxTo,
     error,
+    setReversePositionsJustClicked
 }) {
     const [isDisabled, setDisabled] = useState(true);
     useEffect(() => {
@@ -121,18 +119,19 @@ export function SwapAmountForm({
         setAmountTokenFrom(temp);
         setMaxTo(maxFrom);
         setMaxFrom(tempMax);
-        setMockRateData(1 / mockRateData);
+        setReversePositionsJustClicked(true);
     };
 
     return (
         <StyledContainer>
-            <div className="header">
+            <div className="headerSwap">
                 <BackArrowButton onClick={() => history.push('/')} />
                 <h4>
-                    <Translate id="swapNear.title" />
+                    <Translate id="swap.title" />
                 </h4>
             </div>
             <SwapFromForm
+                onClickFromToken={onClickFromToken}
                 maxValue={maxFrom}
                 amountToken={amountTokenFrom}
                 setAmountToken={setAmountTokenFrom}
@@ -149,21 +148,22 @@ export function SwapAmountForm({
                     </FormButton>
                 </div>
             </div>
-            <SwapFromTo
+            <SwapToForm
+                onClickToToken={onClickToToken}
                 maxValue={maxTo}
                 amountToken={amountTokenTo}
-                setAmountToken={setAmountTokenTo}
                 activeTokenTo={activeTokenTo}
             />
 
-            <FormButton
-                disabled={isDisabled}
-                color="blue width width100"
-                onClick={() => setActiveView(VIEWS.REVIEW)}
-            >
-                <Translate id="swapNear.review" />
-            </FormButton>
-
+            <div className="flexCenterButton">
+                <FormButton
+                    disabled={isDisabled}
+                    color="blue width width100"
+                    onClick={onClickReview}
+                >
+                    <Translate id="swap.review" />
+                </FormButton>
+            </div>
             <div className="flexCenterButton">
                 <FormButton color="gray link " onClick={() => history.goBack()}>
                     <Translate id="button.cancel" />

@@ -306,49 +306,5 @@
       "lastEditedBy": "Patrick Tajima",
       "lastEditedAt": "2022-05-24T23:56:29.721Z"
     }
-  },
-  "USN_BUTTON": {
-    "createdBy": "ignatKorokov",
-    "createdAt": "2022-05-02T17:12:41.421Z",
-    "development": {
-      "enabled": true,
-      "lastEditedBy": "ignatKorokov",
-      "lastEditedAt": "2022-05-02T17:12:41.421Z"
-    },
-    "testnet": {
-      "enabled": true,
-      "lastEditedBy": "ignatKorokov",
-      "lastEditedAt": "2022-05-02T17:12:41.421Z"
-    },
-    "mainnet": {
-      "enabled": false,
-      "lastEditedBy": "ignatKorokov",
-      "lastEditedAt": "2022-05-02T17:12:41.421Z"
-    },
-    "mainnet_STAGING": {
-      "enabled": false,
-      "lastEditedBy": "ignatKorokov",
-      "lastEditedAt": "2022-05-02T17:12:41.421Z"
-    },
-    "testnet_STAGING": {
-      "enabled": false,
-      "lastEditedBy": "ignatKorokov",
-      "lastEditedAt": "2022-05-02T17:12:41.421Z"
-    },
-    "testnet_NEARORG": {
-      "enabled": true,
-      "lastEditedBy": "esaminu",
-      "lastEditedAt": "2022-05-05T18:07:50.110Z"
-    },
-    "mainnet_NEARORG": {
-      "enabled": false,
-      "lastEditedBy": "esaminu",
-      "lastEditedAt": "2022-05-05T18:06:54.374Z"
-    },
-    "mainnet_STAGING_NEARORG": {
-      "enabled": false,
-      "lastEditedBy": "esaminu",
-      "lastEditedAt": "2022-05-05T18:07:28.665Z"
-    }
   }
 }

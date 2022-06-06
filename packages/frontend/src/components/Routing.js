@@ -13,7 +13,6 @@ import styled, { ThemeProvider } from 'styled-components';
 import {
     CREATE_IMPLICIT_ACCOUNT,
     IMPORT_ACCOUNT_WITH_LINK_V2,
-    CREATE_USN_CONTRACT
 } from '../../../../features';
 import TwoFactorVerifyModal from '../components/accounts/two_factor/TwoFactorVerifyModal';
 import {
@@ -38,6 +37,7 @@ import { SetupRecoveryImplicitAccountWrapper } from '../routes/SetupRecoveryImpl
 import { SignWrapper } from '../routes/SignWrapper';
 import { WalletWrapper } from '../routes/WalletWrapper';
 import translations_en from '../translations/en.global.json';
+import translations_it from '../translations/it.global.json';
 import translations_pt from '../translations/pt.global.json';
 import translations_ru from '../translations/ru.global.json';
 import translations_tr from '../translations/tr.global.json';
@@ -93,9 +93,8 @@ import { Profile } from './profile/Profile';
 import { ReceiveContainerWrapper } from './receive-money/ReceiveContainerWrapper';
 import { SendContainerWrapper } from './send/SendContainerWrapper';
 import { StakingContainer } from './staking/StakingContainer';
-import SwapContainerWrapper from './Swap/SwapContainerWrapper';
+import Swap from './swap/Swap';
 import Terms from './terms/Terms';
-import { SwapNear } from './wrap/SwapNear';
 import '../index.css';
 
 const { fetchTokenFiatValues, getTokenWhiteList } = tokenFiatValueActions;
@@ -152,6 +151,7 @@ class Routing extends Component {
 
         const languages = [
             { name: 'English', code: 'en' },
+            { name: 'Italiano', code: 'it' },
             { name: 'Português', code: 'pt' },
             { name: 'Русский', code: 'ru' },
             { name: 'Tiếng Việt', code: 'vi' },
@@ -192,6 +192,7 @@ class Routing extends Component {
 
         // TODO: Figure out how to load only necessary translations dynamically
         this.props.addTranslationForLanguage(translations_en, 'en');
+        this.props.addTranslationForLanguage(translations_it, 'it');
         this.props.addTranslationForLanguage(translations_pt, 'pt');
         this.props.addTranslationForLanguage(translations_ru, 'ru');
         this.props.addTranslationForLanguage(translations_vi, 'vi');
@@ -620,16 +621,10 @@ class Routing extends Component {
                                 path="/buy"
                                 component={BuyNear}
                             />
-                            {CREATE_USN_CONTRACT &&    
-                            <PrivateRoute
-                                exact
-                                path="/swap-usn"
-                                component={SwapContainerWrapper}
-                            />}
                             <PrivateRoute
                                 exact
                                 path="/swap"
-                                component={SwapNear}
+                                component={Swap}
                             />
                             <Route
                                 exact

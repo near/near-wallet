@@ -4,10 +4,12 @@ import { Translate } from 'react-localize-redux';
 import { withRouter } from 'react-router';
 import styled from 'styled-components';
 
+import { CREATE_USN_CONTRACT } from '../../../../../../features';
 import { removeTrailingZeros } from '../../../utils/amounts';
 import Token from '../../send/components/entry_types/Token';
 import SwapIcon from '../../svg/WrapIcon';
-import TransactionDetails from './TransactionDetails';
+import TransactionDetailsUSN from './TransactionDetailsUSN';
+import TransactionDetailsWrappedNear from './TransactionDetailsWrappedNear';
 
 const {
     utils: {
@@ -57,6 +59,7 @@ const ReviewForm = styled.div`
             border-radius: 8px;
         }
         &.first {
+            color: #11181C;
             border-radius: 8px 8px 0 0;
         }
         &.last {
@@ -103,7 +106,7 @@ const ReviewForm = styled.div`
         width: 15px;
         height: 15px;
     }
-    .green div {
+    .green div.amount {
         font-family: "Inter";
         font-style: normal;
         font-weight: 400;
@@ -112,6 +115,9 @@ const ReviewForm = styled.div`
         color: #5bb98c;
     }
 
+    .details-info {
+        color: #687076;
+    }
     .details-info div {
         @media screen and (max-width: 400px) {
             font-size: 14px;
@@ -137,18 +143,61 @@ const getFontSize = (charLength) => {
     return fontSize;
 };
 
-const ReviewTransactionDetails = ({
+const TransactionDetails = ({
     amountTokenFrom,
     amountTokenTo,
     tokenFrom,
     tokenTo,
-    rate,
+    setSlippage,
+    exchangeRate,
+    tradingFee
 }) => {
     let estimatedMinReceived = '';
     try {
         estimatedMinReceived = parseNearAmount(amountTokenTo.toString());
     } catch {
         console.log('error parseNearAmount');
+    }
+
+    const ratio = () => {
+        const ratio = amountTokenFrom/amountTokenTo;
+        const isAFraction = !!(ratio % 1);
+        return isAFraction
+            ? (ratio).toFixed(5)
+            : removeTrailingZeros((ratio).toString());
+    };
+
+    const isUSN = 
+        (tokenFrom.onChainFTMetadata.name === 'USN' || tokenTo.onChainFTMetadata.name === 'USN') 
+        && CREATE_USN_CONTRACT;
+
+    function transactionDetailsSwitch(token) {
+        switch (token) {
+            case 'USN':
+                return (
+                    <TransactionDetailsUSN
+                        selectedTokenFrom={tokenFrom}
+                        selectedTokenTo={tokenTo}
+                        amount={amountTokenFrom}
+                        exchangeRate={exchangeRate}
+                        tradingFee={tradingFee}
+                        setSlippage={setSlippage}
+                    />
+                );
+            default:
+                return (
+                    <TransactionDetailsWrappedNear
+                        selectedTokenFrom={tokenFrom}
+                        selectedTokenTo={tokenTo}
+                        estimatedFeesInNear={`${
+                            amountTokenFrom > 1
+                                ? Math.trunc(amountTokenFrom).toString()
+                                : '1'
+                        }`}
+                        estimatedMinReceived={estimatedMinReceived}
+                    />
+                );
+        }
     }
 
     return (
@@ -195,24 +244,14 @@ const ReviewTransactionDetails = ({
                 />
             </div>
             <div className="bg height60 first index">
-                <Translate id="swapNear.price" />
-                <div>{`${1 / rate} ${tokenFrom.onChainFTMetadata?.symbol} per ${
+                <Translate id="swap.price" />
+                <div>{`${ratio()} ${tokenFrom.onChainFTMetadata?.symbol} per ${
                     tokenTo.onChainFTMetadata?.symbol
                 }`}</div>
             </div>
-            <TransactionDetails
-                selectedTokenFrom={tokenFrom}
-                selectedTokenTo={tokenTo}
-                estimatedFeesInNear={`${
-                    amountTokenFrom > 1
-                        ? Math.trunc(amountTokenFrom).toString()
-                        : '1'
-                }`}
-                estimatedMinReceived={estimatedMinReceived}
-                amount={amountTokenFrom}
-            />
+            {transactionDetailsSwitch(isUSN && 'USN')}
         </ReviewForm>
     );
 };
 
-export default withRouter(ReviewTransactionDetails);
+export default withRouter(TransactionDetails);

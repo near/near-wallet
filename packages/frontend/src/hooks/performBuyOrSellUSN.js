@@ -1,11 +1,11 @@
 import * as nearApiJs from 'near-api-js';
 import { useState } from 'react';
 
-import { IS_MAINNET } from '../config';
+import { USN_CONTRACT } from '../config';
 import { parseTokenAmount } from '../utils/amounts';
 import { wallet } from '../utils/wallet';
 
-const setArgsUSNContractBuy = (multiplier, slippage, amount) => {
+const setArgsUSNContractBuy = ({multiplier, slippage, amount}) => {
     return {
         args: {
             expected: {
@@ -21,10 +21,10 @@ const setArgsUSNContractBuy = (multiplier, slippage, amount) => {
     };
 };
 
-const setArgsUSNContractSell = (amount, multiplier, slippage, usnAmount) => {
+const setArgsUSNContractSell = ({multiplier, slippage, amount}) => {
     return {
         args: {
-            amount: usnAmount ? usnAmount : parseTokenAmount(amount * (10 ** 18), 0),
+            amount: parseTokenAmount(amount * (10 ** 18), 0),
             expected: {
                 multiplier,
                 slippage: `${Math.round(
@@ -38,36 +38,34 @@ const setArgsUSNContractSell = (amount, multiplier, slippage, usnAmount) => {
     };
 };
 
-export const useFetchByorSellUSN = () => {
+export const usePerformBuyOrSellUSN = () => {
     const [isLoading, setIsLoading] = useState(false);
-    const contractName = !IS_MAINNET ? 'usdn.testnet' : 'usn';
     const usnMethods = {
         viewMethods: ['version', 'name', 'symbol', 'decimals', 'ft_balance_of'],
         changeMethods: ['buy', 'sell'],
     };
 
-    const fetchByOrSell = async (
+    const performBuyOrSellUSN = async ({
         accountId,
         multiplier,
         slippage,
         amount,
-        symbol,
-        usnAmount
-    ) => {
+        tokenFrom,
+    }) => {
         const account = await wallet.getAccount(accountId);
         const usnContract = new nearApiJs.Contract(
             account,
-            contractName,
+            USN_CONTRACT,
             usnMethods
         );
        
-        if (symbol === 'NEAR') {
-            await usnContract.buy(setArgsUSNContractBuy(multiplier, slippage, amount));
+        if (tokenFrom === 'NEAR') {
+            await usnContract.buy(setArgsUSNContractBuy({multiplier, slippage, amount}));
            
         } else {
-           await usnContract.sell(setArgsUSNContractSell(amount, multiplier, slippage, usnAmount));
+           await usnContract.sell(setArgsUSNContractSell({multiplier, slippage, amount}));
         }
     };
 
-    return { fetchByOrSell, isLoading, setIsLoading};
+    return { performBuyOrSellUSN, isLoading, setIsLoading};
 };

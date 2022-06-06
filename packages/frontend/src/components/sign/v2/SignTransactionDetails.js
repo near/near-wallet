@@ -123,37 +123,44 @@ export default ({
 
             <div className='contract-details'>
                 <div className='title'><Translate id='sign.contractDetails' /></div>
-                {transactions.map((transaction, i) => (
-                    <div key={transaction.receiverId}>
-                        <div className='entry'>
-                            <Translate id='sign.details.forContract' />
-                            <a href={`${EXPLORER_URL}/accounts/${transaction.receiverId}`} rel='noopener noreferrer' target='_blank'>{transaction.receiverId} <ArrowUpRight /></a>
-                        </div>
-                        {transaction.actions.sort((a, b) => Object.keys(b)[0] === 'functionCall' ? 1 : -1).map((action, i) => {
-                            const methodName = action.functionCall?.methodName || '';
-                            const uniqueMethodId = `${methodName}-${transaction.receiverId}`;
-                            return (
-                                <div key={methodName}>
-                                    <div className='entry function'>
-                                        <Translate id='sign.function' />
-                                        <DropdownButton id={uniqueMethodId} className='font-monospace'>
-                                            {methodName}
-                                        </DropdownButton>
+                {transactions.map(({ receiverId, actions }, i) => {
+                    const sortedActions = [
+                        ...actions.filter((a) => Object.keys(a)[0] === 'functionCall'),
+                        ...actions.filter((a) => Object.keys(a)[0] !== 'functionCall')
+                    ];
+                    
+                    return (
+                        <div key={receiverId}>
+                            <div className='entry'>
+                                <Translate id='sign.details.forContract' />
+                                <a href={`${EXPLORER_URL}/accounts/${receiverId}`} rel='noopener noreferrer' target='_blank'>{receiverId} <ArrowUpRight /></a>
+                            </div>
+                            {sortedActions.map((action, i) => {
+                                const methodName = action.functionCall?.methodName || '';
+                                const uniqueMethodId = `${methodName}-${receiverId}`;
+                                return (
+                                    <div key={methodName}>
+                                        <div className='entry function'>
+                                            <Translate id='sign.function' />
+                                            <DropdownButton id={uniqueMethodId} className='font-monospace'>
+                                                {methodName}
+                                            </DropdownButton>
+                                        </div>
+                                        <Accordion
+                                            trigger={uniqueMethodId}
+                                            className='arguments-wrapper font-monospace'
+                                        >
+                                            <ActionArguments
+                                                actionKind={Object.keys(action)[0]}
+                                                action={action[Object.keys(action)[0]]}
+                                            />
+                                        </Accordion>
                                     </div>
-                                    <Accordion
-                                        trigger={uniqueMethodId}
-                                        className='arguments-wrapper font-monospace'
-                                    >
-                                        <ActionArguments
-                                            actionKind={Object.keys(action)[0]}
-                                            action={action[Object.keys(action)[0]]}
-                                        />
-                                    </Accordion>
-                                </div>
-                            );
-                        })}
-                    </div>
-                ))}
+                                );
+                            })}
+                        </div>
+                    );
+                })}
             </div>
         </StyledContainer>
     );

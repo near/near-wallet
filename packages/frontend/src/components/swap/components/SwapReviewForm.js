@@ -5,8 +5,7 @@ import styled from 'styled-components';
 import { removeTrailingZeros } from '../../../utils/amounts';
 import BackArrowButton from '../../common/BackArrowButton';
 import FormButton from '../../common/FormButton';
-import { VIEWS } from '../SwapNear';
-import ReviewTransactionDetails from './ReviewTransactionDetails';
+import TransactionDetails from './TransactionDetails';
 
 const StyledContainer = styled.div`
     h4 {
@@ -62,27 +61,26 @@ const getFontSize = (charLength) => {
 };
 
 export function SwapReviewForm({
-    match,
-    location,
-    history,
-    setActiveView,
+    onClickGoBack,
     amountTokenFrom,
     amountTokenTo,
     activeTokenFrom,
     activeTokenTo,
-    mockRateData,
     accountId,
     handleSwapToken,
     swappingToken,
+    setSlippage,
+    exchangeRate,
+    tradingFee
 }) {
     return (
         <StyledContainer>
             <div className="header">
                 <BackArrowButton
-                    onClick={() => setActiveView(VIEWS.SWAP_AMOUNT)}
+                    onClick={onClickGoBack}
                 />
                 <h4>
-                    <Translate id="swapNear.reviewInfo" />
+                    <Translate id="swap.reviewInfo" />
                 </h4>
             </div>
             <div className="flexCenterColumn">
@@ -103,32 +101,35 @@ export function SwapReviewForm({
                     amountTokenFrom * activeTokenFrom.fiatValueMetadata.usd
                 ).toFixed(2)} USD`}</div>
             </div>
-            <ReviewTransactionDetails
+            <TransactionDetails
                 amountTokenFrom={amountTokenFrom}
                 amountTokenTo={amountTokenTo}
                 tokenFrom={activeTokenFrom}
                 tokenTo={activeTokenTo}
-                rate={mockRateData}
+                exchangeRate={exchangeRate}
+                setSlippage={setSlippage}
+                tradingFee={tradingFee}
             />
             <FormButton
                 color="blue width100"
                 disabled={swappingToken === true}
                 sending={swappingToken === true}
                 sendingString="swapping"
-                onClick={() => {
-                    handleSwapToken(
+                onClick={async () => {
+                    await handleSwapToken({
                         accountId,
-                        amountTokenFrom.toString(),
-                        activeTokenFrom.onChainFTMetadata?.symbol === 'NEAR'
-                    );
+                        amount: amountTokenFrom.toString(),
+                        tokenFrom: activeTokenFrom.onChainFTMetadata?.symbol,
+                        tokenTo: activeTokenTo.onChainFTMetadata?.symbol
+                    });
                 }}
             >
-                <Translate id="swapNear.confirm" />
+                <Translate id="swap.confirm" />
             </FormButton>
             <div className="flexCenterButton">
                 <FormButton
                     color="gray link"
-                    onClick={() => setActiveView(VIEWS.SWAP_AMOUNT)}
+                    onClick={onClickGoBack}
                 >
                     <Translate id="button.cancel" />
                 </FormButton>
