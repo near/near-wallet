@@ -5,7 +5,7 @@ import {
     actions as ledgerActions,
     selectLedgerConnectionModalType,
     selectLedgerConnectionStatusLoading
- } from '../../../../redux/slices/ledger';
+} from '../../../../redux/slices/ledger';
 import Modal from '../../../common/modal/Modal';
 import ModalThemeV2 from './css/ModalThemeV2';
 import LedgerConnectionModal from './views/LedgerConnectionModal';

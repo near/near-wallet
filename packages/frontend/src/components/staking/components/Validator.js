@@ -110,8 +110,8 @@ export default function Validator({
                 }).then((res) => 
                     Promise.all([
                         (res || [])
-                        .filter(({balance}) => !new BN(balance).isZero())
-                        .map(({token_id}) => dispatch(claimFarmRewards(validator.accountId, token_id)))
+                            .filter(({balance}) => !new BN(balance).isZero())
+                            .map(({token_id}) => dispatch(claimFarmRewards(validator.accountId, token_id)))
                     ])
                 );
             }

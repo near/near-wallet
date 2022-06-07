@@ -182,14 +182,16 @@ export default function ValidatorBox({
                 </div>
                 {typeof fee === 'number' &&
                     <div className="text-left">
-                        {isFarmingValidator && <>
-                            <span><Translate id='staking.validator.apy'/>&nbsp;</span>
-                            {farmAPY === null && validator.active
-                                ? <span className="animated-dots" style={{width: 16}}/>
-                                : <span>{farmAPY || 0}</span>
-                            }
-                            <span>%&nbsp;-&nbsp;</span>
-                        </>}
+                        {isFarmingValidator && (
+                            <>
+                                <span><Translate id='staking.validator.apy'/>&nbsp;</span>
+                                {farmAPY === null && validator.active
+                                    ? <span className="animated-dots" style={{width: 16}}/>
+                                    : <span>{farmAPY || 0}</span>
+                                }
+                                <span>%&nbsp;-&nbsp;</span>
+                            </>
+                        )}
                         <span>{fee}% <Translate id='staking.validatorBox.fee' /> -&nbsp;</span>
                         <span>
                             {

@@ -12,7 +12,7 @@ const CustomDiv = styled.div`
 `;
 
 const ProfileQRCode = ({ accountId }) => (
-   <CustomDiv className='qr-code-container'>
+    <CustomDiv className='qr-code-container'>
         <QRCode
             bgColor="#FFFFFF"
             fgColor="#24272a"
@@ -22,7 +22,7 @@ const ProfileQRCode = ({ accountId }) => (
             value={`${accountId}`}
         />
         <p><Translate id='profile.details.qrDesc' /></p>
-   </CustomDiv>
+    </CustomDiv>
 );
 
 export default ProfileQRCode;

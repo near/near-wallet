@@ -102,49 +102,49 @@ const Container = styled.div`
 
 
 const TokenStakeRewards = ({earnedToken, stakedToken}) => {
-  return (
-    <Container>
-      <div className='token-info'>
-        <div className='elipse'/>
-        <div className='icon'>
-          <TokenIcon symbol={earnedToken.onChainFTMetadata?.symbol} icon={earnedToken.onChainFTMetadata?.icon}/>
-        </div>
-        {earnedToken.contractName ?
-          <span className='symbol' title={earnedToken.contractName}>
-            {earnedToken.contractName}
-          </span>
-          :
-          <span className='symbol'>
-              {earnedToken.onChainFTMetadata?.symbol}
-          </span>
-        }
-      </div>
-      <div className='divider' />
-      <div className='stake-box'>
-        <div className='title'>
-          <Translate id='staking.validator.activeStake'/>
-        </div>
-        <TokenAmount
-            token={stakedToken}
-            className="balance"
-            withSymbol={true}
-            showFiatAmount={false}
-        />
-      </div>
-      <div className='stake-box'>
-        <div className='title'>
-          <Translate id='staking.validator.rewards'/>
-        </div>
-        <TokenAmount
-            token={earnedToken}
-            className="balance reward"
-            withSymbol={true}
-            showFiatAmount={false}
-            balancePrefix='+'
-        />
-      </div>
-    </Container>
-  );
+    return (
+        <Container>
+            <div className='token-info'>
+                <div className='elipse'/>
+                <div className='icon'>
+                    <TokenIcon symbol={earnedToken.onChainFTMetadata?.symbol} icon={earnedToken.onChainFTMetadata?.icon}/>
+                </div>
+                {earnedToken.contractName ?
+                    <span className='symbol' title={earnedToken.contractName}>
+                        {earnedToken.contractName}
+                    </span>
+                    :
+                    <span className='symbol'>
+                        {earnedToken.onChainFTMetadata?.symbol}
+                    </span>
+                }
+            </div>
+            <div className='divider' />
+            <div className='stake-box'>
+                <div className='title'>
+                    <Translate id='staking.validator.activeStake'/>
+                </div>
+                <TokenAmount
+                    token={stakedToken}
+                    className="balance"
+                    withSymbol={true}
+                    showFiatAmount={false}
+                />
+            </div>
+            <div className='stake-box'>
+                <div className='title'>
+                    <Translate id='staking.validator.rewards'/>
+                </div>
+                <TokenAmount
+                    token={earnedToken}
+                    className="balance reward"
+                    withSymbol={true}
+                    showFiatAmount={false}
+                    balancePrefix='+'
+                />
+            </div>
+        </Container>
+    );
 };
 
 export default TokenStakeRewards;

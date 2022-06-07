@@ -208,7 +208,7 @@ const ActivityDetailModal = ({
                                     />
                                 </div>
                             )
-                        )
+                    )
                     }
                     <div className='item'>
                         <span><Translate id='wallet.dateAndTime' /></span>

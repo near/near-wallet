@@ -148,58 +148,58 @@ const fetchNFTs = createAsyncThunk(
 );
 
 const nftSlice = createSlice({
-        name: SLICE_NAME,
-        initialState,
-        reducers: {
-            setContractMetadata(state, { payload }) {
-                debugLog('REDUCER/setContractMetadata');
-                const { metadata, contractName } = payload;
-                set(state, ['metadata', 'byContractName', contractName], metadata);
-            },
-            addTokensMetadata(state, { payload }) {
-                debugLog('REDUCER/addTokensMetadata');
-
-                const { contractName, tokens, accountId } = payload;
-                update(state, ['ownedTokens', 'byAccountId', accountId, 'byContractName', contractName, 'tokens'], (n) => (n || []).concat(tokens));
-            },
-            clearTokenMetadata(state, { payload }) {
-                debugLog('REDUCER/clearTokenMetadata');
-
-                const { contractName, accountId } = payload;
-                set(state, ['ownedTokens', 'byAccountId', accountId, 'byContractName', contractName, 'tokens'], []);
-            },
-            clearAllTokensMetadata(state, { payload }) {
-                debugLog('REDUCER/clearAllTokensMetadata');
-
-                const { accountId } = payload;
-                set(state, ['ownedTokens', 'byAccountId', accountId], {});
-            },
-            addNumberOfOwnedTokens(state, { payload }) {
-                debugLog('REDUCER/addNumberOfOwnedTokens');
-                const { contractName, accountId, numberOfOwnedTokens } = payload;
-
-                set(state, ['ownedTokens', 'byAccountId', accountId, 'numberByContractName', contractName], numberOfOwnedTokens);
-            },
-            transferToken(state, { payload }) {
-                debugLog('REDUCER/transferToken');
-                const { accountId, contractName, nft } = payload;
-
-                merge(state, { transferredTokens: { byContractName: { [contractName]: { [nft.token_id]: nft } } } });
-                update(
-                    state,
-                    ['ownedTokens', 'byAccountId', accountId, 'byContractName', contractName, 'tokens'],
-                    (ownedTokens) => ownedTokens.filter(({ token_id }) => token_id !== nft.token_id)
-                );
-            }
+    name: SLICE_NAME,
+    initialState,
+    reducers: {
+        setContractMetadata(state, { payload }) {
+            debugLog('REDUCER/setContractMetadata');
+            const { metadata, contractName } = payload;
+            set(state, ['metadata', 'byContractName', contractName], metadata);
         },
-        extraReducers: ((builder) => {
-            handleAsyncThunkStatus({
-                asyncThunk: fetchOwnedNFTsForContract,
-                buildStatusPath: ({ meta: { arg: { accountId, contractName }}}) => ['ownedTokens', 'byAccountId', accountId, 'byContractName', contractName],
-                builder
-            });
-        })
-    }
+        addTokensMetadata(state, { payload }) {
+            debugLog('REDUCER/addTokensMetadata');
+
+            const { contractName, tokens, accountId } = payload;
+            update(state, ['ownedTokens', 'byAccountId', accountId, 'byContractName', contractName, 'tokens'], (n) => (n || []).concat(tokens));
+        },
+        clearTokenMetadata(state, { payload }) {
+            debugLog('REDUCER/clearTokenMetadata');
+
+            const { contractName, accountId } = payload;
+            set(state, ['ownedTokens', 'byAccountId', accountId, 'byContractName', contractName, 'tokens'], []);
+        },
+        clearAllTokensMetadata(state, { payload }) {
+            debugLog('REDUCER/clearAllTokensMetadata');
+
+            const { accountId } = payload;
+            set(state, ['ownedTokens', 'byAccountId', accountId], {});
+        },
+        addNumberOfOwnedTokens(state, { payload }) {
+            debugLog('REDUCER/addNumberOfOwnedTokens');
+            const { contractName, accountId, numberOfOwnedTokens } = payload;
+
+            set(state, ['ownedTokens', 'byAccountId', accountId, 'numberByContractName', contractName], numberOfOwnedTokens);
+        },
+        transferToken(state, { payload }) {
+            debugLog('REDUCER/transferToken');
+            const { accountId, contractName, nft } = payload;
+
+            merge(state, { transferredTokens: { byContractName: { [contractName]: { [nft.token_id]: nft } } } });
+            update(
+                state,
+                ['ownedTokens', 'byAccountId', accountId, 'byContractName', contractName, 'tokens'],
+                (ownedTokens) => ownedTokens.filter(({ token_id }) => token_id !== nft.token_id)
+            );
+        }
+    },
+    extraReducers: ((builder) => {
+        handleAsyncThunkStatus({
+            asyncThunk: fetchOwnedNFTsForContract,
+            buildStatusPath: ({ meta: { arg: { accountId, contractName }}}) => ['ownedTokens', 'byAccountId', accountId, 'byContractName', contractName],
+            builder
+        });
+    })
+}
 );
 
 export default nftSlice;

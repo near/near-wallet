@@ -124,9 +124,9 @@ const NavLinks = () => (
         </a>
         {DONATE_TO_UKRAINE && 
         <NavLink
-             to={`/send-money/${IS_MAINNET ? 'ukraine' : 'ukraine.testnet'}`}
-             activeClassName="selected"
-             onClick={() => Mixpanel.track('Click Donate button on nav')}
+            to={`/send-money/${IS_MAINNET ? 'ukraine' : 'ukraine.testnet'}`}
+            activeClassName="selected"
+            onClick={() => Mixpanel.track('Click Donate button on nav')}
         >
             <DonateToUkraineIcon />
             <Translate id="link.donateToUkraine" />

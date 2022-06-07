@@ -69,16 +69,16 @@ export function SignWrapper() {
     },[signerId, transactionBatchisValid, availableAccounts, accountId, availableAccountsIsLoading]);
 
     useEffect(() => {
-            if (
-                !isSignerValid &&
+        if (
+            !isSignerValid &&
                 availableAccounts.some(
                     (accountId) => accountId === signerId
                 )
-            ) {
-                dispatch(
-                    switchAccount({ accountId: signerId })
-                );
-            }
+        ) {
+            dispatch(
+                switchAccount({ accountId: signerId })
+            );
+        }
     }, [signerId, availableAccounts, accountId]);
 
     useEffect(() => {

@@ -58,8 +58,8 @@ const LedgerImage = ({ animate }) => {
             <path d="M117.333 83L110 90.3333L106.667 87" stroke="#8FD6BD" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className='checkmark'/>
             <defs>
                 <linearGradient id={`gradient${id}`} x1="53.4647" y1="86.3959" x2="0.387428" y2="86.3959" gradientUnits="userSpaceOnUse">
-                <stop stopColor="#0E0E0E"/>
-                <stop offset="1" stopColor="#0E0E0E" stopOpacity="0"/>
+                    <stop stopColor="#0E0E0E"/>
+                    <stop offset="1" stopColor="#0E0E0E" stopOpacity="0"/>
                 </linearGradient>
             </defs>
         </Container>

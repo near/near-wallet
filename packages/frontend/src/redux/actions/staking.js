@@ -587,21 +587,21 @@ export const claimFarmRewards = (validatorId, token_id) => async (dispatch, getS
             contractName: token_id,
             accountId: accountId
         });
-            if (!storageAvailable) {
-                try {
-                    const account = await wallet.getAccount(accountId);
-                    await fungibleTokensService.transferStorageDeposit({
-                         account,
-                         contractName: token_id,
-                         receiverId: accountId,
-                         storageDepositAmount: FT_MINIMUM_STORAGE_BALANCE_LARGE
-                        });
-                }
-                catch (e) {
-                    console.warn(e);
-                    throw e;
-                }
+        if (!storageAvailable) {
+            try {
+                const account = await wallet.getAccount(accountId);
+                await fungibleTokensService.transferStorageDeposit({
+                    account,
+                    contractName: token_id,
+                    receiverId: accountId,
+                    storageDepositAmount: FT_MINIMUM_STORAGE_BALANCE_LARGE
+                });
             }
+            catch (e) {
+                console.warn(e);
+                throw e;
+            }
+        }
 
         const args = { token_id };
 

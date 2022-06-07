@@ -12,10 +12,10 @@ export default ({ color = '#C8F6E0' }) => (
         <circle cx="122.621" cy="59.8792" r="6.42187" transform="rotate(-45 122.621 59.8792)" fill="#C8F6E0" stroke="#313131" strokeWidth="3"/>
         <rect x="0.5" y="60.097" width="37.6972" height="1.63901" fill="url(#paint0_linear_343_483)"/>
         <defs>
-        <linearGradient id="paint0_linear_343_483" x1="38.1972" y1="60.9164" x2="0.773169" y2="60.9164" gradientUnits="userSpaceOnUse">
-        <stop stopColor="#0E0E0E"/>
-        <stop offset="1" stopColor="#0E0E0E" stopOpacity="0"/>
-        </linearGradient>
+            <linearGradient id="paint0_linear_343_483" x1="38.1972" y1="60.9164" x2="0.773169" y2="60.9164" gradientUnits="userSpaceOnUse">
+                <stop stopColor="#0E0E0E"/>
+                <stop offset="1" stopColor="#0E0E0E" stopOpacity="0"/>
+            </linearGradient>
         </defs>
     </svg>
 );

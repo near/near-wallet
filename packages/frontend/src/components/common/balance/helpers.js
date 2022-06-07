@@ -46,9 +46,9 @@ export const getTotalBalanceInFiat = (mainTokens, currentLanguage) => {
             const USD = el.fiatValueMetadata.usd;
             const balance = el.balance;
             return el.contractName ? getRoundedBalanceInFiat(balance,USD,true,el.onChainFTMetadata.decimals) : getRoundedBalanceInFiat(balance,USD);
-            })
-       .filter((x) => !!x)
-       .reduce((a,b) =>`${+a + +b}`, []);
+        })
+        .filter((x) => !!x)
+        .reduce((a,b) =>`${+a + +b}`, []);
     return !isNaN(totalAmount) ? new Intl.NumberFormat(`${currentLanguage}`,{maximumFractionDigits:2,minimumFractionDigits:2}).format(totalAmount) :'0';
 }; 
 

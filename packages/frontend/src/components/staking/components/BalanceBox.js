@@ -133,19 +133,19 @@ export default function BalanceBox({
                     </div>
                     {token.onChainFTMetadata?.symbol === 'NEAR' &&
                     !token.contractName ? (
-                        <Balance
-                            amount={token.balance}
-                            data-test-id={balanceTestId}
-                            symbol={false}
-                        />
-                    ) : (
-                        <TokenAmount
-                            token={token}
-                            className="balance"
-                            withSymbol={true}
-                            data-test-id={balanceTestId}
-                        />
-                    )}
+                            <Balance
+                                amount={token.balance}
+                                data-test-id={balanceTestId}
+                                symbol={false}
+                            />
+                        ) : (
+                            <TokenAmount
+                                token={token}
+                                className="balance"
+                                withSymbol={true}
+                                data-test-id={balanceTestId}
+                            />
+                        )}
                 </div>
 
                 {disclaimer &&

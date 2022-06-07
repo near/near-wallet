@@ -56,7 +56,7 @@ import {
     actions as flowLimitationActions,
     selectFlowLimitationAccountBalance,
     selectFlowLimitationAccountData
- } from '../slices/flowLimitation';
+} from '../slices/flowLimitation';
 import {
     handleStakingUpdateAccount,
     handleStakingUpdateLockup,

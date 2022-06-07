@@ -40,6 +40,6 @@ const RecoverAccountSeedPhraseForm = ({
                 <Translate id='button.findMyAccount' />
             </FormButton>
         </>
-    );
+);
 
 export default RecoverAccountSeedPhraseForm;

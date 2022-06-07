@@ -25,8 +25,7 @@ const InstructionsModal = ({ open, onClose }) => {
                 <br />
                 <div>
                     <Translate id='setupLedgerSteps.install' />
-                    &nbsp;<span
-                            className='link underline'>
+                    &nbsp;<span className='link underline'>
                         <Translate id='setupLedgerSteps.installLink' />
                     </span>
                 </div>

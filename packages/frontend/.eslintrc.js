@@ -35,14 +35,18 @@ module.exports = {
                 ]
             }
         ],
+        'indent': ['error', 4, {
+            ignoredNodes: ['TemplateLiteral'],
+            SwitchCase: 1,
+        }],
         'no-process-env': ['error'],
         'no-restricted-globals': ['error', {
             'name': 'URLSearchParams',
             'message': 'Use `query-string` package instead'
         }],
         'no-restricted-syntax': ['error', {
-            'selector': `VariableDeclarator[id.type='ObjectPattern'] Property[key.name='searchParams']`, 
-            'message': 'URL.searchParams is not allowed, Use `query-string` package instead' 
+            'selector': `VariableDeclarator[id.type='ObjectPattern'] Property[key.name='searchParams']`,
+            'message': 'URL.searchParams is not allowed, Use `query-string` package instead'
         }, {
             'selector': `CallExpression[callee.name='useSelector'] MemberExpression[object.name='state']`,
             'message': 'Please use a selector for any state accesses within useSelector'

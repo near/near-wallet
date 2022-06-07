@@ -155,7 +155,7 @@ const NFTBox = ({ tokenDetails }) => {
                         return (
                             <div className='nft' key={token_id}
                                 onClick={() => dispatch(redirectTo(`/nft-detail/${contractName}/${token_id}`))}>
-                                    <NFTMedia mediaUrl={mediaUrl} autoPlay={ index === 0}/>
+                                <NFTMedia mediaUrl={mediaUrl} autoPlay={ index === 0}/>
                                 <b className='title'>{title}</b>
                             </div>
                         );

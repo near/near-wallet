@@ -179,19 +179,19 @@ export const exchangeRateTranslation = ({ inputtedAmountOfToken, calculateAmount
 
 
 export const useInterval = (cb, interval) => {
-  const callback = useRef();
+    const callback = useRef();
 
-  useEffect(() => {
-    callback.current = cb;
-  }, [callback]);
+    useEffect(() => {
+        callback.current = cb;
+    }, [callback]);
 
-  useEffect(() => {
-    function tick() {
-        callback.current();
-    }
-    if (interval !== null) {
-      const intervalFunction = setInterval(tick, interval);
-      return () => clearInterval(intervalFunction);
-    }
-  }, [interval]);
+    useEffect(() => {
+        function tick() {
+            callback.current();
+        }
+        if (interval !== null) {
+            const intervalFunction = setInterval(tick, interval);
+            return () => clearInterval(intervalFunction);
+        }
+    }, [interval]);
 };

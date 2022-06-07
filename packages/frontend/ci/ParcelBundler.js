@@ -125,41 +125,41 @@ class ParcelBundler {
         });
 
         switch (buildContext) {
-        case 'production':
-            if (primeUrl.includes('near-wallet-staging')) {
+            case 'production':
+                if (primeUrl.includes('near-wallet-staging')) {
                 // Netlify staging is a dedicated deployment using 'master' as the production branch
+                    return {
+                        ...this.getBaseConfig(),
+                        publicUrl: this.buildCloudflarePath('/ntl/staging/')
+                    };
+                }
+
+                // Netlify production/mainnet is a dedicated deployment using 'stable' as the production branch
                 return {
                     ...this.getBaseConfig(),
-                    publicUrl: this.buildCloudflarePath('/ntl/staging/')
+                    publicUrl: this.buildCloudflarePath('/ntl/mainnet/')
                 };
-            }
 
-            // Netlify production/mainnet is a dedicated deployment using 'stable' as the production branch
-            return {
-                ...this.getBaseConfig(),
-                publicUrl: this.buildCloudflarePath('/ntl/mainnet/')
-            };
-
-        case 'branch-deploy':
-            return {
-                ...this.getBaseConfig(),
-                publicUrl: this.buildCloudflarePath(`/ntl/branch/${branchName}/`)
-            };
-        case 'deploy-preview':
-            if (primeUrl.includes('near-wallet-staging')) {
-                // Netlify staging is a dedicated deployment using 'master' as the production branch
+            case 'branch-deploy':
                 return {
                     ...this.getBaseConfig(),
-                    publicUrl: this.buildCloudflarePath(`/ntl/previewstaging/${pullRequestId}/`)
+                    publicUrl: this.buildCloudflarePath(`/ntl/branch/${branchName}/`)
                 };
-            }
+            case 'deploy-preview':
+                if (primeUrl.includes('near-wallet-staging')) {
+                // Netlify staging is a dedicated deployment using 'master' as the production branch
+                    return {
+                        ...this.getBaseConfig(),
+                        publicUrl: this.buildCloudflarePath(`/ntl/previewstaging/${pullRequestId}/`)
+                    };
+                }
 
-            return {
-                ...this.getBaseConfig(),
-                publicUrl: this.buildCloudflarePath(`/ntl/preview/${pullRequestId}/`)
-            };
-        default:
-            throw new Error('Could not identify Netlify build environment');
+                return {
+                    ...this.getBaseConfig(),
+                    publicUrl: this.buildCloudflarePath(`/ntl/preview/${pullRequestId}/`)
+                };
+            default:
+                throw new Error('Could not identify Netlify build environment');
         }
     }
 

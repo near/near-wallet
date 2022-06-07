@@ -123,7 +123,7 @@ const SwapAccountGraphic = ({ implicitAccountId, accountId }) => {
                         </g>
                         <defs>
                             <clipPath id="clip0">
-                            <rect width="16" height="16" fill="white" transform="translate(0.32959 0.71051)"/>
+                                <rect width="16" height="16" fill="white" transform="translate(0.32959 0.71051)"/>
                             </clipPath>
                         </defs>
                     </svg>

@@ -49,15 +49,15 @@ const Button = (props) => (
 );
 
 Button.propTypes = {
-  disabled: PropTypes.bool,
-  theme: PropTypes.oneOf(['primary', 'secondary']),
-  fullWidth: PropTypes.bool,
+    disabled: PropTypes.bool,
+    theme: PropTypes.oneOf(['primary', 'secondary']),
+    fullWidth: PropTypes.bool,
 };
 
 Button.defaultProps = {
-  disabled: false,
-  theme: 'primary',
-  fullWidth: true,
+    disabled: false,
+    theme: 'primary',
+    fullWidth: true,
 };
 
 export default Button;

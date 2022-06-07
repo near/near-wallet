@@ -111,24 +111,24 @@ export default function Staking({
             {!loading && collectedFarmData
                 .filter((tokenData) => +tokenData.balance > 0)
                 .map((tokenData, i) => {
-                return (
-                    <BalanceBox
-                        title={!i && 'staking.balanceBox.farmed.title'}
-                        info={!i && 'staking.balanceBox.farmed.info'}
-                        key={tokenData.contractName}
-                        token={{
-                            onChainFTMetadata: tokenData.onChainFTMetadata,
-                            fiatValueMetadata: tokenData.fiatValueMetadata,
-                            balance: tokenData.balance,
-                            contractName: tokenData.contractName,
-                            isWhiteListed: tokenData.isWhiteListed
-                        }}
-                        button="staking.balanceBox.farm.button"
-                        hideBorder={collectedFarmData.length > 1 && i < (collectedFarmData.length - 1)}
-                        loading={farmValidatorDataIsLoading}
-                />
-                );
-            })}
+                    return (
+                        <BalanceBox
+                            title={!i && 'staking.balanceBox.farmed.title'}
+                            info={!i && 'staking.balanceBox.farmed.info'}
+                            key={tokenData.contractName}
+                            token={{
+                                onChainFTMetadata: tokenData.onChainFTMetadata,
+                                fiatValueMetadata: tokenData.fiatValueMetadata,
+                                balance: tokenData.balance,
+                                contractName: tokenData.contractName,
+                                isWhiteListed: tokenData.isWhiteListed
+                            }}
+                            button="staking.balanceBox.farm.button"
+                            hideBorder={collectedFarmData.length > 1 && i < (collectedFarmData.length - 1)}
+                            loading={farmValidatorDataIsLoading}
+                        />
+                    );
+                })}
             <h3><Translate id='staking.staking.currentValidators' /></h3>
             {!loadingDetails
                 ? currentValidators.length

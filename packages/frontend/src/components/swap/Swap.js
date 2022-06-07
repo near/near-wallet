@@ -168,7 +168,7 @@ function Swap({ history }) {
     const checkValidInput = useCallback(
         () => 
             amountTokenFrom && setAmountError(!validateInput(amountTokenFrom.toString(), maxFrom.fullNum))
-    , [amountTokenFrom, maxFrom]);
+        , [amountTokenFrom, maxFrom]);
 
     useEffect(() => {
         const convertedAmount = exchangeRateTranslation({

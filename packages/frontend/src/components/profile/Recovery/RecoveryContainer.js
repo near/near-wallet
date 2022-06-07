@@ -78,16 +78,16 @@ const RecoveryContainer = ({ type, recoveryMethods }) => {
                 {currentTypeEnabledMethods
                     .map((method, i) => {
 
-                            return <RecoveryMethod
-                                key={i}
-                                method={method}
-                                accountId={account.accountId}
-                                deletingMethod={deletingMethod === method.publicKey}
-                                onDelete={() => handleDeleteMethod(method)}
-                                deleteAllowed={deleteAllowed}
-                                mainLoader={mainLoader}
-                            />;
-                        }
+                        return <RecoveryMethod
+                            key={i}
+                            method={method}
+                            accountId={account.accountId}
+                            deletingMethod={deletingMethod === method.publicKey}
+                            onDelete={() => handleDeleteMethod(method)}
+                            deleteAllowed={deleteAllowed}
+                            mainLoader={mainLoader}
+                        />;
+                    }
                     )}
             </Container>
         );

@@ -41,8 +41,8 @@ export function AddLedgerKeyModal({
                 <h3><Translate id='zeroBalance.ledgerModal.title' /></h3>
                 {
                     finishingLedgerKeySetup
-                    ? <p><Translate id='zeroBalance.ledgerModal.confirmOnLedger' /></p>
-                    : <p><Translate id='zeroBalance.ledgerModal.desc' /></p>
+                        ? <p><Translate id='zeroBalance.ledgerModal.confirmOnLedger' /></p>
+                        : <p><Translate id='zeroBalance.ledgerModal.desc' /></p>
                 }
                 <FormButton
                     onClick={onClickAddLedgerKey}
