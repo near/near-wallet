@@ -63,7 +63,7 @@ const AuthorizedApp = ({ app, onClick, deAuthorizing }) => {
         <Container className='authorized-app-box'>
             <div className='title'>
                 {app.access_key.permission.FunctionCall.receiver_id}
-                {onClick && 
+                {onClick && (
                     <FormButton color='gray-red' className='small'
                         onClick={onClick}
                         disabled={deAuthorizing}
@@ -71,7 +71,8 @@ const AuthorizedApp = ({ app, onClick, deAuthorizing }) => {
                         sendingString='button.deAuthorizing'
                     >
                         <Translate id='button.deauthorize' />
-                    </FormButton>}
+                    </FormButton>
+                )}
             </div>
             <div className='key font-monospace'>{app.public_key}</div>
             <hr/>

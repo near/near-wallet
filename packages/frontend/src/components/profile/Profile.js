@@ -233,23 +233,23 @@ export function Profile({ match }) {
 
     return (
         <StyledContainer>
-            {isOwner && hasLockup && new BN(profileBalance.lockupBalance.unlocked.availableToTransfer).gte(MINIMUM_AVAILABLE_TO_TRANSFER) &&
+            {isOwner && hasLockup && new BN(profileBalance.lockupBalance.unlocked.availableToTransfer).gte(MINIMUM_AVAILABLE_TO_TRANSFER) && (
                 <LockupAvailTransfer
                     available={profileBalance.lockupBalance.unlocked.availableToTransfer || '0'}
                     onTransfer={handleTransferFromLockup}
                     sending={transferring}
                     tokenFiatValue={nearTokenFiatValueUSD}
                 />
-            }
+            )}
             <div className='split'>
                 <div className='left'>
-                    {accountExists === false &&
+                    {accountExists === false && (
                         <AlertBanner
                             title='profile.accountDoesNotExistBanner.desc'
                             data={accountId}
                             theme='light-blue'
                         />
-                    }
+                    )}
                     <h2><UserIcon/><Translate id='profile.pageTitle.default'/></h2>
                     {profileBalance ? (
                         <BalanceContainer
@@ -265,14 +265,14 @@ export function Profile({ match }) {
                             number={2}
                         />
                     )}
-                    {profileBalance?.lockupIdExists &&
+                    {profileBalance?.lockupIdExists && (
                         <SkeletonLoading
                             height='323px'
                             show={hasLockup === undefined}
                             number={1}
                         />
-                    }
-                    {isOwner && authorizedApps?.length ?
+                    )}
+                    {isOwner && authorizedApps?.length ? (
                         <>
                             <hr/>
                             <div className='auth-apps'>
@@ -283,10 +283,9 @@ export function Profile({ match }) {
                                 <AuthorizedApp key={i} app={app}/>
                             ))}
                         </>
-                        : null
-                    }
+                    ) : null}
                 </div>
-                {isOwner &&
+                {isOwner && (
                     <div className='right'>
                         <h2><ShieldIcon/><Translate id='profile.security.title'/></h2>
                         <h4><Translate id='profile.security.mostSecure'/><Tooltip translate='profile.security.mostSecureDesc' icon='icon-lg'/></h4>
@@ -295,7 +294,7 @@ export function Profile({ match }) {
                         <h4><Translate id='profile.security.lessSecure'/><Tooltip translate='profile.security.lessSecureDesc' icon='icon-lg'/></h4>
                         <RecoveryContainer type='email' recoveryMethods={userRecoveryMethods}/>
                         <RecoveryContainer type='phone' recoveryMethods={userRecoveryMethods}/>
-                        {!account.ledgerKey &&
+                        {!account.ledgerKey && (
                             <>
                                 <hr/>
                                 <h2><LockIcon/><Translate id='profile.twoFactor'/></h2>
@@ -312,7 +311,7 @@ export function Profile({ match }) {
                                     />
                                 )}
                             </>
-                        }
+                        )}
                         <>
                             <hr />
                             {secretKey ? <ExportKeyWrapper secretKey={secretKey}/> : null}
@@ -322,12 +321,12 @@ export function Profile({ match }) {
                             <MobileSharingWrapper/>
                         }
                     </div>
-                }
-                {accountExists === false && !accountIdFromUrl &&
+                )}
+                {accountExists === false && !accountIdFromUrl && (
                     <div className='right'>
                         <RemoveAccountWrapper/>
                     </div>
-                }
+                )}
             </div>
             <ZeroBalanceAccountWrapper/>
         </StyledContainer>

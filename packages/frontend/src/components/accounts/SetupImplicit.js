@@ -216,13 +216,13 @@ class SetupImplicit extends Component {
                     <h1><Translate id='account.createImplicit.post.title' /></h1>
                     <h2><Translate id='account.createImplicit.post.descOne' /></h2>
                     <h2><b><Translate id='account.createImplicit.post.descTwo' /></b></h2>
-                    {!creatingAccount &&
+                    {!creatingAccount && (
                         <AccountFunded
                             fundingAddress={implicitAccountId}
                             initialDeposit={balance}
                             accountId={newAccountId}
                         />
-                    }
+                    )}
                     <FormButton
                         onClick={this.handleClaimAccount}
                         trackingId="CA implicit click claim my account"
@@ -230,7 +230,7 @@ class SetupImplicit extends Component {
                     >
                         <Translate id='button.claimMyAccount' />
                     </FormButton>
-                    {claimMyAccount &&
+                    {claimMyAccount && (
                         <AccountFundedModal
                             onClose={() => { }}
                             open={claimMyAccount}
@@ -239,7 +239,7 @@ class SetupImplicit extends Component {
                             handleFinishSetup={this.handleContinue}
                             loading={mainLoader}
                         />
-                    }
+                    )}
                 </StyledContainer>
             );
         }
@@ -270,20 +270,20 @@ class SetupImplicit extends Component {
                     accountId={implicitAccountId}
                     amount={MIN_BALANCE_TO_CREATE}
                 />
-                {moonpayAvailable &&
+                {moonpayAvailable && (
                     <>
                         <Divider />
                         <FundWithMoonpay
                             moonpaySignedURL={moonpaySignedURL}
                         />
                     </>
-                }
-                {whereToBuy &&
+                )}
+                {whereToBuy && (
                     <WhereToBuyNearModal
                         onClose={() => this.setState({ whereToBuy: false })}
                         open={whereToBuy}
                     />
-                }
+                )}
             </StyledContainer>
         );
     }

@@ -119,14 +119,13 @@ export default function BalanceBox({
     return (
         <Container className='balance-box' hideBorder={hideBorder}>
             <div className='left'>
-                {
-                    (title || info) &&
+                {(title || info) && (
                     <div className='title'>
                         {title && <Translate id={title}/>}
                         {info && <Tooltip translate={info}/>}
                         {loading && <span className="animated-dots" />}
                     </div>
-                }
+                )}
                 <div className='token-balance'>
                     <div className='icon'>
                         <TokenIcon symbol={token.onChainFTMetadata?.symbol} icon={token.onChainFTMetadata?.icon}/>
@@ -148,23 +147,23 @@ export default function BalanceBox({
                         )}
                 </div>
 
-                {disclaimer &&
-                <div className='withdrawal-disclaimer'>
-                    <Translate id={disclaimer}/>
-                </div>
-                }
+                {disclaimer && (
+                    <div className='withdrawal-disclaimer'>
+                        <Translate id={disclaimer}/>
+                    </div>
+                )}
             </div>
-            {button && (onClick || linkTo) &&
-            <FormButton
-                data-test-id={buttonTestId}
-                disabled={new BN(token.balance).isZero() || loading}
-                onClick={onClick}
-                linkTo={linkTo}
-                className={classNames(['small', buttonColor])}
-            >
-                <Translate id={button}/>
-            </FormButton>
-            }
+            {button && (onClick || linkTo) && (
+                <FormButton
+                    data-test-id={buttonTestId}
+                    disabled={new BN(token.balance).isZero() || loading}
+                    onClick={onClick}
+                    linkTo={linkTo}
+                    className={classNames(['small', buttonColor])}
+                >
+                    <Translate id={button}/>
+                </FormButton>
+            )}
         </Container>
     );
 }

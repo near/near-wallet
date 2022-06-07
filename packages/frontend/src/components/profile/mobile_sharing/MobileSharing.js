@@ -36,13 +36,13 @@ const MobileSharing = ({
                 <QRCodeIcon/>
                 <Translate id='mobileDeviceAccess.showCode.button'/>
             </QRCodeButton>
-            {showMobileSharingModal &&
+            {showMobileSharingModal && (
                 <MobileSharingModal
                     open={showMobileSharingModal}
                     onClose={() => setShowMobileSharingModal(false)}
                     mobileSharingLink={mobileSharingLink}
                 />
-            }
+            )}
         </>
     );
 };

@@ -25,19 +25,21 @@ const LedgerConnectModal = () => {
     const cancel = () => dispatch(setLedgerConnectionModalType({ type: undefined }));
 
     return modalType
-        ? <Modal
-            id='ledger-connect-modal'
-            closeButton='desktop'
-            onClose={cancel}
-        >
-            <ModalThemeV2 />
-            <LedgerConnectionModal
-                connecting={connecting}
-                connect={connect}
-                cancel={cancel}
-                modalType={modalType}
-            />
-        </Modal>
+        ? (
+            <Modal
+                id='ledger-connect-modal'
+                closeButton='desktop'
+                onClose={cancel}
+            >
+                <ModalThemeV2 />
+                <LedgerConnectionModal
+                    connecting={connecting}
+                    connect={connect}
+                    cancel={cancel}
+                    modalType={modalType}
+                />
+            </Modal>
+        )
         : null;
 };
 

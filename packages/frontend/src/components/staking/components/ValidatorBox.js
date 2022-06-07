@@ -180,7 +180,7 @@ export default function ValidatorBox({
                     </div>
                     {isFarmingValidator && <Tooltip translate='staking.balanceBox.farm.info' />}
                 </div>
-                {typeof fee === 'number' &&
+                {typeof fee === 'number' && (
                     <div className="text-left">
                         {isFarmingValidator && (
                             <>
@@ -201,9 +201,9 @@ export default function ValidatorBox({
                             }
                         </span>
                     </div>
-                }
+                )}
             </div>
-            {amount &&
+            {amount && (
                 <div className='right'>
                     {staking && <div><Translate id='staking.validatorBox.staking' /></div>}
                     {farming && <div><Translate id='staking.validatorBox.farming' /></div>}
@@ -222,7 +222,7 @@ export default function ValidatorBox({
                         )}
                     </div>
                 </div>
-            }
+            )}
             {clickable ? cta : null}
         </Container>
     );

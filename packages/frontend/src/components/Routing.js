@@ -409,8 +409,7 @@ class Routing extends Component {
                                 exact
                                 path="/create"
                                 render={(props) =>
-                                    accountFound ||
-                                    !DISABLE_CREATE_ACCOUNT ? (
+                                    accountFound || !DISABLE_CREATE_ACCOUNT ? (
                                         <CreateAccountWithRouter
                                             {...props}
                                         />

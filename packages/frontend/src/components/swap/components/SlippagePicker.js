@@ -64,14 +64,15 @@ const SlippagePicker = ({
                 <Tooltip translate={translateIdInfoTooltip} />
             }
             <div className={'buttonsContainer'} >
-                {slippageValues.map((value) => 
-                    <button 
+                {slippageValues.map((value) => (
+                    <button
                         key={value}
-                        className={active == value ? 'active' : ''} 
+                        className={active == value ? 'active' : ''}
                         onClick={() => handleClick(value)}
                     >
                         {value}%
-                    </button>)}
+                    </button>
+                ))}
             </div>
         </StyledContainer>
     );

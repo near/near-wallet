@@ -87,13 +87,13 @@ export default ({
     const isTransferTransaction = new BN(transferAmount).gt(new BN(0));
     return (
         <StyledContainer className='transfer-amount brs-8 bsw-l'>
-            {isTransferTransaction &&
+            {isTransferTransaction && (
                 <Balance
                     amount={transferAmount}
                     showAlmostEqualSignUSD={false}
                     showSymbolUSD={false}
                 />
-            }
+            )}
             <div className={`account from ${!isTransferTransaction ? 'no-border' : ''}`}>
                 <Translate id={fromLabelId || 'transfer.from'} />
                 <div className='right'>

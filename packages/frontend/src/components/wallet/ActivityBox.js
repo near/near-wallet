@@ -141,7 +141,7 @@ const ActivityBox = ({ transaction, actionArgs, actionKind, accountId, setTransa
                 />
             </div>
             <div className='right'>
-                {['Transfer', 'Stake'].includes(actionKind) &&
+                {['Transfer', 'Stake'].includes(actionKind) && (
                     <ActionValue
                         transaction={transaction}
                         actionArgs={actionArgs}
@@ -149,7 +149,7 @@ const ActivityBox = ({ transaction, actionArgs, actionKind, accountId, setTransa
                         accountId={accountId}
                         showBalanceInUSD={false}
                     />
-                }
+                )}
                 <ActionTimeStamp
                     timeStamp={block_timestamp}
                 />

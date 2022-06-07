@@ -42,12 +42,12 @@ const StyledContainer = styled.div`
 
 export default ({ contractId, contractIdUrl }) => (
     <StyledContainer>
-        {contractId &&
+        {contractId && (
             <div className='contract-wrapper'>
                 <div className='title'>Contract</div>
                 <a href={contractIdUrl} target='_blank' rel='noreferrer'>{contractId}<ArrowUpRight /></a>
             </div>
-        }
+        )}
         <div>
             <div className='title'><Translate id='login.v2.connectConfirm.feeAllowance.title' /></div>
             <Balance

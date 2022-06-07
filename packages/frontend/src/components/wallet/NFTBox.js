@@ -142,26 +142,28 @@ const NFTBox = ({ tokenDetails }) => {
                 </div>
                 <div className='desc'>
                     <a href={`${EXPLORER_URL}/accounts/${contractName}`} title={name} target='_blank'
-                        rel='noopener noreferrer'>
+                        rel='noopener noreferrer'
+                    >
                         {name}
                     </a>
                     <span>{numberByContractName}</span>
                 </div>
             </div>
             {
-                ownedTokensMetadata &&
-                <div className='tokens'>
-                    {ownedTokensMetadata.map(({ token_id, metadata: { mediaUrl, title } }, index) => {
-                        return (
-                            <div className='nft' key={token_id}
-                                onClick={() => dispatch(redirectTo(`/nft-detail/${contractName}/${token_id}`))}>
-                                <NFTMedia mediaUrl={mediaUrl} autoPlay={ index === 0}/>
-                                <b className='title'>{title}</b>
-                            </div>
-                        );
-                    })}
-                </div>
-            }
+                ownedTokensMetadata && (
+                    <div className='tokens'>
+                        {ownedTokensMetadata.map(({ token_id, metadata: { mediaUrl, title } }, index) => {
+                            return (
+                                <div className='nft' key={token_id}
+                                    onClick={() => dispatch(redirectTo(`/nft-detail/${contractName}/${token_id}`))}
+                                >
+                                    <NFTMedia mediaUrl={mediaUrl} autoPlay={ index === 0}/>
+                                    <b className='title'>{title}</b>
+                                </div>
+                            );
+                        })}
+                    </div>
+                )}
             <LoadMoreButtonWrapper contractName={contractName} />
         </StyledContainer>
     );

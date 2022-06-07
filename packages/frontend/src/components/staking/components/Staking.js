@@ -38,19 +38,19 @@ export default function Staking({
         <>
             <h1><Translate id='staking.staking.title' /></h1>
             <h2><Translate id='staking.staking.desc' /></h2>
-            {multipleAccounts &&
+            {multipleAccounts && (
                 <div className='select-account-title'>
                     <Translate id='staking.staking.selectAccount' />
                     <Tooltip translate='staking.stake.accounts' position='bottom' />
                 </div>
-            }
-            {!loading && !loadingDetails &&
+            )}
+            {!loading && !loadingDetails && (
                 <SelectAccount
                     accounts={accounts}
                     onChange={(e) => onSwitchAccount(e.target.value)}
                     selectedAccount={activeAccount.accountId}
                 />
-            }
+            )}
             <SkeletonLoading
                 height='102px'
                 number={hasLockup ? 2 : 1}
@@ -71,7 +71,7 @@ export default function Staking({
                 show={loadingDetails}
                 className='account-loader'
             />
-            {!loadingDetails &&
+            {!loadingDetails && (
                 <>
                     <BalanceBox
                         title='staking.balanceBox.staked.title'
@@ -89,8 +89,8 @@ export default function Staking({
                         token={{...NEARAsTokenWithMetadata, balance: totalUnclaimed}}
                     />
                 </>
-            }
-            {!loading && currentValidators.length ?
+            )}
+            {!loading && currentValidators.length ? (
                 <>
                     <BalanceBox
                         title='staking.balanceBox.pending.title'
@@ -107,7 +107,7 @@ export default function Staking({
                         buttonColor='gray-blue'
                     />
                 </>
-                : null}
+            ) : null}
             {!loading && collectedFarmData
                 .filter((tokenData) => +tokenData.balance > 0)
                 .map((tokenData, i) => {
@@ -132,22 +132,27 @@ export default function Staking({
             <h3><Translate id='staking.staking.currentValidators' /></h3>
             {!loadingDetails
                 ? currentValidators.length
-                    ? <ListWrapper>
-                        {currentValidators.map((validator, i) =>
-                            <ValidatorBox
-                                key={i}
-                                validator={validator}
-                                amount={validator.staked}
-                                showBalanceInUSD={false}
-                            />
-                        )}
-                    </ListWrapper>
-                    : <NoValidators accountId={activeAccount.accountId}/>
-                : <SkeletonLoading
-                    height='200px'
-                    show={true}
-                    className='account-loader'
-                />
+                    ? (
+                        <ListWrapper>
+                            {currentValidators.map((validator, i) =>
+                                (
+                                    <ValidatorBox
+                                        key={i}
+                                        validator={validator}
+                                        amount={validator.staked}
+                                        showBalanceInUSD={false}
+                                    />
+                                )
+                            )}
+                        </ListWrapper>
+                    ) : <NoValidators accountId={activeAccount.accountId}/>
+                : (
+                    <SkeletonLoading
+                        height='200px'
+                        show={true}
+                        className='account-loader'
+                    />
+                )
             }
         </>
     );

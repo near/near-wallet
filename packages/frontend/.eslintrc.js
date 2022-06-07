@@ -60,6 +60,13 @@ module.exports = {
             'selector': `CallExpression[callee.name='useSelector'] *[type=/FunctionExpression$/][params.0.type='ObjectPattern']`,
             'message': 'Please use a selector for any state accesses within useSelector'
         }],
+        'react/jsx-wrap-multilines': ['error', {
+            arrow: 'parens',
+            condition: 'parens-new-line',
+            declaration: 'parens-new-line',
+            logical: 'parens-new-line',
+            return: 'parens-new-line',
+        }],
         'space-before-blocks': ['error'],
     },
     settings: {

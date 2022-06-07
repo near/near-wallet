@@ -70,11 +70,11 @@ const EnterAmount = ({
                     autoFocus={!isMobile}
                 />
             </div>
-            {selectedToken.onChainFTMetadata?.symbol === 'NEAR' &&
+            {selectedToken.onChainFTMetadata?.symbol === 'NEAR' && (
                 <div className='usd-amount'>
                     <Balance amount={rawAmount} showBalanceInNEAR={false}/>
                 </div>
-            }
+            )}
             <FormButton
                 onClick={onSetMaxAmount}
                 type='button'

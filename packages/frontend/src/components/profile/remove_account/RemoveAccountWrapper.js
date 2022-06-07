@@ -55,7 +55,7 @@ export default () => {
                 <RemoveAccountImage className='remove-account-icon' />
                 <Translate id='removeAccount.button' />
             </FormButton>
-            {showRemoveAccountModal &&
+            {showRemoveAccountModal && (
                 <RemoveAccountModal
                     onClose={() => setShowRemoveAccountModal(false)}
                     onRemoveAccount={async () => {
@@ -70,7 +70,7 @@ export default () => {
                     isOpen={showRemoveAccountModal}
                     accountId={accountId}
                 />
-            }
+            )}
         </StyledContainer>
     );
 };

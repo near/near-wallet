@@ -22,12 +22,12 @@ const BalanceDisplayUSD = ({
     if (roundedBalanceInUSD) {
         return (
             <>
-                {!roundedBalanceInUSDIsBelowThreshold &&
+                {!roundedBalanceInUSDIsBelowThreshold && (
                     <>
                         {showAlmostEqualSignUSD && '≈ '}
                         {showSignUSD && <>$</>}
                     </>
-                }
+                )}
                 {totalAmount ? formatWithCommas(totalAmount) : formatWithCommas(roundedBalanceInUSD)}
                 {showSymbolUSD && ` ${USDSymbol}`}
             </>

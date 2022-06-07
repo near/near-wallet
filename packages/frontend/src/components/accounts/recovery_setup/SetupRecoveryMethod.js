@@ -441,14 +441,14 @@ class SetupRecoveryMethod extends Component {
                             active={option}
                             disabled={this.checkDisabled('phrase')}
                         />
-                        {(this.checkNewAccount() || !twoFactor) &&
+                        {(this.checkNewAccount() || !twoFactor) && (
                             <RecoveryOption
                                 onClick={() => this.setState({ option: 'ledger' })}
                                 option='ledger'
                                 active={option}
                                 disabled={ledgerKey !== null && accountId === activeAccountId}
                             />
-                        }
+                        )}
                         <h4>
                             <Translate id='setupRecovery.basicSecurity' />
                             <Tooltip translate='profile.security.lessSecureDesc' icon='icon-lg' />
@@ -482,22 +482,23 @@ class SetupRecoveryMethod extends Component {
                                 )}
                             </Translate>
                         </RecoveryOption>
-                        {!DISABLE_PHONE_RECOVERY && (<RecoveryOption
-                            onClick={() => {
-                                this.setState({ option: 'phone' });
-                                if (option !== 'phone') {
-                                    setTimeout(() => {
-                                        this.phoneInput.current.focus();
-                                    }, 0);
-                                }
-                            }}
-                            option='phone'
-                            active={option}
-                            disabled={this.checkDisabled('phone')}
-                            problem={option === 'phone' && phoneInvalid}
-                        >
-                            <Translate>
-                                {({ translate }) => (
+                        {!DISABLE_PHONE_RECOVERY && (
+                            <RecoveryOption
+                                onClick={() => {
+                                    this.setState({ option: 'phone' });
+                                    if (option !== 'phone') {
+                                        setTimeout(() => {
+                                            this.phoneInput.current.focus();
+                                        }, 0);
+                                    }
+                                }}
+                                option='phone'
+                                active={option}
+                                disabled={this.checkDisabled('phone')}
+                                problem={option === 'phone' && phoneInvalid}
+                            >
+                                <Translate>
+                                    {({ translate }) => (
                                     <>
                                         <PhoneInput
                                             placeholder={translate('setupRecovery.phonePlaceholder')}
@@ -517,9 +518,10 @@ class SetupRecoveryMethod extends Component {
                                             <div className='color-red'>{translate('setupRecovery.notSupportedPhone')}</div>
                                         }
                                     </>
-                                )}
-                            </Translate>
-                        </RecoveryOption>)}
+                                    )}
+                                </Translate>
+                            </RecoveryOption>
+                        )}
                         <FormButton
                             color='blue'
                             type='submit'

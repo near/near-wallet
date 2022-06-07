@@ -32,7 +32,8 @@ const Swap = ({ disable, onClick, linkTo , history, symbol}) => {
                 onClick && !disable && onClick(e);
                 linkTo && history.push(linkTo);
                 
-            }}>
+            }}
+        >
             <SwapIconTwoArrows color={!disable ? '#000' : '#b7b7b7'}/>
             <div className='swap'>
                 <div><Translate id='tokenBox.swapTo'/> {!symbol ? 'NEAR' : 'USN'}</div>

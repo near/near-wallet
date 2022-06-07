@@ -78,9 +78,8 @@ const RecoveryContainer = ({ type, recoveryMethods }) => {
         return (
             <Container className='recovery-option'>
                 {currentTypeEnabledMethods
-                    .map((method, i) => {
-
-                        return <RecoveryMethod
+                    .map((method, i) => (
+                        <RecoveryMethod
                             key={i}
                             method={method}
                             accountId={account.accountId}
@@ -88,9 +87,8 @@ const RecoveryContainer = ({ type, recoveryMethods }) => {
                             onDelete={() => handleDeleteMethod(method)}
                             deleteAllowed={deleteAllowed}
                             mainLoader={mainLoader}
-                        />;
-                    }
-                    )}
+                        />
+                    ))}
             </Container>
         );
     } else {

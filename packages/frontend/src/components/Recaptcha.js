@@ -169,23 +169,25 @@ export class Recaptcha extends Component {
 
         return (
             <>
-                {!loaded &&
+                {!loaded && (
                     <span>
                         <Translate id='reCAPTCHA.loading'/>
                     </span>
-                }
-                {RECAPTCHA_CHALLENGE_API_KEY && <ReCAPTCHA
-                    sitekey={RECAPTCHA_CHALLENGE_API_KEY}
-                    ref={(ref) => this.setCaptchaRef(ref)}
-                    onChange={this.handleOnChange}
-                    asyncScriptOnLoad={this.handleOnLoad}
-                    className='recaptcha-widget'
-                />}
-                {loaded &&
+                )}
+                {RECAPTCHA_CHALLENGE_API_KEY && (
+                    <ReCAPTCHA
+                        sitekey={RECAPTCHA_CHALLENGE_API_KEY}
+                        ref={(ref) => this.setCaptchaRef(ref)}
+                        onChange={this.handleOnChange}
+                        asyncScriptOnLoad={this.handleOnLoad}
+                        className='recaptcha-widget'
+                    />
+                )}
+                {loaded && (
                     <RecaptchaString className='recaptcha-disclaimer'>
                         <Translate id='reCAPTCHA.disclaimer'/>
                     </RecaptchaString>
-                }
+                )}
             </>
         );
     }

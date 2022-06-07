@@ -109,15 +109,15 @@ const TokenStakeRewards = ({earnedToken, stakedToken}) => {
                 <div className='icon'>
                     <TokenIcon symbol={earnedToken.onChainFTMetadata?.symbol} icon={earnedToken.onChainFTMetadata?.icon}/>
                 </div>
-                {earnedToken.contractName ?
+                {earnedToken.contractName ? (
                     <span className='symbol' title={earnedToken.contractName}>
                         {earnedToken.contractName}
                     </span>
-                    :
+                ) : (
                     <span className='symbol'>
                         {earnedToken.onChainFTMetadata?.symbol}
                     </span>
-                }
+                )}
             </div>
             <div className='divider' />
             <div className='stake-box'>
