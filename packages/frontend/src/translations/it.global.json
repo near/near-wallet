@@ -629,7 +629,7 @@
         },
         "v2": {
             "connectConfirm": {
-                "desc": "Connettiti solo a siti di cui ti fidi. Una volta connesso, <a href=${contractIdUrl} target='_blank' rel='noreferrer'>${appReferrer}</a> avrà <b>${accessType}</b>:",
+                "desc": "Connettiti solo a siti di cui ti fidi. Una volta connesso, <a href='${contractIdUrl}' target='_blank' rel='noreferrer'>${appReferrer}</a> avrà <b>${accessType}</b>:",
                 "feeAllowance": {
                     "desc": "L'applicazione riceverà il permesso di spendere fino a <b>${quantità} di NEAR</b> verso le tariffe di rete sostenute durante l'uso.",
                     "title": "Idennità di Rete"
