@@ -2,9 +2,10 @@ import React from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
-import LogoFooterImage from '../../images/near.svg';
+import { MYNEARWALLET_MIGRATION } from '../../../../../features';
+import NearLogo from '../../images/near.svg';
 import { Mixpanel } from '../../mixpanel/index';
-
+import MyNearWalletLogo from '../svg/MyNearWalletLogo';
 
 const StyledContainer = styled.div`
     position: absolute;
@@ -79,11 +80,23 @@ const StyledContainer = styled.div`
     }
 `;
 
+const StyledLogo = styled.div`
+    svg {
+        width: 218px;    
+    }
+`;
+
 const Footer = () => {
     return (
         <StyledContainer className='wallet-footer'>
             <div className='left'>
-                <img src={LogoFooterImage} alt='NEAR' />
+                {
+                    MYNEARWALLET_MIGRATION ?
+                        <StyledLogo>
+                            <MyNearWalletLogo mode='footer' />
+                        </StyledLogo> :
+                        <img src={NearLogo} alt='NEAR' />
+                }
                 <div>
                     &copy; {new Date().getFullYear()} <Translate id='footer.copyrights' />
                     <div>

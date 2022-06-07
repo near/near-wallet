@@ -13,7 +13,9 @@ import styled, { ThemeProvider } from 'styled-components';
 import {
     CREATE_IMPLICIT_ACCOUNT,
     IMPORT_ACCOUNT_WITH_LINK_V2,
+    MYNEARWALLET_MIGRATION
 } from '../../../../features';
+import favicon from '../../src/images/mynearwallet-cropped.svg';
 import TwoFactorVerifyModal from '../components/accounts/two_factor/TwoFactorVerifyModal';
 import {
     IS_MAINNET,
@@ -96,7 +98,6 @@ import { StakingContainer } from './staking/StakingContainer';
 import Swap from './swap/Swap';
 import Terms from './terms/Terms';
 import '../index.css';
-
 const { fetchTokenFiatValues, getTokenWhiteList } = tokenFiatValueActions;
 
 const {
@@ -206,6 +207,11 @@ class Routing extends Component {
     }
 
     componentDidMount = async () => {
+        if (MYNEARWALLET_MIGRATION && document) {
+            document.title = 'MyNearWallet';
+            document.querySelector('link[rel~="icon"]').href = favicon;
+        }
+
         const {
             refreshAccount,
             handleRefreshUrl,

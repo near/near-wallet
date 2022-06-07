@@ -2,38 +2,31 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-import NearLogo from '../svg/NearLogo';
+import MyNearWalletLogo from '../svg/MyNearWalletLogo';
 
 const StyledLogo = styled('div')`
-    margin-top: 5px;
-
     svg {
-        width: 155px;
-
-        path {
-            fill: black !important;
-        }
+        width: 170px;
     }
 
-    @media (max-width: 1120px) {
+    @media (max-width: 992px) {
         max-width: 44px;
-        overflow: hidden;
-        margin-left: -10px;
-        margin-top: 2px;
-        
+
         svg {
-            width: 133px;
+            #mynearwallet_logo_text {
+                display: none;
+            }
         }
     }
 `;
 
-const Logo = ({ link }) => (
+const Logo = ({ link, mode }) => (
     <StyledLogo className='logo'>
         {link
             ? <Link to='/'>
-                <NearLogo />
+                <MyNearWalletLogo mode={mode} />
             </Link>
-            : <NearLogo />
+            : <MyNearWalletLogo mode={mode} />
         }
     </StyledLogo>
 );

@@ -9,7 +9,7 @@ import compare from '../utils/compare';
 
 
 export const useFungibleTokensIncludingNEAR = function ({ showTokensWithZeroBalance = false, includeNearContractName = false } = {}) {
-    const NEARAsTokenWithMetadata = useSelector(state => selectNEARAsTokenWithMetadata(state, {includeNearContractName}));
+    const NEARAsTokenWithMetadata = useSelector((state) => selectNEARAsTokenWithMetadata(state, {includeNearContractName}));
     const accountId = useSelector(selectActiveAccountId);
     const fungibleTokens = useSelector((state) =>
         selectTokensWithMetadataForAccountId(state, { accountId, showTokensWithZeroBalance })

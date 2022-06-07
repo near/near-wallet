@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 
+import { MYNEARWALLET_MIGRATION } from '../../../../../features';
 import languagesIcon from '../../images/icon-languages.svg';
 import LanguageToggle from '../common/LangSwitcher';
 import ConnectLedger from './ConnectLedger';
+import DeprecatedLogo from './DeprecatedLogo';
 import DesktopMenu from './DesktopMenu';
 import Logo from './Logo';
 import NavLinks from './NavLinks';
@@ -104,7 +106,11 @@ class DesktopContainer extends Component {
 
         return (
             <Container>
-                <Logo link={!flowLimitationMainMenu} />
+                {
+                    MYNEARWALLET_MIGRATION ?
+                        <Logo link={!flowLimitationMainMenu}/> :
+                        <DeprecatedLogo link={!flowLimitationMainMenu}/>
+                }
                 {showAllNavigationLinks &&
                     <NavLinks />
                 }
