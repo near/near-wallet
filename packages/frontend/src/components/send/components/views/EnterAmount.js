@@ -55,7 +55,10 @@ const EnterAmount = ({
     return (
         <StyledContainer 
             className='buttons-bottom'
-            onSubmit={(e) => {onContinue(e); e.preventDefault();}}
+            onSubmit={(e) => {
+                onContinue(e);
+                e.preventDefault();
+            }}
             novalidate
         >
             <TabSelector/>

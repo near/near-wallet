@@ -79,7 +79,9 @@ class AccountFormAccountId extends Component {
         const extraSpace = isSafari ? 21.5 : 22;
         this.suffix.current.style.left = width + extraSpace + 'px';
         this.suffix.current.style.visibility = 'visible';
-        if (userValue.length === 0) this.suffix.current.style.visibility = 'hidden';
+        if (userValue.length === 0) {
+            this.suffix.current.style.visibility = 'hidden';
+        }
     }
 
     getTextWidth = (text, font) => {

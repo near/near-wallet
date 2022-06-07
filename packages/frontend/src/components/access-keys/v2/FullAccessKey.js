@@ -85,7 +85,10 @@ export default ({
                     <div className='title disable'><Translate id='fullAccessKeys.deAuthorizeConfirm.title' /></div>
                     <div className='desc'><Translate id='fullAccessKeys.deAuthorizeConfirm.desc' /></div>
                     <div className='key font-monospace'>{accessKey.public_key}</div>
-                    <form onSubmit={(e) => { onClickDeAuthorizeKey(accessKey.public_key); e.preventDefault(); }} autoComplete='off'>
+                    <form onSubmit={(e) => {
+                        onClickDeAuthorizeKey(accessKey.public_key);
+                        e.preventDefault();
+                    }} autoComplete='off'>
                         <Translate>
                             {({ translate }) => (
                                 <input

@@ -228,9 +228,7 @@ function Swap({ history }) {
                             toWNear: tokenTo == 'wNEAR',
                         });
                     setTransactionHash(result.transaction.hash);
-                }
-
-                else if ((tokenFrom == 'USN' || tokenTo == 'USN') && CREATE_USN_CONTRACT) {
+                } else if ((tokenFrom == 'USN' || tokenTo == 'USN') && CREATE_USN_CONTRACT) {
                     if (amount == maxFrom.numToShow) {
                         // in the event that a user clicks "Max: x" the input box only shows an estimated number
                         // so we must ensure that the actual amount that gets converted is the full max number

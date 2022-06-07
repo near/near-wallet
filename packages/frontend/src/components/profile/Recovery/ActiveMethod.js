@@ -162,7 +162,10 @@ class ActiveMethod extends Component {
             );
         } else {
             return (
-                <DisableContainer onSubmit={(e) => {onDelete(); e.preventDefault();}}>
+                <DisableContainer onSubmit={(e) => {
+                    onDelete();
+                    e.preventDefault();
+                }}>
                     {!deleteAllowed &&
                         <div className='not-allowed'>
                             <Translate id='recoveryMgmt.disableNotAllowed'/>

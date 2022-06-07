@@ -121,7 +121,9 @@ export default function Validator({
     };
 
     const handleClaimAction = async (token_id) => {
-        if (!validator || !isFarmingValidator || !token_id) return null;
+        if (!validator || !isFarmingValidator || !token_id) {
+            return null;
+        }
 
         try {
             setClaimingProceed(true);

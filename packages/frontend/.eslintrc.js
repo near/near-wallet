@@ -3,6 +3,8 @@ module.exports = {
     plugins: ['es'],
     rules: {
         'arrow-parens': 'error',
+        'brace-style': 'error',
+        'curly': ['error'],
         'es/no-dynamic-import': 'error',
         'jsx-a11y/no-access-key': 'off',
         'no-useless-escape': 'off',
@@ -39,6 +41,7 @@ module.exports = {
             ignoredNodes: ['TemplateLiteral'],
             SwitchCase: 1,
         }],
+        'max-statements-per-line': ['error', { max: 1 }],
         'no-process-env': ['error'],
         'no-restricted-globals': ['error', {
             'name': 'URLSearchParams',
@@ -56,7 +59,8 @@ module.exports = {
         }, {
             'selector': `CallExpression[callee.name='useSelector'] *[type=/FunctionExpression$/][params.0.type='ObjectPattern']`,
             'message': 'Please use a selector for any state accesses within useSelector'
-        }]
+        }],
+        'space-before-blocks': ['error'],
     },
     settings: {
         'import/ignore': ['src/config/*'],

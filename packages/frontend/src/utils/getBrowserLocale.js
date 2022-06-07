@@ -21,7 +21,9 @@ function findBestSupportedLocale(appLocales, browserLocales) {
     // Process special mappings
     const walletLocales = browserLocales.map((locale) => {
         // Handle special cases for traditional Chinesee fallback
-        if (['zh-TW', 'zh-HK'].includes(locale)) { return 'zh-hant'; }
+        if (['zh-TW', 'zh-HK'].includes(locale)) {
+            return 'zh-hant'; 
+        }
 
         return locale;
     });

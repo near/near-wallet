@@ -110,8 +110,7 @@ export const handleClearUrl = () => (dispatch, getState) => {
         clearState();
         dispatch(refreshUrl({}));
         dispatch(handleClearflowLimitation());
-    }
-    else if (!initialDepositPage) {
+    } else if (!initialDepositPage) {
         dispatch(handleClearflowLimitation());
     }
 };

@@ -546,7 +546,9 @@ export const handleUpdateCurrent = (accountId) => async (dispatch, getState) => 
 };
 
 export const getValidatorFarmData = createAsyncThunk('staking/getValidatorFarmData', async ({ validator, accountId }, { dispatch }) => {
-    if (validator?.version !== FARMING_VALIDATOR_VERSION || !accountId) return;
+    if (validator?.version !== FARMING_VALIDATOR_VERSION || !accountId) {
+        return;
+    }
 
     const poolSummary = await validator.contract.get_pool_summary();
 
@@ -596,8 +598,7 @@ export const claimFarmRewards = (validatorId, token_id) => async (dispatch, getS
                     receiverId: accountId,
                     storageDepositAmount: FT_MINIMUM_STORAGE_BALANCE_LARGE
                 });
-            }
-            catch (e) {
+            } catch (e) {
                 console.warn(e);
                 throw e;
             }

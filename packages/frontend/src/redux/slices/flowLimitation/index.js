@@ -41,8 +41,7 @@ const handleFlowLimitation = createAsyncThunk(
                 accountData: true,
                 accountBalance: true
             }));
-        } 
-        else if (redirectUrl === `/${WALLET_SIGN_URL}`) {
+        } else if (redirectUrl === `/${WALLET_SIGN_URL}`) {
             dispatch(setFlowLimitation({
                 mainMenu: true,
                 subMenu: true,
@@ -50,8 +49,7 @@ const handleFlowLimitation = createAsyncThunk(
                 accountData: true,
                 accountBalance: false
             }));
-        }
-        else if (redirectUrl.includes(WALLET_INITIAL_DEPOSIT_URL)) {
+        } else if (redirectUrl.includes(WALLET_INITIAL_DEPOSIT_URL)) {
             dispatch(setFlowLimitation({
                 mainMenu: true,
                 subMenu: true,

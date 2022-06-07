@@ -97,7 +97,9 @@ export class Recaptcha extends Component {
     }
 
     setCaptchaRef(ref) {
-        if (ref) { this.recaptchaRef = ref; }
+        if (ref) {
+            this.recaptchaRef = ref; 
+        }
     };
 
     /** Do not refactor this to an in-line function!
@@ -134,7 +136,9 @@ export class Recaptcha extends Component {
 
     reset() {
         debugLog('reset()');
-        if (this.recaptchaRef) { this.recaptchaRef.reset(); }
+        if (this.recaptchaRef) {
+            this.recaptchaRef.reset(); 
+        }
         // Reset does not call onChange; manually notify subscribers that there is no longer a valid token on reset
         this.handleOnChange(null);
     }
@@ -188,7 +192,9 @@ export class Recaptcha extends Component {
 }
 
 export const isRetryableRecaptchaError = (e) => {
-    if (!e.code) { return false; }
+    if (!e.code) {
+        return false; 
+    }
 
     return ['invalid-input-response','missing-input-response', 'timeout-or-duplicate'].includes(e.code);
 };

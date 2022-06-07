@@ -41,7 +41,9 @@ const Container = styled.svg`
 const LedgerImage = ({ animate }) => {
     const [id, setId] = useState();
 
-    useEffect(() => {setId(Math.floor(Math.random() * 100));}, []);
+    useEffect(() => {
+        setId(Math.floor(Math.random() * 100));
+    }, []);
 
     return (
         <Container width="259" height="111" viewBox="0 0 259 111" fill="none" xmlns="http://www.w3.org/2000/svg" className={animate ? 'animate' : ''}>

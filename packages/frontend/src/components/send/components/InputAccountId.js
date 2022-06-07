@@ -112,7 +112,9 @@ class InputAccountId extends Component {
         const extraSpace = isSafari ? 22 : 23;
         this.prefix.current.style.right = width + extraSpace + 'px';
         this.prefix.current.style.visibility = 'visible';
-        if (userValue.length === 0) this.prefix.current.style.visibility = 'hidden';
+        if (userValue.length === 0) {
+            this.prefix.current.style.visibility = 'hidden';
+        }
     }
 
     getTextWidth = (text, font) => {

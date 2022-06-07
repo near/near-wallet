@@ -71,7 +71,9 @@ const RecoveryContainer = ({ type, recoveryMethods }) => {
             return kind === type;
         });
 
-        if (currentTypeEnabledMethods.length === 0) { return null; }
+        if (currentTypeEnabledMethods.length === 0) {
+            return null; 
+        }
 
         return (
             <Container className='recovery-option'>

@@ -245,7 +245,10 @@ class CreateAccount extends Component {
         if (!invalidNearDrop) {
             return (
                 <StyledContainer className='small-centered border'>
-                    <form onSubmit={(e) => { this.handleCreateAccount(); e.preventDefault(); }} autoComplete='off'>
+                    <form onSubmit={(e) => {
+                        this.handleCreateAccount();
+                        e.preventDefault();
+                    }} autoComplete='off'>
                         <h1>
                             <Translate
                                 id={
@@ -285,7 +288,9 @@ class CreateAccount extends Component {
                             </div>
                         }
                         <div className='alternatives-title'><Translate id='createAccount.alreadyHaveAnAccount' /></div>
-                        <div className='alternatives' onClick={() => { Mixpanel.track('IE Click import existing account button'); }}>
+                        <div className='alternatives' onClick={() => {
+                            Mixpanel.track('IE Click import existing account button'); 
+                        }}>
                             <Link to={`/recover-account${locationSearch}`}><Translate id='createAccount.recoverItHere' /></Link>
                         </div>
                     </form>
