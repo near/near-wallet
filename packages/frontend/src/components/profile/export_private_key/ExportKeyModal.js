@@ -146,6 +146,7 @@ const ConfirmationScreen = ({ setCurrentView, onClose }) => {
 
   return (
     <>
+      <p><Translate id='exportPrivateKey.enterAccountAddress' /></p>
       <Translate>
           {({ translate }) => (
               <input

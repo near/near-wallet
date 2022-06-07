@@ -503,7 +503,8 @@
     },
     "exportPrivateKey": {
         "button": "Export Private Key",
-        "desc": "Never share your private key! Anyone with access to it will also have full access to your account.<br /><br />Enter your account address to view your<br />private key.",
+        "desc": "Never share your private key! Anyone with access to it will also have full access to your account.<br /><br />",
+        "enterAccountAddress": "Enter your account address to view your<br />private key.",
         "title": "View private key?"
     },
     "footer": {
