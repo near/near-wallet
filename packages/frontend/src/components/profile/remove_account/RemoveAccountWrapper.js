@@ -15,26 +15,30 @@ const StyledContainer = styled(Container)`
     margin-top: 16px;
     padding-top: 0;
     padding-bottom: 0;
-    > button {
-        width: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
 
-        > svg {
-            width: 22px !important;
-            height: 22px !important;
-            margin-right: 10px !important;
-        }
 
-        :hover {
-            > svg {
-                path {
-                    stroke: #E5484D;
+    &&& {
+        > button {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            svg {
+                width: 22px;
+                height: 22px;
+                margin-right: 10px;
+            } 
+
+            :hover {
+                > svg {
+                    path {
+                        stroke: #E5484D;
+                    }
                 }
             }
         }
-    }
+    }   
 `;
 
 export default () => {
