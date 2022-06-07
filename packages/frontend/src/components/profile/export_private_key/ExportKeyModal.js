@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import CheckMarkNoBorderIcon from '../../../images/icon-check-no-border.svg';
 import { selectAccountId } from '../../../redux/slices/account';
 import isMobile from '../../../utils/isMobile';
+import ClickToCopy from '../../common/ClickToCopy';
 import FormButton from '../../common/FormButton';
 import Modal from '../../common/modal/Modal';
 
@@ -128,9 +129,11 @@ const ExportKeyModalBody = ({ currentView, setCurrentView, onClose, secretKey })
     case VIEWS.VIEW_PRIVATE_KEY:
       return (
         <>
-          <div className='text-select-display'>
-            {secretKey}
-          </div>
+          <ClickToCopy copy={secretKey}>
+            <div className='text-select-display'>
+              {secretKey}
+            </div>
+          </ClickToCopy>
           <FormButton onClick={onClose}>
             <Translate id='button.dismiss' />
           </FormButton>
