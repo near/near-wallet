@@ -67,11 +67,7 @@ const Container = styled.div`
           display: flex;
           flex-direction: row;
           align-items: flex-start;
-          padding: 12px;
-          gap: 8px;
-
-          height: 96px;
-          width: 99%;
+          padding: 20px;
 
           background: #272729;
           border-radius: 8px;
