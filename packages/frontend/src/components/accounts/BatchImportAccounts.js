@@ -182,7 +182,8 @@ const BatchImportAccounts = ({ accountIdToKeyMap, onCancel }) => {
         accounts: Object.keys(accountIdToKeyMap).map((accountId) => ({
             accountId,
             status: null,
-            key: accountIdToKeyMap[accountId],
+            key: accountIdToKeyMap[accountId].key,
+            ledgerHdPath: accountIdToKeyMap[accountId].ledgerHdPath
         })),
     });
     const currentAccount = useMemo(() => state.accounts.find((account) => account.status === IMPORT_STATUS.PENDING), [state.accounts]);
@@ -352,7 +353,8 @@ const AccountImportModal = ({ account, onSuccess, onFail }) => {
         wallet
           .addExistingAccountKeyToWalletKeyStore(
               account.accountId,
-              keyPair
+              keyPair,
+              account.ledgerHdPath
           )
           .then(() => {
             console.log('added');

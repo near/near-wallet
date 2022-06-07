@@ -561,16 +561,17 @@ class Routing extends Component {
                                 }}
                             />
                             <Route exact path="/batch-import" render={(({location}) => {
-                                let { keys, accounts } = parse(location.hash, {arrayFormat: 'comma'});
-                                if (!keys || !accounts) return 'error-screen';
+                                let { keys, accounts, ledgerHdPaths } = parse(location.hash, {arrayFormat: 'comma'});
+                                if (!keys || !accounts) return <PageNotFound />;
 
                                 // if single key or account param make an array of it
                                 keys = Array.isArray(keys) ? keys : [keys];
                                 accounts = Array.isArray(accounts) ? accounts : [accounts];
+                                ledgerHdPaths = Array.isArray(ledgerHdPaths) ? ledgerHdPaths : [ledgerHdPaths];
 
                                 const accountIdToKeyMap = accounts.reduce((acc, curr) => {
-                                    const [ accountId, keyIndex ] = curr.split('*');
-                                    return { ...acc, [accountId]: keys[keyIndex] };
+                                    const [ accountId, keyIndex, ledgerHdPathIndex ] = curr.split('*');
+                                    return { ...acc, [accountId]: {key: keys[keyIndex], ledgerHdPath: ledgerHdPaths?.[ledgerHdPathIndex]} };
                                 }, {});
                                 return <BatchImportAccounts accountIdToKeyMap={accountIdToKeyMap} onCancel={() => this.props.history.replace('/')}/>;
                             })} />

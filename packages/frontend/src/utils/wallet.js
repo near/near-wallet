@@ -16,7 +16,7 @@ import sendJson from '../tmp_fetch_send_json';
 import { decorateWithLockup } from './account-with-lockup';
 import { getAccountIds } from './helper-api';
 import { ledgerManager } from './ledgerManager';
-import { setAccountConfirmed, setWalletAccounts, removeActiveAccount, removeAccountConfirmed, getLedgerHDPath, removeLedgerHDPath } from './localStorage';
+import { setAccountConfirmed, setWalletAccounts, removeActiveAccount, removeAccountConfirmed, getLedgerHDPath, removeLedgerHDPath, setLedgerHdPath } from './localStorage';
 import { TwoFactor } from './twoFactor';
 import { WalletError } from './walletError';
 
@@ -311,7 +311,7 @@ class Wallet {
         return receiver_id === accountId && isEqual(method_names, ['add_request', 'add_request_and_confirm', 'delete_request', 'confirm']);
     }
 
-    async addExistingAccountKeyToWalletKeyStore(accountId, keyPair) {
+    async addExistingAccountKeyToWalletKeyStore(accountId, keyPair, ledgerHdPath) {
         const keyType = await this.getPublicKeyType(
             accountId,
             keyPair.getPublicKey().toString()
@@ -345,7 +345,14 @@ class Wallet {
             case this.KEY_TYPES.MULTISIG:
             case this.KEY_TYPES.LEDGER:
                 return this.saveAccount(accountId, keyPair)
-                    .then(() => keyType === this.KEY_TYPES.LEDGER && setKeyMeta(keyPair.getPublicKey(), {type: 'ledger'}))
+                    .then(() => {
+                        if (keyType === this.KEY_TYPES.LEDGER) {
+                            if (ledgerHdPath) {
+                                setLedgerHdPath({accountId, path: ledgerHdPath});
+                            }
+                            return this.getLedgerPublicKey(ledgerHdPath).then((publicKey) => setKeyMeta(publicKey.toString(), {type: "ledger"}));
+                        }
+                    })
                     .then(() => {
                         if (!this.accountId) {
                             return this.makeAccountActive(accountId);
