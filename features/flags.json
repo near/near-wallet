@@ -1,48 +1,4 @@
 {
-  "CREATE_IMPLICIT_ACCOUNT": {
-    "createdBy": "Patrick Tajima",
-    "createdAt": "2021-12-23T22:16:36.291Z",
-    "development": {
-      "enabled": true,
-      "lastEditedBy": "Patrick Tajima",
-      "lastEditedAt": "2021-12-23T22:16:36.291Z"
-    },
-    "testnet": {
-      "enabled": true,
-      "lastEditedBy": "Daryl Collins",
-      "lastEditedAt": "2022-01-21T05:04:22.473Z"
-    },
-    "mainnet": {
-      "enabled": true,
-      "lastEditedBy": "Daryl Collins",
-      "lastEditedAt": "2022-01-21T05:04:22.473Z"
-    },
-    "mainnet_STAGING": {
-      "enabled": true,
-      "lastEditedBy": "Patrick Tajima",
-      "lastEditedAt": "2021-12-23T22:16:36.291Z"
-    },
-    "testnet_STAGING": {
-      "enabled": true,
-      "lastEditedBy": "Andy Haynes",
-      "lastEditedAt": "2022-01-31T21:13:09.948Z"
-    },
-    "testnet_NEARORG": {
-      "enabled": true,
-      "lastEditedBy": "esaminu",
-      "lastEditedAt": "2022-05-05T18:07:50.110Z"
-    },
-    "mainnet_NEARORG": {
-      "enabled": true,
-      "lastEditedBy": "esaminu",
-      "lastEditedAt": "2022-05-05T18:06:54.374Z"
-    },
-    "mainnet_STAGING_NEARORG": {
-      "enabled": true,
-      "lastEditedBy": "esaminu",
-      "lastEditedAt": "2022-05-05T18:07:28.665Z"
-    }
-  },
   "CREATE_USN_CONTRACT": {
     "createdBy": "OlegYak ",
     "createdAt": "2022-03-24T13:11:21.223Z",
