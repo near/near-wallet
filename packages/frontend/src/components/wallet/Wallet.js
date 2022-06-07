@@ -4,13 +4,11 @@ import { Textfit } from 'react-textfit';
 import styled from 'styled-components';
 
 import {
-    CREATE_IMPLICIT_ACCOUNT,
     CREATE_USN_CONTRACT,
 } from '../../../../../features';
 import getCurrentLanguage from '../../hooks/getCurrentLanguage';
 import classNames from '../../utils/classNames';
 import { SHOW_NETWORK_BANNER } from '../../utils/wallet';
-import Balance from '../common/balance/Balance';
 import { getTotalBalanceInFiat } from '../common/balance/helpers';
 import FormButton from '../common/FormButton';
 import Container from '../common/styled/Container.css';
@@ -20,6 +18,7 @@ import SendIcon from '../svg/SendIcon';
 import TopUpIcon from '../svg/TopUpIcon';
 import WrapIcon from '../svg/WrapIcon';
 import ActivitiesWrapper from './ActivitiesWrapper';
+import AllTokensTotalBalanceUSD from './AllTokensTotalBalanceUSD';
 import CreateCustomNameModal from './CreateCustomNameModal';
 import CreateFromImplicitSuccessModal from './CreateFromImplicitSuccessModal';
 import DepositNearBanner from './DepositNearBanner';
@@ -355,11 +354,12 @@ export function Wallet({
                             tokensLoading={tokensLoading}
                             fungibleTokens={fungibleTokensList}
                             accountExists={accountExists}
+                            fungibleTokensList={fungibleTokensList}
                         />
                     )}
                 </div>
                 <div className="right">
-                    {CREATE_IMPLICIT_ACCOUNT && accountExists ? (
+                    {accountExists ? (
                         <Sidebar availableAccounts={availableAccounts} />
                     ) : (
                         <ExploreApps />
@@ -398,6 +398,7 @@ const FungibleTokens = ({
     accountExists,
     totalAmount,
     currentLanguage,
+    fungibleTokensList
 }) => {
     const zeroBalanceAccount = accountExists === false;
     const currentFungibleTokens = fungibleTokens[0];
@@ -405,19 +406,11 @@ const FungibleTokens = ({
         zeroBalanceAccount &&
         fungibleTokens?.length === 1 &&
         currentFungibleTokens?.onChainFTMetadata?.symbol === 'NEAR';
-
     return (
         <>
-            <div className="total-balance">
-                <Textfit mode="single" max={48}>
-                    <Balance
-                        totalAmount={totalAmount}
-                        showBalanceInNEAR={false}
-                        amount={balance?.balanceAvailable}
-                        showAlmostEqualSignUSD={false}
-                        showSymbolUSD={false}
-                        showSignUSD={true}
-                    />
+            <div className='total-balance'>
+                <Textfit mode='single' max={48}>
+                    <AllTokensTotalBalanceUSD allFungibleTokens={fungibleTokensList}/>
                 </Textfit>
             </div>
             <div className="sub-title balance">

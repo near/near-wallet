@@ -11,7 +11,6 @@ import { Redirect, Switch } from 'react-router-dom';
 import styled, { ThemeProvider } from 'styled-components';
 
 import {
-    CREATE_IMPLICIT_ACCOUNT,
     IMPORT_ACCOUNT_WITH_LINK_V2,
 } from '../../../../features';
 import TwoFactorVerifyModal from '../components/accounts/two_factor/TwoFactorVerifyModal';
@@ -404,23 +403,21 @@ class Routing extends Component {
                                 path="/create/:fundingContract/:fundingKey"
                                 component={CreateAccountWithRouter}
                             />
-                            {CREATE_IMPLICIT_ACCOUNT && (
-                                <Route
-                                    exact
-                                    path="/create"
-                                    render={(props) =>
-                                        accountFound ||
-                                        !DISABLE_CREATE_ACCOUNT ? (
-                                            <CreateAccountWithRouter
-                                                {...props}
-                                            />
-                                        ) : (
-                                            <CreateAccountLanding />
-                                        )
-                                    }
-                                    // Logged in users always create a named account
-                                />
-                            )}
+                            <Route
+                                exact
+                                path="/create"
+                                render={(props) =>
+                                    accountFound ||
+                                    !DISABLE_CREATE_ACCOUNT ? (
+                                        <CreateAccountWithRouter
+                                            {...props}
+                                        />
+                                    ) : (
+                                        <CreateAccountLanding />
+                                    )
+                                }
+                                // Logged in users always create a named account
+                            />
                             <Route
                                 exact
                                 path="/create"
@@ -436,36 +433,28 @@ class Routing extends Component {
                                 path="/set-recovery/:accountId/:fundingContract?/:fundingKey?"
                                 component={SetupRecoveryMethodWithRouter}
                             />
-                            {CREATE_IMPLICIT_ACCOUNT && (
-                                <PublicRoute
-                                    exact
-                                    path="/set-recovery-implicit-account"
-                                    component={
-                                        SetupRecoveryImplicitAccountWrapper
-                                    }
-                                />
-                            )}
-                            {CREATE_IMPLICIT_ACCOUNT && (
-                                <PublicRoute
-                                    exact
-                                    path="/setup-passphrase-new-account"
-                                    component={SetupPassphraseNewAccountWrapper}
-                                />
-                            )}
-                            {CREATE_IMPLICIT_ACCOUNT && (
-                                <PublicRoute
-                                    exact
-                                    path="/setup-ledger-new-account"
-                                    component={SetupLedgerNewAccountWrapper}
-                                />
-                            )}
-                            {CREATE_IMPLICIT_ACCOUNT && (
-                                <PublicRoute
-                                    exact
-                                    path="/create-implicit-account"
-                                    component={CreateImplicitAccountWrapper}
-                                />
-                            )}
+                            <PublicRoute
+                                exact
+                                path="/set-recovery-implicit-account"
+                                component={
+                                    SetupRecoveryImplicitAccountWrapper
+                                }
+                            />
+                            <PublicRoute
+                                exact
+                                path="/setup-passphrase-new-account"
+                                component={SetupPassphraseNewAccountWrapper}
+                            />
+                            <PublicRoute
+                                exact
+                                path="/setup-ledger-new-account"
+                                component={SetupLedgerNewAccountWrapper}
+                            />
+                            <PublicRoute
+                                exact
+                                path="/create-implicit-account"
+                                component={CreateImplicitAccountWrapper}
+                            />
                             <Route
                                 exact
                                 path="/setup-seed-phrase/:accountId/:step"

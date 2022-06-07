@@ -494,7 +494,7 @@
         },
         "v2": {
             "connectConfirm": {
-                "desc": "Подключайтесь только к сайтам, которым вы доверяете. Однажды подключенный, <a href=${contractIdUrl} target='_blank' rel='noreferrer'>${appReferrer}</a>сможет <b>${accessType}</b>:",
+                "desc": "Подключайтесь только к сайтам, которым вы доверяете. Однажды подключенный, <a href='${contractIdUrl}' target='_blank' rel='noreferrer'>${appReferrer}</a>сможет <b>${accessType}</b>:",
                 "feeAllowance": {
                     "desc": "Приложению будет разрешено потратить до <b>${amount} NEAR</b> в счет сетевых сборов, понесенных во время использования.",
                     "title": "Надбавка за Сетевую плату"

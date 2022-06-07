@@ -1,6 +1,5 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk, isAnyOf } from '@reduxjs/toolkit';
 import isEqual from 'lodash.isequal';
-import merge from 'lodash.merge';
 import mergeWith from 'lodash.mergewith';
 import omit from 'lodash.omit';
 import { createSelector } from 'reselect';
@@ -12,16 +11,21 @@ import initialStatusState from '../../reducerStatus/initialState/initialStatusSt
 const SLICE_NAME = 'tokenFiatValues';
 const fiatValueManager = new FiatValueManager();
 
+const fetchCoinGeckoFiatValues = createAsyncThunk(
+    `${SLICE_NAME}/fetchCoinGeckoFiatValues`,
+    async (values) => fiatValueManager.fetchCoinGeckoPrices(values)
+);
+const fetchRefFinanceFiatValues = createAsyncThunk(
+    `${SLICE_NAME}/fetchRefFinanceFiatValues`,
+    async () => fiatValueManager.fetchRefFinancePrices()
+);
 const fetchTokenFiatValues = createAsyncThunk(
     `${SLICE_NAME}/fetchTokenFiatValues`,
-    async () => {
-        const [coinGeckoTokenFiatValues, refFinanceTokenFiatValues] = await Promise.all(
-            [fiatValueManager.fetchCoinGeckoPrices(['near', 'usn']), fiatValueManager.fetchRefFinancePrices()]
-        );
-        return merge({}, coinGeckoTokenFiatValues, refFinanceTokenFiatValues);
-    }
+    (_, {dispatch}) => Promise.all([
+        dispatch(fetchCoinGeckoFiatValues(['near', 'usn'])),
+        dispatch(fetchRefFinanceFiatValues()),
+    ])
 );
-
 const getTokenWhiteList = createAsyncThunk(
     `${SLICE_NAME}/getTokenWhiteList`,
     async (account_id) => fiatValueManager.fetchTokenWhiteList(account_id)
@@ -37,19 +41,23 @@ const tokenFiatValuesSlice = createSlice({
         name: SLICE_NAME,
         initialState,
         extraReducers: ((builder) => {
-            builder.addCase(fetchTokenFiatValues.fulfilled, (state, action) => {
-                // Payload of .fulfilled is in the same shape as the store; just merge it!
-                // { near: { usd: x, lastUpdatedTimestamp: 1212312321, ... }
-                mergeWith(state.tokens, action.payload, (previous, fetched) =>
-                    fetched?.last_updated_at > previous?.last_updated_at &&
-                    !isEqual(omit(fetched, 'last_updated_at'), omit(previous, 'last_updated_at'))
-                        ? fetched
-                        : previous
-                );
-            });
             builder.addCase(getTokenWhiteList.fulfilled, (state, action) => {
                 state.tokenWhiteList = action.payload;
             });
+            builder.addMatcher(
+                isAnyOf(
+                    fetchCoinGeckoFiatValues.fulfilled,
+                    fetchRefFinanceFiatValues.fulfilled
+                ),
+                (state, action) => {
+                    mergeWith(state.tokens, action.payload, (previous, fetched) =>
+                        fetched?.last_updated_at > previous?.last_updated_at &&
+                        !isEqual(omit(fetched, 'last_updated_at'), omit(previous, 'last_updated_at'))
+                            ? fetched
+                            : previous
+                    );
+                }
+            );
             handleAsyncThunkStatus({
                 asyncThunk: fetchTokenFiatValues,
                 buildStatusPath: () => [],
