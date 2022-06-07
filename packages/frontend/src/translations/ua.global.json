@@ -652,7 +652,7 @@
         },
         "v2": {
             "connectConfirm": {
-                "desc": "Підключайтеся лише до сайтів, яким ви довіряєте. Сайти, до яких ви підключалися, <a href=${contractIdUrl} target='_blank' rel='noreferrer'>${appReferrer}</a> матимуть <b>${accessType}</b>:",
+                "desc": "Підключайтеся лише до сайтів, яким ви довіряєте. Сайти, до яких ви підключалися, <a href='${contractIdUrl}' target='_blank' rel='noreferrer'>${appReferrer}</a> матимуть <b>${accessType}</b>:",
                 "feeAllowance": {
                     "desc": "Додатку буде дозволено витратити до <b>${amount} NEAR</b> за рахунок зборів, понесених під час використання.",
                     "title": "Надбавка за мережну плату"

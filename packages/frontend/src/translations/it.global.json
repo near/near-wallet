@@ -629,7 +629,7 @@
         },
         "v2": {
             "connectConfirm": {
-                "desc": "Connettiti solo a siti di cui ti fidi. Una volta connesso, <a href=${contractIdUrl} target='_blank' rel='noreferrer'>${appReferrer}</a> avrà <b>${accessType}</b>:",
+                "desc": "Connettiti solo a siti di cui ti fidi. Una volta connesso, <a href='${contractIdUrl}' target='_blank' rel='noreferrer'>${appReferrer}</a> avrà <b>${accessType}</b>:",
                 "feeAllowance": {
                     "desc": "L'applicazione riceverà il permesso di spendere fino a <b>${quantità} di NEAR</b> verso le tariffe di rete sostenute durante l'uso.",
                     "title": "Idennità di Rete"
@@ -1299,7 +1299,7 @@
                 "title": "Importo totale in staking"
             },
             "unclaimed": {
-                "info": "Le ricompense che sono state guadagnate, ma non ritirate. I premi guadagnati vengono &lt;a target=&#39;_blank&#39; href=&#39;https://www.investopedia.com/terms/c/compoundinterest.asp&#39;&gt; composizione&lt;/a&gt;.&quot;, automaticamente reimpegnati,.",
+                "info": "Le ricompense che sono state guadagnate, ma non ritirate. I premi guadagnati vengono <a target='_blank' href='https://www.investopedia.com/terms/c/compoundinterest.asp'>composizione</a> automaticamente reimpegnati.",
                 "title": "Ricompense guadagnate",
                 "unavailable": {
                     "cta": "Per saperne di più",
