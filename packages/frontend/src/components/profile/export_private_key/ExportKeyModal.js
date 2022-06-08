@@ -80,6 +80,22 @@ const Container = styled.div`
           background: url(${CheckMarkNoBorderIcon}) no-repeat right;
           background-position: 97%;
         }
+
+        form {
+          width: 100%
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          text-align: center;
+          > button {
+            margin-top: 32px;
+            width: 100%;
+          }
+
+          .link {
+            margin-top: 20px;
+          }
+        }
     }
 `;
 
@@ -144,7 +160,7 @@ const ConfirmationScreen = ({ setCurrentView, onClose }) => {
   const accountIdConfirmed = accountId === typedAccountId;
 
   return (
-    <>
+    <form onSubmit={() => setCurrentView(VIEWS.VIEW_PRIVATE_KEY)}>
       <p><Translate id='exportPrivateKey.enterAccountAddress' /></p>
       <Translate>
           {({ translate }) => (
@@ -161,7 +177,7 @@ const ConfirmationScreen = ({ setCurrentView, onClose }) => {
       </Translate>
       <FormButton
           disabled={!accountIdConfirmed}
-          onClick={() => setCurrentView(VIEWS.VIEW_PRIVATE_KEY)}
+          type='submit'
       >
           <Translate id='button.viewPrivateKey' />
       </FormButton>
@@ -170,6 +186,6 @@ const ConfirmationScreen = ({ setCurrentView, onClose }) => {
           onClick={onClose}>
           <Translate id='button.cancel' />
       </FormButton>
-    </>
+    </form>
   );
 };
