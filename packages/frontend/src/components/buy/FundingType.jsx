@@ -45,9 +45,9 @@ const WrapperImg = styled.div`
     display: flex;
 `;
 
-export const FundingType = ({ icon, link, name, track }) => {
+export const FundingType = ({ icon, link, name, track, ref }) => {
     return (
-        <LinkWrap href={link} target='_blank' rel='noreferrer' onClick={() => track && track()}>
+        <LinkWrap href={link} target='_blank' rel={!ref ? 'noreferrer' : null} onClick={() => track && track()}>
             <Wrapper>
                 <WrapperImg title={name}>
                     <img src={icon} alt="" />
