@@ -1725,6 +1725,9 @@
             "lastMethod": "Cannot delete your last recovery method. Unless you have Ledger enabled, you need to keep at least one recovery method active to ensure recoverability of your account.",
             "setupMethod": "An error occurred. Please check your recovery method."
         },
+        "refreshAccountOwner": {
+            "error": "An error occured while loading your account. Some wallet data may not be up-to-date. Please try refreshing your browser."
+        },
         "sendFungibleToken": {
             "error": "An error occurred. Your send transaction was cancelled."
         },

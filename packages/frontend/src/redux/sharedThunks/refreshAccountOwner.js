@@ -4,6 +4,7 @@ import { isImplicitAccount } from '../../utils/account';
 import { getAccountConfirmed, setAccountConfirmed } from '../../utils/localStorage';
 import { wallet } from '../../utils/wallet';
 import { makeAccountActive } from '../actions/account';
+import { showCustomAlert } from '../actions/status';
 
 export default createAsyncThunk(
     'refreshAccountOwner',
@@ -51,6 +52,14 @@ export default createAsyncThunk(
                     },
                     ...(!wallet.isEmpty() && !accountIdNotConfirmed && await wallet.loadAccount())
                 };
+            } else {
+                console.log('here is da error', error);
+                dispatch(showCustomAlert({
+                    success: false,
+                    messageCodeHeader: 'error',
+                    messageCode: 'walletErrorCodes.refreshAccountOwner.error',
+                    errorMessage: error.message
+                }));
             }
 
             throw error;
