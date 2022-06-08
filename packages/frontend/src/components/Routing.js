@@ -12,8 +12,7 @@ import styled, { ThemeProvider } from 'styled-components';
 
 import {
     CREATE_IMPLICIT_ACCOUNT,
-    IMPORT_ACCOUNT_WITH_LINK_V2,
-    MYNEARWALLET_MIGRATION
+    IMPORT_ACCOUNT_WITH_LINK_V2
 } from '../../../../features';
 import favicon from '../../src/images/mynearwallet-cropped.svg';
 import TwoFactorVerifyModal from '../components/accounts/two_factor/TwoFactorVerifyModal';
@@ -23,6 +22,7 @@ import {
     SHOW_PRERELEASE_WARNING,
     DISABLE_CREATE_ACCOUNT,
 } from '../config';
+import { isWhitelabel } from '../config/whitelabel';
 import ExampleFlag from '../ExampleFlag';
 import { Mixpanel } from '../mixpanel/index';
 import * as accountActions from '../redux/actions/account';
@@ -207,7 +207,7 @@ class Routing extends Component {
     }
 
     componentDidMount = async () => {
-        if (MYNEARWALLET_MIGRATION && document) {
+        if (isWhitelabel() && document) {
             document.title = 'MyNearWallet';
             document.querySelector('link[rel~="icon"]').href = favicon;
         }

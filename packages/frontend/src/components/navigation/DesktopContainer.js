@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 
-import { MYNEARWALLET_MIGRATION } from '../../../../../features';
+import { isWhitelabel } from '../../config/whitelabel';
 import languagesIcon from '../../images/icon-languages.svg';
 import LanguageToggle from '../common/LangSwitcher';
 import ConnectLedger from './ConnectLedger';
@@ -107,7 +107,7 @@ class DesktopContainer extends Component {
         return (
             <Container>
                 {
-                    MYNEARWALLET_MIGRATION ?
+                    isWhitelabel() ?
                         <Logo link={!flowLimitationMainMenu}/> :
                         <DeprecatedLogo link={!flowLimitationMainMenu}/>
                 }

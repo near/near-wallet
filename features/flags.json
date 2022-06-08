@@ -37,11 +37,6 @@
       "lastEditedBy": "esaminu",
       "lastEditedAt": "2022-05-05T18:06:54.374Z"
     },
-    "mainnet_MYNEARWALLETORG": {
-      "enabled": false,
-      "lastEditedBy": "Lapko",
-      "lastEditedAt": "2022-06-07T13:52:06.431Z"
-    },
     "mainnet_STAGING_NEARORG": {
       "enabled": true,
       "lastEditedBy": "esaminu",
@@ -85,11 +80,6 @@
       "enabled": false,
       "lastEditedBy": "esaminu",
       "lastEditedAt": "2022-05-11T22:37:08.020Z"
-    },
-    "mainnet_MYNEARWALLETORG": {
-      "enabled": false,
-      "lastEditedBy": "Lapko",
-      "lastEditedAt": "2022-06-07T13:52:06.431Z"
     },
     "mainnet_STAGING_NEARORG": {
       "enabled": false,
@@ -135,11 +125,6 @@
       "lastEditedBy": "esaminu",
       "lastEditedAt": "2022-05-10T17:07:20.351Z"
     },
-    "mainnet_MYNEARWALLETORG": {
-      "enabled": false,
-      "lastEditedBy": "Lapko",
-      "lastEditedAt": "2022-06-07T13:52:06.431Z"
-    },
     "mainnet_STAGING_NEARORG": {
       "enabled": false,
       "lastEditedBy": "esaminu",
@@ -183,11 +168,6 @@
       "enabled": true,
       "lastEditedBy": "esaminu",
       "lastEditedAt": "2022-05-05T18:06:54.374Z"
-    },
-    "mainnet_MYNEARWALLETORG": {
-      "enabled": false,
-      "lastEditedBy": "Lapko",
-      "lastEditedAt": "2022-06-07T13:52:06.431Z"
     },
     "mainnet_STAGING_NEARORG": {
       "enabled": false,
@@ -233,11 +213,6 @@
       "lastEditedBy": "esaminu",
       "lastEditedAt": "2022-05-05T18:06:54.374Z"
     },
-    "mainnet_MYNEARWALLETORG": {
-      "enabled": false,
-      "lastEditedBy": "Lapko",
-      "lastEditedAt": "2022-06-07T13:52:06.431Z"
-    },
     "mainnet_STAGING_NEARORG": {
       "enabled": true,
       "lastEditedBy": "esaminu",
@@ -281,11 +256,6 @@
       "enabled": true,
       "lastEditedBy": "esaminu",
       "lastEditedAt": "2022-05-05T18:06:54.374Z"
-    },
-    "mainnet_MYNEARWALLETORG": {
-      "enabled": false,
-      "lastEditedBy": "Lapko",
-      "lastEditedAt": "2022-06-07T13:52:06.431Z"
     },
     "mainnet_STAGING_NEARORG": {
       "enabled": true,
@@ -331,64 +301,10 @@
       "lastEditedBy": "esaminu",
       "lastEditedAt": "2022-05-27T23:34:05.414Z"
     },
-    "mainnet_MYNEARWALLETORG": {
-      "enabled": false,
-      "lastEditedBy": "Lapko",
-      "lastEditedAt": "2022-06-07T13:52:06.431Z"
-    },
     "mainnet_STAGING_NEARORG": {
       "enabled": true,
       "lastEditedBy": "Patrick Tajima",
       "lastEditedAt": "2022-05-24T23:56:29.721Z"
-    }
-  },
-  "MYNEARWALLET_MIGRATION": {
-    "createdBy": "Lapko",
-    "createdAt": "2022-06-07T13:52:06.431Z",
-    "development": {
-      "enabled": false,
-      "lastEditedBy": "Lapko",
-      "lastEditedAt": "2022-06-07T13:52:06.431Z"
-    },
-    "testnet": {
-      "enabled": false,
-      "lastEditedBy": "Lapko",
-      "lastEditedAt": "2022-06-07T13:52:06.431Z"
-    },
-    "mainnet": {
-      "enabled": false,
-      "lastEditedBy": "Lapko",
-      "lastEditedAt": "2022-06-07T13:52:06.431Z"
-    },
-    "mainnet_STAGING": {
-      "enabled": false,
-      "lastEditedBy": "Lapko",
-      "lastEditedAt": "2022-06-07T13:52:06.431Z"
-    },
-    "testnet_STAGING": {
-      "enabled": false,
-      "lastEditedBy": "Lapko",
-      "lastEditedAt": "2022-06-07T13:52:06.431Z"
-    },
-    "testnet_NEARORG": {
-      "enabled": false,
-      "lastEditedBy": "Lapko",
-      "lastEditedAt": "2022-06-07T13:52:06.431Z"
-    },
-    "mainnet_NEARORG": {
-      "enabled": false,
-      "lastEditedBy": "Lapko",
-      "lastEditedAt": "2022-06-07T13:52:06.431Z"
-    },
-    "mainnet_MYNEARWALLETORG": {
-      "enabled": true,
-      "lastEditedBy": "Lapko",
-      "lastEditedAt": "2022-06-07T13:52:06.431Z"
-    },
-    "mainnet_STAGING_NEARORG": {
-      "enabled": false,
-      "lastEditedBy": "Lapko",
-      "lastEditedAt": "2022-06-07T13:52:06.431Z"
     }
   }
 }

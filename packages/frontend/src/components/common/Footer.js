@@ -2,7 +2,7 @@ import React from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
-import { MYNEARWALLET_MIGRATION } from '../../../../../features';
+import { isWhitelabel } from '../../config/whitelabel';
 import NearLogo from '../../images/near.svg';
 import { Mixpanel } from '../../mixpanel/index';
 import MyNearWalletLogo from '../svg/MyNearWalletLogo';
@@ -91,7 +91,7 @@ const Footer = () => {
         <StyledContainer className='wallet-footer'>
             <div className='left'>
                 {
-                    MYNEARWALLET_MIGRATION ?
+                    isWhitelabel() ?
                         <StyledLogo>
                             <MyNearWalletLogo mode='footer' />
                         </StyledLogo> :

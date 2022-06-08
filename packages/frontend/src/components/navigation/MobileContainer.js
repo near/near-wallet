@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
-import { MYNEARWALLET_MIGRATION } from '../../../../../features';
+import { isWhitelabel } from '../../config/whitelabel';
 import languagesIcon from '../../images/icon-languages.svg';
 import AccountSelector from '../accounts/account_selector/AccountSelector';
 import LanguageToggle from '../common/LangSwitcher';
@@ -184,7 +184,7 @@ class MobileContainer extends Component {
             <Container className={menuOpen ? 'show' : ''} id='mobile-menu'>
                 <Collapsed>
                     {
-                        MYNEARWALLET_MIGRATION ?
+                        isWhitelabel() ?
                         <Logo link={!flowLimitationMainMenu} mode='mobile' /> :
                         <DeprecatedLogo link={!flowLimitationMainMenu}/>
                     }
