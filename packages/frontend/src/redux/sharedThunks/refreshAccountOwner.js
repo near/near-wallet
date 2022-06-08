@@ -53,7 +53,6 @@ export default createAsyncThunk(
                     ...(!wallet.isEmpty() && !accountIdNotConfirmed && await wallet.loadAccount())
                 };
             } else {
-                console.log('here is da error', error);
                 dispatch(showCustomAlert({
                     success: false,
                     messageCodeHeader: 'error',
