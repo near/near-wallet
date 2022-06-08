@@ -288,6 +288,7 @@
         "viewAll": "View All",
         "viewFAQ": "View FAQ",
         "viewOnExplorer": "View on Explorer",
+        "viewPrivateKey": "View private key",
         "withdrawing": "Withdrawing"
     },
     "buyNear": {
@@ -499,6 +500,12 @@
         "exploreApps": "Explore Apps",
         "exploreDeFi": "Explore DeFi",
         "title": "What's on NEAR?"
+    },
+    "exportPrivateKey": {
+        "button": "Export Local Private Key",
+        "desc": "Never share your private key! Anyone with access to it will also have full access to your account.<br /><br />",
+        "enterAccountAddress": "Enter your account address to view your<br />private key.",
+        "title": "View private key?"
     },
     "footer": {
         "contactSupport": "Join Community",
