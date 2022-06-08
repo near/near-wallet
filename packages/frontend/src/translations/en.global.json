@@ -831,11 +831,11 @@
         "returnToWallet": "Return to Wallet",
         "title": "Whoops, looks like this page is missing."
     },
-    "poweredByCoinGecko": "Prices powered by <a href='https://www.coingecko.com/en/api' target='_blank' rel='noopener noreferrer'>CoinGecko</a>",
     "postMigration": {
         "cta": "Transfer my Accounts",
         "message": "NEAR Wallet has migrated to a new domain: <b>https://mynearwallet.com</b>. <br/> You have until <b>${endDate}</b> to transfer your accounts, or to export your account keys from your account settings."
     },
+    "poweredByCoinGecko": "Prices powered by <a href='https://www.coingecko.com/en/api' target='_blank' rel='noopener noreferrer'>CoinGecko</a>",
     "preMigration": {
         "calendarEvent": {
             "details": "This is the official start date of the near wallet migration. Please make sure to start migrating your account as soon as possible.",
