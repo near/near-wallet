@@ -12,7 +12,7 @@ import styled, { ThemeProvider } from 'styled-components';
 
 import {
     CREATE_IMPLICIT_ACCOUNT,
-    IMPORT_ACCOUNT_WITH_LINK_V2
+    IMPORT_ACCOUNT_WITH_LINK_V2,
 } from '../../../../features';
 import favicon from '../../src/images/mynearwallet-cropped.svg';
 import TwoFactorVerifyModal from '../components/accounts/two_factor/TwoFactorVerifyModal';
