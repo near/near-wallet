@@ -3,6 +3,6 @@ module.exports = {
     setupFiles: ['dotenv/config'],
     testEnvironment: 'jsdom',
     moduleNameMapper: {
-        "^.+\\.svg$": "jest-svg-transformer"
+        '^.+\\.svg$': 'jest-svg-transformer'
     }
 };
