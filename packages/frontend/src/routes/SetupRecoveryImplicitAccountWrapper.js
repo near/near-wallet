@@ -3,7 +3,6 @@ import { parseSeedPhrase } from 'near-seed-phrase';
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
-import { IMPORT_ZERO_BALANCE_ACCOUNT } from '../../../../features';
 import SetupRecoveryImplicitAccount from '../components/accounts/create/implicit_account/SetupRecoveryImplicitAccount';
 import EnterVerificationCode from '../components/accounts/EnterVerificationCode';
 import { Mixpanel } from '../mixpanel';
@@ -86,20 +85,16 @@ export function SetupRecoveryImplicitAccountWrapper() {
                     setVerifyingEmailCode(false);
                 }
 
-                if (IMPORT_ZERO_BALANCE_ACCOUNT) {
-                    try {
-                        await wallet.importZeroBalanceAccount(implicitAccountId, recoveryKeyPair);
-                        dispatch(redirectTo('/'));
-                    } catch (e) {
-                        dispatch(showCustomAlert({
-                            success: false,
-                            messageCodeHeader: 'error',
-                            messageCode: 'walletErrorCodes.recoverAccountSeedPhrase.errorNotAbleToImportAccount',
-                            errorMessage: e.message
-                        }));
-                    }
-                } else {
-                    dispatch(redirectTo(`/create-implicit-account?implicitAccountId=${implicitAccountId}&recoveryMethod=email`));
+                try {
+                    await wallet.importZeroBalanceAccount(implicitAccountId, recoveryKeyPair);
+                    dispatch(redirectTo('/'));
+                } catch (e) {
+                    dispatch(showCustomAlert({
+                        success: false,
+                        messageCodeHeader: 'error',
+                        messageCode: 'walletErrorCodes.recoverAccountSeedPhrase.errorNotAbleToImportAccount',
+                        errorMessage: e.message
+                    }));
                 }
             }}
             onGoBack={() => setShowVerifyEmailCode(false)}

@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
-import { IMPORT_ZERO_BALANCE_ACCOUNT } from '../../../../features';
 import { CouldNotFindAccountModalWrapper } from '../components/accounts/CouldNotFindAccountModalWrapper';
 import ImportAccountWithLink from '../components/accounts/import/ImportAccountWithLink';
 import { Mixpanel } from '../mixpanel/index';
@@ -32,11 +31,9 @@ export function ImportAccountWithLinkWrapper() {
         const handleGetAccountsBySeedPhrase = async () => {
             const accountIdsBySeedPhrase = await getAccountIdsBySeedPhrase(seedPhrase);
 
-            if (IMPORT_ZERO_BALANCE_ACCOUNT) {
-                const implicitAccountId = getImplicitAccountIdFromSeedPhrase(seedPhrase);
-                if (accountIdsBySeedPhrase.length === 0 && accountId === implicitAccountId) {
-                    setShowCouldNotFindAccountModal(true);
-                }
+            const implicitAccountId = getImplicitAccountIdFromSeedPhrase(seedPhrase);
+            if (accountIdsBySeedPhrase.length === 0 && accountId === implicitAccountId) {
+                setShowCouldNotFindAccountModal(true);
             }
 
             setAccountIdsBySeedPhrase(accountIdsBySeedPhrase);

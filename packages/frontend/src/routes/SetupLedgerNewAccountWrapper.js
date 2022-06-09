@@ -1,7 +1,6 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 
-import { IMPORT_ZERO_BALANCE_ACCOUNT } from '../../../../features';
 import SetupLedgerNewAccount from '../components/accounts/ledger/SetupLedgerNewAccount';
 import { getLedgerPublicKey, redirectTo } from '../redux/actions/account';
 import { showCustomAlert } from '../redux/actions/status';
@@ -9,8 +8,7 @@ import { initiateSetupForZeroBalanceAccountLedger } from '../redux/slices/accoun
 import {
     actions as ledgerActions
 } from '../redux/slices/ledger';
-import { setLedgerHdPath } from '../utils/localStorage';
-import { setKeyMeta, wallet } from '../utils/wallet';
+import { wallet } from '../utils/wallet';
 
 const {
     checkAndHideLedgerModal
@@ -40,20 +38,12 @@ export function SetupLedgerNewAccountWrapper() {
                         }
                     }
 
-                    if (IMPORT_ZERO_BALANCE_ACCOUNT) {
-                        await dispatch(initiateSetupForZeroBalanceAccountLedger({
-                            implicitAccountId,
-                            ledgerPublicKey,
-                            ledgerHdPath: path
-                        }));
-                        dispatch(redirectTo('/'));
-                    } else {
-                        if (path) {
-                            setLedgerHdPath({ accountId: implicitAccountId, path });
-                        }
-                        await setKeyMeta(ledgerPublicKey, { type: 'ledger' });
-                        dispatch(redirectTo(`/create-implicit-account?implicitAccountId=${implicitAccountId}&recoveryMethod=ledger`));
-                    }
+                    await dispatch(initiateSetupForZeroBalanceAccountLedger({
+                        implicitAccountId,
+                        ledgerPublicKey,
+                        ledgerHdPath: path
+                    }));
+                    dispatch(redirectTo('/'));
                     dispatch(checkAndHideLedgerModal());
                 } catch (e) {
                     dispatch(showCustomAlert({
