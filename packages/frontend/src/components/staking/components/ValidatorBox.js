@@ -3,7 +3,6 @@ import { Translate } from 'react-localize-redux';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 
-import { FARMING_VALIDATOR_APY_DISPLAY } from '../../../../../../features';
 import { Mixpanel } from '../../../mixpanel/index';
 import { redirectTo } from '../../../redux/actions/account';
 import { selectFarmValidatorAPY } from '../../../redux/slices/staking';
@@ -183,16 +182,14 @@ export default function ValidatorBox({
                 </div>
                 {typeof fee === 'number' &&
                     <div className="text-left">
-                        {FARMING_VALIDATOR_APY_DISPLAY ? 
-                            isFarmingValidator && <>
-                                <span><Translate id='staking.validator.apy'/>&nbsp;</span>
-                                {farmAPY === null && validator.active
-                                    ? <span className="animated-dots" style={{width: 16}}/>
-                                    : <span>{farmAPY || 0}</span>
-                                }
-                                <span>%&nbsp;-&nbsp;</span>               
-                            </>
-                        : null}
+                        {isFarmingValidator && <>
+                            <span><Translate id='staking.validator.apy'/>&nbsp;</span>
+                            {farmAPY === null && validator.active
+                                ? <span className="animated-dots" style={{width: 16}}/>
+                                : <span>{farmAPY || 0}</span>
+                            }
+                            <span>%&nbsp;-&nbsp;</span>
+                        </>}
                         <span>{fee}% <Translate id='staking.validatorBox.fee' /> -&nbsp;</span>
                         <span>
                             {

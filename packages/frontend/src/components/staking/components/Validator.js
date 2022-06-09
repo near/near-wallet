@@ -3,7 +3,6 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { Translate } from 'react-localize-redux';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { FARMING_VALIDATOR_APY_DISPLAY } from '../../../../../../features';
 import { Mixpanel } from '../../../mixpanel';
 import { redirectTo } from '../../../redux/actions/account';
 import { claimFarmRewards, getValidatorFarmData } from '../../../redux/actions/staking';
@@ -187,9 +186,7 @@ export default function Validator({
                 <Translate id='staking.validator.button' />
             </FormButton>
             {validator && <StakingFee fee={validator.fee.percentage} />}
-            {FARMING_VALIDATOR_APY_DISPLAY
-                ? isFarmingValidator && <FarmingAPY apy={farmAPY} />
-                : null}
+            {isFarmingValidator && <FarmingAPY apy={farmAPY} />}
             {validator && !stakeNotAllowed && !pendingUpdateStaking &&
                 <>
                     <BalanceBox
