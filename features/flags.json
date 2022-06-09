@@ -130,49 +130,5 @@
       "lastEditedBy": "esaminu",
       "lastEditedAt": "2022-05-05T18:07:28.665Z"
     }
-  },
-  "IMPORT_ZERO_BALANCE_ACCOUNT": {
-    "createdBy": "Patrick Tajima",
-    "createdAt": "2022-05-06T17:30:49.430Z",
-    "development": {
-      "enabled": true,
-      "lastEditedBy": "Patrick Tajima",
-      "lastEditedAt": "2022-05-24T23:56:29.721Z"
-    },
-    "testnet": {
-      "enabled": true,
-      "lastEditedBy": "Patrick Tajima",
-      "lastEditedAt": "2022-05-24T23:56:29.721Z"
-    },
-    "mainnet": {
-      "enabled": true,
-      "lastEditedBy": "Patrick Tajima",
-      "lastEditedAt": "2022-05-27T17:30:49.430Z"
-    },
-    "mainnet_STAGING": {
-      "enabled": true,
-      "lastEditedBy": "Patrick Tajima",
-      "lastEditedAt": "2022-05-24T23:56:29.721Z"
-    },
-    "testnet_STAGING": {
-      "enabled": true,
-      "lastEditedBy": "Patrick Tajima",
-      "lastEditedAt": "2022-05-24T23:56:29.721Z"
-    },
-    "testnet_NEARORG": {
-      "enabled": true,
-      "lastEditedBy": "Patrick Tajima",
-      "lastEditedAt": "2022-05-24T23:56:29.721Z"
-    },
-    "mainnet_NEARORG": {
-      "enabled": true,
-      "lastEditedBy": "esaminu",
-      "lastEditedAt": "2022-05-27T23:34:05.414Z"
-    },
-    "mainnet_STAGING_NEARORG": {
-      "enabled": true,
-      "lastEditedBy": "Patrick Tajima",
-      "lastEditedAt": "2022-05-24T23:56:29.721Z"
-    }
   }
 }
