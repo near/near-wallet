@@ -286,26 +286,26 @@ class Wallet {
         const keyInfoView = allKeys.find(({public_key}) => public_key === publicKeyString);
 
         if (keyInfoView) {
-           if (this.isFullAccessKey(keyInfoView)) return this.KEY_TYPES.FAK;
-           if (this.isLedgerKey(accountId, keyInfoView)) return this.KEY_TYPES.LEDGER;
-           if (this.isMultisigKey(accountId, keyInfoView)) return this.KEY_TYPES.MULTISIG;
+           if (this.isFullAccessKeyInfoView(keyInfoView)) return this.KEY_TYPES.FAK;
+           if (this.isLedgerKeyInfoView(accountId, keyInfoView)) return this.KEY_TYPES.LEDGER;
+           if (this.isMultisigKeyInfoView(accountId, keyInfoView)) return this.KEY_TYPES.MULTISIG;
             return this.KEY_TYPES.OTHER;
         }
 
         throw new Error('No matching key pair for public key');
     }
 
-    isFullAccessKey(keyInfoView) {
+    isFullAccessKeyInfoView(keyInfoView) {
         return keyInfoView?.access_key?.permission === 'FullAccess';
     }
 
-    isLedgerKey(accountId, keyInfoView) {
+    isLedgerKeyInfoView(accountId, keyInfoView) {
         const receiver_id = keyInfoView?.access_key?.permission?.FunctionCall?.receiver_id;
         const method_names = keyInfoView?.access_key?.permission?.FunctionCall?.method_names;
         return receiver_id === accountId && isEqual(method_names, ['__wallet__metadata']);
     }
 
-    isMultisigKey(accountId, keyInfoView) {
+    isMultisigKeyInfoView(accountId, keyInfoView) {
         const receiver_id = keyInfoView?.access_key?.permission?.FunctionCall?.receiver_id;
         const method_names = keyInfoView?.access_key?.permission?.FunctionCall?.method_names;
         return receiver_id === accountId && isEqual(method_names, ['add_request', 'add_request_and_confirm', 'delete_request', 'confirm']);

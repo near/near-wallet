@@ -2,8 +2,9 @@ import React from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
-import RightArrow from '../../images/icon-arrow-right.svg';
+import IconArrowRight from '../../images/IconArrowRight';
 import IconCheck from '../../images/IconCheck';
+import IconClose from '../../images/IconClose';
 import UserIconGrey from '../../images/UserIconGrey';
 
 const UserIcon = styled.div`
@@ -42,6 +43,13 @@ overflow: hidden;
     text-overflow: ellipsis;
 }
 
+.status {
+  > svg {
+    width: 12px;
+    height: 12px;
+  }
+}
+
 .row {
     border-top: 2px solid #f5f5f5;
     display: flex;
@@ -49,12 +57,18 @@ overflow: hidden;
     align-items: center;
 
     &.success .status {
-        text-align: right;
+        > svg {
+          width: 24px;
+          height: 24px;
+        }
+        &.onclick {
+          > svg {
+            width: 12px;
+            height: 12px;
+          }
+        }
     }
-    &.error .status {
-        background: #ffb1b2;
-        color: #450002;
-    }
+    
     &.rejected .status {
         background: #f4f4f4;
         color: #de2e32;
@@ -178,18 +192,24 @@ const AccountListImport = ({ accounts = [], animationScope = 0, onClickAccount }
               <div className='accountId'>
                   {account.accountId}
               </div>
-              {onClickAccount ? <div className='status'><img src={RightArrow} alt="RightArrow" className='right-arrow'/></div> : null}
+              {onClickAccount ? <div className='status onclick'><IconArrowRight stroke="#0072CE" /></div> : null}
               {account.status && !onClickAccount ? 
                 <div className='status'>
-                    {account.status !== 'success' 
-                        ? <Translate id={`signInLedger.modal.status.${account.status}`}/>
-                        : <IconCheck color='#5ace84' stroke='3px' />
-                    }
+                    <StatusIcon status={account.status}/>
                 </div> 
               : null}
           </div>
       ))}
   </AnimateList>
 );
+
+const StatusIcon = ({status}) => {
+  if (status === 'success') {
+    return <IconCheck color='#5ace84' stroke='3px' />;
+  } else if (status === 'error') {
+    return <IconClose stroke="#FC5B5B" />;
+  }
+  return <Translate id={`signInLedger.modal.status.${status}`}/>;
+};
 
 export default AccountListImport;

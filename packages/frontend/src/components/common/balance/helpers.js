@@ -69,7 +69,7 @@ export const getTotalBalanceFromFungibleTokensListUSD = (fungibleTokensList) => 
         totalBalanceUSD += token.fiatValueMetadata.usd * formatTokenAmount(token.balance, token.onChainFTMetadata?.decimals, 5);
     }
     return Number(totalBalanceUSD.toFixed(2));
-}
+};
 
 export const getEstimatedFees = (transactionsList) => {
     const tx = increaseGasForFirstTransaction({ transactions: cloneDeep(transactionsList)});

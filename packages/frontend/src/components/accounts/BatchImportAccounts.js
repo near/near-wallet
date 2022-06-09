@@ -10,6 +10,7 @@ import ImportArrow from '../../images/import-arrow.svg';
 import refreshAccountOwner from '../../redux/sharedThunks/refreshAccountOwner';
 import { selectAccountUrlReferrer } from '../../redux/slices/account';
 import { selectAvailableAccounts, selectAvailableAccountsIsLoading } from '../../redux/slices/availableAccounts';
+import getWalletURL from '../../utils/getWalletURL';
 import { wallet } from '../../utils/wallet';
 import { getEstimatedFees } from '../common/balance/helpers';
 import FormButton from '../common/FormButton';
@@ -33,6 +34,11 @@ const CustomContainer = styled.div`
     .title {
         text-align: left;
         font-size: 12px;
+    }
+
+    .screen-descripton {
+      margin-top: 40px;
+      margin-bottom: 56px;
     }
 `;
 
@@ -85,6 +91,11 @@ const ModalContainer = styled(Container)`
     .error-label {
       margin-top: 16px;
       color: #FC5B5B;
+    }
+
+    .wallet-url {
+      color: #000;
+      font-weight: bold;
     }
 `;
 
@@ -177,6 +188,7 @@ const reducer = (state, action) => {
 const BatchImportAccounts = ({ accountIdToKeyMap, onCancel }) => {
     const availableAccountsIsLoading = useSelector(selectAvailableAccountsIsLoading);
     const availableAccounts = useSelector(selectAvailableAccounts);
+    const accountUrlReferrer = useSelector(selectAccountUrlReferrer);
 
     const [state, dispatch] = useReducer(reducer, {
         accounts: Object.keys(accountIdToKeyMap).map((accountId) => ({
@@ -206,8 +218,17 @@ const BatchImportAccounts = ({ accountIdToKeyMap, onCancel }) => {
     ) : (
         <>
             <Container className="small-centered border ledger-theme">
-                <img src={ImportArrow} alt="ImportArrow" />
-                <CustomContainer>
+              <CustomContainer>
+                  <img src={ImportArrow} alt="ImportArrow" />
+                  <div className='screen-descripton'>
+                    <h3>
+                      <Translate id="batchImportAccounts.importScreen.title" data={{ noOfAccounts: state.accounts.length }}/>
+                      {accountUrlReferrer || <Translate id="sign.unknownApp" />}
+                    </h3>
+                    <br />
+                    <br />
+                    <Translate id="batchImportAccounts.importScreen.desc"/>
+                  </div>
                     <div className="title">
                         {accountsApproved}/{state.accounts.length}{' '}
                         <Translate id="signInLedger.modal.accountsApproved" />
@@ -265,6 +286,9 @@ const BatchImportAccounts = ({ accountIdToKeyMap, onCancel }) => {
                                 <p>
                                     <Translate id="batchImportAccounts.confirmUrlModal.desc" />
                                 </p>
+                                <br />
+                                <br />
+                                <span className='wallet-url'>{getWalletURL()}</span>
                             </div>
                             <FormButton
                                 onClick={() =>
@@ -356,10 +380,7 @@ const AccountImportModal = ({ account, onSuccess, onFail }) => {
               keyPair,
               account.ledgerHdPath
           )
-          .then(() => {
-            console.log('added');
-            dispatch(refreshAccountOwner({}));
-          })
+          .then(() => dispatch(refreshAccountOwner({})))
           .then(onSuccess).catch(() => {
             setError(true);
             setAddingKey(false);
