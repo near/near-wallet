@@ -1,5 +1,8 @@
 module.exports = {
     setupFilesAfterEnv: ['./jest.setup.js'],
     setupFiles: ['dotenv/config'],
-    testEnvironment: 'jsdom'
+    testEnvironment: 'jsdom',
+    moduleNameMapper: {
+        "^.+\\.svg$": "jest-svg-transformer"
+    }
 };
