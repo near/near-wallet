@@ -21,6 +21,7 @@ import ConnectWithApplication from '../login/v2/ConnectWithApplication';
 import SignTransaction from '../sign/v2/SignTransaction';
 import SignTransactionDetails from '../sign/v2/SignTransactionDetails';
 import AccountListImport from './AccountListImport';
+import reducer, { ACTIONS } from './BatchImportAccountsReducer';
 import BatchImportAccountsSuccessScreen from './BatchImportAccountsSuccessScreen';
 
 const CustomContainer = styled.div`
@@ -99,90 +100,11 @@ const ModalContainer = styled(Container)`
     }
 `;
 
-const ACTIONS = {
-  BEGIN_IMPORT: 'BEGIN_IMPORT',
-  SET_CURRENT_DONE: 'SET_CURRENT_DONE',
-  SET_CURRENT_FAILED: 'SET_CURRENT_FAILED',
-  CONFIRM_URL: 'CONFIRM_URL',
-  REMOVE_ACCOUNTS: 'REMOVE_ACCOUNTS'
-};
-
-const IMPORT_STATUS = {
+export const IMPORT_STATUS = {
   PENDING: 'pending',
   SUCCESS: 'success',
   UP_NEXT: 'waiting',
   FAILED: 'error'
-};
-
-const reducer = (state, action) => {
-    switch (action.type) {
-        case ACTIONS.REMOVE_ACCOUNTS:
-            return state.accounts.every(({ status }) => status === null)
-                    ? {
-                        ...state,
-                        accounts: state.accounts.filter(
-                            (account) =>
-                                !action.accounts.some(
-                                    (accountId) => account.accountId === accountId
-                                )
-                        ),
-                      } 
-                    : state;
-        case ACTIONS.BEGIN_IMPORT:
-            return state.accounts.every(({ status }) => status === null)
-                ? {
-                      accounts: state.accounts.map((acc, idx) => ({
-                          ...acc,
-                          status:
-                              idx === 0
-                                  ? IMPORT_STATUS.PENDING
-                                  : IMPORT_STATUS.UP_NEXT,
-                      })),
-                      urlConfirmed: false,
-                  }
-                : state;
-        case ACTIONS.SET_CURRENT_DONE: {
-            let currentIndex = state.accounts.findIndex(
-                (account) => account.status === IMPORT_STATUS.PENDING
-            );
-            return {
-                accounts: state.accounts.map((acc, idx) => ({
-                    ...acc,
-                    status:
-                        idx === currentIndex
-                            ? IMPORT_STATUS.SUCCESS
-                            : idx === currentIndex + 1
-                            ? IMPORT_STATUS.PENDING
-                            : state.accounts[idx].status,
-                })),
-                urlConfirmed: true,
-            };
-        }
-        case ACTIONS.SET_CURRENT_FAILED: {
-            let currentIndex = state.accounts.findIndex(
-                (account) => account.status === IMPORT_STATUS.PENDING
-            );
-            return {
-                accounts: state.accounts.map((acc, idx) => ({
-                    ...acc,
-                    status:
-                        idx === currentIndex
-                            ? IMPORT_STATUS.FAILED
-                            : idx === currentIndex + 1
-                            ? IMPORT_STATUS.PENDING
-                            : state.accounts[idx].status,
-                })),
-                urlConfirmed: true,
-            };
-        }
-        case ACTIONS.CONFIRM_URL:
-            return {
-                ...state,
-                urlConfirmed: true,
-            };
-        default:
-            return state;
-    }
 };
 
 const BatchImportAccounts = ({ accountIdToKeyMap, onCancel }) => {
@@ -199,7 +121,7 @@ const BatchImportAccounts = ({ accountIdToKeyMap, onCancel }) => {
         })),
     });
     const currentAccount = useMemo(() => state.accounts.find((account) => account.status === IMPORT_STATUS.PENDING), [state.accounts]);
-    const accountsApproved = useMemo(() => state.accounts.reduce((acc, curr) => curr.status === IMPORT_STATUS.SUCCESS ? acc + 1 : acc,0), [state.accounts]);
+    const accountsApproved = useMemo(() => state.accounts.filter((account) => account.status === IMPORT_STATUS.SUCCESS), [state.accounts]);
     const completed = useMemo(() => state.accounts.every((account) => account.status === IMPORT_STATUS.SUCCESS || account.status === IMPORT_STATUS.FAILED), [state.accounts]);
     const showSuccessScreen = useMemo(() => completed && state.accounts.some((account) => account.status === IMPORT_STATUS.SUCCESS), [completed, state.accounts]);
 
@@ -211,9 +133,7 @@ const BatchImportAccounts = ({ accountIdToKeyMap, onCancel }) => {
 
     return showSuccessScreen ? (
         <BatchImportAccountsSuccessScreen
-            accounts={state.accounts.filter(
-                ({ status }) => status === IMPORT_STATUS.SUCCESS
-            )}
+            accounts={accountsApproved}
         />
     ) : (
         <>
@@ -230,7 +150,7 @@ const BatchImportAccounts = ({ accountIdToKeyMap, onCancel }) => {
                     <Translate id="batchImportAccounts.importScreen.desc"/>
                   </div>
                     <div className="title">
-                        {accountsApproved}/{state.accounts.length}{' '}
+                        {accountsApproved.length}/{state.accounts.length}{' '}
                         <Translate id="signInLedger.modal.accountsApproved" />
                     </div>
                     <AccountListImport accounts={state.accounts} />
@@ -381,7 +301,8 @@ const AccountImportModal = ({ account, onSuccess, onFail }) => {
               account.ledgerHdPath
           )
           .then(() => dispatch(refreshAccountOwner({})))
-          .then(onSuccess).catch(() => {
+          .then(onSuccess)
+          .catch(() => {
             setError(true);
             setAddingKey(false);
           });
