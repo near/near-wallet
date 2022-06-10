@@ -6,7 +6,6 @@ import { validateEmail } from '../../../../utils/account';
 import RecoveryOption from '../../../accounts/recovery_setup/RecoveryOption';
 import FormButton from '../../../common/FormButton';
 import Container from '../../../common/styled/Container.css';
-import Tooltip from '../../../common/Tooltip';
 
 const StyledContainer = styled(Container)`
     &&& {
@@ -32,7 +31,6 @@ export default ({
     setEmail
 }) => {
     const [recoveryOption, setRecoveryOption] = useState('phrase');
-    const [emailIsInvalid, setEmailisInvalid] = useState(false);
 
     const isValidInput = () => {
         switch (recoveryOption) {
@@ -58,10 +56,7 @@ export default ({
             }}>
                 <h1><Translate id='setupRecovery.header' /></h1>
                 <h2><Translate id='setupRecovery.subHeader' /></h2>
-                <h4>
-                    <Translate id='setupRecovery.advancedSecurity' />
-                    <Tooltip translate='profile.security.mostSecureDesc' icon='icon-lg' />
-                </h4>
+                <h4></h4>
                 <RecoveryOption
                     onClick={() => setRecoveryOption('phrase')}
                     option='phrase'
@@ -72,32 +67,6 @@ export default ({
                     option='ledger'
                     active={recoveryOption}
                 />
-                <h4>
-                    <Translate id='setupRecovery.basicSecurity' />
-                    <Tooltip translate='profile.security.lessSecureDesc' icon='icon-lg' />
-                </h4>
-                <RecoveryOption
-                    onClick={() => setRecoveryOption('email')}
-                    option='email'
-                    active={recoveryOption}
-                    problem={recoveryOption === 'email' && emailIsInvalid}
-                >
-                    <Translate>
-                        {({ translate }) => (
-                            <input
-                                type='email'
-                                placeholder={translate('setupRecovery.emailPlaceholder')}
-                                value={email}
-                                onChange={(e) => {
-                                    setEmail(e.target.value);
-                                    setEmailisInvalid(false);
-                                }}
-                                onBlur={() => setEmailisInvalid(email !== '' && !isValidInput())}
-                                tabIndex='1'
-                            />
-                        )}
-                    </Translate>
-                </RecoveryOption>
                 <FormButton
                     color='blue'
                     type='submit'

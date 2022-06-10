@@ -173,7 +173,7 @@ export function Profile({ match }) {
         if (accountIdFromUrl && accountIdFromUrl !== accountIdFromUrl.toLowerCase()) {
             dispatch(redirectTo(`/profile/${accountIdFromUrl.toLowerCase()}`));
         }
-        
+
         (async () => {
             if (isOwner) {
                 await dispatch(fetchRecoveryMethods({ accountId }));
@@ -213,8 +213,8 @@ export function Profile({ match }) {
             let id = Mixpanel.get_distinct_id();
             Mixpanel.identify(id);
             Mixpanel.people.set({
-                create_2FA_at: twoFactor.createdAt, 
-                enable_2FA_kind:twoFactor.kind, 
+                create_2FA_at: twoFactor.createdAt,
+                enable_2FA_kind:twoFactor.kind,
                 enabled_2FA: twoFactor.confirmed});
         }
     }, [twoFactor]);
@@ -293,9 +293,6 @@ export function Profile({ match }) {
                         <h4><Translate id='profile.security.mostSecure'/><Tooltip translate='profile.security.mostSecureDesc' icon='icon-lg'/></h4>
                         {!twoFactor && <HardwareDevices recoveryMethods={userRecoveryMethods}/>}
                         <RecoveryContainer type='phrase' recoveryMethods={userRecoveryMethods}/>
-                        <h4><Translate id='profile.security.lessSecure'/><Tooltip translate='profile.security.lessSecureDesc' icon='icon-lg'/></h4>
-                        <RecoveryContainer type='email' recoveryMethods={userRecoveryMethods}/>
-                        <RecoveryContainer type='phone' recoveryMethods={userRecoveryMethods}/>
                         {!account.ledgerKey &&
                             <>
                                 <hr/>
