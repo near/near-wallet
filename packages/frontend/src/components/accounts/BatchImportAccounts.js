@@ -336,11 +336,11 @@ const AccountImportModal = ({ account, onSuccess, onFail }) => {
                       estimatedFees={keyType === WalletClass.KEY_TYPES.FAK ? estimatedAddFAKTransactionFees : '0'}
                       fromLabelId="batchImportAccounts.confirmImportModal.accountToImport"
                   />
-                  {keyType === WalletClass.KEY_TYPES.FAK ? (
+                  {keyType === WalletClass.KEY_TYPES.FAK && (
                       <FormButton className="link" onClick={() => setShowTxDetails(true)}>
                           <Translate id="batchImportAccounts.confirmImportModal.transactionDetails" />
                       </FormButton>
-                  ) : null}
+                  )}
                   {error ? <div className='error-label'><Translate id="reduxActions.default.error" /></div> : null}
                   <FormButtonGroup>
                       <FormButton onClick={onFail} className="gray-blue">
