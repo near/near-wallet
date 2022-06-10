@@ -6,7 +6,6 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { IMPORT_ZERO_BALANCE_ACCOUNT } from '../../../../../features';
 import { Mixpanel } from '../../mixpanel/index';
 import {
     recoverAccountSeedPhrase,
@@ -105,10 +104,8 @@ class RecoverAccountSeedPhrase extends Component {
                 await refreshAccount();
             }, (e) => {
 
-                if (IMPORT_ZERO_BALANCE_ACCOUNT) {
-                    if (e.message.includes('Cannot find matching public key')) {
-                        this.setState({ showCouldNotFindAccountModal: true });
-                    }
+                if (e.message.includes('Cannot find matching public key')) {
+                    this.setState({ showCouldNotFindAccountModal: true });
                 }
 
                 throw e;
