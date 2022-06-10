@@ -12,7 +12,7 @@ import { selectAccountUrlReferrer } from '../../redux/slices/account';
 import { selectAvailableAccounts, selectAvailableAccountsIsLoading } from '../../redux/slices/availableAccounts';
 import { getEstimatedFees } from '../../redux/slices/sign';
 import getWalletURL from '../../utils/getWalletURL';
-import { wallet } from '../../utils/wallet';
+import WalletClass, { wallet } from '../../utils/wallet';
 import FormButton from '../common/FormButton';
 import FormButtonGroup from '../common/FormButtonGroup';
 import Modal from '../common/modal/Modal';
@@ -261,7 +261,7 @@ const AccountImportModal = ({ account, onSuccess, onFail }) => {
       keyPair = KeyPair.fromString(account.key).getPublicKey().toString();
     } catch (error) {
       setError(true);
-      setKeyType(wallet.KEY_TYPES.OTHER);
+      setKeyType(WalletClass.KEY_TYPES.OTHER);
     }
 
     if (keyPair) {
@@ -272,7 +272,7 @@ const AccountImportModal = ({ account, onSuccess, onFail }) => {
         )
         .then(setKeyType).catch(() => {
           setError(true);
-          setKeyType(wallet.KEY_TYPES.OTHER);
+          setKeyType(WalletClass.KEY_TYPES.OTHER);
         });
     }
 
@@ -333,10 +333,10 @@ const AccountImportModal = ({ account, onSuccess, onFail }) => {
                   <SignTransaction
                       sender={account.accountId}
                       availableBalance={accountBalance}
-                      estimatedFees={keyType === wallet.KEY_TYPES.FAK ? estimatedAddFAKTransactionFees : '0'}
+                      estimatedFees={keyType === WalletClass.KEY_TYPES.FAK ? estimatedAddFAKTransactionFees : '0'}
                       fromLabelId="batchImportAccounts.confirmImportModal.accountToImport"
                   />
-                  {keyType === wallet.KEY_TYPES.FAK ? (
+                  {keyType === WalletClass.KEY_TYPES.FAK ? (
                       <FormButton className="link" onClick={() => setShowTxDetails(true)}>
                           <Translate id="batchImportAccounts.confirmImportModal.transactionDetails" />
                       </FormButton>
@@ -349,7 +349,7 @@ const AccountImportModal = ({ account, onSuccess, onFail }) => {
                       <FormButton
                           onClick={addKeyToWalletKeyStore}
                           disabled={
-                              !keyType || keyType === wallet.KEY_TYPES.OTHER
+                              !keyType || keyType === WalletClass.KEY_TYPES.OTHER
                           }
                           sending={addingKey}
                       >

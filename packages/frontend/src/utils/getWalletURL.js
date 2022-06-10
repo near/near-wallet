@@ -1,5 +1,6 @@
 import { IS_MAINNET, SHOW_PRERELEASE_WARNING, NEAR_WALLET_ENV } from '../config';
 import { isWhitelabel } from '../config/whitelabel';
+import Environments from '../../../../features/environments.json'
 
 const getNearOrgWalletUrl = (https = true) => {
     let networkName = '';
@@ -15,10 +16,10 @@ const getNearOrgWalletUrl = (https = true) => {
 
 const getMyNearWalletUrl = (https = true) => {
     const prefix = {
-        'testnet': 'testnet.',
-        'mainnet': 'app.',
-        'development': 'testnet.',
-        'mainnet_STAGING': 'staging.'
+        [Environments.TESTNET]: 'testnet.',
+        [Environments.MAINNET]: 'app.',
+        [Environments.DEVELOPMENT]: 'testnet.',
+        [Environments.MAINNET_STAGING]: 'staging.'
     }[NEAR_WALLET_ENV];
 
     return `${https ? 'https://' : ''}${prefix || ''}mynearwallet.com`;

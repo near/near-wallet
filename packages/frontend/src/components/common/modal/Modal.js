@@ -46,13 +46,11 @@ function Modal({
     },[]);
 
     useEffect(() => { 
+        setFadeType('out');
         if (isOpen) {
-            setFadeType('out');
             setTimeout(() => {
                 setFadeType('in');
             }, 500);
-        } else {
-            setFadeType('out');
         }
      }, [isOpen]);
 

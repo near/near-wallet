@@ -107,7 +107,7 @@ export async function getKeyMeta(publicKey) {
     }
 }
 
-class Wallet {
+export default class Wallet {
     constructor() {
         this.keyStore = new nearApiJs.keyStores.BrowserLocalStorageKeyStore(window.localStorage, 'nearlib:keystore:');
         this.inMemorySigner = new nearApiJs.InMemorySigner(this.keyStore);
@@ -150,7 +150,7 @@ class Wallet {
         this.accountId = localStorage.getItem(KEY_ACTIVE_ACCOUNT_ID) || '';
     }
 
-    KEY_TYPES = {
+    static KEY_TYPES = {
         LEDGER: 'ledger',
         MULTISIG: 'multisig',
         FAK: 'fullAccessKey',
@@ -286,10 +286,10 @@ class Wallet {
         const keyInfoView = allKeys.find(({public_key}) => public_key === publicKeyString);
 
         if (keyInfoView) {
-           if (this.isFullAccessKeyInfoView(keyInfoView)) return this.KEY_TYPES.FAK;
-           if (this.isLedgerKeyInfoView(accountId, keyInfoView)) return this.KEY_TYPES.LEDGER;
-           if (this.isMultisigKeyInfoView(accountId, keyInfoView)) return this.KEY_TYPES.MULTISIG;
-            return this.KEY_TYPES.OTHER;
+           if (this.isFullAccessKeyInfoView(keyInfoView)) return Wallet.KEY_TYPES.FAK;
+           if (this.isLedgerKeyInfoView(accountId, keyInfoView)) return Wallet.KEY_TYPES.LEDGER;
+           if (this.isMultisigKeyInfoView(accountId, keyInfoView)) return Wallet.KEY_TYPES.MULTISIG;
+            return Wallet.KEY_TYPES.OTHER;
         }
 
         throw new Error('No matching key pair for public key');
@@ -318,7 +318,7 @@ class Wallet {
         );
 
         switch (keyType) {
-            case this.KEY_TYPES.FAK: {
+            case Wallet.KEY_TYPES.FAK: {
                 const keyStore = new nearApiJs.keyStores.InMemoryKeyStore();
                 await keyStore.setKey(NETWORK_ID, accountId, keyPair);
                 const newKeyPair = nearApiJs.KeyPair.fromRandom('ed25519');
@@ -342,11 +342,11 @@ class Wallet {
                         return this.save();
                     });
             }
-            case this.KEY_TYPES.MULTISIG:
-            case this.KEY_TYPES.LEDGER:
+            case Wallet.KEY_TYPES.MULTISIG:
+            case Wallet.KEY_TYPES.LEDGER:
                 return this.saveAccount(accountId, keyPair)
                     .then(() => {
-                        if (keyType === this.KEY_TYPES.LEDGER) {
+                        if (keyType === Wallet.KEY_TYPES.LEDGER) {
                             if (ledgerHdPath) {
                                 setLedgerHdPath({accountId, path: ledgerHdPath});
                             }
