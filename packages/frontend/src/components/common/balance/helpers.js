@@ -1,8 +1,6 @@
 import BN from 'bn.js';
-import cloneDeep from 'lodash.clonedeep';
 import { utils } from 'near-api-js';
 
-import { calculateGasLimit, increaseGasForFirstTransaction } from '../../../redux/slices/sign';
 import { formatTokenAmount } from '../../../utils/amounts';
 
 const NEAR_FRACTIONAL_DIGITS = 5;
@@ -69,9 +67,4 @@ export const getTotalBalanceFromFungibleTokensListUSD = (fungibleTokensList) => 
         totalBalanceUSD += token.fiatValueMetadata.usd * formatTokenAmount(token.balance, token.onChainFTMetadata?.decimals, 5);
     }
     return Number(totalBalanceUSD.toFixed(2));
-};
-
-export const getEstimatedFees = (transactionsList) => {
-    const tx = increaseGasForFirstTransaction({ transactions: cloneDeep(transactionsList)});
-    return new BN(calculateGasLimit(tx.flatMap((t) => t.actions)));
 };
