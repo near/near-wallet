@@ -19,7 +19,6 @@ import {
     DISABLE_CREATE_ACCOUNT,
 } from '../config';
 import { isWhitelabel } from '../config/whitelabel';
-import ExampleFlag from '../ExampleFlag';
 import { Mixpanel } from '../mixpanel/index';
 import * as accountActions from '../redux/actions/account';
 import { handleClearAlert } from '../redux/reducers/status';
@@ -376,11 +375,6 @@ class Routing extends Component {
                                     pathname: '/*',
                                     search: search,
                                 }}
-                            />
-                            <Route
-                                exact
-                                path="/example_flag"
-                                component={ExampleFlag}
                             />
                             <GuestLandingRoute
                                 exact
