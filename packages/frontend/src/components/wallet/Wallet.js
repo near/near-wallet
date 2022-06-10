@@ -25,7 +25,6 @@ import DepositNearBanner from './DepositNearBanner';
 import ExploreApps from './ExploreApps';
 import LinkDropSuccessModal from './LinkDropSuccessModal';
 import NFTs from './NFTs';
-import ReleaseNotesModal from './ReleaseNotesModal';
 import Sidebar from './Sidebar';
 import Tokens from './Tokens';
 
@@ -321,7 +320,6 @@ export function Wallet({
         <StyledContainer
             className={SHOW_NETWORK_BANNER ? 'showing-banner' : ''}
         >
-            <ReleaseNotesModal />
             <div className="split">
                 <div className="left">
                     <div className="tab-selector">
