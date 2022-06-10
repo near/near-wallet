@@ -1,4 +1,4 @@
-import { IMPORT_STATUS } from "./BatchImportAccounts";
+import { IMPORT_STATUS } from './BatchImportAccounts';
 
 export const ACTIONS = {
   BEGIN_IMPORT: 'BEGIN_IMPORT',
@@ -26,7 +26,7 @@ const reducer = (state, action) => {
         };
       }
       case ACTIONS.BEGIN_IMPORT: {
-          if(!state.accounts.every(({ status }) => status === null)) {
+          if (!state.accounts.every(({ status }) => status === null)) {
             return state;
           }
 
@@ -37,7 +37,7 @@ const reducer = (state, action) => {
               ...remainingAccounts.map((account) => ({ ...account, status: IMPORT_STATUS.UP_NEXT })),
             ],
             urlConfirmed: false,
-          }
+          };
       }
       case ACTIONS.SET_CURRENT_DONE: {
           const currentIndex = state.accounts.findIndex(
@@ -79,4 +79,4 @@ const reducer = (state, action) => {
   }
 };
 
-export default reducer
+export default reducer;
