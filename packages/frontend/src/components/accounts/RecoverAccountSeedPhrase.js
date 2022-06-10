@@ -86,7 +86,8 @@ class RecoverAccountSeedPhrase extends Component {
             recoverAccountSeedPhrase,
             refreshAccount,
             showCustomAlert,
-            importZeroBalanceAccountPhrase
+            importZeroBalanceAccountPhrase,
+            setZeroBalanceAccountImportMethod
         } = this.props;
 
         try {
@@ -107,7 +108,6 @@ class RecoverAccountSeedPhrase extends Component {
                 await recoverAccountSeedPhrase(seedPhrase);
                 await refreshAccount();
             }, async (e) => {
-
                 if (e.message.includes('Cannot find matching public key')) {
                     await importZeroBalanceAccountPhrase(seedPhrase);
                     setZeroBalanceAccountImportMethod('phrase');
@@ -168,7 +168,8 @@ const mapDispatchToProps = {
     clearLocalAlert,
     clearAccountState,
     showCustomAlert,
-    importZeroBalanceAccountPhrase
+    importZeroBalanceAccountPhrase,
+    setZeroBalanceAccountImportMethod
 };
 
 const mapStateToProps = (state, { match }) => ({

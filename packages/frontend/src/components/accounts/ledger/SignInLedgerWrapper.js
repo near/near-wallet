@@ -5,7 +5,6 @@ import { Mixpanel } from '../../../mixpanel/index';
 import {
     redirectToApp,
     redirectTo,
-    refreshAccount,
     clearAccountState
 } from '../../../redux/actions/account';
 import { clearGlobalAlert } from '../../../redux/actions/status';
