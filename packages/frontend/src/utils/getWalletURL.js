@@ -1,6 +1,6 @@
+import Environments from '../../../../features/environments.json';
 import { IS_MAINNET, SHOW_PRERELEASE_WARNING, NEAR_WALLET_ENV } from '../config';
 import { isWhitelabel } from '../config/whitelabel';
-import Environments from '../../../../features/environments.json'
 
 const getNearOrgWalletUrl = (https = true) => {
     let networkName = '';
