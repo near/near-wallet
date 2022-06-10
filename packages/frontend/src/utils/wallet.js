@@ -322,7 +322,7 @@ export default class Wallet {
                 const keyStore = new nearApiJs.keyStores.InMemoryKeyStore();
                 await keyStore.setKey(NETWORK_ID, accountId, keyPair);
                 const newKeyPair = nearApiJs.KeyPair.fromRandom('ed25519');
-                return new nearApiJs.Account(
+                const account = new nearApiJs.Account(
                     nearApiJs.Connection.fromConfig({
                         networkId: NETWORK_ID,
                         provider: {
@@ -332,33 +332,33 @@ export default class Wallet {
                         signer: new nearApiJs.InMemorySigner(keyStore),
                     }),
                     accountId
-                )
-                    .addKey(newKeyPair.getPublicKey())
-                    .then(() => this.saveAccount(accountId, newKeyPair))
-                    .then(() => {
-                        if (!this.accountId) {
-                            return this.makeAccountActive(accountId);
-                        }
-                        return this.save();
-                    });
+                );
+
+                await account.addKey(newKeyPair.getPublicKey());
+                await this.saveAccount(accountId, newKeyPair);
+                
+                if (!this.accountId) {
+                    return this.makeAccountActive(accountId);
+                }
+                return this.save();
             }
             case Wallet.KEY_TYPES.MULTISIG:
-            case Wallet.KEY_TYPES.LEDGER:
-                return this.saveAccount(accountId, keyPair)
-                    .then(() => {
-                        if (keyType === Wallet.KEY_TYPES.LEDGER) {
-                            if (ledgerHdPath) {
-                                setLedgerHdPath({accountId, path: ledgerHdPath});
-                            }
-                            return this.getLedgerPublicKey(ledgerHdPath).then((publicKey) => setKeyMeta(publicKey.toString(), {type: 'ledger'}));
-                        }
-                    })
-                    .then(() => {
-                        if (!this.accountId) {
-                            return this.makeAccountActive(accountId);
-                        }
-                        return this.save();
-                    });
+            case Wallet.KEY_TYPES.LEDGER: {
+                await this.saveAccount(accountId, keyPair);
+
+                if (keyType === Wallet.KEY_TYPES.LEDGER) {
+                    if (ledgerHdPath) {
+                        setLedgerHdPath({accountId, path: ledgerHdPath});
+                    }
+
+                    await this.getLedgerPublicKey(ledgerHdPath).then((publicKey) => setKeyMeta(publicKey.toString(), {type: 'ledger'}));
+                }
+                
+                if (!this.accountId) {
+                    return this.makeAccountActive(accountId);
+                }
+                return this.save();
+            }
             default:
                 throw new Error('Unable to add unrecognized key to wallet key store');
         }
