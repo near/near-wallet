@@ -268,7 +268,7 @@ async function getAccountBalance(limitedAccountData = false) {
         let totalBalance = new BN(lockupBalance.total);
         let stakedBalanceLockup = new BN(0);
         const stakingPoolLockupAccountId = await this.wrappedAccount.viewFunction(lockupAccountId, 'get_staking_pool_account_id');
-        let hasUnclaimedTokenBalance = stakingPoolLockupAccountId && await StakingFarmContracts.hasUnclaimedRewards({
+        const hasUnclaimedTokenBalance = stakingPoolLockupAccountId && await StakingFarmContracts.hasUnclaimedRewards({
             contractName: stakingPoolLockupAccountId,
             account_id: lockupAccountId,
             from_index: 0,
