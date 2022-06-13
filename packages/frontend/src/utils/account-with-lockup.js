@@ -129,9 +129,7 @@ export async function transferAllFromLockup(missingAmount) {
             poolAccountId &&
             (await StakingFarmContracts.hasUnclaimedRewards({
                 contractName: poolAccountId,
-                account_id: lockupAccountId,
-                from_index: 0,
-                limit: 300,
+                account_id: lockupAccountId
             }));
         if (!new BN(stakingPoolBalance).eq(new BN(0)) || hasUnclaimedTokenRewards) {
             throw new WalletError('Staking pool balance detected.', 'lockup.transferAllWithStakingPoolBalance');
@@ -277,9 +275,7 @@ async function getAccountBalance(limitedAccountData = false) {
         const stakingPoolLockupAccountId = await this.wrappedAccount.viewFunction(lockupAccountId, 'get_staking_pool_account_id');
         const hasUnclaimedTokenBalance = stakingPoolLockupAccountId && await StakingFarmContracts.hasUnclaimedRewards({
             contractName: stakingPoolLockupAccountId,
-            account_id: lockupAccountId,
-            from_index: 0,
-            limit: 300,
+            account_id: lockupAccountId
         });
         if (stakingPoolLockupAccountId) {
             stakedBalanceLockup = new BN(await this.wrappedAccount.viewFunction(stakingPoolLockupAccountId,
