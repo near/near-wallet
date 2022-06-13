@@ -9,6 +9,7 @@ import status from '../reducers/status';
 import availableAccountsSlice from '../slices/availableAccounts';
 import createFromImplicitSlice from '../slices/createFromImplicit';
 import flowLimitationSlice from '../slices/flowLimitation';
+import importZeroBalanceAccountSlice from '../slices/importZeroBalanceAccount';
 import ledgerSlice from '../slices/ledger';
 import linkdropSlice from '../slices/linkdrop';
 import multiplierSlice from '../slices/multiplier';
@@ -33,6 +34,7 @@ export default (history) => ({
     [transactionsSlice.name]: transactionsSlice.reducer,
     [flowLimitationSlice.name]: flowLimitationSlice.reducer,
     [createFromImplicitSlice.name]: createFromImplicitSlice.reducer,
+    [importZeroBalanceAccountSlice.name]: importZeroBalanceAccountSlice.reducer,
     [recoveryMethodsSlice.name]: recoveryMethodsSlice.reducer,
     [availableAccountsSlice.name]: availableAccountsSlice.reducer,
     [ledgerSlice.name]: ledgerSlice.reducer,
