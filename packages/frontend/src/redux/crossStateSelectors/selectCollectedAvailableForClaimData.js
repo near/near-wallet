@@ -97,7 +97,7 @@ export const selectCollectedAvailableForClaimDataByAccountId = createSelector(
 );
 
 export const selectHasAvailableForClaimForAccountId = createSelector(
-    [selectCollectedAvailableForClaimDataForAccountId],
+    [selectCollectedAvailableForClaimDataByAccountId],
     (farmData) =>
         farmData.filter((tokenData) => +tokenData.balance > 0).length > 0
 );

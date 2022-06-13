@@ -70,7 +70,7 @@ export default class StakingFarmContracts {
         );
     }
 
-    static hasUnclaimedRewards = async ({
+    static hasUnclaimedRewards = ({
         contractName,
         account_id,
         from_index = 0,
