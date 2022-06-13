@@ -71,7 +71,7 @@ const selectCollectedAvailableForClaimData = createSelector(
     }
 );
 
-export const selectCollectedAvailableForClaimDataForAccountId = createSelector(
+export const selectCollectedAvailableForClaimDataByAccountId = createSelector(
     [
         selectValidatorsFarmData,
         selectAllContractMetadata,
