@@ -78,12 +78,12 @@ export default class StakingFarmContracts {
     }) => {
         return (
             StakingFarmContracts.isFarmingValidator(contractName) &&
-            (await StakingFarmContracts.getFarmListWithUnclaimedRewards({
+            StakingFarmContracts.getFarmListWithUnclaimedRewards({
                 contractName,
                 account_id,
                 from_index,
                 limit,
-            }).then(
+            }.then(
                 (farmListWithBalance) =>
                     farmListWithBalance.filter(({ balance }) => +balance > 0)
                         .length > 0
