@@ -73,8 +73,8 @@ export default class StakingFarmContracts {
     static hasUnclaimedRewards = async ({
         contractName,
         account_id,
-        from_index,
-        limit,
+        from_index = 0,
+        limit = 300,
     }) => {
         return (
             StakingFarmContracts.isFarmingValidator(contractName) &&
