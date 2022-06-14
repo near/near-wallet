@@ -1,7 +1,8 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { selectAvailableAccounts } from '../../redux/slices/availableAccounts/index.js';
+import { useLocation } from 'react-router-dom';
 
+import { selectAvailableAccounts } from '../../redux/slices/availableAccounts/index.js';
 import { generateMigrationPin, getExportQueryFromAccounts } from '../../utils/migration.js';
 import GenerateMigrationPin from './GenerateMigrationPin';
 import MigrationPromptModal from './MigrationPromptModal';
@@ -14,6 +15,8 @@ export const WALLET_MIGRATION_VIEWS = {
 };
 
 const WalletMigration = () => {
+    const location = useLocation()
+    const WHITELISTED_ROUTES = ['/batch-import']
     const initialState = {
         activeView: WALLET_MIGRATION_VIEWS.MIGRATION_PROMPT,
         walletType: null,
@@ -21,7 +24,7 @@ const WalletMigration = () => {
     };
 
     const [state, setState] = React.useState(initialState);
-    const availableAccounts = useSelector(selectAvailableAccounts)
+    const availableAccounts = useSelector(selectAvailableAccounts);
 
     const handleStateUpdate = (newState) => {
         setState({...state, ...newState});
@@ -36,23 +39,25 @@ const WalletMigration = () => {
     };
 
     const handleCloseMigrationFlow = ()=>{
-        handleSetActiveView(null)
-    }
+        handleSetActiveView(null);
+    };
 
 
     const handleRedirectToBatchImport = () => {
-        const query = getExportQueryFromAccounts(availableAccounts)
-        localStorage.setItem('MIGRATION_TRIGERRED', true)
-        window.location.href = `/batch-import#${query}`
-    }
+        const query = getExportQueryFromAccounts(availableAccounts);
+        handleCloseMigrationFlow();
+        localStorage.setItem('MIGRATION_TRIGERRED', true);
+        window.location.href = `/batch-import#${query}`;
+    };
 
 
     React.useEffect(() => {
+        const isWhitelistedRoute =  WHITELISTED_ROUTES.includes(location.pathname)
         // Handle if user has not migrated account yet. Maybe set a flag in localstorage on migration triggered
-        if (localStorage.getItem('MIGRATION_TRIGERRED')) {
+        if (localStorage.getItem('MIGRATION_TRIGERRED') || isWhitelistedRoute) {
             handleSetActiveView(null);
         }
-    }, [])
+    }, []);
     
 
   return (
