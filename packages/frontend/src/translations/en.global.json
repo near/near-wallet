@@ -1797,6 +1797,26 @@
             "validatorHasFAK": "Sorry, we are not allowing you to stake with Validator that has a full access key, for your safety."
         }
     },
+    "walletMigration": {
+        "generateMigrationPin": {
+            "desc": "You’ll need this PIN to securely import your accounts to My NEAR Wallet. Copy or write it down until you’ve completed transferring your accounts.",
+            "pinCopySuccess": "PIN copied to clipboard",
+            "title": "PIN required to import accounts"
+        },
+        "migrateAccounts": {
+            "desc": "The following accounts will be transferred to My NEAR Wallet.",
+            "title": "We found ${count} active accounts."
+        },
+        "migrationPrompt": {
+            "desc": "NEAR Wallet is now My NEAR Wallet, and to celebrate the occasion, we’re moving to a new domain. Find us at <a href='https://mynearwallet.com'>https://mynearwallet.com</a>. <br/><br/> If you haven’t already, quickly and easily transfer your accounts:",
+            "title": "NEAR Wallet has a new home!",
+            "transferAccountsBtn": "Transfer My Accounts",
+            "useDifferentWallet": "Use a different wallet"
+        },
+        "selectWallet": {
+            "title": "Select a wallet to transfer accounts"
+        }
+    },
     "warning": "Warning",
     "zeroBalance": {
         "addLedgerKey": {
