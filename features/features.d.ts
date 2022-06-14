@@ -4,5 +4,4 @@
 export type Features = {
     CREATE_USN_CONTRACT: boolean;
 	DONATE_TO_UKRAINE: boolean;
-	EXAMPLE_FLAG: boolean;
 };
