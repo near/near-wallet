@@ -163,14 +163,16 @@ const SelectDestinationWallet = ({ handleSetActiveView, handleSetWalletType, wal
                 <WalletOptionsListing>
                     {WALLET_OPTIONS.map(({ id, name, icon }) => {
                         const isSelected = id === walletType;
-                        return <WalletOptionsListingItem 
-                            className={classNames([{ active: isSelected }])}
-                            onClick={() => handleSetWalletType(id)}
-                            key={name}
+                        return (
+                            <WalletOptionsListingItem 
+                                className={classNames([{ active: isSelected }])}
+                                onClick={() => handleSetWalletType(id)}
+                                key={name}
                             >
-                            <h4 className='name'>{name}</h4>
-                            {icon}
-                        </WalletOptionsListingItem>;
+                                <h4 className='name'>{name}</h4>
+                                {icon}
+                            </WalletOptionsListingItem>
+                        );
                     })}
                 </WalletOptionsListing>
                 <ButtonsContainer>

@@ -87,42 +87,42 @@ const WalletMigration = ({ open, history, onClose }) => {
         }
     }, [open]);
 
-  return (
-    <div>
-        {
-            state.activeView === WALLET_MIGRATION_VIEWS.MIGRATION_PROMPT &&
-                <MigrationPrompt
+    return (
+        <div>
+            {
+                state.activeView === WALLET_MIGRATION_VIEWS.MIGRATION_PROMPT && (
+                    <MigrationPrompt
+                        handleSetWalletType={handleSetWalletType}
+                        handleSetActiveView={handleSetActiveView}
+                        onClose={onClose}
+                    />
+                )}
+            {
+                state.activeView === WALLET_MIGRATION_VIEWS.MIGRATION_SECRET && (
+                    <MigrationSecret
+                        showMigrationPrompt={showMigrationPrompt}
+                        showMigrateAccount={showMigrateAccount}
+                        secretKey={keyToString(initialState.migrationKey)}
+                    />
+                )}
+            {state.activeView === WALLET_MIGRATION_VIEWS.SELECT_DESTINATION_WALLET && (
+                <SelectDestinationWallet
+                    walletType={state.walletType}
+                    onClose={() => handleSetActiveView(null)}
                     handleSetWalletType={handleSetWalletType}
                     handleSetActiveView={handleSetActiveView}
-                    onClose={onClose}
                 />
-        }
-        {
-            state.activeView === WALLET_MIGRATION_VIEWS.MIGRATION_SECRET &&
-                <MigrationSecret
-                    showMigrationPrompt={showMigrationPrompt}
-                    showMigrateAccount={showMigrateAccount}
-                    secretKey={keyToString(initialState.migrationKey)}
-                />
-        }
-        {state.activeView === WALLET_MIGRATION_VIEWS.SELECT_DESTINATION_WALLET &&  
-            <SelectDestinationWallet
-                walletType={state.walletType}
-                onClose={() => handleSetActiveView(null)}
-                handleSetWalletType={handleSetWalletType}
-                handleSetActiveView={handleSetActiveView}
-            />
-        }
-        {
-            state.activeView === WALLET_MIGRATION_VIEWS.MIGRATE_ACCOUNTS &&
-                <MigrateAccounts
-                    accounts={availableAccounts}
-                    onContinue={onContinue}
-                    onClose={onClose}
-                />
-        }
-    </div>
-  );
+            )}
+            {
+                state.activeView === WALLET_MIGRATION_VIEWS.MIGRATE_ACCOUNTS && (
+                    <MigrateAccounts
+                        accounts={availableAccounts}
+                        onContinue={onContinue}
+                        onClose={onClose}
+                    />
+                )}
+        </div>
+    );
 };
 
 export default WalletMigration;

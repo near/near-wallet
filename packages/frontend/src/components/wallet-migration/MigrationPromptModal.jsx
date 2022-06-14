@@ -81,14 +81,16 @@ const MigrationPromptModal = ({ onClose, handleSetActiveView, handleRedirectToBa
                 <p><Translate id='walletMigration.migrationPrompt.desc'/></p>
             </ContentContainer>
             <StyledDivider />
-           <ButtonsContainer>
+            <ButtonsContainer>
                 <StyledButton onClick={handleRedirectToBatchImport}>
                     <Translate id='walletMigration.migrationPrompt.transferAccountsBtn' />
-                 </StyledButton>
-                 <StyledButton className="link" onClick={()=>{handleSetActiveView(WALLET_MIGRATION_VIEWS.SELECT_DESTINATION_WALLET);}}>
+                </StyledButton>
+                <StyledButton className="link" onClick={()=>{
+                    handleSetActiveView(WALLET_MIGRATION_VIEWS.SELECT_DESTINATION_WALLET);
+                }}>
                     <Translate id='walletMigration.migrationPrompt.useDifferentWallet' />
-                 </StyledButton>
-           </ButtonsContainer>
+                </StyledButton>
+            </ButtonsContainer>
         </Modal>
     );
 };
