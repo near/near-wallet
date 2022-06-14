@@ -107,7 +107,15 @@
         "recoverAccount": {
             "error": "Failed to recover account. No accounts were found for this passphrase.",
             "errorInvalidSeedPhrase": "No accounts were found for this passphrase.",
-            "success": "Recover using passphrase is complete.<br/><b>${numberOfAccounts} account(s)</b> have been successfully recovered.<br/>The last one is set as active."
+            "success": "Recover using passphrase is complete.<br/><b>${numberOfAccounts} account(s)</b> have been successfully recovered.<br/>The last one is set as active.",
+            "zeroBalance": {
+                "success": {
+                    "desc": "The account has not yet been funded. Purchase $NEAR to perform transactions with the account.",
+                    "title": "Account Imported",
+                    "phrase": "The following account was successfully imported using the passphrase you provided:",
+                    "ledger": "The following account was successfully imported using the Ledger key you provided:"
+                }
+            }
         },
         "requestCode": {
             "error": "Failed to send SMS with code.",
@@ -288,6 +296,7 @@
         "viewAll": "View All",
         "viewFAQ": "View FAQ",
         "viewOnExplorer": "View on Explorer",
+        "viewPrivateKey": "View private key",
         "withdrawing": "Withdrawing"
     },
     "buyNear": {
@@ -499,6 +508,12 @@
         "exploreApps": "Explore Apps",
         "exploreDeFi": "Explore DeFi",
         "title": "What's on NEAR?"
+    },
+    "exportPrivateKey": {
+        "button": "Export Local Private Key",
+        "desc": "Never share your private key! Anyone with access to it will also have full access to your account.<br /><br />",
+        "enterAccountAddress": "Enter your account address to view your<br />private key.",
+        "title": "View private key?"
     },
     "footer": {
         "contactSupport": "Join Community",
@@ -1724,6 +1739,9 @@
         "recoveryMethods": {
             "lastMethod": "Cannot delete your last recovery method. Unless you have Ledger enabled, you need to keep at least one recovery method active to ensure recoverability of your account.",
             "setupMethod": "An error occurred. Please check your recovery method."
+        },
+        "refreshAccountOwner": {
+            "error": "An error occured while loading your account. Some wallet data may not be up-to-date. Please try refreshing your browser."
         },
         "sendFungibleToken": {
             "error": "An error occurred. Your send transaction was cancelled."

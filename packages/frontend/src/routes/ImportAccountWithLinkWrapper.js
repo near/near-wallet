@@ -2,8 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
-import { IMPORT_ZERO_BALANCE_ACCOUNT } from '../../../../features';
-import { CouldNotFindAccountModalWrapper } from '../components/accounts/CouldNotFindAccountModalWrapper';
 import ImportAccountWithLink from '../components/accounts/import/ImportAccountWithLink';
 import { Mixpanel } from '../mixpanel/index';
 import {
@@ -11,13 +9,18 @@ import {
     redirectTo,
     recoverAccountSeedPhrase,
     refreshAccount,
-    clearAccountState
+    clearAccountState,
+    redirectToApp
 } from '../redux/actions/account';
-import { showCustomAlert } from '../redux/actions/status';
+import { showCustomAlert, clearGlobalAlert } from '../redux/actions/status';
 import { selectAccountId } from '../redux/slices/account';
 import { selectAvailableAccounts } from '../redux/slices/availableAccounts';
+import { actions as importZeroBalanceAccountActions } from '../redux/slices/importZeroBalanceAccount';
+import { importZeroBalanceAccountPhrase } from '../redux/slices/importZeroBalanceAccount/importAccountThunks';
 import { getAccountIdsBySeedPhrase } from '../utils/helper-api';
 import { getImplicitAccountIdFromSeedPhrase } from '../utils/parseSeedPhrase';
+
+const { setZeroBalanceAccountImportMethod } = importZeroBalanceAccountActions;
 
 export function ImportAccountWithLinkWrapper() {
     const dispatch = useDispatch();
@@ -26,20 +29,19 @@ export function ImportAccountWithLinkWrapper() {
     const availableAccounts = useSelector(selectAvailableAccounts);
     const [accountIdsBySeedPhrase, setAccountIdsBySeedPhrase] = useState([]);
     const [importingAccount, setImportingAccount] = useState(null);
-    const [showCouldNotFindAccountModal, setShowCouldNotFindAccountModal] = useState(false);
+    const [isZeroBalanceAccount, setIsZeroBalanceAccount] = useState(false);
 
     useEffect(() => {
         const handleGetAccountsBySeedPhrase = async () => {
             const accountIdsBySeedPhrase = await getAccountIdsBySeedPhrase(seedPhrase);
 
-            if (IMPORT_ZERO_BALANCE_ACCOUNT) {
-                const implicitAccountId = getImplicitAccountIdFromSeedPhrase(seedPhrase);
-                if (accountIdsBySeedPhrase.length === 0 && accountId === implicitAccountId) {
-                    setShowCouldNotFindAccountModal(true);
-                }
+            const implicitAccountId = getImplicitAccountIdFromSeedPhrase(seedPhrase);
+            if (accountIdsBySeedPhrase.length === 0 && accountId === implicitAccountId) {
+                setAccountIdsBySeedPhrase([implicitAccountId]);
+                setIsZeroBalanceAccount(true);
+            } else {
+                setAccountIdsBySeedPhrase(accountIdsBySeedPhrase);
             }
-
-            setAccountIdsBySeedPhrase(accountIdsBySeedPhrase);
         };
         handleGetAccountsBySeedPhrase();
     }, []);
@@ -58,12 +60,18 @@ export function ImportAccountWithLinkWrapper() {
                     if (action === 'import') {
                         await Mixpanel.withTracking('IE Recover with link',
                             async () => {
-                                const shouldCreateFullAccessKey = false;
-                                setImportingAccount(accountId);
-                                await dispatch(recoverAccountSeedPhrase(seedPhrase, accountId, shouldCreateFullAccessKey));
-                                dispatch(refreshAccount());
-                                dispatch(redirectTo('/'));
-                                dispatch(clearAccountState());
+                                if (isZeroBalanceAccount) {
+                                    await dispatch(importZeroBalanceAccountPhrase(seedPhrase));
+                                    dispatch(setZeroBalanceAccountImportMethod('phrase'));
+                                } else {
+                                    const shouldCreateFullAccessKey = false;
+                                    setImportingAccount(accountId);
+                                    await dispatch(recoverAccountSeedPhrase(seedPhrase, accountId, shouldCreateFullAccessKey));
+                                    await dispatch(refreshAccount());
+                                    dispatch(clearAccountState());
+                                }
+                                dispatch(clearGlobalAlert());
+                                dispatch(redirectToApp());
                             },
                             (e) => {
                                 dispatch(showCustomAlert({
@@ -86,13 +94,6 @@ export function ImportAccountWithLinkWrapper() {
                     }
                 }}
             />
-            {showCouldNotFindAccountModal && (
-                <CouldNotFindAccountModalWrapper
-                    onClose={() => setShowCouldNotFindAccountModal(false)}
-                    isOpen={showCouldNotFindAccountModal}
-                    seedPhrase={seedPhrase}
-                />
-            )}
         </>
     );
 };

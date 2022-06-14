@@ -5,7 +5,6 @@ import { KeyType } from 'near-api-js/lib/utils/key_pair';
 import { generateSeedPhrase, parseSeedPhrase } from 'near-seed-phrase';
 
 import { store } from '..';
-import { IMPORT_ACCOUNT_WITH_LINK_V2 } from '../../../../features';
 import * as Config from '../config';
 import {
     makeAccountActive,
@@ -175,6 +174,10 @@ class Wallet {
         return localKeyPair ? localKeyPair.toString() : null;
     }
 
+    async getLocalKeyPair(accountId) {
+        return this.keyStore.getKey(NETWORK_ID, accountId);
+    }
+
     async getLedgerKey(accountId) {
         // TODO: All callers should specify accountId explicitly
         accountId = accountId || this.accountId;
@@ -203,6 +206,13 @@ class Wallet {
 
     isLegitAccountId(accountId) {
         return ACCOUNT_ID_REGEX.test(accountId);
+    }
+
+    isFullAccessKey(accountId, keypair) {
+        return this.getAccessKeys(accountId).then((keys) => {
+            const key = keys.find(({ public_key }) => public_key === keypair.getPublicKey().toString());
+            return key?.access_key?.permission === 'FullAccess';
+        });
     }
 
     async sendMoney(receiverId, amount) {
@@ -849,7 +859,6 @@ class Wallet {
         const publicKey = keyPair.publicKey.toString();
 
         const tempKeyStore = new nearApiJs.keyStores.InMemoryKeyStore();
-        const implicitAccountId = Buffer.from(PublicKey.fromString(publicKey).data).toString('hex');
 
         let accountIds = [];
         const accountIdsByPublickKey = await getAccountIds(publicKey);
@@ -858,14 +867,6 @@ class Wallet {
         } else if (accountIdsByPublickKey.includes(accountId)) {
             accountIds = [accountId];
         }
-
-        if (!IMPORT_ACCOUNT_WITH_LINK_V2) {
-            accountIds.push(implicitAccountId);
-        }
-
-        // TODO: getAccountIds returns all accounts including any implicit account.
-        // Once 'IMPORT_ACCOUNT_WITH_LINK_V2' feature is shipped:
-        // Remove automatically adding implicitAccountId into array and then removing the duplicates.
 
         // remove duplicate and non-existing accounts
         const accountsSet = new Set(accountIds);

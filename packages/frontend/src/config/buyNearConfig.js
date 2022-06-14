@@ -16,7 +16,7 @@ export const getPayMethods = ({ accountId, moonPayAvailable, signedMoonPayUrl, u
             link: signedMoonPayUrl,
             track: () => Mixpanel.track('Wallet Click Buy with Moonpay'),
         },
-        nearPay: { icon: payNear, name: 'NearPay', link: 'https://www.nearpay.io/' },
+        nearPay: { icon: payNear, name: 'NearPay', link: 'https://www.nearpay.co/' },
         utorg: { icon: utorg, name: 'UTORG', link: utorgPayUrl, ref: true },
         rainbow: { icon: rainbow, name: 'Rainbow Bridge', link: 'https://rainbowbridge.app/transfer' },
         binance: { icon: okex, name: 'Okex', link: 'https://www.okex.com/' },

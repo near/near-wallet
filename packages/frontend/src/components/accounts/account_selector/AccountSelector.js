@@ -12,9 +12,6 @@ const StyledContainer = styled.div`
         .accounts {
             max-height: 280px;
             overflow-y: auto;
-            ::-webkit-scrollbar {
-                display: none;
-            }
         }
 
         > button {

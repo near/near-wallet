@@ -10,9 +10,7 @@ import { connect } from 'react-redux';
 import { Redirect, Switch } from 'react-router-dom';
 import styled, { ThemeProvider } from 'styled-components';
 
-import {
-    IMPORT_ACCOUNT_WITH_LINK_V2,
-} from '../../../../features';
+import favicon from '../../src/images/mynearwallet-cropped.svg';
 import TwoFactorVerifyModal from '../components/accounts/two_factor/TwoFactorVerifyModal';
 import {
     IS_MAINNET,
@@ -20,6 +18,7 @@ import {
     SHOW_PRERELEASE_WARNING,
     DISABLE_CREATE_ACCOUNT,
 } from '../config';
+import { isWhitelabel } from '../config/whitelabel';
 import ExampleFlag from '../ExampleFlag';
 import { Mixpanel } from '../mixpanel/index';
 import * as accountActions from '../redux/actions/account';
@@ -69,7 +68,6 @@ import { SignInLedgerWrapper } from './accounts/ledger/SignInLedgerWrapper';
 import { LinkdropLandingWithRouter } from './accounts/LinkdropLanding';
 import { RecoverAccountSeedPhraseWithRouter } from './accounts/RecoverAccountSeedPhrase';
 import { RecoverAccountWrapper } from './accounts/RecoverAccountWrapper';
-import { RecoverWithLinkWithRouter } from './accounts/RecoverWithLink';
 import { SetupRecoveryMethodWithRouter } from './accounts/recovery_setup/SetupRecoveryMethod';
 import { SetupImplicitWithRouter } from './accounts/SetupImplicit';
 import { SetupSeedPhraseWithRouter } from './accounts/SetupSeedPhrase';
@@ -95,7 +93,6 @@ import { StakingContainer } from './staking/StakingContainer';
 import Swap from './swap/Swap';
 import Terms from './terms/Terms';
 import '../index.css';
-
 const { fetchTokenFiatValues, getTokenWhiteList } = tokenFiatValueActions;
 
 const {
@@ -205,6 +202,11 @@ class Routing extends Component {
     }
 
     componentDidMount = async () => {
+        if (isWhitelabel() && document) {
+            document.title = 'MyNearWallet';
+            document.querySelector('link[rel~="icon"]').href = favicon;
+        }
+
         const {
             refreshAccount,
             handleRefreshUrl,
@@ -508,11 +510,7 @@ class Routing extends Component {
                             <Route
                                 exact
                                 path="/recover-with-link/:accountId/:seedPhrase"
-                                component={
-                                    IMPORT_ACCOUNT_WITH_LINK_V2
-                                        ? ImportAccountWithLinkWrapper
-                                        : RecoverWithLinkWithRouter
-                                }
+                                component={ImportAccountWithLinkWrapper}
                             />
                             <Route
                                 exact
