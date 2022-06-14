@@ -111,9 +111,9 @@
             "zeroBalance": {
                 "success": {
                     "desc": "The account has not yet been funded. Purchase $NEAR to perform transactions with the account.",
-                    "title": "Account Imported",
+                    "ledger": "The following account was successfully imported using the Ledger key you provided:",
                     "phrase": "The following account was successfully imported using the passphrase you provided:",
-                    "ledger": "The following account was successfully imported using the Ledger key you provided:"
+                    "title": "Account Imported"
                 }
             }
         },
@@ -1758,6 +1758,26 @@
         "staking": {
             "noLockup": "No lockup contract for account",
             "noWithdraw": "Unable to withdraw pending balance from validator"
+        }
+    },
+    "walletMigration": {
+        "generateMigrationPin": {
+            "desc": "You’ll need this PIN to securely import your accounts to My NEAR Wallet. Copy or write it down until you’ve completed transferring your accounts.",
+            "pinCopySuccess": "PIN copied to clipboard",
+            "title": "PIN required to import accounts"
+        },
+        "migrateAccounts": {
+            "desc": "The following accounts will be transferred to My NEAR Wallet.",
+            "title": "We found ${count} active accounts."
+        },
+        "migrationPrompt": {
+            "desc": "NEAR Wallet is now My NEAR Wallet, and to celebrate the occasion, we’re moving to a new domain. Find us at <a href='https://mynearwallet.com'>https://mynearwallet.com</a>. <br/><br/> If you haven’t already, quickly and easily transfer your accounts:",
+            "title": "NEAR Wallet has a new home!",
+            "transferAccountsBtn": "Transfer My Accounts",
+            "useDifferentWallet": "Use a different wallet"
+        },
+        "selectWallet": {
+            "title": "Select a wallet to transfer accounts"
         }
     },
     "warning": "Warning",
