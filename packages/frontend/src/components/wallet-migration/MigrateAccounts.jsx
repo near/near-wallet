@@ -65,47 +65,47 @@ const StyledButton = styled(FormButton)`
 `;
 
 const MigrateAccounts = ({ accounts, onContinue, onClose }) => {
-  return (
-      <Modal
-          modalClass='slim'
-          id='migration-modal'
-          isOpen
-          disableClose
-          onClose={onClose}
-          modalSize='md'
-          style={{ maxWidth: '496px' }}
-      >
-          <Container>
-            <IconMigrateAccount/>
-            <h3 className='title'>
-                <Translate  id='walletMigration.migrateAccounts.title' data={{count: accounts.length}}/>
-            </h3>
-            <p>
-                <Translate id='walletMigration.migrateAccounts.desc'/>
-            </p>
-            <AccountListing>
-                {
-                    accounts.map((account) => (
-                        <AccountListingItem
-                            key={account}
-                            data-accountid={account}>
-                            <IconAccount/> {account}
-                        </AccountListingItem>
-                    ))
-                }
-            </AccountListing>
+    return (
+        <Modal
+            modalClass='slim'
+            id='migration-modal'
+            isOpen
+            disableClose
+            onClose={onClose}
+            modalSize='md'
+            style={{ maxWidth: '496px' }}
+        >
+            <Container>
+                <IconMigrateAccount/>
+                <h3 className='title'>
+                    <Translate  id='walletMigration.migrateAccounts.title' data={{count: accounts.length}}/>
+                </h3>
+                <p>
+                    <Translate id='walletMigration.migrateAccounts.desc'/>
+                </p>
+                <AccountListing>
+                    {
+                        accounts.map((account) => (
+                            <AccountListingItem
+                                key={account}
+                                data-accountid={account}>
+                                <IconAccount/> {account}
+                            </AccountListingItem>
+                        ))
+                    }
+                </AccountListing>
 
-            <ButtonsContainer>
-                <StyledButton className='gray-blue' onClick={onClose}>
-                    <Translate id='button.cancel' />
-                </StyledButton>
-                <StyledButton onClick={onContinue}>
-                    <Translate id='button.continue' />
-                </StyledButton>
-            </ButtonsContainer>
-          </Container>
-          </Modal>
-  );
+                <ButtonsContainer>
+                    <StyledButton className='gray-blue' onClick={onClose}>
+                        <Translate id='button.cancel' />
+                    </StyledButton>
+                    <StyledButton onClick={onContinue}>
+                        <Translate id='button.continue' />
+                    </StyledButton>
+                </ButtonsContainer>
+            </Container>
+        </Modal>
+    );
 };
 
 export default MigrateAccounts;

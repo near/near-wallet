@@ -78,15 +78,19 @@ const MigrationPrompt = ({ handleSetActiveView, onClose }) => {
                     <Translate id='walletMigration.migrationPrompt.desc'/>
                 </p>
             </ContentContainer>
-           <ButtonsContainer>
+            <ButtonsContainer>
                 <StyledButton
-                    onClick={()=>{handleSetActiveView(WALLET_MIGRATION_VIEWS.MIGRATION_SECRET);}}>
+                    onClick={()=>{
+                        handleSetActiveView(WALLET_MIGRATION_VIEWS.MIGRATION_SECRET);
+                    }}>
                     <Translate id='walletMigration.migrationPrompt.transferAccountsBtn' />
-                 </StyledButton>
-                 <StyledButton className="link" onClick={()=>{handleSetActiveView(WALLET_MIGRATION_VIEWS.SELECT_DESTINATION_WALLET);}}>
+                </StyledButton>
+                <StyledButton className="link" onClick={()=>{
+                    handleSetActiveView(WALLET_MIGRATION_VIEWS.SELECT_DESTINATION_WALLET);
+                }}>
                     <Translate id='walletMigration.migrationPrompt.useDifferentWallet' />
-                 </StyledButton>
-           </ButtonsContainer>
+                </StyledButton>
+            </ButtonsContainer>
         </Modal>
     );
 };

@@ -14,6 +14,7 @@ import MigrateAccounts from './MigrateAccounts';
 import MigrationPrompt from './MigrationPrompt';
 import MigrationSecret from './MigrationSecret';
 import SelectDestinationWallet from './SelectDestinationWallet';
+import SelectWallet from './SelectWallet';
 
 
 export const WALLET_MIGRATION_VIEWS = {
@@ -49,7 +50,6 @@ const encodeAccountsToURL = async (accounts, publicKey) => {
 
 const WalletMigration = ({ open, history, onClose }) => {
     const [state, setState] = React.useState(initialState);
-    const availableAccounts = useSelector(selectAvailableAccounts);
 
     const handleStateUpdate = (newState) => {
         setState({...state, ...newState});
