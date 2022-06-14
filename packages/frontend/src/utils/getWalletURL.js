@@ -1,4 +1,5 @@
 import { IS_MAINNET, SHOW_PRERELEASE_WARNING } from '../config';
+import { isWhitelabel } from '../config/whitelabel';
 
 export default (https = true) => {
     let networkName = '';
@@ -9,5 +10,10 @@ export default (https = true) => {
         networkName = 'testnet.';
     }
 
-    return `${https ? 'https://' : ''}wallet.${networkName}near.org`;
+    const protocol = https ? 'https://' : '';
+    if (isWhitelabel) {
+        return `${protocol}app.mynearwallet.com`;
+    }
+
+    return `${protocol}wallet.${networkName}near.org`;
 };
