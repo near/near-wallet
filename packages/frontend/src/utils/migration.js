@@ -28,6 +28,6 @@ export const getExportQueryFromAccounts = (accounts) => {
     });
     const stringifiedQuery = `keys=${keys.join(',')}&ledgerHdPaths=${ledgerHdPaths.join(',')}&accounts=${accountStringEncodes.join(',')}`;
 
-     return stringifiedQuery;
+    return stringifiedQuery;
 };
 
