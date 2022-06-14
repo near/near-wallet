@@ -11,7 +11,7 @@ export default (https = true) => {
     }
 
     const protocol = https ? 'https://' : '';
-    if (isWhitelabel) {
+    if (isWhitelabel()) {
         return `${protocol}app.mynearwallet.com`;
     }
 
