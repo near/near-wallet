@@ -19,6 +19,7 @@ function Modal({
     disableClose,
     mobileActionSheet = true,
     'data-test-id': testId,
+    ...props
 }) {
     const background = React.createRef();
     const [fadeType, setFadeType] = useState(null);
@@ -91,6 +92,7 @@ function Modal({
             modalSize={modalSize}
             onTransitionEnd={transitionEnd}
             data-test-id={testId}
+            {...props}
         >
             <div id='modal-container' className='modal'>
                 {closeButton && 
