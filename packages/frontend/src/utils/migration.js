@@ -1,9 +1,15 @@
+import React from 'react';
+
+import IconLedger from '../images/wallet-migration/IconLedger';
+import IconMyNearWallet from '../images/wallet-migration/IconMyNearWallet';
+
 export const generateMigrationPin = () =>{
     return Math.floor(100000 + Math.random() * 900000);
 };
 
 
 export const getExportQueryFromAccounts = (accounts) => {
+    console.log(accounts);
     let keys = [];
     let ledgerHdPaths = [];
     let accountStringEncodes = [];
@@ -26,8 +32,21 @@ export const getExportQueryFromAccounts = (accounts) => {
         let accountStringEncode = `${accountId}*${keyIndex}*${ledgerPathIndex}`; 
         accountStringEncodes.push(accountStringEncode);
     });
-    const stringifiedQuery = `keys=${keys.join(',')}&ledgerHdPaths=${ledgerHdPaths.join(',')}&accounts=${accountStringEncodes.join(',')}`;
 
+    const stringifiedQuery = `keys=${keys.join(',')}&ledgerHdPaths=${ledgerHdPaths.join(',')}&accounts=${accountStringEncodes.join(',')}`;
     return stringifiedQuery;
 };
 
+export const WALLET_OPTIONS = [
+    {
+        id: 'my-near-wallet',
+        name: 'My NEAR Wallet',
+        icon: <IconMyNearWallet />,
+        domain: 'https://mynearwallet.com'
+    },
+    {
+        id:'ledger',
+        name: 'Ledger',
+        icon: <IconLedger />,
+    },
+];
