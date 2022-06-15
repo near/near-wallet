@@ -54,7 +54,7 @@ import {
 } from '../utils/wallet';
 import AccessKeysWrapper from './access-keys/v2/AccessKeysWrapper';
 import { AutoImportWrapper } from './accounts/auto_import/AutoImportWrapper';
-import BatchImportAccounts from './accounts/BatchImportAccounts';
+import BatchImportAccounts from './accounts/batch_import_accounts';
 import { ExistingAccountWrapper } from './accounts/create/existing_account/ExistingAccountWrapper';
 import { InitialDepositWrapper } from './accounts/create/initial_deposit/InitialDepositWrapper';
 import { CreateAccountLanding } from './accounts/create/landing/CreateAccountLanding';

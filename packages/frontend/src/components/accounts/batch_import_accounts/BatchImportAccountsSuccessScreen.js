@@ -3,11 +3,11 @@ import { Translate } from 'react-localize-redux';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 
-import { redirectTo, switchAccount } from '../../redux/actions/account';
-import { selectAccountUrlReferrer } from '../../redux/slices/account';
-import Container from '../common/styled/Container.css';
-import AvatarSuccessIcon from '../svg/AvatarSuccessIcon';
-import AccountListImport from './AccountListImport';
+import { redirectTo, switchAccount } from '../../../redux/actions/account';
+import { selectAccountUrlReferrer } from '../../../redux/slices/account';
+import Container from '../../common/styled/Container.css';
+import AvatarSuccessIcon from '../../svg/AvatarSuccessIcon';
+import AccountListImport from '../AccountListImport';
 
 const CustomContainer = styled.div`
       width: 100%;

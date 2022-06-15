@@ -29,7 +29,6 @@ const UserIcon = styled.div`
 
 const AnimateList = styled.div`
 margin-top: 10px;
-height: 180px;
 overflow: hidden;
 
 & > div:first-of-type {
