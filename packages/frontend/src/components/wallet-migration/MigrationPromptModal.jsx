@@ -54,7 +54,7 @@ const StyledButton = styled(FormButton)`
 `;
 
 
-const MigrationPromptModal = ({ onClose, handleSetActiveView,handleRedirectToBatchImport }) => {
+const MigrationPromptModal = ({ onClose, handleSetActiveView, handleRedirectToBatchImport }) => {
     return (
         <Modal
             modalClass="slim"
@@ -63,7 +63,7 @@ const MigrationPromptModal = ({ onClose, handleSetActiveView,handleRedirectToBat
             isOpen={true}
             disableClose={true}
             modalSize='md'
-            style={{ maxWidth: '496px' }}
+            style={{ maxWidth: '435px' }}
         >
             <ContentContainer>
                 <MyNearWalletLogo mode={1} />
