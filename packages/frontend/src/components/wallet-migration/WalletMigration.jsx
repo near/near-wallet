@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 
 import { selectAvailableAccounts } from '../../redux/slices/availableAccounts/index.js';
+import getWalletURL from '../../utils/getWalletURL.js';
 import { generateMigrationPin, getExportQueryFromAccounts } from '../../utils/migration.js';
 import GenerateMigrationPin from './GenerateMigrationPin';
 import MigrationPromptModal from './MigrationPromptModal';
@@ -10,16 +11,16 @@ import SelectDestinationWallet from './SelectDestinationWallet';
 
 export const WALLET_MIGRATION_VIEWS = {
     MIGRATION_PROMPT: 'MIGRATION_PROMPT',
-    SELECT_WALLET: 'SELECT_WALLET',
+    SELECT_DESTINATION_WALLET: 'SELECT_DESTINATION_WALLET',
     GENERATE_MIGRATION_PIN: 'GENERATE_MIGRATION_PIN',
 };
+const WHITELISTED_ROUTES = ['/batch-import'];
 
 const WalletMigration = () => {
-    const location = useLocation()
-    const WHITELISTED_ROUTES = ['/batch-import']
+    const location = useLocation();
     const initialState = {
-        activeView: WALLET_MIGRATION_VIEWS.MIGRATION_PROMPT,
-        walletType: null,
+        activeView: null,
+        walletType: 'my-near-wallet',
         migrationPin: generateMigrationPin()
     };
 
@@ -44,18 +45,21 @@ const WalletMigration = () => {
 
 
     const handleRedirectToBatchImport = () => {
+        console.log(availableAccounts);
         const query = getExportQueryFromAccounts(availableAccounts);
+        const baseUrl = getWalletURL(true);
         handleCloseMigrationFlow();
         localStorage.setItem('MIGRATION_TRIGERRED', true);
-        window.location.href = `/batch-import#${query}`;
+        window.location.href = `${baseUrl}/batch-import#${query}&selectedWallet=${state.walletType}`;
     };
 
 
     React.useEffect(() => {
-        const isWhitelistedRoute =  WHITELISTED_ROUTES.includes(location.pathname)
-        // Handle if user has not migrated account yet. Maybe set a flag in localstorage on migration triggered
-        if (localStorage.getItem('MIGRATION_TRIGERRED') || isWhitelistedRoute) {
-            handleSetActiveView(null);
+        const isWhitelistedRoute =  WHITELISTED_ROUTES.includes(location.pathname);
+        if (isWhitelistedRoute) return;
+
+        if (!localStorage.getItem('MIGRATION_TRIGERRED')) {
+            handleSetActiveView(WALLET_MIGRATION_VIEWS.MIGRATION_PROMPT);
         }
     }, []);
     
@@ -65,15 +69,18 @@ const WalletMigration = () => {
        {state.activeView === WALLET_MIGRATION_VIEWS.MIGRATION_PROMPT &&  
             <MigrationPromptModal 
                 onClose={handleCloseMigrationFlow}
-                handleSetWalletType={handleSetWalletType}
                 handleSetActiveView={handleSetActiveView}
                 handleRedirectToBatchImport={handleRedirectToBatchImport}
             />
        }
+
         {state.activeView === WALLET_MIGRATION_VIEWS.SELECT_DESTINATION_WALLET &&  
-            <SelectDestinationWallet 
+            <SelectDestinationWallet
+                walletType={state.walletType}
+                onClose={handleCloseMigrationFlow}
                 handleSetWalletType={handleSetWalletType}
                 handleSetActiveView={handleSetActiveView}
+                handleRedirectToBatchImport={handleRedirectToBatchImport}
             />
        }
 
