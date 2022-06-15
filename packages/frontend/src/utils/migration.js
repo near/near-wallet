@@ -42,7 +42,6 @@ export const WALLET_OPTIONS = [
         id: 'my-near-wallet',
         name: 'My NEAR Wallet',
         icon: <IconMyNearWallet />,
-        domain: 'https://mynearwallet.com'
     },
     {
         id:'ledger',
