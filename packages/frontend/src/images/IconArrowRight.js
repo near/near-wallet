@@ -6,9 +6,9 @@ export default ({ stroke = '#ccc' }) => (
             d="m1 19 9-9-9-9"
             fill="none"
             stroke={stroke}
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2"
         />
     </svg>
 );

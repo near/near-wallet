@@ -5,9 +5,9 @@ export default ({ stroke = '#ccc' }) => (
         <g
             fill="none"
             stroke={stroke}
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2"
         >
             <path d="m1 1 18 18" />
             <path d="m19 1-18 18" />

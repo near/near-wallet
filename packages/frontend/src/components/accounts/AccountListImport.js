@@ -30,6 +30,7 @@ const UserIcon = styled.div`
 const AnimateList = styled.div`
 margin-top: 10px;
 overflow: hidden;
+height: unset;
 
 & > div:first-of-type {
     margin-top: ${(props) => `-${props.animate * 60}px`};
