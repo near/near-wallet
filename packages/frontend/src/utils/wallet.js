@@ -342,18 +342,19 @@ export default class Wallet {
                 }
                 return this.save();
             }
-            case Wallet.KEY_TYPES.MULTISIG:
+            case Wallet.KEY_TYPES.MULTISIG: {
+                await this.saveAccount(accountId, keyPair);
+                if (!this.accountId) {
+                    return this.makeAccountActive(accountId);
+                }
+                return this.save();
+            }
             case Wallet.KEY_TYPES.LEDGER: {
                 await this.saveAccount(accountId, keyPair);
-
-                if (keyType === Wallet.KEY_TYPES.LEDGER) {
-                    if (ledgerHdPath) {
-                        setLedgerHdPath({accountId, path: ledgerHdPath});
-                    }
-
-                    await this.getLedgerPublicKey(ledgerHdPath).then((publicKey) => setKeyMeta(publicKey.toString(), {type: 'ledger'}));
+                if (ledgerHdPath) {
+                    setLedgerHdPath({accountId, path: ledgerHdPath});
                 }
-                
+                await this.getLedgerPublicKey(ledgerHdPath).then((publicKey) => setKeyMeta(publicKey.toString(), {type: 'ledger'}));
                 if (!this.accountId) {
                     return this.makeAccountActive(accountId);
                 }

@@ -51,12 +51,14 @@ const BatchImportAccounts = ({ accountIdToKeyMap, onCancel }) => {
     const accountUrlReferrer = useSelector(selectAccountUrlReferrer);
 
     const [state, dispatch] = useImmerReducer(reducer, {
-        accounts: Object.keys(accountIdToKeyMap).map((accountId) => ({
-            accountId,
-            status: null,
-            key: accountIdToKeyMap[accountId].key,
-            ledgerHdPath: accountIdToKeyMap[accountId].ledgerHdPath
-        })),
+        accounts: Object.entries(accountIdToKeyMap).map(
+            ([accountId, { key, ledgerHdPath }]) => ({
+                accountId,
+                status: null,
+                key,
+                ledgerHdPath,
+            })
+        ),
     });
     const currentAccount = useMemo(() => state.accounts.find((account) => account.status === IMPORT_STATUS.PENDING), [state.accounts]);
     const accountsApproved = useMemo(() => state.accounts.filter((account) => account.status === IMPORT_STATUS.SUCCESS), [state.accounts]);
@@ -67,13 +69,13 @@ const BatchImportAccounts = ({ accountIdToKeyMap, onCancel }) => {
       if (!currentAccount) {
         dispatch({type: ACTIONS.REMOVE_ACCOUNTS, accounts: availableAccounts});
       }
-    },[availableAccounts]);
+    },[availableAccounts, currentAccount]);
 
-    return showSuccessScreen ? (
-        <BatchImportAccountsSuccessScreen
-            accounts={accountsApproved}
-        />
-    ) : (
+    if (showSuccessScreen) {
+        return <BatchImportAccountsSuccessScreen accounts={accountsApproved} />;
+    }
+
+    return (
         <>
             <Container className="small-centered border ledger-theme">
               <CustomContainer>

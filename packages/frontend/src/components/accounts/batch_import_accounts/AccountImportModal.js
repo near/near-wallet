@@ -97,7 +97,7 @@ const AccountImportModal = ({ account, onSuccess, onFail }) => {
             });
         }
         
-    }, [setAddingKey, setError, onSuccess, account]);
+    }, [onSuccess, account]);
   
     return (
         <Modal
