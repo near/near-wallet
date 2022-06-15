@@ -25,9 +25,9 @@ import DepositNearBanner from './DepositNearBanner';
 import ExploreApps from './ExploreApps';
 import LinkDropSuccessModal from './LinkDropSuccessModal';
 import NFTs from './NFTs';
-import ReleaseNotesModal from './ReleaseNotesModal';
 import Sidebar from './Sidebar';
 import Tokens from './Tokens';
+import { ZeroBalanceAccountImportedModal } from './ZeroBalanceAccountImportedModal';
 
 const StyledContainer = styled(Container)`
     @media (max-width: 991px) {
@@ -303,6 +303,7 @@ export function Wallet({
     linkdropAmount,
     createFromImplicitSuccess,
     createCustomName,
+    zeroBalanceAccountImportMethod,
     fungibleTokensList,
     tokensLoading,
     availableAccounts,
@@ -310,6 +311,7 @@ export function Wallet({
     handleCloseLinkdropModal,
     handleSetCreateFromImplicitSuccess,
     handleSetCreateCustomName,
+    handleSetZeroBalanceAccountImportMethod
 }) {
     const currentLanguage = getCurrentLanguage();
     const totalAmount = getTotalBalanceInFiat(
@@ -321,7 +323,6 @@ export function Wallet({
         <StyledContainer
             className={SHOW_NETWORK_BANNER ? 'showing-banner' : ''}
         >
-            <ReleaseNotesModal />
             <div className="split">
                 <div className="left">
                     <div className="tab-selector">
@@ -385,6 +386,13 @@ export function Wallet({
                     onClose={handleSetCreateCustomName}
                     isOpen={createCustomName}
                     accountId="satoshi.near"
+                />
+            )}
+            {zeroBalanceAccountImportMethod && (
+                <ZeroBalanceAccountImportedModal
+                    onClose={handleSetZeroBalanceAccountImportMethod}
+                    importMethod={zeroBalanceAccountImportMethod}
+                    accountId={accountId}
                 />
             )}
         </StyledContainer>

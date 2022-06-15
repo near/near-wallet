@@ -158,19 +158,20 @@ export default function Validator({
 
     return (
         <>
-            {stakeNotAllowed
-                ? <AlertBanner
+            {stakeNotAllowed &&
+                <AlertBanner
                     data-test-id="cantStakeWithValidatorContainer"
                     data-test-id-button="viewCurrentValidatorButton"
                     title='staking.alertBanner.title'
                     button='staking.alertBanner.button'
                     linkTo={`/staking/${selectedValidator}`}
                 />
-                : null
             }
-            {hasUnwhitelistedTokens ? <AlertBanner
-                title='staking.validator.notWhitelistedValidatorWarning'
-            /> : null}
+            {hasUnwhitelistedTokens &&
+                <AlertBanner
+                    title='staking.validator.notWhitelistedValidatorWarning'
+                />
+            }
             <h1 data-test-id="validatorNamePageTitle">
                 <SafeTranslate
                     id="staking.validator.title"
@@ -185,8 +186,12 @@ export default function Validator({
             >
                 <Translate id='staking.validator.button' />
             </FormButton>
-            {validator && <StakingFee fee={validator.fee.percentage} />}
-            {isFarmingValidator && <FarmingAPY apy={farmAPY} />}
+            {validator &&
+                <StakingFee fee={validator.fee.percentage} />
+            }
+            {isFarmingValidator &&
+                <FarmingAPY apy={farmAPY} />
+            }
             {validator && !stakeNotAllowed && !pendingUpdateStaking &&
                 <>
                     <BalanceBox

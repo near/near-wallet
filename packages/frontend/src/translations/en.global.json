@@ -107,7 +107,15 @@
         "recoverAccount": {
             "error": "Failed to recover account. No accounts were found for this passphrase.",
             "errorInvalidSeedPhrase": "No accounts were found for this passphrase.",
-            "success": "Recover using passphrase is complete.<br/><b>${numberOfAccounts} account(s)</b> have been successfully recovered.<br/>The last one is set as active."
+            "success": "Recover using passphrase is complete.<br/><b>${numberOfAccounts} account(s)</b> have been successfully recovered.<br/>The last one is set as active.",
+            "zeroBalance": {
+                "success": {
+                    "desc": "The account has not yet been funded. Purchase $NEAR to perform transactions with the account.",
+                    "title": "Account Imported",
+                    "phrase": "The following account was successfully imported using the passphrase you provided:",
+                    "ledger": "The following account was successfully imported using the Ledger key you provided:"
+                }
+            }
         },
         "requestCode": {
             "error": "Failed to send SMS with code.",
@@ -1443,6 +1451,7 @@
         "staking": {
             "available": "Available balance",
             "button": "Stake My Tokens",
+            "checkingValidator": "Checking Validator",
             "currentValidators": "Your Current Validators",
             "desc": "Stake your NEAR tokens with a validator",
             "noValidators": "You haven't staked with a validator yet.",
@@ -1749,7 +1758,9 @@
         },
         "staking": {
             "noLockup": "No lockup contract for account",
-            "noWithdraw": "Unable to withdraw pending balance from validator"
+            "noWithdraw": "Unable to withdraw pending balance from validator",
+            "unableToCheckFAK": "Sorry, we are not able to check if Validator has full access key.",
+            "validatorHasFAK": "Sorry, we are not allowing you to stake with Validator that has a full access key, for your safety."
         }
     },
     "warning": "Warning",

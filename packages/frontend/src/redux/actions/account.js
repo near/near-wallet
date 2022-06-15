@@ -512,7 +512,7 @@ export const {
 export const { recoverAccountSeedPhrase } = createActions({
     RECOVER_ACCOUNT_SEED_PHRASE: [
         wallet.recoverAccountSeedPhrase.bind(wallet),
-        () => showAlert()
+        () => {}
     ],
 });
 

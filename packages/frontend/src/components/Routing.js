@@ -10,9 +10,6 @@ import { connect } from 'react-redux';
 import { Redirect, Switch } from 'react-router-dom';
 import styled, { ThemeProvider } from 'styled-components';
 
-import {
-    IMPORT_ACCOUNT_WITH_LINK_V2,
-} from '../../../../features';
 import favicon from '../../src/images/mynearwallet-cropped.svg';
 import TwoFactorVerifyModal from '../components/accounts/two_factor/TwoFactorVerifyModal';
 import {
@@ -22,7 +19,6 @@ import {
     DISABLE_CREATE_ACCOUNT,
 } from '../config';
 import { isWhitelabel } from '../config/whitelabel';
-import ExampleFlag from '../ExampleFlag';
 import { Mixpanel } from '../mixpanel/index';
 import * as accountActions from '../redux/actions/account';
 import { handleClearAlert } from '../redux/reducers/status';
@@ -71,7 +67,6 @@ import { SignInLedgerWrapper } from './accounts/ledger/SignInLedgerWrapper';
 import { LinkdropLandingWithRouter } from './accounts/LinkdropLanding';
 import { RecoverAccountSeedPhraseWithRouter } from './accounts/RecoverAccountSeedPhrase';
 import { RecoverAccountWrapper } from './accounts/RecoverAccountWrapper';
-import { RecoverWithLinkWithRouter } from './accounts/RecoverWithLink';
 import { SetupRecoveryMethodWithRouter } from './accounts/recovery_setup/SetupRecoveryMethod';
 import { SetupImplicitWithRouter } from './accounts/SetupImplicit';
 import { SetupSeedPhraseWithRouter } from './accounts/SetupSeedPhrase';
@@ -381,11 +376,6 @@ class Routing extends Component {
                                     search: search,
                                 }}
                             />
-                            <Route
-                                exact
-                                path="/example_flag"
-                                component={ExampleFlag}
-                            />
                             <GuestLandingRoute
                                 exact
                                 path="/"
@@ -514,11 +504,7 @@ class Routing extends Component {
                             <Route
                                 exact
                                 path="/recover-with-link/:accountId/:seedPhrase"
-                                component={
-                                    IMPORT_ACCOUNT_WITH_LINK_V2
-                                        ? ImportAccountWithLinkWrapper
-                                        : RecoverWithLinkWithRouter
-                                }
+                                component={ImportAccountWithLinkWrapper}
                             />
                             <Route
                                 exact
