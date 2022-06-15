@@ -18,8 +18,8 @@ jobs:
       - run: yarn bundle
 
   deploy:
-    runs-on: ubuntu-latest
     needs: bundle
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
       - uses: jakejarvis/s3-sync-action@master
