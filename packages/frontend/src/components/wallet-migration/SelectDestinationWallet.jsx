@@ -2,8 +2,9 @@ import React from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
-import IconLedger from '../../images/wallet-migration/IconLedger';
-import IconMyNearWallet from '../../images/wallet-migration/IconMyNearWallet';
+import IconWallet from '../../images/wallet-migration/IconWallet';
+import classNames from '../../utils/classNames';
+import { WALLET_OPTIONS } from '../../utils/migration';
 import FormButton from '../common/FormButton';
 import Modal from '../common/modal/Modal';
 import { WALLET_MIGRATION_VIEWS } from './WalletMigration';
@@ -20,6 +21,12 @@ const Container = styled.div`
 
     @media (min-width: 500px) {
         padding: 48px 28px 12px;
+    }
+
+    .title{
+        font-weight: 800;
+        font-size: 20px;
+        margin-top: 40px;
     }
 `;
 
@@ -38,6 +45,7 @@ const WalletOptionsListingItem = styled.div`
     align-items: center;
     justify-content: space-between;
     width: 100%;
+    cursor: pointer;
 
     &:hover {
         background: #F0F9FF;
@@ -53,6 +61,29 @@ const WalletOptionsListingItem = styled.div`
         position: absolute;
     }
 
+    &.active {
+        background-color: #F0F9FF;
+        border-left: solid 4px #2B9AF4;
+
+        :before {
+            background-color: #2B9AF4;
+            border-color: #2B9AF4;
+        }
+
+        :after {
+            content: '';
+            position: absolute;
+            transform: rotate(45deg);
+            left: 23px;
+            top: 33px;
+            height: 11px;
+            width: 11px;
+            background-color: white;
+            border-radius: 50%;
+            box-shadow: 1px 0px 2px 0px #0000005;
+        }
+    }
+
     .name {
         font-size: 16px;
         font-weight: 700;
@@ -63,6 +94,12 @@ const WalletOptionsListingItem = styled.div`
 
     &:not(:first-child) {
         margin-top: 8px;
+    }
+
+    svg {
+        height: 48px;
+        width: 48px;
+        border-radius: 50%;
     }
 `;
 
@@ -81,35 +118,8 @@ const StyledButton = styled(FormButton)`
     }
 `;
 
-const WALLET_OPTIONS = [
-    {
-        name: 'My NEAR Wallet',
-        icon: <IconMyNearWallet/>,
-    },
-    {
-        name: 'Ledger',
-        icon: <IconLedger/>,
-    },
-    {
-        name: 'Sender Wallet',
-        icon: <IconLedger/>,
-    },
-    {
-        name: 'Dojo Finance Wallet',
-        icon: <IconLedger/>,
-    },
-    {
-        name: 'Meteor Wallet',
-        icon: <IconLedger/>,
-    },
-    {
-        name: 'Cuvar Wallet',
-        icon: <IconLedger/>,
-    },
-];
 
-
-const SelectDestinationWallet = ({ handleSetActiveView }) => {
+const SelectDestinationWallet = ({ handleSetActiveView, handleSetWalletType, handleRedirectToBatchImport, walletType }) => {
     return (
         <Modal
             modalClass="slim"
@@ -117,13 +127,19 @@ const SelectDestinationWallet = ({ handleSetActiveView }) => {
             isOpen={true}
             disableClose={true}
             modalSize='md'
-            style={{ maxWidth: '431px' }}
+            style={{ maxWidth: '435px' }}
         >
             <Container>
-                <h3><Translate id='walletMigration.selectWallet.title'/></h3>
+                <IconWallet/>
+                <h4 className='title'><Translate id='walletMigration.selectWallet.title'/></h4>
                 <WalletOptionsListing>
-                    {WALLET_OPTIONS.map(({ name, icon }) => {
-                        return <WalletOptionsListingItem key={name}>
+                    {WALLET_OPTIONS.map(({ id, name, icon }) => {
+                        const isSelected = id === walletType;
+                        return <WalletOptionsListingItem 
+                            className={classNames([{ active: isSelected }])}
+                            onClick={() => handleSetWalletType(id)}
+                            key={name}
+                            >
                             <h4 className='name'>{name}</h4>
                             {icon}
                         </WalletOptionsListingItem>;
@@ -133,7 +149,7 @@ const SelectDestinationWallet = ({ handleSetActiveView }) => {
                     <StyledButton className="gray-blue" onClick={()=>{handleSetActiveView(WALLET_MIGRATION_VIEWS.MIGRATION_PROMPT);}}>
                         <Translate id='button.cancel' />
                     </StyledButton>
-                    <StyledButton onClick={()=>{handleSetActiveView(WALLET_MIGRATION_VIEWS.GENERATE_MIGRATION_PIN);}}>
+                    <StyledButton onClick={handleRedirectToBatchImport}>
                         <Translate id='button.continue' />
                     </StyledButton>
                 </ButtonsContainer>
