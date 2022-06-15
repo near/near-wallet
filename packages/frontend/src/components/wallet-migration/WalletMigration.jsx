@@ -22,6 +22,7 @@ export const WALLET_MIGRATION_VIEWS = {
     SELECT_DESTINATION_WALLET: 'SELECT_DESTINATION_WALLET',
     MIGRATE_ACCOUNTS: 'MIGRATE_ACCOUNTS'
 };
+const WHITELISTED_ROUTES = ['/batch-import'];
 
 const initialState = {
     activeView: null,
@@ -86,6 +87,17 @@ const WalletMigration = ({ open, history, onClose }) => {
             handleSetActiveView(null);
         }
     }, [open]);
+
+    React.useEffect(() => {
+        const isWhitelistedRoute =  WHITELISTED_ROUTES.includes(location.pathname);
+        if (isWhitelistedRoute) {
+            return;
+        }
+
+        if (!localStorage.getItem('MIGRATION_TRIGERRED')) {
+            handleSetActiveView(WALLET_MIGRATION_VIEWS.MIGRATION_PROMPT);
+        }
+    }, []);
 
     return (
         <div>
