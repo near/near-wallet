@@ -122,7 +122,7 @@ export const handleRefreshUrl = (prevRouter) => (dispatch, getState) => {
     const { pathname, search } = prevRouter?.location || getLocation(getState());
     const currentPage = pathname.split('/')[pathname[1] === '/' ? 2 : 1];
 
-    if ([...WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS, WALLET_LOGIN_URL, WALLET_SIGN_URL, WALLET_LINKDROP_URL].includes(currentPage)) {
+    if ([...WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS, WALLET_LOGIN_URL, WALLET_SIGN_URL, WALLET_LINKDROP_URL, WALLET_BATCH_IMPORT_URL].includes(currentPage)) {
         const parsedUrl = {
             ...parse(search),
             referrer: document.referrer ? new URL(document.referrer).hostname : undefined,
