@@ -9,7 +9,7 @@ export default {
         'E8jZ1giWcVrps8PcV75ATauu6gFRkcwjNtKp7NKmipZG',
         '11111111111111111111111111111111'
     ],
-    BROWSER_MIXPANEL_TOKEN: '9edede4b70de19f399736d5840872910',
+    BROWSER_MIXPANEL_TOKEN: '778bd24eec7329cf885f0cecfc3d4f5d',
     DISABLE_CREATE_ACCOUNT: false,
     DISABLE_PHONE_RECOVERY: false,
     EXPLORE_APPS_URL: 'https://awesomenear.com/',
@@ -23,7 +23,7 @@ export default {
     MOONPAY_API_KEY: 'pk_test_wQDTsWBsvUm7cPiz9XowdtNeL5xasP9',
     MOONPAY_API_URL: 'https://api.moonpay.com',
     MOONPAY_BUY_URL: 'https://buy.moonpay.io?apiKey=',
-    UTORG_ORDER_URL:'https://app.utorg.pro/direct/wallet.near.org/',
+    UTORG_ORDER_URL: 'https://app.utorg.pro/direct/wallet.near.org/',
     MULTISIG_CONTRACT_HASHES: [
         // https://github.com/near/core-contracts/blob/fa3e2c6819ef790fdb1ec9eed6b4104cd13eb4b7/multisig/src/lib.rs
         '7GQStUCd8bmCK43bzD8PRh7sD2uyyeMJU5h8Rj3kXXJk',
@@ -42,7 +42,7 @@ export default {
     SENTRY_DSN: 'https://75d1dabd0ab646329fad8a3e7d6c761d@o398573.ingest.sentry.io/5254526',
     SHOW_PRERELEASE_WARNING: false,
     SMS_BLACKLIST: ['CN', 'VN', 'TH'],
-    STAKING_GAS_BASE:'25000000000000', // 25 Tgas
+    STAKING_GAS_BASE: '25000000000000', // 25 Tgas
     WHITELISTED_CONTRACTS: ['meta.pool.testnet'],
     NEAR_TOKEN_ID: 'wrap.testnet',
     FARMING_CLAIM_GAS: parseNearAmount('0.00000000015'),
