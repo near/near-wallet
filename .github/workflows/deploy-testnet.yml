@@ -1,0 +1,46 @@
+name: Testnet Deployment
+
+on:
+  push:
+    branches:
+      - master
+
+concurrency:
+  group: testnet
+  cancel-in-progress: true
+
+jobs:
+  testnet-staging-bundle-preview:
+    uses: ./.github/workflows/bundle-frontend.yml
+    with:
+      environment: testnet
+      near_wallet_env: testnet_STAGING
+
+  testnet-bundle-preview:
+    uses: ./.github/workflows/bundle-frontend.yml
+    with:
+      environment: testnet
+      near_wallet_env: testnet
+
+  deploy-testnet-staging-preview:
+    uses: ./.github/workflows/deploy-preview.yml
+    needs: testnet-staging-bundle-preview
+    with:
+      environment: testnet
+    secrets:
+      accessKeyId: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      deploymentIamRole: ${{ secrets.AWS_DEPLOYMENT_ROLE }}
+      secretAccessKey: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      s3Bucket: ${{ secrets.STAGING_BUCKET }}
+
+  deploy-testnet-preview:
+    uses: ./.github/workflows/deploy-preview.yml
+    needs: testnet-bundle-preview
+    with:
+      environment: testnet
+      s3Bucket: testnet.mynearwallet.com
+    secrets:
+      accessKeyId: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      deploymentIamRole: ${{ secrets.AWS_DEPLOYMENT_ROLE }}
+      secretAccessKey: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      s3Bucket: ${{ secrets.LIVE_BUCKET }}
