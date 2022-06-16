@@ -4,6 +4,9 @@ on:
 jobs:
   bundle:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: packages/frontend
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
@@ -20,6 +23,9 @@ jobs:
   deploy:
     needs: bundle
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: packages/frontend
     steps:
       - uses: actions/checkout@master
       - uses: jakejarvis/s3-sync-action@master
