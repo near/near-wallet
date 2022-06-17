@@ -32,7 +32,6 @@ const initialState = {
 
 /** 
  * @param {state} state
- * @returns {state} 
  * */
 const sequentialAccountImportReducer = (state = initialState, action) => {
     switch (action.type) {
