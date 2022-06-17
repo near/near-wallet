@@ -68,6 +68,10 @@ const RecoveryContainer = ({ type, recoveryMethods }) => {
                 return false;
             }
 
+            if (kind === 'email' && !publicKey) {
+                return false;
+            }
+
             return kind === type;
         });
 

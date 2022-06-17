@@ -117,6 +117,11 @@ const DisableContainer = styled.form`
     }
 `;
 
+const UnsupportedMethod = styled.p`
+    font-weight: 600;
+    color: #ff585d;
+`;
+
 class ActiveMethod extends Component {
 
     state = {
@@ -145,11 +150,11 @@ class ActiveMethod extends Component {
                             </div>
                             <div className='info'>{data.detail}</div>
                         </div>
-                        <Button 
+                        <Button
                             onClick={() => {
                                 Mixpanel.track(data.kind === 'phrase' ? 'SR-SP Click disable button': `SR Click disable button for ${data.kind}`);
                                 this.handleToggleDisable();
-                            }} 
+                            }}
                             title='Disable'
                         >
                             <Translate id='button.disable'/>
@@ -166,13 +171,13 @@ class ActiveMethod extends Component {
                     {!deleteAllowed &&
                         <div className='not-allowed'>
                             <Translate id='recoveryMgmt.disableNotAllowed'/>
-                            <FormButton 
-                                onClick={this.handleToggleDisable}  
+                            <FormButton
+                                onClick={this.handleToggleDisable}
                                 trackingId={data.kind === 'phrase'? 'SR-SP Click close button': `SR Click close button for ${data.kind}`}
-                                type='button' 
+                                type='button'
                                 className='small gray-blue'
                             >
-                                <Translate id='button.close'/>    
+                                <Translate id='button.close'/>
                             </FormButton>
                         </div>
                     }
@@ -183,6 +188,24 @@ class ActiveMethod extends Component {
                                 <div>
                                     <Translate id={`recoveryMgmt.${data.kind !== 'phrase' ? 'disableTextLink' : 'disableTextPhrase'}`}/>
                                 </div>
+                                {
+                                    data.kind === 'email' && (
+                                        <UnsupportedMethod>
+                                            <Translate>
+                                                {({ translate }) => translate('recoveryMgmt.unsupportedMethodEmail')}
+                                            </Translate>
+                                        </UnsupportedMethod>
+                                    )
+                                }
+                                {
+                                    data.kind === 'phone' && (
+                                        <UnsupportedMethod>
+                                            <Translate>
+                                                {({ translate }) => translate('recoveryMgmt.unsupportedMethodPhone')}
+                                            </Translate>
+                                        </UnsupportedMethod>
+                                    )
+                                }
                             </div>
                             <Translate>
                                 {({ translate }) => (
@@ -206,9 +229,9 @@ class ActiveMethod extends Component {
                                 >
                                     <Translate id='button.disable'/> {data.kind}
                                 </FormButton>
-                                <FormButton 
-                                    type='button' 
-                                    color='link' 
+                                <FormButton
+                                    type='button'
+                                    color='link'
                                     onClick={this.handleToggleDisable}
                                     trackingId={data.kind === 'phrase'? 'SR-SP Click close link': `SR Click close link for ${data.kind}`}
                                 >

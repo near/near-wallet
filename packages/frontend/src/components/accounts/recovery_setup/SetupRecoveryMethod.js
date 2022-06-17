@@ -1,6 +1,5 @@
 import { getRouter } from 'connected-react-router';
 import React, { Component } from 'react';
-import { withGoogleReCaptcha } from 'react-google-recaptcha-v3-near';
 import { Translate } from 'react-localize-redux';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
@@ -37,15 +36,12 @@ class SetupRecoveryMethod extends Component {
 
     state = {
         option: this.props.router.location.method || 'phrase',
-        success: false,
         recoverySeedPhrase: null,
-        recaptchaToken: null,
-        isNewAccount: false,
         settingUpNewAccount: false
     }
 
     async componentDidMount() {
-        const { router, checkIsNew } = this.props;
+        const { router } = this.props;
         const { method } = router.location;
 
         if (method) {
@@ -55,9 +51,6 @@ class SetupRecoveryMethod extends Component {
         if (this.props.activeAccountId) {
             this.handleCheckMethodStatus();
         }
-
-        const isNewAccount = await checkIsNew(this.props.accountId);
-        this.setState({ isNewAccount });
     }
 
     componentDidUpdate(prevProps) {
@@ -75,26 +68,20 @@ class SetupRecoveryMethod extends Component {
     }
 
     handleNext = async () => {
-        const { option, success } = this.state;
+        const { option } = this.state;
         const {
             accountId,
             location,
             redirectTo
         } = this.props;
 
-        if (!success) {
-            if (option === 'phrase') {
-                Mixpanel.track('SR-SP Select seed phrase');
-                redirectTo(`/setup-seed-phrase/${accountId}/phrase${location.search}`);
-            } else if (option === 'ledger') {
-                Mixpanel.track('SR-Ledger Select ledger');
-                redirectTo(`/setup-ledger/${accountId}${location.search}`);
-            }
+        if (option === 'phrase') {
+            Mixpanel.track('SR-SP Select seed phrase');
+            redirectTo(`/setup-seed-phrase/${accountId}/phrase${location.search}`);
+        } else if (option === 'ledger') {
+            Mixpanel.track('SR-Ledger Select ledger');
+            redirectTo(`/setup-ledger/${accountId}${location.search}`);
         }
-    }
-
-    handleGoBack = () => {
-        this.setState({ success: false });
     }
 
     checkDisabled = (method) => {
@@ -112,10 +99,7 @@ class SetupRecoveryMethod extends Component {
     }
 
     render() {
-        const {
-            option,
-            isNewAccount,
-        } = this.state;
+        const { option } = this.state;
         const {
             mainLoader,
             accountId,
@@ -159,9 +143,6 @@ class SetupRecoveryMethod extends Component {
                         <Translate id='button.continue' />
                     </FormButton>
                 </form>
-                {isNewAccount &&
-                    <div className='recaptcha-disclaimer'><Translate id='reCAPTCHA.disclaimer' /></div>
-                }
             </StyledContainer>
         );
     }
@@ -173,7 +154,6 @@ const mapDispatchToProps = () => {
         redirectTo,
         getLedgerKey,
         get2faMethod,
-        checkIsNew,
     } = accountActions;
 
     return {
@@ -181,7 +161,6 @@ const mapDispatchToProps = () => {
         initializeRecoveryMethod,
         getLedgerKey,
         get2faMethod,
-        checkIsNew,
         redirectTo,
     };
 };
@@ -201,4 +180,4 @@ const mapStateToProps = (state, { match }) => {
     };
 };
 
-export const SetupRecoveryMethodWithRouter = connect(mapStateToProps, mapDispatchToProps())(withGoogleReCaptcha(SetupRecoveryMethod));
+export const SetupRecoveryMethodWithRouter = connect(mapStateToProps, mapDispatchToProps())(SetupRecoveryMethod);

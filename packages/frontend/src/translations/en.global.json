@@ -951,7 +951,9 @@
             "email": "Resend Email",
             "phone": "Resend SMS"
         },
-        "title": "Recovery Methods"
+        "title": "Recovery Methods",
+        "unsupportedMethodEmail": "We're removing support for email as recovery method. Once you've disabled this method, you will not be able to re-enable it.",
+        "unsupportedMethodPhone": "We're removing support for SMS as recovery method. Once you've disabled this method, you will not be able to re-enable it."
     },
     "reduxActions": {
         "ADD_ACCESS_KEY": {

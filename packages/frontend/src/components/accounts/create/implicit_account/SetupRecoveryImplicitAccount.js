@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
-import { validateEmail } from '../../../../utils/account';
 import RecoveryOption from '../../../accounts/recovery_setup/RecoveryOption';
 import FormButton from '../../../common/FormButton';
 import Container from '../../../common/styled/Container.css';
+import Tooltip from '../../../common/Tooltip';
 
 const StyledContainer = styled(Container)`
     &&& {
@@ -32,19 +32,6 @@ export default ({
 }) => {
     const [recoveryOption, setRecoveryOption] = useState('phrase');
 
-    const isValidInput = () => {
-        switch (recoveryOption) {
-            case 'email':
-                return validateEmail(email);
-            case 'phrase':
-                return true;
-            case 'ledger':
-                return true;
-            default:
-                return false;
-        }
-    };
-
     return (
         <StyledContainer className='small-centered border'>
             <form onSubmit={(e) => {
@@ -56,7 +43,10 @@ export default ({
             }}>
                 <h1><Translate id='setupRecovery.header' /></h1>
                 <h2><Translate id='setupRecovery.subHeader' /></h2>
-                <h4></h4>
+                <h4>
+                    <Translate id='setupRecovery.advancedSecurity' />
+                    <Tooltip translate='profile.security.mostSecureDesc' icon='icon-lg' />
+                </h4>
                 <RecoveryOption
                     onClick={() => setRecoveryOption('phrase')}
                     option='phrase'
@@ -70,7 +60,7 @@ export default ({
                 <FormButton
                     color='blue'
                     type='submit'
-                    disabled={!isValidInput() || isInitializingRecoveryLink}
+                    disabled={isInitializingRecoveryLink}
                     sending={isInitializingRecoveryLink}
                     trackingId='SR Click submit button'
                     data-test-id="submitSelectedRecoveryOption"
