@@ -195,6 +195,26 @@
         "available": "Available balance",
         "reserved": "Reserved for fees"
     },
+    "batchImportAccounts": {
+        "confirmImportModal": {
+            "accountToImport": "Account to Import",
+            "desc": "To ensure account security during your transfer, confirm that the URL in your browser is correct:",
+            "title": "Approve Account Import from",
+            "transactionDetails": "+ Transaction Details"
+        },
+        "confirmUrlModal": {
+            "desc": "To ensure account security during your transfer, confirm that the URL in your browser is correct:",
+            "title": "Confirm Your URL"
+        },
+        "importScreen": {
+            "desc": "Begin your import and confirm each account </br> when prompted.",
+            "title": "Ready to import ${noOfAccounts} account(s) from </br>"
+        },
+        "successScreen": {
+            "desc": "Select an account to continue to your account dashboard.",
+            "title": "${noOfAccounts} account(s) were successfully </br> imported from "
+        }
+    },
     "button": {
         "acceptAndContinue": "Accept & Continue",
         "addACustomAddress": "Add a Custom Address",
@@ -205,6 +225,7 @@
         "authorize": "Authorize",
         "authorizing": "Authorizing",
         "backToSwap": "Back to Swap",
+        "beginImport": "Begin Import",
         "browseApps": "Browse Apps",
         "buy": "Buy",
         "cancel": "Cancel",
@@ -252,6 +273,7 @@
         "learnMore": "Learn More",
         "learnMoreAboutNear": "Learn more about NEAR",
         "loading": "Loading",
+        "looksGood": "Looks Good!",
         "moreInformation": "More information",
         "needToEditGoBack": "Need to edit? Go Back",
         "next": "Next",

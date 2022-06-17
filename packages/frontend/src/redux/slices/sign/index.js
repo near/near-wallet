@@ -133,6 +133,11 @@ export const getFirstTransactionWithFunctionCallAction = ({ transactions }) => {
     });
 };
 
+export const getEstimatedFees = (transactionsList) => {
+    const tx = increaseGasForFirstTransaction({ transactions: cloneDeep(transactionsList)});
+    return new BN(calculateGasLimit(tx.flatMap((t) => t.actions)));
+};
+
 export const increaseGasForFirstTransaction = ({ transactions }) => {
     const transaction = getFirstTransactionWithFunctionCallAction({ transactions });
 
