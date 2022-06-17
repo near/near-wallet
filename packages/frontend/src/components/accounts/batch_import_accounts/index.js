@@ -16,7 +16,7 @@ import Container from '../../common/styled/Container.css';
 import AccountListImport from '../AccountListImport';
 import AccountImportModal from './AccountImportModal';
 import BatchImportAccountsSuccessScreen from './BatchImportAccountsSuccessScreen';
-import reducer, { ACTIONS } from './immerReducer';
+import reducer, { ACTIONS } from './sequentialAccountImportReducer';
 import { ModalContainer } from './styles';
 
 const CustomContainer = styled.div`

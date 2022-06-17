@@ -2,6 +2,17 @@ import { differenceBy } from 'lodash';
 
 import { IMPORT_STATUS } from '.';
 
+/**
+ * @typedef {{ 
+ *  accountId: string, 
+ *  status: "pending" | "success" | "waiting" | "error" | null ,
+ *  key: string,
+ *  ledgerHdPath: string
+ * }} account
+ * 
+ * @typedef {{accounts: account[], urlConfirmed: boolean}} state
+ */
+
 export const ACTIONS = {
     BEGIN_IMPORT: 'BEGIN_IMPORT',
     SET_CURRENT_DONE: 'SET_CURRENT_DONE',
@@ -10,7 +21,20 @@ export const ACTIONS = {
     REMOVE_ACCOUNTS: 'REMOVE_ACCOUNTS',
 };
 
-const immerReducer = (state, action) => {
+/**
+ * @type state
+ */
+const initialState = {
+    accounts: [],
+    urlConfirmed: false
+};
+
+
+/** 
+ * @param {state} state
+ * @returns {state} 
+ * */
+const sequentialAccountImportReducer = (state = initialState, action) => {
     switch (action.type) {
         case ACTIONS.REMOVE_ACCOUNTS: {
             if (state.accounts.every(({ status }) => status === null)) {
@@ -61,4 +85,4 @@ const immerReducer = (state, action) => {
     }
 };
 
-export default immerReducer;
+export default sequentialAccountImportReducer;
