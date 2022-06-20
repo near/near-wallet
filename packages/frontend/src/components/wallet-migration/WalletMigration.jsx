@@ -77,6 +77,7 @@ const WalletMigration = ({ open, history, onClose }) => {
             availableAccounts,
             state.migrationKey
         );
+        localStorage.setItem('MIGRATION_TRIGERRED', true);
         window.open(url, '_blank');
     }, [state.migrationKey, availableAccounts]);
 
