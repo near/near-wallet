@@ -50,7 +50,7 @@ const WalletMigration = () => {
         const baseUrl = getWalletURL(true);
         handleCloseMigrationFlow();
         localStorage.setItem('MIGRATION_TRIGERRED', true);
-        window.location.href = `${baseUrl}/batch-import#${query}&selectedWallet=${state.walletType}`;
+        window.location.href = `${baseUrl}/batch-import#${query}`;
     };
 
 
