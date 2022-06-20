@@ -14,6 +14,7 @@ import createRootReducer from './redux/createReducers';
 import createMiddleware from './redux/middleware';
 import { initSentry } from './utils/sentry';
 
+// init sentry!
 initSentry();
 
 const history = createBrowserHistory();
