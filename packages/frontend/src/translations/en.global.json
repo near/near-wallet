@@ -111,9 +111,9 @@
             "zeroBalance": {
                 "success": {
                     "desc": "The account has not yet been funded. Purchase $NEAR to perform transactions with the account.",
-                    "title": "Account Imported",
+                    "ledger": "The following account was successfully imported using the Ledger key you provided:",
                     "phrase": "The following account was successfully imported using the passphrase you provided:",
-                    "ledger": "The following account was successfully imported using the Ledger key you provided:"
+                    "title": "Account Imported"
                 }
             }
         },
