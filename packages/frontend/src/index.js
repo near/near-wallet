@@ -16,6 +16,7 @@ import { initSentry } from './utils/sentry';
 
 // init sentry!
 // and another thing
+// also a third thing
 initSentry();
 
 const history = createBrowserHistory();
