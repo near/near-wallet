@@ -2,6 +2,7 @@ import React, { Component, createRef } from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
+import HapiService from '../../../services/HapiService';
 import classNames from '../../../utils/classNames';
 import { ACCOUNT_CHECK_TIMEOUT } from '../../../utils/wallet';
 import CheckCircleIcon from '../../svg/CheckCircleIcon';
@@ -179,6 +180,10 @@ class InputAccountId extends Component {
             }
             setAccountIdIsValid(false);
         }
+
+
+        const hapiStatus =  await HapiService.checkAddress({accountId});
+        if (hapiStatus) console.log('hapiStatus', hapiStatus);
     }
 
     render() {
