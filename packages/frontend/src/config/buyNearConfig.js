@@ -35,13 +35,13 @@ export const getPayMethods = ({ accountId, moonPayAvailable, signedMoonPayUrl, u
             link: 'https://rainbowbridge.app/transfer',
             track: () => Mixpanel.track('Wallet Click Bridge with Rainbow Bridge')
         },
-        binance: {
+        okex: {
             icon: okex,
             name: 'Okex',
             link: 'https://www.okex.com/',
             track: () => Mixpanel.track('Wallet Click Exchange with Okex')
         },
-        okex: {
+        binance: {
             icon: binance,
             name: 'Binance',
             link: 'https://www.binance.com/',
