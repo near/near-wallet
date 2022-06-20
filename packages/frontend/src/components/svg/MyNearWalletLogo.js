@@ -1,12 +1,12 @@
 import React from 'react';
 
-const MyNearWalletLogo = ({ mode = '' }) => {
+const MyNearWalletLogo = ({ mode = '', ...props }) => {
     const paintLinear0iId = `paint0_linear_528_1338${mode}`;
     const paintLinear1iId = `paint1_linear_528_1338${mode}`;
     const paintLinear2iId = `paint2_linear_528_1338${mode}`;
 
     return (
-        <svg xmlns="http://www.w3.org/2000/svg" width="440" height="92" viewBox="0 0 440 92" fill="none">
+        <svg xmlns="http://www.w3.org/2000/svg" width="440" height="92" viewBox="0 0 440 92" fill="none" {...props}>
             <g id="mynearwallet_logo_text">
                 <path d="M121.65 61.5439V29.1239H129.65L138.46 47.1239L147.21 29.1239H155.21V61.5439H147.1V42.9139L140.71 56.0039H136.23L129.79 42.9139V61.5439H121.65Z" fill="black"/>
                 <path d="M165.63 70.394C164.597 70.4048 163.564 70.3447 162.54 70.214C161.668 70.0946 160.815 69.8662 160 69.534V63.904C160.512 64.0875 161.042 64.2215 161.58 64.304C162.073 64.3727 162.571 64.4062 163.07 64.404C164.15 64.4795 165.228 64.225 166.16 63.674C167.032 62.9684 167.744 62.0856 168.25 61.084L157.53 37.684H166.04L172.33 52.834L178.52 37.684H186.97L177.9 59.544C177.098 61.5451 176.093 63.4586 174.9 65.254C173.901 66.7783 172.58 68.0652 171.03 69.024C169.392 69.9739 167.522 70.4483 165.63 70.394V70.394Z" fill="black"/>
