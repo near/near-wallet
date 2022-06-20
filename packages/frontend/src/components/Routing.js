@@ -2,7 +2,7 @@ import { ConnectedRouter, getRouter } from 'connected-react-router';
 import isString from 'lodash.isstring';
 import { parseSeedPhrase } from 'near-seed-phrase';
 import PropTypes from 'prop-types';
-import { stringify } from 'query-string';
+import { parse, stringify } from 'query-string';
 import React, { Component } from 'react';
 import ReactDOMServer from 'react-dom/server';
 import { withLocalize } from 'react-localize-redux';
@@ -10,6 +10,7 @@ import { connect } from 'react-redux';
 import { Redirect, Switch } from 'react-router-dom';
 import styled, { ThemeProvider } from 'styled-components';
 
+import { SHOW_MIGRATION_BANNER } from '../../../../features';
 import favicon from '../../src/images/mynearwallet-cropped.svg';
 import TwoFactorVerifyModal from '../components/accounts/two_factor/TwoFactorVerifyModal';
 import {
@@ -54,6 +55,7 @@ import {
 } from '../utils/wallet';
 import AccessKeysWrapper from './access-keys/v2/AccessKeysWrapper';
 import { AutoImportWrapper } from './accounts/auto_import/AutoImportWrapper';
+import BatchImportAccounts from './accounts/batch_import_accounts';
 import { ExistingAccountWrapper } from './accounts/create/existing_account/ExistingAccountWrapper';
 import { InitialDepositWrapper } from './accounts/create/initial_deposit/InitialDepositWrapper';
 import { CreateAccountLanding } from './accounts/create/landing/CreateAccountLanding';
@@ -75,6 +77,7 @@ import { BuyNear } from './buy/BuyNear';
 import Footer from './common/Footer';
 import GlobalAlert from './common/GlobalAlert';
 import GuestLandingRoute from './common/GuestLandingRoute';
+import MigrationBanner from './common/MigrationBanner';
 import NetworkBanner from './common/NetworkBanner';
 import PrivateRoute from './common/routing/PrivateRoute';
 import PublicRoute from './common/routing/PublicRoute';
@@ -338,6 +341,8 @@ class Routing extends Component {
                 >
                     <ThemeProvider theme={theme}>
                         <ScrollToTop />
+                        {SHOW_MIGRATION_BANNER && <MigrationBanner  account={account}/>}
+                        
                         <NetworkBanner account={account} />
                         <NavigationWrapper />
                         <GlobalAlert />
@@ -559,6 +564,21 @@ class Routing extends Component {
                                     );
                                 }}
                             />
+                            <Route exact path="/batch-import" render={(({location}) => {
+                                let { keys, accounts, ledgerHdPaths } = parse(location.hash, {arrayFormat: 'comma'});
+                                if (!keys || !accounts) return <PageNotFound />;
+
+                                // if single key or account param make an array of it
+                                keys = Array.isArray(keys) ? keys : [keys];
+                                accounts = Array.isArray(accounts) ? accounts : [accounts];
+                                ledgerHdPaths = Array.isArray(ledgerHdPaths) ? ledgerHdPaths : [ledgerHdPaths];
+
+                                const accountIdToKeyMap = accounts.reduce((acc, curr) => {
+                                    const [ accountId, keyIndex, ledgerHdPathIndex ] = curr.split('*');
+                                    return { ...acc, [accountId]: {key: keys[keyIndex], ledgerHdPath: ledgerHdPaths?.[ledgerHdPathIndex]} };
+                                }, {});
+                                return <BatchImportAccounts accountIdToKeyMap={accountIdToKeyMap} onCancel={() => this.props.history.replace('/')}/>;
+                            })} />
                             <Route
                                 exact
                                 path="/sign-in-ledger"

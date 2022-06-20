@@ -81,7 +81,8 @@ export default ({
     transferAmount,
     sender,
     estimatedFees,
-    availableBalance
+    availableBalance,
+    fromLabelId
 }) => {
     const isTransferTransaction = new BN(transferAmount).gt(new BN(0));
     return (
@@ -94,7 +95,7 @@ export default ({
                 />
             }
             <div className={`account from ${!isTransferTransaction ? 'no-border' : ''}`}>
-                <Translate id='transfer.from' />
+                <Translate id={fromLabelId || 'transfer.from'} />
                 <div className='right'>
                     <div className='account-id'>{sender}</div>
                     <Balance

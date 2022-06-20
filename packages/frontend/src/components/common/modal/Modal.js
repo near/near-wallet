@@ -45,7 +45,14 @@ function Modal({
 
     },[]);
 
-    useEffect(() => { setFadeType('out'); }, [isOpen]);
+    useEffect(() => { 
+        setFadeType('out');
+        if (isOpen) {
+            setTimeout(() => {
+                setFadeType('in');
+            }, 500);
+        }
+     }, [isOpen]);
 
     const checkFullScreen = () => {
         const modalHeight = document.getElementById('modal-container').getBoundingClientRect().height;
