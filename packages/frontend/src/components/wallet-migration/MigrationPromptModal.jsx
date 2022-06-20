@@ -2,11 +2,11 @@ import React from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
+import IconClose from '../../images/IconClose';
 import FormButton from '../common/FormButton';
 import Modal from '../common/modal/Modal';
 import MyNearWalletLogo from '../svg/MyNearWalletLogo';
 import { WALLET_MIGRATION_VIEWS } from './WalletMigration';
-
 
 const ContentContainer = styled.div`
     padding: 15px 0;
@@ -22,7 +22,16 @@ const ContentContainer = styled.div`
         padding: 48px 24px;
     }
 
-    svg{
+    .close-icon {
+        position: absolute;
+        height: 16px;
+        width: 16px;
+        right: 24px;
+        top: 24px;
+        cursor: pointer;
+    }
+
+    .logo {
         width: 100%;
     }
 
@@ -65,7 +74,8 @@ const MigrationPromptModal = ({ onClose, handleSetActiveView, handleRedirectToBa
             style={{ maxWidth: '435px' }}
         >
             <ContentContainer>
-                <MyNearWalletLogo mode={1} />
+                <IconClose className="close-icon" onClick={onClose}/>
+                <MyNearWalletLogo className="logo" mode={1} />
                 <h3 className='title'><Translate id='walletMigration.migrationPrompt.title'/></h3>
                 <p><Translate id='walletMigration.migrationPrompt.desc'/></p>
             </ContentContainer>
