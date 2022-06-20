@@ -14,9 +14,15 @@ const parseObjectFromShell = (envVal) => {
 const parseCommaSeperatedStringAsArrayFromShell = (envVal) =>
     envValIsSet(envVal) ? envVal.split(',') : undefined;
 
+/* Returns a Date object from a unix timestamp string */
+const parseDateFromShell = (envVal) => {
+    return envValIsSet(envVal) ? new Date(envVal)  : undefined;
+};
+
 module.exports = {
     envValIsSet,
     parseBooleanFromShell,
     parseObjectFromShell,
     parseCommaSeperatedStringAsArrayFromShell,
+    parseDateFromShell
 };
