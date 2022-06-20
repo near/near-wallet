@@ -4,13 +4,11 @@ import { Textfit } from 'react-textfit';
 import styled from 'styled-components';
 
 import {
-    CREATE_IMPLICIT_ACCOUNT,
     CREATE_USN_CONTRACT,
 } from '../../../../../features';
 import getCurrentLanguage from '../../hooks/getCurrentLanguage';
 import classNames from '../../utils/classNames';
 import { SHOW_NETWORK_BANNER } from '../../utils/wallet';
-import Balance from '../common/balance/Balance';
 import { getTotalBalanceInFiat } from '../common/balance/helpers';
 import FormButton from '../common/FormButton';
 import Container from '../common/styled/Container.css';
@@ -20,15 +18,16 @@ import SendIcon from '../svg/SendIcon';
 import TopUpIcon from '../svg/TopUpIcon';
 import WrapIcon from '../svg/WrapIcon';
 import ActivitiesWrapper from './ActivitiesWrapper';
+import AllTokensTotalBalanceUSD from './AllTokensTotalBalanceUSD';
 import CreateCustomNameModal from './CreateCustomNameModal';
 import CreateFromImplicitSuccessModal from './CreateFromImplicitSuccessModal';
 import DepositNearBanner from './DepositNearBanner';
 import ExploreApps from './ExploreApps';
 import LinkDropSuccessModal from './LinkDropSuccessModal';
 import NFTs from './NFTs';
-import ReleaseNotesModal from './ReleaseNotesModal';
 import Sidebar from './Sidebar';
 import Tokens from './Tokens';
+import { ZeroBalanceAccountImportedModal } from './ZeroBalanceAccountImportedModal';
 
 const StyledContainer = styled(Container)`
     @media (max-width: 991px) {
@@ -304,6 +303,7 @@ export function Wallet({
     linkdropAmount,
     createFromImplicitSuccess,
     createCustomName,
+    zeroBalanceAccountImportMethod,
     fungibleTokensList,
     tokensLoading,
     availableAccounts,
@@ -311,6 +311,7 @@ export function Wallet({
     handleCloseLinkdropModal,
     handleSetCreateFromImplicitSuccess,
     handleSetCreateCustomName,
+    handleSetZeroBalanceAccountImportMethod
 }) {
     const currentLanguage = getCurrentLanguage();
     const totalAmount = getTotalBalanceInFiat(
@@ -322,7 +323,6 @@ export function Wallet({
         <StyledContainer
             className={SHOW_NETWORK_BANNER ? 'showing-banner' : ''}
         >
-            <ReleaseNotesModal />
             <div className="split">
                 <div className="left">
                     <div className="tab-selector">
@@ -355,11 +355,12 @@ export function Wallet({
                             tokensLoading={tokensLoading}
                             fungibleTokens={fungibleTokensList}
                             accountExists={accountExists}
+                            fungibleTokensList={fungibleTokensList}
                         />
                     )}
                 </div>
                 <div className="right">
-                    {CREATE_IMPLICIT_ACCOUNT && accountExists ? (
+                    {accountExists ? (
                         <Sidebar availableAccounts={availableAccounts} />
                     ) : (
                         <ExploreApps />
@@ -387,6 +388,13 @@ export function Wallet({
                     accountId="satoshi.near"
                 />
             )}
+            {zeroBalanceAccountImportMethod && (
+                <ZeroBalanceAccountImportedModal
+                    onClose={handleSetZeroBalanceAccountImportMethod}
+                    importMethod={zeroBalanceAccountImportMethod}
+                    accountId={accountId}
+                />
+            )}
         </StyledContainer>
     );
 }
@@ -398,6 +406,7 @@ const FungibleTokens = ({
     accountExists,
     totalAmount,
     currentLanguage,
+    fungibleTokensList
 }) => {
     const zeroBalanceAccount = accountExists === false;
     const currentFungibleTokens = fungibleTokens[0];
@@ -405,19 +414,11 @@ const FungibleTokens = ({
         zeroBalanceAccount &&
         fungibleTokens?.length === 1 &&
         currentFungibleTokens?.onChainFTMetadata?.symbol === 'NEAR';
-
     return (
         <>
-            <div className="total-balance">
-                <Textfit mode="single" max={48}>
-                    <Balance
-                        totalAmount={totalAmount}
-                        showBalanceInNEAR={false}
-                        amount={balance?.balanceAvailable}
-                        showAlmostEqualSignUSD={false}
-                        showSymbolUSD={false}
-                        showSignUSD={true}
-                    />
+            <div className='total-balance'>
+                <Textfit mode='single' max={48}>
+                    <AllTokensTotalBalanceUSD allFungibleTokens={fungibleTokensList}/>
                 </Textfit>
             </div>
             <div className="sub-title balance">

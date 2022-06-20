@@ -4,7 +4,10 @@ function initFeatureFlags({ flagState, currentEnvironment, environments }) {
     }
 
     if (!Object.values(environments).includes(currentEnvironment)) {
-        throw Error(`invalid environment: "${currentEnvironment}"`);
+        throw Error(`
+invalid environment "${currentEnvironment}", the NEAR_WALLET_ENV environment variable must be set to one of:
+${Object.values(environments).join(', ')}
+        `);
     }
 
     return new Proxy(flagState, {

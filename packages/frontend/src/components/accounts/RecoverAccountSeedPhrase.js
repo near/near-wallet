@@ -6,7 +6,6 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { IMPORT_ZERO_BALANCE_ACCOUNT } from '../../../../../features';
 import { Mixpanel } from '../../mixpanel/index';
 import {
     recoverAccountSeedPhrase,
@@ -15,14 +14,17 @@ import {
     refreshAccount,
     clearAccountState
 } from '../../redux/actions/account';
-import { clearLocalAlert, showCustomAlert } from '../../redux/actions/status';
+import { clearLocalAlert, showCustomAlert, clearGlobalAlert } from '../../redux/actions/status';
 import { selectAccountSlice } from '../../redux/slices/account';
+import { actions as importZeroBalanceAccountActions } from '../../redux/slices/importZeroBalanceAccount';
+import { importZeroBalanceAccountPhrase } from '../../redux/slices/importZeroBalanceAccount/importAccountThunks';
 import { selectActionsPending, selectStatusLocalAlert, selectStatusMainLoader } from '../../redux/slices/status';
 import isValidSeedPhrase from '../../utils/isValidSeedPhrase';
 import parseFundingOptions from '../../utils/parseFundingOptions';
 import Container from '../common/styled/Container.css';
-import { CouldNotFindAccountModalWrapper } from './CouldNotFindAccountModalWrapper';
 import RecoverAccountSeedPhraseForm from './RecoverAccountSeedPhraseForm';
+
+const { setZeroBalanceAccountImportMethod } = importZeroBalanceAccountActions;
 
 const StyledContainer = styled(Container)`
     .input {
@@ -83,7 +85,9 @@ class RecoverAccountSeedPhrase extends Component {
             clearAccountState,
             recoverAccountSeedPhrase,
             refreshAccount,
-            showCustomAlert
+            showCustomAlert,
+            importZeroBalanceAccountPhrase,
+            setZeroBalanceAccountImportMethod
         } = this.props;
 
         try {
@@ -103,12 +107,12 @@ class RecoverAccountSeedPhrase extends Component {
                 this.setState({ recoveringAccount: true });
                 await recoverAccountSeedPhrase(seedPhrase);
                 await refreshAccount();
-            }, (e) => {
-
-                if (IMPORT_ZERO_BALANCE_ACCOUNT) {
-                    if (e.message.includes('Cannot find matching public key')) {
-                        this.setState({ showCouldNotFindAccountModal: true });
-                    }
+            }, async (e) => {
+                if (e.message.includes('Cannot find matching public key')) {
+                    await importZeroBalanceAccountPhrase(seedPhrase);
+                    setZeroBalanceAccountImportMethod('phrase');
+                    clearGlobalAlert();
+                    redirectToApp();
                 }
 
                 throw e;
@@ -141,8 +145,6 @@ class RecoverAccountSeedPhrase extends Component {
             isLegit: this.isLegit && !(this.props.localAlert && this.props.localAlert.success === false)
         };
 
-        const { showCouldNotFindAccountModal, seedPhrase } = this.state;
-
         return (
             <StyledContainer className='small-centered border'>
                 <h1><Translate id='recoverSeedPhrase.pageTitle' /></h1>
@@ -153,13 +155,6 @@ class RecoverAccountSeedPhrase extends Component {
                         handleChange={this.handleChange}
                     />
                 </form>
-                {showCouldNotFindAccountModal && (
-                    <CouldNotFindAccountModalWrapper
-                        onClose={() => this.setState({ showCouldNotFindAccountModal: false })}
-                        isOpen={showCouldNotFindAccountModal}
-                        seedPhrase={seedPhrase}
-                    />
-                )}
             </StyledContainer>
         );
     }
@@ -172,7 +167,9 @@ const mapDispatchToProps = {
     refreshAccount,
     clearLocalAlert,
     clearAccountState,
-    showCustomAlert
+    showCustomAlert,
+    importZeroBalanceAccountPhrase,
+    setZeroBalanceAccountImportMethod
 };
 
 const mapStateToProps = (state, { match }) => ({

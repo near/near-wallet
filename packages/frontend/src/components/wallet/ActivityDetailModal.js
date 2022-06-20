@@ -133,11 +133,12 @@ const ActivityDetailModal = ({
         checkStatus,
         hash,
         signer_id,
-        block_timestamp
+        block_timestamp,
+        hash_with_index
     } = transaction;
 
     const dispatch = useDispatch();
-    const getTransactionStatusConditions = () => checkStatus && !document.hidden && dispatch(transactionsActions.fetchTransactionStatus({ hash, signer_id, accountId }));
+    const getTransactionStatusConditions = () => checkStatus && !document.hidden && dispatch(transactionsActions.fetchTransactionStatus({ hash, signer_id, accountId, hash_with_index }));
 
     useEffect(() => {
         getTransactionStatusConditions();

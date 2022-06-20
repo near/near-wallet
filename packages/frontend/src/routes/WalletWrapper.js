@@ -7,6 +7,7 @@ import { Mixpanel } from '../mixpanel/index';
 import { selectAccountId, selectBalance, selectAccountExists } from '../redux/slices/account';
 import { selectAvailableAccounts } from '../redux/slices/availableAccounts';
 import { selectCreateFromImplicitSuccess, selectCreateCustomName, actions as createFromImplicitActions } from '../redux/slices/createFromImplicit';
+import { selectZeroBalanceAccountImportMethod, actions as importZeroBalanceAccountActions } from '../redux/slices/importZeroBalanceAccount';
 import { selectLinkdropAmount, actions as linkdropActions } from '../redux/slices/linkdrop';
 import { selectTokensWithMetadataForAccountId, actions as nftActions } from '../redux/slices/nft';
 import { actions as tokensActions, selectTokensLoading } from '../redux/slices/tokens';
@@ -15,6 +16,7 @@ const { fetchNFTs } = nftActions;
 const { fetchTokens } = tokensActions;
 const { setLinkdropAmount } = linkdropActions;
 const { setCreateFromImplicitSuccess, setCreateCustomName } = createFromImplicitActions;
+const { setZeroBalanceAccountImportMethod } = importZeroBalanceAccountActions;
 
 export function WalletWrapper({
     tab,
@@ -27,6 +29,7 @@ export function WalletWrapper({
     const linkdropAmount = useSelector(selectLinkdropAmount);
     const createFromImplicitSuccess = useSelector(selectCreateFromImplicitSuccess);
     const createCustomName = useSelector(selectCreateCustomName);
+    const zeroBalanceAccountImportMethod = useSelector(selectZeroBalanceAccountImportMethod);
     const fungibleTokensList = useFungibleTokensIncludingNEAR();
     const tokensLoading = useSelector((state) => selectTokensLoading(state, { accountId }));
     const availableAccounts = useSelector(selectAvailableAccounts);
@@ -36,7 +39,7 @@ export function WalletWrapper({
         if (accountId) {
             Mixpanel.identify(Mixpanel.get_distinct_id());
             Mixpanel.people.set({ relogin_date: new Date().toString() });
-            
+
             dispatch(fetchNFTs({ accountId }));
             dispatch(fetchTokens({ accountId }));
         }
@@ -52,6 +55,7 @@ export function WalletWrapper({
             linkdropAmount={linkdropAmount}
             createFromImplicitSuccess={createFromImplicitSuccess}
             createCustomName={createCustomName}
+            zeroBalanceAccountImportMethod={zeroBalanceAccountImportMethod}
             fungibleTokensList={fungibleTokensList}
             tokensLoading={tokensLoading}
             availableAccounts={availableAccounts}
@@ -60,10 +64,11 @@ export function WalletWrapper({
                 useCallback(() => {
                     dispatch(setLinkdropAmount('0'));
                     Mixpanel.track('Click dismiss NEAR drop success modal');
-                },[])
+                }, [])
             }
             handleSetCreateFromImplicitSuccess={() => dispatch(setCreateFromImplicitSuccess(false))}
             handleSetCreateCustomName={() => dispatch(setCreateCustomName(false))}
+            handleSetZeroBalanceAccountImportMethod={() => dispatch(setZeroBalanceAccountImportMethod(''))}
         />
     );
 }

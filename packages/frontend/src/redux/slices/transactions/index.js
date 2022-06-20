@@ -1,13 +1,23 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import set from 'lodash.set';
+import {
+    createEntityAdapter,
+    createSlice,
+    createAsyncThunk
+} from '@reduxjs/toolkit';
 import { createSelector } from 'reselect';
 
-import { getTransactions, transactionExtraInfo } from '../../../utils/explorer-api';
+import { 
+    getTransactions,
+    transactionExtraInfo
+} from '../../../utils/explorer-api';
 import handleAsyncThunkStatus from '../../reducerStatus/handleAsyncThunkStatus';
 import initialStatusState from '../../reducerStatus/initialState/initialStatusState';
-import { createParameterSelector } from '../../selectors/topLevel';
 
 const SLICE_NAME = 'transactions';
+
+const transactionsAdapter = createEntityAdapter({
+    selectId: ({ hash_with_index }) => hash_with_index,
+    sortComparer: (a, b) => b.block_timestamp - a.block_timestamp,
+});
 
 const initialState = {
     byAccountId: {}
@@ -15,7 +25,7 @@ const initialState = {
 
 const initialAccountIdState = {
     ...initialStatusState,
-    items: []
+    ...transactionsAdapter.getInitialState()
 };
 
 const fetchTransactions = createAsyncThunk(
@@ -25,15 +35,15 @@ const fetchTransactions = createAsyncThunk(
 
         const { actions: { setTransactions, updateTransactions } } = transactionsSlice;
 
-        !selectTransactionsByAccountId(getState(), { accountId }).length
-            ? dispatch(setTransactions({ transactions, accountId }))
-            : dispatch(updateTransactions({ transactions, accountId }));
+        selectTransactionsByAccountIdTotal(getState(), { accountId })
+            ? dispatch(updateTransactions({ transactions, accountId }))
+            : dispatch(setTransactions({ transactions, accountId }));
     }
 );
 
 const fetchTransactionStatus = createAsyncThunk(
     `${SLICE_NAME}/fetchTransactionStatus`,
-    async ({ hash, signer_id, accountId }, { dispatch, getState }) => {
+    async ({ hash, signer_id, accountId, hash_with_index }, { dispatch, getState }) => {
         let status;
         try {
             const transactionDetails = await transactionExtraInfo({ hash, signer_id });
@@ -43,7 +53,7 @@ const fetchTransactionStatus = createAsyncThunk(
         }
         const checkStatus = ['SuccessValue', 'Failure'].includes(status);
         const { actions: { updateTransactionStatus } } = transactionsSlice;
-        dispatch(updateTransactionStatus({ status, checkStatus, accountId, hash }));
+        dispatch(updateTransactionStatus({ status, checkStatus, accountId, hash, hash_with_index }));
     }
 );
 
@@ -51,39 +61,15 @@ const transactionsSlice = createSlice({
     name: SLICE_NAME,
     initialState,
     reducers: {
-        setTransactions(state, { payload }) {
-            const { transactions, accountId } = payload;
-            set(state, ['byAccountId', accountId, 'items'], transactions);
+        setTransactions(state, { payload: { accountId, transactions }}) {
+            transactionsAdapter.setAll(state.byAccountId[accountId], transactions);
         },
-        updateTransactions(state, { payload }) {
-            const { transactions, accountId } = payload;
-
-            const transactionsState = state.byAccountId[accountId].items;
-            const hash = transactionsState.map((t) => t.hash_with_index);
-
-            // when updating the transaction, we do not want to replace the entire array, because for some entries the tx status may already be fetched
-            transactions
-                .reverse()
-                .forEach((t) => {
-                    if (!hash.includes(t.hash_with_index)) {
-                        transactionsState.unshift(t);
-                        if (transactionsState.length > 10) {
-                            transactionsState.pop();
-                        }
-                    }
-                }
-            );
+        updateTransactions(state, { payload: { accountId, transactions }}) {
+            transactionsAdapter.upsertMany(state.byAccountId[accountId], transactions);
         },
-        updateTransactionStatus(state, { payload }) {
-            const { status, checkStatus, accountId, hash } = payload;
-
-            const transactionsState = state.byAccountId[accountId].items;
-
-            const transactionEntry = transactionsState.find((t) => t.hash === hash);
-            if (transactionEntry) {
-                Object.assign(transactionEntry, { status, checkStatus});
-            }
-        }
+        updateTransactionStatus(state, { payload: { status, checkStatus, accountId, hash_with_index }}) {
+            transactionsAdapter.updateOne(state.byAccountId[accountId], { id: hash_with_index, changes: { status, checkStatus } });
+        },
     },
     extraReducers: ((builder) => {
         handleAsyncThunkStatus({
@@ -102,32 +88,24 @@ export const actions = {
     ...transactionsSlice.actions
 };
 
-const getAccountIdParam = createParameterSelector((params) => params.accountId);
 
-const getHashParam = createParameterSelector((params) => params.hash);
+// entity adapter selectors
+export const {
+    selectAll: selectTransactionsByAccountId,
+    selectTotal: selectTransactionsByAccountIdTotal
+} = transactionsAdapter.getSelectors((state, { accountId }) => ({
+    ...initialAccountIdState,
+    ...state.transactions.byAccountId[accountId]
+}));
 
-// Top level selectors
-const selectTransactionsSlice = (state) => state[SLICE_NAME] || {};
+export const selectTransactionsOneByIdentity = (state, { accountId, id }) => transactionsAdapter.getSelectors().selectById({
+    ...initialAccountIdState,
+    ...state.transactions.byAccountId[accountId]
+}, id);
 
-export const selectTransactionsObjectByAccountId = createSelector(
-    [selectTransactionsSlice, getAccountIdParam],
-    (transactions, accountId) => ({
-        ...initialAccountIdState,
-        ...transactions.byAccountId[accountId]
-    })
-);
+// status selectors
+export const selectTransactionsObject = (state, { accountId }) => state[SLICE_NAME].byAccountId[accountId] || {};
 
-export const selectTransactionsByAccountId = createSelector(
-    [selectTransactionsObjectByAccountId],
-    (transactions) => transactions.items
-);
+export const selectTransactionsStatus = createSelector([selectTransactionsObject], (transactions) => transactions.status || initialStatusState);
 
-export const selectOneTransactionByIdentity = createSelector(
-    [selectTransactionsByAccountId, getHashParam],
-    (transactions, hash) => transactions.find((transaction) => transaction.hash_with_index === hash)
-);
-
-export const selectTransactionsLoading = createSelector(
-    [selectTransactionsObjectByAccountId],
-    (transactions) => transactions.status.loading || false
-);
+export const selectTransactionsLoading = createSelector(selectTransactionsStatus, (status) => status.loading || initialStatusState.loading);

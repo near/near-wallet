@@ -606,7 +606,7 @@
         },
         "v2": {
             "connectConfirm": {
-                "desc": "Só conecte-se a sites em que confia. Uma vez conectado, <a href=${contractIdUrl} target='_blank' rel='noreferrer'>${appReferrer}</a> terá <b>${accessType}</b>:",
+                "desc": "Só conecte-se a sites em que confia. Uma vez conectado, <a href='${contractIdUrl}' target='_blank' rel='noreferrer'>${appReferrer}</a> terá <b>${accessType}</b>:",
                 "feeAllowance": {
                     "desc": "A aplicação será autorizada a gastar até <b>${amount} NEAR</b> em taxas de rede que incidam durante o uso.",
                     "title": "Taxa de Allowance da Rede"
