@@ -15,6 +15,7 @@ import createMiddleware from './redux/middleware';
 import { initSentry } from './utils/sentry';
 
 // init sentry!
+// and another thing
 initSentry();
 
 const history = createBrowserHistory();
