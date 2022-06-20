@@ -24,7 +24,6 @@ const ContentContainer = styled.div`
 
     svg{
         width: 100%;
-        // max-width: 200px;
     }
 
     .title{
