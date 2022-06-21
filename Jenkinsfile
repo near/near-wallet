@@ -11,9 +11,9 @@ pipeline {
         AWS_CREDENTIALS = 'aws-credentials-password'
         AWS_REGION = 'us-west-2'
         TESTNET_AWS_ROLE = credentials('testnet-assumed-role')
-        TESTNET_AWS_ROLE_ACCOUNT = credentials('testnet-assumed-role-account')
+        TESTNET_AWS_ACCOUNT_ID = credentials('testnet-mnw-account-id')
         MAINNET_AWS_ROLE = credentials('mainnet-assumed-role')
-        MAINNET_AWS_ROLE_ACCOUNT = credentials('mainnet-assumed-role-account')
+        MAINNET_AWS_ACCOUNT_ID = credentials('mainnet-mnw-account-id')
 
         // s3 buckets
         TESTNET_PR_PREVIEW_STATIC_SITE_BUCKET = credentials('testnet-pr-previews-static-website')
@@ -236,7 +236,7 @@ pipeline {
                                             region: env.AWS_REGION,
                                             credentials: env.AWS_CREDENTIALS,
                                             role: env.TESTNET_AWS_ROLE,
-                                            roleAccount: env.TESTNET_AWS_ROLE_ACCOUNT
+                                            roleAccount: env.TESTNET_AWS_ACCOUNT_ID
                                         ) {
                                             s3Upload(
                                                 bucket: "$TESTNET_PR_PREVIEW_STATIC_SITE_BUCKET/$CHANGE_ID",
@@ -258,7 +258,7 @@ pipeline {
                                             region: env.AWS_REGION,
                                             credentials: env.AWS_CREDENTIALS,
                                             role: env.MAINNET_AWS_ROLE,
-                                            roleAccount: env.MAINNET_AWS_ROLE_ACCOUNT
+                                            roleAccount: env.MAINNET_AWS_ACCOUNT_ID
                                         ) {
                                             s3Upload(
                                                 bucket: "$MAINNET_PR_PREVIEW_STATIC_SITE_BUCKET/$CHANGE_ID",
@@ -288,7 +288,7 @@ pipeline {
                                     region: env.AWS_REGION,
                                     credentials: env.AWS_CREDENTIALS,
                                     role: env.TESTNET_AWS_ROLE,
-                                    roleAccount: env.TESTNET_AWS_ROLE_ACCOUNT
+                                    roleAccount: env.TESTNET_AWS_ACCOUNT_ID
                                 ) {
                                     s3Upload(
                                         bucket: env.TESTNET_STAGING_STATIC_SITE_BUCKET,
@@ -310,7 +310,7 @@ pipeline {
                                     region: env.AWS_REGION,
                                     credentials: env.AWS_CREDENTIALS,
                                     role: env.TESTNET_AWS_ROLE,
-                                    roleAccount: env.TESTNET_AWS_ROLE_ACCOUNT
+                                    roleAccount: env.TESTNET_AWS_ACCOUNT_ID
                                 ) {
                                     s3Upload(
                                         bucket: env.TESTNET_STATIC_SITE_BUCKET,
@@ -332,7 +332,7 @@ pipeline {
                                     region: env.AWS_REGION,
                                     credentials: env.AWS_CREDENTIALS,
                                     role: env.MAINNET_AWS_ROLE,
-                                    roleAccount: env.MAINNET_AWS_ROLE_ACCOUNT
+                                    roleAccount: env.MAINNET_AWS_ACCOUNT_ID
                                 ) {
                                     s3Upload(
                                         bucket: env.MAINNET_STAGING_STATIC_SITE_BUCKET,
@@ -356,7 +356,7 @@ pipeline {
                                     region: env.AWS_REGION,
                                     credentials: env.AWS_CREDENTIALS,
                                     role: env.MAINNET_AWS_ROLE,
-                                    roleAccount: env.MAINNET_AWS_ROLE_ACCOUNT
+                                    roleAccount: env.MAINNET_AWS_ACCOUNT_ID
                                 ) {
                                     s3Upload(
                                         bucket: env.MAINNET_STATIC_SITE_BUCKET,
