@@ -2,9 +2,9 @@ import React from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
-import IconMyNearWallet from '../../images/IconMyNearWallet';
 import FormButton from '../common/FormButton';
 import Modal from '../common/modal/Modal';
+import MyNearWalletLogo from '../svg/MyNearWalletLogo';
 import { WALLET_MIGRATION_VIEWS } from './WalletMigration';
 
 
@@ -21,11 +21,12 @@ const ContentContainer = styled.div`
     @media (min-width: 500px) {
         padding: 48px 24px;
     }
-
-    svg{
+    
+    svg {
+        width: 170px;
     }
 
-    .title{
+    .title {
         font-size: 20px;
         margin-top: 56px;
     }
@@ -52,30 +53,37 @@ const StyledButton = styled(FormButton)`
 `;
 
 
-const MigrationPrompt = ({ onClose, handleSetActiveView }) => {
+const MigrationPrompt = ({ handleSetActiveView, onClose }) => {
     return (
         <Modal
-            modalClass="slim"
+            modalClass='slim'
             id='migration-modal'
-            isOpen={true}
+            isOpen
             onClose={onClose}
             disableClose={true}
             modalSize='md'
             style={{ maxWidth: '496px' }}
         >
             <ContentContainer>
-                <IconMyNearWallet />
-                <h3 className='title'><Translate id='walletMigration.migrationPrompt.title'/></h3>
-                <p><Translate id='walletMigration.migrationPrompt.desc'/></p>
+                <div>
+                    <MyNearWalletLogo />
+                </div>
+                <h3 className='title'>
+                    <Translate id='walletMigration.migrationPrompt.title'/>
+                </h3>
+                <p>
+                    <Translate id='walletMigration.migrationPrompt.desc'/>
+                </p>
             </ContentContainer>
             <StyledDivider />
            <ButtonsContainer>
-                <StyledButton onClick={()=>{handleSetActiveView(WALLET_MIGRATION_VIEWS.GENERATE_MIGRATION_PIN);}}>
+                <StyledButton
+                    onClick={()=>{handleSetActiveView(WALLET_MIGRATION_VIEWS.GENERATE_MIGRATION_KEY);}}>
                     <Translate id='walletMigration.migrationPrompt.transferAccountsBtn' />
                  </StyledButton>
-                 <StyledButton className="link" onClick={()=>{handleSetActiveView(WALLET_MIGRATION_VIEWS.SELECT_WALLET);}}>
-                    <Translate id='walletMigration.migrationPrompt.useDifferentWallet' />
-                 </StyledButton>
+               <StyledButton className='gray-blue' onClick={onClose}>
+                   <Translate id='button.cancel' />
+               </StyledButton>
            </ButtonsContainer>
         </Modal>
     );
