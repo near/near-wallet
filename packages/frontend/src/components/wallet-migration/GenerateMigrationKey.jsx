@@ -56,7 +56,7 @@ const StyledButton = styled(FormButton)`
 `;
 
 
-const GenerateMigrationKey = ({ handleSetActiveView, secretKey, onMigrate }) => {
+const GenerateMigrationKey = ({ handleSetActiveView, secretKey }) => {
     return (
         <Modal
             modalClass='slim'
