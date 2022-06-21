@@ -62,11 +62,11 @@ pipeline {
         stage('packages:test') {
             failFast true
 
+            when {
+                expression { env.BUILD_FRONTEND == 'true' }
+            }
             parallel {
                 stage('frontend:prebuild:testnet-staging') {
-                    when {
-                        expression { env.BUILD_FRONTEND == 'true' }
-                    }
                     environment {
                         NEAR_WALLET_ENV = 'testnet_STAGING'
                     }
@@ -78,9 +78,6 @@ pipeline {
                 }
 
                 stage('frontend:prebuild:testnet') {
-                    when {
-                        expression { env.BUILD_FRONTEND == 'true' }
-                    }
                     environment {
                         NEAR_WALLET_ENV = 'testnet'
                     }
@@ -92,9 +89,6 @@ pipeline {
                 }
 
                 stage('frontend:prebuild:mainnet-staging') {
-                    when {
-                        expression { env.BUILD_FRONTEND == 'true' }
-                    }
                     environment {
                         NEAR_WALLET_ENV = 'mainnet_STAGING'
                     }
@@ -106,9 +100,6 @@ pipeline {
                 }
 
                 stage('frontend:prebuild:mainnet') {
-                    when {
-                        expression { env.BUILD_FRONTEND == 'true' }
-                    }
                     environment {
                         NEAR_WALLET_ENV = 'mainnet'
                     }
@@ -137,8 +128,7 @@ pipeline {
                 // build end-to-end testing package
                 stage('e2e-tests') {
                     when {
-                        expression { env.BUILD_E2E == 'true' };
-                        anyOf { branch 'master' ; branch 'stable' }
+                        expression { env.BUILD_E2E == 'true' }
                     }
                     stages {
                         stage('e2e-tests:build') {
@@ -170,7 +160,9 @@ pipeline {
 
                 stage('frontend:bundle:testnet') {
                     when {
-                        expression { env.BUILD_FRONTEND == 'true' }
+                        expression { env.BUILD_FRONTEND == 'true' };
+                        anyOf { branch 'master' ; branch 'stable' }
+
                     }
                     environment {
                         NEAR_WALLET_ENV = 'testnet'
@@ -200,7 +192,8 @@ pipeline {
 
                 stage('frontend:bundle:mainnet') {
                     when {
-                        expression { env.BUILD_FRONTEND == 'true' }
+                        expression { env.BUILD_FRONTEND == 'true' };
+                        anyOf { branch 'master' ; branch 'stable' }
                     }
                     environment {
                         NEAR_WALLET_ENV = 'mainnet'
@@ -249,7 +242,7 @@ pipeline {
                                                 bucket: "$TESTNET_PR_PREVIEW_STATIC_SITE_BUCKET/$CHANGE_ID",
                                                 includePathPattern: "*",
                                                 path: '',
-                                                workingDir: env.FRONTEND_TESTNET_BUNDLE_PATH
+                                                workingDir: env.FRONTEND_TESTNET_STAGING_BUNDLE_PATH
                                             )
                                         }
                                     }
@@ -271,7 +264,7 @@ pipeline {
                                                 bucket: "$MAINNET_PR_PREVIEW_STATIC_SITE_BUCKET/$CHANGE_ID",
                                                 includePathPattern: "*",
                                                 path: '',
-                                                workingDir: env.FRONTEND_MAINNET_BUNDLE_PATH
+                                                workingDir: env.FRONTEND_MAINNET_STAGING_BUNDLE_PATH
                                             )
                                         }
                                     }
@@ -313,8 +306,6 @@ pipeline {
                             }
                             steps {
                                 milestone(403)
-                                input(message: 'Deploy to testnet?')
-                                milestone(404)
                                 withAWS(
                                     region: env.AWS_REGION,
                                     credentials: env.AWS_CREDENTIALS,
@@ -336,7 +327,7 @@ pipeline {
                                 branch 'stable'
                             }
                             steps {
-                                milestone(405)
+                                milestone(404)
                                 withAWS(
                                     region: env.AWS_REGION,
                                     credentials: env.AWS_CREDENTIALS,
@@ -358,9 +349,9 @@ pipeline {
                                 branch 'stable'
                             }
                             steps {
-                                milestone(406)
+                                milestone(405)
                                 input(message: 'Deploy to mainnet?')
-                                milestone(407)
+                                milestone(406)
                                 withAWS(
                                     region: env.AWS_REGION,
                                     credentials: env.AWS_CREDENTIALS,
