@@ -88,6 +88,7 @@ const IconWrapper = styled.div`
 const MigrationBanner = ({ account, onTransfer }) => {
     const availableAccounts = useSelector(selectAvailableAccounts);
 
+const MigrationBanner = ({ account, onTransferClick }) => {
     const setBannerHeight = () => {
         const migrationBanner = document.getElementById('migration-banner');
         const bannerHeight = migrationBanner ? migrationBanner.offsetHeight : 0;

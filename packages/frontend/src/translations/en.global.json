@@ -1814,10 +1814,9 @@
         }
     },
     "walletMigration": {
-        "generateMigrationPin": {
-            "desc": "You’ll need this PIN to securely import your accounts to My NEAR Wallet. Copy or write it down until you’ve completed transferring your accounts.",
-            "pinCopySuccess": "PIN copied to clipboard",
-            "title": "PIN required to import accounts"
+        "generateMigrationKey": {
+            "desc": "You’ll need <strong>this key</strong> to securely import your accounts to MyNearWallet. Copy or write it down until you’ve completed transferring your accounts.",
+            "title": "Key required to import accounts"
         },
         "migrateAccounts": {
             "desc": "The following accounts will be transferred to MyNearWallet.",
