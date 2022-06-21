@@ -1,32 +1,31 @@
-import React from 'react';
+import React, {useCallback, useState} from 'react';
 import { Translate } from 'react-localize-redux';
 import { useSelector } from 'react-redux';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import IconAccount from '../../images/wallet-migration/IconAccount';
 import IconMigrateAccount from '../../images/wallet-migration/IconMigrateAccount';
 import { selectAvailableAccounts } from '../../redux/slices/availableAccounts';
+import { wallet } from '../../utils/wallet';
 import FormButton from '../common/FormButton';
-import Container from '../common/styled/Container.css';
+import Modal from '../common/modal/Modal';
 
-const PageContainer = styled(Container)`
-    width: 100%;
-    margin-top: 107px;
-    max-width: 431px;
-    border: 1px solid #F0F0F1;
-    border-radius: 8px;
 
-    header{
-        padding: 24px 24px 0;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
+const Container = styled.div`
+    padding: 15px 0;
+    text-align: center;
+    margin: 0 auto;
 
-        .title{
-            font-size: 20px;
-            margin-top: 56px;
-        }
+    @media (max-width: 360px) {
+        padding: 0;
+    }
+
+    @media (min-width: 500px) {
+        padding: 56px 24px 24px;
+    }
+
+    .title {
+        margin-top: 40px;
     }
 `;
 
@@ -40,12 +39,16 @@ const AccountListingItem = styled.div`
     align-items: center;
     padding: 16px 32px;
     cursor: pointer;
+    
+    ${(props) => props.isSelected && css`
+      background-color: rgb(214, 237, 255);
+    `}
 
     &:not(:first-child) {
         border-top: 1px solid #EDEDED;
     }
 
-    svg{
+    svg {
         margin-right: 9px;
     }
 `;
@@ -66,36 +69,64 @@ const StyledButton = styled(FormButton)`
     }
 `;
 
-
-
-const MigrateAccounts = () => {
+const MigrateAccounts = ({ onKeyPair }) => {
     const availableAccounts = useSelector(selectAvailableAccounts);
+    const [selectedAccountId, setSelectedAccountId] = useState('');
+
+    const handleAccountSelect = useCallback(({ currentTarget }) => {
+        const { accountid }  = currentTarget.dataset;
+        setSelectedAccountId(accountid);
+    }, []);
+
+    const handleContinueClick = useCallback(async () => {
+        const keyPair = await wallet.getLocalKeyPair(selectedAccountId);
+        onKeyPair(selectedAccountId, keyPair);
+
+    }, [selectedAccountId]);
 
   return (
-    <PageContainer>
-        <header>
+      <Modal
+          modalClass='slim'
+          id='migration-modal'
+          isOpen
+          disableClose
+          modalSize='md'
+          style={{ maxWidth: '496px' }}
+      >
+          <Container>
             <IconMigrateAccount/>
-            <h3 className='title'><Translate  id="walletMigration.migrateAccounts.title" data={{count: availableAccounts.length}}/></h3>
-            <p><Translate id="walletMigration.migrateAccounts.desc"/></p>
-        </header>
+            <h3 className='title'>
+                <Translate  id='walletMigration.migrateAccounts.title' data={{count: availableAccounts.length}}/>
+            </h3>
+            <p>
+                <Translate id='walletMigration.migrateAccounts.desc'/>
+            </p>
+            <AccountListing>
+                {
+                    availableAccounts.map((account) => (
+                        <AccountListingItem
+                            key={account}
+                            isSelected={account === selectedAccountId}
+                            data-accountid={account}
+                            onClick={handleAccountSelect}>
+                            <IconAccount/> {account}
+                        </AccountListingItem>
+                    ))
+                }
+            </AccountListing>
 
-        <AccountListing>
-            {availableAccounts.map((account) => {
-                return <AccountListingItem>
-                         <IconAccount/> {account}
-                     </AccountListingItem>;
-            })}
-        </AccountListing>
-                      
-        <ButtonsContainer>
-            <StyledButton className="gray-blue" onClick={()=>{}}>
-                <Translate id='button.cancel' />
-            </StyledButton>
-            <StyledButton onClick={()=>{}}>
-                <Translate id='button.continue' />
-            </StyledButton>
-        </ButtonsContainer>
-    </PageContainer>
+            <ButtonsContainer>
+                <StyledButton className='gray-blue' onClick={()=>{}}>
+                    <Translate id='button.cancel' />
+                </StyledButton>
+                <StyledButton
+                    disabled={!Boolean(selectedAccountId)}
+                    onClick={handleContinueClick}>
+                    <Translate id='button.continue' />
+                </StyledButton>
+            </ButtonsContainer>
+          </Container>
+          </Modal>
   );
 };
 
