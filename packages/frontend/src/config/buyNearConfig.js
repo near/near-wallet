@@ -1,4 +1,5 @@
 import binance from '../components/buy/assets/binance.svg';
+import ftx from '../components/buy/assets/ftx.svg';
 import huobi from '../components/buy/assets/huobi.svg';
 import monoPay from '../components/buy/assets/monoPay.svg';
 import okex from '../components/buy/assets/okex.svg';
@@ -28,6 +29,12 @@ export const getPayMethods = ({ accountId, moonPayAvailable, signedMoonPayUrl, u
             link: utorgPayUrl,
             provideReferrer: true,
             track: () => Mixpanel.track('Wallet Click Buy with UTORG')
+        },
+        ftx: {
+            icon: ftx,
+            name: 'FTX',
+            link: 'https://ftx.com/trade/NEAR/USD',
+            track: () => Mixpanel.track('Wallet Click Buy with FTX')
         },
         rainbow: {
             icon: rainbow,

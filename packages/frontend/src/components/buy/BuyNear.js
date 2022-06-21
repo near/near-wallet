@@ -223,7 +223,7 @@ export function BuyNear({ match, location, history }) {
                 <FundingCard
                     title='buyNear.nearPurchaseTitle'
                     subTitle='buyNear.nearPurchaseSubTitle'
-                    actions={shuffle([PayMethods.moonPay, PayMethods.nearPay, PayMethods.utorg])}
+                    actions={shuffle([PayMethods.moonPay, PayMethods.nearPay, PayMethods.utorg, PayMethods.ftx])}
                 />
                 <FundingCard
                     title='buyNear.bridgeTokens'
