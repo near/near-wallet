@@ -2,7 +2,7 @@ import { ConnectedRouter, getRouter } from 'connected-react-router';
 import isString from 'lodash.isstring';
 import { parseSeedPhrase } from 'near-seed-phrase';
 import PropTypes from 'prop-types';
-import { parse, stringify } from 'query-string';
+import { stringify } from 'query-string';
 import React, { Component } from 'react';
 import ReactDOMServer from 'react-dom/server';
 import { withLocalize } from 'react-localize-redux';
@@ -96,7 +96,6 @@ import { StakingContainer } from './staking/StakingContainer';
 import Swap from './swap/Swap';
 import Terms from './terms/Terms';
 import '../index.css';
-import MigrateAccounts from './wallet-migration/MigrateAccounts';
 import WalletMigration from './wallet-migration/WalletMigration';
 const { fetchTokenFiatValues, getTokenWhiteList } = tokenFiatValueActions;
 
@@ -204,6 +203,10 @@ class Routing extends Component {
 
         this.props.setActiveLanguage(activeLang);
         // this.addTranslationsForActiveLanguage(defaultLanguage)
+
+        this.state = {
+            openTransferPopup: false,
+        };
     }
 
     componentDidMount = async () => {
@@ -294,6 +297,15 @@ class Routing extends Component {
         this.pollTokenFiatValue = null;
     };
 
+    // todo refactor: move to state manager
+    openTransferPopup = () => {
+        this.setState({ openTransferPopup: true });
+    }
+
+    closeTransferPopup = () => {
+        this.setState({ openTransferPopup: false });
+    }
+
     render() {
         const {
             search,
@@ -344,12 +356,20 @@ class Routing extends Component {
                 >
                     <ThemeProvider theme={theme}>
                         <ScrollToTop />
-                        {SHOW_MIGRATION_BANNER && <MigrationBanner  account={account}/>}
-                        
+                        {
+                            SHOW_MIGRATION_BANNER|| true &&
+                            <MigrationBanner
+                                account={account}
+                                onTransferClick={this.openTransferPopup} />
+                        }
+
                         <NetworkBanner account={account} />
                         <NavigationWrapper />
                         <GlobalAlert />
-                        <WalletMigration/>
+                        <WalletMigration
+                            open={this.state.openTransferPopup}
+                            history={this.props.history}
+                            onClose={this.closeTransferPopup} />
                         <LedgerConfirmActionModal />
                         <LedgerConnectModal />
                         {account.requestPending !== null && (
@@ -568,21 +588,10 @@ class Routing extends Component {
                                     );
                                 }}
                             />
-                            <Route exact path="/batch-import" render={(({location}) => {
-                                let { keys, accounts, ledgerHdPaths } = parse(location.hash, {arrayFormat: 'comma'});
-                                if (!keys || !accounts) return <PageNotFound />;
-
-                                // if single key or account param make an array of it
-                                keys = Array.isArray(keys) ? keys : [keys];
-                                accounts = Array.isArray(accounts) ? accounts : [accounts];
-                                ledgerHdPaths = Array.isArray(ledgerHdPaths) ? ledgerHdPaths : [ledgerHdPaths];
-
-                                const accountIdToKeyMap = accounts.reduce((acc, curr) => {
-                                    const [ accountId, keyIndex, ledgerHdPathIndex ] = curr.split('*');
-                                    return { ...acc, [accountId]: {key: keys[keyIndex], ledgerHdPath: ledgerHdPaths?.[ledgerHdPathIndex]} };
-                                }, {});
-                                return <BatchImportAccounts accountIdToKeyMap={accountIdToKeyMap} onCancel={() => this.props.history.replace('/')} />;
-                            })} />
+                            <Route exact path="/batch-import" render={() =>
+                                <BatchImportAccounts
+                                    onCancel={() => this.props.history.replace('/')} />}
+                            />
                             <Route
                                 exact
                                 path="/batch-ledger-export"
@@ -663,11 +672,6 @@ class Routing extends Component {
                                 exact
                                 path="/cli-login-success"
                                 component={LoginCliLoginSuccess}
-                            />
-                             <Route
-                                exact
-                                path="/migrate-accounts"
-                                component={MigrateAccounts}
                             />
                             <Route
                                 exact
