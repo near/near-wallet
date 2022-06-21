@@ -8,6 +8,7 @@ import { getPayMethods } from '../../config/buyNearConfig';
 import { Mixpanel } from '../../mixpanel';
 import { selectAccountId } from '../../redux/slices/account';
 import { isMoonpayAvailable, getSignedUrl } from '../../utils/moonpay';
+import { buildFtxPayLink } from '../accounts/create/FundWithFtx';
 import { buildUtorgPayLink } from '../accounts/create/FundWithUtorg';
 import FormButton from '../common/FormButton';
 import ArrowIcon from '../svg/ArrowIcon';
@@ -180,6 +181,7 @@ export function BuyNear({ match, location, history }) {
     const [moonPayAvailable, setMoonPayAvailable] = useState(null);
     const [signedMoonPayUrl, setSignedMoonPayUrl] = useState(null);
     const [utorgPayUrl, setUtorgPayUrl] = useState(null);
+    const [ftxPayUrl, setFtxPayUrl] = useState(null);
 
     useEffect(() => {
         if (!accountId) {
@@ -187,11 +189,12 @@ export function BuyNear({ match, location, history }) {
         }
 
         setUtorgPayUrl(buildUtorgPayLink(accountId));
+        setFtxPayUrl(buildFtxPayLink(accountId));
         checkMoonPay();
     }, [accountId]);
 
     const PayMethods = useMemo(
-        () => getPayMethods({ accountId, moonPayAvailable, signedMoonPayUrl, utorgPayUrl }),
+        () => getPayMethods({ accountId, moonPayAvailable, signedMoonPayUrl, utorgPayUrl, ftxPayUrl }),
         [accountId, moonPayAvailable, signedMoonPayUrl, utorgPayUrl]
     );
     

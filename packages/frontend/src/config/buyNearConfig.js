@@ -8,7 +8,7 @@ import rainbow from '../components/buy/assets/rainbow.svg';
 import utorg from '../components/buy/assets/utorg.svg';
 import { Mixpanel } from '../mixpanel';
 
-export const getPayMethods = ({ accountId, moonPayAvailable, signedMoonPayUrl, utorgPayUrl }) => {
+export const getPayMethods = ({ accountId, moonPayAvailable, signedMoonPayUrl, utorgPayUrl, ftxPayUrl }) => {
     return {
         moonPay: {
             disabled: accountId && !moonPayAvailable,
@@ -33,7 +33,7 @@ export const getPayMethods = ({ accountId, moonPayAvailable, signedMoonPayUrl, u
         ftx: {
             icon: ftx,
             name: 'FTX',
-            link: 'https://ftx.com/trade/NEAR/USD',
+            link: ftxPayUrl,
             track: () => Mixpanel.track('Wallet Click Buy with FTX')
         },
         rainbow: {
