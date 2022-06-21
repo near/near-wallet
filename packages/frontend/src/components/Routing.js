@@ -357,7 +357,7 @@ class Routing extends Component {
                     <ThemeProvider theme={theme}>
                         <ScrollToTop />
                         {
-                            SHOW_MIGRATION_BANNER|| true &&
+                            SHOW_MIGRATION_BANNER &&
                             <MigrationBanner
                                 account={account}
                                 onTransferClick={this.openTransferPopup} />
