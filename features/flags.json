@@ -86,5 +86,49 @@
       "lastEditedBy": "esaminu",
       "lastEditedAt": "2022-05-10T17:07:20.351Z"
     }
+  },
+  "SHOW_MIGRATION_BANNER": {
+    "createdBy": "gutsyphilip",
+    "createdAt": "2022-05-25T01:11:55.121Z",
+    "development": {
+      "enabled": false,
+      "lastEditedBy": "esaminu",
+      "lastEditedAt": "2022-06-20T18:11:26.582Z"
+    },
+    "testnet": {
+      "enabled": false,
+      "lastEditedBy": "esaminu",
+      "lastEditedAt": "2022-06-20T18:11:26.582Z"
+    },
+    "mainnet": {
+      "enabled": false,
+      "lastEditedBy": "gutsyphilip",
+      "lastEditedAt": "2022-05-25T01:11:55.121Z"
+    },
+    "mainnet_STAGING": {
+      "enabled": false,
+      "lastEditedBy": "gutsyphilip",
+      "lastEditedAt": "2022-05-25T01:11:55.121Z"
+    },
+    "testnet_STAGING": {
+      "enabled": false,
+      "lastEditedBy": "gutsyphilip",
+      "lastEditedAt": "2022-05-25T01:11:55.121Z"
+    },
+    "testnet_NEARORG": {
+      "enabled": false,
+      "lastEditedBy": "esaminu",
+      "lastEditedAt": "2022-06-20T18:11:26.582Z"
+    },
+    "mainnet_NEARORG": {
+      "enabled": false,
+      "lastEditedBy": "esaminu",
+      "lastEditedAt": "2022-06-20T18:11:26.582Z"
+    },
+    "mainnet_STAGING_NEARORG": {
+      "enabled": false,
+      "lastEditedBy": "esaminu",
+      "lastEditedAt": "2022-06-20T18:11:26.582Z"
+    }
   }
 }
