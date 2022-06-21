@@ -2,10 +2,9 @@ import React, { useEffect } from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
-import { MIGRATION_START_DATE, MIGRATION_END_DATE } from '../../config';
+import { MIGRATION_START_DATE } from '../../config';
 import IconAlertTriangle from '../../images/IconAlertTriangle';
-import IconBell from '../../images/IconBell';
-import IconShare from '../../images/IconShare';
+import IconOffload from '../../images/IconOffload';
 import FormButton from './FormButton';
 import Container from './styled/Container.css';
 
@@ -57,7 +56,7 @@ const ContentWrapper =  styled(Container)`
         align-items: flex-start;
         flex-wrap: none;
 
-        svg{
+        svg {
             margin-right: 18px;
             min-width: 24px;
         }
@@ -78,10 +77,12 @@ const CustomButton = styled(FormButton)`
     }
 `;
 
-const MigrationBanner = ({ account }) => {
+const IconWrapper = styled.div`
+    display: inline;
+    margin-right: 10px;
+`;
 
-    const showPostMigrationBanner = new Date() > MIGRATION_START_DATE;
-
+const MigrationBanner = ({ account, onTransferClick }) => {
     const setBannerHeight = () => {
         const migrationBanner = document.getElementById('migration-banner');
         const bannerHeight = migrationBanner ? migrationBanner.offsetHeight : 0;
@@ -97,22 +98,6 @@ const MigrationBanner = ({ account }) => {
     };
 
 
-    const getInviteCalendarEventURl =({ text, details })=>{
-        const calenderURL = new URL('https://calendar.google.com/calendar/u/0/r/eventedit');
-        const calendarStartDate= MIGRATION_START_DATE.toISOString().replace(/-|:|\.\d\d\d/g,'');
-        const calendarEndDate= MIGRATION_END_DATE.toISOString().replace(/-|:|\.\d\d\d/g,'');
-
-        calenderURL.searchParams.append('dates', `${calendarStartDate}/${calendarEndDate}`);
-        calenderURL.searchParams.append('text', text);
-        calenderURL.searchParams.append('details', details);
-        return calenderURL;
-    };
-
-    const handleAddToCalendar = (eventInfo)=>{
-        window.open(getInviteCalendarEventURl(eventInfo), '_blank');
-    };
-
-
     useEffect(() => {
         setBannerHeight();
         window.addEventListener('resize', setBannerHeight);
@@ -120,43 +105,29 @@ const MigrationBanner = ({ account }) => {
             window.removeEventListener('resize', setBannerHeight);
         };
     }, [account]);
-    
-
-    const preMigrationMarkup = (
-            <ContentWrapper>
-               <div className='content'>
-                    <IconAlertTriangle/>
-                    <Translate id='preMigration.message' data={{ startDate: MIGRATION_START_DATE.toLocaleDateString() }} />
-               </div>
-               <Translate>
-                    {({ translate }) =>
-                    <CustomButton onClick={()=>{handleAddToCalendar({
-                        text: translate('preMigration.calendarEvent.text'),
-                        details: translate('preMigration.calendarEvent.details'),
-                    });}}>
-                        <IconBell/> <Translate id='preMigration.cta' />
-                    </CustomButton>
-                    }
-                </Translate>
-               
-            </ContentWrapper>
-    );
-
-    const postMigrationMarkup = (
-        <ContentWrapper>
-            <div className='content'>
-                <IconAlertTriangle/>
-                <Translate id='postMigration.message' data={{ endDate: MIGRATION_END_DATE.toLocaleDateString() }} />
-            </div>
-            <CustomButton onClick={()=>{}}>
-               <IconShare/> <Translate id='postMigration.cta' />
-            </CustomButton>
-        </ContentWrapper>
-    );
 
     return (
         <StyledContainer id='migration-banner'>
-           {showPostMigrationBanner ? postMigrationMarkup: preMigrationMarkup}
+            <ContentWrapper>
+               <div className='content'>
+                    <IconAlertTriangle/>
+                    <Translate
+                        id='migration.message' data={{
+                            startDate: MIGRATION_START_DATE.toLocaleDateString()
+                        }}
+                    />
+               </div>
+               <Translate>
+                    {({ translate }) =>
+                        <CustomButton onClick={onTransferClick}>
+                            <IconWrapper>
+                                <IconOffload/>
+                            </IconWrapper>
+                            <Translate id='migration.transferCaption' />
+                        </CustomButton>
+                    }
+                </Translate>
+            </ContentWrapper>
         </StyledContainer>
     );
 };

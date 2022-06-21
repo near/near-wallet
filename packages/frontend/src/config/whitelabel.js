@@ -11,6 +11,15 @@ const isWhitelabel = () => {
         NEAR_WALLET_ENV === Environments.MAINNET_STAGING;
 };
 
+const isWhitelabelTestnet = () => {
+    const { NEAR_WALLET_ENV } = environmentConfig;
+
+    return NEAR_WALLET_ENV === Environments.DEVELOPMENT ||
+        NEAR_WALLET_ENV === Environments.TESTNET ||
+        NEAR_WALLET_ENV === Environments.TESTNET_STAGING;
+};
+
 module.exports = {
+    isWhitelabelTestnet,
     isWhitelabel
 };

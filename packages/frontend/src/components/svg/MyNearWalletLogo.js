@@ -1,6 +1,6 @@
 import React from 'react';
 
-const MyNearWalletLogo = ({ mode = '' }) => {
+const MyNearWalletLogo = ({ mode = Math.random().toString(32) }) => {
     const paintLinear0iId = `paint0_linear_528_1338${mode}`;
     const paintLinear1iId = `paint1_linear_528_1338${mode}`;
     const paintLinear2iId = `paint2_linear_528_1338${mode}`;

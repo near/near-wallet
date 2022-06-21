@@ -46,7 +46,6 @@ module.exports = {
     LINKDROP_GAS: process.env.LINKDROP_GAS,
     LOCKUP_ACCOUNT_ID_SUFFIX: process.env.LOCKUP_ACCOUNT_ID_SUFFIX,
     MIGRATION_START_DATE: parseDateFromShell(process.env.MIGRATION_START_DATE || '2022-06-28'),
-    MIGRATION_END_DATE: parseDateFromShell(process.env.MIGRATION_END_DATE || '2022-08-28'),
     MIN_BALANCE_FOR_GAS: process.env.REACT_APP_MIN_BALANCE_FOR_GAS,
     MIN_BALANCE_TO_CREATE: process.env.MIN_BALANCE_TO_CREATE,
     MOONPAY_API_KEY: process.env.MOONPAY_API_KEY,
