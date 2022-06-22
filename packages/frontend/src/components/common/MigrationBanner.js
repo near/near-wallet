@@ -6,6 +6,8 @@ import { MIGRATION_START_DATE, MIGRATION_END_DATE } from '../../config';
 import IconAlertTriangle from '../../images/IconAlertTriangle';
 import IconBell from '../../images/IconBell';
 import IconShare from '../../images/IconShare';
+import { getMyNearWalletUrl } from '../../utils/getWalletURL';
+import WalletMigration from '../wallet-migration/WalletMigration';
 import FormButton from './FormButton';
 import Container from './styled/Container.css';
 
@@ -79,6 +81,7 @@ const CustomButton = styled(FormButton)`
 `;
 
 const MigrationBanner = ({ account }) => {
+    const [showMigrationModal, setShowMigrationModal] = React.useState(false);
 
     const showPostMigrationBanner = new Date() > MIGRATION_START_DATE;
 
@@ -126,7 +129,7 @@ const MigrationBanner = ({ account }) => {
             <ContentWrapper>
                <div className='content'>
                     <IconAlertTriangle/>
-                    <Translate id='preMigration.message' data={{ startDate: MIGRATION_START_DATE.toLocaleDateString() }} />
+                    <Translate id='preMigration.message' data={{ startDate: MIGRATION_START_DATE.toLocaleDateString(), migrationDestinationURL: getMyNearWalletUrl() }} />
                </div>
                <Translate>
                     {({ translate }) =>
@@ -141,17 +144,21 @@ const MigrationBanner = ({ account }) => {
                
             </ContentWrapper>
     );
+    // getMyNearWallet
 
     const postMigrationMarkup = (
-        <ContentWrapper>
-            <div className='content'>
-                <IconAlertTriangle/>
-                <Translate id='postMigration.message' data={{ endDate: MIGRATION_END_DATE.toLocaleDateString() }} />
-            </div>
-            <CustomButton onClick={()=>{}}>
-               <IconShare/> <Translate id='postMigration.cta' />
-            </CustomButton>
-        </ContentWrapper>
+       <>
+            <ContentWrapper>
+                <div className='content'>
+                    <IconAlertTriangle/>
+                    <Translate id='postMigration.message' data={{ endDate: MIGRATION_END_DATE.toLocaleDateString(), migrationDestinationURL: getMyNearWalletUrl() }} />
+                </div>
+                <CustomButton onClick={()=>{setShowMigrationModal(true);}}>
+                <IconShare/> <Translate id='postMigration.cta' />
+                </CustomButton>
+            </ContentWrapper>
+            {showMigrationModal && <WalletMigration setShowMigrationModal={setShowMigrationModal}/>}
+        </>
     );
 
     return (
