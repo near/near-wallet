@@ -770,7 +770,7 @@
         }
     },
     "migration": {
-        "message": "NEAR Wallet has migrated to a new domain: <a href='https://mynearwallet.com' target='_blank'>mynearwallet.com</a>. You have until <b>${startDate}</b> to transfer your accounts, or to export your account keys from your account settings.",
+        "message": "NEAR Wallet has migrated to a new domain: <a href='https://mynearwallet.com' target='_blank'>mynearwallet.com</a>.<br/>We prepared an easy way to move your accounts. Click the button to start.",
         "transferCaption": "Transfer My Accounts"
     },
     "minimumBalance": "This is the minimum NEAR balance your account must maintain to remain active. This balance represents the storage space your account is using on the NEAR blockchain (with a small buffer), and will go up or down as you use more or less space.",
@@ -1812,18 +1812,18 @@
         }
     },
     "walletMigration": {
-        "generateMigrationKey": {
-            "desc": "You’ll need <strong>this key</strong> to securely import your accounts to MyNearWallet. Copy or write it down until you’ve completed transferring your accounts.",
-            "title": "Key required to import accounts"
-        },
         "migrateAccounts": {
-            "desc": "The following accounts will be transferred to MyNearWallet.",
+            "desc": "Select the account you would like to transfer to MyNearWallet.",
             "title": "We found ${count} active accounts."
         },
         "migrationPrompt": {
             "desc": "NEAR Wallet is now MyNearWallet and to celebrate the occasion, we’re moving to a new domain. Find us at <a href='https://mynearwallet.com' target='_blank'>https://mynearwallet.com</a>. <br/><br/> If you haven’t already, quickly and easily transfer your accounts",
             "title": "NEAR Wallet has a new home!",
             "transferAccountsBtn": "Transfer My Accounts"
+        },
+        "migrationSecret": {
+            "desc": "Click on the block to copy this <strong>secret</strong> before proceeding to MyNearWallet. You will be prompt to re-enter it later to securely transfer your account.",
+            "title": "Copy secret to transfer account"
         }
     },
     "warning": "Warning",

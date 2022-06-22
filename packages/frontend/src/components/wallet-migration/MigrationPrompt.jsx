@@ -32,11 +32,6 @@ const ContentContainer = styled.div`
     }
 `;
 
-const StyledDivider = styled.hr`
-    border-top: 1px solid #F0F0F1;
-    margin: 0;
-`;
-
 const ButtonsContainer = styled.div`
     padding: 24px;
     text-align: center;
@@ -75,15 +70,16 @@ const MigrationPrompt = ({ handleSetActiveView, onClose }) => {
                     <Translate id='walletMigration.migrationPrompt.desc'/>
                 </p>
             </ContentContainer>
-            <StyledDivider />
            <ButtonsContainer>
                 <StyledButton
-                    onClick={()=>{handleSetActiveView(WALLET_MIGRATION_VIEWS.GENERATE_MIGRATION_KEY);}}>
+                    onClick={()=>{handleSetActiveView(WALLET_MIGRATION_VIEWS.MIGRATION_SECRET);}}>
                     <Translate id='walletMigration.migrationPrompt.transferAccountsBtn' />
                  </StyledButton>
-               <StyledButton className='gray-blue' onClick={onClose}>
+               <FormButton
+                   className='link'
+                   onClick={onClose}>
                    <Translate id='button.cancel' />
-               </StyledButton>
+               </FormButton>
            </ButtonsContainer>
         </Modal>
     );

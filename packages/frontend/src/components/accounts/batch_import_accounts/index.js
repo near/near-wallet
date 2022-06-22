@@ -84,7 +84,6 @@ const PublicKeyFormContainer = styled.div`
         }
 
         > button {
-            margin-top: 32px;
             width: 100%;
         }
     }
@@ -131,15 +130,17 @@ const EnterPublicKeyForm = ({ onCancel, onPublicKey }) => {
                         </>
                     )}
                 </Translate>
-
                 <FormButton
                     disabled={value.length === 0}
                     type='submit'
-                    onClick={handleSubmit}
-                >
+                    onClick={handleSubmit}>
                     <Translate id='batchImportAccounts.enterKeyForm.importCaption' />
                 </FormButton>
-                <FormButton color='gray-blue' onClick={onCancel}><Translate id='button.cancel' /></FormButton>
+                <FormButton
+                    className='link'
+                    onClick={onCancel}>
+                    <Translate id='button.cancel' />
+                </FormButton>
             </PublicKeyFormContainer>
         </Modal>
     );
@@ -212,7 +213,7 @@ const ImportAccounts = ({
                             onClick={() =>
                                 dispatch({ type: ACTIONS.BEGIN_IMPORT })
                             }
-                            disabled={availableAccountsIsLoading || completed}
+                            disabled={availableAccountsIsLoading}
                         >
                             <Translate id='button.beginImport' />
                         </FormButton>
