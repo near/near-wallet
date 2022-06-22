@@ -1814,12 +1814,8 @@
         }
     },
     "walletMigration": {
-        "generateMigrationKey": {
-            "desc": "You’ll need <strong>this key</strong> to securely import your accounts to MyNearWallet. Copy or write it down until you’ve completed transferring your accounts.",
-            "title": "Key required to import accounts"
-        },
         "migrateAccounts": {
-            "desc": "The following accounts will be transferred to MyNearWallet.",
+            "desc": "Select the account you would like to transfer to MyNearWallet.",
             "title": "We found ${count} active accounts."
         },
         "migrationPrompt": {

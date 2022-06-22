@@ -3,7 +3,6 @@ import { Translate } from 'react-localize-redux';
 import {useSelector} from 'react-redux';
 import styled from 'styled-components';
 
-import { MIGRATION_START_DATE } from '../../config';
 import IconAlertTriangle from '../../images/IconAlertTriangle';
 import IconOffload from '../../images/IconOffload';
 import { getMyNearWalletUrl } from '../../utils/getWalletURL';

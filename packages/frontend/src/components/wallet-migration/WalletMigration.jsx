@@ -48,8 +48,20 @@ const encodeAccountsToURL = async (accounts, publicKey) => {
     return href;
 };
 
+const redirect = (accountId, keyPair, migrationKeyPair) => {
+    const accData = `${accountId}=${keyPair.secretKey}=${getLedgerHDPath(accountId)||''}`;
+    const encoded = encodeMessage(accData, migrationKeyPair.secretKey);
+
+    const subdomain = isWhitelabelTestnet() ? 'testnet' : 'app';
+    location.href = `https://${subdomain}.mynearwallet.com/batch-import#${btoa(encoded)}`;
+    // location.href = `https://localhost:1234/batch-import#${btoa(encoded)}`;
+};
+
 const WalletMigration = ({ open, history, onClose }) => {
     const [state, setState] = React.useState(initialState);
+    const availableAccounts = useSelector(selectAvailableAccounts);
+    const sortedAccountsByUsing = [...availableAccounts]
+        .sort((a) => a === wallet.accountId ? -1 : 1);
 
     const handleStateUpdate = (newState) => {
         setState({...state, ...newState});
