@@ -33,11 +33,12 @@ const ContentContainer = styled.div`
 
     .logo {
         width: 100%;
+        max-width: 250px;
     }
 
     .title{
         font-size: 20px;
-        margin-top: 56px;
+        margin-top: 16px;
     }
 `;
 
