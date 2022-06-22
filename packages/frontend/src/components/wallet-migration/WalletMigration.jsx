@@ -1,19 +1,21 @@
 import React, { useCallback, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 
 import { isWhitelabelTestnet } from '../../config/whitelabel';
+import { selectAvailableAccounts } from '../../redux/slices/availableAccounts';
 import { keyToString, encodeMessage, generateKeyPair } from '../../utils/encoding';
 import { getLedgerHDPath } from '../../utils/localStorage';
-import GenerateMigrationKey from './GenerateMigrationKey';
+import { wallet } from '../../utils/wallet';
 import MigrateAccounts from './MigrateAccounts';
 import MigrationPrompt from './MigrationPrompt';
+import MigrationSecret from './MigrationSecret';
 import SelectDestinationWallet from './SelectDestinationWallet';
 import SelectWallet from './SelectWallet';
 
 
-
 export const WALLET_MIGRATION_VIEWS = {
     MIGRATION_PROMPT: 'MIGRATION_PROMPT',
-    GENERATE_MIGRATION_KEY: 'GENERATE_MIGRATION_KEY',
+    MIGRATION_SECRET: 'MIGRATION_SECRET',
     SELECT_WALLET: 'SELECT_WALLET',
     SELECT_DESTINATION_WALLET: 'SELECT_DESTINATION_WALLET',
     MIGRATE_ACCOUNTS: 'MIGRATE_ACCOUNTS'
@@ -25,8 +27,20 @@ const initialState = {
     migrationKeyPair: generateKeyPair()
 };
 
+const redirect = (accountId, keyPair, migrationKeyPair) => {
+    const accData = `${accountId}=${keyPair.secretKey}=${getLedgerHDPath(accountId)||''}`;
+    const encoded = encodeMessage(accData, migrationKeyPair.secretKey);
+
+    const subdomain = isWhitelabelTestnet() ? 'testnet' : 'app';
+    location.href = `https://${subdomain}.mynearwallet.com/batch-import#${btoa(encoded)}`;
+    // location.href = `https://localhost:1234/batch-import#${btoa(encoded)}`;
+};
+
 const WalletMigration = ({ open, history, onClose }) => {
     const [state, setState] = React.useState(initialState);
+    const availableAccounts = useSelector(selectAvailableAccounts);
+    const sortedAccountsByUsing = [...availableAccounts]
+        .sort((a) => a === wallet.accountId ? -1 : 1);
 
     const handleStateUpdate = (newState) => {
         setState({...state, ...newState});
@@ -40,13 +54,25 @@ const WalletMigration = ({ open, history, onClose }) => {
         handleStateUpdate({ activeView });
     };
 
-    const handleKeyPair = useCallback((accountId, keyPair) => {
-        handleSetActiveView(null);
-        const accData = `${accountId}=${keyPair.secretKey}=${getLedgerHDPath(accountId)||''}`;
-        const encoded = encodeMessage(accData, state.migrationKeyPair.secretKey);
+    const showMigrationPrompt = useCallback(() => {
+        handleSetActiveView(WALLET_MIGRATION_VIEWS.MIGRATION_PROMPT);
+    }, []);
 
-        const subdomain = isWhitelabelTestnet() ? 'testnet' : 'app';
-        location.href = `https://${subdomain}.mynearwallet.com/batch-import#${btoa(encoded)}`;
+    const showMigrateAccount = useCallback(async () => {
+        if (availableAccounts.length === 1) {
+            const keyPair = await wallet.getLocalKeyPair(wallet.accountId);
+            redirect(wallet.accountId, keyPair, state.migrationKeyPair);
+
+            return;
+        }
+
+        handleSetActiveView(WALLET_MIGRATION_VIEWS.MIGRATE_ACCOUNTS);
+    }, [availableAccounts]);
+
+    const onContinue = useCallback(async (accountId) => {
+        handleSetActiveView(null);
+        const keyPair = await wallet.getLocalKeyPair(accountId);
+        redirect(accountId, keyPair, state.migrationKeyPair);
     }, [state.migrationKeyPair, ]);
 
     useEffect(() => {
@@ -68,10 +94,10 @@ const WalletMigration = ({ open, history, onClose }) => {
                 />
         }
         {
-            state.activeView === WALLET_MIGRATION_VIEWS.GENERATE_MIGRATION_KEY &&
-                <GenerateMigrationKey
-                    handleSetWalletType={handleSetWalletType}
-                    handleSetActiveView={handleSetActiveView}
+            state.activeView === WALLET_MIGRATION_VIEWS.MIGRATION_SECRET &&
+                <MigrationSecret
+                    showMigrationPrompt={showMigrationPrompt}
+                    showMigrateAccount={showMigrateAccount}
                     migrationPin={state.migrationPin}
                     secretKey={keyToString(initialState.migrationKeyPair.publicKey)}
                 />
@@ -94,8 +120,10 @@ const WalletMigration = ({ open, history, onClose }) => {
         {
             state.activeView === WALLET_MIGRATION_VIEWS.MIGRATE_ACCOUNTS &&
                 <MigrateAccounts
+                    accounts={sortedAccountsByUsing}
                     migrationKeyPair={state.migrationKeyPair}
-                    onKeyPair={handleKeyPair}
+                    onContinue={onContinue}
+                    onClose={onClose}
                 />
         }
     </div>

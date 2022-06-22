@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
-import { MIGRATION_START_DATE } from '../../config';
 import IconAlertTriangle from '../../images/IconAlertTriangle';
 import IconOffload from '../../images/IconOffload';
 import FormButton from './FormButton';
@@ -111,11 +110,7 @@ const MigrationBanner = ({ account, onTransferClick }) => {
             <ContentWrapper>
                <div className='content'>
                     <IconAlertTriangle/>
-                    <Translate
-                        id='migration.message' data={{
-                            startDate: MIGRATION_START_DATE.toLocaleDateString()
-                        }}
-                    />
+                    <Translate id='migration.message'/>
                </div>
                <Translate>
                     {({ translate }) =>
