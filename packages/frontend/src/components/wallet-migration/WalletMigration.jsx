@@ -1,6 +1,5 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { useLocation } from 'react-router-dom';
 
 import { selectAvailableAccounts } from '../../redux/slices/availableAccounts/index.js';
 import getWalletURL from '../../utils/getWalletURL.js';
@@ -14,12 +13,10 @@ export const WALLET_MIGRATION_VIEWS = {
     SELECT_DESTINATION_WALLET: 'SELECT_DESTINATION_WALLET',
     GENERATE_MIGRATION_PIN: 'GENERATE_MIGRATION_PIN',
 };
-const WHITELISTED_ROUTES = ['/batch-import'];
 
-const WalletMigration = () => {
-    const location = useLocation();
+const WalletMigration = ({setShowMigrationModal}) => {
     const initialState = {
-        activeView: null,
+        activeView: WALLET_MIGRATION_VIEWS.MIGRATION_PROMPT,
         walletType: 'my-near-wallet',
         migrationPin: generateMigrationPin()
     };
@@ -40,7 +37,7 @@ const WalletMigration = () => {
     };
 
     const handleCloseMigrationFlow = ()=>{
-        handleSetActiveView(null);
+        setShowMigrationModal(false);
     };
 
 
@@ -52,17 +49,6 @@ const WalletMigration = () => {
         localStorage.setItem('MIGRATION_TRIGERRED', true);
         window.location.href = `${baseUrl}/batch-import#${query}`;
     };
-
-
-    React.useEffect(() => {
-        const isWhitelistedRoute =  WHITELISTED_ROUTES.includes(location.pathname);
-        if (isWhitelistedRoute) return;
-
-        if (!localStorage.getItem('MIGRATION_TRIGERRED')) {
-            handleSetActiveView(WALLET_MIGRATION_VIEWS.MIGRATION_PROMPT);
-        }
-    }, []);
-    
 
   return (
     <div>

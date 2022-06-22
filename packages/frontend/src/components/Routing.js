@@ -96,7 +96,6 @@ import { StakingContainer } from './staking/StakingContainer';
 import Swap from './swap/Swap';
 import Terms from './terms/Terms';
 import '../index.css';
-import WalletMigration from './wallet-migration/WalletMigration';
 const { fetchTokenFiatValues, getTokenWhiteList } = tokenFiatValueActions;
 
 const {
@@ -348,7 +347,6 @@ class Routing extends Component {
                         <NetworkBanner account={account} />
                         <NavigationWrapper />
                         <GlobalAlert />
-                        <WalletMigration />
                         <LedgerConfirmActionModal />
                         <LedgerConnectModal />
                         {account.requestPending !== null && (
