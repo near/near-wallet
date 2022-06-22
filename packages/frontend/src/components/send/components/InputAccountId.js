@@ -180,10 +180,6 @@ class InputAccountId extends Component {
             }
             setAccountIdIsValid(false);
         }
-
-
-        const hapiStatus =  await HapiService.checkAddress({accountId});
-        if (hapiStatus) console.log('hapiStatus', hapiStatus);
     }
 
     render() {
