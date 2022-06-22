@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback, useState} from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
@@ -6,7 +6,6 @@ import IconSecurityLock from '../../images/wallet-migration/IconSecurityLock';
 import ClickToCopy from '../common/ClickToCopy';
 import FormButton from '../common/FormButton';
 import Modal from '../common/modal/Modal';
-import { WALLET_MIGRATION_VIEWS } from './WalletMigration';
 
 
 const Container = styled.div`
@@ -56,7 +55,17 @@ const StyledButton = styled(FormButton)`
 `;
 
 
-const GenerateMigrationKey = ({ handleSetActiveView, secretKey }) => {
+const MigrationSecret = ({
+    showMigrationPrompt,
+    showMigrateAccount,
+    secretKey
+}) => {
+    const [shouldContinueDisabled, setContinueDisabled] = useState(true);
+
+    const setContinueEnable = useCallback(() => {
+        setContinueDisabled(false);
+    }, []);
+
     return (
         <Modal
             modalClass='slim'
@@ -68,19 +77,27 @@ const GenerateMigrationKey = ({ handleSetActiveView, secretKey }) => {
         >
             <Container>
                 <IconSecurityLock/>
-                <h3 className='title'><Translate id='walletMigration.generateMigrationKey.title'/></h3>
-                <p><Translate id='walletMigration.generateMigrationKey.desc'/></p>
-                <ClickToCopy copy={secretKey}>
+                <h3 className='title'>
+                    <Translate id='walletMigration.migrationSecret.title'/>
+                </h3>
+                <p><Translate id='walletMigration.migrationSecret.desc'/></p>
+                <ClickToCopy
+                    copy={secretKey}
+                    onClick={setContinueEnable}>
                     <TextSelectDisplay>
                         {secretKey}
                     </TextSelectDisplay>
                 </ClickToCopy>
 
                 <ButtonsContainer>
-                    <StyledButton className='gray-blue' onClick={()=>{handleSetActiveView(WALLET_MIGRATION_VIEWS.MIGRATION_PROMPT);}}>
+                    <StyledButton
+                        className='gray-blue'
+                        onClick={showMigrationPrompt}>
                         <Translate id='button.cancel' />
                     </StyledButton>
-                    <StyledButton onClick={()=>{handleSetActiveView(WALLET_MIGRATION_VIEWS.MIGRATE_ACCOUNTS);}}>
+                    <StyledButton
+                        disabled={shouldContinueDisabled}
+                        onClick={showMigrateAccount}>
                         <Translate id='button.continue' />
                     </StyledButton>
                 </ButtonsContainer>
@@ -89,5 +106,5 @@ const GenerateMigrationKey = ({ handleSetActiveView, secretKey }) => {
     );
 };
 
-export default GenerateMigrationKey;
+export default MigrationSecret;
 

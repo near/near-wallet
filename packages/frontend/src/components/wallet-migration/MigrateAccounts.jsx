@@ -1,11 +1,9 @@
 import React, {useCallback, useState} from 'react';
 import { Translate } from 'react-localize-redux';
-import { useSelector } from 'react-redux';
 import styled, { css } from 'styled-components';
 
 import IconAccount from '../../images/wallet-migration/IconAccount';
 import IconMigrateAccount from '../../images/wallet-migration/IconMigrateAccount';
-import { selectAvailableAccounts } from '../../redux/slices/availableAccounts';
 import { wallet } from '../../utils/wallet';
 import FormButton from '../common/FormButton';
 import Modal from '../common/modal/Modal';
@@ -39,6 +37,7 @@ const AccountListingItem = styled.div`
     align-items: center;
     padding: 16px 32px;
     cursor: pointer;
+    overflow: hidden;
     
     ${(props) => props.isSelected && css`
       background-color: rgb(214, 237, 255);
@@ -49,6 +48,7 @@ const AccountListingItem = styled.div`
     }
 
     svg {
+        flex-shrink: 0;
         margin-right: 9px;
     }
 `;
@@ -57,21 +57,20 @@ const ButtonsContainer = styled.div`
     text-align: center;
     width: 100% !important;
     display: flex;
-    padding: 56px 24px 24px;
+    padding: 12px 24px 24px;
     border-top: 1px solid #EDEDED;
 `;
 
 const StyledButton = styled(FormButton)`
     width: calc((100% - 16px) / 2);
 
-    &:last-child{
+    &:last-child {
         margin-left: 16px !important;
     }
 `;
 
-const MigrateAccounts = ({ onKeyPair }) => {
-    const availableAccounts = useSelector(selectAvailableAccounts);
-    const [selectedAccountId, setSelectedAccountId] = useState('');
+const MigrateAccounts = ({ accounts, onContinue, onClose }) => {
+    const [selectedAccountId, setSelectedAccountId] = useState(wallet.accountId);
 
     const handleAccountSelect = useCallback(({ currentTarget }) => {
         const { accountid }  = currentTarget.dataset;
@@ -79,8 +78,7 @@ const MigrateAccounts = ({ onKeyPair }) => {
     }, []);
 
     const handleContinueClick = useCallback(async () => {
-        const keyPair = await wallet.getLocalKeyPair(selectedAccountId);
-        onKeyPair(selectedAccountId, keyPair);
+        onContinue(selectedAccountId);
 
     }, [selectedAccountId]);
 
@@ -90,20 +88,21 @@ const MigrateAccounts = ({ onKeyPair }) => {
           id='migration-modal'
           isOpen
           disableClose
+          onClose={onClose}
           modalSize='md'
           style={{ maxWidth: '496px' }}
       >
           <Container>
             <IconMigrateAccount/>
             <h3 className='title'>
-                <Translate  id='walletMigration.migrateAccounts.title' data={{count: availableAccounts.length}}/>
+                <Translate  id='walletMigration.migrateAccounts.title' data={{count: accounts.length}}/>
             </h3>
             <p>
                 <Translate id='walletMigration.migrateAccounts.desc'/>
             </p>
             <AccountListing>
                 {
-                    availableAccounts.map((account) => (
+                    accounts.map((account) => (
                         <AccountListingItem
                             key={account}
                             isSelected={account === selectedAccountId}
@@ -116,7 +115,7 @@ const MigrateAccounts = ({ onKeyPair }) => {
             </AccountListing>
 
             <ButtonsContainer>
-                <StyledButton className='gray-blue' onClick={()=>{}}>
+                <StyledButton className='gray-blue' onClick={onClose}>
                     <Translate id='button.cancel' />
                 </StyledButton>
                 <StyledButton

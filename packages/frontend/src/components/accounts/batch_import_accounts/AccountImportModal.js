@@ -36,23 +36,23 @@ const AccountImportModal = ({ account, onSuccess, onFail }) => {
     }, [account]);
     const estimatedAddFAKTransactionFees = useMemo(() => addFAKTransaction ? getEstimatedFees([addFAKTransaction]) : new BN('0') ,[addFAKTransaction]);
     const dispatch = useDispatch();
-  
+
     useEffect(() => {
       setKeyType(null);
       setAccountBalance(null);
       setShowTxDetails(false);
       setAddingKey(false);
       setError(false);
-  
+
       let keyPair;
-  
+
       try {
         keyPair = KeyPair.fromString(account.key).getPublicKey().toString();
       } catch (error) {
         setError(true);
         setKeyType(WalletClass.KEY_TYPES.OTHER);
       }
-  
+
       if (keyPair) {
         wallet
           .getPublicKeyType(
@@ -64,24 +64,24 @@ const AccountImportModal = ({ account, onSuccess, onFail }) => {
             setKeyType(WalletClass.KEY_TYPES.OTHER);
           });
       }
-  
+
       wallet
           .getBalance(account.accountId)
           .then(({ available }) => setAccountBalance(available));
     },[account]);
-  
+
     const addKeyToWalletKeyStore = useCallback(() => {
         setAddingKey(true);
         setError(false);
         let keyPair;
-  
+
         try {
           keyPair = KeyPair.fromString(account.key);
         } catch (error) {
           setError(true);
           setAddingKey(false);
         }
-        
+
         if (keyPair) {
           wallet
             .addExistingAccountKeyToWalletKeyStore(
@@ -96,14 +96,13 @@ const AccountImportModal = ({ account, onSuccess, onFail }) => {
               setAddingKey(false);
             });
         }
-        
     }, [onSuccess, account]);
-  
+
     return (
         <Modal
             isOpen={account}
-            modalSize="md"
-            modalClass="slim"
+            modalSize='md'
+            modalClass='slim'
             onClose={() => {}}
             disableClose
         >
@@ -116,24 +115,26 @@ const AccountImportModal = ({ account, onSuccess, onFail }) => {
             ) : (
                 <ModalContainer>
                     <h3>
-                        <Translate id="batchImportAccounts.confirmImportModal.title" />
+                        <Translate id='batchImportAccounts.confirmImportModal.title' />
                     </h3>
                     <ConnectWithApplication appReferrer={accountUrlReferrer} />
                     <SignTransaction
                         sender={account.accountId}
                         availableBalance={accountBalance}
                         estimatedFees={keyType === WalletClass.KEY_TYPES.FAK ? estimatedAddFAKTransactionFees : '0'}
-                        fromLabelId="batchImportAccounts.confirmImportModal.accountToImport"
+                        fromLabelId='batchImportAccounts.confirmImportModal.accountToImport'
                     />
                     {keyType === WalletClass.KEY_TYPES.FAK && (
-                        <FormButton className="link" onClick={() => setShowTxDetails(true)}>
-                            <Translate id="batchImportAccounts.confirmImportModal.transactionDetails" />
+                        <FormButton className='link' onClick={() => setShowTxDetails(true)}>
+                            <Translate id='batchImportAccounts.confirmImportModal.transactionDetails' />
                         </FormButton>
                     )}
-                    {error ? <div className='error-label'><Translate id="reduxActions.default.error" /></div> : null}
+                    {error ? <div className='error-label'><Translate id='reduxActions.default.error' /></div> : null}
                     <FormButtonGroup>
-                        <FormButton onClick={onFail} className="gray-blue">
-                            <Translate id="button.cancel" />
+                        <FormButton
+                            onClick={onFail}
+                            className='gray-blue'>
+                            <Translate id='button.cancel' />
                         </FormButton>
                         <FormButton
                             onClick={addKeyToWalletKeyStore}
@@ -142,7 +143,7 @@ const AccountImportModal = ({ account, onSuccess, onFail }) => {
                             }
                             sending={addingKey}
                         >
-                            <Translate id="button.approve" />
+                            <Translate id='button.approve' />
                         </FormButton>
                     </FormButtonGroup>
                 </ModalContainer>
