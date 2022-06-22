@@ -160,7 +160,7 @@ export default function Validator({
 
     return (
         <>
-            {stakeNotAllowed &&
+            {stakeNotAllowed && (
                 <AlertBanner
                     data-test-id="cantStakeWithValidatorContainer"
                     data-test-id-button="viewCurrentValidatorButton"
@@ -168,12 +168,12 @@ export default function Validator({
                     button='staking.alertBanner.button'
                     linkTo={`/staking/${selectedValidator}`}
                 />
-            }
-            {hasUnwhitelistedTokens &&
+            )}
+            {hasUnwhitelistedTokens && (
                 <AlertBanner
                     title='staking.validator.notWhitelistedValidatorWarning'
                 />
-            }
+            )}
             <h1 data-test-id="validatorNamePageTitle">
                 <SafeTranslate
                     id="staking.validator.title"

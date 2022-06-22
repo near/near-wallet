@@ -86,7 +86,7 @@ const MigrationBanner = ({ account }) => {
         const migrationBanner = document.getElementById('migration-banner');
         const bannerHeight = migrationBanner ? migrationBanner.offsetHeight : 0;
         const networkBanner = document.getElementById('top-banner');
-        if (networkBanner){
+        if (networkBanner) {
             networkBanner.style.top = bannerHeight ? `${bannerHeight}px` : 0;
         } else {
             const app = document.getElementById('app-container');
@@ -123,23 +123,25 @@ const MigrationBanner = ({ account }) => {
     
 
     const preMigrationMarkup = (
-            <ContentWrapper>
-               <div className='content'>
-                    <IconAlertTriangle/>
-                    <Translate id='preMigration.message' data={{ startDate: MIGRATION_START_DATE.toLocaleDateString() }} />
-               </div>
-               <Translate>
-                    {({ translate }) =>
-                    <CustomButton onClick={()=>{handleAddToCalendar({
-                        text: translate('preMigration.calendarEvent.text'),
-                        details: translate('preMigration.calendarEvent.details'),
-                    });}}>
+        <ContentWrapper>
+            <div className='content'>
+                <IconAlertTriangle/>
+                <Translate id='preMigration.message' data={{ startDate: MIGRATION_START_DATE.toLocaleDateString() }} />
+            </div>
+            <Translate>
+                {({ translate }) => (
+                    <CustomButton onClick={() => {
+                        handleAddToCalendar({
+                            text: translate('preMigration.calendarEvent.text'),
+                            details: translate('preMigration.calendarEvent.details'),
+                        });
+                    }}>
                         <IconBell/> <Translate id='preMigration.cta' />
                     </CustomButton>
-                    }
-                </Translate>
+                )}
+            </Translate>
                
-            </ContentWrapper>
+        </ContentWrapper>
     );
 
     const postMigrationMarkup = (
@@ -149,14 +151,14 @@ const MigrationBanner = ({ account }) => {
                 <Translate id='postMigration.message' data={{ endDate: MIGRATION_END_DATE.toLocaleDateString() }} />
             </div>
             <CustomButton onClick={()=>{}}>
-               <IconShare/> <Translate id='postMigration.cta' />
+                <IconShare/> <Translate id='postMigration.cta' />
             </CustomButton>
         </ContentWrapper>
     );
 
     return (
         <StyledContainer id='migration-banner'>
-           {showPostMigrationBanner ? postMigrationMarkup: preMigrationMarkup}
+            {showPostMigrationBanner ? postMigrationMarkup: preMigrationMarkup}
         </StyledContainer>
     );
 };

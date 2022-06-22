@@ -178,38 +178,38 @@ height: unset;
 `;
 
 const AccountListImport = ({ accounts = [], animationScope = 0, onClickAccount }) => (
-  <AnimateList animate={animationScope}>
-      {accounts.map((account) => (
-          <div
-            key={account.accountId}
-            className={`row ${account.status}`}
-            onClick={() => onClickAccount ? onClickAccount(account) : null}
-            style={{ cursor: onClickAccount ? 'pointer' : 'default' }}
-          >
-              <UserIcon>
-                  <UserIconGrey color='#9a9a9a' />
-              </UserIcon>
-              <div className='accountId'>
-                  {account.accountId}
-              </div>
-              {onClickAccount ? <div className='status onclick'><IconArrowRight stroke="#0072CE" /></div> : null}
-              {account.status && !onClickAccount ? 
-                <div className='status'>
-                    <StatusIcon status={account.status}/>
-                </div> 
-              : null}
-          </div>
-      ))}
-  </AnimateList>
+    <AnimateList animate={animationScope}>
+        {accounts.map((account) => (
+            <div
+                key={account.accountId}
+                className={`row ${account.status}`}
+                onClick={() => onClickAccount ? onClickAccount(account) : null}
+                style={{ cursor: onClickAccount ? 'pointer' : 'default' }}
+            >
+                <UserIcon>
+                    <UserIconGrey color='#9a9a9a' />
+                </UserIcon>
+                <div className='accountId'>
+                    {account.accountId}
+                </div>
+                {onClickAccount ? <div className='status onclick'><IconArrowRight stroke="#0072CE" /></div> : null}
+                {account.status && !onClickAccount ? (
+                    <div className='status'>
+                        <StatusIcon status={account.status}/>
+                    </div>
+                ) : null}
+            </div>
+        ))}
+    </AnimateList>
 );
 
 const StatusIcon = ({status}) => {
-  if (status === 'success') {
-    return <IconCheck color='#5ace84' stroke='3px' />;
-  } else if (status === 'error') {
-    return <IconClose stroke="#FC5B5B" />;
-  }
-  return <Translate id={`signInLedger.modal.status.${status}`}/>;
+    if (status === 'success') {
+        return <IconCheck color='#5ace84' stroke='3px' />;
+    } else if (status === 'error') {
+        return <IconClose stroke="#FC5B5B" />;
+    }
+    return <Translate id={`signInLedger.modal.status.${status}`}/>;
 };
 
 export default AccountListImport;

@@ -100,8 +100,8 @@ const Container = styled.div`
 `;
 
 const VIEWS = {
-  ACCOUNT_ID_CONFIRMATION: 'accountIdConfirmation',
-  VIEW_PRIVATE_KEY: 'viewPrivateKey'
+    ACCOUNT_ID_CONFIRMATION: 'accountIdConfirmation',
+    VIEW_PRIVATE_KEY: 'viewPrivateKey'
 };
 
 export default ({
@@ -109,7 +109,7 @@ export default ({
     onClose,
     secretKey
 }) => {
-  const [currentView, setCurrentView] = useState(VIEWS.ACCOUNT_ID_CONFIRMATION);
+    const [currentView, setCurrentView] = useState(VIEWS.ACCOUNT_ID_CONFIRMATION);
 
     return (
         <Modal
@@ -122,10 +122,10 @@ export default ({
                 <h3><Translate id='exportPrivateKey.title' /></h3>
                 <p><Translate id='exportPrivateKey.desc' /></p>
                 <ExportKeyModalBody 
-                  currentView={currentView} 
-                  setCurrentView={setCurrentView} 
-                  onClose={onClose} 
-                  secretKey={secretKey}
+                    currentView={currentView} 
+                    setCurrentView={setCurrentView} 
+                    onClose={onClose} 
+                    secretKey={secretKey}
                 />
             </Container>
         </Modal>
@@ -133,59 +133,59 @@ export default ({
 };
 
 const ExportKeyModalBody = ({ currentView, setCurrentView, onClose, secretKey }) => {
-  switch (currentView) {
-    case VIEWS.ACCOUNT_ID_CONFIRMATION: 
-      return (
-        <ConfirmationScreen setCurrentView={setCurrentView} onClose={onClose} />
-      );
-    case VIEWS.VIEW_PRIVATE_KEY:
-      return (
+    switch (currentView) {
+        case VIEWS.ACCOUNT_ID_CONFIRMATION: 
+            return (
+                <ConfirmationScreen setCurrentView={setCurrentView} onClose={onClose} />
+            );
+        case VIEWS.VIEW_PRIVATE_KEY:
+            return (
         <>
           <ClickToCopy copy={secretKey}>
-            <div className='text-select-display'>
-              {secretKey}
-            </div>
+              <div className='text-select-display'>
+                  {secretKey}
+              </div>
           </ClickToCopy>
           <FormButton onClick={onClose}>
-            <Translate id='button.dismiss' />
+              <Translate id='button.dismiss' />
           </FormButton>
         </>
-      );
-  }
+            );
+    }
 };
  
 const ConfirmationScreen = ({ setCurrentView, onClose }) => {
-  const [typedAccountId, setTypedAccountId] = useState('');
-  const accountId = useSelector(selectAccountId);
-  const accountIdConfirmed = accountId === typedAccountId;
+    const [typedAccountId, setTypedAccountId] = useState('');
+    const accountId = useSelector(selectAccountId);
+    const accountIdConfirmed = accountId === typedAccountId;
 
-  return (
-    <form onSubmit={() => setCurrentView(VIEWS.VIEW_PRIVATE_KEY)}>
-      <p><Translate id='exportPrivateKey.enterAccountAddress' /></p>
-      <Translate>
-          {({ translate }) => (
-              <input
-                  placeholder={translate('input.accountId.placeholder')}
-                  onChange={(e) => setTypedAccountId(e.target.value)}
-                  value={typedAccountId}
-                  autoCapitalize='off'
-                  spellCheck='false'
-                  autoFocus={!isMobile()}
-                  className={accountIdConfirmed ? 'success' : undefined}
-              />
-          )}
-      </Translate>
-      <FormButton
-          disabled={!accountIdConfirmed}
-          type='submit'
-      >
-          <Translate id='button.viewPrivateKey' />
-      </FormButton>
-      <FormButton
-          className='link'
-          onClick={onClose}>
-          <Translate id='button.cancel' />
-      </FormButton>
-    </form>
-  );
+    return (
+        <form onSubmit={() => setCurrentView(VIEWS.VIEW_PRIVATE_KEY)}>
+            <p><Translate id='exportPrivateKey.enterAccountAddress' /></p>
+            <Translate>
+                {({ translate }) => (
+                    <input
+                        placeholder={translate('input.accountId.placeholder')}
+                        onChange={(e) => setTypedAccountId(e.target.value)}
+                        value={typedAccountId}
+                        autoCapitalize='off'
+                        spellCheck='false'
+                        autoFocus={!isMobile()}
+                        className={accountIdConfirmed ? 'success' : undefined}
+                    />
+                )}
+            </Translate>
+            <FormButton
+                disabled={!accountIdConfirmed}
+                type='submit'
+            >
+                <Translate id='button.viewPrivateKey' />
+            </FormButton>
+            <FormButton
+                className='link'
+                onClick={onClose}>
+                <Translate id='button.cancel' />
+            </FormButton>
+        </form>
+    );
 };
