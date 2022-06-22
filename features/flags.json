@@ -116,8 +116,8 @@
       "lastEditedAt": "2022-05-25T01:11:55.121Z"
     },
     "testnet_NEARORG": {
-      "enabled": false,
-      "lastEditedBy": "esaminu",
+      "enabled": true,
+      "lastEditedBy": "gutsyphilip",
       "lastEditedAt": "2022-06-20T18:11:26.582Z"
     },
     "mainnet_NEARORG": {
