@@ -45,7 +45,7 @@ module.exports = {
     ].some((env) => env === NEAR_WALLET_ENV),
     LINKDROP_GAS: process.env.LINKDROP_GAS,
     LOCKUP_ACCOUNT_ID_SUFFIX: process.env.LOCKUP_ACCOUNT_ID_SUFFIX,
-    MIGRATION_START_DATE: parseDateFromShell(process.env.MIGRATION_START_DATE || '2022-06-28'),
+    MIGRATION_START_DATE: parseDateFromShell(process.env.MIGRATION_START_DATE || '2022-06-08'),
     MIGRATION_END_DATE: parseDateFromShell(process.env.MIGRATION_END_DATE || '2022-08-28'),
     MIN_BALANCE_FOR_GAS: process.env.REACT_APP_MIN_BALANCE_FOR_GAS,
     MIN_BALANCE_TO_CREATE: process.env.MIN_BALANCE_TO_CREATE,
