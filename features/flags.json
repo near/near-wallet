@@ -96,8 +96,8 @@
       "lastEditedAt": "2022-06-20T18:11:26.582Z"
     },
     "testnet": {
-      "enabled": false,
-      "lastEditedBy": "esaminu",
+      "enabled": true,
+      "lastEditedBy": "gutsyphilip",
       "lastEditedAt": "2022-06-20T18:11:26.582Z"
     },
     "mainnet": {
