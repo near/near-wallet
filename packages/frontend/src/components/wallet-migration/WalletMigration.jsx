@@ -22,7 +22,6 @@ export const WALLET_MIGRATION_VIEWS = {
     SELECT_DESTINATION_WALLET: 'SELECT_DESTINATION_WALLET',
     MIGRATE_ACCOUNTS: 'MIGRATE_ACCOUNTS'
 };
-const WHITELISTED_ROUTES = ['/batch-import'];
 
 const initialState = {
     activeView: null,
