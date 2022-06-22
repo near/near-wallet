@@ -833,7 +833,7 @@
     },
     "postMigration": {
         "cta": "Transfer my Accounts",
-        "message": "NEAR Wallet has migrated to a new domain: <b>${migrationDestinationURL}</b>. <br/> You have until <b>${endDate}</b> to transfer your accounts, or to export your account keys from your account settings."
+        "message": "NEAR Wallet has migrated to a new domain: <b><a href='${migrationDestinationURL}' target='_blank'>${migrationDestinationURL}</a></b>. <br/> You have until <b>${endDate}</b> to transfer your accounts, or to export your account keys from your account settings."
     },
     "poweredByCoinGecko": "Prices powered by <a href='https://www.coingecko.com/en/api' target='_blank' rel='noopener noreferrer'>CoinGecko</a>",
     "preMigration": {
@@ -842,7 +842,7 @@
             "text": "NEAR Wallet Migration"
         },
         "cta": "Set a Reminder",
-        "message": "We’re moving! NEAR Wallet will be migrating to a new domain (<b>${migrationDestinationURL}</b>) starting on <b>${startDate}</b>.<br/> Return once the new domain is live to migrate your accounts, or export your account keys from your <a href='/profile'>account settings.</a>"
+        "message": "We’re moving! NEAR Wallet will be migrating to a new domain (<b><a href='${migrationDestinationURL}' target='_blank'>${migrationDestinationURL}</a></b>) starting on <b>${startDate}</b>.<br/> Return once the new domain is live to migrate your accounts, or export your account keys from your <a href='/profile'>account settings.</a>"
     },
     "profile": {
         "account": {
