@@ -44,7 +44,7 @@ const encodeAccountsToURL = async (accounts, publicKey) => {
     }
 
     const hash = encodeAccountsTo(accountsData, publicKey);
-    const href = `https://${getMyNearWalletUrl()}/batch-import#${hash}`;
+    const href = `${getMyNearWalletUrl()}/batch-import#${hash}`;
 
     return href;
 };
