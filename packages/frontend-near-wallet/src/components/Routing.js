@@ -1,16 +1,18 @@
 import { ConnectedRouter, getRouter } from 'connected-react-router';
 import isString from 'lodash.isstring';
 import PropTypes from 'prop-types';
-import React,{ Component } from 'react';
+import React from 'react';
 import ReactDOMServer from 'react-dom/server';
 import { withLocalize } from 'react-localize-redux';
 import { connect } from 'react-redux';
-import { Switch } from 'react-router-dom';
+import { Redirect, Switch } from 'react-router-dom';
 import styled, { ThemeProvider } from 'styled-components';
 
 import favicon from '../../src/images/mynearwallet-cropped.svg';
 import {
-    PUBLIC_URL
+    IS_MAINNET,
+    PUBLIC_URL,
+    SHOW_PRERELEASE_WARNING
 } from '../config';
 import { isWhitelabel } from '../config/whitelabel';
 import '../index.css';
@@ -30,9 +32,11 @@ import translations_zh_hans from '../translations/zh-hans.global.json';
 import translations_zh_hant from '../translations/zh-hant.global.json';
 import classNames from '../utils/classNames';
 import getBrowserLocale from '../utils/getBrowserLocale';
+import { getMyNearWalletUrl } from '../utils/getWalletURL';
 import { reportUiActiveMixpanelThrottled } from '../utils/reportUiActiveMixpanelThrottled';
 import {
-    WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS
+    WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS,
+    WALLET_LOGIN_URL, WALLET_SEND_MONEY_URL, WALLET_SIGN_URL
 } from '../utils/wallet';
 import PrivateRoute from './common/routing/PrivateRoute';
 import Route from './common/routing/Route';
@@ -86,7 +90,7 @@ const Container = styled.div`
     }
 `;
 
-class Routing extends Component {
+class Routing extends React.Component {
     constructor(props) {
         super(props);
 
@@ -237,11 +241,32 @@ class Routing extends Component {
     };
 
     render() {
-        // const destinationBaseURL = getMyNearWalletUrl();
+        const {
+            pathname,
+        } = this.props.router.location;
+
+        const hideFooterOnMobile = [
+            WALLET_LOGIN_URL,
+            WALLET_SEND_MONEY_URL,
+            WALLET_SIGN_URL,
+        ].includes(pathname.replace(/\//g, ''));
+
+        const destinationBaseURL = getMyNearWalletUrl();
+
         reportUiActiveMixpanelThrottled();
 
         return (
-            <Container className={classNames(['App'])} id="app-container">
+            <Container
+                className={classNames([
+                    'App',
+                    {
+                        'network-banner':
+                            !IS_MAINNET || SHOW_PRERELEASE_WARNING,
+                    },
+                    { 'hide-footer-mobile': hideFooterOnMobile },
+                ])}
+                id="app-container"
+            >
                 <GlobalStyle />
                 <ConnectedRouter
                     basename={PATH_PREFIX}
@@ -250,7 +275,11 @@ class Routing extends Component {
                     <ThemeProvider theme={theme}>
                         <NavigationWrapper />
                         <Switch>
-                            <Route exact path="*" component={WalletMigration}/>
+                            <Redirect
+                                from="/login"
+                                to={`${destinationBaseURL}`}
+                            />
+                            <Route exact path="/" component={WalletMigration}/>
                             <PrivateRoute component={PageNotFound} />
                         </Switch>
                     </ThemeProvider>
