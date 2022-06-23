@@ -2,6 +2,7 @@ import BN from 'bn.js';
 import { isEmpty, some } from 'lodash';
 import { createSelector } from 'reselect';
 
+import { selectAllContractMetadata } from '../slices/nft';
 import { selectStakingCurrentAccountAccountId, selectValidatorsFarmData } from '../slices/staking';
 import {
     selectTokensFiatValueUSD,
