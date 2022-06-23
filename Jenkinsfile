@@ -145,7 +145,8 @@ pipeline {
                 // build frontend bundles
                 stage('frontend:bundle:testnet-staging') {
                     when {
-                        expression { env.BUILD_FRONTEND == 'true' }
+                        expression { env.BUILD_FRONTEND == 'true' };
+                        not { branch 'stable' }
                     }
                     environment {
                         NEAR_WALLET_ENV = 'testnet_STAGING'
@@ -161,8 +162,7 @@ pipeline {
                 stage('frontend:bundle:testnet') {
                     when {
                         expression { env.BUILD_FRONTEND == 'true' };
-                        anyOf { branch 'master' ; branch 'stable' }
-
+                        branch 'master'
                     }
                     environment {
                         NEAR_WALLET_ENV = 'testnet'
@@ -177,7 +177,8 @@ pipeline {
 
                 stage('frontend:bundle:mainnet-staging') {
                     when {
-                        expression { env.BUILD_FRONTEND == 'true' }
+                        expression { env.BUILD_FRONTEND == 'true' };
+                        not { branch 'stable' }
                     }
                     environment {
                         NEAR_WALLET_ENV = 'mainnet_STAGING'
