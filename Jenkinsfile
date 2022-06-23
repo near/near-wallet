@@ -325,7 +325,7 @@ pipeline {
 
                         stage('frontend:deploy:mainnet-staging') {
                             when {
-                                branch 'stable'
+                                branch 'master'
                             }
                             steps {
                                 milestone(404)
