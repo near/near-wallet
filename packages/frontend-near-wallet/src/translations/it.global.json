@@ -1,0 +1,1617 @@
+{
+    "account": {
+        "activateAccount": {
+            "post": {
+                "descOne": "Il tuo deposito iniziale è stato ricevuto e trasferito sul tuo nuovo Account. Il tuo Account è ora attivo!",
+                "descTwo": "Una parte del tuo deposito è stata riservata per coprire il <a href='https://docs.near.org/docs/concepts/account' rel='noopener noreferrer' target='_blank'>costo dell'hosting del tuo Account</a>.",
+                "title": "il tuo Account è stato attivato."
+            },
+            "pre": {
+                "desc": "Per iniziare ad usare NEAR Wallet, effettua un deposito iniziale minimo inviando <b>at least ${amount}</b> al tuo Account ID (certe volte chiamato ”indirizzo”).",
+                "title": "Quasi fatto! Effettua il tuo deposito iniziale."
+            }
+        },
+        "available": {
+            "error": "Utente non trovato!",
+            "errorSameAccount": "Non puoi inviarlo a te stesso.",
+            "implicitAccount": "Ricontrolla sempre l'Account ID",
+            "implicitAccountModal": "Si prega di ricontrollare l'Account ID, soprattutto se si tratta di un Account di un exchange. Se l'Account ID è inserito in modo errato, i tuoi fondi andranno persi per sempre.",
+            "success": "User trovato!"
+        },
+        "create": {
+            "checkingAvailablity": {
+                "check": "Stiamo verificando",
+                "create": "Verificando la disponibilità"
+            },
+            "errorAccountNotExist": "Si è verificato un problema durante la creazione del tuo account. Per favore riprova!",
+            "errorInvalidAccountIdLength": "L'Account ID deve comprendere tra i 2 e i 64 caratteri"
+        },
+        "createImplicit": {
+            "post": {
+                "descOne": "Il tuo deposito iniziale è stato ricevuto! Una volta riscosso, il tuo deposito verrà trasferito sul tuo nuovo Account.",
+                "descTwo": "Importante: Il tuo indirizzo di finanziamento monouso non sarà più valido. Assicurati di sostituirlo con il tuo Account ID su qualsiasi scambio o altro dispositivo in cui potrebbe essere stato salvato.",
+                "modal": {
+                    "descOne": "Continuando, riconosci che l'indirizzo del finanziamento monouso verrà sostituito, e tutti i fondi aggiuntivi inviati al vecchio indirizzo andranno persi.",
+                    "descTwo": "Ricordati di sostituirlo con il tuo Account ID su qualsiasi piattaforma di exchange o altro dispositivo in cui potrebbe essere stato salvato.",
+                    "title": "Aggiorna il tuo indirizzo"
+                },
+                "title": "Riscuoti il tuo Account"
+            },
+            "pre": {
+                "addressHeader": "Indirizzo di finanziamento valido una sola volta",
+                "descOne": "Per iniziare ad usare NEAR Wallet, soddisfa il deposito iniziale minimo inviando <b>almeno ${amount}</b> al tuo indirizzo provvisorio riportato di seguito.",
+                "descTwo": "Torna a questa schermata una volta che i tuoi fondi sono stati depositati per completare la creazione del tuo Account.",
+                "moonPay": {
+                    "buyWith": "Compra con",
+                    "desc": "Effettua il tuo deposito iniziale con MoonPay utilizzando il tuo metodo di pagamento preferito.",
+                    "title": "Deposita con MoonPay"
+                },
+                "title": "Quasi fatto! Attiva il tuo Account con un deposito iniziale.",
+                "whereToBuy": {
+                    "button": "Dove posso acquistare NEAR?",
+                    "desc": "I token NEAR sono disponibili per l'acquisto tramite i seguenti scambi",
+                    "title": "Acquista NEAR token"
+                }
+            },
+            "success": {
+                "button": "Vai all'Account",
+                "descOne": "Congratulazioni <b>${accountId}</b>! Il tuo Account è stato creato con successo.",
+                "descThree": "Si prega di aggiornare il proprio indirizzo su eventuali exchange o altri dispositivi.",
+                "descTwo": "Ora devi utilizzare questo Account ID come indirizzo per tutte le operazioni su NEAR.",
+                "modal": {
+                    "desc": "Congratulazioni! Il tuo Account è stato creato con successo.",
+                    "title": "Benvenuto al NEAR Wallet!"
+                },
+                "title": "Benvenuto in NEAR"
+            }
+        },
+        "createImplicitAccount": {
+            "createCustomNameModal": {
+                "desc": "A differenza del tuo indirizzo predefinito, un indirizzo personalizzato può essere qualsiasi cosa tu voglia, facilitandone la memorizzazione e la condivisione!",
+                "title": "Aggiungi un indirizzo personalizzato al tuo Wallet"
+            },
+            "customAddress": "Un indirizzo personalizzato può essere qualsiasi cosa tu voglia, facilitandone la memorizzazione e la condivisione!",
+            "customAmount": "Personalizza",
+            "exchange": "exchange",
+            "orAskFriend": "o chiedi ad un amico!",
+            "orSendNear": "...o invia almeno ${quantità} all'indirizzo del tuo NEAR Wallet.",
+            "sendFrom": "Invia da una",
+            "title": "Ci siamo quasi! Per iniziare, compra un pò di NEAR usando MoonPay...",
+            "titleAlt": "Ci siamo quasi! Per iniziare, invia almeno ${quantità} all'indirizzo del tuo NEAR Wallet."
+        },
+        "fundedStatus": {
+            "active": "Attivo",
+            "awaitingDeposit": "In attesa del deposito",
+            "initialDeposit": "Deposito iniziale",
+            "minDeposit": "Deposito minimo",
+            "nearName": "Account ID",
+            "ready": "Pronto alla riscossione",
+            "singleUse": "Indirizzo provvisorio",
+            "status": "stato dell'Account"
+        },
+        "login": {
+            "details": {
+                "warning": "Ciò consente l'accesso all'intero saldo. si prega di procedere con cautela."
+            },
+            "incorrectContractId": {
+                "error": "Il contratto ${contractId} non esiste. Questo potrebbe essere dovuto a un problema con l'applicazione che stai tentando di utilizzare, o questo contratto potrebbe essere stato cancellato. Verrai reindirizzato all'applicazione",
+                "errorTitle": "Invalida ID del contratto"
+            }
+        },
+        "nameDoesntMatch": "Il nome dell'Account non corrisponde",
+        "recoverAccount": {
+            "error": "Impossibile recuperare l'Account. Non sono stati trovati Account con questa passphrase.",
+            "errorInvalidSeedPhrase": "Non sono stati trovati Account con questa passphrase.",
+            "success": "Il ripristino tramite passphrase è stato completato.<br/><b>${numerodegliAccount} account(s)</b> recuperati con successo.<br/>L'ultimo è stato impostato come attivo."
+        },
+        "requestCode": {
+            "error": "Impossibile inviare SMS con il codice.",
+            "success": "Codice inviato tramite SMS."
+        },
+        "sendMoney": {
+            "error": "Spiacenti, si è verificato un errore. Dovresti riprovare."
+        },
+        "sendNewRecoveryLink": {
+            "error": "Reinvio non riuscito. Per favore riprova.",
+            "success": "Link di ripristino inviato con successo!"
+        },
+        "verifySeedPhrase": {
+            "error": "Hai inserito la parola sbagliata"
+        }
+    },
+    "accountSelector": {
+        "noAccountDesc": "Al momento non hai effettuato l'accesso a nessun account alternativo.",
+        "signInButton": "Importa un Account diverso"
+    },
+    "actions": {
+        "AddKey": {
+            "forContract": "Chiave di accesso aggiunta per: ${permissionReceiverId}",
+            "forReceiver": "Chiave di accesso completa aggiunta per: ${receiverId}"
+        },
+        "CreateAccount": "Nuovo account creato: ${receiverId}",
+        "DeleteAccount": "Account eliminato: ${receiverId}",
+        "DeleteKey": "Chiave eliminata",
+        "DeployContract": "Contratto creato: ${receiverId}",
+        "FunctionCall": "Metodo di chiamata: ${methodName} in contratto: ${receiverId}",
+        "Stake": "Staked ${stake}",
+        "Transfer": {
+            "received": "Ricevuto ${deposit} da ${signerId}",
+            "transferred": "Inviato ${deposit} a ${receiverId}"
+        }
+    },
+    "actionsSign": {
+        "addKey": "Aggiungendo la chiave di accesso",
+        "createAccount": "Creando Account: ${receiverId}",
+        "deleteAccount": "Eliminando account: ${receiverId}",
+        "deleteKey": "Eliminando la chiave di accesso",
+        "deployContract": "In attesa del Contratto: ${receiverId}",
+        "functionCall": "Funzione di chiamata: ${methodName}",
+        "stake": "Staking: ${stake}Ⓝ ${publicKey}...",
+        "transfer": "Trasferimento: ${deposit}Ⓝ a ${receiverId}"
+    },
+    "addNode": {
+        "desc": "il tuo Node deve essere configurato tramite CLI prima di inserirlo qui.",
+        "ipAddressInput": {
+            "placeholder": "esempio: 0.0.0.0",
+            "title": "Inserire l'indirizzo IP del tuo Node"
+        },
+        "nicknameInput": {
+            "placeholder": "esempio: AWS Instance",
+            "title": "Dagli un soprannome (opzionale)"
+        },
+        "pageText": "Configura il tuo Node tramite CLI, poi inserirlo qui.",
+        "pageTitle": "Aggiungi un Node"
+    },
+    "amount": "Quantità",
+    "arguments": "Argomenti",
+    "authorizedApps": {
+        "dashboardNoApps": "Non hai autorizzato nessuna App",
+        "feeAllowance": "Commissioni di permesso",
+        "ledger": "Ledger",
+        "pageTitle": "App autorizzate",
+        "publicKey": "Chiave pubblica"
+    },
+    "availableBalanceInfo": "Il tuo saldo spendibile di NEAR esclusi i fondi bloccati o in stake. <a href='/profile'>Visualizzare la ripartizione del saldo →</a>",
+    "availableBalanceProfile": "Questo è il tuo saldo spendibile di NEAR e può essere utilizzato o trasferito immediatamente .",
+    "back": "Indietro",
+    "balance": {
+        "balance": "Saldo totale",
+        "balanceLoading": "Caricamento del saldo"
+    },
+    "balanceBreakdown": {
+        "available": "Saldo disponibile",
+        "reserved": "Riservato per le commissioni"
+    },
+    "button": {
+        "acceptAndContinue": "Accetta e Continua",
+        "addACustomAddress": "Aggiungi un indirizzo personalizzato",
+        "addFunds": "Aggiungi Fondi",
+        "addNode": "Aggiungi Node",
+        "allow": "Consentire",
+        "approve": "Approva",
+        "authorizing": "Autorizzando",
+        "browseApps": "Consulta le App",
+        "buy": "Compra",
+        "cancel": "Cancella",
+        "cancelOperation": "Cancella Operazione",
+        "cancelTransfer": "Cancella Trasferimento",
+        "claimAccount": "Riscatta Account",
+        "claimMyAccount": "Riscatta il mio Account",
+        "close": "Chiudi",
+        "Close": "Chiudi",
+        "confirm": "Conferma",
+        "confirmAndSend": "Conferma e Invia",
+        "connect": "Collega",
+        "connecting": "Collegando",
+        "connectLedger": "Collega a Ledger",
+        "continue": "Continua",
+        "continueSetup": "Continua a Impostare",
+        "continueToMyAccount": "Vai al mio Account",
+        "copy": "Copia",
+        "copyImplicitAddress": "Copia l'indirizzo di deposito",
+        "copyPhrase": "Copia Frase",
+        "copyUrl": "Copia URL",
+        "createAccount": "Crea Account",
+        "createAccountCapital": "Crea Account",
+        "createNewAccount": "Crea Nuovo Account",
+        "creatingAccount": "Creazione dell'account",
+        "deauthorize": "Annulla l'autorizzazione",
+        "deAuthorizing": "Annullamento dell'autorizzazione",
+        "deny": "Rifiuta",
+        "disable": "Disattiva",
+        "disabling": "Disattivando",
+        "dismiss": "Respingere",
+        "edit": "Modifica",
+        "enable": "Abilita",
+        "enabling": "Abilitando",
+        "findMyAccount": "Trova il mio Account",
+        "finish": "Completo",
+        "fundWith": "Deposita con",
+        "generateNew": "Generare nuovo",
+        "getStarted": "Inizia",
+        "goBack": "Torna indietro",
+        "gotIt": "Fatto",
+        "goToDashboard": "Vai Alla Dashboard",
+        "importAccount": "Importa Account",
+        "importExistingAccount": "Importa Account Esistente",
+        "learnMore": "Per saperne di più",
+        "learnMoreAboutNear": "Impara di più riguardo a NEAR",
+        "loading": "Caricamento in corso",
+        "moreInformation": "Maggiori informazioni",
+        "needToEditGoBack": "Devi modificare? Torna Indietro",
+        "next": "Prossimo",
+        "protectAccount": "Proteggi Account",
+        "receive": "Ricevi",
+        "recoverAccount": "Recuperare Account",
+        "recovering": "Recuperando Account",
+        "recoverYourAccount": "Recupera il tuo Account",
+        "removeNode": "Rimuovi Node",
+        "removingKeys": "Rimozione Chiavi",
+        "reserveMyAccountId": "Prenota il mio Account ID",
+        "resubmit": "Invia di nuovo",
+        "retry": "Riprova",
+        "returnToApp": "Ritorna all'App",
+        "saveChanges": "Salva le Modifiche",
+        "secureMyAccount": "Proteggi il mio Account",
+        "send": "Invia",
+        "setupPhrase": "Impostare la frase di ripristino",
+        "signIn": "Accedi",
+        "signingIn": "Accedendo",
+        "signInLedger": "Accedi con Ledger",
+        "skip": "Salta",
+        "skipThisForNow": "Skip this for now",
+        "stake": "Stake",
+        "staking": "Staking",
+        "startOver": "Rincomincia",
+        "subscribe": "Iscriviti",
+        "topUp": "Ricarica",
+        "transferring": "Trasferimento",
+        "tryAgain": "Riprova",
+        "unstaking": "Unstaking",
+        "useMax": "Usa il Massimo",
+        "verify": "Verifica e Completa",
+        "verifyCode": "Verifica Codice",
+        "verifyCodeEnable": "Verifica e Continua",
+        "verifying": "Verificando",
+        "viewAll": "Visualizza Tutto",
+        "viewFAQ": "Visualizza FAQ",
+        "viewOnExplorer": "Visualizza su Explorer",
+        "withdrawing": "Ritiro"
+    },
+    "buyNear": {
+        "bridgeTokens": "Bridge Tokens da Ethereum",
+        "buyWith": "Compra con",
+        "coinMarketCap": "CoinMarketCap",
+        "descOne": "Acquista NEAR tramite MoonPay usando il tuo metodo di pagamento preferito.",
+        "descThree": "Trasferisci i tuoi tokens da Ethereum al Wallet NEAR usando un bridge.",
+        "descTwo": "NEAR è disponibile per l'acquisto tramite i seguenti exchange.",
+        "moonPay": "MoonPay",
+        "notSupported": "non è supportato nella tua regione",
+        "seeMore": "Vedi di più su",
+        "supportedExchanges": "Piattaforme di Exchange",
+        "title": "Ricarica"
+    },
+    "confirmLedgerModal": {
+        "header": {
+            "confirm": "Si prega di confermare l'operazione sul suo dispositivo...",
+            "processing": "Elaborazione"
+        },
+        "one": "Dovrai confermare i tuoi dati di accesso sul tuo Ledger."
+    },
+    "connecting": "Connettendo",
+    "copy": {
+        "default": "Copiato!",
+        "title": "Copia"
+    },
+    "createAccount": {
+        "accountIdInput": {
+            "placeholder": "il tuo nome.${data}",
+            "title": "Account ID"
+        },
+        "addACustomAddress": "Aggiungi un indirizzo personalizzato",
+        "alreadyHaveAnAccount": "Hai già un account?",
+        "invalidLinkDrop": {
+            "one": "Questo NEAR Drop è stato riscuotato.",
+            "title": "Link Invalido",
+            "two": "NEAR Drops possono essere usati solo per un singolo account, dopodichè il link scadrà."
+        },
+        "landing": {
+            "descOne": "NEAR Wallet è un portafoglio sicuro ed è un account manager per i tuoi account sul NEAR blockchain.",
+            "descTwo": "Una volta creato l'account, ti servirà per interagire con le applicazioni su NEAR, e per conservare in modo sicuro i tuoi vari tokens e collectibles (NFTs).",
+            "title": "Crea il tuo Account"
+        },
+        "note": {
+            "canContain": "Il tuo account ID può contenere uno dei seguenti:",
+            "cannotContain": "Il tuo account ID NON PUO' contenere:",
+            "characters": "Caratteri \"@\" or \".\"",
+            "digits": "Cifre (0-9)",
+            "lowercase": "Caratteri minuscoli (a-z)",
+            "maxCharacters": "Più di 64 caratteri (compresi .${accountSuffix})",
+            "minCharacters": "Meno di 2 caratteri",
+            "separators": "Caratteri (_-) possono essere usati come separatori"
+        },
+        "pageText": "Inserisci un Account ID da utilizzare con il tuo NEAR account. Il tuo Account ID sarà usato per tutte le operazioni operations, compresi l'invio e la ricezione di risorse.",
+        "pageTitle": "Prenota Account ID",
+        "recoverItHere": "Importa Account Esistente",
+        "setupPassphrase": {
+            "generatePassphrase": {
+                "desc": "Per la massima sicurezza, ti consigliamo di generare una passphrase univoca per ogni nuovo account nel tuo portafoglio.",
+                "descTwo": "Come opzione più conveniente, puoi invece condividere una passphrase esistente tra più account. Puoi modificarlo in qualsiasi momento.",
+                "tite": "Generare una nuova passphrase?"
+            },
+            "sharedPassphrase": {
+                "desc": "La tua passphrase è stata verificata! Dopo aver finanziato il tuo nuovo indirizzo, la tua passphrase sarà condivisa da account <b>${numberOfAccounts}.</b>",
+                "descTwo": "Ogni volta che questa passphrase viene utilizzata per recuperare il tuo portafoglio, verranno importati i seguenti account:",
+                "tite": "La tua passphrase condivisa"
+            },
+            "verifyPassphrase": {
+                "desc": "Enter an existing passphrase below to secure your new account.",
+                "passPhrasePlaceholder": "bolla parola sole unire impatto esiste rampa teschio titolo cavo simbolo molto",
+                "tite": "Verifica la tua Passphrase",
+                "yourPassphrase": "La tua Passphrase"
+            }
+        },
+        "step": "Passo ${step}/${total}",
+        "terms": {
+            "agreeBtn": "Accetta e Continua",
+            "declineBtn": "Declino",
+            "desc": "Procedendo con la creazione di un NEAR account, accetti i termini di servizio e l'Informativa sulla privacy di NEAR Wallet. Ti invitiamo a leggerli attentamente:",
+            "privacyCheck": "Accetto l'Informativa sulla Privacy",
+            "privacyLink": "Informativa sulla Privacy",
+            "termsCheck": "Accetto i Termini di Servizio",
+            "termsLink": "Termini e Condizioni",
+            "title": "Termini e Condizioni"
+        },
+        "termsPage": {
+            "descOne": "L'account NEAR richiede un saldo minimo di <b>almeno ${quantità}</b> a <a href='https://docs.near.org/docs/concepts/account' rel='noopener noreferrer' target='_blank'>occupare un posto nella rete.</a>",
+            "descTwo": "Dopo aver prenotato un indirizzo di conto univoco, ti verrà chiesto di effettuare un piccolo deposito iniziale per attivare il tuo conto.",
+            "disclaimer": "Creando un NEAR account, accetti i Termini di Servizio del <a href='/terms' rel='noopener noreferrer' target='_blank'>NEAR Wallet</a> e <a href='https://near.org/privacy' rel='noopener noreferrer' target='_blank'>l'Informativa sulla Privacy</a>.",
+            "title": "Prima di iniziare..."
+        }
+    },
+    "dashboard": {
+        "activity": "Attività recenti"
+    },
+    "dashboardActivity": {
+        "message": {
+            "AddKey": {
+                "forContract": "<span>for</span> <span>${permissionReceiverId}</span>",
+                "forReceiver": "<span>for</span> <span>${receiverId}</span>"
+            },
+            "CreateAccount": "<span>account</span> <span>${receiverId}</span>",
+            "DeleteAccount": "<span>account</span> <span>${receiverId}<span>",
+            "DeleteKey": "",
+            "DeployContract": "<span>contract</span> <span>${receiverId}</span>",
+            "FunctionCall": "<span>${methodName}</span> in contratto <span>${receiverId}</span>",
+            "FunctionCallDetails": {
+                "first": "<span>Method</span> <span>${methodName}</span>",
+                "second": "<span>In contract</span> <span>${receiverId}</span>"
+            },
+            "Stake": "<span>stake</span><span>${stake}</span>",
+            "Transfer": {
+                "received": "<span>from</span> <span>${signerId}</span>",
+                "transferred": "<span>to</span> <span>${receiverId}</span>"
+            }
+        },
+        "title": {
+            "AddKey": {
+                "forContract": "Chiave di Accesso aggiunta",
+                "forReceiver": "Chiave di Accesso aggiunta"
+            },
+            "CreateAccount": "Nuovo account creato",
+            "DeleteAccount": "Account eliminato",
+            "DeleteKey": "Chiave eliminata",
+            "DeployContract": "Contratto implementato",
+            "FunctionCall": "Metodo chiamato",
+            "Stake": "Staked",
+            "Transfer": {
+                "received": "Ricevuto NEAR",
+                "transferred": "Inviato NEAR"
+            }
+        }
+    },
+    "disclaimer": {
+        "text": "Questo è a developers&apos; Wallet anteprima. Dovrebbe essere usato solamente per NEAR Protocol DevNet. Impara di più su ",
+        "title": "DISCLAIMER"
+    },
+    "emailSubscribe": {
+        "placeholder": "La tua email...",
+        "title": "Iscriviti qui sotto per l'accesso anticipato"
+    },
+    "enterAccountNameLedgerModal": {
+        "header": "Inserisci il nome dell'account",
+        "one": "Inserisci il nome dell'account per cui stai effettuando l'accesso"
+    },
+    "error": "Errore",
+    "errors": {
+        "ledger": {
+            "U2F_4": "Registrazione tramite dispositivo Ledger fallita: U2F DEVICE_INELIGIBLE. Perfavore assicurati che il tu dispositivo Ledger sia connesso e sbloccato.",
+            "U2FNotSupported": "E' necessario il supporto del browser U2F per il Ledger. Perfavore usa Chrome, Opera o Firefox con una estensione U2F. Assicurati anche di essere su una connessione HTTPS."
+        },
+        "type": {
+            "LackBalanceForState": "Il tuo saldo disponibile è troppo basso per eseguire azioni sul tuo account. Per favore invia NEAR al tuo account e poi riprova.",
+            "RetriesExceeded": "Superato il numero massimo di tentativi per questa transazione."
+        }
+    },
+    "existingAccount": {
+        "fundNewAccount": {
+            "titleOne": "Approva transazione",
+            "titleTwo": "Finanzia Nuovo Account"
+        },
+        "selectAccount": {
+            "desc": "Se hai un account alternativo contenente un saldo<b>di almeno ${quantità} NEAR</b>, puoi usarlo per finanziare e inizializzare il tuo nuovo account!",
+            "descTwo": "Seleziona o accedi all'account che desideri utilizzare, quindi continua ad approvare con il deposito minimo.",
+            "title": "Finanzia con un account esistente."
+        }
+    },
+    "exploreApps": {
+        "desc": "Guadagna, conia, e gioca! Scopri l'ecosistema delle applicazioni NEAR.",
+        "exploreApps": "Esplora le App",
+        "exploreDeFi": "Esplora DeFi",
+        "title": "Cosa è disponibile su NEAR?"
+    },
+    "footer": {
+        "contactSupport": "Unisciti alla Community",
+        "copyrights": "NEAR Inc. Ttti i Diritti Riservati.",
+        "desc": "NEAR è una piattaforma di elaborazione e archiviazione scalabile che cambia in meglio il modo in cui funziona il Web.",
+        "learnMore": "Per saperne di più",
+        "needHelp": "Domande?",
+        "privacyPolicy": "Politica sulla Riservatezza",
+        "termsOfService": "Termini di Servizio"
+    },
+    "fullAccessKeys": {
+        "authorizedTo": "AUTORIZZATO A",
+        "dashboardNoKeys": "Non hai le chiavi di accesso complete",
+        "deAuthorizeConfirm": {
+            "desc": "La chiave di accesso completa sarà disattivata definitivamente.",
+            "title": "Sei sicuro di voler disattivare questa chiave di accesso completa?"
+        },
+        "noKeys": "Non hai collegato il tuo NEAR Wallet a nessuna applicazione. Quando lo farai, potrai gestirli da qui.<br /><br />Guarda cosa è stato costruito con NEAR:",
+        "pageTitle": "Chiave di Accesso Completo",
+        "submitAnyTransaction": "Invia qualsiasi transazione da parte tua",
+        "useContract": "Usa <b>${receiverId}</b> contratto a tuo nome",
+        "viewYourAccountName": "Visualizza il tuo Account Name"
+    },
+    "getBalance": "Ottieni il saldo",
+    "hardwareDevices": {
+        "desc": "Migliora la sicurezza del tuo account utilizzando un hardware wallet.",
+        "disable": {
+            "desc": "Assicurati di avere altri metodi di ripristino configurati prima di disabilitarli.",
+            "disable": "Disabilita Ledger",
+            "keep": "No, mantieni Ledger",
+            "title": "Sei sicuro di voler disabilitare Ledger?"
+        },
+        "ledger": {
+            "auth": "Autorizzato",
+            "connect": "Il tuo ledger non è attualmente connesso. Ti consigliamo di riconnettere il tuo Ledger per garantire che il tuo account sia protetto.",
+            "disclaimer": "Per disabilitare il tuo dispositivo ledger, devi prima abilitare un metodo di recupero alternativo.",
+            "title": "Ledger Hardware Wallet"
+        },
+        "title": "Dispositivi Hardware"
+    },
+    "importAccount": {
+        "noId": "Importando account",
+        "noIdFailed": "Impossibile importare l'account.",
+        "withId": "Importando account: ${accountId}",
+        "withIdFailed": "Impossibile importare l'account: ${accountId}"
+    },
+    "importAccountWithLink": {
+        "accountFound": "1 Account Trovato",
+        "accountImported": "Account Importato",
+        "accountsFound": "${count} Account Trovati",
+        "alreadyImported": "L'account protetto da questo link è stato importato.",
+        "continue": "e continua questo processo nel browser che preferisci.",
+        "copyUrl": "copia l'URL",
+        "foundAccount": "Abbiamo trovato <b>1 account</b> protetto da questo link.",
+        "foundAccounts": "Abbiamo trovato<b>${count} account</b> protetti da questo link.",
+        "goToAccount": "Vai ad Account",
+        "import": "Importa",
+        "importAccount": "Importa i tuoi Account",
+        "preferedBrowser": "Se questo non è il tuo browser preferito,"
+    },
+    "importing": "Importando",
+    "initialDeposit": {
+        "claimAccount": {
+            "desc": "Il tuo deposito è stato ricevuto! Una volta riscosso, il tuo deposito sarà trasferito nel tuo nuovo account.",
+            "disclaimer": {
+                "checkBox": "Accetta e Continua",
+                "desc": "Importante: Il vecchio indirizzo di finanziamento monouso non sarà più valido. Assicurati di sostituirlo con il tuo nuovo indirizzo su qualsiasi exchanges o su qualsiasi altro dispositivo in cui potrebbe essere salvato."
+            },
+            "title": "Riscuoti il tuo Account"
+        },
+        "creditCard": {
+            "desc": "Completa il tuo acquisto di <b>almeno ${quantità} NEAR</b> attraverso MoonPay. MoonPay depositerà automaticamente i tuoi fondi sul tuo nuovo account.",
+            "title": "Invia fondi al tuo nuovo account usando una carta di credito."
+        },
+        "manualDeposit": {
+            "desc": "soddisfa il deposito minimo iniziale inviando <b>almeno ${quantità} NEAR</b> all'indirizzo di finanziamento monouso riportato di seguito.",
+            "title": "invia un deposito manuale."
+        }
+    },
+    "input": {
+        "accountId": {
+            "placeholder": "e.g. johndoe.near",
+            "placeHolderAlt": "Account ID",
+            "subLabel": "L'account ID deve includere un Account di Primo Livello ad esempio <b>.near</b> o contenere esattamente 64 caratteri.",
+            "title": "Account ID"
+        },
+        "enterWord": {
+            "placeholder": "",
+            "title": "Parola <b>#${wordId}</b>"
+        }
+    },
+    "landing": {
+        "banner": "NEAR Wallet è in una fase Beta privata",
+        "desc": "Conserva in modo sicuro e metti in stake i tuoi NEAR tokens e le tue risorse compatibili con <span>NEAR Wallet</span>.",
+        "or": "o",
+        "title": "NEAR is here."
+    },
+    "ledgerSignTxModal": {
+        "ADD_ACCESS_KEY": "Dovrai confermare i dati di accesso sul tuo Ledger.",
+        "ADD_ACCESS_KEY_SEED_PHRASE": "Dovrai confermare i tuoi dettagli di accesso completi sul tuo Ledger.",
+        "ADD_LEDGER_ACCESS_KEY": "Dovrai confermare i dettagli della chiave pubblica sul tuo Ledger.",
+        "CREATE_ACCOUNT_FROM_IMPLICIT": "Dovrai confermare la creazione dell'account sul tuo Ledger. Questo include le transazioni necessarie per spostare il saldo dal conto temporaneo.",
+        "CREATE_NEW_ACCOUNT": "Dovrai confermare l'aggiunta di una chiave per il nuovo account sul tuo Ledger.",
+        "DEFAULT": "Dovrai confermare i dettagli della transazione sul tuo Ledger.",
+        "DELETE_RECOVERY_METHOD": "Dovrai confermare l'eliminazione dei dettagli della chiave sul tuo Ledger.",
+        "DISABLE_LEDGER": "Dovrai confermare i dettagli della chiave pubblica sul tuo Ledger.",
+        "GET_LEDGER_PUBLIC_KEY": "Dovrai confermare l'accesso alla chiave pubblica sul tuo Ledger.",
+        "REMOVE_ACCESS_KEY": "Dovrai confermare l'eliminazione dei dettagli della chiave sul tuo Ledger.",
+        "REMOVE_NON_LEDGER_ACCESS_KEYS": "Dovrai confermare i dettagli sul tuo Ledger.",
+        "SEND_MONEY": "Dovrai confermare i dettagli del trasferimento sul tuo Ledger.",
+        "SET_SIGN_TRANSACTION_STATUS": "Dovrai confermare i dettagli del deposito sul tuo Ledger.",
+        "SETUP_RECOVERY_MESSAGE": "Dovrai confermare i dettagli dell'accesso completo sul tuo Ledger.",
+        "SIGN_AND_SEND_TRANSACTIONS": "Dovrai confermare i dettagli del deposito sul tuo Ledger.",
+        "STAKE": "Dovrai confermare lo staking sul tuo Ledger",
+        "UNSTAKE": "Dovrai confermare l'unstaking sul tuo Ledger",
+        "WITHDRAW": "Dovrai confermare il prelievo sul tuo Ledger"
+    },
+    "link": {
+        "account": "Account",
+        "authorizedApps": "App Autorizzate",
+        "fullAccessKeys": "Chiavi di Accesso Completo",
+        "help": "Aiuto",
+        "noAccount": "Non hai altri account",
+        "receive": "Ricevere",
+        "send": "Invia",
+        "staking": "Staking",
+        "switchAccount": "Account",
+        "wallet": "Wallet"
+    },
+    "linkdropLanding": {
+        "claiming": "Riscuotendo",
+        "ctaAccount": "Riscuoti con Account Esistente",
+        "ctaLogin": "Accedi e Riscuoti",
+        "ctaNew": "Riscuoti con un Nuovo Account",
+        "desc": "Puoi richiedere i tuoi NEAR con un account esistente (deve essere collegato), o crea un nuovo account per riceverlo come deposito iniziale.",
+        "modal": {
+            "desc": "Il tuo NEAR drop è stato automaticamente depositato nel tuo account.",
+            "title": "Il tuo NEAR drop è stato riscosso"
+        },
+        "or": "or",
+        "title": "Hai ricevuto un NEAR drop!"
+    },
+    "loading": "Caricamento in corso...",
+    "loadingNoDots": "Caricamento in corso",
+    "lockedBalance": "Questi token NEAR sono bloccati in un contratto di blocco, e non possono essere ritirati. Puoi ancora delegare o mettere in stake questi NEAR. Una volta sbloccati i NEAR, potrai visualizzarli nel tuo Saldo Sbloccato, e scegliere di ritirarli (passando il Saldo contabile).",
+    "login": {
+        "cliLoginSuccess": {
+            "pageText": "Si prega di chiudere questa pagina e seguire le istruzioni nel terminale.",
+            "pageTitle": "Hai autorizzato con successo il NEAR Shell!"
+        },
+        "confirm": {
+            "pageText": "Stai garantendo <b> l'accesso completo</b> a ${appTitle}!",
+            "pageTextSecondLine": "<b>Per confermare</b>, perfavore inserisci il tuo account ID qua sotto.",
+            "pageTitle": "Sei sicuro?",
+            "username": "Account ID"
+        },
+        "details": {
+            "callFunctions": "Funzioni di chiamata su qualsiasi smart contract",
+            "createAndDeleteAccessKeys": "Crea e elimina chiave di accesso",
+            "createNewAccounts": "Crea nuovi account",
+            "deploySmartContracts": "Sblocca gli smart contract",
+            "detailedDescription": "Descrizione dettagliata della transazione",
+            "forContract": "Per Contratto",
+            "function": "Funzione",
+            "noDescription": "Nessuna descrizione specificata per questo metodo",
+            "stakeAndUnstake": "Stake e unstake NEAR tokens",
+            "thisAllows": "Questo consente ${appTitle} di:",
+            "transferTokens": "Trasferisci tokens dal tuo account ad altri account"
+        },
+        "form": {
+            "accessYourAccount": "accedi al tuo account.",
+            "accountIdOnly": "è richiesto il tuo Account ID.",
+            "isRequestingFullAccess": "sta richiedendo <b>l'accesso completo</b>",
+            "isRequestingTo": "sta richiedendo di",
+            "thisDoesNotAllow": "Questo non permette all'app di trasferire alcun token.",
+            "thisProvidesAccess": "Questo permettemette l'accesso a <b>tutti i tuoi token</b>.<br />Procedi con cautela!",
+            "toYourAccount": "al tuo account."
+        },
+        "v2": {
+            "connectConfirm": {
+                "desc": "Connettiti solo a siti di cui ti fidi. Una volta connesso, <a href='${contractIdUrl}' target='_blank' rel='noreferrer'>${appReferrer}</a> avrà <b>${accessType}</b>:",
+                "feeAllowance": {
+                    "desc": "L'applicazione riceverà il permesso di spendere fino a <b>${quantità} di NEAR</b> verso le tariffe di rete sostenute durante l'uso.",
+                    "title": "Idennità di Rete"
+                },
+                "fullAccess": "piena autorizzazione",
+                "fullAccessModal": {
+                    "desc": "Procedi con cautela. Le autorizzazioni di accesso completo consentono ai contratti e alle applicazioni di accedere al saldo dei token. Per confermare, inserisci il tuo account ID qui sotto.",
+                    "title": "Acconsenti l'accesso completo dell'account?"
+                },
+                "fullAccessWarning": "Questo sito richiede l'accesso completo al tuo account. Per abilitare l'accesso completo, ti verrà chiesto di verificare l'ID account.",
+                "limitedAccess": "permissi limitati",
+                "permissions": {
+                    "notTransferTokens": "Ciò non consente all'app di trasferire i token",
+                    "transferTokens": "Trasferisci i token dal tuo account",
+                    "viewAddress": "Visualizza l'indirizzo del tuo account per cui hai consentito",
+                    "viewBalance": "Visualizza il balance del tuo account per cui hai consentito"
+                },
+                "title": "Connettendo con:"
+            },
+            "connectWithNear": {
+                "desc": "un'applicazione sta richiedendo <b>${accessType}</b> al tuo NEAR account. Seleziona l'account che desideri connettere.",
+                "fullAccess": "accesso completo",
+                "limitedAccess": "accesso limitato",
+                "title": "Connetti con NEAR"
+            }
+        }
+    },
+    "minimumBalance": "Questo è il saldo NEAR minimo che il tuo account deve mantenere per rimanere attivo. Questo saldo è necessario per sostenere lo spazio di archiviazione utilizzato dal tuo account sulla blockchain NEAR (con un piccolo buffer) e aumenterà o diminuirà man mano che venga usato più o meno spazio.",
+    "mobileDeviceAccess": {
+        "importCode": {
+            "desc": "Se hai già effettuato l'accesso su un dispositivo desktop, scansiona il tuo codice di accesso mobile per importare il tuo account."
+        },
+        "showCode": {
+            "button": "Visualizza Codice Mobile",
+            "desc": "Scansiona il tuo codice di accesso mobile per concedere l'accesso completo all'account sul tuo dispositivo mobile.",
+            "modal": {
+                "desc": "Rivela e scansiona il codice QR qui sotto per importare il tuo account sul tuo dispositivo mobile.",
+                "disclaimer": "<b>Questo codice contiene dati altamente sensibili e garantisce l'accesso completo dell'account al tuo dispositivo mobile.</b> Fai attenzione a non condividerlo o mostrarlo e importa il tuo account solo su un dispositivo sicuro di tua proprietà.",
+                "reveal": "Rivela",
+                "title": "Mobile Access Code"
+            }
+        },
+        "title": "Codice di Accesso Mobile"
+    },
+    "networkBanner": {
+        "desc": "Questo wallet (e network) sono solo a scopo di test. I token e le altre risorse non hanno valore. Gli account creati non vengono trasferiti su Mainnet.",
+        "header": "NEAR Wallet di prova",
+        "title": "Wallet di prova"
+    },
+    "NFTDetail": {
+        "owner": "PROPRIETARIO",
+        "transfer": "Trasferisci"
+    },
+    "NFTs": {
+        "emptyState": "Sembra che tu non abbia ancora alcun collectible.",
+        "loadMore": "carica di più"
+    },
+    "NFTTransfer": {
+        "cancel": "Cancella",
+        "confirm": "Conferma",
+        "continue": "Continua",
+        "enterReceiver": "Inserisci un indirizzo del destinatario, quindi procedi con la conferma della transazione.",
+        "next": "Prossimo",
+        "transactionComplete": "Transazione Completa!",
+        "transferNft": "Trasferisci NFT",
+        "viewTransaction": "Visualizza ricevuta",
+        "youSent": "Hai inviato <span class='color-blue'>${title}</span> a <span class='color-green'>${receiverId}</span>"
+    },
+    "nodeDetails": {
+        "pageText": "Aggiorna i dettagli del tuo node.",
+        "pageTitle": "Dettagli Node"
+    },
+    "nodeStaking": {
+        "nodes": {
+            "noNode": {
+                "text": "Questo connette il tuo node al tuo wallet account.",
+                "title": "Hai già impostato il tuo node? Aggiungilo qua."
+            },
+            "title": "Nodes"
+        },
+        "pageText": "nodeandstaking.near",
+        "pageTitle": "Node e Staking",
+        "staking": {
+            "title": "Staking",
+            "youAreStaking": "Stai facendo staking"
+        },
+        "steps": {
+            "one": {
+                "desc": "Istruzioni disponibili nei documenti (Docs)",
+                "title": "1. Imposta e gestisci un Node tramite CLI"
+            },
+            "three": {
+                "desc": "Metti in staking da qua o da CLI. Vedi documenti (Docs) per aiuto.",
+                "title": "3. Metti in Staking"
+            },
+            "title": "Per gestire il node o lo stake, per favore segui questi passi:",
+            "two": {
+                "desc": "un node non sincronizzato non può produrre o validare",
+                "title": "2. Aspetta che il Node sia Sincronizzato"
+            }
+        }
+    },
+    "of": "di",
+    "ofTotal": "del Totale",
+    "or": "o",
+    "pageNotFound": {
+        "displayTitle": "404",
+        "returnToWallet": "Ritorna al Wallet",
+        "title": "Ops, sembra che questa pagina manchi."
+    },
+    "profile": {
+        "account": {
+            "available": "Saldo disponibile",
+            "availableToTransfer": "Trasferimento disponibile",
+            "availableToWithdraw": "prelievo disponibile",
+            "inStakingPools": "In staking pools",
+            "pendingRelease": "In attesa di rilascio",
+            "reservedForStorage": "Riservato per magazzino",
+            "reservedForTransactions": "Riservato per transazioni",
+            "staked": "Staked",
+            "staking": "Staking",
+            "unstaked": "Unstaked",
+            "walletBalance": "Saldo del Wallet",
+            "walletId": "Wallet ID"
+        },
+        "authorizedApps": {
+            "title": "App Autorizzate"
+        },
+        "details": {
+            "availableBalance": "Saldo Disponibile",
+            "locked": "Bloccato",
+            "lockPopup": {
+                "createAnotherAccount": "crea un'altro account",
+                "text": "Il tuo ID account è il tuo identificatore univoco nel sistema e non può essere modificato perché i dati e la proprietà delle risorse sono legati ad esso. Tuttavia, puoi accedere a ${link} con il nome desiderato e trasferire le risorse a seconda delle tue necessità.",
+                "title": "Perchèrisulta bloccato?"
+            },
+            "minBalance": "Saldo minimo",
+            "profile": "PROFILO",
+            "public": "Pubblico",
+            "qrDesc": "Usa l'app della fotocamera del tuo telefono per inviare a questo indirizzo",
+            "staked": "Staked",
+            "totalBalance": "Saldo totale Totale",
+            "unlocked": "Sbloccato",
+            "unvested": "Non investito",
+            "username": "Account ID",
+            "visibleTo": "VISIBILE A"
+        },
+        "lockup": {
+            "locked": "Bloccato",
+            "lockupBalance": "blocca il saldo",
+            "lockupId": "Blocca ID",
+            "unlocked": "Sbloccato"
+        },
+        "lockupBanner": {
+            "cta": "Trasferisci al Wallet",
+            "title": "Hai <b>${quantità}</b> disponibile da ritirare dal tuo lockup!"
+        },
+        "pageTitle": {
+            "default": "Dettagli Account",
+            "loading": "Caricamento in corso...",
+            "notFound": "Account ${accountId} non trovato"
+        },
+        "security": {
+            "lessSecure": "Più Conveniente",
+            "lessSecureDesc": "Queste opzioni sono consigliate per conti con piccoli importi di NEAR e altri asset. Sono convenienti, ma presentano rischi aggiuntivi rispetto alle opzioni più sicure. Se il tuo account e-mail o i tuoi messaggi SMS sono compromessi, i tuoi fondi potrebbero essere a rischio.",
+            "mostSecure": "Più sicuro (Raccomandato)",
+            "mostSecureDesc": "Ledger è l'opzione più sicura. La Passphrase può essere considerata sicura se la utilizzi correttamente (deve essere annotata e conservata in modo sicuro).",
+            "title": "Sicurezza e Recupero"
+        },
+        "twoFactor": "Autenticazione a Due-Fattori",
+        "twoFactorDesc": "Autentica con SMS o con email quando stai autorizzando transazioni e/o accedendo al tuo account."
+    },
+    "reCAPTCHA": {
+        "disclaimer": "Questo sito è protetto da reCAPTCHA e Google <a href='https://policies.google.com/privacy' target='_blank' rel='noopener noreferrer'>Politica sulla Privacy</a> e <a href='https://policies.google.com/terms' target='_blank' rel='noopener noreferrer'>Termini di Servizio</a> è applicata.",
+        "fail": {
+            "desc": "reCAPTCHA è necessario per autorizzare nuovi conti finanziati da NEAR.",
+            "link": "Finanzia il tuo account?",
+            "title": "Impossibile caricare reCAPTCHA."
+        },
+        "loading": "Caricamento reCAPTCHA..."
+    },
+    "receivePage": {
+        "addressTitle": "Il tuo indirizzo",
+        "copyAddressLinkLong": "Copia indirizzo URL",
+        "copyAddressLinkShort": "COPIA",
+        "qrCodeTitle": "Scanarizza codice QR",
+        "snackbarCopySuccess": "Indirizzo URL copiato!"
+    },
+    "recoverAccount": {
+        "actionRequired": "Questo messaggio contiene un link magico. Clicca il link per iniziare il recupero!",
+        "actionType": "Recupero",
+        "cannotResend": "Questo messaggio è stato inviato quando hai abilitato il recupero email/telefono. Inviamo questo messaggio solo una volta e non possiamo inviarlo nuovamente.",
+        "email": {
+            "desc": "Controlla la tua email per un messaggio da near.org con l'oggetto:",
+            "subject": "\"Importante: Near Wallet Recupero Email\".",
+            "title": "Email"
+        },
+        "ledger": {
+            "desc": "Assicurati che il tuo Ledger sia collegato in modo sicuro e che l'app NEAR sia aperta sul dispositivo.",
+            "title": "Ledger"
+        },
+        "pageText": "Se hai impostato uno o più metodi di recupero dell'account, segui le istruzioni seguenti per importare il tuo account.",
+        "pageTitle": "Importa Account",
+        "phone": {
+            "desc": "Controlla i tuoi tabulati telefonici per un messaggio SMS da",
+            "number": "+14086179592.",
+            "title": "Telefono"
+        },
+        "phrase": {
+            "desc": "Assicurati di avere la tua frase di recupero di 12 parole, quindi fai clic di seguito per iniziare il processo di recupero.",
+            "title": "Passphrase"
+        }
+    },
+    "recoverSeedPhrase": {
+        "pageText": "Immettere la passphrase di backup associata all'account.",
+        "pageTitle": "Recupero usando Passphrase",
+        "seedPhraseInput": {
+            "placeholder": "corretto cavallo batteria graffa...",
+            "title": "Passphrase (12 parole)"
+        }
+    },
+    "recoverWithLink": {
+        "errorP": "Si prega di controllare la email o il telefono per cercare il messaggio più recente. I link presenti in tutti i messaggi precedenti non sono validi.",
+        "errorTitle": "Link Scaduto",
+        "pOne": "Clicca \"Continua\" per ripristinare il tuo account:",
+        "pTwo": "Se questo non è il tuo browser preferito, copia l'URL e completa questa procedura nel tuo browser preferito.",
+        "snackbarCopySuccess": "URL di recupero copiata",
+        "title": "Ripristina Account"
+    },
+    "recoveryMgmt": {
+        "disableInputPlaceholder": "Immetti il tuo account ID per confermare",
+        "disableNo": "No, mantieni",
+        "disableNotAllowed": "Gli account devono avere almeno un metodo di recupero attivo. Abilita prima un metodo di ripristino alternativo per procedere.",
+        "disableTextLink": "Il link magico che hai ricevuto verrà disattivato in modo permanente.",
+        "disableTextPhrase": "La tua passphrase attuale verrà disattivata in modo permanente.",
+        "disableTitle": "Sei sicuro di voler disabilitare questo metodo?",
+        "enabled": "Disabilitato",
+        "methodTitle": {
+            "email": "Email",
+            "phone": "Telefono",
+            "phrase": "Passphrase"
+        },
+        "noRecoveryMethod": "Non hai un metodo di recupero per il tuo account. Si prega di aggiungere un metodo di seguito.",
+        "recoveryLinkSent": "Link di Recupero Inviato!",
+        "resend": {
+            "email": "Rinvia Email",
+            "phone": "Rinvia SMS"
+        },
+        "title": "Metodi di Recupero"
+    },
+    "reduxActions": {
+        "ADD_ACCESS_KEY": {
+            "error": "Si è verificato un errore durante l'approvazione di questa azione. Per favore riprova!",
+            "success": "${titolo} è adesso autorizzato ad usare il tuo account."
+        },
+        "ADD_ACCESS_KEY_SEED_PHRASE": {
+            "error": "Si è verificato un errore durante la configurazione del ripristino della passphrase. Per favore riprova!",
+            "success": "La configurazione del ripristino delle passphrase è completa."
+        },
+        "ADD_LEDGER_ACCOUNT_ID": {
+            "error": "L'accesso a uno degli account è stato rifiutato. Nessun account è stato recuperato.<br>Per continuare, devi autorizzare l'accesso in 'sola lettura' a ciascun account sul tuo dispositivo Ledger. Per favore riprova.",
+            "success": ""
+        },
+        "CHECK_ACCOUNT_AVAILABLE": {
+            "error": "User non trovato.",
+            "success": "User trovato."
+        },
+        "CHECK_IS_NEW": {
+            "error": "Account ID è già in uso. Prova qualcos'altro.",
+            "success": "Congratulazioni! ${accountId} è  disponibile."
+        },
+        "CHECK_NEW_ACCOUNT": {
+            "error": "Account ID è già in uso. Prova qualcos'altro.",
+            "success": "Congratulazioni! ${accountId} è disponibile."
+        },
+        "CREATE_ACCOUNT_WITH_SEED_PHRASE": {
+            "error": "",
+            "success": ""
+        },
+        "CREATE_NEW_ACCOUNT": {
+            "error": "Account ID è già in uso. Prova qualcos'altro..",
+            "success": "Congratulazioni! ${accountId} è disponibile."
+        },
+        "default": {
+            "error": "Spiacenti, si è verificato un errore. Dovresti riprovare.",
+            "success": ""
+        },
+        "DELETE_RECOVERY_METHOD": {
+            "error": "",
+            "success": ""
+        },
+        "DEPLOY_MULTISIG": {
+            "error": "",
+            "success": ""
+        },
+        "Deserialization": "",
+        "GET_LEDGER_ACCOUNT_IDS": {
+            "error": "L'accesso alla chiave pubblica è stato rifiutato. Nessun account è stato recuperato.<br/>Per continuare, devi consentire a NEAR Wallet di visualizzare la tua chiave pubblica. Per favore riprova.",
+            "success": ""
+        },
+        "LackBalanceForState": "Il tuo saldo disponibile è troppo basso per eseguire qualsiasi azione sul tuo account. Invia NEAR al tuo account e poi riprova.",
+        "NotEnoughBalance": "Il tuo account non ha abbastanza saldo per questa operazione.",
+        "PROMPT_TWO_FACTOR": {
+            "invalidCode": "Codice 2FA non valido. Per favore riprova."
+        },
+        "RECOVER_ACCOUNT_SEED_PHRASE": {
+            "error": "Impossibile recuperare l'account. Non sono stati trovati account per questa passphrase.",
+            "success": "Il ripristino tramite passphrase è stato completato.<br/><b>Gli account ${numberOfAccounts}</b> sono stati recuperati con successo.<br/>L'ultimo è impostato come attivo."
+        },
+        "REFRESH_ACCOUNT_EXTERNAL": {
+            "error": "Account <b>${accountId}</b> non trovato"
+        },
+        "REMOVE_ACCESS_KEY": {
+            "error": "Verifica che il tuo dispositivo sia connesso e che l'app NEAR sia aperta.",
+            "success": ""
+        },
+        "RetriesExceeded": "Stiamo riscontrando un carico elevato. Per favore riprova.",
+        "SAVE_AND_SELECT_LEDGER_ACCOUNTS": {
+            "error": "Perfevore controlla che il tuo dispositivo sia connesso e che l'app NEAR è aperta.",
+            "success": "Hai eseguito correttamente l'accesso.<br/><b>Gli account ${numberOfAccounts} sono stati recuperati.</b> Il tuo account creato più di recente è stato impostato su attivo."
+        },
+        "SEND_MONEY": {
+            "error": "Spiacenti, si è verificato un errore. Dovresti riprovare."
+        },
+        "SETUP_RECOVERY_MESSAGE": {
+            "error": "Si è verificato un errore durante la configurazione del metodo di ripristino. Per favore riprova!",
+            "success": "La configurazione del ripristino è stata completata."
+        },
+        "SIGN_AND_SEND_TRANSACTIONS": {
+            "error": "",
+            "success": ""
+        },
+        "TRANSFER_ALL_FROM_LOCKUP": {
+            "error": "Qualcosa è andato storto. Per favore riprova.",
+            "success": "Hai trasferito con successo i token dal tuo Lockup!"
+        },
+        "U2F_4": "Impossibile accedere con il dispositivo Ledger: U2F DEVICE_INELIGIBLE. Assicurati che il tuo dispositivo Ledger sia connesso e sbloccato.",
+        "VERIFY_TWO_FACTOR": {
+            "error": "Configurazione dell'autenticazione a due fattori non riuscita. Per favore riprova.",
+            "success": "Autenticazione a due fattori impostata correttamente!"
+        }
+    },
+    "releaseNotesModal": {
+        "desc": "Hai chiesto, ti abbiamo ascoltato! L'ultimo aggiornamento apporta modifiche alla modalità di visualizzazione dei saldi nel portafoglio e un modo più semplice per creare nuovi account.",
+        "subText1": "Durante la fase di registrazione, ora puoi utilizzare un numero di telefono compatibile con gli SMS per verificare e inizializzare il tuo nuovo account. Gli utenti che non desiderano fornire queste informazioni possono comunque creare nuovi account con un deposito iniziale.",
+        "subText2": "Il saldo principale visualizzato nel portafoglio è ora il tuo 'Saldo disponibile', in precedenza era il tuo 'Saldo totale'. Il saldo disponibile offre la massima efficacia agli utenti che desiderano sapere a colpo d'occhio quanto hanno a disposizione da spendere/mettere in staking/e interagire con l'ecosistema; non include i token che non sono pronti ad essere spesi, come i token che sono in staking. Puoi ancora vedere i dettagli del saldo dei tuoi token in staking nelle schermate 'Account' e 'Staking'.",
+        "subTitle1": "Nuove Funzioni",
+        "subTitle2": "Miglioramenti",
+        "title": "Note di Rilascio"
+    },
+    "reservedForFeesInfo": "Fino a ${data} NEAR è riservato per coprire il costo delle transazioni.",
+    "selectAccountDropdown": {
+        "account": "Account",
+        "createAccount": "Crea Nuovo Account",
+        "noOtherAccounts": "non hai altri accounts",
+        "selectAccount": "Seleziona account",
+        "switchAccount": "Cambia account",
+        "switchAccounthNotAllowed": "Questa app non consente modifiche all'account"
+    },
+    "sending": "Inviando",
+    "sendMoney": {
+        "account": {
+            "title": "Invia a"
+        },
+        "amount": {
+            "available": "Disponibile per l'invio"
+        },
+        "amountStatusId": {
+            "available": "Saldo Disponibile:",
+            "howMuch": "Quanto vuoi inviare?",
+            "noMoreThan": "NON PIÙ DI 5 CIFRE DECIMALI",
+            "notEnoughTokens": "Devi lasciare almeno ${quantità} NEAR nel tuo account",
+            "sending": "Inviando:"
+        },
+        "banner": {
+            "insufficient": "Stai tentando di inviare l'intero saldo disponibile. Almeno <b>${data} NEAR</b> deve essere presente per coprire le commissioni di transazione.",
+            "useMax": "Una piccola parte (${data} NEAR) del tuo saldo disponibile è stata riservata per coprire le commissioni di transazione."
+        },
+        "button": {
+            "confirm": "Conferma e Invia",
+            "dashboard": "Vai alla Dashboard",
+            "send": "Invia"
+        },
+        "confirmModal": {
+            "title": "Confierma transazione"
+        },
+        "onceConfirmed": "Una volta confermato, l'operazione non può essere annullata.",
+        "subtitle": {
+            "default": "Inserisci l'importo di NEAR da inviare e l'ID account a cui inviarlo.",
+            "success": "Hai inviato con successo",
+            "to": "a:"
+        },
+        "title": {
+            "default": "Invia",
+            "success": "Successo!"
+        },
+        "to": "to",
+        "wasSentTo": "Inviato a:",
+        "youAreSending": "Stai inviando"
+    },
+    "sendV2": {
+        "accordionTriggerTitle": {
+            "balanceDetails": "Dettagli del Saldo",
+            "transactionDetails": "Dettagli Transazione"
+        },
+        "review": {
+            "title": "Stai inviando"
+        },
+        "selectAsset": {
+            "assetInputPlaceholder": "Ricerca il nome dell'asset'",
+            "assetListNameTitle": "Nome",
+            "asssetListBalanceTitle": "Disponibile per inviare",
+            "title": "Seleziona asset"
+        },
+        "selectReceiver": {
+            "receiverInputLabel": "Invia a"
+        },
+        "selectTokenButtonTitle": "Seleziona asset",
+        "success": {
+            "title": "Transazione completa!</br>Hai inviato <span class='color-blue'>${quantità}</span></br>a <span class='color-green'>${receiverId}</span>"
+        },
+        "translateIdInfoTooltip": {
+            "estimatedFees": "Il costo stimato per l'elaborazione della transazione.",
+            "estimatedTotal": "Il totale stimato della tua transazione comprese le commissioni.",
+            "networkFees": "L'importo finale pagato per coprire i costi di elaborazione della transazione.",
+            "reservedForFees": "La parte del saldo del tuo account che non può essere spesa. Questo importo è riservato a coprire i costi di archiviazione del tuo account. Per ulteriori informazioni, visita la nostra documentazione."
+        },
+        "TXEntry": {
+            "status": {
+                "Failure": "Fallito",
+                "notAvailable": "Stato non disponibile",
+                "SuccessValue": "Successo"
+            },
+            "title": {
+                "amount": "Quantità",
+                "availableBalance": "Saldo disponibile",
+                "availableToSend": "Disponibile per l'invio",
+                "estimatedFees": "Commissioni Stimate",
+                "estimatedTotal": "Totale Stimato",
+                "from": "Da",
+                "networkFees": "Commissioni di rete",
+                "receiverId": "Inviato a",
+                "reservedForFees": "Riservato per le commissioni",
+                "status": "TXN Stato",
+                "timeStamp": "Data e ora",
+                "to": "A",
+                "token": "asset"
+            }
+        }
+    },
+    "setRecoveryConfirm": {
+        "didNotReceive": "Non hai ricevuto il codice??",
+        "email": "indirizzo email",
+        "inputError": "Si prega di inserire il codice di verifica!",
+        "inputHeader": "Inserisci codice di verifica",
+        "inputPlaceholder": "Codice di Verifica",
+        "or": "o",
+        "pageText": "Abbiamo inviato un codice di verifica di 6 cifre al ",
+        "phone": "numero di telefono",
+        "reenter": {
+            "link": "cliccca qui",
+            "one": {
+                "email": "Se non hai ancora ricevuto questa email, o se l'indirizzo email sopra indicato non è corretto, ",
+                "phoneNumber": "Se non hai ancora ricevuto questo SMS, o se il numero di telefono sopra indicato non è corretto, "
+            },
+            "two": {
+                "email": " per reinserire il tuo indirizzo email e inviare nuovamente.",
+                "phoneNumber": " per reinserire il tuo numero di telefono e inviare nuovamente."
+            }
+        },
+        "resendCode": "Riinvia il tuo codice",
+        "resending": "Riinviando...",
+        "sendToDifferent": "Invia a uno diverso",
+        "title": "Inserisci Codice di Verifica"
+    },
+    "setupLedger": {
+        "header": "Connetti il tuo dispositivo Ledger",
+        "one": "Collega il tuo Ledger Nano S o X al tuo computer o dispositivo mobile tramite USB e <b>apri l'applicazione NEAR</b>. <br><br>Quindi, <b>premi entrambi i pulsanti</b> nella schermata 'In attesa dela revisione del Ledger'.",
+        "two": "Se non hai ancora installato l'app NEAR Ledger, segui",
+        "twoLink": "queste instruzioni"
+    },
+    "setupLedgerSteps": {
+        "header": "Installa NEAR sul tuo dispositivo Ledger",
+        "one": "Apri <a href='https://www.ledger.com/ledger-live' target='_blank'>Ledger Live,</a> installa qualsiasi aggiornamento firmware disponibile.",
+        "three": "Segui le istruzioni per installare la <span class='color-black'> applicazione NEAR</span> sul tuo dispositivo.",
+        "two": "Clicca sul <span class='color-black'>Manager</span> tabella, poi cerca <span class='color-black'>NEAR</span>."
+    },
+    "setupLedgerSuccess": {
+        "header": "Il Ledger ha messo al sicuro il tuo account!",
+        "nextStep": {
+            "header": {
+                "keep": "Mantenere le chiavi esistenti?",
+                "remove": "Conferma rimozione chiave"
+            },
+            "one": {
+                "keep": "<span class='color-red'>Il mantenimento di più metodi e dispositivi di ripristino aumenta la vulnerabilità del tuo account.</span>",
+                "remove": "Prima di rimuovere le chiavi esistenti e i metodi di ripristino, assicurati di aver registrato e archiviato in modo sicuro la passphrase del Ledger."
+            },
+            "two": {
+                "remove": "Se perdi l'accesso alla tua passphrase, NEAR Inc. non sarà in grado di assisterti nel recupero del tuo account e dei suoi fondi."
+            }
+        },
+        "one": "Ti consigliamo di rimuovere tutte le chiavi esistenti (metodi di ripristino e dispositivi).",
+        "primaryCta": "Rimuovere le chiavi esistenti e i metodi di ripristino",
+        "secondaryCta": "Conserva le chiavi esistenti",
+        "two": "Il mantenimento di più chiavi e metodi di ripristino (comprese le passphrase) aumenta la vulnerabilità del tuo account."
+    },
+    "setupRecovery": {
+        "advancedSecurity": "Più sicuro (consigliato)",
+        "advancedSecurityDesc": "Annota una passphrase di 12 parole o proteggi il tuo account con il tuo dispositivo Ledger.",
+        "basicSecurity": "Più conveniente",
+        "basicSecurityDesc": "Inserisci il tuo indirizzo email o numero di telefono e riceverai un link magico",
+        "emailDesc": "Ricevi un codice di verifica e un link per il recupero dell'account via e-mail.",
+        "emailPlaceholder": "example@email.com",
+        "emailTitle": "Email",
+        "existingPhraseDesc": "Proteggi il tuo nuovo indirizzo condividendo una passphrase esistente.",
+        "existingPhraseTitle": "Usa una passphrase esistente",
+        "header": "Scegli un metodo di protezione",
+        "ledgerDesc": "Proteggi il tuo account con un dispositivo hardware Ledger.",
+        "ledgerTitle": "Portafoglio Hardware Ledger",
+        "newPhraseDesc": "Proteggi il tuo nuovo indirizzo con una nuova e unica passphrase.",
+        "newPhraseTitle": "Genera una nuova passphrase",
+        "notSupportedPhone": "Sfortunatamente, non supportiamo gli SMS per la tua regione. Scegli invece l'e-mail.",
+        "phoneDesc": "Ricevi un codice di verifica e un link per il recupero dell'account tramite SMS.",
+        "phonePlaceholder": "+1 415 797 8554",
+        "phoneTitle": "Telefono",
+        "phraseDesc": "Genera e archivia in modo sicuro una passphrase univoca.",
+        "phraseTitle": "Metti al sicuro la tua Passphrase",
+        "subHeader": "Seleziona un metodo per proteggere e recuperare il tuo account. Questo verrà utilizzato per verificare attività importanti, recuperare il tuo account e accedere al tuo account da altri dispositivi."
+    },
+    "setupSeedPhrase": {
+        "pageText": "Annota le seguenti parole IN ORDINE e conservale in un posto sicuro. Non puoi recuperare il tuo account senza di loro!",
+        "pageTitle": "Imposta Frase",
+        "snackbarCopyImplicitAddress": "Indirizzo di finanziamento copiato!",
+        "snackbarCopySuccess": "Passphrase copiata!"
+    },
+    "setupSeedPhraseSuccess": {
+        "pageText": "Usa la tua frase di recupero per ripristinare il tuo account.",
+        "pageTextSecondLine": "Chiunque abbia accesso alla tua frase di recupero può accedere ai tuoi fondi, quindi tienila offline in un luogo sicuro e protetto.",
+        "pageTitle": "La configurazione del ripristino è completata"
+    },
+    "setupSeedPhraseVerify": {
+        "inputError": "Controlla la tua passphrase e riprova.",
+        "pageText": "Inserisci la seguente parola dalla frase di ripristino per completare il processo di installazione.",
+        "pageTitle": "Verifica Frase",
+        "startOverText": "Non l'hai scritto?"
+    },
+    "sign": {
+        "accountNotFound": {
+            "body": "<a href=\"${signCallbackUrl}\">${signCallbackUrl}</a> sta richiedendo l'autorizzazione da un account NEAR che non può essere trovato: <b>${signTransactionSignerId}</b><br/><br />Per approvare qualsiasi transazione, devi prima importare l'account.",
+            "title": "Account Non Trovato"
+        },
+        "ActionWarrning": {
+            "binaryData": "Gli argomenti contengono dati binari",
+            "deleteAccount": "Stai per cancellare il tuo account! Il tuo saldo NEAR verrà distrutto e tutti i dati del tuo account verranno eliminati.",
+            "deployContract": "Stai per implementare un contratto sul tuo account! Questo contratto può accedere al tuo saldo NEAR e interagire con altri contratti per tuo conto.",
+            "functionCall": "Nessuna descrizione specificata per questa funzione.",
+            "stake": "Stai per mettere in staking NEAR token. Questi token verranno bloccati e rischiano di essere persi se il tuo validatore non risponde."
+        },
+        "approveTransaction": "Approva Transazione",
+        "authorizationRequestSuccessful": "Richiesta di autorizzazione riuscita",
+        "authorizing": "Autorizzando",
+        "availableBalance": "Saldo Disponibile",
+        "availableToTransfer": "Disponibilità per il trasferimento",
+        "contract": "Contratto:",
+        "contractDetails": "Dettagli del Contrato",
+        "details": {
+            "detailedDescription": "Descrizione dettagliata della transazione",
+            "forContract": "Per contratto",
+            "gasLimit": "Limite di gas",
+            "gasPriceUnavailable": "Il preventivo del prezzo del gas non è disponibile",
+            "transactionFees": "Commissioni di transazione"
+        },
+        "estimatedFees": "Commissioni stimate",
+        "feeLimit": "Limite delle commissioni",
+        "function": "Funzione:",
+        "gasLimit": "Limite del gas",
+        "hereAreSomeDetails": "Ecco alcuni dettagli che ti aiuteranno.",
+        "insufficientFunds": "Fondi insufficienti",
+        "insufficientFundsDesc": "Non hai abbastanza disponibilità di NEAR per completare questa transazione.",
+        "invalidTransaction": {
+            "body": "La richiesta non è valida e non può essere firmata.",
+            "title": "Transazione invalida"
+        },
+        "isRequesting": {
+            "authorization": "chiede autorizzazione",
+            "transferOf": "chiede il trasferimento di"
+        },
+        "networkFees": "Commissioni di rete",
+        "nothingHasBeenTransferred": "Non è stato trasferito nulla.",
+        "retry": {
+            "estimatedFees": "Commissioni stimate",
+            "feeLimit": "Limite delle commissioni",
+            "link": "Qual è il limite delle commissioni?",
+            "networkFees": "Commissioni di rete",
+            "text": "La tariffa di rete predefinita non era sufficiente a coprire il costo della transazione.<br/><br/>Puoi inviare nuovamente la transazione per far aumentare automaticamente il limite di commissione.",
+            "title": "Commissione di rete insufficiente"
+        },
+        "transactionCancelled": "Transazione annullata",
+        "transactionDetails": "Dettagli della Transazione",
+        "transferring": "Trasferimento",
+        "unexpectedStatus": "Stato imprevisto",
+        "unknownApp": "App sconosciuta",
+        "wasTransferredSuccessfully": "è stato trasferito con successo"
+    },
+    "signInLedger": {
+        "advanced": {
+            "desc": "Specificare un percorso HD per importare i relativi account collegati.",
+            "setPath": "Imposta percorso HD",
+            "subTitle": "Percorso HD",
+            "title": "Opzioni avanzate"
+        },
+        "firefoxBanner": {
+            "desc": "Ledger è attualmente supportato solo in <a href='https://www.mozilla.org/' rel='noopener noreferrer' target='_blank'><b>Mozilla Firefox</b></a>. Il supporto per altri browser sarà presto ripristinato."
+        },
+        "header": "Accedi con il tuo dispositivo Ledger",
+        "modal": {
+            "accountsApproved": "account approvati",
+            "confirmPublicKey": "Conferma chiave pubblica",
+            "ledgerMustAdd": "Il Ledger deve aggiungere una chiave di accesso per ogni account protetto dal tuo dispositivo:",
+            "status": {
+                "confirm": "Conferma",
+                "error": "Errore",
+                "pending": "In attesa di",
+                "rejected": "Rifiutato",
+                "success": "Approvato",
+                "waiting": "In arrivo"
+            }
+        },
+        "one": "Assicurati che il tuo Ledger sia collegato in modo sicuro e che l'app NEAR sia aperta sul dispositivo."
+    },
+    "stagingBanner": {
+        "desc": "Avvertenza: questa è una versione pre-release del NEAR Wallet. Potrebbero esserci bug e questi bug possono portare alla perdita di fondi. Continuando a utilizzare questa versione, accetti di comprendere e accettare questi rischi e che il team di NEAR Wallet non sarà in grado di aiutarti.",
+        "title": "Avvertenza: questa è una versione non definitiva di Wallet. Utilizzare a proprio rischio!"
+    },
+    "stakedBalance": "Questo NEAR viene utilizzato attivamente per supportare un validatore e proteggere la rete. Quando decidi di togliere dallo staking i tuoi NEAR, ci vorrà del tempo prima che venga mostrato nel tuo saldo disponibile, poiché NEAR impiega 4 epoche (~52-65 ore) per sbloccare i NEAR.",
+    "staking": {
+        "alertBanner": {
+            "button": "Visualizza validatore corrente",
+            "title": "Devi prima disimpegnare e ritirare i tuoi token dal tuo attuale validatore per poter mettere in staking con un nuovo validatore."
+        },
+        "amountStakingInput": {
+            "placeholder": "esempio: 15",
+            "title": "Inserisci l'importo da mettere in staking"
+        },
+        "balanceBanner": {
+            "currency": "NEAR",
+            "title": "Saldo disponibile del lockup"
+        },
+        "balanceBox": {
+            "available": {
+                "button": "Ritira",
+                "info": "Questi token sono stati disimpegnati e sono pronti per essere ritirati.",
+                "title": "Disponibile per il ritiro"
+            },
+            "farm": {
+                "button": "Riscatta",
+                "info": "Questo validatore offre le ricompense dello staking in un token che non è NEAR."
+            },
+            "pending": {
+                "info": "I token non sono più in staking, ma non sono ancora pronti per essere ritirati. I token sono pronti per il ritiro da 52 a 65 ore dopo l'annullamento dello staking.",
+                "title": "In attesa del rilascio"
+            },
+            "staked": {
+                "button": "Unstake",
+                "info": "Token NEAR attualmente in staking con validatori. Questi token stanno accumulando ricompense. Per accedere a questi token, devi prima disimpegnarli e poi ritirarli.",
+                "title": "Importo totale in staking"
+            },
+            "unclaimed": {
+                "info": "Le ricompense che sono state guadagnate, ma non ritirate. I premi guadagnati vengono <a target='_blank' href='https://www.investopedia.com/terms/c/compoundinterest.asp'>composizione</a> automaticamente reimpegnati.",
+                "title": "Ricompense guadagnate",
+                "unavailable": {
+                    "cta": "Per saperne di più",
+                    "modalDescOne": "Al momento non siamo in grado di calcolare le ricompense quando è abilitata l'autenticazione a due fattori. Ci auguriamo di poter abilitare questa funzionalità nel prossimo futuro.",
+                    "modalDescTwo": "Nel frattempo, potrai vedere i tuoi premi accumularsi in ”Importo totale impegnato”,. Questo saldo aumenterà durante lo staking dei tuoi token, poiché le tue ricompense vengono automaticamente riassegnate con il tuo validatore attuale.",
+                    "modalTitle": "Impossibile visualizzare le ricompense di staking guadagnate",
+                    "title": "Impossibile visualizzare le ricompense guadagnate."
+                }
+            }
+        },
+        "noValidators": {
+            "title": "Al momento non stai facendo staking con alcun validatore."
+        },
+        "pageText": "Configura il tuo nodo tramite CLI, quindi aggiungilo qui.",
+        "pageTitle": "Staking",
+        "stake": {
+            "accounts": "Se hai bloccato dei NEAR, puoi scegliere di mettere in staking i tuoi NEAR in lockup (lockup.near) o il tuo saldo NEAR sbloccato (il nome del tuo account). Vedrai solo le posizioni di staking per il conto selezionato. Se non hai bloccato NEAR, puoi ignorare questa sezione",
+            "amount": "Quantità",
+            "banner": {
+                "insufficientBalance": "Stai tentando di mettere in staking l'intero saldo disponibile. Almeno <b>${data} NEAR</b> deve essere riservato per coprire le commissioni di transazione.",
+                "stakeMax": "Una piccola parte (${data} NEAR) del tuo saldo disponibile è stata riservata per coprire le commissioni di transazione."
+            },
+            "button": "Conferma lo Staking",
+            "confirm": "Stai facendo staking",
+            "desc": "Inserisci l'importo da mettere in staking con il validatore da te scelto.",
+            "from": "da",
+            "input": {
+                "availableBalance": "Saldo disponibile",
+                "near": "NEAR"
+            },
+            "ledgerDisclaimer": "Nota: poiché questa è la prima volta che metti in staking con questo validatore, dovrai confermare due transazioni.",
+            "stakeWith": "Metti in staking con",
+            "title": "Quantità messa in staking",
+            "useMax": "Utilizza il massimo",
+            "with": "con"
+        },
+        "stakeSuccess": {
+            "button": "Torna alla dashboard",
+            "desc": "Il tuo stake è stato delegato con successo al validatore scelto:",
+            "descTwo": "Ora puoi visualizzare l'ammontare' delegato e le ricompense di staking dalla dashboard di staking.",
+            "title": "Successo!"
+        },
+        "staking": {
+            "available": "Saldo disponibile",
+            "button": "Metti in stake i Miei Tokens",
+            "currentValidators": "I tuoi attuali validatori",
+            "desc": "Metti in Staking i tuoi token NEAR con un validatore",
+            "noValidators": "Non hai ancora messo in staking alcun validatore.",
+            "selectAccount": "Staking da",
+            "title": "Staking",
+            "totalStaked": "Messo in Staking"
+        },
+        "unstake": {
+            "beforeUnstakeDisclaimer": "I token tolti dallo staking saranno resi disponibili in attesa di un periodo di rilascio di circa 52-65 ore (4 epoche).",
+            "button": "Togli i Tokens dallo staking",
+            "confirm": "Stai facendo unstaking",
+            "desc": "Inserisci il numero di token che vorresti riprendere dal tuo attuale validatore.",
+            "input": {
+                "availableBalance": "Disponibile per fare unstake",
+                "near": "NEAR"
+            },
+            "stakeWith": "Unstake da",
+            "title": "Fai Unstake dei Tokens"
+        },
+        "unstakeSuccess": {
+            "button": "Torna alla Dashboard",
+            "desc": "<b>${amount}</b> è stato riscosso con successo da questo validatore:",
+            "descTwo": "I tuoi token sono in attesa di rilascio e saranno resi disponibili entro ~52-65 ore (4 epoche).",
+            "title": "Successo!"
+        },
+        "validator": {
+            "activeStake": "Stake Attivo",
+            "apy": "APY",
+            "button": "Stake con il Validatore",
+            "claimFarmRewards": "Stai riscuotendo",
+            "claiming": "Riscuotendo",
+            "desc": "Questa è la commissione pagata al validatore per scommettere per tuo conto. Questa commissione viene addebitata solo sulle tue ricompense.",
+            "errorClaimRewards": "Qualcosa è andato storto durante la richiesta delle ricompense della tua fattoria. Per favore riprova più tardi",
+            "fee": "Commissione di convalida",
+            "notWhitelistedTokenWarning": "Questo token non è stato autorizzato da ref-finance. Procedete a vostro rischio.",
+            "notWhitelistedValidatorWarning": "I token assegnati da questo validatore non sono stati inseriti nella whitelist da ref-finance. Procedete a vostro rischio.",
+            "rewards": "Ricompense",
+            "title": "Convalidatore: <br/>${validator}",
+            "unstake": "Stai unstaking",
+            "withdraw": "Ti stai ritirando",
+            "withdrawalDisclaimer": "I fondi in attesa di rilascio saranno resi disponibili dopo circa 52-65 ore (4 epoche)"
+        },
+        "validatorBox": {
+            "cta": "Seleziona",
+            "farming": "coltivando",
+            "fee": "Commissione",
+            "near": "NEAR",
+            "staking": "Staking",
+            "state": {
+                "active": "attivo",
+                "inactive": "non attivo"
+            },
+            "with": "con"
+        },
+        "validators": {
+            "available": "Validatori disponibili",
+            "button": "Visualizza validatore",
+            "desc": {
+                "account": "Inserisci un validatore conosciuto o seleziona un validatore dall'elenco per mettere in staking i tuoi token NEAR.",
+                "lockup": "Inserisci un validatore conosciuto o seleziona un validatore dall'elenco per mettere in staking i tuoi token NEAR. Puoi mettere in staking solo con un solo validatore alla volta.",
+                "unstake": "Seleziona il pool di validatori da cui desideri ritirare lo stake dei tuoi token.",
+                "withdraw": "Seleziona il pool di validatori da cui desideri prelevare i tuoi token."
+            },
+            "inputLabel": "Account ID del validatore",
+            "inputPlaceholder": "nome-validatore.near",
+            "search": {
+                "error": "Nessun validatore corrispondente.",
+                "success": "Validatore trovato!"
+            },
+            "title": "Seleziona un validatore"
+        }
+    },
+    "stakingPoolUnstaked": "Questi NEAR sono attualmente in un pool di staking ma non sono attualmente in staking. Potrebbe ad esempio essere in uno stato di attesa di rilascio.",
+    "success": "Successo",
+    "sync": "Sync",
+    "tokenBox": {
+        "priceUnavailable": "Prezzo non disponibile"
+    },
+    "topLevelAccounts": {
+        "body": "I nomi degli account sono simili ai nomi di un dominio. Solo l'account ${data} può creare un account come il tuonome.${data} e solo il tuonome.${data} può creare app.tuonome.${data}. Tutti gli account creati in questo portafoglio utilizzano l'account di livello superiore (TLA) .${data}. Per ulteriori informazioni sui nomi degli account e sulla creazione del tuo TLA, visita i <a rel='noopener noreferrer' href='https://docs.nearprotocol.com/docs/concepts/account'>docs</a>.",
+        "header": "Conti di primo livello"
+    },
+    "total": "totale",
+    "totalBalance": "Il tuo saldo totale rappresenta tutti i token NEAR sotto il tuo controllo. In molti casi, non avrai accesso immediato all'intero saldo (ad es. se è bloccato, delegato o in staking). Controlla il tuo saldo disponibile per i NEAR che puoi utilizzare, trasferire, delegare e mettere attivamente in staking.",
+    "transaction": {
+        "status": {
+            "checkingStatus": "Controllando stato...",
+            "Failure": "Fallito",
+            "notAvailable": "Stato non disponibile",
+            "NotStarted": "Non iniziato",
+            "Started": "Iniziato",
+            "SuccessValue": "Successo"
+        }
+    },
+    "transfer": {
+        "estimatedFees": "Commissioni stimate",
+        "from": "Da",
+        "to": "A"
+    },
+    "twoFactor": {
+        "action": {
+            "addKey": {
+                "full": "ATTENZIONE: l'inserimento del codice sottostante autorizzerà l'accesso completo al tuo account NEAR: ${accountId}. Se non hai avviato questa azione, NON continuare.<br /><br />Questo dovrebbe essere fatto solo se stai aggiungendo una nuova chiave di accesso completo al tuo account. In tutti gli altri casi, questo è molto pericoloso.<br /><br /> La chiave pubblica che stai aggiungendo è: ${publicKey}",
+                "limited": "Aggiungendo chiave ${publicKey} limitato a chiamare ${methodNames} su ${receiverId} e di spendere fino a ${allowance} NEAR sul gas"
+            },
+            "deleteKey": "Eliminazione chiave ${publicKey}",
+            "functionCall": "Metodo di chiamata: ${methodName} in contratto: ${receiverId} con quantità ${deposit} NEAR e con args: <pre>${args}</pre>",
+            "stake": "Staking: ${amount} NEAR al validatore: ${receiverId}",
+            "transfer": "Transferimento: ${amount} NEAR a ${receiverId}"
+        },
+        "active": "Attivo",
+        "alertBanner": {
+            "button": "Per saperne di più",
+            "title": "Se abilitato, <b>${data}</b> verrà bloccato per coprire i costi di archiviazione del contratto dell'autenticazione a due fattori."
+        },
+        "checkBox": "Prendo atto che abilitando l'autenticazione a due fattori, ${amount} sarà riservato per coprire l'archiviazione del contratto.",
+        "desc": "Proteggi il tuo account richiedendo conferma via SMS o e-mail quando autorizzi le transazioni.",
+        "disable": {
+            "desc": "Tieni presente che le transazioni non dovranno essere confermate con 2FA una volta disabilitato.",
+            "disable": "Disabilita 2FA",
+            "keep": "No, mantieni 2FA",
+            "phoneDesc": "L'opzione SMS per l'autenticazione a due fattori è deprecata e non può essere riattivata.",
+            "title": "Sei sicuro di voler disabilitare 2FA?"
+        },
+        "email": "Email",
+        "enable": "Abilita l'autenticazione a due fattori",
+        "notEnabled": "2FA non abilitato",
+        "notEnoughBalance": "Per abilitare la 2FA, il tuo account richiede un saldo minimo disponibile di ${amount}",
+        "phone": "Telefono",
+        "promptDesc": "Ti consigliamo vivamente di impostare un metodo di autenticazione a due fattori per aumentare la sicurezza del tuo account e delle tue risorse",
+        "select": "Seleziona Metodo di autenticazione",
+        "since": "da",
+        "subHeader": "L'autenticazione a due fattori aggiunge un ulteriore livello di sicurezza al tuo account. <b>Le chiavi passphrase e Ledger continuano a consentire l'accesso completo al tuo account.</b>",
+        "title": "Autenticazione a due fattori",
+        "verify": {
+            "desc": "È stato inviato un codice di verifica a 6 cifre a:",
+            "didntReceive": "Non hai ricevuto il tuo codice?",
+            "inputLabel": "Inserisci il tuo codice di verifica a 6 cifre",
+            "placeholder": "Codice di Verifica",
+            "resend": "Reinvia",
+            "resending": "Inviando...",
+            "resent": "Codice inviato!",
+            "title": "Inserisci il codice di verifica a due fattori"
+        }
+    },
+    "unlockedAvailTransfer": "Questi NEAR sono sbloccati e possono essere trasferiti fuori dal contratto di lockup.",
+    "unlockedBalance": "Questi NEAR sono ancora nel contratto di lockup, ma sono sbloccati.",
+    "unvestedBalance": "Degli Unvested NEAR ti sono stati assegnati, ma non sono ancora di tua proprietà. Puoi ancora delegare o mettere in staking questi NEAR, e le ricompense saranno interamente tue. Man mano che acquisisci NEAR viene acquisito, essi appariranno nel tuo saldo Bloccato o Sbloccato.",
+    "verifyAccount": {
+        "desc": "Per prevenire lo spamming di nuovi account, dovremo verificare se sei il proprietario. Puoi effettuare la verifica utilizzando una password monouso (OTP) o effettuando un piccolo deposito iniziale.",
+        "descNoFunding": "Scegli un metodo di seguito per finanziare e inizializzare il tuo nuovo account.",
+        "modal": {
+            "email": {
+                "desc": "Dovrai utilizzare un indirizzo email diverso o selezionare un metodo alternativo per verificare questo account. Puoi comunque utilizzare questo indirizzo come metodo di ripristino.",
+                "title": "Questo indirizzo email è già stato utilizzato per verificare un altro account."
+            },
+            "phone": {
+                "desc": "Dovrai utilizzare un numero di telefono diverso o selezionare un metodo alternativo per verificare questo account. Puoi ancora utilizzare questo numero come metodo di recupero.",
+                "title": "Questo numero di telefono è già stato utilizzato per verificare un altro account."
+            }
+        },
+        "option": {
+            "creditCard": {
+                "desc": "Acquista NEAR tramite MoonPay per utilizzare il tuo deposito iniziale.",
+                "title": "Invia i fondi tramite carta di credito"
+            },
+            "email": {
+                "desc": "Ricevi un codice di verifica una tantum via email.",
+                "title": "Email"
+            },
+            "existingAccount": {
+                "desc": "Utilizza un account esistente per finanziare e inizializzare il tuo nuovo account.",
+                "title": "Invia i fondi con un conto esistente"
+            },
+            "manualDeposit": {
+                "desc": "Invia un deposito manualmente tramite un conto monouso.",
+                "title": "Deposito manuale"
+            },
+            "phone": {
+                "desc": "Ricevi un codice di verifica una tantum tramite SMS.",
+                "title": "Telefono"
+            }
+        },
+        "options": {
+            "initialDeposit": "Deposito iniziale",
+            "passCode": "Codice di accesso una tantum"
+        },
+        "title": "Ci siamo quasi! Verifica il tuo nuovo account.",
+        "titleNoFunding": "Ci siamo quasi! Finanzia il tuo nuovo account."
+    },
+    "wallet": {
+        "availableBalance": "saldo disponibile",
+        "balance": "Saldo",
+        "balances": "Saldi",
+        "balanceTitle": "Saldo NEAR",
+        "collectibles": "Collectibles",
+        "dateAndTime": "Data e Ora",
+        "depositNear": {
+            "desc": "Avrai bisogno di token NEAR per eseguire transazioni con il tuo wallet.",
+            "title": "Deposita NEAR"
+        },
+        "status": "Stato",
+        "tokenBalance": "Saldo delToken",
+        "tokens": "Tokens",
+        "totalBalance": "Saldo Totale",
+        "totalBalanceTitle": "Saldo Totale",
+        "yourPortfolio": "Il tuo Portfolio"
+    },
+    "walletErrorCodes": {
+        "addAccessKey": {
+            "error": "Si è verificato un errore.<br />Per accedere al tuo account, inserisci di seguito la passphrase visibile nel passaggio precedente."
+        },
+        "addAccessKeySeedPhrase": {
+            "errorSecond": "Si è verificato un errore.<br />La passphrase non è stata aggiunta al tuo account. Per favore riprova."
+        },
+        "addLedgerAccountId": {
+            "errorRpc": "Viene identificato un errore durante il recupero dell'account."
+        },
+        "createNewAccount": {
+            "accountCreated": {
+                "error": "La creazione dell'account è riuscita ma si è verificato un errore. Per favore importa il tuo account."
+            },
+            "accountExists": {
+                "error": "Creazione dell'account non riuscita. L'account esiste già."
+            },
+            "error": "Creazione dell'account non riuscita. Potresti voler riprovare."
+        },
+        "emailProviderInvalid": "${domainName} non può essere utilizzato per la verifica dell'account. Si prega di fornire un indirizzo e-mail di un altro provider di posta elettronica.",
+        "getLedgerAccountIds": {
+            "aborted": "L'azione è stata interrotta.",
+            "noAccounts": "Non sono stati trovati account per questo dispositivo Ledger. Conferma di aver associato un account a questo Ledger.",
+            "noAccountsAccepted": "Nessun account è stato accettato.",
+            "U2FNotSupported": "Per il Ledger è necessario il supporto del browser U2F. Si prega di utilizzare Chrome, Opera o Firefox con estensione U2F."
+        },
+        "invalidRecaptchaCode": "Codice reCAPTCHA non valido; riprova!",
+        "lockup": {
+            "transferAllWithStakingPoolBalance": "Annulla e preleva tutti i fondi dal pool di staking per trasferire al Wallet il saldo di lockup residuo."
+        },
+        "promptTwoFactor": {
+            "userCancelled": "Il codice 2FA non è stato verificato correttamente."
+        },
+        "recoverAccountLink": {
+            "error": "Importazione del tuo account non riuscita. Riprova o contatta il supporto per assistenza."
+        },
+        "recoverAccountSeedPhrase": {
+            "errorInvalidSeedPhrase": "Non sono stati trovati account per questa passphrase."
+        },
+        "recoveryMethods": {
+            "lastMethod": "Impossibile eliminare l'ultimo metodo di ripristino. A meno che tu non abbia abilitato Ledger, devi mantenere attivo almeno un metodo di recupero per garantire la recuperabilità del tuo account.",
+            "setupMethod": "Si è verificato un errore. Si prega di controllare il metodo di recupero."
+        },
+        "sendFungibleToken": {
+            "error": "Si è verificato un errore. La tua transazione di invio è stata annullata."
+        },
+        "setupRecoveryMessage": {
+            "error": "Si è verificato un errore durante la configurazione del metodo di ripristino. Per favore riprova!"
+        },
+        "setupRecoveryMessageNewAccount": {
+            "invalidCode": "Codice non VALIDO"
+        },
+        "signAndSendTransactions": {
+            "notEnoughTokens": "Non hai abbastanza gettoni."
+        },
+        "staking": {
+            "noLockup": "Nessun contratto di blocco per l'account",
+            "noWithdraw": "Impossibile prelevare il saldo in sospeso dal validatore"
+        }
+    },
+    "warning": "Avvertimento"
+}
