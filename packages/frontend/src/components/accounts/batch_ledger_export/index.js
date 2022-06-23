@@ -80,7 +80,7 @@ const BatchLedgerExport = ({ onCancel }) => {
     const showSuccessScreen = useMemo(() => completed && state.accounts.some((account) => account.status === IMPORT_STATUS.SUCCESS), [completed, state.accounts]);
 
     if (showSuccessScreen) {
-        return <BatchImportAccountsSuccessScreen accounts={accountsApproved} />;
+        return <BatchImportAccountsSuccessScreen accounts={accountsApproved} customTitleId="batchExportAccounts.successScreen.title" />;
     }
 
     return (
