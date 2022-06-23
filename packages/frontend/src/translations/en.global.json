@@ -1815,7 +1815,7 @@
     },
     "walletMigration": {
         "migrateAccounts": {
-            "desc": "Select the account you would like to transfer to MyNearWallet.",
+            "desc": "The following accounts will be transferred to MyNearWallet.",
             "title": "We found ${count} active accounts."
         },
         "migrationPrompt": {
