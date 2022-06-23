@@ -202,7 +202,7 @@ export default class Wallet {
         if (accessKeys) {
             const localKey = await this.getLocalAccessKey(accountId, accessKeys);
             const ledgerKey = accessKeys.find((accessKey) => accessKey.meta.type === 'ledger');
-            if (ledgerKey && (!localKey || localKey.access_key.permission !== 'FullAccess')) {
+            if (ledgerKey && (!localKey || localKey.access_key.permission !== 'FullAccess') && !this.isMultisigKeyInfoView(accountId, localKey)) {
                 return PublicKey.from(ledgerKey.public_key);
             }
         }
@@ -658,7 +658,6 @@ export default class Wallet {
                 await store.dispatch(switchAccount({accountId: account.accountId}));
             }
             await account.addKey(ledgerPublicKey);
-            await setKeyMeta(ledgerPublicKey, {});
         }
     }
 
