@@ -8,7 +8,7 @@ import ShieldIcon from '../../../images/icon-shield.svg';
 import ImportArrow from '../../../images/import-arrow.svg';
 import { selectAccountUrlReferrer } from '../../../redux/slices/account';
 import { selectAvailableAccounts, selectAvailableAccountsIsLoading } from '../../../redux/slices/availableAccounts';
-import { decodeAccountFrom } from '../../../utils/encoding';
+import { decodeAccountsFrom } from '../../../utils/encoding';
 import getWalletURL from '../../../utils/getWalletURL';
 import FormButton from '../../common/FormButton';
 import FormButtonGroup from '../../common/FormButtonGroup';
@@ -146,23 +146,18 @@ const EnterPublicKeyForm = ({ onCancel, onPublicKey }) => {
     );
 };
 
-const ImportAccounts = ({
-    accountId,
-    secret,
-    onCancel,
-    ledgerHd,
-}) => {
+const ImportAccounts = ({ accountsData, onCancel }) => {
     const availableAccountsIsLoading = useSelector(selectAvailableAccountsIsLoading);
     const availableAccounts = useSelector(selectAvailableAccounts);
     const accountUrlReferrer = useSelector(selectAccountUrlReferrer);
-
     const [state, dispatch] = useImmerReducer(reducer, {
-        accounts: [{
-            accountId,
-            status: accountId ? null : IMPORT_STATUS.FAILED,
-            key: secret,
-            ledgerHdPath: ledgerHd,
-        }]
+        accounts: accountsData.map(([accountId, key, ledgerHdPath]) => ({
+                accountId,
+                status: null,
+                key,
+                ledgerHdPath,
+            })
+        ),
     });
 
     const currentAccount = useMemo(() => state.accounts.find((account) => account.status === IMPORT_STATUS.PENDING), [state.accounts]);
@@ -273,24 +268,20 @@ const ImportAccounts = ({
 };
 
 const BatchImportAccounts = ({ onCancel }) => {
-    const [accoundData, setAccountData] = useState(null);
+    const [accountsData, setAccountsData] = useState(null);
 
     const handlePublicKey = useCallback((publicKey) => {
-        setAccountData(decodeAccountFrom(location.hash, publicKey));
+        setAccountsData(decodeAccountsFrom(location.hash, publicKey));
     }, []);
 
-    if (!accoundData) {
+    if (!accountsData) {
         return <EnterPublicKeyForm
             onCancel={onCancel}
             onPublicKey={handlePublicKey} />;
     }
 
-    const [accountId, secret, ledgerHd] = accoundData;
-
     return <ImportAccounts
-        accountId={accountId}
-        secret={secret}
-        ledgerHd={ledgerHd}
+        accountsData={accountsData}
         onCancel={onCancel} />;
 };
 
