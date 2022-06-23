@@ -40,53 +40,51 @@ const CustomContainer = styled.div`
 `;
 
 const PublicKeyFormContainer = styled.div`
-    &&&&& {
-        padding: 15px 0 10px 0;
+    padding: 15px 0 10px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+
+    label {
+        text-align: left;
         display: flex;
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
+        background-color: #F5FAFF;
+        margin: 25px -25px 0 -25px;
+        padding: 15px 25px;
+        line-height: 1.5;
 
-        h3 {
-            margin: 15px 0;
-            font-size: 18px;
-            font-weight: 700;
-        }
-
-        p {
-            line-height: 1.5;
-            font-size: 14px;
-        }
-
-        label {
-            text-align: left;
-            display: flex;
-            background-color: #F5FAFF;
-            margin: 25px -25px 0 -25px;
-            padding: 15px 25px;
-            line-height: 1.5;
-
+        > div {
             > div {
-                > div {
-                    border-color: #0081F1;
-                }
-            }
-
-            > span {
-                margin-left: 10px;
-                word-break: break-word;
-                color: #006ADC;
-            }
-
-            b {
-                color: #272729;
+                border-color: #0081F1;
             }
         }
 
-        > button {
-            width: 100%;
+        > span {
+            margin-left: 10px;
+            word-break: break-word;
+            color: #006ADC;
+        }
+
+        b {
+            color: #272729;
         }
     }
+
+    > button {
+        width: 100%;
+    }
+`;
+
+const Title = styled.h3`
+    margin: 15px 0;
+    font-size: 18px;
+    font-weight: 700;
+`;
+
+const Description = styled.p`
+    line-height: 1.5;
+    font-size: 14px;
 `;
 
 export const IMPORT_STATUS = {
@@ -114,8 +112,8 @@ const EnterPublicKeyForm = ({ onCancel, onPublicKey }) => {
             style={{ maxWidth: '496px' }}
         >
             <PublicKeyFormContainer>
-                <h3><Translate id='batchImportAccounts.enterKeyForm.title' /></h3>
-                <p><Translate id='batchImportAccounts.enterKeyForm.desc' /></p>
+                <Title><Translate id='batchImportAccounts.enterKeyForm.title' /></Title>
+                <Description><Translate id='batchImportAccounts.enterKeyForm.desc' /></Description>
                 <Translate>
                     {({ translate }) => (
                         <>
