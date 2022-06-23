@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from 'react';
+import React from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
