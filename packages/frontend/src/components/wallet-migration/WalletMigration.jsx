@@ -1,13 +1,13 @@
 import React, { useCallback, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
-import { isWhitelabelTestnet } from '../../config/whitelabel';
 import { selectAvailableAccounts } from '../../redux/slices/availableAccounts';
 import {
     keyToString,
     generateKeyPair,
     encodeAccountsTo
 } from '../../utils/encoding';
+import getMyNearWalletUrl from '../../utils/getWalletURL';
 import { getLedgerHDPath } from '../../utils/localStorage';
 import { wallet } from '../../utils/wallet';
 import MigrateAccounts from './MigrateAccounts';
@@ -40,8 +40,7 @@ const encodeAccountsToURL = async (accounts, publicKey) => {
     }
 
     const hash = encodeAccountsTo(accountsData, publicKey);
-    const subdomain = isWhitelabelTestnet() ? 'testnet' : 'app';
-    const href = `https://${subdomain}.mynearwallet.com/batch-import#${hash}`;
+    const href = `https://${getMyNearWalletUrl()}/batch-import#${hash}`;
 
     return href;
 };
