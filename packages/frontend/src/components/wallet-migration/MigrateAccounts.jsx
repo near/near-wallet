@@ -1,10 +1,9 @@
-import React, {useCallback, useState} from 'react';
+import React from 'react';
 import { Translate } from 'react-localize-redux';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 
 import IconAccount from '../../images/wallet-migration/IconAccount';
 import IconMigrateAccount from '../../images/wallet-migration/IconMigrateAccount';
-import { wallet } from '../../utils/wallet';
 import FormButton from '../common/FormButton';
 import Modal from '../common/modal/Modal';
 
@@ -38,10 +37,6 @@ const AccountListingItem = styled.div`
     padding: 16px 32px;
     cursor: pointer;
     overflow: hidden;
-    
-    ${(props) => props.isSelected && css`
-      background-color: rgb(214, 237, 255);
-    `}
 
     &:not(:first-child) {
         border-top: 1px solid #EDEDED;
@@ -70,18 +65,6 @@ const StyledButton = styled(FormButton)`
 `;
 
 const MigrateAccounts = ({ accounts, onContinue, onClose }) => {
-    const [selectedAccountId, setSelectedAccountId] = useState(wallet.accountId);
-
-    const handleAccountSelect = useCallback(({ currentTarget }) => {
-        const { accountid }  = currentTarget.dataset;
-        setSelectedAccountId(accountid);
-    }, []);
-
-    const handleContinueClick = useCallback(async () => {
-        onContinue(selectedAccountId);
-
-    }, [selectedAccountId]);
-
   return (
       <Modal
           modalClass='slim'
@@ -105,9 +88,7 @@ const MigrateAccounts = ({ accounts, onContinue, onClose }) => {
                     accounts.map((account) => (
                         <AccountListingItem
                             key={account}
-                            isSelected={account === selectedAccountId}
-                            data-accountid={account}
-                            onClick={handleAccountSelect}>
+                            data-accountid={account}>
                             <IconAccount/> {account}
                         </AccountListingItem>
                     ))
@@ -118,9 +99,7 @@ const MigrateAccounts = ({ accounts, onContinue, onClose }) => {
                 <StyledButton className='gray-blue' onClick={onClose}>
                     <Translate id='button.cancel' />
                 </StyledButton>
-                <StyledButton
-                    disabled={!Boolean(selectedAccountId)}
-                    onClick={handleContinueClick}>
+                <StyledButton onClick={onContinue}>
                     <Translate id='button.continue' />
                 </StyledButton>
             </ButtonsContainer>
