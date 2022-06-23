@@ -195,6 +195,20 @@
         "available": "Available balance",
         "reserved": "Reserved for fees"
     },
+    "batchExportAccounts": {
+        "confirmExportModal": {
+            "accountToExport": "Account to Export",
+            "title": "Approve Account Export",
+            "transactionDetails": "+ Transaction Details"
+        },
+        "exportScreen": {
+            "desc": "Begin your export and confirm each account </br> when prompted.",
+            "weFound": "We found ${noOfAccounts} accounts to export to your device."
+        },
+        "successScreen": {
+            "title": "${noOfAccounts} account(s) were successfully </br> exported to your device"
+        }
+    },
     "batchImportAccounts": {
         "confirmImportModal": {
             "accountToImport": "Account to Import",
@@ -225,6 +239,7 @@
         "authorize": "Authorize",
         "authorizing": "Authorizing",
         "backToSwap": "Back to Swap",
+        "beginExport": "Begin Export",
         "beginImport": "Begin Import",
         "browseApps": "Browse Apps",
         "buy": "Buy",
@@ -1368,6 +1383,7 @@
     "signInLedger": {
         "advanced": {
             "desc": "Specify an HD path to import its linked accounts.",
+            "exportDesc": "Specify an HD path to export your account to, you’ll need to remember your choice to use this account in the future.<br/><b>For additional security use different HD paths for each unique account.</b>",
             "setPath": "Set HD Path",
             "subTitle": "HD Path",
             "title": "Advanced Options"

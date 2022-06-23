@@ -26,7 +26,7 @@ const CustomContainer = styled.div`
       }
 `;
 
-const BatchImportAccountsSuccessScreen = ({ accounts = [] }) => {
+const BatchImportAccountsSuccessScreen = ({ accounts = [], customTitleId }) => {
   const dispatch = useDispatch();
   const accountUrlReferrer = useSelector(selectAccountUrlReferrer);
 
@@ -36,7 +36,7 @@ const BatchImportAccountsSuccessScreen = ({ accounts = [] }) => {
           <AvatarSuccessIcon />
           <div className='screen-descripton'>
             <h3>
-              <Translate id="batchImportAccounts.successScreen.title" data={{ noOfAccounts: accounts.length }}/>
+              <Translate id={customTitleId || 'batchImportAccounts.successScreen.title'} data={{ noOfAccounts: accounts.length }}/>
               {accountUrlReferrer || <Translate id="sign.unknownApp" />}
             </h3>
             <br />
