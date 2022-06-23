@@ -3,7 +3,11 @@ import { useSelector } from 'react-redux';
 
 import { isWhitelabelTestnet } from '../../config/whitelabel';
 import { selectAvailableAccounts } from '../../redux/slices/availableAccounts';
-import { keyToString, encodeMessage, generateKeyPair } from '../../utils/encoding';
+import {
+    keyToString,
+    generateKeyPair,
+    encodeAccountsTo
+} from '../../utils/encoding';
 import { getLedgerHDPath } from '../../utils/localStorage';
 import { wallet } from '../../utils/wallet';
 import MigrateAccounts from './MigrateAccounts';
@@ -23,20 +27,28 @@ const initialState = {
     migrationKeyPair: generateKeyPair()
 };
 
-const redirect = (accountId, keyPair, migrationKeyPair) => {
-    const accData = `${accountId}=${keyPair.secretKey}=${getLedgerHDPath(accountId)||''}`;
-    const encoded = encodeMessage(accData, migrationKeyPair.secretKey);
+const encodeAccountsToURL = async (accounts, publicKey) => {
+    const accountsData = [];
+    for (let i = 0; i < accounts.length; i++) {
+        const accountId = accounts[i];
+        const keyPair = await wallet.getLocalKeyPair(accountId);
+        accountsData.push([
+            accountId,
+            keyPair.secretKey,
+            getLedgerHDPath(accountId),
+        ]);
+    }
 
+    const hash = encodeAccountsTo(accountsData, publicKey);
     const subdomain = isWhitelabelTestnet() ? 'testnet' : 'app';
-    location.href = `https://${subdomain}.mynearwallet.com/batch-import#${btoa(encoded)}`;
-    // location.href = `https://localhost:1234/batch-import#${btoa(encoded)}`;
+    const href = `https://${subdomain}.mynearwallet.com/batch-import#${hash}`;
+
+    return href;
 };
 
 const WalletMigration = ({ open, history, onClose }) => {
     const [state, setState] = React.useState(initialState);
     const availableAccounts = useSelector(selectAvailableAccounts);
-    const sortedAccountsByUsing = [...availableAccounts]
-        .sort((a) => a === wallet.accountId ? -1 : 1);
 
     const handleStateUpdate = (newState) => {
         setState({...state, ...newState});
@@ -55,21 +67,16 @@ const WalletMigration = ({ open, history, onClose }) => {
     }, []);
 
     const showMigrateAccount = useCallback(async () => {
-        if (availableAccounts.length === 1) {
-            const keyPair = await wallet.getLocalKeyPair(wallet.accountId);
-            redirect(wallet.accountId, keyPair, state.migrationKeyPair);
-
-            return;
-        }
-
         handleSetActiveView(WALLET_MIGRATION_VIEWS.MIGRATE_ACCOUNTS);
     }, [availableAccounts]);
 
-    const onContinue = useCallback(async (accountId) => {
-        handleSetActiveView(null);
-        const keyPair = await wallet.getLocalKeyPair(accountId);
-        redirect(accountId, keyPair, state.migrationKeyPair);
-    }, [state.migrationKeyPair, ]);
+    const onContinue = useCallback(async () => {
+        const url = await encodeAccountsToURL(
+            availableAccounts,
+            state.migrationKeyPair.publicKey
+        );
+        window.open(url, '_blank');
+    }, [state.migrationKeyPair, availableAccounts]);
 
     useEffect(() => {
         if (open) {
@@ -101,7 +108,7 @@ const WalletMigration = ({ open, history, onClose }) => {
         {
             state.activeView === WALLET_MIGRATION_VIEWS.MIGRATE_ACCOUNTS &&
                 <MigrateAccounts
-                    accounts={sortedAccountsByUsing}
+                    accounts={availableAccounts}
                     migrationKeyPair={state.migrationKeyPair}
                     onContinue={onContinue}
                     onClose={onClose}
