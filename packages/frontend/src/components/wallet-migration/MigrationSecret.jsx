@@ -36,7 +36,7 @@ const TextSelectDisplay = styled.div`
     border-radius: 8px;
 
     word-break: break-word;
-    text-align: left;
+    text-align: center;
 `;
 
 const ButtonsContainer = styled.div`
