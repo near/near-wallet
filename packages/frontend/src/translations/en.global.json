@@ -210,7 +210,7 @@
             "desc": "Enter your key to import accounts",
             "importCaption": "Import",
             "placeholder": "2cCzKMPiCkFnF5mGbJcPgTGNykvxK4f3xyNAio4q931b",
-            "title": "Import your accounts"
+            "title": "Welcome to MyNearWallet!"
         },
         "importScreen": {
             "desc": "Begin your import and confirm each account </br> when prompted.",
@@ -1797,7 +1797,7 @@
     },
     "walletMigration": {
         "migrateAccounts": {
-            "desc": "Select the account you would like to transfer to MyNearWallet.",
+            "desc": "The following accounts will be transferred to MyNearWallet.",
             "title": "We found ${count} active accounts."
         },
         "migrationPrompt": {
@@ -1806,8 +1806,8 @@
             "transferAccountsBtn": "Transfer My Accounts"
         },
         "migrationSecret": {
-            "desc": "Click on the block to copy this <strong>secret</strong> before proceeding to MyNearWallet. You will be prompt to re-enter it later to securely transfer your account.",
-            "title": "Copy secret to transfer account"
+            "desc": "Click on the block to copy this <strong>secret</strong> before proceeding to MyNearWallet. You will be prompt to re-enter it later to securely transfer your accounts.",
+            "title": "Copy secret to transfer accounts"
         }
     },
     "warning": "Warning",
