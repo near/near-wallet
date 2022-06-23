@@ -7,6 +7,7 @@ import {
     formatTokenAmount,
     removeTrailingZeros,
 } from '../utils/amounts';
+import { getTotalGasFee } from '../utils/gasPrice';
 import { wallet } from '../utils/wallet';
 import { listLikelyTokens } from './indexer';
 
@@ -24,8 +25,13 @@ const FT_MINIMUM_STORAGE_BALANCE = parseNearAmount('0.00125');
 export const FT_MINIMUM_STORAGE_BALANCE_LARGE = parseNearAmount('0.0125');
 const FT_STORAGE_DEPOSIT_GAS = parseNearAmount('0.00000000003');
 
-// set this to the same value as we use for creating an account and the remainder is refunded
-const FT_TRANSFER_GAS = parseNearAmount('0.00000000003');
+// TODO: Convert all above constants into yoctoNEAR and add to config
+
+// Estimated gas required to call ft_transfer function call (remaining gas is refunded)
+const FT_TRANSFER_GAS = '15000000000000'; // 15 TGAS
+
+// https://docs.near.org/docs/concepts/gas#the-cost-of-common-actions
+const SEND_NEAR_GAS = '450000000000'; // 0.45 TGAS
 
 // contract might require an attached depositof of at least 1 yoctoNear on transfer methods
 // "This 1 yoctoNEAR is not enforced by this standard, but is encouraged to do. While ability to receive attached deposit is enforced by this token."
@@ -93,12 +99,10 @@ export default class FungibleTokens {
             accountId &&
             !(await this.isStorageBalanceAvailable({ contractName, accountId }))
         ) {
-            return new BN(FT_TRANSFER_GAS)
-                .add(new BN(FT_MINIMUM_STORAGE_BALANCE))
-                .add(new BN(FT_STORAGE_DEPOSIT_GAS))
-                .toString();
+            const totalGasFees = await getTotalGasFee(new BN(FT_TRANSFER_GAS).add(new BN(FT_STORAGE_DEPOSIT_GAS)));
+            return new BN(totalGasFees).add(new BN(FT_MINIMUM_STORAGE_BALANCE)).toString();
         } else {
-            return FT_TRANSFER_GAS;
+            return await getTotalGasFee(contractName ? FT_TRANSFER_GAS : SEND_NEAR_GAS);
         }
     }
 
