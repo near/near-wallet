@@ -179,10 +179,10 @@
             "title": "Убедитесь в корректности URL"
         },
         "enterKeyForm": {
+            "title": "Добро пожаловать в MyNearWallet!",
             "desc": "Введите ваше секретное значение для переноса аккаунтов",
             "importCaption": "Перенести",
             "placeholder": "2cCzKMPiCkFnF5mGbJcPgTGNykvxK4f3xyNAio4q931b",
-            "title": "Перенесите Ваши аккаунты"
         },
         "importScreen": {
             "desc": "Начните перенос и подтвердите каждую учетную запись </br> при появлении соответствующего запроса.",
@@ -1358,7 +1358,7 @@
     },
     "walletMigration": {
         "migrateAccounts": {
-            "desc": "Выберите аккаунт который вы хотели бы перенести в MyNearWallet.",
+            "desc": "Следующие аккаунты будут перенесены в MyNearWallet.",
             "title": "Мы нашли ${count} активных аккаунтов."
         },
         "migrationPrompt": {

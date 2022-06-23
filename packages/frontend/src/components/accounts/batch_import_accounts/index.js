@@ -14,6 +14,7 @@ import FormButton from '../../common/FormButton';
 import FormButtonGroup from '../../common/FormButtonGroup';
 import Modal from '../../common/modal/Modal';
 import Container from '../../common/styled/Container.css';
+import MyNearWalletLogo from '../../svg/MyNearWalletLogo';
 import AccountListImport from '../AccountListImport';
 import AccountImportModal from './AccountImportModal';
 import BatchImportAccountsSuccessScreen from './BatchImportAccountsSuccessScreen';
@@ -74,6 +75,10 @@ const PublicKeyFormContainer = styled.div`
     > button {
         width: 100%;
     }
+
+    svg {
+        width: 170px;
+    }
 `;
 
 const Title = styled.h3`
@@ -112,6 +117,7 @@ const EnterPublicKeyForm = ({ onCancel, onPublicKey }) => {
             style={{ maxWidth: '496px' }}
         >
             <PublicKeyFormContainer>
+                <MyNearWalletLogo />
                 <Title><Translate id='batchImportAccounts.enterKeyForm.title' /></Title>
                 <Description><Translate id='batchImportAccounts.enterKeyForm.desc' /></Description>
                 <Translate>

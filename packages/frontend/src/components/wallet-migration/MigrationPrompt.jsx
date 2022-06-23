@@ -60,9 +60,7 @@ const MigrationPrompt = ({ handleSetActiveView, onClose }) => {
             style={{ maxWidth: '496px' }}
         >
             <ContentContainer>
-                <div>
-                    <MyNearWalletLogo />
-                </div>
+                <MyNearWalletLogo />
                 <h3 className='title'>
                     <Translate id='walletMigration.migrationPrompt.title'/>
                 </h3>
