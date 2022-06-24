@@ -298,7 +298,8 @@ class Routing extends Component {
     };
 
     // todo refactor: move to state manager
-    openTransferPopup = () => {
+    handleTransferClick = () => {
+
         this.setState({ openTransferPopup: true });
     }
 
@@ -360,7 +361,7 @@ class Routing extends Component {
                             SHOW_MIGRATION_BANNER &&
                             <MigrationBanner
                                 account={account}
-                                onTransferClick={this.openTransferPopup} />
+                                onTransfer={this.handleTransferClick} />
                         }
 
                         <NetworkBanner account={account} />
