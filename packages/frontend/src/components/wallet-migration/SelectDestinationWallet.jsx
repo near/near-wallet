@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Translate } from 'react-localize-redux';
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
+import IconLedger from '../../images/wallet-migration/IconLedger';
+import IconMyNearWallet from '../../images/wallet-migration/IconMyNearWallet';
 import IconWallet from '../../images/wallet-migration/IconWallet';
+import { redirectTo } from '../../redux/actions/account';
 import classNames from '../../utils/classNames';
-import { WALLET_OPTIONS } from '../../utils/migration';
 import FormButton from '../common/FormButton';
 import Modal from '../common/modal/Modal';
 import { WALLET_MIGRATION_VIEWS } from './WalletMigration';
@@ -29,6 +32,19 @@ const Container = styled.div`
         margin-top: 40px;
     }
 `;
+
+const WALLET_OPTIONS = [
+    {
+        id: 'my-near-wallet',
+        name: 'My NEAR Wallet',
+        icon: <IconMyNearWallet />,
+    },
+    {
+        id:'ledger',
+        name: 'Ledger',
+        icon: <IconLedger />,
+    },
+];
 
 const WalletOptionsListing = styled.div`
     margin-top: 40px;
@@ -119,7 +135,19 @@ const StyledButton = styled(FormButton)`
 `;
 
 
-const SelectDestinationWallet = ({ handleSetActiveView, handleSetWalletType, handleRedirectToBatchImport, walletType }) => {
+const SelectDestinationWallet = ({ handleSetActiveView, handleSetWalletType, walletType }) => {
+    const dispatch = useDispatch();
+
+    const handleContinue = useCallback(() => {
+        if (walletType === 'my-near-wallet') {
+            return handleSetActiveView(WALLET_MIGRATION_VIEWS.MIGRATION_SECRET);
+        }
+        if (walletType === 'ledger') {
+            handleSetActiveView(null);
+            return  dispatch(redirectTo('/batch-ledger-export'));
+        }
+    },[ walletType, handleSetActiveView ]);
+
     return (
         <Modal
             modalClass="slim"
@@ -146,10 +174,10 @@ const SelectDestinationWallet = ({ handleSetActiveView, handleSetWalletType, han
                     })}
                 </WalletOptionsListing>
                 <ButtonsContainer>
-                    <StyledButton className="gray-blue" onClick={()=>{handleSetActiveView(WALLET_MIGRATION_VIEWS.MIGRATION_PROMPT);}}>
+                    <StyledButton className="gray-blue" onClick={()=>handleSetActiveView(WALLET_MIGRATION_VIEWS.MIGRATION_PROMPT)}>
                         <Translate id='button.cancel' />
                     </StyledButton>
-                    <StyledButton onClick={handleRedirectToBatchImport}>
+                    <StyledButton onClick={handleContinue} disabled={!walletType}>
                         <Translate id='button.continue' />
                     </StyledButton>
                 </ButtonsContainer>
