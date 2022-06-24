@@ -1,11 +1,13 @@
-import React, { useEffect } from 'react';
+import React, {useCallback, useEffect} from 'react';
 import { Translate } from 'react-localize-redux';
+import {useSelector} from 'react-redux';
 import styled from 'styled-components';
 
 import { MIGRATION_START_DATE } from '../../config';
 import IconAlertTriangle from '../../images/IconAlertTriangle';
 import IconOffload from '../../images/IconOffload';
 import { getMyNearWalletUrl } from '../../utils/getWalletURL';
+import {selectAvailableAccounts} from '../../redux/slices/availableAccounts';
 import FormButton from './FormButton';
 import Container from './styled/Container.css';
 
@@ -83,7 +85,9 @@ const IconWrapper = styled.div`
     margin-right: 10px;
 `;
 
-const MigrationBanner = ({ account, onTransferClick }) => {
+const MigrationBanner = ({ account, onTransfer }) => {
+    const availableAccounts = useSelector(selectAvailableAccounts);
+
     const setBannerHeight = () => {
         const migrationBanner = document.getElementById('migration-banner');
         const bannerHeight = migrationBanner ? migrationBanner.offsetHeight : 0;
@@ -97,6 +101,15 @@ const MigrationBanner = ({ account, onTransferClick }) => {
             app.style.paddingTop = bannerHeight ? `${bannerHeight + 85}px` : '75px';
         }
     };
+
+    const onTransferClick = useCallback(() => {
+        if (availableAccounts.length) {
+            onTransfer();
+            return;
+        }
+
+        window.open(getMyNearWalletUrl(), '_blank');
+    }, [availableAccounts]);
 
 
     useEffect(() => {
@@ -112,21 +125,25 @@ const MigrationBanner = ({ account, onTransferClick }) => {
             <ContentWrapper>
                 <div className='content'>
                     <IconAlertTriangle/>
-                    <Translate
-                        id='migration.message' data={{
-                            startDate: MIGRATION_START_DATE.toLocaleDateString(),
-                            migrationDestinationURL: getMyNearWalletUrl()
-                        }}
-                    />
-                </div>
-                <Translate>
+                   {
+                       availableAccounts.length ?
+                           <Translate id='migration.message' data={{ url: getMyNearWalletUrl(), startDate: MIGRATION_START_DATE.toLocaleDateString() }}/> :
+                           <Translate id='migration.redirect' data={{ url: getMyNearWalletUrl() }}/>
+                   }
+               </div>
+               <Translate>
                     {({ translate }) =>
                         (<CustomButton onClick={onTransferClick}>
                             <IconWrapper>
                                 <IconOffload/>
                             </IconWrapper>
-                            <Translate id='migration.transferCaption' />
-                        </CustomButton>)
+                            {
+                                availableAccounts.length ?
+                                    <Translate id='migration.transferCaption' /> :
+                                    <Translate id='migration.redirectCaption' />
+                            }
+
+                        </CustomButton>
                     }
                 </Translate>
             </ContentWrapper>
