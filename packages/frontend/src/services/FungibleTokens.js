@@ -102,7 +102,7 @@ export default class FungibleTokens {
             const totalGasFees = await getTotalGasFee(new BN(FT_TRANSFER_GAS).add(new BN(FT_STORAGE_DEPOSIT_GAS)));
             return new BN(totalGasFees).add(new BN(FT_MINIMUM_STORAGE_BALANCE)).toString();
         } else {
-            return await getTotalGasFee(contractName ? FT_TRANSFER_GAS : SEND_NEAR_GAS);
+            return getTotalGasFee(contractName ? FT_TRANSFER_GAS : SEND_NEAR_GAS);
         }
     }
 
