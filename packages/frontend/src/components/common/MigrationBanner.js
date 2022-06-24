@@ -1,9 +1,11 @@
-import React, { useEffect } from 'react';
+import React, {useCallback, useEffect} from 'react';
 import { Translate } from 'react-localize-redux';
+import {useSelector} from 'react-redux';
 import styled from 'styled-components';
 
 import IconAlertTriangle from '../../images/IconAlertTriangle';
 import IconOffload from '../../images/IconOffload';
+import {selectAvailableAccounts} from '../../redux/slices/availableAccounts';
 import getMyNearWalletUrl from '../../utils/getWalletURL';
 import FormButton from './FormButton';
 import Container from './styled/Container.css';
@@ -82,7 +84,9 @@ const IconWrapper = styled.div`
     margin-right: 10px;
 `;
 
-const MigrationBanner = ({ account, onTransferClick }) => {
+const MigrationBanner = ({ account, onTransfer }) => {
+    const availableAccounts = useSelector(selectAvailableAccounts);
+
     const setBannerHeight = () => {
         const migrationBanner = document.getElementById('migration-banner');
         const bannerHeight = migrationBanner ? migrationBanner.offsetHeight : 0;
@@ -96,6 +100,15 @@ const MigrationBanner = ({ account, onTransferClick }) => {
             app.style.paddingTop = bannerHeight ? `${bannerHeight + 85}px` : '75px';
         }
     };
+
+    const onTransferClick = useCallback(() => {
+        if (availableAccounts.length) {
+            onTransfer();
+            return;
+        }
+
+        window.open(getMyNearWalletUrl(), '_blank');
+    }, [availableAccounts]);
 
 
     useEffect(() => {
@@ -111,7 +124,11 @@ const MigrationBanner = ({ account, onTransferClick }) => {
             <ContentWrapper>
                <div className='content'>
                     <IconAlertTriangle/>
-                    <Translate id='migration.message' data={{ url: getMyNearWalletUrl() }}/>
+                   {
+                       availableAccounts.length ?
+                           <Translate id='migration.message' data={{ url: getMyNearWalletUrl() }}/> :
+                           <Translate id='migration.redirect' data={{ url: getMyNearWalletUrl() }}/>
+                   }
                </div>
                <Translate>
                     {({ translate }) =>
@@ -119,7 +136,12 @@ const MigrationBanner = ({ account, onTransferClick }) => {
                             <IconWrapper>
                                 <IconOffload/>
                             </IconWrapper>
-                            <Translate id='migration.transferCaption' />
+                            {
+                                availableAccounts.length ?
+                                    <Translate id='migration.transferCaption' /> :
+                                    <Translate id='migration.redirectCaption' />
+                            }
+
                         </CustomButton>
                     }
                 </Translate>
