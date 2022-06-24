@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import IconAlertTriangle from '../../images/IconAlertTriangle';
 import IconOffload from '../../images/IconOffload';
 import { getMyNearWalletUrl } from '../../utils/getWalletURL';
+import {selectAvailableAccounts} from '../../redux/slices/availableAccounts';
 import FormButton from './FormButton';
 import Container from './styled/Container.css';
 
@@ -84,6 +85,8 @@ const IconWrapper = styled.div`
 `;
 
 const MigrationBanner = ({ account, onTransfer }) => {
+    const availableAccounts = useSelector(selectAvailableAccounts);
+
     const setBannerHeight = () => {
         const migrationBanner = document.getElementById('migration-banner');
         const bannerHeight = migrationBanner ? migrationBanner.offsetHeight : 0;
