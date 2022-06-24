@@ -770,7 +770,7 @@
         }
     },
     "migration": {
-        "message": "NEAR Wallet has migrated to a new domain: <a href='https://mynearwallet.com' target='_blank'>mynearwallet.com</a>.<br/>We prepared an easy way to move your accounts. Click the button to start.",
+        "message": "NEAR Wallet has migrated to a new domain: <a href='${url}' target='_blank'>mynearwallet.com</a>.<br/>We prepared an easy way to move your accounts. Click the button to start.",
         "transferCaption": "Transfer My Accounts"
     },
     "minimumBalance": "This is the minimum NEAR balance your account must maintain to remain active. This balance represents the storage space your account is using on the NEAR blockchain (with a small buffer), and will go up or down as you use more or less space.",
