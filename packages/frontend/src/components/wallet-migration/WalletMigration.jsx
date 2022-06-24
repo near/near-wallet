@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { selectAvailableAccounts } from '../../redux/slices/availableAccounts';
 import {
     keyToString,
-    generateKeyPair,
+    generatePublicKey,
     encodeAccountsTo
 } from '../../utils/encoding';
 import getMyNearWalletUrl from '../../utils/getWalletURL';
@@ -24,7 +24,7 @@ export const WALLET_MIGRATION_VIEWS = {
 const initialState = {
     activeView: null,
     walletType: null,
-    migrationKeyPair: generateKeyPair()
+    migrationKey: generatePublicKey()
 };
 
 const encodeAccountsToURL = async (accounts, publicKey) => {
@@ -72,10 +72,10 @@ const WalletMigration = ({ open, history, onClose }) => {
     const onContinue = useCallback(async () => {
         const url = await encodeAccountsToURL(
             availableAccounts,
-            state.migrationKeyPair.publicKey
+            state.migrationKey
         );
         window.open(url, '_blank');
-    }, [state.migrationKeyPair, availableAccounts]);
+    }, [state.migrationKey, availableAccounts]);
 
     useEffect(() => {
         if (open) {
@@ -100,15 +100,13 @@ const WalletMigration = ({ open, history, onClose }) => {
                 <MigrationSecret
                     showMigrationPrompt={showMigrationPrompt}
                     showMigrateAccount={showMigrateAccount}
-                    migrationPin={state.migrationPin}
-                    secretKey={keyToString(initialState.migrationKeyPair.publicKey)}
+                    secretKey={keyToString(initialState.migrationKey)}
                 />
         }
         {
             state.activeView === WALLET_MIGRATION_VIEWS.MIGRATE_ACCOUNTS &&
                 <MigrateAccounts
                     accounts={availableAccounts}
-                    migrationKeyPair={state.migrationKeyPair}
                     onContinue={onContinue}
                     onClose={onClose}
                 />

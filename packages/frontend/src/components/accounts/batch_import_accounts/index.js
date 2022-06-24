@@ -212,7 +212,7 @@ const ImportAccounts = ({ accountsData, onCancel }) => {
                             onClick={() =>
                                 dispatch({ type: ACTIONS.BEGIN_IMPORT })
                             }
-                            disabled={availableAccountsIsLoading}
+                            disabled={availableAccountsIsLoading || accounts.length === 0}
                         >
                             <Translate id='button.beginImport' />
                         </FormButton>

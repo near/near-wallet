@@ -4,6 +4,7 @@ import styled from 'styled-components';
 
 import IconAlertTriangle from '../../images/IconAlertTriangle';
 import IconOffload from '../../images/IconOffload';
+import getMyNearWalletUrl from '../../utils/getWalletURL';
 import FormButton from './FormButton';
 import Container from './styled/Container.css';
 
@@ -110,7 +111,7 @@ const MigrationBanner = ({ account, onTransferClick }) => {
             <ContentWrapper>
                <div className='content'>
                     <IconAlertTriangle/>
-                    <Translate id='migration.message'/>
+                    <Translate id='migration.message' data={{ url: getMyNearWalletUrl() }}/>
                </div>
                <Translate>
                     {({ translate }) =>
