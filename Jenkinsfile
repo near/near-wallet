@@ -67,6 +67,9 @@ pipeline {
             }
             parallel {
                 stage('frontend:prebuild:testnet-staging') {
+                    when {
+                        not { branch 'stable' }
+                    }
                     environment {
                         NEAR_WALLET_ENV = 'testnet_STAGING'
                     }
@@ -78,6 +81,9 @@ pipeline {
                 }
 
                 stage('frontend:prebuild:testnet') {
+                    when {
+                        not { branch 'stable' }
+                    }
                     environment {
                         NEAR_WALLET_ENV = 'testnet'
                     }
@@ -89,6 +95,9 @@ pipeline {
                 }
 
                 stage('frontend:prebuild:mainnet-staging') {
+                    when {
+                        not { branch 'stable' }
+                    }
                     environment {
                         NEAR_WALLET_ENV = 'mainnet_STAGING'
                     }
