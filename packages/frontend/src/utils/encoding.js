@@ -12,6 +12,10 @@ export function generateKeyPair() {
     return nacl.sign.keyPair();
 }
 
+export function generatePublicKey() {
+    return generateKeyPair().publicKey;
+}
+
 export function encodeMessage(message, publicKey) {
     const encoder = new TextEncoder();
 
