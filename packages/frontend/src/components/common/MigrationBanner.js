@@ -6,7 +6,6 @@ import styled from 'styled-components';
 import IconAlertTriangle from '../../images/IconAlertTriangle';
 import IconOffload from '../../images/IconOffload';
 import { getMyNearWalletUrl } from '../../utils/getWalletURL';
-import {selectAvailableAccounts} from '../../redux/slices/availableAccounts';
 import FormButton from './FormButton';
 import Container from './styled/Container.css';
 
