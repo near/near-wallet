@@ -96,9 +96,9 @@
       "lastEditedAt": "2022-06-20T18:11:26.582Z"
     },
     "testnet": {
-      "enabled": true,
-      "lastEditedBy": "gutsyphilip",
-      "lastEditedAt": "2022-06-20T18:11:26.582Z"
+      "enabled": false,
+      "lastEditedBy": "esaminu",
+      "lastEditedAt": "2022-06-24T21:26:00.267Z"
     },
     "mainnet": {
       "enabled": false,
@@ -116,9 +116,9 @@
       "lastEditedAt": "2022-05-25T01:11:55.121Z"
     },
     "testnet_NEARORG": {
-      "enabled": false,
-      "lastEditedBy": "gutsyphilip",
-      "lastEditedAt": "2022-06-20T18:11:26.582Z"
+      "enabled": true,
+      "lastEditedBy": "esaminu",
+      "lastEditedAt": "2022-06-24T21:26:00.267Z"
     },
     "mainnet_NEARORG": {
       "enabled": false,
