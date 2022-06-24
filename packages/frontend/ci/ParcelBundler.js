@@ -191,6 +191,7 @@ class ParcelBundler {
         this.bundler.on('bundled', (bundle) => {
             fs.copyFileSync(this.buildWasmSourcePath('multisig.wasm'), this.buildOutputPath('multisig.wasm'));
             fs.copyFileSync(this.buildWasmSourcePath('main.wasm'), this.buildOutputPath('main.wasm'));
+            fs.copyFileSync(this.buildWasmSourcePath('state_cleanup.wasm'), this.buildOutputPath('state_cleanup.wasm'));
         });
 
         return this.bundler;

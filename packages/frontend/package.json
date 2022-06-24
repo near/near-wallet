@@ -35,7 +35,7 @@
     "lodash.unset": "^4.5.2",
     "lodash.update": "^4.10.2",
     "mixpanel-browser": "^2.41.0",
-    "near-api-js": "^0.43.1",
+    "near-api-js": "^0.45.1",
     "near-ledger-js": "^0.2.1",
     "near-seed-phrase": "^0.2.0",
     "node-cache": "^5.1.2",
@@ -65,7 +65,7 @@
   },
   "scripts": {
     "predeploy": "yarn build",
-    "update:static": "cp src/wasm/multisig.wasm dist/multisig.wasm && cp src/wasm/main.wasm dist/main.wasm",
+    "update:static": "cp src/wasm/multisig.wasm dist/multisig.wasm && cp src/wasm/main.wasm dist/main.wasm && cp src/wasm/state_cleanup.wasm dist/state_cleanup.wasm",
     "start": "yarn update:static; parcel src/index.html --https --cert devServerCertificates/primary.crt --key devServerCertificates/private.pem",
     "prebuild": "rm -rf dist/",
     "build": "yarn run bundle && yarn run sentry",
