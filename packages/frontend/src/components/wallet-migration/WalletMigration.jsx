@@ -7,20 +7,18 @@ import {
     generatePublicKey,
     encodeAccountsTo
 } from '../../utils/encoding';
-import getMyNearWalletUrl from '../../utils/getWalletURL';
+import { getMyNearWalletUrl } from '../../utils/getWalletURL';
 import { getLedgerHDPath } from '../../utils/localStorage';
 import { wallet } from '../../utils/wallet';
 import MigrateAccounts from './MigrateAccounts';
 import MigrationPrompt from './MigrationPrompt';
 import MigrationSecret from './MigrationSecret';
 import SelectDestinationWallet from './SelectDestinationWallet';
-import SelectWallet from './SelectWallet';
 
 
 export const WALLET_MIGRATION_VIEWS = {
     MIGRATION_PROMPT: 'MIGRATION_PROMPT',
     MIGRATION_SECRET: 'MIGRATION_SECRET',
-    SELECT_WALLET: 'SELECT_WALLET',
     SELECT_DESTINATION_WALLET: 'SELECT_DESTINATION_WALLET',
     MIGRATE_ACCOUNTS: 'MIGRATE_ACCOUNTS'
 };
@@ -107,19 +105,12 @@ const WalletMigration = ({ open, history, onClose }) => {
                     secretKey={keyToString(initialState.migrationKey)}
                 />
         }
-        {state.activeView === WALLET_MIGRATION_VIEWS.SELECT_WALLET &&  
-            <SelectWallet 
-                handleSetWalletType={handleSetWalletType}
-                handleSetActiveView={handleSetActiveView}
-            />
-       }
         {state.activeView === WALLET_MIGRATION_VIEWS.SELECT_DESTINATION_WALLET &&  
             <SelectDestinationWallet
                 walletType={state.walletType}
                 onClose={() => handleSetActiveView(null)}
                 handleSetWalletType={handleSetWalletType}
                 handleSetActiveView={handleSetActiveView}
-                handleRedirectToBatchImport={() => {}}
             />
         }
         {

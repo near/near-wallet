@@ -2,6 +2,7 @@ import React from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
+import IconClose from '../../images/IconClose';
 import FormButton from '../common/FormButton';
 import Modal from '../common/modal/Modal';
 import MyNearWalletLogo from '../svg/MyNearWalletLogo';
@@ -13,6 +14,15 @@ const ContentContainer = styled.div`
     text-align: center;
     max-width: 362px;
     margin: 0 auto;
+
+    .close-icon {
+        position: absolute;
+        height: 16px;
+        width: 16px;
+        right: 24px;
+        top: 24px;
+        cursor: pointer;
+    }
 
     @media (max-width: 360px) {
         padding: 0;
@@ -55,11 +65,11 @@ const MigrationPrompt = ({ handleSetActiveView, onClose }) => {
             id='migration-modal'
             isOpen
             onClose={onClose}
-            disableClose={true}
             modalSize='md'
             style={{ maxWidth: '496px' }}
         >
             <ContentContainer>
+                <IconClose className="close-icon" onClick={onClose}/>
                 <MyNearWalletLogo />
                 <h3 className='title'>
                     <Translate id='walletMigration.migrationPrompt.title'/>
@@ -73,11 +83,9 @@ const MigrationPrompt = ({ handleSetActiveView, onClose }) => {
                     onClick={()=>{handleSetActiveView(WALLET_MIGRATION_VIEWS.MIGRATION_SECRET);}}>
                     <Translate id='walletMigration.migrationPrompt.transferAccountsBtn' />
                  </StyledButton>
-               <FormButton
-                   className='link'
-                   onClick={onClose}>
-                   <Translate id='button.cancel' />
-               </FormButton>
+                 <StyledButton className="link" onClick={()=>{handleSetActiveView(WALLET_MIGRATION_VIEWS.SELECT_DESTINATION_WALLET);}}>
+                    <Translate id='walletMigration.migrationPrompt.useDifferentWallet' />
+                 </StyledButton>
            </ButtonsContainer>
         </Modal>
     );

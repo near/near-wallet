@@ -1821,11 +1821,15 @@
         "migrationPrompt": {
             "desc": "NEAR Wallet is now MyNearWallet and to celebrate the occasion, we’re moving to a new domain. Find us at <a href='https://mynearwallet.com' target='_blank'>https://mynearwallet.com</a>. <br/><br/> If you haven’t already, quickly and easily transfer your accounts",
             "title": "NEAR Wallet has a new home!",
-            "transferAccountsBtn": "Transfer My Accounts"
+            "transferAccountsBtn": "Transfer My Accounts",
+            "useDifferentWallet": "Use a different wallet"
         },
         "migrationSecret": {
             "desc": "Click on the block to copy this <strong>secret</strong> before proceeding to MyNearWallet. You will be prompt to re-enter it later to securely transfer your accounts.",
             "title": "Copy secret to transfer accounts"
+        },
+        "selectWallet": {
+            "title": "Select a wallet to transfer accounts"
         }
     },
     "warning": "Warning",
