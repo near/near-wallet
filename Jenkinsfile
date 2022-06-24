@@ -194,7 +194,7 @@ pipeline {
                 stage('frontend:bundle:mainnet') {
                     when {
                         expression { env.BUILD_FRONTEND == 'true' };
-                        anyOf { branch 'master' ; branch 'stable' }
+                        branch 'stable'
                     }
                     environment {
                         NEAR_WALLET_ENV = 'mainnet'
