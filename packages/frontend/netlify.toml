@@ -26,7 +26,7 @@
     NETLIFY_USE_YARN = "true"
 
 [context.production.environment]
-    BROWSER_MIXPANEL_TOKEN = "d5bbbbcc3a77ef8427f2b806b5689bf8"
+    BROWSER_MIXPANEL_TOKEN = "7c5730e5b3556a06b73829b3c3b40a86"
     SENTRY_PROJECT = "mainnet-wallet"
 
 [[headers]]

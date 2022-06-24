@@ -4,7 +4,5 @@
 export type Features = {
     CREATE_USN_CONTRACT: boolean;
 	DONATE_TO_UKRAINE: boolean;
-	EXAMPLE_FLAG: boolean;
-	IMPORT_ACCOUNT_WITH_LINK_V2: boolean;
-	IMPORT_ZERO_BALANCE_ACCOUNT: boolean;
+	SHOW_MIGRATION_BANNER: boolean;
 };

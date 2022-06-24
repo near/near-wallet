@@ -1,3 +1,4 @@
+import isEqual from 'lodash.isequal';
 import * as nearApiJs from 'near-api-js';
 import { MULTISIG_CHANGE_METHODS } from 'near-api-js/lib/account_multisig';
 import { PublicKey } from 'near-api-js/lib/utils';
@@ -5,7 +6,6 @@ import { KeyType } from 'near-api-js/lib/utils/key_pair';
 import { generateSeedPhrase, parseSeedPhrase } from 'near-seed-phrase';
 
 import { store } from '..';
-import { IMPORT_ACCOUNT_WITH_LINK_V2 } from '../../../../features';
 import * as Config from '../config';
 import {
     makeAccountActive,
@@ -16,7 +16,7 @@ import sendJson from '../tmp_fetch_send_json';
 import { decorateWithLockup } from './account-with-lockup';
 import { getAccountIds } from './helper-api';
 import { ledgerManager } from './ledgerManager';
-import { setAccountConfirmed, setWalletAccounts, removeActiveAccount, removeAccountConfirmed, getLedgerHDPath, removeLedgerHDPath } from './localStorage';
+import { setAccountConfirmed, setWalletAccounts, removeActiveAccount, removeAccountConfirmed, getLedgerHDPath, removeLedgerHDPath, setLedgerHdPath } from './localStorage';
 import { TwoFactor } from './twoFactor';
 import { WalletError } from './walletError';
 
@@ -35,6 +35,7 @@ export const WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS = [
 ];
 export const WALLET_LOGIN_URL = 'login';
 export const WALLET_SIGN_URL = 'sign';
+export const WALLET_BATCH_IMPORT_URL = 'batch-import';
 export const WALLET_INITIAL_DEPOSIT_URL = 'initial-deposit';
 export const WALLET_LINKDROP_URL = 'linkdrop';
 export const WALLET_RECOVER_ACCOUNT_URL = 'recover-account';
@@ -106,7 +107,7 @@ export async function getKeyMeta(publicKey) {
     }
 }
 
-class Wallet {
+export default class Wallet {
     constructor() {
         this.keyStore = new nearApiJs.keyStores.BrowserLocalStorageKeyStore(window.localStorage, 'nearlib:keystore:');
         this.inMemorySigner = new nearApiJs.InMemorySigner(this.keyStore);
@@ -148,6 +149,13 @@ class Wallet {
         this.getAccountsLocalStorage();
         this.accountId = localStorage.getItem(KEY_ACTIVE_ACCOUNT_ID) || '';
     }
+
+    static KEY_TYPES = {
+        LEDGER: 'ledger',
+        MULTISIG: 'multisig',
+        FAK: 'fullAccessKey',
+        OTHER: 'other'
+    };
 
     async removeWalletAccount(accountId) {
         let walletAccounts = this.getAccountsLocalStorage();
@@ -271,6 +279,90 @@ class Wallet {
             ...accessKey,
             meta: await getKeyMeta(accessKey.public_key)
         })));
+    }
+
+    async getPublicKeyType(accountId, publicKeyString) {
+        const allKeys = await this.getAccessKeys(accountId);
+        const keyInfoView = allKeys.find(({public_key}) => public_key === publicKeyString);
+
+        if (keyInfoView) {
+           if (this.isFullAccessKeyInfoView(keyInfoView)) return Wallet.KEY_TYPES.FAK;
+           if (this.isLedgerKeyInfoView(accountId, keyInfoView)) return Wallet.KEY_TYPES.LEDGER;
+           if (this.isMultisigKeyInfoView(accountId, keyInfoView)) return Wallet.KEY_TYPES.MULTISIG;
+            return Wallet.KEY_TYPES.OTHER;
+        }
+
+        throw new Error('No matching key pair for public key');
+    }
+
+    isFullAccessKeyInfoView(keyInfoView) {
+        return keyInfoView?.access_key?.permission === 'FullAccess';
+    }
+
+    isLedgerKeyInfoView(accountId, keyInfoView) {
+        const receiver_id = keyInfoView?.access_key?.permission?.FunctionCall?.receiver_id;
+        const method_names = keyInfoView?.access_key?.permission?.FunctionCall?.method_names;
+        return receiver_id === accountId && isEqual(method_names, ['__wallet__metadata']);
+    }
+
+    isMultisigKeyInfoView(accountId, keyInfoView) {
+        const receiver_id = keyInfoView?.access_key?.permission?.FunctionCall?.receiver_id;
+        const method_names = keyInfoView?.access_key?.permission?.FunctionCall?.method_names;
+        return receiver_id === accountId && isEqual(method_names, ['add_request', 'add_request_and_confirm', 'delete_request', 'confirm']);
+    }
+
+    async addExistingAccountKeyToWalletKeyStore(accountId, keyPair, ledgerHdPath) {
+        const keyType = await this.getPublicKeyType(
+            accountId,
+            keyPair.getPublicKey().toString()
+        );
+
+        switch (keyType) {
+            case Wallet.KEY_TYPES.FAK: {
+                const keyStore = new nearApiJs.keyStores.InMemoryKeyStore();
+                await keyStore.setKey(NETWORK_ID, accountId, keyPair);
+                const newKeyPair = nearApiJs.KeyPair.fromRandom('ed25519');
+                const account = new nearApiJs.Account(
+                    nearApiJs.Connection.fromConfig({
+                        networkId: NETWORK_ID,
+                        provider: {
+                            type: 'JsonRpcProvider',
+                            args: { url: NODE_URL + '/' },
+                        },
+                        signer: new nearApiJs.InMemorySigner(keyStore),
+                    }),
+                    accountId
+                );
+
+                await account.addKey(newKeyPair.getPublicKey());
+                await this.saveAccount(accountId, newKeyPair);
+                
+                if (!this.accountId) {
+                    return this.makeAccountActive(accountId);
+                }
+                return this.save();
+            }
+            case Wallet.KEY_TYPES.MULTISIG: {
+                await this.saveAccount(accountId, keyPair);
+                if (!this.accountId) {
+                    return this.makeAccountActive(accountId);
+                }
+                return this.save();
+            }
+            case Wallet.KEY_TYPES.LEDGER: {
+                await this.saveAccount(accountId, keyPair);
+                if (ledgerHdPath) {
+                    setLedgerHdPath({accountId, path: ledgerHdPath});
+                }
+                await this.getLedgerPublicKey(ledgerHdPath).then((publicKey) => setKeyMeta(publicKey.toString(), {type: 'ledger'}));
+                if (!this.accountId) {
+                    return this.makeAccountActive(accountId);
+                }
+                return this.save();
+            }
+            default:
+                throw new Error('Unable to add unrecognized key to wallet key store');
+        }
     }
 
     async removeAccessKey(publicKey) {
@@ -860,7 +952,6 @@ class Wallet {
         const publicKey = keyPair.publicKey.toString();
 
         const tempKeyStore = new nearApiJs.keyStores.InMemoryKeyStore();
-        const implicitAccountId = Buffer.from(PublicKey.fromString(publicKey).data).toString('hex');
 
         let accountIds = [];
         const accountIdsByPublickKey = await getAccountIds(publicKey);
@@ -869,14 +960,6 @@ class Wallet {
         } else if (accountIdsByPublickKey.includes(accountId)) {
             accountIds = [accountId];
         }
-
-        if (!IMPORT_ACCOUNT_WITH_LINK_V2) {
-            accountIds.push(implicitAccountId);
-        }
-
-        // TODO: getAccountIds returns all accounts including any implicit account.
-        // Once 'IMPORT_ACCOUNT_WITH_LINK_V2' feature is shipped:
-        // Remove automatically adding implicitAccountId into array and then removing the duplicates.
 
         // remove duplicate and non-existing accounts
         const accountsSet = new Set(accountIds);

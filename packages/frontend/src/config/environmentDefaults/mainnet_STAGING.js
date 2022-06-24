@@ -9,7 +9,7 @@ export default {
         'E8jZ1giWcVrps8PcV75ATauu6gFRkcwjNtKp7NKmipZG',
         '11111111111111111111111111111111'
     ],
-    BROWSER_MIXPANEL_TOKEN: 'd5bbbbcc3a77ef8427f2b806b5689bf8',
+    BROWSER_MIXPANEL_TOKEN: '7c5730e5b3556a06b73829b3c3b40a86',
     DISABLE_CREATE_ACCOUNT: true,
     DISABLE_PHONE_RECOVERY: true,
     EXPLORE_APPS_URL: 'https://awesomenear.com/',
@@ -24,7 +24,7 @@ export default {
     MOONPAY_API_KEY: 'pk_live_jYDdkGL7bJsrwalHZs1lVIhdOHOtK8BR',
     MOONPAY_API_URL: 'https://api.moonpay.com',
     MOONPAY_BUY_URL: 'https://buy.moonpay.io?apiKey=',
-    UTORG_ORDER_URL:'https://app.utorg.pro/direct/wallet.staging.near.org/',
+    UTORG_ORDER_URL: 'https://app.utorg.pro/direct/wallet.staging.near.org/',
     MULTISIG_CONTRACT_HASHES: [
         // https://github.com/near/core-contracts/blob/fa3e2c6819ef790fdb1ec9eed6b4104cd13eb4b7/multisig/src/lib.rs
         '7GQStUCd8bmCK43bzD8PRh7sD2uyyeMJU5h8Rj3kXXJk',

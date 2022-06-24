@@ -107,7 +107,15 @@
         "recoverAccount": {
             "error": "Failed to recover account. No accounts were found for this passphrase.",
             "errorInvalidSeedPhrase": "No accounts were found for this passphrase.",
-            "success": "Recover using passphrase is complete.<br/><b>${numberOfAccounts} account(s)</b> have been successfully recovered.<br/>The last one is set as active."
+            "success": "Recover using passphrase is complete.<br/><b>${numberOfAccounts} account(s)</b> have been successfully recovered.<br/>The last one is set as active.",
+            "zeroBalance": {
+                "success": {
+                    "desc": "The account has not yet been funded. Purchase $NEAR to perform transactions with the account.",
+                    "ledger": "The following account was successfully imported using the Ledger key you provided:",
+                    "phrase": "The following account was successfully imported using the passphrase you provided:",
+                    "title": "Account Imported"
+                }
+            }
         },
         "requestCode": {
             "error": "Failed to send SMS with code.",
@@ -187,6 +195,26 @@
         "available": "Available balance",
         "reserved": "Reserved for fees"
     },
+    "batchImportAccounts": {
+        "confirmImportModal": {
+            "accountToImport": "Account to Import",
+            "desc": "To ensure account security during your transfer, confirm that the URL in your browser is correct:",
+            "title": "Approve Account Import from",
+            "transactionDetails": "+ Transaction Details"
+        },
+        "confirmUrlModal": {
+            "desc": "To ensure account security during your transfer, confirm that the URL in your browser is correct:",
+            "title": "Confirm Your URL"
+        },
+        "importScreen": {
+            "desc": "Begin your import and confirm each account </br> when prompted.",
+            "title": "Ready to import ${noOfAccounts} account(s) from </br>"
+        },
+        "successScreen": {
+            "desc": "Select an account to continue to your account dashboard.",
+            "title": "${noOfAccounts} account(s) were successfully </br> imported from "
+        }
+    },
     "button": {
         "acceptAndContinue": "Accept & Continue",
         "addACustomAddress": "Add a Custom Address",
@@ -197,6 +225,7 @@
         "authorize": "Authorize",
         "authorizing": "Authorizing",
         "backToSwap": "Back to Swap",
+        "beginImport": "Begin Import",
         "browseApps": "Browse Apps",
         "buy": "Buy",
         "cancel": "Cancel",
@@ -244,6 +273,7 @@
         "learnMore": "Learn More",
         "learnMoreAboutNear": "Learn more about NEAR",
         "loading": "Loading",
+        "looksGood": "Looks Good!",
         "moreInformation": "More information",
         "needToEditGoBack": "Need to edit? Go Back",
         "next": "Next",
@@ -801,7 +831,19 @@
         "returnToWallet": "Return to Wallet",
         "title": "Whoops, looks like this page is missing."
     },
+    "postMigration": {
+        "cta": "Transfer my Accounts",
+        "message": "NEAR Wallet has migrated to a new domain: <b>https://mynearwallet.com</b>. <br/> You have until <b>${endDate}</b> to transfer your accounts, or to export your account keys from your account settings."
+    },
     "poweredByCoinGecko": "Prices powered by <a href='https://www.coingecko.com/en/api' target='_blank' rel='noopener noreferrer'>CoinGecko</a>",
+    "preMigration": {
+        "calendarEvent": {
+            "details": "This is the official start date of the near wallet migration. Please make sure to start migrating your account as soon as possible.",
+            "text": "NEAR Wallet Migration"
+        },
+        "cta": "Set a Reminder",
+        "message": "We’re moving! NEAR Wallet will be migrating to a new domain (<b>mynearwallet.com</b>) starting on <b>${startDate}</b>.<br/> Return once the new domain is live to migrate your accounts, or export your account keys from your <a href='/profile'>account settings.</a>"
+    },
     "profile": {
         "account": {
             "available": "Available balance",
@@ -1445,6 +1487,7 @@
         "staking": {
             "available": "Available balance",
             "button": "Stake My Tokens",
+            "checkingValidator": "Checking Validator",
             "currentValidators": "Your Current Validators",
             "desc": "Stake your NEAR tokens with a validator",
             "noValidators": "You haven't staked with a validator yet.",
@@ -1751,7 +1794,9 @@
         },
         "staking": {
             "noLockup": "No lockup contract for account",
-            "noWithdraw": "Unable to withdraw pending balance from validator"
+            "noWithdraw": "Unable to withdraw pending balance from validator",
+            "unableToCheckFAK": "Sorry, we are not able to check if Validator has full access key.",
+            "validatorHasFAK": "Sorry, we are not allowing you to stake with Validator that has a full access key, for your safety."
         }
     },
     "warning": "Warning",
