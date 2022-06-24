@@ -7,7 +7,7 @@ import {
     generatePublicKey,
     encodeAccountsTo
 } from '../../utils/encoding';
-import { getMyNearWalletUrl } from '../../utils/getWalletURL';
+import { getMyNearWalletUrlFromNEARORG } from '../../utils/getWalletURL';
 import { getLedgerHDPath } from '../../utils/localStorage';
 import { wallet } from '../../utils/wallet';
 import MigrateAccounts from './MigrateAccounts';
@@ -42,7 +42,7 @@ const encodeAccountsToURL = async (accounts, publicKey) => {
     }
 
     const hash = encodeAccountsTo(accountsData, publicKey);
-    const href = `${getMyNearWalletUrl()}/batch-import#${hash}`;
+    const href = `${getMyNearWalletUrlFromNEARORG()}/batch-import#${hash}`;
 
     return href;
 };
