@@ -14,7 +14,6 @@ import MigrateAccounts from './MigrateAccounts';
 import MigrationPrompt from './MigrationPrompt';
 import MigrationSecret from './MigrationSecret';
 import SelectDestinationWallet from './SelectDestinationWallet';
-import SelectWallet from './SelectWallet';
 
 
 export const WALLET_MIGRATION_VIEWS = {
