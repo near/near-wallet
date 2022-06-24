@@ -1,11 +1,11 @@
 import BN from 'bn.js';
 import { formatNearAmount } from 'near-api-js/lib/utils/format';
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import { Translate } from 'react-localize-redux';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 
-import { IS_MAINNET, MIN_BALANCE_FOR_GAS } from '../../config';
+import { IS_MAINNET, MIN_BALANCE_FOR_GAS, DISABLE_PHONE_RECOVERY } from '../../config';
 import { useAccount } from '../../hooks/allAccounts';
 import { Mixpanel } from '../../mixpanel/index';
 import {
@@ -30,6 +30,7 @@ import { selectAllAccountsHasLockup } from '../../redux/slices/allAccounts';
 import { actions as recoveryMethodsActions, selectRecoveryMethodsByAccountId } from '../../redux/slices/recoveryMethods';
 import { selectNearTokenFiatValueUSD } from '../../redux/slices/tokenFiatValues';
 import isMobile from '../../utils/isMobile';
+import { getActiveMethods, getActiveMethodsMap} from '../../utils/recoveryMethods';
 import { wallet } from '../../utils/wallet';
 import AlertBanner from '../common/AlertBanner';
 import FormButton from '../common/FormButton';
@@ -231,6 +232,11 @@ export function Profile({ match }) {
 
     const MINIMUM_AVAILABLE_TO_TRANSFER = new BN('10000000000000000000000');
 
+    // show most convenient methods if it was enabled
+    const activeMethodsMap = getActiveMethodsMap(getActiveMethods(userRecoveryMethods));
+    let shouldShowEmail = Boolean(activeMethodsMap.email.publicKey);
+    let shouldShowPhone = DISABLE_PHONE_RECOVERY && Boolean(activeMethodsMap.phone.publicKey);
+
     return (
         <StyledContainer>
             {isOwner && hasLockup && new BN(profileBalance.lockupBalance.unlocked.availableToTransfer).gte(MINIMUM_AVAILABLE_TO_TRANSFER) &&
@@ -292,9 +298,9 @@ export function Profile({ match }) {
                         <h4><Translate id='profile.security.mostSecure'/><Tooltip translate='profile.security.mostSecureDesc' icon='icon-lg'/></h4>
                         {!twoFactor && <HardwareDevices recoveryMethods={userRecoveryMethods}/>}
                         <RecoveryContainer type='phrase' recoveryMethods={userRecoveryMethods}/>
-                        <h4><Translate id='profile.security.lessSecure'/><Tooltip translate='profile.security.lessSecureDesc' icon='icon-lg'/></h4>
-                        <RecoveryContainer type='email' recoveryMethods={userRecoveryMethods}/>
-                        <RecoveryContainer type='phone' recoveryMethods={userRecoveryMethods}/>
+                        { (shouldShowEmail || shouldShowPhone) && <h4><Translate id='profile.security.lessSecure'/><Tooltip translate='profile.security.lessSecureDesc' icon='icon-lg'/></h4>}
+                        { shouldShowEmail && <RecoveryContainer type='email' recoveryMethods={userRecoveryMethods}/> }
+                        { shouldShowPhone && <RecoveryContainer type='phone' recoveryMethods={userRecoveryMethods}/> }
                         {!account.ledgerKey &&
                             <>
                                 <hr/>

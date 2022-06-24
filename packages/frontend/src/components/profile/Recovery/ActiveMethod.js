@@ -191,18 +191,14 @@ class ActiveMethod extends Component {
                                 {
                                     data.kind === 'email' && (
                                         <UnsupportedMethod>
-                                            <Translate>
-                                                {({ translate }) => translate('recoveryMgmt.unsupportedMethodEmail')}
-                                            </Translate>
+                                            <Translate id='recoveryMgmt.unsupportedMethodEmail' />
                                         </UnsupportedMethod>
                                     )
                                 }
                                 {
                                     data.kind === 'phone' && (
                                         <UnsupportedMethod>
-                                            <Translate>
-                                                {({ translate }) => translate('recoveryMgmt.unsupportedMethodPhone')}
-                                            </Translate>
+                                            <Translate id='recoveryMgmt.unsupportedMethodPhone' />
                                         </UnsupportedMethod>
                                     )
                                 }

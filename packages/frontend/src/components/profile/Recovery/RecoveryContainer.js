@@ -10,6 +10,7 @@ import selectRecoveryLoader from '../../../redux/selectors/crossStateSelectors/s
 import { selectAccountSlice } from '../../../redux/slices/account';
 import { actions as recoveryMethodsActions } from '../../../redux/slices/recoveryMethods';
 import { selectStatusMainLoader } from '../../../redux/slices/status';
+import { ALL_KINDS } from '../../../utils/recoveryMethods';
 import SkeletonLoading from '../../common/SkeletonLoading';
 import RecoveryMethod from './RecoveryMethod';
 
@@ -42,10 +43,9 @@ const RecoveryContainer = ({ type, recoveryMethods }) => {
     const account = useSelector(selectAccountSlice);
     const mainLoader = useSelector(selectStatusMainLoader);
     let userRecoveryMethods = recoveryMethods || [];
-    const allKinds = ['email', 'phone', 'phrase'];
-    const activeMethods = userRecoveryMethods.filter(({ kind }) => allKinds.includes(kind));
+    const activeMethods = userRecoveryMethods.filter(({ kind }) => ALL_KINDS.includes(kind));
     const currentActiveKinds = new Set(activeMethods.map((method) => method.kind));
-    const missingKinds = allKinds.filter((kind) => !currentActiveKinds.has(kind));
+    const missingKinds = ALL_KINDS.filter((kind) => !currentActiveKinds.has(kind));
     const deleteAllowed = [...currentActiveKinds].length > 1 || account.ledgerKey;
     missingKinds.forEach((kind) => activeMethods.push({ kind: kind }));
     const recoveryLoader = useSelector((state) => selectRecoveryLoader(state, { accountId: account.accountId }));
