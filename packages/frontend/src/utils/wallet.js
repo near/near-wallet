@@ -202,7 +202,7 @@ export default class Wallet {
         if (accessKeys) {
             const localKey = await this.getLocalAccessKey(accountId, accessKeys);
             const ledgerKey = accessKeys.find((accessKey) => accessKey.meta.type === 'ledger');
-            const localKeyIsNullOrNonMultisigLAK = !localKey || (localKey.access_key.permission !== 'FullAccess' && !this.isMultisigKeyInfoView(accountId, localKey));
+            const localKeyIsNullOrNonMultisigLAK = !localKey || (localKey.permission !== 'FullAccess' && !this.isMultisigKeyInfoView(accountId, localKey));
             if (ledgerKey && localKeyIsNullOrNonMultisigLAK) {
                 return PublicKey.from(ledgerKey.public_key);
             }
