@@ -2,6 +2,7 @@ import { partition } from 'lodash';
 import React, { useEffect, useMemo, useState } from 'react';
 import { Translate } from 'react-localize-redux';
 import { useSelector } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 import { useImmerReducer } from 'use-immer';
 
@@ -37,7 +38,7 @@ const CustomContainer = styled.div`
     }
 `;
 
-const BatchLedgerExport = ({ onCancel }) => {
+const BatchLedgerExport = ({ history }) => {
     const availableAccountsIsLoading = useSelector(selectAvailableAccountsIsLoading);
     const [, setLedgerAccounts] = useState([]);
 
@@ -104,7 +105,7 @@ const BatchLedgerExport = ({ onCancel }) => {
                     <div style={{ borderTop: '2px solid #f5f5f5' }} />
                     <FormButtonGroup>
                         <FormButton
-                            onClick={onCancel}
+                            onClick={() => history.goBack()}
                             className="gray-blue"
                             disabled={availableAccountsIsLoading}
                         >
@@ -136,4 +137,4 @@ const BatchLedgerExport = ({ onCancel }) => {
     );
 };
 
-export default BatchLedgerExport;
+export default withRouter(BatchLedgerExport);
