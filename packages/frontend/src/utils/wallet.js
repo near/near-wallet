@@ -636,11 +636,11 @@ export default class Wallet {
         const accountId = accountIdOverride || this.accountId;
         const ledgerPublicKey = await this.getLedgerPublicKey(path);
         const accessKeys = await this.getAccessKeys(accountId);
-        const accountHasLedgerKey = accessKeys.map((key) => key.public_key).includes(ledgerPublicKey.toString());
+        const accountHasLedgerKey = accessKeys.some((key) => key.public_key === ledgerPublicKey.toString());
         await setKeyMeta(ledgerPublicKey, { type: 'ledger' });
 
-        const account = await this.getAccount(accountId);
         if (!accountHasLedgerKey) {
+            const account = await this.getAccount(accountId);
             await account.addKey(ledgerPublicKey);
             await this.postSignedJson('/account/ledgerKeyAdded', { accountId, publicKey: ledgerPublicKey.toString() });
         }
@@ -649,12 +649,12 @@ export default class Wallet {
     async exportToLedgerWallet(path, accountId) {
         const ledgerPublicKey = await this.getLedgerPublicKey(path);
         const accessKeys = await this.getAccessKeys(accountId);
-        const accountHasLedgerKey = accessKeys.map((key) => key.public_key).includes(ledgerPublicKey.toString());
-
-        const account = await this.getAccount(accountId);
-        const has2fa = await TwoFactor.has2faEnabled(account);
+        const accountHasLedgerKey = accessKeys.some((key) => key.public_key === ledgerPublicKey.toString());
 
         if (!accountHasLedgerKey) {
+            const account = await this.getAccount(accountId);
+            const has2fa = await TwoFactor.has2faEnabled(account);
+
             if (has2fa) {
                 await store.dispatch(switchAccount({accountId: account.accountId}));
             }
