@@ -69,7 +69,7 @@ const AccountExportModal = ({ account, onSuccess, onFail }) => {
             setAddingKey(false);
         }
         dispatch(checkAndHideLedgerModal());
-    }, [onSuccess, account.accountId, ledgerConnectionAvailable]);
+    }, [path, account.accountId, ledgerConnectionAvailable]);
   
     return (
         <Modal
