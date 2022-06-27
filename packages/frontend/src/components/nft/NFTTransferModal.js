@@ -3,14 +3,14 @@ import { Translate } from 'react-localize-redux';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 
-import { EXPLORER_URL } from '../../config';
+import { EXPLORER_URL, NFT_TRANSFER_GAS } from '../../config';
 import { checkAccountAvailable } from '../../redux/actions/account';
 import { clearLocalAlert, showCustomAlert } from '../../redux/actions/status';
 import { selectBalance } from '../../redux/slices/account';
 import { actions as ledgerActions } from '../../redux/slices/ledger';
 import { actions as nftActions } from '../../redux/slices/nft';
 import { selectStatusLocalAlert } from '../../redux/slices/status';
-import NonFungibleTokens, { NFT_TRANSFER_GAS } from '../../services/NonFungibleTokens';
+import NonFungibleTokens from '../../services/NonFungibleTokens';
 import isMobile from '../../utils/isMobile';
 import Balance from '../common/balance/Balance';
 import FormButton from '../common/FormButton';

@@ -1,7 +1,15 @@
 import BN from 'bn.js';
 import * as nearApiJs from 'near-api-js';
 
-import { NEAR_TOKEN_ID } from '../config';
+import { 
+    NEAR_TOKEN_ID,
+    TOKEN_TRANSFER_DEPOSIT,
+    FT_TRANSFER_GAS,
+    FT_STORAGE_DEPOSIT_GAS,
+    FT_MINIMUM_STORAGE_BALANCE,
+    FT_MINIMUM_STORAGE_BALANCE_LARGE,
+    SEND_NEAR_GAS,
+} from '../config';
 import {
     parseTokenAmount,
     formatTokenAmount,
@@ -17,26 +25,6 @@ const {
         format: { parseNearAmount, formatNearAmount },
     },
 } = nearApiJs;
-
-// account creation costs 0.00125 NEAR for storage, 0.00000000003 NEAR for gas
-// https://docs.near.org/docs/api/naj-cookbook#wrap-and-unwrap-near
-const FT_MINIMUM_STORAGE_BALANCE = parseNearAmount('0.00125');
-// FT_MINIMUM_STORAGE_BALANCE: nUSDC, nUSDT require minimum 0.0125 NEAR. Came to this conclusion using trial and error.
-export const FT_MINIMUM_STORAGE_BALANCE_LARGE = parseNearAmount('0.0125');
-const FT_STORAGE_DEPOSIT_GAS = parseNearAmount('0.00000000003');
-
-// TODO: Convert all above constants into yoctoNEAR and add to config
-
-// Estimated gas required to call ft_transfer function call (remaining gas is refunded)
-const FT_TRANSFER_GAS = '15000000000000'; // 15 TGAS
-
-// https://docs.near.org/docs/concepts/gas#the-cost-of-common-actions
-const SEND_NEAR_GAS = '450000000000'; // 0.45 TGAS
-
-// contract might require an attached depositof of at least 1 yoctoNear on transfer methods
-// "This 1 yoctoNEAR is not enforced by this standard, but is encouraged to do. While ability to receive attached deposit is enforced by this token."
-// from: https://github.com/near/NEPs/issues/141
-const FT_TRANSFER_DEPOSIT = '1';
 
 // Fungible Token Standard
 // https://github.com/near/NEPs/tree/master/specs/Standards/FungibleToken
@@ -141,6 +129,7 @@ export default class FungibleTokens {
                 } catch (e) {
                     // sic.typo in `mimimum` wording of responses, so we check substring
                     // Original string was: 'attached deposit is less than the mimimum storage balance'
+                    // TODO: Call storage_balance_bounds: https://github.com/near/near-wallet/issues/2522
                     if (e.message.includes('attached deposit is less than')) {
                         await this.transferStorageDeposit({
                             account,
@@ -164,7 +153,7 @@ export default class FungibleTokens {
                             receiver_id: receiverId,
                         },
                         FT_TRANSFER_GAS,
-                        FT_TRANSFER_DEPOSIT
+                        TOKEN_TRANSFER_DEPOSIT
                     ),
                 ],
             });
@@ -202,7 +191,7 @@ export default class FungibleTokens {
                 toWNear ? 'near_deposit' : 'near_withdraw',
                 toWNear ? {} : { amount: wrapAmount },
                 FT_STORAGE_DEPOSIT_GAS,
-                toWNear ? wrapAmount : FT_TRANSFER_DEPOSIT
+                toWNear ? wrapAmount : TOKEN_TRANSFER_DEPOSIT
             ),
         ];
 
