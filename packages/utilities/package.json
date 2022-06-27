@@ -4,7 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
-    "near-api-js": "near/near-api-js#feat-disable-2fa-with-fak",
+    "near-api-js": "^0.45.1",
     "near-seed-phrase": "^0.2.0",
     "yargs": "^17.3.1"
   }
