@@ -3,8 +3,8 @@ import React, { useState } from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
+import { TOKEN_TRANSFER_DEPOSIT, NFT_TRANSFER_GAS } from '../../config';
 import UserIconGrey from '../../images/UserIconGrey';
-import { NFT_TRANSFER_DEPOSIT, NFT_TRANSFER_GAS } from '../../services/NonFungibleTokens';
 import BackArrowButton from '../common/BackArrowButton';
 import FormButton from '../common/FormButton';
 import Container from '../common/styled/Container.css';
@@ -112,7 +112,7 @@ const UserIcon = styled.div`
 export function NFTDetail({ nft, accountId, nearBalance, ownerId, history }) {
     const [transferNftDetail, setTransferNftDetail] = useState();
 
-    const transferMax = new BN((parseInt(NFT_TRANSFER_GAS, 10) + NFT_TRANSFER_DEPOSIT).toString());
+    const transferMax = new BN((parseInt(NFT_TRANSFER_GAS, 10) + TOKEN_TRANSFER_DEPOSIT).toString());
     const hasSufficientBalance = (new BN(nearBalance)).gte(transferMax);
     
     return (
