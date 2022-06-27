@@ -83,11 +83,11 @@ export default class StakingFarmContracts {
                 account_id,
                 from_index,
                 limit,
-            }.then(
+            }).then(
                 (farmListWithBalance) =>
                     farmListWithBalance.filter(({ balance }) => +balance > 0)
                         .length > 0
-            ))
+            )
         );
     };
 }
