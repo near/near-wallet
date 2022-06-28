@@ -1,0 +1,22 @@
+{
+  "name": "frontend-near-wallet",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "start": "parcel src/index.html --no-cache",
+    "build": "parcel build",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Philip Obosi",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/react": "^18.0.14",
+    "@types/react-dom": "^18.0.5",
+    "parcel": "^2.6.2"
+  },
+  "dependencies": {
+    "@stitches/react": "^1.2.8",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  }
+}
