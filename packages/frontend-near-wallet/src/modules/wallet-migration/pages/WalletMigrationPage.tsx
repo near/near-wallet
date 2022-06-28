@@ -24,11 +24,6 @@ const WalletMigrationPage = () => {
         }
     }, [])
 
-
-    if (!showContent) {
-        return null
-    }
-
     return (
         showContent ? <div>
             {activeView === WALLET_MIGRATION_VIEWS.MIGRATION_PROMPT &&
