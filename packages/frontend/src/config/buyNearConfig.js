@@ -20,7 +20,7 @@ export const getPayMethods = ({ accountId, moonPayAvailable, signedMoonPayUrl, u
         nearPay: {
             icon: payNear,
             name: 'NearPay',
-            link: 'https://www.nearpay.co/',
+            link: 'https://widget.nearpay.co/',
             track: () => Mixpanel.track('Wallet Click Buy with Nearpay')
         },
         utorg: {
