@@ -46,8 +46,8 @@ pipeline {
                     }
                     steps {
                         dir("$WORKSPACE/packages/frontend") {
-                            sh 'yarn lint'
                             sh 'yarn install --frozen-lockfile'
+                            sh 'yarn lint'
                         }
                     }
                 }
