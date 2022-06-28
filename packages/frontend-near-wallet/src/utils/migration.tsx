@@ -6,11 +6,14 @@ import IconLedger from '../assets/images/IconLedger';
 import IconMyNearWallet from '../assets/images/IconMyNearWallet';
 
 
+export const getAvailableAccounts = () => {
+    const dataFromLocalStorage = localStorage.getItem('_4:wallet:accounts_v2');
+    return dataFromLocalStorage ? JSON.parse(dataFromLocalStorage) : []
+}
+
 export const getExportQueryFromAccounts = () => {
-    const localAccountStore = JSON.parse(localStorage.getItem('_4:wallet:accounts_v2'))
-    console.log('localAccountStore', localAccountStore, Object.keys(localAccountStore))
+    const localAccountStore = getAvailableAccounts()
     const accounts: string[] = localAccountStore ? Object.keys(localAccountStore) : []
-    console.log(accounts);
     let keys = [];
     let ledgerHdPaths = [];
     let accountStringEncodes = [];

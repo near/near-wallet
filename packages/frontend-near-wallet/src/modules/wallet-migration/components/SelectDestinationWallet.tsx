@@ -1,10 +1,11 @@
 import React from 'react';
-import IconWallet from '../assets/images/IconWallet';
+import { styled } from '../../../styles';
+import IconWallet from '../../../assets/images/IconWallet';
 
-import { styled } from '../styles';
-import { WALLET_MIGRATION_VIEWS } from '../utils/constants';
-import { WALLET_OPTIONS } from '../utils/migration';
-import Button from './Button';
+
+import { WALLET_MIGRATION_VIEWS } from '../../../utils/constants';
+import { WALLET_OPTIONS } from '../../../utils/migration';
+import Button from '../../../components/Button';
 
 
 const SelectDestinationWallet = ({ handleSetActiveView, handleSetWalletType, handleRedirectToBatchImport, walletType }) => {

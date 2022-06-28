@@ -1,49 +1,22 @@
-import React from 'react';
-import MigrationPrompt from './components/MigrationPrompt'
-import { globalStyles } from './styles'
-import { getExportQueryFromAccounts } from './utils/migration';
-import SelectDestinationWallet from './components/SelectDestinationWallet';
-import { getMyNearWalletUrl, WALLET_MIGRATION_VIEWS } from './utils/constants';
+import * as React from "react";
+import { Routes, Route } from "react-router-dom";
+import LinkdropPage from "./modules/redirects/pages/LinkdropPage";
+import LoginPage from "./modules/redirects/pages/LoginPage";
+import RedirectPage from "./modules/redirects/pages/RedirectPage";
+import SignPage from "./modules/redirects/pages/SignPage";
 
+import WalletMigrationPage from "./modules/wallet-migration/pages/WalletMigrationPage";
 
-// import { selectAvailableAccounts } from '../../redux/slices/availableAccounts/index.js';
-// import { getMyNearWalletUrl } from '../../utils/getWalletURL.js';
-// import { generateMigrationPin, getExportQueryFromAccounts } from '../../utils/migration.js'
+import { globalStyles } from "./styles";
 
 const App = () => {
-    globalStyles();
-    const [walletType, setWalletType] = React.useState('my-near-wallet');
-    const [activeView, setActiveView] = React.useState(WALLET_MIGRATION_VIEWS.MIGRATION_PROMPT);
-
-
-    // const availableAccounts = useSelector(selectAvailableAccounts);
-
-
-    const handleRedirectToBatchImport = () => {
-        const query = getExportQueryFromAccounts();
-        const destinationWalletBaseUrl = getMyNearWalletUrl();
-        window.location.href = `${destinationWalletBaseUrl}/batch-import#${query}`;
-    };
-
+    globalStyles()
     return (
-        <div>
-            {activeView === WALLET_MIGRATION_VIEWS.MIGRATION_PROMPT &&
-                <MigrationPrompt
-                    handleSetActiveView={setActiveView}
-                    handleRedirectToBatchImport={handleRedirectToBatchImport}
-                />
-            }
-
-            {activeView === WALLET_MIGRATION_VIEWS.SELECT_DESTINATION_WALLET &&
-                <SelectDestinationWallet
-                    walletType={walletType}
-                    handleSetWalletType={setWalletType}
-                    handleSetActiveView={setActiveView}
-                    handleRedirectToBatchImport={handleRedirectToBatchImport}
-                />
-            }
-        </div>
+        <Routes>
+            <Route path="/" element={<WalletMigrationPage />} />
+            <Route path="*" element={<RedirectPage />} />
+        </Routes>
     );
-};
+}
 
-export default App;
+export default App

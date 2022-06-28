@@ -1,10 +1,10 @@
 
 import React from 'react';
-import { getMyNearWalletUrl, WALLET_MIGRATION_VIEWS } from '../utils/constants';
-import { styled } from '../styles';
-import Button from './Button';
+import { getMyNearWalletUrl, WALLET_MIGRATION_VIEWS } from '../../../utils/constants';
+import { styled } from '../../../styles';
+import Button from '../../../components/Button';
 
-import MyNearWalletLogo from '../assets/images/ImgMyNearWalletLogo';
+import MyNearWalletLogo from '../../../assets/images/ImgMyNearWalletLogo';
 
 const MigrationPrompt = ({ handleSetActiveView, handleRedirectToBatchImport }) => {
     const destinationWalletBaseUrl = getMyNearWalletUrl();
