@@ -1,7 +1,6 @@
 import { globalCss } from './stitches.config';
 
 const globalStylesObj = {
-  '@import': ['/presets/normalize.css', '/presets/locomotive.css'],
   ':root': {
     '--font-text': [
       "Inter, -apple-system, 'Segoe UI', Helvetica Neue, Helvetica, Roboto, sans-serif, system-ui, 'Apple Color Emoji', 'Segoe UI Emoji'",
