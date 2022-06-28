@@ -76,8 +76,8 @@
     "fix": "eslint --ext .js --ext .jsx . --fix",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
-    "prepush": "yarn run test",
-    "precommit": "concurrently \"yarn run fix\" \".githooks/format-json\"",
+    "prepush": "concurrently \"yarn run test\" \"yarn lint\"",
+    "precommit": ".githooks/format-json",
     "preinstall": "npx only-allow yarn"
   },
   "browserslist": [
