@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "start": "parcel src/index.html --no-cache",
+    "start": "parcel src/index.html --no-cache --https",
     "build": "parcel build src/index.html ",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

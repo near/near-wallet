@@ -1,138 +1,129 @@
 import React from 'react';
-import { Translate } from 'react-localize-redux';
-import styled from 'styled-components';
+import IconWallet from '../assets/images/IconWallet';
 
-import IconWallet from '../../images/wallet-migration/IconWallet';
-import classNames from '../../utils/classNames';
-import { WALLET_OPTIONS } from '../../utils/migration';
-import FormButton from '../common/FormButton';
-import Container from '../common/styled/Container.css';
+import { styled } from '../styles';
+import { WALLET_MIGRATION_VIEWS } from '../utils/constants';
+import { WALLET_OPTIONS } from '../utils/migration';
 import Button from './Button';
-import { WALLET_MIGRATION_VIEWS } from './WalletMigration';
 
 
-const StyledContainer = styled(Container)`
-    padding: 15px 0;
-    text-align: center;
-    margin: 0 auto;
-    max-width: 362px;
+const StyledContainer = styled('div', {
+    maxWidth: '396px',
+    margin: '0 auto',
+    padding: '0 20px',
+    height: '100vh',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    textAlign: 'center',
 
-
-    @media (max-width: 360px) {
-        padding: 0;
+    '& .title': {
+        fontWeight: 800,
+        fontSize: '20px',
+        marginTop: '40px',
     }
+})
 
-    @media (min-width: 500px) {
-        
-    }
+const WalletOptionsListing = styled('div', {
+    marginTop: '40px',
+    width: '100%',
+})
 
-    .title{
-        font-weight: 800;
-        font-size: 20px;
-        margin-top: 40px;
-    }
-`;
+const WalletOptionsListingItem = styled('div', {
+    position: 'relative',
+    backgroundColor: '#FAFAFA',
+    width: '100%',
+    padding: '14px 17.5px',
+    cursor: 'pointer',
+    textAlign: 'center',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
 
-const WalletOptionsListing = styled.div`
-    margin-top: 40px;
-`;
+    '&:hover': {
+        background: '#F0F9FF',
+    },
 
-const WalletOptionsListingItem = styled.div`
-    position: relative;
-    background-color: #FAFAFA;
-    padding: 14px 16px;
-    cursor: pointer;
-    text-align: left;
-    padding: 12px 16px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    cursor: pointer;
+    '&:not(:first-child)': {
+        marginTop: '8px',
+    },
 
-    &:hover {
-        background: #F0F9FF;
-    }
+    '&:before': {
+        content: '""',
+        height: '22px',
+        width: '22px',
+        top: 'calc((100% - 22px) / 2)',
+        border: '2px solid #E6E6E6',
+        borderRadius: '50%',
+        position: 'absolute',
+    },
 
-    &:before {
-        content: '';
-        height: 22px;
-        width: 22px;
-        top: calc((100% - 22px) / 2);
-        border: 2px solid #E6E6E6;
-        border-radius: 50%;
-        position: absolute;
-    }
+    '&.active': {
+        backgroundColor: '#F0F9FF',
+        borderLeft: 'solid 4px #2B9AF4',
 
-    &.active {
-        background-color: #F0F9FF;
-        border-left: solid 4px #2B9AF4;
+        '&:before': {
+            backgroundColor: '$blue',
+            borderColor: '$blue'
+        },
 
-        :before {
-            background-color: #2B9AF4;
-            border-color: #2B9AF4;
+        '&:after': {
+            content: '',
+            position: 'absolute',
+            transform: 'rotate(45deg)',
+            left: '23px',
+            top: '33px',
+            height: '11px',
+            width: '11px',
+            backgroundColor: '$white',
+            borderRadius: '50%',
+            boxShadow: '1px 0px 2px 0px #0000005',
         }
+    },
 
-        :after {
-            content: '';
-            position: absolute;
-            transform: rotate(45deg);
-            left: 23px;
-            top: 33px;
-            height: 11px;
-            width: 11px;
-            background-color: white;
-            border-radius: 50%;
-            box-shadow: 1px 0px 2px 0px #0000005;
-        }
+    '& .name': {
+        fontSize: '16px',
+        fontWeight: 700,
+        paddingLeft: '40px',
+        textAlign: 'left',
+        color: '#3F4045'
+    },
+
+    '& > svg': {
+        height: '48px',
+        width: '48px',
+        borderRadius: '50%'
     }
+})
 
-    .name {
-        font-size: 16px;
-        font-weight: 700;
-        padding-left: 40px;
-        text-align: left;
-        color: #3F4045;
+const ButtonsContainer = styled('div', {
+    textAlign: 'center',
+    width: '100% !important',
+    display: 'flex'
+})
+
+const StyledButton = styled(Button, {
+    width: 'calc((100% - 16px) / 2)',
+    margin: '48px 0 0 !important',
+
+    '&:last-child': {
+        marginLeft: '16px !important'
     }
+})
 
-    &:not(:first-child) {
-        margin-top: 8px;
-    }
-
-    svg {
-        height: 48px;
-        width: 48px;
-        border-radius: 50%;
-    }
-`;
-
-const ButtonsContainer = styled.div`
-    text-align: center;
-    width: 100% !important;
-    display: flex;
-`;
-
-const StyledButton = styled(Button)`
-    width: calc((100% - 16px) / 2);
-    margin: 48px 0 0 !important;
-
-    &:last-child{
-        margin-left: 16px !important;
-    }
-`;
 
 
 const SelectDestinationWallet = ({ handleSetActiveView, handleSetWalletType, handleRedirectToBatchImport, walletType }) => {
     return (
-
         <StyledContainer>
             <IconWallet />
-            <h4 className='title'><Translate id='walletMigration.selectWallet.title' /></h4>
+            <h4 className='title'>Select a wallet to transfer accounts</h4>
             <WalletOptionsListing>
                 {WALLET_OPTIONS.map(({ id, name, icon }) => {
                     const isSelected = id === walletType;
                     return <WalletOptionsListingItem
-                        className={classNames([{ active: isSelected }])}
+                        className={`${isSelected ? 'active' : ''}`}
                         onClick={() => handleSetWalletType(id)}
                         key={name}
                     >
@@ -142,7 +133,7 @@ const SelectDestinationWallet = ({ handleSetActiveView, handleSetWalletType, han
                 })}
             </WalletOptionsListing>
             <ButtonsContainer>
-                <StyledButton className="gray-blue" onClick={() => { handleSetActiveView(WALLET_MIGRATION_VIEWS.MIGRATION_PROMPT); }}>
+                <StyledButton onClick={() => { handleSetActiveView(WALLET_MIGRATION_VIEWS.MIGRATION_PROMPT); }} variant="gray">
                     Cancel
                 </StyledButton>
                 <StyledButton onClick={handleRedirectToBatchImport}>

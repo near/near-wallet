@@ -85,6 +85,10 @@ const Button = styled('button', {
             text: {
                 bc: 'transparent',
                 color: '$black'
+            },
+            gray: {
+                bc: '$gray',
+                color: '$blue'
             }
         },
 

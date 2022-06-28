@@ -17,7 +17,7 @@ export const {
       black: '#151515',
       red:'#F65259',
       white: '#ffffff',
-      grey: '#cccccc',
+      gray: '#F0F0F1',
     },
     space: {
       1: '4px',

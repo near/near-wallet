@@ -1,19 +1,14 @@
 import React from 'react';
 import MigrationPrompt from './components/MigrationPrompt'
-
-import { useSelector } from 'react-redux';
 import { globalStyles } from './styles'
+import { getExportQueryFromAccounts } from './utils/migration';
+import SelectDestinationWallet from './components/SelectDestinationWallet';
+import { WALLET_MIGRATION_VIEWS } from './utils/constants';
 
 
 // import { selectAvailableAccounts } from '../../redux/slices/availableAccounts/index.js';
 // import { getMyNearWalletUrl } from '../../utils/getWalletURL.js';
-// import { generateMigrationPin, getExportQueryFromAccounts } from '../../utils/migration.js';
-
-export const WALLET_MIGRATION_VIEWS = {
-    MIGRATION_PROMPT: 'MIGRATION_PROMPT',
-    SELECT_DESTINATION_WALLET: 'SELECT_DESTINATION_WALLET',
-    GENERATE_MIGRATION_PIN: 'GENERATE_MIGRATION_PIN',
-};
+// import { generateMigrationPin, getExportQueryFromAccounts } from '../../utils/migration.js'
 
 const App = () => {
     globalStyles();
@@ -24,9 +19,9 @@ const App = () => {
 
 
     const handleRedirectToBatchImport = () => {
-        // const query = getExportQueryFromAccounts(availableAccounts);
-        // const baseUrl = getMyNearWalletUrl();
-        // window.location.href = `${baseUrl}/batch-import#${query}`;
+        const query = getExportQueryFromAccounts();
+        const baseUrl = 'https://testnet.mynearwallet.com';
+        window.location.href = `${baseUrl}/batch-import#${query}`;
     };
 
     return (
@@ -37,16 +32,15 @@ const App = () => {
                     handleRedirectToBatchImport={handleRedirectToBatchImport}
                 />
             }
-            {/* 
-            {state.activeView === WALLET_MIGRATION_VIEWS.SELECT_DESTINATION_WALLET &&
+
+            {activeView === WALLET_MIGRATION_VIEWS.SELECT_DESTINATION_WALLET &&
                 <SelectDestinationWallet
-                    walletType={state.walletType}
-                    onClose={handleCloseMigrationFlow}
-                    handleSetWalletType={handleSetWalletType}
-                    handleSetActiveView={handleSetActiveView}
+                    walletType={walletType}
+                    handleSetWalletType={setWalletType}
+                    handleSetActiveView={setActiveView}
                     handleRedirectToBatchImport={handleRedirectToBatchImport}
                 />
-            } */}
+            }
         </div>
     );
 };
