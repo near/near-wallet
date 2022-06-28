@@ -2,9 +2,7 @@ import { globalCss } from './stitches.config';
 
 const globalStylesObj = {
   ':root': {
-    '--font-text': [
-      "'Inter', sans-serif, -apple-system, 'Segoe UI', Helvetica Neue, Helvetica, Roboto, sans-serif, system-ui, 'Apple Color Emoji', 'Segoe UI Emoji'",
-    ],
+    '--font-text': ["'Inter', sans-serif, -apple-system, 'Segoe UI', Helvetica Neue, Helvetica, Roboto",],
   },
   '*,*::before,*::after': {
     margin: 0,
