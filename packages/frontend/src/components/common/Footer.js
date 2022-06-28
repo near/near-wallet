@@ -133,7 +133,7 @@ const Footer = () => {
             <div className='right'>
                 <Translate id='footer.needHelp' /><br />
                 <a
-                    href='https://near.chat'
+                    href='https://discord.com/invite/Vj74PpQYsh'
                     rel='noopener noreferrer'
                     target='_blank'
                     onClick={() => Mixpanel.track('Footer Click Join Community')}
