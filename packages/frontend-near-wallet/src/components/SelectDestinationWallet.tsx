@@ -7,6 +7,40 @@ import { WALLET_OPTIONS } from '../utils/migration';
 import Button from './Button';
 
 
+const SelectDestinationWallet = ({ handleSetActiveView, handleSetWalletType, handleRedirectToBatchImport, walletType }) => {
+    return (
+        <StyledContainer>
+            <IconWallet />
+            <h4 className='title'>Select a wallet to transfer accounts</h4>
+            <WalletOptionsListing>
+                {WALLET_OPTIONS.map(({ id, name, icon }) => {
+                    const isSelected = id === walletType;
+                    return <WalletOptionsListingItem
+                        className={`${isSelected ? 'active' : ''}`}
+                        onClick={() => handleSetWalletType(id)}
+                        key={name}
+                    >
+                        <h4 className='name'>{name}</h4>
+                        {icon}
+                    </WalletOptionsListingItem>;
+                })}
+            </WalletOptionsListing>
+            <ButtonsContainer>
+                <StyledButton onClick={() => { handleSetActiveView(WALLET_MIGRATION_VIEWS.MIGRATION_PROMPT); }} variant="gray">
+                    Cancel
+                </StyledButton>
+                <StyledButton onClick={handleRedirectToBatchImport}>
+                    Continue
+                </StyledButton>
+            </ButtonsContainer>
+        </StyledContainer>
+    );
+};
+
+export default SelectDestinationWallet;
+
+
+
 const StyledContainer = styled('div', {
     maxWidth: '396px',
     margin: '0 auto',
@@ -112,36 +146,3 @@ const StyledButton = styled(Button, {
     }
 })
 
-
-
-const SelectDestinationWallet = ({ handleSetActiveView, handleSetWalletType, handleRedirectToBatchImport, walletType }) => {
-    return (
-        <StyledContainer>
-            <IconWallet />
-            <h4 className='title'>Select a wallet to transfer accounts</h4>
-            <WalletOptionsListing>
-                {WALLET_OPTIONS.map(({ id, name, icon }) => {
-                    const isSelected = id === walletType;
-                    return <WalletOptionsListingItem
-                        className={`${isSelected ? 'active' : ''}`}
-                        onClick={() => handleSetWalletType(id)}
-                        key={name}
-                    >
-                        <h4 className='name'>{name}</h4>
-                        {icon}
-                    </WalletOptionsListingItem>;
-                })}
-            </WalletOptionsListing>
-            <ButtonsContainer>
-                <StyledButton onClick={() => { handleSetActiveView(WALLET_MIGRATION_VIEWS.MIGRATION_PROMPT); }} variant="gray">
-                    Cancel
-                </StyledButton>
-                <StyledButton onClick={handleRedirectToBatchImport}>
-                    Continue
-                </StyledButton>
-            </ButtonsContainer>
-        </StyledContainer>
-    );
-};
-
-export default SelectDestinationWallet;

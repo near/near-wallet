@@ -3,7 +3,7 @@ import { globalCss } from './stitches.config';
 const globalStylesObj = {
   ':root': {
     '--font-text': [
-      "Inter, -apple-system, 'Segoe UI', Helvetica Neue, Helvetica, Roboto, sans-serif, system-ui, 'Apple Color Emoji', 'Segoe UI Emoji'",
+      "'Inter', sans-serif, -apple-system, 'Segoe UI', Helvetica Neue, Helvetica, Roboto, sans-serif, system-ui, 'Apple Color Emoji', 'Segoe UI Emoji'",
     ],
   },
   '*,*::before,*::after': {
@@ -16,15 +16,15 @@ const globalStylesObj = {
     color: 'inherit',
     lineHeight: '1.2',
     fontFeatureSettings: 'kern',
-    webkitFontSmoothing: 'antialiased !important',
-    textRendering:'optimizeLegibility !important'
+    webkitFontSmoothing: 'antialiased',
+    textRendering:'optimizeLegibility'
   },
   'html, body': {
     minWidth: '320px',
     textSizeAdjust: '100%',
     WebkitTapHighlightColor: 'rgba(0, 0, 0, 0)',
-    backgroundColor: '$bgColor',
-    color: '$fgColor',
+    backgroundColor: '$white',
+    color: '$black',
   },
   html: {
     boxSizing: 'border-box', 
@@ -82,7 +82,6 @@ const globalStylesObj = {
     fontWeight: '600',
     fontStyle: 'normal',
     display: 'block',
-    ai: 'center',
   },
   h1: {
     fontSize: '$heading1',
@@ -111,15 +110,6 @@ const globalStylesObj = {
   p: {
     fontSize: '$body1',
     lineHeight: '$body1',
-    color:'$textLight'
-  },
-
-  // Colored text
-  '.textPurple': {
-    color: '$brandPurple',
-  },
-  '.textYellow': {
-    color: '$brandYellow',
   },
 };
 

@@ -3,7 +3,7 @@ import MigrationPrompt from './components/MigrationPrompt'
 import { globalStyles } from './styles'
 import { getExportQueryFromAccounts } from './utils/migration';
 import SelectDestinationWallet from './components/SelectDestinationWallet';
-import { WALLET_MIGRATION_VIEWS } from './utils/constants';
+import { getMyNearWalletUrl, WALLET_MIGRATION_VIEWS } from './utils/constants';
 
 
 // import { selectAvailableAccounts } from '../../redux/slices/availableAccounts/index.js';
@@ -15,13 +15,14 @@ const App = () => {
     const [walletType, setWalletType] = React.useState('my-near-wallet');
     const [activeView, setActiveView] = React.useState(WALLET_MIGRATION_VIEWS.MIGRATION_PROMPT);
 
+
     // const availableAccounts = useSelector(selectAvailableAccounts);
 
 
     const handleRedirectToBatchImport = () => {
         const query = getExportQueryFromAccounts();
-        const baseUrl = 'https://testnet.mynearwallet.com';
-        window.location.href = `${baseUrl}/batch-import#${query}`;
+        const destinationWalletBaseUrl = getMyNearWalletUrl();
+        window.location.href = `${destinationWalletBaseUrl}/batch-import#${query}`;
     };
 
     return (

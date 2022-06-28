@@ -1,20 +1,6 @@
 import React, { ReactNode } from 'react'
 import { styled } from '../styles';
 
-
-export type ButtonVariants = 'primary' | 'secondary';
-
-export type ButtonSizes = 'XL' | 'L' | 'M' | 'S'
-
-export interface ButtonProps {
-    loading?: boolean;
-    variant: ButtonVariants;
-    size: ButtonSizes;
-    as?: any
-    children: ReactNode
-}
-
-
 const Button = styled('button', {
     // Reset
     all: 'unset',
@@ -39,11 +25,9 @@ const Button = styled('button', {
     jc: 'center',
     bc: '$white',
     fontSize: '$body1',
-    fontWeight: 500,
+    fontWeight: 600,
     width: 'fit-content',
-    fontVariantNumeric: 'tabular-nums',
     borderRadius: '$pill',
-    // borderRadius: '$2',
     cursor: 'pointer',
     transition: '.25s cubic-bezier(.49,.11,.6,1)',
     display: 'inline-flex',

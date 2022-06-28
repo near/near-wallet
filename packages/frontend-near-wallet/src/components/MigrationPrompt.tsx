@@ -1,18 +1,20 @@
 
 import React from 'react';
-import { WALLET_MIGRATION_VIEWS } from '../utils/constants';
+import { getMyNearWalletUrl, WALLET_MIGRATION_VIEWS } from '../utils/constants';
 import { styled } from '../styles';
 import Button from './Button';
 
 import MyNearWalletLogo from '../assets/images/ImgMyNearWalletLogo';
 
 const MigrationPrompt = ({ handleSetActiveView, handleRedirectToBatchImport }) => {
+    const destinationWalletBaseUrl = getMyNearWalletUrl();
+
     return (
         <StyledContainer>
             <MyNearWalletLogo className="logo" />
             <h3 className='ttl'>We’ve moved!</h3>
             <p className='desc'>
-                NEAR Wallet is now My NEAR Wallet, and has moved to a new domain. You can find us at <a href='https://mynearwallet.com'>https://mynearwallet.com</a>.
+                NEAR Wallet is now My NEAR Wallet, and has moved to a new domain. You can find us at <a href={destinationWalletBaseUrl}>{destinationWalletBaseUrl}</a>.
                 <br /><br />
                 If you haven’t already, quickly and easily transfer your accounts to the new domain:
             </p>
@@ -49,6 +51,7 @@ const StyledContainer = styled('section', {
     '& > .ttl': {
         margin: '0 auto 24px',
         textAlign: 'center',
+        fontWeight: 800,
     },
 
     '& > .desc': {
@@ -72,6 +75,6 @@ const StyledButton = styled(Button, {
     cursor: 'pointer',
     margin: '0 !important',
     '&:not(:first-child)': {
-        marginTop: '10px !important'
+        marginTop: '5px !important'
     }
 });
