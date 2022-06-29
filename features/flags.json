@@ -91,14 +91,14 @@
     "createdBy": "Andy Haynes",
     "createdAt": "2022-06-22T01:17:14.439Z",
     "development": {
-      "enabled": false,
+      "enabled": true,
       "lastEditedBy": "Andy Haynes",
-      "lastEditedAt": "2022-06-22T01:17:14.438Z"
+      "lastEditedAt": "2022-06-29T18:19:13.375Z"
     },
     "testnet": {
-      "enabled": false,
+      "enabled": true,
       "lastEditedBy": "Andy Haynes",
-      "lastEditedAt": "2022-06-22T01:17:14.439Z"
+      "lastEditedAt": "2022-06-29T18:19:13.377Z"
     },
     "mainnet": {
       "enabled": false,
@@ -111,14 +111,14 @@
       "lastEditedAt": "2022-06-22T01:17:14.439Z"
     },
     "testnet_STAGING": {
-      "enabled": false,
+      "enabled": true,
       "lastEditedBy": "Andy Haynes",
-      "lastEditedAt": "2022-06-22T01:17:14.439Z"
+      "lastEditedAt": "2022-06-29T18:19:13.377Z"
     },
     "testnet_NEARORG": {
-      "enabled": false,
+      "enabled": true,
       "lastEditedBy": "Andy Haynes",
-      "lastEditedAt": "2022-06-22T01:17:14.439Z"
+      "lastEditedAt": "2022-06-29T18:19:13.377Z"
     },
     "mainnet_NEARORG": {
       "enabled": false,
