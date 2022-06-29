@@ -1,4 +1,4 @@
-import { differenceBy } from 'lodash';
+import { differenceBy, uniqWith, isEqual } from 'lodash';
 
 import { IMPORT_STATUS } from '.';
 
@@ -6,8 +6,9 @@ import { IMPORT_STATUS } from '.';
  * @typedef {{ 
  *  accountId: string, 
  *  status: "pending" | "success" | "waiting" | "error" | null ,
- *  key: string,
- *  ledgerHdPath: string
+ *  key?: string,
+ *  ledgerHdPath?: string,
+ *  keyType?: string
  * }} account
  * 
  * @typedef {{accounts: account[], urlConfirmed: boolean}} state
@@ -42,6 +43,13 @@ const sequentialAccountImportReducer = (state = initialState, action) => {
                     action.accounts,
                     (accountOrId) => accountOrId?.accountId || accountOrId
                 );
+            }
+
+            return;
+        }
+        case ACTIONS.ADD_ACCOUNTS: {
+            if (state.accounts.every(({ status }) => status === null)) {
+                state.accounts = uniqWith(state.accounts.concat(action.accounts), isEqual);
             }
 
             return;

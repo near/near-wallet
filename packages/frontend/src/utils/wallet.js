@@ -9,7 +9,8 @@ import { store } from '..';
 import * as Config from '../config';
 import {
     makeAccountActive,
-    redirectTo
+    redirectTo,
+    switchAccount
 } from '../redux/actions/account';
 import { actions as ledgerActions } from '../redux/slices/ledger';
 import sendJson from '../tmp_fetch_send_json';
@@ -201,7 +202,8 @@ export default class Wallet {
         if (accessKeys) {
             const localKey = await this.getLocalAccessKey(accountId, accessKeys);
             const ledgerKey = accessKeys.find((accessKey) => accessKey.meta.type === 'ledger');
-            if (ledgerKey && (!localKey || localKey.permission !== 'FullAccess')) {
+            const localKeyIsNullOrNonMultisigLAK = !localKey || (localKey.permission !== 'FullAccess' && !this.isMultisigKeyInfoView(accountId, localKey));
+            if (ledgerKey && localKeyIsNullOrNonMultisigLAK) {
                 return PublicKey.from(ledgerKey.public_key);
             }
         }
@@ -293,6 +295,11 @@ export default class Wallet {
         }
 
         throw new Error('No matching key pair for public key');
+    }
+
+    async getAccountKeyType(accountId) {
+        const keypair = await wallet.keyStore.getKey(NETWORK_ID, accountId);
+        return this.getPublicKeyType(accountId, keypair.getPublicKey().toString());
     }
 
     isFullAccessKeyInfoView(keyInfoView) {
@@ -625,17 +632,33 @@ export default class Wallet {
         }
     }
 
-    async addLedgerAccessKey(path) {
-        const accountId = this.accountId;
+    async addLedgerAccessKey(path, accountIdOverride) {
+        const accountId = accountIdOverride || this.accountId;
         const ledgerPublicKey = await this.getLedgerPublicKey(path);
-        const accessKeys = await this.getAccessKeys();
-        const accountHasLedgerKey = accessKeys.map((key) => key.public_key).includes(ledgerPublicKey.toString());
+        const accessKeys = await this.getAccessKeys(accountId);
+        const accountHasLedgerKey = accessKeys.some((key) => key.public_key === ledgerPublicKey.toString());
         await setKeyMeta(ledgerPublicKey, { type: 'ledger' });
 
-        const account = await this.getAccount(accountId);
         if (!accountHasLedgerKey) {
+            const account = await this.getAccount(accountId);
             await account.addKey(ledgerPublicKey);
             await this.postSignedJson('/account/ledgerKeyAdded', { accountId, publicKey: ledgerPublicKey.toString() });
+        }
+    }
+
+    async exportToLedgerWallet(path, accountId) {
+        const ledgerPublicKey = await this.getLedgerPublicKey(path);
+        const accessKeys = await this.getAccessKeys(accountId);
+        const accountHasLedgerKey = accessKeys.some((key) => key.public_key === ledgerPublicKey.toString());
+
+        if (!accountHasLedgerKey) {
+            const account = await this.getAccount(accountId);
+            const has2fa = await TwoFactor.has2faEnabled(account);
+
+            if (has2fa) {
+                await store.dispatch(switchAccount({accountId: account.accountId}));
+            }
+            await account.addKey(ledgerPublicKey);
         }
     }
 

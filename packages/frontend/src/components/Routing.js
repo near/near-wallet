@@ -56,6 +56,7 @@ import {
 import AccessKeysWrapper from './access-keys/v2/AccessKeysWrapper';
 import { AutoImportWrapper } from './accounts/auto_import/AutoImportWrapper';
 import BatchImportAccounts from './accounts/batch_import_accounts';
+import BatchLedgerExport from './accounts/batch_ledger_export';
 import { ExistingAccountWrapper } from './accounts/create/existing_account/ExistingAccountWrapper';
 import { InitialDepositWrapper } from './accounts/create/initial_deposit/InitialDepositWrapper';
 import { CreateAccountLanding } from './accounts/create/landing/CreateAccountLanding';
@@ -579,6 +580,11 @@ class Routing extends Component {
                                 }, {});
                                 return <BatchImportAccounts accountIdToKeyMap={accountIdToKeyMap} onCancel={() => this.props.history.replace('/')}/>;
                             })} />
+                            <Route
+                                exact
+                                path="/batch-ledger-export"
+                                component={BatchLedgerExport}
+                            />
                             <Route
                                 exact
                                 path="/sign-in-ledger"

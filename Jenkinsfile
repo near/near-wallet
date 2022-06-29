@@ -11,9 +11,9 @@ pipeline {
         AWS_CREDENTIALS = 'aws-credentials-password'
         AWS_REGION = 'us-west-2'
         TESTNET_AWS_ROLE = credentials('testnet-assumed-role')
-        TESTNET_AWS_ROLE_ACCOUNT = credentials('testnet-assumed-role-account')
+        TESTNET_AWS_ACCOUNT_ID = credentials('testnet-mnw-account-id')
         MAINNET_AWS_ROLE = credentials('mainnet-assumed-role')
-        MAINNET_AWS_ROLE_ACCOUNT = credentials('mainnet-assumed-role-account')
+        MAINNET_AWS_ACCOUNT_ID = credentials('mainnet-mnw-account-id')
 
         // s3 buckets
         TESTNET_PR_PREVIEW_STATIC_SITE_BUCKET = credentials('testnet-pr-previews-static-website')
@@ -47,6 +47,7 @@ pipeline {
                     steps {
                         dir("$WORKSPACE/packages/frontend") {
                             sh 'yarn install --frozen-lockfile'
+                            sh 'yarn lint'
                         }
                     }
                 }
@@ -62,10 +63,13 @@ pipeline {
         stage('packages:test') {
             failFast true
 
+            when {
+                expression { env.BUILD_FRONTEND == 'true' }
+            }
             parallel {
                 stage('frontend:prebuild:testnet-staging') {
                     when {
-                        expression { env.BUILD_FRONTEND == 'true' }
+                        not { branch 'stable' }
                     }
                     environment {
                         NEAR_WALLET_ENV = 'testnet_STAGING'
@@ -79,7 +83,7 @@ pipeline {
 
                 stage('frontend:prebuild:testnet') {
                     when {
-                        expression { env.BUILD_FRONTEND == 'true' }
+                        not { branch 'stable' }
                     }
                     environment {
                         NEAR_WALLET_ENV = 'testnet'
@@ -93,7 +97,7 @@ pipeline {
 
                 stage('frontend:prebuild:mainnet-staging') {
                     when {
-                        expression { env.BUILD_FRONTEND == 'true' }
+                        not { branch 'stable' }
                     }
                     environment {
                         NEAR_WALLET_ENV = 'mainnet_STAGING'
@@ -106,9 +110,6 @@ pipeline {
                 }
 
                 stage('frontend:prebuild:mainnet') {
-                    when {
-                        expression { env.BUILD_FRONTEND == 'true' }
-                    }
                     environment {
                         NEAR_WALLET_ENV = 'mainnet'
                     }
@@ -137,8 +138,7 @@ pipeline {
                 // build end-to-end testing package
                 stage('e2e-tests') {
                     when {
-                        expression { env.BUILD_E2E == 'true' };
-                        anyOf { branch 'master' ; branch 'stable' }
+                        expression { env.BUILD_E2E == 'true' }
                     }
                     stages {
                         stage('e2e-tests:build') {
@@ -155,7 +155,8 @@ pipeline {
                 // build frontend bundles
                 stage('frontend:bundle:testnet-staging') {
                     when {
-                        expression { env.BUILD_FRONTEND == 'true' }
+                        expression { env.BUILD_FRONTEND == 'true' };
+                        not { branch 'stable' }
                     }
                     environment {
                         NEAR_WALLET_ENV = 'testnet_STAGING'
@@ -170,7 +171,8 @@ pipeline {
 
                 stage('frontend:bundle:testnet') {
                     when {
-                        expression { env.BUILD_FRONTEND == 'true' }
+                        expression { env.BUILD_FRONTEND == 'true' };
+                        branch 'master'
                     }
                     environment {
                         NEAR_WALLET_ENV = 'testnet'
@@ -185,7 +187,8 @@ pipeline {
 
                 stage('frontend:bundle:mainnet-staging') {
                     when {
-                        expression { env.BUILD_FRONTEND == 'true' }
+                        expression { env.BUILD_FRONTEND == 'true' };
+                        not { branch 'stable' }
                     }
                     environment {
                         NEAR_WALLET_ENV = 'mainnet_STAGING'
@@ -200,7 +203,8 @@ pipeline {
 
                 stage('frontend:bundle:mainnet') {
                     when {
-                        expression { env.BUILD_FRONTEND == 'true' }
+                        expression { env.BUILD_FRONTEND == 'true' };
+                        branch 'stable'
                     }
                     environment {
                         NEAR_WALLET_ENV = 'mainnet'
@@ -243,13 +247,13 @@ pipeline {
                                             region: env.AWS_REGION,
                                             credentials: env.AWS_CREDENTIALS,
                                             role: env.TESTNET_AWS_ROLE,
-                                            roleAccount: env.TESTNET_AWS_ROLE_ACCOUNT
+                                            roleAccount: env.TESTNET_AWS_ACCOUNT_ID
                                         ) {
                                             s3Upload(
                                                 bucket: "$TESTNET_PR_PREVIEW_STATIC_SITE_BUCKET/$CHANGE_ID",
                                                 includePathPattern: "*",
                                                 path: '',
-                                                workingDir: env.FRONTEND_TESTNET_BUNDLE_PATH
+                                                workingDir: env.FRONTEND_TESTNET_STAGING_BUNDLE_PATH
                                             )
                                         }
                                     }
@@ -265,13 +269,13 @@ pipeline {
                                             region: env.AWS_REGION,
                                             credentials: env.AWS_CREDENTIALS,
                                             role: env.MAINNET_AWS_ROLE,
-                                            roleAccount: env.MAINNET_AWS_ROLE_ACCOUNT
+                                            roleAccount: env.MAINNET_AWS_ACCOUNT_ID
                                         ) {
                                             s3Upload(
                                                 bucket: "$MAINNET_PR_PREVIEW_STATIC_SITE_BUCKET/$CHANGE_ID",
                                                 includePathPattern: "*",
                                                 path: '',
-                                                workingDir: env.FRONTEND_MAINNET_BUNDLE_PATH
+                                                workingDir: env.FRONTEND_MAINNET_STAGING_BUNDLE_PATH
                                             )
                                         }
                                     }
@@ -295,7 +299,7 @@ pipeline {
                                     region: env.AWS_REGION,
                                     credentials: env.AWS_CREDENTIALS,
                                     role: env.TESTNET_AWS_ROLE,
-                                    roleAccount: env.TESTNET_AWS_ROLE_ACCOUNT
+                                    roleAccount: env.TESTNET_AWS_ACCOUNT_ID
                                 ) {
                                     s3Upload(
                                         bucket: env.TESTNET_STAGING_STATIC_SITE_BUCKET,
@@ -313,13 +317,11 @@ pipeline {
                             }
                             steps {
                                 milestone(403)
-                                input(message: 'Deploy to testnet?')
-                                milestone(404)
                                 withAWS(
                                     region: env.AWS_REGION,
                                     credentials: env.AWS_CREDENTIALS,
                                     role: env.TESTNET_AWS_ROLE,
-                                    roleAccount: env.TESTNET_AWS_ROLE_ACCOUNT
+                                    roleAccount: env.TESTNET_AWS_ACCOUNT_ID
                                 ) {
                                     s3Upload(
                                         bucket: env.TESTNET_STATIC_SITE_BUCKET,
@@ -333,15 +335,15 @@ pipeline {
 
                         stage('frontend:deploy:mainnet-staging') {
                             when {
-                                branch 'stable'
+                                branch 'master'
                             }
                             steps {
-                                milestone(405)
+                                milestone(404)
                                 withAWS(
                                     region: env.AWS_REGION,
                                     credentials: env.AWS_CREDENTIALS,
                                     role: env.MAINNET_AWS_ROLE,
-                                    roleAccount: env.MAINNET_AWS_ROLE_ACCOUNT
+                                    roleAccount: env.MAINNET_AWS_ACCOUNT_ID
                                 ) {
                                     s3Upload(
                                         bucket: env.MAINNET_STAGING_STATIC_SITE_BUCKET,
@@ -358,14 +360,14 @@ pipeline {
                                 branch 'stable'
                             }
                             steps {
-                                milestone(406)
+                                milestone(405)
                                 input(message: 'Deploy to mainnet?')
-                                milestone(407)
+                                milestone(406)
                                 withAWS(
                                     region: env.AWS_REGION,
                                     credentials: env.AWS_CREDENTIALS,
                                     role: env.MAINNET_AWS_ROLE,
-                                    roleAccount: env.MAINNET_AWS_ROLE_ACCOUNT
+                                    roleAccount: env.MAINNET_AWS_ACCOUNT_ID
                                 ) {
                                     s3Upload(
                                         bucket: env.MAINNET_STATIC_SITE_BUCKET,
