@@ -9,7 +9,7 @@ import {
     FARMING_CLAIM_GAS,
     FARMING_CLAIM_YOCTO,
     LOCKUP_ACCOUNT_ID_SUFFIX,
-    FT_MINIMUM_STORAGE_BALANCE_LARGE
+    FT_MINIMUM_STORAGE_BALANCE_LARGE,
 } from '../../config';
 import { fungibleTokensService } from '../../services/FungibleTokens';
 import { listStakingPools } from '../../services/indexer';
