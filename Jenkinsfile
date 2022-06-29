@@ -160,7 +160,6 @@ pipeline {
                     }
                     environment {
                         NEAR_WALLET_ENV = 'testnet_STAGING'
-                        REACT_APP_ACCOUNT_HELPER_URL = 'https://preflight-api.kitwallet.app'
                     }
                     steps {
                         dir("$WORKSPACE/packages/frontend") {
@@ -176,7 +175,6 @@ pipeline {
                     }
                     environment {
                         NEAR_WALLET_ENV = 'testnet'
-                        REACT_APP_ACCOUNT_HELPER_URL = 'https://testnet-api.kitwallet.app'
                     }
                     steps {
                         dir("$WORKSPACE/packages/frontend") {
