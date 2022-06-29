@@ -108,16 +108,16 @@ const Container = styled.div`
         }
     }
 `;
-
-export default function LedgerHdPaths({ 
-    confirmedPath,
-    setConfirmedPath
-}) {
-    const [path, setPath] = useState(confirmedPath);
+/**
+ * @param {Object} props
+ * @param {"import" | "export"} props.type - curently only affects copy
+ */
+export const HDPathSelect = ({ handleConfirmHdPath, path, setPath, type = 'import' }) => {
 
     onKeyDown((e) => {
-        const dropdownOpen = document.getElementById('hd-paths-dropdown').classList.contains('open');
-        if (dropdownOpen) {
+        const dropdownElement = document.getElementById('hd-paths-dropdown');
+        const dropdownOpenIfRendered = dropdownElement === null || document.getElementById('hd-paths-dropdown').classList.contains('open');
+        if (dropdownOpenIfRendered) {
             if (e.keyCode === 38) {
                 increment();
                 e.preventDefault();
@@ -138,15 +138,11 @@ export default function LedgerHdPaths({
         }
     };
 
-    const handleConfirmHdPath = () => {
-        setConfirmedPath(path);
-    };
-
-    const dropDownContent = () => {
-        return (
+    return (
+        <Container>
             <div className='ledger-dropdown-content'>
                 <div className='title'><Translate id='signInLedger.advanced.subTitle'/></div>
-                <div className='desc'><Translate id='signInLedger.advanced.desc'/></div>
+                <div className='desc'><Translate id={`signInLedger.advanced.${type === 'export' ? 'exportDesc' : 'desc'}`}/></div>
                 <div className='path-wrapper'>
                     <div className='default-paths'>44 / 397 / 0 / 0</div>
                     <span>&ndash;</span>
@@ -162,12 +158,24 @@ export default function LedgerHdPaths({
                         </div>
                     </div>
                 </div>
-                <FormButton className='hd-paths-dropdown-toggle' onClick={handleConfirmHdPath}>
-                    <Translate id='signInLedger.advanced.setPath'/>
-                </FormButton>
+                {handleConfirmHdPath ? (
+                    <FormButton
+                        className='hd-paths-dropdown-toggle'
+                        onClick={() => handleConfirmHdPath(path)}
+                    >
+                        <Translate id='signInLedger.advanced.setPath' />
+                    </FormButton>
+                ) : null}
             </div>
-        );
-    };
+        </Container>
+    );
+};
+
+export default function LedgerHdPaths({ 
+    confirmedPath,
+    setConfirmedPath
+}) {
+    const [path, setPath] = useState(confirmedPath || 1);
 
     return (
         <Container>
@@ -175,7 +183,7 @@ export default function LedgerHdPaths({
                 name='hd-paths-dropdown'
                 icon={<SettingsIcon/>}
                 title={<Translate id='signInLedger.advanced.title'/>}
-                content={dropDownContent()}
+                content={<HDPathSelect handleConfirmHdPath={setConfirmedPath} path={path} setPath={setPath} />}
                 maxHeight={false}
             />
         </Container>
