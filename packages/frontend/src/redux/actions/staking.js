@@ -35,7 +35,7 @@ import {
     updateStakedBalance,
     signAndSendTransaction,
     stakingMethods,
-    shuffle
+    shuffle,
 } from '../../utils/staking';
 import { wallet } from '../../utils/wallet';
 import { WalletError } from '../../utils/walletError';
