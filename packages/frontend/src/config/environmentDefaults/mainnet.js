@@ -1,8 +1,10 @@
 import * as nearApiJs from 'near-api-js';
 import { parseNearAmount } from 'near-api-js/lib/utils/format';
 
+import { RENDER_MIGRATION } from '../../../../../features';
+
 export default {
-  ACCOUNT_HELPER_URL: 'https://helper.mainnet.near.org',
+  ACCOUNT_HELPER_URL: RENDER_MIGRATION ? 'https://api.kitwallet.app' : 'https://helper.mainnet.near.org',
   ACCOUNT_ID_SUFFIX: 'near',
   ACCESS_KEY_FUNDING_AMOUNT: nearApiJs.utils.format.parseNearAmount('0.25'),
   ALLOW_2FA_ENABLE_HASHES: [
