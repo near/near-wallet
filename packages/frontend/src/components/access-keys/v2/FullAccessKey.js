@@ -60,11 +60,11 @@ export default ({
 }) => {
     return (
         <Container className='authorized-app-box'>
-            {confirmDeAuthorizeKey !== accessKey.public_key &&
+            {confirmDeAuthorizeKey !== accessKey.public_key && (
                 <>
                     <div className='title'>
                         <Translate id='authorizedApps.publicKey' /> {accessKey.meta.type === 'ledger' ? <>- <Translate id='hardwareDevices.ledger.title' /></> : ''}
-                        {setConfirmDeAuthorizeKey &&
+                        {setConfirmDeAuthorizeKey && (
                             <FormButton color='gray-red' className='small'
                                 onClick={() => {
                                     setConfirmDeAuthorizeKey(accessKey.public_key);
@@ -75,17 +75,22 @@ export default ({
                                 sendingString='button.deAuthorizing'
                             >
                                 <Translate id='button.deauthorize' />
-                            </FormButton>}
+                            </FormButton>
+                        )}
                     </div>
                     <div className='key font-monospace'>{accessKey.public_key}</div>
                 </>
-            }
-            {confirmDeAuthorizeKey === accessKey.public_key &&
+            )}
+            {confirmDeAuthorizeKey === accessKey.public_key && (
                 <>
                     <div className='title disable'><Translate id='fullAccessKeys.deAuthorizeConfirm.title' /></div>
                     <div className='desc'><Translate id='fullAccessKeys.deAuthorizeConfirm.desc' /></div>
                     <div className='key font-monospace'>{accessKey.public_key}</div>
-                    <form onSubmit={(e) => { onClickDeAuthorizeKey(accessKey.public_key); e.preventDefault(); }} autoComplete='off'>
+                    <form onSubmit={(e) => {
+                        onClickDeAuthorizeKey(accessKey.public_key);
+                        e.preventDefault();
+                    }} autoComplete='off'
+                    >
                         <Translate>
                             {({ translate }) => (
                                 <input
@@ -123,7 +128,7 @@ export default ({
                         </FormButtonGroup>
                     </form>
                 </>
-            }
+            )}
         </Container>
     );
 };

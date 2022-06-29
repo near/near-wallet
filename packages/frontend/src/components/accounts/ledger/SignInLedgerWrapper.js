@@ -92,7 +92,7 @@ export function SignInLedgerWrapper(props) {
     return (
         <>
             <Container className='small-centered border ledger-theme'>
-                {!signInWithLedgerStatus &&
+                {!signInWithLedgerStatus && (
                     <Authorize
                         confirmedPath={confirmedPath}
                         setConfirmedPath={setConfirmedPath}
@@ -100,15 +100,15 @@ export function SignInLedgerWrapper(props) {
                         signingIn={!!signInWithLedgerStatus}
                         handleCancel={handleCancelAuthorize}
                     />
-                }
+                )}
                 {(signInWithLedgerStatus === LEDGER_MODAL_STATUS.CONFIRM_PUBLIC_KEY
-                    || signInWithLedgerStatus === LEDGER_MODAL_STATUS.ENTER_ACCOUNTID) &&
+                    || signInWithLedgerStatus === LEDGER_MODAL_STATUS.ENTER_ACCOUNTID) && (
                     <SignIn
                         txSigned={txSigned}
                         handleCancel={handleCancelSignIn}
                     />
-                }
-                {(signInWithLedgerStatus === LEDGER_MODAL_STATUS.CONFIRM_ACCOUNTS || signInWithLedgerStatus === LEDGER_MODAL_STATUS.SUCCESS) &&
+                )}
+                {(signInWithLedgerStatus === LEDGER_MODAL_STATUS.CONFIRM_ACCOUNTS || signInWithLedgerStatus === LEDGER_MODAL_STATUS.SUCCESS) && (
                     <ImportAccounts
                         accountsApproved={accountsApproved}
                         totalAccounts={totalAccounts}
@@ -118,7 +118,7 @@ export function SignInLedgerWrapper(props) {
                         signInWithLedgerStatus={signInWithLedgerStatus}
                         handleContinue={handleContinue}
                     />
-                }
+                )}
             </Container>
         </>
     );

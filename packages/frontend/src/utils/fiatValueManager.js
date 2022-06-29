@@ -108,9 +108,9 @@ export default class FiatValueManager {
             const whiteListedTokens = await contract.get_whitelisted_tokens();
         
             return whiteListedTokens;
-          } catch (error) {
+        } catch (error) {
             console.error(`Failed to fetch whitelisted tokens: ${error}`);
             return [];
-          }
+        }
     };
 }   

@@ -137,7 +137,7 @@ const Tooltip = ({ className, children, translate, data, position, icon, modalOn
             {show && !mobile && !modalOnly &&
                 <div className={classNames(['hover-content', show ? 'show' : ''])}><SafeTranslate id={translate} data={{ data: data }}/></div>
             }
-            {show && (mobile || modalOnly) &&
+            {show && (mobile || modalOnly) && (
                 <Modal
                     isOpen={show}
                     onClose={() => setShow(false)}
@@ -148,7 +148,7 @@ const Tooltip = ({ className, children, translate, data, position, icon, modalOn
                 >
                     <SafeTranslate id={translate} data={{ data: data }}/>
                 </Modal>
-            }
+            )}
         </Container>
     );
 };

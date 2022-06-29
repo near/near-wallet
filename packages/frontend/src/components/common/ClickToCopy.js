@@ -64,7 +64,7 @@ const ClickToCopy = ({ className, children, compact, copy, onClick, successTrans
 
     return (
         <Translate>
-            {({ translate }) =>
+            {({ translate }) => (
                 <Container
                     title={translate('copy.title')}
                     className={classNames([
@@ -79,7 +79,7 @@ const ClickToCopy = ({ className, children, compact, copy, onClick, successTrans
                         <Translate id={`copy.${successTranslation}`}/>
                     </div>
                 </Container>
-            }
+            )}
         </Translate>
     );
 };

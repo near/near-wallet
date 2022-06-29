@@ -159,7 +159,9 @@ export const commission = ({ accountId, amount, delay, exchangeRate, token }) =>
 };
 
 export const exchangeRateTranslation = ({ inputtedAmountOfToken, calculateAmountOfToken, balance, exchangeRate }) => {
-    if (!balance) return;
+    if (!balance) {
+        return;
+    }
 
     const convertBalanceWithExchangeRate = {
         'NEAR->USN': balance * exchangeRate,
@@ -172,26 +174,28 @@ export const exchangeRateTranslation = ({ inputtedAmountOfToken, calculateAmount
     const activeTokenToSymbol = calculateAmountOfToken?.onChainFTMetadata?.symbol;
     const operation = convertBalanceWithExchangeRate[`${activeTokenFromSymbol}->${activeTokenToSymbol}`];
 
-    if (operation == '1:1') return balance;
+    if (operation == '1:1') {
+        return balance;
+    }
     const removedZeros = removeTrailingZeros(`${operation.toFixed(5)}`);
     return removedZeros;
 };
 
 
 export const useInterval = (cb, interval) => {
-  const callback = useRef();
+    const callback = useRef();
 
-  useEffect(() => {
-    callback.current = cb;
-  }, [callback]);
+    useEffect(() => {
+        callback.current = cb;
+    }, [callback]);
 
-  useEffect(() => {
-    function tick() {
-        callback.current();
-    }
-    if (interval !== null) {
-      const intervalFunction = setInterval(tick, interval);
-      return () => clearInterval(intervalFunction);
-    }
-  }, [interval]);
+    useEffect(() => {
+        function tick() {
+            callback.current();
+        }
+        if (interval !== null) {
+            const intervalFunction = setInterval(tick, interval);
+            return () => clearInterval(intervalFunction);
+        }
+    }, [interval]);
 };

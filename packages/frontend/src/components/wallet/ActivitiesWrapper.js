@@ -126,14 +126,14 @@ const ActivitiesWrapper = () => {
             {transactions?.length === 0 && !activityLoader && (
                 <div className='no-activity'><Translate id='dashboard.noActivity' /></div>
             )}
-            {transactionHash && 
+            {transactionHash && (
                 <ActivityDetailModal 
                     open={!!transactionHash}
                     onClose={() => setTransactionHash()}
                     accountId={accountId}
                     transaction={transaction}
                 />
-            }
+            )}
             <FormButton
                 color='gray-blue'
                 linkTo={`${EXPLORER_URL}/accounts/${accountId}`}

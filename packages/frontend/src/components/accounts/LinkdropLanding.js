@@ -134,7 +134,7 @@ class LinkdropLanding extends Component {
                             data-test-id="linkdropAccountDropdown"
                         />
                     ) : null}
-                    {accountId ?
+                    {accountId ? (
                         <FormButton
                             onClick={this.handleClaimNearDrop}
                             sending={claimingDrop}
@@ -144,14 +144,14 @@ class LinkdropLanding extends Component {
                         >
                             <Translate id='linkdropLanding.ctaAccount'/>
                         </FormButton>
-                        :
+                    ) : (
                         <FormButton
                             linkTo={`/recover-account?fundingOptions=${encodeURIComponent(JSON.stringify({ fundingContract, fundingKey, fundingAmount }))}${redirectUrl}`}
                             data-test-id="linkdropLoginAndClaim"
                         >
                             <Translate id='linkdropLanding.ctaLogin'/>
                         </FormButton>
-                    }
+                    )}
                     <div className='or'><Translate id='linkdropLanding.or'/></div>
                     <FormButton
                         data-test-id="linkdropCreateAccountToClaim"

@@ -118,7 +118,7 @@ const HardwareDevices = ({ recoveryMethods }) => {
     if (!recoveryLoader) {
         return (
             <Container>
-                {!confirmDisable ?
+                {!confirmDisable ? (
                     <>
                         <div className='device'>
                             <div className='name'>
@@ -137,15 +137,15 @@ const HardwareDevices = ({ recoveryMethods }) => {
                             <i><Translate id='hardwareDevices.desc'/></i>
                         }
                     </>
-                    :
-                    <ConfirmDisable 
-                        onConfirmDisable={handleConfirmDisable} 
+                ) : (
+                    <ConfirmDisable
+                        onConfirmDisable={handleConfirmDisable}
                         onKeepEnabled={() => setConfirmDisable(false)}
                         accountId={account.accountId}
                         disabling={disabling}
                         component='hardwareDevices'
                     />
-                }
+                )}
             </Container>
         );
     } else {

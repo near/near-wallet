@@ -162,8 +162,11 @@ class ActiveMethod extends Component {
             );
         } else {
             return (
-                <DisableContainer onSubmit={(e) => {onDelete(); e.preventDefault();}}>
-                    {!deleteAllowed &&
+                <DisableContainer onSubmit={(e) => {
+                    onDelete();
+                    e.preventDefault();
+                }}>
+                    {!deleteAllowed && (
                         <div className='not-allowed'>
                             <Translate id='recoveryMgmt.disableNotAllowed'/>
                             <FormButton 
@@ -175,8 +178,8 @@ class ActiveMethod extends Component {
                                 <Translate id='button.close'/>    
                             </FormButton>
                         </div>
-                    }
-                    {deleteAllowed &&
+                    )}
+                    {deleteAllowed && (
                         <>
                             <div className='top'>
                                 <Translate id='recoveryMgmt.disableTitle'/>
@@ -216,7 +219,7 @@ class ActiveMethod extends Component {
                                 </FormButton>
                             </div>
                         </>
-                    }
+                    )}
                 </DisableContainer>
             );
         }

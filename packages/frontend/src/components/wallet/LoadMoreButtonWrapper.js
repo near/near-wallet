@@ -28,7 +28,7 @@ const LoadMoreButtonWrapper = ({ contractName }) => {
         contractName
     }));
 
-    return !hasFetchedAllTokensForContract &&
+    return !hasFetchedAllTokensForContract && (
         <FormButton
             onClick={() => dispatch(fetchOwnedNFTsForContract({ accountId, contractName, contractMetadata }))}
             sending={fetchingNFTs === true}
@@ -36,7 +36,8 @@ const LoadMoreButtonWrapper = ({ contractName }) => {
             sendingString='button.loading'
         >
             <Translate id='NFTs.loadMore'/>
-        </FormButton>;
+        </FormButton>
+    );
 };
 
 export default LoadMoreButtonWrapper;

@@ -22,7 +22,8 @@ export default ({
             <h2>
                 <Translate id='setupLedger.one' />
                 &nbsp;<Translate id='setupLedger.two' />
-                &nbsp;<span
+                &nbsp;
+                <span
                     className='link underline'
                     onClick={() => {
                         Mixpanel.track('SR-Ledger See instructions');
@@ -41,7 +42,8 @@ export default ({
             />
             <FormButton onClick={()=>{
                 onClickConnectLedger(ledgerHdPath);
-            }}>
+            }}
+            >
                 <Translate id='button.continue' />
             </FormButton>
             <FormButton
@@ -51,7 +53,7 @@ export default ({
             >
                 <Translate id='button.cancel' />
             </FormButton>
-            {showInstructions &&
+            {showInstructions && (
                 <InstructionsModal
                     open={showInstructions}
                     onClose={() => {
@@ -59,7 +61,7 @@ export default ({
                         setShowInstructions(false);
                     }}
                 />
-            }
+            )}
         </Container>
     );
 };

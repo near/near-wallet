@@ -87,16 +87,16 @@ const BatchLedgerExport = ({ history }) => {
     return (
         <>
             <Container className="small-centered border ledger-theme">
-              <CustomContainer>
-                  <LedgerImageCircle color='#D6EDFF' />
-                  <div className='screen-descripton'>
-                    <h3>
-                      <Translate id="batchExportAccounts.exportScreen.weFound" data={{ noOfAccounts: state.accounts.length }}/>
-                    </h3>
-                    <br />
-                    <br />
-                    <Translate id="batchExportAccounts.exportScreen.desc"/>
-                  </div>
+                <CustomContainer>
+                    <LedgerImageCircle color='#D6EDFF' />
+                    <div className='screen-descripton'>
+                        <h3>
+                            <Translate id="batchExportAccounts.exportScreen.weFound" data={{ noOfAccounts: state.accounts.length }}/>
+                        </h3>
+                        <br />
+                        <br />
+                        <Translate id="batchExportAccounts.exportScreen.desc"/>
+                    </div>
                     <div className="title">
                         {accountsApproved.length}/{state.accounts.length}{' '}
                         <Translate id="signInLedger.modal.accountsApproved" />

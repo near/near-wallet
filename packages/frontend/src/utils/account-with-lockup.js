@@ -242,7 +242,7 @@ async function getAccountBalance(limitedAccountData = false) {
                 if (vestingInformation.unvestedAmount) {
                     unvestedAmount = vestingInformation.unvestedAmount;
                 } else if (vestingInformation.vestingStart) {
-                    if (dateNowBN.lt(vestingInformation.vestingCliff)){
+                    if (dateNowBN.lt(vestingInformation.vestingCliff)) {
                         unvestedAmount = new BN(lockupAmount);
                     } else if (dateNowBN.gte(vestingInformation.vestingEnd)) {
                         unvestedAmount = new BN(0);

@@ -57,12 +57,12 @@ export default ({
                     <Translate id='button.cancel' />
                 </FormButton>
             </StyledContainer>
-            {showWhereToBuyModal &&
+            {showWhereToBuyModal && (
                 <WhereToBuyNearModal
                     onClose={() => setShowWhereToBuyModal(false)}
                     open={showWhereToBuyModal}
                 />
-            }
+            )}
         </>
     );
 };

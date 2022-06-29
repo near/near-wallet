@@ -288,9 +288,15 @@ export default class Wallet {
         const keyInfoView = allKeys.find(({public_key}) => public_key === publicKeyString);
 
         if (keyInfoView) {
-           if (this.isFullAccessKeyInfoView(keyInfoView)) return Wallet.KEY_TYPES.FAK;
-           if (this.isLedgerKeyInfoView(accountId, keyInfoView)) return Wallet.KEY_TYPES.LEDGER;
-           if (this.isMultisigKeyInfoView(accountId, keyInfoView)) return Wallet.KEY_TYPES.MULTISIG;
+            if (this.isFullAccessKeyInfoView(keyInfoView)) {
+                return Wallet.KEY_TYPES.FAK;
+            }
+            if (this.isLedgerKeyInfoView(accountId, keyInfoView)) {
+                return Wallet.KEY_TYPES.LEDGER;
+            }
+            if (this.isMultisigKeyInfoView(accountId, keyInfoView)) {
+                return Wallet.KEY_TYPES.MULTISIG;
+            }
             return Wallet.KEY_TYPES.OTHER;
         }
 

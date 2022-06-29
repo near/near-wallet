@@ -205,7 +205,7 @@ const GlobalAlertNew = ({ globalAlert, actionStatus, clearGlobalAlert, closeIcon
         return (
             <AlertContainer types={alerts.map((alert) => alert.type)}>
                 <Translate>
-                    {({ translate }) =>
+                    {({ translate }) => (
                         <>
                             {alerts.filter((alert) => alert.show).map((alert, i) => {
                                 const msgCode = typeof translate(alert.messageCode) === 'string' ? translate(alert.messageCode) : '';
@@ -225,7 +225,7 @@ const GlobalAlertNew = ({ globalAlert, actionStatus, clearGlobalAlert, closeIcon
                                                         ? <Translate id={`reduxActions.default.${alert.success ? 'success' : 'error'}`} />
                                                         : <SafeTranslate id={alert.messageCode} data={alert.data} />
                                                     }
-                                                    {!alert.success &&
+                                                    {!alert.success && (
                                                         <a
                                                             href={(noTranslationFound || msgCode.includes('Sorry an error has occurred'))
                                                                 ? `${zendeskBaseURL}${alert.errorMessage ? `search?query=${encodeURIComponent(alert.errorMessage.substring(0, 500))}` : ''}` 
@@ -236,13 +236,13 @@ const GlobalAlertNew = ({ globalAlert, actionStatus, clearGlobalAlert, closeIcon
                                                         >
                                                             <Translate id='button.viewFAQ'/>
                                                         </a>
-                                                    }
+                                                    )}
                                                 </div>
-                                                {alert.console && 
+                                                {alert.console && (
                                                     <Console>
                                                         {alert.errorMessage}
                                                     </Console>
-                                                }
+                                                )}
                                             </Text>
                                             {closeIcon &&
                                                 <Close onClick={() => handleClose(alert.type)} />
@@ -252,7 +252,7 @@ const GlobalAlertNew = ({ globalAlert, actionStatus, clearGlobalAlert, closeIcon
                                 );
                             })}
                         </>
-                    }
+                    )}
                 </Translate>
             </AlertContainer>
         );

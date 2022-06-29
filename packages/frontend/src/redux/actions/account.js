@@ -56,7 +56,7 @@ import {
     actions as flowLimitationActions,
     selectFlowLimitationAccountBalance,
     selectFlowLimitationAccountData
- } from '../slices/flowLimitation';
+} from '../slices/flowLimitation';
 import {
     handleStakingUpdateAccount,
     handleStakingUpdateLockup,
@@ -110,8 +110,7 @@ export const handleClearUrl = () => (dispatch, getState) => {
         clearState();
         dispatch(refreshUrl({}));
         dispatch(handleClearflowLimitation());
-    }
-    else if (!initialDepositPage) {
+    } else if (!initialDepositPage) {
         dispatch(handleClearflowLimitation());
     }
 };

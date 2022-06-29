@@ -33,22 +33,23 @@ const TransactionDetails = ({ selectedToken, estimatedFeesInNear, estimatedTotal
                     translateIdInfoTooltip='sendV2.translateIdInfoTooltip.estimatedFees'
                 />
                 {selectedToken.onChainFTMetadata?.symbol === 'NEAR' ?
-                    /* Show 'Estimated total' (amount + fees) when sending NEAR only */
-                    <Amount
-                        translateIdTitle={prefixTXEntryTitledId('estimatedTotal')}
-                        amount={estimatedTotalInNear}
-                        symbol='NEAR'
-                        translateIdInfoTooltip='sendV2.translateIdInfoTooltip.estimatedTotal'
-                    />
+                    /* Show 'Estimated total' (amount + fees) when sending NEAR only */ (
+                        <Amount
+                            translateIdTitle={prefixTXEntryTitledId('estimatedTotal')}
+                            amount={estimatedTotalInNear}
+                            symbol='NEAR'
+                            translateIdInfoTooltip='sendV2.translateIdInfoTooltip.estimatedTotal'
+                        />
+                    )
                     :
-                    /* Show 'Amount' when sending non-NEAR token only */
-                    <Amount
-                        translateIdTitle={prefixTXEntryTitledId('amount')}
-                        amount={amount}
-                        symbol={selectedToken.onChainFTMetadata?.symbol}
-                        decimals={selectedToken.onChainFTMetadata?.decimals}
-                    />
-                }
+                    /* Show 'Amount' when sending non-NEAR token only */ (
+                        <Amount
+                            translateIdTitle={prefixTXEntryTitledId('amount')}
+                            amount={amount}
+                            symbol={selectedToken.onChainFTMetadata?.symbol}
+                            decimals={selectedToken.onChainFTMetadata?.decimals}
+                        />
+                    )}
             </Accordion>
             <AccordionTrigger
                 id='transaction-details-breakdown'

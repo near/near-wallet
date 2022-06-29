@@ -36,14 +36,14 @@ const AccountExportModal = ({ account, onSuccess, onFail }) => {
     const dispatch = useDispatch();
   
     useEffect(() => {
-      setAccountBalance(null);
-      setShowTxDetails(false);
-      setAddingKey(false);
-      setError(false);
+        setAccountBalance(null);
+        setShowTxDetails(false);
+        setAddingKey(false);
+        setError(false);
   
-      wallet
-          .getBalance(account.accountId)
-          .then(({ available }) => setAccountBalance(available));
+        wallet
+            .getBalance(account.accountId)
+            .then(({ available }) => setAccountBalance(available));
     },[account]);
   
     const addKeyToWalletKeyStore = useCallback(async () => {
@@ -119,6 +119,6 @@ const AccountExportModal = ({ account, onSuccess, onFail }) => {
             )}
         </Modal>
     );
-  };
+};
 
-  export default AccountExportModal;
+export default AccountExportModal;

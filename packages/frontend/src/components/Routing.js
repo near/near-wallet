@@ -409,8 +409,7 @@ class Routing extends Component {
                                 exact
                                 path="/create"
                                 render={(props) =>
-                                    accountFound ||
-                                    !DISABLE_CREATE_ACCOUNT ? (
+                                    accountFound || !DISABLE_CREATE_ACCOUNT ? (
                                         <CreateAccountWithRouter
                                             {...props}
                                         />
@@ -567,7 +566,9 @@ class Routing extends Component {
                             />
                             <Route exact path="/batch-import" render={(({location}) => {
                                 let { keys, accounts, ledgerHdPaths } = parse(location.hash, {arrayFormat: 'comma'});
-                                if (!keys || !accounts) return <PageNotFound />;
+                                if (!keys || !accounts) {
+                                    return <PageNotFound />;
+                                }
 
                                 // if single key or account param make an array of it
                                 keys = Array.isArray(keys) ? keys : [keys];

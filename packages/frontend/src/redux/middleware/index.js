@@ -40,7 +40,7 @@ const readyStatePromise = (store) => (next) => (action) => {
 };
 
 export default (history) => composeEnhancers(
-        applyMiddleware(
-                routerMiddleware(history),
-                thunk,
-                readyStatePromise));
+    applyMiddleware(
+        routerMiddleware(history),
+        thunk,
+        readyStatePromise));

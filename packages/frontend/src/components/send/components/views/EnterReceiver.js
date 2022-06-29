@@ -38,7 +38,10 @@ const EnterReceiver = ({
     return (
         <StyledContainer
             className='buttons-bottom'
-            onSubmit={(e) => {onClickContinue(e); e.preventDefault();}}
+            onSubmit={(e) => {
+                onClickContinue(e);
+                e.preventDefault();
+            }}
         >
             <div className='header'>
                 <BackArrowButton onClick={onClickGoBack}/>

@@ -30,7 +30,7 @@ export function ZeroBalanceAccountImportedModal ({
     importMethod,
     onClose,
     accountId
- }) {
+}) {
     return (
         <Modal
             id='zero-balance-account-imported-modal'

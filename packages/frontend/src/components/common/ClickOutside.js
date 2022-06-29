@@ -16,7 +16,7 @@ export default class ClickOutside extends Component {
     }
 
     handleClickOutside = (e) => {
-            const isOutside = this.wrapperRef && !this.wrapperRef.contains(e.target);
+        const isOutside = this.wrapperRef && !this.wrapperRef.contains(e.target);
 
         if (isOutside) {
             this.props.onClickOutside();

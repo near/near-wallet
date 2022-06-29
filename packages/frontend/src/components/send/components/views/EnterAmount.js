@@ -55,7 +55,10 @@ const EnterAmount = ({
     return (
         <StyledContainer 
             className='buttons-bottom'
-            onSubmit={(e) => {onContinue(e); e.preventDefault();}}
+            onSubmit={(e) => {
+                onContinue(e);
+                e.preventDefault();
+            }}
             novalidate
         >
             <TabSelector/>
@@ -67,11 +70,11 @@ const EnterAmount = ({
                     autoFocus={!isMobile}
                 />
             </div>
-            {selectedToken.onChainFTMetadata?.symbol === 'NEAR' &&
+            {selectedToken.onChainFTMetadata?.symbol === 'NEAR' && (
                 <div className='usd-amount'>
                     <Balance amount={rawAmount} showBalanceInNEAR={false}/>
                 </div>
-            }
+            )}
             <FormButton
                 onClick={onSetMaxAmount}
                 type='button'

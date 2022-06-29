@@ -12,14 +12,14 @@ export default function Withdraw({ currentValidators }) {
             <h2><Translate id={'staking.validators.desc.withdraw'} /></h2>
             <h3><Translate id='staking.staking.currentValidators' /></h3>
             <ListWrapper>
-                {currentValidators.filter((v) => v.available).map((validator, i) =>
+                {currentValidators.filter((v) => v.available).map((validator, i) => (
                     <ValidatorBox
                         key={i}
                         validator={validator}
                         amount={validator.available}
                         showBalanceInUSD={false}
                     />
-                )}
+                ))}
             </ListWrapper>
         </>
     );

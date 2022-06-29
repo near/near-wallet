@@ -51,14 +51,14 @@ const SetupLedgerSuccess = (props) => {
                 <Translate id='setupLedgerSuccess.primaryCta'/>
             </FormButton>
             <button className='link' onClick={() => setNextStep('keep')}><Translate id='setupLedgerSuccess.secondaryCta'/></button>
-            {nextStep && 
+            {nextStep && (
                 <NextStepModal 
                     nextStep={nextStep} 
                     onClose={() => setNextStep('')}
                     onConfirm={handleConfirm}
                     removingkeys={removingkeys}
                 />
-            }
+            )}
         </Container>
     );
 };

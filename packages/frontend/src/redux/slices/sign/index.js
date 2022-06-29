@@ -83,7 +83,9 @@ export function addQueryParams(baseUrl, queryParams) {
     const url = new URL(baseUrl);
     for (let key in queryParams) {
         const param = queryParams[key];
-        if (param) url.searchParams.set(key, param);
+        if (param) {
+            url.searchParams.set(key, param);
+        }
     }
     return url.toString();
 }
@@ -114,11 +116,15 @@ export const calculateGasForSuccessTransactions = ({ transactions, successHashes
 };
 
 export const checkAbleToIncreaseGas = ({ transaction }) => {
-    if (!transaction.actions) { return false; }
+    if (!transaction.actions) {
+        return false; 
+    }
 
     return transaction.actions.some((a) => {
         // We can only increase gas for actions that are function calls and still have < RETRY_TX.GAS.MAX gas allocated
-        if (!a || !a.functionCall) { return false; }
+        if (!a || !a.functionCall) {
+            return false; 
+        }
 
         return a.functionCall.gas.lt(new BN(RETRY_TX_GAS.MAX));
     });
@@ -127,7 +133,9 @@ export const checkAbleToIncreaseGas = ({ transaction }) => {
 // we want to take first transactions with functionCall action included because functionCall is the only action that can cause insuficient gas error
 export const getFirstTransactionWithFunctionCallAction = ({ transactions }) => {
     return transactions.find((t) => {
-        if (!t.actions) { return false; }
+        if (!t.actions) {
+            return false; 
+        }
 
         return t.actions.some((a) => a && a.functionCall);
     });

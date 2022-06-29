@@ -166,7 +166,7 @@ const ActivityDetailModal = ({
                     />
                 </h2>
                 <div className='row'>
-                    {['Transfer', 'Stake'].includes(actionKind) &&
+                    {['Transfer', 'Stake'].includes(actionKind) && (
                         <div className='item'>
                             <span>
                                 Amount
@@ -180,7 +180,7 @@ const ActivityDetailModal = ({
                                 />
                             </span>
                         </div>
-                    }
+                    )}
                     {actionKind !== 'DeleteKey' &&  (
                         actionKind === 'FunctionCall'
                             ? (
@@ -208,7 +208,7 @@ const ActivityDetailModal = ({
                                     />
                                 </div>
                             )
-                        )
+                    )
                     }
                     <div className='item'>
                         <span><Translate id='wallet.dateAndTime' /></span>

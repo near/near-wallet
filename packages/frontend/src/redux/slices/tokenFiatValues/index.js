@@ -38,33 +38,33 @@ const initialState = {
 };
 
 const tokenFiatValuesSlice = createSlice({
-        name: SLICE_NAME,
-        initialState,
-        extraReducers: ((builder) => {
-            builder.addCase(getTokenWhiteList.fulfilled, (state, action) => {
-                state.tokenWhiteList = action.payload;
-            });
-            builder.addMatcher(
-                isAnyOf(
-                    fetchCoinGeckoFiatValues.fulfilled,
-                    fetchRefFinanceFiatValues.fulfilled
-                ),
-                (state, action) => {
-                    mergeWith(state.tokens, action.payload, (previous, fetched) =>
+    name: SLICE_NAME,
+    initialState,
+    extraReducers: ((builder) => {
+        builder.addCase(getTokenWhiteList.fulfilled, (state, action) => {
+            state.tokenWhiteList = action.payload;
+        });
+        builder.addMatcher(
+            isAnyOf(
+                fetchCoinGeckoFiatValues.fulfilled,
+                fetchRefFinanceFiatValues.fulfilled
+            ),
+            (state, action) => {
+                mergeWith(state.tokens, action.payload, (previous, fetched) =>
                         fetched?.last_updated_at > previous?.last_updated_at &&
                         !isEqual(omit(fetched, 'last_updated_at'), omit(previous, 'last_updated_at'))
                             ? fetched
                             : previous
-                    );
-                }
-            );
-            handleAsyncThunkStatus({
-                asyncThunk: fetchTokenFiatValues,
-                buildStatusPath: () => [],
-                builder
-            });
-        })
-    }
+                );
+            }
+        );
+        handleAsyncThunkStatus({
+            asyncThunk: fetchTokenFiatValues,
+            buildStatusPath: () => [],
+            builder
+        });
+    })
+}
 );
 
 export default tokenFiatValuesSlice;

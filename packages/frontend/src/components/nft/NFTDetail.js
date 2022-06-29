@@ -117,55 +117,54 @@ export function NFTDetail({ nft, accountId, nearBalance, ownerId, history }) {
     
     return (
         <StyledContainer className='medium centered'>
-          {
-            nft && 
-            <div className='container'>
-                <BackArrowButton
-                    onClick={() => history.goBack()}
-                    className='back-btn'
-                >
-                </BackArrowButton>
+            {nft && ( 
+                <div className='container'>
+                    <BackArrowButton
+                        onClick={() => history.goBack()}
+                        className='back-btn'
+                    >
+                    </BackArrowButton>
 
-                <NFTMedia mediaUrl={nft.metadata.mediaUrl}/>
+                    <NFTMedia mediaUrl={nft.metadata.mediaUrl}/>
 
-                <h1 className="title">{nft.metadata.title}</h1>
-                <p className="desc">{nft.metadata.description}</p>
+                    <h1 className="title">{nft.metadata.title}</h1>
+                    <p className="desc">{nft.metadata.description}</p>
 
-                <div className='owner'>
-                    <p><Translate id='NFTDetail.owner'/></p>
+                    <div className='owner'>
+                        <p><Translate id='NFTDetail.owner'/></p>
 
-                    <div className='inner'>
-                        <UserIcon>
-                            <UserIconGrey color='#9a9a9a' />
-                        </UserIcon>
-                        <span>
-                            { ownerId }
-                        </span>
+                        <div className='inner'>
+                            <UserIcon>
+                                <UserIconGrey color='#9a9a9a' />
+                            </UserIcon>
+                            <span>
+                                { ownerId }
+                            </span>
+                        </div>
                     </div>
-                </div>
 
-                {(ownerId === accountId) && (
-                  <FormButton
-                    className='transfer-btn'
-                    color='gray-gray'
-                    disabled={!hasSufficientBalance}
-                    onClick={() => setTransferNftDetail(nft)}
-                  >
-                    <SendIcon/>
-                    <Translate id='NFTDetail.transfer'/>
-                  </FormButton>
-                )}
-                {transferNftDetail && (
-                    <NFTTransferModal
-                        open={!!transferNftDetail}
-                        onClose={() => setTransferNftDetail()}
-                        nft={transferNftDetail}
-                        accountId={accountId}
-                        nearBalance={nearBalance}
-                    />
-                )}
-            </div>
-          }
+                    {(ownerId === accountId) && (
+                        <FormButton
+                            className='transfer-btn'
+                            color='gray-gray'
+                            disabled={!hasSufficientBalance}
+                            onClick={() => setTransferNftDetail(nft)}
+                        >
+                            <SendIcon/>
+                            <Translate id='NFTDetail.transfer'/>
+                        </FormButton>
+                    )}
+                    {transferNftDetail && (
+                        <NFTTransferModal
+                            open={!!transferNftDetail}
+                            onClose={() => setTransferNftDetail()}
+                            nft={transferNftDetail}
+                            accountId={accountId}
+                            nearBalance={nearBalance}
+                        />
+                    )}
+                </div>
+            )}
         </StyledContainer>
     );
 }

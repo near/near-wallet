@@ -105,15 +105,15 @@ const BalanceDisplay = ({
             ])}
             data-test-id={testId}
         >
-            {showBalanceInNEAR &&
+            {showBalanceInNEAR && (
                 <>
                     {amount
                         ? <div className='near-amount'>{amountToShow}{showSymbolNEAR !== false ? ` ${NEARSymbol}` : ''}</div>
                         : <div className="dots"><Translate id='loadingNoDots'/></div>
                     }
                 </>
-            }
-            {showBalanceInUSD &&
+            )}
+            {showBalanceInUSD && (
                 <div className='fiat-amount'>
                     <BalanceDisplayUSD
                         totalAmount={totalAmount}
@@ -124,7 +124,7 @@ const BalanceDisplay = ({
                         showSymbolUSD={showSymbolUSD}
                     />
                 </div>
-            }
+            )}
         </StyledContainer>
     );
 };

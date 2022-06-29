@@ -102,7 +102,7 @@ export function SetupRecoveryImplicitAccountWrapper() {
                 setResendingEmailCode(true);
                 await handleInititalizeEmailRecoveryLink();
                 setResendingEmailCode(false);
-             }}
+            }}
             reSending={resendingEmailCode}
             verifyingCode={verifyingEmailCode}
         />

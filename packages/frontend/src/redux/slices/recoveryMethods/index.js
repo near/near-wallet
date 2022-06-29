@@ -39,22 +39,22 @@ const fetchRecoveryMethods = createAsyncThunk(
 );
 
 const recoveryMethodsSlice = createSlice({
-        name: SLICE_NAME,
-        initialState,
-        reducers: {
-            setRecoveryMethods(state, { payload }) {
-                const { recoveryMethods, accountId } = payload;
-                set(state, ['byAccountId', accountId, 'items'], recoveryMethods);
-            }
-        },
-        extraReducers: ((builder) => {
-            handleAsyncThunkStatus({
-                asyncThunk: fetchRecoveryMethods,
-                buildStatusPath: ({ meta: { arg: { accountId }}}) => ['byAccountId', accountId],
-                builder
-            });
-        })
-    }
+    name: SLICE_NAME,
+    initialState,
+    reducers: {
+        setRecoveryMethods(state, { payload }) {
+            const { recoveryMethods, accountId } = payload;
+            set(state, ['byAccountId', accountId, 'items'], recoveryMethods);
+        }
+    },
+    extraReducers: ((builder) => {
+        handleAsyncThunkStatus({
+            asyncThunk: fetchRecoveryMethods,
+            buildStatusPath: ({ meta: { arg: { accountId }}}) => ['byAccountId', accountId],
+            builder
+        });
+    })
+}
 );
 
 export default recoveryMethodsSlice;

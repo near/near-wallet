@@ -104,7 +104,9 @@ const SECONDS_IN_YEAR = 3600 * 24 * 365;
 export const calculateAPY = (poolSummary, tokenPrices) => {
     // Handle if there are no active farms:
     const activeFarms = poolSummary?.farms?.filter((farm) => farm.active);
-    if (!activeFarms || activeFarms.every((farm) => !+tokenPrices[farm.token_id]?.usd)) return 0;
+    if (!activeFarms || activeFarms.every((farm) => !+tokenPrices[farm.token_id]?.usd)) {
+        return 0;
+    }
 
     try {
         const farmsWithTokenPrices = activeFarms.filter((farm) => tokenPrices[farm.token_id]?.usd);
@@ -122,8 +124,7 @@ export const calculateAPY = (poolSummary, tokenPrices) => {
         }, 0);
 
         return summaryAPY.toFixed(2);
-    }
-    catch (e) {
+    } catch (e) {
         console.error('Error during calculating APY', e);
         return '-';
     }

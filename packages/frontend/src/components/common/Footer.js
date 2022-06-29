@@ -91,11 +91,11 @@ const Footer = () => {
         <StyledContainer className='wallet-footer'>
             <div className='left'>
                 {
-                    isWhitelabel() ?
+                    isWhitelabel() ? (
                         <StyledLogo>
                             <MyNearWalletLogo mode='footer' />
-                        </StyledLogo> :
-                        <img src={NearLogo} alt='NEAR' />
+                        </StyledLogo>
+                    ) : <img src={NearLogo} alt='NEAR' />
                 }
                 <div>
                     &copy; {new Date().getFullYear()} <Translate id='footer.copyrights' />

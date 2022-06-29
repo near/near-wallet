@@ -97,7 +97,9 @@ export class Recaptcha extends Component {
     }
 
     setCaptchaRef(ref) {
-        if (ref) { this.recaptchaRef = ref; }
+        if (ref) {
+            this.recaptchaRef = ref; 
+        }
     };
 
     /** Do not refactor this to an in-line function!
@@ -134,7 +136,9 @@ export class Recaptcha extends Component {
 
     reset() {
         debugLog('reset()');
-        if (this.recaptchaRef) { this.recaptchaRef.reset(); }
+        if (this.recaptchaRef) {
+            this.recaptchaRef.reset(); 
+        }
         // Reset does not call onChange; manually notify subscribers that there is no longer a valid token on reset
         this.handleOnChange(null);
     }
@@ -165,30 +169,34 @@ export class Recaptcha extends Component {
 
         return (
             <>
-                {!loaded &&
+                {!loaded && (
                     <span>
                         <Translate id='reCAPTCHA.loading'/>
                     </span>
-                }
-                {RECAPTCHA_CHALLENGE_API_KEY && <ReCAPTCHA
-                    sitekey={RECAPTCHA_CHALLENGE_API_KEY}
-                    ref={(ref) => this.setCaptchaRef(ref)}
-                    onChange={this.handleOnChange}
-                    asyncScriptOnLoad={this.handleOnLoad}
-                    className='recaptcha-widget'
-                />}
-                {loaded &&
+                )}
+                {RECAPTCHA_CHALLENGE_API_KEY && (
+                    <ReCAPTCHA
+                        sitekey={RECAPTCHA_CHALLENGE_API_KEY}
+                        ref={(ref) => this.setCaptchaRef(ref)}
+                        onChange={this.handleOnChange}
+                        asyncScriptOnLoad={this.handleOnLoad}
+                        className='recaptcha-widget'
+                    />
+                )}
+                {loaded && (
                     <RecaptchaString className='recaptcha-disclaimer'>
                         <Translate id='reCAPTCHA.disclaimer'/>
                     </RecaptchaString>
-                }
+                )}
             </>
         );
     }
 }
 
 export const isRetryableRecaptchaError = (e) => {
-    if (!e.code) { return false; }
+    if (!e.code) {
+        return false; 
+    }
 
     return ['invalid-input-response','missing-input-response', 'timeout-or-duplicate'].includes(e.code);
 };

@@ -26,7 +26,7 @@ export default ({
     accountId,
     isOpen,
     onClose
- }) => {
+}) => {
     return (
         <Modal
             id='near-drop-success-modal'

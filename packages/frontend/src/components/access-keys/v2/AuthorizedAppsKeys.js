@@ -46,7 +46,7 @@ export default ({
                     />
                 ))}
             </div>
-            {authorizedAppsKeys?.length === 0 &&
+            {authorizedAppsKeys?.length === 0 && (
                 <>
                     <Translate id='fullAccessKeys.noKeys' />
                     <br/>
@@ -54,7 +54,7 @@ export default ({
                         <Translate id='exploreApps.exploreApps' />
                     </FormButton>
                 </>
-            }
+            )}
         </StyledContainer>
     );
 };
