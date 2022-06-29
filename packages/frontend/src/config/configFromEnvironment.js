@@ -6,7 +6,8 @@ import Environments from '../../../../features/environments.json';
 import {
     envValIsSet,
     parseBooleanFromShell,
-    parseCommaSeperatedStringAsArrayFromShell
+    parseCommaSeperatedStringAsArrayFromShell,
+    parseDateFromShell
 } from './envParsers';
 
 const NEAR_WALLET_ENV = process.env.NEAR_WALLET_ENV;
@@ -53,6 +54,7 @@ module.exports = {
     MULTISIG_CONTRACT_HASHES: parseCommaSeperatedStringAsArrayFromShell(
         process.env.MULTISIG_CONTRACT_HASHES
     ),
+    MIGRATION_START_DATE: parseDateFromShell(process.env.MIGRATION_START_DATE || '2022-07-12'),
     MULTISIG_MIN_AMOUNT: process.env.REACT_APP_MULTISIG_MIN_AMOUNT,
     MULTISIG_MIN_PROMPT_AMOUNT:
         process.env.REACT_APP_MULTISIG_MIN_PROMPT_AMOUNT,

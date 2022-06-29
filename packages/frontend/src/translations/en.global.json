@@ -221,10 +221,10 @@
             "title": "Confirm Your URL"
         },
         "enterKeyForm": {
-            "desc": "Enter your key to import accounts",
-            "importCaption": "Import",
+            "title": "Welcome to MyNearWallet!",
+            "desc": "Enter your password to complete importing accounts:",
             "placeholder": "2cCzKMPiCkFnF5mGbJcPgTGNykvxK4f3xyNAio4q931b",
-            "title": "Welcome to MyNearWallet!"
+            "confirmCaption": "Confirm password",
         },
         "importScreen": {
             "desc": "Begin your import and confirm each account </br> when prompted.",
@@ -770,7 +770,7 @@
         }
     },
     "migration": {
-        "message": "NEAR Wallet has migrated to a new domain: <a href='${url}' target='_blank'>mynearwallet.com</a>.<br/>We prepared an easy way to move your accounts. Click the button to start.",
+        "message": "NEAR Wallet has migrated to a new domain: <a href='${url}' target='_blank'>mynearwallet.com</a>.<br/>You have until ${startDate} to transfer your accounts, or to export your account keys from your account settings.",
         "redirect": "NEAR Wallet has migrated to a new domain: <a href='${url}' target='_blank'>mynearwallet.com</a>.<br/>Click the button to redirect.",
         "redirectCaption": "Go To MyNearWallet",
         "transferCaption": "Transfer My Accounts"
@@ -1815,18 +1815,18 @@
     },
     "walletMigration": {
         "migrateAccounts": {
-            "desc": "The following accounts will be transferred to MyNearWallet.",
-            "title": "We found ${count} active accounts."
+            "title": "We found ${count} active accounts",
+            "desc": "The following accounts will be transferred to MyNearWallet:",
         },
         "migrationPrompt": {
-            "desc": "NEAR Wallet is now MyNearWallet and to celebrate the occasion, we’re moving to a new domain. Find us at <a href='https://mynearwallet.com' target='_blank'>https://mynearwallet.com</a>. <br/><br/> If you haven’t already, quickly and easily transfer your accounts",
             "title": "NEAR Wallet has a new home!",
+            "desc": "NEAR Wallet is now MyNearWallet and to celebrate the occasion, we’re moving to a new domain. Find us at <a href='https://mynearwallet.com' target='_blank'>https://mynearwallet.com</a>. <br/><br/> If you haven’t already, quickly and easily transfer your accounts:",
             "transferAccountsBtn": "Transfer My Accounts",
             "useDifferentWallet": "Use a different wallet"
         },
         "migrationSecret": {
-            "desc": "Click on the block to copy this <strong>secret</strong> before proceeding to MyNearWallet. You will be prompt to re-enter it later to securely transfer your accounts.",
-            "title": "Copy secret to transfer accounts"
+            "title": "Password required to import accounts",
+            "desc": "You'll need this <strong>password</strong> to securely import your accounts to MyNearWallet. Copy or write it down until you've completed transferring your accounts."
         },
         "selectWallet": {
             "title": "Select a wallet to transfer accounts"

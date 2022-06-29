@@ -105,7 +105,7 @@ const WalletMigration = ({ open, history, onClose }) => {
                     secretKey={keyToString(initialState.migrationKey)}
                 />
         }
-        {state.activeView === WALLET_MIGRATION_VIEWS.SELECT_DESTINATION_WALLET &&  
+        {state.activeView === WALLET_MIGRATION_VIEWS.SELECT_DESTINATION_WALLET &&
             <SelectDestinationWallet
                 walletType={state.walletType}
                 onClose={() => handleSetActiveView(null)}

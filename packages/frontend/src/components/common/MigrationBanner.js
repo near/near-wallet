@@ -3,6 +3,7 @@ import { Translate } from 'react-localize-redux';
 import {useSelector} from 'react-redux';
 import styled from 'styled-components';
 
+import { MIGRATION_START_DATE } from '../../config';
 import IconAlertTriangle from '../../images/IconAlertTriangle';
 import IconOffload from '../../images/IconOffload';
 import {selectAvailableAccounts} from '../../redux/slices/availableAccounts';
@@ -126,7 +127,10 @@ const MigrationBanner = ({ account, onTransfer }) => {
                     <IconAlertTriangle/>
                    {
                        availableAccounts.length ?
-                           <Translate id='migration.message' data={{ url: getMyNearWalletUrl() }}/> :
+                           <Translate id='migration.message' data={{
+                               startDate: MIGRATION_START_DATE.toLocaleDateString(),
+                               url: getMyNearWalletUrl()
+                           }}/> :
                            <Translate id='migration.redirect' data={{ url: getMyNearWalletUrl() }}/>
                    }
                </div>

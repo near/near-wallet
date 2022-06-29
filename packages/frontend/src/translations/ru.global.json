@@ -180,9 +180,9 @@
         },
         "enterKeyForm": {
             "title": "Добро пожаловать в MyNearWallet!",
-            "desc": "Введите ваше секретное значение для переноса аккаунтов",
-            "importCaption": "Перенести",
+            "desc": "Введите ваш пароль для переноса аккаунтов:",
             "placeholder": "2cCzKMPiCkFnF5mGbJcPgTGNykvxK4f3xyNAio4q931b",
+            "confirmCaption": "Подтвердить пароль",
         },
         "importScreen": {
             "desc": "Начните перенос и подтвердите каждую учетную запись </br> при появлении соответствующего запроса.",
@@ -551,8 +551,8 @@
         }
     },
     "migration": {
-        "message": "NEAR Wallet переезжает на новый домен: <a href='${url}' target='_blank'>mynearwallet.com</a>.<br/>Мы подготовили простой способ для переноса Ваших аккаунтов. Кликните чтобы начать.",
-        "message": "NEAR Wallet переезжает на новый домен: <a href='${url}' target='_blank'>mynearwallet.com</a>.<br/>Кликните чтобы перейти.",
+        "message": "NEAR Wallet переехал на новый домен: <a href='${url}' target='_blank'>mynearwallet.com</a>.<br/>У вас еще есть время перенести Ваши аккаунты, либо экспортировать их ключи из настроек профиля. Переезд завершится ${startDate}.",
+        "redirect": "NEAR Wallet переехал на новый домен: <a href='${url}' target='_blank'>mynearwallet.com</a>.<br/>Кликните для перехода.",
         "transferCaption": "Перенести Мои Аккаунты",
         "redirectCaption": "Перейти на MyNearWallet"
     },
@@ -1360,17 +1360,21 @@
     },
     "walletMigration": {
         "migrateAccounts": {
-            "desc": "Следующие аккаунты будут перенесены в MyNearWallet.",
+            "desc": "Следующие аккаунты будут перенесены в MyNearWallet:",
             "title": "Мы нашли ${count} активных аккаунтов."
         },
         "migrationPrompt": {
-            "desc": "NEAR Wallet отныне называется MyNearWallet и чтобы отпраздновать это событие, мы перемещаемся на новый домен. Нас можно найти на <a href='https://mynearwallet.com' target='_blank'>https://mynearwallet.com</a>. <br/><br/> Здесь вы можете быстро и просто перенести свои аккаунты если вы этого ещё не сделали.",
             "title": "У NEAR Wallet новый дом!",
-            "transferAccountsBtn": "Перенести Мои Аккаунты"
+            "desc": "NEAR Wallet отныне называется MyNearWallet и чтобы отпраздновать это событие, мы перемещаемся на новый домен. Нас можно найти на <a href='https://mynearwallet.com' target='_blank'>https://mynearwallet.com</a>. <br/><br/> Здесь вы можете быстро и просто перенести свои аккаунты если вы этого ещё не сделали:",
+            "transferAccountsBtn": "Перенести Мои Аккаунты",
+            "useDifferentWallet": "Использовать другой кошелёк"
         },
         "migrationSecret": {
-            "desc": "Кликните на блок ниже, чтобы скопировать <strong>секретное значение</strong> для безопасного переноса аккаунтов прежде чем мы переведём Вас на MyNearWallet. Позже, вам будет предложено окно для его ввода.",
-            "title": "Скопируйте секретное значение для переноса аккаунтов"
+            "title": "Необходимый пароль который нужен для переноса аккаунтов",
+            "desc": "Вам нужен <strong>этот пароль</strong> для безопасного переноса аккаунтов в MyNearWallet. Скопируйте или запишите его-куда нибудь, и сохраните до того момента, пока перенос аккаунтов не будет успешно завершён."
+        },
+        "selectWallet": {
+            "title": "Выберите кошелёк для переноса аккаунтов"
         }
     },
     "warning": "Предупреждение"
