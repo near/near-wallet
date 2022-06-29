@@ -138,7 +138,7 @@ const EnterPublicKeyForm = ({ onCancel, onPublicKey }) => {
                     disabled={value.length === 0}
                     type='submit'
                     onClick={handleSubmit}>
-                    <Translate id='batchImportAccounts.enterKeyForm.importCaption' />
+                    <Translate id='batchImportAccounts.enterKeyForm.confirmCaption' />
                 </FormButton>
                 <FormButton
                     className='link'
