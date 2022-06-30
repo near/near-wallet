@@ -96,7 +96,6 @@ import { StakingContainer } from './staking/StakingContainer';
 import Swap from './swap/Swap';
 import Terms from './terms/Terms';
 import '../index.css';
-import MigrateAccounts from './wallet-migration/MigrateAccounts';
 import WalletMigration from './wallet-migration/WalletMigration';
 const { fetchTokenFiatValues, getTokenWhiteList } = tokenFiatValueActions;
 
@@ -673,11 +672,6 @@ class Routing extends Component {
                                 exact
                                 path="/cli-login-success"
                                 component={LoginCliLoginSuccess}
-                            />
-                            <Route
-                                exact
-                                path="/migrate-accounts"
-                                component={MigrateAccounts}
                             />
                             <Route
                                 exact
