@@ -96,6 +96,7 @@ import { StakingContainer } from './staking/StakingContainer';
 import Swap from './swap/Swap';
 import Terms from './terms/Terms';
 import '../index.css';
+import MigrateAccounts from './wallet-migration/MigrateAccounts';
 import WalletMigration from './wallet-migration/WalletMigration';
 const { fetchTokenFiatValues, getTokenWhiteList } = tokenFiatValueActions;
 

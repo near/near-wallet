@@ -29,6 +29,8 @@ const initialState = {
     migrationKey: generatePublicKey()
 };
 
+
+
 const encodeAccountsToURL = async (accounts, publicKey) => {
     const accountsData = [];
     for (let i = 0; i < accounts.length; i++) {
@@ -43,24 +45,6 @@ const encodeAccountsToURL = async (accounts, publicKey) => {
 
     const hash = encodeAccountsTo(accountsData, publicKey);
     const href = `${getMyNearWalletUrlFromNEARORG()}/batch-import#${hash}`;
-
-    return href;
-};
-
-const encodeAccountsToURL = async (accounts, publicKey) => {
-    const accountsData = [];
-    for (let i = 0; i < accounts.length; i++) {
-        const accountId = accounts[i];
-        const keyPair = await wallet.getLocalKeyPair(accountId);
-        accountsData.push([
-            accountId,
-            keyPair.secretKey,
-            getLedgerHDPath(accountId),
-        ]);
-    }
-
-    const hash = encodeAccountsTo(accountsData, publicKey);
-    const href = `${getMyNearWalletUrl()}/batch-import#${hash}`;
 
     return href;
 };
@@ -106,17 +90,6 @@ const WalletMigration = ({ open, history, onClose }) => {
         }
     }, [open]);
 
-    React.useEffect(() => {
-        const isWhitelistedRoute =  WHITELISTED_ROUTES.includes(location.pathname);
-        if (isWhitelistedRoute) {
-            return;
-        }
-
-        if (!localStorage.getItem('MIGRATION_TRIGERRED')) {
-            handleSetActiveView(WALLET_MIGRATION_VIEWS.MIGRATION_PROMPT);
-        }
-    }, []);
-
     return (
         <div>
             {
@@ -138,7 +111,7 @@ const WalletMigration = ({ open, history, onClose }) => {
             {state.activeView === WALLET_MIGRATION_VIEWS.SELECT_DESTINATION_WALLET && (
                 <SelectDestinationWallet
                     walletType={state.walletType}
-                    onClose={() => handleSetActiveView(null)}
+                    onClose={onClose}
                     handleSetWalletType={handleSetWalletType}
                     handleSetActiveView={handleSetActiveView}
                 />

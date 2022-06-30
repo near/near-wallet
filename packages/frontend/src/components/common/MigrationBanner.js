@@ -6,8 +6,8 @@ import styled from 'styled-components';
 import { MIGRATION_START_DATE } from '../../config';
 import IconAlertTriangle from '../../images/IconAlertTriangle';
 import IconOffload from '../../images/IconOffload';
-import { getMyNearWalletUrl } from '../../utils/getWalletURL';
 import {selectAvailableAccounts} from '../../redux/slices/availableAccounts';
+import { getMyNearWalletUrl } from '../../utils/getWalletURL';
 import FormButton from './FormButton';
 import Container from './styled/Container.css';
 
@@ -125,16 +125,17 @@ const MigrationBanner = ({ account, onTransfer }) => {
             <ContentWrapper>
                 <div className='content'>
                     <IconAlertTriangle/>
-                   {
-                       availableAccounts.length ?
-                           <Translate id='migration.message' data={{
-                               startDate: MIGRATION_START_DATE.toLocaleDateString(),
-                               url: getMyNearWalletUrl()
-                           }}/> :
-                           <Translate id='migration.redirect' data={{ url: getMyNearWalletUrl() }}/>
-                   }
-               </div>
-               <Translate>
+                    {
+                        availableAccounts.length ? (
+                            <Translate id='migration.message' data={{
+                                startDate: MIGRATION_START_DATE.toLocaleDateString(),
+                                url: getMyNearWalletUrl()
+                            }}/>
+                        ) :
+                            <Translate id='migration.redirect' data={{ url: getMyNearWalletUrl() }}/>
+                    }
+                </div>
+                <Translate>
                     {({ translate }) =>
                         (<CustomButton onClick={onTransferClick}>
                             <IconWrapper>
@@ -146,7 +147,7 @@ const MigrationBanner = ({ account, onTransfer }) => {
                                     <Translate id='migration.redirectCaption' />
                             }
 
-                        </CustomButton>
+                        </CustomButton>)
                     }
                 </Translate>
             </ContentWrapper>

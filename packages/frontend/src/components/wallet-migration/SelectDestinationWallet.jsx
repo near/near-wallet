@@ -135,7 +135,7 @@ const StyledButton = styled(FormButton)`
 `;
 
 
-const SelectDestinationWallet = ({ handleSetActiveView, handleSetWalletType, walletType }) => {
+const SelectDestinationWallet = ({ handleSetActiveView, handleSetWalletType, walletType, onClose }) => {
     const dispatch = useDispatch();
 
     const handleContinue = useCallback(() => {
@@ -143,7 +143,7 @@ const SelectDestinationWallet = ({ handleSetActiveView, handleSetWalletType, wal
             return handleSetActiveView(WALLET_MIGRATION_VIEWS.MIGRATION_SECRET);
         }
         if (walletType === 'ledger') {
-            handleSetActiveView(null);
+            onClose();
             return  dispatch(redirectTo('/batch-ledger-export'));
         }
     },[ walletType, handleSetActiveView ]);
