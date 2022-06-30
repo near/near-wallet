@@ -33,8 +33,6 @@ export const getMyNearWalletUrlFromNEARORG = (https = true) => {
         [Environments.MAINNET_STAGING_NEARORG]: 'staging.'
     }[NEAR_WALLET_ENV];
 
-    // return 'https://localhost:49911';
-
     return `${https ? 'https://' : ''}${prefix || ''}mynearwallet.com`;
 };
 
