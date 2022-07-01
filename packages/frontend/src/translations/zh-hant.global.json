@@ -107,7 +107,15 @@
         "recoverAccount": {
             "error": "恢復賬戶失敗。",
             "errorInvalidSeedPhrase": "助記詞無效",
-            "success": "成功。"
+            "success": "成功通過助記詞恢復。<br/><b>${numberOfAccounts} 個賬戶</b>成功恢復。<br/>已切換至最後賬戶。",
+            "zeroBalance": {
+                "success": {
+                    "desc": "該賬戶還未充值。請購買 $NEAR 並充值到該賬戶。",
+                    "ledger": "該賬戶成功通過 Ledger 密鑰導入：",
+                    "phrase": "該賬戶成功通過助記詞導入：",
+                    "title": "賬戶已導入"
+                }
+            }
         },
         "requestCode": {
             "error": "發送短信失敗。",
@@ -187,16 +195,52 @@
         "available": "可用餘額",
         "reserved": "費用預留"
     },
+    "batchExportAccounts": {
+        "confirmExportModal": {
+            "accountToExport": "賬戶備份",
+            "title": "批准賬戶備份",
+            "transactionDetails": "+ 交易細節"
+        },
+        "exportScreen": {
+            "desc": "開始備份，並在提示時確認賬戶。",
+            "weFound": "找到 ${noOfAccounts} 個賬戶可備份至你的設備。"
+        },
+        "successScreen": {
+            "title": "${noOfAccounts} 個賬戶成功備份至你的設備"
+        }
+    },
+    "batchImportAccounts": {
+        "confirmImportModal": {
+            "accountToImport": "賬戶導入",
+            "desc": "為確保賬戶安全，請確認 URL 是否正確：",
+            "title": "批准賬戶導入自",
+            "transactionDetails": "+ 交易細節"
+        },
+        "confirmUrlModal": {
+            "desc": "為確保賬戶安全，請確認 URL 是否正確：",
+            "title": "確認你的 URL"
+        },
+        "importScreen": {
+            "desc": "開始導入，並在提示時確認賬戶。",
+            "title": "準備導入 ${noOfAccounts} 個賬戶，來自</br>"
+        },
+        "successScreen": {
+            "desc": "選擇一個賬戶，並跳轉至概覽頁。",
+            "title": "${noOfAccounts} 個賬戶成功導入自"
+        }
+    },
     "button": {
         "acceptAndContinue": "接受並繼續",
         "addACustomAddress": "自定義賬戶 ID",
         "addFunds": "充值",
         "addNode": "添加節點",
         "allow": "允許",
-        "approve": "允許",
+        "approve": "批准",
         "authorize": "授權",
         "authorizing": "正在授權",
         "backToSwap": "返回兌換",
+        "beginExport": "開始備份",
+        "beginImport": "開始導入",
         "browseApps": "瀏覽應用",
         "buy": "購買",
         "cancel": "取消",
@@ -244,6 +288,7 @@
         "learnMore": "了解更多",
         "learnMoreAboutNear": "了解更多關於 NEAR",
         "loading": "正在加載",
+        "looksGood": "確認",
         "moreInformation": "更多信息",
         "needToEditGoBack": "需要修改？請返回",
         "next": "下一步",
@@ -288,20 +333,27 @@
         "viewAll": "查看全部",
         "viewFAQ": "查看常見問題",
         "viewOnExplorer": "通過瀏覽器查看",
+        "viewPrivateKey": "查看私鑰",
         "withdrawing": "正在提現"
     },
     "buyNear": {
+        "bridgeSubTitle": "通過彩虹橋將你的通證從以太坊轉至 NEAR。",
         "bridgeTokens": "通過以太坊跨鏈橋轉移通證",
         "buyWith": "打開",
         "coinMarketCap": "CoinMarketCap",
+        "coinMarketLink": "CoinMarketCap 了解更多",
         "descMoonpay": "可在 MoonPay 使用偏好的支付方式購買 NEAR。",
         "descThree": "通過跨鏈橋將以太坊鏈上通證轉至 NEAR 錢包。",
         "descTwo": "NEAR 已經在以下交易所流通，可交易。",
         "descUtorg": "可在 Utorg 使用偏好的支付方式購買 NEAR。",
         "moonPay": "MoonPay",
+        "nearPurchaseSubTitle": "使用你偏好的支付方式購買 $NEAR。",
+        "nearPurchaseTitle": "購買 NEAR",
         "notSupported": "未在你所在地區支持",
         "seeMore": "查看更多：",
+        "subTitle": "請選擇一種方式來購買充值 NEAR。",
         "supportedExchanges": "交易所",
+        "supportedSubTitle": " $NEAR 可以在以下交易所交易購買。",
         "title": "充值 NEAR",
         "utorg": "Utorg"
     },
@@ -493,6 +545,12 @@
         "exploreApps": "瀏覽應用",
         "exploreDeFi": "瀏覽 DeFi 應用",
         "title": "尋找 NEAR 生態和應用？"
+    },
+    "exportPrivateKey": {
+        "button": "備份本地私鑰",
+        "desc": "請不要分享你的私鑰！任何獲得你私鑰的人也將獲得你的賬戶的完整訪問權限。<br /><br />",
+        "enterAccountAddress": "請輸入你的賬戶地址來查看你的私鑰。",
+        "title": "查看私鑰？"
     },
     "footer": {
         "contactSupport": "加入社區",
@@ -787,6 +845,19 @@
         "displayTitle": "404",
         "returnToWallet": "返回錢包",
         "title": "抱歉，無法找到該頁面。"
+    },
+    "postMigration": {
+        "cta": "遷移賬戶",
+        "message": "NEAR 錢包已遷移至新的域名：<b>mynearwallet.com</b>。<br/>你需要在 <b>${endDate}</b> 之前遷移你的賬戶，或從賬戶設置中備份（導出）賬戶密鑰。"
+    },
+    "poweredByCoinGecko": "價格數據來自 <a href='https://www.coingecko.com/en/api' target='_blank' rel='noopener noreferrer'>CoinGecko</a>",
+    "preMigration": {
+        "calendarEvent": {
+            "details": "這是官方 NEAR 錢包遷移的開始日期。請盡快開始你的賬戶遷移。",
+            "text": "NEAR 錢包遷移"
+        },
+        "cta": "設置提醒",
+        "message": "我們將遷移！NEAR 錢包將會遷移至新的域名（<b>mynearwallet.com</b>），自 <b>${startDate}</b> 起開始遷移。<br/>可以等新域名上線後再訪問遷移你的賬戶，或在<a href='/profile'>賬戶設置</a>中備份你的賬戶密鑰。"
     },
     "profile": {
         "account": {
@@ -1177,10 +1248,15 @@
         "twoLink": "步驟安裝"
     },
     "setupLedgerSteps": {
+        "five": "在第二個彈窗中選擇設備，並點擊連接。",
+        "four": "在首個彈窗中，點擊連接按鈕。",
         "header": "在硬件錢包上安裝 NEAR",
+        "install": "如果你還沒有安裝 NEAR Ledger 應用，請按照",
+        "installLink": "<a href='https://www.ledger.com/ledger-live' target='_blank'>以下步驟操作</a>。",
         "one": "打開 <a href='https://www.ledger.com/ledger-live' target='_blank'>Ledger Live</a>，並安裝固件更新。",
+        "six": "點擊繼續按鈕來完成設置 Ledger。",
         "three": "根據步驟在設備上安裝 <span class='color-black'>NEAR 應用</span>。",
-        "two": "返回至<span class='color-black'>管理器</span> Tab 並搜索 <span class='color-black'>NEAR</span>。"
+        "two": "返回至<span class='color-black'>管理器</span> Tab 並蒐索 <span class='color-black'>NEAR</span>。"
     },
     "setupLedgerSuccess": {
         "header": "你的賬戶已通過 Ledger 硬件保護！",
@@ -1307,6 +1383,7 @@
     "signInLedger": {
         "advanced": {
             "desc": "指定 HD 路徑來導入已鏈接的賬戶。",
+            "exportDesc": "指定 HD 路徑來導出你的賬戶，你需要記住這個路徑。<br/><b>為額外的安全性，請為不同的賬戶使用不同的 HD 路徑。</b>",
             "setPath": "設置 HD 路徑",
             "subTitle": "HD 路徑",
             "title": "高級選項"
@@ -1424,6 +1501,7 @@
         "staking": {
             "available": "可用餘額",
             "button": "質押 NEAR",
+            "checkingValidator": "檢查驗證節點",
             "currentValidators": "當前驗證節點",
             "desc": "選擇驗證節點質押 NEAR 通證",
             "noValidators": "你還沒有委托驗證節點質押。",
@@ -1666,6 +1744,9 @@
         "addAccessKeySeedPhrase": {
             "errorSecond": "出現問題。<br />該助記詞無法恢復你的賬戶，請檢查後重試。"
         },
+        "addAccessKeyZeroBalanceAccountSetup": {
+            "error": "在完成導入時遇到錯誤。請在錢包中重新導入你的賬戶。"
+        },
         "addLedgerAccountId": {
             "errorRpc": "恢復賬戶時發生錯誤。"
         },
@@ -1688,6 +1769,9 @@
             "noAccountsAccepted": "無賬戶授權。",
             "U2FNotSupported": "需要瀏覽器支持 U2F，請使用 Chrome、Opera 或 Firefox 安裝 U2F 擴展。"
         },
+        "initiateZeroBalanceAccount": {
+            "error": "在初始化你的賬戶時出現錯誤。請重試。"
+        },
         "invalidRecaptchaCode": "reCAPTCHA 驗證失敗，請重試。",
         "lockup": {
             "transferAllWithStakingPoolBalance": "為將你剩餘鎖定餘額轉賬至錢包，請從質押池贖回並提現所有質押資產。"
@@ -1707,6 +1791,9 @@
             "lastMethod": "無法刪除最後一個恢復方式。除非你添加了 Ledger，你需要保留至少一種賬戶恢復方式。",
             "setupMethod": "發生錯誤。請檢查你的賬戶恢復方式。"
         },
+        "refreshAccountOwner": {
+            "error": "在讀取賬戶時出現錯誤。部分錢包數據可能不是最新，請刷新網站。"
+        },
         "sendFungibleToken": {
             "error": "發生錯誤，發送交易取消。"
         },
@@ -1721,8 +1808,38 @@
         },
         "staking": {
             "noLockup": "賬戶無鎖定合約",
-            "noWithdraw": "無法從驗證節點提現餘額"
+            "noWithdraw": "無法從驗證節點提現餘額",
+            "unableToCheckFAK": "抱歉，我們無法檢查驗證節點是否擁有完全訪問密鑰。",
+            "validatorHasFAK": "抱歉，出於安全考量，我們不支持你質押到擁有完全訪問密鑰的驗證節點。"
         }
     },
-    "warning": "警告"
+    "warning": "警告",
+    "zeroBalance": {
+        "addLedgerKey": {
+            "error": {
+                "header": "出現問題",
+                "message": "我們無法為你的賬戶添加額外的 Ledger 密鑰。請重試或重新導入你的 Ledger 賬戶。"
+            },
+            "success": {
+                "header": "Ledger 訪問密鑰成功添加！",
+                "message": "新的 Ledger 密鑰已經導入至你的賬戶。你現在可以通過 Ledger 設備管理賬戶的恢復方式。"
+            }
+        },
+        "addPhraseKey": {
+            "error": {
+                "header": "出現問題",
+                "message": "我們無法為你的賬戶添加新的 Ledger 密鑰。請重試或重新導入你的 Ledger 賬戶。"
+            },
+            "success": {
+                "header": "你的賬戶已成功導入！",
+                "message": "現在你的賬戶已經激活，新的訪問密鑰也已可用於批准交易。"
+            }
+        },
+        "ledgerModal": {
+            "addLedgerKey": "添加 Ledger 密鑰",
+            "confirmOnLedger": "請在 Ledger 設備上確認該操作。",
+            "desc": "添加 Ledger 受限訪問密鑰至錢包來管理多個恢復方式。",
+            "title": "你的賬戶已經激活！"
+        }
+    }
 }
