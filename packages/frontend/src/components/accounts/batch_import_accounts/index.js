@@ -179,7 +179,6 @@ const ImportAccounts = ({ accountsData, onCancel }) => {
         return <BatchImportAccountsSuccessScreen accounts={accountsApproved} />;
     }
 
-    const accounts = state.accounts.filter(({ accountId }) => Boolean(accountId));
     return (
         <>
             <Container className="small-centered border ledger-theme">
@@ -198,7 +197,7 @@ const ImportAccounts = ({ accountsData, onCancel }) => {
                         {accountsApproved.length}/{state.accounts.length}{' '}
                         <Translate id="signInLedger.modal.accountsApproved" />
                     </div>
-                    <AccountListImport accounts={accounts} />
+                    <AccountListImport accounts={state.accounts} />
                     <div style={{ borderTop: '2px solid #f5f5f5' }} />
                     <FormButtonGroup>
                         <FormButton
@@ -212,7 +211,7 @@ const ImportAccounts = ({ accountsData, onCancel }) => {
                             onClick={() =>
                                 dispatch({ type: ACTIONS.BEGIN_IMPORT })
                             }
-                            disabled={availableAccountsIsLoading || accounts.length === 0}
+                            disabled={availableAccountsIsLoading || state.accounts.length === 0}
                         >
                             <Translate id='button.beginImport' />
                         </FormButton>
