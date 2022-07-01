@@ -297,7 +297,6 @@ class Routing extends Component {
         this.pollTokenFiatValue = null;
     };
 
-    // todo refactor: move to state manager
     handleTransferClick = () => {
 
         this.setState({ openTransferPopup: true });

@@ -36,7 +36,7 @@ export function decodeMessage(cipherText, publicKey) {
     }
 }
 
-export function encodeAccountsTo(accountsData, publicKey) {
+export function encodeAccountsToHash(accountsData, publicKey) {
     const message = accountsData.reduce((msg, accountData) => {
         msg.push(accountData.join('='));
 

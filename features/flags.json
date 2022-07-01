@@ -160,7 +160,7 @@
       "lastEditedAt": "2022-05-25T01:11:55.121Z"
     },
     "testnet_NEARORG": {
-      "enabled": true,
+      "enabled": false,
       "lastEditedBy": "esaminu",
       "lastEditedAt": "2022-06-24T21:26:00.267Z"
     },

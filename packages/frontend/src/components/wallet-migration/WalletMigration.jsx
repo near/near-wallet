@@ -2,9 +2,7 @@ import React, { useCallback, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
 import { selectAvailableAccounts } from '../../redux/slices/availableAccounts';
-import {
-    encodeAccountsTo, generatePublicKey, keyToString
-} from '../../utils/encoding';
+import { encodeAccountsToHash, generatePublicKey, keyToString } from '../../utils/encoding';
 import { getMyNearWalletUrlFromNEARORG } from '../../utils/getWalletURL';
 import { getLedgerHDPath } from '../../utils/localStorage';
 import { wallet } from '../../utils/wallet';
@@ -36,12 +34,12 @@ const encodeAccountsToURL = async (accounts, publicKey) => {
         const keyPair = await wallet.getLocalKeyPair(accountId);
         accountsData.push([
             accountId,
-            keyPair.secretKey,
+            keyPair?.secretKey || '',
             getLedgerHDPath(accountId),
         ]);
     }
 
-    const hash = encodeAccountsTo(accountsData, publicKey);
+    const hash = encodeAccountsToHash(accountsData, publicKey);
     const href = `${getMyNearWalletUrlFromNEARORG()}/batch-import#${hash}`;
 
     return href;
