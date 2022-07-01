@@ -118,7 +118,7 @@ class DesktopContainer extends Component {
                     <LanguageToggle />
                 </Lang>
                 <ConnectLedger />
-                {showNavLinks &&
+                {showNavLinks && (
                     <>
                         <div className='divider'/>
                         <UserAccount
@@ -138,7 +138,7 @@ class DesktopContainer extends Component {
                             refreshBalance={refreshBalance}
                         />
                     </>
-                }
+                )}
             </Container>
         );
     }

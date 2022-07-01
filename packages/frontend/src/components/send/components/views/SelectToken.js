@@ -38,7 +38,9 @@ const StyledContainer = styled.div`
 
 function filterTokens(tokens, searchSubstring) {
     return tokens.filter((token) => {
-        if (!searchSubstring) { return true; }
+        if (!searchSubstring) {
+            return true; 
+        }
 
         return token.onChainFTMetadata?.symbol
             .toLowerCase()

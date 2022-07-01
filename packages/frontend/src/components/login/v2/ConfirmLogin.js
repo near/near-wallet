@@ -91,7 +91,7 @@ export default ({
                     </FormButtonGroup>
                 </LoginStyle>
             </Container>
-            {showGrantFullAccessModal &&
+            {showGrantFullAccessModal && (
                 <GrantFullAccessModal
                     open={showGrantFullAccessModal}
                     onClose={() => setShowGrantFullAccessModal(false)}
@@ -102,7 +102,7 @@ export default ({
                     contractIdUrl={contractIdUrl}
                     loggingIn={loggingIn}
                 />
-            }
+            )}
         </>
     );
 };

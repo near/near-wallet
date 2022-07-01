@@ -5,7 +5,7 @@ import {
     actions as ledgerActions,
     selectLedgerConnectionModalType,
     selectLedgerConnectionStatusLoading
- } from '../../../../redux/slices/ledger';
+} from '../../../../redux/slices/ledger';
 import Modal from '../../../common/modal/Modal';
 import ModalThemeV2 from './css/ModalThemeV2';
 import LedgerConnectionModal from './views/LedgerConnectionModal';
@@ -25,19 +25,21 @@ const LedgerConnectModal = () => {
     const cancel = () => dispatch(setLedgerConnectionModalType({ type: undefined }));
 
     return modalType
-        ? <Modal
-            id='ledger-connect-modal'
-            closeButton='desktop'
-            onClose={cancel}
-        >
-            <ModalThemeV2 />
-            <LedgerConnectionModal
-                connecting={connecting}
-                connect={connect}
-                cancel={cancel}
-                modalType={modalType}
-            />
-        </Modal>
+        ? (
+            <Modal
+                id='ledger-connect-modal'
+                closeButton='desktop'
+                onClose={cancel}
+            >
+                <ModalThemeV2 />
+                <LedgerConnectionModal
+                    connecting={connecting}
+                    connect={connect}
+                    cancel={cancel}
+                    modalType={modalType}
+                />
+            </Modal>
+        )
         : null;
 };
 

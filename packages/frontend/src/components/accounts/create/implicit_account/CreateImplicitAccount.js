@@ -81,15 +81,17 @@ export default ({
                     color={moonpayIsAvailable ? 'black' : 'gray-gray'}
                     linkTo={moonpaySignedUrl}
                 >
-                    {moonpayIsAvailable
-                        ? <>
+                    {moonpayIsAvailable ? (
+                        <>
                             <Translate id='buyNear.buyWith' />
                             <MoonPayIcon />
-                        </> : <>
+                        </>
+                    ) : (
+                        <>
                             <MoonPayIcon color='#3F4045' />
                             <Translate id='buyNear.notSupported' />
                         </>
-                    }
+                    )}
                 </FormButton>
                 <h3 className='bottom'><Translate id='account.createImplicitAccount.orSendNear' data={{ amount: formattedMinDeposit }} /></h3>
                 <Translate id='account.createImplicitAccount.sendFrom' />&nbsp;
@@ -98,12 +100,12 @@ export default ({
                 <div className='address-title'><Translate id='receivePage.addressTitle' /></div>
                 <YourAddress address={implicitAccountId} />
             </StyledContainer>
-            {showWhereToBuyModal &&
+            {showWhereToBuyModal && (
                 <WhereToBuyNearModal
                     onClose={() => setShowWhereToBuyModal(false)}
                     open={showWhereToBuyModal}
                 />
-            }
+            )}
         </>
     );
 };

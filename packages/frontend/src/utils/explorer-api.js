@@ -2,7 +2,9 @@ import { listRecentTransactions } from '../services/indexer';
 import { wallet } from './wallet';
 
 export async function getTransactions({ accountId }) {
-    if (!accountId) return {};
+    if (!accountId) {
+        return {};
+    }
 
     const txs = await listRecentTransactions(accountId);
 

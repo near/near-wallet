@@ -80,9 +80,9 @@ const SignTransferMultipleAccounts = ({
             </FormButton>
             <FormButton
                 onClick={() => {
-                  if (isUrlNotJavascriptProtocol(signCallbackUrl)) {
-                    window.location.href = signCallbackUrl;
-                  }
+                    if (isUrlNotJavascriptProtocol(signCallbackUrl)) {
+                        window.location.href = signCallbackUrl;
+                    }
                 }}
                 disabled={submittingTransaction}
                 sending={submittingTransaction}

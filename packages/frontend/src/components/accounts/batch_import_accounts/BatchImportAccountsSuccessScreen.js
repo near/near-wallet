@@ -26,34 +26,34 @@ const CustomContainer = styled.div`
       }
 `;
 
-const BatchImportAccountsSuccessScreen = ({ accounts = [] }) => {
-  const dispatch = useDispatch();
-  const accountUrlReferrer = useSelector(selectAccountUrlReferrer);
+const BatchImportAccountsSuccessScreen = ({ accounts = [], customTitleId }) => {
+    const dispatch = useDispatch();
+    const accountUrlReferrer = useSelector(selectAccountUrlReferrer);
 
-  return (
-    <Container className="small-centered border ledger-theme">
-      <CustomContainer>
-          <AvatarSuccessIcon />
-          <div className='screen-descripton'>
-            <h3>
-              <Translate id="batchImportAccounts.successScreen.title" data={{ noOfAccounts: accounts.length }}/>
-              {accountUrlReferrer || <Translate id="sign.unknownApp" />}
-            </h3>
-            <br />
-            <br />
-            <Translate id="batchImportAccounts.successScreen.desc"/>
-          </div>
-          <div className="title">
-             {accounts.length} <Translate id="signInLedger.modal.accountsApproved" />
-          </div>
-          <AccountListImport accounts={accounts} onClickAccount={async ({accountId}) => {
-              await dispatch(switchAccount({accountId}));
-              dispatch(redirectTo('/'));
-            }} 
-          />
-      </CustomContainer>
-    </Container>
-  );
+    return (
+        <Container className="small-centered border ledger-theme">
+            <CustomContainer>
+                <AvatarSuccessIcon />
+                <div className='screen-descripton'>
+                    <h3>
+                        <Translate id={customTitleId || 'batchImportAccounts.successScreen.title'} data={{ noOfAccounts: accounts.length }}/>
+                        {accountUrlReferrer || <Translate id="sign.unknownApp" />}
+                    </h3>
+                    <br />
+                    <br />
+                    <Translate id="batchImportAccounts.successScreen.desc"/>
+                </div>
+                <div className="title">
+                    {accounts.length} <Translate id="signInLedger.modal.accountsApproved" />
+                </div>
+                <AccountListImport accounts={accounts} onClickAccount={async ({accountId}) => {
+                    await dispatch(switchAccount({accountId}));
+                    dispatch(redirectTo('/'));
+                }}
+                />
+            </CustomContainer>
+        </Container>
+    );
 };
 
 export default BatchImportAccountsSuccessScreen;

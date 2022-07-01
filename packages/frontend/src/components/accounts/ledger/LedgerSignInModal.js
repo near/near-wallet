@@ -176,7 +176,7 @@ const LedgerSignInModal = ({
             <ModalTheme/>
 
             {signInWithLedgerStatus === LEDGER_MODAL_STATUS.CONFIRM_PUBLIC_KEY && (!txSigned
-                    ? (
+                ? (
                         <>
                             <h2>
                                 <Translate id={'confirmLedgerModal.header.confirm'}/>
@@ -186,15 +186,15 @@ const LedgerSignInModal = ({
                                 <H4><Translate id='signInLedger.modal.confirmPublicKey'/></H4>
                             </div>
                         </>        
-                    )
-                    : (
+                )
+                : (
                         <>
                             <h2 className={'dots'}>
                                 <Translate id={'confirmLedgerModal.header.processing'}/>
                             </h2>
                             <LedgerImage animate={false}/>
                         </>
-                    )
+                )
             )}
             {signInWithLedgerStatus === LEDGER_MODAL_STATUS.ENTER_ACCOUNTID && (
                 <>

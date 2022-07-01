@@ -71,7 +71,7 @@ export default function StakingRewardsBanner() {
             <FormButton className='link' onClick={() => setInfo(true)}>
                 <Translate id='staking.balanceBox.unclaimed.unavailable.cta' />
             </FormButton>
-            {info &&
+            {info && (
                 <Modal
                     id='staking-rewards-modal'
                     isOpen={info}
@@ -92,7 +92,7 @@ export default function StakingRewardsBanner() {
                         </FormButton>
                     </ModalContainer>
                 </Modal>
-            }
+            )}
         </Container>
     );
 }

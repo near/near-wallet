@@ -60,12 +60,12 @@ const ImportOnMobileDeviceQRCode = ({ mobileSharingLink }) => {
                     value={`${mobileSharingLink}`}
                 />
             </div>
-            {!showCode &&
+            {!showCode && (
                 <FormButton onClick={() => setShowCode(true)}>
                     <EyeIcon/>
                     <Translate id='mobileDeviceAccess.showCode.modal.reveal'/>
                 </FormButton>
-            }
+            )}
         </StyledContainer>
     );
 };

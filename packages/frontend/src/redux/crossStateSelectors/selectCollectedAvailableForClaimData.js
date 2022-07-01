@@ -11,7 +11,9 @@ import { selectContractsMetadata } from '../slices/tokensMetadata';
 
 const collectFarmingData = (args) => {
     try {
-        if (some(args, isEmpty)) return [];
+        if (some(args, isEmpty)) {
+            return [];
+        }
 
         const {
             validatorsFarmData,
@@ -46,7 +48,7 @@ const collectFarmingData = (args) => {
     }
 };
 
-export default createSelector(
+const selectCollectedAvailableForClaimData = createSelector(
     [
         selectValidatorsFarmData,
         selectContractsMetadata,
@@ -70,3 +72,36 @@ export default createSelector(
         });
     }
 );
+
+export const selectCollectedAvailableForClaimDataByAccountId = createSelector(
+    [
+        selectValidatorsFarmData,
+        selectContractsMetadata,
+        selectTokensFiatValueUSD,
+        selectTokenWhiteList,
+        (state, accountId) => accountId
+    ],
+    (
+        validatorsFarmData,
+        contractMetadataByContractId,
+        tokenFiatValues,
+        tokenWhitelist,
+        accountId
+    ) => {
+        return collectFarmingData({
+            validatorsFarmData,
+            contractMetadataByContractId,
+            tokenFiatValues,
+            tokenWhitelist,
+            accountId
+        });
+    }
+);
+
+export const selectHasAvailableForClaimForAccountId = createSelector(
+    [selectCollectedAvailableForClaimDataByAccountId],
+    (farmData) =>
+        farmData.filter((tokenData) => +tokenData.balance > 0).length > 0
+);
+
+export default selectCollectedAvailableForClaimData;

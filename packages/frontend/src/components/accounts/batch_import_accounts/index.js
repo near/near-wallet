@@ -39,10 +39,10 @@ const CustomContainer = styled.div`
 `;
 
 export const IMPORT_STATUS = {
-  PENDING: 'pending',
-  SUCCESS: 'success',
-  UP_NEXT: 'waiting',
-  FAILED: 'error'
+    PENDING: 'pending',
+    SUCCESS: 'success',
+    UP_NEXT: 'waiting',
+    FAILED: 'error'
 };
 
 const BatchImportAccounts = ({ accountIdToKeyMap, onCancel }) => {
@@ -66,9 +66,9 @@ const BatchImportAccounts = ({ accountIdToKeyMap, onCancel }) => {
     const showSuccessScreen = useMemo(() => completed && state.accounts.some((account) => account.status === IMPORT_STATUS.SUCCESS), [completed, state.accounts]);
 
     useEffect(() => {
-      if (!currentAccount) {
-        dispatch({type: ACTIONS.REMOVE_ACCOUNTS, accounts: availableAccounts});
-      }
+        if (!currentAccount) {
+            dispatch({type: ACTIONS.REMOVE_ACCOUNTS, accounts: availableAccounts});
+        }
     },[availableAccounts, currentAccount]);
 
     if (showSuccessScreen) {
@@ -78,17 +78,17 @@ const BatchImportAccounts = ({ accountIdToKeyMap, onCancel }) => {
     return (
         <>
             <Container className="small-centered border ledger-theme">
-              <CustomContainer>
-                  <img src={ImportArrow} alt="ImportArrow" />
-                  <div className='screen-descripton'>
-                    <h3>
-                      <Translate id="batchImportAccounts.importScreen.title" data={{ noOfAccounts: state.accounts.length }}/>
-                      {accountUrlReferrer || <Translate id="sign.unknownApp" />}
-                    </h3>
-                    <br />
-                    <br />
-                    <Translate id="batchImportAccounts.importScreen.desc"/>
-                  </div>
+                <CustomContainer>
+                    <img src={ImportArrow} alt="ImportArrow" />
+                    <div className='screen-descripton'>
+                        <h3>
+                            <Translate id="batchImportAccounts.importScreen.title" data={{ noOfAccounts: state.accounts.length }}/>
+                            {accountUrlReferrer || <Translate id="sign.unknownApp" />}
+                        </h3>
+                        <br />
+                        <br />
+                        <Translate id="batchImportAccounts.importScreen.desc"/>
+                    </div>
                     <div className="title">
                         {accountsApproved.length}/{state.accounts.length}{' '}
                         <Translate id="signInLedger.modal.accountsApproved" />

@@ -87,6 +87,50 @@
       "lastEditedAt": "2022-05-10T17:07:20.351Z"
     }
   },
+  "RENDER_MIGRATION": {
+    "createdBy": "Andy Haynes",
+    "createdAt": "2022-06-22T01:17:14.439Z",
+    "development": {
+      "enabled": true,
+      "lastEditedBy": "Andy Haynes",
+      "lastEditedAt": "2022-06-29T18:19:13.375Z"
+    },
+    "testnet": {
+      "enabled": true,
+      "lastEditedBy": "Andy Haynes",
+      "lastEditedAt": "2022-06-29T18:19:13.377Z"
+    },
+    "mainnet": {
+      "enabled": false,
+      "lastEditedBy": "Andy Haynes",
+      "lastEditedAt": "2022-06-22T01:17:14.439Z"
+    },
+    "mainnet_STAGING": {
+      "enabled": false,
+      "lastEditedBy": "Andy Haynes",
+      "lastEditedAt": "2022-06-22T01:17:14.439Z"
+    },
+    "testnet_STAGING": {
+      "enabled": true,
+      "lastEditedBy": "Andy Haynes",
+      "lastEditedAt": "2022-06-29T18:19:13.377Z"
+    },
+    "testnet_NEARORG": {
+      "enabled": true,
+      "lastEditedBy": "Andy Haynes",
+      "lastEditedAt": "2022-06-29T18:19:13.377Z"
+    },
+    "mainnet_NEARORG": {
+      "enabled": false,
+      "lastEditedBy": "Andy Haynes",
+      "lastEditedAt": "2022-06-22T01:17:14.439Z"
+    },
+    "mainnet_STAGING_NEARORG": {
+      "enabled": false,
+      "lastEditedBy": "Andy Haynes",
+      "lastEditedAt": "2022-06-22T01:17:14.439Z"
+    }
+  },
   "SHOW_MIGRATION_BANNER": {
     "createdBy": "gutsyphilip",
     "createdAt": "2022-05-25T01:11:55.121Z",

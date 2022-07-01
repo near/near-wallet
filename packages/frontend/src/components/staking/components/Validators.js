@@ -38,12 +38,12 @@ export default function Validators({ validators, stakeFromAccount }) {
                 </div>
             )}
             <ListWrapper>
-                {validators.filter((v) => v.accountId.includes(validator)).map((validator, i) => 
+                {validators.filter((v) => v.accountId.includes(validator)).map((validator, i) => (
                     <ValidatorBox
                         key={i}
                         validator={validator}
                     />
-                )}
+                ))}
             </ListWrapper>
         </>
     );

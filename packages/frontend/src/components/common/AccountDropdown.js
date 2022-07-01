@@ -77,7 +77,7 @@ export default function AccountDropdown({ disabled, 'data-test-id': testId }) {
                 name='account-dropdown'
                 title={accountId || ''}
                 content={
-                    availableAccounts.filter((a) => a !== accountId).map((account, i) =>
+                    availableAccounts.filter((a) => a !== accountId).map((account, i) => (
                         <div
                             key={i}
                             onClick={() => dispatch(switchAccount({ accountId: account }))}
@@ -85,7 +85,7 @@ export default function AccountDropdown({ disabled, 'data-test-id': testId }) {
                         >
                             {account}
                         </div>
-                    )
+                    ))
                 }
             />
         </Container>

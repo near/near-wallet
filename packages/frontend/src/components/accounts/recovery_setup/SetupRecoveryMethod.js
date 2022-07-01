@@ -124,14 +124,14 @@ class SetupRecoveryMethod extends Component {
                         active={option}
                         disabled={this.checkDisabled('phrase')}
                     />
-                    {(this.checkNewAccount() || !twoFactor) &&
+                    {(this.checkNewAccount() || !twoFactor) &&(
                         <RecoveryOption
                             onClick={() => this.setState({ option: 'ledger' })}
                             option='ledger'
                             active={option}
                             disabled={ledgerKey !== null && accountId === activeAccountId}
                         />
-                    }
+                    )}
                     <FormButton
                         color='blue'
                         type='submit'

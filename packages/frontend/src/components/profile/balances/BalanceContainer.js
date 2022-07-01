@@ -135,7 +135,7 @@ const Container = styled.div`
 const BalanceContainer = ({ account, profileBalance, hasLockup, MIN_BALANCE_FOR_GAS_FORMATTED }) => {
     return (
         <Container>
-            {profileBalance && 
+            {profileBalance && (
                 <>
                     <div className='border-box'>
                         <div className='title'>
@@ -179,7 +179,7 @@ const BalanceContainer = ({ account, profileBalance, hasLockup, MIN_BALANCE_FOR_
                             </div>
                         </Accordion>
                     </div>
-                    {hasLockup &&
+                    {hasLockup && (
                         <div className='border-box'>
                             <div className='title last'>
                                 <h4><Translate id='profile.lockup.lockupId'/></h4>
@@ -226,9 +226,9 @@ const BalanceContainer = ({ account, profileBalance, hasLockup, MIN_BALANCE_FOR_
                                 </div>
                             </Accordion>
                         </div>
-                    }
+                    )}
                 </>
-            }
+            )}
         </Container>
     );
 };

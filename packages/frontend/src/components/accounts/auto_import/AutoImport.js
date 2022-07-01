@@ -29,7 +29,8 @@ const AutoImport = ({
 }) => (
     <StyledContainer className='small-centered'>
         {recoveryFailed
-            ? <>
+            ? (
+<>
                 <h1>
                     <SafeTranslate
                         id={`importAccount.${accountId ? 'withIdFailed' : 'noIdFailed'}`}
@@ -42,12 +43,15 @@ const AutoImport = ({
                     : <FormButton color='gray-blue' linkTo='/create'><Translate id='button.createNewAccount' /></FormButton>
                 }
             </>
-            : <h1 className='animated-dots'>
-                <SafeTranslate
-                    id={`importAccount.${accountId ? 'withId' : 'noId'}`}
-                    data={{ accountId: accountId }}
-                />
-            </h1>
+            )
+            : (
+                <h1 className='animated-dots'>
+                    <SafeTranslate
+                        id={`importAccount.${accountId ? 'withId' : 'noId'}`}
+                        data={{ accountId: accountId }}
+                    />
+                </h1>
+            )
         }
     </StyledContainer>
 );

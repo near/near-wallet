@@ -57,8 +57,9 @@ const LockupAvailTransfer = ({ onTransfer, available, sending, tokenFiatValue })
                 sending={sending}
                 sendingString='button.transferring'
                 onClick={onTransfer}
-                data-test-id="lockupTransferToWalletButton">
-                    <Translate id='profile.lockupBanner.cta'/>
+                data-test-id="lockupTransferToWalletButton"
+            >
+                <Translate id='profile.lockupBanner.cta'/>
             </FormButton>
         </Container>
     );

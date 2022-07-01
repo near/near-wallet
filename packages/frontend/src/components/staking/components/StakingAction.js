@@ -206,13 +206,13 @@ export default function StakingAction({
                         <Translate id='button.edit' />
                     </FormButton>
                 </div>
-                {validator && 
+                {validator && (
                     <ValidatorBox
                         validator={validator}
                         clickable={false}
                         amount={validator.staked}
                     />
-                }
+                )}
                 <FormButton
                     sending={checkingValidator}
                     sendingString='staking.staking.checkingValidator'
@@ -223,7 +223,7 @@ export default function StakingAction({
                 >
                     <Translate id={`staking.${action}.button`} />
                 </FormButton>
-                {confirm &&
+                {confirm && (
                     <StakeConfirmModal
                         title={`staking.${action}.confirm`}
                         label={`staking.stake.${stake ? 'with' : 'from'}`}
@@ -239,7 +239,7 @@ export default function StakingAction({
                         disclaimer={getStakeActionDisclaimer()}
                         sendingString={stake ? 'staking' : 'unstaking'}
                     />
-                }
+                )}
             </div>
         );
     } else {
@@ -253,14 +253,14 @@ export default function StakingAction({
                         data={{ amount: getNearAndFiatValue(parseNearAmount(displayAmount), nearTokenFiatValueUSD) }}
                     />
                 </div>
-                {validator && 
+                {validator && (
                     <ValidatorBox
                         validator={validator}
                         amount={validator.staked}
                         clickable={false}
                         style={{margin: '40px 0'}}
                     />
-                }
+                )}
                 <div className='desc'><Translate id={`staking.${action}Success.descTwo`}/></div>
                 <FormButton 
                     linkTo='/staking' 

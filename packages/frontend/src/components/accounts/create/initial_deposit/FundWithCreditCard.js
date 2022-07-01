@@ -69,13 +69,15 @@ export default ({
                     <Translate id='button.fundWith' />
                     <img src={UtorgLogo} alt='utorg'/>
                 </FormButton>
-                {moonpaySignedUrl && (<FormButton
-                    linkTo={moonpaySignedUrl}
-                    color='black'
-                >
-                    <Translate id='button.fundWith' />
-                    <MoonPayIcon />
-                </FormButton>)}
+                {moonpaySignedUrl && (
+                    <FormButton
+                        linkTo={moonpaySignedUrl}
+                        color='black'
+                    >
+                        <Translate id='button.fundWith' />
+                        <MoonPayIcon />
+                    </FormButton>
+                )}
                 <FormButton
                     onClick={onClickCancel}
                     className='link'

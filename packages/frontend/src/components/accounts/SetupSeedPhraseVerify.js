@@ -103,15 +103,17 @@ const SetupSeedPhraseVerify = (
             </Translate>
             <LocalAlertBox localAlert={localAlert}/>
             {
-                shouldRenderRecaptcha && <Recaptcha
-                    ref={recaptchaRef}
-                    onChange={(token) => {
-                        debugLog('onChange from recaptcha', token);
-                        setRecaptchaToken(token);
-                        onRecaptchaChange(token);
-                    }}
-                    onFundAccountCreation={onSubmit}
-                />
+                shouldRenderRecaptcha && (
+                    <Recaptcha
+                        ref={recaptchaRef}
+                        onChange={(token) => {
+                            debugLog('onChange from recaptcha', token);
+                            setRecaptchaToken(token);
+                            onRecaptchaChange(token);
+                        }}
+                        onFundAccountCreation={onSubmit}
+                    />
+                )
             }
             <FormButton
                 type='submit'

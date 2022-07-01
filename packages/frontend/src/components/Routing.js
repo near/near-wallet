@@ -56,6 +56,7 @@ import {
 import AccessKeysWrapper from './access-keys/v2/AccessKeysWrapper';
 import { AutoImportWrapper } from './accounts/auto_import/AutoImportWrapper';
 import BatchImportAccounts from './accounts/batch_import_accounts';
+import BatchLedgerExport from './accounts/batch_ledger_export';
 import { ExistingAccountWrapper } from './accounts/create/existing_account/ExistingAccountWrapper';
 import { InitialDepositWrapper } from './accounts/create/initial_deposit/InitialDepositWrapper';
 import { CreateAccountLanding } from './accounts/create/landing/CreateAccountLanding';
@@ -408,8 +409,7 @@ class Routing extends Component {
                                 exact
                                 path="/create"
                                 render={(props) =>
-                                    accountFound ||
-                                    !DISABLE_CREATE_ACCOUNT ? (
+                                    accountFound || !DISABLE_CREATE_ACCOUNT ? (
                                         <CreateAccountWithRouter
                                             {...props}
                                         />
@@ -566,7 +566,9 @@ class Routing extends Component {
                             />
                             <Route exact path="/batch-import" render={(({location}) => {
                                 let { keys, accounts, ledgerHdPaths } = parse(location.hash, {arrayFormat: 'comma'});
-                                if (!keys || !accounts) return <PageNotFound />;
+                                if (!keys || !accounts) {
+                                    return <PageNotFound />;
+                                }
 
                                 // if single key or account param make an array of it
                                 keys = Array.isArray(keys) ? keys : [keys];
@@ -579,6 +581,11 @@ class Routing extends Component {
                                 }, {});
                                 return <BatchImportAccounts accountIdToKeyMap={accountIdToKeyMap} onCancel={() => this.props.history.replace('/')}/>;
                             })} />
+                            <Route
+                                exact
+                                path="/batch-ledger-export"
+                                component={BatchLedgerExport}
+                            />
                             <Route
                                 exact
                                 path="/sign-in-ledger"

@@ -38,13 +38,13 @@ export default ({ secretKey }) => {
                 <img src={ExportPrivateKeyImage} className='export-private-key-icon' alt='export-private-key-icon' />
                 <Translate id='exportPrivateKey.button' />
             </FormButton>
-            {showExportKeyModal &&
+            {showExportKeyModal && (
                 <ExportKeyModal
                     onClose={() => setShowExportKeyModal(false)}
                     isOpen={showExportKeyModal}
                     secretKey={secretKey}
                 />
-            }
+            )}
         </StyledContainer>
     );
 };

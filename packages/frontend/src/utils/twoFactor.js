@@ -22,7 +22,9 @@ export class TwoFactor extends Account2FA {
 
     static async has2faEnabled(account) {
         const state = await account.state();
-        if (!state) return false;
+        if (!state) {
+            return false;
+        }
         return MULTISIG_CONTRACT_HASHES.includes(state.code_hash);
     }
 
@@ -65,7 +67,8 @@ export class TwoFactor extends Account2FA {
 
     async disableMultisig() {
         const contractBytes = new Uint8Array(await (await fetch('/main.wasm')).arrayBuffer());
-        const result = await this.disable(contractBytes);
+        const stateCleanupContractBytes = new Uint8Array(await (await fetch('/state_cleanup.wasm')).arrayBuffer());
+        const result = await this.disable(contractBytes, stateCleanupContractBytes);
         await store.dispatch(refreshAccount());
         this.has2fa = false;
         return result;

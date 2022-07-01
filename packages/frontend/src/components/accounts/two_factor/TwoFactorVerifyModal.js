@@ -86,7 +86,9 @@ const TwoFactorVerifyModal = ({ open, onClose }) => {
             dispatch(getMultisigRequest());
         }
         
-        return () => { isMounted = false; };
+        return () => {
+            isMounted = false; 
+        };
     }, []);
 
     const handleVerifyCode = async () => {
@@ -105,7 +107,9 @@ const TwoFactorVerifyModal = ({ open, onClose }) => {
             async () => {
                 await dispatch(resendTwoFactor());
                 setResendCode('resent');
-                setTimeout(() => { setResendCode(); }, 3000);
+                setTimeout(() => {
+                    setResendCode(); 
+                }, 3000);
             },
             (e) => {
                 if (e.status === TOO_MANY_REQUESTS_STATUS) {
@@ -136,7 +140,10 @@ const TwoFactorVerifyModal = ({ open, onClose }) => {
             <p className='font-bw'><Translate id='twoFactor.verify.desc'/></p>
             <p className='color-black font-bw' style={{ marginTop: '-10px', fontWeight: '500', height: '19px'}}>{method && method.detail}</p>
             {multisigRequest && <ActionDetailsBanner multisigRequest={multisigRequest} />}
-            <Form onSubmit={(e) => {handleVerifyCode(); e.preventDefault();}}>
+            <Form onSubmit={(e) => {
+                handleVerifyCode();
+                e.preventDefault();
+            }}>
                 <TwoFactorVerifyInput
                     code={code}
                     onChange={handleChange}

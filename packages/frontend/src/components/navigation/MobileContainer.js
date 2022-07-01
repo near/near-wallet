@@ -185,10 +185,10 @@ class MobileContainer extends Component {
                 <Collapsed>
                     {
                         isWhitelabel() ?
-                        <Logo link={!flowLimitationMainMenu} mode='mobile' /> :
-                        <DeprecatedLogo link={!flowLimitationMainMenu}/>
+                            <Logo link={!flowLimitationMainMenu} mode='mobile' /> :
+                            <DeprecatedLogo link={!flowLimitationMainMenu}/>
                     }
-                    {showNavLinks &&
+                    {showNavLinks && (
                         <>
                             <UserAccount
                                 accountId={account.accountId || account.localStorage?.accountId}
@@ -198,14 +198,14 @@ class MobileContainer extends Component {
                             />
                             <UserIcon background={true} color='#A2A2A8' onClick={!flowLimitationSubMenu ? toggleMenu : null}/>
                         </>
-                    }
-                    {!showNavLinks &&
+                    )}
+                    {!showNavLinks && (
                         <Lang>
                             <LanguageToggle />
                         </Lang>
-                    }
+                    )}
                 </Collapsed>
-                {menuOpen &&
+                {menuOpen && (
                     <>
                         <NavLinks />
                         <Lang className="mobile-lang">
@@ -225,7 +225,7 @@ class MobileContainer extends Component {
                             <CreateAccountBtn />
                         </LowerSection>
                     </>
-                }
+                )}
             </Container>
         );
     }

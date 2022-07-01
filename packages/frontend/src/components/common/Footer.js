@@ -91,11 +91,11 @@ const Footer = () => {
         <StyledContainer className='wallet-footer'>
             <div className='left'>
                 {
-                    isWhitelabel() ?
+                    isWhitelabel() ? (
                         <StyledLogo>
                             <MyNearWalletLogo mode='footer' />
-                        </StyledLogo> :
-                        <img src={NearLogo} alt='NEAR' />
+                        </StyledLogo>
+                    ) : <img src={NearLogo} alt='NEAR' />
                 }
                 <div>
                     &copy; {new Date().getFullYear()} <Translate id='footer.copyrights' />
@@ -133,7 +133,7 @@ const Footer = () => {
             <div className='right'>
                 <Translate id='footer.needHelp' /><br />
                 <a
-                    href='https://near.chat'
+                    href={isWhitelabel() ? 'https://discord.com/invite/Vj74PpQYsh' : 'https://near.chat'}
                     rel='noopener noreferrer'
                     target='_blank'
                     onClick={() => Mixpanel.track('Footer Click Join Community')}

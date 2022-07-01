@@ -180,16 +180,18 @@ export default function ValidatorBox({
                     </div>
                     {isFarmingValidator && <Tooltip translate='staking.balanceBox.farm.info' />}
                 </div>
-                {typeof fee === 'number' &&
+                {typeof fee === 'number' && (
                     <div className="text-left">
-                        {isFarmingValidator && <>
-                            <span><Translate id='staking.validator.apy'/>&nbsp;</span>
-                            {farmAPY === null && validator.active
-                                ? <span className="animated-dots" style={{width: 16}}/>
-                                : <span>{farmAPY || 0}</span>
-                            }
-                            <span>%&nbsp;-&nbsp;</span>
-                        </>}
+                        {isFarmingValidator && (
+                            <>
+                                <span><Translate id='staking.validator.apy'/>&nbsp;</span>
+                                {farmAPY === null && validator.active
+                                    ? <span className="animated-dots" style={{width: 16}}/>
+                                    : <span>{farmAPY || 0}</span>
+                                }
+                                <span>%&nbsp;-&nbsp;</span>
+                            </>
+                        )}
                         <span>{fee}% <Translate id='staking.validatorBox.fee' /> -&nbsp;</span>
                         <span>
                             {
@@ -199,9 +201,9 @@ export default function ValidatorBox({
                             }
                         </span>
                     </div>
-                }
+                )}
             </div>
-            {amount &&
+            {amount && (
                 <div className='right'>
                     {staking && <div><Translate id='staking.validatorBox.staking' /></div>}
                     {farming && <div><Translate id='staking.validatorBox.farming' /></div>}
@@ -220,7 +222,7 @@ export default function ValidatorBox({
                         )}
                     </div>
                 </div>
-            }
+            )}
             {clickable ? cta : null}
         </Container>
     );

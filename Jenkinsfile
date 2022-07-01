@@ -47,6 +47,7 @@ pipeline {
                     steps {
                         dir("$WORKSPACE/packages/frontend") {
                             sh 'yarn install --frozen-lockfile'
+                            sh 'yarn lint'
                         }
                     }
                 }
@@ -67,6 +68,9 @@ pipeline {
             }
             parallel {
                 stage('frontend:prebuild:testnet-staging') {
+                    when {
+                        not { branch 'stable' }
+                    }
                     environment {
                         NEAR_WALLET_ENV = 'testnet_STAGING'
                     }
@@ -78,6 +82,9 @@ pipeline {
                 }
 
                 stage('frontend:prebuild:testnet') {
+                    when {
+                        not { branch 'stable' }
+                    }
                     environment {
                         NEAR_WALLET_ENV = 'testnet'
                     }
@@ -89,6 +96,9 @@ pipeline {
                 }
 
                 stage('frontend:prebuild:mainnet-staging') {
+                    when {
+                        not { branch 'stable' }
+                    }
                     environment {
                         NEAR_WALLET_ENV = 'mainnet_STAGING'
                     }
@@ -145,11 +155,11 @@ pipeline {
                 // build frontend bundles
                 stage('frontend:bundle:testnet-staging') {
                     when {
-                        expression { env.BUILD_FRONTEND == 'true' }
+                        expression { env.BUILD_FRONTEND == 'true' };
+                        not { branch 'stable' }
                     }
                     environment {
                         NEAR_WALLET_ENV = 'testnet_STAGING'
-                        REACT_APP_ACCOUNT_HELPER_URL = 'https://preflight-api.kitwallet.app'
                     }
                     steps {
                         dir("$WORKSPACE/packages/frontend") {
@@ -161,12 +171,10 @@ pipeline {
                 stage('frontend:bundle:testnet') {
                     when {
                         expression { env.BUILD_FRONTEND == 'true' };
-                        anyOf { branch 'master' ; branch 'stable' }
-
+                        branch 'master'
                     }
                     environment {
                         NEAR_WALLET_ENV = 'testnet'
-                        REACT_APP_ACCOUNT_HELPER_URL = 'https://testnet-api.kitwallet.app'
                     }
                     steps {
                         dir("$WORKSPACE/packages/frontend") {
@@ -177,7 +185,8 @@ pipeline {
 
                 stage('frontend:bundle:mainnet-staging') {
                     when {
-                        expression { env.BUILD_FRONTEND == 'true' }
+                        expression { env.BUILD_FRONTEND == 'true' };
+                        not { branch 'stable' }
                     }
                     environment {
                         NEAR_WALLET_ENV = 'mainnet_STAGING'
@@ -193,7 +202,7 @@ pipeline {
                 stage('frontend:bundle:mainnet') {
                     when {
                         expression { env.BUILD_FRONTEND == 'true' };
-                        anyOf { branch 'master' ; branch 'stable' }
+                        branch 'stable'
                     }
                     environment {
                         NEAR_WALLET_ENV = 'mainnet'
@@ -324,7 +333,7 @@ pipeline {
 
                         stage('frontend:deploy:mainnet-staging') {
                             when {
-                                branch 'stable'
+                                branch 'master'
                             }
                             steps {
                                 milestone(404)

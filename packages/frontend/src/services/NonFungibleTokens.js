@@ -1,12 +1,10 @@
 import * as nearAPI from 'near-api-js';
 
+import { TOKEN_TRANSFER_DEPOSIT, NFT_TRANSFER_GAS } from '../config';
 import { wallet } from '../utils/wallet';
 import { listLikelyNfts } from './indexer';
 
 export const TOKENS_PER_PAGE = 4;
-export const NFT_TRANSFER_GAS = nearAPI.utils.format.parseNearAmount('0.00000000003');
-
-export const NFT_TRANSFER_DEPOSIT = 1; // 1 yocto Near
 
 const functionCall = nearAPI.transactions.functionCall;
 
@@ -129,7 +127,7 @@ export default class NonFungibleTokens {
                         token_id: tokenId
                     },
                     NFT_TRANSFER_GAS,
-                    NFT_TRANSFER_DEPOSIT
+                    TOKEN_TRANSFER_DEPOSIT
                 )
             ]
         });

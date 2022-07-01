@@ -176,7 +176,10 @@ export function EnableTwoFactor(props) {
                     theme='alert'
                     linkTo='https://docs.near.org/docs/concepts/storage-staking'
                 />
-                <form onSubmit={(e) => { handleNext(); e.preventDefault();}}>
+                <form onSubmit={(e) => {
+                    handleNext();
+                    e.preventDefault();
+                }}>
                     <h1><Translate id='twoFactor.enable' /></h1>
                     <h2><Translate id='twoFactor.subHeader' /></h2>
                     <h4><Translate id='twoFactor.select' /><span>*</span></h4>

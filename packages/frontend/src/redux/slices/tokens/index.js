@@ -171,7 +171,7 @@ export const selectTokensWithMetadataForAccountId = createSelector(
                 fiatValueMetadata:
                     contractName === USN_CONTRACT ? { usd } : {},
             }));
-});
+    });
 
 export const selectTokensLoading = createSelector(
     [selectOwnedTokens],

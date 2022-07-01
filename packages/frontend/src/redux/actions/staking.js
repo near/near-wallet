@@ -8,9 +8,10 @@ import {
     STAKING_GAS_BASE,
     FARMING_CLAIM_GAS,
     FARMING_CLAIM_YOCTO,
-    LOCKUP_ACCOUNT_ID_SUFFIX
+    LOCKUP_ACCOUNT_ID_SUFFIX,
+    FT_MINIMUM_STORAGE_BALANCE_LARGE
 } from '../../config';
-import { fungibleTokensService, FT_MINIMUM_STORAGE_BALANCE_LARGE } from '../../services/FungibleTokens';
+import { fungibleTokensService } from '../../services/FungibleTokens';
 import { listStakingPools } from '../../services/indexer';
 import StakingFarmContracts from '../../services/StakingFarmContracts';
 import { getLockupAccountId, getLockupMinBalanceForStorage } from '../../utils/account-with-lockup';
@@ -545,7 +546,9 @@ export const handleUpdateCurrent = (accountId) => async (dispatch, getState) => 
 };
 
 export const getValidatorFarmData = createAsyncThunk('staking/getValidatorFarmData', async ({ validator, accountId }, { dispatch }) => {
-    if (validator?.version !== FARMING_VALIDATOR_VERSION || !accountId) return;
+    if (validator?.version !== FARMING_VALIDATOR_VERSION || !accountId) {
+        return;
+    }
 
     const poolSummary = await validator.contract.get_pool_summary();
 
@@ -586,21 +589,20 @@ export const claimFarmRewards = (validatorId, token_id) => async (dispatch, getS
             contractName: token_id,
             accountId: accountId
         });
-            if (!storageAvailable) {
-                try {
-                    const account = await wallet.getAccount(accountId);
-                    await fungibleTokensService.transferStorageDeposit({
-                         account,
-                         contractName: token_id,
-                         receiverId: accountId,
-                         storageDepositAmount: FT_MINIMUM_STORAGE_BALANCE_LARGE
-                        });
-                }
-                catch (e) {
-                    console.warn(e);
-                    throw e;
-                }
+        if (!storageAvailable) {
+            try {
+                const account = await wallet.getAccount(accountId);
+                await fungibleTokensService.transferStorageDeposit({
+                    account,
+                    contractName: token_id,
+                    receiverId: accountId,
+                    storageDepositAmount: FT_MINIMUM_STORAGE_BALANCE_LARGE
+                });
+            } catch (e) {
+                console.warn(e);
+                throw e;
             }
+        }
 
         const args = { token_id };
 
