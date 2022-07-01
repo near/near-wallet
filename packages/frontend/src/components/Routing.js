@@ -217,10 +217,13 @@ class Routing extends Component {
             handleRedirectUrl,
             handleClearUrl,
             router,
+            fetchTokenFiatValues,
             handleClearAlert,
             handleFlowLimitation,
         } = this.props;
 
+        fetchTokenFiatValues();
+        this.startPollingTokenFiatValue();
         handleRefreshUrl(router);
         refreshAccount();
 
@@ -242,15 +245,13 @@ class Routing extends Component {
     };
 
     componentDidUpdate(prevProps) {
-        const { activeLanguage, fetchTokenFiatValues, account } = this.props;
+        const { activeLanguage, account } = this.props;
 
         if (
             prevProps.account.accountId !== account.accountId &&
             account.accountId !== undefined
         ) {
             this.props.getTokenWhiteList(account.accountId);
-            fetchTokenFiatValues({ accountId: account.accountId });
-            this.startPollingTokenFiatValue();
         }
 
         const prevLangCode =
@@ -269,10 +270,10 @@ class Routing extends Component {
     };
 
     startPollingTokenFiatValue = () => {
-        const { fetchTokenFiatValues, account } = this.props;
+        const { fetchTokenFiatValues } = this.props;
 
         const handlePollTokenFiatValue = async () => {
-            await fetchTokenFiatValues({ accountId: account.accountId }).catch(() => {});
+            await fetchTokenFiatValues().catch(() => {});
             if (this.pollTokenFiatValue) {
                 this.pollTokenFiatValue = setTimeout(
                     () => handlePollTokenFiatValue(),

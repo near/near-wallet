@@ -16,16 +16,11 @@ export const useFungibleTokensIncludingNEAR = function ({ showTokensWithZeroBala
     );
 
     const fungibleTokenPrices = useSelector(selectTokensFiatValueUSD);
-    const fungibleTokensWithPrices = fungibleTokens.map((ft) => {
-        let fiatValueMetadata;
-        if (ft.fiatValueMetadata?.usd) fiatValueMetadata = ft.fiatValueMetadata.usd;
-        else {
-          fiatValueMetadata = fungibleTokenPrices[ft.onChainFTMetadata.symbol] ?
-          {...fungibleTokenPrices[ft.onChainFTMetadata.symbol]} :
-          {...fungibleTokenPrices[ft.contractName]};
-        }
-        return { ...ft, fiatValueMetadata };
-    });
+    const fungibleTokensWithPrices = fungibleTokens.map((ft) => ({
+        ...ft,
+        fiatValueMetadata: ft.fiatValueMetadata?.usd ? ft.fiatValueMetadata : {...fungibleTokenPrices[ft.contractName]}
+    }));
+
     const sortingOrder = {
         [USN_CONTRACT]: 1,
         [NEAR_TOKEN_ID]: 2
