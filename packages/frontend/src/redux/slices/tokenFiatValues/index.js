@@ -33,7 +33,9 @@ const fetchTokenFiatValues = createAsyncThunk(
                     const metadata = await getCachedContractMetadataOrFetch(contractName, getState());
                     symbol = metadata.symbol;
                 } finally { 
-                    if (symbol) ownedTokens.push(symbol);
+                    if (symbol) {
+                        ownedTokens.push(symbol);
+                    }
                 }
             }));
         }
