@@ -18,11 +18,12 @@ export const useFungibleTokensIncludingNEAR = function ({ showTokensWithZeroBala
     const fungibleTokenPrices = useSelector(selectTokensFiatValueUSD);
     const fungibleTokensWithPrices = fungibleTokens.map((ft) => {
         let fiatValueMetadata;
-        if (ft.fiatValueMetadata?.usd) fiatValueMetadata = ft.fiatValueMetadata.usd;
-        else {
-          fiatValueMetadata = fungibleTokenPrices[ft.onChainFTMetadata.symbol] ?
-          {...fungibleTokenPrices[ft.onChainFTMetadata.symbol]} :
-          {...fungibleTokenPrices[ft.contractName]};
+        if (ft.fiatValueMetadata?.usd) {
+            fiatValueMetadata = ft.fiatValueMetadata.usd;
+        } else {
+            fiatValueMetadata = fungibleTokenPrices[ft.onChainFTMetadata.symbol] ?
+                {...fungibleTokenPrices[ft.onChainFTMetadata.symbol]} :
+                {...fungibleTokenPrices[ft.contractName]};
         }
         return { ...ft, fiatValueMetadata };
     });
