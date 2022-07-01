@@ -3,9 +3,7 @@ import { useSelector } from 'react-redux';
 
 import { selectAvailableAccounts } from '../../redux/slices/availableAccounts';
 import {
-    keyToString,
-    generatePublicKey,
-    encodeAccountsTo
+    encodeAccountsTo, generatePublicKey, keyToString
 } from '../../utils/encoding';
 import { getMyNearWalletUrlFromNEARORG } from '../../utils/getWalletURL';
 import { getLedgerHDPath } from '../../utils/localStorage';
@@ -49,7 +47,7 @@ const encodeAccountsToURL = async (accounts, publicKey) => {
     return href;
 };
 
-const WalletMigration = ({ open, history, onClose }) => {
+const WalletMigration = ({ open, onClose }) => {
     const [state, setState] = React.useState(initialState);
     const availableAccounts = useSelector(selectAvailableAccounts);
 
@@ -78,7 +76,6 @@ const WalletMigration = ({ open, history, onClose }) => {
             availableAccounts,
             state.migrationKey
         );
-        localStorage.setItem('MIGRATION_TRIGERRED', true);
         window.open(url, '_blank');
     }, [state.migrationKey, availableAccounts]);
 
