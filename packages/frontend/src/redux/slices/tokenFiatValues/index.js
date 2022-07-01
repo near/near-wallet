@@ -23,7 +23,7 @@ const fetchRefFinanceFiatValues = createAsyncThunk(
 );
 const fetchTokenFiatValues = createAsyncThunk(
     `${SLICE_NAME}/fetchTokenFiatValues`,
-    async (accountId, {dispatch, getState}) => {
+    async ({accountId}, {dispatch, getState}) => {
         const ownedTokens = [];
         if (accountId) {
             const likelyContracts = await FungibleTokens.getLikelyTokenContracts({ accountId });

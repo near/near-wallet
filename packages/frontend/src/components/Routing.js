@@ -249,7 +249,7 @@ class Routing extends Component {
             account.accountId !== undefined
         ) {
             this.props.getTokenWhiteList(account.accountId);
-            fetchTokenFiatValues(account.accountId);
+            fetchTokenFiatValues({ accountId: account.accountId });
             this.startPollingTokenFiatValue();
         }
 
@@ -272,7 +272,7 @@ class Routing extends Component {
         const { fetchTokenFiatValues, account } = this.props;
 
         const handlePollTokenFiatValue = async () => {
-            await fetchTokenFiatValues(account.accountId).catch(() => {});
+            await fetchTokenFiatValues({ accountId: account.accountId }).catch(() => {});
             if (this.pollTokenFiatValue) {
                 this.pollTokenFiatValue = setTimeout(
                     () => handlePollTokenFiatValue(),
