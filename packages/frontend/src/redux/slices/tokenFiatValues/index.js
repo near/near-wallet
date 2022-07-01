@@ -28,8 +28,14 @@ const fetchTokenFiatValues = createAsyncThunk(
         if (accountId) {
             const likelyContracts = await FungibleTokens.getLikelyTokenContracts({ accountId });
             await Promise.all(likelyContracts.map(async (contractName) => {
-                const { symbol } = await getCachedContractMetadataOrFetch(contractName, getState());
-                ownedTokens.push(symbol);
+                let symbol;
+                try {
+                    const metadata = await getCachedContractMetadataOrFetch(contractName, getState());
+                    symbol = metadata.symbol;
+                } catch (error) {
+                    console.log(`Failed to fetch metadata for ${contractName}`)
+                }
+                if (symbol) ownedTokens.push(symbol);
             }));
         }
         return Promise.all([
@@ -38,6 +44,7 @@ const fetchTokenFiatValues = createAsyncThunk(
         ]);
     }
 );
+
 const getTokenWhiteList = createAsyncThunk(
     `${SLICE_NAME}/getTokenWhiteList`,
     async (account_id) => fiatValueManager.fetchTokenWhiteList(account_id)

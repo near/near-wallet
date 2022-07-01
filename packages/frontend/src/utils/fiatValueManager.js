@@ -46,7 +46,7 @@ export default class FiatValueManager {
                             })
                         );
                         const coin = coins.find((coin) => coin?.symbol.toUpperCase() == tokenSymbol.toUpperCase());
-                        if (coin.id) {
+                        if (coin?.id) {
                             tokenIds.push(coin.id);
                             symbolToId[tokenSymbol] = coin.id;
                         }
