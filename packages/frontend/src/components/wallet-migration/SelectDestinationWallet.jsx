@@ -162,10 +162,9 @@ const SelectDestinationWallet = ({ handleSetActiveView, handleSetWalletType, wal
                 <h4 className='title'><Translate id='walletMigration.selectWallet.title'/></h4>
                 <WalletOptionsListing>
                     {WALLET_OPTIONS.map(({ id, name, icon }) => {
-                        const isSelected = id === walletType;
                         return (
                             <WalletOptionsListingItem 
-                                className={classNames([{ active: isSelected }])}
+                                className={classNames([{ active: id === walletType }])}
                                 onClick={() => handleSetWalletType(id)}
                                 key={name}
                             >
