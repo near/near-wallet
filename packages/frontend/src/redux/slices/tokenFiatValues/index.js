@@ -32,10 +32,9 @@ const fetchTokenFiatValues = createAsyncThunk(
                 try {
                     const metadata = await getCachedContractMetadataOrFetch(contractName, getState());
                     symbol = metadata.symbol;
-                } catch (error) {
-                    console.log(`Failed to fetch metadata for ${contractName}`);
+                } finally { 
+                    if (symbol) ownedTokens.push(symbol);
                 }
-                if (symbol) ownedTokens.push(symbol);
             }));
         }
         return Promise.all([
