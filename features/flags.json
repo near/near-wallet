@@ -160,19 +160,19 @@
       "lastEditedAt": "2022-05-25T01:11:55.121Z"
     },
     "testnet_NEARORG": {
-      "enabled": false,
+      "enabled": true,
       "lastEditedBy": "esaminu",
-      "lastEditedAt": "2022-06-24T21:26:00.267Z"
+      "lastEditedAt": "2022-07-01T20:30:37.629Z"
     },
     "mainnet_NEARORG": {
-      "enabled": false,
+      "enabled": true,
       "lastEditedBy": "esaminu",
-      "lastEditedAt": "2022-06-20T18:11:26.582Z"
+      "lastEditedAt": "2022-07-01T20:30:37.629Z"
     },
     "mainnet_STAGING_NEARORG": {
-      "enabled": false,
+      "enabled": true,
       "lastEditedBy": "esaminu",
-      "lastEditedAt": "2022-06-20T18:11:26.582Z"
+      "lastEditedAt": "2022-07-01T20:30:37.629Z"
     }
   }
 }
