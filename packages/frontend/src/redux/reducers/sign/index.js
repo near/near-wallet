@@ -2,8 +2,8 @@ import BN from 'bn.js';
 import { utils, transactions as transaction } from 'near-api-js';
 import { handleActions } from 'redux-actions';
 
-import { parseTransactionsToSign, makeAccountActive } from '../../actions/account';
-import { calculateGasLimit, increaseGasForFirstTransaction, handleSignTransactions, SIGN_STATUS, removeSuccessTransactions, updateSuccessHashes, checkAbleToIncreaseGas, getFirstTransactionWithFunctionCallAction, calculateGasForSuccessTransactions } from '../../slices/sign';
+import { parseTransactionsToSign, makeAccountActive, parseMessageToSign, setSignMessageStatus} from '../../actions/account';
+import { calculateGasLimit, increaseGasForFirstTransaction, handleSignTransactions, SIGN_STATUS, removeSuccessTransactions, updateSuccessHashes, updateSuccessSignature, checkAbleToIncreaseGas, getFirstTransactionWithFunctionCallAction, calculateGasForSuccessTransactions, handleSignMessage } from '../../slices/sign';
 
 const initialState = {
     status: SIGN_STATUS.NEEDS_CONFIRMATION,
@@ -15,6 +15,15 @@ const deserializeTransactionsFromString = (transactionsString) => transactionsSt
     .map((buffer) => utils.serialize.deserialize(transaction.SCHEMA, transaction.Transaction, buffer));
 
 const sign = handleActions({
+    [parseMessageToSign]: (state, { payload: { message: messageString, callbackUrl, meta } }) => {
+        const message = Buffer.from(messageString, 'base64');
+        return {
+            status: 'needs-confirmation',
+            callbackUrl,
+            meta,
+            message
+        };
+    },
     [parseTransactionsToSign]: (state, { payload: { transactions: transactionsString, callbackUrl, meta } }) => {
         const transactions = deserializeTransactionsFromString(transactionsString);
 
@@ -45,6 +54,12 @@ const sign = handleActions({
             ...(state.successHashes || []),
             ...payload
         ]
+    }),
+    [updateSuccessSignature]: (state, { payload }) => ({
+        ...state,
+        signed: payload,
+        status: SIGN_STATUS.SUCCESS,
+        error: undefined
     }),
     [handleSignTransactions.pending]: (state) => {
         const { status, transactions } = state;
@@ -100,6 +115,34 @@ const sign = handleActions({
                 ? SIGN_STATUS.RETRY_TRANSACTION
                 : SIGN_STATUS.ERROR,
             error
+        };
+    },
+    [handleSignMessage]: (state, { error, payload, ready }) => {
+
+        if (!ready) {
+            return {
+                ...state,
+                status: 'needs-confirmation'
+            };
+        }
+
+        if (error) {
+            return {
+                ...state,
+                status: 'error',
+                error: payload
+            };
+        }
+
+        return {
+            ...state,
+            status: 'success'
+        };
+    },
+    [setSignMessageStatus]: (state, { payload }) => {
+        return {
+            ...state,
+            status: payload.status
         };
     },
     [makeAccountActive]: () => {

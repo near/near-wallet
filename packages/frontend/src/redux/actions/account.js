@@ -28,7 +28,8 @@ import {
     WALLET_LINKDROP_URL,
     setKeyMeta,
     ENABLE_IDENTITY_VERIFIED_ACCOUNT,
-    WALLET_BATCH_IMPORT_URL
+    WALLET_BATCH_IMPORT_URL,
+    WALLET_SIGN_MESSAGE_URL
 } from '../../utils/wallet';
 import { WalletError } from '../../utils/walletError';
 import { withAlert } from '../reducers/status';
@@ -41,6 +42,7 @@ import {
     selectAccountUrlCallbackUrl,
     selectAccountUrlContractId,
     selectAccountUrlFailureUrl,
+    selectAccountUrlMessage,
     selectAccountUrlMeta,
     selectAccountUrlMethodNames,
     selectAccountUrlPublicKey,
@@ -115,22 +117,25 @@ export const handleClearUrl = () => (dispatch, getState) => {
     }
 };
 
+export const parseMessageToSign = createAction('PARSE_MESSAGE_TO_SIGN');
+
 export const parseTransactionsToSign = createAction('PARSE_TRANSACTIONS_TO_SIGN');
 
 export const handleRefreshUrl = (prevRouter) => (dispatch, getState) => {
     const { pathname, search, hash } = prevRouter?.location || getLocation(getState());
     const currentPage = pathname.split('/')[pathname[1] === '/' ? 2 : 1];
 
-    if ([...WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS, WALLET_LOGIN_URL, WALLET_SIGN_URL, WALLET_LINKDROP_URL, WALLET_BATCH_IMPORT_URL].includes(currentPage)) {
+    if ([...WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS, WALLET_LOGIN_URL, WALLET_SIGN_URL, WALLET_SIGN_MESSAGE_URL, WALLET_LINKDROP_URL, WALLET_BATCH_IMPORT_URL].includes(currentPage)) {
         const parsedUrl = {
             ...parse(search),
             referrer: document.referrer ? new URL(document.referrer).hostname : undefined,
             redirect_url: prevRouter ? prevRouter.location.pathname : undefined
         };
+
         if ([WALLET_CREATE_NEW_ACCOUNT_URL, WALLET_LINKDROP_URL].includes(currentPage) && search !== '') {
             saveState(parsedUrl);
             dispatch(refreshUrl(parsedUrl));
-        } else if ([WALLET_LOGIN_URL, WALLET_SIGN_URL, WALLET_BATCH_IMPORT_URL].includes(currentPage) && (search !== '' || hash !== '')) {
+        } else if ([WALLET_LOGIN_URL, WALLET_SIGN_URL, WALLET_SIGN_MESSAGE_URL, WALLET_BATCH_IMPORT_URL].includes(currentPage) && (search !== '' || hash !== '')) {
             saveState(parsedUrl);
             dispatch(refreshUrl(parsedUrl));
             dispatch(checkContractId());
@@ -142,9 +147,11 @@ export const handleRefreshUrl = (prevRouter) => (dispatch, getState) => {
         const transactions = selectAccountUrlTransactions(getState());
         const callbackUrl = selectAccountUrlCallbackUrl(getState());
         const meta = selectAccountUrlMeta(getState());
-
+        const message = selectAccountUrlMessage(getState());
         if (transactions) {
             dispatch(parseTransactionsToSign({ transactions, callbackUrl, meta }));
+        } else if (message) {
+            dispatch(parseMessageToSign({ message, callbackUrl, meta }));
         }
     }
 };
@@ -521,6 +528,17 @@ export const { recoverAccountSecretKey } = createActions({
         wallet.recoverAccountSecretKey.bind(wallet),
         () => showAlert()
     ]
+});
+
+export const { signMessage, setSignMessageStatus } = createActions({
+    SET_SIGN_MESSAGE_STATUS: [
+        (status) => ({ status }),
+        () => ({})
+    ],
+    SIGN_MESSAGE: [
+        wallet.signMessage.bind(wallet),
+        () => showAlert({ onlyError: true })
+    ],
 });
 
 export const { sendMoney, transferAllFromLockup } = createActions({

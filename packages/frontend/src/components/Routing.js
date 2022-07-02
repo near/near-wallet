@@ -32,6 +32,7 @@ import { LoginWrapper } from '../routes/LoginWrapper';
 import { SetupLedgerNewAccountWrapper } from '../routes/SetupLedgerNewAccountWrapper';
 import { SetupPassphraseNewAccountWrapper } from '../routes/SetupPassphraseNewAccountWrapper';
 import { SetupRecoveryImplicitAccountWrapper } from '../routes/SetupRecoveryImplicitAccountWrapper';
+import { SignMessageWrapper } from '../routes/SignMessageWrapper';
 import { SignWrapper } from '../routes/SignWrapper';
 import { WalletWrapper } from '../routes/WalletWrapper';
 import translations_en from '../translations/en.global.json';
@@ -648,6 +649,11 @@ class Routing extends Component {
                                 exact
                                 path="/sign"
                                 component={SignWrapper}
+                            />
+                            <PrivateRoute
+                                exact
+                                path="/sign_message"
+                                component={SignMessageWrapper}
                             />
                             <PrivateRoute
                                 path="/staking"

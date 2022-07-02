@@ -87,14 +87,14 @@ export function SignWrapper() {
         }
         
         if (signStatus === SIGN_STATUS.SUCCESS) {
-            if (signCallbackUrl && !!transactionHashes.length && isValidCallbackUrl) {
-                window.location.href = addQueryParams(signCallbackUrl, {
-                    signMeta,
-                    transactionHashes: transactionHashes.join(',')
-                });
-            } else {
-                dispatch(redirectTo('/'));
-            }
+            // if (signCallbackUrl && !!transactionHashes.length && isValidCallbackUrl) {
+            //     // window.location.href = addQueryParams(signCallbackUrl, {
+            //     //     signMeta,
+            //     //     transactionHashes: transactionHashes.join(',')
+            //     // });
+            // } else {
+            //     dispatch(redirectTo('/'));
+            // }
         }
     }, [signStatus]);
 
@@ -106,20 +106,20 @@ export function SignWrapper() {
     const handleCancelTransaction = async () => {
         Mixpanel.track('SIGN Deny the transaction');
         if (signCallbackUrl && isValidCallbackUrl) {
-            if (signStatus?.success !== false) {
-                window.location.href = addQueryParams(signCallbackUrl, {
-                    signMeta,
-                    errorCode: encodeURIComponent('userRejected'),
-                    errorMessage: encodeURIComponent('User rejected transaction')
-                });
-                return;
-            }
-            window.location.href = addQueryParams(signCallbackUrl, {
-                signMeta,
-                errorCode: encodeURIComponent(signStatus?.errorType) || encodeURIComponent('unknownError'),
-                errorMessage: encodeURIComponent(signStatus?.errorMessage?.substring(0, 100)) || encodeURIComponent('Unknown error')
-            });
-            return;
+            // if (signStatus?.success !== false) {
+            //     window.location.href = addQueryParams(signCallbackUrl, {
+            //         signMeta,
+            //         errorCode: encodeURIComponent('userRejected'),
+            //         errorMessage: encodeURIComponent('User rejected transaction')
+            //     });
+            //     return;
+            // }
+            // window.location.href = addQueryParams(signCallbackUrl, {
+            //     signMeta,
+            //     errorCode: encodeURIComponent(signStatus?.errorType) || encodeURIComponent('unknownError'),
+            //     errorMessage: encodeURIComponent(signStatus?.errorMessage?.substring(0, 100)) || encodeURIComponent('Unknown error')
+            // });
+            // return;
         } else {
             dispatch(redirectTo('/'));
         }
@@ -132,16 +132,16 @@ export function SignWrapper() {
         );
     }
 
-    if (currentDisplay === DISPLAY.INSUFFICIENT_NETWORK_FEE) {
-        return (
-            <SignTransferRetry
-                handleRetry={handleApproveTransaction}
-                handleCancel={handleCancelTransaction}
-                gasLimit={signGasFee}
-                submittingTransaction={submittingTransaction}
-            />
-        );
-    }
+    // if (currentDisplay === DISPLAY.INSUFFICIENT_NETWORK_FEE) {
+    //     return (
+    //         <SignTransferRetry
+    //             handleRetry={handleApproveTransaction}
+    //             handleCancel={handleCancelTransaction}
+    //             gasLimit={signGasFee}
+    //             submittingTransaction={submittingTransaction}
+    //         />
+    //     );
+    // }
 
     if (currentDisplay === DISPLAY.ACCOUNT_NOT_FOUND) {
         return (

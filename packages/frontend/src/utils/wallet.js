@@ -36,6 +36,7 @@ export const WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS = [
 ];
 export const WALLET_LOGIN_URL = 'login';
 export const WALLET_SIGN_URL = 'sign';
+export const WALLET_SIGN_MESSAGE_URL = 'sign_message';
 export const WALLET_BATCH_IMPORT_URL = 'batch-import';
 export const WALLET_INITIAL_DEPOSIT_URL = 'initial-deposit';
 export const WALLET_LINKDROP_URL = 'linkdrop';
@@ -108,6 +109,12 @@ export async function getKeyMeta(publicKey) {
     }
 }
 
+function toHexString(byteArray) {
+    return Array.from(byteArray, function(byte) {
+      return ('0' + (byte & 0xFF).toString(16)).slice(-2);
+    }).join('');
+  }
+  
 export default class Wallet {
     constructor() {
         this.keyStore = new nearApiJs.keyStores.BrowserLocalStorageKeyStore(window.localStorage, 'nearlib:keystore:');
@@ -1080,6 +1087,16 @@ export default class Wallet {
                 throw accountIdsError[accountIdsError.length - 1].error;
             }
         }
+    }
+
+    async signMessage(message, accountId = this.accountId) {
+        const account = await this.getAccount(accountId);
+        const signer = account.inMemorySigner || account.connection.signer;
+        const signed = await signer.signMessage(Buffer.from(message), accountId, NETWORK_ID);
+        return {
+            accountId,
+            signed
+        };
     }
 
     async signAndSendTransactions(transactions, accountId = this.accountId) {

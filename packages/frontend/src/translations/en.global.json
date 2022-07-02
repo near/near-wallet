@@ -1330,6 +1330,7 @@
             "functionCall": "No description specified for this function.",
             "stake": "You are about to stake NEAR tokens. These tokens will be locked, and are at risk of being lost if your validator becomes unresponsive."
         },
+        "approveSignMessage": "Approve Sign Message",
         "approveTransaction": "Approve Transaction",
         "authorizationRequestSuccessful": "Authorization request successful",
         "authorizing": "Authorizing",
@@ -1373,8 +1374,8 @@
             "text": "The default network fee was not enough to cover the cost of your transaction.<br/><br/>You may resubmit the transaction to have its fee limit automatically increased.",
             "title": "Insufficient Network Fee"
         },
+        "signMessageDetails": "Message Details",
         "transactionCancelled": "Transaction cancelled",
-        "transactionDetails": "Transaction Details",
         "transferring": "Transferring",
         "unexpectedStatus": "Unexpected status",
         "unknownApp": "Unknown App",

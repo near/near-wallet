@@ -25,6 +25,28 @@ export const RETRY_TX_GAS = {
 
 export const updateSuccessHashes = createAction('updateSuccessHashes');
 
+export const updateSuccessSignature = createAction('updateSuccessSignature');
+
+export const handleSignMessage = createAsyncThunk(
+    `${SLICE_NAME}/handleSignMessage`,
+    async (_, thunkAPI) => {
+        const { dispatch, getState } = thunkAPI;
+        const accountId = selectAccountId(getState());
+        const message = selectMessage(getState());
+        const signed = await wallet.signMessage(message, accountId);
+        console.log(1,signed);
+        dispatch(updateSuccessSignature(signed));
+    },
+    {
+        condition: (_, thunkAPI) => {
+            const { getState } = thunkAPI;
+            if (selectSignStatus(getState()) === SIGN_STATUS.IN_PROGRESS) {
+                return false;
+            }
+        }
+    }
+);
+
 export const handleSignTransactions = createAsyncThunk(
     `${SLICE_NAME}/handleSignTransactions`,
     async (_, thunkAPI) => {
@@ -224,6 +246,11 @@ export const selectSignRetryTransactions = createSelector(
     (sign) => sign.retryTransactions || []
 );
 
+export const selectMessage = createSelector(
+    [selectSignSlice],
+    (sign) => sign.message || ''
+);
+
 export const selectSignCallbackUrl = createSelector(
     [selectSignSlice],
     (sign) => sign.callbackUrl
@@ -254,4 +281,9 @@ export const selectSignFeesGasLimitIncludingGasChanges = createSelector(
         const tx = increaseGasForFirstTransaction({ transactions: cloneDeep(transactionsToCalculate)});
         return new BN(calculateGasLimit(tx.flatMap((t) => t.actions))).add(gasUsed);
     }
+);
+
+export const selectSigned = createSelector(
+    [selectSignSlice],
+    (sign) => sign.signed || {}
 );
