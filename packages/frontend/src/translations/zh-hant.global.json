@@ -1256,7 +1256,7 @@
         "one": "打開 <a href='https://www.ledger.com/ledger-live' target='_blank'>Ledger Live</a>，並安裝固件更新。",
         "six": "點擊繼續按鈕來完成設置 Ledger。",
         "three": "根據步驟在設備上安裝 <span class='color-black'>NEAR 應用</span>。",
-        "two": "返回至<span class='color-black'>管理器</span> Tab 並蒐索 <span class='color-black'>NEAR</span>。"
+        "two": "返回至<span class='color-black'>管理器</span> Tab 並搜尋 <span class='color-black'>NEAR</span>。"
     },
     "setupLedgerSuccess": {
         "header": "你的賬戶已通過 Ledger 硬件保護！",
