@@ -3,7 +3,7 @@
 
 import React from 'react';
 import IconLedger from '../assets/images/IconLedger';
-import IconMyNearWallet from '../assets/images/IconMyNearWallet';
+import IconMyNearWallet from '../assets/favicon.svg';
 
 
 export const getAvailableAccounts = () => {
@@ -45,7 +45,7 @@ export const WALLET_OPTIONS = [
     {
         id: 'my-near-wallet',
         name: 'My NEAR Wallet',
-        icon: <IconMyNearWallet />,
+        icon: <img src={IconMyNearWallet} alt="MyNEARWallet Logo" />,
     },
     {
         id: 'ledger',

@@ -125,10 +125,9 @@ const WalletOptionsListingItem = styled('div', {
         color: '#3F4045'
     },
 
-    '& > svg': {
+    '& > svg, & > img': {
         height: '48px',
         width: '48px',
-        borderRadius: '50%'
     }
 })
 
