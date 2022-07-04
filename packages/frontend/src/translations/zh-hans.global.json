@@ -107,7 +107,15 @@
         "recoverAccount": {
             "error": "恢复账户失败。",
             "errorInvalidSeedPhrase": "助记词无效",
-            "success": "成功。"
+            "success": "成功通过助记词恢复。<br/><b>${numberOfAccounts} 个账户</b>成功恢复。<br/>已切换至最后账户。",
+            "zeroBalance": {
+                "success": {
+                    "desc": "该账户还未充值。请购买 $NEAR 并充值到该账户。",
+                    "ledger": "该账户成功通过 Ledger 密钥导入：",
+                    "phrase": "该账户成功通过助记词导入：",
+                    "title": "账户已导入"
+                }
+            }
         },
         "requestCode": {
             "error": "发送短信失败。",
@@ -187,16 +195,52 @@
         "available": "可用余额",
         "reserved": "费用预留"
     },
+    "batchExportAccounts": {
+        "confirmExportModal": {
+            "accountToExport": "账户备份",
+            "title": "批准账户备份",
+            "transactionDetails": "+ 交易细节"
+        },
+        "exportScreen": {
+            "desc": "开始备份，并在提示时确认账户。",
+            "weFound": "找到 ${noOfAccounts} 个账户可备份至你的设备。"
+        },
+        "successScreen": {
+            "title": "${noOfAccounts} 个账户成功备份至你的设备"
+        }
+    },
+    "batchImportAccounts": {
+        "confirmImportModal": {
+            "accountToImport": "账户导入",
+            "desc": "为确保账户安全，请确认 URL 是否正确：",
+            "title": "批准账户导入自",
+            "transactionDetails": "+ 交易细节"
+        },
+        "confirmUrlModal": {
+            "desc": "为确保账户安全，请确认 URL 是否正确：",
+            "title": "确认你的 URL"
+        },
+        "importScreen": {
+            "desc": "开始导入，并在提示时确认账户。",
+            "title": "准备导入 ${noOfAccounts} 个账户，来自</br>"
+        },
+        "successScreen": {
+            "desc": "选择一个账户，并跳转至概览页。",
+            "title": "${noOfAccounts} 个账户成功导入自"
+        }
+    },
     "button": {
         "acceptAndContinue": "接受并继续",
         "addACustomAddress": "自定义账户 ID",
         "addFunds": "充值",
         "addNode": "添加节点",
         "allow": "允许",
-        "approve": "允许",
+        "approve": "批准",
         "authorize": "授权",
         "authorizing": "正在授权",
         "backToSwap": "返回兑换",
+        "beginExport": "开始备份",
+        "beginImport": "开始导入",
         "browseApps": "浏览应用",
         "buy": "购买",
         "cancel": "取消",
@@ -244,6 +288,7 @@
         "learnMore": "了解更多",
         "learnMoreAboutNear": "了解更多关于 NEAR",
         "loading": "正在加载",
+        "looksGood": "确认",
         "moreInformation": "更多信息",
         "needToEditGoBack": "需要修改？请返回",
         "next": "下一步",
@@ -288,20 +333,27 @@
         "viewAll": "查看全部",
         "viewFAQ": "查看常见问题",
         "viewOnExplorer": "通过浏览器查看",
+        "viewPrivateKey": "查看私钥",
         "withdrawing": "正在提现"
     },
     "buyNear": {
+        "bridgeSubTitle": "通过彩虹桥将你的通证从以太坊转至 NEAR。",
         "bridgeTokens": "通过以太坊跨链桥转移通证",
         "buyWith": "打开",
         "coinMarketCap": "CoinMarketCap",
+        "coinMarketLink": "CoinMarketCap 了解更多",
         "descMoonpay": "可在 MoonPay 使用偏好的支付方式购买 NEAR。",
         "descThree": "通过跨链桥将以太坊链上通证转至 NEAR 钱包。",
         "descTwo": "NEAR 已经在以下交易所流通，可交易。",
         "descUtorg": "可在 Utorg 使用偏好的支付方式购买 NEAR。",
         "moonPay": "MoonPay",
+        "nearPurchaseSubTitle": "使用你偏好的支付方式购买 $NEAR。",
+        "nearPurchaseTitle": "购买 NEAR",
         "notSupported": "未在你所在地区支持",
         "seeMore": "查看更多：",
+        "subTitle": "请选择一种方式来购买充值 NEAR。",
         "supportedExchanges": "交易所",
+        "supportedSubTitle": " $NEAR 可以在以下交易所交易购买。",
         "title": "充值 NEAR",
         "utorg": "Utorg"
     },
@@ -493,6 +545,12 @@
         "exploreApps": "浏览应用",
         "exploreDeFi": "浏览 DeFi 应用",
         "title": "寻找 NEAR 生态和应用？"
+    },
+    "exportPrivateKey": {
+        "button": "备份本地私钥",
+        "desc": "请不要分享你的私钥！任何获得你私钥的人也将获得你的账户的完整访问权限。<br /><br />",
+        "enterAccountAddress": "请输入你的账户地址来查看你的私钥。",
+        "title": "查看私钥？"
     },
     "footer": {
         "contactSupport": "加入社区",
@@ -787,6 +845,19 @@
         "displayTitle": "404",
         "returnToWallet": "返回钱包",
         "title": "抱歉，无法找到该页面。"
+    },
+    "postMigration": {
+        "cta": "迁移账户",
+        "message": "NEAR 钱包已迁移至新的域名：<b>mynearwallet.com</b>。<br/>你需要在 <b>${endDate}</b> 之前迁移你的账户，或从账户设置中备份（导出）账户密钥。"
+    },
+    "poweredByCoinGecko": "价格数据来自 <a href='https://www.coingecko.com/en/api' target='_blank' rel='noopener noreferrer'>CoinGecko</a>",
+    "preMigration": {
+        "calendarEvent": {
+            "details": "这是官方 NEAR 钱包迁移的开始日期。请尽快开始你的账户迁移。",
+            "text": "NEAR 钱包迁移"
+        },
+        "cta": "设置提醒",
+        "message": "我们将迁移！NEAR 钱包将会迁移至新的域名（<b>mynearwallet.com</b>），自 <b>${startDate}</b> 起开始迁移。<br/>可以等新域名上线后再访问迁移你的账户，或在<a href='/profile'>账户设置</a>中备份你的账户密钥。"
     },
     "profile": {
         "account": {
@@ -1177,8 +1248,13 @@
         "twoLink": "步骤安装"
     },
     "setupLedgerSteps": {
+        "five": "在第二个弹窗中选择设备，并点击连接。",
+        "four": "在首个弹窗中，点击连接按钮。",
         "header": "在硬件钱包上安装 NEAR",
+        "install": "如果你还没有安装 NEAR Ledger 应用，请按照",
+        "installLink": "<a href='https://www.ledger.com/ledger-live' target='_blank'>以下步骤操作</a>。",
         "one": "打开 <a href='https://www.ledger.com/ledger-live' target='_blank'>Ledger Live</a>，并安装固件更新。",
+        "six": "点击继续按钮来完成设置 Ledger。",
         "three": "根据步骤在设备上安装 <span class='color-black'>NEAR 应用</span>。",
         "two": "返回至<span class='color-black'>管理器</span> Tab 并搜索 <span class='color-black'>NEAR</span>。"
     },
@@ -1307,6 +1383,7 @@
     "signInLedger": {
         "advanced": {
             "desc": "指定 HD 路径来导入已链接的账户。",
+            "exportDesc": "指定 HD 路径来导出你的账户，你需要记住这个路径。<br/><b>为额外的安全性，请为不同的账户使用不同的 HD 路径。</b>",
             "setPath": "设置 HD 路径",
             "subTitle": "HD 路径",
             "title": "高级选项"
@@ -1424,6 +1501,7 @@
         "staking": {
             "available": "可用余额",
             "button": "质押 NEAR",
+            "checkingValidator": "检查验证节点",
             "currentValidators": "当前验证节点",
             "desc": "选择验证节点质押 NEAR 通证",
             "noValidators": "你还没有委托验证节点质押。",
@@ -1666,6 +1744,9 @@
         "addAccessKeySeedPhrase": {
             "errorSecond": "出现问题。<br />该助记词无法恢复你的账户，请检查后重试。"
         },
+        "addAccessKeyZeroBalanceAccountSetup": {
+            "error": "在完成导入时遇到错误。请在钱包中重新导入你的账户。"
+        },
         "addLedgerAccountId": {
             "errorRpc": "恢复账户时发生错误。"
         },
@@ -1688,6 +1769,9 @@
             "noAccountsAccepted": "无账户授权。",
             "U2FNotSupported": "需要浏览器支持 U2F，请使用 Chrome、Opera 或 Firefox 安装 U2F 扩展。"
         },
+        "initiateZeroBalanceAccount": {
+            "error": "在初始化你的账户时出现错误。请重试。"
+        },
         "invalidRecaptchaCode": "reCAPTCHA 验证失败，请重试。",
         "lockup": {
             "transferAllWithStakingPoolBalance": "为将你剩余锁定余额转账至钱包，请从质押池赎回并提现所有质押资产。"
@@ -1707,6 +1791,9 @@
             "lastMethod": "无法删除最后一个恢复方式。除非你添加了 Ledger，你需要保留至少一种账户恢复方式。",
             "setupMethod": "发生错误。请检查你的账户恢复方式。"
         },
+        "refreshAccountOwner": {
+            "error": "在读取账户时出现错误。部分钱包数据可能不是最新，请刷新网站。"
+        },
         "sendFungibleToken": {
             "error": "发生错误，发送交易取消。"
         },
@@ -1721,8 +1808,38 @@
         },
         "staking": {
             "noLockup": "账户无锁定合约",
-            "noWithdraw": "无法从验证节点提现余额"
+            "noWithdraw": "无法从验证节点提现余额",
+            "unableToCheckFAK": "抱歉，我们无法检查验证节点是否拥有完全访问密钥。",
+            "validatorHasFAK": "抱歉，出于安全考量，我们不支持你质押到拥有完全访问密钥的验证节点。"
         }
     },
-    "warning": "警告"
+    "warning": "警告",
+    "zeroBalance": {
+        "addLedgerKey": {
+            "error": {
+                "header": "出现问题",
+                "message": "我们无法为你的账户添加额外的 Ledger 密钥。请重试或重新导入你的 Ledger 账户。"
+            },
+            "success": {
+                "header": "Ledger 访问密钥成功添加！",
+                "message": "新的 Ledger 密钥已经导入至你的账户。你现在可以通过 Ledger 设备管理账户的恢复方式。"
+            }
+        },
+        "addPhraseKey": {
+            "error": {
+                "header": "出现问题",
+                "message": "我们无法为你的账户添加新的 Ledger 密钥。请重试或重新导入你的 Ledger 账户。"
+            },
+            "success": {
+                "header": "你的账户已成功导入！",
+                "message": "现在你的账户已经激活，新的访问密钥也已可用于批准交易。"
+            }
+        },
+        "ledgerModal": {
+            "addLedgerKey": "添加 Ledger 密钥",
+            "confirmOnLedger": "请在 Ledger 设备上确认该操作。",
+            "desc": "添加 Ledger 受限访问密钥至钱包来管理多个恢复方式。",
+            "title": "你的账户已经激活！"
+        }
+    }
 }
