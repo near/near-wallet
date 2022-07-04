@@ -3,8 +3,8 @@ import { Translate } from 'react-localize-redux';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
+import ImgMyNearWallet from '../../../src/images/mynearwallet-cropped.svg';
 import IconLedger from '../../images/wallet-migration/IconLedger';
-import IconMyNearWallet from '../../images/wallet-migration/IconMyNearWallet';
 import IconWallet from '../../images/wallet-migration/IconWallet';
 import { redirectTo } from '../../redux/actions/account';
 import classNames from '../../utils/classNames';
@@ -37,7 +37,7 @@ const WALLET_OPTIONS = [
     {
         id: 'my-near-wallet',
         name: 'My NEAR Wallet',
-        icon: <IconMyNearWallet />,
+        icon: <img src={ImgMyNearWallet} alt="MyNearWallet Logo" />,
     },
     {
         id:'ledger',
@@ -112,10 +112,10 @@ const WalletOptionsListingItem = styled.div`
         margin-top: 8px;
     }
 
-    svg {
+    svg, img {
         height: 48px;
         width: 48px;
-        border-radius: 50%;
+        padding: 8px;
     }
 `;
 
