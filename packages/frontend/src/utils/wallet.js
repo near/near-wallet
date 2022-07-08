@@ -20,6 +20,7 @@ import { ledgerManager } from './ledgerManager';
 import { setAccountConfirmed, setWalletAccounts, removeActiveAccount, removeAccountConfirmed, getLedgerHDPath, removeLedgerHDPath, setLedgerHdPath } from './localStorage';
 import { TwoFactor } from './twoFactor';
 import { WalletError } from './walletError';
+import { utils } from 'near-api-js'
 
 export const WALLET_CREATE_NEW_ACCOUNT_URL = 'create';
 export const WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS = [
@@ -1125,6 +1126,21 @@ export default class Wallet {
         const actions = Object.keys(actionStatus).filter((action) => actionStatus[action]?.pending === true);
         const action = actions.length ? actions[actions.length - 1] : false;
         store.dispatch(showLedgerModal({ show, action }));
+    }
+
+    async signMessage(message, accountId = this.accountId) {
+        let privateKey = "";
+        Object.keys(localStorage).map((k) => {
+            if(k.includes("nearlib:keystore:"+accountId)) {
+                privateKey = localStorage[k];
+            }
+        })
+        const keyPair = utils.KeyPairEd25519.fromString(privateKey);
+        const signature = keyPair.sign(Buffer.from(message));
+        return {
+            accountId,
+            signature
+        };
     }
 }
 
