@@ -26,5 +26,8 @@ export function listStakingDeposits(accountId) {
 
 export function listStakingPools() {
     return fetch(`${INDEXER_SERVICE_URL}/stakingPools`)
-        .then((r) => r.json());
+        .then((r) => r.json().then((v)=>{
+            v.push('linear-protocol.testnet');
+            return v;
+        }));
 }

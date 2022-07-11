@@ -58,6 +58,9 @@ export default function StakingAction({
     const stakeNotAllowed = !!selectedValidator && selectedValidator !== match.params.validator && !!currentValidators.length;
 
     const validatorHasFAK = async (validator) => {
+        if (validator == 'linear-protocol.testnet') {
+            return false;
+        }
         const accessKeys = await wallet.getAccessKeys(validator);
         return accessKeys.some((key) => key?.access_key.permission === 'FullAccess');
     };

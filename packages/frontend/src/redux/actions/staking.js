@@ -406,7 +406,7 @@ export const { staking } = createActions({
                 const allStakingPools = await listStakingPools();
                 const prefix = getValidatorRegExp(networkId);
                 accountIds = [...new Set([...rpcValidators, ...allStakingPools])]
-                    .filter((v) => v.indexOf('nfvalidator') === -1 && v.match(prefix));
+                    .filter((v) => v.indexOf('nfvalidator') === -1 && (v.match(prefix) || v == 'linear-protocol.testnet'));
             }
 
             const currentAccount = await wallet.getAccount(accountId);
