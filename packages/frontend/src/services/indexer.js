@@ -21,7 +21,10 @@ export function listRecentTransactions(accountId) {
 
 export function listStakingDeposits(accountId) {
     return fetch(`${INDEXER_SERVICE_URL}/staking-deposits/${accountId}`)
-        .then((r) => r.json());
+        .then((r) => r.json().then((v)=>{
+            v.push({'validator_id': 'linear-protocol.testnet'});
+            return v;
+        }));
 }
 
 export function listStakingPools() {
