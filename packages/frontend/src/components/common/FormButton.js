@@ -12,7 +12,7 @@ import classNames from '../../utils/classNames';
 const CustomButton = styled.button`
     &&& {
         color: #fff;
-        margin: 24px 0 0 0;
+        margin: ${({ swapButton }) => (swapButton ? 0 : '24px 0 0 0')};
         border: 2px solid;
         font-weight: 600;
         height: 56px;
@@ -110,7 +110,7 @@ const CustomButton = styled.button`
 
             &.rounded {
                 border-radius: 50px;
-                padding: 12px 15px;
+                padding: ${({ swapButton }) => (swapButton ? '6px 12px' : '12px 15px')};
                 width: auto;
             }
 
@@ -126,8 +126,8 @@ const CustomButton = styled.button`
         }
 
         &.red {
-            border-color: #ff585d;
-            background: #ff585d;
+            border-color: #E5484D;
+            background: #E5484D;
 
             :disabled {
                 background: #e6e6e6;
@@ -137,9 +137,9 @@ const CustomButton = styled.button`
             :active,
             :hover,
             :focus {
-                border-color: #ff585d;
+                border-color: #E5484D;
                 background: #fff;
-                color: #ff585d;
+                color: #E5484D;
             }
             &.dots {
                 color: #fff;
@@ -335,6 +335,7 @@ const CustomButton = styled.button`
         &.link {
             width: auto !important;
             height: auto;
+            min-height: 50px;
             padding: 0;
             margin: 0;
             border-radius: 0px;
@@ -504,9 +505,12 @@ const FormButton = ({
     className,
     id,
     trackingId,
-    "data-test-id": testId
+    swapButton,
+    'data-test-id': testId,
+    style
 }) => (
     <CustomButton
+        swapButton={swapButton}
         type={type}
         id={id}
         className={classNames([color, size, className, {'dots': sending}])}
@@ -518,6 +522,7 @@ const FormButton = ({
         }}
         tabIndex='3'
         data-test-id={testId}
+        style={style}
     >
         {sending
             ? <Translate id={sendingString ? sendingString : 'sending'} />

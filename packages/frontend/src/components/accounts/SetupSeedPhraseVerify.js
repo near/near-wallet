@@ -91,7 +91,7 @@ const SetupSeedPhraseVerify = (
                         data-test-id="seedPhraseVerificationWordInput"
                         name='enterWord'
                         value={enterWord}
-                        onChange={e => handleChangeWord(e.target.value)}
+                        onChange={(e) => handleChangeWord(e.target.value)}
                         placeholder={translate('input.enterWord.placeholder')}
                         required
                         tabIndex='1'
@@ -103,15 +103,17 @@ const SetupSeedPhraseVerify = (
             </Translate>
             <LocalAlertBox localAlert={localAlert}/>
             {
-                shouldRenderRecaptcha && <Recaptcha
-                    ref={recaptchaRef}
-                    onChange={(token) => {
-                        debugLog('onChange from recaptcha', token);
-                        setRecaptchaToken(token);
-                        onRecaptchaChange(token);
-                    }}
-                    onFundAccountCreation={onSubmit}
-                />
+                shouldRenderRecaptcha && (
+                    <Recaptcha
+                        ref={recaptchaRef}
+                        onChange={(token) => {
+                            debugLog('onChange from recaptcha', token);
+                            setRecaptchaToken(token);
+                            onRecaptchaChange(token);
+                        }}
+                        onFundAccountCreation={onSubmit}
+                    />
+                )
             }
             <FormButton
                 type='submit'

@@ -9,7 +9,7 @@ import CopyIcon from '../svg/CopyIcon';
 import GenerateNewIcon from '../svg/GenerateNewIcon';
 
 
-const CustomDiv = styled(`div`)`
+const CustomDiv = styled('div')`
     .seed-phrase-wrapper {
         box-shadow: 0px 45px 56px rgba(0, 0, 0, 0.07), 0px 10.0513px 12.5083px rgba(0, 0, 0, 0.0417275), 0px 2.99255px 3.72406px rgba(0, 0, 0, 0.0282725);
         border-radius: 8px;
@@ -46,6 +46,11 @@ const CustomDiv = styled(`div`)`
         > button {
             width: 100%;
             margin-top: 45px;
+
+            &.link {
+                margin: 30px auto 0 auto;
+                display: inherit;
+            }
         }
     }
     #seed-phrase {
@@ -70,9 +75,9 @@ const CustomDiv = styled(`div`)`
     }
 `;
 
-const Number = styled(`span`)`
+const Number = styled('span')`
     ::before {
-        content: '${props => props.number || 1}';
+        content: '${(props) => props.number || 1}';
         color: #2B9AF4;
         padding-right: 8px;
         font-size: 12px;
@@ -83,6 +88,7 @@ const SetupSeedPhraseForm = ({
     seedPhrase,
     refreshData,
     onClickContinue,
+    onClickCancel,
     hasSeedPhraseRecovery = false
 }) => {
 
@@ -125,6 +131,13 @@ const SetupSeedPhraseForm = ({
                 data-test-id="continueToSeedPhraseVerificationButton"
             >
                 <Translate id='button.continue' />
+            </FormButton>
+            <FormButton
+                onClick={onClickCancel}
+                className='link'
+                color='gray'
+            >
+                <Translate id='button.cancel' />
             </FormButton>
         </CustomDiv>
     );

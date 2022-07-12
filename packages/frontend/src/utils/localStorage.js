@@ -1,4 +1,4 @@
-import { keyAccountConfirmed, keyStakingAccountSelected, keyAccountInactive, keyReleaseNotesModalClosed } from './wallet';
+import { keyAccountConfirmed, keyStakingAccountSelected, keyReleaseNotesModalClosed } from './wallet';
 
 export const setAccountConfirmed = (accountId, confirmed) => {
     localStorage.setItem(keyAccountConfirmed(accountId), confirmed);
@@ -19,18 +19,6 @@ export const getStakingAccountSelected = () => {
     return localStorage.getItem(keyStakingAccountSelected());
 };
 
-export const setAccountIsInactive = (accountId) => {
-    localStorage.setItem(keyAccountInactive(accountId), true);
-};
-
-export const getAccountIsInactive = (accountId) => {
-    return localStorage.getItem(keyAccountInactive(accountId));
-};
-
-export const removeAccountIsInactive = (accountId) => {
-    localStorage.removeItem(keyAccountInactive(accountId));
-};
-
 export const setReleaseNotesClosed = (version) => {
     localStorage.setItem(keyReleaseNotesModalClosed(version), true);
 };
@@ -41,4 +29,20 @@ export const getReleaseNotesClosed = (version) => {
 
 export const setLedgerHdPath = ({ accountId, path }) => {
     localStorage.setItem(`ledgerHdPath:${accountId}`, path);
+};
+
+export const setWalletAccounts = (walletAccountsKey, walletAccounts) => {
+    localStorage.setItem(walletAccountsKey, JSON.stringify(walletAccounts));
+};
+
+export const removeActiveAccount = (activeAccountKey) => {
+    localStorage.removeItem(activeAccountKey);
+};
+
+export const getLedgerHDPath = (accountId) => {
+    return localStorage.getItem(`ledgerHdPath:${accountId}`);
+};
+
+export const removeLedgerHDPath = (accountId) => {
+    localStorage.removeItem(`ledgerHdPath:${accountId}`);
 };

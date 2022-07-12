@@ -1,5 +1,5 @@
 import { getRouter } from 'connected-react-router';
-import { parse as parseQuery } from 'query-string';
+import { parse as parseQuery, stringify } from 'query-string';
 import React, { Component } from 'react';
 import { Translate } from 'react-localize-redux';
 import { connect } from 'react-redux';
@@ -14,13 +14,17 @@ import {
     refreshAccount,
     clearAccountState
 } from '../../redux/actions/account';
-import { clearLocalAlert } from '../../redux/actions/status';
+import { clearLocalAlert, showCustomAlert, clearGlobalAlert } from '../../redux/actions/status';
 import { selectAccountSlice } from '../../redux/slices/account';
-import { selectStatusLocalAlert, selectStatusMainLoader } from '../../redux/slices/status';
-import { selectActionsPending } from '../../redux/slices/status';
+import { actions as importZeroBalanceAccountActions } from '../../redux/slices/importZeroBalanceAccount';
+import { importZeroBalanceAccountPhrase } from '../../redux/slices/importZeroBalanceAccount/importAccountThunks';
+import { selectActionsPending, selectStatusLocalAlert, selectStatusMainLoader } from '../../redux/slices/status';
+import isValidSeedPhrase from '../../utils/isValidSeedPhrase';
 import parseFundingOptions from '../../utils/parseFundingOptions';
 import Container from '../common/styled/Container.css';
 import RecoverAccountSeedPhraseForm from './RecoverAccountSeedPhraseForm';
+
+const { setZeroBalanceAccountImportMethod } = importZeroBalanceAccountActions;
 
 const StyledContainer = styled(Container)`
     .input {
@@ -46,16 +50,17 @@ const StyledContainer = styled(Container)`
 class RecoverAccountSeedPhrase extends Component {
     state = {
         seedPhrase: this.props.seedPhrase,
-        recoveringAccount: false
+        recoveringAccount: false,
+        showCouldNotFindAccountModal: false
     }
 
     // TODO: Use some validation framework?
     validators = {
-        seedPhrase: value => !!value.length
+        seedPhrase: (value) => !!value.length
     }
 
     get isLegit() {
-        return Object.keys(this.validators).every(field => this.validators[field](this.state[field]));
+        return Object.keys(this.validators).every((field) => this.validators[field](this.state[field]));
     }
 
     handleChange = (value) => {
@@ -68,26 +73,48 @@ class RecoverAccountSeedPhrase extends Component {
 
     handleSubmit = async () => {
         if (!this.isLegit) {
-            Mixpanel.track("IE-SP Recover seed phrase link not valid");
+            Mixpanel.track('IE-SP Recover seed phrase link not valid');
             return false;
         }
 
         const { seedPhrase } = this.state;
-        const { 
+        const {
             location,
             redirectTo,
             redirectToApp,
             clearAccountState,
             recoverAccountSeedPhrase,
-            refreshAccount
+            refreshAccount,
+            showCustomAlert,
+            importZeroBalanceAccountPhrase,
+            setZeroBalanceAccountImportMethod
         } = this.props;
 
-        await Mixpanel.withTracking("IE-SP Recovery with seed phrase",
+        try {
+            isValidSeedPhrase(seedPhrase);
+        } catch (e) {
+            showCustomAlert({
+                success: false,
+                messageCodeHeader: 'error',
+                messageCode: 'walletErrorCodes.recoverAccountSeedPhrase.errorSeedPhraseNotValid',
+                errorMessage: e.message
+            });
+            return;
+        }
+
+        await Mixpanel.withTracking('IE-SP Recovery with seed phrase',
             async () => {
                 this.setState({ recoveringAccount: true });
                 await recoverAccountSeedPhrase(seedPhrase);
                 await refreshAccount();
-            }, (e) => {
+            }, async (e) => {
+                if (e.message.includes('Cannot find matching public key')) {
+                    await importZeroBalanceAccountPhrase(seedPhrase);
+                    setZeroBalanceAccountImportMethod('phrase');
+                    clearGlobalAlert();
+                    redirectToApp();
+                }
+
                 throw e;
             }, () => {
                 this.setState({ recoveringAccount: false });
@@ -96,7 +123,7 @@ class RecoverAccountSeedPhrase extends Component {
 
         const fundWithExistingAccount = parseQuery(location.search, { parseBooleans: true }).fundWithExistingAccount;
         if (fundWithExistingAccount) {
-            const createNewAccountParams = new URLSearchParams(JSON.parse(fundWithExistingAccount)).toString();
+            const createNewAccountParams = stringify(JSON.parse(fundWithExistingAccount));
             redirectTo(`/fund-with-existing-account?${createNewAccountParams}`);
         } else {
             const options = parseFundingOptions(location.search);
@@ -122,7 +149,10 @@ class RecoverAccountSeedPhrase extends Component {
             <StyledContainer className='small-centered border'>
                 <h1><Translate id='recoverSeedPhrase.pageTitle' /></h1>
                 <h2><Translate id='recoverSeedPhrase.pageText' /></h2>
-                <form onSubmit={e => { this.handleSubmit(); e.preventDefault(); }} autoComplete='off'>
+                <form onSubmit={(e) => {
+                    this.handleSubmit();
+                    e.preventDefault();
+                }} autoComplete='off'>
                     <RecoverAccountSeedPhraseForm
                         {...combinedState}
                         handleChange={this.handleChange}
@@ -139,7 +169,10 @@ const mapDispatchToProps = {
     redirectToApp,
     refreshAccount,
     clearLocalAlert,
-    clearAccountState
+    clearAccountState,
+    showCustomAlert,
+    importZeroBalanceAccountPhrase,
+    setZeroBalanceAccountImportMethod
 };
 
 const mapStateToProps = (state, { match }) => ({

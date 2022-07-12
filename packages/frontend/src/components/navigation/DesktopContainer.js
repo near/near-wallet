@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 
+import { isWhitelabel } from '../../config/whitelabel';
 import languagesIcon from '../../images/icon-languages.svg';
 import LanguageToggle from '../common/LangSwitcher';
+import ConnectLedger from './ConnectLedger';
+import DeprecatedLogo from './DeprecatedLogo';
 import DesktopMenu from './DesktopMenu';
 import Logo from './Logo';
 import NavLinks from './NavLinks';
@@ -87,7 +90,6 @@ const Lang = styled.div`
 
 class DesktopContainer extends Component {
     render() {
-
         const {
             account,
             menuOpen,
@@ -98,21 +100,25 @@ class DesktopContainer extends Component {
             flowLimitationMainMenu,
             flowLimitationSubMenu,
             refreshBalance,
-            isInactiveAccount
         } = this.props;
 
-        const showAllNavigationLinks = showNavLinks && !isInactiveAccount && !flowLimitationMainMenu;
+        const showAllNavigationLinks = showNavLinks && !flowLimitationMainMenu;
 
         return (
             <Container>
-                <Logo link={!flowLimitationMainMenu} />
+                {
+                    isWhitelabel() ?
+                        <Logo link={!flowLimitationMainMenu}/> :
+                        <DeprecatedLogo link={!flowLimitationMainMenu}/>
+                }
                 {showAllNavigationLinks &&
                     <NavLinks />
                 }
                 <Lang>
                     <LanguageToggle />
                 </Lang>
-                {showNavLinks &&
+                <ConnectLedger />
+                {showNavLinks && (
                     <>
                         <div className='divider'/>
                         <UserAccount
@@ -130,10 +136,9 @@ class DesktopContainer extends Component {
                             accountsBalance={account.accountsBalance}
                             balance={account.balance}
                             refreshBalance={refreshBalance}
-                            isInactiveAccount={isInactiveAccount}
                         />
                     </>
-                }
+                )}
             </Container>
         );
     }

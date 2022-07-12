@@ -53,19 +53,21 @@ export default ({
     onClickApprove,
     onClickMoreInformation,
     accountUrlReferrer,
-    submittingTransaction
+    submittingTransaction,
+    isSignerValid,
+    isValidCallbackUrl
 }) => {
     const insufficientBalance = availableBalance && transferAmount && new BN(availableBalance).lt(new BN(transferAmount));
     return (
         <StyledContainer className='small-centered border'>
             <h3><Translate id='sign.approveTransaction' /></h3>
             <ConnectWithApplication appReferrer={accountUrlReferrer} />
-            {insufficientBalance &&
+            {insufficientBalance && (
                 <AlertBanner
                     title='sign.insufficientFundsDesc'
                     theme='warning'
                 />
-            }
+            )}
             <SignTransaction
                 transferAmount={transferAmount}
                 sender={accountLocalStorageAccountId}
@@ -82,13 +84,13 @@ export default ({
                 <FormButton
                     color='gray-blue'
                     onClick={onClickCancel}
-                    disabled={submittingTransaction}
+                    disabled={submittingTransaction || !isValidCallbackUrl}
                 >
                     <Translate id='button.cancel' />
                 </FormButton>
                 <FormButton
                     onClick={onClickApprove}
-                    disabled={submittingTransaction || insufficientBalance}
+                    disabled={submittingTransaction || insufficientBalance || !isValidCallbackUrl || !isSignerValid}
                     sending={submittingTransaction}
                 >
                     <Translate id='button.approve' />

@@ -78,10 +78,11 @@ const BalanceDisplay = ({
     showAlmostEqualSignUSD,
     showSignUSD,
     showSymbolUSD,
-    "data-test-id": testId
+    totalAmount,
+    'data-test-id': testId
 }) => {
 
-    const amountoShow = amount && formatNearAmount(amount);
+    const amountToShow = amount && formatNearAmount(amount);
     const NEARSymbol = 'NEAR';
 
     const handleShowInYocto = (amount) => {
@@ -96,25 +97,26 @@ const BalanceDisplay = ({
         <StyledContainer
             title={handleShowInYocto(amount)}
             className={classNames([
-                "balance",
+                'balance',
                 className,
                 {
-                    "fiat-only": !showBalanceInNEAR,
+                    'fiat-only': !showBalanceInNEAR,
                 },
             ])}
             data-test-id={testId}
         >
-            {showBalanceInNEAR &&
+            {showBalanceInNEAR && (
                 <>
                     {amount
-                        ? <div className='near-amount'>{amountoShow}{showSymbolNEAR !== false ? ` ${NEARSymbol}` : ``}</div>
+                        ? <div className='near-amount'>{amountToShow}{showSymbolNEAR !== false ? ` ${NEARSymbol}` : ''}</div>
                         : <div className="dots"><Translate id='loadingNoDots'/></div>
                     }
                 </>
-            }
-            {showBalanceInUSD &&
+            )}
+            {showBalanceInUSD && (
                 <div className='fiat-amount'>
                     <BalanceDisplayUSD
+                        totalAmount={totalAmount}
                         amount={amount}
                         nearTokenFiatValueUSD={nearTokenFiatValueUSD}
                         showAlmostEqualSignUSD={showAlmostEqualSignUSD}
@@ -122,7 +124,7 @@ const BalanceDisplay = ({
                         showSymbolUSD={showSymbolUSD}
                     />
                 </div>
-            }
+            )}
         </StyledContainer>
     );
 };

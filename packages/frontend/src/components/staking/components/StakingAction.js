@@ -2,12 +2,15 @@ import BN from 'bn.js';
 import { utils } from 'near-api-js';
 import React, { useState } from 'react';
 import { Translate } from 'react-localize-redux';
+import { useDispatch } from 'react-redux';
 
 import { onKeyDown } from '../../../hooks/eventListeners';
 import { Mixpanel } from '../../../mixpanel/index';
+import { showCustomAlert } from '../../../redux/actions/status';
 import { toNear } from '../../../utils/amounts';
 import isDecimalString from '../../../utils/isDecimalString';
 import { STAKING_AMOUNT_DEVIATION } from '../../../utils/staking';
+import { wallet } from '../../../utils/wallet';
 import { getNearAndFiatValue } from '../../common/balance/helpers';
 import FormButton from '../../common/FormButton';
 import SafeTranslate from '../../SafeTranslate';
@@ -36,6 +39,10 @@ export default function StakingAction({
     currentValidators,
     nearTokenFiatValueUSD
 }) {
+    const dispatch = useDispatch();
+
+    const [checkingValidator, setCheckingValidator] = useState(false);
+    const [validatorMightHaveFAK, setValidatorMightHaveFAK] = useState(false);
     const [confirm, setConfirm] = useState();
     const [amount, setAmount] = useState('');
     const [success, setSuccess] = useState();
@@ -47,10 +54,44 @@ export default function StakingAction({
     const displayAmount = useMax ? formatNearAmount(amount, 5).replace(/,/g, '') : amount;
     const availableToStake = availableBalance;
     const invalidStakeActionAmount = new BN(useMax ? amount : parseNearAmount(amount)).sub(new BN(stake ? availableToStake : staked)).gt(new BN(STAKING_AMOUNT_DEVIATION)) || !isDecimalString(amount);
-    const stakeActionAllowed = hasStakeActionAmount && !invalidStakeActionAmount && !success;
+    const stakeActionAllowed = hasStakeActionAmount && !invalidStakeActionAmount && !success && !validatorMightHaveFAK;
     const stakeNotAllowed = !!selectedValidator && selectedValidator !== match.params.validator && !!currentValidators.length;
 
-    onKeyDown(e => {
+    const validatorHasFAK = async (validator) => {
+        const accessKeys = await wallet.getAccessKeys(validator);
+        return accessKeys.some((key) => key?.access_key.permission === 'FullAccess');
+    };
+
+    const handleSubmitStake = async () => {
+        try {
+            setCheckingValidator(true);
+
+            if (await validatorHasFAK(match.params.validator)) {
+                setValidatorMightHaveFAK(true);
+                dispatch(showCustomAlert({
+                    success: false,
+                    messageCodeHeader: 'error',
+                    messageCode: 'walletErrorCodes.staking.validatorHasFAK',
+                    errorMessage: 'Validator has full access key'
+                }));
+            } else {
+                setConfirm(true);
+            }
+        } catch (error) {
+            setValidatorMightHaveFAK(true);
+            dispatch(showCustomAlert({
+                success: false,
+                messageCodeHeader: 'error',
+                messageCode: 'walletErrorCodes.staking.unableToCheckFAK',
+                errorMessage: 'Not able to check full access key'
+            }));
+            throw error;
+        } finally {
+            setCheckingValidator(false);  
+        }
+    };
+
+    onKeyDown((e) => {
         if (e.keyCode === 13 && stakeActionAllowed) {
             if (!confirm) {
                 setConfirm(true);
@@ -95,7 +136,7 @@ export default function StakingAction({
             setAmount(amount);
             setUseMax(true);
         }
-        Mixpanel.track("STAKE/UNSTAKE Use max token");
+        Mixpanel.track('STAKE/UNSTAKE Use max token');
     };
 
     const handleOnChange = (amount) => {
@@ -165,22 +206,24 @@ export default function StakingAction({
                         <Translate id='button.edit' />
                     </FormButton>
                 </div>
-                {validator && 
+                {validator && (
                     <ValidatorBox
                         validator={validator}
                         clickable={false}
                         amount={validator.staked}
                     />
-                }
+                )}
                 <FormButton
+                    sending={checkingValidator}
+                    sendingString='staking.staking.checkingValidator'
                     disabled={!stakeActionAllowed} 
-                    onClick={() => setConfirm(true)}
+                    onClick={handleSubmitStake}
                     trackingId="STAKE/UNSTAKE Click submit stake button"
                     data-test-id="submitStakeButton"
                 >
                     <Translate id={`staking.${action}.button`} />
                 </FormButton>
-                {confirm &&
+                {confirm && (
                     <StakeConfirmModal
                         title={`staking.${action}.confirm`}
                         label={`staking.stake.${stake ? 'with' : 'from'}`}
@@ -190,13 +233,13 @@ export default function StakingAction({
                         onConfirm={onStakingAction} 
                         onClose={() => {
                             setConfirm(false);
-                            Mixpanel.track("STAKE/UNSTAKE Close the modal");
+                            Mixpanel.track('STAKE/UNSTAKE Close the modal');
                         }}
                         loading={loadingStaking}
                         disclaimer={getStakeActionDisclaimer()}
                         sendingString={stake ? 'staking' : 'unstaking'}
                     />
-                }
+                )}
             </div>
         );
     } else {
@@ -210,14 +253,14 @@ export default function StakingAction({
                         data={{ amount: getNearAndFiatValue(parseNearAmount(displayAmount), nearTokenFiatValueUSD) }}
                     />
                 </div>
-                {validator && 
+                {validator && (
                     <ValidatorBox
                         validator={validator}
                         amount={validator.staked}
                         clickable={false}
                         style={{margin: '40px 0'}}
                     />
-                }
+                )}
                 <div className='desc'><Translate id={`staking.${action}Success.descTwo`}/></div>
                 <FormButton 
                     linkTo='/staking' 

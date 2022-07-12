@@ -6,12 +6,12 @@ import classNames from '../../utils/classNames';
 const Container = styled.div`
     overflow: hidden;
     height: 0;
-    transition: ${props => props.transition}ms;
+    transition: ${(props) => props.transition}ms;
     opacity: 0;
 
     &.open {
         opacity: 1;
-        height: ${props => props.height}px;
+        height: ${(props) => props.height}px;
     }
 `;
 

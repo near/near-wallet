@@ -131,8 +131,9 @@ const EnterVerificationCode = ({
                 autoComplete='off'
             >
                 <h1><Translate id='setRecoveryConfirm.title'/></h1>
-                <h2><Translate id='setRecoveryConfirm.pageText'/> <Translate
-                    id={useEmail ? 'setRecoveryConfirm.email' : 'setRecoveryConfirm.phone'}/>: <span>{useEmail ? email : phoneNumber}</span>
+                <h2>
+                    <Translate id='setRecoveryConfirm.pageText'/>
+                    <Translate id={useEmail ? 'setRecoveryConfirm.email' : 'setRecoveryConfirm.phone'}/>: <span>{useEmail ? email : phoneNumber}</span>
                 </h2>
                 <h4 className='small'><Translate id='setRecoveryConfirm.inputHeader'/></h4>
                 <Translate>
@@ -145,22 +146,27 @@ const EnterVerificationCode = ({
                                 aria-label={translate('setRecoveryConfirm.inputPlaceholder')}
                                 value={code}
                                 disabled={verifyingCode}
-                                onChange={e => {setCode(e.target.value); setError(false);}}
+                                onChange={(e) => {
+                                    setCode(e.target.value);
+                                    setError(false);
+                                }}
                                 autoFocus={true}
                             />
                         </div>
                     )}
                 </Translate>
                 {
-                    shouldRenderRecaptcha && <Recaptcha
-                        ref={recaptchaRef}
-                        onChange={(token) => {
-                            debugLog('onChange from recaptcha - setting token in state', token);
-                            setRecaptchaToken(token);
-                            onRecaptchaChange(token);
-                        }}
-                        onFundAccountCreation={handleOnSubmit}
-                    />
+                    shouldRenderRecaptcha && (
+                        <Recaptcha
+                            ref={recaptchaRef}
+                            onChange={(token) => {
+                                debugLog('onChange from recaptcha - setting token in state', token);
+                                setRecaptchaToken(token);
+                                onRecaptchaChange(token);
+                            }}
+                            onFundAccountCreation={handleOnSubmit}
+                        />
+                    )
                 }
                 <FormButton
                     color='blue'

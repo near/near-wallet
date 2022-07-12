@@ -1,10 +1,10 @@
-import React from "react";
-import { Translate } from "react-localize-redux";
-import styled from "styled-components";
+import React from 'react';
+import { Translate } from 'react-localize-redux';
+import styled from 'styled-components';
 
-import textBackgroundImage  from "../../images/bg-landing-patterned.svg";
-import FormButton from "../common/FormButton";
-import Container from "../common/styled/Container.css";
+import textBackgroundImage  from '../../images/bg-landing-patterned.svg';
+import FormButton from '../common/FormButton';
+import Container from '../common/styled/Container.css';
 
 const StyledContainer = styled(Container)`
   &&& {
@@ -45,17 +45,17 @@ const StyledContainer = styled(Container)`
 `;
 
 export function PageNotFound() {
-  return (
-    <StyledContainer>
-        <h1 className="title">
-            <Translate id="pageNotFound.title" />
-        </h1>
-        <h1 className="displayTitle">
-            <Translate id="pageNotFound.displayTitle" />
-        </h1>
-        <FormButton linkTo="/">
-            <Translate id="pageNotFound.returnToWallet" />
-        </FormButton>
-    </StyledContainer>
-  );
+    return (
+        <StyledContainer>
+            <h1 className="title">
+                <Translate id="pageNotFound.title" />
+            </h1>
+            <h1 className="displayTitle">
+                <Translate id="pageNotFound.displayTitle" />
+            </h1>
+            <FormButton linkTo="/">
+                <Translate id="pageNotFound.returnToWallet" />
+            </FormButton>
+        </StyledContainer>
+    );
 }

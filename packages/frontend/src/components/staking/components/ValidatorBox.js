@@ -1,16 +1,18 @@
 import React from 'react';
 import { Translate } from 'react-localize-redux';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 
 import { Mixpanel } from '../../../mixpanel/index';
 import { redirectTo } from '../../../redux/actions/account';
-import { PROJECT_VALIDATOR_VERSION, ValidatorVersion } from '../../../utils/constants';
+import { selectFarmValidatorAPY } from '../../../redux/slices/staking';
+import { FARMING_VALIDATOR_VERSION, ValidatorVersion } from '../../../utils/constants';
 import Balance from '../../common/balance/Balance';
 import FormButton from '../../common/FormButton';
 import Tooltip from '../../common/Tooltip';
 import ChevronIcon from '../../svg/ChevronIcon';
 import UserIcon from '../../svg/UserIcon';
+import TokenAmount from '../../wallet/TokenAmount';
 
 const Container = styled.div`
     display: flex;
@@ -19,7 +21,7 @@ const Container = styled.div`
     border-radius: 8px;
     padding: 14px;
     position: relative;
-    cursor: ${props => props.clickable === 'true' ? 'pointer' : ''};
+    cursor: ${(props) => props.clickable === 'true' ? 'pointer' : ''};
 
     svg {
         height: 100%;
@@ -128,14 +130,18 @@ export default function ValidatorBox({
     validator,
     amount,
     staking = true,
+    farming = false,
     clickable = true,
     style,
     label = false,
     stakeAction,
     showBalanceInUSD,
+    token = null
 }) {
     const dispatch = useDispatch();
+    const farmAPY = useSelector((state) => selectFarmValidatorAPY(state, {validatorId: validator?.accountId}));
     const { accountId: validatorId, active } = validator;
+    const isFarmingValidator = validator?.version === ValidatorVersion[FARMING_VALIDATOR_VERSION];
 
     const fee = validator.fee && validator.fee.percentage;
     const cta = amount ? (
@@ -151,12 +157,12 @@ export default function ValidatorBox({
     );
 
     const handleClick = () => {
-        Mixpanel.track("STAKE Go to staked account page");
+        Mixpanel.track('STAKE Go to staked account page');
         if (clickable && amount) {
-            dispatch(redirectTo(`/staking/${validatorId}${stakeAction ? `/${stakeAction}` : ``}`));
+            dispatch(redirectTo(`/staking/${validatorId}${stakeAction ? `/${stakeAction}` : ''}`));
         }
     };
-    const isProjectValidator = validator.version === ValidatorVersion[PROJECT_VALIDATOR_VERSION];
+
     return (
         <Container
             className='validator-box'
@@ -172,11 +178,21 @@ export default function ValidatorBox({
                     <div className='name-container' data-test-id="stakingPageValidatorItemName">
                         {validatorId}
                     </div>
-                    {isProjectValidator && <Tooltip translate='staking.balanceBox.farm.info' />}
+                    {isFarmingValidator && <Tooltip translate='staking.balanceBox.farm.info' />}
                 </div>
-                {typeof fee === 'number' &&
+                {typeof fee === 'number' && (
                     <div className="text-left">
-                        <span>{fee}% <Translate id='staking.validatorBox.fee' /> - </span>
+                        {isFarmingValidator && (
+                            <>
+                                <span><Translate id='staking.validator.apy'/>&nbsp;</span>
+                                {farmAPY === null && validator.active
+                                    ? <span className="animated-dots" style={{width: 16}}/>
+                                    : <span>{farmAPY || 0}</span>
+                                }
+                                <span>%&nbsp;-&nbsp;</span>
+                            </>
+                        )}
+                        <span>{fee}% <Translate id='staking.validatorBox.fee' /> -&nbsp;</span>
                         <span>
                             {
                                 active
@@ -185,16 +201,28 @@ export default function ValidatorBox({
                             }
                         </span>
                     </div>
-                }
+                )}
             </div>
-            {amount &&
+            {amount && (
                 <div className='right'>
                     {staking && <div><Translate id='staking.validatorBox.staking' /></div>}
+                    {farming && <div><Translate id='staking.validatorBox.farming' /></div>}
                     <div className='amount'>
-                        <Balance amount={amount} showBalanceInUSD={showBalanceInUSD} />
+                        {!token ? (
+                            <Balance
+                                amount={amount}
+                                showBalanceInUSD={showBalanceInUSD}
+                            />
+                        ) : (
+                            <TokenAmount
+                                token={token}
+                                className="balance"
+                                withSymbol={true}
+                            />
+                        )}
                     </div>
                 </div>
-            }
+            )}
             {clickable ? cta : null}
         </Container>
     );

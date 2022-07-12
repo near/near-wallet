@@ -6,7 +6,6 @@ const Breakdown = styled.div`
 
     > div {
         :first-of-type {
-            font-weight: 600;
             color: #272729;
         }
     }

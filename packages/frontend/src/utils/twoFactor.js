@@ -1,6 +1,5 @@
 import { BN } from 'bn.js';
 import * as nearApiJs from 'near-api-js';
-import { utils } from 'near-api-js';
 
 import { store } from '..';
 import { ACCOUNT_HELPER_URL, MULTISIG_CONTRACT_HASHES, MULTISIG_MIN_AMOUNT } from '../config';
@@ -23,13 +22,15 @@ export class TwoFactor extends Account2FA {
 
     static async has2faEnabled(account) {
         const state = await account.state();
-        if (!state) return false;
+        if (!state) {
+            return false;
+        }
         return MULTISIG_CONTRACT_HASHES.includes(state.code_hash);
     }
 
     static async checkCanEnableTwoFactor(balance) {
         const availableBalance = new BN(balance.available);
-        const multisigMinAmount = new BN(utils.format.parseNearAmount(MULTISIG_MIN_AMOUNT));
+        const multisigMinAmount = new BN(nearApiJs.utils.format.parseNearAmount(MULTISIG_MIN_AMOUNT));
         return multisigMinAmount.lt(availableBalance);
     }
 
@@ -49,6 +50,15 @@ export class TwoFactor extends Account2FA {
         });
     }
 
+    async getMultisigRequest() {
+        const { requestId, accountId } = this.getRequest();
+        return {
+            ...await this.viewFunction(this.accountId, 'get_request', { request_id: requestId }),
+            request_id: requestId,
+            account_id: accountId,
+        };
+    }
+
     async deployMultisig() {
         const contractBytes = new Uint8Array(await (await fetch('/multisig.wasm')).arrayBuffer());
         await super.deployMultisig(contractBytes);
@@ -57,7 +67,8 @@ export class TwoFactor extends Account2FA {
 
     async disableMultisig() {
         const contractBytes = new Uint8Array(await (await fetch('/main.wasm')).arrayBuffer());
-        const result = await this.disable(contractBytes);
+        const stateCleanupContractBytes = new Uint8Array(await (await fetch('/state_cleanup.wasm')).arrayBuffer());
+        const result = await this.disable(contractBytes, stateCleanupContractBytes);
         await store.dispatch(refreshAccount());
         this.has2fa = false;
         return result;

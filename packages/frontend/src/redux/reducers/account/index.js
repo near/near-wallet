@@ -2,12 +2,10 @@ import reduceReducers from 'reduce-reducers';
 import { handleActions } from 'redux-actions';
 
 import {
-    requestCode,
     getAccessKeys,
     clearCode,
     promptTwoFactor,
     refreshUrl,
-    resetAccounts,
     checkCanEnableTwoFactor,
     get2faMethod,
     getLedgerKey,
@@ -16,7 +14,7 @@ import {
     setLocalStorage,
     getAccountBalance,
     setAccountBalance,
-    getAccountHelperWalletState
+    getMultisigRequest,
 } from '../../actions/account';
 import {
     staking
@@ -24,26 +22,19 @@ import {
 import refreshAccountOwner from '../../sharedThunks/refreshAccountOwner';
 
 const initialState = {
+    accountExists: null,
     formLoader: false,
     sentMessage: false,
     requestPending: null,
     actionsPending: [],
     canEnableTwoFactor: null,
-    accountHelperWalletState: {
-        isLoaded: false
-    },
     twoFactor: null,
     ledgerKey: null,
-    accountsBalance: undefined
+    accountsBalance: undefined,
+    multisigRequest: null,
 };
 
 const recoverCodeReducer = handleActions({
-    [requestCode]: (state, { error, ready }) => {
-        if (ready && !error) {
-            return { ...state, sentMessage: true };
-        }
-        return state;
-    },
     [clearCode]: (state, { error, ready }) => {
         return { ...state, sentMessage: false };
     }
@@ -52,8 +43,8 @@ const recoverCodeReducer = handleActions({
 const accessKeys = handleActions({
     [getAccessKeys]: (state, { error, payload }) => ({
         ...state,
-        authorizedApps: payload && payload.filter(it => it.access_key && it.access_key.permission.FunctionCall && it.access_key.permission.FunctionCall.receiver_id !== state.accountId),
-        fullAccessKeys: payload && payload.filter(it => it.access_key && it.access_key.permission === 'FullAccess'),
+        authorizedApps: payload && payload.filter((it) => it.access_key && it.access_key.permission.FunctionCall && it.access_key.permission.FunctionCall.receiver_id !== state.accountId),
+        fullAccessKeys: payload && payload.filter((it) => it.access_key && it.access_key.permission === 'FullAccess'),
     })
 }, initialState);
 
@@ -71,20 +62,17 @@ const canEnableTwoFactor = handleActions({
     })
 }, initialState);
 
-const accountHelperWalletState = handleActions({
-    [getAccountHelperWalletState]: (state, { payload }) => ({
-        ...state,
-        accountHelperWalletState: {
-            ...payload,
-            isLoaded: payload ? true : false
-        }
-    })
-}, initialState);
-
 const twoFactor = handleActions({
     [get2faMethod]: (state, { payload }) => ({
         ...state,
         twoFactor: payload
+    })
+}, initialState);
+
+const multisigRequest = handleActions({
+    [getMultisigRequest]: (state, { payload }) => ({
+        ...state,
+        multisigRequest: payload,
     })
 }, initialState);
 
@@ -117,6 +105,7 @@ const account = handleActions({
         return {
             ...state,
             ...payload,
+            accountExists: true,
             balance: {
                 ...payload?.balance,
                 ...state.balance
@@ -126,10 +115,19 @@ const account = handleActions({
             loader: false
         };
     },
-    [resetAccounts]: (state) => ({
-        ...state,
-        loginResetAccounts: true
-    }),
+    [refreshAccountOwner.rejected]: (state, { error, payload }) => {
+        return {
+            ...state,
+            ...payload,
+            accountExists: error.message.includes('does not exist while viewing') ? false : null,
+            accountId: state.localStorage.accountFound ? state.localStorage.accountId : '',
+            balance: {
+                balanceAvailable: '0'
+            },
+            ledger: undefined,
+            loader: false
+        };
+    },
     [staking.updateAccount]: (state, { ready, error, payload }) =>
         (!ready || error)
             ? state
@@ -219,8 +217,8 @@ export default reduceReducers(
     account,
     url,
     canEnableTwoFactor,
-    accountHelperWalletState,
     twoFactor,
     twoFactorPrompt,
-    ledgerKey
+    ledgerKey,
+    multisigRequest,
 );

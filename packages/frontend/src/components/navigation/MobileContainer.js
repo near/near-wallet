@@ -2,12 +2,14 @@ import React, { Component } from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
+import { isWhitelabel } from '../../config/whitelabel';
 import languagesIcon from '../../images/icon-languages.svg';
 import AccountSelector from '../accounts/account_selector/AccountSelector';
 import LanguageToggle from '../common/LangSwitcher';
 import UserIcon from '../svg/UserIcon';
 import AccessAccountBtn from './AccessAccountBtn';
 import CreateAccountBtn from './CreateAccountBtn';
+import DeprecatedLogo from './DeprecatedLogo';
 import Logo from './Logo';
 import NavLinks from './NavLinks';
 import UserAccount from './UserAccount';
@@ -175,15 +177,18 @@ class MobileContainer extends Component {
             showNavLinks,
             flowLimitationMainMenu,
             flowLimitationSubMenu,
-            refreshBalance,
-            isInactiveAccount
+            refreshBalance
         } = this.props;
 
         return (
             <Container className={menuOpen ? 'show' : ''} id='mobile-menu'>
                 <Collapsed>
-                    <Logo link={!flowLimitationMainMenu}/>
-                    {showNavLinks &&
+                    {
+                        isWhitelabel() ?
+                            <Logo link={!flowLimitationMainMenu} mode='mobile' /> :
+                            <DeprecatedLogo link={!flowLimitationMainMenu}/>
+                    }
+                    {showNavLinks && (
                         <>
                             <UserAccount
                                 accountId={account.accountId || account.localStorage?.accountId}
@@ -193,18 +198,16 @@ class MobileContainer extends Component {
                             />
                             <UserIcon background={true} color='#A2A2A8' onClick={!flowLimitationSubMenu ? toggleMenu : null}/>
                         </>
-                    }
-                    {!showNavLinks &&
+                    )}
+                    {!showNavLinks && (
                         <Lang>
                             <LanguageToggle />
                         </Lang>
-                    }
+                    )}
                 </Collapsed>
-                {menuOpen &&
+                {menuOpen && (
                     <>
-                        {!isInactiveAccount &&
-                            <NavLinks />
-                        }
+                        <NavLinks />
                         <Lang className="mobile-lang">
                             <LanguageToggle />
                         </Lang>
@@ -219,12 +222,10 @@ class MobileContainer extends Component {
                                 showBalanceInUSD={true}
                             />
                             <AccessAccountBtn />
-                            {!isInactiveAccount &&
-                                <CreateAccountBtn />
-                            }
+                            <CreateAccountBtn />
                         </LowerSection>
                     </>
-                }
+                )}
             </Container>
         );
     }

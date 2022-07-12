@@ -16,9 +16,10 @@ export default ({
     onClickCancel,
     onClickApprove,
     submittingTransaction,
-    signGasFee
+    signGasFee,
+    isSignerValid,
+    isValidCallbackUrl
 }) => {
-
     const accountLocalStorageAccountId = useSelector(selectAccountLocalStorageAccountId);
     const accountUrlReferrer = useSelector(selectAccountUrlReferrer);
     const availableBalance = useSelector(selectAvailableBalance);
@@ -35,6 +36,8 @@ export default ({
             onClickMoreInformation={onClickMoreInformation}
             accountUrlReferrer={accountUrlReferrer}
             submittingTransaction={submittingTransaction}
+            isSignerValid={isSignerValid}
+            isValidCallbackUrl={isValidCallbackUrl}
         />
     );
 };

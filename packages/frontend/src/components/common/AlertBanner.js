@@ -15,6 +15,7 @@ const Container = styled.div`
         border-radius: 4px;
         margin-bottom: 30px;
         align-items: center;
+        word-break: break-word;
 
         @media (max-width: 450px) {
             margin: -25px -14px 30px -14px;
@@ -76,6 +77,7 @@ const Container = styled.div`
             font-style: italic;
             margin-left: 20px;
             font-size: 13px;
+            line-height: 150%;
         }
 
         button, a {
@@ -96,7 +98,7 @@ const Container = styled.div`
     }
 `;
 
-export default function AlertBanner({ title, button, linkTo, data, theme }) {
+export default function AlertBanner({ title, button, linkTo, data, theme, children }) {
     return (
         <Container className={classNames(['alert-banner', theme])}>
             {theme !== 'warning'
@@ -104,8 +106,8 @@ export default function AlertBanner({ title, button, linkTo, data, theme }) {
                 : <AlertTriangleIcon/>
             }      
             <div>
-                <SafeTranslate id={title} data={{ data: data }}/>
-                {linkTo ? 
+                {title && <SafeTranslate id={title} data={{ data: data }}/>}
+                {linkTo ? (
                     <>
                         {linkTo.includes('http') ? (
                             <a target='_blank' rel='noreferrer' className='link' href={linkTo}><Translate id={button} /></a>
@@ -113,8 +115,8 @@ export default function AlertBanner({ title, button, linkTo, data, theme }) {
                             <FormButton className='link' linkTo={linkTo}><Translate id={button} /></FormButton>
                         )}
                     </>
-                    : null
-                }
+                ) : null}
+                {children}
             </div>
         </Container>
     );

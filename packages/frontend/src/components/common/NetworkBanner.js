@@ -3,7 +3,7 @@ import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
 import { IS_MAINNET, NETWORK_ID, NODE_URL, SHOW_PRERELEASE_WARNING } from '../../config';
-import { Mixpanel } from "../../mixpanel/index";
+import { Mixpanel } from '../../mixpanel/index';
 import AlertTriangleIcon from '../svg/AlertTriangleIcon.js';
 import Tooltip from './Tooltip';
 
@@ -69,18 +69,19 @@ const NetworkBanner = ({ account }) => {
     useEffect(() => {
         Mixpanel.register({network_id: IS_MAINNET ? 'mainnet' : NETWORK_ID === 'default' ? 'testnet': NETWORK_ID});
         setBannerHeight();
-        window.addEventListener("resize", setBannerHeight);
+        window.addEventListener('resize', setBannerHeight);
         return () => {
-            window.removeEventListener("resize", setBannerHeight);
+            window.removeEventListener('resize', setBannerHeight);
         };
     }, [account]);
 
     const setBannerHeight = () => {
-        const bannerHeight = document.getElementById('top-banner') && document.getElementById('top-banner').offsetHeight;
+        const banner =  document.getElementById('top-banner');
+        const bannerHeight = banner ? banner.getBoundingClientRect().top + banner.offsetHeight : 0;
         const app = document.getElementById('app-container');
         const navContainer = document.getElementById('nav-container');
         navContainer.style.top = bannerHeight ? `${bannerHeight}px` : 0;
-        app.style.paddingTop = bannerHeight ? `${bannerHeight + 85}px` : '75px';
+        app.style.paddingTop = bannerHeight ? `${bannerHeight + 85}px` : '75px'; 
     };
 
     if (!IS_MAINNET) {
@@ -89,7 +90,7 @@ const NetworkBanner = ({ account }) => {
                 <Translate id='networkBanner.title' />
                 <span className='network-link'>
                     (<a href={`${NODE_URL}/status`} target='_blank' rel='noopener noreferrer'>
-                        {NODE_URL.replace(/^(?:https?:\/\/)?(?:www\.)?/i, "").split('/')[0]}
+                        {NODE_URL.replace(/^(?:https?:\/\/)?(?:www\.)?/i, '').split('/')[0]}
                     </a>)
                 </span>
                 <Tooltip translate='networkBanner.desc' modalOnly={true}/>

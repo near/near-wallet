@@ -120,11 +120,11 @@ class ReceiveMoney extends Component {
     }
 
     handleCopyAddress = () => {
-        Mixpanel.track("RECEIVE Copy account address");
+        Mixpanel.track('RECEIVE Copy account address');
         if (navigator.share && this.props.isMobile) {
             navigator.share({
                 url: this.props.account.accountId
-            }).catch(err => {
+            }).catch((err) => {
                 console.log(err.message);
             });
         } else {
@@ -192,9 +192,9 @@ class ReceiveMoney extends Component {
 }
 
 const mapStateToProps = (state) => ({
-   account: selectAccountSlice(state)
+    account: selectAccountSlice(state)
 });
 
 export const ReceiveMoneyWithRouter = connect(
-   mapStateToProps
+    mapStateToProps
 )(withRouter(ReceiveMoney));

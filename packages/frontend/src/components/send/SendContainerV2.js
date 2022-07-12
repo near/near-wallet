@@ -14,7 +14,7 @@ import Review from './components/views/Review';
 import SelectToken from './components/views/SelectToken';
 import Success from './components/views/Success';
 
-const { getFormattedTokenAmount, getParsedTokenAmount } = FungibleTokens;
+const { getFormattedTokenAmount, getParsedTokenAmount, getUniqueTokenIdentity } = FungibleTokens;
 
 export const VIEWS = {
     ENTER_AMOUNT: 'enterAmount',
@@ -24,7 +24,7 @@ export const VIEWS = {
     SUCCESS: 'success'
 };
 
-const StyledContainer = styled(Container)`
+export const StyledContainer = styled(Container)`
     &&& {
         .header {
             position: relative;
@@ -106,19 +106,21 @@ const SendContainerV2 = ({
     useEffect(() => {
         // fungibleTokens contains balance data for each token -- we need to update local state every time it changes
         // TODO: Add a `byIdentity` reducer for faster lookups than .find()
-        const targetToken = fungibleTokens.find(({ contractName, onChainFTMetadata }) => {
-            return (contractName && contractName === selectedToken.contractName) || onChainFTMetadata?.symbol === selectedToken.onChainFTMetadata?.symbol;
-        });
+        let targetToken = fungibleTokens.find(({ contractName }) => 
+            (contractName && contractName === selectedToken.contractName)
+        ) || fungibleTokens.find(({ onChainFTMetadata }) => 
+            onChainFTMetadata?.symbol === selectedToken.onChainFTMetadata?.symbol
+        );
 
         setSelectedToken(targetToken);
     }, [fungibleTokens]);
 
     useEffect(() => {
-        if(isMaxAmount === true) {
+        if (isMaxAmount === true) {
             setIsMaxAmount(false);
             setUserInputAmount('');
         }
-    }, [selectedToken]);
+    }, [getUniqueTokenIdentity(selectedToken)]);
 
     useEffect(() => window.scrollTo(0, 0), [activeView]);
 
@@ -145,108 +147,108 @@ const SendContainerV2 = ({
 
     const getCurrentViewComponent = (view) => {
         switch (view) {
-        case VIEWS.ENTER_AMOUNT:
-            return (
-                <EnterAmount
-                    amount={userInputAmount}
-                    rawAmount={getRawAmount()}
-                    onChangeAmount={(event) => {
-                        const { value: userInputAmount } = event.target;
+            case VIEWS.ENTER_AMOUNT:
+                return (
+                    <EnterAmount
+                        amount={userInputAmount}
+                        rawAmount={getRawAmount()}
+                        onChangeAmount={(event) => {
+                            const { value: userInputAmount } = event.target;
 
-                        setIsMaxAmount(false);
-                        setUserInputAmount(userInputAmount);
-                    }}
-                    onSetMaxAmount={() => {
-                        const formattedTokenAmount = getFormattedTokenAmount(selectedToken.balance, selectedToken.onChainFTMetadata?.symbol, selectedToken.onChainFTMetadata?.decimals);
+                            setIsMaxAmount(false);
+                            setUserInputAmount(userInputAmount);
+                        }}
+                        onSetMaxAmount={() => {
+                            const formattedTokenAmount = getFormattedTokenAmount(selectedToken.balance, selectedToken.onChainFTMetadata?.symbol, selectedToken.onChainFTMetadata?.decimals);
 
-                        if (!new BN(selectedToken.balance).isZero()) {
-                            Mixpanel.track("SEND Use max amount");
-                            setIsMaxAmount(true);
-                            setUserInputAmount(formattedTokenAmount.replace(/,/g, ''));
-                        }
-                    }}
-                    availableToSend={selectedToken.balance}
-                    continueAllowed={enterAmountIsComplete()}
-                    onContinue={() => {
-                        setActiveView(VIEWS.ENTER_RECEIVER);
-                    }}
-                    onClickCancel={() => redirectTo('/')}
-                    selectedToken={selectedToken}
-                    onClickSelectToken={() => setActiveView(VIEWS.SELECT_TOKEN)}
-                    error={userInputAmount && userInputAmount !== '0' && !enterAmountIsComplete()}
-                    isMobile={isMobile}
-                />
-            );
-        case VIEWS.SELECT_TOKEN:
-            return (
-                <SelectToken
-                    onClickGoBack={() => setActiveView(VIEWS.ENTER_AMOUNT)}
-                    onSelectToken={(token) => {
-                        setSelectedToken(token);
-                        setActiveView(VIEWS.ENTER_AMOUNT);
-                    }}
-                    fungibleTokens={fungibleTokens}
-                    isMobile={isMobile}
-                />
-            );
-        case VIEWS.ENTER_RECEIVER:
-            return (
-                <EnterReceiver
-                    onClickGoBack={() => setActiveView(VIEWS.ENTER_AMOUNT)}
-                    onClickCancel={() => redirectTo('/')}
-                    amount={getRawAmount()}
-                    selectedToken={selectedToken}
-                    handleChangeReceiverId={(receiverId) => setReceiverId(receiverId)}
-                    receiverId={receiverId}
-                    checkAccountAvailable={checkAccountAvailable}
-                    localAlert={localAlert}
-                    clearLocalAlert={clearLocalAlert}
-                    onClickContinue={() => {
-                        Mixpanel.track("SEND Click continue to review button");
-                        handleContinueToReview({
-                            token: selectedToken,
-                            rawAmount: getRawAmount(),
-                            receiverId
-                        });
-                    }}
-                    isMobile={isMobile}
-                />
-            );
-        case VIEWS.REVIEW:
-            return (
-                <Review
-                    onClickCancel={() => {
-                        redirectTo('/');
-                        Mixpanel.track("SEND Click cancel button");
-                    }}
-                    amount={getRawAmount()}
-                    selectedToken={selectedToken}
-                    onClickContinue={() => handleSendToken(isMaxAmount ? selectedToken.balance : getRawAmount(), receiverId, selectedToken.contractName)}
-                    senderId={accountId}
-                    receiverId={receiverId}
-                    estimatedFeesInNear={estimatedTotalFees}
-                    sendingToken={sendingToken}
-                    estimatedTotalInNear={estimatedTotalInNear}
-                    onClickAmount={() => setActiveView(VIEWS.ENTER_AMOUNT)}
-                    onClickReceiver={() => setActiveView(VIEWS.ENTER_RECEIVER)}
-                    onClickSelectedToken={() => setActiveView(VIEWS.SELECT_TOKEN)}
-                />
-            );
-        case VIEWS.SUCCESS:
-            return (
-                <Success
-                    amount={
+                            if (!new BN(selectedToken.balance).isZero()) {
+                                Mixpanel.track('SEND Use max amount');
+                                setIsMaxAmount(true);
+                                setUserInputAmount(formattedTokenAmount.replace(/,/g, ''));
+                            }
+                        }}
+                        availableToSend={selectedToken.balance}
+                        continueAllowed={enterAmountIsComplete()}
+                        onContinue={() => {
+                            setActiveView(VIEWS.ENTER_RECEIVER);
+                        }}
+                        onClickCancel={() => redirectTo('/')}
+                        selectedToken={selectedToken}
+                        onClickSelectToken={() => setActiveView(VIEWS.SELECT_TOKEN)}
+                        error={userInputAmount && userInputAmount !== '0' && !enterAmountIsComplete()}
+                        isMobile={isMobile}
+                    />
+                );
+            case VIEWS.SELECT_TOKEN:
+                return (
+                    <SelectToken
+                        onClickGoBack={() => setActiveView(VIEWS.ENTER_AMOUNT)}
+                        onSelectToken={(token) => {
+                            setSelectedToken(token);
+                            setActiveView(VIEWS.ENTER_AMOUNT);
+                        }}
+                        fungibleTokens={fungibleTokens}
+                        isMobile={isMobile}
+                    />
+                );
+            case VIEWS.ENTER_RECEIVER:
+                return (
+                    <EnterReceiver
+                        onClickGoBack={() => setActiveView(VIEWS.ENTER_AMOUNT)}
+                        onClickCancel={() => redirectTo('/')}
+                        amount={isMaxAmount ? selectedToken.balance : getRawAmount()}
+                        selectedToken={selectedToken}
+                        handleChangeReceiverId={(receiverId) => setReceiverId(receiverId)}
+                        receiverId={receiverId}
+                        checkAccountAvailable={checkAccountAvailable}
+                        localAlert={localAlert}
+                        clearLocalAlert={clearLocalAlert}
+                        onClickContinue={() => {
+                            Mixpanel.track('SEND Click continue to review button');
+                            handleContinueToReview({
+                                token: selectedToken,
+                                rawAmount: getRawAmount(),
+                                receiverId
+                            });
+                        }}
+                        isMobile={isMobile}
+                    />
+                );
+            case VIEWS.REVIEW:
+                return (
+                    <Review
+                        onClickCancel={() => {
+                            redirectTo('/');
+                            Mixpanel.track('SEND Click cancel button');
+                        }}
+                        amount={getRawAmount()}
+                        selectedToken={selectedToken}
+                        onClickContinue={() => handleSendToken(isMaxAmount ? selectedToken.balance : getRawAmount(), receiverId, selectedToken.contractName)}
+                        senderId={accountId}
+                        receiverId={receiverId}
+                        estimatedFeesInNear={estimatedTotalFees}
+                        sendingToken={sendingToken}
+                        estimatedTotalInNear={estimatedTotalInNear}
+                        onClickAmount={() => setActiveView(VIEWS.ENTER_AMOUNT)}
+                        onClickReceiver={() => setActiveView(VIEWS.ENTER_RECEIVER)}
+                        onClickSelectedToken={() => setActiveView(VIEWS.SELECT_TOKEN)}
+                    />
+                );
+            case VIEWS.SUCCESS:
+                return (
+                    <Success
+                        amount={
                         selectedToken.onChainFTMetadata?.symbol === 'NEAR'
-                        ? getNearAndFiatValue(getRawAmount(), nearTokenFiatValueUSD)
-                        : `${userInputAmount} ${selectedToken.onChainFTMetadata?.symbol}`
-                    }
-                    receiverId={receiverId}
-                    onClickContinue={() => redirectTo('/')}
-                    onClickGoToExplorer={() => window.open(`${explorerUrl}/transactions/${transactionHash}`, '_blank')}
-                />
-            );
-        default:
-            return null;
+                            ? getNearAndFiatValue(getRawAmount(), nearTokenFiatValueUSD)
+                            : `${userInputAmount} ${selectedToken.onChainFTMetadata?.symbol}`
+                        }
+                        receiverId={receiverId}
+                        onClickContinue={() => redirectTo('/')}
+                        onClickGoToExplorer={() => window.open(`${explorerUrl}/transactions/${transactionHash}`, '_blank')}
+                    />
+                );
+            default:
+                return null;
         }
     };
 

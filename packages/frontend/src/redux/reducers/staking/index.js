@@ -3,7 +3,7 @@ import { handleActions } from 'redux-actions';
 
 import { ACCOUNT_DEFAULTS } from '../../../utils/staking';
 import { clearAccountState } from '../../actions/account';
-import { staking } from '../../actions/staking';
+import { getValidatorFarmData, staking } from '../../actions/staking';
 
 // sample validator entry
 // const validator = {
@@ -21,7 +21,8 @@ const initialState = {
     allValidators: [],
     accounts: [],
     isLockup: false,
-    currentAccount: { ...ACCOUNT_DEFAULTS }
+    currentAccount: { ...ACCOUNT_DEFAULTS },
+    farmingValidators: {},
 };
 
 const stakingHandlers = handleActions({
@@ -69,13 +70,48 @@ const stakingHandlers = handleActions({
                 ...state,
                 lockup: payload
             }),
-    [staking.getValidators]: (state, { ready, error, payload }) => 
+    [staking.getValidators]: (state, { ready, error, payload }) =>
         (!ready || error)
             ? state
             : ({
                 ...state,
                 allValidators: payload
             }),
+    [getValidatorFarmData.pending]: (state, { meta: { arg: { validator } } }) => ({
+        ...state,
+        farmingValidators: {
+            ...state.farmingValidators,
+            [validator.accountId]: {
+                ...state.farmingValidators?.[validator.accountId],
+                loading: true
+            },
+        }
+    }),
+    [getValidatorFarmData.fulfilled]: (state, { payload }) => ({
+        ...state,
+        farmingValidators: {
+            ...state.farmingValidators,
+            [payload.validatorId]: {
+                ...payload.farmData,
+                farmRewards: {
+                    ...state.farmingValidators?.[payload.validatorId]
+                        ?.farmRewards,
+                    ...payload.farmData.farmRewards,
+                },
+                loading: false
+            },
+        }
+    }),
+    [getValidatorFarmData.rejected]: (state, { meta: { arg: { validator } } }) => ({
+        ...state,
+        farmingValidators: {
+            ...state.farmingValidators,
+            [validator.accountId]: {
+                ...state.farmingValidators?.[validator.accountId],
+                loading: false
+            },
+        }
+    }),
     [clearAccountState]: () => initialState
 }, initialState);
 

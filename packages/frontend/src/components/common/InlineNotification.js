@@ -59,11 +59,11 @@ class InlineNotification extends Component {
                 <Container className={`${theme}-theme`} onClick={onClick}>
                     <Icon className='theme-icon'/>
                     <Translate id={messageId} />
-                    {onClick && buttonMsgId &&
+                    {onClick && buttonMsgId && (
                         <Button role='button'>
                             <Translate id={buttonMsgId} />
                         </Button>
-                    }
+                    )}
                 </Container>
             );
         } else {

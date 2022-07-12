@@ -81,34 +81,52 @@ const Container = styled.div`
     }
 
     &.ledger-theme {
+        text-align: center;
         display: flex;
         flex-direction: column;
         align-items: center;
 
-        > svg {
-            margin: 20px 0;
+        h1 {
+            font-size: 20px;
+            line-height: 130%;
+            margin: 10px 28px;
+        }
+        h2 {
+            margin: 0 0;
         }
 
-        button {
+        > svg {
+            margin: 20px 0 60px -30px;
+        }
 
-            &.link {
+        &&& {
+            button {
                 margin-top: 25px;
-            }
-
-            &.link {
-                &.red {
-                    margin-top: 25px !important;
+    
+                &.blue {
+                    width: 100%;
+                }
+    
+                &.remove-all-keys {
+                    min-height: 56px;
+                    height: auto;
+                    line-height: 140%;
                 }
             }
+        }
 
-            &.blue {
-                width: 100% !important;
+        .buttons-bottom-buttons {
+            width: 100%;
+
+            > button {
+                display: block;
+                width: 100%;
+
             }
 
-            &.remove-all-keys {
-                min-height: 56px;
-                height: auto;
-                line-height: 140%;
+            .link {
+                display: block;
+                margin: 20px auto;
             }
         }
     }

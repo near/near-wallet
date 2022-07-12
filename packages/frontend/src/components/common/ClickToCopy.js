@@ -32,13 +32,22 @@ const Container = styled.div`
             opacity: 1;
         }
     }
+
+    &.compact {
+        .copy-success {
+            top: -18px;
+        }
+        &.show .copy-success {
+            top: -28px;
+        }
+    }
 `;
 
-const ClickToCopy = ({ className, children, copy, translate = 'default' }) => {
+const ClickToCopy = ({ className, children, compact, copy, onClick, successTranslation = 'default' }) => {
     const [show, setShow] = useState(false);
 
-    const handleCopy = () => {
-        Mixpanel.track(`Click to copy text`);
+    const handleCopy = (e) => {
+        Mixpanel.track('Click to copy text');
         setShow(true);
         setTimeout (() => setShow(false), 2000);
         const input = document.createElement('textarea');
@@ -47,16 +56,31 @@ const ClickToCopy = ({ className, children, copy, translate = 'default' }) => {
         input.select();
         const result = document.execCommand('copy');
         document.body.removeChild(input);
+        if (onClick) {
+            onClick(e);
+        }
         return result;
     };
 
     return (
-        <Container title={copy} className={classNames([className, show ? 'show' : ''])} onClick={handleCopy}>
-            {children}
-            <div className='copy-success'>
-                <Translate id={`copy.${translate}`}/>
-            </div>
-        </Container>
+        <Translate>
+            {({ translate }) => (
+                <Container
+                    title={translate('copy.title')}
+                    className={classNames([
+                        className,
+                        show ? 'show' : '',
+                        compact ? 'compact': ''
+                    ])}
+                    onClick={handleCopy}
+                >
+                    {children}
+                    <div className='copy-success'>
+                        <Translate id={`copy.${successTranslation}`}/>
+                    </div>
+                </Container>
+            )}
+        </Translate>
     );
 };
 

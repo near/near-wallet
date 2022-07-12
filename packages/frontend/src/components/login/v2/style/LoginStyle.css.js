@@ -53,6 +53,10 @@ export default styled.div`
             }
         }
 
+        .deposit-near-banner {
+            margin: 40px 0 -15px 0;
+        }
+
         .connect-with-application {
             margin: 0 auto;
         }

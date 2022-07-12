@@ -7,7 +7,7 @@ import { EXPLORER_URL } from '../../config';
 import { actions as transactionsActions } from '../../redux/slices/transactions';
 import { TRANSACTIONS_REFRESH_INTERVAL } from '../../utils/wallet';
 import FormButton from '../common/FormButton';
-import Modal from "../common/modal/Modal";
+import Modal from '../common/modal/Modal';
 import SafeTranslate from '../SafeTranslate';
 import { ActionTitle, ActionValue, ActionMessage, ActionStatus, translateData } from './ActivityBox';
 
@@ -133,11 +133,12 @@ const ActivityDetailModal = ({
         checkStatus,
         hash,
         signer_id,
-        block_timestamp
+        block_timestamp,
+        hash_with_index
     } = transaction;
 
     const dispatch = useDispatch();
-    const getTransactionStatusConditions = () => checkStatus && !document.hidden && dispatch(transactionsActions.fetchTransactionStatus({ hash, signer_id, accountId }));
+    const getTransactionStatusConditions = () => checkStatus && !document.hidden && dispatch(transactionsActions.fetchTransactionStatus({ hash, signer_id, accountId, hash_with_index }));
 
     useEffect(() => {
         getTransactionStatusConditions();
@@ -165,7 +166,7 @@ const ActivityDetailModal = ({
                     />
                 </h2>
                 <div className='row'>
-                    {['Transfer', 'Stake'].includes(actionKind) &&
+                    {['Transfer', 'Stake'].includes(actionKind) && (
                         <div className='item'>
                             <span>
                                 Amount
@@ -179,20 +180,20 @@ const ActivityDetailModal = ({
                                 />
                             </span>
                         </div>
-                    }
+                    )}
                     {actionKind !== 'DeleteKey' &&  (
                         actionKind === 'FunctionCall'
                             ? (
                                 <>
                                     <div className='item sent-to'>
                                         <SafeTranslate
-                                            id={`dashboardActivity.message.FunctionCallDetails.first`}
+                                            id={'dashboardActivity.message.FunctionCallDetails.first'}
                                             data={translateData(transaction, actionArgs, actionKind)}
                                         />
                                     </div>
                                     <div className='item sent-to'>
                                         <SafeTranslate
-                                            id={`dashboardActivity.message.FunctionCallDetails.second`}
+                                            id={'dashboardActivity.message.FunctionCallDetails.second'}
                                             data={translateData(transaction, actionArgs, actionKind)}
                                         />
                                     </div>
@@ -207,7 +208,7 @@ const ActivityDetailModal = ({
                                     />
                                 </div>
                             )
-                        )
+                    )
                     }
                     <div className='item'>
                         <span><Translate id='wallet.dateAndTime' /></span>

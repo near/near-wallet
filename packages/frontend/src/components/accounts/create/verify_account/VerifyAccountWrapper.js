@@ -1,5 +1,6 @@
 import { getLocation } from 'connected-react-router';
 import { PublicKey, KeyType } from 'near-api-js/lib/utils/key_pair';
+import { parse } from 'query-string';
 import React, { useState, useEffect, useCallback } from 'react';
 import { useGoogleReCaptcha } from 'react-google-recaptcha-v3-near';
 import { useDispatch, useSelector } from 'react-redux';
@@ -10,6 +11,7 @@ import {
     sendIdentityVerificationMethodCode
 } from '../../../../redux/actions/account';
 import { showCustomAlert } from '../../../../redux/actions/status';
+import { createIdentityFundedAccount } from '../../../../redux/slices/account/createAccountThunks';
 import {
     actions as ledgerActions
 } from '../../../../redux/slices/ledger';
@@ -27,10 +29,10 @@ export function VerifyAccountWrapper() {
     const dispatch = useDispatch();
 
     const location = useSelector(getLocation);
-    const URLParams = new URLSearchParams(location.search);
-    const accountId = URLParams.get('accountId');
-    const implicitAccountId = URLParams.get('implicitAccountId');
-    const recoveryMethod = URLParams.get('recoveryMethod');
+    const URLParams = parse(location.search);
+    const accountId = URLParams.accountId;
+    const implicitAccountId = URLParams.implicitAccountId;
+    const recoveryMethod = URLParams.recoveryMethod;
 
     const [activeVerificationOption, setActiveVerificationOption] = useState('email');
     const [showEnterVerificationCode, setShowEnterVerificationCode] = useState(false);
@@ -46,7 +48,7 @@ export function VerifyAccountWrapper() {
 
     useEffect(() => {
         const checkIfMoonPayIsAvailable = async () => {
-            await Mixpanel.withTracking("CA Check Moonpay available",
+            await Mixpanel.withTracking('CA Check Moonpay available',
                 async () => {
                     const moonpayAvailable = await isMoonpayAvailable();
                     if (moonpayAvailable) {
@@ -108,7 +110,7 @@ export function VerifyAccountWrapper() {
                     });
                     try {
                         setVerifyingAndCreatingAccount(true);
-                        await wallet.createIdentityFundedAccount({
+                        await dispatch(createIdentityFundedAccount({
                             accountId,
                             kind: activeVerificationOption,
                             publicKey,
@@ -117,7 +119,7 @@ export function VerifyAccountWrapper() {
                             recoveryMethod,
                             recaptchaToken,
                             recaptchaAction: 'verifiedIdentityCreateFundedAccount'
-                        });
+                        })).unwrap();
                     } catch (e) {
                         if (e.code === 'identityVerificationCodeInvalid') {
                             dispatch(showCustomAlert({
@@ -188,11 +190,11 @@ export function VerifyAccountWrapper() {
     return (
         <VerifyAccount
             activeVerificationOption={activeVerificationOption}
-            setActiveVerificationOption={option => setActiveVerificationOption(option)}
+            setActiveVerificationOption={(option) => setActiveVerificationOption(option)}
             verificationEmail={verificationEmail}
-            onChangeVerificationEmail={e => setVerificationEmail(e.target.value)}
+            onChangeVerificationEmail={(e) => setVerificationEmail(e.target.value)}
             verificationNumber={verificationNumber}
-            onChangeVerificationNumber={number => setVerificationNumber(number)}
+            onChangeVerificationNumber={(number) => setVerificationNumber(number)}
             handleContinue={async () => {
                 if (activeVerificationOption === 'email' || activeVerificationOption === 'phone') {
                     try {
@@ -236,7 +238,7 @@ export function VerifyAccountWrapper() {
                 }
 
                 if (activeVerificationOption === 'creditCard') {
-                    return dispatch(redirectTo(`/initial-deposit${location.search}&fundingMethod=creditCard`));
+                    return dispatch(redirectTo(`/initial-deposit${location.search ? location.search + '&' : '?'}fundingMethod=creditCard`));
                 }
 
                 if (activeVerificationOption === 'existingAccount') {

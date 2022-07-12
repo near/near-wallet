@@ -1,26 +1,37 @@
-import { useSelector } from "react-redux";
+import { useSelector } from 'react-redux';
 
-import { selectAccountId, selectBalance } from "../redux/slices/account";
-import { selectNearTokenFiatValueUSD } from "../redux/slices/tokenFiatValues";
-import { selectTokensWithMetadataForAccountId } from "../redux/slices/tokens";
+import { NEAR_TOKEN_ID, USN_CONTRACT } from '../config';
+import selectNEARAsTokenWithMetadata from '../redux/selectors/crossStateSelectors/selectNEARAsTokenWithMetadata';
+import { selectActiveAccountId } from '../redux/slices/activeAccount';
+import { selectTokensFiatValueUSD } from '../redux/slices/tokenFiatValues';
+import { selectTokensWithMetadataForAccountId } from '../redux/slices/tokens';
+import compare from '../utils/compare';
 
-export const useNEARAsTokenWithMetadata = () => {
-    const nearBalance = useSelector(selectBalance);
-    const nearTokenFiatValueUSD = useSelector(selectNearTokenFiatValueUSD);
 
-    return {
-        balance: nearBalance?.balanceAvailable || "",
-        onChainFTMetadata: { symbol: "NEAR" },
-        coingeckoMetadata: { usd: nearTokenFiatValueUSD },
-    };
-};
-
-export const useFungibleTokensIncludingNEAR = function () {
-    const nearAsToken = useNEARAsTokenWithMetadata();
-    const accountId = useSelector(selectAccountId);
+export const useFungibleTokensIncludingNEAR = function ({ showTokensWithZeroBalance = false, includeNearContractName = false } = {}) {
+    const NEARAsTokenWithMetadata = useSelector((state) => selectNEARAsTokenWithMetadata(state, {includeNearContractName}));
+    const accountId = useSelector(selectActiveAccountId);
     const fungibleTokens = useSelector((state) =>
-        selectTokensWithMetadataForAccountId(state, { accountId })
+        selectTokensWithMetadataForAccountId(state, { accountId, showTokensWithZeroBalance })
     );
 
-    return [nearAsToken, ...fungibleTokens];
+    const fungibleTokenPrices = useSelector(selectTokensFiatValueUSD);
+    const fungibleTokensWithPrices = fungibleTokens.map((ft) => {
+        let fiatValueMetadata;
+        if (ft.fiatValueMetadata?.usd) {
+            fiatValueMetadata = ft.fiatValueMetadata.usd;
+        } else {
+            fiatValueMetadata = fungibleTokenPrices[ft.onChainFTMetadata.symbol] ?
+                {...fungibleTokenPrices[ft.onChainFTMetadata.symbol]} :
+                {...fungibleTokenPrices[ft.contractName]};
+        }
+        return { ...ft, fiatValueMetadata };
+    });
+    const sortingOrder = {
+        [USN_CONTRACT]: 1,
+        [NEAR_TOKEN_ID]: 2
+    };
+    fungibleTokensWithPrices.sort(compare({key: 'contractName', sortingOrder}));
+    
+    return [NEARAsTokenWithMetadata, ...fungibleTokensWithPrices];
 };

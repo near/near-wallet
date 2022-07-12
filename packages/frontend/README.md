@@ -13,9 +13,13 @@ Getting started
 First ensure there is a value for the `NEAR_WALLET_ENV` environment variable. This can be set in `packages/frontend/.env` prior to bundling.
 The set of valid values for `NEAR_WALLET_ENV` are the JSON values defined in [environments.json](../../features/environments.json) (e.g. `NEAR_WALLET_ENV=development`).
 
-To build locally, run this command in the project directory:
+To build locally, run the following command in the `/frontend` directory. Substitute `testnet` for the desired environment
+as outlined above.
 
-`yarn && yarn start`
+`yarn && NEAR_WALLET_ENV=testnet yarn start`
+
+The environment must be set at bundle time rather than run time. If you wish to run the frontend package with a different
+environment, please run `yarn prebuild` first.
 
 Testing
 ===

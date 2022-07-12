@@ -67,6 +67,7 @@ export function CreateAccountLanding() {
             </FormButton>
             <FormButton
                 linkTo='/set-recovery-implicit-account'
+                trackingId='get started setup-recovery-implicit'
                 className='primary'
             >
                 <Translate id='button.getStarted' />

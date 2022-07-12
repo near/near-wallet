@@ -28,6 +28,7 @@ const StyledContainer = styled(Container)`
 export default ({
     onClickSecureMyAccount,
     email,
+    isInitializingRecoveryLink,
     setEmail
 }) => {
     const [recoveryOption, setRecoveryOption] = useState('phrase');
@@ -48,7 +49,7 @@ export default ({
 
     return (
         <StyledContainer className='small-centered border'>
-            <form onSubmit={e => {
+            <form onSubmit={(e) => {
                 onClickSecureMyAccount({
                     recoveryOption,
                     email
@@ -87,7 +88,7 @@ export default ({
                                 type='email'
                                 placeholder={translate('setupRecovery.emailPlaceholder')}
                                 value={email}
-                                onChange={e => {
+                                onChange={(e) => {
                                     setEmail(e.target.value);
                                     setEmailisInvalid(false);
                                 }}
@@ -100,7 +101,8 @@ export default ({
                 <FormButton
                     color='blue'
                     type='submit'
-                    disabled={!isValidInput()}
+                    disabled={!isValidInput() || isInitializingRecoveryLink}
+                    sending={isInitializingRecoveryLink}
                     trackingId='SR Click submit button'
                     data-test-id="submitSelectedRecoveryOption"
                 >

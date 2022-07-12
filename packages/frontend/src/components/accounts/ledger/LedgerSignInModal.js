@@ -7,7 +7,7 @@ import UserIconGrey from '../../../images/UserIconGrey';
 import { LEDGER_MODAL_STATUS } from '../../../redux/slices/ledger';
 import AccountFormAccountId from '../../accounts/AccountFormAccountId';
 import FormButton from '../../common/FormButton';
-import Modal from "../../common/modal/Modal";
+import Modal from '../../common/modal/Modal';
 import LedgerImage from '../../svg/LedgerImage';
 import ModalTheme from './ModalTheme';
 
@@ -47,7 +47,7 @@ const AnimateList = styled.div`
     overflow: hidden;
 
     & > div:first-of-type {
-        margin-top: ${props => `-${props.animate * 60}px`};
+        margin-top: ${(props) => `-${props.animate * 60}px`};
         transition: 1s;
     }
 
@@ -176,7 +176,7 @@ const LedgerSignInModal = ({
             <ModalTheme/>
 
             {signInWithLedgerStatus === LEDGER_MODAL_STATUS.CONFIRM_PUBLIC_KEY && (!txSigned
-                    ? (
+                ? (
                         <>
                             <h2>
                                 <Translate id={'confirmLedgerModal.header.confirm'}/>
@@ -186,15 +186,15 @@ const LedgerSignInModal = ({
                                 <H4><Translate id='signInLedger.modal.confirmPublicKey'/></H4>
                             </div>
                         </>        
-                    )
-                    : (
+                )
+                : (
                         <>
                             <h2 className={'dots'}>
                                 <Translate id={'confirmLedgerModal.header.processing'}/>
                             </h2>
                             <LedgerImage animate={false}/>
                         </>
-                    )
+                )
             )}
             {signInWithLedgerStatus === LEDGER_MODAL_STATUS.ENTER_ACCOUNTID && (
                 <>

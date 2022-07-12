@@ -50,8 +50,8 @@ export function SendContainerWrapper({ match }) {
     return (
         <SendContainerV2
             accountId={accountId}
-            redirectTo={path => dispatch(redirectTo(path))}
-            checkAccountAvailable={accountId => dispatch(checkAccountAvailable(accountId))}
+            redirectTo={(path) => dispatch(redirectTo(path))}
+            checkAccountAvailable={(accountId) => dispatch(checkAccountAvailable(accountId))}
             parseNearAmount={parseNearAmount}
             formatNearAmount={formatNearAmount}
             fungibleTokens={fungibleTokensList}
@@ -62,14 +62,14 @@ export function SendContainerWrapper({ match }) {
             showNetworkBanner={SHOW_NETWORK_BANNER}
             accountIdFromUrl={accountIdFromUrl}
             activeView={activeView}
-            setActiveView={view => setActiveView(view)}
+            setActiveView={(view) => setActiveView(view)}
             estimatedTotalFees={estimatedTotalFees}
             estimatedTotalInNear={estimatedTotalInNear}
             nearTokenFiatValueUSD={nearTokenFiatValueUSD}
             handleSendToken={async (rawAmount, receiverId, contractName) => {
                 setSendingToken(true);
 
-                await Mixpanel.withTracking("SEND token",
+                await Mixpanel.withTracking('SEND token',
                     async () => {
                         const result = await fungibleTokensService.transfer({
                             accountId,

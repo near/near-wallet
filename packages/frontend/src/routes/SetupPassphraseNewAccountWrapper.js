@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 
 import SetupPassphraseNewAccount from '../components/accounts/recovery_setup/new_account/SetupPassphraseNewAccount';
 import { redirectTo } from '../redux/actions/account';
-import { wallet } from '../utils/wallet';
+import { initiateSetupForZeroBalanceAccountPhrase } from '../redux/slices/account/createAccountThunks';
 
 export function SetupPassphraseNewAccountWrapper() {
     const dispatch = useDispatch();
@@ -13,8 +13,11 @@ export function SetupPassphraseNewAccountWrapper() {
                 implicitAccountId,
                 recoveryKeyPair
             }) => {
-                await wallet.saveImplicitAccountKeyPair({ implicitAccountId, recoveryKeyPair });
-                dispatch(redirectTo(`/create-implicit-account?implicitAccountId=${implicitAccountId}&recoveryMethod=phrase`));
+                await dispatch(initiateSetupForZeroBalanceAccountPhrase({
+                    implicitAccountId,
+                    recoveryKeyPair
+                }));
+                dispatch(redirectTo('/'));
             }}
         />
     );

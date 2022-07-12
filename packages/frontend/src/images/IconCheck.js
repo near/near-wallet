@@ -8,10 +8,10 @@ const CustomSvg = styled.svg`
 
         polyline {
             fill: none;
-            stroke: ${props => props.color};
+            stroke: ${(props) => props.color};
             stroke-linecap: round;
             stroke-linejoin: round;
-            stroke-width: ${props => props.stroke || '2px'};
+            stroke-width: ${(props) => props.stroke || '2px'};
         }
     }
 `;

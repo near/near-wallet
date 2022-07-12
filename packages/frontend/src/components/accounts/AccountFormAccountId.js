@@ -79,7 +79,9 @@ class AccountFormAccountId extends Component {
         const extraSpace = isSafari ? 21.5 : 22;
         this.suffix.current.style.left = width + extraSpace + 'px';
         this.suffix.current.style.visibility = 'visible';
-        if (userValue.length === 0) this.suffix.current.style.visibility = 'hidden';
+        if (userValue.length === 0) {
+            this.suffix.current.style.visibility = 'hidden';
+        }
     }
 
     getTextWidth = (text, font) => {
@@ -145,7 +147,7 @@ class AccountFormAccountId extends Component {
 
     handleCheckAvailability = (accountId, type) => {
         if (type === 'create') {
-            Mixpanel.track("CA Check account availability");
+            Mixpanel.track('CA Check account availability');
         }
         if (!accountId) {
             return false;
@@ -236,8 +238,8 @@ class AccountFormAccountId extends Component {
                                 name='accountId'
                                 data-test-id="createAccount.accountIdInput"
                                 value={accountId}
-                                onInput={e => type === 'create' && this.updateSuffix(e.target.value.trim())}
-                                onChange={e => this.handleChangeAccountId({ userValue: e.target.value.trim(), el: e.target })}
+                                onInput={(e) => type === 'create' && this.updateSuffix(e.target.value.trim())}
+                                onChange={(e) => this.handleChangeAccountId({ userValue: e.target.value.trim(), el: e.target })}
                                 placeholder={type === 'create' ? translate('createAccount.accountIdInput.placeholder', { data: ACCOUNT_ID_SUFFIX}) : translate('input.accountId.placeholder')}
                                 required
                                 autoComplete='off'

@@ -12,9 +12,6 @@ const StyledContainer = styled.div`
         .accounts {
             max-height: 280px;
             overflow-y: auto;
-            ::-webkit-scrollbar {
-                display: none;
-            }
         }
 
         > button {
@@ -89,7 +86,7 @@ export default ({
                     showBalanceInUSD={showBalanceInUSD}
                     onToggleShowBalance={() => getAccountBalance(signedInAccountId, true)}
                 />
-                {availableAccounts.filter(a => a !== signedInAccountId).map((accountId) =>
+                {availableAccounts.filter((a) => a !== signedInAccountId).map((accountId) => (
                     <Account
                         key={accountId}
                         accountId={accountId}
@@ -101,9 +98,9 @@ export default ({
                         onToggleShowBalance={() => getAccountBalance(accountId, true)}
                         showBalanceInUSD={showBalanceInUSD}
                     />
-                )}
+                ))}
             </div>
-            {onSignInToDifferentAccount &&
+            {onSignInToDifferentAccount && (
                 <FormButton
                     onClick={onSignInToDifferentAccount}
                     color='gray-blue'
@@ -111,7 +108,7 @@ export default ({
                     <ImportIcon />
                     <Translate id='accountSelector.signInButton' />
                 </FormButton>
-            }
+            )}
         </StyledContainer >
     );
 };

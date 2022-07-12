@@ -55,17 +55,17 @@ const ImportOnMobileDeviceQRCode = ({ mobileSharingLink }) => {
                     bgColor="#FFFFFF"
                     fgColor="#24272a"
                     level="Q"
-                    style={{ width: "100%", height: '100%' }}
+                    style={{ width: '100%', height: '100%' }}
                     renderAs='svg'
                     value={`${mobileSharingLink}`}
                 />
             </div>
-            {!showCode &&
+            {!showCode && (
                 <FormButton onClick={() => setShowCode(true)}>
                     <EyeIcon/>
                     <Translate id='mobileDeviceAccess.showCode.modal.reveal'/>
                 </FormButton>
-            }
+            )}
         </StyledContainer>
     );
 };

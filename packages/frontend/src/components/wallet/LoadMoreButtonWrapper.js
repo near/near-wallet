@@ -15,20 +15,20 @@ const { fetchOwnedNFTsForContract } = nftActions;
 
 const LoadMoreButtonWrapper = ({ contractName }) => {
     const dispatch = useDispatch();
-    const accountId = useSelector(state => selectAccountId(state));
+    const accountId = useSelector((state) => selectAccountId(state));
     const contractMetadata = useSelector((state) => selectOneContractMetadata(state, { contractName }));
 
-    const fetchingNFTs = useSelector(state => selectLoadingTokensForAccountForContract(state, {
+    const fetchingNFTs = useSelector((state) => selectLoadingTokensForAccountForContract(state, {
         accountId,
         contractName
     }));
 
-    const hasFetchedAllTokensForContract = useSelector(state => selectHasFetchedAllTokensForAccountForContract(state, {
+    const hasFetchedAllTokensForContract = useSelector((state) => selectHasFetchedAllTokensForAccountForContract(state, {
         accountId,
         contractName
     }));
 
-    return !hasFetchedAllTokensForContract &&
+    return !hasFetchedAllTokensForContract && (
         <FormButton
             onClick={() => dispatch(fetchOwnedNFTsForContract({ accountId, contractName, contractMetadata }))}
             sending={fetchingNFTs === true}
@@ -36,7 +36,8 @@ const LoadMoreButtonWrapper = ({ contractName }) => {
             sendingString='button.loading'
         >
             <Translate id='NFTs.loadMore'/>
-        </FormButton>;
+        </FormButton>
+    );
 };
 
 export default LoadMoreButtonWrapper;

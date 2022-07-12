@@ -1,7 +1,7 @@
-const envValIsSet = (envVal) => typeof envVal === "string";
+const envValIsSet = (envVal) => typeof envVal === 'string';
 
 const parseBooleanFromShell = (envVal) =>
-    envValIsSet(envVal) ? envVal === "yes" || envVal === "true" : undefined;
+    envValIsSet(envVal) ? envVal === 'yes' || envVal === 'true' : undefined;
 
 const parseObjectFromShell = (envVal) => {
     try {
@@ -12,11 +12,17 @@ const parseObjectFromShell = (envVal) => {
 };
 
 const parseCommaSeperatedStringAsArrayFromShell = (envVal) =>
-    envValIsSet(envVal) ? envVal.split(",") : undefined;
+    envValIsSet(envVal) ? envVal.split(',') : undefined;
+
+/* Returns a Date object from a unix timestamp string */
+const parseDateFromShell = (envVal) => {
+    return envValIsSet(envVal) ? new Date(envVal)  : undefined;
+};
 
 module.exports = {
     envValIsSet,
     parseBooleanFromShell,
     parseObjectFromShell,
     parseCommaSeperatedStringAsArrayFromShell,
+    parseDateFromShell
 };

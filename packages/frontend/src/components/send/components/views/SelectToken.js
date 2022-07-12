@@ -3,6 +3,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
+import getCurrentLanguage from '../../../../hooks/getCurrentLanguage';
 import BackArrowButton from '../../../common/BackArrowButton';
 import Tokens from '../../../wallet/Tokens';
 
@@ -37,7 +38,9 @@ const StyledContainer = styled.div`
 
 function filterTokens(tokens, searchSubstring) {
     return tokens.filter((token) => {
-        if (!searchSubstring) { return true; }
+        if (!searchSubstring) {
+            return true; 
+        }
 
         return token.onChainFTMetadata?.symbol
             .toLowerCase()
@@ -48,6 +51,7 @@ function filterTokens(tokens, searchSubstring) {
 const SelectToken = ({ onClickGoBack, fungibleTokens, onSelectToken, isMobile }) => {
     const [searchValue, setSearchValue] = useState('');
     const [filteredFungibleTokens, setFilteredFungibleTokens] = useState(() => filterTokens(fungibleTokens));
+    const currentLanguage = getCurrentLanguage();
 
     const throttledSetFilteredTokens = useCallback(throttle(
         (tokens, searchSubstring) => {
@@ -82,7 +86,7 @@ const SelectToken = ({ onClickGoBack, fungibleTokens, onSelectToken, isMobile })
                 <span><Translate id='sendV2.selectAsset.assetListNameTitle'/></span>
                 <span><Translate id='sendV2.selectAsset.asssetListBalanceTitle'/></span>
             </div>
-            <Tokens tokens={filteredFungibleTokens} showTokenContract={false} onClick={onSelectToken}/>
+            <Tokens tokens={filteredFungibleTokens} onClick={onSelectToken} currentLanguage={currentLanguage}/>
         </StyledContainer>
     );
 };

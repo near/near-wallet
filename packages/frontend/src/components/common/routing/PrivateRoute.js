@@ -22,11 +22,13 @@ const PrivateRoute = ({
             {...rest}
             render={(props) => {
                 if (!localStorage.getItem(KEY_ACTIVE_ACCOUNT_ID)) {
-                    return <Redirect
-                        to={{
-                            pathname: '/',
-                        }}
-                    />;
+                    return (
+                        <Redirect
+                            to={{
+                                pathname: '/',
+                            }}
+                        />
+                    );
                 }
 
                 // <Route component> takes precedence over <Route render></Route>

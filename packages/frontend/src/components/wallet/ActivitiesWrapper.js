@@ -5,8 +5,12 @@ import styled from 'styled-components';
 
 import { EXPLORER_URL } from '../../config';
 import { selectAccountId } from '../../redux/slices/account';
-import { selectOneTransactionByIdentity, selectTransactionsByAccountId, selectTransactionsLoading } from '../../redux/slices/transactions';
-import { actions as transactionsActions } from '../../redux/slices/transactions';
+import {
+    actions as transactionsActions,
+    selectTransactionsOneByIdentity,
+    selectTransactionsByAccountId,
+    selectTransactionsLoading
+} from '../../redux/slices/transactions';
 import classNames from '../../utils/classNames';
 import FormButton from '../common/FormButton';
 import ActivityBox from './ActivityBox';
@@ -14,6 +18,11 @@ import ActivityDetailModal from './ActivityDetailModal';
 
 const StyledContainer = styled.div`
     width: 100%;
+
+    .no-activity {
+        color: #B4B4B4;
+        line-height: 150%;
+    }
 
     @media (min-width: 992px) {
         border: 2px solid #F0F0F0;
@@ -89,11 +98,10 @@ const ActivitiesWrapper = () => {
     const dispatch = useDispatch();
 
     const [transactionHash, setTransactionHash] = useState();
-
-    const accountId = useSelector(state => selectAccountId(state));
-    const transactions = useSelector(state => selectTransactionsByAccountId(state, { accountId }));
-    const transaction = useSelector(state => selectOneTransactionByIdentity(state, { accountId, hash: transactionHash }));
-    const activityLoader = useSelector(state => selectTransactionsLoading(state, { accountId }));
+    const accountId = useSelector(selectAccountId);
+    const transactions = useSelector((state) => selectTransactionsByAccountId(state, { accountId }));
+    const transaction = useSelector((state) => selectTransactionsOneByIdentity(state, { accountId, id: transactionHash }));
+    const activityLoader = useSelector((state) => selectTransactionsLoading(state, { accountId }));
 
     useEffect(() => {
         if (accountId) {
@@ -106,7 +114,7 @@ const ActivitiesWrapper = () => {
             <h2 className={classNames({'dots': activityLoader})}><Translate id='dashboard.activity' /></h2>
             {transactions.map((transaction, i) => (
                 <ActivityBox
-                    key={`${transaction.hash_with_index}-${transaction.kind}`}
+                    key={`${transaction.hash_with_index}-${transaction.block_hash}-${transaction.kind}`}
                     transaction={transaction}
                     actionArgs={transaction.args}
                     actionKind={transaction.kind}
@@ -115,14 +123,17 @@ const ActivitiesWrapper = () => {
                     setTransactionHash={setTransactionHash}
                 />
             ))}
-            {transactionHash && 
+            {transactions?.length === 0 && !activityLoader && (
+                <div className='no-activity'><Translate id='dashboard.noActivity' /></div>
+            )}
+            {transactionHash && (
                 <ActivityDetailModal 
                     open={!!transactionHash}
                     onClose={() => setTransactionHash()}
                     accountId={accountId}
                     transaction={transaction}
                 />
-            }
+            )}
             <FormButton
                 color='gray-blue'
                 linkTo={`${EXPLORER_URL}/accounts/${accountId}`}

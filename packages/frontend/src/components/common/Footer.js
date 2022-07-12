@@ -2,9 +2,10 @@ import React from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
-import LogoFooterImage from '../../images/near.svg';
+import { isWhitelabel } from '../../config/whitelabel';
+import NearLogo from '../../images/near.svg';
 import { Mixpanel } from '../../mixpanel/index';
-
+import MyNearWalletLogo from '../svg/MyNearWalletLogo';
 
 const StyledContainer = styled.div`
     position: absolute;
@@ -79,11 +80,23 @@ const StyledContainer = styled.div`
     }
 `;
 
+const StyledLogo = styled.div`
+    svg {
+        width: 218px;    
+    }
+`;
+
 const Footer = () => {
     return (
         <StyledContainer className='wallet-footer'>
             <div className='left'>
-                <img src={LogoFooterImage} alt='NEAR' />
+                {
+                    isWhitelabel() ? (
+                        <StyledLogo>
+                            <MyNearWalletLogo mode='footer' />
+                        </StyledLogo>
+                    ) : <img src={NearLogo} alt='NEAR' />
+                }
                 <div>
                     &copy; {new Date().getFullYear()} <Translate id='footer.copyrights' />
                     <div>
@@ -91,15 +104,15 @@ const Footer = () => {
                             href='/terms'
                             rel='noopener noreferrer'
                             target='_blank'
-                            onClick={() => Mixpanel.track("Footer Click terms of service")}
+                            onClick={() => Mixpanel.track('Footer Click terms of service')}
                         >
                             <Translate id='footer.termsOfService' />
                         </a>
                         <span className='color-brown-grey'>|</span>
-                        <a href='https://near.org/privacy/'
+                        <a href='/privacy'
                             rel='noopener noreferrer'
                             target='_blank'
-                            onClick={() => Mixpanel.track("Footer Click privacy policy")}
+                            onClick={() => Mixpanel.track('Footer Click privacy policy')}
                         >
                             <Translate id='footer.privacyPolicy' />
                         </a>
@@ -112,7 +125,7 @@ const Footer = () => {
                     href='https://near.org'
                     rel='noopener noreferrer'
                     target='_blank'
-                    onClick={() => Mixpanel.track("Footer Click Learn More")}
+                    onClick={() => Mixpanel.track('Footer Click Learn More')}
                 >
                     <Translate id='footer.learnMore' />
                 </a>
@@ -120,10 +133,10 @@ const Footer = () => {
             <div className='right'>
                 <Translate id='footer.needHelp' /><br />
                 <a
-                    href='https://near.chat'
+                    href={isWhitelabel() ? 'https://discord.com/invite/Vj74PpQYsh' : 'https://near.chat'}
                     rel='noopener noreferrer'
                     target='_blank'
-                    onClick={() => Mixpanel.track("Footer Click Join Community")}
+                    onClick={() => Mixpanel.track('Footer Click Join Community')}
                 >
                     <Translate id='footer.contactSupport' />
                 </a>

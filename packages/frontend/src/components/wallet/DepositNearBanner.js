@@ -7,26 +7,10 @@ import styled from 'styled-components';
 import NearLogoAndPlusIcon from '../svg/NearLogoAndPlusIcon';
 
 const StyledContainer = styled.div`
-    width: 100%;
-
     @media (max-width: 991px) {
         margin-bottom: 40px;
     }
-
-    > div {
-        border-top: 1px solid #F0F0F1;
-        padding: 20px;
-
-        @media (max-width: 991px) {
-            margin: 0 -14px;
-            padding: 20px 0;
-            border-bottom: 15px solid #F0F0F1;
-        }
-
-        @media (max-width: 767px) {
-            padding: 20px 14px 20px 14px;
-        }
-        
+    > div {        
         > div {
             background-color: #F0F0F1;
             border-radius: 8px;
@@ -42,15 +26,16 @@ const StyledContainer = styled.div`
             > div {
                 margin-left: 15px;
         
-                .title {
+                .banner-title {
                     color: #272729;
                     font-weight: 500;
                     font-size: 16px;
                 }
         
-                .desc {
+                .banner-desc {
                     margin-top: 5px;
                     color: #72727A;
+                    line-height: 1.5;
                 }
             }
     
@@ -66,13 +51,13 @@ export default () => {
     const dispatch = useDispatch();
 
     return (
-        <StyledContainer>
+        <StyledContainer className='deposit-near-banner'>
             <div>
                 <div onClick={() => dispatch(push({ pathname: '/receive-money' }))} >
                     <NearLogoAndPlusIcon />
                     <div>
-                        <div className='title'><Translate id='wallet.depositNear.title' /></div>
-                        <div className='desc'><Translate id='wallet.depositNear.desc' /></div>
+                        <div className='banner-title'><Translate id='wallet.depositNear.title' /></div>
+                        <div className='banner-desc'><Translate id='wallet.depositNear.desc' /></div>
                     </div>
                 </div>
             </div>

@@ -73,6 +73,7 @@ const alertReducer = (state, { error, ready, payload, meta, type }) => {
                 errorMessage: (error && payload?.message) || (type === 'SHOW_CUSTOM_ALERT' && payload.errorMessage) || undefined,
                 data: {
                     ...meta?.data,
+                    ...payload?.data,
                     ...payload
                 }
             }
@@ -122,7 +123,7 @@ const alertReducer = (state, { error, ready, payload, meta, type }) => {
 };
 
 const clearReducer = handleActions({
-    [clearLocalAlert]: state => Object.keys(state)
+    [clearLocalAlert]: (state) => Object.keys(state)
         .reduce((obj, key) => (
             key !== 'localAlert' 
                 ? (obj[key] = state[key], obj) 
@@ -160,4 +161,4 @@ export default reduceReducers(
     mainLoader
 );
 
-export const selectActionStatus = state => state.status.actionStatus;
+export const selectActionStatus = (state) => state.status.actionStatus;

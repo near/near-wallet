@@ -1,49 +1,48 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Translate } from 'react-localize-redux';
-import { useSelector, useDispatch } from 'react-redux';
 import { Textfit } from 'react-textfit';
 import styled from 'styled-components';
 
-import { CREATE_IMPLICIT_ACCOUNT } from '../../../../../features';
-import { useFungibleTokensIncludingNEAR } from '../../hooks/fungibleTokensIncludingNEAR';
-import { Mixpanel } from "../../mixpanel/index";
-import { selectAccountId, selectBalance } from '../../redux/slices/account';
-import { selectAvailableAccounts } from '../../redux/slices/availableAccounts';
-import { selectCreateFromImplicitSuccess, selectCreateCustomName, actions as createFromImplicitActions } from '../../redux/slices/createFromImplicit';
-import { selectLinkdropAmount, actions as linkdropActions } from '../../redux/slices/linkdrop';
-import { selectTokensWithMetadataForAccountId, actions as nftActions } from '../../redux/slices/nft';
-import { actions as tokensActions, selectTokensLoading } from '../../redux/slices/tokens';
+import {
+    CREATE_USN_CONTRACT,
+} from '../../../../../features';
+import getCurrentLanguage from '../../hooks/getCurrentLanguage';
 import classNames from '../../utils/classNames';
 import { SHOW_NETWORK_BANNER } from '../../utils/wallet';
-import Balance from '../common/balance/Balance';
+import { getTotalBalanceInFiat } from '../common/balance/helpers';
 import FormButton from '../common/FormButton';
 import Container from '../common/styled/Container.css';
 import Tooltip from '../common/Tooltip';
 import DownArrowIcon from '../svg/DownArrowIcon';
 import SendIcon from '../svg/SendIcon';
 import TopUpIcon from '../svg/TopUpIcon';
+import WrapIcon from '../svg/WrapIcon';
 import ActivitiesWrapper from './ActivitiesWrapper';
+import AllTokensTotalBalanceUSD from './AllTokensTotalBalanceUSD';
 import CreateCustomNameModal from './CreateCustomNameModal';
 import CreateFromImplicitSuccessModal from './CreateFromImplicitSuccessModal';
 import DepositNearBanner from './DepositNearBanner';
 import ExploreApps from './ExploreApps';
 import LinkDropSuccessModal from './LinkDropSuccessModal';
 import NFTs from './NFTs';
-import ReleaseNotesModal from './ReleaseNotesModal';
 import Sidebar from './Sidebar';
 import Tokens from './Tokens';
-
-const { fetchNFTs } = nftActions;
-const { fetchTokens } = tokensActions;
-const { setLinkdropAmount } = linkdropActions;
-const { setCreateFromImplicitSuccess, setCreateCustomName } = createFromImplicitActions;
+import { ZeroBalanceAccountImportedModal } from './ZeroBalanceAccountImportedModal';
 
 const StyledContainer = styled(Container)`
     @media (max-width: 991px) {
         margin: -5px auto 0 auto;
-
         &.showing-banner {
             margin-top: -15px;
+        }
+    }
+    
+    .coingecko {
+        color: #B4B4B4;
+        align-self: end;
+        margin: 20px;
+        @media (max-width: 991px) {
+            margin: -25px 0 25px 0;
         }
     }
 
@@ -52,14 +51,14 @@ const StyledContainer = styled(Container)`
         margin-bottom: 10px;
 
         &.balance {
-            color: #A2A2A8;
+            color: #a2a2a8;
             margin-top: 0;
             display: flex;
             align-items: center;
         }
 
         &.tokens {
-            color: #72727A;
+            color: #72727a;
             margin-top: 20px;
             margin-bottom: 15px;
             display: flex;
@@ -75,27 +74,28 @@ const StyledContainer = styled(Container)`
             .dots {
                 :after {
                     position: absolute;
-                    content: '.';
+                    content: ".";
                     animation: link 1s steps(5, end) infinite;
 
                     @keyframes link {
-                        0%, 20% {
+                        0%,
+                        20% {
                             color: rgba(0, 0, 0, 0);
-                            text-shadow: .3em 0 0 rgba(0, 0, 0, 0),
-                            .6em 0 0 rgba(0, 0, 0, 0);
+                            text-shadow: 0.3em 0 0 rgba(0, 0, 0, 0),
+                                0.6em 0 0 rgba(0, 0, 0, 0);
                         }
                         40% {
                             color: #24272a;
-                            text-shadow: .3em 0 0 rgba(0, 0, 0, 0),
-                            .6em 0 0 rgba(0, 0, 0, 0);
+                            text-shadow: 0.3em 0 0 rgba(0, 0, 0, 0),
+                                0.6em 0 0 rgba(0, 0, 0, 0);
                         }
                         60% {
-                            text-shadow: .3em 0 0 #24272a,
-                            .6em 0 0 rgba(0, 0, 0, 0);
+                            text-shadow: 0.3em 0 0 #24272a,
+                                0.6em 0 0 rgba(0, 0, 0, 0);
                         }
-                        80%, 100% {
-                            text-shadow: .3em 0 0 #24272a,
-                            .6em 0 0 #24272a;
+                        80%,
+                        100% {
+                            text-shadow: 0.3em 0 0 #24272a, 0.6em 0 0 #24272a;
                         }
                     }
                 }
@@ -121,7 +121,7 @@ const StyledContainer = styled(Container)`
         }
 
         @media (min-width: 992px) {
-            border: 2px solid #F0F0F0;
+            border: 2px solid #f0f0f0;
             border-radius: 8px;
             height: max-content;
         }
@@ -132,6 +132,15 @@ const StyledContainer = styled(Container)`
             align-items: center;
             margin: 30px 0;
             width: 100%;
+            flex-wrap: wrap;
+            margin: 30px -14px;
+            width: calc(100% + 28px);
+
+            @media (min-width: 992px) {
+                margin-left: 0;
+                margin-right: 0;
+                width: 100%;
+            }
 
             button {
                 display: flex;
@@ -143,14 +152,14 @@ const StyledContainer = styled(Container)`
                 background-color: transparent !important;
                 border: 0;
                 padding: 0;
-                color: #3F4045;
+                color: #3f4045;
                 font-weight: 400;
                 font-size: 14px;
-                margin: 20px;
+                margin: 20px 18px;
                 border-radius: 0;
 
                 :hover {
-                    color: #3F4045;
+                    color: #3f4045;
 
                     > div {
                         background-color: black;
@@ -202,10 +211,10 @@ const StyledContainer = styled(Container)`
                 font-size: 16px;
 
                 &.inactive {
-                    background-color: #FAFAFA;
-                    border-bottom: 1px solid #F0F0F1;
+                    background-color: #fafafa;
+                    border-bottom: 1px solid #f0f0f1;
                     cursor: pointer;
-                    color: #A2A2A8;
+                    color: #a2a2a8;
                     transition: color 100ms;
 
                     :hover {
@@ -226,7 +235,7 @@ const StyledContainer = styled(Container)`
                 }
 
                 &.inactive {
-                    border-right: 1px solid #F0F0F1;
+                    border-right: 1px solid #f0f0f1;
                 }
             }
 
@@ -242,7 +251,7 @@ const StyledContainer = styled(Container)`
                 }
 
                 &.inactive {
-                    border-left: 1px solid #F0F0F1;
+                    border-left: 1px solid #f0f0f1;
                 }
             }
         }
@@ -263,171 +272,229 @@ const StyledContainer = styled(Container)`
         text-align: left;
         color: #24272a;
     }
+
+    .deposit-banner-wrapper {
+        width: 100%;
+        .deposit-near-banner {
+            > div {
+                border-top: 1px solid #F0F0F1;
+                padding: 20px;
+        
+                @media (max-width: 991px) {
+                    margin: 0 -14px;
+                    padding: 20px 0;
+                    border-bottom: 15px solid #F0F0F1;
+                }
+        
+                @media (max-width: 767px) {
+                    padding: 20px 14px 20px 14px;
+                }
+            }
+        }
+    }
 `;
 
-export function Wallet({ tab, setTab }) {
-    const accountId = useSelector(state => selectAccountId(state));
-    const balance = useSelector(state => selectBalance(state));
-    const dispatch = useDispatch();
-    const linkdropAmount = useSelector(selectLinkdropAmount);
-    const createFromImplicitSuccess = useSelector(selectCreateFromImplicitSuccess);
-    const createCustomName = useSelector(selectCreateCustomName);
-    const fungibleTokensList = useFungibleTokensIncludingNEAR();
-    const tokensLoader = useSelector((state) => selectTokensLoading(state, { accountId })) || !balance?.total;
-    const availableAccounts = useSelector(selectAvailableAccounts);
-
-    useEffect(() => {
-        if (accountId) {
-            let id = Mixpanel.get_distinct_id();
-            Mixpanel.identify(id);
-            Mixpanel.people.set({ relogin_date: new Date().toString() });
-        }
-    }, [accountId]);
-
-    const sortedNFTs = useSelector((state) => selectTokensWithMetadataForAccountId(state, { accountId }));
-
-    useEffect(() => {
-        if (!accountId) {
-            return;
-        }
-
-        dispatch(fetchNFTs({ accountId }));
-        dispatch(fetchTokens({ accountId }));
-    }, [accountId]);
-
-    const handleCloseLinkdropModal = () => {
-        dispatch(setLinkdropAmount('0'));
-        Mixpanel.track("Click dismiss NEAR drop success modal");
-    };
+export function Wallet({
+    tab,
+    setTab,
+    accountId,
+    accountExists,
+    balance,
+    linkdropAmount,
+    createFromImplicitSuccess,
+    createCustomName,
+    zeroBalanceAccountImportMethod,
+    fungibleTokensList,
+    tokensLoading,
+    availableAccounts,
+    sortedNFTs,
+    handleCloseLinkdropModal,
+    handleSetCreateFromImplicitSuccess,
+    handleSetCreateCustomName,
+    handleSetZeroBalanceAccountImportMethod
+}) {
+    const currentLanguage = getCurrentLanguage();
+    const totalAmount = getTotalBalanceInFiat(
+        fungibleTokensList,
+        currentLanguage
+    );
 
     return (
-        <StyledContainer className={SHOW_NETWORK_BANNER ? 'showing-banner' : ''}>
-            <ReleaseNotesModal />
-            <div className='split'>
-                <div className='left'>
-                    <div className='tab-selector'>
+        <StyledContainer
+            className={SHOW_NETWORK_BANNER ? 'showing-banner' : ''}
+        >
+            <div className="split">
+                <div className="left">
+                    <div className="tab-selector">
                         <div
-                            className={classNames(['tab-balances', tab === 'collectibles' ? 'inactive' : ''])}
+                            className={classNames([
+                                'tab-balances',
+                                tab === 'collectibles' ? 'inactive' : '',
+                            ])}
                             onClick={() => setTab('')}
                         >
-                            <Translate id='wallet.balances' />
+                            <Translate id="wallet.balances" />
                         </div>
                         <div
-                            className={classNames(['tab-collectibles', tab !== 'collectibles' ? 'inactive' : ''])}
+                            className={classNames([
+                                'tab-collectibles',
+                                tab !== 'collectibles' ? 'inactive' : '',
+                            ])}
                             onClick={() => setTab('collectibles')}
                         >
-                            <Translate id='wallet.collectibles' />
+                            <Translate id="wallet.collectibles" />
                         </div>
                     </div>
-                    {tab === 'collectibles'
-                        ? <NFTs tokens={sortedNFTs} />
-                        : <FungibleTokens
+                    {tab === 'collectibles' ? (
+                        <NFTs tokens={sortedNFTs} />
+                    ) : (
+                        <FungibleTokens
+                            currentLanguage={currentLanguage}
+                            totalAmount={totalAmount}
                             balance={balance}
-                            tokensLoader={tokensLoader}
+                            tokensLoading={tokensLoading}
                             fungibleTokens={fungibleTokensList}
+                            accountExists={accountExists}
+                            fungibleTokensList={fungibleTokensList}
                         />
-
-                    }
+                    )}
                 </div>
-                <div className='right'>
-                    {CREATE_IMPLICIT_ACCOUNT
-                        ? <Sidebar availableAccounts={availableAccounts} />
-                        : <ExploreApps />
-                    }
+                <div className="right">
+                    {accountExists ? (
+                        <Sidebar availableAccounts={availableAccounts} />
+                    ) : (
+                        <ExploreApps />
+                    )}
                     <ActivitiesWrapper />
                 </div>
             </div>
-            {linkdropAmount !== '0' &&
+            {linkdropAmount !== '0' && (
                 <LinkDropSuccessModal
                     onClose={handleCloseLinkdropModal}
                     linkdropAmount={linkdropAmount}
                 />
-            }
-            {createFromImplicitSuccess &&
+            )}
+            {createFromImplicitSuccess && (
                 <CreateFromImplicitSuccessModal
-                    onClose={() => dispatch(setCreateFromImplicitSuccess(false))}
+                    onClose={handleSetCreateFromImplicitSuccess}
                     isOpen={createFromImplicitSuccess}
                     accountId={accountId}
                 />
-            }
-            {createCustomName &&
+            )}
+            {createCustomName && (
                 <CreateCustomNameModal
-                    onClose={() => dispatch(setCreateCustomName(false))}
+                    onClose={handleSetCreateCustomName}
                     isOpen={createCustomName}
-                    accountId='satoshi.near'
+                    accountId="satoshi.near"
                 />
-            }
+            )}
+            {zeroBalanceAccountImportMethod && (
+                <ZeroBalanceAccountImportedModal
+                    onClose={handleSetZeroBalanceAccountImportMethod}
+                    importMethod={zeroBalanceAccountImportMethod}
+                    accountId={accountId}
+                />
+            )}
         </StyledContainer>
     );
 }
 
-const FungibleTokens = ({ balance, tokensLoader, fungibleTokens }) => {
-    const availableBalanceIsZero = balance?.balanceAvailable === '0';
+const FungibleTokens = ({
+    balance,
+    tokensLoading,
+    fungibleTokens,
+    accountExists,
+    totalAmount,
+    currentLanguage,
+    fungibleTokensList
+}) => {
+    const zeroBalanceAccount = accountExists === false;
+    const currentFungibleTokens = fungibleTokens[0];
     const hideFungibleTokenSection =
-        availableBalanceIsZero &&
+        zeroBalanceAccount &&
         fungibleTokens?.length === 1 &&
-        fungibleTokens[0]?.onChainFTMetadata?.symbol === "NEAR";
+        currentFungibleTokens?.onChainFTMetadata?.symbol === 'NEAR';
     return (
         <>
             <div className='total-balance'>
                 <Textfit mode='single' max={48}>
-                    <Balance
-                        showBalanceInNEAR={false}
-                        amount={balance?.balanceAvailable}
-                        showAlmostEqualSignUSD={false}
-                        showSymbolUSD={false}
-                        showSignUSD={true}
-                    />
+                    <AllTokensTotalBalanceUSD allFungibleTokens={fungibleTokensList}/>
                 </Textfit>
             </div>
-            <div className='sub-title balance'><Translate id='wallet.availableBalance' /> <Tooltip translate='availableBalanceInfo' /></div>
-            <div className='buttons'>
+            <div className="sub-title balance">
+                <Translate id="wallet.availableBalance" />{' '}
+                <Tooltip translate="availableBalanceInfo" />
+            </div>
+            <div className="buttons">
                 <FormButton
-                    color='dark-gray'
-                    linkTo='/send-money'
-                    trackingId='Click Send on Wallet page'
+                    color="dark-gray"
+                    linkTo="/send-money"
+                    trackingId="Click Send on Wallet page"
                     data-test-id="balancesTab.send"
                 >
                     <div>
                         <SendIcon />
                     </div>
-                    <Translate id='button.send' />
+                    <Translate id="button.send" />
                 </FormButton>
                 <FormButton
-                    color='dark-gray'
-                    linkTo='/receive-money'
-                    trackingId='Click Receive on Wallet page'
+                    color="dark-gray"
+                    linkTo="/receive-money"
+                    trackingId="Click Receive on Wallet page"
                     data-test-id="balancesTab.receive"
                 >
                     <div>
                         <DownArrowIcon />
                     </div>
-                    <Translate id='button.receive' />
+                    <Translate id="button.receive" />
                 </FormButton>
                 <FormButton
-                    color='dark-gray'
-                    linkTo='/buy'
-                    trackingId='Click Receive on Wallet page'
+                    color="dark-gray"
+                    linkTo="/buy"
+                    trackingId="Click Receive on Wallet page"
                     data-test-id="balancesTab.buy"
                 >
                     <div>
                         <TopUpIcon />
                     </div>
-                    <Translate id='button.topUp' />
+                    <Translate id="button.topUp" />
+                </FormButton>
+                <FormButton
+                    color="dark-gray"
+                    linkTo="/swap"
+                    trackingId="Click Swap on Wallet page"
+                    data-test-id="balancesTab.swap"
+                >
+                    <div>
+                        <WrapIcon color="white" />
+                    </div>
+                    <Translate id="button.swap" />
                 </FormButton>
             </div>
-            {availableBalanceIsZero &&
-                <DepositNearBanner />
-            }
-            {!hideFungibleTokenSection &&
+            {zeroBalanceAccount && (
+                <div className='deposit-banner-wrapper'>
+                    <DepositNearBanner />
+                </div>
+            )}
+            {!hideFungibleTokenSection && (
                 <>
-                    <div className='sub-title tokens'>
-                        <span className={classNames({ dots: tokensLoader })}><Translate id='wallet.yourPortfolio' /></span>
-                        <span><Translate id='wallet.tokenBalance' /></span>
+                    <div className="sub-title tokens">
+                        <span className={classNames({ dots: tokensLoading })}>
+                            <Translate id="wallet.yourPortfolio" />
+                        </span>
+                        {!CREATE_USN_CONTRACT && (
+                            <span>
+                                <Translate id="wallet.tokenBalance" />
+                            </span>
+                        )}
                     </div>
-                    <Tokens tokens={fungibleTokens} />
+                    <Tokens
+                        tokens={fungibleTokens}
+                        currentLanguage={currentLanguage}
+                    />
+                    <div className='coingecko'><Translate id='poweredByCoinGecko'/></div>
                 </>
-            }
+            )}
         </>
     );
 };

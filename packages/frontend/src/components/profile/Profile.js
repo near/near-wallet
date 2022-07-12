@@ -7,7 +7,7 @@ import styled from 'styled-components';
 
 import { IS_MAINNET, MIN_BALANCE_FOR_GAS } from '../../config';
 import { useAccount } from '../../hooks/allAccounts';
-import { Mixpanel } from "../../mixpanel/index";
+import { Mixpanel } from '../../mixpanel/index';
 import {
     getLedgerKey,
     checkCanEnableTwoFactor,
@@ -18,11 +18,20 @@ import {
     getBalance
 } from '../../redux/actions/account';
 import { selectProfileBalance } from '../../redux/reducers/selectors/balance';
-import { selectAccountAuthorizedApps, selectAccountHas2fa, selectAccountHasLockup, selectAccountId, selectAccountLedgerKey } from '../../redux/slices/account';
+import {
+    selectAccountAuthorizedApps,
+    selectAccountHas2fa,
+    selectAccountHasLockup,
+    selectAccountId,
+    selectAccountLedgerKey,
+    selectAccountExists
+} from '../../redux/slices/account';
 import { selectAllAccountsHasLockup } from '../../redux/slices/allAccounts';
 import { actions as recoveryMethodsActions, selectRecoveryMethodsByAccountId } from '../../redux/slices/recoveryMethods';
 import { selectNearTokenFiatValueUSD } from '../../redux/slices/tokenFiatValues';
 import isMobile from '../../utils/isMobile';
+import { wallet } from '../../utils/wallet';
+import AlertBanner from '../common/AlertBanner';
 import FormButton from '../common/FormButton';
 import SkeletonLoading from '../common/SkeletonLoading';
 import Container from '../common/styled/Container.css';
@@ -34,10 +43,13 @@ import UserIcon from '../svg/UserIcon';
 import AuthorizedApp from './authorized_apps/AuthorizedApp';
 import BalanceContainer from './balances/BalanceContainer';
 import LockupAvailTransfer from './balances/LockupAvailTransfer';
+import ExportKeyWrapper from './export_private_key/ExportKeyWrapper';
 import HardwareDevices from './hardware_devices/HardwareDevices';
 import MobileSharingWrapper from './mobile_sharing/MobileSharingWrapper';
 import RecoveryContainer from './Recovery/RecoveryContainer';
+import RemoveAccountWrapper from './remove_account/RemoveAccountWrapper';
 import TwoFactorAuth from './two_factor/TwoFactorAuth';
+import { ZeroBalanceAccountWrapper } from './zero_balance/ZeroBalanceAccountWrapper';
 
 const { fetchRecoveryMethods } = recoveryMethodsActions;
 
@@ -132,6 +144,7 @@ const StyledContainer = styled(Container)`
 
 export function Profile({ match }) {
     const [transferring, setTransferring] = useState(false);
+    const accountExists = useSelector(selectAccountExists);
     const has2fa = useSelector(selectAccountHas2fa);
     const authorizedApps = useSelector(selectAccountAuthorizedApps);
     const ledgerKey = useSelector(selectAccountLedgerKey);
@@ -139,16 +152,17 @@ export function Profile({ match }) {
     const nearTokenFiatValueUSD = useSelector(selectNearTokenFiatValueUSD);
     const accountIdFromUrl = match.params.accountId;
     const accountId = accountIdFromUrl || loginAccountId;
-    const isOwner = accountId === loginAccountId;
+    const isOwner = accountId && accountId === loginAccountId && accountExists;
     const account = useAccount(accountId);
     const dispatch = useDispatch();
     const profileBalance = selectProfileBalance(account);
     const hasLockup = isOwner
         ? useSelector(selectAccountHasLockup)
         : useSelector((state) => selectAllAccountsHasLockup(state, { accountId }));
+    const [secretKey, setSecretKey] = useState(null);
 
     const userRecoveryMethods = useSelector((state) => selectRecoveryMethodsByAccountId(state, { accountId: account.accountId }));
-    const twoFactor = has2fa && userRecoveryMethods && userRecoveryMethods.filter(m => m.kind.includes('2fa'))[0];
+    const twoFactor = has2fa && userRecoveryMethods && userRecoveryMethods.filter((m) => m.kind.includes('2fa'))[0];
 
     useEffect(() => {
         if (!loginAccountId) {
@@ -186,6 +200,13 @@ export function Profile({ match }) {
         }
     },[userRecoveryMethods]);
 
+    useEffect(() => {
+        wallet.getLocalKeyPair(accountId).then(async (keyPair) => {
+            const isFullAccessKey = keyPair && await wallet.isFullAccessKey(accountId, keyPair);
+            setSecretKey(isFullAccessKey ? keyPair.toString() : null);
+        });
+    },[userRecoveryMethods]);
+
     useEffect(()=> {
         if (twoFactor) {
             let id = Mixpanel.get_distinct_id();
@@ -212,16 +233,23 @@ export function Profile({ match }) {
 
     return (
         <StyledContainer>
-            {isOwner && hasLockup && new BN(profileBalance.lockupBalance.unlocked.availableToTransfer).gte(MINIMUM_AVAILABLE_TO_TRANSFER) &&
+            {isOwner && hasLockup && new BN(profileBalance.lockupBalance.unlocked.availableToTransfer).gte(MINIMUM_AVAILABLE_TO_TRANSFER) && (
                 <LockupAvailTransfer
                     available={profileBalance.lockupBalance.unlocked.availableToTransfer || '0'}
                     onTransfer={handleTransferFromLockup}
                     sending={transferring}
                     tokenFiatValue={nearTokenFiatValueUSD}
                 />
-            }
+            )}
             <div className='split'>
                 <div className='left'>
+                    {accountExists === false && (
+                        <AlertBanner
+                            title='profile.accountDoesNotExistBanner.desc'
+                            data={accountId}
+                            theme='light-blue'
+                        />
+                    )}
                     <h2><UserIcon/><Translate id='profile.pageTitle.default'/></h2>
                     {profileBalance ? (
                         <BalanceContainer
@@ -237,14 +265,14 @@ export function Profile({ match }) {
                             number={2}
                         />
                     )}
-                    {profileBalance?.lockupIdExists &&
+                    {profileBalance?.lockupIdExists && (
                         <SkeletonLoading
                             height='323px'
                             show={hasLockup === undefined}
                             number={1}
                         />
-                    }
-                    {isOwner && authorizedApps?.length ?
+                    )}
+                    {isOwner && authorizedApps?.length ? (
                         <>
                             <hr/>
                             <div className='auth-apps'>
@@ -255,10 +283,9 @@ export function Profile({ match }) {
                                 <AuthorizedApp key={i} app={app}/>
                             ))}
                         </>
-                        : null
-                    }
+                    ) : null}
                 </div>
-                {isOwner &&
+                {isOwner && (
                     <div className='right'>
                         <h2><ShieldIcon/><Translate id='profile.security.title'/></h2>
                         <h4><Translate id='profile.security.mostSecure'/><Tooltip translate='profile.security.mostSecureDesc' icon='icon-lg'/></h4>
@@ -267,7 +294,7 @@ export function Profile({ match }) {
                         <h4><Translate id='profile.security.lessSecure'/><Tooltip translate='profile.security.lessSecureDesc' icon='icon-lg'/></h4>
                         <RecoveryContainer type='email' recoveryMethods={userRecoveryMethods}/>
                         <RecoveryContainer type='phone' recoveryMethods={userRecoveryMethods}/>
-                        {!account.ledgerKey &&
+                        {!account.ledgerKey && (
                             <>
                                 <hr/>
                                 <h2><LockIcon/><Translate id='profile.twoFactor'/></h2>
@@ -284,13 +311,24 @@ export function Profile({ match }) {
                                     />
                                 )}
                             </>
-                        }
+                        )}
+                        <>
+                            <hr />
+                            {secretKey ? <ExportKeyWrapper secretKey={secretKey}/> : null}
+                            <RemoveAccountWrapper/>
+                        </>
                         {!IS_MAINNET && !account.ledgerKey && !isMobile() &&
                             <MobileSharingWrapper/>
                         }
                     </div>
-                }
+                )}
+                {accountExists === false && !accountIdFromUrl && (
+                    <div className='right'>
+                        <RemoveAccountWrapper/>
+                    </div>
+                )}
             </div>
+            <ZeroBalanceAccountWrapper/>
         </StyledContainer>
     );
 }

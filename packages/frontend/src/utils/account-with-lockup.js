@@ -6,11 +6,12 @@ import { parseNearAmount } from 'near-api-js/lib/utils/format';
 import { BinaryReader } from 'near-api-js/lib/utils/serialize';
 
 import {
-    ACCOUNT_HELPER_URL,
     LOCKUP_ACCOUNT_ID_SUFFIX,
     MIN_BALANCE_FOR_GAS,
     REACT_APP_USE_TESTINGLOCKUP,
 } from '../config';
+import { listStakingDeposits } from '../services/indexer';
+import StakingFarmContracts from '../services/StakingFarmContracts';
 import { WalletError } from './walletError';
 
 // TODO: Should gas allowance be dynamically calculated
@@ -46,10 +47,10 @@ async function signAndSendTransaction(signAndSendTransactionOptions) {
     const { actions } = signAndSendTransactionOptions;
 
     // TODO: Extract code to compute total cost of transaction
-    const total = actions.map(action => action?.transfer?.deposit || action?.functionCall?.deposit)
-        .filter(deposit => !!deposit)
-        .map(str => new BN(str))
-        .reduce((a, b) => a.add(b), new BN("0"));
+    const total = actions.map((action) => action?.transfer?.deposit || action?.functionCall?.deposit)
+        .filter((deposit) => !!deposit)
+        .map((str) => new BN(str))
+        .reduce((a, b) => a.add(b), new BN('0'));
 
     const missingAmount = total.sub(new BN(balance)).add(new BN(MIN_BALANCE_FOR_GAS));
     const lockupAccountId = getLockupAccountId(this.accountId);
@@ -66,7 +67,7 @@ async function deleteLockupAccount(lockupAccountId) {
     const newKeyPair = KeyPair.fromRandom('ed25519');
     await this.wrappedAccount.functionCall({
         contractId: lockupAccountId,
-        methodName: "add_full_access_key",
+        methodName: 'add_full_access_key',
         args: {
             new_public_key: newKeyPair.publicKey.toString(),
         },
@@ -85,7 +86,7 @@ export async function transferAllFromLockup(missingAmount) {
     if (!(await this.wrappedAccount.viewFunction(lockupAccountId, 'are_transfers_enabled'))) {
         await this.wrappedAccount.functionCall({
             contractId: lockupAccountId,
-            methodName: "check_transfers_vote",
+            methodName: 'check_transfers_vote',
             gas: BASE_GAS.mul(new BN(3)),
         });
     }
@@ -94,7 +95,7 @@ export async function transferAllFromLockup(missingAmount) {
     if (poolAccountId) {
         await this.wrappedAccount.functionCall({
             contractId: lockupAccountId,
-            methodName: "refresh_staking_pool_balance",
+            methodName: 'refresh_staking_pool_balance',
             gas: BASE_GAS.mul(new BN(3)),
         });
     }
@@ -105,11 +106,11 @@ export async function transferAllFromLockup(missingAmount) {
         throw new WalletError('Not enough tokens.', 'signAndSendTransactions.notEnoughTokens');
     }
     
-    if(liquidBalance.gt(new BN(0))) {
+    if (liquidBalance.gt(new BN(0))) {
         console.info('Attempting to transfer from lockup account ID:', lockupAccountId);
         await this.wrappedAccount.functionCall({
             contractId: lockupAccountId,
-            methodName: "transfer",
+            methodName: 'transfer',
             args: {
                 // NOTE: Move all the liquid tokens to minimize transactions in the long run
                 amount: liquidBalance.toString(),
@@ -122,14 +123,20 @@ export async function transferAllFromLockup(missingAmount) {
     const lockedBalance = new BN(await this.wrappedAccount.viewFunction(lockupAccountId, 'get_locked_amount'));
     if (lockedBalance.eq(new BN(0))) {
         const stakingPoolBalance = await this.wrappedAccount.viewFunction(lockupAccountId, 'get_known_deposited_balance');
-        if (!new BN(stakingPoolBalance).eq(new BN(0))) {
+        const hasUnclaimedTokenRewards =
+            poolAccountId &&
+            (await StakingFarmContracts.hasUnclaimedRewards({
+                contractName: poolAccountId,
+                account_id: lockupAccountId
+            }));
+        if (!new BN(stakingPoolBalance).eq(new BN(0)) || hasUnclaimedTokenRewards) {
             throw new WalletError('Staking pool balance detected.', 'lockup.transferAllWithStakingPoolBalance');
         }
 
         if (poolAccountId) {
             await this.wrappedAccount.functionCall({
                 contractId: lockupAccountId,
-                methodName: "unselect_staking_pool",
+                methodName: 'unselect_staking_pool',
                 gas: BASE_GAS.mul(new BN(2)),
             });
         }
@@ -177,7 +184,7 @@ async function getAccountBalance(limitedAccountData = false) {
         };
     }
 
-    let stakingDeposits = await fetch(ACCOUNT_HELPER_URL + '/staking-deposits/' + this.accountId).then((r) => r.json()); 
+    const stakingDeposits = await listStakingDeposits(this.accountId);
     let stakedBalanceMainAccount = new BN(0);
     await Promise.all(
         stakingDeposits.map(async ({ validator_id }) => {
@@ -231,13 +238,13 @@ async function getAccountBalance(limitedAccountData = false) {
 
             let unvestedAmount = new BN('0');
 
-            if(vestingInformation) {
+            if (vestingInformation) {
                 if (vestingInformation.unvestedAmount) {
                     unvestedAmount = vestingInformation.unvestedAmount;
-                }else if(vestingInformation.vestingStart) {
-                    if(dateNowBN.lt(vestingInformation.vestingCliff)){
+                } else if (vestingInformation.vestingStart) {
+                    if (dateNowBN.lt(vestingInformation.vestingCliff)) {
                         unvestedAmount = new BN(lockupAmount);
-                    } else if(dateNowBN.gte(vestingInformation.vestingEnd)) {
+                    } else if (dateNowBN.gte(vestingInformation.vestingEnd)) {
                         unvestedAmount = new BN(0);
                     } else {
                         let timeLeft = vestingInformation.vestingEnd.sub(dateNowBN);
@@ -259,6 +266,10 @@ async function getAccountBalance(limitedAccountData = false) {
         let totalBalance = new BN(lockupBalance.total);
         let stakedBalanceLockup = new BN(0);
         const stakingPoolLockupAccountId = await this.wrappedAccount.viewFunction(lockupAccountId, 'get_staking_pool_account_id');
+        const hasUnclaimedTokenBalance = stakingPoolLockupAccountId && await StakingFarmContracts.hasUnclaimedRewards({
+            contractName: stakingPoolLockupAccountId,
+            account_id: lockupAccountId
+        });
         if (stakingPoolLockupAccountId) {
             stakedBalanceLockup = new BN(await this.wrappedAccount.viewFunction(stakingPoolLockupAccountId,
                 'get_account_total_balance', { account_id: lockupAccountId }));
@@ -268,10 +279,11 @@ async function getAccountBalance(limitedAccountData = false) {
         const ownersBalance = totalBalance.sub(lockedAmount);
 
         // if acc is deletable (nothing locked && nothing stake) you can transfer the whole amount ohterwise get_liquid_owners_balance
-        const isAccDeletable = lockedAmount.isZero() && stakedBalanceLockup.isZero();
+        const isAccDeletable = lockedAmount.isZero() && stakedBalanceLockup.isZero() && !hasUnclaimedTokenBalance;
+        const MIN_BALANCE_FOR_STORAGE = getLockupMinBalanceForStorage(lockupContractCodeHash);
         const liquidOwnersBalanceTransfersEnabled = isAccDeletable
             ? new BN(lockupBalance.total)
-            : BN.min(ownersBalance, new BN(lockupBalance.total).sub(new BN(MIN_BALANCE_FOR_GAS)));
+            : BN.min(ownersBalance, new BN(lockupBalance.total).sub(new BN(MIN_BALANCE_FOR_STORAGE)));
         const liquidOwnersBalance = areTransfersEnabled ? liquidOwnersBalanceTransfersEnabled : new BN(0);
 
         const available = BN.max(new BN(0), new BN(balance.available).add(new BN(liquidOwnersBalance)).sub(new BN(MIN_BALANCE_FOR_GAS)));
@@ -288,7 +300,7 @@ async function getAccountBalance(limitedAccountData = false) {
             stakedBalanceLockup: stakedBalanceLockup,
             lockupAccountId,
             stakedBalanceMainAccount,
-            lockupReservedForStorage: getLockupMinBalanceForStorage(lockupContractCodeHash)
+            lockupReservedForStorage: MIN_BALANCE_FOR_STORAGE
         };
     } catch (error) {
         if (error.message.match(/ccount ".+" doesn't exist/) || error.message.includes('does not exist while viewing') || error.message.includes('cannot find contract code for account')) {
@@ -315,9 +327,9 @@ function readOption(reader, f) {
 // NOTE: Taken from account-lookup project
 // TODO: Client-library for lockup?
 async function viewLockupState(connection, lockupAccountId) {
-    const result = await connection.provider.sendJsonRpc("query", {
-        request_type: "view_state",
-        finality: "final",
+    const result = await connection.provider.sendJsonRpc('query', {
+        request_type: 'view_state',
+        finality: 'final',
         account_id: lockupAccountId,
         prefix_base64: Buffer.from('STATE', 'utf-8').toString('base64'),
     });
@@ -350,8 +362,8 @@ async function viewLockupState(connection, lockupAccountId) {
         let vestingEnd = reader.readU64();
         vestingInformation = { vestingStart, vestingCliff, vestingEnd };
     } else if (vestingType === 3) {
-        let unvestedAmount = reader.read_u128();
-        let terminationStatus = reader.read_u8();
+        let unvestedAmount = reader.readU128();
+        let terminationStatus = reader.readU8();
         vestingInformation = { unvestedAmount, terminationStatus };
     } else {
         vestingInformation = 'TODO';

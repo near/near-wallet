@@ -21,7 +21,8 @@ export default ({
     appReferrer,
     contractId,
     publicKey,
-    contractIdUrl
+    contractIdUrl,
+    successUrlIsValid
 }) => {
     const [loggingIn, setLoggingIn] = useState(false);
     const [showGrantFullAccessModal, setShowGrantFullAccessModal] = useState(false);
@@ -81,7 +82,7 @@ export default ({
                                     handleClickConnect();
                                 }
                             }}
-                            disabled={loggingIn}
+                            disabled={loggingIn || !successUrlIsValid}
                             sending={loggingIn}
                             sendingString='button.connecting'
                         >
@@ -90,7 +91,7 @@ export default ({
                     </FormButtonGroup>
                 </LoginStyle>
             </Container>
-            {showGrantFullAccessModal &&
+            {showGrantFullAccessModal && (
                 <GrantFullAccessModal
                     open={showGrantFullAccessModal}
                     onClose={() => setShowGrantFullAccessModal(false)}
@@ -101,7 +102,7 @@ export default ({
                     contractIdUrl={contractIdUrl}
                     loggingIn={loggingIn}
                 />
-            }
+            )}
         </>
     );
 };
@@ -110,6 +111,7 @@ const LimitedAccessUI = () => (
     <>
         <PermissionItem translateId='login.v2.connectConfirm.permissions.viewAddress' />
         <PermissionItem translateId='login.v2.connectConfirm.permissions.viewBalance' />
+        <PermissionItem translateId='login.v2.connectConfirm.permissions.callMethodsOnContract' />
         <PermissionItem permitted={false} translateId='login.v2.connectConfirm.permissions.notTransferTokens' />
     </>
 );

@@ -7,8 +7,9 @@ import styled from 'styled-components';
 
 import { MIN_BALANCE_TO_CREATE } from '../../config';
 import { Mixpanel } from '../../mixpanel';
-import { createAccountFromImplicit, redirectTo } from '../../redux/actions/account';
+import { redirectTo } from '../../redux/actions/account';
 import { selectAccountId, selectAccountSlice } from '../../redux/slices/account';
+import { createAccountFromImplicit } from '../../redux/slices/account/createAccountThunks';
 import { actions as createFromImplicitActions } from '../../redux/slices/createFromImplicit';
 import { selectStatusMainLoader } from '../../redux/slices/status';
 import { selectNearTokenFiatValueUSD } from '../../redux/slices/tokenFiatValues';
@@ -22,6 +23,7 @@ import WhereToBuyNearModal from '../common/WhereToBuyNearModal';
 import SafeTranslate from '../SafeTranslate';
 import AccountFundedModal from './AccountFundedModal';
 import FundWithMoonpay from './create/FundWithMoonpay';
+import FundWithUtorg from './create/FundWithUtorg';
 import AccountFunded from './create/status/AccountFunded';
 import AccountNeedsFunding from './create/status/AccountNeedsFunding';
 
@@ -94,9 +96,9 @@ class SetupImplicit extends Component {
     handleContinue = async () => {
         const { dispatch, newAccountId, implicitAccountId, recoveryMethod } = this.props;
         this.setState({ creatingAccount: true });
-        await Mixpanel.withTracking("CA Create account from implicit",
+        await Mixpanel.withTracking('CA Create account from implicit',
             async () => {
-                await dispatch(createAccountFromImplicit(newAccountId, implicitAccountId, recoveryMethod));
+                await dispatch(createAccountFromImplicit({ accountId: newAccountId, implicitAccountId, recoveryMethod })).unwrap();
             },
             () => {
                 this.setState({ creatingAccount: false });
@@ -108,7 +110,7 @@ class SetupImplicit extends Component {
 
     checkMoonPay = async () => {
         const { implicitAccountId } = this.props;
-        await Mixpanel.withTracking("CA Check Moonpay available",
+        await Mixpanel.withTracking('CA Check Moonpay available',
             async () => {
                 const moonpayAvailable = await isMoonpayAvailable();
                 if (moonpayAvailable) {
@@ -128,13 +130,13 @@ class SetupImplicit extends Component {
         const { accountFunded } = this.state;
 
         if (!accountFunded) {
-            await Mixpanel.withTracking("CA Check balance from implicit",
+            await Mixpanel.withTracking('CA Check balance from implicit',
                 async () => {
                     try {
                         const account = wallet.getAccountBasic(implicitAccountId);
                         const state = await account.state();
                         if (new BN(state.amount).gte(new BN(MIN_BALANCE_TO_CREATE))) {
-                            Mixpanel.track("CA Check balance from implicit: sufficient");
+                            Mixpanel.track('CA Check balance from implicit: sufficient');
                             this.setState({
                                 balance: state.amount,
                                 whereToBuy: false,
@@ -143,9 +145,9 @@ class SetupImplicit extends Component {
                             window.scrollTo(0, 0);
                             return;
                         } else {
-                            Mixpanel.track("CA Check balance from implicit: insufficient");
+                            Mixpanel.track('CA Check balance from implicit: insufficient');
                         }
-                    } catch(e) {
+                    } catch (e) {
                         if (e.message.includes('does not exist while viewing')) {
                             return;
                         }
@@ -214,13 +216,13 @@ class SetupImplicit extends Component {
                     <h1><Translate id='account.createImplicit.post.title' /></h1>
                     <h2><Translate id='account.createImplicit.post.descOne' /></h2>
                     <h2><b><Translate id='account.createImplicit.post.descTwo' /></b></h2>
-                    {!creatingAccount &&
+                    {!creatingAccount && (
                         <AccountFunded
                             fundingAddress={implicitAccountId}
                             initialDeposit={balance}
                             accountId={newAccountId}
                         />
-                    }
+                    )}
                     <FormButton
                         onClick={this.handleClaimAccount}
                         trackingId="CA implicit click claim my account"
@@ -228,7 +230,7 @@ class SetupImplicit extends Component {
                     >
                         <Translate id='button.claimMyAccount' />
                     </FormButton>
-                    {claimMyAccount &&
+                    {claimMyAccount && (
                         <AccountFundedModal
                             onClose={() => { }}
                             open={claimMyAccount}
@@ -237,7 +239,7 @@ class SetupImplicit extends Component {
                             handleFinishSetup={this.handleContinue}
                             loading={mainLoader}
                         />
-                    }
+                    )}
                 </StyledContainer>
             );
         }
@@ -263,20 +265,25 @@ class SetupImplicit extends Component {
                     fundingAddress={implicitAccountId}
                     minDeposit={MIN_BALANCE_TO_CREATE}
                 />
-                {moonpayAvailable &&
+                <Divider />
+                <FundWithUtorg
+                    accountId={implicitAccountId}
+                    amount={MIN_BALANCE_TO_CREATE}
+                />
+                {moonpayAvailable && (
                     <>
                         <Divider />
                         <FundWithMoonpay
                             moonpaySignedURL={moonpaySignedURL}
                         />
                     </>
-                }
-                {whereToBuy &&
+                )}
+                {whereToBuy && (
                     <WhereToBuyNearModal
                         onClose={() => this.setState({ whereToBuy: false })}
                         open={whereToBuy}
                     />
-                }
+                )}
             </StyledContainer>
         );
     }

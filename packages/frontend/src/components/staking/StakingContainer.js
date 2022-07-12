@@ -9,15 +9,18 @@ import { getBalance } from '../../redux/actions/account';
 import {
     updateStaking,
     handleStakingAction,
-    handleUpdateCurrent
+    handleUpdateCurrent,
+    getValidatorFarmData
 } from '../../redux/actions/staking';
 import { selectAccountHas2fa, selectAccountHasLockup, selectAccountId, selectBalance } from '../../redux/slices/account';
 import { selectLedgerHasLedger } from '../../redux/slices/ledger';
 import { selectStakingSlice } from '../../redux/slices/staking';
 import { selectStatusSlice } from '../../redux/slices/status';
 import { selectNearTokenFiatValueUSD } from '../../redux/slices/tokenFiatValues';
+import { FARMING_VALIDATOR_VERSION } from '../../utils/constants';
 import { setStakingAccountSelected, getStakingAccountSelected } from '../../utils/localStorage';
 import Container from '../common/styled/Container.css';
+import { ClaimSuccess } from './components/ClaimSuccess';
 import Staking from './components/Staking';
 import StakingAction from './components/StakingAction';
 import Unstake from './components/Unstake';
@@ -134,9 +137,9 @@ const StyledContainer = styled(Container)`
     }
 
     .radio-label {
-        cursor: ${props => props.multipleAccounts ? 'pointer' : 'default'};
+        cursor: ${(props) => props.multipleAccounts ? 'pointer' : 'default'};
         .input-wrapper {
-            display: ${props => props.multipleAccounts ? 'block' : 'none'};
+            display: ${(props) => props.multipleAccounts ? 'block' : 'none'};
         }
     }
 
@@ -175,14 +178,18 @@ export function StakingContainer({ history, match }) {
     const hasLockup = useSelector(selectAccountHasLockup);
 
     const { currentAccount } = staking;
-    const stakingAccounts = staking.accounts;
+    const currentAccountDataForInactiveAccount = {
+        accountId,
+        ...currentAccount
+    };
+    const stakingAccounts = staking.accounts.length ? staking.accounts : [currentAccountDataForInactiveAccount];
     const validators = staking.allValidators;
     const currentValidators = currentAccount.validators;
     const validatorId = history.location.pathname.split('/')[2];
-    let validator = currentValidators.filter(validator => validator.accountId === validatorId)[0];
+    let validator = currentValidators.filter((validator) => validator.accountId === validatorId)[0];
     // validator profile not in account's current validators (with balances) find validator in allValidators
     if (!validator) {
-        validator = validators.filter(validator => validator.accountId === validatorId)[0];
+        validator = validators.filter((validator) => validator.accountId === validatorId)[0];
     }
     const { totalUnstaked, selectedValidator } = currentAccount;
     const loadingBalance = !stakingAccounts.every((account) => !!account.totalUnstaked);
@@ -201,6 +208,16 @@ export function StakingContainer({ history, match }) {
         setStakingAccountSelected(accountId);
         dispatch(handleUpdateCurrent(accountId));
     };
+
+    useEffect(() => {
+        if (!currentAccount.accountId || !validators.length) {
+            return;
+        }
+        
+        validators
+            .filter((validator) => validator.version === FARMING_VALIDATOR_VERSION)
+            .forEach((validator) => dispatch(getValidatorFarmData({ validator, accountId: currentAccount.accountId })));
+    }, [currentAccount.accountId, validators]);
 
     const handleAction = async (action, validator, amount) => {
         let id = Mixpanel.get_distinct_id();
@@ -321,6 +338,15 @@ export function StakingContainer({ history, match }) {
                                 hasLedger={hasLedger}
                                 has2fa={has2fa}
                                 nearTokenFiatValueUSD={nearTokenFiatValueUSD}
+                            />
+                        )}
+                    />
+                    <Route
+                        exact
+                        path='/staking/:validator/claim'
+                        render={(props) => (
+                            <ClaimSuccess
+                                {...props}
                             />
                         )}
                     />

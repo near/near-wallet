@@ -24,14 +24,14 @@ const SetupLedgerSuccess = (props) => {
             if (hasLedger) {
                 setNextStep('');
             }
-            Mixpanel.track("SR-Ledger Remove non ledger access keys");
+            Mixpanel.track('SR-Ledger Remove non ledger access keys');
             await props.removeNonLedgerAccessKeys();
             goToProfile();
         }
     };
 
     const goToProfile = () => {
-        Mixpanel.track("SR-Ledger Go to profile page with ledger");
+        Mixpanel.track('SR-Ledger Go to profile page with ledger');
         props.redirectTo('/profile');
     };
 
@@ -51,14 +51,14 @@ const SetupLedgerSuccess = (props) => {
                 <Translate id='setupLedgerSuccess.primaryCta'/>
             </FormButton>
             <button className='link' onClick={() => setNextStep('keep')}><Translate id='setupLedgerSuccess.secondaryCta'/></button>
-            {nextStep && 
+            {nextStep && (
                 <NextStepModal 
                     nextStep={nextStep} 
                     onClose={() => setNextStep('')}
                     onConfirm={handleConfirm}
                     removingkeys={removingkeys}
                 />
-            }
+            )}
         </Container>
     );
 };

@@ -6,7 +6,6 @@
 [build.environment]
     DISABLE_PHONE_RECOVERY = "yes"
     REACT_APP_NETWORK_ID = "default"
-    REACT_APP_ACCOUNT_HELPER_URL = "https://helper.mainnet.near.org"
     REACT_APP_NODE_URL = "https://rpc.mainnet.near.org"
     REACT_APP_ACCESS_KEY_FUNDING_AMOUNT = "250000000000000000000000"
     NEW_ACCOUNT_AMOUNT = "500000001000000000000000000"
@@ -23,13 +22,11 @@
     TOKEN_CONTRACTS = 'berryclub.ek.near,wrap.near,6b175474e89094c44da98b954eedeac495271d0f.factory.bridge.near'
     RECAPTCHA_ENTERPRISE_SITE_KEY = "6LcpJ3EcAAAAAFgA-nixKFNGWMo9IG9FQhH4XjSY"
     RECAPTCHA_CHALLENGE_API_KEY = "6LeRzswaAAAAAGeS7mSasZ1wDcGnMcH3D7W1gy1b"
-    USE_CLOUDFLARE = "true"
     NETLIFY_USE_YARN = "true"
 
 [context.production.environment]
-    BROWSER_MIXPANEL_TOKEN = "d5bbbbcc3a77ef8427f2b806b5689bf8"
+    BROWSER_MIXPANEL_TOKEN = "7c5730e5b3556a06b73829b3c3b40a86"
     SENTRY_PROJECT = "mainnet-wallet"
-    USE_CLOUDFLARE = "true"
 
 [[headers]]
     for = "/*"

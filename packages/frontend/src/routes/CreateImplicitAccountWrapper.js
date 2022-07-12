@@ -2,22 +2,25 @@ import BN from 'bn.js';
 import { getLocation } from 'connected-react-router';
 import { utils } from 'near-api-js';
 import { formatNearAmount } from 'near-api-js/lib/utils/format';
+import { parse } from 'query-string';
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import CreateImplicitAccount from '../components/accounts/create/implicit_account/CreateImplicitAccount';
 import { MIN_BALANCE_TO_CREATE } from '../config';
 import { Mixpanel } from '../mixpanel';
-import { redirectTo, checkAndHideLedgerModal } from '../redux/actions/account';
+import { redirectTo } from '../redux/actions/account';
 import { showCustomAlert } from '../redux/actions/status';
 import { selectAccountId } from '../redux/slices/account';
+import { finishSetupImplicitAccount } from '../redux/slices/account/createAccountThunks';
 import { actions as createFromImplicitActions } from '../redux/slices/createFromImplicit';
-import { getSignedUrl } from '../utils/moonpay';
-import { isMoonpayAvailable } from '../utils/moonpay';
+import { actions as ledgerActions } from '../redux/slices/ledger';
+import { getSignedUrl, isMoonpayAvailable } from '../utils/moonpay';
 import useRecursiveTimeout from '../utils/useRecursiveTimeout';
 import { wallet } from '../utils/wallet';
 
 const { setCreateCustomName } = createFromImplicitActions;
+const { checkAndHideLedgerModal } = ledgerActions;
 
 // Check that the initial deposit was at least 0.17N, otherwise the users 'available balance'
 // won't be enough to create a named account.
@@ -29,12 +32,12 @@ export function CreateImplicitAccountWrapper() {
     const accountId = useSelector(selectAccountId);
 
     const [fundingNeeded, setFundingNeeded] = useState(true);
-    const [moonpaySignedUrl, setMoonpaySignedUrl] = useState('');
+    const [moonpaySignedUrl, setMoonpaySignedUrl] = useState(null);
 
     const location = useSelector(getLocation);
-    const URLParams = new URLSearchParams(location.search);
-    const implicitAccountId = URLParams.get('implicitAccountId');
-    const recoveryMethod = URLParams.get('recoveryMethod');
+    const URLParams = parse(location.search);
+    const implicitAccountId = URLParams.implicitAccountId;
+    const recoveryMethod = URLParams.recoveryMethod;
 
     const formattedMinDeposit = formatNearAmount(MIN_BALANCE_TO_CREATE);
 
@@ -46,7 +49,7 @@ export function CreateImplicitAccountWrapper() {
 
     useEffect(() => {
         const checkIfMoonPayIsAvailable = async () => {
-            await Mixpanel.withTracking("CA Check Moonpay available",
+            await Mixpanel.withTracking('CA Check Moonpay available',
                 async () => {
                     const moonpayAvailable = await isMoonpayAvailable();
                     if (moonpayAvailable) {
@@ -68,26 +71,26 @@ export function CreateImplicitAccountWrapper() {
 
     const checkFundingAddressBalance = async () => {
         if (fundingNeeded) {
-            await Mixpanel.withTracking("CA Check balance from implicit",
+            await Mixpanel.withTracking('CA Check balance from implicit',
                 async () => {
                     try {
                         const account = wallet.getAccountBasic(implicitAccountId);
                         const state = await account.state();
                         if (new BN(state.amount).gte(new BN(MIN_BALANCE_TO_CREATE))) {
-                            Mixpanel.track("CA Check balance from implicit: sufficient");
+                            Mixpanel.track('CA Check balance from implicit: sufficient');
                             setFundingNeeded(false);
                             console.log('Minimum funding amount received. Finishing acccount setup.');
-                            await wallet.finishSetupImplicitAccount({
+                            await dispatch(finishSetupImplicitAccount({
                                 implicitAccountId,
                                 recoveryMethod
-                            });
+                            })).unwrap();
                             if (new BN(state.amount).gte(new BN(NAMED_ACCOUNT_MIN))) {
                                 dispatch(setCreateCustomName(true));
                             }
                             return;
                         } else {
                             console.log('Insufficient funding amount');
-                            Mixpanel.track("CA Check balance from implicit: insufficient");
+                            Mixpanel.track('CA Check balance from implicit: insufficient');
                         }
                     } catch (e) {
                         if (e.message.includes('does not exist while viewing')) {
@@ -113,14 +116,8 @@ export function CreateImplicitAccountWrapper() {
         <CreateImplicitAccount
             formattedMinDeposit={formattedMinDeposit}
             implicitAccountId={implicitAccountId}
-            moonpayIsAvailable={!!moonpaySignedUrl}
+            moonpayIsAvailable={moonpaySignedUrl}
             moonpaySignedUrl={moonpaySignedUrl}
-            onClickBuyButton={(amountUSD) => {
-                window.open(
-                    `${moonpaySignedUrl}&baseCurrencyAmount=${amountUSD}`,
-                    '_blank'
-                );
-            }}
         />
     );
 }

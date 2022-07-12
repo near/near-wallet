@@ -1,3 +1,4 @@
+import { parse } from 'query-string';
 import React, { Component } from 'react';
 import { Translate } from 'react-localize-redux';
 import { connect } from 'react-redux';
@@ -8,8 +9,8 @@ import { checkNearDropBalance, claimLinkdropToAccount, redirectTo, handleRefresh
 import { clearLocalAlert } from '../../redux/actions/status';
 import { selectAccountSlice } from '../../redux/slices/account';
 import { actions as linkdropActions } from '../../redux/slices/linkdrop';
-import { selectStatusMainLoader } from '../../redux/slices/status';
-import { selectActionsPending } from '../../redux/slices/status';
+import { selectActionsPending, selectStatusMainLoader } from '../../redux/slices/status';
+import { isUrlNotJavascriptProtocol } from '../../utils/helper-api';
 import AccountDropdown from '../common/AccountDropdown';
 import Balance from '../common/balance/Balance';
 import FormButton from '../common/FormButton';
@@ -85,7 +86,7 @@ class LinkdropLanding extends Component {
 
     handleCheckNearDropBalance = async () => {
         const { fundingContract, fundingKey, checkNearDropBalance } = this.props;
-        await Mixpanel.withTracking("CA Check near drop balance",
+        await Mixpanel.withTracking('CA Check near drop balance',
             async () => {
                 const balance = await checkNearDropBalance(fundingContract, fundingKey);
                 this.setState({ balance: balance });
@@ -97,7 +98,7 @@ class LinkdropLanding extends Component {
     handleClaimNearDrop = async () => {
         const { fundingContract, fundingKey, redirectTo, claimLinkdropToAccount, accountId, url, setLinkdropAmount } = this.props;
         await claimLinkdropToAccount(fundingContract, fundingKey);
-        if (url?.redirectUrl) {
+        if (url?.redirectUrl && isUrlNotJavascriptProtocol(url?.redirectUrl)) {
             window.location = `${url.redirectUrl}?accountId=${accountId}`;
         } else {
             setLinkdropAmount(this.state.balance);
@@ -111,8 +112,8 @@ class LinkdropLanding extends Component {
         const fundingAmount = balance;
 
         if (!invalidNearDrop) {
-            const params = new URLSearchParams(history.location.search);
-            const redirectUrl = params.has('redirectUrl') ? `&redirectUrl=${encodeURIComponent(params.get('redirectUrl'))}` : '';
+            const params = parse(history.location.search);
+            const redirectUrl = params.redirectUrl ? `&redirectUrl=${encodeURIComponent(params.redirectUrl)}` : '';
 
             return (
                 <StyledContainer className='xs-centered'>
@@ -133,7 +134,7 @@ class LinkdropLanding extends Component {
                             data-test-id="linkdropAccountDropdown"
                         />
                     ) : null}
-                    {accountId ?
+                    {accountId ? (
                         <FormButton
                             onClick={this.handleClaimNearDrop}
                             sending={claimingDrop}
@@ -143,14 +144,14 @@ class LinkdropLanding extends Component {
                         >
                             <Translate id='linkdropLanding.ctaAccount'/>
                         </FormButton>
-                        :
+                    ) : (
                         <FormButton
                             linkTo={`/recover-account?fundingOptions=${encodeURIComponent(JSON.stringify({ fundingContract, fundingKey, fundingAmount }))}${redirectUrl}`}
                             data-test-id="linkdropLoginAndClaim"
                         >
                             <Translate id='linkdropLanding.ctaLogin'/>
                         </FormButton>
-                    }
+                    )}
                     <div className='or'><Translate id='linkdropLanding.or'/></div>
                     <FormButton
                         data-test-id="linkdropCreateAccountToClaim"

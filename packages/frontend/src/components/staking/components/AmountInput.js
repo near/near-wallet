@@ -6,7 +6,7 @@ import Balance from '../../common/balance/Balance';
 
 const Container = styled.div`
     input {
-        color: ${props => props.status === '#ff585d' ? props.status : '#24272A'} !important;
+        color: ${(props) => props.status === '#ff585d' ? props.status : '#24272A'} !important;
     }
 
     .available-balance {
@@ -14,7 +14,7 @@ const Container = styled.div`
         margin-top: 15px;
         display: flex;
         justify-content: space-between;
-        color: ${props => props.status === '#ff585d' ? props.status : ''};
+        color: ${(props) => props.status === '#ff585d' ? props.status : ''};
 
         .balance {
             text-align: right;
@@ -41,7 +41,7 @@ export default function AmountInput({
                 autoFocus
                 placeholder='0'
                 value={value}
-                onChange={e => onChange(e.target.value)}
+                onChange={(e) => onChange(e.target.value)}
                 className='stake-amount-input'
                 data-test-id={inputTestId}
             />
