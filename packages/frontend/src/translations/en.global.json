@@ -554,7 +554,7 @@
     },
     "footer": {
         "contactSupport": "Join Community",
-        "copyrights": "MyNearWallet LLC. All Rights Reserved.",
+        "copyrights": "Roketo Labs LTD. All Rights Reserved.",
         "desc": "NEAR is a scalable computing and storage platform that changes how the web works for the better.",
         "learnMore": "Learn More",
         "needHelp": "Questions?",
@@ -1008,7 +1008,9 @@
             "email": "Resend Email",
             "phone": "Resend SMS"
         },
-        "title": "Recovery Methods"
+        "title": "Recovery Methods",
+        "unsupportedMethodEmail": "We're removing support for email as recovery method. Once you've disabled this method, you will not be able to re-enable it.",
+        "unsupportedMethodPhone": "We're removing support for SMS as recovery method. Once you've disabled this method, you will not be able to re-enable it."
     },
     "reduxActions": {
         "ADD_ACCESS_KEY": {
