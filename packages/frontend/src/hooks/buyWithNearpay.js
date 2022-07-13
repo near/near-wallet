@@ -1,7 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
 
-import { Mixpanel } from "../mixpanel";
-import * as nearpayUtils from "../utils/nearpay";
+import { Mixpanel } from '../mixpanel';
+import * as nearpayUtils from '../utils/nearpay';
 
 export function useBuyWithNearpay(accountId) {
     const [nearpay, setNearpayState] = useState({
@@ -11,7 +11,7 @@ export function useBuyWithNearpay(accountId) {
 
     const checkNearpay = async () => {
         await Mixpanel.withTracking(
-            "Wallet Check Nearpay available",
+            'Wallet Check Nearpay available',
             async () => {
                 const isAvailable = await nearpayUtils.isAvailable();
                 if (isAvailable) {
@@ -24,7 +24,7 @@ export function useBuyWithNearpay(accountId) {
                     setNearpayState({ url: null, isAvailable: false });
                 }
             },
-            (e) => console.warn("Error checking Nearpay", e)
+            (e) => console.warn('Error checking Nearpay', e)
         );
     };
 

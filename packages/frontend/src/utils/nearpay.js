@@ -1,4 +1,5 @@
 import sendJson from 'fetch-send-json';
+import { stringify } from 'query-string';
 
 import {
     ACCOUNT_HELPER_URL,
@@ -10,21 +11,21 @@ import {
 export const NEARPAY_BUY_URL_PREFIX = `${NEARPAY_BUY_URL}${NEARPAY_API_KEY}`;
 
 const makeBuyCryptoUrl = ({ toWallet, toCurrency, signature }) => {
-    const params = new URLSearchParams({
+    const params = stringify({
         toWallet,
         toCurrency,
         apiKey: NEARPAY_API_KEY,
         signature: signature,
-    }).toString();
+    });
 
     return `${NEARPAY_BUY_URL}?${params}`;
 };
 
 const getSignature = async ({ toWallet, toCurrency }) => {
-    const url = `${ACCOUNT_HELPER_URL}/nearpay/signParams?${new URLSearchParams({
+    const url = `${ACCOUNT_HELPER_URL}/nearpay/signParams?${stringify({
         toWallet,
         toCurrency,
-    }).toString()}`;
+    })}`;
 
     const { signature } = await sendJson('GET', url);
 
