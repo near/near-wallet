@@ -1,11 +1,11 @@
-import sendJson from "fetch-send-json";
+import sendJson from 'fetch-send-json';
 
 import {
     ACCOUNT_HELPER_URL,
     NEARPAY_API_KEY,
     NEARPAY_API_URL,
     NEARPAY_BUY_URL,
-} from "../config";
+} from '../config';
 
 export const NEARPAY_BUY_URL_PREFIX = `${NEARPAY_BUY_URL}${NEARPAY_API_KEY}`;
 
@@ -21,12 +21,12 @@ const makeBuyCryptoUrl = ({ toWallet, toCurrency, signature }) => {
 };
 
 const getSignature = async ({ toWallet, toCurrency }) => {
-    const url = `${ACCOUNT_HELPER_URL}/nearpay/signURL?${new URLSearchParams({
+    const url = `${ACCOUNT_HELPER_URL}/nearpay/signParams?${new URLSearchParams({
         toWallet,
         toCurrency,
     }).toString()}`;
 
-    const { signature } = await sendJson("GET", url);
+    const { signature } = await sendJson('GET', url);
 
     return signature;
 };
@@ -44,8 +44,8 @@ export const isAvailable = async () => {
 
 
 export const getSignedUrl = async (accountId) => {
-    const params = { toWallet: accountId, toCurrency: "NEAR" };
-    const { signature } = await getSignature(params);
+    const params = { toWallet: accountId, toCurrency: 'NEAR' };
+    const signature = await getSignature(params);
     const url = makeBuyCryptoUrl({ ...params, signature });
 
     return url;

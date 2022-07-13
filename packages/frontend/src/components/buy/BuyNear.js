@@ -4,7 +4,9 @@ import { Translate } from 'react-localize-redux';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
+import { IS_MAINNET } from '../../config';
 import { getPayMethods } from '../../config/buyNearConfig';
+import { useBuyWithNearpay } from '../../hooks/buyWithNearpay';
 import { Mixpanel } from '../../mixpanel';
 import { selectAccountId } from '../../redux/slices/account';
 import { isMoonpayAvailable, getSignedUrl } from '../../utils/moonpay';
@@ -12,6 +14,8 @@ import { buildFtxPayLink } from '../accounts/create/FundWithFtx';
 import { buildUtorgPayLink } from '../accounts/create/FundWithUtorg';
 import FormButton from '../common/FormButton';
 import ArrowIcon from '../svg/ArrowIcon';
+import MoonPayIcon from '../svg/MoonPayIcon';
+import NearPayIcon from '../svg/NearPayIcon';
 import { FundingCard } from './FundingCard';
 
 const StyledContainer = styled.div`
@@ -65,7 +69,15 @@ const StyledContainer = styled.div`
             justify-content: center;
             border: 0 !important;
             svg {
-                margin: 0 0 0 10px !important;
+                margin: -3px 0 0 10px !important;
+            }
+            .moonpay-logo {
+                margin-top: -3px !important;
+            }
+
+            img {
+                margin: -3px 0 0 10px !important;
+                height: 40% !important;
             }
             
             img {
@@ -73,6 +85,11 @@ const StyledContainer = styled.div`
                 height: 40% !important;
             }
         }
+
+        &.black .nearpay-logo {
+            margin-left: 15px !important;
+        }                   
+        
         &.gray-gray svg {
             margin-right: 4px !important;
         }
@@ -97,13 +114,33 @@ const StyledContainer = styled.div`
         font-weight: 500;
         color: #72727A;
         text-align: center;
-        margin: 22px 0 124px;
+        margin: 22px 0 80px;
         @media (max-width: 992px) {
             margin: 22px 0 72px;
          }
         @media (max-width: 358px) {
             margin: 22px 0 72px;
         }
+    }
+    .buy-wrapper {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-evenly;
+        width: 100%;
+        margin-bottom: 60px;
+        padding: 0 24px 24px 24px;
+        border-radius: 8px;
+        border: 1px solid #E5E5E6;
+        & > div {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            width: 370px;
+
+            .grow {
+                flex-grow: 1;
+            }
+        }        
     }
     .wrapper{
         display: grid;
@@ -148,6 +185,10 @@ const StyledContainer = styled.div`
             grid-template-columns: 90%; 
             grid-gap: 24px 0;
         }
+
+        .buy-wrapper {
+            width:  90%;
+        }
     }
 
     @media (min-width: 580px) and (max-width: 992px)  {
@@ -182,6 +223,7 @@ export function BuyNear({ match, location, history }) {
     const [signedMoonPayUrl, setSignedMoonPayUrl] = useState(null);
     const [utorgPayUrl, setUtorgPayUrl] = useState(null);
     const [ftxPayUrl, setFtxPayUrl] = useState(null);
+    const nearpay = useBuyWithNearpay(accountId);
 
     useEffect(() => {
         if (!accountId) {
@@ -197,7 +239,7 @@ export function BuyNear({ match, location, history }) {
         () => getPayMethods({ accountId, moonPayAvailable, signedMoonPayUrl, utorgPayUrl, ftxPayUrl }),
         [accountId, moonPayAvailable, signedMoonPayUrl, utorgPayUrl]
     );
-    
+
     const checkMoonPay = async () => {
         await Mixpanel.withTracking('Wallet Check Moonpay available',
             async () => {
@@ -211,7 +253,7 @@ export function BuyNear({ match, location, history }) {
             (e) => console.warn('Error checking Moonpay', e)
         );
     };
-    nearpay.isAvailable = false;
+
     return (
         <StyledContainer>
             <FormButton
@@ -222,6 +264,73 @@ export function BuyNear({ match, location, history }) {
             </FormButton>
             <div className='title'><Translate id='buyNear.title' /></div>
             <div className='subTitle'><Translate id='buyNear.subTitle' /></div>
+            <div className='buy-wrapper'>
+                <div>
+                    <h3><Translate id='buyNear.nearPay' /></h3>
+                    <div className='desc'><Translate id='buyNear.descNearPay' /></div>
+                    <div className='grow' />
+                    <FormButton
+                        color='link learn-more'
+                        linkTo='https://help.nearpay.co'
+                    >
+                        <Translate id='button.learnMore' />
+                    </FormButton>
+                    <FormButton
+                        sending={!accountId || nearpay.isAvailable === null}
+                        sendingString="button.loading"
+                        disabled={accountId && !nearpay.isAvailable}
+                        color={nearpay.isAvailable ? 'black' : 'gray-gray'}
+                        linkTo={nearpay.url}
+                        onClick={() => Mixpanel.track('Wallet Click Buy with Nearpay')}
+                    >
+                        {nearpay.isAvailable ? (
+                            <>
+                                <Translate id="buyNear.buyWith" />
+                                <NearPayIcon className="nearpay-logo" />
+                            </>
+                        ) : (
+                            <>
+                                <NearPayIcon color="#3F4045" className="nearpay-logo" />
+                                <Translate id="buyNear.notSupported" />
+                            </>
+                        )}
+                    </FormButton>
+                </div>
+
+                <div>
+                    <h3><Translate id='buyNear.moonPay' /></h3>
+                    <div className='desc'><Translate id='buyNear.descOne' /></div>
+                    <FormButton
+                        color='link learn-more'
+                        linkTo='https://support.moonpay.com/'
+                    >
+                        <Translate id='button.learnMore' />
+                    </FormButton>
+
+                    <FormButton
+                        sending={!accountId || moonPayAvailable === null}
+                        sendingString='button.loading'
+                        disabled={!IS_MAINNET || accountId && !moonPayAvailable}
+                        color={moonPayAvailable ? 'black' : 'gray-gray'}
+                        linkTo={signedMoonPayUrl}
+                        onClick={() => Mixpanel.track('Wallet Click Buy with Moonpay')}
+                    >
+                        {moonPayAvailable
+                            ? (
+                                <>
+                                    <Translate id='buyNear.buyWith' />
+                                    <MoonPayIcon className="moonpay-logo" />
+                                </>
+                            ) : (
+                                <>
+                                    <MoonPayIcon color='#3F4045' className="moonpay-logo" />
+                                    <Translate id='buyNear.notSupported' />
+                                </>
+                            )
+                        }
+                    </FormButton>
+                </div>
+            </div>
             <div className='wrapper'>
                 <FundingCard
                     title='buyNear.nearPurchaseTitle'
@@ -242,6 +351,6 @@ export function BuyNear({ match, location, history }) {
                     actions={[PayMethods.okex, PayMethods.binance, PayMethods.huobi]}
                 />
             </div>
-        </StyledContainer>
+        </StyledContainer >
     );
 }
