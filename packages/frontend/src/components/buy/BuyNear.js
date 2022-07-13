@@ -108,7 +108,6 @@ const StyledContainer = styled.div`
     .wrapper{
         display: grid;
         grid-template-columns: repeat(3, 370px);
-        grid-template-rows: 426px;
         grid-gap: 0 30px;
         align-items: start;
         justify-content: center;
@@ -155,7 +154,6 @@ const StyledContainer = styled.div`
         margin: 0 24px;
         .wrapper{
             grid-template-columns: 1fr;
-            grid-template-rows: 204px 170px 218px;
             grid-gap: 32px 0;
         }
     }
