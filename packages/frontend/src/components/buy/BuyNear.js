@@ -271,7 +271,7 @@ export function BuyNear({ match, location, history }) {
                     <div className='grow' />
                     <FormButton
                         color='link learn-more'
-                        linkTo='https://help.nearpay.co'
+                        linkTo='https://help-widget.nearpay.co'
                     >
                         <Translate id='button.learnMore' />
                     </FormButton>
