@@ -33,6 +33,7 @@ import { SetupLedgerNewAccountWrapper } from '../routes/SetupLedgerNewAccountWra
 import { SetupPassphraseNewAccountWrapper } from '../routes/SetupPassphraseNewAccountWrapper';
 import { SetupRecoveryImplicitAccountWrapper } from '../routes/SetupRecoveryImplicitAccountWrapper';
 import { SignWrapper } from '../routes/SignWrapper';
+import { VerifyOwnerWrapper } from '../routes/VerifyOwnerWrapper';
 import { WalletWrapper } from '../routes/WalletWrapper';
 import translations_en from '../translations/en.global.json';
 import translations_it from '../translations/it.global.json';
@@ -672,6 +673,11 @@ class Routing extends Component {
                                 path="/privacy"
                                 component={Privacy}
                                 indexBySearchEngines={true}
+                            />
+                            <PrivateRoute
+                                exact
+                                path="/verify-owner"
+                                component={VerifyOwnerWrapper}
                             />
                             <PrivateRoute component={PageNotFound} />
                         </Switch>

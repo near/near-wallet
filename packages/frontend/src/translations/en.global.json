@@ -1166,6 +1166,18 @@
         "wasSentTo": "was sent to:",
         "youAreSending": "You are sending"
     },
+    "verifyOwner":{
+        "summary": {
+            "title": "Authorization Request",
+            "connetingWith": "Connecting with ${accountId}",
+            "infoMessage": "Once connected, <span class='color-blue'>≪${appName}≫</span> will have <span class='color-black'><b>permissions</b></span>:",
+            "permissions": "Verify your account using your profile name and wallet address."
+        },
+        "invalidRequest": {
+            "body": "The request is invalid and cannot be signed.",
+            "title": "Invalid Transaction"
+        }
+    },
     "sendV2": {
         "accordionTriggerTitle": {
             "balanceDetails": "Balance details",
