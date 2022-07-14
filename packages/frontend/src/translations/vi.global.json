@@ -311,7 +311,7 @@
         "termsPage": {
             "descOne": "Các tài khoản NEAR yêu cầu số dư <b>ít nhất ${amount}</b> để <a href='https://docs.near.org/docs/concepts/account' rel='noopener noreferrer' target='_blank'>giữ chỗ trên mạng lưới.</a>",
             "descTwo": "Sau khi giữ chỗ một địa chỉ ví duy nhất, bạn sẽ được yêu cầu gửi một khoản nạp nhỏ ban đầu để kích hoạt tài khoản của mình.",
-            "disclaimer": "Bằng cách tạo một tài khoản NEAR, bạn đồng ý với <a href='/terms' rel='noopener noreferrer' target='_blank'>Các điều khoản dịch vụ</a> của Ví NEAR cũng như <a href='https://near.org/privacy' rel='noopener noreferrer' target='_blank'>Chính sách Bảo mật</a>.",
+            "disclaimer": "Bằng cách tạo một tài khoản NEAR, bạn đồng ý với <a href='/terms' rel='noopener noreferrer' target='_blank'>Các điều khoản dịch vụ</a> của Ví MyNearWallet cũng như <a href='/privacy' rel='noopener noreferrer' target='_blank'>Chính sách Bảo mật</a>.",
             "title": "Trước khi bạn bắt đầu..."
         }
     },
@@ -387,7 +387,7 @@
     },
     "footer": {
         "contactSupport": "Tham gia cộng đồng",
-        "copyrights": "Mọi quyền được bảo lưu Roketo Labs LTD.",
+        "copyrights": "Mọi quyền được bảo lưu MyNearWallet LLC.",
         "desc": "NEAR là một nền tảng lưu trữ và điện toán có thể mở rộng, thay đổi cách thức hoạt động của web trở nên tốt hơn.",
         "learnMore": "Tìm hiểu thêm",
         "needHelp": "Các câu hỏi?",

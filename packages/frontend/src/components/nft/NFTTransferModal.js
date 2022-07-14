@@ -289,7 +289,7 @@ export default function NFTTransferModal({ open, onClose, nft, accountId }) {
                 </StyledContainer>
             )}
 
-            {viewType === 'confirm' &&
+            {viewType === 'confirm' && (
                 <StyledContainer>
                     <h3><Translate id='NFTTransfer.transferNft'/></h3>
 
@@ -338,9 +338,9 @@ export default function NFTTransferModal({ open, onClose, nft, accountId }) {
                         </ModalFooter>
                     </div>
                 </StyledContainer>
-            }
+            )}
 
-            {viewType === 'success' &&
+            {viewType === 'success' && (
                 <StyledContainer className='small-centered'>
                     <div className='icon'>
                         <AvatarSuccessIcon/>
@@ -348,12 +348,12 @@ export default function NFTTransferModal({ open, onClose, nft, accountId }) {
                     <div className='success'>
                         <p><Translate id='NFTTransfer.transactionComplete' /></p>
                         <p>
-                        <SafeTranslate id='NFTTransfer.youSent' 
-                            data={{
-                                title: nft.metadata.title,
-                                receiverId
-                            }}
-                        />
+                            <SafeTranslate id='NFTTransfer.youSent' 
+                                data={{
+                                    title: nft.metadata.title,
+                                    receiverId
+                                }}
+                            />
                         </p>
                     </div>
 
@@ -378,7 +378,7 @@ export default function NFTTransferModal({ open, onClose, nft, accountId }) {
                         </ModalFooter>
                     </div>
                 </StyledContainer>
-            }
+            )}
         </Modal>
     );
 }

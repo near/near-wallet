@@ -70,17 +70,17 @@ export default ({
                     handleContinue();
                     e.preventDefault();
                 }}>
-                    {fundedAccountAvailable ?
+                    {fundedAccountAvailable ? (
                         <>
                             <h1><Translate id='verifyAccount.title' /></h1>
                             <h2><Translate id='verifyAccount.desc' /></h2>
                         </>
-                        :
+                    ) : (
                         <>
                             <h1><Translate id='verifyAccount.titleNoFunding' /></h1>
                             <h2><Translate id='verifyAccount.descNoFunding' /></h2>
                         </>
-                    }
+                    )}
                     <FormButton
                         onClick={() => setShowWhereToBuyModal(true)}
                         type='button'
@@ -90,7 +90,7 @@ export default ({
                     >
                         <Translate id='account.createImplicit.pre.whereToBuy.button' />
                     </FormButton>
-                    {fundedAccountAvailable &&
+                    {fundedAccountAvailable && (
                         <>
                             <h4>
                                 <Translate id='verifyAccount.options.passCode' />
@@ -112,7 +112,7 @@ export default ({
                                 translateIdDesc={optionTranslateId('phone', 'desc')}
                             />
                         </>
-                    }
+                    )}
                     <h4>
                         <Translate id='verifyAccount.options.initialDeposit' />
                     </h4>
@@ -123,7 +123,7 @@ export default ({
                         translateIdTitle={optionTranslateId('existingAccount', 'title')}
                         translateIdDesc={optionTranslateId('existingAccount', 'desc')}
                     />
-                    {showFundWithCreditCardOption &&
+                    {showFundWithCreditCardOption && (
                         <VerifyOption
                             onClick={() => setActiveVerificationOption('creditCard')}
                             option='creditCard'
@@ -131,7 +131,7 @@ export default ({
                             translateIdTitle={optionTranslateId('creditCard', 'title')}
                             translateIdDesc={optionTranslateId('creditCard', 'desc')}
                         />
-                    }
+                    )}
                     <VerifyOption
                         onClick={() => setActiveVerificationOption('manualDeposit')}
                         option='manualDeposit'
@@ -149,19 +149,19 @@ export default ({
                 </form>
                 <div className='recaptcha-disclaimer'><Translate id='reCAPTCHA.disclaimer' /></div>
             </StyledContainer>
-            {showWhereToBuyModal &&
+            {showWhereToBuyModal && (
                 <WhereToBuyNearModal
                     onClose={() => setShowWhereToBuyModal(false)}
                     open={showWhereToBuyModal}
                 />
-            }
-            {showOptionAlreadyUsedModal &&
+            )}
+            {showOptionAlreadyUsedModal && (
                 <OptionAlreadyUsedModal
                     onClose={onCloseOptionAlreadyUsedModal}
                     isOpen={showOptionAlreadyUsedModal}
                     kind={activeVerificationOption}
                 />
-            }
+            )}
         </>
     );
 };

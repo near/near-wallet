@@ -200,21 +200,21 @@ const TokenBox = ({ token, onClick, currentLanguage }) => {
                 </div>
                 {token.onChainFTMetadata?.symbol === 'NEAR' &&
                 !token.contractName ? (
-                    <div className='balance'>
-                        <Balance
-                            amount={token.balance}
-                            data-test-id='walletHomeNearBalance'
-                            symbol={false}
-                            showSymbolNEAR={!CREATE_USN_CONTRACT}
+                        <div className='balance'>
+                            <Balance
+                                amount={token.balance}
+                                data-test-id='walletHomeNearBalance'
+                                symbol={false}
+                                showSymbolNEAR={!CREATE_USN_CONTRACT}
+                            />
+                        </div>
+                    ) : (
+                        <TokenAmount
+                            token={token}
+                            className={token.onChainFTMetadata?.symbol  !== 'USN' && CREATE_USN_CONTRACT ? 'balance tokenAmount':'balance'}
+                            withSymbol={token.onChainFTMetadata?.symbol !== 'USN' || !CREATE_USN_CONTRACT}
                         />
-                    </div>
-                ) : (
-                    <TokenAmount
-                        token={token}
-                        className={token.onChainFTMetadata?.symbol  !== 'USN' && CREATE_USN_CONTRACT ? 'balance tokenAmount':'balance'}
-                        withSymbol={token.onChainFTMetadata?.symbol !== 'USN' || !CREATE_USN_CONTRACT}
-                    />
-                )}
+                    )}
             </div>
         </StyledContainer>
     );

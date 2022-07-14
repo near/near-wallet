@@ -54,8 +54,8 @@ const LocalAlertBoxContainer = styled.div`
     @media screen and (max-width: 991px) {
         font-size: 12px;
     }
-  }
 `;
+
 /**
  * Renders request status.
  *
@@ -64,11 +64,11 @@ const LocalAlertBoxContainer = styled.div`
  * @param localAlert.messageCode {string} localization code of status message to display
  */
 const LocalAlertBox = ({ localAlert, accountId, dots }) => (
-    localAlert?.show ?
+    localAlert?.show ? (
         <LocalAlertBoxContainer className={classNames(['alert-info', {'success': localAlert.success}, {'problem': !localAlert.success}, {'dots': dots}])}>
             <SafeTranslate id={localAlert.messageCode} data={{ accountId: accountId }}/>
         </LocalAlertBoxContainer>
-        : null
+    ) : null
 );
 
 export default LocalAlertBox;

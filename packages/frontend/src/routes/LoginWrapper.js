@@ -75,7 +75,10 @@ export function LoginWrapper() {
             contractIdUrl={contractIdUrl}
             failureUrl={failureUrl}
             successUrl={successUrl}
-            onClickNext={() => { setConfirmLogin(true); window.scrollTo(0, 0);}}
+            onClickNext={() => {
+                setConfirmLogin(true);
+                window.scrollTo(0, 0);
+            }}
         />
     );
 }

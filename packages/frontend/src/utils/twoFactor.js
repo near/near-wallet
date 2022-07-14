@@ -22,7 +22,9 @@ export class TwoFactor extends Account2FA {
 
     static async has2faEnabled(account) {
         const state = await account.state();
-        if (!state) return false;
+        if (!state) {
+            return false;
+        }
         return MULTISIG_CONTRACT_HASHES.includes(state.code_hash);
     }
 

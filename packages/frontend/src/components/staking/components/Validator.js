@@ -110,8 +110,8 @@ export default function Validator({
                 }).then((res) => 
                     Promise.all([
                         (res || [])
-                        .filter(({balance}) => !new BN(balance).isZero())
-                        .map(({token_id}) => dispatch(claimFarmRewards(validator.accountId, token_id)))
+                            .filter(({balance}) => !new BN(balance).isZero())
+                            .map(({token_id}) => dispatch(claimFarmRewards(validator.accountId, token_id)))
                     ])
                 );
             }
@@ -121,7 +121,9 @@ export default function Validator({
     };
 
     const handleClaimAction = async (token_id) => {
-        if (!validator || !isFarmingValidator || !token_id) return null;
+        if (!validator || !isFarmingValidator || !token_id) {
+            return null;
+        }
 
         try {
             setClaimingProceed(true);
@@ -158,7 +160,7 @@ export default function Validator({
 
     return (
         <>
-            {stakeNotAllowed &&
+            {stakeNotAllowed && (
                 <AlertBanner
                     data-test-id="cantStakeWithValidatorContainer"
                     data-test-id-button="viewCurrentValidatorButton"
@@ -166,12 +168,12 @@ export default function Validator({
                     button='staking.alertBanner.button'
                     linkTo={`/staking/${selectedValidator}`}
                 />
-            }
-            {hasUnwhitelistedTokens &&
+            )}
+            {hasUnwhitelistedTokens && (
                 <AlertBanner
                     title='staking.validator.notWhitelistedValidatorWarning'
                 />
-            }
+            )}
             <h1 data-test-id="validatorNamePageTitle">
                 <SafeTranslate
                     id="staking.validator.title"
@@ -192,7 +194,7 @@ export default function Validator({
             {isFarmingValidator &&
                 <FarmingAPY apy={farmAPY} />
             }
-            {validator && !stakeNotAllowed && !pendingUpdateStaking &&
+            {validator && !stakeNotAllowed && !pendingUpdateStaking && (
                 <>
                     <BalanceBox
                         title='staking.balanceBox.staked.title'
@@ -231,7 +233,7 @@ export default function Validator({
                         button='staking.balanceBox.available.button'
                         loading={loading}
                     />
-                    {showConfirmModal &&
+                    {showConfirmModal && (
                         <StakeConfirmModal
                             title={`staking.validator.${confirm}`}
                             label='staking.stake.from'
@@ -243,8 +245,8 @@ export default function Validator({
                             loading={loading}
                             sendingString='withdrawing'
                         />
-                    }
-                    {isFarmingValidator && selectedFarm && showClaimTokenFarmRewardsModal &&
+                    )}
+                    {isFarmingValidator && selectedFarm && showClaimTokenFarmRewardsModal && (
                         <ClaimTokenFarmRewardsModal
                             title={'staking.validator.claimFarmRewards'}
                             label="staking.stake.from"
@@ -254,9 +256,10 @@ export default function Validator({
                             onClose={() => setShowClaimTokenFarmRewardsModal(false)}
                             loading={claimingProceed}
                             farm={selectedFarm}
-                        />}
+                        />
+                    )}
                 </>
-            }
+            )}
         </>
     );
 }

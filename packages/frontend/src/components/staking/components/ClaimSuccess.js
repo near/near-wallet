@@ -5,7 +5,7 @@ import FormButton from '../../common/FormButton';
 import TransferMoneyIcon from '../../svg/TransferMoneyIcon';
 
 export const ClaimSuccess = () => {
-  return (
+    return (
     <>
       <TransferMoneyIcon/>
       <h1><Translate id={'staking.claimSuccess.title'} /></h1>
@@ -23,5 +23,5 @@ export const ClaimSuccess = () => {
           <Translate id={'staking.claimSuccess.button'} />
       </FormButton>
     </>
-  );
+    );
 };

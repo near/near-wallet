@@ -80,7 +80,7 @@ const TwoFactorAuth = ({ twoFactor, history }) => {
 
     return (
         <Container>
-            {twoFactor && !confirmDisable &&
+            {twoFactor && !confirmDisable && (
                 <div className='method'>
                     <div className='top'>
                         <div>
@@ -97,8 +97,8 @@ const TwoFactorAuth = ({ twoFactor, history }) => {
                         </span> <Translate id='twoFactor.since'/> {new Date(twoFactor.createdAt).toDateString().replace(/^\S+\s/,'')}
                     </div>
                 </div>
-            }
-            {twoFactor && confirmDisable &&
+            )}
+            {twoFactor && confirmDisable && (
                 <ConfirmDisable
                     onConfirmDisable={handleConfirmDisable}
                     onKeepEnabled={() => setConfirmDisable(false)}
@@ -107,8 +107,8 @@ const TwoFactorAuth = ({ twoFactor, history }) => {
                     component='twoFactor'
                     twoFactorKind={twoFactor.kind}
                 />
-            }
-            {!twoFactor &&
+            )}
+            {!twoFactor && (
                 <div className='method'>
                     <div className='top'>
                         <div className='title'><Translate id='twoFactor.notEnabled'/></div>
@@ -120,7 +120,7 @@ const TwoFactorAuth = ({ twoFactor, history }) => {
                             <Translate id='button.enable'/>
                         </FormButton>
                     </div>
-                    {!account.canEnableTwoFactor &&
+                    {!account.canEnableTwoFactor && (
                         <div className='color-red'>
                             <SafeTranslate
                                 id='twoFactor.notEnoughBalance'
@@ -129,9 +129,9 @@ const TwoFactorAuth = ({ twoFactor, history }) => {
                                 }}
                             />
                         </div>
-                    }
+                    )}
                 </div>
-            }
+            )}
         </Container>
     );
 };

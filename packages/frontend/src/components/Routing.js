@@ -2,7 +2,7 @@ import { ConnectedRouter, getRouter } from 'connected-react-router';
 import isString from 'lodash.isstring';
 import { parseSeedPhrase } from 'near-seed-phrase';
 import PropTypes from 'prop-types';
-import { parse, stringify } from 'query-string';
+import { stringify } from 'query-string';
 import React, { Component } from 'react';
 import ReactDOMServer from 'react-dom/server';
 import { withLocalize } from 'react-localize-redux';
@@ -96,6 +96,7 @@ import { StakingContainer } from './staking/StakingContainer';
 import Swap from './swap/Swap';
 import Terms from './terms/Terms';
 import '../index.css';
+import WalletMigration from './wallet-migration/WalletMigration';
 const { fetchTokenFiatValues, getTokenWhiteList } = tokenFiatValueActions;
 
 const {
@@ -202,6 +203,10 @@ class Routing extends Component {
 
         this.props.setActiveLanguage(activeLang);
         // this.addTranslationsForActiveLanguage(defaultLanguage)
+
+        this.state = {
+            openTransferPopup: false,
+        };
     }
 
     componentDidMount = async () => {
@@ -217,13 +222,10 @@ class Routing extends Component {
             handleRedirectUrl,
             handleClearUrl,
             router,
-            fetchTokenFiatValues,
             handleClearAlert,
             handleFlowLimitation,
         } = this.props;
 
-        fetchTokenFiatValues();
-        this.startPollingTokenFiatValue();
         handleRefreshUrl(router);
         refreshAccount();
 
@@ -245,13 +247,15 @@ class Routing extends Component {
     };
 
     componentDidUpdate(prevProps) {
-        const { activeLanguage, account } = this.props;
+        const { activeLanguage, fetchTokenFiatValues, account } = this.props;
 
         if (
             prevProps.account.accountId !== account.accountId &&
             account.accountId !== undefined
         ) {
             this.props.getTokenWhiteList(account.accountId);
+            fetchTokenFiatValues({ accountId: account.accountId });
+            this.startPollingTokenFiatValue();
         }
 
         const prevLangCode =
@@ -270,10 +274,10 @@ class Routing extends Component {
     };
 
     startPollingTokenFiatValue = () => {
-        const { fetchTokenFiatValues } = this.props;
+        const { fetchTokenFiatValues, account } = this.props;
 
         const handlePollTokenFiatValue = async () => {
-            await fetchTokenFiatValues().catch(() => {});
+            await fetchTokenFiatValues({ accountId: account.accountId }).catch(() => {});
             if (this.pollTokenFiatValue) {
                 this.pollTokenFiatValue = setTimeout(
                     () => handlePollTokenFiatValue(),
@@ -291,6 +295,15 @@ class Routing extends Component {
         clearTimeout(this.pollTokenFiatValue);
         this.pollTokenFiatValue = null;
     };
+
+    handleTransferClick = () => {
+
+        this.setState({ openTransferPopup: true });
+    }
+
+    closeTransferPopup = () => {
+        this.setState({ openTransferPopup: false });
+    }
 
     render() {
         const {
@@ -342,11 +355,20 @@ class Routing extends Component {
                 >
                     <ThemeProvider theme={theme}>
                         <ScrollToTop />
-                        {SHOW_MIGRATION_BANNER && <MigrationBanner  account={account}/>}
-                        
+                        {
+                            SHOW_MIGRATION_BANNER && (
+                                <MigrationBanner
+                                    account={account}
+                                    onTransfer={this.handleTransferClick} />
+                            )}
+
                         <NetworkBanner account={account} />
                         <NavigationWrapper />
                         <GlobalAlert />
+                        <WalletMigration
+                            open={this.state.openTransferPopup}
+                            history={this.props.history}
+                            onClose={this.closeTransferPopup} />
                         <LedgerConfirmActionModal />
                         <LedgerConnectModal />
                         {account.requestPending !== null && (
@@ -409,8 +431,7 @@ class Routing extends Component {
                                 exact
                                 path="/create"
                                 render={(props) =>
-                                    accountFound ||
-                                    !DISABLE_CREATE_ACCOUNT ? (
+                                    accountFound || !DISABLE_CREATE_ACCOUNT ? (
                                         <CreateAccountWithRouter
                                             {...props}
                                         />
@@ -565,21 +586,10 @@ class Routing extends Component {
                                     );
                                 }}
                             />
-                            <Route exact path="/batch-import" render={(({location}) => {
-                                let { keys, accounts, ledgerHdPaths } = parse(location.hash, {arrayFormat: 'comma'});
-                                if (!keys || !accounts) return <PageNotFound />;
-
-                                // if single key or account param make an array of it
-                                keys = Array.isArray(keys) ? keys : [keys];
-                                accounts = Array.isArray(accounts) ? accounts : [accounts];
-                                ledgerHdPaths = Array.isArray(ledgerHdPaths) ? ledgerHdPaths : [ledgerHdPaths];
-
-                                const accountIdToKeyMap = accounts.reduce((acc, curr) => {
-                                    const [ accountId, keyIndex, ledgerHdPathIndex ] = curr.split('*');
-                                    return { ...acc, [accountId]: {key: keys[keyIndex], ledgerHdPath: ledgerHdPaths?.[ledgerHdPathIndex]} };
-                                }, {});
-                                return <BatchImportAccounts accountIdToKeyMap={accountIdToKeyMap} onCancel={() => this.props.history.replace('/')}/>;
-                            })} />
+                            <Route exact path="/batch-import" render={() =>
+                                (<BatchImportAccounts
+                                    onCancel={() => this.props.history.replace('/')} />)}
+                            />
                             <Route
                                 exact
                                 path="/batch-ledger-export"

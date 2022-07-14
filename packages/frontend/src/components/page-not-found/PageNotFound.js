@@ -45,17 +45,17 @@ const StyledContainer = styled(Container)`
 `;
 
 export function PageNotFound() {
-  return (
-    <StyledContainer>
-        <h1 className="title">
-            <Translate id="pageNotFound.title" />
-        </h1>
-        <h1 className="displayTitle">
-            <Translate id="pageNotFound.displayTitle" />
-        </h1>
-        <FormButton linkTo="/">
-            <Translate id="pageNotFound.returnToWallet" />
-        </FormButton>
-    </StyledContainer>
-  );
+    return (
+        <StyledContainer>
+            <h1 className="title">
+                <Translate id="pageNotFound.title" />
+            </h1>
+            <h1 className="displayTitle">
+                <Translate id="pageNotFound.displayTitle" />
+            </h1>
+            <FormButton linkTo="/">
+                <Translate id="pageNotFound.returnToWallet" />
+            </FormButton>
+        </StyledContainer>
+    );
 }

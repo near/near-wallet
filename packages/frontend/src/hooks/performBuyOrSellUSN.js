@@ -63,7 +63,7 @@ export const usePerformBuyOrSellUSN = () => {
             await usnContract.buy(setArgsUSNContractBuy({multiplier, slippage, amount}));
            
         } else {
-           await usnContract.sell(setArgsUSNContractSell({multiplier, slippage, amount}));
+            await usnContract.sell(setArgsUSNContractSell({multiplier, slippage, amount}));
         }
     };
 

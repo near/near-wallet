@@ -1,8 +1,10 @@
 import * as nearApiJs from 'near-api-js';
 import { parseNearAmount } from 'near-api-js/lib/utils/format';
 
+import { RENDER_MIGRATION } from '../../../../../features';
+
 export default {
-    ACCOUNT_HELPER_URL:'https://near-contract-helper.onrender.com',
+    ACCOUNT_HELPER_URL: RENDER_MIGRATION ? 'https://testnet-api.kitwallet.app' : 'https://near-contract-helper.onrender.com',
     ACCOUNT_ID_SUFFIX: 'testnet',
     ACCESS_KEY_FUNDING_AMOUNT: nearApiJs.utils.format.parseNearAmount('0.25'),
     ALLOW_2FA_ENABLE_HASHES: [
@@ -48,7 +50,7 @@ export default {
     NEAR_TOKEN_ID: 'wrap.testnet',
     FARMING_CLAIM_GAS: parseNearAmount('0.00000000015'),
     FARMING_CLAIM_YOCTO: '1',
-    REF_FINANCE_API_ENDPOINT: 'https://dev-indexer.ref-finance.com/',
+    REF_FINANCE_API_ENDPOINT: 'https://testnet-indexer.ref-finance.com/',
     REF_FINANCE_CONTRACT: 'ref-finance-101.testnet',
     USN_CONTRACT: 'usdn.testnet'
 };

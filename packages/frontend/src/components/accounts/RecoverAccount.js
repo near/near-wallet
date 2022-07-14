@@ -150,12 +150,12 @@ const RecoverAccount = ({
                             <Translate id='button.signInLedger' />
                         </FormButton>
                     </Option>
-                    {!IS_MAINNET && isMobile &&
+                    {!IS_MAINNET && isMobile && (
                         <Option>
                             <Header className='no-background'><SmartPhoneIcon /><Translate id='mobileDeviceAccess.title' /></Header>
                             <P><Translate id='mobileDeviceAccess.importCode.desc' /></P>
                         </Option>
-                    }
+                    )}
                 </Options>
             </StyledContainer>
         </>

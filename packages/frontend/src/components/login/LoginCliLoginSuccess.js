@@ -35,7 +35,7 @@ const CustomImage = styled(Image)`
 
 export const LoginCliLoginSuccess = () => (
     <LoginCliLoginSuccessWrapper>
-         <CustomImage src={IconCheckImage} />
+        <CustomImage src={IconCheckImage} />
         <h2 className='title'>
             <Translate id='login.cliLoginSuccess.pageTitle' />
         </h2>

@@ -68,27 +68,31 @@ const RecoveryContainer = ({ type, recoveryMethods }) => {
                 return false;
             }
 
+            if (kind === 'email' && !publicKey) {
+                return false;
+            }
+
             return kind === type;
         });
 
-        if (currentTypeEnabledMethods.length === 0) { return null; }
+        if (currentTypeEnabledMethods.length === 0) {
+            return null;
+        }
 
         return (
             <Container className='recovery-option'>
                 {currentTypeEnabledMethods
-                    .map((method, i) => {
-
-                            return <RecoveryMethod
-                                key={i}
-                                method={method}
-                                accountId={account.accountId}
-                                deletingMethod={deletingMethod === method.publicKey}
-                                onDelete={() => handleDeleteMethod(method)}
-                                deleteAllowed={deleteAllowed}
-                                mainLoader={mainLoader}
-                            />;
-                        }
-                    )}
+                    .map((method, i) => (
+                        <RecoveryMethod
+                            key={i}
+                            method={method}
+                            accountId={account.accountId}
+                            deletingMethod={deletingMethod === method.publicKey}
+                            onDelete={() => handleDeleteMethod(method)}
+                            deleteAllowed={deleteAllowed}
+                            mainLoader={mainLoader}
+                        />
+                    ))}
             </Container>
         );
     } else {

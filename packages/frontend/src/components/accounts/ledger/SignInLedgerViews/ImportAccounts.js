@@ -37,15 +37,18 @@ const ImportAccounts = ({
     return (
         <>
             {success
-                ? <>
-                    <LedgerSuccessIcon />
-                    <h1>{accountsApproved}/{totalAccounts} <Translate id='confirmLedgerModal.header.success' data={{ totalAccounts }} /></h1>
-                </>
-                : <>
-                    <LedgerImageCircle color='#D6EDFF' />
-                    <h1><Translate id='confirmLedgerModal.header.weFound' data={{ totalAccounts }} /></h1>
-                    <Translate id='confirmLedgerModal.two' />
-                </>
+                ? (
+                    <>
+                        <LedgerSuccessIcon />
+                        <h1>{accountsApproved}/{totalAccounts} <Translate id='confirmLedgerModal.header.success' data={{ totalAccounts }} /></h1>
+                    </>
+                ) : (
+                    <>
+                        <LedgerImageCircle color='#D6EDFF' />
+                        <h1><Translate id='confirmLedgerModal.header.weFound' data={{ totalAccounts }} /></h1>
+                        <Translate id='confirmLedgerModal.two' />
+                    </>
+                )
             }
             
             <CustomContainer>
@@ -53,7 +56,7 @@ const ImportAccounts = ({
                     {accountsApproved}/{totalAccounts} <Translate id='signInLedger.modal.accountsApproved'/>
                 </div>
                 <AccountListImport accounts={ledgerAccounts} animationScope={animationScope}/>
-                {success &&
+                {success && (
                     <div className='buttons-bottom-buttons'>
                         <FormButton
                             onClick={handleContinue}
@@ -61,7 +64,7 @@ const ImportAccounts = ({
                             <Translate id='button.continue' />
                         </FormButton>
                     </div>
-                }
+                )}
             </CustomContainer>
         </>
     );

@@ -52,8 +52,6 @@ module.exports = {
     SEND_NEAR_GAS: process.env.SEND_NEAR_GAS || '450000000000',
     NFT_TRANSFER_GAS: process.env.NFT_TRANSFER_GAS || '30000000000000',
     LOCKUP_ACCOUNT_ID_SUFFIX: process.env.LOCKUP_ACCOUNT_ID_SUFFIX,
-    MIGRATION_START_DATE: parseDateFromShell(process.env.MIGRATION_START_DATE || '2022-06-28'),
-    MIGRATION_END_DATE: parseDateFromShell(process.env.MIGRATION_END_DATE || '2022-08-28'),
     MIN_BALANCE_FOR_GAS: process.env.REACT_APP_MIN_BALANCE_FOR_GAS,
     MIN_BALANCE_TO_CREATE: process.env.MIN_BALANCE_TO_CREATE,
     MOONPAY_API_KEY: process.env.MOONPAY_API_KEY,
@@ -63,6 +61,7 @@ module.exports = {
     MULTISIG_CONTRACT_HASHES: parseCommaSeperatedStringAsArrayFromShell(
         process.env.MULTISIG_CONTRACT_HASHES
     ),
+    MIGRATION_START_DATE: parseDateFromShell(process.env.MIGRATION_START_DATE || '2022-07-12'),
     MULTISIG_MIN_AMOUNT: process.env.REACT_APP_MULTISIG_MIN_AMOUNT,
     MULTISIG_MIN_PROMPT_AMOUNT:
         process.env.REACT_APP_MULTISIG_MIN_PROMPT_AMOUNT,

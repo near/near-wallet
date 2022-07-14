@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import { Translate } from 'react-localize-redux';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
@@ -8,11 +8,13 @@ import ShieldIcon from '../../../images/icon-shield.svg';
 import ImportArrow from '../../../images/import-arrow.svg';
 import { selectAccountUrlReferrer } from '../../../redux/slices/account';
 import { selectAvailableAccounts, selectAvailableAccountsIsLoading } from '../../../redux/slices/availableAccounts';
+import { decodeAccountsFrom } from '../../../utils/encoding';
 import getWalletURL from '../../../utils/getWalletURL';
 import FormButton from '../../common/FormButton';
 import FormButtonGroup from '../../common/FormButtonGroup';
 import Modal from '../../common/modal/Modal';
 import Container from '../../common/styled/Container.css';
+import MyNearWalletLogo from '../../svg/MyNearWalletLogo';
 import AccountListImport from '../AccountListImport';
 import AccountImportModal from './AccountImportModal';
 import BatchImportAccountsSuccessScreen from './BatchImportAccountsSuccessScreen';
@@ -38,37 +40,139 @@ const CustomContainer = styled.div`
     }
 `;
 
+const PublicKeyFormContainer = styled.div`
+    padding: 15px 0 10px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+
+    label {
+        text-align: left;
+        display: flex;
+        background-color: #F5FAFF;
+        margin: 25px -25px 0 -25px;
+        padding: 15px 25px;
+        line-height: 1.5;
+
+        > div {
+            > div {
+                border-color: #0081F1;
+            }
+        }
+
+        > span {
+            margin-left: 10px;
+            word-break: break-word;
+            color: #006ADC;
+        }
+
+        b {
+            color: #272729;
+        }
+    }
+
+    > button {
+        width: 100%;
+    }
+
+    svg {
+        width: 170px;
+    }
+`;
+
+const Title = styled.h3`
+    margin: 15px 0;
+    font-size: 18px;
+    font-weight: 700;
+`;
+
+const Description = styled.p`
+    line-height: 1.5;
+    font-size: 14px;
+`;
+
 export const IMPORT_STATUS = {
-  PENDING: 'pending',
-  SUCCESS: 'success',
-  UP_NEXT: 'waiting',
-  FAILED: 'error'
+    PENDING: 'pending',
+    SUCCESS: 'success',
+    UP_NEXT: 'waiting',
+    FAILED: 'error'
 };
 
-const BatchImportAccounts = ({ accountIdToKeyMap, onCancel }) => {
+const EnterPublicKeyForm = ({ onCancel, onPublicKey }) => {
+    const [value, setValue] = useState('');
+    const handleInputChange = useCallback(({ currentTarget }) => {
+        setValue(currentTarget.value);
+    }, []);
+
+    const handleSubmit = useCallback(() => {
+        onPublicKey(value);
+    }, [value]);
+
+    return (
+        <Modal
+            isOpen
+            disableClose
+            modalSize='md'
+            style={{ maxWidth: '496px' }}
+        >
+            <PublicKeyFormContainer>
+                <MyNearWalletLogo />
+                <Title><Translate id='batchImportAccounts.enterKeyForm.title' /></Title>
+                <Description><Translate id='batchImportAccounts.enterKeyForm.desc' /></Description>
+                <Translate>
+                    {({ translate }) => (
+                        <>
+                            <input
+                                placeholder={translate('batchImportAccounts.enterKeyForm.placeholder')}
+                                onChange={handleInputChange}
+                                value={value}
+                                autoCapitalize='off'
+                                spellCheck='false'
+                                autoFocus
+                            />
+                        </>
+                    )}
+                </Translate>
+                <FormButton
+                    disabled={value.length === 0}
+                    type='submit'
+                    onClick={handleSubmit}>
+                    <Translate id='batchImportAccounts.enterKeyForm.confirmCaption' />
+                </FormButton>
+                <FormButton
+                    className='link'
+                    onClick={onCancel}>
+                    <Translate id='button.cancel' />
+                </FormButton>
+            </PublicKeyFormContainer>
+        </Modal>
+    );
+};
+
+const ImportAccounts = ({ accountsData, onCancel }) => {
     const availableAccountsIsLoading = useSelector(selectAvailableAccountsIsLoading);
     const availableAccounts = useSelector(selectAvailableAccounts);
     const accountUrlReferrer = useSelector(selectAccountUrlReferrer);
-
     const [state, dispatch] = useImmerReducer(reducer, {
-        accounts: Object.entries(accountIdToKeyMap).map(
-            ([accountId, { key, ledgerHdPath }]) => ({
-                accountId,
-                status: null,
-                key,
-                ledgerHdPath,
-            })
+        accounts: accountsData.map(([accountId, key, ledgerHdPath]) => ({
+            accountId,
+            status: null,
+            key,
+            ledgerHdPath,
+        })
         ),
     });
+
     const currentAccount = useMemo(() => state.accounts.find((account) => account.status === IMPORT_STATUS.PENDING), [state.accounts]);
     const accountsApproved = useMemo(() => state.accounts.filter((account) => account.status === IMPORT_STATUS.SUCCESS), [state.accounts]);
     const completed = useMemo(() => state.accounts.every((account) => account.status === IMPORT_STATUS.SUCCESS || account.status === IMPORT_STATUS.FAILED), [state.accounts]);
     const showSuccessScreen = useMemo(() => completed && state.accounts.some((account) => account.status === IMPORT_STATUS.SUCCESS), [completed, state.accounts]);
 
     useEffect(() => {
-      if (!currentAccount) {
-        dispatch({type: ACTIONS.REMOVE_ACCOUNTS, accounts: availableAccounts});
-      }
+        if (!currentAccount) {
+            dispatch({type: ACTIONS.REMOVE_ACCOUNTS, accounts: availableAccounts});
+        }
     },[availableAccounts, currentAccount]);
 
     if (showSuccessScreen) {
@@ -78,17 +182,17 @@ const BatchImportAccounts = ({ accountIdToKeyMap, onCancel }) => {
     return (
         <>
             <Container className="small-centered border ledger-theme">
-              <CustomContainer>
-                  <img src={ImportArrow} alt="ImportArrow" />
-                  <div className='screen-descripton'>
-                    <h3>
-                      <Translate id="batchImportAccounts.importScreen.title" data={{ noOfAccounts: state.accounts.length }}/>
-                      {accountUrlReferrer || <Translate id="sign.unknownApp" />}
-                    </h3>
-                    <br />
-                    <br />
-                    <Translate id="batchImportAccounts.importScreen.desc"/>
-                  </div>
+                <CustomContainer>
+                    <img src={ImportArrow} alt="ImportArrow" />
+                    <div className='screen-descripton'>
+                        <h3>
+                            <Translate id="batchImportAccounts.importScreen.title" data={{ noOfAccounts: state.accounts.length }}/>
+                            {accountUrlReferrer || <Translate id="sign.unknownApp" />}
+                        </h3>
+                        <br />
+                        <br />
+                        <Translate id="batchImportAccounts.importScreen.desc"/>
+                    </div>
                     <div className="title">
                         {accountsApproved.length}/{state.accounts.length}{' '}
                         <Translate id="signInLedger.modal.accountsApproved" />
@@ -98,18 +202,18 @@ const BatchImportAccounts = ({ accountIdToKeyMap, onCancel }) => {
                     <FormButtonGroup>
                         <FormButton
                             onClick={onCancel}
-                            className="gray-blue"
+                            className='gray-blue'
                             disabled={availableAccountsIsLoading}
                         >
-                            <Translate id="button.cancel" />
+                            <Translate id='button.cancel' />
                         </FormButton>
                         <FormButton
                             onClick={() =>
                                 dispatch({ type: ACTIONS.BEGIN_IMPORT })
                             }
-                            disabled={availableAccountsIsLoading || completed}
+                            disabled={availableAccountsIsLoading || state.accounts.length === 0}
                         >
-                            <Translate id="button.beginImport" />
+                            <Translate id='button.beginImport' />
                         </FormButton>
                     </FormButtonGroup>
                 </CustomContainer>
@@ -128,23 +232,23 @@ const BatchImportAccounts = ({ accountIdToKeyMap, onCancel }) => {
                 ) : (
                     <Modal
                         isOpen={currentAccount}
-                        modalSize="sm"
-                        modalClass="slim"
+                        modalSize='sm'
+                        modalClass='slim'
                         onClose={() => {}}
                         disableClose
                     >
                         <ModalContainer>
                             <img
                                 src={ShieldIcon}
-                                alt="SHIELD"
-                                className="top-icon"
+                                alt='SHIELD'
+                                className='top-icon'
                             />
                             <h3>
-                                <Translate id="batchImportAccounts.confirmUrlModal.title" />
+                                <Translate id='batchImportAccounts.confirmUrlModal.title' />
                             </h3>
-                            <div className="desc">
+                            <div className='desc'>
                                 <p>
-                                    <Translate id="batchImportAccounts.confirmUrlModal.desc" />
+                                    <Translate id='batchImportAccounts.confirmUrlModal.desc' />
                                 </p>
                                 <br />
                                 <br />
@@ -156,13 +260,35 @@ const BatchImportAccounts = ({ accountIdToKeyMap, onCancel }) => {
                                 }
                                 style={{ marginTop: 48 }}
                             >
-                                <Translate id="button.looksGood" />
+                                <Translate id='button.looksGood' />
                             </FormButton>
                         </ModalContainer>
                     </Modal>
                 )
             ) : null}
         </>
+    );
+};
+
+const BatchImportAccounts = ({ onCancel }) => {
+    const [accountsData, setAccountsData] = useState(null);
+
+    const handlePublicKey = useCallback((publicKey) => {
+        setAccountsData(decodeAccountsFrom(location.hash, publicKey));
+    }, []);
+
+    if (!accountsData) {
+        return (
+            <EnterPublicKeyForm
+                onCancel={onCancel}
+                onPublicKey={handlePublicKey} />
+        );
+    }
+
+    return (
+        <ImportAccounts
+            accountsData={accountsData}
+            onCancel={onCancel} />
     );
 };
 

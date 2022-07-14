@@ -4,9 +4,11 @@ import mergeWith from 'lodash.mergewith';
 import omit from 'lodash.omit';
 import { createSelector } from 'reselect';
 
+import FungibleTokens from '../../../services/FungibleTokens';
 import FiatValueManager from '../../../utils/fiatValueManager';
 import handleAsyncThunkStatus from '../../reducerStatus/handleAsyncThunkStatus';
 import initialStatusState from '../../reducerStatus/initialState/initialStatusState';
+import { getCachedContractMetadataOrFetch } from '../tokensMetadata';
 
 const SLICE_NAME = 'tokenFiatValues';
 const fiatValueManager = new FiatValueManager();
@@ -21,11 +23,29 @@ const fetchRefFinanceFiatValues = createAsyncThunk(
 );
 const fetchTokenFiatValues = createAsyncThunk(
     `${SLICE_NAME}/fetchTokenFiatValues`,
-    (_, {dispatch}) => Promise.all([
-        dispatch(fetchCoinGeckoFiatValues(['near', 'usn'])),
-        dispatch(fetchRefFinanceFiatValues()),
-    ])
+    async ({accountId}, {dispatch, getState}) => {
+        const ownedTokens = [];
+        if (accountId) {
+            const likelyContracts = await FungibleTokens.getLikelyTokenContracts({ accountId });
+            await Promise.all(likelyContracts.map(async (contractName) => {
+                let symbol;
+                try {
+                    const metadata = await getCachedContractMetadataOrFetch(contractName, getState());
+                    symbol = metadata.symbol;
+                } finally { 
+                    if (symbol) {
+                        ownedTokens.push(symbol);
+                    }
+                }
+            }));
+        }
+        return Promise.all([
+            dispatch(fetchCoinGeckoFiatValues([...ownedTokens, 'near'])),
+            dispatch(fetchRefFinanceFiatValues()),
+        ]);
+    }
 );
+
 const getTokenWhiteList = createAsyncThunk(
     `${SLICE_NAME}/getTokenWhiteList`,
     async (account_id) => fiatValueManager.fetchTokenWhiteList(account_id)
@@ -38,33 +58,33 @@ const initialState = {
 };
 
 const tokenFiatValuesSlice = createSlice({
-        name: SLICE_NAME,
-        initialState,
-        extraReducers: ((builder) => {
-            builder.addCase(getTokenWhiteList.fulfilled, (state, action) => {
-                state.tokenWhiteList = action.payload;
-            });
-            builder.addMatcher(
-                isAnyOf(
-                    fetchCoinGeckoFiatValues.fulfilled,
-                    fetchRefFinanceFiatValues.fulfilled
-                ),
-                (state, action) => {
-                    mergeWith(state.tokens, action.payload, (previous, fetched) =>
+    name: SLICE_NAME,
+    initialState,
+    extraReducers: ((builder) => {
+        builder.addCase(getTokenWhiteList.fulfilled, (state, action) => {
+            state.tokenWhiteList = action.payload;
+        });
+        builder.addMatcher(
+            isAnyOf(
+                fetchCoinGeckoFiatValues.fulfilled,
+                fetchRefFinanceFiatValues.fulfilled
+            ),
+            (state, action) => {
+                mergeWith(state.tokens, action.payload, (previous, fetched) =>
                         fetched?.last_updated_at > previous?.last_updated_at &&
                         !isEqual(omit(fetched, 'last_updated_at'), omit(previous, 'last_updated_at'))
                             ? fetched
                             : previous
-                    );
-                }
-            );
-            handleAsyncThunkStatus({
-                asyncThunk: fetchTokenFiatValues,
-                buildStatusPath: () => [],
-                builder
-            });
-        })
-    }
+                );
+            }
+        );
+        handleAsyncThunkStatus({
+            asyncThunk: fetchTokenFiatValues,
+            buildStatusPath: () => [],
+            builder
+        });
+    })
+}
 );
 
 export default tokenFiatValuesSlice;

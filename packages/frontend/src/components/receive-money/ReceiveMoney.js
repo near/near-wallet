@@ -192,9 +192,9 @@ class ReceiveMoney extends Component {
 }
 
 const mapStateToProps = (state) => ({
-   account: selectAccountSlice(state)
+    account: selectAccountSlice(state)
 });
 
 export const ReceiveMoneyWithRouter = connect(
-   mapStateToProps
+    mapStateToProps
 )(withRouter(ReceiveMoney));

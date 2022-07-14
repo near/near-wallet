@@ -11,7 +11,9 @@ import { selectContractsMetadata } from '../slices/tokensMetadata';
 
 const collectFarmingData = (args) => {
     try {
-        if (some(args, isEmpty)) return [];
+        if (some(args, isEmpty)) {
+            return [];
+        }
 
         const {
             validatorsFarmData,

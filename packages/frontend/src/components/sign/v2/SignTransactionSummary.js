@@ -62,12 +62,12 @@ export default ({
         <StyledContainer className='small-centered border'>
             <h3><Translate id='sign.approveTransaction' /></h3>
             <ConnectWithApplication appReferrer={accountUrlReferrer} />
-            {insufficientBalance &&
+            {insufficientBalance && (
                 <AlertBanner
                     title='sign.insufficientFundsDesc'
                     theme='warning'
                 />
-            }
+            )}
             <SignTransaction
                 transferAmount={transferAmount}
                 sender={accountLocalStorageAccountId}

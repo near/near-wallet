@@ -19,6 +19,7 @@ function Modal({
     disableClose,
     mobileActionSheet = true,
     'data-test-id': testId,
+    style
 }) {
     const background = React.createRef();
     const [fadeType, setFadeType] = useState(null);
@@ -45,14 +46,14 @@ function Modal({
 
     },[]);
 
-    useEffect(() => { 
+    useEffect(() => {
         setFadeType('out');
         if (isOpen) {
             setTimeout(() => {
                 setFadeType('in');
             }, 500);
         }
-     }, [isOpen]);
+    }, [isOpen]);
 
     const checkFullScreen = () => {
         const modalHeight = document.getElementById('modal-container').getBoundingClientRect().height;
@@ -63,7 +64,9 @@ function Modal({
     };
 
     const transitionEnd = (e) => {
-        if (e.propertyName !== 'opacity' || fadeType === 'in') return;
+        if (e.propertyName !== 'opacity' || fadeType === 'in') {
+            return;
+        }
 
         if (fadeType === 'out') {
             onClose();
@@ -72,7 +75,9 @@ function Modal({
 
     const onEscKeyDown = (e) => {
         if (!disableClose) {
-            if (e.key !== 'Escape') return;
+            if (e.key !== 'Escape') {
+                return;
+            }
             setFadeType('out');
         }
     };
@@ -91,6 +96,7 @@ function Modal({
             modalSize={modalSize}
             onTransitionEnd={transitionEnd}
             data-test-id={testId}
+            style={style}
         >
             <div id='modal-container' className='modal'>
                 {closeButton && 

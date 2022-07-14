@@ -50,13 +50,13 @@ export default class StakingFarmContracts {
         return Promise.all(
             farms.map(({ token_id, farm_id, active }) =>
                 StakingFarmContracts.getUnclaimedRewards({ contractName, account_id, farm_id })
-                .catch(() => '0')
-                .then((balance) => ({
-                    token_id,
-                    balance,
-                    farm_id,
-                    active,
-                }))
+                    .catch(() => '0')
+                    .then((balance) => ({
+                        token_id,
+                        balance,
+                        farm_id,
+                        active,
+                    }))
             )
         );
     }

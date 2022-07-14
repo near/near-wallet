@@ -12,51 +12,42 @@ const EnabledContainer = styled.div`
             display: flex;
             justify-content: space-between;
             align-items: center;
-
             .title {
                 font-weight: 500;
                 color: #24272a;
             }
-
             .info {
                 text-overflow: ellipsis;
                 max-width: 140px;
                 white-space: nowrap;
                 overflow: hidden;
                 color: #A1A1A9;
-
                 @media (min-width: 375px) {
                     max-width: 180px;
                 }
-
                 @media (min-width: 998px) {
                     max-width: 200px;
                 }
             }
-
             button {
                 color: #FF585D;
                 background-color: #f8f8f8;
                 border: none;
                 font-weight: 600;
-
                 &:hover {
                     color: white;
                     background-color: #FF585D;
                 }
             }
         }
-
         .bottom {
             display: flex;
             margin-top: 20px;
             color: #A1A1A9;
-
             button {
                 text-decoration: none;
                 margin-left: 10px;
                 text-transform: capitalize !important;
-
                 :before {
                     content: '';
                     width: 1px;
@@ -76,29 +67,23 @@ const DisableContainer = styled.form`
         border-radius: 8px;
         margin: -2px;
         padding: 15px 20px;
-
         .top {
             color: #24272a;
             font-weight: 600;
-
             div {
                 font-weight: 400;
             }
         }
-
         .bottom {
             display: flex;
             align-items: center;
             margin-top: 10px;
-
             button {
                 margin-top: 0;
-
                 &:first-of-type {
                     padding: 5px 15px;
                     width: 155px;
                 }
-
                 &:last-of-type {
                     color: #999;
                     margin-left: 15px;
@@ -106,7 +91,6 @@ const DisableContainer = styled.form`
                 }
             }
         }
-
         .not-allowed {
             color: #24272a;
             button {
@@ -115,6 +99,11 @@ const DisableContainer = styled.form`
             }
         }
     }
+`;
+
+const UnsupportedMethod = styled.p`
+    font-weight: 600;
+    color: #ff585d;
 `;
 
 class ActiveMethod extends Component {
@@ -145,11 +134,11 @@ class ActiveMethod extends Component {
                             </div>
                             <div className='info'>{data.detail}</div>
                         </div>
-                        <Button 
+                        <Button
                             onClick={() => {
                                 Mixpanel.track(data.kind === 'phrase' ? 'SR-SP Click disable button': `SR Click disable button for ${data.kind}`);
                                 this.handleToggleDisable();
-                            }} 
+                            }}
                             title='Disable'
                         >
                             <Translate id='button.disable'/>
@@ -162,27 +151,44 @@ class ActiveMethod extends Component {
             );
         } else {
             return (
-                <DisableContainer onSubmit={(e) => {onDelete(); e.preventDefault();}}>
-                    {!deleteAllowed &&
+                <DisableContainer onSubmit={(e) => {
+                    onDelete();
+                    e.preventDefault();
+                }}>
+                    {!deleteAllowed && (
                         <div className='not-allowed'>
                             <Translate id='recoveryMgmt.disableNotAllowed'/>
-                            <FormButton 
-                                onClick={this.handleToggleDisable}  
+                            <FormButton
+                                onClick={this.handleToggleDisable}
                                 trackingId={data.kind === 'phrase'? 'SR-SP Click close button': `SR Click close button for ${data.kind}`}
-                                type='button' 
+                                type='button'
                                 className='small gray-blue'
                             >
-                                <Translate id='button.close'/>    
+                                <Translate id='button.close'/>
                             </FormButton>
                         </div>
-                    }
-                    {deleteAllowed &&
+                    )}
+                    {deleteAllowed && (
                         <>
                             <div className='top'>
                                 <Translate id='recoveryMgmt.disableTitle'/>
                                 <div>
                                     <Translate id={`recoveryMgmt.${data.kind !== 'phrase' ? 'disableTextLink' : 'disableTextPhrase'}`}/>
                                 </div>
+                                {
+                                    data.kind === 'email' && (
+                                        <UnsupportedMethod>
+                                            <Translate id='recoveryMgmt.unsupportedMethodEmail' />
+                                        </UnsupportedMethod>
+                                    )
+                                }
+                                {
+                                    data.kind === 'phone' && (
+                                        <UnsupportedMethod>
+                                            <Translate id='recoveryMgmt.unsupportedMethodPhone' />
+                                        </UnsupportedMethod>
+                                    )
+                                }
                             </div>
                             <Translate>
                                 {({ translate }) => (
@@ -206,9 +212,9 @@ class ActiveMethod extends Component {
                                 >
                                     <Translate id='button.disable'/> {data.kind}
                                 </FormButton>
-                                <FormButton 
-                                    type='button' 
-                                    color='link' 
+                                <FormButton
+                                    type='button'
+                                    color='link'
                                     onClick={this.handleToggleDisable}
                                     trackingId={data.kind === 'phrase'? 'SR-SP Click close link': `SR Click close link for ${data.kind}`}
                                 >
@@ -216,7 +222,7 @@ class ActiveMethod extends Component {
                                 </FormButton>
                             </div>
                         </>
-                    }
+                    )}
                 </DisableContainer>
             );
         }

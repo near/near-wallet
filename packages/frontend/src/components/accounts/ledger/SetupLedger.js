@@ -170,14 +170,14 @@ const SetupLedger = (props) => {
 
     return (
         <Container className='small-centered border ledger-theme'>
-            {props.localAlert && !props.localAlert.success &&
+            {props.localAlert && !props.localAlert.success && (
                 <GlobalAlert
                     globalAlert={{
                         messageCode: `errors.ledger.${props.localAlert.id}`
                     }}
                     closeIcon={false}
                 />
-            }
+            )}
             <h1><Translate id='setupLedger.header' /></h1>
             <LedgerIcon />
             <h2>
@@ -192,14 +192,16 @@ const SetupLedger = (props) => {
                 }}
             />
             {
-                shouldRenderRecaptcha && <Recaptcha
-                    ref={recaptchaRef}
-                    onChange={(token) => {
-                        debugLog('onChange from recaptcha - setting token in state', token);
-                        setRecaptchaToken(token);
-                    }}
-                    onFundAccountCreation={handleClick}
-                />
+                shouldRenderRecaptcha && (
+                    <Recaptcha
+                        ref={recaptchaRef}
+                        onChange={(token) => {
+                            debugLog('onChange from recaptcha - setting token in state', token);
+                            setRecaptchaToken(token);
+                        }}
+                        onFundAccountCreation={handleClick}
+                    />
+                )
             }
             <FormButton
                 onClick={handleClick}

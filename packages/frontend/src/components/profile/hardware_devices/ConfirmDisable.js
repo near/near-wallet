@@ -48,7 +48,10 @@ const ConfirmDisable = ({ onConfirmDisable, onKeepEnabled, accountId, disabling,
     const isTwoFactorPhone = component === 'twoFactor' && twoFactorKind === '2fa-phone';
 
     return (
-        <Container onSubmit={(e) => {onConfirmDisable(); e.preventDefault();}}>
+        <Container onSubmit={(e) => {
+            onConfirmDisable();
+            e.preventDefault();
+        }}>
             <div><Translate id={`${component}.disable.title`}/></div>
             <div><Translate id={`${component}.disable.${isTwoFactorPhone ? 'phoneDesc' : 'desc'}`}/></div>
             <Translate>

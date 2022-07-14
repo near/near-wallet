@@ -310,7 +310,7 @@ const LandingBackground = () => {
             </g>
             <defs>
                 <clipPath id="clip0">
-                <rect width="100%" height="488" fill="white"/>
+                    <rect width="100%" height="488" fill="white"/>
                 </clipPath>
             </defs>
         </svg>

@@ -99,12 +99,14 @@ export default ({
                 <div className='account-id'>{accountId}</div>
                 <div className='balance'>
                     {showBalance
-                        ? <Balance
-                            amount={balance}
-                            showBalanceInUSD={showBalanceInUSD}
-                            showBalanceInNEAR={!showBalanceInUSD}
-                            showAlmostEqualSignUSD={false}
-                        />
+                        ? (
+                            <Balance
+                                amount={balance}
+                                showBalanceInUSD={showBalanceInUSD}
+                                showBalanceInNEAR={!showBalanceInUSD}
+                                showAlmostEqualSignUSD={false}
+                            />
+                        )
                         : '••••••'
                     }
                 </div>

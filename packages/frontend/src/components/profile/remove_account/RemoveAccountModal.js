@@ -94,7 +94,8 @@ export default ({
                 </FormButton>
                 <FormButton
                     className='link'
-                    onClick={onClose}>
+                    onClick={onClose}
+                >
                     <Translate id='button.cancel' />
                 </FormButton>
             </Container>

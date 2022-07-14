@@ -35,13 +35,13 @@ const Animation = styled.div`
 const SkeletonLoading = ({ height, padding, number, show, className }) => {
     if (show) {
         return (
-            Array(number || 1).fill().map((_, i) => 
+            Array(number || 1).fill().map((_, i) => (
                 <div className={className} style={{padding: padding}} key={i}>
                     <Wrapper className='animation-wrapper' style={{height: height}}>
                         <Animation className='animation'/>
                     </Wrapper>
                 </div>
-            )
+            ))
         );
     }
     return null;

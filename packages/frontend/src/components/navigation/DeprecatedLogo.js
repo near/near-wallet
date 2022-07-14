@@ -30,9 +30,11 @@ const StyledLogo = styled('div')`
 const DeprecatedLogo = ({ link }) => (
     <StyledLogo className='logo'>
         {link
-            ? <Link to='/'>
-                <NearLogo />
-            </Link>
+            ? (
+                <Link to='/'>
+                    <NearLogo />
+                </Link>
+            )
             : <NearLogo />
         }
     </StyledLogo>

@@ -107,7 +107,7 @@ export default function AlertBanner({ title, button, linkTo, data, theme, childr
             }      
             <div>
                 {title && <SafeTranslate id={title} data={{ data: data }}/>}
-                {linkTo ? 
+                {linkTo ? (
                     <>
                         {linkTo.includes('http') ? (
                             <a target='_blank' rel='noreferrer' className='link' href={linkTo}><Translate id={button} /></a>
@@ -115,8 +115,7 @@ export default function AlertBanner({ title, button, linkTo, data, theme, childr
                             <FormButton className='link' linkTo={linkTo}><Translate id={button} /></FormButton>
                         )}
                     </>
-                    : null
-                }
+                ) : null}
                 {children}
             </div>
         </Container>
