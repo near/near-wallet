@@ -8,7 +8,7 @@ import rainbow from '../components/buy/assets/rainbow.svg';
 import utorg from '../components/buy/assets/utorg.svg';
 import { Mixpanel } from '../mixpanel';
 
-export const getPayMethods = ({ accountId, moonPayAvailable, signedMoonPayUrl, utorgPayUrl, ftxPayUrl }) => {
+export const getPayMethods = ({ accountId, moonPayAvailable, signedMoonPayUrl, nearPayAvailable, nearPayUrl, utorgPayUrl, ftxPayUrl }) => {
     return {
         moonPay: {
             disabled: accountId && !moonPayAvailable,
@@ -18,9 +18,10 @@ export const getPayMethods = ({ accountId, moonPayAvailable, signedMoonPayUrl, u
             track: () => Mixpanel.track('Wallet Click Buy with Moonpay'),
         },
         nearPay: {
+            disabled: accountId && !nearPayAvailable,
             icon: payNear,
             name: 'NearPay',
-            link: 'https://widget.nearpay.co/',
+            link: nearPayUrl,
             track: () => Mixpanel.track('Wallet Click Buy with Nearpay')
         },
         utorg: {
