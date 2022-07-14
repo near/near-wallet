@@ -365,7 +365,7 @@
         "termsPage": {
             "descOne": "L'account NEAR richiede un saldo minimo di <b>almeno ${quantità}</b> a <a href='https://docs.near.org/docs/concepts/account' rel='noopener noreferrer' target='_blank'>occupare un posto nella rete.</a>",
             "descTwo": "Dopo aver prenotato un indirizzo di conto univoco, ti verrà chiesto di effettuare un piccolo deposito iniziale per attivare il tuo conto.",
-            "disclaimer": "Creando un NEAR account, accetti i Termini di Servizio del <a href='/terms' rel='noopener noreferrer' target='_blank'>NEAR Wallet</a> e <a href='https://near.org/privacy' rel='noopener noreferrer' target='_blank'>l'Informativa sulla Privacy</a>.",
+            "disclaimer": "Creando un NEAR account, accetti i Termini di Servizio del <a href='/terms' rel='noopener noreferrer' target='_blank'>NEAR Wallet</a> e <a href='/privacy' rel='noopener noreferrer' target='_blank'>l'Informativa sulla Privacy</a>.",
             "title": "Prima di iniziare..."
         }
     },

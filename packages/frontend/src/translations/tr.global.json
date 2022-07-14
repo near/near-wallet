@@ -320,7 +320,7 @@
         "termsPage": {
             "descOne": "NEAR hesapları <b>en az ${amount}</b> ağ üzerinde <a href='https://docs.near.org/docs/concepts/account' rel='noopener noreferrer' target='_blank'>bir yer tutmak için ihtiyaç duyar.</a>",
             "descTwo": "Hesap adresi oluşturduktan sonra, hesabınızı etkinleştirmek için küçük bir başlangıç depozitosu yatırmanız istenecektir.",
-            "disclaimer": "NEAR hesabı oluşturarak, NEAR Cüzdanın <a href='/terms' rel='noopener noreferrer' target='_blank'>Hizmet Şartlarını</a> ve <a href='https://near.org/privacy' rel='noopener noreferrer' target='_blank'>Gizlilik Politikasını</a> kabul etmiş olursunuz.",
+            "disclaimer": "NEAR hesabı oluşturarak, NEAR Cüzdanın <a href='/terms' rel='noopener noreferrer' target='_blank'>Hizmet Şartlarını</a> ve <a href='/privacy' rel='noopener noreferrer' target='_blank'>Gizlilik Politikasını</a> kabul etmiş olursunuz.",
             "title": "Başlamadan önce..."
         }
     },
