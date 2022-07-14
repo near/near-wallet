@@ -341,7 +341,7 @@
         "termsPage": {
             "descOne": "Contas NEAR necessitam de um saldo de <b>pelo menos ${amount}</b> NEAR para <a href='https://docs.near.org/docs/concepts/account' rel='noopener noreferrer' target='_blank'>reservar seu espaço na rede.</a>",
             "descTwo": "Antes de reservar um endereço único, será requisitado um pequeno depósito inicial para ativar sua conta.",
-            "disclaimer": "Ao criar uma carteira NEAR, você concorda com os <a href='/terms' rel='noopener noreferrer' target='_blank'>Termos de Serviço</a> e <a href='/privacy' rel='noopener noreferrer' target='_blank'>Política de Privacidade</a> da carteira NEAR.",
+            "disclaimer": "Ao criar uma carteira NEAR, você concorda com os <a href='/terms' rel='noopener noreferrer' target='_blank'>Termos de Serviço</a> e <a href='/privacy' rel='noopener noreferrer' target='_blank'>Política de Privacidade</a> da carteira MyNearWallet.",
             "title": "Antes de começar..."
         }
     },
