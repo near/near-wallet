@@ -41,7 +41,9 @@ const selectAvailableAccountsSlice = (state) => state[availableAccountsSlice.nam
 
 export const selectAvailableAccounts = createSelector(
     selectAvailableAccountsSlice,
-    (availableAccounts) => availableAccounts.items || []
+    (availableAccounts) => {
+        return availableAccounts.items || [];
+    }
 );
 
 export const selectAvailableAccountsIsLoading = createSelector(

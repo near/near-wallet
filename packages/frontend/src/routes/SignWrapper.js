@@ -13,7 +13,6 @@ import { switchAccount, redirectTo } from '../redux/actions/account';
 import { selectAccountId } from '../redux/slices/account';
 import { selectAvailableAccounts, selectAvailableAccountsIsLoading } from '../redux/slices/availableAccounts';
 import {
-    addQueryParams,
     handleSignTransactions,
     selectSignFeesGasLimitIncludingGasChanges,
     SIGN_STATUS,
@@ -24,6 +23,7 @@ import {
     selectSignTransactions,
     selectSignTransactionsBatchIsValid
 } from '../redux/slices/sign';
+import { addQueryParams } from '../utils/addQueryParams';
 import { isUrlNotJavascriptProtocol } from '../utils/helper-api';
 
 export function SignWrapper() {
