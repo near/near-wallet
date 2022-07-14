@@ -54,7 +54,7 @@ export default {
     NEAR_TOKEN_ID: 'wrap.testnet',
     FARMING_CLAIM_GAS: parseNearAmount('0.00000000015'),
     FARMING_CLAIM_YOCTO: '1',
-    REF_FINANCE_API_ENDPOINT: 'https://dev-indexer.ref-finance.com/',
+    REF_FINANCE_API_ENDPOINT: 'https://testnet-indexer.ref-finance.com/',
     REF_FINANCE_CONTRACT: 'ref-finance-101.testnet',
     USN_CONTRACT: 'usdn.testnet'
 };
