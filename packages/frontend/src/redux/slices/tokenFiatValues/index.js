@@ -35,13 +35,11 @@ const fetchTokenFiatValues = createAsyncThunk(
                 try {
                     const metadata = await getCachedContractMetadataOrFetch(contractName, getState());
                     symbol = metadata.symbol;
-                }
-                catch(error) {
+                } catch (error) {
                     if (!error.message.includes(METHOD_NOT_FOUND_ERROR)) {
-                        console.log(`Unknown error fetching fiat value for ${contractName}`, error.message)
+                        console.log(`Unknown error fetching fiat value for ${contractName}`, error.message);
                     }
-                }
-                finally { 
+                } finally { 
                     if (symbol) {
                         ownedTokens.push(symbol);
                     }
