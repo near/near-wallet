@@ -10,9 +10,6 @@ import handleAsyncThunkStatus from '../../reducerStatus/handleAsyncThunkStatus';
 import initialStatusState from '../../reducerStatus/initialState/initialStatusState';
 import { getCachedContractMetadataOrFetch } from '../tokensMetadata';
 
-// this error would surface if the developer of a token smart contract does not implement the necessary ft_metadata method
-const METHOD_NOT_FOUND_ERROR = 'Querying [object Object] failed: wasm execution failed with error: FunctionCallError(MethodResolveError(MethodNotFound)).';
-
 const SLICE_NAME = 'tokenFiatValues';
 const fiatValueManager = new FiatValueManager();
 
