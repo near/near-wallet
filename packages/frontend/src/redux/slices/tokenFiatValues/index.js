@@ -10,6 +10,9 @@ import handleAsyncThunkStatus from '../../reducerStatus/handleAsyncThunkStatus';
 import initialStatusState from '../../reducerStatus/initialState/initialStatusState';
 import { getCachedContractMetadataOrFetch } from '../tokensMetadata';
 
+// this error would surface if the developer of a token smart contract does not implement the necessary ft_metadata method
+const METHOD_NOT_FOUND_ERROR = 'Querying [object Object] failed: wasm execution failed with error: FunctionCallError(MethodResolveError(MethodNotFound)).';
+
 const SLICE_NAME = 'tokenFiatValues';
 const fiatValueManager = new FiatValueManager();
 
@@ -27,12 +30,17 @@ const fetchTokenFiatValues = createAsyncThunk(
         const ownedTokens = [];
         if (accountId) {
             const likelyContracts = await FungibleTokens.getLikelyTokenContracts({ accountId });
-            await Promise.all(likelyContracts.map(async (contractName) => {
+            await Promise.allSettled(likelyContracts.map(async (contractName) => {
                 let symbol;
                 try {
                     const metadata = await getCachedContractMetadataOrFetch(contractName, getState());
                     symbol = metadata.symbol;
-                } finally { 
+                } catch (error) {
+                    if (!error.message.includes(METHOD_NOT_FOUND_ERROR)) {
+                        console.log(`Unknown error fetching fiat value for ${contractName}`, error.message);
+                    }
+                    throw error;
+                } finally {
                     if (symbol) {
                         ownedTokens.push(symbol);
                     }
