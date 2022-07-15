@@ -39,7 +39,7 @@ const fetchTokenFiatValues = createAsyncThunk(
                     if (!error.message.includes(METHOD_NOT_FOUND_ERROR)) {
                         console.log(`Unknown error fetching fiat value for ${contractName}`, error.message);
                     }
-                    throw Error;
+                    throw error;
                 } finally {
                     if (symbol) {
                         ownedTokens.push(symbol);
