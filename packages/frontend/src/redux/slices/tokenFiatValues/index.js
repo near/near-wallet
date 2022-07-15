@@ -30,15 +30,11 @@ const fetchTokenFiatValues = createAsyncThunk(
         const ownedTokens = [];
         if (accountId) {
             const likelyContracts = await FungibleTokens.getLikelyTokenContracts({ accountId });
-            await Promise.all(likelyContracts.map(async (contractName) => {
+            await Promise.allSettled(likelyContracts.map(async (contractName) => {
                 let symbol;
                 try {
                     const metadata = await getCachedContractMetadataOrFetch(contractName, getState());
                     symbol = metadata.symbol;
-                } catch (error) {
-                    if (!error.message.includes(METHOD_NOT_FOUND_ERROR)) {
-                        console.log(`Unknown error fetching fiat value for ${contractName}`, error.message);
-                    }
                 } finally { 
                     if (symbol) {
                         ownedTokens.push(symbol);
