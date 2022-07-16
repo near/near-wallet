@@ -1,0 +1,43 @@
+name: PR Preview
+
+on:
+  pull_request:
+
+concurrency:
+  group: ${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  testnet-bundle-preview:
+    uses: ./.github/workflows/bundle-frontend.yml
+    with:
+      environment: testnet
+      near_wallet_env: testnet_STAGING
+
+  mainnet-bundle-preview:
+    uses: ./.github/workflows/bundle-frontend.yml
+    with:
+      environment: mainnet
+      near_wallet_env: mainnet_STAGING
+
+  deploy-testnet-preview:
+    uses: ./.github/workflows/deploy-preview.yml
+    needs: testnet-bundle-preview
+    with:
+      environment: testnet
+      s3Bucket: testnet-preview.mynearwallet.com/${{ github.event.pull_request.number }}
+    secrets:
+      accessKeyId: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      deploymentIamRole: ${{ secrets.AWS_DEPLOYMENT_ROLE }}
+      secretAccessKey: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+  deploy-mainnet-preview:
+    uses: ./.github/workflows/deploy-preview.yml
+    needs: mainnet-bundle-preview
+    with:
+      environment: mainnet
+      s3Bucket: mainnet-preview.mynearwallet.com/${{ github.event.pull_request.number }}
+    secrets:
+      accessKeyId: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      deploymentIamRole: ${{ secrets.AWS_DEPLOYMENT_ROLE }}
+      secretAccessKey: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
