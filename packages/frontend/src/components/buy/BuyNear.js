@@ -237,7 +237,7 @@ export function BuyNear({ match, location, history }) {
                         url: 'https://coinmarketcap.com/currencies/near-protocol/markets/',
                         title: 'buyNear.coinMarketLink'
                     }}
-                    actions={[PayMethods.okex, PayMethods.binance, PayMethods.huobi]}
+                    actions={[PayMethods.okex, PayMethods.binance, PayMethods.huobi, PayMethods.kraken]}
                 />
             </div>
         </StyledContainer>
