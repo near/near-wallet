@@ -1,6 +1,7 @@
 import binance from '../components/buy/assets/binance.svg';
 import ftx from '../components/buy/assets/ftx.svg';
 import huobi from '../components/buy/assets/huobi.svg';
+import kraken from '../components/buy/assets/kraken.svg';
 import monoPay from '../components/buy/assets/monoPay.svg';
 import okex from '../components/buy/assets/okex.svg';
 import payNear from '../components/buy/assets/payNear.svg';
@@ -45,20 +46,26 @@ export const getPayMethods = ({ accountId, moonPayAvailable, signedMoonPayUrl, u
         okex: {
             icon: okex,
             name: 'Okex',
-            link: 'https://www.okex.com/',
+            link: 'https://www.okx.com/markets/prices/near-protocol-near',
             track: () => Mixpanel.track('Wallet Click Exchange with Okex')
         },
         binance: {
             icon: binance,
             name: 'Binance',
-            link: 'https://www.binance.com/',
+            link: 'https://www.binance.com/en/price/near-protocol',
             track: () => Mixpanel.track('Wallet Click Exchange with Binance')
         },
         huobi: {
             icon: huobi,
             name: 'Huobi',
-            link: 'https://c2c.huobi.com/en-us/one-trade/buy',
+            link: 'https://www.huobi.com/en-us/asset-introduction/details/?currency=near',
             track: () => Mixpanel.track('Wallet Click Exchange with Huobi')
+        },
+        kraken: {
+            icon: kraken,
+            name: 'Kraken',
+            link: 'https://www.kraken.com/prices/near-near-protocol-price-chart/usd-us-dollar?interval=1m',
+            track: () => Mixpanel.track('Wallet Click Exchange with Kraken')
         },
     };
 };
