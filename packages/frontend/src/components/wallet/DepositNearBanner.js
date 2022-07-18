@@ -53,7 +53,7 @@ export default () => {
     return (
         <StyledContainer className='deposit-near-banner'>
             <div>
-                <div onClick={() => dispatch(push({ pathname: '/receive-money' }))} >
+                <div onClick={() => dispatch(push({ pathname: '/buy' }))} >
                     <NearLogoAndPlusIcon />
                     <div>
                         <div className='banner-title'><Translate id='wallet.depositNear.title' /></div>
