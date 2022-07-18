@@ -106,9 +106,9 @@
       "lastEditedAt": "2022-06-22T01:17:14.439Z"
     },
     "mainnet_STAGING": {
-      "enabled": false,
+      "enabled": true,
       "lastEditedBy": "Andy Haynes",
-      "lastEditedAt": "2022-06-22T01:17:14.439Z"
+      "lastEditedAt": "2022-07-18T18:59:32.023Z"
     },
     "testnet_STAGING": {
       "enabled": true,
@@ -126,9 +126,9 @@
       "lastEditedAt": "2022-06-22T01:17:14.439Z"
     },
     "mainnet_STAGING_NEARORG": {
-      "enabled": false,
+      "enabled": true,
       "lastEditedBy": "Andy Haynes",
-      "lastEditedAt": "2022-06-22T01:17:14.439Z"
+      "lastEditedAt": "2022-07-18T18:59:32.024Z"
     }
   },
   "SHOW_MIGRATION_BANNER": {
