@@ -204,7 +204,7 @@
       "lastEditedAt": "2022-07-19T05:34:11.690Z"
     },
     "testnet_NEARORG": {
-      "enabled": true,
+      "enabled": false,
       "lastEditedBy": "Den Ilin",
       "lastEditedAt": "2022-07-19T05:34:11.690Z"
     },
