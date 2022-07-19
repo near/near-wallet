@@ -7,7 +7,7 @@ import { createSelector } from 'reselect';
 import FiatValueManager from '../../../utils/fiatValueManager';
 import handleAsyncThunkStatus from '../../reducerStatus/handleAsyncThunkStatus';
 import initialStatusState from '../../reducerStatus/initialState/initialStatusState';
-import { selectContractsMetadata } from '../tokensMetadata';
+import { selectContractsSymbols } from '../tokensMetadata';
 
 const SLICE_NAME = 'tokenFiatValues';
 const fiatValueManager = new FiatValueManager();
@@ -23,7 +23,7 @@ const fetchRefFinanceFiatValues = createAsyncThunk(
 const fetchTokenFiatValues = createAsyncThunk(
     `${SLICE_NAME}/fetchTokenFiatValues`,
     async (_, {dispatch, getState}) => {
-        const ownedTokens = Object.values(selectContractsMetadata(getState())).map((tokenMeta) => tokenMeta.symbol);
+        const ownedTokens = selectContractsSymbols(getState());
         return Promise.all([
             dispatch(fetchCoinGeckoFiatValues([...ownedTokens, 'near'])),
             dispatch(fetchRefFinanceFiatValues()),
