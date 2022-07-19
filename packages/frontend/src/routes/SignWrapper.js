@@ -20,6 +20,8 @@ import {
     selectSignStatus,
     selectSignCallbackUrl,
     selectSignMeta,
+    selectSignErrorName,
+    selectSignErrorMessage,
     selectSignTransactionHashes,
     selectSignTransactions,
     selectSignTransactionsBatchIsValid
@@ -43,6 +45,8 @@ export function SignWrapper() {
     const signStatus = useSelector(selectSignStatus);
     const signCallbackUrl = useSelector(selectSignCallbackUrl);
     const signMeta = useSelector(selectSignMeta);
+    const signErrorName = useSelector(selectSignErrorName);
+    const signErrorMessage = useSelector(selectSignErrorMessage);
     const transactionHashes = useSelector(selectSignTransactionHashes);
     const availableAccounts = useSelector(selectAvailableAccounts);
     const availableAccountsIsLoading = useSelector(selectAvailableAccountsIsLoading);
@@ -106,20 +110,19 @@ export function SignWrapper() {
     const handleCancelTransaction = async () => {
         Mixpanel.track('SIGN Deny the transaction');
         if (signCallbackUrl && isValidCallbackUrl) {
-            if (signStatus?.success !== false) {
+            if (signStatus !== SIGN_STATUS.ERROR) {
                 window.location.href = addQueryParams(signCallbackUrl, {
                     signMeta,
                     errorCode: encodeURIComponent('userRejected'),
                     errorMessage: encodeURIComponent('User rejected transaction')
                 });
-                return;
+            } else {
+                window.location.href = addQueryParams(signCallbackUrl, {
+                    signMeta,
+                    errorCode: encodeURIComponent(signErrorName) || encodeURIComponent('unknownError'),
+                    errorMessage: encodeURIComponent(signErrorMessage.substring(0, 100)) || encodeURIComponent('Unknown error')
+                });
             }
-            window.location.href = addQueryParams(signCallbackUrl, {
-                signMeta,
-                errorCode: encodeURIComponent(signStatus?.errorType) || encodeURIComponent('unknownError'),
-                errorMessage: encodeURIComponent(signStatus?.errorMessage?.substring(0, 100)) || encodeURIComponent('Unknown error')
-            });
-            return;
         } else {
             dispatch(redirectTo('/'));
         }
