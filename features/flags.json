@@ -174,5 +174,49 @@
       "lastEditedBy": "esaminu",
       "lastEditedAt": "2022-06-20T18:11:26.582Z"
     }
+  },
+  "WEB3AUTH": {
+    "createdBy": "Den Ilin",
+    "createdAt": "2022-07-19T05:34:11.690Z",
+    "development": {
+      "enabled": true,
+      "lastEditedBy": "Den Ilin",
+      "lastEditedAt": "2022-07-19T05:34:11.690Z"
+    },
+    "testnet": {
+      "enabled": true,
+      "lastEditedBy": "Den Ilin",
+      "lastEditedAt": "2022-07-19T05:34:11.690Z"
+    },
+    "mainnet": {
+      "enabled": false,
+      "lastEditedBy": "Den Ilin",
+      "lastEditedAt": "2022-07-19T05:34:11.690Z"
+    },
+    "mainnet_STAGING": {
+      "enabled": false,
+      "lastEditedBy": "Den Ilin",
+      "lastEditedAt": "2022-07-19T05:34:11.690Z"
+    },
+    "testnet_STAGING": {
+      "enabled": false,
+      "lastEditedBy": "Den Ilin",
+      "lastEditedAt": "2022-07-19T05:34:11.690Z"
+    },
+    "testnet_NEARORG": {
+      "enabled": false,
+      "lastEditedBy": "Den Ilin",
+      "lastEditedAt": "2022-07-19T05:34:11.690Z"
+    },
+    "mainnet_NEARORG": {
+      "enabled": false,
+      "lastEditedBy": "Den Ilin",
+      "lastEditedAt": "2022-07-19T05:34:11.690Z"
+    },
+    "mainnet_STAGING_NEARORG": {
+      "enabled": false,
+      "lastEditedBy": "Den Ilin",
+      "lastEditedAt": "2022-07-19T05:34:11.690Z"
+    }
   }
 }

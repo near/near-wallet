@@ -10,7 +10,7 @@ import { connect } from 'react-redux';
 import { Redirect, Switch } from 'react-router-dom';
 import styled, { ThemeProvider } from 'styled-components';
 
-import { SHOW_MIGRATION_BANNER } from '../../../../features';
+import { SHOW_MIGRATION_BANNER, WEB3AUTH } from '../../../../features';
 import favicon from '../../src/images/mynearwallet-cropped.svg';
 import TwoFactorVerifyModal from '../components/accounts/two_factor/TwoFactorVerifyModal';
 import {
@@ -684,11 +684,13 @@ class Routing extends Component {
                                 component={Privacy}
                                 indexBySearchEngines={true}
                             />
-                            <PrivateRoute
-                                exact
-                                path="/verify-owner"
-                                component={VerifyOwnerWrapper}
-                            />
+                            {WEB3AUTH && (
+                                <PrivateRoute
+                                    exact
+                                    path="/verify-owner"
+                                    component={VerifyOwnerWrapper}
+                                />
+                            )}
                             <PrivateRoute component={PageNotFound} />
                         </Switch>
                         <Footer />
