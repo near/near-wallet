@@ -239,6 +239,21 @@ export const selectSignStatus = createSelector(
     (sign) => sign.status
 );
 
+export const selectSignError = createSelector(
+    [selectSignSlice],
+    (sign) => sign.error
+);
+
+export const selectSignErrorName = createSelector(
+    [selectSignError],
+    (error) => error?.name
+);
+
+export const selectSignErrorMessage = createSelector(
+    [selectSignError],
+    (error) => error?.message
+);
+
 export const selectSignGasUsed = createSelector(
     [selectSignSlice],
     (sign) => sign.gasUsed || new BN('0')
