@@ -8,7 +8,7 @@ import FungibleTokens from '../../../services/FungibleTokens';
 import handleAsyncThunkStatus from '../../reducerStatus/handleAsyncThunkStatus';
 import initialStatusState from '../../reducerStatus/initialState/initialStatusState';
 import { createParameterSelector, selectSliceByAccountId } from '../../selectors/topLevel';
-import { selectUSDNTokenFiatValueUSD } from '../tokenFiatValues';
+import { selectUSDNTokenFiatValueUSD, actions as tokenFiatValueActions } from '../tokenFiatValues';
 import tokensMetadataSlice, { getCachedContractMetadataOrFetch, selectContractsMetadata, selectOneContractMetadata } from '../tokensMetadata';
 
 const SLICE_NAME = 'tokens';
@@ -74,6 +74,7 @@ const fetchTokens = createAsyncThunk(
                 console.warn(`Failed to load FT for ${contractName}`, e);
             }
         }));
+        dispatch(tokenFiatValueActions.fetchTokenFiatValues());
     }
 );
 

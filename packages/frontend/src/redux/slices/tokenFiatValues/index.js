@@ -4,14 +4,10 @@ import mergeWith from 'lodash.mergewith';
 import omit from 'lodash.omit';
 import { createSelector } from 'reselect';
 
-import FungibleTokens from '../../../services/FungibleTokens';
 import FiatValueManager from '../../../utils/fiatValueManager';
 import handleAsyncThunkStatus from '../../reducerStatus/handleAsyncThunkStatus';
 import initialStatusState from '../../reducerStatus/initialState/initialStatusState';
-import { getCachedContractMetadataOrFetch } from '../tokensMetadata';
-
-// this error would surface if the developer of a token smart contract does not implement the necessary ft_metadata method
-const METHOD_NOT_FOUND_ERROR = 'Querying [object Object] failed: wasm execution failed with error: FunctionCallError(MethodResolveError(MethodNotFound)).';
+import { selectContractsSymbols } from '../tokensMetadata';
 
 const SLICE_NAME = 'tokenFiatValues';
 const fiatValueManager = new FiatValueManager();
@@ -26,27 +22,8 @@ const fetchRefFinanceFiatValues = createAsyncThunk(
 );
 const fetchTokenFiatValues = createAsyncThunk(
     `${SLICE_NAME}/fetchTokenFiatValues`,
-    async ({accountId}, {dispatch, getState}) => {
-        const ownedTokens = [];
-        if (accountId) {
-            const likelyContracts = await FungibleTokens.getLikelyTokenContracts({ accountId });
-            await Promise.allSettled(likelyContracts.map(async (contractName) => {
-                let symbol;
-                try {
-                    const metadata = await getCachedContractMetadataOrFetch(contractName, getState());
-                    symbol = metadata.symbol;
-                } catch (error) {
-                    if (!error.message.includes(METHOD_NOT_FOUND_ERROR)) {
-                        console.log(`Unknown error fetching fiat value for ${contractName}`, error.message);
-                    }
-                    throw error;
-                } finally {
-                    if (symbol) {
-                        ownedTokens.push(symbol);
-                    }
-                }
-            }));
-        }
+    async (_, {dispatch, getState}) => {
+        const ownedTokens = selectContractsSymbols(getState());
         return Promise.all([
             dispatch(fetchCoinGeckoFiatValues([...ownedTokens, 'near'])),
             dispatch(fetchRefFinanceFiatValues()),
