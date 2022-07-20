@@ -67,3 +67,5 @@ export const selectAccountUrlTransactions = createSelector(selectAccountUrl, (ur
 export const selectAccountUrlCallbackUrl = createSelector(selectAccountUrl, (url) => url.callbackUrl);
 
 export const selectAccountUrlMeta = createSelector(selectAccountUrl, (url) => url.meta);
+
+export const selectAccountUrlMessage = createSelector(selectAccountUrl, (url) => url.message);

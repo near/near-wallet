@@ -28,7 +28,8 @@ import {
     WALLET_LINKDROP_URL,
     setKeyMeta,
     ENABLE_IDENTITY_VERIFIED_ACCOUNT,
-    WALLET_BATCH_IMPORT_URL
+    WALLET_BATCH_IMPORT_URL,
+    WALLET_VERIFY_OWNER_URL
 } from '../../utils/wallet';
 import { WalletError } from '../../utils/walletError';
 import { withAlert } from '../reducers/status';
@@ -121,13 +122,13 @@ export const handleRefreshUrl = (prevRouter) => (dispatch, getState) => {
     const { pathname, search, hash } = prevRouter?.location || getLocation(getState());
     const currentPage = pathname.split('/')[pathname[1] === '/' ? 2 : 1];
 
-    if ([...WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS, WALLET_LOGIN_URL, WALLET_SIGN_URL, WALLET_LINKDROP_URL, WALLET_BATCH_IMPORT_URL].includes(currentPage)) {
+    if ([...WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS, WALLET_LOGIN_URL, WALLET_SIGN_URL, WALLET_LINKDROP_URL, WALLET_BATCH_IMPORT_URL, WALLET_VERIFY_OWNER_URL].includes(currentPage)) {
         const parsedUrl = {
             ...parse(search),
             referrer: document.referrer ? new URL(document.referrer).hostname : undefined,
             redirect_url: prevRouter ? prevRouter.location.pathname : undefined
         };
-        if ([WALLET_CREATE_NEW_ACCOUNT_URL, WALLET_LINKDROP_URL].includes(currentPage) && search !== '') {
+        if ([WALLET_CREATE_NEW_ACCOUNT_URL, WALLET_LINKDROP_URL, WALLET_VERIFY_OWNER_URL].includes(currentPage) && search !== '') {
             saveState(parsedUrl);
             dispatch(refreshUrl(parsedUrl));
         } else if ([WALLET_LOGIN_URL, WALLET_SIGN_URL, WALLET_BATCH_IMPORT_URL].includes(currentPage) && (search !== '' || hash !== '')) {

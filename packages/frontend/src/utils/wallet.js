@@ -41,6 +41,7 @@ export const WALLET_INITIAL_DEPOSIT_URL = 'initial-deposit';
 export const WALLET_LINKDROP_URL = 'linkdrop';
 export const WALLET_RECOVER_ACCOUNT_URL = 'recover-account';
 export const WALLET_SEND_MONEY_URL = 'send-money';
+export const WALLET_VERIFY_OWNER_URL = 'verify-owner';
 
 const {
     ACCESS_KEY_FUNDING_AMOUNT,
@@ -1125,6 +1126,22 @@ export default class Wallet {
         const actions = Object.keys(actionStatus).filter((action) => actionStatus[action]?.pending === true);
         const action = actions.length ? actions[actions.length - 1] : false;
         store.dispatch(showLedgerModal({ show, action }));
+    }
+
+    async signMessage(message, accountId = this.accountId) {
+        const account = await this.getAccount(accountId);
+        const signer = account.inMemorySigner || account.connection.signer;
+        const signed = await signer.signMessage(Buffer.from(message), accountId, NETWORK_ID);
+        return {
+            accountId,
+            signed
+        };
+    }
+
+    async getPublicKey(accountId = this.accountId) {
+        const account = await this.getAccount(accountId);
+        const signer = account.inMemorySigner || account.connection.signer;
+        return signer.getPublicKey(accountId, NETWORK_ID);
     }
 }
 
