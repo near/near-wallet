@@ -76,7 +76,7 @@ export default class FiatValueManager {
                     // DataLoader must be constructed with a function which accepts 
                     // Array<key> and returns Promise<Array<value>> of the same length
                     // as the Array of keys
-                    return Promise.resolve(Array(tokenSymbols.length).fill({}));
+                    return Promise.resolve(Array(tokenIds.length).fill({}));
                 }
             },
             {
