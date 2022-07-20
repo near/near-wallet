@@ -115,7 +115,7 @@ export default class FiatValueManager {
             if (!id) {
                 this.contractNameToCoinGeckoId.clear(contractNames[ndx]);
             }
-        })
+        });
         coinGeckoIds = coinGeckoIds.filter((id) => !!id);
         const byTokenName = {};
         const prices = await this.coinGeckoFiatValueDataLoader.loadMany(coinGeckoIds);
