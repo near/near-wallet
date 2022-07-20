@@ -104,22 +104,22 @@ export default class FiatValueManager {
         );
     };
 
-    async fetchCoinGeckoIds(contractNames = ['near', 'usn']) {
+    async fetchCoinGeckoIds(contractSymbols = ['near', 'usn']) {
         // given list of contract names, return list of coingecko IDs
-        return this.contractNameToCoinGeckoId.loadMany(contractNames);
+        return this.contractNameToCoinGeckoId.loadMany(contractSymbols);
     };
 
-    async fetchCoinGeckoPrices(contractNames = ['near', 'usn']) {
-        let coinGeckoIds = await this.fetchCoinGeckoIds(contractNames);
+    async fetchCoinGeckoPrices(contractSymbols = ['near', 'usn']) {
+        let coinGeckoIds = await this.fetchCoinGeckoIds(contractSymbols);
         coinGeckoIds.forEach((id, ndx) => {
             if (!id) {
-                this.contractNameToCoinGeckoId.clear(contractNames[ndx]);
+                this.contractNameToCoinGeckoId.clear(contractSymbols[ndx]);
             }
         });
         coinGeckoIds = coinGeckoIds.filter((id) => !!id);
         const byTokenName = {};
         const prices = await this.coinGeckoFiatValueDataLoader.loadMany(coinGeckoIds);
-        contractNames.forEach((tokenName, ndx) => byTokenName[tokenName] = prices[ndx]);
+        contractSymbols.forEach((tokenName, ndx) => byTokenName[tokenName] = prices[ndx]);
         return byTokenName;
     };
 
