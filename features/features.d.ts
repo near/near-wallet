@@ -6,4 +6,5 @@ export type Features = {
 	DONATE_TO_UKRAINE: boolean;
 	RENDER_MIGRATION: boolean;
 	SHOW_MIGRATION_BANNER: boolean;
+	WEB3AUTH: boolean;
 };
