@@ -13,7 +13,6 @@ jobs:
     with:
       environment: testnet
       near_wallet_env: testnet_STAGING
-      suffix: ${{ github.event.pull_request.number }}
     secrets: inherit
 
   mainnet-bundle-preview:
@@ -21,5 +20,4 @@ jobs:
     with:
       environment: mainnet
       near_wallet_env: mainnet_STAGING
-      suffix: ${{ github.event.pull_request.number }}
     secrets: inherit

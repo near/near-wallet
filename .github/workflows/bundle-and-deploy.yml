@@ -41,4 +41,7 @@ jobs:
           role-to-assume: ${{ secrets.AWS_DEPLOYMENT_ROLE }}
           role-skip-session-tagging: true
           role-duration-seconds: 900
-      - run: aws s3 sync dist/${{ inputs.environment }} s3://${{ secrets.PR_PREVIEW_BUCKET }}${{ inputs.suffix && format('/{0}', inputs.suffix) }} --delete
+      - if: ${{ github.event_name == 'pull_request' }}
+        run: aws s3 sync dist/${{ inputs.environment }} s3://${{ secrets.PR_PREVIEW_BUCKET }}/${{ github.event.pull_request.number }} --delete
+      - if: ${{ github.event_name == 'push' && (github.ref == 'refs/head/master' || github.ref_name == 'refs/head/stable') }}
+        run: aws s3 sync dist/${{ inputs.environment }} s3://${{ secrets.PR_PREVIEW_BUCKET }}/master --delete
