@@ -15,7 +15,6 @@ jobs:
     with:
       environment: testnet-staging
       near_wallet_env: testnet_STAGING
-      s3Bucket:
     secrets: inherit
 
   testnet-live-deploy:
