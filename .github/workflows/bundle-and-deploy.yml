@@ -9,15 +9,6 @@ on:
       near_wallet_env:
         required: true
         type: string
-    secrets:
-      accessKeyId:
-        required: true
-      deploymentIamRole:
-        required: true
-      secretAccessKey:
-        required: true
-      s3Bucket:
-        required: true
 
 jobs:
   bundle-frontend:
@@ -37,16 +28,16 @@ jobs:
       - run: yarn lint
       - run: yarn test
       - run: yarn bundle --outDir=dist/${{ inputs.environment }}
-      - uses: actions/upload-artifact@v3
-        with:
-          name: frontend-bundle
-          path: packages/frontend/dist/${{ inputs.environment }}
+#      - uses: actions/upload-artifact@v3
+#        with:
+#          name: frontend-bundle
+#          path: packages/frontend/dist/${{ inputs.environment }}
       - uses: aws-actions/configure-aws-credentials@v1
         with:
-          aws-access-key-id: ${{ secrets.accessKeyId }}
-          aws-secret-access-key: ${{ secrets.secretAccessKey }}
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-west-2
-          role-to-assume: ${{ secrets.deploymentIamRole }}
+          role-to-assume: ${{ secrets.AWS_DEPLOYMENT_ROLE }}
           role-skip-session-tagging: true
           role-duration-seconds: 900
-      - run: aws s3 sync dist/${{ inputs.environment }} s3://${{ secrets.s3Bucket }} --delete
+      - run: aws s3 sync dist/${{ inputs.environment }} s3://${{ secrets.PR_PREVIEW_BUCKET }}/${{ github.event.pull_request.number }} --delete
