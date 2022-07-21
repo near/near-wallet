@@ -3,7 +3,7 @@ import { Contract } from 'near-api-js';
 import Cache from 'node-cache';
 import { stringifyUrl } from 'query-string';
 
-import { REF_FINANCE_API_ENDPOINT, REF_FINANCE_CONTRACT} from '../config';
+import { REF_FINANCE_API_ENDPOINT, REF_FINANCE_CONTRACT, ACCOUNT_ID_SUFFIX } from '../config';
 import sendJson from '../tmp_fetch_send_json';
 import { wallet } from './wallet';
 
@@ -118,7 +118,7 @@ export default class FiatValueManager {
                 }
             });
         }, {});
-        return formattedValues;
+        return {...formattedValues, near: formattedValues[`wrap.${ACCOUNT_ID_SUFFIX}`]};
     };
 
     async fetchTokenWhiteList(accountId) {
