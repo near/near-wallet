@@ -1,4 +1,4 @@
-name: Testnet Deployment
+name: Deploy Testnet
 
 on:
   push:
@@ -6,41 +6,28 @@ on:
       - master
 
 concurrency:
-  group: testnet
+  group: 'testnet'
   cancel-in-progress: true
 
 jobs:
-  testnet-staging-bundle-preview:
-    uses: ./.github/workflows/bundle-frontend.yml
+  testnet-staging-deploy:
+    uses: ./.github/workflows/bundle-and-deploy.yml
     with:
-      environment: testnet
+      environment: testnet-staging
       near_wallet_env: testnet_STAGING
+      s3Bucket:
+    secrets: inherit
 
-  testnet-bundle-preview:
-    uses: ./.github/workflows/bundle-frontend.yml
+  testnet-live-deploy:
+    uses: ./.github/workflows/bundle-and-deploy.yml
     with:
       environment: testnet
       near_wallet_env: testnet
+    secrets: inherit
 
-  deploy-testnet-staging-preview:
-    uses: ./.github/workflows/deploy-preview.yml
-    needs: testnet-staging-bundle-preview
+  mainnet-staging-deploy:
+    uses: ./.github/workflows/bundle-and-deploy.yml
     with:
-      environment: testnet
-    secrets:
-      accessKeyId: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      deploymentIamRole: ${{ secrets.AWS_DEPLOYMENT_ROLE }}
-      secretAccessKey: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      s3Bucket: ${{ secrets.STAGING_BUCKET }}
-
-  deploy-testnet-preview:
-    uses: ./.github/workflows/deploy-preview.yml
-    needs: testnet-bundle-preview
-    with:
-      environment: testnet
-      s3Bucket: testnet.mynearwallet.com
-    secrets:
-      accessKeyId: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      deploymentIamRole: ${{ secrets.AWS_DEPLOYMENT_ROLE }}
-      secretAccessKey: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      s3Bucket: ${{ secrets.LIVE_BUCKET }}
+      environment: mainnet-staging
+      near_wallet_env: mainnet_STAGING
+    secrets: inherit

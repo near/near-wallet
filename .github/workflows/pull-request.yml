@@ -11,13 +11,13 @@ jobs:
   testnet-bundle-preview:
     uses: ./.github/workflows/bundle-and-deploy.yml
     with:
-      environment: testnet
+      environment: testnet-staging
       near_wallet_env: testnet_STAGING
     secrets: inherit
 
   mainnet-bundle-preview:
     uses: ./.github/workflows/bundle-and-deploy.yml
     with:
-      environment: mainnet
+      environment: mainnet-staging
       near_wallet_env: mainnet_STAGING
     secrets: inherit
