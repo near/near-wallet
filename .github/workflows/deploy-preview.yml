@@ -15,7 +15,6 @@ on:
         required: true
       s3Bucket:
         required: true
-        type: string
 
 jobs:
   deploy-preview:
