@@ -9,35 +9,57 @@ concurrency:
 
 jobs:
   testnet-bundle-preview:
-    uses: ./.github/workflows/bundle-frontend.yml
+    uses: ./.github/workflows/bundle-and-deploy.yml
     with:
       environment: testnet
       near_wallet_env: testnet_STAGING
+    secrets:
+      accessKeyId: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      deploymentIamRole: ${{ secrets.AWS_DEPLOYMENT_ROLE }}
+      secretAccessKey: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      s3Bucket: ${{ secrets.PR_PREVIEW_BUCKET }}/${{ github.event.pull_request.number }}
 
   mainnet-bundle-preview:
-    uses: ./.github/workflows/bundle-frontend.yml
+    uses: ./.github/workflows/bundle-and-deploy.yml
     with:
       environment: mainnet
       near_wallet_env: mainnet_STAGING
-
-  deploy-testnet-preview:
-    uses: ./.github/workflows/deploy-preview.yml
-    needs: testnet-bundle-preview
-    with:
-      environment: testnet
     secrets:
       accessKeyId: ${{ secrets.AWS_ACCESS_KEY_ID }}
       deploymentIamRole: ${{ secrets.AWS_DEPLOYMENT_ROLE }}
       secretAccessKey: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       s3Bucket: ${{ secrets.PR_PREVIEW_BUCKET }}/${{ github.event.pull_request.number }}
 
-  deploy-mainnet-preview:
-    uses: ./.github/workflows/deploy-preview.yml
-    needs: mainnet-bundle-preview
-    with:
-      environment: mainnet
-    secrets:
-      accessKeyId: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      deploymentIamRole: ${{ secrets.AWS_DEPLOYMENT_ROLE }}
-      secretAccessKey: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      s3Bucket: ${{ secrets.PR_PREVIEW_BUCKET }}/${{ github.event.pull_request.number }}
+#  testnet-bundle-preview:
+#    uses: ./.github/workflows/bundle-frontend.yml
+#    with:
+#      environment: testnet
+#      near_wallet_env: testnet_STAGING
+#
+#  mainnet-bundle-preview:
+#    uses: ./.github/workflows/bundle-frontend.yml
+#    with:
+#      environment: mainnet
+#      near_wallet_env: mainnet_STAGING
+#
+#  deploy-testnet-preview:
+#    uses: ./.github/workflows/deploy-preview.yml
+#    needs: testnet-bundle-preview
+#    with:
+#      environment: testnet
+#    secrets:
+#      accessKeyId: ${{ secrets.AWS_ACCESS_KEY_ID }}
+#      deploymentIamRole: ${{ secrets.AWS_DEPLOYMENT_ROLE }}
+#      secretAccessKey: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+#      s3Bucket: ${{ secrets.PR_PREVIEW_BUCKET }}/${{ github.event.pull_request.number }}
+#
+#  deploy-mainnet-preview:
+#    uses: ./.github/workflows/deploy-preview.yml
+#    needs: mainnet-bundle-preview
+#    with:
+#      environment: mainnet
+#    secrets:
+#      accessKeyId: ${{ secrets.AWS_ACCESS_KEY_ID }}
+#      deploymentIamRole: ${{ secrets.AWS_DEPLOYMENT_ROLE }}
+#      secretAccessKey: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+#      s3Bucket: ${{ secrets.PR_PREVIEW_BUCKET }}/${{ github.event.pull_request.number }}

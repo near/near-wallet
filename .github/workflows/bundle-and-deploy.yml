@@ -1,0 +1,52 @@
+name: Test Frontend
+
+on:
+  workflow_call:
+    inputs:
+      environment:
+        required: true
+        type: string
+      near_wallet_env:
+        required: true
+        type: string
+    secrets:
+      accessKeyId:
+        required: true
+      deploymentIamRole:
+        required: true
+      secretAccessKey:
+        required: true
+      s3Bucket:
+        required: true
+
+jobs:
+  bundle-frontend:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: packages/frontend
+    env:
+      NEAR_WALLET_ENV: ${{ inputs.near_wallet_env }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 12.x
+          cache: 'yarn'
+      - run: yarn install --frozen-lockfile
+      - run: yarn lint
+      - run: yarn test
+      - run: yarn bundle --outDir=dist/${{ inputs.environment }}
+      - uses: actions/upload-artifact@v3
+        with:
+          name: frontend-bundle
+          path: packages/frontend/dist/${{ inputs.environment }}
+      - uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.accessKeyId }}
+          aws-secret-access-key: ${{ secrets.secretAccessKey }}
+          aws-region: us-west-2
+          role-to-assume: ${{ secrets.deploymentIamRole }}
+          role-skip-session-tagging: true
+          role-duration-seconds: 900
+      - run: aws s3 sync dist/${{ inputs.environment }} s3://${{ secrets.s3Bucket }} --delete
