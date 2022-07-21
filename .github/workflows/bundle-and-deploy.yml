@@ -9,6 +9,10 @@ on:
       near_wallet_env:
         required: true
         type: string
+      suffix:
+        default: ''
+        required: false
+        type: string
 
 jobs:
   bundle-frontend:
@@ -29,10 +33,6 @@ jobs:
       - run: yarn lint
       - run: yarn test
       - run: yarn bundle --outDir=dist/${{ inputs.environment }}
-#      - uses: actions/upload-artifact@v3
-#        with:
-#          name: frontend-bundle
-#          path: packages/frontend/dist/${{ inputs.environment }}
       - uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
@@ -41,4 +41,4 @@ jobs:
           role-to-assume: ${{ secrets.AWS_DEPLOYMENT_ROLE }}
           role-skip-session-tagging: true
           role-duration-seconds: 900
-      - run: aws s3 sync dist/${{ inputs.environment }} s3://${{ secrets.PR_PREVIEW_BUCKET }}/${{ github.event.pull_request.number }} --delete
+      - run: aws s3 sync dist/${{ inputs.environment }} s3://${{ secrets.PR_PREVIEW_BUCKET }}${{ inputs.suffix && format("/{0}", inputs.suffix) }} --delete
