@@ -9,10 +9,6 @@ on:
       near_wallet_env:
         required: true
         type: string
-      suffix:
-        default: ''
-        required: false
-        type: string
 
 jobs:
   bundle-frontend:
