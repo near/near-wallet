@@ -11,7 +11,7 @@ jobs:
   testnet-bundle-preview:
     uses: ./.github/workflows/bundle-and-deploy.yml
     with:
-      environment: testnet-preview
+      environment: testnet-staging
       near_wallet_env: testnet_STAGING
     secrets: inherit
 
