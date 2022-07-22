@@ -1,8 +1,10 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
+import { HAPI_RISK_SCORING } from '../../../../../../features';
 import iconWarning from '../../../images/icon-warning.svg';
+import HapiService from '../../../services/HapiService';
 
 const HapiContainer = styled.div`
     margin-top: 20px;
@@ -47,14 +49,34 @@ const HapiConsent = styled.div`
     }
 `;
 
-const HapiForm = ({ setIsHAPIConsentEnabled }) => {
+const HapiForm = ({ accountId, accountIdIsValid, setAccountIdIsValid, isHAPIWarn, setIsHAPIWarn, setIsHAPIConsentEnabled }) => {
+
+    useEffect(() => {
+        async function checkAccountWithHapi() {
+            try {
+                const hapiStatus =  await HapiService.checkAddress({accountId});
+                if (hapiStatus && hapiStatus[0] !== 'None') { 
+                    setAccountIdIsValid(false);
+                    setIsHAPIWarn(true);
+                }
+            } catch (e) {
+                // continue work
+            }
+        }
+
+        if (accountIdIsValid && HAPI_RISK_SCORING) {
+            checkAccountWithHapi();
+        } else {
+            setIsHAPIWarn(false);
+        }
+    }, [accountId, accountIdIsValid]);
 
     const onCheckboxChange = useCallback((e) => {
         setIsHAPIConsentEnabled(e.target.checked);
     }, []);
 
-    return (
-        <HapiContainer>
+    return isHAPIWarn ? (
+        <HapiContainer className="hapi">
             <HapiWarning>
                 <img src={iconWarning} alt="Warning"/>
                 <div>
@@ -68,7 +90,7 @@ const HapiForm = ({ setIsHAPIConsentEnabled }) => {
                 </label>
             </HapiConsent>
         </HapiContainer>
-    );
+    ) : <></>;
 };
 
 export default HapiForm;

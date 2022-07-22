@@ -1,10 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Translate } from 'react-localize-redux';
 import { Textfit } from 'react-textfit';
 import styled from 'styled-components';
 
-import { HAPI_RISK_SCORING } from '../../../../../../../features';
-import HapiService from '../../../../services/HapiService';
 import BackArrowButton from '../../../common/BackArrowButton';
 import FormButton from '../../../common/FormButton';
 import HapiForm from '../HapiForm';
@@ -20,6 +18,10 @@ const StyledContainer = styled.form`
 
     .input-sub-label {
         color: #A2A2A8;
+    }
+
+    .hapi + .input-sub-label {
+        display: none;
     }
 `;
 
@@ -42,27 +44,6 @@ const EnterReceiver = ({
     const [ isHAPIConsentEnabled, setIsHAPIConsentEnabled] = useState(false);
     const success = localAlert?.success && (!isHAPIWarn || isHAPIConsentEnabled);
     const problem = (!localAlert?.success && localAlert?.show) || (isHAPIWarn && !isHAPIConsentEnabled);
-
-
-    useEffect(() => {
-        async function checkAccountWithHapi() {
-            try {
-                const hapiStatus =  await HapiService.checkAddress({accountId});
-                if (hapiStatus && hapiStatus[0] !== 'None') {
-                    setAccountIdIsValid(false);
-                    setIsHAPIWarn(true);
-                }
-            } catch (e) {
-                // continue work
-            }
-        }
-
-        if (accountIdIsValid && HAPI_RISK_SCORING) {
-            checkAccountWithHapi();
-        } else {
-            setIsHAPIWarn(false);
-        }
-    }, [accountId, accountIdIsValid]);
 
     return (
         <StyledContainer
@@ -97,17 +78,17 @@ const EnterReceiver = ({
                 success={success}
                 problem={problem}
             />
-            {isHAPIWarn
-                ? (
-                    <HapiForm
-                        setIsHAPIConsentEnabled={setIsHAPIConsentEnabled}
-                    />
-                ) : (
-                    <div className='input-sub-label'>
-                        <Translate id='input.accountId.subLabel'/>
-                    </div>
-                )
-            }
+            <HapiForm
+                setIsHAPIWarn={setIsHAPIWarn}
+                isHAPIWarn={isHAPIWarn}
+                setIsHAPIConsentEnabled={setIsHAPIConsentEnabled}
+                setAccountIdIsValid={setAccountIdIsValid}
+                accountId={accountId}
+                accountIdIsValid={accountIdIsValid}
+            />
+            <div className='input-sub-label'>
+                <Translate id='input.accountId.subLabel'/>
+            </div>
             <div className='buttons-bottom-buttons'>
                 {/* TODO: Add error state */}
                 <FormButton
