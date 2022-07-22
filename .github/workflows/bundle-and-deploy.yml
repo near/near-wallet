@@ -3,6 +3,10 @@ name: Build and Deploy Frontend
 on:
   workflow_call:
     inputs:
+      deploy_preview:
+        default: true
+        required: false
+        type: boolean
       environment:
         required: true
         type: string
@@ -37,7 +41,7 @@ jobs:
           role-to-assume: ${{ secrets.AWS_DEPLOYMENT_ROLE }}
           role-skip-session-tagging: true
           role-duration-seconds: 900
-      - if: ${{ github.event_name == 'pull_request' }}
+      - if: ${{ inputs.deploy_preview && github.event_name == 'pull_request' }}
         run: aws s3 sync dist/${{ inputs.environment }} s3://${{ secrets.S3_BUCKET }}/${{ github.event.pull_request.number }} --delete
-      - if: ${{ github.event_name == 'push' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/stable') }}
+      - if: ${{ inputs.deploy_preview && github.event_name == 'push' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/stable') }}
         run: aws s3 sync dist/${{ inputs.environment }} s3://${{ secrets.S3_BUCKET }} --delete

@@ -9,6 +9,7 @@ concurrency:
 
 jobs:
   testnet-bundle-preview:
+    if: github.base_ref != 'stable'
     uses: ./.github/workflows/bundle-and-deploy.yml
     with:
       environment: testnet-preview
@@ -16,8 +17,18 @@ jobs:
     secrets: inherit
 
   mainnet-bundle-preview:
+    if: github.base_ref != 'stable'
     uses: ./.github/workflows/bundle-and-deploy.yml
     with:
       environment: mainnet-preview
       near_wallet_env: mainnet_STAGING
+    secrets: inherit
+
+  validate-release-pr:
+    if: github.base_ref == 'stable'
+    uses: ./.github/workflows/bundle-and-deploy.yml
+    with:
+      deploy_preview: false
+      environment: mainnet
+      near_wallet_env: mainnet
     secrets: inherit
