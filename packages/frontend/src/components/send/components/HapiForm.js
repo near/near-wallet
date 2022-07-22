@@ -47,12 +47,10 @@ const HapiConsent = styled.div`
     }
 `;
 
-const HapiForm = ({ setAccountIdIsValid, setIsHAPIConsentEnabled }) => {
+const HapiForm = ({ setIsHAPIConsentEnabled }) => {
 
     const onCheckboxChange = useCallback((e) => {
-        const isChecked = e.target.checked;
-        setAccountIdIsValid(isChecked);
-        setIsHAPIConsentEnabled(isChecked);
+        setIsHAPIConsentEnabled(e.target.checked);
     }, []);
 
     return (

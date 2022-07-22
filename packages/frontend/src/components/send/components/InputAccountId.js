@@ -2,8 +2,6 @@ import React, { Component, createRef } from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
-import { HAPI_RISK_SCORING } from '../../../../../../features';
-import HapiService from '../../../services/HapiService';
 import classNames from '../../../utils/classNames';
 import { ACCOUNT_CHECK_TIMEOUT } from '../../../utils/wallet';
 import CheckCircleIcon from '../../svg/CheckCircleIcon';
@@ -130,7 +128,7 @@ class InputAccountId extends Component {
     }
 
     handleChangeAccountId = ({ userValue, el }) => {
-        const { handleChange, localAlert, clearLocalAlert, setAccountIdIsValid, setIsHAPIWarn } = this.props;
+        const { handleChange, localAlert, clearLocalAlert, setAccountIdIsValid, setAccountId } = this.props;
         const { wrongChar } = this.state;
         const pattern = /[^a-zA-Z0-9._-]/;
 
@@ -141,8 +139,10 @@ class InputAccountId extends Component {
                 el.style.animation = 'none';
                 void el.offsetHeight;
                 el.style.animation = null;
+                setAccountId(accountId);
                 setAccountIdIsValid(true);
             } else {
+                setAccountId(null);
                 setAccountIdIsValid(false);
                 this.setState({ wrongChar: true });
             }
@@ -154,7 +154,6 @@ class InputAccountId extends Component {
         handleChange(accountId);
 
         localAlert && clearLocalAlert();
-        HAPI_RISK_SCORING && setIsHAPIWarn(false);
 
         this.checkAccountAvailabilityTimer && clearTimeout(this.checkAccountAvailabilityTimer);
         this.checkAccountAvailabilityTimer = setTimeout(() => {
@@ -165,50 +164,43 @@ class InputAccountId extends Component {
     isImplicitAccount = (accountId) => accountId.length === 64 && !accountId.includes('.')
 
     handleCheckAvailability = async (accountId) => {
-        const { checkAvailability, clearLocalAlert, setAccountIdIsValid, setIsHAPIWarn } = this.props;
+        const { checkAvailability, clearLocalAlert, setAccountIdIsValid, setAccountId } = this.props;
 
         if (!accountId) {
+            setAccountId(null);
             setAccountIdIsValid(false);
             return false;
         }
 
         try {
             await checkAvailability(accountId);
-            if (HAPI_RISK_SCORING) {
-                const hapiStatus =  await HapiService.checkAddress({accountId});
-                if (hapiStatus && hapiStatus[0] !== 'None') {
-                    setAccountIdIsValid(false);
-                    setIsHAPIWarn(true);
-                }
-            } else {
-                setAccountIdIsValid(true);
-            }
+            setAccountId(accountId);
+            setAccountIdIsValid(true);
         } catch (e) {
             if (this.isImplicitAccount(accountId) && e.toString().includes('does not exist while viewing')) {
                 console.warn(`${accountId} does not exist. Assuming this is an implicit Account ID.`);
                 clearLocalAlert();
+                setAccountId(accountId);
                 setAccountIdIsValid(true);
                 return;
             }
             setAccountIdIsValid(false);
+            setAccountId(null);
         }
     }
 
     render() {
         const {
             disabled,
-            localAlert,
             accountId,
             onFocus,
             onBlur,
             autoFocus,
-            isHAPIWarn,
-            isHAPIConsentEnabled,
+            success,
+            problem,
         } = this.props;
 
         const { wrongChar } = this.state;
-        const success = localAlert?.success && (!isHAPIWarn || isHAPIConsentEnabled);
-        const problem = (!localAlert?.success && localAlert?.show) || (isHAPIWarn && !isHAPIConsentEnabled);
 
         return (
             <Translate>

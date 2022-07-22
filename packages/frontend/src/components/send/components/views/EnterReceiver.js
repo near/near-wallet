@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Translate } from 'react-localize-redux';
 import { Textfit } from 'react-textfit';
 import styled from 'styled-components';
 
+import { HAPI_RISK_SCORING } from '../../../../../../../features';
+import HapiService from '../../../../services/HapiService';
 import BackArrowButton from '../../../common/BackArrowButton';
 import FormButton from '../../../common/FormButton';
 import HapiForm from '../HapiForm';
@@ -34,9 +36,33 @@ const EnterReceiver = ({
     onClickContinue,
     isMobile
 }) => {
+    const [ accountId, setAccountId] = useState(false);
     const [ accountIdIsValid, setAccountIdIsValid] = useState(false);
     const [ isHAPIWarn, setIsHAPIWarn] = useState(false);
     const [ isHAPIConsentEnabled, setIsHAPIConsentEnabled] = useState(false);
+    const success = localAlert?.success && (!isHAPIWarn || isHAPIConsentEnabled);
+    const problem = (!localAlert?.success && localAlert?.show) || (isHAPIWarn && !isHAPIConsentEnabled);
+
+
+    useEffect(() => {
+        async function checkAccountWithHapi() {
+            try {
+                const hapiStatus =  await HapiService.checkAddress({accountId});
+                if (hapiStatus && hapiStatus[0] !== 'None') {
+                    setAccountIdIsValid(false);
+                    setIsHAPIWarn(true);
+                }
+            } catch (e) {
+                // continue work
+            }
+        }
+
+        if (accountIdIsValid && HAPI_RISK_SCORING) {
+            checkAccountWithHapi();
+        } else {
+            setIsHAPIWarn(false);
+        }
+    }, [accountId, accountIdIsValid]);
 
     return (
         <StyledContainer
@@ -66,15 +92,14 @@ const EnterReceiver = ({
                 localAlert={localAlert}
                 clearLocalAlert={clearLocalAlert}
                 autoFocus={!isMobile}
+                setAccountId={setAccountId}
                 setAccountIdIsValid={setAccountIdIsValid}
-                setIsHAPIWarn={setIsHAPIWarn}
-                isHAPIWarn={isHAPIWarn}
-                isHAPIConsentEnabled={isHAPIConsentEnabled}
+                success={success}
+                problem={problem}
             />
             {isHAPIWarn
                 ? (
                     <HapiForm
-                        setAccountIdIsValid={setAccountIdIsValid}
                         setIsHAPIConsentEnabled={setIsHAPIConsentEnabled}
                     />
                 ) : (
