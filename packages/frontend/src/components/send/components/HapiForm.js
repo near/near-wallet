@@ -55,7 +55,7 @@ const HapiForm = ({ accountId, isHAPIWarn, setIsHAPIWarn, setIsHAPIConsentEnable
         async function checkAccountWithHapi() {
             try {
                 const hapiStatus =  await HapiService.checkAddress({accountId});
-                if (hapiStatus && hapiStatus[0] === 'None') { 
+                if (hapiStatus && hapiStatus[0] !== 'None') { 
                     setIsHAPIWarn(true);
                 }
             } catch (e) {
