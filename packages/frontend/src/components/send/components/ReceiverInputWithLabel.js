@@ -51,12 +51,15 @@ const ReceiverInputWithLabel = ({
     localAlert,
     clearLocalAlert,
     setAccountIdIsValid,
+    setIsHAPIWarn,
+    isHAPIWarn,
+    isHAPIConsentEnabled,
     autoFocus
 }) => {
 
     const [inputHasFocus, setInputHasFocus] = useState(false);
-    const success = localAlert?.success;
-    const problem = !localAlert?.success && localAlert?.show;
+    const success = localAlert?.success && (!isHAPIWarn || isHAPIConsentEnabled);
+    const problem = (!localAlert?.success && localAlert?.show) || (isHAPIWarn && !isHAPIConsentEnabled);
 
     // TODO: Add remaining error style text
 
@@ -76,6 +79,9 @@ const ReceiverInputWithLabel = ({
                 success={success}
                 problem={problem}
                 setAccountIdIsValid={setAccountIdIsValid}
+                setIsHAPIWarn={setIsHAPIWarn}
+                isHAPIWarn={isHAPIWarn}
+                isHAPIConsentEnabled={isHAPIConsentEnabled}
             />  
         </StyledContainer>
     );

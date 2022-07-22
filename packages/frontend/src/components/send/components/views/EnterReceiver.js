@@ -5,6 +5,7 @@ import styled from 'styled-components';
 
 import BackArrowButton from '../../../common/BackArrowButton';
 import FormButton from '../../../common/FormButton';
+import HapiForm from '../HapiForm';
 import RawTokenAmount from '../RawTokenAmount';
 import ReceiverInputWithLabel from '../ReceiverInputWithLabel';
 
@@ -34,6 +35,8 @@ const EnterReceiver = ({
     isMobile
 }) => {
     const [ accountIdIsValid, setAccountIdIsValid] = useState(false);
+    const [ isHAPIWarn, setIsHAPIWarn] = useState(false);
+    const [ isHAPIConsentEnabled, setIsHAPIConsentEnabled] = useState(false);
 
     return (
         <StyledContainer
@@ -64,10 +67,22 @@ const EnterReceiver = ({
                 clearLocalAlert={clearLocalAlert}
                 autoFocus={!isMobile}
                 setAccountIdIsValid={setAccountIdIsValid}
+                setIsHAPIWarn={setIsHAPIWarn}
+                isHAPIWarn={isHAPIWarn}
+                isHAPIConsentEnabled={isHAPIConsentEnabled}
             />
-            <div className='input-sub-label'>
-                <Translate id='input.accountId.subLabel'/>
-            </div>
+            {isHAPIWarn
+                ? (
+                    <HapiForm
+                        setAccountIdIsValid={setAccountIdIsValid}
+                        setIsHAPIConsentEnabled={setIsHAPIConsentEnabled}
+                    />
+                ) : (
+                    <div className='input-sub-label'>
+                        <Translate id='input.accountId.subLabel'/>
+                    </div>
+                )
+            }
             <div className='buttons-bottom-buttons'>
                 {/* TODO: Add error state */}
                 <FormButton
