@@ -38,8 +38,7 @@ const EnterReceiver = ({
     onClickContinue,
     isMobile
 }) => {
-    const [ accountId, setAccountId] = useState(false);
-    const [ accountIdIsValid, setAccountIdIsValid] = useState(false);
+    const [ accountId, setAccountId] = useState(null);
     const [ isHAPIWarn, setIsHAPIWarn] = useState(false);
     const [ isHAPIConsentEnabled, setIsHAPIConsentEnabled] = useState(false);
     const success = localAlert?.success && (!isHAPIWarn || isHAPIConsentEnabled);
@@ -74,7 +73,6 @@ const EnterReceiver = ({
                 clearLocalAlert={clearLocalAlert}
                 autoFocus={!isMobile}
                 setAccountId={setAccountId}
-                setAccountIdIsValid={setAccountIdIsValid}
                 success={success}
                 problem={problem}
             />
@@ -82,9 +80,7 @@ const EnterReceiver = ({
                 setIsHAPIWarn={setIsHAPIWarn}
                 isHAPIWarn={isHAPIWarn}
                 setIsHAPIConsentEnabled={setIsHAPIConsentEnabled}
-                setAccountIdIsValid={setAccountIdIsValid}
                 accountId={accountId}
-                accountIdIsValid={accountIdIsValid}
             />
             <div className='input-sub-label'>
                 <Translate id='input.accountId.subLabel'/>
@@ -93,7 +89,7 @@ const EnterReceiver = ({
                 {/* TODO: Add error state */}
                 <FormButton
                     type='submit'
-                    disabled={!accountIdIsValid}
+                    disabled={accountId === null || !isHAPIConsentEnabled}
                     data-test-id="sendMoneyPageSubmitAccountIdButton"
                 >
                     <Translate id='button.continue'/>

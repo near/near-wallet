@@ -51,7 +51,6 @@ const ReceiverInputWithLabel = ({
     localAlert,
     clearLocalAlert,
     setAccountId,
-    setAccountIdIsValid,
     autoFocus,
     success,
     problem
@@ -76,7 +75,6 @@ const ReceiverInputWithLabel = ({
                 success={success}
                 problem={problem}
                 setAccountId={setAccountId}
-                setAccountIdIsValid={setAccountIdIsValid}
             />  
         </StyledContainer>
     );

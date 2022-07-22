@@ -49,14 +49,13 @@ const HapiConsent = styled.div`
     }
 `;
 
-const HapiForm = ({ accountId, accountIdIsValid, setAccountIdIsValid, isHAPIWarn, setIsHAPIWarn, setIsHAPIConsentEnabled }) => {
+const HapiForm = ({ accountId, isHAPIWarn, setIsHAPIWarn, setIsHAPIConsentEnabled }) => {
 
     useEffect(() => {
         async function checkAccountWithHapi() {
             try {
                 const hapiStatus =  await HapiService.checkAddress({accountId});
-                if (hapiStatus && hapiStatus[0] !== 'None') { 
-                    setAccountIdIsValid(false);
+                if (hapiStatus && hapiStatus[0] === 'None') { 
                     setIsHAPIWarn(true);
                 }
             } catch (e) {
@@ -64,12 +63,12 @@ const HapiForm = ({ accountId, accountIdIsValid, setAccountIdIsValid, isHAPIWarn
             }
         }
 
-        if (accountIdIsValid && HAPI_RISK_SCORING) {
+        if (accountId && HAPI_RISK_SCORING) {
             checkAccountWithHapi();
         } else {
             setIsHAPIWarn(false);
         }
-    }, [accountId, accountIdIsValid]);
+    }, [accountId]);
 
     const onCheckboxChange = useCallback((e) => {
         setIsHAPIConsentEnabled(e.target.checked);
