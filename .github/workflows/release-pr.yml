@@ -1,0 +1,19 @@
+name: PR Preview
+
+on:
+  pull_request:
+    branches:
+      - stable
+
+concurrency:
+  group: 'release'
+  cancel-in-progress: true
+
+jobs:
+  pre-release-check:
+    uses: ./.github/workflows/bundle-and-deploy.yml
+    with:
+      deploy: false
+      environment: mainnet
+      near_wallet_env: mainnet
+    secrets: inherit
