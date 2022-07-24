@@ -1,5 +1,21 @@
 import { INDEXER_SERVICE_URL } from '../config';
 import sendJson from '../tmp_fetch_send_json';
+import { buildUrlOptParam } from '../utils/url';
+import IndexerCache from './lib/indexerCache';
+
+const cache = new IndexerCache();
+cache.open();
+
+function cachedRequest (accountId, kind) {
+    const url = `${INDEXER_SERVICE_URL}/account/${accountId}/${kind}`;
+    const result = cache.accumulate(accountId, kind, (timestamp) => {
+        return sendJson('GET', buildUrlOptParam(url, {
+            fromBlockTimestamp: timestamp
+        }));
+    });
+
+    return result;
+}
 
 export function listAccountsByPublicKey(publicKey) {
     return fetch(`${INDEXER_SERVICE_URL}/publicKey/${publicKey}/accounts`)
@@ -7,11 +23,11 @@ export function listAccountsByPublicKey(publicKey) {
 }
 
 export function listLikelyNfts(accountId) {
-    return sendJson('GET', `${INDEXER_SERVICE_URL}/account/${accountId}/likelyNFTs`);
+    return cachedRequest(accountId, IndexerCache.LIKELY_NFT_KEY);
 }
 
 export function listLikelyTokens(accountId) {
-    return sendJson('GET', `${INDEXER_SERVICE_URL}/account/${accountId}/likelyTokens`);
+    return cachedRequest(accountId, IndexerCache.LIKELY_TOKENS_KEY);
 }
 
 export function listRecentTransactions(accountId) {
