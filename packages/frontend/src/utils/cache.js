@@ -55,9 +55,7 @@ export default class Cache {
                 return;
             };
 
-            open.onerror = (e) => {
-                reject(e);
-            };
+            open.onerror = reject;
         });
     }
 

@@ -1,6 +1,6 @@
-import Cache from '../../utils/cache';
+import Cache from '../utils/cache';
 
-export default class IndexerCache extends Cache {
+export class IndexerCache extends Cache {
     static DB_VERSION = 1;
     static CACHE_VERSION = 1;
     static STORE_NAME = 'IndexerCache';
@@ -31,7 +31,7 @@ export default class IndexerCache extends Cache {
             IndexerCache.INDEX_NAME, [
                 'account.id',
                 'account.kind',
-                'account.cacheVersion'
+                'account.version'
             ],
             {
                 unique: true
@@ -44,47 +44,51 @@ export default class IndexerCache extends Cache {
             const store = await this.getIndexStore();
             const query = store.get([accountId, kind, IndexerCache.CACHE_VERSION]);
 
-            query.onsuccess = (e) => {
-                resolve(e.target.result);
+            query.onsuccess = (event) => {
+                resolve(event.target.result);
             };
 
-            query.onerror = (e) => {
-                reject(null);
+            query.onerror = (event) => {
+                reject(event);
             };
         });
     }
 
-    async _addRecord(accountId, kind, data) {
-        const store = await this.getObjectStore();
+    _addRecord(accountId, kind, data) {
+        return new Promise(async (resolve, reject) => {
+            const store = await this.getObjectStore();
 
-        const item = {
-            account: {
-                id: accountId,
-                kind,
-                cacheVersion: IndexerCache.CACHE_VERSION,
-            },
-            data
-        };
+            const item = {
+                account: {
+                    id: accountId,
+                    kind,
+                    version: IndexerCache.CACHE_VERSION,
+                },
+                data
+            };
 
-        store.add(item, IDBCursor.primaryKey);
+            const request = store.add(item, IDBCursor.primaryKey);
+            request.onsuccess = resolve;
+            request.onerror = reject;
+        });
     }
 
     async _updateRecord(accountId, kind, data) {
         return new Promise(async (resolve) => {
             const store = await this.getObjectStore();
 
-            store.openCursor().onsuccess = (e) => {
+            store.openCursor().onsuccess = (event) => {
                 const cursor = event.target.result;
 
                 if (cursor) {
                     const { account } = cursor.value;
-                    const found = account.id === accountId
+                    const isFound = account.id === accountId
                         && account.kind === kind;
 
-                    if (found) {
-                        const updateData = cursor.value;
-                        updateData.data = data;
-                        const request = cursor.update(updateData);
+                    if (isFound) {
+                        const updatedData = cursor.value;
+                        updatedData.data = data;
+                        const request = cursor.update(updatedData);
 
                         request.onsuccess = resolve;
                     } else {
@@ -135,3 +139,8 @@ export default class IndexerCache extends Cache {
         return record.data?.list;
     }
 }
+
+const cache = new IndexerCache();
+cache.open();
+
+export default cache;
