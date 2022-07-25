@@ -1875,7 +1875,7 @@
             "title": "Your account is now active!"
         }
     },
-    "hapi": {
+    "riscScoring": {
         "scamWarning": "This address has a high level of risk and marked as scam. Make sure that this address is safe before sending funds.",
         "checkbox": "I accept responsibility for sending funds to this address."
 

@@ -5,9 +5,9 @@ import styled from 'styled-components';
 
 import BackArrowButton from '../../../common/BackArrowButton';
 import FormButton from '../../../common/FormButton';
-import HapiForm from '../HapiForm';
 import RawTokenAmount from '../RawTokenAmount';
 import ReceiverInputWithLabel from '../ReceiverInputWithLabel';
+import RiscScoringForm, { useRiskScoringCheck } from '../RiscScoringForm';
 
 const StyledContainer = styled.form`
     .token-amount {
@@ -20,7 +20,7 @@ const StyledContainer = styled.form`
         color: #A2A2A8;
     }
 
-    .hapi + .input-sub-label {
+    .risk-scoring-warning + .input-sub-label {
         display: none;
     }
 `;
@@ -39,10 +39,9 @@ const EnterReceiver = ({
     isMobile
 }) => {
     const [ accountId, setAccountId] = useState(null);
-    const [ isHAPIWarn, setIsHAPIWarn] = useState(false);
-    const [ isHAPIConsentEnabled, setIsHAPIConsentEnabled] = useState(false);
-    const success = localAlert?.success && (!isHAPIWarn || isHAPIConsentEnabled);
-    const problem = (!localAlert?.success && localAlert?.show) || (isHAPIWarn && !isHAPIConsentEnabled);
+    const { isRSWarned, isRSIgnored, setIsRSIgnored } = useRiskScoringCheck(accountId);
+    const isSuccess = localAlert?.success && (!isRSWarned || isRSIgnored);
+    const isProblem = (!localAlert?.success && localAlert?.show) || (isRSWarned && !isRSIgnored);
 
     return (
         <StyledContainer
@@ -73,15 +72,10 @@ const EnterReceiver = ({
                 clearLocalAlert={clearLocalAlert}
                 autoFocus={!isMobile}
                 setAccountId={setAccountId}
-                success={success}
-                problem={problem}
+                isSuccess={isSuccess}
+                isProblem={isProblem}
             />
-            <HapiForm
-                setIsHAPIWarn={setIsHAPIWarn}
-                isHAPIWarn={isHAPIWarn}
-                setIsHAPIConsentEnabled={setIsHAPIConsentEnabled}
-                accountId={accountId}
-            />
+            {isRSWarned && <RiscScoringForm setIsRSIgnored={setIsRSIgnored} />}
             <div className='input-sub-label'>
                 <Translate id='input.accountId.subLabel'/>
             </div>
@@ -89,7 +83,7 @@ const EnterReceiver = ({
                 {/* TODO: Add error state */}
                 <FormButton
                     type='submit'
-                    disabled={accountId === null || !isHAPIConsentEnabled}
+                    disabled={accountId === null || !isRSIgnored}
                     data-test-id="sendMoneyPageSubmitAccountIdButton"
                 >
                     <Translate id='button.continue'/>

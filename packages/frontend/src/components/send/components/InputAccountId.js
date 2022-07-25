@@ -190,8 +190,8 @@ class InputAccountId extends Component {
             onFocus,
             onBlur,
             autoFocus,
-            success,
-            problem,
+            isSuccess,
+            isProblem,
         } = this.props;
 
         const { wrongChar } = this.state;
@@ -199,7 +199,7 @@ class InputAccountId extends Component {
         return (
             <Translate>
                 {({ translate }) => (
-                    <InputWrapper className={classNames([{ 'success': success }, { 'problem': problem }, { 'wrong-char': wrongChar }])}>
+                    <InputWrapper className={classNames([{ 'success': isSuccess }, { 'problem': isProblem }, { 'wrong-char': wrongChar }])}>
                         <input
                             value={accountId}
                             onInput={(e) => this.updatePrefix(e.target.value)}

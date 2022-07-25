@@ -1,17 +1,17 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
 import { HAPI_RISK_SCORING } from '../../../../../../features';
 import iconWarning from '../../../images/icon-warning.svg';
-import HapiService from '../../../services/HapiService';
+import { checkAddress } from '../../../services/RiscScoring';
 
-const HapiContainer = styled.div`
+const RSContainer = styled.div`
     margin-top: 20px;
     margin-bottom: -25px;
 `;
 
-const HapiWarning = styled.div`
+const RSWarning = styled.div`
     background: #FFEFEF;
     border-radius: 4px;
     display: flex;
@@ -24,7 +24,7 @@ const HapiWarning = styled.div`
     line-height: 16px;
 `;
 
-const HapiConsent = styled.div`
+const RSConsent = styled.div`
     margin-top: 38px;
     line-height: 20px;
     color: #000000;
@@ -49,47 +49,54 @@ const HapiConsent = styled.div`
     }
 `;
 
-const HapiForm = ({ accountId, isHAPIWarn, setIsHAPIWarn, setIsHAPIConsentEnabled }) => {
+export function useRiskScoringCheck (accountId) {
+    const [ isRSWarned, setIsRSWarned] = useState(false);
+    const [ isRSIgnored, setIsRSIgnored] = useState(false);
 
     useEffect(() => {
         async function checkAccountWithHapi() {
             try {
-                const hapiStatus =  await HapiService.checkAddress({accountId});
+                const hapiStatus =  await checkAddress({accountId});
                 if (hapiStatus && hapiStatus[0] !== 'None') { 
-                    setIsHAPIWarn(true);
+                    setIsRSWarned(true);
                 }
             } catch (e) {
                 // continue work
             }
         }
 
-        if (accountId && HAPI_RISK_SCORING) {
+        if (HAPI_RISK_SCORING && accountId) {
             checkAccountWithHapi();
         } else {
-            setIsHAPIWarn(false);
+            setIsRSWarned(false);
         }
     }, [accountId]);
 
+    return { isRSWarned, isRSIgnored, setIsRSIgnored };
+}
+
+
+const RiscScoringForm = ({ setIsRSIgnored }) => {
     const onCheckboxChange = useCallback((e) => {
-        setIsHAPIConsentEnabled(e.target.checked);
+        setIsRSIgnored(e.target.checked);
     }, []);
 
-    return isHAPIWarn ? (
-        <HapiContainer className="hapi">
-            <HapiWarning>
+    return (
+        <RSContainer className="risk-scoring-warning">
+            <RSWarning>
                 <img src={iconWarning} alt="Warning"/>
                 <div>
-                    <Translate id='hapi.scamWarning' />
+                    <Translate id='riscScoring.scamWarning' />
                 </div>
-            </HapiWarning>
-            <HapiConsent>
+            </RSWarning>
+            <RSConsent>
                 <label>
                     <input type="checkbox" onChange={onCheckboxChange}/>
-                    <Translate id='hapi.checkbox' />
+                    <Translate id='riscScoring.checkbox' />
                 </label>
-            </HapiConsent>
-        </HapiContainer>
-    ) : <></>;
+            </RSConsent>
+        </RSContainer>
+    );
 };
 
-export default HapiForm;
+export default RiscScoringForm;
