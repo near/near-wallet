@@ -1,14 +1,10 @@
-import Cache from '../utils/cache';
+import Cache from '../../utils/cache';
 
 export class IndexerCache extends Cache {
     static DB_VERSION = 1;
     static CACHE_VERSION = 1;
     static STORE_NAME = 'IndexerCache';
     static INDEX_NAME = 'Kind';
-
-    static LIKELY_NFT_KEY = 'likelyNFTs';
-    static LIKELY_TOKENS_KEY = 'likelyTokens';
-    static UPDATE_REQUEST_INTERVAL = 1000 * 30;
 
     constructor() {
         super(
@@ -53,7 +49,7 @@ export class IndexerCache extends Cache {
     }
 
     _addRecord(accountId, kind, data) {
-        return new Promise(async (resolve, reject) => {
+        return new Promise(async (resolve) => {
             const store = await this.getObjectStore();
 
             const item = {
@@ -67,7 +63,6 @@ export class IndexerCache extends Cache {
 
             const request = store.add(item, IDBCursor.primaryKey);
             request.onsuccess = resolve;
-            request.onerror = reject;
         });
     }
 
@@ -97,22 +92,22 @@ export class IndexerCache extends Cache {
         });
     }
 
-    _shouldUpdate(lastTimestamp = 0) {
+    _shouldUpdate(lastTimestamp = 0, timeout) {
         const time = new Date().getTime();
 
-        return time - lastTimestamp >= IndexerCache.UPDATE_REQUEST_INTERVAL;
+        return time - lastTimestamp >= timeout;
     }
 
     /**
      * The main idea is save the contract-helper from searching through the entire history of the blockchain.
      * Each next request, we send the last timestamp, while accumulating data on the client.
      */
-    async accumulate(accountId, kind, updater) {
+    async accumulate({ accountId, kind, updater, timeout }) {
         const record = await this._getRecord(accountId, kind);
         try {
             const lastTimestamp = record?.data?.timestamp;
 
-            if (this._shouldUpdate(lastTimestamp)) {
+            if (this._shouldUpdate(lastTimestamp, timeout)) {
                 const response = await updater(lastTimestamp);
                 const prev = record?.data?.list || [];
 
