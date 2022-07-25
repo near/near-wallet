@@ -2,12 +2,13 @@ import Cache from '../../utils/cache';
 
 export default class IndexerCache extends Cache {
     static DB_VERSION = 1;
+    static CACHE_VERSION = 1;
     static STORE_NAME = 'IndexerCache';
     static INDEX_NAME = 'Kind';
 
     static LIKELY_NFT_KEY = 'likelyNFTs';
     static LIKELY_TOKENS_KEY = 'likelyTokens';
-    static UPDATE_REQUEST_INTERVAL = 1000 * 60 * 5;
+    static UPDATE_REQUEST_INTERVAL = 1000 * 30;
 
     constructor() {
         super(
@@ -27,7 +28,11 @@ export default class IndexerCache extends Cache {
         );
 
         store.createIndex(
-            IndexerCache.INDEX_NAME, ['account.id', 'account.kind'],
+            IndexerCache.INDEX_NAME, [
+                'account.id',
+                'account.kind',
+                'account.cacheVersion'
+            ],
             {
                 unique: true
             }
@@ -37,7 +42,7 @@ export default class IndexerCache extends Cache {
     _getRecord(accountId, kind) {
         return new Promise(async (resolve, reject) => {
             const store = await this.getIndexStore();
-            const query = store.get([accountId, kind]);
+            const query = store.get([accountId, kind, IndexerCache.CACHE_VERSION]);
 
             query.onsuccess = (e) => {
                 resolve(e.target.result);
@@ -55,7 +60,8 @@ export default class IndexerCache extends Cache {
         const item = {
             account: {
                 id: accountId,
-                kind
+                kind,
+                cacheVersion: IndexerCache.CACHE_VERSION,
             },
             data
         };
@@ -96,7 +102,7 @@ export default class IndexerCache extends Cache {
     }
 
     /**
-     * The main idea is to save the indexer from searching through the entire history of the blockchain.
+     * The main idea is save the contract-helper from searching through the entire history of the blockchain.
      * Each next request, we send the last timestamp, while accumulating data on the client.
      */
     async accumulate(accountId, kind, updater) {
