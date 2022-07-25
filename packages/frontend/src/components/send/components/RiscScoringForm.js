@@ -50,14 +50,15 @@ const RSConsent = styled.div`
 `;
 
 export function useRiskScoringCheck (accountId) {
-    const [ isRSWarned, setIsRSWarned] = useState(false);
-    const [ isRSIgnored, setIsRSIgnored] = useState(false);
+    const [isRSWarned, setIsRSWarned] = useState(false);
+    const [isRSIgnored, setIsRSIgnored] = useState(false);
 
     useEffect(() => {
+        let isActive = true;
         async function checkAccountWithHapi() {
             try {
-                const hapiStatus =  await checkAddress({accountId});
-                if (hapiStatus && hapiStatus[0] !== 'None') { 
+                const hapiStatus = await checkAddress({accountId});
+                if (isActive && hapiStatus && hapiStatus[0] !== 'None') { 
                     setIsRSWarned(true);
                 }
             } catch (e) {
@@ -70,6 +71,10 @@ export function useRiskScoringCheck (accountId) {
         } else {
             setIsRSWarned(false);
         }
+
+        return () => { // prevent race condition
+            isActive = false;
+        };
     }, [accountId]);
 
     return { isRSWarned, isRSIgnored, setIsRSIgnored };
