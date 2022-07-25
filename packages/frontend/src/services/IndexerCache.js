@@ -48,9 +48,7 @@ export class IndexerCache extends Cache {
                 resolve(event.target.result);
             };
 
-            query.onerror = (event) => {
-                reject(event);
-            };
+            query.onerror = reject;
         });
     }
 
