@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Translate } from 'react-localize-redux';
 import { Textfit } from 'react-textfit';
 import styled from 'styled-components';
@@ -38,8 +38,8 @@ const EnterReceiver = ({
     onClickContinue,
     isMobile
 }) => {
-    const [ accountId, setAccountId] = useState(null);
-    const { isRSWarned, isRSIgnored, setIsRSIgnored } = useRiskScoringCheck(accountId);
+    const validAccount = (localAlert?.success && localAlert?.show) ? receiverId : null;
+    const { isRSWarned, isRSIgnored, setIsRSIgnored } = useRiskScoringCheck(validAccount);
     const isSuccess = localAlert?.success && (!isRSWarned || isRSIgnored);
     const isProblem = (!localAlert?.success && localAlert?.show) || (isRSWarned && !isRSIgnored);
 
@@ -71,7 +71,6 @@ const EnterReceiver = ({
                 localAlert={localAlert}
                 clearLocalAlert={clearLocalAlert}
                 autoFocus={!isMobile}
-                setAccountId={setAccountId}
                 isSuccess={isSuccess}
                 isProblem={isProblem}
             />
@@ -83,7 +82,7 @@ const EnterReceiver = ({
                 {/* TODO: Add error state */}
                 <FormButton
                     type='submit'
-                    disabled={accountId === null || !isRSIgnored}
+                    disabled={validAccount === null || !isRSIgnored}
                     data-test-id="sendMoneyPageSubmitAccountIdButton"
                 >
                     <Translate id='button.continue'/>
