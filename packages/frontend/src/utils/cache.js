@@ -52,16 +52,20 @@ export default class Cache {
             window.shimIndexedDB;
 
         this.dbPromise = new Promise((resolve, reject) => {
-            const open = indexedDB.open(Cache.CACHE_DB_NAME, this.dbVersion);
-            open.onupgradeneeded = this._createSchemeDelegate(open);
-            open.onsuccess = () => {
-                this.onSuccess(open.result);
-                resolve(open.result);
+            try {
+                const open = indexedDB.open(Cache.CACHE_DB_NAME, this.dbVersion);
+                open.onupgradeneeded = this._createSchemeDelegate(open);
+                open.onsuccess = () => {
+                    this.onSuccess(open.result);
+                    resolve(open.result);
 
-                return;
-            };
+                    return;
+                };
 
-            open.onerror = reject;
+                open.onerror = reject;
+            } catch (e) {
+                reject(e);
+            }
         });
     }
 
