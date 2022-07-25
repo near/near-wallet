@@ -108,12 +108,13 @@ export class IndexerCache extends Cache {
             const lastTimestamp = record?.data?.timestamp;
 
             if (this._shouldUpdate(lastTimestamp, timeout)) {
-                const response = await updater(lastTimestamp);
+                const { lastBlockTimestamp, list } = await updater(lastTimestamp);
+
                 const prev = record?.data?.list || [];
 
-                const onlyUniqValues = new Set(response.concat(prev));
+                const onlyUniqValues = new Set(list.concat(prev));
                 const updated = {
-                    timestamp: new Date().getTime(),
+                    timestamp: lastBlockTimestamp,
                     list: Array.from(onlyUniqValues),
                 };
 
