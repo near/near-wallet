@@ -175,7 +175,7 @@ const SelectDestinationWallet = ({ handleSetActiveView, handleSetWalletType, wal
                     })}
                 </WalletOptionsListing>
                 <ButtonsContainer>
-                    <StyledButton className="gray-blue" onClick={()=>handleSetActiveView(WALLET_MIGRATION_VIEWS.MIGRATION_PROMPT)}>
+                    <StyledButton className="gray-blue" onClick={onClose}>
                         <Translate id='button.cancel' />
                     </StyledButton>
                     <StyledButton onClick={handleContinue} disabled={!walletType}>
