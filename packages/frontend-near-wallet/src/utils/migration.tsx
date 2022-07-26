@@ -1,10 +1,22 @@
 import Environments from '../../../../features/environments.json';
-import { IS_MAINNET, SHOW_PRERELEASE_WARNING, NEAR_WALLET_ENV } from './config';
+import { NEAR_WALLET_ENV, NETWORK_ID } from './config';
+
+import * as nearApiJs from 'near-api-js';
+const KEY_UNIQUE_PREFIX = '_4:';
+const KEY_WALLET_ACCOUNTS = KEY_UNIQUE_PREFIX + 'wallet:accounts_v2';
+
+const keyStore = new nearApiJs.keyStores.BrowserLocalStorageKeyStore(window.localStorage, 'nearlib:keystore:');
 
 
 export const getAvailableAccounts = () => {
-    const dataFromLocalStorage = localStorage.getItem('_4:wallet:accounts_v2');
-    return dataFromLocalStorage ? Object.keys(JSON.parse(dataFromLocalStorage)) : []
+    const dataFromLocalStorage = JSON.parse(
+        localStorage.getItem(KEY_WALLET_ACCOUNTS) || '{}'
+    );
+    return dataFromLocalStorage ? Object.keys(dataFromLocalStorage) : []
+}
+
+export const getLocalKeyPair = async (accountId) => {
+    return keyStore.getKey(NETWORK_ID, accountId);
 }
 
 

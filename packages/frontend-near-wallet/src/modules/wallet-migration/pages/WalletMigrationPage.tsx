@@ -1,6 +1,7 @@
 import React, { useCallback } from 'react';
+
 import MigrationPrompt from '../components/MigrationPrompt'
-import { getAvailableAccounts, getMyNearWalletUrlFromNEARORG, getLedgerHDPath } from '../../../utils/migration';
+import { getAvailableAccounts, getMyNearWalletUrlFromNEARORG, getLedgerHDPath, getLocalKeyPair } from '../../../utils/migration';
 import { encodeAccountsToHash, generatePublicKey, keyToString } from '../../../utils/encoding';
 
 import SelectDestinationWallet from '../components/SelectDestinationWallet';
@@ -16,14 +17,11 @@ const initialState = {
 
 const encodeAccountsToURL = async (accounts, publicKey) => {
     const accountsData = [];
+
     for (let i = 0; i < accounts.length; i++) {
         const accountId = accounts[i];
-        const keyPair = await wallet.getLocalKeyPair(accountId);
-        accountsData.push([
-            accountId,
-            keyPair?.secretKey || '',
-            getLedgerHDPath(accountId),
-        ]);
+        const keyPair = await getLocalKeyPair(accountId);
+        accountsData.push([accountId, keyPair?.secretKey || '', getLedgerHDPath(accountId)]);
     }
 
     const hash = encodeAccountsToHash(accountsData, publicKey);

@@ -57,9 +57,7 @@ export function decodeAccountsFrom(hash, publicKey) {
     }
 
     try {
-        const cipherText = Uint8Array.from(
-            window.atob(bs64encoded).split(',')
-        );
+        const cipherText = Uint8Array.from(window.atob(bs64encoded).split(','));
         const decoded = decodeMessage(
             cipherText,
             keyFromString(publicKey)
