@@ -1,23 +1,60 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import MigrationPrompt from '../components/MigrationPrompt'
-import { getAvailableAccounts, getExportQueryFromAccounts } from '../../../utils/migration';
+import { getAvailableAccounts, getMyNearWalletUrlFromNEARORG, getLedgerHDPath } from '../../../utils/migration';
+import { encodeAccountsToHash, generatePublicKey, keyToString } from '../../../utils/encoding';
+
 import SelectDestinationWallet from '../components/SelectDestinationWallet';
 import { getMyNearWalletUrl, WALLET_MIGRATION_VIEWS } from '../../../utils/constants';
+import MigrationSecret from '../components/MigrationSecret';
+import MigrateAccounts from '../components/MigrateAccounts';
+
+const initialState = {
+    activeView: WALLET_MIGRATION_VIEWS.MIGRATION_PROMPT,
+    walletType: 'my-near-wallet',
+    migrationKey: generatePublicKey()
+};
+
+const encodeAccountsToURL = async (accounts, publicKey) => {
+    const accountsData = [];
+    for (let i = 0; i < accounts.length; i++) {
+        const accountId = accounts[i];
+        const keyPair = await wallet.getLocalKeyPair(accountId);
+        accountsData.push([
+            accountId,
+            keyPair?.secretKey || '',
+            getLedgerHDPath(accountId),
+        ]);
+    }
+
+    const hash = encodeAccountsToHash(accountsData, publicKey);
+    const href = `${getMyNearWalletUrlFromNEARORG()}/batch-import#${hash}`;
+
+    return href;
+};
+
 
 const WalletMigrationPage = () => {
     const destinationWalletBaseUrl = getMyNearWalletUrl();
-    const [walletType, setWalletType] = React.useState('my-near-wallet');
-    const [activeView, setActiveView] = React.useState(WALLET_MIGRATION_VIEWS.MIGRATION_PROMPT);
+    const [state, setState] = React.useState(initialState);
+    const availableAccounts = getAvailableAccounts();
+
     const [showContent, setShowContent] = React.useState(false);
 
-    const handleRedirectToBatchImport = () => {
-        const query = getExportQueryFromAccounts();
-        window.location.href = `${destinationWalletBaseUrl}/batch-import#${query}`;
+    const handleStateUpdate = (newState) => {
+        setState({ ...state, ...newState });
     };
 
+    const onContinue = useCallback(async () => {
+        const url = await encodeAccountsToURL(
+            availableAccounts,
+            state.migrationKey
+        );
+        window.open(url, '_blank');
+    }, [state.migrationKey, availableAccounts]);
+
+
     React.useEffect(() => {
-        const accounts = getAvailableAccounts();
-        if (accounts.length <= 0) {
+        if (availableAccounts.length <= 0) {
             window.location.href = destinationWalletBaseUrl
         } else {
             setShowContent(true)
@@ -26,19 +63,32 @@ const WalletMigrationPage = () => {
 
     return (
         showContent ? <div>
-            {activeView === WALLET_MIGRATION_VIEWS.MIGRATION_PROMPT &&
+            {state.activeView === WALLET_MIGRATION_VIEWS.MIGRATION_PROMPT &&
                 <MigrationPrompt
-                    handleSetActiveView={setActiveView}
-                    handleRedirectToBatchImport={handleRedirectToBatchImport}
+                    handleTransferMyAccounts={() => handleStateUpdate({ activeView: WALLET_MIGRATION_VIEWS.MIGRATION_SECRET })}
+                    handleUseDifferentWallet={() => handleStateUpdate({ activeView: WALLET_MIGRATION_VIEWS.SELECT_DESTINATION_WALLET })}
                 />
             }
 
-            {activeView === WALLET_MIGRATION_VIEWS.SELECT_DESTINATION_WALLET &&
+            {state.activeView === WALLET_MIGRATION_VIEWS.SELECT_DESTINATION_WALLET &&
                 <SelectDestinationWallet
-                    walletType={walletType}
-                    handleSetWalletType={setWalletType}
-                    handleSetActiveView={setActiveView}
-                    handleRedirectToBatchImport={handleRedirectToBatchImport}
+                    walletType={state.walletType}
+                    handleSetWalletType={(walletType) => handleStateUpdate({ walletType })}
+                    handleTransferMyAccounts={() => handleStateUpdate({ activeView: WALLET_MIGRATION_VIEWS.MIGRATION_SECRET })}
+                    handleCancel={() => handleStateUpdate({ activeView: WALLET_MIGRATION_VIEWS.MIGRATION_PROMPT })}
+                />
+            }
+            {state.activeView === WALLET_MIGRATION_VIEWS.MIGRATION_SECRET &&
+                <MigrationSecret
+                    handleCancel={() => handleStateUpdate({ activeView: WALLET_MIGRATION_VIEWS.MIGRATION_PROMPT })}
+                    showMigrateAccount={() => handleStateUpdate({ activeView: WALLET_MIGRATION_VIEWS.MIGRATE_ACCOUNTS })}
+                    secretKey={keyToString(initialState.migrationKey)}
+                />
+            }
+            {state.activeView === WALLET_MIGRATION_VIEWS.MIGRATE_ACCOUNTS &&
+                <MigrateAccounts
+                    onClose={() => handleStateUpdate({ activeView: WALLET_MIGRATION_VIEWS.MIGRATION_PROMPT })}
+                    onContinue={onContinue}
                 />
             }
         </div> : null

@@ -1,12 +1,12 @@
 
 import React from 'react';
-import { getMyNearWalletUrl, WALLET_MIGRATION_VIEWS } from '../../../utils/constants';
+import { getMyNearWalletUrl } from '../../../utils/constants';
 import { styled } from '../../../styles';
 import Button from '../../../components/Button';
 
 import MyNearWalletLogo from '../../../assets/images/ImgMyNearWalletLogo';
 
-const MigrationPrompt = ({ handleSetActiveView, handleRedirectToBatchImport }) => {
+const MigrationPrompt = ({ handleTransferMyAccounts, handleUseDifferentWallet }) => {
     const destinationWalletBaseUrl = getMyNearWalletUrl();
 
     return (
@@ -19,10 +19,10 @@ const MigrationPrompt = ({ handleSetActiveView, handleRedirectToBatchImport }) =
                 If you haven’t already, quickly and easily transfer your accounts to the new domain:
             </p>
             <ButtonsContainer>
-                <StyledButton onClick={handleRedirectToBatchImport}>
+                <StyledButton onClick={handleTransferMyAccounts}>
                     Transfer My Accounts
                 </StyledButton>
-                <StyledButton onClick={() => { handleSetActiveView(WALLET_MIGRATION_VIEWS.SELECT_DESTINATION_WALLET); }} variant="text">
+                <StyledButton onClick={handleUseDifferentWallet} variant="text">
                     Use a different wallet
                 </StyledButton>
             </ButtonsContainer>

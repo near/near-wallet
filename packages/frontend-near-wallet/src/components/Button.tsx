@@ -37,9 +37,10 @@ const Button = styled('button', {
 
 
     '&:disabled': {
+        // backgroundColor: '#cccccc',
+        // color: '#151515',
         boxShadow: 'inset 0 0 0 1px $colors$slate7',
         cursor: "not-allowed",
-        pointerEvents: 'none',
     },
 
     variants: {

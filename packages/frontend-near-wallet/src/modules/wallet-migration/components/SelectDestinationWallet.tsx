@@ -2,13 +2,26 @@ import React from 'react';
 import { styled } from '../../../styles';
 import IconWallet from '../../../assets/images/IconWallet';
 
-
-import { WALLET_MIGRATION_VIEWS } from '../../../utils/constants';
-import { WALLET_OPTIONS } from '../../../utils/migration';
 import Button from '../../../components/Button';
+import IconLedger from '../../../assets/images/IconLedger';
+import ImgMyNearWallet from '../../../assets/images/ImgMyNearWallet';
 
 
-const SelectDestinationWallet = ({ handleSetActiveView, handleSetWalletType, handleRedirectToBatchImport, walletType }) => {
+const WALLET_OPTIONS = [
+    {
+        id: 'my-near-wallet',
+        name: 'My NEAR Wallet',
+        icon: <ImgMyNearWallet />,
+    },
+    {
+        id: 'ledger',
+        name: 'Ledger',
+        icon: <IconLedger />,
+    },
+];
+
+
+const SelectDestinationWallet = ({ handleCancel, handleSetWalletType, handleTransferMyAccounts, walletType }) => {
     return (
         <StyledContainer>
             <IconWallet />
@@ -27,10 +40,10 @@ const SelectDestinationWallet = ({ handleSetActiveView, handleSetWalletType, han
                 })}
             </WalletOptionsListing>
             <ButtonsContainer>
-                <StyledButton onClick={() => { handleSetActiveView(WALLET_MIGRATION_VIEWS.MIGRATION_PROMPT); }} variant="gray">
+                <StyledButton onClick={handleCancel} variant="gray">
                     Cancel
                 </StyledButton>
-                <StyledButton onClick={handleRedirectToBatchImport}>
+                <StyledButton onClick={handleTransferMyAccounts}>
                     Continue
                 </StyledButton>
             </ButtonsContainer>
