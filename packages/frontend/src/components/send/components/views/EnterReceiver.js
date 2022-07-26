@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Translate } from 'react-localize-redux';
 import { Textfit } from 'react-textfit';
 import styled from 'styled-components';
@@ -7,7 +7,6 @@ import BackArrowButton from '../../../common/BackArrowButton';
 import FormButton from '../../../common/FormButton';
 import RawTokenAmount from '../RawTokenAmount';
 import ReceiverInputWithLabel from '../ReceiverInputWithLabel';
-import RiscScoringForm, { useRiskScoringCheck } from '../RiscScoringForm';
 
 const StyledContainer = styled.form`
     .token-amount {
@@ -18,10 +17,6 @@ const StyledContainer = styled.form`
 
     .input-sub-label {
         color: #A2A2A8;
-    }
-
-    .risk-scoring-warning + .input-sub-label {
-        display: none;
     }
 `;
 
@@ -38,10 +33,7 @@ const EnterReceiver = ({
     onClickContinue,
     isMobile
 }) => {
-    const validAccount = (localAlert?.success && localAlert?.show) ? receiverId : null;
-    const { isRSWarned, isRSIgnored, setIsRSIgnored } = useRiskScoringCheck(validAccount);
-    const isSuccess = localAlert?.success && (!isRSWarned || isRSIgnored);
-    const isProblem = (!localAlert?.success && localAlert?.show) || (isRSWarned && !isRSIgnored);
+    const [ accountIdIsValid, setAccountIdIsValid] = useState(false);
 
     return (
         <StyledContainer
@@ -71,10 +63,8 @@ const EnterReceiver = ({
                 localAlert={localAlert}
                 clearLocalAlert={clearLocalAlert}
                 autoFocus={!isMobile}
-                isSuccess={isSuccess}
-                isProblem={isProblem}
+                setAccountIdIsValid={setAccountIdIsValid}
             />
-            {isRSWarned && <RiscScoringForm setIsRSIgnored={setIsRSIgnored} />}
             <div className='input-sub-label'>
                 <Translate id='input.accountId.subLabel'/>
             </div>
@@ -82,7 +72,7 @@ const EnterReceiver = ({
                 {/* TODO: Add error state */}
                 <FormButton
                     type='submit'
-                    disabled={validAccount === null || !isRSIgnored}
+                    disabled={!accountIdIsValid}
                     data-test-id="sendMoneyPageSubmitAccountIdButton"
                 >
                     <Translate id='button.continue'/>
