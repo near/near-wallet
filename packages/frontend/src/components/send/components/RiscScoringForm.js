@@ -49,20 +49,32 @@ const RSConsent = styled.div`
     }
 `;
 
-export function useRiskScoringCheck (accountId) {
+export function useRiskScoringCheck(accountId) {
     const [isRSWarned, setIsRSWarned] = useState(false);
     const [isRSIgnored, setIsRSIgnored] = useState(false);
+    // track RiskScoring execution status, useful for loaders
+    // or indeterminate state
+    const [isRSFinished, setIsRSFinished] = useState(true);
 
     useEffect(() => {
+        setIsRSWarned(false);
+        setIsRSIgnored(false);
+
         let isActive = true;
+
         async function checkAccountWithHapi() {
             try {
-                const hapiStatus = await checkAddress({accountId});
-                if (isActive && hapiStatus && hapiStatus[0] !== 'None') { 
+                setIsRSFinished(false);
+                const hapiStatus = await checkAddress({ accountId });
+                if (isActive && hapiStatus && hapiStatus[0] !== 'None') {
                     setIsRSWarned(true);
                 }
             } catch (e) {
                 // continue work
+            } finally {
+                if (isActive) {
+                    setIsRSFinished(true);
+                }
             }
         }
 
@@ -77,11 +89,11 @@ export function useRiskScoringCheck (accountId) {
         };
     }, [accountId]);
 
-    return { isRSWarned, isRSIgnored, setIsRSIgnored };
+    return { isRSWarned, isRSIgnored, isRSFinished, setIsRSIgnored };
 }
 
 
-const RiscScoringForm = ({ setIsRSIgnored }) => {
+const RiscScoringForm = ({ setIsRSIgnored, isIgnored }) => {
     const onCheckboxChange = useCallback((e) => {
         setIsRSIgnored(e.target.checked);
     }, []);
@@ -89,14 +101,14 @@ const RiscScoringForm = ({ setIsRSIgnored }) => {
     return (
         <RSContainer className="risk-scoring-warning">
             <RSWarning>
-                <img src={iconWarning} alt="Warning"/>
+                <img src={iconWarning} alt="Warning" />
                 <div>
                     <Translate id='riscScoring.scamWarning' />
                 </div>
             </RSWarning>
             <RSConsent>
                 <label>
-                    <input type="checkbox" onChange={onCheckboxChange}/>
+                    <input type="checkbox" checked={isIgnored} onChange={onCheckboxChange} />
                     <Translate id='riscScoring.checkbox' />
                 </label>
             </RSConsent>
