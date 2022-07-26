@@ -38,10 +38,20 @@ const EnterReceiver = ({
     onClickContinue,
     isMobile
 }) => {
-    const validAccount = (localAlert?.success && localAlert?.show) ? receiverId : null;
-    const { isRSWarned, isRSIgnored, setIsRSIgnored } = useRiskScoringCheck(validAccount);
-    const isSuccess = localAlert?.success && (!isRSWarned || isRSIgnored);
-    const isProblem = (!localAlert?.success && localAlert?.show) || (isRSWarned && !isRSIgnored);
+    const hasAccountValidationError = localAlert && localAlert.show && !localAlert.success;
+    const validAccountId = hasAccountValidationError ? null : receiverId;
+
+    // localAlert comes as {} object when no result is available
+    // or as { show: false, success: false, message: 'ACTION_TYPE.pending' }
+    const isEmptyAlert = !localAlert || localAlert.show === undefined || localAlert.show === false;
+
+    const { isRSWarned, isRSIgnored, setIsRSIgnored, isRSFinished } = useRiskScoringCheck(validAccountId);
+    const hasRiskScoreValidationError = isRSWarned && !isRSIgnored;
+    const isBlockedByRiskScoring = hasRiskScoreValidationError || !isRSFinished;
+
+    const isLoading = !isRSFinished || isEmptyAlert;
+    const isSuccess = !isLoading && localAlert?.success && !isBlockedByRiskScoring;
+    const isProblem = !isLoading && hasAccountValidationError || hasRiskScoreValidationError;
 
     return (
         <StyledContainer
@@ -52,7 +62,7 @@ const EnterReceiver = ({
             }}
         >
             <div className='header'>
-                <BackArrowButton onClick={onClickGoBack}/>
+                <BackArrowButton onClick={onClickGoBack} />
                 <div className='token-amount'>
                     <Textfit mode='single' max={20}>
                         <RawTokenAmount
@@ -74,18 +84,18 @@ const EnterReceiver = ({
                 isSuccess={isSuccess}
                 isProblem={isProblem}
             />
-            {isRSWarned && <RiscScoringForm setIsRSIgnored={setIsRSIgnored} />}
+            {isRSWarned && <RiscScoringForm isIgnored={isRSIgnored} setIsRSIgnored={setIsRSIgnored} />}
             <div className='input-sub-label'>
-                <Translate id='input.accountId.subLabel'/>
+                <Translate id='input.accountId.subLabel' />
             </div>
             <div className='buttons-bottom-buttons'>
                 {/* TODO: Add error state */}
                 <FormButton
                     type='submit'
-                    disabled={validAccount === null || !isRSIgnored}
+                    disabled={isLoading || isProblem}
                     data-test-id="sendMoneyPageSubmitAccountIdButton"
                 >
-                    <Translate id='button.continue'/>
+                    <Translate id='button.continue' />
                 </FormButton>
                 <FormButton
                     type='button'
@@ -93,7 +103,7 @@ const EnterReceiver = ({
                     className='link'
                     color='gray'
                 >
-                    <Translate id='button.cancel'/>
+                    <Translate id='button.cancel' />
                 </FormButton>
             </div>
         </StyledContainer>
