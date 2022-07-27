@@ -1832,12 +1832,6 @@
             "title": "We found ${count} active accounts",
             "desc": "The following accounts will be transferred to MyNearWallet:",
         },
-        "migrationPrompt": {
-            "title": "NEAR Wallet has a new home!",
-            "desc": "NEAR Wallet is now MyNearWallet and to celebrate the occasion, we’re moving to a new domain. Find us at <a href='https://mynearwallet.com' target='_blank'>https://mynearwallet.com</a>. <br/><br/> If you haven’t already, quickly and easily transfer your accounts:",
-            "transferAccountsBtn": "Transfer My Accounts",
-            "useDifferentWallet": "Use a different wallet"
-        },
         "migrationSecret": {
             "title": "Password required to import accounts",
             "desc": "You'll need this <strong>password</strong> to securely import your accounts to MyNearWallet. Copy or write it down until you've completed transferring your accounts."
