@@ -48,6 +48,7 @@ const ReceiverInputWithLabel = ({
     receiverId,
     handleChangeReceiverId,
     checkAccountAvailable,
+    setIsImplicitAccount,
     localAlert,
     clearLocalAlert,
     autoFocus,
@@ -66,6 +67,7 @@ const ReceiverInputWithLabel = ({
                 handleChange={handleChangeReceiverId}
                 ReceiverInputWithLabel={ReceiverInputWithLabel}
                 checkAvailability={checkAccountAvailable}
+                setIsImplicitAccount={setIsImplicitAccount}
                 localAlert={localAlert}
                 clearLocalAlert={clearLocalAlert}
                 onFocus={() => setInputHasFocus(true)}
