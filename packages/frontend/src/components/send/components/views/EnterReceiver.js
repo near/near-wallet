@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Translate } from 'react-localize-redux';
 import { Textfit } from 'react-textfit';
 import styled from 'styled-components';
@@ -38,12 +38,14 @@ const EnterReceiver = ({
     onClickContinue,
     isMobile
 }) => {
+    const [isImplicitAccount, setIsImplicitAccount] = useState(false);
     const hasAccountValidationError = localAlert && localAlert.show && !localAlert.success;
     const validAccountId = hasAccountValidationError ? null : receiverId;
 
     // localAlert comes as {} object when no result is available
     // or as { show: false, success: false, message: 'ACTION_TYPE.pending' }
-    const isEmptyAlert = !localAlert || localAlert.show === undefined || localAlert.show === false;
+    let isEmptyAlert = !localAlert || localAlert.show === undefined || localAlert.show === false;
+    isEmptyAlert = isImplicitAccount ? false : isEmptyAlert;
 
     const { isRSWarned, isRSIgnored, setIsRSIgnored, isRSFinished } = useRiskScoringCheck(validAccountId);
     const hasRiskScoreValidationError = isRSWarned && !isRSIgnored;
@@ -78,6 +80,7 @@ const EnterReceiver = ({
                 receiverId={receiverId}
                 handleChangeReceiverId={handleChangeReceiverId}
                 checkAccountAvailable={checkAccountAvailable}
+                setIsImplicitAccount={setIsImplicitAccount}
                 localAlert={localAlert}
                 clearLocalAlert={clearLocalAlert}
                 autoFocus={!isMobile}
