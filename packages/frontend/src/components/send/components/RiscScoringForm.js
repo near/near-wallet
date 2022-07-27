@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { HAPI_RISK_SCORING } from '../../../../../../features';
 import iconWarning from '../../../images/icon-warning.svg';
 import { checkAddress } from '../../../services/RiscScoring';
+import Checkbox from '../../common/Checkbox';
 
 const RSContainer = styled.div`
     margin-top: 20px;
@@ -25,11 +26,14 @@ const RSWarning = styled.div`
 `;
 
 const RSConsent = styled.div`
-    margin-top: 38px;
+    margin-top: 20px;
     line-height: 20px;
-    color: #000000;
+    color: #026bdd;
+    background-color: #f5faff;
+    border-radius: 4px;
     display: flex;
-    padding-left: 26px;
+    justify-content: center;
+    padding: 20px;
 
     & label {
       user-select: none;
@@ -108,7 +112,7 @@ const RiscScoringForm = ({ setIsRSIgnored, isIgnored }) => {
             </RSWarning>
             <RSConsent>
                 <label>
-                    <input type="checkbox" checked={isIgnored} onChange={onCheckboxChange} />
+                    <Checkbox checked={isIgnored} onChange={onCheckboxChange} />
                     <Translate id='riscScoring.checkbox' />
                 </label>
             </RSConsent>
