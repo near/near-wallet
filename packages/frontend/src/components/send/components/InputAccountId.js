@@ -128,7 +128,7 @@ class InputAccountId extends Component {
     }
 
     handleChangeAccountId = ({ userValue, el }) => {
-        const { handleChange, localAlert, clearLocalAlert, setAccountIdIsValid } = this.props;
+        const { handleChange, localAlert, clearLocalAlert } = this.props;
         const { wrongChar } = this.state;
         const pattern = /[^a-zA-Z0-9._-]/;
 
@@ -139,9 +139,7 @@ class InputAccountId extends Component {
                 el.style.animation = 'none';
                 void el.offsetHeight;
                 el.style.animation = null;
-                setAccountIdIsValid(true);
             } else {
-                setAccountIdIsValid(false);
                 this.setState({ wrongChar: true });
             }
             return;
@@ -162,45 +160,40 @@ class InputAccountId extends Component {
     isImplicitAccount = (accountId) => accountId.length === 64 && !accountId.includes('.')
 
     handleCheckAvailability = async (accountId) => {
-        const { checkAvailability, clearLocalAlert, setAccountIdIsValid } = this.props;
+        const { checkAvailability, clearLocalAlert } = this.props;
 
         if (!accountId) {
-            setAccountIdIsValid(false);
             return false;
         }
 
         try {
             await checkAvailability(accountId);
-            setAccountIdIsValid(true);
         } catch (e) {
             if (this.isImplicitAccount(accountId) && e.toString().includes('does not exist while viewing')) {
                 console.warn(`${accountId} does not exist. Assuming this is an implicit Account ID.`);
                 clearLocalAlert();
-                setAccountIdIsValid(true);
                 return;
             }
-            setAccountIdIsValid(false);
         }
     }
 
     render() {
         const {
             disabled,
-            localAlert,
             accountId,
             onFocus,
             onBlur,
-            autoFocus
+            autoFocus,
+            isSuccess,
+            isProblem,
         } = this.props;
 
         const { wrongChar } = this.state;
-        const success = localAlert?.success;
-        const problem = !localAlert?.success && localAlert?.show;
 
         return (
             <Translate>
                 {({ translate }) => (
-                    <InputWrapper className={classNames([{ 'success': success }, { 'problem': problem }, { 'wrong-char': wrongChar }])}>
+                    <InputWrapper className={classNames([{ 'success': isSuccess }, { 'problem': isProblem }, { 'wrong-char': wrongChar }])}>
                         <input
                             value={accountId}
                             onInput={(e) => this.updatePrefix(e.target.value)}

@@ -50,18 +50,16 @@ const ReceiverInputWithLabel = ({
     checkAccountAvailable,
     localAlert,
     clearLocalAlert,
-    setAccountIdIsValid,
-    autoFocus
+    autoFocus,
+    isSuccess,
+    isProblem
 }) => {
 
     const [inputHasFocus, setInputHasFocus] = useState(false);
-    const success = localAlert?.success;
-    const problem = !localAlert?.success && localAlert?.show;
-
     // TODO: Add remaining error style text
 
     return (
-        <StyledContainer className={classNames([{ 'success': success }, { 'problem': problem }, { 'focus': inputHasFocus }])}>
+        <StyledContainer className={classNames([{ 'success': isSuccess }, { 'problem': isProblem }, { 'focus': inputHasFocus }])}>
             <Translate id='sendV2.selectReceiver.receiverInputLabel' />
             <InputAccountId
                 accountId={receiverId}
@@ -73,9 +71,8 @@ const ReceiverInputWithLabel = ({
                 onFocus={() => setInputHasFocus(true)}
                 onBlur={() => setInputHasFocus(false)}
                 autoFocus={!receiverId && autoFocus}
-                success={success}
-                problem={problem}
-                setAccountIdIsValid={setAccountIdIsValid}
+                isSuccess={isSuccess}
+                isProblem={isProblem}
             />  
         </StyledContainer>
     );
