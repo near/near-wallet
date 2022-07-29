@@ -52,5 +52,6 @@ export default {
     FARMING_CLAIM_YOCTO: '1',
     REF_FINANCE_API_ENDPOINT: 'https://testnet-indexer.ref-finance.com/',
     REF_FINANCE_CONTRACT: 'ref-finance-101.testnet',
-    USN_CONTRACT: 'usdn.testnet'
+    USN_CONTRACT: 'usdn.testnet',
+    CALIMERO_PROTOCOL_ADDRESS: 'calimero.testnet'
 };

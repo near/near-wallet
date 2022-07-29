@@ -14,6 +14,7 @@ import { selectAccountId } from '../redux/slices/account';
 import { selectAvailableAccounts, selectAvailableAccountsIsLoading } from '../redux/slices/availableAccounts';
 import {
     handleSignTransactions,
+    handleSignPrivateShardTransactions,
     selectSignFeesGasLimitIncludingGasChanges,
     SIGN_STATUS,
     selectSignStatus,
@@ -25,10 +26,11 @@ import {
     selectSignTransactions,
     selectSignTransactionsBatchIsValid
 } from '../redux/slices/sign';
+import { getMetaForShard } from '../services/PrivateShard';
 import { addQueryParams } from '../utils/addQueryParams';
 import { isUrlNotJavascriptProtocol } from '../utils/helper-api';
 
-export function SignWrapper() {
+export function SignWrapper({ urlQuery: {customRPCUrl, privateShardId} }) {
     const dispatch = useDispatch();
 
     const DISPLAY = {
@@ -40,6 +42,7 @@ export function SignWrapper() {
     };
 
     const [currentDisplay, setCurrentDisplay] = useState(DISPLAY.TRANSACTION_SUMMARY);
+    const [shardMeta, setShardMeta] = useState(undefined);
 
     const signFeesGasLimitIncludingGasChanges = useSelector(selectSignFeesGasLimitIncludingGasChanges);
     const signStatus = useSelector(selectSignStatus);
@@ -59,6 +62,8 @@ export function SignWrapper() {
     const signGasFee = new BN(signFeesGasLimitIncludingGasChanges).div(new BN('1000000000000')).toString();
     const submittingTransaction = signStatus === SIGN_STATUS.IN_PROGRESS;
     const isSignerValid = accountId === signerId;
+    console.log('customRPCUrl = ', customRPCUrl);
+    console.log('privateShardId = ', privateShardId);
 
     useEffect(() => {
         if (!transactionBatchisValid) {
@@ -102,12 +107,37 @@ export function SignWrapper() {
         }
     }, [signStatus]);
 
+    useEffect(() => {
+        async function getShardMeta (shardId) {
+            try {
+                const [iconUrl, colour] = await getMetaForShard({ shardId });
+                setShardMeta({ iconUrl, colour });
+            } catch (e) {
+                //
+            }
+        }
+
+        if (customRPCUrl && privateShardId) {
+            getShardMeta(privateShardId);
+        }
+    }, [customRPCUrl, privateShardId]);
+
     const handleApproveTransaction = async () => {
+        if (customRPCUrl && privateShardId) {
+            await dispatch(handleSignPrivateShardTransactions({ privateShardId }));
+            return;
+        }
         Mixpanel.track('SIGN approve the transaction');
         await dispatch(handleSignTransactions());
     };
 
     const handleCancelTransaction = async () => {
+        if (customRPCUrl && privateShardId) {
+        // TODO: handle customRPCUrl
+        
+            return;
+        }
+        
         Mixpanel.track('SIGN Deny the transaction');
         if (signCallbackUrl && isValidCallbackUrl) {
             if (signStatus !== SIGN_STATUS.ERROR) {
@@ -187,6 +217,9 @@ export function SignWrapper() {
             onClickEditAccount={() => setCurrentDisplay(DISPLAY.ACCOUNT_SELECTION)}
             isSignerValid={isSignerValid}
             isValidCallbackUrl={isValidCallbackUrl}
+            customRPCUrl={privateShardId && customRPCUrl}
+            privateShardId={customRPCUrl && privateShardId}
+            shardMeta={shardMeta}
         />
     );
 }

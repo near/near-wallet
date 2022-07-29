@@ -1635,6 +1635,7 @@
         }
     },
     "transfer": {
+        "privateShard": "Private shard",
         "estimatedFees": "Estimated fees",
         "from": "From",
         "to": "To"
