@@ -660,6 +660,11 @@ class Routing extends Component {
                                 component={SignWrapper}
                             />
                             <PrivateRoute
+                                exact
+                                path="/privateShardSign"
+                                component={SignWrapper}
+                            />
+                            <PrivateRoute
                                 path="/staking"
                                 render={() => (
                                     <StakingContainer
