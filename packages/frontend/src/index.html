@@ -1,22 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <link rel="shortcut icon" href="./favicon.ico" />
-        <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1, shrink-to-fit=no"
-        />
-        <meta name="theme-color" content="#000000" />
-        <meta name="referrer" content="strict-origin-when-cross-origin" />
-        <meta name="google-site-verification" content="CLYr3n4Y0ZCVgjur0noRGJzN4VxPsHOaNJzydYQ0IF0" />
-        <title>NEAR Wallet</title>
-    </head>
-    <body>
-        <noscript>You need to enable JavaScript to run this app.</noscript>
-        <div id="root"></div>
-        <div id="modal-root"></div>
-        <!--
+
+<head>
+    <meta charset="utf-8" />
+    <link rel="shortcut icon" href="./favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="theme-color" content="#000000" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <meta name="google-site-verification" content="CLYr3n4Y0ZCVgjur0noRGJzN4VxPsHOaNJzydYQ0IF0" />
+    <title>NEAR Wallet</title>
+</head>
+
+<body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"></div>
+    <div id="modal-root"></div>
+    <!--
             This HTML file is a template.
             If you open it directly in the browser, you will see an empty page.
 
@@ -26,20 +25,23 @@
             To begin the development, run `npm start` or `yarn start`.
             To create a production bundle, use `npm run build` or `yarn build`.
         -->
-        <script type="application/javascript">
-            // react-google-recaptcha Use `recaptcha.net` rather than `google.com` for international recaptcha
-            window.recaptchaOptions = { useRecaptchaNet: true, };
-        </script>
-        <script src="./index.js"></script>
-        <!-- Google Tag Manager -->
-        <script>(function (w, d, s, l, i) {
+    <script type="application/javascript">
+        // react-google-recaptcha Use `recaptcha.net` rather than `google.com` for international recaptcha
+        window.recaptchaOptions = { useRecaptchaNet: true, };
+    </script>
+    <script src="./index.js"></script>
+    <!-- Google Tag Manager -->
+    <script>
+        (function (w, d, s, l, i) {
             w[l] = w[l] || []; w[l].push({
                 'gtm.start':
                     new Date().getTime(), event: 'gtm.js'
             }); var f = d.getElementsByTagName(s)[0],
                 j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
                     'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
-        })(window, document, 'script', 'dataLayer', 'GTM-T8R4N65');</script>
-        <!-- End Google Tag Manager -->
-    </body>
+        })(window, document, 'script', 'dataLayer', 'GTM-T8R4N65');
+    </script>
+    <!-- End Google Tag Manager -->
+</body>
+
 </html>
