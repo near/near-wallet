@@ -18,7 +18,6 @@ const Block = styled.div`
     @media (max-width: 580px) {
         grid-template-columns: 1fr;
         grid-template-rows: 1fr;
-        overflow: hidden;
     }
 `;
 const TextWrap = styled.div`
