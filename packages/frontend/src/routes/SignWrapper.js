@@ -26,7 +26,6 @@ import {
     selectSignTransactions,
     selectSignTransactionsBatchIsValid
 } from '../redux/slices/sign';
-import { getMetaForShard } from '../services/PrivateShard';
 import { addQueryParams } from '../utils/addQueryParams';
 import { isUrlNotJavascriptProtocol } from '../utils/helper-api';
 
@@ -42,7 +41,6 @@ export function SignWrapper({ urlQuery: {customRPCUrl, privateShardId} }) {
     };
 
     const [currentDisplay, setCurrentDisplay] = useState(DISPLAY.TRANSACTION_SUMMARY);
-    const [shardMeta, setShardMeta] = useState(undefined);
 
     const signFeesGasLimitIncludingGasChanges = useSelector(selectSignFeesGasLimitIncludingGasChanges);
     const signStatus = useSelector(selectSignStatus);
@@ -62,8 +60,6 @@ export function SignWrapper({ urlQuery: {customRPCUrl, privateShardId} }) {
     const signGasFee = new BN(signFeesGasLimitIncludingGasChanges).div(new BN('1000000000000')).toString();
     const submittingTransaction = signStatus === SIGN_STATUS.IN_PROGRESS;
     const isSignerValid = accountId === signerId;
-    console.log('customRPCUrl = ', customRPCUrl);
-    console.log('privateShardId = ', privateShardId);
 
     useEffect(() => {
         if (!transactionBatchisValid) {
@@ -106,21 +102,6 @@ export function SignWrapper({ urlQuery: {customRPCUrl, privateShardId} }) {
             }
         }
     }, [signStatus]);
-
-    useEffect(() => {
-        async function getShardMeta (shardId) {
-            try {
-                const [iconUrl, colour] = await getMetaForShard({ shardId });
-                setShardMeta({ iconUrl, colour });
-            } catch (e) {
-                //
-            }
-        }
-
-        if (customRPCUrl && privateShardId) {
-            getShardMeta(privateShardId);
-        }
-    }, [customRPCUrl, privateShardId]);
 
     const handleApproveTransaction = async () => {
         if (customRPCUrl && privateShardId) {
@@ -219,7 +200,6 @@ export function SignWrapper({ urlQuery: {customRPCUrl, privateShardId} }) {
             isValidCallbackUrl={isValidCallbackUrl}
             customRPCUrl={privateShardId && customRPCUrl}
             privateShardId={customRPCUrl && privateShardId}
-            shardMeta={shardMeta}
         />
     );
 }

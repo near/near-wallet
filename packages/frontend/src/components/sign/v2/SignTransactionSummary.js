@@ -58,15 +58,14 @@ export default ({
     isSignerValid,
     isValidCallbackUrl,
     customRPCUrl,
-    privateShardId,
-    shardMeta
+    privateShardId
 }) => {
     const insufficientBalance = availableBalance && transferAmount && new BN(availableBalance).lt(new BN(transferAmount));
     return (
         <StyledContainer className='small-centered border'>
             <h3><Translate id='sign.approveTransaction' /></h3>
             {customRPCUrl
-                ? <ConnectWithPrivateShard customRPCUrl={customRPCUrl} meta={shardMeta}/>
+                ? <ConnectWithPrivateShard customRPCUrl={customRPCUrl}/>
                 : <ConnectWithApplication appReferrer={accountUrlReferrer}/>
             }
             {insufficientBalance && (
@@ -81,7 +80,6 @@ export default ({
                 estimatedFees={estimatedFees}
                 availableBalance={availableBalance}
                 privateShardId={privateShardId}
-                shardMeta={shardMeta}
             />
             <FormButton
                 className='link'

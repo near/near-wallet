@@ -21,7 +21,6 @@ export default ({
     isValidCallbackUrl,
     customRPCUrl,
     privateShardId,
-    shardMeta,
 }) => {
     const accountLocalStorageAccountId = useSelector(selectAccountLocalStorageAccountId);
     const accountUrlReferrer = useSelector(selectAccountUrlReferrer);
@@ -43,7 +42,6 @@ export default ({
             isValidCallbackUrl={isValidCallbackUrl}
             customRPCUrl={customRPCUrl}
             privateShardId={privateShardId}
-            shardMeta={shardMeta}
         />
     );
 };

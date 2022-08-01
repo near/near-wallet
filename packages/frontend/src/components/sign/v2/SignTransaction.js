@@ -101,8 +101,7 @@ export default ({
     estimatedFees,
     availableBalance,
     fromLabelId,
-    privateShardId,
-    shardMeta
+    privateShardId
 }) => {
     const isTransferTransaction = new BN(transferAmount).gt(new BN(0));
     return (

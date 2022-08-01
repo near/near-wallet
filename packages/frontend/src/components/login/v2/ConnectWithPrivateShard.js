@@ -20,7 +20,7 @@ const StyledContainer = styled.div`
     }
 `;
 
-export default ({ customRPCUrl, meta }) => (
+export default ({ customRPCUrl }) => (
     // TODO: should it be link or not?
     <StyledContainer className='connect-with-application'>
         <GlobeIcon/> {/* TODO: get logo from metadata? */}
