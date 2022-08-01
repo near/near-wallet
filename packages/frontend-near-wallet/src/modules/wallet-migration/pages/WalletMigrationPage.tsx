@@ -10,7 +10,7 @@ import MigrationSecret from '../components/MigrationSecret';
 import MigrateAccounts from '../components/MigrateAccounts';
 
 const initialState = {
-    activeView: WALLET_MIGRATION_VIEWS.MIGRATION_PROMPT,
+    activeView: WALLET_MIGRATION_VIEWS.SELECT_DESTINATION_WALLET,
     walletType: 'my-near-wallet',
     migrationKey: generatePublicKey()
 };
@@ -73,19 +73,18 @@ const WalletMigrationPage = () => {
                     walletType={state.walletType}
                     handleSetWalletType={(walletType) => handleStateUpdate({ walletType })}
                     handleTransferMyAccounts={() => handleStateUpdate({ activeView: WALLET_MIGRATION_VIEWS.MIGRATION_SECRET })}
-                    handleCancel={() => handleStateUpdate({ activeView: WALLET_MIGRATION_VIEWS.MIGRATION_PROMPT })}
                 />
             }
             {state.activeView === WALLET_MIGRATION_VIEWS.MIGRATION_SECRET &&
                 <MigrationSecret
-                    handleCancel={() => handleStateUpdate({ activeView: WALLET_MIGRATION_VIEWS.MIGRATION_PROMPT })}
+                    handleCancel={() => handleStateUpdate({ activeView: WALLET_MIGRATION_VIEWS.SELECT_DESTINATION_WALLET })}
                     showMigrateAccount={() => handleStateUpdate({ activeView: WALLET_MIGRATION_VIEWS.MIGRATE_ACCOUNTS })}
                     secretKey={keyToString(initialState.migrationKey)}
                 />
             }
             {state.activeView === WALLET_MIGRATION_VIEWS.MIGRATE_ACCOUNTS &&
                 <MigrateAccounts
-                    onClose={() => handleStateUpdate({ activeView: WALLET_MIGRATION_VIEWS.MIGRATION_PROMPT })}
+                    onClose={() => handleStateUpdate({ activeView: WALLET_MIGRATION_VIEWS.SELECT_DESTINATION_WALLET })}
                     onContinue={onContinue}
                 />
             }

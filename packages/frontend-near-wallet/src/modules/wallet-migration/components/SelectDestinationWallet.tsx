@@ -1,27 +1,13 @@
 import React from 'react';
-import { styled } from '../../../styles';
 import IconWallet from '../../../assets/images/IconWallet';
+import { styled } from '../../../styles';
 
 import Button from '../../../components/Button';
-import IconLedger from '../../../assets/images/IconLedger';
-import ImgMyNearWallet from '../../../assets/images/ImgMyNearWallet';
+import { WALLET_OPTIONS } from '../../../utils/constants';
 
 
-const WALLET_OPTIONS = [
-    {
-        id: 'my-near-wallet',
-        name: 'My NEAR Wallet',
-        icon: <ImgMyNearWallet />,
-    },
-    {
-        id: 'ledger',
-        name: 'Ledger',
-        icon: <IconLedger />,
-    },
-];
 
-
-const SelectDestinationWallet = ({ handleCancel, handleSetWalletType, handleTransferMyAccounts, walletType }) => {
+const SelectDestinationWallet = ({ handleSetWalletType, handleTransferMyAccounts, walletType }) => {
     return (
         <StyledContainer>
             <IconWallet />
@@ -39,14 +25,9 @@ const SelectDestinationWallet = ({ handleCancel, handleSetWalletType, handleTran
                     </WalletOptionsListingItem>;
                 })}
             </WalletOptionsListing>
-            <ButtonsContainer>
-                <StyledButton onClick={handleCancel} variant="gray">
-                    Cancel
-                </StyledButton>
-                <StyledButton onClick={handleTransferMyAccounts}>
-                    Continue
-                </StyledButton>
-            </ButtonsContainer>
+            <StyledButton onClick={handleTransferMyAccounts}>
+                Continue
+            </StyledButton>
         </StyledContainer>
     );
 };
@@ -144,18 +125,10 @@ const WalletOptionsListingItem = styled('div', {
     }
 })
 
-const ButtonsContainer = styled('div', {
-    textAlign: 'center',
-    width: '100% !important',
-    display: 'flex'
-})
 
 const StyledButton = styled(Button, {
-    width: 'calc((100% - 16px) / 2)',
+    width: '100%',
     margin: '48px 0 0 !important',
 
-    '&:last-child': {
-        marginLeft: '16px !important'
-    }
 })
 
