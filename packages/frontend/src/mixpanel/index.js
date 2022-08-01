@@ -39,7 +39,9 @@ let Mixpanel = {
     register: () => {}
 };
 
-if (BROWSER_MIXPANEL_TOKEN) {
+const shouldEnableTracking = false; // BROWSER_MIXPANEL_TOKEN
+
+if (shouldEnableTracking) {
     mixpanel.init(BROWSER_MIXPANEL_TOKEN);
     mixpanel.register({'timestamp': new Date().toString(), '$referrer': document.referrer});
     Mixpanel = {
