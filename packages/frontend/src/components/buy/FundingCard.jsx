@@ -79,7 +79,9 @@ const Link = styled.div`
     }
 `;
 const FundingTypeWrap = styled.div`
-    margin: 30px 0;
+    @media (max-width: 992px) {
+        margin: 30px 0;
+    }
     
     @media (max-width: 580px) {
         margin: 0;
