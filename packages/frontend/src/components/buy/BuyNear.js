@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
 import { getPayMethods } from '../../config/buyNearConfig';
+import { isWhitelabel } from '../../config/whitelabel';
 import { Mixpanel } from '../../mixpanel';
 import { selectAccountId } from '../../redux/slices/account';
 import { isMoonpayAvailable, getSignedUrl } from '../../utils/moonpay';
@@ -225,11 +226,13 @@ export function BuyNear({ match, location, history }) {
                     subTitle='buyNear.nearPurchaseSubTitle'
                     actions={[PayMethods.nearPay, PayMethods.moonPay, PayMethods.utorg, PayMethods.ftx]}
                 />
-                <FundingCard
-                    title='buyNear.bridgeTokens'
-                    subTitle='buyNear.bridgeSubTitle'
-                    actions={[PayMethods.rainbow]}
-                />
+                {!isWhitelabel && (
+                    <FundingCard
+                        title='buyNear.bridgeTokens'
+                        subTitle='buyNear.bridgeSubTitle'
+                        actions={[PayMethods.rainbow]}
+                    />
+                )}
                 <FundingCard title='buyNear.supportedExchanges'
                     subTitle='buyNear.supportedSubTitle'
                     link={{
