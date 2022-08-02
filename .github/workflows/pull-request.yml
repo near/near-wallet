@@ -1,4 +1,4 @@
-name: PR Preview
+name: PR
 
 on:
   pull_request:
@@ -8,6 +8,21 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  checks:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: packages/frontend
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 12.x
+          cache: 'yarn'
+      - run: yarn install --frozen-lockfile
+      - run: yarn lint
+      - run: yarn test
+
   testnet-bundle-preview:
     uses: ./.github/workflows/bundle-and-deploy.yml
     with:
