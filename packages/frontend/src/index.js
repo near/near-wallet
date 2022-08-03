@@ -11,6 +11,7 @@ import { createStore } from 'redux';
 
 import Routing from './components/Routing';
 import { RECAPTCHA_ENTERPRISE_SITE_KEY, GOOGLE_TAG_MANAGER_ID } from './config';
+import { isWhitelabel } from './config/whitelabel';
 import createRootReducer from './redux/createReducers';
 import createMiddleware from './redux/middleware';
 import { initSentry } from './utils/sentry';
@@ -18,8 +19,10 @@ import { initSentry } from './utils/sentry';
 const tagManagerArgs = {
     gtmId: GOOGLE_TAG_MANAGER_ID
 };
- 
-TagManager.initialize(tagManagerArgs);
+
+if (!isWhitelabel()) {
+    TagManager.initialize(tagManagerArgs);
+}
 
 initSentry();
 
