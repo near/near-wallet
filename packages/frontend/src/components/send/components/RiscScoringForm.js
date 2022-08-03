@@ -4,6 +4,7 @@ import styled from 'styled-components';
 
 import { HAPI_RISK_SCORING } from '../../../../../../features';
 import iconWarning from '../../../images/icon-warning.svg';
+import { Mixpanel } from '../../../mixpanel/index';
 import { checkAddress } from '../../../services/RiscScoring';
 import Checkbox from '../../common/Checkbox';
 
@@ -72,6 +73,11 @@ export function useRiskScoringCheck(accountId) {
                 const hapiStatus = await checkAddress({ accountId });
                 if (isActive && hapiStatus && hapiStatus[0] !== 'None') {
                     setIsRSWarned(true);
+                    Mixpanel.track('HAPI scammed address', {
+                        accountId,
+                        statusMsg: hapiStatus[0],
+                        statusCode: hapiStatus[1]
+                    });
                 }
             } catch (e) {
                 // continue work
