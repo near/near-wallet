@@ -657,11 +657,6 @@ class Routing extends Component {
                             <PrivateRoute
                                 exact
                                 path="/sign"
-                                component={SignWrapper}
-                            />
-                            <PrivateRoute
-                                exact
-                                path="/privateShardSign"
                                 render={() => (
                                     <SignWrapper
                                         urlQuery={this.props.router.location.query}

@@ -13,7 +13,6 @@ import {
     switchAccount
 } from '../redux/actions/account';
 import { actions as ledgerActions } from '../redux/slices/ledger';
-import { signShardTransaction } from '../services/PrivateShard';
 import sendJson from '../tmp_fetch_send_json';
 import { decorateWithLockup } from './account-with-lockup';
 import { getAccountIds } from './helper-api';
@@ -1122,32 +1121,16 @@ export default class Wallet {
         return transactionHashes;
     }
 
-    // TODO: are there many transactions or only one?
     // TODO: just a copy-paste draft
-    async signAndSendCalimeroTransaction(transactions, accountId = this.accountId, privateShardId) {
-        const account = await this.getAccount(accountId);
-
+    async signAndSendCalimeroTransaction(transactions, accountId = this.accountId, customRPCUrl) {
+        // TODO: no need to store hashes since it's private shard
         const transactionHashes = [];
+        const calimeroConnection = nearApiJs.providers.JsonRpcProvider(customRPCUrl);
         for (let { receiverId, nonce, blockHash, actions } of transactions) {
             let status, transaction;
-            // TODO: Decide whether we always want to be recreating transaction (vs only if it's invalid)
-            // See https://github.com/near/near-wallet/issues/1856
-            const recreateTransaction = account.deployMultisig || true;
-            if (recreateTransaction) {
-                try {
-                    ({ status, transaction } = await signShardTransaction({ receiverId, actions }));
-                } catch (error) {
-                    if (error.message.includes('Exceeded the prepaid gas')) {
-                        throw new WalletError(error.message, error.code, { transactionHashes });
-                    }
 
-                    throw error;
-                }
-            } else {
-                // TODO: Maybe also only take receiverId and actions as with multisig path?
-                const [, signedTransaction] = await nearApiJs.transactions.signTransaction(receiverId, nonce, actions, blockHash, this.connection.signer, accountId, NETWORK_ID);
-                ({ status, transaction } = await this.connection.provider.sendTransaction(signedTransaction));
-            }
+            const [, signedTransaction] = await nearApiJs.transactions.signTransaction(receiverId, nonce, actions, blockHash, calimeroConnection.signer, accountId, NETWORK_ID);
+            ({ status, transaction } = await calimeroConnection.provider.sendTransaction(signedTransaction));
 
             // TODO: Shouldn't throw more specific errors on failure?
             if (status.Failure !== undefined) {

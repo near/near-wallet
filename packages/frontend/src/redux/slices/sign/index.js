@@ -82,8 +82,10 @@ export const handleSignTransactions = createAsyncThunk(
 // TODO: draft
 export const handleSignPrivateShardTransactions = createAsyncThunk(
     `${SLICE_NAME}/handleSignPrivateShardTransactions`,
-    async ({ privateShardId }, thunkAPI) => {
+    async ({ customRPCUrl }, thunkAPI) => {
         const { dispatch, getState } = thunkAPI;
+        // TODO: probably no need to use redux here
+        // TODO: do we need to save transaction hashes since it's private?
         let transactionsHashes;
         const retryingTx = !!selectSignRetryTransactions(getState()).length;
 
@@ -91,7 +93,7 @@ export const handleSignPrivateShardTransactions = createAsyncThunk(
         const accountId = selectAccountId(getState());
 
         try {
-            transactionsHashes = await wallet.signAndSendCalimeroTransaction(transactions, accountId, privateShardId);
+            transactionsHashes = await wallet.signAndSendCalimeroTransaction(transactions, accountId, customRPCUrl);
             dispatch(updateSuccessHashes(transactionsHashes));
         } catch (error) {
             if (error.message.includes('Exceeded the prepaid gas')) {

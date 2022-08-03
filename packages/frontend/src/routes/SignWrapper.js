@@ -29,7 +29,7 @@ import {
 import { addQueryParams } from '../utils/addQueryParams';
 import { isUrlNotJavascriptProtocol } from '../utils/helper-api';
 
-export function SignWrapper({ urlQuery: {customRPCUrl, privateShardId} }) {
+export function SignWrapper({ urlQuery }) {
     const dispatch = useDispatch();
 
     const DISPLAY = {
@@ -41,6 +41,8 @@ export function SignWrapper({ urlQuery: {customRPCUrl, privateShardId} }) {
     };
 
     const [currentDisplay, setCurrentDisplay] = useState(DISPLAY.TRANSACTION_SUMMARY);
+    const [customRPCUrl, setCustomRPCUrl] = useState();
+    const [privateShardId, setPrivateShardId] = useState();
 
     const signFeesGasLimitIncludingGasChanges = useSelector(selectSignFeesGasLimitIncludingGasChanges);
     const signStatus = useSelector(selectSignStatus);
@@ -54,8 +56,8 @@ export function SignWrapper({ urlQuery: {customRPCUrl, privateShardId} }) {
     const transactions = useSelector(selectSignTransactions);
     const accountId = useSelector(selectAccountId);
     const transactionBatchisValid = useSelector(selectSignTransactionsBatchIsValid);
-    const isValidCallbackUrl = isUrlNotJavascriptProtocol(signCallbackUrl);
 
+    const isValidCallbackUrl = isUrlNotJavascriptProtocol(signCallbackUrl);
     const signerId = transactions.length && transactions[0].signerId;
     const signGasFee = new BN(signFeesGasLimitIncludingGasChanges).div(new BN('1000000000000')).toString();
     const submittingTransaction = signStatus === SIGN_STATUS.IN_PROGRESS;
@@ -103,9 +105,26 @@ export function SignWrapper({ urlQuery: {customRPCUrl, privateShardId} }) {
         }
     }, [signStatus]);
 
+    useEffect(() => {
+        if (urlQuery?.meta) {
+            try {
+                const metaJson = JSON.parse(decodeURIComponent(urlQuery.meta));
+                if (metaJson.calimeroRPCEndpoint && metaJson.calimeroShardId) {
+                    // if (accountId.endsWith(metaJson.calimeroShardId)) {}
+                    setCustomRPCUrl(metaJson.calimeroRPCEndpoint);
+                    setPrivateShardId(metaJson.calimeroShardId);
+                }
+                // TODO: handle situation when shardId doesn't exist in accountId
+                // probably will need to change view
+            } catch (e) {
+                //
+            }
+        }
+    }, [urlQuery?.meta]);
+
     const handleApproveTransaction = async () => {
         if (customRPCUrl && privateShardId) {
-            await dispatch(handleSignPrivateShardTransactions({ privateShardId }));
+            await dispatch(handleSignPrivateShardTransactions({ customRPCUrl }));
             return;
         }
         Mixpanel.track('SIGN approve the transaction');
