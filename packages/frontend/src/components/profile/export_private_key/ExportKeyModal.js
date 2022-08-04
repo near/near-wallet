@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Translate } from 'react-localize-redux';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
+import QRCode from 'qrcode.react';
 
 import CheckMarkNoBorderIcon from '../../../images/icon-check-no-border.svg';
 import { selectAccountId } from '../../../redux/slices/account';
@@ -133,6 +134,7 @@ export default ({
 };
 
 const ExportKeyModalBody = ({ currentView, setCurrentView, onClose, secretKey }) => {
+
     switch (currentView) {
         case VIEWS.ACCOUNT_ID_CONFIRMATION: 
             return (
@@ -144,6 +146,16 @@ const ExportKeyModalBody = ({ currentView, setCurrentView, onClose, secretKey })
           <ClickToCopy copy={secretKey}>
               <div className='text-select-display'>
                   {secretKey}
+              </div>
+              <div>
+                <QRCode
+                    bgColor="#FFFFFF"
+                    fgColor="#24272a"
+                    level="Q"
+                    style={{ width: '60%', height: '60%', marginTop: '20px' }}
+                    renderAs='svg'
+                    value={secretKey}
+                />
               </div>
           </ClickToCopy>
           <FormButton onClick={onClose}>
