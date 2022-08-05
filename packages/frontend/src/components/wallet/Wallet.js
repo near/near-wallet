@@ -6,11 +6,13 @@ import styled from 'styled-components';
 import {
     CREATE_USN_CONTRACT,
 } from '../../../../../features';
+import { isWhitelabel } from '../../config/whitelabel';
 import getCurrentLanguage from '../../hooks/getCurrentLanguage';
 import classNames from '../../utils/classNames';
 import { SHOW_NETWORK_BANNER } from '../../utils/wallet';
 import { getTotalBalanceInFiat } from '../common/balance/helpers';
 import FormButton from '../common/FormButton';
+import RemoveLinkRecoveryBanner from '../common/RemoveLinkRecoveryBanner';
 import Container from '../common/styled/Container.css';
 import Tooltip from '../common/Tooltip';
 import DownArrowIcon from '../svg/DownArrowIcon';
@@ -311,7 +313,8 @@ export function Wallet({
     handleCloseLinkdropModal,
     handleSetCreateFromImplicitSuccess,
     handleSetCreateCustomName,
-    handleSetZeroBalanceAccountImportMethod
+    handleSetZeroBalanceAccountImportMethod,
+    userRecoveryMethods
 }) {
     const currentLanguage = getCurrentLanguage();
     const totalAmount = getTotalBalanceInFiat(
@@ -319,10 +322,16 @@ export function Wallet({
         currentLanguage
     );
 
+    const shouldShowRemoveLinkRecoveryBanner = !isWhitelabel() && (userRecoveryMethods.some(({ kind }) => kind === 'email')
+        || userRecoveryMethods.some(({ kind }) => kind === 'phone'));
+
     return (
         <StyledContainer
             className={SHOW_NETWORK_BANNER ? 'showing-banner' : ''}
         >
+            {shouldShowRemoveLinkRecoveryBanner &&
+                <RemoveLinkRecoveryBanner />
+            }
             <div className="split">
                 <div className="left">
                     <div className="tab-selector">
@@ -418,7 +427,7 @@ const FungibleTokens = ({
         <>
             <div className='total-balance'>
                 <Textfit mode='single' max={48}>
-                    <AllTokensTotalBalanceUSD allFungibleTokens={fungibleTokensList}/>
+                    <AllTokensTotalBalanceUSD allFungibleTokens={fungibleTokensList} />
                 </Textfit>
             </div>
             <div className="sub-title balance">
@@ -492,7 +501,7 @@ const FungibleTokens = ({
                         tokens={fungibleTokens}
                         currentLanguage={currentLanguage}
                     />
-                    <div className='coingecko'><Translate id='poweredByCoinGecko'/></div>
+                    <div className='coingecko'><Translate id='poweredByCoinGecko' /></div>
                 </>
             )}
         </>
