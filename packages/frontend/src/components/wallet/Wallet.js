@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import {
     CREATE_USN_CONTRACT,
 } from '../../../../../features';
+import { isWhitelabel } from '../../config/whitelabel';
 import getCurrentLanguage from '../../hooks/getCurrentLanguage';
 import classNames from '../../utils/classNames';
 import { SHOW_NETWORK_BANNER } from '../../utils/wallet';
@@ -321,8 +322,8 @@ export function Wallet({
         currentLanguage
     );
 
-    const shouldShowRemoveLinkRecoveryBanner = userRecoveryMethods.some(({ kind }) => kind === 'email')
-        || userRecoveryMethods.some(({ kind }) => kind === 'phone');
+    const shouldShowRemoveLinkRecoveryBanner = !isWhitelabel() && (userRecoveryMethods.some(({ kind }) => kind === 'email')
+        || userRecoveryMethods.some(({ kind }) => kind === 'phone'));
 
     return (
         <StyledContainer
