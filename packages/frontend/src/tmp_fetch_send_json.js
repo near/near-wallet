@@ -5,15 +5,12 @@ let fetch = (typeof window === 'undefined' || window.name === 'nodejs') ? requir
 
 const createError = require('http-errors');
 
-const { CUSTOM_REQUEST_HEADERS } = require('./utils/constants');
-
 module.exports = async function sendJson(method, url, json) {
     const response = await fetch(url, {
         method: method,
         body: method !== 'GET' ? JSON.stringify(json) : undefined,
         headers: {
             'Content-type': 'application/json; charset=utf-8',
-            ...CUSTOM_REQUEST_HEADERS,
         }
     });
     if (!response.ok) {
