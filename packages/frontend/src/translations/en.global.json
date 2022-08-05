@@ -1876,7 +1876,7 @@
     },
     "removeLinkRecovery": {
         "title": "Important Security Update",
-        "desc": "We have updated our security measures to protect your account. Please enable a passphrase or Ledger recovery method and <a href=\"/profile\">disable all email and SMS recovery methods</a> to ensure your account is protected. Read more about our security measures in our <a href=\"https://near.org/blog/near-web-wallet-security-update/\" target=\"_blank\">blog post</a>.",
+        "desc": "We have updated our security measures to protect your account. Please enable a passphrase or Ledger recovery method and <a href=\"/profile\">disable all email and SMS recovery methods</a> to ensure your account is protected. <a href=\"https://near.org/blog/near-web-wallet-security-update/\" target=\"_blank\">Learn more</a>.",
         "button": "Go to Account"
     }
 }
