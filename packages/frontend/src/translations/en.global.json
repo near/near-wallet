@@ -1873,5 +1873,10 @@
         "scamWarning": "This address has a high level of risk and marked as scam. Make sure that this address is safe before sending funds.",
         "checkbox": "I accept responsibility for sending funds to this address."
 
+    },
+    "removeLinkRecovery": {
+        "title": "Important Security Update",
+        "desc": "We have updated our security measures to protect your account. Please enable a passphrase or Ledger recovery method and <a href=\"/profile\">disable all email and SMS recovery methods</a> to ensure your account is protected. <a href=\"https://near.org/blog/near-web-wallet-security-update/\" target=\"_blank\">Learn more</a>.",
+        "button": "Go to Account"
     }
 }
