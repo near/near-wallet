@@ -4,15 +4,25 @@ import { createBrowserHistory } from 'history';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3-near';
+import TagManager from 'react-gtm-module';
 import { LocalizeProvider } from 'react-localize-redux';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 
 import Routing from './components/Routing';
-import { RECAPTCHA_ENTERPRISE_SITE_KEY } from './config';
+import { RECAPTCHA_ENTERPRISE_SITE_KEY, GOOGLE_TAG_MANAGER_ID } from './config';
+import { isWhitelabel } from './config/whitelabel';
 import createRootReducer from './redux/createReducers';
 import createMiddleware from './redux/middleware';
 import { initSentry } from './utils/sentry';
+
+const tagManagerArgs = {
+    gtmId: GOOGLE_TAG_MANAGER_ID
+};
+
+if (!isWhitelabel()) {
+    TagManager.initialize(tagManagerArgs);
+}
 
 initSentry();
 
