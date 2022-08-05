@@ -211,7 +211,7 @@ class Routing extends Component {
     }
 
     componentDidMount = async () => {
-        if (isWhitelabel() && document) {
+        if (isWhitelabel && document) {
             document.title = 'MyNearWallet';
             document.querySelector('link[rel~="icon"]').href = favicon;
         }

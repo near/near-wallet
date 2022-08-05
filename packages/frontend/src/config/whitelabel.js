@@ -1,15 +1,11 @@
-import Environments from '../../../../features/environments.json';
-import environmentConfig from './configFromEnvironment';
+import { DEVELOPMENT, TESTNET, TESTNET_STAGING, MAINNET, MAINNET_STAGING  } from '../../../../features/environments.json';
+import { NEAR_WALLET_ENV } from './configFromEnvironment';
 
-const isWhitelabel = () => {
-    const { NEAR_WALLET_ENV } = environmentConfig;
-
-    return NEAR_WALLET_ENV === Environments.DEVELOPMENT ||
-        NEAR_WALLET_ENV === Environments.TESTNET ||
-        NEAR_WALLET_ENV === Environments.TESTNET_STAGING ||
-        NEAR_WALLET_ENV === Environments.MAINNET ||
-        NEAR_WALLET_ENV === Environments.MAINNET_STAGING;
-};
+const isWhitelabel = NEAR_WALLET_ENV === DEVELOPMENT
+    || NEAR_WALLET_ENV === TESTNET
+    || NEAR_WALLET_ENV === TESTNET_STAGING
+    || NEAR_WALLET_ENV === MAINNET
+    || NEAR_WALLET_ENV === MAINNET_STAGING;
 
 module.exports = {
     isWhitelabel
