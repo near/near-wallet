@@ -205,7 +205,7 @@ export default function NFTTransferModal({ open, onClose, nft, accountId }) {
     const { transferToken } = nftActions;
 
     const localAlert = useSelector(selectStatusLocalAlert);
-    let isEmptyAlert = !localAlert || localAlert.show === undefined || localAlert.show === false;
+    const isEmptyAlert = !localAlert || localAlert.show === undefined || localAlert.show === false;
     const hasAccountValidationError = localAlert && localAlert.show && !localAlert.success;
 
     // TODO: Add RiskScoring validation
