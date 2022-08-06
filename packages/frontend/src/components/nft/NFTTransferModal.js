@@ -198,13 +198,15 @@ export default function NFTTransferModal({ open, onClose, nft, accountId }) {
     const [ result, setResult ] = useState();
     const [ sending, setSending ] = useState(false);
     const [ viewType, setViewType ] = useState('selectReceiver');
-    const [ accountIdIsValid, setAccountIdIsValid] = useState(false);
+    const [isImplicitAccount, setIsImplicitAccount] = useState(false);
     const { balanceAvailable: nearBalance } = useSelector(selectBalance);
     const dispatch = useDispatch();
     const { checkAndHideLedgerModal } = ledgerActions;
     const { transferToken } = nftActions;
 
     const localAlert = useSelector(selectStatusLocalAlert);
+    const isSuccess = localAlert?.success && !isImplicitAccount;
+    const isProblem = !localAlert?.success && localAlert?.show;
 
     async function sendNFT () {
         setSending(true);
@@ -261,7 +263,9 @@ export default function NFTTransferModal({ open, onClose, nft, accountId }) {
                                 localAlert={localAlert}
                                 autoFocus={!isMobile()}
                                 clearLocalAlert={() => dispatch(clearLocalAlert())}
-                                setAccountIdIsValid={setAccountIdIsValid}
+                                setIsImplicitAccount={setIsImplicitAccount}
+                                isSuccess={isSuccess}
+                                isProblem={isProblem}
                             />
                         </div>
     
@@ -278,7 +282,7 @@ export default function NFTTransferModal({ open, onClose, nft, accountId }) {
                                 <FormButton
                                     className='next-btn'
                                     type='submit'
-                                    disabled={!accountIdIsValid}
+                                    disabled={isProblem}
                                     onClick={() => setViewType('confirm')}
                                 >
                                     <Translate id='NFTTransfer.next'/>
