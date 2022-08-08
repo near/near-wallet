@@ -145,9 +145,9 @@
       "lastEditedAt": "2022-06-29T18:19:13.377Z"
     },
     "mainnet": {
-      "enabled": false,
-      "lastEditedBy": "Andy Haynes",
-      "lastEditedAt": "2022-06-22T01:17:14.439Z"
+      "enabled": true,
+      "lastEditedBy": "Morgan McCauley",
+      "lastEditedAt": "2022-07-26T22:40:11.936Z"
     },
     "mainnet_STAGING": {
       "enabled": true,
@@ -165,9 +165,9 @@
       "lastEditedAt": "2022-06-29T18:19:13.377Z"
     },
     "mainnet_NEARORG": {
-      "enabled": false,
-      "lastEditedBy": "Andy Haynes",
-      "lastEditedAt": "2022-06-22T01:17:14.439Z"
+      "enabled": true,
+      "lastEditedBy": "Morgan McCauley",
+      "lastEditedAt": "2022-07-26T22:40:11.936Z"
     },
     "mainnet_STAGING_NEARORG": {
       "enabled": true,
