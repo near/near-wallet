@@ -5,8 +5,8 @@ import { BROWSER_MIXPANEL_TOKEN } from '../config';
 function buildTrackingProps() {
     const sanitizedUrl = decodeURI(window.location.href)
         .split('#')[0]
-        .replace(/(?:\w{3,12} ){11}(?:\w{3,12})/g, 'REDACTED')
-        .replace(/[\w\d]{64,}/g, 'REDACTED')
+        .replace(/(?:\w{3,12} ){11}(?:\w{3,12})/gi, 'REDACTED')
+        .replace(/[\w\d]{64,}/gi, 'REDACTED')
         .replace(/ed25519.+/gi, 'REDACTED');
 
     return {
