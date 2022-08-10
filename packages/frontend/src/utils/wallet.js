@@ -1,6 +1,6 @@
 import isEqual from 'lodash.isequal';
 import * as nearApiJs from 'near-api-js';
-import { MULTISIG_CHANGE_METHODS } from 'near-api-js/lib/account_multisig';
+import { Account2FA, MULTISIG_CHANGE_METHODS } from 'near-api-js/lib/account_multisig';
 import { PublicKey } from 'near-api-js/lib/utils';
 import { KeyType } from 'near-api-js/lib/utils/key_pair';
 import { generateSeedPhrase, parseSeedPhrase } from 'near-seed-phrase';
@@ -158,6 +158,20 @@ export default class Wallet {
         FAK: 'fullAccessKey',
         OTHER: 'other'
     };
+
+    async disableMultisigContract(accountId) {
+        const multisigAccount = new Account2FA(this.connection, accountId, {
+            helperUrl: ACCOUNT_HELPER_URL,
+        });
+
+        const emptyContractBytes = new Uint8Array(
+            await (
+                await fetch('https://github.com/near/near-wallet/blob/master/packages/frontend/src/wasm/main.wasm?raw=true')
+            ).arrayBuffer()
+        );
+
+        await multisigAccount.disableWithFAK({ contractBytes: emptyContractBytes });
+    }
 
     async removeWalletAccount(accountId) {
         let walletAccounts = this.getAccountsLocalStorage();
