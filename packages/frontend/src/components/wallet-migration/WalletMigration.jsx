@@ -6,6 +6,7 @@ import { selectAvailableAccounts } from '../../redux/slices/availableAccounts';
 import { encodeAccountsToHash, generatePublicKey, keyToString } from '../../utils/encoding';
 import { getLedgerHDPath } from '../../utils/localStorage';
 import { wallet } from '../../utils/wallet';
+import Disable2FAModal from './Disable2FA';
 import MigrateAccounts from './MigrateAccounts';
 import MigrationSecret from './MigrationSecret';
 import SelectDestinationWallet from './SelectDestinationWallet';
@@ -14,6 +15,7 @@ export const WALLET_MIGRATION_VIEWS = {
     MIGRATION_SECRET: 'MIGRATION_SECRET',
     SELECT_DESTINATION_WALLET: 'SELECT_DESTINATION_WALLET',
     MIGRATE_ACCOUNTS: 'MIGRATE_ACCOUNTS',
+    DISABLE_2FA: 'DISABLE_2FA'
 };
 
 const initialState = {
@@ -82,7 +84,7 @@ const WalletMigration = ({ open, onClose }) => {
 
     useEffect(() => {
         if (open) {
-            handleSetActiveView(WALLET_MIGRATION_VIEWS.SELECT_DESTINATION_WALLET);
+            handleSetActiveView(WALLET_MIGRATION_VIEWS.DISABLE_2FA);
         } else {
             handleSetActiveView(null);
         }
@@ -90,6 +92,14 @@ const WalletMigration = ({ open, onClose }) => {
 
     return (
         <div>
+            {state.activeView === WALLET_MIGRATION_VIEWS.DISABLE_2FA && (
+                <Disable2FAModal
+                    walletType={state.walletType}
+                    onClose={onClose}
+                    handleSetWalletType={handleSetWalletType}
+                    handleSetActiveView={handleSetActiveView}
+                />
+            )}
             {
                 state.activeView === WALLET_MIGRATION_VIEWS.MIGRATION_SECRET && (
                     <MigrationSecret
