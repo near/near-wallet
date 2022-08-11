@@ -221,10 +221,10 @@
             "title": "Confirm Your URL"
         },
         "enterKeyForm": {
-            "title": "Welcome to MyNearWallet!",
+            "confirmCaption": "Confirm password",
             "desc": "Enter your password to complete importing accounts:",
             "placeholder": "2cCzKMPiCkFnF5mGbJcPgTGNykvxK4f3xyNAio4q931b",
-            "confirmCaption": "Confirm password",
+            "title": "Welcome to MyNearWallet!"
         },
         "importScreen": {
             "desc": "Begin your import and confirm each account </br> when prompted.",
@@ -1118,7 +1118,16 @@
         "disclaimer": "I have access to the recovery method for <b>${accountId}</b>",
         "title": "Remove Account?"
     },
+    "removeLinkRecovery": {
+        "button": "Go to Account",
+        "desc": "We have updated our security measures to protect your account. Please enable a passphrase or Ledger recovery method and <a href=\"/profile\">disable all email and SMS recovery methods</a> to ensure your account is protected. <a href=\"https://near.org/blog/near-web-wallet-security-update/\" target=\"_blank\">Learn more</a>.",
+        "title": "Important Security Update"
+    },
     "reservedForFeesInfo": "Up to ${data} NEAR is reserved to cover the cost of transactions.",
+    "riscScoring": {
+        "checkbox": "I accept responsibility for sending funds to this address.",
+        "scamWarning": "This address has a high level of risk and marked as scam. Make sure that this address is safe before sending funds."
+    },
     "selectAccountDropdown": {
         "account": "Account",
         "createAccount": "Create New Account",
@@ -1167,18 +1176,6 @@
         "to": "to",
         "wasSentTo": "was sent to:",
         "youAreSending": "You are sending"
-    },
-    "verifyOwner":{
-        "summary": {
-            "title": "Authorization Request",
-            "connetingWith": "Connecting with ${accountId}",
-            "infoMessage": "Once connected, <span class='color-blue'>≪${appName}≫</span> will have <span class='color-black'><b>permissions</b></span>:",
-            "permissions": "Verify your account using your profile name and wallet address."
-        },
-        "invalidRequest": {
-            "body": "The request is invalid and cannot be signed.",
-            "title": "Invalid Transaction"
-        }
     },
     "sendV2": {
         "accordionTriggerTitle": {
@@ -1730,6 +1727,18 @@
         "title": "Almost there! Verify your new account.",
         "titleNoFunding": "Almost there! Fund your new account."
     },
+    "verifyOwner": {
+        "invalidRequest": {
+            "body": "The request is invalid and cannot be signed.",
+            "title": "Invalid Transaction"
+        },
+        "summary": {
+            "connetingWith": "Connecting with ${accountId}",
+            "infoMessage": "Once connected, <span class='color-blue'>≪${appName}≫</span> will have <span class='color-black'><b>permissions</b></span>:",
+            "permissions": "Verify your account using your profile name and wallet address.",
+            "title": "Authorization Request"
+        }
+    },
     "verifyWalletDomainBanner": {
         "title": "Please make sure you are visiting"
     },
@@ -1760,6 +1769,9 @@
         },
         "addAccessKeyZeroBalanceAccountSetup": {
             "error": "Something went wrong while finishing import of your now active account. Please re-import your account in the wallet."
+        },
+        "addLedgerAccessKey": {
+            "2faEnabled": "Two-Factor Authentication is enabled. To enable Ledger Hardware Wallet you need to disable Two-Factor Authentication first."
         },
         "addLedgerAccountId": {
             "errorRpc": "Error appears while recovering the account."
@@ -1829,12 +1841,12 @@
     },
     "walletMigration": {
         "migrateAccounts": {
-            "title": "We found ${count} active accounts",
             "desc": "The following accounts will be transferred:",
+            "title": "We found ${count} active accounts"
         },
         "migrationSecret": {
-            "title": "Password required to import accounts",
-            "desc": "You'll need this <strong>password</strong> to securely import your accounts. Copy or write it down until you've completed transferring your accounts."
+            "desc": "You'll need this <strong>password</strong> to securely import your accounts. Copy or write it down until you've completed transferring your accounts.",
+            "title": "Password required to import accounts"
         },
         "selectWallet": {
             "title": "Select a wallet to transfer accounts"
@@ -1868,15 +1880,5 @@
             "desc": "Add a Ledger limited access key to the wallet to manage multiple recovery methods.",
             "title": "Your account is now active!"
         }
-    },
-    "riscScoring": {
-        "scamWarning": "This address has a high level of risk and marked as scam. Make sure that this address is safe before sending funds.",
-        "checkbox": "I accept responsibility for sending funds to this address."
-
-    },
-    "removeLinkRecovery": {
-        "title": "Important Security Update",
-        "desc": "We have updated our security measures to protect your account. Please enable a passphrase or Ledger recovery method and <a href=\"/profile\">disable all email and SMS recovery methods</a> to ensure your account is protected. <a href=\"https://near.org/blog/near-web-wallet-security-update/\" target=\"_blank\">Learn more</a>.",
-        "button": "Go to Account"
     }
 }

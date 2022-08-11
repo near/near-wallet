@@ -641,6 +641,15 @@ export default class Wallet {
 
     async addLedgerAccessKey(path, accountIdOverride) {
         const accountId = accountIdOverride || this.accountId;
+
+        // additional check if the 2fa is enabled, in case the user was able to omit disabled buttons
+        const account = new nearApiJs.Account(this.connection, accountId);
+        const has2fa = await TwoFactor.has2faEnabled(account);
+        // throw error if 2fa is enabled
+        if (has2fa) {
+            throw new WalletError('Two-Factor Authentication is enabled', 'addLedgerAccessKey.2faEnabled');
+        }
+
         const ledgerPublicKey = await this.getLedgerPublicKey(path);
         const accessKeys = await this.getAccessKeys(accountId);
         const accountHasLedgerKey = accessKeys.some((key) => key.public_key === ledgerPublicKey.toString());
