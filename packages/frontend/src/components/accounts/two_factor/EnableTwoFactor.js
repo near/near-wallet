@@ -15,6 +15,7 @@ import {
 } from '../../../redux/actions/account';
 import { clearGlobalAlert } from '../../../redux/actions/status';
 import { selectAccountHas2fa, selectAccountId } from '../../../redux/slices/account';
+import { selectLedgerHasLedger } from '../../../redux/slices/ledger';
 import { selectActionsPending, selectStatusSlice } from '../../../redux/slices/status';
 import { selectNearTokenFiatValueUSD } from '../../../redux/slices/tokenFiatValues';
 import { validateEmail } from '../../../utils/account';
@@ -84,6 +85,7 @@ export function EnableTwoFactor(props) {
     const accountId = useSelector(selectAccountId);
     const status = useSelector(selectStatusSlice);
     const nearTokenFiatValueUSD = useSelector(selectNearTokenFiatValueUSD);
+    const hasLedger = useSelector(selectLedgerHasLedger);
 
     const [initiated, setInitiated] = useState(false);
     const [option, setOption] = useState('email');
@@ -210,7 +212,7 @@ export function EnableTwoFactor(props) {
                     </label>
                     <FormButton
                         color='blue'
-                        disabled={!isValidInput() || loading || has2fa || initiated || !twoFactorAmountApproved}
+                        disabled={!isValidInput() || loading || has2fa || initiated || !twoFactorAmountApproved || hasLedger}
                         type='submit'
                         sending={pendingTwoFactorAction}
                         sendingString='button.enabling'

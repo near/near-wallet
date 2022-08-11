@@ -1798,6 +1798,9 @@
         "initiateZeroBalanceAccount": {
             "error": "Something went wrong while initiating your account. Please try again."
         },
+        "initTwoFactor": {
+            "ledgerEnabled": "Ledger Hardware Wallet is enabled. To enable Two-Factor Authentication you need to disable Ledger Hardware Wallet first."
+        },
         "invalidRecaptchaCode": "Invalid reCAPTCHA code; try again!",
         "lockup": {
             "transferAllWithStakingPoolBalance": "Unstake and withdraw all funds from the staking pool in order to transfer your remaining lockup balance to Wallet."
