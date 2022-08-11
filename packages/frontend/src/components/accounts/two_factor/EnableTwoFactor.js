@@ -85,7 +85,7 @@ export function EnableTwoFactor(props) {
     const accountId = useSelector(selectAccountId);
     const status = useSelector(selectStatusSlice);
     const nearTokenFiatValueUSD = useSelector(selectNearTokenFiatValueUSD);
-    const hasLedger = useSelector(selectLedgerHasLedger);
+    const accountHaveLedger = useSelector(selectLedgerHasLedger);
 
     const [initiated, setInitiated] = useState(false);
     const [option, setOption] = useState('email');
@@ -212,7 +212,7 @@ export function EnableTwoFactor(props) {
                     </label>
                     <FormButton
                         color='blue'
-                        disabled={!isValidInput() || loading || has2fa || initiated || !twoFactorAmountApproved || hasLedger}
+                        disabled={!isValidInput() || loading || has2fa || initiated || !twoFactorAmountApproved || accountHaveLedger}
                         type='submit'
                         sending={pendingTwoFactorAction}
                         sendingString='button.enabling'
