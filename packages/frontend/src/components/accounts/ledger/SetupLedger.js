@@ -50,9 +50,9 @@ const SetupLedger = (props) => {
     const fundingOptions = parseFundingOptions(props.location.search);
     const shouldRenderRecaptcha = !fundingOptions && RECAPTCHA_CHALLENGE_API_KEY && isNewAccount && !ENABLE_IDENTITY_VERIFIED_ACCOUNT;
 
-    const has2fa = useSelector(selectAccountHas2fa);
+    const accountHas2fa = useSelector(selectAccountHas2fa);
     // disable the Continue button if a user has 2fa enabled, or we don't know yet if it's disabled/enabled
-    const disable2fa = has2fa || typeof has2fa === 'undefined';
+    const accountMightHave2fa = accountHas2fa || typeof accountHas2fa === 'undefined';
 
     useEffect(() => {
         const performNewAccountCheck = async () => {
@@ -210,7 +210,7 @@ const SetupLedger = (props) => {
                 onClick={handleClick}
                 sending={connect && props.mainLoader}
                 sendingString='button.connecting'
-                disabled={(!recaptchaToken && shouldRenderRecaptcha) || isNewAccount === null || disable2fa}
+                disabled={(!recaptchaToken && shouldRenderRecaptcha) || isNewAccount === null || accountMightHave2fa}
             >
                 <Translate id={`button.${connect !== 'fail' ? 'continue' : 'retry'}`} />
             </FormButton>
