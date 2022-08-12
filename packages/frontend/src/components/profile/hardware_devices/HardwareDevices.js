@@ -12,7 +12,6 @@ import {
     addLedgerAccessKey
 } from '../../../redux/actions/account';
 import selectRecoveryLoader from '../../../redux/selectors/crossStateSelectors/selectRecoveryLoader';
-import { selectAccountSlice } from '../../../redux/slices/account';
 import { actions as recoveryMethodsActions } from '../../../redux/slices/recoveryMethods';
 import FormButton from '../../common/FormButton';
 import SkeletonLoading from '../../common/SkeletonLoading';
@@ -61,21 +60,23 @@ const Container = styled(Card)`
 
 `;
 
-const HardwareDevices = ({ recoveryMethods }) => {
+const HardwareDevices = ({ 
+    recoveryMethods,
+    account,
+    publicKeys,
+    hasLedger,
+    ledgerIsConnected,
+    hasLedgerButNotConnected
+}) => {
 
     const [disabling, setDisabling] = useState(false);
     const [confirmDisable, setConfirmDisable] = useState(false);
     const dispatch = useDispatch();
-    const account = useSelector(selectAccountSlice);
+    // const account = useSelector(selectAccountSlice);
 
     let userRecoveryMethods = recoveryMethods || [];
-    const keys = account.fullAccessKeys || [];
     const recoveryKeys = userRecoveryMethods.filter((method) => method.kind !== 'ledger').map((key) => key.publicKey);
-    const publicKeys = keys.map((key) => key.public_key);
     const hasOtherMethods = publicKeys.some((key) => recoveryKeys.includes(key));
-    const hasLedger = userRecoveryMethods.filter((method) => method.kind === 'ledger').map((key) => key.publicKey).some((key) => publicKeys.includes(key));
-    const ledgerIsConnected = account.ledgerKey;
-    const hasLedgerButNotConnected = hasLedger && !ledgerIsConnected;
     const recoveryLoader = useSelector((state) => selectRecoveryLoader(state, { accountId: account.accountId }));
 
     const handleConfirmDisable = async () => {
