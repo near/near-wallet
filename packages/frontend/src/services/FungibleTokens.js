@@ -1,6 +1,6 @@
 import BN from 'bn.js';
-import * as nearApiJs from 'near-api-js';
 import * as Multisig from 'multisign/client';
+import * as nearApiJs from 'near-api-js';
 
 import { 
     NEAR_TOKEN_ID,
@@ -8,7 +8,6 @@ import {
     FT_TRANSFER_GAS,
     FT_STORAGE_DEPOSIT_GAS,
     FT_MINIMUM_STORAGE_BALANCE,
-    FT_MINIMUM_STORAGE_BALANCE_LARGE,
     SEND_NEAR_GAS,
 } from '../config';
 import {
@@ -21,7 +20,7 @@ import { wallet } from '../utils/wallet';
 import { listLikelyTokens } from './indexer';
 
 const {
-    transactions: { functionCall, transfer },
+    transactions: { functionCall },
     utils: {
         format: { parseNearAmount, formatNearAmount },
     },
@@ -110,9 +109,6 @@ export default class FungibleTokens {
     }
 
     async transfer({ accountId, contractName, amount, receiverId, memo }) {
-        console.log('contract', contractName);
-        console.log('transfer', contractName, accountId, amount, receiverId);
-
         if (contractName) {
             const action = Multisig.functionCall(
                 'ft_transfer',
@@ -125,12 +121,11 @@ export default class FungibleTokens {
                 TOKEN_TRANSFER_DEPOSIT
             );
 
-            console.log(action);
             return Multisig.signAndSendTransaction(
                 accountId,
                 contractName,
                 action
-            )
+            );
         }
 
         const action = Multisig.transfer(amount);
@@ -138,7 +133,7 @@ export default class FungibleTokens {
             accountId,
             receiverId,
             action
-        )        
+        );
     }
 
     async transferStorageDeposit({
