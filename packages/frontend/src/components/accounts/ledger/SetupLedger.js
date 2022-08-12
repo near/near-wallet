@@ -52,7 +52,7 @@ const SetupLedger = (props) => {
 
     const accountHas2fa = useSelector(selectAccountHas2fa);
     // disable the Continue button if a user has 2fa enabled, or we don't know yet if it's disabled/enabled
-    const accountMightHave2fa = accountHas2fa || typeof accountHas2fa === 'undefined';
+    const accountMightHave2fa = accountHas2fa || (!isNewAccount && typeof accountHas2fa === 'undefined');
 
     useEffect(() => {
         const performNewAccountCheck = async () => {
