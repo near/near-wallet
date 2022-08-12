@@ -314,7 +314,7 @@ export function Profile({ match }) {
                         { (shouldShowEmail || shouldShowPhone) && <h4><Translate id='profile.security.lessSecure'/><Tooltip translate='profile.security.lessSecureDesc' icon='icon-lg'/></h4>}
                         { shouldShowEmail && <RecoveryContainer type='email' recoveryMethods={userRecoveryMethods}/> }
                         { shouldShowPhone && <RecoveryContainer type='phone' recoveryMethods={userRecoveryMethods}/> }
-                        {!account.ledgerKey && (
+                        {!account.ledgerKey && !(hasLedgerButNotConnected && !twoFactor) && (
                             <>
                                 <hr/>
                                 <h2><LockIcon/><Translate id='profile.twoFactor'/></h2>
@@ -322,7 +322,9 @@ export function Profile({ match }) {
                                     <>
                                         <div className='sub-heading'><Translate id='profile.twoFactorDesc'/></div>
                                         {/* TODO: Also check recovery methods in DB for Ledger */}
-                                        <TwoFactorAuth twoFactor={twoFactor}/>
+                                        <TwoFactorAuth
+                                            twoFactor={twoFactor}
+                                        />
                                     </>
                                 ) : (
                                     <SkeletonLoading
