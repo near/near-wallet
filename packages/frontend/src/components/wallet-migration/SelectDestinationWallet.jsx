@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
 import ImgMyNearWallet from '../../../src/images/mynearwallet-cropped.svg';
+import SenderLogo from '../../../src/images/sender-logo.png';
 import IconLedger from '../../images/wallet-migration/IconLedger';
 import IconWallet from '../../images/wallet-migration/IconWallet';
 import { redirectTo } from '../../redux/actions/account';
@@ -44,6 +45,11 @@ const WALLET_OPTIONS = [
         name: 'Ledger',
         icon: <IconLedger />,
     },
+    {
+        id: 'sender',
+        name: 'Sender',
+        icon: <img src={SenderLogo} alt="Sender Wallet Logo" />,
+    }
 ];
 
 const WalletOptionsListing = styled.div`
@@ -139,6 +145,7 @@ const SelectDestinationWallet = ({ handleSetActiveView, handleSetWalletType, wal
     const dispatch = useDispatch();
 
     const handleContinue = useCallback(() => {
+        handleSetWalletType(walletType);
         if (walletType === 'my-near-wallet') {
             return handleSetActiveView(WALLET_MIGRATION_VIEWS.MIGRATION_SECRET);
         }
@@ -146,7 +153,15 @@ const SelectDestinationWallet = ({ handleSetActiveView, handleSetWalletType, wal
             onClose();
             return  dispatch(redirectTo('/batch-ledger-export'));
         }
-    },[ walletType, handleSetActiveView ]);
+
+        if (walletType === 'sender') {
+            if (window.near) {
+                return handleSetActiveView(WALLET_MIGRATION_VIEWS.MIGRATION_SECRET);
+            } else {
+                return handleSetActiveView(WALLET_MIGRATION_VIEWS.INSTALL_SENDER);
+            }
+        }
+    },[ walletType, handleSetActiveView, handleSetWalletType ]);
 
     return (
         <Modal

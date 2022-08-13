@@ -1832,6 +1832,12 @@
         },
         "selectWallet": {
             "title": "Select a wallet to transfer accounts"
+        },
+        "installSender": {
+            "title": "Transfer failed",
+            "desc": "Please confirm that you have installed Sender and are using Chrome, Edge, Brave or Kiwi browser.",
+            "installNow": "Install Now",
+            "back": "Back"
         }
     },
     "warning": "Warning",

@@ -1,5 +1,7 @@
 import React, { useCallback, useEffect } from 'react';
+import { useState } from 'react';
 import { useSelector } from 'react-redux';
+import CryptoJS from 'crypto-js';
 
 import { selectAvailableAccounts } from '../../redux/slices/availableAccounts';
 import { encodeAccountsToHash, generatePublicKey, keyToString } from '../../utils/encoding';
@@ -10,24 +12,37 @@ import MigrateAccounts from './MigrateAccounts';
 import MigrationPrompt from './MigrationPrompt';
 import MigrationSecret from './MigrationSecret';
 import SelectDestinationWallet from './SelectDestinationWallet';
+import InstallSender from './InstallSender';
+import { ACCOUNT_ID_SUFFIX } from '../../config';
 
 
 export const WALLET_MIGRATION_VIEWS = {
     MIGRATION_PROMPT: 'MIGRATION_PROMPT',
     MIGRATION_SECRET: 'MIGRATION_SECRET',
     SELECT_DESTINATION_WALLET: 'SELECT_DESTINATION_WALLET',
-    MIGRATE_ACCOUNTS: 'MIGRATE_ACCOUNTS'
+    MIGRATE_ACCOUNTS: 'MIGRATE_ACCOUNTS',
+    INSTALL_SENDER: 'INSTALL_SENDER',
 };
 
 const initialState = {
-    activeView: null,
+    // activeView: null,
+    activeView: WALLET_MIGRATION_VIEWS.INSTALL_SENDER,
     walletType: null,
     migrationKey: generatePublicKey()
 };
 
+const saltChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+const saltCharsCount = saltChars.length;
 
+export const generateSalt = (digit = 6) => {
+  let salt = '';
+  for (let i = 0; i < digit; i += 1) {
+    salt += saltChars.charAt(Math.floor(Math.random() * saltCharsCount));
+  }
+  return salt;
+};
 
-const encodeAccountsToURL = async (accounts, publicKey) => {
+const getAccountsData = async (accounts) => {
     const accountsData = [];
     for (let i = 0; i < accounts.length; i++) {
         const accountId = accounts[i];
@@ -39,6 +54,11 @@ const encodeAccountsToURL = async (accounts, publicKey) => {
         ]);
     }
 
+    return accountsData;
+}
+
+const encodeAccountsToURL = async (accounts, publicKey) => {
+    const accountsData = await getAccountsData(accounts);
     const hash = encodeAccountsToHash(accountsData, publicKey);
     const href = `${getMyNearWalletUrlFromNEARORG()}/batch-import#${hash}`;
 
@@ -57,25 +77,40 @@ const WalletMigration = ({ open, onClose }) => {
         handleStateUpdate({ walletType });
     };
 
-    const handleSetActiveView = (activeView) => {
+    const handleSetActiveView = useCallback((activeView) => {
         handleStateUpdate({ activeView });
-    };
+    }, [handleStateUpdate]);
 
     const showMigrationPrompt = useCallback(() => {
         handleSetActiveView(WALLET_MIGRATION_VIEWS.MIGRATION_PROMPT);
-    }, []);
+    }, [handleSetActiveView]);
 
-    const showMigrateAccount = useCallback(async () => {
+    const showMigrateAccount = useCallback(() => {
         handleSetActiveView(WALLET_MIGRATION_VIEWS.MIGRATE_ACCOUNTS);
-    }, [availableAccounts]);
+    }, [handleSetActiveView]);
 
     const onContinue = useCallback(async () => {
-        const url = await encodeAccountsToURL(
+        if (state.walletType === 'sender') {
+            const salt = generateSalt(12);
+            const accountsData = await getAccountsData(availableAccounts);
+            const hasher = CryptoJS.algo.SHA256.create();
+            const key = CryptoJS.PBKDF2(keyToString(state.migrationKey), salt, { iterations: 10000, hasher }).toString();
+            const encryptData = CryptoJS.AES.encrypt(JSON.stringify(accountsData), key).toString();
+            const message = {
+                data: encryptData,
+                salt,
+                network: ACCOUNT_ID_SUFFIX === 'near' ? 'mainnet' : 'testnet',
+            };
+            console.log('message: ', message);
+            window.near.batchImport({ keystore: message });
+        } else {
+            const url = await encodeAccountsToURL(
             availableAccounts,
             state.migrationKey
-        );
-        window.open(url, '_blank');
-    }, [state.migrationKey, availableAccounts]);
+            );
+            window.open(url, '_blank');
+        }
+    }, [state.migrationKey, availableAccounts, state.walletType]);
 
     useEffect(() => {
         if (open) {
@@ -90,7 +125,6 @@ const WalletMigration = ({ open, onClose }) => {
             {
                 state.activeView === WALLET_MIGRATION_VIEWS.MIGRATION_PROMPT && (
                     <MigrationPrompt
-                        handleSetWalletType={handleSetWalletType}
                         handleSetActiveView={handleSetActiveView}
                         onClose={onClose}
                     />
@@ -119,6 +153,14 @@ const WalletMigration = ({ open, onClose }) => {
                         onClose={onClose}
                     />
                 )}
+            {
+                state.activeView === WALLET_MIGRATION_VIEWS.INSTALL_SENDER && (
+                    <InstallSender
+                        onClose={onClose}
+                        handleSetActiveView={handleSetActiveView}
+                    />
+                )
+            }
         </div>
     );
 };
