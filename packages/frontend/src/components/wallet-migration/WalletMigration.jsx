@@ -1,20 +1,18 @@
-import React, { useCallback, useEffect } from 'react';
-import { useState } from 'react';
-import { useSelector } from 'react-redux';
 import CryptoJS from 'crypto-js';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 
+import { ACCOUNT_ID_SUFFIX } from '../../config';
 import { selectAvailableAccounts } from '../../redux/slices/availableAccounts';
 import { encodeAccountsToHash, generatePublicKey, keyToString } from '../../utils/encoding';
 import { getMyNearWalletUrlFromNEARORG } from '../../utils/getWalletURL';
 import { getLedgerHDPath } from '../../utils/localStorage';
 import { wallet } from '../../utils/wallet';
+import InstallSender from './InstallSender';
 import MigrateAccounts from './MigrateAccounts';
 import MigrationPrompt from './MigrationPrompt';
 import MigrationSecret from './MigrationSecret';
 import SelectDestinationWallet from './SelectDestinationWallet';
-import InstallSender from './InstallSender';
-import { ACCOUNT_ID_SUFFIX } from '../../config';
-
 
 export const WALLET_MIGRATION_VIEWS = {
     MIGRATION_PROMPT: 'MIGRATION_PROMPT',
@@ -35,11 +33,11 @@ const saltChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz012345678
 const saltCharsCount = saltChars.length;
 
 export const generateSalt = (digit = 6) => {
-  let salt = '';
-  for (let i = 0; i < digit; i += 1) {
-    salt += saltChars.charAt(Math.floor(Math.random() * saltCharsCount));
-  }
-  return salt;
+    let salt = '';
+    for (let i = 0; i < digit; i += 1) {
+        salt += saltChars.charAt(Math.floor(Math.random() * saltCharsCount));
+    }
+    return salt;
 };
 
 const getAccountsData = async (accounts) => {

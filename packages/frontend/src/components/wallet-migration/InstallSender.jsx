@@ -73,44 +73,44 @@ const StyledButton = styled(FormButton)`
 `;
 
 const InstallSender = ({ onClose, handleSetActiveView }) => {
-  return (
-    <Modal
-      modalClass="slim"
-      id='migration-modal'
-      isOpen={true}
-      disableClose={true}
-      modalSize='md'
-      style={{ maxWidth: '435px' }}
-    >
-      <Container>
-        <IconClose className="close-icon" onClick={onClose}/>
-        <div className="logo-view">
-          <img src={SenderLogo} alt="Sender Wallet Logo" />
-          <p>Sender Wallet</p>
-        </div>
-        <h3 className='title'>
-            <Translate id='walletMigration.installSender.title'/>
-        </h3>
-        <p>
-            <Translate id='walletMigration.installSender.desc'/>
-        </p>
-      </Container>
+    return (
+        <Modal
+            modalClass="slim"
+            id='migration-modal'
+            isOpen={true}
+            disableClose={true}
+            modalSize='md'
+            style={{ maxWidth: '435px' }}
+        >
+            <Container>
+                <IconClose className="close-icon" onClick={onClose}/>
+                <div className="logo-view">
+                    <img src={SenderLogo} alt="Sender Wallet Logo" />
+                    <p>Sender Wallet</p>
+                </div>
+                <h3 className='title'>
+                    <Translate id='walletMigration.installSender.title'/>
+                </h3>
+                <p>
+                    <Translate id='walletMigration.installSender.desc'/>
+                </p>
+            </Container>
 
-      <ButtonsContainer>
-        <StyledButton
-            onClick={()=>{
-                window.open('https://chrome.google.com/webstore/detail/sender-wallet/epapihdplajcdnnkdeiahlgigofloibg?utm_source=chrome-ntp-icon');
-            }}>
-            <Translate id='walletMigration.installSender.installNow' />
-        </StyledButton>
-        <StyledButton className="link" onClick={()=>{
-            handleSetActiveView(WALLET_MIGRATION_VIEWS.SELECT_DESTINATION_WALLET);
-        }}>
-            <Translate id='walletMigration.installSender.back' />
-        </StyledButton>
-      </ButtonsContainer>
-    </Modal>
-  )
+            <ButtonsContainer>
+                <StyledButton
+                    onClick={()=>{
+                        window.open('https://chrome.google.com/webstore/detail/sender-wallet/epapihdplajcdnnkdeiahlgigofloibg?utm_source=chrome-ntp-icon');
+                    }}>
+                    <Translate id='walletMigration.installSender.installNow' />
+                </StyledButton>
+                <StyledButton className="link" onClick={()=>{
+                    handleSetActiveView(WALLET_MIGRATION_VIEWS.SELECT_DESTINATION_WALLET);
+                }}>
+                    <Translate id='walletMigration.installSender.back' />
+                </StyledButton>
+            </ButtonsContainer>
+        </Modal>
+    )
 }
 
 export default InstallSender;
