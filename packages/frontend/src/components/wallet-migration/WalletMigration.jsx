@@ -1,5 +1,5 @@
 import CryptoJS from 'crypto-js';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
 import { ACCOUNT_ID_SUFFIX } from '../../config';
@@ -53,7 +53,7 @@ const getAccountsData = async (accounts) => {
     }
 
     return accountsData;
-}
+};
 
 const encodeAccountsToURL = async (accounts, publicKey) => {
     const accountsData = await getAccountsData(accounts);
@@ -103,8 +103,8 @@ const WalletMigration = ({ open, onClose }) => {
             window.near.batchImport({ keystore: message });
         } else {
             const url = await encodeAccountsToURL(
-            availableAccounts,
-            state.migrationKey
+                availableAccounts,
+                state.migrationKey
             );
             window.open(url, '_blank');
         }

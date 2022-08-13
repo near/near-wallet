@@ -1,10 +1,11 @@
 import React from 'react';
-import styled from 'styled-components';
 import { Translate } from 'react-localize-redux';
-import Modal from '../common/modal/Modal';
+import styled from 'styled-components';
+
+import SenderLogo from '../../../src/images/sender-logo.png';
 import IconClose from '../../images/IconClose';
 import FormButton from '../common/FormButton';
-import SenderLogo from '../../../src/images/sender-logo.png';
+import Modal from '../common/modal/Modal';
 import { WALLET_MIGRATION_VIEWS } from './WalletMigration';
 
 const Container = styled.div`
@@ -110,7 +111,7 @@ const InstallSender = ({ onClose, handleSetActiveView }) => {
                 </StyledButton>
             </ButtonsContainer>
         </Modal>
-    )
-}
+    );
+};
 
 export default InstallSender;
