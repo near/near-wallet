@@ -54,9 +54,9 @@ const getAccountsData = async (accounts) => {
     return accountsData;
 };
 
-const encryptAccountsData = (accountsData, salt) => {
+const encryptAccountsData = (accountsData, password, salt) => {
     const hasher = CryptoJS.algo.SHA256.create();
-    const key = CryptoJS.PBKDF2(keyToString(state.migrationKey), salt, { iterations: 10000, hasher }).toString();
+    const key = CryptoJS.PBKDF2(password, salt, { iterations: 10000, hasher }).toString();
     const encryptData = CryptoJS.AES.encrypt(JSON.stringify(accountsData), key).toString();
     return encryptData;
 }
@@ -97,7 +97,7 @@ const WalletMigration = ({ open, onClose }) => {
         if (state.walletType === 'sender') {
             const accountsData = await getAccountsData(availableAccounts);
             const salt = generateSalt(12);
-            const encryptData = encryptAccountsData(accountsData, salt);
+            const encryptData = encryptAccountsData(accountsData, keyToString(state.migrationKey), salt);
             const message = {
                 data: encryptData,
                 salt,
