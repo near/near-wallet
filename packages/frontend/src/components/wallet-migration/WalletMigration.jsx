@@ -23,8 +23,7 @@ export const WALLET_MIGRATION_VIEWS = {
 };
 
 const initialState = {
-    // activeView: null,
-    activeView: WALLET_MIGRATION_VIEWS.INSTALL_SENDER,
+    activeView: null,
     walletType: null,
     migrationKey: generatePublicKey()
 };
@@ -54,6 +53,13 @@ const getAccountsData = async (accounts) => {
 
     return accountsData;
 };
+
+const encryptAccountsData = (accountsData, salt) => {
+    const hasher = CryptoJS.algo.SHA256.create();
+    const key = CryptoJS.PBKDF2(keyToString(state.migrationKey), salt, { iterations: 10000, hasher }).toString();
+    const encryptData = CryptoJS.AES.encrypt(JSON.stringify(accountsData), key).toString();
+    return encryptData;
+}
 
 const encodeAccountsToURL = async (accounts, publicKey) => {
     const accountsData = await getAccountsData(accounts);
@@ -89,17 +95,14 @@ const WalletMigration = ({ open, onClose }) => {
 
     const onContinue = useCallback(async () => {
         if (state.walletType === 'sender') {
-            const salt = generateSalt(12);
             const accountsData = await getAccountsData(availableAccounts);
-            const hasher = CryptoJS.algo.SHA256.create();
-            const key = CryptoJS.PBKDF2(keyToString(state.migrationKey), salt, { iterations: 10000, hasher }).toString();
-            const encryptData = CryptoJS.AES.encrypt(JSON.stringify(accountsData), key).toString();
+            const salt = generateSalt(12);
+            const encryptData = encryptAccountsData(accountsData, salt);
             const message = {
                 data: encryptData,
                 salt,
                 network: ACCOUNT_ID_SUFFIX === 'near' ? 'mainnet' : 'testnet',
             };
-            console.log('message: ', message);
             window.near.batchImport({ keystore: message });
         } else {
             const url = await encodeAccountsToURL(
