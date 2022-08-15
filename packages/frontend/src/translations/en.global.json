@@ -1835,7 +1835,7 @@
         },
         "installSender": {
             "title": "Transfer failed",
-            "desc": "Please confirm that you have installed Sender and are using Chrome, Edge, Brave or Kiwi browser.",
+            "desc": "Please confirm that you have installed Sender and are using Chrome, Edge, Brave, or Kiwi browser.",
             "installNow": "Install Now",
             "back": "Back"
         }
