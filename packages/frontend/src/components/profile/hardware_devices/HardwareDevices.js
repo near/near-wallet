@@ -72,7 +72,6 @@ const HardwareDevices = ({
     const [disabling, setDisabling] = useState(false);
     const [confirmDisable, setConfirmDisable] = useState(false);
     const dispatch = useDispatch();
-    // const account = useSelector(selectAccountSlice);
 
     let userRecoveryMethods = recoveryMethods || [];
     const recoveryKeys = userRecoveryMethods.filter((method) => method.kind !== 'ledger').map((key) => key.publicKey);

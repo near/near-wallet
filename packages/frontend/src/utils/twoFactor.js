@@ -53,7 +53,6 @@ export class TwoFactor extends Account2FA {
 
         // additional check if the ledger is not connected but exists as a recovery method
         const userRecoveryMethods = await this.wallet.getRecoveryMethods();
-        console.log('userRecoveryMethods', userRecoveryMethods);
         const accountState = await this.wallet.loadAccount();
         const keys = accountState.fullAccessKeys || [];
         const publicKeys = keys.map((key) => key.public_key);

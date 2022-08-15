@@ -321,7 +321,6 @@ export function Profile({ match }) {
                                 {account.canEnableTwoFactor !== null ? (
                                     <>
                                         <div className='sub-heading'><Translate id='profile.twoFactorDesc'/></div>
-                                        {/* TODO: Also check recovery methods in DB for Ledger */}
                                         <TwoFactorAuth
                                             twoFactor={twoFactor}
                                         />
