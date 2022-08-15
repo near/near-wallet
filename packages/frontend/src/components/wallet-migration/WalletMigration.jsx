@@ -59,7 +59,7 @@ const encryptAccountsData = (accountsData, password, salt) => {
     const key = CryptoJS.PBKDF2(password, salt, { iterations: 10000, hasher }).toString();
     const encryptData = CryptoJS.AES.encrypt(JSON.stringify(accountsData), key).toString();
     return encryptData;
-}
+};
 
 const encodeAccountsToURL = async (accounts, publicKey) => {
     const accountsData = await getAccountsData(accounts);
