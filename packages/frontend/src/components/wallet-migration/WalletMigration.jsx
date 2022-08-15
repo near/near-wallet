@@ -1,4 +1,3 @@
-import CryptoJS from 'crypto-js';
 import React, { useCallback, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
@@ -8,7 +7,6 @@ import { encodeAccountsToHash, generatePublicKey, keyToString } from '../../util
 import { getMyNearWalletUrlFromNEARORG } from '../../utils/getWalletURL';
 import { getLedgerHDPath } from '../../utils/localStorage';
 import { wallet } from '../../utils/wallet';
-import InstallSender from './InstallSender';
 import MigrateAccounts from './MigrateAccounts';
 import MigrationPrompt from './MigrationPrompt';
 import MigrationSecret from './MigrationSecret';
@@ -19,7 +17,6 @@ export const WALLET_MIGRATION_VIEWS = {
     MIGRATION_SECRET: 'MIGRATION_SECRET',
     SELECT_DESTINATION_WALLET: 'SELECT_DESTINATION_WALLET',
     MIGRATE_ACCOUNTS: 'MIGRATE_ACCOUNTS',
-    INSTALL_SENDER: 'INSTALL_SENDER',
 };
 
 const initialState = {
@@ -54,11 +51,13 @@ const getAccountsData = async (accounts) => {
     return accountsData;
 };
 
-const encryptAccountsData = (accountsData, password, salt) => {
-    const hasher = CryptoJS.algo.SHA256.create();
-    const key = CryptoJS.PBKDF2(password, salt, { iterations: 10000, hasher }).toString();
-    const encryptData = CryptoJS.AES.encrypt(JSON.stringify(accountsData), key).toString();
-    return encryptData;
+const encodeAccountsToSender = async (accounts, publicKey) => {
+    const accountsData = await getAccountsData(accounts);
+    const hash = encodeAccountsToHash(accountsData, publicKey);
+    const network = ACCOUNT_ID_SUFFIX === 'near' ? 'mainnet' : 'testnet';
+    const href = `https://sender.org/transfer?keystore=${hash}&network=${network}`;
+
+    return href;
 };
 
 const encodeAccountsToURL = async (accounts, publicKey) => {
@@ -94,23 +93,19 @@ const WalletMigration = ({ open, onClose }) => {
     }, [handleSetActiveView]);
 
     const onContinue = useCallback(async () => {
+        let url = '';
         if (state.walletType === 'sender') {
-            const accountsData = await getAccountsData(availableAccounts);
-            const salt = generateSalt(12);
-            const encryptData = encryptAccountsData(accountsData, keyToString(state.migrationKey), salt);
-            const message = {
-                data: encryptData,
-                salt,
-                network: ACCOUNT_ID_SUFFIX === 'near' ? 'mainnet' : 'testnet',
-            };
-            window.near.batchImport({ keystore: message });
-        } else {
-            const url = await encodeAccountsToURL(
+            url = await encodeAccountsToSender(
                 availableAccounts,
                 state.migrationKey
             );
-            window.open(url, '_blank');
+        } else {
+            url = await encodeAccountsToURL(
+                availableAccounts,
+                state.migrationKey
+            );
         }
+        window.open(url, '_blank');
     }, [state.migrationKey, availableAccounts, state.walletType]);
 
     useEffect(() => {
@@ -154,14 +149,6 @@ const WalletMigration = ({ open, onClose }) => {
                         onClose={onClose}
                     />
                 )}
-            {
-                state.activeView === WALLET_MIGRATION_VIEWS.INSTALL_SENDER && (
-                    <InstallSender
-                        onClose={onClose}
-                        handleSetActiveView={handleSetActiveView}
-                    />
-                )
-            }
         </div>
     );
 };

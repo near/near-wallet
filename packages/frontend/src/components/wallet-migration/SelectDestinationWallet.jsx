@@ -155,11 +155,7 @@ const SelectDestinationWallet = ({ handleSetActiveView, handleSetWalletType, wal
         }
 
         if (walletType === 'sender') {
-            if (window.near) {
-                return handleSetActiveView(WALLET_MIGRATION_VIEWS.MIGRATION_SECRET);
-            } else {
-                return handleSetActiveView(WALLET_MIGRATION_VIEWS.INSTALL_SENDER);
-            }
+            return handleSetActiveView(WALLET_MIGRATION_VIEWS.MIGRATION_SECRET);
         }
     },[ walletType, handleSetActiveView, handleSetWalletType ]);
 
