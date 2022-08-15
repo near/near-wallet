@@ -25,17 +25,6 @@ const initialState = {
     migrationKey: generatePublicKey()
 };
 
-const saltChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-const saltCharsCount = saltChars.length;
-
-export const generateSalt = (digit = 6) => {
-    let salt = '';
-    for (let i = 0; i < digit; i += 1) {
-        salt += saltChars.charAt(Math.floor(Math.random() * saltCharsCount));
-    }
-    return salt;
-};
-
 const getAccountsData = async (accounts) => {
     const accountsData = [];
     for (let i = 0; i < accounts.length; i++) {
