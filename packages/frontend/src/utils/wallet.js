@@ -235,6 +235,24 @@ export default class Wallet {
         return !this.accounts || !Object.keys(this.accounts).length;
     }
 
+    async isLedgerEnabled() {
+        const accessKeys = await this.getAccessKeys();
+        const ledgerKey = accessKeys.find((key) => key.meta.type === 'ledger');
+        if (ledgerKey) {
+            return true;
+        }
+
+        // additional check if the ledger is not connected but exists as a recovery method
+        const userRecoveryMethods = await this.getRecoveryMethods();
+        const accountState = await this.loadAccount();
+        const hasLedger = userRecoveryMethods.some((method) => method.kind === 'ledger');
+        const ledgerIsConnected = accountState.ledgerKey;
+        const hasLedgerButNotConnected = hasLedger && !ledgerIsConnected;
+        if (hasLedgerButNotConnected) {
+            return true;
+        }
+    }
+
     async loadAccount(limitedAccountData = false) {
         if (!this.isEmpty()) {
             const accessKeys = limitedAccountData

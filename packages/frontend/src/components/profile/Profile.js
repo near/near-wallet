@@ -25,7 +25,8 @@ import {
     selectAccountId,
     selectAccountLedgerKey,
     selectAccountExists,
-    selectAccountSlice
+    selectAccountSlice,
+    selectAccountFullAccessKeys
 } from '../../redux/slices/account';
 import { selectAllAccountsHasLockup } from '../../redux/slices/allAccounts';
 import { actions as recoveryMethodsActions, selectRecoveryMethodsByAccountId } from '../../redux/slices/recoveryMethods';
@@ -166,10 +167,11 @@ export function Profile({ match }) {
     const twoFactor = has2fa && userRecoveryMethods && userRecoveryMethods.filter((m) => m.kind.includes('2fa'))[0];
 
     const accountState = useSelector(selectAccountSlice);
-    const keys = accountState.fullAccessKeys || [];
+    const keys = useSelector(selectAccountFullAccessKeys);
     const publicKeys = keys.map((key) => key.public_key);
-    const hasLedger = userRecoveryMethods.filter((method) => method.kind === 'ledger').map((key) => key.publicKey).some((key) => publicKeys.includes(key));
-    const ledgerIsConnected = accountState.ledgerKey;
+    const hasLedger = userRecoveryMethods.some((method) => method.kind === 'ledger');
+
+    const ledgerIsConnected = useSelector(selectAccountLedgerKey);
     const hasLedgerButNotConnected = hasLedger && !ledgerIsConnected;
 
     useEffect(() => {
@@ -314,7 +316,7 @@ export function Profile({ match }) {
                         { (shouldShowEmail || shouldShowPhone) && <h4><Translate id='profile.security.lessSecure'/><Tooltip translate='profile.security.lessSecureDesc' icon='icon-lg'/></h4>}
                         { shouldShowEmail && <RecoveryContainer type='email' recoveryMethods={userRecoveryMethods}/> }
                         { shouldShowPhone && <RecoveryContainer type='phone' recoveryMethods={userRecoveryMethods}/> }
-                        {!account.ledgerKey && !(hasLedgerButNotConnected && !twoFactor) && (
+                        {(twoFactor || !hasLedger) && (
                             <>
                                 <hr/>
                                 <h2><LockIcon/><Translate id='profile.twoFactor'/></h2>

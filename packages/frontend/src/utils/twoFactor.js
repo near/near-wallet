@@ -44,22 +44,8 @@ export class TwoFactor extends Account2FA {
 
     async initTwoFactor(accountId, method) {
         // additional check if the ledger is enabled, in case the user was able to omit disabled buttons
-        const accessKeys = await this.wallet.getAccessKeys();
-        const ledgerKey = accessKeys.find((key) => key.meta.type === 'ledger');
-        // throw error if ledger is enabled
-        if (ledgerKey) {
-            throw new WalletError('Ledger Hardware Wallet is enabled', 'initTwoFactor.ledgerEnabled');
-        }
-
-        // additional check if the ledger is not connected but exists as a recovery method
-        const userRecoveryMethods = await this.wallet.getRecoveryMethods();
-        const accountState = await this.wallet.loadAccount();
-        const keys = accountState.fullAccessKeys || [];
-        const publicKeys = keys.map((key) => key.public_key);
-        const hasLedger = userRecoveryMethods.filter((method) => method.kind === 'ledger').map((key) => key.publicKey).some((key) => publicKeys.includes(key));
-        const ledgerIsConnected = accountState.ledgerKey;
-        const hasLedgerButNotConnected = hasLedger && !ledgerIsConnected;
-        if (hasLedgerButNotConnected) {
+        const isLedgerEnabled = await this.wallet.isLedgerEnabled();
+        if (isLedgerEnabled) {
             throw new WalletError('Ledger Hardware Wallet is enabled', 'initTwoFactor.ledgerEnabled');
         }
 
