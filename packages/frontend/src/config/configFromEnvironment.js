@@ -61,7 +61,7 @@ module.exports = {
     MULTISIG_CONTRACT_HASHES: parseCommaSeperatedStringAsArrayFromShell(
         process.env.MULTISIG_CONTRACT_HASHES
     ),
-    MIGRATION_START_DATE: parseDateFromShell(process.env.MIGRATION_START_DATE || '2022-07-12'),
+    MIGRATION_START_DATE: parseDateFromShell(process.env.MIGRATION_START_DATE || '2022-12-02'),
     MULTISIG_MIN_AMOUNT: process.env.REACT_APP_MULTISIG_MIN_AMOUNT,
     MULTISIG_MIN_PROMPT_AMOUNT:
         process.env.REACT_APP_MULTISIG_MIN_PROMPT_AMOUNT,
@@ -94,5 +94,6 @@ module.exports = {
     FARMING_CLAIM_GAS: process.env.FARMING_CLAIM_GAS || parseNearAmount('0.00000000015'),
     FARMING_CLAIM_YOCTO: process.env.FARMING_CLAIM_YOCTO || '1',
     REF_FINANCE_API_ENDPOINT: process.env.REF_FINANCE_API_ENDPOINT,
-    REF_FINANCE_CONTRACT: process.env.REF_FINANCE_CONTRACT
+    REF_FINANCE_CONTRACT: process.env.REF_FINANCE_CONTRACT,
+    HAPI_PROTOCOL_ADDRESS: process.env.HAPI_PROTOCOL_ADDRESS
 };

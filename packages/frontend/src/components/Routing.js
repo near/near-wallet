@@ -10,7 +10,7 @@ import { connect } from 'react-redux';
 import { Redirect, Switch } from 'react-router-dom';
 import styled, { ThemeProvider } from 'styled-components';
 
-import { SHOW_MIGRATION_BANNER } from '../../../../features';
+import { SHOW_MIGRATION_BANNER, WEB3AUTH } from '../../../../features';
 import favicon from '../../src/images/mynearwallet-cropped.svg';
 import TwoFactorVerifyModal from '../components/accounts/two_factor/TwoFactorVerifyModal';
 import {
@@ -33,6 +33,7 @@ import { SetupLedgerNewAccountWrapper } from '../routes/SetupLedgerNewAccountWra
 import { SetupPassphraseNewAccountWrapper } from '../routes/SetupPassphraseNewAccountWrapper';
 import { SetupRecoveryImplicitAccountWrapper } from '../routes/SetupRecoveryImplicitAccountWrapper';
 import { SignWrapper } from '../routes/SignWrapper';
+import { VerifyOwnerWrapper } from '../routes/VerifyOwnerWrapper';
 import { WalletWrapper } from '../routes/WalletWrapper';
 import translations_en from '../translations/en.global.json';
 import translations_it from '../translations/it.global.json';
@@ -683,6 +684,13 @@ class Routing extends Component {
                                 component={Privacy}
                                 indexBySearchEngines={true}
                             />
+                            {WEB3AUTH && (
+                                <PrivateRoute
+                                    exact
+                                    path="/verify-owner"
+                                    component={VerifyOwnerWrapper}
+                                />
+                            )}
                             <PrivateRoute component={PageNotFound} />
                         </Switch>
                         <Footer />

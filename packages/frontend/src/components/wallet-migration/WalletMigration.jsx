@@ -8,12 +8,10 @@ import { getMyNearWalletUrlFromNEARORG } from '../../utils/getWalletURL';
 import { getLedgerHDPath } from '../../utils/localStorage';
 import { wallet } from '../../utils/wallet';
 import MigrateAccounts from './MigrateAccounts';
-import MigrationPrompt from './MigrationPrompt';
 import MigrationSecret from './MigrationSecret';
 import SelectDestinationWallet from './SelectDestinationWallet';
 
 export const WALLET_MIGRATION_VIEWS = {
-    MIGRATION_PROMPT: 'MIGRATION_PROMPT',
     MIGRATION_SECRET: 'MIGRATION_SECRET',
     SELECT_DESTINATION_WALLET: 'SELECT_DESTINATION_WALLET',
     MIGRATE_ACCOUNTS: 'MIGRATE_ACCOUNTS',
@@ -74,7 +72,7 @@ const WalletMigration = ({ open, onClose }) => {
     }, [handleStateUpdate]);
 
     const showMigrationPrompt = useCallback(() => {
-        handleSetActiveView(WALLET_MIGRATION_VIEWS.MIGRATION_PROMPT);
+        handleSetActiveView(WALLET_MIGRATION_VIEWS.SELECT_DESTINATION_WALLET);
     }, [handleSetActiveView]);
 
     const showMigrateAccount = useCallback(() => {
@@ -99,7 +97,7 @@ const WalletMigration = ({ open, onClose }) => {
 
     useEffect(() => {
         if (open) {
-            handleSetActiveView(WALLET_MIGRATION_VIEWS.MIGRATION_PROMPT);
+            handleSetActiveView(WALLET_MIGRATION_VIEWS.SELECT_DESTINATION_WALLET);
         } else {
             handleSetActiveView(null);
         }
@@ -107,13 +105,6 @@ const WalletMigration = ({ open, onClose }) => {
 
     return (
         <div>
-            {
-                state.activeView === WALLET_MIGRATION_VIEWS.MIGRATION_PROMPT && (
-                    <MigrationPrompt
-                        handleSetActiveView={handleSetActiveView}
-                        onClose={onClose}
-                    />
-                )}
             {
                 state.activeView === WALLET_MIGRATION_VIEWS.MIGRATION_SECRET && (
                     <MigrationSecret

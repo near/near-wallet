@@ -1,0 +1,38 @@
+name: PR
+
+on:
+  pull_request:
+
+concurrency:
+  group: ${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: packages/frontend
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 12.x
+          cache: 'yarn'
+      - run: yarn install --frozen-lockfile
+      - run: yarn lint
+      - run: yarn test
+
+  testnet-bundle-preview:
+    uses: ./.github/workflows/bundle-and-deploy.yml
+    with:
+      environment: testnet-preview
+      near_wallet_env: testnet_STAGING
+    secrets: inherit
+
+  mainnet-bundle-preview:
+    uses: ./.github/workflows/bundle-and-deploy.yml
+    with:
+      environment: mainnet-preview
+      near_wallet_env: mainnet_STAGING
+    secrets: inherit

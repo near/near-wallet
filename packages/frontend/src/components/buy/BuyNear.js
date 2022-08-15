@@ -1,4 +1,3 @@
-import { shuffle } from 'lodash';
 import React, { useState, useEffect, useMemo } from 'react';
 import { Translate } from 'react-localize-redux';
 import { useSelector } from 'react-redux';
@@ -224,7 +223,7 @@ export function BuyNear({ match, location, history }) {
                 <FundingCard
                     title='buyNear.nearPurchaseTitle'
                     subTitle='buyNear.nearPurchaseSubTitle'
-                    actions={shuffle([PayMethods.moonPay, PayMethods.nearPay, PayMethods.utorg, PayMethods.ftx])}
+                    actions={[PayMethods.nearPay, PayMethods.moonPay, PayMethods.utorg, PayMethods.ftx]}
                 />
                 <FundingCard
                     title='buyNear.bridgeTokens'
@@ -237,7 +236,7 @@ export function BuyNear({ match, location, history }) {
                         url: 'https://coinmarketcap.com/currencies/near-protocol/markets/',
                         title: 'buyNear.coinMarketLink'
                     }}
-                    actions={[PayMethods.okex, PayMethods.binance, PayMethods.huobi]}
+                    actions={[PayMethods.okex, PayMethods.binance, PayMethods.huobi, PayMethods.kraken]}
                 />
             </div>
         </StyledContainer>

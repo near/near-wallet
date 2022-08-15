@@ -6,6 +6,7 @@ import allAccounts from '../reducers/allAccounts';
 import sign from '../reducers/sign';
 import staking from '../reducers/staking';
 import status from '../reducers/status';
+import verifyOwner from '../reducers/verifyOwner';
 import availableAccountsSlice from '../slices/availableAccounts';
 import createFromImplicitSlice from '../slices/createFromImplicit';
 import flowLimitationSlice from '../slices/flowLimitation';
@@ -29,6 +30,7 @@ export default (history) => ({
     sign,
     staking,
     status,
+    verifyOwner,
     [nftSlice.name]: nftSlice.reducer,
     [linkdropSlice.name]: linkdropSlice.reducer,
     [transactionsSlice.name]: transactionsSlice.reducer,

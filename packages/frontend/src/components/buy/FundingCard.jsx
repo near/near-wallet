@@ -18,7 +18,6 @@ const Block = styled.div`
     @media (max-width: 580px) {
         grid-template-columns: 1fr;
         grid-template-rows: 1fr;
-        overflow: hidden;
     }
 `;
 const TextWrap = styled.div`
@@ -80,7 +79,9 @@ const Link = styled.div`
     }
 `;
 const FundingTypeWrap = styled.div`
-    margin: 30px 0;
+    @media (max-width: 992px) {
+        margin: 30px 0;
+    }
     
     @media (max-width: 580px) {
         margin: 0;
