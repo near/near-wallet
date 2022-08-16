@@ -94,9 +94,7 @@ const WalletMigration = ({ open, onClose }) => {
         <div>
             {state.activeView === WALLET_MIGRATION_VIEWS.DISABLE_2FA && (
                 <Disable2FAModal
-                    walletType={state.walletType}
                     onClose={onClose}
-                    handleSetWalletType={handleSetWalletType}
                     handleSetActiveView={handleSetActiveView}
                 />
             )}
