@@ -1,31 +1,28 @@
 import React, { useCallback, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
+import { ACCOUNT_ID_SUFFIX } from '../../config';
 import { selectAvailableAccounts } from '../../redux/slices/availableAccounts';
 import { encodeAccountsToHash, generatePublicKey, keyToString } from '../../utils/encoding';
-import { getMyNearWalletUrlFromNEARORG } from '../../utils/getWalletURL';
 import { getLedgerHDPath } from '../../utils/localStorage';
 import { wallet } from '../../utils/wallet';
 import MigrateAccounts from './MigrateAccounts';
 import MigrationSecret from './MigrationSecret';
 import SelectDestinationWallet from './SelectDestinationWallet';
 
-
 export const WALLET_MIGRATION_VIEWS = {
     MIGRATION_SECRET: 'MIGRATION_SECRET',
     SELECT_DESTINATION_WALLET: 'SELECT_DESTINATION_WALLET',
-    MIGRATE_ACCOUNTS: 'MIGRATE_ACCOUNTS'
+    MIGRATE_ACCOUNTS: 'MIGRATE_ACCOUNTS',
 };
 
 const initialState = {
     activeView: null,
-    walletType: null,
+    wallet: null,
     migrationKey: generatePublicKey()
 };
 
-
-
-const encodeAccountsToURL = async (accounts, publicKey) => {
+const getAccountsData = async (accounts) => {
     const accountsData = [];
     for (let i = 0; i < accounts.length; i++) {
         const accountId = accounts[i];
@@ -37,8 +34,14 @@ const encodeAccountsToURL = async (accounts, publicKey) => {
         ]);
     }
 
+    return accountsData;
+};
+
+const encodeAccountsToURL = async (accounts, publicKey, { getUrl }) => {
+    const accountsData = await getAccountsData(accounts);
     const hash = encodeAccountsToHash(accountsData, publicKey);
-    const href = `${getMyNearWalletUrlFromNEARORG()}/batch-import#${hash}`;
+    const networkId = ACCOUNT_ID_SUFFIX === 'near' ? 'mainnet' : 'testnet';
+    const href = getUrl({ hash, networkId });
 
     return href;
 };
@@ -51,29 +54,31 @@ const WalletMigration = ({ open, onClose }) => {
         setState({...state, ...newState});
     };
 
-    const handleSetWalletType = (walletType) => {
-        handleStateUpdate({ walletType });
+    const handleSetWallet = (wallet) => {
+        handleStateUpdate({ wallet });
     };
 
-    const handleSetActiveView = (activeView) => {
+    const handleSetActiveView = useCallback((activeView) => {
         handleStateUpdate({ activeView });
-    };
+    }, [handleStateUpdate]);
 
     const showMigrationPrompt = useCallback(() => {
         handleSetActiveView(WALLET_MIGRATION_VIEWS.SELECT_DESTINATION_WALLET);
-    }, []);
+    }, [handleSetActiveView]);
 
-    const showMigrateAccount = useCallback(async () => {
+    const showMigrateAccount = useCallback(() => {
         handleSetActiveView(WALLET_MIGRATION_VIEWS.MIGRATE_ACCOUNTS);
-    }, [availableAccounts]);
+    }, [handleSetActiveView]);
 
     const onContinue = useCallback(async () => {
-        const url = await encodeAccountsToURL(
+        let url = '';
+        url = await encodeAccountsToURL(
             availableAccounts,
-            state.migrationKey
+            state.migrationKey,
+            state.wallet
         );
         window.open(url, '_blank');
-    }, [state.migrationKey, availableAccounts]);
+    }, [state.migrationKey, availableAccounts, state.wallet]);
 
     useEffect(() => {
         if (open) {
@@ -95,9 +100,9 @@ const WalletMigration = ({ open, onClose }) => {
                 )}
             {state.activeView === WALLET_MIGRATION_VIEWS.SELECT_DESTINATION_WALLET && (
                 <SelectDestinationWallet
-                    walletType={state.walletType}
+                    wallet={state.wallet}
                     onClose={onClose}
-                    handleSetWalletType={handleSetWalletType}
+                    handleSetWallet={handleSetWallet}
                     handleSetActiveView={handleSetActiveView}
                 />
             )}
