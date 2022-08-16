@@ -4,7 +4,6 @@ import { useSelector } from 'react-redux';
 import { ACCOUNT_ID_SUFFIX } from '../../config';
 import { selectAvailableAccounts } from '../../redux/slices/availableAccounts';
 import { encodeAccountsToHash, generatePublicKey, keyToString } from '../../utils/encoding';
-import { getMyNearWalletUrlFromNEARORG } from '../../utils/getWalletURL';
 import { getLedgerHDPath } from '../../utils/localStorage';
 import { wallet } from '../../utils/wallet';
 import MigrateAccounts from './MigrateAccounts';
@@ -19,7 +18,7 @@ export const WALLET_MIGRATION_VIEWS = {
 
 const initialState = {
     activeView: null,
-    walletType: null,
+    wallet: null,
     migrationKey: generatePublicKey()
 };
 
@@ -38,19 +37,11 @@ const getAccountsData = async (accounts) => {
     return accountsData;
 };
 
-const encodeAccountsToSender = async (accounts, publicKey) => {
+const encodeAccountsToURL = async (accounts, publicKey, { getUrl }) => {
     const accountsData = await getAccountsData(accounts);
     const hash = encodeAccountsToHash(accountsData, publicKey);
-    const network = ACCOUNT_ID_SUFFIX === 'near' ? 'mainnet' : 'testnet';
-    const href = `https://sender.org/transfer?keystore=${hash}&network=${network}`;
-
-    return href;
-};
-
-const encodeAccountsToURL = async (accounts, publicKey) => {
-    const accountsData = await getAccountsData(accounts);
-    const hash = encodeAccountsToHash(accountsData, publicKey);
-    const href = `${getMyNearWalletUrlFromNEARORG()}/batch-import#${hash}`;
+    const networkId = ACCOUNT_ID_SUFFIX === 'near' ? 'mainnet' : 'testnet';
+    const href = getUrl({ hash, networkId });
 
     return href;
 };
@@ -63,8 +54,8 @@ const WalletMigration = ({ open, onClose }) => {
         setState({...state, ...newState});
     };
 
-    const handleSetWalletType = (walletType) => {
-        handleStateUpdate({ walletType });
+    const handleSetWallet = (wallet) => {
+        handleStateUpdate({ wallet });
     };
 
     const handleSetActiveView = useCallback((activeView) => {
@@ -81,19 +72,13 @@ const WalletMigration = ({ open, onClose }) => {
 
     const onContinue = useCallback(async () => {
         let url = '';
-        if (state.walletType === 'sender') {
-            url = await encodeAccountsToSender(
-                availableAccounts,
-                state.migrationKey
-            );
-        } else {
-            url = await encodeAccountsToURL(
-                availableAccounts,
-                state.migrationKey
-            );
-        }
+        url = await encodeAccountsToURL(
+            availableAccounts,
+            state.migrationKey,
+            state.wallet
+        );
         window.open(url, '_blank');
-    }, [state.migrationKey, availableAccounts, state.walletType]);
+    }, [state.migrationKey, availableAccounts, state.wallet]);
 
     useEffect(() => {
         if (open) {
@@ -115,9 +100,9 @@ const WalletMigration = ({ open, onClose }) => {
                 )}
             {state.activeView === WALLET_MIGRATION_VIEWS.SELECT_DESTINATION_WALLET && (
                 <SelectDestinationWallet
-                    walletType={state.walletType}
+                    wallet={state.wallet}
                     onClose={onClose}
-                    handleSetWalletType={handleSetWalletType}
+                    handleSetWallet={handleSetWallet}
                     handleSetActiveView={handleSetActiveView}
                 />
             )}
