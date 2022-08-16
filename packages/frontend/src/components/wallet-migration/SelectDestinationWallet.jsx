@@ -9,6 +9,7 @@ import IconLedger from '../../images/wallet-migration/IconLedger';
 import IconWallet from '../../images/wallet-migration/IconWallet';
 import { redirectTo } from '../../redux/actions/account';
 import classNames from '../../utils/classNames';
+import { getMyNearWalletUrlFromNEARORG } from '../../utils/getWalletURL';
 import FormButton from '../common/FormButton';
 import Modal from '../common/modal/Modal';
 import { WALLET_MIGRATION_VIEWS } from './WalletMigration';
@@ -39,6 +40,7 @@ const WALLET_OPTIONS = [
         id: 'my-near-wallet',
         name: 'My NEAR Wallet',
         icon: <img src={ImgMyNearWallet} alt="MyNearWallet Logo" />,
+        getUrl: ({ hash }) => `${getMyNearWalletUrlFromNEARORG()}/batch-import#${hash}`
     },
     {
         id:'ledger',
@@ -49,6 +51,7 @@ const WALLET_OPTIONS = [
         id: 'sender',
         name: 'Sender',
         icon: <img src={SenderLogo} alt="Sender Wallet Logo" />,
+        getUrl: ({ hash, networkId }) => `https://sender.org/transfer?keystore=${hash}&network=${networkId}`
     }
 ];
 
@@ -141,23 +144,18 @@ const StyledButton = styled(FormButton)`
 `;
 
 
-const SelectDestinationWallet = ({ handleSetActiveView, handleSetWalletType, walletType, onClose }) => {
+const SelectDestinationWallet = ({ handleSetActiveView, handleSetWallet, wallet, onClose }) => {
     const dispatch = useDispatch();
 
     const handleContinue = useCallback(() => {
-        handleSetWalletType(walletType);
-        if (walletType === 'my-near-wallet') {
-            return handleSetActiveView(WALLET_MIGRATION_VIEWS.MIGRATION_SECRET);
-        }
-        if (walletType === 'ledger') {
+        handleSetWallet(wallet);
+        if (wallet.id === 'ledger') {
             onClose();
             return  dispatch(redirectTo('/batch-ledger-export'));
-        }
-
-        if (walletType === 'sender') {
+        } else {
             return handleSetActiveView(WALLET_MIGRATION_VIEWS.MIGRATION_SECRET);
         }
-    },[ walletType, handleSetActiveView, handleSetWalletType ]);
+    },[ wallet, handleSetActiveView, handleSetWallet ]);
 
     return (
         <Modal
@@ -172,15 +170,15 @@ const SelectDestinationWallet = ({ handleSetActiveView, handleSetWalletType, wal
                 <IconWallet/>
                 <h4 className='title'><Translate id='walletMigration.selectWallet.title'/></h4>
                 <WalletOptionsListing>
-                    {WALLET_OPTIONS.map(({ id, name, icon }) => {
+                    {WALLET_OPTIONS.map((walletOption) => {
                         return (
                             <WalletOptionsListingItem 
-                                className={classNames([{ active: id === walletType }])}
-                                onClick={() => handleSetWalletType(id)}
-                                key={name}
+                                className={classNames([{ active: walletOption.id === wallet?.id }])}
+                                onClick={() => handleSetWallet(walletOption)}
+                                key={walletOption.name}
                             >
-                                <h4 className='name'>{name}</h4>
-                                {icon}
+                                <h4 className='name'>{walletOption.name}</h4>
+                                {walletOption.icon}
                             </WalletOptionsListingItem>
                         );
                     })}
@@ -189,7 +187,7 @@ const SelectDestinationWallet = ({ handleSetActiveView, handleSetWalletType, wal
                     <StyledButton className="gray-blue" onClick={onClose}>
                         <Translate id='button.cancel' />
                     </StyledButton>
-                    <StyledButton onClick={handleContinue} disabled={!walletType}>
+                    <StyledButton onClick={handleContinue} disabled={!wallet?.id}>
                         <Translate id='button.continue' />
                     </StyledButton>
                 </ButtonsContainer>
