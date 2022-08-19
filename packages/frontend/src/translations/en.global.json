@@ -1843,7 +1843,7 @@
             "desc": "You'll need this <strong>password</strong> to securely import your accounts to MyNearWallet. Copy or write it down until you've completed transferring your accounts."
         },
         "selectWallet": {
-            "title": "Select a wallet to transfer accounts"
+            "title": "Select a wallet to transfer accounts to"
         }
     },
     "warning": "Warning",
