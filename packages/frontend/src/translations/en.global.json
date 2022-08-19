@@ -223,7 +223,7 @@
         "enterKeyForm": {
             "title": "Welcome to MyNearWallet!",
             "desc": "Enter your password to complete importing accounts:",
-            "placeholder": "2cCzKMPiCkFnF5mGbJcPgTGNykvxK4f3xyNAio4q931b",
+            "placeholder": "e.g 2cCzKMPiCkFn...",
             "confirmCaption": "Confirm password",
         },
         "importScreen": {
