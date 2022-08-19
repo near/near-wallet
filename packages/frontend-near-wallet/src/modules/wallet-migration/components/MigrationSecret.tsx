@@ -2,10 +2,9 @@
 import React, { useCallback, useState } from 'react';
 import Button from '../../../components/Button';
 import { styled } from '../../../styles';
-import { getMyNearWalletUrl } from '../../../utils/constants';
-
 import MyNearWalletLogo from '../../../assets/images/ImgMyNearWalletLogo';
 import ClickToCopy from '../../../components/ClickToCopy';
+import CopyIcon from '../../../components/svg/CopyIcon';
 
 const MigrationSecret = ({ secretKey, handleCancel, showMigrateAccount }) => {
     const [shouldContinueDisabled, setContinueDisabled] = useState(true);
@@ -26,6 +25,7 @@ const MigrationSecret = ({ secretKey, handleCancel, showMigrateAccount }) => {
                 onClick={setContinueEnable}>
                 <TextSelectDisplay>
                     {secretKey}
+                <CopyIcon style={{ margin:"5px" }} color='#2B9AF4' />
                 </TextSelectDisplay>
             </ClickToCopy>
             <ButtonsContainer>
