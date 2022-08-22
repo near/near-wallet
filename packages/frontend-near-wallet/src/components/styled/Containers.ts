@@ -52,7 +52,7 @@ export const StyledContainer = styled('div', {
     },
 
     '&.small-centered, &.xs-centered': {
-        maxWidth: '400px',
+        maxWidth: '500px',
 
         '@media(min-width: 768px)': {
             '&.border': {
