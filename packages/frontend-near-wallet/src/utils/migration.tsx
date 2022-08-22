@@ -15,12 +15,12 @@ export const getAvailableAccounts = () => {
     return dataFromLocalStorage ? Object.keys(dataFromLocalStorage) : []
 }
 
-export const getLocalKeyPair = async (accountId) => {
+export const getLocalKeyPair = async (accountId: string) => {
     return keyStore.getKey(NETWORK_ID, accountId);
 }
 
 
-export const getLedgerHDPath = (accountId) => {
+export const getLedgerHDPath = (accountId: string): string | null => {
     return localStorage.getItem(`ledgerHdPath:${accountId}`);
 };
 

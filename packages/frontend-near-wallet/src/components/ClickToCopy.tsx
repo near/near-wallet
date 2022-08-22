@@ -45,8 +45,16 @@ const Container = styled('div', {
     }
 });
 
+interface ClickToCopyProps {
+    className?: string;
+    children?: any;
+    compact?: any; 
+    copy: string;
+    onClick: (e: any) => void;
+    successTranslation?: string;
+}
 
-const ClickToCopy = ({ className, children, compact, copy, onClick, successTranslation = 'default' }) => {
+const ClickToCopy:  React.FC<ClickToCopyProps> = ({ className, children, compact, copy, onClick, successTranslation = 'default' }) => {
     const [show, setShow] = useState(false);
 
     const handleCopy = (e) => {
