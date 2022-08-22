@@ -9,7 +9,7 @@ import { getMyNearWalletUrl, WALLET_MIGRATION_VIEWS } from '../../../utils/const
 import MigrationSecret from '../components/MigrationSecret';
 import MigrateAccounts from '../components/MigrateAccounts';
 import { MigrationContainer } from '../../../components/styled/Containers';
-import { KeyPairEd25519 } from '../../../../dist/index.b3f9cab8';
+import { KeyPairEd25519 } from 'near-api-js/lib/utils/key_pair';
 
 const initialState = {
     activeView: WALLET_MIGRATION_VIEWS.SELECT_DESTINATION_WALLET,
@@ -18,11 +18,11 @@ const initialState = {
 };
 
 const encodeAccountsToURL = async (accounts: string[], publicKey) => {
-    const accountsData: Array<string[]> = [];
+    const accountsData: Array<(string | null)[]> = [];
 
     for (let i = 0; i < accounts.length; i++) {
         const accountId = accounts[i];
-        const keyPair = await getLocalKeyPair(accountId) as typeof KeyPairEd25519;
+        const keyPair = await getLocalKeyPair(accountId) as KeyPairEd25519;
         accountsData.push([accountId, keyPair?.secretKey || '', getLedgerHDPath(accountId)]);
     }
 
