@@ -4,14 +4,15 @@ import { styled } from '../../../styles';
 
 import Button from '../../../components/Button';
 import { WALLET_OPTIONS } from '../../../utils/constants';
+import { StyledContainer } from '../../../components/styled/Containers';
 
 
 
 const SelectDestinationWallet = ({ handleSetWalletType, handleTransferMyAccounts, walletType }) => {
     return (
-        <StyledContainer>
+        <StyledContainer className='small-centered border'>
             <IconWallet />
-            <h4 className='title'>Select a wallet to transfer accounts</h4>
+            <h4 className='title'>Select a wallet to transfer accounts to</h4>
             <WalletOptionsListing>
                 {WALLET_OPTIONS.map(({ id, name, icon }) => {
                     const isSelected = id === walletType;
@@ -34,25 +35,6 @@ const SelectDestinationWallet = ({ handleSetWalletType, handleTransferMyAccounts
 
 export default SelectDestinationWallet;
 
-
-
-const StyledContainer = styled('div', {
-    maxWidth: '396px',
-    margin: '0 auto',
-    padding: '0 20px',
-    height: '100vh',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    textAlign: 'center',
-
-    '& .title': {
-        fontWeight: 800,
-        fontSize: '20px',
-        marginTop: '40px',
-    }
-})
 
 const WalletOptionsListing = styled('div', {
     marginTop: '40px',

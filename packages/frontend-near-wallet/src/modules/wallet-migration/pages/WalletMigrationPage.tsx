@@ -8,6 +8,7 @@ import SelectDestinationWallet from '../components/SelectDestinationWallet';
 import { getMyNearWalletUrl, WALLET_MIGRATION_VIEWS } from '../../../utils/constants';
 import MigrationSecret from '../components/MigrationSecret';
 import MigrateAccounts from '../components/MigrateAccounts';
+import { MigrationContainer } from '../../../components/styled/Containers';
 
 const initialState = {
     activeView: WALLET_MIGRATION_VIEWS.SELECT_DESTINATION_WALLET,
@@ -60,7 +61,7 @@ const WalletMigrationPage = () => {
     }, [])
 
     return (
-        showContent ? <div>
+        showContent ? <MigrationContainer>
             {state.activeView === WALLET_MIGRATION_VIEWS.MIGRATION_PROMPT &&
                 <MigrationPrompt
                     handleTransferMyAccounts={() => handleStateUpdate({ activeView: WALLET_MIGRATION_VIEWS.MIGRATION_SECRET })}
@@ -88,7 +89,7 @@ const WalletMigrationPage = () => {
                     onContinue={onContinue}
                 />
             }
-        </div> : null
+        </MigrationContainer> : null
     );
 };
 

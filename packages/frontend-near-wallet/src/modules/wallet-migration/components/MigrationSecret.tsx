@@ -5,6 +5,7 @@ import { styled } from '../../../styles';
 import MyNearWalletLogo from '../../../assets/images/ImgMyNearWalletLogo';
 import ClickToCopy from '../../../components/ClickToCopy';
 import CopyIcon from '../../../components/svg/CopyIcon';
+import { StyledContainer } from '../../../components/styled/Containers';
 
 const MigrationSecret = ({ secretKey, handleCancel, showMigrateAccount }) => {
     const [shouldContinueDisabled, setContinueDisabled] = useState(true);
@@ -14,7 +15,7 @@ const MigrationSecret = ({ secretKey, handleCancel, showMigrateAccount }) => {
     }, []);
 
     return (
-        <StyledContainer>
+        <StyledContainer className="small-centered border">
             <MyNearWalletLogo className="logo" />
             <h3 className='ttl'>Password required to import accounts</h3>
             <p className='desc'>
@@ -42,32 +43,6 @@ const MigrationSecret = ({ secretKey, handleCancel, showMigrateAccount }) => {
 
 export default MigrationSecret;
 
-const StyledContainer = styled('section', {
-    maxWidth: '400px',
-    margin: '0 auto',
-    padding: '0 20px',
-    height: '100vh',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    textAlign: 'center',
-
-    '& > .logo': {
-        maxWidth: '200px',
-        width: '100%',
-    },
-
-    '& > .ttl': {
-        margin: '0 auto 24px',
-        textAlign: 'center',
-        fontWeight: 800,
-    },
-
-    '& > .desc': {
-        color: '#72727A'
-    }
-})
 
 const TextSelectDisplay = styled('div', {
     display: "flex",

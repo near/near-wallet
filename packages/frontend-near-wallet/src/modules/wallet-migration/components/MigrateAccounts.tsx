@@ -7,12 +7,13 @@ import { styled } from '../../../styles';
 import IconAccount from '../../../assets/images/IconAccount';
 import IconMigrateAccount from '../../../assets/images/IconMigrateAccount';
 import { getAvailableAccounts } from '../../../utils/migration';
+import { StyledContainer } from '../../../components/styled/Containers';
 
 const MigrateAccounts = ({ onContinue, onClose }) => {
     const accounts = getAvailableAccounts()
 
     return (
-        <StyledContainer>
+        <StyledContainer className='small-centered border'>
             <IconMigrateAccount />
             <h3 className='ttl'>We found {accounts.length} active account(s)</h3>
             <p className='desc'>
@@ -43,31 +44,6 @@ const MigrateAccounts = ({ onContinue, onClose }) => {
 
 export default MigrateAccounts;
 
-const StyledContainer = styled('section', {
-    maxWidth: '400px',
-    margin: '0 auto',
-    padding: '0 20px',
-    height: '100vh',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    textAlign: 'center',
-
-    '& > svg': {
-        marginBottom: '16px',
-    },
-
-    '& > .ttl': {
-        margin: '0 auto 24px',
-        textAlign: 'center',
-        fontWeight: 800,
-    },
-
-    '& > .desc': {
-        color: '#72727A'
-    }
-})
 
 const AccountListing = styled('div', {
     width: '100%',

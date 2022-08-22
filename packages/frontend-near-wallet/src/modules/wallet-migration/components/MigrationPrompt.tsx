@@ -5,12 +5,13 @@ import { styled } from '../../../styles';
 import Button from '../../../components/Button';
 
 import MyNearWalletLogo from '../../../assets/images/ImgMyNearWalletLogo';
+import { StyledContainer } from '../../../components/styled/Containers';
 
 const MigrationPrompt = ({ handleTransferMyAccounts, handleUseDifferentWallet }) => {
     const destinationWalletBaseUrl = getMyNearWalletUrl();
 
     return (
-        <StyledContainer>
+        <StyledContainer className="small-centered border">
             <MyNearWalletLogo className="logo" />
             <h3 className='ttl'>We’ve moved!</h3>
             <p className='desc'>
@@ -31,33 +32,6 @@ const MigrationPrompt = ({ handleTransferMyAccounts, handleUseDifferentWallet })
 };
 
 export default MigrationPrompt;
-
-const StyledContainer = styled('section', {
-    maxWidth: '396px',
-    margin: '0 auto',
-    padding: '0 20px',
-    height: '100vh',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    textAlign: 'center',
-
-    '& > .logo': {
-        maxWidth: '200px',
-        width: '100%',
-    },
-
-    '& > .ttl': {
-        margin: '0 auto 24px',
-        textAlign: 'center',
-        fontWeight: 800,
-    },
-
-    '& > .desc': {
-        color: '#72727A'
-    }
-})
 
 const ButtonsContainer = styled('div', {
     marginTop: '72px',
