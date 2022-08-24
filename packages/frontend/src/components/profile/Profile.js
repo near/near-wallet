@@ -1,6 +1,6 @@
 import BN from 'bn.js';
 import { formatNearAmount } from 'near-api-js/lib/utils/format';
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import { Translate } from 'react-localize-redux';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
@@ -24,7 +24,9 @@ import {
     selectAccountHasLockup,
     selectAccountId,
     selectAccountLedgerKey,
-    selectAccountExists
+    selectAccountExists,
+    selectAccountSlice,
+    selectAccountFullAccessKeys
 } from '../../redux/slices/account';
 import { selectAllAccountsHasLockup } from '../../redux/slices/allAccounts';
 import { actions as recoveryMethodsActions, selectRecoveryMethodsByAccountId } from '../../redux/slices/recoveryMethods';
@@ -164,6 +166,14 @@ export function Profile({ match }) {
     const userRecoveryMethods = useSelector((state) => selectRecoveryMethodsByAccountId(state, { accountId: account.accountId }));
     const twoFactor = has2fa && userRecoveryMethods && userRecoveryMethods.filter((m) => m.kind.includes('2fa'))[0];
 
+    const accountState = useSelector(selectAccountSlice);
+    const keys = useSelector(selectAccountFullAccessKeys);
+    const publicKeys = keys.map((key) => key.public_key);
+    const hasLedger = userRecoveryMethods.some((method) => method.kind === 'ledger');
+
+    const ledgerIsConnected = useSelector(selectAccountLedgerKey);
+    const hasLedgerButNotConnected = hasLedger && !ledgerIsConnected;
+
     useEffect(() => {
         if (!loginAccountId) {
             return;
@@ -172,7 +182,7 @@ export function Profile({ match }) {
         if (accountIdFromUrl && accountIdFromUrl !== accountIdFromUrl.toLowerCase()) {
             dispatch(redirectTo(`/profile/${accountIdFromUrl.toLowerCase()}`));
         }
-        
+
         (async () => {
             if (isOwner) {
                 await dispatch(fetchRecoveryMethods({ accountId }));
@@ -212,8 +222,8 @@ export function Profile({ match }) {
             let id = Mixpanel.get_distinct_id();
             Mixpanel.identify(id);
             Mixpanel.people.set({
-                create_2FA_at: twoFactor.createdAt, 
-                enable_2FA_kind:twoFactor.kind, 
+                create_2FA_at: twoFactor.createdAt,
+                enable_2FA_kind:twoFactor.kind,
                 enabled_2FA: twoFactor.confirmed});
         }
     }, [twoFactor]);
@@ -230,6 +240,9 @@ export function Profile({ match }) {
     };
 
     const MINIMUM_AVAILABLE_TO_TRANSFER = new BN('10000000000000000000000');
+
+    const shouldShowEmail = userRecoveryMethods.some(({ kind }) => kind === 'email');
+    const shouldShowPhone = userRecoveryMethods.some(({ kind }) => kind === 'phone');
 
     return (
         <StyledContainer>
@@ -289,20 +302,30 @@ export function Profile({ match }) {
                     <div className='right'>
                         <h2><ShieldIcon/><Translate id='profile.security.title'/></h2>
                         <h4><Translate id='profile.security.mostSecure'/><Tooltip translate='profile.security.mostSecureDesc' icon='icon-lg'/></h4>
-                        {!twoFactor && <HardwareDevices recoveryMethods={userRecoveryMethods}/>}
+                        {!twoFactor && (
+                            <HardwareDevices 
+                                recoveryMethods={userRecoveryMethods} 
+                                account={accountState}
+                                publicKeys={publicKeys}
+                                hasLedger={hasLedger}
+                                ledgerIsConnected={ledgerIsConnected}
+                                hasLedgerButNotConnected={hasLedgerButNotConnected}
+                            />
+                        )}
                         <RecoveryContainer type='phrase' recoveryMethods={userRecoveryMethods}/>
-                        <h4><Translate id='profile.security.lessSecure'/><Tooltip translate='profile.security.lessSecureDesc' icon='icon-lg'/></h4>
-                        <RecoveryContainer type='email' recoveryMethods={userRecoveryMethods}/>
-                        <RecoveryContainer type='phone' recoveryMethods={userRecoveryMethods}/>
-                        {!account.ledgerKey && (
+                        { (shouldShowEmail || shouldShowPhone) && <h4><Translate id='profile.security.lessSecure'/><Tooltip translate='profile.security.lessSecureDesc' icon='icon-lg'/></h4>}
+                        { shouldShowEmail && <RecoveryContainer type='email' recoveryMethods={userRecoveryMethods}/> }
+                        { shouldShowPhone && <RecoveryContainer type='phone' recoveryMethods={userRecoveryMethods}/> }
+                        {(twoFactor || !hasLedger) && (
                             <>
                                 <hr/>
                                 <h2><LockIcon/><Translate id='profile.twoFactor'/></h2>
                                 {account.canEnableTwoFactor !== null ? (
                                     <>
                                         <div className='sub-heading'><Translate id='profile.twoFactorDesc'/></div>
-                                        {/* TODO: Also check recovery methods in DB for Ledger */}
-                                        <TwoFactorAuth twoFactor={twoFactor}/>
+                                        <TwoFactorAuth
+                                            twoFactor={twoFactor}
+                                        />
                                     </>
                                 ) : (
                                     <SkeletonLoading

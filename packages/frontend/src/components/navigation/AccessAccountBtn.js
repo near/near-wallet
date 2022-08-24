@@ -19,7 +19,7 @@ const Button = styled(FormButton)`
 `;
 
 const AccessAccountBtn = () => (
-    <Button linkTo='/recover-account' trackingId='IE Click add account button'>
+    <Button linkTo='/recover-account' trackingId='IE Click add account button' id='IE Click add account button'>
         <ImportIcon/>
         <Translate id='button.importAccount'/>
     </Button>

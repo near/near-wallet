@@ -3,6 +3,8 @@ const { parseSeedPhrase } = require("near-seed-phrase");
 const assert = require("assert");
 const { random } = require("lodash");
 const { BN } = require("bn.js");
+const bip39Light = require("bip39-light");
+const sha256 = require('js-sha256');
 
 const generateNUniqueRandomNumbersInRange = ({ from, to }, n) => {
     assert(n <= Math.abs(from - to) + 1, "Range needs to have at least N unique numbers");
@@ -22,7 +24,7 @@ function generateTestAccountId() {
 }
 
 function getTestAccountSeedPhrase(testAccountId) {
-    return `${testAccountId} ${process.env.TEST_ACCOUNT_SEED_PHRASE}`;
+    return bip39Light.entropyToMnemonic(sha256(testAccountId));
 }
 
 function getWorkerAccountId(workerIndex) {

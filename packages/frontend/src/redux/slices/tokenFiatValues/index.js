@@ -4,11 +4,9 @@ import mergeWith from 'lodash.mergewith';
 import omit from 'lodash.omit';
 import { createSelector } from 'reselect';
 
-import FungibleTokens from '../../../services/FungibleTokens';
 import FiatValueManager from '../../../utils/fiatValueManager';
 import handleAsyncThunkStatus from '../../reducerStatus/handleAsyncThunkStatus';
 import initialStatusState from '../../reducerStatus/initialState/initialStatusState';
-import { getCachedContractMetadataOrFetch } from '../tokensMetadata';
 
 const SLICE_NAME = 'tokenFiatValues';
 const fiatValueManager = new FiatValueManager();
@@ -23,24 +21,9 @@ const fetchRefFinanceFiatValues = createAsyncThunk(
 );
 const fetchTokenFiatValues = createAsyncThunk(
     `${SLICE_NAME}/fetchTokenFiatValues`,
-    async ({accountId}, {dispatch, getState}) => {
-        const ownedTokens = [];
-        if (accountId) {
-            const likelyContracts = await FungibleTokens.getLikelyTokenContracts({ accountId });
-            await Promise.all(likelyContracts.map(async (contractName) => {
-                let symbol;
-                try {
-                    const metadata = await getCachedContractMetadataOrFetch(contractName, getState());
-                    symbol = metadata.symbol;
-                } finally { 
-                    if (symbol) {
-                        ownedTokens.push(symbol);
-                    }
-                }
-            }));
-        }
-        return Promise.all([
-            dispatch(fetchCoinGeckoFiatValues([...ownedTokens, 'near'])),
+    async (_, {dispatch, getState}) => {
+        return Promise.allSettled([
+            dispatch(fetchCoinGeckoFiatValues(['near', 'usn'])),
             dispatch(fetchRefFinanceFiatValues()),
         ]);
     }

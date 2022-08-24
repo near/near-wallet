@@ -135,6 +135,7 @@ const RecoverAccount = ({
                             linkTo={`/recover-seed-phrase${locationSearch}`}
                             onClick={() => Mixpanel.track('IE Click seed phrase recovery button')}
                             data-test-id="recoverAccountWithPassphraseButton"
+                            id='IE Click seed phrase recovery button'
                         >
                             <Translate id='button.recoverAccount' />
                         </FormButton>
@@ -146,6 +147,7 @@ const RecoverAccount = ({
                             color='seafoam-blue'
                             linkTo={`/sign-in-ledger${locationSearch}`}
                             onClick={() => Mixpanel.track('IE Click ledger recovery button')}
+                            id='IE Click ledger recovery button'
                         >
                             <Translate id='button.signInLedger' />
                         </FormButton>

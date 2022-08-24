@@ -19,7 +19,7 @@ export const useFungibleTokensIncludingNEAR = function ({ showTokensWithZeroBala
     const fungibleTokensWithPrices = fungibleTokens.map((ft) => {
         let fiatValueMetadata;
         if (ft.fiatValueMetadata?.usd) {
-            fiatValueMetadata = ft.fiatValueMetadata.usd;
+            fiatValueMetadata = ft.fiatValueMetadata;
         } else {
             fiatValueMetadata = fungibleTokenPrices[ft.onChainFTMetadata.symbol] ?
                 {...fungibleTokenPrices[ft.onChainFTMetadata.symbol]} :

@@ -41,6 +41,7 @@ export const WALLET_INITIAL_DEPOSIT_URL = 'initial-deposit';
 export const WALLET_LINKDROP_URL = 'linkdrop';
 export const WALLET_RECOVER_ACCOUNT_URL = 'recover-account';
 export const WALLET_SEND_MONEY_URL = 'send-money';
+export const WALLET_VERIFY_OWNER_URL = 'verify-owner';
 
 const {
     ACCESS_KEY_FUNDING_AMOUNT,
@@ -232,6 +233,24 @@ export default class Wallet {
 
     isEmpty() {
         return !this.accounts || !Object.keys(this.accounts).length;
+    }
+
+    async isLedgerEnabled() {
+        const accessKeys = await this.getAccessKeys();
+        const ledgerKey = accessKeys.find((key) => key.meta.type === 'ledger');
+        if (ledgerKey) {
+            return true;
+        }
+
+        // additional check if the ledger is not connected but exists as a recovery method
+        const userRecoveryMethods = await this.getRecoveryMethods();
+        const accountState = await this.loadAccount();
+        const hasLedger = userRecoveryMethods.some((method) => method.kind === 'ledger');
+        const ledgerIsConnected = accountState.ledgerKey;
+        const hasLedgerButNotConnected = hasLedger && !ledgerIsConnected;
+        if (hasLedgerButNotConnected) {
+            return true;
+        }
     }
 
     async loadAccount(limitedAccountData = false) {
@@ -640,6 +659,15 @@ export default class Wallet {
 
     async addLedgerAccessKey(path, accountIdOverride) {
         const accountId = accountIdOverride || this.accountId;
+
+        // additional check if the 2fa is enabled, in case the user was able to omit disabled buttons
+        const account = new nearApiJs.Account(this.connection, accountId);
+        const has2fa = await TwoFactor.has2faEnabled(account);
+        // throw error if 2fa is enabled
+        if (has2fa) {
+            throw new WalletError('Two-Factor Authentication is enabled', 'addLedgerAccessKey.2faEnabled');
+        }
+
         const ledgerPublicKey = await this.getLedgerPublicKey(path);
         const accessKeys = await this.getAccessKeys(accountId);
         const accountHasLedgerKey = accessKeys.some((key) => key.public_key === ledgerPublicKey.toString());
@@ -1125,6 +1153,22 @@ export default class Wallet {
         const actions = Object.keys(actionStatus).filter((action) => actionStatus[action]?.pending === true);
         const action = actions.length ? actions[actions.length - 1] : false;
         store.dispatch(showLedgerModal({ show, action }));
+    }
+
+    async signMessage(message, accountId = this.accountId) {
+        const account = await this.getAccount(accountId);
+        const signer = account.inMemorySigner || account.connection.signer;
+        const signed = await signer.signMessage(Buffer.from(message), accountId, NETWORK_ID);
+        return {
+            accountId,
+            signed
+        };
+    }
+
+    async getPublicKey(accountId = this.accountId) {
+        const account = await this.getAccount(accountId);
+        const signer = account.inMemorySigner || account.connection.signer;
+        return signer.getPublicKey(accountId, NETWORK_ID);
     }
 }
 
