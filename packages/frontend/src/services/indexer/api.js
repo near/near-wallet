@@ -1,7 +1,8 @@
+import { stringifyUrl } from 'query-string';
+
 import { INDEXER_SERVICE_URL } from '../../config';
 import sendJson from '../../tmp_fetch_send_json';
 import { CUSTOM_REQUEST_HEADERS } from '../../utils/constants';
-import { buildUrlOptParam } from '../../utils/url';
 
 export default {
     listAccountsByPublicKey: (publicKey) => {
@@ -12,18 +13,17 @@ export default {
             .then((res) => res.json());
     },
     listLikelyNfts: (accountId, timestamp) => {
-        const url = `${INDEXER_SERVICE_URL}/account/${accountId}/likelyNFTs`;
-
-        return sendJson('GET', buildUrlOptParam(url, {
+        const url = `${INDEXER_SERVICE_URL}/account/${accountId}/likelyNFTsFromBlock`;
+        return sendJson('GET', stringifyUrl({ url, query: {
             fromBlockTimestamp: timestamp
-        }));
+        }}));
     },
     listLikelyTokens: (accountId, timestamp) => {
-        const url = `${INDEXER_SERVICE_URL}/account/${accountId}/likelyTokens`;
+        const url = `${INDEXER_SERVICE_URL}/account/${accountId}/likelyTokensFromBlock`;
 
-        return sendJson('GET', buildUrlOptParam(url, {
+        return sendJson('GET', stringifyUrl({ url, query: {
             fromBlockTimestamp: timestamp
-        }));
+        }}));
     },
     listRecentTransactions: (accountId) => {
         return fetch(`${INDEXER_SERVICE_URL}/account/${accountId}/activity`, {

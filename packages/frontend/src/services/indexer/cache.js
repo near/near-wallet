@@ -2,7 +2,6 @@ import Cache from '../../utils/cache';
 
 export class IndexerCache extends Cache {
     static DB_VERSION = 1;
-    static CACHE_VERSION = 1;
     static STORE_NAME = 'IndexerCache';
     static INDEX_NAME = 'Kind';
 
@@ -27,7 +26,6 @@ export class IndexerCache extends Cache {
             IndexerCache.INDEX_NAME, [
                 'account.id',
                 'account.kind',
-                'account.version'
             ],
             {
                 unique: true
@@ -38,7 +36,7 @@ export class IndexerCache extends Cache {
     _getRecord(accountId, kind) {
         return new Promise(async (resolve, reject) => {
             const store = await this.getIndexStore();
-            const query = store.get([accountId, kind, IndexerCache.CACHE_VERSION]);
+            const query = store.get([accountId, kind]);
 
             query.onsuccess = (event) => {
                 resolve(event.target.result);
@@ -56,7 +54,6 @@ export class IndexerCache extends Cache {
                 account: {
                     id: accountId,
                     kind,
-                    version: IndexerCache.CACHE_VERSION,
                 },
                 data
             };
@@ -108,7 +105,7 @@ export class IndexerCache extends Cache {
             const lastTimestamp = record?.data?.timestamp;
 
             if (this._shouldUpdate(lastTimestamp, timeout)) {
-                const { lastBlockTimestamp, list } = await updater(lastTimestamp);
+                let { version, lastBlockTimestamp, list = [] } = await updater(lastTimestamp);
 
                 const prev = record?.data?.list || [];
 
@@ -116,9 +113,17 @@ export class IndexerCache extends Cache {
                 const updated = {
                     timestamp: lastBlockTimestamp,
                     list: Array.from(onlyUniqValues),
+                    version,
                 };
 
                 if (Boolean(record)) {
+                    // If the version is updated on the helper
+                    // we should rescan from the beginning of the blockchain
+                    const isVersionChanged = version !== record.version;
+                    if (isVersionChanged) {
+                        record.timestamp = 0;
+                    }
+
                     await this._updateRecord(accountId, kind, updated);
                 } else {
                     await this._addRecord(accountId, kind, updated);
@@ -127,10 +132,11 @@ export class IndexerCache extends Cache {
                 return updated.list;
             }
         } catch (e) {
+            // Updater request or IndexedDB can throw Error
             console.error(e);
         }
 
-        return record.data?.list;
+        return record.data?.list || [];
     }
 }
 
