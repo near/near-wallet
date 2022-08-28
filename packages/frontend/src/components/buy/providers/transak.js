@@ -13,6 +13,7 @@ export function buildTransakPayLink(accountId) {
             // As they will not see their address anywhere during process
             // disableWalletAddressForm: 'true',
             defaultCryptoAmount: '10',
+            defaultCryptoCurrency: 'NEAR',
             redirectUrl: window.location.origin
         },
     };
