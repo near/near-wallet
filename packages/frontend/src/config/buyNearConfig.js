@@ -20,7 +20,7 @@ export const getPayMethods = ({
 }) => {
     const paymentMethods = {
         moonPay: {
-            disabled: accountId && moonPayAvailable,
+            disabled: accountId && !moonPayAvailable,
             icon: monoPay,
             name: 'MoonPay',
             link: signedMoonPayUrl,
