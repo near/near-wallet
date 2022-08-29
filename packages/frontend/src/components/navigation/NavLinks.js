@@ -124,7 +124,7 @@ const NavLinks = () => (
             <UserIcon/>
             <Translate id='link.account'/>
         </NavLink>
-        <a href={isWhitelabel() ? 'https://support.mynearwallet.com/en' : 'https://nearhelp.zendesk.com/'} target='_blank' rel='noopener noreferrer' onClick={() => Mixpanel.track('Click Help button on nav')}>
+        <a href={isWhitelabel ? 'https://support.mynearwallet.com/en' : 'https://nearhelp.zendesk.com/'} target='_blank' rel='noopener noreferrer' onClick={() => Mixpanel.track('Click Help button on nav')}>
             <HelpIcon/>
             <Translate id='link.help'/>
         </a>

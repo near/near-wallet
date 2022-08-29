@@ -322,7 +322,7 @@ export function Wallet({
         currentLanguage
     );
 
-    const shouldShowRemoveLinkRecoveryBanner = !isWhitelabel() && (userRecoveryMethods.some(({ kind }) => kind === 'email')
+    const shouldShowRemoveLinkRecoveryBanner = !isWhitelabel && (userRecoveryMethods.some(({ kind }) => kind === 'email')
         || userRecoveryMethods.some(({ kind }) => kind === 'phone'));
 
     return (

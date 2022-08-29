@@ -184,7 +184,7 @@ class MobileContainer extends Component {
             <Container className={menuOpen ? 'show' : ''} id='mobile-menu'>
                 <Collapsed>
                     {
-                        isWhitelabel() ?
+                        isWhitelabel ?
                             <Logo link={!flowLimitationMainMenu} mode='mobile' /> :
                             <DeprecatedLogo link={!flowLimitationMainMenu}/>
                     }
