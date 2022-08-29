@@ -23,7 +23,7 @@ const fetchTokenFiatValues = createAsyncThunk(
     `${SLICE_NAME}/fetchTokenFiatValues`,
     async (_, {dispatch, getState}) => {
         return Promise.allSettled([
-            dispatch(fetchCoinGeckoFiatValues(['near', 'usn'])),
+            dispatch(fetchCoinGeckoFiatValues(['near', 'usn', 'jumbo-exchange'])),
             dispatch(fetchRefFinanceFiatValues()),
         ]);
     }
