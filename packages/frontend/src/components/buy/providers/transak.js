@@ -18,6 +18,5 @@ export function buildTransakPayLink(accountId) {
         },
     };
 
-    const str = stringifyUrl(url);
-    return str;
+    return stringifyUrl(url);
 }

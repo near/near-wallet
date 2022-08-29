@@ -196,11 +196,14 @@ export function BuyNear({ match, location, history }) {
     }, [accountId]);
 
     const PayMethods = useMemo(
-        () => {
-            const paymentMethods = getPayMethods({ accountId, transakPayUrl, moonPayAvailable, signedMoonPayUrl, utorgPayUrl, ftxPayUrl });
-
-            return paymentMethods;
-        },
+        () => getPayMethods({
+            accountId,
+            transakPayUrl,
+            moonPayAvailable,
+            signedMoonPayUrl,
+            utorgPayUrl,
+            ftxPayUrl
+        }),
         [accountId, moonPayAvailable, signedMoonPayUrl, utorgPayUrl]
     );
 
@@ -218,9 +221,15 @@ export function BuyNear({ match, location, history }) {
         );
     };
 
-    // To avoid user confusion with MNW logo being featured in emails
-    // Only allow Transak on MNW domains
-    const onrampMethods = [PayMethods.moonPay, isWhitelabel() ? PayMethods.transak : null, PayMethods.utorg, PayMethods.nearPay, PayMethods.ftx].filter((v) => !!v);
+    const onrampMethods = [
+        PayMethods.moonPay,
+        // To avoid user confusion with MNW logo being featured in emails
+        // only allow Transak on MNW domains
+        isWhitelabel() ? PayMethods.transak : null,
+        PayMethods.utorg,
+        PayMethods.nearPay,
+        PayMethods.ftx
+    ].filter((v) => !!v);
 
     return (
         <StyledContainer>
