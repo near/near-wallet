@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Translate } from 'react-localize-redux';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
@@ -196,14 +196,6 @@ const StyledContainer = styled.div`
 
 export default function NFTTransferModal({ open, onClose, nft, accountId }) {
     const [receiverId, setReceiverId] = useState('');
-    const [shortReceiverId, setShortReceiverId] = useState(shortenAccountId(receiverId));
-
-    useEffect(() => {
-        if (receiverId) {
-            setShortReceiverId(shortenAccountId(receiverId));
-        }
-    }, [receiverId]);
-
     const [result, setResult] = useState();
     const [sending, setSending] = useState(false);
     const [viewType, setViewType] = useState('selectReceiver');
@@ -320,14 +312,14 @@ export default function NFTTransferModal({ open, onClose, nft, accountId }) {
                         <div className='from-box'>
                             <span className='confirm-txt v-center'><Translate id='transfer.from' /></span>
                             <span className='h-right v-center'>
-                                <span className='account-id'>{accountId}</span>
+                                <span className='account-id'>{shortenAccountId(accountId)}</span>
                                 <Balance amount={nearBalance} showBalanceInUSD={false} />
                             </span>
                         </div>
                         <div className='line'></div>
                         <div className='to-box'>
                             <span className='confirm-txt v-center'><Translate id='transfer.to' /></span>
-                            <span className='h-right v-center account-id'>{shortReceiverId}</span>
+                            <span className='h-right v-center account-id'>{shortenAccountId(receiverId)}</span>
                         </div>
                     </div>
 
