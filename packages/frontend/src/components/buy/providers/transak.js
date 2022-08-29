@@ -9,9 +9,7 @@ export function buildTransakPayLink(accountId) {
             apiKey: TRANSAK_API_KEY,
             cryptoCurrencyList: 'NEAR',
             walletAddress: accountId,
-            // Disabled, because ay confuse users 
-            // As they will not see their address anywhere during process
-            // disableWalletAddressForm: 'true',
+            disableWalletAddressForm: true,
             defaultCryptoAmount: '10',
             defaultCryptoCurrency: 'NEAR',
             redirectUrl: window.location.origin
