@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Translate } from 'react-localize-redux';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
@@ -11,6 +11,7 @@ import { actions as ledgerActions } from '../../redux/slices/ledger';
 import { actions as nftActions } from '../../redux/slices/nft';
 import { selectStatusLocalAlert } from '../../redux/slices/status';
 import NonFungibleTokens from '../../services/NonFungibleTokens';
+import { shortenAccountId } from '../../utils/account';
 import isMobile from '../../utils/isMobile';
 import Balance from '../common/balance/Balance';
 import FormButton from '../common/FormButton';
@@ -195,6 +196,14 @@ const StyledContainer = styled.div`
 
 export default function NFTTransferModal({ open, onClose, nft, accountId }) {
     const [receiverId, setReceiverId] = useState('');
+    const [shortReceiverId, setShortReceiverId] = useState(shortenAccountId(receiverId));
+
+    useEffect(() => {
+        if (receiverId) {
+            setShortReceiverId(shortenAccountId(receiverId));
+        }
+    }, [receiverId]);
+
     const [result, setResult] = useState();
     const [sending, setSending] = useState(false);
     const [viewType, setViewType] = useState('selectReceiver');
@@ -318,7 +327,7 @@ export default function NFTTransferModal({ open, onClose, nft, accountId }) {
                         <div className='line'></div>
                         <div className='to-box'>
                             <span className='confirm-txt v-center'><Translate id='transfer.to' /></span>
-                            <span className='h-right v-center account-id'>{receiverId}</span>
+                            <span className='h-right v-center account-id'>{shortReceiverId}</span>
                         </div>
                     </div>
 
