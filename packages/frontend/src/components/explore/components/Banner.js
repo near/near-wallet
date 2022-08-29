@@ -17,6 +17,10 @@ const BannerLink = styled(Link)`
   justify-content: space-between;
   padding: 0 60px;
 
+  &:hover span {
+    box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.2)
+  }
+
   @media (max-width: 768px) {
     padding: 0 30px;
   }
