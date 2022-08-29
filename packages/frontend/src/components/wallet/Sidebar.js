@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
+import { isWhitelabel } from '../../config/whitelabel';
 import CreateCustomName from './CreateCustomName';
 import ExploreApps from './ExploreApps';
+import ExploreNativeBanner from './ExploreNativeBanner';
 
 const StyledContainer = styled.div`
-    background-color: black;
+    background-color: ${(p) => p.bgColour};
     border-radius: 8px;
     padding-bottom: 30px;
     margin-bottom: 40px;
@@ -41,9 +43,12 @@ export default ({ availableAccounts }) => {
         }
     }, [availableAccounts]);
 
+    const explorerComponent = isWhitelabel ? <ExploreNativeBanner /> : <ExploreApps />;
+    const bgColour = (isWhitelabel && activeComponent === 'ExploreApps') ? 'transparent' : 'black';
+
     return (
-        <StyledContainer>
-            {activeComponent === 'ExploreApps' ? <ExploreApps /> : <CreateCustomName />}
+        <StyledContainer bgColour={bgColour}>
+            {activeComponent === 'ExploreApps' ? explorerComponent : <CreateCustomName />}
             <div className='dots'>
                 {availableAccounts && (
                 <>

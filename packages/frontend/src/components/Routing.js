@@ -668,11 +668,13 @@ class Routing extends Component {
                                     />
                                 )}
                             />
-                            <PrivateRoute
-                                exact
-                                path="/explore"
-                                component={ExploreContainer}
-                            />
+                            {isWhitelabel && (
+                                <PrivateRoute
+                                    exact
+                                    path="/explore"
+                                    component={ExploreContainer}
+                                />
+                            )}
                             <Route
                                 exact
                                 path="/cli-login-success"
