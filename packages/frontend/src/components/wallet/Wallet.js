@@ -369,11 +369,7 @@ export function Wallet({
                     )}
                 </div>
                 <div className="right">
-                    {accountExists ? (
-                        <Sidebar availableAccounts={availableAccounts} />
-                    ) : (
-                        <ExploreApps />
-                    )}
+                    <Sidebar availableAccounts={accountExists && availableAccounts} />
                     <ActivitiesWrapper />
                 </div>
             </div>

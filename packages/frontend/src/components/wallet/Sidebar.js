@@ -11,6 +11,7 @@ const StyledContainer = styled.div`
     margin-bottom: 40px;
     .dots {
         margin-top: -30px;
+        height: 8px;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -34,7 +35,7 @@ export default ({ availableAccounts }) => {
     const [activeComponent, setActiveComponent] = useState('ExploreApps');
 
     useEffect(() => {
-        if (availableAccounts.length > 0) {
+        if (availableAccounts?.length > 0) {
             const numNonImplicitAccounts = availableAccounts.filter((a) => a.length < 64).length;
             setActiveComponent(numNonImplicitAccounts === 0 ? 'CreateCustomName' : 'ExploreApps');
         }
@@ -44,8 +45,12 @@ export default ({ availableAccounts }) => {
         <StyledContainer>
             {activeComponent === 'ExploreApps' ? <ExploreApps /> : <CreateCustomName />}
             <div className='dots'>
-                <div className={`dot ${activeComponent === 'CreateCustomName' ? 'active' : ''}`} onClick={() => setActiveComponent('CreateCustomName')}></div>
-                <div className={`dot ${activeComponent === 'ExploreApps' ? 'active' : ''}`} onClick={() => setActiveComponent('ExploreApps')}></div>
+                {availableAccounts && (
+                <>
+                    <div className={`dot ${activeComponent === 'CreateCustomName' ? 'active' : ''}`} onClick={() => setActiveComponent('CreateCustomName')}></div>
+                    <div className={`dot ${activeComponent === 'ExploreApps' ? 'active' : ''}`} onClick={() => setActiveComponent('ExploreApps')}></div>
+                </>
+                )}
             </div>
         </StyledContainer>
     );
