@@ -546,6 +546,15 @@
             "title": "Fund with an existing account."
         }
     },
+    "explore": {
+        "banner": {
+            "button": "Buy NEAR",
+            "text": "Top up your wallet"
+        },
+        "sectionName": "Explore",
+        "seeAll": "See All",
+        "trendingProjects": "Trending projects"
+    },
     "exploreApps": {
         "desc": "Earn, mint, and play! Discover the ecosystem of NEAR applications.",
         "exploreApps": "Explore Apps",
@@ -679,6 +688,7 @@
         "authorizedApps": "Authorized Apps",
         "buyUSN": "Buy $USN",
         "donateToUkraine": "Donate to Ukraine",
+        "explore": "Explore",
         "fullAccessKeys": "Full Access Keys",
         "help": "Help",
         "noAccount": "You have no other accounts",
