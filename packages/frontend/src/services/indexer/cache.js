@@ -99,9 +99,16 @@ export class IndexerCache extends Cache {
      * The main idea is save the contract-helper from searching through the entire history of the blockchain.
      * Each next request, we send the last timestamp, while accumulating data on the client.
      */
-    async accumulate({ accountId, kind, updater, timeout }) {
+    async accumulate({
+        accountId,
+        kind,
+        updater,
+        timeout
+    }) {
         const record = await this._getRecord(accountId, kind);
+
         try {
+            let shouldRestart = false;
             const lastTimestamp = record?.data?.timestamp;
 
             if (this._shouldUpdate(lastTimestamp, timeout)) {
@@ -122,11 +129,21 @@ export class IndexerCache extends Cache {
                     const isVersionChanged = version !== record.version;
                     if (isVersionChanged) {
                         record.timestamp = 0;
+                        shouldRestart = true;
                     }
 
                     await this._updateRecord(accountId, kind, updated);
                 } else {
                     await this._addRecord(accountId, kind, updated);
+                }
+
+                if (shouldRestart) {
+                    return this.accumulate({
+                        accountId,
+                        kind,
+                        updater,
+                        timeout
+                    });
                 }
 
                 return updated.list;
