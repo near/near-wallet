@@ -99,7 +99,7 @@ export const FundingCard = ({ title, subTitle, actions, link }) => {
                     <Translate id={subTitle} />
                     {link && (
                         <Link>
-                            <a href={link.url} target="_blank" rel="noreferrer">
+                            <a href={link.url} target='_blank' rel='noreferrer'>
                                 <Translate id={link.title} />
                             </a>
                         </Link>
