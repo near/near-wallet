@@ -5,16 +5,11 @@ import styled from 'styled-components';
 
 import exploreAppsImg from '../../images/exploreAppsBanner.png';
 
-const Container = styled.div`
-    padding: 16px;
-    padding-bottom: 81px;
+const StyledContainer = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
-    background: linear-gradient(180deg, #E8FAFF 0%, #D7E0FF 100%);
-    border-radius: 8px;
-    color: #25272A;
 
     & h2 {
         margin: 24px 0 0 0!important;
@@ -31,7 +26,7 @@ const Container = styled.div`
     }
 `;
 
-const BannerLink = styled(Link)`
+const StyledBannerLink = styled(Link)`
     margin-top: 24px;
     width: 100%;
     height: 48px;
@@ -49,14 +44,14 @@ const BannerLink = styled(Link)`
 
 const ExploreNativeBanner = () => {
     return (
-        <Container>
-            <img src={exploreAppsImg} alt="Explore Apps Banner" />
+        <StyledContainer>
+            <img src={exploreAppsImg} alt="Explore Apps Banner" width="211" height="180"/>
             <h2><Translate id='exploreApps.exploreNear'/></h2>
             <div><Translate id='exploreApps.text'/></div>
-            <BannerLink to="/explore">
+            <StyledBannerLink to="/explore">
                 <Translate id='exploreApps.exploreApps'/>
-            </BannerLink>
-        </Container>
+            </StyledBannerLink>
+        </StyledContainer>
     );
 };
 

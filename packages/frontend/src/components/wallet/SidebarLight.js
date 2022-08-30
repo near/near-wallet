@@ -1,16 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
-import CreateCustomName from './CreateCustomName';
-import ExploreApps from './ExploreApps';
+import CreateCustomNameLightBanner from './CreateCustomNameLightBanner';
+import ExploreNativeBanner from './ExploreNativeBanner';
 
 const StyledContainer = styled.div`
-    background-color: black;
+    background-color: transparent;
     border-radius: 8px;
     padding-bottom: 30px;
     margin-bottom: 40px;
+    height: 435px;
+
+    background: linear-gradient(180deg, #E8FAFF 0%, #D7E0FF 100%);
+    border-radius: 8px;
+    color: #25272A;
+
     .dots {
-        margin-top: -30px;
+        height: 8px;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -23,18 +29,23 @@ const StyledContainer = styled.div`
             cursor: pointer;
             
             &.active {
-                cursor: default;
                 background-color: #8FCDFF;
             }
         }
     }
 `;
 
+const StyledBanner = styled.div`
+    padding: 16px;
+    padding-bottom: 25px;
+    height: 395px;
+`;
+
 export default ({ availableAccounts }) => {
     const [activeComponent, setActiveComponent] = useState('ExploreApps');
 
     useEffect(() => {
-        if (availableAccounts.length > 0) {
+        if (availableAccounts?.length > 0) {
             const numNonImplicitAccounts = availableAccounts.filter((a) => a.length < 64).length;
             setActiveComponent(numNonImplicitAccounts === 0 ? 'CreateCustomName' : 'ExploreApps');
         }
@@ -42,11 +53,15 @@ export default ({ availableAccounts }) => {
 
     return (
         <StyledContainer>
-            {activeComponent === 'ExploreApps' ? <ExploreApps /> : <CreateCustomName/>}
-            <div className='dots'>
-                <div className={`dot ${activeComponent === 'CreateCustomName' ? 'active' : ''}`} onClick={() => setActiveComponent('CreateCustomName')}></div>
-                <div className={`dot ${activeComponent === 'ExploreApps' ? 'active' : ''}`} onClick={() => setActiveComponent('ExploreApps')}></div>
-            </div>
+            <StyledBanner>
+                {activeComponent === 'ExploreApps' ? <ExploreNativeBanner /> : <CreateCustomNameLightBanner/>}
+            </StyledBanner>
+            {availableAccounts && (
+                <div className='dots'>
+                    <div className={`dot ${activeComponent === 'ExploreApps' ? 'active' : ''}`} onClick={() => setActiveComponent('ExploreApps')}></div>
+                    <div className={`dot ${activeComponent === 'CreateCustomName' ? 'active' : ''}`} onClick={() => setActiveComponent('CreateCustomName')}></div>
+                </div>
+            )}
         </StyledContainer>
     );
 };

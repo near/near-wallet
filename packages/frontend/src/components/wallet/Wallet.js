@@ -24,9 +24,11 @@ import AllTokensTotalBalanceUSD from './AllTokensTotalBalanceUSD';
 import CreateCustomNameModal from './CreateCustomNameModal';
 import CreateFromImplicitSuccessModal from './CreateFromImplicitSuccessModal';
 import DepositNearBanner from './DepositNearBanner';
+import ExploreApps from './ExploreApps';
 import LinkDropSuccessModal from './LinkDropSuccessModal';
 import NFTs from './NFTs';
 import Sidebar from './Sidebar';
+import SidebarLight from './SidebarLight';
 import Tokens from './Tokens';
 import { ZeroBalanceAccountImportedModal } from './ZeroBalanceAccountImportedModal';
 
@@ -368,7 +370,12 @@ export function Wallet({
                     )}
                 </div>
                 <div className="right">
-                    <Sidebar availableAccounts={accountExists && availableAccounts} />
+                    {isWhitelabel
+                        ? <SidebarLight availableAccounts={accountExists && availableAccounts} />
+                        : accountExists
+                            ? <Sidebar availableAccounts={availableAccounts} />
+                            : <ExploreApps />
+                    }
                     <ActivitiesWrapper />
                 </div>
             </div>
