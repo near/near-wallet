@@ -42,7 +42,7 @@ export default ({ availableAccounts }) => {
 
     return (
         <StyledContainer>
-            {activeComponent === 'ExploreApps' ? <ExploreApps /> : <CreateCustomName/>}
+            {activeComponent === 'ExploreApps' ? <ExploreApps /> : <CreateCustomName />}
             <div className='dots'>
                 <div className={`dot ${activeComponent === 'CreateCustomName' ? 'active' : ''}`} onClick={() => setActiveComponent('CreateCustomName')}></div>
                 <div className={`dot ${activeComponent === 'ExploreApps' ? 'active' : ''}`} onClick={() => setActiveComponent('ExploreApps')}></div>
