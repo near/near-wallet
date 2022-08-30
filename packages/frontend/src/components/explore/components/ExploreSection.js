@@ -38,7 +38,7 @@ const StyledHeader = styled.div`
 
 const StyledContent = styled.div`
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   flex-wrap: wrap;
 `;
 
@@ -56,8 +56,16 @@ const StyledCard = styled.a`
     padding: 24px 16px;
     margin-top: 24px;
 
+    @media (max-width: 1200px) {
+        width: 450px;
+    }
+
+    @media (max-width: 992px) {
+        width: 318px;
+    }
+
     @media (max-width: 768px) {
-      width: 100%;
+        width: 100%;
     }
 `;
 
