@@ -89,10 +89,10 @@ export class IndexerCache extends Cache {
         });
     }
 
-    _shouldUpdate(lastTimestamp = 0, timeout) {
-        const time = new Date().getTime();
+    _shouldUpdate(lastTimestampNs = 0, timeoutNs) {
+        const timeNs = new Date().getTime() * 1000000;
 
-        return time - lastTimestamp >= timeout;
+        return timeNs - lastTimestampNs >= timeoutNs;
     }
 
     /**
@@ -103,15 +103,15 @@ export class IndexerCache extends Cache {
         accountId,
         kind,
         updater,
-        timeout
+        timeoutNs
     }) {
         const record = await this._getRecord(accountId, kind);
 
         try {
             let shouldRestart = false;
-            const lastTimestamp = record?.data?.timestamp;
+            const lastTimestamp = parseInt(record?.data?.timestamp || 0, 10);
 
-            if (this._shouldUpdate(lastTimestamp, timeout)) {
+            if (this._shouldUpdate(lastTimestamp, timeoutNs)) {
                 let { version, lastBlockTimestamp, list = [] } = await updater(lastTimestamp);
 
                 const prev = record?.data?.list || [];
@@ -142,7 +142,7 @@ export class IndexerCache extends Cache {
                         accountId,
                         kind,
                         updater,
-                        timeout
+                        timeoutNs
                     });
                 }
 
