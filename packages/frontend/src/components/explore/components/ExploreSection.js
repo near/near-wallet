@@ -2,13 +2,13 @@ import React from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
-const Container = styled.div`
+const StyledContainer = styled.div`
   width: 100%;
   border-radius: 16px;
   margin-top: 40px;
 `;
 
-const Header = styled.div`
+const StyledHeader = styled.div`
   display: flex;
   align-items: center;
   background: ${(p) => p.colour};
@@ -36,13 +36,13 @@ const Header = styled.div`
   }
 `;
 
-const ProjectsArea = styled.div`
+const StyledContent = styled.div`
   display: flex;
   justify-content: space-around;
   flex-wrap: wrap;
 `;
 
-const Card = styled.a`
+const StyledCard = styled.a`
     width: 318px;
     height: 160px;
     box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.08);
@@ -61,7 +61,7 @@ const Card = styled.a`
     }
 `;
 
-const CardHeader = styled.div`
+const StyledCardHeader = styled.div`
     display: flex;
     margin-bottom: 24px;
 
@@ -71,7 +71,7 @@ const CardHeader = styled.div`
     }
 `;
 
-const Meta = styled.div`
+const StyledMeta = styled.div`
     text-align: left;
 
     & div {
@@ -93,7 +93,7 @@ const Meta = styled.div`
     }
 `;
 
-const CardInfo = styled.div`
+const StyledCardInfo = styled.div`
     font-weight: 500;
     font-size: 14px;
     line-height: 21px;
@@ -106,26 +106,26 @@ const CardInfo = styled.div`
 export default function ({ content }) {
     const { name, icon, sectionLink, colour, projects } = content;
     return (
-        <Container>
-            <Header colour={colour}>
+        <StyledContainer>
+            <StyledHeader colour={colour}>
                 <img src={icon} alt={name}/>
                 <h2>{name}</h2>
                 <a href={`https://awesomenear.com/categories/${sectionLink}`} target='_blank' rel='noopener noreferrer'><Translate id='explore.seeAll'/></a>
-            </Header>
-            <ProjectsArea>
+            </StyledHeader>
+            <StyledContent>
                 {projects.map((el) => (
-                    <Card key={el.name} href={`https://awesomenear.com/${el.linkName}`} target='_blank' rel='noopener noreferrer'>
-                        <CardHeader>
+                    <StyledCard key={el.name} href={`https://awesomenear.com/${el.linkName}`} target='_blank' rel='noopener noreferrer'>
+                        <StyledCardHeader>
                             <img src={el.icon} alt={el.name} width='40' height='40'/>
-                            <Meta>
+                            <StyledMeta>
                                 <div>{el.name}</div>
                                 <span>{el.category}</span>
-                            </Meta>
-                        </CardHeader>
-                        <CardInfo>{el.info}</CardInfo>
-                    </Card>
+                            </StyledMeta>
+                        </StyledCardHeader>
+                        <StyledCardInfo>{el.info}</StyledCardInfo>
+                    </StyledCard>
                 ))}
-            </ProjectsArea>
-        </Container>
+            </StyledContent>
+        </StyledContainer>
     );
 }

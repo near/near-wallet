@@ -4,8 +4,7 @@ import styled from 'styled-components';
 
 import trandingProjectsIcon from '../media/trandingProjects.svg';
 
-
-const Container = styled.div`
+const StyledContainer = styled.div`
   width: 100%;
   background: linear-gradient(93.02deg, #CEF0FF -68.39%, #EDFCFF 14.93%, #D6DFFE 100%);
   border-radius: 16px;
@@ -14,64 +13,63 @@ const Container = styled.div`
   margin-bottom: 50px;
 `;
 
-const Header = styled.div`
+const StyledHeader = styled.div`
   display: flex;
   align-items: center;
-
-  & > h2 {
-    font-weight: 700;
-    font-size: 22px;
-    line-height: 33px;
-    letter-spacing: 0.02em;
-    color: #25272A;
-    margin: 0;
-    margin-left: 10px;
-  }
 `;
 
-const ProjectsArea = styled.div`
+const StyledHeaderH2 = styled.h2`
+  font-weight: 700!important;
+  font-size: 22px!important;
+  line-height: 33px!important;
+  letter-spacing: 0.02em;
+  color: #25272A!important;
+  margin: 0!important;
+  margin-left: 10px!important;
+`;
+
+const StyledArea = styled.div`
   display: flex;
   justify-content: space-around;
   flex-wrap: wrap;
+`;
 
-  & a {
-    min-width: 132px;
-    min-height: 117px;
-    text-decoration: none!important;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    font-weight: 800;
-    font-size: 16px;
-    line-height: 28px;
-    text-align: center;
-    color: #25272A;
-    margin: 16px 0;
+const StyledLink = styled.a`
+  min-width: 132px;
+  min-height: 117px;
+  text-decoration: none!important;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-weight: 800;
+  font-size: 16px;
+  line-height: 28px;
+  text-align: center;
+  color: #25272A;
+  margin: 16px 0;
+`;
 
-    & img {
-      margin-bottom: 9px;
-      border-radius: 50%;
-      /* border: ; */
-    }
-  }
+const StyledImg = styled.img`
+  margin-bottom: 9px;
+  border-radius: 50%;
 `;
 
 export default function ({ projects }) {
     return (
-        <Container>
-            <Header>
+        <StyledContainer>
+            <StyledHeader>
                 <img src={trandingProjectsIcon} alt="Tranding projects"/>
-                <h2><Translate id='explore.trendingProjects'/></h2>
-            </Header>
-            <ProjectsArea>
+                <StyledHeaderH2><Translate id='explore.trendingProjects'/></StyledHeaderH2>
+            </StyledHeader>
+            <StyledArea>
                 {projects.map((el) => (
-                    <a key={el.name} href={`https://awesomenear.com/${el.linkName}`} target='_blank' rel='noopener noreferrer'>
-                        <img src={el.icon} alt={el.name} width='80' height='80'/>
+                    <StyledLink key={el.name} href={`https://awesomenear.com/${el.linkName}`} target='_blank' rel='noopener noreferrer'>
+                        <StyledImg src={el.icon} alt={el.name} width='80' height='80'/>
                         <div>{el.name}</div>
-                    </a>
+                    </StyledLink>
                 ))}
-            </ProjectsArea>
-        </Container>
+            </StyledArea>
+        </StyledContainer>
     );
 }
