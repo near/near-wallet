@@ -32,6 +32,10 @@ const StyledArea = styled.div`
   display: flex;
   justify-content: space-around;
   flex-wrap: wrap;
+
+  @media (max-width: 992px) {
+    justify-content: space-between;
+  }
 `;
 
 const StyledLink = styled.a`
@@ -48,6 +52,10 @@ const StyledLink = styled.a`
   text-align: center;
   color: #25272A;
   margin: 16px 0;
+
+  @media (max-width: 992px) {
+    flex: 33%;
+  }
 `;
 
 const StyledImg = styled.img`
