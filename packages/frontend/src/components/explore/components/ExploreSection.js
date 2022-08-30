@@ -67,6 +67,7 @@ const CardHeader = styled.div`
 
     & img {
         margin-right: 12px;
+        border-radius: 50%;
     }
 `;
 

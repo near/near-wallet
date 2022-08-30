@@ -51,6 +51,8 @@ const ProjectsArea = styled.div`
 
     & img {
       margin-bottom: 9px;
+      border-radius: 50%;
+      /* border: ; */
     }
   }
 `;
