@@ -56,6 +56,10 @@ const StyledCard = styled.a`
     padding: 24px 16px;
     margin-top: 24px;
 
+    &:hover {
+        box-shadow: 0px 2px 12px rgba(0, 0, 0, 0.14);
+    }
+
     @media (max-width: 1200px) {
         width: 450px;
     }
