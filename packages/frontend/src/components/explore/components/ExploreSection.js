@@ -115,13 +115,13 @@ const StyledCardInfo = styled.div`
 
 
 
-export default function ({ content }) {
+export default function ({ content, translationId}) {
     const { name, icon, sectionLink, colour, projects } = content;
     return (
         <StyledContainer>
             <StyledHeader colour={colour}>
                 <img src={icon} alt={name}/>
-                <h2>{name}</h2>
+                <h2><Translate id={translationId}/></h2>
                 <a href={`https://awesomenear.com/categories/${sectionLink}`} target='_blank' rel='noopener noreferrer'><Translate id='explore.seeAll'/></a>
             </StyledHeader>
             <StyledContent>

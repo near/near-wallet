@@ -35,10 +35,10 @@ export function ExploreContainer() {
             <StyledH1><Translate id='explore.sectionName'/></StyledH1>
             {isBannerAvailable && <Banner />}
             <TrandingProjects projects={trandingProjects}/>
-            <ExploreSection content={exchangeSection} />
-            <ExploreSection content={startEarningSection} />
-            <ExploreSection content={collectNFTsSection} />
-            <ExploreSection content={playToEarnSection} />
+            <ExploreSection content={exchangeSection} translationId='explore.categories.exchanges' />
+            <ExploreSection content={startEarningSection} translationId='explore.categories.startEarning' />
+            <ExploreSection content={collectNFTsSection} translationId='explore.categories.collectNFTs' />
+            <ExploreSection content={playToEarnSection} translationId='explore.categories.playToEarn' />
         </StyledContainer>
     );
 }

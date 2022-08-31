@@ -551,6 +551,12 @@
             "button": "Buy NEAR",
             "text": "Top up your wallet"
         },
+        "categories": {
+            "collectNFTs": "Collect NFTs",
+            "exchanges": "Exchanges",
+            "playToEarn": "Play To Earn",
+            "startEarning": "Start Earning"
+        },
         "sectionName": "Explore",
         "seeAll": "See All",
         "trendingProjects": "Trending projects"
