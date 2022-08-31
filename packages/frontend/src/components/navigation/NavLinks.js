@@ -116,10 +116,12 @@ const NavLinks = () => (
             <VaultIcon/>
             <Translate id='link.staking'/>
         </NavLink>
-        <NavLink data-test-id="explore_navlink" to='/explore' activeClassName='selected' onClick={() => Mixpanel.track('Click Explore button on nav')}>
-            <ExploreIcon/>
-            <Translate id='link.explore'/>
-        </NavLink>
+        {isWhitelabel && (
+            <NavLink data-test-id="explore_navlink" to='/explore' activeClassName='selected' onClick={() => Mixpanel.track('Click Explore button on nav')}>
+                <ExploreIcon/>
+                <Translate id='link.explore'/>
+            </NavLink>
+        )}
         <NavLink to='/profile' className='account-details-link' activeClassName='selected' onClick={() => Mixpanel.track('Click Account button on nav')}>
             <UserIcon/>
             <Translate id='link.account'/>
