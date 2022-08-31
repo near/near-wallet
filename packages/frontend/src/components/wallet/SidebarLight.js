@@ -37,7 +37,6 @@ const StyledContainer = styled.div`
 
 const StyledBanner = styled.div`
     padding: 16px;
-    padding-bottom: 25px;
     height: 395px;
 `;
 

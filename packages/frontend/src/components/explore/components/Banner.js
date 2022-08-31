@@ -33,6 +33,7 @@ const StyledBannerH2 = styled.h2`
     color: #FFFFFF!important;
     display: inline-block;
     text-align: center;
+    min-width: 130px;
 `;
 
 const StyledBannerImg = styled.img`

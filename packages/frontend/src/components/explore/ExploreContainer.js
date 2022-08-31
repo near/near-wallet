@@ -11,7 +11,10 @@ import ExploreSection from './components/ExploreSection';
 import TrandingProjects from './components/TrandingProjects';
 import { trandingProjects, exchangeSection, startEarningSection, collectNFTsSection, playToEarnSection } from './content';
 
-const StyledContainer = styled(Container)``;
+const StyledContainer = styled(Container)`
+    padding: 0 14px 30px 14px;
+`;
+
 const StyledH1 = styled.h1`
     font-weight: 800;
     font-size: 28px;
@@ -28,7 +31,7 @@ const StyledH1 = styled.h1`
 
 export function ExploreContainer() {    
     const nearBalance = useSelector(selectAvailableBalance) || 0;
-    const isBannerAvailable = formatNearAmount(nearBalance) > 0.1;
+    const isBannerAvailable = formatNearAmount(nearBalance) < 0.1;
 
     return (
         <StyledContainer>
