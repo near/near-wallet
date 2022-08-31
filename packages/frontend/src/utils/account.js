@@ -9,16 +9,16 @@ export const validateEmail = (email) => {
 export const isImplicitAccount = (accountId) =>
     accountId && accountId.length === IMPLICINT_ACCOUNT_MAX_LENGTH && !accountId.includes('.');
 
-const SEPARATOR = '...';
+const ACCOUNT_ID_SEPARATOR = '...';
 
 export const shortenAccountId = (id, startChars = 8, endChars = 8) => {
-    const numOfRemainingChars = startChars + endChars + SEPARATOR.length;
-    const outOfScope = id.length < numOfRemainingChars || numOfRemainingChars > IMPLICINT_ACCOUNT_MAX_LENGTH;
-    const partIsMissing = startChars < 1 || endChars < 1;
+    const numOfRemainingChars = startChars + endChars + ACCOUNT_ID_SEPARATOR.length;
+    const isOutOfScope = id.length < numOfRemainingChars || numOfRemainingChars > IMPLICINT_ACCOUNT_MAX_LENGTH;
+    const isPartMissing = startChars < 1 || endChars < 1;
 
-    if (!isImplicitAccount(id) || outOfScope || partIsMissing) {
+    if (!isImplicitAccount(id) || isOutOfScope || isPartMissing) {
         return id;
     }
 
-    return `${id.slice(0, startChars)}${SEPARATOR}${id.slice(id.length - endChars)}`;
+    return `${id.slice(0, startChars)}${ACCOUNT_ID_SEPARATOR}${id.slice(id.length - endChars)}`;
 };
