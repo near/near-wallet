@@ -61,7 +61,7 @@ const StyledCard = styled.a`
     }
 
     @media (max-width: 1200px) {
-        width: 450px;
+        width: 430px;
     }
 
     @media (max-width: 992px) {
