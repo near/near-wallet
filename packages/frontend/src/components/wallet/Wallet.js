@@ -28,6 +28,7 @@ import ExploreApps from './ExploreApps';
 import LinkDropSuccessModal from './LinkDropSuccessModal';
 import NFTs from './NFTs';
 import Sidebar from './Sidebar';
+import SidebarLight from './SidebarLight';
 import Tokens from './Tokens';
 import { ZeroBalanceAccountImportedModal } from './ZeroBalanceAccountImportedModal';
 
@@ -322,7 +323,7 @@ export function Wallet({
         currentLanguage
     );
 
-    const shouldShowRemoveLinkRecoveryBanner = !isWhitelabel() && (userRecoveryMethods.some(({ kind }) => kind === 'email')
+    const shouldShowRemoveLinkRecoveryBanner = !isWhitelabel && (userRecoveryMethods.some(({ kind }) => kind === 'email')
         || userRecoveryMethods.some(({ kind }) => kind === 'phone'));
 
     return (
@@ -369,11 +370,12 @@ export function Wallet({
                     )}
                 </div>
                 <div className="right">
-                    {accountExists ? (
-                        <Sidebar availableAccounts={availableAccounts} />
-                    ) : (
-                        <ExploreApps />
-                    )}
+                    {isWhitelabel
+                        ? <SidebarLight availableAccounts={accountExists && availableAccounts} />
+                        : accountExists
+                            ? <Sidebar availableAccounts={availableAccounts} />
+                            : <ExploreApps />
+                    }
                     <ActivitiesWrapper />
                 </div>
             </div>
