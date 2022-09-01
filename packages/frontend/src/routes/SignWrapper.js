@@ -43,6 +43,7 @@ export function SignWrapper({ urlQuery }) {
     const [currentDisplay, setCurrentDisplay] = useState(DISPLAY.TRANSACTION_SUMMARY);
     const [customRPCUrl, setCustomRPCUrl] = useState();
     const [privateShardId, setPrivateShardId] = useState();
+    const [xApiToken, setXApiToken] = useState();
 
     const signFeesGasLimitIncludingGasChanges = useSelector(selectSignFeesGasLimitIncludingGasChanges);
     const signStatus = useSelector(selectSignStatus);
@@ -113,6 +114,7 @@ export function SignWrapper({ urlQuery }) {
                     // if (accountId.endsWith(metaJson.calimeroShardId)) {}
                     setCustomRPCUrl(metaJson.calimeroRPCEndpoint);
                     setPrivateShardId(metaJson.calimeroShardId);
+                    setXApiToken(metaJson.calimeroAuthToken);
                 }
                 // TODO: handle situation when shardId doesn't exist in accountId
                 // probably will need to change view
@@ -124,7 +126,7 @@ export function SignWrapper({ urlQuery }) {
 
     const handleApproveTransaction = async () => {
         if (customRPCUrl && privateShardId) {
-            await dispatch(handleSignPrivateShardTransactions({ customRPCUrl }));
+            await dispatch(handleSignPrivateShardTransactions({ customRPCUrl, xApiToken }));
             return;
         }
         Mixpanel.track('SIGN approve the transaction');
