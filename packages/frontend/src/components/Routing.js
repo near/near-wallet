@@ -84,7 +84,6 @@ import NetworkBanner from './common/NetworkBanner';
 import PrivateRoute from './common/routing/PrivateRoute';
 import PublicRoute from './common/routing/PublicRoute';
 import Route from './common/routing/Route';
-import { ExploreContainer } from './explore/ExploreContainer';
 import GlobalStyle from './GlobalStyle';
 import { LoginCliLoginSuccess } from './login/LoginCliLoginSuccess';
 import NavigationWrapper from './navigation/NavigationWrapper';
@@ -212,7 +211,7 @@ class Routing extends Component {
     }
 
     componentDidMount = async () => {
-        if (isWhitelabel && document) {
+        if (isWhitelabel() && document) {
             document.title = 'MyNearWallet';
             document.querySelector('link[rel~="icon"]').href = favicon;
         }
@@ -668,13 +667,6 @@ class Routing extends Component {
                                     />
                                 )}
                             />
-                            {isWhitelabel && (
-                                <PrivateRoute
-                                    exact
-                                    path="/explore"
-                                    component={ExploreContainer}
-                                />
-                            )}
                             <Route
                                 exact
                                 path="/cli-login-success"
