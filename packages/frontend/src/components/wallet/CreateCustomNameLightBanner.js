@@ -13,7 +13,7 @@ const Container = styled.div`
         text-align: center;
         color: #d5d4d8;
         font-size: 14px;
-        padding-top: 43px;
+        padding-top: 8px;
 
         @media (max-width: 992px) {
             padding-top: 72px;

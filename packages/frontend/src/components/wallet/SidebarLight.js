@@ -8,7 +8,7 @@ const StyledContainer = styled.div`
     background-color: transparent;
     border-radius: 8px;
     padding-bottom: 30px;
-    margin-bottom: 40px;
+    margin-bottom: 35px;
     height: 435px;
 
     background: linear-gradient(180deg, #E8FAFF 0%, #D7E0FF 100%);
@@ -38,6 +38,7 @@ const StyledContainer = styled.div`
 const StyledBanner = styled.div`
     padding: 16px;
     height: 395px;
+    margin-bottom: 10px;
 `;
 
 export default ({ availableAccounts }) => {
