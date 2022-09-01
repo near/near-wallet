@@ -2,6 +2,7 @@ import React from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
+import { SHOW_EXPLORE_PAGE } from '../../../../../features';
 import { EXPLORE_APPS_URL, EXPLORE_DEFI_URL } from '../../config';
 import BerryClubLogo from '../../images/berryclub-logo.svg';
 import FluxLogo from '../../images/flux-logo.svg';
@@ -10,6 +11,8 @@ import MintbaseLogo from '../../images/mintbase-logo.svg';
 import ParasLogo from '../../images/paras-logo.svg';
 import RefLogo from '../../images/ref-logo.svg';
 import FormButton from '../common/FormButton';
+
+const AWESOME_NEAR_URL = 'https://awesomenear.com/projects';
 
 const Container = styled.div`
     && {
@@ -111,34 +114,34 @@ const ExploreApps = () => {
         <Container>
             <div className='apps-wrapper'>
                 <div>
-                    <img src={HashRushLogo} alt='Hash Rush'/>
-                    <img src={FluxLogo} alt='Flux'/>
-                    <img src={ParasLogo} alt='Paras'/>
-                    <img src={RefLogo} alt='Ref Finance'/>
-                    <img src={MintbaseLogo} alt='Mintbase'/>
-                    <img src={BerryClubLogo} alt='Berryclub'/>
+                    <img src={HashRushLogo} alt='Hash Rush' />
+                    <img src={FluxLogo} alt='Flux' />
+                    <img src={ParasLogo} alt='Paras' />
+                    <img src={RefLogo} alt='Ref Finance' />
+                    <img src={MintbaseLogo} alt='Mintbase' />
+                    <img src={BerryClubLogo} alt='Berryclub' />
                 </div>
             </div>
             <h2>
-                <Translate id='exploreApps.title'/>
+                <Translate id='exploreApps.title' />
             </h2>
             <div className='desc'>
-                <Translate id='exploreApps.desc'/>
+                <Translate id='exploreApps.desc' />
             </div>
             <div className='buttons'>
                 <FormButton
-                    linkTo={EXPLORE_APPS_URL}
+                    linkTo={SHOW_EXPLORE_PAGE ? EXPLORE_APPS_URL : AWESOME_NEAR_URL}
                     color='dark-gray-light-blue'
                     trackingId='Click explore apps button'
                 >
-                    <Translate id='exploreApps.exploreApps'/>
+                    <Translate id='exploreApps.exploreApps' />
                 </FormButton>
                 <FormButton
                     linkTo={EXPLORE_DEFI_URL}
                     color='dark-gray-light-blue'
                     trackingId='Click explore defi button'
                 >
-                    <Translate id='exploreApps.exploreDeFi'/>
+                    <Translate id='exploreApps.exploreDeFi' />
                 </FormButton>
             </div>
         </Container>

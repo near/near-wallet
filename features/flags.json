@@ -175,6 +175,50 @@
       "lastEditedAt": "2022-07-18T18:59:32.024Z"
     }
   },
+  "SHOW_EXPLORE_PAGE": {
+    "createdBy": "roshaans",
+    "createdAt": "2022-09-01T19:50:28.935Z",
+    "development": {
+      "enabled": false,
+      "lastEditedBy": "roshaans",
+      "lastEditedAt": "2022-09-01T19:50:28.935Z"
+    },
+    "testnet": {
+      "enabled": false,
+      "lastEditedBy": "roshaans",
+      "lastEditedAt": "2022-09-01T19:50:28.935Z"
+    },
+    "mainnet": {
+      "enabled": false,
+      "lastEditedBy": "roshaans",
+      "lastEditedAt": "2022-09-01T19:50:28.935Z"
+    },
+    "mainnet_STAGING": {
+      "enabled": false,
+      "lastEditedBy": "roshaans",
+      "lastEditedAt": "2022-09-01T19:50:28.935Z"
+    },
+    "testnet_STAGING": {
+      "enabled": false,
+      "lastEditedBy": "roshaans",
+      "lastEditedAt": "2022-09-01T19:50:28.935Z"
+    },
+    "testnet_NEARORG": {
+      "enabled": false,
+      "lastEditedBy": "roshaans",
+      "lastEditedAt": "2022-09-01T19:50:28.935Z"
+    },
+    "mainnet_NEARORG": {
+      "enabled": false,
+      "lastEditedBy": "roshaans",
+      "lastEditedAt": "2022-09-01T19:50:28.935Z"
+    },
+    "mainnet_STAGING_NEARORG": {
+      "enabled": false,
+      "lastEditedBy": "roshaans",
+      "lastEditedAt": "2022-09-01T19:50:28.935Z"
+    }
+  },
   "SHOW_MIGRATION_BANNER": {
     "createdBy": "gutsyphilip",
     "createdAt": "2022-05-25T01:11:55.121Z",
