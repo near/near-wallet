@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
 import { getPayMethods } from '../../config/buyNearConfig';
+import { isWhitelabel } from '../../config/whitelabel';
 import { Mixpanel } from '../../mixpanel';
 import { selectAccountId } from '../../redux/slices/account';
 import { isMoonpayAvailable, getSignedUrl } from '../../utils/moonpay';
@@ -12,6 +13,7 @@ import { buildUtorgPayLink } from '../accounts/create/FundWithUtorg';
 import FormButton from '../common/FormButton';
 import ArrowIcon from '../svg/ArrowIcon';
 import { FundingCard } from './FundingCard';
+import { buildTransakPayLink } from './providers/transak';
 
 const StyledContainer = styled.div`
     position: relative;
@@ -175,10 +177,12 @@ const StyledContainer = styled.div`
 
 export function BuyNear({ match, location, history }) {
     const accountId = useSelector(selectAccountId);
-    const [moonPayAvailable, setMoonPayAvailable] = useState(null);
+    const [moonPayAvailable, setMoonPayAvailable] = useState(true);
     const [signedMoonPayUrl, setSignedMoonPayUrl] = useState(null);
     const [utorgPayUrl, setUtorgPayUrl] = useState(null);
+    const [transakPayUrl, setTransakPayUrl] = useState(null);
     const [ftxPayUrl, setFtxPayUrl] = useState(null);
+
 
     useEffect(() => {
         if (!accountId) {
@@ -187,14 +191,22 @@ export function BuyNear({ match, location, history }) {
 
         setUtorgPayUrl(buildUtorgPayLink(accountId));
         setFtxPayUrl(buildFtxPayLink(accountId));
+        setTransakPayUrl(buildTransakPayLink(accountId));
         checkMoonPay();
     }, [accountId]);
 
     const PayMethods = useMemo(
-        () => getPayMethods({ accountId, moonPayAvailable, signedMoonPayUrl, utorgPayUrl, ftxPayUrl }),
+        () => getPayMethods({
+            accountId,
+            transakPayUrl,
+            moonPayAvailable,
+            signedMoonPayUrl,
+            utorgPayUrl,
+            ftxPayUrl
+        }),
         [accountId, moonPayAvailable, signedMoonPayUrl, utorgPayUrl]
     );
-    
+
     const checkMoonPay = async () => {
         await Mixpanel.withTracking('Wallet Check Moonpay available',
             async () => {
@@ -208,6 +220,16 @@ export function BuyNear({ match, location, history }) {
             (e) => console.warn('Error checking Moonpay', e)
         );
     };
+
+    const onrampMethods = [
+        PayMethods.moonPay,
+        // To avoid user confusion with MNW logo being featured in emails
+        // only allow Transak on MNW domains
+        isWhitelabel() ? PayMethods.transak : null,
+        PayMethods.utorg,
+        PayMethods.nearPay,
+        PayMethods.ftx
+    ].filter((v) => !!v);
 
     return (
         <StyledContainer>
@@ -223,7 +245,7 @@ export function BuyNear({ match, location, history }) {
                 <FundingCard
                     title='buyNear.nearPurchaseTitle'
                     subTitle='buyNear.nearPurchaseSubTitle'
-                    actions={[PayMethods.nearPay, PayMethods.moonPay, PayMethods.utorg, PayMethods.ftx]}
+                    actions={onrampMethods}
                 />
                 <FundingCard
                     title='buyNear.bridgeTokens'
