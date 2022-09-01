@@ -187,7 +187,7 @@ export const collectNFTsSection = {
         },
         {
             icon: apollo42Icon,
-            name: 'Appolo42',
+            name: 'Apollo42',
             linkName: 'apollo42',
             category: 'NFT Marketplace',
             info: 'Your journey to a new galaxy of digital cultures and collectibles.'
