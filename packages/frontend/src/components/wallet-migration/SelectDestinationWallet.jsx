@@ -3,8 +3,10 @@ import { Translate } from 'react-localize-redux';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
+import ImgFinerWallet from '../../../src/images/finer-logo.png';
 import ImgMyNearWallet from '../../../src/images/mynearwallet-cropped.svg';
 import SenderLogo from '../../../src/images/sender-logo.png';
+import isMobile from '../../../src/utils/isMobile';
 import IconLedger from '../../images/wallet-migration/IconLedger';
 import IconWallet from '../../images/wallet-migration/IconWallet';
 import { redirectTo } from '../../redux/actions/account';
@@ -40,18 +42,28 @@ const WALLET_OPTIONS = [
         id: 'my-near-wallet',
         name: 'My NEAR Wallet',
         icon: <img src={ImgMyNearWallet} alt="MyNearWallet Logo" />,
-        getUrl: ({ hash }) => `${getMyNearWalletUrlFromNEARORG()}/batch-import#${hash}`
+        getUrl: ({ hash }) => `${getMyNearWalletUrlFromNEARORG()}/batch-import#${hash}`,
+        checkAvailability: () => true,
+    },
+    {
+        id: 'finer-wallet',
+        name: 'FiNER Wallet',
+        icon: <img src={ImgFinerWallet} alt="Finer Wallet Logo" />,
+        getUrl: ({ hash }) => `finer://wallet.near.org/batch-import#${hash}`,
+        checkAvailability: () => isMobile(),
     },
     {
         id:'ledger',
         name: 'Ledger',
         icon: <IconLedger />,
+        checkAvailability: () => true,
     },
     {
         id: 'sender',
         name: 'Sender',
         icon: <img src={SenderLogo} alt="Sender Wallet Logo" />,
-        getUrl: ({ hash, networkId }) => `https://sender.org/transfer?keystore=${hash}&network=${networkId}`
+        getUrl: ({ hash, networkId }) => `https://sender.org/transfer?keystore=${hash}&network=${networkId}`,
+        checkAvailability: () => true,
     }
 ];
 
@@ -171,6 +183,9 @@ const SelectDestinationWallet = ({ handleSetActiveView, handleSetWallet, wallet,
                 <h4 className='title'><Translate id='walletMigration.selectWallet.title'/></h4>
                 <WalletOptionsListing>
                     {WALLET_OPTIONS.map((walletOption) => {
+                        if (!walletOption.checkAvailability()) {
+                            return null;
+                        }
                         return (
                             <WalletOptionsListingItem 
                                 className={classNames([{ active: walletOption.id === wallet?.id }])}
