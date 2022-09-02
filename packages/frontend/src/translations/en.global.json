@@ -546,10 +546,27 @@
             "title": "Fund with an existing account."
         }
     },
+    "explore": {
+        "banner": {
+            "button": "Buy NEAR",
+            "text": "Top up your wallet"
+        },
+        "categories": {
+            "collectNFTs": "Collect NFTs",
+            "exchanges": "Exchanges",
+            "playToEarn": "Play To Earn",
+            "startEarning": "Start Earning"
+        },
+        "sectionName": "Explore",
+        "seeAll": "See All",
+        "trendingProjects": "Trending projects"
+    },
     "exploreApps": {
         "desc": "Earn, mint, and play! Discover the ecosystem of NEAR applications.",
         "exploreApps": "Explore Apps",
         "exploreDeFi": "Explore DeFi",
+        "exploreNear": "Explore NEAR",
+        "text": "Earn, mint, and play! Discover the ecosystem of NEAR applications.",
         "title": "What's on NEAR?"
     },
     "exportPrivateKey": {
@@ -679,6 +696,7 @@
         "authorizedApps": "Authorized Apps",
         "buyUSN": "Buy $USN",
         "donateToUkraine": "Donate to Ukraine",
+        "explore": "Explore",
         "fullAccessKeys": "Full Access Keys",
         "help": "Help",
         "noAccount": "You have no other accounts",

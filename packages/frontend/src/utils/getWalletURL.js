@@ -36,4 +36,4 @@ export const getMyNearWalletUrlFromNEARORG = (https = true) => {
     return `${https ? 'https://' : ''}${prefix || ''}mynearwallet.com`;
 };
 
-export default isWhitelabel() ? getMyNearWalletUrl : getNearOrgWalletUrl;
+export default isWhitelabel ? getMyNearWalletUrl : getNearOrgWalletUrl;
