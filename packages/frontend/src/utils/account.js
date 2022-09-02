@@ -1,4 +1,4 @@
-import { IMPLICINT_ACCOUNT_MAX_LENGTH } from './constants';
+import { IMPLICIT_ACCOUNT_MAX_LENGTH } from './constants';
 
 export const validateEmail = (email) => {
     /* Checks for anystring@anystring.anystring */
@@ -7,16 +7,16 @@ export const validateEmail = (email) => {
 };
 
 export const isImplicitAccount = (accountId) =>
-    accountId && accountId.length === IMPLICINT_ACCOUNT_MAX_LENGTH && !accountId.includes('.');
+    accountId && accountId.length === IMPLICIT_ACCOUNT_MAX_LENGTH && !accountId.includes('.');
 
 const ACCOUNT_ID_SEPARATOR = '...';
 
 export const shortenAccountId = (id, startChars = 8, endChars = 8) => {
     const numOfRemainingChars = startChars + endChars + ACCOUNT_ID_SEPARATOR.length;
-    const isOutOfScope = id.length < numOfRemainingChars || numOfRemainingChars > IMPLICINT_ACCOUNT_MAX_LENGTH;
-    const isPartMissing = startChars < 1 || endChars < 1;
+    const isOutOfScope = id.length < numOfRemainingChars || numOfRemainingChars > IMPLICIT_ACCOUNT_MAX_LENGTH;
+    const isInvalidCharCount = startChars < 1 || endChars < 1;
 
-    if (!isImplicitAccount(id) || isOutOfScope || isPartMissing) {
+    if (!isImplicitAccount(id) || isOutOfScope || isInvalidCharCount) {
         return id;
     }
 

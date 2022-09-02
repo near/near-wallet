@@ -312,14 +312,21 @@ export default function NFTTransferModal({ open, onClose, nft, accountId }) {
                         <div className='from-box'>
                             <span className='confirm-txt v-center'><Translate id='transfer.from' /></span>
                             <span className='h-right v-center'>
-                                <span className='account-id'>{shortenAccountId(accountId)}</span>
+                                <span className="account-id" title={accountId}>
+                                    {shortenAccountId(accountId)}
+                                </span>
                                 <Balance amount={nearBalance} showBalanceInUSD={false} />
                             </span>
                         </div>
                         <div className='line'></div>
                         <div className='to-box'>
                             <span className='confirm-txt v-center'><Translate id='transfer.to' /></span>
-                            <span className='h-right v-center account-id'>{shortenAccountId(receiverId)}</span>
+                            <span
+                                className="h-right v-center account-id"
+                                title={receiverId}
+                            >
+                                {shortenAccountId(receiverId)}
+                            </span>
                         </div>
                     </div>
 
