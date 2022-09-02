@@ -42,7 +42,7 @@ let Mixpanel = {
     register: () => {}
 };
 
-const shouldEnableTracking = BROWSER_MIXPANEL_TOKEN && isWhitelabel();
+const shouldEnableTracking = BROWSER_MIXPANEL_TOKEN && isWhitelabel;
 
 if (shouldEnableTracking) {
     mixpanel.init(BROWSER_MIXPANEL_TOKEN);

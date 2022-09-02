@@ -225,7 +225,7 @@ export function BuyNear({ match, location, history }) {
         PayMethods.moonPay,
         // To avoid user confusion with MNW logo being featured in emails
         // only allow Transak on MNW domains
-        isWhitelabel() ? PayMethods.transak : null,
+        isWhitelabel ? PayMethods.transak : null,
         PayMethods.utorg,
         PayMethods.nearPay,
         PayMethods.ftx
