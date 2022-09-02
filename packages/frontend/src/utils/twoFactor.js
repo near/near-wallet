@@ -75,7 +75,18 @@ export class TwoFactor extends Account2FA {
     async disableMultisig() {
         const contractBytes = new Uint8Array(await (await fetch('/main.wasm')).arrayBuffer());
         const stateCleanupContractBytes = new Uint8Array(await (await fetch('/state_cleanup.wasm')).arrayBuffer());
-        const result = await this.disable(contractBytes, stateCleanupContractBytes);
+        let result;
+        try {
+            result = await this.disable(contractBytes, stateCleanupContractBytes);
+        } catch (e) {
+            if (e.message.includes('too large to be viewed')) {
+                throw new Error('You must wait 15 minutes between each attempt to disable 2fa. Please try again in 15 minutes.');
+            }
+            if (e.message.includes('Request was cancelled.')) {
+                throw new Error('Request was cancelled. You must wait 15 minutes to attempt disabling 2fa again.');
+            }
+            throw new Error(e.message);
+        }
         await store.dispatch(refreshAccount());
         this.has2fa = false;
         return result;
