@@ -11,6 +11,7 @@ import { actions as ledgerActions } from '../../redux/slices/ledger';
 import { actions as nftActions } from '../../redux/slices/nft';
 import { selectStatusLocalAlert } from '../../redux/slices/status';
 import NonFungibleTokens from '../../services/NonFungibleTokens';
+import { shortenAccountId } from '../../utils/account';
 import isMobile from '../../utils/isMobile';
 import Balance from '../common/balance/Balance';
 import FormButton from '../common/FormButton';
@@ -311,14 +312,21 @@ export default function NFTTransferModal({ open, onClose, nft, accountId }) {
                         <div className='from-box'>
                             <span className='confirm-txt v-center'><Translate id='transfer.from' /></span>
                             <span className='h-right v-center'>
-                                <span className='account-id'>{accountId}</span>
+                                <span className="account-id" title={accountId}>
+                                    {shortenAccountId(accountId)}
+                                </span>
                                 <Balance amount={nearBalance} showBalanceInUSD={false} />
                             </span>
                         </div>
                         <div className='line'></div>
                         <div className='to-box'>
                             <span className='confirm-txt v-center'><Translate id='transfer.to' /></span>
-                            <span className='h-right v-center account-id'>{receiverId}</span>
+                            <span
+                                className="h-right v-center account-id"
+                                title={receiverId}
+                            >
+                                {shortenAccountId(receiverId)}
+                            </span>
                         </div>
                     </div>
 
