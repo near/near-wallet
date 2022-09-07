@@ -1125,7 +1125,11 @@ export default class Wallet {
     async signAndSendCalimeroTransaction(transactions, accountId = this.accountId, customRPCUrl) {
         // TODO: no need to store hashes since it's private shard
         const transactionHashes = [];
-        const calimeroConnection = nearApiJs.providers.JsonRpcProvider(customRPCUrl);
+        const calimeroConnection  = nearApiJs.Connection.fromConfig({
+            networkId: NETWORK_ID,
+            provider: { type: 'JsonRpcProvider', args: { url: customRPCUrl } },
+            signer: this.signer
+        });
         for (let { receiverId, nonce, blockHash, actions } of transactions) {
             let status, transaction;
 
