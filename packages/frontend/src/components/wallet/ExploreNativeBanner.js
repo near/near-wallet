@@ -48,8 +48,7 @@ const ExploreNativeBanner = () => {
             <img src={exploreAppsImg} alt="Explore Apps Banner" width="211" height="180"/>
             <h2><Translate id='exploreApps.exploreNear'/></h2>
             <div><Translate id='exploreApps.text'/></div>
-            {/* TODO: Enable explore page link once image rendering issues have been fixed */}
-            <StyledBannerLink to={{ pathname: 'https://awesomenear.com' }} target='_blank'>
+            <StyledBannerLink to="/explore">
                 <Translate id='exploreApps.exploreApps'/>
             </StyledBannerLink>
         </StyledContainer>
