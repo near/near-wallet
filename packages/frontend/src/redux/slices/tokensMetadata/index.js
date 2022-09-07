@@ -39,6 +39,8 @@ const getContractNameParam = createParameterSelector((params) => params.contract
 
 export const selectContractsMetadata = createSelector(selectTokensMetadataSlice, ({ byContractName }) => byContractName);
 
+export const selectContractsSymbols = createSelector(selectContractsMetadata, (contracts) => Object.values(contracts).map((metadata) => metadata.symbol));
+
 export const selectOneContractMetadata = createSelector(
     [selectContractsMetadata, getContractNameParam],
     (metadataByContractName, contractName) => metadataByContractName[contractName]

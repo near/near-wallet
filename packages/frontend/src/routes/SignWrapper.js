@@ -13,20 +13,23 @@ import { switchAccount, redirectTo } from '../redux/actions/account';
 import { selectAccountId } from '../redux/slices/account';
 import { selectAvailableAccounts, selectAvailableAccountsIsLoading } from '../redux/slices/availableAccounts';
 import {
-    addQueryParams,
     handleSignTransactions,
+    handleSignPrivateShardTransactions,
     selectSignFeesGasLimitIncludingGasChanges,
     SIGN_STATUS,
     selectSignStatus,
     selectSignCallbackUrl,
     selectSignMeta,
+    selectSignErrorName,
+    selectSignErrorMessage,
     selectSignTransactionHashes,
     selectSignTransactions,
     selectSignTransactionsBatchIsValid
 } from '../redux/slices/sign';
+import { addQueryParams } from '../utils/addQueryParams';
 import { isUrlNotJavascriptProtocol } from '../utils/helper-api';
 
-export function SignWrapper() {
+export function SignWrapper({ urlQuery }) {
     const dispatch = useDispatch();
 
     const DISPLAY = {
@@ -38,19 +41,24 @@ export function SignWrapper() {
     };
 
     const [currentDisplay, setCurrentDisplay] = useState(DISPLAY.TRANSACTION_SUMMARY);
+    const [customRPCUrl, setCustomRPCUrl] = useState();
+    const [privateShardId, setPrivateShardId] = useState();
+    const [xApiToken, setXApiToken] = useState();
 
     const signFeesGasLimitIncludingGasChanges = useSelector(selectSignFeesGasLimitIncludingGasChanges);
     const signStatus = useSelector(selectSignStatus);
     const signCallbackUrl = useSelector(selectSignCallbackUrl);
     const signMeta = useSelector(selectSignMeta);
+    const signErrorName = useSelector(selectSignErrorName);
+    const signErrorMessage = useSelector(selectSignErrorMessage);
     const transactionHashes = useSelector(selectSignTransactionHashes);
     const availableAccounts = useSelector(selectAvailableAccounts);
     const availableAccountsIsLoading = useSelector(selectAvailableAccountsIsLoading);
     const transactions = useSelector(selectSignTransactions);
     const accountId = useSelector(selectAccountId);
     const transactionBatchisValid = useSelector(selectSignTransactionsBatchIsValid);
-    const isValidCallbackUrl = isUrlNotJavascriptProtocol(signCallbackUrl);
 
+    const isValidCallbackUrl = isUrlNotJavascriptProtocol(signCallbackUrl);
     const signerId = transactions.length && transactions[0].signerId;
     const signGasFee = new BN(signFeesGasLimitIncludingGasChanges).div(new BN('1000000000000')).toString();
     const submittingTransaction = signStatus === SIGN_STATUS.IN_PROGRESS;
@@ -98,28 +106,62 @@ export function SignWrapper() {
         }
     }, [signStatus]);
 
+    useEffect(() => {
+        if (urlQuery?.meta) {
+            try {
+                const metaJson = JSON.parse(decodeURIComponent(urlQuery.meta));
+                if (metaJson.calimeroRPCEndpoint && metaJson.calimeroShardId) {
+                    // if (accountId.endsWith(metaJson.calimeroShardId)) {}
+                    setCustomRPCUrl(metaJson.calimeroRPCEndpoint);
+                    setPrivateShardId(metaJson.calimeroShardId);
+                    setXApiToken(metaJson.calimeroAuthToken);
+                }
+                // TODO: handle situation when shardId doesn't exist in accountId
+                // probably will need to change view
+            } catch (e) {
+                //
+            }
+        }
+    }, [urlQuery?.meta]);
+
     const handleApproveTransaction = async () => {
+        if (customRPCUrl && privateShardId) {
+            await dispatch(handleSignPrivateShardTransactions({ customRPCUrl, xApiToken }));
+            return;
+        }
         Mixpanel.track('SIGN approve the transaction');
         await dispatch(handleSignTransactions());
     };
 
     const handleCancelTransaction = async () => {
+        if (customRPCUrl && privateShardId) {
+            console.log(signCallbackUrl);
+
+            const encounter = addQueryParams(signCallbackUrl, {
+                signMeta,
+                errorCode: encodeURIComponent('userRejected'),
+                errorMessage: encodeURIComponent('User rejected transaction')
+            });
+            console.log(encounter);
+            window.location.href= encounter;
+            return;
+        }
+        
         Mixpanel.track('SIGN Deny the transaction');
         if (signCallbackUrl && isValidCallbackUrl) {
-            if (signStatus?.success !== false) {
+            if (signStatus !== SIGN_STATUS.ERROR) {
                 window.location.href = addQueryParams(signCallbackUrl, {
                     signMeta,
                     errorCode: encodeURIComponent('userRejected'),
                     errorMessage: encodeURIComponent('User rejected transaction')
                 });
-                return;
+            } else {
+                window.location.href = addQueryParams(signCallbackUrl, {
+                    signMeta,
+                    errorCode: encodeURIComponent(signErrorName) || encodeURIComponent('unknownError'),
+                    errorMessage: encodeURIComponent(signErrorMessage.substring(0, 100)) || encodeURIComponent('Unknown error')
+                });
             }
-            window.location.href = addQueryParams(signCallbackUrl, {
-                signMeta,
-                errorCode: encodeURIComponent(signStatus?.errorType) || encodeURIComponent('unknownError'),
-                errorMessage: encodeURIComponent(signStatus?.errorMessage?.substring(0, 100)) || encodeURIComponent('Unknown error')
-            });
-            return;
         } else {
             dispatch(redirectTo('/'));
         }
@@ -184,6 +226,8 @@ export function SignWrapper() {
             onClickEditAccount={() => setCurrentDisplay(DISPLAY.ACCOUNT_SELECTION)}
             isSignerValid={isSignerValid}
             isValidCallbackUrl={isValidCallbackUrl}
+            customRPCUrl={privateShardId && customRPCUrl}
+            privateShardId={customRPCUrl && privateShardId}
         />
     );
 }

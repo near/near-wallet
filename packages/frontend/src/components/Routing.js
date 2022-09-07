@@ -10,7 +10,7 @@ import { connect } from 'react-redux';
 import { Redirect, Switch } from 'react-router-dom';
 import styled, { ThemeProvider } from 'styled-components';
 
-import { SHOW_MIGRATION_BANNER } from '../../../../features';
+import { SHOW_MIGRATION_BANNER, WEB3AUTH } from '../../../../features';
 import favicon from '../../src/images/mynearwallet-cropped.svg';
 import TwoFactorVerifyModal from '../components/accounts/two_factor/TwoFactorVerifyModal';
 import {
@@ -33,6 +33,7 @@ import { SetupLedgerNewAccountWrapper } from '../routes/SetupLedgerNewAccountWra
 import { SetupPassphraseNewAccountWrapper } from '../routes/SetupPassphraseNewAccountWrapper';
 import { SetupRecoveryImplicitAccountWrapper } from '../routes/SetupRecoveryImplicitAccountWrapper';
 import { SignWrapper } from '../routes/SignWrapper';
+import { VerifyOwnerWrapper } from '../routes/VerifyOwnerWrapper';
 import { WalletWrapper } from '../routes/WalletWrapper';
 import translations_en from '../translations/en.global.json';
 import translations_it from '../translations/it.global.json';
@@ -96,6 +97,7 @@ import { StakingContainer } from './staking/StakingContainer';
 import Swap from './swap/Swap';
 import Terms from './terms/Terms';
 import '../index.css';
+import WalletMigration from './wallet-migration/WalletMigration';
 const { fetchTokenFiatValues, getTokenWhiteList } = tokenFiatValueActions;
 
 const {
@@ -202,6 +204,10 @@ class Routing extends Component {
 
         this.props.setActiveLanguage(activeLang);
         // this.addTranslationsForActiveLanguage(defaultLanguage)
+
+        this.state = {
+            openTransferPopup: false,
+        };
     }
 
     componentDidMount = async () => {
@@ -291,6 +297,15 @@ class Routing extends Component {
         this.pollTokenFiatValue = null;
     };
 
+    handleTransferClick = () => {
+
+        this.setState({ openTransferPopup: true });
+    }
+
+    closeTransferPopup = () => {
+        this.setState({ openTransferPopup: false });
+    }
+
     render() {
         const {
             search,
@@ -341,11 +356,20 @@ class Routing extends Component {
                 >
                     <ThemeProvider theme={theme}>
                         <ScrollToTop />
-                        {SHOW_MIGRATION_BANNER && <MigrationBanner  account={account}/>}
-                        
+                        {
+                            SHOW_MIGRATION_BANNER && (
+                                <MigrationBanner
+                                    account={account}
+                                    onTransfer={this.handleTransferClick} />
+                            )}
+
                         <NetworkBanner account={account} />
                         <NavigationWrapper />
                         <GlobalAlert />
+                        <WalletMigration
+                            open={this.state.openTransferPopup}
+                            history={this.props.history}
+                            onClose={this.closeTransferPopup} />
                         <LedgerConfirmActionModal />
                         <LedgerConnectModal />
                         {account.requestPending !== null && (
@@ -563,23 +587,10 @@ class Routing extends Component {
                                     );
                                 }}
                             />
-                            <Route exact path="/batch-import" render={(({location}) => {
-                                let { keys, accounts, ledgerHdPaths } = parse(location.hash, {arrayFormat: 'comma'});
-                                if (!keys || !accounts) {
-                                    return <PageNotFound />;
-                                }
-
-                                // if single key or account param make an array of it
-                                keys = Array.isArray(keys) ? keys : [keys];
-                                accounts = Array.isArray(accounts) ? accounts : [accounts];
-                                ledgerHdPaths = Array.isArray(ledgerHdPaths) ? ledgerHdPaths : [ledgerHdPaths];
-
-                                const accountIdToKeyMap = accounts.reduce((acc, curr) => {
-                                    const [ accountId, keyIndex, ledgerHdPathIndex ] = curr.split('*');
-                                    return { ...acc, [accountId]: {key: keys[keyIndex], ledgerHdPath: ledgerHdPaths?.[ledgerHdPathIndex]} };
-                                }, {});
-                                return <BatchImportAccounts accountIdToKeyMap={accountIdToKeyMap} onCancel={() => this.props.history.replace('/')}/>;
-                            })} />
+                            <Route exact path="/batch-import" render={() =>
+                                (<BatchImportAccounts
+                                    onCancel={() => this.props.history.replace('/')} />)}
+                            />
                             <Route
                                 exact
                                 path="/batch-ledger-export"
@@ -646,7 +657,11 @@ class Routing extends Component {
                             <PrivateRoute
                                 exact
                                 path="/sign"
-                                component={SignWrapper}
+                                render={() => (
+                                    <SignWrapper
+                                        urlQuery={parse(this.props.router.location.hash)}
+                                    />
+                                )}
                             />
                             <PrivateRoute
                                 path="/staking"
@@ -673,6 +688,13 @@ class Routing extends Component {
                                 component={Privacy}
                                 indexBySearchEngines={true}
                             />
+                            {WEB3AUTH && (
+                                <PrivateRoute
+                                    exact
+                                    path="/verify-owner"
+                                    component={VerifyOwnerWrapper}
+                                />
+                            )}
                             <PrivateRoute component={PageNotFound} />
                         </Switch>
                         <Footer />

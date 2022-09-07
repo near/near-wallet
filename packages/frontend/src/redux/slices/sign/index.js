@@ -79,16 +79,48 @@ export const handleSignTransactions = createAsyncThunk(
     }
 );
 
-export function addQueryParams(baseUrl, queryParams) {
-    const url = new URL(baseUrl);
-    for (let key in queryParams) {
-        const param = queryParams[key];
-        if (param) {
-            url.searchParams.set(key, param);
+// TODO: draft
+export const handleSignPrivateShardTransactions = createAsyncThunk(
+    `${SLICE_NAME}/handleSignPrivateShardTransactions`,
+    async ({ customRPCUrl, xApiToken }, thunkAPI) => {
+        const { dispatch, getState } = thunkAPI;
+        // TODO: probably no need to use redux here
+        // TODO: do we need to save transaction hashes since it's private?
+        let transactionsHashes;
+        const retryingTx = !!selectSignRetryTransactions(getState()).length;
+
+        const transactions = retryingTx ? selectSignRetryTransactions(getState()) : selectSignTransactions(getState());        
+        const accountId = selectAccountId(getState());
+
+        try {
+            transactionsHashes = await wallet.signAndSendCalimeroTransaction(transactions, accountId, customRPCUrl, xApiToken);
+            dispatch(updateSuccessHashes(transactionsHashes));
+        } catch (error) {
+            if (error.message.includes('Exceeded the prepaid gas')) {
+                const successHashes = error?.data?.transactionHashes;
+                dispatch(updateSuccessHashes(successHashes));
+            }
+
+            dispatch(showCustomAlert({
+                success: false,
+                messageCodeHeader: 'error',
+                messageCode: `reduxActions.${error.code}`,
+                errorMessage: error.message
+            }));
+            throw error;
+        }
+
+        return selectSignSuccessHashesOnlyHash(getState());
+    },
+    {
+        condition: (_, thunkAPI) => {
+            const { getState } = thunkAPI;
+            if (selectSignStatus(getState()) === SIGN_STATUS.IN_PROGRESS) {
+                return false;
+            }
         }
     }
-    return url.toString();
-}
+);
 
 export const removeSuccessTransactions = ({ transactions, successHashes }) => {
     const transactionsCopy = cloneDeep(transactions);
@@ -237,6 +269,21 @@ export const selectSignMeta = createSelector(
 export const selectSignStatus = createSelector(
     [selectSignSlice],
     (sign) => sign.status
+);
+
+export const selectSignError = createSelector(
+    [selectSignSlice],
+    (sign) => sign.error
+);
+
+export const selectSignErrorName = createSelector(
+    [selectSignError],
+    (error) => error?.name
+);
+
+export const selectSignErrorMessage = createSelector(
+    [selectSignError],
+    (error) => error?.message
 );
 
 export const selectSignGasUsed = createSelector(

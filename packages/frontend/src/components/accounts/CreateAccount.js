@@ -187,7 +187,7 @@ class CreateAccount extends Component {
             activeAccountIdIsImplicit,
             accountExists
         } = this.props;
-        
+
         const isLinkDrop = fundingContract && fundingKey;
         const useLocalAlert = accountId.length > 0 ? localAlert : undefined;
         const showTermsPage = IS_MAINNET && !isLinkDrop && !termsAccepted && !ENABLE_IDENTITY_VERIFIED_ACCOUNT;
@@ -290,14 +290,13 @@ class CreateAccount extends Component {
                         )}
                         <div className='alternatives-title'><Translate id='createAccount.alreadyHaveAnAccount' /></div>
                         <div className='alternatives' onClick={() => {
-                            Mixpanel.track('IE Click import existing account button'); 
+                            Mixpanel.track('IE Click import existing account button');
                         }}
                         >
                             <Link to={`/recover-account${locationSearch}`}><Translate id='createAccount.recoverItHere' /></Link>
                         </div>
                     </form>
                 </StyledContainer>
-
             );
         } else {
             return (

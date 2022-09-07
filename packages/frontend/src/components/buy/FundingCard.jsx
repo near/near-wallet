@@ -79,6 +79,13 @@ const Link = styled.div`
         }
     }
 `;
+const FundingTypeWrap = styled.div`
+    margin: 30px 0;
+    
+    @media (max-width: 580px) {
+        margin: 0;
+    }
+`;
 
 export const FundingCard = ({ title, subTitle, actions, link }) => {
     return (
@@ -98,7 +105,7 @@ export const FundingCard = ({ title, subTitle, actions, link }) => {
                     )}
                 </SubTitle>
             </TextWrap>
-            <div>
+            <FundingTypeWrap>
                 {actions
                     .filter(({ disabled }) => !disabled)
                     .map((action, i) => (
@@ -108,7 +115,7 @@ export const FundingCard = ({ title, subTitle, actions, link }) => {
                         />
                     ))
                 }
-            </div>
+            </FundingTypeWrap>
         </Block>
     );
 };

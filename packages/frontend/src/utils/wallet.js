@@ -41,6 +41,7 @@ export const WALLET_INITIAL_DEPOSIT_URL = 'initial-deposit';
 export const WALLET_LINKDROP_URL = 'linkdrop';
 export const WALLET_RECOVER_ACCOUNT_URL = 'recover-account';
 export const WALLET_SEND_MONEY_URL = 'send-money';
+export const WALLET_VERIFY_OWNER_URL = 'verify-owner';
 
 const {
     ACCESS_KEY_FUNDING_AMOUNT,
@@ -1120,11 +1121,61 @@ export default class Wallet {
         return transactionHashes;
     }
 
+    // TODO: just a copy-paste draft
+    async signAndSendCalimeroTransaction(transactions, accountId = this.accountId, customRPCUrl, xApiToken) {
+        // TODO: no need to store hashes since it's private shard
+        const transactionHashes = [];
+        const args = { url: customRPCUrl + '/' };
+        if (xApiToken) {
+            args.headers = {
+                'x-api-key' : xApiToken
+            };
+        };
+        const calimeroConnection = nearApiJs.Connection.fromConfig({
+            networkId: NETWORK_ID,
+            provider: { type: 'JsonRpcProvider', args },
+            signer: this.signer
+        });
+        for (let { receiverId, nonce, blockHash, actions } of transactions) {
+            let status, transaction;
+
+            const [, signedTransaction] = await nearApiJs.transactions.signTransaction(receiverId, nonce, actions, blockHash, calimeroConnection.signer, accountId, NETWORK_ID);
+            ({ status, transaction } = await calimeroConnection.provider.sendTransaction(signedTransaction));
+
+            // TODO: Shouldn't throw more specific errors on failure?
+            if (status.Failure !== undefined) {
+                throw new Error(`Transaction failure for transaction hash: ${transaction.hash}, receiver_id: ${transaction.receiver_id} .`);
+            }
+            transactionHashes.push({
+                hash: transaction.hash,
+                nonceString: nonce.toString()
+            });
+        }
+
+        return transactionHashes;
+    }
+
     dispatchShowLedgerModal(show) {
         const { actionStatus } = store.getState().status;
         const actions = Object.keys(actionStatus).filter((action) => actionStatus[action]?.pending === true);
         const action = actions.length ? actions[actions.length - 1] : false;
         store.dispatch(showLedgerModal({ show, action }));
+    }
+
+    async signMessage(message, accountId = this.accountId) {
+        const account = await this.getAccount(accountId);
+        const signer = account.inMemorySigner || account.connection.signer;
+        const signed = await signer.signMessage(Buffer.from(message), accountId, NETWORK_ID);
+        return {
+            accountId,
+            signed
+        };
+    }
+
+    async getPublicKey(accountId = this.accountId) {
+        const account = await this.getAccount(accountId);
+        const signer = account.inMemorySigner || account.connection.signer;
+        return signer.getPublicKey(accountId, NETWORK_ID);
     }
 }
 

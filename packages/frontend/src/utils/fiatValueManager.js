@@ -3,12 +3,11 @@ import { Contract } from 'near-api-js';
 import Cache from 'node-cache';
 import { stringifyUrl } from 'query-string';
 
-import { REF_FINANCE_API_ENDPOINT, REF_FINANCE_CONTRACT} from '../config';
+import { REF_FINANCE_API_ENDPOINT, REF_FINANCE_CONTRACT, ACCOUNT_ID_SUFFIX } from '../config';
 import sendJson from '../tmp_fetch_send_json';
 import { wallet } from './wallet';
 
 const COINGECKO_PRICE_URL = 'https://api.coingecko.com/api/v3/simple/price';
-const COINGECKO_SEARCH_URL = 'https://api.coingecko.com/api/v3/search';
 
 function wrapNodeCacheForDataloader(cache) {
     return {
@@ -33,24 +32,8 @@ function wrapNodeCacheForDataloader(cache) {
 export default class FiatValueManager {
     constructor() {
         this.coinGeckoFiatValueDataLoader = new DataLoader(
-            async (tokenSymbols) => {
+            async (tokenIds) => {
                 try {
-                    const tokenIds = [];
-                    const symbolToId = {};
-                    for (const tokenSymbol of tokenSymbols) {
-                        const { coins } = await sendJson(
-                            'GET', 
-                            stringifyUrl({
-                                url: COINGECKO_SEARCH_URL,
-                                query: tokenSymbol
-                            })
-                        );
-                        const coin = coins.find((coin) => coin?.symbol.toUpperCase() == tokenSymbol.toUpperCase());
-                        if (coin?.id) {
-                            tokenIds.push(coin.id);
-                            symbolToId[tokenSymbol] = coin.id;
-                        }
-                    }
                     const tokenFiatValues = await sendJson(
                         'GET', 
                         stringifyUrl({
@@ -62,16 +45,13 @@ export default class FiatValueManager {
                             }
                         })
                     );
-                    return tokenSymbols.map((symbol) => {
-                        const id = symbolToId[symbol];
-                        return tokenFiatValues[id];
-                    });
+                    return tokenIds.map((id) => tokenFiatValues[id]);
                 } catch (error) {
                     console.error(`Failed to fetch coingecko prices: ${error}`);
                     // DataLoader must be constructed with a function which accepts 
                     // Array<key> and returns Promise<Array<value>> of the same length
                     // as the Array of keys
-                    return Promise.resolve(Array(tokenSymbols.length).fill({}));
+                    return Promise.resolve(Array(tokenIds.length).fill({}));
                 }
             },
             {
@@ -118,7 +98,7 @@ export default class FiatValueManager {
                 }
             });
         }, {});
-        return formattedValues;
+        return {...formattedValues, near: formattedValues[`wrap.${ACCOUNT_ID_SUFFIX}`]};
     };
 
     async fetchTokenWhiteList(accountId) {
