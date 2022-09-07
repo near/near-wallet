@@ -135,12 +135,15 @@ export function SignWrapper({ urlQuery }) {
 
     const handleCancelTransaction = async () => {
         if (customRPCUrl && privateShardId) {
-            window.location.href = addQueryParams(signCallbackUrl, {
+            console.log(signCallbackUrl);
+
+            const encounter = addQueryParams(signCallbackUrl, {
                 signMeta,
                 errorCode: encodeURIComponent('userRejected'),
                 errorMessage: encodeURIComponent('User rejected transaction')
             });
-        
+            console.log(encounter);
+            window.location.href= encounter;
             return;
         }
         
