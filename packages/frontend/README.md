@@ -28,6 +28,10 @@ To run tests:
 
 `yarn test`
 
+Guides
+===
+-  [Add Your Wallet As A Migration Option On Near Wallet](https://hackmd.io/@0xrosh/add-wallet-migration-option)
+
 ## License
 This repository is distributed under the terms of both the MIT license and the Apache License (Version 2.0).
 See [LICENSE](LICENSE) and [LICENSE-APACHE](LICENSE-APACHE) for details.
