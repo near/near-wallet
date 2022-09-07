@@ -20,6 +20,9 @@ export const ACTIONS = {
     SET_CURRENT_FAILED: 'SET_CURRENT_FAILED',
     CONFIRM_URL: 'CONFIRM_URL',
     REMOVE_ACCOUNTS: 'REMOVE_ACCOUNTS',
+    ADD_ACCOUNTS: 'ADD_ACCOUNTS',
+    SET_CURRENT_FAILED_AND_END_PROCESS: 'SET_CURRENT_FAILED_AND_END_PROCESS',
+    RESTART_PROCESS: 'RESTART_PROCESS'
 };
 
 /**
@@ -86,6 +89,22 @@ const sequentialAccountImportReducer = (state = initialState, action) => {
             }
             return;
         }
+        case ACTIONS.SET_CURRENT_FAILED_AND_END_PROCESS: {
+            const currentIndex = state.accounts.findIndex(
+                (account) => account.status === IMPORT_STATUS.PENDING
+            );
+            state.accounts[currentIndex].status = IMPORT_STATUS.FAILED;
+            return;
+        };
+        case ACTIONS.RESTART_PROCESS: {
+            const [firstAccount, ...remainingAccounts] = state.accounts;
+
+            firstAccount.status = IMPORT_STATUS.PENDING;
+            remainingAccounts.forEach(
+                (account) => (account.status = IMPORT_STATUS.UP_NEXT)
+            );
+            return;
+        };
         case ACTIONS.CONFIRM_URL:
             state.urlConfirmed = true;
             return;

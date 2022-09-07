@@ -4,6 +4,7 @@ import * as nearApiJs from 'near-api-js';
 import { store } from '..';
 import { ACCOUNT_HELPER_URL, MULTISIG_CONTRACT_HASHES, MULTISIG_MIN_AMOUNT } from '../config';
 import { promptTwoFactor, refreshAccount } from '../redux/actions/account';
+import { WalletError } from './walletError';
 
 const {
     multisig: { Account2FA },
@@ -42,6 +43,12 @@ export class TwoFactor extends Account2FA {
     }
 
     async initTwoFactor(accountId, method) {
+        // additional check if the ledger is enabled, in case the user was able to omit disabled buttons
+        const isLedgerEnabled = await this.wallet.isLedgerEnabled();
+        if (isLedgerEnabled) {
+            throw new WalletError('Ledger Hardware Wallet is enabled', 'initTwoFactor.ledgerEnabled');
+        }
+
         // clear any previous requests in localStorage (for verifyTwoFactor)
         this.setRequest({ requestId: -1 });
         return await this.wallet.postSignedJson('/2fa/init', {
@@ -68,7 +75,18 @@ export class TwoFactor extends Account2FA {
     async disableMultisig() {
         const contractBytes = new Uint8Array(await (await fetch('/main.wasm')).arrayBuffer());
         const stateCleanupContractBytes = new Uint8Array(await (await fetch('/state_cleanup.wasm')).arrayBuffer());
-        const result = await this.disable(contractBytes, stateCleanupContractBytes);
+        let result;
+        try {
+            result = await this.disable(contractBytes, stateCleanupContractBytes);
+        } catch (e) {
+            if (e.message.includes('too large to be viewed')) {
+                throw new Error('You must wait 15 minutes between each attempt to disable 2fa. Please try again in 15 minutes.');
+            }
+            if (e.message.includes('Request was cancelled.')) {
+                throw new Error('Request was cancelled. You must wait 15 minutes to attempt disabling 2fa again.');
+            }
+            throw new Error(e.message);
+        }
         await store.dispatch(refreshAccount());
         this.has2fa = false;
         return result;

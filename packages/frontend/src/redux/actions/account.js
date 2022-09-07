@@ -268,7 +268,7 @@ export const {
     ],
     INIT_TWO_FACTOR: [
         (...args) => new TwoFactor(wallet, wallet.accountId).initTwoFactor(...args),
-        () => ({})
+        () => showAlert({ onlyError: true })
     ],
     REINIT_TWO_FACTOR: [
         (...args) => new TwoFactor(wallet, wallet.accountId).initTwoFactor(...args),

@@ -61,7 +61,7 @@ module.exports = {
     MULTISIG_CONTRACT_HASHES: parseCommaSeperatedStringAsArrayFromShell(
         process.env.MULTISIG_CONTRACT_HASHES
     ),
-    MIGRATION_START_DATE: parseDateFromShell(process.env.MIGRATION_START_DATE || '2022-07-12'),
+    MIGRATION_START_DATE: parseDateFromShell(process.env.MIGRATION_START_DATE || '2022-12-02'),
     MULTISIG_MIN_AMOUNT: process.env.REACT_APP_MULTISIG_MIN_AMOUNT,
     MULTISIG_MIN_PROMPT_AMOUNT:
         process.env.REACT_APP_MULTISIG_MIN_PROMPT_AMOUNT,

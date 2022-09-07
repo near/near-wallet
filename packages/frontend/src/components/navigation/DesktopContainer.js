@@ -107,7 +107,7 @@ class DesktopContainer extends Component {
         return (
             <Container>
                 {
-                    isWhitelabel() ?
+                    isWhitelabel ?
                         <Logo link={!flowLimitationMainMenu}/> :
                         <DeprecatedLogo link={!flowLimitationMainMenu}/>
                 }

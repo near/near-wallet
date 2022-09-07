@@ -6,6 +6,7 @@ export const ValidatorVersion = {
     [FARMING_VALIDATOR_VERSION]: FARMING_VALIDATOR_VERSION
 };
 
+export const IMPLICIT_ACCOUNT_MAX_LENGTH = 64;
 export const MAINNET = 'mainnet';
 export const TESTNET = 'testnet';
 export const FARMING_VALIDATOR_PREFIXES_MAINNET = ['.pool.near'];

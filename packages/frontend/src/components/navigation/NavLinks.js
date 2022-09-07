@@ -5,8 +5,10 @@ import styled from 'styled-components';
 
 import { DONATE_TO_UKRAINE } from '../../../../../features';
 import { IS_MAINNET } from '../../config';
+import { isWhitelabel } from '../../config/whitelabel';
 import { Mixpanel } from '../../mixpanel/index';
 import DonateToUkraineIcon from '../svg/DonateToUkraineIcon';
+import ExploreIcon from '../svg/ExploreIcon';
 import HelpIcon from '../svg/HelpIcon';
 import UserIcon from '../svg/UserIcon';
 import VaultIcon from '../svg/VaultIcon';
@@ -114,11 +116,17 @@ const NavLinks = () => (
             <VaultIcon/>
             <Translate id='link.staking'/>
         </NavLink>
+        {isWhitelabel && (
+            <NavLink data-test-id="explore_navlink" to='/explore' activeClassName='selected' onClick={() => Mixpanel.track('Click Explore button on nav')}>
+                <ExploreIcon/>
+                <Translate id='link.explore'/>
+            </NavLink>
+        )}
         <NavLink to='/profile' className='account-details-link' activeClassName='selected' onClick={() => Mixpanel.track('Click Account button on nav')}>
             <UserIcon/>
             <Translate id='link.account'/>
         </NavLink>
-        <a href='https://nearhelp.zendesk.com/' target='_blank' rel='noopener noreferrer' onClick={() => Mixpanel.track('Click Help button on nav')}>
+        <a href={isWhitelabel ? 'https://support.mynearwallet.com/en' : 'https://nearhelp.zendesk.com/'} target='_blank' rel='noopener noreferrer' onClick={() => Mixpanel.track('Click Help button on nav')}>
             <HelpIcon/>
             <Translate id='link.help'/>
         </a>
