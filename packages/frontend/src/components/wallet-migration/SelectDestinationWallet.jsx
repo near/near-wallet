@@ -47,12 +47,6 @@ const WALLET_OPTIONS = [
         getUrl: ({ hash }) => `${getMyNearWalletUrlFromNEARORG()}/batch-import#${hash}`
     },
     {
-        id: 'meteor-wallet',
-        name: 'Meteor Wallet',
-        icon: <img src={ImgMeteorWallet} alt={'Meteor Wallet Logo'}/>,
-        getUrl: ({ hash, networkId }) => `${getMeteorWalletUrl()}/batch-import?hash=${hash}&network=${networkId}`
-    },
-    {
         id: 'ledger',
         name: 'Ledger',
         icon: <IconLedger/>,
@@ -62,7 +56,13 @@ const WALLET_OPTIONS = [
         name: 'Sender',
         icon: <img src={SenderLogo} alt="Sender Wallet Logo"/>,
         getUrl: ({ hash, networkId }) => `https://sender.org/transfer?keystore=${hash}&network=${networkId}`
-    }
+    },
+    {
+        id: 'meteor-wallet',
+        name: 'Meteor Wallet',
+        icon: <img src={ImgMeteorWallet} alt={'Meteor Wallet Logo'}/>,
+        getUrl: ({ hash, networkId }) => `${getMeteorWalletUrl()}/batch-import?hash=${hash}&network=${networkId}`
+    },
 ];
 
 const WalletOptionsListing = styled.div`
