@@ -1,10 +1,7 @@
 import React from 'react';
 import { Translate } from 'react-localize-redux';
-import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
-import { selectAvailableBalance } from '../../redux/slices/account';
-import { formatNearAmount } from '../common/balance/helpers';
 import Container from '../common/styled/Container.css';
 import Banner from './components/Banner';
 import ExploreSection from './components/ExploreSection';
@@ -30,13 +27,10 @@ const StyledH1 = styled.h1`
 `;
 
 export function ExploreContainer() {    
-    const nearBalance = useSelector(selectAvailableBalance) || 0;
-    const isBannerAvailable = formatNearAmount(nearBalance) < 0.1;
-
     return (
         <StyledContainer>
             <StyledH1><Translate id='explore.sectionName'/></StyledH1>
-            {isBannerAvailable && <Banner />}
+            <Banner />
             <TrandingProjects projects={trandingProjects}/>
             <ExploreSection content={exchangeSection} translationId='explore.categories.exchanges' />
             <ExploreSection content={startEarningSection} translationId='explore.categories.startEarning' />
