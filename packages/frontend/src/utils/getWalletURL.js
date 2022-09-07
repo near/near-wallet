@@ -36,4 +36,8 @@ export const getMyNearWalletUrlFromNEARORG = (https = true) => {
     return `${https ? 'https://' : ''}${prefix || ''}mynearwallet.com`;
 };
 
+export const getMeteorWalletUrl = () => {
+    return 'https://wallet.meteorwallet.app';
+};
+
 export default isWhitelabel ? getMyNearWalletUrl : getNearOrgWalletUrl;
