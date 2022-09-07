@@ -36,3 +36,4 @@ jobs:
       environment: mainnet-preview
       near_wallet_env: mainnet_STAGING
     secrets: inherit
+
