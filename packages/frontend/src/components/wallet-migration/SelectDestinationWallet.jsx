@@ -3,7 +3,7 @@ import { Translate } from 'react-localize-redux';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
-import ImgFinerWallet from '../../../src/images/finer-logo.png';
+import ImgFinerWallet from '../../../src/images/finer-logo.svg';
 import ImgMyNearWallet from '../../../src/images/mynearwallet-cropped.svg';
 import SenderLogo from '../../../src/images/sender-logo.png';
 import isMobile from '../../../src/utils/isMobile';
@@ -46,13 +46,6 @@ const WALLET_OPTIONS = [
         checkAvailability: () => true,
     },
     {
-        id: 'finer-wallet',
-        name: 'FiNER Wallet',
-        icon: <img src={ImgFinerWallet} alt="Finer Wallet Logo" />,
-        getUrl: ({ hash }) => `finer://wallet.near.org/batch-import#${hash}`,
-        checkAvailability: () => isMobile(),
-    },
-    {
         id:'ledger',
         name: 'Ledger',
         icon: <IconLedger />,
@@ -64,7 +57,14 @@ const WALLET_OPTIONS = [
         icon: <img src={SenderLogo} alt="Sender Wallet Logo" />,
         getUrl: ({ hash, networkId }) => `https://sender.org/transfer?keystore=${hash}&network=${networkId}`,
         checkAvailability: () => true,
-    }
+    },
+    {
+        id: 'finer-wallet',
+        name: 'FiNER Wallet',
+        icon: <img src={ImgFinerWallet} alt="Finer Wallet Logo" />,
+        getUrl: ({ hash }) => `finer://wallet.near.org/batch-import#${hash}`,
+        checkAvailability: () => isMobile(),
+    },
 ];
 
 const WalletOptionsListing = styled.div`
