@@ -84,6 +84,7 @@ import NetworkBanner from './common/NetworkBanner';
 import PrivateRoute from './common/routing/PrivateRoute';
 import PublicRoute from './common/routing/PublicRoute';
 import Route from './common/routing/Route';
+import TwoFactorDisableBanner from './common/TwoFactorDisableBanner';
 import { ExploreContainer } from './explore/ExploreContainer';
 import GlobalStyle from './GlobalStyle';
 import { LoginCliLoginSuccess } from './login/LoginCliLoginSuccess';
@@ -366,6 +367,7 @@ class Routing extends Component {
 
                         <NetworkBanner account={account} />
                         <NavigationWrapper />
+                        { !isWhitelabel() && <TwoFactorDisableBanner />}
                         <GlobalAlert />
                         <WalletMigration
                             open={this.state.openTransferPopup}

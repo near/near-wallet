@@ -1700,6 +1700,11 @@
             "title": "Enter Two-Factor Verification Code"
         }
     },
+    "twoFactorDisbleBanner": {
+        "desc": "NEAR wallet will soon be remove support for two-factor authentication, please disable 2FA for your connected accounts.",
+        "title": "${accountsCount} Account${Plural} Need Your Attention",
+        "button": "Disable 2FA"
+    },
     "unlockedAvailTransfer": "This NEAR is unlocked, and can be transferred out of your lockup contract.",
     "unlockedBalance": "This NEAR is still in a lockup contract, but unlocked.",
     "unvestedBalance": "Unvested NEAR is earmarked to you, but not yet under your ownership. You can still delegate or stake this NEAR, and the rewards will be entirely yours. As your NEAR is vested, it will appear in either your Locked or Unlocked balance.",
