@@ -123,16 +123,20 @@ export default ({
                     amount={transferAmount}
                     showAlmostEqualSignUSD={false}
                     showSymbolUSD={false}
+                    showSymbolNEAR={!privateShardId}
+                    showBalanceInUSD={!privateShardId}
                 />
             )}
             <div className={`account from ${!isTransferTransaction ? 'no-border' : ''}`}>
                 <Translate id={fromLabelId || 'transfer.from'} />
                 <div className='right'>
                     <div className='account-id'>{sender}</div>
-                    <Balance
-                        amount={availableBalance}
-                        showBalanceInUSD={false}
-                    />
+                    {!privateShardId && (
+                        <Balance
+                            amount={availableBalance}
+                            showBalanceInUSD={false}
+                        />
+                    )}
                 </div>
             </div>
             <div className='account fees'>
@@ -143,6 +147,8 @@ export default ({
                 <div className='right'>
                     <Balance
                         amount={estimatedFees}
+                        showSymbolNEAR={!privateShardId}
+                        showBalanceInNEAR={!privateShardId}
                     />
                 </div>
             </div>
