@@ -8,6 +8,7 @@ import SignTransferMultipleAccounts from '../components/sign/SignTransferMultipl
 import SignTransferRetry from '../components/sign/SignTransferRetry';
 import SignTransactionDetailsWrapper from '../components/sign/v2/SignTransactionDetailsWrapper';
 import SignTransactionSummaryWrapper from '../components/sign/v2/SignTransactionSummaryWrapper';
+import { isWhitelabel } from '../config/whitelabel';
 import { Mixpanel } from '../mixpanel';
 import { switchAccount, redirectTo } from '../redux/actions/account';
 import { selectAccountId } from '../redux/slices/account';
@@ -107,7 +108,7 @@ export function SignWrapper({ urlQuery }) {
     }, [signStatus]);
 
     useEffect(() => {
-        if (urlQuery?.meta) {
+        if (urlQuery?.meta && isWhitelabel) {
             try {
                 const metaJson = JSON.parse(decodeURIComponent(urlQuery.meta));
                 if (metaJson.calimeroRPCEndpoint && metaJson.calimeroShardId) {
