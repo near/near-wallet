@@ -79,13 +79,10 @@ export const handleSignTransactions = createAsyncThunk(
     }
 );
 
-// TODO: draft
 export const handleSignPrivateShardTransactions = createAsyncThunk(
     `${SLICE_NAME}/handleSignPrivateShardTransactions`,
     async ({ customRPCUrl, xApiToken }, thunkAPI) => {
         const { dispatch, getState } = thunkAPI;
-        // TODO: probably no need to use redux here
-        // TODO: do we need to save transaction hashes since it's private?
         let transactionsHashes;
         const retryingTx = !!selectSignRetryTransactions(getState()).length;
 

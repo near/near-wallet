@@ -1653,7 +1653,8 @@
         "estimatedFees": "Estimated fees",
         "from": "From",
         "privateShard": "Private shard",
-        "to": "To"
+        "to": "To",
+        "tooltip": "Private shard transactions are executed inside private shard environment. They will not affect you main account."
     },
     "twoFactor": {
         "action": {

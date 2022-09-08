@@ -76,7 +76,7 @@ const StyledContainer = styled.div`
         }
 
         &.shard {
-            background-color: #f9f1fd; // TODO: use color based on metadata
+            background-color: #f9f1fd;
             padding-top: 32px;
             padding-bottom: 32px;
             border-top-left-radius: 8px;
@@ -110,8 +110,7 @@ export default ({
                 <div className='account shard'>
                     <div className='left'>
                         <Translate id='transfer.privateShard' />
-                        {/* TODO: change tooltip text */}
-                        <Tooltip translate='sendV2.translateIdInfoTooltip.estimatedFees' />
+                        <Tooltip translate='transfer.tooltip' />
                     </div>
                     <div className='right'>
                         {privateShardId}

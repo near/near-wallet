@@ -4,9 +4,9 @@ import styled from 'styled-components';
 import GlobeIcon from '../../svg/GlobeIcon';
 
 const StyledContainer = styled.div`
-    border: 1px solid #a47fcf; // TODO: use color based on metadata
-    background-color: #f9f1fd; // TODO: use color based on metadata
-    color: #a47fcf; // TODO: use color based on metadata
+    border: 1px solid #a47fcf;
+    background-color: #f9f1fd;
+    color: #a47fcf;
     padding: 6px 12px;
     border-radius: 40px;
     display: flex;
@@ -14,7 +14,6 @@ const StyledContainer = styled.div`
     justify-content: space-between;
     width: 100%;
     word-break: break-all;
-    /* cursor: pointer; */
 
     > svg {
         margin-right: 10px;
@@ -23,9 +22,8 @@ const StyledContainer = styled.div`
 `;
 
 export default ({ customRPCUrl }) => (
-    // TODO: should it be link or not?
     <StyledContainer className='connect-with-application'>
-        <GlobeIcon/> {/* TODO: get logo from metadata? */}
+        <GlobeIcon/>
         {customRPCUrl}
     </StyledContainer>
 );

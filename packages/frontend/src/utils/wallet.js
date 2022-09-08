@@ -1148,9 +1148,7 @@ export default class Wallet {
         return transactionHashes;
     }
 
-    // TODO: just a copy-paste draft
     async signAndSendCalimeroTransaction(transactions, accountId = this.accountId, customRPCUrl, xApiToken) {
-        // TODO: no need to store hashes since it's private shard
         const transactionHashes = [];
         const args = { url: customRPCUrl + '/' };
         if (xApiToken) {
