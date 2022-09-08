@@ -2,7 +2,7 @@ import { ConnectedRouter, getRouter } from 'connected-react-router';
 import isString from 'lodash.isstring';
 import { parseSeedPhrase } from 'near-seed-phrase';
 import PropTypes from 'prop-types';
-import { stringify } from 'query-string';
+import { parse, stringify } from 'query-string';
 import React, { Component } from 'react';
 import ReactDOMServer from 'react-dom/server';
 import { withLocalize } from 'react-localize-redux';
@@ -659,7 +659,7 @@ class Routing extends Component {
                                 path="/sign"
                                 render={() => (
                                     <SignWrapper
-                                        urlQuery={this.props.router.location.query}
+                                        urlQuery={parse(this.props.router.location.hash)}
                                     />
                                 )}
                             />
