@@ -367,7 +367,7 @@ class Routing extends Component {
 
                         <NetworkBanner account={account} />
                         <NavigationWrapper />
-                        { !isWhitelabel() && <TwoFactorDisableBanner />}
+                        { !isWhitelabel && <TwoFactorDisableBanner />}
                         <GlobalAlert />
                         <WalletMigration
                             open={this.state.openTransferPopup}
