@@ -11,12 +11,14 @@ const StyledContainer = styled.div`
     border-radius: 40px;
     display: flex;
     align-items: center;
-    justify-content: center;
-    width: fit-content;
+    justify-content: space-between;
+    width: 100%;
+    word-break: break-all;
     /* cursor: pointer; */
 
     > svg {
         margin-right: 10px;
+        min-width: 17px;
     }
 `;
 
