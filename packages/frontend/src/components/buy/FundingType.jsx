@@ -3,22 +3,26 @@ import styled from 'styled-components';
 
 import arrow from './assets/arrow.svg';
 
+const hoverEffect = (enabled) =>
+    enabled ? '&:hover { background: #f9f9f9; }' : '';
+
+const paledIf = (disabled) =>
+    disabled ? 'opacity: 0.5; filter: grayscale(1);' : '';
+
 const LinkWrap = styled.a`
     display: block;
-    border-top: 1px solid #F0F0F1;
-
-    &:hover{
-        background: #f9f9f9;
-    }
-    
+    border-top: 1px solid #f0f0f1;
+    cursor: ${({ disabled }) => (disabled ? 'default' : 'pointer')};
+    ${({ disabled }) => hoverEffect(!disabled)}
+    ${({ disabled }) => paledIf(disabled)}
     @media (max-width: 992px) {
-        :first-child{
+        :first-child {
             border: 0;
         }
     }
     @media (max-width: 580px) {
-        :first-child{
-            border-top: 1px solid #F0F0F1;
+        :first-child {
+            border-top: 1px solid #f0f0f1;
         }
     }
 `;
@@ -45,14 +49,27 @@ const WrapperImg = styled.div`
     display: flex;
 `;
 
-export const FundingType = ({ icon, link, name, track, provideReferrer }) => {
+export const FundingType = ({
+    icon,
+    link,
+    name,
+    track,
+    disabled,
+    provideReferrer,
+}) => {
     return (
-        <LinkWrap href={link} target='_blank' rel={!provideReferrer ? 'noreferrer' : 'noopener'} onClick={() => track && track()}>
+        <LinkWrap
+            href={link}
+            target='_blank'
+            rel={!provideReferrer ? 'noreferrer' : 'noopener'}
+            onClick={() => track && track()}
+            disabled={disabled}
+        >
             <Wrapper>
                 <WrapperImg title={name}>
-                    <img src={icon} alt="" />
+                    <img src={icon} alt={name} />
                 </WrapperImg>
-                <Button />
+                {disabled ? null : <Button />}
             </Wrapper>
         </LinkWrap>
     );

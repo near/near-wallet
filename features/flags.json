@@ -87,6 +87,50 @@
       "lastEditedAt": "2022-05-10T17:07:20.351Z"
     }
   },
+  "HAPI_RISK_SCORING": {
+    "createdBy": "Den Ilin",
+    "createdAt": "2022-07-22T14:03:54.488Z",
+    "development": {
+      "enabled": true,
+      "lastEditedBy": "Den Ilin",
+      "lastEditedAt": "2022-07-22T14:03:54.487Z"
+    },
+    "testnet": {
+      "enabled": true,
+      "lastEditedBy": "Den Ilin",
+      "lastEditedAt": "2022-07-22T14:03:54.488Z"
+    },
+    "mainnet": {
+      "enabled": false,
+      "lastEditedBy": "Den Ilin",
+      "lastEditedAt": "2022-07-22T14:03:54.488Z"
+    },
+    "mainnet_STAGING": {
+      "enabled": false,
+      "lastEditedBy": "Den Ilin",
+      "lastEditedAt": "2022-07-22T14:03:54.488Z"
+    },
+    "testnet_STAGING": {
+      "enabled": true,
+      "lastEditedBy": "Den Ilin",
+      "lastEditedAt": "2022-07-22T14:03:54.488Z"
+    },
+    "testnet_NEARORG": {
+      "enabled": false,
+      "lastEditedBy": "Den Ilin",
+      "lastEditedAt": "2022-07-22T14:03:54.488Z"
+    },
+    "mainnet_NEARORG": {
+      "enabled": false,
+      "lastEditedBy": "Den Ilin",
+      "lastEditedAt": "2022-07-22T14:03:54.488Z"
+    },
+    "mainnet_STAGING_NEARORG": {
+      "enabled": false,
+      "lastEditedBy": "Den Ilin",
+      "lastEditedAt": "2022-07-22T14:03:54.488Z"
+    }
+  },
   "RENDER_MIGRATION": {
     "createdBy": "Andy Haynes",
     "createdAt": "2022-06-22T01:17:14.439Z",
@@ -101,9 +145,9 @@
       "lastEditedAt": "2022-06-29T18:19:13.377Z"
     },
     "mainnet": {
-      "enabled": false,
-      "lastEditedBy": "Andy Haynes",
-      "lastEditedAt": "2022-06-22T01:17:14.439Z"
+      "enabled": true,
+      "lastEditedBy": "Morgan McCauley",
+      "lastEditedAt": "2022-07-26T22:40:11.936Z"
     },
     "mainnet_STAGING": {
       "enabled": true,
@@ -121,9 +165,9 @@
       "lastEditedAt": "2022-06-29T18:19:13.377Z"
     },
     "mainnet_NEARORG": {
-      "enabled": false,
-      "lastEditedBy": "Andy Haynes",
-      "lastEditedAt": "2022-06-22T01:17:14.439Z"
+      "enabled": true,
+      "lastEditedBy": "Morgan McCauley",
+      "lastEditedAt": "2022-07-26T22:40:11.936Z"
     },
     "mainnet_STAGING_NEARORG": {
       "enabled": true,

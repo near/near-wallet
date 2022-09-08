@@ -11,6 +11,7 @@ import { actions as ledgerActions } from '../../redux/slices/ledger';
 import { actions as nftActions } from '../../redux/slices/nft';
 import { selectStatusLocalAlert } from '../../redux/slices/status';
 import NonFungibleTokens from '../../services/NonFungibleTokens';
+import { shortenAccountId } from '../../utils/account';
 import isMobile from '../../utils/isMobile';
 import Balance from '../common/balance/Balance';
 import FormButton from '../common/FormButton';
@@ -194,19 +195,26 @@ const StyledContainer = styled.div`
 `;
 
 export default function NFTTransferModal({ open, onClose, nft, accountId }) {
-    const [ receiverId, setReceiverId ] = useState('');
-    const [ result, setResult ] = useState();
-    const [ sending, setSending ] = useState(false);
-    const [ viewType, setViewType ] = useState('selectReceiver');
-    const [ accountIdIsValid, setAccountIdIsValid] = useState(false);
+    const [receiverId, setReceiverId] = useState('');
+    const [result, setResult] = useState();
+    const [sending, setSending] = useState(false);
+    const [viewType, setViewType] = useState('selectReceiver');
+    const [isImplicitAccount, setIsImplicitAccount] = useState(false);
     const { balanceAvailable: nearBalance } = useSelector(selectBalance);
     const dispatch = useDispatch();
     const { checkAndHideLedgerModal } = ledgerActions;
     const { transferToken } = nftActions;
 
     const localAlert = useSelector(selectStatusLocalAlert);
+    const isEmptyAlert = !localAlert || localAlert.show === undefined || localAlert.show === false;
+    const hasAccountValidationError = localAlert && localAlert.show && !localAlert.success;
 
-    async function sendNFT () {
+    // TODO: Add RiskScoring validation
+    const isLoading = isEmptyAlert;
+    const isSuccess = !isLoading && localAlert?.success && !isImplicitAccount;
+    const isProblem = !isLoading && hasAccountValidationError;
+
+    async function sendNFT() {
         setSending(true);
         try {
             const { contract_id, token_id, owner_id } = nft;
@@ -247,11 +255,11 @@ export default function NFTTransferModal({ open, onClose, nft, accountId }) {
         >
             {viewType === 'selectReceiver' && (
                 <StyledContainer>
-                    <img className='transfer-img' src={nft.metadata.mediaUrl} alt='NFT'/>
-    
-                    <h3><Translate id='NFTTransfer.transferNft'/></h3>
-                    <p className='transfer-txt'><Translate id='NFTTransfer.enterReceiver'/></p>
-    
+                    <img className='transfer-img' src={nft.metadata.mediaUrl} alt='NFT' />
+
+                    <h3><Translate id='NFTTransfer.transferNft' /></h3>
+                    <p className='transfer-txt'><Translate id='NFTTransfer.enterReceiver' /></p>
+
                     <form>
                         <div className='receiver-input'>
                             <ReceiverInputWithLabel
@@ -261,10 +269,12 @@ export default function NFTTransferModal({ open, onClose, nft, accountId }) {
                                 localAlert={localAlert}
                                 autoFocus={!isMobile()}
                                 clearLocalAlert={() => dispatch(clearLocalAlert())}
-                                setAccountIdIsValid={setAccountIdIsValid}
+                                setIsImplicitAccount={setIsImplicitAccount}
+                                isSuccess={isSuccess}
+                                isProblem={isProblem}
                             />
                         </div>
-    
+
                         <ModalFooter>
                             <div className='buttons'>
                                 <FormButton
@@ -273,15 +283,15 @@ export default function NFTTransferModal({ open, onClose, nft, accountId }) {
                                     onClick={onClose}
                                     color='gray'
                                 >
-                                    <Translate id='NFTTransfer.cancel'/>
+                                    <Translate id='NFTTransfer.cancel' />
                                 </FormButton>
                                 <FormButton
                                     className='next-btn'
                                     type='submit'
-                                    disabled={!accountIdIsValid}
+                                    disabled={isLoading || isProblem}
                                     onClick={() => setViewType('confirm')}
                                 >
-                                    <Translate id='NFTTransfer.next'/>
+                                    <Translate id='NFTTransfer.next' />
                                 </FormButton>
                             </div>
                         </ModalFooter>
@@ -291,29 +301,36 @@ export default function NFTTransferModal({ open, onClose, nft, accountId }) {
 
             {viewType === 'confirm' && (
                 <StyledContainer>
-                    <h3><Translate id='NFTTransfer.transferNft'/></h3>
+                    <h3><Translate id='NFTTransfer.transferNft' /></h3>
 
                     <div className='confirm-nft-card'>
                         <div className='confirm-img'>
-                            <img src={nft.metadata.mediaUrl} alt='NFT'/>
+                            <img src={nft.metadata.mediaUrl} alt='NFT' />
                         </div>
 
                         <div className='line'></div>
                         <div className='from-box'>
-                            <span className='confirm-txt v-center'><Translate id='transfer.from'/></span>
+                            <span className='confirm-txt v-center'><Translate id='transfer.from' /></span>
                             <span className='h-right v-center'>
-                                <span className='account-id'>{accountId}</span>
-                                <Balance amount={nearBalance} showBalanceInUSD={false}/>
+                                <span className="account-id" title={accountId}>
+                                    {shortenAccountId(accountId)}
+                                </span>
+                                <Balance amount={nearBalance} showBalanceInUSD={false} />
                             </span>
                         </div>
                         <div className='line'></div>
                         <div className='to-box'>
                             <span className='confirm-txt v-center'><Translate id='transfer.to' /></span>
-                            <span className='h-right v-center account-id'>{receiverId}</span>
+                            <span
+                                className="h-right v-center account-id"
+                                title={receiverId}
+                            >
+                                {shortenAccountId(receiverId)}
+                            </span>
                         </div>
                     </div>
 
-                    <EstimatedFees gasFeeAmount={NFT_TRANSFER_GAS}/>
+                    <EstimatedFees gasFeeAmount={NFT_TRANSFER_GAS} />
 
                     <div className='full-width'>
                         <ModalFooter>
@@ -324,7 +341,7 @@ export default function NFTTransferModal({ open, onClose, nft, accountId }) {
                                     onClick={onClose}
                                     color='gray'
                                 >
-                                    <Translate id='NFTTransfer.cancel'/>
+                                    <Translate id='NFTTransfer.cancel' />
                                 </FormButton>
                                 <FormButton
                                     className='next-btn'
@@ -332,7 +349,7 @@ export default function NFTTransferModal({ open, onClose, nft, accountId }) {
                                     sending={sending}
                                     onClick={() => sendNFT(nft, receiverId)}
                                 >
-                                    <Translate id='NFTTransfer.confirm'/>
+                                    <Translate id='NFTTransfer.confirm' />
                                 </FormButton>
                             </div>
                         </ModalFooter>
@@ -343,12 +360,12 @@ export default function NFTTransferModal({ open, onClose, nft, accountId }) {
             {viewType === 'success' && (
                 <StyledContainer className='small-centered'>
                     <div className='icon'>
-                        <AvatarSuccessIcon/>
+                        <AvatarSuccessIcon />
                     </div>
                     <div className='success'>
                         <p><Translate id='NFTTransfer.transactionComplete' /></p>
                         <p>
-                            <SafeTranslate id='NFTTransfer.youSent' 
+                            <SafeTranslate id='NFTTransfer.youSent'
                                 data={{
                                     title: nft.metadata.title,
                                     receiverId

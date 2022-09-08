@@ -26,6 +26,8 @@ export default {
     MOONPAY_API_KEY: 'pk_live_jYDdkGL7bJsrwalHZs1lVIhdOHOtK8BR',
     MOONPAY_API_URL: 'https://api.moonpay.com',
     MOONPAY_BUY_URL: 'https://buy.moonpay.io?apiKey=',
+    TRANSAK_API_KEY: '170f3c62-9cdd-412e-900c-e6b97330a6f0',
+    TRANSAK_BUY_URL: 'https://global.transak.com/',
     UTORG_ORDER_URL: 'https://app.utorg.pro/direct/wallet.staging.near.org/',
     MULTISIG_CONTRACT_HASHES: [
         // https://github.com/near/core-contracts/blob/fa3e2c6819ef790fdb1ec9eed6b4104cd13eb4b7/multisig/src/lib.rs
@@ -59,5 +61,6 @@ export default {
     REF_FINANCE_API_ENDPOINT: 'https://indexer.ref.finance',
     REF_FINANCE_CONTRACT: 'v2.ref-finance.near',
     USN_CONTRACT: 'usn',
+    HAPI_PROTOCOL_ADDRESS: 'proxy.hapiprotocol.near',
     CALIMERO_PROTOCOL_ADDRESS: '' // TODO:
 };

@@ -129,7 +129,7 @@ const MigrationBanner = ({ account, onTransfer }) => {
                         availableAccounts.length ? (
                             <Translate id='migration.message' data={{
                                 startDate: MIGRATION_START_DATE.toLocaleDateString(),
-                                url: getMyNearWalletUrl()
+                                url: 'https://near.org/blog/near-opens-the-door-to-more-wallets/'
                             }}/>
                         ) :
                             <Translate id='migration.redirect' data={{ url: getMyNearWalletUrl() }}/>

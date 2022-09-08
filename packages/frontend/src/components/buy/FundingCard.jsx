@@ -5,20 +5,19 @@ import styled from 'styled-components';
 import { FundingType } from './FundingType';
 
 const Block = styled.div`
-   display: grid;
-   border: 1px solid #E5E5E6;
-   border-radius: 8px;    
-   
-   @media (max-width: 992px) {
-       grid-template-columns: 1fr 1fr;
-       align-content: center;
-       grid-gap: 0 32px;
-       height: 100%;
+    display: grid;
+    border: 1px solid #e5e5e6;
+    border-radius: 8px;
+
+    @media (max-width: 992px) {
+        grid-template-columns: 1fr 1fr;
+        align-content: center;
+        grid-gap: 0 32px;
+        height: 100%;
     }
     @media (max-width: 580px) {
         grid-template-columns: 1fr;
         grid-template-rows: 1fr;
-        overflow: hidden;
     }
 `;
 const TextWrap = styled.div`
@@ -41,7 +40,7 @@ const Title = styled.div`
     margin-top: 40px;
     @media (max-width: 992px) {
         text-align: start;
-        margin: 0
+        margin: 0;
     }
     @media (max-width: 580px) {
         text-align: center;
@@ -51,13 +50,13 @@ const SubTitle = styled.div`
     height: 140px;
     font-size: 16px;
     font-weight: 500;
-    color: #72727A;
+    color: #72727a;
     text-align: center;
     margin: 16px 28px 0;
     @media (max-width: 992px) {
-       height: auto;
-       text-align: start;
-       margin: 16px 0 0 0;
+        height: auto;
+        text-align: start;
+        margin: 16px 0 0 0;
     }
     @media (max-width: 580px) {
         text-align: center;
@@ -65,14 +64,14 @@ const SubTitle = styled.div`
     }
 `;
 const Link = styled.div`
-    a{
+    a {
         display: block;
         width: 100%;
         text-align: center;
         margin-top: 20px;
         text-decoration: underline;
         @media (max-width: 992px) {
-           text-align: start;
+            text-align: start;
         }
         @media (max-width: 580px) {
             text-align: center;
@@ -80,8 +79,10 @@ const Link = styled.div`
     }
 `;
 const FundingTypeWrap = styled.div`
-    margin: 30px 0;
-    
+    @media (max-width: 992px) {
+        margin: 30px 0;
+    }
+
     @media (max-width: 580px) {
         margin: 0;
     }
@@ -98,7 +99,7 @@ export const FundingCard = ({ title, subTitle, actions, link }) => {
                     <Translate id={subTitle} />
                     {link && (
                         <Link>
-                            <a href={link.url} target='_blank' rel='noreferrer' >
+                            <a href={link.url} target='_blank' rel='noreferrer'>
                                 <Translate id={link.title} />
                             </a>
                         </Link>
@@ -106,15 +107,9 @@ export const FundingCard = ({ title, subTitle, actions, link }) => {
                 </SubTitle>
             </TextWrap>
             <FundingTypeWrap>
-                {actions
-                    .filter(({ disabled }) => !disabled)
-                    .map((action, i) => (
-                        <FundingType
-                            key={i}
-                            {...action}
-                        />
-                    ))
-                }
+                {actions.map((action, i) => (
+                    <FundingType key={i} {...action} />
+                ))}
             </FundingTypeWrap>
         </Block>
     );

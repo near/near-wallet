@@ -6,11 +6,13 @@ import styled from 'styled-components';
 import {
     CREATE_USN_CONTRACT,
 } from '../../../../../features';
+import { isWhitelabel } from '../../config/whitelabel';
 import getCurrentLanguage from '../../hooks/getCurrentLanguage';
 import classNames from '../../utils/classNames';
 import { SHOW_NETWORK_BANNER } from '../../utils/wallet';
 import { getTotalBalanceInFiat } from '../common/balance/helpers';
 import FormButton from '../common/FormButton';
+import RemoveLinkRecoveryBanner from '../common/RemoveLinkRecoveryBanner';
 import Container from '../common/styled/Container.css';
 import Tooltip from '../common/Tooltip';
 import DownArrowIcon from '../svg/DownArrowIcon';
@@ -26,6 +28,7 @@ import ExploreApps from './ExploreApps';
 import LinkDropSuccessModal from './LinkDropSuccessModal';
 import NFTs from './NFTs';
 import Sidebar from './Sidebar';
+import SidebarLight from './SidebarLight';
 import Tokens from './Tokens';
 import { ZeroBalanceAccountImportedModal } from './ZeroBalanceAccountImportedModal';
 
@@ -311,7 +314,8 @@ export function Wallet({
     handleCloseLinkdropModal,
     handleSetCreateFromImplicitSuccess,
     handleSetCreateCustomName,
-    handleSetZeroBalanceAccountImportMethod
+    handleSetZeroBalanceAccountImportMethod,
+    userRecoveryMethods
 }) {
     const currentLanguage = getCurrentLanguage();
     const totalAmount = getTotalBalanceInFiat(
@@ -319,10 +323,16 @@ export function Wallet({
         currentLanguage
     );
 
+    const shouldShowRemoveLinkRecoveryBanner = !isWhitelabel && (userRecoveryMethods.some(({ kind }) => kind === 'email')
+        || userRecoveryMethods.some(({ kind }) => kind === 'phone'));
+
     return (
         <StyledContainer
             className={SHOW_NETWORK_BANNER ? 'showing-banner' : ''}
         >
+            {shouldShowRemoveLinkRecoveryBanner &&
+                <RemoveLinkRecoveryBanner />
+            }
             <div className="split">
                 <div className="left">
                     <div className="tab-selector">
@@ -360,11 +370,12 @@ export function Wallet({
                     )}
                 </div>
                 <div className="right">
-                    {accountExists ? (
-                        <Sidebar availableAccounts={availableAccounts} />
-                    ) : (
-                        <ExploreApps />
-                    )}
+                    {isWhitelabel
+                        ? <SidebarLight availableAccounts={accountExists && availableAccounts} />
+                        : accountExists
+                            ? <Sidebar availableAccounts={availableAccounts} />
+                            : <ExploreApps />
+                    }
                     <ActivitiesWrapper />
                 </div>
             </div>
@@ -418,7 +429,7 @@ const FungibleTokens = ({
         <>
             <div className='total-balance'>
                 <Textfit mode='single' max={48}>
-                    <AllTokensTotalBalanceUSD allFungibleTokens={fungibleTokensList}/>
+                    <AllTokensTotalBalanceUSD allFungibleTokens={fungibleTokensList} />
                 </Textfit>
             </div>
             <div className="sub-title balance">
@@ -492,7 +503,7 @@ const FungibleTokens = ({
                         tokens={fungibleTokens}
                         currentLanguage={currentLanguage}
                     />
-                    <div className='coingecko'><Translate id='poweredByCoinGecko'/></div>
+                    <div className='coingecko'><Translate id='poweredByCoinGecko' /></div>
                 </>
             )}
         </>
