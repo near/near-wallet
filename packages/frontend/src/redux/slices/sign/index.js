@@ -79,6 +79,46 @@ export const handleSignTransactions = createAsyncThunk(
     }
 );
 
+export const handleSignPrivateShardTransactions = createAsyncThunk(
+    `${SLICE_NAME}/handleSignPrivateShardTransactions`,
+    async ({ customRPCUrl, xApiToken }, thunkAPI) => {
+        const { dispatch, getState } = thunkAPI;
+        let transactionsHashes;
+        const retryingTx = !!selectSignRetryTransactions(getState()).length;
+
+        const transactions = retryingTx ? selectSignRetryTransactions(getState()) : selectSignTransactions(getState());        
+        const accountId = selectAccountId(getState());
+
+        try {
+            transactionsHashes = await wallet.signAndSendCalimeroTransaction(transactions, accountId, customRPCUrl, xApiToken);
+            dispatch(updateSuccessHashes(transactionsHashes));
+        } catch (error) {
+            if (error.message.includes('Exceeded the prepaid gas')) {
+                const successHashes = error?.data?.transactionHashes;
+                dispatch(updateSuccessHashes(successHashes));
+            }
+
+            dispatch(showCustomAlert({
+                success: false,
+                messageCodeHeader: 'error',
+                messageCode: `reduxActions.${error.code}`,
+                errorMessage: error.message
+            }));
+            throw error;
+        }
+
+        return selectSignSuccessHashesOnlyHash(getState());
+    },
+    {
+        condition: (_, thunkAPI) => {
+            const { getState } = thunkAPI;
+            if (selectSignStatus(getState()) === SIGN_STATUS.IN_PROGRESS) {
+                return false;
+            }
+        }
+    }
+);
+
 export const removeSuccessTransactions = ({ transactions, successHashes }) => {
     const transactionsCopy = cloneDeep(transactions);
 

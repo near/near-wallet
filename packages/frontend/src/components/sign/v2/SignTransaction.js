@@ -74,6 +74,24 @@ const StyledContainer = styled.div`
                 margin-top: 5px;
             }
         }
+
+        &.shard {
+            background-color: #f9f1fd;
+            padding-top: 32px;
+            padding-bottom: 32px;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+
+            .left {
+                display: flex;
+                align-items: center;
+            }
+            .right {
+                font-weight: 600;
+                word-break: break-all;
+                color: #272729;
+            }
+        }
     }
 `;
 
@@ -82,26 +100,42 @@ export default ({
     sender,
     estimatedFees,
     availableBalance,
-    fromLabelId
+    fromLabelId,
+    privateShardId
 }) => {
     const isTransferTransaction = new BN(transferAmount).gt(new BN(0));
     return (
         <StyledContainer className='transfer-amount brs-8 bsw-l'>
+            {privateShardId && (
+                <div className='account shard'>
+                    <div className='left'>
+                        <Translate id='transfer.privateShard' />
+                        <Tooltip translate='transfer.tooltip' />
+                    </div>
+                    <div className='right'>
+                        {privateShardId}
+                    </div>
+                </div>
+            )}
             {isTransferTransaction && (
                 <Balance
                     amount={transferAmount}
                     showAlmostEqualSignUSD={false}
                     showSymbolUSD={false}
+                    showSymbolNEAR={!privateShardId}
+                    showBalanceInUSD={!privateShardId}
                 />
             )}
             <div className={`account from ${!isTransferTransaction ? 'no-border' : ''}`}>
                 <Translate id={fromLabelId || 'transfer.from'} />
                 <div className='right'>
                     <div className='account-id'>{sender}</div>
-                    <Balance
-                        amount={availableBalance}
-                        showBalanceInUSD={false}
-                    />
+                    {!privateShardId && (
+                        <Balance
+                            amount={availableBalance}
+                            showBalanceInUSD={false}
+                        />
+                    )}
                 </div>
             </div>
             <div className='account fees'>
@@ -112,6 +146,8 @@ export default ({
                 <div className='right'>
                     <Balance
                         amount={estimatedFees}
+                        showSymbolNEAR={!privateShardId}
+                        showBalanceInNEAR={!privateShardId}
                     />
                 </div>
             </div>
