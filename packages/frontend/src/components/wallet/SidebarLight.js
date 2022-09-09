@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
 import CreateCustomNameLightBanner from './CreateCustomNameLightBanner';
@@ -43,13 +43,6 @@ const StyledBanner = styled.div`
 
 export default ({ availableAccounts }) => {
     const [activeComponent, setActiveComponent] = useState('ExploreApps');
-
-    useEffect(() => {
-        if (availableAccounts?.length > 0) {
-            const numNonImplicitAccounts = availableAccounts.filter((a) => a.length < 64).length;
-            setActiveComponent(numNonImplicitAccounts === 0 ? 'CreateCustomName' : 'ExploreApps');
-        }
-    }, [availableAccounts]);
 
     return (
         <StyledContainer>
