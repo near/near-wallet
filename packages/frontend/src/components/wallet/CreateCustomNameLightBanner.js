@@ -15,10 +15,6 @@ const Container = styled.div`
         font-size: 14px;
         padding-top: 8px;
 
-        @media (max-width: 992px) {
-            padding-top: 72px;
-        }
-
         h2 {
             color: #25272A;
             align-self: center;
