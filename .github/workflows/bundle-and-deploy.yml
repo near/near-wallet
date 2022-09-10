@@ -37,5 +37,7 @@ jobs:
           role-to-assume: ${{ secrets.AWS_DEPLOYMENT_ROLE }}
           role-skip-session-tagging: true
           role-duration-seconds: 900
-      - if:  ${{ github.event_name == 'pull_request' && github.event.pull_request.base.ref == 'testnet' }}
-        run: aws s3 sync dist/${{ inputs.environment }} s3://${{ secrets.S3_BUCKET_TESTNET_COPY }} --delete      
+      - if: ${{ github.event_name == 'push' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/stable' || github.ref == 'refs/heads/testnet') }}
+        run: aws s3 sync dist/${{ inputs.environment }} s3://${{ secrets.S3_BUCKET }} --delete          
+      - if:  ${{ github.event_name == 'pull_request' }}
+        run: aws s3 sync dist/${{ inputs.environment }} s3://${{ secrets.S3_BUCKET }} --delete      
