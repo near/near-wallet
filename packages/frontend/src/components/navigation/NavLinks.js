@@ -1,39 +1,33 @@
 import React from 'react';
-import { Translate } from 'react-localize-redux';
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { DONATE_TO_UKRAINE } from '../../../../../features';
-import { IS_MAINNET } from '../../config';
-import { isWhitelabel } from '../../config/whitelabel';
-import { Mixpanel } from '../../mixpanel/index';
+import { COLORS } from '../../utils/theme';
+import AccountIcon from '../svg/AccountIcon';
 import DaoIcon from '../svg/DaoIcon';
-import DonateToUkraineIcon from '../svg/DonateToUkraineIcon';
-import ExploreIcon from '../svg/ExploreIcon';
-import HelpIcon from '../svg/HelpIcon';
-import UserIcon from '../svg/UserIcon';
-import VaultIcon from '../svg/VaultIcon';
+import ReportsIcon from '../svg/ReportsIcon';
 import WalletIcon from '../svg/WalletIcon';
+
 
 const Container = styled.div`
     display: flex;
-    width: 100%;
     a {
         display: flex;
         align-items: center;
         cursor: pointer;
         transition: 100ms;
-        color: #72727A;
-        font-size: 15px;
+        color: ${COLORS.lightText};
+        font-size: 18px;
+        line-height: 24px;
         white-space: nowrap;
 
         :hover, &.selected {
             text-decoration: none;
-            color: #272729;
+            color: ${COLORS.green};
 
             svg {
-                path, circle, line {
-                    stroke: #0072CE;
+                path, circle, line, rect {
+                    stroke: ${COLORS.green};
                 }
 
                 &.user-icon {
@@ -95,10 +89,10 @@ const Container = styled.div`
 
     @media (min-width: 992px) {
         align-items: center;
-        margin-left: 10px;
+        margin-left: auto;
 
         a {
-            margin-left: 25px;
+            margin-right: 50px;
 
             &.account-details-link {
                 margin-left: 20px;
@@ -110,31 +104,21 @@ const Container = styled.div`
 const NavLinks = () => (
     <Container className='nav-links'>
         <NavLink exact to='/' activeClassName='selected'>
-            <WalletIcon/>
-            <Translate id='link.wallet'/>
+            <WalletIcon />
+            Wallet
         </NavLink>
-        <NavLink data-test-id="dao_navlink" to='/dao' activeClassName='selected'>
-            <DaoIcon/>
-            <Translate id='dao.tabName'/>
+        <NavLink data-test-id="staking_navlink" to='/dao' activeClassName='selected'>
+            <DaoIcon />
+            DAO
         </NavLink>
-        {/* <NavLink data-test-id="staking_navlink" to='/staking' activeClassName='selected' onClick={() => Mixpanel.track('Click Staking button on nav')}>
-            <VaultIcon/>
-            <Translate id='link.staking'/>
-        </NavLink> */}
-        {/* {isWhitelabel && (
-            <NavLink data-test-id="explore_navlink" to='/explore' activeClassName='selected' onClick={() => Mixpanel.track('Click Explore button on nav')}>
-                <ExploreIcon/>
-                <Translate id='link.explore'/>
-            </NavLink>
-        )} */}
         <NavLink to='/profile' className='account-details-link' activeClassName='selected'>
-            <UserIcon/>
-            <Translate id='link.account'/>
+            <AccountIcon />
+            Account
         </NavLink>
-        <a href='https://nearhelp.zendesk.com/' target='_blank' rel='noopener noreferrer'>
-            <HelpIcon/>
-            <Translate id='link.help'/>
-        </a>
+        <NavLink to='/reports' className='account-details-link' activeClassName='selected'>
+            <ReportsIcon />
+            Reports
+        </NavLink>
     </Container>
 );
 

@@ -25,11 +25,8 @@ const Styles = {
     }),
     Logo: styled.span({
         lineHeight: '30px',
-
-        font: {
-            weight: 900,
-            size: '40px'
-        }
+        fontWeight: 900,
+        fontSize: 40,
     }),
     CommunityButton: styled.div({
         background: COLORS.darkGreen,
@@ -37,11 +34,8 @@ const Styles = {
         padding: '18px 40px',
         lineHeight: '24px',
         cursor: 'pointer',
-
-        font: {
-            weight: 500,
-            size: '18px'
-        },
+        fontWeight: 500,
+        fontSize: '18px',
 
         [MEDIA_QUERY.mobile]: { marginTop: '32px' }
     }),
