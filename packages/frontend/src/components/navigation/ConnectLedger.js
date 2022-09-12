@@ -1,10 +1,14 @@
 import { getLocation } from 'connected-react-router';
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Translate } from 'react-localize-redux';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 
-import { actions as ledgerActions, selectLedgerConnectionAvailable, selectLedgerHasLedger } from '../../redux/slices/ledger';
+import {
+    actions as ledgerActions,
+    selectLedgerConnectionAvailable,
+    selectLedgerHasLedger
+} from '../../redux/slices/ledger';
 import CheckCircleIcon from '../svg/CheckCircleIcon';
 import LedgerSmall from '../svg/LedgerSmall';
 
@@ -15,14 +19,13 @@ const ConnectLedgerButton = styled.div`
     border-radius: 4px;
     color: #72727A;
     font-weight: 600;
-    padding: 14px;
     display: flex;
     flex-direction: row;
     align-items: center;
     padding: 12px 16px;
     cursor: pointer;
     white-space: nowrap;
-    
+
     svg {
         width: 16px;
         height: 16px;
@@ -30,7 +33,7 @@ const ConnectLedgerButton = styled.div`
     }
 `;
 
-export default () => {
+const ConnectLedger = () => {
     const dispatch = useDispatch();
 
     const { pathname } = useSelector(getLocation);
@@ -38,9 +41,11 @@ export default () => {
     const hasLedger = useSelector(selectLedgerHasLedger);
 
     const connectLedger =  () => dispatch(handleShowConnectModal());
-    
-    const showConnectLedgerButton = hasLedger || ['sign-in-ledger', 'setup-ledger'].includes(pathname.split('/')[1]);
-    
+
+    const showConnectLedgerButton = useMemo(() => (
+        hasLedger || ['sign-in-ledger', 'setup-ledger'].includes(pathname.split('/')[1])
+    ), [hasLedger, pathname]);
+
     if (!showConnectLedgerButton) {
         return null;
     }
@@ -66,3 +71,5 @@ export default () => {
         </>
     );
 };
+
+export default ConnectLedger;
