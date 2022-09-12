@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
 
+import { COLORS } from '../../utils/theme';
 import DesktopContainer from './DesktopContainer';
 import MobileContainer from './MobileContainer';
 
@@ -11,8 +12,12 @@ const Container = styled.div`
         left: 0;
         right: 0;
         z-index: 1000;
+        padding: 40px 80px 0px;
+        background: ${COLORS.black};
+        font-family: 'Poppins', sans-serif;
         @media (max-width: 991px) {
             bottom: ${(props) => props.open ? '0' : 'unset'};
+            padding: 0px;
         }
 
         h6 {
@@ -30,16 +35,30 @@ const Container = styled.div`
     }
 `;
 
-export default ({
-    selectAccount,
-    showNavLinks,
-    flowLimitationMainMenu,
-    flowLimitationSubMenu,
-    refreshBalance,
-    availableAccounts,
-    account
-}) => {
+export default (
+    {
+        selectAccount,
+        showNavLinks,
+        flowLimitationMainMenu,
+        flowLimitationSubMenu,
+        refreshBalance,
+        availableAccounts,
+        account
+    }
+) => {
     const [menuOpen, setMenuOpen] = useState(false);
+
+    useEffect(() => {
+        if (menuOpen) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'visible';
+        }
+
+        return () => {
+            document.body.style.overflow = 'visible';
+        };
+    }, [menuOpen]);
 
     useEffect(() => {
         if (menuOpen) {
@@ -65,7 +84,12 @@ export default ({
             return false;
         }
 
-        if (e.target.tagName === 'BUTTON' || e.target.tagName === 'A' || (!desktopMenu?.contains(e.target) && !mobileMenu?.contains(e.target))) {
+        if (
+            e.target.tagName === 'BUTTON' ||
+            e.target.tagName === 'A' ||
+            (!desktopMenu?.contains(e.target) &&
+                !mobileMenu?.contains(e.target))
+        ) {
             setMenuOpen(false);
         }
     }, []);
@@ -91,7 +115,7 @@ export default ({
                 handleSelectAccount={handleSelectAccount}
                 showNavLinks={showNavLinks}
                 flowLimitationMainMenu={flowLimitationMainMenu}
-                flowLimitationSubMenu={flowLimitationSubMenu}   
+                flowLimitationSubMenu={flowLimitationSubMenu}
                 refreshBalance={refreshBalance}
                 availableAccounts={availableAccounts}
                 account={account}
@@ -102,7 +126,7 @@ export default ({
                 handleSelectAccount={handleSelectAccount}
                 showNavLinks={showNavLinks}
                 flowLimitationMainMenu={flowLimitationMainMenu}
-                flowLimitationSubMenu={flowLimitationSubMenu}   
+                flowLimitationSubMenu={flowLimitationSubMenu}
                 refreshBalance={refreshBalance}
                 availableAccounts={availableAccounts}
                 account={account}

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { GuestLanding } from '../landing/GuestLanding';
+import GuestLanding from '../landing/GuestLanding';
 import PrivateRoute from './routing/PrivateRoute';
 import PublicRoute from './routing/PublicRoute';
 

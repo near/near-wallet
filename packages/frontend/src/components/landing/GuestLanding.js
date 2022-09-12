@@ -2,13 +2,12 @@ import React from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
-import iPhoneMockup from '../../images/iphone-mockup.png';
+import { COLORS } from '../../utils/theme';
 import FormButton from '../common/FormButton';
 import Container from '../common/styled/Container.css';
 import LandingBackground from './LandingBackground';
 
 const StyledContainer = styled.div`
-
     &&& {
         margin: 35px 5px 0 5px;
         position: relative;
@@ -45,6 +44,13 @@ const StyledContainer = styled.div`
             flex-direction: column;
             justify-content: center;
             align-items: center;
+
+            h1 {
+                color: ${COLORS.white};
+            }
+            h2 {
+                color: ${COLORS.lightText};
+            }
         }
 
         h1 {
@@ -54,6 +60,7 @@ const StyledContainer = styled.div`
         h3 {
             font-weight: 400 !important;
             line-height: 150%;
+            color: ${COLORS.white};
 
             span {
                 span {
@@ -67,26 +74,14 @@ const StyledContainer = styled.div`
         }
 
         .buttons {
-            margin-top: 30px;
+            margin: 30px 0 60px 0;
             display: flex;
             flex-direction: column;
+            width: 100%;
+
             align-items: center;
             justify-content: center;
             z-index: 1;
-
-            .blue {
-                font-weight: 500 !important;
-                margin: 0;
-                text-transform: none;
-
-                :not(.link) {
-                    min-width: 200px;
-                    max-width: 220px;
-                    height: auto;
-                    text-transform: none;
-                    padding: 12px 6px;
-                }
-            }
 
             .link {
                 text-decoration: none;
@@ -101,8 +96,10 @@ const StyledContainer = styled.div`
                 margin: 20px;
             }
 
-            @media (min-width: 768px) {
-                flex-direction: row;
+
+            button {
+                width: 100%;
+                font-size: 20px;
             }
         }
 
@@ -139,33 +136,32 @@ const StyledContainer = styled.div`
     }
 `;
 
-export function GuestLanding() {
-    return (
-        <StyledContainer>
-            <LandingBackground/>
-            <Container className='small-centered'>
-                <h1><Translate id='landing.title' /></h1>
-                <h3><Translate id='landing.desc' /></h3>
-                <div className='buttons'>
-                    <FormButton
-                        linkTo="/create"
-                        trackingId="Click create account button"
-                        data-test-id="landingPageCreateAccount"
-                    >
-                        <Translate id="button.createAccount" />
-                    </FormButton>
-                    <span><Translate id='landing.or' /></span>
-                    <FormButton
-                        data-test-id="homePageImportAccountButton"
-                        linkTo="/recover-account"
-                        className="link"
-                        trackingId="Click import existing link"
-                    >
-                        <Translate id="button.importExistingAccount" />
-                    </FormButton>
-                </div>
-                <div className='img-wrapper'><img src={iPhoneMockup} alt='Sign up'/></div>
-            </Container>
-        </StyledContainer>
-    );
-}
+const GuestLanding = () => (
+    <StyledContainer>
+        <LandingBackground/>
+        <Container className='small-centered'>
+            <h1><Translate id='landing.title' /></h1>
+            <h3><Translate id='landing.desc' /></h3>
+            <div className='buttons'>
+                <FormButton
+                    linkTo="/create"
+                    trackingId="Click create account button"
+                    data-test-id="landingPageCreateAccount"
+                    color='light-green'
+                >
+                    <Translate id="button.createAccount" />
+                </FormButton>
+                <FormButton
+                    data-test-id="homePageImportAccountButton"
+                    linkTo="/recover-account"
+                    trackingId="Click import existing link"
+                    color='light-green'
+                >
+                    <Translate id="button.importAccount" />
+                </FormButton>
+            </div>
+        </Container>
+    </StyledContainer>
+);
+
+export default GuestLanding;

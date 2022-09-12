@@ -11,14 +11,9 @@ import { Redirect, Switch } from 'react-router-dom';
 import styled, { ThemeProvider } from 'styled-components';
 
 import { SHOW_MIGRATION_BANNER, WEB3AUTH } from '../../../../features';
-import favicon from '../../src/images/mynearwallet-cropped.svg';
+import favicon from '../../src/images/favicon-32x32.png';
 import TwoFactorVerifyModal from '../components/accounts/two_factor/TwoFactorVerifyModal';
-import {
-    IS_MAINNET,
-    PUBLIC_URL,
-    SHOW_PRERELEASE_WARNING,
-    DISABLE_CREATE_ACCOUNT,
-} from '../config';
+import { PUBLIC_URL } from '../config';
 import { isWhitelabel } from '../config/whitelabel';
 import { Mixpanel } from '../mixpanel/index';
 import * as accountActions from '../redux/actions/account';
@@ -36,18 +31,11 @@ import { SignWrapper } from '../routes/SignWrapper';
 import { VerifyOwnerWrapper } from '../routes/VerifyOwnerWrapper';
 import { WalletWrapper } from '../routes/WalletWrapper';
 import translations_en from '../translations/en.global.json';
-import translations_it from '../translations/it.global.json';
-import translations_pt from '../translations/pt.global.json';
-import translations_ru from '../translations/ru.global.json';
-import translations_tr from '../translations/tr.global.json';
-import translations_ua from '../translations/ua.global.json';
-import translations_vi from '../translations/vi.global.json';
-import translations_zh_hans from '../translations/zh-hans.global.json';
-import translations_zh_hant from '../translations/zh-hant.global.json';
 import classNames from '../utils/classNames';
 import getBrowserLocale from '../utils/getBrowserLocale';
 import { reportUiActiveMixpanelThrottled } from '../utils/reportUiActiveMixpanelThrottled';
 import ScrollToTop from '../utils/ScrollToTop';
+import { COLORS } from '../utils/theme';
 import {
     WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS,
     WALLET_LOGIN_URL,
@@ -60,7 +48,6 @@ import BatchImportAccounts from './accounts/batch_import_accounts';
 import BatchLedgerExport from './accounts/batch_ledger_export';
 import { ExistingAccountWrapper } from './accounts/create/existing_account/ExistingAccountWrapper';
 import { InitialDepositWrapper } from './accounts/create/initial_deposit/InitialDepositWrapper';
-import { CreateAccountLanding } from './accounts/create/landing/CreateAccountLanding';
 import { VerifyAccountWrapper } from './accounts/create/verify_account/VerifyAccountWrapper';
 import { CreateAccountWithRouter } from './accounts/CreateAccount';
 import LedgerConfirmActionModal from './accounts/ledger/LedgerConfirmActionModal';
@@ -80,11 +67,10 @@ import Footer from './common/Footer';
 import GlobalAlert from './common/GlobalAlert';
 import GuestLandingRoute from './common/GuestLandingRoute';
 import MigrationBanner from './common/MigrationBanner';
-import NetworkBanner from './common/NetworkBanner';
 import PrivateRoute from './common/routing/PrivateRoute';
 import PublicRoute from './common/routing/PublicRoute';
 import Route from './common/routing/Route';
-import { ExploreContainer } from './explore/ExploreContainer';
+import { Dao } from './Dao';
 import GlobalStyle from './GlobalStyle';
 import { LoginCliLoginSuccess } from './login/LoginCliLoginSuccess';
 import NavigationWrapper from './navigation/NavigationWrapper';
@@ -99,8 +85,6 @@ import Swap from './swap/Swap';
 import Terms from './terms/Terms';
 import '../index.css';
 import WalletMigration from './wallet-migration/WalletMigration';
-import { Dao } from './dao';
-
 const { fetchTokenFiatValues, getTokenWhiteList } = tokenFiatValueActions;
 
 const {
@@ -120,12 +104,14 @@ const PATH_PREFIX = PUBLIC_URL;
 
 const Container = styled.div`
     min-height: 100vh;
-    padding-bottom: 230px;
-    padding-top: 75px;
+    padding-bottom: 150px;
+    padding-top: 160px;
+    background-color: ${COLORS.black};
+
     @media (max-width: 991px) {
         .App {
             .main {
-                padding-bottom: 0px;
+                padding-bottom: 0;
             }
         }
     }
@@ -139,6 +125,8 @@ const Container = styled.div`
     }
 
     @media (max-width: 767px) {
+        padding-bottom: 218px;
+        padding-top: 102px;
         &.hide-footer-mobile {
             .wallet-footer {
                 display: none;
@@ -155,14 +143,6 @@ class Routing extends Component {
 
         const languages = [
             { name: 'English', code: 'en' },
-            { name: 'Italiano', code: 'it' },
-            { name: 'Português', code: 'pt' },
-            { name: 'Русский', code: 'ru' },
-            { name: 'Tiếng Việt', code: 'vi' },
-            { name: '简体中文', code: 'zh-hans' },
-            { name: '繁體中文', code: 'zh-hant' },
-            { name: 'Türkçe', code: 'tr' },
-            { name: 'Українська', code: 'ua' },
         ];
 
         const browserLanguage = getBrowserLocale(languages.map((l) => l.code));
@@ -175,10 +155,7 @@ class Routing extends Component {
             languages,
             options: {
                 defaultLanguage: 'en',
-                onMissingTranslation: ({
-                    translationId,
-                    defaultTranslation,
-                }) => {
+                onMissingTranslation: ({ defaultTranslation }) => {
                     if (isString(defaultTranslation)) {
                         // do anything to change the defaultTranslation as you wish
                         return defaultTranslation;
@@ -196,17 +173,8 @@ class Routing extends Component {
 
         // TODO: Figure out how to load only necessary translations dynamically
         this.props.addTranslationForLanguage(translations_en, 'en');
-        this.props.addTranslationForLanguage(translations_it, 'it');
-        this.props.addTranslationForLanguage(translations_pt, 'pt');
-        this.props.addTranslationForLanguage(translations_ru, 'ru');
-        this.props.addTranslationForLanguage(translations_vi, 'vi');
-        this.props.addTranslationForLanguage(translations_zh_hans, 'zh-hans');
-        this.props.addTranslationForLanguage(translations_zh_hant, 'zh-hant');
-        this.props.addTranslationForLanguage(translations_tr, 'tr');
-        this.props.addTranslationForLanguage(translations_ua, 'ua');
 
         this.props.setActiveLanguage(activeLang);
-        // this.addTranslationsForActiveLanguage(defaultLanguage)
 
         this.state = {
             openTransferPopup: false,
@@ -214,8 +182,8 @@ class Routing extends Component {
     }
 
     componentDidMount = async () => {
-        if (isWhitelabel && document) {
-            document.title = 'MyNearWallet';
+        if (isWhitelabel() && document) {
+            document.title = 'NextWallet';
             document.querySelector('link[rel~="icon"]').href = favicon;
         }
 
@@ -268,7 +236,6 @@ class Routing extends Component {
         const hasLanguageChanged = prevLangCode !== curLangCode;
 
         if (hasLanguageChanged) {
-            // this.addTranslationsForActiveLanguage(curLangCode)
             localStorage.setItem('languageCode', curLangCode);
         }
     }
@@ -281,7 +248,7 @@ class Routing extends Component {
         const { fetchTokenFiatValues, account } = this.props;
 
         const handlePollTokenFiatValue = async () => {
-            await fetchTokenFiatValues({ accountId: account.accountId }).catch(() => { });
+            await fetchTokenFiatValues({ accountId: account.accountId }).catch(() => {});
             if (this.pollTokenFiatValue) {
                 this.pollTokenFiatValue = setTimeout(
                     () => handlePollTokenFiatValue(),
@@ -340,16 +307,14 @@ class Routing extends Component {
 
         reportUiActiveMixpanelThrottled();
 
+        const containerClass = classNames([
+            'App',
+            { 'hide-footer-mobile': hideFooterOnMobile },
+        ]);
+
         return (
             <Container
-                className={classNames([
-                    'App',
-                    {
-                        'network-banner':
-                            !IS_MAINNET || SHOW_PRERELEASE_WARNING,
-                    },
-                    { 'hide-footer-mobile': hideFooterOnMobile },
-                ])}
+                className={containerClass}
                 id="app-container"
             >
                 <GlobalStyle />
@@ -359,14 +324,12 @@ class Routing extends Component {
                 >
                     <ThemeProvider theme={theme}>
                         <ScrollToTop />
-                        {
-                            SHOW_MIGRATION_BANNER && (
-                                <MigrationBanner
-                                    account={account}
-                                    onTransfer={this.handleTransferClick} />
-                            )}
-
-                        <NetworkBanner account={account} />
+                        {SHOW_MIGRATION_BANNER && (
+                            <MigrationBanner
+                                account={account}
+                                onTransfer={this.handleTransferClick}
+                            />
+                        )}
                         <NavigationWrapper />
                         <GlobalAlert />
                         <WalletMigration
@@ -434,16 +397,8 @@ class Routing extends Component {
                             <Route
                                 exact
                                 path="/create"
-                                render={(props) =>
-                                    accountFound || !DISABLE_CREATE_ACCOUNT ? (
-                                        <CreateAccountWithRouter
-                                            {...props}
-                                        />
-                                    ) : (
-                                        <CreateAccountLanding />
-                                    )
-                                }
-                            // Logged in users always create a named account
+                                render={(props) => <CreateAccountWithRouter {...props} />}
+                                // Logged in users always create a named account
                             />
                             <Route
                                 exact
@@ -476,11 +431,6 @@ class Routing extends Component {
                                 exact
                                 path="/setup-ledger-new-account"
                                 component={SetupLedgerNewAccountWrapper}
-                            />
-                            <PrivateRoute
-                                exact
-                                path="/dao"
-                                component={Dao}
                             />
                             <PublicRoute
                                 exact
@@ -596,8 +546,8 @@ class Routing extends Component {
                                 }}
                             />
                             <Route exact path="/batch-import" render={() =>
-                            (<BatchImportAccounts
-                                onCancel={() => this.props.history.replace('/')} />)}
+                                (<BatchImportAccounts
+                                    onCancel={() => this.props.history.replace('/')} />)}
                             />
                             <Route
                                 exact
@@ -664,6 +614,11 @@ class Routing extends Component {
                             />
                             <PrivateRoute
                                 exact
+                                path="/dao"
+                                component={Dao}
+                            />
+                            <PrivateRoute
+                                exact
                                 path="/sign"
                                 component={SignWrapper}
                             />
@@ -675,13 +630,6 @@ class Routing extends Component {
                                     />
                                 )}
                             />
-                            {isWhitelabel && (
-                                <PrivateRoute
-                                    exact
-                                    path="/explore"
-                                    component={ExploreContainer}
-                                />
-                            )}
                             <Route
                                 exact
                                 path="/cli-login-success"

@@ -515,9 +515,6 @@
         "text": "This is a developers&apos; preview Wallet. It should be used for NEAR Protocol DevNet only. Learn more at ",
         "title": "DISCLAIMER"
     },
-    "dao": {
-        "tabName": "DAO"
-    },
     "emailSubscribe": {
         "placeholder": "Your email...",
         "title": "Sign up below for early access"
@@ -549,32 +546,15 @@
             "title": "Fund with an existing account."
         }
     },
-    "explore": {
-        "banner": {
-            "button": "Buy NEAR",
-            "text": "Top up your wallet"
-        },
-        "categories": {
-            "collectNFTs": "Collect NFTs",
-            "exchanges": "Exchanges",
-            "playToEarn": "Play To Earn",
-            "startEarning": "Start Earning"
-        },
-        "sectionName": "Explore",
-        "seeAll": "See All",
-        "trendingProjects": "Trending projects"
-    },
     "exploreApps": {
         "desc": "Earn, mint, and play! Discover the ecosystem of NEAR applications.",
         "exploreApps": "Explore Apps",
         "exploreDeFi": "Explore DeFi",
-        "exploreNear": "Explore NEAR",
-        "text": "Earn, mint, and play! Discover the ecosystem of NEAR applications.",
         "title": "What's on NEAR?"
     },
     "exportPrivateKey": {
         "button": "Export Local Private Key",
-        "desc": "Never share your private key! Anyone with access to it will also have full access to your account.<br /><br />",
+        "desc": "Never share your private key! Anyone with access to it will also have full access to your account.",
         "enterAccountAddress": "Enter your account address to view your<br />private key.",
         "title": "View private key?"
     },
@@ -669,10 +649,10 @@
         }
     },
     "landing": {
-        "banner": "NEAR Wallet is in Private Beta",
-        "desc": "Securely store and stake your NEAR tokens and compatible assets with <span>NEAR Wallet</span>.",
+        "banner": "TheNextWallet is in Private Beta",
+        "desc": "Next Wallet is a secure wallet and account manager for your accounts on the NEAR blockchain.</br>Once you create an account, you’ll need it to interact with applications on NEAR, and to securely store your various tokens and collectibles (NFTs)",
         "or": "or",
-        "title": "NEAR is here."
+        "title": "Create Your Account"
     },
     "ledgerSignTxModal": {
         "ADD_ACCESS_KEY": "You will need to confirm login details on your Ledger.",
@@ -699,7 +679,6 @@
         "authorizedApps": "Authorized Apps",
         "buyUSN": "Buy $USN",
         "donateToUkraine": "Donate to Ukraine",
-        "explore": "Explore",
         "fullAccessKeys": "Full Access Keys",
         "help": "Help",
         "noAccount": "You have no other accounts",
@@ -786,7 +765,7 @@
                 "desc": "An application is requesting <b>${accessType}</b> to your NEAR account. Select the account you wish to connect.",
                 "fullAccess": "full access",
                 "limitedAccess": "limited access",
-                "title": "Connect with NEAR"
+                "title": "Connect with NEXT"
             }
         }
     },
@@ -1334,7 +1313,7 @@
         "subHeader": "Select a method to secure and recover your account. This will be used to verify important activity, recover your account and access your account from other devices."
     },
     "setupSeedPhrase": {
-        "pageText": "Write down the following words in order and keep them somewhere safe. <b>Anyone with access to it will also have access to your account!</b> You’ll be asked to verify your passphrase next.",
+        "pageText": "Write down the following words in order and keep them somewhere safe. <b>Anyone with access to it will also have access to your account!</b>",
         "pageTitle": "Setup Your Secure Passphrase",
         "snackbarCopyImplicitAddress": "Funding Address Copied!",
         "snackbarCopySuccess": "Passphrase copied!"
