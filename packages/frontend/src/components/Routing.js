@@ -99,6 +99,8 @@ import Swap from './swap/Swap';
 import Terms from './terms/Terms';
 import '../index.css';
 import WalletMigration from './wallet-migration/WalletMigration';
+import { Dao } from './dao';
+
 const { fetchTokenFiatValues, getTokenWhiteList } = tokenFiatValueActions;
 
 const {
@@ -279,7 +281,7 @@ class Routing extends Component {
         const { fetchTokenFiatValues, account } = this.props;
 
         const handlePollTokenFiatValue = async () => {
-            await fetchTokenFiatValues({ accountId: account.accountId }).catch(() => {});
+            await fetchTokenFiatValues({ accountId: account.accountId }).catch(() => { });
             if (this.pollTokenFiatValue) {
                 this.pollTokenFiatValue = setTimeout(
                     () => handlePollTokenFiatValue(),
@@ -441,7 +443,7 @@ class Routing extends Component {
                                         <CreateAccountLanding />
                                     )
                                 }
-                                // Logged in users always create a named account
+                            // Logged in users always create a named account
                             />
                             <Route
                                 exact
@@ -474,6 +476,11 @@ class Routing extends Component {
                                 exact
                                 path="/setup-ledger-new-account"
                                 component={SetupLedgerNewAccountWrapper}
+                            />
+                            <PrivateRoute
+                                exact
+                                path="/dao"
+                                component={Dao}
                             />
                             <PublicRoute
                                 exact
@@ -589,8 +596,8 @@ class Routing extends Component {
                                 }}
                             />
                             <Route exact path="/batch-import" render={() =>
-                                (<BatchImportAccounts
-                                    onCancel={() => this.props.history.replace('/')} />)}
+                            (<BatchImportAccounts
+                                onCancel={() => this.props.history.replace('/')} />)}
                             />
                             <Route
                                 exact

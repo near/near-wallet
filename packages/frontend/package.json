@@ -68,7 +68,7 @@
     "update:static": "cp src/wasm/multisig.wasm dist/multisig.wasm && cp src/wasm/main.wasm dist/main.wasm && cp src/wasm/state_cleanup.wasm dist/state_cleanup.wasm",
     "start": "yarn update:static; parcel src/index.html --https --cert devServerCertificates/primary.crt --key devServerCertificates/private.pem",
     "prebuild": "rm -rf dist/",
-    "build": "yarn run bundle && yarn run sentry",
+    "build": "yarn run bundle",
     "bundle": "NODE_ENV=production node ci/runBundler.js",
     "sentry": "node ci/sentry-send-release.js",
     "test": "jest",

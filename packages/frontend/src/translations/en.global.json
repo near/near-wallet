@@ -515,6 +515,9 @@
         "text": "This is a developers&apos; preview Wallet. It should be used for NEAR Protocol DevNet only. Learn more at ",
         "title": "DISCLAIMER"
     },
+    "dao": {
+        "tabName": "DAO"
+    },
     "emailSubscribe": {
         "placeholder": "Your email...",
         "title": "Sign up below for early access"
