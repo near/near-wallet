@@ -2,6 +2,7 @@ import React from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
+import { COLORS } from '../../utils/theme';
 import FormButton from '../common/FormButton';
 import ImportIcon from '../svg/ImportIcon';
 
@@ -19,9 +20,14 @@ const Button = styled(FormButton)`
 `;
 
 const AccessAccountBtn = () => (
-    <Button linkTo='/recover-account' trackingId='IE Click add account button' id='IE Click add account button'>
-        <ImportIcon/>
-        <Translate id='button.importAccount'/>
+    <Button
+        linkTo='/recover-account'
+        trackingId='IE Click add account button'
+        id='IE Click add account button'
+        color='dark-green'
+    >
+        <Translate id='button.importAccount' />
+        <ImportIcon color={COLORS.green} />
     </Button>
 );
 

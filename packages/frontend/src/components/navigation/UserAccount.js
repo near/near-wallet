@@ -74,19 +74,26 @@ const UserAccount = (
         withIcon = true,
         flowLimitationSubMenu
     }
-) => (
-    <Container
-        className={classNames(['user-account', {'no-click' : flowLimitationSubMenu }])}
-        onClick={onClick}
-    >
-        {withIcon && <UserIcon color='#A2A2A8'/>}
-        <div className="account-wrapper" data-test-id="currentUser">
-            {accountId}
-        </div>
-        <div className='icon-wrapper'>
-            <ChevronIcon/>
-        </div>
-    </Container>
-);
+) => {
+    const containerClass = classNames([
+        'user-account',
+        { 'no-click' : flowLimitationSubMenu }
+    ]);
+
+    return (
+        <Container
+            className={containerClass}
+            onClick={onClick}
+        >
+            {withIcon && <UserIcon color='#A2A2A8'/>}
+            <div className='account-wrapper' data-test-id='currentUser'>
+                {accountId}
+            </div>
+            <div className='icon-wrapper'>
+                <ChevronIcon />
+            </div>
+        </Container>
+    );
+};
 
 export default UserAccount;

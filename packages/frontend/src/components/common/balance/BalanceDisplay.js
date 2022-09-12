@@ -4,8 +4,9 @@ import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
 import classNames from '../../../utils/classNames';
+import { COLORS } from '../../../utils/theme';
 import BalanceDisplayUSD from './BalanceDisplayUSD';
-import { 
+import {
     formatNearAmount,
     showInYocto,
     YOCTO_NEAR_THRESHOLD
@@ -14,6 +15,7 @@ import {
 const StyledContainer = styled.div`
     white-space: nowrap;
     line-height: normal;
+
 
     .dots {
         color: #4a4f54;
@@ -66,21 +68,34 @@ const StyledContainer = styled.div`
             font-size: 13px;
         }
     }
+
+    .near-amount {
+        display: flex;
+        flex-direction: row;
+        color: ${COLORS.lightText};
+    }
+
+    .near {
+        color: ${COLORS.green};
+        margin-right: 10px;
+    }
 `;
 
-const BalanceDisplay = ({
-    amount,
-    showSymbolNEAR = true,
-    className,
-    showBalanceInNEAR = true,
-    showBalanceInUSD = true,
-    nearTokenFiatValueUSD,
-    showAlmostEqualSignUSD,
-    showSignUSD,
-    showSymbolUSD,
-    totalAmount,
-    'data-test-id': testId
-}) => {
+const BalanceDisplay = (
+    {
+        amount,
+        showSymbolNEAR = true,
+        className,
+        showBalanceInNEAR = true,
+        showBalanceInUSD = true,
+        nearTokenFiatValueUSD,
+        showAlmostEqualSignUSD,
+        showSignUSD,
+        showSymbolUSD,
+        totalAmount,
+        'data-test-id': testId
+    }
+) => {
 
     const amountToShow = amount && formatNearAmount(amount);
     const NEARSymbol = 'NEAR';
@@ -93,23 +108,27 @@ const BalanceDisplay = ({
         }
     };
 
+    const containerClass = classNames([
+        'balance',
+        className,
+        { 'fiat-only': !showBalanceInNEAR },
+    ]);
+
     return (
         <StyledContainer
-            title={handleShowInYocto(amount)}
-            className={classNames([
-                'balance',
-                className,
-                {
-                    'fiat-only': !showBalanceInNEAR,
-                },
-            ])}
             data-test-id={testId}
+            className={containerClass}
+            title={handleShowInYocto(amount)}
         >
             {showBalanceInNEAR && (
                 <>
                     {amount
-                        ? <div className='near-amount'>{amountToShow}{showSymbolNEAR !== false ? ` ${NEARSymbol}` : ''}</div>
-                        : <div className="dots"><Translate id='loadingNoDots'/></div>
+                        ? (
+                            <div className='near-amount'>
+                                <div className='near'>{amountToShow}</div>
+                                {showSymbolNEAR !== false ? ` ${NEARSymbol}` : ''}
+                            </div>
+                        ) : <div className="dots"><Translate id='loadingNoDots'/></div>
                     }
                 </>
             )}

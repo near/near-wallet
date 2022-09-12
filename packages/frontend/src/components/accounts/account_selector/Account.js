@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
+import { COLORS } from '../../../utils/theme';
 import Balance from '../../common/balance/Balance';
 import ClickToCopy from '../../common/ClickToCopy';
 import CopyIcon from '../../svg/CopyIcon';
@@ -15,7 +16,8 @@ const StyledContainer = styled.div`
     cursor: pointer;
     color: #72727A;
     margin: 8px 0;
-
+    background: ${COLORS.darkGray};
+    
     > .details {
         white-space: nowrap;
         overflow: hidden;
@@ -35,16 +37,13 @@ const StyledContainer = styled.div`
         cursor: pointer;
         min-width: 32px;
         min-height: 32px;
+        > rect {
+            fill: ${COLORS.darkGray};
+        }
     }
 
     :hover {
-        background-color: #FAFAFA;
-
-        > svg {
-            rect {
-                fill: white;
-            }
-        }
+        background-color: ${COLORS.darkGray};
     }
 
     .account-id, .balance {
@@ -63,36 +62,39 @@ const StyledContainer = styled.div`
     }
 
     &.active {
-        border: 1px solid #8FCDFF;
-        background-color: #F0F9FF;
+        background: ${COLORS.darkGray};
+        border: 1px solid ${COLORS.green};
         cursor: default;
 
         .account-id {
-            color: #001729;
+            color: ${COLORS.lightText};
         }
 
         .balance {
-            color: #0072CE;
+            color: ${COLORS.lightText};
         }
 
         > svg {
             rect {
-                fill: #D6EDFF;
+                fill: ${COLORS.darkGray};
             }
         }
     }
 `;
 
-export default ({
-    active,
-    accountId,
-    balance,
-    defaultShowBalance,
-    onSelectAccount,
-    onToggleShowBalance = () => {},
-    showBalanceInUSD
-}) => {
+const Account = (
+    {
+        active,
+        accountId,
+        balance,
+        defaultShowBalance,
+        onSelectAccount,
+        onToggleShowBalance = () => {},
+        showBalanceInUSD
+    }
+) => {
     const [showBalance, setShowBalance] = useState(defaultShowBalance);
+
     return (
         <StyledContainer className={active ? 'active' : ''} onClick={onSelectAccount}>
             <div className='details'>
@@ -111,8 +113,13 @@ export default ({
                     }
                 </div>
             </div>
-            <ClickToCopy copy={accountId} className='copy' compact={true} onClick={(e) => e.stopPropagation()}>
-                <CopyIcon color='#2B9AF4' />
+            <ClickToCopy
+                copy={accountId}
+                className='copy'
+                compact={true}
+                onClick={(e) => e.stopPropagation()}
+            >
+                <CopyIcon color={COLORS.lightText} />
             </ClickToCopy>
             <EyeIcon
                 show={showBalance}
@@ -121,7 +128,10 @@ export default ({
                     onToggleShowBalance();
                     e.stopPropagation();
                 }}
+                color={COLORS.lightText}
             />
         </StyledContainer>
     );
 };
+
+export default Account;

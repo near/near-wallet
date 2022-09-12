@@ -8,6 +8,7 @@ import ArrowGrnImage from '../../images/icon-arrow-grn.svg';
 import ArrowWhiteImage from '../../images/icon-arrow-white.svg';
 import { Mixpanel } from '../../mixpanel/index';
 import classNames from '../../utils/classNames';
+import { COLORS } from '../../utils/theme';
 
 const CustomButton = styled.button`
     &&& {
@@ -16,7 +17,7 @@ const CustomButton = styled.button`
         border: 2px solid;
         font-weight: 600;
         height: 56px;
-        border-radius: 30px;
+        border-radius: 15px;
         transition: 100ms;
         font-size: 14px;
         word-break: keep-all;
@@ -38,6 +39,15 @@ const CustomButton = styled.button`
             padding: 0px 0px;
             
             font-size: 14px;
+        }
+
+        &.big {
+            height: 48px;
+            border-radius: 20px;
+            padding: 0px 0px;
+            
+            max-width: 250px;
+            font-size: 20px;
         }
 
         &.black {
@@ -226,6 +236,62 @@ const CustomButton = styled.button`
                 border: 2px solid #56BC8F !important;
             }
         }
+        &.dark-green {
+            background-color: ${COLORS.darkGreen};
+            color: ${COLORS.green};
+            border: 0;
+            font-weight: 600 !important;
+
+            :disabled {
+                opacity: 0.8;
+            }
+
+            :hover {
+                filter: drop-shadow(0px 0px 10px ${COLORS.green});
+            }
+
+            &.border {
+                color: #008D6A !important;
+                background-color: #C8F6E0 !important;
+                border: 2px solid #56BC8F !important;
+            }
+        }
+        &.light-green {
+            background-color: ${COLORS.green};
+            color: ${COLORS.black};
+            border: 0;
+            font-weight: 600 !important;
+
+            :disabled {
+                opacity: 0.8;
+            }
+
+            :hover {
+                filter: drop-shadow(0px 10px 30px ${COLORS.green});
+            }
+
+            &.border {
+                color: #008D6A !important;
+                background-color: #C8F6E0 !important;
+                border: 2px solid #56BC8F !important;
+            }
+        }
+        &.dark-gray {
+            background-color: ${COLORS.darkGray};
+            color: ${COLORS.white};
+            border: 0;
+            font-weight: 600 !important;
+
+            :disabled {
+                opacity: 0.5;
+            }
+
+            &.border {
+                color: #008D6A !important;
+                background-color: #C8F6E0 !important;
+                border: 2px solid #56BC8F !important;
+            }
+        }
         &.green-white-arrow {
             color: #5ace84;
             border-color: #5ace84;
@@ -395,17 +461,17 @@ const CustomButton = styled.button`
         }
 
         &.dots {
-            color: #fff;
-            border-color: #cccccc;
-            background-color: #cccccc;
+            color: ${COLORS.black};
+            border-color: ${COLORS.green};
+            background-color: ${COLORS.green};
             cursor: default;
 
             :active,
             :hover,
             :focus,
             :disabled {
-                background: #cccccc;
-                border-color: #cccccc;
+                background: ${COLORS.green};
+                border-color: ${COLORS.green};
             }
             :after {
                 content: '.';
@@ -491,29 +557,31 @@ const CustomButton = styled.button`
     }
 `;
 
-const FormButton = ({ 
-    children, 
-    type, 
-    color = 'blue', 
-    disabled = false,
-    onClick,
-    sending = false,
-    sendingString,
-    size,
-    linkTo,
-    history,
-    className,
-    id,
-    trackingId,
-    swapButton,
-    'data-test-id': testId,
-    style
-}) => (
+const FormButton = (
+    {
+        children,
+        type,
+        color = 'blue',
+        disabled = false,
+        onClick,
+        sending = false,
+        sendingString,
+        size,
+        linkTo,
+        history,
+        className,
+        id,
+        trackingId,
+        swapButton,
+        'data-test-id': testId,
+        style
+    }
+) => (
     <CustomButton
         swapButton={swapButton}
         type={type}
         id={id}
-        className={classNames([color, size, className, {'dots': sending}])}
+        className={classNames([color, size, className, { 'dots': sending }])}
         disabled={disabled}
         onClick={(e) => {
             onClick && onClick(e);

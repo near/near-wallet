@@ -2,6 +2,7 @@ import React from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
+import { COLORS } from '../../../utils/theme';
 import FormButton from '../../common/FormButton';
 import ImportIcon from '../../svg/ImportIcon';
 import UserIconColor from '../../svg/UserIconColor';
@@ -23,15 +24,15 @@ const StyledContainer = styled.div`
             > svg {
                 min-height: 22px;
                 min-width: 22px;
-                margin: 0 6px 0 0;
+                margin: 0 0 0 6px;
                 path {
-                    stroke: #0072ce;
+                    stroke: ${COLORS.green};
                 }
             }
         }
 
         &.no-account {
-            background-color: #F0F0F1;
+            background-color: ${COLORS.darkGray};
             color: #72727A;
             display: flex;
             flex-direction: column;
@@ -53,29 +54,30 @@ const StyledContainer = styled.div`
     }
 `;
 
-export default ({
-    signedInAccountId,
-    availableAccounts,
-    accountsBalances,
-    getAccountBalance,
-    onSelectAccount,
-    onSignInToDifferentAccount,
-    showBalanceInUSD
-}) => {
+const AccountSelector = (
+    {
+        signedInAccountId,
+        availableAccounts,
+        accountsBalances,
+        getAccountBalance,
+        onSelectAccount,
+        onSignInToDifferentAccount,
+        showBalanceInUSD
+    }
+) => {
 
     if (!signedInAccountId && onSignInToDifferentAccount) {
         return (
             <StyledContainer className='no-account pg-20 brs-8'>
                 <UserIconColor />
                 <div><Translate id='accountSelector.noAccountDesc' /></div>
-                <FormButton
-                    onClick={onSignInToDifferentAccount}
-                >
+                <FormButton onClick={onSignInToDifferentAccount}>
                     <Translate id='button.importAccount' />
                 </FormButton>
             </StyledContainer>
         );
     }
+
     return (
         <StyledContainer className='pg-20 brs-8 bsw-l account-selector'>
             <div className='accounts'>
@@ -103,12 +105,14 @@ export default ({
             {onSignInToDifferentAccount && (
                 <FormButton
                     onClick={onSignInToDifferentAccount}
-                    color='gray-blue'
+                    color='dark-green'
                 >
-                    <ImportIcon />
                     <Translate id='accountSelector.signInButton' />
+                    <ImportIcon color={COLORS.green} />
                 </FormButton>
             )}
         </StyledContainer >
     );
 };
+
+export default AccountSelector;

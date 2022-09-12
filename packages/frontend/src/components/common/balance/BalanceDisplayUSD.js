@@ -3,16 +3,18 @@ import React from 'react';
 import { getRoundedBalanceInFiat, formatWithCommas } from './helpers';
 
 
-const BalanceDisplayUSD = ({
-    amount,
-    showAlmostEqualSignUSD = true,
-    showSignUSD = true,
-    showSymbolUSD = true,
-    nearTokenFiatValueUSD,
-    isNear = false,
-    decimals,
-    totalAmount
-}) => {
+const BalanceDisplayUSD = (
+    {
+        amount,
+        showAlmostEqualSignUSD = true,
+        showSignUSD = true,
+        showSymbolUSD = true,
+        nearTokenFiatValueUSD,
+        isNear = false,
+        decimals,
+        totalAmount
+    }
+) => {
 
     const roundedBalanceInUSD = amount && nearTokenFiatValueUSD && getRoundedBalanceInFiat(amount, nearTokenFiatValueUSD,isNear,
         decimals);
@@ -25,7 +27,7 @@ const BalanceDisplayUSD = ({
                 {!roundedBalanceInUSDIsBelowThreshold && (
                     <>
                         {showAlmostEqualSignUSD && '≈ '}
-                        {showSignUSD && <>$</>}
+                        {showSignUSD && '$'}
                     </>
                 )}
                 {totalAmount ? formatWithCommas(totalAmount) : formatWithCommas(roundedBalanceInUSD)}
@@ -33,17 +35,9 @@ const BalanceDisplayUSD = ({
             </>
         );
     } else if (roundedBalanceInUSD === 0) {
-        return (
-            <>
-                {showSignUSD && <>$</>}0
-            </>
-        );
+        return showSignUSD && '$0';
     } else {
-        return (
-            <>
-                — {USDSymbol}
-            </>
-        );
+        return `— ${USDSymbol}`;
     }
 };
 
