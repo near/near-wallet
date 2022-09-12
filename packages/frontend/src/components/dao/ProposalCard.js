@@ -37,7 +37,7 @@ const Styles = {
         textAlign,
         marginBottom: '15px',
         [MEDIA_QUERY.mobile]: {
-            fontSize: '16px',
+            fontSize: '14px',
         },
     })),
     Value: styled.div(({ colorText = 'beige' }) => ({

@@ -19,7 +19,20 @@ const fetchData = (url) => {
         .then((data) => {
             return data;
         });
-}; 
+};
+
+const parseDaoMetadata = (metadata) => {
+    if (!metadata) return {};
+
+    const fromBase64ToObj = (str) => JSON.parse(Buffer.from(str, 'base64').toString('utf-8'));
+    const toAstroDaoImageUrl = (id) => id && `https://sputnik-dao.s3.eu-central-1.amazonaws.com/${id}`;
+    const meta = fromBase64ToObj(metadata) || {};
+
+    return {
+        flagCover: toAstroDaoImageUrl(meta.flagCover),
+        flagLogo: toAstroDaoImageUrl(meta.flagLogo),
+    };
+}
 
 export const useDao = () => {
     const [loading, setLoading] = useState(false);
@@ -28,12 +41,16 @@ export const useDao = () => {
 
     const getData = useCallback(async (accountId) => {
         setLoading(true);
-        
-        const dao = await fetchData(accountDaosUrl+accountId);
 
-        const data = await Promise.all(dao.map(({ activeProposalCount, id }) => activeProposalCount ? fetchData(proposalsUrl(id)) : null ));
-        
-        setData(dao.map((item, index) => ({...item, proposal: data[index]})));
+        const dao = await fetchData(`${accountDaosUrl}${accountId}`);
+
+        const data = await Promise.all(dao.map(({ activeProposalCount, id }) => activeProposalCount ? fetchData(proposalsUrl(id)) : null));
+
+        setData(dao.map((item, index) => ({
+            ...item,
+            proposal: data[index],
+            parsedMeta: parseDaoMetadata(item.config.metadata),
+        })));
 
         setLoading(false);
 
@@ -45,5 +62,5 @@ export const useDao = () => {
         }
     }, [getData, accountId]);
 
-    return {loading, data};
+    return { loading, data };
 };
