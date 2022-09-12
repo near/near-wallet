@@ -1,29 +1,22 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Translate } from 'react-localize-redux';
+import { NavLink as ReactNavLink } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { isWhitelabel } from '../../config/whitelabel';
-import languagesIcon from '../../images/icon-languages.svg';
 import AccountSelector from '../accounts/account_selector/AccountSelector';
-import LanguageToggle from '../common/LangSwitcher';
-import UserIcon from '../svg/UserIcon';
+import MenuIcon from '../svg/MenuIcon';
+import ProfileIcon from '../svg/ProfileIcon';
 import AccessAccountBtn from './AccessAccountBtn';
 import CreateAccountBtn from './CreateAccountBtn';
-import DeprecatedLogo from './DeprecatedLogo';
-import Logo from './Logo';
 import NavLinks from './NavLinks';
-import UserAccount from './UserAccount';
+
 
 const Container = styled.div`
     display: none;
     color: white;
     font-size: 15px;
-    margin-bottom: 20px;
-    background-color: white;
-    height: 70px;
     position: relative;
-    padding: 0 14px;
-    border-bottom: 1px solid #F0F0F1;
+    padding: 32px 14px 0;
     transition: 300ms;
 
     ::-webkit-scrollbar {
@@ -32,6 +25,7 @@ const Container = styled.div`
 
     @media (max-width: 991px) {
         display: block;
+        background-color: #111111;
     }
 
     .user-links {
@@ -71,6 +65,18 @@ const Container = styled.div`
                 margin-right: 10px;
             }
         }
+        @media (max-width: 991px) {
+            background-color: transparent;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            margin: 0 30px;
+            background: #293933;
+            border-radius: 15px;
+
+            a {
+                border-top: none;
+            }
+        }
     }
 `;
 
@@ -92,143 +98,59 @@ const Collapsed = styled.div`
 `;
 
 const LowerSection = styled.div`
-    background-color: white;
-    margin: 0px -20px 0 -20px;
-    padding: 20px 20px 100% 20px;
+    padding: 20px;
 `;
 
-const Lang = styled.div`
-    border-top: 1px solid #efefef;
-    padding: 14px;
-    position: relative;
-    max-height: 58px;
-    margin: 0 -14px;
-
-    &.mobile-lang {
-        background-color: #FAFAFA;
-        border-bottom: 1px solid #efefef;
-    }
-
-    &:after {
-        content: '';
-        border-color: #72727A;
-        border-style: solid;
-        border-width: 2px 2px 0 0;
-        display: inline-block;
-        position: absolute;
-        right: 24px;
-        top: calc(50% - 10px);
-        transform: rotate(135deg) translateY(-50%);
-        height: 9px;
-        width: 9px;
-    }
-
-    &:last-child {
-        border-top: 0;
-        margin-top: 0;
-        margin-left: auto;
-        padding: 0;
-
-        .lang-selector {
-            color: #24272a;
-            width: 54px;
-        }
-    }
-
-    .lang-selector {
-        appearance: none;
-        background: transparent url(${languagesIcon}) no-repeat 0px center / 24px 24px;
-        border: 0;
-        color: #72727A;
-        cursor: pointer;
-        height: 32px;
-        outline: none;
-        padding-right: 62px;
-        position: relative;
-        width: 100%;
-        z-index: 1;
-        text-indent: 54px;
-    }
-
-    &.mobile-lang .lang-selector  {
-        text-indent: 32px;
-
-        &:active,
-        &:focus,
-        &:hover {
-            option {
-                background-color: #24272a;
-                border: 0;
-                color: #f8f8f8;
-            }
-        }
-    }
+const Logo = styled.span`
+    font-weight: 900;
+    font-size: 40px;
+    line-height: 30px;
+    color: #05DF85;
+    font-family: 'Poppins',sans-serif;
 `;
 
-class MobileContainer extends Component {
-    render() {
-
-        const {
-            account,
-            handleSelectAccount,
-            availableAccounts,
-            menuOpen,
-            toggleMenu,
-            showNavLinks,
-            flowLimitationMainMenu,
-            flowLimitationSubMenu,
-            refreshBalance
-        } = this.props;
-
-        return (
-            <Container className={menuOpen ? 'show' : ''} id='mobile-menu'>
-                <Collapsed>
-                    {
-                        isWhitelabel ?
-                            <Logo link={!flowLimitationMainMenu} mode='mobile' /> :
-                            <DeprecatedLogo link={!flowLimitationMainMenu}/>
-                    }
-                    {showNavLinks && (
-                        <>
-                            <UserAccount
-                                accountId={account.accountId || account.localStorage?.accountId}
-                                onClick={toggleMenu}
-                                withIcon={false}
-                                flowLimitationSubMenu={flowLimitationSubMenu}
-                            />
-                            <UserIcon background={true} color='#A2A2A8' onClick={!flowLimitationSubMenu ? toggleMenu : null}/>
-                        </>
-                    )}
-                    {!showNavLinks && (
-                        <Lang>
-                            <LanguageToggle />
-                        </Lang>
-                    )}
-                </Collapsed>
-                {menuOpen && (
-                    <>
-                        <NavLinks />
-                        <Lang className="mobile-lang">
-                            <LanguageToggle />
-                        </Lang>
-                        <LowerSection>
-                            <h6><Translate id='link.switchAccount' /></h6>
-                            <AccountSelector
-                                signedInAccountId={account.localStorage?.accountId}
-                                availableAccounts={availableAccounts}
-                                accountsBalances={account.accountsBalance}
-                                getAccountBalance={refreshBalance}
-                                onSelectAccount={handleSelectAccount}
-                                showBalanceInUSD={true}
-                            />
-                            <AccessAccountBtn />
-                            <CreateAccountBtn />
-                        </LowerSection>
-                    </>
-                )}
-            </Container>
-        );
+const MobileContainer = (
+    {
+        account,
+        handleSelectAccount,
+        availableAccounts,
+        menuOpen,
+        toggleMenu,
+        showNavLinks,
+        refreshBalance
     }
-}
+) => (
+    <Container className={menuOpen ? 'show' : ''} id='mobile-menu'>
+        <Collapsed>
+            {showNavLinks && (
+                <>
+                    <MenuIcon onClick={toggleMenu} style={{ cursor: 'pointer' }}/>
+                    <Logo>NEXT.</Logo>
+                    <ReactNavLink to='/profile'>
+                        <ProfileIcon />
+                    </ReactNavLink>
+                </>
+            )}
+        </Collapsed>
+        {menuOpen && (
+            <>
+                <NavLinks />
+                <LowerSection>
+                    <h6><Translate id='link.switchAccount' /></h6>
+                    <AccountSelector
+                        signedInAccountId={account.localStorage?.accountId}
+                        availableAccounts={availableAccounts}
+                        accountsBalances={account.accountsBalance}
+                        getAccountBalance={refreshBalance}
+                        onSelectAccount={handleSelectAccount}
+                        showBalanceInUSD={true}
+                    />
+                    <AccessAccountBtn />
+                    <CreateAccountBtn />
+                </LowerSection>
+            </>
+        )}
+    </Container>
+);
 
 export default MobileContainer;
