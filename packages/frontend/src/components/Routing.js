@@ -11,7 +11,7 @@ import { Redirect, Switch } from 'react-router-dom';
 import styled, { ThemeProvider } from 'styled-components';
 
 import { SHOW_MIGRATION_BANNER, WEB3AUTH } from '../../../../features';
-import favicon from '../../src/images/favicon-32x32.png';
+import favicon from '../../src/images/thenextwallet-favicon.png';
 import TwoFactorVerifyModal from '../components/accounts/two_factor/TwoFactorVerifyModal';
 import { PUBLIC_URL } from '../config';
 import { isWhitelabel } from '../config/whitelabel';
@@ -183,7 +183,7 @@ class Routing extends Component {
 
     componentDidMount = async () => {
         if (isWhitelabel() && document) {
-            document.title = 'NextWallet';
+            document.title = 'TheNextWallet';
             document.querySelector('link[rel~="icon"]').href = favicon;
         }
 
