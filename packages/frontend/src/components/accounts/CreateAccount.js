@@ -21,7 +21,6 @@ import isMobile from '../../utils/isMobile';
 import {
     ENABLE_IDENTITY_VERIFIED_ACCOUNT
 } from '../../utils/wallet';
-import AccountNote from '../common/AccountNote';
 import { getNearAndFiatValue } from '../common/balance/helpers';
 import FormButton from '../common/FormButton';
 import Container from '../common/styled/Container.css';
@@ -69,7 +68,7 @@ const StyledContainer = styled(Container)`
             color: #72727A;
         }
     }
-    
+
     .alternatives-title {
         color: #24272a;
         text-align: center;
@@ -103,6 +102,16 @@ const StyledContainer = styled(Container)`
     .fund-with-near-icon {
         margin: 0 auto 40px auto;
         display: block;
+    }
+
+    .submit-container {
+        display: flex;
+        justify-content: center;
+
+        button {
+            width: 100%;
+            font-size: 20px !important;
+        }
     }
 `;
 
@@ -195,7 +204,7 @@ class CreateAccount extends Component {
 
         if (showTermsPage) {
             return (
-                <StyledContainer className='small-centered border'>
+                <StyledContainer className='small-centered'>
                     <FundNearIcon />
                     <h1><Translate id='createAccount.termsPage.title' /></h1>
                     <h2>
@@ -229,9 +238,6 @@ class CreateAccount extends Component {
                     >
                         <Translate id='button.cancel' />
                     </FormButton>
-                    <div className='disclaimer'>
-                        <Translate id='createAccount.termsPage.disclaimer' />
-                    </div>
                     {whereToBuy && (
                         <WhereToBuyNearModal
                             onClose={() => this.setState({ whereToBuy: false })}
@@ -244,7 +250,7 @@ class CreateAccount extends Component {
 
         if (!invalidNearDrop) {
             return (
-                <StyledContainer className='small-centered border'>
+                <StyledContainer className='small-centered text-center'>
                     <form onSubmit={(e) => {
                         this.handleCreateAccount();
                         e.preventDefault();
@@ -273,21 +279,18 @@ class CreateAccount extends Component {
                             defaultAccountId={resetAccount && resetAccount.accountIdNotConfirmed.split('.')[0]}
                             autoFocus={isMobile() ? false : true}
                         />
-                        <AccountNote />
                         {cannotCreateNewAccountWithZeroBalanceAccount && <DepositNearBanner />}
-                        <FormButton
-                            type='submit'
-                            disabled={!(localAlert && localAlert.success) || cannotCreateNewAccountWithZeroBalanceAccount}
-                            sending={loader}
-                            data-test-id="reserveAccountIdButton"
-                        >
-                            <Translate id='button.reserveMyAccountId' />
-                        </FormButton>
-                        {!termsAccepted && (
-                            <div className='disclaimer no-terms-page'>
-                                <Translate id='createAccount.termsPage.disclaimer' />
-                            </div>
-                        )}
+                        <div className='submit-container'>
+                            <FormButton
+                                type='submit'
+                                disabled={!(localAlert && localAlert.success) || cannotCreateNewAccountWithZeroBalanceAccount}
+                                sending={loader}
+                                data-test-id="reserveAccountIdButton"
+                                color='dark-green'
+                            >
+                                <Translate id='button.reserveMyAccountId' />
+                            </FormButton>
+                        </div>
                         <div className='alternatives-title'><Translate id='createAccount.alreadyHaveAnAccount' /></div>
                         <div className='alternatives' onClick={() => {
                             Mixpanel.track('IE Click import existing account button');

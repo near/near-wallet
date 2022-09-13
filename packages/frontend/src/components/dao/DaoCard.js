@@ -5,8 +5,9 @@ import { COLORS, MEDIA_QUERY } from '../../utils/theme';
 import ClickToCopy from '../common/ClickToCopy';
 import CopyIcon from '../svg/CopyIcon';
 import ExpandDownIcon from '../svg/ExpandDownIcon';
-import UserIcom from '../svg/UserIcon';
+import UserIcon from '../svg/UserIcon';
 import ProposalCard from './ProposalCard';
+import DaoLogo from './DaoLogo';
 
 
 const Styles = {
@@ -209,6 +210,7 @@ const DaoCard = memo(({
     numberOfGroups,
     numberOfMembers,
     proposal,
+    parsedMeta
 }) => {
     const [open, setOpen] = useState(false);
     const handleOpen = useCallback(() => {
@@ -219,9 +221,7 @@ const DaoCard = memo(({
         <Styles.Container>
             <Styles.Dao>
                 <Styles.Flex>
-                    <Styles.Icon>
-                        <UserIcom />
-                    </Styles.Icon>
+                    <DaoLogo src={parsedMeta.flagLogo} />
                     <div>
                         <Styles.Name>{name}</Styles.Name>
                         <Styles.Id>
