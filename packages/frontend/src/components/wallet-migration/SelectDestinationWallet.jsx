@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
 import ImgMeteorWallet from '../../../src/images/meteor-wallet-logo.svg';
-import ImgMyNearWallet from '../../../src/images/mynearwallet-cropped.svg';
+import ImgTheNextWallet from '../../../src/images/thenextwallet-favicon.png';
 import SenderLogo from '../../../src/images/sender-logo.png';
 import IconLedger from '../../images/wallet-migration/IconLedger';
 import IconWallet from '../../images/wallet-migration/IconWallet';
@@ -43,7 +43,7 @@ const WALLET_OPTIONS = [
     {
         id: 'my-near-wallet',
         name: 'My NEAR Wallet',
-        icon: <img src={ImgMyNearWallet} alt="MyNearWallet Logo"/>,
+        icon: <img src={ImgTheNextWallet} alt="MyNearWallet Logo"/>,
         getUrl: ({ hash }) => `${getMyNearWalletUrlFromNEARORG()}/batch-import#${hash}`
     },
     {
