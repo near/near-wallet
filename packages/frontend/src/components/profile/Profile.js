@@ -1,6 +1,6 @@
 import BN from 'bn.js';
 import { formatNearAmount } from 'near-api-js/lib/utils/format';
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import { Translate } from 'react-localize-redux';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
@@ -200,7 +200,7 @@ export function Profile({ match }) {
         if (userRecoveryMethods) {
             let id = Mixpanel.get_distinct_id();
             Mixpanel.identify(id);
-            Mixpanel.people.set_once({create_date: new Date().toString(),});
+            Mixpanel.people.set_once({ create_date: new Date().toString(), });
             Mixpanel.people.set({
                 relogin_date: new Date().toString(),
                 enabled_2FA: account.has2fa
@@ -208,23 +208,24 @@ export function Profile({ match }) {
             Mixpanel.alias(accountId);
             userRecoveryMethods.forEach((method) => Mixpanel.people.set({ ['recovery_with_' + method.kind]: true }));
         }
-    },[userRecoveryMethods]);
+    }, [userRecoveryMethods]);
 
     useEffect(() => {
         wallet.getLocalKeyPair(accountId).then(async (keyPair) => {
             const isFullAccessKey = keyPair && await wallet.isFullAccessKey(accountId, keyPair);
             setSecretKey(isFullAccessKey ? keyPair.toString() : null);
         });
-    },[userRecoveryMethods]);
+    }, [userRecoveryMethods]);
 
-    useEffect(()=> {
+    useEffect(() => {
         if (twoFactor) {
             let id = Mixpanel.get_distinct_id();
             Mixpanel.identify(id);
             Mixpanel.people.set({
                 create_2FA_at: twoFactor.createdAt,
-                enable_2FA_kind:twoFactor.kind,
-                enabled_2FA: twoFactor.confirmed});
+                enable_2FA_kind: twoFactor.kind,
+                enabled_2FA: twoFactor.confirmed
+            });
         }
     }, [twoFactor]);
 
@@ -263,7 +264,7 @@ export function Profile({ match }) {
                             theme='light-blue'
                         />
                     )}
-                    <h2><UserIcon/><Translate id='profile.pageTitle.default'/></h2>
+                    <h2><UserIcon /><Translate id='profile.pageTitle.default' /></h2>
                     {profileBalance ? (
                         <BalanceContainer
                             account={account}
@@ -287,24 +288,25 @@ export function Profile({ match }) {
                     )}
                     {isOwner && authorizedApps?.length ? (
                         <>
-                            <hr/>
+                            <hr />
                             <div className='auth-apps'>
-                                <h2><CheckCircleIcon/><Translate id='profile.authorizedApps.title'/></h2>
-                                <FormButton color='link' linkTo='/authorized-apps'><Translate id='button.viewAll'/></FormButton>
+                                <h2><CheckCircleIcon /><Translate id='profile.authorizedApps.title' /></h2>
+                                <FormButton color='link' linkTo='/authorized-apps'><Translate id='button.viewAll' /></FormButton>
                             </div>
                             {authorizedApps.slice(0, 2).map((app, i) => (
-                                <AuthorizedApp key={i} app={app}/>
+                                <AuthorizedApp key={i} app={app} />
                             ))}
                         </>
                     ) : null}
                 </div>
                 {isOwner && (
                     <div className='right'>
-                        <h2><ShieldIcon/><Translate id='profile.security.title'/></h2>
-                        <h4><Translate id='profile.security.mostSecure'/><Tooltip translate='profile.security.mostSecureDesc' icon='icon-lg'/></h4>
+                        <h2><ShieldIcon /><Translate id='profile.security.title' /></h2>
+                        <h4><Translate id='profile.security.mostSecure' /><Tooltip translate='profile.security.mostSecureDesc' icon='icon-lg' /></h4>
+                        {/* TODO: add retry button in case recovery methods are not loaded */}
                         {!twoFactor && (
-                            <HardwareDevices 
-                                recoveryMethods={userRecoveryMethods} 
+                            <HardwareDevices
+                                recoveryMethods={userRecoveryMethods}
                                 account={accountState}
                                 publicKeys={publicKeys}
                                 hasLedger={hasLedger}
@@ -312,17 +314,17 @@ export function Profile({ match }) {
                                 hasLedgerButNotConnected={hasLedgerButNotConnected}
                             />
                         )}
-                        <RecoveryContainer type='phrase' recoveryMethods={userRecoveryMethods}/>
-                        { (shouldShowEmail || shouldShowPhone) && <h4><Translate id='profile.security.lessSecure'/><Tooltip translate='profile.security.lessSecureDesc' icon='icon-lg'/></h4>}
-                        { shouldShowEmail && <RecoveryContainer type='email' recoveryMethods={userRecoveryMethods}/> }
-                        { shouldShowPhone && <RecoveryContainer type='phone' recoveryMethods={userRecoveryMethods}/> }
+                        <RecoveryContainer type='phrase' recoveryMethods={userRecoveryMethods} />
+                        {(shouldShowEmail || shouldShowPhone) && <h4><Translate id='profile.security.lessSecure' /><Tooltip translate='profile.security.lessSecureDesc' icon='icon-lg' /></h4>}
+                        {shouldShowEmail && <RecoveryContainer type='email' recoveryMethods={userRecoveryMethods} />}
+                        {shouldShowPhone && <RecoveryContainer type='phone' recoveryMethods={userRecoveryMethods} />}
                         {(twoFactor || !hasLedger) && (
                             <>
-                                <hr/>
-                                <h2><LockIcon/><Translate id='profile.twoFactor'/></h2>
+                                <hr />
+                                <h2><LockIcon /><Translate id='profile.twoFactor' /></h2>
                                 {account.canEnableTwoFactor !== null ? (
                                     <>
-                                        <div className='sub-heading'><Translate id='profile.twoFactorDesc'/></div>
+                                        <div className='sub-heading'><Translate id='profile.twoFactorDesc' /></div>
                                         <TwoFactorAuth
                                             twoFactor={twoFactor}
                                         />
@@ -337,21 +339,21 @@ export function Profile({ match }) {
                         )}
                         <>
                             <hr />
-                            {secretKey ? <ExportKeyWrapper secretKey={secretKey}/> : null}
-                            <RemoveAccountWrapper/>
+                            {secretKey ? <ExportKeyWrapper secretKey={secretKey} /> : null}
+                            <RemoveAccountWrapper />
                         </>
                         {!IS_MAINNET && !account.ledgerKey && !isMobile() &&
-                            <MobileSharingWrapper/>
+                            <MobileSharingWrapper />
                         }
                     </div>
                 )}
                 {accountExists === false && !accountIdFromUrl && (
                     <div className='right'>
-                        <RemoveAccountWrapper/>
+                        <RemoveAccountWrapper />
                     </div>
                 )}
             </div>
-            <ZeroBalanceAccountWrapper/>
+            <ZeroBalanceAccountWrapper />
         </StyledContainer>
     );
 }
