@@ -6,13 +6,11 @@ import styled from 'styled-components';
 import { DISABLE_PHONE_RECOVERY } from '../../../config';
 import { Mixpanel } from '../../../mixpanel/index';
 import { deleteRecoveryMethod } from '../../../redux/actions/account';
-import selectRecoveryLoader from '../../../redux/selectors/crossStateSelectors/selectRecoveryLoader';
 import { selectAccountSlice } from '../../../redux/slices/account';
-import { actions as recoveryMethodsActions } from '../../../redux/slices/recoveryMethods';
+import { actions as recoveryMethodsActions, selectRecoveryMethodsStatus } from '../../../redux/slices/recoveryMethods';
 import { selectStatusMainLoader } from '../../../redux/slices/status';
 import SkeletonLoading from '../../common/SkeletonLoading';
 import RecoveryMethod from './RecoveryMethod';
-
 const { fetchRecoveryMethods } = recoveryMethodsActions;
 
 const Container = styled.div`
@@ -48,7 +46,7 @@ const RecoveryContainer = ({ type, recoveryMethods }) => {
     const missingKinds = allKinds.filter((kind) => !currentActiveKinds.has(kind));
     const deleteAllowed = [...currentActiveKinds].length > 1 || account.ledgerKey;
     missingKinds.forEach((kind) => activeMethods.push({ kind: kind }));
-    const recoveryLoader = useSelector((state) => selectRecoveryLoader(state, { accountId: account.accountId }));
+    const loadingStatus = useSelector((state) => selectRecoveryMethodsStatus(state, { accountId: account.accountId }));
 
     const handleDeleteMethod = async (method) => {
         try {
@@ -62,47 +60,48 @@ const RecoveryContainer = ({ type, recoveryMethods }) => {
         dispatch(fetchRecoveryMethods({ accountId: account.accountId }));
     };
 
-    if (!recoveryLoader) {
-        const currentTypeEnabledMethods = activeMethods.filter(({ kind, publicKey }) => {
-            if (DISABLE_PHONE_RECOVERY && kind === 'phone' && !publicKey) {
-                return false;
-            }
-
-            if (kind === 'email' && !publicKey) {
-                return false;
-            }
-
-            return kind === type;
-        });
-
-        if (currentTypeEnabledMethods.length === 0) {
-            return null;
-        }
-
-        return (
-            <Container className='recovery-option'>
-                {currentTypeEnabledMethods
-                    .map((method, i) => (
-                        <RecoveryMethod
-                            key={i}
-                            method={method}
-                            accountId={account.accountId}
-                            deletingMethod={deletingMethod === method.publicKey}
-                            onDelete={() => handleDeleteMethod(method)}
-                            deleteAllowed={deleteAllowed}
-                            mainLoader={mainLoader}
-                        />
-                    ))}
-            </Container>
-        );
-    } else {
+    if (!loadingStatus.isInitialized) {
         return (
             <SkeletonLoading
                 height='80px'
-                show={recoveryLoader}
+                show={true}
             />
         );
     }
+
+    const currentTypeEnabledMethods = activeMethods.filter(({ kind, publicKey }) => {
+        if (DISABLE_PHONE_RECOVERY && kind === 'phone' && !publicKey) {
+            return false;
+        }
+
+        if (kind === 'email' && !publicKey) {
+            return false;
+        }
+
+        return kind === type;
+    });
+
+    if (currentTypeEnabledMethods.length === 0) {
+        return null;
+    }
+
+    return (
+        <Container className='recovery-option'>
+            {currentTypeEnabledMethods
+                .map((method, i) => (
+                    <RecoveryMethod
+                        key={i}
+                        method={method}
+                        accountId={account.accountId}
+                        deletingMethod={deletingMethod === method.publicKey}
+                        onDelete={() => handleDeleteMethod(method)}
+                        deleteAllowed={deleteAllowed}
+                        mainLoader={mainLoader}
+                    />
+                ))}
+        </Container>
+    );
+
 };
 
 export default withRouter(RecoveryContainer);
