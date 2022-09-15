@@ -22,9 +22,7 @@ const fetchRecoveryMethods = createAsyncThunk(
     `${SLICE_NAME}/fetchRecoveryMethods`,
     async ({ accountId }, thunkAPI) => {
         const { dispatch } = thunkAPI;
-
         const recoveryMethods = await wallet.getRecoveryMethods();
-
         const { actions: { setRecoveryMethods } } = recoveryMethodsSlice;
         dispatch(setRecoveryMethods({ recoveryMethods, accountId }));
     },
@@ -50,7 +48,7 @@ const recoveryMethodsSlice = createSlice({
     extraReducers: ((builder) => {
         handleAsyncThunkStatus({
             asyncThunk: fetchRecoveryMethods,
-            buildStatusPath: ({ meta: { arg: { accountId }}}) => ['byAccountId', accountId],
+            buildStatusPath: ({ meta: { arg: { accountId } } }) => ['byAccountId', accountId],
             builder
         });
     })
@@ -84,4 +82,9 @@ export const selectRecoveryMethodsByAccountId = createSelector(
 export const selectRecoveryMethodsLoading = createSelector(
     [selectRecoveryMethodsObjectByAccountId],
     (recoveryMethods) => recoveryMethods.status.loading
+);
+
+export const selectRecoveryMethodsStatus = createSelector(
+    [selectRecoveryMethodsObjectByAccountId],
+    (recoveryMethods) => recoveryMethods.status
 );
