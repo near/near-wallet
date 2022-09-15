@@ -9,7 +9,6 @@ import { deleteRecoveryMethod } from '../../../redux/actions/account';
 import { selectAccountSlice } from '../../../redux/slices/account';
 import { actions as recoveryMethodsActions, selectRecoveryMethodsStatus } from '../../../redux/slices/recoveryMethods';
 import { selectStatusMainLoader } from '../../../redux/slices/status';
-import { isRealError } from '../../../utils/isEmptyError';
 import SkeletonLoading from '../../common/SkeletonLoading';
 import RecoveryMethod from './RecoveryMethod';
 const { fetchRecoveryMethods } = recoveryMethodsActions;
@@ -61,7 +60,7 @@ const RecoveryContainer = ({ type, recoveryMethods }) => {
         dispatch(fetchRecoveryMethods({ accountId: account.accountId }));
     };
 
-    if (loadingStatus.loading || isRealError(loadingStatus.error)) {
+    if (!loadingStatus.isInitialized) {
         return (
             <SkeletonLoading
                 height='80px'

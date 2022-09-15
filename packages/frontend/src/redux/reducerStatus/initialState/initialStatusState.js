@@ -3,6 +3,7 @@ import initialErrorState from './initialErrorState';
 export default {
     status: {
         loading: false,
-        error: initialErrorState
+        error: initialErrorState,
+        isInitialized: false
     }
 };

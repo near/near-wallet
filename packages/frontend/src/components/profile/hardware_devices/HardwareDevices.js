@@ -12,7 +12,6 @@ import {
     addLedgerAccessKey
 } from '../../../redux/actions/account';
 import { actions as recoveryMethodsActions, selectRecoveryMethodsStatus } from '../../../redux/slices/recoveryMethods';
-import { isRealError } from '../../../utils/isEmptyError';
 import FormButton from '../../common/FormButton';
 import SkeletonLoading from '../../common/SkeletonLoading';
 import Card from '../../common/styled/Card.css';
@@ -114,7 +113,7 @@ const HardwareDevices = ({
         }
     };
 
-    if (loadingStatus.loading || isRealError(loadingStatus.error)) {
+    if (!loadingStatus.isInitialized) {
         return (
             <SkeletonLoading
                 height='138px'

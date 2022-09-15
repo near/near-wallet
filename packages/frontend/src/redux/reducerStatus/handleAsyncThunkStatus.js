@@ -3,8 +3,8 @@ import { isFulfilled, isPending, isRejected } from '@reduxjs/toolkit';
 import clearError from './manageStatus/clearError';
 import clearLoading from './manageStatus/clearLoading';
 import setError from './manageStatus/setError';
+import setInitialized from './manageStatus/setInitialized';
 import setLoading from './manageStatus/setLoading';
-
 /**
  * Automatically handle status part of reducer based on initialErrorState
  *
@@ -23,5 +23,6 @@ export default ({
     .addMatcher(isPending(asyncThunk), clearError(buildStatusPath))
     .addMatcher(isFulfilled(asyncThunk), clearLoading(buildStatusPath))
     .addMatcher(isFulfilled(asyncThunk), clearError(buildStatusPath))
+    .addMatcher(isFulfilled(asyncThunk), setInitialized(buildStatusPath))
     .addMatcher(isRejected(asyncThunk), clearLoading(buildStatusPath))
     .addMatcher(isRejected(asyncThunk), setError(buildStatusPath));
