@@ -1348,6 +1348,12 @@
         "startOverText": "Didn't write it down?"
     },
     "sign": {
+        "addFullAccessKey": {
+            "button": "Proceed With Adding a Full Access Key",
+            "desc": "By signing this transaction, you are authorizing an application to have complete control over you account. Make sure you trust this application before proceeding.",
+            "disclaimer": "I authorize adding a Full Access Key to my account: <b>${accountId}</b>",
+            "title": "Full Access Key Warning!"
+        },
         "accountNotFound": {
             "body": "${signCallbackUrl} is requesting authorization from a NEAR account that cannot be found: <b>${signTransactionSignerId}</b><br/><br/>To approve any transactions, you’ll first need to import the account.",
             "title": "Account Not Found"
