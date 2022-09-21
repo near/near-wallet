@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { Translate } from 'react-localize-redux';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
 import RemoveAccountImage from '../../../images/icon-trash.js';
-import { wallet } from '../../../utils/wallet';
+import { selectAccountId } from '../../../redux/slices/account';
 import FormButton from '../../common/FormButton';
 import Container from '../../common/styled/Container.css';
 import AddFAKModal from './AddFAKModal';
@@ -40,7 +40,6 @@ const StyledContainer = styled(Container)`
 `;
 
 export default () => {
-    const dispatch = useDispatch();
     const [showAddFullAccessKeyModal, setShowAddFullAccessKeyModal] = useState(false);
     const accountId = useSelector(selectAccountId);
     return (
@@ -56,7 +55,7 @@ export default () => {
             {showAddFullAccessKeyModal && (
                 <AddFAKModal
                     //TODO route user to main wallet page or back to callback from url
-                    onClose={() =>  }
+                    onClose={() => console.log('sending back to callback URL')}
                     onAuthorize={() => setShowAddFullAccessKeyModal(false)}
                     isOpen={showAddFullAccessKeyModal}
                     accountId={accountId}
