@@ -30,6 +30,7 @@ jobs:
       - run: yarn test
       - run: yarn bundle --outDir=dist/${{ inputs.environment }}
       - uses: aws-actions/configure-aws-credentials@v1
+        if: ${{ github.event.pull_request.head.repo.url == github.event.pull_request.base.repo.url }}
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
