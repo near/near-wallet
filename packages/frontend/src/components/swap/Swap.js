@@ -6,7 +6,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
 import { CREATE_USN_CONTRACT } from '../../../../../features';
-import { EXPLORER_URL, NEAR_TOKEN_ID, USN_CONTRACT } from '../../config';
+import { EXPLORER_URL, NEAR_TOKEN_ID } from '../../config';
 import { useFungibleTokensIncludingNEAR } from '../../hooks/fungibleTokensIncludingNEAR';
 import { usePerformBuyOrSellUSN } from '../../hooks/performBuyOrSellUSN';
 import { Mixpanel } from '../../mixpanel/index';
@@ -40,8 +40,7 @@ export const VIEWS = {
 };
 
 export const VALID_TOKEN_PAIRS = {
-    NEAR: [NEAR_TOKEN_ID, USN_CONTRACT],
-    [USN_CONTRACT]: ['NEAR'],
+    NEAR: [NEAR_TOKEN_ID],
     [NEAR_TOKEN_ID]: ['NEAR']
 };
 
@@ -115,7 +114,7 @@ const StyledContainer = styled(Container)`
 `;
 
 function Swap({ history }) {
-    const fungibleTokensList = useFungibleTokensIncludingNEAR({showTokensWithZeroBalance: true, includeNearContractName: true});
+    const fungibleTokensList = useFungibleTokensIncludingNEAR({ showTokensWithZeroBalance: true, includeNearContractName: true });
     const accountId = useSelector(selectAccountId);
     const multiplier = useSelector(selectMetadataSlice);
     const [amountTokenFrom, setAmountTokenFrom] = useState(0);
@@ -143,7 +142,7 @@ function Swap({ history }) {
         if (!accountId) {
             return;
         }
-        Promise.all(allTokens.map((token) => dispatch(fetchToken({accountId, contractName: token}))));
+        Promise.all(allTokens.map((token) => dispatch(fetchToken({ accountId, contractName: token }))));
         dispatch(fetchMultiplier());
     }, [accountId]);
 
@@ -164,9 +163,9 @@ function Swap({ history }) {
 
 
     const formatMultiplier = +multiplier / 10000;
-    
+
     const checkValidInput = useCallback(
-        () => 
+        () =>
             amountTokenFrom && setAmountError(!validateInput(amountTokenFrom.toString(), maxFrom.fullNum))
         , [amountTokenFrom, maxFrom]);
 
@@ -235,14 +234,14 @@ function Swap({ history }) {
                         amount = maxFrom.fullNum;
                     }
                     await performBuyOrSellUSN({
-                        accountId, 
-                        multiplier, 
-                        slippage, 
-                        amount, 
+                        accountId,
+                        multiplier,
+                        slippage,
+                        amount,
                         tokenFrom
                     });
                 }
-                
+
                 setActiveView(VIEWS.SUCCESS);
 
                 const id = Mixpanel.get_distinct_id();
