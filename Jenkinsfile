@@ -11,9 +11,9 @@ pipeline {
         AWS_CREDENTIALS = 'aws-credentials-password'
         AWS_REGION = 'us-west-2'
         TESTNET_AWS_ROLE = credentials('testnet-assumed-role')
-        TESTNET_AWS_ACCOUNT_ID = credentials('testnet-mnw-account-id')
+        TESTNET_AWS_ACCOUNT_ID = credentials('testnet-assumed-role-account')
         MAINNET_AWS_ROLE = credentials('mainnet-assumed-role')
-        MAINNET_AWS_ACCOUNT_ID = credentials('mainnet-mnw-account-id')
+        MAINNET_AWS_ACCOUNT_ID = credentials('mainnet-assumed-role-account')
 
         // s3 buckets
         TESTNET_PR_PREVIEW_STATIC_SITE_BUCKET = credentials('testnet-pr-previews-static-website')
@@ -25,12 +25,6 @@ pipeline {
 
         // package building configuration
         AFFECTED_PACKAGES = 'frontend'.split()
-        /* TODO enable once nx is implemented
-        AFFECTED_PACKAGES = """${sh(
-            returnStdout: true,
-            script: 'npx nx affected:apps --plain'
-        )}""".trim().split()
-        */
 
         BUILD_E2E = AFFECTED_PACKAGES.contains('e2e-tests')
         BUILD_FRONTEND = AFFECTED_PACKAGES.contains('frontend')
