@@ -41,7 +41,12 @@ export const handleSignTransactions = createAsyncThunk(
                 } else {
                     transactions = selectSignTransactions(getState());
                 }
-                
+                // TODO
+                // window.transactions = transactions;
+                transactions.find((tx) => tx.actions.find((action) => {
+                    let actionObject = Object.keys(action)[0];
+                    return actionObject === 'addKey';
+                }));
                 const accountId = selectAccountId(getState());
 
                 try {
@@ -51,7 +56,7 @@ export const handleSignTransactions = createAsyncThunk(
                     if (error.message.includes('TotalPrepaidGasExceeded')) {
                         Mixpanel.track('SIGN - too much gas detected');
                     }
-                    
+
                     if (error.message.includes('Exceeded the prepaid gas')) {
                         const successHashes = error?.data?.transactionHashes;
                         dispatch(updateSuccessHashes(successHashes));
@@ -106,13 +111,13 @@ export const calculateGasForSuccessTransactions = ({ transactions, successHashes
 
 export const checkAbleToIncreaseGas = ({ transaction }) => {
     if (!transaction.actions) {
-        return false; 
+        return false;
     }
 
     return transaction.actions.some((a) => {
         // We can only increase gas for actions that are function calls and still have < RETRY_TX.GAS.MAX gas allocated
         if (!a || !a.functionCall) {
-            return false; 
+            return false;
         }
 
         return a.functionCall.gas.lt(new BN(RETRY_TX_GAS.MAX));
@@ -123,7 +128,7 @@ export const checkAbleToIncreaseGas = ({ transaction }) => {
 export const getFirstTransactionWithFunctionCallAction = ({ transactions }) => {
     return transactions.find((t) => {
         if (!t.actions) {
-            return false; 
+            return false;
         }
 
         return t.actions.some((a) => a && a.functionCall);
@@ -131,7 +136,7 @@ export const getFirstTransactionWithFunctionCallAction = ({ transactions }) => {
 };
 
 export const getEstimatedFees = (transactionsList) => {
-    const tx = increaseGasForFirstTransaction({ transactions: cloneDeep(transactionsList)});
+    const tx = increaseGasForFirstTransaction({ transactions: cloneDeep(transactionsList) });
     return new BN(calculateGasLimit(tx.flatMap((t) => t.actions)));
 };
 
@@ -146,7 +151,7 @@ export const increaseGasForFirstTransaction = ({ transactions }) => {
 
     // If there are multiple tx, we want to increase the gas, only for the first one, because it's possible that increasing gas for the other transactions will end with exceeded gas
     transaction.actions.forEach((a) => {
-        if (!(a.functionCall && a.functionCall.gas)) { 
+        if (!(a.functionCall && a.functionCall.gas)) {
             return false;
         }
 
@@ -184,7 +189,7 @@ export const selectSignTransactionsBatchIsValid = createSelector(
     [selectSignTransactions],
     (transactions) => {
         const firstSignerId = transactions.length && transactions[0].signerId;
-        return !transactions.length || transactions.every(({signerId}) => signerId === firstSignerId);
+        return !transactions.length || transactions.every(({ signerId }) => signerId === firstSignerId);
     }
 );
 
@@ -254,8 +259,8 @@ export const selectSignFeesGasLimitIncludingGasChanges = createSelector(
         const transactionsToCalculate = !!retryTransactions.length
             ? retryTransactions
             : transactions;
-        
-        const tx = increaseGasForFirstTransaction({ transactions: cloneDeep(transactionsToCalculate)});
+
+        const tx = increaseGasForFirstTransaction({ transactions: cloneDeep(transactionsToCalculate) });
         return new BN(calculateGasLimit(tx.flatMap((t) => t.actions))).add(gasUsed);
     }
 );
