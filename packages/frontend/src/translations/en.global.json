@@ -1349,8 +1349,7 @@
     },
     "sign": {
         "addFullAccessKey": {
-            "button": "Proceed With Adding a Full Access Key",
-            "desc": "By signing this transaction, you are authorizing an application to have complete control over you account. Make sure you trust this application before proceeding.",
+            "desc": "By signing this transaction, you are authorizing an application to have complete control over your account. Make sure you trust this application before proceeding. Read More <a href='https://docs.near.org/concepts/basics/accounts/access-keys#full-access-keys' rel='noopener noreferrer' target='_blank'>here.</a>",
             "disclaimer": "I authorize adding a Full Access Key to my account: <b>${accountId}</b>",
             "title": "Full Access Key Warning!"
         },
