@@ -128,7 +128,7 @@ export default ({
                         ...actions.filter((a) => Object.keys(a)[0] === 'functionCall'),
                         ...actions.filter((a) => Object.keys(a)[0] !== 'functionCall')
                     ];
-                    
+
                     return (
                         <div key={receiverId}>
                             <div className='entry'>
@@ -187,6 +187,7 @@ const ActionArguments = ({ actionKind, action }) => {
     }
 };
 
+// TODO Add AddKey information
 const getActionKindTranslateId = (actionKind) => {
     switch (actionKind) {
         case 'functionCall':

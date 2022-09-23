@@ -41,12 +41,7 @@ export const handleSignTransactions = createAsyncThunk(
                 } else {
                     transactions = selectSignTransactions(getState());
                 }
-                // TODO
-                // window.transactions = transactions;
-                transactions.find((tx) => tx.actions.find((action) => {
-                    let actionObject = Object.keys(action)[0];
-                    return actionObject === 'addKey';
-                }));
+
                 const accountId = selectAccountId(getState());
 
                 try {
