@@ -2,6 +2,7 @@ import BN from 'bn.js';
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
+import AddFAKWrapper from '../components/sign/addFullAccessKeyModal/AddFAKWrapper';
 import SignTransferAccountNotFound from '../components/sign/SignTransferAccountNotFound';
 import SignTransferInvalid from '../components/sign/SignTransferInvalid';
 import SignTransferMultipleAccounts from '../components/sign/SignTransferMultipleAccounts';
@@ -27,7 +28,6 @@ import {
 } from '../redux/slices/sign';
 import { addQueryParams } from '../utils/addQueryParams';
 import { isUrlNotJavascriptProtocol } from '../utils/helper-api';
-
 export function SignWrapper() {
     const dispatch = useDispatch();
 
@@ -70,14 +70,14 @@ export function SignWrapper() {
         } else {
             setCurrentDisplay(DISPLAY.TRANSACTION_SUMMARY);
         }
-    },[signerId, transactionBatchisValid, availableAccounts, accountId, availableAccountsIsLoading]);
+    }, [signerId, transactionBatchisValid, availableAccounts, accountId, availableAccountsIsLoading]);
 
     useEffect(() => {
         if (
             !isSignerValid &&
-                availableAccounts.some(
-                    (accountId) => accountId === signerId
-                )
+            availableAccounts.some(
+                (accountId) => accountId === signerId
+            )
         ) {
             dispatch(
                 switchAccount({ accountId: signerId })
@@ -89,7 +89,7 @@ export function SignWrapper() {
         if (signStatus === SIGN_STATUS.RETRY_TRANSACTION) {
             setCurrentDisplay(DISPLAY.INSUFFICIENT_NETWORK_FEE);
         }
-        
+
         if (signStatus === SIGN_STATUS.SUCCESS) {
             if (signCallbackUrl && !!transactionHashes.length && isValidCallbackUrl) {
                 window.location.href = addQueryParams(signCallbackUrl, {
@@ -101,6 +101,7 @@ export function SignWrapper() {
             }
         }
     }, [signStatus]);
+
 
     const handleApproveTransaction = async () => {
         Mixpanel.track('SIGN approve the transaction');
@@ -127,6 +128,18 @@ export function SignWrapper() {
             dispatch(redirectTo('/'));
         }
     };
+
+    const [isAddFAKTransaction, setIsAddFAKTransaction] = useState(false);
+
+    useEffect(() => {
+        const isAddFAKTransaction = transactions.find((tx) => tx.actions.find((action) => {
+            let actionObject = Object.keys(action)[0];
+            return actionObject === 'addKey';
+        }));
+
+        setIsAddFAKTransaction(() => isAddFAKTransaction);
+    }, [transactions]);
+
 
     // potentially malicious callback URL found
     if (!isValidCallbackUrl) {
@@ -178,15 +191,21 @@ export function SignWrapper() {
     }
 
     return (
-        <SignTransactionSummaryWrapper
-            onClickCancel={handleCancelTransaction}
-            onClickApprove={handleApproveTransaction}
-            submittingTransaction={submittingTransaction}
-            signGasFee={signGasFee}
-            onClickMoreInformation={() => setCurrentDisplay(DISPLAY.TRANSACTION_DETAILS)}
-            onClickEditAccount={() => setCurrentDisplay(DISPLAY.ACCOUNT_SELECTION)}
-            isSignerValid={isSignerValid}
-            isValidCallbackUrl={isValidCallbackUrl}
-        />
+        <>
+            {isAddFAKTransaction &&
+                <AddFAKWrapper handleSignTransactions={handleSignTransactions} />
+            }
+
+            <SignTransactionSummaryWrapper
+                onClickCancel={handleCancelTransaction}
+                onClickApprove={handleApproveTransaction}
+                submittingTransaction={submittingTransaction}
+                signGasFee={signGasFee}
+                onClickMoreInformation={() => setCurrentDisplay(DISPLAY.TRANSACTION_DETAILS)}
+                onClickEditAccount={() => setCurrentDisplay(DISPLAY.ACCOUNT_SELECTION)}
+                isSignerValid={isSignerValid}
+                isValidCallbackUrl={isValidCallbackUrl}
+            />
+        </>
     );
 }
