@@ -367,7 +367,15 @@ class Routing extends Component {
 
                         <NetworkBanner account={account} />
                         <NavigationWrapper />
-                        { !isWhitelabel && <TwoFactorDisableBanner />}
+                        {
+                            !isWhitelabel && (
+                                <Switch>
+                                    <Route
+                                        path={['/', '/staking', '/profile']} component={TwoFactorDisableBanner}
+                                    />
+                                </Switch>
+                            )
+                        }
                         <GlobalAlert />
                         <WalletMigration
                             open={this.state.openTransferPopup}

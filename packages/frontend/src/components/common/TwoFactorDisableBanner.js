@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { Translate } from 'react-localize-redux';
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
 import { NETWORK_ID } from '../../config';
+import { selectAccountSlice } from '../../redux/slices/account';
 import WalletClass, { wallet } from '../../utils/wallet';
 import AlertTriangleIcon from '../svg/AlertTriangleIcon';
 import LockIcon from '../svg/LockIcon';
@@ -100,6 +102,9 @@ export default function TwoFactorDisableBanner() {
     const [accounts, setAccounts] = useState([]);
     const [showDisable2FAModal, setShowDisable2FAModal] = useState(false);
 
+    const account = useSelector(selectAccountSlice);
+    const loadedAccounts = useMemo(() => Object.keys(account.accounts ?? {}), [account.accounts]);
+
     const showModal = () => setShowDisable2FAModal(true);
     const hideModal = () => setShowDisable2FAModal(false);
 
@@ -116,8 +121,10 @@ export default function TwoFactorDisableBanner() {
     
             setAccounts(accountsKeyTypes.reduce(((acc, { accountId, keyType }) => keyType === WalletClass.KEY_TYPES.MULTISIG ? [...acc, accountId] : acc), []));
         };
-        update2faAccounts();
-    }, [showDisable2FAModal]);
+        if (loadedAccounts.length > 0 && accounts.sort() !== loadedAccounts.sort()) {
+            update2faAccounts();
+        }
+    }, [showDisable2FAModal, loadedAccounts.length]);
 
     const accountsCount = accounts.length;
     if (accounts.length === 0) {
