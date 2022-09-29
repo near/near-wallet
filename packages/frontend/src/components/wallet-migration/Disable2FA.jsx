@@ -67,7 +67,8 @@ const Disable2FAModal = ({ handleSetActiveView, onClose }) => {
         accounts: []
     });
     const [loadingMultisigAccounts, setLoadingMultisigAccounts] = useState(true);
-    const [failedAccount, setFailedAccount] = useState(null);
+    const [currentBrickedAccount, setCurrentBrickedAccount] = useState(null);
+    
     const initialAccountIdOnStart = useSelector(selectAccountId);
     const initialAccountId = useRef(initialAccountIdOnStart);
     const dispatch = useDispatch();
@@ -104,18 +105,15 @@ const Disable2FAModal = ({ handleSetActiveView, onClose }) => {
     },[initialAccountIdOnStart, batchDisableNotStarted]);
 
     useEffect(() => {
-        // checks if current wallet has bricked account and if so handles it
-        const handleDeserializedContractState = async (account) => {
-            // If account is bricked and unable to run checkMultisigCodeAndStateStatus, show account lock modal
+        // checks if account is bricked
+        const isAccountBricked = async (account) => {
+            // If account is bricked and unable to run checkMultisigCodeAndStateStatus
             if (!account.checkMultisigCodeAndStateStatus) {
-                setFailedAccount(currentAccount.accountId);
                 return true;
             }
-            // Get status of mulgisig contract
-            const { codeStatus, stateStatus} = await account.checkMultisigCodeAndStateStatus();
-            // If current multisig contract status is at 'Cannot deserialize the contract state.', show account lock modal
+            // If current multisig contract status is at 'Cannot deserialize the contract state.', it is bricked
+            const { codeStatus, stateStatus } = await account.checkMultisigCodeAndStateStatus();
             if (codeStatus === 1 && stateStatus === 0) {
-                setFailedAccount(currentAccount.accountId);
                 return true;
             }
             return false;
@@ -125,8 +123,11 @@ const Disable2FAModal = ({ handleSetActiveView, onClose }) => {
             try {
                 await dispatch(switchAccount({accountId: currentAccount.accountId}));
                 const account = await wallet.getAccount(currentAccount.accountId);
-                const isBrickedAccountHandled = await handleDeserializedContractState(account);
-                if (!isBrickedAccountHandled) {
+                const isBrickedAccount = await isAccountBricked(account);
+                if (isBrickedAccount) {
+                    // show bricked account modal
+                    setCurrentBrickedAccount(currentAccount.accountId);
+                } else {
                     await account.disableMultisig();
                     localDispatch({ type: ACTIONS.SET_CURRENT_DONE });
                 }
@@ -147,7 +148,10 @@ const Disable2FAModal = ({ handleSetActiveView, onClose }) => {
         }
     }, [completedWithSuccess]);
 
-    const onAccountLockClose = () => setFailedAccount(null);
+    const onAccountLockClose = () => { 
+        setCurrentBrickedAccount(null);
+        localDispatch({ type: ACTIONS.SET_CURRENT_FAILED_AND_END_PROCESS });
+    };
 
     const onAccountLockComplete = () => {
         localDispatch({ type: ACTIONS.SET_CURRENT_DONE });
@@ -189,7 +193,7 @@ const Disable2FAModal = ({ handleSetActiveView, onClose }) => {
                 }
             </Container>
         </Modal>
-        { failedAccount && <AccountLockModal accountId={failedAccount} onClose={onAccountLockClose} onComplete={onAccountLockComplete} /> }
+        { currentBrickedAccount && <AccountLockModal accountId={currentBrickedAccount} onClose={onAccountLockClose} onComplete={onAccountLockComplete} /> }
         </>
     );
 };
