@@ -15,6 +15,7 @@ import sequentialAccountImportReducer, { ACTIONS } from '../accounts/batch_impor
 import FormButton from '../common/FormButton';
 import LoadingDots from '../common/loader/LoadingDots';
 import Modal from '../common/modal/Modal';
+import AccountLockModal from './AccountLock';
 import { WALLET_MIGRATION_VIEWS } from './WalletMigration';
 
 
@@ -66,6 +67,8 @@ const Disable2FAModal = ({ handleSetActiveView, onClose }) => {
         accounts: []
     });
     const [loadingMultisigAccounts, setLoadingMultisigAccounts] = useState(true);
+    const [currentBrickedAccount, setCurrentBrickedAccount] = useState(null);
+    
     const initialAccountIdOnStart = useSelector(selectAccountId);
     const initialAccountId = useRef(initialAccountIdOnStart);
     const dispatch = useDispatch();
@@ -102,12 +105,32 @@ const Disable2FAModal = ({ handleSetActiveView, onClose }) => {
     },[initialAccountIdOnStart, batchDisableNotStarted]);
 
     useEffect(() => {
+        // checks if account is bricked
+        const isAccountBricked = async (account) => {
+            // If account is bricked and unable to run checkMultisigCodeAndStateStatus
+            if (!account.checkMultisigCodeAndStateStatus) {
+                return true;
+            }
+            // If current multisig contract status is at 'Cannot deserialize the contract state.', it is bricked
+            const { codeStatus, stateStatus } = await account.checkMultisigCodeAndStateStatus();
+            if (codeStatus === 1 && stateStatus === 0) {
+                return true;
+            }
+            return false;
+        };
+
         const disable2faForCurrentAccount = async () => {
             try {
                 await dispatch(switchAccount({accountId: currentAccount.accountId}));
                 const account = await wallet.getAccount(currentAccount.accountId);
-                await account.disableMultisig();
-                localDispatch({ type: ACTIONS.SET_CURRENT_DONE });
+                const isBrickedAccount = await isAccountBricked(account);
+                if (isBrickedAccount) {
+                    // show bricked account modal
+                    setCurrentBrickedAccount(currentAccount.accountId);
+                } else {
+                    await account.disableMultisig();
+                    localDispatch({ type: ACTIONS.SET_CURRENT_DONE });
+                }
             } catch (e) {
                 localDispatch({ type: ACTIONS.SET_CURRENT_FAILED_AND_END_PROCESS });
             } finally {
@@ -125,12 +148,26 @@ const Disable2FAModal = ({ handleSetActiveView, onClose }) => {
         }
     }, [completedWithSuccess]);
 
+    const onAccountLockClose = () => { 
+        setCurrentBrickedAccount(null);
+    };
+
+    const onAccountLockComplete = () => {
+        localDispatch({ type: ACTIONS.SET_CURRENT_DONE });
+    };
+
+    const onAccountLockCancel = () => {
+        localDispatch({ type: ACTIONS.SET_CURRENT_FAILED_AND_END_PROCESS });
+    };
+
     return (
+        <>
         <Modal
             modalClass="slim"
             id='migration-modal'
-            isOpen={true}
-            disableClose={true}
+            isOpen={!currentBrickedAccount}
+            disableClose={!currentBrickedAccount}
+            onClose={() => {}}
             modalSize='md'
             style={{ maxWidth: '435px' }}
         >
@@ -160,6 +197,8 @@ const Disable2FAModal = ({ handleSetActiveView, onClose }) => {
                 }
             </Container>
         </Modal>
+        { currentBrickedAccount && <AccountLockModal accountId={currentBrickedAccount} onClose={onAccountLockClose} onComplete={onAccountLockComplete} onCancel={onAccountLockCancel} /> }
+        </>
     );
 };
 
