@@ -1701,8 +1701,8 @@
         }
     },
     "twoFactorDisbleBanner": {
-        "desc": "NEAR wallet will soon remove support for two-factor authentication, please disable 2FA for your connected accounts.",
-        "title": "${accountsCount} Account${Plural} Need Your Attention",
+        "desc": "NEAR wallet (wallet.near.org) will soon remove support for two-factor authentication, please disable 2FA for your connected accounts.",
+        "title": "${accountsCount} ${context} Your Attention",
         "button": "Disable 2FA"
     },
     "twoFactorDisableLocked": {

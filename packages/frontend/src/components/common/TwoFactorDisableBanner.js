@@ -37,14 +37,20 @@ const Container = styled.div`
 
 
     .alert-container {
-      background-color: #FFEFEF;
-      border-radius: 50%;
-      padding: 9px;
-      margin-right: 16px;
-      .alert-triangle-icon {
-        width: 25px;
-        height: 25px;
-      }
+        background-color: #FFEFEF;
+        border-radius: 50%;
+        padding: 9px;
+        margin-right: 16px;
+        display: flex;
+        justify-content: center;
+        @media (max-width: 768px) {
+            margin: 0 auto 15px;
+        }
+        .alert-triangle-icon {
+            width: 25px;
+            height: 25px;
+        }
+     
     }
     
     .content {
@@ -66,15 +72,15 @@ const Container = styled.div`
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0;
+            margin: 0 !important;
             height: 40px;
             padding: 8px 16px;
             white-space: nowrap;
             border-radius: 50px;
             font-weight: 600;
             .lock-icon {
-              margin: 0;
-              margin-right: 10px;
+                margin: 0;
+                margin-right: 10px;
             }
             :hover {
                 > svg {
@@ -88,7 +94,7 @@ const Container = styled.div`
         @media (max-width: 767px) {
             button {
                 width: 100%;
-                margin-top: 25px;
+                margin-top: 25px !important;
             }
         }
     }
@@ -138,7 +144,7 @@ export default function TwoFactorDisableBanner() {
             </div>
             <div className='content'>
                 <h4 className='title'>
-                    <Translate id='twoFactorDisbleBanner.title' data={{ accountsCount, plural: accountsCount > 1 ? 's' : '' }} />
+                    <Translate id='twoFactorDisbleBanner.title' data={{ accountsCount, context: accountsCount === 1 ? 'Account Needs' : 'Accounts Need'}} />
                 </h4>
                 <div className='desc'>
                     <Translate id='twoFactorDisbleBanner.desc' />
