@@ -57,13 +57,18 @@ const Textarea = styled.textarea`
 `;
 
 
-const AccountLockModal = ({ accountId, onClose, onComplete }) => {
+const AccountLockModal = ({ accountId, onClose, onComplete, onCancel }) => {
     const [isContinue, setIsContinue] = useState(false);
     const [passphrase, setPassphrase] = useState('');
     const [isLoading, setLoading] = useState(false);
 
     const onContinue = () => setIsContinue(true);
     const onBack = () => setIsContinue(false);
+
+    const onModalCancel = () => {
+        onCancel();
+        onClose();
+    };
     
     const onSetPassphrase = (e) => setPassphrase(e.target.value);
 
@@ -95,10 +100,10 @@ const AccountLockModal = ({ accountId, onClose, onComplete }) => {
                     <>
                             <IconSecurityLock />
                             <h4 className='title'><Translate id='twoFactorDisableLocked.title' /></h4>
-                            <p><Translate id='twoFactorDisableLocked.descOne' /></p>
+                            <p><Translate id='twoFactorDisableLocked.descOne' /><b>{accountId}</b></p>
                             <p><Translate id='twoFactorDisableLocked.descTwo' /></p>
                             <ButtonsContainer>
-                                <StyledButton className="gray-blue" onClick={onClose}>
+                                <StyledButton className="gray-blue" onClick={onModalCancel}>
                                     <Translate id='button.cancel' />
                                 </StyledButton>
                                 <StyledButton onClick={onContinue}>

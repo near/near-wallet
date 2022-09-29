@@ -150,11 +150,14 @@ const Disable2FAModal = ({ handleSetActiveView, onClose }) => {
 
     const onAccountLockClose = () => { 
         setCurrentBrickedAccount(null);
-        localDispatch({ type: ACTIONS.SET_CURRENT_FAILED_AND_END_PROCESS });
     };
 
     const onAccountLockComplete = () => {
         localDispatch({ type: ACTIONS.SET_CURRENT_DONE });
+    };
+
+    const onAccountLockCancel = () => {
+        localDispatch({ type: ACTIONS.SET_CURRENT_FAILED_AND_END_PROCESS });
     };
 
     return (
@@ -162,8 +165,9 @@ const Disable2FAModal = ({ handleSetActiveView, onClose }) => {
         <Modal
             modalClass="slim"
             id='migration-modal'
-            isOpen={true}
-            disableClose={true}
+            isOpen={!currentBrickedAccount}
+            disableClose={!currentBrickedAccount}
+            onClose={() => {}}
             modalSize='md'
             style={{ maxWidth: '435px' }}
         >
@@ -193,7 +197,7 @@ const Disable2FAModal = ({ handleSetActiveView, onClose }) => {
                 }
             </Container>
         </Modal>
-        { currentBrickedAccount && <AccountLockModal accountId={currentBrickedAccount} onClose={onAccountLockClose} onComplete={onAccountLockComplete} /> }
+        { currentBrickedAccount && <AccountLockModal accountId={currentBrickedAccount} onClose={onAccountLockClose} onComplete={onAccountLockComplete} onCancel={onAccountLockCancel} /> }
         </>
     );
 };

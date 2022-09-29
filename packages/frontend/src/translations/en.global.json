@@ -1707,7 +1707,7 @@
     },
     "twoFactorDisableLocked": {
         "title": "Is your account locked?",
-        "descOne": "We couldn’t verify your 2FA method.",
+        "descOne": "We couldn’t verify your 2FA method for ",
         "descTwo": "If you can no longer access your account, you can rotate your keys and recover it. You will need your secure passphrase to unlock your account."
     },
     "twoFactorRemoveAuth": {
