@@ -367,6 +367,7 @@ class Routing extends Component {
 
                         <NetworkBanner account={account} />
                         <NavigationWrapper />
+                        <GlobalAlert />
                         {
                             !isWhitelabel && (
                                 <Switch>
@@ -376,7 +377,6 @@ class Routing extends Component {
                                 </Switch>
                             )
                         }
-                        <GlobalAlert />
                         <WalletMigration
                             open={this.state.openTransferPopup}
                             history={this.props.history}
