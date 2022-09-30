@@ -7,6 +7,7 @@ import { useImmerReducer } from 'use-immer';
 import { NETWORK_ID } from '../../config';
 import IconSecurityLock from '../../images/wallet-migration/IconSecurityLock';
 import { switchAccount } from '../../redux/actions/account';
+import { showCustomAlert } from '../../redux/actions/status';
 import { selectAccountId } from '../../redux/slices/account';
 import WalletClass, { wallet } from '../../utils/wallet';
 import AccountListImport from '../accounts/AccountListImport';
@@ -132,6 +133,12 @@ const Disable2FAModal = ({ handleSetActiveView, onClose }) => {
                     localDispatch({ type: ACTIONS.SET_CURRENT_DONE });
                 }
             } catch (e) {
+                dispatch(showCustomAlert({
+                    errorMessage: e.message,
+                    success: false,
+                    messageCodeHeader: 'error'
+                }));
+                await new Promise((r) => setTimeout(r, 3000));
                 localDispatch({ type: ACTIONS.SET_CURRENT_FAILED_AND_END_PROCESS });
             } finally {
                 await dispatch(switchAccount({accountId: initialAccountId.current}));

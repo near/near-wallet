@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { Translate } from 'react-localize-redux';
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
 import IconSecurityLock from '../../images/wallet-migration/IconSecurityLock';
+import { showCustomAlert } from '../../redux/actions/status';
 import { TwoFactor } from '../../utils/twoFactor';
 import FormButton from '../common/FormButton';
 import Modal from '../common/modal/Modal';
@@ -61,6 +63,7 @@ const AccountLockModal = ({ accountId, onClose, onComplete, onCancel }) => {
     const [isContinue, setIsContinue] = useState(false);
     const [passphrase, setPassphrase] = useState('');
     const [isLoading, setLoading] = useState(false);
+    const dispatch = useDispatch();
 
     const onContinue = () => setIsContinue(true);
     const onBack = () => setIsContinue(false);
@@ -81,6 +84,19 @@ const AccountLockModal = ({ accountId, onClose, onComplete, onCancel }) => {
                 onClose();
             }).catch((e) => {
                 setLoading(false);
+                let err;
+                if (e.message.includes('did not match a signature of')) {
+                    err = 'The passphrase you entered does not match this account. Please try again with another key.';
+                }
+
+                if (err) {
+                    dispatch(showCustomAlert({
+                        errorMessage: err,
+                        success: false,
+                        messageCodeHeader: 'error'
+                    }));
+                }
+                
                 throw new Error(e.message);
             });
     };
