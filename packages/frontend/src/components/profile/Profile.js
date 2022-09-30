@@ -32,7 +32,7 @@ import { selectAllAccountsHasLockup } from '../../redux/slices/allAccounts';
 import { actions as recoveryMethodsActions, selectRecoveryMethodsByAccountId } from '../../redux/slices/recoveryMethods';
 import { selectNearTokenFiatValueUSD } from '../../redux/slices/tokenFiatValues';
 import isMobile from '../../utils/isMobile';
-import { wallet } from '../../utils/wallet';
+import WalletClass, { wallet } from '../../utils/wallet';
 import AlertBanner from '../common/AlertBanner';
 import FormButton from '../common/FormButton';
 import SkeletonLoading from '../common/SkeletonLoading';
@@ -42,6 +42,7 @@ import CheckCircleIcon from '../svg/CheckCircleIcon';
 import LockIcon from '../svg/LockIcon';
 import ShieldIcon from '../svg/ShieldIcon';
 import UserIcon from '../svg/UserIcon';
+import { isAccountBricked } from '../wallet-migration/utils';
 import AuthorizedApp from './authorized_apps/AuthorizedApp';
 import BalanceContainer from './balances/BalanceContainer';
 import LockupAvailTransfer from './balances/LockupAvailTransfer';
@@ -155,6 +156,7 @@ export function Profile({ match }) {
     const accountIdFromUrl = match.params.accountId;
     const accountId = accountIdFromUrl || loginAccountId;
     const isOwner = accountId && accountId === loginAccountId && accountExists;
+    const [isBrickedAccount, setIsBrickedAccount] = useState(false);
     const account = useAccount(accountId);
     const dispatch = useDispatch();
     const profileBalance = selectProfileBalance(account);
@@ -197,6 +199,15 @@ export function Profile({ match }) {
     }, [loginAccountId]);
 
     useEffect(() => {
+        if (isOwner) {
+            (async () => {
+                const accountKeyType = await wallet.getAccountKeyType(accountId);
+                if (accountKeyType === WalletClass.KEY_TYPES.MULTISIG) {
+                    let account = await wallet.getAccount(accountId);
+                    setIsBrickedAccount(await isAccountBricked(account));
+                }
+            })();
+        }
         if (userRecoveryMethods) {
             let id = Mixpanel.get_distinct_id();
             Mixpanel.identify(id);
@@ -327,6 +338,7 @@ export function Profile({ match }) {
                                         <div className='sub-heading'><Translate id='profile.twoFactorDesc' /></div>
                                         <TwoFactorAuth
                                             twoFactor={twoFactor}
+                                            isBrickedAccount={isBrickedAccount}
                                         />
                                     </>
                                 ) : (
