@@ -77,8 +77,7 @@
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
     "prepush": "concurrently \"yarn run test\" \"yarn lint\"",
-    "precommit": ".githooks/format-json",
-    "preinstall": "npx only-allow yarn"
+    "precommit": ".githooks/format-json"
   },
   "browserslist": [
     ">0.2%",
