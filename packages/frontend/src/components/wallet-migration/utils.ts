@@ -1,7 +1,6 @@
 export const isAccountBricked = async (account) => {
     // If account is bricked and unable to run checkMultisigCodeAndStateStatus
     if (!account.checkMultisigCodeAndStateStatus) {
-        console.log('cant find func');
         return true;
     }
     // If current multisig contract status is at 'Cannot deserialize the contract state.', it is bricked

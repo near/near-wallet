@@ -17,7 +17,6 @@ import Card from '../../common/styled/Card.css';
 import SafeTranslate from '../../SafeTranslate';
 import AccountLockModal from '../../wallet-migration/AccountLock';
 import ConfirmDisable from '../hardware_devices/ConfirmDisable';
-
 const { fetchRecoveryMethods } = recoveryMethodsActions;
 
 const {
@@ -90,7 +89,6 @@ const TwoFactorAuth = ({ twoFactor, history, isBrickedAccount }) => {
 
     const onAccountLockComplete = () => {
         setShowBrickedAccountModal(false);
-        this.forceUpdate();
     };
 
     const onAccountLockCancel = () => {
