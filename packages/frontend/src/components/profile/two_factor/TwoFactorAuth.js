@@ -137,7 +137,7 @@ const TwoFactorAuth = ({ twoFactor, history, isBrickedAccount }) => {
                     twoFactorKind={twoFactor.kind}
                 />
             )}
-            {!twoFactor && isBrickedAccount && showBrickedAccountModal && (
+            {twoFactor && isBrickedAccount && showBrickedAccountModal && (
                 <AccountLockModal accountId={account.accountId} onClose={onAccountLockClose} onComplete={onAccountLockComplete} onCancel={onAccountLockCancel} />
             )}
             {!twoFactor && !isBrickedAccount && (
