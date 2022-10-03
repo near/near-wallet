@@ -196,7 +196,7 @@ export function Profile({ match }) {
                 dispatch(getProfileStakingDetails());
             }
         })();
-    }, [loginAccountId]);
+    }, [loginAccountId, isBrickedAccount]);
 
     useEffect(() => {
         if (isOwner) {
@@ -205,9 +205,14 @@ export function Profile({ match }) {
                 if (accountKeyType === WalletClass.KEY_TYPES.MULTISIG) {
                     let account = await wallet.getAccount(accountId);
                     setIsBrickedAccount(await isAccountBricked(account));
+                } else {
+                    setIsBrickedAccount(false);
                 }
             })();
         }
+    }, [accountId]);
+
+    useEffect(() => {
         if (userRecoveryMethods) {
             let id = Mixpanel.get_distinct_id();
             Mixpanel.identify(id);
@@ -255,6 +260,8 @@ export function Profile({ match }) {
 
     const shouldShowEmail = userRecoveryMethods.some(({ kind }) => kind === 'email');
     const shouldShowPhone = userRecoveryMethods.some(({ kind }) => kind === 'phone');
+
+    const onDisableBrickedAccountComplete = () => setIsBrickedAccount(false);
 
     return (
         <StyledContainer>
@@ -339,6 +346,7 @@ export function Profile({ match }) {
                                         <TwoFactorAuth
                                             twoFactor={twoFactor}
                                             isBrickedAccount={isBrickedAccount}
+                                            onDisableBrickedAccountComplete={onDisableBrickedAccountComplete}
                                         />
                                     </>
                                 ) : (

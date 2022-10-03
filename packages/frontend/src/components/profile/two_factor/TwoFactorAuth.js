@@ -64,7 +64,7 @@ const Container = styled(Card)`
     }
 `;
 
-const TwoFactorAuth = ({ twoFactor, history, isBrickedAccount }) => {
+const TwoFactorAuth = ({ twoFactor, history, isBrickedAccount, onDisableBrickedAccountComplete }) => {
     const [confirmDisable, setConfirmDisable] = useState(false);
     const [showBrickedAccountModal, setShowBrickedAccountModal] = useState(false);
     const account = useSelector(selectAccountSlice);
@@ -89,6 +89,7 @@ const TwoFactorAuth = ({ twoFactor, history, isBrickedAccount }) => {
 
     const onAccountLockComplete = () => {
         setShowBrickedAccountModal(false);
+        onDisableBrickedAccountComplete();
     };
 
     const onAccountLockCancel = () => {
@@ -115,19 +116,7 @@ const TwoFactorAuth = ({ twoFactor, history, isBrickedAccount }) => {
                     </div>
                 </div>
             )}
-            {!twoFactor && isBrickedAccount && !confirmDisable && (
-                <div className='method'>
-                    <div className='top'>
-                        <div>
-                            <div className='title'>
-                                Two-Factor Authentication
-                            </div>
-                        </div>
-                        <FormButton onClick={() => setConfirmDisable(true)} className='gray-red'><Translate id='button.disable' /></FormButton>
-                    </div>
-                </div>
-            )}
-            {(twoFactor || isBrickedAccount) && confirmDisable && (
+            {twoFactor && confirmDisable && (
                 <ConfirmDisable
                     onConfirmDisable={handleConfirmDisable}
                     onKeepEnabled={() => setConfirmDisable(false)}
@@ -140,7 +129,7 @@ const TwoFactorAuth = ({ twoFactor, history, isBrickedAccount }) => {
             {twoFactor && isBrickedAccount && showBrickedAccountModal && (
                 <AccountLockModal accountId={account.accountId} onClose={onAccountLockClose} onComplete={onAccountLockComplete} onCancel={onAccountLockCancel} />
             )}
-            {!twoFactor && !isBrickedAccount && (
+            {!twoFactor && (
                 <div className='method'>
                     <div className='top'>
                         <div className='title'><Translate id='twoFactor.notEnabled' /></div>
