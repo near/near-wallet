@@ -17,12 +17,6 @@ jobs:
       near_wallet_env: testnet_STAGING
     secrets: inherit
 
-  testnet-live-deploy:
-    uses: ./.github/workflows/bundle-and-deploy.yml
-    with:
-      environment: testnet
-      near_wallet_env: testnet
-    secrets: inherit
 
   mainnet-staging-deploy:
     uses: ./.github/workflows/bundle-and-deploy.yml
