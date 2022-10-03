@@ -2,10 +2,6 @@
     publish = "./dist"
     command = "yarn build"
     ignore = "/bin/false"
-
-[build.environment]
-    NETLIFY_USE_YARN = "true"
-
 [[headers]]
     for = "/*"
     [headers.values]
