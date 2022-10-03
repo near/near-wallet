@@ -17,6 +17,7 @@ import FormButton from '../common/FormButton';
 import LoadingDots from '../common/loader/LoadingDots';
 import Modal from '../common/modal/Modal';
 import AccountLockModal from './AccountLock';
+import { isAccountBricked } from './utils';
 import { WALLET_MIGRATION_VIEWS } from './WalletMigration';
 
 
@@ -106,19 +107,6 @@ const Disable2FAModal = ({ handleSetActiveView, onClose }) => {
     },[initialAccountIdOnStart, batchDisableNotStarted]);
 
     useEffect(() => {
-        // checks if account is bricked
-        const isAccountBricked = async (account) => {
-            // If account is bricked and unable to run checkMultisigCodeAndStateStatus
-            if (!account.checkMultisigCodeAndStateStatus) {
-                return true;
-            }
-            // If current multisig contract status is at 'Cannot deserialize the contract state.', it is bricked
-            const { codeStatus, stateStatus } = await account.checkMultisigCodeAndStateStatus();
-            if (codeStatus === 1 && stateStatus === 0) {
-                return true;
-            }
-            return false;
-        };
 
         const disable2faForCurrentAccount = async () => {
             try {

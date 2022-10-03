@@ -23,6 +23,8 @@ const Container = styled.form`
         .buttons {
             margin-top: 10px;
             display: flex;
+            justify-content: space-evenly;
+            align-items: center;
         }
 
         button {
