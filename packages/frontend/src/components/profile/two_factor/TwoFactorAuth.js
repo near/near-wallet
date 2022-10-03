@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { MULTISIG_MIN_AMOUNT, ALLOW_2FA_ENABLE_HASHES } from '../../../config';
+import { MULTISIG_MIN_AMOUNT } from '../../../config';
 import { disableMultisig } from '../../../redux/actions/account';
 import { selectAccountSlice } from '../../../redux/slices/account';
 import { actions as recoveryMethodsActions } from '../../../redux/slices/recoveryMethods';
@@ -68,7 +68,6 @@ const TwoFactorAuth = ({ twoFactor, history, isBrickedAccount, onDisableBrickedA
     const [confirmDisable, setConfirmDisable] = useState(false);
     const [showBrickedAccountModal, setShowBrickedAccountModal] = useState(false);
     const account = useSelector(selectAccountSlice);
-    const existingContract = !ALLOW_2FA_ENABLE_HASHES.includes(account?.code_hash);
     const nearTokenFiatValueUSD = useSelector(selectNearTokenFiatValueUSD);
     const dispatch = useDispatch();
     const confirmDisabling = useSelector((state) => selectActionsPending(state, { types: ['DISABLE_MULTISIG'] }));
@@ -136,7 +135,7 @@ const TwoFactorAuth = ({ twoFactor, history, isBrickedAccount, onDisableBrickedA
                         <FormButton
                             onClick={() => history.push('/enable-two-factor')}
                             trackingId="2FA Click enable button"
-                            disabled={!account.canEnableTwoFactor || existingContract}
+                            disabled={true}
                         >
                             <Translate id='button.enable' />
                         </FormButton>
