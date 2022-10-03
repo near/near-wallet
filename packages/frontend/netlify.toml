@@ -2,6 +2,7 @@
     publish = "./dist"
     command = "yarn build"
     ignore = "/bin/false"
+
 [[headers]]
     for = "/*"
     [headers.values]
