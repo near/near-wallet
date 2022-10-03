@@ -144,7 +144,13 @@ export default function TwoFactorDisableBanner() {
             </div>
             <div className='content'>
                 <h4 className='title'>
-                    <Translate id='twoFactorDisbleBanner.title' data={{ accountsCount, context: accountsCount === 1 ? 'Account Needs' : 'Accounts Need'}} />
+                    { accountsCount }
+                    {' '}
+                    {
+                        accountsCount > 1
+                            ? <Translate id='twoFactorDisbleBanner.titlePlural' />
+                            : <Translate id='twoFactorDisbleBanner.titleSingular' />
+                    }
                 </h4>
                 <div className='desc'>
                     <Translate id='twoFactorDisbleBanner.desc' />
