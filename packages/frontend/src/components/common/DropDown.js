@@ -41,6 +41,8 @@ const Container = styled.div`
         }
 
         .dropdown-title {
+            overflow: hidden;
+            text-overflow: ellipsis;
             font-size: 16px;
             font-weight: 500;
         }
