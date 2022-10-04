@@ -30,21 +30,11 @@ jobs:
       - run: yarn test
       - run: yarn bundle --outDir=dist/${{ inputs.environment }}
       - uses: aws-actions/configure-aws-credentials@v1
-        if : ${{ inputs.environment }} == testnet
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-west-2
           role-to-assume: ${{ secrets.AWS_DEPLOYMENT_ROLE }}
-          role-skip-session-tagging: true
-          role-duration-seconds: 900
-      - uses: aws-actions/configure-aws-credentials@v1
-        if : ${{ inputs.environment }} == mainnet
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-west-2
-          role-to-assume: ${{ secrets.AWS_DEPLOYMENT_ROLE_MAINNET }}
           role-skip-session-tagging: true
           role-duration-seconds: 900        
       - if: ${{ github.event_name == 'pull_request' }}
