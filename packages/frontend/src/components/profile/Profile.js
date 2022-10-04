@@ -336,7 +336,7 @@ export function Profile({ match }) {
                         {(shouldShowEmail || shouldShowPhone) && <h4><Translate id='profile.security.lessSecure' /><Tooltip translate='profile.security.lessSecureDesc' icon='icon-lg' /></h4>}
                         {shouldShowEmail && <RecoveryContainer type='email' recoveryMethods={userRecoveryMethods} />}
                         {shouldShowPhone && <RecoveryContainer type='phone' recoveryMethods={userRecoveryMethods} />}
-                        {(twoFactor || !hasLedger) && (
+                        {twoFactor && (
                             <>
                                 <hr />
                                 <h2><LockIcon /><Translate id='profile.twoFactor' /></h2>
