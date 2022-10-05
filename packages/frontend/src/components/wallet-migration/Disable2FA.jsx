@@ -7,6 +7,7 @@ import { useImmerReducer } from 'use-immer';
 import { NETWORK_ID } from '../../config';
 import IconSecurityLock from '../../images/wallet-migration/IconSecurityLock';
 import { switchAccount } from '../../redux/actions/account';
+import { showCustomAlert } from '../../redux/actions/status';
 import { selectAccountId } from '../../redux/slices/account';
 import WalletClass, { wallet } from '../../utils/wallet';
 import AccountListImport from '../accounts/AccountListImport';
@@ -15,6 +16,8 @@ import sequentialAccountImportReducer, { ACTIONS } from '../accounts/batch_impor
 import FormButton from '../common/FormButton';
 import LoadingDots from '../common/loader/LoadingDots';
 import Modal from '../common/modal/Modal';
+import AccountLockModal from './AccountLock';
+import { isAccountBricked } from './utils';
 import { WALLET_MIGRATION_VIEWS } from './WalletMigration';
 
 
@@ -66,6 +69,8 @@ const Disable2FAModal = ({ handleSetActiveView, onClose }) => {
         accounts: []
     });
     const [loadingMultisigAccounts, setLoadingMultisigAccounts] = useState(true);
+    const [currentBrickedAccount, setCurrentBrickedAccount] = useState(null);
+    
     const initialAccountIdOnStart = useSelector(selectAccountId);
     const initialAccountId = useRef(initialAccountIdOnStart);
     const dispatch = useDispatch();
@@ -102,13 +107,26 @@ const Disable2FAModal = ({ handleSetActiveView, onClose }) => {
     },[initialAccountIdOnStart, batchDisableNotStarted]);
 
     useEffect(() => {
+
         const disable2faForCurrentAccount = async () => {
             try {
                 await dispatch(switchAccount({accountId: currentAccount.accountId}));
                 const account = await wallet.getAccount(currentAccount.accountId);
-                await account.disableMultisig();
-                localDispatch({ type: ACTIONS.SET_CURRENT_DONE });
+                const isBrickedAccount = await isAccountBricked(account);
+                if (isBrickedAccount) {
+                    // show bricked account modal
+                    setCurrentBrickedAccount(currentAccount.accountId);
+                } else {
+                    await account.disableMultisig();
+                    localDispatch({ type: ACTIONS.SET_CURRENT_DONE });
+                }
             } catch (e) {
+                dispatch(showCustomAlert({
+                    errorMessage: e.message,
+                    success: false,
+                    messageCodeHeader: 'error'
+                }));
+                await new Promise((r) => setTimeout(r, 3000));
                 localDispatch({ type: ACTIONS.SET_CURRENT_FAILED_AND_END_PROCESS });
             } finally {
                 await dispatch(switchAccount({accountId: initialAccountId.current}));
@@ -125,12 +143,26 @@ const Disable2FAModal = ({ handleSetActiveView, onClose }) => {
         }
     }, [completedWithSuccess]);
 
+    const onAccountLockClose = () => { 
+        setCurrentBrickedAccount(null);
+    };
+
+    const onAccountLockComplete = () => {
+        localDispatch({ type: ACTIONS.SET_CURRENT_DONE });
+    };
+
+    const onAccountLockCancel = () => {
+        localDispatch({ type: ACTIONS.SET_CURRENT_FAILED_AND_END_PROCESS });
+    };
+
     return (
+        <>
         <Modal
             modalClass="slim"
             id='migration-modal'
-            isOpen={true}
-            disableClose={true}
+            isOpen={!currentBrickedAccount}
+            disableClose={!currentBrickedAccount}
+            onClose={() => {}}
             modalSize='md'
             style={{ maxWidth: '435px' }}
         >
@@ -160,6 +192,8 @@ const Disable2FAModal = ({ handleSetActiveView, onClose }) => {
                 }
             </Container>
         </Modal>
+        { currentBrickedAccount && <AccountLockModal accountId={currentBrickedAccount} onClose={onAccountLockClose} onComplete={onAccountLockComplete} onCancel={onAccountLockCancel} /> }
+        </>
     );
 };
 

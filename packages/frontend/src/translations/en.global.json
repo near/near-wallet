@@ -1657,7 +1657,7 @@
     "twoFactor": {
         "action": {
             "addKey": {
-                "full": "WARNING: Entering the code below will authorize full access to your NEAR account: ${accountId}. If you did not initiate this action, please DO NOT continue.<br /><br />This should only be done if you are adding a new full access key to your account. In all other cases, this is very dangerous.<br /><br /> The public key you are adding is: ${publicKey} ",
+                "full": "Entering the code below will authorize full access to your NEAR account: ${accountId} If you did not initiate this action, please DO NOT continue.",
                 "limited": "Adding key ${publicKey} limited to call ${methodNames} on ${receiverId} and spend up to ${allowance} NEAR on gas"
             },
             "deleteKey": "Deleting key ${publicKey}",
@@ -1699,6 +1699,22 @@
             "resent": "Code sent!",
             "title": "Enter Two-Factor Verification Code"
         }
+    },
+    "twoFactorDisbleBanner": {
+        "desc": "NEAR wallet (wallet.near.org) will soon remove support for two-factor authentication, please disable 2FA for your connected accounts.",
+        "titleSingular": "Account Needs Your Attention",
+        "titlePlural": "Accounts Need Your Attention",
+        "button": "Disable 2FA"
+    },
+    "twoFactorDisableLocked": {
+        "title": "Is your account locked?",
+        "descOne": "We couldn’t verify your 2FA method for ",
+        "descTwo": "If you can no longer access your account, you can rotate your keys and recover it. You will need your secure passphrase to unlock your account."
+    },
+    "twoFactorRemoveAuth": {
+        "title": "Remove Two-Factor Authentication?",
+        "desc": "Enter your secure passphrase to remove 2FA from the account:",
+        "button": "Remove 2FA"
     },
     "unlockedAvailTransfer": "This NEAR is unlocked, and can be transferred out of your lockup contract.",
     "unlockedBalance": "This NEAR is still in a lockup contract, but unlocked.",
