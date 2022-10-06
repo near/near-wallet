@@ -22,4 +22,4 @@ jobs:
       - run: yarn install --frozen-lockfile
       - run: yarn lint
       - run: yarn test
-      - run: yarn bundle
+      - run: NEAR_WALLET_ENV=testnet yarn bundle
