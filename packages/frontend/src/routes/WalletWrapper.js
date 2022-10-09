@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import { Wallet } from '../components/wallet/Wallet';
 import { useFungibleTokensIncludingNEAR } from '../hooks/fungibleTokensIncludingNEAR';
+import { useTokenBlacklist } from '../hooks/useTokenBlacklist';
 import { Mixpanel } from '../mixpanel/index';
 import { selectAccountId, selectBalance, selectAccountExists } from '../redux/slices/account';
 import { selectAvailableAccounts } from '../redux/slices/availableAccounts';
@@ -39,6 +40,8 @@ export function WalletWrapper({
     const sortedNFTs = useSelector((state) => selectTokensWithMetadataForAccountId(state, { accountId }));
     const userRecoveryMethods = useSelector((state) => selectRecoveryMethodsByAccountId(state, { accountId }));
 
+    const blacklist = useTokenBlacklist({ tokens: fungibleTokensList });
+
     useEffect(() => {
         if (accountId) {
             Mixpanel.identify(Mixpanel.get_distinct_id());
@@ -64,7 +67,7 @@ export function WalletWrapper({
             createFromImplicitSuccess={createFromImplicitSuccess}
             createCustomName={createCustomName}
             zeroBalanceAccountImportMethod={zeroBalanceAccountImportMethod}
-            fungibleTokensList={fungibleTokensList}
+            fungibleTokensList={blacklist.allowedTokens}
             tokensLoading={tokensLoading}
             availableAccounts={availableAccounts}
             sortedNFTs={sortedNFTs}
