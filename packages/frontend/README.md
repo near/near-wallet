@@ -31,6 +31,7 @@ SENTRY_ORG="sentry organization name (slug)"
 SENTRY_PROJECT="sentry project name"
 SENTRY_REPOSITORY="your-org/near-wallet"
 SENTRY_AUTH_TOKEN="secret token from sentry"
+NETLIFY_USE_YARN="true"
 ```
 
 Testing
