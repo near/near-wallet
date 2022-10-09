@@ -61,5 +61,6 @@ export default {
     REF_FINANCE_API_ENDPOINT: 'https://indexer.ref.finance',
     REF_FINANCE_CONTRACT: 'v2.ref-finance.near',
     USN_CONTRACT: 'usn',
-    HAPI_PROTOCOL_ADDRESS: 'proxy.hapiprotocol.near'
+    HAPI_PROTOCOL_ADDRESS: 'proxy.hapiprotocol.near',
+    CALIMERO_PROTOCOL_ADDRESS: '' // TODO:
 };

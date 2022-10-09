@@ -1148,6 +1148,38 @@ export default class Wallet {
         return transactionHashes;
     }
 
+    async signAndSendCalimeroTransaction(transactions, accountId = this.accountId, customRPCUrl, xApiToken) {
+        const transactionHashes = [];
+        const args = { url: customRPCUrl + '/' };
+        if (xApiToken) {
+            args.headers = {
+                'x-api-key' : xApiToken
+            };
+        };
+        const calimeroConnection = nearApiJs.Connection.fromConfig({
+            networkId: NETWORK_ID,
+            provider: { type: 'JsonRpcProvider', args },
+            signer: this.signer
+        });
+        for (let { receiverId, nonce, blockHash, actions } of transactions) {
+            let status, transaction;
+
+            const [, signedTransaction] = await nearApiJs.transactions.signTransaction(receiverId, nonce, actions, blockHash, calimeroConnection.signer, accountId, NETWORK_ID);
+            ({ status, transaction } = await calimeroConnection.provider.sendTransaction(signedTransaction));
+
+            // TODO: Shouldn't throw more specific errors on failure?
+            if (status.Failure !== undefined) {
+                throw new Error(`Transaction failure for transaction hash: ${transaction.hash}, receiver_id: ${transaction.receiver_id} .`);
+            }
+            transactionHashes.push({
+                hash: transaction.hash,
+                nonceString: nonce.toString()
+            });
+        }
+
+        return transactionHashes;
+    }
+
     dispatchShowLedgerModal(show) {
         const { actionStatus } = store.getState().status;
         const actions = Object.keys(actionStatus).filter((action) => actionStatus[action]?.pending === true);

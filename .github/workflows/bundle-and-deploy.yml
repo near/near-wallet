@@ -30,6 +30,7 @@ jobs:
       - run: yarn test
       - run: yarn bundle --outDir=dist/${{ inputs.environment }}
       - uses: aws-actions/configure-aws-credentials@v1
+        if : ${{ inputs.environment }} == testnet
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -41,3 +42,5 @@ jobs:
         run: aws s3 sync dist/${{ inputs.environment }} s3://${{ secrets.S3_BUCKET }} --delete
       - if: ${{ github.event_name == 'push' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/mainnet' || github.ref == 'refs/heads/testnet') }}
         run: aws s3 sync dist/${{ inputs.environment }} s3://${{ secrets.S3_BUCKET }} --delete
+      - if: ${{ github.event_name == 'push' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/mainnet' || github.ref == 'refs/heads/testnet') }}
+        run: aws s3 sync dist/${{ inputs.environment }} s3://${{ secrets.S3_BUCKET }} --delete          
