@@ -41,6 +41,4 @@ jobs:
       - if: ${{ github.event_name == 'pull_request' }}
         run: aws s3 sync dist/${{ inputs.environment }} s3://${{ secrets.S3_BUCKET }} --delete
       - if: ${{ github.event_name == 'push' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/mainnet' || github.ref == 'refs/heads/testnet') }}
-        run: aws s3 sync dist/${{ inputs.environment }} s3://${{ secrets.S3_BUCKET }} --delete
-      - if: ${{ github.event_name == 'push' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/mainnet' || github.ref == 'refs/heads/testnet') }}
-        run: aws s3 sync dist/${{ inputs.environment }} s3://${{ secrets.S3_BUCKET }} --delete          
+        run: aws s3 sync dist/${{ inputs.environment }} s3://${{ secrets.S3_BUCKET }} --delete    
