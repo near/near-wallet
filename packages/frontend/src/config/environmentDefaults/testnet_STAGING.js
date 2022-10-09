@@ -55,5 +55,6 @@ export default {
     REF_FINANCE_API_ENDPOINT: 'https://testnet-indexer.ref-finance.com/',
     REF_FINANCE_CONTRACT: 'ref-finance-101.testnet',
     USN_CONTRACT: 'usdn.testnet',
-    HAPI_PROTOCOL_ADDRESS: 'proxy.contracts.sergei24.testnet'
+    HAPI_PROTOCOL_ADDRESS: 'proxy.contracts.sergei24.testnet',
+    CALIMERO_PROTOCOL_ADDRESS: 'calimero.testnet'
 };

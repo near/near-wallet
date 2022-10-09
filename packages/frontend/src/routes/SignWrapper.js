@@ -8,12 +8,14 @@ import SignTransferMultipleAccounts from '../components/sign/SignTransferMultipl
 import SignTransferRetry from '../components/sign/SignTransferRetry';
 import SignTransactionDetailsWrapper from '../components/sign/v2/SignTransactionDetailsWrapper';
 import SignTransactionSummaryWrapper from '../components/sign/v2/SignTransactionSummaryWrapper';
+import { isWhitelabel } from '../config/whitelabel';
 import { Mixpanel } from '../mixpanel';
 import { switchAccount, redirectTo } from '../redux/actions/account';
 import { selectAccountId } from '../redux/slices/account';
 import { selectAvailableAccounts, selectAvailableAccountsIsLoading } from '../redux/slices/availableAccounts';
 import {
     handleSignTransactions,
+    handleSignPrivateShardTransactions,
     selectSignFeesGasLimitIncludingGasChanges,
     SIGN_STATUS,
     selectSignStatus,
@@ -28,7 +30,7 @@ import {
 import { addQueryParams } from '../utils/addQueryParams';
 import { isUrlNotJavascriptProtocol } from '../utils/helper-api';
 
-export function SignWrapper() {
+export function SignWrapper({ urlQuery }) {
     const dispatch = useDispatch();
 
     const DISPLAY = {
@@ -40,6 +42,9 @@ export function SignWrapper() {
     };
 
     const [currentDisplay, setCurrentDisplay] = useState(DISPLAY.TRANSACTION_SUMMARY);
+    const [customRPCUrl, setCustomRPCUrl] = useState();
+    const [privateShardId, setPrivateShardId] = useState();
+    const [xApiToken, setXApiToken] = useState();
 
     const signFeesGasLimitIncludingGasChanges = useSelector(selectSignFeesGasLimitIncludingGasChanges);
     const signStatus = useSelector(selectSignStatus);
@@ -53,8 +58,8 @@ export function SignWrapper() {
     const transactions = useSelector(selectSignTransactions);
     const accountId = useSelector(selectAccountId);
     const transactionBatchisValid = useSelector(selectSignTransactionsBatchIsValid);
-    const isValidCallbackUrl = isUrlNotJavascriptProtocol(signCallbackUrl);
 
+    const isValidCallbackUrl = isUrlNotJavascriptProtocol(signCallbackUrl);
     const signerId = transactions.length && transactions[0].signerId;
     const signGasFee = new BN(signFeesGasLimitIncludingGasChanges).div(new BN('1000000000000')).toString();
     const submittingTransaction = signStatus === SIGN_STATUS.IN_PROGRESS;
@@ -102,12 +107,44 @@ export function SignWrapper() {
         }
     }, [signStatus]);
 
+    useEffect(() => {
+        if (urlQuery?.meta && isWhitelabel) {
+            try {
+                const metaJson = JSON.parse(decodeURIComponent(urlQuery.meta));
+                if (metaJson.calimeroRPCEndpoint && metaJson.calimeroShardId) {
+                    // if (accountId.endsWith(metaJson.calimeroShardId)) {}
+                    setCustomRPCUrl(metaJson.calimeroRPCEndpoint);
+                    setPrivateShardId(metaJson.calimeroShardId);
+                    setXApiToken(metaJson.calimeroAuthToken);
+                }
+                // TODO: handle situation when shardId doesn't exist in accountId
+                // probably will need to change view
+            } catch (e) {
+                //
+            }
+        }
+    }, [urlQuery?.meta]);
+
     const handleApproveTransaction = async () => {
+        if (customRPCUrl && privateShardId) {
+            await dispatch(handleSignPrivateShardTransactions({ customRPCUrl, xApiToken }));
+            return;
+        }
         Mixpanel.track('SIGN approve the transaction');
         await dispatch(handleSignTransactions());
     };
 
     const handleCancelTransaction = async () => {
+        if (customRPCUrl && privateShardId) {
+            const encounter = addQueryParams(signCallbackUrl, {
+                signMeta,
+                errorCode: encodeURIComponent('userRejected'),
+                errorMessage: encodeURIComponent('User rejected transaction')
+            });
+            window.location.href= encounter;
+            return;
+        }
+        
         Mixpanel.track('SIGN Deny the transaction');
         if (signCallbackUrl && isValidCallbackUrl) {
             if (signStatus !== SIGN_STATUS.ERROR) {
@@ -187,6 +224,8 @@ export function SignWrapper() {
             onClickEditAccount={() => setCurrentDisplay(DISPLAY.ACCOUNT_SELECTION)}
             isSignerValid={isSignerValid}
             isValidCallbackUrl={isValidCallbackUrl}
+            customRPCUrl={privateShardId && customRPCUrl}
+            privateShardId={customRPCUrl && privateShardId}
         />
     );
 }

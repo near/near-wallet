@@ -8,6 +8,7 @@ import FormButton from '../../common/FormButton';
 import FormButtonGroup from '../../common/FormButtonGroup';
 import Container from '../../common/styled/Container.css';
 import ConnectWithApplication from '../../login/v2/ConnectWithApplication';
+import ConnectWithPrivateShard from '../../login/v2/ConnectWithPrivateShard';
 import SignTransaction from './SignTransaction';
 
 const StyledContainer = styled(Container)`
@@ -55,13 +56,18 @@ export default ({
     accountUrlReferrer,
     submittingTransaction,
     isSignerValid,
-    isValidCallbackUrl
+    isValidCallbackUrl,
+    customRPCUrl,
+    privateShardId
 }) => {
     const insufficientBalance = availableBalance && transferAmount && new BN(availableBalance).lt(new BN(transferAmount));
     return (
         <StyledContainer className='small-centered border'>
             <h3><Translate id='sign.approveTransaction' /></h3>
-            <ConnectWithApplication appReferrer={accountUrlReferrer} />
+            {customRPCUrl
+                ? <ConnectWithPrivateShard customRPCUrl={customRPCUrl}/>
+                : <ConnectWithApplication appReferrer={accountUrlReferrer}/>
+            }
             {insufficientBalance && (
                 <AlertBanner
                     title='sign.insufficientFundsDesc'
@@ -73,6 +79,7 @@ export default ({
                 sender={accountLocalStorageAccountId}
                 estimatedFees={estimatedFees}
                 availableBalance={availableBalance}
+                privateShardId={privateShardId}
             />
             <FormButton
                 className='link'
