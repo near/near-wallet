@@ -1,4 +1,4 @@
-# NEAR Wallet CICD
+# MyNearWallet CICD
 
 [![Build Status](https://travis-ci.com/near/near-wallet.svg?branch=master)](https://travis-ci.com/near/near-wallet)
 
