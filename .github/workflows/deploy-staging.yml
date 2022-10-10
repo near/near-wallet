@@ -1,4 +1,4 @@
-name: Deploy Testnet
+name: Deploy Staging
 
 on:
   push:
@@ -17,7 +17,7 @@ jobs:
       near_wallet_env: testnet_STAGING
     secrets: inherit
 
-   mainnet-staging-deploy:
+  mainnet-staging-deploy:
     uses: ./.github/workflows/bundle-and-deploy.yml
     with:
       environment: mainnet-staging
