@@ -13,7 +13,6 @@ const StyledContainer = styled.div`
     h4 {
         font-family: "Inter";
         font-style: normal;
-        font-weight: 700;
         font-size: 20px;
         line-height: 24px;
         text-align: center;
@@ -39,7 +38,7 @@ const StyledContainer = styled.div`
     }
     .margin {
         margin-bottom: 20px;
-        width 72px;
+        width: 72px;
     }
     .small-rounded {
         border-radius: 50px;

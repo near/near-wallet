@@ -16,6 +16,7 @@ import linkdropSlice from '../slices/linkdrop';
 import multiplierSlice from '../slices/multiplier';
 import nftSlice from '../slices/nft';
 import recoveryMethodsSlice from '../slices/recoveryMethods';
+import swapSlice from '../slices/swap';
 import tokenFiatValuesSlice from '../slices/tokenFiatValues';
 import transactionsSlice from '../slices/transactions';
 
@@ -40,5 +41,6 @@ export default (history) => ({
     [recoveryMethodsSlice.name]: recoveryMethodsSlice.reducer,
     [availableAccountsSlice.name]: availableAccountsSlice.reducer,
     [ledgerSlice.name]: ledgerSlice.reducer,
-    [multiplierSlice.name]: multiplierSlice.reducer
+    [multiplierSlice.name]: multiplierSlice.reducer,
+    [swapSlice.name]: swapSlice.reducer,
 });

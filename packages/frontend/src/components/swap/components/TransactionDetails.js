@@ -4,7 +4,6 @@ import { Translate } from 'react-localize-redux';
 import { withRouter } from 'react-router';
 import styled from 'styled-components';
 
-import { CREATE_USN_CONTRACT } from '../../../../../../features';
 import { removeTrailingZeros } from '../../../utils/amounts';
 import Token from '../../send/components/entry_types/Token';
 import SwapIcon from '../../svg/WrapIcon';
@@ -112,7 +111,7 @@ const ReviewForm = styled.div`
         font-weight: 400;
         font-size: 16px;
         line-height: 20px;
-        color: #5bb98c;
+        color: var(--color-success);
     }
 
     .details-info {
@@ -146,11 +145,15 @@ const getFontSize = (charLength) => {
 const TransactionDetails = ({
     amountTokenFrom,
     amountTokenTo,
+    minReceivedAmount,
     tokenFrom,
     tokenTo,
     setSlippage,
-    exchangeRate,
-    tradingFee
+    swapFee,
+    swapFeeAmount,
+    estimatedFee,
+    priceImpactElement,
+    showAllInfo,
 }) => {
     let estimatedMinReceived = '';
     try {
@@ -166,39 +169,6 @@ const TransactionDetails = ({
             ? (ratio).toFixed(5)
             : removeTrailingZeros((ratio).toString());
     };
-
-    const isUSN = 
-        (tokenFrom.onChainFTMetadata.name === 'USN' || tokenTo.onChainFTMetadata.name === 'USN') 
-        && CREATE_USN_CONTRACT;
-
-    function transactionDetailsSwitch(token) {
-        switch (token) {
-            case 'USN':
-                return (
-                    <TransactionDetailsUSN
-                        selectedTokenFrom={tokenFrom}
-                        selectedTokenTo={tokenTo}
-                        amount={amountTokenFrom}
-                        exchangeRate={exchangeRate}
-                        tradingFee={tradingFee}
-                        setSlippage={setSlippage}
-                    />
-                );
-            default:
-                return (
-                    <TransactionDetailsWrappedNear
-                        selectedTokenFrom={tokenFrom}
-                        selectedTokenTo={tokenTo}
-                        estimatedFeesInNear={`${
-                            amountTokenFrom > 1
-                                ? Math.trunc(amountTokenFrom).toString()
-                                : '1'
-                        }`}
-                        estimatedMinReceived={estimatedMinReceived}
-                    />
-                );
-        }
-    }
 
     return (
         <ReviewForm>
@@ -249,7 +219,29 @@ const TransactionDetails = ({
                     tokenTo.onChainFTMetadata?.symbol
                 }`}</div>
             </div>
-            {transactionDetailsSwitch(isUSN && 'USN')}
+            {showAllInfo ? (
+                <TransactionDetailsUSN
+                    selectedTokenFrom={tokenFrom}
+                    selectedTokenTo={tokenTo}
+                    minReceivedAmount={minReceivedAmount}
+                    swapFee={swapFee}
+                    swapFeeAmount={swapFeeAmount}
+                    estimatedFee={estimatedFee}
+                    priceImpactElement={priceImpactElement}
+                    setSlippage={setSlippage}
+                />
+            ) : (
+                <TransactionDetailsWrappedNear
+                    selectedTokenFrom={tokenFrom}
+                    selectedTokenTo={tokenTo}
+                    estimatedFeesInNear={`${
+                        amountTokenFrom > 1
+                            ? Math.trunc(amountTokenFrom).toString()
+                            : '1'
+                    }`}
+                    estimatedMinReceived={estimatedMinReceived}
+                />
+            )}
         </ReviewForm>
     );
 };

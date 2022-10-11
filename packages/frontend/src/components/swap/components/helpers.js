@@ -1,7 +1,8 @@
 import * as nearApiJs from 'near-api-js';
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 
 import { USN_CONTRACT } from '../../../config';
+import useDebouncedValue from '../../../hooks/useDebouncedValue';
 import { removeTrailingZeros, formatTokenAmount, parseTokenAmount } from '../../../utils/amounts';
 import { wallet } from '../../../utils/wallet';
 import { formatNearAmount } from '../../common/balance/helpers';
@@ -90,21 +91,6 @@ export const getBalance = (activeTokenFrom) => {
         : +formatTokenAmount(activeTokenFrom?.balance, activeTokenFrom?.onChainFTMetadata?.decimals, 5);
 };
 
-const useDebounce = (value, delay) => {
-    const [debouncedValue, setDebouncedValue] = useState(value);
-
-    useEffect(() => {
-        const handler = setTimeout(() => {
-            setDebouncedValue(value);
-        }, delay);
-        return () => {
-            clearTimeout(handler);
-        };
-    }, [value]);
-
-    return debouncedValue;
-};
-
 const roundUSNExchange = (amount, exchangeRate) => {
     const currentExchangeRate = +exchangeRate / 10000;
 
@@ -137,7 +123,7 @@ async function fetchCommission({ accountId, amount, exchangeRate, token }) {
 
 export const commission = ({ accountId, amount, delay, exchangeRate, token }) => {
     const [commissionFee, setCommissionFee] = useState('');
-    const debounceValue = useDebounce(amount, delay);
+    const debounceValue = useDebouncedValue(amount, delay);
 
     useEffect(() => {
         const getCommission = async () => {
@@ -163,15 +149,16 @@ export const exchangeRateTranslation = ({ inputtedAmountOfToken, calculateAmount
         return;
     }
 
+    const activeTokenFromSymbol = inputtedAmountOfToken?.onChainFTMetadata?.symbol;
+    const activeTokenToSymbol = calculateAmountOfToken?.onChainFTMetadata?.symbol;
     const convertBalanceWithExchangeRate = {
         'NEAR->USN': balance * exchangeRate,
         'USN->NEAR': balance / exchangeRate,
         'NEAR->wNEAR': '1:1',
-        'wNEAR->NEAR': '1:1'
+        'wNEAR->NEAR': '1:1',
+        [`${activeTokenFromSymbol}->${activeTokenToSymbol}`]: balance / exchangeRate,
     };
-    
-    const activeTokenFromSymbol = inputtedAmountOfToken?.onChainFTMetadata?.symbol;
-    const activeTokenToSymbol = calculateAmountOfToken?.onChainFTMetadata?.symbol;
+
     const operation = convertBalanceWithExchangeRate[`${activeTokenFromSymbol}->${activeTokenToSymbol}`];
 
     if (operation == '1:1') {
@@ -179,23 +166,4 @@ export const exchangeRateTranslation = ({ inputtedAmountOfToken, calculateAmount
     }
     const removedZeros = removeTrailingZeros(`${operation.toFixed(5)}`);
     return removedZeros;
-};
-
-
-export const useInterval = (cb, interval) => {
-    const callback = useRef();
-
-    useEffect(() => {
-        callback.current = cb;
-    }, [callback]);
-
-    useEffect(() => {
-        function tick() {
-            callback.current();
-        }
-        if (interval !== null) {
-            const intervalFunction = setInterval(tick, interval);
-            return () => clearInterval(intervalFunction);
-        }
-    }, [interval]);
 };

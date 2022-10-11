@@ -25,6 +25,11 @@
   "scripts": {
     "test": "node -r dotenv/config index.js",
     "e2e": "npx playwright test",
+    "e2e:swap": "npx playwright test ./swap/ --project=Desktop_Chromium",
+    "e2e:swap-near-wnear": "npx playwright test ./swap/near-with-wnear.spec.js --project=Desktop_Chromium",
+    "e2e:swap-near-nep141": "npx playwright test ./swap/near-with-nep141.spec.js --project=Desktop_Chromium",
+    "e2e:swap-wnear-nep141": "npx playwright test ./swap/wnear-with-nep141.spec.js --project=Desktop_Chromium",
+    "e2e:swap-nep141-nep141": "npx playwright test ./swap/nep141-with-nep141.spec.js --project=Desktop_Chromium",
     "e2e:debug": "PWDEBUG=1 npx playwright test"
   }
 }

@@ -15,8 +15,9 @@ const StyledContainer = styled.div`
         font-size: 20px;
         line-height: 24px;
         text-align: center;
-        font-weight: 900;
+        font-weight: 700;
         margin: auto;
+        white-space: nowrap;
     }
     div.header {
         display: grid;
@@ -64,15 +65,22 @@ export function SwapReviewForm({
     onClickGoBack,
     amountTokenFrom,
     amountTokenTo,
+    minReceivedAmount,
     activeTokenFrom,
     activeTokenTo,
     accountId,
     handleSwapToken,
     swappingToken,
     setSlippage,
-    exchangeRate,
-    tradingFee
+    swapFee,
+    swapFeeAmount,
+    estimatedFee,
+    priceImpactElement,
+    showAllInfo,
 }) {
+    const tokenFromFiatPrice = activeTokenFrom?.fiatValueMetadata?.usd;
+    const tokenFromFiatAmount = tokenFromFiatPrice ? amountTokenFrom * tokenFromFiatPrice : null;
+
     return (
         <StyledContainer>
             <div className="header">
@@ -97,24 +105,31 @@ export function SwapReviewForm({
                         ? removeTrailingZeros(amountTokenFrom)
                         : amountTokenFrom
                 } ${activeTokenFrom.onChainFTMetadata?.symbol}`}</h1>
-                <div>{`≈ ${(
-                    amountTokenFrom * activeTokenFrom.fiatValueMetadata.usd
-                ).toFixed(2)} USD`}</div>
+                {tokenFromFiatAmount && (
+                    <div>{`≈ ${(
+                        amountTokenFrom * activeTokenFrom.fiatValueMetadata.usd
+                    ).toFixed(2)} USD`}</div>
+                )}
             </div>
             <TransactionDetails
                 amountTokenFrom={amountTokenFrom}
                 amountTokenTo={amountTokenTo}
+                minReceivedAmount={minReceivedAmount}
                 tokenFrom={activeTokenFrom}
                 tokenTo={activeTokenTo}
-                exchangeRate={exchangeRate}
                 setSlippage={setSlippage}
-                tradingFee={tradingFee}
+                swapFee={swapFee}
+                swapFeeAmount={swapFeeAmount}
+                estimatedFee={estimatedFee}
+                priceImpactElement={priceImpactElement}
+                showAllInfo={showAllInfo}
             />
             <FormButton
                 color="blue width100"
                 disabled={swappingToken === true}
                 sending={swappingToken === true}
                 sendingString="swapping"
+                data-test-id="swapPageStartSwapButton"
                 onClick={async () => {
                     await handleSwapToken({
                         accountId,

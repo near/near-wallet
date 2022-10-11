@@ -1,6 +1,6 @@
 import React from 'react';
 
-const SwapIcon = ({ color }) => {
+const WrapIcon = ({ color }) => {
     const fill = color || '#006ADC';
     return (
         <svg
@@ -31,4 +31,4 @@ const SwapIcon = ({ color }) => {
     );
 };
 
-export default SwapIcon;
+export default WrapIcon;

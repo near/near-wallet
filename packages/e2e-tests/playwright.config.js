@@ -32,31 +32,31 @@ const config = {
     },
     projects: [
         {
-            name: "Desktop Chromium",
+            name: "Desktop_Chromium",
             use: {
                 browserName: "chromium",
             },
         },
         {
-            name: "Desktop Firefox",
+            name: "Desktop_Firefox",
             use: {
                 browserName: "firefox",
                 viewport: { width: 800, height: 600 },
             },
         },
         {
-            name: "Mobile Chrome",
+            name: "Mobile_Chrome",
             use: devices["Pixel 5"],
         },
         {
-            name: "Desktop Safari",
+            name: "Desktop_Safari",
             use: {
                 browserName: "webkit",
                 viewport: { width: 1200, height: 750 },
             },
         },
         {
-            name: "Mobile Safari",
+            name: "Mobile_Safari",
             use: devices["iPhone 12"],
         },
     ],

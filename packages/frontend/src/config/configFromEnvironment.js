@@ -90,7 +90,10 @@ module.exports = {
     WHITELISTED_CONTRACTS: parseCommaSeperatedStringAsArrayFromShell(
         process.env.TOKEN_CONTRACTS
     ),
+    NEAR_ID: process.env.NEAR_ID || 'NEAR',
+    NEAR_DECIMALS: 24,
     NEAR_TOKEN_ID: process.env.NEAR_TOKEN_ID,
+    TEMPLATE_ACCOUNT_ID: process.env.TEMPLATE_ACCOUNT_ID || 'dontcare',
     FARMING_CLAIM_GAS: process.env.FARMING_CLAIM_GAS || parseNearAmount('0.00000000015'),
     FARMING_CLAIM_YOCTO: process.env.FARMING_CLAIM_YOCTO || '1',
     REF_FINANCE_API_ENDPOINT: process.env.REF_FINANCE_API_ENDPOINT,

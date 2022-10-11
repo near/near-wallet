@@ -1,7 +1,6 @@
 import React from 'react';
 
-const SwapIcon = ({ color }) => {
-    const stroke = color || '#fff';
+const SwapIcon = ({ color = '#A2A2A8' }) => {
     return (
         <svg
             width="22px"
@@ -12,7 +11,7 @@ const SwapIcon = ({ color }) => {
             <g
                 fill="none"
                 fillRule="evenodd"
-                stroke={stroke}
+                stroke={color}
                 strokeWidth="2"
                 strokeLinecap="round"
                 strokeLinejoin="round"

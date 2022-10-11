@@ -44,7 +44,7 @@ const Success = ({ amountFrom, amountTo, transactionHash, onClickContinue, onCli
             <AvatarSuccessIcon />
             <div
                 className="success-header"
-                data-test-id="sendTransactionSuccessMessage"
+                data-test-id="swapPageSuccessMessage"
             >
                 <SafeTranslate
                     id="swap.successTitle"
@@ -55,7 +55,7 @@ const Success = ({ amountFrom, amountTo, transactionHash, onClickContinue, onCli
                 />
             </div>
             <div className="buttons-bottom-buttons">
-                <FormButton onClick={onClickContinue}>
+                <FormButton data-test-id="swapPageContinueAfterSwapButton" onClick={onClickContinue}>
                     <Translate id="button.continue" />
                 </FormButton>
                 {transactionHash && (

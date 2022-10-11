@@ -1591,6 +1591,12 @@
         "successTitle": "交易完成！</br>你兌換了 <span class='color-blue space'>${amountFrom}</span></br>至 <span class='color-green'>${amountTo}</span>",
         "title": "兌換",
         "to": "至",
+        "success": "成功交换",
+        "available": "可用: ${amount} ${symbol}",
+        "error": "交换错误",
+        "errorToFetchData": "错误加载数据交换",
+        "noPoolAvailable": "没有池可用于从${tokenIn} -> ${tokenOut}进行交换",
+        "availableToSwap": "可交换",
         "translateIdInfoTooltip": {
             "fee": "處理此筆交易的預估費用。",
             "minimumReceived": "從此筆交易中你將最少收到的數額。",

@@ -60,3 +60,13 @@
 }
 
 @import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&display=swap");
+
+:root {
+    --color-success: #5BB98C;
+    --color-warning: #AD5700;
+    --color-warning-background: #FFF4D5;
+    --color-error: #CD2B31;
+    --color-error-background: #FFEFEF;
+    /* @todo Need to decide what these colors for and rename it */
+    --color-1: #0072ce;
+}

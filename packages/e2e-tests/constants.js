@@ -2,8 +2,10 @@ const { BN } = require("bn.js");
 const { parseNearAmount } = require("near-api-js/lib/utils/format");
 
 const dateNowNanosBN = new BN(Date.now()).mul(new BN("1000000"));
+const TEST_ACCOUNT_DEPOSIT_AMOUNT = process.env.TEST_ACCOUNT_DEPOSIT_AMOUNT || '1.0'
 
 module.exports = {
+    TEST_ACCOUNT_DEPOSIT_AMOUNT,
     WALLET_NETWORK: {
         MAINNET: "mainnet",
         TESTNET: "testnet",
@@ -50,4 +52,30 @@ module.exports = {
         },
     },
     LINKDROP_ACCESS_KEY_ALLOWANCE: new BN(parseNearAmount("1.0")),
+    CONTRACT: {
+        MAINNET: {
+            NEAR: {
+                id: "NEAR",
+                symbol: "NEAR",
+                decimals: 24,
+            },
+            wNEAR: {
+                id: "wrap.near",
+                symbol: "wNEAR",
+                decimals: 24,
+            },
+        },
+        TESTNET: {
+            NEAR: {
+                id: "NEAR",
+                symbol: "NEAR",
+                decimals: 24,
+            },
+            wNEAR: {
+                id: "wrap.testnet",
+                symbol: "wNEAR",
+                decimals: 24,
+            },
+        }
+    },
 };

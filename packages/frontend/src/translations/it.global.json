@@ -1420,6 +1420,37 @@
     "stakingPoolUnstaked": "Questi NEAR sono attualmente in un pool di staking ma non sono attualmente in staking. Potrebbe ad esempio essere in uno stato di attesa di rilascio.",
     "success": "Successo",
     "sync": "Sync",
+    "swap": {
+        "success": "Scambio di successo",
+        "available": "Disponibile: ${amount} ${symbol}",
+        "error": "Errore di swap",
+        "errorToFetchData": "Errore nel caricamento dei dati per exchange",
+        "noPoolAvailable": "Nessun pool disponibile per effettuare uno swap da ${tokenIn} -> ${tokenOut}",
+        "availableToSwap": "Disponibile per lo scambio",
+        "confirm": "Conferma & Scambia",
+        "details": "Dettagli della transazione",
+        "fee": "Tariffe stimate",
+        "swapFee": "Tassa di swap",
+        "from": "From",
+        "max": "Massimo: ${amount} ${symbol}",
+        "minReceived": "Minimo ricevuto",
+        "price": "Prezzo",
+        "priceImpact": "Incidenza sui prezzi",
+        "review": "Revisione Swap",
+        "reviewInfo": "Ti stai scambiando",
+        "slippage": "Tolleranza di slittamento",
+        "successTitle": "Scambio completato!</br>You swapped <span class='color-blue space'>${amountFrom}</span></br>to <span class='color-green'>${amountTo}</span>",
+        "title": "Swap",
+        "to": "To",
+        "poolsError": "Si è verificato un errore nei pool di token. Prova a ricaricare questa pagina.",
+        "translateIdInfoTooltip": {
+            "fee": "Il costo stimato di elaborazione della transazione.",
+            "swapFee": "Commissione per i fornitori di liquidità presa sull'importo pagato.",
+            "minimumReceived": "L'importo minimo che riceverai dal commercio.",
+            "priceImpact": "La differenza tra il prezzo di mercato e il prezzo stimato a causa delle dimensioni del commercio.",
+            "slippage": "La percentuale che il prezzo può aumentare prima che la transazione fallisca."
+        }
+    },
     "tokenBox": {
         "priceUnavailable": "Prezzo non disponibile"
     },

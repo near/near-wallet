@@ -7,7 +7,6 @@ import { selectTokensFiatValueUSD } from '../redux/slices/tokenFiatValues';
 import { selectTokensWithMetadataForAccountId } from '../redux/slices/tokens';
 import compare from '../utils/compare';
 
-
 export const useFungibleTokensIncludingNEAR = function ({ showTokensWithZeroBalance = false, includeNearContractName = false } = {}) {
     const NEARAsTokenWithMetadata = useSelector((state) => selectNEARAsTokenWithMetadata(state, {includeNearContractName}));
     const accountId = useSelector(selectActiveAccountId);

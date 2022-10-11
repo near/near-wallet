@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
@@ -51,7 +51,9 @@ const SlippagePicker = ({
     setSlippage
 }) => {
     const [active, setActive] = useState(1);
-    
+
+    useEffect(() => setSlippage(active), []);
+
     const handleClick = (value) => {
         setActive(value);
         setSlippage(value);
