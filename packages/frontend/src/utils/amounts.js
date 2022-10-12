@@ -1,14 +1,15 @@
 import Big from 'big.js';
 
-import { MAX_PERCENTAGE } from './constants';
+import { MAX_PERCENTAGE, NEAR_DECIMALS } from './constants';
 
 const APPROX_ZERO_MIN = 10;
 
 export const BOATLOAD_OF_GAS = Big(1).times(10 ** 14).toFixed();
 
-// TODO: Shouldn't do 10 ** 24 with JS number, also use big decimal. Might fix precision errors.
-export const toNear = (value = '0') => Big(value).times(10 ** 24).toFixed();
-export const nearTo = (value = '0', to = 2) => Big(value).div(10 ** 24).toFixed(to === 0 ? undefined : to);
+const yoctoNearCoefficient = Big(10).pow(NEAR_DECIMALS).toFixed();
+
+export const toNear = (value = '0') => Big(value).times(yoctoNearCoefficient).toFixed();
+export const nearTo = (value = '0', to = 2) => Big(value).div(yoctoNearCoefficient).toFixed(to === 0 ? undefined : to);
 export const big = (value = '0') => Big(value);
 export const gtZero = (value = '0') => big(value).gt(big());
 export const gtZeroApprox = (value = '0') => big(value).gt(big(APPROX_ZERO_MIN));
@@ -48,10 +49,7 @@ export const decreaseByPercent = (value, percent, precision = 0) => {
         .toFixed(precision);
 };
 
-
-const MAX_DECIMALS = 24;
-
-export const isValidAmount = (amount, maxAmount, decimals = MAX_DECIMALS) => {
+export const isValidAmount = (amount, maxAmount, decimals = NEAR_DECIMALS) => {
     // Allow empty values
     if (!String(amount).length) {
         return true;
@@ -72,7 +70,7 @@ export const isValidAmount = (amount, maxAmount, decimals = MAX_DECIMALS) => {
     const strAmount = fixedAmount.replace(/,/g, '.');
     const fractionalPart = strAmount?.split('.')[1];
 
-    if (fractionalPart && fractionalPart?.length > decimals) {
+    if (fractionalPart && fractionalPart.length > decimals) {
         return false;
     }
 

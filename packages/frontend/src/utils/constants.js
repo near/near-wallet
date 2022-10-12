@@ -6,6 +6,7 @@ export const ValidatorVersion = {
     [FARMING_VALIDATOR_VERSION]: FARMING_VALIDATOR_VERSION
 };
 
+export const NEAR_DECIMALS = 24;
 export const MAX_PERCENTAGE = 100;
 export const IMPLICIT_ACCOUNT_MAX_LENGTH = 64;
 export const MAINNET = 'mainnet';

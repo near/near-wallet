@@ -1,6 +1,24 @@
 import * as amounts from './amounts';
 
 describe('amounts', () => {
+    test('should correctly format to yoctoNEAR', () => {
+        expect(amounts.toNear(0)).toBe('0');
+        expect(amounts.toNear(1)).toBe('1000000000000000000000000');
+        expect(amounts.toNear(2.1)).toBe('2100000000000000000000000');
+        expect(amounts.toNear(0.1)).toBe('100000000000000000000000');
+        expect(amounts.toNear(0.000000000000000000000001)).toBe('1');
+    });
+
+    test('should correctly format from yoctoNEAR', () => {
+        expect(amounts.nearTo(0)).toBe('0.00');
+        expect(amounts.nearTo(1000000000000000000000000n)).toBe('1.00');
+        expect(amounts.nearTo(2000000000000000000000000n)).toBe('2.00');
+        expect(amounts.nearTo(10000000000000000000000n)).toBe('0.01');
+        expect(amounts.nearTo(11000000000000000000000n, 3)).toBe('0.011');
+        expect(amounts.nearTo(100000000000000000000n, 4)).toBe('0.0001');
+        expect(amounts.nearTo(1)).toBe('0.00');
+    });
+
     test('should correctly decrease amount by percent', () => {
         expect(amounts.decreaseByPercent(100, 10)).toBe('90');
         expect(amounts.decreaseByPercent(250, 10)).toBe('225');
@@ -39,9 +57,9 @@ describe('amounts', () => {
         expect(amounts.isValidAmount(0.000000000000000000000001, 1)).toBe(true);
         expect(amounts.isValidAmount('0.', 1)).toBe(true);
         expect(amounts.isValidAmount(0., 1)).toBe(true);
+        expect(amounts.isValidAmount('')).toBe(true);
+        expect(amounts.isValidAmount('', 1)).toBe(true);
 
-        expect(amounts.isValidAmount('')).toBe(false);
-        expect(amounts.isValidAmount('', 1)).toBe(false);
         expect(amounts.isValidAmount(1.1, 1)).toBe(false);
         expect(amounts.isValidAmount(0.0000001, 1, 6)).toBe(false);
         expect(amounts.isValidAmount(0.0000000000000000000000001, 1)).toBe(false);
