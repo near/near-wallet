@@ -4,11 +4,14 @@ import { Route, withRouter, Redirect } from 'react-router-dom';
 
 import { selectAccountSlice } from '../../../redux/slices/account';
 import { selectStatusLocalAlert } from '../../../redux/slices/status';
+import { isKeyEncrypted } from '../../../utils/keyEncryption';
 import { KEY_ACTIVE_ACCOUNT_ID } from '../../../utils/wallet';
 import NoIndexMetaTag from '../NoIndexMetaTag';
 
-// PrivateRoute is for logged in users only and will redirect to the guest landing page if there's no active account
-
+/**
+ * PrivateRoute is for logged in users only and will redirect to the guest landing page
+ * if there's no active account or to enter password page if private key is encrypted
+ */
 const PrivateRoute = ({
     component: Component,
     render,
@@ -19,7 +22,6 @@ const PrivateRoute = ({
     <>
         {!indexBySearchEngines && <NoIndexMetaTag />}
         <Route
-            {...rest}
             render={(props) => {
                 if (!localStorage.getItem(KEY_ACTIVE_ACCOUNT_ID)) {
                     return (
@@ -29,6 +31,21 @@ const PrivateRoute = ({
                             }}
                         />
                     );
+                }
+
+                if (isKeyEncrypted()) {
+                    // Avoid infinite loop of redirect
+                    const skipRedirect = rest.path === '/enter-password';
+
+                    if (!skipRedirect) {
+                        return (
+                            <Redirect
+                                to={{
+                                    pathname: '/enter-password',
+                                }}
+                            />
+                        );
+                    }
                 }
 
                 // <Route component> takes precedence over <Route render></Route>

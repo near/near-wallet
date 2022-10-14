@@ -80,6 +80,7 @@ const KEY_WALLET_ACCOUNTS = KEY_UNIQUE_PREFIX + 'wallet:accounts_v2';
 export const KEY_ACTIVE_ACCOUNT_ID = KEY_UNIQUE_PREFIX + 'wallet:active_account_id_v2';
 const ACCOUNT_ID_REGEX = /^(([a-z\d]+[-_])*[a-z\d]+\.)*([a-z\d]+[-_])*[a-z\d]+$/;
 export const RELEASE_NOTES_MODAL_VERSION = 'v0.01.2';
+export const KEYSTORE_PREFIX = 'nearlib:keystore:';
 
 export const keyAccountConfirmed = (accountId) => `wallet.account:${accountId}:${NETWORK_ID}:confirmed`;
 export const keyStakingAccountSelected = () => `wallet.account:${wallet.accountId}:${NETWORK_ID}:stakingAccount`;
@@ -121,7 +122,7 @@ export default class Wallet {
     constructor() {
         this.keyStore = new nearApiJs.keyStores.BrowserLocalStorageKeyStore(
             window.localStorage,
-            'nearlib:keystore:'
+            KEYSTORE_PREFIX
         );
         this.inMemorySigner = new nearApiJs.InMemorySigner(this.keyStore);
 

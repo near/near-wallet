@@ -102,6 +102,7 @@ import { StakingContainer } from './staking/StakingContainer';
 import Terms from './terms/Terms';
 import '../index.css';
 import WalletMigration from './wallet-migration/WalletMigration';
+import EnterPassword from "./encrypted-access/EnterPassword";
 const { fetchTokenFiatValues, getTokenWhiteList } = tokenFiatValueActions;
 
 const {
@@ -302,7 +303,6 @@ class Routing extends Component {
     };
 
     handleTransferClick = () => {
-
         this.setState({ openTransferPopup: true });
     }
 
@@ -662,6 +662,11 @@ class Routing extends Component {
                                 exact
                                 path="/swap-legacy"
                                 component={Swap}
+                            />
+                            <PrivateRoute
+                                exact
+                                path="/enter-password"
+                                component={EnterPassword}
                             />
                             <Route
                                 exact
