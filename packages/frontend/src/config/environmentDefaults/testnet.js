@@ -53,6 +53,7 @@ export default {
     FARMING_CLAIM_GAS: parseNearAmount('0.00000000015'),
     FARMING_CLAIM_YOCTO: '1',
     REF_FINANCE_API_ENDPOINT: 'https://testnet-indexer.ref-finance.com/',
+    TOKEN_BLACKLIST_ENDPOINT: '',
     REF_FINANCE_CONTRACT: 'ref-finance-101.testnet',
     USN_CONTRACT: 'usdn.testnet',
     HAPI_PROTOCOL_ADDRESS: 'proxy.contracts.sergei24.testnet',

@@ -59,6 +59,7 @@ export default {
     FARMING_CLAIM_GAS: parseNearAmount('0.00000000015'),
     FARMING_CLAIM_YOCTO: '1',
     REF_FINANCE_API_ENDPOINT: 'https://indexer.ref.finance',
+    TOKEN_BLACKLIST_ENDPOINT: 'https://mainnet-contracthelper.mynearwallet.com/tokens/blacklist',
     REF_FINANCE_CONTRACT: 'v2.ref-finance.near',
     USN_CONTRACT: 'usn',
     HAPI_PROTOCOL_ADDRESS: 'proxy.hapiprotocol.near',

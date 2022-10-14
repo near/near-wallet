@@ -1,9 +1,9 @@
 import { utils } from 'near-api-js';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import styled from 'styled-components';
 
 import { EXPLORER_URL } from '../../config';
-import { useFungibleTokensIncludingNEAR } from '../../hooks/fungibleTokensIncludingNEAR';
 import { Mixpanel } from '../../mixpanel/index';
 import { checkAccountAvailable, redirectTo } from '../../redux/actions/account';
 import { clearLocalAlert, showCustomAlert } from '../../redux/actions/status';
@@ -13,10 +13,11 @@ import {
 } from '../../redux/slices/ledger';
 import { selectStatusLocalAlert } from '../../redux/slices/status';
 import { selectNearTokenFiatValueUSD } from '../../redux/slices/tokenFiatValues';
-import { actions as tokensActions } from '../../redux/slices/tokens';
+import { selectAllowedTokens } from '../../redux/slices/tokens';
 import { fungibleTokensService } from '../../services/FungibleTokens';
 import isMobile from '../../utils/isMobile';
 import { SHOW_NETWORK_BANNER } from '../../utils/wallet';
+import SkeletonLoading from '../common/SkeletonLoading';
 import SendContainerV2, { VIEWS } from './SendContainerV2';
 
 const {
@@ -24,7 +25,16 @@ const {
 } = ledgerActions;
 
 const { parseNearAmount, formatNearAmount } = utils.format;
-const { fetchTokens } = tokensActions;
+
+const LoaderWrapper = styled.div`
+    padding: 2.5rem 0.625rem 0.625rem;
+    max-width: 31.25rem;
+    margin: 0 auto;
+
+    .animation {
+        border-radius: 0.5rem;
+    }
+`;
 
 export function SendContainerWrapper({ match }) {
     const accountIdFromUrl = match.params.accountId || '';
@@ -37,15 +47,15 @@ export function SendContainerWrapper({ match }) {
     const [estimatedTotalInNear, setEstimatedTotalInNear] = useState('0');
     const [sendingToken, setSendingToken] = useState(false);
     const [transactionHash, setTransactionHash] = useState(null);
-    const fungibleTokensList = useFungibleTokensIncludingNEAR();
+    const allowedTokens = useSelector(selectAllowedTokens);
 
-    useEffect(() => {
-        if (!accountId) {
-            return;
-        }
-
-        dispatch(fetchTokens({ accountId }));
-    }, [accountId]);
+    if (!allowedTokens.length) {
+        return (
+            <LoaderWrapper>
+                <SkeletonLoading height="6.375rem" show />
+            </LoaderWrapper>
+        );
+    }
 
     return (
         <SendContainerV2
@@ -54,7 +64,7 @@ export function SendContainerWrapper({ match }) {
             checkAccountAvailable={(accountId) => dispatch(checkAccountAvailable(accountId))}
             parseNearAmount={parseNearAmount}
             formatNearAmount={formatNearAmount}
-            fungibleTokens={fungibleTokensList}
+            fungibleTokens={allowedTokens}
             localAlert={localAlert}
             clearLocalAlert={() => dispatch(clearLocalAlert())}
             isMobile={isMobile()}

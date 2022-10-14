@@ -16,6 +16,7 @@ import linkdropSlice from '../slices/linkdrop';
 import multiplierSlice from '../slices/multiplier';
 import nftSlice from '../slices/nft';
 import recoveryMethodsSlice from '../slices/recoveryMethods';
+import security from '../slices/security';
 import swapSlice from '../slices/swap';
 import tokenFiatValuesSlice from '../slices/tokenFiatValues';
 import transactionsSlice from '../slices/transactions';
@@ -32,6 +33,7 @@ export default (history) => ({
     staking,
     status,
     verifyOwner,
+    [security.name]: security.reducer,
     [nftSlice.name]: nftSlice.reducer,
     [linkdropSlice.name]: linkdropSlice.reducer,
     [transactionsSlice.name]: transactionsSlice.reducer,

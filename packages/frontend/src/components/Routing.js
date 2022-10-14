@@ -88,6 +88,7 @@ import PrivateRoute from './common/routing/PrivateRoute';
 import PublicRoute from './common/routing/PublicRoute';
 import Route from './common/routing/Route';
 import TwoFactorDisableBanner from './common/TwoFactorDisableBanner';
+import Updater from './common/Updater';
 import { ExploreContainer } from './explore/ExploreContainer';
 import GlobalStyle from './GlobalStyle';
 import { LoginCliLoginSuccess } from './login/LoginCliLoginSuccess';
@@ -102,7 +103,7 @@ import { StakingContainer } from './staking/StakingContainer';
 import Terms from './terms/Terms';
 import '../index.css';
 import WalletMigration from './wallet-migration/WalletMigration';
-const { fetchTokenFiatValues, getTokenWhiteList } = tokenFiatValueActions;
+const { getTokenWhiteList } = tokenFiatValueActions;
 
 const {
     handleClearUrl,
@@ -252,15 +253,13 @@ class Routing extends Component {
     };
 
     componentDidUpdate(prevProps) {
-        const { activeLanguage, fetchTokenFiatValues, account } = this.props;
+        const { activeLanguage, account } = this.props;
 
         if (
             prevProps.account.accountId !== account.accountId &&
             account.accountId !== undefined
         ) {
             this.props.getTokenWhiteList(account.accountId);
-            fetchTokenFiatValues({ accountId: account.accountId });
-            this.startPollingTokenFiatValue();
         }
 
         const prevLangCode =
@@ -273,33 +272,6 @@ class Routing extends Component {
             localStorage.setItem('languageCode', curLangCode);
         }
     }
-
-    componentWillUnmount = () => {
-        this.stopPollingTokenFiatValue();
-    };
-
-    startPollingTokenFiatValue = () => {
-        const { fetchTokenFiatValues, account } = this.props;
-
-        const handlePollTokenFiatValue = async () => {
-            await fetchTokenFiatValues({ accountId: account.accountId }).catch(() => {});
-            if (this.pollTokenFiatValue) {
-                this.pollTokenFiatValue = setTimeout(
-                    () => handlePollTokenFiatValue(),
-                    30000
-                );
-            }
-        };
-        this.pollTokenFiatValue = setTimeout(
-            () => handlePollTokenFiatValue(),
-            30000
-        );
-    };
-
-    stopPollingTokenFiatValue = () => {
-        clearTimeout(this.pollTokenFiatValue);
-        this.pollTokenFiatValue = null;
-    };
 
     handleTransferClick = () => {
 
@@ -354,6 +326,7 @@ class Routing extends Component {
                 id="app-container"
             >
                 <Bootstrap />
+                <Updater />
                 <GlobalStyle />
                 <ConnectedRouter
                     basename={PATH_PREFIX}
@@ -742,7 +715,6 @@ const mapDispatchToProps = {
     handleClearUrl,
     promptTwoFactor,
     redirectTo,
-    fetchTokenFiatValues,
     handleClearAlert,
     handleFlowLimitation,
     getTokenWhiteList,
