@@ -502,6 +502,7 @@ const FungibleTokens = ({
                     <Tokens
                         tokens={fungibleTokens}
                         currentLanguage={currentLanguage}
+                        showFiatPrice
                     />
                     <div className='coingecko'><Translate id='poweredByCoinGecko' /></div>
                 </>

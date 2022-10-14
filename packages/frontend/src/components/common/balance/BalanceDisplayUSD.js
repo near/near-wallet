@@ -5,15 +5,14 @@ import { getRoundedBalanceInFiat, formatWithCommas } from './helpers';
 
 const BalanceDisplayUSD = ({
     amount,
-    showAlmostEqualSignUSD = true,
+    showAlmostEqualSignUSD = false,
+    showSymbolUSD = false,
     showSignUSD = true,
-    showSymbolUSD = true,
     nearTokenFiatValueUSD,
     isNear = false,
     decimals,
     totalAmount
 }) => {
-
     const roundedBalanceInUSD = amount && nearTokenFiatValueUSD && getRoundedBalanceInFiat(amount, nearTokenFiatValueUSD,isNear,
         decimals);
     const USDSymbol = 'USD';
@@ -32,19 +31,19 @@ const BalanceDisplayUSD = ({
                 {showSymbolUSD && ` ${USDSymbol}`}
             </>
         );
-    } else if (roundedBalanceInUSD === 0) {
+    }
+
+    if (roundedBalanceInUSD === 0) {
         return (
             <>
                 {showSignUSD && <>$</>}0
             </>
         );
-    } else {
-        return (
-            <>
-                — {USDSymbol}
-            </>
-        );
     }
+
+    return (
+        <>—</>
+    );
 };
 
 export default BalanceDisplayUSD;

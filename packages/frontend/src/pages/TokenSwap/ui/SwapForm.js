@@ -200,7 +200,7 @@ export default memo(function SwapForm({ onGoBack, account, tokensConfig  }) {
                     onClickGoBack={hideTokenSelection}
                     fungibleTokens={tokensToSelect}
                     onSelectToken={handleTokenSelect}
-                    balanceLabelId="swap.availableToSwap"
+                    balanceLabelId="available"
                 />
             ) : (
                 <>

@@ -164,6 +164,7 @@
     },
     "amount": "Quantità",
     "arguments": "Argomenti",
+    "available": "Disponibile",
     "authorizedApps": {
         "dashboardNoApps": "Non hai autorizzato nessuna App",
         "feeAllowance": "Commissioni di permesso",
@@ -1426,7 +1427,6 @@
         "error": "Errore di swap",
         "errorToFetchData": "Errore nel caricamento dei dati per exchange",
         "noPoolAvailable": "Nessun pool disponibile per effettuare uno swap da ${tokenIn} -> ${tokenOut}",
-        "availableToSwap": "Disponibile per lo scambio",
         "confirm": "Conferma & Scambia",
         "details": "Dettagli della transazione",
         "fee": "Tariffe stimate",

@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { formatTokenAmount, removeTrailingZeros } from '../../utils/amounts';
-import BalanceDisplayUSD from '../common/balance/BalanceDisplayUSD';
+import { formatTokenAmount, removeTrailingZeros } from '../../../utils/amounts';
+import BalanceDisplayUSD from '../balance/BalanceDisplayUSD';
 
 const FRAC_DIGITS = 5;
 

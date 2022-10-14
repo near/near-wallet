@@ -6,9 +6,9 @@ import styled, { css } from 'styled-components';
 import classNames from '../../../utils/classNames';
 import Balance from '../../common/balance/Balance';
 import FormButton from '../../common/FormButton';
+import TokenAmount from '../../common/token/TokenAmount';
+import TokenIcon from '../../common/token/TokenIcon';
 import Tooltip from '../../common/Tooltip';
-import TokenIcon from '../../send/components/TokenIcon';
-import TokenAmount from '../../wallet/TokenAmount';
 
 const Container = styled.div`
     ${(props) => !props.hideBorder && css`

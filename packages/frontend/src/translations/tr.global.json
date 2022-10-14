@@ -150,6 +150,7 @@
     },
     "amount": "miktar",
     "arguments": "Argümanlar",
+    "available": "Mevcut",
     "authorizedApps": {
         "dashboardNoApps": "Herhangi bir uygulamaya yetki vermediniz",
         "feeAllowance": "Ücret Ödeneği",
@@ -1336,7 +1337,6 @@
         "error": "Takas hatası",
         "errorToFetchData": "Exchange için veri yüklenirken hata oluştu",
         "noPoolAvailable": "${tokenIn} -> ${tokenOut} arasında takas yapılabilecek havuz yok",
-        "availableToSwap": "Takas edilebilir",
         "swapFee": "Takas ücreti",
         "slippage": "Kayma toleransı",
         "poolsError": "Belirteç havuzlarında bir hata oluştu. Bu sayfayı yeniden yüklemeyi deneyin.",

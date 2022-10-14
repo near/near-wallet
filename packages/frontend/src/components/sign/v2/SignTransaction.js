@@ -120,8 +120,6 @@ export default ({
             {isTransferTransaction && (
                 <Balance
                     amount={transferAmount}
-                    showAlmostEqualSignUSD={false}
-                    showSymbolUSD={false}
                     showSymbolNEAR={!privateShardId}
                     showBalanceInUSD={!privateShardId}
                 />

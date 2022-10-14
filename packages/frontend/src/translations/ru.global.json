@@ -150,6 +150,7 @@
     },
     "amount": "сумма",
     "arguments": "Аргументы",
+    "available": "Доступно",
     "authorizedApps": {
         "dashboardNoApps": "Вы не авторизовали ни одного приложения",
         "feeAllowance": "Оплата за хранение",
@@ -1265,7 +1266,6 @@
         "error": "Ошибка ",
         "errorToFetchData": "Ошибка при загрузке данных для обмена",
         "noPoolAvailable": "Нет доступных пулов для обмена ${tokenIn} -> ${tokenOut}",
-        "availableToSwap": "Доступно для обмена",
         "poolsError": "Произошла ошибка в c пулами токенов. Попробуйте перезагрузить эту страницу.",
         "translateIdInfoTooltip": {
             "fee": "Ориентировочная стоимость обработки вашей транзакции.",

@@ -177,6 +177,7 @@
     },
     "amount": "數量",
     "arguments": "參數",
+    "available": "可供选择",
     "authorizedApps": {
         "dashboardNoApps": "你還未授權任何應用",
         "feeAllowance": "費用配額",
@@ -1596,7 +1597,6 @@
         "error": "交换错误",
         "errorToFetchData": "错误加载数据交换",
         "noPoolAvailable": "没有池可用于从${tokenIn} -> ${tokenOut}进行交换",
-        "availableToSwap": "可交换",
         "translateIdInfoTooltip": {
             "fee": "處理此筆交易的預估費用。",
             "minimumReceived": "從此筆交易中你將最少收到的數額。",

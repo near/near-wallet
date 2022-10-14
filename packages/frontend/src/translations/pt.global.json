@@ -169,6 +169,7 @@
     },
     "amount": "quantidade",
     "arguments": "Parâmetros",
+    "available": "Disponivel",
     "authorizedApps": {
         "dashboardNoApps": "Você não autorizou nenhum app",
         "feeAllowance": "Taxa de Permissão",
@@ -1371,7 +1372,6 @@
         "error": "Erro de troca",
         "errorToFetchData": "Erro ao carregar dados para o exchange",
         "noPoolAvailable": "Nenhum pool disponível para fazer uma troca de ${tokenIn} -> ${tokenOut}",
-        "availableToSwap": "Disponível para swap",
         "translateIdInfoTooltip": {
             "fee": "O custo estimado de processamento da sua transação.",
             "swapFee": "Taxa para os fornecedores de liquidez tomada sobre o montante pago.",

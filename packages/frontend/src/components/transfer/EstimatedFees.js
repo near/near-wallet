@@ -34,10 +34,7 @@ export default ({ gasFeeAmount }) => {
                 <Translate id='transfer.estimatedFees' />
                 <Tooltip translate='sendV2.translateIdInfoTooltip.estimatedFees' />
             </div>
-            <Balance
-                amount={gasFeeAmount}
-                showSymbolUSD={false}
-            />
+            <Balance amount={gasFeeAmount} />
         </StyledContainer>
     );
 };

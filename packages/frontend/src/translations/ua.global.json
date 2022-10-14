@@ -164,6 +164,7 @@
     },
     "amount": "сума",
     "arguments": "Параметри",
+    "available": "Доступний",
     "authorizedApps": {
         "dashboardNoApps": "Ви не авторизували жодний застосунок",
         "feeAllowance": "Оплата за зберігання",
@@ -1479,7 +1480,6 @@
         "error": "Помилка обміну",
         "errorToFetchData": "Помилка завантаження даних для обміну",
         "noPoolAvailable": "Немає пулу, доступного для виконання обміну з ${tokenIn} -> ${tokenOut}",
-        "availableToSwap": "Доступно для обміну",
         "swapFee": "Плата за своп",
         "poolsError": "Сталася помилка в пулах токенов. Спробуйте перезавантажити цю сторінку.",
         "translateIdInfoTooltip": {

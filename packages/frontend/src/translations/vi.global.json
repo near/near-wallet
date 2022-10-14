@@ -153,6 +153,7 @@
     },
     "amount": "số tiền",
     "arguments": "Các đối số",
+    "available": "Có sẵn",
     "authorizedApps": {
         "dashboardNoApps": "Bạn chưa ủy quyền cho bất kỳ ứng dụng nào",
         "feeAllowance": "Phí phát sinh",
@@ -1286,7 +1287,6 @@
         "error": "lỗi Trao đổi",
         "errorToFetchData": "Lỗi tải dữ liệu để trao đổi",
         "noPoolAvailable": "Không có hồ bơi có sẵn để thực hiện một trao đổi từ tok ${tokenIn} -> ${tokenOut}",
-        "availableToSwap": "Có sẵn để trao đổi",
         "confirm": "Xác Nhận & Trao Đổi",
         "details": "Chi tiết giao dịch",
         "fee": "Phí ước tính",

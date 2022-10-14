@@ -177,6 +177,7 @@
     },
     "amount": "amount",
     "arguments": "Arguments",
+    "available": "Available",
     "authorizedApps": {
         "dashboardNoApps": "You have not authorized any apps",
         "feeAllowance": "Fee Allowance",
@@ -1626,7 +1627,6 @@
         "error": "Swap error",
         "errorToFetchData": "Error loading data for exchange",
         "noPoolAvailable": "No pool available to make a swap from ${tokenIn} -> ${tokenOut}",
-        "availableToSwap": "Available to swap",
         "poolsError": "An error occurred in token pools. Try to reload this page.",
         "translateIdInfoTooltip": {
             "fee": "The estimated cost of processing your transaction.",
