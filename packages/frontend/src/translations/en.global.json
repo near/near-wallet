@@ -291,6 +291,7 @@
         "goToDashboard": "Go To Dashboard",
         "importAccount": "Import Account",
         "importExistingAccount": "Import Existing Account",
+        "recoverExistingAccount": "Recover Existing Account",
         "learnMore": "Learn More",
         "learnMoreAboutNear": "Learn more about NEAR",
         "loading": "Loading",

@@ -2,6 +2,7 @@ import React from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
+import { WEP_PHASE_ONE } from '../../../../../features';
 import iPhoneMockup from '../../images/iphone-mockup.png';
 import FormButton from '../common/FormButton';
 import Container from '../common/styled/Container.css';
@@ -142,7 +143,7 @@ const StyledContainer = styled.div`
 export function GuestLanding() {
     return (
         <StyledContainer>
-            <LandingBackground/>
+            <LandingBackground />
             <Container className='small-centered'>
                 <h1><Translate id='landing.title' /></h1>
                 <h3><Translate id='landing.desc' /></h3>
@@ -161,10 +162,10 @@ export function GuestLanding() {
                         className="link"
                         trackingId="Click import existing link"
                     >
-                        <Translate id="button.importExistingAccount" />
+                        {WEP_PHASE_ONE ? <Translate id="button.recoverExistingAccount" /> : <Translate id="button.importExistingAccount" />}
                     </FormButton>
                 </div>
-                <div className='img-wrapper'><img src={iPhoneMockup} alt='Sign up'/></div>
+                <div className='img-wrapper'><img src={iPhoneMockup} alt='Sign up' /></div>
             </Container>
         </StyledContainer>
     );
