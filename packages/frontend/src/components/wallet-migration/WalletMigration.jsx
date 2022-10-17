@@ -9,13 +9,15 @@ import { wallet } from '../../utils/wallet';
 import Disable2FAModal from './Disable2FA';
 import MigrateAccounts from './MigrateAccounts';
 import MigrationSecret from './MigrationSecret';
+import RotateKeysModal from './modals/RotateKeysModal';
 import SelectDestinationWallet from './SelectDestinationWallet';
 
 export const WALLET_MIGRATION_VIEWS = {
     MIGRATION_SECRET: 'MIGRATION_SECRET',
     SELECT_DESTINATION_WALLET: 'SELECT_DESTINATION_WALLET',
     MIGRATE_ACCOUNTS: 'MIGRATE_ACCOUNTS',
-    DISABLE_2FA: 'DISABLE_2FA'
+    DISABLE_2FA: 'DISABLE_2FA',
+    ROTATE_KEYS: 'ROTATE_KEYS'
 };
 
 const initialState = {
@@ -94,6 +96,12 @@ const WalletMigration = ({ open, onClose }) => {
         <div>
             {state.activeView === WALLET_MIGRATION_VIEWS.DISABLE_2FA && (
                 <Disable2FAModal
+                    onClose={onClose}
+                    handleSetActiveView={handleSetActiveView}
+                />
+            )}
+            {state.activeView === WALLET_MIGRATION_VIEWS.ROTATE_KEYS && (
+                <RotateKeysModal
                     onClose={onClose}
                     handleSetActiveView={handleSetActiveView}
                 />
