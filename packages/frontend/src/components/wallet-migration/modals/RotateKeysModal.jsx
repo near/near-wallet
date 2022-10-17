@@ -1,13 +1,10 @@
-import { KeyPair } from 'near-api-js';
 import React, {useState, useEffect, useMemo, useRef} from 'react';
 import { Translate } from 'react-localize-redux';
-import { useDispatch, useSelector } from 'react-redux';
+import {useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { useImmerReducer } from 'use-immer';
 
 import { NETWORK_ID } from '../../../config';
-import { switchAccount } from '../../../redux/actions/account';
-import { showCustomAlert } from '../../../redux/actions/status';
 import { selectAccountId } from '../../../redux/slices/account';
 import WalletClass, { wallet } from '../../../utils/wallet';
 import AccountListImport from '../../accounts/AccountListImport';
@@ -67,7 +64,6 @@ const RotateKeysModal = ({handleSetActiveView, onClose}) => {
     });
     const [loadingEligibleRotatableAccounts, setLoadingEligibleRotatableAccounts] = useState(true);
    
-    const dispatch = useDispatch();
     const initialAccountIdOnStart = useSelector(selectAccountId);
     const initialAccountId = useRef(initialAccountIdOnStart);
   
@@ -86,8 +82,6 @@ const RotateKeysModal = ({handleSetActiveView, onClose}) => {
             const accountWithDetails = await Promise.all(
                 accounts.map(getAccountDetails)
             );
-            console.log('got accoutns with details', accountWithDetails);
-            console.log('filtered accounts', accountWithDetails.reduce(((acc, { accountId, keyType, accountBalance }) => keyType == WalletClass.KEY_TYPES.FAK && accountBalance.balanceAvailable >= MINIMIM_ACCOUNT_BALANCE  ? acc.concat({ accountId, status: null }) : acc), []));
             localDispatch({
                 type: ACTIONS.ADD_ACCOUNTS,
                 accounts: accountWithDetails.reduce(((acc, { accountId, keyType, accountBalance }) => keyType == WalletClass.KEY_TYPES.FAK && accountBalance.balanceAvailable >= MINIMIM_ACCOUNT_BALANCE  ? acc.concat({ accountId, status: null }) : acc), [])
@@ -99,7 +93,6 @@ const RotateKeysModal = ({handleSetActiveView, onClose}) => {
     }, []);
 
     const failed = useMemo(() => state.accounts.some((account) => account.status === IMPORT_STATUS.FAILED), [state.accounts]);
-    const currentAccount = useMemo(() => !failed && state.accounts.find((account) => account.status === IMPORT_STATUS.PENDING), [failed, state.accounts]);
     const batchKeyRotationNotStarted = useMemo(() => state.accounts.every((account) => account.status === null), [state.accounts]);
     const completedWithSuccess = useMemo(() => !loadingEligibleRotatableAccounts && state.accounts.every((account) => account.status === IMPORT_STATUS.SUCCESS), [state.accounts, loadingEligibleRotatableAccounts]);
 
@@ -117,48 +110,12 @@ const RotateKeysModal = ({handleSetActiveView, onClose}) => {
         }
     }, [completedWithSuccess]);
 
-    useEffect(() => {
-        const rotateKeyForCurrentAccount = async () => {
-            try {
-                dispatch(switchAccount({accountId: currentAccount.accountId}));
-                const account = await wallet.getAccount(currentAccount.accountId);
-                // Create new key
-                // console.log(account);
-                // set key to local storage
-                // tag as new key
-                // show modal and have it succeed
-                // const addFAKTransaction = {
-                //     receiverId: account.accountId,
-                //     actions: [transactions.addKey(KeyPair.fromRandom('ed25519').getPublicKey(), transactions.fullAccessKey())]
-                // };
-                const new_FAK = KeyPair.fromRandom('ed25519');
-                await account.addKey(new_FAK.getPublicKey());
-                await wallet.saveAccount(currentAccount.accountId, new_FAK);
-                // const estimatedAddFAKTransactionFees = useMemo(() => addFAKTransaction ? getEstimatedFees([addFAKTransaction]) : new BN('0') ,[addFAKTransaction]);
-                localDispatch({ type: ACTIONS.SET_CURRENT_DONE });
-            } catch (e) {
-                dispatch(showCustomAlert({
-                    errorMessage: e.message,
-                    success: false,
-                    messageCodeHeader: 'error'
-                }));
-                // Do not end process, simply skip the failed key and move on!
-                localDispatch({ type: ACTIONS.SET_CURRENT_FAILED_AND_END_PROCESS });
-            } finally {
-                dispatch(switchAccount({accountId: initialAccountId.current}));
-            }
-        };
-        if (currentAccount) {
-            rotateKeyForCurrentAccount();
-        }
-    }, [currentAccount]);
     // 1. identify account type (ledger, implicit_account)
     // 2. Identify if user has enough funds to create a key. 
     // 2. Create New FAK 
     // 3. Write Key to local storage of the browser
     // 4. show keyphrase for user to write it
     // 4. Tag new key some how that it is a new key.
-    console.log('i am in rotateKyesmodal');
     return (
         <>
         <Modal
@@ -172,8 +129,8 @@ const RotateKeysModal = ({handleSetActiveView, onClose}) => {
                 {loadingEligibleRotatableAccounts ? <LoadingDots /> :
                     (
                         <>
-                            <h4 className='title'><Translate id='walletMigration.rotateKeys.title' /></h4>
-                            <p><Translate id='walletMigration.rotateKeys.desc' /></p>
+                            <h4 className='title'><Translate id='walletMigration.keyRotation.title' /></h4>
+                            <p><Translate id='walletMigration.keyRotation.desc' /></p>
                             <div className="accountsTitle">
                                 <Translate id='importAccountWithLink.accountsFound' data={{ count: state.accounts.length }} />
                             </div>
