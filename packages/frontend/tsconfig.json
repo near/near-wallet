@@ -1,0 +1,36 @@
+{
+  "compilerOptions": {
+    "composite": false,
+    "declaration": true,
+    "declarationMap": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "inlineSources": false,
+    "isolatedModules": true,
+    "lib": ["dom", "es2020"],
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "outDir": "./dist",
+    "preserveWatchOutput": true,
+    "rootDir": "./src",
+    "skipLibCheck": true,
+    "strict": false,
+    "allowJs": true,
+    "checkJs": false,
+    "target": "es2020",
+    "jsx": "react-jsx"
+  },
+  "include": ["src", "declarations.d.ts"],
+  "exclude": [
+    "node_modules",
+    "test",
+    "dist",
+    ".cache",
+    "../../features",
+    "../feature-flags",
+    "../utilities",
+    "../e2e-tests"
+  ]
+}

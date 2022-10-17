@@ -17,12 +17,12 @@ function buildTrackingProps() {
 
 let Mixpanel = {
     get_distinct_id: () => {},
-    identify: () => {},
-    alias: () => {},
-    track: () => {},
+    identify: (id) => {},
+    alias: (id) => {},
+    track: (eventName) => {},
     people: {
-        set: () => {},
-        set_once: ()  => {}
+        set: (props) => {},
+        set_once: (props)  => {}
     },
     withTracking: async (name, fn, errorOperation, finalOperation) => {
         try {
