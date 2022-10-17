@@ -1882,6 +1882,10 @@
             "desc": "2FA must be disabled before you can transfer an account to a new wallet.",
             "title": "Disable two-factor authentication"
         },
+        "rotateKeys": {
+            "desc": "Before we can transfer your accounts, we’ll rotate the keys for your named accounts for additional security. Next, we’ll transfer your named and implicit acconuts to the wallet of your choosing. Ledger accounts don’t need to be tranferred, and you can go ahead and import them to any hardware-supported wallet.",
+            "title": "Let’s transfer your accounts"
+        },
         "migrateAccounts": {
             "desc": "The following accounts will be transferred:",
             "title": "We found ${count} active accounts"
