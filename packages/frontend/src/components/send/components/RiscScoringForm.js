@@ -2,7 +2,6 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
-import { HAPI_RISK_SCORING } from '../../../../../../features';
 import iconWarning from '../../../images/icon-warning.svg';
 import { Mixpanel } from '../../../mixpanel/index';
 import { checkAddress } from '../../../services/RiscScoring';
@@ -88,7 +87,7 @@ export function useRiskScoringCheck(accountId) {
             }
         }
 
-        if (HAPI_RISK_SCORING && accountId) {
+        if (accountId) {
             checkAccountWithHapi();
         } else {
             setIsRSWarned(false);
