@@ -6,7 +6,6 @@ import { batch } from 'react-redux';
 import { TEMPLATE_ACCOUNT_ID } from '../../../config';
 import FungibleTokens from '../../../services/FungibleTokens';
 import fungibleTokenExchange from '../../../services/tokenExchange';
-import { formatTokenAmount } from '../../../utils/amounts';
 import { wallet } from '../../../utils/wallet';
 import { getBalance } from '../../actions/account';
 import { showCustomAlert } from '../../actions/status';
@@ -27,37 +26,6 @@ const initialState = {
         error: undefined,
         all: {},
     },
-};
-
-const sortTokens = (tokens, sortCallback) => {
-    return Object.values(tokens)
-        .sort(sortCallback)
-        .reduce((allTokens, token) => ({ ...allTokens, [token.contractName]: token }), {});
-};
-
-const sortTokensInDecreasingOrderByPrice = (tokens) => {
-    return sortTokens(tokens, (t1, t2) => {
-        const price1 = t1.fiatValueMetadata?.usd;
-        const balance1 = formatTokenAmount(
-            t1.balance,
-            t1.onChainFTMetadata.decimals
-        );
-        const price2 = t2.fiatValueMetadata?.usd;
-        const balance2 = formatTokenAmount(
-            t2.balance,
-            t2.onChainFTMetadata.decimals
-        );
-
-        if (typeof price1 !== 'number') {
-            return 1;
-        }
-
-        if (typeof price2 !== 'number') {
-            return -1;
-        }
-
-        return balance2 * price2 - balance1 * price1;
-    });
 };
 
 const updateTokensBalance = createAsyncThunk(
@@ -137,18 +105,8 @@ const updateAllTokensData = createAsyncThunk(
         }
 
         batch(() => {
-            dispatch(
-                addTokensWithBalance({
-                    tokens: sortTokensInDecreasingOrderByPrice(
-                        tokensWithBalance
-                    ),
-                })
-            );
-            dispatch(
-                addAllTokens({
-                    tokens: sortTokensInDecreasingOrderByPrice(tokens),
-                })
-            );
+            dispatch(addTokensWithBalance(tokensWithBalance));
+            dispatch(addAllTokens(tokens));
             dispatch(setAllTokensLoading(false));
         });
     }
@@ -217,14 +175,10 @@ const swapSlice = createSlice({
             set(state, ['tokens', 'loading'], payload);
         },
         addAllTokens(state, { payload }) {
-            const { tokens } = payload;
-
-            set(state, ['tokens', 'all'], tokens);
+            set(state, ['tokens', 'all'], payload);
         },
         addTokensWithBalance(state, { payload }) {
-            const { tokens } = payload;
-
-            set(state, ['tokens', 'withBalance'], tokens);
+            set(state, ['tokens', 'withBalance'], payload);
         },
         addTokens(state, { payload }) {
             const { tokens } = payload;

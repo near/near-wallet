@@ -1,6 +1,6 @@
-import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 
+import useSortedTokens from '../../../../hooks/useSortedTokens';
 import selectNEARAsTokenWithMetadata from '../../../../redux/selectors/crossStateSelectors/selectNEARAsTokenWithMetadata';
 import {
     selectAllTokens,
@@ -13,24 +13,28 @@ export default function useTokens() {
     );
     const allTokens = useSelector(selectAllTokens);
     const tokensWithBalance = useSelector(selectTokensWithBalance);
+    const sortedTokens = useSortedTokens(
+        Object.values(tokensWithBalance)
+    ).reduce((acc, token) => {
+        acc[token.contractName] = token;
 
-    const [tokensIn, listOfTokensIn] = useMemo(() => {
-        const tokensIn = {
-            [NEARConfig.contractName]: NEARConfig,
-            ...tokensWithBalance,
-        };
+        return acc;
+    }, {});
 
-        return [tokensIn, Object.values(tokensIn)];
-    }, [NEARConfig, tokensWithBalance]);
+    const tokensIn = {
+        [NEARConfig.contractName]: NEARConfig,
+        ...sortedTokens,
+    };
 
-    const [tokensOut, listOfTokensOut] = useMemo(() => {
-        const tokensOut = {
-            [NEARConfig.contractName]: NEARConfig,
-            ...allTokens,
-        };
+    const tokensOut = {
+        [NEARConfig.contractName]: NEARConfig,
+        ...allTokens,
+    };
 
-        return [tokensOut, Object.values(tokensOut)];
-    }, [NEARConfig, allTokens]);
-
-    return { tokensIn, listOfTokensIn, tokensOut, listOfTokensOut };
+    return {
+        tokensIn,
+        listOfTokensIn: Object.values(tokensIn),
+        tokensOut,
+        listOfTokensOut: Object.values(tokensOut),
+    };
 }

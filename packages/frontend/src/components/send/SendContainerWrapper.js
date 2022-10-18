@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 
 import { EXPLORER_URL } from '../../config';
+import useSortedTokens from '../../hooks/useSortedTokens';
 import { Mixpanel } from '../../mixpanel/index';
 import { checkAccountAvailable, redirectTo } from '../../redux/actions/account';
 import { clearLocalAlert, showCustomAlert } from '../../redux/actions/status';
@@ -48,8 +49,9 @@ export function SendContainerWrapper({ match }) {
     const [sendingToken, setSendingToken] = useState(false);
     const [transactionHash, setTransactionHash] = useState(null);
     const allowedTokens = useSelector(selectAllowedTokens);
+    const sortedTokens = useSortedTokens(allowedTokens);
 
-    if (!allowedTokens.length) {
+    if (!sortedTokens.length) {
         return (
             <LoaderWrapper>
                 <SkeletonLoading height="6.375rem" show />
@@ -64,7 +66,7 @@ export function SendContainerWrapper({ match }) {
             checkAccountAvailable={(accountId) => dispatch(checkAccountAvailable(accountId))}
             parseNearAmount={parseNearAmount}
             formatNearAmount={formatNearAmount}
-            fungibleTokens={allowedTokens}
+            fungibleTokens={sortedTokens}
             localAlert={localAlert}
             clearLocalAlert={() => dispatch(clearLocalAlert())}
             isMobile={isMobile()}

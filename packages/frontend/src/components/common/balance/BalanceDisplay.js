@@ -3,6 +3,7 @@ import React from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
+import { NEAR_ID } from '../../../config';
 import classNames from '../../../utils/classNames';
 import BalanceDisplayUSD from './BalanceDisplayUSD';
 import { 
@@ -83,7 +84,6 @@ const BalanceDisplay = ({
 }) => {
 
     const amountToShow = amount && formatNearAmount(amount);
-    const NEARSymbol = 'NEAR';
 
     const handleShowInYocto = (amount) => {
         if (new BN(amount).lte(YOCTO_NEAR_THRESHOLD)) {
@@ -108,7 +108,7 @@ const BalanceDisplay = ({
             {showBalanceInNEAR && (
                 <>
                     {amount
-                        ? <div className='near-amount'>{amountToShow}{showSymbolNEAR !== false ? ` ${NEARSymbol}` : ''}</div>
+                        ? <div className='near-amount'>{amountToShow}{showSymbolNEAR !== false ? ` ${NEAR_ID}` : ''}</div>
                         : <div className="dots"><Translate id='loadingNoDots'/></div>
                     }
                 </>
