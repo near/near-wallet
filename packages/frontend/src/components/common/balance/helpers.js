@@ -22,6 +22,17 @@ export const showInYocto = (amountStr) => {
     return formatWithCommas(amountStr) + ' yoctoNEAR';
 };
 
+export function formatErrorBalance (msg) {
+    const regExp = /\d* yoctoNEAR/;
+    const yoctoSubString = msg.match(regExp);
+    if (yoctoSubString) {
+        const nearAmount = formatNearAmount(yoctoSubString[0].split(' ')[0]);
+        return msg.replace(regExp, nearAmount + ' NEAR');
+    }
+
+    return msg;
+}
+
 export const formatWithCommas = (value) => {
     const pattern = /(-?\d+)(\d{3})/;
     while (pattern.test(value)) {

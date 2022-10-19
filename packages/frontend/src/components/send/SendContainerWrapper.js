@@ -18,6 +18,7 @@ import { selectAllowedTokens } from '../../redux/slices/tokens';
 import { fungibleTokensService } from '../../services/FungibleTokens';
 import isMobile from '../../utils/isMobile';
 import { SHOW_NETWORK_BANNER } from '../../utils/wallet';
+import { formatErrorBalance } from '../common/balance/helpers';
 import SkeletonLoading from '../common/SkeletonLoading';
 import SendContainerV2, { VIEWS } from './SendContainerV2';
 
@@ -102,7 +103,7 @@ export function SendContainerWrapper({ match }) {
                             success: false,
                             messageCodeHeader: 'error',
                             messageCode: 'walletErrorCodes.sendFungibleToken.error',
-                            errorMessage: e.message,
+                            errorMessage: formatErrorBalance(e.message),
                         }));
                         setSendingToken('failed');
                         return;
