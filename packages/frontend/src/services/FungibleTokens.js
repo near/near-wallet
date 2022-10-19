@@ -113,7 +113,7 @@ export default class FungibleTokens {
         // Ensure our awareness of 2FA being enabled is accurate before we submit any transaction(s)
         const account = await wallet.getAccount(accountId);
 
-        if (contractName) {
+        if (contractName && contractName.toUpperCase() !== NEAR_ID) {
             const storageAvailable = await this.isStorageBalanceAvailable({
                 contractName,
                 accountId: receiverId,

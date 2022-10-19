@@ -135,22 +135,22 @@ const TokenBoxWrapper = styled.div`
     display: flex;
 `;
 
-const Title = ({ title, isLinkTitle }) => {
+const Title = ({ content, title }) => {
     const stopPropagation = (event) => event.stopPropagation();
 
     return (
-        <span className='symbol' title={title}>
-            {isLinkTitle ? (
+        <span className='symbol' title={title || content}>
+            {title && title !== NEAR_ID ? (
                 <a
                     href={`${EXPLORER_URL}/accounts/${title}`}
                     onClick={stopPropagation}
                     target='_blank'
                     rel='noopener noreferrer'
                 >
-                    {title}
+                    {content}
                 </a>
             ) : (
-                title
+                content
             )}
         </span>
     );
@@ -171,7 +171,9 @@ const SubTitle = ({ showFiatPrice, price, currentLanguage, name = '-' }) => {
                         }).format(price)}
                     </>
                 ) : (
-                    <Translate id="tokenBox.priceUnavailable" />
+                    <span>
+                        <Translate id="tokenBox.priceUnavailable" />
+                    </span>
                 )
             ) : (
                 name
@@ -200,10 +202,7 @@ const TokenBox = ({ token, onClick, currentLanguage, showFiatPrice = false }) =>
                     <TokenIcon symbol={symbol} icon={icon} />
                 </div>
                 <div className='desc'>
-                    <Title
-                        title={symbol}
-                        isLinkTitle={!!token.contractName || token.contractName === NEAR_ID}
-                    />
+                    <Title title={token.contractName} content={symbol} />
                     <SubTitle
                         showFiatPrice={showFiatPrice}
                         currentLanguage={currentLanguage}
