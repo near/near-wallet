@@ -38,6 +38,10 @@ const Container = styled.div`
         font-size: 20px;
         margin-top: 40px;
     }
+
+    .description {
+        margin-top: 25px;
+    }
 `;
 
 export const WALLET_OPTIONS = [
@@ -192,6 +196,7 @@ const SelectDestinationWallet = ({ handleSetActiveView, handleSetWallet, wallet,
             <Container>
                 <IconWallet/>
                 <h4 className='title'><Translate id='walletMigration.selectWallet.title'/></h4>
+                <h5 className='description'><Translate id='walletMigration.selectWallet.descOne'/></h5>
                 <WalletOptionsListing>
                     {WALLET_OPTIONS.map((walletOption) => {
                         if (!walletOption.checkAvailability()) {
@@ -209,6 +214,7 @@ const SelectDestinationWallet = ({ handleSetActiveView, handleSetWallet, wallet,
                         );
                     })}
                 </WalletOptionsListing>
+                <h6 className='description'><Translate id='walletMigration.selectWallet.descTwo'/></h6>
                 <ButtonsContainer>
                     <StyledButton className="gray-blue" onClick={onClose}>
                         <Translate id='button.cancel'/>
