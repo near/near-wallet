@@ -1,3 +1,4 @@
+import { current } from '@reduxjs/toolkit';
 import { KeyPair } from 'near-api-js';
 import React, {useState, useEffect, useMemo, useRef} from 'react';
 import { Translate } from 'react-localize-redux';
@@ -66,11 +67,12 @@ const RotateKeysModal = ({handleSetActiveView, onClose}) => {
         accounts: []
     });
     const [loadingEligibleRotatableAccounts, setLoadingEligibleRotatableAccounts] = useState(true);
-   
+    const [currentFailedAccount, setCurrentFailedAccount] = useState(null);
     const dispatch = useDispatch();
     const initialAccountIdOnStart = useSelector(selectAccountId);
     const initialAccountId = useRef(initialAccountIdOnStart);
-  
+    const fail_accounts_idx = [2, 4];
+    const [accIdx, setAccIdx] = useState(0);
     useEffect(() => {
         const importRotatableAccounts = async () => {
             // No ledger accounts
@@ -96,10 +98,13 @@ const RotateKeysModal = ({handleSetActiveView, onClose}) => {
         importRotatableAccounts();
     }, []);
 
-    const failed = useMemo(() => state.accounts.some((account) => account.status === IMPORT_STATUS.FAILED), [state.accounts]);
-    const currentAccount = useMemo(() => !failed && state.accounts.find((account) => account.status === IMPORT_STATUS.PENDING), [failed, state.accounts]);
+    // const failed = useMemo(() => state.accounts.some((account) => account.status === IMPORT_STATUS.FAILED), [state.accounts]);
+    const currentAccount = useMemo(() =>  state.accounts.find((account) => account.status === IMPORT_STATUS.PENDING), [ state.accounts]);
     const batchKeyRotationNotStarted = useMemo(() => state.accounts.every((account) => account.status === null), [state.accounts]);
-    const completedWithSuccess = useMemo(() => !loadingEligibleRotatableAccounts && state.accounts.every((account) => account.status === IMPORT_STATUS.SUCCESS), [state.accounts, loadingEligibleRotatableAccounts]);
+    const completedWithSuccess = useMemo(() => {
+        console.log('checcking for success ');
+        !loadingEligibleRotatableAccounts && state.accounts[state.accounts.length - 1].status === IMPORT_STATUS.SUCCESS;
+    } , [state.accounts, loadingEligibleRotatableAccounts]);
 
     useEffect(() => {
         if (batchKeyRotationNotStarted) {
@@ -109,45 +114,63 @@ const RotateKeysModal = ({handleSetActiveView, onClose}) => {
 
 
     useEffect(() => {
-        if (completedWithSuccess) {
-            console.log('setting next view');
+        if (completedWithSuccess && !currentFailedAccount) {
             handleSetActiveView(WALLET_MIGRATION_VIEWS.SELECT_DESTINATION_WALLET);
         }
     }, [completedWithSuccess]);
-
+    const rotateKeyForFailedAccount = async (failedAccount) => {
+        try {
+            dispatch(switchAccount({accountId: failedAccount}));
+            const account = await wallet.getAccount(failedAccount);
+            const new_FAK = KeyPair.fromRandom('ed25519');
+            await account.addKey(new_FAK.getPublicKey());
+            await wallet.saveAccount(failedAccount, new_FAK);
+            localDispatch({ type: ACTIONS.SET_ACCOUNT_DONE, accountId: failedAccount });
+            // dispatch(switchAccount({accountId: initialAccountId.current}));
+            setCurrentFailedAccount(null);
+        } catch (e) {
+            dispatch(showCustomAlert({
+                errorMessage: e.message,
+                success: false,
+                messageCodeHeader: 'error'
+            }));
+            await new Promise((r) => setTimeout(r, 3000));
+        }
+    };
     useEffect(() => {
         const rotateKeyForCurrentAccount = async () => {
             try {
+                setCurrentFailedAccount(() => null);
+                console.log('current  account' , current.accountId);
                 dispatch(switchAccount({accountId: currentAccount.accountId}));
                 const account = await wallet.getAccount(currentAccount.accountId);
-                // Create new key
-                // console.log(account);
-                // set key to local storage
-                // tag as new key
-                // show modal and have it succeed
-                // const addFAKTransaction = {
-                //     receiverId: account.accountId,
-                //     actions: [transactions.addKey(KeyPair.fromRandom('ed25519').getPublicKey(), transactions.fullAccessKey())]
-                // };
+                setAccIdx((id) => id + 1);
+                if (fail_accounts_idx.includes(accIdx)) {
+                    throw Error('We have failed!!');
+                }
                 const new_FAK = KeyPair.fromRandom('ed25519');
                 await account.addKey(new_FAK.getPublicKey());
                 await wallet.saveAccount(currentAccount.accountId, new_FAK);
                 localDispatch({ type: ACTIONS.SET_CURRENT_DONE });
             } catch (e) {
+                localDispatch({ type: ACTIONS.SET_CURRENT_FAILED_AND_END_PROCESS });
+                setCurrentFailedAccount(currentAccount.accountId);
                 dispatch(showCustomAlert({
                     errorMessage: e.message,
                     success: false,
                     messageCodeHeader: 'error'
                 }));
+                await new Promise((r) => setTimeout(r, 3000));
                 // Do not end process, simply skip the failed key and move on!
-                localDispatch({ type: ACTIONS.SET_CURRENT_FAILED_AND_END_PROCESS });
             } finally {
                 dispatch(switchAccount({accountId: initialAccountId.current}));
-            }
+            }    
         };
         if (currentAccount) {
             rotateKeyForCurrentAccount();
         }
+    
+
     }, [currentAccount]);
     // 1. identify account type (ledger, implicit_account)
     // 2. Identify if user has enough funds to create a key. 
@@ -168,20 +191,28 @@ const RotateKeysModal = ({handleSetActiveView, onClose}) => {
                 {loadingEligibleRotatableAccounts ? <LoadingDots /> :
                     (
                         <>
-                            <h4 className='title'><Translate id='walletMigration.keyRotation.title' /></h4>
-                            <p><Translate id='walletMigration.keyRotation.desc' /></p>
+                            <h4 className='title'><Translate id='walletMigration.rotateKeys.title' /></h4>
+                            <p><Translate id='walletMigration.rotateKeys.desc' /></p>
                             <div className="accountsTitle">
                                 <Translate id='importAccountWithLink.accountsFound' data={{ count: state.accounts.length }} />
                             </div>
                             <AccountListImport accounts={state.accounts} />
                             <ButtonsContainer>
-                                <StyledButton className="gray-blue" onClick={onClose} disabled={!batchKeyRotationNotStarted && !failed}>
+                                <StyledButton className="gray-blue" onClick={onClose}>
                                     <Translate id='button.cancel' />
                                 </StyledButton>
+                                {currentFailedAccount && (
+                                    <StyledButton onClick = {() =>  {
+                                        rotateKeyForFailedAccount(currentFailedAccount);
+                                    }
+                                    }>
+                                        <Translate id={'button.retry'} />
+                                    </StyledButton>
+                                )}
                                 <StyledButton onClick={() =>
-                                    localDispatch({ type: failed ? ACTIONS.RESTART_PROCESS : ACTIONS.BEGIN_IMPORT })
-                                } disabled={!failed && !batchKeyRotationNotStarted}>
-                                    <Translate id={failed ? 'button.retry' : 'button.continue'} />
+                                    localDispatch({ type: currentFailedAccount ? ACTIONS.RESTART_PROCESS_FROM_LAST_FAILED_ACCOUNT : ACTIONS.BEGIN_IMPORT })
+                                } disabled={!currentFailedAccount && !batchKeyRotationNotStarted}>
+                                    <Translate id={'button.continue'} />
                                 </StyledButton>
                             </ButtonsContainer>
                         </>

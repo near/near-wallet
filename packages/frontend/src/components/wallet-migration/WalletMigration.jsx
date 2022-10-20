@@ -86,7 +86,7 @@ const WalletMigration = ({ open, onClose }) => {
 
     useEffect(() => {
         if (open) {
-            handleSetActiveView(WALLET_MIGRATION_VIEWS.DISABLE_2FA);
+            handleSetActiveView(WALLET_MIGRATION_VIEWS.ROTATE_KEYS);
         } else {
             handleSetActiveView(null);
         }

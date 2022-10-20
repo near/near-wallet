@@ -22,7 +22,10 @@ export const ACTIONS = {
     REMOVE_ACCOUNTS: 'REMOVE_ACCOUNTS',
     ADD_ACCOUNTS: 'ADD_ACCOUNTS',
     SET_CURRENT_FAILED_AND_END_PROCESS: 'SET_CURRENT_FAILED_AND_END_PROCESS',
-    RESTART_PROCESS: 'RESTART_PROCESS'
+    RESTART_PROCESS_FROM_ACCOUNT: 'RESTART_PROCESS_FROM_ACCOUNT',
+    RESTART_PROCESS: 'RESTART_PROCESS',
+    END_PROCESS: 'END_PROCESS',
+    SET_ACCOUNT_DONE: 'SET_ACCOUNT_DONE'
 };
 
 /**
@@ -79,6 +82,21 @@ const sequentialAccountImportReducer = (state = initialState, action) => {
             }
             return;
         }
+        case ACTIONS.RESTART_PROCESS_FROM_LAST_FAILED_ACCOUNT: {
+            let lastFailedIdx;
+            state.accounts.forEach(
+                (account, idx) => {
+                    if (account.status === IMPORT_STATUS.FAILED) {
+                        lastFailedIdx = idx;
+                    }
+                }
+            );
+            console.log('LAST INDEX IS !!', lastFailedIdx);
+            if (state.accounts[lastFailedIdx + 1]) {
+                state.accounts[lastFailedIdx + 1].status = IMPORT_STATUS.PENDING;
+            }
+            return;
+        }
         case ACTIONS.SET_CURRENT_FAILED: {
             const currentIndex = state.accounts.findIndex(
                 (account) => account.status === IMPORT_STATUS.PENDING
@@ -96,6 +114,17 @@ const sequentialAccountImportReducer = (state = initialState, action) => {
             state.accounts[currentIndex].status = IMPORT_STATUS.FAILED;
             return;
         };
+        case ACTIONS.SET_ACCOUNT_DONE: {
+            const accountIdIdx = state.accounts.findIndex((account) => account.accountId == action.accountId);
+
+            if (accountIdIdx) {
+                state.accounts[accountIdIdx].status = IMPORT_STATUS.SUCCESS;
+            }
+            if (state.accounts[accountIdIdx + 1]) {
+                state.accounts[accountIdIdx + 1].status = IMPORT_STATUS.PENDING;
+            }
+            return;
+        }
         case ACTIONS.RESTART_PROCESS: {
             const [firstAccount, ...remainingAccounts] = state.accounts;
 
