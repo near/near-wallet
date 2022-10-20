@@ -43,8 +43,8 @@ const SetupLedgerSuccess = (props) => {
                 <Translate id='setupLedgerSuccess.one'/><br/>
                 <div className='color-red' style={{ marginTop: '10px' }}><Translate id='setupLedgerSuccess.two'/></div>
             </h2>
-            <FormButton 
-                sending={removingkeys} 
+            <FormButton
+                sending={removingkeys}
                 onClick={() => setNextStep('remove')}
                 className='remove-all-keys'
             >
@@ -52,8 +52,8 @@ const SetupLedgerSuccess = (props) => {
             </FormButton>
             <button className='link' onClick={() => setNextStep('keep')}><Translate id='setupLedgerSuccess.secondaryCta'/></button>
             {nextStep && (
-                <NextStepModal 
-                    nextStep={nextStep} 
+                <NextStepModal
+                    nextStep={nextStep}
                     onClose={() => setNextStep('')}
                     onConfirm={handleConfirm}
                     removingkeys={removingkeys}
@@ -72,4 +72,9 @@ const mapStateToProps = (state) => ({
     ...selectAccountSlice(state)
 });
 
-export const SetupLedgerSuccessWithRouter = connect(mapStateToProps, mapDispatchToProps)(SetupLedgerSuccess);
+const SetupLedgerSuccessWithRouter = connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(SetupLedgerSuccess);
+
+export default SetupLedgerSuccessWithRouter;

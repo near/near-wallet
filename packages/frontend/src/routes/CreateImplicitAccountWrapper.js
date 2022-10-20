@@ -26,7 +26,7 @@ const { checkAndHideLedgerModal } = ledgerActions;
 // won't be enough to create a named account.
 const NAMED_ACCOUNT_MIN = utils.format.parseNearAmount('0.17');
 
-export function CreateImplicitAccountWrapper() {
+const CreateImplicitAccountWrapper = () => {
     const dispatch = useDispatch();
 
     const accountId = useSelector(selectAccountId);
@@ -120,4 +120,6 @@ export function CreateImplicitAccountWrapper() {
             moonpaySignedUrl={moonpaySignedUrl}
         />
     );
-}
+};
+
+export default CreateImplicitAccountWrapper;

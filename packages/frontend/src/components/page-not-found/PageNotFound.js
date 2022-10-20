@@ -44,7 +44,7 @@ const StyledContainer = styled(Container)`
   }
 `;
 
-export function PageNotFound() {
+const PageNotFound = () => {
     return (
         <StyledContainer>
             <h1 className="title">
@@ -58,4 +58,7 @@ export function PageNotFound() {
             </FormButton>
         </StyledContainer>
     );
-}
+};
+
+export default PageNotFound;
+

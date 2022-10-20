@@ -4,12 +4,18 @@ import { Translate } from 'react-localize-redux';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 
-
 import { Mixpanel } from '../../../mixpanel/index';
 import * as accountActions from '../../../redux/actions/account';
 import { selectAccountId, selectAccountSlice } from '../../../redux/slices/account';
-import { actions as recoveryMethodsActions, selectRecoveryMethodsByAccountId, selectRecoveryMethodsLoading } from '../../../redux/slices/recoveryMethods';
-import { selectActionsPending, selectStatusMainLoader } from '../../../redux/slices/status';
+import {
+    actions as recoveryMethodsActions,
+    selectRecoveryMethodsByAccountId,
+    selectRecoveryMethodsLoading
+} from '../../../redux/slices/recoveryMethods';
+import {
+    selectActionsPending,
+    selectStatusMainLoader
+} from '../../../redux/slices/status';
 import FormButton from '../../common/FormButton';
 import Container from '../../common/styled/Container.css';
 import RecoveryOption from './RecoveryOption';
@@ -178,4 +184,9 @@ const mapStateToProps = (state, { match }) => {
     };
 };
 
-export const SetupRecoveryMethodWithRouter = connect(mapStateToProps, mapDispatchToProps())(SetupRecoveryMethod);
+const SetupRecoveryMethodWithRouter = connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(SetupRecoveryMethod);
+
+export default SetupRecoveryMethodWithRouter;

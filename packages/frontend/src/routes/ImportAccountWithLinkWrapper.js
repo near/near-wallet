@@ -22,7 +22,7 @@ import { getImplicitAccountIdFromSeedPhrase } from '../utils/parseSeedPhrase';
 
 const { setZeroBalanceAccountImportMethod } = importZeroBalanceAccountActions;
 
-export function ImportAccountWithLinkWrapper() {
+const ImportAccountWithLinkWrapper = () => {
     const dispatch = useDispatch();
     const { seedPhrase, accountId } = useParams();
     const activeAccountId = useSelector(selectAccountId);
@@ -97,3 +97,5 @@ export function ImportAccountWithLinkWrapper() {
         </>
     );
 };
+
+export default ImportAccountWithLinkWrapper;

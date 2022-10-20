@@ -177,7 +177,6 @@
     },
     "amount": "数量",
     "arguments": "参数",
-    "available": "可供选择",
     "authorizedApps": {
         "dashboardNoApps": "你还未授权任何应用",
         "feeAllowance": "费用配额",
@@ -185,6 +184,7 @@
         "pageTitle": "已授权应用",
         "publicKey": "公钥"
     },
+    "available": "可供选择",
     "availableBalanceInfo": "你可以使用的 NEAR 余额，不包括锁定或质押的资金。<a href='/profile'>查看资产组合详情 →</a>",
     "availableBalanceProfile": "「可用余额」是指你当前账号内可消耗 NEAR 通证，可用余额少于你的总共余额。",
     "back": "返回",
@@ -438,12 +438,6 @@
                 "desc": "你的助记词已验证。一旦你向新账户充值，你的助记词将在 <b>${numberOfAccounts} 个账户</b>间共享。",
                 "descTwo": "一旦当你使用该助记词恢复账户，以下账户也将会被恢复：",
                 "tite": "你的共享助记词"
-            },
-            "verifyPassphrase": {
-                "desc": "请输入已有的助记词来绑定新的账户。",
-                "passPhrasePlaceholder": "bubble word sun join impact exist ramp skull title hollow symbol very",
-                "tite": "验证助记词",
-                "yourPassphrase": "你的助记词"
             }
         },
         "step": "步骤 ${step}/${total}",
@@ -1578,25 +1572,25 @@
     "stakingPoolUnstaked": "这部分 NEAR 目前在质押池中，但未赎回。可能仍在请求释放的阶段。",
     "success": "成功",
     "swap": {
+        "available": "可用的: ${amount} ${symbol}",
         "confirm": "确认并兑换",
         "details": "交易细节",
+        "error": "交换错误",
+        "errorToFetchData": "加载数据以进行交换时出错",
         "fee": "估计费用",
         "from": "来自",
         "max": "最多：${amount} ${symbol}",
         "minReceived": "收到的最低数额",
+        "noPoolAvailable": "没有可用于交换的池 ${tokenIn} -> ${tokenOut}",
         "price": "价格",
         "priceImpact": "兑换率影响",
         "review": "确认兑换",
         "reviewInfo": "你将兑换",
         "slippage": "滑动公差",
+        "success": "成功交换",
         "successTitle": "交易完成！</br>你兑换了 <span class='color-blue space'>${amountFrom}</span></br>至 <span class='color-green'>${amountTo}</span>",
         "title": "兑换",
         "to": "至",
-        "success": "成功交换",
-        "available": "可用的: ${amount} ${symbol}",
-        "error": "交换错误",
-        "errorToFetchData": "加载数据以进行交换时出错",
-        "noPoolAvailable": "没有可用于交换的池 ${tokenIn} -> ${tokenOut}",
         "translateIdInfoTooltip": {
             "fee": "处理此笔交易的预估费用。",
             "minimumReceived": "从此笔交易中你将最少收到的数额。",

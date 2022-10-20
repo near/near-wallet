@@ -28,15 +28,15 @@ import { handleClearAlert } from '../redux/reducers/status';
 import { selectAccountSlice } from '../redux/slices/account';
 import { actions as flowLimitationActions } from '../redux/slices/flowLimitation';
 import { actions as tokenFiatValueActions } from '../redux/slices/tokenFiatValues';
-import { CreateImplicitAccountWrapper } from '../routes/CreateImplicitAccountWrapper';
-import { ImportAccountWithLinkWrapper } from '../routes/ImportAccountWithLinkWrapper';
-import { LoginWrapper } from '../routes/LoginWrapper';
-import { SetupLedgerNewAccountWrapper } from '../routes/SetupLedgerNewAccountWrapper';
-import { SetupPassphraseNewAccountWrapper } from '../routes/SetupPassphraseNewAccountWrapper';
-import { SetupRecoveryImplicitAccountWrapper } from '../routes/SetupRecoveryImplicitAccountWrapper';
-import { SignWrapper } from '../routes/SignWrapper';
-import { VerifyOwnerWrapper } from '../routes/VerifyOwnerWrapper';
-import { WalletWrapper } from '../routes/WalletWrapper';
+import CreateImplicitAccountWrapper from '../routes/CreateImplicitAccountWrapper';
+import ImportAccountWithLinkWrapper from '../routes/ImportAccountWithLinkWrapper';
+import LoginWrapper from '../routes/LoginWrapper';
+import SetupLedgerNewAccountWrapper from '../routes/SetupLedgerNewAccountWrapper';
+import SetupPassphraseNewAccountWrapper from '../routes/SetupPassphraseNewAccountWrapper';
+import SetupRecoveryImplicitAccountWrapper from '../routes/SetupRecoveryImplicitAccountWrapper';
+import SignWrapper from '../routes/SignWrapper';
+import VerifyOwnerWrapper from '../routes/VerifyOwnerWrapper';
+import WalletWrapper from '../routes/WalletWrapper';
 import translations_en from '../translations/en.global.json';
 import translations_it from '../translations/it.global.json';
 import translations_pt from '../translations/pt.global.json';
@@ -57,25 +57,25 @@ import {
     WALLET_SEND_MONEY_URL,
 } from '../utils/wallet';
 import AccessKeysWrapper from './access-keys/v2/AccessKeysWrapper';
-import { AutoImportWrapper } from './accounts/auto_import/AutoImportWrapper';
+import AutoImportWrapper from './accounts/auto_import/AutoImportWrapper';
 import BatchImportAccounts from './accounts/batch_import_accounts';
 import BatchLedgerExport from './accounts/batch_ledger_export';
-import { ExistingAccountWrapper } from './accounts/create/existing_account/ExistingAccountWrapper';
-import { InitialDepositWrapper } from './accounts/create/initial_deposit/InitialDepositWrapper';
-import { CreateAccountLanding } from './accounts/create/landing/CreateAccountLanding';
-import { VerifyAccountWrapper } from './accounts/create/verify_account/VerifyAccountWrapper';
-import { CreateAccountWithRouter } from './accounts/CreateAccount';
+import ExistingAccountWrapper from './accounts/create/existing_account/ExistingAccountWrapper';
+import InitialDepositWrapper from './accounts/create/initial_deposit/InitialDepositWrapper';
+import CreateAccountLanding from './accounts/create/landing/CreateAccountLanding';
+import VerifyAccountWrapper from './accounts/create/verify_account/VerifyAccountWrapper';
+import CreateAccountWithRouter from './accounts/CreateAccount';
 import LedgerConfirmActionModal from './accounts/ledger/LedgerConfirmActionModal';
 import LedgerConnectModal from './accounts/ledger/LedgerConnectModal/LedgerConnectModalWrapper';
-import { SetupLedgerWithRouter } from './accounts/ledger/SetupLedger';
-import { SetupLedgerSuccessWithRouter } from './accounts/ledger/SetupLedgerSuccess';
-import { SignInLedgerWrapper } from './accounts/ledger/SignInLedgerWrapper';
-import { LinkdropLandingWithRouter } from './accounts/LinkdropLanding';
-import { RecoverAccountSeedPhraseWithRouter } from './accounts/RecoverAccountSeedPhrase';
-import { RecoverAccountWrapper } from './accounts/RecoverAccountWrapper';
-import { SetupRecoveryMethodWithRouter } from './accounts/recovery_setup/SetupRecoveryMethod';
-import { SetupImplicitWithRouter } from './accounts/SetupImplicit';
-import { SetupSeedPhraseWithRouter } from './accounts/SetupSeedPhrase';
+import SetupLedgerWithRouter from './accounts/ledger/SetupLedger';
+import SetupLedgerSuccessWithRouter from './accounts/ledger/SetupLedgerSuccess';
+import SignInLedgerWrapper from './accounts/ledger/SignInLedgerWrapper';
+import LinkdropLandingWithRouter from './accounts/LinkdropLanding';
+import RecoverAccountSeedPhraseWithRouter from './accounts/RecoverAccountSeedPhrase';
+import RecoverAccountWrapper from './accounts/RecoverAccountWrapper';
+import SetupRecoveryMethodWithRouter from './accounts/recovery_setup/SetupRecoveryMethod';
+import SetupImplicitWithRouter from './accounts/SetupImplicit';
+import SetupSeedPhraseWithRouter from './accounts/SetupSeedPhrase';
 import { EnableTwoFactor } from './accounts/two_factor/EnableTwoFactor';
 import { BuyNear } from './buy/BuyNear';
 import Bootstrap from './common/Bootstrap';
@@ -91,15 +91,15 @@ import TwoFactorDisableBanner from './common/TwoFactorDisableBanner';
 import Updater from './common/Updater';
 import { ExploreContainer } from './explore/ExploreContainer';
 import GlobalStyle from './GlobalStyle';
-import { LoginCliLoginSuccess } from './login/LoginCliLoginSuccess';
+import LoginCliLoginSuccess from './login/LoginCliLoginSuccess';
 import NavigationWrapper from './navigation/NavigationWrapper';
-import { NFTDetailWrapper } from './nft/NFTDetailWrapper';
-import { PageNotFound } from './page-not-found/PageNotFound';
+import NFTDetailWrapper from './nft/NFTDetailWrapper';
+import PageNotFound from './page-not-found/PageNotFound';
 import Privacy from './privacy/Privacy';
-import { Profile } from './profile/Profile';
-import { ReceiveContainerWrapper } from './receive-money/ReceiveContainerWrapper';
-import { SendContainerWrapper } from './send/SendContainerWrapper';
-import { StakingContainer } from './staking/StakingContainer';
+import Profile from './profile/Profile';
+import ReceiveContainerWrapper from './receive-money/ReceiveContainerWrapper';
+import SendContainerWrapper from './send/SendContainerWrapper';
+import StakingContainer from './staking/StakingContainer';
 import Terms from './terms/Terms';
 import '../index.css';
 import WalletMigration from './wallet-migration/WalletMigration';
@@ -274,7 +274,6 @@ class Routing extends Component {
     }
 
     handleTransferClick = () => {
-
         this.setState({ openTransferPopup: true });
     }
 

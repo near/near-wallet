@@ -155,7 +155,7 @@ class SetupSeedPhrase extends Component {
                 debugLog('failed to create account!', err);
 
                 this.setState({ submitting: false });
-                
+
                 if (isRetryableRecaptchaError(err)) {
                     Mixpanel.track('Funded account creation failed due to invalid / expired reCaptcha response from user');
                     this.recaptchaRef.reset();
@@ -301,7 +301,7 @@ const mapDispatchToProps = {
 
 const mapStateToProps = (state, { match }) => {
     const { accountId } = match.params;
-    
+
     return {
         ...selectAccountSlice(state),
         accountId,
@@ -311,4 +311,9 @@ const mapStateToProps = (state, { match }) => {
     };
 };
 
-export const SetupSeedPhraseWithRouter = connect(mapStateToProps, mapDispatchToProps)(withRouter(SetupSeedPhrase));
+const SetupSeedPhraseWithRouter = connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(withRouter(SetupSeedPhrase));
+
+export default SetupSeedPhraseWithRouter;

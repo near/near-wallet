@@ -24,7 +24,7 @@ const { handleFlowLimitation } = flowLimitationActions;
 
 const { setCreateFromImplicitSuccess } = createFromImplicitActions;
 
-export function InitialDepositWrapper({ history }) {
+const InitialDepositWrapper = ({ history }) => {
     const dispatch = useDispatch();
 
     const [fundingNeeded, setFundingNeeded] = useState(true);
@@ -189,4 +189,6 @@ export function InitialDepositWrapper({ history }) {
             onClickCancel={onClickCancel}
         />
     );
-}
+};
+
+export default InitialDepositWrapper;

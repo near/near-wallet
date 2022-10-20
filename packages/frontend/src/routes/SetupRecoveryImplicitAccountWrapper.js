@@ -11,7 +11,7 @@ import { showCustomAlert } from '../redux/actions/status';
 import { setReleaseNotesClosed } from '../utils/localStorage';
 import { wallet, RELEASE_NOTES_MODAL_VERSION } from '../utils/wallet';
 
-export function SetupRecoveryImplicitAccountWrapper() {
+const SetupRecoveryImplicitAccountWrapper = () => {
     const dispatch = useDispatch();
 
     const [showVerifyEmailCode, setShowVerifyEmailCode] = useState(false);
@@ -107,4 +107,7 @@ export function SetupRecoveryImplicitAccountWrapper() {
             verifyingCode={verifyingEmailCode}
         />
     );
-}
+};
+
+export default SetupRecoveryImplicitAccountWrapper;
+

@@ -18,8 +18,7 @@ export const LOGIN_ACCESS_TYPES = {
     LIMITED_ACCESS: 'limitedAccess'
 };
 
-export function LoginWrapper() {
-
+const LoginWrapper = () => {
     const [confirmLogin, setConfirmLogin] = useState(false);
 
     const location = useSelector(getLocation);
@@ -81,4 +80,6 @@ export function LoginWrapper() {
             }}
         />
     );
-}
+};
+
+export default LoginWrapper;

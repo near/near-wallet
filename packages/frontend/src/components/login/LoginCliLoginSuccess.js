@@ -5,7 +5,6 @@ import styled from 'styled-components';
 import IconCheckImage from '../../images/icon-check.svg';
 import Image from '../common/image';
 
-
 const LoginCliLoginSuccessWrapper = styled('section')`
     width: 100%;
     padding: 32px;
@@ -23,7 +22,6 @@ const LoginCliLoginSuccessWrapper = styled('section')`
     .title{
         margin-top: 16px;
     }
-
 `;
 
 
@@ -33,7 +31,7 @@ const CustomImage = styled(Image)`
     margin: 0 auto;
 `;
 
-export const LoginCliLoginSuccess = () => (
+const LoginCliLoginSuccess = () => (
     <LoginCliLoginSuccessWrapper>
         <CustomImage src={IconCheckImage} />
         <h2 className='title'>
@@ -44,3 +42,5 @@ export const LoginCliLoginSuccess = () => (
         </p>
     </LoginCliLoginSuccessWrapper>
 );
+
+export default LoginCliLoginSuccess;

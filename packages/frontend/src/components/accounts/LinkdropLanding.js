@@ -194,7 +194,9 @@ const mapStateToProps = (state, { match }) => ({
     claimingDrop: selectActionsPending(state, { types: ['CLAIM_LINKDROP_TO_ACCOUNT'] })
 });
 
-export const LinkdropLandingWithRouter = connect(
+const LinkdropLandingWithRouter = connect(
     mapStateToProps,
     mapDispatchToProps
 )(LinkdropLanding);
+
+export default LinkdropLandingWithRouter;

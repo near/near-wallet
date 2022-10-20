@@ -14,7 +14,7 @@ const {
     checkAndHideLedgerModal
 } = ledgerActions;
 
-export function SetupLedgerNewAccountWrapper() {
+const SetupLedgerNewAccountWrapper = () => {
     const dispatch = useDispatch();
     return (
         <SetupLedgerNewAccount
@@ -56,3 +56,5 @@ export function SetupLedgerNewAccountWrapper() {
         />
     );
 };
+
+export default SetupLedgerNewAccountWrapper;

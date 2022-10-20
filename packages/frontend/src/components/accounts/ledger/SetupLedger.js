@@ -234,4 +234,6 @@ const mapStateToProps = (state, { match }) => ({
     mainLoader: selectStatusMainLoader(state)
 });
 
-export const SetupLedgerWithRouter = connect(mapStateToProps)(SetupLedger);
+const SetupLedgerWithRouter = connect(mapStateToProps)(SetupLedger);
+
+export default SetupLedgerWithRouter;

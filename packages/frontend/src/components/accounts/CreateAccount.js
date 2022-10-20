@@ -332,7 +332,9 @@ const mapStateToProps = (state, { match }) => ({
     activeAccountIdIsImplicit: selectActiveAccountIdIsImplicitAccount(state)
 });
 
-export const CreateAccountWithRouter = connect(
+const CreateAccountWithRouter = connect(
     mapStateToProps,
     mapDispatchToProps
 )(CreateAccount);
+
+export default CreateAccountWithRouter;

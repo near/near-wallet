@@ -24,7 +24,7 @@ const {
     checkAndHideLedgerModal
 } = ledgerActions;
 
-export function ExistingAccountWrapper({ history }) {
+const ExistingAccountWrapper = ({ history }) => {
     const dispatch = useDispatch();
 
     const [fundingAccountId, setFundingAccountId] = useState('');
@@ -101,4 +101,6 @@ export function ExistingAccountWrapper({ history }) {
             hasAllRequiredParams={hasAllRequiredParams}
         />
     );
-}
+};
+
+export default ExistingAccountWrapper;

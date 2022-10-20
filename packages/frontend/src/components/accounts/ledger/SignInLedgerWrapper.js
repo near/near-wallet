@@ -30,7 +30,7 @@ export const VIEWS = {
     SUCCESS: 'success'
 };
 
-export function SignInLedgerWrapper(props) {
+const SignInLedgerWrapper = (props) => {
     const dispatch = useDispatch();
     const [confirmedPath, setConfirmedPath] = useState(1);
     const ledgerHdPath = `${LEDGER_HD_PATH_PREFIX}${confirmedPath}'`;
@@ -122,4 +122,6 @@ export function SignInLedgerWrapper(props) {
             </Container>
         </>
     );
-}
+};
+
+export default SignInLedgerWrapper;

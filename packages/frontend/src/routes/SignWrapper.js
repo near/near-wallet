@@ -30,7 +30,7 @@ import {
 import { addQueryParams } from '../utils/addQueryParams';
 import { isUrlNotJavascriptProtocol } from '../utils/helper-api';
 
-export function SignWrapper({ urlQuery }) {
+const SignWrapper = ({ urlQuery }) => {
     const dispatch = useDispatch();
 
     const DISPLAY = {
@@ -94,7 +94,7 @@ export function SignWrapper({ urlQuery }) {
         if (signStatus === SIGN_STATUS.RETRY_TRANSACTION) {
             setCurrentDisplay(DISPLAY.INSUFFICIENT_NETWORK_FEE);
         }
-        
+
         if (signStatus === SIGN_STATUS.SUCCESS) {
             if (signCallbackUrl && !!transactionHashes.length && isValidCallbackUrl) {
                 window.location.href = addQueryParams(signCallbackUrl, {
@@ -144,7 +144,7 @@ export function SignWrapper({ urlQuery }) {
             window.location.href= encounter;
             return;
         }
-        
+
         Mixpanel.track('SIGN Deny the transaction');
         if (signCallbackUrl && isValidCallbackUrl) {
             if (signStatus !== SIGN_STATUS.ERROR) {
@@ -228,4 +228,6 @@ export function SignWrapper({ urlQuery }) {
             privateShardId={customRPCUrl && privateShardId}
         />
     );
-}
+};
+
+export default SignWrapper;

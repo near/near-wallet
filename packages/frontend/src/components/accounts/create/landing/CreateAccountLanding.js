@@ -52,7 +52,7 @@ const StyledContainer = styled(Container)`
     }
 `;
 
-export function CreateAccountLanding() {
+const CreateAccountLanding = () => {
     return (
         <StyledContainer className='small-centered border'>
             <h1><Translate id='createAccount.landing.title' /></h1>
@@ -84,4 +84,6 @@ export function CreateAccountLanding() {
             </div>
         </StyledContainer>
     );
-}
+};
+
+export default CreateAccountLanding;

@@ -177,7 +177,6 @@
     },
     "amount": "amount",
     "arguments": "Arguments",
-    "available": "Available",
     "authorizedApps": {
         "dashboardNoApps": "You have not authorized any apps",
         "feeAllowance": "Fee Allowance",
@@ -185,6 +184,7 @@
         "pageTitle": "Authorized Apps",
         "publicKey": "Public Key"
     },
+    "available": "Available",
     "availableBalanceInfo": "Your spendable NEAR balance excluding funds locked or staked. <a href='/profile'>View Balance Breakdown →</a>",
     "availableBalanceProfile": "This is your spendable NEAR balance, and can be used or transferred immediately.",
     "back": "Back",
@@ -444,12 +444,6 @@
                 "desc": "Your passphrase has been verified! Once you’ve funded your new address, your passphrase will be shared by <b>${numberOfAccounts} accounts.</b>",
                 "descTwo": "Whenever this passphrase is used to recover your wallet, the following accounts will be imported:",
                 "tite": "Your Shared Passphrase"
-            },
-            "verifyPassphrase": {
-                "desc": "Enter an existing passphrase below to secure your new account.",
-                "passPhrasePlaceholder": "bubble word sun join impact exist ramp skull title hollow symbol very",
-                "tite": "Verify Your Passphrase",
-                "yourPassphrase": "Your Passphrase"
             }
         },
         "step": "Step ${step}/${total}",
@@ -1607,33 +1601,33 @@
     "stakingPoolUnstaked": "This NEAR is currently in a staking pool but unstaked. It could for example be in a pending release state.",
     "success": "Success",
     "swap": {
+        "available": "Available: ${amount} ${symbol}",
         "confirm": "Confirm & Swap",
         "details": "Transaction details",
+        "error": "Swap error",
+        "errorToFetchData": "Error loading data for exchange",
         "fee": "Estimated fees",
-        "swapFee": "Swap fee",
         "from": "From",
         "max": "Max: ${amount} ${symbol}",
-        "available": "Available: ${amount} ${symbol}",
         "minReceived": "Minimum received",
+        "noPoolAvailable": "No pool available to make a swap from ${tokenIn} -> ${tokenOut}",
+        "poolsError": "An error occurred in token pools. Try to reload this page.",
         "price": "Price",
         "priceImpact": "Price impact",
         "review": "Review Swap",
         "reviewInfo": "You are swapping",
         "slippage": "Slippage tolerance",
-        "successTitle": "Swap complete!</br>You swapped <span class='color-blue space'>${amountFrom}</span></br>to <span class='color-green'>${amountTo}</span>",
         "success": "Successful swap",
+        "successTitle": "Swap complete!</br>You swapped <span class='color-blue space'>${amountFrom}</span></br>to <span class='color-green'>${amountTo}</span>",
+        "swapFee": "Swap fee",
         "title": "Swap",
         "to": "To",
-        "error": "Swap error",
-        "errorToFetchData": "Error loading data for exchange",
-        "noPoolAvailable": "No pool available to make a swap from ${tokenIn} -> ${tokenOut}",
-        "poolsError": "An error occurred in token pools. Try to reload this page.",
         "translateIdInfoTooltip": {
             "fee": "The estimated cost of processing your transaction.",
-            "swapFee": "Fee for liquidity providers taken on the amount paid in.",
             "minimumReceived": "The minimum amount you will receive from the trade.",
             "priceImpact": "The difference between the market price and estimated price due to trade size.",
-            "slippage": "The percentage the price may increase before the transaction fails."
+            "slippage": "The percentage the price may increase before the transaction fails.",
+            "swapFee": "Fee for liquidity providers taken on the amount paid in."
         }
     },
     "swapping": "Swapping",

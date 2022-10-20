@@ -4,10 +4,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import VerifyOwnerInvalid from '../components/verify-owner/VerifyOwnerInvalid';
 import VerifyOwnerSummaryWrapper from '../components/verify-owner/VerifyOwnerSummaryWrapper';
 import { redirectTo } from '../redux/actions/account';
-import { 
+import {
     selectAccountUrlCallbackUrl,
     selectAccountUrlMessage,
-    selectAccountUrlMeta 
+    selectAccountUrlMeta
 } from '../redux/slices/account';
 import {
     handleAuthorizationRequestConfirmed,
@@ -30,7 +30,7 @@ const buildRedirectUrl = (accountUrlCallbackUrl, meta, signedRequest, error) => 
     });
 };
 
-export function VerifyOwnerWrapper() {
+const VerifyOwnerWrapper = () => {
     const dispatch = useDispatch();
     const accountUrlCallbackUrl = useSelector(selectAccountUrlCallbackUrl);
     const accountUrlMeta = useSelector(selectAccountUrlMeta);
@@ -72,4 +72,6 @@ export function VerifyOwnerWrapper() {
             isValidCallbackUrl={isValidCallbackUrl}
         />
     );
-}
+};
+
+export default VerifyOwnerWrapper;

@@ -177,7 +177,6 @@
     },
     "amount": "數量",
     "arguments": "參數",
-    "available": "可供选择",
     "authorizedApps": {
         "dashboardNoApps": "你還未授權任何應用",
         "feeAllowance": "費用配額",
@@ -185,6 +184,7 @@
         "pageTitle": "已授權應用",
         "publicKey": "公鑰"
     },
+    "available": "可供选择",
     "availableBalanceInfo": "你可以使用的 NEAR 餘額，不包括鎖定或質押的資金。<a href='/profile'>查看資產組合詳情 →</a>",
     "availableBalanceProfile": "「可用餘額」是指你當前賬號內可消耗 NEAR 通證，可用餘額少於你的總共餘額。",
     "back": "返回",
@@ -438,12 +438,6 @@
                 "desc": "你的助記詞已驗證。一旦你向新賬戶充值，你的助記詞將在 <b>${numberOfAccounts} 個賬戶</b>間共享。",
                 "descTwo": "一旦當你使用該助記詞恢復賬戶，以下賬戶也將會被恢復：",
                 "tite": "你的共享助記詞"
-            },
-            "verifyPassphrase": {
-                "desc": "請輸入已有的助記詞來綁定新的賬戶。",
-                "passPhrasePlaceholder": "bubble word sun join impact exist ramp skull title hollow symbol very",
-                "tite": "驗證助記詞",
-                "yourPassphrase": "你的助記詞"
             }
         },
         "step": "步驟 ${step}/${total}",
@@ -1578,25 +1572,25 @@
     "stakingPoolUnstaked": "這部分 NEAR 目前在質押池中，但未贖回。可能仍在請求釋放的階段。",
     "success": "成功",
     "swap": {
+        "available": "可用: ${amount} ${symbol}",
         "confirm": "確認並兌換",
         "details": "交易細節",
+        "error": "交换错误",
+        "errorToFetchData": "错误加载数据交换",
         "fee": "估計費用",
         "from": "來自",
         "max": "最多：${amount} ${symbol}",
         "minReceived": "收到的最低數額",
+        "noPoolAvailable": "没有池可用于从${tokenIn} -> ${tokenOut}进行交换",
         "price": "價格",
         "priceImpact": "兌換率影響",
         "review": "確認兌換",
         "reviewInfo": "你將兌換",
         "slippage": "滑动公差",
+        "success": "成功交换",
         "successTitle": "交易完成！</br>你兌換了 <span class='color-blue space'>${amountFrom}</span></br>至 <span class='color-green'>${amountTo}</span>",
         "title": "兌換",
         "to": "至",
-        "success": "成功交换",
-        "available": "可用: ${amount} ${symbol}",
-        "error": "交换错误",
-        "errorToFetchData": "错误加载数据交换",
-        "noPoolAvailable": "没有池可用于从${tokenIn} -> ${tokenOut}进行交换",
         "translateIdInfoTooltip": {
             "fee": "處理此筆交易的預估費用。",
             "minimumReceived": "從此筆交易中你將最少收到的數額。",

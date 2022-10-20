@@ -9,10 +9,10 @@ import {
 } from '../../redux/slices/nft';
 import { NFTDetail } from './NFTDetail';
 
-export function NFTDetailWrapper ({
+const NFTDetailWrapper = ({
     match,
     history
-}) {
+}) => {
     const { contractId: contractName, tokenId } = match.params;
     const accountId = useSelector(selectAccountId);
     const { balanceAvailable: nearBalance} = useSelector(selectBalance);
@@ -45,4 +45,7 @@ export function NFTDetailWrapper ({
             history={history}
         />
     );
-}
+};
+
+export default NFTDetailWrapper;
+

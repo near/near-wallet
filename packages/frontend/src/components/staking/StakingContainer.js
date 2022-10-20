@@ -165,8 +165,7 @@ const StyledContainer = styled(Container)`
     }
 `;
 
-
-export function StakingContainer({ history, match }) {
+const StakingContainer = ({ history, match }) => {
     const dispatch = useDispatch();
     const accountId = useSelector(selectAccountId);
     const has2fa = useSelector(selectAccountHas2fa);
@@ -213,7 +212,7 @@ export function StakingContainer({ history, match }) {
         if (!currentAccount.accountId || !validators.length) {
             return;
         }
-        
+
         validators
             .filter((validator) => validator.version === FARMING_VALIDATOR_VERSION)
             .forEach((validator) => dispatch(getValidatorFarmData({ validator, accountId: currentAccount.accountId })));
@@ -354,4 +353,6 @@ export function StakingContainer({ history, match }) {
             </ConnectedRouter>
         </StyledContainer>
     );
-}
+};
+
+export default StakingContainer;

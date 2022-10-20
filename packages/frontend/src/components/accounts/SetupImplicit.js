@@ -80,6 +80,7 @@ const StyledContainer = styled(Container)`
         }
     }
 `;
+
 class SetupImplicit extends Component {
     state = {
         balance: null,
@@ -299,4 +300,9 @@ const mapStateToProps = (state, { match: { params: { accountId, implicitAccountI
     nearTokenFiatValueUSD: selectNearTokenFiatValueUSD(state)
 });
 
-export const SetupImplicitWithRouter = connect(mapStateToProps)(withRouter(SetupImplicit));
+const SetupImplicitWithRouter = connect(
+    mapStateToProps
+)(withRouter(SetupImplicit));
+
+export default SetupImplicitWithRouter;
+

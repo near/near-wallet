@@ -38,7 +38,7 @@ const LoaderWrapper = styled.div`
     }
 `;
 
-export function SendContainerWrapper({ match }) {
+const SendContainerWrapper = ({ match }) => {
     const accountIdFromUrl = match.params.accountId || '';
     const dispatch = useDispatch();
     const accountId = useSelector(selectAccountId);
@@ -144,4 +144,6 @@ export function SendContainerWrapper({ match }) {
         />
     );
 
-}
+};
+
+export default SendContainerWrapper;
