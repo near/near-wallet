@@ -124,6 +124,7 @@ const Container = styled.div`
     min-height: 100vh;
     padding-bottom: 230px;
     padding-top: 75px;
+
     @media (max-width: 991px) {
         .App {
             .main {
@@ -131,6 +132,7 @@ const Container = styled.div`
             }
         }
     }
+
     &.network-banner {
         @media (max-width: 450px) {
             .alert-banner,
@@ -167,7 +169,9 @@ class Routing extends Component {
             { name: 'Українська', code: 'ua' },
         ];
 
-        const browserLanguage = getBrowserLocale(languages.map((l) => l.code));
+        const browserLanguage = getBrowserLocale(
+            languages.map((l) => l.code)
+        );
         const activeLang =
             localStorage.getItem('languageCode') ||
             browserLanguage ||
@@ -347,7 +351,8 @@ class Routing extends Component {
                             !isWhitelabel && (
                                 <Switch>
                                     <Route
-                                        path={['/', '/staking', '/profile']} component={TwoFactorDisableBanner}
+                                        path={['/', '/staking', '/profile']}
+                                        component={TwoFactorDisableBanner}
                                     />
                                 </Switch>
                             )

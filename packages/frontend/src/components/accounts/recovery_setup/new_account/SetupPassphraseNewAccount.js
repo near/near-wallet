@@ -21,7 +21,8 @@ const SetupPassphraseNewAccount =  ({ onConfirmPassphrase }) => {
     const generateAndSetPhrase = useCallback(() => {
         const { seedPhrase, secretKey } = generateSeedPhrase();
         const recoveryKeyPair = KeyPair.fromString(secretKey);
-        const implicitAccountId = Buffer.from(recoveryKeyPair.publicKey.data).toString('hex');
+        const implicitAccountId = Buffer.from(recoveryKeyPair.publicKey.data)
+            .toString('hex');
 
         setPassPhrase(seedPhrase);
         setRecoveryKeyPair(recoveryKeyPair);
@@ -38,6 +39,7 @@ const SetupPassphraseNewAccount =  ({ onConfirmPassphrase }) => {
 
                 return;
             }
+
             await onConfirmPassphrase({ implicitAccountId, recoveryKeyPair });
             Mixpanel.track('SR-SP Verify finish');
         } finally {

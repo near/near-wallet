@@ -27,6 +27,7 @@ const StyledContainer = styled(Container)`
         margin-top: 50px !important;
         width: 100% !important;
     }
+    
     h4 {
         margin-top: 40px;
         font-weight: 600;
@@ -73,6 +74,7 @@ class SetupRecoveryMethod extends Component {
 
     handleNext = async () => {
         const { option } = this.state;
+
         const {
             accountId,
             location,
@@ -92,7 +94,8 @@ class SetupRecoveryMethod extends Component {
         const { recoveryMethods } = this.props;
         let activeMethods = [];
         if (!!recoveryMethods.length) {
-            activeMethods = recoveryMethods.filter((method) => method.confirmed).map((method) => method.kind);
+            activeMethods = recoveryMethods.filter((method) =>
+                method.confirmed).map((method) => method.kind);
         }
 
         return !this.checkNewAccount() && activeMethods.includes(method);
@@ -180,13 +183,15 @@ const mapStateToProps = (state, { match }) => {
         recoveryMethods: selectRecoveryMethodsByAccountId(state, { accountId }),
         mainLoader: selectStatusMainLoader(state),
         recoveryMethodsLoader: selectRecoveryMethodsLoading(state, { accountId }),
-        continueSending: selectActionsPending(state, { types: ['INITIALIZE_RECOVERY_METHOD', 'SETUP_RECOVERY_MESSAGE'] }),
+        continueSending: selectActionsPending(state, {
+            types: ['INITIALIZE_RECOVERY_METHOD', 'SETUP_RECOVERY_MESSAGE']
+        }),
     };
 };
 
 const SetupRecoveryMethodWithRouter = connect(
     mapStateToProps,
-    mapDispatchToProps
+    mapDispatchToProps()
 )(SetupRecoveryMethod);
 
 export default SetupRecoveryMethodWithRouter;
