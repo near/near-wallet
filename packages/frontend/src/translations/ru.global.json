@@ -1258,6 +1258,8 @@
         "max": "Макс: ${amount} ${symbol}",
         "minReceived": "Минимум к получению",
         "price": "Цена",
+        "insufficientBalanceForFee": "Недостаточный баланс для оплаты комиссии за обмен",
+        "insufficientBalanceForAmountAndFee": "Недостаточный баланс для оплаты кол-ва и комиссии за обмен",
         "priceImpact": "Влияние на цену",
         "review": "Проверка обмена",
         "reviewInfo": "Вы обмениваете",

@@ -6,11 +6,12 @@ import AlertTriangleIcon from '../../../components/svg/AlertTriangleIcon';
 import { NOTIFICATION_TYPE } from '../utils/constants';
 
 const NotificationWrapper = styled.p`
-    margin: 0;
+    width: 100%;
+    margin: 0.4rem 0 0;
     padding: 0.75rem;
     display: flex;
     font-size: 1.1rem;
-    border-radius: 0.25rem;
+    border-radius: 0.5rem;
 
     &.warning {
         color: var(--color-warning);
@@ -31,7 +32,8 @@ const IconWrapper = styled.span`
     padding: 0.1rem;
 `;
 
-export default function Notification({ id, data, type }) {
+const Notification = ({ content }) => {
+    const { id, type, data } = content;
     const triangleColor = type === NOTIFICATION_TYPE.error ? 'var(--color-error)' : '';
 
     return (
@@ -44,4 +46,6 @@ export default function Notification({ id, data, type }) {
             </span>
         </NotificationWrapper>
     );
-}
+};
+
+export default Notification;

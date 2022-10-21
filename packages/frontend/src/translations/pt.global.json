@@ -1360,6 +1360,8 @@
         "max": "Maximo: ${amount} ${symbol}",
         "minReceived": "Mínimo recebido",
         "price": "Preco",
+        "insufficientBalanceForFee": "Saldo insuficiente para pagar a taxa de swap",
+        "insufficientBalanceForAmountAndFee": "Saldo insuficiente para pagar o montante da contribuição e a taxa de swap",
         "priceImpact": "Impacto dos preços",
         "review": "Swap De Revisão",
         "reviewInfo": "Você está trocando",

@@ -1294,6 +1294,8 @@
         "max": "Tối đa: ${amount} ${symbol}",
         "minReceived": "Tối thiểu nhận được",
         "price": "Giá",
+        "insufficientBalanceForFee": "Không đủ số dư để trả phí hoán đổi",
+        "insufficientBalanceForAmountAndFee": "Không đủ số dư để thanh toán số tiền đầu vào và phí hoán đổi",
         "priceImpact": "Tác động giá",
         "review": "Xem Xét Trao Đổi",
         "reviewInfo": "Bạn đang trao đổi",

@@ -9,6 +9,7 @@ import { useDispatch } from 'react-redux';
 
 import useIsMounted from '../../../hooks/useIsMounted';
 import { showCustomAlert } from '../../../redux/actions/status';
+import { DEFAULT_SLIPPAGE_PERCENT } from '../utils/constants';
 
 export const VIEW_STATE = {
     inputForm: 'inputForm',
@@ -23,6 +24,8 @@ const initialState = {
     tokenOut: null,
     amountOut: '',
     swapFee: 0,
+    estimatedFee: 0,
+    slippage: DEFAULT_SLIPPAGE_PERCENT,
     priceImpactPercent: '',
     swapPoolId: null,
     isNearTransformation: false,
@@ -38,6 +41,8 @@ const ACTION = {
     SET_AMOUNT_OUT: 'setAmountOut',
     SET_SWAP_POOL_ID: 'setSwapPoolId',
     SET_SWAP_FEE: 'setSwapFee',
+    SET_ESTIMATED_FEE: 'setEstimatedFee',
+    SET_SLIPPAGE: 'setSlippage',
     SET_PRICE_IMPACT_PERCENT: 'setPriceImpactPercent',
     SET_IS_NEAR_TRANSFORMATION: 'setIsNearTransformation',
     SET_SWAP_PENDING: 'setSwapPending',
@@ -62,6 +67,10 @@ function swapReducer(state, action) {
             return { ...state, swapPoolId: payload };
         case ACTION.SET_SWAP_FEE:
             return { ...state, swapFee: payload };
+        case ACTION.SET_ESTIMATED_FEE:
+            return { ...state, estimatedFee: payload };
+        case ACTION.SET_SLIPPAGE:
+            return { ...state, slippage: payload };
         case ACTION.SET_PRICE_IMPACT_PERCENT:
             return { ...state, priceImpactPercent: payload };
         case ACTION.SET_IS_NEAR_TRANSFORMATION:
@@ -132,6 +141,12 @@ export function SwapProvider({ children }) {
             },
             setSwapFee(payload) {
                 dispatchIfMounted(ACTION.SET_SWAP_FEE, payload);
+            },
+            setEstimatedFee(payload) {
+                dispatchIfMounted(ACTION.SET_ESTIMATED_FEE, payload);
+            },
+            setSlippage(payload) {
+                dispatchIfMounted(ACTION.SET_SLIPPAGE, payload);
             },
             setPriceImpactPercent(payload) {
                 dispatchIfMounted(ACTION.SET_PRICE_IMPACT_PERCENT, payload);

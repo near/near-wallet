@@ -5,11 +5,13 @@ import SafeTranslate from '../../../components/SafeTranslate';
 // @todo common component: move to .../common
 import Token from '../../../components/send/components/entry_types/Token';
 import ChevronIcon from '../../../components/svg/ChevronIcon';
-import { isValidAmount, cutDecimalsIfNeeded } from '../../../utils/amounts';
-import { getFormatBalance } from '../../../utils/wrap-unwrap';
+import {
+    isValidAmount,
+    toSignificantDecimals,
+    formatTokenAmount,
+    removeTrailingZeros,
+} from '../../../utils/amounts';
 import { DECIMALS_TO_SAFE } from '../utils/constants';
-
-const emptyObj = {};
 
 const InputWrapper = styled.div`
     padding: 1rem;
@@ -115,15 +117,16 @@ export default memo(function Input({
     loading = false,
     onChange,
     onSelectToken,
-    label,
+    labelId,
     maxBalance = 0,
-    disabled = false,
     tokenSymbol,
     tokenIcon,
     tokenDecimals,
     setIsValidInput,
     inputTestId,
     tokenSelectTestId,
+    disabled,
+    autoFocus,
 }) {
     const handleChange = (event) => {
         event.preventDefault();
@@ -135,40 +138,50 @@ export default memo(function Input({
         }
     };
 
-    const balanceConfig = maxBalance && tokenDecimals ? getFormatBalance(maxBalance, tokenDecimals) : emptyObj;
+    const formattedMaxBalance =
+        maxBalance && typeof tokenDecimals === 'number'
+            ? removeTrailingZeros(formatTokenAmount(maxBalance, tokenDecimals, tokenDecimals))
+            : undefined;
+
     const [isWrongAmount, setIsWrongAmount] = useState(false);
 
     useEffect(() => {
-        const invalid =
-            !disabled &&
-            value &&
-            balanceConfig &&
-            !isValidAmount(value, balanceConfig.fullNum, tokenDecimals);
+        if (!disabled && value && formattedMaxBalance) {
+            const isValid = isValidAmount(value, formattedMaxBalance, tokenDecimals);
 
-        if (setIsValidInput) {
-            setIsValidInput(!invalid);
+            setIsWrongAmount(!isValid);
+
+            if (setIsValidInput) {
+                setIsValidInput(isValid);
+            }
         }
+    }, [disabled, value, formattedMaxBalance, tokenDecimals]);
 
-        setIsWrongAmount(invalid);
-    }, [disabled, value, balanceConfig, tokenDecimals]);
-
-    const setMaxBalance = () => !disabled && onChange(balanceConfig.fullNum);
+    const setMaxBalance = () => {
+        if (!disabled && formattedMaxBalance && value !== formattedMaxBalance) {
+            onChange(formattedMaxBalance);
+        }
+    };
 
     const balanceData = {
-        amount: balanceConfig.numToShow,
+        amount: toSignificantDecimals(formattedMaxBalance),
         symbol: tokenSymbol,
     };
 
     const valueToShow =
         disabled && value
-            ? cutDecimalsIfNeeded(value, DECIMALS_TO_SAFE)
+            ? toSignificantDecimals(value, DECIMALS_TO_SAFE)
             : value;
 
     return (
         <InputWrapper>
             <Header>
-                {label && <Label>{label}</Label>}
-                {balanceConfig.numToShow && (
+                {labelId && (
+                    <Label>
+                        <SafeTranslate id={labelId} />
+                    </Label>
+                )}
+                {formattedMaxBalance && (
                     <Balance onClick={setMaxBalance} className={`${disabled ? 'disabled' : ''}`}>
                         <SafeTranslate
                             id={disabled ? 'swap.available' : 'swap.max'}
@@ -190,10 +203,11 @@ export default memo(function Input({
                     className={`${isWrongAmount ? 'error' : ''}`}
                     inputMode="decimal"
                     min={0}
-                    max={Number(balanceConfig.fullNum) || 0}
+                    max={Number(maxBalance) || 0}
                     value={loading ? '' : valueToShow}
                     onChange={handleChange}
                     placeholder="0"
+                    autoFocus={autoFocus}
                     disabled={disabled}
                     data-test-id={inputTestId}
                 />

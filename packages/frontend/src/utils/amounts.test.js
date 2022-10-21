@@ -29,12 +29,21 @@ describe('amounts', () => {
     });
 
     test('should correctly cut specified amount of decimal places if necessary', () => {
-        expect(amounts.cutDecimalsIfNeeded(1)).toBe('1');
-        expect(amounts.cutDecimalsIfNeeded(1.1)).toBe('1.1');
-        expect(amounts.cutDecimalsIfNeeded(1.1, 3)).toBe('1.1');
-        expect(amounts.cutDecimalsIfNeeded(1.00005, 2)).toBe('1.00005');
-        expect(amounts.cutDecimalsIfNeeded(1.12345, 2)).toBe('1.12');
-        expect(amounts.cutDecimalsIfNeeded(1.0123456789, 4)).toBe('1.0123');
+        expect(amounts.toSignificantDecimals(1)).toBe('1');
+        expect(amounts.toSignificantDecimals(1.100000000000000)).toBe('1.1');
+        expect(amounts.toSignificantDecimals(1.1, 3)).toBe('1.1');
+        expect(amounts.toSignificantDecimals(1.00005, 2)).toBe('1.00005');
+        expect(amounts.toSignificantDecimals(1.12345, 2)).toBe('1.12');
+        expect(amounts.toSignificantDecimals(1.0123456789, 4)).toBe('1.01234');
+        expect(amounts.toSignificantDecimals(0.000050000, 6)).toBe('0.00005');
+        expect(amounts.toSignificantDecimals(0.000050003, 6)).toBe('0.000050003');
+        expect(amounts.toSignificantDecimals(1.1234567, 6)).toBe('1.123456');
+        expect(amounts.toSignificantDecimals(1.001234567, 6)).toBe('1.00123456');
+        expect(amounts.toSignificantDecimals(1.000000123456, 6)).toBe('1.000000123456');
+        expect(amounts.toSignificantDecimals(1.000000123456000, 6)).toBe('1.000000123456');
+        expect(amounts.toSignificantDecimals(1.0000001234, 6)).toBe('1.0000001234');
+        expect(amounts.toSignificantDecimals('1.000000000000000000000000000000000012345678', 4)).toBe('1.00000000000000000000000000000000001234');
+        expect(amounts.toSignificantDecimals('1.000000000000000000000000000000000012345678')).toBe('1.000000000000000000000000000000000012');
     });
 
     test('should correctly get specified percent from the amount', () => {

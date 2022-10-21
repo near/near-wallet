@@ -1,17 +1,24 @@
+import Big from 'big.js';
 import React, { useState, memo, useMemo, useEffect } from 'react';
 import { Translate } from 'react-localize-redux';
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
 import BackArrowButton from '../../../components/common/BackArrowButton';
 import FlipButton from '../../../components/common/FlipButton';
 import FormButton from '../../../components/common/FormButton';
 import SelectToken from '../../../components/send/components/views/SelectToken';
+import { NEAR_ID } from '../../../config';
+import { selectAvailableBalance } from '../../../redux/slices/account';
+import { formatTokenAmount } from '../../../utils/amounts';
+import { NEAR_DECIMALS } from '../../../utils/constants';
 import isMobile from '../../../utils/isMobile';
 import { useSwapData, VIEW_STATE } from '../model/Swap';
-import { DEFAULT_OUTPUT_TOKEN_ID } from '../utils/constants';
+import { DEFAULT_OUTPUT_TOKEN_ID, NOTIFICATION_TYPE } from '../utils/constants';
 import useSwapInfo from '../utils/hooks/useSwapInfo';
 import Input from './Input';
 import Notification from './Notification';
+import SwapDetails from './SwapDetails/SwapDetails';
 
 const mobile = isMobile();
 
@@ -64,14 +71,14 @@ const Footer = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin-top: 1.75rem;
+    margin-top: 0.8rem;
 
     button {
         width: 100%;
     }
 
     .cancel-button-wrapper {
-        margin-top: 1.75rem;
+        margin-top: 1rem;
     }
 `;
 
@@ -81,7 +88,8 @@ const tokenSelectState = {
     selectOut: 2,
 };
 
-export default memo(function SwapForm({ onGoBack, account, tokensConfig  }) {
+const SwapForm = memo(({ onGoBack, account, tokensConfig  }) => {
+    const availableBalance = useSelector(selectAvailableBalance);
     const { tokensIn, listOfTokensIn, tokensOut, listOfTokensOut } = tokensConfig;
     const {
         swapState: {
@@ -91,12 +99,14 @@ export default memo(function SwapForm({ onGoBack, account, tokensConfig  }) {
             isNearTransformation,
             amountOut,
             swapPoolId,
+            estimatedFee,
         },
         events: {
             setViewState,
             setTokenIn,
             setTokenOut,
             setAmountIn,
+            setAmountOut,
         },
     } = useSwapData();
 
@@ -156,15 +166,51 @@ export default memo(function SwapForm({ onGoBack, account, tokensConfig  }) {
         setDisplayTokenSelect(tokenSelectState.noSelect);
     };
 
+    const handleInputAmountChange = (value) => {
+        setAmountIn(value);
+        setAmountOut('');
+    }; 
+
     const {
         swapNotification,
         loading,
     } = useSwapInfo({
         account,
         tokenIn,
-        amountIn: Number(amountIn),
+        amountIn,
         tokenOut,
     });
+
+    const [notification, setNotification] = useState(null);
+
+    useEffect(() => {
+        if (notification) {
+            setNotification(null);
+        };
+
+        if (swapNotification) {
+            setNotification(swapNotification);
+        } else if (estimatedFee && availableBalance) {
+            const formattedBalance = formatTokenAmount(availableBalance, NEAR_DECIMALS, NEAR_DECIMALS);
+
+            // If we have NEAR in the input field check is available balance >= amount + swap fee
+            if (
+                tokenIn?.contractName === NEAR_ID &&
+                amountIn &&
+                Big(estimatedFee).plus(amountIn).gt(formattedBalance)
+            ) {
+                setNotification({
+                    id: 'swap.insufficientBalanceForAmountAndFee',
+                    type: NOTIFICATION_TYPE.warning,
+                });
+            } else if (Big(estimatedFee).gt(formattedBalance)) {
+                setNotification({
+                    id: 'swap.insufficientBalanceForFee',
+                    type: NOTIFICATION_TYPE.warning,
+                });
+            }
+        }
+    }, [tokenIn, amountIn, availableBalance, estimatedFee, swapNotification]);
 
     const flipInputsData = () => {
         setTokenIn(tokenOut);
@@ -177,20 +223,38 @@ export default memo(function SwapForm({ onGoBack, account, tokensConfig  }) {
 
     const [isValidInput, setIsValidInput] = useState(false);
 
-    const cannotSwap = useMemo(() => {
-        if (
-            !tokenIn ||
-            !tokenOut ||
-            (!swapPoolId && !isNearTransformation) ||
-            !amountIn ||
-            !amountOut ||
-            !isValidInput
-        ) {
-            return true;
+    const canSwap = useMemo(() => {
+        const formIsFilled = Boolean(
+            tokenIn &&
+                tokenOut &&
+                (swapPoolId || isNearTransformation) &&
+                amountIn &&
+                amountOut
+        );
+
+        if (formIsFilled && availableBalance) {
+            const formattedBalance = formatTokenAmount(availableBalance, NEAR_DECIMALS, NEAR_DECIMALS);
+            const isInsufficientBalance = Big(estimatedFee)
+                .plus(tokenIn?.contractName === NEAR_ID ? amountIn : 0)
+                .gt(formattedBalance);
+
+            if (isValidInput && !isInsufficientBalance) {
+                return true;
+            }
         }
 
         return false;
-    }, [tokenIn, tokenOut, swapPoolId, amountIn, amountOut, isNearTransformation, isValidInput]);
+    }, [
+        tokenIn,
+        tokenOut,
+        swapPoolId,
+        amountIn,
+        amountOut,
+        isNearTransformation,
+        isValidInput,
+        estimatedFee,
+        availableBalance,
+    ]);
 
     return (
         <SwapFormWrapper>
@@ -212,9 +276,9 @@ export default memo(function SwapForm({ onGoBack, account, tokensConfig  }) {
                     </Header>
                     <Input
                         value={amountIn}
-                        onChange={setAmountIn}
+                        onChange={handleInputAmountChange}
                         onSelectToken={selectTokenIn}
-                        label={<Translate id="swap.from" />}
+                        labelId="swap.from"
                         tokenSymbol={tokenIn?.onChainFTMetadata?.symbol}
                         tokenIcon={tokenIn?.onChainFTMetadata?.icon}
                         tokenDecimals={tokenIn?.onChainFTMetadata?.decimals}
@@ -222,7 +286,7 @@ export default memo(function SwapForm({ onGoBack, account, tokensConfig  }) {
                         setIsValidInput={setIsValidInput}
                         inputTestId="swapPageInputAmountField"
                         tokenSelectTestId="swapPageInputTokenSelector"
-                        disabled={!tokenIn}
+                        autoFocus
                     />
                     <SwapButtonWrapper>
                         <FlipButton onClick={flipInputsData} />
@@ -230,7 +294,7 @@ export default memo(function SwapForm({ onGoBack, account, tokensConfig  }) {
                     <Input
                         value={amountOut}
                         onSelectToken={selectTokenOut}
-                        label={<Translate id="swap.to" />}
+                        labelId="swap.to"
                         tokenSymbol={tokenOut?.onChainFTMetadata?.symbol}
                         tokenIcon={tokenOut?.onChainFTMetadata?.icon}
                         tokenDecimals={tokenOut?.onChainFTMetadata?.decimals}
@@ -241,15 +305,14 @@ export default memo(function SwapForm({ onGoBack, account, tokensConfig  }) {
                         disabled
                     />
                     <Footer>
-                        {swapNotification && (
-                            <Notification
-                                id={swapNotification.id}
-                                type={swapNotification.type}
-                                data={swapNotification.data}
-                            />
+                        <SwapDetails />
+
+                        {notification && (
+                            <Notification content={notification} />
                         )}
+
                         <FormButton
-                            disabled={cannotSwap}
+                            disabled={!canSwap}
                             onClick={onClickReview}
                             trackingId="Click Preview swap on Swap page"
                             data-test-id="swapPageSwapPreviewStateButton"
@@ -267,3 +330,5 @@ export default memo(function SwapForm({ onGoBack, account, tokensConfig  }) {
         </SwapFormWrapper>
     );
 });
+
+export default SwapForm;

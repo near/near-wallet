@@ -1326,6 +1326,8 @@
         "max": "Maks: ${amount} ${symbol}",
         "minReceived": "Minimum alınan",
         "price": "Fiyat",
+        "insufficientBalanceForFee": "Takas ücretini ödemek için yetersiz bakiye",
+        "insufficientBalanceForAmountAndFee": "Girdi tutarını ve takas ücretini ödemek için yetersiz bakiye",
         "priceImpact": "Fiyat Etkisi",
         "review": "Takası Gözden Geçir",
         "reviewInfo": "Değiş tokuş ediyorsun.",

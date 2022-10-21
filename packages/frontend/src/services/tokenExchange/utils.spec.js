@@ -52,6 +52,28 @@ describe('Ref Finance utils', () => {
                 pool: pool0,
                 tokenInId: token0.id,
                 tokenInDecimals: token0.decimals,
+                amountIn: 1,
+                tokenOutId: token1.id,
+                tokenOutDecimals: token1.decimals,
+            })
+        ).toBe('1994.009978041914400000');
+
+        expect(
+            utils.getAmountOut({
+                pool: pool0,
+                tokenInId: token0.id,
+                tokenInDecimals: token0.decimals,
+                amountIn: 180,
+                tokenOutId: token1.id,
+                tokenOutDecimals: token1.decimals,
+            })
+        ).toBe('304567.495168017400000000');
+
+        expect(
+            utils.getAmountOut({
+                pool: pool0,
+                tokenInId: token0.id,
+                tokenInDecimals: token0.decimals,
                 amountIn: 10,
                 tokenOutId: token1.id,
                 tokenOutDecimals: token1.decimals,

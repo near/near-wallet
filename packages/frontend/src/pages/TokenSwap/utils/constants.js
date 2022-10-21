@@ -29,6 +29,8 @@ export const PRICE_IMPACT_THRESHOLD = {
 // Used to initialize output token in the form.
 export const DEFAULT_OUTPUT_TOKEN_ID = USN_CONTRACT || '';
 
+export const DEFAULT_SLIPPAGE_PERCENT = 1;
+
 // Precalculated unit amounts for common swap actions.
 export const SWAP_GAS_UNITS = {
     nearWithWnear: '6000000000000', // for deposit or withdraw NEAR

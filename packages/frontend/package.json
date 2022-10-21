@@ -92,6 +92,7 @@
     "@babel/preset-env": "^7.14.1",
     "@babel/preset-react": "^7.13.13",
     "@sentry/cli": "^1.65.0",
+    "@types/react-router": "^5.1.19",
     "@types/styled-components": "^5.1.26",
     "babel-eslint": "^10.1.0",
     "babel-jest": "^27.0.1",

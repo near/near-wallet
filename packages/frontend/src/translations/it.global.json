@@ -1427,6 +1427,8 @@
         "noPoolAvailable": "Nessun pool disponibile per effettuare uno swap da ${tokenIn} -> ${tokenOut}",
         "poolsError": "Si è verificato un errore nei pool di token. Prova a ricaricare questa pagina.",
         "price": "Prezzo",
+        "insufficientBalanceForFee": "Saldo insufficiente per pagare la commissione di swap",
+        "insufficientBalanceForAmountAndFee": "Saldo insufficiente per pagare l'importo dell'input e la commissione di swap",
         "priceImpact": "Incidenza sui prezzi",
         "review": "Revisione Swap",
         "reviewInfo": "Ti stai scambiando",

@@ -1583,6 +1583,8 @@
         "minReceived": "收到的最低數額",
         "noPoolAvailable": "没有池可用于从${tokenIn} -> ${tokenOut}进行交换",
         "price": "價格",
+        "insufficientBalanceForFee": "余额不足以支付掉期费用",
+        "insufficientBalanceForAmountAndFee": "余额不足以支付输入金额和掉期费用",
         "priceImpact": "兌換率影響",
         "review": "確認兌換",
         "reviewInfo": "你將兌換",

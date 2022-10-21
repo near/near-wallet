@@ -11,6 +11,7 @@ export const getLatestGasPrice = async () => {
 
 export const getTotalGasFee = async (gas) => {
     const latestGasPrice = await getLatestGasPrice();
+
     return new BN(latestGasPrice).mul(new BN(gas)).toString();
 };
 

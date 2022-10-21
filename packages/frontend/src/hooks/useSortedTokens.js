@@ -5,7 +5,10 @@ import { formatTokenAmount } from '../utils/amounts';
 
 const compareInDecreasingOrderByPrice = (t1, t2) => {
     // Set NEAR always in the first place
-    if (t1.contractName === NEAR_ID || t2.contractName === NEAR_ID) {
+    if (t1.contractName === NEAR_ID) {
+        return -1;
+    }
+    if (t2.contractName === NEAR_ID) {
         return 1;
     }
 

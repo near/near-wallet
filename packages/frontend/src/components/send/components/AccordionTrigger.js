@@ -1,7 +1,7 @@
 import React from 'react';
-import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
+import SafeTranslate from '../../../components/SafeTranslate';
 import classNames from '../../../utils/classNames';
 import ChevronIcon from '../../svg/ChevronIcon';
 
@@ -32,15 +32,15 @@ const StyledContainer = styled.div`
     }
 `;
 
-const AccordionTrigger = ({ id, onClick, translateIdTitle, open }) => {
+const AccordionTrigger = ({ id, onClick, translateIdTitle, translateData, open }) => {
     return (
         <StyledContainer
             id={id}
             onClick={onClick}
             className={classNames(['accordion-trigger' , open ? 'open' : ''])}
         >
-            <Translate id={translateIdTitle} />
-            <ChevronIcon color='#0072ce'/>
+            <SafeTranslate id={translateIdTitle} data={translateData} />
+            <ChevronIcon color='var(--color-1)'/>
         </StyledContainer>
     );
 };

@@ -15,7 +15,7 @@ const Container = styled.div`
     }
 `;
 
-const Accordion = ({ className, trigger, children, transition = '250', disabled }) => {
+const Accordion = ({ className, trigger, children, transition = '250' }) => {
     const [open, setOpen] = useState(false);
     const [contentHeight, setContentHeight] = useState('');
 

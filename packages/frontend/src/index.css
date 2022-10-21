@@ -69,4 +69,8 @@
     --color-error-background: #FFEFEF;
     /* @todo Need to decide what these colors for and rename it */
     --color-1: #0072ce;
+    --color-2: #006adc;
+    --color-3: #f8f9fa;
+    --color-4: #24272a;
+    --color-5: #dfe3e6;
 }
