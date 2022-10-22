@@ -2,11 +2,10 @@ import React from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
-import IconAccount from '../../images/wallet-migration/IconAccount';
-import IconMigrateAccount from '../../images/wallet-migration/IconMigrateAccount';
-import FormButton from '../common/FormButton';
-import Modal from '../common/modal/Modal';
-
+import IconAccount from '../../../../images/wallet-migration/IconAccount';
+import IconMigrateAccount from '../../../../images/wallet-migration/IconMigrateAccount';
+import FormButton from '../../../common/FormButton';
+import Modal from '../../../common/modal/Modal';
 
 const Container = styled.div`
     padding: 15px 0;
@@ -64,7 +63,8 @@ const StyledButton = styled(FormButton)`
     }
 `;
 
-const MigrateAccounts = ({ accounts, onContinue, onClose }) => {
+const MigrateAccounts = ({ accounts, onClose, onContinue }) => {
+   
     return (
         <Modal
             modalClass='slim'

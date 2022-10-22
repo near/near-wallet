@@ -10,7 +10,7 @@ import { actions as recoveryMethodsActions } from '../../../redux/slices/recover
 import { selectActionsPending } from '../../../redux/slices/status';
 import FormButton from '../../common/FormButton';
 import Card from '../../common/styled/Card.css';
-import AccountLockModal from '../../wallet-migration/AccountLock';
+import AccountLockModal from '../../wallet-migration/modals/Disable2faModal/AccountLock';
 import ConfirmDisable from '../hardware_devices/ConfirmDisable';
 const { fetchRecoveryMethods } = recoveryMethodsActions;
 

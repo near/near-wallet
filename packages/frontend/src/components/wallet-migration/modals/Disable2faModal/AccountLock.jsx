@@ -3,11 +3,11 @@ import { Translate } from 'react-localize-redux';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
-import IconSecurityLock from '../../images/wallet-migration/IconSecurityLock';
-import { showCustomAlert } from '../../redux/actions/status';
-import { TwoFactor } from '../../utils/twoFactor';
-import FormButton from '../common/FormButton';
-import Modal from '../common/modal/Modal';
+import IconSecurityLock from '../../../../images/wallet-migration/IconSecurityLock';
+import { showCustomAlert } from '../../../../redux/actions/status';
+import { TwoFactor } from '../../../../utils/twoFactor';
+import FormButton from '../../../common/FormButton';
+import Modal from '../../../common/modal/Modal';
 
 const Container = styled.div`
     padding: 15px 0;

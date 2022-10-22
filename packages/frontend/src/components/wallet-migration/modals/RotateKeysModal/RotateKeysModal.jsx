@@ -6,18 +6,18 @@ import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { useImmerReducer } from 'use-immer';
 
-import { NETWORK_ID } from '../../../config';
-import { switchAccount } from '../../../redux/actions/account';
-import { showCustomAlert } from '../../../redux/actions/status';
-import { selectAccountId } from '../../../redux/slices/account';
-import WalletClass, { wallet } from '../../../utils/wallet';
-import AccountListImport from '../../accounts/AccountListImport';
-import { IMPORT_STATUS } from '../../accounts/batch_import_accounts';
-import sequentialAccountImportReducer, { ACTIONS } from '../../accounts/batch_import_accounts/sequentialAccountImportReducer';
-import FormButton from '../../common/FormButton';
-import LoadingDots from '../../common/loader/LoadingDots';
-import Modal from '../../common/modal/Modal';
-import { WALLET_MIGRATION_VIEWS } from '../WalletMigration';
+import { NETWORK_ID } from '../../../../config';
+import { switchAccount } from '../../../../redux/actions/account';
+import { showCustomAlert } from '../../../../redux/actions/status';
+import { selectAccountId } from '../../../../redux/slices/account';
+import WalletClass, { wallet } from '../../../../utils/wallet';
+import AccountListImport from '../../../accounts/AccountListImport';
+import { IMPORT_STATUS } from '../../../accounts/batch_import_accounts';
+import sequentialAccountImportReducer, { ACTIONS } from '../../../accounts/batch_import_accounts/sequentialAccountImportReducer';
+import FormButton from '../../../common/FormButton';
+import LoadingDots from '../../../common/loader/LoadingDots';
+import Modal from '../../../common/modal/Modal';
+import { WALLET_MIGRATION_VIEWS } from '../../WalletMigration';
 
 const ButtonsContainer = styled.div`
     text-align: center;
@@ -98,7 +98,6 @@ const RotateKeysModal = ({handleSetActiveView, onClose}) => {
         importRotatableAccounts();
     }, []);
 
-    // const failed = useMemo(() => state.accounts.some((account) => account.status === IMPORT_STATUS.FAILED), [state.accounts]);
     const currentAccount = useMemo(() =>  state.accounts.find((account) => account.status === IMPORT_STATUS.PENDING), [ state.accounts]);
     const batchKeyRotationNotStarted = useMemo(() => state.accounts.every((account) => account.status === null), [state.accounts]);
     const completedWithSuccess = useMemo(() => {
@@ -197,7 +196,8 @@ const RotateKeysModal = ({handleSetActiveView, onClose}) => {
                                 <Translate id='importAccountWithLink.accountsFound' data={{ count: state.accounts.length }} />
                             </div>
                             <AccountListImport accounts={state.accounts} />
-                            <ButtonsContainer>
+                            <ButtonsContainer >
+
                                 <StyledButton className="gray-blue" onClick={onClose}>
                                     <Translate id='button.cancel' />
                                 </StyledButton>
@@ -205,13 +205,15 @@ const RotateKeysModal = ({handleSetActiveView, onClose}) => {
                                     <StyledButton onClick = {() =>  {
                                         rotateKeyForFailedAccount(currentFailedAccount);
                                     }
-                                    }>
+                                    }
+                                    data-test-id="rotateKeys.cancel">
                                         <Translate id={'button.retry'} />
                                     </StyledButton>
                                 )}
                                 <StyledButton onClick={() =>
                                     localDispatch({ type: currentFailedAccount ? ACTIONS.RESTART_PROCESS_FROM_LAST_FAILED_ACCOUNT : ACTIONS.BEGIN_IMPORT })
-                                } disabled={!currentFailedAccount && !batchKeyRotationNotStarted}>
+                                } disabled={!currentFailedAccount && !batchKeyRotationNotStarted}
+                                data-test-id="rotateKeys.continue">
                                     <Translate id={'button.continue'} />
                                 </StyledButton>
                             </ButtonsContainer>
