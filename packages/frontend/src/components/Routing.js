@@ -11,7 +11,6 @@ import { Redirect, Switch } from 'react-router-dom';
 import styled, { ThemeProvider } from 'styled-components';
 
 import { SHOW_MIGRATION_BANNER, WEB3AUTH } from '../../../../features';
-import favicon from '../../src/images/mynearwallet-cropped.svg';
 import TwoFactorVerifyModal from '../components/accounts/two_factor/TwoFactorVerifyModal';
 import {
     IS_MAINNET,
@@ -19,7 +18,6 @@ import {
     SHOW_PRERELEASE_WARNING,
     DISABLE_CREATE_ACCOUNT,
 } from '../config';
-import { isWhitelabel } from '../config/whitelabel';
 import { Mixpanel } from '../mixpanel/index';
 import TokenSwap from '../pages/TokenSwap';
 import * as accountActions from '../redux/actions/account';
@@ -86,7 +84,6 @@ import NetworkBanner from './common/NetworkBanner';
 import PrivateRoute from './common/routing/PrivateRoute';
 import PublicRoute from './common/routing/PublicRoute';
 import Route from './common/routing/Route';
-import TwoFactorDisableBanner from './common/TwoFactorDisableBanner';
 import Updater from './common/Updater';
 import { ExploreContainer } from './explore/ExploreContainer';
 import GlobalStyle from './GlobalStyle';
@@ -219,11 +216,6 @@ class Routing extends Component {
     }
 
     componentDidMount = async () => {
-        if (isWhitelabel && document) {
-            document.title = 'MyNearWallet';
-            document.querySelector('link[rel~="icon"]').href = favicon;
-        }
-
         const {
             refreshAccount,
             handleRefreshUrl,
@@ -346,16 +338,6 @@ class Routing extends Component {
                         <NetworkBanner account={account} />
                         <NavigationWrapper />
                         <GlobalAlert />
-                        {
-                            !isWhitelabel && (
-                                <Switch>
-                                    <Route
-                                        path={['/', '/staking', '/profile']}
-                                        component={TwoFactorDisableBanner}
-                                    />
-                                </Switch>
-                            )
-                        }
                         <WalletMigration
                             open={this.state.openTransferPopup}
                             history={this.props.history}
@@ -661,13 +643,11 @@ class Routing extends Component {
                                     />
                                 )}
                             />
-                            {isWhitelabel && (
-                                <PrivateRoute
-                                    exact
-                                    path="/explore"
-                                    component={ExploreContainer}
-                                />
-                            )}
+                            <PrivateRoute
+                                exact
+                                path="/explore"
+                                component={ExploreContainer}
+                            />
                             <Route
                                 exact
                                 path="/cli-login-success"

@@ -2,8 +2,6 @@ import React from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
-import { isWhitelabel } from '../../config/whitelabel';
-import NearLogo from '../../images/near.svg';
 import { Mixpanel } from '../../mixpanel/index';
 import MyNearWalletLogo from '../svg/MyNearWalletLogo';
 
@@ -90,13 +88,9 @@ const Footer = () => {
     return (
         <StyledContainer className='wallet-footer'>
             <div className='left'>
-                {
-                    isWhitelabel ? (
-                        <StyledLogo>
-                            <MyNearWalletLogo mode='footer' />
-                        </StyledLogo>
-                    ) : <img src={NearLogo} alt='NEAR' />
-                }
+                <StyledLogo>
+                    <MyNearWalletLogo mode='footer' />
+                </StyledLogo>
                 <div>
                     &copy; {new Date().getFullYear()} <Translate id='footer.copyrights' />
                     <div>
@@ -133,7 +127,7 @@ const Footer = () => {
             <div className='right'>
                 <Translate id='footer.needHelp' /><br />
                 <a
-                    href={isWhitelabel ? 'https://discord.com/invite/Vj74PpQYsh' : 'https://near.chat'}
+                    href='https://discord.com/invite/Vj74PpQYsh'
                     rel='noopener noreferrer'
                     target='_blank'
                     onClick={() => Mixpanel.track('Footer Click Join Community')}

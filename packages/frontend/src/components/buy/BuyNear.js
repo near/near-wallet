@@ -4,7 +4,6 @@ import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
 import { getPayMethods } from '../../config/buyNearConfig';
-import { isWhitelabel } from '../../config/whitelabel';
 import { Mixpanel } from '../../mixpanel';
 import { selectAccountId } from '../../redux/slices/account';
 import { isMoonpayAvailable, getSignedUrl } from '../../utils/moonpay';
@@ -223,9 +222,7 @@ export function BuyNear({ match, location, history }) {
 
     const onrampMethods = [
         PayMethods.moonPay,
-        // To avoid user confusion with MNW logo being featured in emails
-        // only allow Transak on MNW domains
-        isWhitelabel ? PayMethods.transak : null,
+        PayMethods.transak,
         PayMethods.utorg,
         PayMethods.nearPay,
         PayMethods.ftx
