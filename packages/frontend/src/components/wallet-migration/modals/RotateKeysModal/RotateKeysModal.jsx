@@ -1,4 +1,3 @@
-import { current } from '@reduxjs/toolkit';
 import { KeyPair } from 'near-api-js';
 import React, {useState, useEffect, useMemo, useRef} from 'react';
 import { Translate } from 'react-localize-redux';
@@ -75,10 +74,6 @@ const RotateKeysModal = ({handleSetActiveView, onClose}) => {
     const [accIdx, setAccIdx] = useState(0);
     useEffect(() => {
         const importRotatableAccounts = async () => {
-            // No ledger accounts
-            // No Implicit Accounts with 0 balance
-            // MINIMIM_ACCOUNT_BALANCE is there
-            
             const accounts = await wallet.keyStore.getAccounts(NETWORK_ID);
             const getAccountDetails = async (accountId) => {
                 const keyType = await wallet.getAccountKeyType(accountId);
@@ -101,8 +96,7 @@ const RotateKeysModal = ({handleSetActiveView, onClose}) => {
     const currentAccount = useMemo(() =>  state.accounts.find((account) => account.status === IMPORT_STATUS.PENDING), [ state.accounts]);
     const batchKeyRotationNotStarted = useMemo(() => state.accounts.every((account) => account.status === null), [state.accounts]);
     const completedWithSuccess = useMemo(() => {
-        console.log('checcking for success ');
-        !loadingEligibleRotatableAccounts && state.accounts[state.accounts.length - 1].status === IMPORT_STATUS.SUCCESS;
+        return !loadingEligibleRotatableAccounts && (state.accounts.every((account) => account.status === IMPORT_STATUS.SUCCESS || account.status === IMPORT_STATUS.FAILED));
     } , [state.accounts, loadingEligibleRotatableAccounts]);
 
     useEffect(() => {
@@ -113,10 +107,11 @@ const RotateKeysModal = ({handleSetActiveView, onClose}) => {
 
 
     useEffect(() => {
-        if (completedWithSuccess && !currentFailedAccount) {
-            handleSetActiveView(WALLET_MIGRATION_VIEWS.SELECT_DESTINATION_WALLET);
+        if (completedWithSuccess) {
+            handleSetActiveView(WALLET_MIGRATION_VIEWS.MIGRATE_ACCOUNTS);
         }
     }, [completedWithSuccess]);
+
     const rotateKeyForFailedAccount = async (failedAccount) => {
         try {
             dispatch(switchAccount({accountId: failedAccount}));
@@ -125,7 +120,6 @@ const RotateKeysModal = ({handleSetActiveView, onClose}) => {
             await account.addKey(new_FAK.getPublicKey());
             await wallet.saveAccount(failedAccount, new_FAK);
             localDispatch({ type: ACTIONS.SET_ACCOUNT_DONE, accountId: failedAccount });
-            // dispatch(switchAccount({accountId: initialAccountId.current}));
             setCurrentFailedAccount(null);
         } catch (e) {
             dispatch(showCustomAlert({
@@ -136,11 +130,11 @@ const RotateKeysModal = ({handleSetActiveView, onClose}) => {
             await new Promise((r) => setTimeout(r, 3000));
         }
     };
+
     useEffect(() => {
         const rotateKeyForCurrentAccount = async () => {
             try {
                 setCurrentFailedAccount(() => null);
-                console.log('current  account' , current.accountId);
                 dispatch(switchAccount({accountId: currentAccount.accountId}));
                 const account = await wallet.getAccount(currentAccount.accountId);
                 setAccIdx((id) => id + 1);
@@ -160,7 +154,6 @@ const RotateKeysModal = ({handleSetActiveView, onClose}) => {
                     messageCodeHeader: 'error'
                 }));
                 await new Promise((r) => setTimeout(r, 3000));
-                // Do not end process, simply skip the failed key and move on!
             } finally {
                 dispatch(switchAccount({accountId: initialAccountId.current}));
             }    
@@ -171,12 +164,7 @@ const RotateKeysModal = ({handleSetActiveView, onClose}) => {
     
 
     }, [currentAccount]);
-    // 1. identify account type (ledger, implicit_account)
-    // 2. Identify if user has enough funds to create a key. 
-    // 2. Create New FAK 
-    // 3. Write Key to local storage of the browser
-    // 4. show keyphrase for user to write it
-    // 4. Tag new key some how that it is a new key.
+
     return (
         <>
         <Modal
@@ -195,6 +183,7 @@ const RotateKeysModal = ({handleSetActiveView, onClose}) => {
                             <div className="accountsTitle">
                                 <Translate id='importAccountWithLink.accountsFound' data={{ count: state.accounts.length }} />
                             </div>
+
                             <AccountListImport accounts={state.accounts} />
                             <ButtonsContainer >
 
@@ -212,7 +201,7 @@ const RotateKeysModal = ({handleSetActiveView, onClose}) => {
                                 )}
                                 <StyledButton onClick={() =>
                                     localDispatch({ type: currentFailedAccount ? ACTIONS.RESTART_PROCESS_FROM_LAST_FAILED_ACCOUNT : ACTIONS.BEGIN_IMPORT })
-                                } disabled={!currentFailedAccount && !batchKeyRotationNotStarted}
+                                } disabled={!batchKeyRotationNotStarted && !currentFailedAccount}
                                 data-test-id="rotateKeys.continue">
                                     <Translate id={'button.continue'} />
                                 </StyledButton>
@@ -225,13 +214,5 @@ const RotateKeysModal = ({handleSetActiveView, onClose}) => {
         </>
     );
 };
-// Create a new FAK under the user’s account. 
-// Ensure that this FAK is written into the local storage of the browser 
-// Show this FAK to the user in a modal and have them write out the phrases.
-// Before the user batch exports their keys or is able to download the keys, show them a modal that will take them through the process for rotating their keys. 
-// Skip rotation of FAK if the account is a ledger account or an implicit account with zero balance. 
-// Find out what is the minimum balance the user needs in order to rotate keys. 
-// Add a new FAK to local storage and ensure this newly created FAK gets exported. 
-// Delete old FAK from local storage and from on-chain.
 
 export default RotateKeysModal;

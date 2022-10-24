@@ -1,9 +1,8 @@
 import React, { useCallback, useEffect } from 'react';
 
 import Disable2FAModal from './modals/Disable2faModal/Disable2FA';
-import ExportAccountsModal from './modals/ExportKeysModal/ExportAccountsModal';
+import MigrateAccountsModal from './modals/MigrateAccountsModal/MigrateAccountsModal';
 import RotateKeysModal from './modals/RotateKeysModal/RotateKeysModal';
-
 
 export const WALLET_MIGRATION_VIEWS = {
     DISABLE_2FA: 'DISABLE_2FA',
@@ -35,7 +34,7 @@ const WalletMigration = ({ open, onClose }) => {
   
     useEffect(() => {
         if (open) {
-            handleSetActiveView(WALLET_MIGRATION_VIEWS.MIGRATION_SECRET);
+            handleSetActiveView(WALLET_MIGRATION_VIEWS.ROTATE_KEYS);
         } else {
             handleSetActiveView(null);
         }
@@ -57,13 +56,13 @@ const WalletMigration = ({ open, onClose }) => {
                     data-test-id="rotateKeysModal"
                 />
             )}
-            {state.activeView === WALLET_MIGRATION_VIEWS.MIGRATION_SECRET && (
-                <ExportAccountsModal
+            {state.activeView === WALLET_MIGRATION_VIEWS.MIGRATE_ACCOUNTS && (
+                <MigrateAccountsModal
                     onClose={onClose}
                     handleSetActiveView={handleSetActiveView}
                     handleSetWallet={handleSetWallet}
                     state={state}
-                    data-test-id="exportAccountsModal"
+                    data-test-id="migrateAccountsModal"
                 />
             )}
             
