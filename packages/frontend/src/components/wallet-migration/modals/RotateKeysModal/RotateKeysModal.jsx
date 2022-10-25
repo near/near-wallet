@@ -1,4 +1,5 @@
 import { KeyPair } from 'near-api-js';
+import { generateSeedPhrase } from 'near-seed-phrase';
 import React, {useState, useEffect, useMemo, useRef} from 'react';
 import { Translate } from 'react-localize-redux';
 import { useDispatch, useSelector } from 'react-redux';
@@ -13,6 +14,8 @@ import WalletClass, { wallet } from '../../../../utils/wallet';
 import AccountListImport from '../../../accounts/AccountListImport';
 import { IMPORT_STATUS } from '../../../accounts/batch_import_accounts';
 import sequentialAccountImportReducer, { ACTIONS } from '../../../accounts/batch_import_accounts/sequentialAccountImportReducer';
+import ConfirmPassphrase from '../../../accounts/recovery_setup/new_account/ConfirmPassphrase';
+import SavePassphrase from '../../../accounts/recovery_setup/new_account/SavePassphrase';
 import FormButton from '../../../common/FormButton';
 import LoadingDots from '../../../common/loader/LoadingDots';
 import Modal from '../../../common/modal/Modal';
@@ -66,12 +69,28 @@ const RotateKeysModal = ({handleSetActiveView, onClose}) => {
         accounts: []
     });
     const [loadingEligibleRotatableAccounts, setLoadingEligibleRotatableAccounts] = useState(true);
-    const [currentFailedAccount, setCurrentFailedAccount] = useState(null);
     const dispatch = useDispatch();
     const initialAccountIdOnStart = useSelector(selectAccountId);
     const initialAccountId = useRef(initialAccountIdOnStart);
-    const fail_accounts_idx = [2, 4];
-    const [accIdx, setAccIdx] = useState(0);
+
+    const [confirmPassphrase, setConfirmPassphrase] = useState(false);
+    const [finishingSetupForCurrentAccount, setFinishingSetupForCurrentAccount] = useState(false);
+    const [wordIndex, setWordIndex] = useState(null);
+    const [userInputValue, setUserInputValue] = useState('');
+    const [userInputValueWrongWord, setUserInputValueWrongWord] = useState(false);
+    const [currentRecoveryKeyPair, setCurrentRecoveryKeyPair] = useState();
+    const [currentPassphrase, setCurrentpassPhrase] = useState('');
+    const [showConfirmSeedphraseModal, setShowConfirmSeedphraseModal] = useState(false);
+    const generateAndSetPhrase = () => {
+        const { seedPhrase, secretKey } = generateSeedPhrase();
+        const recoveryKeyPair = KeyPair.fromString(secretKey);
+
+        setCurrentpassPhrase(seedPhrase);
+        setCurrentRecoveryKeyPair(recoveryKeyPair);
+        setWordIndex(Math.floor(Math.random() * 12));
+        return secretKey;
+    };
+
     useEffect(() => {
         const importRotatableAccounts = async () => {
             const accounts = await wallet.keyStore.getAccounts(NETWORK_ID);
@@ -88,15 +107,18 @@ const RotateKeysModal = ({handleSetActiveView, onClose}) => {
                 accounts: accountWithDetails.reduce(((acc, { accountId, keyType, accountBalance }) => keyType == WalletClass.KEY_TYPES.FAK && accountBalance.balanceAvailable >= MINIMIM_ACCOUNT_BALANCE  ? acc.concat({ accountId, status: null }) : acc), [])
             });
             setLoadingEligibleRotatableAccounts(false);
+            generateAndSetPhrase();
         };
         setLoadingEligibleRotatableAccounts(true);
         importRotatableAccounts();
     }, []);
 
     const currentAccount = useMemo(() =>  state.accounts.find((account) => account.status === IMPORT_STATUS.PENDING), [ state.accounts]);
+    const currentFailedAccount = useMemo(() => state.accounts.every((account) => account.status !== IMPORT_STATUS.PENDING) && state.accounts.find((account) => account.status === IMPORT_STATUS.FAILED),[ state.accounts]);
+
     const batchKeyRotationNotStarted = useMemo(() => state.accounts.every((account) => account.status === null), [state.accounts]);
     const completedWithSuccess = useMemo(() => {
-        return !loadingEligibleRotatableAccounts && (state.accounts.every((account) => account.status === IMPORT_STATUS.SUCCESS || account.status === IMPORT_STATUS.FAILED));
+        return !loadingEligibleRotatableAccounts && (state.accounts.every((account) => account.status === IMPORT_STATUS.SUCCESS || account.status === IMPORT_STATUS.FAILED) && state.accounts[state.accounts.length - 1].status !==  IMPORT_STATUS.FAILED);
     } , [state.accounts, loadingEligibleRotatableAccounts]);
 
     useEffect(() => {
@@ -112,71 +134,126 @@ const RotateKeysModal = ({handleSetActiveView, onClose}) => {
         }
     }, [completedWithSuccess]);
 
-    const rotateKeyForFailedAccount = async (failedAccount) => {
+    const handleConfirmPassphrase = async () => {
         try {
-            dispatch(switchAccount({accountId: failedAccount}));
-            const account = await wallet.getAccount(failedAccount);
-            const new_FAK = KeyPair.fromRandom('ed25519');
-            await account.addKey(new_FAK.getPublicKey());
-            await wallet.saveAccount(failedAccount, new_FAK);
-            localDispatch({ type: ACTIONS.SET_ACCOUNT_DONE, accountId: failedAccount });
-            setCurrentFailedAccount(null);
+            const account = await wallet.getAccount(currentAccount.accountId);
+            await account.addKey(currentRecoveryKeyPair.getPublicKey());
+            await wallet.saveAccount(currentAccount.accountId, currentRecoveryKeyPair);
+            localDispatch({ type: ACTIONS.SET_CURRENT_DONE });
+            setShowConfirmSeedphraseModal(() => false);            
         } catch (e) {
+            localDispatch({ type: ACTIONS.SET_CURRENT_FAILED_AND_END_PROCESS });
             dispatch(showCustomAlert({
                 errorMessage: e.message,
                 success: false,
                 messageCodeHeader: 'error'
             }));
             await new Promise((r) => setTimeout(r, 3000));
-        }
+        } finally {
+            dispatch(switchAccount({accountId: initialAccountId.current}));
+        }    
+    };
+
+    const rotateKeyForCurrentAccount = async () => {
+        dispatch(switchAccount({accountId: currentAccount.accountId}));
+        generateAndSetPhrase();
+        await new Promise((r) => setTimeout(r, 1500));
+        setShowConfirmSeedphraseModal(() => true);
     };
 
     useEffect(() => {
-        const rotateKeyForCurrentAccount = async () => {
-            try {
-                setCurrentFailedAccount(() => null);
-                dispatch(switchAccount({accountId: currentAccount.accountId}));
-                const account = await wallet.getAccount(currentAccount.accountId);
-                setAccIdx((id) => id + 1);
-                if (fail_accounts_idx.includes(accIdx)) {
-                    throw Error('We have failed!!');
-                }
-                const new_FAK = KeyPair.fromRandom('ed25519');
-                await account.addKey(new_FAK.getPublicKey());
-                await wallet.saveAccount(currentAccount.accountId, new_FAK);
-                localDispatch({ type: ACTIONS.SET_CURRENT_DONE });
-            } catch (e) {
-                localDispatch({ type: ACTIONS.SET_CURRENT_FAILED_AND_END_PROCESS });
-                setCurrentFailedAccount(currentAccount.accountId);
-                dispatch(showCustomAlert({
-                    errorMessage: e.message,
-                    success: false,
-                    messageCodeHeader: 'error'
-                }));
-                await new Promise((r) => setTimeout(r, 3000));
-            } finally {
-                dispatch(switchAccount({accountId: initialAccountId.current}));
-            }    
-        };
         if (currentAccount) {
+            setWordIndex(null);
+            setUserInputValue('');
+            setUserInputValueWrongWord((false));
+            setCurrentRecoveryKeyPair(null);
+            setCurrentpassPhrase('');
+            setShowConfirmSeedphraseModal(false);
+
             rotateKeyForCurrentAccount();
         }
-    
-
     }, [currentAccount]);
 
+    if (confirmPassphrase) {
+        return (
+            <Modal
+                modalClass="fullscreen"
+                id='migration-modal'
+                onClose={() => {}}
+                modalSize='md'
+            >
+                <ConfirmPassphrase
+                    wordIndex={wordIndex}
+                    userInputValue={userInputValue}
+                    userInputValueWrongWord={userInputValueWrongWord}
+                    finishingSetup={finishingSetupForCurrentAccount}
+                    handleChangeWord={(userInputValue) => {
+                        if (userInputValue.match(/[^a-zA-Z]/)) {
+                            return false;
+                        }
+                        setUserInputValue(userInputValue.trim().toLowerCase());
+                        setUserInputValueWrongWord(false);
+                    }}
+                    handleStartOver={() => {
+                        generateAndSetPhrase();
+                        setConfirmPassphrase(false);
+                        setUserInputValue('');
+                    }}
+                    handleConfirmPassphrase={async () => {
+                        try {
+                            setFinishingSetupForCurrentAccount(true);
+                            if (userInputValue !== currentPassphrase.split(' ')[wordIndex]) {
+                                setUserInputValueWrongWord(true);
+                                return;
+                            }
+                            await handleConfirmPassphrase();
+                            setConfirmPassphrase(false);
+                            setShowConfirmSeedphraseModal(() => false);
+                        } finally {
+                            setFinishingSetupForCurrentAccount(false);
+                        }
+                    }}
+                />
+        
+            </Modal>
+        );
+    }
     return (
         <>
-        <Modal
-            modalClass="slim"
-            id='migration-modal'
-            onClose={() => {}}
-            modalSize='md'
-            style={{ maxWidth: '435px' }}
-        >
-            <Container>
-                {loadingEligibleRotatableAccounts ? <LoadingDots /> :
-                    (
+           {showConfirmSeedphraseModal ? (
+               <Modal
+                   modalClass="slim"
+                   id='migration-modal'
+                   onClose={() => {}}
+                   modalSize='lg'
+               >
+                   <SavePassphrase
+                       passPhrase={currentPassphrase}
+                       refreshPhrase={() => {
+                           generateAndSetPhrase();
+                       }}
+                       onClickContinue={() => {
+                           setConfirmPassphrase(true);
+                       }}
+                       onClickCancel = { async () => {
+                           localDispatch({ type: ACTIONS.SET_CURRENT_FAILED_AND_END_PROCESS });
+                           setShowConfirmSeedphraseModal(() => false);
+                       }}
+                   />
+               </Modal>
+           )
+               : (
+                   <Modal
+                       modalClass="slim"
+                       id='migration-modal'
+                       onClose={() => {}}
+                       modalSize='md'
+                       style={{ maxWidth: '431px' }}
+                   >
+                       <Container>
+               
+                           {loadingEligibleRotatableAccounts ? <LoadingDots /> :
+                               (
                         <>
                             <h4 className='title'><Translate id='walletMigration.rotateKeys.title' /></h4>
                             <p><Translate id='walletMigration.rotateKeys.desc' /></p>
@@ -186,31 +263,36 @@ const RotateKeysModal = ({handleSetActiveView, onClose}) => {
 
                             <AccountListImport accounts={state.accounts} />
                             <ButtonsContainer >
-
                                 <StyledButton className="gray-blue" onClick={onClose}>
                                     <Translate id='button.cancel' />
                                 </StyledButton>
                                 {currentFailedAccount && (
-                                    <StyledButton onClick = {() =>  {
-                                        rotateKeyForFailedAccount(currentFailedAccount);
+                                    <StyledButton onClick = { () =>  {
+                                        localDispatch({ type:  ACTIONS.RESTART_PROCESS_INCLUDING_LAST_FAILED_ACCOUNT});
                                     }
                                     }
                                     data-test-id="rotateKeys.cancel">
                                         <Translate id={'button.retry'} />
                                     </StyledButton>
                                 )}
-                                <StyledButton onClick={() =>
-                                    localDispatch({ type: currentFailedAccount ? ACTIONS.RESTART_PROCESS_FROM_LAST_FAILED_ACCOUNT : ACTIONS.BEGIN_IMPORT })
+                                <StyledButton onClick={() => {
+                                    if (state.accounts[state.accounts.length - 1].status == IMPORT_STATUS.FAILED) {
+                                        handleSetActiveView(WALLET_MIGRATION_VIEWS.MIGRATE_ACCOUNTS);
+                                    } else {
+                                        localDispatch({ type: currentFailedAccount ? ACTIONS.RESTART_PROCESS_FROM_LAST_FAILED_ACCOUNT : ACTIONS.BEGIN_IMPORT });
+                                    }
+                                }
                                 } disabled={!batchKeyRotationNotStarted && !currentFailedAccount}
                                 data-test-id="rotateKeys.continue">
                                     <Translate id={'button.continue'} />
                                 </StyledButton>
                             </ButtonsContainer>
                         </>
-                    )
-                }
-            </Container>
-        </Modal>
+                               )
+                           }
+                       </Container>
+                   </Modal>
+               )}
         </>
     );
 };

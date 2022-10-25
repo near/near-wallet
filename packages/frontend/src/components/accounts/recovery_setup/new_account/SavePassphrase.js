@@ -7,7 +7,8 @@ import SetupSeedPhraseForm from '../../SetupSeedPhraseForm';
 export default ({
     passPhrase,
     refreshPhrase,
-    onClickContinue
+    onClickContinue,
+    onClickCancel
 }) => {
     return (
         <Container className='small-centered border'>
@@ -17,6 +18,7 @@ export default ({
                 seedPhrase={passPhrase}
                 refreshData={refreshPhrase}
                 onClickContinue={onClickContinue}
+                onClickCancel={onClickCancel}
             />
         </Container>
     );
