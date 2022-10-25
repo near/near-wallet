@@ -7,6 +7,7 @@
   },
   "dependencies": {
     "@ledgerhq/hw-transport-u2f": "^5.34.0",
+    "@metamask/browser-passworder": "^3.0.0",
     "@near-wallet/feature-flags": "^0.2.0",
     "@reduxjs/toolkit": "1.6.2",
     "@sentry/browser": "^6.4.1",
@@ -61,6 +62,7 @@
     "reselect": "^4.0.0",
     "styled-components": "^5.3.0",
     "timeago.js": "^4.0.2",
+    "tweetnacl-util": "^0.15.1",
     "use-immer": "^0.7.0"
   },
   "scripts": {

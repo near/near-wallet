@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 
 import { ACCOUNT_ID_SUFFIX } from '../../config';
 import { selectAvailableAccounts } from '../../redux/slices/availableAccounts';
-import { encodeAccountsToHash, generatePublicKey, keyToString } from '../../utils/encoding';
+import { encodeAccountsToHash, encrypt, generateKey, generatePublicKey, generateSalt, keyToString } from '../../utils/encoding';
 import { getLedgerHDPath } from '../../utils/localStorage';
 import { wallet } from '../../utils/wallet';
 import MigrateAccounts from './MigrateAccounts';
@@ -48,7 +48,13 @@ const encodeAccountsToURL = async (accounts, publicKey, { getUrl }) => {
 
 const WalletMigration = ({ open, onClose }) => {
     const [state, setState] = React.useState(initialState);
+    const [pinCode, setPinCode] = React.useState('');
     const availableAccounts = useSelector(selectAvailableAccounts);
+
+    useEffect(() => {
+        const salt = generateSalt();
+        setPinCode(salt);
+    }, []);
 
     const handleStateUpdate = (newState) => {
         setState({...state, ...newState});
@@ -71,13 +77,22 @@ const WalletMigration = ({ open, onClose }) => {
     }, [handleSetActiveView]);
 
     const onContinue = useCallback(async () => {
-        let url = '';
-        url = await encodeAccountsToURL(
-            availableAccounts,
-            state.migrationKey,
-            state.wallet
-        );
-        window.open(url, '_blank');
+        if (state.wallet.id === 'sender') {
+            const accountsData = await getAccountsData(availableAccounts);
+            const key = await generateKey(pinCode);
+            const hash = await encrypt(accountsData, key);
+            if (window && window.near) {
+                window.near.batchImport({ keystore: hash, network: ACCOUNT_ID_SUFFIX === 'near' ? 'mainnet' : 'testnet' });
+            }
+        } else {
+            let url = '';
+            url = await encodeAccountsToURL(
+                availableAccounts,
+                state.migrationKey,
+                state.wallet
+            );
+            window.open(url, '_blank');
+        }
     }, [state.migrationKey, availableAccounts, state.wallet]);
 
     useEffect(() => {
@@ -95,7 +110,7 @@ const WalletMigration = ({ open, onClose }) => {
                     <MigrationSecret
                         showMigrationPrompt={showMigrationPrompt}
                         showMigrateAccount={showMigrateAccount}
-                        secretKey={keyToString(initialState.migrationKey)}
+                        secretKey={state.wallet.id === 'sender' ? pinCode : keyToString(initialState.migrationKey)}
                     />
                 )}
             {state.activeView === WALLET_MIGRATION_VIEWS.SELECT_DESTINATION_WALLET && (

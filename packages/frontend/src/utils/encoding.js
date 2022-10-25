@@ -1,5 +1,7 @@
+import passworder from '@metamask/browser-passworder';
 import bs58 from 'bs58';
 import nacl from 'tweetnacl';
+import { encodeBase64 } from 'tweetnacl-util';
 
 const STATIC_NONCE = new Uint8Array([
     190, 12, 82, 22, 119, 120, 120,
@@ -85,3 +87,24 @@ export function keyFromString(key) {
 export function keyToString(key) {
     return bs58.encode(Buffer.from(key));
 }
+
+export const generateSalt = (digit = 6) => {
+    const saltChars = '0123456789';
+    const saltCharsCount = saltChars.length;
+    let salt = '';
+    for (let i = 0; i < digit; i += 1) {
+        salt += saltChars.charAt(Math.floor(Math.random() * saltCharsCount));
+    }
+    return salt;
+};
+
+export const generateKey = async (message) => {
+    const hash = new TextEncoder().encode(message);
+    const arrayBuffer = await crypto.subtle.digest('SHA-256', hash);
+    return encodeBase64(new Uint8Array(arrayBuffer));
+};
+
+export const encrypt = async (message, key) => {
+    const encryptMessage = await passworder.encrypt(key, message);
+    return encryptMessage;
+};
