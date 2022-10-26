@@ -6,8 +6,42 @@ import {
     removeTrailingZeros,
 } from '../../utils/amounts';
 import { MAX_PERCENTAGE } from '../../utils/constants';
+import { retryRequestIfFailed } from '../../utils/request';
+import { FEE_DIVISOR } from './constants';
 
-export const FEE_DIVISOR = 10_000;
+const localCache = {};
+
+const fetchTopPools = (indexer) => async () =>
+    await fetch(`${indexer}/list-top-pools`).then((res) => res.json());
+
+export const getTopPoolIds = async ({ indexerAddress, minTvl }) => {
+    if (localCache.topPoolIds) {
+        return localCache.topPoolIds;
+    }
+
+    const poolIds = new Set();
+
+    try {
+        const allPools = await retryRequestIfFailed(fetchTopPools(indexerAddress), {
+            attempts: 3,
+        });
+
+        if (!allPools) {
+            return;
+        }
+
+        allPools.forEach(({ id, tvl }) => {
+            if (Number(tvl) >= minTvl) {
+                poolIds.add(Number(id));
+            }
+        });
+        localCache.topPoolIds = poolIds;
+
+        return poolIds;
+    } catch (error) {
+        console.error('Error on fetching top pools', error);
+    }
+};
 
 // Calculate fee multiplier relative to 100%
 // Examples:
@@ -68,12 +102,10 @@ export const getAmountOut = ({
         const reserveIn = tokenReserve[tokenInId];
         const reserveOut = tokenReserve[tokenOutId];
         const amountInWithFee =
-            parseTokenAmount(amountIn, tokenInDecimals) *
-            (FEE_DIVISOR - total_fee);
+            parseTokenAmount(amountIn, tokenInDecimals) * (FEE_DIVISOR - total_fee);
 
         const amountOut =
-            (amountInWithFee * reserveOut) /
-            (FEE_DIVISOR * reserveIn + amountInWithFee);
+            (amountInWithFee * reserveOut) / (FEE_DIVISOR * reserveIn + amountInWithFee);
 
         return formatTokenAmount(amountOut, tokenOutDecimals, tokenOutDecimals);
     } catch (error) {
@@ -136,9 +168,7 @@ export const getPriceImpactPercent = ({
 
         const constantProduct = Big(reserveIn).times(reserveOut);
         const currentMarketPrice = Big(reserveIn).div(reserveOut);
-        const amountInWithFee = Big(amountIn).times(
-            getFeeMultiplier(total_fee)
-        );
+        const amountInWithFee = Big(amountIn).times(getFeeMultiplier(total_fee));
 
         const newReserveIn = Big(reserveIn).plus(amountInWithFee);
         const newReserveOut = constantProduct.div(newReserveIn);

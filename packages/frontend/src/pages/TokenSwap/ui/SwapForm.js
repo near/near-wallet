@@ -7,6 +7,7 @@ import styled from 'styled-components';
 import BackArrowButton from '../../../components/common/BackArrowButton';
 import FlipButton from '../../../components/common/FlipButton';
 import FormButton from '../../../components/common/FormButton';
+import Notification from '../../../components/common/Notification';
 import SelectToken from '../../../components/send/components/views/SelectToken';
 import { NEAR_ID } from '../../../config';
 import { selectAvailableBalance } from '../../../redux/slices/account';
@@ -17,7 +18,6 @@ import { useSwapData, VIEW_STATE } from '../model/Swap';
 import { DEFAULT_OUTPUT_TOKEN_ID, NOTIFICATION_TYPE } from '../utils/constants';
 import useSwapInfo from '../utils/hooks/useSwapInfo';
 import Input from './Input';
-import Notification from './Notification';
 import SwapDetails from './SwapDetails/SwapDetails';
 
 const mobile = isMobile();
@@ -308,7 +308,12 @@ const SwapForm = memo(({ onGoBack, account, tokensConfig  }) => {
                         <SwapDetails />
 
                         {notification && (
-                            <Notification content={notification} />
+                            <Notification type={notification.type}>
+                                <Translate
+                                    id={notification.id}
+                                    data={notification.data}
+                                />
+                            </Notification>
                         )}
 
                         <FormButton

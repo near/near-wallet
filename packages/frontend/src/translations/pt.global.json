@@ -1358,6 +1358,7 @@
         "details": "Detalhes da transação",
         "error": "Erro de troca",
         "errorToFetchData": "Erro ao carregar dados para o exchange",
+        "failTitle": "Falha na troca!",
         "fee": "Taxas estimadas",
         "from": "From",
         "insufficientBalanceForAmountAndFee": "Saldo insuficiente para pagar o montante da contribuição e a taxa de swap",

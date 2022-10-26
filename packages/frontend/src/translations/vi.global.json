@@ -1280,6 +1280,7 @@
         "error": "lỗi Trao đổi",
         "errorToFetchData": "Lỗi tải dữ liệu để trao đổi",
         "ExpectedPrice": "Giá cả dự kiến",
+        "failTitle": "Swap thất bại!",
         "fee": "Phí ước tính",
         "from": "Từ",
         "insufficientBalanceForAmountAndFee": "Không đủ số dư để thanh toán số tiền đầu vào và phí hoán đổi",

@@ -1324,6 +1324,7 @@
         "details": "İşlem detayları",
         "error": "Takas hatası",
         "errorToFetchData": "Exchange için veri yüklenirken hata oluştu",
+        "failTitle": "Takas başarısız oldu!",
         "fee": "Tahmini Ücretler",
         "from": "From",
         "insufficientBalanceForAmountAndFee": "Girdi tutarını ve takas ücretini ödemek için yetersiz bakiye",

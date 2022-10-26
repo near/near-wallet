@@ -22,21 +22,22 @@ export const toSignificantDecimals = (value, precision = 2) => {
         return value;
     }
 
-    const fixed = removeTrailingZeros(Big(value).toFixed()).replace(/,/g, '.');
+    const fixed = Big(value).toFixed().replace(/,/g, '.');
     const integerPart = fixed?.split('.')[0];
-    const fractionalPart = fixed?.split('.')[1];
+    let fractionalPart = fixed?.split('.')[1];
 
     if (!fractionalPart) {
         return fixed;
     }
 
-    const withoutSideZeros = Big(+fractionalPart).toFixed().replace(/0+$/, '');
+    const fractionalPartWithoutZeros = removeTrailingZeros(fractionalPart);
+    const withoutSideZeros = Big(+fractionalPartWithoutZeros).toFixed().replace(/0+$/, '');
 
     if (withoutSideZeros?.length <= precision) {
         return fixed;
     }
 
-    const startZeros = fractionalPart.match('^0+')?.[0] || '';
+    const startZeros = fractionalPartWithoutZeros.match('^0+')?.[0] || '';
     const croppedPart = `${startZeros}${withoutSideZeros.slice(0, precision)}`;
 
     if (!croppedPart) {

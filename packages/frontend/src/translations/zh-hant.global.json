@@ -1577,6 +1577,7 @@
         "details": "交易細節",
         "error": "交换错误",
         "errorToFetchData": "错误加载数据交换",
+        "failTitle": "交换失败!",
         "fee": "估計費用",
         "from": "來自",
         "insufficientBalanceForAmountAndFee": "余额不足以支付输入金额和掉期费用",

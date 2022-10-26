@@ -1420,6 +1420,7 @@
         "details": "Dettagli della transazione",
         "error": "Errore di swap",
         "errorToFetchData": "Errore nel caricamento dei dati per exchange",
+        "failTitle": "Scambio non riuscito!",
         "fee": "Tariffe stimate",
         "from": "From",
         "insufficientBalanceForAmountAndFee": "Saldo insufficiente per pagare l'importo dell'input e la commissione di swap",

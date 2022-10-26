@@ -5,78 +5,101 @@ import styled from 'styled-components';
 import FormButton from '../../../components/common/FormButton';
 import SafeTranslate from '../../../components/SafeTranslate';
 import AvatarSuccessIcon from '../../../components/svg/AvatarSuccessIcon';
+import FailIcon from '../../../components/svg/FailIcon';
+import { toSignificantDecimals } from '../../../utils/amounts';
+import { useSwapData } from '../model/Swap';
+import { DECIMALS_TO_SAFE } from '../utils/constants';
 
 const StyledContainer = styled.div`
     > svg {
         margin: 30px auto;
         display: block;
     }
+`;
 
-    div.buttons-bottom-buttons {
-        margin-top: 55px;
+const StyledHeader = styled.div`
+    text-align: center;
+    line-height: 140%;
+    color: #272729;
+    font-weight: 600;
+    font-size: 20px;
+`;
 
-        > button {
-            display: block;
-            width: 100%;
-        }
+const FailTitle = styled.div`
+    margin-bottom: 1rem;
+`;
 
-        .link {
-            display: block;
-            margin: 20px auto;
-        }
-    }
+const Reason = styled.p`
+    font-weight: 400;
+`;
 
-    div.success-header span.space {
-        white-space: nowrap;
-    }
+const ButtonsWrapper = styled.div`
+    margin-top: 55px;
 
-    div.success-header {
-        text-align: center;
-        line-height: 140%;
-        color: #272729;
-        font-weight: 600;
-        font-size: 20px;
-        word-break: break-all;
+    > button {
+        display: block;
+        width: 100%;
     }
 `;
 
-export default function Success({
-    tokenIn,
-    amountIn,
-    tokenOut,
-    amountOut,
-    transactionHash,
-    onClickContinue,
-    onClickGoToExplorer,
-}) {
-    const messageData = {
-        amountFrom: `${amountIn} ${tokenIn?.onChainFTMetadata?.symbol}`,
-        amountTo: `${amountOut} ${tokenOut?.onChainFTMetadata?.symbol}`,
+const noop = () => {};
+
+export default function Success({ onClickContinue = noop, onClickGoToExplorer }) {
+    const {
+        swapState: { tokenIn, amountIn, tokenOut, amountOut, lastSwapState = {} },
+    } = useSwapData();
+
+    const { success, hash: swapHash, failReason } = lastSwapState;
+
+    const successData = {
+        amountFrom: `${toSignificantDecimals(amountIn, DECIMALS_TO_SAFE)} ${
+            tokenIn?.onChainFTMetadata?.symbol
+        }`,
+        amountTo: `${toSignificantDecimals(amountOut, DECIMALS_TO_SAFE)} ${
+            tokenOut?.onChainFTMetadata?.symbol
+        }`,
     };
 
     return (
-        <StyledContainer className='buttons-bottom'>
-            <AvatarSuccessIcon />
-            <div
-                className='success-header'
-                data-test-id='swapPageSuccessMessage'
-            >
-                <SafeTranslate id='swap.successTitle' data={messageData} />
-            </div>
-            <div className='buttons-bottom-buttons'>
+        <StyledContainer className="buttons-bottom">
+            {success ? (
+                <>
+                    <AvatarSuccessIcon />
+                    <StyledHeader>
+                        <SafeTranslate
+                            id="swap.successTitle"
+                            data={successData}
+                            data-test-id="swapPageSuccessMessage"
+                        />
+                    </StyledHeader>
+                </>
+            ) : (
+                <>
+                    <FailIcon />
+                    <StyledHeader>
+                        <FailTitle>
+                            <SafeTranslate id="swap.failTitle" />
+                        </FailTitle>
+                        {failReason && (
+                            <Reason className="font-monospace">{failReason}</Reason>
+                        )}
+                    </StyledHeader>
+                </>
+            )}
+            <ButtonsWrapper>
                 <FormButton
-                    data-test-id='swapPageContinueAfterSwapButton'
+                    data-test-id="swapPageContinueAfterSwapButton"
                     onClick={onClickContinue}
                 >
-                    <Translate id='button.continue' />
+                    <Translate id="button.continue" />
                 </FormButton>
 
-                {transactionHash && (
-                    <FormButton color='gray-gray' onClick={onClickGoToExplorer}>
-                        <Translate id='button.viewOnExplorer' />
+                {swapHash && (
+                    <FormButton color="gray-gray" onClick={onClickGoToExplorer}>
+                        <Translate id="button.viewOnExplorer" />
                     </FormButton>
                 )}
-            </div>
+            </ButtonsWrapper>
         </StyledContainer>
     );
 }

@@ -81,7 +81,7 @@ export default function useSwap({
             setSwapPending(true);
 
             try {
-                const { swapTxHash, success } = await fungibleTokenExchange.swap({
+                const { swapTxHash, success, failReason } = await fungibleTokenExchange.swap({
                     account,
                     amountIn,
                     poolId,
@@ -91,6 +91,8 @@ export default function useSwap({
                 });
 
                 Mixpanel.track('Swap:done', {
+                    success,
+                    failReason,
                     tokenFrom: tokenIn.onChainFTMetadata.symbol,
                     tokenFromAddress: tokenIn.contractName,
                     tokenTo: tokenOut.onChainFTMetadata.symbol,
@@ -120,6 +122,7 @@ export default function useSwap({
                 setCompletedSwapState({
                     success,
                     hash: swapTxHash,
+                    failReason,
                     tokenIn: tokenIn.onChainFTMetadata.symbol,
                     tokenOut: tokenOut.onChainFTMetadata.symbol,
                 });

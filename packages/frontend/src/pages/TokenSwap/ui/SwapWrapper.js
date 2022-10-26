@@ -3,7 +3,11 @@ import React, { memo, useEffect } from 'react';
 import { NEAR_DECIMALS } from '../../../config';
 import useIsMounted from '../../../hooks/useIsMounted';
 import { Mixpanel } from '../../../mixpanel';
-import { toSignificantDecimals, formatTokenAmount, removeTrailingZeros } from '../../../utils/amounts';
+import {
+    toSignificantDecimals,
+    formatTokenAmount,
+    removeTrailingZeros,
+} from '../../../utils/amounts';
 import { openTransactionInExplorer } from '../../../utils/window';
 import { useSwapData, VIEW_STATE } from '../model/Swap';
 import { getMinAmountOut, getSwapCost } from '../utils/calculations';
@@ -25,7 +29,7 @@ export default memo(function SwapWrapper({ history, account, tokensConfig }) {
             swapPoolId,
             slippage,
             isNearTransformation,
-            lastSwapTxHash,
+            lastSwapState,
             swapPending,
         },
         events: { setViewState, setAmountIn, setEstimatedFee },
@@ -78,18 +82,16 @@ export default memo(function SwapWrapper({ history, account, tokensConfig }) {
     };
 
     const openTransaction = () => {
-        openTransactionInExplorer(lastSwapTxHash);
+        if (lastSwapState?.hash) {
+            openTransactionInExplorer(lastSwapState.hash);
+        }
     };
 
     const amountInToShow = toSignificantDecimals(amountIn, DECIMALS_TO_SAFE);
     const amountOutToShow = toSignificantDecimals(amountOut, DECIMALS_TO_SAFE);
 
     return viewState === VIEW_STATE.inputForm ? (
-        <SwapForm
-            onGoBack={goHome}
-            account={account}
-            tokensConfig={tokensConfig}
-        />
+        <SwapForm onGoBack={goHome} account={account} tokensConfig={tokensConfig} />
     ) : viewState === VIEW_STATE.preview ? (
         <Preview
             onClickGoBack={showForm}
@@ -101,14 +103,6 @@ export default memo(function SwapWrapper({ history, account, tokensConfig }) {
             swappingToken={swapPending}
         />
     ) : viewState === VIEW_STATE.result ? (
-        <Success
-            tokenIn={tokenIn}
-            amountIn={amountInToShow}
-            tokenOut={tokenOut}
-            amountOut={amountOutToShow}
-            onClickContinue={updateForm}
-            transactionHash={lastSwapTxHash}
-            onClickGoToExplorer={openTransaction}
-        />
+        <Success onClickContinue={updateForm} onClickGoToExplorer={openTransaction} />
     ) : null;
 });

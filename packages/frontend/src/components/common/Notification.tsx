@@ -1,13 +1,11 @@
-import React from 'react';
-import { Translate } from 'react-localize-redux';
+import React, { FC, ReactNode } from 'react';
 import styled from 'styled-components';
 
-import AlertTriangleIcon from '../../../components/svg/AlertTriangleIcon';
-import { NOTIFICATION_TYPE } from '../utils/constants';
+import AlertTriangleIcon from '../svg/AlertTriangleIcon';
 
 const NotificationWrapper = styled.p`
     width: 100%;
-    margin: 0.4rem 0 0;
+    margin: 0;
     padding: 0.75rem;
     display: flex;
     font-size: 1.1rem;
@@ -32,18 +30,18 @@ const IconWrapper = styled.span`
     padding: 0.1rem;
 `;
 
-const Notification = ({ content }) => {
-    const { id, type, data } = content;
-    const triangleColor = type === NOTIFICATION_TYPE.error ? 'var(--color-error)' : '';
+const Notification: FC<{
+    type?: string,
+    children: ReactNode,
+}> = ({ type, children }) => {
+    const triangleColor = type === 'error' ? 'var(--color-error)' : '';
 
     return (
         <NotificationWrapper className={`${type}`}>
             <IconWrapper>
                 <AlertTriangleIcon color={triangleColor} />
             </IconWrapper>
-            <span>
-                <Translate id={id} data={data} />
-            </span>
+            <span>{children}</span>
         </NotificationWrapper>
     );
 };

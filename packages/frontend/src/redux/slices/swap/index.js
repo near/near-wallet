@@ -70,43 +70,47 @@ const updateAllTokensData = createAsyncThunk(
 
         dispatch(setAllTokensLoading(true));
 
-        try {
-            await Promise.allSettled(
-                tokenNames.map(async (contractName) => {
-                    const onChainFTMetadata = await getCachedContractMetadataOrFetch(
+        await Promise.allSettled(
+            tokenNames.map(async (contractName) => {
+                const onChainFTMetadata = await getCachedContractMetadataOrFetch(
+                    contractName,
+                    getState()
+                );
+                let balance = '';
+
+                if (accountId) {
+                    balance = await FungibleTokens.getBalanceOf({
                         contractName,
-                        getState()
-                    );
-                    let balance = '';
+                        accountId,
+                    });
+                }
 
-                    if (accountId) {
-                        balance = await FungibleTokens.getBalanceOf({
-                            contractName,
-                            accountId,
-                        });
-                    }
+                const config = {
+                    contractName,
+                    balance,
+                    onChainFTMetadata,
+                    fiatValueMetadata: tokenFiatValues.tokens[contractName] || {},
+                };
 
-                    const config = {
-                        contractName,
-                        balance,
-                        onChainFTMetadata,
-                        fiatValueMetadata: tokenFiatValues.tokens[contractName] || {},
-                    };
+                tokens[contractName] = config;
 
-                    tokens[contractName] = config;
+                if (balance > 0) {
+                    tokensWithBalance[contractName] = config;
+                }
+            })
+        );
 
-                    if (balance > 0) {
-                        tokensWithBalance[contractName] = config;
-                    }
-                })
-            );
-        } catch (error) {
-            console.error('Error loading token data', error);
-        }
+        const tokensInSourceOrder = tokenNames.reduce((acc, name) => {
+            if (tokens[name]) {
+                acc[name] = tokens[name];
+            }
+
+            return acc;
+        }, {});
 
         batch(() => {
             dispatch(addTokensWithBalance(tokensWithBalance));
-            dispatch(addAllTokens(tokens));
+            dispatch(addAllTokens(tokensInSourceOrder));
             dispatch(setAllTokensLoading(false));
         });
     }

@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 export const SwapDetailsWrapper = styled.div`
     width: 100%;
+    margin: 0 0 0.4rem;
     border-radius: 0.5rem;
     background-color: #eceef0;
     visibility: hidden;

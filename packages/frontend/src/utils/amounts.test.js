@@ -30,6 +30,9 @@ describe('amounts', () => {
 
     test('should correctly cut specified amount of decimal places if necessary', () => {
         expect(amounts.toSignificantDecimals(1)).toBe('1');
+        expect(amounts.toSignificantDecimals(100)).toBe('100');
+        expect(amounts.toSignificantDecimals(100, 3)).toBe('100');
+        expect(amounts.toSignificantDecimals('1000000000000000000000000000000000000000000', 3)).toBe('1000000000000000000000000000000000000000000');
         expect(amounts.toSignificantDecimals(1.100000000000000)).toBe('1.1');
         expect(amounts.toSignificantDecimals(1.1, 3)).toBe('1.1');
         expect(amounts.toSignificantDecimals(1.00005, 2)).toBe('1.00005');

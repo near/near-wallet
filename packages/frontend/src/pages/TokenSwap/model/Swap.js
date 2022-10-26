@@ -29,7 +29,7 @@ const initialState = {
     priceImpactPercent: '',
     swapPoolId: null,
     isNearTransformation: false,
-    lastSwapTxHash: '',
+    lastSwapState: null,
     swapPending: false,
 };
 
@@ -78,7 +78,7 @@ function swapReducer(state, action) {
         case ACTION.SET_SWAP_PENDING:
             return { ...state, swapPending: payload };
         case ACTION.SET_COMPLETED_SWAP_STATE:
-            return { ...state, lastSwapTxHash: payload.hash };
+            return { ...state, lastSwapState: payload };
         default:
             return state;
     }

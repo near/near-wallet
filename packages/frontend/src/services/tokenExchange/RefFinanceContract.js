@@ -1,11 +1,19 @@
 import * as nearApi from 'near-api-js';
 
-import { REF_FINANCE_CONTRACT, TOKEN_TRANSFER_DEPOSIT } from '../../config';
+import { REF_FINANCE_CONTRACT, REF_FINANCE_API_ENDPOINT, TOKEN_TRANSFER_DEPOSIT } from '../../config';
 import { parseTokenAmount } from '../../utils/amounts';
-import { findBestSwapPool, formatTotalFeePercent, getPriceImpactPercent } from './utils';
+import { ERROR_MESSAGES } from './constants';
+import {
+    findBestSwapPool,
+    formatTotalFeePercent,
+    getPriceImpactPercent,
+    getTopPoolIds,
+} from './utils';
 
-const contractConfig = {
+const refConfig = {
+    errorRegExp: /[A-Z][0-9]+: ?[a-zA-Z0-9_$\- ]+/,
     contractId: REF_FINANCE_CONTRACT,
+    indexerAddress: REF_FINANCE_API_ENDPOINT,
     viewMethods: [
         'get_number_of_pools',
         'get_pools',
@@ -19,6 +27,7 @@ const contractConfig = {
         swap: '180000000000000',
     },
     pools: {
+        minimumTvlRequired: 1_000, // amount in USD
         startIndex: 0,
         // Max amount of pools in one request.
         // If we try to get more than +-1600 items at one point we
@@ -31,7 +40,7 @@ const DEV_CONTRACT_ID_REGEXP = /dev-[0-9]+-[0-9]+/;
 
 class RefFinanceContract {
     async getData({ account }) {
-        const { maxRequestAmount } = contractConfig.pools;
+        const { maxRequestAmount } = refConfig.pools;
         const contract = await this._newContract(account);
         const totalNumberOfPools = await contract.get_number_of_pools();
         const pools = [];
@@ -126,7 +135,7 @@ class RefFinanceContract {
             nearApi.transactions.functionCall(
                 'ft_transfer_call',
                 {
-                    receiver_id: contractConfig.contractId,
+                    receiver_id: refConfig.contractId,
                     amount: parsedAmountIn,
                     msg: JSON.stringify({
                         actions: [
@@ -141,7 +150,7 @@ class RefFinanceContract {
                         ],
                     }),
                 },
-                contractConfig.gasLimit.swap,
+                refConfig.gasLimit.swap,
                 TOKEN_TRANSFER_DEPOSIT,
             ),
         );
@@ -149,31 +158,51 @@ class RefFinanceContract {
         return actions;
     }
 
-    _formatPoolsData(inputPools) {
+    extractErrorMessage(data) {
+        if (!data || !refConfig.errorRegExp) {
+            return '';
+        }
+
+        try {
+            const sourceMsg = JSON.stringify(data).match(refConfig.errorRegExp);
+
+            return ERROR_MESSAGES[sourceMsg] || sourceMsg;
+        } catch (error) {
+            console.error('Error on getting error message', error);
+        }
+
+        return '';
+    }
+
+    async _formatPoolsData(inputPools) {
         const pools = {};
         const tokens = new Set();
+        const topPoolIds = await getTopPoolIds({
+            indexerAddress: refConfig.indexerAddress,
+            minTvl: refConfig.pools.minimumTvlRequired,
+        });
 
         inputPools.forEach((pool, poolId) => {
+            if (topPoolIds && !topPoolIds.has(poolId)) {
+                return;
+            }
+
             const { token_account_ids, shares_total_supply, amounts  } = pool;
             const hasLiquidity = parseInt(shares_total_supply) > 0 && !amounts.includes('0');
+            let mainKey = '';
 
-            if (hasLiquidity) {
-                const isToken0Dev = token_account_ids[0].match(DEV_CONTRACT_ID_REGEXP);
-                const isToken1Dev = token_account_ids[1].match(DEV_CONTRACT_ID_REGEXP);
+            try {
+                mainKey = JSON.stringify(token_account_ids);
+            } catch (error) {
+                console.error('Error on stringify token_account_ids', error);
+                return;
+            }
 
-                if (!isToken0Dev) {
-                    tokens.add(token_account_ids[0]);
-                }
-                if (!isToken1Dev) {
-                    tokens.add(token_account_ids[1]);
-                }
+            if (hasLiquidity && !mainKey.match(DEV_CONTRACT_ID_REGEXP)) {
+                tokens.add(token_account_ids[0]);
+                tokens.add(token_account_ids[1]);
 
-                let mainKey = JSON.stringify(token_account_ids);
                 const reverseKey = JSON.stringify(token_account_ids.reverse());
-                // Skip pool addition for DEV contracts
-                if (mainKey.match(DEV_CONTRACT_ID_REGEXP)) {
-                    return;
-                }
 
                 if (!pools[mainKey]) {
                     pools[mainKey] = {};
@@ -201,10 +230,10 @@ class RefFinanceContract {
     }
 
     async _newContract(account) {
-        return await new nearApi.Contract(
+        return new nearApi.Contract(
             account,
-            contractConfig.contractId,
-            contractConfig
+            refConfig.contractId,
+            refConfig
         );
     }
 }

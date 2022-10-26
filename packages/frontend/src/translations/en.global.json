@@ -1606,6 +1606,7 @@
         "details": "Transaction details",
         "error": "Swap error",
         "errorToFetchData": "Error loading data for exchange",
+        "failTitle": "Swap failed!",
         "fee": "Estimated fees",
         "from": "From",
         "insufficientBalanceForAmountAndFee": "Insufficient balance to pay input amount and swap fee",

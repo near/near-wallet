@@ -1,4 +1,5 @@
 import { parseTokenAmount } from '../../utils/amounts';
+import * as constants from './constants';
 import * as utils from './utils';
 
 const token0 = {
@@ -26,8 +27,8 @@ describe('Ref Finance utils', () => {
         expect(utils.getFeeMultiplier(300.2)).toBe('0.96998');
         expect(utils.getFeeMultiplier(3_000)).toBe('0.7');
         expect(utils.getFeeMultiplier(5_000)).toBe('0.5');
-        expect(utils.getFeeMultiplier(utils.FEE_DIVISOR)).toBe('0');
-        expect(utils.getFeeMultiplier(utils.FEE_DIVISOR + 1)).toBe('0');
+        expect(utils.getFeeMultiplier(constants.FEE_DIVISOR)).toBe('0');
+        expect(utils.getFeeMultiplier(constants.FEE_DIVISOR + 1)).toBe('0');
         expect(utils.getFeeMultiplier(0)).toBe('1');
         expect(utils.getFeeMultiplier(-1)).toBe('1');
     });
@@ -40,8 +41,8 @@ describe('Ref Finance utils', () => {
         expect(utils.formatTotalFeePercent(300)).toBe('3');
         expect(utils.formatTotalFeePercent(300.8)).toBe('3.008');
         expect(utils.formatTotalFeePercent(3_000)).toBe('30');
-        expect(utils.formatTotalFeePercent(utils.FEE_DIVISOR)).toBe('100');
-        expect(utils.formatTotalFeePercent(utils.FEE_DIVISOR + 1)).toBe('100');
+        expect(utils.formatTotalFeePercent(constants.FEE_DIVISOR)).toBe('100');
+        expect(utils.formatTotalFeePercent(constants.FEE_DIVISOR + 1)).toBe('100');
         expect(utils.formatTotalFeePercent(-1)).toBe('0');
         expect(utils.formatTotalFeePercent(0)).toBe('0');
     });
