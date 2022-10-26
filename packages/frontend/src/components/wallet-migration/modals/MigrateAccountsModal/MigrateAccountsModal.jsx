@@ -9,11 +9,13 @@ import { wallet } from '../../../../utils/wallet';
 import MigrateAccounts from './MigrateAccounts';
 import MigrationSecret from './MigrationSecret';
 import SelectDestinationWallet, { WALLET_OPTIONS } from './SelectDestinationWallet';
+import VerifyAccountMigratedModal from './VerifyAccountMigratedModal';
 
 export const WALLET_EXPORT_MODAL_VIEWS = {
     MIGRATION_SECRET: 'MIGRATION_SECRET',
     SELECT_DESTINATION_WALLET: 'SELECT_DESTINATION_WALLET',
-    MIGRATE_ACCOUNTS: 'MIGRATE_ACCOUNTS',    
+    MIGRATE_ACCOUNTS: 'MIGRATE_ACCOUNTS',
+    CONFIRM_EXPORT_ACCOUNTS: 'CONFIRM_EXPORT_ACCOUNTS'
 };
 
 const MigrateAccountsModal = ({ onClose, handleSetActiveView,  handleSetWallet, state, rotatedKeys, onNext, accountWithDetails }) => {
@@ -46,7 +48,7 @@ const MigrateAccountsModal = ({ onClose, handleSetActiveView,  handleSetWallet, 
                 getLedgerHDPath(accountId),
             ]);
         }
-    
+
         return accountsData;
     };
     
@@ -67,6 +69,7 @@ const MigrateAccountsModal = ({ onClose, handleSetActiveView,  handleSetWallet, 
         );
         onNext();
         window.open(url, '_blank');
+        setActiveModalView(WALLET_EXPORT_MODAL_VIEWS.CONFIRM_EXPORT_ACCOUNTS);
     }, [migrationKey, availableAccounts, wallet]);
 
     useEffect(()=> {
@@ -81,9 +84,19 @@ const MigrateAccountsModal = ({ onClose, handleSetActiveView,  handleSetWallet, 
         setActiveModalView(WALLET_EXPORT_MODAL_VIEWS.MIGRATE_ACCOUNTS);
     }, [handleSetActiveView]);
 
+    const onContinueVerifyAccount = useCallback(() => {
+        setActiveModalView(WALLET_EXPORT_MODAL_VIEWS.CONFIRM_EXPORT_ACCOUNTS);
+    }, [handleSetActiveView]);
 
     return (
         <>
+        {activeModalView === 'CONFIRM_EXPORT_ACCOUNTS' && (
+            <VerifyAccountMigratedModal
+                onClose={onClose}
+                onContinue={onContinueVerifyAccount}
+                data-test-id="setConfirmWalletModal"
+            />
+        )}
         {activeModalView === 'SELECT_DESTINATION_WALLET'  && (
             <SelectDestinationWallet
                 wallet={state.wallet}
@@ -99,7 +112,7 @@ const MigrateAccountsModal = ({ onClose, handleSetActiveView,  handleSetWallet, 
                 showMigrationPrompt={showMigrationPrompt}
                 showMigrateAccount={showMigrateAccount}
                 secretKey={keyToString(migrationKey)}
-                data-test-id="rotateKeysModal"
+                data-test-id="migrationSecretModal"
             />
         ) 
         }
@@ -108,6 +121,8 @@ const MigrateAccountsModal = ({ onClose, handleSetActiveView,  handleSetWallet, 
                 accounts={accounts}
                 onClose={onClose}
                 onContinue={onContinue}
+                data-test-id="migrateAccountsModal"
+
             />
         )}
 </>

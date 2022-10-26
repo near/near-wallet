@@ -12,7 +12,7 @@ const YOCTO_NEAR_TO_REMOVE_FAK = 2;
 const CleanKeysModal = ({ onNext, onClose }) => {
     console.log(YOCTO_NEAR_TO_REMOVE_FAK);
     // 1. Identify Full Access Keys on all user accounts. 
-    // -Identify if they are sms, email, or unknown keys
+    // Identify if they are sms, email, or unknown keys
     // 2. Ensure that the newly generated key in the RotateKeysModal is not deleted. 
     // 3. Ensure that the funding account has Threshold * (# of FAKs to be removed) Near present in their account. 
     // 4. Ensure that if an account has a single FAK OR is an Implicit Account with 0 Near, 

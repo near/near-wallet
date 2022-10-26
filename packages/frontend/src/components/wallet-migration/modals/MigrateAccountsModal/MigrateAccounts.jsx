@@ -29,7 +29,6 @@ const AccountListingItem = styled.div`
 `;
 
 const MigrateAccounts = ({ accounts, onClose, onContinue }) => {
-   
     return (
         <MigrationModal
             onClose={onClose}
