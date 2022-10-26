@@ -3,17 +3,21 @@ import { useSelector } from 'react-redux';
 
 import { ACCOUNT_ID_SUFFIX } from '../../config';
 import { selectAvailableAccounts } from '../../redux/slices/availableAccounts';
-import { encodeAccountsToHash, encrypt, generateKey, generatePublicKey, generateSalt, keyToString } from '../../utils/encoding';
+import { encodeAccountsToHash, generatePublicKey, generateSalt, keyToString } from '../../utils/encoding';
 import { getLedgerHDPath } from '../../utils/localStorage';
 import { wallet } from '../../utils/wallet';
 import MigrateAccounts from './MigrateAccounts';
 import MigrationSecret from './MigrationSecret';
 import SelectDestinationWallet from './SelectDestinationWallet';
+import SenderMigrationTypeSelect from './Sender/MigrationTypeSelect';
+import SenderMigrationWithQrCode from './Sender/MigrationWithQrCode';
 
 export const WALLET_MIGRATION_VIEWS = {
     MIGRATION_SECRET: 'MIGRATION_SECRET',
     SELECT_DESTINATION_WALLET: 'SELECT_DESTINATION_WALLET',
     MIGRATE_ACCOUNTS: 'MIGRATE_ACCOUNTS',
+    SENDER_MIGRATION_TYPE_SELECT: 'SENDER_MIGRATION_TYPE_SELECT',
+    SENDER_MIGRATION_WITH_QR_CODE: 'SENDER_MIGRATION_WITH_QR_CODE',
 };
 
 const initialState = {
@@ -22,7 +26,7 @@ const initialState = {
     migrationKey: generatePublicKey()
 };
 
-const getAccountsData = async (accounts) => {
+export const getAccountsData = async (accounts) => {
     const accountsData = [];
     for (let i = 0; i < accounts.length; i++) {
         const accountId = accounts[i];
@@ -78,12 +82,7 @@ const WalletMigration = ({ open, onClose }) => {
 
     const onContinue = useCallback(async () => {
         if (state.wallet.id === 'sender') {
-            const accountsData = await getAccountsData(availableAccounts);
-            const key = await generateKey(pinCode);
-            const hash = await encrypt(accountsData, key);
-            if (window && window.near) {
-                window.near.batchImport({ keystore: hash, network: ACCOUNT_ID_SUFFIX === 'near' ? 'mainnet' : 'testnet' });
-            }
+            handleSetActiveView(WALLET_MIGRATION_VIEWS.SENDER_MIGRATION_TYPE_SELECT);
         } else {
             let url = '';
             url = await encodeAccountsToURL(
@@ -129,6 +128,26 @@ const WalletMigration = ({ open, onClose }) => {
                         onClose={onClose}
                     />
                 )}
+            {
+                state.activeView === WALLET_MIGRATION_VIEWS.SENDER_MIGRATION_TYPE_SELECT && (
+                    <SenderMigrationTypeSelect
+                        pinCode={pinCode}
+                        accounts={availableAccounts}
+                        handleSetActiveView={handleSetActiveView}
+                        onClose={onClose}
+                    />
+                )
+            }
+
+            {
+                state.activeView === WALLET_MIGRATION_VIEWS.SENDER_MIGRATION_WITH_QR_CODE && (
+                    <SenderMigrationWithQrCode
+                        pinCode={pinCode}
+                        accounts={availableAccounts}
+                        onClose={onClose}
+                    />
+                )
+            }
         </div>
     );
 };

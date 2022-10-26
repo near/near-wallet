@@ -1838,6 +1838,12 @@
         },
         "selectWallet": {
             "title": "Select a wallet to transfer accounts"
+        },
+        "selectSenderMigration": {
+            "title": "Select a migration type to export"
+        },
+        "SenderMigrationWithQrCode": {
+            "title": "Please using Sender mobile to scan to import"
         }
     },
     "warning": "Warning",

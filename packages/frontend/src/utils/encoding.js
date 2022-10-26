@@ -1,5 +1,6 @@
 import passworder from '@metamask/browser-passworder';
 import bs58 from 'bs58';
+import CryptoJS from 'crypto-js';
 import nacl from 'tweetnacl';
 import { encodeBase64 } from 'tweetnacl-util';
 
@@ -104,7 +105,27 @@ export const generateKey = async (message) => {
     return encodeBase64(new Uint8Array(arrayBuffer));
 };
 
+/**
+ * Export to Sender extension
+ * @param {*} message 
+ * @param {*} key 
+ * @returns 
+ */
 export const encrypt = async (message, key) => {
     const encryptMessage = await passworder.encrypt(key, message);
     return encryptMessage;
+};
+
+/**
+ * Export to Sender mobile app
+ * @param {*} accountsData 
+ * @param {*} pinCode 
+ * @param {*} salt 
+ * @returns 
+ */
+export const encryptAccountsData = (accountsData, pinCode, salt) => {
+    const hasher = CryptoJS.algo.SHA256.create();
+    const key = CryptoJS.PBKDF2(pinCode, salt, { iterations: 10000, hasher }).toString();
+    const encryptData = CryptoJS.AES.encrypt(JSON.stringify(accountsData), key).toString();
+    return encryptData;
 };
