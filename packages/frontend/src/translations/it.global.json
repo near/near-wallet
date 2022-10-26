@@ -858,7 +858,6 @@
         "disableInputPlaceholder": "Immetti il tuo account ID per confermare",
         "disableNo": "No, mantieni",
         "disableNotAllowed": "Gli account devono avere almeno un metodo di recupero attivo. Abilita prima un metodo di ripristino alternativo per procedere.",
-        "disableTextLink": "Il link magico che hai ricevuto verrà disattivato in modo permanente.",
         "disableTextPhrase": "La tua passphrase attuale verrà disattivata in modo permanente.",
         "disableTitle": "Sei sicuro di voler disabilitare questo metodo?",
         "enabled": "Disabilitato",

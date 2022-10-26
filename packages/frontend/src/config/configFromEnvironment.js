@@ -28,9 +28,6 @@ module.exports = {
     DISABLE_CREATE_ACCOUNT: parseBooleanFromShell(
         process.env.DISABLE_CREATE_ACCOUNT
     ),
-    DISABLE_PHONE_RECOVERY: parseBooleanFromShell(
-        process.env.DISABLE_PHONE_RECOVERY
-    ),
     EXPLORE_APPS_URL: process.env.EXPLORE_APPS_URL,
     EXPLORE_DEFI_URL: process.env.EXPLORE_DEFI_URL,
     EXPLORER_URL: process.env.EXPLORER_URL,

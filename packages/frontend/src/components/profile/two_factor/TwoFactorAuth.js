@@ -11,7 +11,7 @@ import { selectActionsPending } from '../../../redux/slices/status';
 import FormButton from '../../common/FormButton';
 import Card from '../../common/styled/Card.css';
 import AccountLockModal from '../../wallet-migration/AccountLock';
-import ConfirmDisable from '../hardware_devices/ConfirmDisable';
+import ConfirmDisable from '../ConfirmDisable';
 const { fetchRecoveryMethods } = recoveryMethodsActions;
 
 
@@ -111,7 +111,7 @@ const TwoFactorAuth = ({ twoFactor, history, isBrickedAccount, onDisableBrickedA
                     onConfirmDisable={handleConfirmDisable}
                     onKeepEnabled={() => setConfirmDisable(false)}
                     accountId={account.accountId}
-                    disabling={confirmDisabling}
+                    isDisable={confirmDisabling}
                     component='twoFactor'
                     twoFactorKind={twoFactor.kind}
                 />

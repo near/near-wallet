@@ -13,7 +13,6 @@ export default {
     ],
     BROWSER_MIXPANEL_TOKEN: '7c5730e5b3556a06b73829b3c3b40a86',
     DISABLE_CREATE_ACCOUNT: true,
-    DISABLE_PHONE_RECOVERY: true,
     EXPLORE_APPS_URL: 'https://awesomenear.com/',
     EXPLORE_DEFI_URL: 'https://awesomenear.com/categories/defi/',
     EXPLORER_URL: 'https://explorer.mainnet.near.org',

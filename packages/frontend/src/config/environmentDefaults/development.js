@@ -12,7 +12,6 @@ export default {
         '11111111111111111111111111111111'
     ],
     DISABLE_CREATE_ACCOUNT: false,
-    DISABLE_PHONE_RECOVERY: true,
     EXPLORE_APPS_URL: 'https://awesomenear.com/',
     EXPLORE_DEFI_URL: 'https://awesomenear.com/categories/defi/',
     EXPLORER_URL: 'https://explorer.testnet.near.org',

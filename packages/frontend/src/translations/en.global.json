@@ -871,6 +871,10 @@
         "returnToWallet": "Return to Wallet",
         "title": "Whoops, looks like this page is missing."
     },
+    "passwordProtection": {
+        "description": "You will use this to protect your wallet.",
+        "title": "Password Protection"
+    },
     "poweredByCoinGecko": "Prices powered by <a href='https://www.coingecko.com/en/api' target='_blank' rel='noopener noreferrer'>CoinGecko</a>",
     "profile": {
         "account": {
@@ -1006,14 +1010,13 @@
         "disableInputPlaceholder": "Enter your account ID to confirm",
         "disableNo": "No, keep",
         "disableNotAllowed": "Accounts are required to have at least one active recovery method. Please first enable an alternative recovery method to proceed.",
-        "disableTextLink": "The magic link you received will be permanently deactivated.",
         "disableTextPhrase": "Your current passphrase will be permanently deactivated.",
         "disableTitle": "Are you sure you want to disable this method?",
         "enabled": "Enabled",
         "methodTitle": {
             "email": "Email",
             "phone": "Phone",
-            "phrase": "Passphrase"
+            "phrase": "Seed phrase"
         },
         "noRecoveryMethod": "You have no method to recover your account. please add a method below.",
         "recoveryLinkSent": "Recovery Link Sent!",
@@ -1021,9 +1024,7 @@
             "email": "Resend Email",
             "phone": "Resend SMS"
         },
-        "title": "Recovery Methods",
-        "unsupportedMethodEmail": "We're removing support for email as recovery method. Once you've disabled this method, you will not be able to re-enable it.",
-        "unsupportedMethodPhone": "We're removing support for SMS as recovery method. Once you've disabled this method, you will not be able to re-enable it."
+        "title": "Recovery Methods"
     },
     "reduxActions": {
         "ADD_ACCESS_KEY": {

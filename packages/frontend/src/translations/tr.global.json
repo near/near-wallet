@@ -805,7 +805,6 @@
         "disableInputPlaceholder": "Onaylamak için hesap kimliğinizi girin",
         "disableNo": "Hayır, Devam",
         "disableNotAllowed": "Hesapların en az bir etkin kurtarma yöntemi olması gerekir. Lütfen devam etmek için alternatif bir kurtarma yöntemini etkinleştirin.",
-        "disableTextLink": "Aldığınız sihirli bağlantı kalıcı olarak devre dışı bırakılacaktır.",
         "disableTextPhrase": "Mevcut Anahtar Kelime parolanız kalıcı olarak devre dışı bırakılacak.",
         "disableTitle": "Bu metodu devre dışı bırakmak istediğinizden emin misiniz?",
         "enabled": "Etkinleştirildi",

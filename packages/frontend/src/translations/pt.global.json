@@ -824,7 +824,6 @@
         "disableInputPlaceholder": "Insira o ID da sua conta para confirmar",
         "disableNo": "Não, manter",
         "disableNotAllowed": "As contas devem ter pelo menos um método de recuperação ativo. Ative primeiro um método de recuperação alternativo para continuar.",
-        "disableTextLink": "O link mágico que você recebeu será desativado permanentemente.",
         "disableTextPhrase": "Sua frase-semente atual será permanentemente desativada.",
         "disableTitle": "Tem certeza de que deseja desativar este método?",
         "enabled": "Ativado",

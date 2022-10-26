@@ -988,7 +988,6 @@
         "disableInputPlaceholder": "请输入用户名确认",
         "disableNo": "不，保留。",
         "disableNotAllowed": "账户必须拥有至少一种恢复方式，请首先添加另外一种方式再继续删除此方式。",
-        "disableTextLink": "你收到的恢复链接将会被永久禁用。",
         "disableTextPhrase": "当前助记词将会被永久禁用。",
         "disableTitle": "是否确定禁用该恢复账户方式？",
         "enabled": "已启用",
