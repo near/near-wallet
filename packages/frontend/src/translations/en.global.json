@@ -1887,9 +1887,23 @@
             "desc": "Before we can transfer your accounts, we’ll rotate the keys for your named accounts for additional security. Next, we’ll transfer your named and implicit acconuts to the wallet of your choosing. Ledger accounts don’t need to be tranferred, and you can go ahead and import them to any hardware-supported wallet.",
             "title": "Let’s transfer your accounts"
         },
+        "cleanKeys": {
+            "title": "Clean up your keys",
+            "desc": "Now we’ll go through each account and remove your old keys. Next You’ll need your secure passphrase to authorize key removal.",
+            "subtitleDesc": "By removing your keys, you may need to reconnect your account to wallets and dApps.",
+            "verifyPassphrase":  {
+                "title": "Remove your Full Access Keys?",
+                "desc": "Enter your secure passphrase to remove your full access keys from the account: <b>${accountId}</b>"
+            }
+        },
         "migrateAccounts": {
             "desc": "The following accounts will be transferred:",
-            "title": "We found ${count} active accounts"
+            "title": "We found ${count} active accounts",
+            "verifyAccountsExported": {
+                "title": "Verify your account is available",
+                "desc": "Check your new wallet to make sure you have access to your account(s). After you confirm access, we’ll remove some of your old keys to keep your accounts safe.",
+                "verifyText": "I have access to my account in another wallet"
+           }
         },
         "migrationSecret": {
             "desc": "You'll need this <strong>password</strong> to securely import your accounts. Copy or write it down until you've completed transferring your accounts.",

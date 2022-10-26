@@ -64,7 +64,6 @@ const StyledButton = styled(FormButton)`
 `;
 
 const MigrateAccounts = ({ accounts, onClose, onContinue }) => {
-   
     return (
         <Modal
             modalClass='slim'
