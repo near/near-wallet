@@ -226,7 +226,8 @@ const StakingContainer = ({ history, match }) => {
                 const properValidator = action === 'stake'
                     ? validator
                     : selectedValidator || validator;
-                await dispatch(handleStakingAction(action, properValidator, amount));
+
+                dispatch(handleStakingAction(action, properValidator, amount));
                 Mixpanel.people.set({ [`last_${action}_time`]: new Date().toString() });
             }
         );

@@ -9,172 +9,98 @@ import { selectAccountId } from '../../redux/slices/account';
 import { isMoonpayAvailable, getSignedUrl } from '../../utils/moonpay';
 import { buildFtxPayLink } from '../accounts/create/FundWithFtx';
 import { buildUtorgPayLink } from '../accounts/create/FundWithUtorg';
-import FormButton from '../common/FormButton';
-import ArrowIcon from '../svg/ArrowIcon';
+import BackArrowButton from '../common/BackArrowButton';
+import Container from '../common/styled/Container.css';
 import { FundingCard } from './FundingCard';
 import { buildTransakPayLink } from './providers/transak';
 
-const StyledContainer = styled.div`
-    position: relative;
+const StyledContainer = styled(Container)`
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    margin: 0 auto;
-    
-    button {
-        display: block !important;
-        svg {
-            width: initial !important;
-            height: initial !important;
-            margin: initial !important;
-        }
+    padding: 0;
 
-        &.go-back {
-            position: absolute;
-            top: 0;
-            left: -13px;
-            min-height: 42px !important;
-            height: 42px !important;
-            min-width: 42px !important;
-            width: 42px !important;
-            border-radius: 50% !important;
-            :hover {
-                background-color: #eeefee !important;
-            }
-            @media (max-width: 991px) {
-                top: -9px;
-                left: 1px;
-            }
-        }
-
-        &.learn-more {
-            font-size: 14px !important;
-            font-weight: 400 !important;
-            text-decoration: none !important;
-            margin-top: 10px !important;
-            :hover {
-                text-decoration: underline !important;
-            }
-        }
-
-        &.black, &.gray-gray {
-            width: 100% !important;
-            display: flex !important;
-            align-items: center;
-            justify-content: center;
-            border: 0 !important;
-            svg {
-                margin: -3px 0 0 10px !important;
-            }
-            
-            img {
-                margin: -3px 0 0 10px !important;
-                height: 40% !important;
-            }
-        }
-        &.gray-gray svg {
-            margin-right: 4px !important;
-        }
-    }
-
-    h3 {
-        margin-top: 50px;
-    }
-
-    h4 {
-        text-align: center;
-        font-weight: 900;
-    }
-    .title{
-        font-size: 25px;
-        font-weight: 900;
-        color: #111618;
-    }
-    .subTitle{
-        width: 348px;
-        font-size: 16px;
-        font-weight: 500;
-        color: #72727A;
-        text-align: center;
-        margin: 22px 0 124px;
-        @media (max-width: 992px) {
-            margin: 22px 0 72px;
-         }
-        @media (max-width: 358px) {
-            margin: 22px 0 72px;
-        }
-    }
-    .wrapper{
+    .wrapper {
         display: grid;
         grid-template-columns: repeat(3, 370px);
         grid-gap: 0 30px;
         align-items: start;
         justify-content: center;
-        width:100%;
-    }
-
-    .desc {
-        margin-top: 15px;
-    }
-
-    .exchanges {
-        grid-gap: 15px;
-        grid-template-columns: repeat(2,minmax(0, 1fr));
-        display: grid;
-        margin-top: 30px;
-        a {
-            @media (max-width: 500px) {
-                min-height: 200px;
-                img {
-                    transform: scale(0.7);
-                }
-            }
-            @media (max-width: 380px) {
-                min-height: 164px;
-            }
-        }
-        .ok-coin-img {
-            max-width: 130px;
-        }
-    }
-    .see-more {
-        margin-top: 30px;
+        width: 100%;
     }
 
     @media (max-width: 580px) {
-        .wrapper{
-            grid-template-columns: 90%; 
+        .wrapper {
+            grid-template-columns: 90%;
             grid-gap: 24px 0;
         }
     }
 
-    @media (min-width: 580px) and (max-width: 992px)  {
+    @media (min-width: 580px) and (max-width: 992px) {
         width: calc(100% - 48px);
-        margin: 0 24px;
-        .wrapper{
+        .wrapper {
             grid-template-columns: 1fr;
             grid-gap: 32px 0;
         }
     }
+
     @media (min-width: 992px) and (max-width: 1200px) {
-        .wrapper{
+        width: 960px;
+        .wrapper {
             grid-template-columns: repeat(3, 300px);
         }
     }
+
     @media (min-width: 1200px) {
         width: 1170px;
     }
-    @media (max-width: 358px) {
-        .subTitle{
+`;
+
+const StyledHeader = styled.div`
+    width: 100%;
+    margin: 2em 0 7.75rem;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+
+    @media (max-width: 580px) {
+        width: 90%;
+        margin: 0 auto 30px;
+        grid-template-columns: 100%;
+        grid-gap: 20px 0;
+    }
+
+    .back-arrow-button {
+        position: relative;
+        top: -6px;
+        left: -12px;
+    }
+
+    .title {
+        font-size: 25px;
+        font-weight: 900;
+        text-align: center;
+        color: #111618;
+    }
+
+    .subTitle {
+        width: 348px;
+        margin-left: auto;
+        margin-right: auto;
+        text-align: center;
+        font-weight: 500;
+
+        @media (max-width: 430px) {
             width: 296px;
+        }
+
+        @media (max-width: 320px) {
+            width: auto;
         }
     }
 `;
 
-
-
-export function BuyNear({ match, location, history }) {
+export function BuyNear({ history }) {
     const accountId = useSelector(selectAccountId);
     const [moonPayAvailable, setMoonPayAvailable] = useState(true);
     const [signedMoonPayUrl, setSignedMoonPayUrl] = useState(null);
@@ -182,6 +108,7 @@ export function BuyNear({ match, location, history }) {
     const [transakPayUrl, setTransakPayUrl] = useState(null);
     const [ftxPayUrl, setFtxPayUrl] = useState(null);
 
+    const goBack = () => history.goBack();
 
     useEffect(() => {
         if (!accountId) {
@@ -230,14 +157,14 @@ export function BuyNear({ match, location, history }) {
 
     return (
         <StyledContainer>
-            <FormButton
-                color='link go-back'
-                onClick={() => history.goBack()}
-            >
-                <ArrowIcon />
-            </FormButton>
-            <div className='title'><Translate id='buyNear.title' /></div>
-            <div className='subTitle'><Translate id='buyNear.subTitle' /></div>
+            <StyledHeader>
+                <BackArrowButton color="var(--color-1)" onClick={goBack} />
+                <div>
+                    <div className='title'><Translate id='buyNear.title' /></div>
+                    <h2 className='subTitle'><Translate id='buyNear.subTitle' /></h2>
+                </div>
+            </StyledHeader>
+
             <div className='wrapper'>
                 <FundingCard
                     title='buyNear.nearPurchaseTitle'
