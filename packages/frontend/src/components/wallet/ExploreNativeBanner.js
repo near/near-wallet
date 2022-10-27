@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 import exploreAppsImg from '../../images/exploreAppsBanner.png';
+import { Mixpanel } from '../../mixpanel';
 
 const StyledContainer = styled.div`
     display: flex;
@@ -42,13 +43,15 @@ const StyledBannerLink = styled(Link)`
     justify-content: center;
 `;
 
+const track = () => Mixpanel.track('Click Explore Apps on Banner Wallet Page');
+
 const ExploreNativeBanner = () => {
     return (
         <StyledContainer>
             <img src={exploreAppsImg} alt="Explore Apps Banner" width="211" height="180"/>
             <h2><Translate id='exploreApps.exploreNear'/></h2>
             <div><Translate id='exploreApps.text'/></div>
-            <StyledBannerLink to="/explore">
+            <StyledBannerLink to="/explore" onClick={track}>
                 <Translate id='exploreApps.exploreApps'/>
             </StyledBannerLink>
         </StyledContainer>

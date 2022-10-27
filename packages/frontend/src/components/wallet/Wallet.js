@@ -447,7 +447,7 @@ const FungibleTokens = ({
                 <FormButton
                     color="dark-gray"
                     linkTo="/buy"
-                    trackingId="Click Receive on Wallet page"
+                    trackingId="Click Top Up on Wallet page"
                     data-test-id="balancesTab.buy"
                 >
                     <div>
