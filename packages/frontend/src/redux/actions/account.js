@@ -1,17 +1,15 @@
-import { 
+import {
     getLocation,
     push
 } from 'connected-react-router';
 import { parse, stringify } from 'query-string';
 import { createActions, createAction } from 'redux-actions';
 
-import { DISABLE_CREATE_ACCOUNT } from '../../config';
+import CONFIG from '../../config';
 import { actions as activeAccountActions } from '../../redux/slices/activeAccount';
-import { 
-    showAlert
-} from '../../utils/alerts';
+import { showAlert } from '../../utils/alerts';
 import { isUrlNotJavascriptProtocol } from '../../utils/helper-api';
-import { 
+import {
     loadState,
     saveState,
     clearState
@@ -34,7 +32,7 @@ import {
 import { WalletError } from '../../utils/walletError';
 import { withAlert } from '../reducers/status';
 import refreshAccountOwner from '../sharedThunks/refreshAccountOwner';
-import { 
+import {
     selectAccountAccountsBalances,
     selectAccountHasLockup,
     selectAccountId,
@@ -53,7 +51,7 @@ import {
 import { createAccountWithSeedPhrase } from '../slices/account/createAccountThunks';
 import { selectAllAccountsHasLockup } from '../slices/allAccounts';
 import { selectAvailableAccounts } from '../slices/availableAccounts';
-import { 
+import {
     actions as flowLimitationActions,
     selectFlowLimitationAccountBalance,
     selectFlowLimitationAccountData
@@ -64,7 +62,7 @@ import {
     handleGetLockup
 } from './staking';
 
-const { 
+const {
     handleFlowLimitation,
     handleClearflowLimitation
 } = flowLimitationActions;
@@ -208,7 +206,7 @@ export const allowLogin = () => async (dispatch, getState) => {
             await dispatch(withAlert(addAccessKey(wallet.accountId, contractId, publicKey, false, methodNames), { onlyError: true }));
         }
         const availableKeys = await wallet.getAvailableKeys();
-        
+
         const allKeys = availableKeys.map((key) => key.toString());
         const parsedUrl = new URL(successUrl);
         parsedUrl.searchParams.set('account_id', wallet.accountId);
@@ -443,13 +441,13 @@ export const fundCreateAccountLedger = (accountId, ledgerPublicKey) => async (di
 export const handleCreateAccountWithSeedPhrase = (accountId, recoveryKeyPair, fundingOptions, recaptchaToken) => async (dispatch) => {
 
     // Coin-op verify account flow
-    if (DISABLE_CREATE_ACCOUNT && ENABLE_IDENTITY_VERIFIED_ACCOUNT && !fundingOptions) {
+    if (CONFIG.DISABLE_CREATE_ACCOUNT && ENABLE_IDENTITY_VERIFIED_ACCOUNT && !fundingOptions) {
         await dispatch(fundCreateAccount(accountId, recoveryKeyPair, 'phrase'));
         return;
     }
 
     // Implicit account flow
-    if (DISABLE_CREATE_ACCOUNT && !fundingOptions && !recaptchaToken) {
+    if (CONFIG.DISABLE_CREATE_ACCOUNT && !fundingOptions && !recaptchaToken) {
         await dispatch(fundCreateAccount(accountId, recoveryKeyPair, 'phrase'));
         return;
     }
@@ -485,7 +483,7 @@ export const finishAccountSetup = () => async (dispatch, getState) => {
     }
 };
 
-export const { 
+export const {
     addAccessKey,
     addAccessKeySeedPhrase
 } = createActions({

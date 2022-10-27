@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 
-import { EXPLORER_URL } from '../../config';
+import CONFIG from '../../config';
 import useSortedTokens from '../../hooks/useSortedTokens';
 import { Mixpanel } from '../../mixpanel/index';
 import { checkAccountAvailable, redirectTo } from '../../redux/actions/account';
@@ -71,7 +71,7 @@ const SendContainerWrapper = ({ match }) => {
             localAlert={localAlert}
             clearLocalAlert={() => dispatch(clearLocalAlert())}
             isMobile={isMobile()}
-            explorerUrl={EXPLORER_URL}
+            explorerUrl={CONFIG.EXPLORER_URL}
             showNetworkBanner={SHOW_NETWORK_BANNER}
             accountIdFromUrl={accountIdFromUrl}
             activeView={activeView}

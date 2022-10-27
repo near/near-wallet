@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { useImmerReducer } from 'use-immer';
 
-import { NETWORK_ID } from '../../config';
+import CONFIG from '../../config';
 import IconSecurityLock from '../../images/wallet-migration/IconSecurityLock';
 import { switchAccount } from '../../redux/actions/account';
 import { showCustomAlert } from '../../redux/actions/status';
@@ -70,14 +70,14 @@ const Disable2FAModal = ({ handleSetActiveView, onClose }) => {
     });
     const [loadingMultisigAccounts, setLoadingMultisigAccounts] = useState(true);
     const [currentBrickedAccount, setCurrentBrickedAccount] = useState(null);
-    
+
     const initialAccountIdOnStart = useSelector(selectAccountId);
     const initialAccountId = useRef(initialAccountIdOnStart);
     const dispatch = useDispatch();
 
     useEffect(() => {
         const update2faAccounts = async () => {
-            const accounts = await wallet.keyStore.getAccounts(NETWORK_ID);
+            const accounts = await wallet.keyStore.getAccounts(CONFIG.NETWORK_ID);
             const getAccountWithAccessKeysAndType = async (accountId) => {
                 const keyType = await wallet.getAccountKeyType(accountId);
                 return { accountId, keyType };
@@ -143,7 +143,7 @@ const Disable2FAModal = ({ handleSetActiveView, onClose }) => {
         }
     }, [completedWithSuccess]);
 
-    const onAccountLockClose = () => { 
+    const onAccountLockClose = () => {
         setCurrentBrickedAccount(null);
     };
 

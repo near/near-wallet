@@ -75,8 +75,8 @@ module.exports = {
     overrides: [
         {
             files: [
-                "src/config/configFromEnvironment.js",
-                "ci/configFromEnvironment.js",
+                "src/config/configFromEnvironment.ts",
+                "ci/config.js",
             ],
             rules: {
                 'no-process-env': ['off']

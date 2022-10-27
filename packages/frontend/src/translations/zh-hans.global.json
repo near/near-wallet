@@ -667,7 +667,6 @@
         "account": "账户",
         "authorizedApps": "已授权应用",
         "buyUSN": "购买 $USN",
-        "donateToUkraine": "捐助乌克兰",
         "fullAccessKeys": "完全访问密钥",
         "help": "帮助",
         "noAccount": "你未登录其他账号",
@@ -1733,7 +1732,6 @@
             "title": "充值 NEAR"
         },
         "status": "状态",
-        "tokenBalance": "通证余额",
         "tokens": "通证",
         "totalBalance": "总余额",
         "totalBalanceTitle": "总余额",

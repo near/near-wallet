@@ -1,6 +1,6 @@
 import BN from 'bn.js';
 
-import { MIN_BALANCE_FOR_GAS } from '../../../config';
+import CONFIG from '../../../config';
 
 export const selectProfileBalance = (walletAccount) => {
     let walletBalance = {
@@ -28,7 +28,7 @@ export const selectProfileBalance = (walletAccount) => {
         return false;
     }
 
-    const { 
+    const {
         lockupAccountId,
         stateStaked,
         totalBalance,
@@ -48,7 +48,7 @@ export const selectProfileBalance = (walletAccount) => {
     walletBalance = {
         walletBalance: walletAccount?.amount,
         reservedForStorage: stateStaked.toString(),
-        reservedForTransactions: BN.min(new BN(available), new BN(MIN_BALANCE_FOR_GAS)).toString(),
+        reservedForTransactions: BN.min(new BN(available), new BN(CONFIG.MIN_BALANCE_FOR_GAS)).toString(),
         inStakingPools: {
             sum: stakedBalanceMainAccount.toString(),
             staked: account?.totalStaked,

@@ -3,7 +3,7 @@ import { Translate } from 'react-localize-redux';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
-import { NETWORK_ID } from '../../config';
+import CONFIG from '../../config';
 import { selectAccountSlice } from '../../redux/slices/account';
 import WalletClass, { wallet } from '../../utils/wallet';
 import AlertTriangleIcon from '../svg/AlertTriangleIcon';
@@ -116,7 +116,7 @@ export default function TwoFactorDisableBanner() {
 
     useEffect(() => {
         const update2faAccounts = async () => {
-            const accounts = await wallet.keyStore.getAccounts(NETWORK_ID);
+            const accounts = await wallet.keyStore.getAccounts(CONFIG.NETWORK_ID);
             const getAccountWithAccessKeysAndType = async (accountId) => {
                 const keyType = await wallet.getAccountKeyType(accountId);
                 return { accountId, keyType };
@@ -124,7 +124,7 @@ export default function TwoFactorDisableBanner() {
             const accountsKeyTypes = await Promise.all(
                 accounts.map(getAccountWithAccessKeysAndType)
             );
-    
+
             setAccounts(accountsKeyTypes.reduce(((acc, { accountId, keyType }) => keyType === WalletClass.KEY_TYPES.MULTISIG ? [...acc, accountId] : acc), []));
         };
         if (loadedAccounts.length > 0 && accounts.sort() !== loadedAccounts.sort()) {
@@ -160,7 +160,7 @@ export default function TwoFactorDisableBanner() {
                 onClick={showModal}
                 color='red'
             >
-                <LockIcon color='#FEF2F2' /> 
+                <LockIcon color='#FEF2F2' />
                 <Translate id='twoFactorDisbleBanner.button' />
             </FormButton>
             {

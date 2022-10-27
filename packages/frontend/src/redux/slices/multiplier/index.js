@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import merge from 'lodash.merge';
 import { createSelector } from 'reselect';
 
-import { ACCOUNT_ID_SUFFIX } from '../../../config';
+import CONFIG from '../../../config';
 import { wallet } from '../../../utils/wallet';
 import initialStatusState from '../../reducerStatus/initialState/initialStatusState';
 
@@ -23,9 +23,9 @@ export const fetchMultiplier = createAsyncThunk(
                 'query',
                 {
                     request_type: 'call_function',
-                    account_id: `priceoracle.${ACCOUNT_ID_SUFFIX}`,
+                    account_id: `priceoracle.${CONFIG.ACCOUNT_ID_SUFFIX}`,
                     method_name: 'get_price_data',
-                    args_base64: btoa(`{"asset_ids": ["wrap.${ACCOUNT_ID_SUFFIX}"]}`),
+                    args_base64: btoa(`{"asset_ids": ["wrap.${CONFIG.ACCOUNT_ID_SUFFIX}"]}`),
                     finality: 'final',
                 }
             );

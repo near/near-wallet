@@ -1,9 +1,6 @@
 import { Account, Connection } from 'near-api-js';
 
-import {
-    NETWORK_ID,
-    NODE_URL
-} from '../config';
+import CONFIG from '../config';
 import { FARMING_VALIDATOR_VERSION, getValidationVersion, MAINNET, TESTNET } from '../utils/constants';
 
 // Staking Farm Contract
@@ -12,10 +9,10 @@ export default class StakingFarmContracts {
     // View functions are not signed, so do not require a real account!
     static viewFunctionAccount = new Account(
         Connection.fromConfig({
-            networkId: NETWORK_ID,
+            networkId: CONFIG.NETWORK_ID,
             provider: {
                 type: 'JsonRpcProvider',
-                args: { url: NODE_URL + '/' },
+                args: { url: CONFIG.NODE_URL + '/' },
             },
             signer: {}
         }),
@@ -64,7 +61,7 @@ export default class StakingFarmContracts {
     static isFarmingValidator(accountId) {
         return (
             getValidationVersion(
-                NODE_URL.indexOf(MAINNET) > -1 ? MAINNET : TESTNET,
+                CONFIG.NODE_URL.indexOf(MAINNET) > -1 ? MAINNET : TESTNET,
                 accountId
             ) === FARMING_VALIDATOR_VERSION
         );

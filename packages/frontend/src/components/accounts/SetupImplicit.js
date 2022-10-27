@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { MIN_BALANCE_TO_CREATE } from '../../config';
+import CONFIG from '../../config';
 import { Mixpanel } from '../../mixpanel';
 import { redirectTo } from '../../redux/actions/account';
 import { selectAccountId, selectAccountSlice } from '../../redux/slices/account';
@@ -136,7 +136,7 @@ class SetupImplicit extends Component {
                     try {
                         const account = wallet.getAccountBasic(implicitAccountId);
                         const state = await account.state();
-                        if (new BN(state.amount).gte(new BN(MIN_BALANCE_TO_CREATE))) {
+                        if (new BN(state.amount).gte(new BN(CONFIG.MIN_BALANCE_TO_CREATE))) {
                             Mixpanel.track('CA Check balance from implicit: sufficient');
                             this.setState({
                                 balance: state.amount,
@@ -251,7 +251,7 @@ class SetupImplicit extends Component {
                 <h2>
                     <SafeTranslate
                         id='account.createImplicit.pre.descOne'
-                        data={{ amount: getNearAndFiatValue(MIN_BALANCE_TO_CREATE, nearTokenFiatValueUSD) }}
+                        data={{ amount: getNearAndFiatValue(CONFIG.MIN_BALANCE_TO_CREATE, nearTokenFiatValueUSD) }}
                     />
                 </h2>
                 <FormButton
@@ -264,12 +264,12 @@ class SetupImplicit extends Component {
                 </FormButton>
                 <AccountNeedsFunding
                     fundingAddress={implicitAccountId}
-                    minDeposit={MIN_BALANCE_TO_CREATE}
+                    minDeposit={CONFIG.MIN_BALANCE_TO_CREATE}
                 />
                 <Divider />
                 <FundWithUtorg
                     accountId={implicitAccountId}
-                    amount={MIN_BALANCE_TO_CREATE}
+                    amount={CONFIG.MIN_BALANCE_TO_CREATE}
                 />
                 {moonpayAvailable && (
                     <>

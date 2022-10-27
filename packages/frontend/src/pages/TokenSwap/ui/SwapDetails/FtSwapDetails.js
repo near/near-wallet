@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import Tooltip from '../../../../components/common/Tooltip';
 import Amount from '../../../../components/send/components/entry_types/Amount';
 import StyledContainer from '../../../../components/send/components/entry_types/css/Style.css';
-import { NEAR_ID } from '../../../../config';
+import CONFIG from '../../../../config';
 import { useSwapData } from '../../model/Swap';
 import PriceImpact from '../PriceImpact';
 import SlippagePicker from './SlippagePicker';
@@ -88,7 +88,7 @@ export default function FtSwapDetails({
                     className='detailsRow'
                     translateIdTitle='swap.fee'
                     amount={estimatedFee}
-                    symbol={NEAR_ID}
+                    symbol={CONFIG.NEAR_ID}
                     decimals={0}
                     translateIdInfoTooltip='swap.translateIdInfoTooltip.fee'
                     isApproximate

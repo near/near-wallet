@@ -5,11 +5,7 @@ import { InMemoryKeyStore } from 'near-api-js/lib/key_stores';
 import { parseNearAmount } from 'near-api-js/lib/utils/format';
 import { BinaryReader } from 'near-api-js/lib/utils/serialize';
 
-import {
-    LOCKUP_ACCOUNT_ID_SUFFIX,
-    MIN_BALANCE_FOR_GAS,
-    REACT_APP_USE_TESTINGLOCKUP,
-} from '../config';
+import CONFIG from '../config';
 import { listStakingDeposits } from '../services/indexer';
 import StakingFarmContracts from '../services/StakingFarmContracts';
 import { WalletError } from './walletError';
@@ -52,10 +48,10 @@ async function signAndSendTransaction(signAndSendTransactionOptions) {
         .map((str) => new BN(str))
         .reduce((a, b) => a.add(b), new BN('0'));
 
-    const missingAmount = total.sub(new BN(balance)).add(new BN(MIN_BALANCE_FOR_GAS));
+    const missingAmount = total.sub(new BN(balance)).add(new BN(CONFIG.MIN_BALANCE_FOR_GAS));
     const lockupAccountId = getLockupAccountId(this.accountId);
     if (missingAmount.gt(new BN(0)) && (await accountExists(this.connection, lockupAccountId))) {
-        console.warn('Not enough balance on main account, checking lockup account', lockupAccountId);    
+        console.warn('Not enough balance on main account, checking lockup account', lockupAccountId);
         await this.transferAllFromLockup(missingAmount);
     }
 
@@ -105,7 +101,7 @@ export async function transferAllFromLockup(missingAmount) {
     if (missingAmount && !liquidBalance.gt(missingAmount)) {
         throw new WalletError('Not enough tokens.', 'signAndSendTransactions.notEnoughTokens');
     }
-    
+
     if (liquidBalance.gt(new BN(0))) {
         console.info('Attempting to transfer from lockup account ID:', lockupAccountId);
         await this.wrappedAccount.functionCall({
@@ -159,14 +155,14 @@ async function accountExists(connection, accountId) {
 }
 
 export function getLockupAccountId(accountId) {
-    if (REACT_APP_USE_TESTINGLOCKUP && accountId.length < 64) {
+    if (CONFIG.REACT_APP_USE_TESTINGLOCKUP && accountId.length < 64) {
         return `testinglockup.${accountId}`;
     }
-    return sha256(Buffer.from(accountId)).substring(0, 40) + '.' + LOCKUP_ACCOUNT_ID_SUFFIX;
+    return sha256(Buffer.from(accountId)).substring(0, 40) + '.' + CONFIG.LOCKUP_ACCOUNT_ID_SUFFIX;
 }
 
 function subtractReservedForGas(balance) {
-    const availableBalance = new BN(balance).sub(new BN(MIN_BALANCE_FOR_GAS));
+    const availableBalance = new BN(balance).sub(new BN(CONFIG.MIN_BALANCE_FOR_GAS));
     return availableBalance.isNeg() ? '0' : availableBalance.toString();
 }
 
@@ -275,7 +271,7 @@ async function getAccountBalance(limitedAccountData = false) {
                 'get_account_total_balance', { account_id: lockupAccountId }));
             totalBalance = totalBalance.add(stakedBalanceLockup);
         }
-        
+
         const ownersBalance = totalBalance.sub(lockedAmount);
 
         // if acc is deletable (nothing locked && nothing stake) you can transfer the whole amount ohterwise get_liquid_owners_balance
@@ -286,7 +282,7 @@ async function getAccountBalance(limitedAccountData = false) {
             : BN.min(ownersBalance, new BN(lockupBalance.total).sub(new BN(MIN_BALANCE_FOR_STORAGE)));
         const liquidOwnersBalance = areTransfersEnabled ? liquidOwnersBalanceTransfersEnabled : new BN(0);
 
-        const available = BN.max(new BN(0), new BN(balance.available).add(new BN(liquidOwnersBalance)).sub(new BN(MIN_BALANCE_FOR_GAS)));
+        const available = BN.max(new BN(0), new BN(balance.available).add(new BN(liquidOwnersBalance)).sub(new BN(CONFIG.MIN_BALANCE_FOR_GAS)));
 
         return {
             ...balance,

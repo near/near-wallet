@@ -1,11 +1,6 @@
 import { transactions } from 'near-api-js';
 
-import {
-    NEAR_ID,
-    NEAR_TOKEN_ID,
-    FT_MINIMUM_STORAGE_BALANCE_LARGE,
-    FT_STORAGE_DEPOSIT_GAS,
-} from '../../config';
+import CONFIG from '../../config';
 import { fungibleTokensService } from '../FungibleTokens';
 import refFinanceContract from './RefFinanceContract';
 
@@ -53,19 +48,19 @@ class FungibleTokenExchange {
             minAmountOut,
         };
 
-        if (tokenInId === NEAR_ID) {
+        if (tokenInId === CONFIG.NEAR_ID) {
             return this._swapNearToToken(swapParams);
         }
 
-        if (tokenInId === NEAR_TOKEN_ID) {
+        if (tokenInId === CONFIG.NEAR_TOKEN_ID) {
             return this._swapWNearToToken(swapParams);
         }
 
-        if (tokenOutId === NEAR_ID) {
+        if (tokenOutId === CONFIG.NEAR_ID) {
             return this._swapTokenToNear(swapParams);
         }
 
-        if (tokenOutId === NEAR_TOKEN_ID) {
+        if (tokenOutId === CONFIG.NEAR_TOKEN_ID) {
             return this._swapTokenToWNear(swapParams);
         }
 
@@ -76,11 +71,11 @@ class FungibleTokenExchange {
         const { tokenIn, tokenOut } = params;
         const ids = [tokenIn.contractName, tokenOut.contractName];
 
-        return ids.includes(NEAR_TOKEN_ID) && ids.includes(NEAR_ID);
+        return ids.includes(CONFIG.NEAR_TOKEN_ID) && ids.includes(CONFIG.NEAR_ID);
     }
 
     replaceNearIdIfNecessary(id) {
-        return id === NEAR_ID ? NEAR_TOKEN_ID : id;
+        return id === CONFIG.NEAR_ID ? CONFIG.NEAR_TOKEN_ID : id;
     }
 
     _estimateNearSwap(params) {
@@ -109,7 +104,7 @@ class FungibleTokenExchange {
         } = await this._tokenService.transformNear({
             accountId: account.accountId,
             amount: amountIn,
-            toWNear: tokenIn.contractName !== NEAR_TOKEN_ID,
+            toWNear: tokenIn.contractName !== CONFIG.NEAR_TOKEN_ID,
         });
 
         return {
@@ -136,11 +131,11 @@ class FungibleTokenExchange {
         });
         const swapActions = await this._exchangeContract.getSwapActions({
             ...params,
-            tokenInId: NEAR_TOKEN_ID,
+            tokenInId: CONFIG.NEAR_TOKEN_ID,
         });
 
         transactions.push(wrapNear, {
-            receiverId: NEAR_TOKEN_ID,
+            receiverId: CONFIG.NEAR_TOKEN_ID,
             actions: swapActions,
         });
 
@@ -162,7 +157,7 @@ class FungibleTokenExchange {
         const swapActions = await this._exchangeContract.getSwapActions(params);
 
         transactions.push({
-            receiverId: NEAR_TOKEN_ID,
+            receiverId: CONFIG.NEAR_TOKEN_ID,
             actions: swapActions,
         });
 
@@ -183,7 +178,7 @@ class FungibleTokenExchange {
 
         const swapActions = await this._exchangeContract.getSwapActions({
             ...params,
-            tokenOutId: NEAR_TOKEN_ID,
+            tokenOutId: CONFIG.NEAR_TOKEN_ID,
         });
         const unwrapNear = await this._tokenService.getUnwrapNearTx({
             accountId: account.accountId,
@@ -268,8 +263,8 @@ class FungibleTokenExchange {
                                 receiver_id: id,
                                 registration_only: true,
                             },
-                            FT_STORAGE_DEPOSIT_GAS,
-                            FT_MINIMUM_STORAGE_BALANCE_LARGE
+                            CONFIG.FT_STORAGE_DEPOSIT_GAS,
+                            CONFIG.FT_MINIMUM_STORAGE_BALANCE_LARGE
                         ),
                     ],
                 });

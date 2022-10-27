@@ -546,7 +546,6 @@
         "account": "Conta",
         "authorizedApps": "Apps Autorizados",
         "buyUSN": "Buy $USN",
-        "donateToUkraine": "Doe para a Ucrânia",
         "fullAccessKeys": "Chaves de Acesso Completo",
         "help": "Ajuda",
         "noAccount": "Você não tem outras contas",
@@ -1499,7 +1498,6 @@
             "title": "Deposite NEAR"
         },
         "status": "Status",
-        "tokenBalance": "Saldo de tokens",
         "tokens": "Tokens",
         "totalBalance": "Saldo total",
         "totalBalanceTitle": "Saldo total",

@@ -3,10 +3,7 @@ import { Translate } from 'react-localize-redux';
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { DONATE_TO_UKRAINE } from '../../../../../features';
-import { IS_MAINNET } from '../../config';
 import { Mixpanel } from '../../mixpanel/index';
-import DonateToUkraineIcon from '../svg/DonateToUkraineIcon';
 import ExploreIcon from '../svg/ExploreIcon';
 import HelpIcon from '../svg/HelpIcon';
 import UserIcon from '../svg/UserIcon';
@@ -127,16 +124,6 @@ const NavLinks = () => (
             <HelpIcon/>
             <Translate id='link.help'/>
         </a>
-        {DONATE_TO_UKRAINE && (
-            <NavLink
-                to={`/send-money/${IS_MAINNET ? 'ukraine' : 'ukraine.testnet'}`}
-                activeClassName="selected"
-                onClick={() => Mixpanel.track('Click Donate button on nav')}
-            >
-                <DonateToUkraineIcon />
-                <Translate id="link.donateToUkraine" />
-            </NavLink>
-        )}
     </Container>
 );
 

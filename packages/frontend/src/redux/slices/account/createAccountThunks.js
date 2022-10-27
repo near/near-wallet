@@ -3,7 +3,7 @@ import { KeyPair } from 'near-api-js';
 import { PublicKey } from 'near-api-js/lib/utils';
 import { KeyType } from 'near-api-js/lib/utils/key_pair';
 
-import * as Config from '../../../config';
+import CONFIG from '../../../config';
 import { actions as ledgerActions } from '../../../redux/slices/ledger';
 import sendJson from '../../../tmp_fetch_send_json';
 import { setReleaseNotesClosed, getLedgerHDPath, setLedgerHdPath } from '../../../utils/localStorage';
@@ -23,13 +23,6 @@ import { SLICE_NAME } from './';
 const {
     signInWithLedger
 } = ledgerActions;
-
-const {
-    RECAPTCHA_ENTERPRISE_SITE_KEY,
-    NETWORK_ID,
-    RECAPTCHA_CHALLENGE_API_KEY,
-    ACCOUNT_HELPER_URL
-} = Config;
 
 export const addLocalKeyAndFinishSetup = createAsyncThunk(
     `${SLICE_NAME}/addLocalKeyAndFinishSetup`,
@@ -90,7 +83,7 @@ export const createIdentityFundedAccount = createAsyncThunk(
             verificationCode,
             recaptchaToken,
             recaptchaAction,
-            recaptchaSiteKey: RECAPTCHA_ENTERPRISE_SITE_KEY
+            recaptchaSiteKey: CONFIG.RECAPTCHA_ENTERPRISE_SITE_KEY
         });
         await wallet.saveAndMakeAccountActive(accountId);
         await dispatch(addLocalKeyAndFinishSetup({ accountId, recoveryMethod, publicKey })).unwrap();
@@ -112,10 +105,10 @@ export const createNewAccount = createAsyncThunk(
         const { fundingContract, fundingKey, fundingAccountId } = fundingOptions || {};
         if (fundingContract && fundingKey) {
             await wallet.createNewAccountLinkdrop(accountId, fundingContract, fundingKey, publicKey);
-            await wallet.keyStore.removeKey(NETWORK_ID, fundingContract);
+            await wallet.keyStore.removeKey(CONFIG.NETWORK_ID, fundingContract);
         } else if (fundingAccountId) {
             await wallet.createNewAccountFromAnother(accountId, fundingAccountId, publicKey);
-        } else if (RECAPTCHA_CHALLENGE_API_KEY && recaptchaToken) {
+        } else if (CONFIG.RECAPTCHA_CHALLENGE_API_KEY && recaptchaToken) {
             await sendJson('POST', FUNDED_ACCOUNT_CREATE_URL, {
                 newAccountId: accountId,
                 newAccountPublicKey: publicKey.toString(),
@@ -237,7 +230,7 @@ export const initiateSetupForZeroBalanceAccountPhrase = createAsyncThunk(
     }, { dispatch }) => {
         try {
             try {
-                await sendJson('POST', `${ACCOUNT_HELPER_URL}/account/seedPhraseAdded`, {
+                await sendJson('POST', `${CONFIG.ACCOUNT_HELPER_URL}/account/seedPhraseAdded`, {
                     accountId: implicitAccountId,
                     publicKey: recoveryKeyPair.publicKey.toString()
                 });
@@ -270,7 +263,7 @@ export const initiateSetupForZeroBalanceAccountLedger = createAsyncThunk(
     }, { dispatch }) => {
         try {
             try {
-                await sendJson('POST', `${ACCOUNT_HELPER_URL}/account/ledgerKeyAdded`, {
+                await sendJson('POST', `${CONFIG.ACCOUNT_HELPER_URL}/account/ledgerKeyAdded`, {
                     accountId: implicitAccountId,
                     publicKey: ledgerPublicKey.toString()
                 });

@@ -3,7 +3,7 @@ import { parse } from 'query-string';
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { LINKDROP_GAS, MIN_BALANCE_TO_CREATE } from '../../../../config';
+import CONFIG from '../../../../config';
 import { Mixpanel } from '../../../../mixpanel';
 import {
     switchAccount,
@@ -51,7 +51,7 @@ const ExistingAccountWrapper = ({ history }) => {
                             await dispatch(createNewAccountWithCurrentActiveAccount({
                                 newAccountId: accountId,
                                 implicitAccountId,
-                                newInitialBalance: MIN_BALANCE_TO_CREATE,
+                                newInitialBalance: CONFIG.MIN_BALANCE_TO_CREATE,
                                 recoveryMethod
                             })).unwrap();
                         },
@@ -72,8 +72,8 @@ const ExistingAccountWrapper = ({ history }) => {
                     dispatch(redirectTo('/'));
                 }}
                 onClickCancel={() => setFundingAccountId('')}
-                transferAmount={MIN_BALANCE_TO_CREATE}
-                gasFeeAmount={LINKDROP_GAS}
+                transferAmount={CONFIG.MIN_BALANCE_TO_CREATE}
+                gasFeeAmount={CONFIG.LINKDROP_GAS}
                 sender={signedInAccountId}
                 receiver={accountId}
                 creatingNewAccount={creatingNewAccount}

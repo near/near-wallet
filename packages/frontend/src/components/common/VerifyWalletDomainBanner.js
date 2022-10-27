@@ -2,7 +2,7 @@ import React from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
-import { IS_MAINNET, SHOW_PRERELEASE_WARNING } from '../../config';
+import CONFIG from '../../config';
 import getWalletURL from '../../utils/getWalletURL';
 import LockIcon from '../svg/LockIcon';
 
@@ -56,7 +56,7 @@ const WalletURLString = () => <><span>https://</span><span>{getWalletURL(false)}
 
 export default () => {
     return (
-        <StyledContainer className={(SHOW_PRERELEASE_WARNING || !IS_MAINNET) ? 'network-banner' : ''}>
+        <StyledContainer className={(CONFIG.SHOW_PRERELEASE_WARNING || !CONFIG.IS_MAINNET) ? 'network-banner' : ''}>
             <div className='desktop'>
                 <LockIcon color='#00C08B' />
                 <Translate id='verifyWalletDomainBanner.title' />

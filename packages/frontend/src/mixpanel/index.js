@@ -1,6 +1,6 @@
 import mixpanel from 'mixpanel-browser';
 
-import { BROWSER_MIXPANEL_TOKEN } from '../config';
+import CONFIG from '../config';
 
 function buildTrackingProps() {
     const sanitizedUrl = decodeURI(window.location.href)
@@ -41,8 +41,8 @@ let Mixpanel = {
     register: () => {}
 };
 
-if (BROWSER_MIXPANEL_TOKEN) {
-    mixpanel.init(BROWSER_MIXPANEL_TOKEN);
+if (CONFIG.BROWSER_MIXPANEL_TOKEN) {
+    mixpanel.init(CONFIG.BROWSER_MIXPANEL_TOKEN);
     mixpanel.register({'timestamp': new Date().toString(), '$referrer': document.referrer});
     Mixpanel = {
         get_distinct_id: () => {

@@ -1,15 +1,15 @@
-const Sentry = require('@sentry/browser');
+import * as Sentry from '@sentry/browser';
 
-const { SENTRY_DSN, SENTRY_RELEASE } = require('../config');
+import CONFIG from '../config';
 
 const initSentry = () => {
-    if (!SENTRY_DSN) {
+    if (!CONFIG.SENTRY_DSN) {
         return;
     }
 
     Sentry.init({
-        dsn: SENTRY_DSN,
-        release: SENTRY_RELEASE,
+        dsn: CONFIG.SENTRY_DSN,
+        release: CONFIG.SENTRY_RELEASE,
         beforeSend(event) {
             if (event.request.url.includes('recover-with-link')) {
                 delete event.request.url;
@@ -27,5 +27,4 @@ const initSentry = () => {
     });
 };
 
-// NOTE: This module needs to be Node.js compatible as it's used in scripts
-module.exports = { initSentry };
+export default initSentry;

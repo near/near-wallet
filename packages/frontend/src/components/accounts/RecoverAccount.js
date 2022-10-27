@@ -2,7 +2,7 @@ import React from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
-import { IS_MAINNET } from '../../config';
+import CONFIG from '../../config';
 import HardwareDeviceIcon from '../../images/icon-hardware-device.svg';
 import EmailIcon from '../../images/icon-recover-email.svg';
 import PhoneIcon from '../../images/icon-recover-phone.svg';
@@ -109,7 +109,7 @@ const RecoverAccount = ({
     isMobile
 }) => {
     return (
-        <>  
+        <>
             <VerifyWalletDomainBanner />
             <StyledContainer>
                 <h1><Translate id='recoverAccount.pageTitle' /></h1>
@@ -152,7 +152,7 @@ const RecoverAccount = ({
                             <Translate id='button.signInLedger' />
                         </FormButton>
                     </Option>
-                    {!IS_MAINNET && isMobile && (
+                    {!CONFIG.IS_MAINNET && isMobile && (
                         <Option>
                             <Header className='no-background'><SmartPhoneIcon /><Translate id='mobileDeviceAccess.title' /></Header>
                             <P><Translate id='mobileDeviceAccess.importCode.desc' /></P>

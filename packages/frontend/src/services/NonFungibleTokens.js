@@ -1,6 +1,6 @@
 import * as nearAPI from 'near-api-js';
 
-import { TOKEN_TRANSFER_DEPOSIT, NFT_TRANSFER_GAS } from '../config';
+import CONFIG from '../config';
 import { wallet } from '../utils/wallet';
 import { listLikelyNfts } from './indexer';
 
@@ -121,13 +121,13 @@ export default class NonFungibleTokens {
             receiverId: contractId,
             actions: [
                 functionCall(
-                    'nft_transfer', 
+                    'nft_transfer',
                     {
                         receiver_id: receiverId,
                         token_id: tokenId
                     },
-                    NFT_TRANSFER_GAS,
-                    TOKEN_TRANSFER_DEPOSIT
+                    CONFIG.NFT_TRANSFER_GAS,
+                    CONFIG.TOKEN_TRANSFER_DEPOSIT
                 )
             ]
         });

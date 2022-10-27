@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
-import { IS_MAINNET, NETWORK_ID, NODE_URL, SHOW_PRERELEASE_WARNING } from '../../config';
+import CONFIG from '../../config';
 import { Mixpanel } from '../../mixpanel/index';
 import AlertTriangleIcon from '../svg/AlertTriangleIcon.js';
 import Tooltip from './Tooltip';
@@ -67,7 +67,7 @@ const Container = styled.div`
 const NetworkBanner = ({ account }) => {
 
     useEffect(() => {
-        Mixpanel.register({network_id: IS_MAINNET ? 'mainnet' : NETWORK_ID === 'default' ? 'testnet': NETWORK_ID});
+        Mixpanel.register({network_id: CONFIG.IS_MAINNET ? 'mainnet' : CONFIG.NETWORK_ID === 'default' ? 'testnet': CONFIG.NETWORK_ID});
         setBannerHeight();
         window.addEventListener('resize', setBannerHeight);
         return () => {
@@ -81,22 +81,22 @@ const NetworkBanner = ({ account }) => {
         const app = document.getElementById('app-container');
         const navContainer = document.getElementById('nav-container');
         navContainer.style.top = bannerHeight ? `${bannerHeight}px` : 0;
-        app.style.paddingTop = bannerHeight ? `${bannerHeight + 85}px` : '75px'; 
+        app.style.paddingTop = bannerHeight ? `${bannerHeight + 85}px` : '75px';
     };
 
-    if (!IS_MAINNET) {
+    if (!CONFIG.IS_MAINNET) {
         return (
             <Container id='top-banner'>
                 <Translate id='networkBanner.title' />
                 <span className='network-link'>
-                    (<a href={`${NODE_URL}/status`} target='_blank' rel='noopener noreferrer'>
-                        {NODE_URL.replace(/^(?:https?:\/\/)?(?:www\.)?/i, '').split('/')[0]}
+                    (<a href={`${CONFIG.NODE_URL}/status`} target='_blank' rel='noopener noreferrer'>
+                        {CONFIG.NODE_URL.replace(/^(?:https?:\/\/)?(?:www\.)?/i, '').split('/')[0]}
                     </a>)
                 </span>
                 <Tooltip translate='networkBanner.desc' modalOnly={true}/>
             </Container>
         );
-    } else if (SHOW_PRERELEASE_WARNING) {
+    } else if (CONFIG.SHOW_PRERELEASE_WARNING) {
         return (
             <Container id='top-banner' className='staging-banner'>
                 <AlertTriangleIcon color='#A15600'/>

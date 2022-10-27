@@ -1,16 +1,11 @@
 import * as nearApiJs from 'near-api-js';
 import { parseNearAmount } from 'near-api-js/lib/utils/format';
 
-import { RENDER_MIGRATION } from '../../../../../features';
-
 export default {
-    ACCOUNT_HELPER_URL: RENDER_MIGRATION ? 'https://testnet-api.kitwallet.app' : 'https://near-contract-helper.onrender.com',
+    ACCOUNT_HELPER_URL: 'https://testnet-api.kitwallet.app',
     ACCOUNT_ID_SUFFIX: 'testnet',
     ACCESS_KEY_FUNDING_AMOUNT: nearApiJs.utils.format.parseNearAmount('0.25'),
-    ALLOW_2FA_ENABLE_HASHES: [
-        'E8jZ1giWcVrps8PcV75ATauu6gFRkcwjNtKp7NKmipZG',
-        '11111111111111111111111111111111'
-    ],
+    BROWSER_MIXPANEL_TOKEN: '778bd24eec7329cf885f0cecfc3d4f5d',
     DISABLE_CREATE_ACCOUNT: false,
     EXPLORE_APPS_URL: 'https://awesomenear.com/',
     EXPLORE_DEFI_URL: 'https://awesomenear.com/categories/defi/',
@@ -38,14 +33,12 @@ export default {
         '55E7imniT2uuYrECn17qJAk9fLcwQW4ftNSwmCJL5Di',
     ],
     MULTISIG_MIN_AMOUNT: '4',
-    MULTISIG_MIN_PROMPT_AMOUNT: '200',
     NETWORK_ID: 'default',
     NODE_URL: 'https://rpc.testnet.near.org',
-    REACT_APP_USE_TESTINGLOCKUP: true,
+    REACT_APP_USE_TESTINGLOCKUP: false,
     SENTRY_DSN: 'https://75d1dabd0ab646329fad8a3e7d6c761d@o398573.ingest.sentry.io/5254526',
-    SENTRY_RELEASE: 'development',
     SHOW_PRERELEASE_WARNING: false,
-    SMS_BLACKLIST: [],
+    SMS_BLACKLIST: ['CN', 'VN', 'TH'],
     STAKING_GAS_BASE: '25000000000000', // 25 Tgas
     WHITELISTED_CONTRACTS: ['meta.pool.testnet'],
     NEAR_TOKEN_ID: 'wrap.testnet',
@@ -55,6 +48,5 @@ export default {
     TOKEN_BLACKLIST_ENDPOINT: 'https://testnet-api.mynearwallet.com/contract-helper/tokens/blacklist',
     REF_FINANCE_CONTRACT: 'ref-finance-101.testnet',
     USN_CONTRACT: 'usdn.testnet',
-    HAPI_PROTOCOL_ADDRESS: 'proxy.contracts.sergei24.testnet',
-    CALIMERO_PROTOCOL_ADDRESS: 'calimero.testnet'
+    HAPI_PROTOCOL_ADDRESS: 'proxy.contracts.sergei24.testnet'
 };

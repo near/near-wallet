@@ -2,7 +2,7 @@ import React from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
-import { EXPLORE_APPS_URL } from '../../../config';
+import CONFIG from '../../../config';
 import FormButton from '../../common/FormButton';
 import Container from '../../common/styled/Container.css';
 import AuthorizedApp from '../../profile/authorized_apps/AuthorizedApp';
@@ -50,7 +50,7 @@ export default ({
                 <>
                     <Translate id='fullAccessKeys.noKeys' />
                     <br/>
-                    <FormButton linkTo={EXPLORE_APPS_URL}>
+                    <FormButton linkTo={CONFIG.EXPLORE_APPS_URL}>
                         <Translate id='exploreApps.exploreApps' />
                     </FormButton>
                 </>

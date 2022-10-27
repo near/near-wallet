@@ -1574,7 +1574,6 @@
             "title": "Deposita NEAR"
         },
         "status": "Stato",
-        "tokenBalance": "Saldo delToken",
         "tokens": "Tokens",
         "totalBalance": "Saldo Totale",
         "totalBalanceTitle": "Saldo Totale",

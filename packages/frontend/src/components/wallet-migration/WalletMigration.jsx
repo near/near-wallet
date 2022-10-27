@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
-import { ACCOUNT_ID_SUFFIX } from '../../config';
+import CONFIG from '../../config';
 import { selectAvailableAccounts } from '../../redux/slices/availableAccounts';
 import { encodeAccountsToHash, generatePublicKey, keyToString } from '../../utils/encoding';
 import { getLedgerHDPath } from '../../utils/localStorage';
@@ -42,7 +42,7 @@ const getAccountsData = async (accounts) => {
 const encodeAccountsToURL = async (accounts, publicKey, { getUrl }) => {
     const accountsData = await getAccountsData(accounts);
     const hash = encodeAccountsToHash(accountsData, publicKey);
-    const networkId = ACCOUNT_ID_SUFFIX === 'near' ? 'mainnet' : 'testnet';
+    const networkId = CONFIG.ACCOUNT_ID_SUFFIX === 'near' ? 'mainnet' : 'testnet';
     const href = getUrl({ hash, networkId });
 
     return href;

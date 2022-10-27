@@ -2,28 +2,24 @@ import assert from 'assert';
 
 import { parseNearAmount } from 'near-api-js/lib/utils/format';
 
-import Environments from '../../../../features/environments.json';
+import ENVIRONMENT from './enviroment';
 import {
     envValIsSet,
     parseBooleanFromShell,
-    parseCommaSeperatedStringAsArrayFromShell,
-    parseDateFromShell
+    parseCommaSeperatedStringAsArrayFromShell
 } from './envParsers';
 
-const NEAR_WALLET_ENV = process.env.NEAR_WALLET_ENV;
+const NEAR_WALLET_ENV = process.env.NEAR_WALLET_ENV as ENVIRONMENT;
 
 assert(
-    Object.values(Environments).some((env) => NEAR_WALLET_ENV === env),
+    Object.values(ENVIRONMENT).some((env) => NEAR_WALLET_ENV === env),
     `Invalid environment: "${NEAR_WALLET_ENV}"`
 );
 
-module.exports = {
+export default {
     ACCOUNT_HELPER_URL: process.env.REACT_APP_ACCOUNT_HELPER_URL,
     ACCOUNT_ID_SUFFIX: process.env.REACT_APP_ACCOUNT_ID_SUFFIX,
     ACCESS_KEY_FUNDING_AMOUNT: process.env.REACT_APP_ACCESS_KEY_FUNDING_AMOUNT,
-    ALLOW_2FA_ENABLE_HASHES: parseCommaSeperatedStringAsArrayFromShell(
-        process.env.ALLOW_2FA_ENABLE_HASHES
-    ),
     BROWSER_MIXPANEL_TOKEN: process.env.BROWSER_MIXPANEL_TOKEN,
     DISABLE_CREATE_ACCOUNT: parseBooleanFromShell(
         process.env.DISABLE_CREATE_ACCOUNT
@@ -35,10 +31,8 @@ module.exports = {
         process.env.HIDE_SIGN_IN_WITH_LEDGER_ENTER_ACCOUNT_ID_MODAL
     ),
     IS_MAINNET: [
-        Environments.MAINNET,
-        Environments.MAINNET_STAGING,
-        Environments.MAINNET_STAGING_NEARORG,
-        Environments.MAINNET_NEARORG,
+        ENVIRONMENT.MAINNET,
+        ENVIRONMENT.MAINNET_STAGING,
     ].some((env) => env === NEAR_WALLET_ENV),
     LINKDROP_GAS: process.env.LINKDROP_GAS,
     TOKEN_TRANSFER_DEPOSIT: process.env.TOKEN_TRANSFER_DEPOSIT || '1',
@@ -58,10 +52,7 @@ module.exports = {
     MULTISIG_CONTRACT_HASHES: parseCommaSeperatedStringAsArrayFromShell(
         process.env.MULTISIG_CONTRACT_HASHES
     ),
-    MIGRATION_START_DATE: parseDateFromShell(process.env.MIGRATION_START_DATE || '2022-12-02'),
     MULTISIG_MIN_AMOUNT: process.env.REACT_APP_MULTISIG_MIN_AMOUNT,
-    MULTISIG_MIN_PROMPT_AMOUNT:
-        process.env.REACT_APP_MULTISIG_MIN_PROMPT_AMOUNT,
     NEAR_WALLET_ENV,
     NETWORK_ID: process.env.REACT_APP_NETWORK_ID,
     NODE_URL: process.env.REACT_APP_NODE_URL,
@@ -95,6 +86,5 @@ module.exports = {
     FARMING_CLAIM_YOCTO: process.env.FARMING_CLAIM_YOCTO || '1',
     REF_FINANCE_API_ENDPOINT: process.env.REF_FINANCE_API_ENDPOINT,
     REF_FINANCE_CONTRACT: process.env.REF_FINANCE_CONTRACT,
-    HAPI_PROTOCOL_ADDRESS: process.env.HAPI_PROTOCOL_ADDRESS,
-    CALIMERO_PROTOCOL_ADDRESS: process.env.CALIMERO_PROTOCOL_ADDRESS
+    HAPI_PROTOCOL_ADDRESS: process.env.HAPI_PROTOCOL_ADDRESS
 };

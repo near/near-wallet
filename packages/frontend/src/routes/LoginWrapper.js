@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 import ConfirmLoginWrapper from '../components/login/v2/ConfirmLoginWrapper';
 import InvalidContractId from '../components/login/v2/InvalidContractId';
 import SelectAccountLoginWrapper from '../components/login/v2/SelectAccountLoginWrapper';
-import { EXPLORER_URL, LOCKUP_ACCOUNT_ID_SUFFIX } from '../config';
+import CONFIG from '../config';
 import { Mixpanel } from '../mixpanel/index';
 import {
     selectAccountLocalStorageAccountId
@@ -29,11 +29,11 @@ const LoginWrapper = () => {
     const successUrl = URLParams.success_url;
     const invalidContractId = URLParams.invalidContractId;
 
-    const contractIdUrl = `${EXPLORER_URL}/accounts/${contractId}`;
+    const contractIdUrl = `${CONFIG.EXPLORER_URL}/accounts/${contractId}`;
 
     const accountLocalStorageAccountId = useSelector(selectAccountLocalStorageAccountId);
 
-    let requestingFullAccess = !contractId || (publicKey && contractId?.endsWith(`.${LOCKUP_ACCOUNT_ID_SUFFIX}`)) || contractId === accountLocalStorageAccountId;
+    let requestingFullAccess = !contractId || (publicKey && contractId?.endsWith(`.${CONFIG.LOCKUP_ACCOUNT_ID_SUFFIX}`)) || contractId === accountLocalStorageAccountId;
     const requestAccountIdOnly = !publicKey && !contractId;
     if (requestAccountIdOnly) {
         requestingFullAccess = false;

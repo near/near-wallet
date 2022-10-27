@@ -1,33 +1,27 @@
 import * as nearApiJs from 'near-api-js';
 import { parseNearAmount } from 'near-api-js/lib/utils/format';
 
-import { RENDER_MIGRATION } from '../../../../../features';
-
 export default {
-    ACCOUNT_HELPER_URL: RENDER_MIGRATION ? 'https://preflight-api.kitwallet.app' : 'https://near-contract-helper.onrender.com',
-    ACCOUNT_ID_SUFFIX: 'testnet',
+    ACCOUNT_HELPER_URL: 'https://staging-api.kitwallet.app',
+    ACCOUNT_ID_SUFFIX: 'near',
     ACCESS_KEY_FUNDING_AMOUNT: nearApiJs.utils.format.parseNearAmount('0.25'),
-    ALLOW_2FA_ENABLE_HASHES: [
-        'E8jZ1giWcVrps8PcV75ATauu6gFRkcwjNtKp7NKmipZG',
-        '11111111111111111111111111111111'
-    ],
-    BROWSER_MIXPANEL_TOKEN: '778bd24eec7329cf885f0cecfc3d4f5d',
-    DISABLE_CREATE_ACCOUNT: false,
+    BROWSER_MIXPANEL_TOKEN: '7c5730e5b3556a06b73829b3c3b40a86',
+    DISABLE_CREATE_ACCOUNT: true,
     EXPLORE_APPS_URL: 'https://awesomenear.com/',
     EXPLORE_DEFI_URL: 'https://awesomenear.com/categories/defi/',
-    EXPLORER_URL: 'https://explorer.testnet.near.org',
+    EXPLORER_URL: 'https://explorer.mainnet.near.org',
     HIDE_SIGN_IN_WITH_LEDGER_ENTER_ACCOUNT_ID_MODAL: false,
-    INDEXER_SERVICE_URL: 'https://preflight-api.kitwallet.app',
+    INDEXER_SERVICE_URL: 'https://staging-api.kitwallet.app',
     LINKDROP_GAS: '100000000000000',
-    LOCKUP_ACCOUNT_ID_SUFFIX: 'lockup.m0',
+    LOCKUP_ACCOUNT_ID_SUFFIX: 'lockup.near',
     MIN_BALANCE_FOR_GAS: nearApiJs.utils.format.parseNearAmount('0.05'),
     MIN_BALANCE_TO_CREATE: nearApiJs.utils.format.parseNearAmount('0.1'),
-    MOONPAY_API_KEY: 'pk_test_wQDTsWBsvUm7cPiz9XowdtNeL5xasP9',
+    MOONPAY_API_KEY: 'pk_live_jYDdkGL7bJsrwalHZs1lVIhdOHOtK8BR',
     MOONPAY_API_URL: 'https://api.moonpay.com',
     MOONPAY_BUY_URL: 'https://buy.moonpay.io?apiKey=',
-    TRANSAK_API_KEY: '449da987-df12-4239-9e4e-9d5495062902',
-    TRANSAK_BUY_URL: 'https://staging-global.transak.com/',
-    UTORG_ORDER_URL: 'https://app.utorg.pro/direct/wallet.near.org/',
+    TRANSAK_API_KEY: '170f3c62-9cdd-412e-900c-e6b97330a6f0',
+    TRANSAK_BUY_URL: 'https://global.transak.com/',
+    UTORG_ORDER_URL: 'https://app.utorg.pro/direct/wallet.staging.near.org/',
     MULTISIG_CONTRACT_HASHES: [
         // https://github.com/near/core-contracts/blob/fa3e2c6819ef790fdb1ec9eed6b4104cd13eb4b7/multisig/src/lib.rs
         '7GQStUCd8bmCK43bzD8PRh7sD2uyyeMJU5h8Rj3kXXJk',
@@ -39,22 +33,26 @@ export default {
         '55E7imniT2uuYrECn17qJAk9fLcwQW4ftNSwmCJL5Di',
     ],
     MULTISIG_MIN_AMOUNT: '4',
-    MULTISIG_MIN_PROMPT_AMOUNT: '200',
     NETWORK_ID: 'default',
-    NODE_URL: 'https://rpc.testnet.near.org',
+    NODE_URL: 'https://rpc.mainnet.near.org',
     REACT_APP_USE_TESTINGLOCKUP: false,
-    SENTRY_DSN: 'https://75d1dabd0ab646329fad8a3e7d6c761d@o398573.ingest.sentry.io/5254526',
-    SHOW_PRERELEASE_WARNING: false,
+    RECAPTCHA_CHALLENGE_API_KEY: '6LeRzswaAAAAAGeS7mSasZ1wDcGnMcH3D7W1gy1b',
+    RECAPTCHA_ENTERPRISE_SITE_KEY: '6LcpJ3EcAAAAAFgA-nixKFNGWMo9IG9FQhH4XjSY',
+    SENTRY_DSN: 'https://15d0d1b94e8548dd9663b8c93bf4550a@o398573.ingest.sentry.io/5396205',
+    SHOW_PRERELEASE_WARNING: true,
     SMS_BLACKLIST: ['CN', 'VN', 'TH'],
     STAKING_GAS_BASE: '25000000000000', // 25 Tgas
-    WHITELISTED_CONTRACTS: ['meta.pool.testnet'],
-    NEAR_TOKEN_ID: 'wrap.testnet',
+    WHITELISTED_CONTRACTS: [
+        'berryclub.ek.near',
+        'wrap.near',
+        '6b175474e89094c44da98b954eedeac495271d0f.factory.bridge.near',
+    ],
+    NEAR_TOKEN_ID: 'wrap.near',
     FARMING_CLAIM_GAS: parseNearAmount('0.00000000015'),
     FARMING_CLAIM_YOCTO: '1',
-    REF_FINANCE_API_ENDPOINT: 'https://testnet-indexer.ref-finance.com/',
-    TOKEN_BLACKLIST_ENDPOINT: 'https://testnet-api.mynearwallet.com/contract-helper/tokens/blacklist',
-    REF_FINANCE_CONTRACT: 'ref-finance-101.testnet',
-    USN_CONTRACT: 'usdn.testnet',
-    HAPI_PROTOCOL_ADDRESS: 'proxy.contracts.sergei24.testnet',
-    CALIMERO_PROTOCOL_ADDRESS: 'calimero.testnet'
+    REF_FINANCE_API_ENDPOINT: 'https://indexer.ref.finance',
+    TOKEN_BLACKLIST_ENDPOINT: 'https://mainnet-api.mynearwallet.com/contract-helper/tokens/blacklist',
+    REF_FINANCE_CONTRACT: 'v2.ref-finance.near',
+    USN_CONTRACT: 'usn',
+    HAPI_PROTOCOL_ADDRESS: 'proxy.hapiprotocol.near'
 };

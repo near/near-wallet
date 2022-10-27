@@ -3,7 +3,7 @@ import { Translate } from 'react-localize-redux';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 
-import { EXPLORER_URL, NFT_TRANSFER_GAS } from '../../config';
+import CONFIG from '../../config';
 import { checkAccountAvailable } from '../../redux/actions/account';
 import { clearLocalAlert, showCustomAlert } from '../../redux/actions/status';
 import { selectBalance } from '../../redux/slices/account';
@@ -336,7 +336,7 @@ export default function NFTTransferModal({ onClose, nft, accountId }) {
                         </div>
                     </div>
 
-                    <EstimatedFees gasFeeAmount={NFT_TRANSFER_GAS} />
+                    <EstimatedFees gasFeeAmount={CONFIG.NFT_TRANSFER_GAS} />
 
                     <div className='full-width'>
                         <ModalFooter>
@@ -383,7 +383,7 @@ export default function NFTTransferModal({ onClose, nft, accountId }) {
                             <div className='success-bottons'>
                                 <FormButton
                                     type='button'
-                                    linkTo={`${EXPLORER_URL}/transactions/${result.transaction.hash}`}
+                                    linkTo={`${CONFIG.EXPLORER_URL}/transactions/${result.transaction.hash}`}
                                     color='gray-gray'
                                 >
                                     <Translate id='NFTTransfer.viewTransaction' />

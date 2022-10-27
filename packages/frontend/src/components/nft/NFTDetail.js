@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
-import { TOKEN_TRANSFER_DEPOSIT, NFT_TRANSFER_GAS } from '../../config';
+import CONFIG from '../../config';
 import UserIconGrey from '../../images/UserIconGrey';
 import BackArrowButton from '../common/BackArrowButton';
 import FormButton from '../common/FormButton';
@@ -112,12 +112,12 @@ const UserIcon = styled.div`
 export function NFTDetail({ nft, accountId, nearBalance, ownerId, history }) {
     const [transferNftDetail, setTransferNftDetail] = useState();
 
-    const transferMax = new BN((parseInt(NFT_TRANSFER_GAS, 10) + TOKEN_TRANSFER_DEPOSIT).toString());
+    const transferMax = new BN((parseInt(CONFIG.NFT_TRANSFER_GAS, 10) + CONFIG.TOKEN_TRANSFER_DEPOSIT).toString());
     const hasSufficientBalance = (new BN(nearBalance)).gte(transferMax);
-    
+
     return (
         <StyledContainer className='medium centered'>
-            {nft && ( 
+            {nft && (
                 <div className='container'>
                     <BackArrowButton
                         onClick={() => history.goBack()}

@@ -2,7 +2,7 @@ import React from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
-import { EXPLORER_URL } from '../../../config';
+import CONFIG from '../../../config';
 import Accordion from '../../common/Accordion';
 import BackArrowButton from '../../common/BackArrowButton';
 import Balance from '../../common/balance/Balance';
@@ -128,12 +128,12 @@ export default ({
                         ...actions.filter((a) => Object.keys(a)[0] === 'functionCall'),
                         ...actions.filter((a) => Object.keys(a)[0] !== 'functionCall')
                     ];
-                    
+
                     return (
                         <div key={receiverId}>
                             <div className='entry'>
                                 <Translate id='sign.details.forContract' />
-                                <a href={`${EXPLORER_URL}/accounts/${receiverId}`} rel='noopener noreferrer' target='_blank'>{receiverId} <ArrowUpRight /></a>
+                                <a href={`${CONFIG.EXPLORER_URL}/accounts/${receiverId}`} rel='noopener noreferrer' target='_blank'>{receiverId} <ArrowUpRight /></a>
                             </div>
                             {sortedActions.map((action, i) => {
                                 const methodName = action.functionCall?.methodName || '';

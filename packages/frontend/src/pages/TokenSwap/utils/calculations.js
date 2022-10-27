@@ -1,10 +1,6 @@
 import Big from 'big.js';
 
-import {
-    NEAR_ID,
-    NEAR_TOKEN_ID,
-    FT_MINIMUM_STORAGE_BALANCE_LARGE,
-} from '../../../config';
+import CONFIG from '../../../config';
 import { decreaseByPercent, getPercentFrom } from '../../../utils/amounts';
 import { getTotalGasFee } from '../../../utils/gasPrice';
 import { SWAP_GAS_UNITS } from './constants';
@@ -56,7 +52,7 @@ async function hasStorageDeposit(account, tokenId) {
 async function getStorageDepositAmount({ account, tokenIds }) {
     let storageDepositAmount = 0;
     const storageDepositYoctoNearAmount = Number(
-        FT_MINIMUM_STORAGE_BALANCE_LARGE
+        CONFIG.FT_MINIMUM_STORAGE_BALANCE_LARGE
     );
 
     await Promise.allSettled(
@@ -86,26 +82,26 @@ export async function getSwapCost({ account, tokenIn, tokenOut }) {
     // Amount we need to deposit in token storages
     let storageDepositAmount = 0;
 
-    if (tokenIds.includes(NEAR_ID) && tokenIds.includes(NEAR_TOKEN_ID)) {
+    if (tokenIds.includes(CONFIG.NEAR_ID) && tokenIds.includes(CONFIG.NEAR_TOKEN_ID)) {
         // swap NEAR <> wNEAR
         swapGasUnits = SWAP_GAS_UNITS.nearWithWnear;
 
         // There is NEAR -> wNEAR swap. We need to check wNEAR storage deposit and
         // to add deposit amount in total fee for this action.
-        if (tokenIn.contractName === NEAR_ID) {
+        if (tokenIn.contractName === CONFIG.NEAR_ID) {
             storageDepositAmount = await getStorageDepositAmount({
                 account,
-                tokenIds: [NEAR_TOKEN_ID],
+                tokenIds: [CONFIG.NEAR_TOKEN_ID],
             });
         }
-    } else if (tokenIds.includes(NEAR_ID)) {
+    } else if (tokenIds.includes(CONFIG.NEAR_ID)) {
         // swap NEAR <> NEP141
         swapGasUnits = SWAP_GAS_UNITS.nearWithFT;
 
-        if (tokenIn.contractName === NEAR_ID) {
+        if (tokenIn.contractName === CONFIG.NEAR_ID) {
             storageDepositAmount = await getStorageDepositAmount({
                 account,
-                tokenIds: [NEAR_TOKEN_ID, tokenOut.contractName],
+                tokenIds: [CONFIG.NEAR_TOKEN_ID, tokenOut.contractName],
             });
         }
     } else {

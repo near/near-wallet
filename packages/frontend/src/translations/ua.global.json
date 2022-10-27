@@ -586,7 +586,6 @@
         "account": "Акаунт",
         "authorizedApps": "Авторизовані додатки",
         "buyUSN": "Buy $USN",
-        "donateToUkraine": "Пожертвувати Україні",
         "fullAccessKeys": "Ключі повного доступу",
         "help": "Допомога",
         "noAccount": "У вас немає інших облікових записів",
@@ -1618,7 +1617,6 @@
             "title": "Депозит NEAR"
         },
         "status": "Статус",
-        "tokenBalance": "Баланс токенів",
         "tokens": "Токени",
         "totalBalance": "Загальний баланс",
         "totalBalanceTitle": "Загальний баланс",

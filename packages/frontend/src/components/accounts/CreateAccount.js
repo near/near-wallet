@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { ACCOUNT_ID_SUFFIX, IS_MAINNET, MIN_BALANCE_TO_CREATE } from '../../config';
+import CONFIG from '../../config';
 import { Mixpanel } from '../../mixpanel/index';
 import {
     checkNearDropBalance,
@@ -141,7 +141,7 @@ class CreateAccount extends Component {
 
     handleChange = (value) => {
         if (value.length > 0) {
-            this.setState({ accountId: `${value}.${ACCOUNT_ID_SUFFIX}` });
+            this.setState({ accountId: `${value}.${CONFIG.ACCOUNT_ID_SUFFIX}` });
         } else {
             this.setState({ accountId: value });
         }
@@ -190,7 +190,7 @@ class CreateAccount extends Component {
 
         const isLinkDrop = fundingContract && fundingKey;
         const useLocalAlert = accountId.length > 0 ? localAlert : undefined;
-        const showTermsPage = IS_MAINNET && !isLinkDrop && !termsAccepted && !ENABLE_IDENTITY_VERIFIED_ACCOUNT;
+        const showTermsPage = CONFIG.IS_MAINNET && !isLinkDrop && !termsAccepted && !ENABLE_IDENTITY_VERIFIED_ACCOUNT;
         const cannotCreateNewAccountWithZeroBalanceAccount = !isLinkDrop && accountExists === false;
 
         if (showTermsPage) {
@@ -201,7 +201,7 @@ class CreateAccount extends Component {
                     <h2>
                         <SafeTranslate
                             id='createAccount.termsPage.descOne'
-                            data={{ amount: getNearAndFiatValue(MIN_BALANCE_TO_CREATE, nearTokenFiatValueUSD) }}
+                            data={{ amount: getNearAndFiatValue(CONFIG.MIN_BALANCE_TO_CREATE, nearTokenFiatValueUSD) }}
                         />
                     </h2>
                     <h2><Translate id='createAccount.termsPage.descTwo' /></h2>

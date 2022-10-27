@@ -9,7 +9,7 @@ import FlipButton from '../../../components/common/FlipButton';
 import FormButton from '../../../components/common/FormButton';
 import Notification from '../../../components/common/Notification';
 import SelectToken from '../../../components/send/components/views/SelectToken';
-import { NEAR_ID } from '../../../config';
+import CONFIG from '../../../config';
 import { selectAvailableBalance } from '../../../redux/slices/account';
 import { formatTokenAmount } from '../../../utils/amounts';
 import { NEAR_DECIMALS } from '../../../utils/constants';
@@ -169,7 +169,7 @@ const SwapForm = memo(({ onGoBack, account, tokensConfig  }) => {
     const handleInputAmountChange = (value) => {
         setAmountIn(value);
         setAmountOut('');
-    }; 
+    };
 
     const {
         swapNotification,
@@ -195,7 +195,7 @@ const SwapForm = memo(({ onGoBack, account, tokensConfig  }) => {
 
             // If we have NEAR in the input field check is available balance >= amount + swap fee
             if (
-                tokenIn?.contractName === NEAR_ID &&
+                tokenIn?.contractName === CONFIG.NEAR_ID &&
                 amountIn &&
                 Big(estimatedFee).plus(amountIn).gt(formattedBalance)
             ) {
@@ -235,7 +235,7 @@ const SwapForm = memo(({ onGoBack, account, tokensConfig  }) => {
         if (formIsFilled && availableBalance) {
             const formattedBalance = formatTokenAmount(availableBalance, NEAR_DECIMALS, NEAR_DECIMALS);
             const isInsufficientBalance = Big(estimatedFee)
-                .plus(tokenIn?.contractName === NEAR_ID ? amountIn : 0)
+                .plus(tokenIn?.contractName === CONFIG.NEAR_ID ? amountIn : 0)
                 .gt(formattedBalance);
 
             if (isValidInput && !isInsufficientBalance) {

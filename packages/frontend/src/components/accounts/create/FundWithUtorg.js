@@ -4,7 +4,7 @@ import React from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
-import { UTORG_ORDER_URL } from '../../../config';
+import CONFIG from '../../../config';
 import UtorgLogo from '../../../images/utorg-logo.png';
 import { Mixpanel } from '../../../mixpanel';
 import FormButton from '../../common/FormButton';
@@ -31,7 +31,7 @@ const Container = styled.div`
 
 export function buildUtorgPayLink(accountId, amount, amountFiat, currencyFiat) {
     let uri = {
-        url: UTORG_ORDER_URL,
+        url: CONFIG.UTORG_ORDER_URL,
         query: {
             currency: 'NEAR',
         }

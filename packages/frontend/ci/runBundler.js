@@ -7,6 +7,7 @@ async function runBundler() {
         .reduce((argMap, param) => {
             const [key, value] = param.split('=');
             argMap[key] = value;
+
             return argMap;
         }, {});
 

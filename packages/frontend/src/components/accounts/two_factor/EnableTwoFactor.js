@@ -4,7 +4,7 @@ import { Translate } from 'react-localize-redux';
 import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
-import { MULTISIG_MIN_AMOUNT } from '../../../config';
+import CONFIG from '../../../config';
 import { useRecoveryMethods } from '../../../hooks/recoveryMethods';
 import { Mixpanel } from '../../../mixpanel/index';
 import {
@@ -96,7 +96,7 @@ export function EnableTwoFactor(props) {
     const pendingTwoFactorAction = useSelector((state) => selectActionsPending(state, { types: ['INIT_TWO_FACTOR', 'DEPLOY_MULTISIG'] }));
     const reSending = useSelector((state) => selectActionsPending(state, { types: ['INIT_TWO_FACTOR'] }));
 
-    const multiSigMinAmountRaw = parseNearAmount(MULTISIG_MIN_AMOUNT);
+    const multiSigMinAmountRaw = parseNearAmount(CONFIG.MULTISIG_MIN_AMOUNT);
 
     const method = {
         kind: '2fa-email',
@@ -139,7 +139,7 @@ export function EnableTwoFactor(props) {
 
     const handleConfirm = async (securityCode) => {
         if (initiated && securityCode.length === 6) {
-            await Mixpanel.withTracking('2FA Verify', 
+            await Mixpanel.withTracking('2FA Verify',
                 async () => {
                     await dispatch(verifyTwoFactor(securityCode));
                     await dispatch(clearGlobalAlert());
@@ -219,10 +219,10 @@ export function EnableTwoFactor(props) {
                     >
                         <Translate id={'button.continue'} />
                     </FormButton>
-                    <FormButton 
-                        className='link' 
-                        type='button' 
-                        linkTo='/profile' 
+                    <FormButton
+                        className='link'
+                        type='button'
+                        linkTo='/profile'
                         trackingId="2FA Click skip button"
                     >
                         <Translate id='button.skip' />

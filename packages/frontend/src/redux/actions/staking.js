@@ -3,14 +3,7 @@ import BN from 'bn.js';
 import * as nearApiJs from 'near-api-js';
 import { createActions } from 'redux-actions';
 
-import {
-    REACT_APP_USE_TESTINGLOCKUP,
-    STAKING_GAS_BASE,
-    FARMING_CLAIM_GAS,
-    FARMING_CLAIM_YOCTO,
-    LOCKUP_ACCOUNT_ID_SUFFIX,
-    FT_MINIMUM_STORAGE_BALANCE_LARGE
-} from '../../config';
+import CONFIG from '../../config';
 import { fungibleTokensService } from '../../services/FungibleTokens';
 import { listStakingPools } from '../../services/indexer';
 import StakingFarmContracts from '../../services/StakingFarmContracts';
@@ -88,7 +81,7 @@ export const { staking } = createActions({
                             await signAndSendTransaction({
                                 receiverId: lockupId,
                                 actions: [
-                                    functionCall('unselect_staking_pool', {}, STAKING_GAS_BASE, '0')
+                                    functionCall('unselect_staking_pool', {}, CONFIG.STAKING_GAS_BASE, '0')
                                 ],
                             });
                         }
@@ -98,7 +91,7 @@ export const { staking } = createActions({
                                 functionCall(
                                     'select_staking_pool',
                                     { staking_pool_account_id: validatorId },
-                                    STAKING_GAS_BASE * 3,
+                                    CONFIG.STAKING_GAS_BASE * 3,
                                     '0'
                                 ),
                             ],
@@ -110,7 +103,7 @@ export const { staking } = createActions({
                             functionCall(
                                 'deposit_and_stake',
                                 { amount },
-                                STAKING_GAS_BASE * 5,
+                                CONFIG.STAKING_GAS_BASE * 5,
                                 '0'
                             ),
                         ],
@@ -123,7 +116,7 @@ export const { staking } = createActions({
                     const result = await signAndSendTransaction({
                         receiverId: validatorId,
                         actions: [
-                            functionCall('deposit_and_stake', {}, STAKING_GAS_BASE * 5, amount)
+                            functionCall('deposit_and_stake', {}, CONFIG.STAKING_GAS_BASE * 5, amount)
                         ],
                     });
                     // wait for chain/explorer to index results
@@ -141,14 +134,14 @@ export const { staking } = createActions({
                         return await signAndSendTransaction({
                             receiverId: lockupId,
                             actions: [
-                                functionCall('unstake', { amount }, STAKING_GAS_BASE * 5, '0')
+                                functionCall('unstake', { amount }, CONFIG.STAKING_GAS_BASE * 5, '0')
                             ],
                         });
                     }
                     return await signAndSendTransaction({
                         receiverId: lockupId,
                         actions: [
-                            functionCall('unstake_all', {}, STAKING_GAS_BASE * 5, '0')
+                            functionCall('unstake_all', {}, CONFIG.STAKING_GAS_BASE * 5, '0')
                         ],
                     });
                 },
@@ -161,14 +154,14 @@ export const { staking } = createActions({
                         result = await signAndSendTransaction({
                             receiverId: validatorId,
                             actions: [
-                                functionCall('unstake', { amount }, STAKING_GAS_BASE * 5, '0')
+                                functionCall('unstake', { amount }, CONFIG.STAKING_GAS_BASE * 5, '0')
                             ],
                         });
                     } else {
                         result = await signAndSendTransaction({
                             receiverId: validatorId,
                             actions: [
-                                functionCall('unstake_all', {}, STAKING_GAS_BASE * 5, '0')
+                                functionCall('unstake_all', {}, CONFIG.STAKING_GAS_BASE * 5, '0')
                             ],
                         });
                     }
@@ -188,14 +181,14 @@ export const { staking } = createActions({
                         result = await signAndSendTransaction({
                             receiverId: lockupId,
                             actions: [
-                                functionCall('withdraw_from_staking_pool', { amount }, STAKING_GAS_BASE * 5, '0')
+                                functionCall('withdraw_from_staking_pool', { amount }, CONFIG.STAKING_GAS_BASE * 5, '0')
                             ],
                         });
                     } else {
                         result = await signAndSendTransaction({
                             receiverId: lockupId,
                             actions: [
-                                functionCall('withdraw_all_from_staking_pool', {}, STAKING_GAS_BASE * 7, '0')
+                                functionCall('withdraw_all_from_staking_pool', {}, CONFIG.STAKING_GAS_BASE * 7, '0')
                             ],
                         });
                     }
@@ -213,14 +206,14 @@ export const { staking } = createActions({
                         result = await signAndSendTransaction({
                             receiverId: validatorId,
                             actions: [
-                                functionCall('withdraw', { amount }, STAKING_GAS_BASE * 5, '0')
+                                functionCall('withdraw', { amount }, CONFIG.STAKING_GAS_BASE * 5, '0')
                             ],
                         });
                     } else {
                         result = await signAndSendTransaction({
                             receiverId: validatorId,
                             actions: [
-                                functionCall('withdraw_all', {}, STAKING_GAS_BASE * 7, '0')
+                                functionCall('withdraw_all', {}, CONFIG.STAKING_GAS_BASE * 7, '0')
                             ],
                         });
                     }
@@ -285,7 +278,7 @@ export const { staking } = createActions({
                     }
                 }
             }));
-            
+
             // TODO: calculate APY
 
             return {
@@ -308,7 +301,7 @@ export const { staking } = createActions({
                 .sub(getLockupMinBalanceForStorage(code_hash))
                 .sub(deposited);
 
-            // minimum displayable for totalUnstaked 
+            // minimum displayable for totalUnstaked
             if (totalUnstaked.lt(new BN(parseNearAmount('0.002')))) {
                 totalUnstaked = ZERO.clone();
             }
@@ -378,7 +371,7 @@ export const { staking } = createActions({
         GET_LOCKUP: [
             async ({ accountId }) => {
                 let lockupId;
-                if (REACT_APP_USE_TESTINGLOCKUP && accountId.length < 64) {
+                if (CONFIG.REACT_APP_USE_TESTINGLOCKUP && accountId.length < 64) {
                     lockupId = `testinglockup.${accountId}`;
                 } else {
                     lockupId = getLockupAccountId(accountId);
@@ -500,7 +493,7 @@ export const handleStakingAction = (action, validatorId, amount) => async (dispa
     const accountId = selectStakingMainAccountId(getState());
     const currentAccountId = selectStakingCurrentAccountAccountId(getState());
 
-    const isLockup = currentAccountId.endsWith(`.${LOCKUP_ACCOUNT_ID_SUFFIX}`);
+    const isLockup = currentAccountId.endsWith(`.${CONFIG.LOCKUP_ACCOUNT_ID_SUFFIX}`);
 
     if (amount && amount.length < 15) {
         amount = parseNearAmount(amount);
@@ -531,7 +524,7 @@ export const updateStaking = (currentAccountId, recentlyStakedValidators) => asy
     }
 
     let currentAccount = selectStakingCurrentAccountbyAccountId(getState(), { accountId: currentAccountId });
-    
+
     if (!currentAccount) {
         currentAccount = selectStakingCurrentAccountbyAccountId(getState(), { accountId });
         setStakingAccountSelected(accountId);
@@ -580,12 +573,12 @@ export const claimFarmRewards = (validatorId, token_id) => async (dispatch, getS
     try {
         const accountId = selectStakingMainAccountId(getState());
         const currentAccountId = selectStakingCurrentAccountAccountId(getState());
-        const isLockup = currentAccountId.endsWith(`.${LOCKUP_ACCOUNT_ID_SUFFIX}`);
+        const isLockup = currentAccountId.endsWith(`.${CONFIG.LOCKUP_ACCOUNT_ID_SUFFIX}`);
 
         const validators = selectStakingAllValidators(getState());
         const validator = { ...validators.find((validator) => validator?.accountId === validatorId)};
 
-        const storageAvailable = await fungibleTokensService.isStorageBalanceAvailable({ 
+        const storageAvailable = await fungibleTokensService.isStorageBalanceAvailable({
             contractName: token_id,
             accountId: accountId
         });
@@ -596,7 +589,7 @@ export const claimFarmRewards = (validatorId, token_id) => async (dispatch, getS
                     account,
                     contractName: token_id,
                     receiverId: accountId,
-                    storageDepositAmount: FT_MINIMUM_STORAGE_BALANCE_LARGE
+                    storageDepositAmount: CONFIG.FT_MINIMUM_STORAGE_BALANCE_LARGE
                 });
             } catch (e) {
                 console.warn(e);
@@ -611,9 +604,9 @@ export const claimFarmRewards = (validatorId, token_id) => async (dispatch, getS
             args.delegator_id = lockupId;
         }
 
-        return validator.contract.claim(args, FARMING_CLAIM_GAS, FARMING_CLAIM_YOCTO);
+        return validator.contract.claim(args, CONFIG.FARMING_CLAIM_GAS, CONFIG.FARMING_CLAIM_YOCTO);
     } catch (error) {
         throw error;
     }
-    
+
 };

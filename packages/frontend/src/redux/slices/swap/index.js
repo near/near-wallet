@@ -3,7 +3,7 @@ import merge from 'lodash.merge';
 import set from 'lodash.set';
 import { batch } from 'react-redux';
 
-import { TEMPLATE_ACCOUNT_ID } from '../../../config';
+import CONFIG from '../../../config';
 import FungibleTokens from '../../../services/FungibleTokens';
 import fungibleTokenExchange from '../../../services/tokenExchange';
 import { wallet } from '../../../utils/wallet';
@@ -126,7 +126,7 @@ const fetchSwapData = createAsyncThunk(
         dispatch(setPoolsLoading(true));
 
         try {
-            const account = wallet.getAccountBasic(TEMPLATE_ACCOUNT_ID);
+            const account = wallet.getAccountBasic(CONFIG.TEMPLATE_ACCOUNT_ID);
             const { pools, tokens } = await fungibleTokenExchange.getData({
                 account,
             });

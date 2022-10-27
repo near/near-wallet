@@ -3,7 +3,7 @@ import * as nearApiJs from 'near-api-js';
 import { parseSeedPhrase } from 'near-seed-phrase';
 
 import { store } from '..';
-import { ACCOUNT_HELPER_URL, MULTISIG_CONTRACT_HASHES, MULTISIG_MIN_AMOUNT, NETWORK_ID, NODE_URL } from '../config';
+import CONFIG from '../config';
 import { promptTwoFactor, refreshAccount } from '../redux/actions/account';
 import { WalletError } from './walletError';
 
@@ -18,7 +18,7 @@ export class TwoFactor extends Account2FA {
     constructor(wallet, accountId, has2fa = false) {
         super(wallet.connection, accountId, {
             storage: localStorage,
-            helperUrl: ACCOUNT_HELPER_URL,
+            helperUrl: CONFIG.ACCOUNT_HELPER_URL,
             getCode: () => store.dispatch(promptTwoFactor(true)).payload.promise
         });
         this.wallet = wallet;
@@ -30,12 +30,12 @@ export class TwoFactor extends Account2FA {
         if (!state) {
             return false;
         }
-        return MULTISIG_CONTRACT_HASHES.includes(state.code_hash);
+        return CONFIG.MULTISIG_CONTRACT_HASHES.includes(state.code_hash);
     }
 
     static async checkCanEnableTwoFactor(balance) {
         const availableBalance = new BN(balance.available);
-        const multisigMinAmount = new BN(nearApiJs.utils.format.parseNearAmount(MULTISIG_MIN_AMOUNT));
+        const multisigMinAmount = new BN(nearApiJs.utils.format.parseNearAmount(CONFIG.MULTISIG_MIN_AMOUNT));
         return multisigMinAmount.lt(availableBalance);
     }
 
@@ -98,26 +98,26 @@ export class TwoFactor extends Account2FA {
 
     static async disableMultisigWithFAK({ accountId, seedPhrase, cleanupState }) {
         const keyStore = new InMemoryKeyStore();
-        await keyStore.setKey(NETWORK_ID, accountId, KeyPair.fromString(parseSeedPhrase(seedPhrase).secretKey));
+        await keyStore.setKey(CONFIG.NETWORK_ID, accountId, KeyPair.fromString(parseSeedPhrase(seedPhrase).secretKey));
         const connection = Connection.fromConfig({
-            networkId: NETWORK_ID,
+            networkId: CONFIG.NETWORK_ID,
             provider: {
                 type: 'JsonRpcProvider',
-                args: { url: NODE_URL },
+                args: { url: CONFIG.NODE_URL },
             },
             signer: { type: 'InMemorySigner', keyStore },
         });
-    
+
         const emptyContractBytes = new Uint8Array(await (await fetch('/main.wasm')).arrayBuffer());
         let cleanupContractBytes;
         if (cleanupState) {
             cleanupContractBytes = new Uint8Array(await (await fetch('/state_cleanup.wasm')).arrayBuffer());
         }
-    
+
         const account = new Account2FA(connection, accountId, {
-            helperUrl: ACCOUNT_HELPER_URL,
+            helperUrl: CONFIG.ACCOUNT_HELPER_URL,
         });
-    
+
         return await account.disableWithFAK({ contractBytes: emptyContractBytes, cleanupContractBytes });
     }
 }

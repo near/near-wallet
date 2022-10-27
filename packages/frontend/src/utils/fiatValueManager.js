@@ -3,7 +3,7 @@ import { Contract } from 'near-api-js';
 import Cache from 'node-cache';
 import { stringifyUrl } from 'query-string';
 
-import { REF_FINANCE_API_ENDPOINT, REF_FINANCE_CONTRACT, ACCOUNT_ID_SUFFIX } from '../config';
+import CONFIG from '../config';
 import sendJson from '../tmp_fetch_send_json';
 import { wallet } from './wallet';
 
@@ -70,7 +70,7 @@ export default class FiatValueManager {
                 try {
                     const refFinanceTokenFiatValues = await sendJson(
                         'GET',
-                        REF_FINANCE_API_ENDPOINT + '/list-token-price'
+                        CONFIG.REF_FINANCE_API_ENDPOINT + '/list-token-price'
                     );
                     return [refFinanceTokenFiatValues];
                 } catch (error) {
@@ -106,13 +106,13 @@ export default class FiatValueManager {
                 }
             });
         }, {});
-        return {...formattedValues, near: formattedValues[`wrap.${ACCOUNT_ID_SUFFIX}`]};
+        return {...formattedValues, near: formattedValues[`wrap.${CONFIG.ACCOUNT_ID_SUFFIX}`]};
     };
 
     async fetchTokenWhiteList(accountId) {
         try {
             const account = wallet.getAccountBasic(accountId);
-            const contract = new Contract(account, REF_FINANCE_CONTRACT, {viewMethods: ['get_whitelisted_tokens']});
+            const contract = new Contract(account, CONFIG.REF_FINANCE_CONTRACT, {viewMethods: ['get_whitelisted_tokens']});
             const whiteListedTokens = await contract.get_whitelisted_tokens();
 
             return whiteListedTokens;

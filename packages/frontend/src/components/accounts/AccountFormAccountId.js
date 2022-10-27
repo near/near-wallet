@@ -3,7 +3,7 @@ import React, { Component, createRef } from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
-import { ACCOUNT_ID_SUFFIX } from '../../config';
+import CONFIG from '../../config';
 import { Mixpanel } from '../../mixpanel/index';
 import classNames from '../../utils/classNames';
 import { ACCOUNT_CHECK_TIMEOUT } from '../../utils/wallet';
@@ -56,7 +56,7 @@ class AccountFormAccountId extends Component {
         invalidAccountIdLength: false,
         wrongChar: false
     }
-    
+
     checkAccountAvailabilityTimer = null;
     canvas = null;
     suffix = createRef();
@@ -119,11 +119,11 @@ class AccountFormAccountId extends Component {
                 wrongChar: false
             }));
         }
-        
+
         this.setState(() => ({
             accountId: accountId
         }));
-        
+
         handleChange(accountId);
 
         this.props.localAlert && this.props.clearLocalAlert();
@@ -137,7 +137,7 @@ class AccountFormAccountId extends Component {
     }
 
     checkAccountIdLength = (accountId) => {
-        const accountIdWithSuffix = `${accountId}.${ACCOUNT_ID_SUFFIX}`;
+        const accountIdWithSuffix = `${accountId}.${CONFIG.ACCOUNT_ID_SUFFIX}`;
         return accountIdWithSuffix.length >= 2 && accountIdWithSuffix.length <= 64;
     }
 
@@ -156,7 +156,7 @@ class AccountFormAccountId extends Component {
             return true;
         }
         if (!(type === 'create' && !this.handleAccountIdLengthState(accountId) && !this.checkAccountIdLength(accountId))) {
-            return this.props.checkAvailability(type === 'create' ? this.props.accountId : accountId); 
+            return this.props.checkAvailability(type === 'create' ? this.props.accountId : accountId);
         }
         return false;
     }
@@ -240,7 +240,7 @@ class AccountFormAccountId extends Component {
                                 value={accountId}
                                 onInput={(e) => type === 'create' && this.updateSuffix(e.target.value.trim())}
                                 onChange={(e) => this.handleChangeAccountId({ userValue: e.target.value.trim(), el: e.target })}
-                                placeholder={type === 'create' ? translate('createAccount.accountIdInput.placeholder', { data: ACCOUNT_ID_SUFFIX}) : translate('input.accountId.placeholder')}
+                                placeholder={type === 'create' ? translate('createAccount.accountIdInput.placeholder', { data: CONFIG.ACCOUNT_ID_SUFFIX}) : translate('input.accountId.placeholder')}
                                 required
                                 autoComplete='off'
                                 autoCorrect='off'
@@ -250,7 +250,7 @@ class AccountFormAccountId extends Component {
                                 autoFocus={autoFocus && accountId.length === 0}
                                 disabled={disabled}
                             />
-                            {type === 'create' && <span className='input-suffix' ref={this.suffix}>.{ACCOUNT_ID_SUFFIX}</span>}
+                            {type === 'create' && <span className='input-suffix' ref={this.suffix}>.{CONFIG.ACCOUNT_ID_SUFFIX}</span>}
                             {type !== 'create' && <div className='input-sub-label'>{translate('input.accountId.subLabel')}</div>}
                         </InputWrapper>
                     )}

@@ -2,7 +2,7 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
-import { EXPLORER_URL } from '../../config';
+import CONFIG from '../../config';
 import { redirectTo } from '../../redux/actions/account';
 import isDataURL from '../../utils/isDataURL';
 import {NFTMedia} from '../nft/NFTMedia';
@@ -141,7 +141,7 @@ const NFTBox = ({ tokenDetails }) => {
                     }
                 </div>
                 <div className='desc'>
-                    <a href={`${EXPLORER_URL}/accounts/${contractName}`} title={name} target='_blank'
+                    <a href={`${CONFIG.EXPLORER_URL}/accounts/${contractName}`} title={name} target='_blank'
                         rel='noopener noreferrer'
                     >
                         {name}

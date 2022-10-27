@@ -1,4 +1,4 @@
-import { USN_CONTRACT } from '../../../config';
+import CONFIG from '../../../config';
 
 // Amount of decimal places to save in the displayed amounts.
 // Not used in the real calculations.
@@ -27,7 +27,7 @@ export const PRICE_IMPACT_THRESHOLD = {
 };
 
 // Used to initialize output token in the form.
-export const DEFAULT_OUTPUT_TOKEN_ID = USN_CONTRACT || '';
+export const DEFAULT_OUTPUT_TOKEN_ID = CONFIG.USN_CONTRACT || '';
 
 export const DEFAULT_SLIPPAGE_PERCENT = 1;
 

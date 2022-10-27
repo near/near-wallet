@@ -690,7 +690,6 @@
         "account": "Account",
         "authorizedApps": "Authorized Apps",
         "buyUSN": "Buy $USN",
-        "donateToUkraine": "Donate to Ukraine",
         "explore": "Explore",
         "fullAccessKeys": "Full Access Keys",
         "help": "Help",
@@ -781,12 +780,6 @@
                 "title": "Connect with NEAR"
             }
         }
-    },
-    "migration": {
-        "message": "NEAR Wallet is being sunsetted, find more info in our <a href='${url}' target='_blank'>blog</a>.<br/>You have until ${startDate} to transfer your accounts, or export your keys from your account settings.",
-        "redirect": "NEAR Wallet is being sunsetted.<br/>Click the button to learn more.",
-        "redirectCaption": "Learn More",
-        "transferCaption": "Transfer My Accounts"
     },
     "minimumBalance": "This is the minimum NEAR balance your account must maintain to remain active. This balance represents the storage space your account is using on the NEAR blockchain (with a small buffer), and will go up or down as you use more or less space.",
     "mobileDeviceAccess": {
@@ -1797,7 +1790,6 @@
             "title": "Deposit NEAR"
         },
         "status": "Status",
-        "tokenBalance": "Token Balance",
         "tokens": "Tokens",
         "totalBalance": "Total Balance",
         "totalBalanceTitle": "Total Balance",

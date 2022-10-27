@@ -7,7 +7,7 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import CreateImplicitAccount from '../components/accounts/create/implicit_account/CreateImplicitAccount';
-import { MIN_BALANCE_TO_CREATE } from '../config';
+import CONFIG from '../config';
 import { Mixpanel } from '../mixpanel';
 import { redirectTo } from '../redux/actions/account';
 import { showCustomAlert } from '../redux/actions/status';
@@ -39,7 +39,7 @@ const CreateImplicitAccountWrapper = () => {
     const implicitAccountId = URLParams.implicitAccountId;
     const recoveryMethod = URLParams.recoveryMethod;
 
-    const formattedMinDeposit = formatNearAmount(MIN_BALANCE_TO_CREATE);
+    const formattedMinDeposit = formatNearAmount(CONFIG.MIN_BALANCE_TO_CREATE);
 
     useEffect(() => {
         if (accountId === implicitAccountId || !implicitAccountId || !recoveryMethod) {
@@ -76,7 +76,7 @@ const CreateImplicitAccountWrapper = () => {
                     try {
                         const account = wallet.getAccountBasic(implicitAccountId);
                         const state = await account.state();
-                        if (new BN(state.amount).gte(new BN(MIN_BALANCE_TO_CREATE))) {
+                        if (new BN(state.amount).gte(new BN(CONFIG.MIN_BALANCE_TO_CREATE))) {
                             Mixpanel.track('CA Check balance from implicit: sufficient');
                             setFundingNeeded(false);
                             console.log('Minimum funding amount received. Finishing acccount setup.');

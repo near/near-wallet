@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Translate } from 'react-localize-redux';
 import { connect, useSelector } from 'react-redux';
 
-import { DISABLE_CREATE_ACCOUNT, RECAPTCHA_CHALLENGE_API_KEY } from '../../../config';
+import CONFIG from '../../../config';
 import { Mixpanel } from '../../../mixpanel/index';
 import {
     addLedgerAccessKey,
@@ -48,7 +48,7 @@ const SetupLedger = (props) => {
 
     const recaptchaRef = useRef(null);
     const fundingOptions = parseFundingOptions(props.location.search);
-    const shouldRenderRecaptcha = !fundingOptions && RECAPTCHA_CHALLENGE_API_KEY && isNewAccount && !ENABLE_IDENTITY_VERIFIED_ACCOUNT;
+    const shouldRenderRecaptcha = !fundingOptions && CONFIG.RECAPTCHA_CHALLENGE_API_KEY && isNewAccount && !ENABLE_IDENTITY_VERIFIED_ACCOUNT;
 
     const accountHas2fa = useSelector(selectAccountHas2fa);
     // disable the Continue button if a user has 2fa enabled, or we don't know yet if it's disabled/enabled
@@ -83,7 +83,7 @@ const SetupLedger = (props) => {
                     let publicKey;
 
                     try {
-                        debugLog(DISABLE_CREATE_ACCOUNT, fundingOptions);
+                        debugLog(CONFIG.DISABLE_CREATE_ACCOUNT, fundingOptions);
                         publicKey = await dispatch(getLedgerPublicKey(ledgerHdPath));
                         await setKeyMeta(publicKey, { type: 'ledger' });
                         Mixpanel.track('SR-Ledger Set key meta');
@@ -92,14 +92,14 @@ const SetupLedger = (props) => {
                         setLedgerHdPath({ accountId, path: ledgerHdPath });
 
                         // COIN-OP VERIFY ACCOUNT
-                        if (DISABLE_CREATE_ACCOUNT && ENABLE_IDENTITY_VERIFIED_ACCOUNT && !fundingOptions) {
+                        if (CONFIG.DISABLE_CREATE_ACCOUNT && ENABLE_IDENTITY_VERIFIED_ACCOUNT && !fundingOptions) {
                             await dispatch(fundCreateAccountLedger(accountId, publicKey));
                             Mixpanel.track('SR-Ledger Fund create account ledger');
                             return;
                         }
 
                         // IMPLICIT ACCOUNT
-                        if (DISABLE_CREATE_ACCOUNT && !fundingOptions && !recaptchaToken) {
+                        if (CONFIG.DISABLE_CREATE_ACCOUNT && !fundingOptions && !recaptchaToken) {
                             await dispatch(fundCreateAccountLedger(accountId, publicKey));
                             Mixpanel.track('SR-Ledger Fund create account ledger');
                             return;

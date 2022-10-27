@@ -4,7 +4,7 @@ import set from 'lodash.set';
 import { batch } from 'react-redux';
 import { createSelector } from 'reselect';
 
-import { WHITELISTED_CONTRACTS, USN_CONTRACT, NEAR_ID } from '../../../config';
+import CONFIG from '../../../config';
 import FungibleTokens from '../../../services/FungibleTokens';
 import handleAsyncThunkStatus from '../../reducerStatus/handleAsyncThunkStatus';
 import initialStatusState from '../../reducerStatus/initialState/initialStatusState';
@@ -60,7 +60,7 @@ const fetchTokens = createAsyncThunk(
         const { actions: { setTokens, setTokensWithBalance } } = tokensSlice;
         const { tokenFiatValues } = getState();
 
-        const likelyContractNames = [...new Set([...(await FungibleTokens.getLikelyTokenContracts({ accountId })), ...WHITELISTED_CONTRACTS])];
+        const likelyContractNames = [...new Set([...(await FungibleTokens.getLikelyTokenContracts({ accountId })), ...CONFIG.WHITELISTED_CONTRACTS])];
         const tokens = {};
         const tokensWithBalance = {};
 
@@ -220,7 +220,7 @@ export const selectTokensWithMetadataForAccountId = createSelector(
                 balance,
                 onChainFTMetadata: allContractMetadata[contractName] || {},
                 fiatValueMetadata:
-                    contractName === USN_CONTRACT ? { usd } : {},
+                    contractName === CONFIG.USN_CONTRACT ? { usd } : {},
             }));
     });
 
@@ -229,7 +229,7 @@ export const selectAllowedTokens = createSelector(
     (tokensFiatData, tokensWithBalance, setOfBlacklistedNames, nearConfig) => {
         const nearConfigWithName = {
             ...nearConfig,
-            contractName: NEAR_ID,
+            contractName: CONFIG.NEAR_ID,
         };
 
         const tokenList = Object.values(tokensWithBalance).map((tokenData) => ({

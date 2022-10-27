@@ -3,7 +3,7 @@ import { Translate } from 'react-localize-redux';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
-import { EXPLORER_URL } from '../../config';
+import CONFIG from '../../config';
 import { actions as transactionsActions } from '../../redux/slices/transactions';
 import { TRANSACTIONS_REFRESH_INTERVAL } from '../../utils/wallet';
 import FormButton from '../common/FormButton';
@@ -120,13 +120,13 @@ const StyledContainer = styled.div`
     }
 `;
 
-const ActivityDetailModal = ({ 
+const ActivityDetailModal = ({
     open,
     onClose,
     accountId,
     transaction
 }) => {
-    const { 
+    const {
         args: actionArgs,
         kind: actionKind,
         status,
@@ -158,7 +158,7 @@ const ActivityDetailModal = ({
         >
             <StyledContainer>
                 <h2 className='title'>
-                    <ActionTitle 
+                    <ActionTitle
                         transaction={transaction}
                         actionArgs={actionArgs}
                         actionKind={actionKind}
@@ -200,7 +200,7 @@ const ActivityDetailModal = ({
                                 </>
                             ) : (
                                 <div className='item sent-to'>
-                                    <ActionMessage 
+                                    <ActionMessage
                                         transaction={transaction}
                                         actionArgs={actionArgs}
                                         actionKind={actionKind}
@@ -216,14 +216,14 @@ const ActivityDetailModal = ({
                     </div>
                     <div className='item'>
                         <span><Translate id='wallet.status' /></span>
-                        <ActionStatus 
+                        <ActionStatus
                             status={status}
                         />
                     </div>
                 </div>
-                <FormButton 
-                    color='gray-blue' 
-                    linkTo={`${EXPLORER_URL}/transactions/${hash}`}
+                <FormButton
+                    color='gray-blue'
+                    linkTo={`${CONFIG.EXPLORER_URL}/transactions/${hash}`}
                     trackingId='Click access key added view on explorer button'
                 >
                     <Translate id='button.viewOnExplorer'/>

@@ -3,9 +3,6 @@ import { Translate } from 'react-localize-redux';
 import { Textfit } from 'react-textfit';
 import styled from 'styled-components';
 
-import {
-    CREATE_USN_CONTRACT,
-} from '../../../../../features';
 import getCurrentLanguage from '../../hooks/getCurrentLanguage';
 import classNames from '../../utils/classNames';
 import { SHOW_NETWORK_BANNER } from '../../utils/wallet';
@@ -478,11 +475,6 @@ const FungibleTokens = ({
                         <span className={classNames({ dots: tokensLoading })}>
                             <Translate id="wallet.yourPortfolio" />
                         </span>
-                        {!CREATE_USN_CONTRACT && (
-                            <span>
-                                <Translate id="wallet.tokenBalance" />
-                            </span>
-                        )}
                     </div>
                     <Tokens
                         tokens={fungibleTokens}

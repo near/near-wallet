@@ -1,6 +1,6 @@
 import * as nearApi from 'near-api-js';
 
-import { REF_FINANCE_CONTRACT, REF_FINANCE_API_ENDPOINT, TOKEN_TRANSFER_DEPOSIT } from '../../config';
+import CONFIG from '../../config';
 import { parseTokenAmount } from '../../utils/amounts';
 import { ERROR_MESSAGES } from './constants';
 import {
@@ -12,8 +12,8 @@ import {
 
 const refConfig = {
     errorRegExp: /[A-Z][0-9]+: ?[a-zA-Z0-9_$\- ]+/,
-    contractId: REF_FINANCE_CONTRACT,
-    indexerAddress: REF_FINANCE_API_ENDPOINT,
+    contractId: CONFIG.REF_FINANCE_CONTRACT,
+    indexerAddress: CONFIG.REF_FINANCE_API_ENDPOINT,
     viewMethods: [
         'get_number_of_pools',
         'get_pools',
@@ -151,7 +151,7 @@ class RefFinanceContract {
                     }),
                 },
                 refConfig.gasLimit.swap,
-                TOKEN_TRANSFER_DEPOSIT,
+                CONFIG.TOKEN_TRANSFER_DEPOSIT,
             ),
         );
 

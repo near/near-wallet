@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { NEAR_ID } from '../../../config';
+import CONFIG from '../../../config';
 import isDataURL from '../../../utils/isDataURL';
 import DefaultTokenIcon from '../../svg/DefaultTokenIcon';
 import DefaultTokenIconBlack from '../../svg/DefaultTokenIconBlack';
@@ -10,7 +10,7 @@ const TokenIcon = ({ symbol = 'Token', icon }) => {
         return <img src={icon} alt={symbol}/>;
     }
 
-    if (symbol === NEAR_ID) {
+    if (symbol === CONFIG.NEAR_ID) {
         return <DefaultTokenIconBlack/>;
     }
 

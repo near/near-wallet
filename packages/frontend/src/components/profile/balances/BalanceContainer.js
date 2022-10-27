@@ -16,7 +16,6 @@ const Container = styled.div`
     }
 
     .border-box {
-
         @media (min-width: 768px) {
             border: 2px solid #F0F0F0;
             border-radius: 8px;
@@ -132,7 +131,7 @@ const Container = styled.div`
     }
 `;
 
-const BalanceContainer = ({ account, profileBalance, hasLockup, MIN_BALANCE_FOR_GAS_FORMATTED }) => {
+const BalanceContainer = ({ account, profileBalance, hasLockup, balanceForGas }) => {
     return (
         <Container>
             {profileBalance && (
@@ -153,7 +152,7 @@ const BalanceContainer = ({ account, profileBalance, hasLockup, MIN_BALANCE_FOR_
                             <span><Balance data-test-id="ownerAccount.reservedForStorage" amount={profileBalance.walletBalance.reservedForStorage}/></span>
                         </div>
                         <div className='item'>
-                            <span><Translate id='profile.account.reservedForTransactions'/><Tooltip translate='reservedForFeesInfo' data={MIN_BALANCE_FOR_GAS_FORMATTED}/></span>
+                            <span><Translate id='profile.account.reservedForTransactions'/><Tooltip translate='reservedForFeesInfo' data={balanceForGas}/></span>
                             <span><Balance data-test-id="ownerAccount.reservedForTransactions" amount={profileBalance.walletBalance.reservedForTransactions}/></span>
                         </div>
                         <div className='item'>
