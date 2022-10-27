@@ -1036,6 +1036,18 @@
         "pageTitle": "Проверить фразу",
         "startOverText": "Не записали фразу?"
     },
+    "setupPasswordProtection": {
+        "pageTitle": "Создайте пароль",
+        "pageText": "Вы сможете использовать его для того чтобы разблокировать ваш кошелёк.",
+        "withoutPassword": "Продолжить без создания пароля",
+        "lengthError": "Минимум 8 символов",
+        "matchError": "Пароли не совпадают",
+        "enter": "Введите пароль",
+        "confirm": "Подвердите пароль",
+        "week": "Слабый пароль",
+        "average": "Средний пароль",
+        "strong": "Сильный пароль"
+    },
     "sign": {
         "accountNotFound": {
             "body": "${signCallbackUrl} is requesting authorization from a NEAR account that cannot be found: <b>${signTransactionSignerId}</b><br/><br/>To approve any transactions, you’ll first need to import the account.",

@@ -24,6 +24,7 @@ import parseFundingOptions from '../../utils/parseFundingOptions';
 import { Snackbar, snackbarDuration } from '../common/Snackbar';
 import Container from '../common/styled/Container.css';
 import { isRetryableRecaptchaError } from '../Recaptcha';
+import SetPasswordForm from './SetPasswordForm';
 import SetupSeedPhraseForm from './SetupSeedPhraseForm';
 import SetupSeedPhraseVerify from './SetupSeedPhraseVerify';
 
@@ -102,6 +103,7 @@ class SetupSeedPhrase extends Component {
     handleVerifyPhrase = () => {
         const { seedPhrase, enterWord, wordId, submitting } = this.state;
         Mixpanel.track('SR-SP Verify start');
+
         if (enterWord !== seedPhrase.split(' ')[wordId]) {
             this.setState(() => ({
                 localAlert: {
@@ -211,6 +213,10 @@ class SetupSeedPhrase extends Component {
         e.preventDefault();
     }
 
+    handleSubmitPasswordStep = (password) => {
+        console.log(password);
+    }
+
     render() {
         const { recoveryMethods, recoveryMethodsLoader, history, accountId, location } = this.props;
         const hasSeedPhraseRecovery = recoveryMethodsLoader || recoveryMethods.filter((m) => m.kind === 'phrase').length > 0;
@@ -270,6 +276,22 @@ class SetupSeedPhrase extends Component {
                                             isLinkDrop={parseFundingOptions(this.props.location.search) !== null}
                                             hasSeedPhraseRecovery={hasSeedPhraseRecovery}
                                         />
+                                    </form>
+                                </Container>
+                            )}
+                        />
+                        <Route
+                            path={'/setup-seed-phrase/:accountId/set-encryption'}
+                            render={() => (
+                                <Container className='small-centered border'>
+                                    <form
+                                        onSubmit={this.handleSubmitPasswordStep}
+                                        autoComplete='off'
+                                    >
+                                        <h1><Translate id='setupPasswordProtection.pageTitle'/></h1>
+                                        <h2><Translate id='setupPasswordProtection.pageText'/></h2>
+                                        <SetPasswordForm
+                                            onSubmit={this.handleSubmitPasswordStep} />
                                     </form>
                                 </Container>
                             )}

@@ -1296,6 +1296,18 @@
         "secondaryCta": "Keep existing keys",
         "two": "Maintaining multiple keys and recovery methods (including passphrases) increases the vulnerability of your account."
     },
+    "setupPasswordProtection": {
+        "average": "Average password",
+        "confirm": "Confirm Password",
+        "enter": "Enter password",
+        "lengthError": "At least 8 characters",
+        "matchError": "Passwords do not match",
+        "pageText": "You will use this to unlock your wallet.",
+        "pageTitle": "Create a Password",
+        "strong": "Strong password",
+        "week": "Week password",
+        "withoutPassword": "Continue without creating a password"
+    },
     "setupRecovery": {
         "advancedSecurity": "Most Secure (Recommended)",
         "advancedSecurityDesc": "Write down a 12 word passphrase, or secure your account with your Ledger device.",
