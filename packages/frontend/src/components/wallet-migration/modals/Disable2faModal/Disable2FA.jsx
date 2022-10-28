@@ -163,7 +163,7 @@ const Disable2FAModal = ({ handleSetActiveView, onClose }) => {
             id='migration-modal'
             isOpen={!currentBrickedAccount}
             disableClose={!currentBrickedAccount}
-            onClose={() => {}}
+            onClose={onClose}
             modalSize='md'
             style={{ maxWidth: '435px' }}
         >

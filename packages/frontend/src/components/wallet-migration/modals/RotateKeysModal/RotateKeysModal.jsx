@@ -179,7 +179,7 @@ const RotateKeysModal = ({handleSetActiveView, onClose}) => {
             <Modal
                 modalClass="fullscreen"
                 id='migration-modal'
-                onClose={() => {}}
+                onClose={onClose}
                 modalSize='md'
             >
                 <ConfirmPassphrase
@@ -224,7 +224,7 @@ const RotateKeysModal = ({handleSetActiveView, onClose}) => {
                <Modal
                    modalClass="slim"
                    id='migration-modal'
-                   onClose={() => {}}
+                   onClose={onClose}
                    modalSize='lg'
                >
                    <SavePassphrase
@@ -246,7 +246,7 @@ const RotateKeysModal = ({handleSetActiveView, onClose}) => {
                    <Modal
                        modalClass="slim"
                        id='migration-modal'
-                       onClose={() => {}}
+                       onClose={onClose}
                        modalSize='md'
                        style={{ maxWidth: '431px' }}
                    >
