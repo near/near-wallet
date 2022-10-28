@@ -148,6 +148,8 @@ const RotateKeysModal = ({handleSetActiveView, onClose}) => {
                 success: false,
                 messageCodeHeader: 'error'
             }));
+            
+            // Persist error for at least 3 seconds
             await new Promise((r) => setTimeout(r, 3000));
         } finally {
             dispatch(switchAccount({accountId: initialAccountId.current}));

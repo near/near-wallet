@@ -127,7 +127,7 @@ const WalletOptionsListingItem = styled.div`
             width: 11px;
             background-color: white;
             border-radius: 50%;
-            box-shadow: 1px 0px 2px 0px "#0000005";
+            box-shadow: 1px 0px 2px 0px #0000005;
         }
     }
 
