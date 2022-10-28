@@ -1,6 +1,6 @@
 import BN from 'bn.js';
 import { formatNearAmount } from 'near-api-js/lib/utils/format';
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import { Translate } from 'react-localize-redux';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
@@ -24,13 +24,15 @@ import {
     selectAccountHasLockup,
     selectAccountId,
     selectAccountLedgerKey,
-    selectAccountExists
+    selectAccountExists,
+    selectAccountSlice,
+    selectAccountFullAccessKeys
 } from '../../redux/slices/account';
 import { selectAllAccountsHasLockup } from '../../redux/slices/allAccounts';
 import { actions as recoveryMethodsActions, selectRecoveryMethodsByAccountId } from '../../redux/slices/recoveryMethods';
 import { selectNearTokenFiatValueUSD } from '../../redux/slices/tokenFiatValues';
 import isMobile from '../../utils/isMobile';
-import { wallet } from '../../utils/wallet';
+import WalletClass, { wallet } from '../../utils/wallet';
 import AlertBanner from '../common/AlertBanner';
 import FormButton from '../common/FormButton';
 import SkeletonLoading from '../common/SkeletonLoading';
@@ -40,6 +42,7 @@ import CheckCircleIcon from '../svg/CheckCircleIcon';
 import LockIcon from '../svg/LockIcon';
 import ShieldIcon from '../svg/ShieldIcon';
 import UserIcon from '../svg/UserIcon';
+import { isAccountBricked } from '../wallet-migration/utils';
 import AuthorizedApp from './authorized_apps/AuthorizedApp';
 import BalanceContainer from './balances/BalanceContainer';
 import LockupAvailTransfer from './balances/LockupAvailTransfer';
@@ -153,6 +156,7 @@ export function Profile({ match }) {
     const accountIdFromUrl = match.params.accountId;
     const accountId = accountIdFromUrl || loginAccountId;
     const isOwner = accountId && accountId === loginAccountId && accountExists;
+    const [isBrickedAccount, setIsBrickedAccount] = useState(false);
     const account = useAccount(accountId);
     const dispatch = useDispatch();
     const profileBalance = selectProfileBalance(account);
@@ -163,6 +167,14 @@ export function Profile({ match }) {
 
     const userRecoveryMethods = useSelector((state) => selectRecoveryMethodsByAccountId(state, { accountId: account.accountId }));
     const twoFactor = has2fa && userRecoveryMethods && userRecoveryMethods.filter((m) => m.kind.includes('2fa'))[0];
+
+    const accountState = useSelector(selectAccountSlice);
+    const keys = useSelector(selectAccountFullAccessKeys);
+    const publicKeys = keys.map((key) => key.public_key);
+    const hasLedger = userRecoveryMethods.some((method) => method.kind === 'ledger');
+
+    const ledgerIsConnected = useSelector(selectAccountLedgerKey);
+    const hasLedgerButNotConnected = hasLedger && !ledgerIsConnected;
 
     useEffect(() => {
         if (!loginAccountId) {
@@ -184,13 +196,27 @@ export function Profile({ match }) {
                 dispatch(getProfileStakingDetails());
             }
         })();
-    }, [loginAccountId]);
+    }, [loginAccountId, isBrickedAccount]);
+
+    useEffect(() => {
+        if (isOwner) {
+            (async () => {
+                const accountKeyType = await wallet.getAccountKeyType(accountId);
+                if (accountKeyType === WalletClass.KEY_TYPES.MULTISIG) {
+                    let account = await wallet.getAccount(accountId);
+                    setIsBrickedAccount(await isAccountBricked(account));
+                } else {
+                    setIsBrickedAccount(false);
+                }
+            })();
+        }
+    }, [accountId]);
 
     useEffect(() => {
         if (userRecoveryMethods) {
             let id = Mixpanel.get_distinct_id();
             Mixpanel.identify(id);
-            Mixpanel.people.set_once({create_date: new Date().toString(),});
+            Mixpanel.people.set_once({ create_date: new Date().toString(), });
             Mixpanel.people.set({
                 relogin_date: new Date().toString(),
                 enabled_2FA: account.has2fa
@@ -198,23 +224,24 @@ export function Profile({ match }) {
             Mixpanel.alias(accountId);
             userRecoveryMethods.forEach((method) => Mixpanel.people.set({ ['recovery_with_' + method.kind]: true }));
         }
-    },[userRecoveryMethods]);
+    }, [userRecoveryMethods]);
 
     useEffect(() => {
         wallet.getLocalKeyPair(accountId).then(async (keyPair) => {
             const isFullAccessKey = keyPair && await wallet.isFullAccessKey(accountId, keyPair);
             setSecretKey(isFullAccessKey ? keyPair.toString() : null);
         });
-    },[userRecoveryMethods]);
+    }, [userRecoveryMethods]);
 
-    useEffect(()=> {
+    useEffect(() => {
         if (twoFactor) {
             let id = Mixpanel.get_distinct_id();
             Mixpanel.identify(id);
             Mixpanel.people.set({
                 create_2FA_at: twoFactor.createdAt,
-                enable_2FA_kind:twoFactor.kind,
-                enabled_2FA: twoFactor.confirmed});
+                enable_2FA_kind: twoFactor.kind,
+                enabled_2FA: twoFactor.confirmed
+            });
         }
     }, [twoFactor]);
 
@@ -233,6 +260,8 @@ export function Profile({ match }) {
 
     const shouldShowEmail = userRecoveryMethods.some(({ kind }) => kind === 'email');
     const shouldShowPhone = userRecoveryMethods.some(({ kind }) => kind === 'phone');
+
+    const onDisableBrickedAccountComplete = () => setIsBrickedAccount(false);
 
     return (
         <StyledContainer>
@@ -253,7 +282,7 @@ export function Profile({ match }) {
                             theme='light-blue'
                         />
                     )}
-                    <h2><UserIcon/><Translate id='profile.pageTitle.default'/></h2>
+                    <h2><UserIcon /><Translate id='profile.pageTitle.default' /></h2>
                     {profileBalance ? (
                         <BalanceContainer
                             account={account}
@@ -277,35 +306,48 @@ export function Profile({ match }) {
                     )}
                     {isOwner && authorizedApps?.length ? (
                         <>
-                            <hr/>
+                            <hr />
                             <div className='auth-apps'>
-                                <h2><CheckCircleIcon/><Translate id='profile.authorizedApps.title'/></h2>
-                                <FormButton color='link' linkTo='/authorized-apps'><Translate id='button.viewAll'/></FormButton>
+                                <h2><CheckCircleIcon /><Translate id='profile.authorizedApps.title' /></h2>
+                                <FormButton color='link' linkTo='/authorized-apps'><Translate id='button.viewAll' /></FormButton>
                             </div>
                             {authorizedApps.slice(0, 2).map((app, i) => (
-                                <AuthorizedApp key={i} app={app}/>
+                                <AuthorizedApp key={i} app={app} />
                             ))}
                         </>
                     ) : null}
                 </div>
                 {isOwner && (
                     <div className='right'>
-                        <h2><ShieldIcon/><Translate id='profile.security.title'/></h2>
-                        <h4><Translate id='profile.security.mostSecure'/><Tooltip translate='profile.security.mostSecureDesc' icon='icon-lg'/></h4>
-                        {!twoFactor && <HardwareDevices recoveryMethods={userRecoveryMethods}/>}
-                        <RecoveryContainer type='phrase' recoveryMethods={userRecoveryMethods}/>
-                        { (shouldShowEmail || shouldShowPhone) && <h4><Translate id='profile.security.lessSecure'/><Tooltip translate='profile.security.lessSecureDesc' icon='icon-lg'/></h4>}
-                        { shouldShowEmail && <RecoveryContainer type='email' recoveryMethods={userRecoveryMethods}/> }
-                        { shouldShowPhone && <RecoveryContainer type='phone' recoveryMethods={userRecoveryMethods}/> }
-                        {!account.ledgerKey && (
+                        <h2><ShieldIcon /><Translate id='profile.security.title' /></h2>
+                        <h4><Translate id='profile.security.mostSecure' /><Tooltip translate='profile.security.mostSecureDesc' icon='icon-lg' /></h4>
+                        {/* TODO: add retry button in case recovery methods are not loaded */}
+                        {!twoFactor && (
+                            <HardwareDevices
+                                recoveryMethods={userRecoveryMethods}
+                                account={accountState}
+                                publicKeys={publicKeys}
+                                hasLedger={hasLedger}
+                                ledgerIsConnected={ledgerIsConnected}
+                                hasLedgerButNotConnected={hasLedgerButNotConnected}
+                            />
+                        )}
+                        <RecoveryContainer type='phrase' recoveryMethods={userRecoveryMethods} />
+                        {(shouldShowEmail || shouldShowPhone) && <h4><Translate id='profile.security.lessSecure' /><Tooltip translate='profile.security.lessSecureDesc' icon='icon-lg' /></h4>}
+                        {shouldShowEmail && <RecoveryContainer type='email' recoveryMethods={userRecoveryMethods} />}
+                        {shouldShowPhone && <RecoveryContainer type='phone' recoveryMethods={userRecoveryMethods} />}
+                        {twoFactor && (
                             <>
-                                <hr/>
-                                <h2><LockIcon/><Translate id='profile.twoFactor'/></h2>
+                                <hr />
+                                <h2><LockIcon /><Translate id='profile.twoFactor' /></h2>
                                 {account.canEnableTwoFactor !== null ? (
                                     <>
-                                        <div className='sub-heading'><Translate id='profile.twoFactorDesc'/></div>
-                                        {/* TODO: Also check recovery methods in DB for Ledger */}
-                                        <TwoFactorAuth twoFactor={twoFactor}/>
+                                        <div className='sub-heading'><Translate id='profile.twoFactorDesc' /></div>
+                                        <TwoFactorAuth
+                                            twoFactor={twoFactor}
+                                            isBrickedAccount={isBrickedAccount}
+                                            onDisableBrickedAccountComplete={onDisableBrickedAccountComplete}
+                                        />
                                     </>
                                 ) : (
                                     <SkeletonLoading
@@ -317,21 +359,21 @@ export function Profile({ match }) {
                         )}
                         <>
                             <hr />
-                            {secretKey ? <ExportKeyWrapper secretKey={secretKey}/> : null}
-                            <RemoveAccountWrapper/>
+                            {secretKey ? <ExportKeyWrapper secretKey={secretKey} /> : null}
+                            <RemoveAccountWrapper />
                         </>
                         {!IS_MAINNET && !account.ledgerKey && !isMobile() &&
-                            <MobileSharingWrapper/>
+                            <MobileSharingWrapper />
                         }
                     </div>
                 )}
                 {accountExists === false && !accountIdFromUrl && (
                     <div className='right'>
-                        <RemoveAccountWrapper/>
+                        <RemoveAccountWrapper />
                     </div>
                 )}
             </div>
-            <ZeroBalanceAccountWrapper/>
+            <ZeroBalanceAccountWrapper />
         </StyledContainer>
     );
 }

@@ -13,7 +13,7 @@ The wallet will consider contracts as non-fungible token contracts relevant to t
 
 1. Any account makes a call to the contract with any method prefixed with `nft_` and the `receiver_id` property of the `args` is the user's account ID.
 
-2. The contract emits a [Non-Fungible Token Event](https://nomicon.io/Standards/NonFungibleToken/Event.html#interface) with `NftTransferLog` data and the `new_owner_id` value is the user's account ID.
+2. The contract emits a [Non-Fungible Token Event](https://nomicon.io/Standards/NonFungibleToken/Event.html#interface) with `NftMintLog` or `NftTransferLog` data and the `owner_id` or `new_owner_id` value is the user's account ID.
 
 NEAR Wallet then makes a call to `nft_metadata` to fetch the NFT contract's [metadata](https://nomicon.io/Standards/NonFungibleToken/Metadata.html) as `NFTContractMetadata` and then calls `nft_tokens_for_owner` with the `accountId` arg set to the user's account ID to retrieve the tokens owned by the user per the [NFT enumeration spec (NEP-181)](https://nomicon.io/Standards/NonFungibleToken/Enumeration.html). This will include the [`TokenMetadata`](https://nomicon.io/Standards/NonFungibleToken/Metadata.html#interface) used to display the tokens.
 

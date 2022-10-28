@@ -11,6 +11,7 @@ import { actions as ledgerActions } from '../../redux/slices/ledger';
 import { actions as nftActions } from '../../redux/slices/nft';
 import { selectStatusLocalAlert } from '../../redux/slices/status';
 import NonFungibleTokens from '../../services/NonFungibleTokens';
+import { shortenAccountId } from '../../utils/account';
 import isMobile from '../../utils/isMobile';
 import Balance from '../common/balance/Balance';
 import FormButton from '../common/FormButton';
@@ -193,8 +194,14 @@ const StyledContainer = styled.div`
     }
 `;
 
-export default function NFTTransferModal({ open, onClose, nft, accountId }) {
+export default function NFTTransferModal({ onClose, nft, accountId }) {
     const [receiverId, setReceiverId] = useState('');
+    const shortReceiverId = shortenAccountId(receiverId);
+    const transferData = {
+        title: nft?.metadata?.title || '',
+        receiverId: shortReceiverId,
+    };
+
     const [result, setResult] = useState();
     const [sending, setSending] = useState(false);
     const [viewType, setViewType] = useState('selectReceiver');
@@ -205,7 +212,7 @@ export default function NFTTransferModal({ open, onClose, nft, accountId }) {
     const { transferToken } = nftActions;
 
     const localAlert = useSelector(selectStatusLocalAlert);
-    const isEmptyAlert = !localAlert || localAlert.show === undefined || localAlert.show === false;
+    const isEmptyAlert = isImplicitAccount ? false : !localAlert || localAlert.show === undefined || localAlert.show === false;
     const hasAccountValidationError = localAlert && localAlert.show && !localAlert.success;
 
     // TODO: Add RiskScoring validation
@@ -263,7 +270,7 @@ export default function NFTTransferModal({ open, onClose, nft, accountId }) {
                         <div className='receiver-input'>
                             <ReceiverInputWithLabel
                                 receiverId={receiverId}
-                                handleChangeReceiverId={(receiverId) => setReceiverId(receiverId)}
+                                handleChangeReceiverId={setReceiverId}
                                 checkAccountAvailable={(accountId) => dispatch(checkAccountAvailable(accountId))}
                                 localAlert={localAlert}
                                 autoFocus={!isMobile()}
@@ -311,14 +318,21 @@ export default function NFTTransferModal({ open, onClose, nft, accountId }) {
                         <div className='from-box'>
                             <span className='confirm-txt v-center'><Translate id='transfer.from' /></span>
                             <span className='h-right v-center'>
-                                <span className='account-id'>{accountId}</span>
+                                <span className="account-id" title={accountId}>
+                                    {shortenAccountId(accountId)}
+                                </span>
                                 <Balance amount={nearBalance} showBalanceInUSD={false} />
                             </span>
                         </div>
                         <div className='line'></div>
                         <div className='to-box'>
                             <span className='confirm-txt v-center'><Translate id='transfer.to' /></span>
-                            <span className='h-right v-center account-id'>{receiverId}</span>
+                            <span
+                                className="h-right v-center account-id"
+                                title={receiverId}
+                            >
+                                {shortReceiverId}
+                            </span>
                         </div>
                     </div>
 
@@ -356,12 +370,10 @@ export default function NFTTransferModal({ open, onClose, nft, accountId }) {
                     </div>
                     <div className='success'>
                         <p><Translate id='NFTTransfer.transactionComplete' /></p>
-                        <p>
-                            <SafeTranslate id='NFTTransfer.youSent'
-                                data={{
-                                    title: nft.metadata.title,
-                                    receiverId
-                                }}
+                        <p title={receiverId}>
+                            <SafeTranslate
+                                id='NFTTransfer.youSent'
+                                data={transferData}
                             />
                         </p>
                     </div>

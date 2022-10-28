@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Translate } from 'react-localize-redux';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 
 import { DISABLE_CREATE_ACCOUNT, RECAPTCHA_CHALLENGE_API_KEY } from '../../../config';
 import { Mixpanel } from '../../../mixpanel/index';
@@ -14,7 +14,7 @@ import {
     getLedgerPublicKey
 } from '../../../redux/actions/account';
 import { showCustomAlert } from '../../../redux/actions/status';
-import { selectAccountSlice } from '../../../redux/slices/account';
+import { selectAccountHas2fa, selectAccountSlice } from '../../../redux/slices/account';
 import { createNewAccount } from '../../../redux/slices/account/createAccountThunks';
 import { actions as ledgerActions, LEDGER_HD_PATH_PREFIX } from '../../../redux/slices/ledger';
 import { actions as linkdropActions } from '../../../redux/slices/linkdrop';
@@ -38,7 +38,6 @@ const ENABLE_DEBUG_LOGGING = false;
 const debugLog = (...args) => ENABLE_DEBUG_LOGGING && console.log('SetupLedger:', ...args);
 
 const SetupLedger = (props) => {
-
     const [showInstructions, setShowInstructions] = useState(false);
     const [connect, setConnect] = useState(null);
     const [isNewAccount, setIsNewAccount] = useState(null);
@@ -50,6 +49,10 @@ const SetupLedger = (props) => {
     const recaptchaRef = useRef(null);
     const fundingOptions = parseFundingOptions(props.location.search);
     const shouldRenderRecaptcha = !fundingOptions && RECAPTCHA_CHALLENGE_API_KEY && isNewAccount && !ENABLE_IDENTITY_VERIFIED_ACCOUNT;
+
+    const accountHas2fa = useSelector(selectAccountHas2fa);
+    // disable the Continue button if a user has 2fa enabled, or we don't know yet if it's disabled/enabled
+    const accountMightHave2fa = !isNewAccount && (accountHas2fa || accountHas2fa === undefined);
 
     useEffect(() => {
         const performNewAccountCheck = async () => {
@@ -207,7 +210,7 @@ const SetupLedger = (props) => {
                 onClick={handleClick}
                 sending={connect && props.mainLoader}
                 sendingString='button.connecting'
-                disabled={(!recaptchaToken && shouldRenderRecaptcha) || isNewAccount === null}
+                disabled={(!recaptchaToken && shouldRenderRecaptcha) || isNewAccount === null || accountMightHave2fa}
             >
                 <Translate id={`button.${connect !== 'fail' ? 'continue' : 'retry'}`} />
             </FormButton>

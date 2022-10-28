@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { EXPLORER_URL } from '../../config';
 import { useFungibleTokensIncludingNEAR } from '../../hooks/fungibleTokensIncludingNEAR';
+import { useTokenBlacklist } from '../../hooks/useTokenBlacklist';
 import { Mixpanel } from '../../mixpanel/index';
 import { checkAccountAvailable, redirectTo } from '../../redux/actions/account';
 import { clearLocalAlert, showCustomAlert } from '../../redux/actions/status';
@@ -38,6 +39,7 @@ export function SendContainerWrapper({ match }) {
     const [sendingToken, setSendingToken] = useState(false);
     const [transactionHash, setTransactionHash] = useState(null);
     const fungibleTokensList = useFungibleTokensIncludingNEAR();
+    const blacklist = useTokenBlacklist({ tokens: fungibleTokensList });
 
     useEffect(() => {
         if (!accountId) {
@@ -54,7 +56,7 @@ export function SendContainerWrapper({ match }) {
             checkAccountAvailable={(accountId) => dispatch(checkAccountAvailable(accountId))}
             parseNearAmount={parseNearAmount}
             formatNearAmount={formatNearAmount}
-            fungibleTokens={fungibleTokensList}
+            fungibleTokens={blacklist.allowedTokens}
             localAlert={localAlert}
             clearLocalAlert={() => dispatch(clearLocalAlert())}
             isMobile={isMobile()}

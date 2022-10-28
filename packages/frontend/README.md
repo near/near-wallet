@@ -21,12 +21,29 @@ as outlined above.
 The environment must be set at bundle time rather than run time. If you wish to run the frontend package with a different
 environment, please run `yarn prebuild` first.
 
+
+Netlify
+===
+To setup Netlify previews, you will need to add the following environment variables to your Netlify Deployment in UI:
+```
+NEAR_WALLET_ENV=development | testnet | mainnet
+SENTRY_ORG="sentry organization name (slug)"
+SENTRY_PROJECT="sentry project name"
+SENTRY_REPOSITORY="your-org/near-wallet"
+SENTRY_AUTH_TOKEN="secret token from sentry"
+NETLIFY_USE_YARN="true"
+```
+
 Testing
 ===
 
 To run tests:
 
 `yarn test`
+
+Guides
+===
+-  [Add Your Wallet As A Migration Option On Near Wallet](https://hackmd.io/@0xrosh/add-wallet-migration-option)
 
 ## License
 This repository is distributed under the terms of both the MIT license and the Apache License (Version 2.0).

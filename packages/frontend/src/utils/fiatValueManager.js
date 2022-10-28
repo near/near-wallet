@@ -9,6 +9,11 @@ import { wallet } from './wallet';
 
 const COINGECKO_PRICE_URL = 'https://api.coingecko.com/api/v3/simple/price';
 
+const CONTRACT_TOKEN_MAP = {
+    // https://explorer.near.org/accounts/token.jumbo_exchange.near
+    'jumbo-exchange': 'token.jumbo_exchange.near',
+};
+
 function wrapNodeCacheForDataloader(cache) {
     return {
         get: (...args) => {
@@ -35,7 +40,7 @@ export default class FiatValueManager {
             async (tokenIds) => {
                 try {
                     const tokenFiatValues = await sendJson(
-                        'GET', 
+                        'GET',
                         stringifyUrl({
                             url: COINGECKO_PRICE_URL,
                             query: {
@@ -48,7 +53,7 @@ export default class FiatValueManager {
                     return tokenIds.map((id) => tokenFiatValues[id]);
                 } catch (error) {
                     console.error(`Failed to fetch coingecko prices: ${error}`);
-                    // DataLoader must be constructed with a function which accepts 
+                    // DataLoader must be constructed with a function which accepts
                     // Array<key> and returns Promise<Array<value>> of the same length
                     // as the Array of keys
                     return Promise.resolve(Array(tokenIds.length).fill({}));
@@ -82,13 +87,16 @@ export default class FiatValueManager {
     async fetchCoinGeckoPrices(tokens = ['near', 'usn']) {
         const byTokenName = {};
         const prices = await this.coinGeckoFiatValueDataLoader.loadMany(tokens);
-        tokens.forEach((tokenName, ndx) => byTokenName[tokenName] = prices[ndx]);
+        tokens.forEach((tokenName, ndx) => {
+            const name = CONTRACT_TOKEN_MAP[tokenName] || tokenName;
+            byTokenName[name] = prices[ndx];
+        });
         return byTokenName;
     };
 
     async fetchRefFinancePrices(dummyToken = ['near']) {
         const [prices] = await this.refFinanceDataLoader.loadMany(dummyToken);
-        const last_updated_at = Date.now() / 1000; 
+        const last_updated_at = Date.now() / 1000;
         const formattedValues = Object.keys(prices).reduce((acc, curr) => {
             return ({
                 ...acc,
@@ -106,7 +114,7 @@ export default class FiatValueManager {
             const account = wallet.getAccountBasic(accountId);
             const contract = new Contract(account, REF_FINANCE_CONTRACT, {viewMethods: ['get_whitelisted_tokens']});
             const whiteListedTokens = await contract.get_whitelisted_tokens();
-        
+
             return whiteListedTokens;
         } catch (error) {
             console.error(`Failed to fetch whitelisted tokens: ${error}`);

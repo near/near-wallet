@@ -70,7 +70,7 @@ class E2eTestAccount {
         }
         // creates a testinglockup subaccount with a lockup_timestamp (locked until) in 1 minute with a release_duration (period to linearly unlock) of 1 minute
         const lockupSubaccountId = `testinglockup.${this.accountId}`;
-        const lockupSubaccountSeedphrase = `${lockupSubaccountId} ${process.env.TEST_ACCOUNT_SEED_PHRASE}`;
+        const lockupSubaccountSeedphrase = getTestAccountSeedPhrase(lockupSubaccountId);
         const lockupWasm = await fetchLockupContract({ v2Wasm });
         let minuteInNanosBN = new BN("1").mul(new BN("60000000000"));
         const vesting_schedule_config = vesting_schedule || FULLY_VESTED_CONFIG.vesting_schedule;
