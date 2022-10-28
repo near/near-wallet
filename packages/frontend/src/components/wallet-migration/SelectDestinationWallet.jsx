@@ -51,7 +51,6 @@ const WALLET_OPTIONS = [
         id: 'sender',
         name: 'Sender',
         icon: <img src={SenderLogo} alt="Sender Wallet Logo" />,
-        getUrl: ({ hash, networkId }) => `https://sender.org/transfer?keystore=${hash}&network=${networkId}`
     }
 ];
 

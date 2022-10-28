@@ -81,7 +81,7 @@ const TypeOptionsListingItem = styled.div`
             width: 11px;
             background-color: white;
             border-radius: 50%;
-            box-shadow: 1px 0px 2px 0px #0000005;
+            box-shadow: 1px 0px 2px 0px #000005;
         }
     }
 
@@ -128,11 +128,11 @@ const SENDER_MIGRATION_TYPES = {
 const SENDER_MIGRATION_TYPES_LIST = [
     {
         id: SENDER_MIGRATION_TYPES.MIGRATE_TO_EXTENSION,
-        name: 'Migrate to sender extension',
+        nameId: 'walletMigration.selectSenderMigration.toExtension',
     },
     {
         id: SENDER_MIGRATION_TYPES.MIGRATE_WITH_QR_CODE,
-        name: 'Display with QR Code',
+        nameId: 'walletMigration.selectSenderMigration.withQrCode',
     }
 ];
 
@@ -168,12 +168,12 @@ const MigrationTypeSelect = ({ handleSetActiveView, accounts, onClose, pinCode }
                 <TypeOptionsListing>
                     {SENDER_MIGRATION_TYPES_LIST.map((typeOption) => {
                         return (
-                            <TypeOptionsListingItem 
+                            <TypeOptionsListingItem
                                 className={classNames([{ active: typeOption.id === migrationType }])}
                                 onClick={() => setMigrationType(typeOption.id)}
                                 key={typeOption.id}
                             >
-                                <h4 className='name'>{typeOption.name}</h4>
+                                <h4 className='name'><Translate id={typeOption.nameId}/></h4>
                             </TypeOptionsListingItem>
                         );
                     })}

@@ -1840,9 +1840,11 @@
             "title": "Select a wallet to transfer accounts"
         },
         "selectSenderMigration": {
-            "title": "Select a migration type to export"
+            "title": "Select a migration type to export",
+            "toExtension": "Display with QR Code",
+            "withQrCode": "Display with QR Code"
         },
-        "SenderMigrationWithQrCode": {
+        "senderMigrationWithQrCode": {
             "title": "Please using Sender mobile to scan to import"
         }
     },

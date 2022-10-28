@@ -27,6 +27,13 @@ const Container = styled.div`
         font-size: 20px;
         margin-top: 40px;
     }
+
+    .qrcode-background {
+        background-color: white;
+        padding: 5px;
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
 `;
 
 const ButtonsContainer = styled.div`
@@ -76,8 +83,8 @@ const MigrationWithQrCode = ({ accounts, pinCode, onClose }) => {
             style={{ maxWidth: '496px' }}
         >
             <Container>
-                <h4 className='title'><Translate id='walletMigration.SenderMigrationWithQrCode.title'/></h4>
-                <div style={{ backgroundColor: 'white', padding: '5px', marginTop: '20px', marginBottom: '20px' }}>
+                <h4 className='title'><Translate id='walletMigration.senderMigrationWithQrCode.title'/></h4>
+                <div className='qrcode-background'>
                     <QRCodeSVG value={qrCode} size={155} />
                 </div>
 

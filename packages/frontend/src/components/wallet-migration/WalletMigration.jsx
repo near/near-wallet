@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 
 import { ACCOUNT_ID_SUFFIX } from '../../config';
@@ -81,18 +81,41 @@ const WalletMigration = ({ open, onClose }) => {
     }, [handleSetActiveView]);
 
     const onContinue = useCallback(async () => {
-        if (state.wallet.id === 'sender') {
-            handleSetActiveView(WALLET_MIGRATION_VIEWS.SENDER_MIGRATION_TYPE_SELECT);
-        } else {
-            let url = '';
-            url = await encodeAccountsToURL(
-                availableAccounts,
-                state.migrationKey,
-                state.wallet
-            );
-            window.open(url, '_blank');
+        switch (state.wallet.id) {
+            case 'sender': {
+                handleSetActiveView(WALLET_MIGRATION_VIEWS.SENDER_MIGRATION_TYPE_SELECT);
+                break;
+            }
+
+            default: {
+                let url = '';
+                url = await encodeAccountsToURL(
+                    availableAccounts,
+                    state.migrationKey,
+                    state.wallet
+                );
+                window.open(url, '_blank');
+                break;
+            }
         }
     }, [state.migrationKey, availableAccounts, state.wallet]);
+
+    const secretKey = useMemo(() => {
+        let result;
+        switch (state.wallet.id) {
+            case 'sender': {
+                result = pinCode;
+                break;
+            }
+
+            default: {
+                result = keyToString(initialState.migrationKey);
+                break;
+            }
+        }
+
+        return result;
+    }, [initialState.migrationKey, pinCode, state.wallet.id]);
 
     useEffect(() => {
         if (open) {
@@ -109,7 +132,7 @@ const WalletMigration = ({ open, onClose }) => {
                     <MigrationSecret
                         showMigrationPrompt={showMigrationPrompt}
                         showMigrateAccount={showMigrateAccount}
-                        secretKey={state.wallet.id === 'sender' ? pinCode : keyToString(initialState.migrationKey)}
+                        secretKey={secretKey}
                     />
                 )}
             {state.activeView === WALLET_MIGRATION_VIEWS.SELECT_DESTINATION_WALLET && (
