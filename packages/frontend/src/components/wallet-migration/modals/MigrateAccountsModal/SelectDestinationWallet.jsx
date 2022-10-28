@@ -73,7 +73,7 @@ export const WALLET_OPTIONS = [
         name: 'FiNER Wallet',
         icon: <img src={ImgFinerWallet} alt="Finer Wallet Logo" />,
         getUrl: ({ hash }) => `finer://wallet.near.org/batch-import#${hash}`,
-        checkAvailability: () => isMobile(),
+        checkAvailability: () => isMobile('iOS'),
     },
 ];
 
