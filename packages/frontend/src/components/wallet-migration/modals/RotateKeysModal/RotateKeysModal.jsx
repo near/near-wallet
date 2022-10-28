@@ -239,6 +239,7 @@ const RotateKeysModal = ({handleSetActiveView, onClose}) => {
                            localDispatch({ type: ACTIONS.SET_CURRENT_FAILED_AND_END_PROCESS });
                            setShowConfirmSeedphraseModal(() => false);
                        }}
+                       accountId={currentAccount.accountId}
                    />
                </Modal>
            )
