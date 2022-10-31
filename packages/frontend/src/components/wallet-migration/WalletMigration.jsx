@@ -83,7 +83,7 @@ const WalletMigration = ({ open, onClose }) => {
     }, [handleSetActiveView]);
 
     const onContinue = useCallback(async () => {
-        switch (state.wallet.id) {
+        switch (state.wallet?.id) {
             case 'sender': {
                 handleSetActiveView(WALLET_MIGRATION_VIEWS.SENDER_MIGRATION_TYPE_SELECT);
                 break;
@@ -104,7 +104,7 @@ const WalletMigration = ({ open, onClose }) => {
 
     const secretKey = useMemo(() => {
         let result;
-        switch (state.wallet.id) {
+        switch (state.wallet?.id) {
             case 'sender': {
                 result = pinCode;
                 break;
@@ -117,7 +117,7 @@ const WalletMigration = ({ open, onClose }) => {
         }
 
         return result;
-    }, [initialState.migrationKey, pinCode, state.wallet.id]);
+    }, [initialState.migrationKey, pinCode, state.wallet?.id]);
 
     useEffect(() => {
         if (open) {

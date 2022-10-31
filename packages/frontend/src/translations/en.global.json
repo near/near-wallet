@@ -1892,7 +1892,7 @@
         },
         "selectSenderMigration": {
             "title": "Select a migration type to export",
-            "toExtension": "Display with QR Code",
+            "toExtension": "Export to extension",
             "withQrCode": "Display with QR Code"
         },
         "selectWallet": {
