@@ -3,14 +3,14 @@
     font-style: normal;
     font-weight: 400;
     font-display: swap;
-    src: url("./fonts/Inter-Regular.woff2") format("woff2");
+    src: url("../fonts/Inter-Regular.woff2") format("woff2");
 }
 @font-face {
     font-family: "Inter";
     font-style: italic;
     font-weight: 400;
     font-display: swap;
-    src: url("./fonts/Inter-Italic.woff2") format("woff2");
+    src: url("../fonts/Inter-Italic.woff2") format("woff2");
 }
 
 @font-face {
@@ -18,14 +18,14 @@
     font-style: normal;
     font-weight: 500;
     font-display: swap;
-    src: url("./fonts/Inter-Medium.woff2") format("woff2");
+    src: url("../fonts/Inter-Medium.woff2") format("woff2");
 }
 @font-face {
     font-family: "Inter";
     font-style: italic;
     font-weight: 500;
     font-display: swap;
-    src: url("./fonts/Inter-MediumItalic.woff2") format("woff2");
+    src: url("../fonts/Inter-MediumItalic.woff2") format("woff2");
 }
 
 @font-face {
@@ -33,14 +33,14 @@
     font-style: normal;
     font-weight: 700;
     font-display: swap;
-    src: url("./fonts/Inter-Bold.woff2") format("woff2");
+    src: url("../fonts/Inter-Bold.woff2") format("woff2");
 }
 @font-face {
     font-family: "Inter";
     font-style: italic;
     font-weight: 700;
     font-display: swap;
-    src: url("./fonts/Inter-BoldItalic.woff2") format("woff2");
+    src: url("../fonts/Inter-BoldItalic.woff2") format("woff2");
 }
 
 @font-face {
@@ -48,7 +48,7 @@
     font-style: normal;
     font-weight: 800;
     font-display: swap;
-    src: url("./fonts/Inter-ExtraBold.woff2") format("woff2");
+    src: url("../fonts/Inter-ExtraBold.woff2") format("woff2");
 }
 
 @font-face {
@@ -56,21 +56,21 @@
     font-style: normal;
     font-weight: 900;
     font-display: swap;
-    src: url("./fonts/Inter-Black.woff2") format("woff2");
+    src: url("../fonts/Inter-Black.woff2") format("woff2");
 }
 
 @import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&display=swap");
 
 :root {
-    --color-success: #5BB98C;
-    --color-warning: #AD5700;
-    --color-warning-background: #FFF4D5;
-    --color-error: #CD2B31;
-    --color-error-background: #FFEFEF;
+    --mnw-color-success: #5BB98C;
+    --mnw-color-warning: #AD5700;
+    --mnw-color-warning-background: #FFF4D5;
+    --mnw-color-error: #CD2B31;
+    --mnw-color-error-background: #FFEFEF;
     /* @todo Need to decide what these colors for and rename it */
-    --color-1: #0072ce;
-    --color-2: #006adc;
-    --color-3: #f8f9fa;
-    --color-4: #24272a;
-    --color-5: #dfe3e6;
+    --mnw-color-1: #0072ce;
+    --mnw-color-2: #006adc;
+    --mnw-color-3: #f8f9fa;
+    --mnw-color-4: #24272a;
+    --mnw-color-5: #dfe3e6;
 }

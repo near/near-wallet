@@ -40,7 +40,7 @@ const AccordionTrigger = ({ id, onClick, translateIdTitle, translateData, open }
             className={classNames(['accordion-trigger' , open ? 'open' : ''])}
         >
             <SafeTranslate id={translateIdTitle} data={translateData} />
-            <ChevronIcon color='var(--color-1)'/>
+            <ChevronIcon color='var(--mnw-color-1)'/>
         </StyledContainer>
     );
 };

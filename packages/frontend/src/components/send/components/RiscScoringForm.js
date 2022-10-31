@@ -13,14 +13,14 @@ const RSContainer = styled.div`
 `;
 
 const RSWarning = styled.div`
-    background: var(--color-error-background);
+    background: var(--mnw-color-error-background);
     border-radius: 4px;
     display: flex;
     flex-direction: row;
     align-items: flex-start;
     padding: 16px 12px;
     gap: 10px;
-    color: var(--color-error);
+    color: var(--mnw-color-error);
     font-size: 12px;
     line-height: 16px;
 `;

@@ -60,7 +60,7 @@ export default function SwapDetails() {
                 1 {tokenOut?.onChainFTMetadata?.symbol}
                 {' = '}
                 {price} {tokenIn?.onChainFTMetadata?.symbol}
-                <ChevronIcon color="var(--color-1)" />
+                <ChevronIcon color="var(--mnw-color-1)" />
             </AccordionTitle>
             <Accordion
                 trigger='swapDetailsTitle'

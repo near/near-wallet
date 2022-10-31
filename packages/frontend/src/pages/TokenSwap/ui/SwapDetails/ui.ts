@@ -18,7 +18,7 @@ export const SwapDetailsWrapper = styled.div`
     }
 
     .detailsRow:not(:last-child) {
-        border-bottom: 1px solid var(--color-5);
+        border-bottom: 1px solid var(--mnw-color-5);
     }
 `;
 
@@ -29,8 +29,8 @@ export const AccordionTitle = styled.div`
     padding: 1.2rem;
     border-radius: inherit;
     font-weight: 500;
-    color: var(--color-4);
-    background-color: var(--color-3);
+    color: var(--mnw-color-4);
+    background-color: var(--mnw-color-3);
 
     .chevron-icon {
         transform: rotate(90deg);

@@ -6,14 +6,14 @@ import { PRICE_IMPACT_THRESHOLD } from '../utils/constants';
 const PriceImpactWrapper = styled.span`
     display: flex;
     align-items: center;
-    color: var(--color-success);
+    color: var(--mnw-color-success);
 
     &.error {
-        color: var(--color-error);
+        color: var(--mnw-color-error);
     }
 
     &.warning {
-        color: var(--color-warning);
+        color: var(--mnw-color-warning);
     }
 `;
 

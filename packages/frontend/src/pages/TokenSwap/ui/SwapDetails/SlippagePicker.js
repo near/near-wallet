@@ -32,8 +32,8 @@ const MarksWrapper = styled.div`
 
         &.active,
         &:hover {
-            border-color: var(--color-2);
-            background-color: var(--color-2);
+            border-color: var(--mnw-color-2);
+            background-color: var(--mnw-color-2);
             color: white;
         }
     }

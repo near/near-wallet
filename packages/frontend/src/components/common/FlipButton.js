@@ -15,10 +15,10 @@ const FlipButtonWrapper = styled.button`
     background-color: #e1f0ff;
     transition: 100ms;
 
-    --color-icon: var(--color-1);
+    --color-icon: var(--mnw-color-1);
 
     :hover {
-        background-color: var(--color-1);
+        background-color: var(--mnw-color-1);
 
         --color-icon: #ffffff;
     }

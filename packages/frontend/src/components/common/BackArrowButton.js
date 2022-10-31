@@ -22,7 +22,7 @@ const StyledContainer = styled.div`
                 min-width: 24px;
                 min-height: 24px;
                 path {
-                    stroke: var(--color-1);
+                    stroke: var(--mnw-color-1);
                 }
             }
         }

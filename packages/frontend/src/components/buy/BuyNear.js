@@ -158,7 +158,7 @@ export function BuyNear({ history }) {
     return (
         <StyledContainer>
             <StyledHeader>
-                <BackArrowButton color="var(--color-1)" onClick={goBack} />
+                <BackArrowButton color="var(--mnw-color-1)" onClick={goBack} />
                 <div>
                     <div className='title'><Translate id='buyNear.title' /></div>
                     <h2 className='subTitle'><Translate id='buyNear.subTitle' /></h2>

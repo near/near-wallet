@@ -12,13 +12,13 @@ const NotificationWrapper = styled.p`
     border-radius: 0.5rem;
 
     &.warning {
-        color: var(--color-warning);
-        background-color: var(--color-warning-background);
+        color: var(--mnw-color-warning);
+        background-color: var(--mnw-color-warning-background);
     }
 
     &.error {
-        color: var(--color-error);
-        background-color: var(--color-error-background);
+        color: var(--mnw-color-error);
+        background-color: var(--mnw-color-error-background);
     }
 
     span {
@@ -34,7 +34,7 @@ const Notification: FC<{
     type?: string,
     children: ReactNode,
 }> = ({ type, children }) => {
-    const triangleColor = type === 'error' ? 'var(--color-error)' : '';
+    const triangleColor = type === 'error' ? 'var(--mnw-color-error)' : '';
 
     return (
         <NotificationWrapper className={`${type}`}>
