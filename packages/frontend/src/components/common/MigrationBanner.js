@@ -58,6 +58,7 @@ const ContentWrapper =  styled(Container)`
     align-items: center;
     justify-content: space-between;
     margin-top: 0;
+    padding: 0;
 
     &>*:first-child{
         margin-right: 10px;
@@ -83,6 +84,10 @@ const ContentWrapper =  styled(Container)`
             color: #CD2B31;
             text-decoration: underline;
         }
+
+        @media (max-width: 767px) {
+            flex-direction: column;
+        }
     }
 `;
 
@@ -91,9 +96,9 @@ const CustomButton = styled(FormButton)`
     background: #FC5B5B !important;
     border: none !important;
     white-space: nowrap;
-    padding: 11px 16px;
+    padding: 9.5px 16px;
     margin: 0 !important;
-
+    height: 40px !important;
     @media (max-width: 768px) {
         margin-top: 16px !important;
     }
