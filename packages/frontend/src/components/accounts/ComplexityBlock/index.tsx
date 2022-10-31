@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { Translate } from 'react-localize-redux';
+import { useTranslation } from 'react-i18next';
 
 import {
     getLevelsFromComplexity,
@@ -13,16 +13,17 @@ type ComplexityBlockProps = {
 
 export const renderComplexityTrans = (
     complexity: PasswordComplexity
-): React.ReactElement => {
+): string => {
+    const { t } = useTranslation();
     switch (complexity) {
         case 'none':
             return null;
         case 'week':
-            return <Translate id='setupPasswordProtection.week' />;
+            return t('setupPasswordProtection.week');
         case 'average':
-            return <Translate id='setupPasswordProtection.average' />;
+            return t('setupPasswordProtection.average');
         case 'strong':
-            return <Translate id='setupPasswordProtection.strong' />;
+            return t('setupPasswordProtection.strong');
     }
 };
 

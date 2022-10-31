@@ -1,5 +1,6 @@
 import React, { FC, useCallback, useState } from 'react';
-import { Translate } from 'react-localize-redux';
+import { useTranslation } from 'react-i18next';
+
 
 import FormButton from '../../common/FormButton';
 import SetPassword from '../SetPassword';
@@ -10,6 +11,7 @@ type SetPasswordFormProps = {
 }
 
 const SetPasswordForm: FC<SetPasswordFormProps> = ({ onSubmit }) => {
+    const { t } = useTranslation();
     const [password, setPassword] = useState(null);
 
     const handlePasswordChange = useCallback((value) => {
@@ -31,11 +33,11 @@ const SetPasswordForm: FC<SetPasswordFormProps> = ({ onSubmit }) => {
                 <FormButton
                     onClick={handleClickNext}
                     disabled={password === null}>
-                    <Translate id='button.next' />
+                    {t('button.next')}
                 </FormButton>
             </Submit>
             <WithoutPassword hide={password !== null}>
-                <Translate id='setupPasswordProtection.withoutPassword' />
+                {t('setupPasswordProtection.withoutPassword')}
             </WithoutPassword>
         </>
     );

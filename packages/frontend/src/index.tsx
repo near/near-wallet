@@ -13,6 +13,7 @@ import CONFIG from './config';
 import createRootReducer from './redux/createReducers';
 import createMiddleware from './redux/middleware';
 import initSentry from './utils/sentry';
+import './translations';
 
 initSentry();
 

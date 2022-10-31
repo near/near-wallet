@@ -15,6 +15,7 @@
     "escape-html": "^1.0.3",
     "fetch-send-json": "0.0.2",
     "generate-lockfile": "^0.0.11",
+    "i18next": "^22.0.4",
     "js-sha256": "^0.9.0",
     "lodash.assign": "^4.2.0",
     "lodash.clonedeep": "^4.5.0",
@@ -47,6 +48,7 @@
     "react-google-recaptcha": "^2.1.0",
     "react-google-recaptcha-v3-near": "^2.0.0",
     "react-helmet": "^6.1.0",
+    "react-i18next": "^12.0.0",
     "react-localize-redux": "^3.5.3",
     "react-phone-number-input": "2.3.11",
     "react-redux": "^7.2.4",
@@ -104,6 +106,7 @@
     "eslint-config-react-app": "^3.0.8",
     "eslint-plugin-es": "^4.1.0",
     "eslint-plugin-flowtype": "^5.7.2",
+    "eslint-plugin-i18next": "^6.0.0-4",
     "eslint-plugin-import": "^2.23.4",
     "eslint-plugin-jsx-a11y": "^6.4.1",
     "eslint-plugin-react": "^7.23.2",
@@ -111,7 +114,6 @@
     "jest-svg-transformer": "^1.0.0",
     "parcel-bundler": "^1.12.4",
     "parcel-plugin-bundle-visualiser": "^1.2.0",
-    "prettier": "2.7.1",
-    "react-is": "^17.0.2"
+    "prettier": "2.7.1"
   }
 }

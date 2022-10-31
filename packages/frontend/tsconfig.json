@@ -11,6 +11,7 @@
     "lib": ["dom", "es2020"],
     "module": "ESNext",
     "moduleResolution": "node",
+    "resolveJsonModule": true,
 
     "allowJs": true,
     "checkJs": false,
