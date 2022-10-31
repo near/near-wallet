@@ -2,10 +2,10 @@ import React, {useCallback, useState} from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
-import IconSecurityLock from '../../images/wallet-migration/IconSecurityLock';
-import ClickToCopy from '../common/ClickToCopy';
-import FormButton from '../common/FormButton';
-import Modal from '../common/modal/Modal';
+import IconSecurityLock from '../../../../images/wallet-migration/IconSecurityLock';
+import ClickToCopy from '../../../common/ClickToCopy';
+import FormButton from '../../../common/FormButton';
+import Modal from '../../../common/modal/Modal';
 
 
 const Container = styled.div`

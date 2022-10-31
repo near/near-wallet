@@ -4,21 +4,22 @@ import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { useImmerReducer } from 'use-immer';
 
-import { NETWORK_ID } from '../../config';
-import IconSecurityLock from '../../images/wallet-migration/IconSecurityLock';
-import { switchAccount } from '../../redux/actions/account';
-import { showCustomAlert } from '../../redux/actions/status';
-import { selectAccountId } from '../../redux/slices/account';
-import WalletClass, { wallet } from '../../utils/wallet';
-import AccountListImport from '../accounts/AccountListImport';
-import { IMPORT_STATUS } from '../accounts/batch_import_accounts';
-import sequentialAccountImportReducer, { ACTIONS } from '../accounts/batch_import_accounts/sequentialAccountImportReducer';
-import FormButton from '../common/FormButton';
-import LoadingDots from '../common/loader/LoadingDots';
-import Modal from '../common/modal/Modal';
+import { NETWORK_ID } from '../../../../config';
+import IconSecurityLock from '../../../../images/wallet-migration/IconSecurityLock';
+import { switchAccount } from '../../../../redux/actions/account';
+import { showCustomAlert } from '../../../../redux/actions/status';
+import { selectAccountId } from '../../../../redux/slices/account';
+import WalletClass, { wallet } from '../../../../utils/wallet';
+import AccountListImport from '../../../accounts/AccountListImport';
+import { IMPORT_STATUS } from '../../../accounts/batch_import_accounts';
+import sequentialAccountImportReducer, { ACTIONS } from '../../../accounts/batch_import_accounts/sequentialAccountImportReducer';
+import LoadingDots from '../../../common/loader/LoadingDots';
+import Modal from '../../../common/modal/Modal';
+import { isAccountBricked } from '../..//utils';
+import { WALLET_MIGRATION_VIEWS } from '../../WalletMigration';
+import FormButton from './../../../common/FormButton';
 import AccountLockModal from './AccountLock';
-import { isAccountBricked } from './utils';
-import { WALLET_MIGRATION_VIEWS } from './WalletMigration';
+
 
 
 const Container = styled.div`
@@ -162,7 +163,7 @@ const Disable2FAModal = ({ handleSetActiveView, onClose }) => {
             id='migration-modal'
             isOpen={!currentBrickedAccount}
             disableClose={!currentBrickedAccount}
-            onClose={() => {}}
+            onClose={onClose}
             modalSize='md'
             style={{ maxWidth: '435px' }}
         >

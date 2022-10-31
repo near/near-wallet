@@ -1,26 +1,25 @@
 import React, { useCallback } from 'react';
 import { Translate } from 'react-localize-redux';
-import { useDispatch } from 'react-redux';
+import { useDispatch, } from 'react-redux';
 import styled from 'styled-components';
 
-import ImgFinerWallet from '../../../src/images/finer-logo.svg';
-import ImgMeteorWallet from '../../../src/images/meteor-wallet-logo.svg';
-import ImgMyNearWallet from '../../../src/images/mynearwallet-cropped.svg';
-import SenderLogo from '../../../src/images/sender-logo.png';
-import isMobile from '../../../src/utils/isMobile';
-import IconLedger from '../../images/wallet-migration/IconLedger';
-import IconWallet from '../../images/wallet-migration/IconWallet';
-import { redirectTo } from '../../redux/actions/account';
-import classNames from '../../utils/classNames';
+
+import ImgFinerWallet from '../../../../../src/images/finer-logo.svg';
+import ImgMeteorWallet from '../../../../../src/images/meteor-wallet-logo.svg';
+import ImgMyNearWallet from '../../../../../src/images/mynearwallet-cropped.svg';
+import SenderLogo from '../../../../../src/images/sender-logo.png';
+import IconLedger from '../../../../images/wallet-migration/IconLedger';
+import IconWallet from '../../../../images/wallet-migration/IconWallet';
+import { redirectTo } from '../../../../redux/actions/account';
+import classNames from '../../../../utils/classNames';
 import {
     getMeteorWalletUrl,
     getMyNearWalletUrlFromNEARORG
-} from '../../utils/getWalletURL';
-import FormButton from '../common/FormButton';
-import Modal from '../common/modal/Modal';
-import { WALLET_MIGRATION_VIEWS } from './WalletMigration';
-
-
+} from '../../../../utils/getWalletURL';
+import isMobile from '../../../../utils/isMobile';
+import FormButton from '../../../common/FormButton';
+import Modal from '../../../common/modal/Modal';
+import {WALLET_EXPORT_MODAL_VIEWS} from './MigrateAccountsModal';
 const Container = styled.div`
     padding: 15px 0;
     text-align: center;
@@ -41,7 +40,7 @@ const Container = styled.div`
     }
 `;
 
-const WALLET_OPTIONS = [
+export const WALLET_OPTIONS = [
     {
         id: 'my-near-wallet',
         name: 'My NEAR Wallet',
@@ -169,17 +168,18 @@ const StyledButton = styled(FormButton)`
 
 const SelectDestinationWallet = ({ handleSetActiveView, handleSetWallet, wallet, onClose }) => {
     const dispatch = useDispatch();
-
+    
     const handleContinue = useCallback(() => {
         handleSetWallet(wallet);
         if (wallet.id === 'ledger') {
             onClose();
             return dispatch(redirectTo('/batch-ledger-export'));
         } else {
-            return handleSetActiveView(WALLET_MIGRATION_VIEWS.MIGRATION_SECRET);
+            
+            return handleSetActiveView(WALLET_EXPORT_MODAL_VIEWS.MIGRATION_SECRET);
         }
     }, [wallet, handleSetActiveView, handleSetWallet]);
-
+    
     return (
         <Modal
             modalClass="slim"
