@@ -362,7 +362,8 @@ class Routing extends Component {
                         <NavigationWrapper />
                         <GlobalAlert />
                         {
-                            !isWhitelabel && (
+                            // TODO: Remove TwoFactorDisableBanner when we push MigrationBanner to mainnet
+                            !isWhitelabel && !SHOW_MIGRATION_BANNER && (
                                 <Switch>
                                     <Route
                                         path={['/', '/staking', '/profile']} component={TwoFactorDisableBanner}
