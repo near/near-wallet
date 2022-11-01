@@ -44,7 +44,14 @@ const WalletMigration = ({ open, onClose }) => {
             const getAccountDetails = async (accountId) => {
                 const keyType = await wallet.getAccountKeyType(accountId);
                 const accountBalance = await wallet.getBalance(keyType.accountId);
-                return { accountId, keyType, accountBalance };
+
+                const account = await wallet.getAccount(accountId);
+                let isConversionRequired = false;
+                if (typeof account.isKeyConversionRequiredForDisable === 'function') {
+                    isConversionRequired = await account.isKeyConversionRequiredForDisable();
+                }
+
+                return { accountId, keyType, accountBalance, isConversionRequired };
             };
             const details = await Promise.all(
                 accounts.map(getAccountDetails)

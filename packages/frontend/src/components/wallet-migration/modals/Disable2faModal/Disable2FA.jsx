@@ -62,7 +62,13 @@ const Disable2FAModal = ({ handleSetActiveView, onClose, accountWithDetails, set
         const update2faAccounts = async () => {
             localDispatch({
                 type: ACTIONS.ADD_ACCOUNTS,
-                accounts: accountWithDetails.reduce(((acc, { accountId, keyType }) => keyType === WalletClass.KEY_TYPES.MULTISIG ? acc.concat({ accountId, status: null }) : acc), [])
+                accounts: accountWithDetails
+                    .filter(({ keyType }) => keyType === WalletClass.KEY_TYPES.MULTISIG)
+                    .map(({ accountId, isConversionRequired }) => ({
+                        accountId,
+                        isConversionRequired,
+                        status: null,
+                    })),
             });
             setLoadingMultisigAccounts(false);
         };
@@ -103,7 +109,12 @@ const Disable2FAModal = ({ handleSetActiveView, onClose, accountWithDetails, set
                     // show bricked account modal
                     setCurrentBrickedAccount(currentAccount.accountId);
                 } else {
-                    await account.disableMultisig();
+                    if (currentAccount.isConversionRequired) {
+                        const signingPublicKey = await wallet.getPublicKey(currentAccount.accountId);
+                        await account.batchConvertKeysAndDisable(signingPublicKey);
+                    } else {
+                        await account.disableMultisig();
+                    }
                     updateAccountWithDetails();
                     localDispatch({ type: ACTIONS.SET_CURRENT_DONE });
                 }
