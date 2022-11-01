@@ -2,10 +2,10 @@ import { BN } from 'bn.js';
 import * as nearApiJs from 'near-api-js';
 import { parseSeedPhrase } from 'near-seed-phrase';
 
-import { store } from '..';
-import { ACCOUNT_HELPER_URL, MULTISIG_CONTRACT_HASHES, MULTISIG_MIN_AMOUNT, NETWORK_ID, NODE_URL } from '../config';
-import { promptTwoFactor, refreshAccount } from '../redux/actions/account';
-import { WalletError } from './walletError';
+import { store } from '../..';
+import { ACCOUNT_HELPER_URL, MULTISIG_CONTRACT_HASHES, MULTISIG_MIN_AMOUNT, NETWORK_ID, NODE_URL } from '../../config';
+import { promptTwoFactor, refreshAccount } from '../../redux/actions/account';
+import { WalletError } from '../walletError';
 
 const {
     multisig: { Account2FA },
