@@ -14,6 +14,9 @@ const {
     KeyPair,
 } = nearApiJs;
 
+const LAK_CONVERSION_BATCH_SIZE = 50; // number of LAKs that can be converted (deleted + re-created) in one transaction
+const LAK_DISABLE_THRESHOLD = 48; // maximum number of LAKs that can be converted by the `delete` method
+
 export class TwoFactor extends Account2FA {
     constructor(wallet, accountId, has2fa = false) {
         super(wallet.connection, accountId, {
@@ -119,5 +122,81 @@ export class TwoFactor extends Account2FA {
         });
     
         return await account.disableWithFAK({ contractBytes: emptyContractBytes, cleanupContractBytes });
+    }
+
+    /**
+     * Returns the list of multisig function call access keys
+     */
+    async get2faLimitedAccessKeys() {
+        return (await this.getAccessKeys())
+            .filter(({ access_key }) => {
+                if (access_key.permission === 'FullAccess') {
+                    return false;
+                }
+
+                const perm = access_key.permission.FunctionCall;
+                return perm.receiver_id === this.accountId &&
+                    perm.method_names.length === 4 &&
+                    perm.method_names.includes('add_request_and_confirm');
+            });
+    }
+
+    /**
+     * Returns `false` if multisig cannot be disabled by calling disable() directly
+     * i.e. account has too many LAKs to delete and re-create as FAKs for a single transaction
+     */
+    async isKeyConversionRequiredForDisable() {
+        const keys = await this.get2faLimitedAccessKeys();
+        return keys.length > LAK_DISABLE_THRESHOLD;
+    }
+
+    /**
+     * Converts multisig LAKs (excluding the active key in the wallet, provided here as the
+     * `signingPublicKey` argument) back to FAKs when there are too many key conversions to be
+     * executed within the same transaction.
+     *
+     * Note that this undermines the security provided by 2FA by converting existing multisig LAKs into FAKs
+     * capable of bypassing the 2FA prompt when signing transactions outside the wallet (transactions signed
+     * in the wallet will continue to require 2FA approval). This method should only be used to convert LAKs
+     * as a way to make 2FA disabling possible.
+     *
+     * To be deprecated after 2FA migration; this addresses a specific issue with multisig deployed via wallet.
+     * @param signingPublicKey the public key used to sign transactions in the wallet
+     */
+    async batchConvertKeysAndDisable(signingPublicKey) {
+        if (!signingPublicKey) {
+            throw new Error('the public key used to sign multisig transactions must be provided');
+        }
+
+        const { stateStatus } = await this.checkMultisigCodeAndStateStatus();
+        if (stateStatus !== 2 && stateStatus !== 1) {
+            throw new Error(`Can not deploy a contract to account ${this.accountId} on network ${this.connection.networkId}, the account state could not be verified.`);
+        }
+
+        let converted = 0;
+        const accessKeys = await this.get2faLimitedAccessKeys();
+        const keysToConvert = accessKeys
+            .filter(({ public_key }) => public_key !== signingPublicKey);
+
+        while (converted < (accessKeys.length - LAK_DISABLE_THRESHOLD)) {
+            const conversionActions = keysToConvert
+                .slice(converted, converted + LAK_CONVERSION_BATCH_SIZE)
+                .reduce((conversionActions, { public_key }) => {
+                    const { addKey, deleteKey, fullAccessKey } = nearApiJs.transactions;
+                    conversionActions.push(deleteKey(nearApiJs.utils.PublicKey.from(public_key)));
+                    conversionActions.push(addKey(nearApiJs.utils.PublicKey.from(public_key), fullAccessKey()));
+
+                    return conversionActions;
+                }, []);
+
+            await this.signAndSendTransaction({
+                receiverId: this.accountId,
+                actions: conversionActions
+            });
+
+            converted += LAK_CONVERSION_BATCH_SIZE;
+        }
+
+        return this.disableMultisig();
     }
 }
