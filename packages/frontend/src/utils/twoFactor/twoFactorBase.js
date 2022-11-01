@@ -2,9 +2,13 @@ import { BN } from 'bn.js';
 import * as nearApiJs from 'near-api-js';
 import { parseSeedPhrase } from 'near-seed-phrase';
 
-import { store } from '../..';
-import { ACCOUNT_HELPER_URL, MULTISIG_CONTRACT_HASHES, MULTISIG_MIN_AMOUNT, NETWORK_ID, NODE_URL } from '../../config';
-import { promptTwoFactor, refreshAccount } from '../../redux/actions/account';
+import {
+    ACCOUNT_HELPER_URL,
+    MULTISIG_CONTRACT_HASHES,
+    MULTISIG_MIN_AMOUNT,
+    NETWORK_ID,
+    NODE_URL,
+} from '../../config';
 import { WalletError } from '../walletError';
 
 const {
@@ -17,15 +21,26 @@ const {
 const LAK_CONVERSION_BATCH_SIZE = 50; // number of LAKs that can be converted (deleted + re-created) in one transaction
 const LAK_DISABLE_THRESHOLD = 48; // maximum number of LAKs that can be converted by the `delete` method
 
-export class TwoFactor extends Account2FA {
-    constructor(wallet, accountId, has2fa = false) {
-        super(wallet.connection, accountId, {
+export class TwoFactorBase extends Account2FA {
+    constructor({
+        connection,
+        accountId,
+        getCode,
+        init2fa,
+        isLedgerEnabled,
+        localStorage,
+        refreshAccount,
+        has2fa,
+    }) {
+        super(connection, accountId, {
             storage: localStorage,
             helperUrl: ACCOUNT_HELPER_URL,
-            getCode: () => store.dispatch(promptTwoFactor(true)).payload.promise
+            getCode,
         });
-        this.wallet = wallet;
         this.has2fa = has2fa;
+        this.init2fa = init2fa;
+        this.isLedgerEnabled = isLedgerEnabled;
+        this.refreshAccount = refreshAccount;
     }
 
     static async has2faEnabled(account) {
@@ -43,7 +58,7 @@ export class TwoFactor extends Account2FA {
     }
 
     async get2faMethod() {
-        if (TwoFactor.has2faEnabled(this)) {
+        if (TwoFactorBase.has2faEnabled(this)) {
             return super.get2faMethod();
         }
         return null;
@@ -51,17 +66,14 @@ export class TwoFactor extends Account2FA {
 
     async initTwoFactor(accountId, method) {
         // additional check if the ledger is enabled, in case the user was able to omit disabled buttons
-        const isLedgerEnabled = await this.wallet.isLedgerEnabled();
+        const isLedgerEnabled = await this.isLedgerEnabled();
         if (isLedgerEnabled) {
             throw new WalletError('Ledger Hardware Wallet is enabled', 'initTwoFactor.ledgerEnabled');
         }
 
         // clear any previous requests in localStorage (for verifyTwoFactor)
         this.setRequest({ requestId: -1 });
-        return await this.wallet.postSignedJson('/2fa/init', {
-            accountId,
-            method
-        });
+        return await this.init2fa({ accountId, method });
     }
 
     async getMultisigRequest() {
@@ -94,7 +106,7 @@ export class TwoFactor extends Account2FA {
             }
             throw new Error(e.message);
         }
-        await store.dispatch(refreshAccount());
+        await this.refreshAccount();
         this.has2fa = false;
         return result;
     }
@@ -110,17 +122,17 @@ export class TwoFactor extends Account2FA {
             },
             signer: { type: 'InMemorySigner', keyStore },
         });
-    
+
         const emptyContractBytes = new Uint8Array(await (await fetch('/main.wasm')).arrayBuffer());
         let cleanupContractBytes;
         if (cleanupState) {
             cleanupContractBytes = new Uint8Array(await (await fetch('/state_cleanup.wasm')).arrayBuffer());
         }
-    
+
         const account = new Account2FA(connection, accountId, {
             helperUrl: ACCOUNT_HELPER_URL,
         });
-    
+
         return await account.disableWithFAK({ contractBytes: emptyContractBytes, cleanupContractBytes });
     }
 
