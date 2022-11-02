@@ -291,7 +291,6 @@
         "goToDashboard": "Go To Dashboard",
         "importAccount": "Import Account",
         "importExistingAccount": "Import Existing Account",
-        "recoverExistingAccount": "Recover Existing Account",
         "learnMore": "Learn More",
         "learnMoreAboutNear": "Learn more about NEAR",
         "loading": "Loading",
@@ -303,6 +302,7 @@
         "receive": "Receive",
         "reconnect": "Reconnect",
         "recoverAccount": "Recover Account",
+        "recoverExistingAccount": "Recover Existing Account",
         "recovering": "Finding Account",
         "recoverYourAccount": "Recover your Account",
         "removeAccount": "Remove Account",
@@ -1334,7 +1334,6 @@
     "setupSeedPhrase": {
         "pageText": "Write down the following words in order and keep them somewhere safe. <b>Anyone with access to it will also have access to your account!</b> You’ll be asked to verify your passphrase next.",
         "pageTitle": "Setup Your Secure Passphrase",
-        "pageTitleWithAccountId": "Setup Your Secure Passphrase\n For ${accountId}",
         "snackbarCopyImplicitAddress": "Funding Address Copied!",
         "snackbarCopySuccess": "Passphrase copied!"
     },
@@ -1702,21 +1701,21 @@
             "title": "Enter Two-Factor Verification Code"
         }
     },
-    "twoFactorDisbleBanner": {
-        "desc": "NEAR wallet (wallet.near.org) will soon remove support for two-factor authentication, please disable 2FA for your connected accounts.",
-        "titleSingular": "Account Needs Your Attention",
-        "titlePlural": "Accounts Need Your Attention",
-        "button": "Disable 2FA"
-    },
     "twoFactorDisableLocked": {
-        "title": "Is your account locked?",
         "descOne": "We couldn’t verify your 2FA method for ",
-        "descTwo": "If you can no longer access your account, you can rotate your keys and recover it. You will need your secure passphrase to unlock your account."
+        "descTwo": "If you can no longer access your account, you can rotate your keys and recover it. You will need your secure passphrase to unlock your account.",
+        "title": "Is your account locked?"
+    },
+    "twoFactorDisbleBanner": {
+        "button": "Disable 2FA",
+        "desc": "NEAR wallet (wallet.near.org) will soon remove support for two-factor authentication, please disable 2FA for your connected accounts.",
+        "titlePlural": "Accounts Need Your Attention",
+        "titleSingular": "Account Needs Your Attention"
     },
     "twoFactorRemoveAuth": {
-        "title": "Remove Two-Factor Authentication?",
+        "button": "Remove 2FA",
         "desc": "Enter your secure passphrase to remove 2FA from the account:",
-        "button": "Remove 2FA"
+        "title": "Remove Two-Factor Authentication?"
     },
     "unlockedAvailTransfer": "This NEAR is unlocked, and can be transferred out of your lockup contract.",
     "unlockedBalance": "This NEAR is still in a lockup contract, but unlocked.",
@@ -1883,10 +1882,6 @@
             "desc": "2FA must be disabled before you can transfer an account to a new wallet.",
             "title": "Disable two-factor authentication"
         },
-        "rotateKeys": {
-            "desc": "Before we can transfer your accounts, we’ll rotate the keys for your named accounts for additional security. Next, we’ll transfer your named and implicit acconuts to the wallet of your choosing. Ledger accounts don’t need to be tranferred, and you can go ahead and import them to any hardware-supported wallet.",
-            "title": "Let’s transfer your accounts"
-        },
         "migrateAccounts": {
             "desc": "The following accounts will be transferred:",
             "title": "We found ${count} active accounts"
@@ -1895,10 +1890,14 @@
             "desc": "You'll need this <strong>password</strong> to securely import your accounts. Copy or write it down until you've completed transferring your accounts.",
             "title": "Password required to import accounts"
         },
+        "rotateKeys": {
+            "desc": "For your security, we are going to generate a new passphrase and full access key for the below accounts. <br /><br /> Rotating your key will help protect your wallet and allow you to clean up your old full access keys after you transfer your accounts.",
+            "title": "Let’s secure your accounts"
+        },
         "selectWallet": {
-            "title": "Select a wallet to transfer accounts",
             "descOne": "You’ll be automatically redirected in <b>10 seconds.</b> Once redirected, you’ll need to approve each account as it is added to your new wallet.",
-            "descTwo": "These wallets support automatically transferring accounts. <br /><br /> You can manually import an existing account to any wallet using your 12-word recovery phrase."
+            "descTwo": "These wallets support automatically transferring accounts. <br /><br /> You can manually import an existing account to any wallet using your 12-word recovery phrase.",
+            "title": "Select a wallet to transfer accounts"
         }
     },
     "warning": "Warning",

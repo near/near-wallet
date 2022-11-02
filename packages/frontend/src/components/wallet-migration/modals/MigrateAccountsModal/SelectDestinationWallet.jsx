@@ -17,8 +17,7 @@ import {
     getMyNearWalletUrlFromNEARORG
 } from '../../../../utils/getWalletURL';
 import isMobile from '../../../../utils/isMobile';
-import FormButton from '../../../common/FormButton';
-import Modal from '../../../common/modal/Modal';
+import { ButtonsContainer, StyledButton, MigrationModal } from '../../CommonComponents';
 import {WALLET_EXPORT_MODAL_VIEWS} from './MigrateAccountsModal';
 const Container = styled.div`
     padding: 15px 0;
@@ -154,22 +153,6 @@ const WalletOptionsListingItem = styled.div`
     }
 `;
 
-const ButtonsContainer = styled.div`
-    text-align: center;
-    width: 100% !important;
-    display: flex;
-`;
-
-const StyledButton = styled(FormButton)`
-    width: calc((100% - 16px) / 2);
-    margin: 48px 0 0 !important;
-
-    &:last-child {
-        margin-left: 16px !important;
-    }
-`;
-
-
 const SelectDestinationWallet = ({ handleSetActiveView, handleSetWallet, wallet, onClose }) => {
     const dispatch = useDispatch();
     
@@ -185,14 +168,7 @@ const SelectDestinationWallet = ({ handleSetActiveView, handleSetWallet, wallet,
     }, [wallet, handleSetActiveView, handleSetWallet]);
     
     return (
-        <Modal
-            modalClass="slim"
-            id='migration-modal'
-            isOpen={true}
-            disableClose={true}
-            modalSize='md'
-            style={{ maxWidth: '435px' }}
-        >
+        <MigrationModal>
             <Container>
                 <IconWallet/>
                 <h4 className='title'><Translate id='walletMigration.selectWallet.title'/></h4>
@@ -224,7 +200,7 @@ const SelectDestinationWallet = ({ handleSetActiveView, handleSetWallet, wallet,
                     </StyledButton>
                 </ButtonsContainer>
             </Container>
-        </Modal>
+        </MigrationModal>
     );
 };
 

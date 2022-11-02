@@ -6,8 +6,7 @@ import styled from 'styled-components';
 import IconSecurityLock from '../../../../images/wallet-migration/IconSecurityLock';
 import { showCustomAlert } from '../../../../redux/actions/status';
 import { TwoFactor } from '../../../../utils/twoFactor';
-import FormButton from '../../../common/FormButton';
-import Modal from '../../../common/modal/Modal';
+import { ButtonsContainer, StyledButton, MigrationModal } from '../../CommonComponents';
 
 const Container = styled.div`
     padding: 15px 0;
@@ -33,22 +32,6 @@ const Container = styled.div`
         font-weight: 800;
         font-size: 20px;
         margin-top: 40px;
-    }
-`;
-
-const ButtonsContainer = styled.div`
-    text-align: center;
-    width: 100% !important;
-    display: flex;
-    ${(props) => (props.vertical && 'flex-direction: column;')}
-`;
-
-const StyledButton = styled(FormButton)`
-    width: ${(props) => (props.fullWidth ? '100%': 'calc((100% - 16px) / 2);' )}
-    margin: 48px 0 0 !important;
-
-    &:last-child {
-        ${(props) => (!props.fullWidth && 'margin-left: 16px !important;')}
     }
 `;
 
@@ -102,14 +85,7 @@ const AccountLockModal = ({ accountId, onClose, onComplete, onCancel }) => {
     };
 
     return (
-        <Modal
-            modalClass="slim"
-            id='migration-modal'
-            isOpen={true}
-            disableClose={true}
-            modalSize='md'
-            style={{ maxWidth: '435px' }}
-        >
+        <MigrationModal>
             <Container>
                 {
                     !isContinue ? (
@@ -152,7 +128,7 @@ const AccountLockModal = ({ accountId, onClose, onComplete, onCancel }) => {
                     )
                 }
             </Container>
-        </Modal>
+        </MigrationModal>
     );
 };
 
