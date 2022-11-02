@@ -30,7 +30,7 @@ module.exports = {
     SENTRY_RELEASE:
       process.env.SENTRY_RELEASE ||
       (parseBooleanFromShell(process.env.RENDER) &&
-          `render:${process.env.RENDER_SERVICE_NAME}:${process.env.RENDER_GIT_BRANCH}:${process.env.RENDER_GIT_COMMIT}`),
+          `render:${process.env.RENDER_SERVICE_NAME}:${process.env.RENDER_GIT_BRANCH.replace(/\//g, '-')}:${process.env.RENDER_GIT_COMMIT}`),
     SHOULD_USE_CLOUDFLARE: parseBooleanFromShell(process.env.USE_CLOUDFLARE),
     TRAVIS: parseBooleanFromShell(process.env.TRAVIS),
 };
