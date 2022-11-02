@@ -65,7 +65,7 @@ export const WALLET_OPTIONS = [
         id: 'meteor-wallet',
         name: 'Meteor Wallet',
         icon: <img src={ImgMeteorWallet} alt={'Meteor Wallet Logo'}/>,
-        getUrl: ({ hash, networkId }) => `${getMeteorWalletUrl()}/batch-import?hash=${hash}&network=${networkId}`,
+        getUrl: ({ hash, networkId }) => `${getMeteorWalletUrl()}/batch-import?network=${networkId}#${hash}`,
         checkAvailability: () => true,
     },
     {
