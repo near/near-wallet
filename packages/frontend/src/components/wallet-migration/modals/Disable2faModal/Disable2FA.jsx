@@ -14,10 +14,9 @@ import AccountListImport from '../../../accounts/AccountListImport';
 import { IMPORT_STATUS } from '../../../accounts/batch_import_accounts';
 import sequentialAccountImportReducer, { ACTIONS } from '../../../accounts/batch_import_accounts/sequentialAccountImportReducer';
 import LoadingDots from '../../../common/loader/LoadingDots';
-import Modal from '../../../common/modal/Modal';
 import { isAccountBricked } from '../..//utils';
+import { ButtonsContainer, StyledButton, MigrationModal } from '../../CommonComponents';
 import { WALLET_MIGRATION_VIEWS } from '../../WalletMigration';
-import FormButton from './../../../common/FormButton';
 import AccountLockModal from './AccountLock';
 
 
@@ -46,21 +45,6 @@ const Container = styled.div`
         font-weight: 800;
         font-size: 20px;
         margin-top: 40px;
-    }
-`;
-
-const ButtonsContainer = styled.div`
-    text-align: center;
-    width: 100% !important;
-    display: flex;
-`;
-
-const StyledButton = styled(FormButton)`
-    width: calc((100% - 16px) / 2);
-    margin: 48px 0 0 !important;
-
-    &:last-child{
-        margin-left: 16px !important;
     }
 `;
 
@@ -140,7 +124,7 @@ const Disable2FAModal = ({ handleSetActiveView, onClose }) => {
 
     useEffect(() => {
         if (completedWithSuccess) {
-            handleSetActiveView(WALLET_MIGRATION_VIEWS.SELECT_DESTINATION_WALLET);
+            handleSetActiveView(WALLET_MIGRATION_VIEWS.ROTATE_KEYS);
         }
     }, [completedWithSuccess]);
 
@@ -158,14 +142,10 @@ const Disable2FAModal = ({ handleSetActiveView, onClose }) => {
 
     return (
         <>
-        <Modal
-            modalClass="slim"
-            id='migration-modal'
+        <MigrationModal
             isOpen={!currentBrickedAccount}
             disableClose={!currentBrickedAccount}
             onClose={onClose}
-            modalSize='md'
-            style={{ maxWidth: '435px' }}
         >
             <Container>
                 {loadingMultisigAccounts ? <LoadingDots /> :
@@ -192,7 +172,7 @@ const Disable2FAModal = ({ handleSetActiveView, onClose }) => {
                     )
                 }
             </Container>
-        </Modal>
+        </MigrationModal>
         { currentBrickedAccount && <AccountLockModal accountId={currentBrickedAccount} onClose={onAccountLockClose} onComplete={onAccountLockComplete} onCancel={onAccountLockCancel} /> }
         </>
     );

@@ -358,21 +358,30 @@ class Routing extends Component {
                 >
                     <ThemeProvider theme={theme}>
                         <ScrollToTop />
-                        {
-                            SHOW_MIGRATION_BANNER && (
-                                <MigrationBanner
-                                    account={account}
-                                    onTransfer={this.handleTransferClick} />
-                            )}
-
                         <NetworkBanner account={account} />
                         <NavigationWrapper />
                         <GlobalAlert />
                         {
-                            !isWhitelabel && (
+                            // TODO: Remove TwoFactorDisableBanner when we push MigrationBanner to mainnet
+                            !isWhitelabel && !SHOW_MIGRATION_BANNER && (
                                 <Switch>
                                     <Route
                                         path={['/', '/staking', '/profile']} component={TwoFactorDisableBanner}
+                                    />
+                                </Switch>
+                            )
+                        }
+                        {
+                            
+                            SHOW_MIGRATION_BANNER && (
+                                <Switch>
+                                    <Route
+                                        path={['/', '/staking', '/profile']} render={() => (
+                                            <MigrationBanner
+                                                account={account}
+                                                onTransfer={this.handleTransferClick} 
+                                            />
+                                        )}
                                     />
                                 </Switch>
                             )

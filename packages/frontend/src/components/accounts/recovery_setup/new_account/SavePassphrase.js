@@ -9,14 +9,14 @@ export default ({
     refreshPhrase,
     onClickContinue,
     onClickCancel,
-    accountId
+    accountId,
+    style,
 }) => {
     return (
-        <Container className='small-centered border'>
-            {accountId ?
-                <h1><Translate id='setupSeedPhrase.pageTitleWithAccountId' data={{ accountId }} /></h1>
-                :
-                <h1><Translate id='setupSeedPhrase.pageTitle' /></h1>
+        <Container className='small-centered border' style={style}>
+            <h1><Translate id='setupSeedPhrase.pageTitle' /></h1>
+            {
+                accountId && (<h2><b>{accountId}</b></h2>)
             }
             <h2><Translate id='setupSeedPhrase.pageText' /></h2>
             <SetupSeedPhraseForm

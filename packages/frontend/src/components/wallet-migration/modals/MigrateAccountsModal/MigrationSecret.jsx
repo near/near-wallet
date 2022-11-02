@@ -4,8 +4,7 @@ import styled from 'styled-components';
 
 import IconSecurityLock from '../../../../images/wallet-migration/IconSecurityLock';
 import ClickToCopy from '../../../common/ClickToCopy';
-import FormButton from '../../../common/FormButton';
-import Modal from '../../../common/modal/Modal';
+import { ButtonsContainer, StyledButton, MigrationModal } from '../../CommonComponents';
 
 
 const Container = styled.div`
@@ -39,22 +38,6 @@ const TextSelectDisplay = styled.div`
     text-align: center;
 `;
 
-const ButtonsContainer = styled.div`
-    text-align: center;
-    width: 100% !important;
-    display: flex;
-`;
-
-const StyledButton = styled(FormButton)`
-    width: calc((100% - 16px) / 2);
-    margin: 48px 0 0 !important;
-
-    &:last-child{
-        margin-left: 16px !important;
-    }
-`;
-
-
 const MigrationSecret = ({
     showMigrationPrompt,
     showMigrateAccount,
@@ -67,14 +50,7 @@ const MigrationSecret = ({
     }, []);
 
     return (
-        <Modal
-            modalClass='slim'
-            id='migration-modal'
-            isOpen={true}
-            disableClose={true}
-            modalSize='md'
-            style={{ maxWidth: '431px' }}
-        >
+        <MigrationModal>
             <Container>
                 <IconSecurityLock/>
                 <h3 className='title'>
@@ -102,7 +78,7 @@ const MigrationSecret = ({
                     </StyledButton>
                 </ButtonsContainer>
             </Container>
-        </Modal>
+        </MigrationModal>
     );
 };
 

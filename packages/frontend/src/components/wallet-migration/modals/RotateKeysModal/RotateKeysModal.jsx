@@ -16,25 +16,10 @@ import { IMPORT_STATUS } from '../../../accounts/batch_import_accounts';
 import sequentialAccountImportReducer, { ACTIONS } from '../../../accounts/batch_import_accounts/sequentialAccountImportReducer';
 import ConfirmPassphrase from '../../../accounts/recovery_setup/new_account/ConfirmPassphrase';
 import SavePassphrase from '../../../accounts/recovery_setup/new_account/SavePassphrase';
-import FormButton from '../../../common/FormButton';
 import LoadingDots from '../../../common/loader/LoadingDots';
 import Modal from '../../../common/modal/Modal';
+import { ButtonsContainer, StyledButton } from '../../CommonComponents';
 import { WALLET_MIGRATION_VIEWS } from '../../WalletMigration';
-
-const ButtonsContainer = styled.div`
-    text-align: center;
-    width: 100% !important;
-    display: flex;
-`;
-
-const StyledButton = styled(FormButton)`
-    width: calc((100% - 16px) / 2);
-    margin: 48px 0 0 !important;
-
-    &:last-child{
-        margin-left: 16px !important;
-    }
-`;
 
 const Container = styled.div`
     padding: 15px 0;
@@ -179,10 +164,11 @@ const RotateKeysModal = ({handleSetActiveView, onClose}) => {
     if (confirmPassphrase) {
         return (
             <Modal
-                modalClass="fullscreen"
+                modalClass="slim"
                 id='migration-modal'
                 onClose={onClose}
                 modalSize='md'
+                style={{ padding: '0px' }}
             >
                 <ConfirmPassphrase
                     wordIndex={wordIndex}
@@ -215,6 +201,7 @@ const RotateKeysModal = ({handleSetActiveView, onClose}) => {
                             setFinishingSetupForCurrentAccount(false);
                         }
                     }}
+                    flat
                 />
         
             </Modal>
@@ -228,6 +215,7 @@ const RotateKeysModal = ({handleSetActiveView, onClose}) => {
                    id='migration-modal'
                    onClose={onClose}
                    modalSize='lg'
+                   style={{ maxWidth: '528px' }}
                >
                    <SavePassphrase
                        passPhrase={currentPassphrase}
@@ -242,6 +230,7 @@ const RotateKeysModal = ({handleSetActiveView, onClose}) => {
                            setShowConfirmSeedphraseModal(() => false);
                        }}
                        accountId={currentAccount.accountId}
+                       style={{ marginTop: '0px' }}
                    />
                </Modal>
            )
