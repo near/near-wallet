@@ -27,7 +27,7 @@ export const PRICE_IMPACT_THRESHOLD = {
 };
 
 // Used to initialize output token in the form.
-export const DEFAULT_OUTPUT_TOKEN_ID = CONFIG.USN_CONTRACT || '';
+export const DEFAULT_OUTPUT_TOKEN_ID = CONFIG.USDT_CONTRACT || '';
 
 export const DEFAULT_SLIPPAGE_PERCENT = 1;
 

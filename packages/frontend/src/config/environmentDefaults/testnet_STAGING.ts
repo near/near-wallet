@@ -48,5 +48,6 @@ export default {
     TOKEN_BLACKLIST_ENDPOINT: 'https://testnet-api.mynearwallet.com/contract-helper/tokens/blacklist',
     REF_FINANCE_CONTRACT: 'ref-finance-101.testnet',
     USN_CONTRACT: 'usdn.testnet',
+    USDT_CONTRACT: 'usdt.fakes.testnet',
     HAPI_PROTOCOL_ADDRESS: 'proxy.contracts.sergei24.testnet'
 };
