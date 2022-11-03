@@ -4,6 +4,7 @@ on:
   pull_request:
     branches:
       - master
+      - testnet
 
 concurrency:
   group: ${{ github.event.pull_request.number }}
