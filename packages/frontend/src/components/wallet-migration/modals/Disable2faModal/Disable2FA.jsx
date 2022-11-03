@@ -53,7 +53,7 @@ const Disable2FAModal = ({ handleSetActiveView, onClose, accountWithDetails, set
     });
     const [loadingMultisigAccounts, setLoadingMultisigAccounts] = useState(true);
     const [currentBrickedAccount, setCurrentBrickedAccount] = useState(null);
-    
+
     const initialAccountIdOnStart = useSelector(selectAccountId);
     const initialAccountId = useRef(initialAccountIdOnStart);
     const dispatch = useDispatch();
@@ -80,6 +80,7 @@ const Disable2FAModal = ({ handleSetActiveView, onClose, accountWithDetails, set
     const currentAccount = useMemo(() => !failed && state.accounts.find((account) => account.status === IMPORT_STATUS.PENDING), [failed, state.accounts]);
     const batchDisableNotStarted = useMemo(() => state.accounts.every((account) => account.status === null), [state.accounts]);
     const completedWithSuccess = useMemo(() => !loadingMultisigAccounts && state.accounts.every((account) => account.status === IMPORT_STATUS.SUCCESS), [state.accounts, loadingMultisigAccounts]);
+    const someAccountsRequireKeyConversion = useMemo(() => !loadingMultisigAccounts && state.accounts.some((account) => account.isConversionRequired), [state.accounts, loadingMultisigAccounts]);
 
     useEffect(() => {
         if (batchDisableNotStarted) {
@@ -165,6 +166,9 @@ const Disable2FAModal = ({ handleSetActiveView, onClose, accountWithDetails, set
                 <IconSecurityLock />
                 <h4 className='title'><Translate id='walletMigration.disable2fa.title' /></h4>
                 <p><Translate id='walletMigration.disable2fa.desc' /></p>
+                {someAccountsRequireKeyConversion && (
+                    <p><Translate id='twoFactor.disable.keyConversionRequired' /></p>
+                )}
                 <div className="accountsTitle">
                     <Translate id='importAccountWithLink.accountsFound' data={{ count: state.accounts.length }} />
                 </div>
