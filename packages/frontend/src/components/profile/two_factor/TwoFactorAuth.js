@@ -56,7 +56,7 @@ const Container = styled(Card)`
     }
 `;
 
-const TwoFactorAuth = ({ twoFactor, history, isBrickedAccount, onDisableBrickedAccountComplete }) => {
+const TwoFactorAuth = ({ twoFactor, history, isBrickedAccount, isKeyConversionRequiredFor2faDisable, onDisableBrickedAccountComplete }) => {
     const [confirmDisable, setConfirmDisable] = useState(false);
     const [showBrickedAccountModal, setShowBrickedAccountModal] = useState(false);
     const account = useSelector(selectAccountSlice);
@@ -114,6 +114,7 @@ const TwoFactorAuth = ({ twoFactor, history, isBrickedAccount, onDisableBrickedA
                     disabling={confirmDisabling}
                     component='twoFactor'
                     twoFactorKind={twoFactor.kind}
+                    isKeyConversionRequiredFor2faDisable={isKeyConversionRequiredFor2faDisable}
                 />
             )}
             {twoFactor && isBrickedAccount && showBrickedAccountModal && (

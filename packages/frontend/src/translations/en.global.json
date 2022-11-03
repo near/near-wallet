@@ -1678,6 +1678,7 @@
             "desc": "Keep in mind that transactions won't have to be confirmed with 2FA once it's disabled.",
             "disable": "Disable 2FA",
             "keep": "No, keep 2FA",
+            "keyConversionRequired": "Due to the number of 2FA access keys on this account, some access keys will need to be converted to full access keys before 2FA can be disabled. The converted keys can sign transactions without a 2FA prompt, so it is important to complete the 2FA disable process once begun. You will receive one or more additional 2FA prompts to perform this key conversion when disabling 2FA.",
             "phoneDesc": "The SMS option for two-factor authentication is being deprecated, and cannot be re-enbaled.",
             "title": "Are you sure you want to disable 2FA?"
         },

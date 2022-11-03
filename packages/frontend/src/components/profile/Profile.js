@@ -157,6 +157,7 @@ export function Profile({ match }) {
     const accountId = accountIdFromUrl || loginAccountId;
     const isOwner = accountId && accountId === loginAccountId && accountExists;
     const [isBrickedAccount, setIsBrickedAccount] = useState(false);
+    const [isKeyConversionRequiredFor2faDisable, setIsKeyConversionRequiredFor2faDisable] = useState(false);
     const account = useAccount(accountId);
     const dispatch = useDispatch();
     const profileBalance = selectProfileBalance(account);
@@ -205,6 +206,7 @@ export function Profile({ match }) {
                 if (accountKeyType === WalletClass.KEY_TYPES.MULTISIG) {
                     let account = await wallet.getAccount(accountId);
                     setIsBrickedAccount(await isAccountBricked(account));
+                    setIsKeyConversionRequiredFor2faDisable(await account.isKeyConversionRequiredForDisable());
                 } else {
                     setIsBrickedAccount(false);
                 }
@@ -346,6 +348,7 @@ export function Profile({ match }) {
                                         <TwoFactorAuth
                                             twoFactor={twoFactor}
                                             isBrickedAccount={isBrickedAccount}
+                                            isKeyConversionRequiredFor2faDisable={isKeyConversionRequiredFor2faDisable}
                                             onDisableBrickedAccountComplete={onDisableBrickedAccountComplete}
                                         />
                                     </>
