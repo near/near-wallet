@@ -49,7 +49,7 @@ const Container = styled.div`
 `;
 const MINIMIM_ACCOUNT_BALANCE  = 0.00005;
 
-const RotateKeysModal = ({handleSetActiveView, onClose}) => {
+const RotateKeysModal = ({handleSetActiveView, onClose, onRotateKeySuccess}) => {
     const [state, localDispatch] = useImmerReducer(sequentialAccountImportReducer, {
         accounts: []
     });
@@ -123,9 +123,10 @@ const RotateKeysModal = ({handleSetActiveView, onClose}) => {
         try {
             const account = await wallet.getAccount(currentAccount.accountId);
             await account.addKey(currentRecoveryKeyPair.getPublicKey());
-            await wallet.saveAccount(currentAccount.accountId, currentRecoveryKeyPair);
+            onRotateKeySuccess({ accountId: currentAccount.accountId,  key: currentRecoveryKeyPair.secretKey});
+
             localDispatch({ type: ACTIONS.SET_CURRENT_DONE });
-            setShowConfirmSeedphraseModal(() => false);            
+            setShowConfirmSeedphraseModal(false);            
         } catch (e) {
             localDispatch({ type: ACTIONS.SET_CURRENT_FAILED_AND_END_PROCESS });
             dispatch(showCustomAlert({
@@ -145,7 +146,7 @@ const RotateKeysModal = ({handleSetActiveView, onClose}) => {
         dispatch(switchAccount({accountId: currentAccount.accountId}));
         generateAndSetPhrase();
         await new Promise((r) => setTimeout(r, 1500));
-        setShowConfirmSeedphraseModal(() => true);
+        setShowConfirmSeedphraseModal(true);
     };
 
     useEffect(() => {
@@ -196,7 +197,7 @@ const RotateKeysModal = ({handleSetActiveView, onClose}) => {
                             }
                             await handleConfirmPassphrase();
                             setConfirmPassphrase(false);
-                            setShowConfirmSeedphraseModal(() => false);
+                            setShowConfirmSeedphraseModal(false);
                         } finally {
                             setFinishingSetupForCurrentAccount(false);
                         }
@@ -227,7 +228,7 @@ const RotateKeysModal = ({handleSetActiveView, onClose}) => {
                        }}
                        onClickCancel = { async () => {
                            localDispatch({ type: ACTIONS.SET_CURRENT_FAILED_AND_END_PROCESS });
-                           setShowConfirmSeedphraseModal(() => false);
+                           setShowConfirmSeedphraseModal(false);
                        }}
                        accountId={currentAccount.accountId}
                        style={{ marginTop: '0px' }}

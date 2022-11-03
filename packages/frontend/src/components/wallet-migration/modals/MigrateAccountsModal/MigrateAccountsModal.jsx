@@ -16,7 +16,7 @@ export const WALLET_EXPORT_MODAL_VIEWS = {
     MIGRATE_ACCOUNTS: 'MIGRATE_ACCOUNTS',    
 };
 
-const MigrateAccountsModal = ({ onClose, handleSetActiveView,  handleSetWallet, state }) => {
+const MigrateAccountsModal = ({ onClose, handleSetActiveView,  handleSetWallet, state, rotatedKeys }) => {
     const [activeModalView, setActiveModalView] = useState('SELECT_DESTINATION_WALLET');
     const availableAccounts = useSelector(selectAvailableAccounts);
     const [migrationKey, setMigrationKey] = useState(generatePublicKey());
@@ -25,10 +25,11 @@ const MigrateAccountsModal = ({ onClose, handleSetActiveView,  handleSetWallet, 
         const accountsData = [];
         for (let i = 0; i < accounts.length; i++) {
             const accountId = accounts[i];
+            const rotateKey = rotatedKeys[accountId];
             const keyPair = await wallet.getLocalKeyPair(accountId);
             accountsData.push([
                 accountId,
-                keyPair?.secretKey || '',
+                rotateKey || keyPair?.secretKey || '',
                 getLedgerHDPath(accountId),
             ]);
         }

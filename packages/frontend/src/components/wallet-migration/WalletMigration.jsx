@@ -15,9 +15,9 @@ const initialState = {
     wallet: null,
 };
 
-
 const WalletMigration = ({ open, onClose }) => {
     const [state, setState] = React.useState(initialState);
+    const [rotatedKeys, setRotatedKeys] = React.useState({});
 
     const handleStateUpdate = (newState) => {
         setState({...state, ...newState});
@@ -40,6 +40,13 @@ const WalletMigration = ({ open, onClose }) => {
         }
     }, [open]);
 
+    const onRotateKeySuccess = useCallback(({ accountId, key }) => {
+        setRotatedKeys({
+            ...rotatedKeys,
+            [accountId]: key,
+        });
+    }, [Object.keys(rotatedKeys).length]);
+
     return (
         <div>
             {state.activeView === WALLET_MIGRATION_VIEWS.DISABLE_2FA && (
@@ -54,6 +61,7 @@ const WalletMigration = ({ open, onClose }) => {
                     onClose={onClose}
                     handleSetActiveView={handleSetActiveView}
                     data-test-id="rotateKeysModal"
+                    onRotateKeySuccess={onRotateKeySuccess}
                 />
             )}
             {state.activeView === WALLET_MIGRATION_VIEWS.MIGRATE_ACCOUNTS && (
@@ -63,6 +71,7 @@ const WalletMigration = ({ open, onClose }) => {
                     handleSetWallet={handleSetWallet}
                     state={state}
                     data-test-id="migrateAccountsModal"
+                    rotatedKeys={rotatedKeys}
                 />
             )}
             
