@@ -71,7 +71,7 @@
     "build": "yarn run bundle && yarn run sentry",
     "bundle": "NODE_ENV=production node ci/runBundler.js",
     "sentry": "node ci/sentry-send-release.js",
-    "test": "jest",
+    "test": "NEAR_WALLET_ENV=testnet jest",
     "lint": "eslint --ext .js --ext .jsx .",
     "fix": "eslint --ext .js --ext .jsx . --fix",
     "storybook": "start-storybook -p 6006",
