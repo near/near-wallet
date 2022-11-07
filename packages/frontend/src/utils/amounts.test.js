@@ -78,5 +78,15 @@ describe('amounts', () => {
         expect(amounts.isValidAmount('a', 1)).toBe(false);
         expect(amounts.isValidAmount('0.a', 1)).toBe(false);
     });
+
+    test('should correctly separate integer part with commas', () => {
+        expect(amounts.integerPartWithCommaSeparators('')).toBe('');
+        expect(amounts.integerPartWithCommaSeparators('12')).toBe('12');
+        expect(amounts.integerPartWithCommaSeparators('0.01')).toBe('0.01');
+        expect(amounts.integerPartWithCommaSeparators('12.12')).toBe('12.12');
+        expect(amounts.integerPartWithCommaSeparators('3123.12')).toBe('3,123.12');
+        expect(amounts.integerPartWithCommaSeparators('123123.12')).toBe('123,123.12');
+        expect(amounts.integerPartWithCommaSeparators('123123123.12')).toBe('123,123,123.12');
+    });
 });
 

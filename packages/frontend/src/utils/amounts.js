@@ -84,3 +84,15 @@ export const isValidAmount = (amount, maxAmount, decimals = NEAR_DECIMALS) => {
 
     return true;
 };
+
+export const integerPartWithCommaSeparators = (amount) => {
+    if (!amount) {
+        return amount;
+    }
+
+    const parts = amount.split('.');
+
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
+    return parts.join('.');
+};

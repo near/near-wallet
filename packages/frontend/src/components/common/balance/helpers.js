@@ -41,13 +41,15 @@ export const formatWithCommas = (value) => {
     return value;
 };
 
-export const getRoundedBalanceInFiat = (rawNearAmount, tokenFiatValue,isNear,decimals) => {
-    const formattedNearAmount = rawNearAmount && !isNear ? formatNearAmount(rawNearAmount).replace(/,/g, '') : formatTokenAmount(rawNearAmount, decimals);
+export const getRoundedBalanceInFiat = (amount, tokenFiatValue, isNear, decimals) => {
+    const formattedNearAmount = amount && !isNear ? formatNearAmount(amount).replace(/,/g, '') : formatTokenAmount(amount, decimals, decimals);
     const balanceInFiat = Number(formattedNearAmount) * tokenFiatValue;
     const roundedBalanceInFiat = balanceInFiat && balanceInFiat.toFixed(2);
+
     if (roundedBalanceInFiat === '0.00' || formattedNearAmount === '< 0.00001') {
         return '< $0.01';
     }
+
     return roundedBalanceInFiat;
 };
 

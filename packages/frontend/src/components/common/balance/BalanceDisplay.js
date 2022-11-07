@@ -5,7 +5,7 @@ import styled from 'styled-components';
 
 import CONFIG from '../../../config';
 import classNames from '../../../utils/classNames';
-import BalanceDisplayUSD from './BalanceDisplayUSD';
+import FiatBalance from './FiatBalance';
 import {
     formatNearAmount,
     showInYocto,
@@ -115,7 +115,7 @@ const BalanceDisplay = ({
             )}
             {showBalanceInUSD && (
                 <div className='fiat-amount'>
-                    <BalanceDisplayUSD
+                    <FiatBalance
                         totalAmount={totalAmount}
                         amount={amount}
                         nearTokenFiatValueUSD={nearTokenFiatValueUSD}

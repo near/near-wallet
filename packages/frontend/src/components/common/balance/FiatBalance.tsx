@@ -1,9 +1,21 @@
-import React from 'react';
+import React, { FC } from 'react';
 
 import { getRoundedBalanceInFiat, formatWithCommas } from './helpers';
 
+const USDSymbol = 'USD';
 
-const BalanceDisplayUSD = ({
+type FiatBalanceProps = {
+    amount: string,
+    showAlmostEqualSignUSD?: boolean,
+    showSymbolUSD?: boolean,
+    showSignUSD?: boolean,
+    nearTokenFiatValueUSD?: number,
+    isNear?: boolean,
+    decimals: number,
+    totalAmount?: string
+}
+
+const FiatBalance: FC<FiatBalanceProps> = ({
     amount,
     showAlmostEqualSignUSD = false,
     showSymbolUSD = false,
@@ -11,11 +23,13 @@ const BalanceDisplayUSD = ({
     nearTokenFiatValueUSD,
     isNear = false,
     decimals,
-    totalAmount
+    totalAmount = ''
 }) => {
-    const roundedBalanceInUSD = amount && nearTokenFiatValueUSD && getRoundedBalanceInFiat(amount, nearTokenFiatValueUSD,isNear,
-        decimals);
-    const USDSymbol = 'USD';
+    const roundedBalanceInUSD =
+        amount &&
+        nearTokenFiatValueUSD &&
+        getRoundedBalanceInFiat(amount, nearTokenFiatValueUSD, isNear, decimals);
+
     const roundedBalanceInUSDIsBelowThreshold = roundedBalanceInUSD === '< $0.01';
 
     if (roundedBalanceInUSD) {
@@ -24,7 +38,7 @@ const BalanceDisplayUSD = ({
                 {!roundedBalanceInUSDIsBelowThreshold && (
                     <>
                         {showAlmostEqualSignUSD && '≈ '}
-                        {showSignUSD && <>$</>}
+                        {showSignUSD && '$'}
                     </>
                 )}
                 {totalAmount ? formatWithCommas(totalAmount) : formatWithCommas(roundedBalanceInUSD)}
@@ -33,10 +47,10 @@ const BalanceDisplayUSD = ({
         );
     }
 
-    if (roundedBalanceInUSD === 0) {
+    if (typeof roundedBalanceInUSD === 'number' && roundedBalanceInUSD === 0) {
         return (
             <>
-                {showSignUSD && <>$</>}0
+                {showSignUSD && '$'}0
             </>
         );
     }
@@ -46,4 +60,4 @@ const BalanceDisplayUSD = ({
     );
 };
 
-export default BalanceDisplayUSD;
+export default FiatBalance;
