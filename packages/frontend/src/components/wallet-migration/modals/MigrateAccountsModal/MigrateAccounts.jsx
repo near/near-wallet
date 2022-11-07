@@ -4,26 +4,7 @@ import styled from 'styled-components';
 
 import IconAccount from '../../../../images/wallet-migration/IconAccount';
 import IconMigrateAccount from '../../../../images/wallet-migration/IconMigrateAccount';
-import FormButton from '../../../common/FormButton';
-import Modal from '../../../common/modal/Modal';
-
-const Container = styled.div`
-    padding: 15px 0;
-    text-align: center;
-    margin: 0 auto;
-
-    @media (max-width: 360px) {
-        padding: 0;
-    }
-
-    @media (min-width: 500px) {
-        padding: 56px 24px 24px;
-    }
-
-    .title {
-        margin-top: 40px;
-    }
-`;
+import { ButtonsContainer, StyledButton, MigrationModal, Container } from '../../CommonComponents';
 
 const AccountListing = styled.div`
     margin-top: 56px;
@@ -47,32 +28,11 @@ const AccountListingItem = styled.div`
     }
 `;
 
-const ButtonsContainer = styled.div`
-    text-align: center;
-    width: 100% !important;
-    display: flex;
-    padding: 12px 24px 24px;
-    border-top: 1px solid #EDEDED;
-`;
-
-const StyledButton = styled(FormButton)`
-    width: calc((100% - 16px) / 2);
-
-    &:last-child {
-        margin-left: 16px !important;
-    }
-`;
-
 const MigrateAccounts = ({ accounts, onClose, onContinue }) => {
    
     return (
-        <Modal
-            modalClass='slim'
-            id='migration-modal'
-            isOpen
-            disableClose
+        <MigrationModal
             onClose={onClose}
-            modalSize='md'
             style={{ maxWidth: '496px' }}
         >
             <Container>
@@ -104,7 +64,7 @@ const MigrateAccounts = ({ accounts, onClose, onContinue }) => {
                     </StyledButton>
                 </ButtonsContainer>
             </Container>
-        </Modal>
+        </MigrationModal>
     );
 };
 

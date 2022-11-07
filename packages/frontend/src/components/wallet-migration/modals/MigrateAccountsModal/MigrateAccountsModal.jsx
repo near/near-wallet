@@ -16,7 +16,7 @@ export const WALLET_EXPORT_MODAL_VIEWS = {
     MIGRATE_ACCOUNTS: 'MIGRATE_ACCOUNTS',    
 };
 
-const MigrateAccountsModal = ({ onClose, handleSetActiveView,  handleSetWallet, state, rotatedKeys }) => {
+const MigrateAccountsModal = ({ onClose, handleSetActiveView,  handleSetWallet, state, rotatedKeys, onNext }) => {
     const [activeModalView, setActiveModalView] = useState('SELECT_DESTINATION_WALLET');
     const availableAccounts = useSelector(selectAvailableAccounts);
     const [migrationKey, setMigrationKey] = useState(generatePublicKey());
@@ -53,6 +53,7 @@ const MigrateAccountsModal = ({ onClose, handleSetActiveView,  handleSetWallet, 
             migrationKey,
             state.wallet
         );
+        onNext();
         window.open(url, '_blank');
     }, [migrationKey, availableAccounts, wallet]);
 

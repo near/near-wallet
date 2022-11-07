@@ -20,6 +20,7 @@ import LoadingDots from '../../../common/loader/LoadingDots';
 import Modal from '../../../common/modal/Modal';
 import { ButtonsContainer, StyledButton } from '../../CommonComponents';
 import { WALLET_MIGRATION_VIEWS } from '../../WalletMigration';
+import ExportKeyModal from './ExportKeyModal';
 
 const Container = styled.div`
     padding: 15px 0;
@@ -66,6 +67,8 @@ const RotateKeysModal = ({handleSetActiveView, onClose, onRotateKeySuccess}) => 
     const [currentRecoveryKeyPair, setCurrentRecoveryKeyPair] = useState();
     const [currentPassphrase, setCurrentpassPhrase] = useState('');
     const [showConfirmSeedphraseModal, setShowConfirmSeedphraseModal] = useState(false);
+    const [showExportKeyModal, setShowExportKeyModal] = useState(false);
+
     const generateAndSetPhrase = () => {
         const { seedPhrase, secretKey } = generateSeedPhrase();
         const recoveryKeyPair = KeyPair.fromString(secretKey);
@@ -124,9 +127,8 @@ const RotateKeysModal = ({handleSetActiveView, onClose, onRotateKeySuccess}) => 
             const account = await wallet.getAccount(currentAccount.accountId);
             await account.addKey(currentRecoveryKeyPair.getPublicKey());
             onRotateKeySuccess({ accountId: currentAccount.accountId,  key: currentRecoveryKeyPair.secretKey});
-
-            localDispatch({ type: ACTIONS.SET_CURRENT_DONE });
-            setShowConfirmSeedphraseModal(false);            
+            setShowConfirmSeedphraseModal(false);  
+            setShowExportKeyModal(true);          
         } catch (e) {
             localDispatch({ type: ACTIONS.SET_CURRENT_FAILED_AND_END_PROCESS });
             dispatch(showCustomAlert({
@@ -161,6 +163,20 @@ const RotateKeysModal = ({handleSetActiveView, onClose, onRotateKeySuccess}) => 
             rotateKeyForCurrentAccount();
         }
     }, [currentAccount]);
+
+    if (showExportKeyModal) {
+        return (
+            <ExportKeyModal
+                accountId={currentAccount.accountId}
+                secretKey={`ed25519:${currentRecoveryKeyPair.secretKey}`}
+                onClose={onClose}
+                onContinue={() => {
+                    setShowExportKeyModal(false);
+                    localDispatch({ type: ACTIONS.SET_CURRENT_DONE });
+                }}
+            />
+        );
+    }
 
     if (confirmPassphrase) {
         return (
@@ -255,8 +271,8 @@ const RotateKeysModal = ({handleSetActiveView, onClose, onRotateKeySuccess}) => 
                             </div>
 
                             <AccountListImport accounts={state.accounts} />
-                            <ButtonsContainer >
-                                <StyledButton className="gray-blue" onClick={onClose}>
+                            <ButtonsContainer vertical={currentFailedAccount}>
+                                <StyledButton className="gray-blue" onClick={onClose} fullWidth={currentFailedAccount}>
                                     <Translate id='button.cancel' />
                                 </StyledButton>
                                 {currentFailedAccount && (
@@ -264,7 +280,7 @@ const RotateKeysModal = ({handleSetActiveView, onClose, onRotateKeySuccess}) => 
                                         localDispatch({ type:  ACTIONS.RESTART_PROCESS_INCLUDING_LAST_FAILED_ACCOUNT});
                                     }
                                     }
-                                    data-test-id="rotateKeys.cancel">
+                                    data-test-id="rotateKeys.cancel" fullWidth={currentFailedAccount}>
                                         <Translate id={'button.retry'} />
                                     </StyledButton>
                                 )}
@@ -276,7 +292,7 @@ const RotateKeysModal = ({handleSetActiveView, onClose, onRotateKeySuccess}) => 
                                     }
                                 }
                                 } disabled={!batchKeyRotationNotStarted && !currentFailedAccount}
-                                data-test-id="rotateKeys.continue">
+                                data-test-id="rotateKeys.continue" fullWidth={currentFailedAccount}>
                                     <Translate id={'button.continue'} />
                                 </StyledButton>
                             </ButtonsContainer>
