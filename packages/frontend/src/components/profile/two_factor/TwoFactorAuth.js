@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { disableMultisig } from '../../../redux/actions/account';
+import { disableMultisig, disableMultisigWithBatchKeyConversion } from '../../../redux/actions/account';
 import { selectAccountSlice } from '../../../redux/slices/account';
 import { actions as recoveryMethodsActions } from '../../../redux/slices/recoveryMethods';
 import { selectActionsPending } from '../../../redux/slices/status';
@@ -61,11 +61,15 @@ const TwoFactorAuth = ({ twoFactor, history, isBrickedAccount, isKeyConversionRe
     const [showBrickedAccountModal, setShowBrickedAccountModal] = useState(false);
     const account = useSelector(selectAccountSlice);
     const dispatch = useDispatch();
-    const confirmDisabling = useSelector((state) => selectActionsPending(state, { types: ['DISABLE_MULTISIG'] }));
+    const confirmDisabling = useSelector((state) => selectActionsPending(state, {
+        types: ['DISABLE_MULTISIG', 'DISABLE_MULTISIG_WITH_BATCH_KEY_CONVERSION']
+    }));
 
     const handleConfirmDisable = async () => {
         if (isBrickedAccount) {
             setShowBrickedAccountModal(true);
+        } else if (isKeyConversionRequiredFor2faDisable) {
+            await dispatch(disableMultisigWithBatchKeyConversion());
         } else {
             await dispatch(disableMultisig());
         }

@@ -243,6 +243,7 @@ export const {
     promptTwoFactor,
     deployMultisig,
     disableMultisig,
+    disableMultisigWithBatchKeyConversion,
     checkCanEnableTwoFactor,
     get2faMethod,
     getLedgerKey,
@@ -306,6 +307,10 @@ export const {
     ],
     DISABLE_MULTISIG: [
         (...args) => twoFactorMethod('disableMultisig', wallet, args),
+        () => showAlert()
+    ],
+    DISABLE_MULTISIG_WITH_BATCH_KEY_CONVERSION: [
+        () => twoFactorMethod('batchConvertKeysAndDisable', wallet, wallet.getPublicKey()),
         () => showAlert()
     ],
     CHECK_CAN_ENABLE_TWO_FACTOR: [
