@@ -4,26 +4,7 @@ import styled from 'styled-components';
 
 import IconSecurityLock from '../../../../images/wallet-migration/IconSecurityLock';
 import ClickToCopy from '../../../common/ClickToCopy';
-import { ButtonsContainer, StyledButton, MigrationModal } from '../../CommonComponents';
-
-
-const Container = styled.div`
-    padding: 15px 0;
-    text-align: center;
-    margin: 0 auto;
-
-    @media (max-width: 360px) {
-        padding: 0;
-    }
-
-    @media (min-width: 500px) {
-        padding: 56px 24px 24px;
-    }
-
-    .title {
-        margin-top: 40px;
-    }
-`;
+import { ButtonsContainer, StyledButton, MigrationModal, Container } from '../../CommonComponents';
 
 const TextSelectDisplay = styled.div`
     display: flex;
