@@ -310,7 +310,7 @@ export const {
         () => showAlert()
     ],
     DISABLE_MULTISIG_WITH_BATCH_KEY_CONVERSION: [
-        () => twoFactorMethod('batchConvertKeysAndDisable', wallet, wallet.getPublicKey()),
+        () => twoFactorMethod('batchConvertKeysAndDisable', wallet, [wallet.getPublicKey()]),
         () => showAlert()
     ],
     CHECK_CAN_ENABLE_TWO_FACTOR: [
