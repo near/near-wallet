@@ -57,7 +57,7 @@ const MigrateAccountsModal = ({ onClose, handleSetActiveView,  handleSetWallet, 
         const hash = encodeAccountsToHash(accountsData, publicKey);
         const networkId = ACCOUNT_ID_SUFFIX === 'near' ? 'mainnet' : 'testnet';
         const href = getUrl({ hash, networkId });
-    
+
         return href;
     };
     
@@ -90,42 +90,41 @@ const MigrateAccountsModal = ({ onClose, handleSetActiveView,  handleSetWallet, 
 
     return (
         <>
-        {activeModalView === 'CONFIRM_EXPORT_ACCOUNTS' && (
-            <VerifyAccountMigratedModal
-                onClose={onClose}
-                onContinue={onContinueVerifyAccount}
-                data-test-id="setConfirmWalletModal"
-            />
-        )}
-        {activeModalView === 'SELECT_DESTINATION_WALLET'  && (
-            <SelectDestinationWallet
-                wallet={state.wallet}
-                onClose={onClose}
-                handleSetWallet={handleSetWallet}
-                handleSetActiveView={setActiveModalView}
-                data-test-id="exportWalletModal"
-                accountWithDetails={accountWithDetails}
-            />
-        )}
-        {activeModalView === 'MIGRATION_SECRET' && (
-            <MigrationSecret
-                showMigrationPrompt={showMigrationPrompt}
-                showMigrateAccount={showMigrateAccount}
-                secretKey={keyToString(migrationKey)}
-                data-test-id="migrationSecretModal"
-            />
-        ) 
-        }
-        { activeModalView === 'MIGRATE_ACCOUNTS'  && (
-            <MigrateAccounts
-                accounts={accounts}
-                onClose={onClose}
-                onContinue={onContinue}
-                data-test-id="migrateAccountsModal"
+            {activeModalView === WALLET_EXPORT_MODAL_VIEWS.SELECT_DESTINATION_WALLET && (
+                <SelectDestinationWallet
+                    wallet={state.wallet}
+                    onClose={onClose}
+                    handleSetWallet={handleSetWallet}
+                    handleSetActiveView={setActiveModalView}
+                    data-test-id="exportWalletModal"
+                    accountWithDetails={accountWithDetails}
+                />
+            )}
+            {activeModalView === WALLET_EXPORT_MODAL_VIEWS.MIGRATION_SECRET && (
+                <MigrationSecret
+                    showMigrationPrompt={showMigrationPrompt}
+                    showMigrateAccount={showMigrateAccount}
+                    secretKey={keyToString(migrationKey)}
+                    data-test-id="migrationSecretModal"
+                />
+            )}
+            {activeModalView === WALLET_EXPORT_MODAL_VIEWS.MIGRATE_ACCOUNTS  && (
+                <MigrateAccounts
+                    accounts={accounts}
+                    onClose={onClose}
+                    onContinue={onContinue}
+                    data-test-id="migrateAccountsModal"
 
-            />
-        )}
-</>
+                />
+            )}
+            {activeModalView === WALLET_EXPORT_MODAL_VIEWS.CONFIRM_EXPORT_ACCOUNTS && (
+                <VerifyAccountMigratedModal
+                    onClose={onClose}
+                    onContinue={onContinueVerifyAccount}
+                    data-test-id="setConfirmWalletModal"
+                />
+            )}
+        </>
     );
 };
 
