@@ -127,6 +127,7 @@ const WalletMigration = ({ open, onClose }) => {
                     handleSetActiveView={handleSetActiveView}
                     data-test-id="disable2FAModal"
                     accountWithDetails={accountWithDetails}
+                    setAccountWithDetails={setAccountWithDetails}
                 />
             )}
             {state.activeView === WALLET_MIGRATION_VIEWS.ROTATE_KEYS && (

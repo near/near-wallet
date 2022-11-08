@@ -47,7 +47,7 @@ const Container = styled.div`
 `;
 
 
-const Disable2FAModal = ({ handleSetActiveView, onClose, accountWithDetails }) => {
+const Disable2FAModal = ({ handleSetActiveView, onClose, accountWithDetails, setAccountWithDetails }) => {
     const [state, localDispatch] = useImmerReducer(sequentialAccountImportReducer, {
         accounts: []
     });
@@ -81,8 +81,19 @@ const Disable2FAModal = ({ handleSetActiveView, onClose, accountWithDetails }) =
         }
     },[initialAccountIdOnStart, batchDisableNotStarted]);
 
-    useEffect(() => {
+    const updateAccountWithDetails = () => {
+        const index = accountWithDetails.findIndex((account) => account.accountId === currentAccount.accountId);
+        setAccountWithDetails([
+            ...accountWithDetails.slice(0, index),
+            {
+                ...accountWithDetails[index],
+                keyType: 'fullAccessKey',
+            },
+            ...accountWithDetails.slice(index + 1)
+        ]);
+    };
 
+    useEffect(() => {
         const disable2faForCurrentAccount = async () => {
             try {
                 await dispatch(switchAccount({accountId: currentAccount.accountId}));
@@ -93,6 +104,7 @@ const Disable2FAModal = ({ handleSetActiveView, onClose, accountWithDetails }) =
                     setCurrentBrickedAccount(currentAccount.accountId);
                 } else {
                     await account.disableMultisig();
+                    updateAccountWithDetails();
                     localDispatch({ type: ACTIONS.SET_CURRENT_DONE });
                 }
             } catch (e) {
@@ -123,6 +135,7 @@ const Disable2FAModal = ({ handleSetActiveView, onClose, accountWithDetails }) =
     };
 
     const onAccountLockComplete = () => {
+        updateAccountWithDetails();
         localDispatch({ type: ACTIONS.SET_CURRENT_DONE });
     };
 
