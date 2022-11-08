@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { useImmerReducer } from 'use-immer';
 
-import { NETWORK_ID } from '../../../../config';
 import IconSecurityLock from '../../../../images/wallet-migration/IconSecurityLock';
 import { switchAccount } from '../../../../redux/actions/account';
 import { showCustomAlert } from '../../../../redux/actions/status';
@@ -13,7 +12,6 @@ import WalletClass, { wallet } from '../../../../utils/wallet';
 import AccountListImport from '../../../accounts/AccountListImport';
 import { IMPORT_STATUS } from '../../../accounts/batch_import_accounts';
 import sequentialAccountImportReducer, { ACTIONS } from '../../../accounts/batch_import_accounts/sequentialAccountImportReducer';
-import LoadingDots from '../../../common/loader/LoadingDots';
 import { isAccountBricked } from '../..//utils';
 import { ButtonsContainer, StyledButton, MigrationModal } from '../../CommonComponents';
 import { WALLET_MIGRATION_VIEWS } from '../../WalletMigration';
@@ -49,7 +47,7 @@ const Container = styled.div`
 `;
 
 
-const Disable2FAModal = ({ handleSetActiveView, onClose }) => {
+const Disable2FAModal = ({ handleSetActiveView, onClose, accountWithDetails }) => {
     const [state, localDispatch] = useImmerReducer(sequentialAccountImportReducer, {
         accounts: []
     });
@@ -62,17 +60,9 @@ const Disable2FAModal = ({ handleSetActiveView, onClose }) => {
 
     useEffect(() => {
         const update2faAccounts = async () => {
-            const accounts = await wallet.keyStore.getAccounts(NETWORK_ID);
-            const getAccountWithAccessKeysAndType = async (accountId) => {
-                const keyType = await wallet.getAccountKeyType(accountId);
-                return { accountId, keyType };
-            };
-            const accountsKeyTypes = await Promise.all(
-                accounts.map(getAccountWithAccessKeysAndType)
-            );
             localDispatch({
                 type: ACTIONS.ADD_ACCOUNTS,
-                accounts: accountsKeyTypes.reduce(((acc, { accountId, keyType }) => keyType === WalletClass.KEY_TYPES.MULTISIG ? acc.concat({ accountId, status: null }) : acc), [])
+                accounts: accountWithDetails.reduce(((acc, { accountId, keyType }) => keyType === WalletClass.KEY_TYPES.MULTISIG ? acc.concat({ accountId, status: null }) : acc), [])
             });
             setLoadingMultisigAccounts(false);
         };
@@ -148,29 +138,23 @@ const Disable2FAModal = ({ handleSetActiveView, onClose }) => {
             onClose={onClose}
         >
             <Container>
-                {loadingMultisigAccounts ? <LoadingDots /> :
-                    (
-                        <>
-                            <IconSecurityLock />
-                            <h4 className='title'><Translate id='walletMigration.disable2fa.title' /></h4>
-                            <p><Translate id='walletMigration.disable2fa.desc' /></p>
-                            <div className="accountsTitle">
-                                <Translate id='importAccountWithLink.accountsFound' data={{ count: state.accounts.length }} />
-                            </div>
-                            <AccountListImport accounts={state.accounts} />
-                            <ButtonsContainer>
-                                <StyledButton className="gray-blue" onClick={onClose} disabled={!batchDisableNotStarted && !failed}>
-                                    <Translate id='button.cancel' />
-                                </StyledButton>
-                                <StyledButton onClick={() =>
-                                    localDispatch({ type: failed ? ACTIONS.RESTART_PROCESS : ACTIONS.BEGIN_IMPORT })
-                                } disabled={!failed && !batchDisableNotStarted}>
-                                    <Translate id={failed ? 'button.retry' : 'button.continue'} />
-                                </StyledButton>
-                            </ButtonsContainer>
-                        </>
-                    )
-                }
+                <IconSecurityLock />
+                <h4 className='title'><Translate id='walletMigration.disable2fa.title' /></h4>
+                <p><Translate id='walletMigration.disable2fa.desc' /></p>
+                <div className="accountsTitle">
+                    <Translate id='importAccountWithLink.accountsFound' data={{ count: state.accounts.length }} />
+                </div>
+                <AccountListImport accounts={state.accounts} />
+                <ButtonsContainer>
+                    <StyledButton className="gray-blue" onClick={onClose} disabled={!batchDisableNotStarted && !failed}>
+                        <Translate id='button.cancel' />
+                    </StyledButton>
+                    <StyledButton onClick={() =>
+                        localDispatch({ type: failed ? ACTIONS.RESTART_PROCESS : ACTIONS.BEGIN_IMPORT })
+                    } disabled={!failed && !batchDisableNotStarted}>
+                        <Translate id={failed ? 'button.retry' : 'button.continue'} />
+                    </StyledButton>
+                </ButtonsContainer>
             </Container>
         </MigrationModal>
         { currentBrickedAccount && <AccountLockModal accountId={currentBrickedAccount} onClose={onAccountLockClose} onComplete={onAccountLockComplete} onCancel={onAccountLockCancel} /> }
