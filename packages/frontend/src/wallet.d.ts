@@ -19,4 +19,17 @@ declare module Wallet {
             usd: number;
         };
     }
+
+    // @todo Find or wait "near-api-js" package types
+    declare interface Account {
+        accountId: string;
+        viewFunction: (
+            contractId: string,
+            method: string,
+            params: { [k: string]: any }
+        ) => Promise<null | {
+            total: string;
+            available: string;
+        }>;
+    }
 }

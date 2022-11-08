@@ -5,7 +5,15 @@ import { decreaseByPercent, getPercentFrom } from '../../../utils/amounts';
 import { getTotalGasFee } from '../../../utils/gasPrice';
 import { SWAP_GAS_UNITS } from './constants';
 
-export function getMinAmountOut({ tokenOut, amountOut, slippage }) {
+export function getMinAmountOut({
+    tokenOut,
+    amountOut,
+    slippage,
+}: {
+    tokenOut: Wallet.Token;
+    amountOut: string;
+    slippage: number;
+}): string {
     let minAmountOut = '';
     const canCalculateMinAmount =
         typeof slippage === 'number' &&
@@ -15,23 +23,26 @@ export function getMinAmountOut({ tokenOut, amountOut, slippage }) {
     if (canCalculateMinAmount) {
         minAmountOut = !slippage
             ? amountOut
-            : decreaseByPercent(
-                amountOut,
-                slippage,
-                tokenOut.onChainFTMetadata.decimals
-            );
+            : decreaseByPercent(amountOut, slippage, tokenOut.onChainFTMetadata.decimals);
     }
 
     return minAmountOut;
 }
 
-export function getSwapFeeAmount({ amountIn, swapFee }) {
-    return amountIn && swapFee >= 0
-        ? Number(getPercentFrom(amountIn, swapFee))
-        : 0;
+export function getSwapFeeAmount({
+    amountIn,
+    swapFee,
+}: {
+    amountIn: string;
+    swapFee: number;
+}): number {
+    return amountIn && swapFee >= 0 ? Number(getPercentFrom(amountIn, swapFee)) : 0;
 }
 
-async function hasStorageDeposit(account, tokenId) {
+async function hasStorageDeposit(
+    account: Wallet.Account,
+    tokenId: string
+): Promise<boolean> {
     if (account && tokenId) {
         try {
             const storageState = await account.viewFunction(
@@ -49,11 +60,15 @@ async function hasStorageDeposit(account, tokenId) {
     return false;
 }
 
-async function getStorageDepositAmount({ account, tokenIds }) {
+async function getStorageDepositAmount({
+    account,
+    tokenIds,
+}: {
+    account: Wallet.Account;
+    tokenIds: string[];
+}): Promise<number> {
     let storageDepositAmount = 0;
-    const storageDepositYoctoNearAmount = Number(
-        CONFIG.FT_MINIMUM_STORAGE_BALANCE_LARGE
-    );
+    const storageDepositYoctoNearAmount = Number(CONFIG.FT_MINIMUM_STORAGE_BALANCE_LARGE);
 
     await Promise.allSettled(
         tokenIds.map(async (tokenId) => {
@@ -68,7 +83,15 @@ async function getStorageDepositAmount({ account, tokenIds }) {
     return storageDepositAmount;
 }
 
-export async function getSwapCost({ account, tokenIn, tokenOut }) {
+export async function getSwapCost({
+    account,
+    tokenIn,
+    tokenOut,
+}: {
+    account: Wallet.Account;
+    tokenIn: Wallet.Token;
+    tokenOut: Wallet.Token;
+}): Promise<string> {
     const inId = tokenIn?.contractName;
     const outId = tokenOut?.contractName;
 

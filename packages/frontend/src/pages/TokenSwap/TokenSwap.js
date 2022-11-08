@@ -8,7 +8,7 @@ import { SwapProvider } from './model/Swap';
 import SwapWrapper from './ui/SwapWrapper';
 import useTokens from './utils/hooks/useTokens';
 
-export default function TokenSwap({ history }) {
+const TokenSwap = ({ history }) => {
     const accountId = useSelector(selectAccountId);
     const [account, setAccount] = useState(null);
     const tokensConfig = useTokens();
@@ -45,3 +45,5 @@ export default function TokenSwap({ history }) {
         </Container>
     );
 };
+
+export default TokenSwap;

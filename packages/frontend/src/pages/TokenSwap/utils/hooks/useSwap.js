@@ -80,30 +80,34 @@ export default function useSwap({
         return async () => {
             setSwapPending(true);
 
-            try {
-                const { swapTxHash, success, failReason } = await fungibleTokenExchange.swap({
-                    account,
-                    amountIn,
-                    poolId,
+            const statisticalParameters = {
+                tokenFrom: tokenIn.onChainFTMetadata.symbol,
+                tokenFromAddress: tokenIn.contractName,
+                tokenTo: tokenOut.onChainFTMetadata.symbol,
+                tokenToAddress: tokenOut.contractName,
+                ...getAmountStats({
                     tokenIn,
+                    amountIn,
                     tokenOut,
-                    minAmountOut,
-                });
+                    amountOut: minAmountOut,
+                    nearUsdPrice: nearConfig.fiatValueMetadata.usd,
+                }),
+            };
 
-                Mixpanel.track('Swap:done', {
-                    success,
-                    failReason,
-                    tokenFrom: tokenIn.onChainFTMetadata.symbol,
-                    tokenFromAddress: tokenIn.contractName,
-                    tokenTo: tokenOut.onChainFTMetadata.symbol,
-                    tokenToAddress: tokenOut.contractName,
-                    ...getAmountStats({
-                        tokenIn,
+            try {
+                const { swapTxHash, success, failReason } =
+                    await fungibleTokenExchange.swap({
+                        account,
                         amountIn,
+                        poolId,
+                        tokenIn,
                         tokenOut,
-                        amountOut: minAmountOut,
-                        nearUsdPrice: nearConfig.fiatValueMetadata.usd,
-                    }),
+                        minAmountOut,
+                    });
+
+                Mixpanel.track(`Swap:${success ? 'done' : 'failed'}`, {
+                    failReason,
+                    ...statisticalParameters,
                 });
 
                 dispatch(
@@ -129,7 +133,8 @@ export default function useSwap({
                 setViewState(VIEW_STATE.result);
             } catch (error) {
                 Mixpanel.track('Swap:failed', {
-                    errorMessage: error.message,
+                    failReason: error.message,
+                    ...statisticalParameters,
                 });
                 dispatch(
                     showCustomAlert({
