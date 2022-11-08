@@ -17,6 +17,7 @@ import {
     getMyNearWalletUrlFromNEARORG
 } from '../../../../utils/getWalletURL';
 import isMobile from '../../../../utils/isMobile';
+import { shuffle } from '../../../../utils/staking';
 import { ButtonsContainer, StyledButton, MigrationModal } from '../../CommonComponents';
 import {WALLET_EXPORT_MODAL_VIEWS} from './MigrateAccountsModal';
 const Container = styled.div`
@@ -43,7 +44,7 @@ const Container = styled.div`
     }
 `;
 
-export const WALLET_OPTIONS = [
+export const WALLET_OPTIONS = shuffle([
     {
         id: 'my-near-wallet',
         name: 'My NEAR Wallet',
@@ -78,7 +79,7 @@ export const WALLET_OPTIONS = [
         getUrl: ({ hash }) => `finer://wallet.near.org/batch-import#${hash}`,
         checkAvailability: () => isMobile('iOS'),
     },
-];
+]);
 
 const WalletOptionsListing = styled.div`
     margin-top: 40px;
