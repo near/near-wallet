@@ -1,8 +1,8 @@
+import * as nearApi from 'near-api-js';
 import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { Translate } from 'react-localize-redux';
 import { useDispatch, useSelector } from 'react-redux';
 import { useImmerReducer } from 'use-immer';
-
 
 import IconLogout from '../../../../images/wallet-migration/IconLogout';
 import { switchAccount } from '../../../../redux/actions/account';
@@ -17,9 +17,10 @@ import { ButtonsContainer, StyledButton, MigrationModal, Container, IconBackgrou
 import { WALLET_MIGRATION_VIEWS } from '../../WalletMigration';
 import EnterSecretKey from './EnterSecretKey';
 
+const { KeyPair } = nearApi;
 const MINIMUM_ACCOUNT_BALANCE  = 0.00005;
 
-const CleanKeysModal = ({ accounts, handleSetActiveView, onNext, onClose }) => {
+const CleanKeysModal = ({ accounts, handleSetActiveView, onNext, onClose, rotatedKeys }) => {
     // 1. Identify Full Access Keys on all user accounts. Identify if they are sms, email, or unknown keys.
     // 2. Ensure that the newly generated key in the RotateKeysModal is not deleted. 
     // 3. Ensure that the funding account has Threshold * (# of FAKs to be removed) Near present in their account. 
@@ -39,11 +40,15 @@ const CleanKeysModal = ({ accounts, handleSetActiveView, onNext, onClose }) => {
     const [/*finishingSetupForCurrentAccount*/, setFinishingSetupForCurrentAccount] = useState(false);
 
     useEffect(() => {
+        const rotatedPublicKeys = Object.values(rotatedKeys)
+            .map((key) => KeyPair.fromString(`ed25519:${key}`).publicKey.toString());
+
         const importAccounts = async () => {
             const getAccountDetails = async (accountId) => {
                 const keyType = await wallet.getAccountKeyType(accountId);
-                const accessKeys = await wallet.getAccessKeys(accountId);
                 const accountBalance = await wallet.getBalance(keyType.accountId);
+                const accessKeys = (await wallet.getAccessKeys(accountId))
+                    .filter(({ public_key }) => rotatedPublicKeys.some((key) => key === public_key));
                 // let enough_balance_to_remove_keys = true;
 
                 // access_keys.forEach((key) => {
@@ -76,7 +81,7 @@ const CleanKeysModal = ({ accounts, handleSetActiveView, onNext, onClose }) => {
         };
         setLoadingAccounts(true);
         importAccounts();
-    }, []);
+    }, [rotatedKeys]);
 
     const currentAccount = useMemo(
         () =>  state.accounts.find(({ status }) => status === IMPORT_STATUS.PENDING),

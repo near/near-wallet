@@ -167,6 +167,7 @@ const WalletMigration = ({ open, onClose }) => {
                     handleSetActiveView={handleSetActiveView}
                     onClose={onClose}
                     onNext={navigateToLogOut}
+                    rotatedKeys={rotatedKeys}
                 />
             )}
             {state.activeView === WALLET_MIGRATION_VIEWS.LOG_OUT && (
