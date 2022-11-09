@@ -179,10 +179,13 @@ height: unset;
         flex: 0 0 72px;
         margin-left: auto;
         height: 24px;
-        border-radius: 12px;
         text-align: center;
         font-size: 12px;
         line-height: 24px;
+    }
+
+    .access-keys-to-remove {
+        border-radius: 12px;
         color: #CD2B31;
         background-color: #FEF2F2;
     }
@@ -210,9 +213,14 @@ const AccountListImport = ({ accounts = [], animationScope = 0, onClickAccount }
                         <StatusIcon status={account.status}/>
                     </div>
                 ) : null}
-                {account.accessKeys ? (
+                {account.accessKeys && account.accessKeys.length ? (
+                    <div className='access-keys access-keys-to-remove'>
+                        {account.accessKeys.length} {account.accessKeys.length === 1 ? 'key' : 'keys'}
+                    </div>
+                ) : null}
+                {account.accessKeys && !account.accessKeys.length ? (
                     <div className='access-keys'>
-                        {account.accessKeys.length} keys
+                        <StatusIcon status={'success'} />
                     </div>
                 ) : null}
             </div>
