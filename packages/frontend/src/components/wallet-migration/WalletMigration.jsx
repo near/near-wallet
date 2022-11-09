@@ -162,7 +162,12 @@ const WalletMigration = ({ open, onClose }) => {
                 <VerifyingModal onClose={onClose} onNext={navigateToCleanKeys} onStartOver={onStartOver} />
             )}
             {state.activeView === WALLET_MIGRATION_VIEWS.CLEAN_KEYS && (
-                <CleanKeysModal onClose={onClose} onNext={navigateToLogOut} />
+                <CleanKeysModal
+                    accounts={availableAccounts}
+                    handleSetActiveView={handleSetActiveView}
+                    onClose={onClose}
+                    onNext={navigateToLogOut}
+                />
             )}
             {state.activeView === WALLET_MIGRATION_VIEWS.LOG_OUT && (
                 <LogoutModal onClose={onClose} onLogout={onLogout}/>

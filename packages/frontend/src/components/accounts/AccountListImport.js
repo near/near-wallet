@@ -174,6 +174,18 @@ height: unset;
         font-size: 12px;
         line-height: 24px;
     }
+
+    .access-keys {
+        flex: 0 0 72px;
+        margin-left: auto;
+        height: 24px;
+        border-radius: 12px;
+        text-align: center;
+        font-size: 12px;
+        line-height: 24px;
+        color: #CD2B31;
+        background-color: #FEF2F2;
+    }
 }
 `;
 
@@ -196,6 +208,11 @@ const AccountListImport = ({ accounts = [], animationScope = 0, onClickAccount }
                 {account.status && !onClickAccount ? (
                     <div className='status'>
                         <StatusIcon status={account.status}/>
+                    </div>
+                ) : null}
+                {account.accessKeys ? (
+                    <div className='access-keys'>
+                        {account.accessKeys.length} keys
                     </div>
                 ) : null}
             </div>
