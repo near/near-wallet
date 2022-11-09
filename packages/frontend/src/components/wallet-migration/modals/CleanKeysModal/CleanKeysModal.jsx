@@ -52,6 +52,39 @@ const CleanupKeysContainer = styled.div`
     }
 `;
 
+async function getAccountDetails({ accountId, publicKeyBlacklist, wallet }) {
+    const keyType = await wallet.getAccountKeyType(accountId);
+    const accountBalance = await wallet.getBalance(keyType.accountId);
+
+    const recoveryMethods = (await wallet.getRecoveryMethods())
+        .reduce((keys, { kind, publicKey }) => {
+            if (publicKey) {
+                keys[publicKey] = kind;
+            }
+
+            return keys;
+        }, {});
+
+    const allAccessKeys = await wallet.getAccessKeys(accountId);
+    const accessKeys = allAccessKeys
+        .filter(({ public_key }) =>
+            !publicKeyBlacklist.some((key) => key === public_key)
+            && recoveryMethods[public_key] !== 'ledger'
+        )
+        .map(({ public_key }) => ({
+            publicKey: public_key,
+            kind: recoveryMethods[public_key] || 'unknown',
+        }));
+
+    return {
+        accessKeys,
+        accountBalance,
+        accountId,
+        keyType,
+        totalAccessKeys: allAccessKeys.length,
+    };
+}
+
 const CleanKeysModal = ({ accounts, handleSetActiveView, onNext, onClose, rotatedKeys }) => {
     // 1. Identify Full Access Keys on all user accounts. Identify if they are sms, email, or unknown keys.
     // 2. Ensure that the newly generated key in the RotateKeysModal is not deleted. 
@@ -76,46 +109,17 @@ const CleanKeysModal = ({ accounts, handleSetActiveView, onNext, onClose, rotate
             .map((key) => KeyPair.fromString(`ed25519:${key}`).publicKey.toString());
 
         const importAccounts = async () => {
-            const getAccountDetails = async (accountId) => {
-                const keyType = await wallet.getAccountKeyType(accountId);
-                const accountBalance = await wallet.getBalance(keyType.accountId);
-
-                const recoveryMethods = (await wallet.getRecoveryMethods())
-                    .reduce((keys, { kind, publicKey }) => {
-                        if (publicKey) {
-                            keys[publicKey] = kind;
-                        }
-
-                        return keys;
-                    }, {});
-
-                const allAccessKeys = await wallet.getAccessKeys(accountId);
-                const accessKeys = allAccessKeys
-                    .filter(({ public_key }) =>
-                        !rotatedPublicKeys.some((key) => key === public_key)
-                        && recoveryMethods[public_key] !== 'ledger'
-                    )
-                    .map(({ public_key }) => ({
-                        publicKey: public_key,
-                        kind: recoveryMethods[public_key] || 'unknown',
-                    }));
-
-                return {
-                    accessKeys,
-                    accountBalance,
+            const accountDetails = await Promise.all(
+                accounts.map((accountId) => getAccountDetails({
                     accountId,
-                    keyType,
-                    totalAccessKeys: allAccessKeys.length,
-                };
-            };
-
-            const accountWithDetails = await Promise.all(
-                accounts.map(getAccountDetails)
+                    publicKeyBlacklist: rotatedPublicKeys,
+                    wallet,
+                }))
             );
 
             localDispatch({
                 type: ACTIONS.ADD_ACCOUNTS,
-                accounts: accountWithDetails.reduce(
+                accounts: accountDetails.reduce(
                     (acc, account) => {
                         const { keyType, accountBalance: { balanceAvailable } } = account;
                         if (keyType === WalletClass.KEY_TYPES.FAK && balanceAvailable >= MINIMUM_ACCOUNT_BALANCE) {
