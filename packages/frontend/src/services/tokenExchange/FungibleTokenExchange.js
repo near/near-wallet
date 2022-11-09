@@ -169,7 +169,7 @@ class FungibleTokenExchange {
         const transactions = [];
         const depositTransactions = await this._getDepositTransactions(
             account,
-            [tokenInId]
+            [tokenInId, CONFIG.NEAR_TOKEN_ID]
         );
 
         if (depositTransactions) {
