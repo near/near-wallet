@@ -1887,12 +1887,7 @@
     "walletMigration": {
         "cleanKeys": {
             "title": "Clean up your keys",
-            "desc": "Now we’ll go through each account and remove your old keys. Next You’ll need your secure passphrase to authorize key removal.",
-            "subtitleDesc": "By removing your keys, you may need to reconnect your account to wallets and dApps.",
-            "verifyPassphrase":  {
-                "title": "Remove your Full Access Keys?",
-                "desc": "Enter your secure passphrase to remove your full access keys from the account: <b>${accountId}</b>"
-            }
+            "desc": "For your security, we highly recommend you remove most of your existing access keys."
         },
         "disable2fa": {
             "desc": "2FA must be disabled before you can transfer an account to a new wallet.",
