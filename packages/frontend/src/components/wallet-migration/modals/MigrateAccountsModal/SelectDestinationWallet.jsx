@@ -8,6 +8,7 @@ import ImgFinerWallet from '../../../../../src/images/finer-logo.svg';
 import ImgMeteorWallet from '../../../../../src/images/meteor-wallet-logo.svg';
 import ImgMyNearWallet from '../../../../../src/images/mynearwallet-cropped.svg';
 import SenderLogo from '../../../../../src/images/sender-logo.png';
+import ImgWelldoneWallet from '../../../../../src/images/welldone-logo.svg';
 import IconLedger from '../../../../images/wallet-migration/IconLedger';
 import IconWallet from '../../../../images/wallet-migration/IconWallet';
 import { redirectTo } from '../../../../redux/actions/account';
@@ -78,6 +79,13 @@ export const WALLET_OPTIONS = shuffle([
         icon: <img src={ImgFinerWallet} alt="Finer Wallet Logo" />,
         getUrl: ({ hash }) => `finer://wallet.near.org/batch-import#${hash}`,
         checkAvailability: () => isMobile('iOS'),
+    },
+    {
+        id: 'welldone-wallet',
+        name: 'WELLDONE Wallet',
+        icon: <img src={ImgWelldoneWallet} alt="WELLDONE Wallet Logo" />,
+        getUrl: ({ hash }) => `https://docs.welldonestudio.io/contribution/202211-batch-import#${hash}`,
+        checkAvailability: () => true,
     },
 ]);
 
