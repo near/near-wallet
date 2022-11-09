@@ -6,7 +6,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { useImmerReducer } from 'use-immer';
 
-import { NETWORK_ID } from '../../../../config';
 import { switchAccount } from '../../../../redux/actions/account';
 import { showCustomAlert } from '../../../../redux/actions/status';
 import { selectAccountId } from '../../../../redux/slices/account';
@@ -16,7 +15,6 @@ import { IMPORT_STATUS } from '../../../accounts/batch_import_accounts';
 import sequentialAccountImportReducer, { ACTIONS } from '../../../accounts/batch_import_accounts/sequentialAccountImportReducer';
 import ConfirmPassphrase from '../../../accounts/recovery_setup/new_account/ConfirmPassphrase';
 import SavePassphrase from '../../../accounts/recovery_setup/new_account/SavePassphrase';
-import LoadingDots from '../../../common/loader/LoadingDots';
 import Modal from '../../../common/modal/Modal';
 import { ButtonsContainer, StyledButton } from '../../CommonComponents';
 import { WALLET_MIGRATION_VIEWS } from '../../WalletMigration';
@@ -50,7 +48,7 @@ const Container = styled.div`
 `;
 const MINIMIM_ACCOUNT_BALANCE  = 0.00005;
 
-const RotateKeysModal = ({handleSetActiveView, onClose, onRotateKeySuccess}) => {
+const RotateKeysModal = ({handleSetActiveView, onClose, onRotateKeySuccess, accountWithDetails}) => {
     const [state, localDispatch] = useImmerReducer(sequentialAccountImportReducer, {
         accounts: []
     });
@@ -81,15 +79,6 @@ const RotateKeysModal = ({handleSetActiveView, onClose, onRotateKeySuccess}) => 
 
     useEffect(() => {
         const importRotatableAccounts = async () => {
-            const accounts = await wallet.keyStore.getAccounts(NETWORK_ID);
-            const getAccountDetails = async (accountId) => {
-                const keyType = await wallet.getAccountKeyType(accountId);
-                const accountBalance = await wallet.getBalance(keyType.accountId);
-                return { accountId, keyType, accountBalance };
-            };
-            const accountWithDetails = await Promise.all(
-                accounts.map(getAccountDetails)
-            );
             localDispatch({
                 type: ACTIONS.ADD_ACCOUNTS,
                 accounts: accountWithDetails.reduce(((acc, { accountId, keyType, accountBalance }) => keyType == WalletClass.KEY_TYPES.FAK && accountBalance.balanceAvailable >= MINIMIM_ACCOUNT_BALANCE  ? acc.concat({ accountId, status: null }) : acc), [])
@@ -106,7 +95,7 @@ const RotateKeysModal = ({handleSetActiveView, onClose, onRotateKeySuccess}) => 
 
     const batchKeyRotationNotStarted = useMemo(() => state.accounts.every((account) => account.status === null), [state.accounts]);
     const completedWithSuccess = useMemo(() => {
-        return !loadingEligibleRotatableAccounts && (state.accounts.every((account) => account.status === IMPORT_STATUS.SUCCESS || account.status === IMPORT_STATUS.FAILED) && state.accounts[state.accounts.length - 1].status !==  IMPORT_STATUS.FAILED);
+        return !loadingEligibleRotatableAccounts && (state.accounts.every((account) => account.status === IMPORT_STATUS.SUCCESS || account.status === IMPORT_STATUS.FAILED) && state.accounts[state.accounts.length - 1]?.status !==  IMPORT_STATUS.FAILED);
     } , [state.accounts, loadingEligibleRotatableAccounts]);
 
     useEffect(() => {
@@ -260,45 +249,38 @@ const RotateKeysModal = ({handleSetActiveView, onClose, onRotateKeySuccess}) => 
                        style={{ maxWidth: '431px' }}
                    >
                        <Container>
-               
-                           {loadingEligibleRotatableAccounts ? <LoadingDots /> :
-                               (
-                        <>
-                            <h4 className='title'><Translate id='walletMigration.rotateKeys.title' /></h4>
-                            <p><Translate id='walletMigration.rotateKeys.desc' /></p>
-                            <div className="accountsTitle">
-                                <Translate id='importAccountWithLink.accountsFound' data={{ count: state.accounts.length }} />
-                            </div>
+                           <h4 className='title'><Translate id='walletMigration.rotateKeys.title' /></h4>
+                           <p><Translate id='walletMigration.rotateKeys.desc' /></p>
+                           <div className="accountsTitle">
+                               <Translate id='importAccountWithLink.accountsFound' data={{ count: state.accounts.length }} />
+                           </div>
 
-                            <AccountListImport accounts={state.accounts} />
-                            <ButtonsContainer vertical={currentFailedAccount}>
-                                <StyledButton className="gray-blue" onClick={onClose} fullWidth={currentFailedAccount}>
-                                    <Translate id='button.cancel' />
-                                </StyledButton>
-                                {currentFailedAccount && (
-                                    <StyledButton onClick = { () =>  {
-                                        localDispatch({ type:  ACTIONS.RESTART_PROCESS_INCLUDING_LAST_FAILED_ACCOUNT});
-                                    }
-                                    }
-                                    data-test-id="rotateKeys.cancel" fullWidth={currentFailedAccount}>
-                                        <Translate id={'button.retry'} />
-                                    </StyledButton>
-                                )}
-                                <StyledButton onClick={() => {
-                                    if (state.accounts[state.accounts.length - 1].status == IMPORT_STATUS.FAILED) {
-                                        handleSetActiveView(WALLET_MIGRATION_VIEWS.MIGRATE_ACCOUNTS);
-                                    } else {
-                                        localDispatch({ type: currentFailedAccount ? ACTIONS.RESTART_PROCESS_FROM_LAST_FAILED_ACCOUNT : ACTIONS.BEGIN_IMPORT });
-                                    }
-                                }
-                                } disabled={!batchKeyRotationNotStarted && !currentFailedAccount}
-                                data-test-id="rotateKeys.continue" fullWidth={currentFailedAccount}>
-                                    <Translate id={'button.continue'} />
-                                </StyledButton>
-                            </ButtonsContainer>
-                        </>
-                               )
-                           }
+                           <AccountListImport accounts={state.accounts} />
+                           <ButtonsContainer vertical={currentFailedAccount}>
+                               <StyledButton className="gray-blue" onClick={onClose} fullWidth={currentFailedAccount}>
+                                   <Translate id='button.cancel' />
+                               </StyledButton>
+                               {currentFailedAccount && (
+                                   <StyledButton onClick = { () =>  {
+                                       localDispatch({ type:  ACTIONS.RESTART_PROCESS_INCLUDING_LAST_FAILED_ACCOUNT});
+                                   }
+                                   }
+                                   data-test-id="rotateKeys.cancel" fullWidth={currentFailedAccount}>
+                                       <Translate id={'button.retry'} />
+                                   </StyledButton>
+                               )}
+                               <StyledButton onClick={() => {
+                                   if (state.accounts[state.accounts.length - 1].status == IMPORT_STATUS.FAILED) {
+                                       handleSetActiveView(WALLET_MIGRATION_VIEWS.MIGRATE_ACCOUNTS);
+                                   } else {
+                                       localDispatch({ type: currentFailedAccount ? ACTIONS.RESTART_PROCESS_FROM_LAST_FAILED_ACCOUNT : ACTIONS.BEGIN_IMPORT });
+                                   }
+                               }
+                               } disabled={!batchKeyRotationNotStarted && !currentFailedAccount}
+                               data-test-id="rotateKeys.continue" fullWidth={currentFailedAccount}>
+                                   <Translate id={'button.continue'} />
+                               </StyledButton>
+                           </ButtonsContainer>
                        </Container>
                    </Modal>
                )}

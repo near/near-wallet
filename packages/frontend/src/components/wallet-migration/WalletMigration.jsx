@@ -1,8 +1,11 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
+import { NETWORK_ID } from '../../config';
 import { selectAvailableAccounts } from '../../redux/slices/availableAccounts';
 import { wallet } from '../../utils/wallet';
+import LoadingDots from '../common/loader/LoadingDots';
+import { MigrationModal } from './CommonComponents';
 import CleanKeysModal from './modals/CleanKeysModal/CleanKeysModal';
 import Disable2FAModal from './modals/Disable2faModal/Disable2FA';
 import LogoutModal from './modals/LogoutModal/LogoutModal';
@@ -10,6 +13,7 @@ import MigrateAccountsModal from './modals/MigrateAccountsModal/MigrateAccountsM
 import RedirectingModal from './modals/RedirectingModal/RedirectingModal';
 import RotateKeysModal from './modals/RotateKeysModal/RotateKeysModal';
 import VerifyingModal from './modals/VerifyingModal/VerifyingModal';
+
 
 export const WALLET_MIGRATION_VIEWS = {
     DISABLE_2FA: 'DISABLE_2FA',
@@ -27,9 +31,31 @@ const initialState = {
 };
 
 const WalletMigration = ({ open, onClose }) => {
-    const [state, setState] = React.useState(initialState);
-    const [rotatedKeys, setRotatedKeys] = React.useState({});
+    const [state, setState] = useState(initialState);
+    const [rotatedKeys, setRotatedKeys] = useState({});
     const availableAccounts = useSelector(selectAvailableAccounts);
+    const [loadingMultisigAccounts, setLoadingMultisigAccounts] = useState(true);
+    const [accountWithDetails, setAccountWithDetails] = useState([]);
+
+    useEffect(() => {
+        const importRotatableAccounts = async () => {
+            const accounts = await wallet.keyStore.getAccounts(NETWORK_ID);
+            const getAccountDetails = async (accountId) => {
+                const keyType = await wallet.getAccountKeyType(accountId);
+                const accountBalance = await wallet.getBalance(keyType.accountId);
+                return { accountId, keyType, accountBalance };
+            };
+            const details = await Promise.all(
+                accounts.map(getAccountDetails)
+            );
+            setAccountWithDetails(details);
+            setLoadingMultisigAccounts(false);
+        };
+        if (open) {
+            setLoadingMultisigAccounts(true);
+            importRotatableAccounts();
+        }
+    }, [open]);
 
     const handleStateUpdate = (newState) => {
         setState({...state, ...newState});
@@ -84,6 +110,15 @@ const WalletMigration = ({ open, onClose }) => {
             });
     };
 
+
+    if (open && loadingMultisigAccounts) {
+        return (
+            <MigrationModal isOpen disableClose>
+                <LoadingDots />
+            </MigrationModal>
+        );
+    }
+
     return (
         <div>
             {state.activeView === WALLET_MIGRATION_VIEWS.DISABLE_2FA && (
@@ -91,6 +126,8 @@ const WalletMigration = ({ open, onClose }) => {
                     onClose={onClose}
                     handleSetActiveView={handleSetActiveView}
                     data-test-id="disable2FAModal"
+                    accountWithDetails={accountWithDetails}
+                    setAccountWithDetails={setAccountWithDetails}
                 />
             )}
             {state.activeView === WALLET_MIGRATION_VIEWS.ROTATE_KEYS && (
@@ -99,6 +136,7 @@ const WalletMigration = ({ open, onClose }) => {
                     handleSetActiveView={handleSetActiveView}
                     data-test-id="rotateKeysModal"
                     onRotateKeySuccess={onRotateKeySuccess}
+                    accountWithDetails={accountWithDetails}
                 />
             )}
             {state.activeView === WALLET_MIGRATION_VIEWS.MIGRATE_ACCOUNTS && (
