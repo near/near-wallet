@@ -2,6 +2,7 @@ import * as nearApi from 'near-api-js';
 import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { Translate } from 'react-localize-redux';
 import { useDispatch, useSelector } from 'react-redux';
+import styled from 'styled-components';
 import { useImmerReducer } from 'use-immer';
 
 import IconLogout from '../../../../images/wallet-migration/IconLogout';
@@ -19,6 +20,37 @@ import EnterSecretKey from './EnterSecretKey';
 
 const { KeyPair } = nearApi;
 const MINIMUM_ACCOUNT_BALANCE  = 0.00005;
+
+const CleanupKeysContainer = styled.div`
+    text-align: left;
+
+    .cleanup-info {
+        border-radius: 8px;
+        margin-bottom: 8px;
+        margin-top: 0;
+        padding: 0 6px 8px 12px;
+    }
+
+    .cleanup-info-header {
+        font-weight: bold;
+        margin-bottom: 2px;
+        margin-top: 2px;
+    }
+
+    .keep {
+        background: #f4fbf5;
+        color: #397751;
+    }
+
+    .next-steps {
+        font-style: italic;
+    }
+
+    .remove {
+        background: #fef8f8;
+        color: #de2e32;
+    }
+`;
 
 const CleanKeysModal = ({ accounts, handleSetActiveView, onNext, onClose, rotatedKeys }) => {
     // 1. Identify Full Access Keys on all user accounts. Identify if they are sms, email, or unknown keys.
@@ -157,14 +189,30 @@ const CleanKeysModal = ({ accounts, handleSetActiveView, onNext, onClose, rotate
     return (
         <MigrationModal>
             <Container>
-                <IconBackground>
-                    <IconLogout />
-                </IconBackground>
-                <h3 className='title'>
-                    <Translate id='walletMigration.cleanKeys.title' />
-                </h3>
-                <p><Translate id='walletMigration.cleanKeys.desc'/></p>
-
+                <CleanupKeysContainer>
+                    <IconBackground>
+                        <IconLogout />
+                    </IconBackground>
+                    <h3 className='title'>
+                        <Translate id='walletMigration.cleanKeys.title' />
+                    </h3>
+                    <p><Translate id='walletMigration.cleanKeys.desc'/></p>
+                    <div className='cleanup-info keep'>
+                        <p className='cleanup-info-header'>
+                            <Translate id='walletMigration.cleanKeys.keep' />
+                        </p>
+                        <Translate id='walletMigration.cleanKeys.keepDesc' />
+                    </div>
+                    <div className='cleanup-info remove'>
+                        <p className='cleanup-info-header'>
+                            <Translate id='walletMigration.cleanKeys.remove' />
+                        </p>
+                        <Translate id='walletMigration.cleanKeys.removeDesc' />
+                    </div>
+                    <p className='next-steps'>
+                        <Translate id='walletMigration.cleanKeys.nextSteps' />
+                    </p>
+                </CleanupKeysContainer>
 
                 {showConfirmSeedphraseModal && (
                     <EnterSecretKey
@@ -195,9 +243,7 @@ const CleanKeysModal = ({ accounts, handleSetActiveView, onNext, onClose, rotate
                             <Translate id='importAccountWithLink.accountsFound' data={{ count: state.accounts.length }} />
                         </div>
                         <AccountListImport accounts={state.accounts} />
-
                         <ButtonsContainer vertical>
-
                             {currentFailedAccount && (
                                 <StyledButton
                                     onClick={() => localDispatch({ type: ACTIONS.RESTART_PROCESS_INCLUDING_LAST_FAILED_ACCOUNT })}
