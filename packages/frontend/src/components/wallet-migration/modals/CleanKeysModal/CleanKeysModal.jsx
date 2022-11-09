@@ -79,35 +79,53 @@ const CleanKeysModal = ({ accounts, handleSetActiveView, onNext, onClose, rotate
             const getAccountDetails = async (accountId) => {
                 const keyType = await wallet.getAccountKeyType(accountId);
                 const accountBalance = await wallet.getBalance(keyType.accountId);
-                const accessKeys = (await wallet.getAccessKeys(accountId))
-                    .filter(({ public_key }) => rotatedPublicKeys.some((key) => key === public_key));
-                // let enough_balance_to_remove_keys = true;
 
-                // access_keys.forEach((key) => {
-                // });
+                const recoveryMethods = (await wallet.getRecoveryMethods())
+                    .reduce((keys, { kind, publicKey }) => {
+                        if (publicKey) {
+                            keys[publicKey] = kind;
+                        }
 
-                // if (access_keys * YOCTO_NEAR_TO_REMOVE_LAK < ) {
+                        return keys;
+                    }, {});
 
-                // }
+                const allAccessKeys = await wallet.getAccessKeys(accountId);
+                const accessKeys = allAccessKeys
+                    .filter(({ public_key }) =>
+                        !rotatedPublicKeys.some((key) => key === public_key)
+                        && recoveryMethods[public_key] !== 'ledger'
+                    )
+                    .map(({ public_key }) => ({
+                        publicKey: public_key,
+                        kind: recoveryMethods[public_key] || 'unknown',
+                    }));
 
-                console.log({ accountId, keyType, accountBalance, accessKeys });
-                return { accountId, keyType, accountBalance, accessKeys };
+                return {
+                    accessKeys,
+                    accountBalance,
+                    accountId,
+                    keyType,
+                    totalAccessKeys: allAccessKeys.length,
+                };
             };
 
             const accountWithDetails = await Promise.all(
                 accounts.map(getAccountDetails)
             );
+
             localDispatch({
                 type: ACTIONS.ADD_ACCOUNTS,
                 accounts: accountWithDetails.reduce(
-                    (acc, { accountId, keyType, accountBalance, accessKeys }) => {
-                        if (keyType === WalletClass.KEY_TYPES.FAK && accountBalance.balanceAvailable >= MINIMUM_ACCOUNT_BALANCE) {
-                            acc.push({ accountId, status: null, accessKeys });
+                    (acc, account) => {
+                        const { keyType, accountBalance: { balanceAvailable } } = account;
+                        if (keyType === WalletClass.KEY_TYPES.FAK && balanceAvailable >= MINIMUM_ACCOUNT_BALANCE) {
+                            acc.push({ ...account, status: null });
                         }
+
                         return acc;
                     },
                     []
-                )
+                ),
             });
             setLoadingAccounts(false);
         };
@@ -182,10 +200,6 @@ const CleanKeysModal = ({ accounts, handleSetActiveView, onNext, onClose, rotate
         }
     }, [currentAccount]);
 
-    console.log({
-        showConfirmSeedphraseModal,
-        loadingAccounts,
-    });
     return (
         <MigrationModal>
             <Container>
