@@ -21,7 +21,7 @@ export default {
     MOONPAY_BUY_URL: 'https://buy.moonpay.io?apiKey=',
     TRANSAK_API_KEY: '170f3c62-9cdd-412e-900c-e6b97330a6f0',
     TRANSAK_BUY_URL: 'https://global.transak.com/',
-    UTORG_ORDER_URL: 'https://app.utorg.pro/direct/wallet.staging.near.org/',
+    UTORG_ORDER_URL: 'https://app.utorg.pro/direct/wallet.near.org/',
     MULTISIG_CONTRACT_HASHES: [
         // https://github.com/near/core-contracts/blob/fa3e2c6819ef790fdb1ec9eed6b4104cd13eb4b7/multisig/src/lib.rs
         '7GQStUCd8bmCK43bzD8PRh7sD2uyyeMJU5h8Rj3kXXJk',

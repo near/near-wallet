@@ -34,7 +34,6 @@ export const getPayMethods = ({
             icon: utorg,
             name: 'UTORG',
             link: utorgPayUrl,
-            provideReferrer: true,
             track: () => Mixpanel.track('Wallet Click Buy with UTORG'),
         },
         transak: {

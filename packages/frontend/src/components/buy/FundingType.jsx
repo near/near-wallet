@@ -55,13 +55,12 @@ export const FundingType = ({
     name,
     track,
     disabled,
-    provideReferrer,
 }) => {
     return (
         <LinkWrap
             href={link}
             target='_blank'
-            rel={!provideReferrer ? 'noreferrer' : 'noopener'}
+            rel='noreferrer'
             onClick={() => track && track()}
             disabled={disabled}
         >
