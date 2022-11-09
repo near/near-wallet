@@ -7,7 +7,6 @@ import { getPayMethods } from '../../config/buyNearConfig';
 import { Mixpanel } from '../../mixpanel';
 import { selectAccountId } from '../../redux/slices/account';
 import { isMoonpayAvailable, getSignedUrl } from '../../utils/moonpay';
-import { buildFtxPayLink } from '../accounts/create/FundWithFtx';
 import { buildUtorgPayLink } from '../accounts/create/FundWithUtorg';
 import BackArrowButton from '../common/BackArrowButton';
 import Container from '../common/styled/Container.css';
@@ -106,7 +105,6 @@ export function BuyNear({ history }) {
     const [signedMoonPayUrl, setSignedMoonPayUrl] = useState(null);
     const [utorgPayUrl, setUtorgPayUrl] = useState(null);
     const [transakPayUrl, setTransakPayUrl] = useState(null);
-    const [ftxPayUrl, setFtxPayUrl] = useState(null);
 
     const goBack = () => history.goBack();
 
@@ -116,7 +114,6 @@ export function BuyNear({ history }) {
         }
 
         setUtorgPayUrl(buildUtorgPayLink(accountId));
-        setFtxPayUrl(buildFtxPayLink(accountId));
         setTransakPayUrl(buildTransakPayLink(accountId));
         checkMoonPay();
     }, [accountId]);
@@ -128,7 +125,6 @@ export function BuyNear({ history }) {
             moonPayAvailable,
             signedMoonPayUrl,
             utorgPayUrl,
-            ftxPayUrl
         }),
         [accountId, moonPayAvailable, signedMoonPayUrl, utorgPayUrl]
     );
@@ -152,7 +148,6 @@ export function BuyNear({ history }) {
         PayMethods.transak,
         PayMethods.utorg,
         PayMethods.nearPay,
-        PayMethods.ftx
     ].filter((v) => !!v);
 
     return (
