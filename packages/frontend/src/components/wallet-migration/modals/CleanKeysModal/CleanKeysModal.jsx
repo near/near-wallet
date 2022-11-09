@@ -8,6 +8,7 @@ import { ButtonsContainer, StyledButton, MigrationModal, Container, IconBackgrou
 // Test cases
 // - Ensure that if user leaves the flow and comes back in 
 // const YOCTO_NEAR_TO_REMOVE_FAK = 2;
+const MINIMUM_ACCOUNT_BALANCE  = 0.00005;
 
 const CleanKeysModal = ({ onNext, onClose }) => {
     // 1. Identify Full Access Keys on all user accounts.

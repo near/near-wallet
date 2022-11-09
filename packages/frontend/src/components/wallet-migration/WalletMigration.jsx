@@ -87,7 +87,7 @@ const WalletMigration = ({ open, onClose }) => {
         handleSetActiveView(WALLET_MIGRATION_VIEWS.REDIRECTING);
     };
 
-    const navigateToVeryfying = () => {
+    const navigateToVerifying = () => {
         handleSetActiveView(WALLET_MIGRATION_VIEWS.VERIFYING);
     };
 
@@ -156,7 +156,7 @@ const WalletMigration = ({ open, onClose }) => {
                 />
             )}
             {state.activeView === WALLET_MIGRATION_VIEWS.REDIRECTING && (
-                <RedirectingModal wallet={state?.wallet?.name} onNext={navigateToVeryfying} />
+                <RedirectingModal wallet={state?.wallet?.name} onNext={navigateToVerifying} />
             )}
             {state.activeView === WALLET_MIGRATION_VIEWS.VERIFYING && (
                 <VerifyingModal onClose={onClose} onNext={navigateToCleanKeys} onStartOver={onStartOver} />
