@@ -267,9 +267,9 @@
     "createdBy": "roshaans",
     "createdAt": "2022-09-29T12:47:40.121Z",
     "development": {
-      "enabled": false,
-      "lastEditedBy": "roshaans",
-      "lastEditedAt": "2022-09-29T12:47:40.119Z"
+      "enabled": true,
+      "lastEditedBy": "hcho112",
+      "lastEditedAt": "2022-11-10T19:42:24.864Z"
     },
     "testnet": {
       "enabled": false,
