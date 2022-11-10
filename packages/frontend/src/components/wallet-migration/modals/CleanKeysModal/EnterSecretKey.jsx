@@ -31,7 +31,7 @@ const Container = styled.div`
     }
 `;
 
-const EnterSecretKey = () => {
+const EnterSecretKey = ({ accountId }) => {
     return  (
         <Modal
             modalClass="slim"
@@ -41,14 +41,15 @@ const EnterSecretKey = () => {
             style={{ maxWidth: '431px' }}
         >
             <Container>
-                <h4 className='title'><Translate id='walletMigration.verifyPassphrase.title' /></h4>
-                <p><Translate id='walletMigration.verifyPassphrase.desc'/></p>
-
-                
+                <h4 className='title'>
+                    <Translate id='walletMigration.cleanKeys.verifyPassphrase.title' />
+                </h4>
+                <p>
+                    <Translate id='walletMigration.cleanKeys.verifyPassphrase.desc' data={{ accountId }} />
+                </p>
             </Container>
         </Modal>
     );
-
 };
 
 export default EnterSecretKey;

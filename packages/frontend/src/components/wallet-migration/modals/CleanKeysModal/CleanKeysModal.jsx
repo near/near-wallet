@@ -220,6 +220,7 @@ const CleanKeysModal = ({ accounts, handleSetActiveView, onNext, onClose, rotate
 
                 {showConfirmSeedphraseModal && (
                     <EnterSecretKey
+                        accountId={currentAccount.accountId}
                         onClickContinue={async (seedphrase) => {
                             try {
                                 setFinishingSetupForCurrentAccount(true);
