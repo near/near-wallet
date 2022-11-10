@@ -13,6 +13,7 @@ import MigrateAccountsModal from './modals/MigrateAccountsModal/MigrateAccountsM
 import RedirectingModal from './modals/RedirectingModal/RedirectingModal';
 import RotateKeysModal from './modals/RotateKeysModal/RotateKeysModal';
 import VerifyingModal from './modals/VerifyingModal/VerifyingModal';
+import { deleteMigrationStep, getMigrationStep, setMigrationStep } from './utils';
 
 
 export const WALLET_MIGRATION_VIEWS = {
@@ -72,7 +73,8 @@ const WalletMigration = ({ open, onClose }) => {
   
     useEffect(() => {
         if (open) {
-            handleSetActiveView(WALLET_MIGRATION_VIEWS.DISABLE_2FA);
+            const storedStep = getMigrationStep();
+            handleSetActiveView(storedStep || WALLET_MIGRATION_VIEWS.DISABLE_2FA);
         } else {
             handleSetActiveView(null);
         }
@@ -86,6 +88,7 @@ const WalletMigration = ({ open, onClose }) => {
     }, [Object.keys(rotatedKeys).length]);
 
     const navigateToRedirect = () => {
+        setMigrationStep(WALLET_MIGRATION_VIEWS.VERIFYING);
         handleSetActiveView(WALLET_MIGRATION_VIEWS.REDIRECTING);
     };
 
@@ -98,6 +101,7 @@ const WalletMigration = ({ open, onClose }) => {
     };
 
     const navigateToLogOut = () => {
+        setMigrationStep(WALLET_MIGRATION_VIEWS.LOG_OUT);
         handleSetActiveView(WALLET_MIGRATION_VIEWS.LOG_OUT);
     };
 
@@ -106,10 +110,15 @@ const WalletMigration = ({ open, onClose }) => {
         return Promise.all(availableAccounts.map((accountId) => wallet.removeWalletAccount(accountId)))
             .then(() => {
                 location.reload();
+                deleteMigrationStep();
                 onClose();
             });
     };
 
+    const onStartOver = () => {
+        deleteMigrationStep();
+        handleSetActiveView(WALLET_MIGRATION_VIEWS.DISABLE_2FA);
+    };
 
     if (open && loadingMultisigAccounts) {
         return (
@@ -148,13 +157,14 @@ const WalletMigration = ({ open, onClose }) => {
                     data-test-id="migrateAccountsModal"
                     rotatedKeys={rotatedKeys}
                     onNext={navigateToRedirect}
+                    accountWithDetails={accountWithDetails}
                 />
             )}
             {state.activeView === WALLET_MIGRATION_VIEWS.REDIRECTING && (
                 <RedirectingModal wallet={state?.wallet?.name} onNext={navigateToVeryfying} />
             )}
             {state.activeView === WALLET_MIGRATION_VIEWS.VERIFYING && (
-                <VerifyingModal onClose={onClose} onNext={navigateToCleanKeys} />
+                <VerifyingModal onClose={onClose} onNext={navigateToCleanKeys} onStartOver={onStartOver} />
             )}
             {state.activeView === WALLET_MIGRATION_VIEWS.CLEAN_KEYS && (
                 <CleanKeysModal onClose={onClose} onNext={navigateToLogOut} />
