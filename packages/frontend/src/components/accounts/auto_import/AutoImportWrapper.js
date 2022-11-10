@@ -14,11 +14,11 @@ import { isUrlNotJavascriptProtocol } from '../../../utils/helper-api';
 import AutoImport from './AutoImport';
 
 
-export function AutoImportWrapper({
+const AutoImportWrapper = ({
     secretKey,
     accountId,
     mixpanelImportType
-}) {
+}) => {
     const dispatch = useDispatch();
     const location = useSelector(getLocation);
     const URLParams = parse(location.search);
@@ -65,4 +65,6 @@ export function AutoImportWrapper({
             onCancel={failureUrl && redirectToFailureUrl}
         />
     );
-}
+};
+
+export default AutoImportWrapper;

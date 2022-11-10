@@ -7,7 +7,6 @@
   },
   "dependencies": {
     "@ledgerhq/hw-transport-u2f": "^5.34.0",
-    "@near-wallet/feature-flags": "^0.2.0",
     "@reduxjs/toolkit": "1.6.2",
     "@sentry/browser": "^6.4.1",
     "bip39-light": "^1.0.7",
@@ -16,6 +15,7 @@
     "escape-html": "^1.0.3",
     "fetch-send-json": "0.0.2",
     "generate-lockfile": "^0.0.11",
+    "i18next": "^22.0.4",
     "js-sha256": "^0.9.0",
     "lodash.assign": "^4.2.0",
     "lodash.clonedeep": "^4.5.0",
@@ -48,6 +48,7 @@
     "react-google-recaptcha": "^2.1.0",
     "react-google-recaptcha-v3-near": "^2.0.0",
     "react-helmet": "^6.1.0",
+    "react-i18next": "^12.0.0",
     "react-localize-redux": "^3.5.3",
     "react-phone-number-input": "2.3.11",
     "react-redux": "^7.2.4",
@@ -70,12 +71,12 @@
     "prebuild": "rm -rf dist/",
     "build": "yarn run bundle && yarn run sentry",
     "bundle": "NODE_ENV=production node ci/runBundler.js",
+    "check": "tsc --noEmit",
+    "dev": "yarn && NEAR_WALLET_ENV=testnet yarn start",
     "sentry": "node ci/sentry-send-release.js",
     "test": "jest",
     "lint": "eslint --ext .js --ext .jsx .",
     "fix": "eslint --ext .js --ext .jsx . --fix",
-    "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook",
     "prepush": "concurrently \"yarn run test\" \"yarn lint\"",
     "precommit": ".githooks/format-json",
     "preinstall": "npx only-allow yarn"
@@ -87,10 +88,13 @@
     "not op_mini all"
   ],
   "devDependencies": {
-    "@babel/core": "^7.14.3",
+    "@babel/core": "^7.19.6",
+    "@babel/plugin-transform-react-jsx": "^7.19.0",
     "@babel/preset-env": "^7.14.1",
     "@babel/preset-react": "^7.13.13",
     "@sentry/cli": "^1.65.0",
+    "@types/react-router": "^5.1.19",
+    "@types/styled-components": "^5.1.26",
     "babel-eslint": "^10.1.0",
     "babel-jest": "^27.0.1",
     "babel-loader": "^8.1.0",
@@ -102,6 +106,7 @@
     "eslint-config-react-app": "^3.0.8",
     "eslint-plugin-es": "^4.1.0",
     "eslint-plugin-flowtype": "^5.7.2",
+    "eslint-plugin-i18next": "^6.0.0-4",
     "eslint-plugin-import": "^2.23.4",
     "eslint-plugin-jsx-a11y": "^6.4.1",
     "eslint-plugin-react": "^7.23.2",
@@ -109,6 +114,6 @@
     "jest-svg-transformer": "^1.0.0",
     "parcel-bundler": "^1.12.4",
     "parcel-plugin-bundle-visualiser": "^1.2.0",
-    "react-is": "^17.0.2"
+    "prettier": "2.7.1"
   }
 }

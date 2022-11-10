@@ -5,7 +5,7 @@ import { Translate } from 'react-localize-redux';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
-import { MIN_BALANCE_TO_CREATE } from '../../../../config';
+import CONFIG from '../../../../config';
 import { selectActiveAccountIdIsImplicitAccount } from '../../../../redux/slices/account';
 import FormButton from '../../../common/FormButton';
 import FormButtonGroup from '../../../common/FormButtonGroup';
@@ -35,7 +35,7 @@ export default ({
     return (
         <StyledContainer className='small-centered border'>
             <h1><Translate id='existingAccount.selectAccount.title' /></h1>
-            <h2><Translate id='existingAccount.selectAccount.desc' data={{ amount: formatNearAmount(MIN_BALANCE_TO_CREATE) }} /></h2>
+            <h2><Translate id='existingAccount.selectAccount.desc' data={{ amount: formatNearAmount(CONFIG.MIN_BALANCE_TO_CREATE) }} /></h2>
             <h2><Translate id='existingAccount.selectAccount.descTwo' /></h2>
             <AccountSelector
                 signedInAccountId={signedInAccountId}
@@ -54,7 +54,7 @@ export default ({
                 ) : null}
                 <FormButton
                     onClick={onClickNext}
-                    disabled={!hasAllRequiredParams || !new BN(signedInAccountAvailableBalance).gte(new BN(MIN_BALANCE_TO_CREATE))}
+                    disabled={!hasAllRequiredParams || !new BN(signedInAccountAvailableBalance).gte(new BN(CONFIG.MIN_BALANCE_TO_CREATE))}
                 >
                     <Translate id='button.next' />
                 </FormButton>

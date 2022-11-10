@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import FungibleTokens from '../../services/FungibleTokens';
-import TokenBox from './TokenBox';
+import TokenBox from '../common/token/TokenBox';
 
 const { getUniqueTokenIdentity } = FungibleTokens;
 
@@ -18,15 +18,11 @@ const StyledContainer = styled.div`
 
         :last-of-type {
             border-bottom: 1px solid #f0f0f1;
-
-            @media (min-width: 992px) {
-                /* border-bottom: 0; */
-            }
         }
     }
 `;
 
-const Tokens = ({ tokens, onClick, currentLanguage }) => {
+const Tokens = ({ tokens, onClick, currentLanguage, showFiatPrice }) => {
     return (
         <StyledContainer>
             {tokens.map((token, i) => (
@@ -35,6 +31,7 @@ const Tokens = ({ tokens, onClick, currentLanguage }) => {
                     token={token}
                     onClick={onClick}
                     currentLanguage={currentLanguage}
+                    showFiatPrice={showFiatPrice}
                 />
             ))}
         </StyledContainer>

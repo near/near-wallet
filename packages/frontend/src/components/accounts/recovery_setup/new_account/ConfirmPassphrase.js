@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
@@ -34,19 +34,23 @@ const StyledContainer = styled(Container)`
 `;
 
 export default ({
-    handleConfirmPassphrase,
     userInputValue,
     wordIndex,
-    handleChangeWord,
-    handleStartOver,
+    onStartOver,
     userInputValueWrongWord,
-    finishingSetup
+    finishingSetup,
+    onConfirmPassphrase,
+    onWordChange,
 }) => {
+    const handleValueChange = useCallback((e) => {
+        onWordChange(e.target.value);
+    }, [onWordChange]);
+
     return (
         <StyledContainer className='small-centered border'>
             <form
                 onSubmit={(e) => {
-                    handleConfirmPassphrase();
+                    onConfirmPassphrase();
                     e.preventDefault();
                 }}
                 disabled={finishingSetup}
@@ -63,15 +67,17 @@ export default ({
                 <input
                     data-test-id='seedPhraseVerificationWordInput'
                     value={userInputValue}
-                    onChange={(e) => handleChangeWord(e.target.value)}
+                    onChange={handleValueChange}
                     required
                     tabIndex='1'
                     pattern='[a-zA-Z ]*'
                     className={userInputValueWrongWord ? 'problem' : ''}
                 />
-                {userInputValueWrongWord &&
-                    <div className='color-red'><Translate id='setupSeedPhraseVerify.inputError' /></div>
-                }
+                {userInputValueWrongWord && (
+                    <div className='color-red'>
+                        <Translate id='setupSeedPhraseVerify.inputError' />
+                    </div>
+                )}
                 <FormButton
                     type='submit'
                     data-test-id='seedPhraseVerificationWordSubmit'
@@ -84,7 +90,7 @@ export default ({
                     type='button'
                     color='gray'
                     className='link start-over'
-                    onClick={handleStartOver}
+                    onClick={onStartOver}
                     disabled={finishingSetup}
                 >
                     <Translate id='button.startOver' />

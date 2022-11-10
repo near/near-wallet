@@ -1,19 +1,24 @@
 import { BN } from 'bn.js';
 import * as nearApiJs from 'near-api-js';
+import { parseSeedPhrase } from 'near-seed-phrase';
 
 import { store } from '..';
-import { ACCOUNT_HELPER_URL, MULTISIG_CONTRACT_HASHES, MULTISIG_MIN_AMOUNT } from '../config';
+import CONFIG from '../config';
 import { promptTwoFactor, refreshAccount } from '../redux/actions/account';
+import { WalletError } from './walletError';
 
 const {
     multisig: { Account2FA },
+    Connection,
+    keyStores: { InMemoryKeyStore },
+    KeyPair,
 } = nearApiJs;
 
 export class TwoFactor extends Account2FA {
     constructor(wallet, accountId, has2fa = false) {
         super(wallet.connection, accountId, {
             storage: localStorage,
-            helperUrl: ACCOUNT_HELPER_URL,
+            helperUrl: CONFIG.ACCOUNT_HELPER_URL,
             getCode: () => store.dispatch(promptTwoFactor(true)).payload.promise
         });
         this.wallet = wallet;
@@ -25,12 +30,12 @@ export class TwoFactor extends Account2FA {
         if (!state) {
             return false;
         }
-        return MULTISIG_CONTRACT_HASHES.includes(state.code_hash);
+        return CONFIG.MULTISIG_CONTRACT_HASHES.includes(state.code_hash);
     }
 
     static async checkCanEnableTwoFactor(balance) {
         const availableBalance = new BN(balance.available);
-        const multisigMinAmount = new BN(nearApiJs.utils.format.parseNearAmount(MULTISIG_MIN_AMOUNT));
+        const multisigMinAmount = new BN(nearApiJs.utils.format.parseNearAmount(CONFIG.MULTISIG_MIN_AMOUNT));
         return multisigMinAmount.lt(availableBalance);
     }
 
@@ -42,6 +47,12 @@ export class TwoFactor extends Account2FA {
     }
 
     async initTwoFactor(accountId, method) {
+        // additional check if the ledger is enabled, in case the user was able to omit disabled buttons
+        const isLedgerEnabled = await this.wallet.isLedgerEnabled();
+        if (isLedgerEnabled) {
+            throw new WalletError('Ledger Hardware Wallet is enabled', 'initTwoFactor.ledgerEnabled');
+        }
+
         // clear any previous requests in localStorage (for verifyTwoFactor)
         this.setRequest({ requestId: -1 });
         return await this.wallet.postSignedJson('/2fa/init', {
@@ -68,9 +79,45 @@ export class TwoFactor extends Account2FA {
     async disableMultisig() {
         const contractBytes = new Uint8Array(await (await fetch('/main.wasm')).arrayBuffer());
         const stateCleanupContractBytes = new Uint8Array(await (await fetch('/state_cleanup.wasm')).arrayBuffer());
-        const result = await this.disable(contractBytes, stateCleanupContractBytes);
+        let result;
+        try {
+            result = await this.disable(contractBytes, stateCleanupContractBytes);
+        } catch (e) {
+            if (e.message.includes('too large to be viewed')) {
+                throw new Error('You must wait 15 minutes between each attempt to disable 2fa. Please try again in 15 minutes.');
+            }
+            if (e.message.includes('Request was cancelled.')) {
+                throw new Error('Request was cancelled. You must wait 15 minutes to attempt disabling 2fa again.');
+            }
+            throw new Error(e.message);
+        }
         await store.dispatch(refreshAccount());
         this.has2fa = false;
         return result;
+    }
+
+    static async disableMultisigWithFAK({ accountId, seedPhrase, cleanupState }) {
+        const keyStore = new InMemoryKeyStore();
+        await keyStore.setKey(CONFIG.NETWORK_ID, accountId, KeyPair.fromString(parseSeedPhrase(seedPhrase).secretKey));
+        const connection = Connection.fromConfig({
+            networkId: CONFIG.NETWORK_ID,
+            provider: {
+                type: 'JsonRpcProvider',
+                args: { url: CONFIG.NODE_URL },
+            },
+            signer: { type: 'InMemorySigner', keyStore },
+        });
+
+        const emptyContractBytes = new Uint8Array(await (await fetch('/main.wasm')).arrayBuffer());
+        let cleanupContractBytes;
+        if (cleanupState) {
+            cleanupContractBytes = new Uint8Array(await (await fetch('/state_cleanup.wasm')).arrayBuffer());
+        }
+
+        const account = new Account2FA(connection, accountId, {
+            helperUrl: CONFIG.ACCOUNT_HELPER_URL,
+        });
+
+        return await account.disableWithFAK({ contractBytes: emptyContractBytes, cleanupContractBytes });
     }
 }

@@ -64,11 +64,7 @@ export default ({
     return (
         <StyledContainer className='transfer-amount brs-8 bsw-l'>
             <ArrowTransferIcon />
-            <Balance
-                amount={transferAmount}
-                showAlmostEqualSignUSD={false}
-                showSymbolUSD={false}
-            />
+            <Balance amount={transferAmount} />
             <div className='account'>
                 <Translate id='transfer.from' />
                 <div>

@@ -82,7 +82,7 @@ const Container = styled.div`
         }
 
         form {
-          width: 100%
+          width: 100%;
           display: flex;
           flex-direction: column;
           align-items: center;
@@ -121,10 +121,10 @@ export default ({
             <Container>
                 <h3><Translate id='exportPrivateKey.title' /></h3>
                 <p><Translate id='exportPrivateKey.desc' /></p>
-                <ExportKeyModalBody 
-                    currentView={currentView} 
-                    setCurrentView={setCurrentView} 
-                    onClose={onClose} 
+                <ExportKeyModalBody
+                    currentView={currentView}
+                    setCurrentView={setCurrentView}
+                    onClose={onClose}
                     secretKey={secretKey}
                 />
             </Container>
@@ -134,7 +134,7 @@ export default ({
 
 const ExportKeyModalBody = ({ currentView, setCurrentView, onClose, secretKey }) => {
     switch (currentView) {
-        case VIEWS.ACCOUNT_ID_CONFIRMATION: 
+        case VIEWS.ACCOUNT_ID_CONFIRMATION:
             return (
                 <ConfirmationScreen setCurrentView={setCurrentView} onClose={onClose} />
             );
@@ -153,7 +153,7 @@ const ExportKeyModalBody = ({ currentView, setCurrentView, onClose, secretKey })
             );
     }
 };
- 
+
 const ConfirmationScreen = ({ setCurrentView, onClose }) => {
     const [typedAccountId, setTypedAccountId] = useState('');
     const accountId = useSelector(selectAccountId);

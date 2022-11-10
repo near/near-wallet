@@ -13,7 +13,7 @@ const Container = styled.div`
 
         .title {
             color: #3F4045;
-            font-weight: 600;
+            font-weight: 700;
             margin-bottom: 25px;
             display: flex;
             align-items: center;

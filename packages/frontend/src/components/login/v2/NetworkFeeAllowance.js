@@ -3,7 +3,7 @@ import React from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
-import { ACCESS_KEY_FUNDING_AMOUNT } from '../../../config';
+import CONFIG from '../../../config';
 import ArrowUpRight from '../..//svg/ArrowUpRight';
 import Balance from '../../common/balance/Balance';
 
@@ -51,13 +51,13 @@ export default ({ contractId, contractIdUrl }) => (
         <div>
             <div className='title'><Translate id='login.v2.connectConfirm.feeAllowance.title' /></div>
             <Balance
-                amount={ACCESS_KEY_FUNDING_AMOUNT}
+                amount={CONFIG.ACCESS_KEY_FUNDING_AMOUNT}
                 showBalanceInUSD={false}
             />
         </div>
         <Translate
             id='login.v2.connectConfirm.feeAllowance.desc'
-            data={{ amount: formatNearAmount(ACCESS_KEY_FUNDING_AMOUNT) }}
+            data={{ amount: formatNearAmount(CONFIG.ACCESS_KEY_FUNDING_AMOUNT) }}
         />
     </StyledContainer>
 );

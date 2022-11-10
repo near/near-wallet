@@ -1,7 +1,7 @@
 import React from 'react';
 import { Translate } from 'react-localize-redux';
 
-import TokenIcon from '../TokenIcon';
+import TokenIcon from '../../../common/token/TokenIcon';
 import StyledContainer from './css/Style.css';
 
 const Token = ({ symbol, icon, translateIdTitle, onClick }) => {

@@ -1,15 +1,7 @@
 import BN from 'bn.js';
 import * as nearApiJs from 'near-api-js';
 
-import { 
-    NEAR_TOKEN_ID,
-    TOKEN_TRANSFER_DEPOSIT,
-    FT_TRANSFER_GAS,
-    FT_STORAGE_DEPOSIT_GAS,
-    FT_MINIMUM_STORAGE_BALANCE,
-    FT_MINIMUM_STORAGE_BALANCE_LARGE,
-    SEND_NEAR_GAS,
-} from '../config';
+import CONFIG from '../config';
 import {
     parseTokenAmount,
     formatTokenAmount,
@@ -34,7 +26,7 @@ export default class FungibleTokens {
 
     static getParsedTokenAmount(amount, symbol, decimals) {
         const parsedTokenAmount =
-            symbol === 'NEAR'
+            symbol === CONFIG.NEAR_ID
                 ? parseNearAmount(amount)
                 : parseTokenAmount(amount, decimals);
 
@@ -43,7 +35,7 @@ export default class FungibleTokens {
 
     static getFormattedTokenAmount(amount, symbol, decimals) {
         const formattedTokenAmount =
-            symbol === 'NEAR'
+            symbol === CONFIG.NEAR_ID
                 ? formatNearAmount(amount, 5)
                 : removeTrailingZeros(formatTokenAmount(amount, decimals, 5));
 
@@ -87,10 +79,10 @@ export default class FungibleTokens {
             accountId &&
             !(await this.isStorageBalanceAvailable({ contractName, accountId }))
         ) {
-            const totalGasFees = await getTotalGasFee(new BN(FT_TRANSFER_GAS).add(new BN(FT_STORAGE_DEPOSIT_GAS)));
-            return new BN(totalGasFees).add(new BN(FT_MINIMUM_STORAGE_BALANCE)).toString();
+            const totalGasFees = await getTotalGasFee(new BN(CONFIG.FT_TRANSFER_GAS).add(new BN(CONFIG.FT_STORAGE_DEPOSIT_GAS)));
+            return new BN(totalGasFees).add(new BN(CONFIG.FT_MINIMUM_STORAGE_BALANCE)).toString();
         } else {
-            return getTotalGasFee(contractName ? FT_TRANSFER_GAS : SEND_NEAR_GAS);
+            return getTotalGasFee(contractName ? CONFIG.FT_TRANSFER_GAS : CONFIG.SEND_NEAR_GAS);
         }
     }
 
@@ -112,7 +104,7 @@ export default class FungibleTokens {
         // Ensure our awareness of 2FA being enabled is accurate before we submit any transaction(s)
         const account = await wallet.getAccount(accountId);
 
-        if (contractName) {
+        if (contractName && contractName.toUpperCase() !== CONFIG.NEAR_ID) {
             const storageAvailable = await this.isStorageBalanceAvailable({
                 contractName,
                 accountId: receiverId,
@@ -124,7 +116,7 @@ export default class FungibleTokens {
                         account,
                         contractName,
                         receiverId,
-                        storageDepositAmount: FT_MINIMUM_STORAGE_BALANCE,
+                        storageDepositAmount: CONFIG.FT_MINIMUM_STORAGE_BALANCE,
                     });
                 } catch (e) {
                     // sic.typo in `mimimum` wording of responses, so we check substring
@@ -136,7 +128,7 @@ export default class FungibleTokens {
                             contractName,
                             receiverId,
                             storageDepositAmount:
-                                FT_MINIMUM_STORAGE_BALANCE_LARGE,
+                                CONFIG.FT_MINIMUM_STORAGE_BALANCE_LARGE,
                         });
                     }
                 }
@@ -152,8 +144,8 @@ export default class FungibleTokens {
                             memo: memo,
                             receiver_id: receiverId,
                         },
-                        FT_TRANSFER_GAS,
-                        TOKEN_TRANSFER_DEPOSIT
+                        CONFIG.FT_TRANSFER_GAS,
+                        CONFIG.TOKEN_TRANSFER_DEPOSIT
                     ),
                 ],
             });
@@ -177,45 +169,71 @@ export default class FungibleTokens {
                         account_id: receiverId,
                         registration_only: true,
                     },
-                    FT_STORAGE_DEPOSIT_GAS,
+                    CONFIG.FT_STORAGE_DEPOSIT_GAS,
                     storageDepositAmount
                 ),
             ],
         });
     }
 
-    async wrapNear({ accountId, wrapAmount, toWNear }) {
-        const account = await wallet.getAccount(accountId);
-        const actions = [
-            functionCall(
-                toWNear ? 'near_deposit' : 'near_withdraw',
-                toWNear ? {} : { amount: wrapAmount },
-                FT_STORAGE_DEPOSIT_GAS,
-                toWNear ? wrapAmount : TOKEN_TRANSFER_DEPOSIT
-            ),
-        ];
+    async getWrapNearTx({ accountId, amount }) {
+        const actions = await this._getStorageDepositActions(accountId);
 
-        const storage = await account.viewFunction(
-            NEAR_TOKEN_ID,
-            'storage_balance_of',
-            { account_id: accountId }
+        actions.push(
+            functionCall(
+                'near_deposit',
+                {},
+                CONFIG.FT_STORAGE_DEPOSIT_GAS,
+                parseNearAmount(amount)
+            )
         );
 
+        return { receiverId: CONFIG.NEAR_TOKEN_ID, actions };
+    }
+
+    async getUnwrapNearTx({ accountId, amount }) {
+        const actions = await this._getStorageDepositActions(accountId);
+
+        actions.push(
+            functionCall(
+                'near_withdraw',
+                { amount: parseNearAmount(amount) },
+                CONFIG.FT_STORAGE_DEPOSIT_GAS,
+                CONFIG.TOKEN_TRANSFER_DEPOSIT,
+            )
+        );
+
+        return { receiverId: CONFIG.NEAR_TOKEN_ID, actions };
+    }
+
+    async transformNear({ accountId, amount, toWNear }) {
+        const account = await wallet.getAccount(accountId);
+        const tx = await (toWNear
+            ? this.getWrapNearTx({ accountId, amount })
+            : this.getUnwrapNearTx({ accountId, amount }));
+
+        return account.signAndSendTransaction(tx);
+    }
+
+    async _getStorageDepositActions(accountId) {
+        const actions = [];
+        const storage = await FungibleTokens.getStorageBalance({
+            contractName: CONFIG.NEAR_TOKEN_ID,
+            accountId,
+        });
+
         if (!storage) {
-            actions.unshift(
+            actions.push(
                 functionCall(
                     'storage_deposit',
                     {},
-                    FT_STORAGE_DEPOSIT_GAS,
-                    parseNearAmount('0.00125')
+                    CONFIG.FT_STORAGE_DEPOSIT_GAS,
+                    CONFIG.FT_MINIMUM_STORAGE_BALANCE,
                 )
             );
         }
 
-        return account.signAndSendTransaction({
-            receiverId: NEAR_TOKEN_ID,
-            actions,
-        });
+        return actions;
     }
 }
 

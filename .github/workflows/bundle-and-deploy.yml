@@ -36,8 +36,8 @@ jobs:
           aws-region: us-west-2
           role-to-assume: ${{ secrets.AWS_DEPLOYMENT_ROLE }}
           role-skip-session-tagging: true
-          role-duration-seconds: 900
+          role-duration-seconds: 900        
       - if: ${{ github.event_name == 'pull_request' }}
-        run: aws s3 sync dist/${{ inputs.environment }} s3://${{ secrets.S3_BUCKET }}/${{ github.event.pull_request.number }} --delete
-      - if: ${{ github.event_name == 'push' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/stable') }}
         run: aws s3 sync dist/${{ inputs.environment }} s3://${{ secrets.S3_BUCKET }} --delete
+      - if: ${{ github.event_name == 'push' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/mainnet' || github.ref == 'refs/heads/testnet') }}
+        run: aws s3 sync dist/${{ inputs.environment }} s3://${{ secrets.S3_BUCKET }} --delete    

@@ -7,8 +7,8 @@ import styled from 'styled-components';
 import selectNEARAsTokenWithMetadata from '../../../redux/selectors/crossStateSelectors/selectNEARAsTokenWithMetadata';
 import FormButton from '../../common/FormButton';
 import Modal from '../../common/modal/Modal';
+import TokenAmount from '../../common/token/TokenAmount';
 import AlertTriangleIcon from '../../svg/AlertTriangleIcon';
-import TokenAmount from '../../wallet/TokenAmount';
 import TokenStakeRewards from './TokenStakeRewards';
 
 const Container = styled.div`

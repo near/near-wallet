@@ -1,7 +1,12 @@
 module.exports = {
-    extends: ['react-app', 'eslint:recommended'],
+    extends: [
+     'react-app',
+     'eslint:recommended',
+     'plugin:i18next/recommended',
+     ],
     plugins: ['es'],
     rules: {
+        'i18next/no-literal-string': 'off',
         'arrow-parens': 'error',
         'brace-style': 'error',
         'curly': ['error'],
@@ -75,8 +80,8 @@ module.exports = {
     overrides: [
         {
             files: [
-                "src/config/configFromEnvironment.js",
-                "ci/configFromEnvironment.js",
+                "src/config/configFromEnvironment.ts",
+                "ci/config.js",
             ],
             rules: {
                 'no-process-env': ['off']

@@ -22,6 +22,17 @@ export const showInYocto = (amountStr) => {
     return formatWithCommas(amountStr) + ' yoctoNEAR';
 };
 
+export function formatErrorBalance (msg) {
+    const regExp = /\d* yoctoNEAR/;
+    const yoctoSubString = msg.match(regExp);
+    if (yoctoSubString) {
+        const nearAmount = formatNearAmount(yoctoSubString[0].split(' ')[0]);
+        return msg.replace(regExp, nearAmount + ' NEAR');
+    }
+
+    return msg;
+}
+
 export const formatWithCommas = (value) => {
     const pattern = /(-?\d+)(\d{3})/;
     while (pattern.test(value)) {
@@ -30,13 +41,15 @@ export const formatWithCommas = (value) => {
     return value;
 };
 
-export const getRoundedBalanceInFiat = (rawNearAmount, tokenFiatValue,isNear,decimals) => {
-    const formattedNearAmount = rawNearAmount && !isNear ? formatNearAmount(rawNearAmount).replace(/,/g, '') : formatTokenAmount(rawNearAmount, decimals);
+export const getRoundedBalanceInFiat = (amount, tokenFiatValue, isNear, decimals) => {
+    const formattedNearAmount = amount && !isNear ? formatNearAmount(amount).replace(/,/g, '') : formatTokenAmount(amount, decimals, decimals);
     const balanceInFiat = Number(formattedNearAmount) * tokenFiatValue;
     const roundedBalanceInFiat = balanceInFiat && balanceInFiat.toFixed(2);
+
     if (roundedBalanceInFiat === '0.00' || formattedNearAmount === '< 0.00001') {
         return '< $0.01';
     }
+
     return roundedBalanceInFiat;
 };
 

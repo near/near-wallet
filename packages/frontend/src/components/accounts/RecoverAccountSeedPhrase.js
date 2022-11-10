@@ -184,7 +184,9 @@ const mapStateToProps = (state, { match }) => ({
     findMyAccountSending: selectActionsPending(state, { types: ['RECOVER_ACCOUNT_SEED_PHRASE', 'REFRESH_ACCOUNT_OWNER'] })
 });
 
-export const RecoverAccountSeedPhraseWithRouter = connect(
+const RecoverAccountSeedPhraseWithRouter = connect(
     mapStateToProps,
     mapDispatchToProps
 )(withRouter(RecoverAccountSeedPhrase));
+
+export default RecoverAccountSeedPhraseWithRouter;

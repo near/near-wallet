@@ -26,6 +26,8 @@ const Style = styled.div`
     }
 
     .icon, .amount {
+        display: flex;
+        align-items: center;
         color: #272729;
         font-weight: 600;
         font-size: 16px;
@@ -33,9 +35,6 @@ const Style = styled.div`
     }
 
     .icon {
-        display: flex;
-        align-items: center;
-
         span {
             margin-right: 10px;
             border-radius: 50%;

@@ -3,7 +3,7 @@ import { Translate } from 'react-localize-redux';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 
-import { EXPLORER_URL } from '../../config';
+import CONFIG from '../../config';
 import { selectAccountId } from '../../redux/slices/account';
 import {
     actions as transactionsActions,
@@ -127,7 +127,7 @@ const ActivitiesWrapper = () => {
                 <div className='no-activity'><Translate id='dashboard.noActivity' /></div>
             )}
             {transactionHash && (
-                <ActivityDetailModal 
+                <ActivityDetailModal
                     open={!!transactionHash}
                     onClose={() => setTransactionHash()}
                     accountId={accountId}
@@ -136,7 +136,7 @@ const ActivitiesWrapper = () => {
             )}
             <FormButton
                 color='gray-blue'
-                linkTo={`${EXPLORER_URL}/accounts/${accountId}`}
+                linkTo={`${CONFIG.EXPLORER_URL}/accounts/${accountId}`}
                 trackingId='Click to account on explorer'
             >
                 <Translate id='button.viewAll'/>

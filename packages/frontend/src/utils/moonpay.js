@@ -1,16 +1,11 @@
 import sendJson from 'fetch-send-json';
 
-import {
-    ACCOUNT_HELPER_URL,
-    MOONPAY_API_KEY,
-    MOONPAY_API_URL,
-    MOONPAY_BUY_URL,
-} from '../config';
+import CONFIG from '../config';
 
-export const MOONPAY_BUY_URL_PREFIX = `${MOONPAY_BUY_URL}${MOONPAY_API_KEY}`;
+export const MOONPAY_BUY_URL_PREFIX = `${CONFIG.MOONPAY_BUY_URL}${CONFIG.MOONPAY_API_KEY}`;
 
 export const isMoonpayAvailable = async () => {
-    const moonpayGet = (path) => sendJson('GET', `${MOONPAY_API_URL}${path}?apiKey=${MOONPAY_API_KEY}`);
+    const moonpayGet = (path) => sendJson('GET', `${CONFIG.MOONPAY_API_URL}${path}?apiKey=${CONFIG.MOONPAY_API_KEY}`);
     const isAllowed = ({ isAllowed, isBuyAllowed }) => isAllowed && isBuyAllowed;
 
     const [ipAddressInfo, countries, currencies] = await Promise.all([
@@ -40,12 +35,12 @@ export const isMoonpayAvailable = async () => {
 };
 
 export const getSignedUrl = async (accountId, redirectUrl) => {
-    const widgetUrl = `${MOONPAY_BUY_URL_PREFIX}`
+    const widgetUrl = `${CONFIG.MOONPAY_BUY_URL_PREFIX}`
         + `&walletAddress=${encodeURIComponent(accountId)}`
         + '&currencyCode=NEAR'
         + '&baseCurrencyCode=usd'
         + `&redirectURL=${encodeURIComponent(redirectUrl)}`
     ;
-    const { signature } = await sendJson('GET', `${ACCOUNT_HELPER_URL}/moonpay/signURL?url=${encodeURIComponent(widgetUrl)}`);
+    const { signature } = await sendJson('GET', `${CONFIG.ACCOUNT_HELPER_URL}/moonpay/signURL?url=${encodeURIComponent(widgetUrl)}`);
     return `${widgetUrl}&signature=${encodeURIComponent(signature)}`;
 };

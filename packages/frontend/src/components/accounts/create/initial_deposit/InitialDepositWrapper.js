@@ -6,7 +6,7 @@ import { parse } from 'query-string';
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { MIN_BALANCE_TO_CREATE } from '../../../../config';
+import CONFIG from '../../../../config';
 import { Mixpanel } from '../../../../mixpanel';
 import { redirectTo, checkIsNew } from '../../../../redux/actions/account';
 import { showCustomAlert } from '../../../../redux/actions/status';
@@ -24,7 +24,7 @@ const { handleFlowLimitation } = flowLimitationActions;
 
 const { setCreateFromImplicitSuccess } = createFromImplicitActions;
 
-export function InitialDepositWrapper({ history }) {
+const InitialDepositWrapper = ({ history }) => {
     const dispatch = useDispatch();
 
     const [fundingNeeded, setFundingNeeded] = useState(true);
@@ -39,7 +39,7 @@ export function InitialDepositWrapper({ history }) {
     const recoveryMethod = URLParams.recoveryMethod;
     const fundingMethod = URLParams.fundingMethod;
 
-    const formattedMinDeposit = formatNearAmount(MIN_BALANCE_TO_CREATE);
+    const formattedMinDeposit = formatNearAmount(CONFIG.MIN_BALANCE_TO_CREATE);
 
     useEffect(() => {
         const handleSetMoonpayURL = async () => {
@@ -74,7 +74,7 @@ export function InitialDepositWrapper({ history }) {
                     try {
                         const account = wallet.getAccountBasic(implicitAccountId);
                         const state = await account.state();
-                        if (new BN(state.amount).gte(new BN(MIN_BALANCE_TO_CREATE))) {
+                        if (new BN(state.amount).gte(new BN(CONFIG.MIN_BALANCE_TO_CREATE))) {
                             Mixpanel.track('CA Check balance from implicit: sufficient');
                             setFundingNeeded(false);
                             setInitialDeposit(state.amount);
@@ -172,7 +172,7 @@ export function InitialDepositWrapper({ history }) {
     if (fundingMethod === 'creditCard') {
         return (
             <FundWithCreditCard
-                minDeposit={MIN_BALANCE_TO_CREATE}
+                minDeposit={CONFIG.MIN_BALANCE_TO_CREATE}
                 formattedMinDeposit={formattedMinDeposit}
                 fundingAddress={implicitAccountId}
                 moonpaySignedUrl={moonpaySignedUrl}
@@ -183,10 +183,12 @@ export function InitialDepositWrapper({ history }) {
 
     return (
         <FundWithManualDeposit
-            minDeposit={MIN_BALANCE_TO_CREATE}
+            minDeposit={CONFIG.MIN_BALANCE_TO_CREATE}
             formattedMinDeposit={formattedMinDeposit}
             fundingAddress={implicitAccountId}
             onClickCancel={onClickCancel}
         />
     );
-}
+};
+
+export default InitialDepositWrapper;

@@ -48,7 +48,13 @@ function filterTokens(tokens, searchSubstring) {
     });
 }
 
-const SelectToken = ({ onClickGoBack, fungibleTokens, onSelectToken, isMobile }) => {
+const SelectToken = ({
+    onClickGoBack,
+    fungibleTokens,
+    onSelectToken,
+    isMobile,
+    balanceLabelId = 'sendV2.selectAsset.asssetListBalanceTitle',
+}) => {
     const [searchValue, setSearchValue] = useState('');
     const [filteredFungibleTokens, setFilteredFungibleTokens] = useState(() => filterTokens(fungibleTokens));
     const currentLanguage = getCurrentLanguage();
@@ -84,7 +90,7 @@ const SelectToken = ({ onClickGoBack, fungibleTokens, onSelectToken, isMobile })
             </Translate>
             <div className='list-header'>
                 <span><Translate id='sendV2.selectAsset.assetListNameTitle'/></span>
-                <span><Translate id='sendV2.selectAsset.asssetListBalanceTitle'/></span>
+                <span><Translate id={balanceLabelId} /></span>
             </div>
             <Tokens tokens={filteredFungibleTokens} onClick={onSelectToken} currentLanguage={currentLanguage}/>
         </StyledContainer>

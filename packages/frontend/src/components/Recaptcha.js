@@ -3,7 +3,7 @@ import ReCAPTCHA from 'react-google-recaptcha';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
-import { RECAPTCHA_CHALLENGE_API_KEY } from '../config';
+import CONFIG from '../config';
 import { Mixpanel } from '../mixpanel/index';
 import FormButton from './common/FormButton';
 import PuzzleIcon from './svg/PuzzleIcon';
@@ -98,7 +98,7 @@ export class Recaptcha extends Component {
 
     setCaptchaRef(ref) {
         if (ref) {
-            this.recaptchaRef = ref; 
+            this.recaptchaRef = ref;
         }
     };
 
@@ -137,7 +137,7 @@ export class Recaptcha extends Component {
     reset() {
         debugLog('reset()');
         if (this.recaptchaRef) {
-            this.recaptchaRef.reset(); 
+            this.recaptchaRef.reset();
         }
         // Reset does not call onChange; manually notify subscribers that there is no longer a valid token on reset
         this.handleOnChange(null);
@@ -174,9 +174,9 @@ export class Recaptcha extends Component {
                         <Translate id='reCAPTCHA.loading'/>
                     </span>
                 )}
-                {RECAPTCHA_CHALLENGE_API_KEY && (
+                {CONFIG.RECAPTCHA_CHALLENGE_API_KEY && (
                     <ReCAPTCHA
-                        sitekey={RECAPTCHA_CHALLENGE_API_KEY}
+                        sitekey={CONFIG.RECAPTCHA_CHALLENGE_API_KEY}
                         ref={(ref) => this.setCaptchaRef(ref)}
                         onChange={this.handleOnChange}
                         asyncScriptOnLoad={this.handleOnLoad}
@@ -195,7 +195,7 @@ export class Recaptcha extends Component {
 
 export const isRetryableRecaptchaError = (e) => {
     if (!e.code) {
-        return false; 
+        return false;
     }
 
     return ['invalid-input-response','missing-input-response', 'timeout-or-duplicate'].includes(e.code);

@@ -104,7 +104,6 @@ export default ({
                                 amount={balance}
                                 showBalanceInUSD={showBalanceInUSD}
                                 showBalanceInNEAR={!showBalanceInUSD}
-                                showAlmostEqualSignUSD={false}
                             />
                         )
                         : '••••••'

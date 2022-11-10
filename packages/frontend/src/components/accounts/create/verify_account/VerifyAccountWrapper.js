@@ -24,7 +24,7 @@ const {
     checkAndHideLedgerModal
 } = ledgerActions;
 
-export function VerifyAccountWrapper() {
+const VerifyAccountWrapper = () => {
     const { executeRecaptcha } = useGoogleReCaptcha();
     const dispatch = useDispatch();
 
@@ -255,4 +255,6 @@ export function VerifyAccountWrapper() {
             fundedAccountAvailable={fundedAccountAvailable}
         />
     );
-}
+};
+
+export default VerifyAccountWrapper;

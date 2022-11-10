@@ -7,13 +7,13 @@ const {
 const BN = require("bn.js");
 
 const nearApiJsConnection = require("./connectionSingleton");
-const { getKeyPairFromSeedPhrase, generateTestAccountId } = require("./helpers");
-const { getTestAccountSeedPhrase } = require("./helpers");
+const { getKeyPairFromSeedPhrase, generateTestAccountId, getTestAccountSeedPhrase } = require("./helpers");
 const { fetchLockupContract } = require("../contracts");
 const { PublicKey } = require("near-api-js/lib/utils");
 const {
     LOCKUP_CONFIGS: { FULLY_VESTED_CONFIG },
     WALLET_NETWORK,
+    TEST_ACCOUNT_DEPOSIT_AMOUNT,
 } = require("../constants");
 const { createAccount, transfer, addKey, deployContract, functionCall, fullAccessKey } = transactions;
 
@@ -34,7 +34,7 @@ class E2eTestAccount {
         this.nearApiJsAccount = await near.account(this.accountId);
         await this.nearApiJsAccount.state();
     }
-    async create({ amount, contractWasm, initArgs, initFunction } = { amount: "1.0" }) {
+    async create({ amount, contractWasm, initArgs, initFunction } = { amount: TEST_ACCOUNT_DEPOSIT_AMOUNT }) {
         if (contractWasm) {
             if (initFunction && initArgs) {
                 const accessKey = fullAccessKey();
@@ -70,7 +70,7 @@ class E2eTestAccount {
         }
         // creates a testinglockup subaccount with a lockup_timestamp (locked until) in 1 minute with a release_duration (period to linearly unlock) of 1 minute
         const lockupSubaccountId = `testinglockup.${this.accountId}`;
-        const lockupSubaccountSeedphrase = `${lockupSubaccountId} ${process.env.TEST_ACCOUNT_SEED_PHRASE}`;
+        const lockupSubaccountSeedphrase = getTestAccountSeedPhrase(lockupSubaccountId);
         const lockupWasm = await fetchLockupContract({ v2Wasm });
         let minuteInNanosBN = new BN("1").mul(new BN("60000000000"));
         const vesting_schedule_config = vesting_schedule || FULLY_VESTED_CONFIG.vesting_schedule;
@@ -122,6 +122,14 @@ class E2eTestAccount {
     async getUpdatedBalance() {
         await this.connectToNearApiJs();
         return this.nearApiJsAccount.getAccountBalance();
+    }
+    async getTokenBalance(contractId) {
+        await this.connectToNearApiJs();
+        return this.nearApiJsAccount.viewFunction(
+            contractId,
+            'ft_balance_of',
+            { account_id: this.accountId }
+        );
     }
     async getAmountStakedWithValidator(validatorAccountId) {
         const balanceString = await this.nearApiJsAccount.viewFunction(validatorAccountId, "get_account_staked_balance", {

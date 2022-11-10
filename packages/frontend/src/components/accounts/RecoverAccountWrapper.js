@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import isMobile from '../../utils/isMobile';
 import RecoverAccount from './RecoverAccount';
 
-export function RecoverAccountWrapper() {
+const RecoverAccountWrapper = () => {
     const location = useSelector(getLocation);
 
     return (
@@ -14,4 +14,6 @@ export function RecoverAccountWrapper() {
             isMobile={isMobile()}
         />
     );
-}
+};
+
+export default RecoverAccountWrapper;

@@ -4,6 +4,9 @@ class HomePage {
     constructor(page) {
         this.page = page;
     }
+    async close() {
+        await this.page.close();
+    }
     async navigate() {
         await this.page.goto(`/`);
     }
@@ -36,6 +39,12 @@ class HomePage {
     }
     async getNearBalanceInNear() {
         return this.page.textContent("data-test-id=walletHomeNearBalance").then((bal) => bal.split(" ")[0]);
+    }
+
+    async loginAndNavigate(accountId, seed) {
+        await this.navigate();
+        await this.loginWithSeedPhraseLocalStorage(accountId, seed);
+        await this.navigate();
     }
 }
 module.exports = { HomePage };

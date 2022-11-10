@@ -3,9 +3,6 @@ import { Translate } from 'react-localize-redux';
 import { Textfit } from 'react-textfit';
 import styled from 'styled-components';
 
-import {
-    CREATE_USN_CONTRACT,
-} from '../../../../../features';
 import getCurrentLanguage from '../../hooks/getCurrentLanguage';
 import classNames from '../../utils/classNames';
 import { SHOW_NETWORK_BANNER } from '../../utils/wallet';
@@ -22,10 +19,9 @@ import AllTokensTotalBalanceUSD from './AllTokensTotalBalanceUSD';
 import CreateCustomNameModal from './CreateCustomNameModal';
 import CreateFromImplicitSuccessModal from './CreateFromImplicitSuccessModal';
 import DepositNearBanner from './DepositNearBanner';
-import ExploreApps from './ExploreApps';
 import LinkDropSuccessModal from './LinkDropSuccessModal';
 import NFTs from './NFTs';
-import Sidebar from './Sidebar';
+import SidebarLight from './SidebarLight';
 import Tokens from './Tokens';
 import { ZeroBalanceAccountImportedModal } from './ZeroBalanceAccountImportedModal';
 
@@ -311,7 +307,8 @@ export function Wallet({
     handleCloseLinkdropModal,
     handleSetCreateFromImplicitSuccess,
     handleSetCreateCustomName,
-    handleSetZeroBalanceAccountImportMethod
+    handleSetZeroBalanceAccountImportMethod,
+    userRecoveryMethods
 }) {
     const currentLanguage = getCurrentLanguage();
     const totalAmount = getTotalBalanceInFiat(
@@ -360,11 +357,7 @@ export function Wallet({
                     )}
                 </div>
                 <div className="right">
-                    {accountExists ? (
-                        <Sidebar availableAccounts={availableAccounts} />
-                    ) : (
-                        <ExploreApps />
-                    )}
+                    <SidebarLight availableAccounts={accountExists && availableAccounts} />
                     <ActivitiesWrapper />
                 </div>
             </div>
@@ -418,7 +411,7 @@ const FungibleTokens = ({
         <>
             <div className='total-balance'>
                 <Textfit mode='single' max={48}>
-                    <AllTokensTotalBalanceUSD allFungibleTokens={fungibleTokensList}/>
+                    <AllTokensTotalBalanceUSD allFungibleTokens={fungibleTokensList} />
                 </Textfit>
             </div>
             <div className="sub-title balance">
@@ -451,7 +444,7 @@ const FungibleTokens = ({
                 <FormButton
                     color="dark-gray"
                     linkTo="/buy"
-                    trackingId="Click Receive on Wallet page"
+                    trackingId="Click Top Up on Wallet page"
                     data-test-id="balancesTab.buy"
                 >
                     <div>
@@ -482,17 +475,13 @@ const FungibleTokens = ({
                         <span className={classNames({ dots: tokensLoading })}>
                             <Translate id="wallet.yourPortfolio" />
                         </span>
-                        {!CREATE_USN_CONTRACT && (
-                            <span>
-                                <Translate id="wallet.tokenBalance" />
-                            </span>
-                        )}
                     </div>
                     <Tokens
                         tokens={fungibleTokens}
                         currentLanguage={currentLanguage}
+                        showFiatPrice
                     />
-                    <div className='coingecko'><Translate id='poweredByCoinGecko'/></div>
+                    <div className='coingecko'><Translate id='poweredByCoinGecko' /></div>
                 </>
             )}
         </>

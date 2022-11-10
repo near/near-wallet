@@ -1,7 +1,7 @@
 import BN from 'bn.js';
 import * as nearApiJs from 'near-api-js';
 
-import { NEAR_TOKEN_ID } from '../config';
+import CONFIG from '../config';
 import { listStakingDeposits } from '../services/indexer';
 import { nearTo } from '../utils/amounts';
 import { wallet } from './wallet';
@@ -114,7 +114,7 @@ export const calculateAPY = (poolSummary, tokenPrices) => {
 
         const summaryAPY = farmsWithTokenPrices.reduce((acc, farm) => {
             const tokenPriceInUSD = +tokenPrices[farm.token_id].usd;
-            const nearPriceInUSD = +tokenPrices[NEAR_TOKEN_ID].usd;
+            const nearPriceInUSD = +tokenPrices[CONFIG.NEAR_TOKEN_ID].usd;
 
             const rewardsPerSecond = farm.amount / ((farm.end_date - farm.start_date) * 1e9);
             const rewardsPerSecondInUSD = rewardsPerSecond * tokenPriceInUSD;

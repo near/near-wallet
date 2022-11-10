@@ -2,8 +2,8 @@ import React from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
-import TokenIcon from '../../send/components/TokenIcon';
-import TokenAmount from '../../wallet/TokenAmount';
+import TokenAmount from '../../common/token/TokenAmount';
+import TokenIcon from '../../common/token/TokenIcon';
 
 
 const Container = styled.div`

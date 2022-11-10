@@ -1,11 +1,13 @@
 import mixpanel from 'mixpanel-browser';
 
-import { BROWSER_MIXPANEL_TOKEN } from '../config';
+import CONFIG from '../config';
 
 function buildTrackingProps() {
     const sanitizedUrl = decodeURI(window.location.href)
-        .replace(/(?:\w{3,12} ){11}(?:\w{3,12})/g, 'REDACTED')
-        .replace(/ed25519:(\w|\d)+/gi, 'REDACTED');
+        .split('#')[0]
+        .replace(/(?:\w{3,12} ){11}(?:\w{3,12})/gi, 'REDACTED')
+        .replace(/[\w\d]{64,}/gi, 'REDACTED')
+        .replace(/ed25519.+/gi, 'REDACTED');
 
     return {
         $current_url: encodeURI(sanitizedUrl),
@@ -14,12 +16,12 @@ function buildTrackingProps() {
 
 let Mixpanel = {
     get_distinct_id: () => {},
-    identify: () => {},
-    alias: () => {},
-    track: () => {},
+    identify: (id) => {},
+    alias: (id) => {},
+    track: (eventName) => {},
     people: {
-        set: () => {},
-        set_once: ()  => {}
+        set: (props) => {},
+        set_once: (props)  => {}
     },
     withTracking: async (name, fn, errorOperation, finalOperation) => {
         try {
@@ -39,8 +41,8 @@ let Mixpanel = {
     register: () => {}
 };
 
-if (BROWSER_MIXPANEL_TOKEN) {
-    mixpanel.init(BROWSER_MIXPANEL_TOKEN);
+if (CONFIG.BROWSER_MIXPANEL_TOKEN) {
+    mixpanel.init(CONFIG.BROWSER_MIXPANEL_TOKEN);
     mixpanel.register({'timestamp': new Date().toString(), '$referrer': document.referrer});
     Mixpanel = {
         get_distinct_id: () => {

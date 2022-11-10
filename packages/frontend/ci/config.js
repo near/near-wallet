@@ -1,25 +1,31 @@
-const { defaults } = require('lodash');
+const envValIsSet = (envVal) => typeof envVal === 'string';
 
-const Environments = require('../../../features/environments.json');
-const environmentConfig = require('./configFromEnvironment');
+const parseBooleanFromShell = (envVal) =>
+    envValIsSet(envVal) ? envVal === 'yes' || envVal === 'true' : undefined;
 
-const envDefaults = {
-    [Environments.DEVELOPMENT]: {
-        CLOUDFLARE_BASE_URL: 'https://content.near-wallet.workers.dev',
-        SENTRY_RELEASE: 'development',
-    },
-    [Environments.TESTNET_NEARORG]: {
-        CLOUDFLARE_BASE_URL: 'https://content.near-wallet.workers.dev',
-    },
-    [Environments.MAINNET_NEARORG]: {
-        CLOUDFLARE_BASE_URL: 'https://content.near-wallet.workers.dev',
-    },
-    [Environments.MAINNET_STAGING_NEARORG]: {
-        CLOUDFLARE_BASE_URL: 'https://content.near-wallet.workers.dev',
-    },
+const NEAR_WALLET_ENV = process.env.NEAR_WALLET_ENV;
+
+module.exports = {
+    BRANCH: process.env.BRANCH,
+    CLOUDFLARE_BASE_URL: process.env.CLOUDFLARE_BASE_URL,
+    CONTEXT: process.env.CONTEXT,
+    DEBUG_BUILD: parseBooleanFromShell(process.env.DEBUG_BUILD) || true,
+    DEPLOY_PRIME_URL: process.env.DEPLOY_PRIME_URL,
+    IS_DEVELOPMENT: process.env.NODE_ENV === 'development',
+    IS_NETLIFY: parseBooleanFromShell(process.env.NETLIFY),
+    IS_RENDER: parseBooleanFromShell(process.env.RENDER),
+    IS_PULL_REQUEST: parseBooleanFromShell(process.env.IS_PULL_REQUEST),
+    NEAR_WALLET_ENV,
+    RENDER: parseBooleanFromShell(process.env.RENDER),
+    RENDER_EXTERNAL_URL: process.env.RENDER_EXTERNAL_URL,
+    RENDER_GIT_COMMIT: process.env.RENDER_GIT_COMMIT,
+    REVIEW_ID: process.env.REVIEW_ID,
+    SENTRY_AUTH_TOKEN: process.env.SENTRY_AUTH_TOKEN,
+    SENTRY_DSN: process.env.SENTRY_DSN,
+    SENTRY_RELEASE:
+        process.env.SENTRY_RELEASE ||
+        (parseBooleanFromShell(process.env.RENDER) &&
+            `render:${process.env.RENDER_SERVICE_NAME}:${process.env.RENDER_GIT_BRANCH}:${process.env.RENDER_GIT_COMMIT}`),
+    SHOULD_USE_CLOUDFLARE: parseBooleanFromShell(process.env.USE_CLOUDFLARE),
+    TRAVIS: parseBooleanFromShell(process.env.TRAVIS),
 };
-
-module.exports = defaults(
-    environmentConfig,
-    envDefaults[environmentConfig.NEAR_WALLET_ENV]
-);

@@ -24,6 +24,7 @@ import parseFundingOptions from '../../utils/parseFundingOptions';
 import { Snackbar, snackbarDuration } from '../common/Snackbar';
 import Container from '../common/styled/Container.css';
 import { isRetryableRecaptchaError } from '../Recaptcha';
+import SetPasswordForm from './SetPasswordForm';
 import SetupSeedPhraseForm from './SetupSeedPhraseForm';
 import SetupSeedPhraseVerify from './SetupSeedPhraseVerify';
 
@@ -102,6 +103,7 @@ class SetupSeedPhrase extends Component {
     handleVerifyPhrase = () => {
         const { seedPhrase, enterWord, wordId, submitting } = this.state;
         Mixpanel.track('SR-SP Verify start');
+
         if (enterWord !== seedPhrase.split(' ')[wordId]) {
             this.setState(() => ({
                 localAlert: {
@@ -155,7 +157,7 @@ class SetupSeedPhrase extends Component {
                 debugLog('failed to create account!', err);
 
                 this.setState({ submitting: false });
-                
+
                 if (isRetryableRecaptchaError(err)) {
                     Mixpanel.track('Funded account creation failed due to invalid / expired reCaptcha response from user');
                     this.recaptchaRef.reset();
@@ -209,6 +211,10 @@ class SetupSeedPhrase extends Component {
     handleOnSubmit = (e) => {
         this.handleVerifyPhrase();
         e.preventDefault();
+    }
+
+    handleSubmitPasswordStep = (password) => {
+        console.log(password);
     }
 
     render() {
@@ -274,6 +280,22 @@ class SetupSeedPhrase extends Component {
                                 </Container>
                             )}
                         />
+                        <Route
+                            path={'/setup-seed-phrase/:accountId/set-encryption'}
+                            render={() => (
+                                <Container className='small-centered border'>
+                                    <form
+                                        onSubmit={this.handleSubmitPasswordStep}
+                                        autoComplete='off'
+                                    >
+                                        <h1><Translate id='setupPasswordProtection.pageTitle'/></h1>
+                                        <h2><Translate id='setupPasswordProtection.pageText'/></h2>
+                                        <SetPasswordForm
+                                            onSubmit={this.handleSubmitPasswordStep} />
+                                    </form>
+                                </Container>
+                            )}
+                        />
                         <Snackbar
                             theme='success'
                             message={translate('setupSeedPhrase.snackbarCopySuccess')}
@@ -301,7 +323,7 @@ const mapDispatchToProps = {
 
 const mapStateToProps = (state, { match }) => {
     const { accountId } = match.params;
-    
+
     return {
         ...selectAccountSlice(state),
         accountId,
@@ -311,4 +333,9 @@ const mapStateToProps = (state, { match }) => {
     };
 };
 
-export const SetupSeedPhraseWithRouter = connect(mapStateToProps, mapDispatchToProps)(withRouter(SetupSeedPhrase));
+const SetupSeedPhraseWithRouter = connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(withRouter(SetupSeedPhrase));
+
+export default SetupSeedPhraseWithRouter;

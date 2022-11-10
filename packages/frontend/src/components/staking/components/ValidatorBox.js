@@ -9,10 +9,10 @@ import { selectFarmValidatorAPY } from '../../../redux/slices/staking';
 import { FARMING_VALIDATOR_VERSION, ValidatorVersion } from '../../../utils/constants';
 import Balance from '../../common/balance/Balance';
 import FormButton from '../../common/FormButton';
+import TokenAmount from '../../common/token/TokenAmount';
 import Tooltip from '../../common/Tooltip';
 import ChevronIcon from '../../svg/ChevronIcon';
 import UserIcon from '../../svg/UserIcon';
-import TokenAmount from '../../wallet/TokenAmount';
 
 const Container = styled.div`
     display: flex;

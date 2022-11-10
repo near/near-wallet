@@ -4,7 +4,7 @@ import { Translate } from 'react-localize-redux';
 import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
-import { MULTISIG_MIN_AMOUNT } from '../../../config';
+import CONFIG from '../../../config';
 import { useRecoveryMethods } from '../../../hooks/recoveryMethods';
 import { Mixpanel } from '../../../mixpanel/index';
 import {
@@ -15,6 +15,7 @@ import {
 } from '../../../redux/actions/account';
 import { clearGlobalAlert } from '../../../redux/actions/status';
 import { selectAccountHas2fa, selectAccountId } from '../../../redux/slices/account';
+import { selectLedgerHasLedger } from '../../../redux/slices/ledger';
 import { selectActionsPending, selectStatusSlice } from '../../../redux/slices/status';
 import { selectNearTokenFiatValueUSD } from '../../../redux/slices/tokenFiatValues';
 import { validateEmail } from '../../../utils/account';
@@ -84,6 +85,7 @@ export function EnableTwoFactor(props) {
     const accountId = useSelector(selectAccountId);
     const status = useSelector(selectStatusSlice);
     const nearTokenFiatValueUSD = useSelector(selectNearTokenFiatValueUSD);
+    const accountHaveLedger = useSelector(selectLedgerHasLedger);
 
     const [initiated, setInitiated] = useState(false);
     const [option, setOption] = useState('email');
@@ -94,7 +96,7 @@ export function EnableTwoFactor(props) {
     const pendingTwoFactorAction = useSelector((state) => selectActionsPending(state, { types: ['INIT_TWO_FACTOR', 'DEPLOY_MULTISIG'] }));
     const reSending = useSelector((state) => selectActionsPending(state, { types: ['INIT_TWO_FACTOR'] }));
 
-    const multiSigMinAmountRaw = parseNearAmount(MULTISIG_MIN_AMOUNT);
+    const multiSigMinAmountRaw = parseNearAmount(CONFIG.MULTISIG_MIN_AMOUNT);
 
     const method = {
         kind: '2fa-email',
@@ -137,7 +139,7 @@ export function EnableTwoFactor(props) {
 
     const handleConfirm = async (securityCode) => {
         if (initiated && securityCode.length === 6) {
-            await Mixpanel.withTracking('2FA Verify', 
+            await Mixpanel.withTracking('2FA Verify',
                 async () => {
                     await dispatch(verifyTwoFactor(securityCode));
                     await dispatch(clearGlobalAlert());
@@ -210,17 +212,17 @@ export function EnableTwoFactor(props) {
                     </label>
                     <FormButton
                         color='blue'
-                        disabled={!isValidInput() || loading || has2fa || initiated || !twoFactorAmountApproved}
+                        disabled={!isValidInput() || loading || has2fa || initiated || !twoFactorAmountApproved || accountHaveLedger}
                         type='submit'
                         sending={pendingTwoFactorAction}
                         sendingString='button.enabling'
                     >
                         <Translate id={'button.continue'} />
                     </FormButton>
-                    <FormButton 
-                        className='link' 
-                        type='button' 
-                        linkTo='/profile' 
+                    <FormButton
+                        className='link'
+                        type='button'
+                        linkTo='/profile'
                         trackingId="2FA Click skip button"
                     >
                         <Translate id='button.skip' />

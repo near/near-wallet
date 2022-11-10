@@ -2,7 +2,7 @@ import React from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
-import { ACCOUNT_ID_SUFFIX } from '../../config';
+import CONFIG from '../../config';
 import SafeTranslate from '../SafeTranslate';
 
 const Container = styled.div`
@@ -34,7 +34,7 @@ const AccountNote = () => (
         <ul>
             <li><Translate id='createAccount.note.characters'/></li>
             <li><Translate id='createAccount.note.minCharacters'/></li>
-            <li><SafeTranslate id='createAccount.note.maxCharacters' data={{ accountSuffix: ACCOUNT_ID_SUFFIX }}/></li>
+            <li><SafeTranslate id='createAccount.note.maxCharacters' data={{ accountSuffix: CONFIG.ACCOUNT_ID_SUFFIX }}/></li>
         </ul>
     </Container>
 );

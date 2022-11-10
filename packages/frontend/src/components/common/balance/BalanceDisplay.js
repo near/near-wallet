@@ -3,9 +3,10 @@ import React from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
+import CONFIG from '../../../config';
 import classNames from '../../../utils/classNames';
-import BalanceDisplayUSD from './BalanceDisplayUSD';
-import { 
+import FiatBalance from './FiatBalance';
+import {
     formatNearAmount,
     showInYocto,
     YOCTO_NEAR_THRESHOLD
@@ -83,7 +84,6 @@ const BalanceDisplay = ({
 }) => {
 
     const amountToShow = amount && formatNearAmount(amount);
-    const NEARSymbol = 'NEAR';
 
     const handleShowInYocto = (amount) => {
         if (new BN(amount).lte(YOCTO_NEAR_THRESHOLD)) {
@@ -108,14 +108,14 @@ const BalanceDisplay = ({
             {showBalanceInNEAR && (
                 <>
                     {amount
-                        ? <div className='near-amount'>{amountToShow}{showSymbolNEAR !== false ? ` ${NEARSymbol}` : ''}</div>
+                        ? <div className='near-amount'>{amountToShow}{showSymbolNEAR !== false ? ` ${CONFIG.NEAR_ID}` : ''}</div>
                         : <div className="dots"><Translate id='loadingNoDots'/></div>
                     }
                 </>
             )}
             {showBalanceInUSD && (
                 <div className='fiat-amount'>
-                    <BalanceDisplayUSD
+                    <FiatBalance
                         totalAmount={totalAmount}
                         amount={amount}
                         nearTokenFiatValueUSD={nearTokenFiatValueUSD}

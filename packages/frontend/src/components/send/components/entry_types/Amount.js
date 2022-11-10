@@ -13,6 +13,7 @@ const Amount = ({
     decimals,
     translateIdTitle,
     translateIdInfoTooltip,
+    isApproximate,
     'data-test-id': testId
 }) => {
     /* TODO: Handle long amounts */
@@ -23,6 +24,7 @@ const Amount = ({
                 <Tooltip translate={translateIdInfoTooltip} />
             }
             <div className='amount'>
+                {isApproximate && '~'}
                 <RawTokenAmount
                     symbol={symbol}
                     amount={amount}

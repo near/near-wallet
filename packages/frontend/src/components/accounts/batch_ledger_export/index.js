@@ -6,7 +6,7 @@ import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 import { useImmerReducer } from 'use-immer';
 
-import { NETWORK_ID } from '../../../config';
+import CONFIG from '../../../config';
 import { selectAvailableAccountsIsLoading } from '../../../redux/slices/availableAccounts';
 import WalletClass, { wallet } from '../../../utils/wallet';
 import FormButton from '../../common/FormButton';
@@ -48,7 +48,7 @@ const BatchLedgerExport = ({ history }) => {
 
     useEffect(() => {
         const addAccountsToList = async () => {
-            const accounts = await wallet.keyStore.getAccounts(NETWORK_ID);
+            const accounts = await wallet.keyStore.getAccounts(CONFIG.NETWORK_ID);
             const getAccountWithAccessKeysAndType = async (accountId) => {
                 const keyType = await wallet.getAccountKeyType(accountId);
                 const accessKeys = await wallet.getAccessKeys(accountId);

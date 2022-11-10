@@ -3,7 +3,7 @@ import set from 'lodash.set';
 import unset from 'lodash.unset';
 import { createSelector } from 'reselect';
 
-import { HIDE_SIGN_IN_WITH_LEDGER_ENTER_ACCOUNT_ID_MODAL } from '../../../config';
+import CONFIG from '../../../config';
 import { showAlertToolkit } from '../../../utils/alerts';
 import { ledgerManager } from '../../../utils/ledgerManager';
 import { setLedgerHdPath } from '../../../utils/localStorage';
@@ -193,12 +193,12 @@ const ledgerSlice = createSlice({
         builder.addCase(getLedgerAccountIds.fulfilled, (state, { payload }) => {
             unset(state, ['txSigned']);
             set(state, ['signInWithLedgerStatus'], LEDGER_MODAL_STATUS.CONFIRM_ACCOUNTS);
-            payload.forEach((accountId) => 
+            payload.forEach((accountId) =>
                 set(state, ['signInWithLedger', accountId, 'status'], 'waiting')
             );
         });
         builder.addCase(getLedgerAccountIds.rejected, (state, { error }) => {
-            const noAccounts = error.message === 'No accounts were found.' && !HIDE_SIGN_IN_WITH_LEDGER_ENTER_ACCOUNT_ID_MODAL;
+            const noAccounts = error.message === 'No accounts were found.' && !CONFIG.HIDE_SIGN_IN_WITH_LEDGER_ENTER_ACCOUNT_ID_MODAL;
 
             set(state, ['signInWithLedgerStatus'], noAccounts ? LEDGER_MODAL_STATUS.ENTER_ACCOUNTID : undefined);
             unset(state, ['signInWithLedger']);
