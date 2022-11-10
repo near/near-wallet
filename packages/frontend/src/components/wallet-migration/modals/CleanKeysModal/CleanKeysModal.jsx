@@ -1,57 +1,24 @@
 import * as nearApi from 'near-api-js';
+import { parseSeedPhrase } from 'near-seed-phrase';
 import React, { useState, useEffect, useMemo, useRef } from 'react';
-import { Translate } from 'react-localize-redux';
 import { useDispatch, useSelector } from 'react-redux';
-import styled from 'styled-components';
 import { useImmerReducer } from 'use-immer';
 
 import IconLogout from '../../../../images/wallet-migration/IconLogout';
 import { switchAccount } from '../../../../redux/actions/account';
-import { showCustomAlert } from '../../../../redux/actions/status';
 import { selectAccountId } from '../../../../redux/slices/account';
 import WalletClass, { wallet } from '../../../../utils/wallet';
-import AccountListImport from '../../../accounts/AccountListImport';
 import { IMPORT_STATUS } from '../../../accounts/batch_import_accounts';
 import sequentialAccountImportReducer, { ACTIONS } from '../../../accounts/batch_import_accounts/sequentialAccountImportReducer';
 import LoadingDots from '../../../common/loader/LoadingDots';
-import { ButtonsContainer, StyledButton, MigrationModal, Container, IconBackground } from '../../CommonComponents';
+import { MigrationModal, Container, IconBackground } from '../../CommonComponents';
 import { WALLET_MIGRATION_VIEWS } from '../../WalletMigration';
 import AccessKeyList from './AccessKeyList';
-import EnterSecretKey from './EnterSecretKey';
+import AccountKeyCleanup from './AccountKeyCleanup';
+import ConfirmKeyDeletion from './ConfirmKeyDeletion';
 
 const { KeyPair } = nearApi;
 const MINIMUM_ACCOUNT_BALANCE  = 0.00005;
-
-const CleanupKeysContainer = styled.div`
-    text-align: left;
-
-    .cleanup-info {
-        border-radius: 8px;
-        margin-bottom: 8px;
-        margin-top: 0;
-        padding: 0 6px 8px 12px;
-    }
-
-    .cleanup-info-header {
-        font-weight: bold;
-        margin-bottom: 2px;
-        margin-top: 2px;
-    }
-
-    .keep {
-        background: #f4fbf5;
-        color: #397751;
-    }
-
-    .next-steps {
-        font-style: italic;
-    }
-
-    .remove {
-        background: #fef8f8;
-        color: #de2e32;
-    }
-`;
 
 async function getAccountDetails({ accountId, publicKeyBlacklist, wallet }) {
     const keyType = await wallet.getAccountKeyType(accountId);
@@ -87,19 +54,12 @@ async function getAccountDetails({ accountId, publicKeyBlacklist, wallet }) {
 }
 
 const CleanKeysModal = ({ accounts, handleSetActiveView, onNext, onClose, rotatedKeys }) => {
-    // 1. Identify Full Access Keys on all user accounts. Identify if they are sms, email, or unknown keys.
-    // 2. Ensure that the newly generated key in the RotateKeysModal is not deleted. 
-    // 3. Ensure that the funding account has Threshold * (# of FAKs to be removed) Near present in their account. 
-    // 4. Ensure that if an account has a single FAK OR is an Implicit Account with 0 Near, 
-    // 5. Create a data structure which stores what keys should be marked for deletion
-    // 6. For each account to be cleaned, show a modal where the user puts their FAK.
-
     const [state, localDispatch] = useImmerReducer(sequentialAccountImportReducer, {
         accounts: []
     });
 
     const [loadingAccounts, setLoadingAccounts] = useState(true);
-    const [keysForRemoval, setKeysForRemoval] = useState({});
+    const [keysToRemove, setKeysToRemove] = useState({});
     const dispatch = useDispatch();
     const initialAccountIdOnStart = useSelector(selectAccountId);
     const initialAccountId = useRef(initialAccountIdOnStart);
@@ -172,29 +132,8 @@ const CleanKeysModal = ({ accounts, handleSetActiveView, onNext, onClose, rotate
         }
     }, [completedWithSuccess]);
 
-    const handleConfirmPassphrase = async ({ seedphrase }) => {
-        try {
-            // const account = await wallet.getAccount(currentAccount.accountId);
-
-            // check validity of the typed in seed phrase
-            localDispatch({ type: ACTIONS.SET_CURRENT_DONE });
-            setShowConfirmSeedphraseModal(false);
-        } catch (e) {
-            localDispatch({ type: ACTIONS.SET_CURRENT_FAILED_AND_END_PROCESS });
-            dispatch(showCustomAlert({
-                errorMessage: e.message,
-                success: false,
-                messageCodeHeader: 'error'
-            }));
-            await new Promise((r) => setTimeout(r, 3000));
-        } finally {
-            dispatch(switchAccount({accountId: initialAccountId.current}));
-        }
-    };
-
     const removeKeysForCurrentAccount = async () => {
         dispatch(switchAccount({ accountId: currentAccount.accountId }));
-        // generateAndSetPhrase();
         await new Promise((r) => setTimeout(r, 1500));
         setShowConfirmCleanupModal(true);
     };
@@ -202,7 +141,7 @@ const CleanKeysModal = ({ accounts, handleSetActiveView, onNext, onClose, rotate
     useEffect(() => {
         if (currentAccount) {
             setShowConfirmCleanupModal(false);
-            setKeysForRemoval(currentAccount.accessKeys.reduce((keys, { publicKey }) => {
+            setKeysToRemove(currentAccount.accessKeys.reduce((keys, { publicKey }) => {
                 keys[publicKey] = true;
                 return keys;
             }, {}));
@@ -219,59 +158,51 @@ const CleanKeysModal = ({ accounts, handleSetActiveView, onNext, onClose, rotate
                 </IconBackground>
 
                 {showConfirmSeedphraseModal && (
-                    <EnterSecretKey
+                    <ConfirmKeyDeletion
                         accountId={currentAccount.accountId}
-                        onClickContinue={async (seedphrase) => {
+                        onClose = {async () => {
+                            localDispatch({ type: ACTIONS.SET_CURRENT_FAILED_AND_END_PROCESS });
+                            setShowConfirmSeedphraseModal(false);
+                        }}
+                        onNext={() => {
                             try {
                                 setFinishingSetupForCurrentAccount(true);
-                                // checkIfValidSecretKeyEntered()
-                                await handleConfirmPassphrase(seedphrase);
+                                localDispatch({ type: ACTIONS.SET_CURRENT_DONE });
                                 setShowConfirmSeedphraseModal(false);
+                                dispatch(switchAccount({accountId: initialAccountId.current}));
                             } finally {
                                 setFinishingSetupForCurrentAccount(false);
                             }
                         }}
-                        onClickCancel = {async () => {
-                            localDispatch({ type: ACTIONS.SET_CURRENT_FAILED_AND_END_PROCESS });
-                            setShowConfirmSeedphraseModal(false);
+                        verifySeedPhrase={async (seedPhrase) => {
+                            const { publicKey: seedPhrasePublicKey } = parseSeedPhrase(seedPhrase);
+                            if (keysToRemove[seedPhrasePublicKey]) {
+                                // don't permit signing with a key that would be removed
+                                return false;
+                            }
+
+                            return (await wallet.getAccessKeys(currentAccount.accountId))
+                                .some(({ access_key, public_key }) =>
+                                    access_key.permission === 'FullAccess' && public_key === seedPhrasePublicKey
+                                );
                         }}
                     />
                 )}
 
                 {showConfirmCleanupModal && (
-                    <>
-                        <h3 className='title'>
-                            <Translate id='walletMigration.cleanKeys.accountTitle' />
-                        </h3>
-                        <AccessKeyList
-                            account={currentAccount}
-                            selectKey={(publicKey) => setKeysForRemoval({
-                                ...keysForRemoval,
-                                [publicKey]: !keysForRemoval[publicKey],
-                            })}
-                            selectedKeys={keysForRemoval}
-                        />
-                        <ButtonsContainer vertical>
-                            <StyledButton
-                                onClick={() => {
-                                    setShowConfirmCleanupModal(false);
-                                    setShowConfirmSeedphraseModal(true);
-                                }}
-                                fullWidth
-                                disabled={!batchCleanKeysNotStarted && !currentFailedAccount}
-                                data-test-id="cleanupKeys.continue"
-                            >
-                                <Translate id='walletMigration.cleanKeys.removeKeys' />
-                            </StyledButton>
-                            <StyledButton
-                                className='gray-blue'
-                                onClick={() => setShowConfirmCleanupModal(false)}
-                                fullWidth
-                            >
-                                <Translate id='button.cancel' />
-                            </StyledButton>
-                        </ButtonsContainer>
-                    </>
+                    <AccessKeyList
+                        account={currentAccount}
+                        onClose={() => setShowConfirmCleanupModal(false)}
+                        onNext={() => {
+                            setShowConfirmCleanupModal(false);
+                            setShowConfirmSeedphraseModal(true);
+                        }}
+                        selectKey={(publicKey) => setKeysToRemove({
+                            ...keysToRemove,
+                            [publicKey]: !keysToRemove[publicKey],
+                        })}
+                        selectedKeys={keysToRemove}
+                    />
                 )}
 
                 {!showConfirmSeedphraseModal && loadingAccounts && (
@@ -279,62 +210,23 @@ const CleanKeysModal = ({ accounts, handleSetActiveView, onNext, onClose, rotate
                 )}
 
                 {!showConfirmSeedphraseModal && !loadingAccounts && !showConfirmCleanupModal && (
-                    <CleanupKeysContainer>
-                        <h3 className='title'>
-                            <Translate id='walletMigration.cleanKeys.title' />
-                        </h3>
-                        <p><Translate id='walletMigration.cleanKeys.desc'/></p>
-                        <div className='cleanup-info keep'>
-                            <p className='cleanup-info-header'>
-                                <Translate id='walletMigration.cleanKeys.keep' />
-                            </p>
-                            <Translate id='walletMigration.cleanKeys.keepDesc' />
-                        </div>
-                        <div className='cleanup-info remove'>
-                            <p className='cleanup-info-header'>
-                                <Translate id='walletMigration.cleanKeys.remove' />
-                            </p>
-                            <Translate id='walletMigration.cleanKeys.removeDesc' />
-                        </div>
-                        <p className='next-steps'>
-                            <Translate id='walletMigration.cleanKeys.nextSteps' />
-                        </p>
-                        <div className="accountsTitle">
-                            <Translate id='importAccountWithLink.accountsFound' data={{ count: state.accounts.length }} />
-                        </div>
-                        <AccountListImport accounts={state.accounts} />
-                        <ButtonsContainer vertical>
-                            {currentFailedAccount && (
-                                <StyledButton
-                                    onClick={() => localDispatch({ type: ACTIONS.RESTART_PROCESS_INCLUDING_LAST_FAILED_ACCOUNT })}
-                                    data-test-id="cleanKeys.cancel"
-                                >
-                                    <Translate id={'button.retry'} />
-                                </StyledButton>
-                            )}
-                            <StyledButton
-                                onClick={() => {
-                                    if (state.accounts[state.accounts.length - 1].status === IMPORT_STATUS.FAILED) {
-                                        handleSetActiveView(WALLET_MIGRATION_VIEWS.MIGRATE_ACCOUNTS);
-                                    } else {
-                                        localDispatch({
-                                            type: currentFailedAccount ? ACTIONS.RESTART_PROCESS_FROM_LAST_FAILED_ACCOUNT : ACTIONS.BEGIN_IMPORT
-                                        });
-                                    }
-                                }}
-                                fullWidth
-                                disabled={!batchCleanKeysNotStarted && !currentFailedAccount}
-                                data-test-id="rotateKeys.continue"
-                            >
-                                <Translate id='button.continue' />
-                            </StyledButton>
-                            <StyledButton className='gray-blue' onClick={onClose} fullWidth>
-                                <Translate id='button.cancel' />
-                            </StyledButton>
-                        </ButtonsContainer>
-                    </CleanupKeysContainer>
+                    <AccountKeyCleanup
+                        accounts={state.accounts}
+                        batchStarted={!batchCleanKeysNotStarted}
+                        offerRetry={currentFailedAccount}
+                        onClose={onClose}
+                        onNext={() => {
+                            if (state.accounts[state.accounts.length - 1].status === IMPORT_STATUS.FAILED) {
+                                handleSetActiveView(WALLET_MIGRATION_VIEWS.MIGRATE_ACCOUNTS);
+                            } else {
+                                localDispatch({
+                                    type: currentFailedAccount ? ACTIONS.RESTART_PROCESS_FROM_LAST_FAILED_ACCOUNT : ACTIONS.BEGIN_IMPORT
+                                });
+                            }
+                        }}
+                        onRetry={() => localDispatch({ type: ACTIONS.RESTART_PROCESS_INCLUDING_LAST_FAILED_ACCOUNT })}
+                    />
                 )}
-
             </Container>
         </MigrationModal>
     );

@@ -6,6 +6,7 @@ import classNames from '../../../../utils/classNames';
 import Accordion from '../../../common/Accordion';
 import Checkbox from '../../../common/Checkbox';
 import ChevronIcon from '../../../svg/ChevronIcon';
+import { ButtonsContainer, StyledButton } from '../../CommonComponents';
 
 const AccessKeyListContainer = styled.div`
     display: flex;
@@ -60,10 +61,13 @@ const AccessKeyListContainer = styled.div`
     }
 `;
 
-const AccessKeyList = ({ account, selectKey, selectedKeys }) => {
+const AccessKeyList = ({ account, onClose, onNext, selectKey, selectedKeys }) => {
     const [expanded, setExpanded] = useState(true);
     return (
         <AccessKeyListContainer>
+            <h3 className='title'>
+                <Translate id='walletMigration.cleanKeys.accountTitle' />
+            </h3>
             <div
                 className={classNames(['account', expanded ? 'open' : ''])}
                 id='full-access-keys'
@@ -99,6 +103,23 @@ const AccessKeyList = ({ account, selectKey, selectedKeys }) => {
                     </div>
                 ))}
             </Accordion>
+            <ButtonsContainer vertical>
+                <StyledButton
+                    onClick={onNext}
+                    fullWidth
+                    disabled={!Object.values(selectedKeys).some((remove) => remove)}
+                    data-test-id="cleanupKeys.continue"
+                >
+                    <Translate id='walletMigration.cleanKeys.removeKeys' />
+                </StyledButton>
+                <StyledButton
+                    className='gray-blue'
+                    onClick={onClose}
+                    fullWidth
+                >
+                    <Translate id='button.cancel' />
+                </StyledButton>
+            </ButtonsContainer>
         </AccessKeyListContainer>
     );
 };
