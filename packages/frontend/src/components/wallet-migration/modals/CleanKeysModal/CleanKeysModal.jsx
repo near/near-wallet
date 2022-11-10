@@ -165,7 +165,7 @@ const CleanKeysModal = ({ accounts, handleSetActiveView, onNext, onClose, rotate
 
     useEffect(() => {
         if (completedWithSuccess) {
-            handleSetActiveView(WALLET_MIGRATION_VIEWS.MIGRATE_ACCOUNTS);
+            onNext();
         }
     }, [completedWithSuccess]);
 
