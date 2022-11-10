@@ -1,5 +1,4 @@
 import { createAsyncThunk, createAction } from '@reduxjs/toolkit';
-import { KeyPair } from 'near-api-js';
 import { createSelector } from 'reselect';
 
 import { wallet } from '../../../utils/wallet';
