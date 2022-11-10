@@ -218,11 +218,6 @@ const AccountListImport = ({ accounts = [], animationScope = 0, onClickAccount }
                         {account.accessKeys.length} {account.accessKeys.length === 1 ? 'key' : 'keys'}
                     </div>
                 ) : null}
-                {account.accessKeys && !account.accessKeys.length ? (
-                    <div className='access-keys'>
-                        <StatusIcon status={'success'} />
-                    </div>
-                ) : null}
             </div>
         ))}
     </AnimateList>

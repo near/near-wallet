@@ -123,7 +123,7 @@ const CleanKeysModal = ({ accounts, handleSetActiveView, onNext, onClose, rotate
                     (acc, account) => {
                         const { keyType, accountBalance: { balanceAvailable } } = account;
                         if (keyType === WalletClass.KEY_TYPES.FAK && balanceAvailable >= MINIMUM_ACCOUNT_BALANCE) {
-                            acc.push({ ...account, status: null });
+                            acc.push({ ...account, status: account.accessKeys.length ? null : IMPORT_STATUS.SUCCESS });
                         }
 
                         return acc;
