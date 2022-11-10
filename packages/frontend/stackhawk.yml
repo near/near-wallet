@@ -1,0 +1,8 @@
+# -- stackhawk configuration for near-wallet --
+app:
+  # -- An applicationId obtained from the StackHawk platform. --
+  applicationId: d38e20dc-297e-45a9-9da5-681ac2a6bb61 # (required)
+  # -- The environment for the applicationId defined in the StackHawk platform. --
+  env: Production # (required)
+  # -- The url of your application to scan --
+  host: https://localhost:1234 # (required)
