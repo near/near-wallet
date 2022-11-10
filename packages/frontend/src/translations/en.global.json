@@ -1886,18 +1886,26 @@
     },
     "walletMigration": {
         "cleanKeys": {
+            "accountTitle": "Clean up your keys",
             "desc": "For your security, we highly recommend you remove most of your existing access keys.",
+            "fullAccessKeys": "Full Access Keys",
             "keep": "Keep",
             "keepDesc": "The full access key created when you rotated your keys, ledger access keys, limited access keys",
             "keyTypes": {
                 "email": "Email",
                 "sms": "SMS",
+                "phrase": "Recovery Phrase",
                 "unknown": "Unknown"
             },
             "nextSteps": "You can manually select which keys to remove in the next step",
             "remove": "Remove",
             "removeDesc": "Full access keys from email and SMS recovery methods, previously-generated passphrases, keys generated in the Near CLI",
-            "title": "Clean up full access keys"
+            "removeKeys": "Remove Keys",
+            "title": "Clean up full access keys",
+            "verifyPassphrase":  {
+                "title": "Remove your Full Access Keys?",
+                "desc": "Enter your secure passphrase to remove your full access keys from the account: <b>${accountId}</b>"
+            }
         },
         "disable2fa": {
             "desc": "2FA must be disabled before you can transfer an account to a new wallet.",

@@ -16,6 +16,7 @@ import sequentialAccountImportReducer, { ACTIONS } from '../../../accounts/batch
 import LoadingDots from '../../../common/loader/LoadingDots';
 import { ButtonsContainer, StyledButton, MigrationModal, Container, IconBackground } from '../../CommonComponents';
 import { WALLET_MIGRATION_VIEWS } from '../../WalletMigration';
+import AccessKeyList from './AccessKeyList';
 import EnterSecretKey from './EnterSecretKey';
 
 const { KeyPair } = nearApi;
@@ -98,9 +99,11 @@ const CleanKeysModal = ({ accounts, handleSetActiveView, onNext, onClose, rotate
     });
 
     const [loadingAccounts, setLoadingAccounts] = useState(true);
+    const [keysForRemoval, setKeysForRemoval] = useState({});
     const dispatch = useDispatch();
     const initialAccountIdOnStart = useSelector(selectAccountId);
     const initialAccountId = useRef(initialAccountIdOnStart);
+    const [showConfirmCleanupModal, setShowConfirmCleanupModal] = useState(false);
     const [showConfirmSeedphraseModal, setShowConfirmSeedphraseModal] = useState(false);
     const [/*finishingSetupForCurrentAccount*/, setFinishingSetupForCurrentAccount] = useState(false);
 
@@ -190,15 +193,19 @@ const CleanKeysModal = ({ accounts, handleSetActiveView, onNext, onClose, rotate
     };
 
     const removeKeysForCurrentAccount = async () => {
-        dispatch(switchAccount({accountId: currentAccount.accountId}));
+        dispatch(switchAccount({ accountId: currentAccount.accountId }));
         // generateAndSetPhrase();
         await new Promise((r) => setTimeout(r, 1500));
-        setShowConfirmSeedphraseModal(true);
+        setShowConfirmCleanupModal(true);
     };
 
     useEffect(() => {
         if (currentAccount) {
-            setShowConfirmSeedphraseModal(false);
+            setShowConfirmCleanupModal(false);
+            setKeysForRemoval(currentAccount.accessKeys.reduce((keys, { publicKey }) => {
+                keys[publicKey] = true;
+                return keys;
+            }, {}));
 
             removeKeysForCurrentAccount();
         }
@@ -207,30 +214,9 @@ const CleanKeysModal = ({ accounts, handleSetActiveView, onNext, onClose, rotate
     return (
         <MigrationModal>
             <Container>
-                <CleanupKeysContainer>
-                    <IconBackground>
-                        <IconLogout />
-                    </IconBackground>
-                    <h3 className='title'>
-                        <Translate id='walletMigration.cleanKeys.title' />
-                    </h3>
-                    <p><Translate id='walletMigration.cleanKeys.desc'/></p>
-                    <div className='cleanup-info keep'>
-                        <p className='cleanup-info-header'>
-                            <Translate id='walletMigration.cleanKeys.keep' />
-                        </p>
-                        <Translate id='walletMigration.cleanKeys.keepDesc' />
-                    </div>
-                    <div className='cleanup-info remove'>
-                        <p className='cleanup-info-header'>
-                            <Translate id='walletMigration.cleanKeys.remove' />
-                        </p>
-                        <Translate id='walletMigration.cleanKeys.removeDesc' />
-                    </div>
-                    <p className='next-steps'>
-                        <Translate id='walletMigration.cleanKeys.nextSteps' />
-                    </p>
-                </CleanupKeysContainer>
+                <IconBackground>
+                    <IconLogout />
+                </IconBackground>
 
                 {showConfirmSeedphraseModal && (
                     <EnterSecretKey
@@ -251,12 +237,67 @@ const CleanKeysModal = ({ accounts, handleSetActiveView, onNext, onClose, rotate
                     />
                 )}
 
+                {showConfirmCleanupModal && (
+                    <>
+                        <h3 className='title'>
+                            <Translate id='walletMigration.cleanKeys.accountTitle' />
+                        </h3>
+                        <AccessKeyList
+                            account={currentAccount}
+                            selectKey={(publicKey) => setKeysForRemoval({
+                                ...keysForRemoval,
+                                [publicKey]: !keysForRemoval[publicKey],
+                            })}
+                            selectedKeys={keysForRemoval}
+                        />
+                        <ButtonsContainer vertical>
+                            <StyledButton
+                                onClick={() => {
+                                    setShowConfirmCleanupModal(false);
+                                    setShowConfirmSeedphraseModal(true);
+                                }}
+                                fullWidth
+                                disabled={!batchCleanKeysNotStarted && !currentFailedAccount}
+                                data-test-id="cleanupKeys.continue"
+                            >
+                                <Translate id='walletMigration.cleanKeys.removeKeys' />
+                            </StyledButton>
+                            <StyledButton
+                                className='gray-blue'
+                                onClick={() => setShowConfirmCleanupModal(false)}
+                                fullWidth
+                            >
+                                <Translate id='button.cancel' />
+                            </StyledButton>
+                        </ButtonsContainer>
+                    </>
+                )}
+
                 {!showConfirmSeedphraseModal && loadingAccounts && (
                     <LoadingDots />
                 )}
 
-                {!showConfirmSeedphraseModal && !loadingAccounts && (
-                    <>
+                {!showConfirmSeedphraseModal && !loadingAccounts && !showConfirmCleanupModal && (
+                    <CleanupKeysContainer>
+                        <h3 className='title'>
+                            <Translate id='walletMigration.cleanKeys.title' />
+                        </h3>
+                        <p><Translate id='walletMigration.cleanKeys.desc'/></p>
+                        <div className='cleanup-info keep'>
+                            <p className='cleanup-info-header'>
+                                <Translate id='walletMigration.cleanKeys.keep' />
+                            </p>
+                            <Translate id='walletMigration.cleanKeys.keepDesc' />
+                        </div>
+                        <div className='cleanup-info remove'>
+                            <p className='cleanup-info-header'>
+                                <Translate id='walletMigration.cleanKeys.remove' />
+                            </p>
+                            <Translate id='walletMigration.cleanKeys.removeDesc' />
+                        </div>
+                        <p className='next-steps'>
+                            <Translate id='walletMigration.cleanKeys.nextSteps' />
+                        </p>
                         <div className="accountsTitle">
                             <Translate id='importAccountWithLink.accountsFound' data={{ count: state.accounts.length }} />
                         </div>
@@ -290,7 +331,7 @@ const CleanKeysModal = ({ accounts, handleSetActiveView, onNext, onClose, rotate
                                 <Translate id='button.cancel' />
                             </StyledButton>
                         </ButtonsContainer>
-                    </>
+                    </CleanupKeysContainer>
                 )}
 
             </Container>
