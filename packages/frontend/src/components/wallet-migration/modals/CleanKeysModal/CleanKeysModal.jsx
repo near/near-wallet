@@ -1,5 +1,4 @@
 import * as nearApi from 'near-api-js';
-import { parseSeedPhrase } from 'near-seed-phrase';
 import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useImmerReducer } from 'use-immer';
@@ -67,10 +66,13 @@ const CleanKeysModal = ({ accounts, handleSetActiveView, onNext, onClose, rotate
     const [showConfirmSeedphraseModal, setShowConfirmSeedphraseModal] = useState(false);
     const [/*finishingSetupForCurrentAccount*/, setFinishingSetupForCurrentAccount] = useState(false);
 
-    useEffect(() => {
-        const rotatedPublicKeys = Object.values(rotatedKeys)
-            .map((key) => KeyPair.fromString(`ed25519:${key}`).publicKey.toString());
+    const rotatedPublicKeys = useMemo(
+        () => Object.values(rotatedKeys)
+            .map((key) => KeyPair.fromString(`ed25519:${key}`).publicKey.toString()),
+        [rotatedKeys]
+    );
 
+    useEffect(() => {
         const importAccounts = async () => {
             const accountDetails = await Promise.all(
                 accounts.map((accountId) => getAccountDetails({
@@ -160,6 +162,7 @@ const CleanKeysModal = ({ accounts, handleSetActiveView, onNext, onClose, rotate
                 {showConfirmSeedphraseModal && (
                     <ConfirmKeyDeletion
                         accountId={currentAccount.accountId}
+                        fakPublicKeys={currentAccount.accessKeys}
                         onClose = {async () => {
                             localDispatch({ type: ACTIONS.SET_CURRENT_FAILED_AND_END_PROCESS });
                             setShowConfirmSeedphraseModal(false);
@@ -174,18 +177,8 @@ const CleanKeysModal = ({ accounts, handleSetActiveView, onNext, onClose, rotate
                                 setFinishingSetupForCurrentAccount(false);
                             }
                         }}
-                        verifySeedPhrase={async (seedPhrase) => {
-                            const { publicKey: seedPhrasePublicKey } = parseSeedPhrase(seedPhrase);
-                            if (keysToRemove[seedPhrasePublicKey]) {
-                                // don't permit signing with a key that would be removed
-                                return false;
-                            }
-
-                            return (await wallet.getAccessKeys(currentAccount.accountId))
-                                .some(({ access_key, public_key }) =>
-                                    access_key.permission === 'FullAccess' && public_key === seedPhrasePublicKey
-                                );
-                        }}
+                        publicKeysToDelete={Object.keys(keysToRemove)}
+                        rotatedPublicKeys={rotatedPublicKeys}
                     />
                 )}
 

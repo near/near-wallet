@@ -1903,8 +1903,13 @@
             "removeKeys": "Remove Keys",
             "title": "Clean up full access keys",
             "verifyPassphrase":  {
-                "title": "Remove your Full Access Keys?",
-                "desc": "Enter your secure passphrase to remove your full access keys from the account: <b>${accountId}</b>"
+                "desc": "Enter your secure passphrase to remove your full access keys from the account: <b>${accountId}</b>",
+                "keyMessages": {
+                    "doesNotExist": "The input seedphrase does not correspond to any full access keys on ${accountId}.",
+                    "insecureRecoveryMethod": "The input seedphrase is associated with an insecure recovery method and may not be used to migrate accounts.",
+                    "toBeDeleted": "The input seedphrase corresponds to a key to be deleted and may not be used to migrate accounts."
+                },
+                "title": "Remove your Full Access Keys?"
             }
         },
         "disable2fa": {

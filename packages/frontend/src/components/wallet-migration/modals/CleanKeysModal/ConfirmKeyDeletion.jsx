@@ -1,4 +1,5 @@
-import React from 'react';
+import { parseSeedPhrase } from 'near-seed-phrase';
+import React, { useEffect, useState } from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
@@ -31,7 +32,82 @@ const ConfirmKeyDeletionContainer = styled.div`
     }
 `;
 
-const ConfirmKeyDeletion = ({ accountId, onClose, onNext, verifySeedPhrase }) => {
+const KEY_STATUS = {
+    DOES_NOT_EXIST: 'DOES_NOT_EXIST',
+    INSECURE_RECOVERY_METHOD: 'INSECURE_RECOVERY_METHOD',
+    EMPTY: 'EMPTY',
+    PREEXISTING: 'PREEXISTING',
+    ROTATED: 'ROTATED',
+    TO_BE_DELETED: 'TO_BE_DELETED',
+};
+
+const getKeyStatus = ({
+    fakPublicKeys,
+    publicKeysToDelete,
+    rotatedPublicKeys,
+    seedPhrase,
+}) => {
+    if (!seedPhrase || !seedPhrase.trim()) {
+        return KEY_STATUS.EMPTY;
+    }
+
+    const { publicKey } = parseSeedPhrase(seedPhrase);
+
+    if (rotatedPublicKeys.includes(publicKey)) {
+        // key was recently added as part of rotation
+        return KEY_STATUS.ROTATED;
+    }
+
+    const accessKey = fakPublicKeys.find((fak) => fak.publicKey === publicKey);
+    if (!accessKey) {
+        // key does not exist on chain for this account
+        // NB fakPublicKeys does not contain rotated (or ledger) keys
+        return KEY_STATUS.DOES_NOT_EXIST;
+    }
+
+    if (accessKey.kind === 'sms' || accessKey.kind === 'email') {
+        // seedphrase for this key has been transmitted in plaintext
+        return KEY_STATUS.INSECURE_RECOVERY_METHOD;
+    }
+
+    if (publicKeysToDelete.includes(publicKey)) {
+        // key would be used to sign a transaction deleting itself
+        // this is valid but is not ideal as it does not verify the user possesses a FAK seedphrase
+        return KEY_STATUS.TO_BE_DELETED;
+    }
+
+    // key existed on account prior to migration
+    return KEY_STATUS.PREEXISTING;
+};
+
+const ConfirmKeyDeletion = ({
+    accountId,
+    fakPublicKeys,
+    onClose,
+    onNext,
+    publicKeysToDelete,
+    rotatedPublicKeys,
+}) => {
+    const [keyStatus, setKeyStatus] = useState(KEY_STATUS.EMPTY);
+    const [isDisabled, setIsDisabled] = useState(true);
+    const [keyMessage, setKeyMessage] = useState(null);
+
+    useEffect(() => {
+        setIsDisabled([
+            KEY_STATUS.DOES_NOT_EXIST,
+            KEY_STATUS.EMPTY,
+            KEY_STATUS.INSECURE_RECOVERY_METHOD,
+            KEY_STATUS.TO_BE_DELETED,
+        ].includes(keyStatus));
+
+        setKeyMessage({
+            [KEY_STATUS.DOES_NOT_EXIST]: 'doesNotExist',
+            [KEY_STATUS.INSECURE_RECOVERY_METHOD]: 'insecureRecoveryMethod',
+            [KEY_STATUS.TO_BE_DELETED]: 'toBeDeleted',
+        }[keyStatus] || null);
+    }, [keyStatus]);
+
+    console.log({ keyStatus });
     return  (
         <ConfirmKeyDeletionContainer>
             <h4 className='title'>
@@ -40,11 +116,29 @@ const ConfirmKeyDeletion = ({ accountId, onClose, onNext, verifySeedPhrase }) =>
             <p>
                 <Translate id='walletMigration.cleanKeys.verifyPassphrase.desc' data={{ accountId }} />
             </p>
+            {keyMessage && (
+                <p className='key-error'>
+                    <Translate
+                        id={`walletMigration.cleanKeys.verifyPassphrase.keyMessages.${keyMessage}`}
+                        data={{ accountId }}
+                    />
+                </p>
+            )}
+            <textarea
+                onChange={({ target: { value: seedPhrase } }) => setKeyStatus(
+                    getKeyStatus({
+                        fakPublicKeys,
+                        publicKeysToDelete,
+                        rotatedPublicKeys,
+                        seedPhrase,
+                    })
+                )}
+            />
             <ButtonsContainer vertical>
                 <StyledButton
                     onClick={onNext}
                     fullWidth
-                    disabled={false}
+                    disabled={isDisabled}
                     data-test-id="cleanupKeys.continue"
                 >
                     <Translate id='walletMigration.cleanKeys.removeKeys' />
