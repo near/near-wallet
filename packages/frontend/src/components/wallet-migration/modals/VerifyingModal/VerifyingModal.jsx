@@ -31,6 +31,7 @@ const DisclaimerLabel = styled.span`
 const VerifyingModal = ({
     onClose,
     onNext,
+    onStartOver,
 }) => {
     const [accessToMyAccount, setAccessToMyAccount] = useState(false);
 
@@ -55,13 +56,17 @@ const VerifyingModal = ({
                         <Translate id='walletMigration.verifying.disclaimer' />
                     </DisclaimerLabel>
                 </DisclaimerContainer>
-                <ButtonsContainer>
-                    <StyledButton className='gray-blue' onClick={onClose}>
+                <ButtonsContainer vertical>
+                    <StyledButton className='gray-blue' onClick={onClose} fullWidth>
                         <Translate id='button.cancel' />
+                    </StyledButton>
+                    <StyledButton className='white-blue' onClick={onStartOver} fullWidth>
+                        <Translate id='button.startOver' />
                     </StyledButton>
                     <StyledButton
                         onClick={onNext}
                         disabled={!accessToMyAccount}
+                        fullWidth
                     >
                         <Translate id='button.continue' />
                     </StyledButton>

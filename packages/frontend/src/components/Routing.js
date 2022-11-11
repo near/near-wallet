@@ -10,7 +10,7 @@ import { connect } from 'react-redux';
 import { Redirect, Switch } from 'react-router-dom';
 import styled, { ThemeProvider } from 'styled-components';
 
-import { SHOW_MIGRATION_BANNER, WEB3AUTH } from '../../../../features';
+import { SHOW_MIGRATION_BANNER, WEB3AUTH, WEP_PHASE_ONE } from '../../../../features';
 import favicon from '../../src/images/mynearwallet-cropped.svg';
 import TwoFactorVerifyModal from '../components/accounts/two_factor/TwoFactorVerifyModal';
 import {
@@ -373,7 +373,7 @@ class Routing extends Component {
                         }
                         {
                             
-                            SHOW_MIGRATION_BANNER && (
+                            WEP_PHASE_ONE && (
                                 <Switch>
                                     <Route
                                         path={['/', '/staking', '/profile']} render={() => (
@@ -386,10 +386,15 @@ class Routing extends Component {
                                 </Switch>
                             )
                         }
-                        <WalletMigration
-                            open={this.state.openTransferPopup}
-                            history={this.props.history}
-                            onClose={this.closeTransferPopup} />
+                        {
+                            WEP_PHASE_ONE && (
+                                <WalletMigration
+                                    open={this.state.openTransferPopup}
+                                    history={this.props.history}
+                                    onClose={this.closeTransferPopup}
+                                />
+                            )
+                        }
                         <LedgerConfirmActionModal />
                         <LedgerConnectModal />
                         {account.requestPending !== null && (

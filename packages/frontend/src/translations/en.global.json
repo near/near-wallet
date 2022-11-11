@@ -1902,7 +1902,10 @@
         "selectWallet": {
             "descOne": "You’ll be automatically redirected in <b>10 seconds.</b> Once redirected, you’ll need to approve each account as it is added to your new wallet.",
             "descTwo": "These wallets support automatically transferring accounts. <br /><br /> You can manually import an existing account to any wallet using your 12-word recovery phrase.",
-            "title": "Select a wallet to transfer accounts"
+            "ledgerDisclaimer": "Transfer to this wallet will exclude any ledger account(s) due to incompetibility.",
+            "title": "Select a wallet to transfer accounts",
+            "ledgerSupported": "Ledger supported wallet(s)",
+            "ledgerUnsupported": "Ledger unsupported wallet(s)"
         },
         "redirect": {
             "title": "Redirecting to ${wallet}",
@@ -1920,7 +1923,7 @@
         "logout": {
             "title": "One last step",
             "desc": "As the last step, we are going clear out the keys stored on this browser for your security. You will be logged out of wallet.near.org and your keys will be removed. <br><br>Make sure you have access to your account in another wallet.",
-            "button": "Log Out of My Account(s)",
+            "button": "Log Out of My Account(s)"
         }
     },
     "warning": "Warning",
