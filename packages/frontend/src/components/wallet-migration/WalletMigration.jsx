@@ -3,14 +3,14 @@ import { useSelector } from 'react-redux';
 
 import { ACCOUNT_ID_SUFFIX } from '../../config';
 import { selectAvailableAccounts } from '../../redux/slices/availableAccounts';
-import { encodeAccountsToHash, generatePublicKey, generateSalt, keyToString } from '../../utils/encoding';
+import { encodeAccountsToHash, encrypt, generateKey, generatePublicKey, generateCode, keyToString } from '../../utils/encoding';
 import { getLedgerHDPath } from '../../utils/localStorage';
 import { wallet } from '../../utils/wallet';
 import Disable2FAModal from './Disable2FA';
 import MigrateAccounts from './MigrateAccounts';
 import MigrationSecret from './MigrationSecret';
 import SelectDestinationWallet from './SelectDestinationWallet';
-import SenderMigrationTypeSelect from './Sender/MigrationTypeSelect';
+import SenderMigrationTypeSelect, { SENDER_MIGRATION_TYPES } from './Sender/MigrationTypeSelect';
 import SenderMigrationWithQrCode from './Sender/MigrationWithQrCode';
 
 export const WALLET_MIGRATION_VIEWS = {
@@ -54,13 +54,17 @@ const encodeAccountsToURL = async (accounts, publicKey, { getUrl }) => {
 
 const WalletMigration = ({ open, onClose }) => {
     const [state, setState] = React.useState(initialState);
-    const [pinCode, setPinCode] = React.useState('');
+    const [migrationType, setMigrationType] = React.useState(SENDER_MIGRATION_TYPES.MIGRATE_TO_EXTENSION);
+    const [accounts, setAccounts] = React.useState([]);
     const availableAccounts = useSelector(selectAvailableAccounts);
 
-    useEffect(() => {
-        const salt = generateSalt();
-        setPinCode(salt);
-    }, []);
+    const pinCode = useMemo(() => {
+        if (migrationType === SENDER_MIGRATION_TYPES.MIGRATE_TO_EXTENSION) {
+            return generateCode();
+        } else {
+            return generateCode();
+        }
+    }, [migrationType]);
 
     const handleStateUpdate = (newState) => {
         setState({...state, ...newState});
@@ -82,10 +86,23 @@ const WalletMigration = ({ open, onClose }) => {
         handleSetActiveView(WALLET_MIGRATION_VIEWS.MIGRATE_ACCOUNTS);
     }, [handleSetActiveView]);
 
+    const migrateToSenderExtension = useCallback(async () => {
+        const accountsData = await getAccountsData(accounts);
+        const key = await generateKey(pinCode);
+        const hash = await encrypt(accountsData, key);
+        if (window && window.near) {
+            window.near.batchImport({ keystore: hash, network: ACCOUNT_ID_SUFFIX === 'near' ? 'mainnet' : 'testnet' });
+        }
+    }, [pinCode, accounts]);
+
     const onContinue = useCallback(async () => {
         switch (state.wallet?.id) {
             case 'sender': {
-                handleSetActiveView(WALLET_MIGRATION_VIEWS.SENDER_MIGRATION_TYPE_SELECT);
+                if (migrationType === SENDER_MIGRATION_TYPES.MIGRATE_WITH_QR_CODE) {
+                    handleSetActiveView(WALLET_MIGRATION_VIEWS.SENDER_MIGRATION_WITH_QR_CODE);
+                } else {
+                    migrateToSenderExtension();
+                }
                 break;
             }
 
@@ -100,7 +117,34 @@ const WalletMigration = ({ open, onClose }) => {
                 break;
             }
         }
-    }, [state.migrationKey, availableAccounts, state.wallet]);
+    }, [state.migrationKey, availableAccounts, state.wallet, migrationType, migrateToSenderExtension]);
+
+    useEffect(() => {
+        const filterAccounts = async () => {
+            let result = [];
+            const accountsData = await getAccountsData(availableAccounts);
+            switch (state.wallet?.id) {
+                // Ledger no need to migrate to sender, sender can connect ledger directly
+                case 'sender': {
+                    (accountsData || []).forEach((item) => {
+                        if (!item[2]) {
+                            result.push(item[0]);
+                        }
+                    });
+                    break;
+                }
+    
+                default: {
+                    result = availableAccounts;
+                    break;
+                }
+            }
+
+            setAccounts(result);
+        };
+
+        filterAccounts();
+    }, [availableAccounts, state.wallet?.id]);
 
     const secretKey = useMemo(() => {
         let result;
@@ -154,7 +198,7 @@ const WalletMigration = ({ open, onClose }) => {
             {
                 state.activeView === WALLET_MIGRATION_VIEWS.MIGRATE_ACCOUNTS && (
                     <MigrateAccounts
-                        accounts={availableAccounts}
+                        accounts={accounts}
                         onContinue={onContinue}
                         onClose={onClose}
                     />
@@ -162,8 +206,7 @@ const WalletMigration = ({ open, onClose }) => {
             {
                 state.activeView === WALLET_MIGRATION_VIEWS.SENDER_MIGRATION_TYPE_SELECT && (
                     <SenderMigrationTypeSelect
-                        pinCode={pinCode}
-                        accounts={availableAccounts}
+                        handleMigrationType={setMigrationType}
                         handleSetActiveView={handleSetActiveView}
                         onClose={onClose}
                     />
@@ -174,8 +217,9 @@ const WalletMigration = ({ open, onClose }) => {
                 state.activeView === WALLET_MIGRATION_VIEWS.SENDER_MIGRATION_WITH_QR_CODE && (
                     <SenderMigrationWithQrCode
                         pinCode={pinCode}
-                        accounts={availableAccounts}
+                        accounts={accounts}
                         onClose={onClose}
+                        handleSetActiveView={handleSetActiveView}
                     />
                 )
             }

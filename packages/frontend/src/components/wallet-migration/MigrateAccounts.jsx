@@ -99,7 +99,7 @@ const MigrateAccounts = ({ accounts, onContinue, onClose }) => {
                     <StyledButton className='gray-blue' onClick={onClose}>
                         <Translate id='button.cancel' />
                     </StyledButton>
-                    <StyledButton onClick={onContinue}>
+                    <StyledButton onClick={onContinue} disabled={!accounts.length}>
                         <Translate id='button.continue' />
                     </StyledButton>
                 </ButtonsContainer>

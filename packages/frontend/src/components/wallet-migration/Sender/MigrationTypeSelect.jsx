@@ -2,13 +2,11 @@ import React, { useCallback, useState } from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
-import { ACCOUNT_ID_SUFFIX } from '../../../config';
 import IconWallet from '../../../images/wallet-migration/IconWallet';
 import classNames from '../../../utils/classNames';
-import { encrypt, generateKey } from '../../../utils/encoding';
 import FormButton from '../../common/FormButton';
 import Modal from '../../common/modal/Modal';
-import { getAccountsData, WALLET_MIGRATION_VIEWS } from '../WalletMigration';
+import { WALLET_MIGRATION_VIEWS } from '../WalletMigration';
 
 
 const Container = styled.div`
@@ -120,7 +118,7 @@ const StyledButton = styled(FormButton)`
     }
 `;
 
-const SENDER_MIGRATION_TYPES = {
+export const SENDER_MIGRATION_TYPES = {
     MIGRATE_TO_EXTENSION: 'MIGRATE_TO_EXTENSION',
     MIGRATE_WITH_QR_CODE: 'MIGRATE_WITH_QR_CODE',
 };
@@ -136,20 +134,12 @@ const SENDER_MIGRATION_TYPES_LIST = [
     }
 ];
 
-const MigrationTypeSelect = ({ handleSetActiveView, accounts, onClose, pinCode }) => {
+const MigrationTypeSelect = ({ handleSetActiveView, handleMigrationType, onClose }) => {
     const [migrationType, setMigrationType] = useState(SENDER_MIGRATION_TYPES.MIGRATE_TO_EXTENSION);
 
-    const onContinue = useCallback(async () => {
-        if (migrationType === SENDER_MIGRATION_TYPES.MIGRATE_WITH_QR_CODE) {
-            handleSetActiveView(WALLET_MIGRATION_VIEWS.SENDER_MIGRATION_WITH_QR_CODE);
-        } else {
-            const accountsData = await getAccountsData(accounts);
-            const key = await generateKey(pinCode);
-            const hash = await encrypt(accountsData, key);
-            if (window && window.near) {
-                window.near.batchImport({ keystore: hash, network: ACCOUNT_ID_SUFFIX === 'near' ? 'mainnet' : 'testnet' });
-            }
-        }
+    const onContinue = useCallback(() => {
+        handleSetActiveView(WALLET_MIGRATION_VIEWS.MIGRATION_SECRET);
+        handleMigrationType(migrationType);
     }, [migrationType]);
 
     return (

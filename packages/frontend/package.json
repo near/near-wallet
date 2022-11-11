@@ -63,7 +63,6 @@
     "reselect": "^4.0.0",
     "styled-components": "^5.3.0",
     "timeago.js": "^4.0.2",
-    "tweetnacl-util": "^0.15.1",
     "use-immer": "^0.7.0"
   },
   "scripts": {

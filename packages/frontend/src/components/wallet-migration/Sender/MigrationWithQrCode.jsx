@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
-import { encryptAccountsData, generateSalt } from '../../../utils/encoding';
+import { encryptAccountsData, generateCode } from '../../../utils/encoding';
 import FormButton from '../../common/FormButton';
 import Modal from '../../common/modal/Modal';
 import { getAccountsData } from '../WalletMigration';
@@ -57,7 +57,7 @@ const MigrationWithQrCode = ({ accounts, pinCode, onClose }) => {
 
     useEffect(() => {
         const generateQrCode = async () => {
-            const salt = generateSalt(12);
+            const salt = generateCode(12);
             const accountsData = await getAccountsData(accounts);
             const encryptData = encryptAccountsData(accountsData, pinCode, salt);
             const obj = {

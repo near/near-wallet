@@ -171,11 +171,19 @@ const SelectDestinationWallet = ({ handleSetActiveView, handleSetWallet, wallet,
 
     const handleContinue = useCallback(() => {
         handleSetWallet(wallet);
-        if (wallet.id === 'ledger') {
-            onClose();
-            return dispatch(redirectTo('/batch-ledger-export'));
-        } else {
-            return handleSetActiveView(WALLET_MIGRATION_VIEWS.MIGRATION_SECRET);
+        switch (wallet?.id) {
+            case 'sender': {
+                handleSetActiveView(WALLET_MIGRATION_VIEWS.SENDER_MIGRATION_TYPE_SELECT);
+                break;
+            }
+            case 'ledger': {
+                onClose();
+                dispatch(redirectTo('/batch-ledger-export'));
+                break;
+            }
+            default:
+                handleSetActiveView(WALLET_MIGRATION_VIEWS.MIGRATION_SECRET);
+                break;
         }
     }, [wallet, handleSetActiveView, handleSetWallet]);
 
