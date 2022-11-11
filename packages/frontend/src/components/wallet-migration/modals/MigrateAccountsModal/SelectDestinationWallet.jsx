@@ -145,6 +145,7 @@ const WalletOptionsListingItem = styled.div`
 
     &.disabled {
         opacity: 0.5;
+        background: #FAFAFA;
         &:hover {
             cursor: not-allowed;
         }
