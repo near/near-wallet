@@ -65,12 +65,13 @@ const MigrationWithQrCode = ({ accounts, pinCode, onClose }) => {
                 method: 'Pk',
                 salt,
                 keystore: encryptData,
+                fromNearWallet: true,
             };
             setQrCode(JSON.stringify(obj));
         };
             
         generateQrCode();
-    }, []);
+    }, [pinCode, accounts]);
 
     return (
         <Modal

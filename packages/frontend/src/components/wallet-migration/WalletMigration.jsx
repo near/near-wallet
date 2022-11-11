@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 
 import { ACCOUNT_ID_SUFFIX } from '../../config';
 import { selectAvailableAccounts } from '../../redux/slices/availableAccounts';
-import { encodeAccountsToHash, encrypt, generateKey, generatePublicKey, generateCode, keyToString } from '../../utils/encoding';
+import { encodeAccountsToHash, encrypt, generateKey, generatePublicKey, generateCode, keyToString, generatePinCode } from '../../utils/encoding';
 import { getLedgerHDPath } from '../../utils/localStorage';
 import { wallet } from '../../utils/wallet';
 import Disable2FAModal from './Disable2FA';
@@ -62,7 +62,7 @@ const WalletMigration = ({ open, onClose }) => {
         if (migrationType === SENDER_MIGRATION_TYPES.MIGRATE_TO_EXTENSION) {
             return generateCode();
         } else {
-            return generateCode();
+            return generatePinCode();
         }
     }, [migrationType]);
 

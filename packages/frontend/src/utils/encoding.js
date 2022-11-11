@@ -88,14 +88,20 @@ export function keyToString(key) {
     return bs58.encode(Buffer.from(key));
 }
 
-export const generateCode = (digit = 16) => {
+export const generatePinCode = (digit = 6) => {
     const saltChars = '0123456789';
     const saltCharsCount = saltChars.length;
-    let salt = '';
+    let pinCode = '';
     for (let i = 0; i < digit; i += 1) {
-        salt += saltChars.charAt(Math.floor(Math.random() * saltCharsCount));
+        pinCode += saltChars.charAt(Math.floor(Math.random() * saltCharsCount));
     }
-    return window.btoa(salt);
+
+    return pinCode;
+};
+
+export const generateCode = (digit = 16) => {
+    const pinCode = generatePinCode(digit);
+    return window.btoa(pinCode);
 };
 
 export const generateKey = async (message) => {
