@@ -4,6 +4,8 @@ import { Translate } from 'react-localize-redux';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 
+import { WEP_PHASE_ONE } from '../../../../../features';
+import { isWhitelabel } from '../../config/whitelabel';
 import { Mixpanel } from '../../mixpanel/index';
 import { checkNearDropBalance, claimLinkdropToAccount, redirectTo, handleRefreshUrl } from '../../redux/actions/account';
 import { clearLocalAlert } from '../../redux/actions/status';
@@ -17,6 +19,7 @@ import FormButton from '../common/FormButton';
 import Container from '../common/styled/Container.css';
 import BrokenLinkIcon from '../svg/BrokenLinkIcon';
 import NearGiftIcons from '../svg/NearGiftIcons';
+import { redirectLinkdropUser, WALLET_ID } from '../wallet-migration/utils';
 
 const { setLinkdropAmount } = linkdropActions;
 
@@ -79,6 +82,15 @@ class LinkdropLanding extends Component {
     componentDidMount() {
         const { fundingContract, fundingKey, handleRefreshUrl } = this.props;
         if (fundingContract && fundingKey) {
+            if (!isWhitelabel && WEP_PHASE_ONE) {
+                return redirectLinkdropUser({
+                    fundingContract,
+                    fundingKey,
+                    walletID: WALLET_ID.MY_NEAR_WALLET,
+                    destination: 'linkdrop'
+                });
+                // TODO: Add support for more wallets
+            }
             this.handleCheckNearDropBalance();
             handleRefreshUrl();
         }

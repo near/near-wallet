@@ -1879,9 +1879,22 @@
         }
     },
     "walletMigration": {
+        "cleanKeys": {
+            "desc": "For your security, we highly recommend you remove most of your existing access keys.",
+            "title": "Clean up your keys"
+        },
         "disable2fa": {
             "desc": "2FA must be disabled before you can transfer an account to a new wallet.",
             "title": "Disable two-factor authentication"
+        },
+        "exportKey": {
+            "desc": "Never share your private key! Anyone with access to it will also have full access to your account. <br /><br />Copy or download your private key for safekeeping.",
+            "title": "Export private key?"
+        },
+        "logout": {
+            "button": "Log Out of My Account(s)",
+            "desc": "As the last step, we are going clear out the keys stored on this browser for your security. You will be logged out of wallet.near.org and your keys will be removed. <br><br>Make sure you have access to your account in another wallet.",
+            "title": "One last step"
         },
         "migrateAccounts": {
             "desc": "The following accounts will be transferred:",
@@ -1891,39 +1904,26 @@
             "desc": "You'll need this <strong>password</strong> to securely import your accounts. Copy or write it down until you've completed transferring your accounts.",
             "title": "Password required to import accounts"
         },
+        "redirect": {
+            "desc": "You’ll be automatically redirected in <b>10 seconds.</b> Once redirected, you’ll need to approve each account as it is added to your new wallet.",
+            "title": "Redirecting to ${wallet}"
+        },
         "rotateKeys": {
             "desc": "For your security, we are going to generate a new passphrase and full access key for the below accounts. <br /><br /> Rotating your key will help protect your wallet and allow you to clean up your old full access keys after you transfer your accounts.",
             "title": "Let’s secure your accounts"
-        },
-        "exportKey": {
-            "title": "Export private key?",
-            "desc": "Never share your private key! Anyone with access to it will also have full access to your account. <br /><br />Copy or download your private key for safekeeping."
         },
         "selectWallet": {
             "descOne": "You’ll be automatically redirected in <b>10 seconds.</b> Once redirected, you’ll need to approve each account as it is added to your new wallet.",
             "descTwo": "These wallets support automatically transferring accounts. <br /><br /> You can manually import an existing account to any wallet using your 12-word recovery phrase.",
             "ledgerDisclaimer": "Transfer to this wallet will exclude any ledger account(s) due to incompetibility.",
-            "title": "Select a wallet to transfer accounts",
             "ledgerSupported": "Ledger supported wallet(s)",
-            "ledgerUnsupported": "Ledger unsupported wallet(s)"
-        },
-        "redirect": {
-            "title": "Redirecting to ${wallet}",
-            "desc": "You’ll be automatically redirected in <b>10 seconds.</b> Once redirected, you’ll need to approve each account as it is added to your new wallet."
+            "ledgerUnsupported": "Ledger unsupported wallet(s)",
+            "title": "Select a wallet to transfer accounts"
         },
         "verifying": {
-            "title": "Verify your account is available",
             "desc": "Check your new wallet to make sure you have access to your account(s). After you confirm access, we’ll remove some of your old keys to keep your accounts safe.",
-            "disclaimer": "I have access to my account in another wallet"
-        },
-        "cleanKeys": {
-            "title": "Clean up your keys",
-            "desc": "For your security, we highly recommend you remove most of your existing access keys."
-        },
-        "logout": {
-            "title": "One last step",
-            "desc": "As the last step, we are going clear out the keys stored on this browser for your security. You will be logged out of wallet.near.org and your keys will be removed. <br><br>Make sure you have access to your account in another wallet.",
-            "button": "Log Out of My Account(s)"
+            "disclaimer": "I have access to my account in another wallet",
+            "title": "Verify your account is available"
         }
     },
     "warning": "Warning",

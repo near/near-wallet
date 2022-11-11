@@ -1,3 +1,13 @@
+import { getMyNearWalletUrl } from '../../utils/getWalletURL';
+
+export const WALLET_ID = {
+    MY_NEAR_WALLET: 'my-near-wallet',
+    LEDGER: 'ledger',
+    SENDER: 'sender',
+    METEOR_WALLET: 'meteor-wallet',
+    FINER_WALLET: 'finer-wallet'
+};
+
 export const isAccountBricked = async (account) => {
     // If account is bricked and unable to run checkMultisigCodeAndStateStatus
     if (!account.checkMultisigCodeAndStateStatus) {
@@ -29,5 +39,16 @@ export const setMigrationStep = (step) => localStorage.setItem('walletMigrationS
 export const getMigrationStep = () => localStorage.getItem('walletMigrationStep');
 
 export const deleteMigrationStep = () => localStorage.removeItem('walletMigrationStep');
+
+export const redirectLinkdropUser = ({
+    fundingContract,
+    fundingKey,
+    walletID,
+    destination
+}) => {
+    if (walletID === WALLET_ID.MY_NEAR_WALLET) {
+        return window.location.href = getMyNearWalletUrl() + `/${destination}/${fundingContract}/${fundingKey}`;
+    }
+};
 
 
