@@ -96,3 +96,35 @@ export const integerPartWithCommaSeparators = (amount) => {
 
     return parts.join('.');
 };
+
+export const formatBalance = (num, decimals) => {
+    if (!num || num === '0') {
+        return '0';
+    }
+
+    let number = '';
+    let dotPlace = '';
+
+    for (let i = num.length - 1; i >= 0; i--) {
+        if (number.length === decimals) {
+            number = '.' + number;
+            dotPlace = i;
+        }
+
+        number = num[i] + number;
+    }
+
+    if (dotPlace || dotPlace === 0) {
+        return removeTrailingZeros(number);
+    }
+
+    if (decimals - number.length > 0) {
+        let countOfZeros = decimals - number.length;
+
+        number = '0.' + '0'.repeat(countOfZeros) + number;
+
+        return removeTrailingZeros(number);
+    }
+
+    return removeTrailingZeros(`0.${number}`);
+};

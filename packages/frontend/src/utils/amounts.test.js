@@ -19,6 +19,33 @@ describe('amounts', () => {
         expect(amounts.nearTo(1)).toBe('0.00');
     });
 
+    test('should correctly format token amount', () => {
+        expect(amounts.formatTokenAmount('329607', 6)).toBe('0.33');
+        expect(amounts.formatTokenAmount('329607', 6, 6)).toBe('0.329607');
+        expect(amounts.formatTokenAmount('1441951941493024720139950', 24)).toBe('1.44');
+        expect(amounts.formatTokenAmount('1441951941493024720139950', 24, 3)).toBe('1.442');
+        expect(amounts.formatTokenAmount('1000000000000000000000000', 24)).toBe('1.00');
+        expect(amounts.formatTokenAmount('1000000000000000000000000', 24, 4)).toBe('1.0000');
+    });
+
+    test('should correctly parse token amount', () => {
+        expect(amounts.parseTokenAmount('0.000000000000000000000001', 24)).toBe('1');
+        expect(amounts.parseTokenAmount('0.000000000000000000000001', 24, 1)).toBe('1.0');
+        expect(amounts.parseTokenAmount('1.44195194149302472013995', 24)).toBe('1441951941493024720139950');
+        expect(amounts.parseTokenAmount('1.44195194149302472013995', 24, 3)).toBe('1441951941493024720139950.000');
+    });
+
+    test('should correctly remove trailing zeros', () => {
+        expect(amounts.removeTrailingZeros('1')).toBe('1');
+        expect(amounts.removeTrailingZeros('1.1')).toBe('1.1');
+        expect(amounts.removeTrailingZeros('1.10')).toBe('1.1');
+        expect(amounts.removeTrailingZeros('1.101')).toBe('1.101');
+        expect(amounts.removeTrailingZeros('0.1')).toBe('0.1');
+        expect(amounts.removeTrailingZeros('1.0000000000000000000000000001')).toBe('1.0000000000000000000000000001');
+        expect(amounts.removeTrailingZeros('1.100000000000000000000000000')).toBe('1.1');
+        expect(amounts.removeTrailingZeros('1.00000000000000000000000000')).toBe('1');
+    });
+
     test('should correctly decrease amount by percent', () => {
         expect(amounts.decreaseByPercent(100, 10)).toBe('90');
         expect(amounts.decreaseByPercent(250, 10)).toBe('225');
@@ -87,6 +114,20 @@ describe('amounts', () => {
         expect(amounts.integerPartWithCommaSeparators('3123.12')).toBe('3,123.12');
         expect(amounts.integerPartWithCommaSeparators('123123.12')).toBe('123,123.12');
         expect(amounts.integerPartWithCommaSeparators('123123123.12')).toBe('123,123,123.12');
+    });
+
+    test('should correctly format balance', () => {
+        expect(amounts.formatBalance('0')).toBe('0');
+        expect(amounts.formatBalance('1')).toBe('0.1');
+        expect(amounts.formatBalance('1', 2)).toBe('0.01');
+        expect(amounts.formatBalance('1', 4)).toBe('0.0001');
+        expect(amounts.formatBalance('1', 24)).toBe('0.000000000000000000000001');
+        expect(amounts.formatBalance('1000000000000000000000000', 24)).toBe('1');
+        expect(amounts.formatBalance('10000000000000000000000000000000000', 24)).toBe('10000000000');
+        expect(amounts.formatBalance('123456', 4)).toBe('12.3456');
+        expect(amounts.formatBalance('123456', 3)).toBe('123.456');
+        expect(amounts.formatBalance('329607', 6)).toBe('0.329607');
+        expect(amounts.formatBalance('1441951941493024720139950', 24)).toBe('1.44195194149302472013995');
     });
 });
 
