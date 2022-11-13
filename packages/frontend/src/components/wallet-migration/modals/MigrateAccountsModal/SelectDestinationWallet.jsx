@@ -83,7 +83,7 @@ export const WALLET_OPTIONS = shuffle([
         id: 'finer-wallet',
         name: 'FiNER Wallet',
         icon: <img src={ImgFinerWallet} alt="Finer Wallet Logo" />,
-        getUrl: ({ hash }) => `finer://wallet.near.org/batch-import#${hash}`,
+        getUrl: ({ hash, networkId }) => `https://finerwallet.io/near-wallet-${networkId}/batch-import#${hash}`,
         checkAvailability: () => isMobile('iOS'),
         ledgerSupport: false,
     },
