@@ -1,4 +1,4 @@
-import React, { useCallback, useState,useEffect } from 'react';
+import React, { useCallback, useState,useEffect, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 
 import { ACCOUNT_ID_SUFFIX } from '../../../../config';
@@ -8,7 +8,7 @@ import { getLedgerHDPath } from '../../../../utils/localStorage';
 import { wallet } from '../../../../utils/wallet';
 import MigrateAccounts from './MigrateAccounts';
 import MigrationSecret from './MigrationSecret';
-import SelectDestinationWallet from './SelectDestinationWallet';
+import SelectDestinationWallet, { WALLET_OPTIONS } from './SelectDestinationWallet';
 
 export const WALLET_EXPORT_MODAL_VIEWS = {
     MIGRATION_SECRET: 'MIGRATION_SECRET',
@@ -16,10 +16,23 @@ export const WALLET_EXPORT_MODAL_VIEWS = {
     MIGRATE_ACCOUNTS: 'MIGRATE_ACCOUNTS',    
 };
 
-const MigrateAccountsModal = ({ onClose, handleSetActiveView,  handleSetWallet, state, rotatedKeys, onNext }) => {
+const MigrateAccountsModal = ({ onClose, handleSetActiveView,  handleSetWallet, state, rotatedKeys, onNext, accountWithDetails }) => {
     const [activeModalView, setActiveModalView] = useState('SELECT_DESTINATION_WALLET');
     const availableAccounts = useSelector(selectAvailableAccounts);
     const [migrationKey, setMigrationKey] = useState(generatePublicKey());
+    const hasLedgerAccount = useMemo(() => accountWithDetails.findIndex(({ keyType }) => keyType === 'ledger') > -1, [accountWithDetails.length]);
+    const selectedWalletId = state?.wallet?.id;
+
+    const shouldExcludeLedgerAccounts = () => {
+        const targetWallet = WALLET_OPTIONS.find((wallet) => wallet.id === selectedWalletId);
+        return hasLedgerAccount && !targetWallet?.ledgerSupport;
+    };
+    const accounts = useMemo(() => {
+        return shouldExcludeLedgerAccounts()
+            ? accountWithDetails.filter(({ keyType }) => keyType !== 'ledger').map(({ accountId }) => accountId)
+            : availableAccounts;
+    }, [accountWithDetails.length, availableAccounts.length, selectedWalletId]);
+
 
     const getAccountsData = async (accounts) => {
         const accountsData = [];
@@ -47,9 +60,8 @@ const MigrateAccountsModal = ({ onClose, handleSetActiveView,  handleSetWallet, 
     };
     
     const onContinue = useCallback(async () => {
-        let url = '';
-        url = await encodeAccountsToURL(
-            availableAccounts,
+        const url = await encodeAccountsToURL(
+            accounts,
             migrationKey,
             state.wallet
         );
@@ -79,6 +91,7 @@ const MigrateAccountsModal = ({ onClose, handleSetActiveView,  handleSetWallet, 
                 handleSetWallet={handleSetWallet}
                 handleSetActiveView={setActiveModalView}
                 data-test-id="exportWalletModal"
+                accountWithDetails={accountWithDetails}
             />
         )}
         {activeModalView === 'MIGRATION_SECRET' && (
@@ -92,7 +105,7 @@ const MigrateAccountsModal = ({ onClose, handleSetActiveView,  handleSetWallet, 
         }
         { activeModalView === 'MIGRATE_ACCOUNTS'  && (
             <MigrateAccounts
-                accounts={availableAccounts}
+                accounts={accounts}
                 onClose={onClose}
                 onContinue={onContinue}
             />

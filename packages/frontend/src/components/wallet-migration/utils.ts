@@ -23,3 +23,11 @@ export const download = (filename, text) => {
   
     document.body.removeChild(element);
 };
+
+export const setMigrationStep = (step) => localStorage.setItem('walletMigrationStep', step);
+
+export const getMigrationStep = () => localStorage.getItem('walletMigrationStep');
+
+export const deleteMigrationStep = () => localStorage.removeItem('walletMigrationStep');
+
+
