@@ -5,7 +5,9 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
+import { WEP_PHASE_ONE } from '../../../../../features';
 import { ACCOUNT_ID_SUFFIX, IS_MAINNET, MIN_BALANCE_TO_CREATE } from '../../config';
+import { isWhitelabel } from '../../config/whitelabel';
 import { Mixpanel } from '../../mixpanel/index';
 import {
     checkNearDropBalance,
@@ -29,6 +31,7 @@ import WhereToBuyNearModal from '../common/WhereToBuyNearModal';
 import SafeTranslate from '../SafeTranslate';
 import BrokenLinkIcon from '../svg/BrokenLinkIcon';
 import FundNearIcon from '../svg/FundNearIcon';
+import { redirectLinkdropUser, WALLET_ID } from '../wallet-migration/utils';
 import DepositNearBanner from '../wallet/DepositNearBanner';
 import AccountFormAccountId from './AccountFormAccountId';
 
@@ -120,6 +123,15 @@ class CreateAccount extends Component {
         const { fundingContract, fundingKey } = this.props;
 
         if (fundingContract && fundingKey) {
+            if (!isWhitelabel && WEP_PHASE_ONE) {
+                return redirectLinkdropUser({
+                    fundingContract,
+                    fundingKey,
+                    walletID: WALLET_ID.MY_NEAR_WALLET,
+                    destination: 'create'
+                });
+                // TODO: Add support for more wallets
+            }
             this.handleCheckNearDropBalance();
         }
     }

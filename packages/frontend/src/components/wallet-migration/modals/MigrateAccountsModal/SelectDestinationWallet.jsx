@@ -20,6 +20,7 @@ import isMobile from '../../../../utils/isMobile';
 import { shuffle } from '../../../../utils/staking';
 import Tooltip from '../../../common/Tooltip';
 import AlertRoundedIcon from '../../../svg/AlertRoundedIcon.js';
+import { WALLET_ID } from '../../../wallet-migration/utils';
 import { ButtonsContainer, StyledButton, MigrationModal } from '../../CommonComponents';
 import {WALLET_EXPORT_MODAL_VIEWS} from './MigrateAccountsModal';
 
@@ -49,7 +50,7 @@ const Container = styled.div`
 
 export const WALLET_OPTIONS = shuffle([
     {
-        id: 'my-near-wallet',
+        id: WALLET_ID.MY_NEAR_WALLET,
         name: 'My NEAR Wallet',
         icon: <img src={ImgMyNearWallet} alt="MyNearWallet Logo" />,
         getUrl: ({ hash }) => `${getMyNearWalletUrlFromNEARORG()}/batch-import#${hash}`,
@@ -57,14 +58,14 @@ export const WALLET_OPTIONS = shuffle([
         ledgerSupport: true,
     },
     {
-        id: 'ledger',
+        id: WALLET_ID.LEDGER,
         name: 'Ledger',
         icon: <IconLedger />,
         checkAvailability: () => true,
         ledgerSupport: true,
     },
     {
-        id: 'sender',
+        id: WALLET_ID.SENDER,
         name: 'Sender',
         icon: <img src={SenderLogo} alt="Sender Wallet Logo"/>,
         getUrl: ({ hash, networkId }) => `https://sender.org/transfer?keystore=${hash}&network=${networkId}`,
@@ -72,7 +73,7 @@ export const WALLET_OPTIONS = shuffle([
         ledgerSupport: false,
     },
     {
-        id: 'meteor-wallet',
+        id: WALLET_ID.METEOR_WALLET,
         name: 'Meteor Wallet',
         icon: <img src={ImgMeteorWallet} alt={'Meteor Wallet Logo'}/>,
         getUrl: ({ hash, networkId }) => `${getMeteorWalletUrl()}/batch-import?network=${networkId}#${hash}`,
@@ -80,7 +81,7 @@ export const WALLET_OPTIONS = shuffle([
         ledgerSupport: false,
     },
     {
-        id: 'finer-wallet',
+        id: WALLET_ID.FINER_WALLET,
         name: 'FiNER Wallet',
         icon: <img src={ImgFinerWallet} alt="Finer Wallet Logo" />,
         getUrl: ({ hash, networkId }) => `https://finerwallet.io/near-wallet-${networkId}/batch-import#${hash}`,
