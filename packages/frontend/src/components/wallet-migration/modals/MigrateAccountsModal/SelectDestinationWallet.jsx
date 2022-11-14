@@ -94,6 +94,7 @@ export const WALLET_OPTIONS = shuffle([
         icon: <img src={ImgWelldoneWallet} alt="WELLDONE Wallet Logo" />,
         getUrl: ({ hash }) => `https://docs.welldonestudio.io/contribution/202211-batch-import#${hash}`,
         checkAvailability: () => true,
+        ledgerSupport: false,
     },
 ]);
 
