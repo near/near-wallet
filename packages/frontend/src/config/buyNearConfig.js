@@ -1,5 +1,4 @@
 import binance from '../components/buy/assets/binance.svg';
-import ftx from '../components/buy/assets/ftx.svg';
 import huobi from '../components/buy/assets/huobi.svg';
 import kraken from '../components/buy/assets/kraken.svg';
 import monoPay from '../components/buy/assets/monoPay.svg';
@@ -16,7 +15,6 @@ export const getPayMethods = ({
     signedMoonPayUrl,
     utorgPayUrl,
     transakPayUrl,
-    ftxPayUrl,
 }) => {
     const paymentMethods = {
         moonPay: {
@@ -44,12 +42,6 @@ export const getPayMethods = ({
             name: 'Transak',
             link: transakPayUrl,
             track: () => Mixpanel.track('Wallet Click Buy with Transak'),
-        },
-        ftx: {
-            icon: ftx,
-            name: 'FTX',
-            link: ftxPayUrl,
-            track: () => Mixpanel.track('Wallet Click Buy with FTX'),
         },
         rainbow: {
             icon: rainbow,
