@@ -8,7 +8,6 @@ import { isWhitelabel } from '../../config/whitelabel';
 import { Mixpanel } from '../../mixpanel';
 import { selectAccountId } from '../../redux/slices/account';
 import { isMoonpayAvailable, getSignedUrl } from '../../utils/moonpay';
-import { buildFtxPayLink } from '../accounts/create/FundWithFtx';
 import { buildUtorgPayLink } from '../accounts/create/FundWithUtorg';
 import FormButton from '../common/FormButton';
 import ArrowIcon from '../svg/ArrowIcon';
@@ -181,7 +180,6 @@ export function BuyNear({ match, location, history }) {
     const [signedMoonPayUrl, setSignedMoonPayUrl] = useState(null);
     const [utorgPayUrl, setUtorgPayUrl] = useState(null);
     const [transakPayUrl, setTransakPayUrl] = useState(null);
-    const [ftxPayUrl, setFtxPayUrl] = useState(null);
 
 
     useEffect(() => {
@@ -190,7 +188,6 @@ export function BuyNear({ match, location, history }) {
         }
 
         setUtorgPayUrl(buildUtorgPayLink(accountId));
-        setFtxPayUrl(buildFtxPayLink(accountId));
         setTransakPayUrl(buildTransakPayLink(accountId));
         checkMoonPay();
     }, [accountId]);
@@ -202,7 +199,6 @@ export function BuyNear({ match, location, history }) {
             moonPayAvailable,
             signedMoonPayUrl,
             utorgPayUrl,
-            ftxPayUrl
         }),
         [accountId, moonPayAvailable, signedMoonPayUrl, utorgPayUrl]
     );
@@ -228,7 +224,6 @@ export function BuyNear({ match, location, history }) {
         isWhitelabel ? PayMethods.transak : null,
         PayMethods.utorg,
         PayMethods.nearPay,
-        PayMethods.ftx
     ].filter((v) => !!v);
 
     return (
