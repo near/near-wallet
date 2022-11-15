@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import { switchAccount } from '../../redux/actions/account';
 import { selectAccountId } from '../../redux/slices/account';
 import { selectAvailableAccounts } from '../../redux/slices/availableAccounts';
+import { shortenAccountId } from '../../utils/account';
 import classNames from '../../utils/classNames';
 import DropDown from '../common/DropDown';
 
@@ -37,8 +38,6 @@ const Container = styled.div`
         cursor: pointer;
         color: #72727A;
         font-weight: 500;
-        text-overflow: ellipsis;
-        overflow: hidden;
 
         :last-of-type {
             border: 0;
@@ -62,8 +61,10 @@ export default function AccountDropdown({ disabled, 'data-test-id': testId }) {
     const dispatch = useDispatch();
     const accountId = useSelector(selectAccountId);
     const availableAccounts = useSelector(selectAvailableAccounts);
+    const shortAccountId = accountId ? shortenAccountId(accountId) : '';
+    const accountsWithoutCurrent = availableAccounts.filter((a) => a !== accountId);
     const singleAccount = availableAccounts.length < 2;
-    
+
     return (
         <Container
             className={classNames(['account-dropdown-container'])}
@@ -75,18 +76,17 @@ export default function AccountDropdown({ disabled, 'data-test-id': testId }) {
             <DropDown
                 disabled={singleAccount || disabled}
                 name='account-dropdown'
-                title={accountId || ''}
-                content={
-                    availableAccounts.filter((a) => a !== accountId).map((account, i) => (
-                        <div
-                            key={i}
-                            onClick={() => dispatch(switchAccount({ accountId: account }))}
-                            className='account-dropdown-toggle'
-                        >
-                            {account}
-                        </div>
-                    ))
-                }
+                title={shortAccountId}
+                content={accountsWithoutCurrent.map((account, i) => (
+                    <div
+                        key={i}
+                        title={account}
+                        onClick={() => dispatch(switchAccount({ accountId: account }))}
+                        className='account-dropdown-toggle'
+                    >
+                        {shortenAccountId(account)}
+                    </div>
+                ))}
             />
         </Container>
     );

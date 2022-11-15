@@ -1,56 +1,62 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
-import { ACCOUNT_ID_SUFFIX } from '../../config';
+import { NETWORK_ID } from '../../config';
 import { selectAvailableAccounts } from '../../redux/slices/availableAccounts';
-import { encodeAccountsToHash, generatePublicKey, keyToString } from '../../utils/encoding';
-import { getLedgerHDPath } from '../../utils/localStorage';
 import { wallet } from '../../utils/wallet';
-import Disable2FAModal from './Disable2FA';
-import MigrateAccounts from './MigrateAccounts';
-import MigrationSecret from './MigrationSecret';
-import SelectDestinationWallet from './SelectDestinationWallet';
+import LoadingDots from '../common/loader/LoadingDots';
+import { MigrationModal } from './CommonComponents';
+import CleanKeysModal from './modals/CleanKeysModal/CleanKeysModal';
+import Disable2FAModal from './modals/Disable2faModal/Disable2FA';
+import LogoutModal from './modals/LogoutModal/LogoutModal';
+import MigrateAccountsModal from './modals/MigrateAccountsModal/MigrateAccountsModal';
+import RedirectingModal from './modals/RedirectingModal/RedirectingModal';
+import RotateKeysModal from './modals/RotateKeysModal/RotateKeysModal';
+import VerifyingModal from './modals/VerifyingModal/VerifyingModal';
+import { deleteMigrationStep, getMigrationStep, setMigrationStep } from './utils';
+
 
 export const WALLET_MIGRATION_VIEWS = {
-    MIGRATION_SECRET: 'MIGRATION_SECRET',
-    SELECT_DESTINATION_WALLET: 'SELECT_DESTINATION_WALLET',
+    DISABLE_2FA: 'DISABLE_2FA',
+    ROTATE_KEYS: 'ROTATE_KEYS',
     MIGRATE_ACCOUNTS: 'MIGRATE_ACCOUNTS',
-    DISABLE_2FA: 'DISABLE_2FA'
+    REDIRECTING: 'REDIRECTING',
+    VERIFYING: 'VERIFYING',
+    CLEAN_KEYS: 'CLEAN_KEYS',
+    LOG_OUT: 'LOG_OUT',
 };
 
 const initialState = {
     activeView: null,
     wallet: null,
-    migrationKey: generatePublicKey()
-};
-
-const getAccountsData = async (accounts) => {
-    const accountsData = [];
-    for (let i = 0; i < accounts.length; i++) {
-        const accountId = accounts[i];
-        const keyPair = await wallet.getLocalKeyPair(accountId);
-        accountsData.push([
-            accountId,
-            keyPair?.secretKey || '',
-            getLedgerHDPath(accountId),
-        ]);
-    }
-
-    return accountsData;
-};
-
-const encodeAccountsToURL = async (accounts, publicKey, { getUrl }) => {
-    const accountsData = await getAccountsData(accounts);
-    const hash = encodeAccountsToHash(accountsData, publicKey);
-    const networkId = ACCOUNT_ID_SUFFIX === 'near' ? 'mainnet' : 'testnet';
-    const href = getUrl({ hash, networkId });
-
-    return href;
 };
 
 const WalletMigration = ({ open, onClose }) => {
-    const [state, setState] = React.useState(initialState);
+    const [state, setState] = useState(initialState);
+    const [rotatedKeys, setRotatedKeys] = useState({});
     const availableAccounts = useSelector(selectAvailableAccounts);
+    const [loadingMultisigAccounts, setLoadingMultisigAccounts] = useState(true);
+    const [accountWithDetails, setAccountWithDetails] = useState([]);
+
+    useEffect(() => {
+        const importRotatableAccounts = async () => {
+            const accounts = await wallet.keyStore.getAccounts(NETWORK_ID);
+            const getAccountDetails = async (accountId) => {
+                const keyType = await wallet.getAccountKeyType(accountId);
+                const accountBalance = await wallet.getBalance(keyType.accountId);
+                return { accountId, keyType, accountBalance };
+            };
+            const details = await Promise.all(
+                accounts.map(getAccountDetails)
+            );
+            setAccountWithDetails(details);
+            setLoadingMultisigAccounts(false);
+        };
+        if (open) {
+            setLoadingMultisigAccounts(true);
+            importRotatableAccounts();
+        }
+    }, [open]);
 
     const handleStateUpdate = (newState) => {
         setState({...state, ...newState});
@@ -64,31 +70,63 @@ const WalletMigration = ({ open, onClose }) => {
         handleStateUpdate({ activeView });
     }, [handleStateUpdate]);
 
-    const showMigrationPrompt = useCallback(() => {
-        handleSetActiveView(WALLET_MIGRATION_VIEWS.SELECT_DESTINATION_WALLET);
-    }, [handleSetActiveView]);
-
-    const showMigrateAccount = useCallback(() => {
-        handleSetActiveView(WALLET_MIGRATION_VIEWS.MIGRATE_ACCOUNTS);
-    }, [handleSetActiveView]);
-
-    const onContinue = useCallback(async () => {
-        let url = '';
-        url = await encodeAccountsToURL(
-            availableAccounts,
-            state.migrationKey,
-            state.wallet
-        );
-        window.open(url, '_blank');
-    }, [state.migrationKey, availableAccounts, state.wallet]);
-
+  
     useEffect(() => {
         if (open) {
-            handleSetActiveView(WALLET_MIGRATION_VIEWS.DISABLE_2FA);
+            const storedStep = getMigrationStep();
+            handleSetActiveView(storedStep || WALLET_MIGRATION_VIEWS.DISABLE_2FA);
         } else {
             handleSetActiveView(null);
         }
     }, [open]);
+
+    const onRotateKeySuccess = useCallback(({ accountId, key }) => {
+        setRotatedKeys({
+            ...rotatedKeys,
+            [accountId]: key,
+        });
+    }, [Object.keys(rotatedKeys).length]);
+
+    const navigateToRedirect = () => {
+        setMigrationStep(WALLET_MIGRATION_VIEWS.VERIFYING);
+        handleSetActiveView(WALLET_MIGRATION_VIEWS.REDIRECTING);
+    };
+
+    const navigateToVeryfying = () => {
+        handleSetActiveView(WALLET_MIGRATION_VIEWS.VERIFYING);
+    };
+
+    const navigateToCleanKeys = () => {
+        handleSetActiveView(WALLET_MIGRATION_VIEWS.CLEAN_KEYS);
+    };
+
+    const navigateToLogOut = () => {
+        setMigrationStep(WALLET_MIGRATION_VIEWS.LOG_OUT);
+        handleSetActiveView(WALLET_MIGRATION_VIEWS.LOG_OUT);
+    };
+
+    const onLogout = () => {
+        // TODO: Add logic to remove FAK(s) here so everything gets cleared together
+        return Promise.all(availableAccounts.map((accountId) => wallet.removeWalletAccount(accountId)))
+            .then(() => {
+                location.reload();
+                deleteMigrationStep();
+                onClose();
+            });
+    };
+
+    const onStartOver = () => {
+        deleteMigrationStep();
+        handleSetActiveView(WALLET_MIGRATION_VIEWS.DISABLE_2FA);
+    };
+
+    if (open && loadingMultisigAccounts) {
+        return (
+            <MigrationModal isOpen disableClose>
+                <LoadingDots />
+            </MigrationModal>
+        );
+    }
 
     return (
         <div>
@@ -96,32 +134,45 @@ const WalletMigration = ({ open, onClose }) => {
                 <Disable2FAModal
                     onClose={onClose}
                     handleSetActiveView={handleSetActiveView}
+                    data-test-id="disable2FAModal"
+                    accountWithDetails={accountWithDetails}
+                    setAccountWithDetails={setAccountWithDetails}
                 />
             )}
-            {
-                state.activeView === WALLET_MIGRATION_VIEWS.MIGRATION_SECRET && (
-                    <MigrationSecret
-                        showMigrationPrompt={showMigrationPrompt}
-                        showMigrateAccount={showMigrateAccount}
-                        secretKey={keyToString(initialState.migrationKey)}
-                    />
-                )}
-            {state.activeView === WALLET_MIGRATION_VIEWS.SELECT_DESTINATION_WALLET && (
-                <SelectDestinationWallet
-                    wallet={state.wallet}
+            {state.activeView === WALLET_MIGRATION_VIEWS.ROTATE_KEYS && (
+                <RotateKeysModal
                     onClose={onClose}
-                    handleSetWallet={handleSetWallet}
                     handleSetActiveView={handleSetActiveView}
+                    data-test-id="rotateKeysModal"
+                    onRotateKeySuccess={onRotateKeySuccess}
+                    accountWithDetails={accountWithDetails}
                 />
             )}
-            {
-                state.activeView === WALLET_MIGRATION_VIEWS.MIGRATE_ACCOUNTS && (
-                    <MigrateAccounts
-                        accounts={availableAccounts}
-                        onContinue={onContinue}
-                        onClose={onClose}
-                    />
-                )}
+            {state.activeView === WALLET_MIGRATION_VIEWS.MIGRATE_ACCOUNTS && (
+                <MigrateAccountsModal
+                    onClose={onClose}
+                    handleSetActiveView={handleSetActiveView}
+                    handleSetWallet={handleSetWallet}
+                    state={state}
+                    data-test-id="migrateAccountsModal"
+                    rotatedKeys={rotatedKeys}
+                    onNext={navigateToRedirect}
+                    accountWithDetails={accountWithDetails}
+                />
+            )}
+            {state.activeView === WALLET_MIGRATION_VIEWS.REDIRECTING && (
+                <RedirectingModal wallet={state?.wallet?.name} onNext={navigateToVeryfying} />
+            )}
+            {state.activeView === WALLET_MIGRATION_VIEWS.VERIFYING && (
+                <VerifyingModal onClose={onClose} onNext={navigateToCleanKeys} onStartOver={onStartOver} />
+            )}
+            {state.activeView === WALLET_MIGRATION_VIEWS.CLEAN_KEYS && (
+                <CleanKeysModal onClose={onClose} onNext={navigateToLogOut} />
+            )}
+            {state.activeView === WALLET_MIGRATION_VIEWS.LOG_OUT && (
+                <LogoutModal onClose={onClose} onLogout={onLogout}/>
+            )}
+            
         </div>
     );
 };

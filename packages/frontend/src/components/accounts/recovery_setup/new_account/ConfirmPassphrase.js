@@ -7,6 +7,11 @@ import Container from '../../../common/styled/Container.css';
 import SafeTranslate from '../../../SafeTranslate';
 
 const StyledContainer = styled(Container)`
+    ${({ flat }) => flat && `
+        margin: 0px !important;
+        max-width: fit-content !important;
+    `} 
+
     h4 {
         margin-top: 20px;
     }
@@ -40,10 +45,12 @@ export default ({
     handleChangeWord,
     handleStartOver,
     userInputValueWrongWord,
-    finishingSetup
+    finishingSetup,
+    flat,
 }) => {
+
     return (
-        <StyledContainer className='small-centered border'>
+        <StyledContainer className='small-centered border' flat={flat}>
             <form
                 onSubmit={(e) => {
                     handleConfirmPassphrase();

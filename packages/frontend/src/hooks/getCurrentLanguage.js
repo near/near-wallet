@@ -10,7 +10,7 @@ function getCurrentLanguage() {
     );
     const currentLanguage = useSelector(getlanguage);
 
-    return currentLanguage.code;
+    return currentLanguage?.code || 'en';
 }
 
 export default getCurrentLanguage;

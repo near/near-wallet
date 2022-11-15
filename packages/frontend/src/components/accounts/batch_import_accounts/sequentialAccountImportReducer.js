@@ -22,7 +22,10 @@ export const ACTIONS = {
     REMOVE_ACCOUNTS: 'REMOVE_ACCOUNTS',
     ADD_ACCOUNTS: 'ADD_ACCOUNTS',
     SET_CURRENT_FAILED_AND_END_PROCESS: 'SET_CURRENT_FAILED_AND_END_PROCESS',
-    RESTART_PROCESS: 'RESTART_PROCESS'
+    RESTART_PROCESS_FROM_ACCOUNT: 'RESTART_PROCESS_FROM_ACCOUNT',
+    RESTART_PROCESS: 'RESTART_PROCESS',
+    RESTART_PROCESS_INCLUDING_LAST_FAILED_ACCOUNT: 'RESTART_PROCESS_INCLUDING_LAST_FAILED_ACCOUNT',
+    RESTART_PROCESS_FROM_LAST_FAILED_ACCOUNT: 'RESTART_PROCESS_FROM_LAST_FAILED_ACCOUNT'
 };
 
 /**
@@ -77,6 +80,33 @@ const sequentialAccountImportReducer = (state = initialState, action) => {
             if (state.accounts[currentIndex + 1]) {
                 state.accounts[currentIndex + 1].status = IMPORT_STATUS.PENDING;
             }
+            return;
+        }
+        case ACTIONS.RESTART_PROCESS_FROM_LAST_FAILED_ACCOUNT: {
+            let lastFailedIdx;
+            state.accounts.forEach(
+                (account, idx) => {
+                    if (account.status === IMPORT_STATUS.FAILED) {
+                        lastFailedIdx = idx;
+                    }
+                }
+            );
+            if (state.accounts[lastFailedIdx + 1]) {
+                state.accounts[lastFailedIdx + 1].status = IMPORT_STATUS.PENDING;
+            }
+            return;
+        }
+        case ACTIONS.RESTART_PROCESS_INCLUDING_LAST_FAILED_ACCOUNT: {
+            let lastFailedIdx;
+            state.accounts.forEach(
+                (account, idx) => {
+                    if (account.status === IMPORT_STATUS.FAILED) {
+                        lastFailedIdx = idx;
+                    }
+                }
+            );
+            state.accounts[lastFailedIdx].status = IMPORT_STATUS.PENDING;
+
             return;
         }
         case ACTIONS.SET_CURRENT_FAILED: {
