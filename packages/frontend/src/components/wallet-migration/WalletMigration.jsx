@@ -46,10 +46,11 @@ const WalletMigration = ({ open, onClose }) => {
                 const accountBalance = await wallet.getBalance(keyType.accountId);
                 return { accountId, keyType, accountBalance };
             };
-            const details = await Promise.all(
+            const details = await Promise.allSettled(
                 accounts.map(getAccountDetails)
             );
-            setAccountWithDetails(details);
+
+            setAccountWithDetails(details.filter((d) => d.status === 'fulfilled').map((d) => d.value));
             setLoadingMultisigAccounts(false);
         };
         if (open) {

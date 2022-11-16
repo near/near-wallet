@@ -1924,6 +1924,16 @@
             "desc": "Check your new wallet to make sure you have access to your account(s). After you confirm access, we’ll remove some of your old keys to keep your accounts safe.",
             "disclaimer": "I have access to my account in another wallet",
             "title": "Verify your account is available"
+        },
+        "errors": {
+            "rpcDown": {
+                "title": "Unable to migrate wallet",
+                "desc": "We are unable to migrate your wallet at this time. Please try again later."
+            },
+            "onlyInvalidAccount": {
+                "title": "Unable to migrate wallet",
+                "desc": "We are unable to migrate your wallet(s) as all of them are invalid. Please contact support for assistance."
+            }
         }
     },
     "warning": "Warning",
