@@ -8,6 +8,7 @@ import LoadingDots from '../common/loader/LoadingDots';
 import { MigrationModal } from './CommonComponents';
 import CleanKeysModal from './modals/CleanKeysModal/CleanKeysModal';
 import Disable2FAModal from './modals/Disable2faModal/Disable2FA';
+import ErrorModal from './modals/ErrorModal/ErrorModal';
 import LogoutModal from './modals/LogoutModal/LogoutModal';
 import MigrateAccountsModal from './modals/MigrateAccountsModal/MigrateAccountsModal';
 import RedirectingModal from './modals/RedirectingModal/RedirectingModal';
@@ -24,6 +25,12 @@ export const WALLET_MIGRATION_VIEWS = {
     VERIFYING: 'VERIFYING',
     CLEAN_KEYS: 'CLEAN_KEYS',
     LOG_OUT: 'LOG_OUT',
+    ERROR: 'ERROR',
+};
+
+export const WALLET_MIGRATION_ERRORS = {
+    RPC_DOWN: 'RPC_DOWN',
+    ONLY_INVALID_ACCOUNT: 'ONLY_INVALID_ACCOUNT',
 };
 
 const initialState = {
@@ -37,6 +44,7 @@ const WalletMigration = ({ open, onClose }) => {
     const availableAccounts = useSelector(selectAvailableAccounts);
     const [loadingMultisigAccounts, setLoadingMultisigAccounts] = useState(true);
     const [accountWithDetails, setAccountWithDetails] = useState([]);
+    const [migrationErrorContext, setMigrationErrorContext] = useState(null);
 
     useEffect(() => {
         const importRotatableAccounts = async () => {
@@ -49,6 +57,20 @@ const WalletMigration = ({ open, onClose }) => {
             const details = await Promise.allSettled(
                 accounts.map(getAccountDetails)
             );
+
+            // if given all of accounts are invalid, show error modal
+            if (details.every((d) => d.status === 'rejected' && d.reason.type === 'AccountDoesNotExist')) {
+                setMigrationErrorContext(WALLET_MIGRATION_ERRORS.ONLY_INVALID_ACCOUNT);
+                setLoadingMultisigAccounts(false);
+                return;
+            }
+
+            // if RPC is down and unable to retrieve account details, show error modal
+            if (details.some((d) => d.status === 'rejected' && d.reason.type === 'RetriesExceeded')) {
+                setMigrationErrorContext(WALLET_MIGRATION_ERRORS.RPC_DOWN);
+                setLoadingMultisigAccounts(false);
+                return;
+            }
 
             setAccountWithDetails(details.filter((d) => d.status === 'fulfilled').map((d) => d.value));
             setLoadingMultisigAccounts(false);
@@ -172,6 +194,9 @@ const WalletMigration = ({ open, onClose }) => {
             )}
             {state.activeView === WALLET_MIGRATION_VIEWS.LOG_OUT && (
                 <LogoutModal onClose={onClose} onLogout={onLogout}/>
+            )}
+            {state.activeView === WALLET_MIGRATION_VIEWS.ERROR && (
+                <ErrorModal onClose={onClose} context={migrationErrorContext}/>
             )}
             
         </div>
