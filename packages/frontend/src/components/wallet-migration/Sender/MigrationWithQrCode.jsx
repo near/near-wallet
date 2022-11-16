@@ -34,6 +34,13 @@ const Container = styled.div`
         margin-top: 20px;
         margin-bottom: 20px;
     }
+
+    .install-tips: {
+        font-weight: 600;
+        font-size: 18px;
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
 `;
 
 const ButtonsContainer = styled.div`
@@ -88,6 +95,8 @@ const MigrationWithQrCode = ({ accounts, pinCode, onClose }) => {
                 <div className='qrcode-background'>
                     <QRCodeSVG value={qrCode} size={155} />
                 </div>
+
+                <a target="_blank" href="https://sender.org/download" className='install-tips' rel="noreferrer"><Translate id='walletMigration.senderMigrationWithQrCode.install'/></a>
 
                 <ButtonsContainer>
                     <StyledButton className='gray-blue' onClick={onClose}>

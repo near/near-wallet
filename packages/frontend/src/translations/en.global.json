@@ -1899,7 +1899,8 @@
             "title": "Select a wallet to transfer accounts"
         },
         "senderMigrationWithQrCode": {
-            "title": "Please using Sender mobile to scan to import"
+            "install": "Install Sender Mobile App",
+            "title": "Please using Sender Mobile App to scan to import"
         }
     },
     "warning": "Warning",

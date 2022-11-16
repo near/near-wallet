@@ -90,8 +90,10 @@ const WalletMigration = ({ open, onClose }) => {
         const accountsData = await getAccountsData(accounts);
         const key = await generateKey(pinCode);
         const hash = await encrypt(accountsData, key);
-        if (window && window.near) {
+        if (window && window.near && window.near.isSender) {
             window.near.batchImport({ keystore: hash, network: ACCOUNT_ID_SUFFIX === 'near' ? 'mainnet' : 'testnet' });
+        } else {
+            window.open('https://chrome.google.com/webstore/detail/sender-wallet/epapihdplajcdnnkdeiahlgigofloibg?utm_source=chrome-ntp-icon', '_blank');
         }
     }, [pinCode, accounts]);
 
