@@ -168,6 +168,8 @@ export default function TwoFactorDisableBanner() {
                     <Disable2FAModal
                         onClose={hideModal}
                         handleSetActiveView={hideModal}
+                        accountWithDetails={accounts}
+                        setAccountWithDetails={setAccounts}
                     />
                 )
             }
