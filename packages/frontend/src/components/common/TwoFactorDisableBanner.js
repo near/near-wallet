@@ -122,9 +122,12 @@ export default function TwoFactorDisableBanner() {
                 accounts.map((accountId) => getAccountDetails({ accountId, wallet }))
             );
 
-            setAccounts(accountsKeyTypes.reduce(((acc, { accountId, keyType }) => keyType === WalletClass.KEY_TYPES.MULTISIG ? [...acc, accountId] : acc), []));
+            setAccounts(accountsKeyTypes.reduce(
+                (acc, account) => account.keyType === WalletClass.KEY_TYPES.MULTISIG ? [...acc, account] : acc,
+                []
+            ));
         };
-        if (loadedAccounts.length > 0 && accounts.sort() !== loadedAccounts.sort()) {
+        if (loadedAccounts.length > 0 && accounts.map(({ accountId }) => accountId).sort() !== loadedAccounts.sort()) {
             update2faAccounts();
         }
     }, [showDisable2FAModal, loadedAccounts.length]);
