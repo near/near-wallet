@@ -52,6 +52,28 @@ async function getAccountDetails({ accountId, publicKeyBlacklist, wallet }) {
     };
 }
 
+async function deleteKeys({ accountId, publicKeysToDelete, wallet }) {
+    const account = await wallet.getAccount(accountId);
+    const signingPublicKey = await wallet.getPublicKey();
+
+    // TODO build batch delete transactions to delete 100 per transaction
+    const deleteKeyBatch = (keys) => Promise.all(keys.map(async (key) => {
+        await account.deleteKey(key);
+        // if the deleted key is the current signing key in the wallet, remove it from the localstorage keystore
+        if (key === signingPublicKey) {
+            await wallet.keyStore.removeKey(wallet.connection.networkId, accountId);
+        }
+    }));
+
+    const dop = 20;
+    let deleted = 0;
+    while (deleted <= publicKeysToDelete.length) {
+        const upperBound = deleted + dop;
+        await deleteKeyBatch(publicKeysToDelete.slice(deleted, upperBound));
+        deleted = upperBound;
+    }
+}
+
 const CleanKeysModal = ({ accounts, handleSetActiveView, onNext, onClose, rotatedKeys }) => {
     const [state, localDispatch] = useImmerReducer(sequentialAccountImportReducer, {
         accounts: []
@@ -167,11 +189,16 @@ const CleanKeysModal = ({ accounts, handleSetActiveView, onNext, onClose, rotate
                             localDispatch({ type: ACTIONS.SET_CURRENT_FAILED_AND_END_PROCESS });
                             setShowConfirmSeedphraseModal(false);
                         }}
-                        onNext={() => {
+                        onNext={async () => {
                             try {
                                 setFinishingSetupForCurrentAccount(true);
                                 localDispatch({ type: ACTIONS.SET_CURRENT_DONE });
                                 setShowConfirmSeedphraseModal(false);
+                                await deleteKeys({
+                                    accountId: currentAccount.accountId,
+                                    publicKeysToDelete: keysToRemove,
+                                    wallet,
+                                });
                                 dispatch(switchAccount({accountId: initialAccountId.current}));
                             } finally {
                                 setFinishingSetupForCurrentAccount(false);
