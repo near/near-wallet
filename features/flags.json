@@ -292,7 +292,7 @@
       "lastEditedAt": "2022-09-29T12:47:40.121Z"
     },
     "testnet_NEARORG": {
-      "enabled": true,
+      "enabled": false,
       "lastEditedBy": "roshaans",
       "lastEditedAt": "2022-09-29T12:47:40.121Z"
     },
