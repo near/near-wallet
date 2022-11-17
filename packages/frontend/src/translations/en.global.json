@@ -1928,11 +1928,11 @@
         "errors": {
             "rpcDown": {
                 "title": "Unable to migrate wallet",
-                "desc": "We are unable to migrate your wallet at this time. Please try again later."
+                "desc": "Sorry, something went wrong, try later or export these accounts manually to desired wallet"
             },
             "onlyInvalidAccount": {
                 "title": "Unable to migrate wallet",
-                "desc": "We are unable to migrate your wallet(s) as all of them are invalid. Please contact support for assistance."
+                "desc": "Sorry, something went wrong, try later or export these accounts manually to desired wallet"
             }
         }
     },
