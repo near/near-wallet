@@ -9,6 +9,7 @@ import WalletClass, { wallet } from '../../utils/wallet';
 import AlertTriangleIcon from '../svg/AlertTriangleIcon';
 import LockIcon from '../svg/LockIcon';
 import Disable2FAModal from '../wallet-migration/modals/Disable2faModal/Disable2FA';
+import { getAccountDetails } from '../wallet-migration/utils';
 import FormButton from './FormButton';
 
 
@@ -117,12 +118,8 @@ export default function TwoFactorDisableBanner() {
     useEffect(() => {
         const update2faAccounts = async () => {
             const accounts = await wallet.keyStore.getAccounts(NETWORK_ID);
-            const getAccountWithAccessKeysAndType = async (accountId) => {
-                const keyType = await wallet.getAccountKeyType(accountId);
-                return { accountId, keyType };
-            };
             const accountsKeyTypes = await Promise.all(
-                accounts.map(getAccountWithAccessKeysAndType)
+                accounts.map((accountId) => getAccountDetails({ accountId, wallet }))
             );
 
             setAccounts(accountsKeyTypes.reduce(((acc, { accountId, keyType }) => keyType === WalletClass.KEY_TYPES.MULTISIG ? [...acc, accountId] : acc), []));

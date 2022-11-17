@@ -51,4 +51,15 @@ export const redirectLinkdropUser = ({
     }
 };
 
+export async function getAccountDetails({ accountId, wallet }) {
+    const keyType = await wallet.getAccountKeyType(accountId);
+    const accountBalance = await wallet.getBalance(keyType.accountId);
 
+    const account = await wallet.getAccount(accountId);
+    let isConversionRequired = false;
+    if (typeof account.isKeyConversionRequiredForDisable === 'function') {
+        isConversionRequired = await account.isKeyConversionRequiredForDisable();
+    }
+
+    return { accountId, keyType, accountBalance, isConversionRequired };
+}

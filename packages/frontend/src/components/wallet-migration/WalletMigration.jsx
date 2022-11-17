@@ -13,7 +13,7 @@ import MigrateAccountsModal from './modals/MigrateAccountsModal/MigrateAccountsM
 import RedirectingModal from './modals/RedirectingModal/RedirectingModal';
 import RotateKeysModal from './modals/RotateKeysModal/RotateKeysModal';
 import VerifyingModal from './modals/VerifyingModal/VerifyingModal';
-import { deleteMigrationStep, getMigrationStep, setMigrationStep } from './utils';
+import { deleteMigrationStep, getAccountDetails, getMigrationStep, setMigrationStep } from './utils';
 
 
 export const WALLET_MIGRATION_VIEWS = {
@@ -41,20 +41,8 @@ const WalletMigration = ({ open, onClose }) => {
     useEffect(() => {
         const importRotatableAccounts = async () => {
             const accounts = await wallet.keyStore.getAccounts(NETWORK_ID);
-            const getAccountDetails = async (accountId) => {
-                const keyType = await wallet.getAccountKeyType(accountId);
-                const accountBalance = await wallet.getBalance(keyType.accountId);
-
-                const account = await wallet.getAccount(accountId);
-                let isConversionRequired = false;
-                if (typeof account.isKeyConversionRequiredForDisable === 'function') {
-                    isConversionRequired = await account.isKeyConversionRequiredForDisable();
-                }
-
-                return { accountId, keyType, accountBalance, isConversionRequired };
-            };
             const details = await Promise.all(
-                accounts.map(getAccountDetails)
+                accounts.map((accountId) => getAccountDetails({ accountId, wallet }))
             );
             setAccountWithDetails(details);
             setLoadingMultisigAccounts(false);
