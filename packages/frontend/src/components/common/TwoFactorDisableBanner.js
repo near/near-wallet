@@ -9,6 +9,7 @@ import WalletClass, { wallet } from '../../utils/wallet';
 import AlertTriangleIcon from '../svg/AlertTriangleIcon';
 import LockIcon from '../svg/LockIcon';
 import Disable2FAModal from '../wallet-migration/modals/Disable2faModal/Disable2FA';
+import { getAccountDetails } from '../wallet-migration/utils';
 import FormButton from './FormButton';
 
 
@@ -117,17 +118,16 @@ export default function TwoFactorDisableBanner() {
     useEffect(() => {
         const update2faAccounts = async () => {
             const accounts = await wallet.keyStore.getAccounts(NETWORK_ID);
-            const getAccountWithAccessKeysAndType = async (accountId) => {
-                const keyType = await wallet.getAccountKeyType(accountId);
-                return { accountId, keyType };
-            };
             const accountsKeyTypes = await Promise.all(
-                accounts.map(getAccountWithAccessKeysAndType)
+                accounts.map((accountId) => getAccountDetails({ accountId, wallet }))
             );
 
-            setAccounts(accountsKeyTypes.reduce(((acc, { accountId, keyType }) => keyType === WalletClass.KEY_TYPES.MULTISIG ? [...acc, accountId] : acc), []));
+            setAccounts(accountsKeyTypes.reduce(
+                (acc, account) => account.keyType === WalletClass.KEY_TYPES.MULTISIG ? [...acc, account] : acc,
+                []
+            ));
         };
-        if (loadedAccounts.length > 0 && accounts.sort() !== loadedAccounts.sort()) {
+        if (loadedAccounts.length > 0 && accounts.map(({ accountId }) => accountId).sort() !== loadedAccounts.sort()) {
             update2faAccounts();
         }
     }, [showDisable2FAModal, loadedAccounts.length]);
@@ -168,6 +168,8 @@ export default function TwoFactorDisableBanner() {
                     <Disable2FAModal
                         onClose={hideModal}
                         handleSetActiveView={hideModal}
+                        accountWithDetails={accounts}
+                        setAccountWithDetails={setAccounts}
                     />
                 )
             }

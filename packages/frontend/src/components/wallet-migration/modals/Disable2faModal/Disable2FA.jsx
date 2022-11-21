@@ -53,7 +53,7 @@ const Disable2FAModal = ({ handleSetActiveView, onClose, accountWithDetails, set
     });
     const [loadingMultisigAccounts, setLoadingMultisigAccounts] = useState(true);
     const [currentBrickedAccount, setCurrentBrickedAccount] = useState(null);
-    
+
     const initialAccountIdOnStart = useSelector(selectAccountId);
     const initialAccountId = useRef(initialAccountIdOnStart);
     const dispatch = useDispatch();
@@ -62,7 +62,13 @@ const Disable2FAModal = ({ handleSetActiveView, onClose, accountWithDetails, set
         const update2faAccounts = async () => {
             localDispatch({
                 type: ACTIONS.ADD_ACCOUNTS,
-                accounts: accountWithDetails.reduce(((acc, { accountId, keyType }) => keyType === WalletClass.KEY_TYPES.MULTISIG ? acc.concat({ accountId, status: null }) : acc), [])
+                accounts: accountWithDetails
+                    .filter(({ keyType }) => keyType === WalletClass.KEY_TYPES.MULTISIG)
+                    .map(({ accountId, isConversionRequired }) => ({
+                        accountId,
+                        isConversionRequired,
+                        status: null,
+                    })),
             });
             setLoadingMultisigAccounts(false);
         };
@@ -74,6 +80,7 @@ const Disable2FAModal = ({ handleSetActiveView, onClose, accountWithDetails, set
     const currentAccount = useMemo(() => !failed && state.accounts.find((account) => account.status === IMPORT_STATUS.PENDING), [failed, state.accounts]);
     const batchDisableNotStarted = useMemo(() => state.accounts.every((account) => account.status === null), [state.accounts]);
     const completedWithSuccess = useMemo(() => !loadingMultisigAccounts && state.accounts.every((account) => account.status === IMPORT_STATUS.SUCCESS), [state.accounts, loadingMultisigAccounts]);
+    const someAccountsRequireKeyConversion = useMemo(() => !loadingMultisigAccounts && state.accounts.some((account) => account.isConversionRequired), [state.accounts, loadingMultisigAccounts]);
 
     useEffect(() => {
         if (batchDisableNotStarted) {
@@ -103,7 +110,12 @@ const Disable2FAModal = ({ handleSetActiveView, onClose, accountWithDetails, set
                     // show bricked account modal
                     setCurrentBrickedAccount(currentAccount.accountId);
                 } else {
-                    await account.disableMultisig();
+                    if (currentAccount.isConversionRequired) {
+                        const signingPublicKey = await wallet.getPublicKey(currentAccount.accountId);
+                        await account.batchConvertKeysAndDisable(signingPublicKey);
+                    } else {
+                        await account.disableMultisig();
+                    }
                     updateAccountWithDetails();
                     localDispatch({ type: ACTIONS.SET_CURRENT_DONE });
                 }
@@ -154,6 +166,9 @@ const Disable2FAModal = ({ handleSetActiveView, onClose, accountWithDetails, set
                 <IconSecurityLock />
                 <h4 className='title'><Translate id='walletMigration.disable2fa.title' /></h4>
                 <p><Translate id='walletMigration.disable2fa.desc' /></p>
+                {someAccountsRequireKeyConversion && (
+                    <p><Translate id='twoFactor.disable.keyConversionRequired' /></p>
+                )}
                 <div className="accountsTitle">
                     <Translate id='importAccountWithLink.accountsFound' data={{ count: state.accounts.length }} />
                 </div>
