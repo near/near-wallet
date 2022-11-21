@@ -7,7 +7,7 @@ import { selectAvailableAccounts } from '../../redux/slices/availableAccounts';
 import { selectFlowLimitationMainMenu, selectFlowLimitationSubMenu } from '../../redux/slices/flowLimitation';
 import Navigation from './Navigation';
 
-export default () => {
+export default ({ history }) => {
     const dispatch = useDispatch();
 
     const account = useSelector(selectAccountSlice);
@@ -28,6 +28,7 @@ export default () => {
             }, [])}
             availableAccounts={availableAccounts}
             account={account}
+            history={history}
         />
     );
 };

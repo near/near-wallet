@@ -812,6 +812,11 @@
         },
         "title": "Mobile Device Access"
     },
+    "moreNearWalletsModal": {
+        "desc": "Soon NEAR Wallet will no longer be supported and you’ll need another wallet to manage your accounts. We recommend that you start using a different wallet to create new accounts.",
+        "primaryButton": "More NEAR Wallets",
+        "title": "Create an account with NEAR Wallet?"
+    },
     "networkBanner": {
         "desc": "This wallet (and network) are for testing purposes only. Tokens and other assets have no value. Accounts created do not transfer to Mainnet.",
         "header": "NEAR test Wallet",

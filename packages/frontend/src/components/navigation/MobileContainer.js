@@ -177,7 +177,8 @@ class MobileContainer extends Component {
             showNavLinks,
             flowLimitationMainMenu,
             flowLimitationSubMenu,
-            refreshBalance
+            refreshBalance,
+            onClickCreateNewAccount
         } = this.props;
 
         return (
@@ -222,7 +223,7 @@ class MobileContainer extends Component {
                                 showBalanceInUSD={true}
                             />
                             <AccessAccountBtn />
-                            <CreateAccountBtn />
+                            <CreateAccountBtn onClick={onClickCreateNewAccount}/>
                         </LowerSection>
                     </>
                 )}

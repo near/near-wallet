@@ -12,6 +12,19 @@ export default createGlobalStyle`
         position: relative;
    }
    html {
+        .wallet-selector-get-a-wallet-modal {
+            .modal-left {
+                display: none;
+            }
+            .modal-right {
+                width: 100% !important;
+            }
+
+            .wallet-info-wrapper {
+                max-width: 500px;
+                margin: 91px auto 0 auto;
+            }
+        }
         box-sizing: border-box;
         min-height: 100vh;
         height: auto !important;

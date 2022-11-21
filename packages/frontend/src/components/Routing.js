@@ -359,7 +359,7 @@ class Routing extends Component {
                     <ThemeProvider theme={theme}>
                         <ScrollToTop />
                         <NetworkBanner account={account} />
-                        <NavigationWrapper />
+                        <NavigationWrapper history={this.props.history}/>
                         <GlobalAlert />
                         {
                             // TODO: Remove TwoFactorDisableBanner when we push MigrationBanner to mainnet
@@ -456,15 +456,17 @@ class Routing extends Component {
                             <Route
                                 exact
                                 path="/create"
-                                render={(props) =>
-                                    accountFound || !DISABLE_CREATE_ACCOUNT ? (
-                                        <CreateAccountWithRouter
-                                            {...props}
-                                        />
-                                    ) : (
-                                        <CreateAccountLanding />
-                                    )
-                                }
+                                render={(props) => {
+                                    if (WEP_PHASE_ONE) {
+                                        return this.props.history.push('/');
+                                    } else {
+                                        if (accountFound || !DISABLE_CREATE_ACCOUNT) {
+                                            return <CreateAccountWithRouter {...props} />;
+                                        } else {
+                                            return <CreateAccountLanding />;
+                                        }
+                                    }
+                                }}
                                 // Logged in users always create a named account
                             />
                             <Route
