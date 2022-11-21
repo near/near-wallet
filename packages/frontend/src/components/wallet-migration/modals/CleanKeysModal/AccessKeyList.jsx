@@ -76,7 +76,8 @@ const AccessKeyList = ({ account, onClose, onNext, selectKey, selectedKeys }) =>
                 <div className='account-detail'>
                     <p className='account-id'>{account.accountId}</p>
                     <p className='keys-to-remove'>
-                        {account.accessKeys.length}/{account.totalAccessKeys}
+                        {Object.values(selectedKeys).filter((enabled) => enabled).length}/{account.totalAccessKeys}
+                        {' '}
                         <Translate id='walletMigration.cleanKeys.fullAccessKeys' />
                     </p>
                 </div>

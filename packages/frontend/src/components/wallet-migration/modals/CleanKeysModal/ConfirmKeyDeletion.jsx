@@ -107,7 +107,6 @@ const ConfirmKeyDeletion = ({
         }[keyStatus] || null);
     }, [keyStatus]);
 
-    console.log({ keyStatus });
     return  (
         <ConfirmKeyDeletionContainer>
             <h4 className='title'>

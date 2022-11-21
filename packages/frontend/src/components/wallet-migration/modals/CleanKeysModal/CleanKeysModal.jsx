@@ -3,7 +3,7 @@ import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useImmerReducer } from 'use-immer';
 
-import IconLogout from '../../../../images/wallet-migration/IconLogout';
+import IconSecurityLock from '../../../../images/wallet-migration/IconSecurityLock';
 import { switchAccount } from '../../../../redux/actions/account';
 import { selectAccountId } from '../../../../redux/slices/account';
 import WalletClass, { wallet } from '../../../../utils/wallet';
@@ -86,7 +86,6 @@ const CleanKeysModal = ({ accounts, handleSetActiveView, onNext, onClose, rotate
     const initialAccountId = useRef(initialAccountIdOnStart);
     const [showConfirmCleanupModal, setShowConfirmCleanupModal] = useState(false);
     const [showConfirmSeedphraseModal, setShowConfirmSeedphraseModal] = useState(false);
-    const [/*finishingSetupForCurrentAccount*/, setFinishingSetupForCurrentAccount] = useState(false);
 
     const rotatedPublicKeys = useMemo(
         () => Object.values(rotatedKeys)
@@ -126,12 +125,12 @@ const CleanKeysModal = ({ accounts, handleSetActiveView, onNext, onClose, rotate
 
     const currentAccount = useMemo(
         () =>  state.accounts.find(({ status }) => status === IMPORT_STATUS.PENDING),
-        [ state.accounts]
+        [state.accounts]
     );
     const currentFailedAccount = useMemo(
         () => state.accounts.find(({ status }) => status === IMPORT_STATUS.FAILED)
             && state.accounts.every(({ status }) => status !== IMPORT_STATUS.PENDING),
-        [ state.accounts]
+        [state.accounts]
     );
     const batchCleanKeysNotStarted = useMemo(
         () => state.accounts.every(({ status }) => status === null),
@@ -178,7 +177,7 @@ const CleanKeysModal = ({ accounts, handleSetActiveView, onNext, onClose, rotate
         <MigrationModal>
             <Container>
                 <IconBackground>
-                    <IconLogout />
+                    <IconSecurityLock />
                 </IconBackground>
 
                 {showConfirmSeedphraseModal && (
@@ -190,19 +189,14 @@ const CleanKeysModal = ({ accounts, handleSetActiveView, onNext, onClose, rotate
                             setShowConfirmSeedphraseModal(false);
                         }}
                         onNext={async () => {
-                            try {
-                                setFinishingSetupForCurrentAccount(true);
-                                localDispatch({ type: ACTIONS.SET_CURRENT_DONE });
-                                setShowConfirmSeedphraseModal(false);
-                                await deleteKeys({
-                                    accountId: currentAccount.accountId,
-                                    publicKeysToDelete: keysToRemove,
-                                    wallet,
-                                });
-                                dispatch(switchAccount({accountId: initialAccountId.current}));
-                            } finally {
-                                setFinishingSetupForCurrentAccount(false);
-                            }
+                            localDispatch({ type: ACTIONS.SET_CURRENT_DONE });
+                            setShowConfirmSeedphraseModal(false);
+                            await deleteKeys({
+                                accountId: currentAccount.accountId,
+                                publicKeysToDelete: keysToRemove,
+                                wallet,
+                            });
+                            dispatch(switchAccount({accountId: initialAccountId.current}));
                         }}
                         publicKeysToDelete={Object.keys(keysToRemove)}
                         rotatedPublicKeys={rotatedPublicKeys}
