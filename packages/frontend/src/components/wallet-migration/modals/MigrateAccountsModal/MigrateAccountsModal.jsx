@@ -6,6 +6,7 @@ import { selectAvailableAccounts } from '../../../../redux/slices/availableAccou
 import { keyToString, generatePublicKey, encodeAccountsToHash } from '../../../../utils/encoding';
 import { getLedgerHDPath } from '../../../../utils/localStorage';
 import { wallet } from '../../../../utils/wallet';
+import { WALLET_ID } from '../../utils';
 import MigrateAccounts from './MigrateAccounts';
 import MigrationSecret from './MigrationSecret';
 import SelectDestinationWallet, { WALLET_OPTIONS } from './SelectDestinationWallet';
@@ -65,8 +66,19 @@ const MigrateAccountsModal = ({ onClose, handleSetActiveView,  handleSetWallet, 
             migrationKey,
             state.wallet
         );
+
+        if (state.wallet.id === WALLET_ID.NIGHTLY_WALLET) {
+            if (!window.nightly) {
+                window.open('https://chrome.google.com/webstore/detail/nightly/fiikommddbeccaoicoejoniammnalkfa?hl=en&authuser=0','_blank');
+                return; 
+            }
+            window.nightly.near.importWalletsNear(url);
+        
+        } else {
+            window.open(url, '_blank');
+        }
         onNext();
-        window.open(url, '_blank');
+
     }, [migrationKey, availableAccounts, wallet]);
 
     useEffect(()=> {

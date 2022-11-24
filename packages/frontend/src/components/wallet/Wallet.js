@@ -3,9 +3,7 @@ import { Translate } from 'react-localize-redux';
 import { Textfit } from 'react-textfit';
 import styled from 'styled-components';
 
-import {
-    CREATE_USN_CONTRACT,
-} from '../../../../../features';
+import { CREATE_USN_CONTRACT } from '../../../../../features';
 import { isWhitelabel } from '../../config/whitelabel';
 import getCurrentLanguage from '../../hooks/getCurrentLanguage';
 import classNames from '../../utils/classNames';
@@ -39,9 +37,9 @@ const StyledContainer = styled(Container)`
             margin-top: -15px;
         }
     }
-    
+
     .coingecko {
-        color: #B4B4B4;
+        color: #b4b4b4;
         align-self: end;
         margin: 20px;
         @media (max-width: 991px) {
@@ -280,15 +278,15 @@ const StyledContainer = styled(Container)`
         width: 100%;
         .deposit-near-banner {
             > div {
-                border-top: 1px solid #F0F0F1;
+                border-top: 1px solid #f0f0f1;
                 padding: 20px;
-        
+
                 @media (max-width: 991px) {
                     margin: 0 -14px;
                     padding: 20px 0;
-                    border-bottom: 15px solid #F0F0F1;
+                    border-bottom: 15px solid #f0f0f1;
                 }
-        
+
                 @media (max-width: 767px) {
                     padding: 20px 14px 20px 14px;
                 }
@@ -315,7 +313,7 @@ export function Wallet({
     handleSetCreateFromImplicitSuccess,
     handleSetCreateCustomName,
     handleSetZeroBalanceAccountImportMethod,
-    userRecoveryMethods
+    userRecoveryMethods,
 }) {
     const currentLanguage = getCurrentLanguage();
     const totalAmount = getTotalBalanceInFiat(
@@ -323,16 +321,16 @@ export function Wallet({
         currentLanguage
     );
 
-    const shouldShowRemoveLinkRecoveryBanner = !isWhitelabel && (userRecoveryMethods.some(({ kind }) => kind === 'email')
-        || userRecoveryMethods.some(({ kind }) => kind === 'phone'));
+    const shouldShowRemoveLinkRecoveryBanner =
+        !isWhitelabel &&
+        (userRecoveryMethods.some(({ kind }) => kind === 'email') ||
+            userRecoveryMethods.some(({ kind }) => kind === 'phone'));
 
     return (
         <StyledContainer
             className={SHOW_NETWORK_BANNER ? 'showing-banner' : ''}
         >
-            {shouldShowRemoveLinkRecoveryBanner &&
-                <RemoveLinkRecoveryBanner />
-            }
+            {shouldShowRemoveLinkRecoveryBanner && <RemoveLinkRecoveryBanner />}
             <div className="split">
                 <div className="left">
                     <div className="tab-selector">
@@ -370,12 +368,17 @@ export function Wallet({
                     )}
                 </div>
                 <div className="right">
-                    {isWhitelabel
-                        ? <SidebarLight availableAccounts={accountExists && availableAccounts} />
-                        : accountExists
-                            ? <Sidebar availableAccounts={availableAccounts} />
-                            : <ExploreApps />
-                    }
+                    {isWhitelabel ? (
+                        <SidebarLight
+                            availableAccounts={
+                                accountExists && availableAccounts
+                            }
+                        />
+                    ) : accountExists ? (
+                        <Sidebar availableAccounts={availableAccounts} />
+                    ) : (
+                        <ExploreApps />
+                    )}
                     <ActivitiesWrapper />
                 </div>
             </div>
@@ -417,7 +420,7 @@ const FungibleTokens = ({
     accountExists,
     totalAmount,
     currentLanguage,
-    fungibleTokensList
+    fungibleTokensList,
 }) => {
     const zeroBalanceAccount = accountExists === false;
     const currentFungibleTokens = fungibleTokens[0];
@@ -427,9 +430,11 @@ const FungibleTokens = ({
         currentFungibleTokens?.onChainFTMetadata?.symbol === 'NEAR';
     return (
         <>
-            <div className='total-balance'>
-                <Textfit mode='single' max={48}>
-                    <AllTokensTotalBalanceUSD allFungibleTokens={fungibleTokensList} />
+            <div className="total-balance">
+                <Textfit mode="single" max={48}>
+                    <AllTokensTotalBalanceUSD
+                        allFungibleTokens={fungibleTokensList}
+                    />
                 </Textfit>
             </div>
             <div className="sub-title balance">
@@ -483,7 +488,7 @@ const FungibleTokens = ({
                 </FormButton>
             </div>
             {zeroBalanceAccount && (
-                <div className='deposit-banner-wrapper'>
+                <div className="deposit-banner-wrapper">
                     <DepositNearBanner />
                 </div>
             )}
@@ -503,7 +508,9 @@ const FungibleTokens = ({
                         tokens={fungibleTokens}
                         currentLanguage={currentLanguage}
                     />
-                    <div className='coingecko'><Translate id='poweredByCoinGecko' /></div>
+                    <div className="coingecko">
+                        <Translate id="poweredByCoinGecko" />
+                    </div>
                 </>
             )}
         </>

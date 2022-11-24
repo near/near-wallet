@@ -7,6 +7,7 @@ import styled from 'styled-components';
 import ImgFinerWallet from '../../../../../src/images/finer-logo.svg';
 import ImgMeteorWallet from '../../../../../src/images/meteor-wallet-logo.svg';
 import ImgMyNearWallet from '../../../../../src/images/mynearwallet-cropped.svg';
+import ImgNightlyWallet from '../../../../../src/images/nightly-logo.svg';
 import SenderLogo from '../../../../../src/images/sender-logo.png';
 import IconLedger from '../../../../images/wallet-migration/IconLedger';
 import IconWallet from '../../../../images/wallet-migration/IconWallet';
@@ -86,6 +87,14 @@ export const WALLET_OPTIONS = shuffle([
         icon: <img src={ImgFinerWallet} alt="Finer Wallet Logo" />,
         getUrl: ({ hash, networkId }) => `https://finerwallet.io/near-wallet-${networkId}/batch-import#${hash}`,
         checkAvailability: () => isMobile('iOS'),
+        ledgerSupport: false,
+    },
+    {
+        id: WALLET_ID.NIGHTLY_WALLET,
+        name: 'Nightly Wallet',
+        icon: <img src={ImgNightlyWallet} alt="Nightly Wallet Logo" />,
+        getUrl: ({ hash }) => hash,
+        checkAvailability: () => true,
         ledgerSupport: false,
     },
 ]);

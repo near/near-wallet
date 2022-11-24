@@ -5,7 +5,8 @@ export const WALLET_ID = {
     LEDGER: 'ledger',
     SENDER: 'sender',
     METEOR_WALLET: 'meteor-wallet',
-    FINER_WALLET: 'finer-wallet'
+    FINER_WALLET: 'finer-wallet',
+    NIGHTLY_WALLET: 'nightly-wallet'
 };
 
 export const isAccountBricked = async (account) => {
