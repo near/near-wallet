@@ -14,6 +14,7 @@ import { setupSender } from '@near-wallet-selector/sender';
 import { setupWelldoneWallet } from '@near-wallet-selector/welldone-wallet';
 import React, { useEffect } from 'react';
 
+import { IS_MAINNET } from '../../../config';
 import MoreNearWalletsModal from './MoreNearWalletsModal';
 import '@near-wallet-selector/modal-ui/styles.css';
 
@@ -33,7 +34,7 @@ export function WalletSelectorGetAWallet({
 
         const initSelector = async () => {
             const selector = await setupWalletSelector({
-                network: 'testnet',
+                network: IS_MAINNET ? 'mainnet' : 'testnet',
                 modules: [
                     setupNearWallet(),
                     setupMyNearWallet(),
@@ -51,7 +52,7 @@ export function WalletSelectorGetAWallet({
             });
 
             setWalletSelectorModal(setupModal(selector, {
-                contractId: 'test.testnet'
+                contractId: 'dontcare'
             }));
         };
 
