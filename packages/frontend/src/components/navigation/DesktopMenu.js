@@ -32,7 +32,8 @@ const DesktopMenu = ({
     handleSelectAccount,
     accountIdLocalStorage,
     accountsBalance,
-    refreshBalance
+    refreshBalance,
+    onClickCreateNewAccount
 }) => {
     if (show) {
         return (
@@ -47,7 +48,7 @@ const DesktopMenu = ({
                     showBalanceInUSD={true}
                 />
                 <AccessAccountBtn />
-                <CreateAccountBtn />
+                <CreateAccountBtn onClick={onClickCreateNewAccount}/>
             </Menu>
         );
     }

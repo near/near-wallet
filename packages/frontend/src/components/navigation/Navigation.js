@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
 
+import { WEP_PHASE_ONE } from '../../../../../features';
+import { WalletSelectorGetAWallet } from '../common/wallet_selector/WalletSelectorGetAWallet';
 import DesktopContainer from './DesktopContainer';
 import MobileContainer from './MobileContainer';
 
@@ -37,9 +39,12 @@ export default ({
     flowLimitationSubMenu,
     refreshBalance,
     availableAccounts,
-    account
+    account,
+    history
 }) => {
     const [menuOpen, setMenuOpen] = useState(false);
+    const [walletSelectorModal, setWalletSelectorModal] = useState();
+    const [showModal, setShowModal] = useState();
 
     useEffect(() => {
         if (menuOpen) {
@@ -83,8 +88,26 @@ export default ({
         setMenuOpen(false);
     }, []);
 
+    const handleOnClickCreateNewAccount = () => {
+        if (WEP_PHASE_ONE) {
+            setShowModal('more-near-wallets');
+        } else {
+            history.push('/create');
+        }
+    };
+
     return (
         <Container id='nav-container' open={menuOpen}>
+            <WalletSelectorGetAWallet
+                setWalletSelectorModal={(modal) => setWalletSelectorModal(modal)}
+                setShowModal={(modal) => {
+                    setShowModal(null);
+                    if (modal === 'wallet-selector') {
+                        walletSelectorModal.show();
+                    }
+                }}
+                showModal={showModal}
+            />
             <DesktopContainer
                 menuOpen={menuOpen}
                 toggleMenu={toggleMenu}
@@ -95,6 +118,7 @@ export default ({
                 refreshBalance={refreshBalance}
                 availableAccounts={availableAccounts}
                 account={account}
+                onClickCreateNewAccount={handleOnClickCreateNewAccount}
             />
             <MobileContainer
                 menuOpen={menuOpen}
@@ -106,6 +130,7 @@ export default ({
                 refreshBalance={refreshBalance}
                 availableAccounts={availableAccounts}
                 account={account}
+                onClickCreateNewAccount={handleOnClickCreateNewAccount}
             />
         </Container>
     );
