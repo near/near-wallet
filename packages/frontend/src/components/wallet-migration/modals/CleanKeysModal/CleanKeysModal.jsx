@@ -80,7 +80,7 @@ const CleanKeysModal = ({ accounts, handleSetActiveView, onNext, onClose, rotate
     });
 
     const [loadingAccounts, setLoadingAccounts] = useState(true);
-    const [keysToRemove, setKeysToRemove] = useState({});
+    const [keysToRemove, setKeysToRemove] = useState([]);
     const dispatch = useDispatch();
     const initialAccountIdOnStart = useSelector(selectAccountId);
     const initialAccountId = useRef(initialAccountIdOnStart);
@@ -164,10 +164,7 @@ const CleanKeysModal = ({ accounts, handleSetActiveView, onNext, onClose, rotate
     useEffect(() => {
         if (currentAccount) {
             setShowConfirmCleanupModal(false);
-            setKeysToRemove(currentAccount.accessKeys.reduce((keys, { publicKey }) => {
-                keys[publicKey] = true;
-                return keys;
-            }, {}));
+            setKeysToRemove(currentAccount.accessKeys.map(({ publicKey }) => publicKey));
 
             removeKeysForCurrentAccount();
         }
@@ -198,7 +195,7 @@ const CleanKeysModal = ({ accounts, handleSetActiveView, onNext, onClose, rotate
                             });
                             dispatch(switchAccount({accountId: initialAccountId.current}));
                         }}
-                        publicKeysToDelete={Object.keys(keysToRemove)}
+                        publicKeysToDelete={keysToRemove}
                         rotatedPublicKeys={rotatedPublicKeys}
                     />
                 )}
@@ -211,10 +208,11 @@ const CleanKeysModal = ({ accounts, handleSetActiveView, onNext, onClose, rotate
                             setShowConfirmCleanupModal(false);
                             setShowConfirmSeedphraseModal(true);
                         }}
-                        selectKey={(publicKey) => setKeysToRemove({
-                            ...keysToRemove,
-                            [publicKey]: !keysToRemove[publicKey],
-                        })}
+                        selectKey={(publicKey, checked) => setKeysToRemove(
+                            checked
+                                ? [...keysToRemove, publicKey]
+                                : keysToRemove.filter((key) => key !== publicKey))
+                        }
                         selectedKeys={keysToRemove}
                     />
                 )}

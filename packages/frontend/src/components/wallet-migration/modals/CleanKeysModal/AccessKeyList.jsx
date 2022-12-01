@@ -63,6 +63,12 @@ const AccessKeyListContainer = styled.div`
 
 const AccessKeyList = ({ account, onClose, onNext, selectKey, selectedKeys }) => {
     const [expanded, setExpanded] = useState(true);
+    const keysToDelete = selectedKeys.reduce((keys, key) => ({ ...keys, [key]: true }), {});
+    const accessKeys = account.accessKeys.map((accessKey) => ({
+        ...accessKey,
+        checked: !!keysToDelete[accessKey.publicKey],
+    }));
+
     return (
         <AccessKeyListContainer>
             <h3 className='title'>
@@ -89,7 +95,7 @@ const AccessKeyList = ({ account, onClose, onNext, selectKey, selectedKeys }) =>
                 trigger='full-access-keys'
                 className='breakdown'
             >
-                {account.accessKeys.map(({ kind, publicKey }) => (
+                {accessKeys.map(({ kind, publicKey, checked }) => (
                     <div className='access-key' key={publicKey}>
                         <div className='public-key'>
                             <span className='key-prefix'>
@@ -98,8 +104,8 @@ const AccessKeyList = ({ account, onClose, onNext, selectKey, selectedKeys }) =>
                             &nbsp;
                             (<Translate id={`walletMigration.cleanKeys.keyTypes.${kind}`} />)
                         </div>
-                        <div className='remove-checkbox' onClick={() => selectKey(publicKey)}>
-                            <Checkbox checked={selectedKeys[publicKey]} />
+                        <div className='remove-checkbox' onClick={() => selectKey(publicKey, !checked)}>
+                            <Checkbox checked={checked} />
                         </div>
                     </div>
                 ))}
@@ -108,7 +114,7 @@ const AccessKeyList = ({ account, onClose, onNext, selectKey, selectedKeys }) =>
                 <StyledButton
                     onClick={onNext}
                     fullWidth
-                    disabled={!Object.values(selectedKeys).some((remove) => remove)}
+                    disabled={selectedKeys.length === 0}
                     data-test-id="cleanupKeys.continue"
                 >
                     <Translate id='walletMigration.cleanKeys.removeKeys' />
