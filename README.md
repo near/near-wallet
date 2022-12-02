@@ -12,3 +12,5 @@ WARNING: This wallet shouldn't be used as the only signer for high-value account
 Test suite for verifying core use cases and user flow are functional in the UI
 ### [frontend](packages/frontend)
 Wallet frontend (React/Redux app).
+
+
