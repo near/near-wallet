@@ -4,6 +4,7 @@
 export type Features = {
     CREATE_USN_CONTRACT: boolean;
 	DONATE_TO_UKRAINE: boolean;
+	FT_TRANSFER_REGISTRATION: boolean;
 	HAPI_RISK_SCORING: boolean;
 	RENDER_MIGRATION: boolean;
 	SHOW_MIGRATION_BANNER: boolean;
