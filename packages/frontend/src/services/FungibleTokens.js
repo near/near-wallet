@@ -9,6 +9,8 @@ import {
     FT_STORAGE_DEPOSIT_GAS,
     FT_MINIMUM_STORAGE_BALANCE,
     FT_MINIMUM_STORAGE_BALANCE_LARGE,
+    FT_REGISTRATION_DEPOSIT,
+    FT_REGISTRATION_DEPOSIT_GAS,
     SEND_NEAR_GAS,
 } from '../config';
 import {
@@ -32,6 +34,18 @@ const {
 export default class FungibleTokens {
     // View functions are not signed, so do not require a real account!
     static viewFunctionAccount = wallet.getAccountBasic('dontcare');
+
+    static async checkRegistration({ contractName, accountId }) {
+        try {
+            return await this.viewFunctionAccount.viewFunction(
+                contractName,
+                'check_registration',
+                { account_id: accountId }
+            );
+        } catch {
+            return null;
+        }
+    }
 
     static getParsedTokenAmount(amount, symbol, decimals) {
         const parsedTokenAmount =
@@ -99,6 +113,10 @@ export default class FungibleTokens {
         return new BN(amount)
             .add(new BN(await this.getEstimatedTotalFees()))
             .toString();
+    }
+
+    async isAccountUnregistered({ contractName, accountId }) {
+        return (await this.constructor.checkRegistration({ contractName, accountId })) === false;
     }
 
     async isStorageBalanceAvailable({ contractName, accountId }) {
@@ -204,9 +222,21 @@ export default class FungibleTokens {
             }
         }
 
+        const isRegistrationRequired = await this.isAccountUnregistered({
+            accountId: receiverId,
+            contractName,
+        });
+        
         return account.signAndSendTransaction({
             receiverId: contractName,
             actions: [
+                ...(isRegistrationRequired ? [
+                    functionCall(
+                        'register_account',
+                        { account_id: receiverId },
+                        FT_REGISTRATION_DEPOSIT_GAS
+                    ),
+                ] : []),
                 functionCall(
                     'ft_transfer',
                     {
