@@ -127,6 +127,18 @@ export default class FungibleTokens {
         return storageBalance?.total !== undefined;
     }
 
+    async isStorageDepositRequired({ accountId, contractName }) {
+        try {
+            const storageBalance = await this.constructor.getStorageBalance({
+                contractName,
+                accountId,
+            });
+            return storageBalance?.total === undefined;
+        } catch {
+            return false;
+        }
+    }
+
     async legacy_transfer({ accountId, contractName, amount, receiverId, memo }) {
         // Ensure our awareness of 2FA being enabled is accurate before we submit any transaction(s)
         const account = await wallet.getAccount(accountId);
@@ -193,12 +205,12 @@ export default class FungibleTokens {
             return account.sendMoney(receiverId, amount);
         }
 
-        const storageAvailable = await this.isStorageBalanceAvailable({
+        const isStorageTransferRequired = await this.isStorageDepositRequired({
             contractName,
             accountId: receiverId,
         });
 
-        if (!storageAvailable) {
+        if (isStorageTransferRequired) {
             try {
                 await this.transferStorageDeposit({
                     account,
