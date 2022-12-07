@@ -96,7 +96,7 @@ export default class FungibleTokens {
         );
     }
 
-    async getEstimatedTotalFees({ accountId, contractName } = {}) {
+    async legacy_getEstimatedTotalFees({ accountId, contractName } = {}) {
         if (
             contractName &&
             accountId &&
@@ -109,6 +109,33 @@ export default class FungibleTokens {
         }
     }
 
+    async getEstimatedTotalFees({ accountId, contractName } = {}) {
+        if (!FT_TRANSFER_REGISTRATION) {
+            return this.legacy_getEstimatedTotalFees({ accountId, contractName });
+        }
+
+        if (contractName && accountId) {
+            const isRegistrationRequired = await this.isAccountUnregistered({ contractName, accountId });
+            const isStorageDepositRequired = await this.isStorageDepositRequired({ contractName, accountId });
+
+            const transferGasFee = new BN(FT_TRANSFER_GAS);
+
+            if (isRegistrationRequired) {
+                const gasFeesWithStorage = await getTotalGasFee(transferGasFee.add(new BN(FT_REGISTRATION_DEPOSIT_GAS)));
+                return new BN(gasFeesWithStorage)
+                    .add(new BN(FT_REGISTRATION_DEPOSIT)).toString();
+            }
+
+            if (isStorageDepositRequired) {
+                const gasFeesWithStorage = await getTotalGasFee(transferGasFee.add(new BN(FT_STORAGE_DEPOSIT_GAS)));
+                return new BN(gasFeesWithStorage)
+                    .add(new BN(FT_MINIMUM_STORAGE_BALANCE)).toString();
+            }
+        }
+
+        return getTotalGasFee(contractName ? FT_TRANSFER_GAS : SEND_NEAR_GAS);
+    }
+
     async getEstimatedTotalNearAmount({ amount }) {
         return new BN(amount)
             .add(new BN(await this.getEstimatedTotalFees()))
@@ -119,6 +146,7 @@ export default class FungibleTokens {
         return (await this.constructor.checkRegistration({ contractName, accountId })) === false;
     }
 
+    /* TODO remove with FT_TRANSFER_REGISTRATION */
     async isStorageBalanceAvailable({ contractName, accountId }) {
         const storageBalance = await this.constructor.getStorageBalance({
             contractName,
