@@ -87,6 +87,50 @@
       "lastEditedAt": "2022-05-10T17:07:20.351Z"
     }
   },
+  "FT_TRANSFER_REGISTRATION": {
+    "createdBy": "Andy Haynes",
+    "createdAt": "2022-12-06T21:19:25.267Z",
+    "development": {
+      "enabled": true,
+      "lastEditedBy": "Andy Haynes",
+      "lastEditedAt": "2022-12-06T21:19:25.267Z"
+    },
+    "testnet": {
+      "enabled": false,
+      "lastEditedBy": "Andy Haynes",
+      "lastEditedAt": "2022-12-06T21:19:25.267Z"
+    },
+    "mainnet": {
+      "enabled": false,
+      "lastEditedBy": "Andy Haynes",
+      "lastEditedAt": "2022-12-06T21:19:25.267Z"
+    },
+    "mainnet_STAGING": {
+      "enabled": false,
+      "lastEditedBy": "Andy Haynes",
+      "lastEditedAt": "2022-12-06T21:19:25.267Z"
+    },
+    "testnet_STAGING": {
+      "enabled": false,
+      "lastEditedBy": "Andy Haynes",
+      "lastEditedAt": "2022-12-06T21:19:25.267Z"
+    },
+    "testnet_NEARORG": {
+      "enabled": false,
+      "lastEditedBy": "Andy Haynes",
+      "lastEditedAt": "2022-12-06T21:19:25.267Z"
+    },
+    "mainnet_NEARORG": {
+      "enabled": false,
+      "lastEditedBy": "Andy Haynes",
+      "lastEditedAt": "2022-12-06T21:19:25.267Z"
+    },
+    "mainnet_STAGING_NEARORG": {
+      "enabled": false,
+      "lastEditedBy": "Andy Haynes",
+      "lastEditedAt": "2022-12-06T21:19:25.267Z"
+    }
+  },
   "HAPI_RISK_SCORING": {
     "createdBy": "Den Ilin",
     "createdAt": "2022-07-22T14:03:54.488Z",
