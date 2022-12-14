@@ -101,14 +101,14 @@
       "lastEditedAt": "2022-12-08T18:46:45.482Z"
     },
     "mainnet": {
-      "enabled": false,
+      "enabled": true,
       "lastEditedBy": "Andy Haynes",
-      "lastEditedAt": "2022-12-06T21:19:25.267Z"
+      "lastEditedAt": "2022-12-14T23:10:14.362Z"
     },
     "mainnet_STAGING": {
-      "enabled": false,
+      "enabled": true,
       "lastEditedBy": "Andy Haynes",
-      "lastEditedAt": "2022-12-06T21:19:25.267Z"
+      "lastEditedAt": "2022-12-14T23:10:14.362Z"
     },
     "testnet_STAGING": {
       "enabled": true,
@@ -121,14 +121,14 @@
       "lastEditedAt": "2022-12-08T18:46:45.482Z"
     },
     "mainnet_NEARORG": {
-      "enabled": false,
+      "enabled": true,
       "lastEditedBy": "Andy Haynes",
-      "lastEditedAt": "2022-12-06T21:19:25.267Z"
+      "lastEditedAt": "2022-12-14T23:10:14.362Z"
     },
     "mainnet_STAGING_NEARORG": {
-      "enabled": false,
+      "enabled": true,
       "lastEditedBy": "Andy Haynes",
-      "lastEditedAt": "2022-12-06T21:19:25.267Z"
+      "lastEditedAt": "2022-12-14T23:10:14.362Z"
     }
   },
   "HAPI_RISK_SCORING": {
