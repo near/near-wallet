@@ -16,6 +16,7 @@ const Style = styled.div`
     switch (props.modalSize) {
         case 'lg': return '800';
         case 'md': return '550';
+        case 'sm-md': return '496';
         case 'sm': return '400'; 
         case 'xs': return '300'; 
         default: return '650';
@@ -63,7 +64,7 @@ const Style = styled.div`
         z-index: 1050;
         width: 100%;
         background-color: white;
-        border-radius: 6px;
+        border-radius: 16px;
         transition: 0.3s;
         padding: 25px;
         position: relative;

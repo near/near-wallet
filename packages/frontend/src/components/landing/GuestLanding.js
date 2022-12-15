@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
@@ -6,6 +6,7 @@ import { WEP_PHASE_ONE } from '../../../../../features';
 import iPhoneMockup from '../../images/iphone-mockup.png';
 import FormButton from '../common/FormButton';
 import Container from '../common/styled/Container.css';
+import { WalletSelectorGetAWallet } from '../common/wallet_selector/WalletSelectorGetAWallet';
 import LandingBackground from './LandingBackground';
 
 const StyledContainer = styled.div`
@@ -140,16 +141,35 @@ const StyledContainer = styled.div`
     }
 `;
 
-export function GuestLanding() {
+export function GuestLanding({ history }) {
+    const [walletSelectorModal, setWalletSelectorModal] = useState();
+    const [showModal, setShowModal] = useState();
+
     return (
         <StyledContainer>
+            <WalletSelectorGetAWallet
+                setWalletSelectorModal={(modal) => setWalletSelectorModal(modal)}
+                setShowModal={(modal) => {
+                    setShowModal(null);
+                    if (modal === 'wallet-selector') {
+                        walletSelectorModal.show();
+                    }
+                }}
+                showModal={showModal}
+            />
             <LandingBackground />
             <Container className='small-centered'>
                 <h1><Translate id='landing.title' /></h1>
                 <h3><Translate id='landing.desc' /></h3>
                 <div className='buttons'>
                     <FormButton
-                        linkTo="/create"
+                        onClick={() => {
+                            if (WEP_PHASE_ONE) {
+                                setShowModal('more-near-wallets');
+                            } else {
+                                history.push('/create');
+                            }
+                        }}
                         trackingId="Click create account button"
                         data-test-id="landingPageCreateAccount"
                     >

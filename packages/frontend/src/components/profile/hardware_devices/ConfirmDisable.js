@@ -44,7 +44,7 @@ const Container = styled.form`
     }
 `;
 
-const ConfirmDisable = ({ onConfirmDisable, onKeepEnabled, accountId, disabling, component, twoFactorKind }) => {
+const ConfirmDisable = ({ onConfirmDisable, onKeepEnabled, accountId, disabling, component, twoFactorKind, isKeyConversionRequiredFor2faDisable }) => {
     const [username, setUsername] = useState('');
 
     const isTwoFactorPhone = component === 'twoFactor' && twoFactorKind === '2fa-phone';
@@ -56,6 +56,9 @@ const ConfirmDisable = ({ onConfirmDisable, onKeepEnabled, accountId, disabling,
         }}>
             <div><Translate id={`${component}.disable.title`}/></div>
             <div><Translate id={`${component}.disable.${isTwoFactorPhone ? 'phoneDesc' : 'desc'}`}/></div>
+            {isKeyConversionRequiredFor2faDisable && (
+                <div><Translate id={`${component}.disable.keyConversionRequired`}/></div>
+            )}
             <Translate>
                 {({ translate }) => (
                     <input

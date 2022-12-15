@@ -100,6 +100,7 @@ class DesktopContainer extends Component {
             flowLimitationMainMenu,
             flowLimitationSubMenu,
             refreshBalance,
+            onClickCreateNewAccount
         } = this.props;
 
         const showAllNavigationLinks = showNavLinks && !flowLimitationMainMenu;
@@ -136,6 +137,7 @@ class DesktopContainer extends Component {
                             accountsBalance={account.accountsBalance}
                             balance={account.balance}
                             refreshBalance={refreshBalance}
+                            onClickCreateNewAccount={onClickCreateNewAccount}
                         />
                     </>
                 )}

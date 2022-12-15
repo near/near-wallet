@@ -16,8 +16,8 @@ const Button = styled(FormButton)`
     }
 `;
 
-const CreateAccountBtn = () => (
-    <Button linkTo='/create' trackingId='CA Click create new account button' color='gray-blue'>
+const CreateAccountBtn = ({ onClick }) => (
+    <Button onClick={onClick} trackingId='CA Click create new account button' color='gray-blue'>
         <PlusSignIcon color='#0072CE'/>
         <Translate id='button.createNewAccount'/>
     </Button>
