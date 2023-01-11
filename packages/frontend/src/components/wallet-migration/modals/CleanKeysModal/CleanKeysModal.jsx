@@ -191,13 +191,13 @@ const CleanKeysModal = ({ accounts, handleSetActiveView, onNext, onClose, rotate
                             setShowConfirmSeedphraseModal(false);
                         }}
                         onNext={async () => {
-                            localDispatch({ type: ACTIONS.SET_CURRENT_DONE });
-                            setShowConfirmSeedphraseModal(false);
                             await deleteKeys({
                                 accountId: currentAccount.accountId,
                                 publicKeysToDelete: keysToRemove,
                                 wallet,
                             });
+                            setShowConfirmSeedphraseModal(false);
+                            localDispatch({ type: ACTIONS.SET_CURRENT_DONE });
                             dispatch(switchAccount({accountId: initialAccountId.current}));
                         }}
                         publicKeysToDelete={keysToRemove}
