@@ -75,7 +75,7 @@ export default class NonFungibleTokens {
                     }))
             );
         } catch (e) {
-            if (!e.toString().includes('FunctionCallError(MethodResolveError(MethodNotFound))')) {
+            if (!e.toString().includes('MethodResolveError(MethodNotFound)')) {
                 throw e;
             }
 
