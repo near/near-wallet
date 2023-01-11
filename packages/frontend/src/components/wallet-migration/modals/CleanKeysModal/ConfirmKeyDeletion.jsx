@@ -83,6 +83,7 @@ const getKeyStatus = ({
 const ConfirmKeyDeletion = ({
     accountId,
     fakPublicKeys,
+    isDeleting,
     onClose,
     onNext,
     publicKeysToDelete,
@@ -137,7 +138,7 @@ const ConfirmKeyDeletion = ({
                 <StyledButton
                     onClick={onNext}
                     fullWidth
-                    disabled={isDisabled}
+                    disabled={isDisabled || isDeleting}
                     data-test-id="cleanupKeys.continue"
                 >
                     <Translate id='walletMigration.cleanKeys.removeKeys' />

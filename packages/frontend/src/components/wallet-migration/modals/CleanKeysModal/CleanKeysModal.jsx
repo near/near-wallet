@@ -86,6 +86,7 @@ const CleanKeysModal = ({ accounts, handleSetActiveView, onNext, onClose, rotate
 
     const [loadingAccounts, setLoadingAccounts] = useState(true);
     const [keysToRemove, setKeysToRemove] = useState([]);
+    const [keysAreDeleting, setKeysAreDeleting] = useState(false);
     const dispatch = useDispatch();
     const initialAccountIdOnStart = useSelector(selectAccountId);
     const initialAccountId = useRef(initialAccountIdOnStart);
@@ -186,16 +187,22 @@ const CleanKeysModal = ({ accounts, handleSetActiveView, onNext, onClose, rotate
                     <ConfirmKeyDeletion
                         accountId={currentAccount.accountId}
                         fakPublicKeys={currentAccount.accessKeys}
+                        isDeleting={keysAreDeleting}
                         onClose = {async () => {
                             localDispatch({ type: ACTIONS.SET_CURRENT_FAILED_AND_END_PROCESS });
                             setShowConfirmSeedphraseModal(false);
                         }}
                         onNext={async () => {
-                            await deleteKeys({
-                                accountId: currentAccount.accountId,
-                                publicKeysToDelete: keysToRemove,
-                                wallet,
-                            });
+                            setKeysAreDeleting(true);
+                            try {
+                                await deleteKeys({
+                                    accountId: currentAccount.accountId,
+                                    publicKeysToDelete: keysToRemove,
+                                    wallet,
+                                });
+                            } finally {
+                                setKeysAreDeleting(false);
+                            }
                             setShowConfirmSeedphraseModal(false);
                             localDispatch({ type: ACTIONS.SET_CURRENT_DONE });
                             dispatch(switchAccount({accountId: initialAccountId.current}));
