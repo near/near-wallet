@@ -55,22 +55,27 @@ async function getAccountDetails({ accountId, publicKeyBlacklist, wallet }) {
 async function deleteKeys({ accountId, publicKeysToDelete, wallet }) {
     const account = await wallet.getAccount(accountId);
     const signingPublicKey = await wallet.getPublicKey();
+    const deleteSigningKey = publicKeysToDelete.some((publicKey) => publicKey === signingPublicKey);
+    const keysForBatchDeletion = publicKeysToDelete.length - (deleteSigningKey ? 1 : 0);
 
-    // TODO build batch delete transactions to delete 100 per transaction
-    const deleteKeyBatch = (keys) => Promise.all(keys.map(async (key) => {
-        await account.deleteKey(key);
-        // if the deleted key is the current signing key in the wallet, remove it from the localstorage keystore
-        if (key === signingPublicKey) {
-            await wallet.keyStore.removeKey(wallet.connection.networkId, accountId);
-        }
-    }));
-
-    const dop = 20;
     let deleted = 0;
-    while (deleted <= publicKeysToDelete.length) {
-        const upperBound = deleted + dop;
-        await deleteKeyBatch(publicKeysToDelete.slice(deleted, upperBound));
+    while (deleted <= keysForBatchDeletion) {
+        const upperBound = deleted + 100;
+        const deleteBatch = publicKeysToDelete
+            .filter((publicKey) => publicKey !== signingPublicKey)
+            .slice(deleted, upperBound);
+        await account.signAndSendTransaction({
+            actions: deleteBatch
+                .map((publicKey) => nearApi.transactions.deleteKey(nearApi.utils.PublicKey.fromString(publicKey))),
+            receiverId: accountId,
+        });
+
         deleted = upperBound;
+    }
+
+    if (deleteSigningKey) {
+        await account.deleteKey(signingPublicKey);
+        await wallet.keyStore.removeKey(wallet.connection.networkId, accountId);
     }
 }
 
