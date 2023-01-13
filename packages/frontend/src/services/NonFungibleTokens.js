@@ -61,7 +61,7 @@ export default class NonFungibleTokens {
             if (reference.startsWith('https')) {
                 referenceUrl = reference;
             } else if (reference.startsWith('ar://')) {
-                referenceUrl = `https://arweave.net/${reference}`;
+                referenceUrl = `https://arweave.net/${reference.split('//')[1]}`;
             } else {
                 referenceUrl = `${base_uri}/${reference}`;
             }
