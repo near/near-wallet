@@ -46,7 +46,7 @@ const Container = styled.div`
         margin-top: 40px;
     }
 `;
-const MINIMIM_ACCOUNT_BALANCE  = 0.00005;
+const MINIMUM_ACCOUNT_BALANCE  = 0.00005;
 
 const RotateKeysModal = ({handleSetActiveView, onClose, onRotateKeySuccess, accountWithDetails}) => {
     const [state, localDispatch] = useImmerReducer(sequentialAccountImportReducer, {
@@ -81,7 +81,7 @@ const RotateKeysModal = ({handleSetActiveView, onClose, onRotateKeySuccess, acco
         const importRotatableAccounts = async () => {
             localDispatch({
                 type: ACTIONS.ADD_ACCOUNTS,
-                accounts: accountWithDetails.reduce(((acc, { accountId, keyType, accountBalance }) => keyType == WalletClass.KEY_TYPES.FAK && accountBalance.balanceAvailable >= MINIMIM_ACCOUNT_BALANCE  ? acc.concat({ accountId, status: null }) : acc), [])
+                accounts: accountWithDetails.reduce(((acc, { accountId, keyType, accountBalance }) => keyType == WalletClass.KEY_TYPES.FAK && accountBalance.balanceAvailable >= MINIMUM_ACCOUNT_BALANCE  ? acc.concat({ accountId, status: null }) : acc), [])
             });
             setLoadingEligibleRotatableAccounts(false);
             generateAndSetPhrase();
