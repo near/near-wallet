@@ -107,7 +107,7 @@ const RotateKeysModal = ({handleSetActiveView, onClose, onRotateKeySuccess, acco
 
     useEffect(() => {
         if (completedWithSuccess) {
-            handleSetActiveView(WALLET_MIGRATION_VIEWS.MIGRATE_ACCOUNTS);
+            handleSetActiveView(WALLET_MIGRATION_VIEWS.CLEAN_KEYS);
         }
     }, [completedWithSuccess]);
 
