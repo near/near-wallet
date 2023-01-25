@@ -8,8 +8,8 @@ const RedirectingModal = ({
     wallet,
     onNext,
 }) => {
-    // move to next modal after 10 seconds
-    setTimeout(() => onNext(), 10000);
+    // move to next modal after 5 seconds
+    setTimeout(() => onNext(), 5000);
 
     return (
         <MigrationModal>

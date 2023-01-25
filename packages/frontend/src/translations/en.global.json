@@ -1934,7 +1934,7 @@
             "title": "Password required to import accounts"
         },
         "redirect": {
-            "desc": "You’ll be automatically redirected in <b>10 seconds.</b> Once redirected, you’ll need to approve each account as it is added to your new wallet.",
+            "desc": "You’ll be automatically redirected in <b>5 seconds.</b> Once redirected, you’ll need to approve each account as it is added to your new wallet.",
             "title": "Redirecting to ${wallet}"
         },
         "rotateKeys": {
