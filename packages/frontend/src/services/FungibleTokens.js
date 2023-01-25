@@ -1,7 +1,6 @@
 import BN from 'bn.js';
 import * as nearApiJs from 'near-api-js';
 
-import { FT_TRANSFER_REGISTRATION } from '../../../../features';
 import {
     NEAR_TOKEN_ID,
     TOKEN_TRANSFER_DEPOSIT,
@@ -96,24 +95,7 @@ export default class FungibleTokens {
         );
     }
 
-    async legacy_getEstimatedTotalFees({ accountId, contractName } = {}) {
-        if (
-            contractName &&
-            accountId &&
-            !(await this.isStorageBalanceAvailable({ contractName, accountId }))
-        ) {
-            const totalGasFees = await getTotalGasFee(new BN(FT_TRANSFER_GAS).add(new BN(FT_STORAGE_DEPOSIT_GAS)));
-            return new BN(totalGasFees).add(new BN(FT_MINIMUM_STORAGE_BALANCE)).toString();
-        } else {
-            return getTotalGasFee(contractName ? FT_TRANSFER_GAS : SEND_NEAR_GAS);
-        }
-    }
-
     async getEstimatedTotalFees({ accountId, contractName } = {}) {
-        if (!FT_TRANSFER_REGISTRATION) {
-            return this.legacy_getEstimatedTotalFees({ accountId, contractName });
-        }
-
         if (contractName && accountId) {
             const isRegistrationRequired = await this.isAccountUnregistered({ contractName, accountId });
             const isStorageDepositRequired = await this.isStorageDepositRequired({ contractName, accountId });
@@ -146,15 +128,6 @@ export default class FungibleTokens {
         return (await this.constructor.checkRegistration({ contractName, accountId })) === false;
     }
 
-    /* TODO remove with FT_TRANSFER_REGISTRATION */
-    async isStorageBalanceAvailable({ contractName, accountId }) {
-        const storageBalance = await this.constructor.getStorageBalance({
-            contractName,
-            accountId,
-        });
-        return storageBalance?.total !== undefined;
-    }
-
     async isStorageDepositRequired({ accountId, contractName }) {
         try {
             const storageBalance = await this.constructor.getStorageBalance({
@@ -167,65 +140,7 @@ export default class FungibleTokens {
         }
     }
 
-    async legacy_transfer({ accountId, contractName, amount, receiverId, memo }) {
-        // Ensure our awareness of 2FA being enabled is accurate before we submit any transaction(s)
-        const account = await wallet.getAccount(accountId);
-
-        if (contractName) {
-            const storageAvailable = await this.isStorageBalanceAvailable({
-                contractName,
-                accountId: receiverId,
-            });
-
-            if (!storageAvailable) {
-                try {
-                    await this.transferStorageDeposit({
-                        account,
-                        contractName,
-                        receiverId,
-                        storageDepositAmount: FT_MINIMUM_STORAGE_BALANCE,
-                    });
-                } catch (e) {
-                    // sic.typo in `mimimum` wording of responses, so we check substring
-                    // Original string was: 'attached deposit is less than the mimimum storage balance'
-                    // TODO: Call storage_balance_bounds: https://github.com/near/near-wallet/issues/2522
-                    if (e.message.includes('attached deposit is less than')) {
-                        await this.transferStorageDeposit({
-                            account,
-                            contractName,
-                            receiverId,
-                            storageDepositAmount:
-                                FT_MINIMUM_STORAGE_BALANCE_LARGE,
-                        });
-                    }
-                }
-            }
-
-            return await account.signAndSendTransaction({
-                receiverId: contractName,
-                actions: [
-                    functionCall(
-                        'ft_transfer',
-                        {
-                            amount,
-                            memo: memo,
-                            receiver_id: receiverId,
-                        },
-                        FT_TRANSFER_GAS,
-                        TOKEN_TRANSFER_DEPOSIT
-                    ),
-                ],
-            });
-        } else {
-            return await account.sendMoney(receiverId, amount);
-        }
-    }
-
     async transfer({ accountId, contractName, amount, receiverId, memo }) {
-        if (!FT_TRANSFER_REGISTRATION) {
-            return this.legacy_transfer({ accountId, contractName, amount, receiverId, memo });
-        }
-
         // Ensure our awareness of 2FA being enabled is accurate before we submit any transaction(s)
         const account = await wallet.getAccount(accountId);
 
