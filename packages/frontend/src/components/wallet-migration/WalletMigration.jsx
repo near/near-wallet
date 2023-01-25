@@ -1,3 +1,4 @@
+import * as nearApi from 'near-api-js';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
@@ -37,7 +38,7 @@ const WalletMigration = ({ open, onClose }) => {
     const availableAccounts = useSelector(selectAvailableAccounts);
     const [loadingMultisigAccounts, setLoadingMultisigAccounts] = useState(true);
     const [accountWithDetails, setAccountWithDetails] = useState([]);
-
+    const [isLoggingOut, setIsLoggingOut] = useState(false);
     useEffect(() => {
         const importRotatableAccounts = async () => {
             const accounts = await wallet.keyStore.getAccounts(NETWORK_ID);
@@ -101,12 +102,20 @@ const WalletMigration = ({ open, onClose }) => {
     };
 
     const onLogout = () => {
-        // TODO: Add logic to remove FAK(s) here so everything gets cleared together
-        return Promise.all(availableAccounts.map((accountId) => wallet.removeWalletAccount(accountId)))
+        setIsLoggingOut(true);
+        return Promise.all(availableAccounts.map(async (accountId) => {
+            const account = await wallet.getAccount(accountId);
+            const keyPair = await wallet.keyStore.getKey(wallet.connection.networkId, accountId);
+            await account.signAndSendTransaction({
+                actions: [nearApi.transactions.deleteKey(keyPair.publicKey)],
+                receiverId: accountId,
+            });
+            return wallet.removeWalletAccount(accountId);
+        }))
             .then(() => {
-                location.reload();
+                setIsLoggingOut(false);
                 deleteMigrationStep();
-                onClose();
+                location.reload();
             });
     };
 
@@ -171,7 +180,7 @@ const WalletMigration = ({ open, onClose }) => {
                 <VerifyingModal onClose={onClose} onNext={navigateToLogOut} onStartOver={onStartOver} />
             )}
             {state.activeView === WALLET_MIGRATION_VIEWS.LOG_OUT && (
-                <LogoutModal onClose={onClose} onLogout={onLogout}/>
+                <LogoutModal onClose={onClose} onLogout={onLogout} isLoggingOut={isLoggingOut} />
             )}
         </div>
     );
