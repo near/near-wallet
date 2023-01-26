@@ -1,8 +1,8 @@
-import * as nearApi from 'near-api-js';
 import React, { useCallback, useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 import { NETWORK_ID } from '../../config';
+import { showCustomAlert } from '../../redux/actions/status';
 import { selectAvailableAccounts } from '../../redux/slices/availableAccounts';
 import { wallet } from '../../utils/wallet';
 import LoadingDots from '../common/loader/LoadingDots';
@@ -39,6 +39,7 @@ const WalletMigration = ({ open, onClose }) => {
     const [loadingMultisigAccounts, setLoadingMultisigAccounts] = useState(true);
     const [accountWithDetails, setAccountWithDetails] = useState([]);
     const [isLoggingOut, setIsLoggingOut] = useState(false);
+    const dispatch = useDispatch();
     useEffect(() => {
         const importRotatableAccounts = async () => {
             const accounts = await wallet.keyStore.getAccounts(NETWORK_ID);
@@ -103,18 +104,30 @@ const WalletMigration = ({ open, onClose }) => {
 
     const onLogout = () => {
         setIsLoggingOut(true);
-        return Promise.all(availableAccounts.map(async (accountId) => {
+       
+        return Promise.allSettled(availableAccounts.map(async (accountId) => {
             const account = await wallet.getAccount(accountId);
-            const keyPair = await wallet.keyStore.getKey(wallet.connection.networkId, accountId);
-            await account.signAndSendTransaction({
-                actions: [nearApi.transactions.deleteKey(keyPair.publicKey)],
-                receiverId: accountId,
-            });
+            const publicKey = await wallet.getPublicKey(accountId);
+            await account.deleteKey(publicKey);
             return wallet.removeWalletAccount(accountId);
         }))
-            .then(() => {
+            .then(async (results) => {
                 setIsLoggingOut(false);
                 deleteMigrationStep();
+                if (results.some((result) => result.status === 'rejected')) {
+                    const failedKeys = await results.reduce(async (prev, current, index) => {
+                        if (current.status === 'rejected') {
+                            const publicKey = await wallet.getPublicKey(availableAccounts[index]);
+                            return [...prev, `${publicKey.substring(0, 5)}...`];
+                        }
+                        return prev;
+                    }, []);
+                    dispatch(showCustomAlert({
+                        success: false,
+                        messageCodeHeader: 'error',
+                        errorMessage: `fail to delete key(s) ${failedKeys.join(', ')}`,
+                    }));
+                }
                 location.reload();
             });
     };
