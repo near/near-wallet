@@ -1,8 +1,8 @@
-import * as nearApi from 'near-api-js';
 import React, { useCallback, useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 import { NETWORK_ID } from '../../config';
+import { showCustomAlert } from '../../redux/actions/status';
 import { selectAvailableAccounts } from '../../redux/slices/availableAccounts';
 import { wallet } from '../../utils/wallet';
 import LoadingDots from '../common/loader/LoadingDots';
@@ -39,6 +39,7 @@ const WalletMigration = ({ open, onClose }) => {
     const [loadingMultisigAccounts, setLoadingMultisigAccounts] = useState(true);
     const [accountWithDetails, setAccountWithDetails] = useState([]);
     const [isLoggingOut, setIsLoggingOut] = useState(false);
+    const dispatch = useDispatch();
     useEffect(() => {
         const importRotatableAccounts = async () => {
             const accounts = await wallet.keyStore.getAccounts(NETWORK_ID);
@@ -101,22 +102,31 @@ const WalletMigration = ({ open, onClose }) => {
         handleSetActiveView(WALLET_MIGRATION_VIEWS.MIGRATE_ACCOUNTS);
     };
 
-    const onLogout = () => {
+    const onLogout = async () => {
         setIsLoggingOut(true);
-        return Promise.all(availableAccounts.map(async (accountId) => {
-            const account = await wallet.getAccount(accountId);
-            const keyPair = await wallet.keyStore.getKey(wallet.connection.networkId, accountId);
-            await account.signAndSendTransaction({
-                actions: [nearApi.transactions.deleteKey(keyPair.publicKey)],
-                receiverId: accountId,
-            });
-            return wallet.removeWalletAccount(accountId);
-        }))
-            .then(() => {
-                setIsLoggingOut(false);
-                deleteMigrationStep();
-                location.reload();
-            });
+        const failedAccounts = [];
+        for (const accountId of availableAccounts) {
+            const publicKey = await wallet.getPublicKey(accountId);
+            try {
+                const account = await wallet.getAccount(accountId);
+                await account.deleteKey(publicKey);
+                await wallet.removeWalletAccount(accountId);
+            } catch {
+                failedAccounts.push(accountId);
+            }
+        }
+        setIsLoggingOut(false);
+        if (failedAccounts.length) {
+            dispatch(showCustomAlert({
+                success: false,
+                messageCodeHeader: 'error',
+                errorMessage: `fail to delete keys for account(s) ${failedAccounts.join(', ')}`,
+            }));
+        } else {               
+            onClose();
+            deleteMigrationStep();
+            location.reload();
+        }
     };
 
     const onStartOver = () => {
