@@ -102,34 +102,31 @@ const WalletMigration = ({ open, onClose }) => {
         handleSetActiveView(WALLET_MIGRATION_VIEWS.MIGRATE_ACCOUNTS);
     };
 
-    const onLogout = () => {
+    const onLogout = async () => {
         setIsLoggingOut(true);
-       
-        return Promise.allSettled(availableAccounts.map(async (accountId) => {
-            const account = await wallet.getAccount(accountId);
+        const failedAccounts = [];
+        for (const accountId of availableAccounts) {
             const publicKey = await wallet.getPublicKey(accountId);
-            await account.deleteKey(publicKey);
-            return wallet.removeWalletAccount(accountId);
-        }))
-            .then(async (results) => {
-                setIsLoggingOut(false);
-                deleteMigrationStep();
-                if (results.some((result) => result.status === 'rejected')) {
-                    const failedKeys = await results.reduce(async (prev, current, index) => {
-                        if (current.status === 'rejected') {
-                            const publicKey = await wallet.getPublicKey(availableAccounts[index]);
-                            return [...prev, `${publicKey.substring(0, 5)}...`];
-                        }
-                        return prev;
-                    }, []);
-                    dispatch(showCustomAlert({
-                        success: false,
-                        messageCodeHeader: 'error',
-                        errorMessage: `fail to delete key(s) ${failedKeys.join(', ')}`,
-                    }));
-                }
-                location.reload();
-            });
+            try {
+                const account = await wallet.getAccount(accountId);
+                await account.deleteKey(publicKey);
+                await wallet.removeWalletAccount(accountId);
+            } catch {
+                failedAccounts.push(accountId);
+            }
+        }
+        setIsLoggingOut(false);
+        if (failedAccounts.length) {
+            dispatch(showCustomAlert({
+                success: false,
+                messageCodeHeader: 'error',
+                errorMessage: `fail to delete keys for account(s) ${failedAccounts.join(', ')}`,
+            }));
+        } else {               
+            onClose();
+            deleteMigrationStep();
+            location.reload();
+        }
     };
 
     const onStartOver = () => {
