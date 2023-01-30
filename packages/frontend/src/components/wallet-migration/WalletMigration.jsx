@@ -1,7 +1,8 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 import { NETWORK_ID } from '../../config';
+import { showCustomAlert } from '../../redux/actions/status';
 import { selectAvailableAccounts } from '../../redux/slices/availableAccounts';
 import { wallet } from '../../utils/wallet';
 import LoadingDots from '../common/loader/LoadingDots';
@@ -37,7 +38,8 @@ const WalletMigration = ({ open, onClose }) => {
     const availableAccounts = useSelector(selectAvailableAccounts);
     const [loadingMultisigAccounts, setLoadingMultisigAccounts] = useState(true);
     const [accountWithDetails, setAccountWithDetails] = useState([]);
-
+    const [isLoggingOut, setIsLoggingOut] = useState(false);
+    const dispatch = useDispatch();
     useEffect(() => {
         const importRotatableAccounts = async () => {
             const accounts = await wallet.keyStore.getAccounts(NETWORK_ID);
@@ -87,12 +89,8 @@ const WalletMigration = ({ open, onClose }) => {
         handleSetActiveView(WALLET_MIGRATION_VIEWS.REDIRECTING);
     };
 
-    const navigateToVeryfying = () => {
+    const navigateToVerifying = () => {
         handleSetActiveView(WALLET_MIGRATION_VIEWS.VERIFYING);
-    };
-
-    const navigateToCleanKeys = () => {
-        handleSetActiveView(WALLET_MIGRATION_VIEWS.CLEAN_KEYS);
     };
 
     const navigateToLogOut = () => {
@@ -100,14 +98,35 @@ const WalletMigration = ({ open, onClose }) => {
         handleSetActiveView(WALLET_MIGRATION_VIEWS.LOG_OUT);
     };
 
-    const onLogout = () => {
-        // TODO: Add logic to remove FAK(s) here so everything gets cleared together
-        return Promise.all(availableAccounts.map((accountId) => wallet.removeWalletAccount(accountId)))
-            .then(() => {
-                location.reload();
-                deleteMigrationStep();
-                onClose();
-            });
+    const navigateToMigrateAccounts = () => {
+        handleSetActiveView(WALLET_MIGRATION_VIEWS.MIGRATE_ACCOUNTS);
+    };
+
+    const onLogout = async () => {
+        setIsLoggingOut(true);
+        const failedAccounts = [];
+        for (const accountId of availableAccounts) {
+            const publicKey = await wallet.getPublicKey(accountId);
+            try {
+                const account = await wallet.getAccount(accountId);
+                await account.deleteKey(publicKey);
+                await wallet.removeWalletAccount(accountId);
+            } catch {
+                failedAccounts.push(accountId);
+            }
+        }
+        setIsLoggingOut(false);
+        if (failedAccounts.length) {
+            dispatch(showCustomAlert({
+                success: false,
+                messageCodeHeader: 'error',
+                errorMessage: `fail to delete keys for account(s) ${failedAccounts.join(', ')}`,
+            }));
+        } else {               
+            onClose();
+            deleteMigrationStep();
+            location.reload();
+        }
     };
 
     const onStartOver = () => {
@@ -143,6 +162,15 @@ const WalletMigration = ({ open, onClose }) => {
                     accountWithDetails={accountWithDetails}
                 />
             )}
+            {state.activeView === WALLET_MIGRATION_VIEWS.CLEAN_KEYS && (
+                <CleanKeysModal
+                    accounts={availableAccounts}
+                    handleSetActiveView={handleSetActiveView}
+                    onClose={onClose}
+                    onNext={navigateToMigrateAccounts}
+                    rotatedKeys={rotatedKeys}
+                />
+            )}
             {state.activeView === WALLET_MIGRATION_VIEWS.MIGRATE_ACCOUNTS && (
                 <MigrateAccountsModal
                     onClose={onClose}
@@ -156,18 +184,14 @@ const WalletMigration = ({ open, onClose }) => {
                 />
             )}
             {state.activeView === WALLET_MIGRATION_VIEWS.REDIRECTING && (
-                <RedirectingModal wallet={state?.wallet?.name} onNext={navigateToVeryfying} />
+                <RedirectingModal wallet={state?.wallet?.name} onNext={navigateToVerifying} />
             )}
             {state.activeView === WALLET_MIGRATION_VIEWS.VERIFYING && (
-                <VerifyingModal onClose={onClose} onNext={navigateToCleanKeys} onStartOver={onStartOver} />
-            )}
-            {state.activeView === WALLET_MIGRATION_VIEWS.CLEAN_KEYS && (
-                <CleanKeysModal onClose={onClose} onNext={navigateToLogOut} />
+                <VerifyingModal onClose={onClose} onNext={navigateToLogOut} onStartOver={onStartOver} />
             )}
             {state.activeView === WALLET_MIGRATION_VIEWS.LOG_OUT && (
-                <LogoutModal onClose={onClose} onLogout={onLogout}/>
+                <LogoutModal onClose={onClose} onLogout={onLogout} isLoggingOut={isLoggingOut} />
             )}
-            
         </div>
     );
 };

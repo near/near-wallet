@@ -7,6 +7,7 @@ import { ButtonsContainer, StyledButton, MigrationModal, Container, IconBackgrou
 const LogoutModal = ({
     onLogout,
     onClose,
+    isLoggingOut,
 }) => {
 
     return (
@@ -23,13 +24,15 @@ const LogoutModal = ({
                     <StyledButton
                         onClick={onLogout}
                         fullWidth
+                        disabled={isLoggingOut}
+                        sending={isLoggingOut}
+                        sendingString="walletMigration.logout.button"
                     >
                         <Translate id='walletMigration.logout.button' />
                     </StyledButton>
                     <StyledButton className='gray-blue' onClick={onClose} fullWidth>
                         <Translate id='button.cancel' />
                     </StyledButton>
-                    
                 </ButtonsContainer>
             </Container>
         </MigrationModal>

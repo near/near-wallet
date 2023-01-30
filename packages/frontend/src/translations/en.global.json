@@ -1886,8 +1886,31 @@
     },
     "walletMigration": {
         "cleanKeys": {
+            "accountTitle": "Clean up your keys",
             "desc": "For your security, we highly recommend you remove most of your existing access keys.",
-            "title": "Clean up your keys"
+            "fullAccessKeys": "Full Access Keys",
+            "keep": "Keep",
+            "keepDesc": "The full access key created when you rotated your keys, ledger access keys, limited access keys",
+            "keyTypes": {
+                "email": "Email",
+                "sms": "SMS",
+                "phrase": "Recovery Phrase",
+                "unknown": "Unknown"
+            },
+            "nextSteps": "You can manually select which keys to remove in the next step",
+            "remove": "Remove",
+            "removeDesc": "Full access keys from email and SMS recovery methods, previously-generated passphrases, keys generated in the Near CLI",
+            "removeKeys": "Remove Keys",
+            "title": "Clean up full access keys",
+            "verifyPassphrase":  {
+                "desc": "Enter your secure passphrase to remove your full access keys from the account: <b>${accountId}</b>",
+                "keyMessages": {
+                    "doesNotExist": "The input seedphrase does not correspond to any full access keys on ${accountId}.",
+                    "insecureRecoveryMethod": "The input seedphrase is associated with an insecure recovery method and may not be used to migrate accounts.",
+                    "toBeDeleted": "The input seedphrase corresponds to a key to be deleted and may not be used to migrate accounts."
+                },
+                "title": "Remove your Full Access Keys?"
+            }
         },
         "disable2fa": {
             "desc": "2FA must be disabled before you can transfer an account to a new wallet.",
@@ -1911,7 +1934,7 @@
             "title": "Password required to import accounts"
         },
         "redirect": {
-            "desc": "You’ll be automatically redirected in <b>10 seconds.</b> Once redirected, you’ll need to approve each account as it is added to your new wallet.",
+            "desc": "You’ll be automatically redirected in <b>5 seconds.</b> Once redirected, you’ll need to approve each account as it is added to your new wallet.",
             "title": "Redirecting to ${wallet}"
         },
         "rotateKeys": {

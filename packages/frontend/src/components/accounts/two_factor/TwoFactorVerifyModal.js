@@ -139,7 +139,7 @@ const TwoFactorVerifyModal = ({ open, onClose }) => {
             <h2 className='title'><Translate id='twoFactor.verify.title'/></h2>
             <p className='font-bw'><Translate id='twoFactor.verify.desc'/></p>
             <p className='color-black font-bw' style={{ marginTop: '-10px', fontWeight: '500', height: '19px'}}>{method && method.detail}</p>
-            {multisigRequest && <ActionDetailsBanner multisigRequest={multisigRequest} />}
+            {multisigRequest?.actions && <ActionDetailsBanner multisigRequest={multisigRequest} />}
             <Form onSubmit={(e) => {
                 handleVerifyCode();
                 e.preventDefault();
