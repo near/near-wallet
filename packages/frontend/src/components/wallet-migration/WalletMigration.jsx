@@ -10,10 +10,10 @@ import { MigrationModal } from './CommonComponents';
 import CleanKeysModal from './modals/CleanKeysModal/CleanKeysModal';
 import Disable2FAModal from './modals/Disable2faModal/Disable2FA';
 import LogoutModal from './modals/LogoutModal/LogoutModal';
-import MigrateAccountsModal from './modals/MigrateAccountsModal/MigrateAccountsModal';
 import RedirectingModal from './modals/RedirectingModal/RedirectingModal';
 import RotateKeysModal from './modals/RotateKeysModal/RotateKeysModal';
 import VerifyingModal from './modals/VerifyingModal/VerifyingModal';
+import { WalletSelectorModal } from './modals/WalletSelectorModal/WalletSelectorModal';
 import { deleteMigrationStep, getAccountDetails, getMigrationStep, setMigrationStep } from './utils';
 
 
@@ -59,10 +59,6 @@ const WalletMigration = ({ open, onClose }) => {
         setState({...state, ...newState});
     };
 
-    const handleSetWallet = (wallet) => {
-        handleStateUpdate({ wallet });
-    };
-
     const handleSetActiveView = useCallback((activeView) => {
         handleStateUpdate({ activeView });
     }, [handleStateUpdate]);
@@ -91,6 +87,7 @@ const WalletMigration = ({ open, onClose }) => {
 
     const navigateToVerifying = () => {
         handleSetActiveView(WALLET_MIGRATION_VIEWS.VERIFYING);
+        setMigrationStep(WALLET_MIGRATION_VIEWS.VERIFYING);
     };
 
     const navigateToLogOut = () => {
@@ -99,6 +96,7 @@ const WalletMigration = ({ open, onClose }) => {
     };
 
     const navigateToMigrateAccounts = () => {
+        setMigrationStep(WALLET_MIGRATION_VIEWS.MIGRATE_ACCOUNTS);
         handleSetActiveView(WALLET_MIGRATION_VIEWS.MIGRATE_ACCOUNTS);
     };
 
@@ -172,15 +170,10 @@ const WalletMigration = ({ open, onClose }) => {
                 />
             )}
             {state.activeView === WALLET_MIGRATION_VIEWS.MIGRATE_ACCOUNTS && (
-                <MigrateAccountsModal
-                    onClose={onClose}
-                    handleSetActiveView={handleSetActiveView}
-                    handleSetWallet={handleSetWallet}
-                    state={state}
-                    data-test-id="migrateAccountsModal"
-                    rotatedKeys={rotatedKeys}
-                    onNext={navigateToRedirect}
-                    accountWithDetails={accountWithDetails}
+                <WalletSelectorModal
+                    onComplete={navigateToRedirect}
+                    migrationAccounts={accountWithDetails}
+                    network={NETWORK_ID === 'default' ? 'testnet': NETWORK_ID}
                 />
             )}
             {state.activeView === WALLET_MIGRATION_VIEWS.REDIRECTING && (

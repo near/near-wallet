@@ -1,0 +1,21 @@
+/* This file contains CSS rules to preserve styles of wallet selector as some of rules are overlapped by existing css rules from near-wallet  */
+
+#near-wallet-selector-modal * {
+  font-family: Manrope, sans-serif !important;
+}
+
+.middleTitle > h2 {
+  font-weight: 700;
+}
+
+.alert-message.connecting-wrapper.connecting-wrapper-err > .content > h4 {
+  color: inherit;
+}
+
+#passphraseButton > .passphrase-text {
+  color: var(--text-color);
+}
+
+.account-export-body > .complete-desc {
+  color: var(--text-color);
+}
