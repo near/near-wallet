@@ -12,6 +12,15 @@ import './WalletSelectorModalContext.css';
 const ExportAccountSelectorContext =
   React.createContext(null);
 
+
+// If target wallet is production ready, add it to this list
+const MAINNET_MODULES = [];
+
+const TESTNET_MODULES = [
+    setupMyNearWallet(),
+    setupMeteorWallet(),
+];
+
 export const ExportAccountSelectorContextProvider = ({ children, network, migrationAccounts, onComplete }) => {
     const [importSelector, setSelector] = useState(null);
     const [ExportModal, setModal] = useState(null);
@@ -21,10 +30,7 @@ export const ExportAccountSelectorContextProvider = ({ children, network, migrat
         const _selector = await setupWalletSelector({
             allowMultipleSelectors: true,
             network,
-            modules: [
-                setupMyNearWallet(),
-                setupMeteorWallet(),
-            ],
+            modules: network === 'testnet' ? TESTNET_MODULES : MAINNET_MODULES,
         });
         const _modal = setupExportSelectorModal(_selector, {
             accounts: migrationAccounts,
