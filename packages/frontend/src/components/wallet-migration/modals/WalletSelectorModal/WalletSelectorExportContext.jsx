@@ -1,13 +1,14 @@
-
 import { setupExportSelectorModal } from '@near-wallet-selector/account-export';
 import { setupWalletSelector } from '@near-wallet-selector/core';
 import { setupMeteorWallet } from '@near-wallet-selector/meteor-wallet';
 import { setupMyNearWallet } from '@near-wallet-selector/my-near-wallet';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
-
 import '@near-wallet-selector/modal-ui/styles.css';
 import '@near-wallet-selector/account-export/styles.css';
 import './WalletSelectorModalContext.css';
+import { useDispatch } from 'react-redux';
+
+import { showCustomAlert } from '../../../../redux/actions/status';
 
 const ExportAccountSelectorContext =
   React.createContext(null);
@@ -17,48 +18,54 @@ const ExportAccountSelectorContext =
 const MAINNET_MODULES = [];
 
 const TESTNET_MODULES = [
-    setupMyNearWallet(),
-    setupMeteorWallet(),
+    setupMyNearWallet,
+    setupMeteorWallet,
 ];
+
+const initializeModules = (network) => {
+    const modules = network === 'testnet' ? TESTNET_MODULES : MAINNET_MODULES;
+    return modules.map((module) => module());
+};
 
 export const ExportAccountSelectorContextProvider = ({ children, network, migrationAccounts, onComplete }) => {
     const [importSelector, setSelector] = useState(null);
     const [ExportModal, setModal] = useState(null);
     const [accounts, setAccounts] = useState([]);
+    const dispatch = useDispatch();
 
     const init = useCallback(async () => {
-        const _selector = await setupWalletSelector({
+        const selector = await setupWalletSelector({
             allowMultipleSelectors: true,
             network,
-            modules: network === 'testnet' ? TESTNET_MODULES : MAINNET_MODULES,
+            modules: initializeModules(network),
         });
-        const _modal = setupExportSelectorModal(_selector, {
+        const modal = setupExportSelectorModal(selector, {
             accounts: migrationAccounts,
             onComplete,
         });
-        const state = _selector.store.getState();
+        const state = selector.store.getState();
         setAccounts(state.accounts);
 
-        window.importSelector = _selector;
-        window.ExportModal = _modal;
+        window.importSelector = selector;
+        window.ExportModal = modal;
 
-        setSelector(_selector);
-        setModal(_modal);
+        setSelector(selector);
+        setModal(modal);
     }, []);
 
     useEffect(() => {
         init().catch((err) => {
-            console.error(err);
-            alert('Failed to initialise wallet selector');
+            dispatch(showCustomAlert({
+                errorMessage: err,
+                success: false,
+                messageCodeHeader: 'error'
+            }));
         });
     }, [init]);
 
-    useEffect(() => {
-        if (!importSelector) {
-            return;
-        }
-    }, [importSelector]);
-
+    if (!importSelector) {
+        return null;
+    }
     const accountId =
     accounts.find((account) => account.active)?.accountId || null;
 
