@@ -1935,7 +1935,7 @@
         },
         "redirect": {
             "desc": "You’ll be automatically redirected in <b>5 seconds.</b> Once redirected, you’ll need to approve each account as it is added to your new wallet.",
-            "title": "Redirecting to ${wallet}"
+            "title": "Redirecting to Selected Wallet"
         },
         "rotateKeys": {
             "desc": "For your security, we are going to generate a new passphrase and full access key for the below accounts. <br /><br /> Rotating your key will help protect your wallet and allow you to clean up your old full access keys after you transfer your accounts.",
@@ -1950,7 +1950,7 @@
             "title": "Select a wallet to transfer accounts"
         },
         "verifying": {
-            "desc": "Check your new wallet to make sure you have access to your account(s). After you confirm access, we’ll remove some of your old keys to keep your accounts safe.",
+            "desc": "Check your new wallet to make sure you have access to your account(s). We will log you out from near wallet.",
             "disclaimer": "I have access to my account in another wallet",
             "title": "Verify your account is available"
         }
