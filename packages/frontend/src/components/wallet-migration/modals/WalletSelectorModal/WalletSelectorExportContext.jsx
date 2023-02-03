@@ -66,8 +66,7 @@ export const ExportAccountSelectorContextProvider = ({ children, network, migrat
     if (!importSelector) {
         return null;
     }
-    const accountId =
-    accounts.find((account) => account.active)?.accountId || null;
+    const accountId = accounts.find((account) => account.active)?.accountId || null;
 
     return (
         <ExportAccountSelectorContext.Provider
