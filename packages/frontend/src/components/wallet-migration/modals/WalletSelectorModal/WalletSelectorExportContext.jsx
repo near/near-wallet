@@ -2,6 +2,7 @@ import { setupExportSelectorModal } from '@near-wallet-selector/account-export';
 import { setupWalletSelector } from '@near-wallet-selector/core';
 import { setupMeteorWallet } from '@near-wallet-selector/meteor-wallet';
 import { setupMyNearWallet } from '@near-wallet-selector/my-near-wallet';
+import { setupNightly } from '@near-wallet-selector/nightly';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import '@near-wallet-selector/modal-ui/styles.css';
 import '@near-wallet-selector/account-export/styles.css';
@@ -20,6 +21,7 @@ const MAINNET_MODULES = [];
 const TESTNET_MODULES = [
     setupMyNearWallet,
     setupMeteorWallet,
+    setupNightly,
 ];
 
 const initializeModules = (network) => {
