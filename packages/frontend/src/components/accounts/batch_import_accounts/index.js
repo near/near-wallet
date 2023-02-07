@@ -1,14 +1,15 @@
+import { decryptAccountData } from '@near-wallet-selector/account-export';
 import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import { Translate } from 'react-localize-redux';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { useImmerReducer } from 'use-immer';
 
+
 import ShieldIcon from '../../../images/icon-shield.svg';
 import ImportArrow from '../../../images/import-arrow.svg';
 import { selectAccountUrlReferrer } from '../../../redux/slices/account';
 import { selectAvailableAccounts, selectAvailableAccountsIsLoading } from '../../../redux/slices/availableAccounts';
-import { decodeAccountsFrom } from '../../../utils/encoding';
 import getWalletURL from '../../../utils/getWalletURL';
 import FormButton from '../../common/FormButton';
 import FormButtonGroup from '../../common/FormButtonGroup';
@@ -274,7 +275,11 @@ const BatchImportAccounts = ({ onCancel }) => {
     const [accountsData, setAccountsData] = useState(null);
 
     const handlePublicKey = useCallback((publicKey) => {
-        setAccountsData(decodeAccountsFrom(location.hash, publicKey));
+        const accounts = decryptAccountData({
+            ciphertext: location.hash?.substring(1),
+            secretKey: publicKey,
+        });
+        setAccountsData(accounts.map(({ accountId, privateKey }) => [accountId, privateKey, null]));
     }, []);
 
     if (!accountsData) {

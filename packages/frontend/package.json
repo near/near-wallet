@@ -7,6 +7,7 @@
   },
   "dependencies": {
     "@ledgerhq/hw-transport-u2f": "^5.34.0",
+    "@near-wallet-selector/account-export": "^7.6.1",
     "@reduxjs/toolkit": "1.6.2",
     "@sentry/browser": "^6.4.1",
     "bip39-light": "^1.0.7",

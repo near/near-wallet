@@ -22,20 +22,6 @@ export function encodeMessage(message, publicKey) {
     return nacl.secretbox(encoder.encode(message), STATIC_NONCE, publicKey);
 }
 
-export function decodeMessage(cipherText, publicKey) {
-    try {
-        const opened = nacl.secretbox.open(cipherText, STATIC_NONCE, publicKey);
-        if (opened === null) {
-            return opened;
-        }
-
-        const decoder = new TextDecoder();
-        return decoder.decode(opened);
-    } catch (e) {
-        return null;
-    }
-}
-
 export function encodeAccountsToHash(accountsData, publicKey) {
     const message = accountsData.reduce((msg, accountData) => {
         msg.push(accountData.join('='));
@@ -44,33 +30,6 @@ export function encodeAccountsToHash(accountsData, publicKey) {
     }, []).join('*');
 
     return window.btoa(encodeMessage(message, publicKey));
-}
-
-export function decodeAccountsFrom(hash, publicKey) {
-    if (!location.hash) {
-        return [];
-    }
-
-    const bs64encoded = location.hash.slice(1);
-    if (!bs64encoded) {
-        return [];
-    }
-
-    try {
-        const cipherText = Uint8Array.from(
-            window.atob(bs64encoded).split(',')
-        );
-        const decoded = decodeMessage(
-            cipherText,
-            keyFromString(publicKey)
-        );
-
-        return (decoded||'')
-            .split('*')
-            .map((account) => account.split('='));
-    } catch (e) {
-        return [];
-    }
 }
 
 export function keyFromString(key) {
