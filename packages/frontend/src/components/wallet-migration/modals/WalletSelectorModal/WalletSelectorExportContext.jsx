@@ -10,6 +10,7 @@ import './WalletSelectorModalContext.css';
 import { useDispatch } from 'react-redux';
 
 import { showCustomAlert } from '../../../../redux/actions/status';
+import { shuffle } from '../../../../utils/staking';
 
 const ExportAccountSelectorContext =
   React.createContext(null);
@@ -26,7 +27,7 @@ const TESTNET_MODULES = [
 
 const initializeModules = (network) => {
     const modules = network === 'testnet' ? TESTNET_MODULES : MAINNET_MODULES;
-    return modules.map((module) => module());
+    return shuffle(modules).map((module) => module());
 };
 
 export const ExportAccountSelectorContextProvider = ({ children, network, migrationAccounts, onComplete }) => {
