@@ -17,7 +17,9 @@ const ExportAccountSelectorContext =
 
 
 // If target wallet is production ready, add it to this list
-const MAINNET_MODULES = [];
+const MAINNET_MODULES = [
+    setupNightly,
+];
 
 const TESTNET_MODULES = [
     setupMyNearWallet,
