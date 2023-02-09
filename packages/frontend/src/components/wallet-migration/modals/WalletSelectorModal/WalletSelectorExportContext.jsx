@@ -19,6 +19,7 @@ const ExportAccountSelectorContext =
 // If target wallet is production ready, add it to this list
 const MAINNET_MODULES = [
     setupNightly,
+    setupMeteorWallet,
 ];
 
 const TESTNET_MODULES = [
