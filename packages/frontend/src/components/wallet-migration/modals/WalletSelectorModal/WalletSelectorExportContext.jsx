@@ -2,6 +2,8 @@ import { setupExportSelectorModal } from '@near-wallet-selector/account-export';
 import { setupWalletSelector } from '@near-wallet-selector/core';
 import { setupMeteorWallet } from '@near-wallet-selector/meteor-wallet';
 import { setupMyNearWallet } from '@near-wallet-selector/my-near-wallet';
+import { setupNightly } from '@near-wallet-selector/nightly';
+import { setupWelldoneWallet } from '@near-wallet-selector/welldone-wallet';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import '@near-wallet-selector/modal-ui/styles.css';
 import '@near-wallet-selector/account-export/styles.css';
@@ -9,22 +11,29 @@ import './WalletSelectorModalContext.css';
 import { useDispatch } from 'react-redux';
 
 import { showCustomAlert } from '../../../../redux/actions/status';
+import { shuffle } from '../../../../utils/staking';
 
 const ExportAccountSelectorContext =
   React.createContext(null);
 
 
 // If target wallet is production ready, add it to this list
-const MAINNET_MODULES = [];
+const MAINNET_MODULES = [
+    setupNightly,
+    setupMeteorWallet,
+    setupWelldoneWallet,
+];
 
 const TESTNET_MODULES = [
     setupMyNearWallet,
     setupMeteorWallet,
+    setupNightly,
+    setupWelldoneWallet,
 ];
 
 const initializeModules = (network) => {
     const modules = network === 'testnet' ? TESTNET_MODULES : MAINNET_MODULES;
-    return modules.map((module) => module());
+    return shuffle(modules).map((module) => module());
 };
 
 export const ExportAccountSelectorContextProvider = ({ children, network, migrationAccounts, onComplete }) => {

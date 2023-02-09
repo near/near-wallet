@@ -19,3 +19,7 @@
 .account-export-body > .complete-desc {
   color: var(--text-color);
 }
+
+.complete-desc > h4 {
+  color: var(--text-color);
+}
