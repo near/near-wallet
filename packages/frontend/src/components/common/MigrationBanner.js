@@ -5,7 +5,7 @@ import styled from 'styled-components';
 
 import IconOffload from '../../images/IconOffload';
 import { selectAvailableAccounts, selectAvailableAccountsIsLoading } from '../../redux/slices/availableAccounts';
-import { getMyNearWalletUrl } from '../../utils/getWalletURL';
+import { getNearOrgWalletUrl } from '../../utils/getWalletURL';
 import AlertTriangleIcon from '../svg/AlertTriangleIcon';
 import InfoIcon from '../svg/InfoIcon';
 import FormButton from './FormButton';
@@ -113,6 +113,8 @@ const MigrationBanner = ({ account, onTransfer }) => {
     const availableAccounts = useSelector(selectAvailableAccounts);
     const availableAccountsIsLoading = useSelector(selectAvailableAccountsIsLoading);
 
+    const walletUrl = getNearOrgWalletUrl().replace('https://', '');
+
     const onTransferClick = useCallback(() => {
         if (availableAccounts.length) {
             onTransfer();
@@ -136,8 +138,8 @@ const MigrationBanner = ({ account, onTransfer }) => {
                     </div>
                     {
                         availableAccounts.length
-                            ? <Translate id='migration.message'/>
-                            : <Translate id='migration.redirect' data={{ url: getMyNearWalletUrl() }}/>
+                            ? <Translate id='migration.message' data={{ walletUrl }}/>
+                            : <Translate id='migration.redirect' data={{ walletUrl }}/>
                     }
                 </div>
                 
