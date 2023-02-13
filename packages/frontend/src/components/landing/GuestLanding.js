@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
-import { WEP_PHASE_ONE } from '../../../../../features';
+import { WEP_DISABLE_ACCOUNT_CREATION, WEP_PHASE_ONE } from '../../../../../features';
 import iPhoneMockup from '../../images/iphone-mockup.png';
 import FormButton from '../common/FormButton';
 import Container from '../common/styled/Container.css';
@@ -164,7 +164,7 @@ export function GuestLanding({ history }) {
                 <div className='buttons'>
                     <FormButton
                         onClick={() => {
-                            if (WEP_PHASE_ONE) {
+                            if (WEP_DISABLE_ACCOUNT_CREATION) {
                                 setShowModal('more-near-wallets');
                             } else {
                                 history.push('/create');
