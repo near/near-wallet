@@ -80,7 +80,7 @@ const ContentWrapper =  styled(Container)`
         flex-wrap: none;
         color: #CD2B31;
 
-        > span > a {
+        > div > span > a {
             color: #CD2B31;
             text-decoration: underline;
         }
@@ -136,11 +136,17 @@ const MigrationBanner = ({ account, onTransfer }) => {
                     <div className='alert-container'>
                         <AlertTriangleIcon color={'#E5484D'} />
                     </div>
-                    {
-                        availableAccounts.length
-                            ? <Translate id='migration.message' data={{ walletUrl }}/>
-                            : <Translate id='migration.redirect' data={{ walletUrl }}/>
-                    }
+                    <div>
+                        {
+                            availableAccounts.length
+                                ? <Translate id='migration.message' data={{ walletUrl }}/>
+                                : <Translate id='migration.redirect' data={{ walletUrl }}/>
+                        }
+                        <br />
+                        <br />
+                        {availableAccounts.length > 0 && <Translate id='migration.readMore' />}
+
+                    </div>
                 </div>
                 
                 <CustomButton onClick={onTransferClick}>

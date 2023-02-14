@@ -791,6 +791,7 @@
     },
     "migration": {
         "message": "Soon NEAR wallet (${walletUrl}) will no longer be supported. Transfer your accounts to a different wallet or export your private keys from <a href='/profile'>account settings.</a>",
+        "readMore": "Please see our <a href='https://near.org/blog/near-opens-the-door-to-more-wallets/' target='_blank' rel='noopener noreferrer'>blog post</a> for more details on this upcoming transition.",
         "redirect": "Soon NEAR wallet (${walletUrl}) will no longer be supported. Use your 12-word recovery phrase to import your account(s) to a different wallet or <a href='/recover-account'>recover and export your account(s).</a>",
         "redirectCaption": "Learn More",
         "transferCaption": "Transfer My Accounts"
