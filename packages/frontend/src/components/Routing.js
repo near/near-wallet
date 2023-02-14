@@ -10,7 +10,7 @@ import { connect } from 'react-redux';
 import { Redirect, Switch } from 'react-router-dom';
 import styled, { ThemeProvider } from 'styled-components';
 
-import { SHOW_MIGRATION_BANNER, WEB3AUTH, WEP_PHASE_ONE } from '../../../../features';
+import { SHOW_MIGRATION_BANNER, WEB3AUTH, WEP_DISABLE_ACCOUNT_CREATION, WEP_PHASE_ONE } from '../../../../features';
 import favicon from '../../src/images/mynearwallet-cropped.svg';
 import TwoFactorVerifyModal from '../components/accounts/two_factor/TwoFactorVerifyModal';
 import {
@@ -457,7 +457,7 @@ class Routing extends Component {
                                 exact
                                 path="/create"
                                 render={(props) => {
-                                    if (WEP_PHASE_ONE) {
+                                    if (WEP_DISABLE_ACCOUNT_CREATION) {
                                         return this.props.history.push('/');
                                     } else {
                                         if (accountFound || !DISABLE_CREATE_ACCOUNT) {

@@ -9,5 +9,6 @@ export type Features = {
 	RENDER_MIGRATION: boolean;
 	SHOW_MIGRATION_BANNER: boolean;
 	WEB3AUTH: boolean;
+	WEP_DISABLE_ACCOUNT_CREATION: boolean;
 	WEP_PHASE_ONE: boolean;
 };
