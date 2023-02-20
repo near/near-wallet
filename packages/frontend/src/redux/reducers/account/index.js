@@ -50,7 +50,6 @@ const accessKeys = handleActions({
 
 const url = handleActions({
     [refreshUrl]: (state, { payload }) => {
-        console.log(payload);
         return ({
             ...state,
             url: payload

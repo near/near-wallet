@@ -619,7 +619,6 @@ class Routing extends Component {
                                 exact
                                 path="/sign"
                                 render={() => {
-                                    console.log(this.props.router.location);
                                     return (
                                         <SignWrapper
                                             urlQuery={parse(this.props.router.location.search)}
