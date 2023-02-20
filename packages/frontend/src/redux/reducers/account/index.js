@@ -49,10 +49,14 @@ const accessKeys = handleActions({
 }, initialState);
 
 const url = handleActions({
-    [refreshUrl]: (state, { payload }) => ({
-        ...state,
-        url: payload
-    })
+    [refreshUrl]: (state, { payload }) => {
+        console.log(payload);
+        return ({
+            ...state,
+            url: payload
+        });
+    }
+    
 }, initialState);
 
 const canEnableTwoFactor = handleActions({

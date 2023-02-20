@@ -110,7 +110,7 @@ const theme = {};
 const PATH_PREFIX = CONFIG.PUBLIC_URL;
 
 // TODO: https://mnw.atlassian.net/browse/MNW-98
-const WEB3AUTH_FEATURE_ENABLED = false;
+const WEB3AUTH_FEATURE_ENABLED = true;
 
 const Container = styled.div`
     min-height: 100vh;
@@ -618,11 +618,14 @@ class Routing extends Component {
                             <PrivateRoute
                                 exact
                                 path="/sign"
-                                render={() => (
-                                    <SignWrapper
-                                        urlQuery={parse(this.props.router.location.hash)}
-                                    />
-                                )}
+                                render={() => {
+                                    console.log(this.props.router.location);
+                                    return (
+                                        <SignWrapper
+                                            urlQuery={parse(this.props.router.location.search)}
+                                        />
+                                    );
+                                }}
                             />
                             <PrivateRoute
                                 path="/staking"
