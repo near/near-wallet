@@ -1894,8 +1894,8 @@
             "keepDesc": "The full access key created when you rotated your keys, ledger access keys, limited access keys",
             "keyTypes": {
                 "email": "Email",
-                "sms": "SMS",
                 "phrase": "Recovery Phrase",
+                "sms": "SMS",
                 "unknown": "Unknown"
             },
             "nextSteps": "You can manually select which keys to remove in the next step",
@@ -1903,7 +1903,7 @@
             "removeDesc": "Full access keys from email and SMS recovery methods, previously-generated passphrases, keys generated in the Near CLI",
             "removeKeys": "Remove Keys",
             "title": "Clean up full access keys",
-            "verifyPassphrase":  {
+            "verifyPassphrase": {
                 "desc": "Enter your secure passphrase to remove your full access keys from the account: <b>${accountId}</b>",
                 "keyMessages": {
                     "doesNotExist": "The input seedphrase does not correspond to any full access keys on ${accountId}.",
