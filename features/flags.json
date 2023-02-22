@@ -385,14 +385,14 @@
       "lastEditedAt": "2023-02-13T22:23:12.644Z"
     },
     "mainnet_NEARORG": {
-      "enabled": false,
-      "lastEditedBy": "roshaans",
-      "lastEditedAt": "2022-09-29T12:47:40.121Z"
+      "enabled": true,
+      "lastEditedBy": "Andy Haynes",
+      "lastEditedAt": "2023-02-21T18:13:15.474Z"
     },
     "mainnet_STAGING_NEARORG": {
-      "enabled": false,
-      "lastEditedBy": "roshaans",
-      "lastEditedAt": "2022-09-29T12:47:40.121Z"
+      "enabled": true,
+      "lastEditedBy": "Andy Haynes",
+      "lastEditedAt": "2023-02-21T18:13:15.474Z"
     }
   }
 }
