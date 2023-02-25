@@ -21,6 +21,8 @@ import { setAccountConfirmed, setWalletAccounts, removeActiveAccount, removeAcco
 import { TwoFactor } from './twoFactor';
 import { WalletError } from './walletError';
 
+const { Account } = nearApiJs;
+
 export const WALLET_CREATE_NEW_ACCOUNT_URL = 'create';
 export const WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS = [
     'create',
@@ -113,6 +115,7 @@ export default class Wallet {
     constructor() {
         this.keyStore = new nearApiJs.keyStores.BrowserLocalStorageKeyStore(window.localStorage, 'nearlib:keystore:');
         this.inMemorySigner = new nearApiJs.InMemorySigner(this.keyStore);
+        this.inMemorySignerBasic = new nearApiJs.InMemorySigner(this.keyStore);
 
         const inMemorySigner = this.inMemorySigner;
         const wallet = this;
@@ -147,6 +150,11 @@ export default class Wallet {
             networkId: NETWORK_ID,
             provider: { type: 'JsonRpcProvider', args: { url: NODE_URL + '/' } },
             signer: this.signer
+        });
+        this.connectionBasic = nearApiJs.Connection.fromConfig({
+            networkId: NETWORK_ID,
+            provider: { type: 'JsonRpcProvider', args: { url: NODE_URL + '/' } },
+            signer: this.inMemorySignerBasic
         });
         this.getAccountsLocalStorage();
         this.accountId = localStorage.getItem(KEY_ACTIVE_ACCOUNT_ID) || '';
@@ -560,7 +568,7 @@ export default class Wallet {
     }
 
     async createNewAccountLinkdrop(accountId, fundingContract, fundingKey, publicKey) {
-        const account = await this.getAccount(fundingContract);
+        const account = new Account(this.connectionBasic, fundingContract);
         await this.keyStore.setKey(NETWORK_ID, fundingContract, nearApiJs.KeyPair.fromString(fundingKey));
 
         const contract = new nearApiJs.Contract(account, fundingContract, {
@@ -575,8 +583,8 @@ export default class Wallet {
     }
 
     async claimLinkdropToAccount(fundingContract, fundingKey) {
+        const account = new Account(this.connectionBasic, fundingContract);
         await this.keyStore.setKey(NETWORK_ID, fundingContract, nearApiJs.KeyPair.fromString(fundingKey));
-        const account = await this.getAccount(fundingContract);
         const accountId = this.accountId;
 
         const contract = new nearApiJs.Contract(account, fundingContract, {
