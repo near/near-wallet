@@ -157,6 +157,11 @@ export default class Wallet {
             provider: { type: 'JsonRpcProvider', args: { url: CONFIG.NODE_URL + '/' } },
             signer: this.signer
         });
+        this.connectionBasic = nearApiJs.Connection.fromConfig({
+            networkId: CONFIG.NETWORK_ID,
+            provider: { type: 'JsonRpcProvider', args: { url: CONFIG.NODE_URL + '/' } },
+            signer: this.inMemorySigner
+        });
         this.getAccountsLocalStorage();
         this.accountId = localStorage.getItem(KEY_ACTIVE_ACCOUNT_ID) || '';
     }
@@ -595,7 +600,7 @@ export default class Wallet {
     }
 
     async createNewAccountLinkdrop(accountId, fundingContract, fundingKey, publicKey) {
-        const account = await this.getAccount(fundingContract);
+        const account = new Account(this.connectionBasic, fundingContract);
         await this.keyStore.setKey(
             CONFIG.NETWORK_ID,
             fundingContract,
@@ -614,13 +619,13 @@ export default class Wallet {
     }
 
     async claimLinkdropToAccount(fundingContract, fundingKey) {
+        const account = new nearApiJs.Account(this.connectionBasic, fundingContract);
         await this.keyStore.setKey(
             CONFIG.NETWORK_ID,
             fundingContract,
             nearApiJs.KeyPair.fromString(fundingKey)
         );
 
-        const account = await this.getAccount(fundingContract);
         const accountId = this.accountId;
 
         const contract = new nearApiJs.Contract(account, fundingContract, {
