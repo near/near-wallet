@@ -10,7 +10,7 @@ import { connect } from 'react-redux';
 import { Redirect, Switch } from 'react-router-dom';
 import styled, { ThemeProvider } from 'styled-components';
 
-import { SHOW_MIGRATION_BANNER, WEB3AUTH, WEP_PHASE_ONE } from '../../../../features';
+import { SHOW_MIGRATION_BANNER, WEB3AUTH, WEP_DISABLE_ACCOUNT_CREATION, WEP_PHASE_ONE } from '../../../../features';
 import favicon from '../../src/images/mynearwallet-cropped.svg';
 import TwoFactorVerifyModal from '../components/accounts/two_factor/TwoFactorVerifyModal';
 import {
@@ -37,6 +37,7 @@ import { VerifyOwnerWrapper } from '../routes/VerifyOwnerWrapper';
 import { WalletWrapper } from '../routes/WalletWrapper';
 import translations_en from '../translations/en.global.json';
 import translations_it from '../translations/it.global.json';
+import translations_kr from '../translations/kr.global.json';
 import translations_pt from '../translations/pt.global.json';
 import translations_ru from '../translations/ru.global.json';
 import translations_tr from '../translations/tr.global.json';
@@ -162,6 +163,7 @@ class Routing extends Component {
             { name: '繁體中文', code: 'zh-hant' },
             { name: 'Türkçe', code: 'tr' },
             { name: 'Українська', code: 'ua' },
+            { name: '한국어', code: 'kr' }
         ];
 
         const browserLanguage = getBrowserLocale(languages.map((l) => l.code));
@@ -203,6 +205,7 @@ class Routing extends Component {
         this.props.addTranslationForLanguage(translations_zh_hant, 'zh-hant');
         this.props.addTranslationForLanguage(translations_tr, 'tr');
         this.props.addTranslationForLanguage(translations_ua, 'ua');
+        this.props.addTranslationForLanguage(translations_kr, 'kr');
 
         this.props.setActiveLanguage(activeLang);
         // this.addTranslationsForActiveLanguage(defaultLanguage)
@@ -457,7 +460,7 @@ class Routing extends Component {
                                 exact
                                 path="/create"
                                 render={(props) => {
-                                    if (WEP_PHASE_ONE) {
+                                    if (WEP_DISABLE_ACCOUNT_CREATION) {
                                         return this.props.history.push('/');
                                     } else {
                                         if (accountFound || !DISABLE_CREATE_ACCOUNT) {

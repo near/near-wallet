@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
 
-import { WEP_PHASE_ONE } from '../../../../../features';
+import { WEP_DISABLE_ACCOUNT_CREATION } from '../../../../../features';
 import { WalletSelectorGetAWallet } from '../common/wallet_selector/WalletSelectorGetAWallet';
 import DesktopContainer from './DesktopContainer';
 import MobileContainer from './MobileContainer';
@@ -89,7 +89,7 @@ export default ({
     }, []);
 
     const handleOnClickCreateNewAccount = () => {
-        if (WEP_PHASE_ONE) {
+        if (WEP_DISABLE_ACCOUNT_CREATION) {
             setShowModal('more-near-wallets');
         } else {
             history.push('/create');

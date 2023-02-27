@@ -790,8 +790,9 @@
         }
     },
     "migration": {
-        "message": "Soon NEAR wallet (wallet.near.org) will no longer be supported. Transfer your accounts to a different wallet or export your private keys from <a href='/profile'>account settings.</a>",
-        "redirect": "Soon NEAR wallet (wallet.near.org) will no longer be supported. Use your 12-word recovery phrase to import your account(s) to a different wallet or <a href='/recover-account'>recover and export your account(s).</a>",
+        "message": "Soon NEAR wallet (${walletUrl}) will no longer be supported. Transfer your accounts to a different wallet or export your private keys from <a href='/profile'>account settings.</a>",
+        "readMore": "Please see our <a href='https://near.org/blog/near-opens-the-door-to-more-wallets/' target='_blank' rel='noopener noreferrer'>blog post</a> for more details on this upcoming transition.",
+        "redirect": "Soon NEAR wallet (${walletUrl}) will no longer be supported. Use your 12-word recovery phrase to import your account(s) to a different wallet or <a href='/recover-account'>recover and export your account(s).</a>",
         "redirectCaption": "Learn More",
         "transferCaption": "Transfer My Accounts"
     },
@@ -1893,8 +1894,8 @@
             "keepDesc": "The full access key created when you rotated your keys, ledger access keys, limited access keys",
             "keyTypes": {
                 "email": "Email",
-                "sms": "SMS",
                 "phrase": "Recovery Phrase",
+                "sms": "SMS",
                 "unknown": "Unknown"
             },
             "nextSteps": "You can manually select which keys to remove in the next step",
@@ -1902,7 +1903,7 @@
             "removeDesc": "Full access keys from email and SMS recovery methods, previously-generated passphrases, keys generated in the Near CLI",
             "removeKeys": "Remove Keys",
             "title": "Clean up full access keys",
-            "verifyPassphrase":  {
+            "verifyPassphrase": {
                 "desc": "Enter your secure passphrase to remove your full access keys from the account: <b>${accountId}</b>",
                 "keyMessages": {
                     "doesNotExist": "The input seedphrase does not correspond to any full access keys on ${accountId}.",
@@ -1935,7 +1936,7 @@
         },
         "redirect": {
             "desc": "You’ll be automatically redirected in <b>5 seconds.</b> Once redirected, you’ll need to approve each account as it is added to your new wallet.",
-            "title": "Redirecting to ${wallet}"
+            "title": "Redirecting to Selected Wallet"
         },
         "rotateKeys": {
             "desc": "For your security, we are going to generate a new passphrase and full access key for the below accounts. <br /><br /> Rotating your key will help protect your wallet and allow you to clean up your old full access keys after you transfer your accounts.",
@@ -1950,7 +1951,7 @@
             "title": "Select a wallet to transfer accounts"
         },
         "verifying": {
-            "desc": "Check your new wallet to make sure you have access to your account(s). After you confirm access, we’ll remove some of your old keys to keep your accounts safe.",
+            "desc": "Check your new wallet to make sure you have access to your account(s). We will log you out from near wallet.",
             "disclaimer": "I have access to my account in another wallet",
             "title": "Verify your account is available"
         }

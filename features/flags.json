@@ -307,6 +307,50 @@
       "lastEditedAt": "2022-07-19T05:34:11.690Z"
     }
   },
+  "WEP_DISABLE_ACCOUNT_CREATION": {
+    "createdBy": "Andy Haynes",
+    "createdAt": "2023-02-13T18:46:04.151Z",
+    "development": {
+      "enabled": true,
+      "lastEditedBy": "Andy Haynes",
+      "lastEditedAt": "2023-02-13T18:46:04.150Z"
+    },
+    "testnet": {
+      "enabled": false,
+      "lastEditedBy": "Andy Haynes",
+      "lastEditedAt": "2023-02-13T18:46:04.151Z"
+    },
+    "mainnet": {
+      "enabled": false,
+      "lastEditedBy": "Andy Haynes",
+      "lastEditedAt": "2023-02-13T18:46:04.151Z"
+    },
+    "mainnet_STAGING": {
+      "enabled": false,
+      "lastEditedBy": "Andy Haynes",
+      "lastEditedAt": "2023-02-13T18:46:04.151Z"
+    },
+    "testnet_STAGING": {
+      "enabled": false,
+      "lastEditedBy": "Andy Haynes",
+      "lastEditedAt": "2023-02-13T18:46:04.151Z"
+    },
+    "testnet_NEARORG": {
+      "enabled": false,
+      "lastEditedBy": "Andy Haynes",
+      "lastEditedAt": "2023-02-13T18:46:04.151Z"
+    },
+    "mainnet_NEARORG": {
+      "enabled": false,
+      "lastEditedBy": "Andy Haynes",
+      "lastEditedAt": "2023-02-13T18:46:04.151Z"
+    },
+    "mainnet_STAGING_NEARORG": {
+      "enabled": false,
+      "lastEditedBy": "Andy Haynes",
+      "lastEditedAt": "2023-02-13T18:46:04.151Z"
+    }
+  },
   "WEP_PHASE_ONE": {
     "createdBy": "roshaans",
     "createdAt": "2022-09-29T12:47:40.121Z",
@@ -336,19 +380,19 @@
       "lastEditedAt": "2022-09-29T12:47:40.121Z"
     },
     "testnet_NEARORG": {
-      "enabled": false,
-      "lastEditedBy": "roshaans",
-      "lastEditedAt": "2022-09-29T12:47:40.121Z"
+      "enabled": true,
+      "lastEditedBy": "Andy Haynes",
+      "lastEditedAt": "2023-02-13T22:23:12.644Z"
     },
     "mainnet_NEARORG": {
       "enabled": false,
-      "lastEditedBy": "roshaans",
-      "lastEditedAt": "2022-09-29T12:47:40.121Z"
+      "lastEditedBy": "Andy Haynes",
+      "lastEditedAt": "2023-02-23T00:04:07.742Z"
     },
     "mainnet_STAGING_NEARORG": {
-      "enabled": false,
-      "lastEditedBy": "roshaans",
-      "lastEditedAt": "2022-09-29T12:47:40.121Z"
+      "enabled": true,
+      "lastEditedBy": "Andy Haynes",
+      "lastEditedAt": "2023-02-21T18:13:15.474Z"
     }
   }
 }

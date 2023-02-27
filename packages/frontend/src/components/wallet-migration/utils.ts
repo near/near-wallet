@@ -1,4 +1,4 @@
-import { getMyNearWalletUrl } from '../../utils/getWalletURL';
+import { getMyNearWalletUrlFromNEARORG } from '../../utils/getWalletURL';
 
 export const WALLET_ID = {
     MY_NEAR_WALLET: 'my-near-wallet',
@@ -47,7 +47,7 @@ export const redirectLinkdropUser = ({
     destination
 }) => {
     if (walletID === WALLET_ID.MY_NEAR_WALLET) {
-        return window.location.href = getMyNearWalletUrl() + `/${destination}/${fundingContract}/${fundingKey}`;
+        return window.location.href = getMyNearWalletUrlFromNEARORG() + `/${destination}/${fundingContract}/${fundingKey}`;
     }
 };
 
