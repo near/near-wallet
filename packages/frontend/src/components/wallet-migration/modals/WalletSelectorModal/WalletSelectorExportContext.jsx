@@ -1,5 +1,6 @@
 import { setupExportSelectorModal } from '@near-wallet-selector/account-export';
 import { setupWalletSelector } from '@near-wallet-selector/core';
+import { setupHereWallet } from '@near-wallet-selector/here-wallet';
 import { setupMeteorWallet } from '@near-wallet-selector/meteor-wallet';
 import { setupMyNearWallet } from '@near-wallet-selector/my-near-wallet';
 import { setupNightly } from '@near-wallet-selector/nightly';
@@ -22,6 +23,7 @@ const MAINNET_MODULES = [
     setupNightly,
     setupMeteorWallet,
     setupWelldoneWallet,
+    setupHereWallet,
 ];
 
 const TESTNET_MODULES = [
@@ -29,6 +31,7 @@ const TESTNET_MODULES = [
     setupMeteorWallet,
     setupNightly,
     setupWelldoneWallet,
+    setupHereWallet,
 ];
 
 const initializeModules = (network) => {
