@@ -43,9 +43,8 @@ const WalletMigration = ({ open, onClose }) => {
     useEffect(() => {
         const importRotatableAccounts = async () => {
             const accounts = await wallet.keyStore.getAccounts(NETWORK_ID);
-            const details = await Promise.all(
-                accounts.map((accountId) => getAccountDetails({ accountId, wallet }))
-            );
+            const details = await Promise.allSettled(accounts.map((accountId) => getAccountDetails({ accountId, wallet })))
+                .then((results) => results.filter(({ status }) => status === 'fulfilled').map(({ value }) => value));
             setAccountWithDetails(details);
             setLoadingMultisigAccounts(false);
         };
