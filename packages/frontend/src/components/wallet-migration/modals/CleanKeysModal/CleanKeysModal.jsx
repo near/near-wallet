@@ -104,7 +104,7 @@ const CleanKeysModal = ({ accounts, handleSetActiveView, onNext, onClose, rotate
     useEffect(() => {
         const importAccounts = async () => {
             const accountDetails = await Promise.all(
-                accounts.map((accountId) => getAccountDetails({
+                accounts.map(({ accountId }) => getAccountDetails({
                     accountId,
                     publicKeyBlacklist: rotatedPublicKeys,
                     wallet,
