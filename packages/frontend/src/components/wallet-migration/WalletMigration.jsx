@@ -161,7 +161,7 @@ const WalletMigration = ({ open, onClose }) => {
             )}
             {state.activeView === WALLET_MIGRATION_VIEWS.CLEAN_KEYS && (
                 <CleanKeysModal
-                    accounts={availableAccounts}
+                    accounts={accountWithDetails}
                     handleSetActiveView={handleSetActiveView}
                     onClose={onClose}
                     onNext={navigateToMigrateAccounts}
