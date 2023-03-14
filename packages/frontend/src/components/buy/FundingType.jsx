@@ -47,6 +47,13 @@ const Button = styled.div`
 
 const WrapperImg = styled.div`
     display: flex;
+    min-width: 110px;
+`;
+
+const Image = styled.img`
+    height: 20px;
+    max-width: 150px;
+    ${({ blackBackground }) => blackBackground && 'background: black;'}
 `;
 
 export const FundingType = ({
@@ -56,6 +63,7 @@ export const FundingType = ({
     track,
     disabled,
     provideReferrer,
+    blackBackground = false,
 }) => {
     return (
         <LinkWrap
@@ -67,7 +75,7 @@ export const FundingType = ({
         >
             <Wrapper>
                 <WrapperImg title={name}>
-                    <img src={icon} alt={name} />
+                    <Image src={icon} alt={name} blackBackground={blackBackground} />
                 </WrapperImg>
                 {disabled ? null : <Button />}
             </Wrapper>
