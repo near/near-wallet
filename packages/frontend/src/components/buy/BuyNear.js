@@ -239,7 +239,6 @@ export function BuyNear({ match, location, history }) {
     ];
 
     const exchangeMethods = [
-        PayMethods.okex,
         PayMethods.binance,
         PayMethods.binanceUs,
         PayMethods.huobi,

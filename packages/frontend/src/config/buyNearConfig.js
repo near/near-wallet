@@ -11,7 +11,6 @@ import kraken from '../components/buy/assets/kraken.svg';
 import mercuryo from '../components/buy/assets/mercuryo.svg';
 import monoPay from '../components/buy/assets/monoPay.svg';
 import multichain from '../components/buy/assets/multichain.svg';
-import okex from '../components/buy/assets/okex.svg';
 import okx from '../components/buy/assets/okx.svg';
 import onRamper from '../components/buy/assets/onRamper.svg';
 import payNear from '../components/buy/assets/payNear.svg';
@@ -62,12 +61,6 @@ export const getPayMethods = ({
             link: 'https://rainbowbridge.app/transfer',
             track: () =>
                 Mixpanel.track('Wallet Click Bridge with Rainbow Bridge'),
-        },
-        okex: {
-            icon: okex,
-            name: 'Okex',
-            link: 'https://www.okx.com/markets/prices/near-protocol-near',
-            track: () => Mixpanel.track('Wallet Click Exchange with Okex'),
         },
         binance: {
             icon: binance,
