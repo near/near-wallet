@@ -6,7 +6,6 @@ import binanceUs from '../components/buy/assets/binanceUs.svg';
 import bitstamp from '../components/buy/assets/bitstamp.svg';
 import coinbase from '../components/buy/assets/coinbase.svg';
 import coinDCX from '../components/buy/assets/coinDCX.svg';
-import guardarian from '../components/buy/assets/guardarian.svg';
 import huobi from '../components/buy/assets/huobi.svg';
 import kraken from '../components/buy/assets/kraken.svg';
 import mercuryo from '../components/buy/assets/mercuryo.svg';
@@ -17,11 +16,9 @@ import okx from '../components/buy/assets/okx.svg';
 import onRamper from '../components/buy/assets/onRamper.svg';
 import payNear from '../components/buy/assets/payNear.svg';
 import rainbow from '../components/buy/assets/rainbow.svg';
-import rampNetwork from '../components/buy/assets/rampNetwork.svg';
 import transakLogo from '../components/buy/assets/transak.svg';
 import upbit from '../components/buy/assets/upbit.svg';
 import utorg from '../components/buy/assets/utorg.svg';
-import wirex from '../components/buy/assets/wirex.svg';
 import wormhole from '../components/buy/assets/wormhole.svg';
 import { Mixpanel } from '../mixpanel';
 
@@ -108,23 +105,11 @@ export const getPayMethods = ({
             link: 'https://exchange.mercuryo.io/?currency=NEAR&fiat_currency=eur',
             track: () => Mixpanel.track('Wallet Click Exchange with Mercuryo'),
         },
-        guardian: {
-            icon: guardarian,
-            name: 'Guardarian',
-            link: 'https://guardarian.com/buy-near',
-            track: () => Mixpanel.track('Wallet Click Exchange with Guardarian'),
-        },
         banxa: {
             icon: banxa,
             name: 'Banxa',
             link: 'https://banxa.com/',
             track: () => Mixpanel.track('Wallet Click Exchange with Banxa'),
-        },
-        rampNetwork: {
-            icon: rampNetwork,
-            name: 'Ramp Network',
-            link: 'https://ramp.network/',
-            track: () => Mixpanel.track('Wallet Click Exchange with Ramp Network'),
         },
         alchemyPay: {
             icon: alchemyPay,
@@ -149,12 +134,6 @@ export const getPayMethods = ({
             name: 'Bitstamp',
             link: 'https://www.bitstamp.net/markets/near/usd',
             track: () => Mixpanel.track('Wallet Click Exchange with Bitstamp'),
-        },
-        wirex: {
-            icon: wirex,
-            name: 'Wirex',
-            link: 'https://wirexapp.com/',
-            track: () => Mixpanel.track('Wallet Click Exchange with Wirex'),
         },
         upbit: {
             icon: upbit,

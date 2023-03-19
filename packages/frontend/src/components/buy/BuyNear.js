@@ -226,11 +226,8 @@ export function BuyNear({ match, location, history }) {
         PayMethods.nearPay,
         PayMethods.onRamper,
         PayMethods.mercuryo,
-        PayMethods.guardian,
         PayMethods.banxa,
-        PayMethods.rampNetwork,
         PayMethods.alchemyPay,
-        PayMethods.wirex,
 
     ].filter((v) => !!v);
 
