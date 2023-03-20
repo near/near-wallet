@@ -89,7 +89,7 @@ export const getPayMethods = ({
         onRamper: {
             icon: onRamper,
             name: 'OnRamper',
-            link: 'https://widget.onramper.com/?apiKey=pk_prod_0R0gO4xYvtXeNpWXjhFtF0hf8uCrTXL48t0p9TDiz9g0&defaultCrypto=NEAR&wallets=NEAR:kenjon.near&darkMode=true&language=en',
+            link: 'https://widget.onramper.com/?apiKey=pk_prod_0R0gO4xYvtXeNpWXjhFtF0hf8uCrTXL48t0p9TDiz9g0&defaultCrypto=NEAR&darkMode=true&language=en',
             track: () => Mixpanel.track('Wallet Click Exchange with OnRamper'),
         },
         mercuryo: {
