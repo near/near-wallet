@@ -101,13 +101,13 @@ export const getPayMethods = ({
         banxa: {
             icon: banxa,
             name: 'Banxa',
-            link: 'https://banxa.com/',
+            link: 'https://checkout.banxa.com//?fiatAmount=100&fiatType=USD&coinAmount=44.111&coinType=NEAR&lockFiat=true&blockchain=NEAR&orderMode=BUY',
             track: () => Mixpanel.track('Wallet Click Exchange with Banxa'),
         },
         alchemyPay: {
             icon: alchemyPay,
             name: 'Alchemy Pay',
-            link: 'https://alchemypay.org/',
+            link: 'https://ramp.alchemypay.org/?crypto=NEAR&fiat=USD&amount=300&alpha2=US&network=NEAR&type=officialWebsite#/index',
             track: () => Mixpanel.track('Wallet Click Exchange with Alchemy Pay'),
         },
         binanceUs : {
