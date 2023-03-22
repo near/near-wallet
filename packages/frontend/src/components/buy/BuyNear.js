@@ -224,31 +224,7 @@ export function BuyNear({ match, location, history }) {
         isWhitelabel ? PayMethods.transak : null,
         PayMethods.utorg,
         PayMethods.nearPay,
-        PayMethods.onRamper,
-        PayMethods.mercuryo,
-        PayMethods.banxa,
-        PayMethods.alchemyPay,
-
     ].filter((v) => !!v);
-
-    const bridgeMethods = [
-        PayMethods.rainbow,
-        PayMethods.allbridge,
-        PayMethods.wormhole,
-        PayMethods.multichain,
-    ];
-
-    const exchangeMethods = [
-        PayMethods.binance,
-        PayMethods.binanceUs,
-        PayMethods.huobi,
-        PayMethods.kraken,
-        PayMethods.coinbase,
-        PayMethods.okx,
-        PayMethods.bitstamp,
-        PayMethods.upbit,
-        PayMethods.coinDCX,
-    ];
 
     return (
         <StyledContainer>
@@ -269,7 +245,7 @@ export function BuyNear({ match, location, history }) {
                 <FundingCard
                     title='buyNear.bridgeTokens'
                     subTitle='buyNear.bridgeSubTitle'
-                    actions={bridgeMethods}
+                    actions={[PayMethods.rainbow]}
                 />
                 <FundingCard title='buyNear.supportedExchanges'
                     subTitle='buyNear.supportedSubTitle'
@@ -277,7 +253,7 @@ export function BuyNear({ match, location, history }) {
                         url: 'https://coinmarketcap.com/currencies/near-protocol/markets/',
                         title: 'buyNear.coinMarketLink'
                     }}
-                    actions={exchangeMethods}
+                    actions={[PayMethods.okex, PayMethods.binance, PayMethods.huobi, PayMethods.kraken]}
                 />
             </div>
         </StyledContainer>
