@@ -53,7 +53,6 @@ const WrapperImg = styled.div`
 const Image = styled.img`
     height: 20px;
     max-width: 150px;
-    ${({ blackBackground }) => blackBackground && 'background: black;'}
 `;
 
 export const FundingType = ({
@@ -75,7 +74,7 @@ export const FundingType = ({
         >
             <Wrapper>
                 <WrapperImg title={name}>
-                    <Image src={icon} alt={name} blackBackground={blackBackground} />
+                    <Image src={icon} alt={name} />
                 </WrapperImg>
                 {disabled ? null : <Button />}
             </Wrapper>
