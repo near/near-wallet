@@ -1,5 +1,5 @@
 import alchemyPay from '../components/buy/assets/alchemyPay.svg';
-import allbridge from '../components/buy/assets/allbridge.svg';
+import allBridge from '../components/buy/assets/allBridge.svg';
 import banxa from '../components/buy/assets/banxa.svg';
 import binance from '../components/buy/assets/binance.svg';
 import binanceUs from '../components/buy/assets/binanceUs.svg';
@@ -141,7 +141,7 @@ export const getPayMethods = ({
             track: () => Mixpanel.track('Wallet Click Exchange with CoinDCX'),
         },
         allbridge: {
-            icon: allbridge,
+            icon: allBridge,
             name: 'Allbridge',
             link: 'https://app.allbridge.io/bridge?from=ETH&to=NEAR&asset=ABR&amp_device_id=a51fWZoLgJF7rzFiJM_3Jh',
             track: () => Mixpanel.track('Wallet Click Exchange with Allbridge'),
