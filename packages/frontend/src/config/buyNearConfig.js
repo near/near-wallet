@@ -95,7 +95,7 @@ export const getPayMethods = ({
         mercuryo: {
             icon: mercuryo,
             name: 'Mercuryo',
-            link: 'https://exchange.mercuryo.io/?currency=NEAR&fiat_currency=eur',
+            link: 'https://exchange.mercuryo.io/?currency=NEAR&fiat_currency=usd',
             track: () => Mixpanel.track('Wallet Click Exchange with Mercuryo'),
         },
         banxa: {
@@ -143,7 +143,7 @@ export const getPayMethods = ({
         allbridge: {
             icon: allBridge,
             name: 'Allbridge',
-            link: 'https://app.allbridge.io/bridge?from=ETH&to=NEAR&asset=ABR&amp_device_id=a51fWZoLgJF7rzFiJM_3Jh',
+            link: 'https://app.allbridge.io/bridge?from=ETH&to=NEAR&asset=ABR',
             track: () => Mixpanel.track('Wallet Click Exchange with Allbridge'),
             blackBackground: true,
         },
