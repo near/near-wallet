@@ -100,7 +100,8 @@ import { StakingContainer } from './staking/StakingContainer';
 import Swap from './swap/Swap';
 import Terms from './terms/Terms';
 import '../index.css';
-import WalletMigration from './wallet-migration/WalletMigration';
+import { getMigrationStep } from './wallet-migration/utils';
+import WalletMigration, { WALLET_MIGRATION_VIEWS } from './wallet-migration/WalletMigration';
 const { fetchTokenFiatValues, getTokenWhiteList } = tokenFiatValueActions;
 
 const {
@@ -305,6 +306,10 @@ class Routing extends Component {
     handleTransferClick = () => {
 
         this.setState({ openTransferPopup: true });
+        const migrationStep = getMigrationStep();
+        if (migrationStep === WALLET_MIGRATION_VIEWS.MIGRATE_ACCOUNTS) {
+            window?.ExportModal?.show();
+        }
     }
 
     closeTransferPopup = () => {
