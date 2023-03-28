@@ -48,7 +48,7 @@ const ExportKeyModal = ({ accountId, secretKey, onClose, onContinue }) => {
                         <Translate id='button.download' />
                     </IconButton>
                     <StyledButton onClick={onContinue} fullWidth color="white-blue">
-                        <Translate id='button.dismiss' />
+                        <Translate id='button.next' />
                     </StyledButton>
                 </ButtonsContainer>
             </Container>
