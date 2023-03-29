@@ -8,14 +8,15 @@ export const WalletSelectorModal = ({ onComplete, migrationAccounts, network, ro
     useEffect(() => {
         const init = async () => {
             const accountsWithKey = await Promise.all(migrationAccounts.map(async (account) => {
-                const privateKey = rotatedKeys[account.accountId];
+                const accountId = account.accountId;
+                const privateKey = rotatedKeys[accountId];
                 if (!privateKey) {
                     throw new Error('Unable to find a private key from the rotated keys');
                 }
 
                 return {
-                    accountId: account.accountId,
-                    privateKey: rotatedKeys[account.accountId],
+                    accountId,
+                    privateKey,
                 };
             }));
             setAccounts(accountsWithKey);
