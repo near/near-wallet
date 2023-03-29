@@ -26,10 +26,10 @@ export function WalletSelectorGetAWallet({
     showModal,
     setShowModal
 }) {
-
-    const walletWrapperDiv = document.getElementById('near-wallet-selector-modal');
-    walletWrapperDiv?.classList.add('wallet-selector-get-a-wallet-modal');
-
+    if (showModal === 'more-near-wallets') {
+        const walletWrapperDiv = document.getElementById('near-wallet-selector-modal');
+        walletWrapperDiv?.classList.add('wallet-selector-get-a-wallet-modal');
+    }
     useEffect(() => {
 
         const initSelector = async () => {

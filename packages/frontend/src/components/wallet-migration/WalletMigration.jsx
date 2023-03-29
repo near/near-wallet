@@ -138,6 +138,19 @@ const WalletMigration = ({ open, onClose }) => {
         );
     }
 
+    // If every account(s) given are invalid, show error message and close modal
+    if (open && !loadingMultisigAccounts) {
+        if (!accountWithDetails.length) {
+            dispatch(showCustomAlert({
+                success: false,
+                messageCodeHeader: 'error',
+                errorMessage: 'Unable to fetch required account details for the migration',
+            }));
+            onClose();
+            return null;
+        }
+    }
+
     return (
         <div>
             {state.activeView === WALLET_MIGRATION_VIEWS.DISABLE_2FA && (
