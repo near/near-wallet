@@ -95,7 +95,6 @@ const WalletMigration = ({ open, onClose }) => {
     };
 
     const navigateToMigrateAccounts = () => {
-        setMigrationStep(WALLET_MIGRATION_VIEWS.MIGRATE_ACCOUNTS);
         handleSetActiveView(WALLET_MIGRATION_VIEWS.MIGRATE_ACCOUNTS);
     };
 
@@ -173,6 +172,7 @@ const WalletMigration = ({ open, onClose }) => {
                     onComplete={navigateToRedirect}
                     migrationAccounts={accountWithDetails}
                     network={NETWORK_ID === 'default' ? 'testnet': NETWORK_ID}
+                    rotatedKeys={rotatedKeys}
                 />
             )}
             {state.activeView === WALLET_MIGRATION_VIEWS.REDIRECTING && (
