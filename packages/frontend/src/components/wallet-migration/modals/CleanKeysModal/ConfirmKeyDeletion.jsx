@@ -32,6 +32,11 @@ const ConfirmKeyDeletionContainer = styled.div`
     }
 `;
 
+const AccountContainer = styled.p`
+    overflow: hidden;
+    text-overflow: ellipsis;
+`;
+
 const KEY_STATUS = {
     DOES_NOT_EXIST: 'DOES_NOT_EXIST',
     INSECURE_RECOVERY_METHOD: 'INSECURE_RECOVERY_METHOD',
@@ -113,9 +118,9 @@ const ConfirmKeyDeletion = ({
             <h4 className='title'>
                 <Translate id='walletMigration.cleanKeys.verifyPassphrase.title' />
             </h4>
-            <p>
+            <AccountContainer>
                 <Translate id='walletMigration.cleanKeys.verifyPassphrase.desc' data={{ accountId }} />
-            </p>
+            </AccountContainer>
             {keyMessage && (
                 <p className='key-error'>
                     <Translate

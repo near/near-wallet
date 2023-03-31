@@ -307,7 +307,8 @@ class Routing extends Component {
 
         this.setState({ openTransferPopup: true });
         const migrationStep = getMigrationStep();
-        if (migrationStep === WALLET_MIGRATION_VIEWS.MIGRATE_ACCOUNTS) {
+
+        if (window?.ExportModal?.show && ![WALLET_MIGRATION_VIEWS.LOG_OUT, WALLET_MIGRATION_VIEWS.VERIFYING].includes(migrationStep)) {
             window?.ExportModal?.show();
         }
     }
