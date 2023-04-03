@@ -92,6 +92,14 @@ export class TwoFactorBase extends Account2FA {
     }
 
     async disableMultisig() {
+        try {
+            // preemptively delete requests, ignoring errors from attempted deletions of too-recently-created requests
+            const requestIds = await this.getRequestIds();
+            if (requestIds.length) {
+                await Promise.allSettled(requestIds.map((id) => this.deleteRequest(id)));
+            }
+        } catch { /* should only fail for invalid contracts, let this.disable() handle validation */ }
+
         const contractBytes = new Uint8Array(await (await fetch('/main.wasm')).arrayBuffer());
         const stateCleanupContractBytes = new Uint8Array(await (await fetch('/state_cleanup.wasm')).arrayBuffer());
         let result;
