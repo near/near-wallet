@@ -1954,6 +1954,11 @@
             "desc": "Check your new wallet to make sure you have access to your account(s). We will log you out from near wallet.",
             "disclaimer": "I have access to my account in another wallet",
             "title": "Verify your account is available"
+        },
+        "quitMigration": {
+            "title": "Are you sure you want to quit the migration?",
+            "desc": "If you quit now, you will need to start the migration process again.",
+            "button": "Quit"
         }
     },
     "warning": "Warning",

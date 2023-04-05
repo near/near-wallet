@@ -41,7 +41,7 @@ export default {
     MULTISIG_MIN_AMOUNT: '4',
     MULTISIG_MIN_PROMPT_AMOUNT: '200',
     NETWORK_ID: 'default',
-    NODE_URL: 'https://rpc.testnet.near.org',
+    NODE_URL: 'http://127.0.0.1:3030',
     REACT_APP_USE_TESTINGLOCKUP: true,
     SENTRY_DSN: 'https://75d1dabd0ab646329fad8a3e7d6c761d@o398573.ingest.sentry.io/5254526',
     SENTRY_RELEASE: 'development',

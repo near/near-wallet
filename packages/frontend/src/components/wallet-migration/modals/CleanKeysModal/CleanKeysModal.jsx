@@ -104,7 +104,7 @@ const CleanKeysModal = ({ accounts, handleSetActiveView, onNext, onClose, rotate
     useEffect(() => {
         const importAccounts = async () => {
             const accountDetails = await Promise.all(
-                accounts.map((accountId) => getAccountDetails({
+                accounts.map(({ accountId }) => getAccountDetails({
                     accountId,
                     publicKeyBlacklist: rotatedPublicKeys,
                     wallet,
@@ -146,6 +146,7 @@ const CleanKeysModal = ({ accounts, handleSetActiveView, onNext, onClose, rotate
     );
     const completedWithSuccess = useMemo(() => {
         return !loadingAccounts
+            && state.accounts.length
             && state.accounts[state.accounts.length - 1].status !==  IMPORT_STATUS.FAILED
             && state.accounts.every(({ status }) => status === IMPORT_STATUS.SUCCESS || status === IMPORT_STATUS.FAILED);
     } , [state.accounts, loadingAccounts]);
@@ -242,7 +243,7 @@ const CleanKeysModal = ({ accounts, handleSetActiveView, onNext, onClose, rotate
                         offerRetry={currentFailedAccount}
                         onClose={onClose}
                         onNext={() => {
-                            if (state.accounts[state.accounts.length - 1].status === IMPORT_STATUS.FAILED) {
+                            if (state.accounts.length && state.accounts[state.accounts.length - 1].status === IMPORT_STATUS.FAILED) {
                                 handleSetActiveView(WALLET_MIGRATION_VIEWS.MIGRATE_ACCOUNTS);
                             } else {
                                 localDispatch({

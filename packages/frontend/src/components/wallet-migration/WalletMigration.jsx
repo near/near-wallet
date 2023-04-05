@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
+import { Translate } from 'react-localize-redux';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { NETWORK_ID } from '../../config';
@@ -6,7 +7,7 @@ import { showCustomAlert } from '../../redux/actions/status';
 import { selectAvailableAccounts } from '../../redux/slices/availableAccounts';
 import { wallet } from '../../utils/wallet';
 import LoadingDots from '../common/loader/LoadingDots';
-import { MigrationModal } from './CommonComponents';
+import { MigrationModal, ButtonsContainer, StyledButton, Container } from './CommonComponents';
 import CleanKeysModal from './modals/CleanKeysModal/CleanKeysModal';
 import Disable2FAModal from './modals/Disable2faModal/Disable2FA';
 import LogoutModal from './modals/LogoutModal/LogoutModal';
@@ -34,6 +35,7 @@ const initialState = {
 
 const WalletMigration = ({ open, onClose }) => {
     const [state, setState] = useState(initialState);
+    const [isQuitModal, setQuitModal] = useState(false);
     const [rotatedKeys, setRotatedKeys] = useState({});
     const availableAccounts = useSelector(selectAvailableAccounts);
     const [loadingMultisigAccounts, setLoadingMultisigAccounts] = useState(true);
@@ -43,9 +45,8 @@ const WalletMigration = ({ open, onClose }) => {
     useEffect(() => {
         const importRotatableAccounts = async () => {
             const accounts = await wallet.keyStore.getAccounts(NETWORK_ID);
-            const details = await Promise.all(
-                accounts.map((accountId) => getAccountDetails({ accountId, wallet }))
-            );
+            const details = await Promise.allSettled(accounts.map((accountId) => getAccountDetails({ accountId, wallet })))
+                .then((results) => results.filter(({ status }) => status === 'fulfilled').map(({ value }) => value));
             setAccountWithDetails(details);
             setLoadingMultisigAccounts(false);
         };
@@ -96,7 +97,6 @@ const WalletMigration = ({ open, onClose }) => {
     };
 
     const navigateToMigrateAccounts = () => {
-        setMigrationStep(WALLET_MIGRATION_VIEWS.MIGRATE_ACCOUNTS);
         handleSetActiveView(WALLET_MIGRATION_VIEWS.MIGRATE_ACCOUNTS);
     };
 
@@ -140,11 +140,62 @@ const WalletMigration = ({ open, onClose }) => {
         );
     }
 
+    // If every account(s) given are invalid, show error message and close modal
+    if (open && !loadingMultisigAccounts) {
+        if (!accountWithDetails.length) {
+            dispatch(showCustomAlert({
+                success: false,
+                messageCodeHeader: 'error',
+                errorMessage: 'Unable to fetch required account details for the migration. Make sure there is enough balance in the account(s) and try again.',
+            }));
+            onClose();
+            return null;
+        }
+    }
+
+    const showQuitModal = () => {
+        setQuitModal(true);
+    };
+    
+    const closeQuitModal = () => {
+        setQuitModal(false);
+    };
+
+    if (isQuitModal) {
+        return (
+            <MigrationModal>
+                <Container>
+                    <h3 className='title'>
+                        <Translate id='walletMigration.quitMigration.title' />
+                    </h3>
+                    <p><Translate id='walletMigration.quitMigration.desc' /></p>
+                    <ButtonsContainer vertical>
+                        <StyledButton
+                            onClick={() => {
+                                deleteMigrationStep();
+                                closeQuitModal();
+                                onClose();
+                            }}
+                            fullWidth
+                            disabled={isLoggingOut}
+                            sending={isLoggingOut}
+                            sendingString="walletMigration.logout.button"
+                        >
+                            <Translate id='walletMigration.quitMigration.button' />
+                        </StyledButton>
+                        <StyledButton className='gray-blue' onClick={closeQuitModal} fullWidth>
+                            <Translate id='button.cancel' />
+                        </StyledButton>
+                    </ButtonsContainer>
+                </Container>
+            </MigrationModal>
+        );
+    }
     return (
         <div>
             {state.activeView === WALLET_MIGRATION_VIEWS.DISABLE_2FA && (
                 <Disable2FAModal
-                    onClose={onClose}
+                    onClose={showQuitModal}
                     handleSetActiveView={handleSetActiveView}
                     data-test-id="disable2FAModal"
                     accountWithDetails={accountWithDetails}
@@ -153,7 +204,7 @@ const WalletMigration = ({ open, onClose }) => {
             )}
             {state.activeView === WALLET_MIGRATION_VIEWS.ROTATE_KEYS && (
                 <RotateKeysModal
-                    onClose={onClose}
+                    onClose={showQuitModal}
                     handleSetActiveView={handleSetActiveView}
                     data-test-id="rotateKeysModal"
                     onRotateKeySuccess={onRotateKeySuccess}
@@ -162,9 +213,9 @@ const WalletMigration = ({ open, onClose }) => {
             )}
             {state.activeView === WALLET_MIGRATION_VIEWS.CLEAN_KEYS && (
                 <CleanKeysModal
-                    accounts={availableAccounts}
+                    accounts={accountWithDetails}
                     handleSetActiveView={handleSetActiveView}
-                    onClose={onClose}
+                    onClose={showQuitModal}
                     onNext={navigateToMigrateAccounts}
                     rotatedKeys={rotatedKeys}
                 />
@@ -174,6 +225,7 @@ const WalletMigration = ({ open, onClose }) => {
                     onComplete={navigateToRedirect}
                     migrationAccounts={accountWithDetails}
                     network={NETWORK_ID === 'default' ? 'testnet': NETWORK_ID}
+                    rotatedKeys={rotatedKeys}
                 />
             )}
             {state.activeView === WALLET_MIGRATION_VIEWS.REDIRECTING && (

@@ -42,11 +42,12 @@ const AccessKeyListContainer = styled.div`
         width: 100%;
 
         .account-detail {
-            flex: 7;
+            width: 100%;
 
             .account-id {
                 font-weight: bold;
                 text-overflow: ellipsis;
+                overflow: hidden;
             }
 
             .keys-to-remove {
