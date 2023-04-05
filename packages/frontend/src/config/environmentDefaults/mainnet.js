@@ -41,7 +41,7 @@ export default {
     ],
     MULTISIG_MIN_AMOUNT: '4',
     MULTISIG_MIN_PROMPT_AMOUNT: '200',
-    NETWORK_ID: 'mainnet',
+    NETWORK_ID: 'default',
     NODE_URL: 'https://rpc.mainnet.near.org',
     REACT_APP_USE_TESTINGLOCKUP: false,
     RECAPTCHA_CHALLENGE_API_KEY: '6LeRzswaAAAAAGeS7mSasZ1wDcGnMcH3D7W1gy1b',
