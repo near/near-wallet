@@ -86,6 +86,7 @@ import PrivateRoute from './common/routing/PrivateRoute';
 import PublicRoute from './common/routing/PublicRoute';
 import Route from './common/routing/Route';
 import TwoFactorDisableBanner from './common/TwoFactorDisableBanner';
+import { Disable2faPage } from './disable-2fa/disable-2fa';
 import { ExploreContainer } from './explore/ExploreContainer';
 import GlobalStyle from './GlobalStyle';
 import { LoginCliLoginSuccess } from './login/LoginCliLoginSuccess';
@@ -701,6 +702,12 @@ class Routing extends Component {
                                     <StakingContainer
                                         history={this.props.history}
                                     />
+                                )}
+                            />
+                            <PrivateRoute
+                                path="/disable-2fa"
+                                render={() => (
+                                    <Disable2faPage/>
                                 )}
                             />
                             {isWhitelabel && (
