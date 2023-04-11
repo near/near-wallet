@@ -103,7 +103,8 @@ export class IndexerCache extends Cache {
         accountId,
         kind,
         updater,
-        timeoutNs
+        timeoutNs,
+        resetNs,
     }) {
         const record = await this._getRecord(accountId, kind);
 
@@ -127,7 +128,7 @@ export class IndexerCache extends Cache {
                     // If the version is updated on the helper
                     // we should rescan from the beginning of the blockchain
                     const isVersionChanged = version !== record.data.version;
-                    if (isVersionChanged) {
+                    if (isVersionChanged || this._shouldUpdate(lastTimestamp, resetNs)) {
                         record.timestamp = 0;
                         shouldRestart = true;
                     }
@@ -142,7 +143,8 @@ export class IndexerCache extends Cache {
                         accountId,
                         kind,
                         updater,
-                        timeoutNs
+                        timeoutNs,
+                        resetNs,
                     });
                 }
 
