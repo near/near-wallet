@@ -102,7 +102,13 @@ const EnterReceiver = ({
                 </FormButton>
                 <FormButton
                     type='button'
-                    onClick={onClickCancel}
+                    onClick={() => {
+                        try {
+                            console.log(a.something.else); // error here
+                        } catch (err) {
+                            console.error("====ERROR====", err);
+                        }
+                    }}
                     className='link'
                     color='gray'
                 >
