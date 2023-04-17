@@ -1426,7 +1426,7 @@
             "title": "Advanced Options"
         },
         "firefoxBanner": {
-            "desc": "Ledger is currently only supported in <a href='https://www.mozilla.org/' rel='noopener noreferrer' target='_blank'><b>Mozilla Firefox</b></a>. Support for other browsers will soon be restored."
+            "desc": "Ledger Connect is not supported in the following browsers: Firefox version 112+, Safari. It is fully supported in Chrome / Chromium browsers. We apologize for the inconvinience."
         },
         "header": "Authorize NEAR Wallet to import your accounts.",
         "modal": {

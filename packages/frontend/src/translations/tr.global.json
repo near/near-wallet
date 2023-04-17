@@ -1154,7 +1154,7 @@
             "title": "Gelişmiş Seçenekler"
         },
         "firefoxBanner": {
-            "desc": "Ledger şuanda sadece <a href='https://www.mozilla.org/' rel='noopener noreferrer' target='_blank'><b>Mozilla Firefox</b></a>. desteklemektedir. Diğer tarayıcılar da çok yakında eklenecektir."
+            "desc": "Ledger Connect şu tarayıcılarda desteklenmez: Firefox sürüm 112+, Safari. Chrome / Chromium tarayıcılarında tamamen desteklenir. Rahatsızlıktan dolayı özür dileriz."
         },
         "header": "Ledger cihazınızla oturum açın",
         "modal": {

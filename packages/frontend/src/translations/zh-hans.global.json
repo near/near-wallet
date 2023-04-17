@@ -1389,7 +1389,7 @@
             "title": "高级选项"
         },
         "firefoxBanner": {
-            "desc": "Ledger 目前仅支持 <a href='https://www.mozilla.org/' rel='noopener noreferrer' target='_blank'><b>Mozilla Firefox</b> 浏览器</a>。其他浏览器的支持即将恢复。"
+            "desc": "以下浏览器不支持 Ledger Connect Firefox 版本 112+、Safari。 Chrome / Chromium 浏览器完全支持它。对于给您带来的不便，我们深表歉意。"
         },
         "header": "通过 Ledger 硬件登录",
         "modal": {

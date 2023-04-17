@@ -1109,7 +1109,7 @@
             "title": "Cài đặt nâng cao"
         },
         "firefoxBanner": {
-            "desc": "Ledger hiện chỉ được hỗ trợ trong <a href='https://www.mozilla.org/' rel='noopener noreferrer' target='_blank'><b>Mozilla Firefox</b></a>. Chúng tôi sẽ sớm hỗ trợ cho các trình duyệt khác."
+            "desc": "Ledger Connect không được hỗ trợ trong các trình duyệt sau: Firefox phiên bản 112+, Safari. Nó được hỗ trợ đầy đủ trong trình duyệt Chrome/Chromium. Chúng tôi xin lỗi vì sự bất tiện."
         },
         "header": "Đăng nhập bằng thiết bị Ledger của bạn",
         "modal": {
