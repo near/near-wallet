@@ -1,0 +1,37 @@
+name: Bundle and Deploy Frontend
+
+on:
+  workflow_call:
+    inputs:
+      environment:
+        required: true
+        type: string
+      near_wallet_env:
+        required: true
+        type: string
+
+jobs:
+  bundle-frontend:
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+    defaults:
+      run:
+        working-directory: packages/frontend
+    env:
+      NEAR_WALLET_ENV: ${{ inputs.near_wallet_env }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18.x
+          cache: 'yarn'
+      - run: yarn install --frozen-lockfile
+      - run: yarn lint
+      - run: yarn test
+      - run: yarn bundle --distDir=dist/${{ inputs.environment }}
+      - uses: google-github-actions/setup-gcloud@v1
+      - uses: google-github-actions/auth@v1
+        with:
+          credentials_json: ${{ secrets.SERVICE_ACCOUNT_KEY_JSON }}
+      - run: KEY_FILE=(./gha-creds-*.json) && gcloud auth activate-service-account ${{ secrets.SERVICE_ACCOUNT }} --key-file=$KEY_FILE
+      - run: gsutil rsync -r dist/${{ inputs.environment }} ${{ secrets.GCP_BUCKET }}
