@@ -134,7 +134,7 @@ export class IndexerCache extends Cache {
                     // we should rescan from the beginning of the blockchain
                     const isVersionChanged = version !== record.data.version;
                     if (isVersionChanged) {
-                        record.timestamp = 0;
+                        updated.timestamp = 0;
                         shouldRestart = true;
                     }
 
