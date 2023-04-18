@@ -3,7 +3,7 @@ import Cache from './cache';
 
 
 const UPDATE_REQUEST_INTERVAL_NS = 1000 * 30 * 1000000;
-const RESET_REQUEST_INTERVAL_NS = 1000 * 604800 * 1000000;
+const RESET_REQUEST_INTERVAL_MS = 1000 * 604800;
 const LIKELY_NFT_KEY = 'likelyNFTs';
 const LIKELY_TOKENS_KEY = 'likelyTokens';
 
@@ -22,7 +22,7 @@ export default {
             kind: LIKELY_TOKENS_KEY,
             updater: (timestamp) => api.listLikelyTokens(accountId, timestamp),
             timeoutNs: UPDATE_REQUEST_INTERVAL_NS,
-            resetNs: RESET_REQUEST_INTERVAL_NS,
+            resetMs: RESET_REQUEST_INTERVAL_MS,
         });
     }
 };
