@@ -34,6 +34,5 @@ jobs:
         with:
           credentials_json: ${{ secrets.SERVICE_ACCOUNT_KEY_JSON }}
       - run: gcloud auth activate-service-account ${{ secrets.SERVICE_ACCOUNT }} --key-file=$GOOGLE_GHA_CREDS_PATH
-      - run: echo "$(pwd)"
-      - run: echo "$(ls -l)"
-      - run: gsutil rsync -r -d ./dist/${{ inputs.environment }}/ ${{ secrets.GCP_BUCKET }}
+      - run: echo "$(ls -lR dist)"
+      - run: gsutil rsync -r -d ./dist/${{ inputs.environment }} ${{ secrets.GCP_BUCKET }}
