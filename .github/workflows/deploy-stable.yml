@@ -10,7 +10,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  deploy-testnet:
+  deploy-mainnet:
     uses: ./.github/workflows/bundle-and-deploy.yml
     with:
       environment: mainnet
