@@ -3,8 +3,8 @@ const path = require('path');
 
 const Bundler = require('parcel-bundler');
 
+const Environments = require('../../../features/environments.json');
 const Config = require('./config');
-
 const DIST_PATH = path.join(__dirname, '../dist');
 const ENTRY_FILE_PATH = path.join(__dirname, '../src/index.html');
 const WASM_PATH = path.join(__dirname, '../src/wasm/');
@@ -23,6 +23,7 @@ class ParcelBundler {
         isDebug = enableDebugLogging,
         isRender = Config.IS_RENDER,
         isNetlify = Config.IS_NETLIFY,
+        isGcsBucket = false,
         isDevelopment = Config.IS_DEVELOPMENT,
     } = {}) {
         this.entryPath = entryPath;
@@ -33,13 +34,15 @@ class ParcelBundler {
         this.isRender = isRender;
         this.isNetlify = isNetlify;
         this.isDevelopment = isDevelopment;
+        this.isGcsBucket = isGcsBucket === true || isGcsBucket === 'true';
         this.cloudflareBaseUrl = cloudflareBaseUrl;
         this.shouldUseCloudflare = shouldUseCloudflare;
 
         this.debugLog('Environment', {
             isDevelopment,
             isRender,
-            isNetlify
+            isNetlify,
+            isGcsBucket,
         });
     }
 
@@ -163,8 +166,28 @@ class ParcelBundler {
         }
     }
 
+    getCloudflareUrlForEnvironment() {
+        if (Config.NEAR_WALLET_ENV === Environments.MAINNET_NEARORG) {
+            return 'https://content.near-wallet.workers.dev/ntl/mainnet/';
+        }
+
+        if (Config.NEAR_WALLET_ENV === Environments.MAINNET_STAGING_NEARORG) {
+            return 'https://content.near-wallet.workers.dev/ntl/staging/';
+        }
+
+        return undefined;
+    }
+
     composeBundlerConfig() {
-        const { isRender, isNetlify, isDevelopment } = this;
+        const { isRender, isNetlify, isDevelopment, isGcsBucket } = this;
+        const publicUrl = this.getCloudflareUrlForEnvironment();
+
+        if (isGcsBucket) {
+            return {
+                ...this.getBaseConfig(),
+                ...(publicUrl && { publicUrl }),
+            };
+        }
 
         if (isDevelopment || !this.shouldUseCloudflare) {
             return { ...this.getBaseConfig(), publicUrl: '/' };

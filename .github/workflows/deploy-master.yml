@@ -14,5 +14,5 @@ jobs:
     uses: ./.github/workflows/bundle-and-deploy.yml
     with:
       environment: testnet
-      near_wallet_env: testnet
+      near_wallet_env: testnet_NEARORG
     secrets: inherit
