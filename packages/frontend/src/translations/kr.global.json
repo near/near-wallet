@@ -389,7 +389,7 @@
             "connection-error": {
                 "cancelButton": "취소",
                 "connectButton": "재시도",
-                "connectionPrompt": "Ledger가 안전한지 확인하고, NEAR 앱이 실행되었는지 확인하십시오.",
+                "connectionPrompt": "Ledger가 안전한지 확인하고, NEAR 앱이 실행되었는지 확인하십시오. 또한 지원되는 기기에 있어야 합니다 <a href='https://nearhelp.zendesk.com/hc/en-us/articles/13972685751191-What-browsers-work-with-Ledger-Connect-' target='_blank' rel='noopener noreferrer'>브라우저</a>.",
                 "header": "연결 실패."
             },
             "disconnected": {

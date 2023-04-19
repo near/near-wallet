@@ -381,7 +381,7 @@
             "connection-error": {
                 "cancelButton": "取消",
                 "connectButton": "重試",
-                "connectionPrompt": "請確保 Ledger 已安全連接，並且 NEAR 應用已在設備上打開。",
+                "connectionPrompt": "請確保 Ledger 已安全連接，並且 NEAR 應用已在設備上打開。此外，您必须使用受支持的 <a href='https://nearhelp.zendesk.com/hc/en-us/articles/13972685751191-What-browsers-work-with-Ledger-Connect-' target=' _blank' rel='noopener noreferrer'>浏览器</a>。",
                 "header": "連接失敗。"
             },
             "disconnected": {
