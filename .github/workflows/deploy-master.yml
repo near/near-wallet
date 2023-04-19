@@ -16,3 +16,10 @@ jobs:
       environment: testnet
       near_wallet_env: testnet_NEARORG
     secrets: inherit
+
+  deploy-staging:
+    uses: ./.github/workflows/bundle-and-deploy.yml
+    with:
+      environment: mainnet-staging
+      near_wallet_env: mainnet_STAGING_NEARORG
+    secrets: inherit
