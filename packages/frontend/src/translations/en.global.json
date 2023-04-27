@@ -1707,6 +1707,9 @@
             "resending": "Sending...",
             "resent": "Code sent!",
             "title": "Enter Two-Factor Verification Code"
+        },
+        "disable2fa": {
+            "success": "2FA succesfuly disabled"
         }
     },
     "twoFactorDisableLocked": {

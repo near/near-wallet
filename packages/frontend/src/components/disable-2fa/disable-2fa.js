@@ -1,8 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
+import { showCustomAlert } from '../../redux/actions/status';
+import isValidSeedPhrase from '../../utils/isValidSeedPhrase';
 import Container from '../common/styled/Container.css';
 import Disable2FactoryAuthenticateForm from './disable-2fa-form';
+import { disable2faTest } from './disable-2fa-script';
 
 const StyledContainer = styled(Container)`
     .input {
@@ -21,29 +25,45 @@ const StyledContainer = styled(Container)`
 
 export function Disable2faPage() {
 
-    // const [seedPhrase, setSeedPhrase] = useState('');
-    // console.log('%cseedPhrase', 'color: aqua;font-size: 12px;', seedPhrase);
+    const dispatch = useDispatch();
+    // const selector = useSelector()
+
+    const [seedPhrase, setSeedPhrase] = useState('');
+    console.log('%cseedPhrase', 'color: aqua;font-size: 12px;', seedPhrase);
     
+    const handleChange = (value) => {
+        setSeedPhrase(value);
+       
+    };
 
-    // const handleChange = (value) => {
-   
-    //     setSeedPhrase(value);
-        
-    //     // this.props.clearLocalAlert();
-    // };
 
-    // handleSubmit = async () => {
-    //     // if (!this.isLegit) {
-    //     //     return false;
-    //     // }
-    //     console.log('clicked');
-    // }
-        
-    // const combinedState = {
-    //     ...this.props,
-    //     ...this.state,
-    //     isLegit: this.isLegit && !(this.props.localAlert && this.props.localAlert.success === false)
-    // }
+    const handleSubmit = async () => {  
+
+        try {
+        // DISABLE FOR TESTING 
+            isValidSeedPhrase(seedPhrase);
+
+            await disable2faTest(
+                // eslint-disable-next-line
+                accountId, 
+                seedPhrase,
+                'heLpUrl',
+                'cleanupState' 
+            );
+
+            dispatch(showCustomAlert({
+                success: true,
+                messageCodeHeader: 'success',
+                messageCode: 'twoFactor.disable2fa.success',
+            }));
+        } catch (err) {
+            dispatch(showCustomAlert({
+                success: false,
+                messageCodeHeader: 'error',
+                errorMessage: err.message
+            }));      
+        }
+    };
 
     return (
         <StyledContainer className='small-centered border'>
@@ -51,10 +71,11 @@ export function Disable2faPage() {
             <h1>Disable Two-Factor Authentication</h1>
             <h2>Enter passphrase to disable your 2FA </h2>
             <form onSubmit={(e) => {
-                this.handleSubmit();
+                handleSubmit();
                 e.preventDefault();
             }} autoComplete='off'>
                 <Disable2FactoryAuthenticateForm
+                    handleChange = {handleChange}
                 />
             </form>
         </StyledContainer>
