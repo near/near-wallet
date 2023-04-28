@@ -342,7 +342,8 @@
         "viewFAQ": "View FAQ",
         "viewOnExplorer": "View on Explorer",
         "viewPrivateKey": "View private key",
-        "withdrawing": "Withdrawing"
+        "withdrawing": "Withdrawing",
+        "disabling2FA": "Disabling 2FA"
     },
     "buyNear": {
         "bridgeSubTitle": "Transfer your tokens from Ethereum to NEAR using the Rainbow Bridge.",
@@ -1707,9 +1708,6 @@
             "resending": "Sending...",
             "resent": "Code sent!",
             "title": "Enter Two-Factor Verification Code"
-        },
-        "disable2fa": {
-            "success": "2FA succesfuly disabled"
         }
     },
     "twoFactorDisableLocked": {

@@ -75,6 +75,7 @@ import { RecoverAccountWrapper } from './accounts/RecoverAccountWrapper';
 import { SetupRecoveryMethodWithRouter } from './accounts/recovery_setup/SetupRecoveryMethod';
 import { SetupImplicitWithRouter } from './accounts/SetupImplicit';
 import { SetupSeedPhraseWithRouter } from './accounts/SetupSeedPhrase';
+import { DisableTwoFactor } from './accounts/two_factor/DisableTwoFactor';
 import { EnableTwoFactor } from './accounts/two_factor/EnableTwoFactor';
 import { BuyNear } from './buy/BuyNear';
 import Footer from './common/Footer';
@@ -86,7 +87,6 @@ import PrivateRoute from './common/routing/PrivateRoute';
 import PublicRoute from './common/routing/PublicRoute';
 import Route from './common/routing/Route';
 import TwoFactorDisableBanner from './common/TwoFactorDisableBanner';
-import { Disable2faPage } from './disable-2fa/disable-2fa';
 import { ExploreContainer } from './explore/ExploreContainer';
 import GlobalStyle from './GlobalStyle';
 import { LoginCliLoginSuccess } from './login/LoginCliLoginSuccess';
@@ -556,6 +556,11 @@ class Routing extends Component {
                                 path="/enable-two-factor"
                                 component={EnableTwoFactor}
                             />
+                            <PrivateRoute
+                                exact
+                                path="/disable-two-factor"
+                                component={DisableTwoFactor}
+                            />
                             <Route
                                 path="/recover-account"
                                 component={RecoverAccountWrapper}
@@ -702,12 +707,6 @@ class Routing extends Component {
                                     <StakingContainer
                                         history={this.props.history}
                                     />
-                                )}
-                            />
-                            <PrivateRoute
-                                path="/disable-2fa"
-                                render={() => (
-                                    <Disable2faPage/>
                                 )}
                             />
                             {isWhitelabel && (

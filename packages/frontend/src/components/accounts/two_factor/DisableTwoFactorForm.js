@@ -1,16 +1,15 @@
 import React from 'react';
 
-import classNames from '../../utils/classNames';
-import FormButton from '../common/FormButton';
+import classNames from '../../../utils/classNames';
+import FormButton from '../../common/FormButton';
 
 
-const Disable2FactoryAuthenticateForm = ({
+const DisableTwoFactorForm = ({
     isLegit,
     handleChange,
     seedPhrase,
     localAlert,
-    recoveringAccount,
-    findMyAccountSending
+    disablingTwoFactor,
 }) => (
         <>
             <h4>Passphrase (12 words)</h4>
@@ -19,8 +18,8 @@ const Disable2FactoryAuthenticateForm = ({
                     onChange={(e) => handleChange(e.target.value)}
                     className={classNames([{'success': localAlert && localAlert.success}, {'problem': localAlert && localAlert.success === false}])}
                     placeholder='Enter your passphrase'
-                    disabled={recoveringAccount}
-                    data-test-id="seedPhraseRecoveryInput"
+                    disabled={disablingTwoFactor}
+                    data-test-id="seedPhraseDisableTwoFactorInput"
                     required
                     tabIndex='2'
                     autoCapitalize='off'
@@ -28,14 +27,14 @@ const Disable2FactoryAuthenticateForm = ({
             <FormButton
                 type='submit'
                 color='blue'
-                sending={findMyAccountSending}
-                sendingString='button.recovering'
-                data-test-id="seedPhraseRecoverySubmitButton"
-                disabled={true}
+                sending={disablingTwoFactor}
+                sendingString='button.disabling2FA'
+                data-test-id="seedPhraseDisableTwoFactorSubmitButton"
+                disabled={!isLegit || disablingTwoFactor}
             >
                 Disable 2FA
             </FormButton>
         </>
 );
 
-export default Disable2FactoryAuthenticateForm;
+export default DisableTwoFactorForm;
