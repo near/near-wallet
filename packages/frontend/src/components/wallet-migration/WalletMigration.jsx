@@ -2,9 +2,10 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { Translate } from 'react-localize-redux';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { NETWORK_ID } from '../../config';
+import { NETWORK_ID, IS_MAINNET } from '../../config';
 import { showCustomAlert } from '../../redux/actions/status';
 import { selectAvailableAccounts } from '../../redux/slices/availableAccounts';
+import { MAINNET, TESTNET } from '../../utils/constants';
 import { wallet } from '../../utils/wallet';
 import LoadingDots from '../common/loader/LoadingDots';
 import { MigrationModal, ButtonsContainer, StyledButton, Container } from './CommonComponents';
@@ -224,7 +225,7 @@ const WalletMigration = ({ open, onClose }) => {
                 <WalletSelectorModal
                     onComplete={navigateToRedirect}
                     migrationAccounts={accountWithDetails}
-                    network={NETWORK_ID === 'default' ? 'testnet': NETWORK_ID}
+                    network={IS_MAINNET ? MAINNET : TESTNET}
                     rotatedKeys={rotatedKeys}
                 />
             )}
