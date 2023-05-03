@@ -75,6 +75,7 @@ import { RecoverAccountWrapper } from './accounts/RecoverAccountWrapper';
 import { SetupRecoveryMethodWithRouter } from './accounts/recovery_setup/SetupRecoveryMethod';
 import { SetupImplicitWithRouter } from './accounts/SetupImplicit';
 import { SetupSeedPhraseWithRouter } from './accounts/SetupSeedPhrase';
+import { DisableTwoFactor } from './accounts/two_factor/DisableTwoFactor';
 import { EnableTwoFactor } from './accounts/two_factor/EnableTwoFactor';
 import { BuyNear } from './buy/BuyNear';
 import Footer from './common/Footer';
@@ -554,6 +555,11 @@ class Routing extends Component {
                                 exact
                                 path="/enable-two-factor"
                                 component={EnableTwoFactor}
+                            />
+                            <PrivateRoute
+                                exact
+                                path="/disable-two-factor"
+                                component={DisableTwoFactor}
                             />
                             <Route
                                 path="/recover-account"
