@@ -11,6 +11,7 @@ import { IMPORT_STATUS } from '../../../accounts/batch_import_accounts';
 import sequentialAccountImportReducer, { ACTIONS } from '../../../accounts/batch_import_accounts/sequentialAccountImportReducer';
 import LoadingDots from '../../../common/loader/LoadingDots';
 import { MigrationModal, Container, IconBackground } from '../../CommonComponents';
+import { recordWalletMigrationEvent } from '../../metrics';
 import { WALLET_MIGRATION_VIEWS } from '../../WalletMigration';
 import AccessKeyList from './AccessKeyList';
 import AccountKeyCleanup from './AccountKeyCleanup';
@@ -205,6 +206,10 @@ const CleanKeysModal = ({ accounts, handleSetActiveView, onNext, onClose, rotate
                                 });
                             } finally {
                                 setKeysAreDeleting(false);
+                                recordWalletMigrationEvent(`${WALLET_MIGRATION_VIEWS.CLEAN_KEYS} COMPLETED`, {
+                                    numberOfFAKDeleted: keysToRemove.length,
+                                    accountId: currentAccount.accountId,
+                                });
                             }
                             setShowConfirmSeedphraseModal(false);
                             localDispatch({ type: ACTIONS.SET_CURRENT_DONE });
