@@ -37,12 +37,12 @@ export const recordWalletMigrationEvent = (eventLabel, properties = {}) => {
     }
 };
 
-export const recordWalletMigrationState = (traits = {}) => {
+export const recordWalletMigrationState = (traits = {}, fallBackAccountId) => {
     if (!segment) {
         return;
     }
     try {
-        const accountId = localStorage.getItem(KEY_ACTIVE_ACCOUNT_ID);
+        const accountId = localStorage.getItem(KEY_ACTIVE_ACCOUNT_ID) || fallBackAccountId;
         segment.identify({
             userId: accountId,
             traits: {

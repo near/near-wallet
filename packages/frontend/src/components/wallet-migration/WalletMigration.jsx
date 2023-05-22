@@ -94,8 +94,11 @@ const WalletMigration = ({ open, onClose }) => {
             listOfAccounts: accounts.join(', '),
             selectedWallet: walletName,
         });
-        setMigrationStep(WALLET_MIGRATION_VIEWS.VERIFYING);
-        handleSetActiveView(WALLET_MIGRATION_VIEWS.REDIRECTING);
+        flushEvents()
+            .finally(() => {
+                setMigrationStep(WALLET_MIGRATION_VIEWS.VERIFYING);
+                handleSetActiveView(WALLET_MIGRATION_VIEWS.REDIRECTING);
+            });
     };
 
     const navigateToVerifying = () => {
@@ -133,12 +136,16 @@ const WalletMigration = ({ open, onClose }) => {
                 messageCodeHeader: 'error',
                 errorMessage: `fail to delete keys for account(s) ${failedAccounts.join(', ')}`,
             }));
-        } else {     
-            recordWalletMigrationState({ state: 'migration completed' });
-            flushEvents();
-            onClose();
-            deleteMigrationStep();
-            location.reload();
+        } else {
+            // On success, update segment with first accountId as reference
+            // Due to .deleteKey above, we have to explicity pass fallbackAcountId to recordWalletMigrationState
+            recordWalletMigrationState({ state: 'migration completed' }, availableAccounts[0]);
+            flushEvents()
+                .finally(() => {
+                    onClose();
+                    deleteMigrationStep();    
+                    location.reload();
+                });
         }
     };
 
