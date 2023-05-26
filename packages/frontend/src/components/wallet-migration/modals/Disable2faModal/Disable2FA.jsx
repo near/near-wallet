@@ -14,6 +14,7 @@ import { IMPORT_STATUS } from '../../../accounts/batch_import_accounts';
 import sequentialAccountImportReducer, { ACTIONS } from '../../../accounts/batch_import_accounts/sequentialAccountImportReducer';
 import { isAccountBricked } from '../..//utils';
 import { ButtonsContainer, StyledButton, MigrationModal } from '../../CommonComponents';
+import { recordWalletMigrationEvent } from '../../metrics';
 import { WALLET_MIGRATION_VIEWS } from '../../WalletMigration';
 import AccountLockModal from './AccountLock';
 
@@ -125,6 +126,7 @@ const Disable2FAModal = ({ handleSetActiveView, onClose, accountWithDetails, set
                     success: false,
                     messageCodeHeader: 'error'
                 }));
+                recordWalletMigrationEvent(`${WALLET_MIGRATION_VIEWS} FAILED`, { error: e.message });
                 await new Promise((r) => setTimeout(r, 3000));
                 localDispatch({ type: ACTIONS.SET_CURRENT_FAILED_AND_END_PROCESS });
             } finally {

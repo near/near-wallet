@@ -9,6 +9,7 @@ import { MAINNET, TESTNET } from '../../utils/constants';
 import { wallet } from '../../utils/wallet';
 import LoadingDots from '../common/loader/LoadingDots';
 import { MigrationModal, ButtonsContainer, StyledButton, Container } from './CommonComponents';
+import { flushEvents, initSegment, recordWalletMigrationEvent, recordWalletMigrationState } from './metrics';
 import CleanKeysModal from './modals/CleanKeysModal/CleanKeysModal';
 import Disable2FAModal from './modals/Disable2faModal/Disable2FA';
 import LogoutModal from './modals/LogoutModal/LogoutModal';
@@ -52,6 +53,7 @@ const WalletMigration = ({ open, onClose }) => {
             setLoadingMultisigAccounts(false);
         };
         if (open) {
+            initSegment();
             setLoadingMultisigAccounts(true);
             importRotatableAccounts();
         }
@@ -63,12 +65,17 @@ const WalletMigration = ({ open, onClose }) => {
 
     const handleSetActiveView = useCallback((activeView) => {
         handleStateUpdate({ activeView });
+        recordWalletMigrationEvent(activeView);
     }, [handleStateUpdate]);
 
   
     useEffect(() => {
         if (open) {
             const storedStep = getMigrationStep();
+            if (!storedStep) {
+                // If there is no stored step, it means the user is starting the migration
+                recordWalletMigrationState({ state: 'migration started' });
+            }
             handleSetActiveView(storedStep || WALLET_MIGRATION_VIEWS.DISABLE_2FA);
         } else {
             handleSetActiveView(null);
@@ -82,9 +89,16 @@ const WalletMigration = ({ open, onClose }) => {
         });
     }, [Object.keys(rotatedKeys).length]);
 
-    const navigateToRedirect = () => {
-        setMigrationStep(WALLET_MIGRATION_VIEWS.VERIFYING);
-        handleSetActiveView(WALLET_MIGRATION_VIEWS.REDIRECTING);
+    const navigateToRedirect = ({ accounts, walletName }) => {
+        recordWalletMigrationEvent(`${WALLET_MIGRATION_VIEWS.MIGRATE_ACCOUNTS} COMPLETED`, {
+            listOfAccounts: accounts.join(', '),
+            selectedWallet: walletName,
+        });
+        flushEvents()
+            .finally(() => {
+                setMigrationStep(WALLET_MIGRATION_VIEWS.VERIFYING);
+                handleSetActiveView(WALLET_MIGRATION_VIEWS.REDIRECTING);
+            });
     };
 
     const navigateToVerifying = () => {
@@ -93,6 +107,7 @@ const WalletMigration = ({ open, onClose }) => {
     };
 
     const navigateToLogOut = () => {
+        recordWalletMigrationEvent(`${WALLET_MIGRATION_VIEWS.VERIFYING} OTHER_WALLET_ACCESS_CHECKED`);
         setMigrationStep(WALLET_MIGRATION_VIEWS.LOG_OUT);
         handleSetActiveView(WALLET_MIGRATION_VIEWS.LOG_OUT);
     };
@@ -121,14 +136,21 @@ const WalletMigration = ({ open, onClose }) => {
                 messageCodeHeader: 'error',
                 errorMessage: `fail to delete keys for account(s) ${failedAccounts.join(', ')}`,
             }));
-        } else {               
-            onClose();
-            deleteMigrationStep();
-            location.reload();
+        } else {
+            // On success, update segment with first accountId as reference
+            // Due to .deleteKey above, we have to explicity pass fallbackAcountId to recordWalletMigrationState
+            recordWalletMigrationState({ state: 'migration completed' }, availableAccounts[0]);
+            flushEvents()
+                .finally(() => {
+                    onClose();
+                    deleteMigrationStep();    
+                    location.reload();
+                });
         }
     };
 
     const onStartOver = () => {
+        recordWalletMigrationEvent(`${WALLET_MIGRATION_VIEWS.VERIFYING} START_OVER`);
         deleteMigrationStep();
         handleSetActiveView(WALLET_MIGRATION_VIEWS.DISABLE_2FA);
     };
