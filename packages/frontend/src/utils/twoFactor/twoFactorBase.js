@@ -141,6 +141,11 @@ export class TwoFactorBase extends Account2FA {
             helperUrl: ACCOUNT_HELPER_URL,
         });
 
+        const conversionKeyBatches = await this.getConversionKeyBatches(null);
+        for (const batchIndex in conversionKeyBatches) {
+            await account.signAndSendTransactionWithAccount(this.accountId, conversionKeyBatches[batchIndex]);
+        }
+
         return await account.disableWithFAK({ contractBytes: emptyContractBytes, cleanupContractBytes });
     }
 
