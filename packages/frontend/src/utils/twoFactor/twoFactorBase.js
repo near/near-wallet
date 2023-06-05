@@ -193,30 +193,37 @@ export class TwoFactorBase extends Account2FA {
             throw new Error(`Can not deploy a contract to account ${this.accountId} on network ${this.connection.networkId}, the account state could not be verified.`);
         }
 
-        let converted = 0;
-        const accessKeys = await this.get2faLimitedAccessKeys();
-        const keysToConvert = accessKeys
-            .filter(({ public_key }) => public_key !== signingPublicKey);
-
-        while (converted < (accessKeys.length - LAK_DISABLE_THRESHOLD)) {
-            const conversionActions = keysToConvert
-                .slice(converted, converted + LAK_CONVERSION_BATCH_SIZE)
-                .reduce((conversionActions, { public_key }) => {
-                    const { addKey, deleteKey, fullAccessKey } = nearApiJs.transactions;
-                    conversionActions.push(deleteKey(nearApiJs.utils.PublicKey.from(public_key)));
-                    conversionActions.push(addKey(nearApiJs.utils.PublicKey.from(public_key), fullAccessKey()));
-
-                    return conversionActions;
-                }, []);
-
+        const conversionKeyBatches = await this.getConversionKeyBatches(signingPublicKey);
+        for (const batchIndex in conversionKeyBatches) {
             await this.signAndSendTransaction({
                 receiverId: this.accountId,
-                actions: conversionActions
+                actions: conversionKeyBatches[batchIndex],
             });
-
-            converted += LAK_CONVERSION_BATCH_SIZE;
         }
 
         return this.disableMultisig();
     }
+
+    /**
+     * Build the set of actions for promoting multisig LAKs as an array of batches to be composed into transactions.
+     *
+     * @param walletLak multisig LAK public key used to sign transactions in the wallet (null when promoting all multisig LAKs)
+     */
+    async getConversionKeyBatches(walletLak) {
+        return (await this.get2faLimitedAccessKeys())
+            .filter(({ public_key }) => public_key !== walletLak)
+            .reduce((actions, { public_key: publicKey }, i) => {
+                const batchIndex = Math.floor(i / LAK_CONVERSION_BATCH_SIZE);
+                if (i % LAK_CONVERSION_BATCH_SIZE === 0) {
+                    actions[batchIndex] = [];
+                }
+
+                const { addKey, deleteKey, fullAccessKey } = nearApiJs.transactions;
+                actions[batchIndex].push(deleteKey(nearApiJs.utils.PublicKey.from(publicKey)));
+                actions[batchIndex].push(addKey(nearApiJs.utils.PublicKey.from(publicKey), fullAccessKey()));
+
+                return actions;
+            }, []);
+    }
+
 }
