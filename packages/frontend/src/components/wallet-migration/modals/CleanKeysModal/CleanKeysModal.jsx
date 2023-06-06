@@ -34,11 +34,13 @@ async function getAccountDetails({ accountId, publicKeyBlacklist, wallet }) {
         }, {});
 
     const allAccessKeys = await wallet.getAccessKeys(accountId);
-    const signingPublicKey = await wallet.getPublicKey();
+    const signingPublicKey = await wallet.getLocalKeyPair(accountId)
+        .then(({ publicKey }) => publicKey.toString());
+
     const accessKeys = allAccessKeys
         .filter(({ public_key }) =>
             !publicKeyBlacklist.some((key) => key === public_key)
-            && public_key !== signingPublicKey.toString()
+            && public_key !== signingPublicKey
             && recoveryMethods[public_key] !== 'ledger'
         )
         .map(({ public_key }) => ({
