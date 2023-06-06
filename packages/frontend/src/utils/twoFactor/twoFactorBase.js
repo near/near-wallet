@@ -148,7 +148,10 @@ export class TwoFactorBase extends Account2FA {
         });
 
         for (const batchIndex in keyConversionBatches) {
-            await account.signAndSendTransactionWithAccount(this.accountId, keyConversionBatches[batchIndex]);
+            // skip batch conversion when the key actions can fit into the multisig disable transaction
+            if (keyConversionBatches[batchIndex].length > (LAK_DISABLE_THRESHOLD * 2)) {
+                await account.signAndSendTransactionWithAccount(this.accountId, keyConversionBatches[batchIndex]);
+            }
         }
 
         return await account.disableWithFAK({ contractBytes: emptyContractBytes, cleanupContractBytes });
