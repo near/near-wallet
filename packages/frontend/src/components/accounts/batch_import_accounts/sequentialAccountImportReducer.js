@@ -63,8 +63,9 @@ const sequentialAccountImportReducer = (state = initialState, action) => {
         case ACTIONS.BEGIN_IMPORT: {
             if (state.accounts.every(({ status }) => status === null)) {
                 const [firstAccount, ...remainingAccounts] = state.accounts;
-
-                firstAccount.status = IMPORT_STATUS.PENDING;
+                if (firstAccount) {
+                    firstAccount.status = IMPORT_STATUS.PENDING;
+                }
                 remainingAccounts.forEach(
                     (account) => (account.status = IMPORT_STATUS.UP_NEXT)
                 );

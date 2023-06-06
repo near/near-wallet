@@ -24,6 +24,7 @@ const MAINNET_MODULES = [
     setupMeteorWallet,
     setupWelldoneWallet,
     setupHereWallet,
+    setupMyNearWallet,
 ];
 
 const TESTNET_MODULES = [
