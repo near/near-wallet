@@ -141,13 +141,14 @@ export class TwoFactorBase extends Account2FA {
             helperUrl: ACCOUNT_HELPER_URL,
         });
 
-        const conversionKeyBatches = await this.getConversionKeyBatches({
+        const keyConversionBatches = await this.getKeyConversionBatches({
             accountId,
             accessKeys: await account.getAccessKeys(),
             walletLak: null,
         });
-        for (const batchIndex in conversionKeyBatches) {
-            await account.signAndSendTransactionWithAccount(this.accountId, conversionKeyBatches[batchIndex]);
+
+        for (const batchIndex in keyConversionBatches) {
+            await account.signAndSendTransactionWithAccount(this.accountId, keyConversionBatches[batchIndex]);
         }
 
         return await account.disableWithFAK({ contractBytes: emptyContractBytes, cleanupContractBytes });
@@ -208,18 +209,18 @@ export class TwoFactorBase extends Account2FA {
             throw new Error(`Can not deploy a contract to account ${this.accountId} on network ${this.connection.networkId}, the account state could not be verified.`);
         }
 
-        const conversionKeyBatches = await TwoFactorBase.getConversionKeyBatches({
+        const keyConversionBatches = await TwoFactorBase.getKeyConversionBatches({
             accountId: this.accountId,
             accessKeys: await this.getAccessKeys(),
             walletLak: signingPublicKey,
         });
 
-        for (const batchIndex in conversionKeyBatches) {
+        for (const batchIndex in keyConversionBatches) {
             // skip batch conversion when the key actions can fit into the multisig disable transaction
-            if (conversionKeyBatches[batchIndex].length > (LAK_DISABLE_THRESHOLD * 2)) {
+            if (keyConversionBatches[batchIndex].length > (LAK_DISABLE_THRESHOLD * 2)) {
                 await this.signAndSendTransaction({
                     receiverId: this.accountId,
-                    actions: conversionKeyBatches[batchIndex],
+                    actions: keyConversionBatches[batchIndex],
                 });
             }
         }
@@ -234,7 +235,7 @@ export class TwoFactorBase extends Account2FA {
      * @param accessKeys set of access keys on the target account
      * @param walletLak multisig LAK public key used to sign transactions in the wallet (null when promoting all multisig LAKs)
      */
-    static async getConversionKeyBatches({ accountId, accessKeys, walletLak }) {
+    static async getKeyConversionBatches({ accountId, accessKeys, walletLak }) {
         return (await TwoFactorBase.get2faLimitedAccessKeys({ accountId, accessKeys }))
             .filter(({ public_key }) => public_key !== walletLak)
             .reduce((actions, { public_key: publicKey }, i) => {
