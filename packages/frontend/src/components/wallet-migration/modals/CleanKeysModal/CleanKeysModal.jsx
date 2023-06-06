@@ -34,8 +34,7 @@ async function getAccountDetails({ accountId, publicKeyBlacklist, wallet }) {
         }, {});
 
     const allAccessKeys = await wallet.getAccessKeys(accountId);
-    const signingPublicKey = await wallet.getLocalKeyPair(accountId)
-        .then(({ publicKey }) => publicKey.toString());
+    const signingPublicKey = (await wallet.getLocalKeyPair(accountId))?.publicKey.toString();
 
     const accessKeys = allAccessKeys
         .filter(({ public_key }) =>
