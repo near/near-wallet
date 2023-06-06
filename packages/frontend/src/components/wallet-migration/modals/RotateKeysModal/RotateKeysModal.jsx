@@ -18,7 +18,6 @@ import SavePassphrase from '../../../accounts/recovery_setup/new_account/SavePas
 import Modal from '../../../common/modal/Modal';
 import { ButtonsContainer, StyledButton } from '../../CommonComponents';
 import { WALLET_MIGRATION_VIEWS } from '../../WalletMigration';
-import ExportKeyModal from './ExportKeyModal';
 
 const Container = styled.div`
     padding: 15px 0;
@@ -65,7 +64,6 @@ const RotateKeysModal = ({handleSetActiveView, onClose, onRotateKeySuccess, acco
     const [currentRecoveryKeyPair, setCurrentRecoveryKeyPair] = useState();
     const [currentPassphrase, setCurrentpassPhrase] = useState('');
     const [showConfirmSeedphraseModal, setShowConfirmSeedphraseModal] = useState(false);
-    const [showExportKeyModal, setShowExportKeyModal] = useState(false);
 
     const generateAndSetPhrase = () => {
         const { seedPhrase, secretKey } = generateSeedPhrase();
@@ -116,8 +114,8 @@ const RotateKeysModal = ({handleSetActiveView, onClose, onRotateKeySuccess, acco
             const account = await wallet.getAccount(currentAccount.accountId);
             await account.addKey(currentRecoveryKeyPair.getPublicKey());
             onRotateKeySuccess({ accountId: currentAccount.accountId,  key: currentRecoveryKeyPair.secretKey});
-            setShowConfirmSeedphraseModal(false);  
-            setShowExportKeyModal(true);          
+            setShowConfirmSeedphraseModal(false);
+            localDispatch({ type: ACTIONS.SET_CURRENT_DONE });          
         } catch (e) {
             localDispatch({ type: ACTIONS.SET_CURRENT_FAILED_AND_END_PROCESS });
             dispatch(showCustomAlert({
@@ -152,20 +150,6 @@ const RotateKeysModal = ({handleSetActiveView, onClose, onRotateKeySuccess, acco
             rotateKeyForCurrentAccount();
         }
     }, [currentAccount]);
-
-    if (showExportKeyModal) {
-        return (
-            <ExportKeyModal
-                accountId={currentAccount.accountId}
-                secretKey={`ed25519:${currentRecoveryKeyPair.secretKey}`}
-                onClose={onClose}
-                onContinue={() => {
-                    setShowExportKeyModal(false);
-                    localDispatch({ type: ACTIONS.SET_CURRENT_DONE });
-                }}
-            />
-        );
-    }
 
     if (confirmPassphrase) {
         return (
