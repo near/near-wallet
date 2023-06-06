@@ -141,7 +141,11 @@ export class TwoFactorBase extends Account2FA {
             helperUrl: ACCOUNT_HELPER_URL,
         });
 
-        const conversionKeyBatches = await this.getConversionKeyBatches(null);
+        const conversionKeyBatches = await this.getConversionKeyBatches({
+            accountId,
+            accessKeys: await account.getAccessKeys(),
+            walletLak: null,
+        });
         for (const batchIndex in conversionKeyBatches) {
             await account.signAndSendTransactionWithAccount(this.accountId, conversionKeyBatches[batchIndex]);
         }
@@ -151,16 +155,19 @@ export class TwoFactorBase extends Account2FA {
 
     /**
      * Returns the list of multisig function call access keys
+     *
+     * @param accountId target account
+     * @param accessKeys set of access keys on the target account
      */
-    async get2faLimitedAccessKeys() {
-        return (await this.getAccessKeys())
+    static get2faLimitedAccessKeys({ accountId, accessKeys }) {
+        return accessKeys
             .filter(({ access_key }) => {
                 if (access_key.permission === 'FullAccess') {
                     return false;
                 }
 
                 const perm = access_key.permission.FunctionCall;
-                return perm.receiver_id === this.accountId &&
+                return perm.receiver_id === accountId &&
                     perm.method_names.length === 4 &&
                     perm.method_names.includes('add_request_and_confirm');
             });
@@ -171,7 +178,10 @@ export class TwoFactorBase extends Account2FA {
      * i.e. account has too many LAKs to delete and re-create as FAKs for a single transaction
      */
     async isKeyConversionRequiredForDisable() {
-        const keys = await this.get2faLimitedAccessKeys();
+        const keys = await TwoFactorBase.get2faLimitedAccessKeys({
+            accountId: this.accountId,
+            accessKeys: await this.getAccessKeys(),
+        });
         return keys.length > LAK_DISABLE_THRESHOLD;
     }
 
@@ -198,12 +208,20 @@ export class TwoFactorBase extends Account2FA {
             throw new Error(`Can not deploy a contract to account ${this.accountId} on network ${this.connection.networkId}, the account state could not be verified.`);
         }
 
-        const conversionKeyBatches = await this.getConversionKeyBatches(signingPublicKey);
+        const conversionKeyBatches = await TwoFactorBase.getConversionKeyBatches({
+            accountId: this.accountId,
+            accessKeys: await this.getAccessKeys(),
+            walletLak: signingPublicKey,
+        });
+
         for (const batchIndex in conversionKeyBatches) {
-            await this.signAndSendTransaction({
-                receiverId: this.accountId,
-                actions: conversionKeyBatches[batchIndex],
-            });
+            // skip batch conversion when the key actions can fit into the multisig disable transaction
+            if (conversionKeyBatches[batchIndex].length > (LAK_DISABLE_THRESHOLD * 2)) {
+                await this.signAndSendTransaction({
+                    receiverId: this.accountId,
+                    actions: conversionKeyBatches[batchIndex],
+                });
+            }
         }
 
         return this.disableMultisig();
@@ -212,10 +230,12 @@ export class TwoFactorBase extends Account2FA {
     /**
      * Build the set of actions for promoting multisig LAKs as an array of batches to be composed into transactions.
      *
+     * @param accountId target account ID
+     * @param accessKeys set of access keys on the target account
      * @param walletLak multisig LAK public key used to sign transactions in the wallet (null when promoting all multisig LAKs)
      */
-    async getConversionKeyBatches(walletLak) {
-        return (await this.get2faLimitedAccessKeys())
+    static async getConversionKeyBatches({ accountId, accessKeys, walletLak }) {
+        return (await TwoFactorBase.get2faLimitedAccessKeys({ accountId, accessKeys }))
             .filter(({ public_key }) => public_key !== walletLak)
             .reduce((actions, { public_key: publicKey }, i) => {
                 const batchIndex = Math.floor(i / LAK_CONVERSION_BATCH_SIZE);
