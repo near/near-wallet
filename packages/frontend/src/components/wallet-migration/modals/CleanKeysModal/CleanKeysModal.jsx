@@ -34,7 +34,8 @@ async function getAccountDetails({ accountId, publicKeyBlacklist, wallet }) {
         }, {});
 
     const allAccessKeys = await wallet.getAccessKeys(accountId);
-    const signingPublicKey = await wallet.getPublicKey();
+    const signingPublicKey = await wallet.getPublicKey(accountId);
+    
     const accessKeys = allAccessKeys
         .filter(({ public_key }) =>
             !publicKeyBlacklist.some((key) => key === public_key)
@@ -57,7 +58,7 @@ async function getAccountDetails({ accountId, publicKeyBlacklist, wallet }) {
 
 async function deleteKeys({ accountId, publicKeysToDelete, wallet }) {
     const account = await wallet.getAccount(accountId);
-    const signingPublicKey = await wallet.getPublicKey();
+    const signingPublicKey = await wallet.getPublicKey(accountId);
     const deleteSigningKey = publicKeysToDelete.some((publicKey) => publicKey === signingPublicKey);
     const keysForBatchDeletion = publicKeysToDelete.length - (deleteSigningKey ? 1 : 0);
 
