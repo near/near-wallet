@@ -3,7 +3,7 @@ import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useImmerReducer } from 'use-immer';
 
-import IconSecurityLock from '../../../../images/wallet-migration/IconSecurityLock';
+import IconKey from '../../../../images/wallet-migration/IconKey';
 import { switchAccount } from '../../../../redux/actions/account';
 import { selectAccountId } from '../../../../redux/slices/account';
 import WalletClass, { wallet } from '../../../../utils/wallet';
@@ -185,7 +185,7 @@ const CleanKeysModal = ({ accounts, handleSetActiveView, onNext, onClose, rotate
         <MigrationModal>
             <Container>
                 <IconBackground>
-                    <IconSecurityLock />
+                    <IconKey />
                 </IconBackground>
 
                 {showConfirmSeedphraseModal && (

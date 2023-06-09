@@ -41,7 +41,7 @@ const Container = styled.div`
 
     .title{
         font-weight: 800;
-        font-size: 20px;
+        font-size: 18px;
         margin-top: 40px;
     }
 `;

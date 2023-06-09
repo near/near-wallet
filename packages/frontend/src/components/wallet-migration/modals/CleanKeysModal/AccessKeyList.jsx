@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { Translate } from 'react-localize-redux';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import classNames from '../../../../utils/classNames';
 import Accordion from '../../../common/Accordion';
 import Checkbox from '../../../common/Checkbox';
+import Tooltip from '../../../common/Tooltip';
 import ChevronIcon from '../../../svg/ChevronIcon';
 import { ButtonsContainer, StyledButton } from '../../CommonComponents';
 
@@ -12,6 +13,16 @@ const AccessKeyListContainer = styled.div`
     display: flex;
     flex-direction: column;
     text-align: left;
+
+    .title {
+        text-align: center;
+    }
+
+    > .desc {
+        text-align: center;
+        font-weight: 12px;
+        margin: 24px 0;
+    }
 
     .access-key {
         display: flex;
@@ -22,7 +33,8 @@ const AccessKeyListContainer = styled.div`
 
         .public-key {
             flex: 7;
-
+            margin-left: 8px;
+            display: flex;
             .key-prefix {
                 font-family: monospace;
             }
@@ -43,7 +55,7 @@ const AccessKeyListContainer = styled.div`
 
         .account-detail {
             width: 100%;
-
+            margin-left: 8px;
             .account-id {
                 font-weight: bold;
                 text-overflow: ellipsis;
@@ -57,9 +69,17 @@ const AccessKeyListContainer = styled.div`
 
         .expand-keys {
             flex: 1;
-            padding: 16px 0 0 0;
+            padding: 16px 16px 0 0;
+            cursor: pointer;
         }
     }
+`;
+
+const IconContainer = styled.div`
+    transform: rotate(90deg);
+    ${({ expanded }) => (expanded && css`
+        transform: rotate(270deg);
+    `)}
 `;
 
 const AccessKeyList = ({ account, onClose, onNext, selectKey, selectedKeys }) => {
@@ -75,6 +95,9 @@ const AccessKeyList = ({ account, onClose, onNext, selectKey, selectedKeys }) =>
             <h3 className='title'>
                 <Translate id='walletMigration.cleanKeys.accountTitle' />
             </h3>
+            <div className="desc">
+                <Translate id='walletMigration.cleanKeys.accountDesc' />
+            </div>
             <div
                 className={classNames(['account', expanded ? 'open' : ''])}
                 id='full-access-keys'
@@ -89,7 +112,9 @@ const AccessKeyList = ({ account, onClose, onNext, selectKey, selectedKeys }) =>
                     </p>
                 </div>
                 <div className='expand-keys'>
-                    <ChevronIcon color='#0072ce' />
+                    <IconContainer expanded={expanded}>
+                        <ChevronIcon color='#0072ce' />
+                    </IconContainer>
                 </div>
             </div>
             <Accordion
@@ -106,11 +131,40 @@ const AccessKeyList = ({ account, onClose, onNext, selectKey, selectedKeys }) =>
                             (<Translate id={`walletMigration.cleanKeys.keyTypes.${kind}`} />)
                         </div>
                         <div className='remove-checkbox' onClick={() => selectKey(publicKey, !checked)}>
-                            <Checkbox checked={checked} />
+                            <Checkbox checked={checked} red />
                         </div>
                     </div>
                 ))}
+                <div className='access-key'>
+                    <div className='public-key'>
+                        <span className='key-prefix'>
+                            Private Key
+                        </span>
+                        &nbsp;
+                        (<Translate id='walletMigration.cleanKeys.keyTypes.rotatedKey' />)
+                        <Tooltip translate="walletMigration.cleanKeys.rotatedKeyTooltip" />
+                    </div>
+                    <div className='remove-checkbox'>
+                        <Checkbox disabled />
+                    </div>
+                </div>
+                <div className='access-key'>
+                    <div className='public-key'>
+                        <span className='key-prefix'>
+                            Private Key
+                        </span>
+                        &nbsp;
+                        (<Translate id='walletMigration.cleanKeys.keyTypes.currentAccessKey' />)
+                        <Tooltip translate="walletMigration.cleanKeys.currentAccessKeyTooltip" />
+                    </div>
+                    <div className='remove-checkbox'>
+                        <Checkbox disabled />
+                    </div>
+                </div>
             </Accordion>
+            <div className="desc">
+                <Translate id='walletMigration.cleanKeys.accountDescTwo' />
+            </div>
             <ButtonsContainer vertical>
                 <StyledButton
                     onClick={onNext}
@@ -121,7 +175,7 @@ const AccessKeyList = ({ account, onClose, onNext, selectKey, selectedKeys }) =>
                     <Translate id='walletMigration.cleanKeys.removeKeys' />
                 </StyledButton>
                 <StyledButton
-                    className='gray-blue'
+                    className='white-blue'
                     onClick={onClose}
                     fullWidth
                 >
