@@ -1,9 +1,13 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 const CheckboxContainer = styled.div`
     display: inline-block;
     vertical-align: middle;
+    cursor: pointer;
+    ${(props) => (props.disabled && css`
+        cursor: not-allowed;
+    `)};
 `;
 
 const Icon = styled.svg`
@@ -41,12 +45,25 @@ const StyledCheckbox = styled.div`
     ${Icon} {
         visibility: ${(props) => (props.checked ? 'visible' : 'hidden')};
     }
+
+    ${(props) => (props.red && css`
+        background: ${(props) => (props.checked ? '#FCECEC' : 'white')};
+        border: 2px solid ${(props) => (props.checked ? '#FFBDBE' : '#E6E5E3')};
+        ${Icon} {
+            stroke: #FC5B5B;
+        }
+    `)};
+
+    ${(props) => (props.disabled && css`
+        background: rgba(0,0,0,0.2);
+        border: 2px solid #111618;
+    `)};
 `;
 
-const Checkbox = ({ className, checked, ...props }) => (
-    <CheckboxContainer className={className}>
+const Checkbox = ({ className, checked, red, ...props }) => (
+    <CheckboxContainer className={className} disabled={props.disabled}>
         <HiddenCheckbox checked={checked} {...props} />
-        <StyledCheckbox checked={checked}>
+        <StyledCheckbox checked={checked} red={red} disabled={props.disabled}>
             <Icon viewBox="0 0 24 24">
                 <polyline points="20 6 9 17 4 12" />
             </Icon>
