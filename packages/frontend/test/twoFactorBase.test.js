@@ -12,13 +12,26 @@ function mock2faLimitedAccessKeys(keysToReturn) {
         .fill()
         .map(() => ({
             public_key: KeyPair.fromRandom('ed25519').publicKey.toString(),
+            access_key: {
+                permission: {
+                    FunctionCall: {
+                        method_names: [
+                            'add_request_and_confirm',
+                            'add_request',
+                            'confirm',
+                            'delete_request',
+                        ],
+                        receiver_id: 'sender.test',
+                    },
+                },
+            },
         }));
 }
 
 describe('2fa batch key conversion', () => {
     let sender;
     beforeEach(async () => {
-        sender = new TwoFactorBase({ connection: {} });
+        sender = new TwoFactorBase({ connection: {}, accountId: 'sender.test' });
         sender.disable = async () => {};
     });
 
@@ -28,7 +41,10 @@ describe('2fa batch key conversion', () => {
             public_key: KeyPair.fromRandom('ed25519').publicKey.toString(),
         }];
 
-        expect(await sender.get2faLimitedAccessKeys()).toHaveLength(0);
+        expect(await TwoFactorBase.get2faLimitedAccessKeys({
+            accountId: sender.accountId,
+            accessKeys: await sender.getAccessKeys(),
+        })).toHaveLength(0);
     });
 
     test('get2faLimitedAccessKeys filters out LAKs with only the `confirm` method', async() => {
@@ -44,7 +60,10 @@ describe('2fa batch key conversion', () => {
             public_key: KeyPair.fromRandom('ed25519').publicKey.toString(),
         }];
 
-        expect(await sender.get2faLimitedAccessKeys()).toHaveLength(0);
+        expect(await TwoFactorBase.get2faLimitedAccessKeys({
+            accountId: sender.accountId,
+            accessKeys: await sender.getAccessKeys(),
+        })).toHaveLength(0);
     });
 
     test('get2faLimitedAccessKeys includes LAKs for requesting multisig signing', async() => {
@@ -60,19 +79,22 @@ describe('2fa batch key conversion', () => {
             public_key: KeyPair.fromRandom('ed25519').publicKey.toString(),
         }];
 
-        expect(await sender.get2faLimitedAccessKeys()).toHaveLength(1);
+        expect(await TwoFactorBase.get2faLimitedAccessKeys({
+            accountId: sender.accountId,
+            accessKeys: await sender.getAccessKeys(),
+        })).toHaveLength(1);
     });
 
     test('isConversionRequiredForDisable returns false for accounts with fewer than 48 LAKs to convert', async() => {
         await Promise.all([0, 1, 2, 48].map(async (n) => {
-            sender.get2faLimitedAccessKeys = async () => mock2faLimitedAccessKeys(n);
+            sender.getAccessKeys = async () => mock2faLimitedAccessKeys(n);
             expect(await sender.isKeyConversionRequiredForDisable()).toEqual(false);
         }));
     });
 
     test('isConversionRequiredForDisable returns true for accounts with 48 or more LAKs to convert', async() => {
         await Promise.all([49, 100].map(async (n) => {
-            sender.get2faLimitedAccessKeys = async () => mock2faLimitedAccessKeys(n);
+            sender.getAccessKeys = async () => mock2faLimitedAccessKeys(n);
             expect(await sender.isKeyConversionRequiredForDisable()).toEqual(true);
         }));
     });
@@ -104,13 +126,16 @@ describe('2fa batch key conversion', () => {
             const account = {
                 ...sender,
                 checkMultisigCodeAndStateStatus: async () => ({ stateStatus: 1 }),
-                get2faLimitedAccessKeys: async () => laks,
+                getAccessKeys: async () => laks,
                 signAndSendTransaction: async () => batchesSigned++,
                 disableMultisig: async () => disableMultisigCalled = true,
             };
             account.batchConvertKeysAndDisable = sender.batchConvertKeysAndDisable.bind(account);
 
-            const signingPublicKey = (await account.get2faLimitedAccessKeys())[0];
+            const signingPublicKey = (await TwoFactorBase.get2faLimitedAccessKeys({
+                accountId: 'sender.test',
+                accessKeys: laks,
+            }))[0];
             await account.batchConvertKeysAndDisable({
                 signingPublicKey: signingPublicKey.public_key,
                 contractBytes: [],

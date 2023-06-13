@@ -58,6 +58,7 @@ export function DisableTwoFactor() {
 
             await dispatch(redirectToApp('/profile'));
         } catch (err) {
+            console.error(err);
             dispatch(showCustomAlert({
                 success: false,
                 messageCodeHeader: 'error',
