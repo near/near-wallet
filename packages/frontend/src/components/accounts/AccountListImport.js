@@ -212,12 +212,13 @@ const AccountListImport = ({ accounts = [], animationScope = 0, onClickAccount }
                     <div className='status'>
                         <StatusIcon status={account.status}/>
                     </div>
-                ) : null}
-                {account.accessKeys && account.accessKeys.length ? (
-                    <div className='access-keys access-keys-to-remove'>
-                        {account.accessKeys.length} {account.accessKeys.length === 1 ? 'key' : 'keys'}
-                    </div>
-                ) : null}
+                ) : (
+                    account.accessKeys && account.accessKeys.length ? (
+                        <div className='access-keys access-keys-to-remove'>
+                            {account?.accessKeys?.length || 'no \n'} {account?.accessKeys?.length === 1 ? 'key' : 'keys'}
+                        </div>
+                    ) : null
+                )}
             </div>
         ))}
     </AnimateList>
