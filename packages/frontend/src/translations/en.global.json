@@ -1920,6 +1920,10 @@
             "rotatedKeyTooltip": "This key will be used to transfer the account to a new wallet.",
             "currentAccessKeyTooltip": "This key will be automatically deleted when transfer process is completed."
         },
+        "cleanKeysComplete": {
+            "title": "Your keys have been cleaned up!",
+            "desc": "You will be redirect to the next step shortly to export accounts to other wallet."
+        },
         "disable2fa": {
             "desc": "2FA must be disabled before you can transfer an account to a new wallet.",
             "title": "Disable two-factor authentication"
