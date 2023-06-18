@@ -117,7 +117,7 @@ export const TransferWizardWrapper = () => {
                         <p>Welldone Wallet</p>
                     </td>
                     <td>
-                        <p><a target="blank" href="https://welldonestudio.io/">https://welldonestudio.io/</a>&nbsp;</p>
+                        <p><a target="blank" href="https://welldonestudio.io/">https://welldonestudio.io/</a></p>
                     </td>
                     <td>
                         <p>A multi-chain extension wallet that gives you control over all your assets from a single platform.</p>
@@ -133,7 +133,7 @@ export const TransferWizardWrapper = () => {
                 <tr>
                     <Td>
                         <p><b>Step 1. Secure Your Accounts</b></p>
-                        <p>The first recommended security step is to rotate your keys, generating a new 12-word recovery phrase. This process is similar to updating your password. Learn More</p>
+                        <p>The first recommended security step is to rotate your keys, generating a new 12-word recovery phrase. This process is similar to updating your password.</p>
                         <ol type="1">
                             <li>Generate a new recovery phrase</li>
                             <li>
@@ -155,7 +155,7 @@ export const TransferWizardWrapper = () => {
                 <tr>
                     <Td>
                         <p><b>Step2. Clean Up Your Keys</b></p>
-                        <p>Next, NEAR wants to reduce the amount of apps that you&rsquo;ve shared keys with, similar to revoking access for third-parties. This may cause you to be disconnected from some apps. Learn More</p>
+                        <p>Next, NEAR wants to reduce the amount of apps that you&rsquo;ve shared keys with, similar to revoking access for third-parties. This may cause you to be disconnected from some apps.</p>
                         <ol type="1">
                             <li>Review suggested keys to remove (optional)</li>
                             <li>Enter your recovery phrase to confirm removal</li>
@@ -169,7 +169,7 @@ export const TransferWizardWrapper = () => {
                 <tr>
                     <Td>
                         <p><b>Step 3. Transfer Your Accounts</b></p>
-                        <p>Next, you will use the Wallet Selector to select your destination wallet and transfer your accounts. It&rsquo;s best to know which wallet you plan to use prior to starting the transfer. List of Supported Wallets</p>
+                        <p>Next, you will use the Wallet Selector to select your destination wallet and transfer your accounts. It&rsquo;s best to know which wallet you plan to use prior to starting the transfer. <a target="blank" href="https://docs.google.com/spreadsheets/d/1Q9ZEeWpFHgcPthSCvzyiVcaKdBIcdS3r96v48OYsDBM">List of Supported Wallets</a></p>
                         <ol type="1">
                             <li>Choose the wallet you want to transfer your accounts to</li>
                             <li>Select the accounts you want to transfer</li>
