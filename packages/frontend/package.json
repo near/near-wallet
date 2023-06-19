@@ -29,7 +29,6 @@
     "@near-wallet/feature-flags": "^0.2.0",
     "@reduxjs/toolkit": "1.6.2",
     "@sentry/browser": "^6.4.1",
-    "analytics-node": "^6.2.0",
     "bip39-light": "^1.0.7",
     "connected-react-router": "^6.6.0",
     "dataloader": "^2.1.0",
@@ -79,6 +78,7 @@
     "redux-thunk": "^2.3.0",
     "regenerator-runtime": "^0.13.5",
     "reselect": "^4.0.0",
+    "rudder-sdk-js": "^2.35.0",
     "styled-components": "^5.3.0",
     "timeago.js": "^4.0.2",
     "use-immer": "^0.7.0"
