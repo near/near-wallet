@@ -9,7 +9,7 @@ import { MAINNET, TESTNET } from '../../utils/constants';
 import { wallet } from '../../utils/wallet';
 import LoadingDots from '../common/loader/LoadingDots';
 import { MigrationModal, ButtonsContainer, StyledButton, Container } from './CommonComponents';
-import { flushEvents, initSegment, recordWalletMigrationEvent, recordWalletMigrationState } from './metrics';
+import { flushEvents, initSegment, recordWalletMigrationEvent, recordWalletMigrationState, rudderAnalyticsReady } from './metrics';
 import CleanKeysCompleteModal from './modals/CleanKeysCompleteModal/CleanKeyCompleteModal';
 import CleanKeysModal from './modals/CleanKeysModal/CleanKeysModal';
 import Disable2FAModal from './modals/Disable2faModal/Disable2FA';
@@ -55,9 +55,10 @@ const WalletMigration = ({ open, onClose }) => {
             setLoadingMultisigAccounts(false);
         };
         if (open) {
-            initSegment();
-            setLoadingMultisigAccounts(true);
-            importRotatableAccounts();
+            initSegment().then(() => {
+                setLoadingMultisigAccounts(true);
+                importRotatableAccounts();
+            });
         }
     }, [open]);
 
@@ -74,7 +75,7 @@ const WalletMigration = ({ open, onClose }) => {
     useEffect(() => {
         if (open) {
             const storedStep = getMigrationStep();
-            if (!storedStep) {
+            if (!storedStep && rudderAnalyticsReady) {
                 // If there is no stored step, it means the user is starting the migration
                 recordWalletMigrationState({ state: 'migration started' });
             }
@@ -82,7 +83,7 @@ const WalletMigration = ({ open, onClose }) => {
         } else {
             handleSetActiveView(null);
         }
-    }, [open]);
+    }, [open, rudderAnalyticsReady]);
 
     const onRotateKeySuccess = useCallback(({ accountId, key }) => {
         setRotatedKeys({
@@ -96,11 +97,9 @@ const WalletMigration = ({ open, onClose }) => {
             listOfAccounts: accounts.join(', '),
             selectedWallet: walletName,
         });
-        flushEvents()
-            .finally(() => {
-                setMigrationStep(WALLET_MIGRATION_VIEWS.VERIFYING);
-                handleSetActiveView(WALLET_MIGRATION_VIEWS.REDIRECTING);
-            });
+        flushEvents();
+        setMigrationStep(WALLET_MIGRATION_VIEWS.VERIFYING);
+        handleSetActiveView(WALLET_MIGRATION_VIEWS.REDIRECTING);
     };
 
     const navigateToVerifying = () => {
@@ -146,12 +145,10 @@ const WalletMigration = ({ open, onClose }) => {
             // On success, update segment with first accountId as reference
             // Due to .deleteKey above, we have to explicity pass fallbackAcountId to recordWalletMigrationState
             recordWalletMigrationState({ state: 'migration completed' }, availableAccounts[0]);
-            flushEvents()
-                .finally(() => {
-                    onClose();
-                    deleteMigrationStep();    
-                    location.reload();
-                });
+            flushEvents();
+            onClose();
+            deleteMigrationStep();    
+            location.reload();
         }
     };
 
