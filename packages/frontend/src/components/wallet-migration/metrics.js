@@ -1,4 +1,3 @@
-// import Analytics from 'analytics-node';
 import * as rudderanalytics from 'rudder-sdk-js';
 
 import { IS_MAINNET } from '../../config';
@@ -7,7 +6,7 @@ import { KEY_ACTIVE_ACCOUNT_ID } from '../../utils/wallet';
 export let rudderAnalyticsReady = false;
 const DATA_PLANE_URL = 'https://nearpavelsqp.dataplane.rudderstack.com';
 
-export const initSegment = () => {
+export const initAnalytics = () => {
     return new Promise((resolve) => {
         if (rudderAnalyticsReady) {
             return;
@@ -57,7 +56,7 @@ export const recordWalletMigrationState = (traits = {}, fallBackAccountId) => {
     }
 };
 
-export const flushEvents = () => {
+export const resetUserState = () => {
     if (!rudderAnalyticsReady) {
         return;
     }

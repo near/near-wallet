@@ -9,7 +9,7 @@ import { MAINNET, TESTNET } from '../../utils/constants';
 import { wallet } from '../../utils/wallet';
 import LoadingDots from '../common/loader/LoadingDots';
 import { MigrationModal, ButtonsContainer, StyledButton, Container } from './CommonComponents';
-import { flushEvents, initSegment, recordWalletMigrationEvent, recordWalletMigrationState, rudderAnalyticsReady } from './metrics';
+import { resetUserState, initAnalytics, recordWalletMigrationEvent, recordWalletMigrationState, rudderAnalyticsReady } from './metrics';
 import CleanKeysCompleteModal from './modals/CleanKeysCompleteModal/CleanKeyCompleteModal';
 import CleanKeysModal from './modals/CleanKeysModal/CleanKeysModal';
 import Disable2FAModal from './modals/Disable2faModal/Disable2FA';
@@ -55,7 +55,7 @@ const WalletMigration = ({ open, onClose }) => {
             setLoadingMultisigAccounts(false);
         };
         if (open) {
-            initSegment().then(() => {
+            initAnalytics().then(() => {
                 setLoadingMultisigAccounts(true);
                 importRotatableAccounts();
             });
@@ -97,7 +97,6 @@ const WalletMigration = ({ open, onClose }) => {
             listOfAccounts: accounts.join(', '),
             selectedWallet: walletName,
         });
-        flushEvents();
         setMigrationStep(WALLET_MIGRATION_VIEWS.VERIFYING);
         handleSetActiveView(WALLET_MIGRATION_VIEWS.REDIRECTING);
     };
@@ -145,7 +144,7 @@ const WalletMigration = ({ open, onClose }) => {
             // On success, update segment with first accountId as reference
             // Due to .deleteKey above, we have to explicity pass fallbackAcountId to recordWalletMigrationState
             recordWalletMigrationState({ state: 'migration completed' }, availableAccounts[0]);
-            flushEvents();
+            resetUserState();
             onClose();
             deleteMigrationStep();    
             location.reload();
