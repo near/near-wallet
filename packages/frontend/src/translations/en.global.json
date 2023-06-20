@@ -792,7 +792,7 @@
     },
     "migration": {
         "message": "Soon NEAR wallet (${walletUrl}) will no longer be supported. Transfer your accounts to a different wallet or export your private keys from <a href='/profile'>account settings.</a>",
-        "readMore": "Please see our <a href='https://near.org/blog/near-opens-the-door-to-more-wallets/' target='_blank' rel='noopener noreferrer'>blog post</a> for more details on this upcoming transition.",
+        "readMore": "Please see <a href='/transfer-wizard' target='_blank' rel='noopener noreferrer'>transfer wizard document</a> for more details.",
         "redirect": "Soon NEAR wallet (${walletUrl}) will no longer be supported. Use your 12-word recovery phrase to import your account(s) to a different wallet or <a href='/recover-account'>recover and export your account(s).</a>",
         "redirectCaption": "Learn More",
         "transferCaption": "Transfer My Accounts"
@@ -1919,6 +1919,10 @@
             },
             "rotatedKeyTooltip": "This key will be used to transfer the account to a new wallet.",
             "currentAccessKeyTooltip": "This key will be automatically deleted when transfer process is completed."
+        },
+        "cleanKeysComplete": {
+            "title": "Your keys have been cleaned up!",
+            "desc": "You will be redirected to the next step to export accounts to another wallet shortly."
         },
         "disable2fa": {
             "desc": "2FA must be disabled before you can transfer an account to a new wallet.",

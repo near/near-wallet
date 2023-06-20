@@ -10,6 +10,7 @@ import { wallet } from '../../utils/wallet';
 import LoadingDots from '../common/loader/LoadingDots';
 import { MigrationModal, ButtonsContainer, StyledButton, Container } from './CommonComponents';
 import { flushEvents, initSegment, recordWalletMigrationEvent, recordWalletMigrationState } from './metrics';
+import CleanKeysCompleteModal from './modals/CleanKeysCompleteModal/CleanKeyCompleteModal';
 import CleanKeysModal from './modals/CleanKeysModal/CleanKeysModal';
 import Disable2FAModal from './modals/Disable2faModal/Disable2FA';
 import LogoutModal from './modals/LogoutModal/LogoutModal';
@@ -27,6 +28,7 @@ export const WALLET_MIGRATION_VIEWS = {
     REDIRECTING: 'REDIRECTING',
     VERIFYING: 'VERIFYING',
     CLEAN_KEYS: 'CLEAN_KEYS',
+    CLEAN_KEYS_COMPLETE: 'CLEAN_KEYS_COMPLETE',
     LOG_OUT: 'LOG_OUT',
 };
 
@@ -114,6 +116,10 @@ const WalletMigration = ({ open, onClose }) => {
 
     const navigateToMigrateAccounts = () => {
         handleSetActiveView(WALLET_MIGRATION_VIEWS.MIGRATE_ACCOUNTS);
+    };
+
+    const navigateToCleanKeysComplete = () => {
+        handleSetActiveView(WALLET_MIGRATION_VIEWS.CLEAN_KEYS_COMPLETE);
     };
 
     const onLogout = async () => {
@@ -239,9 +245,12 @@ const WalletMigration = ({ open, onClose }) => {
                     accounts={accountWithDetails}
                     handleSetActiveView={handleSetActiveView}
                     onClose={showQuitModal}
-                    onNext={navigateToMigrateAccounts}
+                    onNext={navigateToCleanKeysComplete}
                     rotatedKeys={rotatedKeys}
                 />
+            )}
+            {state.activeView === WALLET_MIGRATION_VIEWS.CLEAN_KEYS_COMPLETE && (
+                <CleanKeysCompleteModal onNext={navigateToMigrateAccounts} />
             )}
             {state.activeView === WALLET_MIGRATION_VIEWS.MIGRATE_ACCOUNTS && (
                 <WalletSelectorModal
