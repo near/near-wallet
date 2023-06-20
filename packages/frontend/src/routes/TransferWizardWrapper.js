@@ -37,15 +37,14 @@ const ScreenshotImg = styled.img`
 export const TransferWizardWrapper = () => {
     return (
         <Container>
-            <h6>The following should be devised as a page on the wallet.near.org site to inform users about TW.</h6>
-            <h1 >Migrating from the Near Wallet</h1>
+            <h1 >Migrating from Near Wallet</h1>
             <p>As announced in our previous blog post, the Near wallet domain (<a target="blank" href="https://wallet.near.org">https://wallet.near.org</a>) will transition from a web wallet into a wallet hub, showcasing the multiple existing wallets maintained by our community. During and after the transition users will be encouraged to migrate their funds to other ecosystem wallets. To simplify the process, our team has created a Wallet Transfer Wizard that will guide you on every step. If you prefer to not use the wizard, you can move your funds manually using your 12-word recovery phrase or a hardware wallet.</p>
             <br />
             <h3>Transferring your accounts</h3>
             <br />
             <h4>Using your Recovery Phrase</h4>
             <p>The most familiar way to transfer your accounts to a new wallet is by importing your recovery phrase. If you want to enhance the security of your accounts and transfer multiple accounts at once, we recommend using the Wallet Transfer Wizard.</p>
-            <p>Before you transfer the account using the recovery phrase, you will need to disable two-factor authentication (2FA). 2FA will no longer be supported and your accounts will not be available until email and phone number authentication is disabled. Access your account settings located under Security &amp; Recovery to disable 2FA in all accounts before migrating your keys to another wallet provider.</p>
+            <p>Before you transfer the account using the recovery phrase, you will need to disable two-factor authentication (2FA). 2FA will no longer be supported and your accounts will not be available until email and phone number authentication is disabled. Access your account settings located under Security & Recovery to disable 2FA in all accounts before migrating your keys to another wallet provider.</p>
             <p>If you opt to use the Transfer Wizard, the wizard will handle removing 2FA, as well as email and phone authentication for you.</p>
             <h4>Using your Ledger</h4>
             <p>If you are using a Ledger to secure your account, you can import your account to a new hardware-supported wallet such as <b>Nightly Wallet</b> or <b>Sender Wallet</b>. <b>Ledger accounts can not be transferred using the Transfer Wizard.</b></p>
@@ -155,7 +154,7 @@ export const TransferWizardWrapper = () => {
                 <tr>
                     <Td>
                         <p><b>Step2. Clean Up Your Keys</b></p>
-                        <p>Next, NEAR wants to reduce the amount of apps that you&rsquo;ve shared keys with, similar to revoking access for third-parties. This may cause you to be disconnected from some apps.</p>
+                        <p>Next, NEAR wants to reduce the amount of apps that you've shared keys with, similar to revoking access for third-parties. This may cause you to be disconnected from some apps.</p>
                         <ol type="1">
                             <li>Review suggested keys to remove (optional)</li>
                             <li>Enter your recovery phrase to confirm removal</li>
@@ -169,7 +168,7 @@ export const TransferWizardWrapper = () => {
                 <tr>
                     <Td>
                         <p><b>Step 3. Transfer Your Accounts</b></p>
-                        <p>Next, you will use the Wallet Selector to select your destination wallet and transfer your accounts. It&rsquo;s best to know which wallet you plan to use prior to starting the transfer. <a target="blank" href="https://docs.google.com/spreadsheets/d/1Q9ZEeWpFHgcPthSCvzyiVcaKdBIcdS3r96v48OYsDBM">List of Supported Wallets</a></p>
+                        <p>Next, you will use the Wallet Selector to select your destination wallet and transfer your accounts. It's best to know which wallet you plan to use prior to starting the transfer. <a target="blank" href="https://docs.google.com/spreadsheets/d/1Q9ZEeWpFHgcPthSCvzyiVcaKdBIcdS3r96v48OYsDBM">List of Supported Wallets</a></p>
                         <ol type="1">
                             <li>Choose the wallet you want to transfer your accounts to</li>
                             <li>Select the accounts you want to transfer</li>
@@ -188,7 +187,7 @@ export const TransferWizardWrapper = () => {
                         <p><b>Step 4. Log Out of Near.org</b></p>
                         <p>The final step is to log out of the NEAR Wallet and begin using your new wallet.</p>
                         <ol type="1">
-                            <li>Return to wallet.near.org after successful account &nbsp;transfer and tap "Complete" in the "Complete the Transfer" panel</li>
+                            <li>Return to wallet.near.org after successful account transfer and tap "Complete" in the "Complete the Transfer" panel</li>
                             <li>Verify that you have access to your accounts in the new wallet</li>
                             <li>Log out all accounts from near.org</li>
                             <li>Start using your new wallet to manage your accounts</li>

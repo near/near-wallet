@@ -118,7 +118,7 @@ const WalletMigration = ({ open, onClose }) => {
         handleSetActiveView(WALLET_MIGRATION_VIEWS.MIGRATE_ACCOUNTS);
     };
 
-    const natvigateToCleanKeysComplete = () => {
+    const navigateToCleanKeysComplete = () => {
         handleSetActiveView(WALLET_MIGRATION_VIEWS.CLEAN_KEYS_COMPLETE);
     };
 
@@ -245,7 +245,7 @@ const WalletMigration = ({ open, onClose }) => {
                     accounts={accountWithDetails}
                     handleSetActiveView={handleSetActiveView}
                     onClose={showQuitModal}
-                    onNext={natvigateToCleanKeysComplete}
+                    onNext={navigateToCleanKeysComplete}
                     rotatedKeys={rotatedKeys}
                 />
             )}

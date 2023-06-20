@@ -1922,7 +1922,7 @@
         },
         "cleanKeysComplete": {
             "title": "Your keys have been cleaned up!",
-            "desc": "You will be redirect to the next step shortly to export accounts to other wallet."
+            "desc": "You will be redirected to the next step to export accounts to another wallet shortly."
         },
         "disable2fa": {
             "desc": "2FA must be disabled before you can transfer an account to a new wallet.",
