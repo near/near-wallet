@@ -2,7 +2,10 @@ import { useMemo } from 'react';
 
 export function useTokenBlacklist({ tokens }) {
     // TODO: make list dynamic, fetch from db
-    const blacklistedTokens = ['kusama-airdrop.near'];
+    const blacklistedTokens = [
+        'kusama-airdrop.near',
+        'youwon400neartoclaimyourgainwwwlotte.laboratory.jumpfinance.near',
+    ];
 
     const allowedTokens = useMemo(() => {
         if (!tokens) {
