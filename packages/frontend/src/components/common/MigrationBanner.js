@@ -121,7 +121,7 @@ const MigrationBanner = ({ account, onTransfer }) => {
             return;
         }
 
-        window.open('https://near.org/blog/near-opens-the-door-to-more-wallets/', '_blank');
+        window.open('/transfer-wizard', '_blank');
     }, [availableAccounts]);
 
     // If accounts area loading, don't show the banner

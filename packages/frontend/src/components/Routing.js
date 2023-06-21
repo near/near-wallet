@@ -33,6 +33,7 @@ import { SetupLedgerNewAccountWrapper } from '../routes/SetupLedgerNewAccountWra
 import { SetupPassphraseNewAccountWrapper } from '../routes/SetupPassphraseNewAccountWrapper';
 import { SetupRecoveryImplicitAccountWrapper } from '../routes/SetupRecoveryImplicitAccountWrapper';
 import { SignWrapper } from '../routes/SignWrapper';
+import { TransferWizardWrapper } from '../routes/TransferWizardWrapper';
 import { VerifyOwnerWrapper } from '../routes/VerifyOwnerWrapper';
 import { WalletWrapper } from '../routes/WalletWrapper';
 import translations_en from '../translations/en.global.json';
@@ -515,6 +516,11 @@ class Routing extends Component {
                                 exact
                                 path="/create-implicit-account"
                                 component={CreateImplicitAccountWrapper}
+                            />
+                            <Route
+                                exact
+                                path="/transfer-wizard"
+                                component={TransferWizardWrapper}
                             />
                             <Route
                                 exact
