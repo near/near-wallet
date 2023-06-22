@@ -385,9 +385,9 @@
       "lastEditedAt": "2023-02-13T22:23:12.644Z"
     },
     "mainnet_NEARORG": {
-      "enabled": false,
+      "enabled": true,
       "lastEditedBy": "Andy Haynes",
-      "lastEditedAt": "2023-02-23T00:04:07.742Z"
+      "lastEditedAt": "2023-06-22T20:52:01.722Z"
     },
     "mainnet_STAGING_NEARORG": {
       "enabled": true,
