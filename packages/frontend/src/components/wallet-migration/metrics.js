@@ -1,14 +1,26 @@
 import * as rudderanalytics from 'rudder-sdk-js';
 
-import { IS_MAINNET } from '../../config';
+import Environment from '../../../../../features/environments.json';
+import { IS_MAINNET, NEAR_WALLET_ENV } from '../../config';
 import { KEY_ACTIVE_ACCOUNT_ID } from '../../utils/wallet';
+
 
 export let rudderAnalyticsReady = false;
 const DATA_PLANE_URL = 'https://nearpavelsqp.dataplane.rudderstack.com';
+const SUPPORTED_ENVIRONMENTS = [
+    Environment.MAINNET_NEARORG,
+    Environment.MAINNET_STAGING_NEARORG
+];
 
 export const initAnalytics = () => {
     return new Promise((resolve) => {
         if (rudderAnalyticsReady) {
+            resolve();
+            return;
+        }
+
+        if (!SUPPORTED_ENVIRONMENTS.includes(NEAR_WALLET_ENV)) {
+            resolve();
             return;
         }
       
