@@ -1,63 +1,76 @@
-import Analytics from 'analytics-node';
+import * as rudderanalytics from 'rudder-sdk-js';
 
-import { IS_MAINNET } from '../../config';
+import Environment from '../../../../../features/environments.json';
+import { IS_MAINNET, NEAR_WALLET_ENV } from '../../config';
 import { KEY_ACTIVE_ACCOUNT_ID } from '../../utils/wallet';
 
-let segment = null;
 
-export const initSegment = () => {
-    if (segment) {
-        return; // already initialized
-    }
-  
-    const segmentKey = IS_MAINNET
-        ? '3EUjxEBOReF6AWiwz1sAXhdyhn38x2a0'
-        : 'DSgndJjJhdaQ2GXTKf3VaZzXwDrJyj2d';
+export let rudderAnalyticsReady = false;
+const DATA_PLANE_URL = 'https://nearpavelsqp.dataplane.rudderstack.com';
+const SUPPORTED_ENVIRONMENTS = [
+    Environment.MAINNET_NEARORG,
+    Environment.MAINNET_STAGING_NEARORG
+];
 
-    try {
-        segment = new Analytics(segmentKey);
-    } catch (e) {
-        console.error(e);
-    }
+export const initAnalytics = () => {
+    return new Promise((resolve) => {
+        if (rudderAnalyticsReady) {
+            resolve();
+            return;
+        }
+
+        if (!SUPPORTED_ENVIRONMENTS.includes(NEAR_WALLET_ENV)) {
+            resolve();
+            return;
+        }
+      
+        const rudderAnalyticsKey = IS_MAINNET
+            ? '2RPBJoVn6SRht1E7FnPEZLcpNVh'
+            : '2RPBBhH1Dka2bYG6HKQmvkzNUdz';
+    
+        rudderanalytics.load(rudderAnalyticsKey, DATA_PLANE_URL);
+        rudderanalytics.ready(() => {
+            rudderAnalyticsReady = true;
+            resolve();
+        }); 
+    });
 };
 
 export const recordWalletMigrationEvent = (eventLabel, properties = {}) => {
-    if (!segment) {
+    if (!rudderAnalyticsReady) {
         return;
     }
+
     try {
         const accountId = localStorage.getItem(KEY_ACTIVE_ACCOUNT_ID);
-        segment.track({
-            userId: accountId,
-            event: eventLabel,
-            properties,
-        });
+        rudderanalytics.track(eventLabel, { ...properties, userId: accountId });
     } catch (e) {
         console.error(e);
     }
 };
 
 export const recordWalletMigrationState = (traits = {}, fallBackAccountId) => {
-    if (!segment) {
+    if (!rudderAnalyticsReady) {
         return;
     }
+
     try {
         const accountId = localStorage.getItem(KEY_ACTIVE_ACCOUNT_ID) || fallBackAccountId;
-        segment.identify({
-            userId: accountId,
-            traits: {
+        rudderanalytics.identify(
+            accountId,
+            {
                 ...traits,
                 userAgent: navigator?.userAgent || 'Unknown',
-            }
-        });
+            },
+        );
     } catch (e) {
         console.error(e);
     }
 };
 
-export const flushEvents = () => {
-    if (!segment) {
+export const resetUserState = () => {
+    if (!rudderAnalyticsReady) {
         return;
     }
-    return segment.flush();
+    return rudderanalytics.reset();
 };
