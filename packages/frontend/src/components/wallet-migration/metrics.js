@@ -6,7 +6,7 @@ import { KEY_ACTIVE_ACCOUNT_ID } from '../../utils/wallet';
 
 
 export let rudderAnalyticsReady = false;
-const DATA_PLANE_URL = 'https://nearpavelsqp.dataplane.rudderstack.com';
+const DATA_PLANE_URL = 'https://near.dataplane.rudderstack.com';
 const SUPPORTED_ENVIRONMENTS = [
     Environment.MAINNET_NEARORG,
     Environment.MAINNET_STAGING_NEARORG
