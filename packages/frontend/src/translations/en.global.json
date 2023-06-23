@@ -1970,6 +1970,10 @@
             "title": "Are you sure you want to quit the migration?",
             "desc": "If you quit now, you will need to start the migration process again.",
             "button": "Quit"
+        },
+        "errorMetrics": {
+            "title": "Please turn off your ad-blockers",
+            "desc": "In order to use the transfer wizard, it is essential to turn off ad blocker. Please turn off your adblocker and refresh the page to continue."
         }
     },
     "warning": "Warning",

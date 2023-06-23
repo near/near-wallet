@@ -2,23 +2,24 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { Translate } from 'react-localize-redux';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { NETWORK_ID, IS_MAINNET } from '../../config';
-import { showCustomAlert } from '../../redux/actions/status';
-import { selectAvailableAccounts } from '../../redux/slices/availableAccounts';
-import { MAINNET, TESTNET } from '../../utils/constants';
-import { wallet } from '../../utils/wallet';
-import LoadingDots from '../common/loader/LoadingDots';
 import { MigrationModal, ButtonsContainer, StyledButton, Container } from './CommonComponents';
 import { resetUserState, initAnalytics, recordWalletMigrationEvent, recordWalletMigrationState, rudderAnalyticsReady } from './metrics';
 import CleanKeysCompleteModal from './modals/CleanKeysCompleteModal/CleanKeyCompleteModal';
 import CleanKeysModal from './modals/CleanKeysModal/CleanKeysModal';
 import Disable2FAModal from './modals/Disable2faModal/Disable2FA';
+import ErrorMetricModal from './modals/ErrorMetricModal/ErrorMetricModal';
 import LogoutModal from './modals/LogoutModal/LogoutModal';
 import RedirectingModal from './modals/RedirectingModal/RedirectingModal';
 import RotateKeysModal from './modals/RotateKeysModal/RotateKeysModal';
 import VerifyingModal from './modals/VerifyingModal/VerifyingModal';
 import { WalletSelectorModal } from './modals/WalletSelectorModal/WalletSelectorModal';
 import { deleteMigrationStep, getAccountDetails, getMigrationStep, setMigrationStep } from './utils';
+import { NETWORK_ID, IS_MAINNET } from '../../config';
+import { showCustomAlert } from '../../redux/actions/status';
+import { selectAvailableAccounts } from '../../redux/slices/availableAccounts';
+import { MAINNET, TESTNET } from '../../utils/constants';
+import { wallet } from '../../utils/wallet';
+import LoadingDots from '../common/loader/LoadingDots';
 
 
 export const WALLET_MIGRATION_VIEWS = {
@@ -30,6 +31,7 @@ export const WALLET_MIGRATION_VIEWS = {
     CLEAN_KEYS: 'CLEAN_KEYS',
     CLEAN_KEYS_COMPLETE: 'CLEAN_KEYS_COMPLETE',
     LOG_OUT: 'LOG_OUT',
+    METRIC_INIT_ERROR: 'METRIC_INIT_ERROR',
 };
 
 const initialState = {
@@ -46,6 +48,7 @@ const WalletMigration = ({ open, onClose }) => {
     const [accountWithDetails, setAccountWithDetails] = useState([]);
     const [isLoggingOut, setIsLoggingOut] = useState(false);
     const dispatch = useDispatch();
+
     useEffect(() => {
         const importRotatableAccounts = async () => {
             const accounts = await wallet.keyStore.getAccounts(NETWORK_ID);
@@ -58,6 +61,9 @@ const WalletMigration = ({ open, onClose }) => {
             initAnalytics().then(() => {
                 setLoadingMultisigAccounts(true);
                 importRotatableAccounts();
+            }).catch(() => {
+                setLoadingMultisigAccounts(false);
+                handleSetActiveView(WALLET_MIGRATION_VIEWS.METRIC_INIT_ERROR);
             });
         }
     }, [open]);
@@ -75,11 +81,13 @@ const WalletMigration = ({ open, onClose }) => {
     useEffect(() => {
         if (open) {
             const storedStep = getMigrationStep();
-            if (!storedStep && rudderAnalyticsReady) {
-                // If there is no stored step, it means the user is starting the migration
-                recordWalletMigrationState({ state: 'migration started' });
+            if (rudderAnalyticsReady) {
+                if (!storedStep) {
+                    // If there is no stored step, it means the user is starting the migration
+                    recordWalletMigrationState({ state: 'migration started' });
+                }
+                handleSetActiveView(storedStep || WALLET_MIGRATION_VIEWS.DISABLE_2FA);
             }
-            handleSetActiveView(storedStep || WALLET_MIGRATION_VIEWS.DISABLE_2FA);
         } else {
             handleSetActiveView(null);
         }
@@ -166,7 +174,7 @@ const WalletMigration = ({ open, onClose }) => {
     }
 
     // If every account(s) given are invalid, show error message and close modal
-    if (open && !loadingMultisigAccounts) {
+    if (open && !loadingMultisigAccounts && state.activeView === WALLET_MIGRATION_VIEWS.DISABLE_2FA) {
         if (!accountWithDetails.length) {
             dispatch(showCustomAlert({
                 success: false,
@@ -184,6 +192,12 @@ const WalletMigration = ({ open, onClose }) => {
     
     const closeQuitModal = () => {
         setQuitModal(false);
+    };
+
+    const closeErrorModal = () => {
+        onClose();
+        deleteMigrationStep();
+        handleSetActiveView(null);
     };
 
     if (isQuitModal) {
@@ -264,6 +278,9 @@ const WalletMigration = ({ open, onClose }) => {
             )}
             {state.activeView === WALLET_MIGRATION_VIEWS.LOG_OUT && (
                 <LogoutModal onClose={onClose} onLogout={onLogout} isLoggingOut={isLoggingOut} />
+            )}
+            {state.activeView === WALLET_MIGRATION_VIEWS.METRIC_INIT_ERROR && (
+                <ErrorMetricModal onClose={closeErrorModal} />
             )}
         </div>
     );

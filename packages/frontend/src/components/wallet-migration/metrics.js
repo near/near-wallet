@@ -4,7 +4,6 @@ import Environments from '../../../../../features/environments.json';
 import { NEAR_WALLET_ENV } from '../../config';
 import { KEY_ACTIVE_ACCOUNT_ID } from '../../utils/wallet';
 
-
 export let rudderAnalyticsReady = false;
 const DATA_PLANE_URL = 'https://near.dataplane.rudderstack.com';
 const PROD_WRITE_KEY = '2RPBJoVn6SRht1E7FnPEZLcpNVh';
@@ -16,7 +15,7 @@ const SUPPORTED_ENVIRONMENTS = [
 ];
 
 export const initAnalytics = () => {
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
         if (rudderAnalyticsReady) {
             resolve();
             return;
@@ -31,11 +30,9 @@ export const initAnalytics = () => {
             ? PROD_WRITE_KEY
             : STAGING_WRITE_KEY;
 
-        // TODO: instead of fallback, implement our own proxy for RudderStack so that metrics won't be filtered by adblockers
-        // If fail to setup RudderStack within 2 seconds, proceed without it
+        // Reject if it fail to initate RudderStack
         const unableToLoadOnTime = () => {
-            console.log('Unable to load RudderStack. Please turn off your adblockers and refresh the page.');
-            resolve();
+            reject();
             return;
         };
 
