@@ -5,6 +5,7 @@ import { CONNECT_MODAL_TYPE } from '../../../../../redux/slices/ledger';
 import FormButton from '../../../../common/FormButton';
 import ErrorIcon from '../../../../svg/ErrorIcon';
 import LedgerImageCircle from '../../../../svg/LedgerImageCircle';
+import AlertBanner from '../../../../common/AlertBanner';
 
 const LedgerConnectionModal = ({
     connecting,
@@ -14,6 +15,12 @@ const LedgerConnectionModal = ({
 }) => (
     <>
         <div className='content'>
+            <div style={{ marginTop: 50 }}>
+                <AlertBanner
+                    title='signInLedger.firefoxBanner.desc'
+                    theme='alert'
+                />
+            </div>
             {modalType === CONNECT_MODAL_TYPE.CONNECT
                 ? <LedgerImageCircle color='#F6F3AC' />
                 : <div className='error'><ErrorIcon /></div>

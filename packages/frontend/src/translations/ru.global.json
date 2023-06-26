@@ -1083,7 +1083,7 @@
     },
     "signInLedger": {
         "firefoxBanner": {
-            "desc": "Ledger в настоящее время поддерживается только в <a href='https://www.mozilla.org/' rel='noopener noreferrer' target='_blank'><b>Mozilla Firefox</b></a>. Поддержка других браузеров скоро будет восстановлена."
+            "desc": "Ledger Connect не поддерживается в следующих браузерах: Firefox версии 112+, Safari. Он полностью поддерживается в браузерах Chrome/Chromium. Приносим извинения за неудобства."
         },
         "header": "Войти с помощью устройства Ledger",
         "modal": {

@@ -1243,7 +1243,7 @@
             "title": "Opzioni avanzate"
         },
         "firefoxBanner": {
-            "desc": "Ledger è attualmente supportato solo in <a href='https://www.mozilla.org/' rel='noopener noreferrer' target='_blank'><b>Mozilla Firefox</b></a>. Il supporto per altri browser sarà presto ripristinato."
+            "desc": "Ledger Connect non è supportato nei seguenti browser: Firefox versione 112+, Safari. È completamente supportato nei browser Chrome / Chromium. Ci scusiamo per l'inconveniente."
         },
         "header": "Accedi con il tuo dispositivo Ledger",
         "modal": {

@@ -5,6 +5,7 @@ import { Mixpanel } from '../../../../mixpanel/index';
 import FormButton from '../../../common/FormButton';
 import LedgerImageCircle from '../../../svg/LedgerImageCircle';
 import LedgerHdPaths from '../LedgerHdPaths';
+import AlertBanner from '../../../common/AlertBanner';
 
 const Authorize = ({
     confirmedPath,
@@ -15,6 +16,10 @@ const Authorize = ({
 }) => {
     return (
         <>
+            <AlertBanner
+                title='signInLedger.firefoxBanner.desc'
+                theme='alert'
+            />
             <LedgerImageCircle />
             <h1><Translate id='signInLedger.header' /></h1>
             <Translate id='signInLedger.one' />
