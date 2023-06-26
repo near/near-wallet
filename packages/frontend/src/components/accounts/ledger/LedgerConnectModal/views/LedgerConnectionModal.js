@@ -2,10 +2,10 @@ import React from 'react';
 import { Translate } from 'react-localize-redux';
 
 import { CONNECT_MODAL_TYPE } from '../../../../../redux/slices/ledger';
+import AlertBanner from '../../../../common/AlertBanner';
 import FormButton from '../../../../common/FormButton';
 import ErrorIcon from '../../../../svg/ErrorIcon';
 import LedgerImageCircle from '../../../../svg/LedgerImageCircle';
-import AlertBanner from '../../../../common/AlertBanner';
 
 const LedgerConnectionModal = ({
     connecting,
