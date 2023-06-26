@@ -390,7 +390,7 @@
             "connection-error": {
                 "cancelButton": "Cancel",
                 "connectButton": "Retry",
-                "connectionPrompt": "Make sure your ledger is connected securely, and that the NEAR app is open on your device.",
+                "connectionPrompt": "Make sure your ledger is connected securely, and that the NEAR app is open on your device. In addition, you must be on a supported <a href='https://nearhelp.zendesk.com/hc/en-us/articles/13972685751191-What-browsers-work-with-Ledger-Connect-' target='_blank' rel='noopener noreferrer'>browser</a>.",
                 "header": "Connection unsuccessful."
             },
             "disconnected": {
