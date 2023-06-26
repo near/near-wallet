@@ -2,10 +2,10 @@ import React from 'react';
 import { Translate } from 'react-localize-redux';
 
 import { Mixpanel } from '../../../../mixpanel/index';
+import AlertBanner from '../../../common/AlertBanner';
 import FormButton from '../../../common/FormButton';
 import LedgerImageCircle from '../../../svg/LedgerImageCircle';
 import LedgerHdPaths from '../LedgerHdPaths';
-import AlertBanner from '../../../common/AlertBanner';
 
 const Authorize = ({
     confirmedPath,
