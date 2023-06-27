@@ -389,7 +389,7 @@
             "connection-error": {
                 "cancelButton": "취소",
                 "connectButton": "재시도",
-                "connectionPrompt": "Ledger가 안전한지 확인하고, NEAR 앱이 실행되었는지 확인하십시오.",
+                "connectionPrompt": "Ledger가 안전한지 확인하고, NEAR 앱이 실행되었는지 확인하십시오. 또한 지원되는 기기에 있어야 합니다 <a href='https://nearhelp.zendesk.com/hc/en-us/articles/13972685751191-What-browsers-work-with-Ledger-Connect-' target='_blank' rel='noopener noreferrer'>브라우저</a>.",
                 "header": "연결 실패."
             },
             "disconnected": {
@@ -1425,7 +1425,7 @@
             "title": "고급 옵션"
         },
         "firefoxBanner": {
-            "desc": "현재 Ledger는 아래 브라우저에서만 지원합니다. <a href='https://www.mozilla.org/' rel='noopener noreferrer' target='_blank'><b>Mozilla Firefox</b></a>. 다른 브라우저 지원은 머지않아 재개될 예정입니다."
+            "desc": "다음 브라우저에서는 Ledger Connect가 지원되지 않습니다: Firefox 버전 112+, Safari. Chrome / Chromium 브라우저에서 완벽하게 지원됩니다. 불편을 드려 죄송합니다."
         },
         "header": "계정을 불러오기 위해 NEAR 지갑을 허가하십시오.",
         "modal": {

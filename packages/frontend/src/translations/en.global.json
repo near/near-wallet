@@ -390,7 +390,7 @@
             "connection-error": {
                 "cancelButton": "Cancel",
                 "connectButton": "Retry",
-                "connectionPrompt": "Make sure your ledger is connected securely, and that the NEAR app is open on your device.",
+                "connectionPrompt": "Make sure your ledger is connected securely, and that the NEAR app is open on your device. In addition, you must be on a supported <a href='https://nearhelp.zendesk.com/hc/en-us/articles/13972685751191-What-browsers-work-with-Ledger-Connect-' target='_blank' rel='noopener noreferrer'>browser</a>.",
                 "header": "Connection unsuccessful."
             },
             "disconnected": {
@@ -1427,7 +1427,7 @@
             "title": "Advanced Options"
         },
         "firefoxBanner": {
-            "desc": "Ledger is currently only supported in <a href='https://www.mozilla.org/' rel='noopener noreferrer' target='_blank'><b>Mozilla Firefox</b></a>. Support for other browsers will soon be restored."
+            "desc": "Ledger Connect is not supported in the following browsers: Firefox version 112+, Safari. It is fully supported in Chrome / Chromium browsers. We apologize for the inconvinience."
         },
         "header": "Authorize NEAR Wallet to import your accounts.",
         "modal": {

@@ -381,7 +381,7 @@
             "connection-error": {
                 "cancelButton": "取消",
                 "connectButton": "重试",
-                "connectionPrompt": "请确保 Ledger 已安全连接，并且 NEAR 应用已在设备上打开。",
+                "connectionPrompt": "请确保 Ledger 已安全连接，并且 NEAR 应用已在设备上打开。此外，您必须使用受支持的 <a href='https://nearhelp.zendesk.com/hc/en-us/articles/13972685751191-What-browsers-work-with-Ledger-Connect-' target=' _blank' rel='noopener noreferrer'>浏览器</a>。",
                 "header": "连接失败。"
             },
             "disconnected": {
@@ -1389,7 +1389,7 @@
             "title": "高级选项"
         },
         "firefoxBanner": {
-            "desc": "Ledger 目前仅支持 <a href='https://www.mozilla.org/' rel='noopener noreferrer' target='_blank'><b>Mozilla Firefox</b> 浏览器</a>。其他浏览器的支持即将恢复。"
+            "desc": "以下浏览器不支持 Ledger Connect Firefox 版本 112+、Safari。 Chrome / Chromium 浏览器完全支持它。对于给您带来的不便，我们深表歉意。"
         },
         "header": "通过 Ledger 硬件登录",
         "modal": {

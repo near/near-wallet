@@ -2,6 +2,7 @@ import React from 'react';
 import { Translate } from 'react-localize-redux';
 
 import { Mixpanel } from '../../../../mixpanel/index';
+import AlertBanner from '../../../common/AlertBanner';
 import FormButton from '../../../common/FormButton';
 import LedgerImageCircle from '../../../svg/LedgerImageCircle';
 import LedgerHdPaths from '../LedgerHdPaths';
@@ -15,6 +16,10 @@ const Authorize = ({
 }) => {
     return (
         <>
+            <AlertBanner
+                title='signInLedger.firefoxBanner.desc'
+                theme='alert'
+            />
             <LedgerImageCircle />
             <h1><Translate id='signInLedger.header' /></h1>
             <Translate id='signInLedger.one' />
