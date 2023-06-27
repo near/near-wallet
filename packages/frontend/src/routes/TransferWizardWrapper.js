@@ -38,22 +38,25 @@ export const TransferWizardWrapper = () => {
     return (
         <Container>
             <h1 >Migrating from Near Wallet</h1>
-            <p>As announced in our previous blog post, the Near wallet domain (<a target="blank" href="https://wallet.near.org">https://wallet.near.org</a>) will transition from a web wallet into a wallet hub, showcasing the multiple existing wallets maintained by our community. During and after the transition users will be encouraged to migrate their funds to other ecosystem wallets. To simplify the process, our team has created a Wallet Transfer Wizard that will guide you on every step. If you prefer to not use the wizard, you can move your funds manually using your 12-word recovery phrase or a hardware wallet.</p>
+            <p>As announced in an earlier (<a target="blank" href="https://medium.com/nearprotocol/near-opens-the-door-to-more-wallets-255eee58eb97">blog post</a>) on July 31, 2022, the NEAR wallet domain (https://wallet.near.org) will transition from a web wallet into a wallet hub, showcasing the multiple existing wallets maintained by the community. During and after the transition, users will be encouraged to migrate their accounts to other ecosystem wallets. To simplify the process, the Pagoda team has created a Wallet Transfer Wizard to guide users through every step. If users prefer to not use the Wizard, they may also migrate to a new wallet manually using your 12-word recovery phrase or a hardware wallet.</p>
             <br />
             <h3>Transferring your accounts</h3>
             <br />
             <h4>Using your Recovery Phrase</h4>
             <p>The most familiar way to transfer your accounts to a new wallet is by importing your recovery phrase. If you want to enhance the security of your accounts and transfer multiple accounts at once, we recommend using the Wallet Transfer Wizard.</p>
-            <p>Before you transfer the account using the recovery phrase, you will need to disable two-factor authentication (2FA). 2FA will no longer be supported and your accounts will not be available until email and phone number authentication is disabled. Access your account settings located under Security & Recovery to disable 2FA in all accounts before migrating your keys to another wallet provider.</p>
-            <p>If you opt to use the Transfer Wizard, the wizard will handle removing 2FA, as well as email and phone authentication for you.</p>
+            <p>Before you transfer the account using the recovery phrase, you will need to disable two-factor authentication (2FA). 2FA will no longer be supported and your accounts will not be available until email and phone number authentication are disabled. Access your account settings, located under Security & Recovery on the current wallet.near.org, to disable 2FA in all accounts before migrating your keys to another wallet provider.</p>
+            <p>If you opt to use the Transfer Wizard, the wizard will handle removing 2FA, as well as email and phone authentication, automatically.</p>
+            <br />
             <h4>Using your Ledger</h4>
-            <p>If you are using a Ledger to secure your account, you can import your account to a new hardware-supported wallet such as <b>Nightly Wallet</b> or <b>Sender Wallet</b>. <b>Ledger accounts can not be transferred using the Transfer Wizard.</b></p>
+            <p>If you are using a Ledger to secure your account, you can import your account to a new hardware-supported wallet such as <b>Nightly Wallet</b> or <b>Sender Wallet</b>. <b> Ledger-secured accounts cannot be transferred using the Transfer Wizard.</b></p>
             <p>If you opt to use the Transfer Wizard, the wizard will handle removing 2FA, as well as email and phone authentication for you.</p>
+            <p>As when migrating the account using the Recovery Phrase, you will need to disable 2FA. Access your account settings, located under “Security & Recovery”, to disable 2FA in all accounts before migrating your keys to another wallet provider. If you opt to use the Transfer Wizard, the wizard will handle removing 2FA, as well as email and phone authentication, automatically.</p>
+            <br />
             <h4>Using the Wallet Transfer Wizard (Recommended)</h4>
-            <p>The Transfer Wizard makes it easy to bulk transfer your connected accounts and offers a security checkup to help keep your accounts safe. The Wizard will guide you through key rotation, removal of old access keys, and the bulk transfer of your connected accounts to the wallet of your choice.</p>
+            <p>The Transfer Wizard makes it easy to bulk-transfer your connected accounts and offers a security checkup to help keep your accounts safe. The Wizard will guide you through key rotation, removal of old access keys, and the bulk transfer of your connected accounts to the wallet of your choice.</p>
             <br />
             <h3>Choosing a Wallet</h3>
-            <p>You can learn more about the currently supported wallets in the Transfer Wizard by visiting the links below. You can do a feature comparison with this <a target="blank" href="https://docs.google.com/spreadsheets/d/1Q9ZEeWpFHgcPthSCvzyiVcaKdBIcdS3r96v48OYsDBM/edit#gid=0">Google Sheet</a>.</p>
+            <p>You can learn more about the currently supported wallets in the Transfer Wizard by visiting the links below. You can also do a feature comparison with this <a target="blank" href="https://docs.google.com/spreadsheets/d/1Q9ZEeWpFHgcPthSCvzyiVcaKdBIcdS3r96v48OYsDBM">Google Sheet</a>.</p>
             <br />
             <Table>
                 <tr>
@@ -126,7 +129,7 @@ export const TransferWizardWrapper = () => {
             <br />
             <h3>How does the Wizard Work?</h3>
             <p>The Transfer Wizard is designed to improve the security posture of your connected accounts before migrating them to a new wallet by rotating your keys, cleaning up old keys, and securely transferring your accounts to a new wallet. You can access the Wallet Transfer Wizard from the banner at the top of wallet.near.org. </p>
-            <Warning><b>Note</b>: The wizard does not support unfunded accounts (implicit accounts) or accounts using Ledger. You can import your Ledger accounts manually to a supported wallet.</Warning>
+            <Warning><b>Note</b>:  The wizard does not support unfunded accounts (implicit accounts) or accounts using Ledger. You can import your Ledger accounts manually to a supported wallet.</Warning>
             <hr />
             <Table>
                 <tr>
@@ -145,7 +148,7 @@ export const TransferWizardWrapper = () => {
                             <li>Verify your new recovery phrase</li>
                             <li>Keep your new phrase in a safe place</li>
                         </ol>
-                        <Important>Note: Your recovery phrase grants full access to your account. Keep it in a safe place and never share it with anyone. Pagoda or the Near Foundation cannot help recover lost accounts or assets.</Important>
+                        <Important><b>Note</b>: Your recovery phrase grants full access to your account. Keep it in a safe place and never share it with anyone. Pagoda or the NEAR Foundation cannot help recover lost accounts or assets.</Important>
                     </Td>
                     <ImageTd>
                         <ScreenshotImg alt="Secure Accounts" src={secureAccountsImg} />
@@ -187,7 +190,7 @@ export const TransferWizardWrapper = () => {
                         <p><b>Step 4. Log Out of Near.org</b></p>
                         <p>The final step is to log out of the NEAR Wallet and begin using your new wallet.</p>
                         <ol type="1">
-                            <li>Return to wallet.near.org after successful account transfer and tap "Complete" in the "Complete the Transfer" panel</li>
+                            <li>Return to wallet.near.org after successful account transfer and tap <i>"Complete"</i> in the "Complete the Transfer" panel</li>
                             <li>Verify that you have access to your accounts in the new wallet</li>
                             <li>Log out all accounts from near.org</li>
                             <li>Start using your new wallet to manage your accounts</li>
