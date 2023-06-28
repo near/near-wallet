@@ -38,19 +38,19 @@ export const TransferWizardWrapper = () => {
     return (
         <Container>
             <h1 >Migrating from Near Wallet</h1>
-            <p>As announced in an earlier (<a target="blank" href="https://medium.com/nearprotocol/near-opens-the-door-to-more-wallets-255eee58eb97">blog post</a>) on July 31, 2022, the NEAR wallet domain (https://wallet.near.org) will transition from a web wallet into a wallet hub, showcasing the multiple existing wallets maintained by the community. During and after the transition, users will be encouraged to migrate their accounts to other ecosystem wallets. To simplify the process, the Pagoda team has created a Wallet Transfer Wizard to guide users through every step. If users prefer to not use the Wizard, they may also migrate to a new wallet manually using your 12-word recovery phrase or a hardware wallet.</p>
+            <p>As announced in an earlier <a target="blank" href="https://medium.com/nearprotocol/near-opens-the-door-to-more-wallets-255eee58eb97">blog post</a> on July 31, 2022, the NEAR wallet domain (https://wallet.near.org) will transition from a web wallet into a wallet hub, showcasing the variety of wallets maintained by the community. During and after the transition, users will be encouraged to migrate their accounts to other ecosystem wallets. To simplify the process, the Pagoda team has created a Wallet Transfer Wizard to guide users through every step. Users are still free to migrate to a new wallet manually using a 12-word recovery phrase or hardware wallet.</p>
             <br />
             <h3>Transferring your accounts</h3>
             <br />
             <h4>Using your Recovery Phrase</h4>
             <p>The most familiar way to transfer your accounts to a new wallet is by importing your recovery phrase. If you want to enhance the security of your accounts and transfer multiple accounts at once, we recommend using the Wallet Transfer Wizard.</p>
             <p>Before you transfer the account using the recovery phrase, you will need to disable two-factor authentication (2FA). 2FA will no longer be supported and your accounts will not be available until email and phone number authentication are disabled. Access your account settings, located under Security & Recovery on the current wallet.near.org, to disable 2FA in all accounts before migrating your keys to another wallet provider.</p>
-            <p>If you opt to use the Transfer Wizard, the wizard will handle removing 2FA, as well as email and phone authentication, automatically.</p>
+            <p>If you opt to use the Transfer Wizard, the wizard will handle removing 2FA, as well as email and phone authentication.</p>
             <br />
             <h4>Using your Ledger</h4>
             <p>If you are using a Ledger to secure your account, you can import your account to a new hardware-supported wallet such as <b>Nightly Wallet</b> or <b>Sender Wallet</b>. <b> Ledger-secured accounts cannot be transferred using the Transfer Wizard.</b></p>
             <p>If you opt to use the Transfer Wizard, the wizard will handle removing 2FA, as well as email and phone authentication for you.</p>
-            <p>As when migrating the account using the Recovery Phrase, you will need to disable 2FA. Access your account settings, located under “Security & Recovery”, to disable 2FA in all accounts before migrating your keys to another wallet provider. If you opt to use the Transfer Wizard, the wizard will handle removing 2FA, as well as email and phone authentication, automatically.</p>
+            <p>As when migrating the account using the Recovery Phrase, you will need to disable 2FA. Access your account settings, located under “Security & Recovery”, to disable 2FA in all accounts before migrating your keys to another wallet provider. If you opt to use the Transfer Wizard, the wizard will handle removing 2FA, as well as email and phone authentication.</p>
             <br />
             <h4>Using the Wallet Transfer Wizard (Recommended)</h4>
             <p>The Transfer Wizard makes it easy to bulk-transfer your connected accounts and offers a security checkup to help keep your accounts safe. The Wizard will guide you through key rotation, removal of old access keys, and the bulk transfer of your connected accounts to the wallet of your choice.</p>
