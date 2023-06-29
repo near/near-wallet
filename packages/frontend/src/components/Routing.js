@@ -10,52 +10,13 @@ import { connect } from 'react-redux';
 import { Redirect, Switch } from 'react-router-dom';
 import styled, { ThemeProvider } from 'styled-components';
 
-import { SHOW_MIGRATION_BANNER, WEB3AUTH, WEP_DISABLE_ACCOUNT_CREATION, WEP_PHASE_ONE } from '../../../../features';
-import favicon from '../../src/images/mynearwallet-cropped.svg';
-import TwoFactorVerifyModal from '../components/accounts/two_factor/TwoFactorVerifyModal';
-import {
-    IS_MAINNET,
-    PUBLIC_URL,
-    SHOW_PRERELEASE_WARNING,
-    DISABLE_CREATE_ACCOUNT,
-} from '../config';
-import { isWhitelabel } from '../config/whitelabel';
-import { Mixpanel } from '../mixpanel/index';
-import * as accountActions from '../redux/actions/account';
-import { handleClearAlert } from '../redux/reducers/status';
-import { selectAccountSlice } from '../redux/slices/account';
-import { actions as flowLimitationActions } from '../redux/slices/flowLimitation';
-import { actions as tokenFiatValueActions } from '../redux/slices/tokenFiatValues';
-import { CreateImplicitAccountWrapper } from '../routes/CreateImplicitAccountWrapper';
-import { ImportAccountWithLinkWrapper } from '../routes/ImportAccountWithLinkWrapper';
-import { LoginWrapper } from '../routes/LoginWrapper';
-import { SetupLedgerNewAccountWrapper } from '../routes/SetupLedgerNewAccountWrapper';
-import { SetupPassphraseNewAccountWrapper } from '../routes/SetupPassphraseNewAccountWrapper';
-import { SetupRecoveryImplicitAccountWrapper } from '../routes/SetupRecoveryImplicitAccountWrapper';
-import { SignWrapper } from '../routes/SignWrapper';
-import { TransferWizardWrapper } from '../routes/TransferWizardWrapper';
-import { VerifyOwnerWrapper } from '../routes/VerifyOwnerWrapper';
-import { WalletWrapper } from '../routes/WalletWrapper';
-import translations_en from '../translations/en.global.json';
-import translations_it from '../translations/it.global.json';
-import translations_kr from '../translations/kr.global.json';
-import translations_pt from '../translations/pt.global.json';
-import translations_ru from '../translations/ru.global.json';
-import translations_tr from '../translations/tr.global.json';
-import translations_ua from '../translations/ua.global.json';
-import translations_vi from '../translations/vi.global.json';
-import translations_zh_hans from '../translations/zh-hans.global.json';
-import translations_zh_hant from '../translations/zh-hant.global.json';
-import classNames from '../utils/classNames';
-import getBrowserLocale from '../utils/getBrowserLocale';
-import { reportUiActiveMixpanelThrottled } from '../utils/reportUiActiveMixpanelThrottled';
-import ScrollToTop from '../utils/ScrollToTop';
-import {
-    WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS,
-    WALLET_LOGIN_URL,
-    WALLET_SIGN_URL,
-    WALLET_SEND_MONEY_URL,
-} from '../utils/wallet';
+// These need to be imported here to ensure they are initialized first
+import * as accountActions from '../redux/actions/account'; // eslint-disable-line
+import { handleClearAlert } from '../redux/reducers/status'; // eslint-disable-line
+import { selectAccountSlice } from '../redux/slices/account'; // eslint-disable-line
+import { actions as flowLimitationActions } from '../redux/slices/flowLimitation'; // eslint-disable-line
+import { actions as tokenFiatValueActions } from '../redux/slices/tokenFiatValues'; // eslint-disable-line
+
 import AccessKeysWrapper from './access-keys/v2/AccessKeysWrapper';
 import { AutoImportWrapper } from './accounts/auto_import/AutoImportWrapper';
 import BatchImportAccounts from './accounts/batch_import_accounts';
@@ -104,6 +65,47 @@ import Terms from './terms/Terms';
 import '../index.css';
 import { getMigrationStep } from './wallet-migration/utils';
 import WalletMigration, { WALLET_MIGRATION_VIEWS } from './wallet-migration/WalletMigration';
+import { SHOW_MIGRATION_BANNER, WEB3AUTH, WEP_DISABLE_ACCOUNT_CREATION, WEP_PHASE_ONE } from '../../../../features';
+import favicon from '../../src/images/mynearwallet-cropped.svg';
+import TwoFactorVerifyModal from '../components/accounts/two_factor/TwoFactorVerifyModal';
+import {
+    IS_MAINNET,
+    PUBLIC_URL,
+    SHOW_PRERELEASE_WARNING,
+    DISABLE_CREATE_ACCOUNT,
+} from '../config';
+import { isWhitelabel } from '../config/whitelabel';
+import { Mixpanel } from '../mixpanel/index';
+import { CreateImplicitAccountWrapper } from '../routes/CreateImplicitAccountWrapper';
+import { ImportAccountWithLinkWrapper } from '../routes/ImportAccountWithLinkWrapper';
+import { LoginWrapper } from '../routes/LoginWrapper';
+import { SetupLedgerNewAccountWrapper } from '../routes/SetupLedgerNewAccountWrapper';
+import { SetupPassphraseNewAccountWrapper } from '../routes/SetupPassphraseNewAccountWrapper';
+import { SetupRecoveryImplicitAccountWrapper } from '../routes/SetupRecoveryImplicitAccountWrapper';
+import { SignWrapper } from '../routes/SignWrapper';
+import { TransferWizardWrapper } from '../routes/TransferWizardWrapper';
+import { VerifyOwnerWrapper } from '../routes/VerifyOwnerWrapper';
+import { WalletWrapper } from '../routes/WalletWrapper';
+import translations_en from '../translations/en.global.json';
+import translations_it from '../translations/it.global.json';
+import translations_kr from '../translations/kr.global.json';
+import translations_pt from '../translations/pt.global.json';
+import translations_ru from '../translations/ru.global.json';
+import translations_tr from '../translations/tr.global.json';
+import translations_ua from '../translations/ua.global.json';
+import translations_vi from '../translations/vi.global.json';
+import translations_zh_hans from '../translations/zh-hans.global.json';
+import translations_zh_hant from '../translations/zh-hant.global.json';
+import classNames from '../utils/classNames';
+import getBrowserLocale from '../utils/getBrowserLocale';
+import { reportUiActiveMixpanelThrottled } from '../utils/reportUiActiveMixpanelThrottled';
+import ScrollToTop from '../utils/ScrollToTop';
+import {
+    WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS,
+    WALLET_LOGIN_URL,
+    WALLET_SIGN_URL,
+    WALLET_SEND_MONEY_URL,
+} from '../utils/wallet';
 const { fetchTokenFiatValues, getTokenWhiteList } = tokenFiatValueActions;
 
 const {

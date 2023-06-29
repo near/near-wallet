@@ -3,13 +3,13 @@ import React from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
-import classNames from '../../../utils/classNames';
 import BalanceDisplayUSD from './BalanceDisplayUSD';
 import { 
     formatNearAmount,
     showInYocto,
     YOCTO_NEAR_THRESHOLD
 } from './helpers';
+import classNames from '../../../utils/classNames';
 
 const StyledContainer = styled.div`
     white-space: nowrap;

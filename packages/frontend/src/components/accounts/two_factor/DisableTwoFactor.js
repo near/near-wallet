@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 
+import DisableTwoFactorForm from './DisableTwoFactorForm';
 import { redirectToApp } from '../../../redux/actions/account';
 import { showCustomAlert } from '../../../redux/actions/status';
 import {selectAccountId} from '../../../redux/slices/account';
 import isValidSeedPhrase from '../../../utils/isValidSeedPhrase';
 import { TwoFactor } from '../../../utils/twoFactor';
 import Container from '../../common/styled/Container.css';
-import DisableTwoFactorForm from './DisableTwoFactorForm';
 
 const StyledContainer = styled(Container)`
     .input {

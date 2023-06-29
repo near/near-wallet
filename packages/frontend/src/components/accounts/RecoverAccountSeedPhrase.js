@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 
+import RecoverAccountSeedPhraseForm from './RecoverAccountSeedPhraseForm';
 import { Mixpanel } from '../../mixpanel/index';
 import {
     recoverAccountSeedPhrase,
@@ -22,7 +23,6 @@ import { selectActionsPending, selectStatusLocalAlert, selectStatusMainLoader } 
 import isValidSeedPhrase from '../../utils/isValidSeedPhrase';
 import parseFundingOptions from '../../utils/parseFundingOptions';
 import Container from '../common/styled/Container.css';
-import RecoverAccountSeedPhraseForm from './RecoverAccountSeedPhraseForm';
 
 const { setZeroBalanceAccountImportMethod } = importZeroBalanceAccountActions;
 

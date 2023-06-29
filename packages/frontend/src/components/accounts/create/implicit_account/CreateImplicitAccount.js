@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
+import YourAddress from './YourAddress';
 import UtorgLogo from '../../../../images/utorg-logo.png';
 import FormButton from '../../../common/FormButton';
 import Container from '../../../common/styled/Container.css';
 import WhereToBuyNearModal from '../../../common/WhereToBuyNearModal';
 import MoonPayIcon from '../../../svg/MoonPayIcon';
 import { buildUtorgPayLink } from '../FundWithUtorg';
-import YourAddress from './YourAddress';
 
 const StyledContainer = styled(Container)`
     text-align: center;

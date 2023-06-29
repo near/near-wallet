@@ -1,9 +1,9 @@
 import React from 'react';
 import { Translate } from 'react-localize-redux';
 
+import ModalTheme from './ModalTheme';
 import FormButton from '../../common/FormButton';
 import Modal from '../../common/modal/Modal';
-import ModalTheme from './ModalTheme';
 
 const InstructionsModal = ({ open, onClose }) => {
     return (

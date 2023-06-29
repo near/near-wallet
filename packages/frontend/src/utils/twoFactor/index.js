@@ -1,6 +1,6 @@
+import { TwoFactorBase } from './twoFactorBase';
 import { store } from '../..';
 import { promptTwoFactor, refreshAccount } from '../../redux/actions/account';
-import { TwoFactorBase } from './twoFactorBase';
 
 export class TwoFactor extends TwoFactorBase {
     constructor(wallet, accountId, has2fa = false) {

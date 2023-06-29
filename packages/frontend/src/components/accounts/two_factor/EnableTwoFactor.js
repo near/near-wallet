@@ -4,6 +4,7 @@ import { Translate } from 'react-localize-redux';
 import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
+import TwoFactorOption from './TwoFactorOption';
 import { MULTISIG_MIN_AMOUNT } from '../../../config';
 import { useRecoveryMethods } from '../../../hooks/recoveryMethods';
 import { Mixpanel } from '../../../mixpanel/index';
@@ -26,7 +27,6 @@ import FormButton from '../../common/FormButton';
 import Container from '../../common/styled/Container.css';
 import SafeTranslate from '../../SafeTranslate';
 import EnterVerificationCode from '../EnterVerificationCode';
-import TwoFactorOption from './TwoFactorOption';
 
 const {
     parseNearAmount

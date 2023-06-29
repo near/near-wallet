@@ -2,17 +2,17 @@ import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
+import EnterAmount from './components/views/EnterAmount';
+import EnterReceiver from './components/views/EnterReceiver';
+import Review from './components/views/Review';
+import SelectToken from './components/views/SelectToken';
+import Success from './components/views/Success';
 import { Mixpanel } from '../../mixpanel/index';
 import FungibleTokens from '../../services/FungibleTokens';
 import classNames from '../../utils/classNames';
 import isDecimalString from '../../utils/isDecimalString';
 import { getNearAndFiatValue } from '../common/balance/helpers';
 import Container from '../common/styled/Container.css';
-import EnterAmount from './components/views/EnterAmount';
-import EnterReceiver from './components/views/EnterReceiver';
-import Review from './components/views/Review';
-import SelectToken from './components/views/SelectToken';
-import Success from './components/views/Success';
 
 const { getFormattedTokenAmount, getParsedTokenAmount, getUniqueTokenIdentity } = FungibleTokens;
 

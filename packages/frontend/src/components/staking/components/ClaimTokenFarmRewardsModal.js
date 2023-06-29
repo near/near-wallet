@@ -4,12 +4,12 @@ import { useSelector } from 'react-redux';
 import { Textfit } from 'react-textfit';
 import styled from 'styled-components';
 
+import TokenStakeRewards from './TokenStakeRewards';
 import selectNEARAsTokenWithMetadata from '../../../redux/selectors/crossStateSelectors/selectNEARAsTokenWithMetadata';
 import FormButton from '../../common/FormButton';
 import Modal from '../../common/modal/Modal';
 import AlertTriangleIcon from '../../svg/AlertTriangleIcon';
 import TokenAmount from '../../wallet/TokenAmount';
-import TokenStakeRewards from './TokenStakeRewards';
 
 const Container = styled.div`
     display: flex;

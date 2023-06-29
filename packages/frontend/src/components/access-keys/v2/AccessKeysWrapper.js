@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { getAccessKeys, removeAccessKey } from '../../../redux/actions/account';
-import { selectAccountSlice, selectAccountId } from '../../../redux/slices/account';
 import AuthorizedAppsKeys from './AuthorizedAppsKeys';
 import FullAccessKeys from './FullAccessKeys';
+import { getAccessKeys, removeAccessKey } from '../../../redux/actions/account';
+import { selectAccountSlice, selectAccountId } from '../../../redux/slices/account';
 
 export default ({ type }) => {
     const dispatch = useDispatch();

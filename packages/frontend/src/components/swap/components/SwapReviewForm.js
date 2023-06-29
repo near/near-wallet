@@ -2,10 +2,10 @@ import React from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
+import TransactionDetails from './TransactionDetails';
 import { removeTrailingZeros } from '../../../utils/amounts';
 import BackArrowButton from '../../common/BackArrowButton';
 import FormButton from '../../common/FormButton';
-import TransactionDetails from './TransactionDetails';
 
 const StyledContainer = styled.div`
     h4 {

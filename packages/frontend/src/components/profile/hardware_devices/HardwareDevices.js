@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 
+import ConfirmDisable from './ConfirmDisable';
 import { Mixpanel } from '../../../mixpanel/index';
 import {
     getAccessKeys,
@@ -15,7 +16,6 @@ import { actions as recoveryMethodsActions, selectRecoveryMethodsStatus } from '
 import FormButton from '../../common/FormButton';
 import SkeletonLoading from '../../common/SkeletonLoading';
 import Card from '../../common/styled/Card.css';
-import ConfirmDisable from './ConfirmDisable';
 const { fetchRecoveryMethods } = recoveryMethodsActions;
 
 const Container = styled(Card)`

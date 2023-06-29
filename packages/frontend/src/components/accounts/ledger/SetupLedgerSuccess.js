@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Translate } from 'react-localize-redux';
 import { connect, useSelector } from 'react-redux';
 
+import NextStepModal from './NextStepModal';
 import { Mixpanel } from '../../../mixpanel/index';
 import { removeNonLedgerAccessKeys, redirectTo } from '../../../redux/actions/account';
 import { selectAccountSlice } from '../../../redux/slices/account';
@@ -10,7 +11,6 @@ import { selectActionsPending } from '../../../redux/slices/status';
 import FormButton from '../../common/FormButton';
 import Container from '../../common/styled/Container.css';
 import HardwareDeviceIcon from '../../svg/HardwareDeviceIcon';
-import NextStepModal from './NextStepModal';
 
 const SetupLedgerSuccess = (props) => {
     const [nextStep, setNextStep] = useState('');

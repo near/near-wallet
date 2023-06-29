@@ -1,8 +1,8 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 
-import { selectSignTransactions } from '../../../redux/slices/sign';
 import SignTransactionDetails from './SignTransactionDetails';
+import { selectSignTransactions } from '../../../redux/slices/sign';
 
 export default ({
     onClickGoBack,

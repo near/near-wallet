@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
-import classNames from '../../../utils/classNames';
 import InputAccountId from './InputAccountId';
+import classNames from '../../../utils/classNames';
 
 const StyledContainer = styled.div`
     background-color: #FAFAFA;

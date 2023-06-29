@@ -1,10 +1,10 @@
 import React from 'react';
 import { Translate } from 'react-localize-redux';
 
+import LoginStyle from './style/LoginStyle.css';
 import FormButton from '../../common/FormButton';
 import Container from '../../common/styled/Container.css';
 import SafeTranslate from '../../SafeTranslate';
-import LoginStyle from './style/LoginStyle.css';
 
 export default ({ invalidContractId, onClickReturnToApp }) => (
     <Container className='small-centered border'>

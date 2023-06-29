@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { useImmerReducer } from 'use-immer';
 
+import AccountLockModal from './AccountLock';
+import { isAccountBricked } from '../..//utils';
 import IconSecurityLock from '../../../../images/wallet-migration/IconSecurityLock';
 import { switchAccount } from '../../../../redux/actions/account';
 import { showCustomAlert } from '../../../../redux/actions/status';
@@ -12,11 +14,9 @@ import WalletClass, { wallet } from '../../../../utils/wallet';
 import AccountListImport from '../../../accounts/AccountListImport';
 import { IMPORT_STATUS } from '../../../accounts/batch_import_accounts';
 import sequentialAccountImportReducer, { ACTIONS } from '../../../accounts/batch_import_accounts/sequentialAccountImportReducer';
-import { isAccountBricked } from '../..//utils';
 import { ButtonsContainer, StyledButton, MigrationModal } from '../../CommonComponents';
 import { recordWalletMigrationEvent } from '../../metrics';
 import { WALLET_MIGRATION_VIEWS } from '../../WalletMigration';
-import AccountLockModal from './AccountLock';
 
 
 

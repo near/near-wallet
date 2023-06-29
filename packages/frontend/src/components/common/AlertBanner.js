@@ -2,11 +2,11 @@ import React from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
+import FormButton from './FormButton';
 import classNames from '../../utils/classNames';
 import SafeTranslate from '../SafeTranslate';
 import AlertRoundedIcon from '../svg/AlertRoundedIcon.js';
 import AlertTriangleIcon from '../svg/AlertTriangleIcon.js';
-import FormButton from './FormButton';
 
 const Container = styled.div`
     &&& {

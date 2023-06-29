@@ -1,9 +1,9 @@
 import React from 'react';
 import { Translate } from 'react-localize-redux';
 
+import StyledContainer from './css/Style.css';
 import Tooltip from '../../../common/Tooltip';
 import RawTokenAmount from '../RawTokenAmount';
-import StyledContainer from './css/Style.css';
 
 
 const Amount = ({

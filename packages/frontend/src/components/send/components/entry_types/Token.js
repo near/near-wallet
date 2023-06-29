@@ -1,8 +1,8 @@
 import React from 'react';
 import { Translate } from 'react-localize-redux';
 
-import TokenIcon from '../TokenIcon';
 import StyledContainer from './css/Style.css';
+import TokenIcon from '../TokenIcon';
 
 const Token = ({ symbol, icon, translateIdTitle, onClick }) => {
     /* TODO: Handle long Tokens */

@@ -3,6 +3,7 @@ import { Translate } from 'react-localize-redux';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
+import FormButton from './FormButton';
 import { NETWORK_ID } from '../../config';
 import { selectAccountSlice } from '../../redux/slices/account';
 import WalletClass, { wallet } from '../../utils/wallet';
@@ -10,7 +11,6 @@ import AlertTriangleIcon from '../svg/AlertTriangleIcon';
 import LockIcon from '../svg/LockIcon';
 import Disable2FAModal from '../wallet-migration/modals/Disable2faModal/Disable2FA';
 import { getAccountDetails } from '../wallet-migration/utils';
-import FormButton from './FormButton';
 
 
 const Container = styled.div`

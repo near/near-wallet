@@ -2,9 +2,9 @@ import React from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
-import AccountSelector from '../accounts/account_selector/AccountSelector';
 import AccessAccountBtn from './AccessAccountBtn';
 import CreateAccountBtn from './CreateAccountBtn';
+import AccountSelector from '../accounts/account_selector/AccountSelector';
 
 const Menu = styled.div`
     position: absolute;

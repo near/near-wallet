@@ -5,6 +5,8 @@ import { Translate } from 'react-localize-redux';
 import { connect } from 'react-redux';
 import { withRouter, Route } from 'react-router-dom';
 
+import SetupSeedPhraseForm from './SetupSeedPhraseForm';
+import SetupSeedPhraseVerify from './SetupSeedPhraseVerify';
 import { Mixpanel } from '../../mixpanel/index';
 import {
     handleAddAccessKeySeedPhrase,
@@ -24,8 +26,6 @@ import parseFundingOptions from '../../utils/parseFundingOptions';
 import { Snackbar, snackbarDuration } from '../common/Snackbar';
 import Container from '../common/styled/Container.css';
 import { isRetryableRecaptchaError } from '../Recaptcha';
-import SetupSeedPhraseForm from './SetupSeedPhraseForm';
-import SetupSeedPhraseVerify from './SetupSeedPhraseVerify';
 
 const { setLinkdropAmount } = linkdropActions;
 const { fetchRecoveryMethods } = recoveryMethodsActions;

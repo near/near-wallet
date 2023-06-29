@@ -2,12 +2,12 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
+import LoadMoreButtonWrapper from './LoadMoreButtonWrapper';
 import { EXPLORER_URL } from '../../config';
 import { redirectTo } from '../../redux/actions/account';
 import isDataURL from '../../utils/isDataURL';
 import {NFTMedia} from '../nft/NFTMedia';
 import DefaultTokenIcon from '../svg/DefaultTokenIcon';
-import LoadMoreButtonWrapper from './LoadMoreButtonWrapper';
 const StyledContainer = styled.div`
     display: flex;
     justify-content: flex-start;

@@ -3,6 +3,8 @@ import { Translate } from 'react-localize-redux';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
+import { FundingCard } from './FundingCard';
+import { buildTransakPayLink } from './providers/transak';
 import { getPayMethods } from '../../config/buyNearConfig';
 import { isWhitelabel } from '../../config/whitelabel';
 import { Mixpanel } from '../../mixpanel';
@@ -11,8 +13,6 @@ import { isMoonpayAvailable, getSignedUrl } from '../../utils/moonpay';
 import { buildUtorgPayLink } from '../accounts/create/FundWithUtorg';
 import FormButton from '../common/FormButton';
 import ArrowIcon from '../svg/ArrowIcon';
-import { FundingCard } from './FundingCard';
-import { buildTransakPayLink } from './providers/transak';
 
 const StyledContainer = styled.div`
     position: relative;

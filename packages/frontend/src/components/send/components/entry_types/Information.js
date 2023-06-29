@@ -1,8 +1,8 @@
 import React from 'react';
 import { Translate } from 'react-localize-redux';
 
-import classNames from '../../../../utils/classNames';
 import StyledContainer from './css/Style.css';
+import classNames from '../../../../utils/classNames';
 
 const Information = ({ className, translateIdTitle, informationValue, onClick }) => {
     /* TODO: Handle long informationValue */

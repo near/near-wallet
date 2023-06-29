@@ -1,8 +1,8 @@
 import React from 'react';
 
-import { GuestLanding } from '../landing/GuestLanding';
 import PrivateRoute from './routing/PrivateRoute';
 import PublicRoute from './routing/PublicRoute';
+import { GuestLanding } from '../landing/GuestLanding';
 
 const GuestLandingRoute = ({
     component: Component,

@@ -2,9 +2,9 @@ import React from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
+import MobileSharingQRCode from './MobileSharingQRCode';
 import Modal from '../../common/modal/Modal';
 import AlertTriangleIcon from '../../svg/AlertTriangleIcon';
-import MobileSharingQRCode from './MobileSharingQRCode';
 
 const StyledContainer = styled.div`
     &&& {

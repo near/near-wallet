@@ -2,9 +2,9 @@ import React from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
+import NFTBox from './NFTBox';
 import FormButton from '../common/FormButton';
 import NearCircleIcon from '../svg/NearCircleIcon.js';
-import NFTBox from './NFTBox';
 
 const StyledContainer = styled.div`
     &&& {

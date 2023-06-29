@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
+import ExportKeyModal from './ExportKeyModal';
 import ExportPrivateKeyImage from '../../../images/icon-key.svg';
 import FormButton from '../../common/FormButton';
 import Container from '../../common/styled/Container.css';
-import ExportKeyModal from './ExportKeyModal';
 
 const StyledContainer = styled(Container)`
     margin-top: 16px;

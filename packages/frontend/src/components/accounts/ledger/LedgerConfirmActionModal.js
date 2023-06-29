@@ -2,10 +2,10 @@ import React from 'react';
 import { Translate } from 'react-localize-redux';
 import { useSelector } from 'react-redux';
 
+import ModalTheme from './ModalTheme';
 import { selectLedgerModal, selectLedgerTxSigned } from '../../../redux/slices/ledger';
 import Modal from '../../common/modal/Modal';
 import LedgerImage from '../../svg/LedgerImage';
-import ModalTheme from './ModalTheme';
 
 const LedgerConfirmActionModal = () => {
     const txSigned = useSelector(selectLedgerTxSigned);

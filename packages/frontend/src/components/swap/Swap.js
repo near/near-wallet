@@ -5,6 +5,10 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
+import { exchangeRateTranslation, useInterval, commission } from './components/helpers';
+import Success from './components/Success';
+import { SwapAmountForm } from './components/SwapAmountForm';
+import { SwapReviewForm } from './components/SwapReviewForm';
 import { CREATE_USN_CONTRACT } from '../../../../../features';
 import { EXPLORER_URL, NEAR_TOKEN_ID, USN_CONTRACT } from '../../config';
 import { useFungibleTokensIncludingNEAR } from '../../hooks/fungibleTokensIncludingNEAR';
@@ -23,10 +27,6 @@ import isMobile from '../../utils/isMobile';
 import { validateInput } from '../../utils/wrap-unwrap';
 import Container from '../common/styled/Container.css';
 import SelectToken from '../send/components/views/SelectToken';
-import { exchangeRateTranslation, useInterval, commission } from './components/helpers';
-import Success from './components/Success';
-import { SwapAmountForm } from './components/SwapAmountForm';
-import { SwapReviewForm } from './components/SwapReviewForm';
 
 const { fetchToken } = tokensActions;
 const { checkAndHideLedgerModal } = ledgerActions;

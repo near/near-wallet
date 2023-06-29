@@ -5,6 +5,16 @@ import { Translate } from 'react-localize-redux';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 
+import AuthorizedApp from './authorized_apps/AuthorizedApp';
+import BalanceContainer from './balances/BalanceContainer';
+import LockupAvailTransfer from './balances/LockupAvailTransfer';
+import ExportKeyWrapper from './export_private_key/ExportKeyWrapper';
+import HardwareDevices from './hardware_devices/HardwareDevices';
+import MobileSharingWrapper from './mobile_sharing/MobileSharingWrapper';
+import RecoveryContainer from './Recovery/RecoveryContainer';
+import RemoveAccountWrapper from './remove_account/RemoveAccountWrapper';
+import TwoFactorAuth from './two_factor/TwoFactorAuth';
+import { ZeroBalanceAccountWrapper } from './zero_balance/ZeroBalanceAccountWrapper';
 import { IS_MAINNET, MIN_BALANCE_FOR_GAS } from '../../config';
 import { useAccount } from '../../hooks/allAccounts';
 import { Mixpanel } from '../../mixpanel/index';
@@ -43,16 +53,6 @@ import LockIcon from '../svg/LockIcon';
 import ShieldIcon from '../svg/ShieldIcon';
 import UserIcon from '../svg/UserIcon';
 import { isAccountBricked } from '../wallet-migration/utils';
-import AuthorizedApp from './authorized_apps/AuthorizedApp';
-import BalanceContainer from './balances/BalanceContainer';
-import LockupAvailTransfer from './balances/LockupAvailTransfer';
-import ExportKeyWrapper from './export_private_key/ExportKeyWrapper';
-import HardwareDevices from './hardware_devices/HardwareDevices';
-import MobileSharingWrapper from './mobile_sharing/MobileSharingWrapper';
-import RecoveryContainer from './Recovery/RecoveryContainer';
-import RemoveAccountWrapper from './remove_account/RemoveAccountWrapper';
-import TwoFactorAuth from './two_factor/TwoFactorAuth';
-import { ZeroBalanceAccountWrapper } from './zero_balance/ZeroBalanceAccountWrapper';
 
 const { fetchRecoveryMethods } = recoveryMethodsActions;
 

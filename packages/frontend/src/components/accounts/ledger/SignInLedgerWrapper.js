@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
+import Authorize from './SignInLedgerViews/Authorize';
+import ImportAccounts from './SignInLedgerViews/ImportAccounts';
+import SignIn from './SignInLedgerViews/SignIn';
 import { Mixpanel } from '../../../mixpanel/index';
 import {
     redirectToApp,
@@ -12,9 +15,6 @@ import { actions as importZeroBalanceAccountActions } from '../../../redux/slice
 import { importZeroBalanceAccountLedger } from '../../../redux/slices/importZeroBalanceAccount/importAccountThunks';
 import { actions as ledgerActions, LEDGER_HD_PATH_PREFIX, LEDGER_MODAL_STATUS, selectLedgerSignInWithLedger, selectLedgerSignInWithLedgerStatus, selectLedgerTxSigned } from '../../../redux/slices/ledger';
 import Container from '../../common/styled/Container.css';
-import Authorize from './SignInLedgerViews/Authorize';
-import ImportAccounts from './SignInLedgerViews/ImportAccounts';
-import SignIn from './SignInLedgerViews/SignIn';
 
 const { setZeroBalanceAccountImportMethod } = importZeroBalanceAccountActions;
 const {

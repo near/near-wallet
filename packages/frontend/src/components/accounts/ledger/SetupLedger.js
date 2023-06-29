@@ -2,6 +2,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Translate } from 'react-localize-redux';
 import { connect, useSelector } from 'react-redux';
 
+import InstructionsModal from './InstructionsModal';
+import LedgerHdPaths from './LedgerHdPaths';
 import { DISABLE_CREATE_ACCOUNT, RECAPTCHA_CHALLENGE_API_KEY } from '../../../config';
 import { Mixpanel } from '../../../mixpanel/index';
 import {
@@ -27,8 +29,6 @@ import GlobalAlert from '../../common/GlobalAlert';
 import Container from '../../common/styled/Container.css';
 import { isRetryableRecaptchaError, Recaptcha } from '../../Recaptcha';
 import LedgerIcon from '../../svg/LedgerIcon';
-import InstructionsModal from './InstructionsModal';
-import LedgerHdPaths from './LedgerHdPaths';
 
 const { checkAndHideLedgerModal } = ledgerActions;
 const { setLinkdropAmount } = linkdropActions;

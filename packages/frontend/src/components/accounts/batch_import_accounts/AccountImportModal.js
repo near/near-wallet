@@ -4,6 +4,7 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Translate } from 'react-localize-redux';
 import { useDispatch, useSelector } from 'react-redux';
 
+import { ModalContainer } from './styles';
 import refreshAccountOwner from '../../../redux/sharedThunks/refreshAccountOwner';
 import { selectAccountUrlReferrer } from '../../../redux/slices/account';
 import { getEstimatedFees } from '../../../redux/slices/sign';
@@ -14,7 +15,6 @@ import Modal from '../../common/modal/Modal';
 import ConnectWithApplication from '../../login/v2/ConnectWithApplication';
 import SignTransaction from '../../sign/v2/SignTransaction';
 import SignTransactionDetails from '../../sign/v2/SignTransactionDetails';
-import { ModalContainer } from './styles';
 
 
 const AccountImportModal = ({ account, onSuccess, onFail }) => {

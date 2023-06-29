@@ -3,6 +3,8 @@ import { Translate } from 'react-localize-redux';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 
+import ActivityBox from './ActivityBox';
+import ActivityDetailModal from './ActivityDetailModal';
 import { EXPLORER_URL } from '../../config';
 import { selectAccountId } from '../../redux/slices/account';
 import {
@@ -13,8 +15,6 @@ import {
 } from '../../redux/slices/transactions';
 import classNames from '../../utils/classNames';
 import FormButton from '../common/FormButton';
-import ActivityBox from './ActivityBox';
-import ActivityDetailModal from './ActivityDetailModal';
 
 const StyledContainer = styled.div`
     width: 100%;

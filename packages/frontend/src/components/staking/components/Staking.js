@@ -3,17 +3,17 @@ import React from 'react';
 import { Translate } from 'react-localize-redux';
 import { useSelector } from 'react-redux';
 
+import BalanceBox from './BalanceBox';
+import ListWrapper from './ListWrapper';
+import NoValidators from './NoValidators';
+import SelectAccount from './SelectAccount';
+import ValidatorBox from './ValidatorBox';
 import selectCollectedAvailableForClaimData from '../../../redux/crossStateSelectors/selectCollectedAvailableForClaimData';
 import selectNEARAsTokenWithMetadata from '../../../redux/selectors/crossStateSelectors/selectNEARAsTokenWithMetadata';
 import { selectFarmValidatorDataIsLoading } from '../../../redux/slices/staking';
 import FormButton from '../../common/FormButton';
 import SkeletonLoading from '../../common/SkeletonLoading';
 import Tooltip from '../../common/Tooltip';
-import BalanceBox from './BalanceBox';
-import ListWrapper from './ListWrapper';
-import NoValidators from './NoValidators';
-import SelectAccount from './SelectAccount';
-import ValidatorBox from './ValidatorBox';
 
 export default function Staking({
     currentValidators,

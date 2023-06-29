@@ -5,6 +5,11 @@ import {
 import { parse, stringify } from 'query-string';
 import { createActions, createAction } from 'redux-actions';
 
+import {
+    handleStakingUpdateAccount,
+    handleStakingUpdateLockup,
+    handleGetLockup
+} from './staking';
 import { DISABLE_CREATE_ACCOUNT } from '../../config';
 import { actions as activeAccountActions } from '../../redux/slices/activeAccount';
 import { 
@@ -58,11 +63,6 @@ import {
     selectFlowLimitationAccountBalance,
     selectFlowLimitationAccountData
 } from '../slices/flowLimitation';
-import {
-    handleStakingUpdateAccount,
-    handleStakingUpdateLockup,
-    handleGetLockup
-} from './staking';
 
 const { 
     handleFlowLimitation,

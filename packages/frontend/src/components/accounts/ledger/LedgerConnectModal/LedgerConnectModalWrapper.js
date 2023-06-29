@@ -1,14 +1,14 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
+import ModalThemeV2 from './css/ModalThemeV2';
+import LedgerConnectionModal from './views/LedgerConnectionModal';
 import { 
     actions as ledgerActions,
     selectLedgerConnectionModalType,
     selectLedgerConnectionStatusLoading
 } from '../../../../redux/slices/ledger';
 import Modal from '../../../common/modal/Modal';
-import ModalThemeV2 from './css/ModalThemeV2';
-import LedgerConnectionModal from './views/LedgerConnectionModal';
 
 const {
     handleConnectLedger,

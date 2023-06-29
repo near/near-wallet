@@ -14,8 +14,8 @@ import { setupSender } from '@near-wallet-selector/sender';
 import { setupWelldoneWallet } from '@near-wallet-selector/welldone-wallet';
 import React, { useEffect } from 'react';
 
-import { IS_MAINNET } from '../../../config';
 import MoreNearWalletsModal from './MoreNearWalletsModal';
+import { IS_MAINNET } from '../../../config';
 import '@near-wallet-selector/modal-ui/styles.css';
 
 // This Wallet Selector component is for displaying a list of available wallets only.

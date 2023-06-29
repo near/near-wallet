@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
+import MobileSharing from './MobileSharing';
 import { selectAccountId } from '../../../redux/slices/account';
 import { wallet } from '../../../utils/wallet';
-import MobileSharing from './MobileSharing';
 
 const MobileSharingWrapper = () => {
     const accountId = useSelector(selectAccountId);

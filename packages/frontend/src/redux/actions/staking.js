@@ -3,6 +3,7 @@ import BN from 'bn.js';
 import * as nearApiJs from 'near-api-js';
 import { createActions } from 'redux-actions';
 
+import { getBalance } from './account';
 import {
     REACT_APP_USE_TESTINGLOCKUP,
     STAKING_GAS_BASE,
@@ -58,7 +59,6 @@ import {
     selectStakingLockupId
 } from '../slices/staking';
 import { actions as tokensActions } from '../slices/tokens';
-import { getBalance } from './account';
 
 const { fetchToken } = tokensActions;
 

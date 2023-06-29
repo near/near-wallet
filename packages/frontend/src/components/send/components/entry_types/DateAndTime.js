@@ -1,8 +1,8 @@
 import React from 'react';
 import { Translate } from 'react-localize-redux';
 
-import formatTimestampForLocale from '../../../../utils/formatTimestampForLocale';
 import StyledContainer from './css/Style.css';
+import formatTimestampForLocale from '../../../../utils/formatTimestampForLocale';
 
 const DateAndTime = ({ timeStamp, translateIdTitle }) => {
     return (

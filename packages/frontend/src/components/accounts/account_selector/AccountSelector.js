@@ -2,10 +2,10 @@ import React from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
+import Account from './Account';
 import FormButton from '../../common/FormButton';
 import ImportIcon from '../../svg/ImportIcon';
 import UserIconColor from '../../svg/UserIconColor';
-import Account from './Account';
 
 const StyledContainer = styled.div`
     &&& {

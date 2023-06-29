@@ -2,8 +2,8 @@ import React from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
-import Balance from '../common/balance/Balance';
 import ArrowTransferIcon from './ArrowTransferIcon';
+import Balance from '../common/balance/Balance';
 
 const StyledContainer = styled.div`
     display: flex;

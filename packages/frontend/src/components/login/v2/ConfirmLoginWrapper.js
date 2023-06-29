@@ -1,6 +1,7 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
+import ConfirmLogin from './ConfirmLogin';
 import { Mixpanel } from '../../../mixpanel/index';
 import { allowLogin } from '../../../redux/actions/account';
 import {
@@ -8,7 +9,6 @@ import {
     selectAccountUrlReferrer
 } from '../../../redux/slices/account';
 import { isUrlNotJavascriptProtocol } from '../../../utils/helper-api';
-import ConfirmLogin from './ConfirmLogin';
 
 export default ({
     loginAccessType,

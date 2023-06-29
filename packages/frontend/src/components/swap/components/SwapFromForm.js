@@ -3,8 +3,8 @@ import { Translate } from 'react-localize-redux';
 import { withRouter } from 'react-router';
 import styled from 'styled-components';
 
-import SafeTranslate from '../../SafeTranslate';
 import SelectTokenButton from './SelectTokenButton';
+import SafeTranslate from '../../SafeTranslate';
 
 const FromForm = styled.form`
     display: flex;

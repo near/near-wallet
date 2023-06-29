@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
+import LandingBackground from './LandingBackground';
 import { WEP_DISABLE_ACCOUNT_CREATION, WEP_PHASE_ONE } from '../../../../../features';
 import iPhoneMockup from '../../images/iphone-mockup.png';
 import FormButton from '../common/FormButton';
 import Container from '../common/styled/Container.css';
 import { WalletSelectorGetAWallet } from '../common/wallet_selector/WalletSelectorGetAWallet';
-import LandingBackground from './LandingBackground';
 
 const StyledContainer = styled.div`
 

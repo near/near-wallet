@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
+import EyeIcon from './EyeIcon';
 import Balance from '../../common/balance/Balance';
 import ClickToCopy from '../../common/ClickToCopy';
 import CopyIcon from '../../svg/CopyIcon';
-import EyeIcon from './EyeIcon';
 
 const StyledContainer = styled.div`
     border-radius: 8px;

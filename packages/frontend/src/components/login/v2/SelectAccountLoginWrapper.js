@@ -1,6 +1,7 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
+import SelectAccountLogin from './SelectAccountLogin';
 import { Mixpanel } from '../../../mixpanel/index';
 import {
     switchAccount,
@@ -16,7 +17,6 @@ import {
 } from '../../../redux/slices/account';
 import { selectAvailableAccounts } from '../../../redux/slices/availableAccounts';
 import { isUrlNotJavascriptProtocol } from '../../../utils/helper-api';
-import SelectAccountLogin from './SelectAccountLogin';
 
 export default ({
     loginAccessType,

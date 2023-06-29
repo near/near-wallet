@@ -3,13 +3,13 @@ import { Translate } from 'react-localize-redux';
 import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
+import RemoveAccountModal from './RemoveAccountModal';
 import RemoveAccountImage from '../../../images/icon-trash.js';
 import { switchAccount } from '../../../redux/actions/account';
 import { selectAccountId } from '../../../redux/slices/account';
 import { wallet } from '../../../utils/wallet';
 import FormButton from '../../common/FormButton';
 import Container from '../../common/styled/Container.css';
-import RemoveAccountModal from './RemoveAccountModal';
 
 const StyledContainer = styled(Container)`
     margin-top: 16px;

@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
+import ConnectWithApplication from './ConnectWithApplication';
 import isMobile from '../../../utils/isMobile';
 import FormButton from '../../common/FormButton';
 import Modal from '../../common/modal/Modal';
 import ModalFooter from '../../common/modal/ModalFooter';
 import AlertTriangleIcon from '../../svg/AlertTriangleIcon';
-import ConnectWithApplication from './ConnectWithApplication';
 
 const StyledContainer = styled.div`
     &&& {

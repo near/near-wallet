@@ -4,6 +4,10 @@ import React, { useState } from 'react';
 import { Translate } from 'react-localize-redux';
 import { useDispatch } from 'react-redux';
 
+import AlertBanner from './AlertBanner';
+import AmountInput from './AmountInput';
+import StakeConfirmModal from './StakeConfirmModal';
+import ValidatorBox from './ValidatorBox';
 import { onKeyDown } from '../../../hooks/eventListeners';
 import { Mixpanel } from '../../../mixpanel/index';
 import { showCustomAlert } from '../../../redux/actions/status';
@@ -16,10 +20,6 @@ import FormButton from '../../common/FormButton';
 import SafeTranslate from '../../SafeTranslate';
 import ArrowCircleIcon from '../../svg/ArrowCircleIcon';
 import TransferMoneyIcon from '../../svg/TransferMoneyIcon';
-import AlertBanner from './AlertBanner';
-import AmountInput from './AmountInput';
-import StakeConfirmModal from './StakeConfirmModal';
-import ValidatorBox from './ValidatorBox';
 
 const {
     parseNearAmount, formatNearAmount

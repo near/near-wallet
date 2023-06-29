@@ -2,9 +2,9 @@ import React from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
+import SharedPassphraseList from './SharedPassphraseList';
 import FormButton from '../../../common/FormButton';
 import Container from '../../../common/styled/Container.css';
-import SharedPassphraseList from './SharedPassphraseList';
 
 const StyledContainer = styled(Container)`
     &&& {

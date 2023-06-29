@@ -2,8 +2,8 @@ import React from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
-import Container from '../../common/styled/Container.css';
 import FullAccessKey from './FullAccessKey';
+import Container from '../../common/styled/Container.css';
 
 const StyledContainer = styled(Container)`
     .authorized-app-box {

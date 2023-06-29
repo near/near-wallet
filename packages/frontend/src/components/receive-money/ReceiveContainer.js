@@ -1,11 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import Container from '../common/styled/Container.css';
-import TabSelector from '../send/components/TabSelector';
 import AccountId from './components/AccountId';
 import AccountIdQRCode from './components/AccountIdQRCode';
 import AvailableBalance from './components/AvailableBalance';
+import Container from '../common/styled/Container.css';
+import TabSelector from '../send/components/TabSelector';
 
 const StyledContainer = styled(Container)`
     > div {

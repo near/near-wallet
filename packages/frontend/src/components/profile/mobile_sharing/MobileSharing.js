@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
+import MobileSharingModal from './MobileSharingModal';
 import FormButton from '../../common/FormButton';
 import QRCodeIcon from '../../svg/QRCodeIcon';
 import SmartPhoneIcon from '../../svg/SmartPhoneIcon';
-import MobileSharingModal from './MobileSharingModal';
 
 const QRCodeButton = styled(FormButton)`
     &&& {

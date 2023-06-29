@@ -1,8 +1,8 @@
 import React from 'react';
 import { Translate } from 'react-localize-redux';
 
-import TXStatus from '../TXStatus';
 import StyledContainer from './css/Style.css';
+import TXStatus from '../TXStatus';
 
 const Status = ({ status, translate }) => {
     return (

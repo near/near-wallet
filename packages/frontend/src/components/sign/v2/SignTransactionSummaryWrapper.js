@@ -1,6 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 
+import SignTransactionSummary from './SignTransactionSummary';
 import {
     selectAccountUrlReferrer,
     selectAccountLocalStorageAccountId,
@@ -9,7 +10,6 @@ import {
 import {
     selectSignTransactionAmount
 } from '../../../redux/slices/sign';
-import SignTransactionSummary from './SignTransactionSummary';
 
 export default ({
     onClickMoreInformation,

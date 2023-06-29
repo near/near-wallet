@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 
-import classNames from '../../../utils/classNames';
-import Accordion from '../../common/Accordion';
 import AccordionTrigger from './AccordionTrigger';
 import Breakdown from './css/Breakdown.css';
 import Amount from './entry_types/Amount';
 import Token from './entry_types/Token';
+import classNames from '../../../utils/classNames';
+import Accordion from '../../common/Accordion';
 
 const prefixTXEntryTitledId = (key) => `sendV2.TXEntry.title.${key}`;
 

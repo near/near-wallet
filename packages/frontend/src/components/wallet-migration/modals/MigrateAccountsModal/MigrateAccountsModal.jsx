@@ -1,15 +1,15 @@
 import React, { useCallback, useState,useEffect, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 
+import MigrateAccounts from './MigrateAccounts';
+import MigrationSecret from './MigrationSecret';
+import SelectDestinationWallet, { WALLET_OPTIONS } from './SelectDestinationWallet';
+import VerifyAccountMigratedModal from './VerifyAccountMigratedModal';
 import { ACCOUNT_ID_SUFFIX } from '../../../../config';
 import { selectAvailableAccounts } from '../../../../redux/slices/availableAccounts';
 import { keyToString, generatePublicKey, encodeAccountsToHash } from '../../../../utils/encoding';
 import { getLedgerHDPath } from '../../../../utils/localStorage';
 import { wallet } from '../../../../utils/wallet';
-import MigrateAccounts from './MigrateAccounts';
-import MigrationSecret from './MigrationSecret';
-import SelectDestinationWallet, { WALLET_OPTIONS } from './SelectDestinationWallet';
-import VerifyAccountMigratedModal from './VerifyAccountMigratedModal';
 
 export const WALLET_EXPORT_MODAL_VIEWS = {
     MIGRATION_SECRET: 'MIGRATION_SECRET',

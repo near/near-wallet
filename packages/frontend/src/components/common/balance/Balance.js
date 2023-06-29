@@ -1,8 +1,8 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 
-import { selectNearTokenFiatValueUSD } from '../../../redux/slices/tokenFiatValues';
 import BalanceDisplay from './BalanceDisplay';
+import { selectNearTokenFiatValueUSD } from '../../../redux/slices/tokenFiatValues';
 
 const Balance = ({
     totalAmount,

@@ -1,10 +1,10 @@
 import BN from 'bn.js';
 import * as nearApiJs from 'near-api-js';
 
+import { wallet } from './wallet';
 import { NEAR_TOKEN_ID } from '../config';
 import { listStakingDeposits } from '../services/indexer';
 import { nearTo } from '../utils/amounts';
-import { wallet } from './wallet';
 
 const {
     utils: {

@@ -2,12 +2,6 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { Translate } from 'react-localize-redux';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { NETWORK_ID, IS_MAINNET } from '../../config';
-import { showCustomAlert } from '../../redux/actions/status';
-import { selectAvailableAccounts } from '../../redux/slices/availableAccounts';
-import { MAINNET, TESTNET } from '../../utils/constants';
-import { wallet } from '../../utils/wallet';
-import LoadingDots from '../common/loader/LoadingDots';
 import { MigrationModal, ButtonsContainer, StyledButton, Container } from './CommonComponents';
 import { resetUserState, initAnalytics, recordWalletMigrationEvent, recordWalletMigrationState, rudderAnalyticsReady } from './metrics';
 import CleanKeysCompleteModal from './modals/CleanKeysCompleteModal/CleanKeyCompleteModal';
@@ -19,6 +13,12 @@ import RotateKeysModal from './modals/RotateKeysModal/RotateKeysModal';
 import VerifyingModal from './modals/VerifyingModal/VerifyingModal';
 import { WalletSelectorModal } from './modals/WalletSelectorModal/WalletSelectorModal';
 import { deleteMigrationStep, getAccountDetails, getMigrationStep, setMigrationStep } from './utils';
+import { NETWORK_ID, IS_MAINNET } from '../../config';
+import { showCustomAlert } from '../../redux/actions/status';
+import { selectAvailableAccounts } from '../../redux/slices/availableAccounts';
+import { MAINNET, TESTNET } from '../../utils/constants';
+import { wallet } from '../../utils/wallet';
+import LoadingDots from '../common/loader/LoadingDots';
 
 
 export const WALLET_MIGRATION_VIEWS = {

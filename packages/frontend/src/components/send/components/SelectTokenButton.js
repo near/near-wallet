@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import ChevronIcon from '../../svg/ChevronIcon';
 import Token from './entry_types/Token';
+import ChevronIcon from '../../svg/ChevronIcon';
 
 const StyledContainer = styled.div`
     display: flex;

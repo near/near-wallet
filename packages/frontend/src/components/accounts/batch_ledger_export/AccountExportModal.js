@@ -4,6 +4,7 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Translate } from 'react-localize-redux';
 import { useDispatch, useSelector } from 'react-redux';
 
+import { ModalContainer } from './styles';
 import { actions as ledgerActions, LEDGER_HD_PATH_PREFIX, selectLedgerConnectionAvailable } from '../../../redux/slices/ledger';
 import { getEstimatedFees } from '../../../redux/slices/sign';
 import { setLedgerHdPath } from '../../../utils/localStorage';
@@ -14,7 +15,6 @@ import Modal from '../../common/modal/Modal';
 import SignTransaction from '../../sign/v2/SignTransaction';
 import SignTransactionDetails from '../../sign/v2/SignTransactionDetails';
 import { HDPathSelect } from '../ledger/LedgerHdPaths';
-import { ModalContainer } from './styles';
 
 const { checkAndHideLedgerModal, handleShowConnectModal } = ledgerActions;
 

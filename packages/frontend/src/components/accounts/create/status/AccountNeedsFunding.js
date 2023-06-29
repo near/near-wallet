@@ -1,10 +1,10 @@
 import React from 'react';
 import { Translate } from 'react-localize-redux';
 
+import StyledContainer from './Style.css';
 import Balance from '../../../common/balance/Balance';
 import ClickToCopy from '../../../common/ClickToCopy';
 import CopyIcon from '../../../svg/CopyIcon';
-import StyledContainer from './Style.css';
 
 const AccountNeedsFunding = ({
     accountId,
