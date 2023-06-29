@@ -14,6 +14,7 @@ export default {
             kind: LIKELY_NFT_KEY,
             updater: (timestamp) => api.listLikelyNfts(accountId, timestamp),
             timeoutNs: UPDATE_REQUEST_INTERVAL_NS,
+            resetMs: RESET_REQUEST_INTERVAL_MS,
         });
     },
     listLikelyTokens(accountId, timestamp) {

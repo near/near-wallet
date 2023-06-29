@@ -95,8 +95,8 @@ export class IndexerCache extends Cache {
         return timeNs - lastTimestampNs >= timeoutNs;
     }
 
-    _shouldReset(lastResetTimestamp, resetTimestamp) {
-        return new Date().getTime() - lastResetTimestamp >= resetTimestamp;
+    _shouldReset(lastResetIntervalNs, resetIntervalNs) {
+        return new Date().getTime() - lastResetIntervalNs >= resetIntervalNs;
     }
 
     /**
