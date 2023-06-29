@@ -2,11 +2,11 @@ import React from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
-import TokenAmount from './TokenAmount';
 import { CREATE_USN_CONTRACT } from '../../../../../features';
 import { EXPLORER_URL } from '../../config';
 import Balance from '../common/balance/Balance';
 import TokenIcon from '../send/components/TokenIcon';
+import TokenAmount from './TokenAmount';
 
 const StyledContainer = styled.div`
     display: flex;

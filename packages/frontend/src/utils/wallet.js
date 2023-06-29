@@ -5,12 +5,6 @@ import { PublicKey } from 'near-api-js/lib/utils';
 import { KeyType } from 'near-api-js/lib/utils/key_pair';
 import { generateSeedPhrase, parseSeedPhrase } from 'near-seed-phrase';
 
-import { decorateWithLockup } from './account-with-lockup';
-import { getAccountIds } from './helper-api';
-import { ledgerManager } from './ledgerManager';
-import { setAccountConfirmed, setWalletAccounts, removeActiveAccount, removeAccountConfirmed, getLedgerHDPath, removeLedgerHDPath, setLedgerHdPath } from './localStorage';
-import { TwoFactor } from './twoFactor';
-import { WalletError } from './walletError';
 import { store } from '..';
 import * as Config from '../config';
 import {
@@ -20,6 +14,12 @@ import {
 } from '../redux/actions/account';
 import { actions as ledgerActions } from '../redux/slices/ledger';
 import sendJson from '../tmp_fetch_send_json';
+import { decorateWithLockup } from './account-with-lockup';
+import { getAccountIds } from './helper-api';
+import { ledgerManager } from './ledgerManager';
+import { setAccountConfirmed, setWalletAccounts, removeActiveAccount, removeAccountConfirmed, getLedgerHDPath, removeLedgerHDPath, setLedgerHdPath } from './localStorage';
+import { TwoFactor } from './twoFactor';
+import { WalletError } from './walletError';
 
 const { Account } = nearApiJs;
 

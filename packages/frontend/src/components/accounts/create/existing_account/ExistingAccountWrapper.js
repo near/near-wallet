@@ -3,8 +3,6 @@ import { parse } from 'query-string';
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
-import FundNewAccount from './FundNewAccount';
-import SelectAccount from './SelectAccount';
 import { LINKDROP_GAS, MIN_BALANCE_TO_CREATE } from '../../../../config';
 import { Mixpanel } from '../../../../mixpanel';
 import {
@@ -19,6 +17,8 @@ import { selectAvailableAccounts } from '../../../../redux/slices/availableAccou
 import {
     actions as ledgerActions
 } from '../../../../redux/slices/ledger';
+import FundNewAccount from './FundNewAccount';
+import SelectAccount from './SelectAccount';
 
 const {
     checkAndHideLedgerModal

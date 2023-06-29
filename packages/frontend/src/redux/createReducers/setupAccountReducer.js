@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
 
-import combinedAccountReducers from './combinedAccountReducers';
 import { wallet } from '../../utils/wallet';
 import activeAccountSlice from '../slices/activeAccount';
+import combinedAccountReducers from './combinedAccountReducers';
 
 export default () => {
     const accountsKeys = Object.keys(wallet.accounts);

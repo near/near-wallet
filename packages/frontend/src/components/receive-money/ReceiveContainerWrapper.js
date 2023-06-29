@@ -1,8 +1,8 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 
-import ReceiveContainer from './ReceiveContainer';
 import { selectAccountId, selectBalance } from '../../redux/slices/account';
+import ReceiveContainer from './ReceiveContainer';
 
 export function ReceiveContainerWrapper() {
     const accountId = useSelector(selectAccountId);

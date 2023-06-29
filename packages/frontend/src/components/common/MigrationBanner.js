@@ -3,13 +3,13 @@ import { Translate } from 'react-localize-redux';
 import {useSelector} from 'react-redux';
 import styled from 'styled-components';
 
-import FormButton from './FormButton';
-import Container from './styled/Container.css';
 import IconOffload from '../../images/IconOffload';
 import { selectAvailableAccounts, selectAvailableAccountsIsLoading } from '../../redux/slices/availableAccounts';
 import { getNearOrgWalletUrl } from '../../utils/getWalletURL';
 import AlertTriangleIcon from '../svg/AlertTriangleIcon';
 import InfoIcon from '../svg/InfoIcon';
+import FormButton from './FormButton';
+import Container from './styled/Container.css';
 
 const StyledContainer = styled.div`
     border: 2px solid #DC1F26;

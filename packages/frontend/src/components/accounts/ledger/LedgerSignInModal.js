@@ -2,7 +2,6 @@ import React from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
-import ModalTheme from './ModalTheme';
 import IconCheck from '../../../images/IconCheck';
 import UserIconGrey from '../../../images/UserIconGrey';
 import { LEDGER_MODAL_STATUS } from '../../../redux/slices/ledger';
@@ -10,6 +9,7 @@ import AccountFormAccountId from '../../accounts/AccountFormAccountId';
 import FormButton from '../../common/FormButton';
 import Modal from '../../common/modal/Modal';
 import LedgerImage from '../../svg/LedgerImage';
+import ModalTheme from './ModalTheme';
 
 const UserIcon = styled.div`
     background-size: 21px;

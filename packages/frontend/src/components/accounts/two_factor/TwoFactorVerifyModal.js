@@ -3,7 +3,6 @@ import { Translate } from 'react-localize-redux';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 
-import TwoFactorVerifyInput from './TwoFactorVerifyInput';
 import { Mixpanel } from '../../../mixpanel/index';
 import { resendTwoFactor, get2faMethod, getMultisigRequest } from '../../../redux/actions/account';
 import { selectAccountSlice, selectAccountMultisigRequest } from '../../../redux/slices/account';
@@ -14,6 +13,7 @@ import AlertBanner from '../../common/AlertBanner';
 import FormButton from '../../common/FormButton';
 import Modal from '../../common/modal/Modal';
 import ModalTheme from '../ledger/ModalTheme';
+import TwoFactorVerifyInput from './TwoFactorVerifyInput';
 
 const TOO_MANY_REQUESTS_STATUS = 429;
 

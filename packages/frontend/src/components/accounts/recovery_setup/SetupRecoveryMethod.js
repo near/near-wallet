@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import styled from 'styled-components';
 
 
-import RecoveryOption from './RecoveryOption';
 import { Mixpanel } from '../../../mixpanel/index';
 import * as accountActions from '../../../redux/actions/account';
 import { selectAccountId, selectAccountSlice } from '../../../redux/slices/account';
@@ -13,6 +12,7 @@ import { actions as recoveryMethodsActions, selectRecoveryMethodsByAccountId, se
 import { selectActionsPending, selectStatusMainLoader } from '../../../redux/slices/status';
 import FormButton from '../../common/FormButton';
 import Container from '../../common/styled/Container.css';
+import RecoveryOption from './RecoveryOption';
 
 const { fetchRecoveryMethods } = recoveryMethodsActions;
 

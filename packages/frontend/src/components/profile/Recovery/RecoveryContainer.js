@@ -3,7 +3,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 
-import RecoveryMethod from './RecoveryMethod';
 import { DISABLE_PHONE_RECOVERY } from '../../../config';
 import { Mixpanel } from '../../../mixpanel/index';
 import { deleteRecoveryMethod } from '../../../redux/actions/account';
@@ -11,6 +10,7 @@ import { selectAccountSlice } from '../../../redux/slices/account';
 import { actions as recoveryMethodsActions, selectRecoveryMethodsStatus } from '../../../redux/slices/recoveryMethods';
 import { selectStatusMainLoader } from '../../../redux/slices/status';
 import SkeletonLoading from '../../common/SkeletonLoading';
+import RecoveryMethod from './RecoveryMethod';
 const { fetchRecoveryMethods } = recoveryMethodsActions;
 
 const Container = styled.div`

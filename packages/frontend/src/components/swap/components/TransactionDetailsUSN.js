@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 
-import { exchangeRateTranslation } from './helpers';
-import SlippagePicker from './SlippagePicker';
 import classNames from '../../../utils/classNames';
 import Accordion from '../../common/Accordion';
 import AccordionTrigger from '../../send/components/AccordionTrigger';
 import Breakdown from '../../send/components/css/Breakdown.css';
 import Amount from '../../send/components/entry_types/Amount';
+import { exchangeRateTranslation } from './helpers';
+import SlippagePicker from './SlippagePicker';
 
 
 const TransactionDetailsUSN = ({

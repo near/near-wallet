@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
 
-import DesktopContainer from './DesktopContainer';
-import MobileContainer from './MobileContainer';
 import { WEP_DISABLE_ACCOUNT_CREATION } from '../../../../../features';
 import { WalletSelectorGetAWallet } from '../common/wallet_selector/WalletSelectorGetAWallet';
+import DesktopContainer from './DesktopContainer';
+import MobileContainer from './MobileContainer';
 
 const Container = styled.div`
     &&& {

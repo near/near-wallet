@@ -2,10 +2,10 @@ import React from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
-import VerifyOwner from './VerifyOwner';
 import FormButton from '../common/FormButton';
 import FormButtonGroup from '../common/FormButtonGroup';
 import Container from '../common/styled/Container.css';
+import VerifyOwner from './VerifyOwner';
 
 const StyledContainer = styled(Container)`
     background-color: ##F0F0F1;

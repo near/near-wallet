@@ -1,10 +1,6 @@
 import React, { useState } from 'react';
 import { Translate } from 'react-localize-redux';
 
-import GrantFullAccessModal from './GrantFullAccessModal';
-import NetworkFeeAllowance from './NetworkFeeAllowance';
-import PermissionItem from './PermissionItem';
-import LoginStyle from './style/LoginStyle.css';
 import { LOGIN_ACCESS_TYPES } from '../../../routes/LoginWrapper';
 import AlertBanner from '../../common/AlertBanner';
 import FormButton from '../../common/FormButton';
@@ -12,6 +8,10 @@ import FormButtonGroup from '../../common/FormButtonGroup';
 import Container from '../../common/styled/Container.css';
 import SafeTranslate from '../../SafeTranslate';
 import SwapGraphic from '../../svg/SwapGraphic';
+import GrantFullAccessModal from './GrantFullAccessModal';
+import NetworkFeeAllowance from './NetworkFeeAllowance';
+import PermissionItem from './PermissionItem';
+import LoginStyle from './style/LoginStyle.css';
 
 export default ({
     signedInAccountId,

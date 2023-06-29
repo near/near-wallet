@@ -1,5 +1,5 @@
-import { wallet } from './wallet';
 import { listRecentTransactions } from '../services/indexer';
+import { wallet } from './wallet';
 
 export async function getTransactions({ accountId }) {
     if (!accountId) {

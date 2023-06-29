@@ -1,8 +1,8 @@
 import React from 'react';
 import { Translate } from 'react-localize-redux';
 
-import StyledContainer from './Style.css';
 import Balance from '../../../common/balance/Balance';
+import StyledContainer from './Style.css';
 
 const AccountFunded = ({
     accountId,

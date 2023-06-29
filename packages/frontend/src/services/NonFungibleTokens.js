@@ -1,8 +1,8 @@
 import * as nearAPI from 'near-api-js';
 
-import { listLikelyNfts } from './indexer';
 import { TOKEN_TRANSFER_DEPOSIT, NFT_TRANSFER_GAS } from '../config';
 import { wallet } from '../utils/wallet';
+import { listLikelyNfts } from './indexer';
 
 export const TOKENS_PER_PAGE = 4;
 

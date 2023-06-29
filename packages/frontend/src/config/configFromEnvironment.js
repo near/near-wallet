@@ -2,13 +2,13 @@ import assert from 'assert';
 
 import { parseNearAmount } from 'near-api-js/lib/utils/format';
 
+import Environments from '../../../../features/environments.json';
 import {
     envValIsSet,
     parseBooleanFromShell,
     parseCommaSeperatedStringAsArrayFromShell,
     parseDateFromShell
 } from './envParsers';
-import Environments from '../../../../features/environments.json';
 
 const NEAR_WALLET_ENV = process.env.NEAR_WALLET_ENV;
 

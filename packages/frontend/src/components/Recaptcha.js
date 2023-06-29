@@ -3,10 +3,10 @@ import ReCAPTCHA from 'react-google-recaptcha';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
-import FormButton from './common/FormButton';
-import PuzzleIcon from './svg/PuzzleIcon';
 import { RECAPTCHA_CHALLENGE_API_KEY } from '../config';
 import { Mixpanel } from '../mixpanel/index';
+import FormButton from './common/FormButton';
+import PuzzleIcon from './svg/PuzzleIcon';
 
 // How long we should wait for the script to load before assuming it's been blocked
 const RECAPTCHA_LOADING_TIMEOUT = 15 * 1000;

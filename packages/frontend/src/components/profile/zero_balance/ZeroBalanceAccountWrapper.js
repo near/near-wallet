@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { AddLedgerKeyModal } from './AddLedgerKeyModal';
 import { refreshAccount } from '../../../redux/actions/account';
 import { showCustomAlert } from '../../../redux/actions/status';
 import {
@@ -14,6 +13,7 @@ import {
 import { finishLocalSetupForZeroBalanceAccount } from '../../../redux/slices/account/createAccountThunks';
 import { actions as ledgerActions, selectLedgerConnectionAvailable } from '../../../redux/slices/ledger';
 import { wallet } from '../../../utils/wallet';
+import { AddLedgerKeyModal } from './AddLedgerKeyModal';
 
 
 const { handleShowConnectModal } = ledgerActions;

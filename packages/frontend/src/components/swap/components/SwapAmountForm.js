@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
-import SwapFromForm from './SwapFromForm';
-import SwapToForm from './SwapToForm';
 import { getFormatBalance } from '../../../utils/wrap-unwrap';
 import BackArrowButton from '../../common/BackArrowButton';
 import FormButton from '../../common/FormButton';
 import SwapIcon from '../../svg/WrapIcon';
+import SwapFromForm from './SwapFromForm';
+import SwapToForm from './SwapToForm';
 
 const StyledContainer = styled.div`
     h4 {

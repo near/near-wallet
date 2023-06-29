@@ -5,11 +5,6 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 
-import AccountFundedModal from './AccountFundedModal';
-import FundWithMoonpay from './create/FundWithMoonpay';
-import FundWithUtorg from './create/FundWithUtorg';
-import AccountFunded from './create/status/AccountFunded';
-import AccountNeedsFunding from './create/status/AccountNeedsFunding';
 import { MIN_BALANCE_TO_CREATE } from '../../config';
 import { Mixpanel } from '../../mixpanel';
 import { redirectTo } from '../../redux/actions/account';
@@ -26,6 +21,11 @@ import FormButton from '../common/FormButton';
 import Container from '../common/styled/Container.css';
 import WhereToBuyNearModal from '../common/WhereToBuyNearModal';
 import SafeTranslate from '../SafeTranslate';
+import AccountFundedModal from './AccountFundedModal';
+import FundWithMoonpay from './create/FundWithMoonpay';
+import FundWithUtorg from './create/FundWithUtorg';
+import AccountFunded from './create/status/AccountFunded';
+import AccountNeedsFunding from './create/status/AccountNeedsFunding';
 
 const { setCreateFromImplicitSuccess } = createFromImplicitActions;
 

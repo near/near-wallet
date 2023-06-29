@@ -3,7 +3,6 @@ import { parse } from 'query-string';
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import AutoImport from './AutoImport';
 import { Mixpanel } from '../../../mixpanel/index';
 import {
     recoverAccountSecretKey,
@@ -12,6 +11,7 @@ import {
     clearAccountState
 } from '../../../redux/actions/account';
 import { isUrlNotJavascriptProtocol } from '../../../utils/helper-api';
+import AutoImport from './AutoImport';
 
 
 export function AutoImportWrapper({

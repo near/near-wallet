@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { Translate } from 'react-localize-redux';
 
-import InstructionsModal from './InstructionsModal';
-import LedgerHdPaths from './LedgerHdPaths';
 import { Mixpanel } from '../../../mixpanel/index';
 import { LEDGER_HD_PATH_PREFIX } from '../../../redux/slices/ledger';
 import FormButton from '../../common/FormButton';
 import Container from '../../common/styled/Container.css';
 import LedgerIcon from '../../svg/LedgerIcon';
+import InstructionsModal from './InstructionsModal';
+import LedgerHdPaths from './LedgerHdPaths';
 
 export default ({
     onClickConnectLedger

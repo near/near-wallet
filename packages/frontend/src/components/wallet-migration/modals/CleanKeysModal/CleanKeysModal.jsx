@@ -3,9 +3,6 @@ import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useImmerReducer } from 'use-immer';
 
-import AccessKeyList from './AccessKeyList';
-import AccountKeyCleanup from './AccountKeyCleanup';
-import ConfirmKeyDeletion from './ConfirmKeyDeletion';
 import IconKey from '../../../../images/wallet-migration/IconKey';
 import { switchAccount } from '../../../../redux/actions/account';
 import { selectAccountId } from '../../../../redux/slices/account';
@@ -16,6 +13,9 @@ import LoadingDots from '../../../common/loader/LoadingDots';
 import { MigrationModal, Container, IconBackground } from '../../CommonComponents';
 import { recordWalletMigrationEvent } from '../../metrics';
 import { WALLET_MIGRATION_VIEWS } from '../../WalletMigration';
+import AccessKeyList from './AccessKeyList';
+import AccountKeyCleanup from './AccountKeyCleanup';
+import ConfirmKeyDeletion from './ConfirmKeyDeletion';
 
 const { KeyPair } = nearApi;
 const MINIMUM_ACCOUNT_BALANCE  = 0.00005;

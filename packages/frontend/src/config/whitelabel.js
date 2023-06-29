@@ -1,5 +1,5 @@
-import { NEAR_WALLET_ENV } from './configFromEnvironment';
 import Environments from '../../../../features/environments.json';
+import { NEAR_WALLET_ENV } from './configFromEnvironment';
 
 const isWhitelabel = NEAR_WALLET_ENV === Environments.DEVELOPMENT
     || NEAR_WALLET_ENV === Environments.TESTNET

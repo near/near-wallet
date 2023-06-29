@@ -1,7 +1,6 @@
 import BN from 'bn.js';
 import * as nearApiJs from 'near-api-js';
 
-import { listLikelyTokens } from './indexer';
 import { FT_TRANSFER_REGISTRATION } from '../../../../features';
 import {
     NEAR_TOKEN_ID,
@@ -21,6 +20,7 @@ import {
 } from '../utils/amounts';
 import { getTotalGasFee } from '../utils/gasPrice';
 import { wallet } from '../utils/wallet';
+import { listLikelyTokens } from './indexer';
 
 const {
     transactions: { functionCall },

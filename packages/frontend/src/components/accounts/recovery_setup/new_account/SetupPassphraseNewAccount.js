@@ -2,9 +2,9 @@ import { KeyPair } from 'near-api-js';
 import { generateSeedPhrase } from 'near-seed-phrase';
 import React, { useEffect, useState } from 'react';
 
+import { Mixpanel } from '../../../../mixpanel/index';
 import ConfirmPassphrase from './ConfirmPassphrase';
 import SavePassphrase from './SavePassphrase';
-import { Mixpanel } from '../../../../mixpanel/index';
 
 // TODO: Make this custom hook to re-use with future SetupPassphraseExistingAccount component
 

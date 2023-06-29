@@ -4,7 +4,6 @@ import { useDispatch, } from 'react-redux';
 import styled from 'styled-components';
 
 
-import {WALLET_EXPORT_MODAL_VIEWS} from './MigrateAccountsModal';
 import ImgFinerWallet from '../../../../../src/images/finer-logo.svg';
 import ImgMeteorWallet from '../../../../../src/images/meteor-wallet-logo.svg';
 import ImgMyNearWallet from '../../../../../src/images/mynearwallet-cropped.svg';
@@ -23,6 +22,7 @@ import Tooltip from '../../../common/Tooltip';
 import AlertRoundedIcon from '../../../svg/AlertRoundedIcon.js';
 import { WALLET_ID } from '../../../wallet-migration/utils';
 import { ButtonsContainer, StyledButton, MigrationModal } from '../../CommonComponents';
+import {WALLET_EXPORT_MODAL_VIEWS} from './MigrateAccountsModal';
 
 const Container = styled.div`
     padding: 15px 0;

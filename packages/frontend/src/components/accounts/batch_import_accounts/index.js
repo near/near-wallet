@@ -4,10 +4,6 @@ import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { useImmerReducer } from 'use-immer';
 
-import AccountImportModal from './AccountImportModal';
-import BatchImportAccountsSuccessScreen from './BatchImportAccountsSuccessScreen';
-import reducer, { ACTIONS } from './sequentialAccountImportReducer';
-import { ModalContainer } from './styles';
 import ShieldIcon from '../../../images/icon-shield.svg';
 import ImportArrow from '../../../images/import-arrow.svg';
 import { selectAccountUrlReferrer } from '../../../redux/slices/account';
@@ -20,6 +16,10 @@ import Modal from '../../common/modal/Modal';
 import Container from '../../common/styled/Container.css';
 import MyNearWalletLogo from '../../svg/MyNearWalletLogo';
 import AccountListImport from '../AccountListImport';
+import AccountImportModal from './AccountImportModal';
+import BatchImportAccountsSuccessScreen from './BatchImportAccountsSuccessScreen';
+import reducer, { ACTIONS } from './sequentialAccountImportReducer';
+import { ModalContainer } from './styles';
 
 const CustomContainer = styled.div`
     width: 100%;

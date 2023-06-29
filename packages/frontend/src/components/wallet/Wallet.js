@@ -3,18 +3,6 @@ import { Translate } from 'react-localize-redux';
 import { Textfit } from 'react-textfit';
 import styled from 'styled-components';
 
-import ActivitiesWrapper from './ActivitiesWrapper';
-import AllTokensTotalBalanceUSD from './AllTokensTotalBalanceUSD';
-import CreateCustomNameModal from './CreateCustomNameModal';
-import CreateFromImplicitSuccessModal from './CreateFromImplicitSuccessModal';
-import DepositNearBanner from './DepositNearBanner';
-import ExploreApps from './ExploreApps';
-import LinkDropSuccessModal from './LinkDropSuccessModal';
-import NFTs from './NFTs';
-import Sidebar from './Sidebar';
-import SidebarLight from './SidebarLight';
-import Tokens from './Tokens';
-import { ZeroBalanceAccountImportedModal } from './ZeroBalanceAccountImportedModal';
 import {
     CREATE_USN_CONTRACT,
 } from '../../../../../features';
@@ -31,6 +19,18 @@ import DownArrowIcon from '../svg/DownArrowIcon';
 import SendIcon from '../svg/SendIcon';
 import TopUpIcon from '../svg/TopUpIcon';
 import WrapIcon from '../svg/WrapIcon';
+import ActivitiesWrapper from './ActivitiesWrapper';
+import AllTokensTotalBalanceUSD from './AllTokensTotalBalanceUSD';
+import CreateCustomNameModal from './CreateCustomNameModal';
+import CreateFromImplicitSuccessModal from './CreateFromImplicitSuccessModal';
+import DepositNearBanner from './DepositNearBanner';
+import ExploreApps from './ExploreApps';
+import LinkDropSuccessModal from './LinkDropSuccessModal';
+import NFTs from './NFTs';
+import Sidebar from './Sidebar';
+import SidebarLight from './SidebarLight';
+import Tokens from './Tokens';
+import { ZeroBalanceAccountImportedModal } from './ZeroBalanceAccountImportedModal';
 
 const StyledContainer = styled(Container)`
     @media (max-width: 991px) {

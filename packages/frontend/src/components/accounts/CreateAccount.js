@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-import AccountFormAccountId from './AccountFormAccountId';
 import { WEP_PHASE_ONE } from '../../../../../features';
 import { ACCOUNT_ID_SUFFIX, IS_MAINNET, MIN_BALANCE_TO_CREATE } from '../../config';
 import { isWhitelabel } from '../../config/whitelabel';
@@ -32,8 +31,9 @@ import WhereToBuyNearModal from '../common/WhereToBuyNearModal';
 import SafeTranslate from '../SafeTranslate';
 import BrokenLinkIcon from '../svg/BrokenLinkIcon';
 import FundNearIcon from '../svg/FundNearIcon';
-import DepositNearBanner from '../wallet/DepositNearBanner';
 import { redirectLinkdropUser, WALLET_ID } from '../wallet-migration/utils';
+import DepositNearBanner from '../wallet/DepositNearBanner';
+import AccountFormAccountId from './AccountFormAccountId';
 
 const StyledContainer = styled(Container)`
     .input {

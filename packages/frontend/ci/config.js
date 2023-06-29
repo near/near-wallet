@@ -1,7 +1,7 @@
 const { defaults } = require('lodash');
 
-const environmentConfig = require('./configFromEnvironment');
 const Environments = require('../../../features/environments.json');
+const environmentConfig = require('./configFromEnvironment');
 
 const envDefaults = {
     [Environments.DEVELOPMENT]: {

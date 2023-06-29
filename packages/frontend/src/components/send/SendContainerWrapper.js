@@ -2,7 +2,6 @@ import { utils } from 'near-api-js';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import SendContainerV2, { VIEWS } from './SendContainerV2';
 import { EXPLORER_URL } from '../../config';
 import { useFungibleTokensIncludingNEAR } from '../../hooks/fungibleTokensIncludingNEAR';
 import { useTokenBlacklist } from '../../hooks/useTokenBlacklist';
@@ -19,6 +18,7 @@ import { actions as tokensActions } from '../../redux/slices/tokens';
 import { fungibleTokensService } from '../../services/FungibleTokens';
 import isMobile from '../../utils/isMobile';
 import { SHOW_NETWORK_BANNER } from '../../utils/wallet';
+import SendContainerV2, { VIEWS } from './SendContainerV2';
 
 const {
     checkAndHideLedgerModal

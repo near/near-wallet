@@ -3,14 +3,14 @@ import { Translate } from 'react-localize-redux';
 import { isValidPhoneNumber } from 'react-phone-number-input';
 import styled from 'styled-components';
 
-import OptionAlreadyUsedModal from './OptionAlreadyUsedModal';
-import VerifyOption from './VerifyOption';
-import VerifyWithEmailOption from './VerifyWithEmailOption';
-import VerifyWithPhoneOption from './VerifyWithPhoneOption';
 import { validateEmail } from '../../../../utils/account';
 import FormButton from '../../../common/FormButton';
 import Container from '../../../common/styled/Container.css';
 import WhereToBuyNearModal from '../../../common/WhereToBuyNearModal';
+import OptionAlreadyUsedModal from './OptionAlreadyUsedModal';
+import VerifyOption from './VerifyOption';
+import VerifyWithEmailOption from './VerifyWithEmailOption';
+import VerifyWithPhoneOption from './VerifyWithPhoneOption';
 
 const StyledContainer = styled(Container)`
     &&& {

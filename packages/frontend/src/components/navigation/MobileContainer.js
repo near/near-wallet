@@ -2,17 +2,17 @@ import React, { Component } from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
+import { isWhitelabel } from '../../config/whitelabel';
+import languagesIcon from '../../images/icon-languages.svg';
+import AccountSelector from '../accounts/account_selector/AccountSelector';
+import LanguageToggle from '../common/LangSwitcher';
+import UserIcon from '../svg/UserIcon';
 import AccessAccountBtn from './AccessAccountBtn';
 import CreateAccountBtn from './CreateAccountBtn';
 import DeprecatedLogo from './DeprecatedLogo';
 import Logo from './Logo';
 import NavLinks from './NavLinks';
 import UserAccount from './UserAccount';
-import { isWhitelabel } from '../../config/whitelabel';
-import languagesIcon from '../../images/icon-languages.svg';
-import AccountSelector from '../accounts/account_selector/AccountSelector';
-import LanguageToggle from '../common/LangSwitcher';
-import UserIcon from '../svg/UserIcon';
 
 const Container = styled.div`
     display: none;

@@ -2,10 +2,10 @@ import React, { useEffect } from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
-import Tooltip from './Tooltip';
 import { IS_MAINNET, NETWORK_ID, NODE_URL, SHOW_PRERELEASE_WARNING } from '../../config';
 import { Mixpanel } from '../../mixpanel/index';
 import AlertTriangleIcon from '../svg/AlertTriangleIcon.js';
+import Tooltip from './Tooltip';
 
 const Container = styled.div`
     color: white;

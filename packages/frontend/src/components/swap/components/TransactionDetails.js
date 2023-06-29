@@ -4,12 +4,12 @@ import { Translate } from 'react-localize-redux';
 import { withRouter } from 'react-router';
 import styled from 'styled-components';
 
-import TransactionDetailsUSN from './TransactionDetailsUSN';
-import TransactionDetailsWrappedNear from './TransactionDetailsWrappedNear';
 import { CREATE_USN_CONTRACT } from '../../../../../../features';
 import { removeTrailingZeros } from '../../../utils/amounts';
 import Token from '../../send/components/entry_types/Token';
 import SwapIcon from '../../svg/WrapIcon';
+import TransactionDetailsUSN from './TransactionDetailsUSN';
+import TransactionDetailsWrappedNear from './TransactionDetailsWrappedNear';
 
 const {
     utils: {

@@ -3,9 +3,9 @@ import { Contract } from 'near-api-js';
 import Cache from 'node-cache';
 import { stringifyUrl } from 'query-string';
 
-import { wallet } from './wallet';
 import { REF_FINANCE_API_ENDPOINT, REF_FINANCE_CONTRACT, ACCOUNT_ID_SUFFIX } from '../config';
 import sendJson from '../tmp_fetch_send_json';
+import { wallet } from './wallet';
 
 const COINGECKO_PRICE_URL = 'https://api.coingecko.com/api/v3/simple/price';
 
