@@ -551,7 +551,7 @@
         }
     },
     "migration": {
-        "message": "NEAR Wallet переехал на новый домен: <a href='${url}' target='_blank'>mynearwallet.com</a>.<br/>У вас еще есть время перенести Ваши аккаунты, либо экспортировать их ключи из настроек профиля. Переезд завершится ${startDate}.",
+        "message": "NEAR Wallet переехал на новый домен: <a href='${url}' target='_blank'>mynearwallet.com</a>.<br/>У вас еще есть время перенести Ваши аккаунты, либо экспортировать их ключи из настроек профиля.",
         "redirect": "NEAR Wallet переехал на новый домен: <a href='${url}' target='_blank'>mynearwallet.com</a>.<br/>Кликните для перехода.",
         "transferCaption": "Перенести Мои Аккаунты",
         "redirectCaption": "Перейти на MyNearWallet"
