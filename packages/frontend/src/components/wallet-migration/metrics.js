@@ -1,3 +1,4 @@
+import sha256 from 'js-sha256';
 import * as rudderanalytics from 'rudder-sdk-js';
 
 import Environments from '../../../../../features/environments.json';
@@ -57,7 +58,8 @@ export const recordWalletMigrationEvent = (eventLabel, properties = {}) => {
 
     try {
         const accountId = localStorage.getItem(KEY_ACTIVE_ACCOUNT_ID);
-        rudderanalytics.track(eventLabel, { ...properties, userId: accountId });
+        const hashId = getAccountIdHash() || setAccountIdHash(accountId);
+        rudderanalytics.track(eventLabel, { ...properties, userId: hashId });
     } catch (e) {
         console.error(e);
     }
@@ -70,8 +72,9 @@ export const recordWalletMigrationState = (traits = {}, fallBackAccountId) => {
 
     try {
         const accountId = localStorage.getItem(KEY_ACTIVE_ACCOUNT_ID) || fallBackAccountId;
+        const hashId = getAccountIdHash() || setAccountIdHash(accountId);
         rudderanalytics.identify(
-            accountId,
+            hashId,
             {
                 ...traits,
                 userAgent: navigator?.userAgent || 'Unknown',
@@ -87,4 +90,16 @@ export const resetUserState = () => {
         return;
     }
     return rudderanalytics.reset();
+};
+
+export function setAccountIdHash(accountId) {
+    const hash = sha256.create();
+    hash.update(accountId);
+    const hashId = hash.hex();
+    localStorage.setItem('hashId', hashId);
+    return hashId;
+};
+
+export function getAccountIdHash() {
+    return localStorage.getItem('hashId');
 };

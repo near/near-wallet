@@ -9,7 +9,7 @@ import { MAINNET, TESTNET } from '../../utils/constants';
 import { wallet } from '../../utils/wallet';
 import LoadingDots from '../common/loader/LoadingDots';
 import { MigrationModal, ButtonsContainer, StyledButton, Container } from './CommonComponents';
-import { resetUserState, initAnalytics, recordWalletMigrationEvent, recordWalletMigrationState, rudderAnalyticsReady } from './metrics';
+import { resetUserState, initAnalytics, recordWalletMigrationEvent, recordWalletMigrationState, rudderAnalyticsReady, getAccountIdHash, setAccountIdHash } from './metrics';
 import CleanKeysCompleteModal from './modals/CleanKeysCompleteModal/CleanKeyCompleteModal';
 import CleanKeysModal from './modals/CleanKeysModal/CleanKeysModal';
 import Disable2FAModal from './modals/Disable2faModal/Disable2FA';
@@ -141,9 +141,8 @@ const WalletMigration = ({ open, onClose }) => {
                 errorMessage: `fail to delete keys for account(s) ${failedAccounts.join(', ')}`,
             }));
         } else {
-            // On success, update segment with first accountId as reference
-            // Due to .deleteKey above, we have to explicity pass fallbackAcountId to recordWalletMigrationState
-            recordWalletMigrationState({ state: 'migration completed' }, availableAccounts[0]);
+            const hashId = getAccountIdHash() || setAccountIdHash(availableAccounts[0]);
+            recordWalletMigrationState({ state: 'migration completed' }, hashId);
             resetUserState();
             onClose();
             deleteMigrationStep();    
