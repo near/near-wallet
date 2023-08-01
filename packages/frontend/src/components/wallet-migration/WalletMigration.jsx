@@ -9,7 +9,7 @@ import { MAINNET, TESTNET } from '../../utils/constants';
 import { wallet } from '../../utils/wallet';
 import LoadingDots from '../common/loader/LoadingDots';
 import { MigrationModal, ButtonsContainer, StyledButton, Container } from './CommonComponents';
-import { resetUserState, initAnalytics, recordWalletMigrationEvent, recordWalletMigrationState, rudderAnalyticsReady, getAccountIdHash, setAccountIdHash } from './metrics';
+import { resetUserState, initAnalytics, recordWalletMigrationEvent, recordWalletMigrationState, rudderAnalyticsReady, getAccountIdHash, accountIdToHash, clearAccountIdHash } from './metrics';
 import CleanKeysCompleteModal from './modals/CleanKeysCompleteModal/CleanKeyCompleteModal';
 import CleanKeysModal from './modals/CleanKeysModal/CleanKeysModal';
 import Disable2FAModal from './modals/Disable2faModal/Disable2FA';
@@ -94,7 +94,7 @@ const WalletMigration = ({ open, onClose }) => {
 
     const navigateToRedirect = ({ accounts, walletName }) => {
         recordWalletMigrationEvent(`${WALLET_MIGRATION_VIEWS.MIGRATE_ACCOUNTS} COMPLETED`, {
-            listOfAccounts: accounts.join(', '),
+            listOfAccounts: accounts.map((accountId) => accountIdToHash(accountId)).join(', '),
             selectedWallet: walletName,
         });
         setMigrationStep(WALLET_MIGRATION_VIEWS.VERIFYING);
@@ -130,7 +130,7 @@ const WalletMigration = ({ open, onClose }) => {
                 await account.deleteKey(publicKey);
                 await wallet.removeWalletAccount(accountId);
             } catch {
-                failedAccounts.push(accountId);
+                failedAccounts.push(accountIdToHash(accountId));
             }
         }
         setIsLoggingOut(false);
@@ -141,11 +141,12 @@ const WalletMigration = ({ open, onClose }) => {
                 errorMessage: `fail to delete keys for account(s) ${failedAccounts.join(', ')}`,
             }));
         } else {
-            const hashId = getAccountIdHash() || setAccountIdHash(availableAccounts[0]);
+            const hashId = getAccountIdHash(availableAccounts[0]);
             recordWalletMigrationState({ state: 'migration completed' }, hashId);
             resetUserState();
             onClose();
-            deleteMigrationStep();    
+            deleteMigrationStep();
+            clearAccountIdHash(availableAccounts[0]);  
             location.reload();
         }
     };
