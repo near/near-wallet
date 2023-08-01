@@ -16,8 +16,6 @@ const SUPPORTED_ENVIRONMENTS = [
     Environments.MAINNET_STAGING_NEARORG
 ];
 
-let accountIdHash = null;
-
 export const initAnalytics = () => {
     return new Promise((resolve) => {
         if (rudderAnalyticsReady) {
@@ -95,14 +93,7 @@ export const resetUserState = () => {
 };
 
 export function accountIdToHash(accountId) {
-    if (!accountIdHash)  {
-        const hash = sha256.create();
-        hash.update(accountId);
-        accountIdHash = hash.hex();
-    }
-    return accountIdHash;
-};
-
-export function clearHashId () {
-    accountIdHash = null;
+    const hash = sha256.create();
+    hash.update(accountId);
+    return hash.hex();
 };
