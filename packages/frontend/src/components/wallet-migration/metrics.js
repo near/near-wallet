@@ -16,6 +16,8 @@ const SUPPORTED_ENVIRONMENTS = [
     Environments.MAINNET_STAGING_NEARORG
 ];
 
+let accountIdHash = null;
+
 export const initAnalytics = () => {
     return new Promise((resolve) => {
         if (rudderAnalyticsReady) {
@@ -58,7 +60,7 @@ export const recordWalletMigrationEvent = (eventLabel, properties = {}) => {
 
     try {
         const accountId = localStorage.getItem(KEY_ACTIVE_ACCOUNT_ID);
-        const hashId = getAccountIdHash(accountId);
+        const hashId = accountIdToHash(accountId);
         rudderanalytics.track(eventLabel, { ...properties, userId: hashId });
     } catch (e) {
         console.error(e);
@@ -72,7 +74,7 @@ export const recordWalletMigrationState = (traits = {}, fallBackAccountId) => {
 
     try {
         const accountId = localStorage.getItem(KEY_ACTIVE_ACCOUNT_ID) || fallBackAccountId;
-        const hashId = getAccountIdHash(accountId);
+        const hashId = accountIdToHash(accountId);
         rudderanalytics.identify(
             hashId,
             {
@@ -93,21 +95,14 @@ export const resetUserState = () => {
 };
 
 export function accountIdToHash(accountId) {
-    const hash = sha256.create();
-    hash.update(accountId);
-    return hash.hex();
+    if (!accountIdHash)  {
+        const hash = sha256.create();
+        hash.update(accountId);
+        accountIdHash = hash.hex();
+    }
+    return accountIdHash;
 };
 
-export function setAccountIdHash(accountId) {
-    const hashId = accountIdToHash(accountId);
-    localStorage.setItem(`hash:${accountId}`, hashId);
-    return hashId;
-};
-
-export function getAccountIdHash(accountId) {
-    return localStorage.getItem(`hash:${accountId}`) || setAccountIdHash(accountId);
-};
-
-export function clearAccountIdHash(accountId) {
-    localStorage.removeItem(`hash:${accountId}`);
+export function clearHashId () {
+    accountIdHash = null;
 };

@@ -9,7 +9,7 @@ import { MAINNET, TESTNET } from '../../utils/constants';
 import { wallet } from '../../utils/wallet';
 import LoadingDots from '../common/loader/LoadingDots';
 import { MigrationModal, ButtonsContainer, StyledButton, Container } from './CommonComponents';
-import { resetUserState, initAnalytics, recordWalletMigrationEvent, recordWalletMigrationState, rudderAnalyticsReady, getAccountIdHash, accountIdToHash, clearAccountIdHash } from './metrics';
+import { resetUserState, initAnalytics, recordWalletMigrationEvent, recordWalletMigrationState, rudderAnalyticsReady, accountIdToHash, clearHashId } from './metrics';
 import CleanKeysCompleteModal from './modals/CleanKeysCompleteModal/CleanKeyCompleteModal';
 import CleanKeysModal from './modals/CleanKeysModal/CleanKeysModal';
 import Disable2FAModal from './modals/Disable2faModal/Disable2FA';
@@ -141,12 +141,12 @@ const WalletMigration = ({ open, onClose }) => {
                 errorMessage: `fail to delete keys for account(s) ${failedAccounts.join(', ')}`,
             }));
         } else {
-            const hashId = getAccountIdHash(availableAccounts[0]);
+            const hashId = accountIdToHash(availableAccounts[0]);
             recordWalletMigrationState({ state: 'migration completed' }, hashId);
             resetUserState();
             onClose();
+            clearHashId();
             deleteMigrationStep();
-            clearAccountIdHash(availableAccounts[0]);  
             location.reload();
         }
     };
@@ -154,6 +154,7 @@ const WalletMigration = ({ open, onClose }) => {
     const onStartOver = () => {
         recordWalletMigrationEvent(`${WALLET_MIGRATION_VIEWS.VERIFYING} START_OVER`);
         deleteMigrationStep();
+        clearHashId();
         handleSetActiveView(WALLET_MIGRATION_VIEWS.DISABLE_2FA);
     };
 
