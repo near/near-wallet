@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 
 /**
  * Determine whether a fungible token contract should be included given a token blacklist
- * @param token {string} token contract name under consideration
+ * @param tokenContract {string} token contract name under consideration
  * @param blacklist {string[]} list of blacklisted tokens; either the full name or a leading wildcard ('*')
  * @returns {boolean}
  */
