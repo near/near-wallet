@@ -25,7 +25,7 @@ export function useTokenBlacklist({ tokens }) {
     // TODO: make list dynamic, fetch from db
     const blacklistedTokens = [
         'kusama-airdrop.near',
-        'youwon400neartoclaimyourgainwwwlotte.laboratory.jumpfinance.near',
+        '*.laboratory.jumpfinance.near',
     ];
 
     const allowedTokens = useMemo(() => {
