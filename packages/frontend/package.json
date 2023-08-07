@@ -23,7 +23,7 @@
     "@near-wallet-selector/nightly": "8.1.4",
     "@near-wallet-selector/nightly-connect": "8.1.4",
     "@near-wallet-selector/opto-wallet": "8.1.4",
-    "@near-wallet-selector/sender": "8.1.4",
+    "@near-wallet-selector/sender": "8.3.0",
     "@near-wallet-selector/wallet-connect": "8.1.4",
     "@near-wallet-selector/welldone-wallet": "8.1.4",
     "@near-wallet/feature-flags": "^0.2.0",
