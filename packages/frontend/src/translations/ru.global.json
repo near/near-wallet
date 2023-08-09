@@ -551,9 +551,7 @@
         }
     },
     "migration": {
-        "message": "Скоро кошелек NEAR (${walletUrl}) перестанет поддерживаться. Перенесите свои аккаунты на другой кошелек или экспортируйте свои приватные ключи из настроек <a href='/profile'>аккаунта.</a>",
-        "readMore": "Пожалуйста, ознакомьтесь с <a href='https://near.org/blog/embracing-decentralization-whats-next-for-the-near-wallet' target='_blank' rel='noopener noreferrer'>официальным объявлением</a> и <a href='/transfer-wizard' target='_blank' rel='noopener noreferrer'>инструкциями по переносу</a> для получения более подробной информации.",
-        "redirect": "Скоро кошелек NEAR (${walletUrl}) перестанет поддерживаться. Используйте фразу восстановления из 12 слов для импортирования своего аккаунта на другой кошелек или <a href='/recover-account'>для восстановления и экспортирования своего аккаунта.</a>",
+        "message": "Кошелёк NEAR будет недоступен с <b>31го октября 2023</b>. Перенесите свои аккаунты с помощью фразы восстановления из 12 слов или <a href='/transfer-wizard' target='_blank' rel='noopener noreferrer'>инструкции по переносу</a> для дальнейшего использования своего аккаунта. <a href='https://near.org/blog/embracing-decentralization-whats-next-for-the-near-wallet' target='_blank' rel='noopener noreferrer'><b>Узнать больше</b></a>",
         "transferCaption": "Перенести Мои Аккаунты",
         "redirectCaption": "Перейти на MyNearWallet"
     },
