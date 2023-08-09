@@ -122,9 +122,9 @@ const CloseButton = styled.button`
 const MigrationBanner = ({ account, onTransfer }) => {
     const migrationBannerCloseTime = localStorage.getItem('migrationBannerCloseTime');
     const [showBanner, setShowBanner] = useState(true);
-    const EXPIRARY_DATE = 604800000; // 7 days in milliseconds
+    const EXPIRY_DATE = 604800000; // 7 days in milliseconds
     useEffect(() => {
-        if (!migrationBannerCloseTime || (Date.now() - migrationBannerCloseTime) > EXPIRARY_DATE) {
+        if (!migrationBannerCloseTime || (Date.now() - migrationBannerCloseTime) > EXPIRY_DATE) {
             setShowBanner(true);
             localStorage.removeItem('migrationBannerCloseTime');
         } else {
