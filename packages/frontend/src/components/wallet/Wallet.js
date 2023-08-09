@@ -34,10 +34,7 @@ import { ZeroBalanceAccountImportedModal } from './ZeroBalanceAccountImportedMod
 
 const StyledContainer = styled(Container)`
     @media (max-width: 991px) {
-        margin: -5px auto 0 auto;
-        &.showing-banner {
-            margin-top: -15px;
-        }
+        margin-top: 0px;
     }
     
     .coingecko {
