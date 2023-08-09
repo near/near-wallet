@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import { Translate } from 'react-localize-redux';
 import {useSelector} from 'react-redux';
 import styled from 'styled-components';
@@ -7,37 +7,22 @@ import IconOffload from '../../images/IconOffload';
 import { selectAvailableAccounts, selectAvailableAccountsIsLoading } from '../../redux/slices/availableAccounts';
 import { getNearOrgWalletUrl } from '../../utils/getWalletURL';
 import AlertTriangleIcon from '../svg/AlertTriangleIcon';
+import CloseSvg from '../svg/CloseIcon';
 import InfoIcon from '../svg/InfoIcon';
 import FormButton from './FormButton';
 import Container from './styled/Container.css';
 
 const StyledContainer = styled.div`
-    border: 2px solid #DC1F26;
-    border-radius: 16px;
-    background-color: #FFFCFC;
+    background-color: #FFF4D5;
     
     display: flex;
     align-items: flex-start;
     flex-direction: row;
-    padding: 25px;
-    margin: 25px auto;
-    line-height: 1.5;
-
-    @media (min-width: 768px) {
-        width: 720px;
-    }
-
-    @media (min-width: 992px) {
-        width: 920px;
-    }
-
-    @media (min-width: 1200px) {
-        width: 1000px;
-    }
+    padding: 15px 0;
+    margin-top: -15px;
+    align-items: center;
 
     .alert-container {
-        background-color: #FFEFEF;
-        border-radius: 50%;
         padding: 9px;
         margin-right: 16px;
         display: flex;
@@ -50,6 +35,15 @@ const StyledContainer = styled.div`
             height: 25px;
         }
      
+    }
+
+    .message-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex: 1;
+        height: 100%;
+        line-height: 1.5;
     }
 `;
 
@@ -78,10 +72,10 @@ const ContentWrapper =  styled(Container)`
         display: flex;
         align-items: flex-start;
         flex-wrap: none;
-        color: #CD2B31;
+        color: #AD5700;
 
         > div > span > a {
-            color: #CD2B31;
+            color: #AD5700;
             text-decoration: underline;
         }
 
@@ -92,8 +86,8 @@ const ContentWrapper =  styled(Container)`
 `;
 
 const CustomButton = styled(FormButton)`
-    color: #FEF2F2 !important;
-    background: #FC5B5B !important;
+    color: #AD5700 !important;
+    background: #FFE3A2 !important;
     border: none !important;
     white-space: nowrap;
     padding: 9.5px 16px;
@@ -107,9 +101,36 @@ const CustomButton = styled(FormButton)`
 const IconWrapper = styled.div`
     display: inline;
     margin-right: 10px;
+    margin-left: -10px;
+`;
+
+const CloseButton = styled.button`
+    height: 25px;
+    width: 25px;
+    border: none;
+    margin-left: 30px;
+    cursor: pointer;
+    background-color: transparent;
+    padding: 0;
+
+    @media (max-width: 768px) {
+        margin: 15px auto 0;
+    }
 `;
 
 const MigrationBanner = ({ account, onTransfer }) => {
+    const migrationBannerCloseTime = localStorage.getItem('migrationBannerCloseTime');
+    const [showBanner, setShowBanner] = useState(true);
+    const EXPIRARY_DATE = 604800000; // 7 days in milliseconds
+    useEffect(() => {
+        if (!migrationBannerCloseTime || (Date.now() - migrationBannerCloseTime) > EXPIRARY_DATE) {
+            setShowBanner(true);
+            localStorage.removeItem('migrationBannerCloseTime');
+        } else {
+            setShowBanner(false);
+        }
+    }, []);
+
     const availableAccounts = useSelector(selectAvailableAccounts);
     const availableAccountsIsLoading = useSelector(selectAvailableAccountsIsLoading);
 
@@ -124,19 +145,29 @@ const MigrationBanner = ({ account, onTransfer }) => {
         window.open('/transfer-wizard', '_blank');
     }, [availableAccounts]);
 
+    // If banner is closed and still not past expirary date, don't show the banner
+    if (!showBanner)  {
+        return null;
+    }
+
     // If accounts area loading, don't show the banner
     if (availableAccountsIsLoading) {
         return null;
     }
+
+    const hideBanner = () => {
+        setShowBanner(false);
+        localStorage.setItem('migrationBannerCloseTime', Date.now());
+    };
 
     return (
         <StyledContainer id='migration-banner'>
             <ContentWrapper>
                 <div className='content'>
                     <div className='alert-container'>
-                        <AlertTriangleIcon color={'#E5484D'} />
+                        <AlertTriangleIcon color={'#FFA01C'} />
                     </div>
-                    <div>
+                    <div className='message-container'>
                         {
                             availableAccounts.length
                                 ? <Translate id='migration.message' data={{ walletUrl }}/>
@@ -153,8 +184,8 @@ const MigrationBanner = ({ account, onTransfer }) => {
                     <IconWrapper>
                         {
                             availableAccounts.length
-                                ? <IconOffload stroke="#fff" />
-                                : <InfoIcon color="#fff" />
+                                ? <IconOffload stroke="#AD5700" />
+                                : <InfoIcon color="#AD5700" />
                         }    
                     </IconWrapper>
                     {
@@ -163,6 +194,9 @@ const MigrationBanner = ({ account, onTransfer }) => {
                             : <Translate id='migration.redirectCaption' />
                     }
                 </CustomButton>
+                <CloseButton onClick={hideBanner}>
+                    <CloseSvg color={'#AD5700'} />
+                </CloseButton>
             </ContentWrapper>
         </StyledContainer>
     );
