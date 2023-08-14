@@ -790,7 +790,6 @@
         }
     },
     "migration": {
-        "message": "NEAR Wallet은 <b>2023년 10월 31일</b> 이후에는 더 이상 사용하실 수 없습니다. 복구 단어(Passphrase)들을 사용하여 계정을 다른 지갑에서 등록 하시거나<a href='/transfer-wizard' target='_blank' rel='noopener noreferrer'>계정 이전 도우미</a>를 사용하여 계정을 이전 후 다른 지갑에서 계속 사용 하실수 있습니다. <a href='https://near.org/blog/embracing-decentralization-whats-next-for-the-near-wallet' target='_blank' rel='noopener noreferrer'><b>자세히 알아보기</b></a>",
         "redirectCaption": "더 알아보기",
         "transferCaption": "계정 전송"
     },

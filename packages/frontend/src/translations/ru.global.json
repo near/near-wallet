@@ -551,7 +551,6 @@
         }
     },
     "migration": {
-        "message": "Кошелёк NEAR будет недоступен с <b>31го октября 2023</b>. Перенесите свои аккаунты с помощью фразы восстановления из 12 слов или <a href='/transfer-wizard' target='_blank' rel='noopener noreferrer'>инструкции по переносу</a> для дальнейшего использования своего аккаунта. <a href='https://near.org/blog/embracing-decentralization-whats-next-for-the-near-wallet' target='_blank' rel='noopener noreferrer'><b>Узнать больше</b></a>",
         "transferCaption": "Перенести Мои Аккаунты",
         "redirectCaption": "Перейти на MyNearWallet"
     },
