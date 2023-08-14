@@ -125,6 +125,17 @@ export const TransferWizardWrapper = () => {
                         <p>A multi-chain extension wallet that gives you control over all your assets from a single platform.</p>
                     </td>
                 </tr>
+                <tr>
+                    <td>
+                        <p>Sender Wallet</p>
+                    </td>
+                    <td>
+                        <p><a target="blank" href="https://senderwallet.io/">https://senderwallet.io/</a></p>
+                    </td>
+                    <td>
+                        <p>Security-audited mobile & extension wallet with 1M+ users, supporting NEAR & Aurora. Sender is backed by Pantera, Binance and MetaWeb.</p>
+                    </td>
+                </tr>
             </Table>
             <br />
             <h3>How does the Wizard Work?</h3>
