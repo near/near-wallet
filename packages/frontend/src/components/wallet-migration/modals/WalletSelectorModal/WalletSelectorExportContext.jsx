@@ -13,35 +13,18 @@ import './WalletSelectorModalContext.css';
 import { useDispatch } from 'react-redux';
 
 import { showCustomAlert } from '../../../../redux/actions/status';
-import { shuffle } from '../../../../utils/staking';
 
 const ExportAccountSelectorContext =
   React.createContext(null);
 
-
-// If target wallet is production ready, add it to this list
-const MAINNET_MODULES = [
-    setupNightly,
-    setupMeteorWallet,
-    setupWelldoneWallet,
-    setupHereWallet,
-    setupMyNearWallet,
-    setupSender,
-];
-
-const TESTNET_MODULES = [
+const WALLET_MODULES = [
     setupMyNearWallet,
     setupMeteorWallet,
+    setupSender,
+    setupHereWallet,
     setupNightly,
     setupWelldoneWallet,
-    setupHereWallet,
-    setupSender,
 ];
-
-const initializeModules = (network) => {
-    const modules = network === 'testnet' ? TESTNET_MODULES : MAINNET_MODULES;
-    return shuffle(modules).map((module) => module());
-};
 
 export const ExportAccountSelectorContextProvider = ({ children, network, migrationAccounts, onComplete }) => {
     const [importSelector, setSelector] = useState(null);
@@ -53,7 +36,7 @@ export const ExportAccountSelectorContextProvider = ({ children, network, migrat
         const selector = await setupWalletSelector({
             allowMultipleSelectors: true,
             network,
-            modules: initializeModules(network),
+            modules: WALLET_MODULES.map((module) => module()),
         });
         const modal = setupExportSelectorModal(selector, {
             accounts: migrationAccounts,
