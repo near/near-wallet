@@ -52,7 +52,7 @@ const GetYourTicket = () => {
         <Container>
             <div>
                 <img src={NearCon} alt='NearCon-wallet'/>
-                <StyledBannerLink href="https://near.org/nearcon23.near/widget/Index" target="_blank">
+                <StyledBannerLink href="https://nearcon.org" target="_blank">
                     GET YOUR TICKETS
                 </StyledBannerLink>
             </div>
