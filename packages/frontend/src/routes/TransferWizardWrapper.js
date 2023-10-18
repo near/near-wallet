@@ -130,7 +130,7 @@ export const TransferWizardWrapper = () => {
                         <p>Sender Wallet</p>
                     </td>
                     <td>
-                        <p><a target="blank" href="https://senderwallet.io/">https://senderwallet.io/</a></p>
+                        <p><a target="blank" href="https://sender.org/">https://sender.org/</a></p>
                     </td>
                     <td>
                         <p>Security-audited mobile & extension wallet with 1M+ users, supporting NEAR & Aurora. Sender is backed by Pantera, Binance and MetaWeb.</p>
