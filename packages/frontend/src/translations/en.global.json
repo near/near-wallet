@@ -791,7 +791,7 @@
         }
     },
     "migration": {
-        "message": "As of <b>October 31st, 2023</b> the NEAR wallet will be discontinued. No changes will be made to your account or its assets. Use your recovery phrase or the <a href='/transfer-wizard' target='_blank' rel='noopener noreferrer'>Transfer Wizard</a> to securely migrate to a different wallet. <a href='https://near.org/blog/embracing-decentralization-whats-next-for-the-near-wallet' target='_blank' rel='noopener noreferrer'><b>Learn More</b></a>",
+        "message": "As of <b>January 1st, 2024</b> the NEAR wallet will be discontinued. No changes will be made to your account or its assets. Use your recovery phrase or the <a href='/transfer-wizard' target='_blank' rel='noopener noreferrer'>Transfer Wizard</a> to securely migrate to a different wallet. <a href='https://near.org/blog/embracing-decentralization-whats-next-for-the-near-wallet' target='_blank' rel='noopener noreferrer'><b>Learn More</b></a>",
         "redirectCaption": "Learn More",
         "transferCaption": "Transfer My Accounts"
     },
