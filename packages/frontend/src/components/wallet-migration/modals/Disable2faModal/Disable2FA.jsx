@@ -140,7 +140,7 @@ const Disable2FAModal = ({ handleSetActiveView, onClose, accountWithDetails, set
 
     useEffect(() => {
         if (completedWithSuccess) {
-            handleSetActiveView(WALLET_MIGRATION_VIEWS.ROTATE_KEYS);
+            handleSetActiveView(WALLET_MIGRATION_VIEWS.MIGRATE_ACCOUNTS);
         }
     }, [completedWithSuccess]);
 

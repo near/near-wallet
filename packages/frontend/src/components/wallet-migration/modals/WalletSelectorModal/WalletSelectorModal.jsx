@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
+import { wallet } from '../../../../utils/wallet';
 import { WalletSelectorContent } from './WalletSelectorContent';
 import { ExportAccountSelectorContextProvider } from './WalletSelectorExportContext';
 
@@ -9,11 +10,7 @@ export const WalletSelectorModal = ({ onComplete, migrationAccounts, network, ro
         const init = async () => {
             const accountsWithKey = await Promise.all(migrationAccounts.map(async (account) => {
                 const accountId = account.accountId;
-                const privateKey = rotatedKeys[accountId];
-                if (!privateKey) {
-                    throw new Error('Unable to find a private key from the rotated keys');
-                }
-
+                const privateKey = await wallet.getLocalSecretKey(accountId);
                 return {
                     accountId,
                     privateKey,
