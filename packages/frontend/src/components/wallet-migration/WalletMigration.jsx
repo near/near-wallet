@@ -124,10 +124,7 @@ const WalletMigration = ({ open, onClose }) => {
         setIsLoggingOut(true);
         const failedAccounts = [];
         for (const accountId of availableAccounts) {
-            const publicKey = await wallet.getPublicKey(accountId);
             try {
-                const account = await wallet.getAccount(accountId);
-                await account.deleteKey(publicKey);
                 await wallet.removeWalletAccount(accountId);
             } catch {
                 failedAccounts.push(accountIdToHash(accountId));
