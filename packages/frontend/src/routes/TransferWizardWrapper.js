@@ -139,49 +139,13 @@ export const TransferWizardWrapper = () => {
             </Table>
             <br />
             <h3>How does the Wizard Work?</h3>
-            <p>The Transfer Wizard is designed to improve the security posture of your connected accounts before migrating them to a new wallet by rotating your keys, cleaning up old keys, and securely transferring your accounts to a new wallet. You can access the Wallet Transfer Wizard from the banner at the top of wallet.near.org. </p>
+            <p>The Transfer Wizard is designed to improve the security posture of your connected accounts before migrating them to a new wallet by securely transferring your accounts to a new wallet. You can access the Wallet Transfer Wizard from the banner at the top of wallet.near.org. </p>
             <Warning><b>Note</b>:  The wizard does not support unfunded accounts (implicit accounts) or accounts using Ledger. You can import your Ledger accounts manually to a supported wallet.</Warning>
             <hr />
             <Table>
                 <tr>
                     <Td>
-                        <p><b>Step 1. Secure Your Accounts</b></p>
-                        <p>The first recommended security step is to rotate your keys, generating a new 12-word recovery phrase. This process is similar to updating your password.</p>
-                        <ol type="1">
-                            <li>Generate a new recovery phrase</li>
-                            <li>
-                                Securely write down or save your new recovery phrase
-                                <ol type="a">
-                                    <li>Confirm the account it recovers</li>
-                                    <li>Don't confuse it with your old recovery phrase</li>
-                                </ol>
-                            </li>
-                            <li>Verify your new recovery phrase</li>
-                            <li>Keep your new phrase in a safe place</li>
-                        </ol>
-                        <Important><b>Note</b>: Your recovery phrase grants full access to your account. Keep it in a safe place and never share it with anyone. Pagoda or the NEAR Foundation cannot help recover lost accounts or assets.</Important>
-                    </Td>
-                    <ImageTd>
-                        <ScreenshotImg alt="Secure Accounts" src={secureAccountsImg} />
-                    </ImageTd>
-                </tr>
-                <tr>
-                    <Td>
-                        <p><b>Step2. Clean Up Your Keys</b></p>
-                        <p>Next, NEAR wants to reduce the amount of apps that you've shared keys with, similar to revoking access for third-parties. This may cause you to be disconnected from some apps.</p>
-                        <ol type="1">
-                            <li>Review suggested keys to remove (optional)</li>
-                            <li>Enter your recovery phrase to confirm removal</li>
-                            <li>Remove outdated and unnecessary keys. You may need to log back in to certain apps if you remove their limited access key. </li>
-                        </ol>
-                    </Td>
-                    <ImageTd>
-                        <ScreenshotImg alt="Clean up Keys" src={cleanUpKeysImg} />
-                    </ImageTd>
-                </tr>
-                <tr>
-                    <Td>
-                        <p><b>Step 3. Transfer Your Accounts</b></p>
+                        <p><b>Step 1. Transfer Your Accounts</b></p>
                         <p>Next, you will use the Wallet Selector to select your destination wallet and transfer your accounts. It's best to know which wallet you plan to use prior to starting the transfer. <a target="blank" href="https://docs.google.com/spreadsheets/d/1Q9ZEeWpFHgcPthSCvzyiVcaKdBIcdS3r96v48OYsDBM">List of Supported Wallets</a></p>
                         <ol type="1">
                             <li>Choose the wallet you want to transfer your accounts to</li>
@@ -198,7 +162,7 @@ export const TransferWizardWrapper = () => {
                 </tr>
                 <tr>
                     <Td>
-                        <p><b>Step 4. Log Out of Near.org</b></p>
+                        <p><b>Step 2. Log Out of Near.org</b></p>
                         <p>The final step is to log out of the NEAR Wallet and begin using your new wallet.</p>
                         <ol type="1">
                             <li>Return to wallet.near.org after successful account transfer and tap <i>"Complete"</i> in the "Complete the Transfer" panel</li>
