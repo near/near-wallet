@@ -2,9 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import Container from '../components/common/styled/Container.css'; 
-import cleanUpKeysImg from '../images/wallet-migration/screenshots/clean-up-keys.png';
 import logOutImg from '../images/wallet-migration/screenshots/log-out.png';
-import secureAccountsImg from '../images/wallet-migration/screenshots/secure-accounts.png';
 import transferAccountsImg from '../images/wallet-migration/screenshots/transfer-your-accounts.png';
 
 const Table = styled.table`
@@ -25,9 +23,6 @@ const Warning = styled.p`
     color: #980000;
 `;
 
-const Important = styled.p`
-    color: #ff0000;
-`;
 
 const ScreenshotImg = styled.img`
     width: 300px;
