@@ -520,7 +520,13 @@ class Routing extends Component {
                             <Route
                                 exact
                                 path="/transfer-wizard"
-                                component={TransferWizardWrapper}
+                                render={() => (
+                                    <TransferWizardWrapper
+                                        account={account}
+                                        onTransfer={this.handleTransferClick} 
+                                    />
+                                )}
+                                props
                             />
                             <Route
                                 exact
