@@ -526,7 +526,6 @@ class Routing extends Component {
                                         onTransfer={this.handleTransferClick} 
                                     />
                                 )}
-                                props
                             />
                             <Route
                                 exact
