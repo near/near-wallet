@@ -523,7 +523,7 @@ class Routing extends Component {
                                 render={() => (
                                     <TransferWizardWrapper
                                         account={account}
-                                        onTransfer={this.handleTransferClick} 
+                                        onTransfer={() => this.handleTransferClick()}
                                     />
                                 )}
                             />
