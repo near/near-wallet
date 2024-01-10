@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import FormButton from '../components/common/FormButton';
 import Container from '../components/common/styled/Container.css'; 
 import logOutImg from '../images/wallet-migration/screenshots/log-out.png';
 import transferAccountsImg from '../images/wallet-migration/screenshots/transfer-your-accounts.png';
@@ -28,8 +29,12 @@ const ScreenshotImg = styled.img`
     width: 300px;
 `;
 
+const CallToAction = styled(FormButton)`
+    width: 100%;
+`;
 
-export const TransferWizardWrapper = () => {
+
+export const TransferWizardWrapper = ({ onTransfer, account }) => {
     return (
         <Container>
             <h1 >Migrating from Near Wallet</h1>
@@ -171,6 +176,11 @@ export const TransferWizardWrapper = () => {
                     </ImageTd>
                 </tr>
             </Table>
+            {
+                account?.localStorage?.accountFound && (
+                    <CallToAction onClick={onTransfer}>Transfer Accounts</CallToAction>
+                )
+            }
         </ Container>
     );
 };
