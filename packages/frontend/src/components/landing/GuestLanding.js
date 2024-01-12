@@ -1,15 +1,6 @@
 import React, { useState } from 'react';
 import { Translate } from 'react-localize-redux';
-import { WEP_DISABLE_ACCOUNT_CREATION, WEP_PHASE_ONE } from '../../../../../features';
-import FormButton from '../common/FormButton';
-import { WalletSelectorGetAWallet } from '../common/wallet_selector/WalletSelectorGetAWallet';
-import LandingBackground from './LandingBackground';
-import HereWalletIcon from '../../images/wallet-icons/here-wallet-icon.png';
-import MeteorWalletIcon from '../../images/wallet-icons/meteor-wallet-icon.png';
-import NearWalletIcon from '../../images/wallet-icons/near-wallet-icon.png';
-import NightlyWalletIcon from '../../images/wallet-icons/nightly-wallet-icon.png';
-import SenderWalletIcon from '../../images/wallet-icons/sender-wallet-icon.png';
-import WellDoneWalletIcon from '../../images/wallet-icons/welldone-wallet-icon.png';
+
 import {
     CardContainer,
     CardsSection,
@@ -19,8 +10,17 @@ import {
     MainSectionInfo, SecondaryText, SecondaryTitle,
     Section, SingleCard,
     StyledContainer, TransferSection, TransferSectionWrapper
-} from "./GuestLanding.styles";
-import NavigationWrapperV2 from "../navigation/NavigationWrapperV2";
+} from './GuestLanding.styles';
+import { WEP_DISABLE_ACCOUNT_CREATION } from '../../../../../features';
+import HereWalletIcon from '../../images/wallet-icons/here-wallet-icon.png';
+import MeteorWalletIcon from '../../images/wallet-icons/meteor-wallet-icon.png';
+import NearWalletIcon from '../../images/wallet-icons/near-wallet-icon.png';
+import NightlyWalletIcon from '../../images/wallet-icons/nightly-wallet-icon.png';
+import SenderWalletIcon from '../../images/wallet-icons/sender-wallet-icon.png';
+import WellDoneWalletIcon from '../../images/wallet-icons/welldone-wallet-icon.png';
+import FormButton from '../common/FormButton';
+import { WalletSelectorGetAWallet } from '../common/wallet_selector/WalletSelectorGetAWallet';
+import NavigationWrapperV2 from '../navigation/NavigationWrapperV2';
 
 export function GuestLanding({ history }) {
     const [walletSelectorModal, setWalletSelectorModal] = useState();
@@ -42,25 +42,25 @@ export function GuestLanding({ history }) {
             />
             <MainContainer>
                 <MainSection>
-                        <MainSectionInfo>
-                            <h1><Translate id='landing.title' /></h1>
-                            <h3><Translate id='landing.desc' /></h3>
-                            <FormButton
-                                onClick={() => {
-                                    if (WEP_DISABLE_ACCOUNT_CREATION) {
-                                        setShowModal('more-near-wallets');
-                                    } else {
-                                        history.push('/create');
-                                    }
-                                }}
-                                className='light-green-transparent'
-                                color='light-green-transparent'
-                                trackingId="Click create account button"
-                                data-test-id="landingPageLearMore"
-                            >
-                                <Translate id="button.learnMore" />
-                            </FormButton>
-                        </MainSectionInfo>
+                    <MainSectionInfo>
+                        <h1><Translate id='landing.title' /></h1>
+                        <h3><Translate id='landing.desc' /></h3>
+                        <FormButton
+                            onClick={() => {
+                                if (WEP_DISABLE_ACCOUNT_CREATION) {
+                                    setShowModal('more-near-wallets');
+                                } else {
+                                    history.push('/create');
+                                }
+                            }}
+                            className='light-green-transparent'
+                            color='light-green-transparent'
+                            trackingId="Click create account button"
+                            data-test-id="landingPageLearMore"
+                        >
+                            <Translate id="button.learnMore" />
+                        </FormButton>
+                    </MainSectionInfo>
                 </MainSection>
             </MainContainer>
         </StyledContainer>
@@ -182,17 +182,17 @@ export function GuestLanding({ history }) {
                         </div>
                         <FormButtonContainer>
                             <FormButton
-                              onClick={() => {
-                                  if (WEP_DISABLE_ACCOUNT_CREATION) {
-                                      setShowModal('more-near-wallets');
-                                  } else {
-                                      history.push('/create');
-                                  }
-                              }}
-                              className='dark-green-transparent'
-                              color='dark-green-transparent'
-                              trackingId="Click create account button"
-                              data-test-id="landingPageCreateAccount"
+                                onClick={() => {
+                                    if (WEP_DISABLE_ACCOUNT_CREATION) {
+                                        setShowModal('more-near-wallets');
+                                    } else {
+                                        history.push('/create');
+                                    }
+                                }}
+                                className='dark-green-transparent'
+                                color='dark-green-transparent'
+                                trackingId="Click create account button"
+                                data-test-id="landingPageCreateAccount"
                             >
                                 <Translate id="button.transferAccounts" />
                             </FormButton>

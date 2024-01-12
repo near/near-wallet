@@ -4,7 +4,6 @@ import styled from 'styled-components';
 
 import { isWhitelabel } from '../../config/whitelabel';
 import NearLogo from '../../images/near.svg';
-import { Mixpanel } from '../../mixpanel/index';
 import MyNearWalletLogo from '../svg/MyNearWalletLogo';
 
 const StyledContainer = styled.div`

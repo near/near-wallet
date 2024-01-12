@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
 
-import { WEP_DISABLE_ACCOUNT_CREATION } from '../../../../../features';
-import { WalletSelectorGetAWallet } from '../common/wallet_selector/WalletSelectorGetAWallet';
 import DesktopContainer from './DesktopContainer';
 import MobileContainer from './MobileContainer';
+import { WEP_DISABLE_ACCOUNT_CREATION } from '../../../../../features';
+import { WalletSelectorGetAWallet } from '../common/wallet_selector/WalletSelectorGetAWallet';
 
 const Container = styled.div`
     &&& {
@@ -42,15 +42,15 @@ const InnerContainer = styled.div`
 `;
 
 export default ({
-                    selectAccount,
-                    showNavLinks,
-                    flowLimitationMainMenu,
-                    flowLimitationSubMenu,
-                    refreshBalance,
-                    availableAccounts,
-                    account,
-                    history
-                }) => {
+    selectAccount,
+    showNavLinks,
+    flowLimitationMainMenu,
+    flowLimitationSubMenu,
+    refreshBalance,
+    availableAccounts,
+    account,
+    history
+}) => {
     const [menuOpen, setMenuOpen] = useState(false);
     const [walletSelectorModal, setWalletSelectorModal] = useState();
     const [showModal, setShowModal] = useState();

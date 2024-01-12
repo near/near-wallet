@@ -1,6 +1,7 @@
-import styled from "styled-components";
-import PlusIcon from "../../images/plus-icon.png";
-import {Link} from "react-router-dom";
+import {Link} from 'react-router-dom';
+import styled from 'styled-components';
+
+import PlusIcon from '../../images/plus-icon.png';
 
 export const StyledContainer = styled.div`
 
@@ -163,7 +164,7 @@ export const Section = styled.div`
         font-weight: 400;
         line-height: 130%;
     }
-`
+`;
 
 export const MainContainer = styled.div`
     background-image: url(${PlusIcon});
@@ -175,7 +176,7 @@ export const MainContainer = styled.div`
     align-items: center;
     background-repeat: repeat;
     background-position: center top;
-`
+`;
 
 export const MainSection = styled.div`
     padding: 1rem;
@@ -189,7 +190,7 @@ export const MainSection = styled.div`
     @media(max-width: 768px) {
         flex-wrap: wrap;
     }
-`
+`;
 
 export const MainSectionInfo = styled.div`
     display: flex;
@@ -197,20 +198,20 @@ export const MainSectionInfo = styled.div`
     align-items: center;
     flex-flow: column;
     text-align: center;
-`
+`;
 
 export const DefaultContainer = styled.div`
     max-width: 1224px;
     margin: 0 auto;
     position: relative;
-`
+`;
 
 export const FlexBox = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;  
   padding-bottom: 120px;  
-`
+`;
 
 export const FlexItem = styled.div`
   h4 {
@@ -232,14 +233,14 @@ export const FlexItem = styled.div`
       max-width: 430px;
       padding-bottom: 48px;
   }
-`
+`;
 
 export const InfoSection = styled.div`
   display: flex;
   align-items: end;
   justify-content: space-between;
   padding-bottom: 60px;  
-`
+`;
 
 export const SecondaryTitle = styled.h4`
     margin: 0;
@@ -248,7 +249,7 @@ export const SecondaryTitle = styled.h4`
     font-weight: 500;
     line-height: 130%;
     padding-bottom: 32px;
-`
+`;
 
 export const SecondaryText = styled.p`
     margin: 0;
@@ -257,17 +258,17 @@ export const SecondaryText = styled.p`
     font-weight: 450;
     line-height: 150%;
     letter-spacing: 0.32px;
-`
+`;
 
 export const FormButtonContainer = styled.div`
     min-width: 500px;
     text-align: right;
-`
+`;
 
 export const CardsSection = styled.div`
     position: relative;
     margin-bottom: 60px;
-`
+`;
 
 export const CardContainer = styled.div`
     display: grid;
@@ -278,7 +279,7 @@ export const CardContainer = styled.div`
     @media (max-width: 600px) {
         grid-template-columns: 1fr;
     }
-`
+`;
 
 export const SingleCard = styled(Link)`
   border: 1px solid #1B1B18;
@@ -315,12 +316,12 @@ export const SingleCard = styled(Link)`
         letter-spacing: 0.14px;
         color: black;
     }
-`
+`;
 export const TransferSection = styled.div`
     background-color: #000000;
     color: #FFFFFF;
     padding: 80px 0;
-`
+`;
 
 export const TransferSectionWrapper = styled.div`
     display: flex;
@@ -343,4 +344,4 @@ export const TransferSectionWrapper = styled.div`
       line-height: 150%;
       letter-spacing: 0.32px;
     }
-`
+`;
