@@ -369,8 +369,8 @@ class Routing extends Component {
                 >
                     <ThemeProvider theme={theme}>
                         <ScrollToTop />
-                        <NetworkBanner account={account} />
-                        <NavigationWrapper history={this.props.history}/>
+                        {pathname !== '/' && <NetworkBanner account={account} />}
+                        {pathname !== '/' && <NavigationWrapper history={this.props.history}/> }
                         <GlobalAlert />
                         {
                             // TODO: Remove TwoFactorDisableBanner when we push MigrationBanner to mainnet

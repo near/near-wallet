@@ -186,6 +186,9 @@ export const MainSection = styled.div`
     -webkit-box-align: center;
     align-items: center;
     min-height: 260px;
+    @media(max-width: 768px) {
+        flex-wrap: wrap;
+    }
 `
 
 export const MainSectionInfo = styled.div`

@@ -11,9 +11,8 @@ const StyledContainer = styled.div`
     position: absolute;
     right: 0;
     left: 0;
-    bottom: 0;
-    padding: 35px;
-    background-color: #f8f8f8;
+    padding-top: 35px;
+    background-color: #FFFFFF;
     font-size: 12px;
     color: #999999;
     display: flex;
@@ -86,61 +85,31 @@ const StyledLogo = styled.div`
     }
 `;
 
+const InnerContainer = styled.div`
+    display: flex;
+    width: 1224px;
+    margin: 0 auto;
+    justify-content: space-between;
+    align-items: center;
+`;
+
 const Footer = () => {
     return (
         <StyledContainer className='wallet-footer'>
-            <div className='left'>
-                {
-                    isWhitelabel ? (
-                        <StyledLogo>
-                            <MyNearWalletLogo mode='footer' />
-                        </StyledLogo>
-                    ) : <img src={NearLogo} alt='NEAR' />
-                }
+            <InnerContainer>
+                <div className='left'>
+                    {
+                        isWhitelabel ? (
+                            <StyledLogo>
+                                <MyNearWalletLogo mode='footer' />
+                            </StyledLogo>
+                        ) : <img src={NearLogo} alt='NEAR' />
+                    }
+                </div>
                 <div>
                     &copy; {new Date().getFullYear()} <Translate id='footer.copyrights' />
-                    <div>
-                        <a
-                            href='/terms'
-                            rel='noopener noreferrer'
-                            target='_blank'
-                            onClick={() => Mixpanel.track('Footer Click terms of service')}
-                        >
-                            <Translate id='footer.termsOfService' />
-                        </a>
-                        <span className='color-brown-grey'>|</span>
-                        <a href='/privacy'
-                            rel='noopener noreferrer'
-                            target='_blank'
-                            onClick={() => Mixpanel.track('Footer Click privacy policy')}
-                        >
-                            <Translate id='footer.privacyPolicy' />
-                        </a>
-                    </div>
                 </div>
-            </div>
-            <div className='center'>
-                <Translate id='footer.desc' />&nbsp;
-                <a
-                    href='https://near.org'
-                    rel='noopener noreferrer'
-                    target='_blank'
-                    onClick={() => Mixpanel.track('Footer Click Learn More')}
-                >
-                    <Translate id='footer.learnMore' />
-                </a>
-            </div>
-            <div className='right'>
-                <Translate id='footer.needHelp' /><br />
-                <a
-                    href={isWhitelabel ? 'https://discord.com/invite/Vj74PpQYsh' : 'https://near.chat'}
-                    rel='noopener noreferrer'
-                    target='_blank'
-                    onClick={() => Mixpanel.track('Footer Click Join Community')}
-                >
-                    <Translate id='footer.contactSupport' />
-                </a>
-            </div>
+            </InnerContainer>
         </StyledContainer>
     );
 };

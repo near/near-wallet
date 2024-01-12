@@ -13,6 +13,7 @@ const Container = styled.div`
         left: 0;
         right: 0;
         z-index: 1000;
+        max-width: 1224px;
         @media (max-width: 991px) {
             bottom: ${(props) => props.open ? '0' : 'unset'};
         }

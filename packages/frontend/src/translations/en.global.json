@@ -343,7 +343,10 @@
         "viewOnExplorer": "View on Explorer",
         "viewPrivateKey": "View private key",
         "withdrawing": "Withdrawing",
-        "disabling2FA": "Disabling 2FA"
+        "disabling2FA": "Disabling 2FA",
+        "transferGuide": "Transfer Guide",
+        "compareWallets": "Compare Wallets",
+        "transferAccounts":  "Transfer Accounts"
     },
     "buyNear": {
         "bridgeSubTitle": "Transfer your tokens from Ethereum to NEAR using the Rainbow Bridge.",
@@ -580,7 +583,7 @@
     },
     "footer": {
         "contactSupport": "Join Community",
-        "copyrights": "MyNearWallet LLC. All Rights Reserved.",
+        "copyrights": "Near.org",
         "desc": "NEAR is a scalable computing and storage platform that changes how the web works for the better.",
         "learnMore": "Learn More",
         "needHelp": "Questions?",
@@ -670,9 +673,29 @@
     },
     "landing": {
         "banner": "NEAR Wallet is in Private Beta",
-        "desc": "Securely store and stake your NEAR tokens and compatible assets with <span>NEAR Wallet</span>.",
+        "desc": "The NEAR wallet has been discontinued. Explore a range of user-friendly wallets designed to meet your needs.",
         "or": "or",
-        "title": "NEAR is here."
+        "title": "A new era for NEAR wallets",
+        "decentralize": "Decentralization means strength in numbers.",
+        "decentralizeSubtitle": "Signifying the substantial growth of the ecosystem, NEAR now supports a diverse list of high-quality wallets.",
+        "landingSectionTitle": "What happened to NEAR Wallet?",
+        "landingSectionSubTitle": "Transfer your accounts with ease.",
+        "landingSectionSubDescription": "To make the transition easier, you can securely migrate your accounts to a new wallet using the Transfer Wizard. Review the transfer-compatible wallet options below or move your accounts manually with your recovery phrase.",
+        "landingSectionDescription": "As we embrace a more decentralized future, the NEAR Wallet will be discontinued.This change invites you to discover a variety of new and secure wallet options within our ecosystem.Don’t worry, no changes will be made to your account or assets.",
+        "wallet": {
+            "title": "Find the right wallet for you.",
+            "description": "You can transfer your accounts to any of the wallets below or manually import them to the wallet of your choice using your recovery phrase.",
+            "near": "A browser based wallet that offers the same UI and features of the Near wallet.",
+            "meteor": "Both a browser and extension wallet, with advanced NFT features.",
+            "sender": "Security-audited mobile & extension wallet with 1M+ users, supporting NEAR & Aurora.",
+            "here": "Non-custodial mobile wallet with a friendly user interface and advanced features.",
+            "nightly": "A mobile and extension wallet, with support for multiple ecosystems.",
+            "wellDone": "A multi-chain extension wallet that gives you control over all your assets from a single platform."
+        },
+        "transfer": {
+            "title": "You have 3 accounts ready to transfer.\n",
+            "description": "To continue using NEAR apps and managing your assets you need to migrate your accounts to a different wallet."
+        }
     },
     "ledgerSignTxModal": {
         "ADD_ACCESS_KEY": "You will need to confirm login details on your Ledger.",

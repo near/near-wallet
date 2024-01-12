@@ -193,6 +193,62 @@ const CustomButton = styled.button`
               opacity: 0.8;
             }
         }
+        &.dark-gray-transparent {
+            background-color: transparent;
+            border-color: #000000;
+            color: #000000;
+            margin: 0;
+            padding: 10px 24px;
+
+            :hover {
+                background-color: #000000;
+                color: #FFFFFF;
+            }
+
+            :disabled {
+                background: #e6e6e6;
+                border-color: #e6e6e6;
+                opacity: 1 !important;
+                color: #A2A2A8;
+            }
+        }
+        &.dark-green-transparent {
+            background-color: transparent;
+            border-color: #00EC97;
+            color: #FFFFFF;
+            margin: 0;
+            padding: 10px 24px;
+
+            :hover {
+                background-color: rgb(0, 236, 151);
+                color: #000000;
+            }
+
+            :disabled {
+                background: #e6e6e6;
+                border-color: #e6e6e6;
+                opacity: 1 !important;
+                color: #A2A2A8;
+            }
+        }
+        &.light-green-transparent {
+            background-color: #00EC97;
+            border-color: #00EC97;
+            color: #000000;
+            margin: 0;
+            padding: 10px 24px;
+
+            :hover {
+                background-color: #45e394;
+            }
+
+            :disabled {
+                background: #e6e6e6;
+                border-color: #e6e6e6;
+                opacity: 1 !important;
+                color: #A2A2A8;
+            }
+        }
         &.green {
             border-color: #5ace84;
             background: #5ace84;
@@ -236,7 +292,7 @@ const CustomButton = styled.button`
             background-size: 14px 20px;
 
             :disabled {
-                color: e6e6e6;
+                color: #e6e6e6;
                 border-color: #e6e6e6;
                 background: #fff;
                 opacity: 1 !important;
