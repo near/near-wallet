@@ -2,9 +2,9 @@ import React from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
-import AccountSelector from '../accounts/account_selector/AccountSelector';
 import AccessAccountBtn from './AccessAccountBtn';
 import CreateAccountBtn from './CreateAccountBtn';
+import AccountSelector from '../accounts/account_selector/AccountSelector';
 
 const Menu = styled.div`
     position: absolute;
@@ -14,7 +14,7 @@ const Menu = styled.div`
     background-color: white;
     color: #4a4f54;
     width: 320px;
-    box-shadow: 0px 45px 56px rgba(0, 0, 0, 0.07), 0px 10.0513px 12.5083px rgba(0, 0, 0, 0.0417275), 0px 2.99255px 3.72406px rgba(0, 0, 0, 0.0282725);
+    box-shadow: 0 45px 56px rgba(0, 0, 0, 0.07), 0 10.0513px 12.5083px rgba(0, 0, 0, 0.0417275), 0 2.99255px 3.72406px rgba(0, 0, 0, 0.0282725);
     padding: 16px;
 
     .user-links {

@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 
-import { isWhitelabel } from '../../config/whitelabel';
-import languagesIcon from '../../images/icon-languages.svg';
-import LanguageToggle from '../common/LangSwitcher';
 import ConnectLedger from './ConnectLedger';
 import DeprecatedLogo from './DeprecatedLogo';
 import DesktopMenu from './DesktopMenu';
 import Logo from './Logo';
 import NavLinks from './NavLinks';
 import UserAccount from './UserAccount';
+import { isWhitelabel } from '../../config/whitelabel';
+import languagesIcon from '../../images/icon-languages.svg';
+import LanguageToggle from '../common/LangSwitcher';
 
 const Container = styled.div`
     display: none;
