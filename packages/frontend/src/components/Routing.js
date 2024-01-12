@@ -54,6 +54,7 @@ import { SendContainerWrapper } from './send/SendContainerWrapper';
 import { StakingContainer } from './staking/StakingContainer';
 import Swap from './swap/Swap';
 import Terms from './terms/Terms';
+import { initAnalytics } from './wallet-migration/metrics';
 import { getMigrationStep } from './wallet-migration/utils';
 import WalletMigration, { WALLET_MIGRATION_VIEWS } from './wallet-migration/WalletMigration';
 import { SHOW_MIGRATION_BANNER, WEB3AUTH, WEP_DISABLE_ACCOUNT_CREATION, WEP_PHASE_ONE } from '../../../../features';
@@ -102,6 +103,7 @@ import {
     WALLET_SEND_MONEY_URL,
 } from '../utils/wallet';
 import '../index.css';
+
 const { fetchTokenFiatValues, getTokenWhiteList } = tokenFiatValueActions;
 
 const {
@@ -221,6 +223,8 @@ class Routing extends Component {
             document.title = 'MyNearWallet';
             document.querySelector('link[rel~="icon"]').href = favicon;
         }
+
+        await initAnalytics();
 
         const {
             refreshAccount,

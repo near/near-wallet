@@ -11,7 +11,6 @@ import {
     Section, SingleCard,
     StyledContainer, TransferSection, TransferSectionWrapper
 } from './GuestLanding.styles';
-import { WEP_DISABLE_ACCOUNT_CREATION } from '../../../../../features';
 import HereWalletIcon from '../../images/wallet-icons/here-wallet-icon.png';
 import MeteorWalletIcon from '../../images/wallet-icons/meteor-wallet-icon.png';
 import NearWalletIcon from '../../images/wallet-icons/near-wallet-icon.png';
@@ -21,12 +20,11 @@ import WellDoneWalletIcon from '../../images/wallet-icons/welldone-wallet-icon.p
 import FormButton from '../common/FormButton';
 import { WalletSelectorGetAWallet } from '../common/wallet_selector/WalletSelectorGetAWallet';
 import NavigationWrapperV2 from '../navigation/NavigationWrapperV2';
+import {recordWalletMigrationEvent} from '../wallet-migration/metrics';
 
 export function GuestLanding({ history, accountFound  }) {
     const [walletSelectorModal, setWalletSelectorModal] = useState();
     const [showModal, setShowModal] = useState();
-
-    console.log(accountFound,'account existss');
 
     return (
         <>
@@ -50,11 +48,8 @@ export function GuestLanding({ history, accountFound  }) {
                         <MainSectionButtons>
                             <FormButton
                                 onClick={() => {
-                                    if (WEP_DISABLE_ACCOUNT_CREATION) {
-                                        setShowModal('more-near-wallets');
-                                    } else {
-                                        history.push('/create');
-                                    }
+                                    recordWalletMigrationEvent('click', { element: { type: 'button', description: 'Learn More' }});
+                                    window.open('https://medium.com/nearprotocol/near-opens-the-door-to-more-wallets-255eee58eb97', '_blank');
                                 }}
                                 className='dark-gray-transparent'
                                 color='dark-gray-transparent'
@@ -66,11 +61,7 @@ export function GuestLanding({ history, accountFound  }) {
                             {accountFound && (
                                 <FormButton
                                     onClick={() => {
-                                        if (WEP_DISABLE_ACCOUNT_CREATION) {
-                                            setShowModal('more-near-wallets');
-                                        } else {
-                                            history.push('/create');
-                                        }
+                                        recordWalletMigrationEvent('click', { element: { type: 'button', description: 'Transfer Accounts' }});
                                     }}
                                     className='light-green-transparent'
                                     color='light-green-transparent'
@@ -98,11 +89,8 @@ export function GuestLanding({ history, accountFound  }) {
                             <div>
                                 <FormButton
                                     onClick={() => {
-                                        if (WEP_DISABLE_ACCOUNT_CREATION) {
-                                            setShowModal('more-near-wallets');
-                                        } else {
-                                            history.push('/create');
-                                        }
+                                        recordWalletMigrationEvent('click', { element: { type: 'button', description: 'Learn More' }});
+                                        window.open('https://medium.com/nearprotocol/near-opens-the-door-to-more-wallets-255eee58eb97', '_blank');
                                     }}
                                     className='dark-gray-transparent'
                                     color='dark-gray-transparent'
@@ -121,11 +109,8 @@ export function GuestLanding({ history, accountFound  }) {
                                 </p>
                                 <FormButton
                                     onClick={() => {
-                                        if (WEP_DISABLE_ACCOUNT_CREATION) {
-                                            setShowModal('more-near-wallets');
-                                        } else {
-                                            history.push('/create');
-                                        }
+                                        recordWalletMigrationEvent('click', { element: { type: 'button', description: 'Transfer Guide' }});
+                                        history.push('/transfer-wizard');
                                     }}
                                     className='dark-gray-transparent'
                                     color='dark-gray-transparent'
@@ -153,11 +138,8 @@ export function GuestLanding({ history, accountFound  }) {
                         <FormButtonContainer>
                             <FormButton
                                 onClick={() => {
-                                    if (WEP_DISABLE_ACCOUNT_CREATION) {
-                                        setShowModal('more-near-wallets');
-                                    } else {
-                                        history.push('/create');
-                                    }
+                                    recordWalletMigrationEvent('click', { element: { type: 'button', description: 'Compare Wallets' }});
+                                    window.open('https://docs.google.com/spreadsheets/d/1JeF9ZKmg1IHvTlgIv0ymGNMIeps6khcr3ElfIpEJHGs/edit#gid=0', '_blank');
                                 }}
                                 className='dark-gray-transparent'
                                 color='dark-gray-transparent'
@@ -170,27 +152,37 @@ export function GuestLanding({ history, accountFound  }) {
                     </InfoSection>
                     <CardsSection>
                         <CardContainer>
-                            <SingleCard to={'/'}>
+                            <SingleCard href='https://app.mynearwallet.com' target='_blank' onClick={() => {
+                                recordWalletMigrationEvent('click', { element: { type: 'link', description: 'MyNearWallet Wallet' }});
+                            }}>
                                 <img src={NearWalletIcon} alt="near-wallet-icon" />
                                 <h3>MyNearWallet</h3>
                                 <p><Translate id="landing.wallet.near" /></p>
                             </SingleCard>
-                            <SingleCard to={'/'}>
+                            <SingleCard href="https://wallet.meteorwallet.app" target="_blank" onClick={() => {
+                                recordWalletMigrationEvent('click', { element: { type: 'link', description: 'Meteor Wallet' }});
+                            }}>
                                 <img src={MeteorWalletIcon} alt="meteor-wallet-icon" />
                                 <h3>Meteor Wallet</h3>
                                 <p><Translate id="landing.wallet.meteor" /></p>
                             </SingleCard>
-                            <SingleCard to={'/'}>
+                            <SingleCard href="https://sender.org" target="_blank" onClick={() => {
+                                recordWalletMigrationEvent('click', { element: { type: 'link', description: 'Sender Wallet' }});
+                            }}>
                                 <img src={SenderWalletIcon} alt="sender-wallet-icon" />
                                 <h3>Sender Wallet</h3>
                                 <p><Translate id="landing.wallet.sender" /></p>
                             </SingleCard>
-                            <SingleCard to={'/'}>
+                            <SingleCard href="https://www.herewallet.app" target="_blank" onClick={() => {
+                                recordWalletMigrationEvent('click', { element: { type: 'link', description: 'HERE Wallet' }});
+                            }}>
                                 <img src={HereWalletIcon} alt="here-wallet-icon" />
                                 <h3>HERE Wallet</h3>
                                 <p><Translate id="landing.wallet.here" /></p>
                             </SingleCard>
-                            <SingleCard to={'/'}>
+                            <SingleCard href="https://wallet.nightly.app/download" target="_blank" onClick={() => {
+                                recordWalletMigrationEvent('click', { element: { type: 'link', description: 'Nightly Wallet' }});
+                            }}>
                                 <img src={NightlyWalletIcon} alt="nightly-wallet-icon" />
                                 <h3>Nightly Wallet</h3>
                                 <p><Translate id="landing.wallet.nightly" /></p>
@@ -215,11 +207,7 @@ export function GuestLanding({ history, accountFound  }) {
                             <FormButtonContainer>
                                 <FormButton
                                     onClick={() => {
-                                        if (WEP_DISABLE_ACCOUNT_CREATION) {
-                                            setShowModal('more-near-wallets');
-                                        } else {
-                                            history.push('/create');
-                                        }
+                                        recordWalletMigrationEvent('click', { element: { type: 'button', description: 'Transfer Accounts' }});
                                     }}
                                     className='dark-green-transparent'
                                     color='dark-green-transparent'

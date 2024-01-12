@@ -1,4 +1,3 @@
-import {Link} from 'react-router-dom';
 import styled from 'styled-components';
 
 import PlusIcon from '../../images/plus-icon.png';
@@ -321,7 +320,7 @@ export const CardContainer = styled.div`
     }
 `;
 
-export const SingleCard = styled(Link)`
+export const SingleCard = styled.a`
   border: 1px solid #1B1B18;
   transition: all .4s;
   border-radius: 8px;
