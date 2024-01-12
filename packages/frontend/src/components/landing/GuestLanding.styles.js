@@ -50,6 +50,19 @@ export const StyledContainer = styled.div`
             margin: 0;
             letter-spacing: -1.08px;
             line-height: 100%;
+            @media(max-width: 768px) {
+                font-size: 60px;
+            }
+        }
+        
+        h2 {
+            @media(max-width: 768px) {
+                font-size: 45px;
+            }
+            
+            @media(max-width: 576px) {
+                font-size: 40px;
+            }
         }
 
         h3 {
@@ -148,6 +161,9 @@ export const Section = styled.div`
     position: relative;
     background-color: #F2F1EA;
     padding: 100px 0 60px 0;
+    @media(max-width: 768px) {
+        padding: 50px 30px;
+    }
     h2 {
         color: #000000;
         font-size: 56px;
@@ -159,6 +175,9 @@ export const Section = styled.div`
     h3 {
         color: #000000;
         padding-bottom: 120px;
+        @media(max-width: 768px) {
+            padding-bottom: 50px;
+        }
         font-size: 30px;
         font-style: normal;
         font-weight: 400;
@@ -176,12 +195,16 @@ export const MainContainer = styled.div`
     align-items: center;
     background-repeat: repeat;
     background-position: center top;
+    @media(max-width: 768px) {
+        min-height: calc(100vh - 20px);
+        margin-bottom: 20px;
+    }
 `;
 
 export const MainSection = styled.div`
     padding: 1rem;
     max-width: 675px;
-    margin: 0px auto;
+    margin: 0 auto;
     background-color: #FFFFFF;
     display: flex;
     -webkit-box-align: center;
@@ -211,9 +234,15 @@ export const FlexBox = styled.div`
   justify-content: space-between;
   align-items: center;  
   padding-bottom: 120px;  
+  @media(max-width: 768px) {
+      flex-wrap: wrap;
+      row-gap: 50px;
+      padding-bottom: 50px;
+  }  
 `;
 
 export const FlexItem = styled.div`
+    width: 100%;
   h4 {
       margin: 0;
       font-size: 24px;
@@ -232,6 +261,9 @@ export const FlexItem = styled.div`
       color: #000000;
       max-width: 430px;
       padding-bottom: 48px;
+      @media(max-width: 768px) {
+          max-width: 100%;
+      }
   }
 `;
 
@@ -239,7 +271,11 @@ export const InfoSection = styled.div`
   display: flex;
   align-items: end;
   justify-content: space-between;
-  padding-bottom: 60px;  
+  padding-bottom: 60px;
+  @media(max-width: 768px) {
+      flex-wrap: wrap;
+      row-gap: 50px;
+  }  
 `;
 
 export const SecondaryTitle = styled.h4`
@@ -263,6 +299,9 @@ export const SecondaryText = styled.p`
 export const FormButtonContainer = styled.div`
     min-width: 500px;
     text-align: right;
+    @media(max-width: 768px) {
+        min-width: 100%;
+    }
 `;
 
 export const CardsSection = styled.div`
@@ -321,12 +360,19 @@ export const TransferSection = styled.div`
     background-color: #000000;
     color: #FFFFFF;
     padding: 80px 0;
+    @media(max-width: 768px) {
+        padding: 50px 30px;
+    }
 `;
 
 export const TransferSectionWrapper = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: end;
+    @media(max-width: 768px) {
+        flex-wrap: wrap;
+        row-gap: 50px;
+    }
     h4 {
       margin: 0;
       font-size: 24px;

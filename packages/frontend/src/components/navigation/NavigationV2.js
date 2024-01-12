@@ -17,6 +17,7 @@ const Container = styled.div`
         background-color: #FFFFFF;
         @media (max-width: 991px) {
             bottom: ${(props) => props.open ? '0' : 'unset'};
+            border: none;
         }
 
         h6 {

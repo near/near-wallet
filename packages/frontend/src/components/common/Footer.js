@@ -76,6 +76,10 @@ const StyledContainer = styled.div`
             display: block;
         }
     }
+    
+    @media(max-width: 768px) {
+        padding: 0 30px;
+    }
 `;
 
 const StyledLogo = styled.div`

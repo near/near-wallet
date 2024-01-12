@@ -140,32 +140,32 @@ export function GuestLanding({ history }) {
                     <CardsSection>
                         <CardContainer>
                             <SingleCard to={'/'}>
-                                <img src={NearWalletIcon} />
+                                <img src={NearWalletIcon} alt="near-wallet-icon" />
                                 <h3>MyNearWallet</h3>
                                 <p><Translate id="landing.wallet.near" /></p>
                             </SingleCard>
                             <SingleCard to={'/'}>
-                                <img src={MeteorWalletIcon} />
+                                <img src={MeteorWalletIcon} alt="meteor-wallet-icon" />
                                 <h3>Meteor Wallet</h3>
                                 <p><Translate id="landing.wallet.meteor" /></p>
                             </SingleCard>
                             <SingleCard to={'/'}>
-                                <img src={SenderWalletIcon} />
+                                <img src={SenderWalletIcon} alt="sender-wallet-icon" />
                                 <h3>Sender Wallet</h3>
                                 <p><Translate id="landing.wallet.sender" /></p>
                             </SingleCard>
                             <SingleCard to={'/'}>
-                                <img src={HereWalletIcon} />
+                                <img src={HereWalletIcon} alt="here-wallet-icon" />
                                 <h3>HERE Wallet</h3>
                                 <p><Translate id="landing.wallet.here" /></p>
                             </SingleCard>
                             <SingleCard to={'/'}>
-                                <img src={NightlyWalletIcon} />
+                                <img src={NightlyWalletIcon} alt="nightly-wallet-icon" />
                                 <h3>Nightly Wallet</h3>
                                 <p><Translate id="landing.wallet.nightly" /></p>
                             </SingleCard>
                             <SingleCard to={'/'}>
-                                <img src={WellDoneWalletIcon} />
+                                <img src={WellDoneWalletIcon} alt="wellDone-wallet-icon" />
                                 <h3>WELLDONE Wallet</h3>
                                 <p><Translate id="landing.wallet.wellDone" /></p>
                             </SingleCard>
