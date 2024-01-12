@@ -81,6 +81,23 @@ const CustomButton = styled.button`
             }
         }
 
+        &.dark-gray-black {
+            background-color: #000000;
+            color: #FFFFFF;
+            padding: 0 20px;
+            margin: 0;
+            :hover {
+                background-color: #706f6c;
+            }
+
+            :disabled {
+                background: #e6e6e6;
+                border-color: #e6e6e6;
+                opacity: 1 !important;
+                color: #A2A2A8;
+            }
+        }
+
         &.gray-gray {
             background-color: #F0F0F1;
             border-color: #F0F0F1;

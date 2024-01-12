@@ -259,7 +259,7 @@ export const FlexItem = styled.div`
       line-height: 150%;
       letter-spacing: 0.32px;
       color: #000000;
-      max-width: 430px;
+      max-width: ${(props) => props.accountFound ? '430px' : '100%'};
       padding-bottom: 48px;
       @media(max-width: 768px) {
           max-width: 100%;
@@ -294,6 +294,7 @@ export const SecondaryText = styled.p`
     font-weight: 450;
     line-height: 150%;
     letter-spacing: 0.32px;
+    color: #000000;
 `;
 
 export const FormButtonContainer = styled.div`
@@ -390,4 +391,10 @@ export const TransferSectionWrapper = styled.div`
       line-height: 150%;
       letter-spacing: 0.32px;
     }
+`;
+
+export const MainSectionButtons = styled.div`
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
 `;

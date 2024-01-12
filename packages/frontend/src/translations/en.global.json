@@ -684,6 +684,7 @@
         "landingSectionDescription": "As we embrace a more decentralized future, the NEAR Wallet will be discontinued.This change invites you to discover a variety of new and secure wallet options within our ecosystem.Don’t worry, no changes will be made to your account or assets.",
         "wallet": {
             "title": "Find the right wallet for you.",
+            "secondaryDescription": "Check out our diverse list of community-built wallet options.",
             "description": "You can transfer your accounts to any of the wallets below or manually import them to the wallet of your choice using your recovery phrase.",
             "near": "A browser based wallet that offers the same UI and features of the Near wallet.",
             "meteor": "Both a browser and extension wallet, with advanced NFT features.",

@@ -1,21 +1,12 @@
 import React from 'react';
 import { Translate } from 'react-localize-redux';
-import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { DONATE_TO_UKRAINE } from '../../../../../features';
-import { IS_MAINNET } from '../../config';
-import { isWhitelabel } from '../../config/whitelabel';
-import { Mixpanel } from '../../mixpanel/index';
-import DonateToUkraineIcon from '../svg/DonateToUkraineIcon';
-import ExploreIcon from '../svg/ExploreIcon';
-import HelpIcon from '../svg/HelpIcon';
-import UserIcon from '../svg/UserIcon';
-import VaultIcon from '../svg/VaultIcon';
-import WalletIcon from '../svg/WalletIcon';
+import FormButton from '../common/FormButton';
 
 const Container = styled.div`
     display: flex;
+    justify-content: flex-end;
     width: 100%;
     a {
         display: flex;
@@ -108,38 +99,14 @@ const Container = styled.div`
 
 const NavLinks = () => (
     <Container className='nav-links'>
-        <NavLink exact to='/' activeClassName='selected' onClick={() => Mixpanel.track('Click Wallet button on nav')}>
-            <WalletIcon/>
-            <Translate id='link.wallet'/>
-        </NavLink>
-        <NavLink data-test-id="staking_navlink" to='/staking' activeClassName='selected' onClick={() => Mixpanel.track('Click Staking button on nav')}>
-            <VaultIcon/>
-            <Translate id='link.staking'/>
-        </NavLink>
-        {isWhitelabel && (
-            <NavLink data-test-id="explore_navlink" to='/explore' activeClassName='selected' onClick={() => Mixpanel.track('Click Explore button on nav')}>
-                <ExploreIcon/>
-                <Translate id='link.explore'/>
-            </NavLink>
-        )}
-        <NavLink to='/profile' className='account-details-link' activeClassName='selected' onClick={() => Mixpanel.track('Click Account button on nav')}>
-            <UserIcon/>
-            <Translate id='link.account'/>
-        </NavLink>
-        <a href={isWhitelabel ? 'https://support.mynearwallet.com/en' : 'https://nearhelp.zendesk.com/'} target='_blank' rel='noopener noreferrer' onClick={() => Mixpanel.track('Click Help button on nav')}>
-            <HelpIcon/>
-            <Translate id='link.help'/>
-        </a>
-        {DONATE_TO_UKRAINE && (
-            <NavLink
-                to={`/send-money/${IS_MAINNET ? 'ukraine' : 'ukraine.testnet'}`}
-                activeClassName="selected"
-                onClick={() => Mixpanel.track('Click Donate button on nav')}
-            >
-                <DonateToUkraineIcon />
-                <Translate id="link.donateToUkraine" />
-            </NavLink>
-        )}
+        <FormButton
+            className='dark-gray-black'
+            color='dark-gray-black'
+            trackingId="Click create account button"
+            data-test-id="landingPageCreateAccount"
+        >
+            <Translate id="button.transferAccounts" />
+        </FormButton>
     </Container>
 );
 

@@ -6,7 +6,7 @@ import {
     CardsSection,
     DefaultContainer, FlexBox, FlexItem, FormButtonContainer, InfoSection,
     MainContainer,
-    MainSection,
+    MainSection, MainSectionButtons,
     MainSectionInfo, SecondaryText, SecondaryTitle,
     Section, SingleCard,
     StyledContainer, TransferSection, TransferSectionWrapper
@@ -22,9 +22,11 @@ import FormButton from '../common/FormButton';
 import { WalletSelectorGetAWallet } from '../common/wallet_selector/WalletSelectorGetAWallet';
 import NavigationWrapperV2 from '../navigation/NavigationWrapperV2';
 
-export function GuestLanding({ history }) {
+export function GuestLanding({ history, accountFound  }) {
     const [walletSelectorModal, setWalletSelectorModal] = useState();
     const [showModal, setShowModal] = useState();
+
+    console.log(accountFound,'account existss');
 
     return (
         <>
@@ -45,21 +47,40 @@ export function GuestLanding({ history }) {
                     <MainSectionInfo>
                         <h1><Translate id='landing.title' /></h1>
                         <h3><Translate id='landing.desc' /></h3>
-                        <FormButton
-                            onClick={() => {
-                                if (WEP_DISABLE_ACCOUNT_CREATION) {
-                                    setShowModal('more-near-wallets');
-                                } else {
-                                    history.push('/create');
-                                }
-                            }}
-                            className='light-green-transparent'
-                            color='light-green-transparent'
-                            trackingId="Click create account button"
-                            data-test-id="landingPageLearMore"
-                        >
-                            <Translate id="button.learnMore" />
-                        </FormButton>
+                        <MainSectionButtons>
+                            <FormButton
+                                onClick={() => {
+                                    if (WEP_DISABLE_ACCOUNT_CREATION) {
+                                        setShowModal('more-near-wallets');
+                                    } else {
+                                        history.push('/create');
+                                    }
+                                }}
+                                className='dark-gray-transparent'
+                                color='dark-gray-transparent'
+                                trackingId="Click create account button"
+                                data-test-id="landingPageLearMore"
+                            >
+                                <Translate id="button.learnMore" />
+                            </FormButton>
+                            {accountFound && (
+                                <FormButton
+                                    onClick={() => {
+                                        if (WEP_DISABLE_ACCOUNT_CREATION) {
+                                            setShowModal('more-near-wallets');
+                                        } else {
+                                            history.push('/create');
+                                        }
+                                    }}
+                                    className='light-green-transparent'
+                                    color='light-green-transparent'
+                                    trackingId="Click create account button"
+                                    data-test-id="landingPageCreateAccount"
+                                >
+                                    <Translate id="button.transferAccounts" />
+                                </FormButton>
+                            )}
+                        </MainSectionButtons>
                     </MainSectionInfo>
                 </MainSection>
             </MainContainer>
@@ -69,55 +90,65 @@ export function GuestLanding({ history }) {
                     <h2><Translate id="landing.decentralize" /></h2>
                     <h3><Translate id="landing.decentralizeSubtitle" /></h3>
                     <FlexBox>
-                        <FlexItem>
+                        <FlexItem accountFound={accountFound}>
                             <h4><Translate id="landing.landingSectionTitle" /></h4>
                             <p>
                                 <Translate id="landing.landingSectionDescription" />
                             </p>
-                            <FormButton
-                                onClick={() => {
-                                    if (WEP_DISABLE_ACCOUNT_CREATION) {
-                                        setShowModal('more-near-wallets');
-                                    } else {
-                                        history.push('/create');
-                                    }
-                                }}
-                                className='dark-gray-transparent'
-                                color='dark-gray-transparent'
-                                trackingId="Click create account button"
-                                data-test-id="landingPageCreateAccount"
-                            >
-                                <Translate id="button.learnMore" />
-                            </FormButton>
+                            <div>
+                                <FormButton
+                                    onClick={() => {
+                                        if (WEP_DISABLE_ACCOUNT_CREATION) {
+                                            setShowModal('more-near-wallets');
+                                        } else {
+                                            history.push('/create');
+                                        }
+                                    }}
+                                    className='dark-gray-transparent'
+                                    color='dark-gray-transparent'
+                                    trackingId="Click create account button"
+                                    data-test-id="landingPageCreateAccount"
+                                >
+                                    <Translate id="button.learnMore" />
+                                </FormButton>
+                            </div>
                         </FlexItem>
-                        <FlexItem>
-                            <h4><Translate id="landing.landingSectionSubTitle" /></h4>
-                            <p>
-                                <Translate id="landing.landingSectionSubDescription" />
-                            </p>
-                            <FormButton
-                                onClick={() => {
-                                    if (WEP_DISABLE_ACCOUNT_CREATION) {
-                                        setShowModal('more-near-wallets');
-                                    } else {
-                                        history.push('/create');
-                                    }
-                                }}
-                                className='dark-gray-transparent'
-                                color='dark-gray-transparent'
-                                trackingId="Click create account button"
-                                data-test-id="landingPageCreateAccount"
-                            >
-                                <Translate id="button.transferGuide" />
-                            </FormButton>
-                        </FlexItem>
+                        { accountFound && (
+                            <FlexItem accountFound={accountFound}>
+                                <h4><Translate id="landing.landingSectionSubTitle" /></h4>
+                                <p>
+                                    <Translate id="landing.landingSectionSubDescription" />
+                                </p>
+                                <FormButton
+                                    onClick={() => {
+                                        if (WEP_DISABLE_ACCOUNT_CREATION) {
+                                            setShowModal('more-near-wallets');
+                                        } else {
+                                            history.push('/create');
+                                        }
+                                    }}
+                                    className='dark-gray-transparent'
+                                    color='dark-gray-transparent'
+                                    trackingId="Click create account button"
+                                    data-test-id="landingPageCreateAccount"
+                                >
+                                    <Translate id="button.transferGuide" />
+                                </FormButton>
+                            </FlexItem>
+                        )}
                     </FlexBox>
                     <InfoSection>
                         <div>
                             <SecondaryTitle><Translate id="landing.wallet.title" /></SecondaryTitle>
-                            <SecondaryText>
-                                <Translate id="landing.wallet.description" />
-                            </SecondaryText>
+                            {accountFound ? (
+                                <SecondaryText>
+                                    {accountFound ? <Translate id="landing.wallet.description" /> : <Translate id="landing.wallet.secondaryDescription" />}
+                                </SecondaryText>
+                            ) : (
+                                <SecondaryText>
+                                    <Translate id="landing.wallet.secondaryDescription" />
+                                </SecondaryText>
+                            )}
                         </div>
                         <FormButtonContainer>
                             <FormButton
@@ -173,33 +204,35 @@ export function GuestLanding({ history }) {
                     </CardsSection>
                 </DefaultContainer>
             </Section>
-            <TransferSection>
-                <DefaultContainer>
-                    <TransferSectionWrapper>
-                        <div>
-                            <h4><Translate id="landing.transfer.title" /></h4>
-                            <p><Translate id="landing.transfer.description" /></p>
-                        </div>
-                        <FormButtonContainer>
-                            <FormButton
-                                onClick={() => {
-                                    if (WEP_DISABLE_ACCOUNT_CREATION) {
-                                        setShowModal('more-near-wallets');
-                                    } else {
-                                        history.push('/create');
-                                    }
-                                }}
-                                className='dark-green-transparent'
-                                color='dark-green-transparent'
-                                trackingId="Click create account button"
-                                data-test-id="landingPageCreateAccount"
-                            >
-                                <Translate id="button.transferAccounts" />
-                            </FormButton>
-                        </FormButtonContainer>
-                    </TransferSectionWrapper>
-                </DefaultContainer>
-            </TransferSection>
+            {accountFound && (
+                <TransferSection>
+                    <DefaultContainer>
+                        <TransferSectionWrapper>
+                            <div>
+                                <h4><Translate id="landing.transfer.title" /></h4>
+                                <p><Translate id="landing.transfer.description" /></p>
+                            </div>
+                            <FormButtonContainer>
+                                <FormButton
+                                    onClick={() => {
+                                        if (WEP_DISABLE_ACCOUNT_CREATION) {
+                                            setShowModal('more-near-wallets');
+                                        } else {
+                                            history.push('/create');
+                                        }
+                                    }}
+                                    className='dark-green-transparent'
+                                    color='dark-green-transparent'
+                                    trackingId="Click create account button"
+                                    data-test-id="landingPageCreateAccount"
+                                >
+                                    <Translate id="button.transferAccounts" />
+                                </FormButton>
+                            </FormButtonContainer>
+                        </TransferSectionWrapper>
+                    </DefaultContainer>
+                </TransferSection>
+            )}
         </>
     );
 }
