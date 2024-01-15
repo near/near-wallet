@@ -1,18 +1,11 @@
 import React, { Component } from 'react';
-import { Translate } from 'react-localize-redux';
+import {Translate} from 'react-localize-redux';
 import styled from 'styled-components';
 
-import AccessAccountBtn from './AccessAccountBtn';
-import CreateAccountBtn from './CreateAccountBtn';
 import DeprecatedLogo from './DeprecatedLogo';
 import Logo from './Logo';
-import NavLinks from './NavLinks';
-import UserAccount from './UserAccount';
 import { isWhitelabel } from '../../config/whitelabel';
-import languagesIcon from '../../images/icon-languages.svg';
-import AccountSelector from '../accounts/account_selector/AccountSelector';
-import LanguageToggle from '../common/LangSwitcher';
-import UserIcon from '../svg/UserIcon';
+import FormButton from '../common/FormButton';
 
 const Container = styled.div`
     display: none;
@@ -25,7 +18,9 @@ const Container = styled.div`
     padding: 0 14px;
     border-bottom: 1px solid #F0F0F1;
     transition: 300ms;
-
+    & button {
+     max-width: 200px;   
+    }
     ::-webkit-scrollbar {
         display: none;
     }
@@ -91,94 +86,14 @@ const Collapsed = styled.div`
     }
 `;
 
-const LowerSection = styled.div`
-    background-color: white;
-    margin: 0px -20px 0 -20px;
-    padding: 20px 20px 100% 20px;
-`;
-
-const Lang = styled.div`
-    border-top: 1px solid #efefef;
-    padding: 14px;
-    position: relative;
-    max-height: 58px;
-    margin: 0 -14px;
-
-    &.mobile-lang {
-        background-color: #FAFAFA;
-        border-bottom: 1px solid #efefef;
-    }
-
-    &:after {
-        content: '';
-        border-color: #72727A;
-        border-style: solid;
-        border-width: 2px 2px 0 0;
-        display: inline-block;
-        position: absolute;
-        right: 24px;
-        top: calc(50% - 10px);
-        transform: rotate(135deg) translateY(-50%);
-        height: 9px;
-        width: 9px;
-    }
-
-    &:last-child {
-        border-top: 0;
-        margin-top: 0;
-        margin-left: auto;
-        padding: 0;
-
-        .lang-selector {
-            color: #24272a;
-            width: 54px;
-        }
-    }
-
-    .lang-selector {
-        appearance: none;
-        background: transparent url(${languagesIcon}) no-repeat 0 center / 24px 24px;
-        border: 0;
-        color: #72727A;
-        cursor: pointer;
-        height: 32px;
-        outline: none;
-        padding-right: 62px;
-        position: relative;
-        width: 100%;
-        z-index: 1;
-        text-indent: 54px;
-    }
-
-    &.mobile-lang .lang-selector  {
-        text-indent: 32px;
-
-        &:active,
-        &:focus,
-        &:hover {
-            option {
-                background-color: #24272a;
-                border: 0;
-                color: #f8f8f8;
-            }
-        }
-    }
-`;
 
 class MobileContainer extends Component {
     render() {
 
         const {
-            account,
-            handleSelectAccount,
-            availableAccounts,
             menuOpen,
-            toggleMenu,
             showNavLinks,
             flowLimitationMainMenu,
-            flowLimitationSubMenu,
-            refreshBalance,
-            onClickCreateNewAccount
         } = this.props;
 
         return (
@@ -190,43 +105,16 @@ class MobileContainer extends Component {
                             <DeprecatedLogo link={!flowLimitationMainMenu}/>
                     }
                     {showNavLinks && (
-                        <>
-                            <UserAccount
-                                accountId={account.accountId || account.localStorage?.accountId}
-                                onClick={toggleMenu}
-                                withIcon={false}
-                                flowLimitationSubMenu={flowLimitationSubMenu}
-                            />
-                            <UserIcon background={true} color='#A2A2A8' onClick={!flowLimitationSubMenu ? toggleMenu : null}/>
-                        </>
-                    )}
-                    {!showNavLinks && (
-                        <Lang>
-                            <LanguageToggle />
-                        </Lang>
+                        <FormButton
+                            className='dark-gray-black'
+                            color='dark-gray-black'
+                            trackingId="Click create account button"
+                            data-test-id="landingPageCreateAccount"
+                        >
+                            <Translate id="button.transferAccounts" />
+                        </FormButton>
                     )}
                 </Collapsed>
-                {menuOpen && (
-                    <>
-                        <NavLinks />
-                        <Lang className="mobile-lang">
-                            <LanguageToggle />
-                        </Lang>
-                        <LowerSection>
-                            <h6><Translate id='link.switchAccount' /></h6>
-                            <AccountSelector
-                                signedInAccountId={account.localStorage?.accountId}
-                                availableAccounts={availableAccounts}
-                                accountsBalances={account.accountsBalance}
-                                getAccountBalance={refreshBalance}
-                                onSelectAccount={handleSelectAccount}
-                                showBalanceInUSD={true}
-                            />
-                            <AccessAccountBtn />
-                            <CreateAccountBtn onClick={onClickCreateNewAccount}/>
-                        </LowerSection>
-                    </>
-                )}
             </Container>
         );
     }

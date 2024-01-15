@@ -123,7 +123,7 @@ const PATH_PREFIX = PUBLIC_URL;
 
 const Container = styled.div`
     min-height: 100vh;
-    padding-bottom: 230px;
+    padding-bottom: 100px;
     padding-top: 75px;
     @media (max-width: 991px) {
         .App {

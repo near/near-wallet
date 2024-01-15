@@ -170,12 +170,16 @@ export const Section = styled.div`
         font-weight: 500;
         line-height: 130%;
         padding-bottom: 42px;
+        @media(max-width: 576px) {
+            font-size: 40px;
+        }
     }
     h3 {
         color: #000000;
         padding-bottom: 120px;
         @media(max-width: 768px) {
             padding-bottom: 50px;
+            font-size: 20px;
         }
         font-size: 30px;
         font-style: normal;
