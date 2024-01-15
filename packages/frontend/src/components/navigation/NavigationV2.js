@@ -50,7 +50,8 @@ export default ({
     refreshBalance,
     availableAccounts,
     account,
-    history
+    history,
+    onTransfer
 }) => {
     const [menuOpen, setMenuOpen] = useState(false);
     const [walletSelectorModal, setWalletSelectorModal] = useState();
@@ -121,6 +122,7 @@ export default ({
                 />
                 <DesktopContainer
                     menuOpen={menuOpen}
+                    onTransfer={onTransfer}
                     toggleMenu={toggleMenu}
                     handleSelectAccount={handleSelectAccount}
                     showNavLinks={showNavLinks}

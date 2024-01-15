@@ -432,7 +432,7 @@ class Routing extends Component {
                             <Route
                                 exact
                                 path="/"
-                                render={(props) => <GuestLanding {...props} accountFound={accountFound} />}
+                                render={(props) => <GuestLanding {...props} onTransfer={() => this.handleTransferClick()} accountFound={accountFound} />}
                             />
                             <Route
                                 exact

@@ -694,9 +694,11 @@
             "wellDone": "A multi-chain extension wallet that gives you control over all your assets from a single platform."
         },
         "transfer": {
-            "title": "You have 3 accounts ready to transfer.\n",
+            "title_singular": "You have ${accountCount} account ready to transfer.",
+            "title_plural": "You have ${accountCount} accounts ready to transfer.",
             "description": "To continue using NEAR apps and managing your assets you need to migrate your accounts to a different wallet."
         }
+
     },
     "ledgerSignTxModal": {
         "ADD_ACCESS_KEY": "You will need to confirm login details on your Ledger.",

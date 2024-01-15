@@ -97,13 +97,14 @@ const Container = styled.div`
     }
 `;
 
-const NavLinks = () => (
+const NavLinks = ({ onTransfer }) => (
     <Container className='nav-links'>
         <FormButton
             className='dark-gray-black'
             color='dark-gray-black'
             trackingId="Click create account button"
             data-test-id="landingPageCreateAccount"
+            onClick={onTransfer}
         >
             <Translate id="button.transferAccounts" />
         </FormButton>

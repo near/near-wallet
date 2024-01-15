@@ -51,7 +51,8 @@ class DesktopContainer extends Component {
             showNavLinks,
             flowLimitationMainMenu,
             refreshBalance,
-            onClickCreateNewAccount
+            onClickCreateNewAccount,
+            onTransfer
         } = this.props;
 
         const showAllNavigationLinks = showNavLinks && !flowLimitationMainMenu;
@@ -64,7 +65,7 @@ class DesktopContainer extends Component {
                         <DeprecatedLogo link={!flowLimitationMainMenu}/>
                 }
                 {showAllNavigationLinks && account.accountId &&
-                    <NavLinks />
+                    <NavLinks onTransfer={onTransfer} />
                 }
                 {showNavLinks && (
                     <DesktopMenu

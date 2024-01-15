@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Translate } from 'react-localize-redux';
+import {useSelector} from 'react-redux';
 
 import {
     CardContainer,
@@ -17,18 +18,21 @@ import NearWalletIcon from '../../images/wallet-icons/near-wallet-icon.png';
 import NightlyWalletIcon from '../../images/wallet-icons/nightly-wallet-icon.png';
 import SenderWalletIcon from '../../images/wallet-icons/sender-wallet-icon.png';
 import WellDoneWalletIcon from '../../images/wallet-icons/welldone-wallet-icon.png';
+import {selectAvailableAccounts} from '../../redux/slices/availableAccounts';
 import FormButton from '../common/FormButton';
 import { WalletSelectorGetAWallet } from '../common/wallet_selector/WalletSelectorGetAWallet';
 import NavigationWrapperV2 from '../navigation/NavigationWrapperV2';
 import {recordWalletMigrationEvent} from '../wallet-migration/metrics';
 
-export function GuestLanding({ history, accountFound  }) {
+export function GuestLanding({ history, accountFound, onTransfer  }) {
+    const availableAccounts = useSelector(selectAvailableAccounts);
+
     const [walletSelectorModal, setWalletSelectorModal] = useState();
     const [showModal, setShowModal] = useState();
 
     return (
         <>
-        <NavigationWrapperV2 />
+        <NavigationWrapperV2 onTransfer={onTransfer} />
         <StyledContainer>
             <WalletSelectorGetAWallet
                 setWalletSelectorModal={(modal) => setWalletSelectorModal(modal)}
@@ -60,9 +64,7 @@ export function GuestLanding({ history, accountFound  }) {
                             </FormButton>
                             {accountFound && (
                                 <FormButton
-                                    onClick={() => {
-                                        recordWalletMigrationEvent('click', { element: { type: 'button', description: 'Transfer Accounts' }});
-                                    }}
+                                    onClick={onTransfer}
                                     className='light-green-transparent'
                                     color='light-green-transparent'
                                     trackingId="Click create account button"
@@ -187,7 +189,7 @@ export function GuestLanding({ history, accountFound  }) {
                                 <h3>Nightly Wallet</h3>
                                 <p><Translate id="landing.wallet.nightly" /></p>
                             </SingleCard>
-                            <SingleCard to={'/'}>
+                            <SingleCard href="https://welldonestudio.io/">
                                 <img src={WellDoneWalletIcon} alt="wellDone-wallet-icon" />
                                 <h3>WELLDONE Wallet</h3>
                                 <p><Translate id="landing.wallet.wellDone" /></p>
@@ -201,14 +203,23 @@ export function GuestLanding({ history, accountFound  }) {
                     <DefaultContainer>
                         <TransferSectionWrapper>
                             <div>
-                                <h4><Translate id="landing.transfer.title" /></h4>
+                                <h4>
+                                    {availableAccounts.length === 1 ? (
+                                        <Translate id="landing.transfer.title_singular"
+                                            data={{ accountCount: availableAccounts.length }}
+                                        />
+                                    ) : (
+                                        <Translate
+                                            id="landing.transfer.title_plural"
+                                            data={{ accountCount: availableAccounts.length }}
+                                        />
+                                    )}
+                                </h4>
                                 <p><Translate id="landing.transfer.description" /></p>
                             </div>
                             <FormButtonContainer>
                                 <FormButton
-                                    onClick={() => {
-                                        recordWalletMigrationEvent('click', { element: { type: 'button', description: 'Transfer Accounts' }});
-                                    }}
+                                    onClick={onTransfer}
                                     className='dark-green-transparent'
                                     color='dark-green-transparent'
                                     trackingId="Click create account button"
