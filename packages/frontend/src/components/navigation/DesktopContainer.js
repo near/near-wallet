@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 
+import { isWhitelabel } from '../../config/whitelabel';
 import DeprecatedLogo from './DeprecatedLogo';
 import DesktopMenu from './DesktopMenu';
 import Logo from './Logo';
 import NavLinks from './NavLinks';
-import { isWhitelabel } from '../../config/whitelabel';
 
 const Container = styled.div`
     display: none;
