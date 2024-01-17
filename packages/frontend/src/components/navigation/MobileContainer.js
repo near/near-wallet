@@ -2,16 +2,15 @@ import React, { Component } from 'react';
 import {Translate} from 'react-localize-redux';
 import styled from 'styled-components';
 
-import DeprecatedLogo from './DeprecatedLogo';
-import Logo from './Logo';
 import { isWhitelabel } from '../../config/whitelabel';
 import FormButton from '../common/FormButton';
+import DeprecatedLogo from './DeprecatedLogo';
+import Logo from './Logo';
 
 const Container = styled.div`
     display: none;
     color: white;
     font-size: 15px;
-    margin-bottom: 20px;
     background-color: white;
     height: 70px;
     position: relative;

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Translate } from 'react-localize-redux';
 import {useSelector} from 'react-redux';
 
@@ -29,6 +29,10 @@ export function GuestLanding({ history, accountFound, onTransfer  }) {
 
     const [walletSelectorModal, setWalletSelectorModal] = useState();
     const [showModal, setShowModal] = useState();
+    
+    useEffect(() => {
+        recordWalletMigrationEvent('LANDING_PAGE');
+    }, []);
 
     return (
         <>

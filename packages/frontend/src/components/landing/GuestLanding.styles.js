@@ -199,7 +199,6 @@ export const MainContainer = styled.div`
     background-repeat: repeat;
     background-position: center top;
     @media(max-width: 768px) {
-        min-height: calc(100vh - 20px);
         margin-bottom: 20px;
     }
 `;

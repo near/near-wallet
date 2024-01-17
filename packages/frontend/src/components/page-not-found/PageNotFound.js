@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
 import textBackgroundImage  from '../../images/bg-landing-patterned.svg';
 import FormButton from '../common/FormButton';
 import Container from '../common/styled/Container.css';
+import { recordWalletMigrationEvent } from '../wallet-migration/metrics';
 
 const StyledContainer = styled(Container)`
   &&& {
@@ -45,7 +46,11 @@ const StyledContainer = styled(Container)`
 `;
 
 export function PageNotFound({ history }) {
-    history.push('/');
+    useEffect(() => {
+        recordWalletMigrationEvent('REDIRECT');
+        const path = window.location.pathname;
+        history.push('/?previousPath=' + path);
+    }, []);
     return (
         <StyledContainer>
             <h1 className="title">
