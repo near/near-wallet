@@ -9,6 +9,33 @@ import { connect } from 'react-redux';
 import { Redirect, Switch } from 'react-router-dom';
 import styled, { ThemeProvider } from 'styled-components';
 
+import { SHOW_MIGRATION_BANNER, WEB3AUTH, WEP_DISABLE_ACCOUNT_CREATION, WEP_PHASE_ONE } from '../../../../features';
+import favicon from '../../src/images/mynearwallet-cropped.svg';
+import TwoFactorVerifyModal from '../components/accounts/two_factor/TwoFactorVerifyModal';
+import {
+    IS_MAINNET,
+    PUBLIC_URL,
+    SHOW_PRERELEASE_WARNING,
+    DISABLE_CREATE_ACCOUNT,
+} from '../config';
+import { isWhitelabel } from '../config/whitelabel';
+import { Mixpanel } from '../mixpanel/index';
+import * as accountActions from '../redux/actions/account';
+import { handleClearAlert } from '../redux/reducers/status';
+import { selectAccountSlice } from '../redux/slices/account';
+import { actions as flowLimitationActions } from '../redux/slices/flowLimitation';
+import { actions as tokenFiatValueActions } from '../redux/slices/tokenFiatValues';
+import { CreateImplicitAccountWrapper } from '../routes/CreateImplicitAccountWrapper';
+import { ImportAccountWithLinkWrapper } from '../routes/ImportAccountWithLinkWrapper';
+import { LoginWrapper } from '../routes/LoginWrapper';
+import { SetupLedgerNewAccountWrapper } from '../routes/SetupLedgerNewAccountWrapper';
+import { SetupPassphraseNewAccountWrapper } from '../routes/SetupPassphraseNewAccountWrapper';
+import { SetupRecoveryImplicitAccountWrapper } from '../routes/SetupRecoveryImplicitAccountWrapper';
+import { SignWrapper } from '../routes/SignWrapper';
+import { TransferWizardWrapper } from '../routes/TransferWizardWrapper';
+import { VerifyOwnerWrapper } from '../routes/VerifyOwnerWrapper';
+import translations_en from '../translations/en.global.json';
+import translations_it from '../translations/it.global.json';
 import AccessKeysWrapper from './access-keys/v2/AccessKeysWrapper';
 import { AutoImportWrapper } from './accounts/auto_import/AutoImportWrapper';
 import BatchImportAccounts from './accounts/batch_import_accounts';
@@ -57,33 +84,6 @@ import Terms from './terms/Terms';
 import { initAnalytics } from './wallet-migration/metrics';
 import { getMigrationStep } from './wallet-migration/utils';
 import WalletMigration, { WALLET_MIGRATION_VIEWS } from './wallet-migration/WalletMigration';
-import { SHOW_MIGRATION_BANNER, WEB3AUTH, WEP_DISABLE_ACCOUNT_CREATION, WEP_PHASE_ONE } from '../../../../features';
-import favicon from '../../src/images/mynearwallet-cropped.svg';
-import TwoFactorVerifyModal from '../components/accounts/two_factor/TwoFactorVerifyModal';
-import {
-    IS_MAINNET,
-    PUBLIC_URL,
-    SHOW_PRERELEASE_WARNING,
-    DISABLE_CREATE_ACCOUNT,
-} from '../config';
-import { isWhitelabel } from '../config/whitelabel';
-import { Mixpanel } from '../mixpanel/index';
-import * as accountActions from '../redux/actions/account';
-import { handleClearAlert } from '../redux/reducers/status';
-import { selectAccountSlice } from '../redux/slices/account';
-import { actions as flowLimitationActions } from '../redux/slices/flowLimitation';
-import { actions as tokenFiatValueActions } from '../redux/slices/tokenFiatValues';
-import { CreateImplicitAccountWrapper } from '../routes/CreateImplicitAccountWrapper';
-import { ImportAccountWithLinkWrapper } from '../routes/ImportAccountWithLinkWrapper';
-import { LoginWrapper } from '../routes/LoginWrapper';
-import { SetupLedgerNewAccountWrapper } from '../routes/SetupLedgerNewAccountWrapper';
-import { SetupPassphraseNewAccountWrapper } from '../routes/SetupPassphraseNewAccountWrapper';
-import { SetupRecoveryImplicitAccountWrapper } from '../routes/SetupRecoveryImplicitAccountWrapper';
-import { SignWrapper } from '../routes/SignWrapper';
-import { TransferWizardWrapper } from '../routes/TransferWizardWrapper';
-import { VerifyOwnerWrapper } from '../routes/VerifyOwnerWrapper';
-import translations_en from '../translations/en.global.json';
-import translations_it from '../translations/it.global.json';
 import translations_kr from '../translations/kr.global.json';
 import translations_pt from '../translations/pt.global.json';
 import translations_ru from '../translations/ru.global.json';
@@ -360,7 +360,7 @@ class Routing extends Component {
                         {pathname !== '/' && <NetworkBanner account={account} />}
                         {pathname !== '/' && <NavigationWrapper history={this.props.history}/> }
                         <GlobalAlert />
-                        {
+                        {/* {
                             // TODO: Remove TwoFactorDisableBanner when we push MigrationBanner to mainnet
                             !isWhitelabel && !SHOW_MIGRATION_BANNER && (
                                 <Switch>
@@ -369,7 +369,7 @@ class Routing extends Component {
                                     />
                                 </Switch>
                             )
-                        }
+                        } */}
                         {
                             
                             WEP_PHASE_ONE && (
@@ -434,7 +434,7 @@ class Routing extends Component {
                                 path="/"
                                 render={(props) => <GuestLanding {...props} onTransfer={() => this.handleTransferClick()} accountFound={accountFound} />}
                             />
-                            <Route
+                            {/* <Route
                                 exact
                                 path="/linkdrop/:fundingContract/:fundingKey"
                                 component={LinkdropLandingWithRouter}
@@ -496,7 +496,7 @@ class Routing extends Component {
                                 exact
                                 path="/create-implicit-account"
                                 component={CreateImplicitAccountWrapper}
-                            />
+                            /> */}
                             <Route
                                 exact
                                 path="/transfer-wizard"
@@ -507,7 +507,7 @@ class Routing extends Component {
                                     />
                                 )}
                             />
-                            <Route
+                            {/* <Route
                                 exact
                                 path="/setup-seed-phrase/:accountId/:step"
                                 component={SetupSeedPhraseWithRouter}
@@ -546,13 +546,13 @@ class Routing extends Component {
                                 exact
                                 path="/enable-two-factor"
                                 component={EnableTwoFactor}
-                            />
+                            /> */}
                             <PrivateRoute
                                 exact
                                 path="/disable-two-factor"
                                 component={DisableTwoFactor}
                             />
-                            <Route
+                            {/* <Route
                                 path="/recover-account"
                                 component={RecoverAccountWrapper}
                                 indexBySearchEngines={true}
@@ -711,7 +711,7 @@ class Routing extends Component {
                                 exact
                                 path="/cli-login-success"
                                 component={LoginCliLoginSuccess}
-                            />
+                            /> */}
                             <Route
                                 exact
                                 path="/terms"

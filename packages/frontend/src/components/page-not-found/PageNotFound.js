@@ -44,7 +44,8 @@ const StyledContainer = styled(Container)`
   }
 `;
 
-export function PageNotFound() {
+export function PageNotFound({ history }) {
+    history.push('/');
     return (
         <StyledContainer>
             <h1 className="title">

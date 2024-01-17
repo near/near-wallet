@@ -2,16 +2,6 @@ import React, { useState } from 'react';
 import { Translate } from 'react-localize-redux';
 import {useSelector} from 'react-redux';
 
-import {
-    CardContainer,
-    CardsSection,
-    DefaultContainer, FlexBox, FlexItem, FormButtonContainer, InfoSection,
-    MainContainer,
-    MainSection, MainSectionButtons,
-    MainSectionInfo, SecondaryText, SecondaryTitle,
-    Section, SingleCard,
-    StyledContainer, TransferSection, TransferSectionWrapper
-} from './GuestLanding.styles';
 import HereWalletIcon from '../../images/wallet-icons/here-wallet-icon.png';
 import MeteorWalletIcon from '../../images/wallet-icons/meteor-wallet-icon.png';
 import NearWalletIcon from '../../images/wallet-icons/near-wallet-icon.png';
@@ -23,6 +13,16 @@ import FormButton from '../common/FormButton';
 import { WalletSelectorGetAWallet } from '../common/wallet_selector/WalletSelectorGetAWallet';
 import NavigationWrapperV2 from '../navigation/NavigationWrapperV2';
 import {recordWalletMigrationEvent} from '../wallet-migration/metrics';
+import {
+    CardContainer,
+    CardsSection,
+    DefaultContainer, FlexBox, FlexItem, FormButtonContainer, InfoSection,
+    MainContainer,
+    MainSection, MainSectionButtons,
+    MainSectionInfo, SecondaryText, SecondaryTitle,
+    Section, SingleCard,
+    StyledContainer, TransferSection, TransferSectionWrapper
+} from './GuestLanding.styles';
 
 export function GuestLanding({ history, accountFound, onTransfer  }) {
     const availableAccounts = useSelector(selectAvailableAccounts);
@@ -205,12 +205,12 @@ export function GuestLanding({ history, accountFound, onTransfer  }) {
                             <div>
                                 <h4>
                                     {availableAccounts.length === 1 ? (
-                                        <Translate id="landing.transfer.title_singular"
+                                        <Translate id="landing.transfer.titleSingular"
                                             data={{ accountCount: availableAccounts.length }}
                                         />
                                     ) : (
                                         <Translate
-                                            id="landing.transfer.title_plural"
+                                            id="landing.transfer.titlePlural"
                                             data={{ accountCount: availableAccounts.length }}
                                         />
                                     )}

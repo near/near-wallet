@@ -46,7 +46,6 @@ const StyledContainer = styled.div`
         }
 
         img {
-            opacity: 0.3;
             width: 125px;
         }
 
