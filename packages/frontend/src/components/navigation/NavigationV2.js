@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
 
-import { WEP_DISABLE_ACCOUNT_CREATION } from '../../../../../features';
 import { WalletSelectorGetAWallet } from '../common/wallet_selector/WalletSelectorGetAWallet';
 import DesktopContainer from './DesktopContainer';
 import MobileContainer from './MobileContainer';
@@ -13,10 +12,12 @@ const Container = styled.div`
         left: 0;
         right: 0;
         z-index: 1000;
-        max-width: 1224px;
+        border-bottom: 1px solid #F0F0F1;
+        background-color: #FFFFFF;
         margin: auto;
         @media (max-width: 991px) {
             bottom: ${(props) => props.open ? '0' : 'unset'};
+            border: none;
         }
 
         h6 {
@@ -34,6 +35,13 @@ const Container = styled.div`
     }
 `;
 
+const InnerContainer = styled.div`
+    &&& {
+        max-width: 1224px;
+        margin: 0 auto;
+    }
+`;
+
 export default ({
     selectAccount,
     showNavLinks,
@@ -42,7 +50,8 @@ export default ({
     refreshBalance,
     availableAccounts,
     account,
-    history
+    history,
+    onTransfer
 }) => {
     const [menuOpen, setMenuOpen] = useState(false);
     const [walletSelectorModal, setWalletSelectorModal] = useState();
@@ -91,49 +100,48 @@ export default ({
     }, []);
 
     const handleOnClickCreateNewAccount = () => {
-        if (WEP_DISABLE_ACCOUNT_CREATION) {
-            setShowModal('more-near-wallets');
-        } else {
-            history.push('/create');
-        }
+        setShowModal('more-near-wallets');
     };
 
     return (
         <Container id='nav-container' open={menuOpen}>
-            <WalletSelectorGetAWallet
-                setWalletSelectorModal={(modal) => setWalletSelectorModal(modal)}
-                setShowModal={(modal) => {
-                    setShowModal(null);
-                    if (modal === 'wallet-selector') {
-                        walletSelectorModal.show();
-                    }
-                }}
-                showModal={showModal}
-            />
-            <DesktopContainer
-                menuOpen={menuOpen}
-                toggleMenu={toggleMenu}
-                handleSelectAccount={handleSelectAccount}
-                showNavLinks={showNavLinks}
-                flowLimitationMainMenu={flowLimitationMainMenu}
-                flowLimitationSubMenu={flowLimitationSubMenu}   
-                refreshBalance={refreshBalance}
-                availableAccounts={availableAccounts}
-                account={account}
-                onClickCreateNewAccount={handleOnClickCreateNewAccount}
-            />
-            <MobileContainer
-                menuOpen={menuOpen}
-                toggleMenu={toggleMenu}
-                handleSelectAccount={handleSelectAccount}
-                showNavLinks={showNavLinks}
-                flowLimitationMainMenu={flowLimitationMainMenu}
-                flowLimitationSubMenu={flowLimitationSubMenu}   
-                refreshBalance={refreshBalance}
-                availableAccounts={availableAccounts}
-                account={account}
-                onClickCreateNewAccount={handleOnClickCreateNewAccount}
-            />
+            <InnerContainer>
+                <WalletSelectorGetAWallet
+                    setWalletSelectorModal={(modal) => setWalletSelectorModal(modal)}
+                    setShowModal={(modal) => {
+                        setShowModal(null);
+                        if (modal === 'wallet-selector') {
+                            walletSelectorModal.show();
+                        }
+                    }}
+                    showModal={showModal}
+                />
+                <DesktopContainer
+                    menuOpen={menuOpen}
+                    onTransfer={onTransfer}
+                    toggleMenu={toggleMenu}
+                    handleSelectAccount={handleSelectAccount}
+                    showNavLinks={showNavLinks}
+                    flowLimitationMainMenu={flowLimitationMainMenu}
+                    flowLimitationSubMenu={flowLimitationSubMenu}
+                    refreshBalance={refreshBalance}
+                    availableAccounts={availableAccounts}
+                    account={account}
+                    onClickCreateNewAccount={handleOnClickCreateNewAccount}
+                />
+                <MobileContainer
+                    menuOpen={menuOpen}
+                    toggleMenu={toggleMenu}
+                    handleSelectAccount={handleSelectAccount}
+                    showNavLinks={showNavLinks}
+                    flowLimitationMainMenu={flowLimitationMainMenu}
+                    flowLimitationSubMenu={flowLimitationSubMenu}
+                    refreshBalance={refreshBalance}
+                    availableAccounts={availableAccounts}
+                    account={account}
+                    onClickCreateNewAccount={handleOnClickCreateNewAccount}
+                />
+            </InnerContainer>
         </Container>
     );
 };
