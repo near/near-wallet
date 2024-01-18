@@ -101,11 +101,7 @@ export default ({
     }, []);
 
     const handleOnClickCreateNewAccount = () => {
-        if (WEP_DISABLE_ACCOUNT_CREATION) {
-            setShowModal('more-near-wallets');
-        } else {
-            history.push('/create');
-        }
+        setShowModal('more-near-wallets');
     };
 
     return (
