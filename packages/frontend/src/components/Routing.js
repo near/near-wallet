@@ -1,6 +1,5 @@
 import { ConnectedRouter, getRouter } from 'connected-react-router';
 import isString from 'lodash.isstring';
-// import { parseSeedPhrase } from 'near-seed-phrase';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import ReactDOMServer from 'react-dom/server';
@@ -25,13 +24,6 @@ import { handleClearAlert } from '../redux/reducers/status';
 import { selectAccountSlice } from '../redux/slices/account';
 import { actions as flowLimitationActions } from '../redux/slices/flowLimitation';
 import { actions as tokenFiatValueActions } from '../redux/slices/tokenFiatValues';
-// import { CreateImplicitAccountWrapper } from '../routes/CreateImplicitAccountWrapper';
-// import { ImportAccountWithLinkWrapper } from '../routes/ImportAccountWithLinkWrapper';
-// import { LoginWrapper } from '../routes/LoginWrapper';
-// import { SetupLedgerNewAccountWrapper } from '../routes/SetupLedgerNewAccountWrapper';
-// import { SetupPassphraseNewAccountWrapper } from '../routes/SetupPassphraseNewAccountWrapper';
-// import { SetupRecoveryImplicitAccountWrapper } from '../routes/SetupRecoveryImplicitAccountWrapper';
-// import { SignWrapper } from '../routes/SignWrapper';
 import { TransferWizardWrapper } from '../routes/TransferWizardWrapper';
 import { VerifyOwnerWrapper } from '../routes/VerifyOwnerWrapper';
 import translations_en from '../translations/en.global.json';
@@ -46,15 +38,6 @@ import translations_zh_hans from '../translations/zh-hans.global.json';
 import translations_zh_hant from '../translations/zh-hant.global.json';
 import classNames from '../utils/classNames';
 import getBrowserLocale from '../utils/getBrowserLocale';
-// import AccessKeysWrapper from './access-keys/v2/AccessKeysWrapper';
-// import { AutoImportWrapper } from './accounts/auto_import/AutoImportWrapper';
-// import BatchImportAccounts from './accounts/batch_import_accounts';
-// import BatchLedgerExport from './accounts/batch_ledger_export';
-// import { ExistingAccountWrapper } from './accounts/create/existing_account/ExistingAccountWrapper';
-// import { InitialDepositWrapper } from './accounts/create/initial_deposit/InitialDepositWrapper';
-// import { CreateAccountLanding } from './accounts/create/landing/CreateAccountLanding';
-// import { VerifyAccountWrapper } from './accounts/create/verify_account/VerifyAccountWrapper';
-// import { CreateAccountWithRouter } from './accounts/CreateAccount';
 import { reportUiActiveMixpanelThrottled } from '../utils/reportUiActiveMixpanelThrottled';
 import ScrollToTop from '../utils/ScrollToTop';
 import {
@@ -65,39 +48,18 @@ import {
 } from '../utils/wallet';
 import LedgerConfirmActionModal from './accounts/ledger/LedgerConfirmActionModal';
 import LedgerConnectModal from './accounts/ledger/LedgerConnectModal/LedgerConnectModalWrapper';
-// import { SetupLedgerWithRouter } from './accounts/ledger/SetupLedger';
-// import { SetupLedgerSuccessWithRouter } from './accounts/ledger/SetupLedgerSuccess';
-// import { SignInLedgerWrapper } from './accounts/ledger/SignInLedgerWrapper';
-// import { LinkdropLandingWithRouter } from './accounts/LinkdropLanding';
-// import { RecoverAccountSeedPhraseWithRouter } from './accounts/RecoverAccountSeedPhrase';
-// import { RecoverAccountWrapper } from './accounts/RecoverAccountWrapper';
-// import { SetupRecoveryMethodWithRouter } from './accounts/recovery_setup/SetupRecoveryMethod';
-// import { SetupImplicitWithRouter } from './accounts/SetupImplicit';
-// import { SetupSeedPhraseWithRouter } from './accounts/SetupSeedPhrase';
 import { DisableTwoFactor } from './accounts/two_factor/DisableTwoFactor';
-// import { EnableTwoFactor } from './accounts/two_factor/EnableTwoFactor';
-// import { BuyNear } from './buy/BuyNear';
 import Footer from './common/Footer';
 import GlobalAlert from './common/GlobalAlert';
 import MigrationBanner from './common/MigrationBanner';
 import NetworkBanner from './common/NetworkBanner';
 import PrivateRoute from './common/routing/PrivateRoute';
-// import PublicRoute from './common/routing/PublicRoute';
 import Route from './common/routing/Route';
-// import TwoFactorDisableBanner from './common/TwoFactorDisableBanner';
-// import { ExploreContainer } from './explore/ExploreContainer';
 import GlobalStyle from './GlobalStyle';
 import { GuestLanding } from './landing/GuestLanding';
-// import { LoginCliLoginSuccess } from './login/LoginCliLoginSuccess';
 import NavigationWrapper from './navigation/NavigationWrapper';
-// import { NFTDetailWrapper } from './nft/NFTDetailWrapper';
 import { PageNotFound } from './page-not-found/PageNotFound';
 import Privacy from './privacy/Privacy';
-// import { Profile } from './profile/Profile';
-// import { ReceiveContainerWrapper } from './receive-money/ReceiveContainerWrapper';
-// import { SendContainerWrapper } from './send/SendContainerWrapper';
-// import { StakingContainer } from './staking/StakingContainer';
-// import Swap from './swap/Swap';
 import Terms from './terms/Terms';
 import { initAnalytics } from './wallet-migration/metrics';
 import { getMigrationStep } from './wallet-migration/utils';
@@ -360,16 +322,6 @@ class Routing extends Component {
                         {pathname !== '/' && <NetworkBanner account={account} />}
                         {pathname !== '/' && <NavigationWrapper history={this.props.history}/> }
                         <GlobalAlert />
-                        {/* {
-                            // TODO: Remove TwoFactorDisableBanner when we push MigrationBanner to mainnet
-                            !isWhitelabel && !SHOW_MIGRATION_BANNER && (
-                                <Switch>
-                                    <Route
-                                        path={['/', '/staking', '/profile']} component={TwoFactorDisableBanner}
-                                    />
-                                </Switch>
-                            )
-                        } */}
                         {
                             
                             WEP_PHASE_ONE && (
@@ -434,69 +386,6 @@ class Routing extends Component {
                                 path="/"
                                 render={(props) => <GuestLanding {...props} onTransfer={() => this.handleTransferClick()} accountFound={accountFound} />}
                             />
-                            {/* <Route
-                                exact
-                                path="/linkdrop/:fundingContract/:fundingKey"
-                                component={LinkdropLandingWithRouter}
-                            />
-                            <Route
-                                exact
-                                path="/create/:fundingContract/:fundingKey"
-                                component={CreateAccountWithRouter}
-                            />
-                            <Route
-                                exact
-                                path="/create"
-                                render={(props) => {
-                                    if (WEP_DISABLE_ACCOUNT_CREATION) {
-                                        return this.props.history.push('/');
-                                    } else {
-                                        if (accountFound || !DISABLE_CREATE_ACCOUNT) {
-                                            return <CreateAccountWithRouter {...props} />;
-                                        } else {
-                                            return <CreateAccountLanding />;
-                                        }
-                                    }
-                                }}
-                                // Logged in users always create a named account
-                            />
-                            <Route
-                                exact
-                                path="/create"
-                                component={CreateAccountWithRouter}
-                            />
-                            <Route
-                                exact
-                                path={'/create-from/:fundingAccountId'}
-                                component={CreateAccountWithRouter}
-                            />
-                            <Route
-                                exact
-                                path="/set-recovery/:accountId/:fundingContract?/:fundingKey?"
-                                component={SetupRecoveryMethodWithRouter}
-                            />
-                            <PublicRoute
-                                exact
-                                path="/set-recovery-implicit-account"
-                                component={
-                                    SetupRecoveryImplicitAccountWrapper
-                                }
-                            />
-                            <PublicRoute
-                                exact
-                                path="/setup-passphrase-new-account"
-                                component={SetupPassphraseNewAccountWrapper}
-                            />
-                            <PublicRoute
-                                exact
-                                path="/setup-ledger-new-account"
-                                component={SetupLedgerNewAccountWrapper}
-                            />
-                            <PublicRoute
-                                exact
-                                path="/create-implicit-account"
-                                component={CreateImplicitAccountWrapper}
-                            /> */}
                             <Route
                                 exact
                                 path="/transfer-wizard"
@@ -507,211 +396,11 @@ class Routing extends Component {
                                     />
                                 )}
                             />
-                            {/* <Route
-                                exact
-                                path="/setup-seed-phrase/:accountId/:step"
-                                component={SetupSeedPhraseWithRouter}
-                            />
-                            <Route
-                                exact
-                                path="/verify-account"
-                                component={VerifyAccountWrapper}
-                            />
-                            <Route
-                                exact
-                                path="/initial-deposit"
-                                component={InitialDepositWrapper}
-                            />
-                            <Route
-                                exact
-                                path="/fund-with-existing-account"
-                                component={ExistingAccountWrapper}
-                            />
-                            <Route
-                                exact
-                                path="/fund-create-account/:accountId/:implicitAccountId/:recoveryMethod"
-                                component={SetupImplicitWithRouter}
-                            />
-                            <Route
-                                exact
-                                path="/setup-ledger/:accountId"
-                                component={SetupLedgerWithRouter}
-                            />
-                            <PrivateRoute
-                                exact
-                                path="/setup-ledger-success"
-                                component={SetupLedgerSuccessWithRouter}
-                            />
-                            <PrivateRoute
-                                exact
-                                path="/enable-two-factor"
-                                component={EnableTwoFactor}
-                            /> */}
                             <PrivateRoute
                                 exact
                                 path="/disable-two-factor"
                                 component={DisableTwoFactor}
                             />
-                            {/* <Route
-                                path="/recover-account"
-                                component={RecoverAccountWrapper}
-                                indexBySearchEngines={true}
-                            />
-                            <Route
-                                exact
-                                path="/recover-seed-phrase/:accountId?/:seedPhrase?"
-                                component={RecoverAccountSeedPhraseWithRouter}
-                            />
-                            <Route
-                                exact
-                                path="/recover-with-link/:accountId/:seedPhrase"
-                                component={ImportAccountWithLinkWrapper}
-                            />
-                            <Route
-                                exact
-                                path="/auto-import-seed-phrase"
-                                render={({ location }) => {
-                                    const importString = decodeURIComponent(
-                                        location.hash.substring(1)
-                                    );
-                                    const hasAccountId =
-                                        importString.includes('/');
-                                    const seedPhrase = hasAccountId
-                                        ? importString.split('/')[1]
-                                        : importString;
-                                    const { secretKey } =
-                                        parseSeedPhrase(seedPhrase);
-                                    return (
-                                        <AutoImportWrapper
-                                            secretKey={secretKey}
-                                            accountId={
-                                                hasAccountId
-                                                    ? importString.split('/')[0]
-                                                    : null
-                                            }
-                                            mixpanelImportType="seed phrase"
-                                        />
-                                    );
-                                }}
-                            />
-                            <Route
-                                exact
-                                path="/auto-import-secret-key"
-                                render={({ location }) => {
-                                    const importString = decodeURIComponent(
-                                        location.hash.substring(1)
-                                    );
-                                    const hasAccountId =
-                                        importString.includes('/');
-                                    return (
-                                        <AutoImportWrapper
-                                            secretKey={
-                                                hasAccountId
-                                                    ? importString.split('/')[1]
-                                                    : importString
-                                            }
-                                            accountId={
-                                                hasAccountId
-                                                    ? importString.split('/')[0]
-                                                    : null
-                                            }
-                                            mixpanelImportType="secret key"
-                                        />
-                                    );
-                                }}
-                            />
-                            <Route exact path="/batch-import" render={() =>
-                                (<BatchImportAccounts
-                                    onCancel={() => this.props.history.replace('/')} />)}
-                            />
-                            <Route
-                                exact
-                                path="/batch-ledger-export"
-                                component={BatchLedgerExport}
-                            />
-                            <Route
-                                exact
-                                path="/sign-in-ledger"
-                                component={SignInLedgerWrapper}
-                            />
-                            <PrivateRoute
-                                path="/login"
-                                component={LoginWrapper}
-                            />
-                            <PrivateRoute
-                                exact
-                                path="/authorized-apps"
-                                render={() => (
-                                    <AccessKeysWrapper type="authorized-apps" />
-                                )}
-                            />
-                            <PrivateRoute
-                                exact
-                                path="/full-access-keys"
-                                render={() => (
-                                    <AccessKeysWrapper type="full-access-keys" />
-                                )}
-                            />
-                            <PrivateRoute
-                                exact
-                                path="/send-money/:accountId?"
-                                component={SendContainerWrapper}
-                            />
-                            <PrivateRoute
-                                exact
-                                path="/nft-detail/:contractId/:tokenId"
-                                component={NFTDetailWrapper}
-                            />
-                            <PrivateRoute
-                                exact
-                                path="/receive-money"
-                                component={ReceiveContainerWrapper}
-                            />
-                            <PrivateRoute
-                                exact
-                                path="/buy"
-                                component={BuyNear}
-                            />
-                            <PrivateRoute
-                                exact
-                                path="/swap"
-                                component={Swap}
-                            />
-                            <Route
-                                exact
-                                path="/profile/:accountId"
-                                component={Profile}
-                            />
-                            <PrivateRoute
-                                exact
-                                path="/profile/:accountId?"
-                                component={Profile}
-                            />
-                            <PrivateRoute
-                                exact
-                                path="/sign"
-                                component={SignWrapper}
-                            />
-                            <PrivateRoute
-                                path="/staking"
-                                render={() => (
-                                    <StakingContainer
-                                        history={this.props.history}
-                                    />
-                                )}
-                            />
-                            {isWhitelabel && (
-                                <PrivateRoute
-                                    exact
-                                    path="/explore"
-                                    component={ExploreContainer}
-                                />
-                            )}
-                            <Route
-                                exact
-                                path="/cli-login-success"
-                                component={LoginCliLoginSuccess}
-                            /> */}
                             <Route
                                 exact
                                 path="/terms"
