@@ -12,7 +12,6 @@ const Container = styled.div`
     color: white;
     position: relative;
     font-size: 14px;
-    padding: 0 15px;
 
     @media (min-width: 992px) {
         display: flex;

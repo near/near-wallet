@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { Translate } from 'react-localize-redux';
-import {useSelector} from 'react-redux';
 
 import HereWalletIcon from '../../images/wallet-icons/here-wallet-icon.png';
 import MeteorWalletIcon from '../../images/wallet-icons/meteor-wallet-icon.png';
@@ -8,7 +7,6 @@ import NearWalletIcon from '../../images/wallet-icons/near-wallet-icon.png';
 import NightlyWalletIcon from '../../images/wallet-icons/nightly-wallet-icon.png';
 import SenderWalletIcon from '../../images/wallet-icons/sender-wallet-icon.png';
 import WellDoneWalletIcon from '../../images/wallet-icons/welldone-wallet-icon.png';
-import {selectAvailableAccounts} from '../../redux/slices/availableAccounts';
 import FormButton from '../common/FormButton';
 import { WalletSelectorGetAWallet } from '../common/wallet_selector/WalletSelectorGetAWallet';
 import NavigationWrapperV2 from '../navigation/NavigationWrapperV2';
@@ -25,7 +23,6 @@ import {
 } from './GuestLanding.styles';
 
 export function GuestLanding({ history, accountFound, onTransfer  }) {
-    const availableAccounts = useSelector(selectAvailableAccounts);
 
     const [walletSelectorModal, setWalletSelectorModal] = useState();
     const [showModal, setShowModal] = useState();
@@ -158,7 +155,7 @@ export function GuestLanding({ history, accountFound, onTransfer  }) {
                     </InfoSection>
                     <CardsSection>
                         <CardContainer>
-                            <SingleCard href='https://app.mynearwallet.com' target='_blank' onClick={() => {
+                            <SingleCard href='https://mynearwallet.com' target='_blank' onClick={() => {
                                 recordWalletMigrationEvent('click', { element: { type: 'link', description: 'MyNearWallet Wallet' }});
                             }}>
                                 <img src={NearWalletIcon} alt="near-wallet-icon" />
@@ -193,7 +190,9 @@ export function GuestLanding({ history, accountFound, onTransfer  }) {
                                 <h3>Nightly Wallet</h3>
                                 <p><Translate id="landing.wallet.nightly" /></p>
                             </SingleCard>
-                            <SingleCard href="https://welldonestudio.io/">
+                            <SingleCard href="https://welldonestudio.io/" target="_blank"  onClick={() => {
+                                recordWalletMigrationEvent('click', { element: { type: 'link', description: 'WELLDONE Wallet' }});
+                            }}>
                                 <img src={WellDoneWalletIcon} alt="wellDone-wallet-icon" />
                                 <h3>WELLDONE Wallet</h3>
                                 <p><Translate id="landing.wallet.wellDone" /></p>
@@ -208,16 +207,7 @@ export function GuestLanding({ history, accountFound, onTransfer  }) {
                         <TransferSectionWrapper>
                             <div>
                                 <h4>
-                                    {availableAccounts.length === 1 ? (
-                                        <Translate id="landing.transfer.titleSingular"
-                                            data={{ accountCount: availableAccounts.length }}
-                                        />
-                                    ) : (
-                                        <Translate
-                                            id="landing.transfer.titlePlural"
-                                            data={{ accountCount: availableAccounts.length }}
-                                        />
-                                    )}
+                                    <Translate id="landing.transfer.title" />
                                 </h4>
                                 <p><Translate id="landing.transfer.description" /></p>
                             </div>

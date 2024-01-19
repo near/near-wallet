@@ -694,8 +694,7 @@
             "wellDone": "A multi-chain extension wallet that gives you control over all your assets from a single platform."
         },
         "transfer": {
-            "titleSingular": "You have ${accountCount} account ready to transfer.",
-            "titlePlural": "You have ${accountCount} accounts ready to transfer.",
+            "title": "You have accounts that need to be transferred",
             "description": "To continue using NEAR apps and managing your assets you need to migrate your accounts to a different wallet."
         }
 

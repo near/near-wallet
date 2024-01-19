@@ -9,6 +9,14 @@ export const StyledContainer = styled.div`
         max-width: 1224px;
         position: relative;
 
+        @media (max-width: 1352px) {
+            padding: 0 64px;
+        }
+
+        @media (max-width: 991px) {
+            padding: 0 24px;
+        }
+
         @media (max-width: 767px) {
             margin: 0;
             overflow: hidden;
@@ -229,6 +237,13 @@ export const DefaultContainer = styled.div`
     max-width: 1224px;
     margin: 0 auto;
     position: relative;
+    @media (max-width: 1352px) {
+        padding: 0 64px;
+    }
+
+    @media (max-width: 991px) {
+        padding: 0 24px;
+    }
 `;
 
 export const FlexBox = styled.div`
@@ -300,8 +315,13 @@ export const SecondaryText = styled.p`
 `;
 
 export const FormButtonContainer = styled.div`
-    min-width: 500px;
     text-align: right;
+    min-width: 500px;
+
+    @media(max-width: 1352px) {
+        min-width: 300px;
+    }
+
     @media(max-width: 768px) {
         min-width: 100%;
     }

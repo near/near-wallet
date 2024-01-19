@@ -15,9 +15,10 @@ const Container = styled.div`
         border-bottom: 1px solid #F0F0F1;
         background-color: #FFFFFF;
         margin: auto;
+        padding: 0 64px;
+
         @media (max-width: 991px) {
-            bottom: ${(props) => props.open ? '0' : 'unset'};
-            border: none;
+            padding: 0 24px;
         }
 
         h6 {
