@@ -93,6 +93,14 @@ const InnerContainer = styled.div`
     margin: 0 auto;
     justify-content: space-between;
     align-items: center;
+
+    @media(max-width: 1352px) {
+        padding: 0 64px;
+    }
+
+    @media(max-width: 991px) {
+        padding: 0 24px;
+    }
 `;
 
 const Footer = () => {
