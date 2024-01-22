@@ -52,10 +52,6 @@ export const initAnalytics = () => {
 };
 
 export const recordWalletMigrationEvent = (eventLabel, properties = {}) => {
-    if (!rudderAnalyticsReady) {
-        return;
-    }
-
     try {
         const accountId = localStorage.getItem(KEY_ACTIVE_ACCOUNT_ID);
         const hashId = accountIdToHash(accountId);
