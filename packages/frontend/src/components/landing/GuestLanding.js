@@ -1,151 +1,39 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Translate } from 'react-localize-redux';
-import styled from 'styled-components';
 
-import { WEP_DISABLE_ACCOUNT_CREATION, WEP_PHASE_ONE } from '../../../../../features';
-import iPhoneMockup from '../../images/iphone-mockup.png';
+import HereWalletIcon from '../../images/wallet-icons/here-wallet-icon.png';
+import MeteorWalletIcon from '../../images/wallet-icons/meteor-wallet-icon.png';
+import NearWalletIcon from '../../images/wallet-icons/near-wallet-icon.png';
+import NightlyWalletIcon from '../../images/wallet-icons/nightly-wallet-icon.png';
+import SenderWalletIcon from '../../images/wallet-icons/sender-wallet-icon.png';
+import WellDoneWalletIcon from '../../images/wallet-icons/welldone-wallet-icon.png';
 import FormButton from '../common/FormButton';
-import Container from '../common/styled/Container.css';
 import { WalletSelectorGetAWallet } from '../common/wallet_selector/WalletSelectorGetAWallet';
-import LandingBackground from './LandingBackground';
+import NavigationWrapperV2 from '../navigation/NavigationWrapperV2';
+import {recordWalletMigrationEvent} from '../wallet-migration/metrics';
+import {
+    CardContainer,
+    CardsSection,
+    DefaultContainer, FlexBox, FlexItem, FormButtonContainer, InfoSection,
+    MainContainer,
+    MainSection, MainSectionButtons,
+    MainSectionInfo, SecondaryText, SecondaryTitle,
+    Section, SingleCard,
+    StyledContainer, TransferSection, TransferSectionWrapper
+} from './GuestLanding.styles';
 
-const StyledContainer = styled.div`
+export function GuestLanding({ history, accountFound, onTransfer  }) {
 
-    &&& {
-        margin: 35px 5px 0 5px;
-        position: relative;
-        text-align: center;
-
-        @media (max-width: 767px) {
-            margin: 0;
-            overflow: hidden;
-            margin-top: -13px;
-        }
-
-        svg {
-            opacity: 0.4;
-            position: absolute;
-            left: 0;
-            right: 0;
-            top: 0;
-            z-index: -1;
-
-            @media (max-width: 992px) {
-                top: -120px;
-            }
-
-            @media (max-width: 470px) {
-                top: -86px;
-                width: 900px;
-                left: unset;
-            }
-        }
-
-        .small-centered {
-            padding-top: 20px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
-
-        h1 {
-            font-weight: 600;
-        }
-
-        h3 {
-            font-weight: 400 !important;
-            line-height: 150%;
-
-            span {
-                span {
-                    font-weight: 500;
-                }
-            }
-
-            @media (max-width: 767px) {
-                font-size: 16px !important;
-            }
-        }
-
-        .buttons {
-            margin-top: 30px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            z-index: 1;
-
-            .blue {
-                font-weight: 500 !important;
-                margin: 0;
-                text-transform: none;
-
-                :not(.link) {
-                    min-width: 200px;
-                    max-width: 220px;
-                    height: auto;
-                    text-transform: none;
-                    padding: 12px 6px;
-                }
-            }
-
-            .link {
-                text-decoration: none;
-                padding: 0;
-                :hover {
-                    background-color: transparent;
-                    text-decoration: underline;
-                }
-            }
-
-            span {
-                margin: 20px;
-            }
-
-            @media (min-width: 768px) {
-                flex-direction: row;
-            }
-        }
-
-        .img-wrapper {
-            min-height: 300px;
-
-            @media (min-width: 768px) {
-                min-height: 600px;
-            }
-        }
-
-        img {
-            margin-top: 65px;
-            margin-bottom: 50px;
-            width: 500px;
-            height: auto;
-
-            @media (min-width: 768px) {
-                width: 675px;
-                margin-bottom: 75px;
-            }
-        }
-
-        .email-subscribe {
-            margin-top: -140px;
-            margin-bottom: 50px;
-            padding-top: 80px;
-
-            @media (max-width: 767px) {
-                margin-bottom: 0;
-                margin-top: -100px;
-            }
-        }
-    }
-`;
-
-export function GuestLanding({ history }) {
     const [walletSelectorModal, setWalletSelectorModal] = useState();
     const [showModal, setShowModal] = useState();
+    
+    useEffect(() => {
+        recordWalletMigrationEvent('LANDING_PAGE');
+    }, []);
 
     return (
+        <>
+        <NavigationWrapperV2 onTransfer={onTransfer} />
         <StyledContainer>
             <WalletSelectorGetAWallet
                 setWalletSelectorModal={(modal) => setWalletSelectorModal(modal)}
@@ -157,36 +45,187 @@ export function GuestLanding({ history }) {
                 }}
                 showModal={showModal}
             />
-            <LandingBackground />
-            <Container className='small-centered'>
-                <h1><Translate id='landing.title' /></h1>
-                <h3><Translate id='landing.desc' /></h3>
-                <div className='buttons'>
-                    <FormButton
-                        onClick={() => {
-                            if (WEP_DISABLE_ACCOUNT_CREATION) {
-                                setShowModal('more-near-wallets');
-                            } else {
-                                history.push('/create');
-                            }
-                        }}
-                        trackingId="Click create account button"
-                        data-test-id="landingPageCreateAccount"
-                    >
-                        <Translate id="button.createAccount" />
-                    </FormButton>
-                    <span><Translate id='landing.or' /></span>
-                    <FormButton
-                        data-test-id="homePageImportAccountButton"
-                        linkTo="/recover-account"
-                        className="link"
-                        trackingId="Click import existing link"
-                    >
-                        {WEP_PHASE_ONE ? <Translate id="button.recoverExistingAccount" /> : <Translate id="button.importExistingAccount" />}
-                    </FormButton>
-                </div>
-                <div className='img-wrapper'><img src={iPhoneMockup} alt='Sign up' /></div>
-            </Container>
+            <MainContainer>
+                <MainSection>
+                    <MainSectionInfo>
+                        <h1><Translate id='landing.title' /></h1>
+                        <h3><Translate id='landing.desc' /></h3>
+                        <MainSectionButtons>
+                            <FormButton
+                                onClick={() => {
+                                    recordWalletMigrationEvent('click', { element: { type: 'button', description: 'Learn More' }});
+                                    window.open('https://medium.com/nearprotocol/near-opens-the-door-to-more-wallets-255eee58eb97', '_blank');
+                                }}
+                                className='dark-gray-transparent'
+                                color='dark-gray-transparent'
+                                trackingId="Click create account button"
+                                data-test-id="landingPageLearMore"
+                            >
+                                <Translate id="button.learnMore" />
+                            </FormButton>
+                            {accountFound && (
+                                <FormButton
+                                    onClick={onTransfer}
+                                    className='light-green-transparent'
+                                    color='light-green-transparent'
+                                    trackingId="Click create account button"
+                                    data-test-id="landingPageCreateAccount"
+                                >
+                                    <Translate id="button.transferAccounts" />
+                                </FormButton>
+                            )}
+                        </MainSectionButtons>
+                    </MainSectionInfo>
+                </MainSection>
+            </MainContainer>
         </StyledContainer>
+            <Section>
+                <DefaultContainer>
+                    <h2><Translate id="landing.decentralize" /></h2>
+                    <h3><Translate id="landing.decentralizeSubtitle" /></h3>
+                    <FlexBox>
+                        <FlexItem accountFound={accountFound}>
+                            <h4><Translate id="landing.landingSectionTitle" /></h4>
+                            <p>
+                                <Translate id="landing.landingSectionDescription" />
+                            </p>
+                            <div>
+                                <FormButton
+                                    onClick={() => {
+                                        recordWalletMigrationEvent('click', { element: { type: 'button', description: 'Learn More' }});
+                                        window.open('https://medium.com/nearprotocol/near-opens-the-door-to-more-wallets-255eee58eb97', '_blank');
+                                    }}
+                                    className='dark-gray-transparent'
+                                    color='dark-gray-transparent'
+                                    trackingId="Click create account button"
+                                    data-test-id="landingPageCreateAccount"
+                                >
+                                    <Translate id="button.learnMore" />
+                                </FormButton>
+                            </div>
+                        </FlexItem>
+                        { accountFound && (
+                            <FlexItem accountFound={accountFound}>
+                                <h4><Translate id="landing.landingSectionSubTitle" /></h4>
+                                <p>
+                                    <Translate id="landing.landingSectionSubDescription" />
+                                </p>
+                                <FormButton
+                                    onClick={() => {
+                                        recordWalletMigrationEvent('click', { element: { type: 'button', description: 'Transfer Guide' }});
+                                        history.push('/transfer-wizard');
+                                    }}
+                                    className='dark-gray-transparent'
+                                    color='dark-gray-transparent'
+                                    trackingId="Click create account button"
+                                    data-test-id="landingPageCreateAccount"
+                                >
+                                    <Translate id="button.transferGuide" />
+                                </FormButton>
+                            </FlexItem>
+                        )}
+                    </FlexBox>
+                    <InfoSection>
+                        <div>
+                            <SecondaryTitle><Translate id="landing.wallet.title" /></SecondaryTitle>
+                            {accountFound ? (
+                                <SecondaryText>
+                                    {accountFound ? <Translate id="landing.wallet.description" /> : <Translate id="landing.wallet.secondaryDescription" />}
+                                </SecondaryText>
+                            ) : (
+                                <SecondaryText>
+                                    <Translate id="landing.wallet.secondaryDescription" />
+                                </SecondaryText>
+                            )}
+                        </div>
+                        <FormButtonContainer>
+                            <FormButton
+                                onClick={() => {
+                                    recordWalletMigrationEvent('click', { element: { type: 'button', description: 'Compare Wallets' }});
+                                    window.open('https://docs.google.com/spreadsheets/d/1JeF9ZKmg1IHvTlgIv0ymGNMIeps6khcr3ElfIpEJHGs/edit#gid=0', '_blank');
+                                }}
+                                className='dark-gray-transparent'
+                                color='dark-gray-transparent'
+                                trackingId="Click create account button"
+                                data-test-id="landingPageCreateAccount"
+                            >
+                                <Translate id="button.compareWallets" />
+                            </FormButton>
+                        </FormButtonContainer>
+                    </InfoSection>
+                    <CardsSection>
+                        <CardContainer>
+                            <SingleCard href='https://mynearwallet.com' target='_blank' onClick={() => {
+                                recordWalletMigrationEvent('click', { element: { type: 'link', description: 'MyNearWallet Wallet' }});
+                            }}>
+                                <img src={NearWalletIcon} alt="near-wallet-icon" />
+                                <h3>MyNearWallet</h3>
+                                <p><Translate id="landing.wallet.near" /></p>
+                            </SingleCard>
+                            <SingleCard href="https://wallet.meteorwallet.app" target="_blank" onClick={() => {
+                                recordWalletMigrationEvent('click', { element: { type: 'link', description: 'Meteor Wallet' }});
+                            }}>
+                                <img src={MeteorWalletIcon} alt="meteor-wallet-icon" />
+                                <h3>Meteor Wallet</h3>
+                                <p><Translate id="landing.wallet.meteor" /></p>
+                            </SingleCard>
+                            <SingleCard href="https://sender.org" target="_blank" onClick={() => {
+                                recordWalletMigrationEvent('click', { element: { type: 'link', description: 'Sender Wallet' }});
+                            }}>
+                                <img src={SenderWalletIcon} alt="sender-wallet-icon" />
+                                <h3>Sender Wallet</h3>
+                                <p><Translate id="landing.wallet.sender" /></p>
+                            </SingleCard>
+                            <SingleCard href="https://www.herewallet.app" target="_blank" onClick={() => {
+                                recordWalletMigrationEvent('click', { element: { type: 'link', description: 'HERE Wallet' }});
+                            }}>
+                                <img src={HereWalletIcon} alt="here-wallet-icon" />
+                                <h3>HERE Wallet</h3>
+                                <p><Translate id="landing.wallet.here" /></p>
+                            </SingleCard>
+                            <SingleCard href="https://wallet.nightly.app/download" target="_blank" onClick={() => {
+                                recordWalletMigrationEvent('click', { element: { type: 'link', description: 'Nightly Wallet' }});
+                            }}>
+                                <img src={NightlyWalletIcon} alt="nightly-wallet-icon" />
+                                <h3>Nightly Wallet</h3>
+                                <p><Translate id="landing.wallet.nightly" /></p>
+                            </SingleCard>
+                            <SingleCard href="https://welldonestudio.io/" target="_blank"  onClick={() => {
+                                recordWalletMigrationEvent('click', { element: { type: 'link', description: 'WELLDONE Wallet' }});
+                            }}>
+                                <img src={WellDoneWalletIcon} alt="wellDone-wallet-icon" />
+                                <h3>WELLDONE Wallet</h3>
+                                <p><Translate id="landing.wallet.wellDone" /></p>
+                            </SingleCard>
+                        </CardContainer>
+                    </CardsSection>
+                </DefaultContainer>
+            </Section>
+            {accountFound && (
+                <TransferSection>
+                    <DefaultContainer>
+                        <TransferSectionWrapper>
+                            <div>
+                                <h4>
+                                    <Translate id="landing.transfer.title" />
+                                </h4>
+                                <p><Translate id="landing.transfer.description" /></p>
+                            </div>
+                            <FormButtonContainer>
+                                <FormButton
+                                    onClick={onTransfer}
+                                    className='dark-green-transparent'
+                                    color='dark-green-transparent'
+                                    trackingId="Click create account button"
+                                    data-test-id="landingPageCreateAccount"
+                                >
+                                    <Translate id="button.transferAccounts" />
+                                </FormButton>
+                            </FormButtonContainer>
+                        </TransferSectionWrapper>
+                    </DefaultContainer>
+                </TransferSection>
+            )}
+        </>
     );
 }

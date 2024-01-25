@@ -1,19 +1,15 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import { parse } from 'query-string';
+import React, { useEffect, useState } from 'react';
 import { Translate } from 'react-localize-redux';
-import {useSelector} from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 
-import IconOffload from '../../images/IconOffload';
-import { selectAvailableAccounts, selectAvailableAccountsIsLoading } from '../../redux/slices/availableAccounts';
-import { getNearOrgWalletUrl } from '../../utils/getWalletURL';
-import AlertTriangleIcon from '../svg/AlertTriangleIcon';
 import CloseSvg from '../svg/CloseIcon';
-import InfoIcon from '../svg/InfoIcon';
 import FormButton from './FormButton';
 import Container from './styled/Container.css';
 
 const StyledContainer = styled.div`
-    background-color: #FFF4D5;
+    background-color: #FAC7BE;
     
     display: flex;
     align-items: flex-start;
@@ -21,6 +17,10 @@ const StyledContainer = styled.div`
     padding: 15px 0;
     margin-top: -15px;
     align-items: center;
+
+    @media (max-width: 768px) {
+        margin-bottom: 20px;
+    }
 
     .alert-container {
         padding: 9px;
@@ -49,10 +49,12 @@ const StyledContainer = styled.div`
 
 const ContentWrapper =  styled(Container)`
     display: flex;
-    align-items: center;
-    justify-content: space-between;
     margin-top: 0;
     padding: 0;
+
+    align-items: center;
+    justify-content: space-around;
+    margin-top: 10px;
 
     &>*:first-child{
         margin-right: 10px;
@@ -70,9 +72,9 @@ const ContentWrapper =  styled(Container)`
 
     & .content {
         display: flex;
-        align-items: flex-start;
+        align-items: center;
         flex-wrap: none;
-        color: #AD5700;
+        color: black;
 
         > div > span > span > a,
         > div > span > a {
@@ -87,27 +89,23 @@ const ContentWrapper =  styled(Container)`
 `;
 
 const CustomButton = styled(FormButton)`
-    color: #AD5700 !important;
-    background: #FFE3A2 !important;
-    border: none !important;
+    color: black !important;
+    background: transparent !important;
+    border: black 1px solid !important;
     white-space: nowrap;
     padding: 9.5px 16px;
     margin: 0 !important;
     height: 40px !important;
+    font-weight: 300 !important;
     @media (max-width: 768px) {
         margin-top: 16px !important;
     }
-`;
-
-const IconWrapper = styled.div`
-    display: inline;
-    margin-right: 10px;
-    margin-left: -10px;
+    margin-left: 24px !important;
 `;
 
 const CloseButton = styled.button`
-    height: 25px;
-    width: 25px;
+    height: 20px;
+    width: 20px;
     border: none;
     margin-left: 30px;
     cursor: pointer;
@@ -120,75 +118,42 @@ const CloseButton = styled.button`
 `;
 
 const MigrationBanner = ({ account, onTransfer }) => {
-    const migrationBannerCloseTime = localStorage.getItem('migrationBannerCloseTime');
-    const [showBanner, setShowBanner] = useState(true);
-    const EXPIRY_DATE = 604800000; // 7 days in milliseconds
+    const [showBanner, setShowBanner] = useState(false);
+    const history = useHistory();
+
     useEffect(() => {
-        if (!migrationBannerCloseTime || (Date.now() - migrationBannerCloseTime) > EXPIRY_DATE) {
-            setShowBanner(true);
-            localStorage.removeItem('migrationBannerCloseTime');
-        } else {
-            setShowBanner(false);
-        }
+        const isRedirect = parse(window.location.search).previousPath;
+        setShowBanner(isRedirect);
     }, []);
-
-    const availableAccounts = useSelector(selectAvailableAccounts);
-    const availableAccountsIsLoading = useSelector(selectAvailableAccountsIsLoading);
-
-    const walletUrl = getNearOrgWalletUrl().replace('https://', '');
-
-    const onTransferClick = useCallback(() => {
-        if (availableAccounts.length) {
-            onTransfer();
-            return;
-        }
-
-        window.open('/transfer-wizard', '_blank');
-    }, [availableAccounts]);
-
-    // If banner is closed and still not past expirary date, don't show the banner
-    if (!showBanner)  {
-        return null;
-    }
-
-    // If accounts area loading, don't show the banner
-    if (availableAccountsIsLoading) {
+    
+    
+    
+    if (!showBanner) {
         return null;
     }
 
     const hideBanner = () => {
         setShowBanner(false);
-        localStorage.setItem('migrationBannerCloseTime', Date.now());
+        history.replace('/');
+    };
+
+    const onLearnMoreClick = () => {
+        window.open('https://near.org/blog/embracing-decentralization-whats-next-for-the-near-wallet', '_blank');
     };
 
     return (
         <StyledContainer id='migration-banner'>
             <ContentWrapper>
                 <div className='content'>
-                    <div className='alert-container'>
-                        <AlertTriangleIcon color={'#FFA01C'} />
-                    </div>
                     <div className='message-container'>
-                        <Translate id='migration.message' data={{ walletUrl }}/>
+                        <Translate id='migration.redirect' />
                     </div>
+                    <CustomButton onClick={onLearnMoreClick}>
+                        <Translate id='migration.redirectCaption' />
+                    </CustomButton>
                 </div>
-                
-                <CustomButton onClick={onTransferClick}>
-                    <IconWrapper>
-                        {
-                            availableAccounts.length
-                                ? <IconOffload stroke="#AD5700" />
-                                : <InfoIcon color="#AD5700" />
-                        }    
-                    </IconWrapper>
-                    {
-                        availableAccounts.length
-                            ? <Translate id='migration.transferCaption' />
-                            : <Translate id='migration.redirectCaption' />
-                    }
-                </CustomButton>
                 <CloseButton onClick={hideBanner}>
-                    <CloseSvg color={'#AD5700'} />
+                    <CloseSvg color={'black'} />
                 </CloseButton>
             </ContentWrapper>
         </StyledContainer>

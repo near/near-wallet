@@ -68,7 +68,9 @@ const WalletMigration = ({ open, onClose }) => {
 
     const handleSetActiveView = useCallback((activeView) => {
         handleStateUpdate({ activeView });
-        recordWalletMigrationEvent(activeView);
+        if (activeView) {
+            recordWalletMigrationEvent(activeView);
+        }
     }, [handleStateUpdate]);
 
   
