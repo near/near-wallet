@@ -346,7 +346,7 @@
         "disabling2FA": "Disabling 2FA",
         "transferGuide": "Transfer Guide",
         "compareWallets": "Compare Wallets",
-        "transferAccounts":  "Transfer Accounts"
+        "transferAccounts": "Transfer Accounts"
     },
     "buyNear": {
         "bridgeSubTitle": "Transfer your tokens from Ethereum to NEAR using the Rainbow Bridge.",
@@ -691,13 +691,13 @@
             "sender": "Security-audited mobile & extension wallet with 1M+ users, supporting NEAR & Aurora.",
             "here": "Non-custodial mobile wallet with a friendly user interface and advanced features.",
             "nightly": "A mobile and extension wallet, with support for multiple ecosystems.",
-            "wellDone": "A multi-chain extension wallet that gives you control over all your assets from a single platform."
+            "wellDone": "A multi-chain extension wallet that gives you control over all your assets from a single platform.",
+            "nearMobile": "A non-custodial wallet that is easy to use and well designed to manage your crypto wherever you go."
         },
         "transfer": {
             "title": "You have accounts that need to be transferred",
             "description": "To continue using NEAR apps and managing your assets you need to migrate your accounts to a different wallet."
         }
-
     },
     "ledgerSignTxModal": {
         "ADD_ACCESS_KEY": "You will need to confirm login details on your Ledger.",
