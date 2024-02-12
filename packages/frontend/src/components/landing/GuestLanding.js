@@ -236,27 +236,6 @@ export function GuestLanding({ history, accountFound, onTransfer }) {
                                 </p>
                             </SingleCard>
                             <SingleCard
-                                href="https://nearmobile.app/"
-                                target="_blank"
-                                onClick={() => {
-                                    recordWalletMigrationEvent('click', {
-                                        element: {
-                                            type: 'link',
-                                            description: 'NEAR Mobile',
-                                        },
-                                    });
-                                }}
-                            >
-                                <img
-                                    src={NearMobileIcon}
-                                    alt="near-mobile-icon"
-                                />
-                                <h3>NEAR Mobile</h3>
-                                <p>
-                                    <Translate id="landing.wallet.nearMobile" />
-                                </p>
-                            </SingleCard>
-                            <SingleCard
                                 href="https://wallet.meteorwallet.app"
                                 target="_blank"
                                 onClick={() => {
@@ -359,6 +338,27 @@ export function GuestLanding({ history, accountFound, onTransfer }) {
                                 <h3>WELLDONE Wallet</h3>
                                 <p>
                                     <Translate id="landing.wallet.wellDone" />
+                                </p>
+                            </SingleCard>
+                            <SingleCard
+                                href="https://nearmobile.app/"
+                                target="_blank"
+                                onClick={() => {
+                                    recordWalletMigrationEvent('click', {
+                                        element: {
+                                            type: 'link',
+                                            description: 'NEAR Mobile',
+                                        },
+                                    });
+                                }}
+                            >
+                                <img
+                                    src={NearMobileIcon}
+                                    alt="near-mobile-icon"
+                                />
+                                <h3>NEAR Mobile</h3>
+                                <p>
+                                    <Translate id="landing.wallet.nearMobile" />
                                 </p>
                             </SingleCard>
                         </CardContainer>
