@@ -688,6 +688,7 @@
             "description": "You can transfer your accounts to any of the wallets below or manually import them to the wallet of your choice using your recovery phrase.",
             "near": "A browser based wallet that offers the same UI and features of wallet.near.org",
             "meteor": "Both a browser and extension wallet, with advanced NFT features.",
+            "mintbaseWallet": "Seedless, gassless, non-custodial, no app to install wallet for your grandmother.",
             "sender": "Security-audited mobile & extension wallet with 1M+ users, supporting NEAR & Aurora.",
             "here": "Non-custodial mobile wallet with a friendly user interface and advanced features.",
             "nightly": "A mobile and extension wallet, with support for multiple ecosystems.",
