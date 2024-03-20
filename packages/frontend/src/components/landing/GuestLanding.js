@@ -387,6 +387,7 @@ export function GuestLanding({ history, accountFound, onTransfer }) {
                                     });
                                 }}
                             >
+
                                 <img
                                     src={MintbaseWalletIcon}
                                     alt="meteor-wallet-icon"
