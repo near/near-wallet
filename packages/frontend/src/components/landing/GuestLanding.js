@@ -3,6 +3,7 @@ import { Translate } from 'react-localize-redux';
 
 import HereWalletIcon from '../../images/wallet-icons/here-wallet-icon.png';
 import MeteorWalletIcon from '../../images/wallet-icons/meteor-wallet-icon.png';
+import MintbaseWalletIcon from '../../images/wallet-icons/mintbase-wallet-icon.png';
 import NearMobileIcon from '../../images/wallet-icons/near-mobile-icon.png';
 import NearWalletIcon from '../../images/wallet-icons/near-wallet-icon.png';
 import NightlyWalletIcon from '../../images/wallet-icons/nightly-wallet-icon.png';
@@ -32,6 +33,7 @@ import {
     TransferSection,
     TransferSectionWrapper,
 } from './GuestLanding.styles';
+
 
 export function GuestLanding({ history, accountFound, onTransfer }) {
     const [walletSelectorModal, setWalletSelectorModal] = useState();
@@ -372,6 +374,28 @@ export function GuestLanding({ history, accountFound, onTransfer }) {
                                 <h3>NEAR Mobile</h3>
                                 <p>
                                     <Translate id="landing.wallet.nearMobile" />
+                                </p>
+                            </SingleCard>
+                            <SingleCard
+                                href="https://wallet.mintbase.xyz"
+                                target="_blank"
+                                onClick={() => {
+                                    recordWalletMigrationEvent('click', {
+                                        element: {
+                                            type: 'link',
+                                            description: 'Mintbase Wallet',
+                                        },
+                                    });
+                                }}
+                            >
+
+                                <img
+                                    src={MintbaseWalletIcon}
+                                    alt="meteor-wallet-icon"
+                                />
+                                <h3>Mintbase Wallet</h3>
+                                <p>
+                                    <Translate id="landing.wallet.mintbase" />
                                 </p>
                             </SingleCard>
                         </CardContainer>
