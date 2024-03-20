@@ -693,7 +693,8 @@
             "here": "Non-custodial mobile wallet with a friendly user interface and advanced features.",
             "nightly": "A mobile and extension wallet, with support for multiple ecosystems.",
             "wellDone": "A multi-chain extension wallet that gives you control over all your assets from a single platform.",
-            "nearMobile": "A non-custodial wallet that is easy to use and well designed to manage your crypto wherever you go."
+            "nearMobile": "A non-custodial wallet that is easy to use and well designed to manage your crypto wherever you go.",
+            "mintbase": "A passkey meta trasaction, browser wallet, with advanced NFT and AI features."
         },
         "transfer": {
             "title": "You have accounts that need to be transferred",
