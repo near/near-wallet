@@ -116,6 +116,11 @@ const Footer = () => {
                         ) : <img src={NearLogo} alt='NEAR' />
                     }
                 </div>
+                <div className='support-link'>
+                    <a href="https://nearhelp.zendesk.com/hc/en-us/requests/new" target="_blank" rel="noopener noreferrer">
+                        Contact Support
+                    </a>
+                </div>
                 <div>
                     &copy; {new Date().getFullYear()} <Translate id='footer.copyrights' />
                 </div>
