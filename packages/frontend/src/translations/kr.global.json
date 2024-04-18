@@ -283,6 +283,7 @@
         "enable": "활성화",
         "enabling": "활성화 중",
         "exploreNEAR": "NEAR 탐색",
+        "exploreWallets": "Wallets 탐색",
         "findMyAccount": "계정 찾기",
         "finish": "완료",
         "fundWith": "Fund with",
@@ -1901,7 +1902,7 @@
             "removeDesc": "이메일과 SMS 복구 방법, 이전 복구 구문, NEAR CLI에서 생성된 Full 액세스 키",
             "removeKeys": "키 제거",
             "title": "Full 액세스 키 비워내기",
-            "verifyPassphrase":  {
+            "verifyPassphrase": {
                 "desc": "복구 구문을 입력하여 다음 계정의 Full 액세스 키를 삭제하십시오: <b>${accountId}</b>",
                 "keyMessages": {
                     "doesNotExist": "입력된 시드 문구에 부합하는 ${accountId}의 Full 액세스 키가 존재하지 않습니다.",

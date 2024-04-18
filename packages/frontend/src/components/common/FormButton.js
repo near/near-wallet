@@ -36,7 +36,7 @@ const CustomButton = styled.button`
             height: 36px;
             border-radius: 20px;
             padding: 0px 0px;
-            
+
             font-size: 14px;
         }
 
@@ -60,14 +60,14 @@ const CustomButton = styled.button`
                 background: #e6e6e6;
                 border-color: #e6e6e6;
                 opacity: 1 !important;
-                color: #A2A2A8;
+                color: #a2a2a8;
             }
         }
-        
+
         &.dark-gray-light-blue {
-            background-color: #37383C;
-            border-color: #37383C;
-            color: #8EBAF0;
+            background-color: #37383c;
+            border-color: #37383c;
+            color: #8ebaf0;
 
             :hover {
                 background-color: black;
@@ -77,13 +77,13 @@ const CustomButton = styled.button`
                 background: #e6e6e6;
                 border-color: #e6e6e6;
                 opacity: 1 !important;
-                color: #A2A2A8;
+                color: #a2a2a8;
             }
         }
 
         &.dark-gray-black {
             background-color: #000000;
-            color: #FFFFFF;
+            color: #ffffff;
             padding: 0 20px;
             margin: 0;
             :hover {
@@ -94,14 +94,14 @@ const CustomButton = styled.button`
                 background: #e6e6e6;
                 border-color: #e6e6e6;
                 opacity: 1 !important;
-                color: #A2A2A8;
+                color: #a2a2a8;
             }
         }
 
         &.gray-gray {
-            background-color: #F0F0F1;
-            border-color: #F0F0F1;
-            color: #3F4045;
+            background-color: #f0f0f1;
+            border-color: #f0f0f1;
+            color: #3f4045;
 
             :hover {
                 background-color: #ececec;
@@ -113,9 +113,9 @@ const CustomButton = styled.button`
         }
 
         &.light-blue {
-            background-color: #D6EDFF;
+            background-color: #d6edff;
             border: 0;
-            color: #0072CE;
+            color: #0072ce;
             border-radius: 4px;
 
             &.small {
@@ -127,24 +127,25 @@ const CustomButton = styled.button`
 
             &.rounded {
                 border-radius: 50px;
-                padding: ${({ swapButton }) => (swapButton ? '6px 12px' : '12px 15px')};
+                padding: ${({ swapButton }) =>
+    swapButton ? '6px 12px' : '12px 15px'};
                 width: auto;
             }
 
             :hover {
                 color: white;
-                background-color: #0072CE;
+                background-color: #0072ce;
             }
 
             :disabled {
-                background-color: #F0F0F1;
-                color: #A2A2A8;
+                background-color: #f0f0f1;
+                color: #a2a2a8;
             }
         }
 
         &.red {
-            border-color: #E5484D;
-            background: #E5484D;
+            border-color: #e5484d;
+            background: #e5484d;
 
             :disabled {
                 background: #e6e6e6;
@@ -154,9 +155,9 @@ const CustomButton = styled.button`
             :active,
             :hover,
             :focus {
-                border-color: #E5484D;
+                border-color: #e5484d;
                 background: #fff;
-                color: #E5484D;
+                color: #e5484d;
             }
             &.dots {
                 color: #fff;
@@ -176,7 +177,7 @@ const CustomButton = styled.button`
                 background: #e6e6e6;
                 border-color: #e6e6e6;
                 opacity: 1 !important;
-                color: #A2A2A8;
+                color: #a2a2a8;
             }
         }
         &.seafoam-blue {
@@ -191,7 +192,7 @@ const CustomButton = styled.button`
             :active,
             :hover,
             :focus {
-              opacity: 0.8;
+                opacity: 0.8;
             }
         }
         &.seafoam-blue-white {
@@ -207,7 +208,7 @@ const CustomButton = styled.button`
             :active,
             :hover,
             :focus {
-              opacity: 0.8;
+                opacity: 0.8;
             }
         }
         &.dark-gray-transparent {
@@ -219,20 +220,20 @@ const CustomButton = styled.button`
 
             :hover {
                 background-color: #000000;
-                color: #FFFFFF;
+                color: #ffffff;
             }
 
             :disabled {
                 background: #e6e6e6;
                 border-color: #e6e6e6;
                 opacity: 1 !important;
-                color: #A2A2A8;
+                color: #a2a2a8;
             }
         }
         &.dark-green-transparent {
             background-color: transparent;
-            border-color: #00EC97;
-            color: #FFFFFF;
+            border-color: #00ec97;
+            color: #ffffff;
             margin: 0;
             padding: 10px 24px;
 
@@ -245,12 +246,12 @@ const CustomButton = styled.button`
                 background: #e6e6e6;
                 border-color: #e6e6e6;
                 opacity: 1 !important;
-                color: #A2A2A8;
+                color: #a2a2a8;
             }
         }
         &.light-green-transparent {
-            background-color: #00EC97;
-            border-color: #00EC97;
+            background-color: #00ec97;
+            border-color: #00ec97;
             color: #000000;
             margin: 0;
             padding: 10px 24px;
@@ -263,13 +264,12 @@ const CustomButton = styled.button`
                 background: #e6e6e6;
                 border-color: #e6e6e6;
                 opacity: 1 !important;
-                color: #A2A2A8;
+                color: #a2a2a8;
             }
         }
         &.green {
             border-color: #5ace84;
             background: #5ace84;
-            
 
             :disabled {
                 border-color: #e6e6e6;
@@ -284,8 +284,8 @@ const CustomButton = styled.button`
             }
         }
         &.green-dark {
-            background-color: #00C08B;
-            color: #00261C;
+            background-color: #00c08b;
+            color: #00261c;
             border: 0;
             font-weight: 600 !important;
 
@@ -294,9 +294,9 @@ const CustomButton = styled.button`
             }
 
             &.border {
-                color: #008D6A !important;
-                background-color: #C8F6E0 !important;
-                border: 2px solid #56BC8F !important;
+                color: #008d6a !important;
+                background-color: #c8f6e0 !important;
+                border: 2px solid #56bc8f !important;
             }
         }
         &.green-white-arrow {
@@ -324,8 +324,8 @@ const CustomButton = styled.button`
             }
         }
         &.green-pastel {
-            background-color: #4DD5A6;
-            color: #00261C;
+            background-color: #4dd5a6;
+            color: #00261c;
             border: 0;
 
             :hover {
@@ -351,21 +351,21 @@ const CustomButton = styled.button`
             }
         }
         &.gray-red {
-            color: #FF585D;
+            color: #ff585d;
             border: none;
-            background-color: #F0F0F1;
+            background-color: #f0f0f1;
 
             :hover,
             :active,
             :focus {
                 color: #fff;
-                background-color: #FF585D;
+                background-color: #ff585d;
             }
         }
         &.gray-blue {
             color: #0072ce;
-            border-color: #F0F0F1;
-            background: #F0F0F1;
+            border-color: #f0f0f1;
+            background: #f0f0f1;
 
             :disabled {
                 border-color: #e6e6e6;
@@ -376,18 +376,18 @@ const CustomButton = styled.button`
             :hover,
             :focus {
                 color: #0072ce;
-                border-color: #F0F0F1;
+                border-color: #f0f0f1;
                 background: #fff;
             }
 
             &.dark {
-                border-color: #EFEFEF;
-                background: #EFEFEF;
+                border-color: #efefef;
+                background: #efefef;
             }
 
             &.border {
                 background: none;
-                border-color: #E6E5E3;
+                border-color: #e6e5e3;
                 :hover {
                     border-color: #0072ce;
                 }
@@ -425,20 +425,20 @@ const CustomButton = styled.button`
             }
 
             &.gray {
-                color: #72727A;
+                color: #72727a;
 
                 :hover,
                 :focus {
-                    color: #72727A;
+                    color: #72727a;
                 }
             }
 
             &.light-gray {
-                color: #A2A2A8;
+                color: #a2a2a8;
 
                 :hover,
                 :focus {
-                    color: #A2A2A8;
+                    color: #a2a2a8;
                 }
             }
 
@@ -464,7 +464,6 @@ const CustomButton = styled.button`
                     text-decoration: none;
                 }
             }
-
         }
 
         &.dots {
@@ -481,31 +480,27 @@ const CustomButton = styled.button`
                 border-color: #cccccc;
             }
             :after {
-                content: '.';
+                content: ".";
                 animation: dots 1s steps(5, end) infinite;
-            
+
                 @keyframes dots {
-                    0%, 20% {
-                        color: rgba(0,0,0,0);
-                        text-shadow:
-                            .3em 0 0 rgba(0,0,0,0),
-                            .6em 0 0 rgba(0,0,0,0);
+                    0%,
+                    20% {
+                        color: rgba(0, 0, 0, 0);
+                        text-shadow: 0.3em 0 0 rgba(0, 0, 0, 0),
+                            0.6em 0 0 rgba(0, 0, 0, 0);
                     }
                     40% {
                         color: white;
-                        text-shadow:
-                            .3em 0 0 rgba(0,0,0,0),
-                            .6em 0 0 rgba(0,0,0,0);
+                        text-shadow: 0.3em 0 0 rgba(0, 0, 0, 0),
+                            0.6em 0 0 rgba(0, 0, 0, 0);
                     }
                     60% {
-                        text-shadow:
-                            .3em 0 0 white,
-                            .6em 0 0 rgba(0,0,0,0);
+                        text-shadow: 0.3em 0 0 white, 0.6em 0 0 rgba(0, 0, 0, 0);
                     }
-                    80%, 100% {
-                        text-shadow:
-                            .3em 0 0 white,
-                            .6em 0 0 white;
+                    80%,
+                    100% {
+                        text-shadow: 0.3em 0 0 white, 0.6em 0 0 white;
                     }
                 }
             }
@@ -526,31 +521,28 @@ const CustomButton = styled.button`
                 border: 0;
             }
             :after {
-                content: '.';
+                content: ".";
                 animation: link 1s steps(5, end) infinite;
-            
+
                 @keyframes link {
-                    0%, 20% {
-                        color: rgba(0,0,0,0);
-                        text-shadow:
-                            .3em 0 0 rgba(0,0,0,0),
-                            .6em 0 0 rgba(0,0,0,0);
+                    0%,
+                    20% {
+                        color: rgba(0, 0, 0, 0);
+                        text-shadow: 0.3em 0 0 rgba(0, 0, 0, 0),
+                            0.6em 0 0 rgba(0, 0, 0, 0);
                     }
                     40% {
                         color: #24272a;
-                        text-shadow:
-                            .3em 0 0 rgba(0,0,0,0),
-                            .6em 0 0 rgba(0,0,0,0);
+                        text-shadow: 0.3em 0 0 rgba(0, 0, 0, 0),
+                            0.6em 0 0 rgba(0, 0, 0, 0);
                     }
                     60% {
-                        text-shadow:
-                            .3em 0 0 #24272a,
-                            .6em 0 0 rgba(0,0,0,0);
+                        text-shadow: 0.3em 0 0 #24272a,
+                            0.6em 0 0 rgba(0, 0, 0, 0);
                     }
-                    80%, 100% {
-                        text-shadow:
-                            .3em 0 0 #24272a,
-                            .6em 0 0 #24272a;
+                    80%,
+                    100% {
+                        text-shadow: 0.3em 0 0 #24272a, 0.6em 0 0 #24272a;
                     }
                 }
             }
@@ -564,10 +556,10 @@ const CustomButton = styled.button`
     }
 `;
 
-const FormButton = ({ 
-    children, 
-    type, 
-    color = 'blue', 
+const FormButton = ({
+    children,
+    type,
+    color = 'blue',
     disabled = false,
     onClick,
     sending = false,
@@ -580,27 +572,31 @@ const FormButton = ({
     trackingId,
     swapButton,
     'data-test-id': testId,
-    style
+    style,
 }) => (
     <CustomButton
         swapButton={swapButton}
         type={type}
         id={id}
-        className={classNames([color, size, className, {'dots': sending}])}
+        className={classNames([color, size, className, { dots: sending }])}
         disabled={disabled}
         onClick={(e) => {
             onClick && onClick(e);
-            linkTo && (linkTo.toLowerCase().startsWith('http') ? window.open(linkTo, '_blank') : history.push(linkTo));
+            linkTo &&
+                (linkTo.toLowerCase().startsWith('http')
+                    ? window.open(linkTo, '_blank')
+                    : history.push(linkTo));
             trackingId && Mixpanel.track(trackingId);
         }}
-        tabIndex='3'
+        tabIndex="3"
         data-test-id={testId}
         style={style}
     >
-        {sending
-            ? <Translate id={sendingString ? sendingString : 'sending'} />
-            : children
-        }
+        {sending ? (
+            <Translate id={sendingString ? sendingString : 'sending'} />
+        ) : (
+            children
+        )}
     </CustomButton>
 );
 
@@ -614,7 +610,7 @@ FormButton.propTypes = {
     size: PropTypes.string,
     linkTo: PropTypes.string,
     className: PropTypes.string,
-    trackingId: PropTypes.string
+    trackingId: PropTypes.string,
 };
 
 export default withRouter(FormButton);
