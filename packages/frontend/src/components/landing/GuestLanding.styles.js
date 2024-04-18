@@ -1,16 +1,19 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
-import PlusIcon from '../../images/plus-icon.png';
+import PlusIcon from "../../images/plus-icon.png";
 
 export const StyledContainer = styled.div`
-
+    background-image: url(${PlusIcon});
+    background-size: 75px 75px;
     &&& {
-        margin: 35px auto 100px auto;
-        max-width: 1224px;
-        position: relative;
+        margin: 32px auto 32px auto;
+
+        max-width: 100%;
+        display: flex;
+        align-items: center;
 
         @media (max-width: 1352px) {
-            padding: 0 64px;
+            padding: 0 24px;
         }
 
         @media (max-width: 991px) {
@@ -21,6 +24,10 @@ export const StyledContainer = styled.div`
             margin: 0;
             overflow: hidden;
             margin-top: -13px;
+        }
+
+        @media (max-width: 900px) {
+            min-height: 390px;
         }
 
         svg {
@@ -57,17 +64,17 @@ export const StyledContainer = styled.div`
             margin: 0;
             letter-spacing: -1.08px;
             line-height: 100%;
-            @media(max-width: 768px) {
+            @media (max-width: 768px) {
                 font-size: 60px;
             }
         }
-        
+
         h2 {
-            @media(max-width: 768px) {
+            @media (max-width: 768px) {
                 font-size: 45px;
             }
-            
-            @media(max-width: 576px) {
+
+            @media (max-width: 576px) {
                 font-size: 40px;
             }
         }
@@ -166,9 +173,9 @@ export const StyledContainer = styled.div`
 export const Section = styled.div`
     width: 100%;
     position: relative;
-    background-color: #F2F1EA;
+    background-color: #f2f1ea;
     padding: 100px 0 60px 0;
-    @media(max-width: 768px) {
+    @media (max-width: 768px) {
         padding: 50px 30px;
     }
     h2 {
@@ -178,14 +185,14 @@ export const Section = styled.div`
         font-weight: 500;
         line-height: 130%;
         padding-bottom: 42px;
-        @media(max-width: 576px) {
+        @media (max-width: 576px) {
             font-size: 40px;
         }
     }
     h3 {
         color: #000000;
         padding-bottom: 120px;
-        @media(max-width: 768px) {
+        @media (max-width: 768px) {
             padding-bottom: 50px;
             font-size: 20px;
         }
@@ -197,30 +204,26 @@ export const Section = styled.div`
 `;
 
 export const MainContainer = styled.div`
-    background-image: url(${PlusIcon});
-    background-size: 100px 95px;
-    min-height: 680px;
+    min-height: 500px;
     display: flex;
     width: 100%;
     -webkit-box-align: center;
     align-items: center;
     background-repeat: repeat;
     background-position: center top;
-    @media(max-width: 768px) {
-        margin-bottom: 20px;
-    }
+    margin: 72px auto 72px auto;
 `;
 
 export const MainSection = styled.div`
     padding: 1rem;
     max-width: 675px;
     margin: 0 auto;
-    background-color: #FFFFFF;
+    background-color: #ffffff;
     display: flex;
     -webkit-box-align: center;
     align-items: center;
     min-height: 260px;
-    @media(max-width: 768px) {
+    @media (max-width: 768px) {
         flex-wrap: wrap;
     }
 `;
@@ -247,52 +250,52 @@ export const DefaultContainer = styled.div`
 `;
 
 export const FlexBox = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;  
-  padding-bottom: 120px;  
-  @media(max-width: 768px) {
-      flex-wrap: wrap;
-      row-gap: 50px;
-      padding-bottom: 50px;
-  }  
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 120px;
+    @media (max-width: 768px) {
+        flex-wrap: wrap;
+        row-gap: 50px;
+        padding-bottom: 50px;
+    }
 `;
 
 export const FlexItem = styled.div`
     width: 100%;
-  h4 {
-      margin: 0;
-      font-size: 24px;
-      font-style: normal;
-      font-weight: 600;
-      line-height: 150%;
-      padding-bottom: 32px;
-  }
-  p {
-      margin: 0;
-      font-size: 16px;
-      font-style: normal;
-      font-weight: 450;
-      line-height: 150%;
-      letter-spacing: 0.32px;
-      color: #000000;
-      max-width: ${(props) => props.accountFound ? '430px' : '100%'};
-      padding-bottom: 48px;
-      @media(max-width: 768px) {
-          max-width: 100%;
-      }
-  }
+    h4 {
+        margin: 0;
+        font-size: 24px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 150%;
+        padding-bottom: 32px;
+    }
+    p {
+        margin: 0;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 450;
+        line-height: 150%;
+        letter-spacing: 0.32px;
+        color: #000000;
+        max-width: ${(props) => (props.accountFound ? "430px" : "100%")};
+        padding-bottom: 48px;
+        @media (max-width: 768px) {
+            max-width: 100%;
+        }
+    }
 `;
 
 export const InfoSection = styled.div`
-  display: flex;
-  align-items: end;
-  justify-content: space-between;
-  padding-bottom: 60px;
-  @media(max-width: 768px) {
-      flex-wrap: wrap;
-      row-gap: 50px;
-  }  
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    padding-bottom: 60px;
+    @media (max-width: 768px) {
+        flex-wrap: wrap;
+        row-gap: 50px;
+    }
 `;
 
 export const SecondaryTitle = styled.h4`
@@ -318,11 +321,11 @@ export const FormButtonContainer = styled.div`
     text-align: right;
     min-width: 500px;
 
-    @media(max-width: 1352px) {
+    @media (max-width: 1352px) {
         min-width: 300px;
     }
 
-    @media(max-width: 768px) {
+    @media (max-width: 768px) {
         min-width: 100%;
     }
 `;
@@ -335,8 +338,8 @@ export const CardsSection = styled.div`
 export const CardContainer = styled.div`
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    grid-auto-rows: minmax(100px, auto); 
-    gap: 24px; 
+    grid-auto-rows: minmax(100px, auto);
+    gap: 24px;
     min-width: 300px;
     @media (max-width: 600px) {
         grid-template-columns: 1fr;
@@ -344,30 +347,30 @@ export const CardContainer = styled.div`
 `;
 
 export const SingleCard = styled.a`
-  border: 1px solid #1B1B18;
-  transition: all .4s;
-  border-radius: 8px;
-  padding: 32px;                                  
-  cursor: pointer;
-  outline: none;
-    &:hover {                   
-        background-color: #E3E3E0;
+    border: 1px solid #1b1b18;
+    transition: all 0.4s;
+    border-radius: 8px;
+    padding: 32px;
+    cursor: pointer;
+    outline: none;
+    &:hover {
+        background-color: #e3e3e0;
         text-decoration: none;
-    }                                     
+    }
     img {
         width: 52px;
         padding-bottom: 32px;
     }
-      h3 {
-          margin: 0;
-          padding: 0;
-          font-size: 20px;
-          font-style: normal;
-          font-weight: 500;
-          line-height: 130%;
-          letter-spacing: 0.3px;
-          padding-bottom: 24px;
-      }
+    h3 {
+        margin: 0;
+        padding: 0;
+        font-size: 20px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 130%;
+        letter-spacing: 0.3px;
+        padding-bottom: 24px;
+    }
     p {
         margin: 0;
         padding: 0;
@@ -381,9 +384,9 @@ export const SingleCard = styled.a`
 `;
 export const TransferSection = styled.div`
     background-color: #000000;
-    color: #FFFFFF;
+    color: #ffffff;
     padding: 80px 0;
-    @media(max-width: 768px) {
+    @media (max-width: 768px) {
         padding: 50px 30px;
     }
 `;
@@ -392,31 +395,31 @@ export const TransferSectionWrapper = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: end;
-    @media(max-width: 768px) {
+    @media (max-width: 768px) {
         flex-wrap: wrap;
         row-gap: 50px;
     }
     h4 {
-      margin: 0;
-      font-size: 24px;
-      font-style: normal;
-      font-weight: 500;
-      line-height: 130%;
-      padding-bottom: 32px;
-      color: #FFFFFF;
+        margin: 0;
+        font-size: 24px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 130%;
+        padding-bottom: 32px;
+        color: #ffffff;
     }
     p {
-      margin: 0;
-      font-size: 16px;
-      font-style: normal;
-      font-weight: 450;
-      line-height: 150%;
-      letter-spacing: 0.32px;
+        margin: 0;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 450;
+        line-height: 150%;
+        letter-spacing: 0.32px;
     }
 `;
 
 export const MainSectionButtons = styled.div`
-  display: flex;
-  justify-content: space-between;
-  gap: 24px;
+    display: flex;
+    justify-content: space-between;
+    gap: 24px;
 `;

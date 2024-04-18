@@ -1,18 +1,21 @@
-import React, { useEffect, useState } from 'react';
-import { Translate } from 'react-localize-redux';
+import React, { useEffect, useState, useRef } from "react";
+import { Translate } from "react-localize-redux";
+import styled from "styled-components";
 
-import HereWalletIcon from '../../images/wallet-icons/here-wallet-icon.png';
-import MeteorWalletIcon from '../../images/wallet-icons/meteor-wallet-icon.png';
-import MintbaseWalletIcon from '../../images/wallet-icons/mintbase-wallet-icon.png';
-import NearMobileIcon from '../../images/wallet-icons/near-mobile-icon.png';
-import NearWalletIcon from '../../images/wallet-icons/near-wallet-icon.png';
-import NightlyWalletIcon from '../../images/wallet-icons/nightly-wallet-icon.png';
-import SenderWalletIcon from '../../images/wallet-icons/sender-wallet-icon.png';
-import WellDoneWalletIcon from '../../images/wallet-icons/welldone-wallet-icon.png';
-import FormButton from '../common/FormButton';
-import { WalletSelectorGetAWallet } from '../common/wallet_selector/WalletSelectorGetAWallet';
-import NavigationWrapperV2 from '../navigation/NavigationWrapperV2';
-import { recordWalletMigrationEvent } from '../wallet-migration/metrics';
+import ArrowGrnImage from "../../images/icon-arrow-grn.svg";
+import ArrowWhiteImage from "../../images/icon-arrow-white.svg";
+import HereWalletIcon from "../../images/wallet-icons/here-wallet-icon.png";
+import MeteorWalletIcon from "../../images/wallet-icons/meteor-wallet-icon.png";
+import MintbaseWalletIcon from "../../images/wallet-icons/mintbase-wallet-icon.png";
+import NearMobileIcon from "../../images/wallet-icons/near-mobile-icon.png";
+import NearWalletIcon from "../../images/wallet-icons/near-wallet-icon.png";
+import NightlyWalletIcon from "../../images/wallet-icons/nightly-wallet-icon.png";
+import SenderWalletIcon from "../../images/wallet-icons/sender-wallet-icon.png";
+import WellDoneWalletIcon from "../../images/wallet-icons/welldone-wallet-icon.png";
+import FormButton from "../common/FormButton";
+import { WalletSelectorGetAWallet } from "../common/wallet_selector/WalletSelectorGetAWallet";
+import NavigationWrapperV2 from "../navigation/NavigationWrapperV2";
+import { recordWalletMigrationEvent } from "../wallet-migration/metrics";
 import {
     CardContainer,
     CardsSection,
@@ -32,16 +35,605 @@ import {
     StyledContainer,
     TransferSection,
     TransferSectionWrapper,
-} from './GuestLanding.styles';
+} from "./GuestLanding.styles";
 
+const CustomButton = styled.button`
+    &&& {
+        color: #fff;
+        margin: ${({ swapButton }) => (swapButton ? 0 : "24px 0 0 0")};
+        border: 2px solid;
+        font-weight: 600;
+        height: 56px;
+        border-radius: 30px;
+        transition: 100ms;
+        font-size: 14px;
+        word-break: keep-all;
+
+        :disabled {
+            cursor: not-allowed;
+        }
+
+        svg {
+            width: 16px;
+            height: 16px;
+            margin: 0 0 -4px 8px;
+        }
+
+        &.small {
+            width: 110px;
+            height: 36px;
+            border-radius: 20px;
+            padding: 0px 0px;
+
+            font-size: 14px;
+        }
+
+        &.black {
+            background-color: black;
+
+            :hover {
+                background-color: #1f1f1f;
+            }
+        }
+
+        &.dark-gray {
+            background-color: #272729;
+            border-color: #272729;
+
+            :hover {
+                background-color: black;
+            }
+
+            :disabled {
+                background: #e6e6e6;
+                border-color: #e6e6e6;
+                opacity: 1 !important;
+                color: #a2a2a8;
+            }
+        }
+
+        &.dark-gray-light-blue {
+            background-color: #37383c;
+            border-color: #37383c;
+            color: #8ebaf0;
+
+            :hover {
+                background-color: black;
+            }
+
+            :disabled {
+                background: #e6e6e6;
+                border-color: #e6e6e6;
+                opacity: 1 !important;
+                color: #a2a2a8;
+            }
+        }
+
+        &.dark-gray-black {
+            background-color: #000000;
+            color: #ffffff;
+            padding: 0 20px;
+            margin: 0;
+            :hover {
+                background-color: #706f6c;
+            }
+
+            :disabled {
+                background: #e6e6e6;
+                border-color: #e6e6e6;
+                opacity: 1 !important;
+                color: #a2a2a8;
+            }
+        }
+
+        &.gray-gray {
+            background-color: #f0f0f1;
+            border-color: #f0f0f1;
+            color: #3f4045;
+
+            :hover {
+                background-color: #ececec;
+            }
+
+            :disabled {
+                opacity: 0.8;
+            }
+        }
+
+        &.light-blue {
+            background-color: #d6edff;
+            border: 0;
+            color: #0072ce;
+            border-radius: 4px;
+
+            &.small {
+                padding: 6px 12px;
+                height: auto;
+                font-weight: 400 !important;
+                font-size: 12px;
+            }
+
+            &.rounded {
+                border-radius: 50px;
+                padding: ${({ swapButton }) =>
+                    swapButton ? "6px 12px" : "12px 15px"};
+                width: auto;
+            }
+
+            :hover {
+                color: white;
+                background-color: #0072ce;
+            }
+
+            :disabled {
+                background-color: #f0f0f1;
+                color: #a2a2a8;
+            }
+        }
+
+        &.red {
+            border-color: #e5484d;
+            background: #e5484d;
+
+            :disabled {
+                background: #e6e6e6;
+                border-color: #e6e6e6;
+                opacity: 1 !important;
+            }
+            :active,
+            :hover,
+            :focus {
+                border-color: #e5484d;
+                background: #fff;
+                color: #e5484d;
+            }
+            &.dots {
+                color: #fff;
+            }
+        }
+        &.blue {
+            border-color: #0072ce;
+            background: #0072ce;
+
+            :active,
+            :hover,
+            :focus {
+                border-color: #007fe6;
+                background: #007fe6;
+            }
+            :disabled {
+                background: #e6e6e6;
+                border-color: #e6e6e6;
+                opacity: 1 !important;
+                color: #a2a2a8;
+            }
+        }
+        &.seafoam-blue {
+            border-color: #6ad1e3;
+            background: #6ad1e3;
+
+            :disabled {
+                background: #e6e6e6;
+                border-color: #e6e6e6;
+                opacity: 1 !important;
+            }
+            :active,
+            :hover,
+            :focus {
+                opacity: 0.8;
+            }
+        }
+        &.seafoam-blue-white {
+            border-color: #6ad1e3;
+            background: #fff;
+            color: #6ad1e3;
+
+            :disabled {
+                background: #fff;
+                border-color: #e6e6e6;
+                opacity: 1 !important;
+            }
+            :active,
+            :hover,
+            :focus {
+                opacity: 0.8;
+            }
+        }
+        &.dark-gray-transparent {
+            background-color: transparent;
+            border-color: #000000;
+            color: #000000;
+            margin: 0;
+            padding: 10px 24px;
+
+            :hover {
+                background-color: #000000;
+                color: #ffffff;
+            }
+
+            :disabled {
+                background: #e6e6e6;
+                border-color: #e6e6e6;
+                opacity: 1 !important;
+                color: #a2a2a8;
+            }
+        }
+        &.dark-green-transparent {
+            background-color: transparent;
+            border-color: #00ec97;
+            color: #ffffff;
+            margin: 0;
+            padding: 10px 24px;
+
+            :hover {
+                background-color: rgb(0, 236, 151);
+                color: #000000;
+            }
+
+            :disabled {
+                background: #e6e6e6;
+                border-color: #e6e6e6;
+                opacity: 1 !important;
+                color: #a2a2a8;
+            }
+        }
+        &.light-green-transparent {
+            background-color: #00ec97;
+            border-color: #00ec97;
+            color: #000000;
+            margin: 0;
+            padding: 10px 24px;
+
+            :hover {
+                background-color: #45e394;
+            }
+
+            :disabled {
+                background: #e6e6e6;
+                border-color: #e6e6e6;
+                opacity: 1 !important;
+                color: #a2a2a8;
+            }
+        }
+        &.green {
+            border-color: #5ace84;
+            background: #5ace84;
+
+            :disabled {
+                border-color: #e6e6e6;
+                background: #e6e6e6;
+                opacity: 1 !important;
+            }
+            :active,
+            :hover,
+            :focus {
+                border-color: #61de8d;
+                background: #61de8d;
+            }
+        }
+        &.green-dark {
+            background-color: #00c08b;
+            color: #00261c;
+            border: 0;
+            font-weight: 600 !important;
+
+            :disabled {
+                opacity: 0.5;
+            }
+
+            &.border {
+                color: #008d6a !important;
+                background-color: #c8f6e0 !important;
+                border: 2px solid #56bc8f !important;
+            }
+        }
+        &.green-white-arrow {
+            color: #5ace84;
+            border-color: #5ace84;
+            background-color: #fff;
+            background-image: url(${ArrowGrnImage});
+            background-repeat: no-repeat;
+            background-position: 90% center;
+            background-size: 14px 20px;
+
+            :disabled {
+                color: #e6e6e6;
+                border-color: #e6e6e6;
+                background: #fff;
+                opacity: 1 !important;
+            }
+            :active,
+            :hover,
+            :focus {
+                color: #fff;
+                border-color: #61de8d;
+                background-color: #61de8d;
+                background-image: url(${ArrowWhiteImage});
+            }
+        }
+        &.green-pastel {
+            background-color: #4dd5a6;
+            color: #00261c;
+            border: 0;
+
+            :hover {
+                background-color: #49cc9f;
+            }
+        }
+        &.gray-white {
+            color: #cccccc;
+            border-color: #cccccc;
+            background: #fff;
+
+            :disabled {
+                border-color: #e6e6e6;
+                background: #e6e6e6;
+                opacity: 1 !important;
+            }
+            :active,
+            :hover,
+            :focus {
+                color: #fff;
+                border-color: #cccccc;
+                background: #cccccc;
+            }
+        }
+        &.gray-red {
+            color: #ff585d;
+            border: none;
+            background-color: #f0f0f1;
+
+            :hover,
+            :active,
+            :focus {
+                color: #fff;
+                background-color: #ff585d;
+            }
+        }
+        &.gray-blue {
+            color: #0072ce;
+            border-color: #f0f0f1;
+            background: #f0f0f1;
+
+            :disabled {
+                border-color: #e6e6e6;
+                background: #e6e6e6;
+                opacity: 1 !important;
+            }
+            :active,
+            :hover,
+            :focus {
+                color: #0072ce;
+                border-color: #f0f0f1;
+                background: #fff;
+            }
+
+            &.dark {
+                border-color: #efefef;
+                background: #efefef;
+            }
+
+            &.border {
+                background: none;
+                border-color: #e6e5e3;
+                :hover {
+                    border-color: #0072ce;
+                }
+            }
+        }
+        &.white-blue {
+            background-color: white;
+            border: 0;
+            color: #0072ce;
+
+            :active,
+            :hover,
+            :focus {
+                color: white;
+                background: #0072ce;
+            }
+        }
+        &.link {
+            width: auto !important;
+            height: auto;
+            min-height: 50px;
+            padding: 0;
+            margin: 0;
+            border-radius: 0px;
+            background: none;
+            border: none;
+            display: inline;
+            color: #0072ce;
+
+            :hover,
+            :focus {
+                color: #0072ce;
+                background-color: transparent;
+                text-decoration: underline;
+            }
+
+            &.gray {
+                color: #72727a;
+
+                :hover,
+                :focus {
+                    color: #72727a;
+                }
+            }
+
+            &.light-gray {
+                color: #a2a2a8;
+
+                :hover,
+                :focus {
+                    color: #a2a2a8;
+                }
+            }
+
+            &.red {
+                color: #ff585d;
+
+                :disabled {
+                    opacity: 0.8;
+                    background: transparent !important;
+                }
+            }
+
+            &.normal {
+                font-weight: 400;
+                font-size: 16px;
+            }
+
+            &.underline {
+                font-weight: 400;
+                text-decoration: underline;
+
+                :hover {
+                    text-decoration: none;
+                }
+            }
+        }
+
+        &.dots {
+            color: #fff;
+            border-color: #cccccc;
+            background-color: #cccccc;
+            cursor: default;
+
+            :active,
+            :hover,
+            :focus,
+            :disabled {
+                background: #cccccc;
+                border-color: #cccccc;
+            }
+            :after {
+                content: ".";
+                animation: dots 1s steps(5, end) infinite;
+
+                @keyframes dots {
+                    0%,
+                    20% {
+                        color: rgba(0, 0, 0, 0);
+                        text-shadow: 0.3em 0 0 rgba(0, 0, 0, 0),
+                            0.6em 0 0 rgba(0, 0, 0, 0);
+                    }
+                    40% {
+                        color: white;
+                        text-shadow: 0.3em 0 0 rgba(0, 0, 0, 0),
+                            0.6em 0 0 rgba(0, 0, 0, 0);
+                    }
+                    60% {
+                        text-shadow: 0.3em 0 0 white, 0.6em 0 0 rgba(0, 0, 0, 0);
+                    }
+                    80%,
+                    100% {
+                        text-shadow: 0.3em 0 0 white, 0.6em 0 0 white;
+                    }
+                }
+            }
+        }
+
+        &.link.dots {
+            color: #24272a;
+            border: 0;
+            background-color: transparent;
+            text-transform: lowercase;
+            text-decoration: none;
+
+            :active,
+            :hover,
+            :focus,
+            :disabled {
+                background: transparent;
+                border: 0;
+            }
+            :after {
+                content: ".";
+                animation: link 1s steps(5, end) infinite;
+
+                @keyframes link {
+                    0%,
+                    20% {
+                        color: rgba(0, 0, 0, 0);
+                        text-shadow: 0.3em 0 0 rgba(0, 0, 0, 0),
+                            0.6em 0 0 rgba(0, 0, 0, 0);
+                    }
+                    40% {
+                        color: #24272a;
+                        text-shadow: 0.3em 0 0 rgba(0, 0, 0, 0),
+                            0.6em 0 0 rgba(0, 0, 0, 0);
+                    }
+                    60% {
+                        text-shadow: 0.3em 0 0 #24272a,
+                            0.6em 0 0 rgba(0, 0, 0, 0);
+                    }
+                    80%,
+                    100% {
+                        text-shadow: 0.3em 0 0 #24272a, 0.6em 0 0 #24272a;
+                    }
+                }
+            }
+        }
+        &.bold {
+            font-weight: 500;
+        }
+        @media screen and (max-width: 767px) {
+            width: 100%;
+        }
+    }
+`;
+
+const Pattern = styled.div`
+    width: 100%;
+    min-height: 540px;
+    display: flex;
+    align-items: center;
+    background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJYAAACWCAYAAAA8AXHiAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAGeSURBVHgB7doxTisxEAbgeY/mvQro6NiSDo6QkpJbcA2OwjWooKQMJ2DpKENJBV7FEYoBeQSIZr9PGk2cItWvsdfZnSBjKHVf6rnUbdD1N8g4K7VX6jhIEaycofaTIEWwcoam0yFYOYe179WiQ7Byhk8+8wnB6munlHNWgmD1tUGyFSYIVl8bJFcOCYLV106s/aBrJ2hNE+qo1GmpRanz2J5aB6X+x/oQv/l+FWz5E/O1iHU4pom0W/u0/uoZahnrgN2VGuv6Jpidl1+o2T5BznkrfKj9MdZT6l9836r+3k2pq1KXMVNz3gpbU7hOmj49AQ7x/lJ0WWsK5xhv2+AYkHQR29vbddDluqFvbNZPQZdg9S07az4gWH3tHZVgJQhW3xjb4XIZyo+Z3nffHN79CZ1gYuXc1b4KEytFsHLGptMhWDlj7Q9BimDlbJ4Ex4AftggHdwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIpXoUVLSWulnzoAAAAASUVORK5CYII=");
+    background-size: 75px 75px;
+    background-repeat: repeat;
+    background-position: center top;
+
+    @media (max-width: 900px) {
+        min-height: 390px;
+    }
+`;
+
+const PatternContent = styled.div`
+    padding: 1rem;
+    max-width: 496px;
+    margin: 0 auto;
+    background-color: var(--background-color);
+    display: flex;
+    align-items: center;
+    min-height: 260px;
+
+    @media (max-width: 900px) {
+        min-height: 0px;
+    }
+`;
 
 export function GuestLanding({ history, accountFound, onTransfer }) {
     const [walletSelectorModal, setWalletSelectorModal] = useState();
     const [showModal, setShowModal] = useState();
 
+    const ref = useRef(null);
+    console.log("accountFound", accountFound);
+
     useEffect(() => {
-        recordWalletMigrationEvent('LANDING_PAGE');
+        recordWalletMigrationEvent("LANDING_PAGE");
     }, []);
+
+    const scrollToWalletSection = () => {
+        ref.current?.scrollIntoView({
+            behavior: "smooth",
+            block: "start",
+        });
+        const elementTop = ref.current.getBoundingClientRect().top;
+
+        const offset = 100;
+        window.scrollBy({ top: elementTop - offset, behavior: "smooth" });
+    };
 
     return (
         <>
@@ -53,7 +645,7 @@ export function GuestLanding({ history, accountFound, onTransfer }) {
                     }
                     setShowModal={(modal) => {
                         setShowModal(null);
-                        if (modal === 'wallet-selector') {
+                        if (modal === "wallet-selector") {
                             walletSelectorModal.show();
                         }
                     }}
@@ -71,15 +663,15 @@ export function GuestLanding({ history, accountFound, onTransfer }) {
                             <MainSectionButtons>
                                 <FormButton
                                     onClick={() => {
-                                        recordWalletMigrationEvent('click', {
+                                        recordWalletMigrationEvent("click", {
                                             element: {
-                                                type: 'button',
-                                                description: 'Learn More',
+                                                type: "button",
+                                                description: "Learn More",
                                             },
                                         });
                                         window.open(
-                                            'https://medium.com/nearprotocol/near-opens-the-door-to-more-wallets-255eee58eb97',
-                                            '_blank'
+                                            "https://medium.com/nearprotocol/near-opens-the-door-to-more-wallets-255eee58eb97",
+                                            "_blank"
                                         );
                                     }}
                                     className="dark-gray-transparent"
@@ -89,7 +681,7 @@ export function GuestLanding({ history, accountFound, onTransfer }) {
                                 >
                                     <Translate id="button.learnMore" />
                                 </FormButton>
-                                {accountFound && (
+                                {accountFound ? (
                                     <FormButton
                                         onClick={onTransfer}
                                         className="light-green-transparent"
@@ -99,12 +691,22 @@ export function GuestLanding({ history, accountFound, onTransfer }) {
                                     >
                                         <Translate id="button.transferAccounts" />
                                     </FormButton>
+                                ) : (
+                                    <CustomButton
+                                        onClick={scrollToWalletSection}
+                                        className="light-green-transparent"
+                                        color="light-green-transparent"
+                                        trackingId="Explore Wallets"
+                                        data-test-id="Explore Wallets"
+                                    >
+                                        <Translate id="button.exploreWallets" />
+                                    </CustomButton>
                                 )}
                                 <FormButton
                                     onClick={() => {
                                         window.open(
-                                            'https://near.org/',
-                                            '_blank'
+                                            "https://near.org/",
+                                            "_blank"
                                         );
                                     }}
                                     className="dark-gray-transparent"
@@ -137,15 +739,15 @@ export function GuestLanding({ history, accountFound, onTransfer }) {
                             <div>
                                 <FormButton
                                     onClick={() => {
-                                        recordWalletMigrationEvent('click', {
+                                        recordWalletMigrationEvent("click", {
                                             element: {
-                                                type: 'button',
-                                                description: 'Learn More',
+                                                type: "button",
+                                                description: "Learn More",
                                             },
                                         });
                                         window.open(
-                                            'https://medium.com/nearprotocol/near-opens-the-door-to-more-wallets-255eee58eb97',
-                                            '_blank'
+                                            "https://medium.com/nearprotocol/near-opens-the-door-to-more-wallets-255eee58eb97",
+                                            "_blank"
                                         );
                                     }}
                                     className="dark-gray-transparent"
@@ -167,13 +769,13 @@ export function GuestLanding({ history, accountFound, onTransfer }) {
                                 </p>
                                 <FormButton
                                     onClick={() => {
-                                        recordWalletMigrationEvent('click', {
+                                        recordWalletMigrationEvent("click", {
                                             element: {
-                                                type: 'button',
-                                                description: 'Transfer Guide',
+                                                type: "button",
+                                                description: "Transfer Guide",
                                             },
                                         });
-                                        history.push('/transfer-wizard');
+                                        history.push("/transfer-wizard");
                                     }}
                                     className="dark-gray-transparent"
                                     color="dark-gray-transparent"
@@ -187,35 +789,37 @@ export function GuestLanding({ history, accountFound, onTransfer }) {
                     </FlexBox>
                     <InfoSection>
                         <div>
-                            <SecondaryTitle>
-                                <Translate id="landing.wallet.title" />
-                            </SecondaryTitle>
-                            {accountFound ? (
-                                <SecondaryText>
-                                    {accountFound ? (
-                                        <Translate id="landing.wallet.description" />
-                                    ) : (
+                            <div ref={ref}>
+                                <SecondaryTitle>
+                                    <Translate id="landing.wallet.title" />
+                                </SecondaryTitle>
+                                {accountFound ? (
+                                    <SecondaryText>
+                                        {accountFound ? (
+                                            <Translate id="landing.wallet.description" />
+                                        ) : (
+                                            <Translate id="landing.wallet.secondaryDescription" />
+                                        )}
+                                    </SecondaryText>
+                                ) : (
+                                    <SecondaryText>
                                         <Translate id="landing.wallet.secondaryDescription" />
-                                    )}
-                                </SecondaryText>
-                            ) : (
-                                <SecondaryText>
-                                    <Translate id="landing.wallet.secondaryDescription" />
-                                </SecondaryText>
-                            )}
+                                    </SecondaryText>
+                                )}
+                            </div>
                         </div>
                         <FormButtonContainer>
                             <FormButton
                                 onClick={() => {
-                                    recordWalletMigrationEvent('click', {
+                                    recordWalletMigrationEvent("click", {
                                         element: {
-                                            type: 'button',
-                                            description: 'Compare Wallets',
+                                            type: "button",
+                                            description: "Compare Wallets",
                                         },
                                     });
                                     window.open(
-                                        'https://docs.google.com/spreadsheets/d/1JeF9ZKmg1IHvTlgIv0ymGNMIeps6khcr3ElfIpEJHGs/edit#gid=0',
-                                        '_blank'
+                                        "https://docs.google.com/spreadsheets/d/1JeF9ZKmg1IHvTlgIv0ymGNMIeps6khcr3ElfIpEJHGs/edit#gid=0",
+                                        "_blank"
                                     );
                                 }}
                                 className="dark-gray-transparent"
@@ -233,10 +837,10 @@ export function GuestLanding({ history, accountFound, onTransfer }) {
                                 href="https://mynearwallet.com"
                                 target="_blank"
                                 onClick={() => {
-                                    recordWalletMigrationEvent('click', {
+                                    recordWalletMigrationEvent("click", {
                                         element: {
-                                            type: 'link',
-                                            description: 'MyNearWallet Wallet',
+                                            type: "link",
+                                            description: "MyNearWallet Wallet",
                                         },
                                     });
                                 }}
@@ -254,10 +858,10 @@ export function GuestLanding({ history, accountFound, onTransfer }) {
                                 href="https://wallet.meteorwallet.app"
                                 target="_blank"
                                 onClick={() => {
-                                    recordWalletMigrationEvent('click', {
+                                    recordWalletMigrationEvent("click", {
                                         element: {
-                                            type: 'link',
-                                            description: 'Meteor Wallet',
+                                            type: "link",
+                                            description: "Meteor Wallet",
                                         },
                                     });
                                 }}
@@ -275,10 +879,10 @@ export function GuestLanding({ history, accountFound, onTransfer }) {
                                 href="https://sender.org"
                                 target="_blank"
                                 onClick={() => {
-                                    recordWalletMigrationEvent('click', {
+                                    recordWalletMigrationEvent("click", {
                                         element: {
-                                            type: 'link',
-                                            description: 'Sender Wallet',
+                                            type: "link",
+                                            description: "Sender Wallet",
                                         },
                                     });
                                 }}
@@ -296,10 +900,10 @@ export function GuestLanding({ history, accountFound, onTransfer }) {
                                 href="https://www.herewallet.app"
                                 target="_blank"
                                 onClick={() => {
-                                    recordWalletMigrationEvent('click', {
+                                    recordWalletMigrationEvent("click", {
                                         element: {
-                                            type: 'link',
-                                            description: 'HERE Wallet',
+                                            type: "link",
+                                            description: "HERE Wallet",
                                         },
                                     });
                                 }}
@@ -317,10 +921,10 @@ export function GuestLanding({ history, accountFound, onTransfer }) {
                                 href="https://wallet.nightly.app/download"
                                 target="_blank"
                                 onClick={() => {
-                                    recordWalletMigrationEvent('click', {
+                                    recordWalletMigrationEvent("click", {
                                         element: {
-                                            type: 'link',
-                                            description: 'Nightly Wallet',
+                                            type: "link",
+                                            description: "Nightly Wallet",
                                         },
                                     });
                                 }}
@@ -338,10 +942,10 @@ export function GuestLanding({ history, accountFound, onTransfer }) {
                                 href="https://welldonestudio.io/"
                                 target="_blank"
                                 onClick={() => {
-                                    recordWalletMigrationEvent('click', {
+                                    recordWalletMigrationEvent("click", {
                                         element: {
-                                            type: 'link',
-                                            description: 'WELLDONE Wallet',
+                                            type: "link",
+                                            description: "WELLDONE Wallet",
                                         },
                                     });
                                 }}
@@ -359,10 +963,10 @@ export function GuestLanding({ history, accountFound, onTransfer }) {
                                 href="https://nearmobile.app/"
                                 target="_blank"
                                 onClick={() => {
-                                    recordWalletMigrationEvent('click', {
+                                    recordWalletMigrationEvent("click", {
                                         element: {
-                                            type: 'link',
-                                            description: 'NEAR Mobile',
+                                            type: "link",
+                                            description: "NEAR Mobile",
                                         },
                                     });
                                 }}
@@ -380,15 +984,14 @@ export function GuestLanding({ history, accountFound, onTransfer }) {
                                 href="https://wallet.mintbase.xyz"
                                 target="_blank"
                                 onClick={() => {
-                                    recordWalletMigrationEvent('click', {
+                                    recordWalletMigrationEvent("click", {
                                         element: {
-                                            type: 'link',
-                                            description: 'Mintbase Wallet',
+                                            type: "link",
+                                            description: "Mintbase Wallet",
                                         },
                                     });
                                 }}
                             >
-
                                 <img
                                     src={MintbaseWalletIcon}
                                     alt="meteor-wallet-icon"
