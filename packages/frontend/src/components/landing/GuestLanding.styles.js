@@ -1,6 +1,6 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
-import PlusIcon from "../../images/plus-icon.png";
+import PlusIcon from '../../images/plus-icon.png';
 
 export const StyledContainer = styled.div`
     background-image: url(${PlusIcon});
@@ -279,7 +279,7 @@ export const FlexItem = styled.div`
         line-height: 150%;
         letter-spacing: 0.32px;
         color: #000000;
-        max-width: ${(props) => (props.accountFound ? "430px" : "100%")};
+        max-width: ${(props) => (props.accountFound ? '430px' : '100%')};
         padding-bottom: 48px;
         @media (max-width: 768px) {
             max-width: 100%;

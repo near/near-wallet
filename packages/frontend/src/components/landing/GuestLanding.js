@@ -1,21 +1,21 @@
-import React, { useEffect, useState, useRef } from "react";
-import { Translate } from "react-localize-redux";
-import styled from "styled-components";
+import React, { useEffect, useState, useRef } from 'react';
+import { Translate } from 'react-localize-redux';
+import styled from 'styled-components';
 
-import ArrowGrnImage from "../../images/icon-arrow-grn.svg";
-import ArrowWhiteImage from "../../images/icon-arrow-white.svg";
-import HereWalletIcon from "../../images/wallet-icons/here-wallet-icon.png";
-import MeteorWalletIcon from "../../images/wallet-icons/meteor-wallet-icon.png";
-import MintbaseWalletIcon from "../../images/wallet-icons/mintbase-wallet-icon.png";
-import NearMobileIcon from "../../images/wallet-icons/near-mobile-icon.png";
-import NearWalletIcon from "../../images/wallet-icons/near-wallet-icon.png";
-import NightlyWalletIcon from "../../images/wallet-icons/nightly-wallet-icon.png";
-import SenderWalletIcon from "../../images/wallet-icons/sender-wallet-icon.png";
-import WellDoneWalletIcon from "../../images/wallet-icons/welldone-wallet-icon.png";
-import FormButton from "../common/FormButton";
-import { WalletSelectorGetAWallet } from "../common/wallet_selector/WalletSelectorGetAWallet";
-import NavigationWrapperV2 from "../navigation/NavigationWrapperV2";
-import { recordWalletMigrationEvent } from "../wallet-migration/metrics";
+import ArrowGrnImage from '../../images/icon-arrow-grn.svg';
+import ArrowWhiteImage from '../../images/icon-arrow-white.svg';
+import HereWalletIcon from '../../images/wallet-icons/here-wallet-icon.png';
+import MeteorWalletIcon from '../../images/wallet-icons/meteor-wallet-icon.png';
+import MintbaseWalletIcon from '../../images/wallet-icons/mintbase-wallet-icon.png';
+import NearMobileIcon from '../../images/wallet-icons/near-mobile-icon.png';
+import NearWalletIcon from '../../images/wallet-icons/near-wallet-icon.png';
+import NightlyWalletIcon from '../../images/wallet-icons/nightly-wallet-icon.png';
+import SenderWalletIcon from '../../images/wallet-icons/sender-wallet-icon.png';
+import WellDoneWalletIcon from '../../images/wallet-icons/welldone-wallet-icon.png';
+import FormButton from '../common/FormButton';
+import { WalletSelectorGetAWallet } from '../common/wallet_selector/WalletSelectorGetAWallet';
+import NavigationWrapperV2 from '../navigation/NavigationWrapperV2';
+import { recordWalletMigrationEvent } from '../wallet-migration/metrics';
 import {
     CardContainer,
     CardsSection,
@@ -35,12 +35,12 @@ import {
     StyledContainer,
     TransferSection,
     TransferSectionWrapper,
-} from "./GuestLanding.styles";
+} from './GuestLanding.styles';
 
 const CustomButton = styled.button`
     &&& {
         color: #fff;
-        margin: ${({ swapButton }) => (swapButton ? 0 : "24px 0 0 0")};
+        margin: ${({ swapButton }) => (swapButton ? 0 : '24px 0 0 0')};
         border: 2px solid;
         font-weight: 600;
         height: 56px;
@@ -156,7 +156,7 @@ const CustomButton = styled.button`
             &.rounded {
                 border-radius: 50px;
                 padding: ${({ swapButton }) =>
-                    swapButton ? "6px 12px" : "12px 15px"};
+    swapButton ? '6px 12px' : '12px 15px'};
                 width: auto;
             }
 
@@ -591,18 +591,18 @@ export function GuestLanding({ history, accountFound, onTransfer }) {
     const ref = useRef(null);
 
     useEffect(() => {
-        recordWalletMigrationEvent("LANDING_PAGE");
+        recordWalletMigrationEvent('LANDING_PAGE');
     }, []);
 
     const scrollToWalletSection = () => {
         ref.current?.scrollIntoView({
-            behavior: "smooth",
-            block: "start",
+            behavior: 'smooth',
+            block: 'start',
         });
         const elementTop = ref.current.getBoundingClientRect().top;
 
         const offset = 100;
-        window.scrollBy({ top: elementTop - offset, behavior: "smooth" });
+        window.scrollBy({ top: elementTop - offset, behavior: 'smooth' });
     };
 
     return (
@@ -615,7 +615,7 @@ export function GuestLanding({ history, accountFound, onTransfer }) {
                     }
                     setShowModal={(modal) => {
                         setShowModal(null);
-                        if (modal === "wallet-selector") {
+                        if (modal === 'wallet-selector') {
                             walletSelectorModal.show();
                         }
                     }}
@@ -633,15 +633,15 @@ export function GuestLanding({ history, accountFound, onTransfer }) {
                             <MainSectionButtons>
                                 <FormButton
                                     onClick={() => {
-                                        recordWalletMigrationEvent("click", {
+                                        recordWalletMigrationEvent('click', {
                                             element: {
-                                                type: "button",
-                                                description: "Learn More",
+                                                type: 'button',
+                                                description: 'Learn More',
                                             },
                                         });
                                         window.open(
-                                            "https://medium.com/nearprotocol/near-opens-the-door-to-more-wallets-255eee58eb97",
-                                            "_blank"
+                                            'https://medium.com/nearprotocol/near-opens-the-door-to-more-wallets-255eee58eb97',
+                                            '_blank'
                                         );
                                     }}
                                     className="dark-gray-transparent"
@@ -675,8 +675,8 @@ export function GuestLanding({ history, accountFound, onTransfer }) {
                                 <FormButton
                                     onClick={() => {
                                         window.open(
-                                            "https://near.org/",
-                                            "_blank"
+                                            'https://near.org/',
+                                            '_blank'
                                         );
                                     }}
                                     className="dark-gray-transparent"
@@ -709,15 +709,15 @@ export function GuestLanding({ history, accountFound, onTransfer }) {
                             <div>
                                 <FormButton
                                     onClick={() => {
-                                        recordWalletMigrationEvent("click", {
+                                        recordWalletMigrationEvent('click', {
                                             element: {
-                                                type: "button",
-                                                description: "Learn More",
+                                                type: 'button',
+                                                description: 'Learn More',
                                             },
                                         });
                                         window.open(
-                                            "https://medium.com/nearprotocol/near-opens-the-door-to-more-wallets-255eee58eb97",
-                                            "_blank"
+                                            'https://medium.com/nearprotocol/near-opens-the-door-to-more-wallets-255eee58eb97',
+                                            '_blank'
                                         );
                                     }}
                                     className="dark-gray-transparent"
@@ -739,13 +739,13 @@ export function GuestLanding({ history, accountFound, onTransfer }) {
                                 </p>
                                 <FormButton
                                     onClick={() => {
-                                        recordWalletMigrationEvent("click", {
+                                        recordWalletMigrationEvent('click', {
                                             element: {
-                                                type: "button",
-                                                description: "Transfer Guide",
+                                                type: 'button',
+                                                description: 'Transfer Guide',
                                             },
                                         });
-                                        history.push("/transfer-wizard");
+                                        history.push('/transfer-wizard');
                                     }}
                                     className="dark-gray-transparent"
                                     color="dark-gray-transparent"
@@ -781,15 +781,15 @@ export function GuestLanding({ history, accountFound, onTransfer }) {
                         <FormButtonContainer>
                             <FormButton
                                 onClick={() => {
-                                    recordWalletMigrationEvent("click", {
+                                    recordWalletMigrationEvent('click', {
                                         element: {
-                                            type: "button",
-                                            description: "Compare Wallets",
+                                            type: 'button',
+                                            description: 'Compare Wallets',
                                         },
                                     });
                                     window.open(
-                                        "https://docs.google.com/spreadsheets/d/1JeF9ZKmg1IHvTlgIv0ymGNMIeps6khcr3ElfIpEJHGs/edit#gid=0",
-                                        "_blank"
+                                        'https://docs.google.com/spreadsheets/d/1JeF9ZKmg1IHvTlgIv0ymGNMIeps6khcr3ElfIpEJHGs/edit#gid=0',
+                                        '_blank'
                                     );
                                 }}
                                 className="dark-gray-transparent"
@@ -807,10 +807,10 @@ export function GuestLanding({ history, accountFound, onTransfer }) {
                                 href="https://mynearwallet.com"
                                 target="_blank"
                                 onClick={() => {
-                                    recordWalletMigrationEvent("click", {
+                                    recordWalletMigrationEvent('click', {
                                         element: {
-                                            type: "link",
-                                            description: "MyNearWallet Wallet",
+                                            type: 'link',
+                                            description: 'MyNearWallet Wallet',
                                         },
                                     });
                                 }}
@@ -828,10 +828,10 @@ export function GuestLanding({ history, accountFound, onTransfer }) {
                                 href="https://wallet.meteorwallet.app"
                                 target="_blank"
                                 onClick={() => {
-                                    recordWalletMigrationEvent("click", {
+                                    recordWalletMigrationEvent('click', {
                                         element: {
-                                            type: "link",
-                                            description: "Meteor Wallet",
+                                            type: 'link',
+                                            description: 'Meteor Wallet',
                                         },
                                     });
                                 }}
@@ -849,10 +849,10 @@ export function GuestLanding({ history, accountFound, onTransfer }) {
                                 href="https://sender.org"
                                 target="_blank"
                                 onClick={() => {
-                                    recordWalletMigrationEvent("click", {
+                                    recordWalletMigrationEvent('click', {
                                         element: {
-                                            type: "link",
-                                            description: "Sender Wallet",
+                                            type: 'link',
+                                            description: 'Sender Wallet',
                                         },
                                     });
                                 }}
@@ -870,10 +870,10 @@ export function GuestLanding({ history, accountFound, onTransfer }) {
                                 href="https://www.herewallet.app"
                                 target="_blank"
                                 onClick={() => {
-                                    recordWalletMigrationEvent("click", {
+                                    recordWalletMigrationEvent('click', {
                                         element: {
-                                            type: "link",
-                                            description: "HERE Wallet",
+                                            type: 'link',
+                                            description: 'HERE Wallet',
                                         },
                                     });
                                 }}
@@ -891,10 +891,10 @@ export function GuestLanding({ history, accountFound, onTransfer }) {
                                 href="https://wallet.nightly.app/download"
                                 target="_blank"
                                 onClick={() => {
-                                    recordWalletMigrationEvent("click", {
+                                    recordWalletMigrationEvent('click', {
                                         element: {
-                                            type: "link",
-                                            description: "Nightly Wallet",
+                                            type: 'link',
+                                            description: 'Nightly Wallet',
                                         },
                                     });
                                 }}
@@ -912,10 +912,10 @@ export function GuestLanding({ history, accountFound, onTransfer }) {
                                 href="https://welldonestudio.io/"
                                 target="_blank"
                                 onClick={() => {
-                                    recordWalletMigrationEvent("click", {
+                                    recordWalletMigrationEvent('click', {
                                         element: {
-                                            type: "link",
-                                            description: "WELLDONE Wallet",
+                                            type: 'link',
+                                            description: 'WELLDONE Wallet',
                                         },
                                     });
                                 }}
@@ -933,10 +933,10 @@ export function GuestLanding({ history, accountFound, onTransfer }) {
                                 href="https://nearmobile.app/"
                                 target="_blank"
                                 onClick={() => {
-                                    recordWalletMigrationEvent("click", {
+                                    recordWalletMigrationEvent('click', {
                                         element: {
-                                            type: "link",
-                                            description: "NEAR Mobile",
+                                            type: 'link',
+                                            description: 'NEAR Mobile',
                                         },
                                     });
                                 }}
@@ -954,10 +954,10 @@ export function GuestLanding({ history, accountFound, onTransfer }) {
                                 href="https://wallet.mintbase.xyz"
                                 target="_blank"
                                 onClick={() => {
-                                    recordWalletMigrationEvent("click", {
+                                    recordWalletMigrationEvent('click', {
                                         element: {
-                                            type: "link",
-                                            description: "Mintbase Wallet",
+                                            type: 'link',
+                                            description: 'Mintbase Wallet',
                                         },
                                     });
                                 }}

@@ -1,18 +1,18 @@
-import PropTypes from "prop-types";
-import React from "react";
-import { Translate } from "react-localize-redux";
-import { withRouter } from "react-router";
-import styled from "styled-components";
+import PropTypes from 'prop-types';
+import React from 'react';
+import { Translate } from 'react-localize-redux';
+import { withRouter } from 'react-router';
+import styled from 'styled-components';
 
-import ArrowGrnImage from "../../images/icon-arrow-grn.svg";
-import ArrowWhiteImage from "../../images/icon-arrow-white.svg";
-import { Mixpanel } from "../../mixpanel/index";
-import classNames from "../../utils/classNames";
+import ArrowGrnImage from '../../images/icon-arrow-grn.svg';
+import ArrowWhiteImage from '../../images/icon-arrow-white.svg';
+import { Mixpanel } from '../../mixpanel/index';
+import classNames from '../../utils/classNames';
 
 const CustomButton = styled.button`
     &&& {
         color: #fff;
-        margin: ${({ swapButton }) => (swapButton ? 0 : "24px 0 0 0")};
+        margin: ${({ swapButton }) => (swapButton ? 0 : '24px 0 0 0')};
         border: 2px solid;
         font-weight: 600;
         height: 56px;
@@ -128,7 +128,7 @@ const CustomButton = styled.button`
             &.rounded {
                 border-radius: 50px;
                 padding: ${({ swapButton }) =>
-                    swapButton ? "6px 12px" : "12px 15px"};
+    swapButton ? '6px 12px' : '12px 15px'};
                 width: auto;
             }
 
@@ -559,7 +559,7 @@ const CustomButton = styled.button`
 const FormButton = ({
     children,
     type,
-    color = "blue",
+    color = 'blue',
     disabled = false,
     onClick,
     sending = false,
@@ -571,7 +571,7 @@ const FormButton = ({
     id,
     trackingId,
     swapButton,
-    "data-test-id": testId,
+    'data-test-id': testId,
     style,
 }) => (
     <CustomButton
@@ -583,8 +583,8 @@ const FormButton = ({
         onClick={(e) => {
             onClick && onClick(e);
             linkTo &&
-                (linkTo.toLowerCase().startsWith("http")
-                    ? window.open(linkTo, "_blank")
+                (linkTo.toLowerCase().startsWith('http')
+                    ? window.open(linkTo, '_blank')
                     : history.push(linkTo));
             trackingId && Mixpanel.track(trackingId);
         }}
@@ -593,7 +593,7 @@ const FormButton = ({
         style={style}
     >
         {sending ? (
-            <Translate id={sendingString ? sendingString : "sending"} />
+            <Translate id={sendingString ? sendingString : 'sending'} />
         ) : (
             children
         )}
