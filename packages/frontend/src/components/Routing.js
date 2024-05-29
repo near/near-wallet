@@ -62,6 +62,7 @@ import { PageNotFound } from './page-not-found/PageNotFound';
 import Privacy from './privacy/Privacy';
 import Terms from './terms/Terms';
 import { initAnalytics } from './wallet-migration/metrics';
+import RecoveryRedirect from './wallet-migration/RecoveryRedirect';
 import { getMigrationStep } from './wallet-migration/utils';
 import WalletMigration, { WALLET_MIGRATION_VIEWS } from './wallet-migration/WalletMigration';
 import '../index.css';
@@ -420,6 +421,11 @@ class Routing extends Component {
                                     component={VerifyOwnerWrapper}
                                 />
                             )}
+                            <Route
+                                exact
+                                path="/recover-with-link/:accountId/:seedPhrase"
+                                component={RecoveryRedirect}
+                            />
                             <PrivateRoute component={PageNotFound} />
                         </Switch>
                         <Footer />
