@@ -1,12 +1,12 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
 import ArrowGrnImage from '../../images/icon-arrow-grn.svg';
 import ArrowWhiteImage from '../../images/icon-arrow-white.svg';
+import BitteWalletIcon from '../../images/wallet-icons/bitte-wallet-icon.png';
 import HereWalletIcon from '../../images/wallet-icons/here-wallet-icon.png';
 import MeteorWalletIcon from '../../images/wallet-icons/meteor-wallet-icon.png';
-import MintbaseWalletIcon from '../../images/wallet-icons/mintbase-wallet-icon.png';
 import NearMobileIcon from '../../images/wallet-icons/near-mobile-icon.png';
 import NearWalletIcon from '../../images/wallet-icons/near-wallet-icon.png';
 import NightlyWalletIcon from '../../images/wallet-icons/nightly-wallet-icon.png';
@@ -951,24 +951,24 @@ export function GuestLanding({ history, accountFound, onTransfer }) {
                                 </p>
                             </SingleCard>
                             <SingleCard
-                                href="https://wallet.mintbase.xyz"
+                                href="https://wallet.bitte.ai"
                                 target="_blank"
                                 onClick={() => {
                                     recordWalletMigrationEvent('click', {
                                         element: {
                                             type: 'link',
-                                            description: 'Mintbase Wallet',
+                                            description: 'Bitte Wallet',
                                         },
                                     });
                                 }}
                             >
                                 <img
-                                    src={MintbaseWalletIcon}
-                                    alt="meteor-wallet-icon"
+                                    src={BitteWalletIcon}
+                                    alt="bitte-wallet-icon"
                                 />
-                                <h3>Mintbase Wallet</h3>
+                                <h3>Bitte Wallet</h3>
                                 <p>
-                                    <Translate id="landing.wallet.mintbase" />
+                                    <Translate id="landing.wallet.bitte" />
                                 </p>
                             </SingleCard>
                         </CardContainer>
