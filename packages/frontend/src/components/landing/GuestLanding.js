@@ -6,7 +6,7 @@ import ArrowGrnImage from '../../images/icon-arrow-grn.svg';
 import ArrowWhiteImage from '../../images/icon-arrow-white.svg';
 import HereWalletIcon from '../../images/wallet-icons/here-wallet-icon.png';
 import MeteorWalletIcon from '../../images/wallet-icons/meteor-wallet-icon.png';
-import BitteWalletIcon from "../../images/wallet-icons/bitte-wallet-icon.png"
+import BitteWalletIcon from '../../images/wallet-icons/bitte-wallet-icon.png';
 import NearMobileIcon from '../../images/wallet-icons/near-mobile-icon.png';
 import NearWalletIcon from '../../images/wallet-icons/near-wallet-icon.png';
 import NightlyWalletIcon from '../../images/wallet-icons/nightly-wallet-icon.png';
