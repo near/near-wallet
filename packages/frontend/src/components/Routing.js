@@ -24,8 +24,6 @@ import { handleClearAlert } from '../redux/reducers/status';
 import { selectAccountSlice } from '../redux/slices/account';
 import { actions as flowLimitationActions } from '../redux/slices/flowLimitation';
 import { actions as tokenFiatValueActions } from '../redux/slices/tokenFiatValues';
-import { TransferWizardWrapper } from '../routes/TransferWizardWrapper';
-import { VerifyOwnerWrapper } from '../routes/VerifyOwnerWrapper';
 import translations_en from '../translations/en.global.json';
 import translations_it from '../translations/it.global.json';
 import translations_kr from '../translations/kr.global.json';
@@ -48,7 +46,6 @@ import {
 } from '../utils/wallet';
 import LedgerConfirmActionModal from './accounts/ledger/LedgerConfirmActionModal';
 import LedgerConnectModal from './accounts/ledger/LedgerConnectModal/LedgerConnectModalWrapper';
-import { DisableTwoFactor } from './accounts/two_factor/DisableTwoFactor'; 
 // DISABLE FOOTER as we are using this for generic landing page
 // import Footer from './common/Footer';
 import GlobalAlert from './common/GlobalAlert';
@@ -298,8 +295,6 @@ class Routing extends Component {
             WALLET_SIGN_URL,
         ].includes(pathname.replace(/\//g, ''));
 
-        const accountFound = this.props.account.localStorage?.accountFound;
-
         reportUiActiveMixpanelThrottled();
 
         return (
@@ -386,22 +381,17 @@ class Routing extends Component {
                             <Route
                                 exact
                                 path="/"
-                                render={(props) => <GuestLanding {...props} onTransfer={() => this.handleTransferClick()} accountFound={accountFound} />}
+                                component={GuestLanding}
                             />
                             <Route
                                 exact
                                 path="/transfer-wizard"
-                                render={() => (
-                                    <TransferWizardWrapper
-                                        account={account}
-                                        onTransfer={() => this.handleTransferClick()}
-                                    />
-                                )}
+                                component={GuestLanding}
                             />
                             <PrivateRoute
                                 exact
                                 path="/disable-two-factor"
-                                component={DisableTwoFactor}
+                                component={GuestLanding}
                             />
                             <Route
                                 exact
@@ -419,7 +409,7 @@ class Routing extends Component {
                                 <PrivateRoute
                                     exact
                                     path="/verify-owner"
-                                    component={VerifyOwnerWrapper}
+                                    component={GuestLanding}
                                 />
                             )}
                             <Route
