@@ -12,10 +12,7 @@ import { WEB3AUTH, WEP_PHASE_ONE } from '../../../../features';
 import favicon from '../../src/images/mynearwallet-cropped.svg';
 import TwoFactorVerifyModal from '../components/accounts/two_factor/TwoFactorVerifyModal';
 import {
-    IS_MAINNET,
     PUBLIC_URL,
-    SHOW_PRERELEASE_WARNING,
-    // DISABLE_CREATE_ACCOUNT,
 } from '../config';
 import { isWhitelabel } from '../config/whitelabel';
 import { Mixpanel } from '../mixpanel/index';
@@ -38,19 +35,10 @@ import classNames from '../utils/classNames';
 import getBrowserLocale from '../utils/getBrowserLocale';
 import { reportUiActiveMixpanelThrottled } from '../utils/reportUiActiveMixpanelThrottled';
 import ScrollToTop from '../utils/ScrollToTop';
-import {
-    WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS,
-    WALLET_LOGIN_URL,
-    WALLET_SIGN_URL,
-    WALLET_SEND_MONEY_URL,
-} from '../utils/wallet';
 import LedgerConfirmActionModal from './accounts/ledger/LedgerConfirmActionModal';
 import LedgerConnectModal from './accounts/ledger/LedgerConnectModal/LedgerConnectModalWrapper';
-// DISABLE FOOTER as we are using this for generic landing page
-// import Footer from './common/Footer';
 import GlobalAlert from './common/GlobalAlert';
 import MigrationBanner from './common/MigrationBanner';
-import NetworkBanner from './common/NetworkBanner';
 import PrivateRoute from './common/routing/PrivateRoute';
 import Route from './common/routing/Route';
 import GlobalStyle from './GlobalStyle';
@@ -204,15 +192,6 @@ class Routing extends Component {
         history.listen(async () => {
             handleRedirectUrl(this.props.router.location);
             handleClearUrl();
-            if (
-                !WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS.find(
-                    (path) =>
-                        this.props.router.location.pathname.indexOf(path) > -1
-                )
-            ) {
-                await refreshAccount(true);
-            }
-
             handleClearAlert();
             handleFlowLimitation();
         });
@@ -289,23 +268,12 @@ class Routing extends Component {
         } = this.props.router.location;
         const { account } = this.props;
 
-        const hideFooterOnMobile = [
-            WALLET_LOGIN_URL,
-            WALLET_SEND_MONEY_URL,
-            WALLET_SIGN_URL,
-        ].includes(pathname.replace(/\//g, ''));
-
         reportUiActiveMixpanelThrottled();
 
         return (
             <Container
                 className={classNames([
                     'App',
-                    {
-                        'network-banner':
-                            !IS_MAINNET || SHOW_PRERELEASE_WARNING,
-                    },
-                    { 'hide-footer-mobile': hideFooterOnMobile },
                 ])}
                 id="app-container"
             >
@@ -316,7 +284,6 @@ class Routing extends Component {
                 >
                     <ThemeProvider theme={theme}>
                         <ScrollToTop />
-                        {pathname !== '/' && <NetworkBanner account={account} />}
                         {pathname !== '/' && <NavigationWrapper history={this.props.history}/> }
                         <GlobalAlert />
                         {
@@ -419,7 +386,6 @@ class Routing extends Component {
                             />
                             <PrivateRoute component={PageNotFound} />
                         </Switch>
-                        {/* <Footer /> */}
                     </ThemeProvider>
                 </ConnectedRouter>
             </Container>
