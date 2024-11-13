@@ -280,16 +280,6 @@ export function GuestLanding({ onTransfer }) {
                     </MainSection>
                 </MainContainer>
             </StyledContainer>
-            <Section>
-                <DefaultContainer>
-                    <h2>
-                        <Translate id="landing.decentralize" />
-                    </h2>
-                    <h3>
-                        <Translate id="landing.decentralizeSubtitle" />
-                    </h3>
-                </DefaultContainer>
-            </Section>
         </>
     );
 }
