@@ -156,7 +156,7 @@ const CustomButton = styled.button`
             &.rounded {
                 border-radius: 50px;
                 padding: ${({ swapButton }) =>
-    swapButton ? '6px 12px' : '12px 15px'};
+                    swapButton ? '6px 12px' : '12px 15px'};
                 width: auto;
             }
 
@@ -594,17 +594,6 @@ export function GuestLanding({ history, accountFound, onTransfer }) {
         recordWalletMigrationEvent('LANDING_PAGE');
     }, []);
 
-    const scrollToWalletSection = () => {
-        ref.current?.scrollIntoView({
-            behavior: 'smooth',
-            block: 'start',
-        });
-        const elementTop = ref.current.getBoundingClientRect().top;
-
-        const offset = 100;
-        window.scrollBy({ top: elementTop - offset, behavior: 'smooth' });
-    };
-
     return (
         <>
             <NavigationWrapperV2 onTransfer={onTransfer} />
@@ -651,27 +640,6 @@ export function GuestLanding({ history, accountFound, onTransfer }) {
                                 >
                                     <Translate id="button.learnMore" />
                                 </FormButton>
-                                {accountFound ? (
-                                    <FormButton
-                                        onClick={onTransfer}
-                                        className="light-green-transparent"
-                                        color="light-green-transparent"
-                                        trackingId="Click create account button"
-                                        data-test-id="landingPageCreateAccount"
-                                    >
-                                        <Translate id="button.transferAccounts" />
-                                    </FormButton>
-                                ) : (
-                                    <CustomButton
-                                        onClick={scrollToWalletSection}
-                                        className="light-green-transparent"
-                                        color="light-green-transparent"
-                                        trackingId="Explore Wallets"
-                                        data-test-id="Explore Wallets"
-                                    >
-                                        <Translate id="button.exploreWallets" />
-                                    </CustomButton>
-                                )}
                                 <FormButton
                                     onClick={() => {
                                         window.open(
@@ -699,7 +667,7 @@ export function GuestLanding({ history, accountFound, onTransfer }) {
                         <Translate id="landing.decentralizeSubtitle" />
                     </h3>
                     <FlexBox>
-                        <FlexItem accountFound={accountFound}>
+                        <FlexItem>
                             <h4>
                                 <Translate id="landing.landingSectionTitle" />
                             </h4>
@@ -729,33 +697,6 @@ export function GuestLanding({ history, accountFound, onTransfer }) {
                                 </FormButton>
                             </div>
                         </FlexItem>
-                        {accountFound && (
-                            <FlexItem accountFound={accountFound}>
-                                <h4>
-                                    <Translate id="landing.landingSectionSubTitle" />
-                                </h4>
-                                <p>
-                                    <Translate id="landing.landingSectionSubDescription" />
-                                </p>
-                                <FormButton
-                                    onClick={() => {
-                                        recordWalletMigrationEvent('click', {
-                                            element: {
-                                                type: 'button',
-                                                description: 'Transfer Guide',
-                                            },
-                                        });
-                                        history.push('/transfer-wizard');
-                                    }}
-                                    className="dark-gray-transparent"
-                                    color="dark-gray-transparent"
-                                    trackingId="Click create account button"
-                                    data-test-id="landingPageCreateAccount"
-                                >
-                                    <Translate id="button.transferGuide" />
-                                </FormButton>
-                            </FlexItem>
-                        )}
                     </FlexBox>
                     <InfoSection>
                         <div>
@@ -763,19 +704,9 @@ export function GuestLanding({ history, accountFound, onTransfer }) {
                                 <SecondaryTitle>
                                     <Translate id="landing.wallet.title" />
                                 </SecondaryTitle>
-                                {accountFound ? (
-                                    <SecondaryText>
-                                        {accountFound ? (
-                                            <Translate id="landing.wallet.description" />
-                                        ) : (
-                                            <Translate id="landing.wallet.secondaryDescription" />
-                                        )}
-                                    </SecondaryText>
-                                ) : (
-                                    <SecondaryText>
-                                        <Translate id="landing.wallet.secondaryDescription" />
-                                    </SecondaryText>
-                                )}
+                                <SecondaryText>
+                                    <Translate id="landing.wallet.secondaryDescription" />
+                                </SecondaryText>
                             </div>
                         </div>
                     </InfoSection>
@@ -953,33 +884,6 @@ export function GuestLanding({ history, accountFound, onTransfer }) {
                     </CardsSection>
                 </DefaultContainer>
             </Section>
-            {accountFound && (
-                <TransferSection>
-                    <DefaultContainer>
-                        <TransferSectionWrapper>
-                            <div>
-                                <h4>
-                                    <Translate id="landing.transfer.title" />
-                                </h4>
-                                <p>
-                                    <Translate id="landing.transfer.description" />
-                                </p>
-                            </div>
-                            <FormButtonContainer>
-                                <FormButton
-                                    onClick={onTransfer}
-                                    className="dark-green-transparent"
-                                    color="dark-green-transparent"
-                                    trackingId="Click create account button"
-                                    data-test-id="landingPageCreateAccount"
-                                >
-                                    <Translate id="button.transferAccounts" />
-                                </FormButton>
-                            </FormButtonContainer>
-                        </TransferSectionWrapper>
-                    </DefaultContainer>
-                </TransferSection>
-            )}
         </>
     );
 }
