@@ -275,19 +275,6 @@ export function GuestLanding({ onTransfer }) {
                                 >
                                     <Translate id="button.learnMore" />
                                 </FormButton>
-                                <FormButton
-                                    onClick={() => {
-                                        window.open(
-                                            'https://near.org/',
-                                            '_blank'
-                                        );
-                                    }}
-                                    className="dark-gray-transparent"
-                                    color="dark-gray-transparent"
-                                    data-test-id="landingPageNearOrg"
-                                >
-                                    <Translate id="button.exploreNEAR" />
-                                </FormButton>
                             </MainSectionButtons>
                         </MainSectionInfo>
                     </MainSection>
