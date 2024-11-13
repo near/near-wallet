@@ -338,6 +338,8 @@ class Routing extends Component {
                                     component={GuestLanding}
                                 />
                             )}
+                            {/* NOTE: Please keep this route and ensure its working as expected. 
+                            This redirects email & text recovery links to an external wallet (MNW) */}
                             <Route
                                 exact
                                 path="/recover-with-link/:accountId/:seedPhrase"
