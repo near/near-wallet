@@ -44,107 +44,8 @@ export function GuestLanding({ onTransfer }) {
     return (
         <>
             <NavigationWrapperV2 onTransfer={onTransfer} />
-            <StyledContainer>
-                <WalletSelectorGetAWallet
-                    setWalletSelectorModal={(modal) =>
-                        setWalletSelectorModal(modal)
-                    }
-                    setShowModal={(modal) => {
-                        setShowModal(null);
-                        if (modal === 'wallet-selector') {
-                            walletSelectorModal.show();
-                        }
-                    }}
-                    showModal={showModal}
-                />
-                <MainContainer>
-                    <MainSection>
-                        <MainSectionInfo>
-                            <h1>
-                                <Translate id="landing.title" />
-                            </h1>
-                            <h3>
-                                <Translate id="landing.desc" />
-                            </h3>
-                            <MainSectionButtons>
-                                <FormButton
-                                    onClick={() => {
-                                        recordWalletMigrationEvent('click', {
-                                            element: {
-                                                type: 'button',
-                                                description: 'Learn More',
-                                            },
-                                        });
-                                        window.open(
-                                            'https://medium.com/nearprotocol/near-opens-the-door-to-more-wallets-255eee58eb97',
-                                            '_blank'
-                                        );
-                                    }}
-                                    className="dark-gray-transparent"
-                                    color="dark-gray-transparent"
-                                    trackingId="Click create account button"
-                                    data-test-id="landingPageLearMore"
-                                >
-                                    <Translate id="button.learnMore" />
-                                </FormButton>
-                                <FormButton
-                                    onClick={() => {
-                                        window.open(
-                                            'https://near.org/',
-                                            '_blank'
-                                        );
-                                    }}
-                                    className="dark-gray-transparent"
-                                    color="dark-gray-transparent"
-                                    data-test-id="landingPageNearOrg"
-                                >
-                                    <Translate id="button.exploreNEAR" />
-                                </FormButton>
-                            </MainSectionButtons>
-                        </MainSectionInfo>
-                    </MainSection>
-                </MainContainer>
-            </StyledContainer>
             <Section>
                 <DefaultContainer>
-                    <h2>
-                        <Translate id="landing.decentralize" />
-                    </h2>
-                    <h3>
-                        <Translate id="landing.decentralizeSubtitle" />
-                    </h3>
-                    <FlexBox>
-                        <FlexItem>
-                            <h4>
-                                <Translate id="landing.landingSectionTitle" />
-                            </h4>
-                            <p>
-                                <Translate id="landing.landingSectionDescription" />
-                            </p>
-                            <div>
-                                <FormButton
-                                    onClick={() => {
-                                        recordWalletMigrationEvent('click', {
-                                            element: {
-                                                type: 'button',
-                                                description: 'Learn More',
-                                            },
-                                        });
-                                        window.open(
-                                            'https://medium.com/nearprotocol/near-opens-the-door-to-more-wallets-255eee58eb97',
-                                            '_blank'
-                                        );
-                                    }}
-                                    className="dark-gray-transparent"
-                                    color="dark-gray-transparent"
-                                    trackingId="Click create account button"
-                                    data-test-id="landingPageCreateAccount"
-                                >
-                                    <Translate id="button.learnMore" />
-                                </FormButton>
-                            </div>
-                        </FlexItem>
-                    </FlexBox>
                     <InfoSection>
                         <div>
                             <div ref={ref}>
@@ -329,6 +230,109 @@ export function GuestLanding({ onTransfer }) {
                             </SingleCard>
                         </CardContainer>
                     </CardsSection>
+                </DefaultContainer>
+            </Section>
+            <StyledContainer>
+                <WalletSelectorGetAWallet
+                    setWalletSelectorModal={(modal) =>
+                        setWalletSelectorModal(modal)
+                    }
+                    setShowModal={(modal) => {
+                        setShowModal(null);
+                        if (modal === 'wallet-selector') {
+                            walletSelectorModal.show();
+                        }
+                    }}
+                    showModal={showModal}
+                />
+                <MainContainer>
+                    <MainSection>
+                        <MainSectionInfo>
+                            <h1>
+                                <Translate id="landing.title" />
+                            </h1>
+                            <h3>
+                                <Translate id="landing.desc" />
+                            </h3>
+                            <MainSectionButtons>
+                                <FormButton
+                                    onClick={() => {
+                                        recordWalletMigrationEvent('click', {
+                                            element: {
+                                                type: 'button',
+                                                description: 'Learn More',
+                                            },
+                                        });
+                                        window.open(
+                                            'https://medium.com/nearprotocol/near-opens-the-door-to-more-wallets-255eee58eb97',
+                                            '_blank'
+                                        );
+                                    }}
+                                    className="dark-gray-transparent"
+                                    color="dark-gray-transparent"
+                                    trackingId="Click create account button"
+                                    data-test-id="landingPageLearMore"
+                                >
+                                    <Translate id="button.learnMore" />
+                                </FormButton>
+                                <FormButton
+                                    onClick={() => {
+                                        window.open(
+                                            'https://near.org/',
+                                            '_blank'
+                                        );
+                                    }}
+                                    className="dark-gray-transparent"
+                                    color="dark-gray-transparent"
+                                    data-test-id="landingPageNearOrg"
+                                >
+                                    <Translate id="button.exploreNEAR" />
+                                </FormButton>
+                            </MainSectionButtons>
+                        </MainSectionInfo>
+                    </MainSection>
+                </MainContainer>
+            </StyledContainer>
+            <Section>
+                <DefaultContainer>
+                    <h2>
+                        <Translate id="landing.decentralize" />
+                    </h2>
+                    <h3>
+                        <Translate id="landing.decentralizeSubtitle" />
+                    </h3>
+                    <FlexBox>
+                        <FlexItem>
+                            <h4>
+                                <Translate id="landing.landingSectionTitle" />
+                            </h4>
+                            <p>
+                                <Translate id="landing.landingSectionDescription" />
+                            </p>
+                            <div>
+                                <FormButton
+                                    onClick={() => {
+                                        recordWalletMigrationEvent('click', {
+                                            element: {
+                                                type: 'button',
+                                                description: 'Learn More',
+                                            },
+                                        });
+                                        window.open(
+                                            'https://medium.com/nearprotocol/near-opens-the-door-to-more-wallets-255eee58eb97',
+                                            '_blank'
+                                        );
+                                    }}
+                                    className="dark-gray-transparent"
+                                    color="dark-gray-transparent"
+                                    trackingId="Click create account button"
+                                    data-test-id="landingPageCreateAccount"
+                                >
+                                    <Translate id="button.learnMore" />
+                                </FormButton>
+                            </div>
+                        </FlexItem>
+                    </FlexBox>
                 </DefaultContainer>
             </Section>
         </>
