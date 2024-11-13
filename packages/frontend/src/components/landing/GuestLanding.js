@@ -17,8 +17,6 @@ import {
     CardContainer,
     CardsSection,
     DefaultContainer,
-    FlexBox,
-    FlexItem,
     InfoSection,
     MainContainer,
     MainSection,
