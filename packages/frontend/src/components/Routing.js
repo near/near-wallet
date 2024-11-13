@@ -10,12 +10,10 @@ import styled, { ThemeProvider } from 'styled-components';
 
 import { WEB3AUTH} from '../../../../features';
 import favicon from '../../src/images/mynearwallet-cropped.svg';
-import TwoFactorVerifyModal from '../components/accounts/two_factor/TwoFactorVerifyModal';
 import {
     PUBLIC_URL,
 } from '../config';
 import { isWhitelabel } from '../config/whitelabel';
-import { Mixpanel } from '../mixpanel/index';
 import * as accountActions from '../redux/actions/account';
 import { handleClearAlert } from '../redux/reducers/status';
 import { selectAccountSlice } from '../redux/slices/account';
@@ -35,9 +33,6 @@ import classNames from '../utils/classNames';
 import getBrowserLocale from '../utils/getBrowserLocale';
 import { reportUiActiveMixpanelThrottled } from '../utils/reportUiActiveMixpanelThrottled';
 import ScrollToTop from '../utils/ScrollToTop';
-import LedgerConfirmActionModal from './accounts/ledger/LedgerConfirmActionModal';
-import LedgerConnectModal from './accounts/ledger/LedgerConnectModal/LedgerConnectModalWrapper';
-import GlobalAlert from './common/GlobalAlert';
 import PrivateRoute from './common/routing/PrivateRoute';
 import Route from './common/routing/Route';
 import GlobalStyle from './GlobalStyle';
@@ -75,14 +70,6 @@ const Container = styled.div`
         .App {
             .main {
                 padding-bottom: 0px;
-            }
-        }
-    }
-    &.network-banner {
-        @media (max-width: 450px) {
-            .alert-banner,
-            .lockup-avail-transfer {
-                margin-top: -45px;
             }
         }
     }
@@ -249,17 +236,11 @@ class Routing extends Component {
             search,
             pathname,
         } = this.props.router.location;
-        const { account } = this.props;
 
         reportUiActiveMixpanelThrottled();
 
         return (
-            <Container
-                className={classNames([
-                    'App',
-                ])}
-                id="app-container"
-            >
+            <Container className={classNames(['App'])} id="app-container">
                 <GlobalStyle />
                 <ConnectedRouter
                     basename={PATH_PREFIX}
@@ -268,34 +249,6 @@ class Routing extends Component {
                     <ThemeProvider theme={theme}>
                         <ScrollToTop />
                         {pathname !== '/' && <NavigationWrapper history={this.props.history}/> }
-                        <GlobalAlert />
-                        <LedgerConfirmActionModal />
-                        <LedgerConnectModal />
-                        {account.requestPending !== null && (
-                            <TwoFactorVerifyModal
-                                onClose={(verified, error) => {
-                                    const { account, promptTwoFactor } =
-                                        this.props;
-                                    Mixpanel.track('2FA Modal Verify start');
-                                    // requestPending will resolve (verified == true) or reject the Promise being awaited in the method that dispatched promptTwoFactor
-                                    account.requestPending(verified, error);
-                                    // clears requestPending and closes the modal
-                                    promptTwoFactor(null);
-                                    if (error) {
-                                        // tracking error
-                                        Mixpanel.track(
-                                            '2FA Modal Verify fail',
-                                            { error: error.message }
-                                        );
-                                    }
-                                    if (verified) {
-                                        Mixpanel.track(
-                                            '2FA Modal Verify finish'
-                                        );
-                                    }
-                                }}
-                            />
-                        )}
                         <Switch>
                             <Redirect
                                 from="//*"
