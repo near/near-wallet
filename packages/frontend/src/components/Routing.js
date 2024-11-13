@@ -48,8 +48,9 @@ import {
 } from '../utils/wallet';
 import LedgerConfirmActionModal from './accounts/ledger/LedgerConfirmActionModal';
 import LedgerConnectModal from './accounts/ledger/LedgerConnectModal/LedgerConnectModalWrapper';
-import { DisableTwoFactor } from './accounts/two_factor/DisableTwoFactor';
-import Footer from './common/Footer';
+import { DisableTwoFactor } from './accounts/two_factor/DisableTwoFactor'; 
+// DISABLE FOOTER as we are using this for generic landing page
+// import Footer from './common/Footer';
 import GlobalAlert from './common/GlobalAlert';
 import MigrationBanner from './common/MigrationBanner';
 import NetworkBanner from './common/NetworkBanner';
@@ -428,7 +429,7 @@ class Routing extends Component {
                             />
                             <PrivateRoute component={PageNotFound} />
                         </Switch>
-                        <Footer />
+                        {/* <Footer /> */}
                     </ThemeProvider>
                 </ConnectedRouter>
             </Container>

@@ -11,7 +11,6 @@ import SenderWalletIcon from '../../images/wallet-icons/sender-wallet-icon.png';
 import WellDoneWalletIcon from '../../images/wallet-icons/welldone-wallet-icon.png';
 import FormButton from '../common/FormButton';
 import { WalletSelectorGetAWallet } from '../common/wallet_selector/WalletSelectorGetAWallet';
-import NavigationWrapperV2 from '../navigation/NavigationWrapperV2';
 import { recordWalletMigrationEvent } from '../wallet-migration/metrics';
 import {
     CardContainer,
@@ -41,7 +40,6 @@ export function GuestLanding({ onTransfer }) {
 
     return (
         <>
-            <NavigationWrapperV2 onTransfer={onTransfer} />
             <Section>
                 <DefaultContainer>
                     <InfoSection>
