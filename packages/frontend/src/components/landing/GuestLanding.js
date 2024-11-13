@@ -778,28 +778,6 @@ export function GuestLanding({ history, accountFound, onTransfer }) {
                                 )}
                             </div>
                         </div>
-                        <FormButtonContainer>
-                            <FormButton
-                                onClick={() => {
-                                    recordWalletMigrationEvent('click', {
-                                        element: {
-                                            type: 'button',
-                                            description: 'Compare Wallets',
-                                        },
-                                    });
-                                    window.open(
-                                        'https://docs.google.com/spreadsheets/d/1JeF9ZKmg1IHvTlgIv0ymGNMIeps6khcr3ElfIpEJHGs/edit#gid=0',
-                                        '_blank'
-                                    );
-                                }}
-                                className="dark-gray-transparent"
-                                color="dark-gray-transparent"
-                                trackingId="Click create account button"
-                                data-test-id="landingPageCreateAccount"
-                            >
-                                <Translate id="button.compareWallets" />
-                            </FormButton>
-                        </FormButtonContainer>
                     </InfoSection>
                     <CardsSection>
                         <CardContainer>
