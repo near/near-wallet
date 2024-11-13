@@ -59,27 +59,6 @@ export function GuestLanding({ onTransfer }) {
                     <CardsSection>
                         <CardContainer>
                             <SingleCard
-                                href="https://mynearwallet.com"
-                                target="_blank"
-                                onClick={() => {
-                                    recordWalletMigrationEvent('click', {
-                                        element: {
-                                            type: 'link',
-                                            description: 'MyNearWallet Wallet',
-                                        },
-                                    });
-                                }}
-                            >
-                                <img
-                                    src={NearWalletIcon}
-                                    alt="near-wallet-icon"
-                                />
-                                <h3>MyNearWallet</h3>
-                                <p>
-                                    <Translate id="landing.wallet.near" />
-                                </p>
-                            </SingleCard>
-                            <SingleCard
                                 href="https://wallet.meteorwallet.app"
                                 target="_blank"
                                 onClick={() => {
@@ -101,24 +80,24 @@ export function GuestLanding({ onTransfer }) {
                                 </p>
                             </SingleCard>
                             <SingleCard
-                                href="https://sender.org"
+                                href="https://nearmobile.app/"
                                 target="_blank"
                                 onClick={() => {
                                     recordWalletMigrationEvent('click', {
                                         element: {
                                             type: 'link',
-                                            description: 'Sender Wallet',
+                                            description: 'NEAR Mobile',
                                         },
                                     });
                                 }}
                             >
                                 <img
-                                    src={SenderWalletIcon}
-                                    alt="sender-wallet-icon"
+                                    src={NearMobileIcon}
+                                    alt="near-mobile-icon"
                                 />
-                                <h3>Sender Wallet</h3>
+                                <h3>NEAR Mobile</h3>
                                 <p>
-                                    <Translate id="landing.wallet.sender" />
+                                    <Translate id="landing.wallet.nearMobile" />
                                 </p>
                             </SingleCard>
                             <SingleCard
@@ -140,6 +119,27 @@ export function GuestLanding({ onTransfer }) {
                                 <h3>HERE Wallet</h3>
                                 <p>
                                     <Translate id="landing.wallet.here" />
+                                </p>
+                            </SingleCard>
+                            <SingleCard
+                                href="https://wallet.bitte.ai"
+                                target="_blank"
+                                onClick={() => {
+                                    recordWalletMigrationEvent('click', {
+                                        element: {
+                                            type: 'link',
+                                            description: 'Bitte Wallet',
+                                        },
+                                    });
+                                }}
+                            >
+                                <img
+                                    src={BitteWalletIcon}
+                                    alt="bitte-wallet-icon"
+                                />
+                                <h3>Bitte Wallet</h3>
+                                <p>
+                                    <Translate id="landing.wallet.bitte" />
                                 </p>
                             </SingleCard>
                             <SingleCard
@@ -185,45 +185,45 @@ export function GuestLanding({ onTransfer }) {
                                 </p>
                             </SingleCard>
                             <SingleCard
-                                href="https://nearmobile.app/"
+                                href="https://sender.org"
                                 target="_blank"
                                 onClick={() => {
                                     recordWalletMigrationEvent('click', {
                                         element: {
                                             type: 'link',
-                                            description: 'NEAR Mobile',
+                                            description: 'Sender Wallet',
                                         },
                                     });
                                 }}
                             >
                                 <img
-                                    src={NearMobileIcon}
-                                    alt="near-mobile-icon"
+                                    src={SenderWalletIcon}
+                                    alt="sender-wallet-icon"
                                 />
-                                <h3>NEAR Mobile</h3>
+                                <h3>Sender Wallet</h3>
                                 <p>
-                                    <Translate id="landing.wallet.nearMobile" />
+                                    <Translate id="landing.wallet.sender" />
                                 </p>
                             </SingleCard>
                             <SingleCard
-                                href="https://wallet.bitte.ai"
+                                href="https://mynearwallet.com"
                                 target="_blank"
                                 onClick={() => {
                                     recordWalletMigrationEvent('click', {
                                         element: {
                                             type: 'link',
-                                            description: 'Bitte Wallet',
+                                            description: 'MyNearWallet Wallet',
                                         },
                                     });
                                 }}
                             >
                                 <img
-                                    src={BitteWalletIcon}
-                                    alt="bitte-wallet-icon"
+                                    src={NearWalletIcon}
+                                    alt="near-wallet-icon"
                                 />
-                                <h3>Bitte Wallet</h3>
+                                <h3>MyNearWallet</h3>
                                 <p>
-                                    <Translate id="landing.wallet.bitte" />
+                                    <Translate id="landing.wallet.near" />
                                 </p>
                             </SingleCard>
                         </CardContainer>
