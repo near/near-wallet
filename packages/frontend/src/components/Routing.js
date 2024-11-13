@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 import { Redirect, Switch } from 'react-router-dom';
 import styled, { ThemeProvider } from 'styled-components';
 
-import { WEB3AUTH, WEP_PHASE_ONE } from '../../../../features';
+import { WEB3AUTH} from '../../../../features';
 import favicon from '../../src/images/mynearwallet-cropped.svg';
 import TwoFactorVerifyModal from '../components/accounts/two_factor/TwoFactorVerifyModal';
 import {
@@ -38,7 +38,6 @@ import ScrollToTop from '../utils/ScrollToTop';
 import LedgerConfirmActionModal from './accounts/ledger/LedgerConfirmActionModal';
 import LedgerConnectModal from './accounts/ledger/LedgerConnectModal/LedgerConnectModalWrapper';
 import GlobalAlert from './common/GlobalAlert';
-import MigrationBanner from './common/MigrationBanner';
 import PrivateRoute from './common/routing/PrivateRoute';
 import Route from './common/routing/Route';
 import GlobalStyle from './GlobalStyle';
@@ -49,8 +48,6 @@ import Privacy from './privacy/Privacy';
 import Terms from './terms/Terms';
 import { initAnalytics } from './wallet-migration/metrics';
 import RecoveryRedirect from './wallet-migration/RecoveryRedirect';
-import { getMigrationStep } from './wallet-migration/utils';
-import WalletMigration, { WALLET_MIGRATION_VIEWS } from './wallet-migration/WalletMigration';
 import '../index.css';
 
 const { fetchTokenFiatValues, getTokenWhiteList } = tokenFiatValueActions;
@@ -129,7 +126,6 @@ class Routing extends Component {
             options: {
                 defaultLanguage: 'en',
                 onMissingTranslation: ({
-                    translationId,
                     defaultTranslation,
                 }) => {
                     if (isString(defaultTranslation)) {
@@ -247,19 +243,6 @@ class Routing extends Component {
         this.pollTokenFiatValue = null;
     };
 
-    handleTransferClick = () => {
-
-        this.setState({ openTransferPopup: true });
-        const migrationStep = getMigrationStep();
-
-        if (window?.ExportModal?.show && ![WALLET_MIGRATION_VIEWS.LOG_OUT, WALLET_MIGRATION_VIEWS.VERIFYING].includes(migrationStep)) {
-            window?.ExportModal?.show();
-        }
-    }
-
-    closeTransferPopup = () => {
-        this.setState({ openTransferPopup: false });
-    }
 
     render() {
         const {
@@ -286,30 +269,6 @@ class Routing extends Component {
                         <ScrollToTop />
                         {pathname !== '/' && <NavigationWrapper history={this.props.history}/> }
                         <GlobalAlert />
-                        {
-                            
-                            WEP_PHASE_ONE && (
-                                <Switch>
-                                    <Route
-                                        path={['/', '/staking', '/profile']} render={() => (
-                                            <MigrationBanner
-                                                account={account}
-                                                onTransfer={this.handleTransferClick} 
-                                            />
-                                        )}
-                                    />
-                                </Switch>
-                            )
-                        }
-                        {
-                            WEP_PHASE_ONE && (
-                                <WalletMigration
-                                    open={this.state.openTransferPopup}
-                                    history={this.props.history}
-                                    onClose={this.closeTransferPopup}
-                                />
-                            )
-                        }
                         <LedgerConfirmActionModal />
                         <LedgerConnectModal />
                         {account.requestPending !== null && (
