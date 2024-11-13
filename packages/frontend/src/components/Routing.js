@@ -9,7 +9,6 @@ import { Redirect, Switch } from 'react-router-dom';
 import styled, { ThemeProvider } from 'styled-components';
 
 import { WEB3AUTH} from '../../../../features';
-import favicon from '../../src/images/mynearwallet-cropped.svg';
 import {
     PUBLIC_URL,
 } from '../config';
@@ -31,7 +30,6 @@ import translations_zh_hant from '../translations/zh-hant.global.json';
 import classNames from '../utils/classNames';
 import getBrowserLocale from '../utils/getBrowserLocale';
 import { reportUiActiveMixpanelThrottled } from '../utils/reportUiActiveMixpanelThrottled';
-import ScrollToTop from '../utils/ScrollToTop';
 import PrivateRoute from './common/routing/PrivateRoute';
 import Route from './common/routing/Route';
 import GlobalStyle from './GlobalStyle';
@@ -83,7 +81,6 @@ const Container = styled.div`
 class Routing extends Component {
     constructor(props) {
         super(props);
-
 
         const languages = [
             { name: 'English', code: 'en' },
@@ -148,8 +145,7 @@ class Routing extends Component {
 
     componentDidMount = async () => {
         if (isWhitelabel && document) {
-            document.title = 'MyNearWallet';
-            document.querySelector('link[rel~="icon"]').href = favicon;
+            document.title = 'NEAR Ecosystem Wallets';
         }
 
         await initAnalytics();
@@ -180,7 +176,6 @@ class Routing extends Component {
     render() {
         const {
             search,
-            pathname,
         } = this.props.router.location;
 
         reportUiActiveMixpanelThrottled();
@@ -193,9 +188,8 @@ class Routing extends Component {
                     history={this.props.history}
                 >
                     <ThemeProvider theme={theme}>
-                        <ScrollToTop />
-                        {pathname !== '/' && <NavigationWrapper history={this.props.history}/> }
-                        <Switch>
+                        <NavigationWrapper history={this.props.history} />
+\                        <Switch>
                             <Redirect
                                 from="//*"
                                 to={{
