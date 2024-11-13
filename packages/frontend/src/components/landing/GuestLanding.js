@@ -288,38 +288,6 @@ export function GuestLanding({ onTransfer }) {
                     <h3>
                         <Translate id="landing.decentralizeSubtitle" />
                     </h3>
-                    <FlexBox>
-                        <FlexItem>
-                            <h4>
-                                <Translate id="landing.landingSectionTitle" />
-                            </h4>
-                            <p>
-                                <Translate id="landing.landingSectionDescription" />
-                            </p>
-                            <div>
-                                <FormButton
-                                    onClick={() => {
-                                        recordWalletMigrationEvent('click', {
-                                            element: {
-                                                type: 'button',
-                                                description: 'Learn More',
-                                            },
-                                        });
-                                        window.open(
-                                            'https://medium.com/nearprotocol/near-opens-the-door-to-more-wallets-255eee58eb97',
-                                            '_blank'
-                                        );
-                                    }}
-                                    className="dark-gray-transparent"
-                                    color="dark-gray-transparent"
-                                    trackingId="Click create account button"
-                                    data-test-id="landingPageCreateAccount"
-                                >
-                                    <Translate id="button.learnMore" />
-                                </FormButton>
-                            </div>
-                        </FlexItem>
-                    </FlexBox>
                 </DefaultContainer>
             </Section>
         </>
