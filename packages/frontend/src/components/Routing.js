@@ -8,10 +8,8 @@ import { connect } from 'react-redux';
 import { Redirect, Switch } from 'react-router-dom';
 import styled, { ThemeProvider } from 'styled-components';
 
-import { WEB3AUTH} from '../../../../features';
-import {
-    PUBLIC_URL,
-} from '../config';
+import { WEB3AUTH } from '../../../../features';
+import { PUBLIC_URL } from '../config';
 import { isWhitelabel } from '../config/whitelabel';
 import * as accountActions from '../redux/actions/account';
 import { handleClearAlert } from '../redux/reducers/status';
@@ -34,7 +32,6 @@ import PrivateRoute from './common/routing/PrivateRoute';
 import Route from './common/routing/Route';
 import GlobalStyle from './GlobalStyle';
 import { GuestLanding } from './landing/GuestLanding';
-import NavigationWrapper from './navigation/NavigationWrapper';
 import { PageNotFound } from './page-not-found/PageNotFound';
 import Privacy from './privacy/Privacy';
 import Terms from './terms/Terms';
@@ -92,7 +89,7 @@ class Routing extends Component {
             { name: '繁體中文', code: 'zh-hant' },
             { name: 'Türkçe', code: 'tr' },
             { name: 'Українська', code: 'ua' },
-            { name: '한국어', code: 'kr' }
+            { name: '한국어', code: 'kr' },
         ];
 
         const browserLanguage = getBrowserLocale(languages.map((l) => l.code));
@@ -105,9 +102,7 @@ class Routing extends Component {
             languages,
             options: {
                 defaultLanguage: 'en',
-                onMissingTranslation: ({
-                    defaultTranslation,
-                }) => {
+                onMissingTranslation: ({ defaultTranslation }) => {
                     if (isString(defaultTranslation)) {
                         // do anything to change the defaultTranslation as you wish
                         return defaultTranslation;
@@ -172,11 +167,8 @@ class Routing extends Component {
         });
     };
 
-
     render() {
-        const {
-            search,
-        } = this.props.router.location;
+        const { search } = this.props.router.location;
 
         reportUiActiveMixpanelThrottled();
 
@@ -188,8 +180,7 @@ class Routing extends Component {
                     history={this.props.history}
                 >
                     <ThemeProvider theme={theme}>
-                        <NavigationWrapper history={this.props.history} />
-\                        <Switch>
+                        <Switch>
                             <Redirect
                                 from="//*"
                                 to={{
@@ -197,11 +188,7 @@ class Routing extends Component {
                                     search: search,
                                 }}
                             />
-                            <Route
-                                exact
-                                path="/"
-                                component={GuestLanding}
-                            />
+                            <Route exact path="/" component={GuestLanding} />
                             <Route
                                 exact
                                 path="/transfer-wizard"
