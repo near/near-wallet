@@ -9,6 +9,8 @@ import NearWalletIcon from '../../images/wallet-icons/near-wallet-icon.png';
 import NightlyWalletIcon from '../../images/wallet-icons/nightly-wallet-icon.png';
 import SenderWalletIcon from '../../images/wallet-icons/sender-wallet-icon.png';
 import WellDoneWalletIcon from '../../images/wallet-icons/welldone-wallet-icon.png';
+import EthWalletIcon from '../../images/wallet-icons/eth-wallet-icon.png';
+import HotWalletIcon from '../../images/wallet-icons/hot-wallet-icon.png';
 import FormButton from '../common/FormButton';
 import { WalletSelectorGetAWallet } from '../common/wallet_selector/WalletSelectorGetAWallet';
 import { recordWalletMigrationEvent } from '../wallet-migration/metrics';
@@ -78,6 +80,27 @@ export function GuestLanding({ onTransfer }) {
                                 </p>
                             </SingleCard>
                             <SingleCard
+                                href="https://t.me/herewalletbot/app?startapp=21384415"
+                                target="_blank"
+                                onClick={() => {
+                                    recordWalletMigrationEvent('click', {
+                                        element: {
+                                            type: 'link',
+                                            description: 'Hot Wallet',
+                                        },
+                                    });
+                                }}
+                            >
+                                <img
+                                    src={HotWalletIcon}
+                                    alt="hot-wallet-icon"
+                                />
+                                <h3>Hot Wallet</h3>
+                                <p>
+                                    <Translate id="landing.wallet.hot" />
+                                </p>
+                            </SingleCard>
+                            <SingleCard
                                 href="https://nearmobile.app/"
                                 target="_blank"
                                 onClick={() => {
@@ -96,6 +119,27 @@ export function GuestLanding({ onTransfer }) {
                                 <h3>NEAR Mobile</h3>
                                 <p>
                                     <Translate id="landing.wallet.nearMobile" />
+                                </p>
+                            </SingleCard>
+                            <SingleCard
+                                href="https://welcome-to-near.org/"
+                                target="_blank"
+                                onClick={() => {
+                                    recordWalletMigrationEvent('click', {
+                                        element: {
+                                            type: 'link',
+                                            description: 'Ethereum Wallet',
+                                        },
+                                    });
+                                }}
+                            >
+                                <img
+                                    src={EthWalletIcon}
+                                    alt="eth-wallet-icon"
+                                />
+                                <h3>Ethereum Wallet</h3>
+                                <p>
+                                    <Translate id="landing.wallet.ethereum" />
                                 </p>
                             </SingleCard>
                             <SingleCard

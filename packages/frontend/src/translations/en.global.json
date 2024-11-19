@@ -695,7 +695,9 @@
             "nightly": "A mobile and extension wallet, with support for multiple ecosystems.",
             "wellDone": "A multi-chain extension wallet that gives you control over all your assets from a single platform.",
             "nearMobile": "A non-custodial wallet that is easy to use and well designed to manage your crypto wherever you go.",
-            "bitte": "Smart, simple access to crypto on any blockchain. Powered by in-wallet AI agents."
+            "bitte": "Smart, simple access to crypto on any blockchain. Powered by in-wallet AI agents.",
+            "ethereum": "Use any of your favorite EVM wallets seamlessly with NEAR Protocol.",
+            "hot": "Telegram wallet with deep NEAR support, NEAR Launchpad, Liquid Staking and multichain bridge."
         },
         "transfer": {
             "title": "You have accounts that need to be transferred",
