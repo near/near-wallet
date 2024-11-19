@@ -9,6 +9,7 @@ import { Redirect, Switch } from 'react-router-dom';
 import styled, { ThemeProvider } from 'styled-components';
 
 import { WEB3AUTH } from '../../../../features';
+import NEARLogo from '../../src/images/near-logo.svg';
 import { PUBLIC_URL } from '../config';
 import { isWhitelabel } from '../config/whitelabel';
 import * as accountActions from '../redux/actions/account';
@@ -57,7 +58,7 @@ const PATH_PREFIX = PUBLIC_URL;
 const Container = styled.div`
     min-height: 100vh;
     padding-bottom: 100px;
-    padding-top: 75px;
+    padding-top: 25px;
     @media (max-width: 991px) {
         .App {
             .main {
@@ -180,6 +181,21 @@ class Routing extends Component {
                     history={this.props.history}
                 >
                     <ThemeProvider theme={theme}>
+                        <a
+                            href="https://near.org"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            <img
+                                src={NEARLogo}
+                                alt="near-logo"
+                                style={{
+                                    paddingLeft: '20px',
+                                    paddingBottom: '20px',
+                                    height: '60px',
+                                }}
+                            />
+                        </a>
                         <Switch>
                             <Redirect
                                 from="//*"

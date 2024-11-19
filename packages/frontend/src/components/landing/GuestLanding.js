@@ -2,15 +2,15 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Translate } from 'react-localize-redux';
 
 import BitteWalletIcon from '../../images/wallet-icons/bitte-wallet-icon.png';
+import EthWalletIcon from '../../images/wallet-icons/eth-wallet-icon.png';
 import HereWalletIcon from '../../images/wallet-icons/here-wallet-icon.png';
+import HotWalletIcon from '../../images/wallet-icons/hot-wallet-icon.png';
 import MeteorWalletIcon from '../../images/wallet-icons/meteor-wallet-icon.png';
 import NearMobileIcon from '../../images/wallet-icons/near-mobile-icon.png';
 import NearWalletIcon from '../../images/wallet-icons/near-wallet-icon.png';
 import NightlyWalletIcon from '../../images/wallet-icons/nightly-wallet-icon.png';
 import SenderWalletIcon from '../../images/wallet-icons/sender-wallet-icon.png';
 import WellDoneWalletIcon from '../../images/wallet-icons/welldone-wallet-icon.png';
-import EthWalletIcon from '../../images/wallet-icons/eth-wallet-icon.png';
-import HotWalletIcon from '../../images/wallet-icons/hot-wallet-icon.png';
 import FormButton from '../common/FormButton';
 import { WalletSelectorGetAWallet } from '../common/wallet_selector/WalletSelectorGetAWallet';
 import { recordWalletMigrationEvent } from '../wallet-migration/metrics';
