@@ -675,7 +675,7 @@
     },
     "landing": {
         "banner": "NEAR Wallet is in Private Beta",
-        "desc": "wallet.near.org has been discontinued. Explore a range of user-friendly wallets designed to meet your needs.",
+        "desc": "<h2>Wasn't this site a wallet?</h2> <br> wallet.near.org's wallet service has been discontinued <br> <p style='font-size: 14px; text-align: left;'>If you have not already done so, please import your account to a new wallet using your recovery phrase. If you created an email or text message backup, your recovery link will still work but now defaults to <a href='https://app.mynearwallet.com' target='_blank' rel='noreferrer'>app.mynearwallet.com</a>. <br> <br> If you think you have a recovery backup email but are not sure how to find it, search your email for: \"Near Wallet Recovery\" in the subject line. (Include quotes for better results)</p>",
         "or": "or",
         "title": "A new era for NEAR wallets",
         "decentralize": "Decentralization means strength in numbers.",
@@ -685,8 +685,8 @@
         "landingSectionSubDescription": "To make the transition easier, you can securely migrate your accounts to a new wallet using the Transfer Wizard. Review the transfer-compatible wallet options below or move your accounts manually with your recovery phrase.",
         "landingSectionDescription": "As we embrace a more decentralized future, wallet.near.org will be discontinued. This change invites you to discover a variety of new and secure wallet options within our ecosystem. Don’t worry, no changes will be made to your account or assets.",
         "wallet": {
-            "title": "Find the right wallet for you.",
-            "secondaryDescription": "Check out our diverse list of community-built wallet options.",
+            "title": "NEAR Ecosystem Wallets",
+            "secondaryDescription": "Explore a range of user-friendly wallets designed to meet your needs.",
             "description": "You can transfer your accounts to any of the wallets below or manually import them to the wallet of your choice using your recovery phrase.",
             "near": "A browser based wallet that offers the same UI and features of wallet.near.org",
             "meteor": "Both a browser and extension wallet, with advanced NFT features.",
@@ -695,7 +695,9 @@
             "nightly": "A mobile and extension wallet, with support for multiple ecosystems.",
             "wellDone": "A multi-chain extension wallet that gives you control over all your assets from a single platform.",
             "nearMobile": "A non-custodial wallet that is easy to use and well designed to manage your crypto wherever you go.",
-            "bitte": "Smart, simple access to crypto on any blockchain. Powered by in-wallet AI agents."
+            "bitte": "Smart, simple access to crypto on any blockchain. Powered by in-wallet AI agents.",
+            "ethereum": "Use any of your favorite EVM wallets seamlessly with NEAR Protocol.",
+            "hot": "Telegram wallet with deep NEAR support, NEAR Launchpad, Liquid Staking and multichain bridge."
         },
         "transfer": {
             "title": "You have accounts that need to be transferred",
