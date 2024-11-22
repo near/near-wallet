@@ -675,7 +675,7 @@
     },
     "landing": {
         "banner": "NEAR Wallet is in Private Beta",
-        "desc": "<h2>Wasn't this site a wallet?</h2> <br> wallet.near.org's wallet service has been discontinued <br> <p style='font-size: 14px; text-align: left;'>If you have not already done so, please import your account to a new wallet using your recovery phrase. If you created an email or text message backup, your recovery link will still work but now defaults to <a href='https://app.mynearwallet.com' target='_blank' rel='noreferrer'>app.mynearwallet.com</a>. <br> <br> If you think you have a recovery backup email but are not sure how to find it, search your email for: \"Near Wallet Recovery\" in the subject line. (Include quotes for better results)</p>",
+        "desc": "<h2 style='line-height: 1;'>Wasn't this site a wallet?</h2> <br> wallet.near.org's wallet service has been discontinued <br> <p style='font-size: 14px; text-align: left;'>If you have not already done so, please import your account to a new wallet using your recovery phrase. If you created an email or text message backup, your recovery link will still work but now defaults to <a href='https://app.mynearwallet.com' target='_blank' rel='noreferrer'>app.mynearwallet.com</a>. <br> <br> If you think you have a recovery backup email but are not sure how to find it, search your email for: \"Near Wallet Recovery\" in the subject line. (Include quotes for better results)</p>",
         "or": "or",
         "title": "A new era for NEAR wallets",
         "decentralize": "Decentralization means strength in numbers.",
