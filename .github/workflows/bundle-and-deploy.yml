@@ -32,10 +32,8 @@ jobs:
       - run: yarn install --frozen-lockfile
       - run: yarn lint
       - run: yarn test
-      - run: yarn bundle --isGcsBucket=true --outDir=dist/${{ inputs.environment }}
-      - uses: google-github-actions/setup-gcloud@v1
-      - uses: google-github-actions/auth@v1
-        with:
-          credentials_json: ${{ secrets.SERVICE_ACCOUNT_KEY_JSON }}
-      - run: gcloud auth activate-service-account ${{ secrets.SERVICE_ACCOUNT }} --key-file=$GOOGLE_GHA_CREDS_PATH
-      - run: gsutil rsync -r -d ./dist/${{ inputs.environment }} ${{ secrets.GCP_BUCKET }}
+      - run: yarn bundle --env $NEAR_WALLET_ENV
+      - name: Deploy to Vercel
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}  # Pulls Vercel token from GitHub secrets
+        run: npx vercel --prod --token $VERCEL_TOKEN
