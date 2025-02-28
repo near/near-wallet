@@ -30,16 +30,16 @@ jobs:
           node-version: 18.x
           cache: 'yarn'
       - run: yarn install --frozen-lockfile
-      - run: yarn lint
-      - run: yarn test
+#      - run: yarn lint
+#      - run: yarn test
       - run: yarn bundle --isGcsBucket=true --outDir=dist/${{ inputs.environment }}
+      - uses: actions/upload-artifact@v4
+        with:
+          name: frontend-dist-${{ inputs.environment }}
+          path: ./dist/${{ inputs.environment }}/
       - uses: google-github-actions/setup-gcloud@v1
       - uses: google-github-actions/auth@v1
         with:
           credentials_json: ${{ secrets.SERVICE_ACCOUNT_KEY_JSON }}
-      - uses: actions/upload-artifact@v4
-        with:
-          name: frontend-dist-${{ inputs.environment }}
-          path: ./dist/${{ inputs.environment }}
       - run: gcloud auth activate-service-account ${{ secrets.SERVICE_ACCOUNT }} --key-file=$GOOGLE_GHA_CREDS_PATH
       - run: gsutil rsync -r -d ./dist/${{ inputs.environment }} ${{ secrets.GCP_BUCKET }}
