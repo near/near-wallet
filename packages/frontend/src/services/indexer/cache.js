@@ -95,6 +95,10 @@ export class IndexerCache extends Cache {
         return timeNs - lastTimestampNs >= timeoutNs;
     }
 
+    _shouldReset(lastResetIntervalNs, resetIntervalNs) {
+        return new Date().getTime() - lastResetIntervalNs >= resetIntervalNs;
+    }
+
     /**
      * The main idea is save the contract-helper from searching through the entire history of the blockchain.
      * Each next request, we send the last timestamp, while accumulating data on the client.
@@ -103,7 +107,8 @@ export class IndexerCache extends Cache {
         accountId,
         kind,
         updater,
-        timeoutNs
+        timeoutNs,
+        resetMs,
     }) {
         const record = await this._getRecord(accountId, kind);
 
@@ -117,7 +122,8 @@ export class IndexerCache extends Cache {
                 const prev = record?.data?.list || [];
 
                 const onlyUniqValues = new Set(list.concat(prev));
-                const updated = {
+                let updated = {
+                    resetTimestamp: record?.data?.resetTimestamp || new Date().getTime(),
                     timestamp: lastBlockTimestamp,
                     list: Array.from(onlyUniqValues),
                     version,
@@ -128,8 +134,13 @@ export class IndexerCache extends Cache {
                     // we should rescan from the beginning of the blockchain
                     const isVersionChanged = version !== record.data.version;
                     if (isVersionChanged) {
-                        record.timestamp = 0;
+                        updated.timestamp = 0;
                         shouldRestart = true;
+                    }
+
+                    if (this._shouldReset(updated.resetTimestamp, resetMs)) {
+                        updated.timestamp = 0;
+                        updated.resetTimestamp = new Date().getTime();
                     }
 
                     await this._updateRecord(accountId, kind, updated);
@@ -142,7 +153,8 @@ export class IndexerCache extends Cache {
                         accountId,
                         kind,
                         updater,
-                        timeoutNs
+                        timeoutNs,
+                        resetMs,
                     });
                 }
 
