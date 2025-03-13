@@ -56,7 +56,16 @@ export default class NonFungibleTokens {
             // TODO: Figure out ARWeave CORS issue
             // NOTE: For some reason raw fetch() doesn't have same issue as sendJson
             // tokenMetadata = sendJson('GET', `${base_uri}/${reference}`);
-            metadata = await (await fetch(`${base_uri}/${reference}`)).json();
+
+            let referenceUrl;
+            if (reference.startsWith('https')) {
+                referenceUrl = reference;
+            } else if (reference.startsWith('ar://')) {
+                referenceUrl = `https://arweave.net/${reference.split('//')[1]}`;
+            } else {
+                referenceUrl = `${base_uri}/${reference}`;
+            }
+            metadata = await (await fetch(referenceUrl)).json();
         }
 
         return metadata;
@@ -121,7 +130,7 @@ export default class NonFungibleTokens {
             receiverId: contractId,
             actions: [
                 functionCall(
-                    'nft_transfer', 
+                    'nft_transfer',
                     {
                         receiver_id: receiverId,
                         token_id: tokenId
